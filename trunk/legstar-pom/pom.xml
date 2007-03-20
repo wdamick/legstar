@@ -64,6 +64,12 @@
     </plugins>
   </build>
   
+  <modules>
+    <module>../legstar-messaging</module>
+    <module>../legstar-csokrt</module>
+    <module>../legstar-engine</module>
+    <module>../legstar-invoker</module>
+  </modules>
   <!-- 
   <modules>
     <module>legstar-schemagen</module>
