@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<session version="1.0">
-<refactoring comment="Rename Java project 'COXBSchemaGenerator' to 'legstar-schemagen'&#13;&#10;- Original element: 'COXBSchemaGenerator'&#13;&#10;- Update references to refactored element" description="Rename Java project 'COXBSchemaGenerator'" flags="7" id="org.eclipse.jdt.ui.rename.java.project" input="=COXBSchemaGenerator" name="legstar-schemagen" references="true" stamp="1168078640876" version="1.0"/>
-<refactoring comment="Rename Java project 'LegstarCommon' to 'legstar-common'&#13;&#10;- Original element: 'LegstarCommon'&#13;&#10;- Update references to refactored element" description="Rename Java project 'LegstarCommon'" flags="7" id="org.eclipse.jdt.ui.rename.java.project" input="=LegstarCommon" name="legstar-common" references="true" stamp="1168078664095" version="1.0"/>
-</session>

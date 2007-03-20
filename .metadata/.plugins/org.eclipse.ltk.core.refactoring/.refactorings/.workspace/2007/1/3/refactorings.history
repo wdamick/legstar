@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<session version="1.0">
-<refactoring comment="Rename Java project 'COXBRuntime' to 'legstar-coxbrt'&#13;&#10;- Original element: 'COXBRuntime'&#13;&#10;- Update references to refactored element" description="Rename Java project 'COXBRuntime'" flags="7" id="org.eclipse.jdt.ui.rename.java.project" input="=COXBRuntime" name="legstar-coxbrt" references="true" stamp="1168934296250" version="1.0"/>
-<refactoring comment="Rename Java project 'COXBGenerator' to 'legstar-coxbgen'&#13;&#10;- Original element: 'COXBGenerator'&#13;&#10;- Update references to refactored element" description="Rename Java project 'COXBGenerator'" flags="7" id="org.eclipse.jdt.ui.rename.java.project" input="=COXBGenerator" name="legstar-coxbgen" references="true" stamp="1169024231898" version="1.0"/>
-</session>

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<launchConfiguration type="org.maven.ide.eclipse.Maven2LaunchConfigurationType">
-<listAttribute key="M2_PROPERTIES"/>
-<stringAttribute key="M2_GOALS" value="package"/>
-<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:/legstar-coxbrt}"/>
-</launchConfiguration>

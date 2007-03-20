@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<sites>
-<site type="org.eclipse.target.ftp.site" url="ftp://ftp.legsem.com">
-<data connectionTimeout="60" passive="true"/>
-</site>
-</sites>
