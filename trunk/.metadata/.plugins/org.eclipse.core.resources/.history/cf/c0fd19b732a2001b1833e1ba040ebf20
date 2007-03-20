@@ -1,9 +1,0 @@
-source.. = src/main/java,\
-           legstar-schemagen
-output.. = target/classes
-bin.includes = plugin.xml,\
-               META-INF/,\
-               .,\
-               icons/
-bin.excludes = icons/Thumbs.db
-

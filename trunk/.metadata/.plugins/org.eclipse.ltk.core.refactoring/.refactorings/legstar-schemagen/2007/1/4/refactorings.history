@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource '/legstar-schemagen/src/main/ant/build-schema.xml' to 'build-sample.xml'&#13;&#10;- Original element: 'build-schema.xml'" description="Rename resource 'build-schema.xml'" flags="7" id="org.eclipse.jdt.ui.rename.resource" input="src/main/ant/build-schema.xml" name="build-sample.xml" stamp="1169835242984" version="1.0"/>
-</session>
