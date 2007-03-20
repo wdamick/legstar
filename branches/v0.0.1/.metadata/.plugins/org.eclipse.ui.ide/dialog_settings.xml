@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.views.task">
+	</section>
+	<section name="CleanDialogSettings">
+		<item key="DIALOG_X_ORIGIN" value="419"/>
+		<item key="DIALOG_HEIGHT" value="377"/>
+		<item key="DIALOG_Y_ORIGIN" value="246"/>
+		<item key="DIALOG_WIDTH" value="443"/>
+		<item key="TOGGLE_SELECTED" value="false"/>
+	</section>
+	<section name="DialogMarkerPropertiesDialogSettings">
+		<item key="DIALOG_X_ORIGIN" value="656"/>
+		<item key="DIALOG_HEIGHT" value="285"/>
+		<item key="DIALOG_FONT_NAME" value="1|Tahoma|8|0|WINDOWS|1|-11|0|0|0|400|0|0|0|1|0|0|0|0|Tahoma"/>
+		<item key="DIALOG_Y_ORIGIN" value="399"/>
+		<item key="DIALOG_WIDTH" value="616"/>
+	</section>
+	<section name="NewWizardAction">
+		<item key="NewWizardSelectionPage.STORE_SELECTED_ID" value="org.eclipse.ui.wizards.new.project"/>
+		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
+			<item value="org.eclipse.ui.Basic"/>
+		</list>
+	</section>
+	<section name="ExternalProjectImportWizard">
+		<item key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED" value="false"/>
+		<item key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID" value="false"/>
+	</section>
+	<section name="ResourceNavigator">
+		<item key="ResourceWorkingSetFilter.STORE_WORKING_SET" value="Aggregate for window 1168278747562"/>
+		<item key="ResourceViewer.STORE_SORT_TYPE" value="1"/>
+	</section>
+	<section name="org.eclipse.ui.views.problem">
+	</section>
+	<section name="ChooseWorkspaceDialogSettings">
+		<item key="DIALOG_X_ORIGIN" value="278"/>
+		<item key="DIALOG_HEIGHT" value="244"/>
+		<item key="DIALOG_FONT_NAME" value="1|Tahoma|8|0|WINDOWS|1|-11|0|0|0|400|0|0|0|1|0|0|0|0|Tahoma"/>
+		<item key="DIALOG_Y_ORIGIN" value="82"/>
+		<item key="DIALOG_WIDTH" value="495"/>
+	</section>
+	<section name="BasicNewProjectResourceWizard">
+	</section>
+</section>

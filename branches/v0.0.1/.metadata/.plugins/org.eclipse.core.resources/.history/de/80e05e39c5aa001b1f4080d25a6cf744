@@ -1,0 +1,28 @@
+
+
+ -------------------------------------------------------------------------------
+           LegSem LegStar Common Eclipse plugin Version 0.0.1
+                           Release Notes
+ -------------------------------------------------------------------------------
+
+PREREQUISITES:
+
+ This plugin requires Eclipse 3.2.1.
+ 
+ 
+INSTALLING:UNINSTALLING:
+
+ 1. Unzip the binary distribution package into the <plugins> folder of your Eclipse installation.
+
+ 2. Start Eclipse and check that "LegsStar Schema Generator Plug-in" shows up in
+    Help-->About Eclipse SDK-->Plug-in details.
+   
+ 4. Start the plugin from the Legstar menu or the toolbar button.
+   
+ 5. To uninstall, remove the plugins/legstar-schemagen-plugin-0.0.1 folder and remove references 
+    to plugins/legstar-schemagen-plugin-0.0.1/bin from the search PATH
+
+DOCUMENTATION:
+
+ Documentation available at http://www.legsem.com/legstar/schemagen-plugin
+

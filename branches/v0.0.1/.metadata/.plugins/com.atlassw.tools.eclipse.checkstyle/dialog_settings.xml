@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="com.atlassw.tools.eclipse.checkstyle.config.gui.CheckConfigurationConfigureDialog">
+		<item key="colWidth1" value="141"/>
+		<item key="colWidth3" value="163"/>
+		<item key="width" value="718"/>
+		<item key="selectedRow" value="-1"/>
+		<item key="minimized" value="false"/>
+		<item key="sortDirection" value="1"/>
+		<item key="colWidth0" value="71"/>
+		<item key="height" value="695"/>
+		<item key="y" value="5"/>
+		<item key="sortColumn" value="0"/>
+		<item key="colWidth2" value="93"/>
+		<item key="x" value="289"/>
+		<item key="maximized" value="false"/>
+	</section>
+	<section name="com.atlassw.tools.eclipse.checkstyle.config.gui.RuleConfigurationEditDialog#LocalVariableName">
+		<item key="minimized" value="false"/>
+		<item key="maximized" value="false"/>
+	</section>
+	<section name="com.atlassw.tools.eclipse.checkstyle.projectconfig.LocalCheckConfigurationWorkingSet">
+		<item key="colWidth1" value="126"/>
+		<item key="sortColumn" value="0"/>
+		<item key="selectedRow" value="-1"/>
+		<item key="colWidth2" value="126"/>
+		<item key="sortDirection" value="1"/>
+		<item key="colWidth0" value="168"/>
+	</section>
+	<section name="com.atlassw.tools.eclipse.checkstyle.properties.FileSetEditDialog">
+		<item key="width" value="621"/>
+		<item key="height" value="618"/>
+		<item key="y" value="0"/>
+		<item key="minimized" value="false"/>
+		<item key="maximized" value="false"/>
+		<item key="x" value="330"/>
+	</section>
+	<section name="com.atlassw.tools.eclipse.checkstyle.config.gui.RuleConfigurationEditDialog#VisibilityModifier">
+		<item key="minimized" value="false"/>
+		<item key="maximized" value="false"/>
+	</section>
+	<section name="com.atlassw.tools.eclipse.checkstyle.config.GlobalCheckConfigurationWorkingSet">
+		<item key="colWidth1" value="92"/>
+		<item key="sortColumn" value="0"/>
+		<item key="selectedRow" value="-1"/>
+		<item key="colWidth2" value="91"/>
+		<item key="sortDirection" value="1"/>
+		<item key="colWidth0" value="123"/>
+	</section>
+	<section name="com.atlassw.tools.eclipse.checkstyle.config.gui.ResolvablePropertiesDialog">
+		<item key="colWidth1" value="281"/>
+		<item key="width" value="650"/>
+		<item key="height" value="500"/>
+		<item key="y" value="161"/>
+		<item key="sortColumn" value="0"/>
+		<item key="selectedRow" value="-1"/>
+		<item key="minimized" value="false"/>
+		<item key="sortDirection" value="1"/>
+		<item key="x" value="332"/>
+		<item key="maximized" value="false"/>
+		<item key="colWidth0" value="282"/>
+	</section>
+	<section name="com.atlassw.tools.eclipse.checkstyle.config.gui.RuleConfigurationEditDialog#InterfaceIsType">
+		<item key="minimized" value="false"/>
+		<item key="maximized" value="false"/>
+	</section>
+</section>

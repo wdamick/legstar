@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><project>
+	<modelVersion>4.0.0</modelVersion>
+    <parent>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>Legstar</artifactId>
+      <version>0.0.1</version>
+    </parent>
+	<artifactId>Legstar-common-plugin</artifactId>
+	<name>LegStar Commons Eclipse plugin</name>
+	<version>0.0.1</version>
+	<description>Legstar common utilities Eclipse plugins</description>
+	<url>http://www.legsem.com/legstar/common-plugin/</url>
+</project>

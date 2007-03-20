@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource '/CIXSGeneratorFeature' to 'legstar-cixsgen-feature'&#13;&#10;- Original element: 'CIXSGeneratorFeature'" description="Rename resource 'CIXSGeneratorFeature'" flags="7" id="org.eclipse.jdt.ui.rename.resource" input="/CIXSGeneratorFeature" name="legstar-cixsgen-feature" stamp="1170058267013" version="1.0"/>
+</session>

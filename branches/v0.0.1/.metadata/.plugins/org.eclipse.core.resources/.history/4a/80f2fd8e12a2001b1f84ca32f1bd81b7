@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><project>
+  <modelVersion>4.0.0</modelVersion>
+    <parent>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>Legstar</artifactId>
+      <version>0.0.1</version>
+    </parent>
+  <artifactId>legstar-schemagen-plugin</artifactId>
+  <version>0.0.1</version>
+  <description>An Eclipse Plugin for COBOL to XML schema generation</description>
+  
+  <dependencies>
+    <dependency>
+      <groupId>org.eclipse.swt</groupId>
+      <artifactId>org.eclipse.swt</artifactId>
+      <version>3.2.1</version>
+    </dependency>
+    <dependency>
+        <groupId>org.eclipse.swt</groupId>
+        <artifactId>org.eclipse.swt.win32.win32.x86</artifactId>
+        <version>3.2.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.ui</groupId>
+      <artifactId>org.eclipse.ui</artifactId>
+      <version>3.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.core</groupId>
+      <artifactId>org.eclipse.core.runtime</artifactId>
+      <version>3.2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.ui</groupId>
+      <artifactId>org.eclipse.ui.ide</artifactId>
+      <version>3.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.core</groupId>
+      <artifactId>org.eclipse.core.resources</artifactId>
+      <version>3.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>legstar-schemagen</artifactId>
+      <version>0.0.1</version>
+    </dependency>
+  </dependencies>
+  
+  <!-- Build environment -->
+  <build>
+    <defaultGoal>package</defaultGoal>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <appendAssemblyId>false</appendAssemblyId>
+          <descriptors>
+            <descriptor>src/assemble/distribution.xml</descriptor>
+          </descriptors>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  
+</project>

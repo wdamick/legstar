@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+targetNamespace="http://legstar.com/test/coxb/redinout"
+xmlns="http://legstar.com/test/coxb/redinout"
+xmlns:xsns="http://legstar.com/test/coxb/redinout"
+xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+jaxb:version="2.0"
+jaxb:extensionBindingPrefixes="cb"
+elementFormDefault="qualified">
+ <xs:annotation><xs:appinfo>
+ <jaxb:globalBindings generateIsSetMethod="true"/>
+ <jaxb:schemaBindings>
+ <jaxb:package  name="com.legstar.test.coxb.redinout"/>
+ </jaxb:schemaBindings>
+ </xs:appinfo></xs:annotation>
+ <xs:complexType name="DfhcommareaType">
+    <xs:sequence>
+     <xs:element name="CNumeric">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='C-NUMERIC' type='BINARY_ITEM' picture='9(4)' usage='BINARY' byteLength='2' signed='false' totalDigits='4' srceLine='21'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedShort">
+         <xs:minInclusive value='0' fixed='true'/>
+         <xs:maxInclusive value='9999' fixed='true'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:choice>
+     <xs:element name="CBuffer">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='C-BUFFER' type='ALPHANUMERIC_ITEM' picture='X(500)' usage='DISPLAY' byteLength='500' isRedefined='true' unmarshalChoiceStrategyClassName='com.legstar.coxb.cust.redinout.ChoiceSelector' srceLine='22'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='500' fixed='true'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="CParain" type="xsns:CParainType">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='C-PARAIN' type='GROUP_ITEM' redefines='C-BUFFER' srceLine='23'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+     <xs:element name="CParaout" type="xsns:CParaoutType">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='C-PARAOUT' type='GROUP_ITEM' redefines='C-BUFFER' srceLine='25'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+     </xs:choice>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="CParainType">
+    <xs:sequence>
+     <xs:element name="CSomeInput">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='10' cobolName='C-SOME-INPUT' type='ALPHANUMERIC_ITEM' picture='X(15)' usage='DISPLAY' byteLength='15' srceLine='24'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='15' fixed='true'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="CParaoutType">
+    <xs:sequence>
+     <xs:element name="CSomeOutput">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='10' cobolName='C-SOME-OUTPUT' type='ZONED_DECIMAL_ITEM' picture='9(8)' usage='DISPLAY' byteLength='8' signed='false' totalDigits='8' srceLine='26'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedInt">
+         <xs:minInclusive value='0' fixed='true'/>
+         <xs:maxInclusive value='99999999' fixed='true'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="Filler27">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='10' cobolName='FILLER-27' type='ALPHANUMERIC_ITEM' picture='X(17)' usage='DISPLAY' byteLength='17' srceLine='27'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='17' fixed='true'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+</xs:schema>

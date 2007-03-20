@@ -1,0 +1,20 @@
+<!-- =================================================================================
+     This script uploads this project maven site to the target deployment Web site.
+ -->
+<project basedir="../../" default="uploadSite">
+
+	<target name="uploadSite">
+	  <ftp server="ftp.legsem.com"
+	       remotedir="public_html/legstar/coxbgen-plugin"
+	       userid="legse7"
+	       password="gabuzomeu"
+	       depends="yes"
+	       verbose="yes"
+	       action="send"
+	       passive="no"
+	       timediffauto="yes">
+	    <fileset dir="target/site"/>
+	  </ftp>
+	</target>
+	
+</project>

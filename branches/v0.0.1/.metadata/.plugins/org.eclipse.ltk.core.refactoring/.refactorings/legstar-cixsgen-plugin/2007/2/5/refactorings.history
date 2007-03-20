@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource '/legstar-cixsgen-plugin/icons/wslogo.GIF' to 'cixsgen-generate.gif'&#13;&#10;- Original element: 'wslogo.GIF'" description="Rename resource 'wslogo.GIF'" flags="7" id="org.eclipse.jdt.ui.rename.resource" input="icons/wslogo.GIF" name="cixsgen-generate.gif" stamp="1170314749187" version="1.0"/>
+<refactoring comment="Rename resource '/legstar-cixsgen-plugin/icons/operation.gif' to 'cixsgen-operation.gif'&#13;&#10;- Original element: 'operation.gif'" description="Rename resource 'operation.gif'" flags="7" id="org.eclipse.jdt.ui.rename.resource" input="icons/operation.gif" name="cixsgen-operation.gif" stamp="1170315259453" version="1.0"/>
+</session>

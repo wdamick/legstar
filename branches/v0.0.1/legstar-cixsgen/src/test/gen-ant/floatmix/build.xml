@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir=".." default="create-war" name="build-war">
+   <property environment="env"/>
+   <property name="service" value="floatmix"/>
+   <target name="clean">
+      <delete file="C:/Program Files/Apache/apache-tomcat-5.5.17/webapps/cixs-floatmix.war"
+              includeEmptyDirs="true"
+              quiet="true"/>
+   </target>
+   <target name="create-war" depends="clean">
+      <war warfile="C:/Program Files/Apache/apache-tomcat-5.5.17/webapps/cixs-floatmix.war"
+           webxml="D:\Legsem\Legstar\Dev\maven\Legstar\legstar-cixsgen/src/test/WebContent/WEB-INF/floatmix/web.xml">
+         <webinf dir="D:\Legsem\Legstar\Dev\maven\Legstar\legstar-cixsgen/src/test/WebContent/WEB-INF/floatmix"
+                 includes="sun-jaxws.xml"/>
+         <classes dir="D:\Legsem\Legstar\Dev\maven\Legstar\legstar-cixsgen/../legstar-coxbgen/target/test-classes">
+            <include name="com/legstar/test/coxb/floatmix/**/*.class"/>
+         </classes>
+         <classes dir="D:\Legsem\Legstar\Dev\maven\Legstar\legstar-cixsgen/target/test-classes">
+            <include name="**/${service}/**/*.class"/>
+         </classes>
+         <classes dir="D:\Legsem\Legstar\Dev\maven\Legstar\legstar-cixsgen/../legstar-coxbgen/target/test-classes">
+            <include name="**/${service}/**/*.class"/>
+         </classes>
+         <classes dir="D:\Legsem\Legstar\Dev\maven\Legstar\legstar-cixsgen/src/test/WebContent/WEB-INF/classes">
+            <include name="floatmix.properties"/>
+         </classes>
+      </war>
+   </target>
+</project>

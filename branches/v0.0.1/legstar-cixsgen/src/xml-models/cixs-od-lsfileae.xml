@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cixs-operation>
+
+	<!-- === Mandatory parameters: -->
+	<!-- Operation name. -->
+	<operation-name>lsfileae</operation-name>
+	<!-- Designate the corresponding remote program name on the host system  -->
+	<program-name>LSFILEAE</program-name>
+	<!-- Specify the JAXB classes used for input and output -->
+	<!-- use <input> and <output> elements. Choice strategy should be a fully qualified pojo -->
+	<input jaxb-type="DfhcommareaType" jaxb-package="com.legstar.test.coxb.lsfileae" choice-strategy=""/>
+	<output jaxb-type="DfhcommareaType" jaxb-package="com.legstar.test.coxb.lsfileae" choice-strategy=""/>
+
+	<!-- === Optional parameters:
+     <request-wrapper-type>      Request Wrapper class. Default <Operation-name>Request (first char uppercased)
+     <response-wrapper-type>     Reply Wrapper class. Default <Operation-name>Response (first char uppercased)
+     <fault-type>                Fault Wrapper class. Default <Operation-name>Fault (first char uppercased)
+     <fault-info-type>           Fault info class. Default <Operation-name>FaultInfo (first char uppercased)
+     <operation-package>         Package name for operation level classes. Default <service-endpoint-package>
+     <operation-targetnamespace> Namespace for operation level elements. Default <service-targetnamespace>
+	 -->
+	  
+</cixs-operation>

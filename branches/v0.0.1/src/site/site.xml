@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Legstar">
+  <bannerLeft>
+    <name>Legstar</name>
+    <src>http://www.legsem.com/legstar/images/legstar-logo.png</src>
+    <href>http://www.legsem.com/legstar</href>
+  </bannerLeft>
+  <body>
+    <links>
+      <item name="IBM COBOL" href="http://www-306.ibm.com/software/awdtools/cobol/zos/" />
+      <item name="W3C XML Schema" href="http://www.w3.org/XML/Schema"/>
+    </links>
+
+    <menu name="LegStar">
+      <item name="Introduction" href="index.html"/>
+      <item name="Download" href="download.html"/>
+      <item name="Presentation (pdf)" href="pdf/legstar-presentation.pdf"/>
+      <item name="Release Notes" href="release-notes.html" />
+    </menu>
+
+    <menu ref="modules" />
+
+    ${reports}
+  </body>
+</project>

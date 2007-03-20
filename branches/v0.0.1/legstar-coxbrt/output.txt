@@ -1,0 +1,123 @@
++ Error stacktraces are turned on.
+Maven version: 2.0.4
+[DEBUG] Building Maven user-level plugin registry from: 'C:\Documents and Settings\Fady\.m2\plugin-registry.xml'
+[DEBUG] Building Maven global-level plugin registry from: 'C:\Program Files\maven-2.0.4\bin\..\conf\plugin-registry.xml'
+[INFO] Scanning for projects...
+[DEBUG] Searching for parent-POM: com.legsem.legstar:Legstar::0.0.1 of project: null:legstar-coxbrt:jar:0.0.1 in relative path: ../pom.xml
+[DEBUG] Using parent-POM from the project hierarchy at: '../pom.xml' for project: null:legstar-coxbrt:jar:0.0.1
+[INFO] ----------------------------------------------------------------------------
+[INFO] Building LegStar COXB Runtime
+[INFO]    task-segment: [compile]
+[INFO] ----------------------------------------------------------------------------
+[DEBUG] maven-resources-plugin: resolved to version 2.2 from repository central
+[DEBUG] Retrieving parent-POM: org.apache.maven.plugins:maven-plugins::1 for project: null:maven-resources-plugin:maven-plugin:2.2 from the repository.
+[DEBUG] Retrieving parent-POM: org.apache.maven:maven-parent::1 for project: org.apache.maven.plugins:maven-plugins:pom:1 from the repository.
+[DEBUG] Retrieving parent-POM: org.apache:apache::1 for project: org.apache.maven:maven-parent:pom:1 from the repository.
+[DEBUG] maven-compiler-plugin: resolved to version 2.0.1 from repository central
+[DEBUG] Retrieving parent-POM: org.apache.maven.plugins:maven-plugins::1 for project: null:maven-compiler-plugin:maven-plugin:2.0.1 from the repository.
+[DEBUG] Retrieving parent-POM: org.apache.maven:maven-parent::1 for project: org.apache.maven.plugins:maven-plugins:pom:1 from the repository.
+[DEBUG] Retrieving parent-POM: org.apache:apache::1 for project: org.apache.maven:maven-parent:pom:1 from the repository.
+[DEBUG] maven-assembly-plugin: resolved to version 2.1 from repository central
+[DEBUG] Retrieving parent-POM: org.apache.maven.plugins:maven-plugins::1 for project: null:maven-assembly-plugin:maven-plugin:2.1 from the repository.
+[DEBUG] Retrieving parent-POM: org.apache.maven:maven-parent::1 for project: org.apache.maven.plugins:maven-plugins:pom:1 from the repository.
+[DEBUG] Retrieving parent-POM: org.apache:apache::1 for project: org.apache.maven:maven-parent:pom:1 from the repository.
+[DEBUG] org.apache.maven.plugins:maven-resources-plugin:maven-plugin:2.2:runtime (selected for runtime)
+[DEBUG] Retrieving parent-POM: org.apache.maven:maven::2.0 for project: org.apache.maven:maven-model:jar:2.0 from the repository.
+[DEBUG]   org.apache.maven:maven-model:jar:2.0:runtime (selected for runtime)
+[DEBUG]     org.codehaus.plexus:plexus-utils:jar:1.0.4:runtime (selected for runtime)
+[DEBUG] Retrieving parent-POM: org.apache.maven:maven::2.0 for project: null:maven-project:jar:2.0 from the repository.
+[DEBUG]   org.apache.maven:maven-project:jar:2.0:runtime (selected for runtime)
+[DEBUG]     org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-8:runtime (selected for runtime)
+[DEBUG]       classworlds:classworlds:jar:1.1-alpha-2:runtime (selected for runtime)
+[DEBUG]       junit:junit:jar:3.8.1:runtime (selected for runtime)
+[DEBUG] Retrieving parent-POM: org.apache.maven:maven::2.0 for project: org.apache.maven:maven-artifact:jar:2.0 from the repository.
+[DEBUG]     org.apache.maven:maven-artifact:jar:2.0:runtime (selected for runtime)
+[DEBUG] Retrieving parent-POM: org.apache.maven:maven::2.0 for project: org.apache.maven:maven-artifact-manager:jar:2.0 from the repository.
+[DEBUG]     org.apache.maven:maven-artifact-manager:jar:2.0:runtime (selected for runtime)
+[DEBUG] Retrieving parent-POM: org.apache.maven:maven::2.0 for project: org.apache.maven:maven-repository-metadata:jar:2.0 from the repository.
+[DEBUG]       org.apache.maven:maven-repository-metadata:jar:2.0:runtime (selected for runtime)
+[DEBUG]       org.apache.maven.wagon:wagon-provider-api:jar:1.0-alpha-5:runtime (selected for runtime)
+[DEBUG] Retrieving parent-POM: org.apache.maven:maven::2.0 for project: null:maven-profile:jar:2.0 from the repository.
+[DEBUG]     org.apache.maven:maven-profile:jar:2.0:runtime (selected for runtime)
+[DEBUG] Retrieving parent-POM: org.apache.maven:maven::2.0 for project: org.apache.maven:maven-plugin-api:jar:2.0 from the repository.
+[DEBUG]   org.apache.maven:maven-plugin-api:jar:2.0:runtime (selected for runtime)
+[DEBUG] Configuring mojo 'org.apache.maven.plugins:maven-resources-plugin:2.2:resources' -->
+[DEBUG]   (f) filters = []
+[DEBUG]   (f) outputDirectory = D:\Legsem\Legstar\Dev\maven\Legstar\legstar-coxbrt\target\classes
+[DEBUG]   (f) project = org.apache.maven.project.MavenProject@5d9555af
+[DEBUG]   (f) resources = [org.apache.maven.model.Resource@1f4cbee]
+[DEBUG] -- end configuration --
+[INFO] [resources:resources]
+[INFO] Using default encoding to copy filtered resources.
+[DEBUG] com.legsem.legstar:legstar-coxbrt:jar:0.0.1 (selected for null)
+[DEBUG]   javax.xml.bind:jaxb-api:jar:2.1:compile (selected for compile)
+[DEBUG]     javax.activation:activation:jar:1.1:compile (selected for compile)
+[DEBUG]     javax.xml.bind:jsr173_api:jar:1.0:compile (selected for compile)
+[DEBUG] Retrieving parent-POM: com.legsem.legstar:Legstar::0.0.1 for project: null:legstar-testcases:jar:0.0.1 from the repository.
+[WARNING] POM for 'com.legsem.legstar:legstar-testcases:pom:0.0.1:test' is invalid. It will be ignored for artifact resolution. Reason: Failed to validate POM
+[DEBUG] Reason: Failed to validate POM
+[DEBUG] 
+Validation Errors:
+[DEBUG] 'dependencies.dependency.version' is missing for com.legsem.legstar:legstar-coxbrt
+[DEBUG] 
+
+[DEBUG]   com.legsem.legstar:legstar-testcases:jar:0.0.1:test (selected for test)
+[DEBUG]   junit:junit:jar:3.8.1:test (selected for test)
+[DEBUG] org.apache.maven.plugins:maven-compiler-plugin:maven-plugin:2.0.1:runtime (selected for runtime)
+[DEBUG] Retrieving parent-POM: org.codehaus.plexus:plexus-compiler::1.5.2 for project: null:plexus-compiler-api:jar:1.5.2 from the repository.
+[DEBUG] Retrieving parent-POM: org.codehaus.plexus:plexus-components::1.1.5 for project: null:plexus-compiler:pom:1.5.2 from the repository.
+[DEBUG] Retrieving parent-POM: org.codehaus.plexus:plexus::1.0.5 for project: org.codehaus.plexus:plexus-components:pom:1.1.5 from the repository.
+[DEBUG]   org.codehaus.plexus:plexus-compiler-api:jar:1.5.2:runtime (selected for runtime)
+[DEBUG]     org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-8:runtime (selected for runtime)
+[DEBUG]       org.codehaus.plexus:plexus-utils:jar:1.0.4:runtime (selected for runtime)
+[DEBUG]       classworlds:classworlds:jar:1.1-alpha-2:runtime (selected for runtime)
+[DEBUG]       junit:junit:jar:3.8.1:runtime (selected for runtime)
+[DEBUG]   org.codehaus.plexus:plexus-utils:jar:1.0.4:runtime (selected for runtime)
+[DEBUG] Retrieving parent-POM: org.codehaus.plexus:plexus-compiler::1.5.2 for project: null:plexus-compiler-manager:jar:1.5.2 from the repository.
+[DEBUG] Retrieving parent-POM: org.codehaus.plexus:plexus-components::1.1.5 for project: null:plexus-compiler:pom:1.5.2 from the repository.
+[DEBUG] Retrieving parent-POM: org.codehaus.plexus:plexus::1.0.5 for project: org.codehaus.plexus:plexus-components:pom:1.1.5 from the repository.
+[DEBUG]   org.codehaus.plexus:plexus-compiler-manager:jar:1.5.2:runtime (selected for runtime)
+[DEBUG] Retrieving parent-POM: org.codehaus.plexus:plexus-compilers::1.5.2 for project: null:plexus-compiler-javac:jar:1.5.2 from the repository.
+[DEBUG] Retrieving parent-POM: org.codehaus.plexus:plexus-compiler::1.5.2 for project: org.codehaus.plexus:plexus-compilers:pom:1.5.2 from the repository.
+[DEBUG] Retrieving parent-POM: org.codehaus.plexus:plexus-components::1.1.5 for project: null:plexus-compiler:pom:1.5.2 from the repository.
+[DEBUG] Retrieving parent-POM: org.codehaus.plexus:plexus::1.0.5 for project: org.codehaus.plexus:plexus-components:pom:1.1.5 from the repository.
+[DEBUG]   org.codehaus.plexus:plexus-compiler-javac:jar:1.5.2:runtime (selected for runtime)
+[DEBUG] Retrieving parent-POM: org.codehaus.plexus:plexus::1.0.4 for project: null:plexus-utils:jar:1.0.5 from the repository.
+[DEBUG]     org.codehaus.plexus:plexus-utils:jar:1.0.5:runtime (removed - nearer found: 1.0.4)
+[DEBUG]   org.apache.maven:maven-plugin-api:jar:2.0:runtime (selected for runtime)
+[DEBUG]   org.apache.maven:maven-artifact:jar:2.0:runtime (selected for runtime)
+[DEBUG] Configuring mojo 'org.apache.maven.plugins:maven-compiler-plugin:2.0.1:compile' -->
+[DEBUG]   (f) basedir = D:\Legsem\Legstar\Dev\maven\Legstar\legstar-coxbrt
+[DEBUG]   (f) buildDirectory = D:\Legsem\Legstar\Dev\maven\Legstar\legstar-coxbrt\target
+[DEBUG]   (f) classpathElements = [D:\Legsem\Legstar\Dev\maven\Legstar\legstar-coxbrt\target\classes, C:\Documents and Settings\Fady\.m2\repository\javax\xml\bind\jaxb-api\2.1\jaxb-api-2.1.jar, C:\Documents and Settings\Fady\.m2\repository\javax\xml\bind\jsr173_api\1.0\jsr173_api-1.0.jar, C:\Documents and Settings\Fady\.m2\repository\javax\activation\activation\1.1\activation-1.1.jar]
+[DEBUG]   (f) compileSourceRoots = [D:\Legsem\Legstar\Dev\maven\Legstar\legstar-coxbrt\src\main\java]
+[DEBUG]   (f) compilerId = javac
+[DEBUG]   (f) debug = true
+[DEBUG]   (f) fork = false
+[DEBUG]   (f) optimize = false
+[DEBUG]   (f) outputDirectory = D:\Legsem\Legstar\Dev\maven\Legstar\legstar-coxbrt\target\classes
+[DEBUG]   (f) outputFileName = legstar-coxbrt-0.0.1
+[DEBUG]   (f) projectArtifact = com.legsem.legstar:legstar-coxbrt:jar:0.0.1
+[DEBUG]   (f) showDeprecation = false
+[DEBUG]   (f) showWarnings = false
+[DEBUG]   (f) source = 1.5
+[DEBUG]   (f) staleMillis = 0
+[DEBUG]   (f) target = 1.5
+[DEBUG]   (f) verbose = false
+[DEBUG] -- end configuration --
+[INFO] [compiler:compile]
+[DEBUG] Using compiler 'javac'.
+[DEBUG] Source directories: [D:\Legsem\Legstar\Dev\maven\Legstar\legstar-coxbrt\src\main\java]
+[DEBUG] Classpath: [D:\Legsem\Legstar\Dev\maven\Legstar\legstar-coxbrt\target\classes
+ C:\Documents and Settings\Fady\.m2\repository\javax\xml\bind\jaxb-api\2.1\jaxb-api-2.1.jar
+ C:\Documents and Settings\Fady\.m2\repository\javax\xml\bind\jsr173_api\1.0\jsr173_api-1.0.jar
+ C:\Documents and Settings\Fady\.m2\repository\javax\activation\activation\1.1\activation-1.1.jar]
+[DEBUG] Output directory: D:\Legsem\Legstar\Dev\maven\Legstar\legstar-coxbrt\target\classes
+[INFO] Nothing to compile - all classes are up to date
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1 second
+[INFO] Finished at: Sat Jan 27 11:17:10 CET 2007
+[INFO] Final Memory: 3M/7M
+[INFO] ------------------------------------------------------------------------

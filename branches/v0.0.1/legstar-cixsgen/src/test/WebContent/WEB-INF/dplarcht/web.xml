@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+   <display-name>cixs.dplarcht</display-name>
+   <description>cixs dplarcht Web Service</description>
+   <listener>
+      <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
+   </listener>
+   <servlet>
+      <servlet-name>dplarchtWebService</servlet-name>
+      <display-name>cixs.dplarchtWebService</display-name>
+      <description>JAX-WS endpoint - dplarcht Web Service</description>
+      <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+      <load-on-startup>1</load-on-startup>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>dplarchtWebService</servlet-name>
+      <url-pattern>/dplarcht</url-pattern>
+   </servlet-mapping>
+   <session-config>
+      <session-timeout>60</session-timeout>
+   </session-config>
+</web-app>

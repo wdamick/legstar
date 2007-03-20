@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <project>
+  
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>Legstar</artifactId>
+      <version>0.0.1</version>
+    </parent>
+    <artifactId>legstar-schemagen</artifactId>
+    <name>LegStar Schemagen</name>
+    <version>0.0.1</version>
+    <description>COBOL to XML Schema generator</description>
+    <url>http://www.legsem.com/legstar/schemagen/</url>
+    
+    <dependencies>
+      <dependency>
+        <groupId>ant</groupId>
+        <artifactId>ant</artifactId>
+      </dependency>
+    </dependencies>
+
+    <build>
+      <plugins>
+      
+       <!-- We would like the maven generated jar file to be a valid 
+            Eclipse plugin. This will create the necessary entries
+            in the manifest.  -->
+		<plugin>
+		  <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-jar-plugin</artifactId>
+		  <configuration>
+		    <archive>
+		      <manifestEntries>
+		        <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+		        <Bundle-Name>LegStar Schemagen</Bundle-Name>
+		        <Bundle-SymbolicName>com.legstar.schemagen</Bundle-SymbolicName>
+		        <Bundle-Version>0.0.1</Bundle-Version>
+		        <Bundle-ClassPath>.</Bundle-ClassPath>
+		        <Bundle-Vendor>LegSem</Bundle-Vendor>
+		        <Bundle-Localization>plugin</Bundle-Localization>
+		        <Export-Package>com.legstar.schemagen</Export-Package>
+		        <Require-Bundle>org.apache.ant</Require-Bundle>
+		      </manifestEntries>
+		    </archive>
+		  </configuration>
+		</plugin>
+      
+       <!-- Assembly generation plugin. Put the result in the source site
+            so that it gets uploaded with the site.  -->
+        <plugin>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <configuration>
+            <outputDirectory>src/site/resources/binaries</outputDirectory>
+            <descriptors>
+              <descriptor>src/assemble/distribution.xml</descriptor>
+            </descriptors>
+          </configuration>
+          <executions>
+            <execution>
+              <id>make-assembly</id> <!-- this is used for inheritance merges -->
+              <phase>package</phase> <!-- append to the packaging phase. -->
+              <goals>
+                 <goal>attached</goal> <!-- goals == mojos -->
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+      <plugin>
+        <!-- This will generate all XML schema test cases as soon as
+             compilation has taken place.  -->
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>build-test-schema</id>
+            <phase>generate-test-sources</phase>
+            <configuration>
+              <tasks>
+				<ant antfile="${basedir}/src/test/ant/build-test-schema.xml"/>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+           </execution>
+          <execution>
+            <id>build-sample</id>
+            <phase>pre-integration-test</phase>
+            <configuration>
+              <tasks>
+                <echo message="pre-integration-test"/>
+				<ant antfile="${basedir}/src/main/ant/build-sample.xml" />
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+        <!-- This will check that the distribution file is valid. This is also
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>pre-integration-test</phase>
+            <configuration>
+              <tasks>
+                <echo message="pre-integration-test"/>
+				<ant antfile="${basedir}/src/main/ant/build-sample.xml" />
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+            used to create samples to be de delivered by upstream modules. -->
+ 
+      </plugins>
+    </build>
+    
+
+    
+  </project>

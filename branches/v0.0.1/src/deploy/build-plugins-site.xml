@@ -1,0 +1,11 @@
+<!-- =================================================================================
+     This script uploads this project maven site to the target deployment Web site.
+ -->
+<project basedir="../../legstar-site" default="all.plugins">
+
+	<target name="all.plugins">
+		<ant antfile="build.xml" dir="../legstar-schemagen-feature" target="build.update.jar">
+		</ant>
+	</target>
+	
+</project>

@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: LegStar Web Service Generator
+Bundle-SymbolicName: com.legstar.eclipse.plugin.cixsgen;singleton:=true
+Bundle-Version: 0.0.1
+Bundle-Activator: com.legstar.eclipse.plugin.cixsgen.Activator
+Bundle-Vendor: LegSem
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ant.core,
+ org.eclipse.core.resources,
+ org.eclipse.jdt.core,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.ide,
+ org.eclipse.jface.text,
+ org.eclipse.ui.workbench.texteditor,
+ com.legstar.eclipse.plugin.common
+Eclipse-LazyStart: true
+Bundle-ClassPath: .

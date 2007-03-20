@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+targetNamespace="http://legstar.com/test/coxb/fixarsim"
+xmlns="http://legstar.com/test/coxb/fixarsim"
+xmlns:xsns="http://legstar.com/test/coxb/fixarsim"
+xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+jaxb:version="2.0"
+jaxb:extensionBindingPrefixes="cb"
+elementFormDefault="qualified">
+ <xs:annotation><xs:appinfo>
+ <jaxb:globalBindings generateIsSetMethod="true"/>
+ <jaxb:schemaBindings>
+ <jaxb:package  name="com.legstar.test.coxb.fixarsim"/>
+ </jaxb:schemaBindings>
+ </xs:appinfo></xs:annotation>
+ <xs:complexType name="DfhcommareaType">
+    <xs:sequence>
+     <xs:element name="CArray" minOccurs="3" maxOccurs="3">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='C-ARRAY' type='ALPHANUMERIC_ITEM' picture='X(5)' usage='DISPLAY' byteLength='5' minOccurs='3' maxOccurs='3' srceLine='24'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='5' fixed='true'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+</xs:schema>
