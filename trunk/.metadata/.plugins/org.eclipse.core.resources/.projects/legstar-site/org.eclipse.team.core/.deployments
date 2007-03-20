@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploymentProviders>
+<provider container_path="" id="org.eclipse.team.ftp.FTPDeploymentProvider">
+<data URL="ftp://ftp.legsem.com/public_html/legstar/eclipse/update"/>
+</provider>
+</deploymentProviders>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+   <display-name>cixs.fixarsim</display-name>
+   <description>cixs fixarsim Web Service</description>
+   <listener>
+      <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
+   </listener>
+   <servlet>
+      <servlet-name>fixarsimWebService</servlet-name>
+      <display-name>cixs.fixarsimWebService</display-name>
+      <description>JAX-WS endpoint - fixarsim Web Service</description>
+      <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+      <load-on-startup>1</load-on-startup>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>fixarsimWebService</servlet-name>
+      <url-pattern>/fixarsim</url-pattern>
+   </servlet-mapping>
+   <session-config>
+      <session-timeout>60</session-timeout>
+   </session-config>
+</web-app>

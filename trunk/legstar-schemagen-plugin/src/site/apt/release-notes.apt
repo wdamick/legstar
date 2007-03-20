@@ -1,0 +1,51 @@
+ -------------------------------------------------------------------------------
+               LegSem LegStar Schemagen Eclipse plugin Version 0.0.1
+                                   Release Notes
+ -------------------------------------------------------------------------------
+
+PREREQUISITES:
+
+ This plugin requires Eclipse 3.2.1. It uses the LegStar Schemagen module which in turn
+ relies on Ant.
+ 
+ You must install the Legstar Schemagen module before you can use this Eclipse plugin.
+ 
+ The Legstar Schemagen module can be downloaded from http://www.legsem.com/legstar/schemagen.
+ 
+ The Schemagen Eclipse Plugin also requires the LegStar Common Eclipse plugin. For
+ intructions on how to install the Common Eclipse Plugin, see http://www.legsem.com/legstar/common-plugin.
+ 
+INSTALLING/UNINSTALLING:
+
+ [[1]] Ensure that the base Schemagen module has been installed and that the folder holding native
+    libraries has been added to the search PATH.
+    
+ [[2]] Within Eclipse, create a remote site using:
+ 
+-----------------------------------------------------------------------------------------
+  Help-->Software Updates-->Find and Install-->Search for new features-->New Remote site.
+-----------------------------------------------------------------------------------------
+  
+  Have the URL point to http://www.legsem.com/legstar/eclipse/update and select the
+    LegStar Schema Generator feature.
+
+ [[3]] Restart Eclipse and check that "LegsStar Schema Generator" shows up in:
+ 
+-----------------------------------------------------------------------------------------
+  Help-->About Eclipse SDK-->Plug-in details.
+-----------------------------------------------------------------------------------------
+   
+ [[4]] Start the plugin from the Legstar menu or the toolbar button.
+   
+ [[5]] To uninstall, use:
+
+-----------------------------------------------------------------------------------------
+  Help-->Software Updates-->Manage Configurations.
+-----------------------------------------------------------------------------------------
+
+  then right-click on the feature you wish to uninstall.
+
+DOCUMENTATION:
+
+ Documentation available at http://www.legsem.com/legstar/schemagen-plugin
+

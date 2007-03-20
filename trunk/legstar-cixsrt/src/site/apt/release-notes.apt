@@ -1,0 +1,51 @@
+
+
+ -------------------------------------------------------------------------------
+                     LegSem LegStar Cixsrt Version 0.0.1
+                               Release Notes
+ -------------------------------------------------------------------------------
+
+PREREQUISITES:
+
+ Before Cixsrt can be used, the LSWEBBIN CICS Program must be installed in the
+ target CICS region. The {{{LSWEBBIN-readme.html} LSWEBBIN readme}} document
+ describes the program and how to install it.
+
+ Cixsrt uses the LegStar module (http://www.legsem.com/legstar/coxbgen)
+ which is included in the distribution.
+ 
+INSTALLING/UNINSTALLING:
+
+ [[1]] Unzip the binary distribution package into the directory of your choice, 
+       referred to as <installDir> in the following steps.
+
+   The directory tree should look like this:
+   
++---------------------------------------+
+   <installDir>
+        |---->LICENSE
+        |---->NOTICE
+        |---->README
+        |---->LSWEBBIN-README
+        |----><lib>
+                |---->*.jar
+        |----><samples>
+                |---->*.java
+                |---->*.properties
+        |----><zos>
+                |----><C370>
+                        |---->*.C
+                |----><JCL>
+                        |---->*.JCL
+                
++---------------------------------------+
+     
+ [[2]] There is a JUnit java sample in the samples folder to guide you thru
+       the usage of the Cixsrt library.
+     
+ [[3]] To uninstall, remove the installDir folder.
+
+DOCUMENTATION:
+
+ Documentation available at http://www.legsem.com/legstar/coxbrt
+

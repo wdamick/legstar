@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource '/legstar-schemagen/src/main/c' to 'bin'&#13;&#10;- Original element: 'c'" description="Rename resource 'c'" flags="7" id="org.eclipse.jdt.ui.rename.resource" input="src/main/c" name="bin" stamp="1168267617765" version="1.0"/>
+<refactoring comment="Rename resource '/legstar-schemagen/RELEASE-NOTES' to 'README'&#13;&#10;- Original element: 'RELEASE-NOTES'" description="Rename resource 'RELEASE-NOTES'" flags="7" id="org.eclipse.jdt.ui.rename.resource" input="RELEASE-NOTES" name="README" stamp="1168271346265" version="1.0"/>
+<refactoring comment="Rename resource '/legstar-schemagen/src/site/xdoc/introduction.xml' to 'download.xml'&#13;&#10;- Original element: 'introduction.xml'" description="Rename resource 'introduction.xml'" flags="7" id="org.eclipse.jdt.ui.rename.resource" input="src/site/xdoc/introduction.xml" name="download.xml" stamp="1168274301781" version="1.0"/>
+</session>

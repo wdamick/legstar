@@ -1,0 +1,8 @@
+#Tue Jan 23 09:50:40 CET 2007
+ask.before.rebuild=prompt
+include.rule.names=false
+eclipse.preferences.version=1
+diable.project.classloader=false
+marker.amount.limit=100
+limit.markers.per.resource=false
+warn.before.losing.filesets=true

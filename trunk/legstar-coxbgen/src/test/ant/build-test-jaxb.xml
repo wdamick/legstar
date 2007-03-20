@@ -1,0 +1,92 @@
+<?xml version="1.0" standalone="yes"?>
+<!-- =================================================================================
+     Iterates thru XML schemas and generates JAXB classes for each. 
+     This script can also be used to generate JAXB classes for a single XML
+     schema.
+  -->
+<project basedir="../../.." default="compileAllJAXB">
+	
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+	<target name="init">
+		
+		<!-- Target location for generated JAXB sources   -->
+		<property name="jaxb.src.dir" value="${basedir}/src/test/java"/>
+		<!-- Make sure we have a target source directory -->
+		<mkdir dir="${jaxb.src.dir}"/>
+		<!-- Target location for generated JAXB binaries   -->
+		<property name="jaxb.bin.dir" value="${basedir}/target/test-classes"/>
+		<!-- Make sure we have a target bin directory -->
+		<mkdir dir="${jaxb.bin.dir}"/>
+		<!-- Location of XML schemas  -->
+	 	<property name="xsd.dir" value="${basedir}/../legstar-schemagen/src/test/schema" />
+		<!-- Location of Legstar binaries   -->
+		<property name="build.dir" value="${basedir}/target"/>
+
+		<!-- Ant-Contrib tasks. Needed for "foreach ", regex, switch, ...
+		     (ant-contrib.jar must be in ant classpath) -->
+	    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+	    	<classpath>
+			    <pathelement location="C:\Program Files\Apache\antcontrib\ant-contrib-1.0b2-bin\ant-contrib\lib\ant-contrib.jar"/>
+	    	</classpath>
+	    </taskdef>
+
+		<!-- Classpath setting  -->
+		<property name="maven.repo" value="C:\Documents and Settings\Fady\.m2\repository"/>
+		<path id="classpath">
+			<!-- JAXB-related Classpath  -->
+		    <pathelement location="${maven.repo}\com\sun\xml\bind\jaxb-impl\2.1\jaxb-impl-2.1.jar"/>
+		    <pathelement location="${maven.repo}\com\sun\xml\bind\jaxb-xjc\2.1\jaxb-xjc-2.1.jar"/>
+		    <pathelement location="${maven.repo}\javax\activation\activation\1.1\activation-1.1.jar"/>
+		    <pathelement location="${maven.repo}\javax\xml\bind\jaxb-api\2.1\jaxb-api-2.1.jar"/>
+		    <pathelement location="${maven.repo}\javax\xml\bind\jsr173_api\1.0\jsr173_api-1.0.jar"/>
+	  		<!--Legstar COXB runtime location -->
+		    <pathelement location="${maven.repo}\com\legsem\legstar\legstar-coxbrt\0.0.1\legstar-coxbrt-0.0.1.jar"/>
+	  		<!--Legstar COXB generator location -->
+    		<pathelement location="${build.dir}\classes"/>
+	    </path>
+
+		<!-- The regular sun JAXB XJC tool ant task  -->
+		<taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask" classpathref="classpath"/>
+		
+	</target>
+	
+	<!-- ===========================================================  -->
+	<!-- Generate JAXB output for a each XML schema in a given folder
+	  -->
+	<target name="generateAllJAXB" depends="init">
+		<foreach target="generateJAXB" param="xsd.file">
+			<path>
+				<fileset dir="${xsd.dir}" includes="*.xsd"/>
+			</path>
+		</foreach>
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Compiles the JAXB generated classes
+	  -->
+	<target name="compileAllJAXB" depends="generateAllJAXB">
+		 <javac srcdir="${jaxb.src.dir}"
+		 	     includes="com/legstar/test/coxb/**/*.java"
+	 	         excludes="local/**"
+		         destdir="${jaxb.bin.dir}"
+		 	     classpathref="classpath"
+		         fork="yes"
+		 />
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Generate the JAXB classes source
+	  -->
+	<target name="generateJAXB" depends="init">
+		<echo message="Generating JAXB classes for ${xsd.file}" />
+	    <xjc schema="${xsd.file}" destdir="${jaxb.src.dir}" extension="true" removeOldOutput="yes">
+			<arg value="-Xlegstar-code" />
+			<!--Without this option (no validation), out of memory errors -->
+			<arg value="-nv" />
+	    </xjc>
+	</target>
+
+
+</project>

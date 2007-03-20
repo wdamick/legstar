@@ -1,0 +1,39 @@
+<!-- =================================================================================
+     This script copies all generated testcases into the testcases project
+     so that it can be shared with other projects.
+ -->
+<project basedir="../../.." default="buildTestcases" name="build-testcases">
+
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+	<target name="init">
+		
+		<!-- Testcases project location  -->
+	 	<property name="testcases.project" value="${basedir}/../legstar-testcases" />
+		<!-- Testcases final destination for sources  -->
+	 	<property name="testcases.src" value="${testcases.project}/src/main/java" />
+		<!-- Testcases final destination for binaries  -->
+	 	<property name="testcases.bin" value="${testcases.project}/target/classes" />
+		
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Build the testcases
+	  -->
+	<target name="buildTestcases" depends="init">
+		<delete includeEmptyDirs="true" quiet="true">
+			<fileset dir="${testcases.src}/com" includes="**"/>
+		</delete>
+		<delete includeEmptyDirs="true" quiet="true">
+			<fileset dir="${testcases.bin}/com" includes="**"/>
+		</delete>
+		<copy todir="${testcases.src}">
+			<fileset dir="${basedir}/src/test/java" includes="com/legstar/coxb/cust/**,com/legstar/test/coxb/**"/>
+		</copy>
+		<copy todir="${testcases.bin}">
+			<fileset dir="${basedir}/target/test-classes" includes="com/legstar/coxb/cust/**,com/legstar/test/coxb/**"/>
+		</copy>
+	</target>
+	
+</project>

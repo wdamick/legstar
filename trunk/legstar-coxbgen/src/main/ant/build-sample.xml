@@ -1,0 +1,52 @@
+<!-- =================================================================================
+     This script builds the sample that is delivered with the assemblies.
+ -->
+<project basedir="../../.." default="buildSample" name="build-sample">
+
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+	<target name="init">
+		
+		<!-- Sample project location  -->
+	 	<property name="sample.project" value="${basedir}/../legstar-samples" />
+		<!-- Distribution name  -->
+	 	<property name="dist.name" value="legstar-coxbgen-0.0.1" />
+		<!-- Distribution zip file  -->
+	 	<property name="dist.zip" value="${dist.name}-bin.zip" />
+		<!-- Distribution file location   -->
+	 	<property name="dist.dir" value="${basedir}/src/site/resources/binaries" />
+		<!-- Distribution zip file   -->
+	 	<property name="zip.file" value="${dist.dir}/${dist.zip}" />
+		<!-- Sample final destination for sources  -->
+	 	<property name="sample.src" value="${sample.project}/src" />
+		<!-- Sample final destination for binaries  -->
+	 	<property name="sample.bin" value="${sample.project}/target" />
+		<!-- Wehther to fork the java compiler or not   -->
+	 	<property name="javac.fork" value="yes" />
+		
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Build the sample
+	  -->
+	<target name="buildSample" depends="init">
+		<delete dir="${sample.project}/${dist.name}" includeEmptyDirs="true" quiet="true"/>
+		<delete dir="${sample.src}" includeEmptyDirs="true" quiet="true"/>
+		<delete dir="${sample.bin}" includeEmptyDirs="true" quiet="true"/>
+		<mkdir dir="${sample.src}"/> 
+		<mkdir dir="${sample.bin}"/> 
+		<unzip src="${zip.file}" dest="${sample.project}"/>
+		<ant antfile="${sample.project}/${dist.name}/ant/build-jaxb.xml"
+			 dir="${sample.project}/${dist.name}"/>
+		<ant antfile="${sample.project}/${dist.name}/ant/build-coxb.xml"
+			 dir="${sample.project}/${dist.name}" inheritAll="true"/>
+		<copy todir="${sample.src}">
+			<fileset dir="${sample.project}/${dist.name}/src"/>
+		</copy>
+		<copy todir="${sample.bin}">
+			<fileset dir="${sample.project}/${dist.name}/target"/>
+		</copy>
+	</target>
+	
+</project>

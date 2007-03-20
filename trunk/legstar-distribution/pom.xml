@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><project>
+	<modelVersion>4.0.0</modelVersion>
+    <parent>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>Legstar</artifactId>
+      <version>0.0.1</version>
+    </parent>
+	<artifactId>legstar-distribution</artifactId>
+    <name>Distribution</name>
+	<version>0.0.1</version>
+	<packaging>pom</packaging>
+	<description>Used to create a single distribution for the entire LegStar project.</description>
+	<url>http://www.legsem.com/legstar/distribution/</url>
+ 
+    <dependencies>
+      <dependency>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>legstar-schemagen</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>legstar-coxbgen</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>legstar-cixsgen</artifactId>
+      </dependency>
+    </dependencies>
+
+    <build>
+      <plugins>
+       <plugin>
+       
+        <!-- Creates a single distribution. -->
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>install</phase>
+            <configuration>
+              <tasks>
+				<ant antfile="${basedir}/src/main/ant/build-distribution.xml"/>
+				<ant antfile="${basedir}/src/main/ant/build-distribution-sources.xml"/>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+ 
+      </plugins>
+    </build>
+    
+</project>

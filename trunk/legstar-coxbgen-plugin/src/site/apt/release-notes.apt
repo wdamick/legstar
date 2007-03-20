@@ -1,0 +1,53 @@
+ -------------------------------------------------------------------------------
+                 LegSem LegStar Coxbgen Eclipse plugin Version 0.0.1
+                                    Release Notes
+ -------------------------------------------------------------------------------
+
+PREREQUISITES:
+
+ This plugin requires Eclipse 3.2.1. It uses the LegStar Coxbgen module which needs
+ to be installed prior to using this plugin.
+ 
+ The Legstar Coxbgen module can be downloaded from http://www.legsem.com/legstar/coxbgen.
+ 
+ The Coxbgen Eclipse Plugin also requires the LegStar Common Eclipse plugin. For
+ intructions on how to install the Common Eclipse Plugin, see http://www.legsem.com/legstar/common-plugin.
+ 
+INSTALLING/UNINSTALLING:
+
+ [[1]] Ensure that the base Coxbgen module has been installed.
+    
+ [[2]] Within Eclipse, create a remote site using:
+ 
+-----------------------------------------------------------------------------------------
+  Help-->Software Updates-->Find and Install-->Search for new features-->New Remote site.
+-----------------------------------------------------------------------------------------
+  
+  Have the URL point to http://www.legsem.com/legstar/eclipse/update and select the
+  LegsStar Binding Classes Generator feature.
+
+ [[3]] Restart Eclipse and check that "LegsStar Binding Classes Generator" shows up in:
+ 
+-----------------------------------------------------------------------------------------
+  Help-->About Eclipse SDK-->Plug-in details.
+-----------------------------------------------------------------------------------------
+   
+ [[4]] Let the plugin know where the base Coxbgen module has been installed by setting
+ the preferences in:
+  
+-----------------------------------------------------------------------------------------
+  Window-->Preferences-->LegStar-->COXB Generator.
+-----------------------------------------------------------------------------------------
+   
+ [[5]] To uninstall, use:
+
+-----------------------------------------------------------------------------------------
+  Help-->Software Updates-->Manage Configurations.
+-----------------------------------------------------------------------------------------
+
+  then right-click on the feature you wish to uninstall.
+
+DOCUMENTATION:
+
+ Documentation available at http://www.legsem.com/legstar/coxbgen-plugin
+

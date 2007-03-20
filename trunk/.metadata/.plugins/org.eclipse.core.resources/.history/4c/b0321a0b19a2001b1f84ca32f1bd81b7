@@ -1,0 +1,12 @@
+ -----
+ LegStar Schemagen Eclipse Plugin
+ -----
+ Fady Moussallam
+ -----
+ 08 January 2007
+ -----
+
+Overview
+
+  This Eclipse plugin provides a UI for the {{{../legstar-schemagen/index.html} XML Schema generation feature}} of LegStar.
+

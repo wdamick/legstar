@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.GotoLineAction$GotoLineDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="445"/>
+		<item key="DIALOG_Y_ORIGIN" value="396"/>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="965"/>
+		<item key="DIALOG_Y_ORIGIN" value="334"/>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<item key="selection" value="dist.dir"/>
+		<item key="wrap" value="false"/>
+		<item key="casesensitive" value="true"/>
+		<list key="findhistory">
+			<item value="dist.dir"/>
+			<item value="oxbgen"/>
+			<item value="ixsrt"/>
+			<item value="ixsgen"/>
+			<item value="TransformerFactoryImpl"/>
+			<item value="SAXParserFactory"/>
+			<item value="System.out"/>
+			<item value="inVars"/>
+		</list>
+		<list key="replacehistory">
+			<item value="ixsrt"/>
+			<item value="oxbrt"/>
+			<item value="ommon"/>
+			<item value="Output"/>
+			<item value="OUT_"/>
+			<item value="output"/>
+			<item value="cixsgen"/>
+			<item value="Cixsgen"/>
+		</list>
+	</section>
+</section>

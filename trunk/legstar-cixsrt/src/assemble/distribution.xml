@@ -1,0 +1,62 @@
+<assembly>
+	<id>bin</id>
+	<formats>
+	  <format>zip</format>
+	</formats>
+
+	<fileSets>
+  
+		<fileSet>
+		  <includes>
+		    <include>LICENSE*</include>
+		    <include>NOTICE*</include>
+		  </includes>
+		</fileSet>
+    
+		<!-- C/370 for CICS Server program -->
+		<fileSet>
+		  <directory>src/main/zos</directory>
+		  <outputDirectory>/zos</outputDirectory>
+		  <includes>
+		    <include>**</include>
+		  </includes>
+		</fileSet>
+    
+		<!-- Sample connectivity parameters properties files -->
+		<fileSet>
+		  <directory>src/site/resources/samples</directory>
+		  <outputDirectory>/samples</outputDirectory>
+		  <includes>
+		    <include>**</include>
+		  </includes>
+		</fileSet>
+    
+	</fileSets>
+  
+	<files>
+		<file>
+		   <source>${basedir}/src/site/apt/release-notes.apt</source>
+		   <outputDirectory>/</outputDirectory>
+		   <destName>README</destName>
+		</file>
+		<file>
+		   <source>${basedir}/src/site/apt/LSWEBBIN-readme.apt</source>
+		   <outputDirectory>/</outputDirectory>
+		   <destName>LSWEBBIN-README</destName>
+		</file>
+		<file>
+		  <source>${basedir}/src/test/java/com/legstar/cixs/sample/CixsrtSampleTest.java</source>
+		  <outputDirectory>/samples</outputDirectory>
+		  <destName>CixsrtSampleTest.java</destName>
+		</file>
+	</files>
+  
+  <dependencySets>
+  	<dependencySet>
+      <outputDirectory>/lib/</outputDirectory>
+      <unpack>false</unpack>
+      <scope>runtime</scope>
+    </dependencySet>
+  </dependencySets>
+  
+</assembly>

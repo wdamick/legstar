@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource '/legstar-coxbgen-plugin/icons/generate.gif' to 'coxbgen-generate.gif'&#13;&#10;- Original element: 'generate.gif'" description="Rename resource 'generate.gif'" flags="7" id="org.eclipse.jdt.ui.rename.resource" input="icons/generate.gif" name="coxbgen-generate.gif" stamp="1170264518187" version="1.0"/>
+</session>
