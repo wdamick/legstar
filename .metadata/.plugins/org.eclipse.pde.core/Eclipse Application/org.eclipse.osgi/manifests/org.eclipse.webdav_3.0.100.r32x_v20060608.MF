@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Generated-from: 1164299994531;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.webdav
+Bundle-Version: 3.0.100.r32x_v20060608
+Bundle-ClassPath: webdav.jar
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: org.eclipse.webdav,
+ org.eclipse.webdav.client,
+ org.eclipse.webdav.dom,
+ org.eclipse.webdav.http.client,
+ org.eclipse.webdav.internal.authentication,
+ org.eclipse.webdav.internal.kernel,
+ org.eclipse.webdav.internal.kernel.utils,
+ org.eclipse.webdav.internal.utils

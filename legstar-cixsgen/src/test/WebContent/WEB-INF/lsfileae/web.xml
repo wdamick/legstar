@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+   <display-name>cixs.lsfileae</display-name>
+   <description>cixs lsfileae Web Service</description>
+   <listener>
+      <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
+   </listener>
+   <servlet>
+      <servlet-name>lsfileaeWebService</servlet-name>
+      <display-name>cixs.lsfileaeWebService</display-name>
+      <description>JAX-WS endpoint - lsfileae Web Service</description>
+      <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+      <load-on-startup>1</load-on-startup>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>lsfileaeWebService</servlet-name>
+      <url-pattern>/lsfileae</url-pattern>
+   </servlet-mapping>
+   <session-config>
+      <session-timeout>60</session-timeout>
+   </session-config>
+</web-app>

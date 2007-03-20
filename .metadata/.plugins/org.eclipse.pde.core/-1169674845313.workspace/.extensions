@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extensions>
+	<bundle bundleID="694" schema="3.2">
+		<extension line="6" point="org.eclipse.ui.popupMenus"/>
+		<extension line="28" point="org.eclipse.ui.preferencePages"/>
+	</bundle>
+	<bundle bundleID="695" schema="3.2">
+		<extension line="6" point="org.eclipse.ui.preferencePages"/>
+	</bundle>
+	<bundle bundleID="696" schema="3.2">
+		<extension line="6" point="org.eclipse.ui.newWizards"/>
+		<extension line="20" point="org.eclipse.ui.actionSets"/>
+		<extension line="41" point="org.eclipse.ui.preferencePages"/>
+	</bundle>
+	<bundle bundleID="697" schema="3.2">
+		<extension line="6" point="org.eclipse.ui.newWizards"/>
+		<extension line="20" point="org.eclipse.ui.actionSets"/>
+		<extension line="41" point="org.eclipse.ui.editors"/>
+		<extension line="51" point="org.eclipse.ui.preferencePages"/>
+	</bundle>
+</extensions>

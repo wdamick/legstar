@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><project>
+  <modelVersion>4.0.0</modelVersion>
+    <parent>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>Legstar</artifactId>
+      <version>0.0.1</version>
+    </parent>
+  <artifactId>legstar-schemagen-plugin</artifactId>
+  <version>0.0.1</version>
+  <description>An Eclipse Plugin for COBOL to XML schema generation</description>
+  
+  <dependencies>
+    <dependency>
+      <groupId>org.eclipse.ui</groupId>
+      <artifactId>org.eclipse.ui</artifactId>
+      <version>3.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.core</groupId>
+      <artifactId>org.eclipse.core.runtime</artifactId>
+      <version>3.2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.ui</groupId>
+      <artifactId>org.eclipse.ui.ide</artifactId>
+      <version>3.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.core</groupId>
+      <artifactId>org.eclipse.core.resources</artifactId>
+      <version>3.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>legstar-schemagen</artifactId>
+      <version>0.0.1</version>
+    </dependency>
+  </dependencies>
+  <repositories>
+    <!-- For snapshots (no release jars or non-apache jars)           -->
+    <repository>
+      <id>apache.snapshots</id>
+      <name>Apache Snapshot Repository</name>
+      <url>http://people.apache.org/repo/m2-snapshot-repository</url>
+    </repository>
+  </repositories>
+   
+  <build>
+    <resources>
+      <!-- 
+      <resource>
+        <directory>${basedir}</directory>
+        <includes>
+          <include>plugin.xml</include>
+          <include>plugin.properties</include>
+        </includes>
+        <targetPath>/</targetPath>
+      </resource>
+        -->
+    </resources>
+    <plugins>
+      <!-- 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-eclipse-plugin</artifactId>
+        <configuration>
+          <pde>true</pde>
+        </configuration>
+      </plugin>
+         -->
+      <plugin>  
+         <groupId>org.apache.maven.plugins</groupId>  
+         <artifactId>maven-eclipse-plugin</artifactId>  
+         <configuration>  
+            <projectnatures>  
+              <projectnature>org.eclipse.jdt.core.javanature</projectnature>  
+              <projectnature>org.eclipse.pde.PluginNature</projectnature>  
+            </projectnatures>  
+            <buildcommands>  
+              <buildcommand>org.eclipse.jdt.core.javabuilder</buildcommand>  
+              <buildcommand>org.eclipse.pde.ManifestBuilder</buildcommand>  
+              <buildcommand>org.eclipse.pde.SchemaBuilder</buildcommand>  
+              </buildcommands>
+         </configuration>  
+      </plugin>  
+      <plugin>  
+         <groupId>org.apache.felix.plugins</groupId>  
+         <artifactId>maven-osgi-plugin</artifactId>  
+         <extensions>true</extensions>  
+         <version>0.8.0-incubator-SNAPSHOT</version>  
+         <configuration>  
+            <manifestFile>META-INF/MANIFEST.MF</manifestFile>  
+            <osgiManifest>  
+               <bundleName>LegsStar Schema Generator Plug-in</bundleName>  
+               <bundleSymbolicName>com.legstar.eclipse.plugin.schemagen</bundleSymbolicName>  
+               <bundleLocalization>plugin</bundleLocalization>  
+               <bundleDescription>An Eclipse Plugin to generate XML schema from COBOL source.</bundleDescription>  
+               <bundleActivator>com.legstar.eclipse.plugin.schemagen.Activator</bundleActivator>  
+               <requireBundle>org.eclipse.ui, org.eclipse.core.runtime, org.eclipse.ui.ide, org.eclipse.core.resources</requireBundle>  
+               <bundleVendor>LegSem</bundleVendor>
+            </osgiManifest>  
+         </configuration>  
+       </plugin>  
+
+    </plugins>
+  </build>
+  
+</project>

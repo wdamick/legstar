@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Generated-from: 1164299993531;type=2
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.team.extras
+Bundle-Version: 3.1.100.I200606071030
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin

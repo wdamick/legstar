@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.maven.ide.eclipse.actions.Maven2RepositorySearchDialog">
+		<item key="width" value="480"/>
+		<item key="height" value="450"/>
+		<item key="y" value="213"/>
+		<item key="x" value="633"/>
+	</section>
+</section>

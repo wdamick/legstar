@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<session version="1.0">
+<refactoring comment="Rename type 'com.legstar.coxb.rt.misc.test.CharsetsTest' to 'CharsetsCases'&#13;&#10;- Original element: 'com.legstar.coxb.rt.misc.test.CharsetsTest'&#13;&#10;- Renamed element: 'com.legstar.coxb.rt.misc.test.CharsetsCases'&#13;&#10;- Update references to refactored element&#13;&#10;- Update textual occurrences in comments and strings" description="Rename type 'CharsetsTest'" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src\/test\/java&lt;com.legstar.coxb.rt.misc.test{CharsetsTest.java[CharsetsTest" matchStrategy="1" name="CharsetsCases" qualified="false" references="true" similarDeclarations="false" stamp="1169896298868" textual="false" version="1.0"/>
+</session>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource '/legstar-cixsgen-plugin/src/main/ant/build-sample.xml' to 'copy-to-plugin.xml'&#13;&#10;- Original element: 'build-sample.xml'" description="Rename resource 'build-sample.xml'" flags="7" id="org.eclipse.jdt.ui.rename.resource" input="src/main/ant/build-sample.xml" name="copy-to-plugin.xml" stamp="1170055329140" version="1.0"/>
+</session>

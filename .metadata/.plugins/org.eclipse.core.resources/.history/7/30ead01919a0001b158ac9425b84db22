@@ -1,0 +1,91 @@
+package com.legstar.eclipse.plugin.schemagen.wizards;
+
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.IWorkbenchWindowActionDelegate;
+import org.eclipse.jface.dialogs.IPageChangedListener;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.PageChangedEvent;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.core.runtime.CoreException;
+
+import com.legstar.common.LegstarException;
+
+/**
+ * Creates a Wizard environment in response to an action.
+ */
+public class RunWizardAction  extends Action 
+	implements IWorkbenchWindowActionDelegate, IPageChangedListener {
+
+	/**
+	 * Constructor.
+	 * @throws LegstarException if legstar properties cannot be recovered
+	 */
+	public RunWizardAction() throws LegstarException {
+		super();
+	}
+	
+	/** {@inheritDoc}. */
+	public void init(final IWorkbenchWindow window) {
+	}
+
+	/** Called when the action is discarded. */
+	public void dispose() {
+	}
+
+	/** {@inheritDoc}. */
+	public final void run(final IAction action) {
+		SchemaGenWizard wizard;
+		try {
+			wizard = new SchemaGenWizard();
+		} catch (CoreException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		Shell shell =
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		WizardDialog dialog = new WizardDialog(shell, wizard);
+		dialog.addPageChangedListener(this);
+		dialog.create();
+		dialog.open();
+	}
+
+	/** {@inheritDoc}. */
+	public final void selectionChanged(
+			final IAction action, final ISelection selection) {
+	}
+
+	/**
+	 * @see org.eclipse.jface.dialogs.IPageChangedListener#pageChanged(
+	 * org.eclipse.jface.dialogs.PageChangedEvent)
+	 * @param event
+	 *            event object describing the change
+	 */
+	public final void pageChanged(
+			final PageChangedEvent event) {
+		/* When switching to XSD page, initialize dialog values from
+		 * data gathered on the import Cobol page. */
+		if (event.getSelectedPage() instanceof NewXSDWizardPage) {
+			NewXSDWizardPage xsdPage =
+				(NewXSDWizardPage) event.getSelectedPage();
+			ImportCobolWizardPage cobolPage =
+				(ImportCobolWizardPage) xsdPage.getWizard().
+				getPreviousPage(xsdPage);
+			try {
+				xsdPage.initFieldsFromCobolPage(cobolPage);
+			} catch (LegstarException e) {
+				e.printStackTrace();
+				MessageDialog.openError(
+						null,
+						"Schema generation",
+						"Failed to create new XSD page");
+			}
+		}
+
+	}
+
+}

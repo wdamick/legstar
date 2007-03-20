@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.preferencePages">
+       <page
+            id="com.legstar.eclipse.plugin.common"
+            class="com.legstar.eclipse.plugin.common.properties.WorkbenchPreferencePage1"
+            name="LegStar"/>
+   </extension>
+
+</plugin>

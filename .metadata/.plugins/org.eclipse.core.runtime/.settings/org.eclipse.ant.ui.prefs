@@ -1,0 +1,10 @@
+#Fri Jan 26 18:42:26 CET 2007
+problem_tasks=ignore
+problem_properties=ignore
+useQuickDiffPrefPage=true
+useAnnotationsPrefPage=true
+problem_classpath=warning
+problem_imports=warning
+problem_security=warning
+ignoreNames=build-schema.xml,build-jaxb.xml,build-coxb.xml,build-service.xml
+eclipse.preferences.version=1

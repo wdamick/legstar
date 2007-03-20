@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<coxb-type name="DfhcommareaTypeBinding" type="complex">
+
+	<!-- Name of the JAXB type to be bound. -->
+	<jaxb-type-name>DfhcommareaType</jaxb-type-name>
+	<!-- Package for JAXB type.  -->
+	<jaxb-type-package>com.legstar.test.coxb.lsfileae</jaxb-type-package> 
+	<!-- Name of the JAXB property. Parent type references this property using this name. -->
+	<jaxb-property-name>dfhcommarea</jaxb-property-name>
+	
+	<!-- Repeat for each property (order is important). -->
+	<coxb-property jaxb-name="comNumber" type="simple" jaxb-type="long" binding-type="CZonedDecimalBinding" cobol-byteLength="6" cobol-totalDigits="6" cobol-fractionDigits="0" cobol-isSigned="false" cobol-isSignLeading="false" cobol-isSignSeparate="false"/>
+	<coxb-property jaxb-name="comPersonal" type="complex" jaxb-type="ComPersonalType" binding-type="ComPersonalTypeBinding"/>
+	<coxb-property jaxb-name="comDate" type="simple" jaxb-type="java.lang.String" binding-type="CStringBinding" cobol-byteLength="8" cobol-isJustifiedRight="false"/>
+	<coxb-property jaxb-name="comAmount" type="simple" jaxb-type="java.lang.String" binding-type="CStringBinding" cobol-byteLength="8" cobol-isJustifiedRight="false"/>
+	<coxb-property jaxb-name="comComment" type="simple" jaxb-type="java.lang.String" binding-type="CStringBinding" cobol-byteLength="9" cobol-isJustifiedRight="false"/>
+	  
+</coxb-type>

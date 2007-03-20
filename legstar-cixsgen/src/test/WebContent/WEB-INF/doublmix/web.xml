@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+   <display-name>cixs.doublmix</display-name>
+   <description>cixs doublmix Web Service</description>
+   <listener>
+      <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
+   </listener>
+   <servlet>
+      <servlet-name>doublmixWebService</servlet-name>
+      <display-name>cixs.doublmixWebService</display-name>
+      <description>JAX-WS endpoint - doublmix Web Service</description>
+      <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+      <load-on-startup>1</load-on-startup>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>doublmixWebService</servlet-name>
+      <url-pattern>/doublmix</url-pattern>
+   </servlet-mapping>
+   <session-config>
+      <session-timeout>60</session-timeout>
+   </session-config>
+</web-app>

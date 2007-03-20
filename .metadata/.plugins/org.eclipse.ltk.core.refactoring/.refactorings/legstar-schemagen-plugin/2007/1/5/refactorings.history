@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource '/legstar-schemagen-plugin/icons/logo008Blue.gif' to 'schemagen-generate.gif'&#13;&#10;- Original element: 'logo008Blue.gif'" description="Rename resource 'logo008Blue.gif'" flags="7" id="org.eclipse.jdt.ui.rename.resource" input="icons/logo008Blue.gif" name="schemagen-generate.gif" stamp="1170264272578" version="1.0"/>
+</session>

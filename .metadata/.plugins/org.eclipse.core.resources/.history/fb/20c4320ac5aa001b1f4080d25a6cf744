@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Legstar Common Plug-in
+Bundle-SymbolicName: com.legstar.eclipse.plugin.common; singleton:=true
+Bundle-Version: 0.0.1
+Bundle-Activator: com.legstar.eclipse.plugin.common.Activator
+Bundle-Vendor: LegSem
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.ant.core
+Eclipse-LazyStart: true
+Export-Package: com.legstar.eclipse.plugin.common,
+ com.legstar.eclipse.plugin.common.properties
