@@ -17,6 +17,7 @@ import com.legstar.messaging.HeaderPart;
 import com.legstar.messaging.Message;
 import com.legstar.messaging.MessagePart;
 import com.legstar.messaging.Request;
+import com.legstar.config.Constants;
 import com.legstar.messaging.RequestException;
 import com.legstar.work.manager.LsWorkManager;
 
@@ -98,9 +99,9 @@ public class PoolingTest extends TestCase {
 		engHandler.init();
 		
 		HashMap < String, String > map = new HashMap < String, String >();
-		map.put("CICSProgram", "TARATATA");
-		map.put("CICSLength", "79");
-		map.put("CICSDataLength", "6");
+		map.put(Constants.CICS_PROGRAM_KEY, "TARATATA");
+		map.put(Constants.CICS_LENGTH_KEY, "79");
+		map.put(Constants.CICS_DATALEN_KEY, "6");
 		List <MessagePart> inputParts = new ArrayList <MessagePart>();
 		MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 		inputParts.add(inCommarea);
@@ -189,9 +190,9 @@ public class PoolingTest extends TestCase {
 	
 	private Message getRequestMessage() throws UnsupportedEncodingException {
 		HashMap < String, String > map = new HashMap < String, String >();
-		map.put("CICSProgram", "LSFILEAE");
-		map.put("CICSLength", "79");
-		map.put("CICSDataLength", "6");
+		map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+		map.put(Constants.CICS_LENGTH_KEY, "79");
+		map.put(Constants.CICS_DATALEN_KEY, "6");
 		List <MessagePart> inputParts = new ArrayList <MessagePart>();
 		MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 		inputParts.add(inCommarea);
