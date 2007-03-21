@@ -2,6 +2,7 @@ package com.legstar.host.invoke;
 
 import java.util.Map;
 
+import com.legstar.config.Constants;
 import com.legstar.host.invoke.ProgramAttributes;
 import com.legstar.host.invoke.ProgramAttributesException;
 
@@ -69,12 +70,12 @@ public class ProgramAttributesTest extends TestCase {
 		try {
 			ProgramAttributes pa = new ProgramAttributes("lsfileae2.properties");
 			Map map = pa.getProgramAttrMap();
-			assertEquals("LSFILEAE", map.get("CICSProgram"));
-			assertEquals("735",  map.get("CICSLength"));
-			assertEquals("72",  map.get("CICSDataLength"));
-			assertEquals("ROSE",  map.get("CICSSysID"));
-			assertEquals("true",  map.get("CICSSyncOnReturn"));
-			assertEquals("CSMI",  map.get("CICSTransID"));
+			assertEquals("LSFILEAE", map.get(Constants.CICS_PROGRAM_KEY));
+			assertEquals("735",  map.get(Constants.CICS_LENGTH_KEY));
+			assertEquals("72",  map.get(Constants.CICS_DATALEN_KEY));
+			assertEquals("ROSE",  map.get(Constants.CICS_SYSID_KEY));
+			assertEquals("true",  map.get(Constants.CICS_SYNCONRET_KEY));
+			assertEquals("CSMI",  map.get(Constants.CICS_TRANSID_KEY));
 		} catch (ProgramAttributesException e) {
 			fail("testGetMap failed " + e.getMessage());
 		}

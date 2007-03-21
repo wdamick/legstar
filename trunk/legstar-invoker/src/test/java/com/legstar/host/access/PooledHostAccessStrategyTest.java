@@ -10,6 +10,7 @@ import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.xpath.XPathExpressionEngine;
 
+import com.legstar.config.Constants;
 import com.legstar.host.access.PooledHostAccessStrategy;
 import com.legstar.host.access.HostAccessStrategyException;
 import com.legstar.host.invoke.Util;
@@ -117,9 +118,9 @@ public class PooledHostAccessStrategyTest extends TestCase {
 	/** Create a typical request */
 	private Request createRequest() throws HostAccessStrategyException {
 		HashMap < String, String > map = new HashMap < String, String >();
-		map.put("CICSProgram", "LSFILEAE");
-		map.put("CICSLength", "79");
-		map.put("CICSDataLength", "6");
+		map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+		map.put(Constants.CICS_LENGTH_KEY, "79");
+		map.put(Constants.CICS_DATALEN_KEY, "6");
 		List <MessagePart> inputParts = new ArrayList <MessagePart>();
 		MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 		inputParts.add(inCommarea);
@@ -138,9 +139,9 @@ public class PooledHostAccessStrategyTest extends TestCase {
 	/** Create a long request ( 4 secs) */
 	private Request createLongRequest() throws HostAccessStrategyException {
 		HashMap < String, String > map = new HashMap < String, String >();
-		map.put("CICSProgram", "T1SLEEPT");
-		map.put("CICSLength", "39");
-		map.put("CICSDataLength", "8");
+		map.put(Constants.CICS_PROGRAM_KEY, "T1SLEEPT");
+		map.put(Constants.CICS_LENGTH_KEY, "39");
+		map.put(Constants.CICS_DATALEN_KEY, "8");
 		List <MessagePart> inputParts = new ArrayList <MessagePart>();
 		MessagePart inCommarea = new CommareaPart(Util.toByteArray("f0f0f0f0f0f0f0f4"));
 		inputParts.add(inCommarea);

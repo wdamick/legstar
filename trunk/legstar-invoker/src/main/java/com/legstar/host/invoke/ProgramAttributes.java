@@ -28,6 +28,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import com.legstar.config.Constants;
+
 
 /** 
  * This data object holds the characteristics of a given CICS program.
@@ -47,24 +49,6 @@ public class ProgramAttributes {
 	
 	/** If no data sync on return is provided. */
 	private static final boolean DEFAULT_SYNC_ON_RETURN = false;
-	
-	/** Property identifier for the host program name. */
-	private static final String PROGRAM_KEY = "CICSProgram";
-	
-	/** Property identifier for program commarea length. */
-	private static final String LENGTH_KEY = "CICSLength";
-	
-	/** Property identifier for program input data length. */
-	private static final String DATALEN_KEY = "CICSDataLength";
-	
-	/** Property identifier for program system ID. */
-	private static final String SYSID_KEY = "CICSSysID";
-	
-	/** Property identifier for program sync on return parm. */
-	private static final String SYNCONRET_KEY = "CICSSyncOnReturn";
-	
-	/** Property identifier for program transaction ID. */
-	private static final String TRANSID_KEY = "CICSTransID";
 	
 	/** The CICS program name. */
 	private String mProgram;
@@ -101,18 +85,20 @@ public class ProgramAttributes {
 		}
 		
 		/* Set individual properties */
-		mProgram = programProperties.getProperty(PROGRAM_KEY);
+		mProgram = programProperties.getProperty(Constants.CICS_PROGRAM_KEY);
 		if (mProgram == null || mProgram.length() == 0) {
 			throw new ProgramAttributesException(
 					"Program name must be specified.");
 		}
-		String strLength = programProperties.getProperty(LENGTH_KEY);
+		String strLength = programProperties.getProperty(
+				Constants.CICS_LENGTH_KEY);
 		if (strLength == null) {
 			mLength = DEFAULT_COMMAREA_LEN;
 		} else {
 			mLength = Integer.parseInt(strLength);
 		}
-		String strDataLength = programProperties.getProperty(DATALEN_KEY);
+		String strDataLength = programProperties.getProperty(
+				Constants.CICS_DATALEN_KEY);
 		if (strDataLength == null) {
 			mDataLength = DEFAULT_DATA_LEN;
 		} else {
@@ -122,14 +108,15 @@ public class ProgramAttributes {
 			throw new ProgramAttributesException(
 					"Data length cannot exceed length.");
 		}
-		mSysID = programProperties.getProperty(SYSID_KEY);
-		String strSyncOnReturn = programProperties.getProperty(SYNCONRET_KEY);
+		mSysID = programProperties.getProperty(Constants.CICS_SYSID_KEY);
+		String strSyncOnReturn = programProperties.getProperty(
+				Constants.CICS_SYNCONRET_KEY);
 		if (strSyncOnReturn != null && strSyncOnReturn.length() > 0) {
 			mSyncOnReturn = Boolean.parseBoolean(strSyncOnReturn);
 		} else {
 			mSyncOnReturn = DEFAULT_SYNC_ON_RETURN;
 		}
-		mTransID = programProperties.getProperty(TRANSID_KEY);
+		mTransID = programProperties.getProperty(Constants.CICS_TRANSID_KEY);
 	}
 	
 	/**
@@ -168,19 +155,20 @@ public class ProgramAttributes {
 		HashMap < String, String > map = new HashMap < String, String >();
 		
 		/* Add mandatory keys */
-		map.put(PROGRAM_KEY, mProgram);
-		map.put(LENGTH_KEY, Integer.toString(mLength));
-		map.put(DATALEN_KEY, Integer.toString(mDataLength));
+		map.put(Constants.CICS_PROGRAM_KEY, mProgram);
+		map.put(Constants.CICS_LENGTH_KEY, Integer.toString(mLength));
+		map.put(Constants.CICS_DATALEN_KEY, Integer.toString(mDataLength));
 
 		/* Add optional keys */
 		if (mSysID != null && mSysID.length() > 0) {
-			map.put(SYSID_KEY, mSysID);
+			map.put(Constants.CICS_SYSID_KEY, mSysID);
 		}
 		if (mSyncOnReturn != DEFAULT_SYNC_ON_RETURN) {
-			map.put(SYNCONRET_KEY, new Boolean(mSyncOnReturn).toString());
+			map.put(Constants.CICS_SYNCONRET_KEY, new Boolean(
+					mSyncOnReturn).toString());
 		}
 		if (mTransID != null && mTransID.length() > 0) {
-			map.put(TRANSID_KEY, mTransID);
+			map.put(Constants.CICS_TRANSID_KEY, mTransID);
 		}
 		return map;
 	}
