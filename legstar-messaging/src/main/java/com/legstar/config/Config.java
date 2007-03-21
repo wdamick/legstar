@@ -18,14 +18,6 @@ import com.legstar.messaging.ConnectionFactory;
  */
 public final class Config {
 
-	/** Configuration XPath location for an endpoint. */
-	private static final String HOST_ENDPOINT_CFG =
-		"hostEndPoints/hostEndPoint";
-	
-	/** Configuration XPath location for the connection factory. */
-	private static final String HOST_CONNECTION_FACTORY_CFG =
-		"hostConnectionfactoryClass";
-	
 	/** Config is a utility class. */
 	private Config() {
 		
@@ -57,7 +49,7 @@ public final class Config {
 			final HierarchicalConfiguration generalConfig,
 			final String endpointName) throws ConfigurationException {
 		
-		String strXPath = HOST_ENDPOINT_CFG
+		String strXPath = Constants.HOST_ENDPOINT_KEY
 		+ "[@name='" + endpointName + "']";
 		List  endpoints = generalConfig.configurationsAt(strXPath);
 		if (endpoints == null || endpoints.isEmpty()) {
@@ -78,7 +70,7 @@ public final class Config {
 			final HierarchicalConfiguration generalConfig)
 			throws ConfigurationException {
 		
-		String strXPath = HOST_ENDPOINT_CFG;
+		String strXPath = Constants.HOST_ENDPOINT_KEY;
 		List  endpoints = generalConfig.configurationsAt(strXPath);
 		if (endpoints == null || endpoints.isEmpty()) {
 			throw new ConfigurationException(
@@ -127,7 +119,7 @@ public final class Config {
 		
 		/* Get the name of the connection factory from the configuration	*/
 		String factoryClass =
-			endpointConfig.getString(HOST_CONNECTION_FACTORY_CFG);
+			endpointConfig.getString(Constants.HOST_CONNECTION_FACTORY_KEY);
 		if (factoryClass == null || factoryClass.length() == 0) {
 			throw new ConfigurationException(
 				"There are no connection factories in the configuration.");

@@ -7,14 +7,14 @@ import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.xpath.XPathExpressionEngine;
 
+import com.legstar.config.Constants;
+
 import junit.framework.TestCase;
 
 public class AddressTest extends TestCase {
 	
 	private static final String CONFIG_FILE = "config.xml";
 	/** Configuration XPath location for an endpoint. */
-	private static final String HOST_ENDPOINT_CFG =
-		"hostEndPoints/hostEndPoint";
 	
 	public void testContructorFromConfig() {
 		Address address;
@@ -69,7 +69,7 @@ public class AddressTest extends TestCase {
 		}
 		generalConfig.setExpressionEngine(new XPathExpressionEngine());
 		
-		String strXPath = HOST_ENDPOINT_CFG 
+		String strXPath = Constants.HOST_ENDPOINT_KEY 
 			+ "[@name='" + endPointName + "']";
 		List  endpoints = generalConfig.configurationsAt(strXPath);
 		if (endpoints == null || endpoints.isEmpty()) {
