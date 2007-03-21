@@ -2,29 +2,13 @@ package com.legstar.messaging;
 
 import org.apache.commons.configuration.HierarchicalConfiguration;
 
+import com.legstar.config.Constants;
+
 
 /**
  * Implements a generic host address including the necessary credentials.
  */
 public class Address {
-	
-	/** Configuration XPath location endpoint. */
-	private static final String ENDPOINT_NAME_CFG = "hostEndPoint";
-	
-	/** Configuration XPath location endpoint name attribute. */
-	private static final String ENDPOINT_NAME_ATTR_CFG = "@name";
-	
-	/** Relative XPath location within enpoint for host character set. */
-	private static final String CHARSET_CFG = "hostCharset";
-	
-	/** Relative XPath location within enpoint for host user ID. */
-	private static final String USERID_CFG = "hostUserID";
-	
-	/** Relative XPath location within enpoint for host password. */
-	private static final String PASSWORD_CFG = "hostPassword";
-
-	/** Relative XPath location within enpoint for host trace mode. */
-	private static final String TRACEMODE_CFG = "hostTraceMode";
 	
 	/** Host User ID. */
 	private String mHostUserID;
@@ -55,11 +39,13 @@ public class Address {
 	 * @param endpointConfig an XML configuration fragment
 	 */
 	public Address(final HierarchicalConfiguration endpointConfig) {
-		mEndPointName = endpointConfig.getString(ENDPOINT_NAME_ATTR_CFG);
-		mHostCharset = endpointConfig.getString(CHARSET_CFG);
-		mHostUserID = endpointConfig.getString(USERID_CFG);
-		mHostPassword = endpointConfig.getString(PASSWORD_CFG);
-		mHostTraceMode = endpointConfig.getBoolean(TRACEMODE_CFG, false);
+		mEndPointName = endpointConfig.getString(
+				Constants.ENDPOINT_NAME_ATTR_KEY);
+		mHostCharset = endpointConfig.getString(Constants.HOST_CHARSET_KEY);
+		mHostUserID = endpointConfig.getString(Constants.HOST_USERID_KEY);
+		mHostPassword = endpointConfig.getString(Constants.HOST_PASSWORD_KEY);
+		mHostTraceMode = endpointConfig.getBoolean(
+				Constants.HOST_TRACEMODE_KEY, false);
 	}
 	
 	/**
@@ -228,10 +214,10 @@ public class Address {
 	 */
 	public final String getReport() {
 		String report = "Address:\n"
-			+ "  " + ENDPOINT_NAME_CFG + "\t : " + mEndPointName + "\n"
-			+ "  " + CHARSET_CFG + "\t : " + mHostCharset + "\n"
-			+ "  " + USERID_CFG + "\t : " + mHostUserID + "\n"
-			+ "  " + TRACEMODE_CFG + "\t : " + mHostTraceMode;
+		+ "  " + Constants.ENDPOINT_NAME_KEY + "\t : " + mEndPointName + "\n"
+		+ "  " + Constants.HOST_CHARSET_KEY + "\t : " + mHostCharset + "\n"
+		+ "  " + Constants.HOST_USERID_KEY + "\t : " + mHostUserID + "\n"
+		+ "  " + Constants.HOST_TRACEMODE_KEY + "\t : " + mHostTraceMode;
 		return report;
 	}
 	
