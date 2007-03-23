@@ -20,11 +20,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>commonj</groupId>
-			<artifactId>commonj-twm</artifactId>
-		</dependency>
-		
-		<dependency>
 		    <groupId>commons-configuration</groupId>
 		    <artifactId>commons-configuration</artifactId>
 		</dependency>

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.commons.configuration.ConfigurationException;
 
+import com.legstar.config.Constants;
 import com.legstar.csok.client.CicsSocket;
 import com.legstar.csok.client.CicsSocketEndpoint;
 import com.legstar.messaging.Address;
@@ -33,12 +34,12 @@ public class VolumeTest extends TestCase {
 		try {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
 			endpoint.setHostTraceMode(false); // dont flood the host
-			CicsSocket cs = new CicsSocket("testSingleIterateSimpleWithWait", endpoint);
+			CicsSocket cs = new CicsSocket("testSingleIterateSimpleWithWait", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, String > map = new HashMap < String, String >();
-			map.put("CICSProgram", "T1SLEEPT");
-			map.put("CICSLength", "39");
-			map.put("CICSDataLength", "8");
+			map.put(Constants.CICS_PROGRAM_KEY, "T1SLEEPT");
+			map.put(Constants.CICS_LENGTH_KEY, "39");
+			map.put(Constants.CICS_DATALEN_KEY, "8");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			MessagePart inCommarea1 = new CommareaPart(Util.toByteArray("f0f0f0f0f0f0f0f3"));
 			inputParts.add(inCommarea1);
@@ -72,12 +73,12 @@ public class VolumeTest extends TestCase {
 		try {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
 			endpoint.setHostTraceMode(false); // dont flood the host
-			CicsSocket cs = new CicsSocket("testSingleIterateSimpleConnectionReused", endpoint);
+			CicsSocket cs = new CicsSocket("testSingleIterateSimpleConnectionReused", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, String > map = new HashMap < String, String >();
-			map.put("CICSProgram", "LSFILEAE");
-			map.put("CICSLength", "79");
-			map.put("CICSDataLength", "6");
+			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+			map.put(Constants.CICS_LENGTH_KEY, "79");
+			map.put(Constants.CICS_DATALEN_KEY, "6");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 			inputParts.add(inCommarea);
@@ -111,11 +112,11 @@ public class VolumeTest extends TestCase {
 		try {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
 			endpoint.setHostTraceMode(false); // dont flood the host
-			CicsSocket cs = new CicsSocket("testSingleIterateSimple", endpoint);
+			CicsSocket cs = new CicsSocket("testSingleIterateSimple", endpoint, 1000, 5000);
 			HashMap < String, String > map = new HashMap < String, String >();
-			map.put("CICSProgram", "LSFILEAE");
-			map.put("CICSLength", "79");
-			map.put("CICSDataLength", "6");
+			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+			map.put(Constants.CICS_LENGTH_KEY, "79");
+			map.put(Constants.CICS_DATALEN_KEY, "6");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 			inputParts.add(inCommarea);
@@ -149,12 +150,12 @@ public class VolumeTest extends TestCase {
 		try {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
 			endpoint.setHostTraceMode(true); // dont flood the host
-			CicsSocket cs = new CicsSocket("testSingleIterateVolume", endpoint);
+			CicsSocket cs = new CicsSocket("testSingleIterateVolume", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, String > map = new HashMap < String, String >();
-			map.put("CICSProgram", "T1VOLUME");
-			map.put("CICSLength", "32767");
-			map.put("CICSDataLength", "32767");
+			map.put(Constants.CICS_PROGRAM_KEY, "T1VOLUME");
+			map.put(Constants.CICS_LENGTH_KEY, "32767");
+			map.put(Constants.CICS_DATALEN_KEY, "32767");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			byte[] content = new byte[32767];
 			byte[] startEC = Util.toByteArray("d7c7d47ec9c7e8c3d9c3e3d36bd9c5c7");

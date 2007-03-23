@@ -14,13 +14,20 @@ import com.legstar.messaging.ConnectionFactory;
 public class CicsSocketConnectionFactory implements ConnectionFactory {
 
 	/** Configuration XPath location for socket connect timeout. */
-	private static final String SOK_CONNECT_TIMEOUT_CFG =
-		"socketConnectTimeout";
+	private static final String CONNECT_TIMEOUT_CFG =
+		"connectTimeout";
 	
 	/** Configuration XPath location for socket receive timeout. */
-	private static final String SOK_RECEIVE_TIMEOUT_CFG =
-		"socketReceiveTimeout";
+	private static final String RECEIVE_TIMEOUT_CFG =
+		"receiveTimeout";
 	
+	/** Time out (in milliseconds) for initial connect. */
+	private static final int DEFAULT_CONNECT_TIMEOUT_MSEC = 1000;
+	
+	/** Time out (in milliseconds) for read operations
+	 *  (waiting for host reply). */
+	private static final int DEFAULT_READ_TIMEOUT_MSEC = 5000;
+
 	/** Configuration for an endpoint.	 */
 	private HierarchicalConfiguration mEndpointConfig;
 	
@@ -44,18 +51,12 @@ public class CicsSocketConnectionFactory implements ConnectionFactory {
 			final Address address) throws ConnectionException {
 		
 		CicsSocket connection = new CicsSocket(
-				connectionID, createEndPoint(address, mEndpointConfig));
+				connectionID, createEndPoint(address, mEndpointConfig),
+				mEndpointConfig.getInt(
+						CONNECT_TIMEOUT_CFG, DEFAULT_CONNECT_TIMEOUT_MSEC),
+				mEndpointConfig.getInt(
+						RECEIVE_TIMEOUT_CFG, DEFAULT_READ_TIMEOUT_MSEC));
 		
-		/* If configuration specifies timeout values, use them for connection
-		 * rather than the default values */
-		long timeout = mEndpointConfig.getLong(SOK_CONNECT_TIMEOUT_CFG, 0L);
-		if (timeout > 0L) {
-			connection.setConnectTimeout(timeout);
-		}
-		timeout = mEndpointConfig.getLong(SOK_RECEIVE_TIMEOUT_CFG, 0L);
-		if (timeout > 0L) {
-			connection.setReceiveTimeout(timeout);
-		}
 		
 		return connection;
 	}

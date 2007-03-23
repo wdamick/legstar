@@ -72,12 +72,12 @@ public class CicsSocketEndpoint {
 	 * @return formatted endpoint report
 	 */
 	public final String getReport() {
-		String report = "CICS Socket endpoint:\n"
-			+ "  " + IP_ADDRESS_CFG + "\t : " + mHostIPAddress + "\n"
-			+ "  " + IP_PORT_CFG + "\t : " + mHostIPPort + "\n"
-			+ "  " + HOST_CHARSET_CFG + "\t : " + mHostCharset + "\n"
-			+ "  " + HOST_USERID_CFG + "\t : " + mHostUserID + "\n"
-			+ "  " + HOST_TRACE_CFG + "\t : " + mHostTraceMode;
+		String report = "CICS Socket endpoint:"
+			+ "  " + IP_ADDRESS_CFG + "=" + mHostIPAddress + ","
+			+ "  " + IP_PORT_CFG + "=" + mHostIPPort + ","
+			+ "  " + HOST_CHARSET_CFG + "=" + mHostCharset + ","
+			+ "  " + HOST_USERID_CFG + "=" + mHostUserID + ","
+			+ "  " + HOST_TRACE_CFG + "=" + mHostTraceMode;
 		return report;
 	}
 	
