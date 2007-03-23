@@ -213,11 +213,11 @@ public class Address {
 	 * @return formatted address report
 	 */
 	public final String getReport() {
-		String report = "Address:\n"
-		+ "  " + Constants.ENDPOINT_NAME_KEY + "\t : " + mEndPointName + "\n"
-		+ "  " + Constants.HOST_CHARSET_KEY + "\t : " + mHostCharset + "\n"
-		+ "  " + Constants.HOST_USERID_KEY + "\t : " + mHostUserID + "\n"
-		+ "  " + Constants.HOST_TRACEMODE_KEY + "\t : " + mHostTraceMode;
+		String report = "Address:"
+		+ "  " + Constants.ENDPOINT_NAME_KEY + "=" + mEndPointName + ","
+		+ "  " + Constants.HOST_CHARSET_KEY + "=" + mHostCharset + ","
+		+ "  " + Constants.HOST_USERID_KEY + "=" + mHostUserID + ","
+		+ "  " + Constants.HOST_TRACEMODE_KEY + "=" + mHostTraceMode;
 		return report;
 	}
 	
