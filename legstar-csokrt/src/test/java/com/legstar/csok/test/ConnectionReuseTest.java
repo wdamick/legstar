@@ -17,6 +17,7 @@ import com.legstar.messaging.Message;
 import com.legstar.messaging.MessagePart;
 import com.legstar.messaging.Request;
 import com.legstar.messaging.RequestException;
+import com.legstar.config.Constants;
 
 import junit.framework.TestCase;
 
@@ -29,7 +30,7 @@ public class ConnectionReuseTest extends TestCase {
 			ConfigurationException,
 			RequestException {
 		CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
-		CicsSocket cicsSocket = new CicsSocket("testReuseConnection", endpoint);
+		CicsSocket cicsSocket = new CicsSocket("testReuseConnection", endpoint, 1000, 5000);
 		
 		/* Initial connect */
 		cicsSocket.connect(null);
@@ -42,9 +43,9 @@ public class ConnectionReuseTest extends TestCase {
 		
 		/* Check if connection is usable */
 		HashMap < String, String > map = new HashMap < String, String >();
-		map.put("CICSProgram", "LSFILEAE");
-		map.put("CICSLength", "79");
-		map.put("CICSDataLength", "6");
+		map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+		map.put(Constants.CICS_LENGTH_KEY, "79");
+		map.put(Constants.CICS_DATALEN_KEY, "6");
 		List <MessagePart> inputParts = new ArrayList <MessagePart>();
 		MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 		inputParts.add(inCommarea);

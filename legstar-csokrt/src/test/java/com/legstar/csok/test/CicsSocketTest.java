@@ -18,6 +18,7 @@ import com.legstar.messaging.Message;
 import com.legstar.messaging.MessagePart;
 import com.legstar.messaging.Request;
 import com.legstar.messaging.RequestException;
+import com.legstar.config.Constants;
 
 import junit.framework.TestCase;
 
@@ -59,7 +60,7 @@ public class CicsSocketTest extends TestCase {
 		try {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
 			endpoint.setHostUserID("TARBOUCH");
-			CicsSocket cs = new CicsSocket("testSecurityViolation", endpoint);
+			CicsSocket cs = new CicsSocket("testSecurityViolation", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			fail("testSecurityViolation failed");
 		} catch (ConnectionException e) {
@@ -73,7 +74,7 @@ public class CicsSocketTest extends TestCase {
 	public void testClosePremature() {
 		try {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
-			CicsSocket cs = new CicsSocket("testClosePremature", endpoint);
+			CicsSocket cs = new CicsSocket("testClosePremature", endpoint, 1000, 5000);
 			cs.close();
 		} catch (RequestException e) {
 			fail("testClosePremature failed=" + e);
@@ -86,7 +87,7 @@ public class CicsSocketTest extends TestCase {
 	public void testConnectAndClose() {
 		try {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
-			CicsSocket cs = new CicsSocket("testConnectAndClose", endpoint);
+			CicsSocket cs = new CicsSocket("testConnectAndClose", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			cs.close();
 		} catch (ConnectionException e) {
@@ -103,11 +104,11 @@ public class CicsSocketTest extends TestCase {
 	public void testConnectSendPart() throws UnsupportedEncodingException {
 		try {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
-			CicsSocket cs = new CicsSocket("testConnectSendPart", endpoint);
+			CicsSocket cs = new CicsSocket("testConnectSendPart", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, String > map = new HashMap < String, String >();
-			map.put("CICSLength", "79");
-			map.put("CICSDataLength", "6");
+			map.put(Constants.CICS_LENGTH_KEY, "79");
+			map.put(Constants.CICS_DATALEN_KEY, "6");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			MessagePart inCommarea = new CommareaPart(null);
 			inputParts.add(inCommarea);
@@ -131,11 +132,11 @@ public class CicsSocketTest extends TestCase {
 	public void testConnectSend2Parts() throws UnsupportedEncodingException {
 		try {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
-			CicsSocket cs = new CicsSocket("testConnectSendPart", endpoint);
+			CicsSocket cs = new CicsSocket("testConnectSendPart", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, String > map = new HashMap < String, String >();
-			map.put("CICSLength", "79");
-			map.put("CICSDataLength", "6");
+			map.put(Constants.CICS_LENGTH_KEY, "79");
+			map.put(Constants.CICS_DATALEN_KEY, "6");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			MessagePart inCommarea = new CommareaPart(Util.toByteArray("F3F4F5"));
 			inputParts.add(inCommarea);
@@ -161,11 +162,11 @@ public class CicsSocketTest extends TestCase {
 	public void testSendTooManyParts() throws UnsupportedEncodingException {
 		try {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
-			CicsSocket cs = new CicsSocket("testSendTooManyParts", endpoint);
+			CicsSocket cs = new CicsSocket("testSendTooManyParts", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, String > map = new HashMap < String, String >();
-			map.put("CICSLength", "79");
-			map.put("CICSDataLength", "6");
+			map.put(Constants.CICS_LENGTH_KEY, "79");
+			map.put(Constants.CICS_DATALEN_KEY, "6");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			for (int i = 0; i < 11; i++) {
 				MessagePart inCommarea = new CommareaPart(null);
@@ -193,14 +194,14 @@ public class CicsSocketTest extends TestCase {
 	public void testMissingProgramName() throws UnsupportedEncodingException {
 		try {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
-			CicsSocket cs = new CicsSocket("testMissingProgramName", endpoint);
+			CicsSocket cs = new CicsSocket("testMissingProgramName", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, String > map = new HashMap < String, String >();
-			map.put("CICSLength", "79");
-			map.put("CICSDataLength", "6");
-			map.put("CICSSysID", "CICZ");
-			map.put("CICSSyncOnReturn", "1");
-			map.put("CICSTransID", "MIRO");
+			map.put(Constants.CICS_LENGTH_KEY, "79");
+			map.put(Constants.CICS_DATALEN_KEY, "6");
+			map.put(Constants.CICS_SYSID_KEY, "CICZ");
+			map.put(Constants.CICS_SYNCONRET_KEY, "1");
+			map.put(Constants.CICS_TRANSID_KEY, "MIRO");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			MessagePart inCommarea = new CommareaPart(null);
 			inputParts.add(inCommarea);
@@ -226,15 +227,15 @@ public class CicsSocketTest extends TestCase {
 	public void testMissingCommareapart() throws UnsupportedEncodingException {
 		try {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
-			CicsSocket cs = new CicsSocket("testMissingCommareapart", endpoint);
+			CicsSocket cs = new CicsSocket("testMissingCommareapart", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, String > map = new HashMap < String, String >();
-			map.put("CICSProgram", "LSFILEAE");
-			map.put("CICSLength", "79");
-			map.put("CICSDataLength", "6");
-			map.put("CICSSysID", "CICZ");
-			map.put("CICSSyncOnReturn", "1");
-			map.put("CICSTransID", "MIRO");
+			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+			map.put(Constants.CICS_LENGTH_KEY, "79");
+			map.put(Constants.CICS_DATALEN_KEY, "6");
+			map.put(Constants.CICS_SYSID_KEY, "CICZ");
+			map.put(Constants.CICS_SYNCONRET_KEY, "1");
+			map.put(Constants.CICS_TRANSID_KEY, "MIRO");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			HeaderPart dp = new HeaderPart(map, inputParts.size(), "IBM01140");
 			Address address = new Address("TheMainframe");
@@ -258,15 +259,15 @@ public class CicsSocketTest extends TestCase {
 	public void testTooManyCommareaparts() throws UnsupportedEncodingException {
 		try {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
-			CicsSocket cs = new CicsSocket("testTooManyCommareaparts", endpoint);
+			CicsSocket cs = new CicsSocket("testTooManyCommareaparts", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, String > map = new HashMap < String, String >();
-			map.put("CICSProgram", "LSFILEAE");
-			map.put("CICSLength", "79");
-			map.put("CICSDataLength", "6");
-			map.put("CICSSysID", "CICZ");
-			map.put("CICSSyncOnReturn", "1");
-			map.put("CICSTransID", "MIRO");
+			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+			map.put(Constants.CICS_LENGTH_KEY, "79");
+			map.put(Constants.CICS_DATALEN_KEY, "6");
+			map.put(Constants.CICS_SYSID_KEY, "CICZ");
+			map.put(Constants.CICS_SYNCONRET_KEY, "1");
+			map.put(Constants.CICS_TRANSID_KEY, "MIRO");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			MessagePart inCommarea1 = new CommareaPart(null);
 			inputParts.add(inCommarea1);
@@ -294,15 +295,15 @@ public class CicsSocketTest extends TestCase {
 	public void testDataLengthGtLength() throws UnsupportedEncodingException {
 		try {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
-			CicsSocket cs = new CicsSocket("testDataLengthGtLength", endpoint);
+			CicsSocket cs = new CicsSocket("testDataLengthGtLength", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, String > map = new HashMap < String, String >();
-			map.put("CICSProgram", "LSFILEAE");
-			map.put("CICSLength", "6");
-			map.put("CICSDataLength", "79");
-			map.put("CICSSysID", "CICZ");
-			map.put("CICSSyncOnReturn", "1");
-			map.put("CICSTransID", "MIRO");
+			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+			map.put(Constants.CICS_LENGTH_KEY, "6");
+			map.put(Constants.CICS_DATALEN_KEY, "79");
+			map.put(Constants.CICS_SYSID_KEY, "CICZ");
+			map.put(Constants.CICS_SYNCONRET_KEY, "1");
+			map.put(Constants.CICS_TRANSID_KEY, "MIRO");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			MessagePart inCommarea1 = new CommareaPart(null);
 			inputParts.add(inCommarea1);
@@ -328,15 +329,15 @@ public class CicsSocketTest extends TestCase {
 	public void testSendHeaderCommarea() throws UnsupportedEncodingException {
 		try {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
-			CicsSocket cs = new CicsSocket("testSendHeaderCommarea", endpoint);
+			CicsSocket cs = new CicsSocket("testSendHeaderCommarea", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, String > map = new HashMap < String, String >();
-			map.put("CICSProgram", "LSFILEAE");
-			map.put("CICSLength", "79");
-			map.put("CICSDataLength", "6");
-			map.put("CICSSysID", "CICS");
-			map.put("CICSSyncOnReturn", "1");
-			map.put("CICSTransID", "CSMI");
+			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+			map.put(Constants.CICS_LENGTH_KEY, "79");
+			map.put(Constants.CICS_DATALEN_KEY, "6");
+			map.put(Constants.CICS_SYSID_KEY, "CICS");
+			map.put(Constants.CICS_SYNCONRET_KEY, "1");
+			map.put(Constants.CICS_TRANSID_KEY, "CSMI");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 			inputParts.add(inCommarea);
@@ -364,12 +365,12 @@ public class CicsSocketTest extends TestCase {
 	public void testNoReallocateContent() throws UnsupportedEncodingException {
 		try {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
-			CicsSocket cs = new CicsSocket("testNoReallocateContent", endpoint);
+			CicsSocket cs = new CicsSocket("testNoReallocateContent", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, String > map = new HashMap < String, String >();
-			map.put("CICSProgram", "LSFILEAE");
-			map.put("CICSLength", "79");
-			map.put("CICSDataLength", "3");
+			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+			map.put(Constants.CICS_LENGTH_KEY, "79");
+			map.put(Constants.CICS_DATALEN_KEY, "3");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			MessagePart inCommarea1 = new CommareaPart(Util.toByteArray("f0f0f0f1f0f0e24b40c44b40c2d6d9d4c1d54040404040404040e2e4d9d9c5e86b40c5d5c7d3c1d5c44040404040f3f2f1f5f6f7f7f8f2f640f1f140f8f15bf0f1f0f04bf1f15c5c5c5c5c5c5c5c5c"));
 			inputParts.add(inCommarea1);
@@ -397,12 +398,12 @@ public class CicsSocketTest extends TestCase {
 	public void DoesNotWorktestAsraAbend() throws UnsupportedEncodingException {
 		try {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
-			CicsSocket cs = new CicsSocket("testAsraAbend", endpoint);
+			CicsSocket cs = new CicsSocket("testAsraAbend", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, String > map = new HashMap < String, String >();
-			map.put("CICSProgram", "T1ABEND");
-			map.put("CICSLength", "4");
-			map.put("CICSDataLength", "4");
+			map.put(Constants.CICS_PROGRAM_KEY, "T1ABEND");
+			map.put(Constants.CICS_LENGTH_KEY, "4");
+			map.put(Constants.CICS_DATALEN_KEY, "4");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			MessagePart inCommarea = new CommareaPart(Util.toByteArray("C1E2D9C1"));
 			inputParts.add(inCommarea);

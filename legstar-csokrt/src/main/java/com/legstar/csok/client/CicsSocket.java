@@ -32,13 +32,6 @@ import com.legstar.messaging.RequestException;
  */
 public class CicsSocket implements Connection {
 	
-	/** Time out (in milliseconds) for initial connect. */
-	private static final int DEFAULT_CONNECT_TIMEOUT_MSEC = 1000;
-	
-	/** Time out (in milliseconds) for read operations
-	 *  (waiting for host reply). */
-	private static final int DEFAULT_READ_TIMEOUT_MSEC = 5000;
-
 	/** Length of the Transaction Initial Message expected by the IBM CICS
 	 *  Socket listener. */
 	private static final int CIM_LEN = 35;
@@ -142,15 +135,20 @@ public class CicsSocket implements Connection {
 	 * 
 	 * @param connectionID an identifier for this connection
 	 * @param cicsSocketEndpoint CICS Socket endpoint
+	 * @param connectionTimeout Maximum time (milliseconds) to wait for
+	 *  connection
+	 * @param receiveTimeout Maximum time (milliseconds) to wait for host reply
 	 */
 	public CicsSocket(
 			final String connectionID,
-			final CicsSocketEndpoint cicsSocketEndpoint) {
+			final CicsSocketEndpoint cicsSocketEndpoint,
+			final int connectionTimeout,
+			final int receiveTimeout) {
 		mConnectionID = connectionID;
+		mConnectTimeout = connectionTimeout;
+		mReceiveTimeout = receiveTimeout;
 		mCicsSocketEndpoint = cicsSocketEndpoint;
 		mHostCharset = cicsSocketEndpoint.getHostCharset();
-		mConnectTimeout = DEFAULT_CONNECT_TIMEOUT_MSEC;
-		mReceiveTimeout = DEFAULT_READ_TIMEOUT_MSEC;
 	}
 	
 	/**
@@ -370,7 +368,7 @@ public class CicsSocket implements Connection {
 	 * for the request.
 	 * 
 	 * @param request the request being serviced
-	 * @throws RequestException if send fails
+	 * @throws RequestException if receive fails
 	 */
 	public final void recvResponse(
 			final Request request) throws RequestException {
