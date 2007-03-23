@@ -64,13 +64,14 @@
     </plugins>
   </build>
   
+  <!-- 
   <modules>
     <module>../legstar-messaging</module>
     <module>../legstar-csokrt</module>
+    <module>../legstar-chttprt</module>
     <module>../legstar-engine</module>
     <module>../legstar-invoker</module>
   </modules>
-  <!-- 
   <modules>
     <module>legstar-schemagen</module>
     <module>legstar-coxbgen</module>
@@ -311,26 +312,31 @@
       </dependency>
 
       <!-- LegStar dependencies section -->    
-	    <dependency>
-	      <groupId>com.legsem.legstar</groupId>
-	      <artifactId>legstar-messaging</artifactId>
-	      <version>0.1-SNAPSHOT</version>
-	    </dependency>
-	    <dependency>
-	      <groupId>com.legsem.legstar</groupId>
-	      <artifactId>legstar-csokrt</artifactId>
-	      <version>0.1-SNAPSHOT</version>
-	    </dependency>
-	    <dependency>
-	      <groupId>com.legsem.legstar</groupId>
-	      <artifactId>legstar-engine</artifactId>
-	      <version>0.1-SNAPSHOT</version>
-	    </dependency>
-	    <dependency>
-	      <groupId>com.legsem.legstar</groupId>
-	      <artifactId>legstar-invoker</artifactId>
-	      <version>0.1-SNAPSHOT</version>
-	    </dependency>
+		<dependency>
+		  <groupId>com.legsem.legstar</groupId>
+		  <artifactId>legstar-messaging</artifactId>
+		  <version>0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.legsem.legstar</groupId>
+		  <artifactId>legstar-csokrt</artifactId>
+		  <version>0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.legsem.legstar</groupId>
+		  <artifactId>legstar-chttprt</artifactId>
+		  <version>0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.legsem.legstar</groupId>
+		  <artifactId>legstar-engine</artifactId>
+		  <version>0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.legsem.legstar</groupId>
+		  <artifactId>legstar-invoker</artifactId>
+		  <version>0.1-SNAPSHOT</version>
+		</dependency>
 
 
 	    <dependency>
