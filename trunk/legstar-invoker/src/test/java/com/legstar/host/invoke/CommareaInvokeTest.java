@@ -219,4 +219,46 @@ public class CommareaInvokeTest extends TestCase {
 			fail("testEmptyAddress failed " + e);
 		}
 	}
+	public void testValidInvokeCommareaOverHttp() {
+		try {
+			Address address = new Address("TheMainframe");
+			address.setHostUserID(HOST_USERID);
+			address.setHostPassword(HOST_PASSWORD);
+			CommareaInvoke invoker = new CommareaInvoke("config4.xml", address, "lsfileae.properties");
+		    /* The JAXB input factory. */
+		    com.legstar.test.lsfileae.ObjectFactory jaxbInFactory =
+		          new com.legstar.test.lsfileae.ObjectFactory(); 
+		    
+		    /* The JAXB output factory. */
+		    com.legstar.test.lsfileae.ObjectFactory jaxbOutFactory =
+		          new com.legstar.test.lsfileae.ObjectFactory(); 
+		    
+		    /* The request java object tree */
+		    DfhcommareaType request	= jaxbInFactory.createDfhcommareaType();
+		    request.setComNumber(100L);
+		    
+		    /* Decorate object tree for static binding */
+		    DfhcommareaTypeBinding ccbin = new DfhcommareaTypeBinding(
+		    		jaxbInFactory, request);
+		    
+		    /* Prepare output object */
+		    DfhcommareaTypeBinding ccbout =
+		          new DfhcommareaTypeBinding(jaxbOutFactory);
+		    
+		    /* call */
+		    invoker.invoke("MyNewRequest", ccbin, ccbout);
+		    
+		    /* Check */
+		    assertEquals(100, ccbout.getJaxbObject().getComNumber());
+		    assertEquals("$0100.11", ccbout.getJaxbObject().getComAmount());
+		    assertEquals("*********", ccbout.getJaxbObject().getComComment());
+		    assertEquals("26 11 81", ccbout.getJaxbObject().getComDate());
+		    assertEquals("SURREY, ENGLAND     ", ccbout.getJaxbObject().getComPersonal().getComAddress());
+		    assertEquals("S. D. BORMAN        ", ccbout.getJaxbObject().getComPersonal().getComName());
+		    assertEquals("32156778", ccbout.getJaxbObject().getComPersonal().getComPhone());
+		} catch (HostInvokeException e) {
+			fail("testValidInvoke failed " + e);
+		}
+	}
+	
 }
