@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HostConfiguration;
+import org.apache.commons.httpclient.params.HttpConnectionParams;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpState;
@@ -18,6 +19,7 @@ import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.ByteArrayRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -119,11 +121,6 @@ public class CicsHttp implements Connection  {
 		/* Create a state using the passed credentials */
 		mHttpState = createHttpState(cicsPassword);
 		
-		/* Tell the connection manager how long we are prepared to wait
-		 * for a connection. */
-		mHttpClient.getHttpConnectionManager().getParams().
-			setConnectionTimeout(mConnectTimeout);
-		
 		/* There must be a new post method on each request*/
 		mPostMethod = null;
 
@@ -168,8 +165,6 @@ public class CicsHttp implements Connection  {
 			throw new RequestException(
 					"No prior connect. Missing host credentials.");
 		}
-		mHttpClient.getParams().setSoTimeout(mReceiveTimeout);
-		
 		try {
 			mPostMethod = createPostMethod(request);
 			/* Status code is not processed here because we need to
@@ -257,21 +252,35 @@ public class CicsHttp implements Connection  {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("enter createHttpClient()");
 		}
-		HttpClient httpClient = new HttpClient();
+		HttpClientParams params = new HttpClientParams();
 		
 		/* Consider that if server is failing to respond, we should never retry.
 		 * A system such as CICS should always be responsive unless something
 		 * bad is happening in which case, retry makes things worse. */
 		DefaultHttpMethodRetryHandler retryhandler =
 			new DefaultHttpMethodRetryHandler(0, false);
-		httpClient.getParams().setParameter(
+		params.setParameter(
 				HttpMethodParams.RETRY_HANDLER, retryhandler);
 		
 		/* Preemptive authentication forces the first HTTP payload to hold
 		 * credentials. This bypasses the inefficient default mechanism that
 		 * expects a 401 reply on the first request and then re-issues the same
 		 * request again with credentials.*/
-		httpClient.getParams().setAuthenticationPreemptive(true);
+		params.setAuthenticationPreemptive(true);
+		
+		/* Set the receive time out. */
+		params.setSoTimeout(mReceiveTimeout);
+		
+		/* Tell the connection manager how long we are prepared to wait
+		 * for a connection. */
+		params.setIntParameter(
+				HttpConnectionParams.CONNECTION_TIMEOUT, mConnectTimeout);
+		
+		/** TODO does not seem to work */
+		params.setBooleanParameter(
+				HttpConnectionParams.TCP_NODELAY, true);
+		
+		HttpClient httpClient = new HttpClient(params);
 		
 		return httpClient;
 	}
@@ -409,8 +418,9 @@ public class CicsHttp implements Connection  {
 		 * HTTP transport. So we fake one. */
 		HeaderPart headerPart = new HeaderPart();
 		
+		long responseContentLength = mPostMethod.getResponseContentLength();
 		/* Nothing in the HTTP payload */
-		if (mPostMethod.getResponseContentLength() == 0) {
+		if (responseContentLength < 1) {
 			return new Message(headerPart, dataParts);
 		}
 		
@@ -419,21 +429,26 @@ public class CicsHttp implements Connection  {
 		 * future, the server will be sending back a multi-part mime
 		 * message. */
 		CommareaPart commarea = new CommareaPart(
-				getHttpResponseContent(respStream));
+				getHttpResponseContent(respStream, responseContentLength));
 		dataParts.add(commarea);
 		headerPart.setDataPartsNumber(1);
 		
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("response message received");
+		}
 		return new Message(headerPart, dataParts);
 	}
 	
 	/**
 	 * Creates a byte buffer holding the entire HTTP post reply content.
 	 * @param respStream the HTTP response data
+	 * @param responseContentLength the response data length
 	 * @return a byte buffer
 	 * @throws RequestException if fail to receive response
 	 */
 	private byte[] getHttpResponseContent(
-			final InputStream respStream) throws RequestException {
+			final InputStream respStream,
+			final long responseContentLength) throws RequestException {
 		
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("enter getHttpResponseContent(respStream)"
@@ -441,7 +456,7 @@ public class CicsHttp implements Connection  {
 		}
 		
 		/* Sanity check the reply content length. */
-		if (mPostMethod.getResponseContentLength() > Integer.MAX_VALUE) {
+		if (responseContentLength > Integer.MAX_VALUE) {
 			throw (new RequestException("Response is larger than "
 					+ Integer.MAX_VALUE));
 		}
@@ -451,9 +466,19 @@ public class CicsHttp implements Connection  {
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			byte[] buffer = new byte[4096];
-			int len = 0;
-			while ((len = respStream.read(buffer)) >= 0) {
-				baos.write(buffer, 0, len);
+			int totLen = 0;
+			int lastLen = 0;
+			while (totLen < responseContentLength && lastLen != -1) {
+				lastLen = respStream.read(buffer);
+				if (lastLen > 0) {
+					baos.write(buffer, 0, lastLen);
+					totLen += lastLen;
+				}
+			}
+			if (totLen != responseContentLength) {
+				throw new RequestException("Received " + totLen
+						+ " bytes instead of the expected "
+						+ responseContentLength + " bytes.");
 			}
 			return baos.toByteArray();
 		} catch (IOException e) {
@@ -539,6 +564,8 @@ public class CicsHttp implements Connection  {
 	 */
 	public final void setConnectTimeout(final long timeout) {
 		mConnectTimeout = new Long(timeout).intValue();
+		mHttpClient.getParams().setIntParameter(
+				HttpConnectionParams.CONNECTION_TIMEOUT, mConnectTimeout);
 	}
 
 	/** (non-Javadoc).
@@ -555,6 +582,8 @@ public class CicsHttp implements Connection  {
 	 */
 	public final void setReceiveTimeout(final long timeout) {
 		mReceiveTimeout = new Long(timeout).intValue();
+		/* Set the receive time out. */
+		mHttpClient.getParams().setSoTimeout(mReceiveTimeout);
 	}
 
 	/**
