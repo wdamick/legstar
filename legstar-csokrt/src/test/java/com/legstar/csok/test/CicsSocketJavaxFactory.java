@@ -13,6 +13,7 @@ import javax.net.SocketFactory;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
+/** Low level tests to investigate delayed ack issue with TS 3.1. */
 public class CicsSocketJavaxFactory extends TestCase {
 	
 	private static final String HOST = "192.168.0.110";
