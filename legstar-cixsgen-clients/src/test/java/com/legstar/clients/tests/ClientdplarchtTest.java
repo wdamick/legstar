@@ -55,11 +55,12 @@ public class ClientdplarchtTest extends TestCase {
 		DfhcommareaType dfhcommareaResp = resp.getResponse();
 		
 		assertEquals(0,dfhcommareaResp.getLsReply().getLsReplyType());
-		assertEquals(4,dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsCount());
+		assertEquals(5,dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsCount());
 		assertEquals("CICSTS23.CICS.DFHCSD", dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsFilesData().getLsFileDsname().trim());
 		assertEquals("", dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsArray().get(1).getLsFilesData().getLsFileDsname().trim());
 		assertEquals("CICSTS23.CICS.DFHLRQ", dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsArray().get(2).getLsFilesData().getLsFileDsname().trim());
-		assertEquals("CICSTS23.CICS.FILEA", dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsArray().get(3).getLsFilesData().getLsFileDsname().trim());
+		assertEquals("CICSTS23.TCPIP.EZACONFG", dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsArray().get(3).getLsFilesData().getLsFileDsname().trim());
+		assertEquals("CICSTS23.CICS.FILEA", dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsArray().get(4).getLsFilesData().getLsFileDsname().trim());
 	}
 
 	public void testPrograms() throws DplarchtFault, MalformedURLException{

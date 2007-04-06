@@ -1,24 +1,3 @@
-/*******************************************************************************
- * LegStar legacy Web-enablement .
- * Copyright (C)  2007 LegSem
- * 
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- * 02110-1301  USA
- * 
- *     
- *****************************************************************************/
 
 package com.legstar.test.coxb.lsfileal;
 
@@ -51,27 +30,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ReplyPersonalType }
-     * 
-     */
-    public ReplyPersonalType createReplyPersonalType() {
-        return new ReplyPersonalType();
-    }
-
-    /**
      * Create an instance of {@link Filler65Type }
      * 
      */
     public Filler65Type createFiller65Type() {
         return new Filler65Type();
-    }
-
-    /**
-     * Create an instance of {@link ReplyItemType }
-     * 
-     */
-    public ReplyItemType createReplyItemType() {
-        return new ReplyItemType();
     }
 
     /**
@@ -83,19 +46,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ReplySuccessHeaderType }
+     * Create an instance of {@link ReplyPersonalType }
      * 
      */
-    public ReplySuccessHeaderType createReplySuccessHeaderType() {
-        return new ReplySuccessHeaderType();
-    }
-
-    /**
-     * Create an instance of {@link RequestParmsType }
-     * 
-     */
-    public RequestParmsType createRequestParmsType() {
-        return new RequestParmsType();
+    public ReplyPersonalType createReplyPersonalType() {
+        return new ReplyPersonalType();
     }
 
     /**
@@ -104,6 +59,30 @@ public class ObjectFactory {
      */
     public ReplyDataType createReplyDataType() {
         return new ReplyDataType();
+    }
+
+    /**
+     * Create an instance of {@link ReplySuccessHeaderType }
+     * 
+     */
+    public ReplySuccessHeaderType createReplySuccessHeaderType() {
+        return new ReplySuccessHeaderType();
+    }
+
+    /**
+     * Create an instance of {@link ReplyItemType }
+     * 
+     */
+    public ReplyItemType createReplyItemType() {
+        return new ReplyItemType();
+    }
+
+    /**
+     * Create an instance of {@link RequestParmsType }
+     * 
+     */
+    public RequestParmsType createRequestParmsType() {
+        return new RequestParmsType();
     }
 
 }

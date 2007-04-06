@@ -1,30 +1,8 @@
-/*******************************************************************************
- * LegStar legacy Web-enablement .
- * Copyright (C)  2007 LegSem
- * 
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- * 02110-1301  USA
- * 
- *     
- *****************************************************************************/
 
 package com.legstar.test.cixs.binpkdus;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -38,11 +16,12 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="hostUser" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="hostPassword" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="hostIPAddress" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="hostIPPort" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="hostCICWPath" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="hostUserID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="hostPassword" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="hostEndPoint" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="hostCharset" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="hostTraceMode" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
+ *         &lt;element name="hostRequestID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -53,46 +32,44 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "BinpkdusHostHeader", propOrder = {
-    "hostUser",
+    "hostUserID",
     "hostPassword",
-    "hostIPAddress",
-    "hostIPPort",
-    "hostCICWPath"
+    "hostEndPoint",
+    "hostCharset",
+    "hostTraceMode",
+    "hostRequestID"
 })
 public class BinpkdusHostHeader {
 
-    @XmlElement(required = true)
-    protected String hostUser;
-    @XmlElement(required = true)
+    protected String hostUserID;
     protected String hostPassword;
-    @XmlElement(required = true)
-    protected String hostIPAddress;
-    protected int hostIPPort;
-    @XmlElement(required = true)
-    protected String hostCICWPath;
+    protected String hostEndPoint;
+    protected String hostCharset;
+    protected boolean hostTraceMode;
+    protected String hostRequestID;
 
     /**
-     * Gets the value of the hostUser property.
+     * Gets the value of the hostUserID property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getHostUser() {
-        return hostUser;
+    public String getHostUserID() {
+        return hostUserID;
     }
 
     /**
-     * Sets the value of the hostUser property.
+     * Sets the value of the hostUserID property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setHostUser(String value) {
-        this.hostUser = value;
+    public void setHostUserID(String value) {
+        this.hostUserID = value;
     }
 
     /**
@@ -120,67 +97,91 @@ public class BinpkdusHostHeader {
     }
 
     /**
-     * Gets the value of the hostIPAddress property.
+     * Gets the value of the hostEndPoint property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getHostIPAddress() {
-        return hostIPAddress;
+    public String getHostEndPoint() {
+        return hostEndPoint;
     }
 
     /**
-     * Sets the value of the hostIPAddress property.
+     * Sets the value of the hostEndPoint property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setHostIPAddress(String value) {
-        this.hostIPAddress = value;
+    public void setHostEndPoint(String value) {
+        this.hostEndPoint = value;
     }
 
     /**
-     * Gets the value of the hostIPPort property.
-     * 
-     */
-    public int getHostIPPort() {
-        return hostIPPort;
-    }
-
-    /**
-     * Sets the value of the hostIPPort property.
-     * 
-     */
-    public void setHostIPPort(int value) {
-        this.hostIPPort = value;
-    }
-
-    /**
-     * Gets the value of the hostCICWPath property.
+     * Gets the value of the hostCharset property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getHostCICWPath() {
-        return hostCICWPath;
+    public String getHostCharset() {
+        return hostCharset;
     }
 
     /**
-     * Sets the value of the hostCICWPath property.
+     * Sets the value of the hostCharset property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setHostCICWPath(String value) {
-        this.hostCICWPath = value;
+    public void setHostCharset(String value) {
+        this.hostCharset = value;
+    }
+
+    /**
+     * Gets the value of the hostTraceMode property.
+     * 
+     */
+    public boolean isHostTraceMode() {
+        return hostTraceMode;
+    }
+
+    /**
+     * Sets the value of the hostTraceMode property.
+     * 
+     */
+    public void setHostTraceMode(boolean value) {
+        this.hostTraceMode = value;
+    }
+
+    /**
+     * Gets the value of the hostRequestID property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getHostRequestID() {
+        return hostRequestID;
+    }
+
+    /**
+     * Sets the value of the hostRequestID property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setHostRequestID(String value) {
+        this.hostRequestID = value;
     }
 
 }

@@ -79,7 +79,7 @@ public class ClientlsfileaeTest extends TestCase {
 		requestContext.put(BindingProvider.PASSWORD_PROPERTY, "tomcat");
 		
 		LsfileaeHostHeader reqHead = wsOF.createLsfileaeHostHeader();
-		reqHead.setHostUser("P390");
+		reqHead.setHostUserID("P390");
 		reqHead.setHostPassword("STREAM2");
 		
 		LsfileaeRequest req = wsOF.createLsfileaeRequest();
@@ -116,10 +116,9 @@ public class ClientlsfileaeTest extends TestCase {
 		requestContext.put(BindingProvider.PASSWORD_PROPERTY, "tomcat");
 		
 		LsfileaeHostHeader reqHead = wsOF.createLsfileaeHostHeader();
-		reqHead.setHostUser("TOZ");
+		reqHead.setHostUserID("TOZ");
 		reqHead.setHostPassword("STREAM2");
-		reqHead.setHostIPAddress("192.168.0.110");
-		reqHead.setHostIPPort(3080);
+		reqHead.setHostEndPoint("TheMainframeDirectHttp");
 			
 		LsfileaeRequest req = wsOF.createLsfileaeRequest();
 		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
@@ -131,7 +130,7 @@ public class ClientlsfileaeTest extends TestCase {
 			port.lsfileae(req, reqHead);
 			fail("False header test failed");
 		} catch (LsfileaeFault e) {
-			assertEquals("Failed to invoke host program: Basic Authentication Error ",e.getMessage().substring(0, 58));
+			assertTrue(e.getMessage().contains("Basic Authentication Error"));
 		}
 	}
 
@@ -151,11 +150,9 @@ public class ClientlsfileaeTest extends TestCase {
 		requestContext.put(BindingProvider.PASSWORD_PROPERTY, "tomcat");
 		
 		LsfileaeHostHeader reqHead = wsOF.createLsfileaeHostHeader();
-		reqHead.setHostUser("P390");
+		reqHead.setHostUserID("P390");
 		reqHead.setHostPassword("STREAM2");
-		reqHead.setHostIPPort(6578);
-		reqHead.setHostIPAddress("192.168.0.110");
-		reqHead.setHostCICWPath("/CICS/CWBA/LSWEBBIN");
+		reqHead.setHostEndPoint("nonExistantMainframe");
 		
 		LsfileaeRequest req = wsOF.createLsfileaeRequest();
 		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
@@ -167,7 +164,7 @@ public class ClientlsfileaeTest extends TestCase {
 			port.lsfileae(req, reqHead);
 			fail("False header test failed");
 		} catch (LsfileaeFault e) {
-			assertEquals("Failed to invoke host program: IOException Connection refused: connect",e.getMessage());
+			assertEquals("Failed to invoke host program: org.apache.commons.configuration.ConfigurationException: The requested endpoint:nonExistantMainframe is not defined.",e.getMessage());
 		}
 		
 	}
@@ -188,11 +185,9 @@ public class ClientlsfileaeTest extends TestCase {
 		requestContext.put(BindingProvider.PASSWORD_PROPERTY, "tomcat");
 		
 		LsfileaeHostHeader reqHead = wsOF.createLsfileaeHostHeader();
-		reqHead.setHostUser("P390");
+		reqHead.setHostUserID("P390");
 		reqHead.setHostPassword("STREAM2");
-		reqHead.setHostIPPort(3080);
-		reqHead.setHostIPAddress("192.168.0.110");
-		reqHead.setHostCICWPath("/CICS/CWBA/LSWEBBIN");
+		reqHead.setHostEndPoint("TheMainframeDirectHttp");
 		
 		LsfileaeRequest req = wsOF.createLsfileaeRequest();
 		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
