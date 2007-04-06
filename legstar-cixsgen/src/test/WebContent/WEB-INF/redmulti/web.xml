@@ -19,4 +19,9 @@
    <session-config>
       <session-timeout>60</session-timeout>
    </session-config>
+   <env-entry>
+      <env-entry-name>legstar/configFileName</env-entry-name>
+      <env-entry-value>config.xml</env-entry-value>
+      <env-entry-type>java.lang.String</env-entry-type>
+   </env-entry>
 </web-app>

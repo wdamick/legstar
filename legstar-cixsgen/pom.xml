@@ -4,11 +4,11 @@
     <parent>
       <groupId>com.legsem.legstar</groupId>
       <artifactId>Legstar</artifactId>
-      <version>0.0.1</version>
+	  <version>0.1-SNAPSHOT</version>
     </parent>
 	<artifactId>legstar-cixsgen</artifactId>
 	<name>CIXS Generator</name>
-	<version>0.0.1</version>
+	<version>0.1-SNAPSHOT</version>
 	<description>Generates JAXWS endpoints where operations map to CICS program execution.</description>
     <url>http://www.legsem.com/legstar/cixsgen/</url>
 
@@ -26,14 +26,21 @@
 
 		<dependency>
 		  <groupId>com.legsem.legstar</groupId>
-		  <artifactId>legstar-cixsrt</artifactId>
+		  <artifactId>legstar-common</artifactId>
 		</dependency>
 
 		<dependency>
 		  <groupId>com.legsem.legstar</groupId>
-		  <artifactId>legstar-common</artifactId>
+		  <artifactId>legstar-invoker</artifactId>
+          <scope>test</scope>
 		</dependency>
 
+		<dependency>
+		  <groupId>com.legsem.legstar</groupId>
+		  <artifactId>legstar-csokrt</artifactId>
+          <scope>test</scope>
+		</dependency>
+		
 		<dependency>
 		  <groupId>com.legsem.legstar</groupId>
 		  <artifactId>legstar-testcases</artifactId>
