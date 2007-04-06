@@ -38,13 +38,12 @@
 </xsl:variable>
 # Host Program parameters
 # -----------------------
-ProgramName=<xsl:value-of select="upper-case(program-name)"/>
-ExecuteTimeout=5000
-CommareaLength=<xsl:value-of select="$commarea-len"/>
-#DataLength
-#SysID
-#SyncOnReturn
-#TransID
+CICSProgram=<xsl:value-of select="upper-case(program-name)"/>
+CICSLength=<xsl:value-of select="$commarea-len"/>
+CICSDataLength=<xsl:value-of select="$input-commarea-len"/>
+#CICSSysID
+#CICSSyncOnReturn
+#CICSTransID
 </xsl:template>
 
 </xsl:stylesheet>

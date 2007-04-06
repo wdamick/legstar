@@ -86,7 +86,7 @@ public class CixsGenerationTest extends TestCase {
 		        	str = in.readLine();
 		        }
 		        in.close();
-				assertEquals("package com.legstar.test.cixs.alltypes;import javax.jws.WebService;import com.legstar.cixs.coxb.CIXSParameter;import com.legstar.cixs.coxb.ICIXSInvoker;import com.legstar.cixs.coxb.CIXSInvokerFactory;import com.legstar.cixs.coxb.CIXSHeader;import com", resStr.substring(0, 250));
+				assertTrue(resStr.contains("public class AlltypesImpl implements Alltypes"));
 		    } catch (IOException e) {
 				e.printStackTrace();
 				fail("generation failed");
@@ -139,7 +139,7 @@ public class CixsGenerationTest extends TestCase {
 		        	str = in.readLine();
 		        }
 		        in.close();
-				assertEquals("package com.legstar.test.cixs.dplarcht;import javax.jws.WebService;import com.legstar.cixs.coxb.CIXSParameter;import com.legstar.cixs.coxb.ICIXSInvoker;import com.legstar.cixs.coxb.CIXSInvokerFactory;import com.legstar.cixs.coxb.CIXSHeader;import com", resStr.substring(0, 250));
+				assertTrue(resStr.contains("public class DplarchtImpl implements Dplarcht"));
 		    } catch (IOException e) {
 				e.printStackTrace();
 				fail("generation failed");
@@ -192,7 +192,7 @@ public class CixsGenerationTest extends TestCase {
 		        	str = in.readLine();
 		        }
 		        in.close();
-				assertEquals("# Host Program parameters# -----------------------ProgramName=ALLTYPESExecuteTimeout=5000CommareaLength=267#DataLength#SysID#SyncOnReturn#TransID", resStr);
+				assertEquals("# Host Program parameters# -----------------------CICSProgram=ALLTYPESCICSLength=267CICSDataLength=267#CICSSysID#CICSSyncOnReturn#CICSTransID", resStr);
 		    } catch (IOException e) {
 				e.printStackTrace();
 				fail("generation failed");
@@ -364,7 +364,7 @@ public class CixsGenerationTest extends TestCase {
 		        	str = in.readLine();
 		        }
 		        in.close();
-				assertEquals("# Host Program parameters# -----------------------ProgramName=LSFILEALExecuteTimeout=5000CommareaLength=8043#DataLength#SysID#SyncOnReturn#TransID", resStr);
+				assertEquals("# Host Program parameters# -----------------------CICSProgram=LSFILEALCICSLength=8043CICSDataLength=20#CICSSysID#CICSSyncOnReturn#CICSTransID", resStr);
 		    } catch (IOException e) {
 				e.printStackTrace();
 				fail("generation failed");
