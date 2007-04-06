@@ -2,12 +2,12 @@
   <parent>
     <artifactId>Legstar</artifactId>
     <groupId>com.legsem.legstar</groupId>
-    <version>0.0.1</version>
+	<version>0.1-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>legstar-cixsgen-plugin</artifactId>
   <name>CIXS Generator plugin</name>
-  <version>0.0.1</version>
+  <version>${project.parent.version}</version>
   <description>JAXWS Endpoint generator Eclipse plugin.</description>
   <url>http://www.legsem.com/legstar/cixsgen-plugin/</url>
   <dependencies>
