@@ -4,10 +4,10 @@
     <parent>
       <groupId>com.legsem.legstar</groupId>
       <artifactId>Legstar</artifactId>
-      <version>0.0.1</version>
+      <version>0.1-SNAPSHOT</version>
     </parent>
 	<artifactId>legstar-testcases</artifactId>
-	<version>0.0.1</version>
+    <version>${project.parent.version}</version>
 	<description>Test cases used by various LegStar projects</description>
 	<dependencies>
 	
