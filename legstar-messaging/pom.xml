@@ -8,7 +8,7 @@
     </parent>
 	<artifactId>legstar-messaging</artifactId>
 	<name>Messaging protocol</name>
-	<version>0.1-SNAPSHOT</version>
+    <version>${project.parent.version}</version>
 	<description>Host access protocol.</description>
 	<url>http://www.legsem.com/legstar/messaging/</url>
 
