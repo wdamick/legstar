@@ -8,7 +8,7 @@
     </parent>
 	<artifactId>legstar-chttprt</artifactId>
 	<name>CHTTP Runtime</name>
-	<version>0.1-SNAPSHOT</version>
+    <version>${project.parent.version}</version>
 	<description>HTTP-based connectivity to CICS.</description>
 	<url>http://www.legsem.com/legstar/chttprt/</url>
 
