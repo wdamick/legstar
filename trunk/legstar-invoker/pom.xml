@@ -8,7 +8,7 @@
     </parent>
 	<artifactId>legstar-invoker</artifactId>
 	<name>Messaging protocol</name>
-	<version>0.1-SNAPSHOT</version>
+    <version>${project.parent.version}</version>
 	<description>XML RPC to host.</description>
 	<url>http://www.legsem.com/legstar/invoker/</url>
 
