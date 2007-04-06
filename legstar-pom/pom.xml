@@ -64,28 +64,24 @@
     </plugins>
   </build>
   
-  <!-- 
   <modules>
+    <module>../legstar-common</module>
     <module>../legstar-messaging</module>
     <module>../legstar-csokrt</module>
     <module>../legstar-chttprt</module>
     <module>../legstar-engine</module>
     <module>../legstar-invoker</module>
+    <module>../legstar-schemagen</module>
+    <module>../legstar-coxbgen</module>
+    <module>../legstar-cixsgen</module>
+    <module>../legstar-coxbrt</module>
+    <module>../legstar-schemagen-plugin</module>
+    <module>../legstar-coxbgen-plugin</module>
+    <module>../legstar-cixsgen-plugin</module>
+    <module>../legstar-common-plugin</module>
+    <module>../legstar-distribution</module>
   </modules>
-  <modules>
-    <module>legstar-schemagen</module>
-    <module>legstar-coxbgen</module>
-    <module>legstar-cixsgen</module>
-    <module>legstar-coxbrt</module>
-    <module>legstar-cixsrt</module>
-    <module>legstar-csokrt</module>
-    <module>legstar-common</module>
-    <module>legstar-schemagen-plugin</module>
-    <module>legstar-coxbgen-plugin</module>
-    <module>legstar-cixsgen-plugin</module>
-    <module>legstar-common-plugin</module>
-    <module>legstar-distribution</module>
-  </modules>
+  <!-- 
   -->
 
 
@@ -157,8 +153,22 @@
         <artifactId>jxr-maven-plugin</artifactId>
       </plugin>
        -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-changes-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>changes-report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      
     </plugins>
+    
   </reporting>
+  
   <dependencyManagement>
     <dependencies>
 
