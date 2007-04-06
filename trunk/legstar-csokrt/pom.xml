@@ -8,7 +8,7 @@
     </parent>
 	<artifactId>legstar-csokrt</artifactId>
 	<name>CSOK Runtime</name>
-	<version>0.1-SNAPSHOT</version>
+    <version>${project.parent.version}</version>
 	<description>Socket-based connectivity to CICS.</description>
 	<url>http://www.legsem.com/legstar/csokrt/</url>
 
