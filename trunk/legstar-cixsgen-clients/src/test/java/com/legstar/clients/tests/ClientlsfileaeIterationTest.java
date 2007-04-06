@@ -52,11 +52,9 @@ public class ClientlsfileaeIterationTest extends TestCase {
 		req.setRequest(dfhcommarea);
 		
 		LsfileaeHostHeader reqHead = wsOF.createLsfileaeHostHeader();
-		reqHead.setHostUser("P390");
+		reqHead.setHostUserID("P390");
 		reqHead.setHostPassword("STREAM2");
-		reqHead.setHostIPPort(3080);
-		reqHead.setHostIPAddress("192.168.0.110");
-		reqHead.setHostCICWPath("/CICS/CWBA/LSWEBBIN");
+		reqHead.setHostEndPoint("theMainframe");
 		
 		dfhcommarea.setComNumber(100);
 

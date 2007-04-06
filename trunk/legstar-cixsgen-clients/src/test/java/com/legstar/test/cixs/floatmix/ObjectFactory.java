@@ -1,24 +1,3 @@
-/*******************************************************************************
- * LegStar legacy Web-enablement .
- * Copyright (C)  2007 LegSem
- * 
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- * 02110-1301  USA
- * 
- *     
- *****************************************************************************/
 
 package com.legstar.test.cixs.floatmix;
 
@@ -58,19 +37,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link FloatmixHostHeader }
+     * Create an instance of {@link FloatmixResponse }
      * 
      */
-    public FloatmixHostHeader createFloatmixHostHeader() {
-        return new FloatmixHostHeader();
-    }
-
-    /**
-     * Create an instance of {@link FloatmixFaultInfo }
-     * 
-     */
-    public FloatmixFaultInfo createFloatmixFaultInfo() {
-        return new FloatmixFaultInfo();
+    public FloatmixResponse createFloatmixResponse() {
+        return new FloatmixResponse();
     }
 
     /**
@@ -82,11 +53,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link FloatmixResponse }
+     * Create an instance of {@link FloatmixFaultInfo }
      * 
      */
-    public FloatmixResponse createFloatmixResponse() {
-        return new FloatmixResponse();
+    public FloatmixFaultInfo createFloatmixFaultInfo() {
+        return new FloatmixFaultInfo();
+    }
+
+    /**
+     * Create an instance of {@link FloatmixHostHeader }
+     * 
+     */
+    public FloatmixHostHeader createFloatmixHostHeader() {
+        return new FloatmixHostHeader();
     }
 
     /**
