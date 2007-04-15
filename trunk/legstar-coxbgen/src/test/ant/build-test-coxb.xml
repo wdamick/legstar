@@ -35,7 +35,7 @@
 	  		<!--SAXON binaries -->
 		    <pathelement location="${maven.repo}\net\sf\saxon\saxon\8.7\saxon-8.7.jar"/>
 	  		<!--Legstar COXB runtime location -->
-		    <pathelement location="${maven.repo}\com\legsem\legstar\legstar-coxbrt\0.0.1\legstar-coxbrt-0.0.1.jar"/>
+		    <pathelement location="${maven.repo}\com\legsem\legstar\legstar-coxbrt\1.0.1\legstar-coxbrt-1.0.1.jar"/>
 	  		<!--JAXB generated classes -->
 	  		<pathelement location="${build.dir}/test-classes"/>
 	  		<!--COXB Generator classes -->
