@@ -103,7 +103,7 @@
             <configuration>
               <tasks>
                 <ant antfile="${basedir}/src/main/ant/build-sample.xml"/>
-                <ant antfile="${basedir}/src/main/ant/build-testcases.xml"/>
+                <ant antfile="${basedir}/src/main/ant/build-coxbgen-cases.xml"/>
               </tasks>
             </configuration>
             <goals>
