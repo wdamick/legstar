@@ -4,7 +4,7 @@
 	<groupId>com.legsem.legstar</groupId>
 	<artifactId>legstar-cixsgen-clients</artifactId>
 	<name>Clients for Cixsgen Services (Test only project). </name>
-	<version>0.0.1</version>
+	<version>1.0.1</version>
 	<description>Testing project for generated Web services</description>
 	<repositories>
 	  <repository>
