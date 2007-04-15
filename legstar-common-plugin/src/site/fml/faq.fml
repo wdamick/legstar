@@ -14,7 +14,7 @@
        are likely to get an "unable to instanciate AntConsoleLogger" message when using one of
        the generators.
        To fix this issue, use Window-->Preferences-->Ant-->Runtime and add the
-       com.legstar.eclipse.plugin.common_0.0.1.jar as an external jar to the Global Entries.
+       com.legstar.eclipse.plugin.common_1.0.1.jar as an external jar to the Global Entries.
        This jar is located in your eclipse/plugins folder.
       </answer>
     </faq>
