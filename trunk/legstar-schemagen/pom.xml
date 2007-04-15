@@ -5,7 +5,7 @@
     <parent>
       <groupId>com.legsem.legstar</groupId>
       <artifactId>Legstar</artifactId>
-      <version>0.1-SNAPSHOT</version>
+      <version>1.0.1</version>
     </parent>
     <artifactId>legstar-schemagen</artifactId>
     <name>Schema Generator</name>
@@ -35,7 +35,7 @@
 		        <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
 		        <Bundle-Name>LegStar Schemagen</Bundle-Name>
 		        <Bundle-SymbolicName>com.legstar.schemagen</Bundle-SymbolicName>
-		        <Bundle-Version>0.0.1</Bundle-Version>
+		        <Bundle-Version>1.0.1</Bundle-Version>
 		        <Bundle-ClassPath>.</Bundle-ClassPath>
 		        <Bundle-Vendor>LegSem</Bundle-Vendor>
 		        <Bundle-Localization>plugin</Bundle-Localization>

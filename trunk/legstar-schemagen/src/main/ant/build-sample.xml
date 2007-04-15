@@ -11,7 +11,7 @@
 		<!-- Sample project location  -->
 	 	<property name="sample.project" value="${basedir}/../legstar-samples" />
 		<!-- Distribution name  -->
-	 	<property name="dist.name" value="legstar-schemagen-0.0.1" />
+	 	<property name="dist.name" value="legstar-schemagen-1.0.1" />
 		<!-- Distribution zip file  -->
 	 	<property name="dist.zip" value="${dist.name}-win32.zip" />
 		<!-- Distribution file location   -->
