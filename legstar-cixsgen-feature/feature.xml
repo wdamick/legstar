@@ -2,12 +2,12 @@
 <feature
       id="com.legstar.eclipse.feature.cixsgen"
       label="LegStar Web Service Generator"
-      version="0.0.1"
+      version="1.0.1"
       provider-name="LegSem">
 
    <description url="http://www.legsem.com/legstar/cixsgen-plugin">
       Generates a JAXWS endpoint implementing access to a CICS DPL
-program over raw HTTP.
+program over any transport protocol supported by a LegStar invoker.
    </description>
 
    <copyright url="http://www.legstar.com/legstar/copyright">
@@ -420,7 +420,7 @@ END OF TERMS AND CONDITIONS
    </url>
 
    <requires>
-      <import feature="com.legstar.eclipse.feature.common" version="0.0.1"/>
+      <import feature="com.legstar.eclipse.feature.common" version="1.0.1"/>
    </requires>
 
    <plugin
