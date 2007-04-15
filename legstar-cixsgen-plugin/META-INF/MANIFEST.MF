@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: LegStar Web Service Generator
 Bundle-SymbolicName: com.legstar.eclipse.plugin.cixsgen;singleton:=true
-Bundle-Version: 0.0.1
+Bundle-Version: 1.0.1
 Bundle-Activator: com.legstar.eclipse.plugin.cixsgen.Activator
 Bundle-Vendor: LegSem
 Bundle-Localization: plugin
