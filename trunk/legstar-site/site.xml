@@ -3,16 +3,16 @@
    <description url="http://www.legsem.com/legstar/eclipse/update">
       Legstar Eclipse plugins
    </description>
-   <feature url="features/com.legstar.eclipse.feature.schemagen_0.0.1.jar" id="com.legstar.eclipse.feature.schemagen" version="0.0.1">
+   <feature url="features/com.legstar.eclipse.feature.schemagen_1.0.1.jar" id="com.legstar.eclipse.feature.schemagen" version="1.0.1">
       <category name="LegStar"/>
    </feature>
-   <feature url="features/com.legstar.eclipse.feature.common_0.0.1.jar" id="com.legstar.eclipse.feature.common" version="0.0.1">
+   <feature url="features/com.legstar.eclipse.feature.common_1.0.1.jar" id="com.legstar.eclipse.feature.common" version="1.0.1">
       <category name="LegStar"/>
    </feature>
-   <feature url="features/com.legstar.eclipse.feature.coxbgen_0.0.1.jar" id="com.legstar.eclipse.feature.coxbgen" version="0.0.1">
+   <feature url="features/com.legstar.eclipse.feature.coxbgen_1.0.1.jar" id="com.legstar.eclipse.feature.coxbgen" version="1.0.1">
       <category name="LegStar"/>
    </feature>
-   <feature url="features/com.legstar.eclipse.feature.cixsgen_0.0.1.jar" id="com.legstar.eclipse.feature.cixsgen" version="0.0.1">
+   <feature url="features/com.legstar.eclipse.feature.cixsgen_1.0.1.jar" id="com.legstar.eclipse.feature.cixsgen" version="1.0.1">
       <category name="LegStar"/>
    </feature>
    <category-def name="LegStar" label="LegStar Eclipse plugins">
