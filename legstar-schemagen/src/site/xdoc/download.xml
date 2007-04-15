@@ -14,7 +14,7 @@
       <!-- Within sections, any XHTML can be used -->
  		<table border="1">
 			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
-			<tr><td>Schema Generator</td><td>Java</td><td><a href="./binaries/legstar-schemagen-0.0.1-win32.zip">legstar-schemagen-0.0.1-win32.zip</a></td></tr>
+			<tr><td>Schema Generator</td><td>Java</td><td><a href="./binaries/legstar-schemagen-1.0.1-win32.zip">legstar-schemagen-1.0.1-win32.zip</a></td></tr>
 		</table>
 
     </section>
