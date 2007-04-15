@@ -1,7 +1,7 @@
 <!-- =================================================================================
      This script creates a single jar file with all Legstar sources.
  -->
-<project basedir="../../.." default="buildDistribution" name="build-distribution">
+<project basedir="../../.." default="buildDistributionSources" name="build-distribution-sources">
 
 	<!-- ===========================================================  -->
 	<!-- Setup environment
@@ -19,52 +19,76 @@
 
 		<!-- LegStar sources distribution properties  -->
 	 	<property name="legstar.loc" value="legstar" />
-	 	<property name="legstar.ver" value="0.0.1" />
+	 	<property name="legstar.ver" value="${version}" />
 	 	<property name="legstar.fol" value="${legstar.loc}-${legstar.ver}-sources" />
 	 	<property name="legstar.jar" value="${srce.loc}/${legstar.fol}.jar" />
 
 		<!-- Schemagen sources distribution properties  -->
 	 	<property name="schemagen.loc" value="legstar-schemagen" />
-	 	<property name="schemagen.ver" value="0.0.1" />
+	 	<property name="schemagen.ver" value="${version}" />
 	 	<property name="schemagen.fol" value="${schemagen.loc}-${schemagen.ver}-sources" />
 	 	<property name="schemagen.jar" value="../${schemagen.loc}/${srce.loc}/${schemagen.fol}.jar" />
 		
 		<!-- Coxbrt sources distribution properties  -->
 	 	<property name="coxbrt.loc" value="legstar-coxbrt" />
-	 	<property name="coxbrt.ver" value="0.0.1" />
+	 	<property name="coxbrt.ver" value="${version}" />
 	 	<property name="coxbrt.fol" value="${coxbrt.loc}-${coxbrt.ver}-sources" />
 	 	<property name="coxbrt.jar" value="../${coxbrt.loc}/${srce.loc}/${coxbrt.fol}.jar" />
 
 		<!-- Coxbgen sources distribution properties  -->
 	 	<property name="coxbgen.loc" value="legstar-coxbgen" />
-	 	<property name="coxbgen.ver" value="0.0.1" />
+	 	<property name="coxbgen.ver" value="${version}" />
 	 	<property name="coxbgen.fol" value="${coxbgen.loc}-${coxbgen.ver}-sources" />
 	 	<property name="coxbgen.jar" value="../${coxbgen.loc}/${srce.loc}/${coxbgen.fol}.jar" />
 
 		<!-- Common sources distribution properties  -->
 	 	<property name="common.loc" value="legstar-common" />
-	 	<property name="common.ver" value="0.0.1" />
+	 	<property name="common.ver" value="${version}" />
 	 	<property name="common.fol" value="${common.loc}-${common.ver}-sources" />
 	 	<property name="common.jar" value="../${common.loc}/${srce.loc}/${common.fol}.jar" />
 
-		<!-- Cixsrt sources distribution properties  -->
-	 	<property name="cixsrt.loc" value="legstar-cixsrt" />
-	 	<property name="cixsrt.ver" value="0.0.1" />
-	 	<property name="cixsrt.fol" value="${cixsrt.loc}-${cixsrt.ver}-sources" />
-	 	<property name="cixsrt.jar" value="../${cixsrt.loc}/${srce.loc}/${cixsrt.fol}.jar" />
-
 		<!-- Cixsgen sources distribution properties  -->
 	 	<property name="cixsgen.loc" value="legstar-cixsgen" />
-	 	<property name="cixsgen.ver" value="0.0.1" />
+	 	<property name="cixsgen.ver" value="${version}" />
 	 	<property name="cixsgen.fol" value="${cixsgen.loc}-${cixsgen.ver}-sources" />
 	 	<property name="cixsgen.jar" value="../${cixsgen.loc}/${srce.loc}/${cixsgen.fol}.jar" />
 
+		<!-- Messaging sources distribution properties  -->
+	 	<property name="messaging.loc" value="legstar-messaging" />
+	 	<property name="messaging.ver" value="${version}" />
+	 	<property name="messaging.fol" value="${messaging.loc}-${messaging.ver}-sources" />
+	 	<property name="messaging.jar" value="../${messaging.loc}/${srce.loc}/${messaging.fol}.jar" />
+		
+		<!-- Invoker sources distribution properties  -->
+	 	<property name="invoker.loc" value="legstar-invoker" />
+	 	<property name="invoker.ver" value="${version}" />
+	 	<property name="invoker.fol" value="${invoker.loc}-${invoker.ver}-sources" />
+	 	<property name="invoker.jar" value="../${invoker.loc}/${srce.loc}/${invoker.fol}.jar" />
+		
+		<!-- Engine sources distribution properties  -->
+	 	<property name="engine.loc" value="legstar-engine" />
+	 	<property name="engine.ver" value="${version}" />
+	 	<property name="engine.fol" value="${engine.loc}-${engine.ver}-sources" />
+	 	<property name="engine.jar" value="../${engine.loc}/${srce.loc}/${engine.fol}.jar" />
+		
+		<!-- Chttprt sources distribution properties  -->
+	 	<property name="chttprt.loc" value="legstar-chttprt" />
+	 	<property name="chttprt.ver" value="${version}" />
+	 	<property name="chttprt.fol" value="${chttprt.loc}-${chttprt.ver}-sources" />
+	 	<property name="chttprt.jar" value="../${chttprt.loc}/${srce.loc}/${chttprt.fol}.jar" />
+
+		<!-- Csokrt sources distribution properties  -->
+	 	<property name="csokrt.loc" value="legstar-csokrt" />
+	 	<property name="csokrt.ver" value="${version}" />
+	 	<property name="csokrt.fol" value="${csokrt.loc}-${csokrt.ver}-sources" />
+	 	<property name="csokrt.jar" value="../${csokrt.loc}/${srce.loc}/${csokrt.fol}.jar" />
+		
 	</target>
 
 	<!-- ===========================================================  -->
 	<!-- Build the main sources distribution
 	  -->
-	<target name="buildDistribution" depends="init">
+	<target name="buildDistributionSources" depends="init">
 		
 		<delete dir="${temp.dir}" includeEmptyDirs="true" quiet="true"/>
 		<mkdir dir="${temp.dir}"/> 
@@ -81,8 +105,20 @@
 		<!-- Include Coxbgen  -->
 		<unzip src="${basedir}/${coxbgen.jar}" dest="${temp.dir}"/>
 
-		<!-- Include Cixsrt  -->
-		<unzip src="${basedir}/${cixsrt.jar}" dest="${temp.dir}"/>
+		<!-- Include Chttprt  -->
+		<unzip src="${basedir}/${chttprt.jar}" dest="${temp.dir}"/>
+
+		<!-- Include Csokrt  -->
+		<unzip src="${basedir}/${csokrt.jar}" dest="${temp.dir}"/>
+
+		<!-- Include Messaging  -->
+		<unzip src="${basedir}/${messaging.jar}" dest="${temp.dir}"/>
+
+		<!-- Include Invoker  -->
+		<unzip src="${basedir}/${invoker.jar}" dest="${temp.dir}"/>
+
+		<!-- Include Engine  -->
+		<unzip src="${basedir}/${engine.jar}" dest="${temp.dir}"/>
 
 		<!-- Include Cixsgen  -->
 		<unzip src="${basedir}/${cixsgen.jar}" dest="${temp.dir}"/>
