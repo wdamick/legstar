@@ -10,7 +10,7 @@
 	<target name="init">
 		
 		<!-- Testcases project location  -->
-	 	<property name="testcases.project" value="${basedir}/../legstar-testcases" />
+	 	<property name="testcases.project" value="${basedir}/../legstar-coxbgen-cases" />
 		<!-- Testcases final destination for sources  -->
 	 	<property name="testcases.src" value="${testcases.project}/src/main/java" />
 		<!-- Testcases final destination for binaries  -->
