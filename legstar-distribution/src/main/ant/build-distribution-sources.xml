@@ -15,7 +15,7 @@
 		<!-- Distribution file relative location  -->
 	 	<property name="dist.loc" value="src/site/resources/binaries" />
 		<!-- Distribution file absolute location  -->
-	 	<property name="dist.dir" value="${basedir}/../${dist.loc}" />
+	 	<property name="dist.dir" value="${basedir}/${dist.loc}" />
 
 		<!-- LegStar sources distribution properties  -->
 	 	<property name="legstar.loc" value="legstar" />
