@@ -1,0 +1,27 @@
+<document>
+  <properties>
+    <title>Changes CIXS Generator</title>
+    <author email="fady@legsem.com">Fady Moussallam</author>
+  </properties>
+  <body>
+    <release version="1.1" date="2007-04-01" description="Transport agnostic release">
+      <action dev="fady" type="add">
+        Generated endpoints now use the new XML configuration file.
+      </action>
+      <action dev="fady" type="add">
+        Generated endpoints are protocol agnostic. You can switch from http to socket and
+        have both direct or pooled sessions to CICS by changing the XML configuration file.
+      </action>
+      <action dev="fady" type="remove" due-to="Fady Moussallam" due-to-email="fady@legsem.com">
+        The Hostconnection.properties file no longer exist. It is not referenced from the
+        generated endpoints anymore (content is replaced by XML configuration file).
+      </action>
+    </release>
+
+    <release version="1.0.1" date="2006-12-31" description="First release">
+      <action dev="fady" type="add">
+        First version of the generator.
+      </action>
+    </release>
+  </body>
+</document>
