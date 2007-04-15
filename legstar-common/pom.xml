@@ -4,7 +4,7 @@
 	<parent>
 	  <groupId>com.legsem.legstar</groupId>
 	  <artifactId>Legstar</artifactId>
-      <version>0.1-SNAPSHOT</version>
+      <version>1.0.1</version>
 	</parent>
 	<artifactId>legstar-common</artifactId>
 	<name>Common utilities</name>
