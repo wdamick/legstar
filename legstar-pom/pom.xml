@@ -73,6 +73,7 @@
     <module>../legstar-invoker</module>
     <module>../legstar-schemagen</module>
     <module>../legstar-coxbgen</module>
+    <module>../legstar-coxbgen-cases</module>
     <module>../legstar-cixsgen</module>
     <module>../legstar-coxbrt</module>
     <module>../legstar-schemagen-plugin</module>
