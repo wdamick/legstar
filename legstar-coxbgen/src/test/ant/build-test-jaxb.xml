@@ -42,7 +42,7 @@
 		    <pathelement location="${maven.repo}\javax\xml\bind\jaxb-api\2.1\jaxb-api-2.1.jar"/>
 		    <pathelement location="${maven.repo}\javax\xml\bind\jsr173_api\1.0\jsr173_api-1.0.jar"/>
 	  		<!--Legstar COXB runtime location -->
-		    <pathelement location="${maven.repo}\com\legsem\legstar\legstar-coxbrt\0.0.1\legstar-coxbrt-0.0.1.jar"/>
+		    <pathelement location="${maven.repo}\com\legsem\legstar\legstar-coxbrt\1.0.1\legstar-coxbrt-1.0.1.jar"/>
 	  		<!--Legstar COXB generator location -->
     		<pathelement location="${build.dir}\classes"/>
 	    </path>
