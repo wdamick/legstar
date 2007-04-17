@@ -1,5 +1,4 @@
 <assembly>
-<<<<<<< .mine
   <id>bin</id>
   <formats>
     <format>zip</format>
@@ -20,32 +19,7 @@
       </includes>
     </fileSet>
   </fileSets>
-=======
-  <id>bin</id>
-
-  <formats>
-    <format>zip</format>
-  </formats>
-
-  <fileSets>
-    <fileSet>
-      <includes>
-        <include>LICENSE*</include>
-        <include>NOTICE*</include>
-      </includes>
-    </fileSet>
-    <!-- C/370 for CICS Server program -->
-    <fileSet>
-      <directory>src/main/zos</directory>
-      <outputDirectory>/zos</outputDirectory>
-      <includes>
-        <include>**</include>
-      </includes>
-    </fileSet>
-  </fileSets>
->>>>>>> .r128
   
-<<<<<<< .mine
   <files>
     <file>
        <source>${basedir}/src/site/apt/release-notes.apt</source>
@@ -59,22 +33,6 @@
     </file>
   </files>
   
-=======
-    
-  <files>
-    <file>
-       <source>${basedir}/src/site/apt/release-notes.apt</source>
-       <outputDirectory>/</outputDirectory>
-       <destName>README</destName>
-    </file>
-    <file>
-       <source>${basedir}/src/site/apt/LSWEBBIN-readme.apt</source>
-       <outputDirectory>/</outputDirectory>
-       <destName>LSWEBBIN-README</destName>
-    </file>
-  </files>
-  
->>>>>>> .r128
   <dependencySets>
     <dependencySet>
       <outputDirectory>/lib/</outputDirectory>
