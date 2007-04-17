@@ -1,7 +1,11 @@
 <document>
   <properties>
     <author email="admin@legsem.com">Fady Moussallam</author>
+<<<<<<< .mine
+    <title>Download LegStar Csokrt</title>
+=======
     <title>Download LegStar Chttprt</title>
+>>>>>>> .r133
   </properties>
   <!-- Optional HEAD element, which is copied as is into the XHTML <head> element -->
   <head>
@@ -9,12 +13,20 @@
   </head>
   <body>
     <!-- The body of the document contains a number of sections -->
+<<<<<<< .mine
+    <section name="Download Socket Transport (CHttprt)">
+=======
     <section name="Download HTTP Transport (CHttprt)">
+>>>>>>> .r133
 
       <!-- Within sections, any XHTML can be used -->
 		<table border="1">
 			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
+<<<<<<< .mine
+			<tr><td>Socket Transport</td><td>Java</td><td><a href="./binaries/legstar-csokrt-1.0.1-bin.zip">legstar-csokrt-1.0.1-bin.zip</a></td></tr>
+=======
 			<tr><td>HTTP Transport</td><td>Java</td><td><a href="./binaries/legstar-chttprt-1.0.1-bin.zip">legstar-chttprt-1.0.1-bin.zip</a></td></tr>
+>>>>>>> .r133
 		</table>
 
     </section>
