@@ -1,0 +1,25 @@
+ -----
+ LegStar Messaging
+ -----
+ Fady Moussallam
+ -----
+ 16 April 2007
+ -----
+
+Messaging runtime overview
+
+  This project implements an abstract messaging framework for host program
+  invokation.
+  
+  The messaging framework is transport independent so that LegStar can evolve to
+  support more transports in the future.
+  
+  The framework uses a notion of "Address" similar in spirit to SOAP Addressing which
+  allows each request to be correctly routed.
+  
+  The message structure is multipart to support host programs with multiple input
+  structures and multiple output structures.
+  
+  Message headers support an open format based on JSON so that more sophisticated
+  message exchange protocols can be built in the future.
+ 
