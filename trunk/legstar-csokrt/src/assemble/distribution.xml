@@ -1,11 +1,43 @@
 <assembly>
-	<id>bin</id>
-	<formats>
-	  <format>zip</format>
-	</formats>
+  <id>bin</id>
+
+  <formats>
+    <format>zip</format>
+  </formats>
+
+  <fileSets>
+    <fileSet>
+      <includes>
+        <include>LICENSE*</include>
+        <include>NOTICE*</include>
+      </includes>
+    </fileSet>
+    <!-- C/370 for CICS Server program -->
+    <fileSet>
+      <directory>src/main/zos</directory>
+      <outputDirectory>/zos</outputDirectory>
+      <includes>
+        <include>**</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+  
+    
+  <files>
+    <file>
+       <source>${basedir}/src/site/apt/release-notes.apt</source>
+       <outputDirectory>/</outputDirectory>
+       <destName>README</destName>
+    </file>
+    <file>
+       <source>${basedir}/src/site/apt/LSWEBBIN-readme.apt</source>
+       <outputDirectory>/</outputDirectory>
+       <destName>LSWEBBIN-README</destName>
+    </file>
+  </files>
   
   <dependencySets>
-  	<dependencySet>
+    <dependencySet>
       <outputDirectory>/lib/</outputDirectory>
       <unpack>false</unpack>
       <scope>runtime</scope>
