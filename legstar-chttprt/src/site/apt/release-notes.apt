@@ -1,46 +1,25 @@
  -------------------------------------------------------------------------------
-<<<<<<< .mine
-                     LegSem LegStar Csokrt Version 1.0.1
-=======
                      LegSem LegStar Chttprt Version 1.0.1
->>>>>>> .r132
                                Release Notes
  -------------------------------------------------------------------------------
 
 PREREQUISITES:
 
-<<<<<<< .mine
- Before Csokrt can be used, the LSSOKBIN CICS Program must be installed in the
- target CICS region. The {{{LSSOKBIN-readme.html} LSSOKBIN readme}} document
- describes the program and how to install it.
-
- Csokrt uses the {{{../legstar-messaging} LegStar messaging}} layer which is included
- in the distribution.
-=======
  Before Chttprt can be used, the LSWEBBIN CICS Program must be installed in the
  target CICS region. The {{{LSWEBBIN-readme.html} LSWEBBIN readme}} document
  describes the program and how to install it.
 
  LegStar Chttprt is based upon {{{http://jakarta.apache.org/commons/httpclient/} Apache HTTPClient}}.
->>>>>>> .r132
  
-<<<<<<< .mine
- Csokrt also uses the {{{http://jakarta.apache.org/commons/logging/} Apache Commons logging}}
- and {{{http://jakarta.apache.org/commons/configuration/} Apache commons configuration}}.
-=======
  Chttprt does not use the pooling capabilities of HTTPClient. Pooling is provided
  in a transport independent fashion by {{{../legstar-engine} LegStar pooling engine}}.
->>>>>>> .r132
  
-<<<<<<< .mine
-=======
  Chttprt uses the {{{../legstar-messaging} LegStar messaging}} layer which is included
  in the distribution.
  
  Chttprt also uses the {{{http://jakarta.apache.org/commons/logging/} Apache Commons logging}}
  and {{{http://jakarta.apache.org/commons/configuration/} Apache commons configuration}}.
  
->>>>>>> .r132
 INSTALLING/UNINSTALLING:
 
  [[1]] Unzip the binary distribution package into the directory of your choice,
@@ -53,44 +32,22 @@ INSTALLING/UNINSTALLING:
         |---->LICENSE
         |---->NOTICE
         |---->README
-<<<<<<< .mine
-=======
         |---->LSWEBBIN-README
->>>>>>> .r132
         |----><lib>
                 |---->*.jar
-<<<<<<< .mine
-        |----><zos>
-                |----><C370>
-                        |---->*.C
-                        |---->*.H
-                |----><cobol>
-                        |---->*.CBL
-                |----><JCL>
-                        |---->*.JCL
-=======
         |----><zos>
                 |----><C370>
                         |---->*.C
                 |----><JCL>
                         |---->*.JCL
->>>>>>> .r132
                 
 +---------------------------------------+
    
-<<<<<<< .mine
- [[4]] Refer to the javadoc in order to use Csokrt directly.
-=======
  [[4]] Refer to the javadoc in order to use Chttprt directly.
->>>>>>> .r132
    
  [[5]] To uninstall, remove the installDir folder.
 
 DOCUMENTATION:
 
-<<<<<<< .mine
- Documentation available at http://www.legsem.com/legstar/legstar-csokrt
-=======
  Documentation available at http://www.legsem.com/legstar/legstar-chttprt
->>>>>>> .r132
 

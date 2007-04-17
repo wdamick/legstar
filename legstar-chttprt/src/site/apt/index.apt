@@ -6,54 +6,19 @@
  16 April 2007
  -----
 
-<<<<<<< .mine
-Socket Transport (Csokrt) overview
-=======
 HTTP Transport (Chttprt) overview
->>>>>>> .r132
 
-<<<<<<< .mine
-  The Socket Transport provides connectivity with CICS Sockets.
-=======
   The HTTP Transport provides connectivity with CICS Web Support.
->>>>>>> .r132
   
   To select this transport, there needs to be a valid endpoint definition in the active
   configuration file. The hostConnectionFactory element must be:
   
-<<<<<<< .mine
-+-------------------------------+
-	<hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
-+-------------------------------+
-=======
 +-------------------------------+
 	<hostConnectionfactoryClass>com.legstar.http.client.CicsHttpConnectionFactory</hostConnectionfactoryClass>
 +-------------------------------+
->>>>>>> .r132
   
-<<<<<<< .mine
-  The relevant endpoint elements for the Socket Transport in the configuration file are:
-  
-*-----------------+-----------+--------------------------------------------------------------------+
-| hostIPAddress   | Mandatory |CICS TCPIP address                                                  |
-*-----------------+--------------------------------------------------------------------------------+
-| hostIPPort      | Mandatory | CICS Sockets listening TCPIP port                                  |
-*-----------------+--------------------------------------------------------------------------------+
-| hostCharset     | Optional  |A valid character set such as IBM01140                              |
-*-----------------+--------------------------------------------------------------------------------+
-| hostUserID      | Optional  | A CICS user ID                                                     |
-*-----------------+--------------------------------------------------------------------------------+
-| hostPassword    | Optional  | A CICS password                                                    |
-*-----------------+--------------------------------------------------------------------------------+
- 
-  Parameters marked as optional must be provided as part of the request Address if they 
-  are not provided in the configuration file.
-=======
   The relevant endpoint elements for the HTTP Transport in the configuration file are:
->>>>>>> .r132
   
-<<<<<<< .mine
-=======
 *-----------------+-----------+--------------------------------------------------------------------------------+
 | hostIPAddress   | Mandatory | CICS TCPIP address                                                             |
 *-----------------+-----------+--------------------------------------------------------------------------------+
@@ -67,14 +32,9 @@ HTTP Transport (Chttprt) overview
 *-----------------+-----------+--------------------------------------------------------------------------------+
 | hostPassword    | Optional  | A CICS password                                                                |
 *-----------------+-----------+--------------------------------------------------------------------------------+
->>>>>>> .r132
   
-<<<<<<< .mine
-=======
   Parameters marked as optional must be provided as part of the request Address if they 
   are not provided in the configuration file.
   
   LegStar uses an optimized binary content which reduces the HTTP payload to a minimum and 
   avoids any character set translations on the host.
-  
->>>>>>> .r132
