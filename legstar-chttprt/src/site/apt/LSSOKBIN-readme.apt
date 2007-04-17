@@ -1,0 +1,80 @@
+CICS Socket server program LSSOKBIN
+
+* Overview:
+
+ This C/370 program can be used to remotely link to a CICS program over 
+ TCPIP Sockets. LSSOKBIN uses the CICS Sockets API available for all
+ versions of CICS. Please note however that C/370 requires Language
+ Environment so older versions of CICS, running without LE, will not be
+ able to run LSSOKBIN.
+ 
+ LSSOKBIN implements an RPC protocol described in the source header. This
+ protocol allows clients to keep connections active and drive CICS unit
+ of works using commit/rollback commands.
+
+ LSSOKBIN dynamically calls 2 sub-programs named LSCOMLOG and LSLNKBIN.
+ LSCOMLOG is the logging/tracing facility while LSLNKBIN handles linking
+ to the target CICS program (this way, LSSOKBIN can focus on dealing with
+ the message exchange protocol). Both LSCOMLOG and LSLNKBIN are delivered
+ along with LSSOKBIN and the common LSCOMDEC include file.
+
+* Prerequisites:
+
+ CICS Sockets are not installed by default in a CICS region. In order to
+ check if your region has Sockets installed try transaction EZAC or EZAO.
+ If these transactions are not installed, you need to follow instructions
+ in the IBM "IP CICS Sockets Guide" manual.
+ 
+ In addition to CICS Sockets being installed, at least one IBM Enhanced CICS
+ Socket listener must be running and assigned to LSSOKBIN. Use the IBM EZAC
+ transaction to define a new one. When you create the listener, you must
+ select the ENHANCED version rather than the STANDARD one and specify
+ the transaction name you wish to associate to LSSOKBIN.
+
+ LSSOKBIN was not tested under DOS/VSE although it might work with the CSI
+ stack.
+   
+* Compilation/installation:
+
+ LSSOKBIN is a C/370 CICS program. A sample JCL, C370CSOK, is provided to
+ guide you with setting up a compilation job. Pay attention to the
+ special requirements for TCPIP Sockets APIs (TCPIP.SEZAxxxx libraries).
+ 
+ Two other JCLs, C370CLOG and C370CLNK are provided to help with compiling
+ LSCOMLOG and LSLNKBIN respectively.
+   
+ Once programs are compiled you can install them using RDO. There are no
+ special requirements for these definitions. Programs run in USER key
+ preferably above the 16M limit.
+   
+ You will need to define a transaction to associate with LSSOKBIN. The
+ transaction name is free but needs to be specified to the IBM Enhanced
+ Socket Listener.
+
+* Security:
+
+ Clients are expected to send USER/PASSWORD combinations as part of the
+ Connection Initial Message received by the IBM CICS Sockets Listener.
+ A sample program, EZACICSE.CBL written in COBOL is provided to perform
+ a simple security check on the credentials provided. The security exit
+ will also pass the USER back to the IBM Listener so that it could start
+ the server transaction under this particular USER authority (impersonation).
+   
+ USER/PASSWORD are sent in clear text between the client and the IBM
+ CICS Listener. Starting with z/OS 1.7, SSL is supported for CICS Sockets
+ but this has not been tested yet and is likely to require changes on
+ the client side.
+
+* Limitations:
+
+  - LSSOKBIN does not support the INPUTMSG option of the LINK command.
+  
+  - LSSOKBIN does not support CONTAINERS.
+
+* This program has been tested for:
+
+  - CICS TS 2.3 (6.3.0 Command language translator)
+ 
+  - C/370 for OS/390 V2 R10
+
+   
