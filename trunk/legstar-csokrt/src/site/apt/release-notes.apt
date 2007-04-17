@@ -27,6 +27,7 @@ INSTALLING/UNINSTALLING:
         |---->LICENSE
         |---->NOTICE
         |---->README
+        |---->LSSOKBIN-README
         |----><lib>
                 |---->*.jar
         |----><zos>
