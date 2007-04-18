@@ -5,20 +5,21 @@
 
 PREREQUISITES:
 
- This plugin requires Eclipse 3.2.1. It uses the LegStar Schemagen module which in turn
- relies on Ant.
+ This plugin requires Eclipse 3.2.1. It uses the LegStar Schema Generator module which in
+ turn relies on Ant.
  
- You must install the Legstar Schemagen module before you can use this Eclipse plugin.
+ You must install the Legstar Schema Generator module before you can use this Eclipse plugin.
  
- The Legstar Schemagen module can be downloaded from http://www.legsem.com/legstar/schemagen.
+ The Schema Generator module can be downloaded from {{{../legstar-schemagen/download.html} here}}.
  
- The Schemagen Eclipse Plugin also requires the LegStar Common Eclipse plugin. For
- intructions on how to install the Common Eclipse Plugin, see http://www.legsem.com/legstar/common-plugin.
+ The Schema Generator Eclipse Plugin also requires the LegStar Common Eclipse plugin. For
+ intructions on how to install the Common Eclipse Plugin,
+  see {{{../legstar-common-plugin/release-notes.html} here}}.
  
 INSTALLING/UNINSTALLING:
 
- [[1]] Ensure that the base Schemagen module has been installed and that the folder holding native
-    libraries has been added to the search PATH.
+ [[1]] Ensure that the base Schema Generator module has been installed and that the folder
+  holding native libraries has been added to the search PATH.
     
  [[2]] Within Eclipse, create a remote site using:
  
@@ -47,5 +48,5 @@ INSTALLING/UNINSTALLING:
 
 DOCUMENTATION:
 
- Documentation available at http://www.legsem.com/legstar/schemagen-plugin
+ Documentation available at http://www.legsem.com/legstar/legstar-schemagen-plugin
 
