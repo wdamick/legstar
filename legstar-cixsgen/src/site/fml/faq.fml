@@ -11,14 +11,14 @@
       </question>
       <answer>
        You probably did not install a JAXWS runtime in Tomcat. In order to do so, you must download a JAXWS 2.1
-       implementation such as {{{https://jax-ws.dev.java.net/ri-download.html} Sun's RI}} and copy the jar files
+       implementation such as <a href="https://jax-ws.dev.java.net/ri-download.html">Sun's JAXWS RI</a> and copy the jar files
        into a common location such as shared/lib under Tomcat.
       </answer>
     </faq>
 
      <faq id="footer-company">
       <question>
-       Why am I getting a "java.lang.NoClassDefFoundError: com/legstar/cixs/coxb/CIXSException" 
+       Why am I getting a "java.lang.NoClassDefFoundError: com/legstar/host/invoke/HostInvokeException" 
        when starting Tomcat after I deployed my JAXWS endpoint?
       </question>
       <answer>
@@ -30,26 +30,14 @@
     
      <faq id="footer-company">
       <question>
-       Why am I getting a "java.lang.NoClassDefFoundError: org/apache/commons/httpclient/HttpConnectionManager" 
-       when starting Tomcat after I deployed my JAXWS endpoint?
+       Why am I getting a "org.apache.commons.configuration.ConfigurationException: Cannot locate configuration source config.xml" 
+       when starting running my JAXWS endpoint?
       </question>
       <answer>
-       The Cixsrt runtime has a dependency on Apache HTTPClient. In order to fix this issue copy the
-       commons-*.jar files from the installDir/lib folder into a common location such as
-       shared/lib under Tomcat. 
-      </answer>
-    </faq>
-    
-     <faq id="footer-company">
-      <question>
-       Why am I getting a "LsfileaeFault: Failed to create an invoker IOException hostconnection.properties" 
-       when starting Tomcat after I deployed my JAXWS endpoint?
-      </question>
-      <answer>
-       The Cixsrt runtime needs a hostconnection.properties file in order to connect to a CICS system. There
-       is a sample in the installDir/samples folder that you can customize and copy to a location where it
-       is accessible from the classpath. In a Tomcat environment, the shared/classes folder is such
-       a location.
+       The endpoint implementation is looking for a configuration file which name is specified in the web.xml
+       deployment file. By default this file is named config.xml. There is a sample of such a file in the <samples>
+       folder of the distribution. You need to customize this file and make a copy in the shared/classes
+       folder under Tomcat. 
       </answer>
     </faq>
     
