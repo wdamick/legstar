@@ -31,14 +31,26 @@
 
 		<dependency>
 		  <groupId>com.legsem.legstar</groupId>
-		  <artifactId>legstar-invoker</artifactId>
-          <scope>test</scope>
+		  <artifactId>legstar-coxbrt</artifactId>
+          <scope>runtime</scope>
 		</dependency>
 
 		<dependency>
 		  <groupId>com.legsem.legstar</groupId>
+		  <artifactId>legstar-invoker</artifactId>
+          <scope>runtime</scope>
+		</dependency>
+		
+		<dependency>
+		  <groupId>com.legsem.legstar</groupId>
 		  <artifactId>legstar-csokrt</artifactId>
-          <scope>test</scope>
+          <scope>runtime</scope>
+		</dependency>
+		
+		<dependency>
+		  <groupId>com.legsem.legstar</groupId>
+		  <artifactId>legstar-chttprt</artifactId>
+          <scope>runtime</scope>
 		</dependency>
 		
 		<dependency>
