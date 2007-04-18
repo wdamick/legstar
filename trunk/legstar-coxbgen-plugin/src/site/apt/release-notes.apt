@@ -5,17 +5,18 @@
 
 PREREQUISITES:
 
- This plugin requires Eclipse 3.2.1. It uses the LegStar Coxbgen module which needs
- to be installed prior to using this plugin.
+ This plugin requires Eclipse 3.2.1. It uses the LegStar Binding Generator (Coxbgen)
+ module which needs to be installed prior to using this plugin.
  
- The Legstar Coxbgen module can be downloaded from http://www.legsem.com/legstar/coxbgen.
+ The Binding Generator module can be downloaded from {{{../legstar-coxbgen/download.html} here}}.
  
- The Coxbgen Eclipse Plugin also requires the LegStar Common Eclipse plugin. For
- intructions on how to install the Common Eclipse Plugin, see http://www.legsem.com/legstar/common-plugin.
+ The Binding Generator Eclipse Plugin also requires the LegStar Common Eclipse plugin. For
+ intructions on how to install the Common Eclipse Plugin,
+  see {{{../legstar-common-plugin/release-notes.html} here}}.
  
 INSTALLING/UNINSTALLING:
 
- [[1]] Ensure that the base Coxbgen module has been installed.
+ [[1]] Ensure that the base Binding Generator module has been installed.
     
  [[2]] Within Eclipse, create a remote site using:
  
@@ -24,19 +25,19 @@ INSTALLING/UNINSTALLING:
 -----------------------------------------------------------------------------------------
   
   Have the URL point to http://www.legsem.com/legstar/eclipse/update and select the
-  LegsStar Binding Classes Generator feature.
+  LegsStar Binding Generator feature.
 
- [[3]] Restart Eclipse and check that "LegsStar Binding Classes Generator" shows up in:
+ [[3]] Restart Eclipse and check that "LegsStar Binding Generator" shows up in:
  
 -----------------------------------------------------------------------------------------
   Help-->About Eclipse SDK-->Plug-in details.
 -----------------------------------------------------------------------------------------
    
- [[4]] Let the plugin know where the base Coxbgen module has been installed by setting
- the preferences in:
+ [[4]] Let the plugin know where the base Binding Generator module has been installed by
+ setting the preferences in:
   
 -----------------------------------------------------------------------------------------
-  Window-->Preferences-->LegStar-->COXB Generator.
+  Window-->Preferences-->LegStar-->Binding Generator.
 -----------------------------------------------------------------------------------------
    
  [[5]] To uninstall, use:
@@ -49,5 +50,5 @@ INSTALLING/UNINSTALLING:
 
 DOCUMENTATION:
 
- Documentation available at http://www.legsem.com/legstar/coxbgen-plugin
+ Documentation available at http://www.legsem.com/legstar/legstar-coxbgen-plugin
 

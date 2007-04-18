@@ -30,7 +30,7 @@
             category="com.legstar.eclipse.plugin"
             class="com.legstar.eclipse.plugin.coxbgen.properties.WorkbenchPreferencePage1"
             id="com.legstar.eclipse.plugin.coxbgen.page1"
-            name="COXB Generator"/>
+            name="Binding Generator"/>
    </extension>
 
 </plugin>
