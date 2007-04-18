@@ -6,7 +6,7 @@
  16 January 2007
  -----
 
-COXB Runtime (Coxbrt) overview
+Binding Runtime (Coxbrt) overview
 
   The LegStar Coxbrt project provides runtime binding between XML serialized data described by an
   XML Schema and z/OS data described by a COBOL group element. It is part of the LegStar project,
