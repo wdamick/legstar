@@ -18,7 +18,7 @@
 	 	<property name="dist.dir" value="${basedir}/${dist.loc}" />
 
 		<!-- LegStar sources distribution properties  -->
-	 	<property name="legstar.loc" value="legstar" />
+	 	<property name="legstar.loc" value="legstar-distribution" />
 	 	<property name="legstar.ver" value="${version}" />
 	 	<property name="legstar.fol" value="${legstar.loc}-${legstar.ver}-sources" />
 	 	<property name="legstar.jar" value="${srce.loc}/${legstar.fol}.jar" />

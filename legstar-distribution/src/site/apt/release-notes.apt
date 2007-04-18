@@ -1,7 +1,7 @@
 
 
  -------------------------------------------------------------------------------
-                          LegSem LegStar Version 0.0.1
+                          LegSem LegStar Version 1.0.1
                                    Release Notes
  -------------------------------------------------------------------------------
 
@@ -10,11 +10,11 @@ PREREQUISITES:
  LegStar bundles the Schemagen, Coxbgen and Cixsgen modules. Pre-requisites for
  each one of these are described in corresponding README files or online at:
  
- * {{{schemagen/release-notes.html} Schemagen}}
+ * {{{../legstar-schemagen/release-notes.html} Schemagen}} XML schema Generator
 
- * {{{coxbgen/release-notes.html} Coxbgen}}
+ * {{{../legstar-coxbgen/release-notes.html} Coxbgen}} COBOL to XML binding Generator
 
- * {{{cixsgen/release-notes.html} Cixsgen}}
+ * {{{../legstar-cixsgen/release-notes.html} Cixsgen}} Web Service Generator
  
  []
  
