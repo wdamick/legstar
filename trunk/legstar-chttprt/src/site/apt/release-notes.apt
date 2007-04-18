@@ -43,9 +43,9 @@ INSTALLING/UNINSTALLING:
                 
 +---------------------------------------+
    
- [[4]] Refer to the javadoc in order to use Chttprt directly.
+ [[2]] Refer to the javadoc in order to use Chttprt directly.
    
- [[5]] To uninstall, remove the installDir folder.
+ [[3]] To uninstall, remove the installDir folder.
 
 DOCUMENTATION:
 
