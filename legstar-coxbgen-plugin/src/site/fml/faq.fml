@@ -9,15 +9,15 @@
        What version of Eclipse is supported?
       </question>
       <answer>
-       LegStar Coxbgen plugin has been targeted at Eclipse 3.2.1.
+       LegStar Binding Generator plugin has been targeted at Eclipse 3.2.1.
       </answer>
     </faq>
     <faq id="footer-company">
       <question>
-       Why does Coxbgen needs to be installed separatly from the plugin?
+       Why does Binding Generator needs to be installed separatly from the plugin?
       </question>
       <answer>
-       LegStar Coxbgen has dependencies of Sun's JAXB classes which are not available
+       LegStar Binding Generator has dependencies of Sun's JAXB classes which are not available
        as Eclipse plugins.
       </answer>
     </faq>
