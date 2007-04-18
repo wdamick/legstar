@@ -6,7 +6,7 @@
  20 January 2007
  -----
 
-COXB Generator (Coxbgen) overview
+Binding Generator (Coxbgen) overview
 
   LegStar Coxbgen is a Java source code generator based on COBOL-annotated XML schemas such as the ones
   produced by {{{../schemagen} LegStar Schemagen}}.
@@ -27,6 +27,6 @@ COXB Generator (Coxbgen) overview
   The LegStar code augments the regular JAXB XJC generation tool to annotate the generated classes
   with COBOL mapping meta-data.
   
-  Coxbgen relies on {{{../coxbrt} LegStar Coxbrt}} both at generation time and runtime.
+  Coxbgen relies on the {{{../legstar-coxbrt} Binding Runtime}} both at generation time and runtime.
   
   For answers to common questions about LegStar Coxbgen, see the {{{faq.html} FAQ}}.
