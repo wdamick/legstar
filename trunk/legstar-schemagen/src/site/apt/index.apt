@@ -6,7 +6,7 @@
  08 January 2007
  -----
 
-XML Schema generator (Schemagen) overview
+XML Schema Generator (Schemagen) overview
 
   The LegStar Schemagen project provides COBOL to XML Schema generation. It is part of the LegStar project,
   an open-source initiative toward service enablement of legacy applications.
