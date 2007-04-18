@@ -9,7 +9,7 @@
   </head>
   <body>
     <!-- The body of the document contains a number of sections -->
-    <section name="Download Cixsgen Eclipse plugin">
+    <section name="Download Service Generator Eclipse plugin">
       <!-- Within sections, any XHTML can be used -->
       <p>To install this Eclipse plugin, use the standard Eclipse update mechanism by pointing to the
       <a href="http://www.legsem.com/legstar/eclipse/update">http://www.legsem.com/legstar/eclipse/update</a>

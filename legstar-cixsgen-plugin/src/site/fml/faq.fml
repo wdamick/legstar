@@ -14,10 +14,10 @@
     </faq>
     <faq id="footer-company">
       <question>
-       Why does Cixsgen needs to be installed separatly from the plugin?
+       Why does Service Generator needs to be installed separatly from the plugin?
       </question>
       <answer>
-       LegStar Cixsgen has dependencies of Sun's JAXWS classes which are not available
+       LegStar Service Generator has dependencies of Sun's JAXWS classes which are not available
        as Eclipse plugins.
       </answer>
     </faq>
