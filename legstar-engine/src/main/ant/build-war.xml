@@ -12,8 +12,6 @@
 	 	<property name="target.war.file" value="${basedir}/target/legstar-engine.war" />
 		<!-- Web.xml file  -->
 	 	<property name="web.xml.file" value="${basedir}/src/main/webapp/WEB-INF/web.xml" />
-		<!-- Location of config file  -->
-	 	<property name="config.file.loc" value="${basedir}/src/main/resources" />
 		
 	</target>
 
@@ -22,7 +20,6 @@
 	  -->
 	<target name="buildWar" depends="init">
 		<war destfile="${target.war.file}" webxml="${web.xml.file}">
-		  <classes dir="${config.file.loc}"/>
 		</war>
 	</target>
 	
