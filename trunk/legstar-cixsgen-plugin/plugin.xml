@@ -53,7 +53,7 @@
             category="com.legstar.eclipse.plugin"
             class="com.legstar.eclipse.plugin.cixsgen.properties.WorkbenchPreferencePage1"
             id="com.legstar.eclipse.plugin.cixsgen.page1"
-            name="CIXS Generator"/>
+            name="Service Generator"/>
    </extension>
 
 </plugin>
