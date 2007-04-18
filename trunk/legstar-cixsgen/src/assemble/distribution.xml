@@ -34,25 +34,7 @@
 		  </excludes>
 		</fileSet>
 		
-		<!-- Sample connectivity parameters properties files -->
-		<fileSet>
-		  <directory>../legstar-cixsrt/src/site/resources/samples</directory>
-		  <outputDirectory>/samples</outputDirectory>
-		  <includes>
-		    <include>**</include>
-		  </includes>
-		</fileSet>
-		
-		<!-- Sample Web Service descriptor using a SOAP handler -->
-		<fileSet>
-		  <directory>src/site/resources/samples</directory>
-		  <outputDirectory>/samples</outputDirectory>
-		  <includes>
-		    <include>**</include>
-		  </includes>
-		</fileSet>
-		
-		<!-- The sample COXB classes -->
+		<!-- The sample Binding classes -->
 		<fileSet>
 		  <directory>../legstar-samples/src</directory>
 		  <outputDirectory>src</outputDirectory>

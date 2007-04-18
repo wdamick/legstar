@@ -77,7 +77,7 @@
 		  <artifactId>maven-antrun-plugin</artifactId>
 		  
 		  <!-- This will generate all Web Services test cases and
-		       deply them to Tomcat.  -->
+		       deploy them to Tomcat.  -->
 		  <executions>
 		    <execution>
 		      <id>build-test-service</id>
