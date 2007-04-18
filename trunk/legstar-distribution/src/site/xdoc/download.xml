@@ -9,24 +9,24 @@
   </head>
   <body>
     <!-- The body of the document contains a number of sections -->
-    <section name="Download LegStar binaries (single assembly)">
+    <section name="Download LegStar 1.0.1">
 
       <!-- Within sections, any XHTML can be used -->
 		<table border="1">
 			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
-			<tr><td>LegStar</td><td>Win32</td><td><a href="./binaries/legstar-0.0.1-win32.zip">legstar-0.0.1-win32.zip</a></td></tr>
+			<tr><td>LegStar binaries</td><td>Win32</td><td><a href="./binaries/legstar-distribution-1.0.1-win32.zip">legstar-distribution-1.0.1-win32.zip</a></td></tr>
+			<tr><td>LegStar sources</td><td>Source</td><td><a href="./binaries/legstar-distribution-1.0.1-sources.jar">legstar-distribution-1.0.1-sources.jar</a></td></tr>
 		</table>
  
     </section>
-    <section name="Download individual LegStar binaries">
+    <section name="Download LegStar older versions">
 
-		<table border="1">
+ 		<table border="1">
 			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
-			<tr><td>Schema Generator</td><td>Win32</td><td><a href="./binaries/legstar-schemagen-0.0.1-win32.zip">legstar-schemagen-0.0.1-win32.zip</a></td></tr>
-			<tr><td>COXB Generator</td><td>Java</td><td><a href="./binaries/legstar-coxbgen-0.0.1-bin.zip">legstar-coxbgen-0.0.1-bin.zip</a></td></tr>
-			<tr><td>CIXS Generator</td><td>Java</td><td><a href="./binaries/legstar-cixsgen-0.0.1-bin.zip">legstar-cixsgen-0.0.1-bin.zip</a></td></tr>
+			<tr><td>LegStar binaries</td><td>Win32</td><td><a href="./binaries/legstar-0.0.1-win32.zip">legstar-0.0.1-win32.zip</a></td></tr>
+			<tr><td>LegStar sources</td><td>Source</td><td><a href="./binaries/legstar-0.0.1-sources.jar">legstar-0.0.1-sources.jar</a></td></tr>
 		</table>
-
+ 
     </section>
 
   </body>
