@@ -14,19 +14,22 @@
       -->
     <hostEndPoint name="TheMainframe">
     
-      <!--  The connection factory provides a transport implementation.  -->
-      <hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
-      
       <!--  The host access strategy, either direct or pooled. If pooled is chosen
             other engine related entries in the configuration file are needed
-            (see sample delivered as part of legstar-enfine)    -->
+            (see sample delivered as part of legstar-engine)    -->
       <hostAccessStrategy>direct</hostAccessStrategy>
+      
+      <!--  The connection factory provides a transport implementation.  -->
+      <hostConnectionfactoryClass>com.legstar.http.client.CicsHttpConnectionFactory</hostConnectionfactoryClass>
+      
+      <!--  For http transport you can specify the path to LSWEBBIN or a URIMAP.  -->
+      <hostURLPath>/CICS/CWBA/LSWEBBIN</hostURLPath>
       
       <!--  The host TCPIP address if needed by the transport.  -->
       <hostIPAddress>my.main.frame</hostIPAddress>
       
       <!--  The host TCPIP port number if needed by the transport.  -->
-      <hostIPPort>3011</hostIPPort>
+      <hostIPPort>3080</hostIPPort>
       
       <!--  The host character set is used to translate from unicode.  -->
       <hostCharset>IBM01140</hostCharset>

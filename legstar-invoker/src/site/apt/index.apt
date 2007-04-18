@@ -48,9 +48,4 @@ Invoker overview
   
   Pooling allows host connections to be reused. For details, refer to {{{../legstar-engine} LegStar engine}}.
   
-  In the case of pooled access, an additional configuration parameter can be specified:
-  
-*---------------------+-----------+----------------------------------------------------------------------+
-| pooledInvokeTimeout | Optional  | The maximum amount of time (millisecs) to wait for a connection      |
-*---------------------+-----------+----------------------------------------------------------------------+
   
