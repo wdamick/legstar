@@ -6,7 +6,7 @@
  18 April 2007
  -----
 
-Engine overview
+Pooling Engine overview
 
   The LegStar Engine provides connection pooling capabilities. With pooling, connections are
   reused which saves processing time.

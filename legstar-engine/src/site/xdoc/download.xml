@@ -9,7 +9,7 @@
   </head>
   <body>
     <!-- The body of the document contains a number of sections -->
-    <section name="Download Engine">
+    <section name="Download PoolingEngine">
 
       <!-- Within sections, any XHTML can be used -->
 		<table border="1">
