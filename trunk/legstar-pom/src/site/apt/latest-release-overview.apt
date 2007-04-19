@@ -1,0 +1,41 @@
+
+
+ -------------------------------------------------------------------------------
+                          LegSem LegStar Version 1.0.1
+                             Latest release overview
+ -------------------------------------------------------------------------------
+
+Version 1.0.1
+
+ Version 1.0.1 has introduced new host connectivity options.
+ 
+ * Sockets Transport
+ 
+ In addition to HTTP transport, it is now possible to connect to the host using
+ plain Sockets.
+ 
+ Plain Sockets are important because not all host systems run Web Support. CICS
+ sockets are available for a larger range of CICS versions for instance.
+ 
+ Documentation for socket connectivity is available {{{legstar-csokrt} here}}.
+ 
+ * Connection pooling
+ 
+ It is now possible to reuse connections for both HTTP and Sockets transports.
+ 
+ A multi-threaded engine manages a pool of open connections to the host. Incoming
+ requests can reuse such opened connections, significantly reducing the CPU
+ activity on the client and host.
+ 
+ Documentation for the pooling engine is available {{{legstar-engine} here}}.
+ 
+ * Connectivity refactoring
+ 
+ To support the new connectivity options, as well as preparing for more transport
+ options, the connectivity layer has been completely redesigned. Messaging, which
+ deals with the exchange content format, has been separated from the Invoker, which
+ deals with the exchange execution.
+ 
+ Documentation for the messaging layer is available {{{legstar-messaging} here}}.
+ Documentation for the invoker is available {{{legstar-invoker} here}}.
+  
