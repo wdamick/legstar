@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Legstar">
+  <publishDate format="dd-MMMM-yyyy"/>
+  <bannerLeft>
+    <name>Legstar</name>
+    <src>images/legstar-logo.png</src>
+    <href>http://www.legsem.com/legstar</href>
+  </bannerLeft>
+  <bannerRight>
+    <name>AnnouncingV1.0.1</name>
+    <src>images/legstar-1.0.1-new.png</src>
+    <href>latest-release-overview.html</href>
+  </bannerRight>
+  
+  <skin>
+    <groupId>com.legsem.legstar</groupId>
+    <artifactId>legstar-skin</artifactId>
+    <version>1.0.0</version>
+  </skin>
+  
+  <body>
+    <links>
+      <item name="Email" href="mailto:admin@legsem.com" />
+      <item name="LegStar" href="http://www.legsem.com/legstar" />
+      <item name="IBM COBOL" href="http://www-306.ibm.com/software/awdtools/cobol/zos/" />
+      <item name="W3C XML Schema" href="http://www.w3.org/XML/Schema"/>
+    </links>
+
+    <menu name="LegStar">
+      <item name="Introduction" href="index.html"/>
+      <item name="Presentation (pdf)" href="pdf/legstar-presentation.pdf"/>
+      <item name="Download" href="legstar-distribution/download.html"/>
+      <item name="Release Notes" href="legstar-distribution/release-notes.html" />
+      <item name="Copyright" href="copyright.html" />
+    </menu>
+
+    <menu name="Generation Modules">
+      <item name="Schema Generator" href="legstar-schemagen/index.html"/>
+      <item name="Binding Generator" href="legstar-coxbgen/index.html"/>
+      <item name="Service Generator" href="legstar-cixsgen/index.html"/>
+    </menu>
+
+    <menu name="Runtime Modules">
+      <item name="Messaging runtime" href="legstar-messaging/index.html"/>
+      <item name="Invoke runtime" href="legstar-invoker/index.html"/>
+      <item name="Binding runtime" href="legstar-coxbrt/index.html"/>
+      <item name="Pooling engine" href="legstar-engine/index.html"/>
+      <item name="Socket transport" href="legstar-csokrt/index.html"/>
+      <item name="HTTP transport" href="legstar-chttprt/index.html"/>
+    </menu>
+    
+    <menu name="Eclipse Modules">
+      <item name="Schema Generator" href="legstar-schemagen-plugin/index.html"/>
+      <item name="Binding Generator" href="legstar-coxbgen-plugin/index.html"/>
+      <item name="Service Generator" href="legstar-cixsgen-plugin/index.html"/>
+    </menu>
+
+    ${reports}
+  </body>
+</project>
