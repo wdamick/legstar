@@ -51,7 +51,6 @@
           </executions>
         </plugin>
      
-      <!-- Creates a single distribution.  -->
      <plugin>
       <artifactId>maven-antrun-plugin</artifactId>
       <executions>
@@ -59,8 +58,12 @@
           <phase>install</phase>
           <configuration>
             <tasks>
+              <!-- Creates a single distribution for all sources.  -->
               <ant antfile="${basedir}/src/main/ant/build-distribution-sources.xml">
                 <property name="version" value="${project.parent.version}" />
+              </ant>
+              <!-- Copy older versions to distribution folder.  -->
+              <ant antfile="${basedir}/src/main/ant/copy-old-versions.xml">
               </ant>
              </tasks>
           </configuration>

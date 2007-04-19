@@ -72,18 +72,25 @@
       </includes>
     </fileSet>
     
-    <!-- Sample configuration file -->
-    <fileSet>
-      <directory>../legstar-invoker/src/site/resources/samples</directory>
-      <outputDirectory>/samples</outputDirectory>
-      <includes>
-        <include>config.xml</include>
-      </includes>
-    </fileSet>
-    
   </fileSets>
   
   <files>
+    <file>
+       <!-- Include the invoker configuration file -->
+       <source>../legstar-invoker/src/site/resources/samples/config.xml</source>
+       <outputDirectory>/samples/</outputDirectory>
+    </file>
+    <file>
+       <!-- Include the engine configuration file -->
+       <source>../legstar-engine/src/site/resources/samples/config.xml</source>
+       <outputDirectory>/samples/</outputDirectory>
+       <destName>config-engine.xml</destName>
+    </file>
+    <file>
+       <!-- Include the engine servlet war file -->
+       <source>../legstar-engine/target/legstar-engine.war</source>
+       <outputDirectory>/war/</outputDirectory>
+    </file>
     <file>
        <source>../legstar-schemagen/LICENSE</source>
        <outputDirectory>/</outputDirectory>

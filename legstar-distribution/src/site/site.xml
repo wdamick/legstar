@@ -2,7 +2,7 @@
 <project name="Legstar">
   <body>
 
-    <menu name="LegStar distribution">
+    <menu name="LegStar Distribution">
       <item name="Introduction" href="index.html"/>
       <item name="Download" href="download.html"/>
       <item name="Release Notes" href="release-notes.html" />
