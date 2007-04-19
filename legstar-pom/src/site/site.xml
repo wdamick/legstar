@@ -42,7 +42,7 @@
 
     <menu name="Runtime Modules">
       <item name="Messaging runtime" href="legstar-messaging/index.html"/>
-      <item name="Invoke runtime" href="legstar-invoker/index.html"/>
+      <item name="Invoker runtime" href="legstar-invoker/index.html"/>
       <item name="Binding runtime" href="legstar-coxbrt/index.html"/>
       <item name="Pooling engine" href="legstar-engine/index.html"/>
       <item name="Socket transport" href="legstar-csokrt/index.html"/>
@@ -53,6 +53,7 @@
       <item name="Schema Generator" href="legstar-schemagen-plugin/index.html"/>
       <item name="Binding Generator" href="legstar-coxbgen-plugin/index.html"/>
       <item name="Service Generator" href="legstar-cixsgen-plugin/index.html"/>
+      <item name="Common plugin" href="legstar-common-plugin/index.html"/>
     </menu>
 
     ${reports}

@@ -35,7 +35,7 @@
       </question>
       <answer>
        The endpoint implementation is looking for a configuration file which name is specified in the web.xml
-       deployment file. By default this file is named config.xml. There is a sample of such a file in the <samples>
+       deployment file. By default this file is named config.xml. There is a sample of such a file in the samples
        folder of the distribution. You need to customize this file and make a copy in the shared/classes
        folder under Tomcat. 
       </answer>
