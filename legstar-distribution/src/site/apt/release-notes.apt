@@ -86,7 +86,10 @@ INSTALLING/UNINSTALLING:
        command "ant".  This should deploy the sample JAXWS endpoint into your
        target Tomcat.
        
- [[8]] To uninstall, remove the installDir folder and remove references to 
+ [[8]] Optionally, you can use build-service-client.xml to generate a Web
+       service client using JAXWS.
+   
+ [[9]] To uninstall, remove the installDir folder and remove references to 
        installDir/bin from the search PATH.
 
 DOCUMENTATION:
