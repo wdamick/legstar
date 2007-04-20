@@ -257,11 +257,24 @@ public class CicsSocket implements Connection {
 			InputStream  in = mClientSocket.getInputStream();
 			ackString = getCharsFromHost(
 					in, mHostCharset, MAX_PROT_REPLY_LEN);
-			/* If this is not a valid ACK, it must be an error report*/
+			if (ackString == null || ackString.length() == 0) {
+				throw (new RequestException(
+						"No response from host."));
+			}
+			/* If this is not a valid ACK, it could be an error report*/
 			if (REPLY_ACK_MSG_EC.compareTo(
 					ackString.substring(
 							0, REPLY_ACK_MSG_EC.length())) != 0) {
-				throw (new RequestException(ackString));
+				/* Sanity check for characters being displayable. We expect
+				 * the host error reply to start with an error code in
+				 * uppercase characters. */
+				if (Character.getType(ackString.charAt(0))
+						== Character.UPPERCASE_LETTER) {
+					throw (new RequestException(ackString));
+				} else {
+					throw (new RequestException(
+							"Unrecognized response from host."));
+				}
 			}
 		} catch (IOException e) {
 			throw (new RequestException(e));
