@@ -35,6 +35,7 @@ INSTALLING/UNINSTALLING:
         |---->README
         |----><ant>
                 |---->build-service.xml
+                |---->build-service-client.xml
         |----><lib>
                 |---->*.jar
         |----><samples>
@@ -55,10 +56,13 @@ INSTALLING/UNINSTALLING:
        command "ant".  This should deploy the sample JAXWS endpoint into your
        target Tomcat. See the {{{faq.html} FAQ}} for common deployment issues.
        
- [[4]] Follow instructions in build-service.xml to generate JAXWS enpoints from
+ [[4]] Optionally, you can use build-service-client.xml to generate a Web
+       service client using JAXWS.
+   
+ [[5]] Follow instructions in build-service.xml to generate JAXWS enpoints from
        your own CICS programs.
    
- [[5]] To uninstall, remove the installDir folder.
+ [[6]] To uninstall, remove the installDir folder.
 
 DOCUMENTATION:
 
