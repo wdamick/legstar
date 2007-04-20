@@ -1,0 +1,140 @@
+<!-- =================================================================================
+     This script uploads this project maven site to the target deployment Web site.
+ -->
+<project basedir="../../" default="uploadAll">
+
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+	<target name="init">
+		<!-- Remote host  -->
+	 	<property name="ftp.host" value="ftp.legsem.com" />
+		<!-- Remote root  -->
+	 	<property name="root" value="public_html" />
+		<!-- FTP user ID  -->
+	 	<property name="ftp.user" value="legse7" />
+		<!-- FTP pawword  -->
+	 	<property name="ftp.pass" value="gabuzomeu" />
+		<!-- Verbosity  -->
+	 	<property name="verbose" value="yes" />
+	</target>
+	
+	<target name="uploadCommonSite" depends="init">
+	  <ftp server="${ftp.host}" userid="${ftp.user}" password="${ftp.pass}" depends="yes" verbose="${verbose}" action="send"
+	       remotedir="${root}/legstar">
+	    <fileset dir="target/site"/>
+	  </ftp>
+	</target>
+	
+	<target name="uploadDistributionSite" depends="init">
+	  <ftp server="${ftp.host}" userid="${ftp.user}" password="${ftp.pass}" depends="yes" verbose="${verbose}" action="put"
+	       remotedir="${root}/legstar/legstar-distribution">
+	    <fileset dir="../legstar-distribution/target/site"/>
+	  </ftp>
+	</target>
+	
+	<target name="uploadChttprtSite" depends="init">
+	  <ftp server="${ftp.host}" userid="${ftp.user}" password="${ftp.pass}" depends="yes" verbose="${verbose}" action="put"
+	       remotedir="${root}/legstar/legstar-chttprt">
+	    <fileset dir="../legstar-chttprt/target/site"/>
+	  </ftp>
+	</target>
+	
+	<target name="uploadCixsgenSite" depends="init">
+	  <ftp server="${ftp.host}" userid="${ftp.user}" password="${ftp.pass}" depends="yes" verbose="${verbose}" action="put"
+	       remotedir="${root}/legstar/legstar-cixsgen">
+	    <fileset dir="../legstar-cixsgen/target/site"/>
+	  </ftp>
+	</target>
+	
+	<target name="uploadCixsgenPluginSite" depends="init">
+	  <ftp server="${ftp.host}" userid="${ftp.user}" password="${ftp.pass}" depends="yes" verbose="${verbose}" action="put"
+	       remotedir="${root}/legstar/legstar-cixsgen-plugin">
+	    <fileset dir="../legstar-cixsgen-plugin/target/site"/>
+	  </ftp>
+	</target>
+	
+	<target name="uploadCommonPluginSite" depends="init">
+	  <ftp server="${ftp.host}" userid="${ftp.user}" password="${ftp.pass}" depends="yes" verbose="${verbose}" action="put"
+	       remotedir="${root}/legstar/legstar-common-plugin">
+	    <fileset dir="../legstar-common-plugin/target/site"/>
+	  </ftp>
+	</target>
+	
+	<target name="uploadCoxbgenSite" depends="init">
+	  <ftp server="${ftp.host}" userid="${ftp.user}" password="${ftp.pass}" depends="yes" verbose="${verbose}" action="put"
+	       remotedir="${root}/legstar/legstar-coxbgen">
+	    <fileset dir="../legstar-coxbgen/target/site"/>
+	  </ftp>
+	</target>
+	
+	<target name="uploadCoxbgenPluginSite" depends="init">
+	  <ftp server="${ftp.host}" userid="${ftp.user}" password="${ftp.pass}" depends="yes" verbose="${verbose}" action="put"
+	       remotedir="${root}/legstar/legstar-coxbgen-plugin">
+	    <fileset dir="../legstar-coxbgen-plugin/target/site"/>
+	  </ftp>
+	</target>
+	
+	<target name="uploadCoxbrtSite" depends="init">
+	  <ftp server="${ftp.host}" userid="${ftp.user}" password="${ftp.pass}" depends="yes" verbose="${verbose}" action="put"
+	       remotedir="${root}/legstar/legstar-coxbrt">
+	    <fileset dir="../legstar-coxbrt/target/site"/>
+	  </ftp>
+	</target>
+	
+	<target name="uploadCsokrtSite" depends="init">
+	  <ftp server="${ftp.host}" userid="${ftp.user}" password="${ftp.pass}" depends="yes" verbose="${verbose}" action="put"
+	       remotedir="${root}/legstar/legstar-csokrt">
+	    <fileset dir="../legstar-csokrt/target/site"/>
+	  </ftp>
+	</target>
+	
+	<target name="uploadEngineSite" depends="init">
+	  <ftp server="${ftp.host}" userid="${ftp.user}" password="${ftp.pass}" depends="yes" verbose="${verbose}" action="put"
+	       remotedir="${root}/legstar/legstar-engine">
+	    <fileset dir="../legstar-engine/target/site"/>
+	  </ftp>
+	</target>
+	
+	<target name="uploadInvokerSite" depends="init">
+	  <ftp server="${ftp.host}" userid="${ftp.user}" password="${ftp.pass}" depends="yes" verbose="${verbose}" action="put"
+	       remotedir="${root}/legstar/legstar-invoker">
+	    <fileset dir="../legstar-invoker/target/site"/>
+	  </ftp>
+	</target>
+	
+	<target name="uploadMessagingSite" depends="init">
+	  <ftp server="${ftp.host}" userid="${ftp.user}" password="${ftp.pass}" depends="yes" verbose="${verbose}" action="put"
+	       remotedir="${root}/legstar/legstar-messaging">
+	    <fileset dir="../legstar-messaging/target/site"/>
+	  </ftp>
+	</target>
+	
+	<target name="uploadSchemagenSite" depends="init">
+	  <ftp server="${ftp.host}" userid="${ftp.user}" password="${ftp.pass}" depends="yes" verbose="${verbose}" action="put"
+	       remotedir="${root}/legstar/legstar-schemagen">
+	    <fileset dir="../legstar-schemagen/target/site"/>
+	  </ftp>
+	</target>
+	
+	<target name="uploadSchemagenPluginSite" depends="init">
+	  <ftp server="${ftp.host}" userid="${ftp.user}" password="${ftp.pass}" depends="yes" verbose="${verbose}" action="put"
+	       remotedir="${root}/legstar/legstar-schemagen-plugin">
+	    <fileset dir="../legstar-schemagen-plugin/target/site"/>
+	  </ftp>
+	</target>
+	
+	<target name="uploadEclipseSite" depends="init">
+		  <ftp server="${ftp.host}" userid="${ftp.user}" password="${ftp.pass}" depends="yes" verbose="${verbose}" action="put"
+	       remotedir="public_html/legstar/eclipse/update">
+	    <fileset dir="../legstar-site"/>
+	  </ftp>
+	</target>
+    <!-- 
+	<target name="uploadAll" depends="uploadCommonSite,uploadDistributionSite,uploadChttprtSite,uploadCixsgenSite,uploadCixsgenPluginSite,uploadCommonPluginSite,uploadCoxbgenSite,uploadCoxbgenPluginSite,uploadCoxbrtSite,uploadCsokrtSite,uploadEngineSite,uploadInvokerSite,uploadMessagingSite,uploadSchemagenSite,uploadSchemagenPluginSite,uploadEclipseSite">
+	-->
+	<target name="uploadAll" depends="uploadCoxbrtSite,uploadCsokrtSite,uploadEngineSite,uploadInvokerSite,uploadMessagingSite,uploadSchemagenSite,uploadSchemagenPluginSite,uploadEclipseSite">
+		<echo>Uploading all</echo>
+	</target>
+
+</project>
