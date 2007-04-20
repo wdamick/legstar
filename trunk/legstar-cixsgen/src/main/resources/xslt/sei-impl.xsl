@@ -169,7 +169,7 @@ public class <xsl:value-of select="$implementation-class-name"/> implements <xsl
               <xsl:value-of select="output/@jaxb-type"/>Binding(jaxbOutFactory);
       
       /* Call remote program */
-      mInvoker.invoke((hostHeader == null) ? "alltypes" 
+      mInvoker.invoke((hostHeader == null) ? "<xsl:value-of select="operation-name"/>" 
     		  : hostHeader.getHostRequestID(), cein, ceout);
       
       /* Get reply object */

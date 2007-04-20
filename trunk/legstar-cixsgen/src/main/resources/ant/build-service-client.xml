@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =================================================================================
+    This script generates a Web Service client for a deployed Web Service.
+    Prior to using this script, the target Web Service must have been successfully
+    deployed to a container such as Tomcat.
+    The script also assumes an environment variable JAXWS_HOME points to an
+    install of JAXWS RI.
+ -->
+<project basedir=".." default="compileServiceClient" name="build-service-client">
+
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	-->
+	<target name="init">
+		<property environment="env"/>
+	    <!-- Service name -->
+	    <property name="service-name" value="lsfileae" />
+	    <!-- Server host:port where service is deployed -->
+	    <property name="server-address" value="localhost:8080" />
+	    <!-- JAXWS RI -->
+	    <property name="jaxws.home" value="${env.JAXWS_HOME}" />
+	    <!-- Classpath setting -->
+	    <path id="classpath">
+	        <fileset dir="${jaxws.home}" includes="lib/*.jar" />
+	    </path>
+	    <!-- Sun's client generation ant task -->
+	    <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
+			<classpath refid="classpath"/>
+		</taskdef>
+	    <!-- Target location for generated sources -->
+	    <property name="src.dir" value="src/test/java" />
+		<mkdir dir="${src.dir}"/> 
+	    <!-- Target location for generated binaries -->
+	    <property name="bin.dir" value="target/test-classes" />
+		<mkdir dir="${bin.dir}"/> 
+	</target>
+
+	<target name="generateServiceClient" depends="init">
+		 <echo>Processing ${service-name}</echo>
+		 <wsimport
+		 	debug="true"
+		 	verbose="true"
+		 	keep="true"
+		 	destdir="${src.dir}"
+		 	wsdl="http://${server-address}/cixs-${service-name}/${service-name}?wsdl">
+		 </wsimport>
+  	</target>
+	
+	<!-- ===========================================================  -->
+	<!-- Compile the generated Web service. fork="no" prevents
+	     the bug on package-info.java
+	  -->
+	<target name="compileServiceClient" depends="generateServiceClient">
+		<javac srcdir="${src.dir}"
+		       destdir="${bin.dir}"
+		       classpathref="classpath"
+		       fork="no"
+		/>
+	</target>
+  
+</project>
