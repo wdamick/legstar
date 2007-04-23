@@ -50,6 +50,16 @@
        assuming your Server runs locally and is listening on port 8080.
       </answer>
     </faq>
+
+    <faq id="footer-company">
+      <question>
+       Why am I getting a "java.lang.LinkageError: JAXB 2.0 API is being loaded from the bootstrap classloader, but this RI (...) needs 2.1 API.?
+      </question>
+      <answer>
+       Your are probably running with JRE 1.6. JRE 1.6 comes with an implementation of JAXB 2.0 and JAXWS 2.0 while LegStar needs JAXB 2.1 and JAXWS 2.1.
+       To fix this issue, copy jaxb-api.jar and jaxws-api.jar from version 2.1 into <java-home>/lib/endorsed.
+      </answer>
+    </faq>
     
   <!--
     <faq id="">
