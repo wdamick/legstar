@@ -121,8 +121,8 @@ public class MetainfCases extends Task {
                 throw (new Exception("MISSING_CLASSPATH"));
             File file = new File(args[++i]);
             try {
-                classpaths.add(file.toURL());
-                System.out.println(file.toURL().toString() + " added to classpath");
+                classpaths.add(file.toURI().toURL());
+                System.out.println(file.toURI().toURL().toString() + " added to classpath");
             } catch (MalformedURLException e) {
                 throw (new Exception("NOT_A_VALID_FILENAME" + file.toString()));
             }

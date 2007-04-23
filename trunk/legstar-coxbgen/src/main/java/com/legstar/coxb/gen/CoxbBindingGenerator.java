@@ -151,7 +151,7 @@ public class CoxbBindingGenerator extends Task {
     	Object jaxbObjectFactory = null;
     	
         try {
-            URL url = jaxbDir.toURL();
+            URL url = jaxbDir.toURI().toURL();
             URL[] urls = new URL[]{url};
         
             /* Create a new class loader with the directory */
