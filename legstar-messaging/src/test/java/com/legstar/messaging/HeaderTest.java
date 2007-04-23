@@ -1,9 +1,30 @@
+/*******************************************************************************
+ *  LegStar legacy Web-enablement .
+ *  Copyright (C) 2007 LegSem
+ *  
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
+ *  
+ *  This library is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  Lesser General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with this library; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ *  02110-1301  USA
+ *  
+ *******************************************************************************/
 package com.legstar.messaging;
 
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -14,7 +35,10 @@ public class HeaderTest extends TestCase {
 	/** Tests JSON string builder. */
 	public final void testStringize() {
 		
-		HashMap < String, String > map = new HashMap < String, String >();
+		/* Use a linked hash map so that the order is guaranteed which
+		 * simplifies the asser clause. With a normal HashMap we would have
+		 * to test all combinations since the order is not guaranteed. */
+		HashMap < String, String > map = new LinkedHashMap < String, String >();
 		String json;
 		/* Test with empty map */
 		json = HeaderPart.stringizeKeyValues(map);
@@ -39,7 +63,7 @@ public class HeaderTest extends TestCase {
 	public final void testHeaderConstructor()
 			throws UnsupportedEncodingException {
 		
-		HashMap < String, String > map = new HashMap < String, String >();
+		HashMap < String, String > map = new LinkedHashMap < String, String >();
 		map.put("CICSLength", "79");
 		map.put("CICSDataLength", "6");
 		List < MessagePart > inputParts = new ArrayList < MessagePart >();

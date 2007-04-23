@@ -8,5 +8,6 @@
         <file-match-pattern match-pattern="src\\test\\*" include-pattern="false"/>
         <file-match-pattern match-pattern="src\\site\\resources\\samples\\*" include-pattern="false"/>
         <file-match-pattern match-pattern="target\\*" include-pattern="false"/>
+        <file-match-pattern match-pattern="test" include-pattern="false"/>
     </fileset>
 </fileset-config>
