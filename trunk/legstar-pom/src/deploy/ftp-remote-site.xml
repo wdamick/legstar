@@ -131,9 +131,10 @@
 	  </ftp>
 	</target>
     <!-- 
+	<target name="uploadAll" depends="uploadCoxbrtSite,uploadCsokrtSite,uploadEngineSite,uploadInvokerSite,uploadMessagingSite,uploadSchemagenSite,uploadSchemagenPluginSite,uploadEclipseSite">
 	<target name="uploadAll" depends="uploadCommonSite,uploadDistributionSite,uploadChttprtSite,uploadCixsgenSite,uploadCixsgenPluginSite,uploadCommonPluginSite,uploadCoxbgenSite,uploadCoxbgenPluginSite,uploadCoxbrtSite,uploadCsokrtSite,uploadEngineSite,uploadInvokerSite,uploadMessagingSite,uploadSchemagenSite,uploadSchemagenPluginSite,uploadEclipseSite">
 	-->
-	<target name="uploadAll" depends="uploadCoxbrtSite,uploadCsokrtSite,uploadEngineSite,uploadInvokerSite,uploadMessagingSite,uploadSchemagenSite,uploadSchemagenPluginSite,uploadEclipseSite">
+	<target name="uploadAll" depends="uploadCommonSite,uploadDistributionSite,uploadChttprtSite,uploadCixsgenSite,uploadCixsgenPluginSite,uploadCommonPluginSite,uploadCoxbgenSite,uploadCoxbgenPluginSite,uploadCoxbrtSite,uploadCsokrtSite,uploadEngineSite,uploadInvokerSite,uploadMessagingSite,uploadSchemagenSite,uploadSchemagenPluginSite,uploadEclipseSite">
 		<echo>Uploading all</echo>
 	</target>
 
