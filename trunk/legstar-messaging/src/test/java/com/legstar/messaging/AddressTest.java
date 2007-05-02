@@ -34,7 +34,6 @@ import junit.framework.TestCase;
 public class AddressTest extends TestCase {
 	
 	private static final String CONFIG_FILE = "config.xml";
-	/** Configuration XPath location for an endpoint. */
 	
 	public void testContructorFromConfig() {
 		Address address;

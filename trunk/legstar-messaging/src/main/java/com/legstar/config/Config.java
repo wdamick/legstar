@@ -148,9 +148,9 @@ public final class Config {
 		/* Instantiate the factory */
 		ConnectionFactory cFactory = null;
 		try {
-			Class factoryClazz = Class.forName(factoryClass);
-			Constructor constructor = factoryClazz.getConstructor(
-					new Class[] {HierarchicalConfiguration.class});
+			Class < ? > factoryClazz = Class.forName(factoryClass);
+			Constructor constructor
+				= factoryClazz.getConstructor(HierarchicalConfiguration.class);
 			cFactory = (ConnectionFactory) constructor.newInstance(
 					new Object[] {endpointConfig});
 		} catch (ClassNotFoundException e) {
