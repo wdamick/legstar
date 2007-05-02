@@ -36,8 +36,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.legstar.xslt.XSLTException;
-import com.legstar.xslt.XSLTGenerator;
 import com.legstar.xslt.XSLTParameter;
+import com.legstar.xslt.XSLTransform;
 
 /**
  * This class contains the logic to generate binding classes using
@@ -46,7 +46,7 @@ import com.legstar.xslt.XSLTParameter;
  * @author Fady Moussallam
  * 
  */
-public class CoxbBinding extends XSLTGenerator {
+public class CoxbBinding {
 
 	/** The XSL transform for binding classes. */
 	private static final String  BINDING_STYLE = "/xslt/coxb-bind.xsl";
@@ -73,13 +73,22 @@ public class CoxbBinding extends XSLTGenerator {
 	private static final String  UNMARSHAL_CHOICE_EXIST =
 		"unmarshal-choice-strategy-classname-exists";
 	
+	/** CoxbBinding uses a single XSL stylesheet associated with this
+	 *  transformer. */
+	private static XSLTransform mTransformer;
+	
 	/**
 	 * No-arg constructor.
 	 * 
 	 * @throws XSLTException if environment is not setup
 	 */
 	public CoxbBinding() throws XSLTException {
-		super();
+		if (mTransformer == null) {
+			/* XSLT style sheet is a resource within the jar */
+			InputStream xsltStream  = getClass().getResourceAsStream(
+					BINDING_STYLE);
+			mTransformer = new XSLTransform(xsltStream);
+		}
 	}
 	
 	/**
@@ -120,11 +129,9 @@ public class CoxbBinding extends XSLTGenerator {
 			throw (new XSLTException("Unable to locate resource "
 					+ BINDING_STYLE));
 		}
-		
-		getXformer().transform(bindingXMLFile,
-				xsltStream,
-				new File(targetDirName + '/' + "dummy").toURI().toString(),
-				params);
+		mTransformer.setParams(params);
+		mTransformer.transform(bindingXMLFile,
+				new File(targetDirName + '/' + "dummy").toURI().toString());
 	}
 	
 	/**
