@@ -38,5 +38,12 @@ public class XSLTException extends Exception {
 	public XSLTException(final String message) {
 		super(message);
 	}
+	/** 
+	 * Constructor from an inner exception. 
+	 * @param e the inner exception 
+	 * */
+	public XSLTException(final Exception e) {
+		super(e);
+	}
 
 }

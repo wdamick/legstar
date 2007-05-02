@@ -26,22 +26,23 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
+import com.legstar.xslt.XSLTException;
+import com.legstar.xslt.XSLTransform;
+
 public class XSLTTest extends TestCase {
 	
-	/** Check XSLT 2.0 capabilities */
-	public void testXSLT() throws IOException {
+	/** Check XSLT 2.0 capabilities 
+	 * @throws XSLTException */
+	public void testXSLT() throws IOException, XSLTException {
 		
         /* Create a temporary output folder. */
 		java.io.File temp = java.io.File.createTempFile("dummy", ".tmp");
         temp.deleteOnExit();
-		String dest = temp.getAbsolutePath();
-    
-		com.legstar.xslt.XSLTLegstar xsltTask = new com.legstar.xslt.XSLTLegstar();
-		xsltTask.setXmlfile("src/test/resources/xml/xmltest-01.xml");
-		xsltTask.setXsltfile("/xslt/xsltest-01.xsl");
-		xsltTask.setResultfile(dest);
-		xsltTask.execute();
+		String dest = new java.io.File(temp.getAbsolutePath()).toURI().toString();
 		
+		XSLTransform t = new XSLTransform("/xslt/xsltest-01.xsl");
+		t.transform("src/test/resources/xml/xmltest-01.xml", dest);
+	
 		/* The generated class name is different from the dummy temp file. It
 		 * is under a package hierarchy. */
 		
