@@ -27,6 +27,7 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Combo;
@@ -49,6 +50,8 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+
+import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -97,12 +100,12 @@ public class LegacyOperationDialog extends Dialog {
 	private Text mOperationProgramText = null;
 	/** Input package combo. */
 	private Combo mOperationInputPackageCombo = null;
-	/** Input type combo. */
-	private Combo mOperationInputTypeCombo = null;
+	/** Input type list. */
+	private List mOperationInputTypeList = null;
 	/** Output package combo. */
 	private Combo mOperationOutputPackageCombo = null;
-	/** Output type combo. */
-	private Combo mOperationOutputTypeCombo = null;
+	/** Output type list. */
+	private List mOperationOutputTypeList = null;
 	
 	/** Indicates if host program name should be automatically derived from
      * operation name. */
@@ -172,8 +175,6 @@ public class LegacyOperationDialog extends Dialog {
 		GridLayout gridLayout = new GridLayout(2, false);
 		gridLayout.numColumns = 2;
 		area.setLayout(gridLayout);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		area.setLayoutData(gd);
 
 		addLabel(area, OP_NAME_LABEL);
 		mOperationNameText = addText(area, mOperationName);
@@ -230,12 +231,12 @@ public class LegacyOperationDialog extends Dialog {
 				new SelectionListener() {
 			public void widgetDefaultSelected(final SelectionEvent e) {
 				packageListChanged(mOperationInputPackageCombo,
-						mOperationInputTypeCombo,
+						mOperationInputTypeList,
 						mOperationInputType);
 			}
 			public void widgetSelected(final SelectionEvent e) {
 				packageListChanged(mOperationInputPackageCombo,
-						mOperationInputTypeCombo,
+						mOperationInputTypeList,
 						mOperationInputType);
 			}
 		});
@@ -247,8 +248,8 @@ public class LegacyOperationDialog extends Dialog {
 	 */
 	private void initInputTypeCombo(final Composite area) {
 		addLabel(area, IN_CLASS_COL_LABEL);
-		mOperationInputTypeCombo = addCombo(area);
-		mOperationInputTypeCombo.addSelectionListener(new SelectionListener() {
+		mOperationInputTypeList = addList(area);
+		mOperationInputTypeList.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(final SelectionEvent e) {
 				inputTypeListChanged();
 			}
@@ -269,12 +270,12 @@ public class LegacyOperationDialog extends Dialog {
 				new SelectionListener() {
 			public void widgetDefaultSelected(final SelectionEvent e) {
 				packageListChanged(mOperationOutputPackageCombo,
-						mOperationOutputTypeCombo,
+						mOperationOutputTypeList,
 						mOperationOutputType);
 			}
 			public void widgetSelected(final SelectionEvent e) {
 				packageListChanged(mOperationOutputPackageCombo,
-						mOperationOutputTypeCombo,
+						mOperationOutputTypeList,
 						mOperationOutputType);
 			}
 		});
@@ -286,8 +287,8 @@ public class LegacyOperationDialog extends Dialog {
 	 */
 	private void initOutputTypeCombo(final Composite area) {
 		addLabel(area, OUT_CLASS_COL_LABEL);
-		mOperationOutputTypeCombo = addCombo(area);
-		mOperationOutputTypeCombo.addSelectionListener(new SelectionListener() {
+		mOperationOutputTypeList = addList(area);
+		mOperationOutputTypeList.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(final SelectionEvent e) {
 				outputTypeListChanged();
 			}
@@ -306,6 +307,7 @@ public class LegacyOperationDialog extends Dialog {
 	private static Label addLabel(final Composite area, final String text) {
 		Label label = new Label(area, SWT.NONE);
 		label.setText(text);
+		label.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 		return label;
 	}
 
@@ -317,8 +319,9 @@ public class LegacyOperationDialog extends Dialog {
 	 */
 	private static Text addText(final Composite area, final String initText) {
 		Text text = new Text(area, SWT.BORDER);
-		text.setLayoutData(
-				new GridData(GridData.FILL_HORIZONTAL));
+		GridData gdRight = new GridData(GridData.FILL_HORIZONTAL);
+		gdRight.widthHint = 200;
+		text.setLayoutData(gdRight);
 		text.setText(initText);
 		return text;
 	}
@@ -333,6 +336,21 @@ public class LegacyOperationDialog extends Dialog {
 				| SWT.BORDER | SWT.V_SCROLL);
 		combo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		return combo;
+	}
+	
+	/**
+	 * Create a List widget.
+	 * @param area parent composite
+	 * @return the new list widget
+	 */
+	private static List addList(final Composite area) {
+		List list = new List(area, SWT.READ_ONLY | SWT.SINGLE
+				| SWT.BORDER | SWT.V_SCROLL);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.widthHint = 200;
+		gd.heightHint = 100;
+		list.setLayoutData(gd);
+		return list;
 	}
 	
 	/**
@@ -363,10 +381,10 @@ public class LegacyOperationDialog extends Dialog {
 				mOperationInputPackageCombo.select(0);
 			}
 			packageListChanged(mOperationInputPackageCombo,
-					mOperationInputTypeCombo,
+					mOperationInputTypeList,
 					mOperationInputType);
 			packageListChanged(mOperationOutputPackageCombo,
-					mOperationOutputTypeCombo,
+					mOperationOutputTypeList,
 					mOperationOutputType);
 		}
 	}
@@ -380,31 +398,31 @@ public class LegacyOperationDialog extends Dialog {
 	/**
 	 * Populate the types list based on latest package selection.
 	 * @param pkgCombo the input or output package combo box
-	 * @param typeCombo the input or output type combo box
+	 * @param typeList the input or output type list box
 	 * @param type the current input or output type
 	 */
 	private void packageListChanged(
 			final Combo pkgCombo,
-			final Combo typeCombo,
+			final List typeList,
 			final String type) {
 		IPackageFragment pkgf = mPkgMap.get(
 				pkgCombo.getText() + "."  + BIND_FRAG);
 		if (pkgf != null) {
 			java.util.List < String > typesList = classList(pkgf);
-			typeCombo.removeAll();
+			typeList.removeAll();
 			for (int i = 0; i < typesList.size(); i++) {
 				/* Strip the binding suffix to show JAXB classes names */
 				String bindType = typesList.get(i);
 				String jaxbType = bindType.substring(
 						0, bindType.indexOf(BIND_SUFFIX, 0));
-				typeCombo.add(jaxbType);
+				typeList.add(jaxbType);
 			}
 			if (typesList.size() > 0) {
-				int i = typeCombo.indexOf(type);
+				int i = typeList.indexOf(type);
 				if (i > 0) {
-					typeCombo.select(i);
+					typeList.select(i);
 				} else {
-					typeCombo.select(0);
+					typeList.select(0);
 				}
 			}
 		}
@@ -415,14 +433,18 @@ public class LegacyOperationDialog extends Dialog {
 	 * User selected an input type.
 	 */
 	private void inputTypeListChanged() {
-		mOperationInputType = mOperationInputTypeCombo.getText();
+		if (mOperationInputTypeList.getSelectionCount() > 0) {
+			mOperationInputType = mOperationInputTypeList.getSelection()[0];
+		}
 	}
 	
 	/**
 	 * User selected an output type.
 	 */
 	private void outputTypeListChanged() {
-		mOperationOutputType = mOperationOutputTypeCombo.getText();
+		if (mOperationOutputTypeList.getSelectionCount() > 0) {
+			mOperationOutputType = mOperationOutputTypeList.getSelection()[0];
+		}
 	}
 	
 	/* (non-Javadoc)
@@ -437,9 +459,9 @@ public class LegacyOperationDialog extends Dialog {
 		mOperationName = mOperationNameText.getText();
 		mOperationProgram = mOperationProgramText.getText();
 		mOperationInputPackage = mOperationInputPackageCombo.getText();
-		mOperationInputType = mOperationInputTypeCombo.getText();
+		inputTypeListChanged();
 		mOperationOutputPackage = mOperationOutputPackageCombo.getText();
-		mOperationOutputType = mOperationOutputTypeCombo.getText();
+		outputTypeListChanged();
 		close();
 	}
 
@@ -492,6 +514,7 @@ public class LegacyOperationDialog extends Dialog {
 		} catch (JavaModelException e) {
 			return null;
 		}
+		Collections.sort(classes);
 		return classes;
 	}
 
@@ -512,6 +535,20 @@ public class LegacyOperationDialog extends Dialog {
 		String programName = mOperationProgramText.getText();
 		if (programName.length() == 0) {
 			errorDialog(getShell(), "You must provide an program name");
+			return false;
+		}
+
+		/* An input type must be selected */
+		if (mOperationInputTypeList.getItemCount() != 0 
+				&& mOperationInputTypeList.getSelectionCount() == 0) {
+			errorDialog(getShell(), "You must select an input type");
+			return false;
+		}
+		
+		/* An output type must be selected */
+		if (mOperationOutputTypeList.getItemCount() != 0 
+				&& mOperationOutputTypeList.getSelectionCount() == 0) {
+			errorDialog(getShell(), "You must select an output type");
 			return false;
 		}
 		
