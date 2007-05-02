@@ -20,8 +20,11 @@
  *******************************************************************************/
 package com.legstar.cixs.gen;
 
+import java.io.File;
+import java.io.InputStream;
+
 import com.legstar.xslt.XSLTException;
-import com.legstar.xslt.XSLTGenerator;
+import com.legstar.xslt.XSLTransform;
 
 /**
  * This class contains the logic to generate a program properties file using
@@ -30,10 +33,13 @@ import com.legstar.xslt.XSLTGenerator;
  * @author Fady Moussallam
  * 
  */
-public class CixsProgramProp extends XSLTGenerator {
+public class CixsProgramProp {
 
 	/** The XSL transform for program properties. */
 	private static final String  PROGPROP_STYLE = "/xslt/program-prop.xsl";
+
+	/** Program properties XSL stylesheet associated with this transformer. */
+	private static XSLTransform mTransformer;
 	
 	/**
 	 * No-arg constructor.
@@ -41,7 +47,12 @@ public class CixsProgramProp extends XSLTGenerator {
 	 * @throws XSLTException if environment is not setup
 	 */
 	public CixsProgramProp() throws XSLTException {
-		super();
+		if (mTransformer == null) {
+			/* XSLT style sheet is a resource within the jar */
+			InputStream xsltStream  = getClass().getResourceAsStream(
+					PROGPROP_STYLE);
+			mTransformer = new XSLTransform(xsltStream);
+		}
 	}
 	
 	/**
@@ -56,6 +67,8 @@ public class CixsProgramProp extends XSLTGenerator {
 			final String targetDir) throws XSLTException {
 		
 		String targetFileName = targetDir + '/' + "dummy";
-		transform(serviceDescriptorFile, targetFileName, PROGPROP_STYLE);
+		mTransformer.setParams(null);
+		mTransformer.transform(serviceDescriptorFile,
+				new File(targetFileName).toURI().toString());
 	}
 }

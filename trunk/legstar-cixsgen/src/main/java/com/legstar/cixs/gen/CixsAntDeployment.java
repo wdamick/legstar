@@ -20,11 +20,13 @@
  *******************************************************************************/
 package com.legstar.cixs.gen;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.Vector;
 
 import com.legstar.xslt.XSLTException;
-import com.legstar.xslt.XSLTGenerator;
 import com.legstar.xslt.XSLTParameter;
+import com.legstar.xslt.XSLTransform;
 
 /**
  * This class contains the logic to generate an ANT deployment script using
@@ -33,7 +35,7 @@ import com.legstar.xslt.XSLTParameter;
  * @author Fady Moussallam
  * 
  */
-public class CixsAntDeployment extends XSLTGenerator {
+public class CixsAntDeployment {
 
 	/** The XSL transform for ant deployment script. */
 	private static final String  BUILD_STYLE = "/xslt/ant-build-war.xsl";
@@ -59,13 +61,21 @@ public class CixsAntDeployment extends XSLTGenerator {
 	/** The XSLT parameter for custom binaries location. */
 	private static final String  CUST_BIN_DIR = "cust-bin-dir";
 	
+	/** ANT deployment XSL stylesheet associated with this transformer. */
+	private static XSLTransform mTransformer;
+	
 	/**
 	 * No-arg constructor.
 	 * 
 	 * @throws XSLTException if environment is not setup
 	 */
 	public CixsAntDeployment() throws XSLTException {
-		super();
+		if (mTransformer == null) {
+			/* XSLT style sheet is a resource within the jar */
+			InputStream xsltStream  = getClass().getResourceAsStream(
+					BUILD_STYLE);
+			mTransformer = new XSLTransform(xsltStream);
+		}
 	}
 	
 	/**
@@ -123,8 +133,9 @@ public class CixsAntDeployment extends XSLTGenerator {
 		custBinDirParm.setExpression(custBinDir);
 		params.add(custBinDirParm);
 		
-		transform(serviceDescriptorFile,
-				targetAntDir + '/' + BUILD_FILE, BUILD_STYLE, params);
+		mTransformer.setParams(params);
+		mTransformer.transform(serviceDescriptorFile,
+				new File(targetAntDir + '/' + BUILD_FILE).toURI().toString());
 	}
 
 }

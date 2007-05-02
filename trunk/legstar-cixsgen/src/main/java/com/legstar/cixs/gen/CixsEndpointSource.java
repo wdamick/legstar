@@ -20,8 +20,11 @@
  *******************************************************************************/
 package com.legstar.cixs.gen;
 
+import java.io.File;
+import java.io.InputStream;
+
 import com.legstar.xslt.XSLTException;
-import com.legstar.xslt.XSLTGenerator;
+import com.legstar.xslt.XSLTransform;
 
 /**
  * This class contains the logic to generate a JAXWS endpoint code using
@@ -30,7 +33,7 @@ import com.legstar.xslt.XSLTGenerator;
  * @author Fady Moussallam
  * 
  */
-public class CixsEndpointSource extends XSLTGenerator {
+public class CixsEndpointSource {
 
 	/** The XSL transform for service endpoint interface. */
 	private static final String  SEI_STYLE = "/xslt/sei.xsl";
@@ -44,13 +47,46 @@ public class CixsEndpointSource extends XSLTGenerator {
 	/** The XSL transform for service endpoint operations. */
 	private static final String  OPERATION_STYLE = "/xslt/sei-operation.xsl";
 	
+	/** Endpoint interface XSL stylesheet associated with this transformer. */
+	private static XSLTransform mTransformerEI;
+	
+	/** Endpoint implementation XSL stylesheet associated with this
+	 *  transformer. */
+	private static XSLTransform mTransformerEX;
+	
+	/** Header implementation XSL stylesheet associated with this
+	 *  transformer. */
+	private static XSLTransform mTransformerHI;
+	
+	/** Endpoint operations XSL stylesheet associated with this transformer. */
+	private static XSLTransform mTransformerEO;
+	
 	/**
 	 * No-arg constructor.
 	 * 
 	 * @throws XSLTException if environment is not setup
 	 */
 	public CixsEndpointSource() throws XSLTException {
-		super();
+		if (mTransformerEI == null) {
+			InputStream xsltStream  = getClass().getResourceAsStream(
+					SEI_STYLE);
+			mTransformerEI = new XSLTransform(xsltStream);
+		}
+		if (mTransformerEX == null) {
+			InputStream xsltStream  = getClass().getResourceAsStream(
+					SEIMPL_STYLE);
+			mTransformerEX = new XSLTransform(xsltStream);
+		}
+		if (mTransformerHI == null) {
+			InputStream xsltStream  = getClass().getResourceAsStream(
+					HOSTHEADER_STYLE);
+			mTransformerHI = new XSLTransform(xsltStream);
+		}
+		if (mTransformerEO == null) {
+			InputStream xsltStream  = getClass().getResourceAsStream(
+					OPERATION_STYLE);
+			mTransformerEO = new XSLTransform(xsltStream);
+		}
 	}
 	
 	/**
@@ -66,16 +102,20 @@ public class CixsEndpointSource extends XSLTGenerator {
 
 		String targetFileName = targetDir + '/' + "dummy";
 		/* Create service endpoint */
-		transform(serviceDescriptorFile, targetFileName, SEI_STYLE);
+		mTransformerEI.transform(serviceDescriptorFile,
+				new File(targetFileName).toURI().toString());
 		
 		/* Create service endpoint implementation */
-		transform(serviceDescriptorFile, targetFileName, SEIMPL_STYLE);
+		mTransformerEX.transform(serviceDescriptorFile,
+				new File(targetFileName).toURI().toString());
 
 		/* Create host header */
-		transform(serviceDescriptorFile, targetFileName, HOSTHEADER_STYLE);
+		mTransformerHI.transform(serviceDescriptorFile,
+				new File(targetFileName).toURI().toString());
 
 		/* Create service endpoint faults and request/response wrappers */
-		transform(serviceDescriptorFile, targetFileName, OPERATION_STYLE);
+		mTransformerEO.transform(serviceDescriptorFile,
+				new File(targetFileName).toURI().toString());
 	}
 
 }

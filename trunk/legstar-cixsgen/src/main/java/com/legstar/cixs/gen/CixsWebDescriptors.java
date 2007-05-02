@@ -20,8 +20,11 @@
  *******************************************************************************/
 package com.legstar.cixs.gen;
 
+import java.io.File;
+import java.io.InputStream;
+
 import com.legstar.xslt.XSLTException;
-import com.legstar.xslt.XSLTGenerator;
+import com.legstar.xslt.XSLTransform;
 
 /**
  * This class contains the logic to generate WEB and JAXWS deployment XML using
@@ -30,7 +33,7 @@ import com.legstar.xslt.XSLTGenerator;
  * @author Fady Moussallam
  * 
  */
-public class CixsWebDescriptors extends XSLTGenerator {
+public class CixsWebDescriptors {
 
 	/** The XSL transform for web descriptors. */
 	private static final String  WEBXML_STYLE = "/xslt/web-xml.xsl";
@@ -44,13 +47,30 @@ public class CixsWebDescriptors extends XSLTGenerator {
 	/** The resulting jaxws descriptor. */
 	private static final String  JAXWS_FILE = "sun-jaxws.xml";
 	
+	/** Web descriptors XSL stylesheet associated with this transformer. */
+	private static XSLTransform mTransformerWD;
+	
+	/** Jaxws descriptors XSL stylesheet associated with this transformer. */
+	private static XSLTransform mTransformerJD;
+	
 	/**
 	 * No-arg constructor.
 	 * 
 	 * @throws XSLTException if environment is not setup
 	 */
 	public CixsWebDescriptors() throws XSLTException {
-		super();
+		if (mTransformerWD == null) {
+			/* XSLT style sheet is a resource within the jar */
+			InputStream xsltStream  = getClass().getResourceAsStream(
+					WEBXML_STYLE);
+			mTransformerWD = new XSLTransform(xsltStream);
+		}
+		if (mTransformerJD == null) {
+			/* XSLT style sheet is a resource within the jar */
+			InputStream xsltStream  = getClass().getResourceAsStream(
+					JAXWS_STYLE);
+			mTransformerJD = new XSLTransform(xsltStream);
+		}
 	}
 	
 	/**
@@ -65,12 +85,12 @@ public class CixsWebDescriptors extends XSLTGenerator {
 			final String targetDir) throws XSLTException {
 
 		/* Create a Web descriptor */
-		transform(serviceDescriptorFile,
-				targetDir + '/' + WEBXML_FILE, WEBXML_STYLE);
+		mTransformerWD.transform(serviceDescriptorFile,
+				new File(targetDir + '/' + WEBXML_FILE).toURI().toString());
 
 		/* Create a jaxws descriptor */
-		transform(serviceDescriptorFile,
-				targetDir + '/' + JAXWS_FILE, JAXWS_STYLE);
+		mTransformerJD.transform(serviceDescriptorFile,
+				new File(targetDir + '/' + JAXWS_FILE).toURI().toString());
 	}
 
 }
