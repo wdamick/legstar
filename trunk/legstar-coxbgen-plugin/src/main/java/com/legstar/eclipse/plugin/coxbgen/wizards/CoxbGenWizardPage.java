@@ -221,6 +221,7 @@ public class CoxbGenWizardPage extends WizardPage {
 
 		xsdFileText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
 		xsdFileText.setLayoutData(gd);
 		xsdFileText.addModifyListener(new ModifyListener() {
 			public void modifyText(final ModifyEvent e) {
@@ -228,14 +229,17 @@ public class CoxbGenWizardPage extends WizardPage {
 			}
 		});
 
-		label = new Label(container, SWT.NULL);
 
 		/* root name edit box */
 		label = new Label(container, SWT.NULL);
 		label.setText(ROOT_LABEL);
+		label.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 
-		mRootNameList = new List(container, SWT.BORDER | SWT.MULTI);
+		mRootNameList = new List(
+				container, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.heightHint = 100;
+		gd.horizontalSpan = 2;
 		mRootNameList.setLayoutData(gd);
 		mRootNameList.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(final SelectionEvent e) {
@@ -245,8 +249,6 @@ public class CoxbGenWizardPage extends WizardPage {
 				dialogChanged();
 			}
 		});
-
-		label = new Label(container, SWT.NULL);
 
 		/* Source container edit box and browse button */
 		label = new Label(container, SWT.NULL);
