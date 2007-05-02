@@ -322,6 +322,31 @@ public class CicsHttpTest extends TestCase {
 		}
 	}
 	
+	/* with CICS TS 2.3, there is no support for HTTP 1.1. HTTPClient will not keep
+	 * the session alive. */
+	public void testSendRequestMultiple() {
+		try {
+			Address address = new Address("TheMainframe");
+			CicsHttp cicsHttp = (CicsHttp) mfactory.createConnection("testPostMethodCreation", address);
+
+			for(int i = 0; i < 2; i++) {
+				cicsHttp.connectReuse(null); // let config pick the password
+				Request request = createStdRequest();
+				cicsHttp.sendRequest(request);
+				cicsHttp.recvResponse(request);
+				assertEquals(1, request.getResponseMessage().getHeaderPart().getDataPartsNumber());
+				assertEquals("f0f0f0f1f0f0e24b40c44b40c2d6d9d4c1d54040404040404040e2e4d9d9c5e86b40c5d5c7d3c1d5c44040404040f3f2f1f5f6f7f7f8f2f640f1f140f8f15bf0f1f0f04bf1f15c5c5c5c5c5c5c5c5c",
+						  Util.toHexString(request.getResponseMessage().getDataParts().get(0).getContent()));
+			}
+		} catch (UnsupportedEncodingException e) {
+			fail("testSend2Requests failed " + e);
+		} catch (ConnectionException e) {
+			fail("testSend2Requests failed " + e);
+		} catch (RequestException e) {
+			fail("testSend2Requests failed " + e);
+		}
+	}
+	
 	public void testReceiveTimeout() {
 		try {
 			Address address = new Address("TheMainframe");
