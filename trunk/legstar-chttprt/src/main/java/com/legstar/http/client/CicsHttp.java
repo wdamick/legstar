@@ -20,7 +20,6 @@
  *******************************************************************************/
 package com.legstar.http.client;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -296,7 +295,7 @@ public class CicsHttp implements Connection  {
 		params.setIntParameter(
 				HttpConnectionParams.CONNECTION_TIMEOUT, mConnectTimeout);
 		
-		/** TODO does not seem to work */
+		/* Disable Nagle algorithm */
 		params.setBooleanParameter(
 				HttpConnectionParams.TCP_NODELAY, true);
 		
@@ -444,7 +443,7 @@ public class CicsHttp implements Connection  {
 			return new Message(headerPart, dataParts);
 		}
 		
-		/* Since the protocol is not ready to handle anthing else than
+		/* Since the protocol is not ready to handle anything else than
 		 * a commarea, assume the message back is a commarea. In the
 		 * future, the server will be sending back a multi-part mime
 		 * message. */
@@ -484,14 +483,14 @@ public class CicsHttp implements Connection  {
 		/* For large payloads, reading from the stream will not deliver
 		 * all the data in a single read. */
 		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			byte[] buffer = new byte[4096];
+			int contentLength = (new Long(responseContentLength)).intValue();
+			byte[] buffer = new byte[contentLength];
 			int totLen = 0;
 			int lastLen = 0;
 			while (totLen < responseContentLength && lastLen != -1) {
-				lastLen = respStream.read(buffer);
+				lastLen = respStream.read(
+						buffer, totLen, contentLength - totLen);
 				if (lastLen > 0) {
-					baos.write(buffer, 0, lastLen);
 					totLen += lastLen;
 				}
 			}
@@ -500,7 +499,11 @@ public class CicsHttp implements Connection  {
 						+ " bytes instead of the expected "
 						+ responseContentLength + " bytes.");
 			}
-			return baos.toByteArray();
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("ended getHttpResponseContent(respStream)"
+						+ " " + mPostMethod.getResponseContentLength());
+			}
+			return buffer;
 		} catch (IOException e) {
 			throw new RequestException(e);
 		}
