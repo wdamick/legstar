@@ -1,0 +1,79 @@
+# Makefile for COXBSchemaGenerator
+# --------------------------------
+# Microsoft C compiler/linker
+CC	   =cl
+LINK   =link
+CFLAGS =/c  /D "_CRT_SECURE_NO_DEPRECATE"
+SRCDIR =./src/main/c/
+INCDIR =./src/main/include/
+LIBDIR =./target/lib/
+BINDIR =./target/bin/
+
+COXBSchemaGenerator : Regex2Picture.dll DDXSDProduce.dll DDASNProduce.dll COBDDAnalyze.dll COBDDParse.dll COB2XSD.dll PARSTSTS.exe COB2XSDJNIWrapper.dll COBDDANPJNIWrapper.dll clean
+
+Regex2Picture.dll : RGX2PICP.obj
+	$(LINK) RGX2PICP.obj /OUT:$(BINDIR)Regex2Picture.dll /DLL /EXPORT:Picture2Regex /IMPLIB:$(LIBDIR)Picture2Regex.lib
+	
+RGX2PICP.obj : $(SRCDIR)RGX2PICP.c $(INCDIR)RGX2PICM.h $(INCDIR)RGX2PICS.h
+	$(CC) $(CFLAGS) /LD /I$(INCDIR) $(SRCDIR)RGX2PICP.c
+	
+DDXSDProduce.dll: XSDDDPRL.obj Regex2Picture.dll
+	$(LINK) XSDDDPRL.obj /OUT:$(BINDIR)DDXSDProduce.dll /DLL /EXPORT:XsdDDProduce /EXPORT:getDefaultXsdOptions /IMPLIB:$(LIBDIR)DDXSDProduce.lib $(LIBDIR)Picture2Regex.lib
+
+XSDDDPRL.obj: $(SRCDIR)XSDDDPRL.c $(INCDIR)XSDDDPRM.h $(INCDIR)XSDDDPRS.h $(INCDIR)COBDDPAS.h $(INCDIR)RGX2PICM.h $(INCDIR)RGX2PICS.h
+	$(CC) $(CFLAGS) /LD /I$(INCDIR) $(SRCDIR)XSDDDPRL.c
+
+DDASNProduce.dll: ASNDDPRL.obj Regex2Picture.dll
+	$(LINK) ASNDDPRL.obj /OUT:$(BINDIR)DDASNProduce.dll /DLL /EXPORT:AsnDDProduce /EXPORT:getDefaultAsnOptions /IMPLIB:$(LIBDIR)DDASNProduce.lib $(LIBDIR)Picture2Regex.lib
+
+ASNDDPRL.obj: $(SRCDIR)ASNDDPRL.c $(INCDIR)ASNDDPRM.h $(INCDIR)ASNDDPRS.h $(INCDIR)COBDDPAS.h $(INCDIR)RGX2PICM.h $(INCDIR)RGX2PICS.h
+	$(CC) $(CFLAGS) /LD /I$(INCDIR) $(SRCDIR)ASNDDPRL.c
+
+COBDDParse.dll: COBDDPAL.obj COBDDAnalyze.dll
+	$(LINK) COBDDPAL.obj /OUT:$(BINDIR)COBDDParse.dll /DLL /EXPORT:CobDDParse /EXPORT:STree_Allocate /EXPORT:STree_Print /EXPORT:STree_Free /EXPORT:getDefaultCobolOptions /IMPLIB:$(LIBDIR)COBDDParse.lib $(LIBDIR)COBDDAnalyze.lib
+
+COBDDPAL.obj: $(SRCDIR)COBDDPAL.c $(INCDIR)COBDDPAM.h $(INCDIR)COBDDPAS.h $(INCDIR)COBDDANM.h 
+	$(CC) $(CFLAGS) /LD /I$(INCDIR) $(SRCDIR)COBDDPAL.c
+
+COBDDAnalyze.dll: COBDDANP.obj
+	$(LINK) COBDDANP.obj /OUT:$(BINDIR)COBDDAnalyze.dll /DLL /EXPORT:COBDDAnalyze /IMPLIB:$(LIBDIR)COBDDAnalyze.lib
+
+COBDDANP.obj: $(SRCDIR)COBDDANP.c $(INCDIR)COBDDANM.h $(INCDIR)COBDDANS.h $(INCDIR)COBDDPAS.h 
+	$(CC) $(CFLAGS) /LD /I$(INCDIR) $(SRCDIR)COBDDANP.c
+
+COB2XSD.dll: COB2XSD.obj COBDDParse.dll DDASNProduce.dll DDXSDProduce.dll
+	$(LINK) COB2XSD.obj /OUT:$(BINDIR)COB2XSD.dll /DLL /EXPORT:Cobol2XMLSchema /EXPORT:getDefaultXsdOptions /EXPORT:getDefaultCobolOptions /IMPLIB:$(LIBDIR)COB2XSD.lib $(LIBDIR)COBDDParse.lib  $(LIBDIR)DDXSDProduce.lib  $(LIBDIR)DDASNProduce.lib
+
+COB2XSD.obj: $(SRCDIR)COB2XSD.c $(INCDIR)COB2XSDM.h $(INCDIR)COBDDPAS.h 
+	$(CC) $(CFLAGS) /LD /I$(INCDIR) $(SRCDIR)COB2XSD.c
+
+PARSTSTS.exe: PARSTSTS.obj COB2XSD.dll
+	$(LINK) PARSTSTS.obj /OUT:$(BINDIR)PARSTSTS.exe  $(LIBDIR)COB2XSD.lib
+
+PARSTSTS.obj: $(SRCDIR)PARSTSTS.c $(INCDIR)COBDDPAS.h $(INCDIR)XSDDDPRS.h $(INCDIR)ASNDDPRS.h $(INCDIR)COB2XSDM.h 
+	$(CC) $(CFLAGS) /I$(INCDIR) $(SRCDIR)PARSTSTS.c
+
+COB2XSDJNIWrapper.dll: COB2XSDJNIWrapper.obj
+	$(LINK) com_legstar_schemagen_COB2XSDJNIWrapper.obj com_legstar_schemagen_UTILJNIWrapper.obj /OUT:$(BINDIR)COB2XSDJNIWrapper.dll /DLL $(LIBDIR)COB2XSD.lib  /EXPORT:Java_com_legstar_schemagen_COB2XSDJNIWrapper_cob2xsd /IMPLIB:$(LIBDIR)COB2XSDJNIWrapper.lib
+	
+COB2XSDJNIWrapper.obj: $(SRCDIR)com_legstar_schemagen_COB2XSDJNIWrapper.c $(SRCDIR)com_legstar_schemagen_UTILJNIWrapper.c $(INCDIR)com_legstar_schemagen_COB2XSDJNIWrapper.h 
+	$(CC) $(CFLAGS) /LD /I$(INCDIR) $(SRCDIR)com_legstar_schemagen_COB2XSDJNIWrapper.c $(SRCDIR)com_legstar_schemagen_UTILJNIWrapper.c
+	
+COBDDANPJNIWrapper.dll: COBDDANPJNIWrapper.obj
+	$(LINK) com_legstar_schemagen_COBDDANPJNIWrapper.obj com_legstar_schemagen_UTILJNIWrapper.obj /OUT:$(BINDIR)COBDDANPJNIWrapper.dll /DLL $(LIBDIR)COBDDAnalyze.lib  /EXPORT:Java_com_legstar_schemagen_COBDDANPJNIWrapper_anapict /IMPLIB:$(LIBDIR)COBDDANPJNIWrapper.lib
+	
+COBDDANPJNIWrapper.obj: $(SRCDIR)com_legstar_schemagen_COBDDANPJNIWrapper.c $(SRCDIR)com_legstar_schemagen_UTILJNIWrapper.c $(INCDIR)com_legstar_schemagen_COBDDANPJNIWrapper.h 
+	$(CC) $(CFLAGS) /LD /I$(INCDIR) $(SRCDIR)com_legstar_schemagen_COBDDANPJNIWrapper.c $(SRCDIR)com_legstar_schemagen_UTILJNIWrapper.c
+	
+clean: PARSTSTS.exe
+	-del COBDDPAL.obj
+	-del PARSTSTS.obj
+	-del COB2XSD.obj
+	-del COBDDANP.obj
+	-del ASNDDPRL.obj
+	-del XSDDDPRL.obj
+	-del RGX2PICP.obj
+	-del com_legstar_schemagen_COB2XSDJNIWrapper.obj
+	-del com_legstar_schemagen_COBDDANPJNIWrapper.obj
+	-del com_legstar_schemagen_UTILJNIWrapper.obj
+

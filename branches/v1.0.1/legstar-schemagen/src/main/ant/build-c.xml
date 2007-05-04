@@ -1,0 +1,27 @@
+<!-- =================================================================================
+     This script runs make on the C sources of Schemagen.
+ -->
+<project basedir="../../.." default="buildC" name="build-c">
+
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+	<target name="init">
+		
+		<!-- Target location for dlls  -->
+	 	<property name="target.bin" value="target/bin" />
+		<!-- Target location for libs  -->
+	 	<property name="target.lib" value="target/lib" />
+		
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Build the sample
+	  -->
+	<target name="buildC" depends="init">
+		<mkdir dir="${target.bin}"/> 
+		<mkdir dir="${target.lib}"/> 
+		<exec executable="nmake"/>
+	</target>
+	
+</project>

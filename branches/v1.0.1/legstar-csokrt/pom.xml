@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+    <parent>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>Legstar</artifactId>
+      <version>1.0.1</version>
+    </parent>
+	<artifactId>legstar-csokrt</artifactId>
+	<name>CSOK Runtime</name>
+    <version>${project.parent.version}</version>
+	<description>Socket-based connectivity to CICS.</description>
+	<url>http://www.legsem.com/legstar/csokrt/</url>
+
+	<dependencies>
+	
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+		</dependency>
+
+		<dependency>
+		    <groupId>commons-configuration</groupId>
+		    <artifactId>commons-configuration</artifactId>
+		</dependency>
+      
+		<dependency>
+			<groupId>com.legsem.legstar</groupId>
+			<artifactId>legstar-messaging</artifactId>
+		</dependency>
+
+		<dependency>
+		    <groupId>log4j</groupId>
+		    <artifactId>log4j</artifactId>
+		    <scope>test</scope>
+		</dependency>
+		
+	</dependencies>
+
+    <build>
+      <plugins>
+       <!-- Assembly generation plugin. Put the result in the source site
+            so that it gets uploaded with the site.  -->
+        <plugin>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <configuration>
+            <outputDirectory>src/site/resources/binaries</outputDirectory>
+            <descriptors>
+              <descriptor>src/assemble/distribution.xml</descriptor>
+            </descriptors>
+          </configuration>
+          <executions>
+            <execution>
+              <id>make-assembly</id> <!-- this is used for inheritance merges -->
+              <phase>package</phase> <!-- append to the packaging phase. -->
+              <goals>
+                 <goal>attached</goal> <!-- goals == mojos -->
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </build>
+    
+</project>

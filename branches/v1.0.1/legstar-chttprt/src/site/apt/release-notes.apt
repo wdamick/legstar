@@ -1,0 +1,53 @@
+ -------------------------------------------------------------------------------
+                     LegSem LegStar Chttprt Version 1.0.1
+                               Release Notes
+ -------------------------------------------------------------------------------
+
+PREREQUISITES:
+
+ Before Chttprt can be used, the LSWEBBIN CICS Program must be installed in the
+ target CICS region. The {{{LSWEBBIN-readme.html} LSWEBBIN readme}} document
+ describes the program and how to install it.
+
+ LegStar Chttprt is based upon {{{http://jakarta.apache.org/commons/httpclient/} Apache HTTPClient}}.
+ 
+ Chttprt does not use the pooling capabilities of HTTPClient. Pooling is provided
+ in a transport independent fashion by {{{../legstar-engine} LegStar pooling engine}}.
+ 
+ Chttprt uses the {{{../legstar-messaging} LegStar messaging}} layer which is included
+ in the distribution.
+ 
+ Chttprt also uses the {{{http://jakarta.apache.org/commons/logging/} Apache Commons logging}}
+ and {{{http://jakarta.apache.org/commons/configuration/} Apache commons configuration}}.
+ 
+INSTALLING/UNINSTALLING:
+
+ [[1]] Unzip the binary distribution package into the directory of your choice,
+       referred to as <installDir> in the following steps.
+
+   The directory tree should look like this:
+   
++---------------------------------------+
+   <installDir>
+        |---->LICENSE
+        |---->NOTICE
+        |---->README
+        |---->LSWEBBIN-README
+        |----><lib>
+                |---->*.jar
+        |----><zos>
+                |----><C370>
+                        |---->*.C
+                |----><JCL>
+                        |---->*.JCL
+                
++---------------------------------------+
+   
+ [[2]] Refer to the javadoc in order to use Chttprt directly.
+   
+ [[3]] To uninstall, remove the installDir folder.
+
+DOCUMENTATION:
+
+ Documentation available at http://www.legsem.com/legstar/legstar-chttprt
+

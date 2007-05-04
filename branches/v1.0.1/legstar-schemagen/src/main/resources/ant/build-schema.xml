@@ -1,0 +1,47 @@
+<!-- =================================================================================
+     This script generates an XML schema from a cobol source file. Since this
+     script uses JNI and native libraries, you want to make sure that the
+     distribution bin directory is in the PATH.
+ -->
+<project basedir=".." default="generateXMLSchema" name="generate-xml-schema">
+
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+	<target name="init">
+		
+		<!-- COBOL source name prefix  -->
+	 	<property name="cobol.name" value="lsfileae" />
+		<!-- Path to the cobol source file   -->
+	 	<property name="cobol.file" value="${basedir}/cobol/${cobol.name}.cbl" />
+		<!-- Path to the target XML schema file   -->
+	 	<property name="xsd.file" value="${basedir}/schema/${cobol.name}.xsd" />
+		<!-- Target namespace for XML schema   -->
+	 	<property name="jaxb.namespace" value="http://test.legstar/${cobol.name}" />
+		<!-- Target package for generated java classes   -->
+	 	<property name="jaxb.package" value="legstar.test.${cobol.name}" />
+			
+		<!-- Schema generator ant task  -->
+		<taskdef name="schemagen" classname="com.legstar.schemagen.COXBSchemaGenerator">
+			<classpath>
+		       <fileset dir="${basedir}" includes="lib/*.jar"/>
+		    </classpath>
+		</taskdef> 
+		
+		<!-- Make sure we have a schema directory -->
+		<mkdir dir="schema"/>
+		
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Generate XML schema
+	  -->
+	<target name="generateXMLSchema" depends="init">
+		<echo message="Generating XML schema for ${cobol.file}" />
+		<schemagen CobolFile="${cobol.file}"
+			XSDFile="${xsd.file}"
+			Namespace="${jaxb.namespace}"
+			Package="${jaxb.package}"/>
+	</target>
+	
+</project>

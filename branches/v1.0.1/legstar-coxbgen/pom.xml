@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.legsem.legstar</groupId>
+    <artifactId>Legstar</artifactId>
+    <version>1.0.1</version>
+  </parent>
+  <artifactId>legstar-coxbgen</artifactId>
+  <name>COXB Generator</name>
+  <version>${project.parent.version}</version>
+  <description>Generates JAXB classes with COBOL annotations as well as runtime classes.</description>
+  <url>http://www.legsem.com/legstar/coxbgen/</url>
+  
+  <dependencies>
+  
+    <dependency>
+      <groupId>ant</groupId>
+      <artifactId>ant</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>legstar-coxbrt</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>legstar-common</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-xjc</artifactId>
+    </dependency>
+    
+  </dependencies>
+  
+  <build>
+    <plugins>
+        
+      <!-- Surefire (testing) plugin. For an unknown reason,
+           GenerateTest fails at runtime on XmlType annotation
+           not found. Probably a runtime classpath issue. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>**/GenerateTest.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+
+       <!-- Assembly generation plugin. Put the result in the source site
+            so that it gets uploaded with the site.  -->
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <outputDirectory>src/site/resources/binaries</outputDirectory>
+          <descriptors>
+            <descriptor>src/assemble/distribution.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id> <!-- this is used for inheritance merges -->
+            <phase>package</phase> <!-- append to the packaging phase. -->
+            <goals>
+               <goal>attached</goal> <!-- goals == mojos -->
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+ 
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+        
+          <!-- This will generate all JAXB and COXB test cases as soon as
+            compilation has taken place.  -->
+          <execution>
+            <id>prepare-unit-tests</id>
+            <phase>generate-test-sources</phase>
+            <configuration>
+              <tasks>
+                <ant antfile="${basedir}/src/test/ant/build-test-jaxb.xml" target="compileAllJAXB"/>
+                <ant antfile="${basedir}/src/test/ant/build-test-coxb.xml" target="generateAllCOXB"/>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          
+          <!-- This will check that the distribution file is valid. This is also
+             used to create samples to be de delivered by upstream modules. -->
+          <execution>
+            <id>prepare-integration-tests</id>
+            <phase>pre-integration-test</phase>
+            <configuration>
+              <tasks>
+                <ant antfile="${basedir}/src/main/ant/build-sample.xml"/>
+                <ant antfile="${basedir}/src/main/ant/build-coxbgen-cases.xml"/>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          
+        </executions>
+      </plugin>
+ 
+    </plugins>
+  </build>
+  
+</project>

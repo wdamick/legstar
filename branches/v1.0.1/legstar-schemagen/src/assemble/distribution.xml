@@ -1,0 +1,62 @@
+<assembly>
+  <id>win32</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <fileSets>
+    <fileSet>
+      <includes>
+        <include>LICENSE*</include>
+        <include>NOTICE*</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>target/bin</directory>
+      <outputDirectory>bin</outputDirectory>
+      <includes>
+        <include>*.dll</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>target</directory>
+      <outputDirectory>lib</outputDirectory>
+      <includes>
+        <include>*.jar</include>
+      </includes>
+      <excludes>
+        <exclude>*sources.jar</exclude>
+      </excludes>
+    </fileSet>
+    <fileSet>
+      <directory>src/main/resources/ant</directory>
+      <outputDirectory>ant</outputDirectory>
+      <includes>
+        <include>*.xml</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>src/main/resources/cobol</directory>
+      <outputDirectory>cobol</outputDirectory>
+      <includes>
+        <include>LSFILEAE.CBL</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+  
+   <files>
+    <file>
+       <source>${basedir}/src/site/apt/release-notes.apt</source>
+       <outputDirectory>/</outputDirectory>
+       <destName>README</destName>
+    </file>
+  </files>
+
+  <dependencySets>
+  	<dependencySet>
+      <outputDirectory>/lib/</outputDirectory>
+      <unpack>false</unpack>
+      <scope>runtime</scope>
+    </dependencySet>
+  </dependencySets>
+  
+</assembly>

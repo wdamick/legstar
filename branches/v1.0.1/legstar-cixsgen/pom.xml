@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+    <parent>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>Legstar</artifactId>
+	  <version>1.0.1</version>
+    </parent>
+	<artifactId>legstar-cixsgen</artifactId>
+	<name>CIXS Generator</name>
+	<version>1.0.1</version>
+	<description>Generates JAXWS endpoints where operations map to CICS program execution.</description>
+    <url>http://www.legsem.com/legstar/cixsgen/</url>
+
+	<dependencies>
+	
+		<dependency>
+		  <groupId>ant</groupId>
+		  <artifactId>ant</artifactId>
+		</dependency>
+		
+		<dependency>
+		  <groupId>javax.xml.ws</groupId>
+		  <artifactId>jaxws-api</artifactId>
+		</dependency>
+
+		<dependency>
+		  <groupId>com.legsem.legstar</groupId>
+		  <artifactId>legstar-common</artifactId>
+		</dependency>
+
+		<dependency>
+		  <groupId>com.legsem.legstar</groupId>
+		  <artifactId>legstar-coxbrt</artifactId>
+          <scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+		  <groupId>com.legsem.legstar</groupId>
+		  <artifactId>legstar-invoker</artifactId>
+          <scope>runtime</scope>
+		</dependency>
+		
+		<dependency>
+		  <groupId>com.legsem.legstar</groupId>
+		  <artifactId>legstar-csokrt</artifactId>
+          <scope>runtime</scope>
+		</dependency>
+		
+		<dependency>
+		  <groupId>com.legsem.legstar</groupId>
+		  <artifactId>legstar-chttprt</artifactId>
+          <scope>runtime</scope>
+		</dependency>
+		
+		<dependency>
+		  <groupId>com.legsem.legstar</groupId>
+		  <artifactId>legstar-coxbgen-cases</artifactId>
+		</dependency>
+		
+ 	</dependencies>
+ 
+    <build>
+      <plugins>
+      
+       <!-- Assembly generation plugin. Put the result in the source site
+            so that it gets uploaded with the site.  -->
+        <plugin>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <configuration>
+            <outputDirectory>src/site/resources/binaries</outputDirectory>
+            <descriptors>
+              <descriptor>src/assemble/distribution.xml</descriptor>
+            </descriptors>
+          </configuration>
+          <executions>
+            <execution>
+              <id>make-assembly</id> <!-- this is used for inheritance merges -->
+              <phase>package</phase> <!-- append to the packaging phase. -->
+              <goals>
+                 <goal>attached</goal> <!-- goals == mojos -->
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+		<plugin>
+		
+		  <artifactId>maven-antrun-plugin</artifactId>
+		  
+		  <!-- This will generate all Web Services test cases and
+		       deploy them to Tomcat.  -->
+		  <executions>
+		    <execution>
+		      <id>build-test-service</id>
+		      <phase>generate-test-sources</phase>
+		      <configuration>
+		        <tasks>
+					<ant antfile="${basedir}/src/test/ant/build-test-service.xml"/>
+					<ant antfile="${basedir}/src/test/ant/build-test-deploy.xml"/>
+		        </tasks>
+		      </configuration>
+		      <goals>
+		        <goal>run</goal>
+		      </goals>
+		    </execution>
+		    
+        <!-- This will copy some of the files from this project to the
+             legstar-cixsgen-plugin project. Because the contact surface
+             between these 2 projects is very small, this is more
+             efficient than creating a full-blown dependency between them. -->
+			<execution>
+				<id>copy-to-plugin</id>
+				<phase>install</phase>
+				<configuration>
+					<tasks>
+						<ant antfile="${basedir}/src/main/ant/copy-to-plugin.xml"/>
+					</tasks>
+				</configuration>
+				<goals>
+				  <goal>run</goal>
+				</goals>
+			</execution>
+			
+		  </executions>
+		</plugin>
+	      
+      </plugins>
+    </build>
+
+</project>

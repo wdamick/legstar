@@ -1,0 +1,36 @@
+ -----
+ LegStar Chttprt
+ -----
+ Fady Moussallam
+ -----
+ 16 April 2007
+ -----
+
+Socket Transport (Csokrt) overview
+
+  The Socket Transport provides connectivity with CICS Sockets.
+  
+  To select this transport, there needs to be a valid endpoint definition in the active
+  configuration file. The hostConnectionFactory element must be:
+  
++-------------------------------+
+	<hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
++-------------------------------+
+  
+  The relevant endpoint elements for the Socket Transport in the configuration file are:
+  
+*-----------------+-----------+--------------------------------------------------------------------+
+| hostIPAddress   | Mandatory |CICS TCPIP address                                                  |
+*-----------------+--------------------------------------------------------------------------------+
+| hostIPPort      | Mandatory | CICS Sockets listening TCPIP port                                  |
+*-----------------+--------------------------------------------------------------------------------+
+| hostCharset     | Optional  |A valid character set such as IBM01140                              |
+*-----------------+--------------------------------------------------------------------------------+
+| hostUserID      | Optional  | A CICS user ID                                                     |
+*-----------------+--------------------------------------------------------------------------------+
+| hostPassword    | Optional  | A CICS password                                                    |
+*-----------------+--------------------------------------------------------------------------------+
+ 
+  Parameters marked as optional must be provided as part of the request Address if they 
+  are not provided in the configuration file.
+  

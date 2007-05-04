@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir=".." default="create-war" name="build-war">
+   <property environment="env"/>
+   <property name="service" value="dplarcht"/>
+   <target name="clean">
+      <delete file="gen-war/cixs-dplarcht.war" includeEmptyDirs="true" quiet="true"/>
+   </target>
+   <target name="create-war" depends="clean">
+      <war warfile="gen-war/cixs-dplarcht.war"
+           webxml="src/test/WebContent/WEB-INF/web.xml">
+         <webinf dir="src/test/WebContent/WEB-INF" includes="sun-jaxws.xml"/>
+         <classes dir="bin">
+            <include name="com/legstar/test/coxb/dplarcht/**/*.class"/>
+         </classes>
+         <classes dir="bin">
+            <include name="**/${service}/**/*.class"/>
+         </classes>
+         <classes dir="bin">
+            <include name="**/${service}/**/*.class"/>
+         </classes>
+         <classes dir="src/test/WebContent/WEB-INF/classes">
+            <include name="dplarcht.properties"/>
+         </classes>
+      </war>
+   </target>
+</project>

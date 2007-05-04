@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><project>
+  <parent>
+    <artifactId>Legstar</artifactId>
+    <groupId>com.legsem.legstar</groupId>
+	<version>1.0.1</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>legstar-cixsgen-plugin</artifactId>
+  <name>CIXS Generator plugin</name>
+  <version>${project.parent.version}</version>
+  <description>JAXWS Endpoint generator Eclipse plugin.</description>
+  <url>http://www.legsem.com/legstar/cixsgen-plugin/</url>
+  <dependencies>
+    <dependency>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>legstar-common-plugin</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.core</groupId>
+      <artifactId>org.eclipse.core.runtime</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.core</groupId>
+      <artifactId>org.eclipse.core.resources</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jdt</groupId>
+      <artifactId>org.eclipse.jdt.core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.ui</groupId>
+      <artifactId>org.eclipse.ui</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.ui</groupId>
+      <artifactId>org.eclipse.ui.ide</artifactId>
+    </dependency>
+	<dependency>
+	  <groupId>org.eclipse.ui</groupId>
+	  <artifactId>org.eclipse.ui.editors</artifactId>
+	</dependency>
+    <dependency>
+      <groupId>org.eclipse.swt</groupId>
+      <artifactId>org.eclipse.swt</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.swt</groupId>
+      <artifactId>org.eclipse.swt.win32.win32.x86</artifactId>
+    </dependency>
+  </dependencies>
+</project>

@@ -1,0 +1,33 @@
+<document>
+  <properties>
+    <author email="admin@legsem.com">Fady Moussallam</author>
+    <title>Download LegStar</title>
+  </properties>
+  <!-- Optional HEAD element, which is copied as is into the XHTML <head> element -->
+  <head>
+     <meta http-equiv="Cache-Control" Content="no-cache"/> 
+  </head>
+  <body>
+    <!-- The body of the document contains a number of sections -->
+    <section name="Download LegStar 1.0.1">
+
+      <!-- Within sections, any XHTML can be used -->
+		<table border="1">
+			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
+			<tr><td>LegStar binaries</td><td>Win32</td><td><a href="./binaries/legstar-distribution-1.0.1-win32.zip">legstar-distribution-1.0.1-win32.zip</a></td></tr>
+			<tr><td>LegStar sources</td><td>Source</td><td><a href="./binaries/legstar-distribution-1.0.1-sources.jar">legstar-distribution-1.0.1-sources.jar</a></td></tr>
+		</table>
+ 
+    </section>
+    <section name="Download LegStar older versions">
+
+ 		<table border="1">
+			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
+			<tr><td>LegStar binaries</td><td>Win32</td><td><a href="./binaries/legstar-0.0.1-win32.zip">legstar-0.0.1-win32.zip</a></td></tr>
+			<tr><td>LegStar sources</td><td>Source</td><td><a href="./binaries/legstar-0.0.1-sources.jar">legstar-0.0.1-sources.jar</a></td></tr>
+		</table>
+ 
+    </section>
+
+  </body>
+</document>

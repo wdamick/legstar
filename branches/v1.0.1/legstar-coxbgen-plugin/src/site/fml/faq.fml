@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<faqs title="Frequently Asked Questions">
+
+  <part id="general">
+    <title>General</title>
+   
+    <faq id="footer-company">
+      <question>
+       What version of Eclipse is supported?
+      </question>
+      <answer>
+       LegStar Binding Generator plugin has been targeted at Eclipse 3.2.1.
+      </answer>
+    </faq>
+    <faq id="footer-company">
+      <question>
+       Why does Binding Generator needs to be installed separatly from the plugin?
+      </question>
+      <answer>
+       LegStar Binding Generator has dependencies of Sun's JAXB classes which are not available
+       as Eclipse plugins.
+      </answer>
+    </faq>
+    <faq id="footer-company">
+      <question>
+       Why do I get compilation errors for the generated binding classes?
+      </question>
+      <answer>
+       Most probably because you are missing the Legstar and JAXB libraries in your project
+       classpath. The clean way to fix this is to create a User Library with all the jars
+       found under the Coxbgen lib folder and then adding this User Library to your project
+       classpath.
+      </answer>
+    </faq>
+    <faq id="footer-company">
+      <question>
+       I am getting an OutOfMemoryError while running the COXB generation.
+      </question>
+      <answer>
+       COXB uses reflexion and might need extra "permanent generation" memory. Try adding a
+       line such as -XX:MaxPermSize=128m in your eclipse.ini.
+      </answer>
+    </faq>
+
+  <!--
+    <faq id="">
+      <question></question>
+      <answer>
+      </answer>
+    </faq>
+  -->
+  </part>
+</faqs>

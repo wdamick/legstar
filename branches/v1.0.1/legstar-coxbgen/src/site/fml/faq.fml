@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<faqs title="Frequently Asked Questions">
+
+  <part id="general">
+    <title>General</title>
+   
+    <faq id="footer-company">
+      <question>
+       Why am I getting a "unrecognized parameter -Xlegstar-code" when running build-jaxb.xml?
+      </question>
+      <answer>
+       This is probably a classpath issue. XJC is not finding the LegStar Coxbgen classes.
+       Make sure the Coxbgen jar files are in the XJC classpathref.
+      </answer>
+    </faq>
+
+    <faq id="footer-company">
+      <question>
+       Why am I getting a "java.lang.UnsupportedOperationException: This parser does not support specification "null" version "null"
+        at javax.xml.parsers.SAXParserFactory.setXIncludeAware(SAXParserFactory.java:390)"
+        when running build-coxb.xml?
+      </question>
+      <answer>
+       Your default XML parser does not seem to support XInclude (http://www.w3.org/TR/xinclude/). Check that there are no
+       left overs from JDK 1.4 or older in your classpath.
+      </answer>
+    </faq>
+
+    <faq id="footer-company">
+      <question>
+       Why am I getting a "java.lang.LinkageError: JAXB 2.0 API is being loaded from the bootstrap classloader, but this RI (...) needs 2.1 API.?
+      </question>
+      <answer>
+       Your are probably running with JRE 1.6. JRE 1.6 comes with an implementation of JAXB 2.0 while LegStar needs JAXB 2.1.
+       To fix this issue, copy jaxb-api.jar from version 2.1 into %JAVA_HOME%/lib/endorsed.
+      </answer>
+    </faq>
+  <!--
+    <faq id="">
+      <question></question>
+      <answer>
+      </answer>
+    </faq>
+  -->
+  </part>
+</faqs>

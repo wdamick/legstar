@@ -1,0 +1,110 @@
+CICS Web-aware program LSWEBBIN
+
+* Overview:
+
+ This C/370 program can be used to remotely link to a CICS program over 
+ HTTP or HTTPS. LSWEBBIN uses the CICS Web Support capability introduced
+ by IBM in CICS TS 1.3.
+
+ Clients using LSWEBBIN are expected to send binary data in the
+ HTTP payload. The client is responsible for formatting the data according
+ to the target CICS program expectations. LSWEBBIN does not perform any
+ translation over the data. This means it is the client responsibility to
+ perform such conversions as Ascii to Ebcdic, host numeric encoding, etc.
+ LSWEBBIN has a very minimal footprint on the mainframe.
+
+* Prerequisites:
+
+ You will need CICS TS 2.3 and above (Although it is believed the
+ program might work for TS 2.2, TS 2.1 and TS 1.3).
+   
+ You will need a C/370 compiler. Since LSWEBBIN is also a CICS program
+ you can use the CICS procedure called DFHYITDL to perform the translation
+ and compilation (see C370CCMP.JCL for a sample).
+   
+ You will need a TCPIPSERVICE definition in the CICS region used to
+ service incoming requests. Make sure the TCPIPSERVICE uses the default
+ URM called DFHWBADX. Refer to the "CICS Resource definitions guide" for
+ instructions on how to create the definition (You might also have to
+ add TCPIP=YES in your SIT).
+   
+ Depending on the TCPIPSERVICE definition, you might have to provide
+ valid credentials in order to run LSWEBBIN.
+
+* Limitations:
+
+  - LSWEBBIN does not support the INPUTMSG option of the LINK command.
+  
+  - LSWEBBIN does not support CONTAINERS.
+
+* This program has been tested for:
+
+  - CICS TS 2.3 (6.3.0 Command language translator)
+ 
+  - C/370 for OS/390 V2 R10
+
+* How to use:
+
+ Once LSWEBBIN is compiled in a library available to your CICS
+ region in the RPL list, you might need to define it using RDO
+ (unless programs get autoinstalled).
+
+ First time around, you can point your browser to a URL with the 
+ following form: http://host:port/CICS/CWBA/LSWEBBIN. You should
+ receive a greeting reply. Note that the form of the URL can be
+ customized by your CICS administrator, therefore you might want
+ to check with him.
+
+ Then you can write a client application using an HTTP client
+ library, pointing to the URL mentioned previoulsly and sending
+ the following data:
+
+
+*--------------+-----------+--------------------------------------------------+
+| HTTP method  | Mandatory | Should be POST for a client program.             |
+*--------------+-----------+--------------------------------------------------+
+| Content-Type | Mandatory | Should contain "binary/octet-stream".             |
+*--------------+-----------+--------------------------------------------------+
+Standard HTTP Headers\
+
+
+
+*------------------+-----------+----------------------------------------------+
+| CICSProgram      | Mandatory | Should specify the CICS program to LINK to.  |
+*------------------+-----------+----------------------------------------------+
+| CICSLength       | Optional  | Use this to specify what the commarea size   |
+|                  |           | should be if the data you are sending as     |
+|                  |           | input is smaller than the necessary commarea |
+|                  |           | size.                                        |
+*------------------+-----------+----------------------------------------------+
+| CICSDataLength   | Optional  | Allows you to specify the DATALENGTH option  |
+|                  |           | on the LINK command. If you omit this header,|
+|                  |           | LSWEBBIN uses the incoming data length.      |
+*------------------+-----------+----------------------------------------------+
+| CICSSysID        | Optional  | Used for SYSID option of LINK command.       |
+*------------------+-----------+----------------------------------------------+
+| CICSSyncOnReturn | Optional  | Used for SYNCONRETURN option of LINK command.|
+*------------------+-----------+----------------------------------------------+
+| CICSTransID      | Optional  | Used for TRANSID option of LINK command.     |
+*------------------+-----------+----------------------------------------------+
+HTTP Extension headers
+
+
+ Any error will be signaled back with HTTP status code 500, Internal Server
+ error. If the error was trapped by LSWEBBIN, further error description can
+ be found in the CICSError HTTP headeras well as in the reply payload.
+ Be advised that in case of an error, the reply payload will actually be
+ translated to ISO-8859-1.
+
+ Errors trapped by LSWEBBIN are also logged into CICS CESE TD Queue which
+ usually points to CEEMSG.
+
+ If no errors occured, the reply data will be binary and signaled with a
+ content-type of "binary/octet-stream".
+
+ You can activate trace mode by appending "?trace" to the URL. As a result
+ details of the execution will be printed to the CICS CESO TD Queue which
+ usually points to CEEOUT. Traces are correlated to the client TCP/IP 
+ address.
+
+   

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+    <parent>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>Legstar</artifactId>
+      <version>1.0.1</version>
+    </parent>
+	<artifactId>legstar-coxbrt</artifactId>
+	<name>COXB Runtime</name>
+    <version>${project.parent.version}</version>
+	<description>COBOL to XML Binding runtime.</description>
+	<url>http://www.legsem.com/legstar/coxbrt/</url>
+
+	<dependencies>
+	
+		<dependency>
+		  <groupId>javax.xml.bind</groupId>
+		  <artifactId>jaxb-api</artifactId>
+		</dependency>
+	  
+	</dependencies>
+
+    <build>
+      <plugins>
+       <!-- Assembly generation plugin. Put the result in the source site
+            so that it gets uploaded with the site.  -->
+        <plugin>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <configuration>
+            <outputDirectory>src/site/resources/binaries</outputDirectory>
+            <descriptors>
+              <descriptor>src/assemble/distribution.xml</descriptor>
+            </descriptors>
+          </configuration>
+          <executions>
+            <execution>
+              <id>make-assembly</id> <!-- this is used for inheritance merges -->
+              <phase>package</phase> <!-- append to the packaging phase. -->
+              <goals>
+                 <goal>attached</goal> <!-- goals == mojos -->
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </build>
+
+</project>

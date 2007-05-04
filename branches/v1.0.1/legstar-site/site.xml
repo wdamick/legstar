@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description url="http://www.legsem.com/legstar/eclipse/update">
+      Legstar Eclipse plugins
+   </description>
+   <feature url="features/com.legstar.eclipse.feature.schemagen_1.0.1.jar" id="com.legstar.eclipse.feature.schemagen" version="1.0.1">
+      <category name="LegStar"/>
+   </feature>
+   <feature url="features/com.legstar.eclipse.feature.common_1.0.1.jar" id="com.legstar.eclipse.feature.common" version="1.0.1">
+      <category name="LegStar"/>
+   </feature>
+   <feature url="features/com.legstar.eclipse.feature.coxbgen_1.0.1.jar" id="com.legstar.eclipse.feature.coxbgen" version="1.0.1">
+      <category name="LegStar"/>
+   </feature>
+   <feature url="features/com.legstar.eclipse.feature.cixsgen_1.0.1.jar" id="com.legstar.eclipse.feature.cixsgen" version="1.0.1">
+      <category name="LegStar"/>
+   </feature>
+   <category-def name="LegStar" label="LegStar Eclipse plugins">
+      <description>
+         Features available as Eclipse plugins
+      </description>
+   </category-def>
+</site>
