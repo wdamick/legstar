@@ -29,6 +29,14 @@
 			<hostPassword>STREAM2</hostPassword>
 			<hostTraceMode>false</hostTraceMode>
 	   </hostEndPoint>
+		<hostEndPoint name="CICSTS31">
+			<hostIPAddress>192.168.0.110</hostIPAddress>
+			<hostIPPort>4011</hostIPPort>
+			<hostCharset>IBM01140</hostCharset>
+			<hostUserID>P390</hostUserID>
+			<hostPassword>STREAM2</hostPassword>
+			<hostTraceMode>false</hostTraceMode>
+	   </hostEndPoint>
 		<hostEndPoint name="TheOtherMainframe">
 			<hostIPAddress>192.168.0.111</hostIPAddress>
 			<hostIPPort>3011</hostIPPort>

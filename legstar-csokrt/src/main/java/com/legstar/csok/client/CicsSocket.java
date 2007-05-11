@@ -28,20 +28,16 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import org.apache.commons.logging.Log; 
 import org.apache.commons.logging.LogFactory; 
 
+import com.legstar.codec.HostCodec;
 import com.legstar.messaging.Connection;
 import com.legstar.messaging.ConnectionException;
-import com.legstar.messaging.HeaderPart;
 import com.legstar.messaging.HeaderPartException;
+import com.legstar.messaging.HostReceiveException;
 import com.legstar.messaging.Message;
-import com.legstar.messaging.MessagePart;
 import com.legstar.messaging.Request;
 import com.legstar.messaging.RequestException;
 
@@ -57,9 +53,6 @@ public class CicsSocket implements Connection {
 	 *  Socket listener. */
 	private static final int CIM_LEN = 35;
 	
-	/** Length of a message part header. */
-	private static final int MPH_LEN = 29;
-	
 	/** Size of the CICS USER ID. */
 	private static final int CICS_USERID_LEN = 8;
 
@@ -71,9 +64,6 @@ public class CicsSocket implements Connection {
 	
 	/** Size of message type. */
 	private static final int MSG_TYPE_LEN = 9;
-	
-	/** Size of message part identifier. */
-	private static final int MSG_PART_ID_LEN = 16;
 	
 	/** Size of header preceding any reply from host. */
 	private static final int REPLY_HDR_LEN = 9;
@@ -135,9 +125,11 @@ public class CicsSocket implements Connection {
 	/** Host CICS Socket endpoint. */
 	private CicsSocketEndpoint mCicsSocketEndpoint;
 	
-	/** Because it is used throughout this class, the charset is 
-	 * stored once and for all rather than retrieved from endpoint.*/
-	private String mHostCharset;
+	/** This host character set is used for the protocol elements
+	 * which are checked by the Legstar host programs. Because these
+	 * target host programs are compiled with a fixed charset, it
+	 * might be different from the actual user data character set. */
+	private String mHostProtocolCharset;
 	
 	/** maximum time (milliseconds) to wait for connection. */
 	private int mConnectTimeout;
@@ -169,7 +161,7 @@ public class CicsSocket implements Connection {
 		mConnectTimeout = connectionTimeout;
 		mReceiveTimeout = receiveTimeout;
 		mCicsSocketEndpoint = cicsSocketEndpoint;
-		mHostCharset = cicsSocketEndpoint.getHostCharset();
+		mHostProtocolCharset = HostCodec.HEADER_CODE_PAGE;
 	}
 	
 	/**
@@ -195,7 +187,7 @@ public class CicsSocket implements Connection {
 							InetAddress.getByName(
 									mCicsSocketEndpoint.getHostIPAddress()),
 							mCicsSocketEndpoint.getHostIPPort()),
-							mConnectTimeout);
+					mConnectTimeout);
 			mClientSocket.setSoTimeout(mReceiveTimeout);
 		    /* In order to optimize memory allocation, this client program
 		     * sends message parts to server in 2 different sends. If
@@ -216,13 +208,11 @@ public class CicsSocket implements Connection {
 					password,
 					mConnectionID,
 					mCicsSocketEndpoint.isHostTraceMode(),
-					mHostCharset));
+					mHostProtocolCharset));
 			recvConnectionAck();
 		} catch (UnknownHostException e) {
 			throw (new ConnectionException(e));
 		} catch (IOException e) {
-			throw (new ConnectionException(e));
-		} catch (CicsSocketHostConversionException e) {
 			throw (new ConnectionException(e));
 		} catch (RequestException e) {
 			throw (new ConnectionException(e));
@@ -276,7 +266,7 @@ public class CicsSocket implements Connection {
 		try {
 			InputStream  in = mClientSocket.getInputStream();
 			ackString = getCharsFromHost(
-					in, mHostCharset, MAX_PROT_REPLY_LEN);
+					in, mHostProtocolCharset, MAX_PROT_REPLY_LEN);
 			if (ackString == null || ackString.length() == 0) {
 				throw (new RequestException(
 						"No response from host."));
@@ -307,8 +297,8 @@ public class CicsSocket implements Connection {
 	}
 	
 	/**
-	 * A request is serialized as a header message part followed by 
-	 * data message parts.
+	 * A request is serialized as a message type, then a header message part
+	 * followed by data message parts.
 	 * 
 	 * @param request the request to be serviced
 	 * @throws RequestException if send fails
@@ -316,28 +306,32 @@ public class CicsSocket implements Connection {
 	public final void sendRequest(
 			final Request request) throws RequestException {
 		if (LOG.isDebugEnabled()) {
-			LOG.debug("Sending Request:" + request.getID()
-			   + " on Connection:" + mConnectionID
-			   + " "
-			   + request.getRequestMessage().getHeaderPart().
-			   			getStringizedKeyValues()
-			   + '.');
+			try {
+				LOG.debug("Sending Request:" + request.getID()
+				   + " on Connection:" + mConnectionID
+				   + " "
+				   + request.getRequestMessage().getHeaderPart().
+				   			getJsonString()
+				   + '.');
+				} catch (HeaderPartException e) {
+					throw new RequestException(e);
+				}
 		}
-		CicsSocketOutputBuffer outputBuffer;
+		CicsSocketOutputBuffer outputBuffer = null;
 		try {
 			/* Buffer output to reduce the number of individual socket sends.*/
 			outputBuffer = new CicsSocketOutputBuffer(
 					mClientSocket.getOutputStream(),
 					mClientSocket.getSendBufferSize());
-			sendMessagePart(EXEC_REQUEST_EC, request.getID(),
-					(MessagePart) request.getRequestMessage().getHeaderPart(),
-					outputBuffer);
-			Iterator < MessagePart > entries =
-				request.getRequestMessage().getDataParts().iterator();
-			while (entries.hasNext()) {
-				sendMessagePart(DATA_MSG_EC, request.getID(), entries.next(),
-						outputBuffer);
-			}
+			
+			/* Send message type signaling a request */
+			outputBuffer.write(formatMessageType(
+					EXEC_REQUEST_EC, mHostProtocolCharset));
+			
+			/* Serialize the request message on the stream */
+			outputBuffer.write(request.getRequestMessage().sendToHost());
+			
+			/* Send any remaining data in the buffer */
 			outputBuffer.flush();
 		} catch (IOException e) {
 			throw (new RequestException(e));
@@ -349,53 +343,6 @@ public class CicsSocket implements Connection {
 					   + " message request sent.");
 		}
 	}
-	
-	/**
-	 * Send a message part to the host.
-	 * A message part is serialized this way:
-	 * - 9 chars message type
-	 * - 16 chars ID of the message part
-	 * - 4 bytes, length of content (big endian int)
-	 * - Content
-	 * @param messageType message part type
-	 * @param requestID the request identifier
-	 * @param message the message part
-	 * @param outputBuffer a buffered output stream
-	 * @throws RequestException if send fails
-	 */
-	public final void sendMessagePart(
-			final String messageType,
-			final String requestID,
-			final MessagePart message,
-			final CicsSocketOutputBuffer outputBuffer) throws RequestException {
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("Request:" + requestID
-					   + " on Connection:" + mConnectionID
-					   + " sending message part:"
-					   + message.getID()
-					   + " size:"
-					   + new Integer((message.getContent() == null)
-							   ? 0 : message.getContent().length).toString()
-					   + '.');
-		}
-		try {
-			outputBuffer.write(formatMPH(messageType, message, mHostCharset));
-			if (message.getContent() != null
-					&& message.getContent().length > 0) {
-				outputBuffer.write(message.getContent());
-			}
-		} catch (IOException e) {
-			throw (new RequestException(e));
-		} catch (CicsSocketHostConversionException e) {
-			throw (new RequestException(e));
-		}
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("Request:" + requestID
-					   + " on Connection:" + mConnectionID
-					   + " message part sent.");
-		}
-	}
-	
 	
 	/**
 	 * A response is serialized as a header message part followed by 
@@ -412,67 +359,34 @@ public class CicsSocket implements Connection {
 					   + " on Connection:" + mConnectionID
 					   + '.');
 		}
-		MessagePart responseHeader = recvMessagePart(request.getID());
-		HeaderPart headerPart;
 		try {
-			headerPart = new HeaderPart(responseHeader);
+			/* First get the eye catcher portion of the reply */
+			InputStream  respStream = mClientSocket.getInputStream();
+			String msgType = recvMessageType(respStream);
+			
+			/* Check if this is a valid reply or an error reply */
+			if (DATA_MSG_EC.compareTo(
+					msgType.substring(
+							0, DATA_MSG_EC.length())) != 0) {
+				recvError(msgType, respStream);
+			}
+			
+			/* Deserialize the rest of the stream into a response message */
+			Message reponseMessage = new Message();
+			reponseMessage.recvFromHost(respStream);
+			request.setResponseMessage(reponseMessage);
+		} catch (IOException e) {
+			throw (new RequestException(e));
 		} catch (HeaderPartException e) {
-			throw new RequestException(e);
+			throw (new RequestException(e));
+		} catch (HostReceiveException e) {
+			throw (new RequestException(e));
 		}
-		List < MessagePart > dataParts = new ArrayList < MessagePart >();
-		for (int i = 0; i < headerPart.getDataPartsNumber(); i++) {
-			dataParts.add(recvMessagePart(request.getID()));
-		}
-		request.setResponseMessage(new Message(headerPart, dataParts));
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Request:" + request.getID()
 					   + " on Connection:" + mConnectionID
 					   + " response received.");
 		}
-	}
-	
-	/**
-	 * Expecting reply from host after a request was acknowledged.
-	 * 
-	 * @param requestID the request identifier
-	 * @return the message part received
-	 * @throws RequestException if receive operation fails
-	 */
-	public final MessagePart recvMessagePart(
-			final String requestID) throws RequestException {
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("Receiving a message part for Request:" + requestID
-					   + " on Connection:" + mConnectionID
-					   + '.');
-		}
-		MessagePart reply = null;
-		try {
-			/* First get the eye catcher portion of the reply */
-			InputStream  in = mClientSocket.getInputStream();
-			String msgType = recvMessageType(in);
-			
-			/* Check if this is a valid reply or an error reply */
-			if (DATA_MSG_EC.compareTo(
-					msgType.substring(
-							0, DATA_MSG_EC.length())) == 0) {
-				reply = recvMessagePart(requestID, in);
-			} else {
-				recvError(msgType, in);
-			}
-		} catch (IOException e) {
-			throw (new RequestException(e));
-		}
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("Request:" + requestID
-				   + " on Connection:" + mConnectionID
-				   + " message part received:"
-				   + ((reply == null) ? "null" : reply.getID()
-						   + " size:"
-						   + new Integer((reply.getContent() == null)
-							? 0 : reply.getContent().length).toString())
-				   + '.');
-		}
-		return reply;
 	}
 	
 	/**
@@ -484,7 +398,7 @@ public class CicsSocket implements Connection {
 	private String recvMessageType(
 			final InputStream  in) throws RequestException {
 		String msgType = getCharsFromHost(
-				in, mHostCharset, REPLY_HDR_LEN);
+				in, mHostProtocolCharset, REPLY_HDR_LEN);
 		if (msgType == null || msgType.length() < REPLY_HDR_LEN) {
 			throw (new RequestException(PROTOCOL_ERROR_MSG));
 		}
@@ -507,45 +421,14 @@ public class CicsSocket implements Connection {
 						0, REPLY_ERROR_MSG_EC.length())) != 0) {
 			/* Consider this is a system error message */
 			String errString = getCharsFromHost(
-					in, mHostCharset, MAX_PROT_REPLY_LEN);
+					in, mHostProtocolCharset, MAX_PROT_REPLY_LEN);
 			throw (new RequestException(msgType + errString));
 		} else {
 			/* Get the error message content */
 			String errString = getCharsFromHost(
-					in, mHostCharset, MAX_PROT_REPLY_LEN);
+					in, mHostProtocolCharset, MAX_PROT_REPLY_LEN);
 			throw (new RequestException(errString.trim()));
 		}
-	}
-	
-	/**
-	 * Retrieve a message part in the reply coming back from the host.
-	 * @param requestID the request identifier
-	 * @param in an opened input stream on the host
-	 * @return the message part received
-	 * @throws RequestException if receive operation fails
-	 */
-	private MessagePart recvMessagePart(
-			final String requestID,
-			final InputStream  in) throws RequestException {
-		
-		/* The message part ID  */
-		String idString = getCharsFromHost(
-				in, mHostCharset, MSG_PART_ID_LEN).trim();
-		
-		/* Receive the content size */
-		int size = 4;
-		byte[] sizeBytes = receiveSize(in, size);
-		
-		/* Convert content size from bytes to int*/
-		ByteBuffer bb = ByteBuffer.allocate(size);
-		bb.put(sizeBytes);
-		bb.flip();
-		size = bb.asIntBuffer().get();
-
-		/* Receive the content */
-		byte[] content = receiveSize(in, size);
-		
-		return new MessagePart(idString, content);
 	}
 	
 	/**
@@ -611,11 +494,9 @@ public class CicsSocket implements Connection {
 		}
 		try {
 			OutputStream  out = mClientSocket.getOutputStream();
-			out.write(formatUOW(command, mHostCharset));
+			out.write(formatUOW(command, mHostProtocolCharset));
 			receiveAck();
 		} catch (IOException e) {
-			throw (new RequestException(e));
-		} catch (CicsSocketHostConversionException e) {
 			throw (new RequestException(e));
 		}
 		if (LOG.isDebugEnabled()) {
@@ -635,12 +516,10 @@ public class CicsSocket implements Connection {
 		}
 		try {
 			OutputStream  out = mClientSocket.getOutputStream();
-			out.write(formatProbe(mHostCharset));
+			out.write(formatProbe(mHostProtocolCharset));
 			receiveAck();
 			return true;
 		} catch (IOException e) {
-			return false;
-		} catch (CicsSocketHostConversionException e) {
 			return false;
 		} catch (RequestException e) {
 			return false;
@@ -669,28 +548,6 @@ public class CicsSocket implements Connection {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Connection:" + mConnectionID + " Ack received.");
 		}
-	}
-	
-	/**
-	 * Received chunked data until requested number of bytes is received.
-	 * @param in an opened input stream on the host
-	 * @param size the number of bytes to receive
-	 * @return byte array containing received data
-	 * @throws RequestException if receive fails
-	 */
-	private byte[] receiveSize(
-			final InputStream in,
-			final int size) throws RequestException {
-		byte[] buffer = new byte[size];
-		int recvd = 0;
-		try {
-			while (recvd < size) {
-				recvd += in.read(buffer, recvd, size - recvd);
-			}
-		} catch (IOException e) {
-			throw (new RequestException(e));
-		}
-		return buffer;
 	}
 	
 	/**
@@ -735,7 +592,7 @@ public class CicsSocket implements Connection {
 	 * @param trace enable trace mode
 	 * @param charset the host character set
 	 * @return the formatted CIM
-	 * @throws CicsSocketHostConversionException if initial message formatting
+	 * @throws UnsupportedEncodingException if initial message formatting
 	 *  fails
 	 */
 	public static byte[] formatCIM(
@@ -743,57 +600,48 @@ public class CicsSocket implements Connection {
 			final String cicsPassword,
 			final String connectionID,
 			final boolean trace,
-			final String charset) throws CicsSocketHostConversionException {
+			final String charset) throws UnsupportedEncodingException {
 		byte[] cicsCIM = new byte[CIM_LEN];
 		int pos = 0;
-		toHostBytes(cicsUserID, cicsCIM, pos, CICS_USERID_LEN, charset);
+		HostCodec.toHostBytes(
+				cicsUserID, cicsCIM, pos, CICS_USERID_LEN, charset);
 		pos += CICS_USERID_LEN;
-		toHostBytes(cicsPassword, cicsCIM, pos, CICS_PWD_LEN, charset);
+		HostCodec.toHostBytes(
+				cicsPassword, cicsCIM, pos, CICS_PWD_LEN, charset);
 		pos += CICS_PWD_LEN;
-		toHostBytes(connectionID, cicsCIM, pos, CONNECTION_ID_LEN, charset);
+		HostCodec.toHostBytes(
+				connectionID, cicsCIM, pos, CONNECTION_ID_LEN, charset);
 		pos += CONNECTION_ID_LEN;
 		if (trace) {
-			toHostBytes("1", cicsCIM, pos, TRACE_LEN, charset);
+			HostCodec.toHostBytes("1", cicsCIM, pos, TRACE_LEN, charset);
 		} else {
-			toHostBytes("0", cicsCIM, pos, TRACE_LEN, charset);
+			HostCodec.toHostBytes("0", cicsCIM, pos, TRACE_LEN, charset);
 		}
 		pos += TRACE_LEN;
-		toHostBytes(CIM_EYE_CATCHER, cicsCIM, pos, CIM_EYE_CATCHER.length(),
+		HostCodec.toHostBytes(
+				CIM_EYE_CATCHER, cicsCIM, pos, CIM_EYE_CATCHER.length(),
 				charset);
 		pos += CIM_EYE_CATCHER.length();
 		return cicsCIM;
 	}
 	
 	/**
-	 * Formats the header of a message part, ready for serialization. 
-	 * This includes the message part ID in host charset encoding as 
-	 * well as the length of the content (4 bytes, big endian).
+	 * Formats the message type, ready for serialization. 
 	 * 
 	 * @param messageType message part type
-	 * @param messagePart the message part to serialize
 	 * @param charset the host character set
-	 * @return the serialized header
-	 * @throws CicsSocketHostConversionException if formatting fails
+	 * @return the serialized message type
+	 * @throws UnsupportedEncodingException if formatting fails
 	 */
-	public static byte[] formatMPH(
+	public static byte[] formatMessageType(
 			final String messageType,
-			final MessagePart messagePart,
-			final String charset) throws CicsSocketHostConversionException {
-		byte[] aMPHBytes = new byte[MPH_LEN];
+			final String charset) throws UnsupportedEncodingException {
+		byte[] aMTBytes = new byte[MSG_TYPE_LEN];
 		int pos = 0;
-		toHostBytes(messageType, aMPHBytes, pos,
+		HostCodec.toHostBytes(messageType, aMTBytes, pos,
 				MSG_TYPE_LEN, charset);
 		pos += MSG_TYPE_LEN;
-		toHostBytes(messagePart.getID(), aMPHBytes, pos,
-				MSG_PART_ID_LEN, charset);
-		pos += MSG_PART_ID_LEN;
-		ByteBuffer bb = ByteBuffer.allocate(4);
-		bb.putInt((messagePart.getContent() == null)
-				? 0 : messagePart.getContent().length);
-		bb.flip();
-		bb.get(aMPHBytes, pos, 4);
-		pos += 4;
-		return aMPHBytes;
+		return aMTBytes;
 	}
 	
 	/**
@@ -803,17 +651,17 @@ public class CicsSocket implements Connection {
 	 * @param command the UOW processing command
 	 * @param charset the host character set
 	 * @return the serialized header
-	 * @throws CicsSocketHostConversionException if formatting fails
+	 * @throws UnsupportedEncodingException if formatting fails
 	 */
 	public static byte[] formatUOW(
 			final String command,
-			final String charset) throws CicsSocketHostConversionException {
+			final String charset) throws UnsupportedEncodingException {
 		byte[] aUOWBytes = new byte[UOW_MSG_EC_LEN + 1 + UOW_COMMAND_LEN + 1];
 		int pos = 0;
-		toHostBytes(UOW_MSG_EC, aUOWBytes, pos,
+		HostCodec.toHostBytes(UOW_MSG_EC, aUOWBytes, pos,
 				UOW_MSG_EC_LEN, charset);
 		pos += (UOW_MSG_EC_LEN + 1);
-		toHostBytes(command, aUOWBytes, pos,
+		HostCodec.toHostBytes(command, aUOWBytes, pos,
 				command.length(), charset);
 		pos += (UOW_COMMAND_LEN + 1);
 		return aUOWBytes;
@@ -824,55 +672,18 @@ public class CicsSocket implements Connection {
 	 * 
 	 * @param charset the host character set
 	 * @return the serialized header
-	 * @throws CicsSocketHostConversionException if formatting fails
+	 * @throws UnsupportedEncodingException if formatting fails
 	 */
 	public static byte[] formatProbe(
-			final String charset) throws CicsSocketHostConversionException {
+			final String charset) throws UnsupportedEncodingException {
 		byte[] probeBytes = new byte[PROBE_REQUEST_EC.length() + 1];
 		int pos = 0;
-		toHostBytes(PROBE_REQUEST_EC, probeBytes, pos,
+		HostCodec.toHostBytes(PROBE_REQUEST_EC, probeBytes, pos,
 				PROBE_REQUEST_EC.length(), charset);
 		pos += (PROBE_REQUEST_EC.length() + 1);
 		return probeBytes;
 	}
 	
-	/**
-	 * Given a host charset, this method converts a string into host bytes and
-	 * either truncates or fills with spaces so that the result fits in the
-	 * requested hostLength.
-	 * 
-	 * @param clientString the string in unicode
-	 * @param hostBytes the host buffer to fill
-	 * @param startPos first byte to fill in hostBytes
-	 * @param hostLength total bytes to fill in hostBytes
-	 * @param hostCharset host character set
-	 * @throws CicsSocketHostConversionException if conversion fails
-	 */
-	public static void toHostBytes(
-			final String clientString,
-			final byte[] hostBytes,
-			final int startPos,
-			final int hostLength,
-			final String hostCharset) throws CicsSocketHostConversionException {
-		byte[] clientBytes;
-		byte[] spaceBytes;
-		try {
-			clientBytes = clientString.getBytes(hostCharset);
-			spaceBytes = " ".getBytes(hostCharset);
-		} catch (UnsupportedEncodingException e) {
-			throw (new CicsSocketHostConversionException(e));
-		}
-		int j = 0;
-		for (int i = startPos; i < startPos + hostLength; i++) {
-			if (j < clientBytes.length) {
-				hostBytes[i] = clientBytes[j];
-				j++;
-			} else {
-				hostBytes[i] = spaceBytes[0];
-			}
-		}
-	}
-
 	/**
 	 * @return the current socket connection
 	 */

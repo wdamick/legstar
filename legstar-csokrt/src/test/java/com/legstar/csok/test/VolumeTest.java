@@ -34,6 +34,7 @@ import com.legstar.messaging.Address;
 import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.HeaderPart;
+import com.legstar.messaging.HeaderPartException;
 import com.legstar.messaging.Message;
 import com.legstar.messaging.MessagePart;
 import com.legstar.messaging.Request;
@@ -56,14 +57,14 @@ public class VolumeTest extends TestCase {
 			endpoint.setHostTraceMode(false); // dont flood the host
 			CicsSocket cs = new CicsSocket("testSingleIterateSimpleWithWait", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
-			HashMap < String, String > map = new HashMap < String, String >();
+			HashMap < String, Object > map = new HashMap < String, Object >();
 			map.put(Constants.CICS_PROGRAM_KEY, "T1SLEEPT");
 			map.put(Constants.CICS_LENGTH_KEY, "39");
 			map.put(Constants.CICS_DATALEN_KEY, "8");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			MessagePart inCommarea1 = new CommareaPart(Util.toByteArray("f0f0f0f0f0f0f0f3"));
 			inputParts.add(inCommarea1);
-			HeaderPart dp = new HeaderPart(map, inputParts.size(), HOST_CHARSET);
+			HeaderPart dp = new HeaderPart(map, inputParts.size());
 			Address address = new Address("TheMainframe");
 			Message requestMessage = new Message(dp, inputParts);
 			Request request = new Request("testSingleIterateSimpleWithWait", address, requestMessage);
@@ -77,6 +78,8 @@ public class VolumeTest extends TestCase {
 			cs.close();
 			long endTime = System.currentTimeMillis();
 			System.out.println("Duration millisecs=" + (endTime - startTime));
+		} catch (HeaderPartException e) {
+			fail("testConnectSendPart failed=" + e);
 		} catch (ConnectionException e) {
 			fail("testSingleIterateSimpleWithWait failed=" + e);
 		} catch (RequestException e) {
@@ -95,14 +98,14 @@ public class VolumeTest extends TestCase {
 			endpoint.setHostTraceMode(false); // dont flood the host
 			CicsSocket cs = new CicsSocket("testSingleIterateSimpleConnectionReused", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
-			HashMap < String, String > map = new HashMap < String, String >();
+			HashMap < String, Object > map = new HashMap < String, Object >();
 			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
 			map.put(Constants.CICS_LENGTH_KEY, "79");
 			map.put(Constants.CICS_DATALEN_KEY, "6");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 			inputParts.add(inCommarea);
-			HeaderPart dp = new HeaderPart(map, inputParts.size(), HOST_CHARSET);
+			HeaderPart dp = new HeaderPart(map, inputParts.size());
 			Address address = new Address("TheMainframe");
 			Message requestMessage = new Message(dp, inputParts);
 			Request request = new Request("testSingleIterateSimpleConnectionReused", address, requestMessage);
@@ -116,6 +119,8 @@ public class VolumeTest extends TestCase {
 			cs.close();
 			long endTime = System.currentTimeMillis();
 			System.out.println("Duration millisecs=" + (endTime - startTime));
+		} catch (HeaderPartException e) {
+			fail("testConnectSendPart failed=" + e);
 		} catch (ConnectionException e) {
 			fail("testSingleIterateSimpleConnectionReused failed=" + e);
 		} catch (RequestException e) {
@@ -133,14 +138,14 @@ public class VolumeTest extends TestCase {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
 			endpoint.setHostTraceMode(false); // dont flood the host
 			CicsSocket cs = new CicsSocket("testSingleIterateSimple", endpoint, 1000, 5000);
-			HashMap < String, String > map = new HashMap < String, String >();
+			HashMap < String, Object > map = new HashMap < String, Object >();
 			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
 			map.put(Constants.CICS_LENGTH_KEY, "79");
 			map.put(Constants.CICS_DATALEN_KEY, "6");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 			inputParts.add(inCommarea);
-			HeaderPart dp = new HeaderPart(map, inputParts.size(), HOST_CHARSET);
+			HeaderPart dp = new HeaderPart(map, inputParts.size());
 			Address address = new Address("TheMainframe");
 			Message requestMessage = new Message(dp, inputParts);
 			Request request = new Request("testSingleIterateSimple", address, requestMessage);
@@ -155,6 +160,8 @@ public class VolumeTest extends TestCase {
 			}
 			long endTime = System.currentTimeMillis();
 			System.out.println("Duration millisecs=" + (endTime - startTime));
+		} catch (HeaderPartException e) {
+			fail("testConnectSendPart failed=" + e);
 		} catch (ConnectionException e) {
 			fail("testSingleIterateSimple failed=" + e);
 		} catch (RequestException e) {
@@ -172,7 +179,7 @@ public class VolumeTest extends TestCase {
 			endpoint.setHostTraceMode(true); // dont flood the host
 			CicsSocket cs = new CicsSocket("testSingleIterateVolume", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
-			HashMap < String, String > map = new HashMap < String, String >();
+			HashMap < String, Object > map = new HashMap < String, Object >();
 			map.put(Constants.CICS_PROGRAM_KEY, "T1VOLUME");
 			map.put(Constants.CICS_LENGTH_KEY, "32767");
 			map.put(Constants.CICS_DATALEN_KEY, "32767");
@@ -184,7 +191,7 @@ public class VolumeTest extends TestCase {
 			System.arraycopy(endEC, 0, content, 32751, 16);
 			MessagePart inCommarea1 = new CommareaPart(content);
 			inputParts.add(inCommarea1);
-			HeaderPart dp = new HeaderPart(map, inputParts.size(), HOST_CHARSET);
+			HeaderPart dp = new HeaderPart(map, inputParts.size());
 			Address address = new Address("TheMainframe");
 			Message requestMessage = new Message(dp, inputParts);
 			Request request = new Request("testSingleIterateVolume", address, requestMessage);
@@ -198,6 +205,8 @@ public class VolumeTest extends TestCase {
 				assertEquals("d7c7d47ec9c7e8c3d9c3e3d36bd9c5c7", Util.toHexString(endEC));
 			}
 			cs.close();
+		} catch (HeaderPartException e) {
+			fail("testConnectSendPart failed=" + e);
 		} catch (ConnectionException e) {
 			fail("testSingleIterateVolume failed=" + e);
 		} catch (RequestException e) {

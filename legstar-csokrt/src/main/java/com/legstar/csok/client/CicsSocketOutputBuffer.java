@@ -21,6 +21,7 @@
 package com.legstar.csok.client;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
@@ -108,6 +109,22 @@ public class CicsSocketOutputBuffer {
 		/* At this stage, the data fits into the buffer so just copy it  */
 		System.arraycopy(buffer, off, mOutputBuffer, mPos, len);
 		mPos += len;
+	}
+	
+	/**
+	 * When reading from a stream, this results in a dual buffering situation
+	 * where data is first read into a local buffer and then copied to the
+	 * general buffer before it is actually flushed to the socket.
+	 * @param inStream the input stream
+	 * @throws IOException if reading from the input stream fails
+	 */
+	public final void write(final InputStream inStream) throws IOException {
+		byte[] buffer = new byte[1024];
+		int rc;
+		while ((rc = inStream.read(buffer)) > 0) {
+			write(buffer, 0, rc);
+		}
+		return;
 	}
 	
 	/**

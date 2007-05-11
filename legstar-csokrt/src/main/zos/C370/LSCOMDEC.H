@@ -76,17 +76,35 @@
 #define UOW_ROLLBACK_CMD "Rollback" /* Rollback command (undo updates)*/
 #define UOW_KEEP_CMD    "Keep"     /* Keep command (continue same UOW)*/
 
+#define PROGNAME_LEN  8          /* CICS program name max length      */
+#define SYSID_LEN  4             /* CICS system ID max length         */
+#define TRANSID_LEN  4           /* CICS transaction ID max length    */
+#define CHANNEL_NAME_LEN  16     /* CICS channel name max length      */
+#define CONTAINER_NAME_LEN  16   /* CICS container name max length    */
+
+#define MAX_OUT_CONTAINERS  20   /* Maximum output containers we
+                                    support                           */
+
 /*--------------------------------------------------------------------*/
 /* Message part structure                                             */
 /*--------------------------------------------------------------------*/
 typedef struct {
-  char ID[MSG_ID_LEN];
+  char ID[MSG_ID_LEN];           /* An ID such as a Container name    */
   union {
      char as_bytes[MSG_CONTENT_SIZE_LEN];
      int as_int;
-  } size;
+  } size;                        /* The content length (not including
+                                    this header                       */
   char* content;
 } MessagePart;
+
+/*--------------------------------------------------------------------*/
+/* Message structure                                                  */
+/*--------------------------------------------------------------------*/
+typedef struct {
+  MessagePart* pHeaderPart;
+  MessagePart* pParts;
+} Message;
 
 /*--------------------------------------------------------------------*/
 /* Content layout for a header message part                           */
@@ -103,18 +121,26 @@ typedef struct {
 } HeaderPartContent;
 
 /*--------------------------------------------------------------------*/
-/* Message structure                                                  */
+/*  Structure describing a CICS program                               */
 /*--------------------------------------------------------------------*/
 typedef struct {
-  MessagePart* pHeaderPart;
-  MessagePart* pParts;
-} Message;
+    char CICSProgram[PROGNAME_LEN + 1]; /* Program to invoke          */
+    long CICSLength;                 /* Size of the commarea          */
+    long CICSDataLength;             /* Size of the input data        */
+    char CICSSysID[SYSID_LEN + 1];   /* Remote CICS system            */
+    long CICSSyncOnReturn;           /* Commit on each invoke         */
+    char CICSTransID[TRANSID_LEN + 1]; /* Remote mirror transaction ID*/
+    char CICSChannel[CHANNEL_NAME_LEN + 1]; /* Channel                */
+    int  CICSOutputContainersCount;  /* Number of output containers   */
+    char CICSOutputContainers[
+         MAX_OUT_CONTAINERS * (CONTAINER_NAME_LEN + 1)]; /* List of 
+                                               output containers      */
+} CICSProgramDesc;
 
 /*--------------------------------------------------------------------*/
 /* Tracing parameters                                                 */
 /*--------------------------------------------------------------------*/
 typedef struct {
-    char module[MODULE_LEN + 1];
     char CxID[MAX_CXID_LEN];
     int traceMode;
     char formattedErrorMessage[MAX_FORM_MSG_LEN];
@@ -126,7 +152,7 @@ typedef struct {
 signed long g_cicsResp = 0;                /* Last CICS command resp  */
 signed long g_cicsResp2 = 0;               /* Last CICS command resp2 */
 char g_traceMessage[MAX_TRACE_MSG_LEN];    /* Tracing messages        */
-TraceParms g_traceParms;                   /* trace parameters        */
+TraceParms* g_pTraceParms;                 /* trace parameters        */
 
 /*--------------------------------------------------------------------*/
 /* Commarea pointer and length                                        */
