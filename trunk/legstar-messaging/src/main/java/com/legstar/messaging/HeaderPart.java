@@ -21,169 +21,229 @@
 package com.legstar.messaging;
 
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.nio.ByteBuffer;
 
+import com.legstar.codec.HostCodec;
 
 /**
  * The header is a special message part which content gives the number
- * of input parts as well as a variable number of key/value pairs that
- * the client wishes to communicate to the host server.
+ * of input parts as well as a JSON-encoded string describing the action
+ * that the host server should perform.
  */
 public class HeaderPart extends MessagePart {
-	
+
 	/** The header identifier (used as an eye catcher by the CICS
 	 *  counterpart).*/
 	public static final String HEADER_PART_ID = "LSOKHEAD";
-	
-	/** Key/Value pairs. */
-	private Map < String, String > mKeyValues;
-	
-	/** Key/Values serialized as a Json stream. */
-	private String mStringizedKeyValues;
-	
-	/** Number of data message parts. */
-	private int mDataPartsNumber;
 
-	/**
-	 * Contructor builds the internal content structure in host character set.
-	 * The final content starts with a four bytes integer giving the number
-	 * of input message parts. The rest of the content is
-	 * a variable length JSON serialization of key/value pairs describing
-	 * what the host server should do. The JSON string is preceded by a
-	 * 4 bytes int giving its size.
-	 * 
-	 * @param keyValues the protocol elements
+	/** Size of data parts number on host (bytes). */
+	private static final int DATAPARTS_NUM_LEN = 4;
+	
+	/** Size of Json string length on host (bytes). */
+	private static final int JSON_LEN_LEN = 4;
+	
+	/** No argument constructor creates a header part with no data parts
+	 * and an empty json host action description. 
+	 * @throws HeaderPartException if header code page is not supported
+	 *  */
+	public HeaderPart() throws HeaderPartException {
+		super(HEADER_PART_ID, null);
+		setContent(0, "");
+	}
+	
+	/** Creates a header part for a given number of input parts and a
+	 * JSON string describing the expected host action.
+	 * and an empty json host action description. 
 	 * @param dataPartsNumber the number of data message parts
-	 * @param hostCharset the host character set
-	 * @throws UnsupportedEncodingException if character set is invalid
+	 * @param jsonString the host action description
+	 * @throws HeaderPartException if header code page is not supported
+	 *  */
+	public HeaderPart(
+			final int dataPartsNumber, final String jsonString)
+			throws HeaderPartException {
+		super(HEADER_PART_ID, null);
+		setContent(dataPartsNumber, jsonString);
+	}
+	
+	/**
+	 * Convenience constructor takes the host action description as
+	 * key/value pairs rather than a JSON string.
+	 * 
+	 * @param dataPartsNumber the number of data message parts
+	 * @param keyValues the protocol elements
+	 * @throws HeaderPartException if character set is invalid
 	 */
 	public HeaderPart(
-			final Map < String, String > keyValues,
-			final int dataPartsNumber,
-			final String hostCharset) throws UnsupportedEncodingException {
+			final Map < String, Object > keyValues,
+			final int dataPartsNumber) throws HeaderPartException {
 		super(HEADER_PART_ID, null);
-		mKeyValues = keyValues;
-		mDataPartsNumber = dataPartsNumber;
-		
-		/* Stuff the content with :
-		 * 4 bytes giving the number of input message parts (big endian)
-		 * 4 bytes giving the size of the key/value pairs (big endian)
-		 * A Json serialization of the key/value pairs
-		 *  */
-		mStringizedKeyValues = stringizeKeyValues(keyValues);
-		byte[] hostKeyValues = mStringizedKeyValues.getBytes(hostCharset);
-		setContent(new byte[8 + hostKeyValues.length]);
-		int pos = 0;
-		ByteBuffer bb = ByteBuffer.allocate(4);
-		bb.putInt(dataPartsNumber);
-		bb.flip();
-		bb.get(getContent(), pos, 4);
-		pos += 4;
-		bb.clear();
-		bb.putInt(hostKeyValues.length);
-		bb.flip();
-		bb.get(getContent(), pos, 4);
-		pos += 4;
-		System.arraycopy(
-				hostKeyValues, 0, getContent(), pos, hostKeyValues.length);
+		/* Create the host content */
+		setContent(dataPartsNumber, getJsonFromMap(keyValues));
 	}
-	
+
 	/**
-	 * Construct a header part from a message part. In this version, we
-	 * do not convert the JSON string to a key/value pair map. 
-	 * @param messagePart an existing message part
-	 * @throws HeaderPartException if message part is not a valid header part
-	 *   */
-	public HeaderPart(
-			final MessagePart messagePart) throws HeaderPartException {
-		super(messagePart.getID(), messagePart.getContent());
+	 * Creates new header part content.
+	 * The layout for a header part content is:
+	 * 4 bytes giving the number of input message parts (big endian)
+	 * 4 bytes giving the size of the key/value pairs (big endian)
+	 * A Json serialization of the key/value pairs
+	 * @param dataPartsNumber number of input parts
+	 * @param jsonString the JSON host action description
+	 * @throws HeaderPartException if conversion to host fails
+	 */
+	public final void setContent(
+			final int dataPartsNumber,
+			final String jsonString) throws HeaderPartException {
 		
-		/* First check that the ID matches */
-		if (messagePart.getID().compareTo(HEADER_PART_ID) != 0) {
-			throw new HeaderPartException(
-					"Message part is not a header part.");
+		byte[] hostJson;
+		try {
+			hostJson = jsonString.getBytes(HostCodec.HEADER_CODE_PAGE);
+		} catch (UnsupportedEncodingException e) {
+			throw new HeaderPartException(e);
 		}
-		
-		/* Get the number of data parts as the firs 4 bytes of the content */
-		ByteBuffer bb = ByteBuffer.allocate(4);
-		bb.put(messagePart.getContent(), 0, 4);
+		setContent(
+				new byte[DATAPARTS_NUM_LEN + JSON_LEN_LEN + hostJson.length]);
+		int pos = 0;
+		setDataPartsNumber(dataPartsNumber);
+		pos += DATAPARTS_NUM_LEN;
+		ByteBuffer bb = ByteBuffer.allocate(JSON_LEN_LEN);
+		bb.putInt(hostJson.length);
 		bb.flip();
-		mDataPartsNumber = bb.getInt();
-		
-		/** TODO key/value pairs should be reconstructed from JSON string */
-		mKeyValues = new HashMap < String, String >();
+		bb.get(getContent(), pos, JSON_LEN_LEN);
+		pos += JSON_LEN_LEN;
+		if (hostJson.length > 0) {
+			System.arraycopy(
+				hostJson, 0, getContent(), pos, hostJson.length);
+		}
 	}
-	
-	/** No argument constructor. */
-	public HeaderPart() {
-		super(HEADER_PART_ID, null);
-		mDataPartsNumber = 0;
-		mKeyValues = new HashMap < String, String >();
-	}
-	
+
 	/**
 	 * Serialize key/values in JSON compliant string.
 	 * @param map key/values pair
 	 * @return the JSON string
 	 */
-	public static String stringizeKeyValues(final Map < String, String > map) {
+	public static String getJsonFromMap(final Map < String, Object > map) {
 		StringBuilder sb = new StringBuilder();
 		boolean firstentry = true;
 		sb.append("{");
-		Map.Entry < String, String > entry = null;
-		Iterator < Map.Entry < String, String > > entries
-					= map.entrySet().iterator();
+		Map.Entry < String, Object > entry = null;
+		Iterator < Map.Entry < String, Object > > entries
+		= map.entrySet().iterator();
 		while (entries.hasNext()) {
+			entry = entries.next();
+			/* Simple String values are serialized as "key":"value" */
+			if (entry.getValue() instanceof java.lang.String) {
+				if (!firstentry) {
+					sb.append(",");
+				}
+				sb.append("\"" + entry.getKey() + "\":\"" + entry.getValue()
+						+ "\"");
+			} else {
+				/* String arrays are serialized as "key":["value1",.,"valuen"]*/
+				if (entry.getValue() instanceof java.lang.String[]) {
+					if (!firstentry) {
+						sb.append(",");
+					}
+					sb.append("\"" + entry.getKey() + "\":[");
+					String[] array = (String[]) entry.getValue();
+					for (int i = 0; i < array.length; i++) {
+						if (i > 0) {
+							sb.append(",");
+						}
+						sb.append("\"" + array[i] + "\"");
+					}
+					sb.append("]");
+				}
+			}
 			if (firstentry) {
 				firstentry = false;
-			} else {
-				sb.append(",");
 			}
-			entry = entries.next();
-			sb.append("\"" + entry.getKey() + "\":\"" + entry.getValue()
-					+ "\"");
 		}
 		sb.append("}");
 		return sb.toString();
 	}
-	
-	/**
-	 * @return the Key/Values serialized as a Json stream
-	 */
-	public final String getStringizedKeyValues() {
-		return mStringizedKeyValues;
-	}
 
 	/**
+	 * Message parts number is extracted from the header content.
+	 * The message parts number occupies the four first bytes of the content.
 	 * @return the number of data message parts
 	 */
 	public final int getDataPartsNumber() {
-		return mDataPartsNumber;
+		if (getContent() == null 
+				|| getContent().length < DATAPARTS_NUM_LEN) {
+			return 0;
+		}
+		ByteBuffer bb = ByteBuffer.allocate(DATAPARTS_NUM_LEN);
+		bb.put(getContent(), 0, DATAPARTS_NUM_LEN);
+		bb.flip();
+		return bb.getInt();
 	}
 
 	/**
 	 * @param dataPartsNumber the number of data message parts to set
 	 */
 	public final void setDataPartsNumber(final int dataPartsNumber) {
-		mDataPartsNumber = dataPartsNumber;
+		ByteBuffer bb = ByteBuffer.allocate(DATAPARTS_NUM_LEN);
+		bb.putInt(dataPartsNumber);
+		bb.flip();
+		bb.get(getContent(), 0, DATAPARTS_NUM_LEN);
 	}
 
 	/**
-	 * @return the key/value pairs
+	 * The json string length occupies four bytes following the number
+	 * of data parts.
+	 * @return the json host string length
 	 */
-	public final Map < String, String > getKeyValues() {
-		return mKeyValues;
+	public final int getJsonStringLen() {
+		if (getContent() == null 
+				|| getContent().length 
+				< (DATAPARTS_NUM_LEN + JSON_LEN_LEN)) {
+			return 0;
+		}
+		ByteBuffer bb = ByteBuffer.allocate(JSON_LEN_LEN);
+		bb.put(getContent(), DATAPARTS_NUM_LEN, JSON_LEN_LEN);
+		bb.flip();
+		return bb.getInt();
+	}
+	
+	/**
+	 * @return the JSON string
+	 * @throws HeaderPartException if host conversion fails
+	 */
+	public final String getJsonString() throws HeaderPartException {
+		if (getJsonStringLen() == 0) {
+			return null;
+		}
+		try {
+			return new String(getContent(), DATAPARTS_NUM_LEN + JSON_LEN_LEN,
+					getJsonStringLen(), HostCodec.HEADER_CODE_PAGE);
+		} catch (UnsupportedEncodingException e) {
+			throw new HeaderPartException(e);
+		}
 	}
 
+	/**
+	 * @param jsonString the JSON host action description
+	 * @throws HeaderPartException if map cannot be converted to host
+	 * string
+	 */
+	public final void setJsonString(
+			final String jsonString)
+			throws HeaderPartException {
+		setContent(getDataPartsNumber(), jsonString);
+	}
+	
 	/**
 	 * @param keyValues the key/value pairs to set
+	 * @throws HeaderPartException if map cannot be converted to host
+	 * string
 	 */
-	public final void setKeyValues(final Map < String, String > keyValues) {
-		mKeyValues = keyValues;
+	public final void setKeyValues(
+			final Map < String, Object > keyValues)
+			throws HeaderPartException {
+		setContent(getDataPartsNumber(), getJsonFromMap(keyValues));
 	}
-
 
 }
