@@ -47,28 +47,17 @@
 /*====================================================================*/
 /* Initialize logging and tracing variables.                          */
 /*====================================================================*/
-int initLog()
+int initLog(DFHEIBLK *inDfheiptr, TraceParms* inTraceParms)
 {
-    /* Get commarea address and EIB bloc address                      */
-    EXEC CICS ADDRESS
-              COMMAREA(ca_ptr)
-              EIB(dfheiptr)
-              RESP(g_cicsResp) RESP2(g_cicsResp2);                  
-                                               
-    if (g_cicsResp != DFHRESP(NORMAL)) {
-        /* Since there is no way to log this error, just blow up*/
-        EXEC CICS ABEND
-                  ABCODE(CICS_ABEND_CODE)
-                  NODUMP;
-       return ERROR_CODE;
-    }
+    dfheiptr = inDfheiptr;
+    g_pTraceParms = inTraceParms;
     return OK_CODE;
 }
 
 /*====================================================================*/
 /* Log any CICS error return code                                     */
 /*                                                                    */
-/* Input  :  traceParms            trace options                      */
+/* Input  :  module                module requesting trace            */
 /*           errorCommand          the failed CICS command            */
 /*           resp                  response code                      */
 /*           resp2                 reason code                        */
@@ -76,13 +65,15 @@ int initLog()
 /* Output :  formattedErrorMessage                                    */
 /*                                                                    */
 /*====================================================================*/
-int logCicsError(TraceParms* pTraceParms,
-                 char* errorCommand,
+int logCicsError(char* module, char* errorCommand,
                  signed long resp, signed long resp2)
 {
     char cicsErrorMessage[257];   /* complete message for CICS errors */
-    char respText[12];            /* human readable resp code         */
-   
+    char respText[17];            /* human readable resp code. Be very
+                                     careful when you add new response
+                                     texts not to exceed 16 chars.    */
+    
+    traceMessage(module, "Entered logCicsError");   
     /* Attempt to get a user friendly resturn code                    */
     switch (resp) {
       case (DFHRESP(ENVDEFERR)):
@@ -127,27 +118,36 @@ int logCicsError(TraceParms* pTraceParms,
       case (DFHRESP(TEMPLATERR)):
         strcpy(respText,"TEMPLATERR");
         break;
+      case (DFHRESP(CONTAINERERR)):
+        strcpy(respText,"CONTAINERERR");
+        break;
+      case (123):
+        strcpy(respText,"CCSIDERR");
+        break;
+      case (122):
+        strcpy(respText,"CHANNELERR");
+        break;
       default:
+        traceMessage(module, "Default");   
         sprintf(respText,"%d", resp);
     }
     sprintf(cicsErrorMessage,
             "CICS command=%s failed, resp=%s, resp2=%d",
             errorCommand, respText, resp2);
-    logError(pTraceParms, cicsErrorMessage);
+    logError(module, cicsErrorMessage);
     return OK_CODE;
 }
 
 /*====================================================================*/
 /* Log general errors                                                 */
 /*                                                                    */
-/* Input  :  traceParms            trace options                      */
+/* Input  :  module                module requesting trace            */
 /*           errorMessage          message describing error           */
 /*                                                                    */
 /* Output :  formattedErrorMessage formatted error message            */
 /*                                                                    */
 /*====================================================================*/
-int logError(TraceParms* pTraceParms,
-             char* errorMessage)
+int logError(char* module, char* errorMessage)
 {
     char errorReport[512];
     char absTime[8];   /* current absolute time, ms since 01/01/1900  */
@@ -176,13 +176,13 @@ int logError(TraceParms* pTraceParms,
     }
 
     /* save the message so that it can be sent back to client        */
-    sprintf(pTraceParms->formattedErrorMessage, "%s %s",
+    sprintf(g_pTraceParms->formattedErrorMessage, "%s %s",
             REPLY_ERROR_EC, errorMessage);
 
     /* format an error report                                        */
     sprintf(errorReport,
             "%s : Connection ID=%s : Time=%s @ %s : %s",
-            REPLY_ERROR_EC, pTraceParms->CxID, curdate, curtime,
+            REPLY_ERROR_EC, g_pTraceParms->CxID, curdate, curtime,
             errorMessage);
 
     /* stderr, when used in an LE environment which is the case for
@@ -191,8 +191,8 @@ int logError(TraceParms* pTraceParms,
     fprintf(stderr,"%s\n",errorReport);
     /* also print message to CEEOUT in case someone is monitoring
        stdout                                                        */
-    if (TRUE_CODE == pTraceParms->traceMode) {
-        traceMessage(pTraceParms, errorMessage);
+    if (TRUE_CODE == g_pTraceParms->traceMode) {
+        traceMessage(module, errorMessage);
     }
     return OK_CODE;
 }
@@ -200,19 +200,19 @@ int logError(TraceParms* pTraceParms,
 /*====================================================================*/
 /* Trace a message                                                    */
 /*                                                                    */
-/* Input  :  traceParms            trace options                      */
+/* Input  :  module                module requesting trace            */
 /*           traceMessage          message to trace                   */
 /*                                                                    */
 /* Output :                        None                               */
 /*                                                                    */
 /*====================================================================*/
-int traceMessage(TraceParms* pTraceParms, char* traceMessage )
+int traceMessage(char* module, char* traceMessage )
 {
     /* stdout, when used in an LE environment which is the case for
        CICS TS, uses the CESO transient data queue. This queue
        directs to CEEOUT by default.                                 */
     fprintf(stdout,"%s : CxID=%s : %s\n",
-            pTraceParms->module, pTraceParms->CxID, traceMessage);
+            module, g_pTraceParms->CxID, traceMessage);
            
     return OK_CODE;
 }
@@ -220,16 +220,14 @@ int traceMessage(TraceParms* pTraceParms, char* traceMessage )
 /*====================================================================*/
 /* Trace the content of a buffer                                      */
 /*                                                                    */
-/* Input  :  traceParms            trace options                      */
+/* Input  :  module                module requesting trace            */
 /*           data                 `Pointer to buffer data             */
 /*           dataLength            data size                          */
 /*                                                                    */
 /* Output :                        None                               */
 /*                                                                    */
 /*====================================================================*/
-int traceData(TraceParms* pTraceParms,
-              char* data,
-              long dataLength )
+int traceData(char* module, char* data, long dataLength )
 {
     int i;
     char dumpLine[128];
@@ -255,7 +253,7 @@ int traceData(TraceParms* pTraceParms,
           }
           strcat(dumpLine," -- ");
           strcat(dumpLine,dumpString);
-          traceMessage(pTraceParms, dumpLine);
+          traceMessage(module, dumpLine);
           dumpString[0]='\0';
           dumpLine[0]='\0';
        }
@@ -264,7 +262,7 @@ int traceData(TraceParms* pTraceParms,
     if (dataLength > MAX_TRACES_BYTES) {
         sprintf(dumpLine,"...data was truncated at %d bytes",
                 MAX_TRACES_BYTES);
-        traceMessage(pTraceParms, dumpLine);
+        traceMessage(module, dumpLine);
     }
     return OK_CODE;
 }
@@ -272,13 +270,13 @@ int traceData(TraceParms* pTraceParms,
 /*====================================================================*/
 /* Trace the content of a structured message                          */
 /*                                                                    */
-/* Input  :  traceParms            trace options                      */
+/* Input  :  module                module requesting trace            */
 /*           message              `Pointer to the message             */
 /*                                                                    */
 /* Output :                        None                               */
 /*                                                                    */
 /*====================================================================*/
-int dumpMessage(TraceParms* pTraceParms, Message* message) {
+int dumpMessage(char* module, Message* message) {
     int i;
     int nParts;
     char dumpLine[128];
@@ -287,28 +285,28 @@ int dumpMessage(TraceParms* pTraceParms, Message* message) {
     pHeaderPartContent =
        (HeaderPartContent*)message->pHeaderPart->content;
 
-    traceMessage(pTraceParms, "Header message part:");
-    dumpMessagePart(pTraceParms, message->pHeaderPart);
+    traceMessage(module, "Header message part:");
+    dumpMessagePart(module, message->pHeaderPart);
     nParts = pHeaderPartContent->partsNumber.as_int;
     sprintf(dumpLine, "Data message parts number=%d", nParts);
-    traceMessage(pTraceParms, dumpLine);
+    traceMessage(module, dumpLine);
     for (i=0; i < nParts; i++) {
 	    sprintf(dumpLine, "Data message part %d:", i + 1);
-        traceMessage(pTraceParms, dumpLine);
-	    dumpMessagePart(pTraceParms, message->pParts + i);
+        traceMessage(module, dumpLine);
+	    dumpMessagePart(module, message->pParts + i);
     }
 }
 
 /*====================================================================*/
 /* Trace the content of a message part                                */
 /*                                                                    */
-/* Input  :  traceParms            trace options                      */
+/* Input  :  module                module requesting trace            */
 /*           messagePart          `Pointer to the message part        */
 /*                                                                    */
 /* Output :                        None                               */
 /*                                                                    */
 /*====================================================================*/
-int dumpMessagePart(TraceParms* pTraceParms, MessagePart* messagePart) {
+int dumpMessagePart(char* module, MessagePart* messagePart) {
     char dumpLine[128];
     char dumpID[MSG_ID_LEN + 1];
     
@@ -316,10 +314,9 @@ int dumpMessagePart(TraceParms* pTraceParms, MessagePart* messagePart) {
     memcpy(dumpID, messagePart->ID, MSG_ID_LEN);
     sprintf(dumpLine, "Message part: ID=%s Content-length=%d",
              dumpID, messagePart->size.as_int);
-    traceMessage(pTraceParms, dumpLine);
-    traceMessage(pTraceParms, "Message part content:");
-    traceData(pTraceParms, messagePart->content,
-    	 messagePart->size.as_int);
+    traceMessage(module, dumpLine);
+    traceMessage(module, "Message part content:");
+    traceData(module, messagePart->content, messagePart->size.as_int);
 }
 
 

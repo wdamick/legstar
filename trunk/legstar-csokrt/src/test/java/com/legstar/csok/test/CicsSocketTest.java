@@ -29,15 +29,16 @@ import org.apache.commons.configuration.ConfigurationException;
 
 import com.legstar.csok.client.CicsSocket;
 import com.legstar.csok.client.CicsSocketEndpoint;
-import com.legstar.csok.client.CicsSocketHostConversionException;
 import com.legstar.messaging.Address;
 import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.HeaderPart;
+import com.legstar.messaging.HeaderPartException;
 import com.legstar.messaging.Message;
 import com.legstar.messaging.MessagePart;
 import com.legstar.messaging.Request;
 import com.legstar.messaging.RequestException;
+import com.legstar.codec.HostCodec;
 import com.legstar.config.Constants;
 
 import junit.framework.TestCase;
@@ -46,33 +47,31 @@ public class CicsSocketTest extends TestCase {
 
 	private static final String HOST_CHARSET = "IBM01140";
 	
-	public void testToHostBytes() throws CicsSocketHostConversionException {
+	public void testToHostBytes() throws UnsupportedEncodingException {
 		/* Truncation case */
 		byte[] hostBytes1 = new byte[8];
-		CicsSocket.toHostBytes("cicsUserID", hostBytes1, 0, 8, HOST_CHARSET);
+		HostCodec.toHostBytes("cicsUserID", hostBytes1, 0, 8, HOST_CHARSET);
 		assertEquals("838983a2e4a28599", Util.toHexString(hostBytes1));
 		/* Fill case */
 		byte[] hostBytes2 = new byte[8];
-		CicsSocket.toHostBytes("cics", hostBytes2, 0, 8, HOST_CHARSET);
+		HostCodec.toHostBytes("cics", hostBytes2, 0, 8, HOST_CHARSET);
 		assertEquals("838983a240404040", Util.toHexString(hostBytes2));
 		/* Fill in the middle case */
 		byte[] hostBytes3 = new byte[12];
-		CicsSocket.toHostBytes("cicsuser", hostBytes3, 2, 8, HOST_CHARSET);
+		HostCodec.toHostBytes("cicsuser", hostBytes3, 2, 8, HOST_CHARSET);
 		assertEquals("0000838983a2a4a285990000", Util.toHexString(hostBytes3));
 	}
 	
-	public void testTIMFormat() throws CicsSocketHostConversionException {
+	public void testTIMFormat() throws UnsupportedEncodingException {
 		byte CIM[] = CicsSocket.formatCIM("cicsUserID", "cicsPassword", "connectionID", true, HOST_CHARSET);
         /*            U S E R I D     P A S S W O R D C O N N E C T I O N I D         T E C */
 		assertEquals("838983a2e4a28599838983a2d781a2a2839695958583a3899695c9c440404040f1e2d2", Util.toHexString(CIM));
 	}
 
-	public void testFormatMessage() throws CicsSocketHostConversionException {
-		byte[] content = Util.toByteArray("838983a2e4a2");
-		MessagePart messagePart = new CommareaPart(content);
-		byte MPH[] = CicsSocket.formatMPH("LSOKDATA",messagePart, HOST_CHARSET);
-        /*            L S O K D A T A   L S O K C O M M A R E A                6*/
-		assertEquals("d3e2d6d2c4c1e3c140d3e2d6d2c3d6d4d4c1d9c5c14040404000000006", Util.toHexString(MPH));
+	public void testFormatMessage() throws UnsupportedEncodingException {
+		byte MPH[] = CicsSocket.formatMessageType("LSOKDATA",HOST_CHARSET);
+        /*            L S O K D A T A   */
+		assertEquals("d3e2d6d2c4c1e3c140", Util.toHexString(MPH));
 	}
 
 	/** Attempt to connect with the wrong USER ID */
@@ -126,18 +125,20 @@ public class CicsSocketTest extends TestCase {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
 			CicsSocket cs = new CicsSocket("testConnectSendPart", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
-			HashMap < String, String > map = new HashMap < String, String >();
+			HashMap < String, Object > map = new HashMap < String, Object >();
 			map.put(Constants.CICS_LENGTH_KEY, "79");
 			map.put(Constants.CICS_DATALEN_KEY, "6");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			MessagePart inCommarea = new CommareaPart(null);
 			inputParts.add(inCommarea);
-			HeaderPart dp = new HeaderPart(map, inputParts.size(), "IBM01140");
+			HeaderPart dp = new HeaderPart(map, inputParts.size());
 			Address address = new Address("TheMainframe");
 			Message requestMessage = new Message(dp, inputParts);
 			Request request = new Request("Request01", address, requestMessage);
 			cs.sendRequest(request);
 			cs.close();
+		} catch (HeaderPartException e) {
+			fail("testConnectSendPart failed=" + e);
 		} catch (ConnectionException e) {
 			fail("testConnectSendPart failed=" + e);
 		} catch (RequestException e) {
@@ -154,7 +155,7 @@ public class CicsSocketTest extends TestCase {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
 			CicsSocket cs = new CicsSocket("testConnectSendPart", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
-			HashMap < String, String > map = new HashMap < String, String >();
+			HashMap < String, Object > map = new HashMap < String, Object >();
 			map.put(Constants.CICS_LENGTH_KEY, "79");
 			map.put(Constants.CICS_DATALEN_KEY, "6");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
@@ -162,12 +163,14 @@ public class CicsSocketTest extends TestCase {
 			inputParts.add(inCommarea);
 			MessagePart inCommarea2 = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 			inputParts.add(inCommarea2);
-			HeaderPart dp = new HeaderPart(map, inputParts.size(), "IBM01140");
+			HeaderPart dp = new HeaderPart(map, inputParts.size());
 			Address address = new Address("TheMainframe");
 			Message requestMessage = new Message(dp, inputParts);
 			Request request = new Request("Request01", address, requestMessage);
 			cs.sendRequest(request);
 			cs.close();
+		} catch (HeaderPartException e) {
+			fail("testConnectSendPart failed=" + e);
 		} catch (ConnectionException e) {
 			fail("testConnectSendPart failed=" + e);
 		} catch (RequestException e) {
@@ -184,7 +187,7 @@ public class CicsSocketTest extends TestCase {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
 			CicsSocket cs = new CicsSocket("testSendTooManyParts", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
-			HashMap < String, String > map = new HashMap < String, String >();
+			HashMap < String, Object > map = new HashMap < String, Object >();
 			map.put(Constants.CICS_LENGTH_KEY, "79");
 			map.put(Constants.CICS_DATALEN_KEY, "6");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
@@ -192,7 +195,7 @@ public class CicsSocketTest extends TestCase {
 				MessagePart inCommarea = new CommareaPart(null);
 				inputParts.add(inCommarea);
 			}
-			HeaderPart dp = new HeaderPart(map, inputParts.size(), "IBM01140");
+			HeaderPart dp = new HeaderPart(map, inputParts.size());
 			Address address = new Address("TheMainframe");
 			Message requestMessage = new Message(dp, inputParts);
 			Request request = new Request("Request01", address, requestMessage);
@@ -200,6 +203,8 @@ public class CicsSocketTest extends TestCase {
 			cs.recvResponse(request);
 			cs.close();
 			fail("testTooManyParts failed=");
+		} catch (HeaderPartException e) {
+			fail("testConnectSendPart failed=" + e);
 		} catch (ConnectionException e) {
 			fail("testSendTooManyParts failed=" + e);
 		} catch (RequestException e) {
@@ -216,7 +221,7 @@ public class CicsSocketTest extends TestCase {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
 			CicsSocket cs = new CicsSocket("testMissingProgramName", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
-			HashMap < String, String > map = new HashMap < String, String >();
+			HashMap < String, Object > map = new HashMap < String, Object >();
 			map.put(Constants.CICS_LENGTH_KEY, "79");
 			map.put(Constants.CICS_DATALEN_KEY, "6");
 			map.put(Constants.CICS_SYSID_KEY, "CICZ");
@@ -225,7 +230,7 @@ public class CicsSocketTest extends TestCase {
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			MessagePart inCommarea = new CommareaPart(null);
 			inputParts.add(inCommarea);
-			HeaderPart dp = new HeaderPart(map, inputParts.size(), "IBM01140");
+			HeaderPart dp = new HeaderPart(map, inputParts.size());
 			Address address = new Address("TheMainframe");
 			Message requestMessage = new Message(dp, inputParts);
 			Request request = new Request("Request01", address, requestMessage);
@@ -233,6 +238,8 @@ public class CicsSocketTest extends TestCase {
 			cs.recvResponse(request);
 			cs.close();
 			fail("testMissingProgramName failed=");
+		} catch (HeaderPartException e) {
+			fail("testConnectSendPart failed=" + e);
 		} catch (ConnectionException e) {
 			fail("testMissingProgramName failed=" + e);
 		} catch (RequestException e) {
@@ -249,7 +256,7 @@ public class CicsSocketTest extends TestCase {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
 			CicsSocket cs = new CicsSocket("testMissingCommareapart", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
-			HashMap < String, String > map = new HashMap < String, String >();
+			HashMap < String, Object > map = new HashMap < String, Object >();
 			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
 			map.put(Constants.CICS_LENGTH_KEY, "79");
 			map.put(Constants.CICS_DATALEN_KEY, "6");
@@ -257,7 +264,7 @@ public class CicsSocketTest extends TestCase {
 			map.put(Constants.CICS_SYNCONRET_KEY, "1");
 			map.put(Constants.CICS_TRANSID_KEY, "MIRO");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
-			HeaderPart dp = new HeaderPart(map, inputParts.size(), "IBM01140");
+			HeaderPart dp = new HeaderPart(map, inputParts.size());
 			Address address = new Address("TheMainframe");
 			Message requestMessage = new Message(dp, inputParts);
 			Request request = new Request("Request01", address, requestMessage);
@@ -265,6 +272,8 @@ public class CicsSocketTest extends TestCase {
 			cs.recvResponse(request);
 			cs.close();
 			fail("testMissingProgramName failed=");
+		} catch (HeaderPartException e) {
+			fail("testConnectSendPart failed=" + e);
 		} catch (ConnectionException e) {
 			fail("testMissingCommareapart failed=" + e);
 		} catch (RequestException e) {
@@ -281,7 +290,7 @@ public class CicsSocketTest extends TestCase {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
 			CicsSocket cs = new CicsSocket("testTooManyCommareaparts", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
-			HashMap < String, String > map = new HashMap < String, String >();
+			HashMap < String, Object > map = new HashMap < String, Object >();
 			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
 			map.put(Constants.CICS_LENGTH_KEY, "79");
 			map.put(Constants.CICS_DATALEN_KEY, "6");
@@ -293,7 +302,7 @@ public class CicsSocketTest extends TestCase {
 			inputParts.add(inCommarea1);
 			MessagePart inCommarea2 = new CommareaPart(null);
 			inputParts.add(inCommarea2);
-			HeaderPart dp = new HeaderPart(map, inputParts.size(), "IBM01140");
+			HeaderPart dp = new HeaderPart(map, inputParts.size());
 			Address address = new Address("TheMainframe");
 			Message requestMessage = new Message(dp, inputParts);
 			Request request = new Request("Request01", address, requestMessage);
@@ -301,6 +310,8 @@ public class CicsSocketTest extends TestCase {
 			cs.recvResponse(request);
 			cs.close();
 			fail("testTooManyCommareaparts failed=");
+		} catch (HeaderPartException e) {
+			fail("testConnectSendPart failed=" + e);
 		} catch (ConnectionException e) {
 			fail("testTooManyCommareaparts failed=" + e);
 		} catch (RequestException e) {
@@ -317,7 +328,7 @@ public class CicsSocketTest extends TestCase {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
 			CicsSocket cs = new CicsSocket("testDataLengthGtLength", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
-			HashMap < String, String > map = new HashMap < String, String >();
+			HashMap < String, Object > map = new HashMap < String, Object >();
 			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
 			map.put(Constants.CICS_LENGTH_KEY, "6");
 			map.put(Constants.CICS_DATALEN_KEY, "79");
@@ -327,7 +338,7 @@ public class CicsSocketTest extends TestCase {
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			MessagePart inCommarea1 = new CommareaPart(null);
 			inputParts.add(inCommarea1);
-			HeaderPart dp = new HeaderPart(map, inputParts.size(), "IBM01140");
+			HeaderPart dp = new HeaderPart(map, inputParts.size());
 			Address address = new Address("TheMainframe");
 			Message requestMessage = new Message(dp, inputParts);
 			Request request = new Request("Request01", address, requestMessage);
@@ -335,6 +346,8 @@ public class CicsSocketTest extends TestCase {
 			cs.recvResponse(request);
 			cs.close();
 			fail("testDataLengthGtLength failed");
+		} catch (HeaderPartException e) {
+			fail("testConnectSendPart failed=" + e);
 		} catch (ConnectionException e) {
 			fail("testDataLengthGtLength failed=" + e);
 		} catch (RequestException e) {
@@ -351,7 +364,7 @@ public class CicsSocketTest extends TestCase {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
 			CicsSocket cs = new CicsSocket("testSendHeaderCommarea", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
-			HashMap < String, String > map = new HashMap < String, String >();
+			HashMap < String, Object > map = new HashMap < String, Object >();
 			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
 			map.put(Constants.CICS_LENGTH_KEY, "79");
 			map.put(Constants.CICS_DATALEN_KEY, "6");
@@ -361,7 +374,7 @@ public class CicsSocketTest extends TestCase {
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 			inputParts.add(inCommarea);
-			HeaderPart dp = new HeaderPart(map, inputParts.size(), "IBM01140");
+			HeaderPart dp = new HeaderPart(map, inputParts.size());
 			Address address = new Address("TheMainframe");
 			Message requestMessage = new Message(dp, inputParts);
 			Request request = new Request("Request01", address, requestMessage);
@@ -371,6 +384,8 @@ public class CicsSocketTest extends TestCase {
 					  Util.toHexString(request.getResponseMessage().getDataParts().get(0).getContent()));
 			cs.commitUOW();
 			cs.close();
+		} catch (HeaderPartException e) {
+			fail("testConnectSendPart failed=" + e);
 		} catch (ConnectionException e) {
 			fail("testSendHeaderCommarea failed=" + e);
 		} catch (RequestException e) {
@@ -387,14 +402,14 @@ public class CicsSocketTest extends TestCase {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
 			CicsSocket cs = new CicsSocket("testNoReallocateContent", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
-			HashMap < String, String > map = new HashMap < String, String >();
+			HashMap < String, Object > map = new HashMap < String, Object >();
 			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
 			map.put(Constants.CICS_LENGTH_KEY, "79");
 			map.put(Constants.CICS_DATALEN_KEY, "3");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			MessagePart inCommarea1 = new CommareaPart(Util.toByteArray("f0f0f0f1f0f0e24b40c44b40c2d6d9d4c1d54040404040404040e2e4d9d9c5e86b40c5d5c7d3c1d5c44040404040f3f2f1f5f6f7f7f8f2f640f1f140f8f15bf0f1f0f04bf1f15c5c5c5c5c5c5c5c5c"));
 			inputParts.add(inCommarea1);
-			HeaderPart dp = new HeaderPart(map, inputParts.size(), "IBM01140");
+			HeaderPart dp = new HeaderPart(map, inputParts.size());
 			Address address = new Address("TheMainframe");
 			Message requestMessage = new Message(dp, inputParts);
 			Request request = new Request("Request01", address, requestMessage);
@@ -404,12 +419,48 @@ public class CicsSocketTest extends TestCase {
 					Util.toHexString(request.getResponseMessage().getDataParts().get(0).getContent()));
 			cs.keepUOW();
 			cs.close();
+		} catch (HeaderPartException e) {
+			fail("testConnectSendPart failed=" + e);
 		} catch (ConnectionException e) {
 			fail("testNoReallocateContent failed=" + e);
 		} catch (RequestException e) {
 			fail("testNoReallocateContent failed=" + e);
 		} catch (ConfigurationException e) {
 			fail("testNoReallocateContent failed=" + e);
+		}
+	}
+
+	public void testShortProgram() throws UnsupportedEncodingException {
+		try {
+			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
+			endpoint.setHostTraceMode(true);
+			CicsSocket cs = new CicsSocket("testShortProgram", endpoint, 1000, 5000);
+			cs.connect(null);
+			HashMap < String, Object > map = new HashMap < String, Object >();
+			map.put(Constants.CICS_PROGRAM_KEY, "LSFAE");
+			map.put(Constants.CICS_LENGTH_KEY, "79");
+			map.put(Constants.CICS_DATALEN_KEY, "6");
+			List <MessagePart> inputParts = new ArrayList <MessagePart>();
+			MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
+			inputParts.add(inCommarea);
+			HeaderPart dp = new HeaderPart(map, inputParts.size());
+			Address address = new Address("TheMainframe");
+			Message requestMessage = new Message(dp, inputParts);
+			Request request = new Request("Request01", address, requestMessage);
+			cs.sendRequest(request);
+			cs.recvResponse(request);
+			assertEquals("f0f0f0f1f0f0e24b40c44b40c2d6d9d4c1d54040404040404040e2e4d9d9c5e86b40c5d5c7d3c1d5c44040404040f3f2f1f5f6f7f7f8f2f640f1f140f8f15bf0f1f0f04bf1f15c5c5c5c5c5c5c5c5c",
+					  Util.toHexString(request.getResponseMessage().getDataParts().get(0).getContent()));
+			cs.commitUOW();
+			cs.close();
+		} catch (HeaderPartException e) {
+			fail("testConnectSendPart failed=" + e);
+		} catch (ConnectionException e) {
+			fail("testShortProgram failed=" + e);
+		} catch (RequestException e) {
+			fail("testShortProgram failed=" + e);
+		} catch (ConfigurationException e) {
+			fail("testShortProgram failed=" + e);
 		}
 	}
 
@@ -420,14 +471,14 @@ public class CicsSocketTest extends TestCase {
 			CicsSocketEndpoint endpoint = Util.getEndpoint("TheMainframe");
 			CicsSocket cs = new CicsSocket("testAsraAbend", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
-			HashMap < String, String > map = new HashMap < String, String >();
+			HashMap < String, Object > map = new HashMap < String, Object >();
 			map.put(Constants.CICS_PROGRAM_KEY, "T1ABEND");
 			map.put(Constants.CICS_LENGTH_KEY, "4");
 			map.put(Constants.CICS_DATALEN_KEY, "4");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			MessagePart inCommarea = new CommareaPart(Util.toByteArray("C1E2D9C1"));
 			inputParts.add(inCommarea);
-			HeaderPart dp = new HeaderPart(map, inputParts.size(), "IBM01140");
+			HeaderPart dp = new HeaderPart(map, inputParts.size());
 			Address address = new Address("TheMainframe");
 			Message requestMessage = new Message(dp, inputParts);
 			Request request = new Request("Request01", address, requestMessage);
@@ -436,6 +487,8 @@ public class CicsSocketTest extends TestCase {
 			assertEquals("f0f0f0f1f0f0e24b40c44b40c2d6d9d4c1d54040404040404040e2e4d9d9c5e86b40c5d5c7d3c1d5c44040404040f3f2f1f5f6f7f7f8f2f640f1f140f8f15bf0f1f0f04bf1f15c5c5c5c5c5c5c5c5c",
 					Util.toHexString(request.getResponseMessage().getDataParts().get(0).getContent()));
 			cs.close();
+		} catch (HeaderPartException e) {
+			fail("testConnectSendPart failed=" + e);
 		} catch (ConnectionException e) {
 			fail("testAsraAbend failed=" + e);
 		} catch (RequestException e) {
@@ -444,5 +497,4 @@ public class CicsSocketTest extends TestCase {
 			fail("testAsraAbend failed=" + e);
 		}
 	}
-	
 }

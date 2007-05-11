@@ -121,6 +121,7 @@
 /*--------------------------------------------------------------------*/
 /*  Constants                                                         */
 /*--------------------------------------------------------------------*/
+#define MODULE_NAME   "LSSOKBIN" /* used to correlate traces          */
 #define READ_OPERATION 1         /* Code for receive operations       */
 #define WRITE_OPERATION 2        /* Code for send operations          */
 #define CICS_APPLID_LEN 8        /* CICS application ID length        */
@@ -160,6 +161,7 @@ char g_CICSTrnID[CICS_TRNID_LEN + 1]; /* Transaction ID for this
                                          server                       */
 char g_SendBuffer[OUT_BUFFER_LEN];   /* Used to buffer send operations*/
 int  g_BufferedDataLen;              /* Current buffered data length  */
+TraceParms g_traceParms;             /* Set of trace parameters       */
 
 /*====================================================================*/
 /*  Main section                                                      */
@@ -170,9 +172,9 @@ void main()
     /* Initialize and get parameters from IBM CICS Listener */
     init();
     if (g_traceParms.traceMode == TRUE_CODE) {
-       traceMessage(&g_traceParms,
+       traceMessage(MODULE_NAME,
         "==============================================");
-       traceMessage(&g_traceParms, "Main started");
+       traceMessage(MODULE_NAME, "Main started");
     }
    
     /* Acquire a socket and acknowledge the client initial message.
@@ -205,8 +207,8 @@ void main()
     Close();
    
     if (g_traceParms.traceMode == TRUE_CODE) {
-        traceMessage(&g_traceParms, "Main ended");
-        traceMessage(&g_traceParms,
+        traceMessage(MODULE_NAME, "Main ended");
+        traceMessage(MODULE_NAME,
         "==============================================");
     }
 
@@ -228,12 +230,10 @@ int init() {
     
     
     /* Initialize tracing variables */
-    strcpy(g_traceParms.module, "LSSOKBIN");
     memset(g_traceParms.CxID, 0, sizeof(g_traceParms.CxID));
     g_traceParms.traceMode = FALSE_CODE;
     memset(g_traceParms.formattedErrorMessage, 0,
            sizeof(g_traceParms.formattedErrorMessage));
-    initLog();
     
     /* Get commarea address and EIB bloc address                      */
     EXEC CICS ADDRESS
@@ -242,9 +242,9 @@ int init() {
               RESP(g_cicsResp) RESP2(g_cicsResp2);                  
                                                
     if (g_cicsResp != DFHRESP(NORMAL)) {
-       logCicsError(&g_traceParms, "ADDRESS", g_cicsResp, g_cicsResp2);
        return abortServer(CICS_ABEND_CODE);
     }
+    initLog(dfheiptr, &g_traceParms);
     
     /* Store characteristics of this server transaction */
     memset(g_CICSApplid, 0, sizeof(g_CICSApplid));
@@ -300,7 +300,7 @@ int getListenerParms() {
               RESP(g_cicsResp) RESP2(g_cicsResp2);
 
     if (g_cicsResp != DFHRESP(NORMAL)) {
-       logCicsError(&g_traceParms, "RETRIEVE", g_cicsResp, g_cicsResp2);
+       logCicsError(MODULE_NAME, "RETRIEVE", g_cicsResp, g_cicsResp2);
        return abortServer(CICS_ABEND_CODE);
     }
    
@@ -309,7 +309,7 @@ int getListenerParms() {
      * type.        */
     memcpy(eyeCatcher, tim->client_in_data + 33, 2);
     if (strcmp(EYE_CATCHER, eyeCatcher) != 0) {
-       logError(&g_traceParms, "Unsupported client type.");
+       logError(MODULE_NAME, "Unsupported client type.");
        return abortServer(PROT_ABEND_CODE);
     }
     
@@ -352,7 +352,7 @@ int doTakeSocket() {
     unsigned long temps = g_socket;
    
     if (g_traceParms.traceMode == TRUE_CODE) {
-      traceMessage(&g_traceParms, "About to take socket");
+      traceMessage(MODULE_NAME, "About to take socket");
     }
    
     rc = takesocket(&g_listenClID, temps);
@@ -376,7 +376,7 @@ int doTakeSocket() {
    
     if (g_traceParms.traceMode == TRUE_CODE) {
         sprintf(g_traceMessage,"Take socket %d success", g_socket);
-        traceMessage(&g_traceParms, g_traceMessage);
+        traceMessage(MODULE_NAME, g_traceMessage);
     }
     return OK_CODE;
 }
@@ -420,7 +420,7 @@ int recvRequest() {
     char requestType[REQUEST_TYPE_LEN + 1];
  
     if (g_traceParms.traceMode == TRUE_CODE) {
-      traceMessage(&g_traceParms, "About to receive request");
+      traceMessage(MODULE_NAME, "About to receive request");
     }
  
     /* Waiting for requests from clients. Client is authorized to
@@ -438,7 +438,7 @@ int recvRequest() {
     if (g_traceParms.traceMode == TRUE_CODE) {
       sprintf(g_traceMessage,
           "Request type:%s, received.", requestType);
-        traceMessage(&g_traceParms, g_traceMessage);
+        traceMessage(MODULE_NAME, g_traceMessage);
     }
     
     /* If this is an execution request, proceed with execution steps.*/
@@ -454,7 +454,7 @@ int recvRequest() {
     /* If this is a probe, send back an ack to prove we are alive.*/
     if (strcmp(requestType, PROBE_REQUEST_EC) == 0) {
         if (g_traceParms.traceMode == TRUE_CODE) {
-            traceMessage(&g_traceParms, "Ack reply to probe request");
+            traceMessage(MODULE_NAME, "Ack reply to probe request");
         }
         return sendAck();
     }
@@ -463,7 +463,7 @@ int recvRequest() {
      * our protocol. */
     sprintf(g_traceMessage,
         "Unknown request type:%s, received.", requestType);
-    logError(&g_traceParms, g_traceMessage);
+    logError(MODULE_NAME, g_traceMessage);
     return ERROR_CODE;
 
 }
@@ -473,7 +473,11 @@ int recvRequest() {
 /*====================================================================*/
 int processRequest() {
     
+    int rcSave;
     int rc = OK_CODE;
+    CICSProgramDesc programDesc;
+    char savedFormattedErrorMessage[MAX_FORM_MSG_LEN]; /* Original 
+                                           error message save area.   */
     MessagePart requestHeaderPart;         /* Request header part     */
     MessagePart inParts[MAX_IN_MSG_PARTS]; /* Input message parts     */
     MessagePart responseHeaderPart;        /* Response header part    */
@@ -482,7 +486,7 @@ int processRequest() {
     Message responseMessage;               /* Complete response       */
     
     if (g_traceParms.traceMode == TRUE_CODE) {
-        traceMessage(&g_traceParms, "Entering process request");
+        traceMessage(MODULE_NAME, "Entering process request");
     }
     
     /* Initialize message structures */
@@ -501,21 +505,39 @@ int processRequest() {
       
     rc = recvRequestMessage(&requestMessage);
     if (OK_CODE == rc) {
-        rc = invokeProgram(&requestMessage,
-                           &responseMessage,
-                           &g_traceParms);
+        rc = invokeProgram(dfheiptr,
+                           &g_traceParms,
+                           &programDesc,
+                           &requestMessage,
+                           &responseMessage);
         if (OK_CODE == rc) {
             rc = sendResponseMessage(&responseMessage);
         }
     }
     
     /* Whatever the status, reclaim any memory acquired to service
-     * the request. */
-    freeMessage(&requestMessage);
-    freeMessage(&responseMessage);
+     * the request. In case of error, preserve error code and
+     * related message so we can accurately report the original
+     * error rather than a potential subsequent free errors. */
+    rcSave = rc;
+    if (rcSave != OK_CODE) {
+	    strcpy(savedFormattedErrorMessage,
+	           g_traceParms.formattedErrorMessage);
+    }
+    rc = freeProgram(dfheiptr,
+                     &g_traceParms,
+                     &programDesc,
+                     &requestMessage,
+                     &responseMessage);
     
+    /* Report free errors only if there was no previous error */
+    if (rcSave != OK_CODE) {
+    	rc = rcSave;
+	    strcpy(g_traceParms.formattedErrorMessage,
+	           savedFormattedErrorMessage);
+    }
     if (g_traceParms.traceMode == TRUE_CODE) {
-        traceMessage(&g_traceParms, "Process request ended");
+        traceMessage(MODULE_NAME, "Process request ended");
     }
     return rc;
 }
@@ -535,7 +557,7 @@ int recvRequestMessage(Message* pRequestMessage) {
     MessagePart* pHeaderPart = pRequestMessage->pHeaderPart;
  
     if (g_traceParms.traceMode == TRUE_CODE) {
-      traceMessage(&g_traceParms, "About to receive request message");
+      traceMessage(MODULE_NAME, "About to receive request message");
     }
  
     /* The header is itself a message part */
@@ -550,7 +572,7 @@ int recvRequestMessage(Message* pRequestMessage) {
     memset(headerID, '\0', sizeof(headerID));
     memcpy(headerID, pHeaderPart->ID, sizeof(HEADER_PART_ID) - 1);
     if (strcmp(headerID, HEADER_PART_ID) != 0) {
-        logError(&g_traceParms,
+        logError(MODULE_NAME,
               "A request should start with a header part. Aborting.");
         return ERROR_CODE;
     }
@@ -561,127 +583,35 @@ int recvRequestMessage(Message* pRequestMessage) {
     inPartsNum = pHeaderPartContent->partsNumber.as_int;
    
     if (inPartsNum > MAX_IN_MSG_PARTS) {
-        logError(&g_traceParms, "Too many input message parts.");
+        logError(MODULE_NAME, "Too many input message parts.");
         return ERROR_CODE;
     }
     
     if (g_traceParms.traceMode == TRUE_CODE) {
-    sprintf(g_traceMessage,
-        "Program header received, input parts=%d keyValuesSize=%d",
-               inPartsNum,
-               pHeaderPartContent->keyValuesSize.as_int);
-    traceMessage(&g_traceParms, g_traceMessage);
+        sprintf(g_traceMessage,
+            "Program header received, input parts=%d keyValuesSize=%d",
+                   inPartsNum,
+                   pHeaderPartContent->keyValuesSize.as_int);
+        traceMessage(MODULE_NAME, g_traceMessage);
     }
    
     /* Now receive the input message parts */
-    for (i = 0; i < inPartsNum; i++) {
-        rc = recvNextMessagePart(pRequestMessage->pParts + i);
+    for (i = 0; i < inPartsNum && rc == OK_CODE; i++) {
+        rc = recvMessagePart(pRequestMessage->pParts + i);
     }
    
   if (g_traceParms.traceMode == TRUE_CODE) {
     if (OK_CODE == rc) {
-      traceMessage(&g_traceParms, "Request message received:");
-      traceMessage(&g_traceParms, "-------------------------");
-        dumpMessage(&g_traceParms, pRequestMessage);
+      traceMessage(MODULE_NAME, "Request message received:");
+      traceMessage(MODULE_NAME, "-------------------------");
+        dumpMessage(MODULE_NAME, pRequestMessage);
     } else {
-        traceMessage(&g_traceParms,
+        traceMessage(MODULE_NAME,
          "Request message receive failed");
     }
   }
     
     return rc;
-}
-
-/*====================================================================*/
-/* Releases memory allocated for a message.                           */
-/*====================================================================*/
-int freeMessage(Message* pMessage) {
-   
-    int i = 0;
-    int partsNumber = 0;
-    HeaderPartContent* pHeaderPartContent =
-          (HeaderPartContent*)pMessage->pHeaderPart->content;
-    MessagePart* parts;
-    
-    if (pHeaderPartContent != NULL) {
-      
-      partsNumber = pHeaderPartContent->partsNumber.as_int;
-      
-      /* Free the header part content */
-      EXEC CICS FREEMAIN
-                DATAPOINTER(pHeaderPartContent)
-                RESP(g_cicsResp) RESP2(g_cicsResp2);
-      if (g_cicsResp != DFHRESP(NORMAL)) {
-         logCicsError(&g_traceParms, "FREEMAIN",
-                        g_cicsResp, g_cicsResp2);
-         return ERROR_CODE;
-      }
-      if (g_traceParms.traceMode == TRUE_CODE) {
-         sprintf(g_traceMessage,
-          "Header part content freed from %#x",
-          (int)pHeaderPartContent);
-          traceMessage(&g_traceParms, g_traceMessage);
-      }
-  
-      /* Now free the message parts content */
-      for (i = 0; i < partsNumber && i < MAX_IN_MSG_PARTS; i++) {
-        parts = pMessage->pParts + i;
-          if (parts->content != NULL) {
-          EXEC CICS FREEMAIN
-                    DATAPOINTER(parts->content)
-                    RESP(g_cicsResp) RESP2(g_cicsResp2);
-          if (g_cicsResp != DFHRESP(NORMAL)) {
-             logCicsError(&g_traceParms, "FREEMAIN",
-                                g_cicsResp, g_cicsResp2);
-             return ERROR_CODE;
-          }
-          if (g_traceParms.traceMode == TRUE_CODE) {
-             sprintf(g_traceMessage,
-              "Message part content freed from %#x",
-              (int)parts->content);
-              traceMessage(&g_traceParms, g_traceMessage);
-          }
-          }
-      }
-    }
-              
-    return OK_CODE;
-}
-
-/*====================================================================*/
-/* When data is expected, this method checks that incoming data is    */
-/* indeed a valid data message before reading the rest of the data.   */
-/*                                                                    */
-/* Output :  The updated pointer to the message part data             */
-/*                                                                    */
-/*====================================================================*/
-int recvNextMessagePart(MessagePart* pMessagePart) {
-  
-    int rc;
-    char requestType[REQUEST_TYPE_LEN + 1];
- 
-    if (g_traceParms.traceMode == TRUE_CODE) {
-      traceMessage(&g_traceParms, "About to receive next message");
-    }
-    /* Data should already be waiting to be received. */
-    rc = doReceive(requestType, sizeof(requestType));
-    if (rc == ERROR_CODE) {
-        return ERROR_CODE;
-    }
-    /* Dont trust the last byte to be a C string delimiter. */
-    memset(&requestType[REQUEST_TYPE_LEN], '\0', 1);
-
-    /* Any other message type than data is a protocol violation.*/
-    if (strcmp(requestType, DATA_MSG_EC) != 0) {
-      sprintf(g_traceMessage,
-          "Invalid message type:%s, received.", requestType);
-      logError(&g_traceParms, g_traceMessage);
-      return ERROR_CODE;
-    }
-    
-    /* There should be a valid message part next */
-    return recvMessagePart(pMessagePart);
-    
 }
 
 /*====================================================================*/
@@ -699,10 +629,10 @@ int recvMessagePart(MessagePart* pMessagePart) {
     int rc = 0;
 
     if (g_traceParms.traceMode == TRUE_CODE) {
-        traceMessage(&g_traceParms, "About to receive message part");
+        traceMessage(MODULE_NAME, "About to receive message part");
     }
    
-    /* First receive the message part heeader (16 bytes 
+    /* First receive the message part header (16 bytes 
        identifier and 4 bytes giving the part content size. */
     rc = doReceive(pMessagePart, sizeof(pMessagePart->ID)
                             + sizeof(pMessagePart->size.as_bytes));
@@ -713,7 +643,7 @@ int recvMessagePart(MessagePart* pMessagePart) {
     /* Sanity check the size received */
     if ((pMessagePart->size.as_int < 0)
        || (pMessagePart->size.as_int > MSGPART_MAX_LEN)) {
-       logError(&g_traceParms, "Invalid message part length.");
+       logError(MODULE_NAME, "Invalid message part length.");
        return ERROR_CODE;
     }
  
@@ -724,7 +654,7 @@ int recvMessagePart(MessagePart* pMessagePart) {
                 "Message part received, id=%s size=%d",
                  pMessagePart->ID,
                  pMessagePart->size.as_int);
-         traceMessage(&g_traceParms, g_traceMessage);
+         traceMessage(MODULE_NAME, g_traceMessage);
        }
        pMessagePart->content = NULL;
        return OK_CODE;
@@ -740,14 +670,14 @@ int recvMessagePart(MessagePart* pMessagePart) {
               RESP(g_cicsResp) RESP2(g_cicsResp2);
 
     if (g_cicsResp != DFHRESP(NORMAL)) {
-       logCicsError(&g_traceParms, "GETMAIN", g_cicsResp, g_cicsResp2);
+       logCicsError(MODULE_NAME, "GETMAIN", g_cicsResp, g_cicsResp2);
        return ERROR_CODE;
     }
     if (g_traceParms.traceMode == TRUE_CODE) {
        sprintf(g_traceMessage,
         "Request message part content allocated at %#x size=%d",
         (int)pMessagePart->content, pMessagePart->size.as_int + 1);
-        traceMessage(&g_traceParms, g_traceMessage);
+        traceMessage(MODULE_NAME, g_traceMessage);
     }
     
     /* Receive the message content */
@@ -761,7 +691,7 @@ int recvMessagePart(MessagePart* pMessagePart) {
               "Message part received, id=%s size=%d",
                pMessagePart->ID,
                pMessagePart->size.as_int);
-       traceMessage(&g_traceParms, g_traceMessage);
+       traceMessage(MODULE_NAME, g_traceMessage);
     }
    
     return OK_CODE;
@@ -781,7 +711,7 @@ int doReceive(char* buffer, int nBytes) {
     unsigned long temps = g_socket;
 
     if (g_traceParms.traceMode == TRUE_CODE) {
-        traceMessage(&g_traceParms, "About to doReceive");
+        traceMessage(MODULE_NAME, "About to doReceive");
     }
    
     /* Receive all chunks till we have the requested byte count */
@@ -797,7 +727,7 @@ int doReceive(char* buffer, int nBytes) {
     }
    
     if (g_traceParms.traceMode == TRUE_CODE) {
-        traceMessage(&g_traceParms, "doReceive done");
+        traceMessage(MODULE_NAME, "doReceive done");
     }
    
     return OK_CODE;
@@ -818,22 +748,22 @@ int doReceiveWait(unsigned long socket,
     int rc = 0;
  
     if (g_traceParms.traceMode == TRUE_CODE) {
-       traceMessage(&g_traceParms, "About to doReceiveWait");
+       traceMessage(MODULE_NAME, "About to doReceiveWait");
     }
     rc = recv(socket, buffer, nBytes, 0);
    
     if (g_traceParms.traceMode == TRUE_CODE) {
        if (rc > 0) {
-            traceMessage(&g_traceParms, "Data received");
+            traceMessage(MODULE_NAME, "Data received");
        } else {
            if (rc == 0) {
-              traceMessage(&g_traceParms,
+              traceMessage(MODULE_NAME,
                            "Orderly close request received");
            } else {
                 if (errno == ECONNRESET) {
-                   traceMessage(&g_traceParms, "Connection reset");
+                   traceMessage(MODULE_NAME, "Connection reset");
                 } else {
-                   traceMessage(&g_traceParms, "Receive failed");
+                   traceMessage(MODULE_NAME, "Receive failed");
                 }
            }
        }     
@@ -847,7 +777,7 @@ int doReceiveWait(unsigned long socket,
      * depending on whether a close is expected or not. */
     if (rc == 0 || errno == ECONNRESET) {
       if (g_waiting4Requests == FALSE_CODE) {
-          logError(&g_traceParms,
+          logError(MODULE_NAME,
                    "Client unexpectedly closed connection.");
       }
       errno = ECONNCLOSED;
@@ -888,7 +818,7 @@ int doReceiveWait(unsigned long socket,
     int rc = 0;
     
     if (g_traceParms.traceMode == TRUE_CODE) {
-      traceMessage(&g_traceParms, "About to select");
+      traceMessage(MODULE_NAME, "About to select");
     }
     timeout.tv_sec  = timeLimit;
     timeout.tv_usec = 0;
@@ -911,7 +841,7 @@ int doReceiveWait(unsigned long socket,
     }
    
     if (g_traceParms.traceMode == TRUE_CODE) {
-       traceMessage(&g_traceParms, "Select returned");
+       traceMessage(MODULE_NAME, "Select returned");
     }
     
     return OK_CODE;
@@ -931,27 +861,34 @@ int sendResponseMessage(Message* pResponseMessage) {
     int outPartsNum = pHeaderPartContent->partsNumber.as_int;
 
     if (g_traceParms.traceMode == TRUE_CODE) {
-        traceMessage(&g_traceParms, "About to send response message");
+        traceMessage(MODULE_NAME, "About to send response message");
     }
     /* Prepare for send buffering */
     g_BufferedDataLen = 0;
-     
-    rc = sendMessagePart(pResponseMessage->pHeaderPart);
-  
-    /* Send message parts */
-    for (i = 0; i < outPartsNum && rc == OK_CODE; i++) {
-        rc = sendMessagePart(pResponseMessage->pParts + i);
+    
+    /* Send the message type followed by the serialized message */
+    rc = sendMessageType();
+    if (rc == OK_CODE) {
+        rc = sendMessagePart(pResponseMessage->pHeaderPart);
+      
+        /* Send message parts */
+        for (i = 0; i < outPartsNum && rc == OK_CODE; i++) {
+            rc = sendMessagePart(pResponseMessage->pParts + i);
+        }
     }
+     
     /* Flush any remaining buffered data */
-    doFlushSendBuffer();
+    if (rc == OK_CODE) {
+        rc = doFlushSendBuffer();
+    }
     
     if (g_traceParms.traceMode == TRUE_CODE) {
        if (OK_CODE == rc) {
-          traceMessage(&g_traceParms, "Response message sent:");
-          traceMessage(&g_traceParms, "-------------------------");
-          dumpMessage(&g_traceParms, pResponseMessage);
+          traceMessage(MODULE_NAME, "Response message sent:");
+          traceMessage(MODULE_NAME, "-------------------------");
+          dumpMessage(MODULE_NAME, pResponseMessage);
        } else {
-          traceMessage(&g_traceParms, "Response message send failed");
+          traceMessage(MODULE_NAME, "Response message send failed");
        }
     }
     
@@ -965,17 +902,14 @@ int sendMessagePart(MessagePart* pPart) {
     int rc;
     int i = 0;
     struct {
-        char EC[sizeof(DATA_MSG_EC)];
         char ID[MSG_ID_LEN];
         char SAB[MSG_CONTENT_SIZE_LEN];
     } MPH;
     int contentLen = pPart->size.as_int;
 
     if (g_traceParms.traceMode == TRUE_CODE) {
-        traceMessage(&g_traceParms, "About to send message part");
+        traceMessage(MODULE_NAME, "About to send message part");
     }
-    /* Send valid reply eye catcher */
-    memcpy(MPH.EC, DATA_MSG_EC, sizeof(DATA_MSG_EC));
     /* Send the message part ID*/
     memcpy(MPH.ID, pPart->ID, MSG_ID_LEN);
     /* Send the message content size */
@@ -989,9 +923,9 @@ int sendMessagePart(MessagePart* pPart) {
     
     if (g_traceParms.traceMode == TRUE_CODE) {
       if (OK_CODE == rc) {
-          traceMessage(&g_traceParms, "Message part sent");
+          traceMessage(MODULE_NAME, "Message part sent");
       } else {
-          traceMessage(&g_traceParms, "Message part send failed");
+          traceMessage(MODULE_NAME, "Message part send failed");
       }
     }
     
@@ -1022,7 +956,22 @@ int sendConnectionAck() {
         return ERROR_CODE;
     }
     if (g_traceParms.traceMode == TRUE_CODE) {
-       traceMessage(&g_traceParms, "Connection Ack sent");
+       traceMessage(MODULE_NAME, "Connection Ack sent");
+    }
+    return OK_CODE;
+}
+
+/*====================================================================*/
+/* A valid reply must start with a specific message type.             */
+/*====================================================================*/
+int sendMessageType() {
+    int rc;
+    rc = doSendBuffered(DATA_MSG_EC, sizeof(DATA_MSG_EC));
+    if (rc == ERROR_CODE) {
+        return ERROR_CODE;
+    }
+    if (g_traceParms.traceMode == TRUE_CODE) {
+       traceMessage(MODULE_NAME, "Message type sent");
     }
     return OK_CODE;
 }
@@ -1037,10 +986,10 @@ int sendAck() {
     int rc;
     rc = doSend(REPLY_ACK_EC, sizeof(REPLY_ACK_EC));
     if (rc == ERROR_CODE) {
-    return ERROR_CODE;
+        return ERROR_CODE;
     }
     if (g_traceParms.traceMode == TRUE_CODE) {
-       traceMessage(&g_traceParms, "Ack sent");
+       traceMessage(MODULE_NAME, "Ack sent");
     }
     return OK_CODE;
 }
@@ -1057,7 +1006,7 @@ int sendErrorReport() {
     if (g_traceParms.traceMode == TRUE_CODE) {
        sprintf(g_traceMessage, "About to send error report :%s",
                g_traceParms.formattedErrorMessage);
-       traceMessage(&g_traceParms,g_traceMessage);
+       traceMessage(MODULE_NAME,g_traceMessage);
     }
     rc = doSend(g_traceParms.formattedErrorMessage,
               sizeof(g_traceParms.formattedErrorMessage));
@@ -1065,7 +1014,7 @@ int sendErrorReport() {
        return ERROR_CODE;
     }
     if (g_traceParms.traceMode == TRUE_CODE) {
-       traceMessage(&g_traceParms, "Error report sent");
+       traceMessage(MODULE_NAME, "Error report sent");
     }
     return OK_CODE;
 }
@@ -1084,7 +1033,7 @@ int doSend(char* buffer, int nBytes) {
     unsigned long temps = g_socket;
 
     if (g_traceParms.traceMode == TRUE_CODE) {
-      traceMessage(&g_traceParms, "About to doSend");
+      traceMessage(MODULE_NAME, "About to doSend");
     }
    
     /* Send all chunks till we sent the requested byte count */
@@ -1101,7 +1050,7 @@ int doSend(char* buffer, int nBytes) {
    
     if (g_traceParms.traceMode == TRUE_CODE) {
         sprintf(g_traceMessage, "doSend %d bytes done", sendbytes);
-        traceMessage(&g_traceParms, g_traceMessage);
+        traceMessage(MODULE_NAME, g_traceMessage);
     }
    
     return OK_CODE;
@@ -1122,14 +1071,14 @@ int doSendWait(unsigned long socket,
     int rc = 0;
  
     if (g_traceParms.traceMode == TRUE_CODE) {
-       traceMessage(&g_traceParms, "About to doSendWait");
+       traceMessage(MODULE_NAME, "About to doSendWait");
     }
     rc = send(socket, buffer, nBytes, 0);
    
     /* Send operation actually worked (meaning data was sent) */
     if (rc > 0) {
         if (g_traceParms.traceMode == TRUE_CODE) {
-           traceMessage(&g_traceParms, "Data sent");
+           traceMessage(MODULE_NAME, "Data sent");
         }
        return rc;
     }
@@ -1159,34 +1108,44 @@ int doSendWait(unsigned long socket,
 /*====================================================================*/
  int doSendBuffered(char* buffer, int nBytes) {
   
+    int rc = OK_CODE;
     /* If the requested data is larger than the send buffer, we just
      * ignore the buffering request. Since data is expected to be
      * sent in order, we first flush any pending buffered data */
      if (nBytes > OUT_BUFFER_LEN) {
         if (g_traceParms.traceMode == TRUE_CODE) {
-           traceMessage(&g_traceParms,
+           traceMessage(MODULE_NAME,
             "Outbound data too large for buffering");
         }
-        doFlushSendBuffer();
-        return doSend(buffer, nBytes);
+        rc = doFlushSendBuffer();
+        if (rc == OK_CODE) {
+        	return doSend(buffer, nBytes);
+        } else {
+        	return rc;
+        }
      }
    
     /* If the data to send is larger than the free space in the send
      * buffer, flush the send buffer first to make room. */
      if (nBytes > (OUT_BUFFER_LEN - g_BufferedDataLen)) {
         if (g_traceParms.traceMode == TRUE_CODE) {
-           traceMessage(&g_traceParms,
+           traceMessage(MODULE_NAME,
             "Outbound buffer overflow. flushing.");
         }
-        doFlushSendBuffer();
-        doSendBuffered(buffer, nBytes);
+        rc = doFlushSendBuffer();
+        if (rc == OK_CODE) {
+        	rc = doSendBuffered(buffer, nBytes);;
+        }
+        if (rc == ERROR_CODE) {
+        	return ERROR_CODE;
+        }
      }
    
      /* At this stage, the data fits into the buffer so just copy it  */
      memcpy(g_SendBuffer + g_BufferedDataLen, buffer, nBytes);
      g_BufferedDataLen += nBytes;
      if (g_traceParms.traceMode == TRUE_CODE) {
-        traceMessage(&g_traceParms, "Outbound data buffered");
+        traceMessage(MODULE_NAME, "Outbound data buffered");
      }
  
      return OK_CODE;
@@ -1196,14 +1155,15 @@ int doSendWait(unsigned long socket,
 /* Flush the send buffer                                              */
 /*====================================================================*/
  int doFlushSendBuffer() {
+     int rc = OK_CODE;
      if (g_BufferedDataLen > 0) {
-        doSend(g_SendBuffer, g_BufferedDataLen);
+        rc = doSend(g_SendBuffer, g_BufferedDataLen);
         g_BufferedDataLen = 0;
      }
      if (g_traceParms.traceMode == TRUE_CODE) {
-        traceMessage(&g_traceParms, "Outbound data flushed");
+        traceMessage(MODULE_NAME, "Outbound data flushed");
      }
-     return OK_CODE;
+     return rc;
  }
 
 /*====================================================================*/
@@ -1216,7 +1176,7 @@ int processUOWCommand() {
     char command[UOW_COMMAND_LEN + 1];
     
     if (g_traceParms.traceMode == TRUE_CODE) {
-       traceMessage(&g_traceParms, "Processing UOW command");
+       traceMessage(MODULE_NAME, "Processing UOW command");
     }
     
     rc = doReceive(command, sizeof(command));
@@ -1226,7 +1186,7 @@ int processUOWCommand() {
 
     if (g_traceParms.traceMode == TRUE_CODE) {
         sprintf(g_traceMessage, "Processing %s command", command);
-       traceMessage(&g_traceParms, g_traceMessage);
+       traceMessage(MODULE_NAME, g_traceMessage);
     }
     
     /* Process the requested UOW command */
@@ -1242,7 +1202,7 @@ int processUOWCommand() {
                         sizeof(UOW_KEEP_CMD)) == 0) {
                 rc = OK_CODE;
             } else {
-               logError(&g_traceParms,
+               logError(MODULE_NAME,
                   "Unrecognized UOW processing command.");
                return ERROR_CODE;
             }
@@ -1265,7 +1225,7 @@ int Commit() {
               RESP(g_cicsResp) RESP2(g_cicsResp2);
 
     if (g_cicsResp != DFHRESP(NORMAL)) {
-       logCicsError(&g_traceParms, "SYNCPOINT",
+       logCicsError(MODULE_NAME, "SYNCPOINT",
                      g_cicsResp, g_cicsResp2);
        return ERROR_CODE;
     }
@@ -1280,7 +1240,7 @@ int Rollback() {
               RESP(g_cicsResp) RESP2(g_cicsResp2);
 
     if (g_cicsResp != DFHRESP(NORMAL)) {
-       logCicsError(&g_traceParms, "SYNCPOINT ROLLBACK",
+       logCicsError(MODULE_NAME, "SYNCPOINT ROLLBACK",
                      g_cicsResp, g_cicsResp2);
        return ERROR_CODE;
     }
@@ -1387,5 +1347,5 @@ int logSocketError(char* errorCommand) {
     sprintf(sokErrorMessage,
             "Socket call=%s on socket=%d failed. %s",
             errorCommand, g_socket, respText);
-    logError(&g_traceParms, sokErrorMessage);
+    logError(MODULE_NAME, sokErrorMessage);
 }
