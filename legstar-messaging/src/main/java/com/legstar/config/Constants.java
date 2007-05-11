@@ -58,6 +58,12 @@ public final class Constants {
 	/** Property identifier for program transaction ID. */
 	public static final String CICS_TRANSID_KEY = "CICSTransID";
 	
+	/** Property identifier for channel ID. */
+	public static final String CICS_CHANNEL_KEY = "CICSChannel";
+	
+	/** Property identifier for output containers array. */
+	public static final String CICS_OUT_CONTAINERS_KEY = "CICSOutContainers";
+	
 	/** Property identifier for host character set. */
 	public static final String HOST_CHARSET_KEY = "hostCharset";
 	

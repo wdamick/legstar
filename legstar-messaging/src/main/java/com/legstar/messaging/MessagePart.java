@@ -20,6 +20,15 @@
  *******************************************************************************/
 package com.legstar.messaging;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.SequenceInputStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+
+import com.legstar.codec.HostCodec;
+
 /**
  * MessageParts are generic named, binary containers used to send
  * and receive from host.
@@ -32,6 +41,18 @@ public class MessagePart {
 	/** The message content. */
 	private byte[] mContent;
 	
+	/** Size of message part identifier on host (bytes). */
+	private static final int MSG_PART_ID_LEN = 16;
+	
+	/** Size of content length on host (bytes). */
+	private static final int CONTENT_LEN_LEN = 4;
+	
+	/**
+	 * Create an empty message part.
+	 */
+	public MessagePart() {
+	}
+
 	/**
 	 * Create a named message part from a content.
 	 * @param id the message part identifier
@@ -69,5 +90,92 @@ public class MessagePart {
 	public final void setID(final String id) {
 		mID = id;
 	}
-
+	
+	/**
+	 * Provides an input stream to serialize this message part for
+	 * transmission to host.
+	 * @return an input stream
+	 * @throws UnsupportedEncodingException if conversion fails
+	 */
+	public final InputStream sendToHost() throws UnsupportedEncodingException {
+		byte[] headerBytes =
+			new byte[MSG_PART_ID_LEN + CONTENT_LEN_LEN];
+		int pos = 0;
+		HostCodec.toHostBytes(mID, headerBytes, pos,
+				MSG_PART_ID_LEN, HostCodec.HEADER_CODE_PAGE);
+		pos += MSG_PART_ID_LEN;
+		ByteBuffer bb = ByteBuffer.allocate(4);
+		bb.putInt((mContent == null)
+				? 0 : mContent.length);
+		bb.flip();
+		bb.get(headerBytes, pos, CONTENT_LEN_LEN);
+		pos += CONTENT_LEN_LEN;
+		ByteArrayInputStream headerStream =
+			new ByteArrayInputStream(headerBytes);
+		if (mContent != null && mContent.length > 0) {
+			ByteArrayInputStream contentStream =
+				new ByteArrayInputStream(mContent);
+			return new SequenceInputStream(headerStream, contentStream);
+		} else {
+			return headerStream;
+		}
+	}
+	
+	/**
+	 * Recreates the message part header and content from a host byte stream.
+	 * @param hostStream the host byte stream
+	 * @throws HostReceiveException if creation fails
+	 */
+	public final void recvFromHost(final InputStream hostStream)
+			throws HostReceiveException {
+		
+		try {
+			/* First recover the message part header */
+			byte[] headerBytes =
+				new byte[MSG_PART_ID_LEN + CONTENT_LEN_LEN];
+			int br = hostStream.read(headerBytes);
+			if (br != MSG_PART_ID_LEN + CONTENT_LEN_LEN) {
+				throw new HostReceiveException(
+						"Cannot read message part header");
+			}
+			mID = new String(headerBytes, 0, MSG_PART_ID_LEN,
+					HostCodec.HEADER_CODE_PAGE).trim();
+			ByteBuffer bb = ByteBuffer.allocate(4);
+			bb.put(headerBytes, MSG_PART_ID_LEN, CONTENT_LEN_LEN);
+			bb.flip();
+			int contentLen = bb.getInt();
+			if (contentLen < 0) {
+				throw new HostReceiveException(
+						"Invalid message part content length");
+			}
+			
+			/* Now recover the content */
+			if (contentLen == 0) {
+				mContent = null;
+			} else {
+				mContent = new byte[contentLen];
+				int recvd = 0;
+				try {
+					while (recvd < contentLen) {
+						recvd += hostStream.read(
+								mContent, recvd, contentLen - recvd);
+					}
+				} catch (IOException e) {
+					throw (new HostReceiveException(e));
+				}
+			}
+		} catch (UnsupportedEncodingException e) {
+			throw new HostReceiveException(e);
+		} catch (IOException e) {
+			throw new HostReceiveException(e);
+		}
+	}
+	
+	/**
+	 * @return the size in bytes of this message part host serialization
+	 */
+	public final int getHostSize() {
+		return (MSG_PART_ID_LEN + CONTENT_LEN_LEN + ((mContent == null)
+		? 0 : mContent.length));
+	}
 }
