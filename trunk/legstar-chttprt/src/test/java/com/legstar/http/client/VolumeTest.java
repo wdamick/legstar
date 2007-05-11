@@ -33,6 +33,7 @@ import com.legstar.messaging.Address;
 import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.HeaderPart;
+import com.legstar.messaging.HeaderPartException;
 import com.legstar.messaging.Message;
 import com.legstar.messaging.MessagePart;
 import com.legstar.messaging.Request;
@@ -46,7 +47,6 @@ public class VolumeTest extends TestCase {
 	private CicsHttpConnectionFactory mfactory;
 
 	private static final int MAX_ITERATIONS = 1;
-	private static final String HOST_CHARSET = "IBM01140";
 	
 	
 	protected void setUp() throws Exception {
@@ -66,7 +66,7 @@ public class VolumeTest extends TestCase {
 			CicsHttp cicsHttp = (CicsHttp) mfactory.createConnection("testSingleIterateVolume", address);
 			cicsHttp.setReceiveTimeout(10000);
 			cicsHttp.connect("STREAM2");
-			HashMap < String, String > map = new HashMap < String, String >();
+			HashMap < String, Object> map = new HashMap < String, Object>();
 			map.put(Constants.CICS_PROGRAM_KEY, "T1VOLUME");
 			map.put(Constants.CICS_LENGTH_KEY, "32767");
 			map.put(Constants.CICS_DATALEN_KEY, "32767");
@@ -78,7 +78,7 @@ public class VolumeTest extends TestCase {
 			System.arraycopy(endEC, 0, content, 32751, 16);
 			MessagePart inCommarea1 = new CommareaPart(content);
 			inputParts.add(inCommarea1);
-			HeaderPart dp = new HeaderPart(map, inputParts.size(), HOST_CHARSET);
+			HeaderPart dp = new HeaderPart(map, inputParts.size());
 			Message requestMessage = new Message(dp, inputParts);
 			Request request = new Request("testSingleIterateVolume", address, requestMessage);
 			for (int i = 0; i < MAX_ITERATIONS; i++) {
@@ -91,6 +91,8 @@ public class VolumeTest extends TestCase {
 				assertEquals("d7c7d47ec9c7e8c3d9c3e3d36bd9c5c7", Util.toHexString(endEC));
 			}
 			cicsHttp.close();
+		} catch (HeaderPartException e) {
+			fail("testSingleIterateVolume failed=" + e);
 		} catch (ConnectionException e) {
 			fail("testSingleIterateVolume failed=" + e);
 		} catch (RequestException e) {

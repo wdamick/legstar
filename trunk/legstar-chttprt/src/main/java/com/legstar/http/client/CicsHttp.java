@@ -22,9 +22,7 @@ package com.legstar.http.client;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.Header;
@@ -36,36 +34,43 @@ import org.apache.commons.httpclient.HttpState;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
-import org.apache.commons.httpclient.methods.ByteArrayRequestEntity;
+import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.Connection;
 import com.legstar.messaging.ConnectionException;
-import com.legstar.messaging.HeaderPart;
+import com.legstar.messaging.HeaderPartException;
+import com.legstar.messaging.HostReceiveException;
 import com.legstar.messaging.Message;
-import com.legstar.messaging.MessagePart;
 import com.legstar.messaging.Request;
 import com.legstar.messaging.RequestException;
-import com.legstar.config.Constants;
 
 /**
  * Client side CICS HTTP connectivity. This class provides the core
  * methods to connect to CICS over http, send requests, receive 
  * results, etc...
- * This implementation of an HTTP Client does not use an Apache HTTP Connection
- * manager because it is meant to be usable with the LegStar engine which comes
- * with its own connection pooling.
+ * This implementation of an HTTP Client does not use an Apache
+ * MultithreadConnection manager because it is meant to be usable
+ * with the LegStar engine which comes with its own connection pooling.
  *
  */
 public class CicsHttp implements Connection  {
 
 	/** Mime type of HTTP content. */
 	private static final String BINARY_CONTENT_TYPE = "binary/octet-stream";
+	
+	/** HTTP Header to request traces on host. */
+	public static final String REQUEST_TRACE_MODE_HHDR = "CICSTraceMode";
+	
+	/** HTTP Header providing a correlation ID. */
+	public static final String REQUEST_ID_HHDR = "CICSRequestID";
+	
+	/** HTTP Header signaling errors on response. */
+	public static final String CICS_ERROR_HHDR = "CICSError";
 
 	/** An identifier for this connection. */
 	private String mConnectionID;
@@ -172,12 +177,16 @@ public class CicsHttp implements Connection  {
 			final Request request) throws RequestException {
 		
 		if (LOG.isDebugEnabled()) {
+			try {
 			LOG.debug("Sending Request:" + request.getID()
 			   + " on Connection:" + mConnectionID
 			   + " "
 			   + request.getRequestMessage().getHeaderPart().
-			   			getStringizedKeyValues()
+			   			getJsonString()
 			   + '.');
+			} catch (HeaderPartException e) {
+				throw new RequestException(e);
+			}
 		}
 		/* First make sure we are not out of sync. */
 		if (mHttpState == null) {
@@ -234,11 +243,14 @@ public class CicsHttp implements Connection  {
 			return;
 		}
 		
-		/* Try to get the response content  */
+		/* At this stage, HTTP is not reporting and error. Try to get a
+		 * valid response message from the HTTP payload */
 		try {
 			InputStream respStream = mPostMethod.getResponseBodyAsStream();
 			request.setResponseMessage(createResponseMessage(respStream));
 		} catch (IOException e) {
+			throw new RequestException(e);
+		} catch (HostReceiveException e) {
 			throw new RequestException(e);
 		} finally {
 			mPostMethod.releaseConnection();
@@ -362,152 +374,53 @@ public class CicsHttp implements Connection  {
 
 		/* Point to URL under CICS Web Support */ 
 		postMethod.setPath(mCicsHttpEndpoint.getHostURLPath());
-
-		/* The CICS Web Server is expecting an HTTP header including the
-		 * execution context parameters. */ 
-		Map < String, String > keyValues =
-			request.getRequestMessage().getHeaderPart().getKeyValues();
-		addHttpHeader(postMethod, Constants.CICS_PROGRAM_KEY, keyValues);
-		addHttpHeader(postMethod, Constants.CICS_LENGTH_KEY, keyValues);
-		addHttpHeader(postMethod, Constants.CICS_DATALEN_KEY, keyValues);
-		addHttpHeader(postMethod, Constants.CICS_SYSID_KEY, keyValues);
-		addHttpHeader(postMethod, Constants.CICS_SYNCONRET_KEY, keyValues);
-		addHttpHeader(postMethod, Constants.CICS_TRANSID_KEY, keyValues);
 		
-		/* If there are no messages, this will be a no-content HTTP request */
-		if (request.getRequestMessage().getHeaderPart().
-				getDataPartsNumber() == 0) {
-			return postMethod;
-		}
+		/* Pass on trace data to host via HTTP headers */
+		postMethod.setRequestHeader(REQUEST_TRACE_MODE_HHDR,
+				Boolean.toString(request.getAddress().isHostTraceMode()));
+		postMethod.setRequestHeader(REQUEST_ID_HHDR, request.getID());
 		
-		/* In this release, we only send a single message part to the
-		 * host. In a future release, we will support MultipartRequestEntity */
-		if (request.getRequestMessage().getHeaderPart().
-				getDataPartsNumber() > 1) {
-			throw new RequestException("No support for multi-part messages.");
-		}
-
 		/* Create the binary content */
-		postMethod.setRequestEntity(
-				new ByteArrayRequestEntity(
-						request.getRequestMessage().getDataParts().get(0).
-						getContent(),
-						BINARY_CONTENT_TYPE));
+		try {
+			postMethod.setRequestEntity(
+					new InputStreamRequestEntity(
+							request.getRequestMessage().sendToHost(),
+									BINARY_CONTENT_TYPE));
+		} catch (UnsupportedEncodingException e) {
+			throw new RequestException(e);
+		}
 
 		return postMethod;
 
 	}
 	
 	/**
-	 * Add a new HTTP header for a key.
-	 * @param postMethod to populate
-	 * @param key the keyword to be used as HTTP header
-	 * @param keyValues a map of all key/values
-	 */
-	private void addHttpHeader(final PostMethod postMethod,
-			final String key,
-			final Map < String, String > keyValues) {
-		String value = keyValues.get(key);
-		if (value != null && value.length() > 0) {
-			postMethod.setRequestHeader(key, value);
-			if (LOG.isDebugEnabled()) {
-				LOG.debug("Adding HTTP header=" + key + " value=" + value);
-			}
-		}
-	}
-
-
-	/**
 	 * Creates a response message from the HTTP reply back.
-	 * This implementation does not support multi-part messages yet.
+	 * The HTTP payload should contain serailization of a header part 
+	 * followed by any number of data parts.
 	 * @param respStream the HTTP response data
 	 * @return a response message
-	 * @throws RequestException if response cannot be mapped to a message
+	 * @throws HostReceiveException if response cannot be mapped to a message
 	 */
 	private Message createResponseMessage(
-			final InputStream respStream) throws RequestException {
+			final InputStream respStream) throws HostReceiveException {
 
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("enter createResponseMessage(respStream)");
 		}
 		
-		List < MessagePart > dataParts = new ArrayList < MessagePart >();
-		
-		/* The host is not actually sending back a header part with the
-		 * HTTP transport. So we fake one. */
-		HeaderPart headerPart = new HeaderPart();
-		
-		long responseContentLength = mPostMethod.getResponseContentLength();
-		/* Nothing in the HTTP payload */
-		if (responseContentLength < 1) {
-			return new Message(headerPart, dataParts);
+		Message reponseMessage;
+		try {
+			reponseMessage = new Message();
+			reponseMessage.recvFromHost(respStream);
+		} catch (HeaderPartException e) {
+			throw new HostReceiveException(e);
 		}
-		
-		/* Since the protocol is not ready to handle anything else than
-		 * a commarea, assume the message back is a commarea. In the
-		 * future, the server will be sending back a multi-part mime
-		 * message. */
-		CommareaPart commarea = new CommareaPart(
-				getHttpResponseContent(respStream, responseContentLength));
-		dataParts.add(commarea);
-		headerPart.setDataPartsNumber(1);
 		
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("response message received");
 		}
-		return new Message(headerPart, dataParts);
-	}
-	
-	/**
-	 * Creates a byte buffer holding the entire HTTP post reply content.
-	 * @param respStream the HTTP response data
-	 * @param responseContentLength the response data length
-	 * @return a byte buffer
-	 * @throws RequestException if fail to receive response
-	 */
-	private byte[] getHttpResponseContent(
-			final InputStream respStream,
-			final long responseContentLength) throws RequestException {
-		
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("enter getHttpResponseContent(respStream)"
-					+ " " + mPostMethod.getResponseContentLength());
-		}
-		
-		/* Sanity check the reply content length. */
-		if (responseContentLength > Integer.MAX_VALUE) {
-			throw (new RequestException("Response is larger than "
-					+ Integer.MAX_VALUE));
-		}
-
-		/* For large payloads, reading from the stream will not deliver
-		 * all the data in a single read. */
-		try {
-			int contentLength = (new Long(responseContentLength)).intValue();
-			byte[] buffer = new byte[contentLength];
-			int totLen = 0;
-			int lastLen = 0;
-			while (totLen < responseContentLength && lastLen != -1) {
-				lastLen = respStream.read(
-						buffer, totLen, contentLength - totLen);
-				if (lastLen > 0) {
-					totLen += lastLen;
-				}
-			}
-			if (totLen != responseContentLength) {
-				throw new RequestException("Received " + totLen
-						+ " bytes instead of the expected "
-						+ responseContentLength + " bytes.");
-			}
-			if (LOG.isDebugEnabled()) {
-				LOG.debug("ended getHttpResponseContent(respStream)"
-						+ " " + mPostMethod.getResponseContentLength());
-			}
-			return buffer;
-		} catch (IOException e) {
-			throw new RequestException(e);
-		}
-
+		return reponseMessage;
 	}
 	
 	/**
@@ -525,7 +438,7 @@ public class CicsHttp implements Connection  {
 		errorMessage.append(mPostMethod.getStatusText());
 		
 		/* This might be an error reported by the LegStar layer on host */
-		Header cicsError = mPostMethod.getResponseHeader("CICSError");
+		Header cicsError = mPostMethod.getResponseHeader(CICS_ERROR_HHDR);
 		if (cicsError != null) {
 			errorMessage.append(" ");
 			errorMessage.append(cicsError.getValue());
