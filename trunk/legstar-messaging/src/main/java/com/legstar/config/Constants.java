@@ -61,8 +61,19 @@ public final class Constants {
 	/** Property identifier for channel ID. */
 	public static final String CICS_CHANNEL_KEY = "CICSChannel";
 	
+	/** Property identifier for input containers array. */
+	public static final String CICS_IN_CONTAINERS_KEY = "CICSInContainers";
+	
+	/** Property identifier for an input container max size (host bytes). */
+	public static final String CICS_IN_CONTAINERS_LEN_KEY =
+		"CICSInContainersLength";
+	
 	/** Property identifier for output containers array. */
 	public static final String CICS_OUT_CONTAINERS_KEY = "CICSOutContainers";
+	
+	/** Property identifier for an output container max size (host bytes). */
+	public static final String CICS_OUT_CONTAINERS_LEN_KEY =
+		"CICSOutContainersLength";
 	
 	/** Property identifier for host character set. */
 	public static final String HOST_CHARSET_KEY = "hostCharset";
