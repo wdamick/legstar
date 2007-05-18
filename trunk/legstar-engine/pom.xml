@@ -4,11 +4,11 @@
     <parent>
       <groupId>com.legsem.legstar</groupId>
       <artifactId>Legstar</artifactId>
-      <version>1.0.1</version>
+      <version>1.1-SNAPSHOT</version>
     </parent>
   <artifactId>legstar-engine</artifactId>
   <name>Runtime engine</name>
-    <version>${project.parent.version}</version>
+    <version>1.1-SNAPSHOT</version>
   <description>Multithread host connectivity engine.</description>
   <url>http://www.legsem.com/legstar/engine/</url>
 
@@ -81,22 +81,36 @@
       
         <artifactId>maven-antrun-plugin</artifactId>
         
-        <!-- This will generate a war file for the engine servlet initator.  -->
         <executions>
   
-          <execution>
-            <id>build-test-service</id>
-            <phase>package</phase>
-            <configuration>
-              <tasks>
-                <ant antfile="${basedir}/src/main/ant/build-war.xml"/>
-              </tasks>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
+			<!-- This will generate a war file for the engine servlet initator.  -->
+			<execution>
+			  <id>build-war</id>
+			  <phase>package</phase>
+			  <configuration>
+			    <tasks>
+			      <ant antfile="${basedir}/src/main/ant/build-war.xml"/>
+			    </tasks>
+			  </configuration>
+			  <goals>
+			    <goal>run</goal>
+			  </goals>
+			</execution>
         
+			<!-- This will deploy the jar file to a Tomcat dev instance.  -->
+		    <execution>
+		      <id>deploy-to-tomcat</id>
+		      <phase>package</phase>
+		      <configuration>
+		        <tasks>
+		          <ant antfile="${basedir}/src/main/ant/deploy-to-tomcat.xml"/>
+		        </tasks>
+		      </configuration>
+		      <goals>
+		        <goal>run</goal>
+		      </goals>
+		    </execution>
+
         </executions>
       </plugin>
       
