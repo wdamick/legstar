@@ -5,6 +5,9 @@
  -->
 <project basedir="../../.." default="generateAllJAXWSClients" name="build">
 
+	<!-- Target Tomcat location   -->
+	<property name="tomcat.dir" value="D:\Servers\TOMDev"/>
+
 	<!-- Ant-Contrib tasks. Needed for "foreach ", regex, switch, ...
 	     (ant-contrib.jar must be in ant classpath) -->
     <taskdef resource="net/sf/antcontrib/antcontrib.properties">
@@ -12,22 +15,25 @@
 		    <pathelement location="C:\Program Files\Apache\antcontrib\ant-contrib-1.0b2-bin\ant-contrib\lib\ant-contrib.jar"/>
     	</classpath>
     </taskdef>
-
-	<property name="maven.repo" value="C:\Documents and Settings\Fady\.m2\repository"/>
+	
 	<path id="jaxws.classpath">
-		<pathelement location="${maven.repo}\javax\activation\activation\1.1\activation-1.1.jar"/>
-		<pathelement location="${maven.repo}\javax\xml\bind\jaxb-api\2.1\jaxb-api-2.1.jar"/>
-		<pathelement location="${maven.repo}\javax\xml\ws\jaxws-api\2.1\jaxws-api-2.1.jar"/>
-		<pathelement location="${maven.repo}\javax\jws\jsr181-api\1.0-MR1\jsr181-api-1.0-MR1.jar"/>
-		<pathelement location="${maven.repo}\javax\xml\bind\jsr173_api\1.0\jsr173_api-1.0.jar"/>
-		<pathelement location="${maven.repo}\javax\xml\stream\stax-api\1.0\stax-api-1.0.jar"/>
-		<pathelement location="${maven.repo}\com\sun\xml\ws\jaxws-rt\2.1-SNAPSHOT\jaxws-rt-2.1-SNAPSHOT.jar"/>
-		<pathelement location="${maven.repo}\com\sun\xml\ws\jaxws-tools\2.1-SNAPSHOT\jaxws-tools-2.1-SNAPSHOT.jar"/>
-		<pathelement location="${maven.repo}\com\sun\xml\bind\jaxb-impl\2.1.1\jaxb-impl-2.1.1.jar"/>
-		<pathelement location="${maven.repo}\com\sun\xml\bind\jaxb-xjc\2.1.1\jaxb-xjc-2.1.1.jar"/>
-		<pathelement location="${maven.repo}\com\sun\xml\stream\sjsxp\1.0\sjsxp-1.0.jar"/>
-		<pathelement location="${maven.repo}\com\sun\xml\stream\buffer\streambuffer\0.3\streambuffer-0.3.jar"/>
-		<pathelement location="${maven.repo}\org\jvnet\staxex\stax-ex\1.0-SNAPSHOT\stax-ex-1.0-SNAPSHOT.jar"/>
+	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\com\sun\xml\bind\jaxb-impl\2.1.2\jaxb-impl-2.1.2.jar"/>
+	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\com\sun\xml\bind\jaxb-xjc\2.1.2\jaxb-xjc-2.1.2.jar"/>
+	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\com\sun\xml\messaging\saaj\saaj-impl\1.3\saaj-impl-1.3.jar"/>
+	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\com\sun\xml\stream\buffer\streambuffer\0.4\streambuffer-0.4.jar"/>
+	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\com\sun\xml\stream\sjsxp\1.0\sjsxp-1.0.jar"/>
+	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\com\sun\xml\ws\jaxws-rt\2.1\jaxws-rt-2.1.jar"/>
+	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\com\sun\xml\ws\jaxws-tools\2.1\jaxws-tools-2.1.jar"/>
+	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\javax\activation\activation\1.1\activation-1.1.jar"/>
+	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\javax\annotation\jsr250-api\1.0\jsr250-api-1.0.jar"/>
+	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\javax\jws\jsr181-api\1.0-MR1\jsr181-api-1.0-MR1.jar"/>
+	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\javax\xml\bind\jaxb-api\2.1\jaxb-api-2.1.jar"/>
+	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\javax\xml\bind\jsr173_api\1.0\jsr173_api-1.0.jar"/>
+	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\javax\xml\soap\saaj-api\1.3\saaj-api-1.3.jar"/>
+	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\javax\xml\stream\stax-api\1.0\stax-api-1.0.jar"/>
+	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\javax\xml\ws\jaxws-api\2.1\jaxws-api-2.1.jar"/>
+	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\org\jvnet\staxex\stax-ex\1.0\stax-ex-1.0.jar"/>
+        <!-- <fileset dir="D:\Legsem\Legstar\dependencies\jaxws-ri-2.1.1" includes="lib/*.jar" /> -->
     </path>
 
     <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">

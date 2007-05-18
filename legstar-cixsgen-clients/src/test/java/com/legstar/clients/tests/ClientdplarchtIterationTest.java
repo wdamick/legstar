@@ -54,9 +54,11 @@ public class ClientdplarchtIterationTest extends TestCase {
 		lsRequestType.setLsAllItems("*");
 		
 		dfhcommarea.setLsRequest(lsRequestType);
+		DplarchtHostHeader reqHead = wsOF.createDplarchtHostHeader();
+		reqHead.setHostEndPoint("CICSTS23DirectHttp");
 		
 		for (int i = 0; i < ITERATIONS; i++) {
-			DplarchtResponse resp = port.dplarcht(req, null);
+			DplarchtResponse resp = port.dplarcht(req, reqHead);
 			DfhcommareaType dfhcommareaResp = resp.getResponse();
 			
 			assertEquals(500,dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsCount());

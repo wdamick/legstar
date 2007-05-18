@@ -49,8 +49,11 @@ public class ClientdplarchtTest extends TestCase {
 		lsRequestType.setLsAllItems("*");
 		
 		dfhcommarea.setLsRequest(lsRequestType);
+
+		DplarchtHostHeader reqHead = wsOF.createDplarchtHostHeader();
+		reqHead.setHostEndPoint("CICSTS23DirectHttp");
 		
-		DplarchtResponse resp = port.dplarcht(req, null);
+		DplarchtResponse resp = port.dplarcht(req, reqHead);
 		DfhcommareaType dfhcommareaResp = resp.getResponse();
 		
 		assertEquals(0,dfhcommareaResp.getLsReply().getLsReplyType());
@@ -83,7 +86,10 @@ public class ClientdplarchtTest extends TestCase {
 		
 		dfhcommarea.setLsRequest(lsRequestType);
 		
-		DplarchtResponse resp = port.dplarcht(req, null);
+		DplarchtHostHeader reqHead = wsOF.createDplarchtHostHeader();
+		reqHead.setHostEndPoint("CICSTS23DirectHttp");
+		
+		DplarchtResponse resp = port.dplarcht(req, reqHead);
 		DfhcommareaType dfhcommareaResp = resp.getResponse();
 		
 		assertEquals(500,dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsCount());
