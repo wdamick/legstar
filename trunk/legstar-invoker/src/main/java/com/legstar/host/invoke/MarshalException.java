@@ -23,7 +23,7 @@ package com.legstar.host.invoke;
 /**
  * Exception raised if marshaling java object tree to host format fails.
  */
-public class MarshalException extends HostInvokeException {
+public class MarshalException extends HostInvokerException {
 
 	/** Serial ID. */
 	private static final long serialVersionUID = 1370316440084576265L;

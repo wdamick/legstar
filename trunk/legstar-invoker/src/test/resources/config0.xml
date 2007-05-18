@@ -36,6 +36,17 @@
 			<hostTraceMode>true</hostTraceMode>
 			<pooledInvokeTimeout>2000</pooledInvokeTimeout>
 	   </hostEndPoint>
+		<hostEndPoint name="CICSTS31">
+			<!-- Class implementing the HostConnectionFactory interface.  -->
+			<hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
+			<hostIPAddress>192.168.0.110</hostIPAddress>
+			<hostIPPort>4011</hostIPPort>
+			<hostCharset>IBM01140</hostCharset>
+			<hostUserID>P390</hostUserID>
+			<hostPassword>STREAM2</hostPassword>
+			<hostTraceMode>true</hostTraceMode>
+			<pooledInvokeTimeout>2000</pooledInvokeTimeout>
+	   </hostEndPoint>
   </hostEndPoints>
 </config>
    

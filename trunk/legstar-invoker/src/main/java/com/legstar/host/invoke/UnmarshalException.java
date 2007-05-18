@@ -23,7 +23,7 @@ package com.legstar.host.invoke;
 /**
  * Exception raised if unmarshaling host data to java object tree fails.
  */
-public class UnmarshalException extends HostInvokeException {
+public class UnmarshalException extends HostInvokerException {
 
 	/** Serial ID. */
 	private static final long serialVersionUID = 1370316440084576265L;

@@ -20,7 +20,6 @@
  *******************************************************************************/
 package com.legstar.host.access;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +35,7 @@ import com.legstar.host.invoke.Util;
 import com.legstar.messaging.Address;
 import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.HeaderPart;
+import com.legstar.messaging.HeaderPartException;
 import com.legstar.messaging.Message;
 import com.legstar.messaging.MessagePart;
 import com.legstar.messaging.Request;
@@ -76,14 +76,14 @@ public class DirectHostAccessStrategyTest extends TestCase {
 		try {
 			HierarchicalConfiguration endpointConfig = loadEndpointConfiguration(CONFIG_FILE, "TheMainframe");
 			DirectHostAccessStrategy dha = new DirectHostAccessStrategy(endpointConfig);
-			HashMap < String, String > map = new HashMap < String, String >();
+			HashMap < String, Object > map = new HashMap < String, Object >();
 			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
 			map.put(Constants.CICS_LENGTH_KEY, "79");
 			map.put(Constants.CICS_DATALEN_KEY, "6");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
 			MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 			inputParts.add(inCommarea);
-			HeaderPart dp = new HeaderPart(map, inputParts.size(), "IBM01140");
+			HeaderPart dp = new HeaderPart(map, inputParts.size());
 			Address address = new Address("TheMainframe");
 			Message requestMessage = new Message(dp, inputParts);
 			Request request = new Request("Request01", address, requestMessage);
@@ -92,7 +92,7 @@ public class DirectHostAccessStrategyTest extends TestCase {
 					Util.toHexString(request.getResponseMessage().getDataParts().get(0).getContent()));
 		} catch (HostAccessStrategyException e) {
 			fail("testInvoke failed " + e);
-		} catch (UnsupportedEncodingException e) {
+		} catch (HeaderPartException e) {
 			fail("testInvoke failed " + e);
 		}
 	}
