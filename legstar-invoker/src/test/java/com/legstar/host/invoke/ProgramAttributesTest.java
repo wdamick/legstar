@@ -100,4 +100,36 @@ public class ProgramAttributesTest extends TestCase {
 			fail("testGetMap failed " + e.getMessage());
 		}
 	}
+
+	public void testChannel() {
+		try {
+			ProgramAttributes pa = new ProgramAttributes("container1.properties");
+			assertEquals("LSFILEAC", pa.getProgram());
+			assertEquals(0, pa.getLength());
+			assertEquals(0, pa.getDataLength());
+			assertEquals(null, pa.getSysID());
+			assertEquals(false, pa.getSyncOnReturn());
+			assertEquals(null, pa.getTransID());
+			assertEquals("LSFILEAC-CHANNEL", pa.getChannel());
+			assertTrue(48 == pa.getInContainers().get("QueryData"));
+			assertTrue(10 == pa.getInContainers().get("QueryLimit"));
+			assertTrue(794 == pa.getOutContainers().get("ReplyData"));
+			assertTrue(141 == pa.getOutContainers().get("ReplyStatus"));
+		} catch (ProgramAttributesException e) {
+			fail("testChannel failed " + e.getMessage());
+		}
+	}
+
+	public void testGetMapWithContainers() {
+		try {
+			ProgramAttributes pa = new ProgramAttributes("container1.properties");
+			Map map = pa.getProgramAttrMap();
+			assertEquals("LSFILEAC", map.get(Constants.CICS_PROGRAM_KEY));
+			String[] outContainers = (String[]) map.get(Constants.CICS_OUT_CONTAINERS_KEY);
+			assertEquals("ReplyData",  outContainers[0]);
+			assertEquals("ReplyStatus",  outContainers[1]);
+		} catch (ProgramAttributesException e) {
+			fail("testGetMap failed " + e.getMessage());
+		}
+	}
 }

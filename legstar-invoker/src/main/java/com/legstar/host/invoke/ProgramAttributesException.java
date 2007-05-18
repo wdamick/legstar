@@ -23,7 +23,7 @@ package com.legstar.host.invoke;
 /**
  * Exception raised if program attributes cannot be recovered.
  */
-public class ProgramAttributesException extends HostInvokeException {
+public class ProgramAttributesException extends HostInvokerException {
 
 	/** Serial ID. */
 	private static final long serialVersionUID = 6751206958592325835L;

@@ -20,7 +20,6 @@
  *******************************************************************************/
 package com.legstar.host.access;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +38,7 @@ import com.legstar.host.server.EngineStartupException;
 import com.legstar.messaging.Address;
 import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.HeaderPart;
+import com.legstar.messaging.HeaderPartException;
 import com.legstar.messaging.Message;
 import com.legstar.messaging.MessagePart;
 import com.legstar.messaging.Request;
@@ -137,7 +137,7 @@ public class PooledHostAccessStrategyTest extends TestCase {
 	}
 	/** Create a typical request */
 	private Request createRequest() throws HostAccessStrategyException {
-		HashMap < String, String > map = new HashMap < String, String >();
+		HashMap < String, Object > map = new HashMap < String, Object >();
 		map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
 		map.put(Constants.CICS_LENGTH_KEY, "79");
 		map.put(Constants.CICS_DATALEN_KEY, "6");
@@ -146,8 +146,8 @@ public class PooledHostAccessStrategyTest extends TestCase {
 		inputParts.add(inCommarea);
 		HeaderPart dp;
 		try {
-			dp = new HeaderPart(map, inputParts.size(), "IBM01140");
-		} catch (UnsupportedEncodingException e) {
+			dp = new HeaderPart(map, inputParts.size());
+		} catch (HeaderPartException e) {
 			throw new HostAccessStrategyException(e);
 		}
 		Address address = new Address("TheMainframe");
@@ -158,7 +158,7 @@ public class PooledHostAccessStrategyTest extends TestCase {
 	
 	/** Create a long request ( 4 secs) */
 	private Request createLongRequest() throws HostAccessStrategyException {
-		HashMap < String, String > map = new HashMap < String, String >();
+		HashMap < String, Object > map = new HashMap < String, Object >();
 		map.put(Constants.CICS_PROGRAM_KEY, "T1SLEEPT");
 		map.put(Constants.CICS_LENGTH_KEY, "39");
 		map.put(Constants.CICS_DATALEN_KEY, "8");
@@ -167,8 +167,8 @@ public class PooledHostAccessStrategyTest extends TestCase {
 		inputParts.add(inCommarea);
 		HeaderPart dp;
 		try {
-			dp = new HeaderPart(map, inputParts.size(), "IBM01140");
-		} catch (UnsupportedEncodingException e) {
+			dp = new HeaderPart(map, inputParts.size());
+		} catch (HeaderPartException e) {
 			throw new HostAccessStrategyException(e);
 		}
 		Address address = new Address("TheMainframe");

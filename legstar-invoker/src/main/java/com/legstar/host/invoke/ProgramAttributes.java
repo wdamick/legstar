@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -66,6 +67,15 @@ public class ProgramAttributes {
 	
 	/** The remote CICS transaction ID to use. */
 	private String mTransID;
+	
+	/** The CICS Channel used to link to this program. */
+	private String mChannel;
+	
+	/** The list of input containers names and their max host byte size. */
+	private Map < String, Integer > mInContainers;
+	
+	/** The list of output containers names and their max host byte size. */
+	private Map < String, Integer > mOutContainers;
 	
 	/**
 	 * Constructor from a properties file.
@@ -116,6 +126,53 @@ public class ProgramAttributes {
 			mSyncOnReturn = DEFAULT_SYNC_ON_RETURN;
 		}
 		mTransID = programProperties.getProperty(Constants.CICS_TRANSID_KEY);
+		
+		/* When channel is used, there is a list of input containers and a
+		 * list of output containers. Each container has a name and a max size
+		 * (host bytes).
+		 *  */
+		mChannel = programProperties.getProperty(Constants.CICS_CHANNEL_KEY);
+		if (mChannel != null && mChannel.length() > 0) {
+			mInContainers = new LinkedHashMap < String, Integer >();
+			loadContainer(programProperties, mInContainers,
+					Constants.CICS_IN_CONTAINERS_KEY,
+					Constants.CICS_IN_CONTAINERS_LEN_KEY);
+			mOutContainers = new LinkedHashMap < String, Integer >();
+			loadContainer(programProperties, mOutContainers,
+					Constants.CICS_OUT_CONTAINERS_KEY,
+					Constants.CICS_OUT_CONTAINERS_LEN_KEY);
+		}
+	}
+	
+	/**
+	 * Create a map with container names and associated max size from entries
+	 * in a property file.
+	 * List of items are expected to be stored as a set of properties suffixed
+	 * with _n where n in the item rank. 
+	 * @param programProperties program attributes as properties 
+	 * @param containers an empty map for containers names and sizes
+	 * @param nameKey the properties key for container name
+	 * @param lengthKey the properties key for container size
+	 * @throws ProgramAttributesException if failed to create map
+	 */
+	private void loadContainer(
+			final Properties programProperties,
+			final Map < String, Integer > containers,
+			final String nameKey,
+			final String lengthKey)
+			throws ProgramAttributesException {
+		int i = 1;
+		String container = programProperties.getProperty(nameKey + '_' + i);
+		while (container != null && container.length() > 0) {
+			Integer size = new Integer(0);
+			String containerSize = programProperties.getProperty(
+					lengthKey + '_' + i);
+			if (containerSize != null && containerSize.length() > 0) {
+				size = Integer.parseInt(containerSize);
+			}
+			containers.put(container, size);
+			container = programProperties.getProperty(nameKey + '_' + ++i);
+		}
 	}
 	
 	/**
@@ -150,13 +207,25 @@ public class ProgramAttributes {
 	 * 
 	 * @return map of program attributes
 	 */
-	public final Map < String, String > getProgramAttrMap() {
-		HashMap < String, String > map = new HashMap < String, String >();
+	public final Map < String, Object > getProgramAttrMap() {
+		HashMap < String, Object > map = new HashMap < String, Object >();
 		
 		/* Add mandatory keys */
 		map.put(Constants.CICS_PROGRAM_KEY, mProgram);
-		map.put(Constants.CICS_LENGTH_KEY, Integer.toString(mLength));
-		map.put(Constants.CICS_DATALEN_KEY, Integer.toString(mDataLength));
+		
+		/* Pass on Channel or Commarea mandatory parameters */
+		if (mChannel == null || mChannel.length() == 0) {
+			map.put(Constants.CICS_LENGTH_KEY, Integer.toString(mLength));
+			map.put(Constants.CICS_DATALEN_KEY, Integer.toString(mDataLength));
+		} else {
+			map.put(Constants.CICS_CHANNEL_KEY, mChannel);
+			/* Pass output containers as a string array */
+			if (mOutContainers != null && mOutContainers.size() > 0) {
+				String[] outContainers = new String[mOutContainers.size()];
+				mOutContainers.keySet().toArray(outContainers);
+				map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
+			}
+		}
 
 		/* Add optional keys */
 		if (mSysID != null && mSysID.length() > 0) {
@@ -254,5 +323,48 @@ public class ProgramAttributes {
 	 */
 	public final void setTransID(final String transID) {
 		mTransID = transID;
+	}
+
+	/**
+	 * @return the CICS Channel
+	 */
+	public final String getChannel() {
+		return mChannel;
+	}
+
+	/**
+	 * @param channel the CICS Channel to set
+	 */
+	public final void setChannel(final String channel) {
+		mChannel = channel;
+	}
+
+	/**
+	 * @return the input Containers list
+	 */
+	public final Map < String, Integer > getInContainers() {
+		return mInContainers;
+	}
+
+	/**
+	 * @param inContainers the input Containers list to set
+	 */
+	public final void setInContainers(
+			final Map < String, Integer > inContainers) {
+		mInContainers = inContainers;
+	}
+	/**
+	 * @return the output Containers list
+	 */
+	public final Map < String, Integer > getOutContainers() {
+		return mOutContainers;
+	}
+
+	/**
+	 * @param outContainers the output Containers list to set
+	 */
+	public final void setOutContainers(
+			final Map < String, Integer > outContainers) {
+		mOutContainers = outContainers;
 	}
 }

@@ -4,11 +4,11 @@
     <parent>
       <groupId>com.legsem.legstar</groupId>
       <artifactId>Legstar</artifactId>
-      <version>1.0.1</version>
+      <version>1.1-SNAPSHOT</version>
     </parent>
 	<artifactId>legstar-invoker</artifactId>
 	<name>Messaging protocol</name>
-    <version>${project.parent.version}</version>
+    <version>1.1-SNAPSHOT</version>
 	<description>XML RPC to host.</description>
 	<url>http://www.legsem.com/legstar/invoker/</url>
 
@@ -81,6 +81,26 @@
             </execution>
           </executions>
         </plugin>
+		<plugin>
+		  <artifactId>maven-antrun-plugin</artifactId>
+		  <executions>
+		
+			<!-- This will deploy the jar file to a Tomcat dev instance.  -->
+		    <execution>
+		      <id>deploy-to-tomcat</id>
+		      <phase>package</phase>
+		      <configuration>
+		        <tasks>
+		          <ant antfile="${basedir}/src/main/ant/deploy-to-tomcat.xml"/>
+		        </tasks>
+		      </configuration>
+		      <goals>
+		        <goal>run</goal>
+		      </goals>
+		    </execution>
+		  
+		  </executions>
+		</plugin>
       </plugins>
     </build>
     

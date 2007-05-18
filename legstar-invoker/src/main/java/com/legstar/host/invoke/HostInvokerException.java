@@ -23,7 +23,7 @@ package com.legstar.host.invoke;
 /**
  * Exception raised if invoke execution fails.
  */
-public class HostInvokeException extends Exception {
+public class HostInvokerException extends Exception {
 
 	/** Serial ID. */
 	private static final long serialVersionUID = -4069744829224499341L;
@@ -32,7 +32,7 @@ public class HostInvokeException extends Exception {
 	 * Constructor from an error message. 
 	 * @param message the text message 
 	 * */
-	public HostInvokeException(final String message) {
+	public HostInvokerException(final String message) {
 		super(message);
 	}
 
@@ -40,7 +40,7 @@ public class HostInvokeException extends Exception {
 	 * Constructor from an inner exception. 
 	 * @param e the inner exception 
 	 * */
-	public HostInvokeException(final Exception e) {
+	public HostInvokerException(final Exception e) {
 		super(e);
 	}
 }
