@@ -20,7 +20,6 @@
  *******************************************************************************/
 package com.legstar.host.server;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +33,7 @@ import com.legstar.host.server.Engine;
 import com.legstar.messaging.Address;
 import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.HeaderPart;
+import com.legstar.messaging.HeaderPartException;
 import com.legstar.messaging.Message;
 import com.legstar.messaging.MessagePart;
 import com.legstar.messaging.Request;
@@ -118,14 +118,14 @@ public class PoolingTest extends TestCase {
 		EngineHandler engHandler = new EngineHandler(config);
 		engHandler.init();
 		
-		HashMap < String, String > map = new HashMap < String, String >();
+		HashMap < String, Object > map = new HashMap < String, Object >();
 		map.put(Constants.CICS_PROGRAM_KEY, "TARATATA");
 		map.put(Constants.CICS_LENGTH_KEY, "79");
 		map.put(Constants.CICS_DATALEN_KEY, "6");
 		List <MessagePart> inputParts = new ArrayList <MessagePart>();
 		MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 		inputParts.add(inCommarea);
-		HeaderPart dp = new HeaderPart(map, inputParts.size(), "IBM01140");
+		HeaderPart dp = new HeaderPart(map, inputParts.size());
 		Message requestMessage = new Message(dp, inputParts);
 
 		Address address = new Address("TheMainframe");
@@ -137,7 +137,7 @@ public class PoolingTest extends TestCase {
 			engHandler.getEngine().addRequest(request);
 			request.wait(3000L);
 		}
-		assertEquals("CICS command=LINK failed, resp=PGMIDERR, resp2=3", request.getException().getMessage());
+		assertEquals("CICS command=LINK COMMAREA failed, resp=PGMIDERR, resp2=3", request.getException().getMessage());
 		assertEquals(null, request.getResponseMessage());
 		
 		Thread.sleep(1000L);
@@ -208,15 +208,15 @@ public class PoolingTest extends TestCase {
 		}
 	}
 	
-	private Message getRequestMessage() throws UnsupportedEncodingException {
-		HashMap < String, String > map = new HashMap < String, String >();
+	private Message getRequestMessage() throws HeaderPartException {
+		HashMap < String, Object > map = new HashMap < String, Object >();
 		map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
 		map.put(Constants.CICS_LENGTH_KEY, "79");
 		map.put(Constants.CICS_DATALEN_KEY, "6");
 		List <MessagePart> inputParts = new ArrayList <MessagePart>();
 		MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 		inputParts.add(inCommarea);
-		HeaderPart dp = new HeaderPart(map, inputParts.size(), "IBM01140");
+		HeaderPart dp = new HeaderPart(map, inputParts.size());
 		return new Message(dp, inputParts);
 	}
 	
