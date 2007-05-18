@@ -54,7 +54,7 @@ public class XIncludeTest extends TestCase {
 		javax.xml.parsers.SAXParser saxParser = spf.newSAXParser();
 		parsedData = "";
 		saxParser.parse(new File("./src/xml-models/cixs-sd-lsfileae.xml"), new MyHandler());
-		assertEquals("cixs-serviceservice-nameservice-endpoint-packageservice-targetnamespacecixs-operationoperation-nameprogram-nameinputoutput", parsedData);
+		assertEquals("cixs-serviceservice-nameservice-endpoint-packageservice-targetnamespacecixs-operationoperation-nameprogram-namecics-channelinputoutput", parsedData);
 	}
 	
 	public void testXSLTC() throws SAXException, ParserConfigurationException, TransformerException, IOException  {

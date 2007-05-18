@@ -52,6 +52,36 @@
 			<xsl:otherwise><xsl:value-of select="$operation-class-name"/>FaultInfo</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
+    <xsl:variable name="multiple-input">
+        <xsl:choose>
+            <xsl:when test="count(input) > 1">true</xsl:when>
+            <xsl:otherwise>false</xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable>
+    <xsl:variable name="multiple-output">
+        <xsl:choose>
+            <xsl:when test="count(output) > 1">true</xsl:when>
+            <xsl:otherwise>false</xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable>
+	
+	<xsl:if test="$multiple-input = 'true'">
+		<xsl:call-template name="generate-input-holder">
+			<xsl:with-param name="target-dir"><xsl:value-of select="$target-dir"/></xsl:with-param>
+			<xsl:with-param name="operation-package"><xsl:value-of select="$operation-package"/></xsl:with-param>
+			<xsl:with-param name="operation-class-name"><xsl:value-of select="$operation-class-name"/></xsl:with-param>
+			<xsl:with-param name="operation-namespace"><xsl:value-of select="$operation-namespace"/></xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+	
+	<xsl:if test="$multiple-output = 'true'">
+		<xsl:call-template name="generate-output-holder">
+			<xsl:with-param name="target-dir"><xsl:value-of select="$target-dir"/></xsl:with-param>
+			<xsl:with-param name="operation-package"><xsl:value-of select="$operation-package"/></xsl:with-param>
+			<xsl:with-param name="operation-class-name"><xsl:value-of select="$operation-class-name"/></xsl:with-param>
+			<xsl:with-param name="operation-namespace"><xsl:value-of select="$operation-namespace"/></xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
 	
 	<xsl:call-template name="generate-input-wrapper">
 		<xsl:with-param name="target-dir"><xsl:value-of select="$target-dir"/></xsl:with-param>
@@ -59,8 +89,7 @@
 		<xsl:with-param name="operation-class-name"><xsl:value-of select="$operation-class-name"/></xsl:with-param>
 		<xsl:with-param name="operation-namespace"><xsl:value-of select="$operation-namespace"/></xsl:with-param>
 		<xsl:with-param name="request-wrapper-type"><xsl:value-of select="$request-wrapper-type"/></xsl:with-param>
-		<xsl:with-param name="input-jaxb-type"><xsl:value-of select="input/@jaxb-type"/></xsl:with-param>
-		<xsl:with-param name="input-jaxb-package"><xsl:value-of select="input/@jaxb-package"/></xsl:with-param>
+		<xsl:with-param name="multiple-input"><xsl:value-of select="$multiple-input"/></xsl:with-param>
 	</xsl:call-template>
 	
 	<xsl:call-template name="generate-output-wrapper">
@@ -69,8 +98,7 @@
 		<xsl:with-param name="operation-class-name"><xsl:value-of select="$operation-class-name"/></xsl:with-param>
 		<xsl:with-param name="operation-namespace"><xsl:value-of select="$operation-namespace"/></xsl:with-param>
 		<xsl:with-param name="response-wrapper-type"><xsl:value-of select="$response-wrapper-type"/></xsl:with-param>
-		<xsl:with-param name="output-jaxb-type"><xsl:value-of select="output/@jaxb-type"/></xsl:with-param>
-		<xsl:with-param name="output-jaxb-package"><xsl:value-of select="output/@jaxb-package"/></xsl:with-param>
+		<xsl:with-param name="multiple-output"><xsl:value-of select="$multiple-output"/></xsl:with-param>
 	</xsl:call-template>
 
 	<xsl:call-template name="generate-webfault-wrapper">
@@ -90,6 +118,59 @@
 </xsl:template>
 
 <!-- ===============================================================================================
+	 Generate the input holder class
+ -->
+<xsl:template name="generate-input-holder">
+	<xsl:param name="target-dir"></xsl:param>
+	<xsl:param name="operation-package"></xsl:param>
+	<xsl:param name="operation-class-name"></xsl:param>
+	<xsl:param name="operation-namespace"></xsl:param>
+ 
+    <xsl:variable name="request-holder-type"><xsl:value-of select="$operation-class-name"/>RequestHolder</xsl:variable>
+
+	<!-- Generate the dynamically built java source file -->
+	<xsl:result-document href="{$target-dir}/{$request-holder-type}.java" method="text" omit-xml-declaration="yes" indent="yes">
+		<xsl:call-template name="generate-holder-header">
+			<xsl:with-param name="property-name">Request</xsl:with-param>
+			<xsl:with-param name="operation-package"><xsl:value-of select="$operation-package"/></xsl:with-param>
+		</xsl:call-template>
+		<xsl:call-template name="generate-holder-class">
+			<xsl:with-param name="holder-type"><xsl:value-of select="$request-holder-type"/></xsl:with-param>
+			<xsl:with-param name="operation-namespace"><xsl:value-of select="$operation-namespace"/></xsl:with-param>
+			<xsl:with-param name="property-name">Request</xsl:with-param>
+		</xsl:call-template>
+	</xsl:result-document>
+
+</xsl:template>
+
+<!-- ===============================================================================================
+	 Generate the output holder class
+ -->
+<xsl:template name="generate-output-holder">
+	<xsl:param name="target-dir"></xsl:param>
+	<xsl:param name="operation-package"></xsl:param>
+	<xsl:param name="operation-class-name"></xsl:param>
+	<xsl:param name="operation-namespace"></xsl:param>
+ 
+    <xsl:variable name="response-holder-type"><xsl:value-of select="$operation-class-name"/>ResponseHolder</xsl:variable>
+
+	<!-- Generate the dynamically built java source file -->
+	<xsl:result-document href="{$target-dir}/{$response-holder-type}.java" method="text" omit-xml-declaration="yes" indent="yes">
+		<xsl:call-template name="generate-holder-header">
+			<xsl:with-param name="property-name">Response</xsl:with-param>
+			<xsl:with-param name="operation-package"><xsl:value-of select="$operation-package"/></xsl:with-param>
+		</xsl:call-template>
+		<xsl:call-template name="generate-holder-class">
+			<xsl:with-param name="holder-type"><xsl:value-of select="$response-holder-type"/></xsl:with-param>
+			<xsl:with-param name="operation-namespace"><xsl:value-of select="$operation-namespace"/></xsl:with-param>
+			<xsl:with-param name="property-name">Response</xsl:with-param>
+		</xsl:call-template>
+	</xsl:result-document>
+
+</xsl:template>
+
+
+<!-- ===============================================================================================
 	 Generate the input wrapper class
  -->
 <xsl:template name="generate-input-wrapper">
@@ -98,21 +179,32 @@
 	<xsl:param name="operation-class-name"></xsl:param>
 	<xsl:param name="operation-namespace"></xsl:param>
 	<xsl:param name="request-wrapper-type"></xsl:param>
-	<xsl:param name="input-jaxb-type"></xsl:param>
-	<xsl:param name="input-jaxb-package"></xsl:param>
+	<xsl:param name="multiple-input"></xsl:param>
+
+    <xsl:variable name="import">
+        <xsl:choose>
+            <xsl:when test="$multiple-input != 'true' and string-length(input/@jaxb-package) > 0"><xsl:value-of select="input/@jaxb-package"/>.<xsl:value-of select="input/@jaxb-type"/></xsl:when>
+            <xsl:otherwise></xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable>
+    <xsl:variable name="field-type">
+        <xsl:choose>
+            <xsl:when test="$multiple-input = 'true'"><xsl:value-of select="$operation-class-name"/>RequestHolder</xsl:when>
+            <xsl:otherwise><xsl:value-of select="input/@jaxb-type"/></xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable>
 	
 	<!-- Generate the dynamically built java source file -->
 	<xsl:result-document href="{$target-dir}/{$request-wrapper-type}.java" method="text" omit-xml-declaration="yes" indent="yes">
 		<xsl:call-template name="generate-wrapper-header">
 			<xsl:with-param name="property-name">Request</xsl:with-param>
 			<xsl:with-param name="operation-package"><xsl:value-of select="$operation-package"/></xsl:with-param>
-			<xsl:with-param name="jaxb-package"><xsl:value-of select="$input-jaxb-package"/></xsl:with-param>
-			<xsl:with-param name="jaxb-type"><xsl:value-of select="$input-jaxb-type"/></xsl:with-param>
+			<xsl:with-param name="import"><xsl:value-of select="$import"/></xsl:with-param>
 		</xsl:call-template>
 		<xsl:call-template name="generate-wrapper-class">
 			<xsl:with-param name="wrapper-type"><xsl:value-of select="$request-wrapper-type"/></xsl:with-param>
 			<xsl:with-param name="operation-namespace"><xsl:value-of select="$operation-namespace"/></xsl:with-param>
-			<xsl:with-param name="jaxb-type"><xsl:value-of select="$input-jaxb-type"/></xsl:with-param>
+			<xsl:with-param name="field-type"><xsl:value-of select="$field-type"/></xsl:with-param>
 			<xsl:with-param name="field-name">request</xsl:with-param>
 			<xsl:with-param name="property-name">Request</xsl:with-param>
 		</xsl:call-template>
@@ -129,21 +221,32 @@
 	<xsl:param name="operation-class-name"></xsl:param>
 	<xsl:param name="operation-namespace"></xsl:param>
 	<xsl:param name="response-wrapper-type"></xsl:param>
-	<xsl:param name="output-jaxb-type"></xsl:param>
-	<xsl:param name="output-jaxb-package"></xsl:param>
+	<xsl:param name="multiple-output"></xsl:param>
+	
+    <xsl:variable name="import">
+        <xsl:choose>
+            <xsl:when test="$multiple-output != 'true' and string-length(output/@jaxb-package) > 0"><xsl:value-of select="output/@jaxb-package"/>.<xsl:value-of select="output/@jaxb-type"/></xsl:when>
+            <xsl:otherwise></xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable>
+    <xsl:variable name="field-type">
+        <xsl:choose>
+            <xsl:when test="$multiple-output = 'true'"><xsl:value-of select="$operation-class-name"/>ResponseHolder</xsl:when>
+            <xsl:otherwise><xsl:value-of select="output/@jaxb-type"/></xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable>
 	
 	<!-- Generate the dynamically built java source file -->
 	<xsl:result-document href="{$target-dir}/{$response-wrapper-type}.java" method="text" omit-xml-declaration="yes" indent="yes">
 		<xsl:call-template name="generate-wrapper-header">
 			<xsl:with-param name="property-name">Response</xsl:with-param>
 			<xsl:with-param name="operation-package"><xsl:value-of select="$operation-package"/></xsl:with-param>
-			<xsl:with-param name="jaxb-package"><xsl:value-of select="$output-jaxb-package"/></xsl:with-param>
-			<xsl:with-param name="jaxb-type"><xsl:value-of select="$output-jaxb-type"/></xsl:with-param>
+			<xsl:with-param name="import"><xsl:value-of select="$import"/></xsl:with-param>
 		</xsl:call-template>
 		<xsl:call-template name="generate-wrapper-class">
 			<xsl:with-param name="wrapper-type"><xsl:value-of select="$response-wrapper-type"/></xsl:with-param>
 			<xsl:with-param name="operation-namespace"><xsl:value-of select="$operation-namespace"/></xsl:with-param>
-			<xsl:with-param name="jaxb-type"><xsl:value-of select="$output-jaxb-type"/></xsl:with-param>
+			<xsl:with-param name="field-type"><xsl:value-of select="$field-type"/></xsl:with-param>
 			<xsl:with-param name="field-name">response</xsl:with-param>
 			<xsl:with-param name="property-name">Response</xsl:with-param>
 		</xsl:call-template>
@@ -197,20 +300,149 @@
 </xsl:template>
 
 <!-- ===============================================================================================
-	 Generate the package and import code for input or output wrapper
+	 Generate the package and import code for input or output holder. A holder is composed by
+	 multiple jaxb object trees. 
  -->
-<xsl:template name="generate-wrapper-header">
-<xsl:param name="property-name"/>
+<xsl:template name="generate-holder-header">
 <xsl:param name="operation-package"/>
-<xsl:param name="jaxb-package"/>
-<xsl:param name="jaxb-type"/>
+<xsl:param name="property-name"/>
 package <xsl:value-of select="$operation-package"/>;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-<xsl:if test="string-length($jaxb-package) > 0">
-import <xsl:value-of select="$jaxb-package"/>.<xsl:value-of select="$jaxb-type"/>;</xsl:if>
+<xsl:choose>
+	<xsl:when test="$property-name = 'Request'">
+		<xsl:for-each select="input">
+import <xsl:value-of select="@jaxb-package"/>.<xsl:value-of select="@jaxb-type"/>;
+		</xsl:for-each>
+	</xsl:when>
+	<xsl:when test="$property-name = 'Response'">
+		<xsl:for-each select="output">
+import <xsl:value-of select="@jaxb-package"/>.<xsl:value-of select="@jaxb-type"/>;
+		</xsl:for-each>
+	</xsl:when>
+</xsl:choose>
+
+/**
+ * <xsl:value-of select="$property-name"/> holder element.
+ * 
+ * This class was generated by CIXS generator.
+ * <xsl:value-of  select="current-dateTime()"/>
+ */
+</xsl:template>
+
+<!-- ===============================================================================================
+	 Generate the code of the holder java class
+ -->
+<xsl:template name="generate-holder-class">
+<xsl:param name="holder-type"/>
+<xsl:param name="operation-namespace"/>
+<xsl:param name="property-name"/>
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "<xsl:value-of select="$holder-type"/>",
+         namespace = "<xsl:value-of select="$operation-namespace"/>",
+         propOrder = {
+<xsl:choose>
+	<xsl:when test="$property-name = 'Request'">
+		<xsl:for-each select="input">
+    "<xsl:value-of select="@jaxb-field-name"/>"<xsl:if test="position() &lt; last()">,</xsl:if> 
+		</xsl:for-each>
+	</xsl:when>
+	<xsl:when test="$property-name = 'Response'">
+		<xsl:for-each select="output">
+    "<xsl:value-of select="@jaxb-field-name"/>"<xsl:if test="position() &lt; last()">,</xsl:if> 
+		</xsl:for-each>
+	</xsl:when>
+</xsl:choose>
+})
+public class <xsl:value-of select="$holder-type"/> {
+	
+<xsl:choose>
+	<xsl:when test="$property-name = 'Request'">
+		<xsl:for-each select="input">
+    /** Inner <xsl:value-of select="@jaxb-type"/> JAXB-bound object. */
+    @XmlElement(name = "<xsl:value-of select="@jaxb-field-name"/>",
+                namespace = "<xsl:value-of select="$operation-namespace"/>",
+                required = true)
+    private <xsl:value-of select="@jaxb-type"/><xsl:text> </xsl:text><xsl:value-of select="@jaxb-field-name"/>;
+		</xsl:for-each>
+	</xsl:when>
+	<xsl:when test="$property-name = 'Response'">
+		<xsl:for-each select="output">
+    /** Inner <xsl:value-of select="@jaxb-type"/> JAXB-bound object. */
+    @XmlElement(name = "<xsl:value-of select="@jaxb-field-name"/>",
+                namespace = "<xsl:value-of select="$operation-namespace"/>",
+                required = true)
+    private <xsl:value-of select="@jaxb-type"/><xsl:text> </xsl:text><xsl:value-of select="@jaxb-field-name"/>;
+		</xsl:for-each>
+	</xsl:when>
+</xsl:choose>
+
+<xsl:choose>
+	<xsl:when test="$property-name = 'Request'">
+		<xsl:for-each select="input">
+	/**
+	 * Get the inner <xsl:value-of select="@jaxb-type"/> JAXB-bound object.
+	 * 
+	 * @return JAXB-bound object
+	 */
+	public final <xsl:value-of select="@jaxb-type"/> get<xsl:value-of select="@jaxb-property-name"/>() {
+		return <xsl:value-of select="@jaxb-field-name"/>;
+	}
+
+	/**
+	 * Set the inner <xsl:value-of select="@jaxb-type"/> JAXB-bound object.
+	 * 
+	 * @param value JAXB-bound object
+	 */
+	public final void set<xsl:value-of select="@jaxb-property-name"/>(
+	    final <xsl:value-of select="@jaxb-type"/><xsl:text> value</xsl:text>) {
+		this.<xsl:value-of select="@jaxb-field-name"/> = value;
+	}
+		</xsl:for-each>
+	</xsl:when>
+	<xsl:when test="$property-name = 'Response'">
+		<xsl:for-each select="output">
+	/**
+	 * Get the inner <xsl:value-of select="@jaxb-type"/> JAXB-bound object.
+	 * 
+	 * @return JAXB-bound object
+	 */
+	public final <xsl:value-of select="@jaxb-type"/> get<xsl:value-of select="@jaxb-property-name"/>() {
+		return <xsl:value-of select="@jaxb-field-name"/>;
+	}
+
+	/**
+	 * Set the inner <xsl:value-of select="@jaxb-type"/> JAXB-bound object.
+	 * 
+	 * @param value JAXB-bound object
+	 */
+	public final void set<xsl:value-of select="@jaxb-property-name"/>(
+	    final <xsl:value-of select="@jaxb-type"/><xsl:text> value</xsl:text>) {
+		this.<xsl:value-of select="@jaxb-field-name"/> = value;
+	}
+		</xsl:for-each>
+	</xsl:when>
+</xsl:choose>
+}
+</xsl:template>
+
+<!-- ===============================================================================================
+	 Generate the package and import code for input or output wrapper
+ -->
+<xsl:template name="generate-wrapper-header">
+<xsl:param name="operation-package"/>
+<xsl:param name="property-name"/>
+<xsl:param name="import"/>
+package <xsl:value-of select="$operation-package"/>;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+<xsl:if test="string-length($import) > 0">
+import <xsl:value-of select="$import"/>;
+</xsl:if>
 
 /**
  * <xsl:value-of select="$property-name"/> wrapper element.
@@ -226,7 +458,7 @@ import <xsl:value-of select="$jaxb-package"/>.<xsl:value-of select="$jaxb-type"/
 <xsl:template name="generate-wrapper-class">
 <xsl:param name="wrapper-type"/>
 <xsl:param name="operation-namespace"/>
-<xsl:param name="jaxb-type"/>
+<xsl:param name="field-type"/>
 <xsl:param name="field-name"/>
 <xsl:param name="property-name"/>
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -241,14 +473,14 @@ public class <xsl:value-of select="$wrapper-type"/> {
     @XmlElement(name = "<xsl:value-of select="$property-name"/>",
                 namespace = "<xsl:value-of select="$operation-namespace"/>",
                 required = true)
-    private <xsl:value-of select="$jaxb-type"/><xsl:text> </xsl:text><xsl:value-of select="$field-name"/>;
+    private <xsl:value-of select="$field-type"/><xsl:text> </xsl:text><xsl:value-of select="$field-name"/>;
 
 	/**
 	 * Get the inner JAXB-bound object.
 	 * 
 	 * @return JAXB-bound object
 	 */
-	public final <xsl:value-of select="$jaxb-type"/> get<xsl:value-of select="$property-name"/>() {
+	public final <xsl:value-of select="$field-type"/> get<xsl:value-of select="$property-name"/>() {
 		return <xsl:value-of select="$field-name"/>;
 	}
 
@@ -258,7 +490,7 @@ public class <xsl:value-of select="$wrapper-type"/> {
 	 * @param value JAXB-bound object
 	 */
 	public final void set<xsl:value-of select="$property-name"/>(
-	    final <xsl:value-of select="$jaxb-type"/><xsl:text> value</xsl:text>) {
+	    final <xsl:value-of select="$field-type"/><xsl:text> value</xsl:text>) {
 		this.<xsl:value-of select="$field-name"/> = value;
 	}
 }

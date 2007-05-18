@@ -91,13 +91,35 @@ public interface <xsl:value-of select="$sei-class-name"/> {
 <xsl:variable name="request-wrapper-type">
 	<xsl:choose>
 		<xsl:when test="string-length(request-wrapper-type) > 0"><xsl:value-of select="request-wrapper-type"/></xsl:when>
-			<xsl:otherwise><xsl:value-of select="$operation-class-name"/>Request</xsl:otherwise>
+		<xsl:otherwise><xsl:value-of select="$operation-class-name"/>Request</xsl:otherwise>
 	</xsl:choose>
 </xsl:variable>
 <xsl:variable name="response-wrapper-type">
 	<xsl:choose>
 		<xsl:when test="string-length(response-wrapper-type) > 0"><xsl:value-of select="response-wrapper-type"/></xsl:when>
-			<xsl:otherwise><xsl:value-of select="$operation-class-name"/>Response</xsl:otherwise>
+		<xsl:otherwise><xsl:value-of select="$operation-class-name"/>Response</xsl:otherwise>
+	</xsl:choose>
+</xsl:variable>
+<xsl:variable name="request-holder-type">
+	<xsl:choose>
+		<xsl:when test="string-length(request-holder-type) > 0"><xsl:value-of select="request-holder-type"/></xsl:when>
+		<xsl:otherwise>
+			<xsl:choose>
+				<xsl:when test="count(input) > 1"><xsl:value-of select="$operation-class-name"/>RequestHolder</xsl:when>
+				<xsl:otherwise><xsl:value-of select="input/@jaxb-package"/>.<xsl:value-of select="input/@jaxb-type"/></xsl:otherwise>
+			</xsl:choose>
+		</xsl:otherwise>
+	</xsl:choose>
+</xsl:variable>
+<xsl:variable name="response-holder-type">
+	<xsl:choose>
+		<xsl:when test="string-length(response-holder-type) > 0"><xsl:value-of select="response-holder-type"/></xsl:when>
+		<xsl:otherwise>
+			<xsl:choose>
+				<xsl:when test="count(output) > 1"><xsl:value-of select="$operation-class-name"/>ResponseHolder</xsl:when>
+				<xsl:otherwise><xsl:value-of select="output/@jaxb-package"/>.<xsl:value-of select="output/@jaxb-type"/></xsl:otherwise>
+			</xsl:choose>
+		</xsl:otherwise>
 	</xsl:choose>
 </xsl:variable>
 <xsl:variable name="fault-type">
@@ -116,19 +138,17 @@ public interface <xsl:value-of select="$sei-class-name"/> {
      */
     @WebMethod
     @WebResult(name = "Response",
-               targetNamespace = "<xsl:value-of select="$operation-namespace"/>")
+        targetNamespace = "<xsl:value-of select="$operation-namespace"/>")
     @RequestWrapper(localName = "<xsl:value-of select="$request-wrapper-type"/>",
-               targetNamespace = "<xsl:value-of select="$operation-namespace"/>",
-               className = "<xsl:value-of select="$operation-package"/>.<xsl:value-of select="$request-wrapper-type"/>")
+        targetNamespace = "<xsl:value-of select="$operation-namespace"/>",
+        className = "<xsl:value-of select="$operation-package"/>.<xsl:value-of select="$request-wrapper-type"/>")
     @ResponseWrapper(localName = "<xsl:value-of select="$response-wrapper-type"/>",
-               targetNamespace = "<xsl:value-of select="$operation-namespace"/>",
-               className = "<xsl:value-of select="$operation-package"/>.<xsl:value-of select="$response-wrapper-type"/>")
-    <xsl:value-of select="output/@jaxb-package"/>.
-    <xsl:value-of select="output/@jaxb-type"/><xsl:text> </xsl:text><xsl:value-of select="operation-name"/>(
+        targetNamespace = "<xsl:value-of select="$operation-namespace"/>",
+        className = "<xsl:value-of select="$operation-package"/>.<xsl:value-of select="$response-wrapper-type"/>")
+    <xsl:value-of select="$response-holder-type"/><xsl:text> </xsl:text><xsl:value-of select="operation-name"/>(
         @WebParam(name = "Request",
                targetNamespace = "<xsl:value-of select="$operation-namespace"/>")
-        <xsl:value-of select="input/@jaxb-package"/>.
-        <xsl:value-of select="input/@jaxb-type"/> request,
+        <xsl:value-of select="$request-holder-type"/> request,
         @WebParam(name = "HostHeader", header = true, partName = "HostHeader",
                 targetNamespace = "<xsl:value-of select="$operation-namespace"/>")
         <xsl:value-of select="$sei-class-name"/>HostHeader hostHeader)

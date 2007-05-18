@@ -3,12 +3,11 @@
    <property environment="env"/>
    <property name="service" value="lsfileal"/>
    <target name="clean">
-      <delete file="C:/Program Files/Apache/apache-tomcat-5.5.17/webapps/cixs-lsfileal.war"
-              includeEmptyDirs="true"
+      <delete file="D:\Servers\TOMDev\webapps/cixs-lsfileal.war" includeEmptyDirs="true"
               quiet="true"/>
    </target>
    <target name="create-war" depends="clean">
-      <war warfile="C:/Program Files/Apache/apache-tomcat-5.5.17/webapps/cixs-lsfileal.war"
+      <war warfile="D:\Servers\TOMDev\webapps/cixs-lsfileal.war"
            webxml="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/src/test/WebContent/WEB-INF/lsfileal/web.xml">
          <webinf dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/src/test/WebContent/WEB-INF/lsfileal"
                  includes="sun-jaxws.xml"/>

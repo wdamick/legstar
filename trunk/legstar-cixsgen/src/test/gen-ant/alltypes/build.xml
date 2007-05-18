@@ -3,12 +3,11 @@
    <property environment="env"/>
    <property name="service" value="alltypes"/>
    <target name="clean">
-      <delete file="C:/Program Files/Apache/apache-tomcat-5.5.17/webapps/cixs-alltypes.war"
-              includeEmptyDirs="true"
+      <delete file="D:\Servers\TOMDev\webapps/cixs-alltypes.war" includeEmptyDirs="true"
               quiet="true"/>
    </target>
    <target name="create-war" depends="clean">
-      <war warfile="C:/Program Files/Apache/apache-tomcat-5.5.17/webapps/cixs-alltypes.war"
+      <war warfile="D:\Servers\TOMDev\webapps/cixs-alltypes.war"
            webxml="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/src/test/WebContent/WEB-INF/alltypes/web.xml">
          <webinf dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/src/test/WebContent/WEB-INF/alltypes"
                  includes="sun-jaxws.xml"/>

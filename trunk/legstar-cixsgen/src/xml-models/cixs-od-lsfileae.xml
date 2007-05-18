@@ -6,10 +6,13 @@
 	<operation-name>lsfileae</operation-name>
 	<!-- Designate the corresponding remote program name on the host system  -->
 	<program-name>LSFILEAE</program-name>
+	<!-- If present, this program is CONTAINER-driven rather than COMMAREA-driven  -->
+	<cics-channel>LSFILEAE-CHANNEL</cics-channel>
 	<!-- Specify the JAXB classes used for input and output -->
 	<!-- use <input> and <output> elements. Choice strategy should be a fully qualified pojo -->
-	<input jaxb-type="DfhcommareaType" jaxb-package="com.legstar.test.coxb.lsfileae" choice-strategy=""/>
-	<output jaxb-type="DfhcommareaType" jaxb-package="com.legstar.test.coxb.lsfileae" choice-strategy=""/>
+	<!-- use cics-container attibute to relate input with a CICS CONTAINER -->
+	<input jaxb-type="DfhcommareaType" jaxb-package="com.legstar.test.coxb.lsfileae" jaxb-property-name="DfhCommarea" jaxb-field-name="dfhCommarea" bind-property-name="InputDfhCommarea" bind-field-name="inputDfhCommarea" choice-strategy="" cics-container=""/>
+	<output jaxb-type="DfhcommareaType" jaxb-package="com.legstar.test.coxb.lsfileae" jaxb-property-name="DfhCommarea" jaxb-field-name="dfhCommarea" bind-property-name="OutputDfhCommarea" bind-field-name="outputDfhCommarea" choice-strategy="" cics-container=""/>
 
 	<!-- === Optional parameters:
      <request-wrapper-type>      Request Wrapper class. Default <Operation-name>Request (first char uppercased)

@@ -3,12 +3,11 @@
    <property environment="env"/>
    <property name="service" value="floatmix"/>
    <target name="clean">
-      <delete file="C:/Program Files/Apache/apache-tomcat-5.5.17/webapps/cixs-floatmix.war"
-              includeEmptyDirs="true"
+      <delete file="D:\Servers\TOMDev\webapps/cixs-floatmix.war" includeEmptyDirs="true"
               quiet="true"/>
    </target>
    <target name="create-war" depends="clean">
-      <war warfile="C:/Program Files/Apache/apache-tomcat-5.5.17/webapps/cixs-floatmix.war"
+      <war warfile="D:\Servers\TOMDev\webapps/cixs-floatmix.war"
            webxml="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/src/test/WebContent/WEB-INF/floatmix/web.xml">
          <webinf dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/src/test/WebContent/WEB-INF/floatmix"
                  includes="sun-jaxws.xml"/>

@@ -121,21 +121,39 @@ public class CixsService {
 		result.append(" targetNamespace="
 				+ '\"' + mTargetNamespace + '\"');
 		result.append('>');
-		for (int i = 0; i < mOperations.size(); i++) {
-			CixsOperation op = mOperations.get(i);
+		for (CixsOperation op : mOperations) {
 			result.append("<operation operationName=" + '\"'
 					+ op.getOperationName() + '\"');
 			result.append(" programName=" + '\"'
 					+ op.getProgramName() + '\"');
-			result.append(" inputJaxbType=" + '\"'
-					+ op.getInputJaxbType() + '\"');
-			result.append(" inputJaxbPackageName="	+ '\"'
-					+ op.getInputJaxbPackageName() + '\"');
-			result.append(" outputJaxbType=" + '\"'
-					+ op.getOutputJaxbType() + '\"');
-			result.append(" outputJaxbPackageName="	+ '\"'
-					+ op.getOutputJaxbPackageName() + '\"');
-			result.append("/>");
+			if (op.getChannel() != null && op.getChannel().length() > 0) {
+				result.append(" channelName=" + '\"'
+						+ op.getChannel() + '\"');
+			}
+			for (CixsStructure structure : op.getInputStructures()) {
+				result.append("<inputStructure jaxbType=" + '\"'
+						+ structure.getJaxbType() + '\"');
+				result.append(" jaxbPackageName="	+ '\"'
+						+ structure.getJaxbPackageName() + '\"');
+				if (structure.getContainer() != null
+						&& structure.getContainer().length() > 0) {
+					result.append(" containerName="	+ '\"'
+							+ structure.getContainer() + '\"');
+				}
+				result.append("/>");
+			}
+			for (CixsStructure structure : op.getOutputStructures()) {
+				result.append("<outnputStructure jaxbType=" + '\"'
+						+ structure.getJaxbType() + '\"');
+				result.append(" jaxbPackageName="	+ '\"'
+						+ structure.getJaxbPackageName() + '\"');
+				if (structure.getContainer() != null
+						&& structure.getContainer().length() > 0) {
+					result.append(" containerName="	+ '\"'
+							+ structure.getContainer() + '\"');
+				}
+				result.append("/>");
+			}
 		}
 		result.append("</service>");
 		return result.toString();
