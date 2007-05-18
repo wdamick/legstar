@@ -53,7 +53,7 @@ public class ClientlsfileaeIterationTest extends TestCase {
 		LsfileaeHostHeader reqHead = wsOF.createLsfileaeHostHeader();
 		reqHead.setHostUserID("P390");
 		reqHead.setHostPassword("STREAM2");
-		reqHead.setHostEndPoint("theMainframe");
+		reqHead.setHostEndPoint("CICSTS23DirectHttp");
 		
 		dfhcommarea.setComNumber(100);
 

@@ -22,6 +22,7 @@
 package com.legstar.clients.tests;
 
 import junit.framework.TestCase;
+
 import com.legstar.test.cixs.lsfileal.*;
 import com.legstar.test.coxb.lsfileal.*;
 import javax.xml.ws.BindingProvider;
@@ -49,8 +50,10 @@ public class ClientlsfilealTest extends TestCase {
 		req.setRequest(requestParms);
 		
 		requestParms.setRequestName("S*");
+		LsfilealHostHeader reqHead = wsOF.createLsfilealHostHeader();
+		reqHead.setHostEndPoint("CICSTS23DirectHttp");
 
-		LsfilealResponse resp = port.lsfileal(req, null);
+		LsfilealResponse resp = port.lsfileal(req, reqHead);
 		ReplyDataType replyData = resp.getResponse();
 		
 		assertEquals(0, replyData.getReplyType());

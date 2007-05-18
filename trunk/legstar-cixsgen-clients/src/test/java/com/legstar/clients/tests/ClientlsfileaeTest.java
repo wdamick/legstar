@@ -117,7 +117,7 @@ public class ClientlsfileaeTest extends TestCase {
 		LsfileaeHostHeader reqHead = wsOF.createLsfileaeHostHeader();
 		reqHead.setHostUserID("TOZ");
 		reqHead.setHostPassword("STREAM2");
-		reqHead.setHostEndPoint("TheMainframeDirectHttp");
+		reqHead.setHostEndPoint("CICSTS23DirectHttp");
 			
 		LsfileaeRequest req = wsOF.createLsfileaeRequest();
 		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
@@ -186,7 +186,7 @@ public class ClientlsfileaeTest extends TestCase {
 		LsfileaeHostHeader reqHead = wsOF.createLsfileaeHostHeader();
 		reqHead.setHostUserID("P390");
 		reqHead.setHostPassword("STREAM2");
-		reqHead.setHostEndPoint("TheMainframeDirectHttp");
+		reqHead.setHostEndPoint("CICSTS23DirectHttp");
 		
 		LsfileaeRequest req = wsOF.createLsfileaeRequest();
 		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
