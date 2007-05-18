@@ -20,6 +20,9 @@
  *******************************************************************************/
 package com.legstar.cixs.gen;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class describes a service operation and its binding to JAXB and CICS.
  * 
@@ -34,52 +37,16 @@ public class CixsOperation {
 	/** Host program name. */
 	private String mProgramName;
 
-	/** JAXB type of input complex type. */
-	private String mInputJaxbType;
+	/** CICS Channel name. */
+	private String mChannel;
+	
+	/** Input structures. */
+	private List < CixsStructure > mInputStructures =
+		new ArrayList < CixsStructure >();;
 
-	/** JAXB package of input complex type. */
-	private String mInputJaxbPackageName;
-
-	/** Strategy to resolve input choice alternatives. */
-	private String mInputChoiceStrategy;
-
-	/** JAXB type of output complex type. */
-	private String mOutputJaxbType;
-
-	/** JAXB package of output complex type. */
-	private String mOutputJaxbPackageName;
-
-	/** Strategy to resolve output choice alternatives. */
-	private String mOutputChoiceStrategy;
-
-	/**
-	 * @return the the input JAXB package name
-	 */
-	public final String getInputJaxbPackageName() {
-		return mInputJaxbPackageName;
-	}
-
-	/**
-	 * @param inputJaxbPackageName the input JAXB package name to set
-	 */
-	public final void setInputJaxbPackageName(
-			final String inputJaxbPackageName) {
-		mInputJaxbPackageName = inputJaxbPackageName;
-	}
-
-	/**
-	 * @return the input JAXB class name
-	 */
-	public final String getInputJaxbType() {
-		return mInputJaxbType;
-	}
-
-	/**
-	 * @param inputJaxbType the input JAXB class name to set
-	 */
-	public final void setInputJaxbType(final String inputJaxbType) {
-		mInputJaxbType = inputJaxbType;
-	}
+	/** Output structures. */
+	private List < CixsStructure > mOutputStructures =
+		new ArrayList < CixsStructure >();;
 
 	/**
 	 * @return the service operation name
@@ -93,35 +60,6 @@ public class CixsOperation {
 	 */
 	public final void setOperationName(final String operationName) {
 		mOperationName = operationName;
-	}
-
-	/**
-	 * @return the output JAXB package name
-	 */
-	public final String getOutputJaxbPackageName() {
-		return mOutputJaxbPackageName;
-	}
-
-	/**
-	 * @param outputJaxbPackageName the output JAXB package name to set
-	 */
-	public final void setOutputJaxbPackageName(
-			final String outputJaxbPackageName) {
-		mOutputJaxbPackageName = outputJaxbPackageName;
-	}
-
-	/**
-	 * @return the output jaxb class name
-	 */
-	public final String getOutputJaxbType() {
-		return mOutputJaxbType;
-	}
-
-	/**
-	 * @param outputJaxbType the output jaxb class name to set
-	 */
-	public final void setOutputJaxbType(final String outputJaxbType) {
-		mOutputJaxbType = outputJaxbType;
 	}
 
 	/**
@@ -139,34 +77,61 @@ public class CixsOperation {
 	}
 
 	/**
-	 * @return the the strategy to resolve input choice alternatives
+	 * @return the CICS Channel name
 	 */
-	public final String getInputChoiceStrategy() {
-		return mInputChoiceStrategy;
+	public final String getChannel() {
+		return mChannel;
 	}
 
 	/**
-	 * @param inputChoiceStrategy the strategy to resolve input choice
-	 * alternatives to set
+	 * @param channel the CICS Channel name to set
 	 */
-	public final void seInputChoiceStrategy(
-			final String inputChoiceStrategy) {
-		mInputChoiceStrategy = inputChoiceStrategy;
+	public final void setChannel(final String channel) {
+		mChannel = channel;
 	}
 
 	/**
-	 * @return the strategy to resolve output choice alternatives
+	 * @return the Input structures
 	 */
-	public final String getOutputChoiceStrategy() {
-		return mOutputChoiceStrategy;
+	public final List < CixsStructure > getInputStructures() {
+		return mInputStructures;
 	}
 
 	/**
-	 * @param outputChoiceStrategy the strategy to resolve output choice
-	 * alternatives to set
+	 * @param inputStructures the Input structures to set
 	 */
-	public final void setOutputChoiceStrategy(
-			final String outputChoiceStrategy) {
-		mOutputChoiceStrategy = outputChoiceStrategy;
+	public final void setInputStructures(
+			final List < CixsStructure > inputStructures) {
+		mInputStructures = inputStructures;
 	}
+
+	/**
+	 * @param structure the structure to add
+	 */
+	public final void addInputStructure(final CixsStructure structure) {
+		mInputStructures.add(structure);
+	}
+	
+	/**
+	 * @return the Output structures
+	 */
+	public final List < CixsStructure > getOutputStructures() {
+		return mOutputStructures;
+	}
+
+	/**
+	 * @param outputStructures the Output structures to set
+	 */
+	public final void setOutputStructures(
+			final List < CixsStructure > outputStructures) {
+		mOutputStructures = outputStructures;
+	}
+
+	/**
+	 * @param structure the structure to add
+	 */
+	public final void addOutputStructure(final CixsStructure structure) {
+		mOutputStructures.add(structure);
+	}
+	
 }

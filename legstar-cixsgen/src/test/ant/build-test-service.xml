@@ -10,6 +10,8 @@
 	  -->
 	<target name="init">
 
+		<!-- Target Tomcat location   -->
+		<property name="tomcat.dir" value="D:\Servers\TOMDev"/>
 		<!-- Location of XML schemas  -->
 	 	<property name="xsd.dir" value="${basedir}/../legstar-schemagen/src/test/schema" />
 		<!-- Location of CIXS target source location   -->
@@ -33,7 +35,7 @@
 		<!-- Properties files target location   -->
 		<property name="prop.dir" value="${basedir}/src/test/WebContent/WEB-INF/classes"/>
 		<!-- War files target location   -->
-		<property name="war.dir" value="C:/Program Files/Apache/apache-tomcat-5.5.17/webapps"/>
+		<property name="war.dir" value="${tomcat.dir}\webapps"/>
 		<!-- Package name prefix for JAXB classes   -->
 		<property name="jaxb.package.pfx" value="com.legstar.test.coxb"/>
 		<!-- Package name prefix for CIXS classes   -->
@@ -44,24 +46,13 @@
 		<!-- Classpath setting -->
 		<property name="maven.repo" value="C:\Documents and Settings\Fady\.m2\repository"/>
 		<path id="classpath">
-	  		<!-- JAXB-related Classpath  -->
-		    <pathelement location="${maven.repo}\javax\activation\activation\1.1\activation-1.1.jar"/>
-		    <pathelement location="${maven.repo}\javax\xml\bind\jaxb-api\2.1\jaxb-api-2.1.jar"/>
-		    <pathelement location="${maven.repo}\javax\xml\bind\jsr173_api\1.0\jsr173_api-1.0.jar"/>
-	  		<!--JAXWS binaries -->
-		    <pathelement location="${maven.repo}\javax\jws\jsr181-api\1.0-MR1\jsr181-api-1.0-MR1.jar"/>
-		    <pathelement location="${maven.repo}\javax\xml\ws\jaxws-api\2.1\jaxws-api-2.1.jar"/>
 	  		<!--SAXON binaries -->
 		    <pathelement location="${maven.repo}\net\sf\saxon\saxon\8.7\saxon-8.7.jar"/>
-	  		<!--APACHE binaries -->
-		    <pathelement location="${maven.repo}\commons-configuration\commons-configuration\1.3\commons-configuration-1.3.jar"/>
-	  		<!-- CIXS runtime -->
-		    <pathelement location="${maven.repo}\com\legsem\legstar\legstar-common\1.0.1\legstar-common-1.0.1.jar"/>
-		    <pathelement location="${maven.repo}\com\legsem\legstar\legstar-coxbrt\1.0.1\legstar-coxbrt-1.0.1.jar"/>
-		    <pathelement location="${maven.repo}\com\legsem\legstar\legstar-messaging\1.0.1\legstar-messaging-1.0.1.jar"/>
-		    <pathelement location="${maven.repo}\com\legsem\legstar\legstar-invoker\1.0.1\legstar-invoker-1.0.1.jar"/>
+	  		<!--CIXS runtime -->
+	        <fileset dir="${tomcat.dir}" includes="shared/lib/*.jar" />
 	  		<!--CIXS Generator classes -->
 	  		<pathelement location="${build.dir}/classes"/>
+		    <pathelement location="${maven.repo}\com\legsem\legstar\legstar-common\1.0.1\legstar-common-1.0.1.jar"/>
 	  		<!--COXB generated classes -->
 	  		<pathelement location="${jaxb.bin.dir}"/>
 	  		<!--Custom classes -->
@@ -98,10 +89,12 @@
 				<fileset dir="${xsd.dir}" includes="*.xsd">
 					<exclude name="clegtstc.cbl.xsd"/>
 					<exclude name="lsfileal.xsd"/>
+					<exclude name="lsfileac.xsd"/>
 				</fileset>
 			</path>
 		</foreach>
 		<antcall target="generateLsfilealService"/>
+		<antcall target="generateLsfileacService"/>
 	</target>
 
 	<!-- ===========================================================  -->
@@ -127,12 +120,16 @@
 				endpointPackageName="${cixs.package.pfx}.${service}"
 				targetNamespace="${cixs.namespace.pfx}/${service}">
 				<operation operationName="${service}"
-					programName="${service}"
-					inputJaxbType="${jaxb.root.name.in}"
-					inputJaxbPackageName="${jaxb.package.pfx}.${service}"
-					outputJaxbType="${jaxb.root.name.out}"
-					outputJaxbPackageName="${jaxb.package.pfx}.${service}"
-				/>
+					programName="${service}">
+					<inputStructure
+						jaxbType="${jaxb.root.name.in}"
+						jaxbPackageName="${jaxb.package.pfx}.${service}"
+					/>
+					<outputStructure
+						jaxbType="${jaxb.root.name.out}"
+						jaxbPackageName="${jaxb.package.pfx}.${service}"
+					/>
+				</operation>
 			</service>
 		</cixsgen>
 		
@@ -163,21 +160,80 @@
 				endpointPackageName="${cixs.package.pfx}.${special-service}"
 				targetNamespace="${cixs.namespace.pfx}/${special-service}">
 				<operation operationName="${special-service}"
-					programName="${special-service}"
-					inputJaxbType="${special-jaxb.root.name.in}"
-					inputJaxbPackageName="${jaxb.package.pfx}.${special-service}"
-					outputJaxbType="${special-jaxb.root.name.out}"
-					outputJaxbPackageName="${jaxb.package.pfx}.${special-service}"
-				/>
+					programName="${special-service}">
+					<inputStructure
+						jaxbType="${special-jaxb.root.name.in}"
+						jaxbPackageName="${jaxb.package.pfx}.${special-service}"
+					/>
+					<outputStructure
+						jaxbType="${special-jaxb.root.name.out}"
+						jaxbPackageName="${jaxb.package.pfx}.${special-service}"
+					/>
+				</operation>
 			</service>
 		</cixsgen>
 		
   	</target>
 
 	<!-- ===========================================================  -->
+	<!-- This step creates a Web Service for Lsfileac which has
+	     multiple input and output structures.   -->
+	
+	<target name="generateLsfileacService" depends="init">
+		<property name="service" value="lsfileac"/>
+		
+		<mkdir dir="${wdd.dir}/${service}"/>
+		<mkdir dir="${ant.dir}/${service}"/>
+		
+		<cixsgen targetSrcDir="${cixs.src.dir}"
+		         targetWDDDir="${wdd.dir}/${service}"
+			     targetPropDir="${prop.dir}"
+			     targetAntDir="${ant.dir}/${service}"
+		         targetWarDir="${war.dir}"
+		         jaxbBinDir="${jaxb.bin.dir}"
+		         cixsBinDir="${cixs.bin.dir}"
+	             custBinDir="${cust.bin.dir}"
+			>
+			<service serviceName="${service}"
+				endpointPackageName="${cixs.package.pfx}.${service}"
+				targetNamespace="${cixs.namespace.pfx}/${service}">
+				<operation operationName="${service}"
+					programName="${service}"
+					channel="LSFILEAC-CHANNEL">
+					<inputStructure
+						jaxbType="QueryDataType"
+						jaxbPackageName="${jaxb.package.pfx}.${service}"
+						choiceStrategy=""
+						container="QueryData"
+					/>
+					<inputStructure
+						jaxbType="QueryLimitType"
+						jaxbPackageName="${jaxb.package.pfx}.${service}"
+						choiceStrategy=""
+						container="QueryLimit"
+					/>
+					<outputStructure
+						jaxbType="ReplyStatusType"
+						jaxbPackageName="${jaxb.package.pfx}.${service}"
+						choiceStrategy=""
+						container="ReplyStatus"
+					/>
+					<outputStructure
+						jaxbType="ReplyDataType"
+						jaxbPackageName="${jaxb.package.pfx}.${service}"
+						choiceStrategy=""
+						container="ReplyData"
+					/>
+				</operation>
+			</service>
+		</cixsgen>
+		
+  	</target>
+	
+	<!-- ===========================================================  -->
 	<!-- Compiles the JAXB generated classes
 	  -->
-	<target name="compileAllServices" depends="generateAllServices,generateLsfilealService">
+	<target name="compileAllServices" depends="generateAllServices,generateLsfilealService,generateLsfileacService">
 		 <javac srcdir="${cixs.src.dir}"
 		 	     includes="**/*.java"
 	 	         excludes="**/gen/**"

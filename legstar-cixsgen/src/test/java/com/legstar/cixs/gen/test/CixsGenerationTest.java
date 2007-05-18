@@ -21,8 +21,10 @@
 package com.legstar.cixs.gen.test;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import junit.framework.TestCase;
 
@@ -30,6 +32,7 @@ import com.legstar.cixs.gen.CixsBaseDescriptors;
 import com.legstar.cixs.gen.CixsException;
 import com.legstar.cixs.gen.CixsEndpointSource;
 import com.legstar.cixs.gen.CixsProgramProp;
+import com.legstar.cixs.gen.CixsStructure;
 import com.legstar.cixs.gen.CixsWebDescriptors;
 import com.legstar.cixs.gen.CixsAntDeployment;
 import com.legstar.cixs.gen.CixsOperation;
@@ -44,29 +47,21 @@ public class CixsGenerationTest extends TestCase {
 	private static final String GEN_PROP_DIR = "src/test/WebContent/WEB-INF/classes";
 	private static final String GEN_ANT_DIR = "src/test/gen-ant";
 	
-	private static final boolean DEBUG_MODE = false;
+	private static final boolean DEBUG_MODE = true;
 	
 	public void testGenAlltypesSEI() throws CixsException, XSLTException {
 		try {
-			CixsService sv = new CixsService();
-			CixsOperation op1 = new CixsOperation();
-			
-			sv.setServiceName("alltypes");
-			sv.setEndpointPackageName("com.legstar.test.cixs.alltypes");
-			sv.setTargetNamespace("http://cixs.test.legstar.com/alltypes");
-
-			op1.setOperationName("alltypes");
-			op1.setProgramName("ALLTYPES");
-			op1.setInputJaxbType("DfhcommareaType");
-			op1.setInputJaxbPackageName("com.legstar.test.coxb.alltypes");
-			op1.setOutputJaxbType(op1.getInputJaxbType());
-			op1.setOutputJaxbPackageName(op1.getInputJaxbPackageName());
-			
-			sv.getOperations().add(op1);
-			
+			CixsService sv = setCommareaService("alltypes");
 			CixsBaseDescriptors cd = new CixsBaseDescriptors();
-			java.io.File f = cd.getTempFile();
+			File f = cd.getTempFile();
 			cd.createServiceContent(sv, f);
+			if (DEBUG_MODE) {
+				try {
+					printFile(f);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 			
 			/* Now generate endpoint code using the temporary descriptors */
 			CixsEndpointSource ep = new CixsEndpointSource();
@@ -100,26 +95,18 @@ public class CixsGenerationTest extends TestCase {
 	}
 	public void testGenDplarchtSEI() throws CixsException, XSLTException {
 		try {
-			CixsService sv = new CixsService();
-			CixsOperation op1 = new CixsOperation();
-			
-			sv.setServiceName("dplarcht");
-			sv.setEndpointPackageName("com.legstar.test.cixs.dplarcht");
-			sv.setTargetNamespace("http://cixs.test.legstar.com/dplarcht");
-
-			op1.setOperationName("dplarcht");
-			op1.setProgramName("DPLARCHT");
-			op1.setInputJaxbType("DfhcommareaType");
-			op1.setInputJaxbPackageName("com.legstar.test.coxb.dplarcht");
-			op1.setOutputJaxbType(op1.getInputJaxbType());
-			op1.setOutputJaxbPackageName(op1.getInputJaxbPackageName());
-			op1.setOutputChoiceStrategy("com.legstar.coxb.cust.dplarcht.ChoiceSelector");
-			
-			sv.getOperations().add(op1);
-			
+			CixsService sv = setCommareaService("dplarcht");
+			sv.getOperations().get(0).getOutputStructures().get(0).setChoiceStrategy("com.legstar.coxb.cust.dplarcht.ChoiceSelector");
 			CixsBaseDescriptors cd = new CixsBaseDescriptors();
-			java.io.File f = cd.getTempFile();
+			File f = cd.getTempFile();
 			cd.createServiceContent(sv, f);
+			if (DEBUG_MODE) {
+				try {
+					printFile(f);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 			
 			/* Now generate endpoint code using the temporary descriptors */
 			CixsEndpointSource ep = new CixsEndpointSource();
@@ -152,26 +139,56 @@ public class CixsGenerationTest extends TestCase {
 			
 	}
 	
+	public void testGenLsfileacSEI() throws CixsException, XSLTException {
+		try {
+			CixsService sv = setContainerService();
+			CixsBaseDescriptors cd = new CixsBaseDescriptors();
+			File f = cd.getTempFile();
+			cd.createServiceContent(sv, f);
+			if (DEBUG_MODE) {
+				try {
+					printFile(f);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			/* Now generate endpoint code using the temporary descriptors */
+			CixsEndpointSource ep = new CixsEndpointSource();
+			ep.createEndpoint(f.getPath(), GEN_SRC_DIR);
+			
+			/* Read the resulting output source*/
+		    try {
+		        BufferedReader in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/cixs/lsfileac/LsfileacImpl.java"));
+		        String resStr = "";
+		        String str = in.readLine();
+		        while (str != null) {
+		        	if (DEBUG_MODE) {
+		        		System.out.println(str);
+		        	}
+		        	resStr += str;
+		        	str = in.readLine();
+		        }
+		        in.close();
+				assertTrue(resStr.contains("public class LsfileacImpl implements Lsfileac"));
+		    } catch (IOException e) {
+				e.printStackTrace();
+				fail("generation failed");
+		    }
+		
+
+		} catch (CixsException e) {
+			e.printStackTrace();
+			fail("generation failed");
+		}
+			
+	}
+
 	public void testGenAlltypesProgramProp() throws CixsException, XSLTException {
 		try {
-			CixsService sv = new CixsService();
-			CixsOperation op1 = new CixsOperation();
-			
-			sv.setServiceName("alltypes");
-			sv.setEndpointPackageName("com.legstar.test.cixs.alltypes");
-			sv.setTargetNamespace("http://cixs.test.legstar.com/alltypes");
-
-			op1.setOperationName("alltypes");
-			op1.setProgramName("ALLTYPES");
-			op1.setInputJaxbType("DfhcommareaType");
-			op1.setInputJaxbPackageName("com.legstar.test.coxb.alltypes");
-			op1.setOutputJaxbType(op1.getInputJaxbType());
-			op1.setOutputJaxbPackageName(op1.getInputJaxbPackageName());
-			
-			sv.getOperations().add(op1);
-			
+			CixsService sv = setCommareaService("alltypes");
 			CixsBaseDescriptors cd = new CixsBaseDescriptors();
-			java.io.File f = cd.getTempFile();
+			File f = cd.getTempFile();
 			cd.createServiceContent(sv, f);
 			
 			/* Now generate endpoint code using the temporary descriptors */
@@ -206,24 +223,9 @@ public class CixsGenerationTest extends TestCase {
 	}
 	public void testGenAlltypesWebDescr() throws CixsException, XSLTException {
 		try {
-			CixsService sv = new CixsService();
-			CixsOperation op1 = new CixsOperation();
-			
-			sv.setServiceName("alltypes");
-			sv.setEndpointPackageName("com.legstar.test.cixs.alltypes");
-			sv.setTargetNamespace("http://cixs.test.legstar.com/alltypes");
-
-			op1.setOperationName("alltypes");
-			op1.setProgramName("ALLTYPES");
-			op1.setInputJaxbType("DfhcommareaType");
-			op1.setInputJaxbPackageName("com.legstar.test.coxb.alltypes");
-			op1.setOutputJaxbType(op1.getInputJaxbType());
-			op1.setOutputJaxbPackageName(op1.getInputJaxbPackageName());
-			
-			sv.getOperations().add(op1);
-			
+			CixsService sv = setCommareaService("alltypes");
 			CixsBaseDescriptors cd = new CixsBaseDescriptors();
-			java.io.File f = cd.getTempFile();
+			File f = cd.getTempFile();
 			cd.createServiceContent(sv, f);
 			
 			/* Now generate endpoint code using the temporary descriptors */
@@ -258,25 +260,10 @@ public class CixsGenerationTest extends TestCase {
 	}
 	public void testGenDplarchtAnt() throws CixsException, XSLTException {
 		try {
-			CixsService sv = new CixsService();
-			CixsOperation op1 = new CixsOperation();
-			
-			sv.setServiceName("dplarcht");
-			sv.setEndpointPackageName("com.legstar.test.cixs.dplarcht");
-			sv.setTargetNamespace("http://cixs.test.legstar.com/dplarcht");
-
-			op1.setOperationName("dplarcht");
-			op1.setProgramName("DPLARCHT");
-			op1.setInputJaxbType("DfhcommareaType");
-			op1.setInputJaxbPackageName("com.legstar.test.coxb.dplarcht");
-			op1.setOutputJaxbType(op1.getInputJaxbType());
-			op1.setOutputJaxbPackageName(op1.getInputJaxbPackageName());
-			op1.setOutputChoiceStrategy("com.legstar.coxb.cust.dplarcht.ChoiceSelector");
-			
-			sv.getOperations().add(op1);
-			
+			CixsService sv = setCommareaService("dplarcht");
+			sv.getOperations().get(0).getOutputStructures().get(0).setChoiceStrategy("com.legstar.coxb.cust.dplarcht.ChoiceSelector");
 			CixsBaseDescriptors cd = new CixsBaseDescriptors();
-			java.io.File f = cd.getTempFile();
+			File f = cd.getTempFile();
 			cd.createServiceContent(sv, f);
 			
 			/* Now generate ant script using the temporary descriptors */
@@ -326,24 +313,9 @@ public class CixsGenerationTest extends TestCase {
 
 	public void testGenLsfilealProgramProp() throws CixsException, XSLTException {
 		try {
-			CixsService sv = new CixsService();
-			CixsOperation op1 = new CixsOperation();
-			
-			sv.setServiceName("lsfileal");
-			sv.setEndpointPackageName("com.legstar.test.cixs.lsfileal");
-			sv.setTargetNamespace("http://cixs.test.legstar.com/lsfileal");
-
-			op1.setOperationName("lsfileal");
-			op1.setProgramName("LSFILEAL");
-			op1.setInputJaxbType("RequestParmsType");
-			op1.setInputJaxbPackageName("com.legstar.test.coxb.lsfileal");
-			op1.setOutputJaxbType("ReplyDataType");
-			op1.setOutputJaxbPackageName("com.legstar.test.coxb.lsfileal");
-			
-			sv.getOperations().add(op1);
-			
+			CixsService sv = setCommareaService("lsfileal", "RequestParmsType", "ReplyDataType");
 			CixsBaseDescriptors cd = new CixsBaseDescriptors();
-			java.io.File f = cd.getTempFile();
+			File f = cd.getTempFile();
 			cd.createServiceContent(sv, f);
 			
 			/* Now generate endpoint code using the temporary descriptors */
@@ -375,5 +347,164 @@ public class CixsGenerationTest extends TestCase {
 			fail("generation failed");
 		}
 			
+	}
+
+	public void testGenLsfileacProgramProp() throws CixsException, XSLTException {
+		try {
+			CixsService sv = setContainerService();
+			CixsBaseDescriptors cd = new CixsBaseDescriptors();
+			File f = cd.getTempFile();
+			cd.createServiceContent(sv, f);
+			if (DEBUG_MODE) {
+				try {
+					printFile(f);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			/* Now generate endpoint code using the temporary descriptors */
+			CixsProgramProp pp = new CixsProgramProp();
+			pp.createProgramProp(f.getPath(), GEN_PROP_DIR );
+			
+			/* Read the resulting output source*/
+		    try {
+		        BufferedReader in = new BufferedReader(new FileReader(GEN_PROP_DIR + "/lsfileac.properties"));
+		        String resStr = "";
+		        String str = in.readLine();
+		        while (str != null) {
+		        	if (DEBUG_MODE) {
+		        		System.out.println(str);
+		        	}
+		        	resStr += str;
+		        	str = in.readLine();
+		        }
+		        in.close();
+				assertEquals("# Host Program parameters# -----------------------CICSProgram=LSFILEACCICSChannel=LSFILEAC-CHANNELCICSInContainers_1=QueryDataCICSInContainersLength_1=48CICSInContainers_2=QueryLimitCICSInContainersLength_2=10CICSOutContainers_1=ReplyDataCICSOutContainersLength_1=7905CICSOutContainers_2=ReplyStatusCICSOutContainersLength_2=151#CICSSysID#CICSSyncOnReturn#CICSTransID", resStr);
+		    } catch (IOException e) {
+				e.printStackTrace();
+				fail("generation failed");
+		    }
+		
+
+		} catch (CixsException e) {
+			e.printStackTrace();
+			fail("generation failed");
+		}
+			
+	}
+	
+	/** Helper function to setup a Service in case of a single, commarea-driven
+	 * operation with identical input and output layouts */
+	private CixsService setCommareaService(
+			String serviceName) {
+		CixsService sv = new CixsService();
+		CixsOperation op1 = new CixsOperation();
+		op1.setInputStructures(new ArrayList < CixsStructure >());
+		op1.setOutputStructures(new ArrayList < CixsStructure >());
+		CixsStructure inStruct = new CixsStructure();
+		CixsStructure outStruct = new CixsStructure();
+		
+		sv.setServiceName(serviceName);
+		sv.setEndpointPackageName("com.legstar.test.cixs." + serviceName);
+		sv.setTargetNamespace("http://cixs.test.legstar.com/" + serviceName);
+
+		op1.setOperationName(serviceName);
+		op1.setProgramName(serviceName.toUpperCase());
+		inStruct.setJaxbType("DfhcommareaType");
+		inStruct.setJaxbPackageName("com.legstar.test.coxb." + serviceName);
+		outStruct.setJaxbType(inStruct.getJaxbType());
+		outStruct.setJaxbPackageName(inStruct.getJaxbPackageName());
+		
+		op1.getInputStructures().add(inStruct);
+		op1.getOutputStructures().add(outStruct);
+		
+		sv.getOperations().add(op1);
+		return sv;
+	}
+
+	/** Helper function to setup a Service in case of a single, commarea-driven
+	 * operation with different input and output layouts */
+	private CixsService setCommareaService(
+			String serviceName, String inputJaxbType, String outputJaxbType) {
+		CixsService sv = new CixsService();
+		CixsOperation op1 = new CixsOperation();
+		op1.setInputStructures(new ArrayList < CixsStructure >());
+		op1.setOutputStructures(new ArrayList < CixsStructure >());
+		CixsStructure inStruct = new CixsStructure();
+		CixsStructure outStruct = new CixsStructure();
+		
+		sv.setServiceName(serviceName);
+		sv.setEndpointPackageName("com.legstar.test.cixs." + serviceName);
+		sv.setTargetNamespace("http://cixs.test.legstar.com/" + serviceName);
+
+		op1.setOperationName(serviceName);
+		op1.setProgramName(serviceName.toUpperCase());
+		inStruct.setJaxbType(inputJaxbType);
+		inStruct.setJaxbPackageName("com.legstar.test.coxb." + serviceName);
+		outStruct.setJaxbType(outputJaxbType);
+		outStruct.setJaxbPackageName(inStruct.getJaxbPackageName());
+		
+		op1.getInputStructures().add(inStruct);
+		op1.getOutputStructures().add(outStruct);
+		
+		sv.getOperations().add(op1);
+		return sv;
+	}
+
+	/** Helper function to setup a Service in case of a container-driven
+	 * operation with different input and output layouts */
+	private CixsService setContainerService() {
+		String serviceName = "lsfileac";
+		CixsService sv = new CixsService();
+		CixsOperation op1 = new CixsOperation();
+		op1.setInputStructures(new ArrayList < CixsStructure >());
+		op1.setOutputStructures(new ArrayList < CixsStructure >());
+		
+		sv.setServiceName(serviceName);
+		sv.setEndpointPackageName("com.legstar.test.cixs." + serviceName);
+		sv.setTargetNamespace("http://cixs.test.legstar.com/" + serviceName);
+
+		op1.setOperationName(serviceName);
+		op1.setProgramName(serviceName.toUpperCase());
+		op1.setChannel(serviceName.toUpperCase() + "-CHANNEL");
+
+		CixsStructure inStruct = new CixsStructure();
+		inStruct.setJaxbType("QueryDataType");
+		inStruct.setJaxbPackageName("com.legstar.test.coxb." + serviceName);
+		inStruct.setContainer("QueryData");
+		op1.getInputStructures().add(inStruct);
+		
+		inStruct = new CixsStructure();
+		inStruct.setJaxbType("QueryLimitType");
+		inStruct.setJaxbPackageName("com.legstar.test.coxb." + serviceName);
+		inStruct.setContainer("QueryLimit");
+		op1.getInputStructures().add(inStruct);
+		
+		CixsStructure outStruct = new CixsStructure();
+		outStruct.setJaxbType("ReplyDataType");
+		outStruct.setJaxbPackageName("com.legstar.test.coxb." + serviceName);
+		outStruct.setContainer("ReplyData");
+		op1.getOutputStructures().add(outStruct);
+		
+		outStruct = new CixsStructure();
+		outStruct.setJaxbType("ReplyStatusType");
+		outStruct.setJaxbPackageName("com.legstar.test.coxb." + serviceName);
+		outStruct.setContainer("ReplyStatus");
+		op1.getOutputStructures().add(outStruct);
+		
+		sv.getOperations().add(op1);
+		
+		return sv;
+	}
+	
+	private void printFile(File f) throws IOException {
+        BufferedReader in = new BufferedReader(new FileReader(f));
+        String str = in.readLine();
+        while (str != null) {
+    		System.out.println(str);
+        	str = in.readLine();
+        }
+        in.close();
 	}
 }
