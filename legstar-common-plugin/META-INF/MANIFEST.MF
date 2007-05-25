@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Legstar Commons
 Bundle-SymbolicName: com.legstar.eclipse.plugin.common; singleton:=true
-Bundle-Version: 1.0.1
+Bundle-Version: 1.1.0
 Bundle-Activator: com.legstar.eclipse.plugin.common.Activator
 Bundle-Vendor: LegSem
 Bundle-Localization: plugin

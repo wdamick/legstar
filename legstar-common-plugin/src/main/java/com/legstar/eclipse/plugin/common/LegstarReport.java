@@ -74,9 +74,12 @@ public final class LegstarReport {
 	public static void logCoreException(
 			final Throwable innerException,
 			final String pluginID) {
+		String message = (innerException.getMessage() == null)
+				? innerException.getClass().toString()
+				: innerException.getMessage();
 		IStatus status =
 			new Status(IStatus.ERROR, pluginID,
-					IStatus.OK, innerException.getMessage(), innerException);
+					IStatus.OK, message, innerException);
 		Activator.getDefault().getLog().log(status);
 		return;
 	}
