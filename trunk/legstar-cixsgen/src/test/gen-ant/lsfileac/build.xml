@@ -12,7 +12,16 @@
          <webinf dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/src/test/WebContent/WEB-INF/lsfileac"
                  includes="sun-jaxws.xml"/>
          <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/../legstar-coxbgen/target/test-classes">
-            <include name="com/legstar/test/coxb/lsfileac com/legstar/test/coxb/lsfileac/**/*.class"/>
+            <include name="com/legstar/test/coxb/lsfileac/**/*.class"/>
+         </classes>
+         <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/../legstar-coxbgen/target/test-classes">
+            <include name="com/legstar/test/coxb/lsfileac/**/*.class"/>
+         </classes>
+         <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/../legstar-coxbgen/target/test-classes">
+            <include name="com/legstar/test/coxb/lsfileac/**/*.class"/>
+         </classes>
+         <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/../legstar-coxbgen/target/test-classes">
+            <include name="com/legstar/test/coxb/lsfileac/**/*.class"/>
          </classes>
          <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/target/test-classes">
             <include name="**/${service}/**/*.class"/>

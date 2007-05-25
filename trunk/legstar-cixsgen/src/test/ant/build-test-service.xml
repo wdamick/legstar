@@ -116,21 +116,21 @@
 		         cixsBinDir="${cixs.bin.dir}"
 	             custBinDir="${cust.bin.dir}"
 			>
-			<service serviceName="${service}"
+			<cixsService name="${service}"
 				endpointPackageName="${cixs.package.pfx}.${service}"
 				targetNamespace="${cixs.namespace.pfx}/${service}">
-				<operation operationName="${service}"
-					programName="${service}">
-					<inputStructure
+				<cixsOperation name="${service}"
+					cicsProgramName="${service}">
+					<input
 						jaxbType="${jaxb.root.name.in}"
 						jaxbPackageName="${jaxb.package.pfx}.${service}"
 					/>
-					<outputStructure
+					<output
 						jaxbType="${jaxb.root.name.out}"
 						jaxbPackageName="${jaxb.package.pfx}.${service}"
 					/>
-				</operation>
-			</service>
+				</cixsOperation>
+			</cixsService>
 		</cixsgen>
 		
   	</target>
@@ -156,21 +156,21 @@
 		         cixsBinDir="${cixs.bin.dir}"
 	             custBinDir="${cust.bin.dir}"
 			>
-			<service serviceName="${special-service}"
+			<cixsService name="${special-service}"
 				endpointPackageName="${cixs.package.pfx}.${special-service}"
 				targetNamespace="${cixs.namespace.pfx}/${special-service}">
-				<operation operationName="${special-service}"
-					programName="${special-service}">
-					<inputStructure
+				<cixsOperation name="${special-service}"
+					cicsProgramName="${special-service}">
+					<input
 						jaxbType="${special-jaxb.root.name.in}"
 						jaxbPackageName="${jaxb.package.pfx}.${special-service}"
 					/>
-					<outputStructure
+					<output
 						jaxbType="${special-jaxb.root.name.out}"
 						jaxbPackageName="${jaxb.package.pfx}.${special-service}"
 					/>
-				</operation>
-			</service>
+				</cixsOperation>
+			</cixsService>
 		</cixsgen>
 		
   	</target>
@@ -194,38 +194,34 @@
 		         cixsBinDir="${cixs.bin.dir}"
 	             custBinDir="${cust.bin.dir}"
 			>
-			<service serviceName="${service}"
+			<cixsService name="${service}"
 				endpointPackageName="${cixs.package.pfx}.${service}"
 				targetNamespace="${cixs.namespace.pfx}/${service}">
-				<operation operationName="${service}"
-					programName="${service}"
-					channel="LSFILEAC-CHANNEL">
-					<inputStructure
+				<cixsOperation name="${service}"
+					cicsProgramName="${service}"
+					cicsChannel="LSFILEAC-CHANNEL">
+					<input
 						jaxbType="QueryDataType"
 						jaxbPackageName="${jaxb.package.pfx}.${service}"
-						choiceStrategy=""
-						container="QueryData"
+						cicsContainer="QueryData"
 					/>
-					<inputStructure
+					<input
 						jaxbType="QueryLimitType"
 						jaxbPackageName="${jaxb.package.pfx}.${service}"
-						choiceStrategy=""
-						container="QueryLimit"
+						cicsContainer="QueryLimit"
 					/>
-					<outputStructure
+					<output
 						jaxbType="ReplyStatusType"
 						jaxbPackageName="${jaxb.package.pfx}.${service}"
-						choiceStrategy=""
-						container="ReplyStatus"
+						cicsContainer="ReplyStatus"
 					/>
-					<outputStructure
+					<output
 						jaxbType="ReplyDataType"
 						jaxbPackageName="${jaxb.package.pfx}.${service}"
-						choiceStrategy=""
-						container="ReplyData"
+						cicsContainer="ReplyData"
 					/>
-				</operation>
-			</service>
+				</cixsOperation>
+			</cixsService>
 		</cixsgen>
 		
   	</target>

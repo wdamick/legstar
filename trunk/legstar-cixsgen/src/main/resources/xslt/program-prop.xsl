@@ -6,11 +6,11 @@
  -->
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:coxb="java:com.legstar.util.JaxbUtil" exclude-result-prefixes="coxb">
 <xsl:output method="text" omit-xml-declaration="yes" indent="yes"/>
-<xsl:template match="/"><xsl:apply-templates select="//cixs-operation" /></xsl:template>
+<xsl:template match="/"><xsl:apply-templates select="//cixsOperation" /></xsl:template>
 
-<xsl:template match="cixs-operation">
+<xsl:template match="cixsOperation">
 	<!-- Generate the dynamically built java source file -->
-	<xsl:result-document href="{operation-name}.properties" method="text" omit-xml-declaration="yes" indent="yes">
+	<xsl:result-document href="{@name}.properties" method="text" omit-xml-declaration="yes" indent="yes">
 		<xsl:call-template name="generate-content"/>
 	</xsl:result-document>
 </xsl:template>
@@ -21,9 +21,9 @@
 <xsl:template name="generate-content">
 # Host Program parameters
 # -----------------------
-CICSProgram=<xsl:value-of select="upper-case(program-name)"/>
+CICSProgramName=<xsl:value-of select="upper-case(@cicsProgramName)"/>
 	<xsl:choose>
-		<xsl:when test="string-length(cics-channel) > 0">
+		<xsl:when test="string-length(@cicsChannel) > 0">
 			<xsl:call-template name="generate-container-content"/>
 		</xsl:when>
 		<xsl:otherwise>
@@ -38,15 +38,15 @@ CICSProgram=<xsl:value-of select="upper-case(program-name)"/>
 	 Generate the content for a commarea-driven program
  -->
 <xsl:template name="generate-commarea-content">
-<xsl:variable name="qual-input-type"><xsl:value-of select="concat(input/@jaxb-package,'.',input/@jaxb-type)"/></xsl:variable>
-<xsl:variable name="qual-output-type"><xsl:value-of select="concat(output/@jaxb-package,'.',output/@jaxb-type)"/></xsl:variable>
+<xsl:variable name="qual-input-type"><xsl:value-of select="concat(input/@jaxbPackageName,'.',input/@jaxbType)"/></xsl:variable>
+<xsl:variable name="qual-output-type"><xsl:value-of select="concat(output/@jaxbPackageName,'.',output/@jaxbType)"/></xsl:variable>
 
 <!-- Commarea length is the max between input and output host buffer lengths.  -->
-<xsl:variable name="input-commarea-len"><xsl:value-of select="coxb:byteLength(input/@jaxb-package,input/@jaxb-type)"/></xsl:variable>
+<xsl:variable name="input-commarea-len"><xsl:value-of select="coxb:byteLength(input/@jaxbPackageName,input/@jaxbType)"/></xsl:variable>
 <xsl:variable name="output-commarea-len">
 	<xsl:choose>
 		<xsl:when test="string-length($qual-output-type) = 0 or ($qual-input-type = $qual-output-type)"><xsl:value-of select="$input-commarea-len"/></xsl:when>
-		<xsl:otherwise><xsl:value-of select="coxb:byteLength(output/@jaxb-package,output/@jaxb-type)"/></xsl:otherwise>
+		<xsl:otherwise><xsl:value-of select="coxb:byteLength(output/@jaxbPackageName,output/@jaxbType)"/></xsl:otherwise>
 	</xsl:choose>
 </xsl:variable>
 <xsl:variable name="commarea-len">
@@ -62,14 +62,14 @@ CICSDataLength=<xsl:value-of select="$input-commarea-len"/>
 	 Generate the content for a container-driven program
  -->
 <xsl:template name="generate-container-content">
-CICSChannel=<xsl:value-of select="cics-channel"/>
-	<xsl:for-each select="input[@cics-container]">
-CICSInContainers_<xsl:value-of select="position()"/>=<xsl:value-of select="@cics-container"/>
-CICSInContainersLength_<xsl:value-of select="position()"/>=<xsl:value-of select="coxb:byteLength(@jaxb-package,@jaxb-type)"/>
+CICSChannel=<xsl:value-of select="@cicsChannel"/>
+	<xsl:for-each select="input[@cicsContainer]">
+CICSInContainers_<xsl:value-of select="position()"/>=<xsl:value-of select="@cicsContainer"/>
+CICSInContainersLength_<xsl:value-of select="position()"/>=<xsl:value-of select="coxb:byteLength(@jaxbPackageName,@jaxbType)"/>
 	</xsl:for-each>
-	<xsl:for-each select="output[@cics-container]">
-CICSOutContainers_<xsl:value-of select="position()"/>=<xsl:value-of select="@cics-container"/>
-CICSOutContainersLength_<xsl:value-of select="position()"/>=<xsl:value-of select="coxb:byteLength(@jaxb-package,@jaxb-type)"/>
+	<xsl:for-each select="output[@cicsContainer]">
+CICSOutContainers_<xsl:value-of select="position()"/>=<xsl:value-of select="@cicsContainer"/>
+CICSOutContainersLength_<xsl:value-of select="position()"/>=<xsl:value-of select="coxb:byteLength(@jaxbPackageName,@jaxbType)"/>
 	</xsl:for-each>
 </xsl:template>
 

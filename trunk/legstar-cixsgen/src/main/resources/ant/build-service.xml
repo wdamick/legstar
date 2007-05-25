@@ -15,7 +15,7 @@
     <!-- Service name   -->
     <property name="service" value="lsfileae" />
     <!-- CICS program name   -->
-    <property name="program" value="LSFILEAE" />
+    <property name="cics.program.name" value="LSFILEAE" />
     <!-- The input JAXB type name   -->
     <property name="jaxb.root.name.in" value="DfhcommareaType" />
     <!-- The output JAXB type name   -->
@@ -80,17 +80,21 @@
              cixsBinDir="${cixs.bin.dir}"
              custBinDir="${cust.bin.dir}"
       >
-      <service serviceName="${service}"
+      <cixsService name="${service}"
         endpointPackageName="${cixs.package.pfx}.${service}"
         targetNamespace="${cixs.namespace.pfx}/${service}">
-        <operation operationName="${service}"
-          programName="${program}"
-          inputJaxbType="${jaxb.root.name.in}"
-          inputJaxbPackageName="${jaxb.package.pfx}.${service}"
-          outputJaxbType="${jaxb.root.name.out}"
-          outputJaxbPackageName="${jaxb.package.pfx}.${service}"
-        />
-      </service>
+		<cixsOperation name="${service}"
+			cicsProgramName="${cics.program.name}">
+			<input
+				jaxbType="${jaxb.root.name.in}"
+				jaxbPackageName="${jaxb.package.pfx}.${service}"
+			/>
+			<output
+				jaxbType="${jaxb.root.name.out}"
+				jaxbPackageName="${jaxb.package.pfx}.${service}"
+			/>
+		</cixsOperation>
+      </cixsService>
     </cixsgen>
     
     </target>

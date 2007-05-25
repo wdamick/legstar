@@ -21,10 +21,6 @@
 	 	<property name="dest.src.dir" value="${basedir}/../legstar-cixsgen-plugin/src/main/java" />
 		<!-- Target directory  -->
 	 	<property name="dest.dir" value="${dest.src.dir}/${java.dir}" />
-		<!-- Source Ant directory location  -->
-	 	<property name="src.ant.dir" value="${basedir}/src/main/resources/ant" />
-		<!-- Target Ant directory location  -->
-	 	<property name="dest.ant.dir" value="${basedir}/../legstar-cixsgen-plugin/ant" />
 		
 	</target>
 
@@ -35,12 +31,7 @@
 		<delete dir="${dest.dir}" includeEmptyDirs="true" quiet="true"/>
 		<mkdir dir="${dest.dir}"/> 
 		<copy todir="${dest.dir}">
-			<fileset dir="${src.dir}" includes="CixsOperation.java,CixsService.java,package.html"/>
-		</copy>
-		<delete dir="${dest.ant.dir}" includeEmptyDirs="true" quiet="true"/>
-		<mkdir dir="${dest.ant.dir}"/> 
-		<copy todir="${dest.ant.dir}">
-			<fileset dir="${src.ant.dir}" includes="build-service.xml"/>
+			<fileset dir="${src.dir}" includes="CixsOperation.java,CixsService.java,CixsStructure.java,CixsException.java,package.html"/>
 		</copy>
 	</target>
 	

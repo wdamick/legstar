@@ -13,6 +13,9 @@
             <include name="com/legstar/test/coxb/dplarcht/**/*.class"/>
          </classes>
          <classes dir="bin">
+            <include name="com/legstar/test/coxb/dplarcht/**/*.class"/>
+         </classes>
+         <classes dir="bin">
             <include name="**/${service}/**/*.class"/>
          </classes>
          <classes dir="bin">
