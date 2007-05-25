@@ -119,7 +119,7 @@ public class PoolingTest extends TestCase {
 		engHandler.init();
 		
 		HashMap < String, Object > map = new HashMap < String, Object >();
-		map.put(Constants.CICS_PROGRAM_KEY, "TARATATA");
+		map.put(Constants.CICS_PROGRAM_NAME_KEY, "TARATATA");
 		map.put(Constants.CICS_LENGTH_KEY, "79");
 		map.put(Constants.CICS_DATALEN_KEY, "6");
 		List <MessagePart> inputParts = new ArrayList <MessagePart>();
@@ -210,7 +210,7 @@ public class PoolingTest extends TestCase {
 	
 	private Message getRequestMessage() throws HeaderPartException {
 		HashMap < String, Object > map = new HashMap < String, Object >();
-		map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+		map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
 		map.put(Constants.CICS_LENGTH_KEY, "79");
 		map.put(Constants.CICS_DATALEN_KEY, "6");
 		List <MessagePart> inputParts = new ArrayList <MessagePart>();
