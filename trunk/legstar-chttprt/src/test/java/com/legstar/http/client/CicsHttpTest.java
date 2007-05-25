@@ -89,7 +89,7 @@ public class CicsHttpTest extends TestCase {
 		try {
 			CicsHttp cicsHttp = new CicsHttp("testPostMethodCreation", mHttpEndpoint, DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
 			HashMap < String, Object> map = new HashMap < String, Object>();
-			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+			map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
 			map.put(Constants.CICS_LENGTH_KEY, "79");
 			map.put(Constants.CICS_DATALEN_KEY, "6");
 			map.put(Constants.CICS_SYSID_KEY, "CICZ");
@@ -357,7 +357,7 @@ public class CicsHttpTest extends TestCase {
 	private Request createStdRequest() throws HeaderPartException {
 		Address address = new Address("TheMainframe");
 		HashMap < String, Object> map = new HashMap < String, Object>();
-		map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+		map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
 		map.put(Constants.CICS_LENGTH_KEY, "79");
 		map.put(Constants.CICS_DATALEN_KEY, "6");
 		List <MessagePart> inputParts = new ArrayList <MessagePart>();
@@ -373,7 +373,7 @@ public class CicsHttpTest extends TestCase {
 	private Request createLongRequest() throws HeaderPartException {
 		Address address = new Address("TheMainframe");
 		HashMap < String, Object> map = new HashMap < String, Object>();
-		map.put(Constants.CICS_PROGRAM_KEY, "T1SLEEPT");
+		map.put(Constants.CICS_PROGRAM_NAME_KEY, "T1SLEEPT");
 		map.put(Constants.CICS_LENGTH_KEY, "39");
 		map.put(Constants.CICS_DATALEN_KEY, "8");
 		List <MessagePart> inputParts = new ArrayList <MessagePart>();
@@ -389,7 +389,7 @@ public class CicsHttpTest extends TestCase {
 	private Request createInvalidRequest() throws HeaderPartException {
 		Address address = new Address("TheMainframe");
 		HashMap < String, Object> map = new HashMap < String, Object>();
-		map.put(Constants.CICS_PROGRAM_KEY, "TARATOZ");
+		map.put(Constants.CICS_PROGRAM_NAME_KEY, "TARATOZ");
 		map.put(Constants.CICS_LENGTH_KEY, "79");
 		map.put(Constants.CICS_DATALEN_KEY, "6");
 		List <MessagePart> inputParts = new ArrayList <MessagePart>();
