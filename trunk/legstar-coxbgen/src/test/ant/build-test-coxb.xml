@@ -65,7 +65,7 @@
 	<target name="generateAllCOXB" depends="init">
 		<foreach target="generateCOXB" param="xsd.file">
 			<path>
-				<fileset dir="${xsd.dir}" includes="*.xsd" excludes="clegtstc.cbl.xsd lsfileal.xsd"/>
+				<fileset dir="${xsd.dir}" includes="*.xsd" excludes="clegtstc.cbl.xsd lsfileal.xsd lsfileac.xsd"/>
 			</path>
 		</foreach>
 		<coxbgen 
@@ -75,6 +75,26 @@
 		/>
 		<coxbgen 
 			XsdFile="${xsd.dir}/lsfileal.xsd"
+			JaxbRootObjectName="ReplyDataType"
+			targetDir="${jaxb.src.dir}"
+			/>
+		<coxbgen 
+			XsdFile="${xsd.dir}/lsfileac.xsd"
+			JaxbRootObjectName="QueryDataType"
+			targetDir="${jaxb.src.dir}"
+			/>
+		<coxbgen 
+			XsdFile="${xsd.dir}/lsfileac.xsd"
+			JaxbRootObjectName="QueryLimitType"
+			targetDir="${jaxb.src.dir}"
+			/>
+		<coxbgen 
+			XsdFile="${xsd.dir}/lsfileac.xsd"
+			JaxbRootObjectName="ReplyStatusType"
+			targetDir="${jaxb.src.dir}"
+			/>
+		<coxbgen 
+			XsdFile="${xsd.dir}/lsfileac.xsd"
 			JaxbRootObjectName="ReplyDataType"
 			targetDir="${jaxb.src.dir}"
 			/>
