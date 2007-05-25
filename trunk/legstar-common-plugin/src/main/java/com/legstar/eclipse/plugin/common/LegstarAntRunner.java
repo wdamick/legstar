@@ -61,7 +61,9 @@ public class LegstarAntRunner {
 		runner.setExecutionTargets(targets);
 		runner.addBuildLogger(mLegstarPref.getAntLogger());
 		runner.setMessageOutputLevel(mLegstarPref.getAntMessageOutputLevel());
-		runner.addUserProperties(properties);
+		if (properties != null) {
+			runner.addUserProperties(properties);
+		}
 		runner.run(new SubProgressMonitor(monitor, 1 * scale));
 	}
 }
