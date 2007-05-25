@@ -67,7 +67,7 @@ public class VolumeTest extends TestCase {
 			cicsHttp.setReceiveTimeout(10000);
 			cicsHttp.connect("STREAM2");
 			HashMap < String, Object> map = new HashMap < String, Object>();
-			map.put(Constants.CICS_PROGRAM_KEY, "T1VOLUME");
+			map.put(Constants.CICS_PROGRAM_NAME_KEY, "T1VOLUME");
 			map.put(Constants.CICS_LENGTH_KEY, "32767");
 			map.put(Constants.CICS_DATALEN_KEY, "32767");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
