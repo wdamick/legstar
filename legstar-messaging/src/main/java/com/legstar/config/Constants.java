@@ -41,7 +41,7 @@ public final class Constants {
 	
 	
 	/** Property identifier for the host program name. */
-	public static final String CICS_PROGRAM_KEY = "CICSProgram";
+	public static final String CICS_PROGRAM_NAME_KEY = "CICSProgramName";
 	
 	/** Property identifier for program commarea length. */
 	public static final String CICS_LENGTH_KEY = "CICSLength";
