@@ -38,5 +38,12 @@ public class CixsException extends Exception {
 	public CixsException(final String message) {
 		super(message);
 	}
+	/** 
+	 * Constructor from an inner exception. 
+	 * @param e the inner exception 
+	 * */
+	public CixsException(final Exception e) {
+		super(e);
+	}
 
 }

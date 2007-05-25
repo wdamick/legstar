@@ -1,26 +1,28 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<cixs-operation>
-
 	<!-- === Mandatory parameters: -->
-	<!-- Operation name. -->
-	<operation-name>lsfileae</operation-name>
-	<!-- Designate the corresponding remote program name on the host system  -->
-	<program-name>LSFILEAE</program-name>
-	<!-- If present, this program is CONTAINER-driven rather than COMMAREA-driven  -->
-	<cics-channel>LSFILEAE-CHANNEL</cics-channel>
+	<!-- @name                : Operation name. -->
+	<!-- @cicsProgramName     : Designate the corresponding remote program name on the host system  -->
+	<!-- === Optional parameters:
+	    @cicsChannel          : If this program is CONTAINER-driven rather than COMMAREA-driven.
+        @requestWrapperType   : Request Wrapper class. Default @nameWrapperRequest (first char uppercased)
+        @responseWrapperType  : Reply Wrapper class. Default @nameWrapperResponse (first char uppercased)
+        @requestHolderType    : Request holder for multiple inputs. @nameHolderRequest (first char uppercased)
+        @responseHolderType   : Response holder for multiple outputs. @nameHolderResponse (first char uppercased)
+        @faultType            : Fault Wrapper class. Default @nameFault (first char uppercased)
+        @faultInfoType        : Fault info class. Default @nameFaultInfo (first char uppercased)
+        @packageName          : Package name for operation level classes. Default ../@endpointPackageName
+        @namespace            : Namespace for operation level elements. Default ../@targetNamespace
+	 -->
+<cixsOperation
+	name="lsfileae"
+	cicsProgramName="LSFILEAE"
+	cicsChannel="LSFILEAE-CHANNEL"
+	>
 	<!-- Specify the JAXB classes used for input and output -->
 	<!-- use <input> and <output> elements. Choice strategy should be a fully qualified pojo -->
 	<!-- use cics-container attibute to relate input with a CICS CONTAINER -->
-	<input jaxb-type="DfhcommareaType" jaxb-package="com.legstar.test.coxb.lsfileae" jaxb-property-name="DfhCommarea" jaxb-field-name="dfhCommarea" bind-property-name="InputDfhCommarea" bind-field-name="inputDfhCommarea" choice-strategy="" cics-container=""/>
-	<output jaxb-type="DfhcommareaType" jaxb-package="com.legstar.test.coxb.lsfileae" jaxb-property-name="DfhCommarea" jaxb-field-name="dfhCommarea" bind-property-name="OutputDfhCommarea" bind-field-name="outputDfhCommarea" choice-strategy="" cics-container=""/>
+	<input jaxbType="DfhcommareaType" jaxbPackageName="com.legstar.test.coxb.lsfileae" jaxbPropertyName="DfhCommarea" jaxbFieldName="dfhCommarea" coxbPropertyName="InputDfhCommarea" coxbFieldName="inputDfhCommarea" cicsContainer=""/>
+	<output jaxbType="DfhcommareaType" jaxbPackageName="com.legstar.test.coxb.lsfileae" jaxbPropertyName="DfhCommarea" jaxbFieldName="dfhCommarea" coxbPropertyName="OutputDfhCommarea" coxbFieldName="outputDfhCommarea" cicsContainer=""/>
 
-	<!-- === Optional parameters:
-     <request-wrapper-type>      Request Wrapper class. Default <Operation-name>Request (first char uppercased)
-     <response-wrapper-type>     Reply Wrapper class. Default <Operation-name>Response (first char uppercased)
-     <fault-type>                Fault Wrapper class. Default <Operation-name>Fault (first char uppercased)
-     <fault-info-type>           Fault info class. Default <Operation-name>FaultInfo (first char uppercased)
-     <operation-package>         Package name for operation level classes. Default <service-endpoint-package>
-     <operation-targetnamespace> Namespace for operation level elements. Default <service-targetnamespace>
-	 -->
 	  
-</cixs-operation>
+</cixsOperation>

@@ -5,9 +5,9 @@
  -->
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:output method="xml" omit-xml-declaration="no" indent="yes"/>
-<xsl:template match="/"><xsl:apply-templates select="cixs-service"/></xsl:template>
+<xsl:template match="/"><xsl:apply-templates select="cixsService"/></xsl:template>
 
-<xsl:template match="cixs-service">
+<xsl:template match="cixsService">
 	<xsl:call-template name="generate-content"/>
 </xsl:template>
 
@@ -17,42 +17,12 @@
 <xsl:template name="generate-content">
 
 	<!--  Provide default values for missing parameters -->
-	<xsl:variable name="webapp-display-name">
-		<xsl:choose>
-			<xsl:when test="string-length(webapp-display-name) > 0"><xsl:value-of select="webapp-display-name"/></xsl:when>
-			<xsl:otherwise>cixs.<xsl:value-of select="service-name"/></xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
-	<xsl:variable name="webapp-description">
-		<xsl:choose>
-			<xsl:when test="string-length(webapp-description) > 0"><xsl:value-of select="webapp-description"/></xsl:when>
-			<xsl:otherwise>cixs <xsl:value-of select="service-name"/> Web Service</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
-	<xsl:variable name="servlet-name">
-		<xsl:choose>
-			<xsl:when test="string-length(servlet-name) > 0"><xsl:value-of select="servlet-name"/></xsl:when>
-			<xsl:otherwise><xsl:value-of select="service-name"/>WebService</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
-	<xsl:variable name="servlet-display-name">
-		<xsl:choose>
-			<xsl:when test="string-length(servlet-display-name) > 0"><xsl:value-of select="servlet-display-name"/></xsl:when>
-			<xsl:otherwise>cixs.<xsl:value-of select="service-name"/>WebService</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
-	<xsl:variable name="servlet-description">
-		<xsl:choose>
-			<xsl:when test="string-length(servlet-description) > 0"><xsl:value-of select="servlet-description"/></xsl:when>
-			<xsl:otherwise>JAX-WS endpoint - <xsl:value-of select="service-name"/> Web Service</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
-	<xsl:variable name="servlet-url-pattern">
-		<xsl:choose>
-			<xsl:when test="string-length(servlet-url-pattern) > 0"><xsl:value-of select="servlet-url-pattern"/></xsl:when>
-			<xsl:otherwise>/<xsl:value-of select="service-name"/></xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
+	<xsl:variable name="webapp-display-name">cixs.<xsl:value-of select="@name"/></xsl:variable>
+	<xsl:variable name="webapp-description">cixs <xsl:value-of select="@name"/> Web Service</xsl:variable>
+	<xsl:variable name="servlet-name"><xsl:value-of select="@name"/>WebService</xsl:variable>
+	<xsl:variable name="servlet-display-name">cixs.<xsl:value-of select="@name"/>WebService</xsl:variable>
+	<xsl:variable name="servlet-description">JAX-WS endpoint - <xsl:value-of select="@name"/> Web Service</xsl:variable>
+	<xsl:variable name="servlet-url-pattern">/<xsl:value-of select="@name"/></xsl:variable>
 	
 	<!--  Create content -->
 	<xsl:element  name = "web-app">

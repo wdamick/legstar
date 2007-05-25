@@ -1,28 +1,20 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<cixs-service>
-
-	<!-- === Mandatory parameters: -->
-	<!-- Service endpoint name. -->
-	<service-name>lsfileae</service-name>
-	<!-- Package for service endpoint classes and all operation wrapper classes.  -->
-	<service-endpoint-package>com.legstar.test.cixs.lsfileae</service-endpoint-package> 
-	<!-- Namespace used for the WSDL definitions and all operation wrapper elements. -->
-	<service-targetnamespace>http://cixs.test.legstar.com/lsfileae#</service-targetnamespace>
+	<!-- === Mandatory attributes: -->
+	<!-- @name                : Service endpoint name. -->
+	<!-- @endpointPackageName : Package for service endpoint classes and all operation wrapper classes.  -->
+	<!-- @targetNamespace     : Namespace used for the WSDL definitions and all operation wrapper elements. -->
 	
-	<!-- === Optional parameters:
-	     <endpoint-interface>      Service endpoint interface class. Default "<Service-name>.java" (first char uppercased)
-	     <endpoint-implementation> Service endpoint implementation class. Default "<Service-name>Impl.java" (first char uppercased)
-	     <wsdl-service-name>       WSDL Service name. Default <service-name>Service
-	     <wsdl-port-type>          WSDL Web Service Port type name. Default <service-name>Port
-	     <webapp-name>             Webapp name. Default "cixs-<service-name>"
-	     <webapp-display-name>     Webapp display name. Default "cixs.<service-name>"
-	     <webapp-description>      Webapp description. Default "cixs <service-name> Web Service"
-	     <servlet-name>            Servlet name. Default "<service-name>WebService"
-	     <servlet-display-name>    Servlet display name. Default "cixs.<service-name>WebService"
-	     <servlet-description>     Servlet description. Default "JAX-WS endpoint - <service-name> Web Service"
-	     <servlet-url-pattern>     Servlet url. Default "/<service-name>"
+	<!-- === Optional attributes:
+	     @endpointInterfaceClassName      : Service endpoint interface class. Default "@name.java" (first char uppercased)
+	     @endpointImplementationClassName : Service endpoint implementation class. Default "@nameImpl.java" (first char uppercased)
+	     @wsdlServiceName                 : WSDL Service name. Default @nameService
+	     @wsdlPortType                    : WSDL Web Service Port type name. Default @namePort
 	 -->
-	
+<cixsService 
+	name="lsfileae"
+	endpointPackageName="com.legstar.test.cixs.lsfileae" 
+	targetNamespace="http://cixs.test.legstar.com/lsfileae#"
+	>
 	<!-- Repeat for each operation. There must be at least one. 
 	     Each operation must include an operation descriptor. -->
 
@@ -30,4 +22,4 @@
 	<include xmlns="http://www.w3.org/2001/XInclude" href="cixs-od-lsfileae.xml" parse="xml"/>
 		
 	  
-</cixs-service>
+</cixsService>

@@ -14,6 +14,9 @@
          <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/../legstar-coxbgen/target/test-classes">
             <include name="com/legstar/test/coxb/doublmix/**/*.class"/>
          </classes>
+         <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/../legstar-coxbgen/target/test-classes">
+            <include name="com/legstar/test/coxb/doublmix/**/*.class"/>
+         </classes>
          <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/target/test-classes">
             <include name="**/${service}/**/*.class"/>
          </classes>

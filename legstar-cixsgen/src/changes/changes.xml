@@ -4,9 +4,17 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
+    <release version="1.1.0" date="2007-05-25" description="CICS Containers support">
+      <action dev="fady" type="add">
+        Operations now support multiple inputs and multiple outputs where each input or
+        output structure maps to a different JAXB object and also to a CICS Container.
+      </action>
+    </release>
+    
     <release version="1.0.1" date="2007-04-20" description="Transport/Connectivity refactoring">
       <action dev="fady" type="add">
-        Generated endpoints now use the new XML configuration file.
+        Generated endpoints now use a new XML configuration file. It is called Config.xml
+        and should be accessible from the classpath (for instance stored in shared/lib).
       </action>
       <action dev="fady" type="add">
         Generated endpoints are protocol agnostic. You can switch from http to socket and

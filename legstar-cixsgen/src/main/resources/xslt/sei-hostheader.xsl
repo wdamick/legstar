@@ -5,19 +5,19 @@
  -->
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:output method="text" omit-xml-declaration="yes" indent="yes"/>
-<xsl:template match="/"><xsl:apply-templates select="cixs-service"/></xsl:template>
+<xsl:template match="/"><xsl:apply-templates select="cixsService"/></xsl:template>
 
 <!-- Generate the host header class -->
-<xsl:template match="cixs-service">
+<xsl:template match="cixsService">
 	<!-- Determine the host header java source file name -->
 	<xsl:variable name="hostheader-class-name">
 		<xsl:choose>
-			<xsl:when test="string-length(endpoint-interface) > 0"><xsl:value-of select="endpoint-interface"/>HostHeader</xsl:when>
-			<xsl:otherwise><xsl:value-of select="concat(upper-case(substring(service-name,1,1)),substring(service-name,2))"/>HostHeader</xsl:otherwise>
+			<xsl:when test="string-length(@endpointInterfaceClassName) > 0"><xsl:value-of select="@endpointInterfaceClassName"/>HostHeader</xsl:when>
+			<xsl:otherwise><xsl:value-of select="concat(upper-case(substring(@name,1,1)),substring(@name,2))"/>HostHeader</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
 	<xsl:variable name="target-dir">
-		<xsl:value-of select="translate(service-endpoint-package,'.','/')"/>
+		<xsl:value-of select="translate(@endpointPackageName,'.','/')"/>
 	</xsl:variable>
 	
 	<!-- Generate the dynamically built java source file -->
@@ -34,7 +34,7 @@
 	 Generate the package and import code
  -->
 <xsl:template name="generate-header">
-package <xsl:value-of select="service-endpoint-package"/>;
+package <xsl:value-of select="@endpointPackageName"/>;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -55,7 +55,7 @@ import javax.xml.bind.annotation.XmlType;
 <xsl:param name="hostheader-class-name"/>
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "<xsl:value-of select="$hostheader-class-name"/>",
-         namespace = "<xsl:value-of select="service-targetnamespace"/>",
+         namespace = "<xsl:value-of select="@targetNamespace"/>",
          propOrder = {
     "hostUserID", 
 	"hostPassword", 
@@ -68,39 +68,39 @@ public class <xsl:value-of select="$hostheader-class-name"/> {
 	
     /** User ID used for host authentication/impersonation. */
     @XmlElement(name = "hostUserID",
-                namespace = "<xsl:value-of select="service-targetnamespace"/>",
+                namespace = "<xsl:value-of select="@targetNamespace"/>",
                 required = false)
     private String hostUserID;
 
     /** Password used for authentication. */
     @XmlElement(name = "hostPassword",
-                namespace = "<xsl:value-of select="service-targetnamespace"/>",
+                namespace = "<xsl:value-of select="@targetNamespace"/>",
                 required = false)
     private String hostPassword;
 
     /** The host endpoint identifier. */
     @XmlElement(name = "hostEndPoint",
-                namespace = "<xsl:value-of select="service-targetnamespace"/>",
+                namespace = "<xsl:value-of select="@targetNamespace"/>",
                 required = false)
     private String hostEndPoint;
 
     /** The host character set. */
     @XmlElement(name = "hostCharset",
-                namespace = "<xsl:value-of select="service-targetnamespace"/>",
+                namespace = "<xsl:value-of select="@targetNamespace"/>",
                 required = false)
     private String hostCharset;
 
     /** Whether the host should trace this request. */
     @XmlElement(name = "hostTraceMode",
-                namespace = "<xsl:value-of select="service-targetnamespace"/>",
+                namespace = "<xsl:value-of select="@targetNamespace"/>",
                 required = false)
     private boolean hostTraceMode = false;
 
     /** An identifier for this request (used for tracability). */
     @XmlElement(name = "hostRequestID",
-                namespace = "<xsl:value-of select="service-targetnamespace"/>",
+                namespace = "<xsl:value-of select="@targetNamespace"/>",
                 required = false)
-    private String hostRequestID = "<xsl:value-of select="service-name"/>";
+    private String hostRequestID = "<xsl:value-of select="@name"/>";
 
 	/** Gets the user ID used for host authentication/impersonation.
 	 * @return host user ID

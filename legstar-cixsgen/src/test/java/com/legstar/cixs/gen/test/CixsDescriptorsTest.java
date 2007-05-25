@@ -21,15 +21,12 @@
 package com.legstar.cixs.gen.test;
 
 import junit.framework.TestCase;
-import com.legstar.cixs.gen.CixsBaseDescriptors;
+import com.legstar.cixs.gen.CixsServiceDescriptorFile;
 import com.legstar.cixs.gen.CixsException;
 import com.legstar.cixs.gen.CixsService;
 import com.legstar.cixs.gen.CixsOperation;
 import com.legstar.cixs.gen.CixsStructure;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class CixsDescriptorsTest extends TestCase {
@@ -37,23 +34,13 @@ public class CixsDescriptorsTest extends TestCase {
 	
 	public void testServiceGenerationNoOp() {
 		CixsService sv = new CixsService();
-		sv.setServiceName("rasePoil1");
+		sv.setName("rasePoil1");
 		sv.setEndpointPackageName("com.legstar.rase");
 		sv.setTargetNamespace("http://rase.legstar.com");
 		
 		try {
-			CixsBaseDescriptors cd = new CixsBaseDescriptors();
-			java.io.File f = cd.getTempFile();
-			cd.createServiceContent(sv, f);
-		    try {
-		        BufferedReader in = new BufferedReader(new FileReader(f));
-		        String str = in.readLine();
-		        in.close();
-				assertEquals("<cixs-service><service-name>rasePoil1</service-name><service-endpoint-package>com.legstar.rase</service-endpoint-package><service-targetnamespace>http://rase.legstar.com</service-targetnamespace></cixs-service>", str);
-		    } catch (IOException e) {
-				e.printStackTrace();
-				fail("generation failed");
-		    }
+			assertEquals("<cixsService name=\"rasePoil1\" endpointPackageName=\"com.legstar.rase\" targetNamespace=\"http://rase.legstar.com\"></cixsService>",
+					generateDescriptor(sv));
 		} catch (CixsException e) {
 			e.printStackTrace();
 			fail("generation failed");
@@ -65,29 +52,19 @@ public class CixsDescriptorsTest extends TestCase {
 			CixsService sv = new CixsService();
 			CixsOperation op1 = new CixsOperation();
 			
-			sv.setServiceName("rasePoil2");
+			sv.setName("rasePoil2");
 			sv.setEndpointPackageName("com.legstar.rase");
 			sv.setTargetNamespace("http://rase.legstar.com");
 
-			op1.setOperationName("coiffe");
-			op1.setProgramName("COIFFE");
+			op1.setName("coiffe");
+			op1.setCicsProgramName("COIFFE");
 			addInputStructure(op1, "DfhCommareaType", "com.toto.truc");
-			addOutputStructure(op1, "DfhCommareaType", "com.toto.truc", "");
+			addOutputStructure(op1, "DfhCommareaType", "com.toto.truc");
 			
-			sv.getOperations().add(op1);
+			sv.getCixsOperations().add(op1);
 			
-			CixsBaseDescriptors cd = new CixsBaseDescriptors();
-			java.io.File f = cd.getTempFile();
-			cd.createServiceContent(sv, f);
-		    try {
-		        BufferedReader in = new BufferedReader(new FileReader(f));
-		        String str = in.readLine();
-				assertEquals("<cixs-service><service-name>rasePoil2</service-name><service-endpoint-package>com.legstar.rase</service-endpoint-package><service-targetnamespace>http://rase.legstar.com</service-targetnamespace><cixs-operation><operation-name>coiffe</operation-name><program-name>COIFFE</program-name><input jaxb-type=\"DfhCommareaType\" jaxb-package=\"com.toto.truc\" jaxb-classes-location=\"com/toto/truc\" jaxb-property-name=\"DfhCommarea\" jaxb-field-name=\"dfhCommarea\" bind-property-name=\"InputDfhCommarea\" bind-field-name=\"inputDfhCommarea\"/><output jaxb-type=\"DfhCommareaType\" jaxb-package=\"com.toto.truc\" jaxb-classes-location=\"com/toto/truc\" jaxb-property-name=\"DfhCommarea\" jaxb-field-name=\"dfhCommarea\" bind-property-name=\"OutputDfhCommarea\" bind-field-name=\"outputDfhCommarea\"/></cixs-operation></cixs-service>", str);
-		        in.close();
-		    } catch (IOException e) {
-				e.printStackTrace();
-				fail("generation failed");
-		    }
+			assertEquals("<cixsService name=\"rasePoil2\" endpointPackageName=\"com.legstar.rase\" targetNamespace=\"http://rase.legstar.com\"><cixsOperation name=\"coiffe\" cicsProgramName=\"COIFFE\"><input jaxbType=\"DfhCommareaType\" jaxbPackageName=\"com.toto.truc\" jaxbPropertyName=\"DfhCommarea\" jaxbFieldName=\"dfhCommarea\"/><output jaxbType=\"DfhCommareaType\" jaxbPackageName=\"com.toto.truc\" jaxbPropertyName=\"DfhCommarea\" jaxbFieldName=\"dfhCommarea\"/></cixsOperation></cixsService>",
+					generateDescriptor(sv));
 
 		} catch (CixsException e) {
 			e.printStackTrace();
@@ -100,29 +77,19 @@ public class CixsDescriptorsTest extends TestCase {
 			CixsService sv = new CixsService();
 			CixsOperation op1 = new CixsOperation();
 			
-			sv.setServiceName("rasePoil3");
+			sv.setName("rasePoil3");
 			sv.setEndpointPackageName("com.legstar.rase");
 			sv.setTargetNamespace("http://rase.legstar.com");
 
-			op1.setOperationName("coiffe");
-			op1.setProgramName("COIFFE");
+			op1.setName("coiffe");
+			op1.setCicsProgramName("COIFFE");
 			addInputStructure(op1, "DfhCommareaType", "com.toto.truc");
-			addOutputStructure(op1, "DfhCommareaType", "com.toto.truc.output", "");
+			addOutputStructure(op1, "DfhCommareaType", "com.toto.truc.output");
 			
-			sv.getOperations().add(op1);
+			sv.getCixsOperations().add(op1);
 
-			CixsBaseDescriptors cd = new CixsBaseDescriptors();
-			java.io.File f = cd.getTempFile();
-			cd.createServiceContent(sv, f);
-		    try {
-		        BufferedReader in = new BufferedReader(new FileReader(f));
-		        String str = in.readLine();
-				assertEquals("<cixs-service><service-name>rasePoil3</service-name><service-endpoint-package>com.legstar.rase</service-endpoint-package><service-targetnamespace>http://rase.legstar.com</service-targetnamespace><cixs-operation><operation-name>coiffe</operation-name><program-name>COIFFE</program-name><input jaxb-type=\"DfhCommareaType\" jaxb-package=\"com.toto.truc\" jaxb-classes-location=\"com/toto/truc\" jaxb-property-name=\"DfhCommarea\" jaxb-field-name=\"dfhCommarea\" bind-property-name=\"InputDfhCommarea\" bind-field-name=\"inputDfhCommarea\"/><output jaxb-type=\"DfhCommareaType\" jaxb-package=\"com.toto.truc.output\" jaxb-classes-location=\"com/toto/truc/output\" jaxb-property-name=\"DfhCommarea\" jaxb-field-name=\"dfhCommarea\" bind-property-name=\"OutputDfhCommarea\" bind-field-name=\"outputDfhCommarea\"/></cixs-operation></cixs-service>", str);
-		        in.close();
-		    } catch (IOException e) {
-				e.printStackTrace();
-				fail("generation failed");
-		    }
+			assertEquals("<cixsService name=\"rasePoil3\" endpointPackageName=\"com.legstar.rase\" targetNamespace=\"http://rase.legstar.com\"><cixsOperation name=\"coiffe\" cicsProgramName=\"COIFFE\"><input jaxbType=\"DfhCommareaType\" jaxbPackageName=\"com.toto.truc\" jaxbPropertyName=\"DfhCommarea\" jaxbFieldName=\"dfhCommarea\"/><output jaxbType=\"DfhCommareaType\" jaxbPackageName=\"com.toto.truc.output\" jaxbPropertyName=\"DfhCommarea\" jaxbFieldName=\"dfhCommarea\"/></cixsOperation></cixsService>",
+					generateDescriptor(sv));
 
 		} catch (CixsException e) {
 			e.printStackTrace();
@@ -136,36 +103,26 @@ public class CixsDescriptorsTest extends TestCase {
 			CixsOperation op1 = new CixsOperation();
 			CixsOperation op2 = new CixsOperation();
 			
-			sv.setServiceName("rasePoil4");
+			sv.setName("rasePoil4");
 			sv.setEndpointPackageName("com.legstar.rase");
 			sv.setTargetNamespace("http://rase.legstar.com");
 
-			op1.setOperationName("coiffe");
-			op1.setProgramName("COIFFE");
+			op1.setName("coiffe");
+			op1.setCicsProgramName("COIFFE");
 			addInputStructure(op1, "DfhCommareaType", "com.toto.truc");
-			addOutputStructure(op1, "DfhCommareaType", "com.toto.truc.output", "");
+			addOutputStructure(op1, "DfhCommareaType", "com.toto.truc.output");
 			
-			sv.getOperations().add(op1);
+			sv.getCixsOperations().add(op1);
 			
-			op2.setOperationName("bigoudis");
-			op2.setProgramName("BIGOUDIS");
+			op2.setName("bigoudis");
+			op2.setCicsProgramName("BIGOUDIS");
 			addInputStructure(op2, "DfhCommareaType", "com.tata.truc");
-			addOutputStructure(op2, "DfhCommareaType", "com.tata.truc.output", "");
+			addOutputStructure(op2, "DfhCommareaType", "com.tata.truc.output");
 			
-			sv.getOperations().add(op2);
+			sv.getCixsOperations().add(op2);
 			
-			CixsBaseDescriptors cd = new CixsBaseDescriptors();
-			java.io.File f = cd.getTempFile();
-			cd.createServiceContent(sv, f);
-		    try {
-		        BufferedReader in = new BufferedReader(new FileReader(f));
-		        String str = in.readLine();
-				assertEquals("<cixs-service><service-name>rasePoil4</service-name><service-endpoint-package>com.legstar.rase</service-endpoint-package><service-targetnamespace>http://rase.legstar.com</service-targetnamespace><cixs-operation><operation-name>coiffe</operation-name><program-name>COIFFE</program-name><input jaxb-type=\"DfhCommareaType\" jaxb-package=\"com.toto.truc\" jaxb-classes-location=\"com/toto/truc\" jaxb-property-name=\"DfhCommarea\" jaxb-field-name=\"dfhCommarea\" bind-property-name=\"InputDfhCommarea\" bind-field-name=\"inputDfhCommarea\"/><output jaxb-type=\"DfhCommareaType\" jaxb-package=\"com.toto.truc.output\" jaxb-classes-location=\"com/toto/truc/output\" jaxb-property-name=\"DfhCommarea\" jaxb-field-name=\"dfhCommarea\" bind-property-name=\"OutputDfhCommarea\" bind-field-name=\"outputDfhCommarea\"/></cixs-operation><cixs-operation><operation-name>bigoudis</operation-name><program-name>BIGOUDIS</program-name><input jaxb-type=\"DfhCommareaType\" jaxb-package=\"com.tata.truc\" jaxb-classes-location=\"com/tata/truc\" jaxb-property-name=\"DfhCommarea\" jaxb-field-name=\"dfhCommarea\" bind-property-name=\"InputDfhCommarea0\" bind-field-name=\"inputDfhCommarea0\"/><output jaxb-type=\"DfhCommareaType\" jaxb-package=\"com.tata.truc.output\" jaxb-classes-location=\"com/tata/truc/output\" jaxb-property-name=\"DfhCommarea\" jaxb-field-name=\"dfhCommarea\" bind-property-name=\"OutputDfhCommarea0\" bind-field-name=\"outputDfhCommarea0\"/></cixs-operation></cixs-service>", str);
-		        in.close();
-		    } catch (IOException e) {
-				e.printStackTrace();
-				fail("generation failed");
-		    }
+			assertEquals("<cixsService name=\"rasePoil4\" endpointPackageName=\"com.legstar.rase\" targetNamespace=\"http://rase.legstar.com\"><cixsOperation name=\"coiffe\" cicsProgramName=\"COIFFE\"><input jaxbType=\"DfhCommareaType\" jaxbPackageName=\"com.toto.truc\" jaxbPropertyName=\"DfhCommarea\" jaxbFieldName=\"dfhCommarea\"/><output jaxbType=\"DfhCommareaType\" jaxbPackageName=\"com.toto.truc.output\" jaxbPropertyName=\"DfhCommarea\" jaxbFieldName=\"dfhCommarea\"/></cixsOperation><cixsOperation name=\"bigoudis\" cicsProgramName=\"BIGOUDIS\"><input jaxbType=\"DfhCommareaType\" jaxbPackageName=\"com.tata.truc\" jaxbPropertyName=\"DfhCommarea\" jaxbFieldName=\"dfhCommarea\"/><output jaxbType=\"DfhCommareaType\" jaxbPackageName=\"com.tata.truc.output\" jaxbPropertyName=\"DfhCommarea\" jaxbFieldName=\"dfhCommarea\"/></cixsOperation></cixsService>",
+					generateDescriptor(sv));
 
 		} catch (CixsException e) {
 			e.printStackTrace();
@@ -179,29 +136,19 @@ public class CixsDescriptorsTest extends TestCase {
 			CixsService sv = new CixsService();
 			CixsOperation op1 = new CixsOperation();
 			
-			sv.setServiceName("rasePoil5");
+			sv.setName("rasePoil5");
 			sv.setEndpointPackageName("com.legstar.rase");
 			sv.setTargetNamespace("http://rase.legstar.com");
 
-			op1.setOperationName("coiffe");
-			op1.setProgramName("COIFFE");
+			op1.setName("coiffe");
+			op1.setCicsProgramName("COIFFE");
 			addInputStructure(op1, "DfhCommareaType", "com.toto.truc");
-			addOutputStructure(op1, "DfhCommareaType", "com.toto.truc.output", "com.toto.truc.custom.ChoiceSelector");
+			addOutputStructure(op1, "DfhCommareaType", "com.toto.truc.output");
 			
-			sv.getOperations().add(op1);
+			sv.getCixsOperations().add(op1);
 			
-			CixsBaseDescriptors cd = new CixsBaseDescriptors();
-			java.io.File f = cd.getTempFile();
-			cd.createServiceContent(sv, f);
-		    try {
-		        BufferedReader in = new BufferedReader(new FileReader(f));
-		        String str = in.readLine();
-				assertEquals("<cixs-service><service-name>rasePoil5</service-name><service-endpoint-package>com.legstar.rase</service-endpoint-package><service-targetnamespace>http://rase.legstar.com</service-targetnamespace><cixs-operation><operation-name>coiffe</operation-name><program-name>COIFFE</program-name><input jaxb-type=\"DfhCommareaType\" jaxb-package=\"com.toto.truc\" jaxb-classes-location=\"com/toto/truc\" jaxb-property-name=\"DfhCommarea\" jaxb-field-name=\"dfhCommarea\" bind-property-name=\"InputDfhCommarea\" bind-field-name=\"inputDfhCommarea\"/><output jaxb-type=\"DfhCommareaType\" jaxb-package=\"com.toto.truc.output\" jaxb-classes-location=\"com/toto/truc/output\" jaxb-property-name=\"DfhCommarea\" jaxb-field-name=\"dfhCommarea\" bind-property-name=\"OutputDfhCommarea\" bind-field-name=\"outputDfhCommarea\" choice-strategy=\"com.toto.truc.custom.ChoiceSelector\"/></cixs-operation></cixs-service>", str);
-		        in.close();
-		    } catch (IOException e) {
-				e.printStackTrace();
-				fail("generation failed");
-		    }
+			assertEquals("<cixsService name=\"rasePoil5\" endpointPackageName=\"com.legstar.rase\" targetNamespace=\"http://rase.legstar.com\"><cixsOperation name=\"coiffe\" cicsProgramName=\"COIFFE\"><input jaxbType=\"DfhCommareaType\" jaxbPackageName=\"com.toto.truc\" jaxbPropertyName=\"DfhCommarea\" jaxbFieldName=\"dfhCommarea\"/><output jaxbType=\"DfhCommareaType\" jaxbPackageName=\"com.toto.truc.output\" jaxbPropertyName=\"DfhCommarea\" jaxbFieldName=\"dfhCommarea\"/></cixsOperation></cixsService>",
+					generateDescriptor(sv));
 
 		} catch (CixsException e) {
 			e.printStackTrace();
@@ -215,29 +162,19 @@ public class CixsDescriptorsTest extends TestCase {
 			CixsService sv = new CixsService();
 			CixsOperation op1 = new CixsOperation();
 			
-			sv.setServiceName("rasePoil5");
+			sv.setName("rasePoil5");
 			sv.setEndpointPackageName("com.legstar.rase");
 			sv.setTargetNamespace("http://rase.legstar.com");
 
-			op1.setOperationName("coiffe");
-			op1.setProgramName("COIFFE");
+			op1.setName("coiffe");
+			op1.setCicsProgramName("COIFFE");
 			addInputStructure(op1, "DfhCommareaType", "com.toto.truc");
-			addOutputStructure(op1, "DfhCommareaType", "com.toto.truc.output", "com.toto.truc.custom.ChoiceSelector");
+			addOutputStructure(op1, "DfhCommareaType", "com.toto.truc.output");
 			
-			sv.getOperations().add(op1);
+			sv.getCixsOperations().add(op1);
 			
-			CixsBaseDescriptors cd = new CixsBaseDescriptors();
-			java.io.File f = cd.getTempFile();
-			cd.createServiceContent(sv, f);
-		    try {
-		        BufferedReader in = new BufferedReader(new FileReader(f));
-		        String str = in.readLine();
-				assertEquals("<cixs-service><service-name>rasePoil5</service-name><service-endpoint-package>com.legstar.rase</service-endpoint-package><service-targetnamespace>http://rase.legstar.com</service-targetnamespace><cixs-operation><operation-name>coiffe</operation-name><program-name>COIFFE</program-name><input jaxb-type=\"DfhCommareaType\" jaxb-package=\"com.toto.truc\" jaxb-classes-location=\"com/toto/truc\" jaxb-property-name=\"DfhCommarea\" jaxb-field-name=\"dfhCommarea\" bind-property-name=\"InputDfhCommarea\" bind-field-name=\"inputDfhCommarea\"/><output jaxb-type=\"DfhCommareaType\" jaxb-package=\"com.toto.truc.output\" jaxb-classes-location=\"com/toto/truc/output\" jaxb-property-name=\"DfhCommarea\" jaxb-field-name=\"dfhCommarea\" bind-property-name=\"OutputDfhCommarea\" bind-field-name=\"outputDfhCommarea\" choice-strategy=\"com.toto.truc.custom.ChoiceSelector\"/></cixs-operation></cixs-service>", str);
-		        in.close();
-		    } catch (IOException e) {
-				e.printStackTrace();
-				fail("generation failed");
-		    }
+			assertEquals("<cixsService name=\"rasePoil5\" endpointPackageName=\"com.legstar.rase\" targetNamespace=\"http://rase.legstar.com\"><cixsOperation name=\"coiffe\" cicsProgramName=\"COIFFE\"><input jaxbType=\"DfhCommareaType\" jaxbPackageName=\"com.toto.truc\" jaxbPropertyName=\"DfhCommarea\" jaxbFieldName=\"dfhCommarea\"/><output jaxbType=\"DfhCommareaType\" jaxbPackageName=\"com.toto.truc.output\" jaxbPropertyName=\"DfhCommarea\" jaxbFieldName=\"dfhCommarea\"/></cixsOperation></cixsService>",
+					generateDescriptor(sv));
 
 		} catch (CixsException e) {
 			e.printStackTrace();
@@ -250,31 +187,21 @@ public class CixsDescriptorsTest extends TestCase {
 			CixsService sv = new CixsService();
 			CixsOperation op1 = new CixsOperation();
 			
-			sv.setServiceName("rasePoil2");
+			sv.setName("rasePoil2");
 			sv.setEndpointPackageName("com.legstar.rase");
 			sv.setTargetNamespace("http://rase.legstar.com");
 
-			op1.setOperationName("coiffe");
-			op1.setProgramName("COIFFE");
+			op1.setName("coiffe");
+			op1.setCicsProgramName("COIFFE");
 			addInputStructure(op1, "DfhCommareaType", "com.toto.truc");
 			addInputStructure(op1, "DfhCommareaType", "com.tata.truc");
 			addInputStructure(op1, "DfhCommareaType", "com.tutu.truc");
-			addOutputStructure(op1, "DfhCommareaType", "com.toto.truc", "");
+			addOutputStructure(op1, "DfhCommareaType", "com.toto.truc");
 			
-			sv.getOperations().add(op1);
+			sv.getCixsOperations().add(op1);
 			
-			CixsBaseDescriptors cd = new CixsBaseDescriptors();
-			java.io.File f = cd.getTempFile();
-			cd.createServiceContent(sv, f);
-		    try {
-		        BufferedReader in = new BufferedReader(new FileReader(f));
-		        String str = in.readLine();
-				assertEquals("<cixs-service><service-name>rasePoil2</service-name><service-endpoint-package>com.legstar.rase</service-endpoint-package><service-targetnamespace>http://rase.legstar.com</service-targetnamespace><cixs-operation><operation-name>coiffe</operation-name><program-name>COIFFE</program-name><input jaxb-type=\"DfhCommareaType\" jaxb-package=\"com.toto.truc\" jaxb-classes-location=\"com/toto/truc\" jaxb-property-name=\"DfhCommarea\" jaxb-field-name=\"dfhCommarea\" bind-property-name=\"InputDfhCommarea\" bind-field-name=\"inputDfhCommarea\"/><input jaxb-type=\"DfhCommareaType\" jaxb-package=\"com.tata.truc\" jaxb-classes-location=\"com/tata/truc\" jaxb-property-name=\"DfhCommarea\" jaxb-field-name=\"dfhCommarea\" bind-property-name=\"InputDfhCommarea0\" bind-field-name=\"inputDfhCommarea0\"/><input jaxb-type=\"DfhCommareaType\" jaxb-package=\"com.tutu.truc\" jaxb-classes-location=\"com/tutu/truc\" jaxb-property-name=\"DfhCommarea\" jaxb-field-name=\"dfhCommarea\" bind-property-name=\"InputDfhCommarea1\" bind-field-name=\"inputDfhCommarea1\"/><output jaxb-type=\"DfhCommareaType\" jaxb-package=\"com.toto.truc\" jaxb-classes-location=\"com/toto/truc\" jaxb-property-name=\"DfhCommarea\" jaxb-field-name=\"dfhCommarea\" bind-property-name=\"OutputDfhCommarea\" bind-field-name=\"outputDfhCommarea\"/></cixs-operation></cixs-service>", str);
-		        in.close();
-		    } catch (IOException e) {
-				e.printStackTrace();
-				fail("generation failed");
-		    }
+			assertEquals("<cixsService name=\"rasePoil2\" endpointPackageName=\"com.legstar.rase\" targetNamespace=\"http://rase.legstar.com\"><cixsOperation name=\"coiffe\" cicsProgramName=\"COIFFE\"><input jaxbType=\"DfhCommareaType\" jaxbPackageName=\"com.toto.truc\" jaxbPropertyName=\"DfhCommarea\" jaxbFieldName=\"dfhCommarea\"/><input jaxbType=\"DfhCommareaType\" jaxbPackageName=\"com.tata.truc\" jaxbPropertyName=\"DfhCommarea\" jaxbFieldName=\"dfhCommarea\"/><input jaxbType=\"DfhCommareaType\" jaxbPackageName=\"com.tutu.truc\" jaxbPropertyName=\"DfhCommarea\" jaxbFieldName=\"dfhCommarea\"/><output jaxbType=\"DfhCommareaType\" jaxbPackageName=\"com.toto.truc\" jaxbPropertyName=\"DfhCommarea\" jaxbFieldName=\"dfhCommarea\"/></cixsOperation></cixsService>",
+					generateDescriptor(sv));
 
 		} catch (CixsException e) {
 			e.printStackTrace();
@@ -282,32 +209,29 @@ public class CixsDescriptorsTest extends TestCase {
 		}
 	}
 	
-	public void testPropertyNameToFieldName() {
-		String fieldName = CixsBaseDescriptors.fieldNameFromPropertyName("DfhCommarea");
-		assertEquals("dfhCommarea", fieldName);
-		fieldName = CixsBaseDescriptors.fieldNameFromPropertyName("X");
-		assertEquals("x", fieldName);
-		
+	private String generateDescriptor(CixsService sv) throws CixsException {
+		CixsServiceDescriptorFile sd = new CixsServiceDescriptorFile(sv);
+		return sd.getContentAsString();
 	}
+	
 	private void addInputStructure(CixsOperation op, String jaxbType, String jaxbPackageName) {
-		if (op.getInputStructures() == null) {
-			op.setInputStructures(new ArrayList < CixsStructure >());
+		if (op.getInput() == null) {
+			op.setInput(new ArrayList < CixsStructure >());
 		}
 		CixsStructure struct = new CixsStructure();
 		struct.setJaxbType(jaxbType);
 		struct.setJaxbPackageName(jaxbPackageName);
-		op.getInputStructures().add(struct);
+		op.getInput().add(struct);
 	}
 
-	private void addOutputStructure(CixsOperation op, String jaxbType, String jaxbPackageName, String choiceStrategy) {
-		if (op.getOutputStructures() == null) {
-			op.setOutputStructures(new ArrayList < CixsStructure >());
+	private void addOutputStructure(CixsOperation op, String jaxbType, String jaxbPackageName) {
+		if (op.getOutput() == null) {
+			op.setOutput(new ArrayList < CixsStructure >());
 		}
 		CixsStructure struct = new CixsStructure();
 		struct.setJaxbType(jaxbType);
 		struct.setJaxbPackageName(jaxbPackageName);
-		struct.setChoiceStrategy(choiceStrategy);
-		op.getOutputStructures().add(struct);
+		op.getOutput().add(struct);
 	}
 	
 	

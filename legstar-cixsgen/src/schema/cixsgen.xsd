@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+targetNamespace="http://legsem.com/legstar/cixs"
+xmlns="http://legsem.com/legstar/cixs"
+elementFormDefault="qualified">
+    <xs:annotation>
+    	<xs:documentation>
+    		LegStar legacy service mapping schema. This schema describes
+    		how legacy programs map to operations in a Web Service.
+    	</xs:documentation>
+    </xs:annotation>
+    <xs:complexType name="cixsServiceType">
+    	<xs:annotation>
+    		<xs:documentation>
+    			Root element for all legacy operations mappings.
+    		</xs:documentation>
+    	</xs:annotation>
+    	<xs:sequence>
+    		<xs:element name="cixsOperation" type="cixsOperationType"
+    			minOccurs="0" maxOccurs="unbounded">
+    		</xs:element>
+    	</xs:sequence>
+    	<xs:attribute name="name" type="xs:string"></xs:attribute>
+    	<xs:attribute name="endpointPackageName" type="xs:string"></xs:attribute>
+    	<xs:attribute name="targetNamespace" type="xs:string"></xs:attribute>
+    	<xs:attribute name="endpointInterfaceClassName"
+    		type="xs:string">
+    	</xs:attribute>
+    	<xs:attribute name="endpointImplementationClassName"
+    		type="xs:string">
+    	</xs:attribute>
+    	<xs:attribute name="wsdlServiceName" type="xs:string"></xs:attribute>
+    	<xs:attribute name="wsdlPortType" type="xs:string"></xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="cixsOperationType">
+    	<xs:annotation>
+    		<xs:documentation>
+    			Legacy program to operation mapping.
+    		</xs:documentation>
+    	</xs:annotation>
+    	<xs:sequence>
+    		<xs:element name="input" type="cixsStructureType"
+    			minOccurs="0" maxOccurs="unbounded">
+    		</xs:element>
+    		<xs:element name="output" type="cixsStructureType"
+    			minOccurs="0" maxOccurs="unbounded">
+    		</xs:element>
+    	</xs:sequence>
+    	<xs:attribute name="name" type="xs:string"></xs:attribute>
+    	<xs:attribute name="cicsProgramName" type="xs:string"></xs:attribute>
+    	<xs:attribute name="cicsChannel" type="xs:string"></xs:attribute>
+    	<xs:attribute name="packageName" type="xs:string"></xs:attribute>
+    	<xs:attribute name="namespace" type="xs:string"></xs:attribute>
+    	<xs:attribute name="requestWrapperType" type="xs:string"></xs:attribute>
+    	<xs:attribute name="responseWrapperType" type="xs:string"></xs:attribute>
+    	<xs:attribute name="requestHolderType" type="xs:string"></xs:attribute>
+    	<xs:attribute name="responseHolderType" type="xs:string"></xs:attribute>
+    	<xs:attribute name="faultType" type="xs:string"></xs:attribute>
+    	<xs:attribute name="faultInfoType" type="xs:string"></xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="cixsStructureType">
+    	<xs:annotation>
+    		<xs:documentation>
+    			Legacy structure to JAXB type mapping.
+    		</xs:documentation>
+    	</xs:annotation>
+    	<xs:attribute name="jaxbType" type="xs:string"></xs:attribute>
+    	<xs:attribute name="jaxbPackageName" type="xs:string"></xs:attribute>
+    	<xs:attribute name="cicsContainer" type="xs:string"></xs:attribute>
+    	<xs:attribute name="jaxbPropertyName" type="xs:string"></xs:attribute>
+    	<xs:attribute name="jaxbFieldName" type="xs:string"></xs:attribute>
+    	<xs:attribute name="coxbPropertyName" type="xs:string"></xs:attribute>
+    	<xs:attribute name="coxbFieldName" type="xs:string"></xs:attribute>
+    </xs:complexType>
+</xs:schema>

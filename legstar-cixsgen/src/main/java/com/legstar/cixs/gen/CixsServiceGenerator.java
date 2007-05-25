@@ -37,8 +37,8 @@ import java.io.File;
  */
 public class CixsServiceGenerator extends Task {
 
-	/** Service name. */
-	private CixsService mService;
+	/** Service descriptor. */
+	private CixsService mCixsService;
 	
 	/** Target location for generated source. */
 	private String mTargetSrcDir;
@@ -77,11 +77,11 @@ public class CixsServiceGenerator extends Task {
     		/* Make sure we have enough valid input*/
     		checkInput();
     		
-        	/* Create a set of temporary XML files describing the service and
+        	/* Create a  temporary XML file describing the service and
         	 * its operations to serve as input for XSL transforms. */
-			CixsBaseDescriptors gdesc = new CixsBaseDescriptors();
-			File sDesc = gdesc.getTempFile();
-			gdesc.createServiceContent(mService, sDesc);
+			CixsServiceDescriptorFile gdesc =
+				new CixsServiceDescriptorFile(mCixsService);
+			File sDesc = gdesc.getServiceDescriptorFile();
 			
 			/* Generate endpoint code using the temporary base descriptors */
 			CixsEndpointSource ep = new CixsEndpointSource();
@@ -118,7 +118,7 @@ public class CixsServiceGenerator extends Task {
 		
     	long end = System.currentTimeMillis();
   		System.out.println("Generation success for "
-  				+ mService.getServiceName());
+  				+ mCixsService.getName());
     	System.out.println("Duration=" + (end - start) + " ms");
     }
     
@@ -132,7 +132,7 @@ public class CixsServiceGenerator extends Task {
     	checkDirectory(mTargetWDDDir);
     	checkDirectory(mTargetAntDir);
     	
-		if (mService == null) {
+		if (mCixsService == null) {
 			throw (new CixsException("You must provide a service description"));
 		}
 		if (mTargetWDDDir == null) {
@@ -160,6 +160,7 @@ public class CixsServiceGenerator extends Task {
 			throw (new CixsException(
 				"You must provide the location of custom binaries"));
 		}
+		
     }
 
 	/**
@@ -185,29 +186,29 @@ public class CixsServiceGenerator extends Task {
 	/**
 	 * @return the service 
 	 */
-	public final CixsService getService() {
-		return mService;
+	public final CixsService getCixsService() {
+		return mCixsService;
 	}
 
 	/**
-	 * @param service the service to set
+	 * @param cixsService the service to set
 	 */
-	public final void setServiceName(final CixsService service) {
-		mService = service;
+	public final void setCixsService(final CixsService cixsService) {
+		mCixsService = cixsService;
 	}
 
 	/**
-	 * @param service the service to set
+	 * @param cixsService the service to set
 	 */
-	public final void add(final CixsService service) {
-		mService = service;
+	public final void add(final CixsService cixsService) {
+		mCixsService = cixsService;
 	}
 
 	/**
-	 * @param service the service to set
+	 * @param cixsService the service to set
 	 */
-	public final void addService(final CixsService service) {
-		mService = service;
+	public final void addCixsService(final CixsService cixsService) {
+		mCixsService = cixsService;
 	}
 
 	/**
