@@ -38,5 +38,12 @@ public class AntCreationException extends Exception {
 	public AntCreationException(final String message) {
 		super(message);
 	}
+	/** 
+	 * Constructor from an inner exception. 
+	 * @param e the inner exception 
+	 * */
+	public AntCreationException(final Exception e) {
+		super(e);
+	}
 
 }

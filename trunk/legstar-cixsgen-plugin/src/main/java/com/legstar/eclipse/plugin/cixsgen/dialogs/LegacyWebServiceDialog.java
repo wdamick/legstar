@@ -21,14 +21,15 @@
 package com.legstar.eclipse.plugin.cixsgen.dialogs;
 
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
@@ -37,8 +38,11 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
+import com.legstar.cixs.gen.CixsException;
+import com.legstar.cixs.gen.CixsOperation;
+import com.legstar.cixs.gen.CixsService;
 import com.legstar.eclipse.plugin.cixsgen.Activator;
-import com.legstar.eclipse.plugin.cixsgen.model.CixsGenDocument;
+import com.legstar.eclipse.plugin.cixsgen.editors.CixsGenEditor;
 
 /**
  * This dialog is meant to be used as part of a wizard (either new Web Service
@@ -50,19 +54,22 @@ import com.legstar.eclipse.plugin.cixsgen.model.CixsGenDocument;
 public class LegacyWebServiceDialog extends Composite {
 
 	/** SWT Table holding operations attributes. */
-	private Table mTable = null;
+	private Table mOperationsTable = null;
 	
 	/** The document model for the Web Service. */
-	private CixsGenDocument mCixsGenDoc;
+	private CixsService mService;
 
-	/** Event type corresponding to an update of the operation dialog. */
-	private static final int CHG_EVENT = 1035;
-	
-	/** Event type corresponding to a request to generate the endpoint. */
-	private static final int GEN_EVENT = 1036;
-	
 	/** Title that should appear on message dialogs.*/
 	private static final String DLG_TITLE = "CIXS Web Service generation";
+	
+	/** The legacy Web Service name descriptor file. */
+	private IFile mServiceFile;
+	
+	/** Package name Text. */
+	private Text mPackageNameText = null;
+	
+	/** Namespace Text. */
+	private Text mNamespaceText = null;
 	
 	/** Add new operation. */
 	private Button mAddButton;
@@ -79,17 +86,17 @@ public class LegacyWebServiceDialog extends Composite {
 	/** The image on each operation item. */
 	private Image mTableImage;
 	
-	/** The legacy web service description file. */
-	private IFile mWsFile;
-	
-	/** The legacy web service name. */
-	private String mWsName;
-	
 	/** Operation image location. */
 	private static final String OPERATION_IMG = "icons/cixsgen-operation.gif";
 	
 	/** Operations list label. */
-	private static final String OPERATIONS_LABEL = "CIXS Operations for ";
+	private static final String SERVICE_NAME_LABEL = "Service:";
+	
+	/** Endpoint package name. */
+	private static final String ENDPOINT_PKG_LABEL = "Package name:";
+	
+	/** Endpoint namespace. */
+	private static final String ENDPOINT_NS_LABEL = "Namespace:";
 	
 	/** Add button label. */
 	private static final String ADD_LABEL = "Add...";
@@ -104,24 +111,19 @@ public class LegacyWebServiceDialog extends Composite {
 	private static final String GENERATE_LABEL = "Generate";
 	
 	/** Operation name column label. */
-	private static final String OPERATION_COL_LABEL = "CIXS Operation";
+	private static final String OPERATION_COL_LABEL = "Operation";
 	
 	/** CICS program name column label. */
 	private static final String PROGRAM_COL_LABEL = "CICS Program";
 	
-	/** Package name of input class name. */
-	private static final String IN_PACKAGE_COL_LABEL =
-		"Input class package name";
+	/** CICS channel column label. */
+	private static final String CHANNEL_COL_LABEL = "CICS Channel";
 	
-	/** Name of input class. */
-	private static final String IN_CLASS_COL_LABEL = "Input class name";
+	/** Number of input structures column label. */
+	private static final String NB_INPUTS_COL_LABEL = "Input structures";
 	
-	/** Package name of output class name. */
-	private static final String OUT_PACKAGE_COL_LABEL =
-		"Output class package name";
-	
-	/** Name of output class. */
-	private static final String OUT_CLASS_COL_LABEL = "Output class name";
+	/** Number of output structures column label. */
+	private static final String NB_OUTPUTS_COL_LABEL = "Output structures";
 	
 	/** No operations selected error message. */
 	private static final String NO_OP_SELECTED_MSG = "No operations selected";
@@ -134,24 +136,29 @@ public class LegacyWebServiceDialog extends Composite {
 	private static final String NO_OPERATIONS_MSG =
 		"There must be at least one operation";
 	
+	/** No package defined error message. */
+	private static final String NO_PACKAGE_MSG =
+		"You must specify a package name for endpoint classes";
+
+	/** No namespace defined error message. */
+	private static final String NO_NAMESPACE_MSG =
+		"You must specify a target namespace for service";
+
 	/**
 	 * Contructor for Legacy Web Service dialog.
 	 * @param parent the composite using this dialog
 	 * @param style an SWT style to propagate on this composite
-	 * @param cixsgenDoc the document model for the legacy Web Service
-	 * @param wsFile the legacy web service descriptor file
-	 * @param wsName the legacy web service name
+	 * @param service the document model for the legacy Web Service
+	 * @param serviceFile the web service descriptor file
 	 */
 	public LegacyWebServiceDialog(
 			final Composite parent,
 			final int style,
-			final CixsGenDocument cixsgenDoc,
-			final IFile wsFile,
-			final String wsName) {
+			final CixsService service,
+			final IFile serviceFile) {
 		super(parent, style);
-		mCixsGenDoc = cixsgenDoc;
-		mWsFile = wsFile;
-		mWsName = wsName;
+		mService = service;
+		mServiceFile = serviceFile;
 		initialize();
 	}
 
@@ -170,7 +177,7 @@ public class LegacyWebServiceDialog extends Composite {
 		setLayoutData(gridData);
 
 		createControls(this);
-		loadOperations(mCixsGenDoc, mTable);
+		loadOperations();
 		enableButtons();
 	}
 	
@@ -187,21 +194,37 @@ public class LegacyWebServiceDialog extends Composite {
 	 */
 	private void createControls(final Composite parent) {
 
-		final Label label = new Label(this, SWT.NONE);
-		label.setText(OPERATIONS_LABEL + mWsName);
-		GridData gridData = new GridData();
-		gridData.horizontalIndent = 5;
-		gridData.horizontalSpan = 2;
-		label.setLayoutData(gridData);
+		WidgetCreator.createLabel(this, SERVICE_NAME_LABEL);
+		WidgetCreator.createLabel(this, mService.getName());
+
+		WidgetCreator.createLabel(this, ENDPOINT_PKG_LABEL);
+		mPackageNameText = WidgetCreator.createText(this,
+				mService.getEndpointPackageName());
+		mPackageNameText.addModifyListener(new ModifyListener() {
+			public void modifyText(final ModifyEvent e) {
+				mService.setEndpointPackageName(mPackageNameText.getText());
+				postProcessChange();
+			}
+		});
+		
+		WidgetCreator.createLabel(this, ENDPOINT_NS_LABEL);
+		mNamespaceText = WidgetCreator.createText(this,
+				mService.getTargetNamespace());
+		mNamespaceText.addModifyListener(new ModifyListener() {
+			public void modifyText(final ModifyEvent e) {
+				mService.setTargetNamespace(mNamespaceText.getText());
+				postProcessChange();
+			}
+		});
 		
 		final Composite btnContainer = new Composite(parent, SWT.NULL);
 		GridLayout layout2 = new GridLayout(1, true);
 		btnContainer.setLayout(layout2);
-		gridData = new GridData();
+		GridData gridData = new GridData();
 		gridData.verticalAlignment = GridData.BEGINNING;
 		btnContainer.setLayoutData(gridData);
 
-		mAddButton = createButton(btnContainer, ADD_LABEL);
+		mAddButton = WidgetCreator.createButton(btnContainer, ADD_LABEL);
 		mAddButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(final SelectionEvent e) {
 				handleAdd();
@@ -209,19 +232,20 @@ public class LegacyWebServiceDialog extends Composite {
 		});
 		mAddButton.setEnabled(true); // Add is always available
 		
-		mModifyButton = createButton(btnContainer, MODIFY_LABEL);
+		mModifyButton = WidgetCreator.createButton(btnContainer, MODIFY_LABEL);
 		mModifyButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(final SelectionEvent e) {
 				handleModify();
 			}
 		});
-		mDeleteButton = createButton(btnContainer, DELETE_LABEL);
+		mDeleteButton = WidgetCreator.createButton(btnContainer, DELETE_LABEL);
 		mDeleteButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(final SelectionEvent e) {
 				handleDelete();
 			}
 		});
-		mGenerateButton = createButton(btnContainer, GENERATE_LABEL);
+		mGenerateButton = WidgetCreator.createButton(
+				btnContainer, GENERATE_LABEL);
 		mGenerateButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(final SelectionEvent e) {
 				handleGenerate();
@@ -230,13 +254,15 @@ public class LegacyWebServiceDialog extends Composite {
 
 		final Composite tableContainer = new Composite(parent, SWT.NULL);
 		GridLayout layout3 = new GridLayout(1, true);
+		layout3.marginWidth = 0;
+		layout3.marginHeight = 0;
 		tableContainer.setLayout(layout3);
 		gridData = new GridData(GridData.FILL_BOTH);
 		tableContainer.setLayoutData(gridData);
 		
 		
-		mTable = createTable(tableContainer, SWT.NONE);
-		mTable.addSelectionListener(new SelectionAdapter() {
+		mOperationsTable = createTable(tableContainer, SWT.NONE);
+		mOperationsTable.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(final SelectionEvent e) {
 				enableButtons();
 			}
@@ -244,28 +270,13 @@ public class LegacyWebServiceDialog extends Composite {
 			    
   	}
 	
-	/**
-	 * Add a new button on a composite. Is in disabled state initially.
-	 * @param parent the parent composite
-	 * @param text text to appear on button
-	 * @return the newly created button
-	 */
-	private Button createButton(
-			final Composite parent, final String text) {
-		Button button = new Button(parent, SWT.PUSH);
-		button.setText(text);
-		button.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		button.setEnabled(false);
-		return button;
-	}
-	
     /**
      * Set buttons visibility depending on table status.
      */
     private void enableButtons() {
-		if (mTable.getItemCount() > 0) {
+		if (mOperationsTable.getItemCount() > 0) {
 			mGenerateButton.setEnabled(true);
-			if (mTable.getSelectionCount() > 0) {
+			if (mOperationsTable.getSelectionCount() > 0) {
 				mModifyButton.setEnabled(true);
 				mDeleteButton.setEnabled(true);
 			} else {
@@ -297,51 +308,36 @@ public class LegacyWebServiceDialog extends Composite {
 		final GridData gridData = new GridData(GridData.FILL_BOTH);
 		table.setLayoutData(gridData);
 
-	    createTableColumn(table, SWT.LEFT, OPERATION_COL_LABEL);
-	    createTableColumn(table, SWT.LEFT, PROGRAM_COL_LABEL);
-	    createTableColumn(table, SWT.LEFT, IN_PACKAGE_COL_LABEL);
-	    createTableColumn(table, SWT.LEFT, IN_CLASS_COL_LABEL);
-	    createTableColumn(table, SWT.LEFT, OUT_PACKAGE_COL_LABEL);
-	    createTableColumn(table, SWT.LEFT, OUT_CLASS_COL_LABEL);
+		WidgetCreator.createTableColumn(table, SWT.LEFT, OPERATION_COL_LABEL);
+		WidgetCreator.createTableColumn(table, SWT.LEFT, PROGRAM_COL_LABEL);
+		WidgetCreator.createTableColumn(table, SWT.LEFT, CHANNEL_COL_LABEL);
+		WidgetCreator.createTableColumn(table, SWT.LEFT, NB_INPUTS_COL_LABEL);
+		WidgetCreator.createTableColumn(table, SWT.LEFT, NB_OUTPUTS_COL_LABEL);
 	    
 	    return table;
-	}
-	
-	/**
-	 * Add a column to an SWT table.
-	 * @param table table to add column to
-	 * @param style an SWT style for the column
-	 * @param title the column header text
-	 * @return the newly created column
-	 */
-	private TableColumn createTableColumn(
-			final Table table,
-			final int style,
-			final String title) {
-	    TableColumn tc = new TableColumn(table, style);
-	    tc.setText(title);
-	    tc.setResizable(true);
-	    tc.pack();
-	    return tc;
 	}
 	
 	/**
 	 * Add button was clicked, present operation dialog.
 	 */
 	private void handleAdd() {
+		CixsOperation operation = new CixsOperation();
 		LegacyOperationDialog dlg =
-			new LegacyOperationDialog(getShell(), mWsFile);
+			new LegacyOperationDialog(getShell(), mServiceFile, operation);
 		if (Window.OK == dlg.open()) {
-			String[] item = {dlg.getOperationName(),
-					dlg.getOperationProgram(),
-					dlg.getOperationInputPackage(),
-					dlg.getOperationInputType(),
-					dlg.getOperationOutputPackage(),
-					dlg.getOperationOutputType()};
-	        TableItem ti = new TableItem(mTable, SWT.NONE);
-	        ti.setText(item);
+	        try {
+				mService.addCixsOperation(operation);
+			} catch (CixsException e) {
+				MessageDialog.openError(
+						null,
+						DLG_TITLE,
+						e.getMessage());
+				return;
+			}
+	        TableItem ti = new TableItem(mOperationsTable, SWT.NONE);
+	        ti.setText(operation.getAsStringArray());
 	        ti.setImage(mTableImage);
-			synchronizeModelView();
+			postProcessChange();
 		}
 	}
 	
@@ -350,36 +346,28 @@ public class LegacyWebServiceDialog extends Composite {
 	 */
 	private void handleModify() {
 		/* Check that at least one operation is selected */
-		if (mTable.getSelectionIndices().length == 0) {
+		if (mOperationsTable.getSelectionIndices().length == 0) {
 			MessageDialog.openError(
 					null,
 					DLG_TITLE,
 					NO_OP_SELECTED_MSG);
 			return;
 		}
-		for (int i = 0; i < mTable.getSelectionIndices().length; i++) {
-			TableItem ti = mTable.getItem(mTable.getSelectionIndices()[i]);
+		for (int i = 0;
+				i < mOperationsTable.getSelectionIndices().length; i++) {
+			int idx = mOperationsTable.getSelectionIndices()[i];
+			TableItem ti = mOperationsTable.getItem(idx);
+			/* Lookup this operation in the service */
+			CixsOperation operation = mService.getCixsOperations().get(idx);
+			/* Display editing dialog */
 			LegacyOperationDialog dlg =
-				new LegacyOperationDialog(getShell(), mWsFile);
-			dlg.setOperationName(ti.getText(0));
-			dlg.setOperationProgram(ti.getText(1));
-			dlg.setOperationInputPackage(ti.getText(2));
-			dlg.setOperationInputType(ti.getText(3));
-			dlg.setOperationOutputPackage(ti.getText(4));
-			dlg.setOperationOutputType(ti.getText(5));
+				new LegacyOperationDialog(getShell(), mServiceFile, operation);
 			if (Window.OK == dlg.open()) {
-				String[] item = {
-						dlg.getOperationName(),
-						dlg.getOperationProgram(),
-						dlg.getOperationInputPackage(),
-						dlg.getOperationInputType(),
-						dlg.getOperationOutputPackage(),
-						dlg.getOperationOutputType()};
-		        ti.setText(item);
-		        mTable.showItem(ti);
+		        ti.setText(operation.getAsStringArray());
+		        mOperationsTable.showItem(ti);
+				postProcessChange();
 			}
 		}
-		synchronizeModelView();
 	}
 	
 	/**
@@ -387,7 +375,7 @@ public class LegacyWebServiceDialog extends Composite {
 	 */
 	private void handleDelete() {
 		/* Check that at least one operation is selected */
-		if (mTable.getSelectionIndices().length == 0) {
+		if (mOperationsTable.getSelectionIndices().length == 0) {
 			MessageDialog.openError(
 					null,
 					DLG_TITLE,
@@ -398,17 +386,15 @@ public class LegacyWebServiceDialog extends Composite {
 				null,
 				DLG_TITLE,
 				CONFIRM_OP_DELETE_MSG)) {
-			mTable.remove(mTable.getSelectionIndices());
-			synchronizeModelView();
+			/* Remove this operation from the service */
+			for (int i = 0; i < mOperationsTable.getSelectionIndices().length;
+					i++) {
+				mService.getCixsOperations().remove(
+						mOperationsTable.getSelectionIndices()[i]);
+			}
+			mOperationsTable.remove(mOperationsTable.getSelectionIndices());
+			postProcessChange();
 		}
-	}
-	
-	/**
-	 * Make sure model and view are in sync.
-	 */
-	private void synchronizeModelView() {
-        saveOperations(mCixsGenDoc, mTable);
-        enableButtons();
 	}
 	
 	/**
@@ -416,139 +402,70 @@ public class LegacyWebServiceDialog extends Composite {
 	 */
 	private void handleGenerate() {
 		/* There must be at least one operation */
-		if (mTable.getItemCount() == 0) {
+		if (mOperationsTable.getItemCount() == 0) {
 			MessageDialog.openError(
 					null,
 					DLG_TITLE,
 					NO_OPERATIONS_MSG);
 			return;
 		}
-		synchronizeModelView();
-		this.notifyListeners(GEN_EVENT, null);
+		/* There endpoint package cannot be empty */
+		if (mPackageNameText.getText().length() == 0) {
+			MessageDialog.openError(
+					null,
+					DLG_TITLE,
+					NO_PACKAGE_MSG);
+			return;
+		}
+		/* There namespace cannot be empty */
+		if (mNamespaceText.getText().length() == 0) {
+			MessageDialog.openError(
+					null,
+					DLG_TITLE,
+					NO_NAMESPACE_MSG);
+			return;
+		}
+        enableButtons();
+		this.notifyListeners(CixsGenEditor.GEN_EVENT, null);
+	}
+	
+	/**
+	 * Perform actions following a change in the UI.
+	 */
+	private void postProcessChange() {
+        enableButtons();
+		this.notifyListeners(CixsGenEditor.CHG_EVENT, null);
 	}
 	
 	/**
 	 * Whenever the model is modified from the outside, this method allows
 	 * the control to reset its content.
-	 * @param cixsGenDoc the model properties file
+	 * @param service the service model
 	 */
-	public final void resetOperations(final CixsGenDocument cixsGenDoc) {
-		mCixsGenDoc = cixsGenDoc;
-		loadOperations(cixsGenDoc, mTable);
+	public final void resetOperations(final CixsService service) {
+		mService = service;
+		loadOperations();
 		enableButtons();
 	}
 	
 	/**
-	 * Creates items in an SWT table from a properties file where items
-	 * are store as indexed properties (using prop.i key form).
-	 * @param cixsGenDoc  the model properties file
-	 * @param table the SWT table
+	 * Creates items in an SWT table from a CixsOperation object.
 	 */
-	private void loadOperations(
-			final CixsGenDocument cixsGenDoc,
-			final Table table) {
+	private void loadOperations() {
 		
-		if (cixsGenDoc == null) {
-			return;
+		mOperationsTable.removeAll();
+		
+		for (CixsOperation operation : mService.getCixsOperations()) {
+			TableItem ti = new TableItem(mOperationsTable, SWT.NONE);
+			ti.setText(operation.getAsStringArray());
+	        ti.setImage(mTableImage);
 		}
-		table.removeAll();
-		
-		int idx = 1;
-		boolean opFound = true;
-		while (opFound) {
-			String sfx = "." + Integer.toString(idx);
-			String opprop = CixsGenDocument.OP_NAME + sfx;
-			if (cixsGenDoc.getProperty(opprop) != null
-					&& cixsGenDoc.getProperty(opprop).length() > 0) {
-				TableItem ti = new TableItem(table, SWT.NONE);
-				String[] item = {
-				 cixsGenDoc.getProperty(opprop),
-				 cixsGenDoc.getProperty(CixsGenDocument.OP_PROG + sfx, ""),
-				 cixsGenDoc.getProperty(CixsGenDocument.IN_PKG + sfx, ""),
-				 cixsGenDoc.getProperty(CixsGenDocument.IN_TYPE + sfx, ""),
-				 cixsGenDoc.getProperty(CixsGenDocument.OUT_PKG + sfx, ""),
-				 cixsGenDoc.getProperty(CixsGenDocument.OUT_TYPE + sfx, "")
-				};
-				ti.setText(item);
-		        ti.setImage(mTableImage);
-				opFound = true;
-			} else {
-				opFound = false;
-			}
-			idx += 1; 
-		}
-		
 	}
 	
 	/**
-	 * Serializes an SWT table items as indexed properties in the model 
-	 * properties file.
-	 * @param cixsGenDoc the model properties file
-	 * @param table the SWT table
+	 * @return the service model
 	 */
-	private void saveOperations(
-			final CixsGenDocument cixsGenDoc,
-			final Table table) {
-		if (cixsGenDoc == null) {
-			return;
-		}
-		clearOperations(cixsGenDoc);
-
-		int idx = 1;
-		for (int i = 0; i < table.getItems().length; i++) {
-			TableItem ti = table.getItem(i);
-			String sfx = "." + Integer.toString(idx);
-			cixsGenDoc.setProperty(
-					CixsGenDocument.OP_NAME + sfx, ti.getText(0));
-			cixsGenDoc.setProperty(
-					CixsGenDocument.OP_PROG + sfx, ti.getText(1));
-			cixsGenDoc.setProperty(
-					CixsGenDocument.IN_PKG + sfx, ti.getText(2));
-			cixsGenDoc.setProperty(
-					CixsGenDocument.IN_TYPE + sfx, ti.getText(3));
-			cixsGenDoc.setProperty(
-					CixsGenDocument.OUT_PKG + sfx, ti.getText(4));
-			cixsGenDoc.setProperty(
-					CixsGenDocument.OUT_TYPE + sfx, ti.getText(5));
-			idx += 1; 
-		}
-		
-		this.notifyListeners(CHG_EVENT, null);
-	}
-
-	/**
-	 * Removes all operations from the model properties file.
-	 * @param cixsGenDoc the model properties file
-	 */
-	private void clearOperations(final CixsGenDocument cixsGenDoc) {
-		if (cixsGenDoc == null) {
-			return;
-		}
-		int idx = 1;
-		boolean opFound = true;
-		while (opFound) {
-			String sfx = "." + Integer.toString(idx);
-			String opprop = CixsGenDocument.OP_NAME + sfx;
-			if (cixsGenDoc.getProperty(opprop) != null
-					&& cixsGenDoc.getProperty(opprop).length() > 0) {
-				cixsGenDoc.remove(opprop);
-				cixsGenDoc.remove(CixsGenDocument.OP_PROG + sfx);
-				cixsGenDoc.remove(CixsGenDocument.IN_PKG + sfx);
-				cixsGenDoc.remove(CixsGenDocument.IN_TYPE + sfx);
-				cixsGenDoc.remove(CixsGenDocument.OUT_PKG + sfx);
-				cixsGenDoc.remove(CixsGenDocument.OUT_TYPE + sfx);
-				opFound = true;
-			} else {
-				opFound = false;
-			}
-			idx += 1; 
-		}
-	}
-
-	/**
-	 * @return the cixsGenDoc
-	 */
-	public final CixsGenDocument getWsgenDoc() {
-		return mCixsGenDoc;
+	public final CixsService getService() {
+		return mService;
 	}
 }

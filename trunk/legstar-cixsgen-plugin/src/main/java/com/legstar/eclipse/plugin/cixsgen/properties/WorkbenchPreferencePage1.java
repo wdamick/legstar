@@ -40,7 +40,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.jface.preference.IPreferenceStore;
 import com.legstar.eclipse.plugin.cixsgen.Activator;
-import com.legstar.eclipse.plugin.cixsgen.CixsgenPreferences;
+import com.legstar.eclipse.plugin.cixsgen.CixsGenPreferences;
 
 /**
  * A preference page to setup settings for CIXS generation.
@@ -230,26 +230,26 @@ public class WorkbenchPreferencePage1
 	 */
 	private void initializeDefaultPreferences(final IPreferenceStore store) {
 		store.setDefault(
-				CixsgenPreferences.GEN_LOC_PREF,
-				CixsgenPreferences.DEFAULT_GEN_LOC);
+				CixsGenPreferences.GEN_LOC_PREF,
+				CixsGenPreferences.DEFAULT_GEN_LOC);
 		store.setDefault(
-				CixsgenPreferences.CIXS_PKG_PFX_PREF,
-				CixsgenPreferences.DEFAULT_CIXS_PKG_PFX);
+				CixsGenPreferences.CIXS_PKG_PFX_PREF,
+				CixsGenPreferences.DEFAULT_CIXS_PKG_PFX);
 		store.setDefault(
-				CixsgenPreferences.CIXS_NS_PFX_PREF,
-				CixsgenPreferences.DEFAULT_CIXS_NS_PFX);
+				CixsGenPreferences.CIXS_NS_PFX_PREF,
+				CixsGenPreferences.DEFAULT_CIXS_NS_PFX);
 		store.setDefault(
-				CixsgenPreferences.CIXS_ANT_DIR_PREF,
-				CixsgenPreferences.DEFAULT_CIXS_ANT_DIR);
+				CixsGenPreferences.CIXS_ANT_DIR_PREF,
+				CixsGenPreferences.DEFAULT_CIXS_ANT_DIR);
 		store.setDefault(
-				CixsgenPreferences.CIXS_WDD_DIR_PREF,
-				CixsgenPreferences.DEFAULT_CIXS_WDD_DIR);
+				CixsGenPreferences.CIXS_WDD_DIR_PREF,
+				CixsGenPreferences.DEFAULT_CIXS_WDD_DIR);
 		store.setDefault(
-				CixsgenPreferences.CIXS_PROP_DIR_PREF,
-				CixsgenPreferences.DEFAULT_CIXS_PROP_DIR);
+				CixsGenPreferences.CIXS_PROP_DIR_PREF,
+				CixsGenPreferences.DEFAULT_CIXS_PROP_DIR);
 		store.setDefault(
-				CixsgenPreferences.CIXS_WAR_DIR_PREF,
-				CixsgenPreferences.DEFAULT_CIXS_WAR_DIR);
+				CixsGenPreferences.CIXS_WAR_DIR_PREF,
+				CixsGenPreferences.DEFAULT_CIXS_WAR_DIR);
 	}
 
 	/**
@@ -278,7 +278,7 @@ public class WorkbenchPreferencePage1
 
 		createLabel(group2, CIXS_PKG_PFX_LABEL_TEXT);
 		mTxCixsPackagePrefix = createText(group2,
-				CixsgenPreferences.DEFAULT_CIXS_PKG_PFX); 
+				CixsGenPreferences.DEFAULT_CIXS_PKG_PFX); 
 		mTxCixsPackagePrefix.addModifyListener(
 				new ModifyListener() {
 			public void modifyText(final ModifyEvent e) {
@@ -288,7 +288,7 @@ public class WorkbenchPreferencePage1
 
 		createLabel(group2, CIXS_NS_PFX_LABEL_TEXT);
 		mTxCixsNamespacePrefix = createText(group2,
-				CixsgenPreferences.DEFAULT_CIXS_NS_PFX); 
+				CixsGenPreferences.DEFAULT_CIXS_NS_PFX); 
 		mTxCixsNamespacePrefix.addModifyListener(
 				new ModifyListener() {
 			public void modifyText(final ModifyEvent e) {
@@ -298,19 +298,19 @@ public class WorkbenchPreferencePage1
 
 		createLabel(group2, CIXS_ANT_DIR_LABEL_TEXT);
 		mTxCixsAntDir = createText(group2,
-				CixsgenPreferences.DEFAULT_CIXS_ANT_DIR); 
+				CixsGenPreferences.DEFAULT_CIXS_ANT_DIR); 
 		
 		createLabel(group2, CIXS_WDD_DIR_LABEL_TEXT);
 		mTxCixsWddDir = createText(group2,
-				CixsgenPreferences.DEFAULT_CIXS_WDD_DIR); 
+				CixsGenPreferences.DEFAULT_CIXS_WDD_DIR); 
 		
 		createLabel(group2, CIXS_PROP_DIR_LABEL_TEXT);
 		mTxCixsPropDir = createText(group2,
-				CixsgenPreferences.DEFAULT_CIXS_PROP_DIR); 
+				CixsGenPreferences.DEFAULT_CIXS_PROP_DIR); 
 		
 		createLabel(group2, CIXS_WAR_DIR_LABEL_TEXT);
 		mTxCixsWarDir = createText(group2,
-				CixsgenPreferences.DEFAULT_CIXS_WAR_DIR); 
+				CixsGenPreferences.DEFAULT_CIXS_WAR_DIR); 
 		
 		initializeValues();
 		return compositeTab1;
@@ -323,19 +323,19 @@ public class WorkbenchPreferencePage1
 		IPreferenceStore store = getPreferenceStore();
 
 		mCixsgenLocator.setStringValue(store.getString(
-				CixsgenPreferences.GEN_LOC_PREF));
+				CixsGenPreferences.GEN_LOC_PREF));
 		mTxCixsPackagePrefix.setText(store.getString(
-				CixsgenPreferences.CIXS_PKG_PFX_PREF));
+				CixsGenPreferences.CIXS_PKG_PFX_PREF));
 		mTxCixsNamespacePrefix.setText(store.getString(
-				CixsgenPreferences.CIXS_NS_PFX_PREF));
+				CixsGenPreferences.CIXS_NS_PFX_PREF));
 		mTxCixsAntDir.setText(store.getString(
-				CixsgenPreferences.CIXS_ANT_DIR_PREF));
+				CixsGenPreferences.CIXS_ANT_DIR_PREF));
 		mTxCixsWddDir.setText(store.getString(
-				CixsgenPreferences.CIXS_WDD_DIR_PREF));
+				CixsGenPreferences.CIXS_WDD_DIR_PREF));
 		mTxCixsPropDir.setText(store.getString(
-				CixsgenPreferences.CIXS_PROP_DIR_PREF));
+				CixsGenPreferences.CIXS_PROP_DIR_PREF));
 		mTxCixsWarDir.setText(store.getString(
-				CixsgenPreferences.CIXS_WAR_DIR_PREF));
+				CixsGenPreferences.CIXS_WAR_DIR_PREF));
 
 	}
 
@@ -401,19 +401,19 @@ public class WorkbenchPreferencePage1
 	private void storeValues() {
 		IPreferenceStore store = getPreferenceStore();
 
-		store.setValue(CixsgenPreferences.GEN_LOC_PREF,
+		store.setValue(CixsGenPreferences.GEN_LOC_PREF,
 				mCixsgenLocator.getStringValue());
-		store.setValue(CixsgenPreferences.CIXS_PKG_PFX_PREF,
+		store.setValue(CixsGenPreferences.CIXS_PKG_PFX_PREF,
 				mTxCixsPackagePrefix.getText());
-		store.setValue(CixsgenPreferences.CIXS_NS_PFX_PREF,
+		store.setValue(CixsGenPreferences.CIXS_NS_PFX_PREF,
 				mTxCixsNamespacePrefix.getText());
-		store.setValue(CixsgenPreferences.CIXS_ANT_DIR_PREF,
+		store.setValue(CixsGenPreferences.CIXS_ANT_DIR_PREF,
 				mTxCixsAntDir.getText());
-		store.setValue(CixsgenPreferences.CIXS_WDD_DIR_PREF,
+		store.setValue(CixsGenPreferences.CIXS_WDD_DIR_PREF,
 				mTxCixsWddDir.getText());
-		store.setValue(CixsgenPreferences.CIXS_PROP_DIR_PREF,
+		store.setValue(CixsGenPreferences.CIXS_PROP_DIR_PREF,
 				mTxCixsPropDir.getText());
-		store.setValue(CixsgenPreferences.CIXS_WAR_DIR_PREF,
+		store.setValue(CixsGenPreferences.CIXS_WAR_DIR_PREF,
 				mTxCixsWarDir.getText());
 	}
 
@@ -423,19 +423,19 @@ public class WorkbenchPreferencePage1
 	private void initializeDefaults() {
 		IPreferenceStore store = getPreferenceStore();
 		mCixsgenLocator.setStringValue(store.getDefaultString(
-				CixsgenPreferences.GEN_LOC_PREF));
+				CixsGenPreferences.GEN_LOC_PREF));
 		mTxCixsPackagePrefix.setText(store.getDefaultString(
-				CixsgenPreferences.CIXS_PKG_PFX_PREF));
+				CixsGenPreferences.CIXS_PKG_PFX_PREF));
 		mTxCixsNamespacePrefix.setText(store.getDefaultString(
-				CixsgenPreferences.CIXS_NS_PFX_PREF));
+				CixsGenPreferences.CIXS_NS_PFX_PREF));
 		mTxCixsAntDir.setText(store.getDefaultString(
-				CixsgenPreferences.CIXS_ANT_DIR_PREF));
+				CixsGenPreferences.CIXS_ANT_DIR_PREF));
 		mTxCixsWddDir.setText(store.getDefaultString(
-				CixsgenPreferences.CIXS_WDD_DIR_PREF));
+				CixsGenPreferences.CIXS_WDD_DIR_PREF));
 		mTxCixsPropDir.setText(store.getDefaultString(
-				CixsgenPreferences.CIXS_PROP_DIR_PREF));
+				CixsGenPreferences.CIXS_PROP_DIR_PREF));
 		mTxCixsWarDir.setText(store.getDefaultString(
-				CixsgenPreferences.CIXS_WAR_DIR_PREF));
+				CixsGenPreferences.CIXS_WAR_DIR_PREF));
 		storeValues();
 	}
 	

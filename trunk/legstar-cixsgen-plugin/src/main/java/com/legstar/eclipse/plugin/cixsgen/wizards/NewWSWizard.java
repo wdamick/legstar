@@ -47,21 +47,21 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
+import com.legstar.cixs.gen.CixsService;
 import com.legstar.eclipse.plugin.cixsgen.Activator;
-import com.legstar.eclipse.plugin.cixsgen.model.CixsGenDocument;
+import com.legstar.eclipse.plugin.cixsgen.CixsGenPreferences;
 import com.legstar.eclipse.plugin.common.LegstarReport;
 
-import java.util.Properties;
 import org.eclipse.ui.ide.IDE;
 
 
 /**
- * Legacy Web Service new wizard. Its role is to create a new web service 
- * file in the provided container. If the container resource
- * (a folder or a project) is selected in the workspace 
- * when the wizard is opened, it will accept it as the target
- * container. The wizard creates one file with the extension
- * "cixs". The Web Service multi-page editor will then be opened.
+ * Legacy Web Service new wizard. Its role is to create a new legacy web
+ * service descriptor file in the provided container. If the container resource
+ * (a folder or a project) is selected in the workspace when the wizard is
+ * opened, it will accept it as the target container. The wizard creates one
+ * file with the extension "cixs". The Web Service multi-page editor will then
+ * be opened.
  */
 
 public class NewWSWizard extends Wizard implements INewWizard {
@@ -71,9 +71,6 @@ public class NewWSWizard extends Wizard implements INewWizard {
 	
 	/** Current selection. */
 	private IStructuredSelection mSelection;
-	
-	/** The document model. */
-	private CixsGenDocument cixsGenDoc;
 	
 	/** The model file extension on disk. */
 	private static final String WSFILE_EXT = ".cixs";
@@ -109,7 +106,6 @@ public class NewWSWizard extends Wizard implements INewWizard {
             AbstractUIPlugin.
                 imageDescriptorFromPlugin(Activator.PLUGIN_ID, PAGE_IMG);
         setDefaultPageImageDescriptor(image);
-		cixsGenDoc = new CixsGenDocument();
 	}
 	
 	/**
@@ -136,7 +132,7 @@ public class NewWSWizard extends Wizard implements INewWizard {
 			public void run(final IProgressMonitor monitor) 
 					throws InvocationTargetException {
 				try {
-					doFinish(containerName, wsName, cixsGenDoc, monitor);
+					doFinish(containerName, wsName, monitor);
 				} catch (CoreException e) {
 					throw new InvocationTargetException(e);
 				} finally {
@@ -162,19 +158,17 @@ public class NewWSWizard extends Wizard implements INewWizard {
 	/**
 	 * Worker method will save the file and then start an editor on it.
 	 * @param containerName where the file should go
-	 * @param wsName the Web Service name
-	 * @param properties the model as a properties file
+	 * @param serviceName the Web Service name
 	 * @param monitor to follow progress
 	 * @throws CoreException if something goes wrong
 	 */
 	private void doFinish(
 		final String containerName,
-		final String wsName,
-		final Properties properties,
+		final String serviceName,
 		final IProgressMonitor monitor)	throws CoreException {
 		
 		/* Store the web service description in a file */
-		String fileName = wsName + WSFILE_EXT;
+		String fileName = serviceName + WSFILE_EXT;
 		
 		monitor.beginTask(MONITOR_CIXS_CREATE + fileName, 2);
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
@@ -190,7 +184,14 @@ public class NewWSWizard extends Wizard implements INewWizard {
 		try {
 			OutputStream os =
                 new FileOutputStream(file, false);
-            properties.store(os, null);
+			CixsService service = new CixsService();
+			CixsGenPreferences cixsgenPref = new CixsGenPreferences();
+			service.setName(serviceName);
+			service.setEndpointPackageName(
+					cixsgenPref.getCixsPackagePrefix() + '.' + serviceName);
+			service.setTargetNamespace(
+					cixsgenPref.getCixsNamespacePrefix() + '/' + serviceName);
+            os.write(service.serialize().getBytes());
             os.close();
 		} catch (IOException e) {
 			LegstarReport.throwCoreException(e, Activator.PLUGIN_ID);

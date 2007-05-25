@@ -21,8 +21,8 @@
 package com.legstar.eclipse.plugin.cixsgen.editors;
 
 
+import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -60,16 +60,15 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 
+import com.legstar.cixs.gen.CixsException;
+import com.legstar.cixs.gen.CixsService;
 import com.legstar.eclipse.plugin.cixsgen.Activator;
 import com.legstar.eclipse.plugin.cixsgen.AntCreationException;
-import com.legstar.eclipse.plugin.cixsgen.CixsAntPropMap;
+import com.legstar.eclipse.plugin.cixsgen.CixsGenDescriptor;
 import com.legstar.eclipse.plugin.cixsgen.CixsGenDriver;
-import com.legstar.eclipse.plugin.cixsgen.CixsgenPreferences;
 import com.legstar.eclipse.plugin.cixsgen.dialogs.LegacyWebServiceDialog;
-import com.legstar.eclipse.plugin.cixsgen.model.CixsGenDocument;
 import com.legstar.eclipse.plugin.common.LegstarReport;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
 
@@ -77,7 +76,7 @@ import java.lang.reflect.InvocationTargetException;
  * Legacy Web Service description editor.:
  * <ul>
  * <li>page 0 contains a nested text editor.
- * <li>page 1 has an operation maintenance dialog
+ * <li>page 1 has an service maintenance dialog
  * </ul>
  */
 public class CixsGenEditor
@@ -88,10 +87,13 @@ public class CixsGenEditor
 	private TextEditor editor;
 
 	/** The composite content of the second page. */
-	private LegacyWebServiceDialog mOpDialog;
+	private LegacyWebServiceDialog mServiceDialog;
 
 	/** Set of properties for the ant script. */
-	private CixsAntPropMap mCixsAntPropMap;
+	private CixsGenDescriptor mCixsGenDescriptor;
+	
+	/** The Java project holding the service descriptor. */
+	private IProject mProject;
 
 	/** Project location on disk. */
 	private String mProjectLocation;
@@ -112,13 +114,10 @@ public class CixsGenEditor
 	private String mCixsBinDir;
 	
 	/** Event type corresponding to an update on operation dialog composite. */
-	private static final int CHG_EVENT = 1035;
+	public static final int CHG_EVENT = 1035;
 
 	/** Event type corresponding to a request to generate the endpoint. */
-	private static final int GEN_EVENT = 1036;
-
-	/** The model is stored in a file with this encoding. */
-	private static final String FILE_CHARSET = "ISO-8859-1";
+	public static final int GEN_EVENT = 1036;
 
 	/**
 	 * Creates a multi-page editor.
@@ -146,9 +145,9 @@ public class CixsGenEditor
 	 */
 	private void createOperationsPage() {
 
-		CixsGenDocument cixsGenDoc = null;
+		CixsService service = null;
 		try {
-			cixsGenDoc = loadModel();
+			service = loadModel();
 		} catch (CoreException e) {
 			ErrorDialog.openError(
 					getSite().getShell(),
@@ -158,10 +157,9 @@ public class CixsGenEditor
 			return;
 		}
 
-		mOpDialog = new LegacyWebServiceDialog(
-				getContainer(), SWT.NONE, cixsGenDoc,
-				((IFileEditorInput) getEditorInput()).getFile(), mServiceName);
-		mOpDialog.addListener(CHG_EVENT, new Listener() {
+		mServiceDialog = new LegacyWebServiceDialog(
+				getContainer(), SWT.NONE, service, mServiceFile);
+		mServiceDialog.addListener(CHG_EVENT, new Listener() {
 			public void handleEvent(final Event event) {
 				try {
 					saveModel();
@@ -175,7 +173,7 @@ public class CixsGenEditor
 			}
 
 		});
-		mOpDialog.addListener(GEN_EVENT, new Listener() {
+		mServiceDialog.addListener(GEN_EVENT, new Listener() {
 			public void handleEvent(final Event event) {
 				try {
 					generate();
@@ -190,7 +188,7 @@ public class CixsGenEditor
 
 		});
 		
-		int index = addPage(mOpDialog);
+		int index = addPage(mServiceDialog);
 		setPageText(index, "Operations");
 	}
 
@@ -282,6 +280,10 @@ public class CixsGenEditor
 		if (dotLoc != -1) {
 			mServiceName = mServiceName.substring(0, dotLoc);
 		}
+		/* Extract the workspace location, assuming a classical project*/
+		mProject = mServiceFile.getProject();
+		mProjectLocation = trimPath(mProject.getLocationURI().getPath());
+		mWorkspaceLocation = trimLastSegment(mProjectLocation);
 		introspectProject();
 	}
 	
@@ -291,11 +293,7 @@ public class CixsGenEditor
 	 */
 	private void introspectProject() {
 		
-		/* Extract the workspace location, assuming a classical project*/
-		IProject project = mServiceFile.getProject();
-		mProjectLocation = trimPath(project.getLocationURI().getPath());
-		mWorkspaceLocation = trimLastSegment(mProjectLocation);
- 		IJavaProject jproject = JavaCore.create(project);
+ 		IJavaProject jproject = JavaCore.create(mProject);
 	
 		if (jproject != null) {
 			/* If this is a java project, get Java source and output folders 
@@ -396,7 +394,7 @@ public class CixsGenEditor
 		 * the model reflects the latest changes. */
 		if (newPageIndex == 1) {
 			try {
-				mOpDialog.resetOperations(loadModel());
+				mServiceDialog.resetOperations(loadModel());
 			} catch (CoreException e) {
 				ErrorDialog.openError(
 						getSite().getShell(),
@@ -412,22 +410,19 @@ public class CixsGenEditor
 	 * @return the new properties model file
 	 * @throws CoreException if model can't be loaded
 	 */
-	private CixsGenDocument loadModel() throws CoreException {
-		CixsGenDocument cixsGenDoc = new CixsGenDocument();
+	private CixsService loadModel() throws CoreException {
+		CixsService service = new CixsService();
 		String editorText =
 			editor.getDocumentProvider().getDocument(
 					editor.getEditorInput()).get();
-		byte[] byteArray;
-		try {
-			byteArray = editorText.getBytes(FILE_CHARSET);
-			ByteArrayInputStream baos = new ByteArrayInputStream(byteArray);
-			cixsGenDoc.load(baos);
-		} catch (UnsupportedEncodingException e) {
-			LegstarReport.throwCoreException(e, Activator.PLUGIN_ID);
-		} catch (IOException e) {
-			LegstarReport.throwCoreException(e, Activator.PLUGIN_ID);
+		if (editorText != null && editorText.length() > 0) {
+			try {
+				service.load(editorText);
+			} catch (CixsException e) {
+				LegstarReport.throwCoreException(e, Activator.PLUGIN_ID);
+			}
 		}
-		return cixsGenDoc;
+		return service;
 	}
 
 	/**
@@ -440,8 +435,7 @@ public class CixsGenEditor
 		ByteArrayOutputStream os =
 			new ByteArrayOutputStream();
 		try {
-			mOpDialog.getWsgenDoc().store(os, null);
-			edoc.set(os.toString(FILE_CHARSET));
+			edoc.set(mServiceDialog.getService().serialize());
 			os.close();
 		} catch (IOException e) {
 			LegstarReport.throwCoreException(e, Activator.PLUGIN_ID);
@@ -455,9 +449,9 @@ public class CixsGenEditor
 	private void generate() throws CoreException {
 		doSave(null);
 
-		/* Create the ant properties map */
+		/* Create a set of generation parameters */
 		try {
-			createAntMap();
+			createGenDescriptor();
 		} catch (AntCreationException e) {
 			MessageDialog.openError(getSite().getShell(),
 					"Error", e.getMessage());
@@ -471,11 +465,10 @@ public class CixsGenEditor
 					throws InvocationTargetException {
 				try {
 					doGenerate(
-							mOpDialog.getWsgenDoc(), mCixsAntPropMap, monitor);
+							mServiceDialog.getService(),
+							mCixsGenDescriptor, monitor);
 				} catch (CoreException e) {
 					throw new InvocationTargetException(e);
-				} catch (Exception e) {
-					e.printStackTrace();
 				} finally {
 					monitor.done();
 				}
@@ -495,24 +488,22 @@ public class CixsGenEditor
 	}
 	
 	/**
-	 * Populates the ant script properties. It is assumed Cixs
+	 * Populates a descriptor object. It is assumed Cixs
 	 * Jaxb and Custom code all go to the same binary folder.
 	 * @throws AntCreationException if properties are missing
 	 */
-	private void createAntMap() throws AntCreationException {
-		CixsgenPreferences cixsgenPref = new CixsgenPreferences();
-		mCixsAntPropMap = new CixsAntPropMap();
-		mCixsAntPropMap.setCixsSrcDir(mCixsSrcDir);
-		mCixsAntPropMap.setCixsBinDir(mCixsBinDir);
-		mCixsAntPropMap.setJaxbBinDir(mCixsBinDir);
-		mCixsAntPropMap.setCustBinDir(mCixsBinDir);
-		mCixsAntPropMap.setAntDir(
-				makeAbsolute(cixsgenPref.getCixsAntDir()));
-		mCixsAntPropMap.setWddDir(
-				makeAbsolute(cixsgenPref.getCixsWddDir()));
-		mCixsAntPropMap.setPropDir(
-				makeAbsolute(cixsgenPref.getCixsPropDir()));
-		mCixsAntPropMap.setWarDir(cixsgenPref.getCixsWarDir());
+	private void createGenDescriptor() throws AntCreationException {
+		mCixsGenDescriptor = new CixsGenDescriptor();
+		mCixsGenDescriptor.setCixsSourcesDir(mCixsSrcDir);
+		mCixsGenDescriptor.setCixsBinariesDir(mCixsBinDir);
+		mCixsGenDescriptor.setCixsJaxbBinariesDir(mCixsBinDir);
+		mCixsGenDescriptor.setCixsCustBinariesDir(mCixsBinDir);
+		mCixsGenDescriptor.setCixsAntScriptsDir(
+				makeAbsolute(mCixsGenDescriptor.getCixsAntScriptsDir()));
+		mCixsGenDescriptor.setCixsWebDescriptorsDir(
+				makeAbsolute(mCixsGenDescriptor.getCixsWebDescriptorsDir()));
+		mCixsGenDescriptor.setCixsPropertiesDir(
+				makeAbsolute(mCixsGenDescriptor.getCixsPropertiesDir()));
 	}
 	
 	/**
@@ -522,29 +513,29 @@ public class CixsGenEditor
 	 */
 	private String makeAbsolute(final String path) {
 		String newPath = path;
-		if (newPath != null && newPath.length() > 1) {
-			Path p = new Path(path);
-			if (p.isAbsolute()) {
-				return newPath;
-			} else {
-				Path w = new Path(mProjectLocation);
-				return w.append(p).toOSString();
-			}
-			
+		Path p = new Path(path);
+		if (!p.isAbsolute()) {
+			Path w = new Path(mProjectLocation);
+			newPath = w.append(p).toOSString();
+		}
+		/* Make sure this folder exists */
+		File folder = new File(newPath);
+		if (!folder.exists()) {
+			folder.mkdirs();
 		}
 		return newPath;
 	}
 
 	/**
 	 * Generation process per se.
-	 * @param cixsGenDoc operations descriptions
+	 * @param service service descriptor
 	 * @param cixsAntPropMap ant script properties
 	 * @param monitor progress monitor
 	 * @throws CoreException if generation fails
 	 */
 	private void doGenerate(
-			final CixsGenDocument cixsGenDoc,
-			final CixsAntPropMap cixsAntPropMap,
+			final CixsService service,
+			final CixsGenDescriptor cixsAntPropMap,
 			final IProgressMonitor monitor) throws CoreException {
 
 		monitor.beginTask(
@@ -563,7 +554,7 @@ public class CixsGenEditor
 			CixsGenDriver gen = new CixsGenDriver();
 			gen.generate(mServiceName,
 					     cixsAntPropMap,
-					     cixsGenDoc,
+					     service,
 					     monitor);
 		} catch (AntCreationException e) {
 			LegstarReport.throwCoreException(e, Activator.PLUGIN_ID);
