@@ -17,6 +17,7 @@
     </taskdef>
 	
 	<path id="jaxws.classpath">
+		<!-- 
 	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\com\sun\xml\bind\jaxb-impl\2.1.2\jaxb-impl-2.1.2.jar"/>
 	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\com\sun\xml\bind\jaxb-xjc\2.1.2\jaxb-xjc-2.1.2.jar"/>
 	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\com\sun\xml\messaging\saaj\saaj-impl\1.3\saaj-impl-1.3.jar"/>
@@ -33,7 +34,8 @@
 	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\javax\xml\stream\stax-api\1.0\stax-api-1.0.jar"/>
 	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\javax\xml\ws\jaxws-api\2.1\jaxws-api-2.1.jar"/>
 	    <pathelement location="C:\Documents and Settings\Fady\.m2\repository\org\jvnet\staxex\stax-ex\1.0\stax-ex-1.0.jar"/>
-        <!-- <fileset dir="D:\Legsem\Legstar\dependencies\jaxws-ri-2.1.1" includes="lib/*.jar" /> -->
+         -->
+        <fileset dir="D:\Legsem\Legstar\dependencies\jaxws-ri-2.1.1" includes="lib/*.jar" />
     </path>
 
     <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
