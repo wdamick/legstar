@@ -28,7 +28,7 @@ import org.eclipse.core.runtime.preferences.IPreferencesService;
  * Legstar Cixsgen preferences handling class.
  *
  */
-public class CixsgenPreferences {
+public class CixsGenPreferences {
 
 	/* ============================ STORE ID SECTION ========================*/
 
@@ -38,20 +38,32 @@ public class CixsgenPreferences {
 	/** The preference store ID for the CIXS namespace prefix. */
 	public static final String CIXS_NS_PFX_PREF = "CixsNamespacePrefix";
 
-	/** The preference store ID for the cixsgen location. */
+	/** The preference store ID for the core cixsgen install location. */
 	public static final String GEN_LOC_PREF = "CixsgenLocation";
 	
+	/** The preference store ID for the target sources directory. */
+	public static final String CIXS_SRCDIR_PREF = "CixsSourcesDir";
+	
+	/** The preference store ID for the target binaries directory. */
+	public static final String CIXS_BINDIR_PREF = "CixsBinariesDir";
+	
+	/** The preference store ID for the location of JAXB binaries. */
+	public static final String JAXB_BINDIR_PREF = "CixsJaxbBinariesDir";
+	
+	/** The preference store ID for the location of custom classes binaries. */
+	public static final String CUST_BINDIR_PREF = "CixsCustBinariesDir";
+	
 	/** The preference store ID for the Ant scripts target location. */
-	public static final String CIXS_ANT_DIR_PREF = "AntDir";
+	public static final String CIXS_ANT_DIR_PREF = "CixsAntScriptsDir";
 	
 	/** The preference store ID for the Web descriptors target location. */
-	public static final String CIXS_WDD_DIR_PREF = "WddDir";
+	public static final String CIXS_WDD_DIR_PREF = "CixsWebDescriptorsDir";
 	
 	/** The preference store ID for the Properties files target location. */
-	public static final String CIXS_PROP_DIR_PREF = "PropDir";
+	public static final String CIXS_PROP_DIR_PREF = "CixsPropertiesDir";
 	
 	/** The preference store ID for the War files target location. */
-	public static final String CIXS_WAR_DIR_PREF = "WarDir";
+	public static final String CIXS_WAR_DIR_PREF = "CixsWarDir";
 	
 	/* ========================= DEFAULT VALUES SECTION =====================*/
 
@@ -63,6 +75,18 @@ public class CixsgenPreferences {
 	
 	/** The default cixsgen location. */
 	public static final String DEFAULT_GEN_LOC = "";
+	
+	/** The default target sources directory. */
+	public static final String DEFAULT_SRCDIR = "src";
+	
+	/** The default target binaries directory. */
+	public static final String DEFAULT_BINDIR = "bin";
+	
+	/** The default location of JAXB binaries. */
+	public static final String DEFAULT_JAXBBINDIR = "bin";
+	
+	/** The default location of custom classes binaries. */
+	public static final String DEFAULT_CUSTBINDIR = "bin";
 	
 	/** The default Ant scripts location. */
 	public static final String DEFAULT_CIXS_ANT_DIR = "ant";
@@ -89,20 +113,32 @@ public class CixsgenPreferences {
 	/** The CIXS generator location. */
 	private String mCixsgenLocation;
 	
+	/** The CIXS target sources directory. */
+	private String mCixsSourcesDir;
+	
+	/** The CIXS target binaries directory. */
+	private String mCixsBinariesDir;
+	
+	/** The CIXS location of JAXB binaries. */
+	private String mCixsJaxbBinariesDir;
+	
+	/** The CIXS location of custom classes binaries. */
+	private String mCixsCustBinariesDir;
+	
 	/** The CIXS Ant scripts location. */
-	private String mCixsAntDir;
+	private String mCixsAntScriptsDir;
 	
 	/** The CIXS Web descriptors location. */
-	private String mCixsWddDir;
+	private String mCixsWebDescriptorsDir;
 	
 	/** The CIXS Properties files location. */
-	private String mCixsPropDir;
+	private String mCixsPropertiesDir;
 	
 	/** The CIXS War files location. */
 	private String mCixsWarDir;
 	
 	/** No argument constructor. */
-	public CixsgenPreferences() {
+	public CixsGenPreferences() {
 		IPreferencesService service = Platform.getPreferencesService();
 		mCixsgenLocation = service.getString(Activator.PLUGIN_ID,
 				GEN_LOC_PREF,
@@ -111,27 +147,48 @@ public class CixsgenPreferences {
 				CIXS_PKG_PFX_PREF, DEFAULT_CIXS_PKG_PFX, null);
 		mCixsNamespacePrefix = service.getString(Activator.PLUGIN_ID,
 				CIXS_NS_PFX_PREF, DEFAULT_CIXS_NS_PFX, null);
-		mCixsAntDir = service.getString(Activator.PLUGIN_ID,
+		mCixsSourcesDir = service.getString(Activator.PLUGIN_ID,
+				CIXS_SRCDIR_PREF, DEFAULT_SRCDIR, null);
+		mCixsBinariesDir = service.getString(Activator.PLUGIN_ID,
+				CIXS_BINDIR_PREF, DEFAULT_BINDIR, null);
+		mCixsAntScriptsDir = service.getString(Activator.PLUGIN_ID,
 				CIXS_ANT_DIR_PREF, DEFAULT_CIXS_ANT_DIR, null);
-		mCixsWddDir = service.getString(Activator.PLUGIN_ID,
+		mCixsWebDescriptorsDir = service.getString(Activator.PLUGIN_ID,
 				CIXS_WDD_DIR_PREF, DEFAULT_CIXS_WDD_DIR, null);
-		mCixsPropDir = service.getString(Activator.PLUGIN_ID,
+		mCixsPropertiesDir = service.getString(Activator.PLUGIN_ID,
 				CIXS_PROP_DIR_PREF, DEFAULT_CIXS_PROP_DIR, null);
 		mCixsWarDir = service.getString(Activator.PLUGIN_ID,
 				CIXS_WAR_DIR_PREF, DEFAULT_CIXS_WAR_DIR, null);
 	}
 
 	/**
-	 * @return the cixsgen location
+	 * @return the core cixsgen install location
 	 */
 	public final String getCixsgenLocation() {
 		return mCixsgenLocation;
 	}
+
+	/**
+	 * @param cixsgenLocation the core cixsgen install location to set
+	 */
+	public final void setCixsgenLocation(
+			final String cixsgenLocation) {
+		mCixsgenLocation = cixsgenLocation;
+	}
+
 	/**
 	 * @return the CIXS package name prefix
 	 */
 	public final String getCixsPackagePrefix() {
 		return mCixsPackagePrefix;
+	}
+
+	/**
+	 * @param cixsPackagePrefix the package name prefix to set
+	 */
+	public final void setCixsPackagePrefix(
+			final String cixsPackagePrefix) {
+		mCixsPackagePrefix = cixsPackagePrefix;
 	}
 
 	/**
@@ -142,24 +199,56 @@ public class CixsgenPreferences {
 	}
 
 	/**
+	 * @param cixsNamespacePrefix the namespace prefix to set
+	 */
+	public final void setCixsNamespacePrefix(
+			final String cixsNamespacePrefix) {
+		mCixsNamespacePrefix = cixsNamespacePrefix;
+	}
+
+	/**
 	 * @return the CIXS Ant scripts location
 	 */
-	public final String getCixsAntDir() {
-		return mCixsAntDir;
+	public final String getCixsAntScriptsDir() {
+		return mCixsAntScriptsDir;
+	}
+
+	/**
+	 * @param cixsAntScriptsDir the Ant scripts location to set
+	 */
+	public final void setCixsAntScriptsDir(
+			final String cixsAntScriptsDir) {
+		mCixsAntScriptsDir = cixsAntScriptsDir;
 	}
 
 	/**
 	 * @return the CIXS Web descriptors location
 	 */
-	public final String getCixsWddDir() {
-		return mCixsWddDir;
+	public final String getCixsWebDescriptorsDir() {
+		return mCixsWebDescriptorsDir;
+	}
+
+	/**
+	 * @param cixsWebDescriptorsDir the Web descriptors location to set
+	 */
+	public final void setCixsWebDescriptorsDir(
+			final String cixsWebDescriptorsDir) {
+		mCixsWebDescriptorsDir = cixsWebDescriptorsDir;
 	}
 
 	/**
 	 * @return the CIXS Properties files location
 	 */
-	public final String getCixsPropDir() {
-		return mCixsPropDir;
+	public final String getCixsPropertiesDir() {
+		return mCixsPropertiesDir;
+	}
+
+	/**
+	 * @param cixsPropertiesDir the Properties files location to set
+	 */
+	public final void setCixsPropertiesDir(
+			final String cixsPropertiesDir) {
+		mCixsPropertiesDir = cixsPropertiesDir;
 	}
 
 	/**
@@ -169,5 +258,72 @@ public class CixsgenPreferences {
 		return mCixsWarDir;
 	}
 
+	/**
+	 * @param cixsWarDir the War files location to set
+	 */
+	public final void setCixsWarDir(
+			final String cixsWarDir) {
+		mCixsWarDir = cixsWarDir;
+	}
+
+	/**
+	 * @return the target binaries directory
+	 */
+	public final String getCixsBinariesDir() {
+		return mCixsBinariesDir;
+	}
+
+	/**
+	 * @param cixsBinariesDir the target binaries directory to set
+	 */
+	public final void setCixsBinariesDir(
+			final String cixsBinariesDir) {
+		mCixsBinariesDir = cixsBinariesDir;
+	}
+
+	/**
+	 * @return the target sources directory
+	 */
+	public final String getCixsSourcesDir() {
+		return mCixsSourcesDir;
+	}
+
+	/**
+	 * @param cixsSourcesDir the target sources directory to set
+	 */
+	public final void setCixsSourcesDir(
+			final String cixsSourcesDir) {
+		mCixsSourcesDir = cixsSourcesDir;
+	}
+
+	/**
+	 * @return the location of custom classes binaries
+	 */
+	public final String getCixsCustBinariesDir() {
+		return mCixsCustBinariesDir;
+	}
+
+	/**
+	 * @param cixsCustBinariesDir the location of custom classes binaries to set
+	 */
+	public final void setCixsCustBinariesDir(
+			final String cixsCustBinariesDir) {
+		mCixsCustBinariesDir = cixsCustBinariesDir;
+	}
+
+	/**
+	 * @return the location of JAXB binaries
+	 */
+	public final String getCixsJaxbBinariesDir() {
+		return mCixsJaxbBinariesDir;
+	}
+
+	/**
+	 * @param cixsJaxbBinariesDir the location of JAXB binaries to set
+	 */
+	public final void setCixsJaxbBinariesDir(
+			final String cixsJaxbBinariesDir) {
+		mCixsJaxbBinariesDir = cixsJaxbBinariesDir;
+	}
 
 }

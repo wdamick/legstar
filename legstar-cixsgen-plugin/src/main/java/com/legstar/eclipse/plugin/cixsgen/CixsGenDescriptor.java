@@ -18,30 +18,33 @@
  *  02110-1301  USA
  *  
  *******************************************************************************/
-package com.legstar.eclipse.plugin.cixsgen.model;
-
-import java.util.Properties;
+package com.legstar.eclipse.plugin.cixsgen;
 
 /**
- * Legacy Web Service Model. A serializable properties file.
+ * This class expose all properties that are useful at generation time.
+ *
  */
-public class CixsGenDocument extends Properties {
-	/** The serial ID. */
-	private static final long serialVersionUID = -9080715447034558682L;
-	/** Web service name. */
-	public static final String WS_NAME = "wsname";
-	/** Operation name. */
-	public static final String OP_NAME = "operation";
-	/** Host program name. */
-	public static final String OP_PROG = "program";
-	/** Output location of jaxb classes. */
-	public static final String OP_JAXB_OUTLOC = "outputlocation";
-	/** Input package name. */
-	public static final String IN_PKG = "inputpackage";
-	/** Input type name. */
-	public static final String IN_TYPE = "inputtype";
-	/** Output package name. */
-	public static final String OUT_PKG = "outputpackage";
-	/** Output type name. */
-	public static final String OUT_TYPE = "outputtype";
+public class CixsGenDescriptor extends CixsGenPreferences {
+	
+	/** Error message if Cixsgen location has not been set. */
+	private static final String GEN_NOT_SET = "Cixsgen location not set in "
+		+ "preferences. Use Window-->Preferences to set the LegStar CIXS "
+		+ "Generator location to a valid Cixsgen install folder (Cixsgen must "
+		+ "have been installed prior to using this plugin).";
+	
+
+	/**
+	 * Constructor loads preferences.
+	 * @throws AntCreationException if preferences are not set
+	 */
+	public CixsGenDescriptor() throws AntCreationException {
+		super();
+	
+		/* Make sure preferences have been setup */
+		if (getCixsgenLocation() == null
+				|| getCixsgenLocation().length() == 0) {
+			throw (new AntCreationException(GEN_NOT_SET));
+		}
+
+	}
 }

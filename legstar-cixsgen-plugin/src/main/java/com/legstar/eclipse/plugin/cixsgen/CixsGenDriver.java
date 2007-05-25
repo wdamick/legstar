@@ -28,10 +28,8 @@ import java.io.InputStream;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import com.legstar.cixs.gen.CixsOperation;
 import com.legstar.cixs.gen.CixsService;
 
-import com.legstar.eclipse.plugin.cixsgen.model.CixsGenDocument;
 import com.legstar.eclipse.plugin.common.LegstarAntRunner;
 
 
@@ -48,31 +46,26 @@ public class CixsGenDriver {
 	/** Target for Legacy Web Service generation (avoid compilation). */
 	private static final String CIXS_TARGET = "generateService";
 	
-	/** Relative path to CIXS classes generation XSLT. */
-	private static final String CIXS_XSL_LOC = "/ant/build-service.xml";
+	/** Relative path to ANT template generation script. */
+	private static final String CIXS_ANT_TEMPLATE_LOC =
+		"/ant/build-service.template";
 	
-	/** Temporary ant file name. */
-	private static final String TEMP_ANT_FILE_NAME = "cixsgen";
+	/**  Suffix of generated ANT script file. */
+	private static final String ANT_FILE_SUFFIX = "xml";
 
-	/** Temporary ant file name suffix. */
-	private static final String TEMP_ANT_FILE_SUFFIX = "xml";
-
-	/** XML element that delineate a Service in the Ant script. */
-	private static final String SERVICE_TAG = "<service";
-
-	/** XML element that terminates the Cixsgen task in the Ant script. */
-	private static final String CIXSGEN_END_TAG = "</cixsgen>";
+	/** Prefix of generated ANT script file. */
+	private static final String ANT_FILE_PREFIX = "build-";
 	
 	/** Start generation message text. */
 	private static final String GEN_STARTED_MSG =
 		"Generating CIXS classes for ";
 
-	/** XSL not found error message text. */
-	private static final String XSL_NOT_FOUND_MSG =
+	/** Resource not found error message text. */
+	private static final String RESOURCE_NOT_FOUND_MSG =
 		"Unable to locate resource ";
 
 	/**
-	 * Constructor, loads the preferences.
+	 * Constructor.
 	 */
 	public CixsGenDriver() {
 	}
@@ -80,16 +73,16 @@ public class CixsGenDriver {
 	/**
 	 * Generates JAXWS endpoint artifacts for a Web Service.
 	 * @param serviceName the web service name
-	 * @param cixsAntPropMap properties exoected by the Ant script
-	 * @param cixsGenDoc Model properties describing Web Servive operations
+	 * @param cixsGenDescriptor properties expected by the Ant script
+	 * @param service XML describing Web Service
 	 * @param monitor a progress monitor
 	 * @throws AntCreationException if ant script creation fails
 	 * @throws CoreException if ant generation fails
 	 */
 	public final void generate(
 			final String serviceName,
-			final CixsAntPropMap cixsAntPropMap,
-			final CixsGenDocument cixsGenDoc,
+			final CixsGenDescriptor cixsGenDescriptor,
+			final CixsService service,
 			final IProgressMonitor monitor)
 		throws AntCreationException, CoreException {
 
@@ -97,55 +90,79 @@ public class CixsGenDriver {
 		monitor.beginTask(GEN_STARTED_MSG + serviceName, 1 * scale);
 		LegstarAntRunner antRunner = new LegstarAntRunner();
 		
-		/* Generate the CIXS classes */
+		/* Create a new ANT script file (replace existing one) */
+		File scriptFile = new File(
+				cixsGenDescriptor.getCixsAntScriptsDir() + File.separatorChar 
+				+ ANT_FILE_PREFIX + serviceName + '.'
+				+ ANT_FILE_SUFFIX); 
+		createBuild(cixsGenDescriptor, service, scriptFile);
+		
+		/* Generate the CIXS classes by submitting the ANT script */
 		String[] cixsTargets = {CIXS_TARGET};
 		antRunner.run(
-				createBuild(serviceName, cixsGenDoc),
+				scriptFile.getPath(),
 				cixsTargets,
-				cixsAntPropMap.getMap(),
+				null,
 				monitor,
 				scale);
 	}
 	
 	/**
-	 * Create a temporary file containing an ANT script to generate an
-	 * endpoint. Because the generation task takes a complex set of inner
-	 * objects as parameter, we create the set of parameters manually.
-	 * @param wsName Web Service name
-	 * @param cixsGenDoc Model properties describing Web Servive operations
-	 * @return the name of the temporary file
+	 * Writes an ANT script in a file. The result script has steps to generate
+	 * an endpoint. Because the generation ANT task takes a complex set of inner
+	 * objects as parameters, the script is built dynamically.
+	 * @param cixsGenDescriptor properties expected by the Ant script
+	 * @param service Service descriptor
+	 * @param scriptFile the target ANT script file
 	 * @throws AntCreationException if ant script creation failed
 	 */
-	private String createBuild(
-			final String wsName,
-			final CixsGenDocument cixsGenDoc) throws AntCreationException {
-		File tmpFile = null;
+	private void createBuild(
+			final CixsGenDescriptor cixsGenDescriptor,
+			final CixsService service,
+			final File scriptFile) throws AntCreationException {
 		try {
-			tmpFile = File.createTempFile(
-					TEMP_ANT_FILE_NAME, TEMP_ANT_FILE_SUFFIX);
-			StringBuffer result = new StringBuffer();
-			InputStream xsltStream  =
-				getClass().getResourceAsStream(CIXS_XSL_LOC);
-			if (xsltStream == null) {
-				throw (new AntCreationException(XSL_NOT_FOUND_MSG
-						+ CIXS_XSL_LOC));
+			/* Load the template ANT script */
+			InputStream templateStream  =
+				getClass().getResourceAsStream(CIXS_ANT_TEMPLATE_LOC);
+			if (templateStream == null) {
+				throw (new AntCreationException(RESOURCE_NOT_FOUND_MSG
+						+ CIXS_ANT_TEMPLATE_LOC));
 			}
-			String content = readTextFile(xsltStream);
-			result.append(content.substring(0, content.indexOf(SERVICE_TAG)));
-			result.append(genCixsContent(wsName, cixsGenDoc).serialize());
-			result.append(content.substring(content.indexOf(CIXSGEN_END_TAG)));
-			FileWriter out = new FileWriter(tmpFile);
-			out.write(result.toString());
+			String script = readTextFile(templateStream);
+			
+			/* Replace variables from template with actual values */
+			script = script.replace("${base.dir}",
+					cixsGenDescriptor.getCixsgenLocation());
+			script = script.replace("${jaxb.bin.dir}",
+					cixsGenDescriptor.getCixsJaxbBinariesDir());
+			script = script.replace("${cixs.src.dir}",
+					cixsGenDescriptor.getCixsSourcesDir());
+			script = script.replace("${wdd.dir}",
+					cixsGenDescriptor.getCixsWebDescriptorsDir());
+			script = script.replace("${ant.dir}",
+					cixsGenDescriptor.getCixsAntScriptsDir());
+			script = script.replace("${prop.dir}",
+					cixsGenDescriptor.getCixsPropertiesDir());
+			script = script.replace("${war.dir}",
+					cixsGenDescriptor.getCixsWarDir());
+			script = script.replace("${cixs.bin.dir}",
+					cixsGenDescriptor.getCixsBinariesDir());
+			script = script.replace("${cust.bin.dir}",
+					cixsGenDescriptor.getCixsCustBinariesDir());
+
+			/* Append this service serialization as XML */
+			script = script.replace("${cixsService}", service.serialize());
+
+			FileWriter out = new FileWriter(scriptFile);
+			out.write(script);
 	        out.close();
 	     } catch (IOException e) {
-			e.printStackTrace();
-			throw (new AntCreationException("IOException " + e.getMessage()));
+			throw (new AntCreationException(e));
 		}
-		return tmpFile.getPath();
 	}
 	
 	/**
-	 * Reads a file content into a s String.
+	 * Reads a file content into a String.
 	 * 
 	 * @param inStream the file content as a stream
 	 * @return the resulting String
@@ -153,64 +170,12 @@ public class CixsGenDriver {
 	 */
 	private static String readTextFile(
 			final InputStream inStream) throws IOException {
-		StringBuffer sb = new StringBuffer(1024);
-		int cchar;
-		while ((cchar = inStream.read()) > -1) {
-			sb.append((char) cchar);
-		}
-		return sb.toString();
+        byte[] buffer = new byte[1024];
+        StringBuffer result = new StringBuffer();
+        int rc;
+        while ((rc = inStream.read(buffer)) > 0) {
+        	result.append(new String(buffer, 0, rc));
+        }
+        return result.toString();
 	}
-
-	/**
-	 * Generate the inner parameter passed to the generation ANT task. This
-	 * is a hierarchy of service and operations descriptions.
-	 * @param serviceName Web Service name
-	 * @param cixsGenDoc Model properties describing Web Servive operations
-	 * @return the parameter
-	 */
-	private CixsService genCixsContent(
-			final String serviceName,
-			final CixsGenDocument cixsGenDoc) {
-		
-		CixsgenPreferences cixsgenPref = new CixsgenPreferences();
-		CixsService sv = new CixsService();
-		sv.setServiceName(serviceName);
-		sv.setEndpointPackageName(
-				cixsgenPref.getCixsPackagePrefix() + '.' + serviceName);
-		sv.setTargetNamespace(
-				cixsgenPref.getCixsNamespacePrefix() + '/' + serviceName);
-
-		int idx = 1;
-		boolean opFound = true;
-		while (opFound) {
-			CixsOperation op = new CixsOperation();
-
-			String sfx = "." + Integer.toString(idx);
-			String opprop = CixsGenDocument.OP_NAME + sfx;
-			if (cixsGenDoc.getProperty(opprop) != null
-					&& cixsGenDoc.getProperty(opprop).length() > 0) {
-				op.setOperationName(cixsGenDoc.getProperty(opprop));
-				op.setProgramName(cixsGenDoc.getProperty(
-						CixsGenDocument.OP_PROG + sfx, ""));
-				op.setInputJaxbPackageName(cixsGenDoc.getProperty(
-						CixsGenDocument.IN_PKG + sfx, ""));
-				op.setInputJaxbType(cixsGenDoc.getProperty(
-						CixsGenDocument.IN_TYPE + sfx, ""));
-				op.setOutputJaxbPackageName(cixsGenDoc.getProperty(
-						CixsGenDocument.OUT_PKG + sfx, ""));
-				op.setOutputJaxbType(cixsGenDoc.getProperty(
-						CixsGenDocument.OUT_TYPE + sfx, ""));
-
-				sv.getOperations().add(op);
-
-				opFound = true;
-			} else {
-				opFound = false;
-			}
-			idx += 1; 
-		}
-		return sv;
-	}
-
-
 }
