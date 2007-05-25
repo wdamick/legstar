@@ -4,11 +4,11 @@
     <parent>
       <groupId>com.legsem.legstar</groupId>
       <artifactId>Legstar</artifactId>
-      <version>1.0.1</version>
+      <version>1.1-SNAPSHOT</version>
     </parent>
   <artifactId>legstar-coxbgen-cases</artifactId>
   <name>COXB Generator test classes</name>
-  <version>${project.parent.version}</version>
+  <version>1.1-SNAPSHOT</version>
   <description>Test cases used by various LegStar projects</description>
   <dependencies>
   
