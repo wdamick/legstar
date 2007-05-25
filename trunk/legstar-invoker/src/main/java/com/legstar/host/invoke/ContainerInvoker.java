@@ -37,7 +37,7 @@ public class ContainerInvoker extends CobolInvoker implements HostInvoker {
 	private Address mAddress;
 	
 	/** Host program attributes. */
-	private ProgramAttributes mHostProgram;
+	private CicsProgram mCicsProgram;
 	
 	/**
 	 * Container Invoker calls a CICS Container-driven program. Each container
@@ -50,11 +50,11 @@ public class ContainerInvoker extends CobolInvoker implements HostInvoker {
 	public ContainerInvoker(
 			final HostAccessStrategy hostAccessStrategy,
 			final Address completeAddress,
-			final ProgramAttributes hostProgram) throws HostInvokerException {
+			final CicsProgram hostProgram) throws HostInvokerException {
 		super(completeAddress.getHostCharset());
 		mHostAccessStrategy = hostAccessStrategy;
 		mAddress = completeAddress;
-		mHostProgram = hostProgram;
+		mCicsProgram = hostProgram;
 	}
 	
 	/**
@@ -135,13 +135,13 @@ public class ContainerInvoker extends CobolInvoker implements HostInvoker {
 	        
 			/* The program parameters give the container max size */
 	        dataParts.add(createContainerPart(containerName,
-					mHostProgram.getInContainers().get(containerName), ccbin));
+					mCicsProgram.getInContainers().get(containerName), ccbin));
         }
         
 		HeaderPart headerPart;
 		try {
 			headerPart = new HeaderPart(
-				mHostProgram.getProgramAttrMap(), dataParts.size());
+				mCicsProgram.getProgramAttrMap(), dataParts.size());
 		} catch (HeaderPartException e) {
 			throw new HostInvokerException(e);
 		}

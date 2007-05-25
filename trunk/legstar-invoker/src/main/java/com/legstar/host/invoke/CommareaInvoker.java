@@ -58,7 +58,7 @@ public class CommareaInvoker extends CobolInvoker implements HostInvoker {
 	private Address mAddress;
 	
 	/** Host program attributes. */
-	private ProgramAttributes mHostProgram;
+	private CicsProgram mCicsProgram;
 	
 	/**
 	 * Commarea Invoker calls a CICS Commarea-driven program. A commarea is a
@@ -71,11 +71,11 @@ public class CommareaInvoker extends CobolInvoker implements HostInvoker {
 	public CommareaInvoker(
 			final HostAccessStrategy hostAccessStrategy,
 			final Address completeAddress,
-			final ProgramAttributes hostProgram) throws HostInvokerException {
+			final CicsProgram hostProgram) throws HostInvokerException {
 		super(completeAddress.getHostCharset());
 		mHostAccessStrategy = hostAccessStrategy;
 		mAddress = completeAddress;
-		mHostProgram = hostProgram;
+		mCicsProgram = hostProgram;
 	}
 	
 	/**
@@ -95,14 +95,14 @@ public class CommareaInvoker extends CobolInvoker implements HostInvoker {
  			LOG.debug("Invoke Commarea started");
 		}
 		/* Allocate a host data buffer for the request */
-		byte[] hostInputBytes = new byte[mHostProgram.getLength()];
+		byte[] hostInputBytes = new byte[mCicsProgram.getLength()];
 		
 		/* Convert from java to host */
 		int dataLength = marshal(ccbin, hostInputBytes);
 		
 		/* Adjust the program data length if needed */
-		if (dataLength < mHostProgram.getDataLength()) {
-			mHostProgram.setDataLength(dataLength);
+		if (dataLength < mCicsProgram.getDataLength()) {
+			mCicsProgram.setDataLength(dataLength);
 		}
 		
 		/* Create a request instance and call the host program */
@@ -168,7 +168,7 @@ public class CommareaInvoker extends CobolInvoker implements HostInvoker {
 		HeaderPart headerPart;
 		try {
 			headerPart = new HeaderPart(
-				mHostProgram.getProgramAttrMap(), dataParts.size());
+				mCicsProgram.getProgramAttrMap(), dataParts.size());
 		} catch (HeaderPartException e) {
 			throw new HostInvokerException(e);
 		}
@@ -193,8 +193,8 @@ public class CommareaInvoker extends CobolInvoker implements HostInvoker {
 	/**
 	 * @return the programme attributes
 	 */
-	public final ProgramAttributes getProgramAttr() {
-		return mHostProgram;
+	public final CicsProgram getProgramAttr() {
+		return mCicsProgram;
 	}
 
 }

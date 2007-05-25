@@ -50,7 +50,7 @@ public final class HostInvokerFactory {
 	 * host address and target host program.
 	 * @param generalConfigFileName an XML configuration file name
 	 * @param address the host address
-	 * @param programAttributesFileName the host program attributes properties
+	 * @param cicsProgramFileName the host program attributes properties
 	 * file
 	 * @return a Host invoke implementation
 	 * @throws HostInvokerException in construction fails
@@ -58,7 +58,7 @@ public final class HostInvokerFactory {
 	public static HostInvoker createHostInvoker(
 			final String generalConfigFileName,
 			final Address address,
-			final String programAttributesFileName)
+			final String cicsProgramFileName)
 			throws HostInvokerException {
 
 		/* Load the XML configuration, if necessary */
@@ -67,8 +67,8 @@ public final class HostInvokerFactory {
 		}
 		
 		/* load the program properties file */
-		ProgramAttributes hostProgram =
-			new ProgramAttributes(programAttributesFileName);
+		CicsProgram hostProgram =
+			new CicsProgram(cicsProgramFileName);
 		
 		/* Load endpoint configuration specified in requested address or the
 		 * default one if address is empty.  */

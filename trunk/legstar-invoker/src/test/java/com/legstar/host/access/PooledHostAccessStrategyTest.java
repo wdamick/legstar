@@ -138,7 +138,7 @@ public class PooledHostAccessStrategyTest extends TestCase {
 	/** Create a typical request */
 	private Request createRequest() throws HostAccessStrategyException {
 		HashMap < String, Object > map = new HashMap < String, Object >();
-		map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+		map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
 		map.put(Constants.CICS_LENGTH_KEY, "79");
 		map.put(Constants.CICS_DATALEN_KEY, "6");
 		List <MessagePart> inputParts = new ArrayList <MessagePart>();
@@ -159,7 +159,7 @@ public class PooledHostAccessStrategyTest extends TestCase {
 	/** Create a long request ( 4 secs) */
 	private Request createLongRequest() throws HostAccessStrategyException {
 		HashMap < String, Object > map = new HashMap < String, Object >();
-		map.put(Constants.CICS_PROGRAM_KEY, "T1SLEEPT");
+		map.put(Constants.CICS_PROGRAM_NAME_KEY, "T1SLEEPT");
 		map.put(Constants.CICS_LENGTH_KEY, "39");
 		map.put(Constants.CICS_DATALEN_KEY, "8");
 		List <MessagePart> inputParts = new ArrayList <MessagePart>();
