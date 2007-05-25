@@ -257,7 +257,7 @@ public class CicsSocketTest extends TestCase {
 			CicsSocket cs = new CicsSocket("testMissingCommareapart", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, Object > map = new HashMap < String, Object >();
-			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+			map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
 			map.put(Constants.CICS_LENGTH_KEY, "79");
 			map.put(Constants.CICS_DATALEN_KEY, "6");
 			map.put(Constants.CICS_SYSID_KEY, "CICZ");
@@ -291,7 +291,7 @@ public class CicsSocketTest extends TestCase {
 			CicsSocket cs = new CicsSocket("testTooManyCommareaparts", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, Object > map = new HashMap < String, Object >();
-			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+			map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
 			map.put(Constants.CICS_LENGTH_KEY, "79");
 			map.put(Constants.CICS_DATALEN_KEY, "6");
 			map.put(Constants.CICS_SYSID_KEY, "CICZ");
@@ -329,7 +329,7 @@ public class CicsSocketTest extends TestCase {
 			CicsSocket cs = new CicsSocket("testDataLengthGtLength", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, Object > map = new HashMap < String, Object >();
-			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+			map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
 			map.put(Constants.CICS_LENGTH_KEY, "6");
 			map.put(Constants.CICS_DATALEN_KEY, "79");
 			map.put(Constants.CICS_SYSID_KEY, "CICZ");
@@ -365,7 +365,7 @@ public class CicsSocketTest extends TestCase {
 			CicsSocket cs = new CicsSocket("testSendHeaderCommarea", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, Object > map = new HashMap < String, Object >();
-			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+			map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
 			map.put(Constants.CICS_LENGTH_KEY, "79");
 			map.put(Constants.CICS_DATALEN_KEY, "6");
 			map.put(Constants.CICS_SYSID_KEY, "CICS");
@@ -403,7 +403,7 @@ public class CicsSocketTest extends TestCase {
 			CicsSocket cs = new CicsSocket("testNoReallocateContent", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, Object > map = new HashMap < String, Object >();
-			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+			map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
 			map.put(Constants.CICS_LENGTH_KEY, "79");
 			map.put(Constants.CICS_DATALEN_KEY, "3");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
@@ -437,7 +437,7 @@ public class CicsSocketTest extends TestCase {
 			CicsSocket cs = new CicsSocket("testShortProgram", endpoint, 1000, 5000);
 			cs.connect(null);
 			HashMap < String, Object > map = new HashMap < String, Object >();
-			map.put(Constants.CICS_PROGRAM_KEY, "LSFAE");
+			map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFAE");
 			map.put(Constants.CICS_LENGTH_KEY, "79");
 			map.put(Constants.CICS_DATALEN_KEY, "6");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
@@ -472,7 +472,7 @@ public class CicsSocketTest extends TestCase {
 			CicsSocket cs = new CicsSocket("testAsraAbend", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, Object > map = new HashMap < String, Object >();
-			map.put(Constants.CICS_PROGRAM_KEY, "T1ABEND");
+			map.put(Constants.CICS_PROGRAM_NAME_KEY, "T1ABEND");
 			map.put(Constants.CICS_LENGTH_KEY, "4");
 			map.put(Constants.CICS_DATALEN_KEY, "4");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();

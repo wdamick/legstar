@@ -33,7 +33,7 @@
 /*                Each request is described by a program header which */
 /*                contains key/value pairs. These can be:             */
 /*                Request:                                            */
-/*                  CICSProgram       : CICS program name to link to  */
+/*                  CICSProgramName   : CICS program name to link to  */
 /*                  CICSLength        : Total size of the commarea    */
 /*                  CICSDataLength    : Size of the input data        */
 /*                  CICSSysID         : Remote CICS system            */
@@ -74,7 +74,7 @@
 #define MAX_KEY_LEN   33         /* largest key string                */
 #define MAX_VALUE_LEN 513        /* largest value string              */
 #define KEYVALUES_EC  "keyvalues"    /* Start of key/value pairs      */
-#define PROGRAM_KEY   "CICSProgram"  /* CICS program to invoke        */
+#define PROGRAM_KEY   "CICSProgramName" /* CICS program to invoke     */
 #define LENGTH_KEY    "CICSLength"   /* Size of the commarea          */
 #define DATALEN_KEY   "CICSDataLength"  /* Size of the input data     */
 #define SYSID_KEY     "CICSSysID"    /* Remote CICS system            */

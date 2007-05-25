@@ -58,7 +58,7 @@ public class VolumeTest extends TestCase {
 			CicsSocket cs = new CicsSocket("testSingleIterateSimpleWithWait", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, Object > map = new HashMap < String, Object >();
-			map.put(Constants.CICS_PROGRAM_KEY, "T1SLEEPT");
+			map.put(Constants.CICS_PROGRAM_NAME_KEY, "T1SLEEPT");
 			map.put(Constants.CICS_LENGTH_KEY, "39");
 			map.put(Constants.CICS_DATALEN_KEY, "8");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
@@ -99,7 +99,7 @@ public class VolumeTest extends TestCase {
 			CicsSocket cs = new CicsSocket("testSingleIterateSimpleConnectionReused", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, Object > map = new HashMap < String, Object >();
-			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+			map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
 			map.put(Constants.CICS_LENGTH_KEY, "79");
 			map.put(Constants.CICS_DATALEN_KEY, "6");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
@@ -139,7 +139,7 @@ public class VolumeTest extends TestCase {
 			endpoint.setHostTraceMode(false); // dont flood the host
 			CicsSocket cs = new CicsSocket("testSingleIterateSimple", endpoint, 1000, 5000);
 			HashMap < String, Object > map = new HashMap < String, Object >();
-			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+			map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
 			map.put(Constants.CICS_LENGTH_KEY, "79");
 			map.put(Constants.CICS_DATALEN_KEY, "6");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
@@ -180,7 +180,7 @@ public class VolumeTest extends TestCase {
 			CicsSocket cs = new CicsSocket("testSingleIterateVolume", endpoint, 1000, 5000);
 			cs.connect("STREAM2");
 			HashMap < String, Object > map = new HashMap < String, Object >();
-			map.put(Constants.CICS_PROGRAM_KEY, "T1VOLUME");
+			map.put(Constants.CICS_PROGRAM_NAME_KEY, "T1VOLUME");
 			map.put(Constants.CICS_LENGTH_KEY, "32767");
 			map.put(Constants.CICS_DATALEN_KEY, "32767");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();

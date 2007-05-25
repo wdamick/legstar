@@ -40,7 +40,7 @@ public class CicsTs31SocketTest extends TestCase {
 			CicsSocket cs = new CicsSocket("testHostTraces", endpoint, 1000, 5000);
 			cs.connect(null);
 			HashMap < String, Object > map = new HashMap < String, Object >();
-			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAE");
+			map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
 			map.put(Constants.CICS_LENGTH_KEY, "79");
 			map.put(Constants.CICS_DATALEN_KEY, "6");
 			List <MessagePart> inputParts = new ArrayList <MessagePart>();
@@ -74,7 +74,7 @@ public class CicsTs31SocketTest extends TestCase {
 			CicsSocket cs = new CicsSocket("testShortProgram", endpoint, 1000, 5000);
 			cs.connect(null);
 			HashMap < String, Object > map = new HashMap < String, Object >();
-			map.put(Constants.CICS_PROGRAM_KEY, "LSFAC");
+			map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFAC");
 			map.put(Constants.CICS_CHANNEL_KEY, "LSFAC-CHANNEL");
 			String[] outContainers = {"RESPONSE-CTN"};
 			map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
@@ -111,7 +111,7 @@ public class CicsTs31SocketTest extends TestCase {
 			CicsSocket cs = new CicsSocket("test2ContainersIn2Out", endpoint, 1000, 5000);
 			cs.connect(null);
 			HashMap < String, Object > map = new HashMap < String, Object >();
-			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAC");
+			map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAC");
 			map.put(Constants.CICS_CHANNEL_KEY, "LSFILEAC-CHANNEL");
 			String[] outContainers = {"ReplyData","ReplyStatus"};
 			map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
@@ -159,7 +159,7 @@ public class CicsTs31SocketTest extends TestCase {
 			CicsSocket cs = new CicsSocket("test1ContainersInWithWrongOutContainerName", endpoint, 1000, 5000);
 			cs.connect(null);
 			HashMap < String, Object > map = new HashMap < String, Object >();
-			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAC");
+			map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAC");
 			map.put(Constants.CICS_CHANNEL_KEY, "LSFILEAC-CHANNEL");
 			String[] outContainers = {"ReplyBibi","ReplyStatus"};
 			map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
@@ -202,7 +202,7 @@ public class CicsTs31SocketTest extends TestCase {
 			CicsSocket cs = new CicsSocket("test1ContainersIn2Out", endpoint, 1000, 5000);
 			cs.connect(null);
 			HashMap < String, Object > map = new HashMap < String, Object >();
-			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAC");
+			map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAC");
 			map.put(Constants.CICS_CHANNEL_KEY, "LSFILEAC-CHANNEL");
 			String[] outContainers = {"ReplyData","ReplyStatus"};
 			map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
@@ -246,7 +246,7 @@ public class CicsTs31SocketTest extends TestCase {
 			CicsSocket cs = new CicsSocket("testLargeContainer", endpoint, 1000, 5000);
 			cs.connect(null);
 			HashMap < String, Object > map = new HashMap < String, Object >();
-			map.put(Constants.CICS_PROGRAM_KEY, "T1VOLUMC");
+			map.put(Constants.CICS_PROGRAM_NAME_KEY, "T1VOLUMC");
 			map.put(Constants.CICS_CHANNEL_KEY, "T1VOLUMC-CHANNEL");
 			String[] outContainers = {"RESPONSE-CTN"};
 			map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
@@ -292,7 +292,7 @@ public class CicsTs31SocketTest extends TestCase {
 			CicsSocket cs = new CicsSocket("testLargeContainer", endpoint, 1000, 5000);
 			cs.connect(null);
 			HashMap < String, Object > map = new HashMap < String, Object >();
-			map.put(Constants.CICS_PROGRAM_KEY, "T1VOLUMC");
+			map.put(Constants.CICS_PROGRAM_NAME_KEY, "T1VOLUMC");
 			map.put(Constants.CICS_CHANNEL_KEY, "T1VOLUMC-CHANNEL");
 			String[] outContainers = {"RESPONSE-CTN"};
 			map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
