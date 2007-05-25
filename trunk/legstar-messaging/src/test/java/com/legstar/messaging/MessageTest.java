@@ -21,21 +21,21 @@ public class MessageTest extends TestCase {
 			MessagePart inQueryLimit = new ContainerPart("QueryLimit", Util.toByteArray("F5F6"));
 			inputParts.add(inQueryLimit);
 			HashMap < String, Object > map = new HashMap < String, Object >();
-			map.put(Constants.CICS_PROGRAM_KEY, "LSFILEAC");
+			map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAC");
 			map.put(Constants.CICS_CHANNEL_KEY, "LSFILEAC-CHANNEL");
 			String[] outContainers = {"ReplyData","ReplyStatus"};
 			map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
 			HeaderPart dp = new HeaderPart(map, inputParts.size());
 			Message requestMessage = new Message(dp, inputParts);
 			InputStream hostStream = requestMessage.sendToHost();
-			byte[] headerBytes = new byte[181];
+			byte[] headerBytes = new byte[185];
 			int rc;
 			int pos = 0;
 			while ((rc = hostStream.read(headerBytes, pos, headerBytes.length - pos)) > 0) {
 				pos += rc;
 			}
-			/*            L S O K H E A D                      115       2     107{                                                                                                                                                                                                                    }Q u e r y D a t a                      4 1 2 3 4Q u e r y L i m i t                    2 5 6*/
-			assertEquals("d3e2d6d2c8c5c1c4404040404040404000000073000000020000006bc07fc3c9c3e2d6a4a3c39695a38189958599a27f7aad7fd9859793a8c481a3817f6b7fd9859793a8e2a381a3a4a27fbd6b7fc3c9c3e2d79996879981947f7a7fd3e2c6c9d3c5c1c37f6b7fc3c9c3e2c38881959585937f7a7fd3e2c6c9d3c5c1c360c3c8c1d5d5c5d37fd0d8a48599a8c481a3814040404040404000000004f1f2f3f4d8a48599a8d3899489a340404040404000000002f5f6", Util.toHexString(headerBytes));
+			/*            L S O K H E A D                      119       2     111{                                                                                                                                                                                                                            }Q u e r y D a t a                      4 1 2 3 4Q u e r y L i m i t                    2 5 6*/
+			assertEquals("d3e2d6d2c8c5c1c4404040404040404000000077000000020000006fc07fc3c9c3e2d6a4a3c39695a38189958599a27f7aad7fd9859793a8c481a3817f6b7fd9859793a8e2a381a3a4a27fbd6b7fc3c9c3e2c38881959585937f7a7fd3e2c6c9d3c5c1c360c3c8c1d5d5c5d37f6b7fc3c9c3e2d7999687998194d58194857f7a7fd3e2c6c9d3c5c1c37fd0d8a48599a8c481a3814040404040404000000004f1f2f3f4d8a48599a8d3899489a340404040404000000002f5f6", Util.toHexString(headerBytes));
 		} catch (HeaderPartException e) {
 			fail("testHostSerializeHeaderPart failed " + e);
 		}
