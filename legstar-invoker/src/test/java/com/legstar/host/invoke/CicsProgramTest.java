@@ -23,19 +23,19 @@ package com.legstar.host.invoke;
 import java.util.Map;
 
 import com.legstar.config.Constants;
-import com.legstar.host.invoke.ProgramAttributes;
-import com.legstar.host.invoke.ProgramAttributesException;
+import com.legstar.host.invoke.CicsProgram;
+import com.legstar.host.invoke.CicsProgramException;
 
 import junit.framework.TestCase;
 
-public class ProgramAttributesTest extends TestCase {
+public class CicsProgramTest extends TestCase {
 	
 	public void testInvalidAttributesFile() {
 		try {
 			@SuppressWarnings("unused")
-			ProgramAttributes pa = new ProgramAttributes("tarzan.jane");
+			CicsProgram pa = new CicsProgram("tarzan.jane");
 			fail("testInvalidAttributesFile failed");
-		} catch (ProgramAttributesException e) {
+		} catch (CicsProgramException e) {
 			assertEquals("java.io.FileNotFoundException: tarzan.jane", e.getMessage());
 		}
 	}
@@ -43,68 +43,68 @@ public class ProgramAttributesTest extends TestCase {
 	public void testMissingProgramName() {
 		try {
 			@SuppressWarnings("unused")
-			ProgramAttributes pa = new ProgramAttributes("lsfileae0.properties");
+			CicsProgram pa = new CicsProgram("lsfileae0.properties");
 			fail("testMissingProgramName failed");
-		} catch (ProgramAttributesException e) {
+		} catch (CicsProgramException e) {
 			assertEquals("Program name must be specified.", e.getMessage());
 		}
 	}
 	public void testInvalidDataLength() {
 		try {
 			@SuppressWarnings("unused")
-			ProgramAttributes pa = new ProgramAttributes("lsfileae3.properties");
+			CicsProgram pa = new CicsProgram("lsfileae3.properties");
 			fail("testInvalidDataLength failed");
-		} catch (ProgramAttributesException e) {
+		} catch (CicsProgramException e) {
 			assertEquals("Data length cannot exceed length.", e.getMessage());
 		}
 	}
 	
 	public void testValidAttributesFileAndDefaults() {
 		try {
-			ProgramAttributes pa = new ProgramAttributes("lsfileae1.properties");
-			assertEquals("LSFILEAE", pa.getProgram());
+			CicsProgram pa = new CicsProgram("lsfileae1.properties");
+			assertEquals("LSFILEAE", pa.getName());
 			assertEquals(0, pa.getLength());
 			assertEquals(0, pa.getDataLength());
 			assertEquals(null, pa.getSysID());
 			assertEquals(false, pa.getSyncOnReturn());
 			assertEquals(null, pa.getTransID());
-		} catch (ProgramAttributesException e) {
+		} catch (CicsProgramException e) {
 			fail("testValidAttributesFile failed " + e.getMessage());
 		}
 	}
 	public void testValidAttributesFile() {
 		try {
-			ProgramAttributes pa = new ProgramAttributes("lsfileae2.properties");
-			assertEquals("LSFILEAE", pa.getProgram());
+			CicsProgram pa = new CicsProgram("lsfileae2.properties");
+			assertEquals("LSFILEAE", pa.getName());
 			assertEquals(735, pa.getLength());
 			assertEquals(72, pa.getDataLength());
 			assertEquals("ROSE", pa.getSysID());
 			assertEquals(true, pa.getSyncOnReturn());
 			assertEquals("CSMI", pa.getTransID());
-		} catch (ProgramAttributesException e) {
+		} catch (CicsProgramException e) {
 			fail("testValidAttributesFile failed " + e.getMessage());
 		}
 	}
 	
 	public void testGetMap() {
 		try {
-			ProgramAttributes pa = new ProgramAttributes("lsfileae2.properties");
+			CicsProgram pa = new CicsProgram("lsfileae2.properties");
 			Map map = pa.getProgramAttrMap();
-			assertEquals("LSFILEAE", map.get(Constants.CICS_PROGRAM_KEY));
+			assertEquals("LSFILEAE", map.get(Constants.CICS_PROGRAM_NAME_KEY));
 			assertEquals("735",  map.get(Constants.CICS_LENGTH_KEY));
 			assertEquals("72",  map.get(Constants.CICS_DATALEN_KEY));
 			assertEquals("ROSE",  map.get(Constants.CICS_SYSID_KEY));
 			assertEquals("true",  map.get(Constants.CICS_SYNCONRET_KEY));
 			assertEquals("CSMI",  map.get(Constants.CICS_TRANSID_KEY));
-		} catch (ProgramAttributesException e) {
+		} catch (CicsProgramException e) {
 			fail("testGetMap failed " + e.getMessage());
 		}
 	}
 
 	public void testChannel() {
 		try {
-			ProgramAttributes pa = new ProgramAttributes("container1.properties");
-			assertEquals("LSFILEAC", pa.getProgram());
+			CicsProgram pa = new CicsProgram("container1.properties");
+			assertEquals("LSFILEAC", pa.getName());
 			assertEquals(0, pa.getLength());
 			assertEquals(0, pa.getDataLength());
 			assertEquals(null, pa.getSysID());
@@ -115,20 +115,20 @@ public class ProgramAttributesTest extends TestCase {
 			assertTrue(10 == pa.getInContainers().get("QueryLimit"));
 			assertTrue(794 == pa.getOutContainers().get("ReplyData"));
 			assertTrue(141 == pa.getOutContainers().get("ReplyStatus"));
-		} catch (ProgramAttributesException e) {
+		} catch (CicsProgramException e) {
 			fail("testChannel failed " + e.getMessage());
 		}
 	}
 
 	public void testGetMapWithContainers() {
 		try {
-			ProgramAttributes pa = new ProgramAttributes("container1.properties");
+			CicsProgram pa = new CicsProgram("container1.properties");
 			Map map = pa.getProgramAttrMap();
-			assertEquals("LSFILEAC", map.get(Constants.CICS_PROGRAM_KEY));
+			assertEquals("LSFILEAC", map.get(Constants.CICS_PROGRAM_NAME_KEY));
 			String[] outContainers = (String[]) map.get(Constants.CICS_OUT_CONTAINERS_KEY);
 			assertEquals("ReplyData",  outContainers[0]);
 			assertEquals("ReplyStatus",  outContainers[1]);
-		} catch (ProgramAttributesException e) {
+		} catch (CicsProgramException e) {
 			fail("testGetMap failed " + e.getMessage());
 		}
 	}

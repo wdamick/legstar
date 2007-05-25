@@ -39,7 +39,7 @@ import com.legstar.config.Constants;
  * @author Fady Moussallam
  * 
  */
-public class ProgramAttributes {
+public class CicsProgram {
 	
 	/** If no commarea length is provided. */
 	private static final int DEFAULT_COMMAREA_LEN = 0;
@@ -51,7 +51,7 @@ public class ProgramAttributes {
 	private static final boolean DEFAULT_SYNC_ON_RETURN = false;
 	
 	/** The CICS program name. */
-	private String mProgram;
+	private String mName;
 	
 	/** The size of the commarea. */
 	private int mLength;
@@ -80,23 +80,23 @@ public class ProgramAttributes {
 	/**
 	 * Constructor from a properties file.
 	 * @param programAttributesFileName the name of the property file
-	 * @throws ProgramAttributesException if property file cannot be read
+	 * @throws CicsProgramException if property file cannot be read
 	 */
-	public ProgramAttributes(final String programAttributesFileName)
-		throws ProgramAttributesException {
+	public CicsProgram(final String programAttributesFileName)
+		throws CicsProgramException {
 		
 		/* load the program properties file */
 		Properties programProperties = null;
 		try {
 			programProperties = loadFromPropFile(programAttributesFileName);
 		} catch (IOException e) {
-			throw new ProgramAttributesException(e);
+			throw new CicsProgramException(e);
 		}
 		
 		/* Set individual properties */
-		mProgram = programProperties.getProperty(Constants.CICS_PROGRAM_KEY);
-		if (mProgram == null || mProgram.length() == 0) {
-			throw new ProgramAttributesException(
+		mName = programProperties.getProperty(Constants.CICS_PROGRAM_NAME_KEY);
+		if (mName == null || mName.length() == 0) {
+			throw new CicsProgramException(
 					"Program name must be specified.");
 		}
 		String strLength = programProperties.getProperty(
@@ -114,7 +114,7 @@ public class ProgramAttributes {
 			mDataLength = Integer.parseInt(strDataLength);
 		}
 		if (mDataLength > mLength) {
-			throw new ProgramAttributesException(
+			throw new CicsProgramException(
 					"Data length cannot exceed length.");
 		}
 		mSysID = programProperties.getProperty(Constants.CICS_SYSID_KEY);
@@ -153,14 +153,14 @@ public class ProgramAttributes {
 	 * @param containers an empty map for containers names and sizes
 	 * @param nameKey the properties key for container name
 	 * @param lengthKey the properties key for container size
-	 * @throws ProgramAttributesException if failed to create map
+	 * @throws CicsProgramException if failed to create map
 	 */
 	private void loadContainer(
 			final Properties programProperties,
 			final Map < String, Integer > containers,
 			final String nameKey,
 			final String lengthKey)
-			throws ProgramAttributesException {
+			throws CicsProgramException {
 		int i = 1;
 		String container = programProperties.getProperty(nameKey + '_' + i);
 		while (container != null && container.length() > 0) {
@@ -211,7 +211,7 @@ public class ProgramAttributes {
 		HashMap < String, Object > map = new HashMap < String, Object >();
 		
 		/* Add mandatory keys */
-		map.put(Constants.CICS_PROGRAM_KEY, mProgram);
+		map.put(Constants.CICS_PROGRAM_NAME_KEY, mName);
 		
 		/* Pass on Channel or Commarea mandatory parameters */
 		if (mChannel == null || mChannel.length() == 0) {
@@ -272,15 +272,15 @@ public class ProgramAttributes {
 	/**
 	 * @return Returns the CICS program name.
 	 */
-	public final String getProgram() {
-		return mProgram;
+	public final String getName() {
+		return mName;
 	}
 
 	/**
-	 * @param program CICS program name.
+	 * @param name CICS program name.
 	 */
-	public final void setProgram(final String program) {
-		mProgram = program;
+	public final void setName(final String name) {
+		mName = name;
 	}
 
 	/**
