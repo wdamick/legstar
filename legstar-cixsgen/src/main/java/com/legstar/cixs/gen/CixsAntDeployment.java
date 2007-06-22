@@ -55,6 +55,9 @@ public class CixsAntDeployment {
 	/** The XSLT parameter for jaxb binaries location. */
 	private static final String  JAXB_BIN_DIR = "jaxb-bin-dir";
 	
+	/** The XSLT parameter for coxb binaries location. */
+	private static final String  COXB_BIN_DIR = "coxb-bin-dir";
+	
 	/** The XSLT parameter for jaxws endpoint binaries location. */
 	private static final String  CIXS_BIN_DIR = "cixs-bin-dir";
 	
@@ -87,6 +90,7 @@ public class CixsAntDeployment {
 	 * @param targetAntDir the target location for the ant script
 	 * @param targetWarDir the target location for war files
 	 * @param jaxbBinDir the location for jaxb binaries
+	 * @param coxbBinDir the location for coxb binaries
 	 * @param cixsBinDir the location for jaxws endpoint binaries
 	 * @param custBinDir the location for custom binaries
 	 * @throws XSLTException if XSLT transform fails
@@ -98,6 +102,7 @@ public class CixsAntDeployment {
 		    final String targetAntDir,
 		    final String targetWarDir,
 		    final String jaxbBinDir,
+		    final String coxbBinDir,
 		    final String cixsBinDir,
 		    final String custBinDir) throws XSLTException {
 
@@ -122,6 +127,11 @@ public class CixsAntDeployment {
 		jaxbBinDirParm.setName(JAXB_BIN_DIR);
 		jaxbBinDirParm.setExpression(jaxbBinDir);
 		params.add(jaxbBinDirParm);
+		
+		XSLTParameter coxbBinDirParm = new XSLTParameter();
+		coxbBinDirParm.setName(COXB_BIN_DIR);
+		coxbBinDirParm.setExpression(coxbBinDir);
+		params.add(coxbBinDirParm);
 		
 		XSLTParameter cixsBinDirParm = new XSLTParameter();
 		cixsBinDirParm.setName(CIXS_BIN_DIR);
