@@ -58,6 +58,9 @@ public class CixsServiceGenerator extends Task {
 	/** Location of jaxb classes binaries. */
 	private String mJaxbBinDir;
 	
+	/** Location of jaxb classes binaries. */
+	private String mCoxbBinDir;
+	
 	/** Location of Jaxws endpoint binaries. */
 	private String mCixsBinDir;
 	
@@ -101,6 +104,7 @@ public class CixsServiceGenerator extends Task {
 					mTargetAntDir,
 					mTargetWarDir,
 					mJaxbBinDir,
+					mCoxbBinDir,
 					mCixsBinDir,
 					mCustBinDir);
 			
@@ -281,6 +285,20 @@ public class CixsServiceGenerator extends Task {
 	 */
 	public final void setJaxbBinDir(final String jaxbBinDir) {
 		mJaxbBinDir = jaxbBinDir;
+	}
+
+	/**
+	 * @return the coxb binaries location
+	 */
+	public final String getCoxbBinDir() {
+		return mCoxbBinDir;
+	}
+
+	/**
+	 * @param coxbBinDir the coxb binaries location to set
+	 */
+	public final void setCoxbBinDir(final String coxbBinDir) {
+		mCoxbBinDir = coxbBinDir;
 	}
 
 	/**
