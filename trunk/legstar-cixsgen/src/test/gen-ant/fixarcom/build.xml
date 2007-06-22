@@ -11,16 +11,22 @@
            webxml="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/src/test/WebContent/WEB-INF/fixarcom/web.xml">
          <webinf dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/src/test/WebContent/WEB-INF/fixarcom"
                  includes="sun-jaxws.xml"/>
-         <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/../legstar-coxbgen/target/test-classes">
+         <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/../legstar-jaxbgen-cases/target/classes">
             <include name="com/legstar/test/coxb/fixarcom/**/*.class"/>
          </classes>
-         <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/../legstar-coxbgen/target/test-classes">
+         <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/../legstar-coxbgen-cases/target/classes">
+            <include name="com/legstar/test/coxb/fixarcom/**/*.class"/>
+         </classes>
+         <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/../legstar-jaxbgen-cases/target/classes">
+            <include name="com/legstar/test/coxb/fixarcom/**/*.class"/>
+         </classes>
+         <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/../legstar-coxbgen-cases/target/classes">
             <include name="com/legstar/test/coxb/fixarcom/**/*.class"/>
          </classes>
          <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/target/test-classes">
             <include name="**/${service}/**/*.class"/>
          </classes>
-         <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/../legstar-coxbgen/target/test-classes">
+         <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/../legstar-coxbgen-cases/target/classes">
             <include name="**/${service}/**/*.class"/>
          </classes>
          <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/src/test/WebContent/WEB-INF/classes">

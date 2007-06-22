@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project basedir=".." default="create-war" name="build-war">
    <property environment="env"/>
-   <property name="service" value="redopera"/>
+   <property name="service" value="arrayssm"/>
    <target name="clean">
-      <delete file="D:\Servers\TOMDev\webapps/cixs-redopera.war" includeEmptyDirs="true"
+      <delete file="D:\Servers\TOMDev\webapps/cixs-arrayssm.war" includeEmptyDirs="true"
               quiet="true"/>
    </target>
    <target name="create-war" depends="clean">
-      <war warfile="D:\Servers\TOMDev\webapps/cixs-redopera.war"
-           webxml="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/src/test/WebContent/WEB-INF/redopera/web.xml">
-         <webinf dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/src/test/WebContent/WEB-INF/redopera"
+      <war warfile="D:\Servers\TOMDev\webapps/cixs-arrayssm.war"
+           webxml="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/src/test/WebContent/WEB-INF/arrayssm/web.xml">
+         <webinf dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/src/test/WebContent/WEB-INF/arrayssm"
                  includes="sun-jaxws.xml"/>
          <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/../legstar-jaxbgen-cases/target/classes">
-            <include name="com/legstar/test/coxb/redopera/**/*.class"/>
+            <include name="com/legstar/test/coxb/arrayssm/**/*.class"/>
          </classes>
          <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/../legstar-coxbgen-cases/target/classes">
-            <include name="com/legstar/test/coxb/redopera/**/*.class"/>
+            <include name="com/legstar/test/coxb/arrayssm/**/*.class"/>
          </classes>
          <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/../legstar-jaxbgen-cases/target/classes">
-            <include name="com/legstar/test/coxb/redopera/**/*.class"/>
+            <include name="com/legstar/test/coxb/arrayssm/**/*.class"/>
          </classes>
          <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/../legstar-coxbgen-cases/target/classes">
-            <include name="com/legstar/test/coxb/redopera/**/*.class"/>
+            <include name="com/legstar/test/coxb/arrayssm/**/*.class"/>
          </classes>
          <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/target/test-classes">
             <include name="**/${service}/**/*.class"/>
@@ -30,7 +30,7 @@
             <include name="**/${service}/**/*.class"/>
          </classes>
          <classes dir="D:\Legsem\Legstar\Dev\trunk\legstar-cixsgen/src/test/WebContent/WEB-INF/classes">
-            <include name="redopera.properties"/>
+            <include name="arrayssm.properties"/>
          </classes>
       </war>
    </target>
