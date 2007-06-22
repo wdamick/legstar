@@ -51,6 +51,18 @@
 		    <scope>test</scope>
 		</dependency>
 		
+        <dependency>
+          <groupId>com.legsem.legstar</groupId>
+          <artifactId>legstar-jaxbgen-cases</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+          <groupId>com.legsem.legstar</groupId>
+          <artifactId>legstar-coxbgen-cases</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
 		<dependency>
 		    <groupId>log4j</groupId>
 		    <artifactId>log4j</artifactId>

@@ -4,13 +4,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.legstar.coxb.ICobolComplexBinding;
+import com.legstar.host.HostException;
 import com.legstar.messaging.Address;
-import com.legstar.test.lsfileac.QueryDataType;
-import com.legstar.test.lsfileac.QueryLimitType;
-import com.legstar.test.lsfileac.bind.QueryDataTypeBinding;
-import com.legstar.test.lsfileac.bind.QueryLimitTypeBinding;
-import com.legstar.test.lsfileac.bind.ReplyDataTypeBinding;
-import com.legstar.test.lsfileac.bind.ReplyStatusTypeBinding;
+import com.legstar.test.coxb.lsfileac.QueryDataType;
+import com.legstar.test.coxb.lsfileac.QueryLimitType;
+import com.legstar.test.coxb.lsfileac.bind.QueryDataTypeBinding;
+import com.legstar.test.coxb.lsfileac.bind.QueryLimitTypeBinding;
+import com.legstar.test.coxb.lsfileac.bind.ReplyDataTypeBinding;
+import com.legstar.test.coxb.lsfileac.bind.ReplyStatusTypeBinding;
 
 import junit.framework.TestCase;
 
@@ -37,16 +38,16 @@ public class ContainerInvokerTest extends TestCase {
 		}
 	}
 
-	public void test2ContainersIn2Out() throws HostInvokerException {
+	public void test2ContainersIn2Out() throws HostInvokerException, HostException {
 		Address address = new Address("CICSTS31");
 		HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
 	    /* The JAXB input factory. */
-	    com.legstar.test.lsfileac.ObjectFactory jaxbInFactory =
-	          new com.legstar.test.lsfileac.ObjectFactory(); 
+	    com.legstar.test.coxb.lsfileac.ObjectFactory jaxbInFactory =
+	          new com.legstar.test.coxb.lsfileac.ObjectFactory(); 
 	    
 	    /* The JAXB output factory. */
-	    com.legstar.test.lsfileac.ObjectFactory jaxbOutFactory =
-	          new com.legstar.test.lsfileac.ObjectFactory();
+	    com.legstar.test.coxb.lsfileac.ObjectFactory jaxbOutFactory =
+	          new com.legstar.test.coxb.lsfileac.ObjectFactory();
 	    
 	    /* There are 2 containers for request */
 	    QueryDataType queryData	= jaxbInFactory.createQueryDataType();
@@ -85,29 +86,29 @@ public class ContainerInvokerTest extends TestCase {
 	    invoker.invoke("test2ContainersIn2Out", inParts, outParts);
 	    
 	    /* Check */
-	    assertEquals(0, replyStatusBin.getJaxbObject().getReplyType());
-	    assertEquals(44, replyStatusBin.getJaxbObject().getTotalItemsRead());
-	    assertEquals("", replyStatusBin.getJaxbObject().getReplyMessage().trim());
-	    assertEquals(0, replyStatusBin.getJaxbObject().getReplyResp());
-	    assertEquals(0, replyStatusBin.getJaxbObject().getReplyResp2());
-	    assertEquals(5, replyDataBin.getJaxbObject().getReplyItemscount());
+	    assertEquals(0, replyStatusBin.getReplyStatusType().getReplyType());
+	    assertEquals(44, replyStatusBin.getReplyStatusType().getTotalItemsRead());
+	    assertEquals("", replyStatusBin.getReplyStatusType().getReplyMessage().trim());
+	    assertEquals(0, replyStatusBin.getReplyStatusType().getReplyResp());
+	    assertEquals(0, replyStatusBin.getReplyStatusType().getReplyResp2());
+	    assertEquals(5, replyDataBin.getReplyDataType().getReplyItemscount());
 	    
-	    assertEquals("S. D. BORMAN        ", replyDataBin.getJaxbObject().getReplyItem().get(0).getReplyPersonal().getReplyName());
-	    assertEquals("SUSAN MALAIKA       ", replyDataBin.getJaxbObject().getReplyItem().get(1).getReplyPersonal().getReplyName());
-	    assertEquals("SIR MICHAEL ROBERTS ", replyDataBin.getJaxbObject().getReplyItem().get(2).getReplyPersonal().getReplyName());
-	    assertEquals("S. P. RUSSELL       ", replyDataBin.getJaxbObject().getReplyItem().get(3).getReplyPersonal().getReplyName());
-	    assertEquals("S.J. LAZENBY        ", replyDataBin.getJaxbObject().getReplyItem().get(4).getReplyPersonal().getReplyName());
+	    assertEquals("S. D. BORMAN        ", replyDataBin.getReplyDataType().getReplyItem().get(0).getReplyPersonal().getReplyName());
+	    assertEquals("SUSAN MALAIKA       ", replyDataBin.getReplyDataType().getReplyItem().get(1).getReplyPersonal().getReplyName());
+	    assertEquals("SIR MICHAEL ROBERTS ", replyDataBin.getReplyDataType().getReplyItem().get(2).getReplyPersonal().getReplyName());
+	    assertEquals("S. P. RUSSELL       ", replyDataBin.getReplyDataType().getReplyItem().get(3).getReplyPersonal().getReplyName());
+	    assertEquals("S.J. LAZENBY        ", replyDataBin.getReplyDataType().getReplyItem().get(4).getReplyPersonal().getReplyName());
 	    
 	}
 
 	/* Without any input containers, the host program returns the entire content */
-	public void test0ContainersIn2Out() throws HostInvokerException {
+	public void test0ContainersIn2Out() throws HostInvokerException, HostException {
 		Address address = new Address("CICSTS31");
 		HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
 	    
 	    /* The JAXB output factory. */
-	    com.legstar.test.lsfileac.ObjectFactory jaxbOutFactory =
-	          new com.legstar.test.lsfileac.ObjectFactory();
+	    com.legstar.test.coxb.lsfileac.ObjectFactory jaxbOutFactory =
+	          new com.legstar.test.coxb.lsfileac.ObjectFactory();
 	    
 	    /* Prepare output objects */
 	    ReplyDataTypeBinding replyDataBin =
@@ -128,32 +129,32 @@ public class ContainerInvokerTest extends TestCase {
 	    invoker.invoke("test0ContainersIn2Out", inParts, outParts);
 	    
 	    /* Check */
-	    assertEquals(0, replyStatusBin.getJaxbObject().getReplyType());
-	    assertEquals(44, replyStatusBin.getJaxbObject().getTotalItemsRead());
-	    assertEquals("", replyStatusBin.getJaxbObject().getReplyMessage().trim());
-	    assertEquals(0, replyStatusBin.getJaxbObject().getReplyResp());
-	    assertEquals(0, replyStatusBin.getJaxbObject().getReplyResp2());
-	    assertEquals(44, replyDataBin.getJaxbObject().getReplyItemscount());
+	    assertEquals(0, replyStatusBin.getReplyStatusType().getReplyType());
+	    assertEquals(44, replyStatusBin.getReplyStatusType().getTotalItemsRead());
+	    assertEquals("", replyStatusBin.getReplyStatusType().getReplyMessage().trim());
+	    assertEquals(0, replyStatusBin.getReplyStatusType().getReplyResp());
+	    assertEquals(0, replyStatusBin.getReplyStatusType().getReplyResp2());
+	    assertEquals(44, replyDataBin.getReplyDataType().getReplyItemscount());
 	    
-	    assertEquals("S. D. BORMAN        ", replyDataBin.getJaxbObject().getReplyItem().get(0).getReplyPersonal().getReplyName());
-	    assertEquals("J. T. CZAYKOWSKI    ", replyDataBin.getJaxbObject().getReplyItem().get(1).getReplyPersonal().getReplyName());
-	    assertEquals("M. B. DOMBEY        ", replyDataBin.getJaxbObject().getReplyItem().get(2).getReplyPersonal().getReplyName());
-	    assertEquals("A. I. HICKSON       ", replyDataBin.getJaxbObject().getReplyItem().get(3).getReplyPersonal().getReplyName());
-	    assertEquals("ALAN TULIP          ", replyDataBin.getJaxbObject().getReplyItem().get(4).getReplyPersonal().getReplyName());
+	    assertEquals("S. D. BORMAN        ", replyDataBin.getReplyDataType().getReplyItem().get(0).getReplyPersonal().getReplyName());
+	    assertEquals("J. T. CZAYKOWSKI    ", replyDataBin.getReplyDataType().getReplyItem().get(1).getReplyPersonal().getReplyName());
+	    assertEquals("M. B. DOMBEY        ", replyDataBin.getReplyDataType().getReplyItem().get(2).getReplyPersonal().getReplyName());
+	    assertEquals("A. I. HICKSON       ", replyDataBin.getReplyDataType().getReplyItem().get(3).getReplyPersonal().getReplyName());
+	    assertEquals("ALAN TULIP          ", replyDataBin.getReplyDataType().getReplyItem().get(4).getReplyPersonal().getReplyName());
 	    
 	}
 	
 	/* When nothing is selected on the host, there is no data container back */
-	public void test2ContainersIn1Out() throws HostInvokerException {
+	public void test2ContainersIn1Out() throws HostInvokerException, HostException {
 		Address address = new Address("CICSTS31");
 		HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
 	    /* The JAXB input factory. */
-	    com.legstar.test.lsfileac.ObjectFactory jaxbInFactory =
-	          new com.legstar.test.lsfileac.ObjectFactory(); 
+	    com.legstar.test.coxb.lsfileac.ObjectFactory jaxbInFactory =
+	          new com.legstar.test.coxb.lsfileac.ObjectFactory(); 
 	    
 	    /* The JAXB output factory. */
-	    com.legstar.test.lsfileac.ObjectFactory jaxbOutFactory =
-	          new com.legstar.test.lsfileac.ObjectFactory();
+	    com.legstar.test.coxb.lsfileac.ObjectFactory jaxbOutFactory =
+	          new com.legstar.test.coxb.lsfileac.ObjectFactory();
 	    
 	    /* There are 2 containers for request */
 	    QueryDataType queryData	= jaxbInFactory.createQueryDataType();
@@ -192,13 +193,13 @@ public class ContainerInvokerTest extends TestCase {
 	    invoker.invoke("test2ContainersIn1Out", inParts, outParts);
 	    
 	    /* Check */
-	    assertEquals(0, replyStatusBin.getJaxbObject().getReplyType());
-	    assertEquals(44, replyStatusBin.getJaxbObject().getTotalItemsRead());
-	    assertEquals("NO CUSTOMER SATISFIES YOUR QUERY", replyStatusBin.getJaxbObject().getReplyMessage().trim());
-	    assertEquals(0, replyStatusBin.getJaxbObject().getReplyResp());
-	    assertEquals(0, replyStatusBin.getJaxbObject().getReplyResp2());
+	    assertEquals(0, replyStatusBin.getReplyStatusType().getReplyType());
+	    assertEquals(44, replyStatusBin.getReplyStatusType().getTotalItemsRead());
+	    assertEquals("NO CUSTOMER SATISFIES YOUR QUERY", replyStatusBin.getReplyStatusType().getReplyMessage().trim());
+	    assertEquals(0, replyStatusBin.getReplyStatusType().getReplyResp());
+	    assertEquals(0, replyStatusBin.getReplyStatusType().getReplyResp2());
 	    
-	    assertTrue(null == replyDataBin.getJaxbObject());
+	    assertTrue(null == replyDataBin.getReplyDataType());
 	    
 	}
 
