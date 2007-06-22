@@ -120,17 +120,17 @@ public final class JaxbUtil {
 	 * those.
 	 * 
 	 * @param objectFactory a JAXB ObjectFactory
-	 * @param jaxbType the complex type name to create
+	 * @param jaxbTypeName the complex type name to create
 	 * @return an instance of a JAXB object
 	 * @throws HostException if JAXB Object cannot be instanciated
 	 */
 	public static Object createComplexProperty(
 			final Object objectFactory,
-			final String jaxbType)
+			final String jaxbTypeName)
 		throws HostException {
 		
 		try {
-			Method creator = getCreatorMethod(objectFactory, jaxbType);
+			Method creator = getCreatorMethod(objectFactory, jaxbTypeName);
 			return creator.invoke(objectFactory);
 		} catch (IllegalAccessException e) {
 			throw (new HostException(e));
@@ -149,7 +149,7 @@ public final class JaxbUtil {
 	 * @param objectFactory a JAXB ObjectFactory
 	 * @param parentObject instance of the JAXB parent class
 	 * @param jaxbName complex property name
-	 * @param jaxbType complex property type
+	 * @param jaxbTypeName complex property type name
 	 * @return an instance of a JAXB object
 	 * @throws HostException if JAXB Object cannot be instanciated
 	 */
@@ -157,11 +157,11 @@ public final class JaxbUtil {
 			final Object objectFactory,
 			final Object parentObject,
 			final String jaxbName,
-			final String jaxbType)
+			final String jaxbTypeName)
 		throws HostException {
 		
 		try {
-			Method creator = getCreatorMethod(objectFactory, jaxbType);
+			Method creator = getCreatorMethod(objectFactory, jaxbTypeName);
 			Object result = creator.invoke(objectFactory);
 			
 			/* Add a reference to the object just created to the parent object
@@ -251,7 +251,7 @@ public final class JaxbUtil {
 	 * 
 	 * @param objectFactory a JAXB ObjectFactory
 	 * @param parentObject instance of the JAXB parent class
-	 * @param jaxbType complex property type
+	 * @param jaxbTypeName complex property type name
 	 * @param index item index in list
 	 * @return an instance of a JAXB object
 	 * @throws HostException if JAXB Object cannot be instanciated
@@ -259,12 +259,12 @@ public final class JaxbUtil {
 	public static Object addComplexIndexedProperty(
 			final Object objectFactory,
 			final Object parentObject,
-			final String jaxbType,
+			final String jaxbTypeName,
 			final int index)
 		throws HostException {
 		
 		try {
-			Method creator = getCreatorMethod(objectFactory, jaxbType);
+			Method creator = getCreatorMethod(objectFactory, jaxbTypeName);
 			Object result = creator.invoke(objectFactory);
 			
 			/* Add reference to object just created to the parent array using
