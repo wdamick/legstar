@@ -82,6 +82,13 @@ public class HostException extends Exception {
 		mhostFieldErrorLength = errorLength;
 	}
 
+	/** 
+	 * Constructor from an inner exception. 
+	 * @param e the inner exception 
+	 * */
+	public HostException(final Exception e) {
+		super(e);
+	}
 	/**
 	 * @see java.lang.Throwable#getMessage()
 	 * @return String describes the exception

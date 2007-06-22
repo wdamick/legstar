@@ -22,8 +22,10 @@ package com.legstar.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.List;
 
-import com.legstar.coxb.reflect.CComplexBinding;
+import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.host.HostException;
 
 /**
@@ -60,55 +62,53 @@ public final class JaxbUtil {
 		try {
 			/* The concrete object reference is obtained thru the corresponding
 			 *  parent getter method */
-			String getterName = "get" + jaxbName.substring(0, 1).toUpperCase()
-			+ jaxbName.substring(1);
-			Method getter = parentObject.getClass().getMethod(getterName);
+			Method getter = getGetterMethod(parentObject, jaxbName);
 			result = getter.invoke(parentObject);
 		} catch (IllegalAccessException e) {
-			throw (new HostException(
-					"IllegalAccessException " + e.getMessage()));
-		} catch (NoSuchMethodException e) {
-			throw (new HostException(
-					"NoSuchMethodException " + e.getMessage()));
+			throw (new HostException(e));
 		} catch (InvocationTargetException e) {
-			throw (new HostException(
-					"InvocationTargetException " + e.getMessage()));
+			throw (new HostException(e));
 		}
 		return result;
 	}
-
+	
 	/**
 	 * This method sets a property from a parent object to a given value.
 	 * 
 	 * @param parentObject JAXB Object owning the property
 	 * @param jaxbName the property name to set
 	 * @param value value to set property to
-	 * @param clazz the java class the value belongs to
+	 * @param javaType the java class the value belongs to
 	 * @throws HostException if property cannot be set
 	 */
+	@SuppressWarnings("unchecked")
 	public static void invokeSetProperty(
 			final Object parentObject,
 			final String jaxbName,
 			final Object value,
-			final Class clazz)
+			final Class javaType)
 		throws HostException {
 		
 		try {
-			Class[] param = {clazz};
-			String setterName = "set" + jaxbName.substring(0, 1).toUpperCase()
-			+ jaxbName.substring(1);
-			Method setter =
-				parentObject.getClass().getMethod(setterName, param);
-			setter.invoke(parentObject, value);
+			/* When object to set is a List, we use the getXXX().AddAll
+			 *  technique*/
+			if (value instanceof List) {
+				Method getter = getGetterMethod(parentObject, jaxbName);
+				Class listClass = getter.getReturnType();
+				Method addAll =  listClass.getMethod(
+						"addAll", Collection.class);
+				addAll.invoke(getter.invoke(parentObject), (Collection) value);
+			} else {
+				Method setter = getSetterMethod(
+						parentObject, jaxbName, javaType);
+				setter.invoke(parentObject, value);
+			}
 		} catch (IllegalAccessException e) {
-			throw (new HostException(
-					"IllegalAccessException " + e.getMessage()));
+			throw (new HostException(e));
 		} catch (NoSuchMethodException e) {
-    		throw (new HostException(
-    				"NoSuchMethodException " + e.getMessage()));
+			throw (new HostException(e));
     	} catch (InvocationTargetException e) {
-    		throw (new HostException(
-    				"InvocationTargetException " + e.getMessage()));
+			throw (new HostException(e));
     	}
 	}
 
@@ -129,25 +129,14 @@ public final class JaxbUtil {
 			final String jaxbType)
 		throws HostException {
 		
-		Object result;
 		try {
-			/* The ObjectFactory exports a create method for each complex type
-			 * in the object tree */
-			Method getter =
-				objectFactory.getClass().getMethod(
-						"create" + toPropertyType(jaxbType));
-			result = getter.invoke(objectFactory);
+			Method creator = getCreatorMethod(objectFactory, jaxbType);
+			return creator.invoke(objectFactory);
 		} catch (IllegalAccessException e) {
-			throw (new HostException(
-					"IllegalAccessException " + e.getMessage()));
-		} catch (NoSuchMethodException e) {
-			throw (new HostException(
-					"NoSuchMethodException " + e.getMessage()));
+			throw (new HostException(e));
 		} catch (InvocationTargetException e) {
-			throw (new HostException(
-					"InvocationTargetException " + e.getMessage()));
+			throw (new HostException(e));
 		}
-		return result;
 	}
 
 	/**
@@ -171,34 +160,21 @@ public final class JaxbUtil {
 			final String jaxbType)
 		throws HostException {
 		
-		Object result;
 		try {
-			/* The ObjectFactory exports a create method for each complex type
-			 *  in the object tree */
-			Method getter =
-				objectFactory.getClass().getMethod(
-						"create" + toPropertyType(jaxbType));
-			result = getter.invoke(objectFactory);
+			Method creator = getCreatorMethod(objectFactory, jaxbType);
+			Object result = creator.invoke(objectFactory);
 			
 			/* Add a reference to the object just created to the parent object
 			 * using its setter method */
-			Class[] param = {getter.getReturnType()};
-			String setterName = "set" + jaxbName.substring(0, 1).toUpperCase()
-			+ jaxbName.substring(1);
-			Method setter =
-				parentObject.getClass().getMethod(setterName, param);
+			Method setter = getSetterMethod(
+					parentObject, jaxbName, creator.getReturnType());
 			setter.invoke(parentObject, result);
+			return result;
 		} catch (IllegalAccessException e) {
-			throw (new HostException(
-					"IllegalAccessException " + e.getMessage()));
-		} catch (NoSuchMethodException e) {
-			throw (new HostException(
-					"NoSuchMethodException " + e.getMessage()));
+			throw (new HostException(e));
 		} catch (InvocationTargetException e) {
-			throw (new HostException(
-					"InvocationTargetException " + e.getMessage()));
+			throw (new HostException(e));
 		}
-		return result;
 	}
 
 	/**
@@ -223,19 +199,16 @@ public final class JaxbUtil {
 			Method getter = parentObject.getClass().getMethod("get", int.class);
 			result = getter.invoke(parentObject, index);
 		} catch (IllegalAccessException e) {
-			throw (new HostException(
-					"IllegalAccessException " + e.getMessage()));
+			throw (new HostException(e));
 		} catch (NoSuchMethodException e) {
-			throw (new HostException(
-					"NoSuchMethodException " + e.getMessage()));
+			throw (new HostException(e));
 		} catch (InvocationTargetException e) {
 			/* If requested item does not exist in array simply return null */
 			if (e.getTargetException().getClass().getName().compareTo(
 					"java.lang.IndexOutOfBoundsException") == 0) {
 				return null;
 			} else {
-				throw (new HostException(
-						"InvocationTargetException " + e.getMessage()));
+				throw (new HostException(e));
 			}
 		}
 		return result;
@@ -263,14 +236,11 @@ public final class JaxbUtil {
 			Method setter = parentObject.getClass().getMethod("add", param);
 			setter.invoke(parentObject, index, value);
 		} catch (IllegalAccessException e) {
-			throw (new HostException(
-					"IllegalAccessException " + e.getMessage()));
+			throw (new HostException(e));
 		} catch (NoSuchMethodException e) {
-    		throw (new HostException(
-    				"NoSuchMethodException " + e.getMessage()));
+			throw (new HostException(e));
     	} catch (InvocationTargetException e) {
-    		throw (new HostException(
-    				"InvocationTargetException " + e.getMessage()));
+			throw (new HostException(e));
     	}
 	}
 
@@ -293,31 +263,23 @@ public final class JaxbUtil {
 			final int index)
 		throws HostException {
 		
-		Object result;
 		try {
-			/* The ObjectFactory exports a create method for each complex type
-			 * in the object tree */
-			Method getter =
-				objectFactory.getClass().getMethod(
-						"create" + toPropertyType(jaxbType));
-			result = getter.invoke(objectFactory);
+			Method creator = getCreatorMethod(objectFactory, jaxbType);
+			Object result = creator.invoke(objectFactory);
 			
 			/* Add reference to object just created to the parent array using
 			 * the add(index, Object) method */
 			Class[] param = {int.class, Object.class};
-			Method setter = parentObject.getClass().getMethod("add", param);
-			setter.invoke(parentObject, index, result);
+			Method add = parentObject.getClass().getMethod("add", param);
+			add.invoke(parentObject, index, result);
+			return result;
 		} catch (IllegalAccessException e) {
-			throw (new HostException(
-					"IllegalAccessException " + e.getMessage()));
+			throw (new HostException(e));
 		} catch (NoSuchMethodException e) {
-    		throw (new HostException(
-    				"NoSuchMethodException " + e.getMessage()));
+    		throw (new HostException(e));
     	} catch (InvocationTargetException e) {
-    		throw (new HostException(
-    				"InvocationTargetException " + e.getMessage()));
+    		throw (new HostException(e));
     	}
-		return result;
 	}
 	
 	/**
@@ -325,17 +287,16 @@ public final class JaxbUtil {
 	 * 
 	 * @param jaxbPackage the java package name from which an ObjectFactory
 	 *        can be instanciated
-	 * @param jaxbType the JAXB type of the object for which byte length must
-	 *        be returned
+	 * @param jaxbTypeName the JAXB type name of the object for which byte 
+	 *        length must be returned
 	 * @return the byte length as a string
 	 * @throws HostException if byte length calculation failed
 	 */
 	public static String byteLength(
 			final String jaxbPackage,
-			final String jaxbType)
+			final String jaxbTypeName)
 		throws HostException {
 		
-		String result = null;
 		try {
 			/* Load the JAXB object factory from the package */
 			String ofName = jaxbPackage + ".ObjectFactory";
@@ -344,23 +305,85 @@ public final class JaxbUtil {
 			
 			/* Get an instance of the requested JAXB object*/
 			Object jaxbObject =
-				JaxbUtil.createComplexProperty(objectFactory, jaxbType);
+				JaxbUtil.createComplexProperty(objectFactory, jaxbTypeName);
 			
 			/* Create a complex cobol element representing this jaxb object */
-			CComplexBinding ce =
-				new CComplexBinding(objectFactory, jaxbObject);
-			result = (new Integer(ce.getByteLength())).toString();
+			CComplexReflectBinding ce =
+				new CComplexReflectBinding(objectFactory, jaxbObject);
+			return (new Integer(ce.calcByteLength())).toString();
 		} catch (ClassNotFoundException e) {
-			throw (new HostException(
-					"ClassNotFoundException: " + e.getMessage()));
+			throw (new HostException(e));
 		} catch (InstantiationException e) {
-			throw (new HostException(
-					"InstantiationException: " + e.getMessage()));
+			throw (new HostException(e));
 		} catch (IllegalAccessException e) {
-			throw (new HostException(
-					"IllegalAccessException: " + e.getMessage()));
+			throw (new HostException(e));
 		}
-		return result;
+	}
+
+	/**
+	 * The ObjectFactory exports a create method for each complex type
+	 * in the object tree.
+	 * Returns a jaxb object creator method.
+	 * @param objectFactory JAXB Objectfactory
+	 * @param jaxbTypeName the jaxb object type name
+	 * @return the creator method
+	 * @throws HostException if getter method does not exist
+	 */
+	public static Method getCreatorMethod(
+			final Object objectFactory,
+			final String jaxbTypeName) throws HostException {
+		try {
+			Method creator =
+				objectFactory.getClass().getMethod(
+						"create" + toPropertyType(jaxbTypeName));
+			return creator;
+		} catch (NoSuchMethodException e) {
+			throw (new HostException(e));
+		}
+	}
+
+	/**
+	 * Returns a jaxb property getter method.
+	 * @param parentObject JAXB Object owning the property
+	 * @param jaxbName the property name to get
+	 * @return the getter method
+	 * @throws HostException if getter method does not exist
+	 */
+	public static Method getGetterMethod(
+			final Object parentObject,
+			final String jaxbName) throws HostException {
+		String getterName = "get" + jaxbName.substring(0, 1).toUpperCase()
+		+ jaxbName.substring(1);
+		try {
+			Method getter = parentObject.getClass().getMethod(getterName);
+			return getter;
+		} catch (NoSuchMethodException e) {
+			throw (new HostException(e));
+		}
+	}
+
+	/**
+	 * Returns a jaxb property setter method.
+	 * @param parentObject JAXB Object owning the property
+	 * @param jaxbName the property name to get
+	 * @param jaxbType the property type
+	 * @return the getter method
+	 * @throws HostException if getter method does not exist
+	 */
+	public static Method getSetterMethod(
+			final Object parentObject,
+			final String jaxbName,
+			final Class jaxbType) throws HostException {
+		String getterName = "set" + jaxbName.substring(0, 1).toUpperCase()
+		+ jaxbName.substring(1);
+		try {
+			Class[] param = {jaxbType};
+			Method setter = parentObject.getClass().getMethod(
+					getterName, param);
+			return setter;
+		} catch (NoSuchMethodException e) {
+			throw (new HostException(e));
+		}
 	}
 
 	/**
@@ -368,7 +391,9 @@ public final class JaxbUtil {
 	 * Property type (as returned from Field.getGenericType() can take 3 forms: 
 	 * form1: type
 	 * form1: package.type
-	 * form3: java.util.List < package.type >.
+	 * form3: java.util.List &lts; package.type &gt;.
+	 * Furthermore, primitive types are returned as their Object equivalent.
+	 * 
 	 * 
 	 * @param genericType as returned from hostField.getGenericType()
 	 * @return a normalized string representation of the type
@@ -385,6 +410,21 @@ public final class JaxbUtil {
 			if (type.charAt(type.length() - 1) == '>') {
 				type = type.substring(0, type.length() - 1);
 			}
+		}
+		if (type.compareTo("byte") == 0) {
+			return "Byte";
+		} else if (type.compareTo("[B") == 0) {
+			return "byte[]";
+		} else if (type.compareTo("short") == 0) {
+			return "Short";
+		} else if (type.compareTo("int") == 0) {
+			return "Integer";
+		} else if (type.compareTo("long") == 0) {
+			return "Long";
+		} else if (type.compareTo("float") == 0) {
+			return "Float";
+		} else if (type.compareTo("double") == 0) {
+			return "Double";
 		}
 		return type;
 	}
