@@ -1,0 +1,37 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/xml/ns/coxb" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:tns="http://schemas.microsoft.com/MSNSearch/2005/09/fex" attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:ns0="http://java.sun.com/xml/ns/jaxb" ns0:extensionBindingPrefixes="cb" targetNamespace="http://schemas.microsoft.com/MSNSearch/2005/09/fex" xmlns:ns1="http://java.sun.com/xml/ns/jaxb" ns1:version="2.0">
+<xsd:annotation>
+<xsd:appinfo>
+	<jaxb:schemaBindings>
+		<jaxb:package name="com.legstar.test.coxb.enumvar"/>
+		<jaxb:nameXmlTransform>
+			<jaxb:typeName suffix="Type"/>
+		</jaxb:nameXmlTransform>
+	</jaxb:schemaBindings>
+</xsd:appinfo>
+</xsd:annotation>
+<xsd:complexType name="SearchRequest">
+<xsd:sequence>
+<xsd:element name="AppID" type="xsd:string">
+<xsd:annotation>
+<xsd:appinfo>
+<cb:cobolElement byteLength="32" cobolName="APPID" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+</xsd:appinfo>
+</xsd:annotation>
+</xsd:element>
+<xsd:element default="Moderate" name="SafeSearch" type="tns:SafeSearchOptions">
+<xsd:annotation>
+<xsd:appinfo>
+<cb:cobolElement byteLength="32" cobolName="SAFESEARCH" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+</xsd:appinfo>
+</xsd:annotation>
+</xsd:element>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:simpleType name="SafeSearchOptions">
+<xsd:restriction base="xsd:string">
+<xsd:enumeration value="Moderate"/>
+<xsd:enumeration value="Strict"/>
+<xsd:enumeration value="Off"/>
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:schema>
