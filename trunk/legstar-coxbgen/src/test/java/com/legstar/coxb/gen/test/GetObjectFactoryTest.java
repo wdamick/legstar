@@ -28,7 +28,7 @@ import com.legstar.coxb.gen.CoxbBindingGenerator;
 public class GetObjectFactoryTest extends TestCase {
 	
 	/** Generated JAXB classes binaries. */
-	private static final String JAXB_DIR = "./target/test-classes";
+	private static final String JAXB_DIR = "../legstar-jaxbgen-cases/target/classes";
 	
 	/** Attempt to get factory object from the wrong location should fail. */
 	public void testInvalidLocation() {
@@ -50,7 +50,7 @@ public class GetObjectFactoryTest extends TestCase {
 					new File(JAXB_DIR));
 			fail("Invalid package test failed");
 		} catch (Exception e) {
-			assertEquals("ClassNotFoundException com.legstar.test.truc.ALLTYPES.ObjectFactory in .\\target\\test-classes", e.getMessage());
+			assertEquals("ClassNotFoundException com.legstar.test.truc.ALLTYPES.ObjectFactory in ..\\legstar-jaxbgen-cases\\target\\classes", e.getMessage());
 		}
 	}
 

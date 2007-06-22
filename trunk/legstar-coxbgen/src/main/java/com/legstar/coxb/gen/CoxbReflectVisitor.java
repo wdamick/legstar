@@ -97,7 +97,7 @@ public class CoxbReflectVisitor extends CobolElementVisitor {
 		/* Create an ordered list of properties in this complex element.
 		 * Since we are unmarshaling, bound objects  do not pre-exist so
 		 * we need to create them. */
-		ce.createBoundObject();
+		ce.createJaxbObject();
 		java.util.List < ICobolBinding > children =
 			ce.getChildrenList();
 		
@@ -160,8 +160,8 @@ public class CoxbReflectVisitor extends CobolElementVisitor {
 		String tempFile = mWriter.openWrite(
 				CoxbFormatter.formatComplexProlog(ce, mPackageName));
 		/* We reflect on only one item of the array */
-		ce.initBoundItem(0);
-		ICobolBinding itemDesc = ce.getItem(0);
+		ce.createJaxbObject();
+		ICobolBinding itemDesc = ce.getComplexItemBinding();
 		itemDesc.accept(this);
 		mWriter.writeClose(CoxbFormatter.formatComplexEpilog());
 

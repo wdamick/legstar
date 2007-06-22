@@ -107,6 +107,9 @@ public final class CoxbFormatter {
 	/** Binding class this property derives from. */
 	private static final String BIND_TYPE_ATTR = "binding-type=";
 	
+	/** Binding class a complex array item derives from. */
+	private static final String ITEM_BIND_TYPE_ATTR = "item-binding-type=";
+	
 	/** The cobol name of the variable. */
 	private static final String COBOL_NAME_ATTR = "cobol-name=";
 	
@@ -245,7 +248,9 @@ public final class CoxbFormatter {
 		/* <coxb-type name="DfhcommareaTypeBinding" type="complex"> */
 		out.append('<');
 		out.append(COXB_TYPE);
-		addAttribute(out, NAME_ATTR, ce.getJavaType() + BIND_SUFFIX);
+		addAttribute(out, NAME_ATTR,
+				JaxbUtil.toPropertyType(ce.getJavaType().getName())
+				+ BIND_SUFFIX);
 		addAttribute(out, TYPE_ATTR, COMPLEX_TYPE);
 		out.append('>');
 		out.append(LINE_SEP);
@@ -254,7 +259,7 @@ public final class CoxbFormatter {
 		out.append('<');
 		out.append(JAXB_TYPE);
 		out.append('>');
-		out.append(ce.getJavaType());
+		out.append(JaxbUtil.toPropertyType(ce.getJavaType().getName()));
 		out.append("</");
 		out.append(JAXB_TYPE);
 		out.append('>');
@@ -334,7 +339,8 @@ public final class CoxbFormatter {
 		out.append('<');
 		out.append(JAXB_TYPE);
 		out.append('>');
-		out.append(ce.getParentBinding().getJavaType());
+		out.append(JaxbUtil.toPropertyType(
+				ce.getParentBinding().getJavaType().getName()));
 		out.append("</");
 		out.append(JAXB_TYPE);
 		out.append('>');
@@ -387,9 +393,15 @@ public final class CoxbFormatter {
 		out.append(COXB_TYPE);
 		/* Complex arrays are always lists in JAXB, here we need to reference
          * the complex object that occurs multiple times. */
-		addAttribute(out, NAME_ATTR, JaxbUtil.toPropertyType(ce.getJavaType())
+		addAttribute(out, NAME_ATTR,
+				JaxbUtil.toPropertyType(ce.getJavaType().getName())
 				+ WRAPPER_SUFFIX + BIND_SUFFIX);
 		addAttribute(out, TYPE_ATTR, COMPLEX_ARRAY_TYPE);
+		addAttribute(out, MINOCCURS_ATTR, ce.getMinOccurs());
+		addAttribute(out, MAXOCCURS_ATTR, ce.getMaxOccurs());
+		if (ce.getDependingOn() != null && ce.getDependingOn().length() > 0) {
+			addAttribute(out, DEPENDING_ON_ATTR, ce.getDependingOn());
+		}
 		out.append('>');
 		out.append(LINE_SEP);
 		
@@ -397,7 +409,7 @@ public final class CoxbFormatter {
 		out.append('<');
 		out.append(JAXB_TYPE);
 		out.append('>');
-		out.append(JaxbUtil.toPropertyType(ce.getJavaType()));
+		out.append(JaxbUtil.toPropertyType(ce.getJavaType().getName()));
 		out.append("</");
 		out.append(JAXB_TYPE);
 		out.append('>');
@@ -421,28 +433,6 @@ public final class CoxbFormatter {
 		out.append("</");
 		out.append(JAXB_PROP);
 		out.append('>');
-		out.append(LINE_SEP);
-		
-		/* We also include a property within the wrapper to further describe
-         * the array */
-		/* <coxb-property jaxb-name="cArray" type="complex"
-         *  jaxb-type="CArrayType" binding-type="CArrayTypeBinding"
-         *   cobol-minOccurs="0" cobol-maxOccurs="250"
-         *   cobol-dependingOn="C-ITEMS-NUMBER"/> */
-		out.append('<');
-		out.append(COXB_PROP);
-		addAttribute(out, JAXB_NAME_ATTR, ce.getJavaName());
-		addAttribute(out, TYPE_ATTR, COMPLEX_TYPE);
-		addAttribute(out, JAXB_TYPE_ATTR,
-                JaxbUtil.toPropertyType(ce.getJavaType()));
-		addAttribute(out, BIND_TYPE_ATTR,
-                JaxbUtil.toPropertyType(ce.getJavaType()) + BIND_SUFFIX);
-		addAttribute(out, MINOCCURS_ATTR, ce.getMinOccurs());
-		addAttribute(out, MAXOCCURS_ATTR, ce.getMaxOccurs());
-		if (ce.getDependingOn() != null && ce.getDependingOn().length() > 0) {
-			addAttribute(out, DEPENDING_ON_ATTR, ce.getDependingOn());
-		}
-		out.append("/>");
 		out.append(LINE_SEP);
 		
 		return out.toString();
@@ -485,8 +475,11 @@ public final class CoxbFormatter {
 		out.append(COXB_PROP);
 		addAttribute(out, JAXB_NAME_ATTR, ce.getJavaName());
 		addAttribute(out, TYPE_ATTR, COMPLEX_TYPE);
-		addAttribute(out, JAXB_TYPE_ATTR, ce.getJavaType());
-		addAttribute(out, BIND_TYPE_ATTR, ce.getJavaType() + BIND_SUFFIX);
+		addAttribute(out, JAXB_TYPE_ATTR,
+                JaxbUtil.toPropertyType(ce.getJavaType().getName()));
+		addAttribute(out, BIND_TYPE_ATTR,
+                JaxbUtil.toPropertyType(
+                		ce.getJavaType().getName()) + BIND_SUFFIX);
 		if (ce.getRedefines() != null && ce.getRedefines().length() > 0) {
 			addAttribute(out, REDEFINES_ATTR, ce.getRedefines());
 		}
@@ -521,6 +514,16 @@ public final class CoxbFormatter {
 				ce.getJavaName().substring(0, 1).toUpperCase()
 				+ ce.getJavaName().substring(1) 
 				+ CHOICE_SUFFIX + BIND_SUFFIX);
+		if (ce.getMarshalChoiceStrategyClassName() != null
+				&& ce.getMarshalChoiceStrategyClassName().length() > 0) {
+			addAttribute(out, MARSHAL_CHOICE_STRATEGY_ATTR,
+					ce.getMarshalChoiceStrategyClassName());
+		}
+		if (ce.getUnmarshalChoiceStrategyClassName() != null
+				&& ce.getUnmarshalChoiceStrategyClassName().length() > 0) {
+			addAttribute(out, UNMARSHAL_CHOICE_STRATEGY_ATTR,
+					ce.getUnmarshalChoiceStrategyClassName());
+		}
 		out.append("/>");
 		out.append(LINE_SEP);
 		
@@ -548,10 +551,13 @@ public final class CoxbFormatter {
 		/* Complex arrays are always lists in JAXB, here we need to reference
          * the complex object that occurs multiple times. */
 		addAttribute(out, JAXB_TYPE_ATTR,
-                JaxbUtil.toPropertyType(ce.getJavaType()));
+                JaxbUtil.toPropertyType(ce.getJavaType().getName()));
 		addAttribute(out, BIND_TYPE_ATTR,
-				JaxbUtil.toPropertyType(ce.getJavaType())
+				JaxbUtil.toPropertyType(ce.getJavaType().getName())
 				+ WRAPPER_SUFFIX + BIND_SUFFIX);
+		addAttribute(out, ITEM_BIND_TYPE_ATTR,
+				JaxbUtil.toPropertyType(ce.getJavaType().getName())
+				+ BIND_SUFFIX);
 		out.append("/>");
 		out.append(LINE_SEP);
 		
@@ -601,7 +607,7 @@ public final class CoxbFormatter {
 		out.append(formatSimplePropertyProlog(ce));
 		
 		/* Set specific attributes */
-		addAttribute(out, BYTELEN_ATTR, ce.getItemByteLength());
+		addAttribute(out, BYTELEN_ATTR, ce.getByteLength());
 		addAttribute(out, BIND_TYPE_ATTR, ARRAY_STRING_BIND_TYPE);
 		addAttribute(out, ISRIGHTJUST_ATTR, ce.isJustifiedRight());
 		addAttribute(out, MINOCCURS_ATTR, ce.getMinOccurs());
@@ -655,7 +661,7 @@ public final class CoxbFormatter {
 		out.append(formatSimplePropertyProlog(ce));
 		
 		/* Set specific attributes */
-		addAttribute(out, BYTELEN_ATTR, ce.getItemByteLength());
+		addAttribute(out, BYTELEN_ATTR, ce.getByteLength());
 		addAttribute(out, BIND_TYPE_ATTR, ARRAY_NATIONAL_BIND_TYPE);
 		addAttribute(out, ISRIGHTJUST_ATTR, ce.isJustifiedRight());
 		addAttribute(out, MINOCCURS_ATTR, ce.getMinOccurs());
@@ -708,7 +714,7 @@ public final class CoxbFormatter {
 		out.append(formatSimplePropertyProlog(ce));
 		
 		/* Set specific attributes */
-		addAttribute(out, BYTELEN_ATTR, ce.getItemByteLength());
+		addAttribute(out, BYTELEN_ATTR, ce.getByteLength());
 		addAttribute(out, BIND_TYPE_ATTR, ARRAY_OCTET_STREAM_BIND_TYPE);
 		addAttribute(out, MINOCCURS_ATTR, ce.getMinOccurs());
 		addAttribute(out, MAXOCCURS_ATTR, ce.getMaxOccurs());
@@ -762,7 +768,7 @@ public final class CoxbFormatter {
 		out.append(formatSimplePropertyProlog(ce));
 		
 		/* Set specific attributes */
-		addAttribute(out, BYTELEN_ATTR, ce.getItemByteLength());
+		addAttribute(out, BYTELEN_ATTR, ce.getByteLength());
 		addAttribute(out, BIND_TYPE_ATTR, ARRAY_BINARY_BIND_TYPE);
 		addAttribute(out, TOTDIGITS_ATTR, ce.getTotalDigits());
 		addAttribute(out, FRACDIGITS_ATTR, ce.getFractionDigits());
@@ -819,7 +825,7 @@ public final class CoxbFormatter {
 		out.append(formatSimplePropertyProlog(ce));
 		
 		/* Set specific attributes */
-		addAttribute(out, BYTELEN_ATTR, ce.getItemByteLength());
+		addAttribute(out, BYTELEN_ATTR, ce.getByteLength());
 		addAttribute(out, BIND_TYPE_ATTR, ARRAY_PACKED_BIND_TYPE);
 		addAttribute(out, TOTDIGITS_ATTR, ce.getTotalDigits());
 		addAttribute(out, FRACDIGITS_ATTR, ce.getFractionDigits());
@@ -878,7 +884,7 @@ public final class CoxbFormatter {
 		out.append(formatSimplePropertyProlog(ce));
 		
 		/* Set specific attributes */
-		addAttribute(out, BYTELEN_ATTR, ce.getItemByteLength());
+		addAttribute(out, BYTELEN_ATTR, ce.getByteLength());
 		addAttribute(out, BIND_TYPE_ATTR, ARRAY_ZONED_BIND_TYPE);
 		addAttribute(out, TOTDIGITS_ATTR, ce.getTotalDigits());
 		addAttribute(out, FRACDIGITS_ATTR, ce.getFractionDigits());
@@ -934,7 +940,7 @@ public final class CoxbFormatter {
 		out.append(formatSimplePropertyProlog(ce));
 		
 		/* Set specific attributes */
-		addAttribute(out, BYTELEN_ATTR, ce.getItemByteLength());
+		addAttribute(out, BYTELEN_ATTR, ce.getByteLength());
 		addAttribute(out, BIND_TYPE_ATTR, ARRAY_DOUBLE_BIND_TYPE);
 		addAttribute(out, MINOCCURS_ATTR, ce.getMinOccurs());
 		addAttribute(out, MAXOCCURS_ATTR, ce.getMaxOccurs());
@@ -986,7 +992,7 @@ public final class CoxbFormatter {
 		out.append(formatSimplePropertyProlog(ce));
 		
 		/* Set specific attributes */
-		addAttribute(out, BYTELEN_ATTR, ce.getItemByteLength());
+		addAttribute(out, BYTELEN_ATTR, ce.getByteLength());
 		addAttribute(out, BIND_TYPE_ATTR, ARRAY_FLOAT_BIND_TYPE);
 		addAttribute(out, MINOCCURS_ATTR, ce.getMinOccurs());
 		addAttribute(out, MAXOCCURS_ATTR, ce.getMaxOccurs());
@@ -1014,7 +1020,7 @@ public final class CoxbFormatter {
 		out.append(COXB_PROP);
 		addAttribute(out, JAXB_NAME_ATTR, ce.getJavaName());
 		addAttribute(out, JAXB_TYPE_ATTR,
-                JaxbUtil.toPropertyType(ce.getJavaType()));
+                JaxbUtil.toPropertyType(ce.getJavaType().getName()));
 		addAttribute(out, TYPE_ATTR, SIMPLE_TYPE);
 		addAttribute(out, COBOL_NAME_ATTR, ce.getCobolName());
 		if (ce.getDependingOn() != null && ce.getDependingOn().length() > 0) {
