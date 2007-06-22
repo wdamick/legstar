@@ -27,7 +27,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Vector;
 
-import com.legstar.coxb.reflect.CComplexBinding;
+import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.host.HostException;
 
 import java.io.File;
@@ -124,7 +124,7 @@ public class CoxbBindingGenerator extends Task {
         	CoxbReflectVisitor visitor = new CoxbReflectVisitor(
         			mJaxbPackageName, mTargetDir);
         	/* Bind the root object to a COXB type */
-			CComplexBinding ce = new CComplexBinding(
+        	CComplexReflectBinding ce = new CComplexReflectBinding(
                     jaxbObjectFactory, jaxbRootObject);
 			ce.accept(visitor);
 		} catch (HostException e) {
@@ -207,30 +207,15 @@ public class CoxbBindingGenerator extends Task {
 			/* Create a new instance of this class */
 			jaxbObjectFactory = objfCls.newInstance();
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			throw (new BuildException(
-					"ClassNotFoundException " + e.getMessage()
-					+ packageName + ".ObjectFactory"));
+			throw new BuildException(e);
 		} catch (InstantiationException e) {
-			e.printStackTrace();
-			throw (new BuildException(
-					"InstantiationException " + e.getMessage()
-					+ packageName + ".ObjectFactory"));
+			throw new BuildException(e);
 		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-			throw (new BuildException(
-					"IllegalAccessException " + e.getMessage()
-					+ packageName + ".ObjectFactory"));
+			throw new BuildException(e);
 		} catch (SecurityException e) {
-			e.printStackTrace();
-			throw (new BuildException(
-					"SecurityException " + e.getMessage()
-					+ packageName + ".ObjectFactory"));
+			throw new BuildException(e);
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			throw (new BuildException(
-					"IllegalArgumentException " + e.getMessage()
-					+ packageName + ".ObjectFactory"));
+			throw new BuildException(e);
 		}
 		
 		return jaxbObjectFactory;
@@ -346,7 +331,7 @@ public class CoxbBindingGenerator extends Task {
 	}
 
 	/**
-	 * @return the Jaxb²Package Name
+	 * @return the XML schema file
 	 */
 	public final File getXsdFile() {
 		return mXsdFile;

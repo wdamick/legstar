@@ -11,10 +11,10 @@
 	  -->
 	<target name="init">
 
-		<!-- Target location for generated JAXB sources   -->
-		<property name="jaxb.src.dir" value="${basedir}/src/test/java"/>
-		<!-- Target location for generated JAXB binaries   -->
-		<property name="jaxb.bin.dir" value="${basedir}/target/test-classes"/>
+		<!-- Target location for generated COXB sources   -->
+		<property name="coxb.src.dir" value="${basedir}/../legstar-coxbgen-cases/src/main/java"/>
+		<!-- Target location for generated COXB binaries   -->
+		<property name="coxb.bin.dir" value="${basedir}/../legstar-coxbgen-cases/target/classes"/>
 		<!-- Location of XML schemas  -->
 	 	<property name="xsd.dir" value="${basedir}/../legstar-schemagen/src/test/schema" />
 		<!-- The JAXB root object name. Binding is for a single complex
@@ -27,19 +27,20 @@
 		<property name="maven.repo" value="C:\Documents and Settings\Fady\.m2\repository"/>
 		<path id="classpath">
 			<!-- JAXB-related Classpath  -->
-		    <pathelement location="${maven.repo}\com\sun\xml\bind\jaxb-impl\2.1\jaxb-impl-2.1.jar"/>
-		    <pathelement location="${maven.repo}\com\sun\xml\bind\jaxb-xjc\2.1\jaxb-xjc-2.1.jar"/>
-		    <pathelement location="${maven.repo}\javax\activation\activation\1.1\activation-1.1.jar"/>
 		    <pathelement location="${maven.repo}\javax\xml\bind\jaxb-api\2.1\jaxb-api-2.1.jar"/>
 		    <pathelement location="${maven.repo}\javax\xml\bind\jsr173_api\1.0\jsr173_api-1.0.jar"/>
 	  		<!--SAXON binaries -->
 		    <pathelement location="${maven.repo}\net\sf\saxon\saxon\8.7\saxon-8.7.jar"/>
+	  		<!--WS logging binaries -->
+		    <pathelement location="${maven.repo}\commons-logging\commons-logging-api\1.0.4\commons-logging-api-1.0.4.jar"/>
+	  		<!--Legstar General binding classes location -->
+    		<pathelement location="${basedir}/../legstar-binding/target/classes"/>
 	  		<!--Legstar COXB runtime location -->
-		    <pathelement location="${maven.repo}\com\legsem\legstar\legstar-coxbrt\1.0.1\legstar-coxbrt-1.0.1.jar"/>
+		    <pathelement location="${basedir}/../legstar-coxbrt/target/classes"/>
 	  		<!--Legstar common runtime location -->
-		    <pathelement location="${maven.repo}\com\legsem\legstar\legstar-common\1.0.1\legstar-common-1.0.1.jar"/>
+		    <pathelement location="${basedir}/../legstar-common/target/classes"/>
 	  		<!--JAXB generated classes -->
-	  		<pathelement location="${build.dir}/test-classes"/>
+	  		<pathelement location="${basedir}/../legstar-jaxbgen-cases/target/classes"/>
 	  		<!--COXB Generator classes -->
 	  		<pathelement location="${build.dir}/classes"/>
 	  	</path>
@@ -63,51 +64,59 @@
 	<!-- Generate COXB output for a each XML schema in a given folder
 	  -->
 	<target name="generateAllCOXB" depends="init">
+		<mkdir dir="${coxb.bin.dir}"/>
 		<foreach target="generateCOXB" param="xsd.file">
 			<path>
-				<fileset dir="${xsd.dir}" includes="*.xsd" excludes="clegtstc.cbl.xsd lsfileal.xsd lsfileac.xsd"/>
+				<fileset dir="${xsd.dir}" includes="*.xsd" excludes="clegtstc.cbl.xsd lsfileal.xsd lsfileac.xsd enumvar.xsd"/>
 			</path>
 		</foreach>
 		<coxbgen 
 			XsdFile="${xsd.dir}/lsfileal.xsd"
 			JaxbRootObjectName="RequestParmsType"
-			targetDir="${jaxb.src.dir}"
+			targetDir="${coxb.src.dir}"
 		/>
 		<coxbgen 
 			XsdFile="${xsd.dir}/lsfileal.xsd"
 			JaxbRootObjectName="ReplyDataType"
-			targetDir="${jaxb.src.dir}"
+			targetDir="${coxb.src.dir}"
 			/>
 		<coxbgen 
 			XsdFile="${xsd.dir}/lsfileac.xsd"
 			JaxbRootObjectName="QueryDataType"
-			targetDir="${jaxb.src.dir}"
+			targetDir="${coxb.src.dir}"
 			/>
 		<coxbgen 
 			XsdFile="${xsd.dir}/lsfileac.xsd"
 			JaxbRootObjectName="QueryLimitType"
-			targetDir="${jaxb.src.dir}"
+			targetDir="${coxb.src.dir}"
 			/>
 		<coxbgen 
 			XsdFile="${xsd.dir}/lsfileac.xsd"
 			JaxbRootObjectName="ReplyStatusType"
-			targetDir="${jaxb.src.dir}"
+			targetDir="${coxb.src.dir}"
 			/>
 		<coxbgen 
 			XsdFile="${xsd.dir}/lsfileac.xsd"
 			JaxbRootObjectName="ReplyDataType"
-			targetDir="${jaxb.src.dir}"
+			targetDir="${coxb.src.dir}"
 			/>
+	    <!--
+		<coxbgen 
+			XsdFile="${xsd.dir}/enumvar.xsd"
+			JaxbRootObjectName="SearchRequestType"
+			targetDir="${coxb.src.dir}"
+			/>
+		-->
 		</target>
 	
 	<!-- ===========================================================  -->
 	<!-- Compiles the generated binding classes
 	  -->
 	<target name="compileAllCOXB" depends="generateAllCOXB">
-		 <javac srcdir="${jaxb.src.dir}"
+		 <javac srcdir="${coxb.src.dir}"
 		 	     includes="**/*.java"
 	             excludes="local/**"
-		         destdir="${jaxb.bin.dir}"
+		         destdir="${coxb.bin.dir}"
 		 	     classpathref="classpath"
 		         fork="yes"
 		 />
@@ -121,7 +130,7 @@
 		<coxbgen 
 			XsdFile="${xsd.file}"
 			JaxbRootObjectName="${jaxb.root.name}"
-			targetDir="${jaxb.src.dir}"
+			targetDir="${coxb.src.dir}"
 		/>
 	</target>
 

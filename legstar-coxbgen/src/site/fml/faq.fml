@@ -11,6 +11,8 @@
       <answer>
        This is probably a classpath issue. XJC is not finding the LegStar Coxbgen classes.
        Make sure the Coxbgen jar files are in the XJC classpathref.
+       If you are running an older version of build-jaxb.xml with JRE 1.6 and above, you also
+       need to change from "com.sun.tools.xjc.XJCTask" to "com.sun.tools.xjc.XJC2Task".
       </answer>
     </faq>
 
@@ -32,8 +34,9 @@
       </question>
       <answer>
        Your are probably running with JRE 1.6. JRE 1.6 comes with an implementation of JAXB 2.0 while LegStar needs JAXB 2.1.
-       To fix this issue, copy jaxb-api.jar from version 2.1 into %JAVA_HOME%/lib/endorsed.
+       To fix this issue, copy jaxb-api.jar and jaxb-impl.jar from version 2.1 into %JAVA_HOME%/lib/endorsed.
       </answer>
+    </faq>
     </faq>
   <!--
     <faq id="">
