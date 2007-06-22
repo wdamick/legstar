@@ -267,6 +267,7 @@ public class CixsGenerationTest extends TestCase {
 					"gen-war",
 					"bin",
 					"bin",
+					"bin",
 					"bin");
 			
 			/* Read the resulting output source*/
