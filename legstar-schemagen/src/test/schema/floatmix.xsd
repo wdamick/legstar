@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+targetNamespace="http://legstar.com/test/coxb/floatmix"
+xmlns="http://legstar.com/test/coxb/floatmix"
+xmlns:xsns="http://legstar.com/test/coxb/floatmix"
+xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+jaxb:version="2.0"
+jaxb:extensionBindingPrefixes="cb"
+elementFormDefault="qualified">
+ <xs:annotation><xs:appinfo>
+ <jaxb:schemaBindings>
+ <jaxb:package  name="com.legstar.test.coxb.floatmix"/>
+ </jaxb:schemaBindings>
+ </xs:appinfo></xs:annotation>
+ <xs:complexType name="DfhcommareaType">
+    <xs:sequence>
+     <xs:element name="CFloat1234">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='C-FLOAT-1234' type='SINGLE_FLOAT_ITEM' usage='COMP-1' byteLength='4' srceLine='21'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:float">
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="CFloat0">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='C-FLOAT-0' type='SINGLE_FLOAT_ITEM' usage='COMP-1' byteLength='4' srceLine='22'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:float">
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="CFloat1">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='C-FLOAT-1' type='SINGLE_FLOAT_ITEM' usage='COMP-1' byteLength='4' srceLine='23'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:float">
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="CFloat345006P5678">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='C-FLOAT-345006p5678' type='SINGLE_FLOAT_ITEM' usage='COMP-1' byteLength='4' srceLine='24'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:float">
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="CFloat798P20067Em16">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='C-FLOAT-798p20067em16' type='SINGLE_FLOAT_ITEM' usage='COMP-1' byteLength='4' srceLine='25'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:float">
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="CFloat3P40282347Ep38">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='C-FLOAT-3p40282347ep38' type='SINGLE_FLOAT_ITEM' usage='COMP-1' byteLength='4' srceLine='26'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:float">
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+</xs:schema>
