@@ -9,6 +9,7 @@
 <xsl:param name="prop-dir"/>
 <xsl:param name="war-dir"/>
 <xsl:param name="jaxb-bin-dir"/>
+<xsl:param name="coxb-bin-dir"/>
 <xsl:param name="cixs-bin-dir"/>
 <xsl:param name="cust-bin-dir"/>
 <xsl:template match="/"><xsl:apply-templates select="cixsService"/></xsl:template>
@@ -77,6 +78,14 @@
 					    		<xsl:attribute  name = "name" ><xsl:value-of select="translate(@jaxbPackageName,'.','/')"/>/**/*.class</xsl:attribute>
 							</xsl:element>
 						</xsl:element>
+                        <xsl:if test="$coxb-bin-dir != $jaxb-bin-dir">
+                            <xsl:element  name = "classes">
+                                <xsl:attribute  name = "dir" ><xsl:value-of select="$coxb-bin-dir"/></xsl:attribute>
+                                <xsl:element  name = "include">
+                                    <xsl:attribute  name = "name" ><xsl:value-of select="translate(@jaxbPackageName,'.','/')"/>/**/*.class</xsl:attribute>
+                                </xsl:element>
+                            </xsl:element>
+                        </xsl:if>
 					</xsl:for-each>
 					<xsl:for-each select="output">
 						<xsl:element  name = "classes">
@@ -85,6 +94,14 @@
 					    		<xsl:attribute  name = "name" ><xsl:value-of select="translate(@jaxbPackageName,'.','/')"/>/**/*.class</xsl:attribute>
 							</xsl:element>
 						</xsl:element>
+                        <xsl:if test="$coxb-bin-dir != $jaxb-bin-dir">
+                            <xsl:element  name = "classes">
+                                <xsl:attribute  name = "dir" ><xsl:value-of select="$coxb-bin-dir"/></xsl:attribute>
+                                <xsl:element  name = "include">
+                                    <xsl:attribute  name = "name" ><xsl:value-of select="translate(@jaxbPackageName,'.','/')"/>/**/*.class</xsl:attribute>
+                                </xsl:element>
+                            </xsl:element>
+                        </xsl:if>
 					</xsl:for-each>
 				</xsl:for-each>
 				<xsl:element  name = "classes">

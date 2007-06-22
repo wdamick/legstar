@@ -42,6 +42,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import com.legstar.host.HostException;
 import com.legstar.host.invoke.HostInvoker;
 import com.legstar.host.invoke.HostInvokerException;
 import com.legstar.host.invoke.HostInvokerFactory;
@@ -217,18 +218,21 @@ public class <xsl:value-of select="$implementation-class-name"/> implements <xsl
             /* Get reply objects */
             reply = new <xsl:value-of select="$response-holder-type"/>();
             <xsl:for-each select="output">
-            reply.set<xsl:value-of select="@jaxbPropertyName"/>(output<xsl:if test="count(../output) &gt; 1"><xsl:value-of select="position()"/></xsl:if><xsl:value-of select="@jaxbPropertyName"/>.getJaxbObject());
+            reply.set<xsl:value-of select="@jaxbPropertyName"/>(output<xsl:if test="count(../output) &gt; 1"><xsl:value-of select="position()"/></xsl:if><xsl:value-of select="@jaxbPropertyName"/>.get<xsl:value-of select="@jaxbType"/>());
             </xsl:for-each>
                 </xsl:when>
                 <xsl:otherwise>
             /* Get reply object */
-            reply = output<xsl:value-of select="output/@jaxbPropertyName"/>.getJaxbObject(); 
+            reply = output<xsl:value-of select="output/@jaxbPropertyName"/>.get<xsl:value-of select="output/@jaxbType"/>(); 
                 </xsl:otherwise>
             </xsl:choose>
 
         } catch (HostInvokerException e) {
-          report<xsl:value-of select="$fault-type"/>Exception(e,
+            report<xsl:value-of select="$fault-type"/>Exception(e,
               "Failed to invoke host program:");
+        } catch (HostException e) {
+            report<xsl:value-of select="$fault-type"/>Exception(e,
+                "Failed to convert host data:");
         }
 
         return reply;
