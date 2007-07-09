@@ -1,6 +1,6 @@
 package com.legstar.test.coxb;
 
-import com.legstar.host.HostData;
+import com.legstar.coxb.host.HostData;
 import com.legstar.test.coxb.vararcom.DfhcommareaType;
 
 import junit.framework.TestCase;

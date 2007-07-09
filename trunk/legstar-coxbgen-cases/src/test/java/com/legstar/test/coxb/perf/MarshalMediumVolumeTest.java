@@ -21,9 +21,9 @@
 package com.legstar.test.coxb.perf;
 
 import com.legstar.coxb.CobolContext;
-import com.legstar.coxb.CobolMarshalVisitor;
+import com.legstar.coxb.visitor.CobolMarshalVisitor;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
-import com.legstar.host.HostException;
+import com.legstar.coxb.host.HostException;
 
 import junit.framework.TestCase;
 
@@ -73,7 +73,7 @@ public class MarshalMediumVolumeTest extends TestCase {
 		// Perform mashaling a number of times
 		for (int i = 0; i < ITERATIONS; i++) {
             // Traverse the object structure, visiting each node with the visitor
-            com.legstar.test.coxb.dplarcht.bind.DfhcommareaTypeBinding ccem = new com.legstar.test.coxb.dplarcht.bind.DfhcommareaTypeBinding(objectFactory, dfhcommarea);
+            com.legstar.test.coxb.dplarcht.bind.DfhcommareaTypeBinding ccem = new com.legstar.test.coxb.dplarcht.bind.DfhcommareaTypeBinding(dfhcommarea);
             
 			mv.setOffset(0);
 			ccem.accept(mv);

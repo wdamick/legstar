@@ -2,7 +2,7 @@ package com.legstar.test.coxb;
 
 
 
-import com.legstar.host.HostData;
+import com.legstar.coxb.host.HostData;
 import com.legstar.test.coxb.redsimpt.DfhcommareaType;
 
 import junit.framework.TestCase;
@@ -18,7 +18,7 @@ public class UnmarshalRedsimptTest extends TestCase {
 		byte[] hostBytes = HostData.toByteArray(hexString);
 		DfhcommareaType dfhcommareaType = (DfhcommareaType) Util.unmarshal(hostBytes, "redsimpt");
 		
-		assertEquals("ABCDEFGHIJKLMNO   ",dfhcommareaType.getCDefinition1());
+		assertEquals("ABCDEFGHIJKLMNO",dfhcommareaType.getCDefinition1());
 	}
 
 	public void testRedsimptSecondChoice() throws Exception {

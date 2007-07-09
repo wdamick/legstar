@@ -21,12 +21,12 @@
 package com.legstar.test.coxb;
 
 import com.legstar.coxb.CobolContext;
-import com.legstar.coxb.CobolMarshalVisitor;
-import com.legstar.coxb.CobolUnmarshalVisitor;
+import com.legstar.coxb.visitor.CobolMarshalVisitor;
+import com.legstar.coxb.visitor.CobolUnmarshalVisitor;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
-import com.legstar.host.HostException;
-import com.legstar.host.HostData;
+import com.legstar.coxb.host.HostException;
+import com.legstar.coxb.host.HostData;
 
 import com.legstar.test.coxb.dplarcht.ObjectFactory;
 import com.legstar.test.coxb.dplarcht.DfhcommareaType;
@@ -79,7 +79,7 @@ public class ChoiceStrategyTest extends TestCase {
         lsReplyDataType.getLsItemsArray().add(ia);
 
 		// Traverse the object structure, visiting each node with the visitor
-		DfhcommareaTypeBinding ccem = new DfhcommareaTypeBinding(objectFactory, dfhcommarea);
+		DfhcommareaTypeBinding ccem = new DfhcommareaTypeBinding(dfhcommarea);
 
 		mv.setOffset(0);
 		ccem.accept(mv);
@@ -102,21 +102,18 @@ public class ChoiceStrategyTest extends TestCase {
 
 		CobolUnmarshalVisitor uv = new CobolUnmarshalVisitor(hostBytes, 0, cc);
 		
-		// Create an instance of the JAXB object factory
-		ObjectFactory objectFactory = new ObjectFactory();
-
 		// Traverse the object structure, visiting each node with the visitor
-		DfhcommareaTypeBinding ccem = new DfhcommareaTypeBinding(objectFactory);
+		DfhcommareaTypeBinding ccem = new DfhcommareaTypeBinding();
 		ccem.accept(uv);
 		DfhcommareaType dfhcommareaType = ccem.getDfhcommareaType();
 	
 		assertEquals(1,dfhcommareaType.getLsReply().getLsReplyData().getLsItemsCount());
-		assertEquals("ASM         ",dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramLanguage());
+		assertEquals("ASM",dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramLanguage());
 		assertEquals(1750,dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramLength());
 		assertEquals("PROGRAM1",dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramName());
-		assertEquals("C           ",dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramType());
+		assertEquals("C",dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramType());
 		assertEquals(1,dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramUsecount());
-		assertEquals("                        ",dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getFiller113());
+		assertEquals("",dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getFiller113());
 		assertEquals(null,dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsFilesData());
 		assertEquals(null,dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsTransactionsData());
 	}
@@ -197,12 +194,12 @@ public class ChoiceStrategyTest extends TestCase {
 		ccem.accept(uv);
 		
 		assertEquals(1,dfhcommareaType.getLsReply().getLsReplyData().getLsItemsCount());
-		assertEquals("ASM         ",dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramLanguage());
+		assertEquals("ASM",dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramLanguage());
 		assertEquals(1750,dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramLength());
 		assertEquals("PROGRAM1",dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramName());
-		assertEquals("C           ",dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramType());
+		assertEquals("C",dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramType());
 		assertEquals(1,dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramUsecount());
-		assertEquals("                        ",dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getFiller113());
+		assertEquals("",dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getFiller113());
 		assertEquals(null,dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsFilesData());
 		assertEquals(null,dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsTransactionsData());
 	}

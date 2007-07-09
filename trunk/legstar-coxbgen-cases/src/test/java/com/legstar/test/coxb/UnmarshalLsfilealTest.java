@@ -2,7 +2,7 @@ package com.legstar.test.coxb;
 
 
 
-import com.legstar.host.HostData;
+import com.legstar.coxb.host.HostData;
 import com.legstar.test.coxb.lsfileal.ReplyDataType;
 
 import junit.framework.TestCase;
@@ -22,19 +22,19 @@ public class UnmarshalLsfilealTest extends TestCase {
 		assertEquals(2,replyData.getFiller65().getReplyItemscount());
 		
 		assertEquals(203,replyData.getFiller65().getReplyItem().get(0).getReplyNumber());
-		assertEquals("$250.12 ",replyData.getFiller65().getReplyItem().get(0).getReplyAmount());
+		assertEquals("$250.12",replyData.getFiller65().getReplyItem().get(0).getReplyAmount());
 		assertEquals("YEN A PAS",replyData.getFiller65().getReplyItem().get(0).getReplyComment());
-		assertEquals("230459  ",replyData.getFiller65().getReplyItem().get(0).getReplyDate());
-		assertEquals("JOINVILLE           ",replyData.getFiller65().getReplyItem().get(0).getReplyPersonal().getReplyAddress());
-		assertEquals("BORIS               ",replyData.getFiller65().getReplyItem().get(0).getReplyPersonal().getReplyName());
+		assertEquals("230459",replyData.getFiller65().getReplyItem().get(0).getReplyDate());
+		assertEquals("JOINVILLE",replyData.getFiller65().getReplyItem().get(0).getReplyPersonal().getReplyAddress());
+		assertEquals("BORIS",replyData.getFiller65().getReplyItem().get(0).getReplyPersonal().getReplyName());
 		assertEquals("01254689",replyData.getFiller65().getReplyItem().get(0).getReplyPersonal().getReplyPhone());
 		
 		assertEquals(204,replyData.getFiller65().getReplyItem().get(1).getReplyNumber());
-		assertEquals("$045.78 ",replyData.getFiller65().getReplyItem().get(1).getReplyAmount());
-		assertEquals("SI YEN A ",replyData.getFiller65().getReplyItem().get(1).getReplyComment());
-		assertEquals("234589  ",replyData.getFiller65().getReplyItem().get(1).getReplyDate());
-		assertEquals("NOGENT              ",replyData.getFiller65().getReplyItem().get(1).getReplyPersonal().getReplyAddress());
-		assertEquals("CHRISTIAN           ",replyData.getFiller65().getReplyItem().get(1).getReplyPersonal().getReplyName());
+		assertEquals("$045.78",replyData.getFiller65().getReplyItem().get(1).getReplyAmount());
+		assertEquals("SI YEN A",replyData.getFiller65().getReplyItem().get(1).getReplyComment());
+		assertEquals("234589",replyData.getFiller65().getReplyItem().get(1).getReplyDate());
+		assertEquals("NOGENT",replyData.getFiller65().getReplyItem().get(1).getReplyPersonal().getReplyAddress());
+		assertEquals("CHRISTIAN",replyData.getFiller65().getReplyItem().get(1).getReplyPersonal().getReplyName());
 		assertEquals("24965847",replyData.getFiller65().getReplyItem().get(1).getReplyPersonal().getReplyPhone());
 	}
 

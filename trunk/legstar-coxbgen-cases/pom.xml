@@ -13,11 +13,6 @@
   <dependencies>
   
     <dependency>
-      <groupId>com.legsem.legstar</groupId>
-      <artifactId>legstar-coxbgen</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
     </dependency>
@@ -32,6 +27,17 @@
       <artifactId>jaxb-api</artifactId>
     </dependency>
     
+    <dependency>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>legstar-coxbapi</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>legstar-coxbgen</artifactId>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
         <groupId>log4j</groupId>
         <artifactId>log4j</artifactId>

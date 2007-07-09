@@ -2,7 +2,7 @@ package com.legstar.test.coxb;
 
 
 
-import com.legstar.host.HostData;
+import com.legstar.coxb.host.HostData;
 import com.legstar.test.coxb.redmulti.DfhcommareaType;
 
 import junit.framework.TestCase;
@@ -15,7 +15,7 @@ public class UnmarshalRedmultiTest extends TestCase {
 		DfhcommareaType dfhcommareaType = (DfhcommareaType) Util.unmarshal(hostBytes, "redmulti");
 		
 		assertEquals("normal",dfhcommareaType.getCOutputType());
-		assertEquals("ABJADHAOUAZ                   ",dfhcommareaType.getFiller35().getCString());
+		assertEquals("ABJADHAOUAZ",dfhcommareaType.getFiller35().getCString());
 	}
 
 	public void testRedmultiError() throws Exception {
@@ -23,9 +23,9 @@ public class UnmarshalRedmultiTest extends TestCase {
 		byte[] hostBytes = HostData.toByteArray(hexString);
 		DfhcommareaType dfhcommareaType = (DfhcommareaType) Util.unmarshal(hostBytes, "redmulti");
 		
-		assertEquals("error ",dfhcommareaType.getCOutputType());
+		assertEquals("error",dfhcommareaType.getCOutputType());
 		assertEquals(75, dfhcommareaType.getFiller38().getCErrorNum());
-		assertEquals("ABOMINABLE                                                                                                                                                                                          ",dfhcommareaType.getFiller38().getCErrorDescription());
+		assertEquals("ABOMINABLE",dfhcommareaType.getFiller38().getCErrorDescription());
 	}
 
 }
