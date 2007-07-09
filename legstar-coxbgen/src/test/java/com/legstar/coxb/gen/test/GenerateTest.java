@@ -45,8 +45,6 @@ public class GenerateTest extends TestCase {
 	protected void setUp() throws Exception {
 		java.io.File td = new java.io.File(GEN_SRC_DIR);
 		td.mkdirs();
-		java.io.File custd = new java.io.File(GEN_CUST_SUBDIR);
-		custd.mkdirs();
 	}
 	
 	/** Generator should check on package name. */
