@@ -2,7 +2,7 @@ package com.legstar.test.coxb;
 
 
 
-import com.legstar.host.HostData;
+import com.legstar.coxb.host.HostData;
 import com.legstar.test.coxb.dplarcht.DfhcommareaType;
 
 import junit.framework.TestCase;
@@ -16,12 +16,12 @@ public class UnmarshalDplarchtTest extends TestCase {
 		DfhcommareaType dfhcommareaType = (DfhcommareaType) Util.unmarshal(hostBytes, "dplarcht");
 		
 		assertEquals(1,dfhcommareaType.getLsReply().getLsReplyData().getLsItemsCount());
-		assertEquals("NOTDEFINED  ",dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramLanguage());
+		assertEquals("NOTDEFINED",dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramLanguage());
 		assertEquals(5792,dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramLength());
 		assertEquals("BINARCHT",dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramName());
-		assertEquals("PROGRAM     ",dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramType());
+		assertEquals("PROGRAM",dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramType());
 		assertEquals(2,dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramUsecount());
-		assertEquals("                        ",dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getFiller113());
+		assertEquals("",dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getFiller113());
 		assertEquals(null,dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsFilesData());
 		assertEquals(null,dfhcommareaType.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsTransactionsData());
 	}

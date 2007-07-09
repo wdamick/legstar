@@ -3,11 +3,10 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.CobolContext;
-import com.legstar.coxb.CobolUnmarshalVisitor;
+import com.legstar.coxb.visitor.CobolUnmarshalVisitor;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
-import com.legstar.host.HostData;
-import com.legstar.host.HostException;
-import com.legstar.test.coxb.charsets.ObjectFactory;
+import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.host.HostException;
 import com.legstar.test.coxb.charsets.bind.DfhcommareaTypeBinding;
 import com.legstar.test.coxb.charsets.DfhcommareaType;
 
@@ -28,15 +27,12 @@ public class UnmarshalCharsetsTest extends TestCase {
 		// Create a concrete visitor
 		CobolUnmarshalVisitor uv = new CobolUnmarshalVisitor(hostBytes, 0, cc);
 		
-		// Create an instance of the JAXB object factory
-		ObjectFactory objectFactory = new ObjectFactory();
-
 		// Traverse the object structure, visiting each node with the visitor
-		DfhcommareaTypeBinding ccem = new DfhcommareaTypeBinding(objectFactory);
+		DfhcommareaTypeBinding ccem = new DfhcommareaTypeBinding();
 		ccem.accept(uv);
 		DfhcommareaType dfhcommarea = ccem.getDfhcommareaType();
 		
-		assertEquals("ça c'est un problème            ",dfhcommarea.getComLocal());
+		assertEquals("ça c'est un problème",dfhcommarea.getComLocal());
 		assertEquals("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",HostData.toHexString(dfhcommarea.getComDbcs()));
 		assertEquals("élémentaire à résoudre          ",dfhcommarea.getComNational());
 	}

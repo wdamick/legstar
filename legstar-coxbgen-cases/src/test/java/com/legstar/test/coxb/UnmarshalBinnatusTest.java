@@ -4,7 +4,7 @@ package com.legstar.test.coxb;
 
 import java.math.BigInteger;
 
-import com.legstar.host.HostData;
+import com.legstar.coxb.host.HostData;
 import com.legstar.test.coxb.binnatus.DfhcommareaType;
 
 import junit.framework.TestCase;

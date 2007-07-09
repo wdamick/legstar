@@ -21,10 +21,10 @@
 package com.legstar.test.coxb.perf;
 
 import com.legstar.coxb.CobolContext;
-import com.legstar.coxb.CobolUnmarshalVisitor;
+import com.legstar.coxb.visitor.CobolUnmarshalVisitor;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
-import com.legstar.host.HostData;
-import com.legstar.host.HostException;
+import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.host.HostException;
 
 import junit.framework.TestCase;
 
@@ -51,7 +51,7 @@ public class UnmarshalSmallVolumeTest extends TestCase {
 			com.legstar.test.coxb.dplarcht.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
 			
 			// Traverse the object structure, visiting each node with the visitor
-            com.legstar.test.coxb.dplarcht.bind.DfhcommareaTypeBinding ccem = new com.legstar.test.coxb.dplarcht.bind.DfhcommareaTypeBinding(objectFactory, dfhcommarea);
+            com.legstar.test.coxb.dplarcht.bind.DfhcommareaTypeBinding ccem = new com.legstar.test.coxb.dplarcht.bind.DfhcommareaTypeBinding(dfhcommarea);
 			mv.setOffset(0);
 			ccem.accept(mv);
 		}

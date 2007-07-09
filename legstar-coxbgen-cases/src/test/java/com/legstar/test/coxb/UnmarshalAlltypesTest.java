@@ -5,7 +5,7 @@ package com.legstar.test.coxb;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import com.legstar.host.HostData;
+import com.legstar.coxb.host.HostData;
 
 import junit.framework.TestCase;
 import com.legstar.test.coxb.alltypes.DfhcommareaType;
@@ -35,7 +35,7 @@ public class UnmarshalAlltypesTest extends TestCase {
         
         for (int i = 0; i < 2; i++) {
             assertEquals("ABCD", dfhcommareaType.getAString().get(i));
-            assertEquals("    ", dfhcommareaType.getABinary().get(i));
+            assertEquals("", dfhcommareaType.getABinary().get(i));
             assertEquals(-932, (int)dfhcommareaType.getAShort().get(i));
             assertEquals(15,(int)dfhcommareaType.getAUshort().get(i));
             assertEquals(78906,(int)dfhcommareaType.getAInt().get(i));

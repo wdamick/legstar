@@ -2,7 +2,7 @@ package com.legstar.test.coxb;
 
 
 
-import com.legstar.host.HostData;
+import com.legstar.coxb.host.HostData;
 import com.legstar.test.coxb.typesmix.DfhcommareaType;
 
 import junit.framework.TestCase;
@@ -18,15 +18,15 @@ public class UnmarshalTypesmixTest extends TestCase {
 		assertEquals("ABCDE",dfhcommareaType.getCAlphabetic());
 		assertEquals("ABCDE    ",dfhcommareaType.getCNational());
 		assertEquals("0e4040404040400f",HostData.toHexString(dfhcommareaType.getCDbcs()));
-		assertEquals("              ",dfhcommareaType.getCAlphanumericEdited());
-		assertEquals("       ",dfhcommareaType.getCAlphanumeric());
+		assertEquals("",dfhcommareaType.getCAlphanumericEdited());
+		assertEquals("",dfhcommareaType.getCAlphanumeric());
 		byte[] cOctetString = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 		assertEquals(HostData.toHexString(cOctetString),HostData.toHexString(dfhcommareaType.getCOctetString()));
 		assertEquals("0.00",dfhcommareaType.getCPackedDecimal().toString());
-		assertEquals("0       ",dfhcommareaType.getCNumericEdited1());
-		assertEquals("0               ",dfhcommareaType.getCNumericEdited2());
-		assertEquals("0         ",dfhcommareaType.getCNumericEdited3());
-		assertEquals("0          ",dfhcommareaType.getCNumericEdited4());
+		assertEquals("0",dfhcommareaType.getCNumericEdited1());
+		assertEquals("0",dfhcommareaType.getCNumericEdited2());
+		assertEquals("0",dfhcommareaType.getCNumericEdited3());
+		assertEquals("0",dfhcommareaType.getCNumericEdited4());
 		byte[] cIndex = {0x00,0x00,0x00,0x00};
 		assertEquals(HostData.toHexString(cIndex),HostData.toHexString(dfhcommareaType.getCIndex()));
 		byte[] cPointer = {0x00,0x00,0x00,0x00};

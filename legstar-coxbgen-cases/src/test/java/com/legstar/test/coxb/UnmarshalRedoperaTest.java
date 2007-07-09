@@ -1,6 +1,6 @@
 package com.legstar.test.coxb;
 
-import com.legstar.host.HostData;
+import com.legstar.coxb.host.HostData;
 import com.legstar.test.coxb.redopera.DfhcommareaType;
 
 import junit.framework.TestCase;
@@ -16,7 +16,7 @@ public class UnmarshalRedoperaTest extends TestCase {
 		byte[] hostBytes = HostData.toByteArray(hexString);
 		DfhcommareaType dfhcommareaType = (DfhcommareaType) Util.unmarshal(hostBytes, "redopera");
 		
-		assertEquals("ABJADHAOUAZ                   ", dfhcommareaType.getFiller25().getCString());
+		assertEquals("ABJADHAOUAZ", dfhcommareaType.getFiller25().getCString());
 	}
 
 	public void testRedoperaIntMethod() throws Exception {
