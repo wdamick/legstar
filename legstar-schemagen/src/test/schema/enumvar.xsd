@@ -14,7 +14,7 @@
 <xsd:element name="AppID" type="xsd:string">
 <xsd:annotation>
 <xsd:appinfo>
-<cb:cobolElement byteLength="32" cobolName="APPID" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+<cb:cobolElement byteLength="40" cobolName="APPID" levelNumber="5" picture="X(40)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
 </xsd:appinfo>
 </xsd:annotation>
 </xsd:element>
@@ -25,6 +25,13 @@
 </xsd:appinfo>
 </xsd:annotation>
 </xsd:element>
+<xsd:element default="2" name="SearchWeight" type="tns:SearchWeightOptions">
+<xsd:annotation>
+<xsd:appinfo>
+<cb:cobolElement byteLength="2" cobolName="SEARCHWEIGHT" levelNumber="5" picture="9(4) COMP" type="BINARY_ITEM" totalDigits="4" usage="BINARY"/>
+</xsd:appinfo>
+</xsd:annotation>
+</xsd:element>
 </xsd:sequence>
 </xsd:complexType>
 <xsd:simpleType name="SafeSearchOptions">
@@ -32,6 +39,13 @@
 <xsd:enumeration value="Moderate"/>
 <xsd:enumeration value="Strict"/>
 <xsd:enumeration value="Off"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="SearchWeightOptions">
+<xsd:restriction base="xsd:integer">
+<xsd:enumeration value="2"/>
+<xsd:enumeration value="4"/>
+<xsd:enumeration value="6"/>
 </xsd:restriction>
 </xsd:simpleType>
 </xsd:schema>

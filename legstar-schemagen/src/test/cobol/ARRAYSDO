@@ -33,7 +33,7 @@
       *
            PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > TABLE-SIZE
                MOVE WS-I TO WS-ODO-A
-               IF TABLE-ODO(WS-I) NOT = WS-TS
+               IF TABLE-ODO(WS-I) NOT = WS-ODO
                    DISPLAY "TABLE-ODO ITEM" WS-I
 				           " RECEIVED:" TABLE-ODO(WS-I)
 				           " EXPECTED:" WS-ODO

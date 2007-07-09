@@ -290,9 +290,6 @@ int XSD_ProduceHeader()
     /* Add JAXB annotation to specify the output package   */
         fprintf(output_file," <%s:annotation><%s:appinfo>\n",
             xsd_options->xs_prefix,xsd_options->xs_prefix);
-        fprintf(output_file,
-            " <%s:globalBindings generateIsSetMethod=\"true\"/>\n",
-            xsd_options->xsjaxb_prefix);
         fprintf(output_file," <%s:schemaBindings>\n",
             xsd_options->xsjaxb_prefix);
         fprintf(output_file," <%s:package  name=\"%s\"/>\n",
@@ -747,7 +744,7 @@ int XSD_processString(COBOL_DATA_DESCRIPTION* dds, char* indent)
 
     fprintf(output_file, "\"%s:string\">\n",xsd_options->xs_prefix);
     fprintf(output_file,
-        "%s    <%s:length value='%d' fixed='true'/>\n",
+        "%s    <%s:length value='%d'/>\n",
             indent, xsd_options->xs_prefix,dds->byteLength);
     return 0;
 }
@@ -761,7 +758,7 @@ int XSD_processNational(COBOL_DATA_DESCRIPTION* dds, char* indent)
 
     fprintf(output_file, "\"%s:string\">\n",xsd_options->xs_prefix);
     fprintf(output_file,
-        "%s    <%s:length value='%d' fixed='true'/>\n",
+        "%s    <%s:length value='%d'/>\n",
             indent, xsd_options->xs_prefix,dds->byteLength / 2);
     return 0;
 }
@@ -775,7 +772,7 @@ int XSD_processOctetStream(COBOL_DATA_DESCRIPTION* dds, char* indent)
 
     fprintf(output_file, "\"%s:hexBinary\">\n",xsd_options->xs_prefix);
     fprintf(output_file,
-        "%s    <%s:length value='%d' fixed='true'/>\n",
+        "%s    <%s:length value='%d'/>\n",
             indent, xsd_options->xs_prefix,dds->byteLength);
     return 0;
 }
@@ -815,14 +812,14 @@ int XSD_processDecimal(COBOL_DATA_DESCRIPTION* dds, char* indent)
 
             if (dds->sign)
                 fprintf(output_file,
-            "%s    <%s:minInclusive value='-%s' fixed='true'/>\n",
+            "%s    <%s:minInclusive value='-%s'/>\n",
                     indent,xsd_options->xs_prefix, xsIncl);
             else
                 fprintf(output_file,
-                "%s    <%s:minInclusive value='0' fixed='true'/>\n",
+                "%s    <%s:minInclusive value='0'/>\n",
                     indent,xsd_options->xs_prefix);
             fprintf(output_file,
-            "%s    <%s:maxInclusive value='%s' fixed='true'/>\n",
+            "%s    <%s:maxInclusive value='%s'/>\n",
                 indent, xsd_options->xs_prefix,(xsIncl));
          }
    }
@@ -832,10 +829,10 @@ int XSD_processDecimal(COBOL_DATA_DESCRIPTION* dds, char* indent)
         fprintf(output_file, "\"%s:decimal\">\n",
             xsd_options->xs_prefix);
         fprintf(output_file,
-            "%s    <%s:totalDigits value='%d' fixed='true'/>\n",
+            "%s    <%s:totalDigits value='%d'/>\n",
                 indent,xsd_options->xs_prefix, dds->totalDigits);
         fprintf(output_file,
-         "%s    <%s:fractionDigits value='%d' fixed='true'/>\n",
+         "%s    <%s:fractionDigits value='%d'/>\n",
                 indent,xsd_options->xs_prefix, dds->fractionDigits);
         
         /* Prepare minInclusive and maxInclusive */
@@ -849,14 +846,14 @@ int XSD_processDecimal(COBOL_DATA_DESCRIPTION* dds, char* indent)
 
         if (dds->sign)
             fprintf(output_file,
-         "%s    <%s:minInclusive value='-%s' fixed='true'/>\n",
+         "%s    <%s:minInclusive value='-%s'/>\n",
                 indent,xsd_options->xs_prefix, xsIncl);
         else
             fprintf(output_file,
-         "%s    <%s:minInclusive value='0.0' fixed='true'/>\n",
+         "%s    <%s:minInclusive value='0.0'/>\n",
                 indent,xsd_options->xs_prefix);
         fprintf(output_file,
-         "%s    <%s:maxInclusive value='%s' fixed='true'/>\n",
+         "%s    <%s:maxInclusive value='%s'/>\n",
             indent,xsd_options->xs_prefix, (xsIncl));
     }
 
