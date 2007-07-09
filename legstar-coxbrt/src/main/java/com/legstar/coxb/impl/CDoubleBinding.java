@@ -21,10 +21,12 @@
 package com.legstar.coxb.impl;
 
 import java.math.BigDecimal;
-import com.legstar.binding.CobolElement;
-import com.legstar.coxb.CobolElementVisitor;
+import com.legstar.coxb.CobolElement;
+import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.ICobolDoubleBinding;
-import com.legstar.host.HostException;
+import com.legstar.coxb.CobolElementVisitor;
+import com.legstar.coxb.common.CBinding;
+import com.legstar.coxb.host.HostException;
 
 /**
  * This class implements the behavior of a comp-2 cobol element bound to
@@ -40,36 +42,23 @@ public class CDoubleBinding	extends CBinding
 	private Double mValue = null;
 	
 	/**
-	 * Creates an empty binding between a Cobol double element and a
-	 * java Double.
+	 * Constructor for a cobol element to java binding.
 	 * 
-	 * @param javaName the name of the bound java property
-	 * @param javaType the type of the bound java property
-	 */
-	public CDoubleBinding(
-			final String javaName,
-			final Class javaType) {
-		
-		super(javaName, javaType);
-	}
-	
-	/**
-	 * Creates a binding between a Cobol double element and a java
-	 * Double.
-	 * 
-	 * @param javaName the name of the bound java property
-	 * @param javaType the type of the bound java property
+	 * @param bindingName the identifier for this binding
+	 * @param jaxbName the name of the bound java property
+	 * @param jaxbType the type of the bound java property
 	 * @param cobolAnnotations the cobol annotations for this element
+	 * @param parentBinding a reference to the parent binding
 	 */
 	public CDoubleBinding(
-			final String javaName,
-			final Class javaType,
-			final CobolElement cobolAnnotations) {
-		
-		super(javaName, javaType, cobolAnnotations);
+			final String bindingName,
+			final String jaxbName,
+			final Class jaxbType,
+			final CobolElement cobolAnnotations,
+			final ICobolComplexBinding parentBinding) {
+		super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
 	}
-	
-	
+
 	/** {@inheritDoc} */
 	public final void accept(final CobolElementVisitor cev)
 		throws HostException {
@@ -109,7 +98,7 @@ public class CDoubleBinding	extends CBinding
 		} else if (type.equals(BigDecimal.class)) {
 			return getBigDecimalValue();
 		} else {
-			throw new HostException("Attempt to get binding " + getJavaName()
+			throw new HostException("Attempt to get binding " + getBindingName()
 					+ " as an incompatible type " + type);
 		}
 	}
@@ -125,7 +114,7 @@ public class CDoubleBinding	extends CBinding
 		} else if (value instanceof BigDecimal) {
 			setBigDecimalValue((BigDecimal) value);
 		} else {
-			throw new HostException("Attempt to set binding " + getJavaName()
+			throw new HostException("Attempt to set binding " + getBindingName()
 					+ " from an incompatible value " + value);
 		}
 	}
