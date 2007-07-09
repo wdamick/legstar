@@ -20,10 +20,12 @@
  *******************************************************************************/
 package com.legstar.coxb.impl;
 
-import com.legstar.binding.CobolElement;
-import com.legstar.coxb.CobolElementVisitor;
+import com.legstar.coxb.CobolElement;
 import com.legstar.coxb.ICobolArrayOctetStreamBinding;
-import com.legstar.host.HostException;
+import com.legstar.coxb.ICobolComplexBinding;
+import com.legstar.coxb.CobolElementVisitor;
+import com.legstar.coxb.common.CArrayBinding;
+import com.legstar.coxb.host.HostException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,40 +37,28 @@ import java.util.List;
  * @author Fady Moussallam
  * 
 */
-public class CArrayOctetStreamBinding extends CBinding
+public class CArrayOctetStreamBinding extends CArrayBinding
 	implements ICobolArrayOctetStreamBinding {
 	
 	/** The current list for this array. */
 	private List < byte[] > mList = null;
 	
 	/**
-	 * Creates an empty binding between a Cobol array of byte elements 
-	 * and a java List of byte arrays.
+	 * Constructor for a cobol element to java binding.
 	 * 
-	 * @param javaName the name of the bound java property
-	 * @param javaType the type of the bound java property
-	 */
-	public CArrayOctetStreamBinding(
-			final String javaName,
-			final Class javaType) {
-		
-		super(javaName, javaType);
-	}
-	
-	/**
-	 * Creates a binding between a Cobol array of byte elements and a
-	 * java List of byte arrays.
-	 * 
-	 * @param javaName the name of the bound java property
-	 * @param javaType the type of the bound java property
+	 * @param bindingName the identifier for this binding
+	 * @param jaxbName the name of the bound java property
+	 * @param jaxbType the type of the bound java property
 	 * @param cobolAnnotations the cobol annotations for this element
+	 * @param parentBinding a reference to the parent binding if any
 	 */
 	public CArrayOctetStreamBinding(
-			final String javaName,
-			final Class javaType,
-			final CobolElement cobolAnnotations) {
-		
-		super(javaName, javaType, cobolAnnotations);
+			final String bindingName,
+			final String jaxbName,
+			final Class jaxbType,
+			final CobolElement cobolAnnotations,
+			final ICobolComplexBinding parentBinding) {
+		super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
 	}
 	
 	/** {@inheritDoc} */
@@ -116,7 +106,7 @@ public class CArrayOctetStreamBinding extends CBinding
 			mList = (List < byte[] >) value;
 		} else {
 			throw new HostException(
-					"Value passed to " + getJavaName() + " is not a List");
+					"Value passed to " + getBindingName() + " is not a List");
 		}
 	}
 	
@@ -140,7 +130,7 @@ public class CArrayOctetStreamBinding extends CBinding
 		if (type.equals(byte[].class)) {
 			return mList;
 		} else {
-			throw new HostException("Attempt to get binding " + getJavaName()
+			throw new HostException("Attempt to get binding " + getBindingName()
 					+ " as an incompatible type " + type);
 		}
 	}
@@ -165,7 +155,7 @@ public class CArrayOctetStreamBinding extends CBinding
 				return;
 			}
 		}
-		throw new HostException("Attempt to set binding " + getJavaName()
+		throw new HostException("Attempt to set binding " + getBindingName()
 				+ " from an incompatible value " + value);
 	}
 

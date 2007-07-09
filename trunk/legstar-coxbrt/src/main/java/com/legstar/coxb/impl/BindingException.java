@@ -20,7 +20,7 @@
  *******************************************************************************/
 package com.legstar.coxb.impl;
 
-import com.legstar.host.HostException;
+import com.legstar.coxb.host.HostException;
 
 /**
  * Binding exceptions.
