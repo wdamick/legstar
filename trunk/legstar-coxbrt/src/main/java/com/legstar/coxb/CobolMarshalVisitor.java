@@ -18,12 +18,33 @@
  *  02110-1301  USA
  *  
  *******************************************************************************/
-package com.legstar.coxb;
+package com.legstar.coxb.visitor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.legstar.coxb.convert.CobolConverters;
-import com.legstar.host.HostException;
+import com.legstar.coxb.CobolElementVisitor;
+import com.legstar.coxb.ICobolArrayBinaryBinding;
+import com.legstar.coxb.ICobolArrayComplexBinding;
+import com.legstar.coxb.ICobolArrayDoubleBinding;
+import com.legstar.coxb.ICobolArrayFloatBinding;
+import com.legstar.coxb.ICobolArrayNationalBinding;
+import com.legstar.coxb.ICobolArrayOctetStreamBinding;
+import com.legstar.coxb.ICobolArrayPackedDecimalBinding;
+import com.legstar.coxb.ICobolArrayStringBinding;
+import com.legstar.coxb.ICobolArrayZonedDecimalBinding;
+import com.legstar.coxb.ICobolBinaryBinding;
+import com.legstar.coxb.ICobolBinding;
+import com.legstar.coxb.ICobolChoiceBinding;
+import com.legstar.coxb.ICobolComplexBinding;
+import com.legstar.coxb.ICobolDoubleBinding;
+import com.legstar.coxb.ICobolFloatBinding;
+import com.legstar.coxb.ICobolNationalBinding;
+import com.legstar.coxb.ICobolOctetStreamBinding;
+import com.legstar.coxb.ICobolPackedDecimalBinding;
+import com.legstar.coxb.ICobolStringBinding;
+import com.legstar.coxb.ICobolZonedDecimalBinding;
+import com.legstar.coxb.host.HostException;
 
 /**
  * This class implements the visitor pattern in order to marshal a java object
@@ -55,21 +76,40 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Marshaling started for complex binding "
-					+ ce.getJavaName());
+					+ ce.getBindingName());
 		}
 		
 		/* Ask complex binding to synchronize its children with the jaxb
 		 * bound object. */
 		ce.setChildrenValues();
 		
-		/* Iteratively propagate the accept on complex element children.
-		 * The order in which children are processed is important. */
+		/* If this complex element contains dynamic counters, their value
+		 * will typically not have been set by the previous setChildrenValues.
+		 * This is because they are not bound to a jaxb property. Their value
+		 * will be determined later when associated lists or arrays will be
+		 * marshalled. So here, we save the initial offset. */
+		int startOffset = getOffset();
+		
+		/* Marshal all children (note that counters, if any,  will have zero
+		 * values) */
 		for (ICobolBinding child : ce.getChildrenList()) {
 			child.accept(this);
 		}
+		
+		/* Now the counters values should be known, so we can re-marshal
+		 * those values at the start of the structure offset. */
+		if (ce.getDynamicCountersCount() > 0) {
+			int endOffset = getOffset();
+			setOffset(startOffset);
+			for (int i = 0; i < ce.getDynamicCountersCount(); i++) {
+				ce.getChildrenList().get(i).accept(this);
+			}
+			setOffset(endOffset);
+		}
+
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Marshaling successful for complex binding "
-					+ ce.getJavaName());
+					+ ce.getBindingName());
 		}
 	}
 
@@ -80,7 +120,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Marshaling started for choice binding "
-					+ ce.getJavaName());
+					+ ce.getBindingName());
 		}
 		/* Ask choice binding to synchronize its alternatives state with the
 		 * jaxb bound object. */
@@ -133,11 +173,11 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		if (!bAlternativeFound) {
 			throw new HostException(
 					"No alternative found for choice element "
-					+ ce.getJavaName());
+					+ ce.getBindingName());
 		}
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Marshaling successful for choice binding "
-					+ ce.getJavaName());
+					+ ce.getBindingName());
 		}
 	}
 
@@ -148,17 +188,17 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Marshaling started for array of complex bindings "
-					+ ce.getJavaName());
+					+ ce.getBindingName());
 		}
 		/* Visit each item of the array in turn */
-		for (int i = 0; i < getCurrentOccurs(ce); i++) {
+		for (int i = 0; i < ce.getObjectList().size(); i++) {
 			ce.setItemValue(i);
 			ICobolBinding itemDesc = ce.getComplexItemBinding();
 			itemDesc.accept(this);
 		}
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Marshaling successful for array of complex bindings "
-					+ ce.getJavaName());
+					+ ce.getBindingName());
 		}
 	}
 	
@@ -182,7 +222,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		throws HostException {
 		setOffset(getCobolConverters().
 				getCobolStringConverter().
-				toHost(ce, getHostBytes(), getOffset(), getCurrentOccurs(ce)));
+				toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
 		return;
 	}
 
@@ -206,7 +246,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		throws HostException {
 		setOffset(getCobolConverters().
 				getCobolNationalConverter().
-				toHost(ce, getHostBytes(), getOffset(), getCurrentOccurs(ce)));
+				toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
 		return;
 	}
 
@@ -222,10 +262,6 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 			storeCustomVariable(ce);
 		}
 		
-		if (ce.isODOObject()) {
-			storeODOValue(ce);
-		}
-		
 		return;
 	}
 	/** {@inheritDoc} */
@@ -234,7 +270,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		throws HostException {
 		setOffset(getCobolConverters().
 				getCobolZonedDecimalConverter().
-				toHost(ce, getHostBytes(), getOffset(), getCurrentOccurs(ce)));
+				toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
 		return;
 	}
 
@@ -250,10 +286,6 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 			storeCustomVariable(ce);
 		}
 		
-		if (ce.isODOObject()) {
-			storeODOValue(ce);
-		}
-		
 		return;
 	}
 	/** {@inheritDoc} */
@@ -262,7 +294,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		throws HostException {
 		setOffset(getCobolConverters().
 				getCobolPackedDecimalConverter().
-				toHost(ce, getHostBytes(), getOffset(), getCurrentOccurs(ce)));
+				toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
 		return;
 	}
 
@@ -278,10 +310,6 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 			storeCustomVariable(ce);
 		}
 		
-		if (ce.isODOObject()) {
-			storeODOValue(ce);
-		}
-		
 		return;
 	}
 	/** {@inheritDoc} */
@@ -290,7 +318,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		throws HostException {
 		setOffset(getCobolConverters().
 				getCobolBinaryConverter().
-				toHost(ce, getHostBytes(), getOffset(), getCurrentOccurs(ce)));
+				toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
 		return;
 	}
 
@@ -314,7 +342,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		throws HostException {
 		setOffset(getCobolConverters().
 				getCobolFloatConverter().
-				toHost(ce, getHostBytes(), getOffset(), getCurrentOccurs(ce)));
+				toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
 		return;
 	}
 
@@ -339,7 +367,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		throws HostException {
 		setOffset(getCobolConverters().
 				getCobolDoubleConverter().
-				toHost(ce, getHostBytes(), getOffset(), getCurrentOccurs(ce)));
+				toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
 		return;
 	}
 	/** {@inheritDoc} */
@@ -362,7 +390,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		throws HostException {
 		setOffset(getCobolConverters().
 				getCobolOctetStreamConverter().
-				toHost(ce, getHostBytes(), getOffset(), getCurrentOccurs(ce)));
+				toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
 		return;
 	}
 }
