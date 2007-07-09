@@ -23,10 +23,10 @@ package com.legstar.coxb.impl.reflect;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.legstar.binding.CobolElement;
-import com.legstar.host.HostException;
+import com.legstar.coxb.CobolElement;
+import com.legstar.coxb.common.CArrayComplexBinding;
+import com.legstar.coxb.host.HostException;
 import com.legstar.coxb.ICobolComplexBinding;
-import com.legstar.coxb.impl.CArrayComplexBinding;
 
 /**
  * Cobol/JAXB implementation of an array of complex (record) elements.
@@ -46,20 +46,25 @@ public class CArrayComplexReflectBinding extends CArrayComplexBinding {
 	 * Creates a binding between a Cobol array of complex elements and a
 	 * java List.
 	 * 
-	 * @param objectFactory the JAXB object factory
-	 * @param javaName the name of the bound java property
-	 * @param javaType the type of the bound java property
+	 * @param bindingName the identifier for this binding
+	 * @param jaxbName the name of the bound java property
+	 * @param jaxbType the type of the bound java property
 	 * @param cobolAnnotations the cobol annotations for this element
+	 * @param parentBinding a reference to the parent binding if any
 	 * @param complexItemBinding a binding element for array items
+	 * @param objectFactory the JAXB object factory
 	 */
 	public CArrayComplexReflectBinding(
-			final Object objectFactory,
-			final String javaName,
-			final Class javaType,
+			final String bindingName,
+			final String jaxbName,
+			final Class jaxbType,
 			final CobolElement cobolAnnotations,
-			final ICobolComplexBinding complexItemBinding) {
+			final ICobolComplexBinding parentBinding,
+			final ICobolComplexBinding complexItemBinding,
+			final Object objectFactory) {
 		
-		super(javaName, javaType, cobolAnnotations, complexItemBinding);
+		super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding,
+				complexItemBinding);
 		mJaxbObjectFactory = objectFactory;
 	}
 
@@ -75,7 +80,13 @@ public class CArrayComplexReflectBinding extends CArrayComplexBinding {
     	if (mJaxbObject == null) {
     		createJaxbObject();
     	}
-		getComplexItemBinding().setObjectValue(mJaxbObject.get(index));
+    	/* The Jaxb list might have less items than expected by the binding.
+    	 * In this case, we fill the binding with empty items. */
+    	if (index < mJaxbObject.size()) {
+    		getComplexItemBinding().setObjectValue(mJaxbObject.get(index));
+    	} else {
+    		getComplexItemBinding().setObjectValue(null);
+    	}
 	}
 	
 	/** {@inheritDoc} */
@@ -85,9 +96,9 @@ public class CArrayComplexReflectBinding extends CArrayComplexBinding {
         /* Make sure there is an associated JAXB object*/
     	if (mJaxbObject == null) {
     		throw new HostException(
-    				"Binded object not initialized for " + getJavaName());
+    				"Binded object not initialized for " + getBindingName());
     	}
-		mJaxbObject.add(getComplexItemBinding().getObjectValue(getJavaType()));
+		mJaxbObject.add(getComplexItemBinding().getObjectValue(getJaxbType()));
 	}
 
 	/**
@@ -97,12 +108,27 @@ public class CArrayComplexReflectBinding extends CArrayComplexBinding {
 		return mJaxbObjectFactory;
 	}
 
+	/**
+	 * @return the List of items
+	 */
+	public final List getObjectList() {
+		return mJaxbObject;
+	}
+
+	/**
+	 * @param list the items List to set
+	 */
+	@SuppressWarnings("unchecked")
+	public final void setObjectList(final List list) {
+		mJaxbObject = list;
+	}
+
     /** {@inheritDoc} */
     public final Object getObjectValue(final Class type) throws HostException {
-    	if (type.equals(getJavaType())) {
+    	if (type.equals(getJaxbType())) {
     		return mJaxbObject;
 		} else {
-			throw new HostException("Attempt to get binding " + getJavaName()
+			throw new HostException("Attempt to get binding " + getBindingName()
 					+ " as an incompatible type " + type);
     	}
     }
@@ -121,12 +147,12 @@ public class CArrayComplexReflectBinding extends CArrayComplexBinding {
 			/* We assume all items will have the same type as the first one.
 			 * The unchecked cast might break at runtime. */
 			Object item = ((List) value).get(0);
-			if (item.getClass().equals(getJavaType())) {
+			if (item.getClass().equals(getJaxbType())) {
 				mJaxbObject = (List) value;
 				return;
 			}
 		}
-		throw new HostException("Attempt to set binding " + getJavaName()
+		throw new HostException("Attempt to set binding " + getBindingName()
 				+ " from an incompatible value " + value);
     }
 

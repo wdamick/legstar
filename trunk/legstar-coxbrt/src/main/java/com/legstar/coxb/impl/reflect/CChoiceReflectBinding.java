@@ -23,13 +23,13 @@ package com.legstar.coxb.impl.reflect;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.legstar.coxb.CobolElement;
 import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolComplexBinding;
-import com.legstar.binding.CobolElement;
-import com.legstar.host.HostException;
+import com.legstar.coxb.common.CChoiceBinding;
+import com.legstar.coxb.host.HostException;
 import com.legstar.util.JaxbUtil;
-import com.legstar.coxb.impl.CChoiceBinding;
 
 /**
  * Represents a choice between 2 or more elements. A choice results from a cobol
@@ -47,18 +47,16 @@ public class CChoiceReflectBinding extends CChoiceBinding {
 	 * A choice element gets created when a redefined item is encountered.
 	 * The constructor gets invoked with the redefined item characteristics.
 	 * 
-	 * @param jaxbName the java property name
-	 * @param jaxbType the java property type
+	 * @param bindingName the identifier for this binding
+	 * @param cobolAnnotations the cobol annotations for the first alternative
 	 * @param parentBinding a reference to the parent binding if any
-	 * @param cobolAnnotations the cobol annotations for this element
 	 */
 	public CChoiceReflectBinding(
-			final String jaxbName,
-			final Class jaxbType,
-			final ICobolComplexBinding parentBinding,
-			final CobolElement cobolAnnotations) {
+			final String bindingName,
+			final CobolElement cobolAnnotations,
+			final ICobolComplexBinding parentBinding) {
 		
-		super(jaxbName, jaxbType, parentBinding, cobolAnnotations);
+		super(bindingName, cobolAnnotations, parentBinding);
 	}
 
 	/** {@inheritDoc} */
@@ -71,11 +69,11 @@ public class CChoiceReflectBinding extends CChoiceBinding {
         		continue;
         	} else {
 	        	Object value = JaxbUtil.invokeGetProperty(
-	        			getParentJaxbObject(), alt.getJavaName());
+	        			getParentJaxbObject(), alt.getJaxbName());
 	        	if (value != null) {
 	        		if (LOG.isDebugEnabled()) {
 	        			LOG.debug("Getting value from JAXB property "
-	        					+ alt.getJavaName()
+	        					+ alt.getJaxbName()
 	        					+ " value=" + value);
 	        		}
 	        		alt.setObjectValue(value);
@@ -97,26 +95,26 @@ public class CChoiceReflectBinding extends CChoiceBinding {
     		return;
     	}
 
-		Object value = alt.getObjectValue(alt.getJavaType());
+		Object value = alt.getObjectValue(alt.getJaxbType());
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Setting value of JAXB property "
-					+ alt.getJavaName()
+					+ alt.getJaxbName()
 					+ " value=" + value);
 		}
-		JaxbUtil.invokeSetProperty(getParentJaxbObject(), alt.getJavaName(),
-				value, alt.getJavaType());
+		JaxbUtil.invokeSetProperty(getParentJaxbObject(), alt.getJaxbName(),
+				value, alt.getJaxbType());
 	}
 	
     /** {@inheritDoc} */
     public final Object getObjectValue(final Class type) throws HostException {
 		throw new HostException("Attempt to get value from choice binding "
-				+ getJavaName());
+				+ getCobolName());
     }
 
     /** {@inheritDoc} */
     public final void setObjectValue(final Object value) throws HostException {
 		throw new HostException("Attempt to set value for choice binding "
-				+ getJavaName());
+				+ getCobolName());
     }
     
     /** {@inheritDoc} */

@@ -20,7 +20,7 @@
  *******************************************************************************/
 package com.legstar.coxb.impl.reflect;
 
-import com.legstar.host.HostException;
+import com.legstar.coxb.host.HostException;
 
 /**
  * Binding exceptions occuring while reflecting on JAXB
