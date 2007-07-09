@@ -63,10 +63,10 @@ public class ClientlsfilealTest extends TestCase {
 		assertEquals(5, replyData.getFiller65().getReplyItemscount());
 		ReplyItemType replyItem = replyData.getFiller65().getReplyItem().get(0);
 
-		assertEquals("SURREY, ENGLAND     ",replyItem.getReplyPersonal().getReplyAddress());
+		assertEquals("SURREY, ENGLAND",replyItem.getReplyPersonal().getReplyAddress());
 		assertEquals("$0100.11",replyItem.getReplyAmount());
 		assertEquals("26 11 81",replyItem.getReplyDate());
-		assertEquals("S. D. BORMAN        ",replyItem.getReplyPersonal().getReplyName());
+		assertEquals("S. D. BORMAN",replyItem.getReplyPersonal().getReplyName());
 		assertEquals(100,replyItem.getReplyNumber());
 		assertEquals("32156778",replyItem.getReplyPersonal().getReplyPhone());
 		assertEquals("*********",replyItem.getReplyComment());

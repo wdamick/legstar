@@ -76,7 +76,7 @@ public class ClienttypesmixTest extends TestCase {
 		assertEquals("008700CR", resp.getResponse().getCNumericEdited1());
 		assertEquals("$866790/,07.678-", resp.getResponse().getCNumericEdited2());
 		assertEquals("***6778.65", resp.getResponse().getCNumericEdited3());
-		assertEquals("   7345.505", resp.getResponse().getCNumericEdited4());
+		assertEquals("7345.505", resp.getResponse().getCNumericEdited4());
 		assertEquals("00000000", toHexString( resp.getResponse().getCIndex()));
 		assertEquals("00000000", toHexString( resp.getResponse().getCPointer()));
 		assertEquals("0000000000000000", toHexString( resp.getResponse().getCProcPointer()));
