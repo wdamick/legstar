@@ -23,7 +23,7 @@ package com.legstar.coxb.convert.simple;
 import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.convert.CobolConversionException;
-import com.legstar.host.HostException;
+import com.legstar.coxb.host.HostException;
 
 /**
  * An abstract class representing simple cobol version methods.
@@ -68,7 +68,7 @@ public abstract class CobolSimpleConverter {
 			final CobolConversionException e)
 	        throws HostException {
 		throw (new HostException("ConversionException for element:"
-				+ ce.getJavaName()
+				+ ce.getBindingName()
 				+ " Cobol name:" + ce.getCobolName()
 				+ " Reason:" + e.getMessage()));
 		

@@ -25,9 +25,9 @@ import com.legstar.coxb.ICobolArrayFloatBinding;
 import com.legstar.coxb.ICobolFloatBinding;
 import com.legstar.coxb.convert.ICobolFloatConverter;
 import com.legstar.coxb.convert.CobolConversionException;
-import com.legstar.host.HostData;
-import com.legstar.host.HostException;
-import com.legstar.host.HostFloat;
+import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.host.HostException;
+import com.legstar.coxb.host.HostFloat;
 
 import java.util.ArrayList;
 import java.util.List;

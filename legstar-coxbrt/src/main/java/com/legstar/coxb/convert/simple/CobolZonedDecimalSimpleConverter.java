@@ -25,8 +25,8 @@ import com.legstar.coxb.ICobolArrayZonedDecimalBinding;
 import com.legstar.coxb.ICobolZonedDecimalBinding;
 import com.legstar.coxb.convert.ICobolZonedDecimalConverter;
 import com.legstar.coxb.convert.CobolConversionException;
-import com.legstar.host.HostData;
-import com.legstar.host.HostException;
+import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.host.HostException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

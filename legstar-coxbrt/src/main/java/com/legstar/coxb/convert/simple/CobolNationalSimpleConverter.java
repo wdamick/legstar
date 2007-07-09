@@ -29,8 +29,8 @@ import com.legstar.coxb.ICobolArrayNationalBinding;
 import com.legstar.coxb.ICobolNationalBinding;
 import com.legstar.coxb.convert.ICobolNationalConverter;
 import com.legstar.coxb.convert.CobolConversionException;
-import com.legstar.host.HostData;
-import com.legstar.host.HostException;
+import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.host.HostException;
 
 /**
  * This is a concrete implementation of marshal/unmarshal operations of java 
