@@ -40,7 +40,7 @@ import com.legstar.coxb.ICobolPackedDecimalBinding;
 import com.legstar.coxb.ICobolStringBinding;
 import com.legstar.coxb.ICobolNationalBinding;
 import com.legstar.coxb.ICobolZonedDecimalBinding;
-import com.legstar.host.HostException;
+import com.legstar.coxb.host.HostException;
 import com.legstar.util.JaxbUtil;
 
 /**
@@ -51,6 +51,9 @@ import com.legstar.util.JaxbUtil;
  */
 public final class CoxbFormatter {
 
+	/* ====================================================================== */
+	/* = XML work file markup section                                       = */
+	/* ====================================================================== */
 	/** Assume XML content will be UTF-8 encoded. */
 	private static final String XML_DECL =
         "<?xml version='1.0' encoding='UTF-8'?>";
@@ -58,27 +61,8 @@ public final class CoxbFormatter {
 	/** Tag enclosing a complex element description. */
 	private static final String COXB_TYPE = "coxb-type";
 	
-	/** Tag enclosing a complex element JAXB type. */
-	private static final String JAXB_TYPE = "jaxb-type-name";
-	
-	/** Tag enclosing a complex element JAXB package name. */
-	private static final String JAXB_PACKAGE = "jaxb-type-package";
-	
-	/** Tag enclosing a complex element JAXB property name 
-     * (as known to parent). */
-	private static final String JAXB_PROP = "jaxb-property-name";
-	
 	/** Tag describing a property within a complex element. */
 	private static final String COXB_PROP = "coxb-property";
-	
-	/** Suffix for binding class name. */
-	private static final String BIND_SUFFIX = "Binding";
-	
-	/** Suffix for array wrappers class names. */
-	private static final String WRAPPER_SUFFIX = "Wrapper";
-	
-	/** Suffix for choice class names. */
-	private static final String CHOICE_SUFFIX = "Choice";
 	
 	/** Name attribute. */
 	private static final String NAME_ATTR = "name=";
@@ -104,8 +88,23 @@ public final class CoxbFormatter {
 	/** Property type in bound JAXB object attribute. */
 	private static final String JAXB_TYPE_ATTR = "jaxb-type=";
 	
+	/** JAXB package name. */
+	private static final String JAXB_PACKAGE_ATTR = "jaxb-package=";
+	
+	/** Name suitable as a java variable name (first char lowercase). */
+	private static final String VAR_NAME_ATTR = "var-name=";
+	
+	/** Name that identifies this binding element. */
+	private static final String BIND_NAME_ATTR = "binding-name=";
+	
 	/** Binding class this property derives from. */
 	private static final String BIND_TYPE_ATTR = "binding-type=";
+	
+	/** Parent Jaxb class (useful for choices). */
+	private static final String PARENT_JAXB_TYPE_ATTR = "parent-jaxb-type=";
+	
+	/** Item Jaxb class (useful for arrays). */
+	private static final String ITEM_JAXB_TYPE_ATTR = "item-jaxb-type=";
 	
 	/** Binding class a complex array item derives from. */
 	private static final String ITEM_BIND_TYPE_ATTR = "item-binding-type=";
@@ -164,57 +163,67 @@ public final class CoxbFormatter {
 	private static final String UNMARSHAL_CHOICE_STRATEGY_ATTR =
         "unmarshalChoiceStrategyClassName=";
 	
+	/* ====================================================================== */
+	/* = Binding types section                                              = */
+	/* ====================================================================== */
 	/** The java string type. */
-	private static final String STRING_BIND_TYPE = "CStringBinding";
+	private static final String STRING_BIND_TYPE = "ICobolStringBinding";
 	
 	/** The java string array type. */
-	private static final String ARRAY_STRING_BIND_TYPE = "CArrayStringBinding";
+	private static final String ARRAY_STRING_BIND_TYPE =
+		"ICobolArrayStringBinding";
 	
 	/** The java national type. */
-	private static final String NATIONAL_BIND_TYPE = "CNationalBinding";
+	private static final String NATIONAL_BIND_TYPE = "ICobolNationalBinding";
 	
 	/** The java national array type. */
 	private static final String ARRAY_NATIONAL_BIND_TYPE =
-		"CArrayNationalBinding";
+		"ICobolArrayNationalBinding";
 	
 	/** The java binding for binary data type. */
-	private static final String OCTET_STREAM_BIND_TYPE = "COctetStreamBinding";
+	private static final String OCTET_STREAM_BIND_TYPE =
+		"ICobolOctetStreamBinding";
 	
 	/** The java binding for binary array data type. */
 	private static final String ARRAY_OCTET_STREAM_BIND_TYPE =
-        "CArrayOctetStreamBinding";
+        "ICobolArrayOctetStreamBinding";
 	
 	/** The java binding for binary numeric data type. */
-	private static final String BINARY_BIND_TYPE = "CBinaryBinding";
+	private static final String BINARY_BIND_TYPE = "ICobolBinaryBinding";
 	
 	/** The java binding for binary numeric array data type. */
-	private static final String ARRAY_BINARY_BIND_TYPE = "CArrayBinaryBinding";
+	private static final String ARRAY_BINARY_BIND_TYPE =
+		"ICobolArrayBinaryBinding";
 	
 	/** The java binding for packed decimal numeric data type. */
-	private static final String PACKED_BIND_TYPE = "CPackedDecimalBinding";
+	private static final String PACKED_BIND_TYPE =
+		"ICobolPackedDecimalBinding";
 	
 	/** The java binding for packed decimal numeric array data type. */
 	private static final String ARRAY_PACKED_BIND_TYPE =
-        "CArrayPackedDecimalBinding";
+        "ICobolArrayPackedDecimalBinding";
 
 	/** The java binding for zoned decimal data type. */
-	private static final String ZONED_BIND_TYPE = "CZonedDecimalBinding";
+	private static final String ZONED_BIND_TYPE =
+		"ICobolZonedDecimalBinding";
 	
 	/** The java binding for zoned decimal array data type. */
 	private static final String ARRAY_ZONED_BIND_TYPE =
-        "CArrayZonedDecimalBinding";
+        "ICobolArrayZonedDecimalBinding";
 	
 	/** The java binding for double data type. */
-	private static final String DOUBLE_BIND_TYPE = "CDoubleBinding";
+	private static final String DOUBLE_BIND_TYPE = "ICobolDoubleBinding";
 	
 	/** The java binding for double array data type. */
-	private static final String ARRAY_DOUBLE_BIND_TYPE = "CArrayDoubleBinding";
+	private static final String ARRAY_DOUBLE_BIND_TYPE =
+		"ICobolArrayDoubleBinding";
 	
 	/** The java binding for float data type. */
-	private static final String FLOAT_BIND_TYPE = "CFloatBinding";
+	private static final String FLOAT_BIND_TYPE = "ICobolFloatBinding";
 	
 	/** The java binding for float array data type. */
-	private static final String ARRAY_FLOAT_BIND_TYPE = "CArrayFloatBinding";
+	private static final String ARRAY_FLOAT_BIND_TYPE =
+		"ICobolArrayFloatBinding";
 	
 	/** Line seperator for readability. */
 	private static final String LINE_SEP = System.getProperty("line.separator");
@@ -248,40 +257,10 @@ public final class CoxbFormatter {
 		/* <coxb-type name="DfhcommareaTypeBinding" type="complex"> */
 		out.append('<');
 		out.append(COXB_TYPE);
-		addAttribute(out, NAME_ATTR,
-				JaxbUtil.toPropertyType(ce.getJavaType().getName())
-				+ BIND_SUFFIX);
+		addAttribute(out, NAME_ATTR, JaxbUtil.getCoxbTypeName(ce));
 		addAttribute(out, TYPE_ATTR, COMPLEX_TYPE);
-		out.append('>');
-		out.append(LINE_SEP);
-		
-		/* <jaxb-type-name>...</jaxb-type-name> */
-		out.append('<');
-		out.append(JAXB_TYPE);
-		out.append('>');
-		out.append(JaxbUtil.toPropertyType(ce.getJavaType().getName()));
-		out.append("</");
-		out.append(JAXB_TYPE);
-		out.append('>');
-		out.append(LINE_SEP);
-		
-		/* <jaxb-type-package>...</jaxb-type-package> */
-		out.append('<');
-		out.append(JAXB_PACKAGE);
-		out.append('>');
-		out.append(packageName);
-		out.append("</");
-		out.append(JAXB_PACKAGE);
-		out.append('>');
-		out.append(LINE_SEP);
-		
-		/* <jaxb-property-name>...</jaxb-property-name> */
-		out.append('<');
-		out.append(JAXB_PROP);
-		out.append('>');
-		out.append(ce.getJavaName());
-		out.append("</");
-		out.append(JAXB_PROP);
+		addAttribute(out, JAXB_TYPE_ATTR, JaxbUtil.getJaxbTypeName(ce));
+		addAttribute(out, JAXB_PACKAGE_ATTR, packageName);
 		out.append('>');
 		out.append(LINE_SEP);
 		
@@ -311,16 +290,13 @@ public final class CoxbFormatter {
 		/* <coxb-type name="DfhcommareaTypeBinding" type="complex"> */
 		out.append('<');
 		out.append(COXB_TYPE);
-		/* Choice elements are artificially created, they do not have a JAXB
-         * counterpart. Therefore the names and types are built from the parent
-         * complex object and property name. */
-		addAttribute(out, NAME_ATTR,
-                ce.getJavaName().substring(0, 1).toUpperCase()
-				+ ce.getJavaName().substring(1) 
-				+ CHOICE_SUFFIX + BIND_SUFFIX);
+		addAttribute(out, NAME_ATTR, JaxbUtil.getCoxbTypeName(ce));
 		addAttribute(out, TYPE_ATTR, CHOICE_TYPE);
-		/* The first alternative might hold class names for additional logic
-		 * for alternative selection. */
+		addAttribute(out, PARENT_JAXB_TYPE_ATTR,
+				ce.getParentBinding().getJaxbType().getSimpleName());
+		addAttribute(out, JAXB_PACKAGE_ATTR, packageName);
+		/* The first alternative might hold class names for alternative
+		 * selection. */
 		if (ce.getAlternativesList().size() > 0) {
 			ICobolBinding firstAlt = ce.getAlternativesList().get(0);
 			String strategy = firstAlt.getMarshalChoiceStrategyClassName();
@@ -332,37 +308,6 @@ public final class CoxbFormatter {
 				addAttribute(out, UNMARSHAL_CHOICE_STRATEGY_ATTR, strategy);
 			}
 		}
-		out.append('>');
-		out.append(LINE_SEP);
-		
-		/* <jaxb-type-name>...</jaxb-type-name> */
-		out.append('<');
-		out.append(JAXB_TYPE);
-		out.append('>');
-		out.append(JaxbUtil.toPropertyType(
-				ce.getParentBinding().getJavaType().getName()));
-		out.append("</");
-		out.append(JAXB_TYPE);
-		out.append('>');
-		out.append(LINE_SEP);
-		
-		/* <jaxb-type-package>...</jaxb-type-package> */
-		out.append('<');
-		out.append(JAXB_PACKAGE);
-		out.append('>');
-		out.append(packageName);
-		out.append("</");
-		out.append(JAXB_PACKAGE);
-		out.append('>');
-		out.append(LINE_SEP);
-		
-		/* <jaxb-property-name>...</jaxb-property-name> */
-		out.append('<');
-		out.append(JAXB_PROP);
-		out.append('>');
-		out.append(ce.getJavaName());
-		out.append("</");
-		out.append(JAXB_PROP);
 		out.append('>');
 		out.append(LINE_SEP);
 		
@@ -393,45 +338,15 @@ public final class CoxbFormatter {
 		out.append(COXB_TYPE);
 		/* Complex arrays are always lists in JAXB, here we need to reference
          * the complex object that occurs multiple times. */
-		addAttribute(out, NAME_ATTR,
-				JaxbUtil.toPropertyType(ce.getJavaType().getName())
-				+ WRAPPER_SUFFIX + BIND_SUFFIX);
+		addAttribute(out, NAME_ATTR, JaxbUtil.getCoxbTypeName(ce));
 		addAttribute(out, TYPE_ATTR, COMPLEX_ARRAY_TYPE);
+		addAttribute(out, ITEM_JAXB_TYPE_ATTR, JaxbUtil.getJaxbTypeName(ce));
+		addAttribute(out, JAXB_PACKAGE_ATTR, packageName);
 		addAttribute(out, MINOCCURS_ATTR, ce.getMinOccurs());
 		addAttribute(out, MAXOCCURS_ATTR, ce.getMaxOccurs());
 		if (ce.getDependingOn() != null && ce.getDependingOn().length() > 0) {
 			addAttribute(out, DEPENDING_ON_ATTR, ce.getDependingOn());
 		}
-		out.append('>');
-		out.append(LINE_SEP);
-		
-		/* <jaxb-type-name>DfhcommareaType</jaxb-type-name> */
-		out.append('<');
-		out.append(JAXB_TYPE);
-		out.append('>');
-		out.append(JaxbUtil.toPropertyType(ce.getJavaType().getName()));
-		out.append("</");
-		out.append(JAXB_TYPE);
-		out.append('>');
-		out.append(LINE_SEP);
-		
-		/* <jaxb-type-package>...</jaxb-type-package> */
-		out.append('<');
-		out.append(JAXB_PACKAGE);
-		out.append('>');
-		out.append(packageName);
-		out.append("</");
-		out.append(JAXB_PACKAGE);
-		out.append('>');
-		out.append(LINE_SEP);
-		
-		/* <jaxb-property-name>...</jaxb-property-name> */
-		out.append('<');
-		out.append(JAXB_PROP);
-		out.append('>');
-		out.append(ce.getJavaName() + WRAPPER_SUFFIX);
-		out.append("</");
-		out.append(JAXB_PROP);
 		out.append('>');
 		out.append(LINE_SEP);
 		
@@ -473,13 +388,12 @@ public final class CoxbFormatter {
          *  binding-type="ComPersonalTypeBinding"/> */
 		out.append('<');
 		out.append(COXB_PROP);
-		addAttribute(out, JAXB_NAME_ATTR, ce.getJavaName());
+		addAttribute(out, VAR_NAME_ATTR, JaxbUtil.getFieldName(ce));
+		addAttribute(out, BIND_NAME_ATTR, ce.getBindingName());
+		addAttribute(out, JAXB_NAME_ATTR, ce.getJaxbName());
 		addAttribute(out, TYPE_ATTR, COMPLEX_TYPE);
-		addAttribute(out, JAXB_TYPE_ATTR,
-                JaxbUtil.toPropertyType(ce.getJavaType().getName()));
-		addAttribute(out, BIND_TYPE_ATTR,
-                JaxbUtil.toPropertyType(
-                		ce.getJavaType().getName()) + BIND_SUFFIX);
+		addAttribute(out, JAXB_TYPE_ATTR, JaxbUtil.getJaxbTypeName(ce));
+		addAttribute(out, BIND_TYPE_ATTR, JaxbUtil.getCoxbTypeName(ce));
 		if (ce.getRedefines() != null && ce.getRedefines().length() > 0) {
 			addAttribute(out, REDEFINES_ATTR, ce.getRedefines());
 		}
@@ -508,12 +422,10 @@ public final class CoxbFormatter {
          *  binding-type="CDefinition1Binding"/> */
 		out.append('<');
 		out.append(COXB_PROP);
-		addAttribute(out, JAXB_NAME_ATTR, ce.getJavaName());
+		addAttribute(out, VAR_NAME_ATTR, JaxbUtil.getFieldName(ce));
+		addAttribute(out, BIND_NAME_ATTR, ce.getBindingName());
 		addAttribute(out, TYPE_ATTR, CHOICE_TYPE);
-		addAttribute(out, BIND_TYPE_ATTR,
-				ce.getJavaName().substring(0, 1).toUpperCase()
-				+ ce.getJavaName().substring(1) 
-				+ CHOICE_SUFFIX + BIND_SUFFIX);
+		addAttribute(out, BIND_TYPE_ATTR, JaxbUtil.getCoxbTypeName(ce));
 		if (ce.getMarshalChoiceStrategyClassName() != null
 				&& ce.getMarshalChoiceStrategyClassName().length() > 0) {
 			addAttribute(out, MARSHAL_CHOICE_STRATEGY_ATTR,
@@ -546,18 +458,16 @@ public final class CoxbFormatter {
          *  jaxb-type="CArrayType" binding-type="CArrayWrapperTypeBinding"/> */
 		out.append('<');
 		out.append(COXB_PROP);
-		addAttribute(out, JAXB_NAME_ATTR, ce.getJavaName());
+		addAttribute(out, VAR_NAME_ATTR, JaxbUtil.getFieldName(ce));
+		addAttribute(out, BIND_NAME_ATTR, ce.getBindingName());
+		addAttribute(out, JAXB_NAME_ATTR, ce.getJaxbName());
 		addAttribute(out, TYPE_ATTR, COMPLEX_ARRAY_TYPE);
 		/* Complex arrays are always lists in JAXB, here we need to reference
          * the complex object that occurs multiple times. */
-		addAttribute(out, JAXB_TYPE_ATTR,
-                JaxbUtil.toPropertyType(ce.getJavaType().getName()));
-		addAttribute(out, BIND_TYPE_ATTR,
-				JaxbUtil.toPropertyType(ce.getJavaType().getName())
-				+ WRAPPER_SUFFIX + BIND_SUFFIX);
-		addAttribute(out, ITEM_BIND_TYPE_ATTR,
-				JaxbUtil.toPropertyType(ce.getJavaType().getName())
-				+ BIND_SUFFIX);
+		addAttribute(out, JAXB_TYPE_ATTR, JaxbUtil.getJaxbTypeName(ce));
+		addAttribute(out, BIND_TYPE_ATTR, JaxbUtil.getCoxbTypeName(ce));
+		addAttribute(out, ITEM_BIND_TYPE_ATTR, JaxbUtil.getCoxbTypeName(
+				ce.getComplexItemBinding()));
 		out.append("/>");
 		out.append(LINE_SEP);
 		
@@ -1018,9 +928,10 @@ public final class CoxbFormatter {
 		/* <coxb-property jaxb-name="comComment" jaxb-type="..."... */
 		out.append('<');
 		out.append(COXB_PROP);
-		addAttribute(out, JAXB_NAME_ATTR, ce.getJavaName());
-		addAttribute(out, JAXB_TYPE_ATTR,
-                JaxbUtil.toPropertyType(ce.getJavaType().getName()));
+		addAttribute(out, VAR_NAME_ATTR, JaxbUtil.getFieldName(ce));
+		addAttribute(out, BIND_NAME_ATTR, ce.getBindingName());
+		addAttribute(out, JAXB_NAME_ATTR, ce.getJaxbName());
+		addAttribute(out, JAXB_TYPE_ATTR, JaxbUtil.getJaxbTypeName(ce));
 		addAttribute(out, TYPE_ATTR, SIMPLE_TYPE);
 		addAttribute(out, COBOL_NAME_ATTR, ce.getCobolName());
 		if (ce.getDependingOn() != null && ce.getDependingOn().length() > 0) {

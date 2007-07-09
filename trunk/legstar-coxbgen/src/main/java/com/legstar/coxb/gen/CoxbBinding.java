@@ -55,7 +55,7 @@ public class CoxbBinding {
 	private static final String COXB_TYPE = "coxb-type";
 	
 	/** Tag enclosing a complex element jaxb type package. */
-	private static final String JAXB_TYPE_PKG = "jaxb-type-package";
+	private static final String JAXB_PACKAGE_ATTR = "jaxb-package";
 	
 	/** Attribute giving the custom choice selector marshaling class name. */
 	private static final String MARSHAL_SCN_ATTR =
@@ -169,13 +169,11 @@ public class CoxbBinding {
 			unmarshalChoiceStrategyClassName =
 				coxbType.getAttribute(UNMARSHAL_SCN_ATTR);
 
-			listOfElements = doc.getElementsByTagName(JAXB_TYPE_PKG);
-			if (listOfElements == null || listOfElements.getLength() == 0) {
+			jaxbPackageName = coxbType.getAttribute(JAXB_PACKAGE_ATTR);
+			if (jaxbPackageName == null) {
 				throw (new XSLTException(
-						"Descriptor file must define a jaxb type package"));
+				"Descriptor file must define a jaxb type package"));
 			}
-			jaxbPackageName =
-				((Element) listOfElements.item(0)).getTextContent();
 			
 			cce.marshalChoiceStrategyFileExists =
 					classExists(targetDir,

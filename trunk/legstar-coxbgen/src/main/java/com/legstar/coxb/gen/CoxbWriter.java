@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
-import com.legstar.host.HostException;
+import com.legstar.coxb.host.HostException;
 
 /**
  * This class manages a LIFO stack of temporary files. The last file opened is

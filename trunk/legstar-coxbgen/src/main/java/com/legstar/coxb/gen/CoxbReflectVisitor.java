@@ -43,7 +43,7 @@ import com.legstar.coxb.ICobolPackedDecimalBinding;
 import com.legstar.coxb.ICobolStringBinding;
 import com.legstar.coxb.ICobolNationalBinding;
 import com.legstar.coxb.ICobolZonedDecimalBinding;
-import com.legstar.host.HostException;
+import com.legstar.coxb.host.HostException;
 import com.legstar.xslt.XSLTException;
 
 /**

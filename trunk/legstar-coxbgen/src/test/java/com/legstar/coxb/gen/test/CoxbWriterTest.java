@@ -27,7 +27,7 @@ import java.io.FileReader;
 import junit.framework.TestCase;
 
 import com.legstar.coxb.gen.CoxbWriter;
-import com.legstar.host.HostException;
+import com.legstar.coxb.host.HostException;
 
 public class CoxbWriterTest extends TestCase {
 	
