@@ -28,8 +28,8 @@ import com.legstar.coxb.ICobolArrayOctetStreamBinding;
 import com.legstar.coxb.ICobolOctetStreamBinding;
 import com.legstar.coxb.convert.ICobolOctetStreamConverter;
 import com.legstar.coxb.convert.CobolConversionException;
-import com.legstar.host.HostData;
-import com.legstar.host.HostException;
+import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.host.HostException;
 
 /**
  * This is a concrete implementation of marshal/unmarshal operations of java

@@ -25,8 +25,8 @@ import com.legstar.coxb.ICobolArrayBinaryBinding;
 import com.legstar.coxb.ICobolBinaryBinding;
 import com.legstar.coxb.convert.ICobolBinaryConverter;
 import com.legstar.coxb.convert.CobolConversionException;
-import com.legstar.host.HostData;
-import com.legstar.host.HostException;
+import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.host.HostException;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
