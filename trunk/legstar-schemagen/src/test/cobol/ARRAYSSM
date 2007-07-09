@@ -58,9 +58,9 @@
            END-PERFORM.
            PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 4
                MOVE WS-I TO WS-TC2-A
-               IF TABLE-COMPLEX-2(WS-I) NOT = WS-TC2
+               IF ELEMENT-COMPLEX-2(WS-I) NOT = WS-TC2
                    DISPLAY "TABLE-COMPLEX-2 ITEM" WS-I
-				           " RECEIVED:" TABLE-COMPLEX-2(WS-I)
+				           " RECEIVED:" ELEMENT-COMPLEX-2(WS-I)
 				           " EXPECTED:" WS-TC2
                END-IF
            END-PERFORM.
@@ -84,7 +84,7 @@
            END-PERFORM.
            PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 4
                COMPUTE WS-TC2-A = 5 - WS-I
-               MOVE WS-TC2 TO TABLE-COMPLEX-2( WS-I)
+               MOVE WS-TC2 TO ELEMENT-COMPLEX-2( WS-I)
            END-PERFORM.
            PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 5
                COMPUTE TABLE-SIMPLE-NUMERIC(WS-I) = 6 - WS-I

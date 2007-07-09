@@ -23,8 +23,8 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:unsignedShort">
-         <xs:minInclusive value='0' fixed='true'/>
-         <xs:maxInclusive value='9' fixed='true'/>
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='9'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -80,7 +80,7 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:string">
-         <xs:length value='3' fixed='true'/>
+         <xs:length value='3'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -97,7 +97,7 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:string">
-         <xs:length value='3' fixed='true'/>
+         <xs:length value='3'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -109,8 +109,8 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:unsignedShort">
-         <xs:minInclusive value='0' fixed='true'/>
-         <xs:maxInclusive value='999' fixed='true'/>
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='999'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>

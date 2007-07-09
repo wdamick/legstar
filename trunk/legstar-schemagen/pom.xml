@@ -5,11 +5,11 @@
     <parent>
       <groupId>com.legsem.legstar</groupId>
       <artifactId>Legstar</artifactId>
-      <version>1.0.1</version>
+      <version>1.1-SNAPSHOT</version>
     </parent>
     <artifactId>legstar-schemagen</artifactId>
     <name>Schema Generator</name>
-    <version>${project.parent.version}</version>
+    <version>1.1-SNAPSHOT</version>
     <description>COBOL to XML Schema generator</description>
     <url>http://www.legsem.com/legstar/schemagen/</url>
     
@@ -66,26 +66,6 @@
             </execution>
           </executions>
         </plugin>
-
-  		<!-- This will generate all XML schema test cases as soon as
-       		compilation has taken place.
-		<plugin>
-			<artifactId>maven-antrun-plugin</artifactId>
-			<executions>
-				<execution>
-				  <id>build-test-schema</id>
-				  <phase>generate-test-sources</phase>
-				  <configuration>
-				    <tasks>
-						<ant antfile="${basedir}/src/test/ant/build-test-schema.xml"/>
-				    </tasks>
-				  </configuration>
-				  <goals>
-				    <goal>run</goal>
-				  </goals>
-				</execution>
-			</executions>
-		</plugin>  -->
 
  		<plugin>
 			<artifactId>maven-antrun-plugin</artifactId>

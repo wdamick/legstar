@@ -23,7 +23,7 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:string">
-         <xs:length value='4' fixed='true'/>
+         <xs:length value='4'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -35,7 +35,7 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:hexBinary">
-         <xs:length value='4' fixed='true'/>
+         <xs:length value='4'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -47,8 +47,8 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:short">
-         <xs:minInclusive value='-9999' fixed='true'/>
-         <xs:maxInclusive value='9999' fixed='true'/>
+         <xs:minInclusive value='-9999'/>
+         <xs:maxInclusive value='9999'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -60,8 +60,8 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:unsignedShort">
-         <xs:minInclusive value='0' fixed='true'/>
-         <xs:maxInclusive value='9999' fixed='true'/>
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='9999'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -73,8 +73,8 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:int">
-         <xs:minInclusive value='-999999999' fixed='true'/>
-         <xs:maxInclusive value='999999999' fixed='true'/>
+         <xs:minInclusive value='-999999999'/>
+         <xs:maxInclusive value='999999999'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -86,8 +86,8 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:unsignedInt">
-         <xs:minInclusive value='0' fixed='true'/>
-         <xs:maxInclusive value='999999999' fixed='true'/>
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='999999999'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -99,8 +99,8 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:long">
-         <xs:minInclusive value='-999999999999999999' fixed='true'/>
-         <xs:maxInclusive value='999999999999999999' fixed='true'/>
+         <xs:minInclusive value='-999999999999999999'/>
+         <xs:maxInclusive value='999999999999999999'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -112,8 +112,8 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:unsignedLong">
-         <xs:minInclusive value='0' fixed='true'/>
-         <xs:maxInclusive value='999999999999999999' fixed='true'/>
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='999999999999999999'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -125,8 +125,8 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:integer">
-         <xs:minInclusive value='-9999999999999999999999999999999' fixed='true'/>
-         <xs:maxInclusive value='9999999999999999999999999999999' fixed='true'/>
+         <xs:minInclusive value='-9999999999999999999999999999999'/>
+         <xs:maxInclusive value='9999999999999999999999999999999'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -138,8 +138,8 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:integer">
-         <xs:minInclusive value='0' fixed='true'/>
-         <xs:maxInclusive value='9999999999999999999999999999999' fixed='true'/>
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='9999999999999999999999999999999'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -151,10 +151,10 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:decimal">
-         <xs:totalDigits value='9' fixed='true'/>
-         <xs:fractionDigits value='2' fixed='true'/>
-         <xs:minInclusive value='0.0' fixed='true'/>
-         <xs:maxInclusive value='9999999.99' fixed='true'/>
+         <xs:totalDigits value='9'/>
+         <xs:fractionDigits value='2'/>
+         <xs:minInclusive value='0.0'/>
+         <xs:maxInclusive value='9999999.99'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -188,7 +188,7 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:string">
-         <xs:length value='4' fixed='true'/>
+         <xs:length value='4'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -200,7 +200,7 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:string">
-         <xs:length value='4' fixed='true'/>
+         <xs:length value='4'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -212,8 +212,8 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:short">
-         <xs:minInclusive value='-9999' fixed='true'/>
-         <xs:maxInclusive value='9999' fixed='true'/>
+         <xs:minInclusive value='-9999'/>
+         <xs:maxInclusive value='9999'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -225,8 +225,8 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:unsignedShort">
-         <xs:minInclusive value='0' fixed='true'/>
-         <xs:maxInclusive value='9999' fixed='true'/>
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='9999'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -238,8 +238,8 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:int">
-         <xs:minInclusive value='-999999999' fixed='true'/>
-         <xs:maxInclusive value='999999999' fixed='true'/>
+         <xs:minInclusive value='-999999999'/>
+         <xs:maxInclusive value='999999999'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -251,8 +251,8 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:unsignedInt">
-         <xs:minInclusive value='0' fixed='true'/>
-         <xs:maxInclusive value='999999999' fixed='true'/>
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='999999999'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -264,8 +264,8 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:long">
-         <xs:minInclusive value='-999999999999999999' fixed='true'/>
-         <xs:maxInclusive value='999999999999999999' fixed='true'/>
+         <xs:minInclusive value='-999999999999999999'/>
+         <xs:maxInclusive value='999999999999999999'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -277,8 +277,8 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:unsignedLong">
-         <xs:minInclusive value='0' fixed='true'/>
-         <xs:maxInclusive value='999999999999999999' fixed='true'/>
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='999999999999999999'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -290,8 +290,8 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:integer">
-         <xs:minInclusive value='-9999999999999999999999999999999' fixed='true'/>
-         <xs:maxInclusive value='9999999999999999999999999999999' fixed='true'/>
+         <xs:minInclusive value='-9999999999999999999999999999999'/>
+         <xs:maxInclusive value='9999999999999999999999999999999'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -303,8 +303,8 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:integer">
-         <xs:minInclusive value='0' fixed='true'/>
-         <xs:maxInclusive value='9999999999999999999999999999999' fixed='true'/>
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='9999999999999999999999999999999'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -316,10 +316,10 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:decimal">
-         <xs:totalDigits value='9' fixed='true'/>
-         <xs:fractionDigits value='2' fixed='true'/>
-         <xs:minInclusive value='0.0' fixed='true'/>
-         <xs:maxInclusive value='9999999.99' fixed='true'/>
+         <xs:totalDigits value='9'/>
+         <xs:fractionDigits value='2'/>
+         <xs:minInclusive value='0.0'/>
+         <xs:maxInclusive value='9999999.99'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>

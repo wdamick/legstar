@@ -34,7 +34,7 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:string">
-         <xs:length value='5' fixed='true'/>
+         <xs:length value='5'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
@@ -46,8 +46,8 @@ elementFormDefault="qualified">
        </xs:annotation>
        <xs:simpleType>
          <xs:restriction base="xs:short">
-         <xs:minInclusive value='-9999' fixed='true'/>
-         <xs:maxInclusive value='9999' fixed='true'/>
+         <xs:minInclusive value='-9999'/>
+         <xs:maxInclusive value='9999'/>
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
