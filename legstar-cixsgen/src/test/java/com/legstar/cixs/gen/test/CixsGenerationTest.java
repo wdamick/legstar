@@ -42,10 +42,10 @@ import com.legstar.xslt.XSLTException;
 
 public class CixsGenerationTest extends TestCase {
 	
-	private static final String GEN_SRC_DIR = "src/test/java";
-	private static final String GEN_WDD_DIR = "src/test/WebContent/WEB-INF";
-	private static final String GEN_PROP_DIR = "src/test/WebContent/WEB-INF/classes";
-	private static final String GEN_ANT_DIR = "src/test/gen-ant";
+	private static final String GEN_SRC_DIR = "src/test/gen/java";
+	private static final String GEN_WDD_DIR = "src/test/gen/WebContent/WEB-INF";
+	private static final String GEN_PROP_DIR = "src/test/gen/WebContent/WEB-INF/classes";
+	private static final String GEN_ANT_DIR = "src/test/gen/ant";
 	
 	private static final boolean DEBUG_MODE = false;
 	
@@ -224,6 +224,8 @@ public class CixsGenerationTest extends TestCase {
 			
 			/* Now generate endpoint code using the temporary descriptors */
 			CixsWebDescriptors wd = new CixsWebDescriptors();
+			File targetDir = new File(GEN_WDD_DIR + "/alltypes");
+			targetDir.mkdir();
 			wd.createWebDescriptors(f.getPath(), GEN_WDD_DIR + "/alltypes");
 			
 			/* Read the resulting output source*/
@@ -258,6 +260,9 @@ public class CixsGenerationTest extends TestCase {
 			CixsServiceDescriptorFile cd = new CixsServiceDescriptorFile(sv);
 			File f = cd.getServiceDescriptorFile();
 			
+			File targetDir = new File(GEN_ANT_DIR + "/dplarcht");
+			targetDir.mkdir();
+
 			/* Now generate ant script using the temporary descriptors */
 			CixsAntDeployment as = new CixsAntDeployment();
 			as.createDeploymentAnt(f.getPath(),
@@ -283,7 +288,7 @@ public class CixsGenerationTest extends TestCase {
 		        	str = in.readLine();
 		        }
 		        in.close();
-				assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?><project basedir=\"..\" default=\"create-war\" name=\"build-war\">   <property environment=\"env\"/>   <property name=\"service\" value=\"dplarcht\"/>   <target name=\"clean\">      <delete file=\"gen-war/cixs-dplarcht.war\" includeEmptyDirs=\"true\" quiet=\"true\"/>   </target>   <target name=\"create-war\" depends=\"clean\">      <war warfile=\"gen-war/cixs-dplarcht.war\"           webxml=\"src/test/WebContent/WEB-INF/web.xml\">         <webinf dir=\"src/test/WebContent/WEB-INF\" includes=\"sun-jaxws.xml\"/>         <classes dir=\"bin\">            <include name=\"com/legstar/test/coxb/dplarcht/**/*.class\"/>         </classes>         <classes dir=\"bin\">            <include name=\"com/legstar/test/coxb/dplarcht/**/*.class\"/>         </classes>         <classes dir=\"bin\">            <include name=\"**/${service}/**/*.class\"/>         </classes>         <classes dir=\"bin\">            <include name=\"**/${service}/**/*.class\"/>         </classes>         <classes dir=\"src/test/WebContent/WEB-INF/classes\">            <include name=\"dplarcht.properties\"/>         </classes>      </war>   </target></project>", resStr);
+				assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?><project basedir=\"..\" default=\"create-war\" name=\"build-war\">   <property environment=\"env\"/>   <property name=\"service\" value=\"dplarcht\"/>   <target name=\"clean\">      <delete file=\"gen-war/cixs-dplarcht.war\" includeEmptyDirs=\"true\" quiet=\"true\"/>   </target>   <target name=\"create-war\" depends=\"clean\">      <war warfile=\"gen-war/cixs-dplarcht.war\"           webxml=\"src/test/gen/WebContent/WEB-INF/web.xml\">         <webinf dir=\"src/test/gen/WebContent/WEB-INF\" includes=\"sun-jaxws.xml\"/>         <classes dir=\"bin\">            <include name=\"com/legstar/test/coxb/dplarcht/**/*.class\"/>         </classes>         <classes dir=\"bin\">            <include name=\"com/legstar/test/coxb/dplarcht/**/*.class\"/>         </classes>         <classes dir=\"bin\">            <include name=\"**/${service}/**/*.class\"/>         </classes>         <classes dir=\"bin\">            <include name=\"**/${service}/**/*.class\"/>         </classes>         <classes dir=\"src/test/gen/WebContent/WEB-INF/classes\">            <include name=\"dplarcht.properties\"/>         </classes>      </war>   </target></project>", resStr);
 		    } catch (IOException e) {
 				e.printStackTrace();
 				fail("generation failed");

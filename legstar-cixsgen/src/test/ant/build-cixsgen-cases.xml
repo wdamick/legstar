@@ -15,9 +15,9 @@
 		<!-- Location of XML schemas  -->
 	 	<property name="xsd.dir" value="${basedir}/../legstar-schemagen/src/test/schema" />
 		<!-- Location of CIXS target source location   -->
-		<property name="cixs.src.dir" value="${basedir}/src/test/gen/java"/>
+		<property name="cixs.src.dir" value="${basedir}/../legstar-cixsgen-cases/src/main/java"/>
 		<!-- Target location for generated CIXS binaries   -->
-		<property name="cixs.bin.dir" value="${basedir}/target/test-classes"/>
+		<property name="cixs.bin.dir" value="${basedir}/../legstar-cixsgen-cases/target/classes"/>
 		<!-- Location of JAXB and binding classes   -->
 		<property name="jaxb.bin.dir" value="${basedir}/../legstar-jaxbgen-cases/target/classes"/>
 		<!-- Location of COXB and binding classes   -->
@@ -31,11 +31,11 @@
 		<!-- Location of Legstar binaries   -->
 		<property name="build.dir" value="${basedir}/target"/>
 		<!-- Location of ant target script location   -->
-		<property name="ant.dir" value="${basedir}/src/test/gen-ant"/>
+		<property name="ant.dir" value="${basedir}/../legstar-cixsgen-cases/src/main/resources/ant"/>
 		<!-- Location of web descriptors target location   -->
-		<property name="wdd.dir" value="${basedir}/src/test/WebContent/WEB-INF"/>
+		<property name="wdd.dir" value="${basedir}/../legstar-cixsgen-cases/src/main/resources/WebContent/WEB-INF"/>
 		<!-- Properties files target location   -->
-		<property name="prop.dir" value="${basedir}/src/test/WebContent/WEB-INF/classes"/>
+		<property name="prop.dir" value="${wdd.dir}/classes"/>
 		<!-- War files target location   -->
 		<property name="war.dir" value="${tomcat.dir}\webapps"/>
 		<!-- Package name prefix for JAXB classes   -->
