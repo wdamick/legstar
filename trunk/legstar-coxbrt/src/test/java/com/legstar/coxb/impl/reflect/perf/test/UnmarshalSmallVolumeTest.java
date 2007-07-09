@@ -21,11 +21,11 @@
 package com.legstar.coxb.impl.reflect.perf.test;
 
 import com.legstar.coxb.CobolContext;
-import com.legstar.coxb.CobolUnmarshalVisitor;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
-import com.legstar.host.HostData;
-import com.legstar.host.HostException;
+import com.legstar.coxb.visitor.CobolUnmarshalVisitor;
+import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.host.HostException;
 
 import junit.framework.TestCase;
 
@@ -56,8 +56,8 @@ public class UnmarshalSmallVolumeTest extends TestCase {
 			mv.setOffset(0);
 			ccem.accept(mv);
 			assertEquals(1, dfhcommarea.getLsRequest().getLsRequestType());
-			assertEquals("*   ", dfhcommarea.getLsRequest().getLsAllItems()); 
-			assertEquals("C       ", dfhcommarea.getLsRequest().getLsSearchCriteria().getLsStartwith());
+			assertEquals("*", dfhcommarea.getLsRequest().getLsAllItems()); 
+			assertEquals("C", dfhcommarea.getLsRequest().getLsSearchCriteria().getLsStartwith());
 			assertEquals(1, dfhcommarea.getLsRequest().getLsSearchCriteria().getLsStartwithLen());
 			assertEquals(0, dfhcommarea.getLsReply().getLsReplyType());
 			assertEquals(0, dfhcommarea.getLsReply().getLsReplyData().getLsItemsCount());

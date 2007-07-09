@@ -22,11 +22,11 @@
 package com.legstar.coxb.cust.redbotha;
 import java.util.Hashtable;
 
-import com.legstar.coxb.CobolElementVisitor;
 import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolUnmarshalChoiceStrategy;
-import com.legstar.host.HostException;
+import com.legstar.coxb.CobolElementVisitor;
+import com.legstar.coxb.host.HostException;
 
 /** 
  * Skeleton implementation of a custom choice selection strategy. Modify this

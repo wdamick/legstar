@@ -21,8 +21,8 @@
 package com.legstar.coxb.convert.simple.test;
 
 import com.legstar.coxb.convert.simple.CobolOctetStreamSimpleConverter;
-import com.legstar.host.HostData;
-import com.legstar.host.HostException;
+import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.host.HostException;
 
 import junit.framework.TestCase;
 

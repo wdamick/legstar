@@ -22,11 +22,11 @@
 package com.legstar.coxb.cust.redmulti;
 import java.util.Hashtable;
 
-import com.legstar.coxb.CobolElementVisitor;
 import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolUnmarshalChoiceStrategy;
-import com.legstar.host.HostException;
+import com.legstar.coxb.CobolElementVisitor;
+import com.legstar.coxb.host.HostException;
 import com.legstar.test.coxb.redmulti.DfhcommareaType;
 
 /** 
@@ -47,11 +47,11 @@ public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
 			(DfhcommareaType) choice.getParentJaxbObject();
 		
 		if (jobj.getCOutputType().compareTo("normal") == 0) {
-			return choice.getAlternativeByJavaName("Filler35");
+			return choice.getAlternativeByName("Filler35");
 		}
 
-		if (jobj.getCOutputType().compareTo("error ") == 0) {
-			return choice.getAlternativeByJavaName("Filler38");
+		if (jobj.getCOutputType().compareTo("error") == 0) {
+			return choice.getAlternativeByName("Filler38");
 		}
 
 		/* None of the alternatives could be chosen. Raise an error.*/

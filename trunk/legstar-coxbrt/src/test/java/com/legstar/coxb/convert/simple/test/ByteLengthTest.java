@@ -21,7 +21,7 @@
 package com.legstar.coxb.convert.simple.test;
 
 
-import com.legstar.host.HostException;
+import com.legstar.coxb.host.HostException;
 import com.legstar.util.*;
 
 

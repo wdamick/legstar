@@ -22,11 +22,11 @@
 package com.legstar.coxb.cust.dplarcht;
 import java.util.Hashtable;
 
-import com.legstar.coxb.CobolElementVisitor;
 import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolUnmarshalChoiceStrategy;
-import com.legstar.host.HostException;
+import com.legstar.coxb.CobolElementVisitor;
+import com.legstar.coxb.host.HostException;
 
 /** 
  * Skeleton implementation of a custom choice selection strategy. Modify this
@@ -53,11 +53,11 @@ public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
 		
 		switch (value) {
 		case 0:
-			return choice.getAlternativeByJavaName("LsFilesData");
+			return choice.getAlternativeByName("LsFilesData");
 		case 1:
-			return choice.getAlternativeByJavaName("LsProgramsData");
+			return choice.getAlternativeByName("LsProgramsData");
 		case 2:
-			return choice.getAlternativeByJavaName("LsTransactionsData");
+			return choice.getAlternativeByName("LsTransactionsData");
 		default:
 			/* None of the alternatives could be chosen, return null to let the
 			 * default behavior take over.*/

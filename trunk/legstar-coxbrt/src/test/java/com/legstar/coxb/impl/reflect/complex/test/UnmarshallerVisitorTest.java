@@ -23,11 +23,11 @@ package com.legstar.coxb.impl.reflect.complex.test;
 import java.math.BigInteger;
 
 import com.legstar.coxb.CobolContext;
-import com.legstar.coxb.CobolUnmarshalVisitor;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
-import com.legstar.host.HostData;
-import com.legstar.host.HostException;
+import com.legstar.coxb.visitor.CobolUnmarshalVisitor;
+import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.host.HostException;
 
 import junit.framework.TestCase;
 
@@ -427,15 +427,15 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		assertEquals("ABCDE", dfhcommarea.getCAlphabetic());
 		assertEquals("ABCDE    ", dfhcommarea.getCNational());
 		assertEquals("0e4040404040400f",HostData.toHexString(dfhcommarea.getCDbcs()));
-		assertEquals("              ", dfhcommarea.getCAlphanumericEdited());
-		assertEquals("       ", dfhcommarea.getCAlphanumeric());
+		assertEquals("", dfhcommarea.getCAlphanumericEdited());
+		assertEquals("", dfhcommarea.getCAlphanumeric());
 		byte[] cOctetString = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 		assertEquals(HostData.toHexString(cOctetString),HostData.toHexString(dfhcommarea.getCOctetString()));
 		assertEquals("0.00", dfhcommarea.getCPackedDecimal().toString());
-		assertEquals("0       ", dfhcommarea.getCNumericEdited1());
-		assertEquals("0               ", dfhcommarea.getCNumericEdited2());
-		assertEquals("0         ", dfhcommarea.getCNumericEdited3());
-		assertEquals("0          ", dfhcommarea.getCNumericEdited4());
+		assertEquals("0", dfhcommarea.getCNumericEdited1());
+		assertEquals("0", dfhcommarea.getCNumericEdited2());
+		assertEquals("0", dfhcommarea.getCNumericEdited3());
+		assertEquals("0", dfhcommarea.getCNumericEdited4());
 		byte[] cIndex = {0x00,0x00,0x00,0x00};
 		assertEquals(HostData.toHexString(cIndex),HostData.toHexString(dfhcommarea.getCIndex()));
 		byte[] cPointer = {0x00,0x00,0x00,0x00};
@@ -506,7 +506,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		
 		assertEquals(1, dfhcommarea.getLsReply().getLsReplyData().getLsItemsCount());
 		assertEquals("ABCDABCD", dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsFilesData().getLsFileName());
-		assertEquals("D         D         D         D             ", dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsFilesData().getLsFileDsname());
+		assertEquals("D         D         D         D", dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsFilesData().getLsFileDsname());
 		assertEquals("AAAABBBBCCCC", dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsFilesData().getLsFileEnablestatus());
 		assertEquals(null, dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData());
 		assertEquals(null, dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsTransactionsData());
@@ -603,12 +603,12 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		ccem.accept(uv);
 		
 		assertEquals(1, dfhcommarea.getLsReply().getLsReplyData().getLsItemsCount());
-		assertEquals("NOTDEFINED  ", dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramLanguage());
+		assertEquals("NOTDEFINED", dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramLanguage());
 		assertEquals(5792, dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramLength());
 		assertEquals("BINARCHT", dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramName());
-		assertEquals("PROGRAM     ", dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramType());
+		assertEquals("PROGRAM", dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramType());
 		assertEquals(2, dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramUsecount());
-		assertEquals("                        ", dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getFiller113());
+		assertEquals("", dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getFiller113());
 		assertEquals(null, dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsFilesData());
 		assertEquals(null, dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsTransactionsData());
 	}
@@ -638,7 +638,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		ccem.accept(uv);
 		
 		assertEquals("normal", dfhcommarea.getCOutputType());
-		assertEquals("ABJADHAOUAZ                   ", dfhcommarea.getFiller35().getCString());
+		assertEquals("ABJADHAOUAZ", dfhcommarea.getFiller35().getCString());
 	}
 
 	/**
@@ -665,9 +665,9 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
 		ccem.accept(uv);
 		
-		assertEquals("error ", dfhcommarea.getCOutputType());
+		assertEquals("error", dfhcommarea.getCOutputType());
 		assertEquals(75, dfhcommarea.getFiller38().getCErrorNum());
-		assertEquals("ABOMINABLE                                                                                                                                                                                          ", dfhcommarea.getFiller38().getCErrorDescription());
+		assertEquals("ABOMINABLE", dfhcommarea.getFiller38().getCErrorDescription());
 	}
 
 	/**
@@ -695,7 +695,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
 		ccem.accept(uv);
 		
-		assertEquals("ça c'est un problème            ", dfhcommarea.getComLocal());
+		assertEquals("ça c'est un problème", dfhcommarea.getComLocal());
 		assertEquals("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",HostData.toHexString(dfhcommarea.getComDbcs()));
 		assertEquals("élémentaire à résoudre          ", dfhcommarea.getComNational());
 	}

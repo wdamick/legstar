@@ -22,12 +22,12 @@
 package com.legstar.coxb.cust.redsimpt;
 import java.util.Hashtable;
 
-import com.legstar.coxb.CobolElementVisitor;
 import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolUnmarshalChoiceStrategy;
-import com.legstar.host.HostData;
-import com.legstar.host.HostException;
+import com.legstar.coxb.CobolElementVisitor;
+import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.host.HostException;
 
 /** 
  * An example of a choice strategy based on numericity. If content is numeric
@@ -68,9 +68,9 @@ public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
 		/* If all characters are digits, we can safely select the numeric
 		 * choice. Otherwise select the alphabetic alternative. */
 		if (digits) {
-			return choice.getAlternativeByJavaName("CDefinition2");
+			return choice.getAlternativeByName("CDefinition2");
 		} else {
-			return choice.getAlternativeByJavaName("CDefinition1");
+			return choice.getAlternativeByName("CDefinition1");
 		}
 	}
 

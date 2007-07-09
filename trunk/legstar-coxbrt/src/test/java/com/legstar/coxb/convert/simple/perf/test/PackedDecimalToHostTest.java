@@ -23,8 +23,8 @@ package com.legstar.coxb.convert.simple.perf.test;
 import java.math.BigDecimal;
 
 import com.legstar.coxb.convert.simple.CobolPackedDecimalSimpleConverter;
-import com.legstar.host.HostData;
-import com.legstar.host.HostException;
+import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.host.HostException;
 
 import junit.framework.TestCase;
 

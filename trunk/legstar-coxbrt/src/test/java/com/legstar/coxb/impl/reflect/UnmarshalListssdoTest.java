@@ -8,24 +8,24 @@ import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
 
 import junit.framework.TestCase;
-import com.legstar.test.coxb.numzoned.ObjectFactory;
-import com.legstar.test.coxb.numzoned.DfhcommareaType;
+import com.legstar.test.coxb.listssdo.ObjectFactory;
+import com.legstar.test.coxb.listssdo.DfhcommareaType;
 
-public class UnmarshalNumzonedTest extends TestCase {
+public class UnmarshalListssdoTest extends TestCase {
 	/**
-	 * Unmarshal Numzoned.
+	 * Unmarshal Listssdo.
 	 * @throws HostException if anything goes wrong
 	 * @throws ClassNotFoundException 
 	 */
-	public final void testNumzoned() throws HostException, ClassNotFoundException {
+	public final void testListssdo() throws HostException, ClassNotFoundException {
 		// Create a cobol context 
 		CobolContext cobolContext = new CobolContext();
 		// Select a conversion strategy 
 		CobolSimpleConverters cc = new CobolSimpleConverters(cobolContext);
-		//		            <><--><----><--><--><---->
-		//		            1 1 2 1 2 3 1 2 1 2 1 2 3  
-		//		            6   -5 -7 8   +1 + 9 1 1 - 
-		String hexString = "f6f0d5d0f7f8f0c14ef9f1f160";
+		//		            <------><------------------------------------------------>
+		//		            1 2 3 4 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
+		//		            0 0 O 5 O D O 0 1 O D O 0 2 O D O 0 3 O D O 0 4 O D O 0 5 
+		String hexString = "00000005d6c4d6f0f1d6c4d6f0f2d6c4d6f0f3d6c4d6f0f4d6c4d6f0f5";
 		byte[] hostBytes = HostData.toByteArray(hexString);
 
 		// Create a concrete visitor
@@ -36,16 +36,16 @@ public class UnmarshalNumzonedTest extends TestCase {
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory,
-				Class.forName("com.legstar.test.coxb.numzoned.DfhcommareaType"));
+				Class.forName("com.legstar.test.coxb.listssdo.DfhcommareaType"));
 		ccem.accept(uv);
 		DfhcommareaType dfhcommarea = (DfhcommareaType) ccem.getObjectValue(DfhcommareaType.class);
 		
-		assertEquals(6, dfhcommarea.getLU());
-		assertEquals(-5, dfhcommarea.getLS());
-		assertEquals(-78, dfhcommarea.getLSSignL());
-		assertEquals(1, dfhcommarea.getLSSignT());
-		assertEquals(9, dfhcommarea.getLSSignSL());
-		assertEquals(-11, dfhcommarea.getLSSignST());
+		assertEquals(5, dfhcommarea.getListOdo().size());
+		assertEquals("ODO01", dfhcommarea.getListOdo().get(0));
+		assertEquals("ODO02", dfhcommarea.getListOdo().get(1));
+		assertEquals("ODO03", dfhcommarea.getListOdo().get(2));
+		assertEquals("ODO04", dfhcommarea.getListOdo().get(3));
+		assertEquals("ODO05", dfhcommarea.getListOdo().get(4));
 	}
 
 }
