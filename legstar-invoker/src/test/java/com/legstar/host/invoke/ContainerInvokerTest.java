@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.legstar.coxb.ICobolComplexBinding;
-import com.legstar.host.HostException;
+import com.legstar.coxb.host.HostException;
 import com.legstar.messaging.Address;
 import com.legstar.test.coxb.lsfileac.QueryDataType;
 import com.legstar.test.coxb.lsfileac.QueryLimitType;
@@ -45,10 +45,6 @@ public class ContainerInvokerTest extends TestCase {
 	    com.legstar.test.coxb.lsfileac.ObjectFactory jaxbInFactory =
 	          new com.legstar.test.coxb.lsfileac.ObjectFactory(); 
 	    
-	    /* The JAXB output factory. */
-	    com.legstar.test.coxb.lsfileac.ObjectFactory jaxbOutFactory =
-	          new com.legstar.test.coxb.lsfileac.ObjectFactory();
-	    
 	    /* There are 2 containers for request */
 	    QueryDataType queryData	= jaxbInFactory.createQueryDataType();
 	    queryData.setQueryName("S*");
@@ -60,16 +56,12 @@ public class ContainerInvokerTest extends TestCase {
 	    queryLimit.setMaxItemsRead(100);
 	    
 	    /* Decorate object trees for static binding */
-	    QueryDataTypeBinding queryDataBin = new QueryDataTypeBinding(
-	    		jaxbInFactory, queryData);
-	    QueryLimitTypeBinding queryLimitBin = new QueryLimitTypeBinding(
-	    		jaxbInFactory, queryLimit);
+	    QueryDataTypeBinding queryDataBin = new QueryDataTypeBinding(queryData);
+	    QueryLimitTypeBinding queryLimitBin = new QueryLimitTypeBinding(queryLimit);
 	    
 	    /* Prepare output objects */
-	    ReplyDataTypeBinding replyDataBin =
-	          new ReplyDataTypeBinding(jaxbOutFactory);
-	    ReplyStatusTypeBinding replyStatusBin =
-	          new ReplyStatusTypeBinding(jaxbOutFactory);
+	    ReplyDataTypeBinding replyDataBin = new ReplyDataTypeBinding();
+	    ReplyStatusTypeBinding replyStatusBin = new ReplyStatusTypeBinding();
 	    
 	    /* Map containers with corresponding object trees */
 	    Map < String, ICobolComplexBinding > inParts =
@@ -93,11 +85,11 @@ public class ContainerInvokerTest extends TestCase {
 	    assertEquals(0, replyStatusBin.getReplyStatusType().getReplyResp2());
 	    assertEquals(5, replyDataBin.getReplyDataType().getReplyItemscount());
 	    
-	    assertEquals("S. D. BORMAN        ", replyDataBin.getReplyDataType().getReplyItem().get(0).getReplyPersonal().getReplyName());
-	    assertEquals("SUSAN MALAIKA       ", replyDataBin.getReplyDataType().getReplyItem().get(1).getReplyPersonal().getReplyName());
-	    assertEquals("SIR MICHAEL ROBERTS ", replyDataBin.getReplyDataType().getReplyItem().get(2).getReplyPersonal().getReplyName());
-	    assertEquals("S. P. RUSSELL       ", replyDataBin.getReplyDataType().getReplyItem().get(3).getReplyPersonal().getReplyName());
-	    assertEquals("S.J. LAZENBY        ", replyDataBin.getReplyDataType().getReplyItem().get(4).getReplyPersonal().getReplyName());
+	    assertEquals("S. D. BORMAN", replyDataBin.getReplyDataType().getReplyItem().get(0).getReplyPersonal().getReplyName());
+	    assertEquals("SUSAN MALAIKA", replyDataBin.getReplyDataType().getReplyItem().get(1).getReplyPersonal().getReplyName());
+	    assertEquals("SIR MICHAEL ROBERTS", replyDataBin.getReplyDataType().getReplyItem().get(2).getReplyPersonal().getReplyName());
+	    assertEquals("S. P. RUSSELL", replyDataBin.getReplyDataType().getReplyItem().get(3).getReplyPersonal().getReplyName());
+	    assertEquals("S.J. LAZENBY", replyDataBin.getReplyDataType().getReplyItem().get(4).getReplyPersonal().getReplyName());
 	    
 	}
 
@@ -106,15 +98,9 @@ public class ContainerInvokerTest extends TestCase {
 		Address address = new Address("CICSTS31");
 		HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
 	    
-	    /* The JAXB output factory. */
-	    com.legstar.test.coxb.lsfileac.ObjectFactory jaxbOutFactory =
-	          new com.legstar.test.coxb.lsfileac.ObjectFactory();
-	    
 	    /* Prepare output objects */
-	    ReplyDataTypeBinding replyDataBin =
-	          new ReplyDataTypeBinding(jaxbOutFactory);
-	    ReplyStatusTypeBinding replyStatusBin =
-	          new ReplyStatusTypeBinding(jaxbOutFactory);
+	    ReplyDataTypeBinding replyDataBin = new ReplyDataTypeBinding();
+	    ReplyStatusTypeBinding replyStatusBin = new ReplyStatusTypeBinding();
 	    
 	    /* Map containers with corresponding object trees */
 	    Map < String, ICobolComplexBinding > inParts =
@@ -136,11 +122,11 @@ public class ContainerInvokerTest extends TestCase {
 	    assertEquals(0, replyStatusBin.getReplyStatusType().getReplyResp2());
 	    assertEquals(44, replyDataBin.getReplyDataType().getReplyItemscount());
 	    
-	    assertEquals("S. D. BORMAN        ", replyDataBin.getReplyDataType().getReplyItem().get(0).getReplyPersonal().getReplyName());
-	    assertEquals("J. T. CZAYKOWSKI    ", replyDataBin.getReplyDataType().getReplyItem().get(1).getReplyPersonal().getReplyName());
-	    assertEquals("M. B. DOMBEY        ", replyDataBin.getReplyDataType().getReplyItem().get(2).getReplyPersonal().getReplyName());
-	    assertEquals("A. I. HICKSON       ", replyDataBin.getReplyDataType().getReplyItem().get(3).getReplyPersonal().getReplyName());
-	    assertEquals("ALAN TULIP          ", replyDataBin.getReplyDataType().getReplyItem().get(4).getReplyPersonal().getReplyName());
+	    assertEquals("S. D. BORMAN", replyDataBin.getReplyDataType().getReplyItem().get(0).getReplyPersonal().getReplyName());
+	    assertEquals("J. T. CZAYKOWSKI", replyDataBin.getReplyDataType().getReplyItem().get(1).getReplyPersonal().getReplyName());
+	    assertEquals("M. B. DOMBEY", replyDataBin.getReplyDataType().getReplyItem().get(2).getReplyPersonal().getReplyName());
+	    assertEquals("A. I. HICKSON", replyDataBin.getReplyDataType().getReplyItem().get(3).getReplyPersonal().getReplyName());
+	    assertEquals("ALAN TULIP", replyDataBin.getReplyDataType().getReplyItem().get(4).getReplyPersonal().getReplyName());
 	    
 	}
 	
@@ -151,10 +137,6 @@ public class ContainerInvokerTest extends TestCase {
 	    /* The JAXB input factory. */
 	    com.legstar.test.coxb.lsfileac.ObjectFactory jaxbInFactory =
 	          new com.legstar.test.coxb.lsfileac.ObjectFactory(); 
-	    
-	    /* The JAXB output factory. */
-	    com.legstar.test.coxb.lsfileac.ObjectFactory jaxbOutFactory =
-	          new com.legstar.test.coxb.lsfileac.ObjectFactory();
 	    
 	    /* There are 2 containers for request */
 	    QueryDataType queryData	= jaxbInFactory.createQueryDataType();
@@ -167,16 +149,12 @@ public class ContainerInvokerTest extends TestCase {
 	    queryLimit.setMaxItemsRead(100);
 	    
 	    /* Decorate object trees for static binding */
-	    QueryDataTypeBinding queryDataBin = new QueryDataTypeBinding(
-	    		jaxbInFactory, queryData);
-	    QueryLimitTypeBinding queryLimitBin = new QueryLimitTypeBinding(
-	    		jaxbInFactory, queryLimit);
+	    QueryDataTypeBinding queryDataBin = new QueryDataTypeBinding(queryData);
+	    QueryLimitTypeBinding queryLimitBin = new QueryLimitTypeBinding(queryLimit);
 	    
 	    /* Prepare output objects */
-	    ReplyDataTypeBinding replyDataBin =
-	          new ReplyDataTypeBinding(jaxbOutFactory);
-	    ReplyStatusTypeBinding replyStatusBin =
-	          new ReplyStatusTypeBinding(jaxbOutFactory);
+	    ReplyDataTypeBinding replyDataBin = new ReplyDataTypeBinding();
+	    ReplyStatusTypeBinding replyStatusBin = new ReplyStatusTypeBinding();
 	    
 	    /* Map containers with corresponding object trees */
 	    Map < String, ICobolComplexBinding > inParts =

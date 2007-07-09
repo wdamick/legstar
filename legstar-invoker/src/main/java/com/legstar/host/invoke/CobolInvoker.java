@@ -4,12 +4,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.legstar.coxb.CobolContext;
-import com.legstar.coxb.CobolMarshalVisitor;
-import com.legstar.coxb.CobolUnmarshalVisitor;
+import com.legstar.coxb.visitor.CobolMarshalVisitor;
+import com.legstar.coxb.visitor.CobolUnmarshalVisitor;
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.convert.CobolConverters;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
-import com.legstar.host.HostException;
+import com.legstar.coxb.host.HostException;
 
 /**
  * All invokers that use Cobol marshaling/unmarshaling  can derive from
