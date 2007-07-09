@@ -20,7 +20,6 @@
  *******************************************************************************/
 package com.legstar.host.invoke;
 
-import com.legstar.host.HostException;
 import com.legstar.host.invoke.HostInvokerException;
 import com.legstar.messaging.Address;
 import com.legstar.test.coxb.lsfileae.DfhcommareaType;
@@ -44,21 +43,16 @@ public class CommareaInvokerTest extends TestCase {
 		    com.legstar.test.coxb.lsfileae.ObjectFactory jaxbInFactory =
 		          new com.legstar.test.coxb.lsfileae.ObjectFactory(); 
 		    
-		    /* The JAXB output factory. */
-		    com.legstar.test.coxb.lsfileae.ObjectFactory jaxbOutFactory =
-		          new com.legstar.test.coxb.lsfileae.ObjectFactory(); 
-		    
 		    /* The request java object tree */
 		    DfhcommareaType request	= jaxbInFactory.createDfhcommareaType();
 		    request.setComNumber(100L);
 		    
 		    /* Decorate object tree for static binding */
-		    DfhcommareaTypeBinding ccbin = new DfhcommareaTypeBinding(
-		    		jaxbInFactory, request);
+		    DfhcommareaTypeBinding ccbin = new DfhcommareaTypeBinding(request);
 		    
 		    /* Prepare output object */
 		    DfhcommareaTypeBinding ccbout =
-		          new DfhcommareaTypeBinding(jaxbOutFactory);
+		          new DfhcommareaTypeBinding();
 		    
 		    /* call */
 		    invoker.invoke("MyNewRequest", ccbin, ccbout);
@@ -68,12 +62,10 @@ public class CommareaInvokerTest extends TestCase {
 		    assertEquals("$0100.11", ccbout.getDfhcommareaType().getComAmount());
 		    assertEquals("*********", ccbout.getDfhcommareaType().getComComment());
 		    assertEquals("26 11 81", ccbout.getDfhcommareaType().getComDate());
-		    assertEquals("SURREY, ENGLAND     ", ccbout.getDfhcommareaType().getComPersonal().getComAddress());
-		    assertEquals("S. D. BORMAN        ", ccbout.getDfhcommareaType().getComPersonal().getComName());
+		    assertEquals("SURREY, ENGLAND", ccbout.getDfhcommareaType().getComPersonal().getComAddress());
+		    assertEquals("S. D. BORMAN", ccbout.getDfhcommareaType().getComPersonal().getComName());
 		    assertEquals("32156778", ccbout.getDfhcommareaType().getComPersonal().getComPhone());
 		} catch (HostInvokerException e) {
-			fail("testValidInvoke failed " + e);
-		} catch (HostException e) {
 			fail("testValidInvoke failed " + e);
 		}
 	}
@@ -88,21 +80,16 @@ public class CommareaInvokerTest extends TestCase {
 		    com.legstar.test.coxb.lsfileae.ObjectFactory jaxbInFactory =
 		          new com.legstar.test.coxb.lsfileae.ObjectFactory(); 
 		    
-		    /* The JAXB output factory. */
-		    com.legstar.test.coxb.lsfileae.ObjectFactory jaxbOutFactory =
-		          new com.legstar.test.coxb.lsfileae.ObjectFactory(); 
-		    
 		    /* The request java object tree */
 		    DfhcommareaType request	= jaxbInFactory.createDfhcommareaType();
 		    request.setComNumber(100L);
 		    
 		    /* Decorate object tree for static binding */
-		    DfhcommareaTypeBinding ccbin = new DfhcommareaTypeBinding(
-		    		jaxbInFactory, request);
+		    DfhcommareaTypeBinding ccbin = new DfhcommareaTypeBinding(request);
 		    
 		    /* Prepare output object */
 		    DfhcommareaTypeBinding ccbout =
-		          new DfhcommareaTypeBinding(jaxbOutFactory);
+		          new DfhcommareaTypeBinding();
 		    
 		    /* call */
 		    invoker.invoke("MyNewRequest", ccbin, ccbout);
@@ -120,21 +107,16 @@ public class CommareaInvokerTest extends TestCase {
 		    com.legstar.test.coxb.lsfileae.ObjectFactory jaxbInFactory =
 		          new com.legstar.test.coxb.lsfileae.ObjectFactory(); 
 		    
-		    /* The JAXB output factory. */
-		    com.legstar.test.coxb.lsfileae.ObjectFactory jaxbOutFactory =
-		          new com.legstar.test.coxb.lsfileae.ObjectFactory(); 
-		    
 		    /* The request java object tree */
 		    DfhcommareaType request	= jaxbInFactory.createDfhcommareaType();
 		    request.setComNumber(100L);
 		    
 		    /* Decorate object tree for static binding */
-		    DfhcommareaTypeBinding ccbin = new DfhcommareaTypeBinding(
-		    		jaxbInFactory, request);
+		    DfhcommareaTypeBinding ccbin = new DfhcommareaTypeBinding(request);
 		    
 		    /* Prepare output object */
 		    DfhcommareaTypeBinding ccbout =
-		          new DfhcommareaTypeBinding(jaxbOutFactory);
+		          new DfhcommareaTypeBinding();
 		    
 		    /* call */
 		    invoker.invoke("MyNewRequest", ccbin, ccbout);
@@ -144,12 +126,10 @@ public class CommareaInvokerTest extends TestCase {
 		    assertEquals("$0100.11", ccbout.getDfhcommareaType().getComAmount());
 		    assertEquals("*********", ccbout.getDfhcommareaType().getComComment());
 		    assertEquals("26 11 81", ccbout.getDfhcommareaType().getComDate());
-		    assertEquals("SURREY, ENGLAND     ", ccbout.getDfhcommareaType().getComPersonal().getComAddress());
-		    assertEquals("S. D. BORMAN        ", ccbout.getDfhcommareaType().getComPersonal().getComName());
+		    assertEquals("SURREY, ENGLAND", ccbout.getDfhcommareaType().getComPersonal().getComAddress());
+		    assertEquals("S. D. BORMAN", ccbout.getDfhcommareaType().getComPersonal().getComName());
 		    assertEquals("32156778", ccbout.getDfhcommareaType().getComPersonal().getComPhone());
 		} catch (HostInvokerException e) {
-			fail("testEmptyAddress failed " + e);
-		} catch (HostException e) {
 			fail("testEmptyAddress failed " + e);
 		}
 	}
@@ -164,21 +144,16 @@ public class CommareaInvokerTest extends TestCase {
 		    com.legstar.test.coxb.lsfileae.ObjectFactory jaxbInFactory =
 		          new com.legstar.test.coxb.lsfileae.ObjectFactory(); 
 		    
-		    /* The JAXB output factory. */
-		    com.legstar.test.coxb.lsfileae.ObjectFactory jaxbOutFactory =
-		          new com.legstar.test.coxb.lsfileae.ObjectFactory(); 
-		    
 		    /* The request java object tree */
 		    DfhcommareaType request	= jaxbInFactory.createDfhcommareaType();
 		    request.setComNumber(100L);
 		    
 		    /* Decorate object tree for static binding */
-		    DfhcommareaTypeBinding ccbin = new DfhcommareaTypeBinding(
-		    		jaxbInFactory, request);
+		    DfhcommareaTypeBinding ccbin = new DfhcommareaTypeBinding(request);
 		    
 		    /* Prepare output object */
 		    DfhcommareaTypeBinding ccbout =
-		          new DfhcommareaTypeBinding(jaxbOutFactory);
+		          new DfhcommareaTypeBinding();
 		    
 		    /* call */
 		    invoker.invoke("MyNewRequest", ccbin, ccbout);
@@ -188,12 +163,10 @@ public class CommareaInvokerTest extends TestCase {
 		    assertEquals("$0100.11", ccbout.getDfhcommareaType().getComAmount());
 		    assertEquals("*********", ccbout.getDfhcommareaType().getComComment());
 		    assertEquals("26 11 81", ccbout.getDfhcommareaType().getComDate());
-		    assertEquals("SURREY, ENGLAND     ", ccbout.getDfhcommareaType().getComPersonal().getComAddress());
-		    assertEquals("S. D. BORMAN        ", ccbout.getDfhcommareaType().getComPersonal().getComName());
+		    assertEquals("SURREY, ENGLAND", ccbout.getDfhcommareaType().getComPersonal().getComAddress());
+		    assertEquals("S. D. BORMAN", ccbout.getDfhcommareaType().getComPersonal().getComName());
 		    assertEquals("32156778", ccbout.getDfhcommareaType().getComPersonal().getComPhone());
 		} catch (HostInvokerException e) {
-			fail("testPartiallyEmptyAddress failed " + e);
-		} catch (HostException e) {
 			fail("testPartiallyEmptyAddress failed " + e);
 		}
 	}
@@ -207,21 +180,16 @@ public class CommareaInvokerTest extends TestCase {
 		    com.legstar.test.coxb.lsfileae.ObjectFactory jaxbInFactory =
 		          new com.legstar.test.coxb.lsfileae.ObjectFactory(); 
 		    
-		    /* The JAXB output factory. */
-		    com.legstar.test.coxb.lsfileae.ObjectFactory jaxbOutFactory =
-		          new com.legstar.test.coxb.lsfileae.ObjectFactory(); 
-		    
 		    /* The request java object tree */
 		    DfhcommareaType request	= jaxbInFactory.createDfhcommareaType();
 		    request.setComNumber(100L);
 		    
 		    /* Decorate object tree for static binding */
-		    DfhcommareaTypeBinding ccbin = new DfhcommareaTypeBinding(
-		    		jaxbInFactory, request);
+		    DfhcommareaTypeBinding ccbin = new DfhcommareaTypeBinding(request);
 		    
 		    /* Prepare output object */
 		    DfhcommareaTypeBinding ccbout =
-		          new DfhcommareaTypeBinding(jaxbOutFactory);
+		          new DfhcommareaTypeBinding();
 		    
 		    /* call */
 		    invoker.invoke("MyNewRequest", ccbin, ccbout);
@@ -231,12 +199,10 @@ public class CommareaInvokerTest extends TestCase {
 		    assertEquals("$0100.11", ccbout.getDfhcommareaType().getComAmount());
 		    assertEquals("*********", ccbout.getDfhcommareaType().getComComment());
 		    assertEquals("26 11 81", ccbout.getDfhcommareaType().getComDate());
-		    assertEquals("SURREY, ENGLAND     ", ccbout.getDfhcommareaType().getComPersonal().getComAddress());
-		    assertEquals("S. D. BORMAN        ", ccbout.getDfhcommareaType().getComPersonal().getComName());
+		    assertEquals("SURREY, ENGLAND", ccbout.getDfhcommareaType().getComPersonal().getComAddress());
+		    assertEquals("S. D. BORMAN", ccbout.getDfhcommareaType().getComPersonal().getComName());
 		    assertEquals("32156778", ccbout.getDfhcommareaType().getComPersonal().getComPhone());
 		} catch (HostInvokerException e) {
-			fail("testValidInvokeCommareaOverHttp failed " + e);
-		} catch (HostException e) {
 			fail("testValidInvokeCommareaOverHttp failed " + e);
 		}
 	}
