@@ -86,17 +86,18 @@ public class GenerateTest extends TestCase {
 	public void testGenAlltypes() throws Exception  {
 		genSource("alltypes", "DfhcommareaType");
 		String srce = getSource(getGetSrcFilename("alltypes", "DfhcommareaType"));
-		assertTrue(srce.contains("sString = new CStringBinding(\"sString\", String.class);"));
+		assertTrue(srce.contains("sString = BF.createStringBinding(\"SString\","));
+		assertTrue(srce.contains("\"SString\", String.class, this);"));
 	}
 
 	/** Generate binding for Dplarcht. */
 	public void testGenDplarcht() throws Exception   {
 		genSource("dplarcht", "DfhcommareaType");
 		String srce = getSource(getGetSrcFilename("dplarcht", "DfhcommareaType"));
-		assertTrue(srce.contains("lsRequest = new LsRequestTypeBinding("));
-		assertTrue(srce.contains("mJaxbObjectFactory,"));
-		assertTrue(srce.contains("lsReply = new LsReplyTypeBinding("));
-		assertTrue(srce.contains("mJaxbObjectFactory,"));
+		assertTrue(srce.contains("lsRequest = new LsRequestTypeBinding(\"LsRequest\","));
+		assertTrue(srce.contains("\"LsRequest\", this, null);"));
+		assertTrue(srce.contains("lsReply = new LsReplyTypeBinding(\"LsReply\","));
+		assertTrue(srce.contains("\"LsReply\", this, null);"));
 	}
 	
 	/** Generate binding for Redsimpt. */
@@ -105,8 +106,8 @@ public class GenerateTest extends TestCase {
 		custFile.delete();
 		genSource("redsimpt", "DfhcommareaType");
 		String srce = getSource(getGetSrcFilename("redsimpt", "DfhcommareaType"));
-		assertTrue(srce.contains("cDefinition1 = new CDefinition1ChoiceBinding(mJaxbObjectFactory, this, \"cDefinition1\");"));
-		assertTrue(srce.contains("cDefinition1.setUnmarshalChoiceStrategyClassName(\"com.legstar.coxb.cust.redsimpt.ChoiceSelector\");"));
+		assertTrue(srce.contains("cDefinition1Choice = new CDefinition1ChoiceBinding(\"CDefinition1Choice\", this);"));
+		assertTrue(srce.contains("cDefinition1Choice.setUnmarshalChoiceStrategyClassName(\"com.legstar.coxb.cust.redsimpt.ChoiceSelector\");"));
 		String custSrce = getSource(getGetCustFilename("redsimpt"));
 		assertTrue(custSrce.contains("DfhcommareaType jaxbo = (DfhcommareaType) choice.getObjectValue(DfhcommareaType.class);"));
 	}
@@ -115,25 +116,45 @@ public class GenerateTest extends TestCase {
 	public void testGenArrayssm() throws Exception   {
 		genSource("arrayssm", "DfhcommareaType");
 		String srce = getSource(getGetSrcFilename("arrayssm", "DfhcommareaType"));
-		assertTrue(srce.contains("tableComplex = new TableComplexTypeBinding("));
-		assertTrue(srce.contains("mJaxbObjectFactory, this, \"tableComplex\");"));
-		assertTrue(srce.contains("tableComplexWrapper = new TableComplexTypeWrapperBinding("));
-		assertTrue(srce.contains("mJaxbObjectFactory, this, \"tableComplex\", tableComplex);"));
+		assertTrue(srce.contains("tableComplexWrapperItem = new TableComplexTypeBinding(\"TableComplexWrapperItem\","));
+		assertTrue(srce.contains("\"TableComplex\", this, null);"));
+		assertTrue(srce.contains("tableComplexWrapper = new TableComplexTypeWrapperBinding(\"TableComplexWrapper\","));
+		assertTrue(srce.contains("\"TableComplex\", this, tableComplexWrapperItem);"));
 	}
 	
 	/** Generate binding for Redsimpt. */
 	public void testGenLsfileae() throws Exception   {
 		genSource("lsfileae", "DfhcommareaType");
 		String srce = getSource(getGetSrcFilename("lsfileae", "DfhcommareaType"));
-		assertTrue(srce.contains("comNumber = new CZonedDecimalBinding(\"comNumber\", Long.class);"));
-	}
+		assertTrue(srce.contains("comNumber = BF.createZonedDecimalBinding(\"ComNumber\","));
+		assertTrue(srce.contains("\"ComNumber\", Long.class, this);"));
+		}
 	
 	/** Generate binding for Arraysdo. */
 	public void testGenArraysdo() throws Exception   {
 		genSource("arraysdo", "DfhcommareaType");
 		String srce = getSource(getGetSrcFilename("arraysdo", "DfhcommareaType"));
-		assertTrue(srce.contains("tableOdo = new CArrayStringBinding(\"tableOdo\", String.class);"));
-	}
+		assertTrue(srce.contains("tableOdo = BF.createArrayStringBinding(\"TableOdo\","));
+		assertTrue(srce.contains("\"TableOdo\", String.class, this);"));
+		assertTrue(srce.contains("tableOdo.setByteLength(5);"));
+		assertTrue(srce.contains("tableOdo.setCobolName(\"TABLE-ODO\");"));
+		assertTrue(srce.contains("tableOdo.setMinOccurs(1);"));
+		assertTrue(srce.contains("tableOdo.setMaxOccurs(100);"));
+		assertTrue(srce.contains("tableOdo.setDependingOn(\"TABLE-SIZE\");"));
+		}
+	
+	/** Generate binding for Listssdo. */
+	public void testGenListssdo() throws Exception   {
+		genSource("listssdo", "DfhcommareaType");
+		String srce = getSource(getGetSrcFilename("listssdo", "DfhcommareaType"));
+		assertTrue(srce.contains("listOdoCounter = BF.createBinaryBinding(\"ListOdoCounter\", this);"));
+		assertTrue(srce.contains("listOdoCounter.setByteLength(4);"));
+		assertTrue(srce.contains("listOdoCounter.setCobolName(\"LIST-ODO--C\");"));
+		assertTrue(srce.contains("listOdoCounter.setTotalDigits(9);"));
+		assertTrue(srce.contains("listOdoCounter.setIsODOObject(true);"));
+		assertTrue(srce.contains("listOdo = BF.createArrayStringBinding(\"ListOdo\","));
+		assertTrue(srce.contains("\"ListOdo\", String.class, this);"));
+		}
 	
 	/** Generates COXB classes */
 	private void genSource(String schemaName, String rootName) {

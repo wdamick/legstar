@@ -1,9 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<coxb-type name="LsFilesDataChoiceBinding" type="choice" unmarshalChoiceStrategyClassName="com.legstar.coxb.cust.dplarcht.ChoiceSelector">
-<jaxb-type-name>LsItemsArrayType</jaxb-type-name>
-<jaxb-type-package>com.legstar.test.coxb.dplarcht</jaxb-type-package>
-<jaxb-property-name>lsFilesData</jaxb-property-name>
-<coxb-property jaxb-name="lsFilesData" type="complex" jaxb-type="LsFilesDataType" binding-type="LsFilesDataTypeBinding" cobol-isRedefined="true"/>
-<coxb-property jaxb-name="lsProgramsData" type="complex" jaxb-type="LsProgramsDataType" binding-type="LsProgramsDataTypeBinding" cobol-redefines="LS-FILES-DATA"/>
-<coxb-property jaxb-name="lsTransactionsData" type="complex" jaxb-type="LsTransactionsDataType" binding-type="LsTransactionsDataTypeBinding" cobol-redefines="LS-FILES-DATA"/>
+<coxb-type name="LsFilesDataChoiceBinding" parent-jaxb-type="LsItemsArrayType" jaxb-package="com.legstar.test.coxb.lsfileae" type="choice" unmarshalChoiceStrategyClassName="com.legstar.coxb.cust.dplarcht.ChoiceSelector">
+<coxb-property var-name="lsFilesData" binding-name="LsFilesData" jaxb-name="LsFilesData" type="complex" jaxb-type="LsFilesDataType" binding-type="LsFilesDataTypeBinding" cobol-isRedefined="true"/>
+<coxb-property var-name="lsProgramsData" binding-name="LsProgramsData" jaxb-name="LsProgramsData" type="complex" jaxb-type="LsProgramsDataType" binding-type="LsProgramsDataTypeBinding" cobol-redefines="LS-FILES-DATA"/>
+<coxb-property var-name="lsTransactionsData" binding-name="LsTransactionsData" jaxb-name="LsTransactionsData" type="complex" jaxb-type="LsTransactionsDataType" binding-type="LsTransactionsDataTypeBinding" cobol-redefines="LS-FILES-DATA"/>
 </coxb-type>

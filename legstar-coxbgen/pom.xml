@@ -46,19 +46,6 @@
   <build>
     <plugins>
         
-      <!-- Surefire (testing) plugin. For an unknown reason,
-           GenerateTest fails at runtime on XmlType annotation
-           not found. Probably a runtime classpath issue. -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <excludes>
-            <exclude>**/GenerateTest.java</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
-
        <!-- Assembly generation plugin. Put the result in the source site
             so that it gets uploaded with the site.  -->
       <plugin>

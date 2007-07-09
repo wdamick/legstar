@@ -28,7 +28,7 @@ import java.lang.reflect.Method;
 import java.util.Vector;
 
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
-import com.legstar.host.HostException;
+import com.legstar.coxb.host.HostException;
 
 import java.io.File;
 import java.io.IOException;
