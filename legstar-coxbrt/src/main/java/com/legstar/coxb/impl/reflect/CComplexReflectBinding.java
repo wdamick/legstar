@@ -1,13 +1,14 @@
 
 package com.legstar.coxb.impl.reflect;
 
-import com.legstar.host.HostException;
+import com.legstar.coxb.common.CComplexBinding;
+import com.legstar.coxb.host.HostException;
 import com.legstar.util.JaxbUtil;
-import com.legstar.binding.CobolElement;
+import com.legstar.coxb.CobolElement;
+import com.legstar.coxb.ICobolArrayComplexBinding;
 import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolComplexBinding;
-import com.legstar.coxb.impl.CComplexBinding;
 import com.legstar.coxb.impl.CStringBinding;
 import com.legstar.coxb.impl.CArrayStringBinding;
 import com.legstar.coxb.impl.CArrayNationalBinding;
@@ -27,6 +28,7 @@ import com.legstar.coxb.impl.CArrayDoubleBinding;
 import com.legstar.coxb.impl.RedefinesMap;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -54,6 +56,14 @@ public class CComplexReflectBinding extends CComplexBinding {
      * and doesn't need to be recreated. */
     private boolean mUnusedJaxbObject = false;
     
+    /** Dynamic counters are named after the array or list they belong to plus
+     * this additional suffix. */
+    private static final String COUNTER_SUFFIX = "Counter";
+    
+    /** Dynamic counters also need a cobol name which is built from the 
+     * corresponding list or array cobol name plus this suffix. */
+    private static final String COUNTER_COBOL_SUFFIX = "--C";
+    
 	/** Logger. */
 	private static final Log LOG
 		= LogFactory.getLog(CComplexReflectBinding.class);
@@ -71,37 +81,17 @@ public class CComplexReflectBinding extends CComplexBinding {
 			final Object jaxbObject)
 		throws ReflectBindingException {
 		
-		this(jaxbObjectFactory, jaxbObject, null, "");
-	}
-
-	/**
-	 * Constructor for a Complex element as a child of another element and
-	 * an associated JAXB object.
-	 * 
-	 * @param jaxbObjectFactory the JAXB object factory
-	 * @param jaxbObject the concrete JAXB object instance bound to this
-	 *        complex element
-	 * @param parentBinding a reference to the parent binding
-	 * @param jaxbName name of field in parent JAXB object
-	 * @throws ReflectBindingException if construction fails
-	 */
-	public CComplexReflectBinding(
-			final Object jaxbObjectFactory,
-			final Object jaxbObject,
-			final CComplexReflectBinding parentBinding,
-			final String jaxbName)
-		throws ReflectBindingException {
-		
-		super(jaxbName, null, parentBinding);
+		this(jaxbObject.getClass().getSimpleName(),
+				jaxbObject.getClass().getSimpleName(),
+				jaxbObject.getClass(), null, null, jaxbObjectFactory);
 		mJaxbObject = jaxbObject;
-		mUnusedJaxbObject = true;
-		mJaxbObjectFactory = jaxbObjectFactory;
-		initComplexElement(jaxbObject.getClass());
+		if (mJaxbObject != null) {
+			mUnusedJaxbObject = true;
+		}
 	}
 
 	/**
-	 * Constructor for a root Complex element knowing the bound JAXB class
-	 * name.
+	 * Constructor for a root Complex element knowing the bound JAXB class.
 	 * 
 	 * @param jaxbObjectFactory the JAXB object factory
 	 * @param jaxbType JAXB type of complex field
@@ -112,27 +102,32 @@ public class CComplexReflectBinding extends CComplexBinding {
 			final Class jaxbType)
 		throws ReflectBindingException {
 		
-		this(jaxbObjectFactory, jaxbType, null, "");
+		this(jaxbType.getSimpleName(),
+				jaxbType.getSimpleName(),
+				jaxbType, null, null, jaxbObjectFactory);
 	}
 
 	/**
-	 * Constructor for a child Complex element knowing the bound JAXB class
-	 * name.
+	 * Constructor for a child Complex element knowing the bound JAXB class.
 	 * 
-	 * @param jaxbObjectFactory the JAXB object factory
+	 * @param bindingName the identifier for this binding
+	 * @param jaxbName field name in parent JAXB object
 	 * @param jaxbType JAXB type of complex field
+	 * @param cobolAnnotations the cobol annotations for this element
 	 * @param parentBinding a reference to the parent binding
-	 * @param jaxbName name of field in parent JAXB object
+	 * @param jaxbObjectFactory the JAXB object factory
 	 * @throws ReflectBindingException if construction fails
 	 */
 	public CComplexReflectBinding(
-			final Object jaxbObjectFactory,
+			final String bindingName,
+			final String jaxbName,
 			final Class jaxbType,
+			final CobolElement cobolAnnotations,
 			final CComplexReflectBinding parentBinding,
-			final String jaxbName)
+			final Object jaxbObjectFactory)
 		throws ReflectBindingException {
 		
-		super(jaxbName, jaxbType, parentBinding);
+		super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
 		mJaxbObjectFactory = jaxbObjectFactory;
 		initComplexElement(jaxbType);
 	}
@@ -140,49 +135,44 @@ public class CComplexReflectBinding extends CComplexBinding {
 	/**
 	 * Helper method. JAXB Types are annotated with an XmlType which gives
 	 * an ordered list of properties
-	 * @param jaxbClass the JAXB Class with annotations
+	 * @param jaxbType the JAXB Class with annotations
 	 * @throws ReflectBindingException if initialisation fails
 	 */
 	@SuppressWarnings("unchecked")
 	private void initComplexElement(
-			final Class jaxbClass) throws ReflectBindingException {
+			final Class jaxbType) throws ReflectBindingException {
 
 		if (LOG.isDebugEnabled()) {
-			LOG.debug("Initializing Complex binding for " + jaxbClass);
+			LOG.debug("Initializing Complex binding for " + jaxbType);
 		}
-		XmlType xmlType = (XmlType) jaxbClass.getAnnotation(XmlType.class);
+		XmlType xmlType = (XmlType) jaxbType.getAnnotation(XmlType.class);
 		if (xmlType == null) {
 			throw new ReflectBindingException(
-					"No jaxb annotations found in " + jaxbClass);
+					"No jaxb annotations found in " + jaxbType);
 		}
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Found JAXB annotations: " + xmlType.toString());
 		}
-		setJavaType(jaxbClass);
-		/* If no name was assigned (root element) use type name as name */
-		if (getJavaName() == null || getJavaName().length() == 0) {
-			setJavaName(xmlType.name());
-		}
-		initChildren(jaxbClass, xmlType);
+		initChildren(jaxbType, xmlType);
 
 		if (LOG.isDebugEnabled()) {
 			LOG.debug(
-				"Complex binding sucessfully initialized for: " + jaxbClass);
+				"Complex binding sucessfully initialized for: " + jaxbType);
 		}
 	}
   
     /**
      * Creates a binding property for each child. 
-	 * @param jaxbClass the JAXB Class with annotations
+	 * @param jaxbType the JAXB Class with annotations
 	 * @param xmlType the JAXB annotations
      * @throws ReflectBindingException if children bindings fail
      *  */
     public final void initChildren(
-    		final Class jaxbClass,
+    		final Class jaxbType,
     		final XmlType xmlType) throws ReflectBindingException {
     
 		if (LOG.isDebugEnabled()) {
-			LOG.debug("Initializing children of: " + xmlType.name());
+			LOG.debug("Initializing children of: " + jaxbType.getSimpleName());
 		}
 		/* Map of choice elements for redefined elements */
 		RedefinesMap redefinesMap = new RedefinesMap();
@@ -193,7 +183,7 @@ public class CComplexReflectBinding extends CComplexBinding {
 			/* Get a reference to this property field and type */
 			Field hostField;
 			try {
-				hostField = jaxbClass.getDeclaredField(prop);
+				hostField = jaxbType.getDeclaredField(prop);
 			} catch (SecurityException e) {
 				throw new ReflectBindingException(e);
 			} catch (NoSuchFieldException e) {
@@ -219,15 +209,20 @@ public class CComplexReflectBinding extends CComplexBinding {
 			 * the name on the Xml annotation corresponds to the JAXB getter/
 			 * setter methods while the property name, returned by
 			 * xmlType.propOrder() might be different. */
+			String jaxbName = hostField.getName();
 			XmlElement xmlAnnotation =
 				hostField.getAnnotation(XmlElement.class);
 			if (xmlAnnotation == null) {
-				throw new ReflectBindingException(
-						"No xml annotations found for field "
-						+ hostField.getName());
+				/* I have noticed situations where XJC does not generate the
+				 * expected XmlElement. Unsure if this is a bug or not. The
+				 * following code is a work around :*/
+				jaxbName = jaxbName.substring(0, 1).toUpperCase()
+					+ jaxbName.substring(1, jaxbName.length());
+			} else {
+				jaxbName = xmlAnnotation.name();
 			}
 			ICobolBinding binding = createBinding(
-					xmlAnnotation.name(), getJavaClass(hostField),
+					jaxbName, getJavaClass(hostField),
 					cobolAnnotations, redefinesMap);
 			/* In the case of redefines, no actual binding is created for a
 			 * redefining item since all alternatives share the same choice
@@ -239,7 +234,7 @@ public class CComplexReflectBinding extends CComplexBinding {
 		}
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Children sucessfully initialized for: "
-					+ xmlType.name());
+					+ jaxbType.getSimpleName());
 		}
     }
     
@@ -255,11 +250,11 @@ public class CComplexReflectBinding extends CComplexBinding {
     		final Field hostField) throws ReflectBindingException {
     	Class javaClass = hostField.getType();
     	if (javaClass.getName().compareTo("java.util.List") == 0) {
-    		String javaTypeName = hostField.getGenericType().toString();
-    		javaTypeName = javaTypeName.substring(
-    				javaTypeName.indexOf("<") + 1, javaTypeName.length() - 1);
+    		String jaxbTypeName = hostField.getGenericType().toString();
+    		jaxbTypeName = jaxbTypeName.substring(
+    				jaxbTypeName.indexOf("<") + 1, jaxbTypeName.length() - 1);
     		try {
-				javaClass = Class.forName(javaTypeName);
+				javaClass = Class.forName(jaxbTypeName);
 			} catch (ClassNotFoundException e) {
 				throw new ReflectBindingException(e);
 			}
@@ -349,6 +344,15 @@ public class CComplexReflectBinding extends CComplexBinding {
 					+ cobolAnnotations.cobolName()));
 		}
 		
+		/* If this element is a variable size array or list without an explicit
+		 * depending on clause, dynamically generate a counter. */
+		if (cobolAnnotations.maxOccurs() > 1
+				&& cobolAnnotations.minOccurs() < cobolAnnotations.maxOccurs()
+				&& (cobolAnnotations.dependingOn() == null
+						|| cobolAnnotations.dependingOn().length() == 0)) {
+			createDynamicCounter(cobolElement);
+		}
+		
 		/* If this element is part of a redefinition group (either redefines
 		 * another element or is redefined by another element) we need
 		 * further processing. */
@@ -361,11 +365,11 @@ public class CComplexReflectBinding extends CComplexBinding {
 		}
 		
 		if (LOG.isDebugEnabled()) {
-			LOG.debug("Binding created");
+			LOG.debug("Binding created " + cobolElement.getBindingName());
 		}
 		return cobolElement;
 	}
-   
+	
 	/**
 	 * Create a group element type.
 	 * 
@@ -384,13 +388,15 @@ public class CComplexReflectBinding extends CComplexBinding {
 		if (cobolAnnotations.maxOccurs() > 0) { 
 			/* A single complex binding is used for all items */ 
 			ICobolComplexBinding item = new CComplexReflectBinding(
-					mJaxbObjectFactory, jaxbType, this, jaxbName);
+					jaxbName, jaxbName, jaxbType, cobolAnnotations,
+					this, mJaxbObjectFactory);
 			return new CArrayComplexReflectBinding(
-					mJaxbObjectFactory, jaxbName, jaxbType,
-					cobolAnnotations, item);
+					jaxbName + "Wrapper", jaxbName, jaxbType, cobolAnnotations,
+					this, item, mJaxbObjectFactory);
 		} else {
 			return new CComplexReflectBinding(
-					mJaxbObjectFactory, jaxbType, this, jaxbName);
+					jaxbName, jaxbName, jaxbType, cobolAnnotations,
+					this, mJaxbObjectFactory);
 		}
 	}
 	
@@ -426,11 +432,12 @@ public class CComplexReflectBinding extends CComplexBinding {
 			}
 		}
 		/* If this is a redefined item, then we need to create a special choice
-		 * element which will group all alternatives */
+		 * element which will group all alternatives. The identifier of this
+		 * choice element is built from the first alternative java name.  */
 		if (cobolAnnotations.isRedefined()) {
 			
 			CChoiceReflectBinding choice = new CChoiceReflectBinding(
-						jaxbName, jaxbType, this, cobolAnnotations);
+					jaxbName + "Choice", cobolAnnotations, this);
 			
 			/* Add the redefined item as the first alternative in the
 			 * choice element */
@@ -460,8 +467,8 @@ public class CComplexReflectBinding extends CComplexBinding {
 			 * In this case, the current element is the first of the possible
 			 * alternatives. */
 			choice =
-				new CChoiceReflectBinding(
-						jaxbName, jaxbType, this, cobolAnnotations);
+				new CChoiceReflectBinding(jaxbName + "Choice",
+						cobolAnnotations, this);
 			
 			/* Add the redefined item as the first alternative in the
 			 * choice element */
@@ -506,10 +513,10 @@ public class CComplexReflectBinding extends CComplexBinding {
 		
 		if (cobolAnnotations.maxOccurs() > 0) { 
 			return new CArrayStringBinding(
-					jaxbName, jaxbType, cobolAnnotations);
+					jaxbName, jaxbName, jaxbType, cobolAnnotations, this);
 		} else {
 			return new CStringBinding(
-					jaxbName, jaxbType, cobolAnnotations);
+					jaxbName, jaxbName, jaxbType, cobolAnnotations, this);
 		}
 	}
 	
@@ -530,10 +537,10 @@ public class CComplexReflectBinding extends CComplexBinding {
 		
 		if (cobolAnnotations.maxOccurs() > 0) { 
 			return new CArrayOctetStreamBinding(
-					jaxbName, jaxbType, cobolAnnotations);
+					jaxbName, jaxbName, jaxbType, cobolAnnotations, this);
 		} else {
 			return new COctetStreamBinding(
-					jaxbName, jaxbType, cobolAnnotations);
+					jaxbName, jaxbName, jaxbType, cobolAnnotations, this);
 		}
 	}
 
@@ -554,10 +561,10 @@ public class CComplexReflectBinding extends CComplexBinding {
 		
 		if (cobolAnnotations.maxOccurs() > 0) { 
 			return new CArrayNationalBinding(
-					jaxbName, jaxbType, cobolAnnotations);
+					jaxbName, jaxbName, jaxbType, cobolAnnotations, this);
 		} else {
 			return new CNationalBinding(
-					jaxbName, jaxbType, cobolAnnotations);
+					jaxbName, jaxbName, jaxbType, cobolAnnotations, this);
 		}
 	}
 	
@@ -578,10 +585,10 @@ public class CComplexReflectBinding extends CComplexBinding {
 		
 		if (cobolAnnotations.maxOccurs() > 0) { 
 			return new CArrayPackedDecimalBinding(
-					jaxbName, jaxbType, cobolAnnotations);
+					jaxbName, jaxbName, jaxbType, cobolAnnotations, this);
 		} else {
 			return new CPackedDecimalBinding(
-					jaxbName, jaxbType, cobolAnnotations);
+					jaxbName, jaxbName, jaxbType, cobolAnnotations, this);
 		}
 	}
 	
@@ -602,10 +609,10 @@ public class CComplexReflectBinding extends CComplexBinding {
 		
 		if (cobolAnnotations.maxOccurs() > 0) { 
 			return new CArrayZonedDecimalBinding(
-					jaxbName, jaxbType, cobolAnnotations);
+					jaxbName, jaxbName, jaxbType, cobolAnnotations, this);
 		} else {
 			return new CZonedDecimalBinding(
-					jaxbName, jaxbType, cobolAnnotations);
+					jaxbName, jaxbName, jaxbType, cobolAnnotations, this);
 		}
 	}
 
@@ -626,10 +633,10 @@ public class CComplexReflectBinding extends CComplexBinding {
 		
 		if (cobolAnnotations.maxOccurs() > 0) { 
 			return new CArrayBinaryBinding(
-					jaxbName, jaxbType, cobolAnnotations);
+					jaxbName, jaxbName, jaxbType, cobolAnnotations, this);
 		} else {
 			return new CBinaryBinding(
-					jaxbName, jaxbType, cobolAnnotations);
+					jaxbName, jaxbName, jaxbType, cobolAnnotations, this);
 		}
 	}
 	
@@ -650,10 +657,10 @@ public class CComplexReflectBinding extends CComplexBinding {
 		
 		if (cobolAnnotations.maxOccurs() > 0) { 
 			return new CArrayFloatBinding(
-					jaxbName, jaxbType, cobolAnnotations);
+					jaxbName, jaxbName, jaxbType, cobolAnnotations, this);
 		} else {
 			return new CFloatBinding(
-					jaxbName, jaxbType, cobolAnnotations);
+					jaxbName, jaxbName, jaxbType, cobolAnnotations, this);
 		}
 	}
 
@@ -674,13 +681,93 @@ public class CComplexReflectBinding extends CComplexBinding {
 		
 		if (cobolAnnotations.maxOccurs() > 0) { 
 			return new CArrayDoubleBinding(
-					jaxbName, jaxbType, cobolAnnotations);
+					jaxbName, jaxbName, jaxbType, cobolAnnotations, this);
 		} else {
 			return new CDoubleBinding(
-					jaxbName, jaxbType, cobolAnnotations);
+					jaxbName, jaxbName, jaxbType, cobolAnnotations, this);
 		}
 	}
 
+	/**
+	 * Generates a transient binding to hold the item counter for a
+	 * variable size array when no explicit depending on clause exist.
+	 * This sitution arises when the jaxb object was generated from an
+	 * XSD instead of an existing cobol copybook.
+	 * @param cobolElement the variable size array or list
+	 * @throws ReflectBindingException if counter cannot be created
+	 */
+	private void createDynamicCounter(
+			final ICobolBinding cobolElement) throws ReflectBindingException {
+		
+		ICobolBinding counter = createDynamicCounterBinding(cobolElement);
+		storeCounter(counter);
+		
+		/* Now inform the variable size array that it has a depending on
+		 * object */
+		cobolElement.setDependingOn(counter.getCobolName());
+		
+		/* Arrays of complex items have a reference to a single binding
+		 * used for all items. That binding holds the same cobol annotations
+		 * as the wrapper array. Since we updated the wrapper depending on
+		 * clause, we need to do the same at the item level. */
+		if (cobolElement instanceof ICobolArrayComplexBinding) {
+			((ICobolArrayComplexBinding) cobolElement).
+			getComplexItemBinding().setDependingOn(counter.getCobolName());
+		}
+		
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Created depending on relationship for "
+					+ cobolElement.getBindingName()
+					+ " with " + counter.getCobolName());
+		}
+	}
+	
+	/**
+	 * Variable size arrays and lists need an extra numeric element to count
+	 * items. Such element is a special "transient" binding which has no
+	 * associated jaxb property.
+	 * 
+	 * @param listBinding the cobol binding for the array or list
+	 * @return the counter binding
+	 * @throws ReflectBindingException if cobol description cannot be created
+	 */
+	private ICobolBinding createDynamicCounterBinding(
+			final ICobolBinding listBinding)
+		throws ReflectBindingException {
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Creating a dynamic counter for "
+					+ listBinding.getBindingName());
+		}
+		CBinaryBinding counter = new CBinaryBinding(
+				listBinding.getBindingName() + COUNTER_SUFFIX,
+				null, null, null, this);
+		counter.setCobolName(getCounterCobolName(listBinding.getCobolName()));
+		counter.setLevelNumber(listBinding.getLevelNumber());
+		counter.setUsage("BINARY");
+		counter.setPicture("9(9)");
+		counter.setByteLength(4);
+		counter.setTotalDigits(9);
+		counter.setIsODOObject(true);
+		return counter;
+	}
+	
+	/**
+	 * Dynamic counters need a unique Cobol name. This method determines such
+	 * a name based on the related array or list cobol name. This method does
+	 * not guarantee unicity.
+	 * TODO reuse logic in CobolGen for unique Cobol name generation
+	 * @param cobolName cobol name of corresponding list or array
+	 * @return the proposed counter cobol name
+	 */
+	private String getCounterCobolName(final String cobolName) {
+		if (cobolName.length() < 31 - COUNTER_COBOL_SUFFIX.length()) {
+			return cobolName + COUNTER_COBOL_SUFFIX;
+		} else {
+			return cobolName.substring(0, 30 - COUNTER_COBOL_SUFFIX.length())
+				+ COUNTER_COBOL_SUFFIX;
+		}
+	}
+	
 	/** {@inheritDoc} */
     public final void createJaxbObject() throws HostException {
     	/* Since this complex binding has a constructor that takes a
@@ -691,7 +778,7 @@ public class CComplexReflectBinding extends CComplexBinding {
     		return;
     	}
     	mJaxbObject = JaxbUtil.createComplexProperty(mJaxbObjectFactory,
-    			getJavaType().getName());
+    			getJaxbType().getName());
     }
        
     /** {@inheritDoc} */
@@ -704,20 +791,28 @@ public class CComplexReflectBinding extends CComplexBinding {
     	
     	/* Set this binding properties from java object property values */
         for (ICobolBinding child : getChildrenList()) {
-         	/* Choice children are a special case. They directly set 
-         	 * their parent object depending on the chosen choice
-         	 * strategy. */
-        	if (child instanceof ICobolChoiceBinding) {
+        	/* Children that are not bound to a jaxb property are ignored.
+        	 * This includes Choices and dynamically generated counbters
+        	 * for instance.  */
+        	if (!child.isBound()) {
         		continue;
         	} else {
 	        	Object value = JaxbUtil.invokeGetProperty(mJaxbObject,
-	        			child.getJavaName());
+	        			child.getJaxbName());
         		if (LOG.isDebugEnabled()) {
         			LOG.debug("Getting value from JAXB property "
-        					+ child.getJavaName()
+        					+ child.getJaxbName()
         					+ " value=" + value);
         		}
         		child.setObjectValue(value);
+        		
+        		/* If this is a variable size array or list, make sure any
+        		 * associated counter is updated */
+        		if (child.getMaxOccurs() > 1
+        				&& child.getMinOccurs() < child.getMaxOccurs()) {
+        			setCounterValue(child.getDependingOn(),
+        					((List) value).size());
+        		}
         	}
         }
     }
@@ -728,30 +823,31 @@ public class CComplexReflectBinding extends CComplexBinding {
     	
      	ICobolBinding child = getChildrenList().get(index);
      	
-     	/* Choice children are a special case. They directly set 
-     	 * their parent object depending on the chosen choice
-     	 * strategy. */
-    	if (child instanceof ICobolChoiceBinding) {
+    	/* Children that are not bound to a jaxb property are ignored.
+    	 * This includes Choices and dynamically generated counbters
+    	 * for instance.  */
+        if (!child.isBound()) {
     		return;
     	}
-    	
-		Object value = child.getObjectValue(child.getJavaType());
+   	
+    	Object value = child.getObjectValue(child.getJaxbType());
     	if (LOG.isDebugEnabled()) {
 			LOG.debug("Setting value of JAXB property "
-					+ child.getJavaName()
+					+ child.getJaxbName()
 					+ " value=" + value);
 		}
-		JaxbUtil.invokeSetProperty(mJaxbObject, child.getJavaName(),
-				value, child.getJavaType());
+    	
+		JaxbUtil.invokeSetProperty(mJaxbObject, child.getJaxbName(),
+				value, child.getJaxbType());
     }
             
 
     /** {@inheritDoc} */
     public final Object getObjectValue(final Class type) throws HostException {
-    	if (type.equals(getJavaType())) {
+    	if (type.equals(getJaxbType())) {
     		return mJaxbObject;
 		} else {
-			throw new HostException("Attempt to get binding " + getJavaName()
+			throw new HostException("Attempt to get binding " + getJaxbName()
 					+ " as an incompatible type " + type);
     	}
     }
@@ -762,10 +858,10 @@ public class CComplexReflectBinding extends CComplexBinding {
     		mJaxbObject = null;
     		return;
     	}
-    	if (value.getClass().equals(getJavaType())) {
+    	if (value.getClass().equals(getJaxbType())) {
     		mJaxbObject = value;
     	} else {
-			throw new HostException("Attempt to set binding " + getJavaName()
+			throw new HostException("Attempt to set binding " + getJaxbName()
 					+ " from an incompatible value " + value);
     	}
     }
