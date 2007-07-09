@@ -238,7 +238,7 @@ int traceData(char* module, char* data, long dataLength )
     dumpString[0]='\0';
     for (i = 0; i < dataLength && i < MAX_TRACES_BYTES; i++) {
        /* print every 16 byte on a different line */
-       sprintf(dumpChar,"%.2X ",data[i]);
+       sprintf(dumpChar,"%2X ",data[i] & 0xff);
        strcat(dumpLine,dumpChar);
        sprintf(dumpChar,"%c",data[i]);
        if (strlen(dumpChar) > 0) {
