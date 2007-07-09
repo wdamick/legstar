@@ -5,6 +5,8 @@
  -->
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:output method="text" omit-xml-declaration="yes" indent="yes"/>
+<xsl:key name="key1" match="cixsOperation/*" use="concat(@jaxbPackageName,@jaxbType)"/>
+
 <xsl:template match="/"><xsl:apply-templates select="cixsService" /></xsl:template>
 
 <!-- Generate the service endpoint implementation class -->
@@ -42,7 +44,6 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import com.legstar.host.HostException;
 import com.legstar.host.invoke.HostInvoker;
 import com.legstar.host.invoke.HostInvokerException;
 import com.legstar.host.invoke.HostInvokerFactory;
@@ -57,6 +58,14 @@ import com.legstar.coxb.ICobolComplexBinding;
 <!-- Import the operation wrapper objects packages -->
 <xsl:if test="string-length(@packageName) > 0 and (@packageName != ../@endpointPackageName)">
 import <xsl:value-of select="@packageName"/>.*;</xsl:if>
+</xsl:for-each>
+<!-- Import the jaxb classes for single input/output operations -->
+<xsl:for-each select="cixsOperation[count(input) = 1 and count(output) = 1]/*[generate-id(.)=generate-id(key('key1', concat(@jaxbPackageName,@jaxbType))[1])]">
+import <xsl:value-of select="@jaxbPackageName"/>.<xsl:value-of select="@jaxbType"/>;
+</xsl:for-each>
+<!-- Import the binding classes -->
+<xsl:for-each select="cixsOperation/*[generate-id(.)=generate-id(key('key1', concat(@jaxbPackageName,@jaxbType))[1])]">
+import <xsl:value-of select="@jaxbPackageName"/>.bind.<xsl:value-of select="@jaxbType"/>Binding;
 </xsl:for-each>
 
 /**
@@ -141,7 +150,7 @@ public class <xsl:value-of select="$implementation-class-name"/> implements <xsl
             <xsl:otherwise>
                 <xsl:choose>
                     <xsl:when test="$multiple-input = 'true'"><xsl:value-of select="$operation-class-name"/>RequestHolder</xsl:when>
-                    <xsl:otherwise><xsl:value-of select="input/@jaxbPackageName"/>.<xsl:value-of select="input/@jaxbType"/></xsl:otherwise>
+                    <xsl:otherwise><xsl:value-of select="input/@jaxbType"/></xsl:otherwise>
                 </xsl:choose>
             </xsl:otherwise>
         </xsl:choose>
@@ -152,7 +161,7 @@ public class <xsl:value-of select="$implementation-class-name"/> implements <xsl
             <xsl:otherwise>
                 <xsl:choose>
                     <xsl:when test="$multiple-output = 'true'"><xsl:value-of select="$operation-class-name"/>ResponseHolder</xsl:when>
-                    <xsl:otherwise><xsl:value-of select="output/@jaxbPackageName"/>.<xsl:value-of select="output/@jaxbType"/></xsl:otherwise>
+                    <xsl:otherwise><xsl:value-of select="output/@jaxbType"/></xsl:otherwise>
                 </xsl:choose>
             </xsl:otherwise>
         </xsl:choose>
@@ -162,9 +171,9 @@ public class <xsl:value-of select="$implementation-class-name"/> implements <xsl
 
     /** {@inheritDoc} */
     public final <xsl:value-of select="$response-holder-type"/><xsl:text> </xsl:text><xsl:value-of select="@name"/>(
-        final <xsl:value-of select="$request-holder-type"/> request,
-        final <xsl:value-of select="$sei-class-name"/>HostHeader hostHeader)
-        throws <xsl:value-of select="$fault-type"/> {
+            final <xsl:value-of select="$request-holder-type"/> request,
+            final <xsl:value-of select="$sei-class-name"/>HostHeader hostHeader)
+            throws <xsl:value-of select="$fault-type"/> {
     
         <xsl:value-of select="$response-holder-type"/> reply = null;
     
@@ -176,20 +185,13 @@ public class <xsl:value-of select="$implementation-class-name"/> implements <xsl
 
             /* Prepare the input parameter set using static binding */
             <xsl:for-each select="input">
-            <xsl:value-of select="@jaxbPackageName"/>.bind.
-                <xsl:value-of select="@jaxbType"/>Binding input<xsl:if test="count(../input) &gt; 1"><xsl:value-of select="position()"/></xsl:if><xsl:value-of select="@jaxbPropertyName"/> =
-                  new <xsl:value-of select="@jaxbPackageName"/>.bind.
-                      <xsl:value-of select="@jaxbType"/>Binding(
-                        new <xsl:value-of select="@jaxbPackageName"/>.ObjectFactory(),
-                        request<xsl:if test="$multiple-input = 'true'">.get<xsl:value-of select="@jaxbPropertyName"/>()</xsl:if>);
+            <xsl:value-of select="@jaxbType"/>Binding input<xsl:if test="count(../input) &gt; 1"><xsl:value-of select="position()"/></xsl:if><xsl:value-of select="@jaxbPropertyName"/> =
+                  new <xsl:value-of select="@jaxbType"/>Binding(request<xsl:if test="$multiple-input = 'true'">.get<xsl:value-of select="@jaxbPropertyName"/>()</xsl:if>);
             </xsl:for-each>
             /* Prepare the output parameter set using static binding */
             <xsl:for-each select="output">
-            <xsl:value-of select="@jaxbPackageName"/>.bind.
-                <xsl:value-of select="@jaxbType"/>Binding output<xsl:if test="count(../output) &gt; 1"><xsl:value-of select="position()"/></xsl:if><xsl:value-of select="@jaxbPropertyName"/> =
-                  new <xsl:value-of select="@jaxbPackageName"/>.bind.
-                      <xsl:value-of select="@jaxbType"/>Binding(
-                        new <xsl:value-of select="@jaxbPackageName"/>.ObjectFactory());
+            <xsl:value-of select="@jaxbType"/>Binding output<xsl:if test="count(../output) &gt; 1"><xsl:value-of select="position()"/></xsl:if><xsl:value-of select="@jaxbPropertyName"/> =
+                  new <xsl:value-of select="@jaxbType"/>Binding();
             </xsl:for-each>
             <xsl:if test="$multiple-input = 'true'">
             /* Map input binding variables to containers */
@@ -230,9 +232,6 @@ public class <xsl:value-of select="$implementation-class-name"/> implements <xsl
         } catch (HostInvokerException e) {
             report<xsl:value-of select="$fault-type"/>Exception(e,
               "Failed to invoke host program:");
-        } catch (HostException e) {
-            report<xsl:value-of select="$fault-type"/>Exception(e,
-                "Failed to convert host data:");
         }
 
         return reply;

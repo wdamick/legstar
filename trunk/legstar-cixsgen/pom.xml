@@ -58,6 +58,12 @@
 		  <artifactId>legstar-coxbgen-cases</artifactId>
 		</dependency>
 		
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <scope>test</scope>
+        </dependency>
+
  	</dependencies>
  
     <build>
@@ -88,16 +94,14 @@
 		
 		  <artifactId>maven-antrun-plugin</artifactId>
 		  
-		  <!-- This will generate all Web Services test cases and
-		       deploy them to Tomcat.  -->
+		  <!-- This will generate all Web Services test cases.  -->
 		  <executions>
 		    <execution>
 		      <id>build-test-service</id>
-		      <phase>generate-test-sources</phase>
+		      <phase>integration-test</phase>
 		      <configuration>
 		        <tasks>
-					<ant antfile="${basedir}/src/test/ant/build-test-service.xml"/>
-					<ant antfile="${basedir}/src/test/ant/build-test-deploy.xml"/>
+					<ant antfile="${basedir}/src/test/ant/build-cixsgen-cases.xml"/>
 		        </tasks>
 		      </configuration>
 		      <goals>
