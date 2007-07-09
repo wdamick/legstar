@@ -18,12 +18,33 @@
  *  02110-1301  USA
  *  
  *******************************************************************************/
-package com.legstar.coxb;
+package com.legstar.coxb.visitor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.legstar.coxb.convert.CobolConverters;
-import com.legstar.host.HostException;
+import com.legstar.coxb.CobolElementVisitor;
+import com.legstar.coxb.ICobolArrayBinaryBinding;
+import com.legstar.coxb.ICobolArrayComplexBinding;
+import com.legstar.coxb.ICobolArrayDoubleBinding;
+import com.legstar.coxb.ICobolArrayFloatBinding;
+import com.legstar.coxb.ICobolArrayNationalBinding;
+import com.legstar.coxb.ICobolArrayOctetStreamBinding;
+import com.legstar.coxb.ICobolArrayPackedDecimalBinding;
+import com.legstar.coxb.ICobolArrayStringBinding;
+import com.legstar.coxb.ICobolArrayZonedDecimalBinding;
+import com.legstar.coxb.ICobolBinaryBinding;
+import com.legstar.coxb.ICobolBinding;
+import com.legstar.coxb.ICobolChoiceBinding;
+import com.legstar.coxb.ICobolComplexBinding;
+import com.legstar.coxb.ICobolDoubleBinding;
+import com.legstar.coxb.ICobolFloatBinding;
+import com.legstar.coxb.ICobolNationalBinding;
+import com.legstar.coxb.ICobolOctetStreamBinding;
+import com.legstar.coxb.ICobolPackedDecimalBinding;
+import com.legstar.coxb.ICobolStringBinding;
+import com.legstar.coxb.ICobolZonedDecimalBinding;
+import com.legstar.coxb.host.HostException;
 
 /**
  * This class implements the visitor pattern in order to marshal a java object
@@ -56,7 +77,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 		
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Unmarshaling started for complex binding "
-					+ ce.getJavaName());
+					+ ce.getBindingName());
 		}
 		/* Ask complex binding to create an empty jaxb bound object so it is
 		 * ready for unmarshaling. */
@@ -71,7 +92,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 		}
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Unmarshaling successful for complex binding "
-					+ ce.getJavaName());
+					+ ce.getBindingName());
 		}
 	}
 	
@@ -82,7 +103,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 		
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Unmarshaling started for choice binding "
-					+ ce.getJavaName());
+					+ ce.getBindingName());
 		}
 		/* In a choice situation, only one alternative should be accepted when
 		 * this element is visited. The logic to determine which alternative 
@@ -139,12 +160,12 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 		if (!bAlternativeFound) {
 			throw new HostException(
 					"No alternative found for choice element "
-					+ ce.getJavaName());
+					+ ce.getBindingName());
 		}
 
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Unmarshaling successful for choice binding "
-					+ ce.getJavaName());
+					+ ce.getBindingName());
 		}
 	}
 
@@ -155,21 +176,21 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Unmarshaling started for array of complex bindings "
-					+ ce.getJavaName());
+					+ ce.getBindingName());
 		}
 		/* Ask complex array binding to initialize bound array so that it is
 		 * ready for unmarshaling. */
 		ce.createJaxbObject();
 		
 		/* Visit each item of the array in turn */
-		for (int i = 0; i < getCurrentOccurs(ce); i++) {
+		for (int i = 0; i < ce.getCurrentOccurs(); i++) {
 			ICobolBinding itemDesc = ce.getComplexItemBinding();
 			itemDesc.accept(this);
 			ce.addJaxbPropertyValue(i);
 		}
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Unmarshaling successful for array of complex bindings "
-					+ ce.getJavaName());
+					+ ce.getBindingName());
 		}
 		
 	}
@@ -195,7 +216,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 		setOffset(getCobolConverters().
 				getCobolStringConverter().
 				fromHost(ce, getHostBytes(), getOffset(),
-						getCurrentOccurs(ce)));
+						ce.getCurrentOccurs()));
 		return;
 	}
 
@@ -220,7 +241,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 		setOffset(getCobolConverters().
 				getCobolNationalConverter().
 				fromHost(ce, getHostBytes(), getOffset(),
-						getCurrentOccurs(ce)));
+						ce.getCurrentOccurs()));
 		return;
 	}
 
@@ -236,10 +257,6 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 			storeCustomVariable(ce);
 		}
 		
-		if (ce.isODOObject()) {
-			storeODOValue(ce);
-		}
-		
 		return;
 	}
 	/** {@inheritDoc} */
@@ -249,7 +266,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 		setOffset(getCobolConverters().
 				getCobolZonedDecimalConverter().
 				fromHost(ce, getHostBytes(), getOffset(),
-						getCurrentOccurs(ce)));
+						ce.getCurrentOccurs()));
 		return;
 	}
 
@@ -265,10 +282,6 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 			storeCustomVariable(ce);
 		}
 		
-		if (ce.isODOObject()) {
-			storeODOValue(ce);
-		}
-		
 		return;
 	}
 	/** {@inheritDoc} */
@@ -278,7 +291,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 		setOffset(getCobolConverters().
 				getCobolPackedDecimalConverter().
 				fromHost(ce, getHostBytes(), getOffset(),
-						getCurrentOccurs(ce)));
+						ce.getCurrentOccurs()));
 		return;
 	}
 
@@ -294,10 +307,6 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 			storeCustomVariable(ce);
 		}
 		
-		if (ce.isODOObject()) {
-			storeODOValue(ce);
-		}
-		
 		return;
 	}
 	/** {@inheritDoc} */
@@ -307,7 +316,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 		setOffset(getCobolConverters().
 				getCobolBinaryConverter().
 				fromHost(ce, getHostBytes(), getOffset(),
-						getCurrentOccurs(ce)));
+						ce.getCurrentOccurs()));
 		return;
 	}
 
@@ -332,7 +341,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 		setOffset(getCobolConverters().
 				getCobolFloatConverter().
 				fromHost(ce, getHostBytes(), getOffset(),
-						getCurrentOccurs(ce)));
+						ce.getCurrentOccurs()));
 		return;
 	}
 
@@ -357,7 +366,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 		setOffset(getCobolConverters().
 				getCobolDoubleConverter().
 				fromHost(ce, getHostBytes(), getOffset(),
-						getCurrentOccurs(ce)));
+						ce.getCurrentOccurs()));
 		return;
 	}
 	/** {@inheritDoc} */
@@ -381,7 +390,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 		setOffset(getCobolConverters().
 				getCobolOctetStreamConverter().
 				fromHost(ce, getHostBytes(), getOffset(),
-						getCurrentOccurs(ce)));
+						ce.getCurrentOccurs()));
 		return;
 	}
 }
