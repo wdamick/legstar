@@ -61,10 +61,10 @@ public class ClientlsfileaeIterationTest extends TestCase {
 			LsfileaeResponse resp = port.lsfileae(req, reqHead);
 			DfhcommareaType dfhcommareaResp = resp.getResponse();
 
-			assertEquals("SURREY, ENGLAND     ",dfhcommareaResp.getComPersonal().getComAddress());
+			assertEquals("SURREY, ENGLAND",dfhcommareaResp.getComPersonal().getComAddress());
 			assertEquals("$0100.11",dfhcommareaResp.getComAmount());
 			assertEquals("26 11 81",dfhcommareaResp.getComDate());
-			assertEquals("S. D. BORMAN        ",dfhcommareaResp.getComPersonal().getComName());
+			assertEquals("S. D. BORMAN",dfhcommareaResp.getComPersonal().getComName());
 			assertEquals(100,dfhcommareaResp.getComNumber());
 			assertEquals("32156778",dfhcommareaResp.getComPersonal().getComPhone());
 			assertEquals("*********",dfhcommareaResp.getComComment());

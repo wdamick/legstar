@@ -45,7 +45,7 @@ public class ClientredmultiTest extends TestCase {
 		DfhcommareaType dfhcommareaResp = resp.getResponse();
 		
 		if (dfhcommareaResp.getCOutputType().compareTo("normal") == 0) {
-			assertEquals("ABJADHAOUAZ                   ",dfhcommareaResp.getFiller35().getCString());
+			assertEquals("ABJADHAOUAZ",dfhcommareaResp.getFiller35().getCString());
 		} else {
 			assertEquals("RANDOM WAS SMALLER THAN 0.5",dfhcommareaResp.getFiller38().getCErrorDescription().trim());
 		}

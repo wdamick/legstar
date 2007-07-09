@@ -45,7 +45,7 @@ public class ClientredoperaTest extends TestCase {
 		RedoperaResponse resp = port.redopera(req, null);
 		DfhcommareaType dfhcommareaResp = resp.getResponse();
 		
-		assertEquals("ABJADHAOUAZ                   ", dfhcommareaResp.getFiller25().getCString());
+		assertEquals("ABJADHAOUAZ", dfhcommareaResp.getFiller25().getCString());
 	}
 
 	public void testClientIntMethod() throws RedoperaFault{

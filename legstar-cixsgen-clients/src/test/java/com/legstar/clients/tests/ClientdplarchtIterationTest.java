@@ -62,11 +62,11 @@ public class ClientdplarchtIterationTest extends TestCase {
 			DfhcommareaType dfhcommareaResp = resp.getResponse();
 			
 			assertEquals(500,dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsCount());
-			assertEquals("LE370       ",dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramLanguage());
+			assertEquals("LE370",dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramLanguage());
 			assertEquals(0,dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramLength());
 			assertEquals("AALPHBET",dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramName());
-			assertEquals("PROGRAM     ",dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramType());
-			assertEquals("                        ",dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getFiller113());
+			assertEquals("PROGRAM",dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramType());
+			assertEquals("",dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getFiller113());
 			assertEquals(null,dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsFilesData());
 			assertEquals(null,dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsTransactionsData());
 		}

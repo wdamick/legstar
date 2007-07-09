@@ -80,8 +80,8 @@ public class ClientlsfileacTest extends TestCase {
 			assertEquals("$0100.11", respHolder.getReplyData().getReplyItem().get(0).getReplyAmount());
 			assertEquals("*********", respHolder.getReplyData().getReplyItem().get(0).getReplyComment());
 			assertEquals("26 11 81", respHolder.getReplyData().getReplyItem().get(0).getReplyDate());
-			assertEquals("SURREY, ENGLAND     ", respHolder.getReplyData().getReplyItem().get(0).getReplyPersonal().getReplyAddress());
-			assertEquals("S. D. BORMAN        ", respHolder.getReplyData().getReplyItem().get(0).getReplyPersonal().getReplyName());
+			assertEquals("SURREY, ENGLAND", respHolder.getReplyData().getReplyItem().get(0).getReplyPersonal().getReplyAddress());
+			assertEquals("S. D. BORMAN", respHolder.getReplyData().getReplyItem().get(0).getReplyPersonal().getReplyName());
 			assertEquals("32156778", respHolder.getReplyData().getReplyItem().get(0).getReplyPersonal().getReplyPhone());
 		} catch (LsfileacFault e) {
 			fail(e.getMessage());
