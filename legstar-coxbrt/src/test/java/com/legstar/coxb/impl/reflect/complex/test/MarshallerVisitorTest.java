@@ -25,10 +25,11 @@ import com.legstar.test.coxb.binnatus.LsHalfwordsType;
 import com.legstar.test.coxb.binnatus.LsUnsignedNativeType;
 import com.legstar.test.coxb.redbotha.Filler22Type;
 import com.legstar.test.coxb.redinout.CParainType;
-import com.legstar.coxb.*;
+import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
-import com.legstar.host.*;
+import com.legstar.coxb.visitor.*;
+import com.legstar.coxb.host.*;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -468,7 +469,7 @@ public class MarshallerVisitorTest  extends TestCase {
 			ccem.accept(mv);
 			fail("Control on no alternative provided failed");
 		} catch (HostException he) {
-			assertEquals("No alternative found for choice element LsAllItems", he.getMessage());
+			assertEquals("No alternative found for choice element LsAllItemsChoice", he.getMessage());
 		}
 	}
 

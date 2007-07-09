@@ -1,11 +1,11 @@
 package com.legstar.coxb.impl.reflect;
 
 import com.legstar.coxb.CobolContext;
-import com.legstar.coxb.CobolMarshalVisitor;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
-import com.legstar.host.HostData;
-import com.legstar.host.HostException;
+import com.legstar.coxb.visitor.CobolMarshalVisitor;
+import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.host.HostException;
 
 import junit.framework.TestCase;
 import com.legstar.test.coxb.numzoned.ObjectFactory;

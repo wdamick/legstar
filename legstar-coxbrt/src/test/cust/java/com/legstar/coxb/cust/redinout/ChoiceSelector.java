@@ -22,11 +22,11 @@
 package com.legstar.coxb.cust.redinout;
 import java.util.Hashtable;
 
-import com.legstar.coxb.CobolElementVisitor;
 import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolUnmarshalChoiceStrategy;
-import com.legstar.host.HostException;
+import com.legstar.coxb.CobolElementVisitor;
+import com.legstar.coxb.host.HostException;
 
 /** 
  * Skeleton implementation of a custom choice selection strategy. Modify this
@@ -43,7 +43,7 @@ public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
     
 		
 		/* When unmarshalling, the paraout alternative must always be chosen. */
-		return choice.getAlternativeByJavaName("CParaout");
+		return choice.getAlternativeByName("CParaout");
   }
 
 }

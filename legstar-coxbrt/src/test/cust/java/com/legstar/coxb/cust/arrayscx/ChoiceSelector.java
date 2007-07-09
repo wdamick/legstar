@@ -22,11 +22,11 @@
 package com.legstar.coxb.cust.arrayscx;
 import java.util.Hashtable;
 
-import com.legstar.coxb.CobolElementVisitor;
 import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolUnmarshalChoiceStrategy;
-import com.legstar.host.HostException;
+import com.legstar.coxb.CobolElementVisitor;
+import com.legstar.coxb.host.HostException;
 //import com.legstar.test.coxb.arrayscx.TableRedefType;
 
 /** 
@@ -49,9 +49,9 @@ public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
         int index = 0;
         switch (index) {
         case 0:
-            return choice.getAlternativeByJavaName("ElementRedef1");
+            return choice.getAlternativeByName("ElementRedef1");
         case 1:
-            return choice.getAlternativeByJavaName("ElementRedef2");
+            return choice.getAlternativeByName("ElementRedef2");
         case -1:
             /* An exemple of how to signal an exception.*/
             throw (new HostException("Unable to select an alternative"));

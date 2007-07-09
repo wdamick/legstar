@@ -16,7 +16,7 @@
 	
 		<dependency>
 	        <groupId>com.legsem.legstar</groupId>
-	        <artifactId>legstar-binding</artifactId>
+	        <artifactId>legstar-coxbapi</artifactId>
 		</dependency>
 
 		<dependency>
