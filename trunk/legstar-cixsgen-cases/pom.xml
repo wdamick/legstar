@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+    <parent>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>Legstar</artifactId>
+      <version>1.1-SNAPSHOT</version>
+    </parent>
+  <artifactId>legstar-cixsgen-cases</artifactId>
+  <name>CIXS Generator test classes</name>
+  <version>1.1-SNAPSHOT</version>
+  <description>Test cases used by various LegStar projects</description>
+  <dependencies>
+  
+    <dependency>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>legstar-cixsgen</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>legstar-invoker</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>legstar-jaxbgen-cases</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>legstar-coxbgen-cases</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>legstar-csokrt</artifactId>
+      <scope>test</scope>
+    </dependency>
+        
+    <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <scope>test</scope>
+    </dependency>
+    
+  </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+              <artifactId>maven-antrun-plugin</artifactId>
+              
+              <!-- This will deploy all Web Services to Tomcat.  -->
+              <executions>
+                <execution>
+                  <id>deploy-test-service</id>
+                  <phase>integration-test</phase>
+                  <configuration>
+                    <tasks>
+                        <ant antfile="${basedir}/src/test/ant/build-test-deploy.xml"/>
+                    </tasks>
+                  </configuration>
+                  <goals>
+                    <goal>run</goal>
+                  </goals>
+                </execution>
+                
+              </executions>
+            </plugin>
+        </plugins>
+    </build>
+  
+</project>
