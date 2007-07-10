@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+    <parent>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>Legstar</artifactId>
+      <version>1.1-SNAPSHOT</version>
+    </parent>
+  <artifactId>legstar-jaxbgen-cases</artifactId>
+  <name>JAXB Annotator test classes</name>
+  <version>1.1-SNAPSHOT</version>
+  <description>Test cases used by various LegStar projects</description>
+  <dependencies>
+  
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-jaxbgen</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbapi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-xjc</artifactId>
+        </dependency>
+    
+  </dependencies>
+  
+</project>
