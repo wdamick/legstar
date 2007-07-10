@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+    <parent>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>Legstar</artifactId>
+      <version>1.1-SNAPSHOT</version>
+    </parent>
+	<artifactId>legstar-jaxbgen</artifactId>
+	<name>JAXB Cobol Annotator</name>
+    <version>1.1-SNAPSHOT</version>
+	<description>Generates Cobol annotations in JAXB classes.</description>
+	<url>http://www.legsem.com/legstar/jaxbgen/</url>
+
+	<dependencies>
+
+		<dependency>
+		    <groupId>com.legsem.legstar</groupId>
+		    <artifactId>legstar-coxbapi</artifactId>
+		</dependency>
+ 		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-xjc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ant</groupId>
+			<artifactId>ant</artifactId>
+			<scope>test</scope>
+		</dependency>
+ 	
+	</dependencies>
+
+	<build>
+	  <plugins>
+	    <plugin>
+	      <artifactId>maven-antrun-plugin</artifactId>
+	      <executions>
+	      
+	        <!-- This will generate all JAXB test cases for other projects to use.  -->
+	        <execution>
+	          <id>prepare-integration-tests</id>
+	          <phase>pre-integration-test</phase>
+	          <configuration>
+	            <tasks>
+	              <ant antfile="${basedir}/src/test/ant/build-jaxbgen-cases.xml" target="compileAllJAXB"/>
+	            </tasks>
+	          </configuration>
+	          <goals>
+	            <goal>run</goal>
+	          </goals>
+	        </execution>
+	      </executions>
+	    </plugin>
+	
+	  </plugins>
+	</build>
+    
+</project>
