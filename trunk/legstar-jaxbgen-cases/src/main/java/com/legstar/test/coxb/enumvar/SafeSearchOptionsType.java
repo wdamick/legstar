@@ -6,7 +6,7 @@
 //
 
 
-package com.legstar.test.coxb.MSNSearch;
+package com.legstar.test.coxb.enumvar;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
