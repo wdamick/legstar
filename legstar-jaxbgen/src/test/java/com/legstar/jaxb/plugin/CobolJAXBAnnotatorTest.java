@@ -40,7 +40,7 @@ public class CobolJAXBAnnotatorTest extends TestCase {
 	}
 	
 	public void testEnumAnnotation() {
-		genSource("enumvar");
+		genSource("MSNSearch");
 		String srce = getSource("enumvar", "SearchRequestType" );
 		assertTrue(srce.contains("@CobolElement(cobolName = \"SAFESEARCH\", type = CobolType.ALPHANUMERIC_ITEM, levelNumber = 5, byteLength = 32, picture = \"X(32)\", usage = \"DISPLAY\")"));
 	}
