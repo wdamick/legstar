@@ -20,6 +20,7 @@ public class CobolJAXBAnnotatorTest extends TestCase {
 	private static final String GEN_SRC_DIR = "src/test/gen/java";
 	private static final String GEN_SRC_SUBDIR = "com/legstar/test/coxb";
 	
+
 	public void testSimpleAnnotation() {
 		genSource("alltypes");
 		String srce = getSource("alltypes", "DfhCommareaType" );
@@ -41,8 +42,8 @@ public class CobolJAXBAnnotatorTest extends TestCase {
 	
 	public void testEnumAnnotation() {
 		genSource("MSNSearch");
-		String srce = getSource("enumvar", "SearchRequestType" );
-		assertTrue(srce.contains("@CobolElement(cobolName = \"SAFESEARCH\", type = CobolType.ALPHANUMERIC_ITEM, levelNumber = 5, byteLength = 32, picture = \"X(32)\", usage = \"DISPLAY\")"));
+		String srce = getSource("MSNSearch", "SearchRequestType" );
+	    assertTrue(srce.contains("@CobolElement(cobolName = \"SafeSearch\", type = CobolType.ALPHANUMERIC_ITEM, levelNumber = 5, byteLength = 32, picture = \"X(32)\", usage = \"DISPLAY\")"));
 	}
 	
 	/** Generates JAXB classes with Cobol annotations */
