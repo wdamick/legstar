@@ -6,7 +6,7 @@
 //
 
 
-package com.legstar.test.coxb.osarrays;
+package com.legstar.test.coxb.enumvar;
 
 import javax.xml.bind.annotation.XmlRegistry;
 
@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 /**
  * This object contains factory methods for each 
  * Java content interface and Java element interface 
- * generated in the com.legstar.test.coxb.osarrays package. 
+ * generated in the com.legstar.test.coxb.enumvar package. 
  * <p>An ObjectFactory allows you to programatically 
  * construct new instances of the Java representation 
  * for XML content. The Java representation of XML 
@@ -30,18 +30,18 @@ public class ObjectFactory {
 
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.legstar.test.coxb.osarrays
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.legstar.test.coxb.enumvar
      * 
      */
     public ObjectFactory() {
     }
 
     /**
-     * Create an instance of {@link DfhcommareaType }
+     * Create an instance of {@link SearchRequestType }
      * 
      */
-    public DfhcommareaType createDfhcommareaType() {
-        return new DfhcommareaType();
+    public SearchRequestType createSearchRequestType() {
+        return new SearchRequestType();
     }
 
 }
