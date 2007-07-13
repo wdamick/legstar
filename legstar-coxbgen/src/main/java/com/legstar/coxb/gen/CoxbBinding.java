@@ -75,7 +75,7 @@ public class CoxbBinding {
 	
 	/** CoxbBinding uses a single XSL stylesheet associated with this
 	 *  transformer. */
-	private static XSLTransform mTransformer;
+	private XSLTransform mTransformer;
 	
 	/**
 	 * No-arg constructor.

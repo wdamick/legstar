@@ -67,7 +67,7 @@
 		<mkdir dir="${coxb.bin.dir}"/>
 		<foreach target="generateCOXB" param="xsd.file">
 			<path>
-				<fileset dir="${xsd.dir}" includes="*.xsd" excludes="clegtstc.cbl.xsd lsfileal.xsd lsfileac.xsd enumvar.xsd"/>
+				<fileset dir="${xsd.dir}" includes="*.xsd" excludes="clegtstc.cbl.xsd lsfileal.xsd lsfileac.xsd enumvar.xsd MSNSearch.xsd cultureinfo.xsd"/>
 			</path>
 		</foreach>
 		<coxbgen 
@@ -100,7 +100,27 @@
 			JaxbRootObjectName="ReplyDataType"
 			targetDir="${coxb.src.dir}"
 			/>
-	    <!--
+        <!--
+        <coxbgen 
+            XsdFile="${xsd.dir}/MSNSearch.xsd"
+            JaxbRootObjectName="SearchRequestType"
+            targetDir="${coxb.src.dir}"
+            />
+        <coxbgen 
+            XsdFile="${xsd.dir}/MSNSearch.xsd"
+            JaxbRootObjectName="SearchResponseType"
+            targetDir="${coxb.src.dir}"
+            />
+        <coxbgen 
+            XsdFile="${xsd.dir}/cultureinfo.xsd"
+            JaxbRootObjectName="CultureInfoRequestType"
+            targetDir="${coxb.src.dir}"
+            />
+        <coxbgen 
+            XsdFile="${xsd.dir}/cultureinfo.xsd"
+            JaxbRootObjectName="CultureInfoReplyType"
+            targetDir="${coxb.src.dir}"
+            />
 		<coxbgen 
 			XsdFile="${xsd.dir}/enumvar.xsd"
 			JaxbRootObjectName="SearchRequestType"

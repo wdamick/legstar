@@ -154,6 +154,31 @@ public class GenerateTest extends TestCase {
 		assertTrue(srce.contains("\"ListOdo\", String.class, this);"));
 		}
 	
+	/** Generate binding for MSNSearch SearchRequestType. */
+	public void testMSNSearchSearchRequestType() throws Exception   {
+		genSource("MSNSearch", "SearchRequestType");
+		String srce = getSource(getGetSrcFilename("MSNSearch", "SearchRequestType"));
+		assertTrue(srce.contains("flagsCounter = BF.createBinaryBinding(\"FlagsCounter\", this);"));
+		assertTrue(srce.contains("flagsCounter.setByteLength(4);"));
+		assertTrue(srce.contains("flagsCounter.setCobolName(\"Flags--C\");"));
+		assertTrue(srce.contains("flagsCounter.setTotalDigits(9);"));
+		assertTrue(srce.contains("flagsCounter.setIsODOObject(true);"));
+		assertTrue(srce.contains("safeSearch = BF.createStringBinding(\"SafeSearch\","));
+		assertTrue(srce.contains("\"SafeSearch\", SafeSearchOptionsType.class, this);"));
+		}
+	
+	/** Generate binding for MSNSearch SearchResponseType. */
+	public void testMSNSearchSearchResponseType() throws Exception   {
+		genSource("MSNSearch", "SearchResponseType");
+		String srce = getSource(getGetSrcFilename("MSNSearch", "SourceResponseType"));
+		assertTrue(srce.contains("source = BF.createStringBinding(\"Source\","));
+		assertTrue(srce.contains("\"Source\", SourceTypeType.class, this);"));
+		assertTrue(srce.contains("source.setByteLength(32);"));
+		assertTrue(srce.contains("source.setCobolName(\"R-Source\");"));
+		assertTrue(srce.contains("results = new ArrayOfResultResultsTypeBinding(\"Results\","));
+		assertTrue(srce.contains("\"Results\", this, null);"));
+		}
+	
 	/** Generates COXB classes */
 	private void genSource(String schemaName, String rootName) {
 		CoxbBindingGenerator gen = new CoxbBindingGenerator();

@@ -79,8 +79,11 @@ public final class CoxbFormatter {
 	/** Complex array type. */
 	private static final String COMPLEX_ARRAY_TYPE = "complexArray";
 	
-	/** Complex type. */
+	/** Simple type. */
 	private static final String SIMPLE_TYPE = "simple";
+	
+	/** Enum type. */
+	private static final String ENUM_TYPE = "enum";
 	
 	/** Property name in bound JAXB object attribute. */
 	private static final String JAXB_NAME_ATTR = "jaxb-name=";
@@ -931,8 +934,16 @@ public final class CoxbFormatter {
 		addAttribute(out, VAR_NAME_ATTR, JaxbUtil.getFieldName(ce));
 		addAttribute(out, BIND_NAME_ATTR, ce.getBindingName());
 		addAttribute(out, JAXB_NAME_ATTR, ce.getJaxbName());
-		addAttribute(out, JAXB_TYPE_ATTR, JaxbUtil.getJaxbTypeName(ce));
-		addAttribute(out, TYPE_ATTR, SIMPLE_TYPE);
+		String jaxbType = JaxbUtil.getJaxbTypeName(ce);
+		addAttribute(out, JAXB_TYPE_ATTR, jaxbType);
+		/* TODO: Here we consider that if the type of this element is not one
+		 * of the known primitive types, then this must be an enumeration. In
+		 * the future this should be replaced by a more robust mechanism. */
+		if (isEnum(jaxbType)) {
+			addAttribute(out, TYPE_ATTR, ENUM_TYPE);
+		} else {
+			addAttribute(out, TYPE_ATTR, SIMPLE_TYPE);
+		}
 		addAttribute(out, COBOL_NAME_ATTR, ce.getCobolName());
 		if (ce.getDependingOn() != null && ce.getDependingOn().length() > 0) {
 			addAttribute(out, DEPENDING_ON_ATTR, ce.getDependingOn());
@@ -1023,4 +1034,44 @@ public final class CoxbFormatter {
 				(new Boolean(attributeValue)).toString());
 		
 	}
+	
+	/**
+	 * This will determine if a type name for a simple element is one of
+	 * java's native types and assume it is an enum otherwise.
+	 * @param type the element java type
+	 * @return true if it should be considered an enum
+	 */
+	private static boolean isEnum(final String type) {
+		if (type == null) {
+			return false;
+		}
+		if (type.compareToIgnoreCase("String") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("[B") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("byte[]") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("short") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("int") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("Integer") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("long") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("float") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("double") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("BigInteger") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("BigDecimal") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("byte") == 0) {
+			return false;
+		}
+		return true;
+	}
+	
+
 }
