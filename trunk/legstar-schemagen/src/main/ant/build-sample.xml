@@ -7,11 +7,12 @@
 	<!-- Setup environment
 	  -->
 	<target name="init">
+        <xmlproperty file="${basedir}/pom.xml"/>
 		
 		<!-- Sample project location  -->
 	 	<property name="sample.project" value="${basedir}/../legstar-samples" />
 		<!-- Distribution name  -->
-	 	<property name="dist.name" value="legstar-schemagen-1.1-SNAPSHOT" />
+        <property name="dist.name" value="${project.artifactId}-${project.version}" />
 		<!-- Distribution zip file  -->
 	 	<property name="dist.zip" value="${dist.name}-win32.zip" />
 		<!-- Distribution file location   -->
@@ -27,8 +28,6 @@
 	<!-- Build the sample
 	  -->
 	<target name="buildSample" depends="init">
-		<delete dir="${sample.project}/${dist.name}" includeEmptyDirs="true" quiet="true"/>
-		<delete dir="${sample.dest}" includeEmptyDirs="true" quiet="true"/>
 		<mkdir dir="${sample.dest}"/> 
 		<unzip src="${zip.file}" dest="${sample.project}"/>
 		<exec executable="cmd">
@@ -40,6 +39,7 @@
 		<copy todir="${sample.dest}">
 			<fileset dir="${sample.project}/${dist.name}/schema"/>
 		</copy>
+        <delete dir="${sample.project}/${dist.name}" includeEmptyDirs="true" quiet="true"/>
 	</target>
 	
 </project>
