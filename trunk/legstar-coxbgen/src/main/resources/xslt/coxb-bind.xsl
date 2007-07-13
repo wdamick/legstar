@@ -58,7 +58,7 @@ import com.legstar.coxb.host.HostException;
 import com.legstar.coxb.ICobolComplexBinding;
 <xsl:if test="@type='complex' or @type='choice'">
 import com.legstar.coxb.ICobolBinding;
-<xsl:if test="count(coxb-property[@type = 'simple']) > 0">
+<xsl:if test="count(coxb-property[@type = 'simple' or @type = 'enum']) > 0">
 import com.legstar.coxb.CobolBindingFactory;
 import com.legstar.coxb.ICobolBindingFactory;</xsl:if></xsl:if>
 <xsl:if test="@type='choice'">
@@ -115,12 +115,12 @@ import org.apache.commons.logging.LogFactory;
     <xsl:when test="@type = 'complex'">
 import <xsl:value-of select="@jaxb-package"/>.ObjectFactory;
 import <xsl:value-of select="@jaxb-package"/>.<xsl:value-of select="@jaxb-type"/>;
-<xsl:for-each select="coxb-property[@type = 'complex' or @type = 'complexArray']">
+<xsl:for-each select="coxb-property[@type = 'complex' or @type = 'complexArray' or @type='enum']">
 import <xsl:value-of select="../@jaxb-package"/>.<xsl:value-of select="@jaxb-type"/>;</xsl:for-each>
     </xsl:when>
     <xsl:when test="@type = 'choice'">
 import <xsl:value-of select="@jaxb-package"/>.<xsl:value-of select="@parent-jaxb-type"/>;
-<xsl:for-each select="coxb-property[@type = 'complex' or @type = 'complexArray']">
+<xsl:for-each select="coxb-property[@type = 'complex' or @type = 'complexArray' or @type='enum']">
 import <xsl:value-of select="../@jaxb-package"/>.<xsl:value-of select="@jaxb-type"/>;</xsl:for-each>
     </xsl:when>
     <xsl:when test="@type = 'complexArray'">
@@ -187,7 +187,7 @@ public class <xsl:value-of select="$binding-class-name"/>
     /** Logger. */
     private static final Log LOG
         = LogFactory.getLog(<xsl:value-of select="$binding-class-name"/>.class);
-    <xsl:if test="count(coxb-property[@type = 'simple']) > 0">
+    <xsl:if test="count(coxb-property[@type = 'simple' or @type = 'enum']) > 0">
     /** Binding factory. */
     private static final ICobolBindingFactory BF
         = CobolBindingFactory.getBindingFactory();</xsl:if>
@@ -221,19 +221,19 @@ public class <xsl:value-of select="$binding-class-name"/>
      * Constructor for a Complex element as a child of another element and
      * an associated JAXB object.
      * 
-     * @param name the identifier for this binding
-     * @param jaxbName name of field in parent JAXB object
+     * @param bindingName the identifier for this binding
+     * @param jaxbName bindingName of field in parent JAXB object
      * @param jaxbObject the concrete JAXB object instance bound to this
      *        complex element
      * @param parentBinding a reference to the parent binding
      */
     public <xsl:value-of select="$binding-class-name"/>(
-            final String name,
+            final String bindingName,
             final String jaxbName,
             final ICobolComplexBinding parentBinding,
             final <xsl:value-of select="@jaxb-type"/> jaxbObject) {
         
-        super(name, jaxbName, <xsl:value-of select="@jaxb-type"/>.class, null, parentBinding);
+        super(bindingName, jaxbName, <xsl:value-of select="@jaxb-type"/>.class, null, parentBinding);
         mJaxbObject = jaxbObject;
         if (mJaxbObject != null) {
             mUnusedJaxbObject = true;
@@ -295,11 +295,11 @@ public class <xsl:value-of select="$binding-class-name"/>
             return;
         }
         
-        Object value = child.getObjectValue(child.getJaxbType());
+        Object bindingValue = child.getObjectValue(child.getJaxbType());
         if (LOG.isDebugEnabled()) {
             LOG.debug("Setting value of JAXB property "
                     + child.getJaxbName()
-                    + " value=" + value);
+                    + " value=" + bindingValue);
         }
         /* Set the JAXB object property value from binding object */
         switch (index) {<xsl:for-each select="coxb-property">
@@ -308,8 +308,8 @@ public class <xsl:value-of select="$binding-class-name"/>
             <xsl:when test="@cobol-maxOccurs > 0 or @type = 'complexArray'">
             mJaxbObject.<xsl:value-of select="concat('get',upper-case(substring(@jaxb-name,1,1)),substring(@jaxb-name,2))"/>().clear();
             mJaxbObject.<xsl:value-of select="concat('get',upper-case(substring(@jaxb-name,1,1)),substring(@jaxb-name,2))"/>().addAll(
-                (List &lt; <xsl:value-of select="@jaxb-type"/> &gt;) value);</xsl:when><xsl:otherwise>
-            mJaxbObject.<xsl:value-of select="concat('set',upper-case(substring(@jaxb-name,1,1)),substring(@jaxb-name,2))"/>((<xsl:value-of select="@jaxb-type"/>) value);</xsl:otherwise>
+                (List &lt; <xsl:value-of select="@jaxb-type"/> &gt;) bindingValue);</xsl:when><xsl:otherwise>
+            mJaxbObject.<xsl:value-of select="concat('set',upper-case(substring(@jaxb-name,1,1)),substring(@jaxb-name,2))"/>((<xsl:value-of select="@jaxb-type"/>) bindingValue);</xsl:otherwise>
        </xsl:choose>
        </xsl:if>
             break;</xsl:for-each>
@@ -329,16 +329,17 @@ public class <xsl:value-of select="$binding-class-name"/>
     }
 
     /** {@inheritDoc} */
-    public final void setObjectValue(final Object value) throws HostException {
-        if (value == null) {
+    public final void setObjectValue(
+            final Object bindingValue) throws HostException {
+        if (bindingValue == null) {
             mJaxbObject = null;
             return;
         }
-        if (value.getClass().equals(<xsl:value-of select="@jaxb-type"/>.class)) {
-            mJaxbObject = (<xsl:value-of select="@jaxb-type"/>) value;
+        if (bindingValue.getClass().equals(<xsl:value-of select="@jaxb-type"/>.class)) {
+            mJaxbObject = (<xsl:value-of select="@jaxb-type"/>) bindingValue;
         } else {
             throw new HostException("Attempt to set binding " + getBindingName()
-                    + " from an incompatible value " + value);
+                    + " from an incompatible value " + bindingValue);
         }
     }
 
@@ -392,7 +393,7 @@ public class <xsl:value-of select="$binding-class-name"/>
     private static final Log LOG =
         LogFactory.getLog(<xsl:value-of select="$binding-class-name"/>.class);
 
-    <xsl:if test="count(coxb-property[@type = 'simple']) > 0">
+    <xsl:if test="count(coxb-property[@type = 'simple' or @type = 'enum']) > 0">
     /** Binding factory. */
     private static final ICobolBindingFactory BF
         = CobolBindingFactory.getBindingFactory();</xsl:if>
@@ -400,14 +401,14 @@ public class <xsl:value-of select="$binding-class-name"/>
     /**
      * Constructor for a Choice element.
      * 
-     * @param name the identifier for this binding
+     * @param bindingName the identifier for this binding
      * @param parentBinding a reference to the parent binding
      */
     public <xsl:value-of select="$binding-class-name"/>(
-            final String name,
+            final String bindingName,
             final ICobolComplexBinding parentBinding) {
         
-		super(name, null, parentBinding);
+		super(bindingName, null, parentBinding);
         setMarshalChoiceStrategyClassName("<xsl:value-of select="@marshalChoiceStrategyClassName"/>");
         setUnmarshalChoiceStrategyClassName("<xsl:value-of select="@unmarshalChoiceStrategyClassName"/>");
         initAlternatives();
@@ -532,18 +533,18 @@ public class <xsl:value-of select="$binding-class-name"/>
     /**
      * Constructor for an array of Complex elements.
      * 
-     * @param name the identifier for this binding
+     * @param bindingName the identifier for this binding
      * @param jaxbName name of field in parent JAXB object
      * @param parentBinding a reference to the parent binding
      * @param complexItemBinding a binding element for array items
      */
     public <xsl:value-of select="$binding-class-name"/>(
-            final String name,
+            final String bindingName,
             final String jaxbName,
             final ICobolComplexBinding parentBinding,
             final ICobolComplexBinding complexItemBinding) {
         
-        super(name, jaxbName, <xsl:value-of select="@item-jaxb-type"/>.class, null, parentBinding, complexItemBinding);
+        super(bindingName, jaxbName, <xsl:value-of select="@item-jaxb-type"/>.class, null, parentBinding, complexItemBinding);
         setMinOccurs(<xsl:value-of select="@cobol-minOccurs"/>);
         setMaxOccurs(<xsl:value-of select="@cobol-maxOccurs"/>);<xsl:if test="@cobol-dependingOn">
         setDependingOn("<xsl:value-of select="@cobol-dependingOn"/>");
@@ -662,7 +663,7 @@ public class <xsl:value-of select="$binding-class-name"/>
 <xsl:template match="coxb-property" mode="generate-property-init">
 <xsl:param name="parent-binding"/>
   <xsl:choose>
-    <xsl:when test="@type = 'simple'">
+    <xsl:when test="@type = 'simple' or @type = 'enum'">
         <xsl:value-of select="@var-name"/> = BF.create<xsl:value-of select="substring-after(@binding-type, 'ICobol')"/>("<xsl:value-of select="@binding-name"/>", <xsl:choose><xsl:when test="@jaxb-name = 'null' and @jaxb-type = 'null'">
                <xsl:value-of select="$parent-binding"/>);
         </xsl:when><xsl:otherwise>
