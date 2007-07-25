@@ -1,8 +1,8 @@
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:cb="http://www.legsem.com/xml/ns/coxb" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://sample.legstar.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" xmlns:ns0="http://java.sun.com/xml/ns/jaxb" ns0:extensionBindingPrefixes="cb" targetNamespace="http://sample.legstar.com/" xmlns:ns1="http://java.sun.com/xml/ns/jaxb" ns1:version="2.0">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:cb="http://www.legsem.com/xml/ns/coxb" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://sample.c2ws.legstar.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" xmlns:ns0="http://java.sun.com/xml/ns/jaxb" ns0:extensionBindingPrefixes="cb" targetNamespace="http://sample.c2ws.legstar.com/" xmlns:ns1="http://java.sun.com/xml/ns/jaxb" ns1:version="2.0">
     <xsd:annotation>
         <xsd:appinfo>
             <jaxb:schemaBindings>
-                <jaxb:package name="legstar.test.cultureinfo"/>
+                <jaxb:package name="com.legstar.test.coxb.cultureinfo"/>
                 <jaxb:nameXmlTransform>
                     <jaxb:typeName suffix="Type"/>
                 </jaxb:nameXmlTransform>
