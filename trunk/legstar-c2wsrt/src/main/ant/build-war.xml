@@ -1,0 +1,28 @@
+<!-- =================================================================================
+     This script builds a war file for the c2ws gateway servlet .
+ -->
+<project basedir="../../.." default="buildWar" name="build-war">
+
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+	<target name="init">
+		
+		<!-- Target war file  -->
+	 	<property name="target.war.file" value="${basedir}/target/legstar-c2wsrt.war" />
+		<!-- Web.xml file  -->
+	 	<property name="web.xml.file" value="${basedir}/src/main/webapp/WEB-INF/web.xml" />
+		
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Build the war
+	  -->
+	<target name="buildWar" depends="init">
+		<war destfile="${target.war.file}" webxml="${web.xml.file}">
+              <lib dir="../legstar-jaxbgen-cases/target" includes="*.jar" excludes="*sources.jar"/>
+              <lib dir="${basedir}/target" includes="*.jar" excludes="*sources.jar"/>
+        </war>
+	</target>
+	
+</project>

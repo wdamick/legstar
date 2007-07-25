@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<configuration>
+    <header>
+        <combiner>
+            <additional>
+                <list-nodes>
+                    <node>service</node>
+                </list-nodes>
+            </additional>
+        </combiner>
+    </header>
+    <override>
+        <properties fileName="c2wsconfig.properties"/>
+    </override>
+    <additional>
+        <xml fileName="CultureInfo.xml" config-name="CultureInfo"/>
+        <xml fileName="MSNSearch.xml" config-name="MSNSearch"/>
+        <!--
+        <xml fileName="CultureInfo.xml">
+            <reloadingStrategy refreshDelay="10000"
+            config-class="org.apache.commons.configuration.reloading.FileChangedReloadingStrategy"/>
+        </xml>
+        <xml fileName="MSNSearch.xml">
+            <reloadingStrategy refreshDelay="10000"
+            config-class="org.apache.commons.configuration.reloading.FileChangedReloadingStrategy"/>
+        </xml>
+          -->
+    </additional>
+</configuration>
