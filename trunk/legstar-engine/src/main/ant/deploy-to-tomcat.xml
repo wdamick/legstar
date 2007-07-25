@@ -6,11 +6,12 @@
 	<!-- ===========================================================  -->
 	<!-- Setup environment
 	  -->
+    <property file="../legstar-pom/legstar-dev.properties"/>   
 	<target name="init">
 		
 		<!-- Tomcat destination  -->
-	 	<property name="tomcat.lib" value="D:\Servers\TOMDev\shared\lib" />
-	 	<property name="tomcat.webapps" value="D:\Servers\TOMDev\webapps" />
+        <property name="tomcat.lib" value="${tomcat.dir}\shared\lib" />
+	 	<property name="tomcat.webapps" value="${tomcat.dir}\webapps" />
 
 	</target>
 
