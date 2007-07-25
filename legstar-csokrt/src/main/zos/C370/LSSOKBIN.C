@@ -323,7 +323,7 @@ int getListenerParms() {
     /* Get the remote caller connection ID from the user data passed
      * in the initial message.                                        */
     memcpy(g_traceParms.CxID, tim->client_in_data + 16,
-           MAX_CXID_LEN - 1);
+           MAX_CXID_LEN);
     
      /* Get the socket to be taken */
     g_socket = tim->give_take_socket;

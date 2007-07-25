@@ -57,7 +57,7 @@
                                     is not a standard errno.          */
 #define SOK_HOW  2               /* Shutdown both sides option        */
 #define MAX_TIM_EC_LEN 2         /* Transaction init msg eye catcher  */
-#define MAX_CXID_LEN 17          /* Connection ID max length          */
+#define MAX_CXID_LEN 16          /* Connection ID max length          */
 #define MSGPART_MAX_LEN 16777216 /* Largest tolerated message part    */
 #define MAX_TRACES_BYTES 500     /* Flood prevention for large data   */
 #define MAX_IN_MSG_PARTS 10       /* Maximum number of input parts    */
@@ -141,7 +141,7 @@ typedef struct {
 /* Tracing parameters                                                 */
 /*--------------------------------------------------------------------*/
 typedef struct {
-    char CxID[MAX_CXID_LEN];
+    char CxID[MAX_CXID_LEN + 1];
     int traceMode;
     char formattedErrorMessage[MAX_FORM_MSG_LEN];
 } TraceParms;
