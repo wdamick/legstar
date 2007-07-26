@@ -1,0 +1,52 @@
+<component>
+
+    <fileSets>
+
+        <!-- Win32 dlls  -->
+        <fileSet>
+            <directory>../legstar-schemagen/target/bin</directory>
+            <outputDirectory>bin</outputDirectory>
+            <includes>
+                <include>*.dll</include>
+            </includes>
+        </fileSet>
+        
+        <!-- ant scripts  -->
+        <fileSet>
+            <directory>../legstar-schemagen/src/main/resources/ant</directory>
+            <outputDirectory>ant</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+        </fileSet>
+
+        <!-- Cobol samples  -->
+        <fileSet>
+            <directory>../legstar-schemagen/src/main/resources/cobol</directory>
+            <outputDirectory>cobol</outputDirectory>
+            <includes>
+                <include>LSFILEAE.CBL</include>
+            </includes>
+        </fileSet>
+        
+    </fileSets>
+  
+    <files>
+        <file>
+            <source>../legstar-distribution/LICENSE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>LICENSE</destName>
+        </file>
+        <file>
+            <source>../legstar-schemagen/NOTICE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>schemagen-NOTICE</destName>
+        </file>
+        <file>
+           <source>../legstar-schemagen/src/site/apt/release-notes.apt</source>
+           <outputDirectory>/</outputDirectory>
+           <destName>schemagen-README</destName>
+        </file>
+    </files>
+
+</component>

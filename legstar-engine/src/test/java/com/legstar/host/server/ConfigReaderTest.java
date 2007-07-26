@@ -32,7 +32,7 @@ import junit.framework.TestCase;
 
 public class ConfigReaderTest extends TestCase {
 	
-	public static final String CONFIG_FILE = "config.xml";
+	public static final String CONFIG_FILE = "engine-config.xml";
 	private static final String HOST_ENDPOINT_CFG = "hostEndPoints.hostEndPoint";
 	
 	public void testReadConfig() throws ConfigurationException {

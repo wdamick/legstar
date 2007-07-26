@@ -53,7 +53,7 @@ public class PoolingTest extends TestCase {
 	private static final String HOST_USERID = "P390";
 	private static final String HOST_PASSWORD = "STREAM2";
 	private static final int CLIENT_THREADS = 10;
-	private static final String CONFIG_FILE = "config.xml";
+	private static final String CONFIG_FILE = "engine-config.xml";
 
 	/** Logger. */
 	private static final Log mLog = LogFactory.getLog(PoolingTest.class);

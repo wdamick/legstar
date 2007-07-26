@@ -29,7 +29,7 @@ import junit.framework.TestCase;
 
 public class ConnectionManagerTest extends TestCase {
 
-	private static final String CONFIG_FILE = "config.xml";
+	private static final String CONFIG_FILE = "engine-config.xml";
 	
 	public void testGetPool() {
 		try {

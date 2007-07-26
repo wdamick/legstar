@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- 
+ This configuration file is a sample for c2wsrt, the Host to Web Service runtime. Such a
+ configuration file combines general purpose parameters from file c2wsconfig.properties as
+ well as target web service descriptions available to the host. Each target web service
+ description has its own xml configuration file listed under the additional tag.
+  -->
+<configuration>
+    <override>
+        <!-- General purpose parameters -->
+        <properties fileName="c2wsconfig.properties"/>
+    </override>
+    <additional>
+        <!-- List of available target web services. The config-name attribute is
+             the logical name use by host programs to identify the target web
+             service.
+          -->
+        <xml fileName="CultureInfo.xml" config-name="CultureInfo"/>
+    </additional>
+</configuration>

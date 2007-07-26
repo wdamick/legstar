@@ -27,7 +27,6 @@
         <dependency>
             <groupId>org.apache.ws.commons.schema</groupId>
             <artifactId>XmlSchema</artifactId>
-            <version>SNAPSHOT</version>
         </dependency>
 
 		<dependency>

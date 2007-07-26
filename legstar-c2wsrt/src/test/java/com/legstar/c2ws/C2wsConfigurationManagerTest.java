@@ -5,9 +5,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Iterator;
-
-import org.apache.commons.configuration.Configuration;
 
 import com.legstar.c2ws.C2wsConfigurationManager;
 import com.legstar.c2ws.C2wsWSDescriptor;
@@ -17,17 +14,6 @@ import junit.framework.TestCase;
 public class C2wsConfigurationManagerTest extends TestCase {
 	
 	private static final String TARGET_DIR = "target/test-classes";
-	
-	public void testLoadConfig() throws Exception {
-		C2wsConfigurationManager c2wsConfigManager = new C2wsConfigurationManager("c2wsconfig.xml");
-		Configuration c2wsConfig = c2wsConfigManager.getC2wsConfig();
-		for (Iterator iterator = c2wsConfig.getKeys(); iterator.hasNext();) {
-			System.out.println( iterator.next());
-		}
-		assertEquals(2, c2wsConfig.getList("service[@name]").size());
-		assertEquals("CultureInfo", c2wsConfig.getList("service[@name]").get(0));
-		assertEquals("MSNSearch", c2wsConfig.getList("service[@name]").get(1));
-	}
 	
 	public void testLoadNonexistantFile() throws Exception {
 		try {
@@ -163,13 +149,11 @@ public class C2wsConfigurationManagerTest extends TestCase {
 			}
 		    out = new PrintWriter(new FileWriter(confFile));
 		    out.println("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>");
-		    out.println("<c2wsConfiguration>");
-		    out.println("<service name=\"" + fileName + "\">");
+		    out.println("<service>");
 		    out.println("<wsdl>");
 		    out.println("<targetNamespace>http://sample.c2ws.legstar.com/</targetNamespace>");
 		    out.println("</wsdl>");
 		    out.println("</service>");
-		    out.println("</c2wsConfiguration>");
 		    out.close();
 		    out = null;
 	    }

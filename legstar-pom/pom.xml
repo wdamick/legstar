@@ -81,6 +81,7 @@
     <module>../legstar-cixsgen</module>
     <module>../legstar-cixsgen-cases</module>
     <module>../legstar-coxbrt</module>
+    <module>../legstar-c2wsrt</module>
     <module>../legstar-xsdcgen</module>
     <module>../legstar-cobcgen</module>
     <module>../legstar-schemagen-plugin</module>
@@ -102,6 +103,11 @@
 
   <!-- 
   <repositories>
+     <repository>
+      <id>Apache</id>
+      <url>http://repo1.maven.org/maven2/</url>
+      <layout>legacy</layout>
+    </repository>
      <repository>
       <id>java.net</id>
       <url>https://maven-repository.dev.java.net/nonav/repository/</url>
@@ -174,267 +180,285 @@
     
   </reporting>
   
-  <dependencyManagement>
-    <dependencies>
+    <dependencyManagement>
+        <dependencies>
 
-      <!-- BEA Timer and WorkManager API section -->    
-      <dependency>
-        <groupId>commonj</groupId>
-        <artifactId>commonj-twm</artifactId>
-        <version>1.0</version>
-      </dependency>
+            <!-- Apache Xml Schema -->    
+            <dependency>
+                <groupId>org.apache.ws.commons.schema</groupId>
+                <artifactId>XmlSchema</artifactId>
+                <version>1.3.2</version>
+            </dependency>
 
-      <!-- Apache ANT dependencies section -->    
-      <dependency>
-        <groupId>ant</groupId>
-        <artifactId>ant</artifactId>
-        <version>1.6.5</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>ant-contrib</groupId>
-        <artifactId>ant-contrib</artifactId>
-        <version>1.0b2</version>
-        <scope>test</scope>
-      </dependency>
-      
-      <!-- Apache HTTP Client -->    
-      <dependency>
-          <groupId>commons-httpclient</groupId>
-          <artifactId>commons-httpclient</artifactId>
-          <version>3.0.1</version>
-      </dependency>
-      
-      <!-- Apache Logging API -->    
-      <dependency>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging</artifactId>
-          <version>1.0.4</version>
-      </dependency>
-      <dependency>
-          <groupId>log4j</groupId>
-          <artifactId>log4j</artifactId>
-          <version>1.2.14</version>
-      </dependency>
-      
-      <!-- Servlet API. -->    
-      <dependency>
-          <groupId>javax.servlet</groupId>
-          <artifactId>servlet-api</artifactId>
-          <version>2.3</version>
-      </dependency>
+            <!-- BEA Timer and WorkManager API section -->    
+            <dependency>
+                <groupId>commonj</groupId>
+                <artifactId>commonj-twm</artifactId>
+                <version>1.0</version>
+            </dependency>
 
-      <!-- Apache Configuration API. Brings unwanted dependencies on Xalan/Xerces
-           and older versions of the servlet and xml API's which are referenced
-           by the jxpath sub-dependency. -->    
-      <dependency>
-          <groupId>commons-configuration</groupId>
-          <artifactId>commons-configuration</artifactId>
-          <version>1.4</version>
-        <exclusions>
-          <exclusion>
-            <groupId>xml-apis</groupId>
-            <artifactId>xml-apis</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>xerces</groupId>
-            <artifactId>xerces</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>xalan</groupId>
-            <artifactId>xalan</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
+            <!-- Apache ANT dependencies section -->    
+            <dependency>
+                <groupId>ant</groupId>
+                <artifactId>ant</artifactId>
+                <version>1.6.5</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>ant-contrib</groupId>
+                <artifactId>ant-contrib</artifactId>
+                <version>1.0b2</version>
+                <scope>test</scope>
+            </dependency>
       
-      <!-- Sun JAXxx dependencies section -->    
-      <dependency>
-        <groupId>javax.xml.bind</groupId>
-        <artifactId>jaxb-api</artifactId>
-        <version>2.1</version>
-      </dependency>
-      <dependency>
-        <groupId>com.sun.xml.bind</groupId>
-        <artifactId>jaxb-xjc</artifactId>
-        <version>2.1.3</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.xml.soap</groupId>
-        <artifactId>saaj-api</artifactId>
-        <version>1.3</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.xml.ws</groupId>
-        <artifactId>jaxws-api</artifactId>
-        <version>2.1</version>
-      </dependency>
-      <dependency>
-        <groupId>com.sun.xml.ws</groupId>
-        <artifactId>jaxws-rt</artifactId>
-        <version>2.1</version>
-      </dependency>
-      <dependency>
-        <groupId>com.sun.xml.ws</groupId>
-        <artifactId>jaxws-tools</artifactId>
-        <version>2.1</version>
-      </dependency>
+            <!-- Apache HTTP Client -->    
+            <dependency>
+                <groupId>commons-httpclient</groupId>
+                <artifactId>commons-httpclient</artifactId>
+                <version>3.0.1</version>
+            </dependency>
+      
+            <!-- Apache Logging API -->    
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>1.0.4</version>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.14</version>
+            </dependency>
+      
+            <!-- Servlet API. -->    
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>2.3</version>
+            </dependency>
+
+            <!-- Apache Configuration API. Brings unwanted dependencies on Xalan/Xerces
+               and older versions of the servlet and xml API's which are referenced
+               by the jxpath sub-dependency. -->    
+            <dependency>
+                <groupId>commons-configuration</groupId>
+                <artifactId>commons-configuration</artifactId>
+                <version>1.4</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>xml-apis</groupId>
+                        <artifactId>xml-apis</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xerces</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>xalan</groupId>
+                        <artifactId>xalan</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+      
+            <!-- Sun JAXxx dependencies section -->    
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>2.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-xjc</artifactId>
+                <version>2.1.3</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.xml.soap</groupId>
+                <artifactId>saaj-api</artifactId>
+                <version>1.3</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.xml.ws</groupId>
+                <artifactId>jaxws-api</artifactId>
+                <version>2.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>jaxws-rt</artifactId>
+                <version>2.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>jaxws-tools</artifactId>
+                <version>2.1</version>
+            </dependency>
     
-      <!-- Saxon dependencies section -->    
-      <dependency>
-        <groupId>net.sf.saxon</groupId>
-        <artifactId>saxon</artifactId>
-        <version>8.7</version>
-      </dependency>
+            <!-- Saxon dependencies section -->    
+            <dependency>
+                <groupId>net.sf.saxon</groupId>
+                <artifactId>saxon</artifactId>
+                <version>8.7</version>
+            </dependency>
       
-      <!-- Eclipse dependencies section -->    
-      <dependency>
-        <groupId>org.eclipse.core</groupId>
-        <artifactId>org.eclipse.core.runtime</artifactId>
-        <version>3.2.0</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.core</groupId>
-        <artifactId>org.eclipse.core.resources</artifactId>
-        <version>3.2.1</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.ui</groupId>
-        <artifactId>org.eclipse.ui</artifactId>
-        <version>3.2.1</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.ui</groupId>
-        <artifactId>org.eclipse.ui.ide</artifactId>
-        <version>3.2.1</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.ui</groupId>
-        <artifactId>org.eclipse.ui.console</artifactId>
-        <version>3.1.100</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.ui</groupId>
-        <artifactId>org.eclipse.ui.editors</artifactId>
-        <version>3.2.1</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.jdt</groupId>
-        <artifactId>org.eclipse.jdt</artifactId>
-        <version>3.2.1</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.jdt</groupId>
-        <artifactId>org.eclipse.jdt.core</artifactId>
-        <version>3.2.1</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.swt</groupId>
-        <artifactId>org.eclipse.swt</artifactId>
-        <version>3.2.1</version>
-        <scope>compile</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.swt</groupId>
-        <artifactId>org.eclipse.swt.win32.win32.x86</artifactId>
-        <version>3.2.1</version>
-        <scope>compile</scope>
-      </dependency>
+            <!-- Eclipse dependencies section -->    
+            <dependency>
+                <groupId>org.eclipse.core</groupId>
+                <artifactId>org.eclipse.core.runtime</artifactId>
+                <version>3.2.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.core</groupId>
+                <artifactId>org.eclipse.core.resources</artifactId>
+                <version>3.2.1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.ui</groupId>
+                <artifactId>org.eclipse.ui</artifactId>
+                <version>3.2.1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.ui</groupId>
+                <artifactId>org.eclipse.ui.ide</artifactId>
+                <version>3.2.1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.ui</groupId>
+                <artifactId>org.eclipse.ui.console</artifactId>
+                <version>3.1.100</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.ui</groupId>
+                <artifactId>org.eclipse.ui.editors</artifactId>
+                <version>3.2.1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jdt</groupId>
+                <artifactId>org.eclipse.jdt</artifactId>
+                <version>3.2.1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jdt</groupId>
+                <artifactId>org.eclipse.jdt.core</artifactId>
+                <version>3.2.1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.swt</groupId>
+                <artifactId>org.eclipse.swt</artifactId>
+                <version>3.2.1</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.swt</groupId>
+                <artifactId>org.eclipse.swt.win32.win32.x86</artifactId>
+                <version>3.2.1</version>
+                <scope>compile</scope>
+            </dependency>
 
-      <!-- LegStar dependencies section -->    
-      <dependency>
-        <groupId>com.legsem.legstar</groupId>
-        <artifactId>legstar-common</artifactId>
-        <version>1.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.legsem.legstar</groupId>
-        <artifactId>legstar-messaging</artifactId>
-  		<version>1.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.legsem.legstar</groupId>
-        <artifactId>legstar-csokrt</artifactId>
-        <version>1.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.legsem.legstar</groupId>
-        <artifactId>legstar-chttprt</artifactId>
-        <version>1.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.legsem.legstar</groupId>
-        <artifactId>legstar-engine</artifactId>
-        <version>1.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.legsem.legstar</groupId>
-        <artifactId>legstar-invoker</artifactId>
-        <version>1.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.legsem.legstar</groupId>
-        <artifactId>legstar-coxbapi</artifactId>
-        <version>1.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.legsem.legstar</groupId>
-        <artifactId>legstar-coxbrt</artifactId>
-        <version>1.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.legsem.legstar</groupId>
-        <artifactId>legstar-schemagen</artifactId>
-        <version>1.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.legsem.legstar</groupId>
-        <artifactId>legstar-jaxbgen</artifactId>
-        <version>1.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.legsem.legstar</groupId>
-        <artifactId>legstar-jaxbgen-cases</artifactId>
-        <version>1.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.legsem.legstar</groupId>
-        <artifactId>legstar-coxbgen</artifactId>
-        <version>1.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.legsem.legstar</groupId>
-        <artifactId>legstar-coxbgen-cases</artifactId>
-        <version>1.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.legsem.legstar</groupId>
-        <artifactId>legstar-cixsgen</artifactId>
-        <version>1.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.legsem.legstar</groupId>
-        <artifactId>legstar-cixsgen-cases</artifactId>
-        <version>1.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.legsem.legstar</groupId>
-        <artifactId>legstar-xsdcgen</artifactId>
-        <version>1.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.legsem.legstar</groupId>
-        <artifactId>legstar-common-plugin</artifactId>
-        <version>1.1-SNAPSHOT</version>
-      </dependency>
+            <!-- LegStar dependencies section -->    
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-common</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-messaging</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-csokrt</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-chttprt</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-engine</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-invoker</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-coxbapi</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-coxbrt</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-schemagen</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-jaxbgen</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-jaxbgen-cases</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-coxbgen</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-coxbgen-cases</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-cixsgen</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-cixsgen-cases</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-xsdcgen</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-cobcgen</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-c2wsrt</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-common-plugin</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
       
-    </dependencies>
-  </dependencyManagement>
+        </dependencies>
+    </dependencyManagement>
+    
 </project>

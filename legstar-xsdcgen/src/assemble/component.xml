@@ -1,0 +1,43 @@
+<component>
+
+	<fileSets>
+		
+        <!-- ant scripts  -->
+		<fileSet>
+            <directory>../legstar-xsdcgen/src/main/resources/ant</directory>
+            <outputDirectory>ant</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+		</fileSet>
+		
+        <!-- sample wsdl file  -->
+		<fileSet>
+            <directory>../legstar-xsdcgen/src/main/resources/wsdl</directory>
+            <outputDirectory>wsdl</outputDirectory>
+            <includes>
+                <include>*.wsdl</include>
+            </includes>
+		</fileSet>
+		
+	</fileSets>
+  
+	<files>
+        <file>
+            <source>../legstar-distribution/LICENSE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>LICENSE</destName>
+        </file>
+        <file>
+            <source>../legstar-xsdcgen/NOTICE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>xsdcgen-NOTICE</destName>
+        </file>
+		<file>
+		   <source>../legstar-xsdcgen/src/site/apt/release-notes.apt</source>
+		   <outputDirectory>/</outputDirectory>
+		   <destName>xsdcgen-README</destName>
+		</file>
+	</files>
+
+</component>

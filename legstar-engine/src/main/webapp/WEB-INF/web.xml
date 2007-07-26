@@ -21,7 +21,7 @@
 	     ********************************************* -->
 	<init-param>
 	   <param-name>engine.config</param-name>
-	   <param-value>config.xml</param-value>
+	   <param-value>engine-config.xml</param-value>
 	</init-param>
     <load-on-startup>100</load-on-startup>
   </servlet>
