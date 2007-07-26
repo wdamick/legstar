@@ -20,6 +20,9 @@
 	  -->
 	<target name="deployToTomcat" depends="init">
 		
+        <copy todir="${tomcat.lib}">
+            <fileset dir="${basedir}/target" includes="*.jar" excludes="*sources.jar"/>
+        </copy>
 		<copy todir="${tomcat.webapps}">
 			<fileset dir="${basedir}/target" includes="*.war"/>
 		</copy>

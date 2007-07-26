@@ -28,7 +28,7 @@ import com.legstar.config.Config;
 
 public class Util {
 	
-	public static final String CONFIG_FILE = "config.xml";
+	public static final String CONFIG_FILE = "legstar-invoker-config.xml";
 	
 	/** Utility method to pretty pring a byte array content. */
 	public static String toHexString(final byte[] hostBytes) {

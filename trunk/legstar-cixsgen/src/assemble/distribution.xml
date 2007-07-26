@@ -1,67 +1,21 @@
 <assembly>
-  <id>bin</id>
-  <formats>
-    <format>zip</format>
-  </formats>
+
+    <id>bin</id>
+    
+    <formats>
+        <format>zip</format>
+    </formats>
   
-  <fileSets>
-  
-    <fileSet>
-      <includes>
-        <include>LICENSE*</include>
-        <include>NOTICE*</include>
-      </includes>
-    </fileSet>
+    <componentDescriptors>
+        <componentDescriptor>../legstar-cixsgen/src/assemble/component.xml</componentDescriptor>
+    </componentDescriptors>
     
-    <!-- Ant scripts -->
-    <fileSet>
-      <directory>src/main/resources/ant</directory>
-      <outputDirectory>ant</outputDirectory>
-      <includes>
-        <include>*.xml</include>
-      </includes>
-    </fileSet>
-    
-    <!-- The sample Binding classes -->
-    <fileSet>
-      <directory>../legstar-samples/src</directory>
-      <outputDirectory>src</outputDirectory>
-      <includes>
-        <include>**</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>../legstar-samples/target</directory>
-      <outputDirectory>target</outputDirectory>
-      <includes>
-        <include>**</include>
-      </includes>
-    </fileSet>
-    <!-- Sample configuration file -->
-    <fileSet>
-      <directory>../legstar-invoker/src/site/resources/samples</directory>
-      <outputDirectory>/samples</outputDirectory>
-      <includes>
-        <include>config.xml</include>
-      </includes>
-    </fileSet>
-    
-  </fileSets>
-  
-  <files>
-    <file>
-       <source>${basedir}/src/site/apt/release-notes.apt</source>
-       <outputDirectory>/</outputDirectory>
-       <destName>README</destName>
-    </file>
-  </files>
-    
-  <dependencySets>
-    <dependencySet>
-      <outputDirectory>/lib/</outputDirectory>
-      <unpack>false</unpack>
-      <scope>runtime</scope>
-    </dependencySet>
-  </dependencySets>
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>/lib/</outputDirectory>
+            <unpack>false</unpack>
+            <scope>runtime</scope>
+        </dependencySet>
+    </dependencySets>
   
 </assembly>

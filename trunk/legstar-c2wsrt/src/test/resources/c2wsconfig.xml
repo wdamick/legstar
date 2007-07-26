@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 
 <configuration>
-    <header>
-        <combiner>
-            <additional>
-                <list-nodes>
-                    <node>service</node>
-                </list-nodes>
-            </additional>
-        </combiner>
-    </header>
     <override>
         <properties fileName="c2wsconfig.properties"/>
     </override>

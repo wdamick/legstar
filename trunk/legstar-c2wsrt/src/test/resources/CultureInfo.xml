@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 
-<c2wsConfiguration>
-    <service name="CultureInfo">
-        <wsdl>
-            <targetNamespace>http://sample.c2ws.legstar.com/</targetNamespace>
-            <name>CultureInfoImplService</name>
-            <port>CultureInfoImplPort</port>
-            <url>http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl</url>
-        </wsdl>
-        <jaxb>
-            <request>
-                <packageName>com.legstar.test.coxb.cultureinfo</packageName>
-                <typeName>GetInfoType</typeName>
-                <elementName>GetInfo</elementName>
-            </request>
-            <response>
-                <packageName>com.legstar.test.coxb.cultureinfo</packageName>
-                <typeName>GetInfoResponseType</typeName>
-                <elementName>GetInfoResponse</elementName>
-            </response>
-        </jaxb>
-    </service>
-</c2wsConfiguration>
+<service>
+    <wsdl>
+        <targetNamespace>http://sample.c2ws.legstar.com/</targetNamespace>
+        <name>CultureInfoImplService</name>
+        <port>CultureInfoImplPort</port>
+        <url>http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl</url>
+    </wsdl>
+    <jaxb>
+        <request>
+            <packageName>com.legstar.test.coxb.cultureinfo</packageName>
+            <typeName>GetInfoType</typeName>
+            <elementName>GetInfo</elementName>
+        </request>
+        <response>
+            <packageName>com.legstar.test.coxb.cultureinfo</packageName>
+            <typeName>GetInfoResponseType</typeName>
+            <elementName>GetInfoResponse</elementName>
+        </response>
+    </jaxb>
+</service>

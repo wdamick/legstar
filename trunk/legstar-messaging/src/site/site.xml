@@ -4,8 +4,6 @@
 
     <menu name="Messaging runtime">
       <item name="Introduction" href="index.html"/>
-      <item name="Download" href="download.html"/>
-      <item name="Release Notes" href="release-notes.html" />
     </menu>
 
     ${reports}

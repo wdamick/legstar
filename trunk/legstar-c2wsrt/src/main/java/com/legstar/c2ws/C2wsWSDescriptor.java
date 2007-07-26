@@ -52,40 +52,40 @@ public class C2wsWSDescriptor {
 	/* = Constants section                                                  = */
 	/* ====================================================================== */
 	/** Path to wsdl target namespace in configuration file. */
-	private static final String WSDL_NS_KEY = "service.wsdl.targetNamespace";
+	private static final String WSDL_NS_KEY = "wsdl.targetNamespace";
 
 	/** Path to wsdl service name in configuration file. */
-	private static final String WSDL_SERVICE_KEY = "service.wsdl.name";
+	private static final String WSDL_SERVICE_KEY = "wsdl.name";
 
 	/** Path to wsdl port name in configuration file. */
-	private static final String WSDL_PORT_KEY = "service.wsdl.port";
+	private static final String WSDL_PORT_KEY = "wsdl.port";
 
 	/** Path to wsdl url in configuration file. */
-	private static final String WSDL_URL_KEY = "service.wsdl.url";
+	private static final String WSDL_URL_KEY = "wsdl.url";
 	
 	/** Path to jaxb request package name in configuration file. */
 	private static final String JAXB_REQUEST_PKG_KEY =
-		"service.jaxb.request.packageName";
+		"jaxb.request.packageName";
 
 	/** Path to jaxb request type name in configuration file. */
 	private static final String JAXB_REQUEST_TYPE_KEY =
-		"service.jaxb.request.typeName";
+		"jaxb.request.typeName";
 
 	/** Path to jaxb request element name in configuration file. */
 	private static final String JAXB_REQUEST_ELEMENT_KEY =
-		"service.jaxb.request.elementName";
+		"jaxb.request.elementName";
 
 	/** Path to jaxb response package name in configuration file. */
 	private static final String JAXB_RESPONSE_PKG_KEY =
-		"service.jaxb.response.packageName";
+		"jaxb.response.packageName";
 
 	/** Path to jaxb response type name in configuration file. */
 	private static final String JAXB_RESPONSE_TYPE_KEY =
-		"service.jaxb.response.typeName";
+		"jaxb.response.typeName";
 
 	/** Path to jaxb response element name in configuration file. */
 	private static final String JAXB_RESPONSE_ELEMENT_KEY =
-		"service.jaxb.response.elementName";
+		"jaxb.response.elementName";
 
 	/** No-Argument constructor. */
 	public C2wsWSDescriptor() {

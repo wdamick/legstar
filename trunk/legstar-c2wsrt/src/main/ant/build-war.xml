@@ -20,8 +20,6 @@
 	  -->
 	<target name="buildWar" depends="init">
 		<war destfile="${target.war.file}" webxml="${web.xml.file}">
-              <lib dir="../legstar-jaxbgen-cases/target" includes="*.jar" excludes="*sources.jar"/>
-              <lib dir="${basedir}/target" includes="*.jar" excludes="*sources.jar"/>
         </war>
 	</target>
 	

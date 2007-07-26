@@ -33,7 +33,7 @@ import com.legstar.messaging.ConnectionFactory;
 
 public class ConnectionPoolTest extends TestCase {
 
-	private static final String CONFIG_FILE = "config.xml";
+	private static final String CONFIG_FILE = "engine-config.xml";
 	
 	private static final int POOL_SIZE = 1;
 	

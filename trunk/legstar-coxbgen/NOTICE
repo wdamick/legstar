@@ -1,4 +1,8 @@
 Binding Generator makes use of the following products:
 
 JAXB XJC by Sun Microsystems, Inc released under COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0 1. .
-Saxon (Michael H. Kay) which is published under Mozilla Public License Version 1.0
+
+Saxon (Michael H. Kay) which is published under Mozilla Public License Version 1.0.
+
+Ant by Apache Software Foundation released under the Apache License, Version 2.0.
+

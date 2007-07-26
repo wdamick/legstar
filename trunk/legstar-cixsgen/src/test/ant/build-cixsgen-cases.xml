@@ -94,6 +94,8 @@
 					<exclude name="lsfileal.xsd"/>
 					<exclude name="lsfileac.xsd"/>
 					<exclude name="enumvar.xsd"/>
+                    <exclude name="cultureinfo.xsd"/>
+                    <exclude name="MSNSearch.xsd"/>
 				</fileset>
 			</path>
 		</foreach>

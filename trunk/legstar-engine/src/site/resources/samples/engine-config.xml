@@ -34,7 +34,7 @@
   <hostEndPoints>
     <hostEndPoint name="TheMainframe">
       
-      <!-- All connections using targetting this endpoint will be pooled. -->
+      <!-- All connections targetting this endpoint will be pooled. -->
       <hostAccessStrategy>pooled</hostAccessStrategy>
       
       <!-- The number of simultaneous connections to the host. This number needs to

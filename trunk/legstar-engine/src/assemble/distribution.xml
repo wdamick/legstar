@@ -1,49 +1,20 @@
 <assembly>
-  <id>bin</id>
-  
-  <formats>
-    <format>zip</format>
-  </formats>
+    <id>bin</id>
+    
+    <formats>
+        <format>zip</format>
+    </formats>
  
-  <fileSets>
+    <componentDescriptors>
+        <componentDescriptor>../legstar-engine/src/assemble/component.xml</componentDescriptor>
+    </componentDescriptors>
   
-    <fileSet>
-      <includes>
-        <include>LICENSE*</include>
-        <include>NOTICE*</include>
-      </includes>
-    </fileSet>
-    
-    <!-- Sample configuration file -->
-    <fileSet>
-      <directory>src/site/resources/samples</directory>
-      <outputDirectory>/samples</outputDirectory>
-      <includes>
-        <include>**</include>
-      </includes>
-    </fileSet>
-    
-  </fileSets>
-  
-  <files>
-    <file>
-       <source>${basedir}/src/site/apt/release-notes.apt</source>
-       <outputDirectory>/</outputDirectory>
-       <destName>README</destName>
-    </file>
-    <!-- Include the servlet war file -->
-    <file>
-       <source>${basedir}/target/legstar-engine.war</source>
-       <outputDirectory>/war/</outputDirectory>
-    </file>
-  </files>
-  
-  <dependencySets>
-    <dependencySet>
-      <outputDirectory>/lib/</outputDirectory>
-      <unpack>false</unpack>
-      <scope>runtime</scope>
-    </dependencySet>
-  </dependencySets>
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>/lib/</outputDirectory>
+            <unpack>false</unpack>
+            <scope>runtime</scope>
+        </dependencySet>
+    </dependencySets>
   
 </assembly>

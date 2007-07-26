@@ -104,7 +104,7 @@ public class <xsl:value-of select="$implementation-class-name"/> implements <xsl
         "java:comp/env/legstar/configFileName";
     
     /** The default configuration file name if not recovered from JNDI. */
-    private static final String DEFAULT_CONFIG_FILE = "config.xml";
+    private static final String DEFAULT_CONFIG_FILE = "legstar-invoker-config.xml";
 
     /** The configuration file name. */
     private String mConfigFileName;

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- 
+ This configuration file describes a target web service from a host client 
+ perspective.
+  -->
+<service>
+
+    <!-- The JAXWS client requires data concerning the target web service
+         wsdl. Observe that the web service address is taken from the wsdl. -->
+    <wsdl>
+        <targetNamespace>http://sample.c2ws.legstar.com/</targetNamespace>
+        <name>CultureInfoImplService</name>
+        <port>CultureInfoImplPort</port>
+        <url>http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl</url>
+    </wsdl>
+    
+    <!-- The JAXB objects used to describe the request and response
+         structures. -->
+    <jaxb>
+        <request>
+            <packageName>com.legstar.test.coxb.cultureinfo</packageName>
+            <typeName>GetInfoType</typeName>
+            <elementName>GetInfo</elementName>
+        </request>
+        <response>
+            <packageName>com.legstar.test.coxb.cultureinfo</packageName>
+            <typeName>GetInfoResponseType</typeName>
+            <elementName>GetInfoResponse</elementName>
+        </response>
+    </jaxb>
+</service>
