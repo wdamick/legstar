@@ -34,22 +34,24 @@ INSTALLING/UNINSTALLING:
 +---------------------------------------+
    <installDir>
         |---->LICENSE
-        |---->NOTICE
+        |---->c2wsrt-NOTICE
         |---->LSHTTAPI-README
-        |---->README
+        |---->c2wsrt-README
         |----><lib>
                 |---->*.jar
         |----><samples>
-                |---->*.jar
+                |---->*.xml
+                |---->*.properties
         |----><war>
                 |---->*.war
         |----><zos>
                 |----><C370>
                          |---->*.C
+                         |---->*.H
                 |----><cobol>
                          |---->*.CBL
                 |----><JCL>
-                         |---->*.JCL
+                         |---->C370*
                 
 +---------------------------------------+
    

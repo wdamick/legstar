@@ -25,7 +25,7 @@ public class C2wsReflectInvokerTest extends TestCase {
 	}
 	
 	public void testInvoke() throws Exception {
-		C2wsConfigurationManager c2wsConfigManager = new C2wsConfigurationManager("c2wsconfig.xml");
+		C2wsConfigurationManager c2wsConfigManager = new C2wsConfigurationManager("legstar-c2wsrt-config.xml");
 		C2wsInvoker c2wsInvoker = new C2wsInvoker(null, c2wsConfigManager);
 		Message responseMessage = c2wsInvoker.invoke(getCultureInfoRequestMessage());
 		assertTrue(responseMessage != null);

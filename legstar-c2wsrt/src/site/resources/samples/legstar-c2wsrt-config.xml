@@ -8,7 +8,7 @@
 <configuration>
     <override>
         <!-- General purpose parameters -->
-        <properties fileName="c2wsconfig.properties"/>
+        <properties fileName="legstar-c2wsrt-config.properties"/>
     </override>
     <additional>
         <!-- List of available target web services. The config-name attribute is
