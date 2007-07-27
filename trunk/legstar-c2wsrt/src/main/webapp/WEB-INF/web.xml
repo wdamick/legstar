@@ -19,7 +19,7 @@
 	     ********************************************* -->
 	<init-param>
 	   <param-name>c2wsrt.config</param-name>
-	   <param-value>c2wsconfig.xml</param-value>
+	   <param-value>legstar-c2wsrt-config.xml</param-value>
 	</init-param>
   </servlet>
 

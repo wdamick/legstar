@@ -2,7 +2,7 @@
 
 <configuration>
     <override>
-        <properties fileName="c2wsconfig.properties"/>
+        <properties fileName="legstar-c2wsrt-config.properties"/>
     </override>
     <additional>
         <xml fileName="CultureInfo.xml" config-name="CultureInfo"/>

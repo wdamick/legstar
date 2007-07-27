@@ -37,7 +37,7 @@ public class C2wsReflectAdapterTest extends TestCase {
 	}
 	
 	public void testInvoke() throws Exception {
-		C2wsConfigurationManager c2wsConfigManager = new C2wsConfigurationManager("c2wsconfig.xml");
+		C2wsConfigurationManager c2wsConfigManager = new C2wsConfigurationManager("legstar-c2wsrt-config.xml");
 		C2wsWSDescriptor wsd = c2wsConfigManager.getWebServiceDescriptor("CultureInfo");
 		C2wsReflectAdapter adapter = new C2wsReflectAdapter();
 		byte[] requestBytes = HostData.toByteArray("869960C6D9404040404040404040404040404040404040404040404040404040012564562C");
