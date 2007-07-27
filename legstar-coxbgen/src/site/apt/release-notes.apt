@@ -29,8 +29,8 @@ INSTALLING/UNINSTALLING:
 +---------------------------------------+
    <installDir>
         |---->LICENSE
-        |---->NOTICE
-        |---->README
+        |---->coxbgen-NOTICE
+        |---->coxbgen-README
         |----><ant>
                 |---->build-coxb.xml
                 |---->build-jaxb.xml

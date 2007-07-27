@@ -23,8 +23,8 @@ INSTALLING/UNINSTALLING:
 +---------------------------------------+
    <installDir>
         |---->LICENSE
-        |---->NOTICE
-        |---->README
+        |---->cobcgen-NOTICE
+        |---->cobcgen-README
         |----><ant>
                 |---->build-cobc.xml
         |----><lib>

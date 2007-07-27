@@ -23,8 +23,8 @@ PREREQUISITES:
 +---------------------------------------+
    <installDir>
         |---->LICENSE
-        |---->NOTICE
-        |---->README
+        |---->schemagen-NOTICE
+        |---->schemagen-README
         |----><ant>
                 |---->build-schema.xml
         |----><bin>

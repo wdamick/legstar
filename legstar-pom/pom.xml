@@ -64,7 +64,6 @@
     </plugins>
   </build>
   
-  <!--
   <modules>
     <module>../legstar-common</module>
     <module>../legstar-messaging</module>
@@ -90,6 +89,7 @@
     <module>../legstar-common-plugin</module>
     <module>../legstar-distribution</module>
   </modules>
+  <!--
     -->
   
   <!-- Enabling the use of FTP -->

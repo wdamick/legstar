@@ -13,7 +13,7 @@
     
     <release version="1.0.1" date="2007-04-20" description="Transport/Connectivity refactoring">
       <action dev="fady" type="add">
-        Generated endpoints now use a new XML configuration file. It is called Config.xml
+        Generated endpoints now use a new XML configuration file. It is called legstar-invoker-config.xml
         and should be accessible from the classpath (for instance stored in shared/lib).
       </action>
       <action dev="fady" type="add">

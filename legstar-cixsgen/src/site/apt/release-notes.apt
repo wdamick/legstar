@@ -31,8 +31,8 @@ INSTALLING/UNINSTALLING:
 +---------------------------------------+
    <installDir>
         |---->LICENSE
-        |---->NOTICE
-        |---->README
+        |---->cixsgen-NOTICE
+        |---->cixsgen-README
         |----><ant>
                 |---->build-service.xml
                 |---->build-service-client.xml
@@ -40,6 +40,7 @@ INSTALLING/UNINSTALLING:
                 |---->*.jar
         |----><samples>
                 |---->*.xml
+                |---->*.properties
         |----><src>
                 |---->*.java
         |----><target>

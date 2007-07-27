@@ -23,8 +23,8 @@ INSTALLING/UNINSTALLING:
 +---------------------------------------+
    <installDir>
         |---->LICENSE
-        |---->NOTICE
-        |---->README
+        |---->xsdcgen-NOTICE
+        |---->xsdcgen-README
         |----><ant>
                 |---->build-xsdc.xml
         |----><lib>
