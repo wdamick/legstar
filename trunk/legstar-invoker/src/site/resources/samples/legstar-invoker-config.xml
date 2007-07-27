@@ -16,8 +16,18 @@
     
       <!--  The host access strategy, either direct or pooled. If pooled is chosen
             other engine related entries in the configuration file are needed
-            (see sample delivered as part of legstar-engine)    -->
+            (see commented lines below)    -->
       <hostAccessStrategy>direct</hostAccessStrategy>
+
+      <!--  Used when pooling:
+            The number of simultaneous connections to the host. This number needs to
+            be reasonably small in order to prevent any flooding of the host system.
+      <hostConnectionPoolSize>2</hostConnectionPoolSize> -->
+      
+      <!--  Used when pooling:
+            This is the maximum time (in millisecs) a pooled connection will wait
+            for a reply from the host.
+      <pooledInvokeTimeout>2000</pooledInvokeTimeout> -->
       
       <!--  The connection factory provides a transport implementation.  -->
       <hostConnectionfactoryClass>com.legstar.http.client.CicsHttpConnectionFactory</hostConnectionfactoryClass>
