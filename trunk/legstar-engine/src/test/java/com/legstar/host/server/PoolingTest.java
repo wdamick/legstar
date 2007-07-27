@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.logging.Log; 
 import org.apache.commons.logging.LogFactory; 
 import com.legstar.host.server.Engine;
@@ -53,13 +53,12 @@ public class PoolingTest extends TestCase {
 	private static final String HOST_USERID = "P390";
 	private static final String HOST_PASSWORD = "STREAM2";
 	private static final int CLIENT_THREADS = 10;
-	private static final String CONFIG_FILE = "engine-config.xml";
 
 	/** Logger. */
 	private static final Log mLog = LogFactory.getLog(PoolingTest.class);
 	
 	public void testStartStopEngine() throws Exception {
-		XMLConfiguration config = new XMLConfiguration(CONFIG_FILE);
+		HierarchicalConfiguration config = Util.getCombinedConfiguration();
 		EngineHandler engHandler = new EngineHandler(config);
 		engHandler.init();
 		Thread.sleep(1000L);
@@ -68,7 +67,7 @@ public class PoolingTest extends TestCase {
 	}
 	
 	public void testScheduleWork() throws Exception {
-		XMLConfiguration config = new XMLConfiguration(CONFIG_FILE);
+		HierarchicalConfiguration config = Util.getCombinedConfiguration();
 		ExecutorService executor = Executors.newFixedThreadPool(CLIENT_THREADS);
 		WorkManager wm = new LsWorkManager(executor);
 		EngineHandler engHandler = new EngineHandler(config);
@@ -92,7 +91,7 @@ public class PoolingTest extends TestCase {
 	}
 
 	public void testScheduleWorkInvalidAddress() throws Exception {
-		XMLConfiguration config = new XMLConfiguration(CONFIG_FILE);
+		HierarchicalConfiguration config = Util.getCombinedConfiguration();
 		ExecutorService executor = Executors.newFixedThreadPool(CLIENT_THREADS);
 		WorkManager wm = new LsWorkManager(executor);
 		EngineHandler engHandler = new EngineHandler(config);
@@ -114,7 +113,7 @@ public class PoolingTest extends TestCase {
 	}
 
 	public void testScheduleFailingWork() throws Exception {
-		XMLConfiguration config = new XMLConfiguration(CONFIG_FILE);
+		HierarchicalConfiguration config = Util.getCombinedConfiguration();
 		EngineHandler engHandler = new EngineHandler(config);
 		engHandler.init();
 		
@@ -145,7 +144,7 @@ public class PoolingTest extends TestCase {
 	}
 
 	public void testScheduleMultipleWork() throws Exception {
-		XMLConfiguration config = new XMLConfiguration(CONFIG_FILE);
+		HierarchicalConfiguration config = Util.getCombinedConfiguration();
 		ExecutorService executor = Executors.newFixedThreadPool(CLIENT_THREADS);
 		WorkManager wm = new LsWorkManager(executor);
 		EngineHandler engHandler = new EngineHandler(config);
@@ -175,7 +174,7 @@ public class PoolingTest extends TestCase {
 	}
 	
 	public void testScheduleMultiplePools() throws Exception {
-		XMLConfiguration config = new XMLConfiguration(CONFIG_FILE);
+		HierarchicalConfiguration config = Util.getCombinedConfiguration();
 		ExecutorService executor = Executors.newFixedThreadPool(CLIENT_THREADS);
 		WorkManager wm = new LsWorkManager(executor);
 		EngineHandler engHandler = new EngineHandler(config);
@@ -299,5 +298,6 @@ public class PoolingTest extends TestCase {
 		}
 			
 	}
+
 
 }

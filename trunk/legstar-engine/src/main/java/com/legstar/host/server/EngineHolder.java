@@ -24,7 +24,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.naming.InitialContext;
-import org.apache.commons.configuration.XMLConfiguration;
+
+import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.tree.xpath.XPathExpressionEngine;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -55,7 +56,7 @@ public final class EngineHolder {
 	private static ConnectionPoolManager sPoolManager;
 
 	/** The current configuration settings. */
-	private static XMLConfiguration sConfig;
+	private static HierarchicalConfiguration sConfig;
 	
 	/** Configuration key giving the work manager JNDI location. */
 	private static final String WM_LOCATION =
@@ -81,7 +82,7 @@ public final class EngineHolder {
 	 * @param config the complete configuration hierarchy
 	 * @throws EngineConfigurationException if configuration is invalid
 	 */
-	public static void preInit(final XMLConfiguration config)
+	public static void preInit(final HierarchicalConfiguration config)
 			throws EngineConfigurationException {
 		sConfig = config;
 		sConfig.setExpressionEngine(new XPathExpressionEngine());

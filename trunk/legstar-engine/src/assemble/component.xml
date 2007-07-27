@@ -2,9 +2,17 @@
  
     <fileSets>
     
-        <!-- Sample configuration file -->
+        <!-- Sample configuration files for the engine -->
         <fileSet>
             <directory>../legstar-engine/src/site/resources/samples</directory>
+            <outputDirectory>/samples</outputDirectory>
+            <includes>
+                <include>**</include>
+            </includes>
+        </fileSet>
+        <!-- Also provide a sample invoker configuration file -->
+        <fileSet>
+            <directory>../legstar-invoker/src/site/resources/samples</directory>
             <outputDirectory>/samples</outputDirectory>
             <includes>
                 <include>**</include>

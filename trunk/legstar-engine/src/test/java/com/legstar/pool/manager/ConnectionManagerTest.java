@@ -22,19 +22,17 @@ package com.legstar.pool.manager;
 
 import org.apache.commons.configuration.ConfigurationException;
 
-import com.legstar.config.Config;
+import com.legstar.host.server.Util;
 import com.legstar.messaging.Address;
 
 import junit.framework.TestCase;
 
 public class ConnectionManagerTest extends TestCase {
 
-	private static final String CONFIG_FILE = "engine-config.xml";
-	
 	public void testGetPool() {
 		try {
 			ConnectionPoolManager pm = new ConnectionPoolManager(
-					Config.loadGeneralConfig(CONFIG_FILE));
+					Util.getCombinedConfiguration());
 			Address address = new Address("TheOtherMainframe");
 			/* This should not return a pool since we are not
 			 * requesting creation and the pool map is initially
@@ -57,7 +55,7 @@ public class ConnectionManagerTest extends TestCase {
 	public void testMultiAdd() {
 		try {
 			ConnectionPoolManager pm = new ConnectionPoolManager(
-					Config.loadGeneralConfig(CONFIG_FILE));
+					Util.getCombinedConfiguration());
 			Address address = new Address("TheMainframe");
 			ConnectionPool cp = pm.getPool(address, true);
 			Address address2 = new Address("TheOtherMainframe");
@@ -79,7 +77,7 @@ public class ConnectionManagerTest extends TestCase {
 	public void testShutdown() {
 		try {
 			ConnectionPoolManager pm = new ConnectionPoolManager(
-					Config.loadGeneralConfig(CONFIG_FILE));
+					Util.getCombinedConfiguration());
 			/* Shutdown an empty pool */
 			pm.shutDown();
 			

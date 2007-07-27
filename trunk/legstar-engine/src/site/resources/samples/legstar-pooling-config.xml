@@ -3,7 +3,7 @@
  This configuration file shows the parameters for a pooling engine.
  The description can be any text you please.
   -->
-<config description="Default Configuration">
+<configuration>
   <!-- There must be a maximum of 1 engine elements -->
   <engine>
     <!-- Maximum number of waiting requests. When this number is reached, the
@@ -28,32 +28,5 @@
       </defaultThreadPool>
      </workManager>
   </engine>
-  
-  <!-- When connections are pooled there are additional parameters to
-       setup for target host endpoints. -->
-  <hostEndPoints>
-    <hostEndPoint name="TheMainframe">
-      
-      <!-- All connections targetting this endpoint will be pooled. -->
-      <hostAccessStrategy>pooled</hostAccessStrategy>
-      
-      <!-- The number of simultaneous connections to the host. This number needs to
-      be reasonably small in order to prevent any flooding of the host system. -->
-      <hostConnectionPoolSize>2</hostConnectionPoolSize>
-      
-      <!-- This is the maximum time (in millisecs) a pooled connection will wait
-           for a reply from the host. -->
-      <pooledInvokeTimeout>2000</pooledInvokeTimeout>
-      
-      <hostConnectionfactoryClass>com.legstar.http.client.CicsHttpConnectionFactory</hostConnectionfactoryClass>
-      <hostURLPath>/CICS/CWBA/LSWEBBIN</hostURLPath>
-      <hostIPAddress>my.main.frame</hostIPAddress>
-      <hostIPPort>3080</hostIPPort>
-      <hostCharset>IBM01140</hostCharset>
-      <hostUserID>MYUSER</hostUserID>
-      <hostPassword>MYPASS</hostPassword>
-      <hostTraceMode>false</hostTraceMode>
-     </hostEndPoint>
-  </hostEndPoints>
-</config>
+</configuration>
    

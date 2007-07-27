@@ -25,8 +25,11 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
+import org.apache.commons.configuration.CombinedConfiguration;
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.configuration.DefaultConfigurationBuilder;
+import org.apache.commons.configuration.HierarchicalConfiguration;
+import org.apache.commons.configuration.tree.xpath.XPathExpressionEngine;
 import org.apache.commons.logging.Log; 
 import org.apache.commons.logging.LogFactory; 
 
@@ -109,10 +112,15 @@ public class InitiatorServlet extends HttpServlet {
 	 * @return the configuration retrieved
 	 * @throws ConfigurationException if configuration cannot be retrieved
 	 */
-	private XMLConfiguration loadConfigFile(
+	private HierarchicalConfiguration loadConfigFile(
 			final String configFileName) throws ConfigurationException	{
 		LOG.debug("Attempting to load " + configFileName);
-		XMLConfiguration config = new XMLConfiguration(configFileName);
+		DefaultConfigurationBuilder dcb = new DefaultConfigurationBuilder();
+		dcb.setFileName(configFileName);
+		CombinedConfiguration config = (CombinedConfiguration)
+		  dcb.getConfiguration(true).getConfiguration(
+				  DefaultConfigurationBuilder.ADDITIONAL_NAME);
+		config.setExpressionEngine(new XPathExpressionEngine());
 		LOG.debug("Load success for " + configFileName);
 		return config; 
 	}

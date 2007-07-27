@@ -20,9 +20,16 @@
  *******************************************************************************/
 package com.legstar.host.server;
 
+import org.apache.commons.configuration.CombinedConfiguration;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.DefaultConfigurationBuilder;
+import org.apache.commons.configuration.HierarchicalConfiguration;
+import org.apache.commons.configuration.tree.xpath.XPathExpressionEngine;
+
 /** Test utility class. */
 public final class Util {
 	
+	public static final String CONFIG_FILE = "legstar-engine-config.xml";
 	
 	/** Cannot be instanciated. */
 	private Util() {
@@ -66,6 +73,16 @@ public final class Util {
 				(byte) Integer.parseInt(string.substring(i, i + 2), 16);
 		}
 		return hostBytes;
+	}
+
+	public static HierarchicalConfiguration getCombinedConfiguration() throws ConfigurationException  {
+		DefaultConfigurationBuilder dcb = new DefaultConfigurationBuilder();
+		dcb.setFileName(CONFIG_FILE);
+		CombinedConfiguration config = (CombinedConfiguration)
+		  dcb.getConfiguration(true).getConfiguration(
+				  DefaultConfigurationBuilder.ADDITIONAL_NAME);
+		config.setExpressionEngine(new XPathExpressionEngine());
+		return config;
 	}
 
 }

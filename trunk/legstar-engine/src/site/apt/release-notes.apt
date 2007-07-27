@@ -10,7 +10,7 @@ PREREQUISITES:
  It is assumed you already successfully used LegStar using direct host access
  strategy (without a pooling engine).
  
- The Servlet initiator is targetted at the Servlet 2.2 API. It has been tested
+ The Servlet initiator is targetted at the Servlet 2.3 API. It has been tested
  with Tomcat 5.5.
  
  The Engine uses the "Timer and Work Manager for Application Servers"
@@ -35,8 +35,8 @@ INSTALLING/UNINSTALLING:
 +---------------------------------------+
    <installDir>
         |---->LICENSE
-        |---->NOTICE
-        |---->README
+        |---->engine-NOTICE
+        |---->engine-README
         |----><lib>
                 |---->*.jar
         |----><samples>
@@ -48,9 +48,9 @@ INSTALLING/UNINSTALLING:
    
  [[2]] Copy the jar files from <lib> to <CATALINA_BASE>/shared/lib.
    
- [[3]] Copy the config.xml file from <samples> to <CATALINA_BASE>/shared/classes. Customize
-       config.xml according to your needs. This location for config.xml has been chosen to
-       allow the engine to share the same configuration file with client requests.
+ [[3]] Copy the configuration files from <samples> to <CATALINA_BASE>/shared/classes. Customize
+       configurations according to your needs. This location for configuration files has been
+       chosen to allow the engine to share the same configuration file with client requests.
    
  [[4]] Copy the legstar-engine.war file from <war> to <CATALINA_BASE>/webapps.
  
