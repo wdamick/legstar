@@ -25,18 +25,16 @@ import java.util.List;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
-import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.xpath.XPathExpressionEngine;
 
 import junit.framework.TestCase;
 
 public class ConfigReaderTest extends TestCase {
 	
-	public static final String CONFIG_FILE = "engine-config.xml";
 	private static final String HOST_ENDPOINT_CFG = "hostEndPoints.hostEndPoint";
 	
 	public void testReadConfig() throws ConfigurationException {
-		XMLConfiguration config = new XMLConfiguration(CONFIG_FILE);
+		HierarchicalConfiguration config = Util.getCombinedConfiguration();
 		List endpoints = config.configurationsAt(HOST_ENDPOINT_CFG);
 		for(Iterator it = endpoints.iterator(); it.hasNext();)	{
 			HierarchicalConfiguration sub = (HierarchicalConfiguration) it.next();
@@ -48,7 +46,7 @@ public class ConfigReaderTest extends TestCase {
 	}
 
 	public void testReadConfigXPath() throws ConfigurationException {
-		XMLConfiguration config = new XMLConfiguration(CONFIG_FILE);
+		HierarchicalConfiguration config = Util.getCombinedConfiguration();
 		config.setExpressionEngine(new XPathExpressionEngine());
 		
 		List endpoints = config.configurationsAt("hostEndPoints/hostEndPoint[@name = 'TheOtherMainframe']");
@@ -62,20 +60,20 @@ public class ConfigReaderTest extends TestCase {
 	}
 	
 	public void testNotFoundElement() throws ConfigurationException {
-		XMLConfiguration config = new XMLConfiguration(CONFIG_FILE);
+		HierarchicalConfiguration config = Util.getCombinedConfiguration();
 		config.setExpressionEngine(new XPathExpressionEngine());
 		
 		List endpoints = config.configurationsAt("hostEndPoints/hostEndPoint[@name = 'TheOtterrMainframe']");
 		if (endpoints == null || endpoints.size() == 0) {
 			System.out.println("The requested endpoint:" 
 			+ "TheOtterrMainframe"
-			+ " is not defined in the " + config.getBasePath());
+			+ " is not defined in " + Util.CONFIG_FILE);
 		}
 		assertTrue(endpoints.isEmpty());
 	}
 
 	public void testReadConfigXPathDirect() throws ConfigurationException {
-		XMLConfiguration config = new XMLConfiguration(CONFIG_FILE);
+		HierarchicalConfiguration config = Util.getCombinedConfiguration();
 		config.setExpressionEngine(new XPathExpressionEngine());
 		
 		List  endpoints = config.configurationsAt("hostEndPoints/hostEndPoint[@name = 'TheOtherMainframe']");
@@ -84,4 +82,5 @@ public class ConfigReaderTest extends TestCase {
 		System.out.println("EndPoint name=" + endpoint.getString("@name"));
 		System.out.println("EndPoint ipaddress=" + endpoint.getString("hostIPAddress"));
 	}
+	
 }

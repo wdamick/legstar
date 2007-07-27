@@ -27,14 +27,13 @@ import org.apache.commons.configuration.HierarchicalConfiguration;
 
 import junit.framework.TestCase;
 import com.legstar.config.Config;
+import com.legstar.host.server.Util;
 import com.legstar.messaging.Address;
 import com.legstar.messaging.Connection;
 import com.legstar.messaging.ConnectionFactory;
 
 public class ConnectionPoolTest extends TestCase {
 
-	private static final String CONFIG_FILE = "engine-config.xml";
-	
 	private static final int POOL_SIZE = 1;
 	
 	public void testInstanciation() {
@@ -90,7 +89,7 @@ public class ConnectionPoolTest extends TestCase {
 	private ConnectionPool getConnectionPool() throws ConfigurationException, ConnectionPoolException {
 		Address address = new Address("TheMainframe");
 		HierarchicalConfiguration generalConfig =
-			Config.loadGeneralConfig(CONFIG_FILE);
+			Util.getCombinedConfiguration();
 		HierarchicalConfiguration endpointConfig =
 			Config.loadAddressConfiguration(generalConfig, address);
 		ConnectionFactory connectionFactory = Config.loadConnectionFactory(endpointConfig);

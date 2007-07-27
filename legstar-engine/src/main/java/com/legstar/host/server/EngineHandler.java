@@ -20,7 +20,7 @@
  *******************************************************************************/
 package com.legstar.host.server;
 
-import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.logging.Log; 
 import org.apache.commons.logging.LogFactory; 
 
@@ -31,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
 public class EngineHandler {
 	
 	/** Engine configuration hierarchy. */
-	private XMLConfiguration mConfig;
+	private HierarchicalConfiguration mConfig;
 	
 	/** Logger. */
 	private static final Log LOG = LogFactory.getLog(EngineHandler.class);
@@ -40,7 +40,7 @@ public class EngineHandler {
 	 * Construct from an XML configuration.
 	 * @param config the configuration hierarchy
 	 */
-	public EngineHandler(final XMLConfiguration config) {
+	public EngineHandler(final HierarchicalConfiguration config) {
 		mConfig = config;
 	}
 	
