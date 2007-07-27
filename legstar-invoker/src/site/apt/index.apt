@@ -20,7 +20,7 @@ Invoker overview
   
   The Invoker expects a configuration file as well as a target address to run the host
   program on. A configuration file is an XML file. The Invoker looks for host endpoint
-  definitions similar to the one found in the config.xml sample provided.
+  definitions similar to the one found in the legstar-invoker-config.xml sample provided.
   
   The Address received by the invoker specifies which host enpoint to use. If the Address
   is empty, the first endpoint definition is used. The Address can also override host
