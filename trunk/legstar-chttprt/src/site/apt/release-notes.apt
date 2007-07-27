@@ -1,5 +1,5 @@
  -------------------------------------------------------------------------------
-                     LegSem LegStar Chttprt Version 1.0.1
+                     LegSem LegStar Chttprt Version 1.1.0
                                Release Notes
  -------------------------------------------------------------------------------
 
@@ -30,8 +30,8 @@ INSTALLING/UNINSTALLING:
 +---------------------------------------+
    <installDir>
         |---->LICENSE
-        |---->NOTICE
-        |---->README
+        |---->chttprt-NOTICE
+        |---->chttprt-README
         |---->LSWEBBIN-README
         |----><lib>
                 |---->*.jar
@@ -39,7 +39,7 @@ INSTALLING/UNINSTALLING:
                 |----><C370>
                         |---->*.C
                 |----><JCL>
-                        |---->*.JCL
+                        |---->C370*
                 
 +---------------------------------------+
    

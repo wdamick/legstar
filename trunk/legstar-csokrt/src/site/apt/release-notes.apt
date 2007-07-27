@@ -25,8 +25,8 @@ INSTALLING/UNINSTALLING:
 +---------------------------------------+
    <installDir>
         |---->LICENSE
-        |---->NOTICE
-        |---->README
+        |---->csokrt-NOTICE
+        |---->csokrt-README
         |---->LSSOKBIN-README
         |----><lib>
                 |---->*.jar
@@ -37,7 +37,7 @@ INSTALLING/UNINSTALLING:
                 |----><cobol>
                         |---->*.CBL
                 |----><JCL>
-                        |---->*.JCL
+                        |---->C370*
                 
 +---------------------------------------+
    
