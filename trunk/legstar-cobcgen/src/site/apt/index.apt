@@ -12,7 +12,7 @@ Cobol generator (cobcgen) overview
   used as regular cobol copybooks in a cobol program.
   
   The cobol data descriptions are derived from JAXB annotated classes such as the ones
-  produced by {{{../legstar-jaxbgen} Classes Generator}}.
+  produced by {{{../legstar-jaxbgen} JAXB Generator}}.
   
   The cobol data description have the same morphology as the JAXB class properties. This
   means that order and depth are driven by the JAXB annotated properties.
@@ -21,6 +21,6 @@ Cobol generator (cobcgen) overview
   use-case, Cobcgen will generate the cobol copybooks needed to describe the web service
   request and response parameters.
   
-  Cobcgen is an ant task which takes as input an set of annotated JAXB classes.
+  Cobcgen is an ant task which takes as input a set of annotated JAXB classes.
  
   
