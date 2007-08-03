@@ -31,11 +31,6 @@ import com.legstar.coxb.host.HostException;
  * binding between a java type and cobol.
  *
  * @author Fady Moussallam
- * 
-*/
-/**
- * @author Fady
- *
  */
 public abstract class CComplexBinding
 	extends CBinding implements ICobolComplexBinding {
