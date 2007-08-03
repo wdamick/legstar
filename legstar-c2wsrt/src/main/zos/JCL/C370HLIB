@@ -1,9 +1,9 @@
 //P390FXMC   JOB  (ACCT#),'FADY',
 //*          RESTART=REFRESH,
 //           MSGCLASS=X,NOTIFY=&SYSUID,PRTY=14,REGION=0M
-//*---------------------------------------------------------------------*
-//* C COMPILATION                                                       *
-//*---------------------------------------------------------------------*
+//*-------------------------------------------------------
+//* COMPILES LSHTTLIB
+//*-------------------------------------------------------
 //C        EXEC PGM=CBCDRVR,REGION=4M,
 //         PARM='RENT,SOURCE,NOSEARCH,OFFSET,LIST,DEFINE(MVS),DLL'
 //STEPLIB  DD DSN=CBC.SCBCCMP,DISP=SHR
@@ -77,7 +77,7 @@
 //         DD DISP=SHR,DSN=P390.DEV.LOAD
 //         DD DISP=SHR,DSN=TCPIP.SEZATCP
 //         DD DISP=SHR,DSN=TCPIP.SEZACMTX
-//SYSLIN   DD DSN=*.PLKED.SYSMOD,DISP=(OLD,PASS)
+//SYSLIN   DD DSN=*.PLKED.SYSMOD,DISP=(OLD,DELETE)
 //         DD DDNAME=SYSIN
 //SYSLMOD  DD DSN=P390.DEV.LOAD(LSHTTLIB),DISP=SHR
 //SYSPRINT DD SYSOUT=*
@@ -85,13 +85,4 @@
  INCLUDE SYSLIB(EZACIC17)
  NAME LSHTTLIB(R)
 /*
-//*---------------------------------------------------------------------*
-//* SAVE OBJECT MODULE                                                  *
-//*---------------------------------------------------------------------*
-//COPYOBJT EXEC PGM=IEBGENER,
-//         COND=((7,LT,C),(7,LT,PLKED),(7,LT,LKED))
-//SYSUT1   DD DSN=*.PLKED.SYSMOD,DISP=(OLD,DELETE)
-//SYSUT2   DD DSN=P390.DEV.OBJ(LSHTTLIB),DISP=SHR
-//SYSPRINT DD SYSOUT=*
-//SYSIN    DD DUMMY
-//*
+//
