@@ -9,22 +9,24 @@
        Is there a sample to showcase how Coxbrt should be used?
       </question>
       <answer>
-       No. The easiest thing to do is to use Coxbgen to create JAXB annotated classes and
+       No. The easiest thing to do is to use Jaxbgen to create JAXB annotated classes and
        then use code similar to:
        <source>
 // Select a conversion strategy 
 CobolSimpleConverters cc = new CobolSimpleConverters(new CobolContext());
+// Create a byte buffer to receive host data
+byte[] hostBytes = new byte[79];
 // Create a concrete visitor
 CobolMarshalVisitor mv = new CobolMarshalVisitor(hostBytes, 0, cc);
 // Create an instance of the JAXB object factory
 com.legstar.test.coxb.dplarcht.ObjectFactory objectFactory
-    = new com.legstar.test.coxb.dplarcht.ObjectFactory();
+    = new com.legstar.test.coxb.lsfileae.ObjectFactory();
 // Create and populate an instance of an object (JAXB annotated)
-com.legstar.test.coxb.dplarcht.DfhcommareaType dfhcommarea
+com.legstar.test.coxb.lsfileae.DfhcommareaType dfhcommarea
     = objectFactory.createDfhcommareaType();
 ... populate the dfhcommarea object ...
 // Traverse the object structure, visiting each node with the visitor
-CComplexBinding ccem = new CComplexBinding(objectFactory, dfhcommarea);
+CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
 ccem.accept(mv);
        </source>
       </answer>
