@@ -5,14 +5,14 @@
   </properties>
   <body>
     <release version="1.1.0" date="2007-05-25" description="CICS Containers support">
-      <action dev="fady" type="change">
+      <action dev="fady" type="update">
         The Web Service dialog displays different items in support for multiple input
         and output operations. Individual input and output structures are not shown, only
         the number of them appears.
         The endpoint package and target namespace for the Service endpoint are now
         modifiable.
       </action>
-      <action dev="fady" type="change">
+      <action dev="fady" type="update">
         The Operations dialog now displays a table of input and a table of output
         structures. Each table has a set of Add/Edit/Remove buttons. An operation can
         also specify a CICS Channel.
@@ -21,7 +21,7 @@
         The Structure dialog maps JAXB objects to inputs and outputs. It also allows
         a JAXB object to map a CICS Container. 
       </action>
-      <action dev="fady" type="change">
+      <action dev="fady" type="update">
         The service descriptor format has changed. It used to be a simple properties file,
         it is now an XML with the same Schema as the inner object expected by the cixsgen
         ANT task and also the CIXS Generator XML descriptor used as input to the XSLT code
