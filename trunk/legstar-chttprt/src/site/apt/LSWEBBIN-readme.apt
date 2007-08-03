@@ -15,12 +15,17 @@ CICS Web-aware program LSWEBBIN
 
 * Prerequisites:
 
+ LSWEBBIN uses the LSLNKBIN and LSCOMLOG programs part of the
+ {{{../legstar-csokrt}LegStar csokrt module}}. Please refer to the
+  {{{../legstar-csokrt/LSSOKBIN-readme.html} LSSOKBIN documentation}} for
+ instructions on how to install these programs.
+ 
  You will need CICS TS 2.3 and above (Although it is believed the
  program might work for TS 2.2, TS 2.1 and TS 1.3).
    
  You will need a C/370 compiler. Since LSWEBBIN is also a CICS program
  you can use the CICS procedure called DFHYITDL to perform the translation
- and compilation (see C370CCMP.JCL for a sample).
+ and compilation (see C370CWEB for a sample JCL).
    
  You will need a TCPIPSERVICE definition in the CICS region used to
  service incoming requests. Make sure the TCPIPSERVICE uses the default
@@ -34,12 +39,10 @@ CICS Web-aware program LSWEBBIN
 * Limitations:
 
   - LSWEBBIN does not support the INPUTMSG option of the LINK command.
-  
-  - LSWEBBIN does not support CONTAINERS.
-
+ 
 * This program has been tested for:
 
-  - CICS TS 2.3 (6.3.0 Command language translator)
+  - CICS TS 2.3 (6.3.0 Command language translator) and TS 3.1 (6.4.0)
  
   - C/370 for OS/390 V2 R10
 
@@ -55,44 +58,31 @@ CICS Web-aware program LSWEBBIN
  customized by your CICS administrator, therefore you might want
  to check with him.
 
- Then you can write a client application using an HTTP client
- library, pointing to the URL mentioned previoulsly and sending
- the following data:
-
+ LSWEBBIN serves clients using the{{{../legstar-chttprt}LegStar
+ chttprt library}}. This library formats the http payload as
+ compact binary. LSWEBBIN expects the following standard HTTP headers:
 
 *--------------+-----------+--------------------------------------------------+
 | HTTP method  | Mandatory | Should be POST for a client program.             |
 *--------------+-----------+--------------------------------------------------+
 | Content-Type | Mandatory | Should contain "binary/octet-stream".             |
 *--------------+-----------+--------------------------------------------------+
-Standard HTTP Headers\
+Standard HTTP Headers
 
+ In addition, these optional extension headers can be specified:
 
-
 *------------------+-----------+----------------------------------------------+
-| CICSProgram      | Mandatory | Should specify the CICS program to LINK to.  |
+| CICSTraceMode    | Optional  | Turns traces on in CICS if value is 'true'.  |
 *------------------+-----------+----------------------------------------------+
-| CICSLength       | Optional  | Use this to specify what the commarea size   |
-|                  |           | should be if the data you are sending as     |
-|                  |           | input is smaller than the necessary commarea |
-|                  |           | size.                                        |
-*------------------+-----------+----------------------------------------------+
-| CICSDataLength   | Optional  | Allows you to specify the DATALENGTH option  |
-|                  |           | on the LINK command. If you omit this header,|
-|                  |           | LSWEBBIN uses the incoming data length.      |
-*------------------+-----------+----------------------------------------------+
-| CICSSysID        | Optional  | Used for SYSID option of LINK command.       |
-*------------------+-----------+----------------------------------------------+
-| CICSSyncOnReturn | Optional  | Used for SYNCONRETURN option of LINK command.|
-*------------------+-----------+----------------------------------------------+
-| CICSTransID      | Optional  | Used for TRANSID option of LINK command.     |
+| CICSRequestID    | Optional  | Correlates the traces produced in CICS with  |
+|                  |           | the client request.                          |
 *------------------+-----------+----------------------------------------------+
 HTTP Extension headers
 
-
- Any error will be signaled back with HTTP status code 500, Internal Server
- error. If the error was trapped by LSWEBBIN, further error description can
- be found in the CICSError HTTP headeras well as in the reply payload.
+ Upon reply, any error will be signaled back with HTTP status code 500,
+ Internal Server error. If the error was trapped by LSWEBBIN, further error
+ description can be found in the CICSError HTTP header.
+ 
  Be advised that in case of an error, the reply payload will actually be
  translated to ISO-8859-1.
 
@@ -102,9 +92,5 @@ HTTP Extension headers
  If no errors occured, the reply data will be binary and signaled with a
  content-type of "binary/octet-stream".
 
- You can activate trace mode by appending "?trace" to the URL. As a result
- details of the execution will be printed to the CICS CESO TD Queue which
- usually points to CEEOUT. Traces are correlated to the client TCP/IP 
- address.
 
    
