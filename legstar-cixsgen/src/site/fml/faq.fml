@@ -30,8 +30,8 @@
     
      <faq id="footer-company">
       <question>
-       Why am I getting a "org.apache.commons.configuration.ConfigurationException: Cannot locate configuration source config.xml" 
-       when starting running my JAXWS endpoint?
+       Why am I getting a "org.apache.commons.configuration.ConfigurationException: Cannot locate configuration source
+       legstar-invoker-config.xml" when starting running my JAXWS endpoint?
       </question>
       <answer>
        The endpoint implementation is looking for a configuration file which name is specified in the web.xml
