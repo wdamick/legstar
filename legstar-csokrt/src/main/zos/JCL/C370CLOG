@@ -1,6 +1,9 @@
 //P390FXMC   JOB  (ACCT#),'FADY',
 //*          RESTART=REFRESH,
 //           MSGCLASS=X,NOTIFY=&SYSUID,PRTY=14,REGION=0M
+//*-------------------------------------------------------
+//* COMPILES LSCOMLOG
+//*-------------------------------------------------------
 //SBPROCS JCLLIB ORDER=CICSTS23.CICS.SDFHPROC
 //CMPCON  EXEC DFHYITDL,PROGLIB='P390.DEV.LOAD',
 //             LE370HLQ=CEE,
@@ -26,25 +29,12 @@
 //*-------------------------------------------------------
 //* PRE-LINK SUBSTITUTIONS
 //*-------------------------------------------------------
-//PLKED.SYSLIB DD DISP=SHR,DSN=P390.DEV.OBJ
-//PLKED.SYSDEFSD DD DSN=P390.DEV.H(LSCOMLOG),DISP=SHR
+//PLKED.SYSDEFSD DD DSN=P390.DEV.DECK(LSCOMLOG),DISP=SHR
 //*-------------------------------------------------------
 //* LINK SUBSTITUTIONS
 //*-------------------------------------------------------
-//LKED.SYSLIN DD
-//     DD DSN=*.PLKED.SYSMOD,DISP=(OLD,PASS)
-//     DD *
-/*
 //LKED.SYSLIB DD
 //     DD
 //     DD DISP=SHR,DSN=P390.DEV.LOAD
 //LKED.SYSLMOD DD DSN=P390.DEV.LOAD(LSCOMLOG),DISP=SHR
-//*-------------------------------------------------------
-//* SAVE OBJECT MODULE FOR DISTRIBUTION
-//*-------------------------------------------------------
-//COPYOBJT EXEC PGM=IEBGENER
-//SYSUT1   DD DSN=*.CMPCON.PLKED.SYSMOD,DISP=(OLD,DELETE)
-//SYSUT2   DD DSN=P390.DEV.OBJ(LSCOMLOG),DISP=SHR
-//SYSPRINT DD SYSOUT=*
-//SYSIN    DD DUMMY
 //
