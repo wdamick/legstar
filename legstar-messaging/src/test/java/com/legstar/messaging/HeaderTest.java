@@ -44,15 +44,15 @@ public class HeaderTest extends TestCase {
 		assertEquals("{}", json);
 
 		/* Test with 1 entry map */
-		map.put("CICSProgram", "LSFILEAE");
+		map.put("CICSProgramName", "LSFILEAE");
 		json = HeaderPart.getJsonFromMap(map);
-		assertEquals("{\"CICSProgram\":\"LSFILEAE\"}", json);
+		assertEquals("{\"CICSProgramName\":\"LSFILEAE\"}", json);
 
 		/* Test with n entries map */
 		map.put("CICSLength", "79");
 		map.put("CICSDataLength", "6");
 		json = HeaderPart.getJsonFromMap(map);
-		assertEquals("{\"CICSProgram\":\"LSFILEAE\",\"CICSLength\":\"79\","
+		assertEquals("{\"CICSProgramName\":\"LSFILEAE\",\"CICSLength\":\"79\","
 				+ "\"CICSDataLength\":\"6\"}", json);
 	}
 
@@ -120,12 +120,12 @@ public class HeaderTest extends TestCase {
 	}
 	public final void testHeaderConstructorFromJsonString() {
 		try {
-			HeaderPart headerPart = new HeaderPart(5, "{\"CICSProgram\":\"LSFILEAE\"}");
+			HeaderPart headerPart = new HeaderPart(5, "{\"CICSProgramName\":\"LSFILEAE\"}");
 			assertEquals("LSOKHEAD", headerPart.getID());
 			assertEquals(5, headerPart.getDataPartsNumber());
-			assertEquals(54, headerPart.getHostSize());
-			assertEquals(26, headerPart.getJsonStringLen());
-			assertEquals("{\"CICSProgram\":\"LSFILEAE\"}", headerPart.getJsonString());
+			assertEquals(58, headerPart.getHostSize());
+			assertEquals(30, headerPart.getJsonStringLen());
+			assertEquals("{\"CICSProgramName\":\"LSFILEAE\"}", headerPart.getJsonString());
 		} catch (HeaderPartException e) {
 			fail("testHeaderConstructorFromAnotherHeader failed " + e);
 		}
