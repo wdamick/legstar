@@ -17,6 +17,28 @@ CICS Socket server program LSSOKBIN
  to the target CICS program (this way, LSSOKBIN can focus on dealing with
  the message exchange protocol). Both LSCOMLOG and LSLNKBIN are delivered
  along with LSSOKBIN and the common LSCOMDEC include file.
+ 
+ LSLNKBIN itself depends on 2 sub-programs LSLNKCOM for commarea-driven
+ programs and LSLNKCTN for container-driven programs.
+ 
+ The call diagram looks like this:
+ 
++-------------------------------+
+ 
+                                         ------------
+                                     --->| LSLNKCOM |
+                                     |   ------------
+ ------------        ------------    |
+ | LSSOKBIN |------->| LSLNKBIN |----|
+ ------------   |    ------------    |            
+                |                    |   ------------
+                |                    --->| LSLNKCTN |
+                |                        ------------
+                |    ------------
+                ---->| LSCOMLOG |
+                     ------------
++-------------------------------+
+ 
 
 * Prerequisites:
 
@@ -40,8 +62,8 @@ CICS Socket server program LSSOKBIN
  guide you with setting up a compilation job. Pay attention to the
  special requirements for TCPIP Sockets APIs (TCPIP.SEZAxxxx libraries).
  
- Two other JCLs, C370CLOG and C370CLNK are provided to help with compiling
- LSCOMLOG and LSLNKBIN respectively.
+ Four other JCLs, C370CLOG, C370LCOM, C370LCTN and C370CLNK are provided
+ to help with compiling LSCOMLOG, LSLNKCOM, LSLNKCTN and LSLNKBIN respectively.
    
  Once programs are compiled you can install them using RDO. There are no
  special requirements for these definitions. Programs run in USER key
@@ -69,11 +91,9 @@ CICS Socket server program LSSOKBIN
 
   - LSSOKBIN does not support the INPUTMSG option of the LINK command.
   
-  - LSSOKBIN does not support CONTAINERS.
-
 * This program has been tested for:
 
-  - CICS TS 2.3 (6.3.0 Command language translator)
+  - CICS TS 2.3 an TS 3.1 (6.3.0 an 6.4.0 Command language translator)
  
   - C/370 for OS/390 V2 R10
 

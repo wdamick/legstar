@@ -11,7 +11,10 @@ Socket Transport (Csokrt) overview
   The Socket Transport provides connectivity with CICS Sockets.
   
   To select this transport, there needs to be a valid endpoint definition in the active
-  configuration file. The hostConnectionFactory element must be:
+  configuration file. See {{{../legstar-invoker}LegStar invoker module}} for more info on
+  the configuration file location.
+  
+  The hostConnectionFactory element in the configuration file must be:
   
 +-------------------------------+
 	<hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
