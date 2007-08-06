@@ -3,7 +3,7 @@
  -----
  Fady Moussallam
  -----
- 18 April 2007
+ 06 August 2007
  -----
 
 Pooling Engine overview
@@ -13,10 +13,13 @@ Pooling Engine overview
   
   Connections have a set of properties including the target host address but also a host
   character set and a set of credentials. Two clients are allowed to reuse the same connection
-  if and only if they present the exact same set of connection properties.
+  if, and only if, they present the exact same set of connection properties.
   
   The LegStar Engine is written in a transport independent fashion. The actual behavior is
-  driven by an XML configuration file.
+  driven by an XML configuration file. The configuration file is called "legstar-engine-config.xml"
+  by default. It is a combination of "legstar-pooling-config.xml" which contain the engine pooling
+  parameters and the "legstar-invoker-config.xml" which is shared wih the {{{../legstar-invoker}
+  invoker}}.
   
   The Engine is not a standalone application. It has to be started by an initiator. A Servlet
   initiator is part of the delivery. The Servlet initiator starts when the servlet engine
