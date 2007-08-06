@@ -9,13 +9,14 @@
        How to setup different configuration files for certain Web Services?
       </question>
       <answer>
-       By default, there is a single "Config.xml" in a central location such as "Shared/classes"
-       under Tomcat. With this setting, all Web Services installed in this instance of Tomcat 
-       share the same configuration parameters.
-       If you need specific settings for a particular Web Service, you can copy "Config.xml" to
-       the "WEB-INF/classes" folder for this Web Service. If you do so, you must also copy the
-       "invoker.jar" from the common "Shared/lib" location to the specific "WEB-INF/lib" location
-       otherwise the Web Service would not load the configuration file with his own class loader.
+       By default, there is a single "legstar-invoker-config.xml" in a central location such as
+       "Shared/classes" under Tomcat. With this setting, all Web Services installed in this
+       instance of Tomcat share the same configuration parameters.
+       If you need specific settings for a particular Web Service, you can copy
+       "legstar-invoker-config.xml" to the "WEB-INF/classes" folder for this Web Service. If you
+       do so, you must also copy the "invoker.jar" from the common "Shared/lib" location to the
+       specific "WEB-INF/lib" location otherwise the Web Service would not load the configuration
+       file with his own class loader.
       </answer>
     </faq>
 
