@@ -3,7 +3,7 @@
  -----
  Fady Moussallam
  -----
- 16 April 2007
+ 30 July 2007
  -----
 
 Invoker overview
@@ -11,11 +11,14 @@ Invoker overview
   The LegStar Invoker provides a general purpose remote invokation mechanism for host programs.
   
   The Invoker receives input structures as JAXB object trees and produces output JAXB object
-  trees. In this release, the HostInvoker is limited to a single input and single output object.
+  trees. The HostInvoker has the capability to call single input/single output program such as
+  CICS commarea-driven programs but it can also call multiple input/multiple output programs
+  such as CICS containers-driven programs.
+  
   Invoker uses the {{{../legstar-coxbrt} COBOL to XML Binding}} classes to marshal/unmarshal
   host data buffers.
   
-  Host programs to run are described by properties files such as the lsfileae.properties
+  Host programs to call are described by properties files such as the lsfileae.properties
   sample file provided. Such a properties file is expected to be available from the classpath.
   
   The Invoker expects a configuration file as well as a target address to run the host
@@ -48,4 +51,5 @@ Invoker overview
   
   Pooling allows host connections to be reused. For details, refer to {{{../legstar-engine} LegStar engine}}.
   
+  For answers to common questions about LegStar Invoker, see the {{{faq.html} FAQ}}.
   
