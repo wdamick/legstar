@@ -51,7 +51,7 @@ public class MessagePartTest extends TestCase {
 			part.recvFromHost(hostStream);
 			fail("failed testrecvFromHostTooSmall");
 		} catch (HostReceiveException e) {
-			assertEquals("Cannot read message part header", e.getMessage());
+			assertEquals("Invalid message part. No ID", e.getMessage());
 		}
 	}
 
@@ -75,4 +75,17 @@ public class MessagePartTest extends TestCase {
 		assertEquals("LSOKHEAD", part.getID());
 		assertTrue(null == part.getContent());
 	}
+
+	public final void testrecvErrorMessageFromHost() {
+		byte[] hostBytes = Util.toByteArray("d3e2d6d2c5d9d9f040c3c9c3e240839694948195847ed3c9d5d240c3d6d4d4c1d9c5c1408681899385846b409985a2977ed7c7d4c9c4c5d9d96b409985a297f27ef3");
+		ByteArrayInputStream hostStream = new ByteArrayInputStream(hostBytes);
+		MessagePart part = new MessagePart();
+		try {
+			part.recvFromHost(hostStream);
+			fail();
+		} catch (HostReceiveException e) {
+			assertEquals("CICS command=LINK COMMAREA failed, resp=PGMIDERR, resp2=3", e.getMessage());
+		}
+	}
+
 }
