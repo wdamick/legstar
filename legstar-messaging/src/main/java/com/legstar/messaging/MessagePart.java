@@ -47,6 +47,12 @@ public class MessagePart {
 	/** Size of content length on host (bytes). */
 	private static final int CONTENT_LEN_LEN = 4;
 	
+	/** The error identifier that the host will send back.*/
+	private static final String ERROR_ID = "LSOKERR0";
+	
+	/** Error messages sent back from host maximum size.*/
+	private static final int MAX_ERROR_MSG_LEN = 266;
+	
 	/**
 	 * Create an empty message part.
 	 */
@@ -130,18 +136,18 @@ public class MessagePart {
 			throws HostReceiveException {
 		
 		try {
-			/* First recover the message part header */
-			byte[] headerBytes =
-				new byte[MSG_PART_ID_LEN + CONTENT_LEN_LEN];
-			int br = hostStream.read(headerBytes);
-			if (br != MSG_PART_ID_LEN + CONTENT_LEN_LEN) {
+			/* First get the message part ID */
+			mID = recvMsgPartID(hostStream);
+			
+			/* Next is the message part content length */
+			byte[] clBytes = new byte[CONTENT_LEN_LEN];
+			int br = hostStream.read(clBytes);
+			if (br != CONTENT_LEN_LEN) {
 				throw new HostReceiveException(
-						"Cannot read message part header");
+						"Invalid message part. No content length");
 			}
-			mID = new String(headerBytes, 0, MSG_PART_ID_LEN,
-					HostCodec.HEADER_CODE_PAGE).trim();
 			ByteBuffer bb = ByteBuffer.allocate(4);
-			bb.put(headerBytes, MSG_PART_ID_LEN, CONTENT_LEN_LEN);
+			bb.put(clBytes, 0, CONTENT_LEN_LEN);
 			bb.flip();
 			int contentLen = bb.getInt();
 			if (contentLen < 0) {
@@ -169,6 +175,50 @@ public class MessagePart {
 		} catch (IOException e) {
 			throw new HostReceiveException(e);
 		}
+	}
+	
+	/**
+	 * Everything coming back from the host must start with a message part ID.
+	 * This method recovers that ID and checks that it is not an error reply.
+	 * @param hostStream the host byte stream
+	 * @return the message part ID
+	 * @throws HostReceiveException if creation fails
+	 */
+	private String recvMsgPartID(final InputStream hostStream)
+			throws HostReceiveException {
+		
+		String id;
+		try {
+			byte[] idBytes = new byte[MSG_PART_ID_LEN];
+			int br = hostStream.read(idBytes);
+			if (br < MSG_PART_ID_LEN) {
+				throw new HostReceiveException(
+						"Invalid message part. No ID");
+			}
+			id = new String(idBytes, 0, MSG_PART_ID_LEN,
+					HostCodec.HEADER_CODE_PAGE).trim();
+			
+			/* Check if this is an error reply rather than a valid message
+			 * part. In case of an error, recover the text of the error
+			 * message to use as the exception description.            */
+			if (ERROR_ID.compareTo(id.substring(0, ERROR_ID.length())) == 0) {
+				byte[] errorTextBytes = new byte[MAX_ERROR_MSG_LEN];
+				br = hostStream.read(errorTextBytes);
+				String errorText = new String(errorTextBytes, 0, br,
+						HostCodec.HEADER_CODE_PAGE).trim();
+				/* The first 7 characters or the error message text were
+				 * actually read as part of the message part ID. This is
+				 * because message part IDs are 16 char long when error
+				 * identifiers are 8 characters followed by space.     */
+				errorText = id.substring(ERROR_ID.length() + 1,
+						MSG_PART_ID_LEN) + errorText;
+				throw new HostReceiveException(errorText);
+			}
+		} catch (IOException e) {
+			throw new HostReceiveException(e);
+		}
+		
+		return id;
 	}
 	
 	/**
