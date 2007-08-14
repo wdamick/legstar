@@ -1,0 +1,47 @@
+<component>
+
+    <fileSets>
+
+        <!-- C/370 for CICS Server program -->
+        <fileSet>
+            <directory>../legstar-cmqrt/src/main/zos</directory>
+            <outputDirectory>/zos</outputDirectory>
+            <includes>
+                <include>**</include>
+            </includes>
+        </fileSet>
+        <!-- C/370 messaging programs -->
+        <fileSet>
+            <directory>../legstar-messaging/src/main/zos</directory>
+            <outputDirectory>/zos</outputDirectory>
+            <includes>
+                <include>**</include>
+            </includes>
+        </fileSet>
+
+    </fileSets>
+    
+    <files>
+        <file>
+            <source>../legstar-distribution/LICENSE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>LICENSE</destName>
+        </file>
+        <file>
+            <source>../legstar-cmqrt/NOTICE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>cmqrt-NOTICE</destName>
+        </file>
+        <file>
+            <source>../legstar-cmqrt/src/site/apt/release-notes.apt</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>cmqrt-README</destName>
+        </file>
+        <file>
+            <source>../legstar-cmqrt/src/site/apt/LSMQHBIN-readme.apt</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>LSMQHBIN-README</destName>
+        </file>
+    </files>
+  
+</component>

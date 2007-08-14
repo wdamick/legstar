@@ -64,11 +64,13 @@
     </plugins>
   </build>
   
+  <!--
   <modules>
     <module>../legstar-common</module>
     <module>../legstar-messaging</module>
     <module>../legstar-csokrt</module>
     <module>../legstar-chttprt</module>
+    <module>../legstar-cmqrt</module>
     <module>../legstar-engine</module>
     <module>../legstar-invoker</module>
     <module>../legstar-schemagen</module>
@@ -89,7 +91,6 @@
     <module>../legstar-common-plugin</module>
     <module>../legstar-distribution</module>
   </modules>
-  <!--
     -->
   
   <!-- Enabling the use of FTP -->
@@ -298,6 +299,22 @@
                 <artifactId>saxon</artifactId>
                 <version>8.7</version>
             </dependency>
+
+            <!-- IBM MQSeries -->    
+            <dependency>
+                <groupId>com.ibm</groupId>
+                <artifactId>mq</artifactId>
+                <version>6.0.2</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Sun J2EE connector API -->    
+            <dependency>
+                <groupId>javax.resource</groupId>
+                <artifactId>connector-api</artifactId>
+                <version>1.5</version>
+            </dependency>
+
       
             <!-- Eclipse dependencies section -->    
             <dependency>
