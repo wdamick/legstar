@@ -1,0 +1,50 @@
+CICS Messaging library LSMSGLIB
+
+* Overview:
+
+ This C/370 library provides methods to serialize/deserialize
+ complex messages.
+ 
+ With the advent of CICS containers, z/os programs can now receive
+ multiple named structures and produce multiple named structures.
+ 
+ LegStar supports this multiple input/multiple output message exchange
+ protocol with a notion of message parts.
+ 
+ The LSMSGLIB library helps transforming message parts into byte
+ streams to be transported to clients. It also helps creating message
+ parts from a byte stream received from a client.
+ 
+ LSMSGLIB shields transport handling programs such as LSMQHBIN or
+ LSWEBBIN from complex message handling.
+ 
+* Prerequisites:
+
+ LSMSGLIB uses the LSCOMLOG program part of the {{{../legstar-csokrt}
+ LegStar csokrt module}}. Please refer to the
+  {{{../legstar-csokrt/LSSOKBIN-readme.html} LSSOKBIN documentation}} for
+ instructions on how to install this program.
+ 
+ You will need a C/370 compiler. Since LSMSGLIB is also a CICS program
+ you can use the CICS procedure called DFHYITDL to perform the translation
+ and compilation (see C370CMSG for a sample JCL).
+ 
+* Limitations:
+
+  - LSMSGLIB has a limitation of 10 input message parts per complex
+    message.
+ 
+* This program has been tested for:
+
+  - CICS TS 2.3 (6.3.0 Command language translator) and TS 3.1 (6.4.0)
+ 
+  - C/370 for OS/390 V2 R10
+
+* How to use:
+
+ Once LSMSGLIB is compiled in a library available to your CICS
+ region in the RPL list, you might need to define it using RDO
+ (unless programs get autoinstalled).
+
+ LSMSGLIB is not a standalone program.
+ 

@@ -42,6 +42,9 @@ public class Request {
 	/** Host destination for this request. */
 	private Address mAddress;
 	
+	/** This allows users to attach unstructured data to a particular request.*/
+	private byte[] mAttachment;
+	
 	/** Creates an empty request. */
 	public Request() {
 	}
@@ -129,6 +132,20 @@ public class Request {
 	 */
 	public final void setAddress(final Address address) {
 		mAddress = address;
+	}
+
+	/**
+	 * @return the data attached to the request
+	 */
+	public final byte[] getAttachment() {
+		return mAttachment;
+	}
+
+	/**
+	 * @param attachment the data to attach to the request
+	 */
+	public final void setAttachment(final byte[] attachment) {
+		mAttachment = attachment;
 	}
 
 }
