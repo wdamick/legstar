@@ -198,6 +198,7 @@ public class CicsHttpTest extends TestCase {
 			CicsHttp cicsHttp = new CicsHttp("testSendRequest", mHttpEndpoint, DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
 			cicsHttp.connect("STREAM2");
 			Request request = createStdRequest();
+			request.getAddress().setHostTraceMode(true);
 			cicsHttp.sendRequest(request);
 			cicsHttp.recvResponse(request);
 			assertEquals(1, request.getResponseMessage().getHeaderPart().getDataPartsNumber());
