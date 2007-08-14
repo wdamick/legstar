@@ -47,7 +47,7 @@
 		</xsl:element>
 		<xsl:element  name = "env-entry">
 			<xsl:element  name = "env-entry-name">legstar/configFileName</xsl:element>
-			<xsl:element  name = "env-entry-value">config.xml</xsl:element>
+			<xsl:element  name = "env-entry-value">legstar-invoker-config.xml</xsl:element>
 			<xsl:element  name = "env-entry-type">java.lang.String</xsl:element>
 		</xsl:element>
    </xsl:element>
