@@ -111,6 +111,7 @@
 #include <stdlib.h>              /* get the standard library          */
 #include <string.h>              /* support string operations         */
 #include "lscomdec.h"            /* legstar common declarations       */
+#include "lsmsglib.h"            /* legstar messaging include file    */
 
 /*--------------------------------------------------------------------*/
 /* Global variables                                                   */
@@ -129,6 +130,10 @@ long g_contentLength = 0;                  /*HTTP body length         */
 char g_contentType[MAX_HEADER_VALUE_LEN];  /*HTTP body content type   */
 char* g_pContent = NULL;                   /*HTTP body                */
 char g_clientID[MAX_CLIENT_ADDR];          /*Client identifier        */
+
+long g_WorkBufferLen = 0;          /* io buffer len                   */
+void *g_pWorkBuffer = NULL;        /* pointer to io buffer            */
+long g_DataLen;                    /* last io data len                */
 
 /*====================================================================*/
 /*  Main section                                                      */
@@ -198,7 +203,10 @@ int init() {
               CLIENTADDR(g_clientID)
               CADDRLENGTH(clientIDLength);
               
+    /* Initialize logging module */
     initLog(dfheiptr, &g_traceParms);
+    initLSMSGLIB(dfheiptr, &g_traceParms);
+
     return OK_CODE;
 }
 
@@ -536,41 +544,50 @@ int traceParameter(char* parameterName,
 /*====================================================================*/
 int processRequest() {
     
-    int rcSave;
-    int rc = OK_CODE;
+    int rc = OK_CODE;             /* general purpose return code      */
+    int rcSave;                            /* Return code save area   */
     CICSProgramDesc programDesc;
     char savedFormattedErrorMessage[MAX_FORM_MSG_LEN]; /* Original 
                                            error message save area.   */
-    MessagePart requestHeaderPart;         /* Request header part     */
-    MessagePart inParts[MAX_IN_MSG_PARTS]; /* Input message parts     */
-    MessagePart responseHeaderPart;        /* Response header part    */
-    MessagePart outParts[MAX_OUT_MSG_PARTS]; /* Output message parts  */
-    Message requestMessage;                /* Complete request        */
-    Message responseMessage;               /* Complete response       */
+
+    LS_Message lsRequest;         /* Request message structure        */
+    LS_Message lsResponse;        /* Response message structure       */
     
     if (g_traceParms.traceMode == TRUE_CODE) {
         traceMessage(MODULE_NAME, "Entering process request");
     }
     
     /* Initialize message structures */
-    memset(&requestHeaderPart, '\0', sizeof(requestHeaderPart));
-    memset(inParts, '\0', sizeof(inParts));
-    memset(&responseHeaderPart, '\0', sizeof(responseHeaderPart));
-    memset(outParts, '\0', sizeof(outParts));
-    requestMessage.pHeaderPart = &requestHeaderPart;
-    requestMessage.pParts = inParts;
-    responseMessage.pHeaderPart = &responseHeaderPart;
-    responseMessage.pParts = outParts;
+    initLSMessage(&lsRequest);
+    initLSMessage(&lsResponse);
+
+    rc = recvRequestContent();
+    if (OK_CODE != rc) {
+         return rc;
+    }
     
-    rc = recvRequestMessage(&requestMessage);
+    rc = hostToMessage(g_pWorkBuffer, g_WorkBufferLen,
+                             &lsRequest.message);
     if (OK_CODE == rc) {
         rc = invokeProgram(dfheiptr,
                            &g_traceParms,
                            &programDesc,
-                           &requestMessage,
-                           &responseMessage);
+                           &lsRequest.message,
+                           &lsResponse.message);
         if (OK_CODE == rc) {
-            rc = sendResponseMessage(&responseMessage);
+            /* So far, we did not own the buffer which was returned by
+             * the EXEC CICS WEB RECEIVE. Since we cannot reuse this
+             * buffer for the reply, we force a realloc by setting the
+             * current buffer length to zero */
+            g_WorkBufferLen = 0;
+            g_pWorkBuffer = NULL;
+            rc = messageToBuffer(&g_pWorkBuffer, &g_WorkBufferLen,
+                                &lsResponse.message);
+            if (rc > 0) {
+                /* Save the total size of the formatted response */
+                g_DataLen = rc;
+                rc = sendResponse();
+            }
         }
     }
     
@@ -586,8 +603,8 @@ int processRequest() {
     rc = freeProgram(dfheiptr,
                      &g_traceParms,
                      &programDesc,
-                     &requestMessage,
-                     &responseMessage);
+                     &lsRequest.message,
+                     &lsResponse.message);
     
     /* Report free errors only if there was no previous error */
     if (rcSave != OK_CODE) {
@@ -602,29 +619,17 @@ int processRequest() {
 }
 
 /*====================================================================*/
-/* Receive the request message which will contain a header part       */
-/* followed by any number of message parts. The exact number of input */
-/* message parts is given by the header part.                         */
+/* Receive the content of the HTTP POST request.                      */
 /*====================================================================*/
-int recvRequestMessage(Message* pRequestMessage) {
-    
-    int i = 0;
-    int rc = OK_CODE;
-    char* pReceivedData = NULL;  /* Pointer to data received          */
-    long receivedLength = 0;   /* Data actually received from client  */
-    int pos = 0;           /* Current position with the received data */
-    char headerID[9];      /* Request header identifier               */
-    int* inPartsNum = 0;   /* Number of input parts                   */
-    HeaderPartContent* pHeaderPartContent;
-    MessagePart* pHeaderPart = pRequestMessage->pHeaderPart;
- 
+int recvRequestContent() {
+
     if (g_traceParms.traceMode == TRUE_CODE) {
-      traceMessage(MODULE_NAME, "About to receive request message");
+      traceMessage(MODULE_NAME, "About to receive request content");
     }
  
     EXEC CICS WEB RECEIVE
-              SET       (pReceivedData)
-              LENGTH    (receivedLength)
+              SET       (g_pWorkBuffer)
+              LENGTH    (g_WorkBufferLen)
               RESP(g_cicsResp) RESP2(g_cicsResp2);
 
     if (g_cicsResp != DFHRESP(NORMAL)) {
@@ -633,226 +638,36 @@ int recvRequestMessage(Message* pRequestMessage) {
     }
     
     /* We should have received the announced length not less not more */
-    if (receivedLength != g_contentLength) {
+    if (g_WorkBufferLen != g_contentLength) {
        logError(MODULE_NAME,
            "Web receive did not return the expected length");
        return ERROR_CODE;
     }
     
-    /* The header is itself a message part */
-    rc = recvMessagePart(pReceivedData, &pos, pHeaderPart);
-    if (rc == ERROR_CODE) {
-        return ERROR_CODE;
-    }
-    
-    /* Check that this message part is indeed a header part.
-     * If not, consider the client is out of sync or not talking
-     * our protocol. */
-    memset(headerID, '\0', sizeof(headerID));
-    memcpy(headerID, pHeaderPart->ID, sizeof(HEADER_PART_ID) - 1);
-    if (strcmp(headerID, HEADER_PART_ID) != 0) {
-        logError(MODULE_NAME,
-              "A request should start with a header part. Aborting.");
-        return ERROR_CODE;
-    }
-
-    /* Analyze header part to determine the number of input parts to
-     * receive.  */
-    pHeaderPartContent = (HeaderPartContent*) pHeaderPart->content;
-    inPartsNum = pHeaderPartContent->partsNumber.as_int;
-   
-    if (inPartsNum > MAX_IN_MSG_PARTS) {
-        logError(MODULE_NAME, "Too many input message parts.");
-        return ERROR_CODE;
-    }
+    g_DataLen = g_WorkBufferLen;
     
     if (g_traceParms.traceMode == TRUE_CODE) {
-        sprintf(g_traceMessage,
-            "Program header received, input parts=%d keyValuesSize=%d",
-                   inPartsNum,
-                   pHeaderPartContent->keyValuesSize.as_int);
-        traceMessage(MODULE_NAME, g_traceMessage);
-    }
-   
-    /* Now receive the input message parts */
-    for (i = 0; i < inPartsNum && rc == OK_CODE; i++) {
-        rc = recvMessagePart(
-           pReceivedData, &pos, pRequestMessage->pParts + i);
-    }
-   
-    if (g_traceParms.traceMode == TRUE_CODE) {
-        if (OK_CODE == rc) {
-            traceMessage(MODULE_NAME, "Request message received:");
-            traceMessage(MODULE_NAME, "-------------------------");
-            dumpMessage(MODULE_NAME, pRequestMessage);
-        } else {
-            traceMessage(MODULE_NAME,
-                 "Request message receive failed");
-        }
-    }
-    
-    return rc;
-}
-
-/*====================================================================*/
-/* This routine receives a message part.                              */
-/* A message part starts with a message part header (MPH) formed by:  */
-/* - 16 bytes giving the message part identifier                      */
-/* - 4 bytes giving the content size                                  */
-/* The message content follows the MPH immediatly.                    */
-/*                                                                    */
-/* Output :  The updated pointer to the message part data             */
-/*           The updated position in the received data                */
-/*                                                                    */
-/*====================================================================*/
-int recvMessagePart(
-        char* pReceivedData, int* pPos, MessagePart* pMessagePart) {
- 
-    int rc = OK_CODE;
-    int sLeft;
-
-    if (g_traceParms.traceMode == TRUE_CODE) {
-        traceMessage(MODULE_NAME, "About to receive message part");
-    }
-    
-    /* If there is not enough bytes left to fill a part header,
-     * there is a problem. */
-    sLeft = g_contentLength - *pPos;
-    if (sLeft < sizeof(pMessagePart->ID)
-                            + sizeof(pMessagePart->size.as_bytes)) {
-        logError(MODULE_NAME, "No message parts found");
-        return ERROR_CODE;
+        traceHTTPContent();
     }
 
-    /* First receive the message part header (16 bytes 
-       identifier and 4 bytes giving the part content size. */
-    memcpy(pMessagePart->ID, pReceivedData + *pPos,
-                                sizeof(pMessagePart->ID));
-    *pPos += sizeof(pMessagePart->ID);
-    memcpy(pMessagePart->size.as_bytes, pReceivedData + *pPos,
-                                sizeof(pMessagePart->size.as_bytes));
-    *pPos += sizeof(pMessagePart->size.as_bytes);
-     
-   
-    /* Sanity check the size received */
-    if ((pMessagePart->size.as_int < 0)
-       || (pMessagePart->size.as_int > MSGPART_MAX_LEN)) {
-       logError(MODULE_NAME, "Invalid message part length.");
-       return ERROR_CODE;
-    }
-    sLeft = g_contentLength - *pPos;
-    if (sLeft < pMessagePart->size.as_int) {
-        logError(MODULE_NAME, "No message part content found");
-        return ERROR_CODE;
-    }
- 
-    /* Empty content is perfectly valid */
-    if (pMessagePart->size.as_int == 0) {
-       if (g_traceParms.traceMode == TRUE_CODE) {
-         sprintf(g_traceMessage,
-                "Message part received, id=%s size=%d",
-                 pMessagePart->ID,
-                 pMessagePart->size.as_int);
-         traceMessage(MODULE_NAME, g_traceMessage);
-       }
-       pMessagePart->content = NULL;
-       return OK_CODE;
-    }
- 
-    /* Acquire storage for the message part content. An additional
-     * byte guaranteed to contain a binary zero is acquired so
-     * that contents can be treated as C strings when necessary.  */
-    EXEC CICS GETMAIN
-              SET     (pMessagePart->content)
-              INITIMG ('\0')
-              FLENGTH (pMessagePart->size.as_int + 1)
-              RESP    (g_cicsResp) RESP2(g_cicsResp2);
-
-    if (g_cicsResp != DFHRESP(NORMAL)) {
-       logCicsError(MODULE_NAME, "GETMAIN", g_cicsResp, g_cicsResp2);
-       return ERROR_CODE;
-    }
-    if (g_traceParms.traceMode == TRUE_CODE) {
-       sprintf(g_traceMessage,
-        "Request message part content allocated at %#x size=%d",
-        (int)pMessagePart->content, pMessagePart->size.as_int + 1);
-        traceMessage(MODULE_NAME, g_traceMessage);
-    }
-    
-    /* Receive the message content */
-    memcpy(pMessagePart->content, pReceivedData + *pPos,
-                                     pMessagePart->size.as_int);
-    *pPos += pMessagePart->size.as_int;
- 
-    if (g_traceParms.traceMode == TRUE_CODE) {
-       sprintf(g_traceMessage,
-              "Message part received, id=%s size=%d",
-               pMessagePart->ID,
-               pMessagePart->size.as_int);
-       traceMessage(MODULE_NAME, g_traceMessage);
-    }
-   
     return OK_CODE;
 }
 
 /*====================================================================*/
-/* Send output message parts back to client. All parts are serialized */
-/* in a single HTTP reply payload.                                    */
+/* Send the HTTP reply back to client.                                */
+/* Response data is expected to come from g_pWorkBuffer and its size  */
+/* given by g_DataLen.                                                */
 /*====================================================================*/
-int sendResponseMessage(Message* pResponseMessage) {
-  
-    int rc;
-    int i = 0;
+int sendResponse() {
+
+    int rc = OK_CODE;             /* general purpose return code      */
     char docToken[16];            /* document identifier              */
     long docSize = 0;             /* size of document                 */
-    int pos = 0;            /* Current position with the sent data    */
-    int sendBufferLen = 0;   /* Total length of data to send          */
-    char* pSendBuffer = NULL;  /* Pointer to data to send             */
-    HeaderPartContent* pHeaderPartContent =
-          (HeaderPartContent*)pResponseMessage->pHeaderPart->content;
-    int outPartsNum = pHeaderPartContent->partsNumber.as_int;
 
-    if (g_traceParms.traceMode == TRUE_CODE) {
-        traceMessage(MODULE_NAME, "About to send response message");
-    }
-    
-    /* Create a memory block large enough to hold all parts           */
-    sendBufferLen = (outPartsNum + 1) *
-             (sizeof(pResponseMessage->pHeaderPart->ID)
-              + sizeof(pResponseMessage->pHeaderPart->size.as_bytes));
-    sendBufferLen += pResponseMessage->pHeaderPart->size.as_int;
-    for (i = 0; i < outPartsNum; i++) {
-        sendBufferLen += (pResponseMessage->pParts + i)->size.as_int;
-    }
-    EXEC CICS GETMAIN
-              SET    (pSendBuffer)
-              FLENGTH(sendBufferLen)
-              RESP   (g_cicsResp) RESP2(g_cicsResp2);
-
-    if (g_cicsResp != DFHRESP(NORMAL)) {
-       logCicsError(MODULE_NAME,"GETMAIN",g_cicsResp,g_cicsResp2);
-       return ERROR_CODE;
-    }
-    if (g_traceParms.traceMode == TRUE_CODE) {
-       sprintf(g_traceMessage,
-        "Response buffer allocated at %#x size=%d",
-        (int)pSendBuffer, sendBufferLen);
-        traceMessage(MODULE_NAME, g_traceMessage);
-    }
-                  
-    rc = sendMessagePart(
-            pSendBuffer, &pos, pResponseMessage->pHeaderPart);
-  
-    /* Send message parts */
-    for (i = 0; i < outPartsNum && rc == OK_CODE; i++) {
-        rc = sendMessagePart(
-                pSendBuffer, &pos, pResponseMessage->pParts + i);
-    }
-    
     /* Create a document from the output data (no symbols)            */
     EXEC CICS DOCUMENT CREATE DOCTOKEN(docToken)               
-                       BINARY  (pSendBuffer)              
-                       LENGTH  (sendBufferLen)  
+                       BINARY  (g_pWorkBuffer)              
+                       LENGTH  (g_DataLen)  
                        DOCSIZE (docSize)
               RESP(g_cicsResp) RESP2(g_cicsResp2) ;
     if (g_cicsResp != DFHRESP(NORMAL)) {
@@ -875,48 +690,12 @@ int sendResponseMessage(Message* pResponseMessage) {
        logCicsError(MODULE_NAME, "WEB SEND",g_cicsResp,g_cicsResp2);
        return ERROR_CODE;
     }
-    
-    if (g_traceParms.traceMode == TRUE_CODE) {
-       if (OK_CODE == rc) {
-          traceMessage(MODULE_NAME, "Response message sent:");
-          traceMessage(MODULE_NAME, "-------------------------");
-          dumpMessage(MODULE_NAME, pResponseMessage);
-       } else {
-          traceMessage(MODULE_NAME, "Response message send failed");
-       }
-    }
-    
-    return rc;
-}
-
-/*====================================================================*/
-/* Send a message part back to client.                                */
-/*====================================================================*/
-int sendMessagePart(char* pSendBuffer, int* pPos, MessagePart* pPart) {
-    
-    int contentLen = pPart->size.as_int;
 
     if (g_traceParms.traceMode == TRUE_CODE) {
-        traceMessage(MODULE_NAME, "About to send message part");
+        traceMessage(MODULE_NAME, "HTTP reply sent");
+        traceHTTPContent();
     }
-    /* Send the message part ID*/
-    memcpy(pSendBuffer + *pPos, pPart->ID, MSG_ID_LEN);
-    *pPos += MSG_ID_LEN;
-    /* Send the message content size */
-    memcpy(pSendBuffer + *pPos, pPart->size.as_bytes,
-           MSG_CONTENT_SIZE_LEN);
-    *pPos += MSG_CONTENT_SIZE_LEN;
-    
-    if (contentLen > 0 && pPart->content != NULL) {
-        memcpy(pSendBuffer + *pPos, pPart->content,
-               contentLen);
-        *pPos += contentLen;
-    }
-    
-    if (g_traceParms.traceMode == TRUE_CODE) {
-        traceMessage(MODULE_NAME, "Message part sent");
-    }
-    
+
     return OK_CODE;
 }
 
@@ -944,4 +723,19 @@ int setHTTPHeader(char* headerLabel,
     
     return OK_CODE;
 }
+
+/*====================================================================*/
+/* Trace an HTTP content                                              */
+/*====================================================================*/
+int traceHTTPContent() {
+    traceMessage(MODULE_NAME, "HTTP content:");
+    traceMessage(MODULE_NAME, "-------------------");
+    sprintf(g_traceMessage, "HTTP data length :%d", g_DataLen);
+    traceMessage(MODULE_NAME, g_traceMessage);
+    traceMessage(MODULE_NAME, "HTTP content:");
+    traceData(MODULE_NAME, g_pWorkBuffer, g_DataLen);
+    traceMessage(MODULE_NAME,
+        "-----------------------------------------------");
+}
+
 

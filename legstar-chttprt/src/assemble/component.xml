@@ -10,6 +10,14 @@
                 <include>**</include>
             </includes>
         </fileSet>
+        <!-- C/370 messaging programs -->
+        <fileSet>
+            <directory>../legstar-messaging/src/main/zos</directory>
+            <outputDirectory>/zos</outputDirectory>
+            <includes>
+                <include>**</include>
+            </includes>
+        </fileSet>
 
     </fileSets>
     

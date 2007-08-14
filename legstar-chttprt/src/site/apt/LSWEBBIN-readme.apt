@@ -20,6 +20,11 @@ CICS Web-aware program LSWEBBIN
   {{{../legstar-csokrt/LSSOKBIN-readme.html} LSSOKBIN documentation}} for
  instructions on how to install these programs.
  
+ LSWEBBIN also uses the LSMSGLIB library part of the
+ {{{../legstar-messaging}LegStar messaging module}}. Please refer to the
+  {{{../legstar-messaging/LSMSGLIB-readme.html} LSMSGLIB documentation}} for
+ instructions on how to install this library.
+ 
  You will need CICS TS 2.3 and above (Although it is believed the
  program might work for TS 2.2, TS 2.1 and TS 1.3).
    
