@@ -210,4 +210,46 @@ public class ClientlsfileaeTest extends TestCase {
 		}
 		
 	}
+	public void testClientDirectMQ() throws LsfileaeFault{
+		com.legstar.test.cixs.lsfileae.ObjectFactory wsOF =
+		    new com.legstar.test.cixs.lsfileae.ObjectFactory();
+		com.legstar.test.coxb.lsfileae.ObjectFactory obOF =
+		    new com.legstar.test.coxb.lsfileae.ObjectFactory();
+		
+		LsfileaeService sv = new LsfileaeService();
+		
+		LsfileaePort port = sv.getLsfileaeImplPort();
+		
+		Map <String, Object > requestContext = ((BindingProvider)port).getRequestContext();
+		requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,"http://localhost:8080/cixs-lsfileae/lsfileae");
+		requestContext.put(BindingProvider.USERNAME_PROPERTY, "enduser");
+		requestContext.put(BindingProvider.PASSWORD_PROPERTY, "tomcat");
+		
+		LsfileaeHostHeader reqHead = wsOF.createLsfileaeHostHeader();
+		reqHead.setHostUserID("P390");
+		reqHead.setHostPassword("STREAM2");
+		reqHead.setHostEndPoint("CICSTS23DirectMQ");
+		
+		LsfileaeRequest req = wsOF.createLsfileaeRequest();
+		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		req.setRequest(dfhcommarea);
+		
+		dfhcommarea.setComNumber(100);
+
+		try {
+			LsfileaeResponse resp = port.lsfileae(req, reqHead);
+			DfhcommareaType dfhcommareaResp = resp.getResponse();
+
+			assertEquals("SURREY, ENGLAND",dfhcommareaResp.getComPersonal().getComAddress());
+			assertEquals("$0100.11",dfhcommareaResp.getComAmount());
+			assertEquals("26 11 81",dfhcommareaResp.getComDate());
+			assertEquals("S. D. BORMAN",dfhcommareaResp.getComPersonal().getComName());
+			assertEquals(100,dfhcommareaResp.getComNumber());
+			assertEquals("32156778",dfhcommareaResp.getComPersonal().getComPhone());
+			assertEquals("*********",dfhcommareaResp.getComComment());
+		} catch (LsfileaeFault e) {
+			fail(e.getMessage());
+		}
+		
+	}
 }
