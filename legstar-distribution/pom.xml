@@ -15,18 +15,6 @@
     <dependencies>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-chttprt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-csokrt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-engine</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-cobcgen</artifactId>
         </dependency>
         <dependency>
