@@ -407,6 +407,11 @@
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-cmqrt</artifactId>
+                <version>1.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-engine</artifactId>
                 <version>1.1.0</version>
             </dependency>
