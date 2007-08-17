@@ -2,6 +2,7 @@
 
 	<fileSets>
 		
+        <!-- Ant scripts -->
 		<fileSet>
             <directory>../legstar-cobcgen/src/main/resources/ant</directory>
             <outputDirectory>ant</outputDirectory>
@@ -10,14 +11,14 @@
             </includes>
 		</fileSet>
 		
+        <!-- The sample Binding classes -->
 		<fileSet>
-            <directory>../legstar-samples/src/main/java</directory>
+            <directory>../legstar-samples/src</directory>
             <outputDirectory>src</outputDirectory>
             <includes>
                 <include>**/cultureinfo/**/*.java</include>
             </includes>
 		</fileSet>
-		
         <fileSet>
             <directory>../legstar-samples/target</directory>
             <outputDirectory>target</outputDirectory>
