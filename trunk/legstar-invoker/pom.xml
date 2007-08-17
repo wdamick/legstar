@@ -42,15 +42,18 @@
 		<dependency>
 		  <groupId>com.legsem.legstar</groupId>
 		  <artifactId>legstar-csokrt</artifactId>
-		    <scope>test</scope>
 		</dependency>
 		
 		<dependency>
 		  <groupId>com.legsem.legstar</groupId>
 		  <artifactId>legstar-chttprt</artifactId>
-		    <scope>test</scope>
 		</dependency>
 		
+		<dependency>
+		  <groupId>com.legsem.legstar</groupId>
+		  <artifactId>legstar-cmqrt</artifactId>
+		</dependency>
+
         <dependency>
           <groupId>com.legsem.legstar</groupId>
           <artifactId>legstar-jaxbgen-cases</artifactId>
