@@ -15,7 +15,9 @@ Host to Web Service API LSHTTAPI
  raw EBCDIC relieving CICS from code page conversions and XML processing.
  
  A sample Cobol program, LSC2WSSA, is part of the distribution and should
- help understand how the API operates.
+ help understand how the API operates. A sample COBCWSSA JCL is provided
+ to compile the sample. LSC2WSSA calls the cultureinfo sample Web Service
+ that is part of the distribution.
 
 * Prerequisites:
 

@@ -16,10 +16,13 @@
 	</target>
 
 	<!-- ===========================================================  -->
-	<!-- Build the war
+	<!-- Build the war file including lib and sample
 	  -->
 	<target name="buildWar" depends="init">
 		<war destfile="${target.war.file}" webxml="${web.xml.file}">
+            <lib dir="target" includes="*.jar" excludes="*sources.jar"/>
+            <classes dir="${basedir}/../legstar-samples/target" includes="**/cultureinfo/**/*.class"/>
+            <classes dir="src/site/resources/samples"/>
         </war>
 	</target>
 	
