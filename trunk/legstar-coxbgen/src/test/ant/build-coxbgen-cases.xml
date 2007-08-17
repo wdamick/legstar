@@ -20,7 +20,7 @@
 		<!-- The JAXB root object name. Binding is for a single complex
 		     element. (Assuming all schemas have same root name here)   -->
 	 	<property name="jaxb.root.name" value="DfhcommareaType" />
-		<!-- Location of Legstar binaries   -->
+		<!-- Location of LegStar binaries   -->
 		<property name="build.dir" value="${basedir}/target"/>
 			
 		<!-- Classpath setting -->
@@ -33,11 +33,11 @@
 		    <pathelement location="${maven.repo}\net\sf\saxon\saxon\8.7\saxon-8.7.jar"/>
 	  		<!--WS logging binaries -->
 		    <pathelement location="${maven.repo}\commons-logging\commons-logging-api\1.0.4\commons-logging-api-1.0.4.jar"/>
-	  		<!--Legstar General binding classes location -->
+	  		<!--LegStar General binding classes location -->
     		<pathelement location="${basedir}/../legstar-coxbapi/target/classes"/>
-	  		<!--Legstar COXB runtime location -->
+	  		<!--LegStar COXB runtime location -->
 		    <pathelement location="${basedir}/../legstar-coxbrt/target/classes"/>
-	  		<!--Legstar common runtime location -->
+	  		<!--LegStar common runtime location -->
 		    <pathelement location="${basedir}/../legstar-common/target/classes"/>
 	  		<!--JAXB generated classes -->
 	  		<pathelement location="${basedir}/../legstar-jaxbgen-cases/target/classes"/>

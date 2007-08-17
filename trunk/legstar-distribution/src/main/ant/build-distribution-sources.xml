@@ -1,5 +1,5 @@
 <!-- =================================================================================
-     This script creates a single jar file with all Legstar sources.
+     This script creates a single jar file with all LegStar sources.
  -->
 <project basedir="../../.." default="buildDistributionSources" name="build-distribution-sources">
 

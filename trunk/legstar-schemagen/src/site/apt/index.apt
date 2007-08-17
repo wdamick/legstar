@@ -51,7 +51,7 @@ XML Schema Generator (Schemagen) overview
     * <Occurs Depending On> COBOL sentences relate an array with another element giving the actual size
  
   
-  See the {{{xml/legstarschemagen.xsd} COBOL annotation XML Schema}} page for more information on the
-  COBOL annotation language used by Schemagen.
+  See the {{{xml/legstarschemagen.xsd} COBOL binding language XML Schema}} page for more information on the
+  COBOL binding language used by Schemagen.
 
   For answers to common questions about LegStar Schemagen, see the {{{faq.html} FAQ}}.

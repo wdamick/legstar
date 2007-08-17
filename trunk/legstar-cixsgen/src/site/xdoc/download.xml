@@ -14,7 +14,7 @@
       <!-- Within sections, any XHTML can be used -->
 		<table border="1">
 			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
-			<tr><td>Service Generator</td><td>Java</td><td><a href="./binaries/legstar-cixsgen-1.0.1-bin.zip">legstar-cixsgen-1.0.1-bin.zip</a></td></tr>
+			<tr><td>Service Generator</td><td>Java</td><td><a href="./binaries/legstar-cixsgen-1.1.0-bin.zip">legstar-cixsgen-1.1.0-bin.zip</a></td></tr>
 		</table>
 
     </section>

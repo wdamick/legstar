@@ -2,7 +2,7 @@
 <project name="legstar-schemagen-plugin">
   <body>
 
-    <menu name="Schema Generator Eclipse plugin">
+    <menu name="XML Schema Generator Eclipse plugin">
       <item name="Introduction" href="index.html"/>
       <item name="Download" href="download.html"/>
       <item name="Release Notes" href="release-notes.html" />

@@ -1,6 +1,6 @@
 <project basedir="../../.." default="run">
 	
-	<!-- Location of Legstar binaries   -->
+	<!-- Location of LegStar binaries   -->
 	<property name="build.dir" value="${basedir}/target"/>
 	
 	<path id="test-classpath">

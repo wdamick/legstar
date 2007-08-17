@@ -1,5 +1,5 @@
  -------------------------------------------------------------------------------
-           LegSem LegStar Common Eclipse plugin Version 1.0.1
+           LegSem LegStar Common Eclipse plugin Version 1.1.0
                            Release Notes
  -------------------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ INSTALLING/UNINSTALLING:
   Have the URL point to http://www.legsem.com/legstar/eclipse/update and select the
     Common feature.
 
- [[2]] Restart Eclipse and check that "Legstar Commons" shows up in:
+ [[2]] Restart Eclipse and check that "LegStar Commons" shows up in:
  
 -----------------------------------------------------------------------------------------
   Help-->About Eclipse SDK-->Plug-in details

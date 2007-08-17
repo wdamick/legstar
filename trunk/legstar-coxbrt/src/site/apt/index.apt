@@ -19,9 +19,9 @@ Binding Runtime (Coxbrt) overview
   
   For complex structures, choices and complex arrays, Coxbrt provides conversion capabilities based
   on reflection. Coxbrt exploits meta-data stored as java annotations in JAXB classes. Such
-  annotated classes are typically generated using {{{../legstar-jaxbgen} JAXB generator}}.
+  annotated classes are typically generated using {{{../legstar-jaxbgen} JAXB Generator}}.
   
   As an alternative to the reflection-based capabilities, you can use the {{{../legstar-coxbgen}
-  Binding generator}} to generate binding classes which are more efficient.
+  Binding Generator}} to generate binding classes which are more efficient.
   
   For answers to common questions about LegStar Coxbrt, see the {{{faq.html} FAQ}}.

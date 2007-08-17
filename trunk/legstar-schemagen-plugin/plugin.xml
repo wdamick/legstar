@@ -20,11 +20,11 @@
          point="org.eclipse.ui.actionSets">
       <actionSet
             id="com.legstar.eclipse.plugin.schemagen.actionSet"
-            label="Legstar Action Set"
+            label="LegStar Action Set"
             visible="true">
          <menu
                id="legstarMenu"
-               label="&amp;Legstar">
+               label="&amp;LegStar">
             <separator name="legstarGroup"/>
          </menu>
          <action

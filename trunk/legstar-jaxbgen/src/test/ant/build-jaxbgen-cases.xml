@@ -21,7 +21,7 @@
 		<mkdir dir="${jaxb.bin.dir}"/>
 		<!-- Location of XML schemas  -->
 	 	<property name="xsd.dir" value="${basedir}/../legstar-schemagen/src/test/schema" />
-		<!-- Location of Legstar binaries   -->
+		<!-- Location of LegStar binaries   -->
 		<property name="build.dir" value="${basedir}/target"/>
 
 		<!-- Classpath setting  -->
@@ -33,9 +33,9 @@
 		    <pathelement location="${maven.repo}\javax\activation\activation\1.1\activation-1.1.jar"/>
 		    <pathelement location="${maven.repo}\javax\xml\bind\jaxb-api\2.1\jaxb-api-2.1.jar"/>
 		    <pathelement location="${maven.repo}\javax\xml\bind\jsr173_api\1.0\jsr173_api-1.0.jar"/>
-	  		<!--Legstar JAXB Annotator location -->
+	  		<!--LegStar JAXB Annotator location -->
     		<pathelement location="${build.dir}/classes"/>
-	  		<!--Legstar COXB API classes location -->
+	  		<!--LegStar COXB API classes location -->
     		<pathelement location="${basedir}/../legstar-coxbapi/target/classes"/>
 	    </path>
 

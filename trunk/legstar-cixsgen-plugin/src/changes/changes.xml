@@ -4,7 +4,7 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
-    <release version="1.1.0" date="2007-05-25" description="CICS Containers support">
+    <release version="1.1.0" date="2007-08-30" description="CICS Containers support">
       <action dev="fady" type="update">
         The Web Service dialog displays different items in support for multiple input
         and output operations. Individual input and output structures are not shown, only

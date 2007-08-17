@@ -1,41 +1,58 @@
 
 
  -------------------------------------------------------------------------------
-                          LegSem LegStar Version 1.0.1
+                          LegSem LegStar Version 1.1.0
                              Latest release overview
  -------------------------------------------------------------------------------
 
-Version 1.0.1
+Version 1.1.0
 
- Version 1.0.1 has introduced new host connectivity options.
+ Version 1.1.0 has added important new features:
  
- * Sockets Transport
+* Oubound Host to Web Service calls
  
- In addition to HTTP transport, it is now possible to connect to the host using
- plain Sockets.
+ This feature gives the ability for CICS programs to call a remote Web Service.
  
- Plain Sockets are important because not all host systems run Web Support. CICS
- sockets are available for a larger range of CICS versions for instance.
+ To support this option, 3 new modules were added:
  
- Documentation for socket connectivity is available {{{legstar-csokrt} here}}.
- 
- * Connection pooling
- 
- It is now possible to reuse connections for both HTTP and Sockets transports.
- 
- A multi-threaded engine manages a pool of open connections to the host. Incoming
- requests can reuse such opened connections, significantly reducing the CPU
- activity on the client and host.
- 
- Documentation for the pooling engine is available {{{legstar-engine} here}}.
- 
- * Connectivity refactoring
- 
- To support the new connectivity options, as well as preparing for more transport
- options, the connectivity layer has been completely redesigned. Messaging, which
- deals with the exchange content format, has been separated from the Invoker, which
- deals with the exchange execution.
- 
- Documentation for the messaging layer is available {{{legstar-messaging} here}}.
- Documentation for the invoker is available {{{legstar-invoker} here}}.
+ * {{{legstar-xsdcgen} XML Schema Annotator}} takes a WSDL or XML Schema file and
+   produces a COBOL-annotated XML Schema that you can edit and customize. This
+   annotated schema can be used as input to {{{legstar-jaxbgen} JAXB Generator}}.
+
+ []
+   
+ * {{{legstar-cobcgen} Cobol Generator}} takes as input a JAXB annotated class and
+   produces COBOL source that contains the data descriptions mapping the JAXB
+   class properties. Such sources can be used as regular COBOL copybooks.
+
+ []
+    
+ * {{{legstar-c2wsrt} Host to Web Service runtime}} provides an API that your
+   COBOL-CICS programs can invoke and a gateway runtime implemented as a Servlet.
+   Together the API and the Servlet provide the call infrastructure to remote
+   Web Services.
+
+ []
   
+* Full CICS Channel-Container support
+
+  This feature allow you to call container-driven CICS programs even when multiple
+  CICS containers are expected as input and multiple CICS containers are
+  produced on output.
+  
+  The {{{legstar-cixsgen} Service Generator}} and the associated {{{legstar-cixsgen-plugin}
+  Service Generator Eclipse plugin}} has been modified to support multiple
+  input bindings and multiple output bindings. Each binding can be mapped to
+  a container name. 
+ 
+ 
+ 
+* WebSphere MQ Transport
+ 
+ In addition to Socket and HTTP transport, it is now possible to connect to the host
+ using WebSphere MQ.
+ 
+ WebSphere MQ adds guaranteed delivery and offers a high degree of reliability.
+ 
+ Documentation for WebSphere MQ connectivity is available {{{legstar-cmqrt} here}}.
+ 

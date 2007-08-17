@@ -4,7 +4,7 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
-    <release version="1.1.0" date="2007-08-06" description="Containers support">
+    <release version="1.1.0" date="2007-08-30" description="Containers support">
       <action dev="fady" type="update">
         The invoker now supports multiple input/multiple output. This is needed for
         CICS containers full support.

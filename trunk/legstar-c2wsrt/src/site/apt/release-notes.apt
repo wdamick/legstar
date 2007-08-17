@@ -10,10 +10,10 @@ PREREQUISITES:
  LegStar Host to Web Service runtime (C2wsrt) requires a Servlet engine such as
   {{{http://tomcat.apache.org/} Apache Tomcat}}.
   
- Legstar C2wsrt uses JAXWS as client SOAP stack to invoke target Web Services.
+ LegStar C2wsrt uses JAXWS as client SOAP stack to invoke target Web Services.
  C2wsrt should work with any JAXWS 2.1 compliant implementation.
  
- Legstar C2wsrt uses JAXB for XML marshaling/unmarshaling. The JAXB implementation
+ LegStar C2wsrt uses JAXB for XML marshaling/unmarshaling. The JAXB implementation
  must be at least 2.1 compliant (The default implementation that comes with JRE 1.6
  is too old).
   

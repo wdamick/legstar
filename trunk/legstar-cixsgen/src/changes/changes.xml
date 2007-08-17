@@ -4,7 +4,7 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
-    <release version="1.1.0" date="2007-05-25" description="CICS Containers support">
+    <release version="1.1.0" date="2007-08-30" description="CICS Containers support">
       <action dev="fady" type="add">
         Operations now support multiple inputs and multiple outputs where each input or
         output structure maps to a different JAXB object and also to a CICS Container.

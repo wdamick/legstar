@@ -1,7 +1,7 @@
 
 
  -------------------------------------------------------------------------------
-                     LegSem LegStar Coxbgen Version 1.0.1
+                     LegSem LegStar Coxbgen Version 1.1.0
                                Release Notes
  -------------------------------------------------------------------------------
 
@@ -16,8 +16,8 @@ PREREQUISITES:
  Binding Generator is based on the {{{../legstar-coxbrt} Binding Runtime}}. The Binding
  Runtime is included with the Binding Generator.
  
- In order to use the binding generator, JAXB annotated classes must first be generated
- as described in {{{../legstar-jaxbgen} JAXB Generator}}. The JAXB generator is included
+ In order to use the Binding Generator, JAXB annotated classes must first be generated
+ as described in {{{../legstar-jaxbgen} JAXB Generator}}. The JAXB Generator is included
  with the Binding Generator.
  
 INSTALLING/UNINSTALLING:
