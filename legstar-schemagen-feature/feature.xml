@@ -2,7 +2,7 @@
 <feature
       id="com.legstar.eclipse.feature.schemagen"
       label="LegStar Schema Generator"
-      version="1.0.1"
+      version="1.1.0"
       provider-name="LegSem">
 
    <description url="http://www.legsem.com/legstar/schemagen-plugin">
@@ -420,21 +420,21 @@ END OF TERMS AND CONDITIONS
    </url>
 
    <requires>
-      <import feature="com.legstar.eclipse.feature.common" version="1.0.1"/>
+      <import feature="com.legstar.eclipse.feature.common" version="1.1.0"/>
    </requires>
 
    <plugin
          id="com.legstar.eclipse.plugin.schemagen"
          download-size="0"
          install-size="0"
-         version="1.0.1"
+         version="1.1.0"
          unpack="false"/>
 
    <plugin
          id="com.legstar.schemagen"
          download-size="0"
          install-size="0"
-         version="1.0.1"
+         version="1.1.0"
          unpack="false"/>
 
 </feature>

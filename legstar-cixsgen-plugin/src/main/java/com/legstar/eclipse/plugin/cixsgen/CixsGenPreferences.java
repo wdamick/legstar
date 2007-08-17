@@ -25,7 +25,7 @@ import org.eclipse.core.runtime.preferences.IPreferencesService;
 
 
 /**
- * Legstar Cixsgen preferences handling class.
+ * LegStar Cixsgen preferences handling class.
  *
  */
 public class CixsGenPreferences {

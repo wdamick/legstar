@@ -73,7 +73,6 @@ int logCicsError(char* module, char* errorCommand,
                                      careful when you add new response
                                      texts not to exceed 16 chars.    */
     
-    traceMessage(module, "Entered logCicsError");   
     /* Attempt to get a user friendly resturn code                    */
     switch (resp) {
       case (DFHRESP(ENVDEFERR)):
@@ -121,6 +120,9 @@ int logCicsError(char* module, char* errorCommand,
       case (DFHRESP(CONTAINERERR)):
         strcpy(respText,"CONTAINERERR");
         break;
+      case (DFHRESP(TCIDERR)):
+        strcpy(respText,"TCIDERR");
+        break;
       case (123):
         strcpy(respText,"CCSIDERR");
         break;
@@ -128,7 +130,6 @@ int logCicsError(char* module, char* errorCommand,
         strcpy(respText,"CHANNELERR");
         break;
       default:
-        traceMessage(module, "Default");   
         sprintf(respText,"%d", resp);
     }
     sprintf(cicsErrorMessage,
@@ -238,7 +239,7 @@ int traceData(char* module, char* data, long dataLength )
     dumpString[0]='\0';
     for (i = 0; i < dataLength && i < MAX_TRACES_BYTES; i++) {
        /* print every 16 byte on a different line */
-       sprintf(dumpChar,"%2X ",data[i] & 0xff);
+       sprintf(dumpChar,"%2.2X ",data[i] & 0xff);
        strcat(dumpLine,dumpChar);
        sprintf(dumpChar,"%c",data[i]);
        if (strlen(dumpChar) > 0) {

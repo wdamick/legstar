@@ -551,7 +551,7 @@ int recvRequestMessage(Message* pRequestMessage) {
     
     int i = 0;
     int rc = 0;
-    int* inPartsNum = 0;
+    int inPartsNum = 0;
     char headerID[9];
     HeaderPartContent* pHeaderPartContent;
     MessagePart* pHeaderPart = pRequestMessage->pHeaderPart;

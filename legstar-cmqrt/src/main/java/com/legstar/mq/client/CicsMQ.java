@@ -75,7 +75,7 @@ public class CicsMQ implements Connection  {
 	private int mReceiveTimeout;
 	
 	/** This host character set is used for the protocol elements
-	 * which are checked by the Legstar host programs. Because these
+	 * which are checked by the LegStar host programs. Because these
 	 * target host programs are compiled with a fixed charset, it
 	 * might be different from the actual user data character set. */
 	private String mHostProtocolCharset;

@@ -1,5 +1,5 @@
  -------------------------------------------------------------------------------
-                     LegSem LegStar Cixsgen Version 1.0.1
+                     LegSem LegStar Cixsgen Version 1.1.0
                                Release Notes
  -------------------------------------------------------------------------------
 
@@ -12,7 +12,7 @@ PREREQUISITES:
  http://ant.apache.org/.
  
  Service Generator generates Web Service implementations which rely on the
- {{{../legstar-invoker} Invoker}} which is included in the Service generator
+ {{{../legstar-invoker} Invoker}} which is included in the Service Generator
   distribution.
  
  The JAXWS runtime is not delivered as part of LegStar. It is needed at runtime

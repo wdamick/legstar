@@ -1,10 +1,10 @@
 <document>
   <properties>
-    <title>Cobol binding generator</title>
+    <title>Binding Runtime</title>
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
-    <release version="1.1.0" date="2007-07-06" description="Refactoring and creation of coxbapi">
+    <release version="1.1.0" date="2007-08-30" description="Refactoring and creation of coxbapi">
       <action dev="fady" type="update">
         Package "com.legstar.host" has been renamed "com.legstar.coxb.host" and moved to
         the coxbapi project.

@@ -26,7 +26,7 @@
        Why do I get compilation errors for the generated binding classes?
       </question>
       <answer>
-       Most probably because you are missing the Legstar and JAXB libraries in your project
+       Most probably because you are missing the LegStar and JAXB libraries in your project
        classpath. The clean way to fix this is to create a User Library with all the jars
        found under the Coxbgen lib folder and then adding this User Library to your project
        classpath.

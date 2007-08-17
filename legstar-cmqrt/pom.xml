@@ -4,11 +4,11 @@
     <parent>
       <groupId>com.legsem.legstar</groupId>
       <artifactId>Legstar</artifactId>
-      <version>1.1-SNAPSHOT</version>
+      <version>1.1.0</version>
     </parent>
 	<artifactId>legstar-cmqrt</artifactId>
 	<name>CMQ Runtime</name>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1.0</version>
 	<description>MQ-based connectivity to CICS.</description>
 	<url>http://www.legsem.com/legstar/cmqrt/</url>
 

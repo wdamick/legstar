@@ -78,7 +78,7 @@ public class WorkbenchPreferencePage1
 	
 	/** The warning message text on ant console logger. */
 	private static final String ANT_CONSO_WARN_MSG =
-	    "Warning: make sure to add com.legstar.eclipse.plugin.common_1.0.1.jar"
+	    "Warning: make sure to add com.legstar.eclipse.plugin.common_1.1.0.jar"
 	    + " to the global entries in Windows-->Preferences-->"
 	    + "Ant-->Runtime";
 

@@ -6,7 +6,7 @@
  26 July 2007
  -----
 
-Cobol generator (cobcgen) overview
+Cobol Generator (cobcgen) overview
 
   LegStar cobcgen generates cobol source with data descriptions. Such source can then be
   used as regular cobol copybooks in a cobol program.

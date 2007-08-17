@@ -1,24 +1,24 @@
  -------------------------------------------------------------------------------
-               LegSem LegStar Schemagen Eclipse plugin Version 1.0.1
+               LegSem LegStar Schemagen Eclipse plugin Version 1.1.0
                                    Release Notes
  -------------------------------------------------------------------------------
 
 PREREQUISITES:
 
- This plugin requires Eclipse 3.2.1. It uses the LegStar Schema Generator module which in
+ This plugin requires Eclipse 3.2.1. It uses the XML Schema Generator module which in
  turn relies on Ant.
  
- You must install the Legstar Schema Generator module before you can use this Eclipse plugin.
+ You must install the XML Schema Generator module before you can use this Eclipse plugin.
  
- The Schema Generator module can be downloaded from {{{../legstar-schemagen/download.html} here}}.
+ The XML Schema Generator module can be downloaded from {{{../legstar-schemagen/download.html} here}}.
  
- The Schema Generator Eclipse Plugin also requires the LegStar Common Eclipse plugin. For
+ The XML Schema Generator Eclipse Plugin also requires the LegStar Common Eclipse plugin. For
  intructions on how to install the Common Eclipse Plugin,
   see {{{../legstar-common-plugin/release-notes.html} here}}.
  
 INSTALLING/UNINSTALLING:
 
- [[1]] Ensure that the base Schema Generator module has been installed and that the folder
+ [[1]] Ensure that the base XML Schema Generator module has been installed and that the folder
   holding native libraries has been added to the search PATH.
     
  [[2]] Within Eclipse, create a remote site using:
@@ -28,7 +28,7 @@ INSTALLING/UNINSTALLING:
 -----------------------------------------------------------------------------------------
   
   Have the URL point to http://www.legsem.com/legstar/eclipse/update and select the
-    LegStar Schema Generator feature.
+    XML Schema Generator feature.
 
  [[3]] Restart Eclipse and check that "LegsStar Schema Generator" shows up in:
  
@@ -36,7 +36,7 @@ INSTALLING/UNINSTALLING:
   Help-->About Eclipse SDK-->Plug-in details.
 -----------------------------------------------------------------------------------------
    
- [[4]] Start the plugin from the Legstar menu or the toolbar button.
+ [[4]] Start the plugin from the LegStar menu or the toolbar button.
    
  [[5]] To uninstall, use:
 

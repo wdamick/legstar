@@ -4,7 +4,7 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
-    <release version="1.1.0" date="2007-05-25" description="CICS Containers support">
+    <release version="1.1.0" date="2007-08-30" description="CICS Containers support">
       <action dev="fady" type="add">
         The http payload is now built from the serialization of potentially multiple inputs. This
         was added to support CICS containers. A CICS container-driven program can handle multiple
