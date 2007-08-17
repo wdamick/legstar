@@ -46,10 +46,19 @@ INSTALLING/UNINSTALLING:
        This should create a src/main/java folder with a generated JAXB class
        from the sample XMLschema in the schema folder. Source are also compiled
        with binaries stored under target/classes.
+       
+       Please note that build-jaxb.xml creates JAXB classes for the sample
+       lsfileae.xsd XML schema. If you would like to generate JAXB classes
+       for cultureinfo.xsd, you need to modify build-jaxb.xml accordingly.
    
  [[3]] From the installDir/ant folder, run command "ant -f build-coxb.xml".  
        This should create binding classes by reflecting on the JAXB classes  
        generated at step 2.
+       
+       By default build-coxb.xml generates binding classes for the DfhcommareaType
+       class produced by build-jaxb.xml on sample lsfileae.xsd. For cultureinfo.xsd,
+       you need to run build-coxb.xml twice: once with the CultureInfoRequestType
+       class and once with the CultureInfoReplyType.
     
  [[4]] Follow instructions in build-jaxb.xml and build-coxb.xml to generate
        binding classes from your own annotated XML schemas.
