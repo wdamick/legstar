@@ -47,6 +47,12 @@
             <source>../legstar-c2wsrt/target/legstar-c2wsrt.war</source>
             <outputDirectory>/war/</outputDirectory>
         </file>
+        
+        <!-- Deliver a sample web service -->
+        <file>
+            <source>../legstar-samples/war/jaxws-cultureinfo.war</source>
+            <outputDirectory>/war/</outputDirectory>
+        </file>
     </files>
   
 </component>
