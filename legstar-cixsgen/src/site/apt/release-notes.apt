@@ -60,10 +60,14 @@ INSTALLING/UNINSTALLING:
  [[4]] Optionally, you can use build-service-client.xml to generate a Web
        service client using JAXWS.
    
- [[5]] Follow instructions in build-service.xml to generate JAXWS enpoints from
-       your own CICS programs.
+ [[5]] Optionally, you can use build-service-client.xml to generate a Web
+       service client using JAXWS.
    
- [[6]] To uninstall, remove the installDir folder.
+ [[6]] In order to actually run the deployed Web Service, you need to select
+       a transport and put a customized version of the legstar-invoker.config.xml
+       configuration file in a location such as CATALINA_HOME/shared/classes.
+   
+ [[7]] To uninstall, remove the installDir folder.
 
 DOCUMENTATION:
 

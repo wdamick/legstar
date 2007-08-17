@@ -31,26 +31,7 @@
 
 		<dependency>
 		  <groupId>com.legsem.legstar</groupId>
-		  <artifactId>legstar-coxbrt</artifactId>
-          <scope>test</scope>
-		</dependency>
-
-		<dependency>
-		  <groupId>com.legsem.legstar</groupId>
 		  <artifactId>legstar-invoker</artifactId>
-          <scope>test</scope>
-		</dependency>
-		
-		<dependency>
-		  <groupId>com.legsem.legstar</groupId>
-		  <artifactId>legstar-csokrt</artifactId>
-          <scope>test</scope>
-		</dependency>
-		
-		<dependency>
-		  <groupId>com.legsem.legstar</groupId>
-		  <artifactId>legstar-chttprt</artifactId>
-          <scope>test</scope>
 		</dependency>
 		
 		<dependency>
