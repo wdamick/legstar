@@ -48,9 +48,13 @@ INSTALLING/UNINSTALLING:
    
  [[2]] Copy the jar files from <lib> to <CATALINA_BASE>/shared/lib.
    
- [[3]] Copy the configuration files from <samples> to <CATALINA_BASE>/shared/classes. Customize
+ [[3]] Copy the legstar-engine-config.xml and legstar-pooling-config.xml configuration files
+       from <samples> to <CATALINA_BASE>/shared/classes. Customize
        configurations according to your needs. This location for configuration files has been
        chosen to allow the engine to share the same configuration file with client requests.
+       
+       We assume you already have legstar-invoker-config.xml customized in that same location
+       since this file is also needed to run legstar without pooling.
    
  [[4]] Copy the legstar-engine.war file from <war> to <CATALINA_BASE>/webapps.
  
