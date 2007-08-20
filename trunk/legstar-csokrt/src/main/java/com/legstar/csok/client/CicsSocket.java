@@ -195,6 +195,11 @@ public class CicsSocket implements Connection {
 		     * the server acknowldgement of the first send. */
 			mClientSocket.setTcpNoDelay(true);
 			
+			/* In an RPC mode, there is no reason to wait for additional data
+			 * when a close sequence is initiated (we wouldn't know what to
+			 * do with that data anyway. */
+			mClientSocket.setSoLinger(false, 0);
+			
 			/* If a password is not passed, use the one from configuration */
 			if (cicsPassword == null || cicsPassword.length() == 0) {
 				password = mCicsSocketEndpoint.getHostPassword();
@@ -445,7 +450,6 @@ public class CicsSocket implements Connection {
 		}
 		if (!mClientSocket.isClosed()) {
 			try {
-				mClientSocket.getInputStream().close();
 				mClientSocket.close();
 			} catch (IOException e) {
 				throw (new RequestException(e));
