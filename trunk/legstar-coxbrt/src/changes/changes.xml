@@ -12,12 +12,23 @@
       <action dev="fady" type="update">
         Visitor classes have been moved from package "com.legstar.host" to "com.legstar.coxb.visitor".
       </action>
-      <action dev="fady" type="add">
-        Binding classes now implement a "calcByteLength" method to evaluate the maximum host data
-        buffer length needed for marshaling.
+      <action dev="fady" type="update">
+        Package "com.legstar.coxb.rt" has been removed. Classes in "com.legstar.coxb.impl" provide
+        runtime functionalities.
       </action>
       <action dev="fady" type="add">
+        Binding classes now implement a "calcByteLength" method to evaluate the maximum host data
+        buffer length needed for marshaling. The "getByteLength" method now returns zero for group
+        items.
+      </action>
+      <action dev="fady" type="update">
         Binding classes now have a constructor which takes the JAXB object as its sole argument.
+        The constructors that used to take the JAXB object factory as a parameter have been
+        removed (the binding class has a private property pointing to this object factory now).
+      </action>
+      <action dev="fady" type="update">
+        Binding classes do not have a "getJaxbObject" anymore. Instead, they implement a "getxxx"
+        method where xxx is the underlying JAXB object name.
       </action>
     </release>
 
