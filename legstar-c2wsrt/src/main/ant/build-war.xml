@@ -21,8 +21,8 @@
 	<target name="buildWar" depends="init">
 		<war destfile="${target.war.file}" webxml="${web.xml.file}">
             <lib dir="target" includes="*.jar" excludes="*sources.jar"/>
-            <classes dir="${basedir}/../legstar-samples/target" includes="**/cultureinfo/**/*.class"/>
-            <classes dir="src/site/resources/samples"/>
+            <classes dir="${basedir}/../legstar-samples/target/classes" includes="**/cultureinfo/**/*.class"/>
+            <classes dir="src/site/resources/samples" excludes="*.svn"/>
         </war>
 	</target>
 	
