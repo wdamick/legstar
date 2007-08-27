@@ -12,6 +12,7 @@
     -->
   <target name="init">
 
+    <property environment="env"/>
     <!-- Service name   -->
     <property name="service" value="lsfileae" />
     <!-- CICS program name   -->
@@ -44,7 +45,9 @@
     <property name="cust.bin.dir" value="${basedir}/target/classes"/>
     
     <!-- War files target location   -->
-    <property name="war.dir" value="${env.CATALINA_HOME}/webapps"/>
+    <condition property="war.dir" value="${env.CATALINA_BASE}/webapps" else="${env.CATALINA_HOME}/webapps">
+        <isset property="env.CATALINA_BASE"/> 
+    </condition>
     
     <!-- Classpath setting -->
     <path id="classpath">
