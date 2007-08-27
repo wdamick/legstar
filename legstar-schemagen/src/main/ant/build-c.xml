@@ -16,12 +16,14 @@
 	</target>
 
 	<!-- ===========================================================  -->
-	<!-- Build the sample
+	<!-- Build the dlls
 	  -->
 	<target name="buildC" depends="init">
 		<mkdir dir="${target.bin}"/> 
 		<mkdir dir="${target.lib}"/> 
-		<exec executable="nmake"/>
+		<exec executable="nmake">
+            <arg line="/f ${basedir}/src/main/resources/msvc-makefile" />
+        </exec>
 	</target>
 	
 </project>

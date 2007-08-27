@@ -1,33 +1,35 @@
-#ifndef _DEFINED_MDDASNPRODUCE 
-#define _DEFINED_MDDASNPRODUCE
+#ifndef _DEFINED_MDDXSDPRODUCE 
+#define _DEFINED_MDDXSDPRODUCE
 /*====================================================================*/
 /*                                                                    */
-/* MODULE NAME = MDDASNPRODUCE                                        */
+/* MODULE NAME = MDDXSDPRODUCE                                        */
 /*                                                                    */
-/* Description of the methods exported by DDSASNProduce.dll.          */
+/* Description of the methods exported by DDSXSDProduce.dll.          */
 /*                                                                    */
 /*-------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------*/
 /* Prototypes exports                                                */
 /*-------------------------------------------------------------------*/
-#ifdef COMPILE_DDASNPRODUCE
-#pragma export(AsnDDProduce)
-#pragma export(getDefaultAsnOptions)
+#ifdef COMPILE_DDXSDPRODUCE
+#ifdef MVS
+#pragma export(XsdDDProduce)
+#pragma export(getDefaultXsdOptions)
+#endif
 #define LIBSPEC
 #else
 #define LIBSPEC extern
 #endif
-LIBSPEC    int    AsnDDProduce(
+LIBSPEC    int    XsdDDProduce(
            int debug_mode,    /* 1= Debug traces in stdout         */
            STREE_NODE* root,  /* Root node of data structure tree  */
-           ASN_PRODUCTION_OPTIONS* asnOptions, /* ASN1 options     */
-           char* outFileName, /* Output ASN1 file name             */
+           XSD_PRODUCTION_OPTIONS* xsdOptions, /* XSD options      */
+           char* outFileName, /* Output XML schema file name       */
            char* produceMsg); /* Error message if any              */
 
-LIBSPEC    void  getDefaultAsnOptions
-                            (ASN_PRODUCTION_OPTIONS* asnOptions);
+LIBSPEC    void  getDefaultXsdOptions
+                            (XSD_PRODUCTION_OPTIONS* xsdOptions);
 #undef LIBSPEC
 
-#endif /* _DEFINED_MDDASNPRODUCE */
+#endif /* _DEFINED_MDDXSDPRODUCE */
 

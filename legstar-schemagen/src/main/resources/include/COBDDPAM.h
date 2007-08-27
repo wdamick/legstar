@@ -12,11 +12,13 @@
 /* Prototypes exports                                                */
 /*-------------------------------------------------------------------*/
 #ifdef COMPILE_COBDDPARSE
+#ifdef MVS
 #pragma export(CobDDParse)
 #pragma export(STree_Allocate)
 #pragma export(STree_Print)
 #pragma export(STree_Free)
 #pragma export(getDefaultCobolOptions)
+#endif
 #define LIBSPEC
 #else
 #define LIBSPEC extern

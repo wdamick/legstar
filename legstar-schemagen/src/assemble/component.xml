@@ -11,6 +11,15 @@
             </includes>
         </fileSet>
         
+        <!-- Linux shared objects  -->
+        <fileSet>
+            <directory>../legstar-schemagen/src/main/usrlib</directory>
+            <outputDirectory>bin</outputDirectory>
+            <includes>
+                <include>*.so</include>
+            </includes>
+        </fileSet>
+        
         <!-- ant scripts  -->
         <fileSet>
             <directory>../legstar-schemagen/src/main/resources/ant</directory>
@@ -25,7 +34,7 @@
             <directory>../legstar-schemagen/src/main/resources/cobol</directory>
             <outputDirectory>cobol</outputDirectory>
             <includes>
-                <include>LSFILEAE.CBL</include>
+                <include>lsfileae.cbl</include>
             </includes>
         </fileSet>
         

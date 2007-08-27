@@ -4,8 +4,8 @@
 CC	   =cl
 LINK   =link
 CFLAGS =/c  /D "_CRT_SECURE_NO_DEPRECATE"
-SRCDIR =./src/main/c/
-INCDIR =./src/main/include/
+SRCDIR =./src/main/resources/c/
+INCDIR =./src/main/resources/include/
 LIBDIR =./target/lib/
 BINDIR =./target/bin/
 

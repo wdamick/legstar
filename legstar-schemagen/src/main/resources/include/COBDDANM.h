@@ -12,7 +12,9 @@
 /* Prototypes exports                                                */
 /*-------------------------------------------------------------------*/
 #ifdef COMPILE_COBDDANALYZE
+#ifdef MVS
 #pragma export(COBDDAnalyze)
+#endif
 #define LIBSPEC
 #else
 #define LIBSPEC extern

@@ -41,6 +41,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "COBDDPAS.h"
 #include "ASNDDPRS.h"
@@ -127,7 +128,7 @@ int AsnDDProduce(int debug_mode,
         if( output_file == NULL )
         {
             sprintf(produce_msg, "invalid output file %s\n",
-                output_file);
+                outFileName);
             return(8);
         }
     }
@@ -358,6 +359,8 @@ int ASN_produceSimpleElement(COBOL_DATA_DESCRIPTION* dds,
     case external_floating_item:
         ASN_processFloat(dds, indent);
         break;
+    default:
+        ASN_processString(dds, indent);
     }
 
     /* Add annotations to preserve Cobol unique attributes */

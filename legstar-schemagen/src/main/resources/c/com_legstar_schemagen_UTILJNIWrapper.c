@@ -1,4 +1,6 @@
 /* These are common utility routines for JNI manipulations    */
+#include <stdlib.h>
+#include <string.h>
 #include "com_legstar_schemagen_UTILJNIWrapper.h" /* Utility method prototypes */
 
 /** This function gets a boolean value from a Java object */

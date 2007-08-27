@@ -12,7 +12,9 @@
 /* Prototypes exports                                                */
 /*-------------------------------------------------------------------*/
 #ifdef COMPILE_REGEX2PICTURE
+#ifdef MVS
 #pragma export(Picture2Regex)
+#endif
 #define LIBSPEC
 #else
 #define LIBSPEC extern
