@@ -48,14 +48,15 @@ INSTALLING/UNINSTALLING:
                 
 +---------------------------------------+
    
- [[2]] From the installDir/ant folder, run command "ant -f build-service.xml".
+ [[2]] If you have Tomcat running, check that the <CATALINA_BASE> environment
+       variable points to the location where your webapps reside. 
+       From the installDir/ant folder, run command "ant -f build-service.xml".
        This should add a set of java files to the src/main/java folder. This 
        also creates a WebContent and an ant folders under src/main.
    
- [[3]] If you have Tomcat running, check that the CATALINA_HOME environment
-       variable points to it. From the installDir/src/main/ant folder, run
-       command "ant".  This should deploy the sample JAXWS endpoint into your
-       target Tomcat. See the {{{faq.html} FAQ}} for common deployment issues.
+ [[3]] From the installDir/src/main/ant folder, run command "ant".  This should
+       deploy the sample JAXWS endpoint into your target Tomcat. See the
+       {{{faq.html} FAQ}} for common deployment issues.
        
  [[4]] Optionally, you can use build-service-client.xml to generate a Web
        service client using JAXWS.
