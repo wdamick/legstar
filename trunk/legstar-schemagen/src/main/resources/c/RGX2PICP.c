@@ -35,6 +35,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "RGX2PICS.h"
 #define COMPILE_REGEX2PICTURE
@@ -228,7 +229,8 @@ int countChar(char* charseq, int* nCC, int* iC)
                 if (NULL == pdest)
                 {
                     sprintf(error_msg,
-                    "Unbalanced parenthesis in picture clause%s\n");
+                    "Unbalanced parenthesis in picture clause%s\n",
+                    charseq);
                     return 8;
                 }
                 /* Calculate the size of this numeric */
@@ -236,7 +238,8 @@ int countChar(char* charseq, int* nCC, int* iC)
                 if (result < 1)
                 {
                     sprintf(error_msg,
-                    "Empty parenthesis in picture clause%s\n");
+                    "Empty parenthesis in picture clause%s\n",
+                    charseq);
                     return 8;
                 }
                 /* Convert the string into an integer */
@@ -246,7 +249,8 @@ int countChar(char* charseq, int* nCC, int* iC)
                 if (nCount < 1)
                 {
                     sprintf(error_msg,
-                    "Invalid char within parenthesis in picture %s\n");
+                    "Invalid char within parenthesis in picture %s\n",
+                    charseq);
                     return 8;
                 }
                 /* Increment the char count */
@@ -277,7 +281,8 @@ int placePattern(char* pattern, int nCC, int* oC)
     if ((*oC + (int)strlen(pattern)) > regex_max_size)
     {
         sprintf(error_msg,
-            "Not enough space in regular expression string %s\n");
+            "Not enough space in regular expression string %s\n",
+            pattern);
             return 8;
     }
     /* Add the pattern */
@@ -296,7 +301,8 @@ int placePattern(char* pattern, int nCC, int* oC)
         if ((*oC + (int)strlen(sOccurs)) > regex_max_size)
         {
             sprintf(error_msg,
-                "Not enough space in regular expression string %s\n");
+                "Not enough space in regular expression string %s\n",
+                pattern);
                 return 8;
         }
         strcat(out_regex, sOccurs);

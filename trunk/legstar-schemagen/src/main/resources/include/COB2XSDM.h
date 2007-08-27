@@ -12,10 +12,12 @@
 /* Prototypes exports                                                */
 /*-------------------------------------------------------------------*/
 #ifdef COMPILE_COB2XSD
+#ifdef MVS
 #pragma export(Cobol2XMLSchema)
 #pragma export(getDefaultCobolOptions)
 #pragma export(getDefaultAsnOptions)
 #pragma export(getDefaultXsdOptions)
+#endif
 #define LIBSPEC
 #else
 #define LIBSPEC extern

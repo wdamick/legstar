@@ -346,9 +346,7 @@ public class COXBSchemaGenerator extends Task  {
 	 * @param file the XML schema file to set
 	 */
 	public final void setXSDFile(final String file) {
-		/* Keep XSD files lowercase so we can derive project names
-		 * from it if necessary. */
-		mXSDFile = file.toLowerCase();
+		mXSDFile = file;
 	}
 
 	/**

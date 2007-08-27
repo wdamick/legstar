@@ -51,9 +51,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <ctype.h>
 
 #include "COBDDPAS.h"
-#include "COBDDANM.H"
+#include "COBDDANM.h"
 #define COMPILE_COBDDPARSE
 #include "COBDDPAM.h"
 
@@ -801,7 +802,6 @@ int setPicture(COBOL_DATA_DESCRIPTION* dds)
 /*====================================================================*/
 int setValue(COBOL_DATA_DESCRIPTION* dds)
 {
-    char litDelim = '\'';
     int rc = 0;                    /* General purpose return code     */
     if (debug_trace) printf("setValue\n");
 
@@ -1037,9 +1037,17 @@ int getNextLine()
     else
     {
         /* Replace crlf */
-        if (strlen(current_line) > 0)
-            if (current_line[strlen(current_line) - 1] == '\n')
-                current_line[strlen(current_line) - 1] = '\0';
+        if ((strlen(current_line) > 0) 
+            && (current_line[strlen(current_line) - 1] == '\n')) {
+            current_line[strlen(current_line) - 1] = '\0';
+        }
+        /* When the cobol file is coming from windows but is
+         * processed under *nix, the 'n' applies for the line
+         * feed only and there is an annoying carriage return left */
+        if ((strlen(current_line) > 0)  
+            && (current_line[strlen(current_line) - 1] == '\r')) {
+            current_line[strlen(current_line) - 1] = '\0';
+        }
         line_count += 1;
         return 0;
     }
@@ -1222,7 +1230,6 @@ char* getTokenFromCode (char *areaX,
     int nStartLitDelim = 0;
     int nTl = 0;
     char cDelim = '\0';
-    int nStopLitDelim = 0;
 
     cDelim = areaX[*nTokenPos];
     /* See if this is the start of a delimited literal
@@ -1234,21 +1241,26 @@ char* getTokenFromCode (char *areaX,
     case 'X':
     case 'Z':
     case 'G':
-        if (*nTokenPos < ((int)strlen(areaX) - 1))
+        if (*nTokenPos < ((int)strlen(areaX) - 1)) {
             if ((areaX[*nTokenPos + 1] == '\'') ||
-                (areaX[*nTokenPos + 1] == '\"'))
+                (areaX[*nTokenPos + 1] == '\"')) {
                 nStartLitDelim = 2;
+            }
+        }
         break;
     case 'N':
-        if (*nTokenPos < ((int)strlen(areaX) - 1))
+        if (*nTokenPos < ((int)strlen(areaX) - 1)) {
             if ((areaX[*nTokenPos + 1] == '\'') ||
-                (areaX[*nTokenPos + 1] == '\"'))
+                (areaX[*nTokenPos + 1] == '\"')) {
                 nStartLitDelim = 2;
-            else
+            } else {
                 if (*nTokenPos < ((int)strlen(areaX) - 2))
                     if ((areaX[*nTokenPos + 2] == '\'') ||
-                        (areaX[*nTokenPos + 2] == '\"'))
+                        (areaX[*nTokenPos + 2] == '\"')) {
                         nStartLitDelim = 3;
+                    }
+            }
+        }
         break;
     default:break;
     }
@@ -1260,14 +1272,12 @@ char* getTokenFromCode (char *areaX,
         nTl = strcspn(areaX+*nTokenPos, seps);
         /* Prepare next position to tokenize */
         current_pos += *nTokenPos + nTl;
-        if (nTl > 0)
-        {
+        if (nTl > 0) {
             strncat(current_tok,areaX+*nTokenPos,nTl);
             /* Strip any trailing delimiters */
             if ((current_tok[nTl - 1] == ',') ||
                 (current_tok[nTl - 1] == ';') ||
-                (current_tok[nTl - 1] == '.'))
-            {
+                (current_tok[nTl - 1] == '.')) {
                 nTl--;
                 current_tok[nTl] = '\0';
             }
