@@ -325,7 +325,7 @@ public class CixsGenEditor
 	}
 	
 	/**
-	 * Remove any starting or ending slashes.
+	 * Remove any trailing slashes.
 	 * @param path the path to trim
 	 * @return the trimmed name
 	 */
@@ -337,9 +337,6 @@ public class CixsGenEditor
 		newPath = path;
 		if (newPath.length() < 2) {
 			return newPath;
-		}
-		if (newPath.charAt(0) == '/' || newPath.charAt(0) == '\\') {
-			newPath = newPath.substring(1);
 		}
 		if (newPath.charAt(newPath.length() - 1) == '/' 
 			|| newPath.charAt(newPath.length() - 1) == '\\') {

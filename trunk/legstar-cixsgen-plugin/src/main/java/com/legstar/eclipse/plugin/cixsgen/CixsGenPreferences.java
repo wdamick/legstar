@@ -100,7 +100,7 @@ public class CixsGenPreferences {
 	
 	/** The default War files location. */
 	public static final String DEFAULT_CIXS_WAR_DIR =
-		"${env.CATALINA_HOME}/webapps";
+		"${env.CATALINA_BASE}/webapps";
 	
 	/* =========================== PROPERTIES SECTION =======================*/
 
