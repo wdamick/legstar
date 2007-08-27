@@ -9,7 +9,7 @@ Version 1.1.0
 
  Version 1.1.0 has added important new features:
  
-* Oubound Host to Web Service calls
+* Outbound Host to Web Service calls
  
  This feature gives the ability for CICS programs to call a remote Web Service.
  
@@ -50,7 +50,7 @@ Version 1.1.0
 * WebSphere MQ Transport
  
  In addition to Socket and HTTP transport, it is now possible to connect to the host
- using WebSphere MQ.
+ using {{{http://www-306.ibm.com/software/integration/wmq/} WebSphere MQ}}.
  
  WebSphere MQ adds guaranteed delivery and offers a high degree of reliability.
  
