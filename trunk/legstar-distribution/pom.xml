@@ -40,6 +40,8 @@
     </dependencies>
 
     <build>
+        <finalName>legstar-${project.version}</finalName>
+        
         <plugins>
         
             <!-- Assembly generation plugin. Put the result in the source site

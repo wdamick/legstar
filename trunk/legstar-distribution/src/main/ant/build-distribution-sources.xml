@@ -20,7 +20,7 @@
 
 		<!-- LegStar sources distribution properties  -->
 	 	<property name="legstar.loc" value="legstar-distribution" />
-	 	<property name="legstar.fol" value="${legstar.loc}-${version}-sources" />
+	 	<property name="legstar.fol" value="legstar-${version}-sources" />
 	 	<property name="legstar.jar" value="${srce.loc}/${legstar.fol}.jar" />
 		
 	</target>
@@ -33,7 +33,7 @@
 		<delete dir="${temp.dir}" includeEmptyDirs="true" quiet="true"/>
 		<mkdir dir="${temp.dir}"/> 
 		
-		<!-- Unzip all source jars toporary folder  -->
+		<!-- Unzip all source jars temporary folder  -->
 		<unzip dest="${temp.dir}">
             <fileset dir="${basedir}/..">
                 <include name="**/*-${version}-sources.jar"/>

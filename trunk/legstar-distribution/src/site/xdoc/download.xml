@@ -13,9 +13,9 @@
 
       <!-- Within sections, any XHTML can be used -->
 		<table border="1">
-			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
-			<tr><td>LegStar binaries</td><td>Win32</td><td><a href="./binaries/legstar-distribution-1.1.0-win32.zip">legstar-distribution-1.1.0-win32.zip</a></td></tr>
-			<tr><td>LegStar sources</td><td>Source</td><td><a href="./binaries/legstar-distribution-1.1.0-sources.jar">legstar-distribution-1.1.0-sources.jar</a></td></tr>
+			<tr><th>Module</th><th>Format</th><th>Link</th></tr>
+			<tr><td>LegStar binaries</td><td>zip file</td><td><a href="./binaries/legstar-1.1.0-bin.zip">legstar-1.1.0-bin.zip</a></td></tr>
+			<tr><td>LegStar sources</td><td>jar file</td><td><a href="./binaries/legstar-1.1.0-sources.jar">legstar-1.1.0-sources.jar</a></td></tr>
 		</table>
  
     </section>
@@ -23,8 +23,8 @@
 
  		<table border="1">
 			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
-            <tr><td>LegStar binaries</td><td>Win32</td><td><a href="./binaries/legstar-1.0.1-win32.zip">legstar-1.0.1-win32.zip</a></td></tr>
-            <tr><td>LegStar sources</td><td>Source</td><td><a href="./binaries/legstar-1.0.1-sources.jar">legstar-1.0.1-sources.jar</a></td></tr>
+            <tr><td>LegStar binaries</td><td>Win32</td><td><a href="./binaries/legstar-distribution-1.0.1-win32.zip">legstar-distribution-1.0.1-win32.zip</a></td></tr>
+            <tr><td>LegStar sources</td><td>Source</td><td><a href="./binaries/legstar-distribution-1.0.1-sources.jar">legstar-distribution-1.0.1-sources.jar</a></td></tr>
 			<tr><td>LegStar binaries</td><td>Win32</td><td><a href="./binaries/legstar-0.0.1-win32.zip">legstar-0.0.1-win32.zip</a></td></tr>
 			<tr><td>LegStar sources</td><td>Source</td><td><a href="./binaries/legstar-0.0.1-sources.jar">legstar-0.0.1-sources.jar</a></td></tr>
 		</table>
