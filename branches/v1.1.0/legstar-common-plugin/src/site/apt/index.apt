@@ -1,0 +1,15 @@
+ -----
+ LegStar Common Eclipse Plugin
+ -----
+ Fady Moussallam
+ -----
+ 23 January 2007
+ -----
+
+Common Eclipse Plugin overview
+
+  This Eclipse plugin provides utility functions such as ANT logging or Eclipse logging for other
+  LegStar Eclipse plugins to use.
+
+  For answers to common questions about LegStar Common Eclipse plugin, see the {{{faq.html} FAQ}}.
+  

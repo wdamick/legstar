@@ -1,0 +1,21 @@
+<document>
+  <properties>
+    <title>Pooling engine</title>
+    <author email="fady@legsem.com">Fady Moussallam</author>
+  </properties>
+  <body>
+    <release version="1.1.0" date="2007-08-30" description="Rearchitected configuration file">
+      <action dev="fady" type="update">
+        The configuration file is now called "legstar-engine-config.xml" by default. It is a
+        combination of "legstar-pooling-config.xml" which contain the engine pooling parameters
+        and the "legstar-invoker-config.xml" which is shared wih the invoker.
+      </action>
+    </release>
+
+    <release version="1.0.1" date="2007-05-15" description="First release">
+      <action dev="fady" type="add">
+        First version of the pooling engine.
+      </action>
+    </release>
+  </body>
+</document>

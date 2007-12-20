@@ -1,0 +1,38 @@
+<!-- =================================================================================
+     This script copies some source files from this project to the
+     legstar-cixsgen-plugin project. Because the contact surface
+     between these 2 projects is very small, this is more
+     efficient than creating a full-blown dependency between them.
+ -->
+<project basedir="../../.." default="copyToPlugin">
+
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+	<target name="init">
+		
+		<!-- Source directory location  -->
+	 	<property name="src.src.dir" value="${basedir}/src/main/java" />
+		<!-- Relative location of java sources  -->
+	 	<property name="java.dir" value="com/legstar/cixs/gen" />
+		<!-- Source directory  -->
+	 	<property name="src.dir" value="${src.src.dir}/${java.dir}" />
+		<!-- Target directory location  -->
+	 	<property name="dest.src.dir" value="${basedir}/../legstar-cixsgen-plugin/src/main/java" />
+		<!-- Target directory  -->
+	 	<property name="dest.dir" value="${dest.src.dir}/${java.dir}" />
+		
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Build the sample
+	  -->
+	<target name="copyToPlugin" depends="init">
+		<delete dir="${dest.dir}" includeEmptyDirs="true" quiet="true"/>
+		<mkdir dir="${dest.dir}"/> 
+		<copy todir="${dest.dir}">
+			<fileset dir="${src.dir}" includes="CixsOperation.java,CixsService.java,CixsStructure.java,CixsException.java,package.html"/>
+		</copy>
+	</target>
+	
+</project>

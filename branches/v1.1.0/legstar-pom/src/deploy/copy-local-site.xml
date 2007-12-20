@@ -1,0 +1,69 @@
+<!-- =================================================================================
+     Creates a local Web Site with all LegStar modules sites.
+ -->
+<project basedir="../.." default="copyLocalSite" name="copy-local-site">
+
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+	<target name="init">
+		
+		<!-- Local destination  -->
+	 	<property name="local.root" value="C:\Program Files\Apache Software Foundation\Apache2.2\htdocs\legstar" />
+
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Copy to local root
+	  -->
+	<target name="copyLocalSite" depends="init">
+		
+		<copy todir="${local.root}">
+			<fileset dir="${basedir}/../legstar-pom/target/site"/>
+		</copy>
+		<copy todir="${local.root}/legstar-distribution">
+			<fileset dir="${basedir}/../legstar-distribution/target/site"/>
+		</copy>
+		<copy todir="${local.root}/legstar-schemagen">
+			<fileset dir="${basedir}/../legstar-schemagen/target/site"/>
+		</copy>
+		<copy todir="${local.root}/legstar-coxbgen">
+			<fileset dir="${basedir}/../legstar-coxbgen/target/site"/>
+		</copy>
+		<copy todir="${local.root}/legstar-cixsgen">
+			<fileset dir="${basedir}/../legstar-cixsgen/target/site"/>
+		</copy>
+		<copy todir="${local.root}/legstar-messaging">
+			<fileset dir="${basedir}/../legstar-messaging/target/site"/>
+		</copy>
+		<copy todir="${local.root}/legstar-invoker">
+			<fileset dir="${basedir}/../legstar-invoker/target/site"/>
+		</copy>
+		<copy todir="${local.root}/legstar-coxbrt">
+			<fileset dir="${basedir}/../legstar-coxbrt/target/site"/>
+		</copy>
+		<copy todir="${local.root}/legstar-engine">
+			<fileset dir="${basedir}/../legstar-engine/target/site"/>
+		</copy>
+		<copy todir="${local.root}/legstar-csokrt">
+			<fileset dir="${basedir}/../legstar-csokrt/target/site"/>
+		</copy>
+		<copy todir="${local.root}/legstar-chttprt">
+			<fileset dir="${basedir}/../legstar-chttprt/target/site"/>
+		</copy>
+		<copy todir="${local.root}/legstar-common-plugin">
+			<fileset dir="${basedir}/../legstar-common-plugin/target/site"/>
+		</copy>
+		<copy todir="${local.root}/legstar-schemagen-plugin">
+			<fileset dir="${basedir}/../legstar-schemagen-plugin/target/site"/>
+		</copy>
+		<copy todir="${local.root}/legstar-coxbgen-plugin">
+			<fileset dir="${basedir}/../legstar-coxbgen-plugin/target/site"/>
+		</copy>
+		<copy todir="${local.root}/legstar-cixsgen-plugin">
+			<fileset dir="${basedir}/../legstar-cixsgen-plugin/target/site"/>
+		</copy>
+
+	</target>
+	
+</project>

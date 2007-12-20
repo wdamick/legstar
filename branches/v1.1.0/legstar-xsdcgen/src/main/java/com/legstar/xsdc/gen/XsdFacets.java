@@ -1,0 +1,97 @@
+/*******************************************************************************
+ *  LegStar legacy Web-enablement .
+ *  Copyright (C) 2007 LegSem
+ *  
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
+ *  
+ *  This library is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  Lesser General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with this library; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ *  02110-1301  USA
+ *  
+ *******************************************************************************/
+package com.legstar.xsdc.gen;
+
+/**
+ * This class collects all facet values of interest in a hierarchy of XML
+ * schema types.
+ */
+public class XsdFacets {
+	
+	/** Size of string elements. */
+	private int mLength = -1;
+
+	/** Regular expression pattern for elements values. */
+	private String mPattern = null;
+	
+	/** Total number of digits for numeric elements. */
+	private int mTotalDigits = -1;
+
+	/** Number of fractional digits for numeric elements. */
+	private int mFractionDigits = -1;
+	
+	/**
+	 * @return the fractional digits
+	 */
+	public final int getFractionDigits() {
+		return mFractionDigits;
+	}
+
+	/**
+	 * @param fractionalDigits the fractional digits to set
+	 */
+	public final void setFractionDigits(
+			final int fractionalDigits) {
+		mFractionDigits = fractionalDigits;
+	}
+
+	/**
+	 * @return the length
+	 */
+	public final int getLength() {
+		return mLength;
+	}
+
+	/**
+	 * @param length the length to set
+	 */
+	public final void setLength(final int length) {
+		mLength = length;
+	}
+
+	/**
+	 * @return the regular expression pattern
+	 */
+	public final String getPattern() {
+		return mPattern;
+	}
+
+	/**
+	 * @param pattern the regular expression pattern to set
+	 */
+	public final void setPattern(final String pattern) {
+		mPattern = pattern;
+	}
+
+	/**
+	 * @return the total number of digits
+	 */
+	public final int getTotalDigits() {
+		return mTotalDigits;
+	}
+
+	/**
+	 * @param totalDigits the total number of digits to set
+	 */
+	public final void setTotalDigits(final int totalDigits) {
+		mTotalDigits = totalDigits;
+	}
+}

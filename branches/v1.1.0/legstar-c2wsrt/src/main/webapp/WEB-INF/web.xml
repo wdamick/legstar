@@ -1,0 +1,30 @@
+<web-app version="2.4" 
+	xmlns="http://java.sun.com/xml/ns/j2ee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+  <display-name>LegStar Host to Web Service Gateway</display-name>
+  <description>LegStar host to Web Service Gateway.</description>
+
+  <servlet>
+    <description>Host to Web Service Gateway</description>
+    <display-name>LegStar Host to Web Service Gateway</display-name>
+    <servlet-name>C2wsGateway</servlet-name>
+    <servlet-class>com.legstar.c2ws.servlet.C2wsGateway</servlet-class>
+	<!-- *********************************************
+	     The configuration file, which name is given
+         here, is expected to be located in the
+         resource path.
+	     ********************************************* -->
+	<init-param>
+	   <param-name>c2wsrt.config</param-name>
+	   <param-value>legstar-c2wsrt-config.xml</param-value>
+	</init-param>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>C2wsGateway</servlet-name>
+    <url-pattern>/C2wsGateway</url-pattern>
+  </servlet-mapping>
+</web-app>

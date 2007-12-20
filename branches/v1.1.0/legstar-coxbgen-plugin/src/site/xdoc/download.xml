@@ -1,0 +1,20 @@
+<document>
+  <properties>
+    <author email="admin@legsem.com">Fady Moussallam</author>
+    <title>Download LegStar Binding Generator Eclipse plugin</title>
+  </properties>
+  <!-- Optional HEAD element, which is copied as is into the XHTML <head> element -->
+  <head>
+     <meta http-equiv="Cache-Control" Content="no-cache"/> 
+  </head>
+  <body>
+    <!-- The body of the document contains a number of sections -->
+    <section name="Download Binding Generator Eclipse plugin">
+      <!-- Within sections, any XHTML can be used -->
+      <p>To install this Eclipse plugin, use the standard Eclipse update mechanism by pointing to the
+      <a href="http://www.legsem.com/legstar/eclipse/update">http://www.legsem.com/legstar/eclipse/update</a>
+      site (Help-->Software Updates-->Find and Install-->Search for new features-->New Remote site)</p>
+    </section>
+
+  </body>
+</document>

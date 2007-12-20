@@ -1,0 +1,55 @@
+ -----
+ LegStar Invoker
+ -----
+ Fady Moussallam
+ -----
+ 30 July 2007
+ -----
+
+Invoker overview
+
+  The LegStar Invoker provides a general purpose remote invokation mechanism for host programs.
+  
+  The Invoker receives input structures as JAXB object trees and produces output JAXB object
+  trees. The HostInvoker has the capability to call single input/single output program such as
+  CICS commarea-driven programs but it can also call multiple input/multiple output programs
+  such as CICS containers-driven programs.
+  
+  Invoker uses the {{{../legstar-coxbrt} COBOL to XML Binding}} classes to marshal/unmarshal
+  host data buffers.
+  
+  Host programs to call are described by properties files such as the lsfileae.properties
+  sample file provided. Such a properties file is expected to be available from the classpath.
+  
+  The Invoker expects a configuration file as well as a target address to run the host
+  program on. A configuration file is an XML file. The Invoker looks for host endpoint
+  definitions similar to the one found in the legstar-invoker-config.xml sample provided.
+  
+  The Address received by the invoker specifies which host enpoint to use. If the Address
+  is empty, the first endpoint definition is used. The Address can also override host
+  credentials.
+  
+  Two host access strategies are provided: direct and pooled. With a direct access strategy, 
+  there are no intermediate engines, clients connect to the host directly. With the pooled
+  access strategy, an {{{../legstar-engine} engine}} manages a pool of connections.
+  
+  The strategy chosen is configurable at the host endpoint level in the configuration file.
+  
+  To select a direct access strategy you would add the following element:
+
++-------------------------------+
+		<hostAccessStrategy>direct</hostAccessStrategy>
++-------------------------------+
+  
+  For a pooled access strategy, the element would be:
+
++-------------------------------+
+		<hostAccessStrategy>pooled</hostAccessStrategy>
++-------------------------------+
+   
+  The host access strategy is independent from the underlying transport.
+  
+  Pooling allows host connections to be reused. For details, refer to {{{../legstar-engine} LegStar engine}}.
+  
+  For answers to common questions about LegStar Invoker, see the {{{faq.html} FAQ}}.
+  

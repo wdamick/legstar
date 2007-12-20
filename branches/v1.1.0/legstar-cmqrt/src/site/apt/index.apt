@@ -1,0 +1,49 @@
+ -----
+ LegStar Chttprt
+ -----
+ Fady Moussallam
+ -----
+ 13 August 2007
+ -----
+
+WebSphere MQ Transport (Cmqrt) overview
+
+  The MQ Transport provides connectivity with IBM WebSphere MQ for z/OS.
+  
+  To select this transport, there needs to be a valid endpoint definition in the active
+  configuration file. See {{{../legstar-invoker}LegStar invoker module}} for more info on
+  the configuration file location.
+  
+  The hostConnectionFactory element in the configuration file must be:
+  
++-------------------------------+
+	<hostConnectionfactoryClass>com.legstar.mq.client.CicsMQConnectionFactory</hostConnectionfactoryClass>
++-------------------------------+
+  
+  The relevant endpoint elements for the MQ Transport in the configuration file are:
+  
+*----------------------+-----------+--------------------------------------------------------------------------------+
+| hostIPAddress        | Mandatory | CICS TCPIP address                                                             |
+*----------------------+-----------+--------------------------------------------------------------------------------+
+| hostIPPort           | Optional  | CICS MQ listening TCPIP port   (Usually 1414)                                  |
+*----------------------+-----------+--------------------------------------------------------------------------------+
+| hostCharset          | Optional  | A valid character set such as IBM01140                                         |
+*----------------------+-----------+--------------------------------------------------------------------------------+
+| hostUserID           | Optional  | A host user ID                                                                 |
+*----------------------+-----------+--------------------------------------------------------------------------------+
+| hostPassword         | Optional  | A host password                                                                |
+*----------------------+-----------+--------------------------------------------------------------------------------+
+| hostMQManager        | Mandatory | The name of the host MQ Manager (exemple CSQ1)                                 |
+*----------------------+-----------+--------------------------------------------------------------------------------+
+| hostMQChannel        | Mandatory | An MQ channel setup to the host MQ system  (exemple CLIENT.TO.FRAME)           |
+*----------------------+-----------+--------------------------------------------------------------------------------+
+| hostMQRequestQueue   | Mandatory | An MQ queue to receive execution requests. See sample MQDEFJCL for definition. |
+*----------------------+-----------+--------------------------------------------------------------------------------+
+| hostMQResponseQueue  | Mandatory | An MQ queue to receive execution replies.                                      |
+*----------------------+-----------+--------------------------------------------------------------------------------+
+  
+  Parameters marked as optional can be provided as part of the request Address if they 
+  are not provided in the configuration file.
+  
+  LegStar uses an optimized binary content which reduces the MQ payload to a minimum and 
+  avoids any character set translations on the host.

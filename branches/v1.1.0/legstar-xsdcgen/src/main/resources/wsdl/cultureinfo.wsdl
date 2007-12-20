@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://sample.c2ws.legstar.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://sample.c2ws.legstar.com/" name="CultureInfoImplService">
+<types>
+    <xs:schema xmlns:tns="http://sample.c2ws.legstar.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://sample.c2ws.legstar.com/">
+    
+    <xs:element name="CultureInfoException" type="tns:CultureInfoException"></xs:element>
+    
+    <xs:element name="getInfo" type="tns:getInfo"></xs:element>
+    
+    <xs:element name="getInfoResponse" type="tns:getInfoResponse"></xs:element>
+    
+    <xs:complexType name="getInfo">
+        <xs:sequence>
+        <xs:element name="arg0" type="tns:cultureInfoRequest" minOccurs="0"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="cultureInfoRequest">
+        <xs:sequence>
+        <xs:element name="cultureCode" type="xs:string" minOccurs="0"></xs:element>
+        <xs:element name="decimalNumber" type="xs:decimal" minOccurs="0"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="getInfoResponse">
+        <xs:sequence>
+        <xs:element name="return" type="tns:cultureInfoReply" minOccurs="0"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="cultureInfoReply">
+        <xs:sequence>
+        <xs:element name="currencySymbol" type="xs:string" minOccurs="0"></xs:element>
+        <xs:element name="displayCountry" type="xs:string" minOccurs="0"></xs:element>
+        <xs:element name="displayLanguage" type="xs:string" minOccurs="0"></xs:element>
+        <xs:element name="formattedDate" type="xs:string" minOccurs="0"></xs:element>
+        <xs:element name="formattedDecimalNumber" type="xs:string" minOccurs="0"></xs:element>
+        <xs:element name="serverCultureInfo" type="tns:serverCultureInfo" minOccurs="0"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="serverCultureInfo">
+        <xs:sequence>
+        <xs:element name="cultureCode" type="xs:string" minOccurs="0"></xs:element>
+        <xs:element name="displayCountry" type="xs:string" minOccurs="0"></xs:element>
+        <xs:element name="displayLanguage" type="xs:string" minOccurs="0"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="CultureInfoException">
+        <xs:sequence>
+        <xs:element name="message" type="xs:string" minOccurs="0"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+</types>
+
+<message name="getInfo">
+    <part name="parameters" element="tns:getInfo"></part>
+</message>
+
+<message name="getInfoResponse">
+    <part name="parameters" element="tns:getInfoResponse"></part>
+</message>
+
+<message name="CultureInfoException">
+    <part name="fault" element="tns:CultureInfoException"></part>
+</message>
+
+<portType name="CultureInfoImpl">
+    <operation name="getInfo">
+        <input message="tns:getInfo"></input>
+        <output message="tns:getInfoResponse"></output>
+        <fault message="tns:CultureInfoException" name="CultureInfoException"></fault>
+    </operation>
+</portType>
+
+<binding name="CultureInfoImplPortBinding" type="tns:CultureInfoImpl">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"></soap:binding>
+    <operation name="getInfo">
+    <soap:operation soapAction=""></soap:operation>
+    <input>
+        <soap:body use="literal"></soap:body>
+    </input>
+    <output>
+        <soap:body use="literal"></soap:body>
+    </output>
+    <fault name="CultureInfoException">
+        <soap:fault name="CultureInfoException" use="literal"></soap:fault>
+    </fault>
+    </operation>
+</binding>
+
+<service name="CultureInfoImplService">
+    <port name="CultureInfoImplPort" binding="tns:CultureInfoImplPortBinding">
+        <soap:address location="http://localhost:8080/jaxws-cultureinfo/getinfo"></soap:address>
+    </port>
+</service>
+
+</definitions>

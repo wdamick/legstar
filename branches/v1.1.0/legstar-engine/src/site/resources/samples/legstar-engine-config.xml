@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!-- 
+ This legstar engine configuration is a combination of pooling and invoker
+ configuration parameters.
+  -->
+<configuration>
+    <additional>
+        <xml fileName="legstar-pooling-config.xml">
+            <reloadingStrategy refreshDelay="10000"
+            config-class="org.apache.commons.configuration.reloading.FileChangedReloadingStrategy"/>
+        </xml>
+        <xml fileName="legstar-invoker-config.xml">
+            <reloadingStrategy refreshDelay="10000"
+            config-class="org.apache.commons.configuration.reloading.FileChangedReloadingStrategy"/>
+        </xml>
+    </additional>
+</configuration>

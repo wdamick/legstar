@@ -1,0 +1,49 @@
+<!-- =================================================================================
+     This script generates a Cobol-annotated XML Schema from an XML Schema or WSDL.
+  -->
+<project basedir=".." default="annotateXSD" name="annotate-XSD">
+
+  <!-- ===========================================================  -->
+  <!-- Setup environment
+    -->
+  <target name="init">
+    
+    <!-- Schema or Wsdl name   -->
+    <property name="schema.name" value="cultureinfo" />
+    <!-- Path to the source XML schema or WSDL file name  -->
+    <property name="in.file.path" value="wsdl/${schema.name}.wsdl" />
+    <!-- Target location for generated XML schema   -->
+    <property name="schema.dir" value="schema" />
+    <!-- Name of generated XSD file  -->
+    <property name="gen.file.name" value="${schema.name}.xsd" />
+    <!-- Target package for generated JAXB classes   -->
+    <property name="jaxb.package.name" value="legstar.test.${schema.name}" />
+      
+    <!-- Classpath setting -->
+    <path id="classpath">
+        <fileset dir="${basedir}" includes="lib/*.jar" />
+      </path>
+
+    <!-- Annotator ant task -->
+    <taskdef name="xsdcgen"
+      classname="com.legstar.xsdc.gen.XsdCobolAnnotator"
+      classpathref="classpath"/>
+  
+  </target>
+
+  <!-- ===========================================================  -->
+  <!-- Generate a Cobol-annotated XML Schema.
+    -->
+  <target name="annotateXSD" depends="init">
+    <echo message="Generating annotated schema for ${in.file.path}" />
+    <mkdir dir="${schema.dir}"/>
+    <xsdcgen 
+      inputXsdFile="${in.file.path}"
+      targetDir="${schema.dir}"
+      targetXsdFileName="${gen.file.name}"
+      jaxbTypeClassesSuffix="Type"
+      jaxbPackageName="${jaxb.package.name}"  
+    />
+  </target>
+
+</project>

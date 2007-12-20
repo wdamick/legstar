@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="LegStar"
+            id="com.legstar.eclipse.plugin">
+      </category>
+      <wizard
+            name="Cobol to XML schema generation"
+            icon="icons/schemagen-generate.gif"
+            category="com.legstar.eclipse.plugin"
+            class="com.legstar.eclipse.plugin.schemagen.wizards.SchemaGenWizard"
+            id="com.legstar.eclipse.plugin.schemagen.wizards.NewXSDWizard">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="com.legstar.eclipse.plugin.schemagen.actionSet"
+            label="LegStar Action Set"
+            visible="true">
+         <menu
+               id="legstarMenu"
+               label="&amp;LegStar">
+            <separator name="legstarGroup"/>
+         </menu>
+         <action
+               class="com.legstar.eclipse.plugin.schemagen.actions.SchemaGenAction"
+               icon="icons/schemagen-generate.gif"
+               id="com.legstar.eclipse.plugin.schemagen.actions.SchemaGenAction"
+               label="&amp;XML schema generation"
+               menubarPath="legstarMenu/legstarGroup"
+               toolbarPath="legstarGroup"
+               tooltip="Generate XML schema from COBOL source"/>
+      </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="com.legstar.eclipse.plugin"
+            class="com.legstar.eclipse.plugin.schemagen.properties.WorkbenchPreferencePage1"
+            id="com.legstar.eclipse.plugin.schemagen.page1"
+            name="Schema Generator"/>
+   </extension>
+
+</plugin>

@@ -1,0 +1,21 @@
+ -----
+ LegStar Distribution
+ -----
+ Fady Moussallam
+ -----
+ 16 August 2007
+ -----
+
+Distribution overview
+
+  For a general introduction to LegStar, click {{{../index.html} here}}.
+
+  The distribution project merges LegStar modules into a single assembly. By downloading
+  the distribution, you don't need to individually download the various LegStar modules.
+  
+  The distribution does not contain the Eclipse plugins though which are expected to
+  be installed using the standard Eclipse update mechanism.
+  
+  The distribution also provides source code for the current release as well as access
+  to previous releases downloads.
+  

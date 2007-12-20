@@ -1,0 +1,29 @@
+<!-- =================================================================================
+     This script deploys a war to an instance of Tomcat.
+ -->
+<project basedir="../../.." default="deployToTomcat" name="deploy-to-tomcat">
+
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+    <property file="../legstar-pom/legstar-dev.properties"/>   
+	<target name="init">
+		
+		<!-- Tomcat destination  -->
+	 	<property name="tomcat.lib" value="${tomcat.dir}\shared\lib" />
+	 	<property name="tomcat.webapps" value="${tomcat.dir}\webapps" />
+
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- The war file contains the legstar-c2wsrt jar file
+	  -->
+	<target name="deployToTomcat" depends="init">
+		
+		<copy todir="${tomcat.webapps}">
+			<fileset dir="${basedir}/target" includes="*.war"/>
+		</copy>
+
+	</target>
+	
+</project>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="LegStar">
+  <publishDate format="dd-MMMM-yyyy"/>
+  <bannerLeft>
+    <name>LegStar</name>
+    <src>images/legstar-logo.png</src>
+    <href>http://www.legsem.com/legstar</href>
+  </bannerLeft>
+  <bannerRight>
+    <name>AnnouncingV1.1.0</name>
+    <src>images/new-version-1.1.0.gif</src>
+    <href>latest-release-overview.html</href>
+  </bannerRight>
+  <poweredBy>
+    <logo name="JavaNet" href="http://www.java.net/" img="images/javanet_button_90.gif" />
+    <logo name="Build with Maven 2" href="http://maven.apache.org" img="images/logos/maven-feather.png" />
+  </poweredBy>
+  
+  <skin>
+    <groupId>com.legsem.legstar</groupId>
+    <artifactId>legstar-skin</artifactId>
+    <version>1.0.0</version>
+  </skin>
+  
+  <body>
+    <links>
+      <item name="Email" href="mailto:admin@legsem.com" />
+      <item name="LegStar" href="http://www.legsem.com/legstar" />
+      <item name="JAXB RI" href="https://jaxb.dev.java.net/" />
+      <item name="JAXWS RI" href="https://jax-ws.dev.java.net/"/>
+    </links>
+
+    <menu name="LegStar">
+      <item name="Introduction" href="index.html"/>
+      <item name="Presentation (pdf)" href="pdf/legstar-presentation.pdf"/>
+      <item name="Download" href="legstar-distribution/download.html"/>
+      <item name="Copyright" href="copyright.html" />
+    </menu>
+
+    <menu name="Development Modules">
+      <item name="XML Schema Generator" href="legstar-schemagen/index.html"/>
+      <item name="Binding Generator" href="legstar-coxbgen/index.html"/>
+      <item name="Service Generator" href="legstar-cixsgen/index.html"/>
+      <item name="XML Schema Annotator" href="legstar-xsdcgen/index.html"/>
+      <item name="Cobol Generator" href="legstar-cobcgen/index.html"/>
+    </menu>
+
+    <menu name="Runtime Modules">
+      <item name="Binding" href="legstar-coxbrt/index.html"/>
+      <item name="Invoker" href="legstar-invoker/index.html"/>
+      <item name="Host to Web Service" href="legstar-c2wsrt/index.html"/>
+      <item name="Pooling engine" href="legstar-engine/index.html"/>
+      <item name="Messaging" href="legstar-messaging/index.html"/>
+    </menu>
+    
+    <menu name="Transport Modules">
+      <item name="Socket transport" href="legstar-csokrt/index.html"/>
+      <item name="HTTP transport" href="legstar-chttprt/index.html"/>
+      <item name="WebSphere MQ transport" href="legstar-chttprt/index.html"/>
+    </menu>
+
+    <menu name="Eclipse Modules">
+      <item name="XML Schema Generator" href="legstar-schemagen-plugin/index.html"/>
+      <item name="Binding Generator" href="legstar-coxbgen-plugin/index.html"/>
+      <item name="Service Generator" href="legstar-cixsgen-plugin/index.html"/>
+    </menu>
+
+    ${reports}
+  </body>
+</project>

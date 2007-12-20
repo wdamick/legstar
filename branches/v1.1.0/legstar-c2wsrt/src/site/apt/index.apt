@@ -1,0 +1,32 @@
+ -----
+ LegStar Host to Web Service runtime
+ -----
+ Fady Moussallam
+ -----
+ 28 July 2007
+ -----
+
+Host to Web Service runtime (C2wsrt) overview
+
+  The LegStar C2wsrt project provides a servlet-based architecture that acts as a gateway for
+  Host systems such as CICS who need to invoke remote Web Services.
+  
+  Host requests arrive as HTTP POST request on a servlet engine such as Tomcat. C2wsrt provides
+  a gateway servlet that gets triggered when such requests arrive. The content of the HTTP POST
+  request is binary and contains the EBCDIC request data sent from the host. This means the host
+  does not deal with XML or code page conversions.
+  
+  Remote Web services are described to c2wsrt using xml descriptors (see the sample CultureInfo.xml
+  for a model). Each xml web service descriptor is then listed in the general legstar-c2wsrt-config.xml
+  file, along with a unique web service logical name. This logical name is known to host programs to
+  identify the target web service.
+  
+  C2wsrt extracts the raw EBCDIC data from the HTTP POST payload and uses the
+   {{{../legstar-coxbrt} Binding Runtime}} to marshal/unmarshal host data into XML.
+   
+  Once the request is expressed in XML, C2wsrt uses the standard 
+  {{{http://jcp.org/en/jsr/detail?id=224} JAXWS API}} to actually call the target Web Service.
+
+  Once an XML reply is received from the target web service, c2wsrt marshals the XML into a
+  host buffer and sends it back to the host program.
+  

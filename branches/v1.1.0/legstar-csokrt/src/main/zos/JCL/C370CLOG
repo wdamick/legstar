@@ -1,0 +1,40 @@
+//P390FXMC   JOB  (ACCT#),'FADY',
+//*          RESTART=REFRESH,
+//           MSGCLASS=X,NOTIFY=&SYSUID,PRTY=14,REGION=0M
+//*-------------------------------------------------------
+//* COMPILES LSCOMLOG
+//*-------------------------------------------------------
+//SBPROCS JCLLIB ORDER=CICSTS23.CICS.SDFHPROC
+//CMPCON  EXEC DFHYITDL,PROGLIB='P390.DEV.LOAD',
+//             LE370HLQ=CEE,
+//             INDEX='CICSTS23.CICS',
+//             CPARM='RENT,SOURCE,LIST,OFFSET,LONGNAME,DLL',
+//             PPARM=DLLNAME(LSCOMLOG),
+//             COMPHLQ=CBC,
+//             OUTC='*'
+//*
+//*-------------------------------------------------------
+//* CICS TRANSLATION SUBSTITUTIONS
+//*-------------------------------------------------------
+//TRN.SYSIN DD DISP=SHR,DSN=P390.DEV.C(LSCOMLOG)
+//*-------------------------------------------------------
+//* COMPILE SUBSTITUTIONS
+//*-------------------------------------------------------
+//C.SYSLIB  DD
+// DD
+// DD
+// DD
+// DD
+// DD DISP=SHR,DSN=P390.DEV.H
+//*-------------------------------------------------------
+//* PRE-LINK SUBSTITUTIONS
+//*-------------------------------------------------------
+//PLKED.SYSDEFSD DD DSN=P390.DEV.DECK(LSCOMLOG),DISP=SHR
+//*-------------------------------------------------------
+//* LINK SUBSTITUTIONS
+//*-------------------------------------------------------
+//LKED.SYSLIB DD
+//     DD
+//     DD DISP=SHR,DSN=P390.DEV.LOAD
+//LKED.SYSLMOD DD DSN=P390.DEV.LOAD(LSCOMLOG),DISP=SHR
+//

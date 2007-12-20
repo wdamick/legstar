@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+	<!-- === Mandatory attributes: -->
+	<!-- @name                : Service endpoint name. -->
+	<!-- @endpointPackageName : Package for service endpoint classes and all operation wrapper classes.  -->
+	<!-- @targetNamespace     : Namespace used for the WSDL definitions and all operation wrapper elements. -->
+	
+	<!-- === Optional attributes:
+	     @endpointInterfaceClassName      : Service endpoint interface class. Default "@name.java" (first char uppercased)
+	     @endpointImplementationClassName : Service endpoint implementation class. Default "@nameImpl.java" (first char uppercased)
+	     @wsdlServiceName                 : WSDL Service name. Default @nameService
+	     @wsdlPortType                    : WSDL Web Service Port type name. Default @namePort
+	 -->
+<cixsService 
+	name="lsfileae"
+	endpointPackageName="com.legstar.test.cixs.lsfileae" 
+	targetNamespace="http://cixs.test.legstar.com/lsfileae#"
+	>
+	<!-- Repeat for each operation. There must be at least one. 
+	     Each operation must include an operation descriptor. -->
+
+	<!--  Operation descriptor -->
+	<include xmlns="http://www.w3.org/2001/XInclude" href="cixs-od-lsfileae.xml" parse="xml"/>
+		
+	  
+</cixsService>

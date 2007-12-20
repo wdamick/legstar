@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config description="Default Configuration">
+	<workManager>
+		<threadPool>
+			<!-- JNDI lookup location for work manager  -->
+			<!-- <JNDILocation>java:comp/env/wm/WorkManager</JNDILocation> -->
+		</threadPool>
+		<defaultThreadPool>
+			<!-- Total number of threads.  -->
+			<size>10</size>
+		</defaultThreadPool>
+   </workManager>
+	<connectionPool>
+		<!-- Simultaneous, reusable, connections to host.  -->
+		<size>3</size>
+		<!-- Class implementing the ConnectionPoolFactory interface.  -->
+		<factoryClass>com.legstar.csok.pool.CicsSocketPoolFactory</factoryClass>
+   </connectionPool>
+	<engine>
+		<!-- Maximum number of waiting requests.  -->
+		<maxRequests>20</maxRequests>
+   </engine>
+	<hostEndPoints>
+		<hostEndPoint name="TheMainframe">
+			<hostIPAddress>192.168.0.110</hostIPAddress>
+			<hostIPPort>3011</hostIPPort>
+			<hostCharset>IBM01140</hostCharset>
+			<hostUserID>P390</hostUserID>
+			<hostPassword>STREAM2</hostPassword>
+			<hostTraceMode>false</hostTraceMode>
+	   </hostEndPoint>
+		<hostEndPoint name="CICSTS31">
+			<hostIPAddress>192.168.0.110</hostIPAddress>
+			<hostIPPort>4011</hostIPPort>
+			<hostCharset>IBM01140</hostCharset>
+			<hostUserID>P390</hostUserID>
+			<hostPassword>STREAM2</hostPassword>
+			<hostTraceMode>false</hostTraceMode>
+	   </hostEndPoint>
+		<hostEndPoint name="TheOtherMainframe">
+			<hostIPAddress>192.168.0.111</hostIPAddress>
+			<hostIPPort>3011</hostIPPort>
+			<hostCharset>IBM01140</hostCharset>
+			<hostUserID>P390</hostUserID>
+			<hostPassword>STREAM2</hostPassword>
+			<hostTraceMode>true</hostTraceMode>
+	   </hostEndPoint>
+  </hostEndPoints>
+</config>
+   

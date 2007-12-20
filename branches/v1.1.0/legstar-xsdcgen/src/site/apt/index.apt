@@ -1,0 +1,25 @@
+ -----
+ LegStar Xsdcgen
+ -----
+ Fady Moussallam
+ -----
+ 26 July 2007
+ -----
+
+XML Schema Annotator (xsdcgen) overview
+
+  LegStar xsdcgen adds cobol-related meta-data to an XML schema.
+  
+  The meta-data is added to the input XML schema as standard XML Schema annotations
+  producing an annotated XML schema.
+  
+  The resulting cobol annotations can then be processed by the {{{../legstar-jaxbgen} JAXB Generator}}
+  to produce a set of annotated JAXB classes that can, in-turn, be used to marshal/unmarshal
+  host data.
+  
+  Xsdcgen is typically used when host programs need to consume remote web services. In this
+  use-case, Xsdcgen will process the schema data from the target web service WSDL.
+  
+  Xsdcgen is an ant task which takes as input either an XML schema or a WSDL file.
+ 
+  

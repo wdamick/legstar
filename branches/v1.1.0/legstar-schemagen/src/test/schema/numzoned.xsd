@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+targetNamespace="http://legstar.com/test/coxb/numzoned"
+xmlns="http://legstar.com/test/coxb/numzoned"
+xmlns:xsns="http://legstar.com/test/coxb/numzoned"
+xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+jaxb:version="2.0"
+jaxb:extensionBindingPrefixes="cb"
+elementFormDefault="qualified">
+ <xs:annotation><xs:appinfo>
+ <jaxb:schemaBindings>
+ <jaxb:package  name="com.legstar.test.coxb.numzoned"/>
+ </jaxb:schemaBindings>
+ </xs:appinfo></xs:annotation>
+ <xs:complexType name="DfhcommareaType">
+    <xs:sequence>
+     <xs:element name="LU">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='L-U' type='ZONED_DECIMAL_ITEM' picture='9(1)' usage='DISPLAY' byteLength='1' signed='false' totalDigits='1' srceLine='31'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedShort">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='9'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="LS">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='L-S' type='ZONED_DECIMAL_ITEM' picture='S9(2)' usage='DISPLAY' byteLength='2' signed='true' totalDigits='2' srceLine='32'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:short">
+         <xs:minInclusive value='-99'/>
+         <xs:maxInclusive value='99'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="LSSignL">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='L-S-SIGN-L' type='ZONED_DECIMAL_ITEM' picture='S9(3)' usage='DISPLAY' byteLength='3' signed='true' totalDigits='3' signLeading='true' srceLine='33'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:short">
+         <xs:minInclusive value='-999'/>
+         <xs:maxInclusive value='999'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="LSSignT">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='L-S-SIGN-T' type='ZONED_DECIMAL_ITEM' picture='S9(2)' usage='DISPLAY' byteLength='2' signed='true' totalDigits='2' srceLine='34'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:short">
+         <xs:minInclusive value='-99'/>
+         <xs:maxInclusive value='99'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="LSSignSL">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='L-S-SIGN-S-L' type='ZONED_DECIMAL_ITEM' picture='S9(1)' usage='DISPLAY' byteLength='2' signed='true' totalDigits='1' signLeading='true' signSeparate='true' srceLine='35'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:short">
+         <xs:minInclusive value='-9'/>
+         <xs:maxInclusive value='9'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="LSSignST">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='L-S-SIGN-S-T' type='ZONED_DECIMAL_ITEM' picture='S9(2)' usage='DISPLAY' byteLength='3' signed='true' totalDigits='2' signSeparate='true' srceLine='36'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:short">
+         <xs:minInclusive value='-99'/>
+         <xs:maxInclusive value='99'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+</xs:schema>

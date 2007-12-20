@@ -1,0 +1,51 @@
+ -------------------------------------------------------------------------------
+                     LegSem LegStar Csokrt Version 1.1.0
+                               Release Notes
+ -------------------------------------------------------------------------------
+
+PREREQUISITES:
+
+ Before Csokrt can be used, the LSSOKBIN CICS Program must be installed in the
+ target CICS region. The {{{LSSOKBIN-readme.html} LSSOKBIN readme}} document
+ describes the program and how to install it.
+
+ Csokrt uses the {{{../legstar-messaging} LegStar messaging}} layer which is included
+ in the distribution.
+ 
+ Csokrt also uses the {{{http://jakarta.apache.org/commons/logging/} Apache Commons logging}}
+ and {{{http://jakarta.apache.org/commons/configuration/} Apache commons configuration}}.
+ 
+INSTALLING/UNINSTALLING:
+
+ [[1]] Unzip the binary distribution package into the directory of your choice,
+       referred to as <installDir> in the following steps.
+
+   The directory tree should look like this:
+   
++---------------------------------------+
+   <installDir>
+        |---->LICENSE
+        |---->csokrt-NOTICE
+        |---->csokrt-README
+        |---->LSSOKBIN-README
+        |----><lib>
+                |---->*.jar
+        |----><zos>
+                |----><C370>
+                        |---->*.C
+                        |---->*.H
+                |----><cobol>
+                        |---->*.CBL
+                |----><JCL>
+                        |---->C370*
+                
++---------------------------------------+
+   
+ [[2]] Refer to the javadoc in order to use Csokrt directly.
+   
+ [[3]] To uninstall, remove the installDir folder.
+
+DOCUMENTATION:
+
+ Documentation available at http://www.legsem.com/legstar/legstar-csokrt
+

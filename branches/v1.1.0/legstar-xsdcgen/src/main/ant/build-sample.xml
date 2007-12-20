@@ -1,0 +1,46 @@
+<!-- =================================================================================
+     This script builds the sample that is delivered with the assemblies.
+ -->
+<project basedir="../../.." default="buildSample" name="build-sample">
+
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+	<target name="init">
+        <xmlproperty file="${basedir}/pom.xml"/>
+      
+		<!-- Sample project location  -->
+	 	<property name="sample.project" value="${basedir}/../legstar-samples" />
+		<!-- Distribution name  -->
+	 	<property name="dist.name" value="${project.artifactId}-${project.version}" />
+		<!-- Distribution zip file  -->
+	 	<property name="dist.zip" value="${dist.name}-bin.zip" />
+		<!-- Distribution file location   -->
+	 	<property name="dist.dir" value="${basedir}/src/site/resources/binaries" />
+		<!-- Distribution zip file   -->
+	 	<property name="zip.file" value="${dist.dir}/${dist.zip}" />
+		<!-- Sample final destination for sources  -->
+	 	<property name="sample.schema" value="${sample.project}/schema" />
+        <!-- Schemagen project location where we store a copy of the sample
+             generated xsd. Schemagen acts as the repository for all annotated
+             schema. This is where Jaxbgen and Coxbgen will be looking for 
+             annotated schemas.  -->
+        <property name="schemagen.project" value="${basedir}/../legstar-schemagen" />
+		
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Build the sample
+	  -->
+	<target name="buildSample" depends="init">
+		<mkdir dir="${sample.schema}"/> 
+		<unzip src="${zip.file}" dest="${sample.project}"/>
+		<ant antfile="${sample.project}/${dist.name}/ant/build-xsdc.xml"
+			 dir="${sample.project}/${dist.name}"/>
+		<copy todir="${sample.schema}">
+			<fileset dir="${sample.project}/${dist.name}/schema"/>
+		</copy>
+        <delete dir="${sample.project}/${dist.name}" includeEmptyDirs="true" quiet="true"/>
+	</target>
+	
+</project>

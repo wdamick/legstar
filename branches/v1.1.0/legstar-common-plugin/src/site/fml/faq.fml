@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<faqs title="Frequently Asked Questions">
+
+  <part id="general">
+    <title>General</title>
+   
+    <faq id="footer-company">
+      <question>
+       Why do I need to update the Ant runtime Global entries in order to use the Console Logger?
+      </question>
+      <answer>
+       Due to the Eclipse plugin classpath mechanism, classes in a plugin are not visible to Ant. If 
+       you fail to change Ant's classpath and still select the "Use Ant Console Logger" option, you
+       are likely to get an "unable to instanciate AntConsoleLogger" message when using one of
+       the generators.
+       To fix this issue, use Window-->Preferences-->Ant-->Runtime and add the
+       com.legstar.eclipse.plugin.common_1.1.0.jar as an external jar to the Global Entries.
+       This jar is located in your eclipse/plugins folder.
+      </answer>
+    </faq>
+
+  <!--
+    <faq id="">
+      <question></question>
+      <answer>
+      </answer>
+    </faq>
+  -->
+  </part>
+</faqs>

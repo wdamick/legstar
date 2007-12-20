@@ -1,0 +1,65 @@
+
+
+ -------------------------------------------------------------------------------
+                     LegSem LegStar Schemagen Version 1.1.0
+                               Release Notes
+ -------------------------------------------------------------------------------
+
+PREREQUISITES:
+
+ The LegStar XML Schema Generator is implemented as an Apache Ant task (Apache  
+ Software Foundation (http://www.apache.org/).
+ 
+ XML Schema Generator has been tested with ant 1.6.5. The binaries can be downloaded
+ from http://ant.apache.org/.
+ 
+ Schemagen is the only LegStar module that uses native C programs. The standard
+ delivery includes dlls for Windows and shared objects for Linux. The Linux
+ shared objects were compiled on Fedora Core 6 with GNU C. If you are targeting a
+ different unix distribution, a makefile is available along with the sources 
+ that you can get from the LegStar web site.
+ 
+ INSTALLING/UNINSTALLING:
+
+ [[1]] Unzip the binary distribution package into the directory of your choice,
+       referred to as <installDir> in the following steps.
+
+   The directory tree should look like this:
+   
++---------------------------------------+
+   <installDir>
+        |---->LICENSE
+        |---->schemagen-NOTICE
+        |---->schemagen-README
+        |----><ant>
+                |---->build-schema.xml
+        |----><bin>
+                |---->*.dll
+                |---->*.so
+        |----><cobol>
+                |---->*.cbl
+        |----><lib>
+                |---->*.jar
+                
++---------------------------------------+
+   
+ [[2]] On Windows:
+       Include installDir/bin in the search PATH. This is needed because Schemagen
+       uses native libraries.
+       On Linux:
+       copy the *.so shared objects from installDir/bin to /usr/lib
+
+ [[3]] From the installDir/ant folder, run command "ant -f build-schema.xml".
+       This should create a schema folder with a generated XML schema from the
+       sample cobol source in the cobol folder.
+   
+ [[4]] Follow instructions in build-schema.xml to generate XML schemas from your
+       own COBOL source files.
+   
+ [[5]] To uninstall, remove the installDir folder and remove references to 
+       installDir/bin from the search PATH.
+
+DOCUMENTATION:
+
+ Documentation available at http://www.legsem.com/legstar/legstar-schemagen
+
