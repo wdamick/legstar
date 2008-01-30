@@ -24,7 +24,7 @@ package com.legstar.messaging;
 /**
  * MessagePart representing the content of a CICS commarea.
  */
-public class CommareaPart extends MessagePart {
+public class CommareaPart extends LegStarMessagePart {
 
 	/** The header identifier (used as an eye catcher by the CICS
 	 *  counterpart).*/

@@ -21,8 +21,8 @@
 package com.legstar.work.invoke;
 
 import com.legstar.host.server.WorkFactory;
-import com.legstar.messaging.Connection;
-import com.legstar.messaging.Request;
+import com.legstar.messaging.LegStarConnection;
+import com.legstar.messaging.LegStarRequest;
 import com.legstar.pool.manager.ConnectionPool;
 import commonj.work.Work;
 import commonj.work.WorkListener;
@@ -38,7 +38,7 @@ public class InvokeWorkFactory implements WorkFactory {
 	 * {@inheritDoc}
 	 */
 	public final Work createWork(
-			final Request request, final Connection connection) {
+			final LegStarRequest request, final LegStarConnection connection) {
 		return new InvokeWork(request, connection);
 	}
 
@@ -49,8 +49,8 @@ public class InvokeWorkFactory implements WorkFactory {
 	 * {@inheritDoc}
 	 */
 	public final WorkListener createWorkListener(
-			final Request request,
-			final Connection connection,
+			final LegStarRequest request,
+			final LegStarConnection connection,
 			final ConnectionPool pool) {
 		return new InvokeWorkListener(request, connection, pool);
 	}

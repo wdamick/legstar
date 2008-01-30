@@ -106,7 +106,8 @@ public class CChoiceReflectBinding extends CChoiceBinding {
 	}
 	
     /** {@inheritDoc} */
-    public final Object getObjectValue(final Class type) throws HostException {
+    public final Object getObjectValue(
+    		final Class < ? > type) throws HostException {
 		throw new HostException("Attempt to get value from choice binding "
 				+ getCobolName());
     }

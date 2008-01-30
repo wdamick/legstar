@@ -49,7 +49,7 @@ public class CZonedDecimalBinding
 	public CZonedDecimalBinding(
 			final String name,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations,
 			final ICobolComplexBinding parentBinding) {
 		super(name, jaxbName, jaxbType, cobolAnnotations, parentBinding);

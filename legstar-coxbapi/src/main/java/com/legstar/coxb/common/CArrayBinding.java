@@ -44,7 +44,7 @@ public abstract class CArrayBinding extends CBinding
 	public CArrayBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations,
 			final ICobolComplexBinding parentBinding) {
 		super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);

@@ -35,6 +35,7 @@ public interface ConnectionFactory {
 	 * @return the new host connection
 	 * @throws ConnectionException if failed to create connection
 	 */
-	Connection createConnection(
-			String connectionID, Address address) throws ConnectionException;
+	LegStarConnection createConnection(
+			String connectionID,
+			LegStarAddress address) throws ConnectionException;
 }

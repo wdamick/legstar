@@ -30,15 +30,15 @@ import org.apache.commons.configuration.ConfigurationException;
 import com.legstar.config.Constants;
 import com.legstar.csok.client.CicsSocket;
 import com.legstar.csok.client.CicsSocketEndpoint;
-import com.legstar.messaging.Address;
+import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.ContainerPart;
-import com.legstar.messaging.HeaderPart;
+import com.legstar.messaging.LegStarHeaderPart;
 import com.legstar.messaging.HeaderPartException;
-import com.legstar.messaging.Message;
-import com.legstar.messaging.MessagePart;
-import com.legstar.messaging.Request;
+import com.legstar.messaging.LegStarMessage;
+import com.legstar.messaging.LegStarMessagePart;
+import com.legstar.messaging.LegStarRequest;
 import com.legstar.messaging.RequestException;
 
 import junit.framework.TestCase;
@@ -63,13 +63,13 @@ public class CicsTs31SocketTest extends TestCase {
 			map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
 			map.put(Constants.CICS_LENGTH_KEY, "79");
 			map.put(Constants.CICS_DATALEN_KEY, "6");
-			List <MessagePart> inputParts = new ArrayList <MessagePart>();
-			MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
+			List <LegStarMessagePart> inputParts = new ArrayList <LegStarMessagePart>();
+			LegStarMessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 			inputParts.add(inCommarea);
-			HeaderPart dp = new HeaderPart(map, inputParts.size());
-			Address address = new Address("CICSTS31");
-			Message requestMessage = new Message(dp, inputParts);
-			Request request = new Request("Request01", address, requestMessage);
+			LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
+			LegStarAddress address = new LegStarAddress("CICSTS31");
+			LegStarMessage requestMessage = new LegStarMessage(dp, inputParts);
+			LegStarRequest request = new LegStarRequest("Request01", address, requestMessage);
 			cs.sendRequest(request);
 			cs.recvResponse(request);
 			assertEquals("f0f0f0f1f0f0e24b40c44b40c2d6d9d4c1d54040404040404040e2e4d9d9c5e86b40c5d5c7d3c1d5c44040404040f3f2f1f5f6f7f7f8f2f640f1f140f8f15bf0f1f0f04bf1f15c5c5c5c5c5c5c5c5c",
@@ -98,13 +98,13 @@ public class CicsTs31SocketTest extends TestCase {
 			map.put(Constants.CICS_CHANNEL_KEY, "LSFAC-CHANNEL");
 			String[] outContainers = {"RESPONSE-CTN"};
 			map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
-			List <MessagePart> inputParts = new ArrayList <MessagePart>();
-			MessagePart inContainer = new ContainerPart("REQUEST-CTN", Util.toByteArray("F0F0F0F1F0F0"));
+			List <LegStarMessagePart> inputParts = new ArrayList <LegStarMessagePart>();
+			LegStarMessagePart inContainer = new ContainerPart("REQUEST-CTN", Util.toByteArray("F0F0F0F1F0F0"));
 			inputParts.add(inContainer);
-			HeaderPart dp = new HeaderPart(map, inputParts.size());
-			Address address = new Address("CICSTS31");
-			Message requestMessage = new Message(dp, inputParts);
-			Request request = new Request("Request01", address, requestMessage);
+			LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
+			LegStarAddress address = new LegStarAddress("CICSTS31");
+			LegStarMessage requestMessage = new LegStarMessage(dp, inputParts);
+			LegStarRequest request = new LegStarRequest("Request01", address, requestMessage);
 			cs.sendRequest(request);
 			cs.recvResponse(request);
 			assertEquals("RESPONSE-CTN",
@@ -135,16 +135,16 @@ public class CicsTs31SocketTest extends TestCase {
 			map.put(Constants.CICS_CHANNEL_KEY, "LSFILEAC-CHANNEL");
 			String[] outContainers = {"ReplyData","ReplyStatus"};
 			map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
-			List <MessagePart> inputParts = new ArrayList <MessagePart>();
-			MessagePart inQueryData = new ContainerPart("QueryData",
+			List <LegStarMessagePart> inputParts = new ArrayList <LegStarMessagePart>();
+			LegStarMessagePart inQueryData = new ContainerPart("QueryData",
 					Util.toByteArray("D45C4040404040404040404040404040404040405C404040404040404040404040404040404040405C40404040404040"));
 			inputParts.add(inQueryData);
-			MessagePart inQueryLimit = new ContainerPart("QueryLimit", Util.toByteArray("000000010F000005000F"));
+			LegStarMessagePart inQueryLimit = new ContainerPart("QueryLimit", Util.toByteArray("000000010F000005000F"));
 			inputParts.add(inQueryLimit);
-			HeaderPart dp = new HeaderPart(map, inputParts.size());
-			Address address = new Address("CICSTS31");
-			Message requestMessage = new Message(dp, inputParts);
-			Request request = new Request("Request01", address, requestMessage);
+			LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
+			LegStarAddress address = new LegStarAddress("CICSTS31");
+			LegStarMessage requestMessage = new LegStarMessage(dp, inputParts);
+			LegStarRequest request = new LegStarRequest("Request01", address, requestMessage);
 			cs.sendRequest(request);
 			cs.recvResponse(request);
 			/* Get the status container first */
@@ -183,14 +183,14 @@ public class CicsTs31SocketTest extends TestCase {
 			map.put(Constants.CICS_CHANNEL_KEY, "LSFILEAC-CHANNEL");
 			String[] outContainers = {"ReplyBibi","ReplyStatus"};
 			map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
-			List <MessagePart> inputParts = new ArrayList <MessagePart>();
-			MessagePart inQueryData = new ContainerPart("QueryData",
+			List <LegStarMessagePart> inputParts = new ArrayList <LegStarMessagePart>();
+			LegStarMessagePart inQueryData = new ContainerPart("QueryData",
 					Util.toByteArray("D45C4040404040404040404040404040404040405C404040404040404040404040404040404040405C40404040404040"));
 			inputParts.add(inQueryData);
-			HeaderPart dp = new HeaderPart(map, inputParts.size());
-			Address address = new Address("CICSTS31");
-			Message requestMessage = new Message(dp, inputParts);
-			Request request = new Request("Request01", address, requestMessage);
+			LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
+			LegStarAddress address = new LegStarAddress("CICSTS31");
+			LegStarMessage requestMessage = new LegStarMessage(dp, inputParts);
+			LegStarRequest request = new LegStarRequest("Request01", address, requestMessage);
 			cs.sendRequest(request);
 			cs.recvResponse(request);
 			/* Get the status container first */
@@ -226,14 +226,14 @@ public class CicsTs31SocketTest extends TestCase {
 			map.put(Constants.CICS_CHANNEL_KEY, "LSFILEAC-CHANNEL");
 			String[] outContainers = {"ReplyData","ReplyStatus"};
 			map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
-			List <MessagePart> inputParts = new ArrayList <MessagePart>();
-			MessagePart inQueryData = new ContainerPart("QueryData",
+			List <LegStarMessagePart> inputParts = new ArrayList <LegStarMessagePart>();
+			LegStarMessagePart inQueryData = new ContainerPart("QueryData",
 					Util.toByteArray("D45C4040404040404040404040404040404040405C404040404040404040404040404040404040405C40404040404040"));
 			inputParts.add(inQueryData);
-			HeaderPart dp = new HeaderPart(map, inputParts.size());
-			Address address = new Address("CICSTS31");
-			Message requestMessage = new Message(dp, inputParts);
-			Request request = new Request("Request01", address, requestMessage);
+			LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
+			LegStarAddress address = new LegStarAddress("CICSTS31");
+			LegStarMessage requestMessage = new LegStarMessage(dp, inputParts);
+			LegStarRequest request = new LegStarRequest("Request01", address, requestMessage);
 			cs.sendRequest(request);
 			cs.recvResponse(request);
 			/* Get the status container first */
@@ -270,18 +270,18 @@ public class CicsTs31SocketTest extends TestCase {
 			map.put(Constants.CICS_CHANNEL_KEY, "T1VOLUMC-CHANNEL");
 			String[] outContainers = {"RESPONSE-CTN"};
 			map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
-			List <MessagePart> inputParts = new ArrayList <MessagePart>();
+			List <LegStarMessagePart> inputParts = new ArrayList <LegStarMessagePart>();
 			byte[] content = new byte[65536];
 			byte[] startEC = Util.toByteArray("d7c7d47ec9c7e8c3d9c3e3d36bd9c5c7");
 			byte[] endEC = Util.toByteArray("d7c1d9d47e4d7dd5d6c4e8d5c1d46bd3");
 			System.arraycopy(startEC, 0, content, 0, 16);
 			System.arraycopy(endEC, 0, content, 65520, 16);
-			MessagePart inContainer = new ContainerPart("REQUEST-CTN", content);
+			LegStarMessagePart inContainer = new ContainerPart("REQUEST-CTN", content);
 			inputParts.add(inContainer);
-			HeaderPart dp = new HeaderPart(map, inputParts.size());
-			Address address = new Address("CICSTS31");
-			Message requestMessage = new Message(dp, inputParts);
-			Request request = new Request("Request01", address, requestMessage);
+			LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
+			LegStarAddress address = new LegStarAddress("CICSTS31");
+			LegStarMessage requestMessage = new LegStarMessage(dp, inputParts);
+			LegStarRequest request = new LegStarRequest("Request01", address, requestMessage);
 			cs.sendRequest(request);
 			cs.recvResponse(request);
 			assertEquals("RESPONSE-CTN",
@@ -316,19 +316,19 @@ public class CicsTs31SocketTest extends TestCase {
 			map.put(Constants.CICS_CHANNEL_KEY, "T1VOLUMC-CHANNEL");
 			String[] outContainers = {"RESPONSE-CTN"};
 			map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
-			List <MessagePart> inputParts = new ArrayList <MessagePart>();
+			List <LegStarMessagePart> inputParts = new ArrayList <LegStarMessagePart>();
 			byte[] content = new byte[65536];
 			byte[] startEC = Util.toByteArray("d7c7d47ec9c7e8c3d9c3e3d36bd9c5c7");
 			byte[] endEC = Util.toByteArray("d7c1d9d47e4d7dd5d6c4e8d5c1d46bd3");
 			System.arraycopy(startEC, 0, content, 0, 16);
 			System.arraycopy(endEC, 0, content, 65520, 16);
-			MessagePart inContainer = new ContainerPart("REQUEST-CTN", content);
+			LegStarMessagePart inContainer = new ContainerPart("REQUEST-CTN", content);
 			inputParts.add(inContainer);
-			HeaderPart dp = new HeaderPart(map, inputParts.size());
-			Address address = new Address("CICSTS31");
-			Message requestMessage = new Message(dp, inputParts);
+			LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
+			LegStarAddress address = new LegStarAddress("CICSTS31");
+			LegStarMessage requestMessage = new LegStarMessage(dp, inputParts);
 			for (int i = 0; i < MAX_ITERATIONS; i++) {
-				Request request = new Request("Request01", address, requestMessage);
+				LegStarRequest request = new LegStarRequest("Request01", address, requestMessage);
 				cs.sendRequest(request);
 				cs.recvResponse(request);
 				assertEquals("RESPONSE-CTN",

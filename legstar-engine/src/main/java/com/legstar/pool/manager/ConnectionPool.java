@@ -29,8 +29,8 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.legstar.messaging.Address;
-import com.legstar.messaging.Connection;
+import com.legstar.messaging.LegStarAddress;
+import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.ConnectionFactory;
 
@@ -54,13 +54,13 @@ public class ConnectionPool {
 	private ConnectionFactory mConnectionFactory;
 	
 	/** Queue of available host connections. */
-	private ArrayBlockingQueue < Connection > mConnections;
+	private ArrayBlockingQueue < LegStarConnection > mConnections;
 	
 	/** Will be true when shutdown is initiated. */
 	private boolean mShuttingDown;
 	
 	/** The host address for this connection pool. */
-	private Address mAddress;
+	private LegStarAddress mAddress;
 	
 	/**
 	 * Construct a connection pool for an endpoint.
@@ -74,7 +74,7 @@ public class ConnectionPool {
 	 */
 	public ConnectionPool(
 			final int poolSize,
-			final Address address,
+			final LegStarAddress address,
 			final ConnectionFactory connectionFactory)
 			throws ConnectionPoolException {
 
@@ -82,7 +82,7 @@ public class ConnectionPool {
 		mConnectionFactory = connectionFactory;
 		
 		/* Create the blocking queue */
-		mConnections = new ArrayBlockingQueue < Connection >(poolSize);
+		mConnections = new ArrayBlockingQueue < LegStarConnection >(poolSize);
 		
 		/* Create all connections with a unique ID each. This ID is used
 		 * for traceability. Because */
@@ -108,9 +108,9 @@ public class ConnectionPool {
 	 * @return a pooled connection
 	 * @throws ConnectionPoolException if no pooled connection can be obtained
 	 */
-	public final Connection take(
+	public final LegStarConnection take(
 			final long timeout) throws ConnectionPoolException {
-		Connection connection = null;
+		LegStarConnection connection = null;
 		if (!mShuttingDown) {
 			try {
 				connection = mConnections.poll(timeout, TimeUnit.MILLISECONDS);
@@ -135,7 +135,7 @@ public class ConnectionPool {
 	 * @throws ConnectionPoolException if pooled connection cannot be recycled
 	 */
 	public final void put(
-			final Connection connection) throws ConnectionPoolException {
+			final LegStarConnection connection) throws ConnectionPoolException {
 		if (!mShuttingDown) {
 			try {
 				mConnections.add(connection);
@@ -174,8 +174,9 @@ public class ConnectionPool {
 	 * Retrieve the currrent set of connections.
 	 * @return a list of available connections in the pool
 	 */
-	public final List < Connection > getConnections() {
-		List < Connection > connections = new ArrayList < Connection >();
+	public final List < LegStarConnection > getConnections() {
+		List < LegStarConnection > connections =
+			new ArrayList < LegStarConnection >();
 		mConnections.drainTo(connections);
 		return connections;
 	}
@@ -183,7 +184,7 @@ public class ConnectionPool {
 	/**
 	 * @return the host address for this coion pool
 	 */
-	public final Address getAddress() {
+	public final LegStarAddress getAddress() {
 		return mAddress;
 	}
 

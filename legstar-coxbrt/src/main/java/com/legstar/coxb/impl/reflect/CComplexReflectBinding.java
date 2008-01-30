@@ -119,7 +119,7 @@ public class CComplexReflectBinding extends CComplexBinding {
 	 */
 	public CComplexReflectBinding(
 			final Object jaxbObjectFactory,
-			final Class jaxbType)
+			final Class < ? > jaxbType)
 		throws ReflectBindingException {
 		
 		this(jaxbType.getSimpleName(),
@@ -141,7 +141,7 @@ public class CComplexReflectBinding extends CComplexBinding {
 	public CComplexReflectBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations,
 			final CComplexReflectBinding parentBinding,
 			final Object jaxbObjectFactory)
@@ -188,7 +188,7 @@ public class CComplexReflectBinding extends CComplexBinding {
      * @throws ReflectBindingException if children bindings fail
      *  */
     public final void initChildren(
-    		final Class jaxbType,
+    		final Class < ? > jaxbType,
     		final XmlType xmlType) throws ReflectBindingException {
     
 		if (LOG.isDebugEnabled()) {
@@ -266,9 +266,9 @@ public class CComplexReflectBinding extends CComplexBinding {
      * @return the java type class
      * @throws ReflectBindingException if class cannot be determined
      */
-    private Class getJavaClass(
+    private Class < ? > getJavaClass(
     		final Field hostField) throws ReflectBindingException {
-    	Class javaClass = hostField.getType();
+    	Class < ? > javaClass = hostField.getType();
     	if (javaClass.getName().compareTo("java.util.List") == 0) {
     		String jaxbTypeName = hostField.getGenericType().toString();
     		jaxbTypeName = jaxbTypeName.substring(
@@ -297,7 +297,7 @@ public class CComplexReflectBinding extends CComplexBinding {
 	 */
 	private ICobolBinding createBinding(
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations,
 			final RedefinesMap redefinesMap)
 		throws ReflectBindingException {
@@ -401,7 +401,7 @@ public class CComplexReflectBinding extends CComplexBinding {
 	 */
 	private ICobolBinding createComplexBinding(
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations)
 		throws ReflectBindingException {
 		
@@ -435,7 +435,7 @@ public class CComplexReflectBinding extends CComplexBinding {
 	 */
 	private ICobolBinding createChoiceBinding(
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations,
 			final ICobolBinding cobolElement,
 			final RedefinesMap redefinesMap)
@@ -527,7 +527,7 @@ public class CComplexReflectBinding extends CComplexBinding {
 	 */
 	private ICobolBinding createStringBinding(
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations)
 		throws ReflectBindingException {
 		
@@ -551,7 +551,7 @@ public class CComplexReflectBinding extends CComplexBinding {
 	 */
 	private ICobolBinding createOctetStreamBinding(
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations)
 		throws ReflectBindingException {
 		
@@ -575,7 +575,7 @@ public class CComplexReflectBinding extends CComplexBinding {
 	 */
 	private ICobolBinding createNationalBinding(
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations)
 		throws ReflectBindingException {
 		
@@ -599,7 +599,7 @@ public class CComplexReflectBinding extends CComplexBinding {
 	 */
 	private ICobolBinding  createPackedDecimalBinding(
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations)
 		throws ReflectBindingException {
 		
@@ -623,7 +623,7 @@ public class CComplexReflectBinding extends CComplexBinding {
 	 */
 	private ICobolBinding  createZonedDecimalBinding(
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations)
 		throws ReflectBindingException {
 		
@@ -647,7 +647,7 @@ public class CComplexReflectBinding extends CComplexBinding {
 	 */
 	private ICobolBinding  createBinaryBinding(
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations)
 		throws ReflectBindingException {
 		
@@ -671,7 +671,7 @@ public class CComplexReflectBinding extends CComplexBinding {
 	 */
 	private ICobolBinding createFloatBinding(
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations)
 		throws ReflectBindingException {
 		
@@ -695,7 +695,7 @@ public class CComplexReflectBinding extends CComplexBinding {
 	 */
 	private ICobolBinding createDoubleBinding(
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations)
 		throws ReflectBindingException {
 		
@@ -831,7 +831,7 @@ public class CComplexReflectBinding extends CComplexBinding {
         		if (child.getMaxOccurs() > 1
         				&& child.getMinOccurs() < child.getMaxOccurs()) {
         			setCounterValue(child.getDependingOn(),
-        					((List) value).size());
+        					((List < ? >) value).size());
         		}
         	}
         }
@@ -863,7 +863,8 @@ public class CComplexReflectBinding extends CComplexBinding {
             
 
     /** {@inheritDoc} */
-    public final Object getObjectValue(final Class type) throws HostException {
+    public final Object getObjectValue(
+    		final Class < ? > type) throws HostException {
     	if (type.equals(getJaxbType())) {
     		return mJaxbObject;
 		} else {

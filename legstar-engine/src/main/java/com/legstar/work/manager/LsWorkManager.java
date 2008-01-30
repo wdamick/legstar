@@ -100,6 +100,7 @@ public class LsWorkManager implements WorkManager {
 	 * @param timeout Timeout for waiting for the units of work to finish.
 	 * @return true if wait for all succeeded
 	 */
+	@SuppressWarnings("unchecked")
 	public final boolean waitForAll(
 			final Collection works, final long timeout) {
 	    throw new UnsupportedOperationException("waitForAll not supported");
@@ -112,6 +113,7 @@ public class LsWorkManager implements WorkManager {
 	 * @param timeout Timeout for waiting for the units of work to finish.
 	 * @return true if wait for any succeeded
 	 */
+	@SuppressWarnings("unchecked")
 	public final Collection waitForAny(
 			final Collection works, final long timeout) {
 	    throw new UnsupportedOperationException("waitForAny not supported");

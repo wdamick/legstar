@@ -21,7 +21,6 @@
 package com.legstar.host.invoke;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -31,13 +30,13 @@ import org.apache.commons.logging.LogFactory;
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.host.access.HostAccessStrategy;
 import com.legstar.host.access.HostAccessStrategyException;
-import com.legstar.messaging.Address;
+import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.ContainerPart;
-import com.legstar.messaging.HeaderPart;
+import com.legstar.messaging.LegStarHeaderPart;
 import com.legstar.messaging.HeaderPartException;
-import com.legstar.messaging.Message;
-import com.legstar.messaging.MessagePart;
-import com.legstar.messaging.Request;
+import com.legstar.messaging.LegStarMessage;
+import com.legstar.messaging.LegStarMessagePart;
+import com.legstar.messaging.LegStarRequest;
 
 /**
  * A ContainerInvoker builds a request object for a target CHANNEL-driven CICS
@@ -54,7 +53,7 @@ public class ContainerInvoker extends CobolInvoker implements HostInvoker {
 	private HostAccessStrategy mHostAccessStrategy;
 	
 	/** Host endpoint targeted. */
-	private Address mAddress;
+	private LegStarAddress mAddress;
 	
 	/** Host program attributes. */
 	private CicsProgram mCicsProgram;
@@ -69,7 +68,7 @@ public class ContainerInvoker extends CobolInvoker implements HostInvoker {
 	 */
 	public ContainerInvoker(
 			final HostAccessStrategy hostAccessStrategy,
-			final Address completeAddress,
+			final LegStarAddress completeAddress,
 			final CicsProgram hostProgram) throws HostInvokerException {
 		super(completeAddress.getHostCharset());
 		mHostAccessStrategy = hostAccessStrategy;
@@ -109,7 +108,8 @@ public class ContainerInvoker extends CobolInvoker implements HostInvoker {
 		if (LOG.isDebugEnabled()) {
  			LOG.debug("Invoke Container started");
 		}
-		Request request = createContainerRequest(requestID, mAddress, inParts);
+		LegStarRequest request =
+			createContainerRequest(requestID, mAddress, inParts);
 		try {
 			mHostAccessStrategy.invoke(request);
 		} catch (HostAccessStrategyException e) {
@@ -140,33 +140,33 @@ public class ContainerInvoker extends CobolInvoker implements HostInvoker {
 	 * @return the request ready to be submitted
 	 * @throws HostInvokerException if failed to create request
 	 */
-	private Request createContainerRequest(
+	private LegStarRequest createContainerRequest(
 			final String requestID,
-			final Address address,
+			final LegStarAddress address,
 			final Map < String, ICobolComplexBinding > inParts)
 			throws HostInvokerException {
 		
-		List < MessagePart > dataParts = new ArrayList < MessagePart >();
-		Iterator it = inParts.entrySet().iterator();
-        while (it.hasNext()) {
- 	        Map.Entry me = (Map.Entry) it.next();
-	        String containerName = (String) me.getKey();
-	        ICobolComplexBinding ccbin = (ICobolComplexBinding) me.getValue();
+		List < LegStarMessagePart > dataParts =
+			new ArrayList < LegStarMessagePart >();
+        for (String containerName : inParts.keySet()) {
+	        ICobolComplexBinding ccbin =
+	        	(ICobolComplexBinding) inParts.get(containerName);
 	        
 			/* The program parameters give the container max size */
 	        dataParts.add(createContainerPart(containerName,
 					mCicsProgram.getInContainers().get(containerName), ccbin));
         }
         
-		HeaderPart headerPart;
+        LegStarHeaderPart headerPart;
 		try {
-			headerPart = new HeaderPart(
+			headerPart = new LegStarHeaderPart(
 				mCicsProgram.getProgramAttrMap(), dataParts.size());
 		} catch (HeaderPartException e) {
 			throw new HostInvokerException(e);
 		}
-		Message requestMessage = new Message(headerPart, dataParts);
-		return new Request(requestID, address, requestMessage);
+		LegStarMessage requestMessage =
+			new LegStarMessage(headerPart, dataParts);
+		return new LegStarRequest(requestID, address, requestMessage);
 	}
 	
 	/**
@@ -177,7 +177,7 @@ public class ContainerInvoker extends CobolInvoker implements HostInvoker {
 	 * @return a message part
 	 * @throws MarshalException if object tree fails to convert
 	 */
-	private MessagePart createContainerPart(final String containerName,
+	private LegStarMessagePart createContainerPart(final String containerName,
 			final int containerSize, final ICobolComplexBinding ccbin)
 			throws MarshalException {
 
@@ -188,7 +188,7 @@ public class ContainerInvoker extends CobolInvoker implements HostInvoker {
 		marshal(ccbin, hostBytes);
 
 		/* Create a container part */
-		MessagePart part = new ContainerPart(containerName, hostBytes);
+		LegStarMessagePart part = new ContainerPart(containerName, hostBytes);
 
 		return part;
 	}
@@ -203,10 +203,11 @@ public class ContainerInvoker extends CobolInvoker implements HostInvoker {
 	 * @throws UnmarshalException if failed to convert host data
 	 */
 	private void createContainerResponse(
-			final Request request,
+			final LegStarRequest request,
 			final Map < String, ICobolComplexBinding > outParts)
 			throws UnmarshalException {
-		for (MessagePart part : request.getResponseMessage().getDataParts()) {
+		for (LegStarMessagePart part
+				: request.getResponseMessage().getDataParts()) {
 			if (part.getContent() != null && part.getContent().length > 0) {
 				unmarshal(part.getContent(), outParts.get(part.getID()));
 			}

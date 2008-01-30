@@ -14,7 +14,7 @@
 		<!-- Distribution name  -->
         <property name="dist.name" value="${project.artifactId}-${project.version}" />
 		<!-- Distribution zip file  -->
-	 	<property name="dist.zip" value="${dist.name}-win32.zip" />
+	 	<property name="dist.zip" value="${dist.name}-bin.zip" />
 		<!-- Distribution file location   -->
 	 	<property name="dist.dir" value="${basedir}/src/site/resources/binaries" />
 		<!-- Distribution zip file   -->

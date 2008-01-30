@@ -25,7 +25,6 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Path;
 
 import java.net.URISyntaxException;
-import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.net.URI;
 import java.util.Vector;
@@ -141,8 +140,7 @@ public class COXBSchemaGenerator extends Task  {
      * @param xsdDir the target folder for XML schemas (should end with slash)
      */
     private void generateSchemas(final String xsdDir) {
-        for (Iterator itPaths = mCobolPaths.iterator(); itPaths.hasNext();) {
-            Path path = (Path) itPaths.next();
+        for (Path path : mCobolPaths) {
             String[] includedFiles = path.list(); 
             for (int i = 0; i < includedFiles.length; i++) {
                 String pathname = includedFiles[i].replace('\\', '/');

@@ -28,6 +28,7 @@ import com.legstar.host.access.HostAccessStrategy;
 import com.legstar.host.access.HostAccessStrategyException;
 import com.legstar.host.access.HostAccessStrategyFactory;
 import com.legstar.messaging.Address;
+import com.legstar.messaging.LegStarAddress;
 
 /**
  * A factory providing a host invoke capability. Based on the target host
@@ -57,7 +58,7 @@ public final class HostInvokerFactory {
 	 */
 	public static HostInvoker createHostInvoker(
 			final String generalConfigFileName,
-			final Address address,
+			final LegStarAddress address,
 			final String cicsProgramFileName)
 			throws HostInvokerException {
 
@@ -84,7 +85,8 @@ public final class HostInvokerFactory {
 		 * with the endpoint configuration ones. For isntance if requested
 		 * address does not specify credentials, we will pick up the default
 		 * credentials from the configuration. */
-		Address completeAddress = new Address(address, endpointConfig);
+		LegStarAddress completeAddress =
+			new LegStarAddress(address, endpointConfig);
 		
 		/* Load a host access strategy */
 		HostAccessStrategy hostAccessStrategy;
@@ -107,6 +109,26 @@ public final class HostInvokerFactory {
 				hostAccessStrategy, completeAddress, hostProgram);
 	}
 	
+	/**
+	 * Backward compatibility.
+	 * An Invoker is constructed from a configuration file, for a particular
+	 * host address and target host program.
+	 * @param generalConfigFileName an XML configuration file name
+	 * @param address the host address
+	 * @param cicsProgramFileName the host program attributes properties
+	 * file
+	 * @return a Host invoke implementation
+	 * @throws HostInvokerException in construction fails
+	 */
+	@SuppressWarnings("deprecation")
+	public static HostInvoker createHostInvoker(
+			final String generalConfigFileName,
+			final Address address,
+			final String cicsProgramFileName)
+			throws HostInvokerException {
+		return createHostInvoker(generalConfigFileName,
+				(LegStarAddress) address, cicsProgramFileName);
+	}
     /**
      * Loads an XML configuration from file.
      * @param configFileName the configuration file name

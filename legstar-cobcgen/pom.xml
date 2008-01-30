@@ -4,11 +4,11 @@
     <parent>
       <groupId>com.legsem.legstar</groupId>
       <artifactId>Legstar</artifactId>
-      <version>1.1.0</version>
+      <version>SNAPSHOT</version>
     </parent>
 	<artifactId>legstar-cobcgen</artifactId>
 	<name>Cobol Generator</name>
-    <version>1.1.0</version>
+    <version>SNAPSHOT</version>
 	<description>Generates Cobol data descriptions from cobol-annotated jaxb classes.</description>
 	<url>http://www.legsem.com/legstar/cobcgen/</url>
 

@@ -40,7 +40,7 @@ public final class CobolBindingFactory {
 	 */
 	public static ICobolBindingFactory getBindingFactory() {
 		try {
-			Class ofClass = Class.forName(FACTORY_NAME);
+			Class < ? > ofClass = Class.forName(FACTORY_NAME);
 			Object of = ofClass.newInstance();
 			return (ICobolBindingFactory) of;
 		} catch (ClassNotFoundException e) {

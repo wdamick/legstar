@@ -23,9 +23,9 @@ package com.legstar.work.invoke;
 import org.apache.commons.logging.Log; 
 import org.apache.commons.logging.LogFactory; 
 
-import com.legstar.messaging.Connection;
+import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.ConnectionException;
-import com.legstar.messaging.Request;
+import com.legstar.messaging.LegStarRequest;
 import com.legstar.messaging.RequestException;
 
 import commonj.work.Work;
@@ -42,10 +42,10 @@ public class InvokeWork implements Work {
 	private static final Log LOG = LogFactory.getLog(InvokeWork.class);
 	
 	/** A connection object to the host. */
-	private Connection mConnection;
+	private LegStarConnection mConnection;
 	
 	/** The request to be serviced by this unit of work. */
-	private Request mRequest;
+	private LegStarRequest mRequest;
 	
 	/**
 	 * Constructor from a given request and a given connection.
@@ -54,8 +54,8 @@ public class InvokeWork implements Work {
 	 * @param connection a connection to the host
 	 */
 	public InvokeWork(
-			final Request request,
-			final Connection connection) {
+			final LegStarRequest request,
+			final LegStarConnection connection) {
 		mRequest = request;
 		mConnection = connection;
 	}
@@ -106,28 +106,28 @@ public class InvokeWork implements Work {
 	/**
 	 * @return the host connection
 	 */
-	public final Connection getConnection() {
+	public final LegStarConnection getConnection() {
 		return mConnection;
 	}
 
 	/**
 	 * @param connection the host connection to set
 	 */
-	public final void setConnection(final Connection connection) {
+	public final void setConnection(final LegStarConnection connection) {
 		mConnection = connection;
 	}
 
 	/**
 	 * @return the request object
 	 */
-	public final Request getRequest() {
+	public final LegStarRequest getRequest() {
 		return mRequest;
 	}
 
 	/**
 	 * @param request the request object to set
 	 */
-	public final void setRequest(final Request request) {
+	public final void setRequest(final LegStarRequest request) {
 		mRequest = request;
 	}
 	

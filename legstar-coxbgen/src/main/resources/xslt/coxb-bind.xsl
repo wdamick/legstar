@@ -319,7 +319,8 @@ public class <xsl:value-of select="$binding-class-name"/>
     }
             <xsl:apply-templates select="coxb-property" mode="generate-set-jaxb-values"/>
     /** {@inheritDoc} */
-    public final Object getObjectValue(final Class type) throws HostException {
+    public final Object getObjectValue(
+            final Class &lt; ? &gt; type) throws HostException {
         if (type.equals(<xsl:value-of select="@jaxb-type"/>.class)) {
             return mJaxbObject;
         } else {
@@ -476,7 +477,8 @@ public class <xsl:value-of select="$binding-class-name"/>
     }
     
     /** {@inheritDoc} */
-    public final Object getObjectValue(final Class type) throws HostException {
+    public final Object getObjectValue(
+            final Class &lt; ? &gt;  type) throws HostException {
         throw new HostException("Attempt to get value from choice binding "
                 + getCobolName());
     }
@@ -595,7 +597,7 @@ public class <xsl:value-of select="$binding-class-name"/>
     }
  
     /** {@inheritDoc} */
-    public final List getObjectList() {
+    public final List &lt; ? &gt; getObjectList() {
         return mJaxbObject;
     }
 
@@ -607,7 +609,8 @@ public class <xsl:value-of select="$binding-class-name"/>
     }
     
     /** {@inheritDoc} */
-    public final Object getObjectValue(final Class type) throws HostException {
+    public final Object getObjectValue(
+            final Class &lt; ? &gt; type) throws HostException {
         if (type.equals(<xsl:value-of select="@item-jaxb-type"/>.class)) {
             return mJaxbObject;
         } else {
@@ -624,13 +627,13 @@ public class <xsl:value-of select="$binding-class-name"/>
             return;
         }
         if (value instanceof List) {
-            if (((List) value).size() == 0) {
+            if (((List &lt; ? &gt;) value).size() == 0) {
                 mJaxbObject = new ArrayList &lt; <xsl:value-of select="@item-jaxb-type"/> &gt;();
                 return;
             }
             /* We assume all items will have the same type as the first one.
              * The unchecked cast might break at runtime. */
-            Object item = ((List) value).get(0);
+            Object item = ((List &lt; ? &gt;) value).get(0);
             if (item.getClass().equals(<xsl:value-of select="@item-jaxb-type"/>.class)) {
                 mJaxbObject = (List &lt; <xsl:value-of select="@item-jaxb-type"/> &gt;) value;
                 return;
@@ -755,7 +758,7 @@ public class <xsl:value-of select="$binding-class-name"/>
         /* For variable size array or list, we make sure any
          * associated counter is updated */
         setCounterValue(<xsl:value-of select="@var-name"/>.getDependingOn(),
-                ((List) mJaxbObject.<xsl:value-of select="$jaxb-getter-method"/>()).size());
+                ((List &lt; ? &gt;) mJaxbObject.<xsl:value-of select="$jaxb-getter-method"/>()).size());
         </xsl:if>
   
 </xsl:template>

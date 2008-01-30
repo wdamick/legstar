@@ -47,7 +47,7 @@ public interface ICobolBindingFactory {
 	ICobolStringBinding createStringBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final ICobolComplexBinding parentBinding);
 
 	/**
@@ -71,7 +71,7 @@ public interface ICobolBindingFactory {
 	ICobolOctetStreamBinding createOctetStreamBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final ICobolComplexBinding parentBinding);
 
 	/**
@@ -95,7 +95,7 @@ public interface ICobolBindingFactory {
 	ICobolNationalBinding createNationalBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final ICobolComplexBinding parentBinding);
 
 	/**
@@ -119,7 +119,7 @@ public interface ICobolBindingFactory {
 	ICobolZonedDecimalBinding createZonedDecimalBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final ICobolComplexBinding parentBinding);
 
 	/**
@@ -143,7 +143,7 @@ public interface ICobolBindingFactory {
 	ICobolPackedDecimalBinding createPackedDecimalBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final ICobolComplexBinding parentBinding);
 
 	/**
@@ -167,7 +167,7 @@ public interface ICobolBindingFactory {
 	ICobolBinaryBinding createBinaryBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final ICobolComplexBinding parentBinding);
 
 	/**
@@ -191,7 +191,7 @@ public interface ICobolBindingFactory {
 	ICobolFloatBinding createFloatBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final ICobolComplexBinding parentBinding);
 
 	/**
@@ -215,7 +215,7 @@ public interface ICobolBindingFactory {
 	ICobolDoubleBinding createDoubleBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final ICobolComplexBinding parentBinding);
 
 	/**
@@ -239,7 +239,7 @@ public interface ICobolBindingFactory {
 	ICobolArrayStringBinding createArrayStringBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final ICobolComplexBinding parentBinding);
 
 	/**
@@ -263,7 +263,7 @@ public interface ICobolBindingFactory {
 	ICobolArrayOctetStreamBinding createArrayOctetStreamBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final ICobolComplexBinding parentBinding);
 
 	/**
@@ -287,7 +287,7 @@ public interface ICobolBindingFactory {
 	ICobolArrayNationalBinding createArrayNationalBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final ICobolComplexBinding parentBinding);
 
 	/**
@@ -311,7 +311,7 @@ public interface ICobolBindingFactory {
 	ICobolArrayZonedDecimalBinding createArrayZonedDecimalBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final ICobolComplexBinding parentBinding);
 
 	/**
@@ -335,7 +335,7 @@ public interface ICobolBindingFactory {
 	ICobolArrayPackedDecimalBinding createArrayPackedDecimalBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final ICobolComplexBinding parentBinding);
 
 	/**
@@ -359,7 +359,7 @@ public interface ICobolBindingFactory {
 	ICobolArrayBinaryBinding createArrayBinaryBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final ICobolComplexBinding parentBinding);
 
 	/**
@@ -383,7 +383,7 @@ public interface ICobolBindingFactory {
 	ICobolArrayFloatBinding createArrayFloatBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final ICobolComplexBinding parentBinding);
 
 	/**
@@ -407,7 +407,7 @@ public interface ICobolBindingFactory {
 	ICobolArrayDoubleBinding createArrayDoubleBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final ICobolComplexBinding parentBinding);
 
 }

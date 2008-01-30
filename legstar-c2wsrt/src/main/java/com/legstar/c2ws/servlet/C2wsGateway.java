@@ -39,7 +39,7 @@ import com.legstar.c2ws.C2wsInvoker;
 import com.legstar.c2ws.util.C2wsLog;
 import com.legstar.messaging.HeaderPartException;
 import com.legstar.messaging.HostReceiveException;
-import com.legstar.messaging.Message;
+import com.legstar.messaging.LegStarMessage;
 
 /**
  * Servlet implementation class for Servlet: C2wsGateway. This servlet is 
@@ -131,11 +131,11 @@ import com.legstar.messaging.Message;
 		}
 
 		try {
-			Message requestMessage = new Message();
+			LegStarMessage requestMessage = new LegStarMessage();
 			requestMessage.recvFromHost(request.getInputStream());
 			C2wsInvoker invoker =
 				new C2wsInvoker(cxid, mC2wsConfigManager);
-			Message responseMessage = invoker.invoke(requestMessage);
+			LegStarMessage responseMessage = invoker.invoke(requestMessage);
 			response.setContentType(BINARY_CONTENT_TYPE);
 			pipe(responseMessage.sendToHost(), response.getOutputStream());
 		} catch (HeaderPartException e) {

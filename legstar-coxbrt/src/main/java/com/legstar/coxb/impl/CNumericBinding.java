@@ -51,7 +51,7 @@ public abstract class CNumericBinding extends CBinding
 	public CNumericBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations,
 			final ICobolComplexBinding parentBinding) {
 		super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
@@ -130,7 +130,8 @@ public abstract class CNumericBinding extends CBinding
 	}
 
 	/** {@inheritDoc} */
-	public final Object getObjectValue(final Class type) throws HostException {
+	public final Object getObjectValue(
+			final Class < ? > type) throws HostException {
 		if (type.equals(BigDecimal.class)) {
 			return mValue;
 		} else if (type.equals(BigInteger.class)) {

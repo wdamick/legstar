@@ -42,7 +42,7 @@ public final class XsdcUtil {
 	 * @throws IOException if file cannot be loaded
 	 */
 	public static Properties loadFromPropFile(
-			final Class loadedClass,
+			final Class < ? > loadedClass,
 			final String propFileName) throws IOException {
 		
 		/* load the program properties files */

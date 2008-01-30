@@ -31,14 +31,14 @@ import org.apache.commons.configuration.HierarchicalConfiguration;
 
 import com.legstar.config.Config;
 import com.legstar.config.Constants;
-import com.legstar.messaging.Address;
+import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.ConnectionException;
-import com.legstar.messaging.HeaderPart;
+import com.legstar.messaging.LegStarHeaderPart;
 import com.legstar.messaging.HeaderPartException;
-import com.legstar.messaging.Message;
-import com.legstar.messaging.MessagePart;
-import com.legstar.messaging.Request;
+import com.legstar.messaging.LegStarMessage;
+import com.legstar.messaging.LegStarMessagePart;
+import com.legstar.messaging.LegStarRequest;
 import com.legstar.messaging.RequestException;
 
 import junit.framework.TestCase;
@@ -127,7 +127,7 @@ public class CicsMQTest extends TestCase {
 		try {
 			CicsMQ cicsMQ = new CicsMQ("testStandardRequest", mMQEndpoint, DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
 			cicsMQ.connect("tiramisu");
-			Request request = createStdRequest();
+			LegStarRequest request = createStdRequest();
 			request.getAddress().setHostTraceMode(HOST_TRACE_MODE);
 			cicsMQ.sendRequest(request);
 			cicsMQ.recvResponse(request);
@@ -149,7 +149,7 @@ public class CicsMQTest extends TestCase {
 		try {
 			cicsMQ = new CicsMQ("testInvalidRequest", mMQEndpoint, DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
 			cicsMQ.connect("tiramisu");
-			Request request = createInvalidRequest();
+			LegStarRequest request = createInvalidRequest();
 			request.getAddress().setHostTraceMode(HOST_TRACE_MODE);
 			cicsMQ.sendRequest(request);
 			cicsMQ.recvResponse(request);
@@ -175,7 +175,7 @@ public class CicsMQTest extends TestCase {
 		try {
 			CicsMQ cicsMQ = new CicsMQ("testLongRequest", mMQEndpoint, DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
 			cicsMQ.connect("tiramisu");
-			Request request = createLongRequest("f3");
+			LegStarRequest request = createLongRequest("f3");
 			request.getAddress().setHostTraceMode(HOST_TRACE_MODE);
 			cicsMQ.sendRequest(request);
 			cicsMQ.recvResponse(request);
@@ -198,7 +198,7 @@ public class CicsMQTest extends TestCase {
 			byte[] endEC = Util.toByteArray("d7c1d9d47e4d7dd5d6c4e8d5c1d46bd3");
 			CicsMQ cicsMQ = new CicsMQ("testLargeRequest", mMQEndpoint, DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
 			cicsMQ.connect("tiramisu");
-			Request request = createLargeRequest();
+			LegStarRequest request = createLargeRequest();
 			request.getAddress().setHostTraceMode(HOST_TRACE_MODE);
 			cicsMQ.sendRequest(request);
 			cicsMQ.recvResponse(request);
@@ -227,11 +227,11 @@ public class CicsMQTest extends TestCase {
 		try {
 			CicsMQ cicsMQ = new CicsMQ("testLongRequest", mMQEndpoint, DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
 			cicsMQ.connect("tiramisu");
-			Request request1 = createLongRequest("f3");
+			LegStarRequest request1 = createLongRequest("f3");
 			request1.getAddress().setHostTraceMode(HOST_TRACE_MODE);
 			cicsMQ.sendRequest(request1);
 			
-			Request request2 = createLongRequest("f2");
+			LegStarRequest request2 = createLongRequest("f2");
 			request2.getAddress().setHostTraceMode(HOST_TRACE_MODE);
 			cicsMQ.sendRequest(request2);
 			
@@ -266,19 +266,19 @@ public class CicsMQTest extends TestCase {
 			CicsMQ cicsMQ = new CicsMQ("testLongRequest", mMQEndpoint, DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
 			cicsMQ.connect("tiramisu");
 
-			Request request1 = createLongRequest("f4");
+			LegStarRequest request1 = createLongRequest("f4");
 			request1.getAddress().setHostTraceMode(HOST_TRACE_MODE);
 			cicsMQ.sendRequest(request1);
 			
-			Request request2 = createLongRequest("f3");
+			LegStarRequest request2 = createLongRequest("f3");
 			request2.getAddress().setHostTraceMode(HOST_TRACE_MODE);
 			cicsMQ.sendRequest(request2);
 			
-			Request request3 = createLongRequest("f2");
+			LegStarRequest request3 = createLongRequest("f2");
 			request3.getAddress().setHostTraceMode(HOST_TRACE_MODE);
 			cicsMQ.sendRequest(request3);
 			
-			Request request4 = createLongRequest("f1");
+			LegStarRequest request4 = createLongRequest("f1");
 			request4.getAddress().setHostTraceMode(HOST_TRACE_MODE);
 			cicsMQ.sendRequest(request4);
 
@@ -315,81 +315,81 @@ public class CicsMQTest extends TestCase {
 		}
 	}
 
-	private Request createStdRequest() throws HeaderPartException {
-		Address address = new Address("TheMainframe");
+	private LegStarRequest createStdRequest() throws HeaderPartException {
+		LegStarAddress address = new LegStarAddress("TheMainframe");
 		HashMap < String, Object> map = new HashMap < String, Object>();
 		map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
 		map.put(Constants.CICS_LENGTH_KEY, "79");
 		map.put(Constants.CICS_DATALEN_KEY, "6");
-		List <MessagePart> inputParts = new ArrayList <MessagePart>();
-		MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
+		List <LegStarMessagePart> inputParts = new ArrayList <LegStarMessagePart>();
+		LegStarMessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 		inputParts.add(inCommarea);
-		HeaderPart dp = new HeaderPart(map, inputParts.size());
-		Message requestMessage = new Message(dp, inputParts);
+		LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
+		LegStarMessage requestMessage = new LegStarMessage(dp, inputParts);
 		String uid = new UID().toString();
 		String[] comps = uid.split(":");
 		String requestID = comps[1] + comps[2];
-		Request request = new Request(requestID, address, requestMessage);
+		LegStarRequest request = new LegStarRequest(requestID, address, requestMessage);
 		return request;
 	}
 	
-	private Request createLongRequest(String hexSleepTime) throws HeaderPartException {
-		Address address = new Address("TheMainframe");
+	private LegStarRequest createLongRequest(String hexSleepTime) throws HeaderPartException {
+		LegStarAddress address = new LegStarAddress("TheMainframe");
 		HashMap < String, Object> map = new HashMap < String, Object>();
 		map.put(Constants.CICS_PROGRAM_NAME_KEY, "T1SLEEPT");
 		map.put(Constants.CICS_LENGTH_KEY, "39");
 		map.put(Constants.CICS_DATALEN_KEY, "8");
-		List <MessagePart> inputParts = new ArrayList <MessagePart>();
+		List <LegStarMessagePart> inputParts = new ArrayList <LegStarMessagePart>();
 		/* will sleep for hexSleepTime secs */
-		MessagePart inCommarea = new CommareaPart(Util.toByteArray("f0f0f0f0f0f0f0" + hexSleepTime));
+		LegStarMessagePart inCommarea = new CommareaPart(Util.toByteArray("f0f0f0f0f0f0f0" + hexSleepTime));
 		inputParts.add(inCommarea);
-		HeaderPart dp = new HeaderPart(map, inputParts.size());
-		Message requestMessage = new Message(dp, inputParts);
+		LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
+		LegStarMessage requestMessage = new LegStarMessage(dp, inputParts);
 		String uid = new UID().toString();
 		String[] comps = uid.split(":");
 		String requestID = comps[1] + comps[2];
-		Request request = new Request(requestID, address, requestMessage);
+		LegStarRequest request = new LegStarRequest(requestID, address, requestMessage);
 		return request;
 	}
 
-	private Request createLargeRequest() throws HeaderPartException {
-		Address address = new Address("TheMainframe");
+	private LegStarRequest createLargeRequest() throws HeaderPartException {
+		LegStarAddress address = new LegStarAddress("TheMainframe");
 		HashMap < String, Object> map = new HashMap < String, Object>();
 		map.put(Constants.CICS_PROGRAM_NAME_KEY, "T1VOLUME");
 		map.put(Constants.CICS_LENGTH_KEY, "32767");
 		map.put(Constants.CICS_DATALEN_KEY, "32767");
-		List <MessagePart> inputParts = new ArrayList <MessagePart>();
+		List <LegStarMessagePart> inputParts = new ArrayList <LegStarMessagePart>();
 		byte[] content = new byte[32767];
 		byte[] startEC = Util.toByteArray("d7c7d47ec9c7e8c3d9c3e3d36bd9c5c7");
 		byte[] endEC = Util.toByteArray("d7c1d9d47e4d7dd5d6c4e8d5c1d46bd3");
 		System.arraycopy(startEC, 0, content, 0, 16);
 		System.arraycopy(endEC, 0, content, 32751, 16);
-		MessagePart inCommarea1 = new CommareaPart(content);
+		LegStarMessagePart inCommarea1 = new CommareaPart(content);
 		inputParts.add(inCommarea1);
-		HeaderPart dp = new HeaderPart(map, inputParts.size());
-		Message requestMessage = new Message(dp, inputParts);
+		LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
+		LegStarMessage requestMessage = new LegStarMessage(dp, inputParts);
 		String uid = new UID().toString();
 		String[] comps = uid.split(":");
 		String requestID = comps[1] + comps[2];
-		Request request = new Request(requestID, address, requestMessage);
+		LegStarRequest request = new LegStarRequest(requestID, address, requestMessage);
 		return request;
 	}
 
-	private Request createInvalidRequest() throws HeaderPartException {
-		Address address = new Address("TheMainframe");
+	private LegStarRequest createInvalidRequest() throws HeaderPartException {
+		LegStarAddress address = new LegStarAddress("TheMainframe");
 		HashMap < String, Object> map = new HashMap < String, Object>();
 		map.put(Constants.CICS_PROGRAM_NAME_KEY, "TARATOZ");
 		map.put(Constants.CICS_LENGTH_KEY, "79");
 		map.put(Constants.CICS_DATALEN_KEY, "6");
-		List <MessagePart> inputParts = new ArrayList <MessagePart>();
-		MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
+		List <LegStarMessagePart> inputParts = new ArrayList <LegStarMessagePart>();
+		LegStarMessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 		inputParts.add(inCommarea);
-		HeaderPart dp = new HeaderPart(map, inputParts.size());
-		Message requestMessage = new Message(dp, inputParts);
+		LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
+		LegStarMessage requestMessage = new LegStarMessage(dp, inputParts);
 		String uid = new UID().toString();
 		String[] comps = uid.split(":");
 		String requestID = comps[1] + comps[2];
-		Request request = new Request(requestID, address, requestMessage);
+		LegStarRequest request = new LegStarRequest(requestID, address, requestMessage);
 		return request;
 		
 	}

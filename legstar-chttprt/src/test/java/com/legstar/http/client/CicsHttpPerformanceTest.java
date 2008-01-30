@@ -28,14 +28,14 @@ import org.apache.commons.configuration.HierarchicalConfiguration;
 
 import com.legstar.config.Config;
 import com.legstar.config.Constants;
-import com.legstar.messaging.Address;
+import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.ConnectionException;
-import com.legstar.messaging.HeaderPart;
+import com.legstar.messaging.LegStarHeaderPart;
 import com.legstar.messaging.HeaderPartException;
-import com.legstar.messaging.Message;
-import com.legstar.messaging.MessagePart;
-import com.legstar.messaging.Request;
+import com.legstar.messaging.LegStarMessage;
+import com.legstar.messaging.LegStarMessagePart;
+import com.legstar.messaging.LegStarRequest;
 import com.legstar.messaging.RequestException;
 
 import junit.framework.TestCase;
@@ -69,7 +69,7 @@ public class CicsHttpPerformanceTest extends TestCase {
 			CicsHttp cicsHttp = new CicsHttp("testSend2Requests", mHttpEndpointTS23, DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
 			cicsHttp.setConnectTimeout(2000);
 			cicsHttp.connect(null); // let config pick the password
-			Request request = createStdRequest();
+			LegStarRequest request = createStdRequest();
 			cicsHttp.sendRequest(request);
 			cicsHttp.recvResponse(request);
 			assertEquals(1, request.getResponseMessage().getHeaderPart().getDataPartsNumber());
@@ -96,7 +96,7 @@ public class CicsHttpPerformanceTest extends TestCase {
 			CicsHttp cicsHttp = new CicsHttp("testSend2Requests", mHttpEndpointTS31, DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
 			cicsHttp.setConnectTimeout(2000);
 			cicsHttp.connect(null); // let config pick the password
-			Request request = createStdRequest();
+			LegStarRequest request = createStdRequest();
 			cicsHttp.sendRequest(request);
 			cicsHttp.recvResponse(request);
 			assertEquals(1, request.getResponseMessage().getHeaderPart().getDataPartsNumber());
@@ -116,18 +116,18 @@ public class CicsHttpPerformanceTest extends TestCase {
 		}
 	}
 
-	private Request createStdRequest() throws HeaderPartException {
-		Address address = new Address("TheMainframe");
+	private LegStarRequest createStdRequest() throws HeaderPartException {
+		LegStarAddress address = new LegStarAddress("TheMainframe");
 		HashMap < String, Object > map = new HashMap < String, Object >();
 		map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
 		map.put(Constants.CICS_LENGTH_KEY, "79");
 		map.put(Constants.CICS_DATALEN_KEY, "6");
-		List <MessagePart> inputParts = new ArrayList <MessagePart>();
-		MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
+		List <LegStarMessagePart> inputParts = new ArrayList <LegStarMessagePart>();
+		LegStarMessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 		inputParts.add(inCommarea);
-		HeaderPart dp = new HeaderPart(map, inputParts.size());
-		Message requestMessage = new Message(dp, inputParts);
-		Request request = new Request("Request01", address, requestMessage);
+		LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
+		LegStarMessage requestMessage = new LegStarMessage(dp, inputParts);
+		LegStarRequest request = new LegStarRequest("Request01", address, requestMessage);
 		return request;
 		
 	}

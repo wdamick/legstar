@@ -25,7 +25,7 @@ import java.util.Map;
 
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.host.HostException;
-import com.legstar.messaging.Address;
+import com.legstar.messaging.LegStarAddress;
 import com.legstar.test.coxb.lsfileac.QueryDataType;
 import com.legstar.test.coxb.lsfileac.QueryLimitType;
 import com.legstar.test.coxb.lsfileac.bind.QueryDataTypeBinding;
@@ -40,14 +40,14 @@ public class ContainerInvokerTest extends TestCase {
 	private static final String CONFIG_FILE = "config0.xml";
 
 	public void testContainerInvoker() throws HostInvokerException {
-		Address address = new Address("CICSTS31");
+		LegStarAddress address = new LegStarAddress("CICSTS31");
 		HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
 		assertTrue(invoker instanceof com.legstar.host.invoke.ContainerInvoker);
 	}
 
 	public void testInvokeStringICobolComplexBindingICobolComplexBinding() {
 		try {
-			Address address = new Address("CICSTS31");
+			LegStarAddress address = new LegStarAddress("CICSTS31");
 			HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
 			ICobolComplexBinding ccbin = null;
 			ICobolComplexBinding ccbout = null;
@@ -59,7 +59,7 @@ public class ContainerInvokerTest extends TestCase {
 	}
 
 	public void test2ContainersIn2Out() throws HostInvokerException, HostException {
-		Address address = new Address("CICSTS31");
+		LegStarAddress address = new LegStarAddress("CICSTS31");
 		HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
 	    /* The JAXB input factory. */
 	    com.legstar.test.coxb.lsfileac.ObjectFactory jaxbInFactory =
@@ -115,7 +115,7 @@ public class ContainerInvokerTest extends TestCase {
 
 	/* Without any input containers, the host program returns the entire content */
 	public void test0ContainersIn2Out() throws HostInvokerException, HostException {
-		Address address = new Address("CICSTS31");
+		LegStarAddress address = new LegStarAddress("CICSTS31");
 		HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
 	    
 	    /* Prepare output objects */
@@ -152,7 +152,7 @@ public class ContainerInvokerTest extends TestCase {
 	
 	/* When nothing is selected on the host, there is no data container back */
 	public void test2ContainersIn1Out() throws HostInvokerException, HostException {
-		Address address = new Address("CICSTS31");
+		LegStarAddress address = new LegStarAddress("CICSTS31");
 		HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
 	    /* The JAXB input factory. */
 	    com.legstar.test.coxb.lsfileac.ObjectFactory jaxbInFactory =

@@ -27,18 +27,18 @@ import com.legstar.c2ws.C2wsConfigurationManager;
 import com.legstar.c2ws.C2wsInvoker;
 import com.legstar.c2ws.CultureInfoCases;
 import com.legstar.messaging.CommareaPart;
-import com.legstar.messaging.HeaderPart;
-import com.legstar.messaging.Message;
-import com.legstar.messaging.MessagePart;
+import com.legstar.messaging.LegStarHeaderPart;
+import com.legstar.messaging.LegStarMessage;
+import com.legstar.messaging.LegStarMessagePart;
 
 import junit.framework.TestCase;
 
 public class C2wsReflectInvokerTest extends TestCase {
 	
 	public void testGetServiceName() throws Exception {
-		HeaderPart headerPart = new HeaderPart();
+		LegStarHeaderPart headerPart = new LegStarHeaderPart();
 		headerPart.setJsonString("{\"ServiceName\":\"whatIamLookingFor\"}");
-		Message requestMessage = new Message();
+		LegStarMessage requestMessage = new LegStarMessage();
 		requestMessage.setHeaderPart(headerPart);
 		
 		assertEquals("whatIamLookingFor", C2wsInvoker.getServiceName(requestMessage));
@@ -47,17 +47,17 @@ public class C2wsReflectInvokerTest extends TestCase {
 	public void testInvoke() throws Exception {
 		C2wsConfigurationManager c2wsConfigManager = new C2wsConfigurationManager("legstar-c2wsrt-config.xml");
 		C2wsInvoker c2wsInvoker = new C2wsInvoker(null, c2wsConfigManager);
-		Message responseMessage = c2wsInvoker.invoke(getCultureInfoRequestMessage());
+		LegStarMessage responseMessage = c2wsInvoker.invoke(getCultureInfoRequestMessage());
 		assertTrue(responseMessage != null);
 	}
 	
-	private Message getCultureInfoRequestMessage() throws Exception {
-		List <MessagePart> dataParts = new ArrayList <MessagePart>();
-		MessagePart inCommarea = new CommareaPart(CultureInfoCases.getRequestHostData());
+	private LegStarMessage getCultureInfoRequestMessage() throws Exception {
+		List <LegStarMessagePart> dataParts = new ArrayList <LegStarMessagePart>();
+		LegStarMessagePart inCommarea = new CommareaPart(CultureInfoCases.getRequestHostData());
 		dataParts.add(inCommarea);
-		HeaderPart headerPart = new HeaderPart();
+		LegStarHeaderPart headerPart = new LegStarHeaderPart();
 		headerPart.setJsonString("{\"ServiceName\":\"CultureInfo\"}");
-		return new Message(headerPart, dataParts);
+		return new LegStarMessage(headerPart, dataParts);
 	}
 	
 }

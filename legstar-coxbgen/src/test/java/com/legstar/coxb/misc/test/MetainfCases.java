@@ -72,7 +72,7 @@ public class MetainfCases extends Task {
                         impl = impl.trim();
                         if(classNames.add(impl)) {
                             System.out.println("Attempting to load "+impl);
-                            Class implClass = classLoader.loadClass(impl);
+                            Class < ? > implClass = classLoader.loadClass(impl);
                             System.out.println("Attempting to instanciate "+impl);
                             implClass.newInstance();
                         }

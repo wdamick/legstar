@@ -29,14 +29,14 @@ import org.apache.commons.configuration.ConfigurationException;
 
 import com.legstar.csok.client.CicsSocket;
 import com.legstar.csok.client.CicsSocketEndpoint;
-import com.legstar.messaging.Address;
+import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.ConnectionException;
-import com.legstar.messaging.HeaderPart;
+import com.legstar.messaging.LegStarHeaderPart;
 import com.legstar.messaging.HeaderPartException;
-import com.legstar.messaging.Message;
-import com.legstar.messaging.MessagePart;
-import com.legstar.messaging.Request;
+import com.legstar.messaging.LegStarMessage;
+import com.legstar.messaging.LegStarMessagePart;
+import com.legstar.messaging.LegStarRequest;
 import com.legstar.messaging.RequestException;
 import com.legstar.config.Constants;
 
@@ -67,13 +67,13 @@ public class ConnectionReuseTest extends TestCase {
 		map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
 		map.put(Constants.CICS_LENGTH_KEY, "79");
 		map.put(Constants.CICS_DATALEN_KEY, "6");
-		List <MessagePart> inputParts = new ArrayList <MessagePart>();
-		MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
+		List <LegStarMessagePart> inputParts = new ArrayList <LegStarMessagePart>();
+		LegStarMessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 		inputParts.add(inCommarea);
-		HeaderPart dp = new HeaderPart(map, inputParts.size());
-		Address address = new Address("TheMainframe");
-		Message requestMessage = new Message(dp, inputParts);
-		Request request = new Request("testReuseRequest", address, requestMessage);
+		LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
+		LegStarAddress address = new LegStarAddress("TheMainframe");
+		LegStarMessage requestMessage = new LegStarMessage(dp, inputParts);
+		LegStarRequest request = new LegStarRequest("testReuseRequest", address, requestMessage);
 		cicsSocket.sendRequest(request);
 		cicsSocket.recvResponse(request);
 		assertEquals("f0f0f0f1f0f0e24b40c44b40c2d6d9d4c1d54040404040404040e2e4d9d9c5e86b40c5d5c7d3c1d5c44040404040f3f2f1f5f6f7f7f8f2f640f1f140f8f15bf0f1f0f04bf1f15c5c5c5c5c5c5c5c5c",

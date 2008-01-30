@@ -313,7 +313,7 @@ public class C2wsWSDescriptor {
 	            throws C2wsConfigurationException {
 		if (mRequestObjectFactory == null) {
 			try {
-				Class ofClass = Class.forName(
+				Class < ? > ofClass = Class.forName(
 						mJaxbRequest.getPackageName() + ".ObjectFactory");
 				return ofClass.newInstance();
 			} catch (ClassNotFoundException e) {
@@ -337,7 +337,7 @@ public class C2wsWSDescriptor {
 				throws C2wsConfigurationException {
 		if (mResponseObjectFactory == null) {
 			try {
-				Class ofClass = Class.forName(
+				Class < ? > ofClass = Class.forName(
 						mJaxbResponse.getPackageName() + ".ObjectFactory");
 				return ofClass.newInstance();
 			} catch (ClassNotFoundException e) {

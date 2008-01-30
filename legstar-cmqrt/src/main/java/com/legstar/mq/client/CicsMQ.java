@@ -37,12 +37,12 @@ import com.ibm.mq.MQPutMessageOptions;
 import com.ibm.mq.MQQueue;
 import com.ibm.mq.MQQueueManager;
 import com.legstar.codec.HostCodec;
-import com.legstar.messaging.Connection;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.HeaderPartException;
 import com.legstar.messaging.HostReceiveException;
-import com.legstar.messaging.Message;
-import com.legstar.messaging.Request;
+import com.legstar.messaging.LegStarConnection;
+import com.legstar.messaging.LegStarMessage;
+import com.legstar.messaging.LegStarRequest;
 import com.legstar.messaging.RequestException;
 
 /**
@@ -51,7 +51,7 @@ import com.legstar.messaging.RequestException;
  * results, etc...
  *
  */
-public class CicsMQ implements Connection  {
+public class CicsMQ implements LegStarConnection  {
 
 	/** An identifier for this connection. */
 	private String mConnectionID;
@@ -294,7 +294,7 @@ public class CicsMQ implements Connection  {
 	 * @throws RequestException if send fails
 	 */
 	public final void sendRequest(
-			final Request request) throws RequestException {
+			final LegStarRequest request) throws RequestException {
 
 		if (LOG.isDebugEnabled()) {
 			try {
@@ -340,7 +340,7 @@ public class CicsMQ implements Connection  {
 	 * @throws RequestException if receive fails
 	 */
 	public final void recvResponse(
-			final Request request) throws RequestException {
+			final LegStarRequest request) throws RequestException {
 
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Receiving response for Request:" + request.getID()
@@ -389,7 +389,7 @@ public class CicsMQ implements Connection  {
 	 * @throws RequestException if formatting of mq message fails
 	 */
 	private MQMessage createMQRequestMessage(
-			final Request request) throws RequestException {
+			final LegStarRequest request) throws RequestException {
 		MQMessage mqMessage = new MQMessage();
 		
 		/* Reply to queue name is where we expect the reply. We expect it to
@@ -430,16 +430,16 @@ public class CicsMQ implements Connection  {
 	 * @return a response message
 	 * @throws HostReceiveException if response cannot be mapped to a message
 	 */
-	private Message createResponseMessage(
+	private LegStarMessage createResponseMessage(
 			final InputStream respStream) throws HostReceiveException {
 
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("enter createResponseMessage(respStream)");
 		}
 		
-		Message reponseMessage;
+		LegStarMessage reponseMessage;
 		try {
-			reponseMessage = new Message();
+			reponseMessage = new LegStarMessage();
 			reponseMessage.recvFromHost(respStream);
 		} catch (HeaderPartException e) {
 			throw new HostReceiveException(e);

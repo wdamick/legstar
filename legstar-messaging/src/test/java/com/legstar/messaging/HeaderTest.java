@@ -40,18 +40,18 @@ public class HeaderTest extends TestCase {
 		HashMap < String, Object > map = new LinkedHashMap < String, Object >();
 		String json;
 		/* Test with empty map */
-		json = HeaderPart.getJsonFromMap(map);
+		json = LegStarHeaderPart.getJsonFromMap(map);
 		assertEquals("{}", json);
 
 		/* Test with 1 entry map */
 		map.put("CICSProgramName", "LSFILEAE");
-		json = HeaderPart.getJsonFromMap(map);
+		json = LegStarHeaderPart.getJsonFromMap(map);
 		assertEquals("{\"CICSProgramName\":\"LSFILEAE\"}", json);
 
 		/* Test with n entries map */
 		map.put("CICSLength", "79");
 		map.put("CICSDataLength", "6");
-		json = HeaderPart.getJsonFromMap(map);
+		json = LegStarHeaderPart.getJsonFromMap(map);
 		assertEquals("{\"CICSProgramName\":\"LSFILEAE\",\"CICSLength\":\"79\","
 				+ "\"CICSDataLength\":\"6\"}", json);
 	}
@@ -65,21 +65,21 @@ public class HeaderTest extends TestCase {
 		/* Test with an empty array*/
 		map.put(Constants.CICS_CHANNEL_KEY, "MyCICSChannel");
 		map.put(Constants.CICS_OUT_CONTAINERS_KEY, null);
-		json = HeaderPart.getJsonFromMap(map);
+		json = LegStarHeaderPart.getJsonFromMap(map);
 		assertEquals("{\"CICSChannel\":\"MyCICSChannel\"}", json);
 
 		/* Test with a one element array*/
 		String[] array = {"ContainerA"};
 		map.put(Constants.CICS_CHANNEL_KEY, "MyCICSChannel");
 		map.put(Constants.CICS_OUT_CONTAINERS_KEY, array);
-		json = HeaderPart.getJsonFromMap(map);
+		json = LegStarHeaderPart.getJsonFromMap(map);
 		assertEquals("{\"CICSChannel\":\"MyCICSChannel\",\"CICSOutContainers\":[\"ContainerA\"]}", json);
 
 		/* Test with more than one element array*/
 		String[] array2 = {"ContainerA","ContainerB"};
 		map.put(Constants.CICS_CHANNEL_KEY, "MyCICSChannel");
 		map.put(Constants.CICS_OUT_CONTAINERS_KEY, array2);
-		json = HeaderPart.getJsonFromMap(map);
+		json = LegStarHeaderPart.getJsonFromMap(map);
 		assertEquals("{\"CICSChannel\":\"MyCICSChannel\",\"CICSOutContainers\":[\"ContainerA\",\"ContainerB\"]}", json);
 	}
 
@@ -92,10 +92,10 @@ public class HeaderTest extends TestCase {
 		HashMap < String, Object > map = new LinkedHashMap < String, Object >();
 		map.put("CICSLength", "79");
 		map.put("CICSDataLength", "6");
-		List < MessagePart > inputParts = new ArrayList < MessagePart >();
-		MessagePart inCommarea = new CommareaPart(null);
+		List < LegStarMessagePart > inputParts = new ArrayList < LegStarMessagePart >();
+		LegStarMessagePart inCommarea = new CommareaPart(null);
 		inputParts.add(inCommarea);
-		HeaderPart dp = new HeaderPart(map, inputParts.size());
+		LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
 		/*            INPARTS  */
 		assertEquals("0000000100000028c07fc3c9c3e2d3859587a3887f7a7ff7f97f6b"
 				+ "7fc3c9c3e2c481a381d3859587a3887f7a7ff67fd0",
@@ -108,7 +108,7 @@ public class HeaderTest extends TestCase {
 
 	public final void testDefaultHeaderConstructor() throws HeaderPartException {
 		try {
-			HeaderPart hp = new HeaderPart();
+			LegStarHeaderPart hp = new LegStarHeaderPart();
 			assertEquals("0000000000000000", Util.toHexString(hp.getContent()));
 			assertEquals(0, hp.getDataPartsNumber());
 			assertEquals(28, hp.getHostSize());
@@ -120,7 +120,7 @@ public class HeaderTest extends TestCase {
 	}
 	public final void testHeaderConstructorFromJsonString() {
 		try {
-			HeaderPart headerPart = new HeaderPart(5, "{\"CICSProgramName\":\"LSFILEAE\"}");
+			LegStarHeaderPart headerPart = new LegStarHeaderPart(5, "{\"CICSProgramName\":\"LSFILEAE\"}");
 			assertEquals("LSOKHEAD", headerPart.getID());
 			assertEquals(5, headerPart.getDataPartsNumber());
 			assertEquals(58, headerPart.getHostSize());
@@ -136,12 +136,12 @@ public class HeaderTest extends TestCase {
 		HashMap < String, Object > map = new LinkedHashMap < String, Object >();
 		map.put("CICSLength", "79");
 		map.put("CICSDataLength", "6");
-		List < MessagePart > inputParts = new ArrayList < MessagePart >();
-		MessagePart inContainer1 = new ContainerPart("CONTAINERA");
+		List < LegStarMessagePart > inputParts = new ArrayList < LegStarMessagePart >();
+		LegStarMessagePart inContainer1 = new ContainerPart("CONTAINERA");
 		inputParts.add(inContainer1);
-		MessagePart inContainer2 = new ContainerPart("CONTAINERB");
+		LegStarMessagePart inContainer2 = new ContainerPart("CONTAINERB");
 		inputParts.add(inContainer2);
-		HeaderPart dp = new HeaderPart(map, inputParts.size());
+		LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
 		/*            INPARTS  */
 		assertEquals("0000000200000028c07fc3c9c3e2d3859587a3887f7a7ff7f97f6b"
 				+ "7fc3c9c3e2c481a381d3859587a3887f7a7ff67fd0",
@@ -149,7 +149,7 @@ public class HeaderTest extends TestCase {
 	}
 	
 	public final void testModifications() throws HeaderPartException {
-		HeaderPart headerPart = new HeaderPart(5, "{\"CICSProgram\":\"LSFILEAE\"}");
+		LegStarHeaderPart headerPart = new LegStarHeaderPart(5, "{\"CICSProgram\":\"LSFILEAE\"}");
 		headerPart.setDataPartsNumber(3);
 		assertEquals(3, headerPart.getDataPartsNumber());
 		

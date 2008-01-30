@@ -24,7 +24,7 @@ import org.apache.commons.configuration.HierarchicalConfiguration;
 
 import com.legstar.http.client.CicsHttp;
 import com.legstar.http.client.CicsHttpConnectionFactory;
-import com.legstar.messaging.Address;
+import com.legstar.messaging.LegStarAddress;
 import com.legstar.config.Config;
 
 import junit.framework.TestCase;
@@ -54,7 +54,7 @@ public class CicsHttpConnectionFactoryTest extends TestCase {
 						Config.loadGeneralConfig(CONFIG_FILE), "TheMainframe");
 			CicsHttpConnectionFactory cf =
 			new CicsHttpConnectionFactory(endpointConfig);
-			Address address = new Address("TheMainframe");
+			LegStarAddress address = new LegStarAddress("TheMainframe");
 			CicsHttp conn = (CicsHttp) cf.createConnection("testCreateNoUserNoPasswordNoCharset", address);
 			assertEquals("testCreateNoUserNoPasswordNoCharset", conn.getConnectionID());
 			assertEquals("IBM01140", conn.getCicsHttpEndpoint().getHostCharset());
@@ -72,7 +72,7 @@ public class CicsHttpConnectionFactoryTest extends TestCase {
 						Config.loadGeneralConfig(CONFIG_FILE), "TheMainframe");
 			CicsHttpConnectionFactory cf =
 			new CicsHttpConnectionFactory(endpointConfig);
-			Address address = new Address("TheMainframe");
+			LegStarAddress address = new LegStarAddress("TheMainframe");
 			address.setHostCharset("IBMTRUC0");
 			address.setHostUserID("RANTANPLAN");
 			address.setHostPassword("BIDULE");
@@ -94,7 +94,7 @@ public class CicsHttpConnectionFactoryTest extends TestCase {
 						Config.loadGeneralConfig("config0.xml"), "TheMainframe");
 			CicsHttpConnectionFactory cf =
 			new CicsHttpConnectionFactory(endpointConfig);
-			Address address = new Address("TheMainframe");
+			LegStarAddress address = new LegStarAddress("TheMainframe");
 			@SuppressWarnings("unused")
 			CicsHttp conn = (CicsHttp) cf.createConnection("testCreateNoUserNoPasswordNoCharset", address);
 			fail("testCreateFromEmpyConfig failed ");
@@ -110,7 +110,7 @@ public class CicsHttpConnectionFactoryTest extends TestCase {
 						Config.loadGeneralConfig("config1.xml"), "TheMainframe");
 			CicsHttpConnectionFactory cf =
 			new CicsHttpConnectionFactory(endpointConfig);
-			Address address = new Address("TheMainframe");
+			LegStarAddress address = new LegStarAddress("TheMainframe");
 			address.setHostCharset("IBMTRUC0");
 			address.setHostUserID("RANTANPLAN");
 			@SuppressWarnings("unused")
@@ -128,7 +128,7 @@ public class CicsHttpConnectionFactoryTest extends TestCase {
 						Config.loadGeneralConfig("config2.xml"), "TheMainframe");
 			CicsHttpConnectionFactory cf =
 			new CicsHttpConnectionFactory(endpointConfig);
-			Address address = new Address("TheMainframe");
+			LegStarAddress address = new LegStarAddress("TheMainframe");
 			address.setHostCharset("IBMTRUC0");
 			address.setHostUserID("RANTANPLAN");
 			@SuppressWarnings("unused")
@@ -147,7 +147,7 @@ public class CicsHttpConnectionFactoryTest extends TestCase {
 						Config.loadGeneralConfig(CONFIG_FILE), "TheMainframe");
 			CicsHttpConnectionFactory cf =
 			new CicsHttpConnectionFactory(endpointConfig);
-			Address address = new Address("TheMainframe");
+			LegStarAddress address = new LegStarAddress("TheMainframe");
 			@SuppressWarnings("unused")
 			CicsHttp conn = (CicsHttp) cf.createConnection("testCreateWithDefaultTimeouts", address);
 			assertEquals(1000, conn.getConnectTimeout());
@@ -164,7 +164,7 @@ public class CicsHttpConnectionFactoryTest extends TestCase {
 						Config.loadGeneralConfig("config3.xml"), "TheMainframe");
 			CicsHttpConnectionFactory cf =
 			new CicsHttpConnectionFactory(endpointConfig);
-			Address address = new Address("TheMainframe");
+			LegStarAddress address = new LegStarAddress("TheMainframe");
 			@SuppressWarnings("unused")
 			CicsHttp conn = (CicsHttp) cf.createConnection("testCreateWithDefaultTimeouts", address);
 			assertEquals(2000, conn.getConnectTimeout());

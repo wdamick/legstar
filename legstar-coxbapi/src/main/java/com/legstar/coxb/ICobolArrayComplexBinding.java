@@ -67,10 +67,10 @@ public interface ICobolArrayComplexBinding extends ICobolArrayBinding {
 	/**
 	 * @return the List of items
 	 */
-	List getObjectList();
+	List < ? > getObjectList();
 
 	/**
 	 * @param list the items List to set
 	 */
-	void setObjectList(List list);
+	void setObjectList(List < ? > list);
 }

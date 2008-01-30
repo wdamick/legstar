@@ -20,33 +20,17 @@
  *******************************************************************************/
 package com.legstar.messaging;
 
-import java.io.InputStream;
-import java.io.SequenceInputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.Vector;
 
-/**
- * Messages represents the input and output of requests. A message is composed
- * of message parts: one header part and any number of data message parts.
- */
-public class Message {
+/** @deprecated */
+public class Message extends LegStarMessage {
 	
-	/** Header message part. */
-	private HeaderPart mHeaderPart;
-	
-	/** Data message parts. */
-	private List < MessagePart > mDataParts;
-
 	/**
 	 * Creates an empty message.
 	 * @throws HeaderPartException if host encoding is wrong
 	 */
 	public Message() throws HeaderPartException {
-		mHeaderPart = new HeaderPart();
-		mDataParts = new ArrayList < MessagePart >();
+		super();
 	}
 	
 	/**
@@ -55,81 +39,9 @@ public class Message {
 	 * @param dataParts the data message parts
 	 */
 	public Message(
-			final HeaderPart headerPart,
-			final List < MessagePart > dataParts) {
-		mHeaderPart = headerPart;
-		mDataParts = dataParts;
-	}
-	
-	/**
-	 * Streaming an entire message is equivalent to streaming its header part
-	 * followed by each of the data parts.
-	 * @return an input stream
-	 * @throws UnsupportedEncodingException if conversion fails
-	 */
-	public final InputStream sendToHost() throws UnsupportedEncodingException {
-		Vector < InputStream > v = new Vector < InputStream >();
-		v.add(mHeaderPart.sendToHost());
-		for (MessagePart part : mDataParts) {
-			v.add(part.sendToHost());
-		}
-		Enumeration < InputStream > e = v.elements();
-		return new SequenceInputStream(e);
-	}
-
-	/**
-	 * Recreates the message by creating each part.
-	 * @param hostStream the host byte stream
-	 * @throws HostReceiveException if creation fails
-	 */
-	public final void recvFromHost(
-			final InputStream hostStream) throws HostReceiveException {
-		mDataParts = new ArrayList < MessagePart >(); 
-		mHeaderPart.recvFromHost(hostStream);
-		for (int i = 0; i < mHeaderPart.getDataPartsNumber(); i++) {
-			MessagePart part = new MessagePart();
-			part.recvFromHost(hostStream);
-			mDataParts.add(part);
-		}
-	}
-
-	/**
-	 * @return the size in bytes of this message host serialization
-	 */
-	public final int getHostSize() {
-		int size = mHeaderPart.getHostSize();
-		for (MessagePart part : mDataParts) {
-			size += part.getHostSize();
-		}
-		return size;
-	}
-	
-	/**
-	 * @return the list of data message parts
-	 */
-	public final List < MessagePart > getDataParts() {
-		return mDataParts;
-	}
-	
-	/**
-	 * @param dataParts the list of data message parts to set
-	 */
-	public final void setDataParts(final List < MessagePart > dataParts) {
-		mDataParts = dataParts;
-	}
-
-	/**
-	 * @return the header message part
-	 */
-	public final HeaderPart getHeaderPart() {
-		return mHeaderPart;
-	}
-
-	/**
-	 * @param headerPart the header message part to set
-	 */
-	public final void setHeaderPart(final HeaderPart headerPart) {
-		mHeaderPart = headerPart;
+			final LegStarHeaderPart headerPart,
+			final List < LegStarMessagePart > dataParts) {
+		super(headerPart, dataParts);
 	}
 
 }

@@ -87,7 +87,7 @@ public class HostAccessStrategyFactoryTest extends TestCase {
 		generalConfig.setExpressionEngine(new XPathExpressionEngine());
 		String strXPath = HOST_ENDPOINT_CFG
 		+ "[@name='" + endpointName + "']";
-		List  endpoints = generalConfig.configurationsAt(strXPath);
+		List < ? >  endpoints = generalConfig.configurationsAt(strXPath);
 		if (endpoints == null || endpoints.isEmpty()) {
 			throw new HostAccessStrategyException("The requested endpoint:" 
 					+ endpointName
