@@ -115,7 +115,7 @@ public class C2wsReflectAdapter implements C2wsAdapter {
 			final C2wsWSDescriptor wsd,
 			final byte[] hostBytes) throws C2wsAdapterException {
 		try {
-			Class requestClass = Class.forName(
+			Class < ? > requestClass = Class.forName(
 					wsd.getJaxbRequest().getPackageName() + '.'
 					+ wsd.getJaxbRequest().getTypeName());
 			return unmarshalReflect(
@@ -147,7 +147,7 @@ public class C2wsReflectAdapter implements C2wsAdapter {
 						oResponse);
 			} else {
 				return marshalReflect(wsd.getResponseObjectFactory(),
-						((JAXBElement) oResponse).getValue());
+						((JAXBElement < ? >) oResponse).getValue());
 			}
 		} catch (HostMarshalException e) {
 			throw new C2wsAdapterException(e);
@@ -188,7 +188,7 @@ public class C2wsReflectAdapter implements C2wsAdapter {
 			if (wsd.getJaxbRequest().isXmlRootElement()) {
 				oResponse = dispatcher.invoke(oRequest);
 			} else {
-				JAXBElement jeRequest = getJAXBElement(
+				JAXBElement < ? > jeRequest = getJAXBElement(
 						wsd.getRequestObjectFactory(),
 						wsd.getJaxbRequest().getElementName(), oRequest);
 				oResponse = dispatcher.invoke(jeRequest);
@@ -211,7 +211,7 @@ public class C2wsReflectAdapter implements C2wsAdapter {
 	 * @return a JAXBElement
 	 * @throws C2wsAdapterException if the JAXBElement cannot be created
 	 */
-	private JAXBElement getJAXBElement(
+	private JAXBElement < ? > getJAXBElement(
 			final Object objectFactory,
 			final String elementName,
 			final Object type) throws C2wsAdapterException {
@@ -219,7 +219,7 @@ public class C2wsReflectAdapter implements C2wsAdapter {
 			String createName = "create" + elementName;
 			Method creator = objectFactory.getClass().getMethod(
 					createName, type.getClass());
-			return (JAXBElement) creator.invoke(objectFactory, type);
+			return (JAXBElement < ? >) creator.invoke(objectFactory, type);
 		} catch (IllegalAccessException e) {
 			throw new C2wsAdapterException(e);
 		} catch (SecurityException e) {
@@ -243,7 +243,7 @@ public class C2wsReflectAdapter implements C2wsAdapter {
 	 */
 	public final Object unmarshalReflect(
 			final Object objectFactory,
-			final Class requestClass,
+			final Class < ? > requestClass,
 			final byte[] hostBytes) throws HostUnmarshalException {
 		try {
 			if (mLog.isDebugEnabled()) {

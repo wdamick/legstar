@@ -22,8 +22,8 @@ package com.legstar.work.invoke;
 
 import org.apache.commons.logging.Log; 
 import org.apache.commons.logging.LogFactory; 
-import com.legstar.messaging.Connection;
-import com.legstar.messaging.Request;
+import com.legstar.messaging.LegStarConnection;
+import com.legstar.messaging.LegStarRequest;
 import com.legstar.pool.manager.ConnectionPool;
 import com.legstar.pool.manager.ConnectionPoolException;
 
@@ -41,10 +41,10 @@ public class InvokeWorkListener implements WorkListener {
 	private ConnectionPool mConnectionPool;
 
 	/** The connection used to service the request. */
-	private Connection mConnection;
+	private LegStarConnection mConnection;
 	
 	/** The request being serviced. */
-	private Request mRequest;
+	private LegStarRequest mRequest;
 	
 	/** Logger. */
 	private static final Log LOG =
@@ -57,8 +57,8 @@ public class InvokeWorkListener implements WorkListener {
 	 * @param connectionPool the connection pool
 	 */
 	public InvokeWorkListener(
-			final Request request,
-			final Connection connection,
+			final LegStarRequest request,
+			final LegStarConnection connection,
 			final ConnectionPool connectionPool) {
 		mConnectionPool = connectionPool;
 		mConnection = connection;

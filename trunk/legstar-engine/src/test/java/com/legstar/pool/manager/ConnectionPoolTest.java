@@ -28,8 +28,8 @@ import org.apache.commons.configuration.HierarchicalConfiguration;
 import junit.framework.TestCase;
 import com.legstar.config.Config;
 import com.legstar.host.server.Util;
-import com.legstar.messaging.Address;
-import com.legstar.messaging.Connection;
+import com.legstar.messaging.LegStarAddress;
+import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.ConnectionFactory;
 
 public class ConnectionPoolTest extends TestCase {
@@ -40,8 +40,8 @@ public class ConnectionPoolTest extends TestCase {
 		try {
 			ConnectionPool connectionPool = getConnectionPool();
 			assertEquals(POOL_SIZE, connectionPool.getConnections().size());
-			List < Connection > connections =  connectionPool.getConnections();
-			for (Connection connection : connections) {
+			List < LegStarConnection > connections =  connectionPool.getConnections();
+			for (LegStarConnection connection : connections) {
 				assertTrue(connection.getConnectionID() != null);
 			}
 		} catch (ConfigurationException e) {
@@ -55,11 +55,11 @@ public class ConnectionPoolTest extends TestCase {
 		try {
 			ConnectionPool connectionPool = getConnectionPool();
 			/* First take should work */
-			Connection connection = connectionPool.take(1);
+			LegStarConnection connection = connectionPool.take(1);
 			assertTrue(connection.getConnectionID() != null);
 			try {
 				@SuppressWarnings("unused")
-				Connection connection2 = connectionPool.take(1);
+				LegStarConnection connection2 = connectionPool.take(1);
 				fail("testTake failed");
 			} catch (ConnectionPoolException e) {
 				assertEquals("Timed out waiting for pooled connection.", e.getMessage());
@@ -75,7 +75,7 @@ public class ConnectionPoolTest extends TestCase {
 	public void testPut() {
 		try {
 			ConnectionPool connectionPool = getConnectionPool();
-			Connection connection = connectionPool.take(1);
+			LegStarConnection connection = connectionPool.take(1);
 			assertTrue(connection.getConnectionID() != null);
 			connectionPool.put(connection);
 			assertEquals(POOL_SIZE, connectionPool.getConnections().size());
@@ -87,7 +87,7 @@ public class ConnectionPoolTest extends TestCase {
 	}
 	
 	private ConnectionPool getConnectionPool() throws ConfigurationException, ConnectionPoolException {
-		Address address = new Address("TheMainframe");
+		LegStarAddress address = new LegStarAddress("TheMainframe");
 		HierarchicalConfiguration generalConfig =
 			Util.getCombinedConfiguration();
 		HierarchicalConfiguration endpointConfig =

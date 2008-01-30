@@ -20,7 +20,7 @@
  *******************************************************************************/
 package com.legstar.host.invoke;
 
-import com.legstar.messaging.Address;
+import com.legstar.messaging.LegStarAddress;
 
 import junit.framework.TestCase;
 
@@ -32,7 +32,7 @@ public class HostInvokerFactoryTest extends TestCase {
 	 * sucessfully loaded a configuration. This is why it is manual. */
 	public void ManualtestWrongConfigurationFile() {
 		try {
-			Address address = new Address("TheMainframe");
+			LegStarAddress address = new LegStarAddress("TheMainframe");
 			@SuppressWarnings("unused")
 			HostInvoker invoker = HostInvokerFactory.createHostInvoker("tarata.tsointsoin", address, "lsfileae.properties");
 			fail("testWrongConfigurationFile failed ");
@@ -42,7 +42,7 @@ public class HostInvokerFactoryTest extends TestCase {
 	}
 	public void testWrongEndpoint() {
 		try {
-			Address address = new Address("NotAMainframe");
+			LegStarAddress address = new LegStarAddress("NotAMainframe");
 			@SuppressWarnings("unused")
 			HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "lsfileae.properties");
 			fail("testWrongEndpoint failed ");
@@ -53,7 +53,7 @@ public class HostInvokerFactoryTest extends TestCase {
 	
 	public void testWrongProgramAttributesFile() {
 		try {
-			Address address = new Address("TheMainframe");
+			LegStarAddress address = new LegStarAddress("TheMainframe");
 			@SuppressWarnings("unused")
 			HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "goblin.properties");
 			fail("testWrongProgramAttributesFile failed ");
@@ -65,7 +65,7 @@ public class HostInvokerFactoryTest extends TestCase {
 
 	public void testInstanciateContainerInvoke() {
 		try {
-			Address address = new Address("TheMainframe");
+			LegStarAddress address = new LegStarAddress("TheMainframe");
 			HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
 			assertTrue(invoker instanceof com.legstar.host.invoke.ContainerInvoker );
 		} catch (HostInvokerException e) {
@@ -73,7 +73,7 @@ public class HostInvokerFactoryTest extends TestCase {
 	}
 	public void testInstanciateCommareaInvoke() {
 		try {
-			Address address = new Address("TheMainframe");
+			LegStarAddress address = new LegStarAddress("TheMainframe");
 			HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "lsfileae.properties");
 			assertTrue(invoker instanceof com.legstar.host.invoke.CommareaInvoker );
 		} catch (HostInvokerException e) {

@@ -28,7 +28,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
 
 import com.legstar.config.Config;
-import com.legstar.messaging.Address;
+import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.ConnectionFactory;
 
 /**
@@ -50,7 +50,7 @@ public class ConnectionPoolManager {
 	private static final int DEFAULT_POOL_SIZE = 5;
 	
 	/** The map of active pools in the system. */
-	private Map < Address, ConnectionPool > mPools;
+	private Map < LegStarAddress, ConnectionPool > mPools;
 
 	/**
 	 * Create a new pool manager.
@@ -59,7 +59,7 @@ public class ConnectionPoolManager {
 	public ConnectionPoolManager(
 			final HierarchicalConfiguration generalConfig) {
 		mGeneralConfig = generalConfig;
-		mPools = new HashMap < Address, ConnectionPool >();
+		mPools = new HashMap < LegStarAddress, ConnectionPool >();
 	}
 	
 	/**
@@ -70,7 +70,7 @@ public class ConnectionPoolManager {
 	 * @throws ConnectionPoolException if pool cannot be created
 	 */
 	public final ConnectionPool getPool(
-			final Address address,
+			final LegStarAddress address,
 			final boolean createIfNotFound) throws ConnectionPoolException {
 		ConnectionPool  pool = mPools.get(address);
 		if (pool == null && createIfNotFound) {
@@ -88,7 +88,7 @@ public class ConnectionPoolManager {
 	 * @throws ConnectionPoolException in connection pool cannot be created
 	 */
 	private ConnectionPool createConnectionPool(
-			final Address address) throws ConnectionPoolException  {
+			final LegStarAddress address) throws ConnectionPoolException  {
 		try {
 			HierarchicalConfiguration endpointConfig =
 				Config.loadAddressConfiguration(mGeneralConfig, address);
@@ -108,7 +108,7 @@ public class ConnectionPoolManager {
 	 * Propagate shutdown on every managed pool.
 	 */
 	public final void shutDown() {
-		Iterator < Map.Entry < Address, ConnectionPool > > entries	=
+		Iterator < Map.Entry < LegStarAddress, ConnectionPool > > entries	=
 			mPools.entrySet().iterator();
 		while (entries.hasNext()) {
 			entries.next().getValue().shutDown();
@@ -118,14 +118,15 @@ public class ConnectionPoolManager {
 	/**
 	 * @return the active pools map
 	 */
-	public final Map < Address, ConnectionPool > getPools() {
+	public final Map < LegStarAddress, ConnectionPool > getPools() {
 		return mPools;
 	}
 
 	/**
 	 * @param pools the active pools map to set
 	 */
-	public final void setPools(final Map < Address, ConnectionPool > pools) {
+	public final void setPools(
+			final Map < LegStarAddress, ConnectionPool > pools) {
 		mPools = pools;
 	}
 

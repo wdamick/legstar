@@ -28,11 +28,11 @@ import org.apache.commons.logging.LogFactory;
 
 import com.legstar.c2ws.util.C2wsLog;
 import com.legstar.messaging.CommareaPart;
-import com.legstar.messaging.HeaderPart;
+import com.legstar.messaging.LegStarHeaderPart;
 import com.legstar.messaging.HeaderPartException;
 import com.legstar.messaging.HostReceiveException;
-import com.legstar.messaging.Message;
-import com.legstar.messaging.MessagePart;
+import com.legstar.messaging.LegStarMessage;
+import com.legstar.messaging.LegStarMessagePart;
 
 /**
  * This class provides the capability to invoke a target web service on
@@ -100,8 +100,8 @@ public class C2wsInvoker {
 	 * @return a response message
 	 * @throws C2wsInvokerException if invoke fails
 	 */
-	public final Message invoke(
-			final Message requestMessage) throws C2wsInvokerException {
+	public final LegStarMessage invoke(
+			final LegStarMessage requestMessage) throws C2wsInvokerException {
 		try {
 			if (mLog.isDebugEnabled()) {
 				mLog.debug("Entered invoke with message " + requestMessage);
@@ -111,11 +111,12 @@ public class C2wsInvoker {
 				mC2wsConfigManager.getWebServiceDescriptor(serviceName);
 			byte[] responseBytes = mAdapter.invoke(wsd,
 					requestMessage.getDataParts().get(0).getContent());
-			List < MessagePart > dataParts = new ArrayList < MessagePart >();
+			List < LegStarMessagePart > dataParts =
+				new ArrayList < LegStarMessagePart >();
 			dataParts.add(new CommareaPart(responseBytes));
-			HeaderPart headerPart = new HeaderPart();
+			LegStarHeaderPart headerPart = new LegStarHeaderPart();
 			headerPart.setDataPartsNumber(dataParts.size());
-			Message responseMessage = new Message();
+			LegStarMessage responseMessage = new LegStarMessage();
 			responseMessage.setHeaderPart(headerPart);
 			responseMessage.setDataParts(dataParts);
 			if (mLog.isDebugEnabled()) {
@@ -149,7 +150,7 @@ public class C2wsInvoker {
 			adapterClassName = DEFAULT_ADAPTER_NAME;
 		}
 		try {
-			Class adapterClass = Class.forName(adapterClassName);
+			Class < ? > adapterClass = Class.forName(adapterClassName);
 			return (C2wsAdapter) adapterClass.newInstance();
 		} catch (ClassNotFoundException e) {
 			throw new C2wsInvokerException(e);
@@ -167,7 +168,7 @@ public class C2wsInvoker {
 	 * @throws HostReceiveException if meta-data is wrong
 	 */
 	public static String getServiceName(
-			final Message requestMessage) throws HostReceiveException {
+			final LegStarMessage requestMessage) throws HostReceiveException {
 		String jsonString;
 		try {
 			jsonString = requestMessage.getHeaderPart().getJsonString();

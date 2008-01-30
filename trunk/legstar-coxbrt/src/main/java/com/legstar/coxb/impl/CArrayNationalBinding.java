@@ -55,7 +55,7 @@ public class CArrayNationalBinding	extends CArrayBinding
 	public CArrayNationalBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations,
 			final ICobolComplexBinding parentBinding) {
 		super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
@@ -88,7 +88,8 @@ public class CArrayNationalBinding	extends CArrayBinding
 	}
 
 	/** {@inheritDoc} */
-	public final Object getObjectValue(final Class type) throws HostException {
+	public final Object getObjectValue(
+			final Class < ? > type) throws HostException {
 		if (type.equals(String.class)) {
 			return mList;
 		} else {

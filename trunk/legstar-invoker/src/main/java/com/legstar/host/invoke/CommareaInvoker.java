@@ -30,13 +30,13 @@ import org.apache.commons.logging.LogFactory;
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.host.access.HostAccessStrategy;
 import com.legstar.host.access.HostAccessStrategyException;
-import com.legstar.messaging.Address;
+import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.CommareaPart;
-import com.legstar.messaging.HeaderPart;
+import com.legstar.messaging.LegStarHeaderPart;
 import com.legstar.messaging.HeaderPartException;
-import com.legstar.messaging.Message;
-import com.legstar.messaging.MessagePart;
-import com.legstar.messaging.Request;
+import com.legstar.messaging.LegStarMessage;
+import com.legstar.messaging.LegStarMessagePart;
+import com.legstar.messaging.LegStarRequest;
 
 
 /**
@@ -55,7 +55,7 @@ public class CommareaInvoker extends CobolInvoker implements HostInvoker {
 	private HostAccessStrategy mHostAccessStrategy;
 	
 	/** Host endpoint targeted. */
-	private Address mAddress;
+	private LegStarAddress mAddress;
 	
 	/** Host program attributes. */
 	private CicsProgram mCicsProgram;
@@ -70,7 +70,7 @@ public class CommareaInvoker extends CobolInvoker implements HostInvoker {
 	 */
 	public CommareaInvoker(
 			final HostAccessStrategy hostAccessStrategy,
-			final Address completeAddress,
+			final LegStarAddress completeAddress,
 			final CicsProgram hostProgram) throws HostInvokerException {
 		super(completeAddress.getHostCharset());
 		mHostAccessStrategy = hostAccessStrategy;
@@ -106,7 +106,7 @@ public class CommareaInvoker extends CobolInvoker implements HostInvoker {
 		}
 		
 		/* Create a request instance and call the host program */
-		Request request = createCommareaRequest(requestID, mAddress,
+		LegStarRequest request = createCommareaRequest(requestID, mAddress,
 				hostInputBytes);
 		try {
 			mHostAccessStrategy.invoke(request);
@@ -158,28 +158,30 @@ public class CommareaInvoker extends CobolInvoker implements HostInvoker {
 	 * @return the request ready to be submitted
 	 * @throws HostInvokerException if failed to create request
 	 */
-	private Request createCommareaRequest(
+	private LegStarRequest createCommareaRequest(
 			final String requestID,
-			final Address address,
+			final LegStarAddress address,
 			final byte[] hostInputBytes) throws HostInvokerException {
 		
-		List < MessagePart > dataParts = new ArrayList < MessagePart >();
+		List < LegStarMessagePart > dataParts =
+			new ArrayList < LegStarMessagePart >();
 		dataParts.add(new CommareaPart(hostInputBytes));
-		HeaderPart headerPart;
+		LegStarHeaderPart headerPart;
 		try {
-			headerPart = new HeaderPart(
+			headerPart = new LegStarHeaderPart(
 				mCicsProgram.getProgramAttrMap(), dataParts.size());
 		} catch (HeaderPartException e) {
 			throw new HostInvokerException(e);
 		}
-		Message requestMessage = new Message(headerPart, dataParts);
-		return new Request(requestID, address, requestMessage);
+		LegStarMessage requestMessage =
+			new LegStarMessage(headerPart, dataParts);
+		return new LegStarRequest(requestID, address, requestMessage);
 	}
 
 	/**
 	 * @return the hpst address
 	 */
-	public final Address getAddress() {
+	public final LegStarAddress getAddress() {
 		return mAddress;
 	}
 

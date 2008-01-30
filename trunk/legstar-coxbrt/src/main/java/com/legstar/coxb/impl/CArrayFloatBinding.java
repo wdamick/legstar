@@ -56,7 +56,7 @@ public class CArrayFloatBinding	extends CArrayBinding
 	public CArrayFloatBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations,
 			final ICobolComplexBinding parentBinding) {
 		super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
@@ -111,7 +111,8 @@ public class CArrayFloatBinding	extends CArrayBinding
 	}
 
 	/** {@inheritDoc} */
-	public final Object getObjectValue(final Class type) throws HostException {
+	public final Object getObjectValue(
+			final Class < ? > type) throws HostException {
 		if (type.equals(Float.class)) {
 			return mList;
 		} else if (type.equals(BigDecimal.class)) {

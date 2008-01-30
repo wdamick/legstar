@@ -31,14 +31,14 @@ import com.legstar.config.Constants;
 
 import junit.framework.TestCase;
 
-public class AddressTest extends TestCase {
+public class HostAddressTest extends TestCase {
 	
 	private static final String CONFIG_FILE = "config.xml";
 	
 	public void testContructorFromConfig() {
-		Address address;
+		LegStarAddress address;
 		try {
-			address = new Address(getEndPointConfig("TheMainframe"));
+			address = new LegStarAddress(getEndPointConfig("TheMainframe"));
 			assertEquals("TheMainframe", address.getEndPointName());
 			assertEquals("IBM01140", address.getHostCharset());
 			assertEquals("P390", address.getHostUserID());
@@ -50,9 +50,9 @@ public class AddressTest extends TestCase {
 	}
 	
 	public void testContructorFromEmptyConfig() {
-		Address address;
+		LegStarAddress address;
 		try {
-			address = new Address(getEndPointConfig("TheMainframeMinimal"));
+			address = new LegStarAddress(getEndPointConfig("TheMainframeMinimal"));
 			assertEquals("TheMainframeMinimal", address.getEndPointName());
 			assertEquals(null, address.getHostCharset());
 			assertEquals(null, address.getHostUserID());
@@ -64,10 +64,10 @@ public class AddressTest extends TestCase {
 	}
 	
 	public void testContructorFromPartialAddress() {
-		Address partialAddress = new Address("AnotherMainframe");
-		Address address;
+		LegStarAddress partialAddress = new LegStarAddress("AnotherMainframe");
+		LegStarAddress address;
 		try {
-			address = new Address(partialAddress, getEndPointConfig("TheMainframe"));
+			address = new LegStarAddress(partialAddress, getEndPointConfig("TheMainframe"));
 			assertEquals("AnotherMainframe", address.getEndPointName());
 			assertEquals("IBM01140", address.getHostCharset());
 			assertEquals("P390", address.getHostUserID());
@@ -90,7 +90,7 @@ public class AddressTest extends TestCase {
 		
 		String strXPath = Constants.HOST_ENDPOINT_KEY 
 			+ "[@name='" + endPointName + "']";
-		List  endpoints = generalConfig.configurationsAt(strXPath);
+		List < ? >  endpoints = generalConfig.configurationsAt(strXPath);
 		if (endpoints == null || endpoints.isEmpty()) {
 			throw new RequestException(
 					"No default endpoint is not defined.");

@@ -29,7 +29,7 @@ import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.xpath.XPathExpressionEngine;
 
-import com.legstar.messaging.Address;
+import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.ConnectionFactory;
 
 /**
@@ -71,7 +71,7 @@ public final class Config {
 		
 		String strXPath = Constants.HOST_ENDPOINT_KEY
 		+ "[@name='" + endpointName + "']";
-		List  endpoints = generalConfig.configurationsAt(strXPath);
+		List < ? >  endpoints = generalConfig.configurationsAt(strXPath);
 		if (endpoints == null || endpoints.isEmpty()) {
 			throw new ConfigurationException("The requested endpoint:" 
 					+ endpointName
@@ -91,7 +91,7 @@ public final class Config {
 			throws ConfigurationException {
 		
 		String strXPath = Constants.HOST_ENDPOINT_KEY;
-		List  endpoints = generalConfig.configurationsAt(strXPath);
+		List < ? >  endpoints = generalConfig.configurationsAt(strXPath);
 		if (endpoints == null || endpoints.isEmpty()) {
 			throw new ConfigurationException(
 					"There are no endpoints defined.");
@@ -109,7 +109,7 @@ public final class Config {
 	 */
 	public static HierarchicalConfiguration loadAddressConfiguration(
 			final HierarchicalConfiguration generalConfig,
-			final Address address) throws ConfigurationException {
+			final LegStarAddress address) throws ConfigurationException {
 		HierarchicalConfiguration endpointConfig = null;
 		if (address == null || address.getEndPointName() == null
 				|| address.getEndPointName().length() == 0) {
@@ -133,6 +133,7 @@ public final class Config {
 	 * @throws ConfigurationException if connection factory cannot be
 	 *  created
 	 */
+	@SuppressWarnings("unchecked")
 	public static ConnectionFactory loadConnectionFactory(
 			final HierarchicalConfiguration endpointConfig)
 			throws ConfigurationException {

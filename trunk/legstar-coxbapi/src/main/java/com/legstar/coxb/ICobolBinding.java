@@ -50,7 +50,7 @@ public interface ICobolBinding extends ICobolElement {
 
 	/** Returns the java type of the property bound to this Cobol element.
 	 * @return the java type of the property bound to this Cobol element */
-	Class getJaxbType();
+	Class < ? > getJaxbType();
 
 	/**
 	 * Visitor pattern accept method.
@@ -82,7 +82,7 @@ public interface ICobolBinding extends ICobolElement {
 	 * @return an object of the requested type
 	 * @throws HostException if value cannot be converted to the requested type
 	 */
-	Object getObjectValue(Class type) throws HostException;
+	Object getObjectValue(Class < ? > type) throws HostException;
 	
 	/**
 	 * When a binding value has been explicitly set, this method

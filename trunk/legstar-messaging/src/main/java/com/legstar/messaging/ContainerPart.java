@@ -24,7 +24,7 @@ package com.legstar.messaging;
 /**
  * MessagePart representing the content of a CICS CONTAINER.
  */
-public class ContainerPart extends MessagePart {
+public class ContainerPart extends LegStarMessagePart {
 
 	/**
 	 * Create an empty container.

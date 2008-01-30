@@ -67,7 +67,7 @@ public class Util {
 		XMLConfiguration config = new XMLConfiguration(CONFIG_FILE);
 		config.setExpressionEngine(new XPathExpressionEngine());
 		String strXPath = HOST_ENDPOINT_CFG	+ "[@name='" + name + "']";
-		List  endpoints = config.configurationsAt(strXPath);
+		List < ? >  endpoints = config.configurationsAt(strXPath);
 		if (endpoints == null || endpoints.isEmpty()) {
 			throw new RuntimeException("The requested endpoint:" 
 					+ name

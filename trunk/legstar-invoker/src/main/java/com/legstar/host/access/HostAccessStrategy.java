@@ -20,7 +20,7 @@
  *******************************************************************************/
 package com.legstar.host.access;
 
-import com.legstar.messaging.Request;
+import com.legstar.messaging.LegStarRequest;
 
 /**
  * An abstract host access strategy providing capability to execute a request.
@@ -32,6 +32,6 @@ public interface HostAccessStrategy {
 	 * @param request the request details
 	 * @throws HostAccessStrategyException if execution fails
 	 */
-	void invoke(Request request) throws HostAccessStrategyException;
+	void invoke(LegStarRequest request) throws HostAccessStrategyException;
 
 }

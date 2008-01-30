@@ -47,7 +47,7 @@ import javax.naming.NamingException;
 import com.legstar.host.invoke.HostInvoker;
 import com.legstar.host.invoke.HostInvokerException;
 import com.legstar.host.invoke.HostInvokerFactory;
-import com.legstar.messaging.Address;
+import com.legstar.messaging.LegStarAddress;
 <xsl:if test="count(cixsOperation/input) > 1 or count(cixsOperation/output) > 1">
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -275,12 +275,13 @@ public class <xsl:value-of select="$implementation-class-name"/> implements <xsl
     * @param hostHeader the JAXB object mapping the SOAP header element
     * @return the new host Address
     */
-    private Address getAddress(
+    private LegStarAddress getAddress(
         final <xsl:value-of select="$hostheader-class-name"/> hostHeader) {
         if (hostHeader == null) {
             return null;
         }
-        Address address = new Address(hostHeader.getHostEndPoint());
+        LegStarAddress address =
+            new LegStarAddress(hostHeader.getHostEndPoint());
         address.setHostCharset(hostHeader.getHostCharset());
         address.setHostUserID(hostHeader.getHostUserID());
         address.setHostPassword(hostHeader.getHostPassword());

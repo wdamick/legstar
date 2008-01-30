@@ -162,9 +162,9 @@ public class CobolGenerator extends Task  {
     		oClassName = mJaxbPackageName + '.' + oClassName;
     	}
     	try {
-			Class ofClass = Class.forName(ofClassName);
+			Class < ? > ofClass = Class.forName(ofClassName);
 			Object of = ofClass.newInstance();
-			Class oClass = Class.forName(oClassName);
+			Class < ? > oClass = Class.forName(oClassName);
 			if (LOG.isDebugEnabled()) {
 				LOG.debug("Binding JAXB type ended");
 			}

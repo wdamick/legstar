@@ -4,7 +4,7 @@
   <artifactId>Legstar</artifactId>
   <packaging>pom</packaging>
   <name>LegStar Project</name>
-  <version>1.1.0</version>
+  <version>SNAPSHOT</version>
   <description>Legacy integration open-source developers toolkit</description>
   <url>http://www.legsem.com/legstar</url>
   <developers>
@@ -64,6 +64,8 @@
     </plugins>
   </build>
   
+  <!--
+    -->
   <modules>
     <module>../legstar-common</module>
     <module>../legstar-messaging</module>
@@ -90,8 +92,6 @@
     <module>../legstar-common-plugin</module>
     <module>../legstar-distribution</module>
   </modules>
-  <!--
-    -->
   
   <!-- Enabling the use of FTP -->
   <distributionManagement>
@@ -388,102 +388,102 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-common</artifactId>
-                <version>1.1.0</version>
+                <version>${legstarVersion}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-messaging</artifactId>
-                <version>1.1.0</version>
+                <version>${legstarVersion}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-csokrt</artifactId>
-                <version>1.1.0</version>
+                <version>${legstarVersion}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-chttprt</artifactId>
-                <version>1.1.0</version>
+                <version>${legstarVersion}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-cmqrt</artifactId>
-                <version>1.1.0</version>
+                <version>${legstarVersion}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-engine</artifactId>
-                <version>1.1.0</version>
+                <version>${legstarVersion}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-invoker</artifactId>
-                <version>1.1.0</version>
+                <version>${legstarVersion}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-coxbapi</artifactId>
-                <version>1.1.0</version>
+                <version>${legstarVersion}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-coxbrt</artifactId>
-                <version>1.1.0</version>
+                <version>${legstarVersion}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-schemagen</artifactId>
-                <version>1.1.0</version>
+                <version>${legstarVersion}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-jaxbgen</artifactId>
-                <version>1.1.0</version>
+                <version>${legstarVersion}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-jaxbgen-cases</artifactId>
-                <version>1.1.0</version>
+                <version>${legstarVersion}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-coxbgen</artifactId>
-                <version>1.1.0</version>
+                <version>${legstarVersion}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-coxbgen-cases</artifactId>
-                <version>1.1.0</version>
+                <version>${legstarVersion}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-cixsgen</artifactId>
-                <version>1.1.0</version>
+                <version>${legstarVersion}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-cixsgen-cases</artifactId>
-                <version>1.1.0</version>
+                <version>${legstarVersion}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-xsdcgen</artifactId>
-                <version>1.1.0</version>
+                <version>${legstarVersion}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-cobcgen</artifactId>
-                <version>1.1.0</version>
+                <version>${legstarVersion}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-c2wsrt</artifactId>
-                <version>1.1.0</version>
+                <version>${legstarVersion}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-common-plugin</artifactId>
-                <version>1.1.0</version>
+                <version>${legstarVersion}</version>
             </dependency>
       
         </dependencies>

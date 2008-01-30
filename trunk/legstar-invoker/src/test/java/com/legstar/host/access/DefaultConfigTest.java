@@ -45,7 +45,7 @@ public class DefaultConfigTest extends TestCase {
 		generalConfig.setExpressionEngine(new XPathExpressionEngine());
 		
 		String strXPath = HOST_ENDPOINT_CFG;
-		List  endpoints = generalConfig.configurationsAt(strXPath);
+		List < ? >  endpoints = generalConfig.configurationsAt(strXPath);
 		if (endpoints == null || endpoints.isEmpty()) {
 			throw new HostAccessStrategyException(
 					"No default endpoint is not defined.");

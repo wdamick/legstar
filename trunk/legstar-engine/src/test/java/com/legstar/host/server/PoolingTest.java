@@ -30,13 +30,13 @@ import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.logging.Log; 
 import org.apache.commons.logging.LogFactory; 
 import com.legstar.host.server.Engine;
-import com.legstar.messaging.Address;
+import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.CommareaPart;
-import com.legstar.messaging.HeaderPart;
+import com.legstar.messaging.LegStarHeaderPart;
 import com.legstar.messaging.HeaderPartException;
-import com.legstar.messaging.Message;
-import com.legstar.messaging.MessagePart;
-import com.legstar.messaging.Request;
+import com.legstar.messaging.LegStarMessage;
+import com.legstar.messaging.LegStarMessagePart;
+import com.legstar.messaging.LegStarRequest;
 import com.legstar.config.Constants;
 import com.legstar.messaging.RequestException;
 import com.legstar.work.manager.LsWorkManager;
@@ -73,11 +73,11 @@ public class PoolingTest extends TestCase {
 		EngineHandler engHandler = new EngineHandler(config);
 		engHandler.init();
 		
-		Address address = new Address("TheMainframe");
+		LegStarAddress address = new LegStarAddress("TheMainframe");
 		address.setHostUserID(HOST_USERID);
 		address.setHostPassword(HOST_PASSWORD);
 		
-		Request request = new Request("Request01", address, getRequestMessage());
+		LegStarRequest request = new LegStarRequest("Request01", address, getRequestMessage());
 		Client client = new Client(engHandler.getEngine(), "Client01", request);
 		wm.schedule(client, new ClientListener());
 		
@@ -97,11 +97,11 @@ public class PoolingTest extends TestCase {
 		EngineHandler engHandler = new EngineHandler(config);
 		engHandler.init();
 		
-		Address address = new Address("TheIsNoSuchMainframe");
+		LegStarAddress address = new LegStarAddress("TheIsNoSuchMainframe");
 		address.setHostUserID(HOST_USERID);
 		address.setHostPassword(HOST_PASSWORD);
 		
-		Request request = new Request("Request01", address, getRequestMessage());
+		LegStarRequest request = new LegStarRequest("Request01", address, getRequestMessage());
 		Client client = new Client(engHandler.getEngine(), "Client01", request);
 		wm.schedule(client, new ClientListener());
 		
@@ -121,17 +121,17 @@ public class PoolingTest extends TestCase {
 		map.put(Constants.CICS_PROGRAM_NAME_KEY, "TARATATA");
 		map.put(Constants.CICS_LENGTH_KEY, "79");
 		map.put(Constants.CICS_DATALEN_KEY, "6");
-		List <MessagePart> inputParts = new ArrayList <MessagePart>();
-		MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
+		List <LegStarMessagePart> inputParts = new ArrayList <LegStarMessagePart>();
+		LegStarMessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 		inputParts.add(inCommarea);
-		HeaderPart dp = new HeaderPart(map, inputParts.size());
-		Message requestMessage = new Message(dp, inputParts);
+		LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
+		LegStarMessage requestMessage = new LegStarMessage(dp, inputParts);
 
-		Address address = new Address("TheMainframe");
+		LegStarAddress address = new LegStarAddress("TheMainframe");
 		address.setHostUserID(HOST_USERID);
 		address.setHostPassword(HOST_PASSWORD);
 		
-		Request request = new Request("testScheduleWork", address, requestMessage);
+		LegStarRequest request = new LegStarRequest("testScheduleWork", address, requestMessage);
 		synchronized (request) {
 			engHandler.getEngine().addRequest(request);
 			request.wait(3000L);
@@ -150,13 +150,13 @@ public class PoolingTest extends TestCase {
 		EngineHandler engHandler = new EngineHandler(config);
 		engHandler.init();
 		
-		Address address = new Address("TheMainframe");
+		LegStarAddress address = new LegStarAddress("TheMainframe");
 		address.setHostUserID(HOST_USERID);
 		address.setHostPassword(HOST_PASSWORD);
 		
 		Client[] clients = new Client[3];
 		for (int i = 0; i < clients.length; i++) {
-			Request request = new Request("Request01", address, getRequestMessage());
+			LegStarRequest request = new LegStarRequest("Request01", address, getRequestMessage());
 			clients[i] = new Client(engHandler.getEngine(), "Client" + Integer.toString(i), request);
 			wm.schedule(clients[i], new ClientListener());
 			Thread.sleep(20L);
@@ -180,18 +180,18 @@ public class PoolingTest extends TestCase {
 		EngineHandler engHandler = new EngineHandler(config);
 		engHandler.init();
 
-		Address address1 = new Address("TheMainframe");
+		LegStarAddress address1 = new LegStarAddress("TheMainframe");
 		address1.setHostUserID(HOST_USERID);
 		address1.setHostPassword(HOST_PASSWORD);
 		
-		Address address2 = new Address("TheMainframe");
+		LegStarAddress address2 = new LegStarAddress("TheMainframe");
 		address2.setHostUserID("IBMUSER");
 		address2.setHostPassword(HOST_PASSWORD);
 		
 		Client[] clients = new Client[3];
 		for (int i = 0; i < clients.length; i++) {
-			Address address = ((i % 2) == 0)? address1 : address2;
-			Request request = new Request("Request01", address, getRequestMessage());
+			LegStarAddress address = ((i % 2) == 0)? address1 : address2;
+			LegStarRequest request = new LegStarRequest("Request01", address, getRequestMessage());
 			clients[i] = new Client(engHandler.getEngine(), "Client" + new Integer(i).toString(), request);
 			wm.schedule(clients[i], new ClientListener());
 		}
@@ -207,25 +207,25 @@ public class PoolingTest extends TestCase {
 		}
 	}
 	
-	private Message getRequestMessage() throws HeaderPartException {
+	private LegStarMessage getRequestMessage() throws HeaderPartException {
 		HashMap < String, Object > map = new HashMap < String, Object >();
 		map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
 		map.put(Constants.CICS_LENGTH_KEY, "79");
 		map.put(Constants.CICS_DATALEN_KEY, "6");
-		List <MessagePart> inputParts = new ArrayList <MessagePart>();
-		MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
+		List <LegStarMessagePart> inputParts = new ArrayList <LegStarMessagePart>();
+		LegStarMessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 		inputParts.add(inCommarea);
-		HeaderPart dp = new HeaderPart(map, inputParts.size());
-		return new Message(dp, inputParts);
+		LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
+		return new LegStarMessage(dp, inputParts);
 	}
 	
 	private class Client implements Work {
 		
 		private Engine mEngine;
 		private String mClientID;
-		private Request mRequest;
+		private LegStarRequest mRequest;
 		
-		public Client(Engine engine, String ID, Request request) {
+		public Client(Engine engine, String ID, LegStarRequest request) {
 			mEngine = engine;
 			mClientID = ID;
 			mRequest = request;
@@ -258,7 +258,7 @@ public class PoolingTest extends TestCase {
 			}
 		}
 		
-		public Request getRequest() {
+		public LegStarRequest getRequest() {
 			return mRequest;
 		}
 		

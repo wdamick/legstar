@@ -89,7 +89,7 @@ public class CicsProgramTest extends TestCase {
 	public void testGetMap() {
 		try {
 			CicsProgram pa = new CicsProgram("lsfileae2.properties");
-			Map map = pa.getProgramAttrMap();
+			Map < String, Object> map = pa.getProgramAttrMap();
 			assertEquals("LSFILEAE", map.get(Constants.CICS_PROGRAM_NAME_KEY));
 			assertEquals("735",  map.get(Constants.CICS_LENGTH_KEY));
 			assertEquals("72",  map.get(Constants.CICS_DATALEN_KEY));
@@ -123,7 +123,7 @@ public class CicsProgramTest extends TestCase {
 	public void testGetMapWithContainers() {
 		try {
 			CicsProgram pa = new CicsProgram("container1.properties");
-			Map map = pa.getProgramAttrMap();
+			Map < String, Object> map = pa.getProgramAttrMap();
 			assertEquals("LSFILEAC", map.get(Constants.CICS_PROGRAM_NAME_KEY));
 			String[] outContainers = (String[]) map.get(Constants.CICS_OUT_CONTAINERS_KEY);
 			assertEquals("ReplyData",  outContainers[0]);

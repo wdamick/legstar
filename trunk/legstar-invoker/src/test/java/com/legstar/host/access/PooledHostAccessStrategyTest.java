@@ -35,13 +35,13 @@ import com.legstar.host.access.HostAccessStrategyException;
 import com.legstar.host.invoke.Util;
 import com.legstar.host.server.EngineHandler;
 import com.legstar.host.server.EngineStartupException;
-import com.legstar.messaging.Address;
+import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.CommareaPart;
-import com.legstar.messaging.HeaderPart;
+import com.legstar.messaging.LegStarHeaderPart;
 import com.legstar.messaging.HeaderPartException;
-import com.legstar.messaging.Message;
-import com.legstar.messaging.MessagePart;
-import com.legstar.messaging.Request;
+import com.legstar.messaging.LegStarMessage;
+import com.legstar.messaging.LegStarMessagePart;
+import com.legstar.messaging.LegStarRequest;
 
 import junit.framework.TestCase;
 
@@ -79,7 +79,7 @@ public class PooledHostAccessStrategyTest extends TestCase {
 		try {
 			HierarchicalConfiguration endpointConfig = loadEndpointConfiguration(CONFIG_FILE, "TheMainframe");
 			PooledHostAccessStrategy pha = new PooledHostAccessStrategy(endpointConfig);
-			Request request = createRequest();
+			LegStarRequest request = createRequest();
 			pha.invoke(request);
 			fail("testInvokeWithNoEngine failed");
 		} catch (HostAccessStrategyException e) {
@@ -96,7 +96,7 @@ public class PooledHostAccessStrategyTest extends TestCase {
 			
 			HierarchicalConfiguration endpointConfig = loadEndpointConfiguration(CONFIG_FILE, "TheMainframe");
 			PooledHostAccessStrategy pha = new PooledHostAccessStrategy(endpointConfig);
-			Request request = createRequest();
+			LegStarRequest request = createRequest();
 			pha.invoke(request);
 			assertEquals("f0f0f0f1f0f0e24b40c44b40c2d6d9d4c1d54040404040404040e2e4d9d9c5e86b40c5d5c7d3c1d5c44040404040f3f2f1f5f6f7f7f8f2f640f1f140f8f15bf0f1f0f04bf1f15c5c5c5c5c5c5c5c5c", 
 					Util.toHexString(request.getResponseMessage().getDataParts().get(0).getContent()));
@@ -120,7 +120,7 @@ public class PooledHostAccessStrategyTest extends TestCase {
 			
 			HierarchicalConfiguration endpointConfig = loadEndpointConfiguration(CONFIG_FILE, "TheMainframe");
 			PooledHostAccessStrategy pha = new PooledHostAccessStrategy(endpointConfig);
-			Request request = createLongRequest();
+			LegStarRequest request = createLongRequest();
 			pha.invoke(request);
 			fail("testInvokeWithEngineTimeout failed ");
 		} catch (HostAccessStrategyException e) {
@@ -136,44 +136,44 @@ public class PooledHostAccessStrategyTest extends TestCase {
 		}
 	}
 	/** Create a typical request */
-	private Request createRequest() throws HostAccessStrategyException {
+	private LegStarRequest createRequest() throws HostAccessStrategyException {
 		HashMap < String, Object > map = new HashMap < String, Object >();
 		map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
 		map.put(Constants.CICS_LENGTH_KEY, "79");
 		map.put(Constants.CICS_DATALEN_KEY, "6");
-		List <MessagePart> inputParts = new ArrayList <MessagePart>();
-		MessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
+		List <LegStarMessagePart> inputParts = new ArrayList <LegStarMessagePart>();
+		LegStarMessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
 		inputParts.add(inCommarea);
-		HeaderPart dp;
+		LegStarHeaderPart dp;
 		try {
-			dp = new HeaderPart(map, inputParts.size());
+			dp = new LegStarHeaderPart(map, inputParts.size());
 		} catch (HeaderPartException e) {
 			throw new HostAccessStrategyException(e);
 		}
-		Address address = new Address("TheMainframe");
-		Message requestMessage = new Message(dp, inputParts);
-		Request request = new Request("Request01", address, requestMessage);
+		LegStarAddress address = new LegStarAddress("TheMainframe");
+		LegStarMessage requestMessage = new LegStarMessage(dp, inputParts);
+		LegStarRequest request = new LegStarRequest("Request01", address, requestMessage);
 		return request;
 	}
 	
 	/** Create a long request ( 4 secs) */
-	private Request createLongRequest() throws HostAccessStrategyException {
+	private LegStarRequest createLongRequest() throws HostAccessStrategyException {
 		HashMap < String, Object > map = new HashMap < String, Object >();
 		map.put(Constants.CICS_PROGRAM_NAME_KEY, "T1SLEEPT");
 		map.put(Constants.CICS_LENGTH_KEY, "39");
 		map.put(Constants.CICS_DATALEN_KEY, "8");
-		List <MessagePart> inputParts = new ArrayList <MessagePart>();
-		MessagePart inCommarea = new CommareaPart(Util.toByteArray("f0f0f0f0f0f0f0f4"));
+		List <LegStarMessagePart> inputParts = new ArrayList <LegStarMessagePart>();
+		LegStarMessagePart inCommarea = new CommareaPart(Util.toByteArray("f0f0f0f0f0f0f0f4"));
 		inputParts.add(inCommarea);
-		HeaderPart dp;
+		LegStarHeaderPart dp;
 		try {
-			dp = new HeaderPart(map, inputParts.size());
+			dp = new LegStarHeaderPart(map, inputParts.size());
 		} catch (HeaderPartException e) {
 			throw new HostAccessStrategyException(e);
 		}
-		Address address = new Address("TheMainframe");
-		Message requestMessage = new Message(dp, inputParts);
-		Request request = new Request("Request01", address, requestMessage);
+		LegStarAddress address = new LegStarAddress("TheMainframe");
+		LegStarMessage requestMessage = new LegStarMessage(dp, inputParts);
+		LegStarRequest request = new LegStarRequest("Request01", address, requestMessage);
 		return request;
 	}
 	/**
@@ -197,7 +197,7 @@ public class PooledHostAccessStrategyTest extends TestCase {
 		generalConfig.setExpressionEngine(new XPathExpressionEngine());
 		String strXPath = HOST_ENDPOINT_CFG
 		+ "[@name='" + endpointName + "']";
-		List  endpoints = generalConfig.configurationsAt(strXPath);
+		List < ? > endpoints = generalConfig.configurationsAt(strXPath);
 		if (endpoints == null || endpoints.isEmpty()) {
 			throw new HostAccessStrategyException("The requested endpoint:" 
 					+ endpointName

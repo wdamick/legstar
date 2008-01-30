@@ -20,8 +20,8 @@
  *******************************************************************************/
 package com.legstar.host.server;
 
-import com.legstar.messaging.Connection;
-import com.legstar.messaging.Request;
+import com.legstar.messaging.LegStarConnection;
+import com.legstar.messaging.LegStarRequest;
 import com.legstar.pool.manager.ConnectionPool;
 
 import commonj.work.Work;
@@ -39,7 +39,7 @@ public interface WorkFactory {
 	 * @param connection the host connection to use
 	 * @return a Work element that can be submitted to a work manager
 	 */
-	Work createWork(Request request, Connection connection);
+	Work createWork(LegStarRequest request, LegStarConnection connection);
 	
 	
 	/**
@@ -53,6 +53,7 @@ public interface WorkFactory {
 	 * @return a work listener
 	 */
 	WorkListener createWorkListener(
-			Request request, Connection connection, ConnectionPool pool);
+			LegStarRequest request, LegStarConnection connection,
+			ConnectionPool pool);
 
 }

@@ -23,7 +23,7 @@ package com.legstar.config;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
 
-import com.legstar.messaging.Address;
+import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.ConnectionFactory;
 
 import junit.framework.TestCase;
@@ -34,7 +34,7 @@ public class ConfigTest extends TestCase {
 	
 	public void testloadConnectionFactory() {
 		try {
-			Address address = new Address("TheMainframe");
+			LegStarAddress address = new LegStarAddress("TheMainframe");
 			HierarchicalConfiguration generalConfig = Config.loadGeneralConfig(CONFIG_FILE);
 			HierarchicalConfiguration endpointConfig =
 				Config.loadAddressConfiguration(generalConfig, address);

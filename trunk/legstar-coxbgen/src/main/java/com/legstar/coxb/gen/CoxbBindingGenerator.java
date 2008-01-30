@@ -157,7 +157,8 @@ public class CoxbBindingGenerator extends Task {
             ClassLoader cl = new java.net.URLClassLoader(urls);
         
             /* Load in ObjectFactory.class */
-            Class objfCls = cl.loadClass(jaxbPackageName + ".ObjectFactory");
+            Class < ? > objfCls = cl.loadClass(
+            		jaxbPackageName + ".ObjectFactory");
             
 			/* Create a new instance of this class */
 			jaxbObjectFactory = objfCls.newInstance();
@@ -202,7 +203,7 @@ public class CoxbBindingGenerator extends Task {
     	
 		try {
 			/* Get the JAXB ObjectFactory class */
-			Class objfCls = this.getClass().getClassLoader().loadClass(
+			Class < ? > objfCls = this.getClass().getClassLoader().loadClass(
                     packageName + ".ObjectFactory");
 			/* Create a new instance of this class */
 			jaxbObjectFactory = objfCls.newInstance();

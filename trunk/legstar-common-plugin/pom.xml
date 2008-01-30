@@ -3,52 +3,15 @@
     <parent>
       <groupId>com.legsem.legstar</groupId>
       <artifactId>Legstar</artifactId>
-      <version>1.1.0</version>
+      <version>SNAPSHOT</version>
     </parent>
 	<artifactId>legstar-common-plugin</artifactId>
 	<name>Commons plugin</name>
-    <version>1.1.0</version>
+    <packaging>pom</packaging>
+    <version>SNAPSHOT</version>
 	<description>Legstar common utilities Eclipse plugin</description>
 	<url>http://www.legsem.com/legstar/common-plugin/</url>
 
-	<dependencies>
-
-		<dependency>
-		  <groupId>ant</groupId>
-		  <artifactId>ant</artifactId>
-		</dependency>
-
-	    <dependency>
-	      <groupId>org.eclipse.core</groupId>
-	      <artifactId>org.eclipse.core.runtime</artifactId>
-	    </dependency>
-	    <dependency>
-	      <groupId>org.eclipse.core</groupId>
-	      <artifactId>org.eclipse.core.resources</artifactId>
-	    </dependency>
-	    <dependency>
-	      <groupId>org.eclipse.ui</groupId>
-	      <artifactId>org.eclipse.ui</artifactId>
-	    </dependency>
-	    <dependency>
-	      <groupId>org.eclipse.ui</groupId>
-	      <artifactId>org.eclipse.ui.ide</artifactId>
-	    </dependency>
-	    <dependency>
-	      <groupId>org.eclipse.ui</groupId>
-	      <artifactId>org.eclipse.ui.console</artifactId>
-	    </dependency>
-
-	    <dependency>
-	      <groupId>org.eclipse.swt</groupId>
-	      <artifactId>org.eclipse.swt</artifactId>
-	    </dependency>
-	    <dependency>
-	      <groupId>org.eclipse.swt</groupId>
-	      <artifactId>org.eclipse.swt.win32.win32.x86</artifactId>
-	    </dependency>
- 	    
-	</dependencies>
 
 	<!-- Because this is a pure Eclipse plugin, there is no assembly phase -->
    

@@ -57,7 +57,7 @@ public abstract class CComplexBinding
 	public CComplexBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations,
 			final ICobolComplexBinding parentBinding) {
 		super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);

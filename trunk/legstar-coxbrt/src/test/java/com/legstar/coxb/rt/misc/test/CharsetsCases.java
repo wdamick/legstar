@@ -28,16 +28,17 @@ import java.util.SortedMap;
 
 public class CharsetsCases extends TestCase {
 	
+	@SuppressWarnings("unchecked")
 	public void testAllCharsets() {
 		SortedMap <String, Charset> cs = Charset.availableCharsets();
-        Iterator it = cs.entrySet().iterator();
+        Iterator < ? > it = cs.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry me = (Map.Entry)it.next();
             String key = (String) me.getKey();
             Charset value = (Charset) me.getValue();
             System.out.println(key);
             System.out.print("  ");
-            Iterator ita = value.aliases().iterator();
+            Iterator < ? > ita = value.aliases().iterator();
             while (ita.hasNext()) {
                 String alias = (String)ita.next();
                 System.out.print(alias);

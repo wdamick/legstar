@@ -29,14 +29,14 @@ import org.apache.commons.configuration.HierarchicalConfiguration;
 
 import com.legstar.config.Config;
 import com.legstar.config.Constants;
-import com.legstar.messaging.Address;
+import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.ConnectionException;
-import com.legstar.messaging.HeaderPart;
+import com.legstar.messaging.LegStarHeaderPart;
 import com.legstar.messaging.HeaderPartException;
-import com.legstar.messaging.Message;
-import com.legstar.messaging.MessagePart;
-import com.legstar.messaging.Request;
+import com.legstar.messaging.LegStarMessage;
+import com.legstar.messaging.LegStarMessagePart;
+import com.legstar.messaging.LegStarRequest;
 import com.legstar.messaging.RequestException;
 
 import junit.framework.TestCase;
@@ -62,7 +62,7 @@ public class VolumeTest extends TestCase {
 	 * @throws UnsupportedEncodingException */
 	public void testSingleIterateVolume() throws UnsupportedEncodingException {
 		try {
-			Address address = new Address("TheMainframe");
+			LegStarAddress address = new LegStarAddress("TheMainframe");
 			CicsHttp cicsHttp = (CicsHttp) mfactory.createConnection("testSingleIterateVolume", address);
 			cicsHttp.setReceiveTimeout(10000);
 			cicsHttp.connect("STREAM2");
@@ -70,17 +70,17 @@ public class VolumeTest extends TestCase {
 			map.put(Constants.CICS_PROGRAM_NAME_KEY, "T1VOLUME");
 			map.put(Constants.CICS_LENGTH_KEY, "32767");
 			map.put(Constants.CICS_DATALEN_KEY, "32767");
-			List <MessagePart> inputParts = new ArrayList <MessagePart>();
+			List <LegStarMessagePart> inputParts = new ArrayList <LegStarMessagePart>();
 			byte[] content = new byte[32767];
 			byte[] startEC = Util.toByteArray("d7c7d47ec9c7e8c3d9c3e3d36bd9c5c7");
 			byte[] endEC = Util.toByteArray("d7c1d9d47e4d7dd5d6c4e8d5c1d46bd3");
 			System.arraycopy(startEC, 0, content, 0, 16);
 			System.arraycopy(endEC, 0, content, 32751, 16);
-			MessagePart inCommarea1 = new CommareaPart(content);
+			LegStarMessagePart inCommarea1 = new CommareaPart(content);
 			inputParts.add(inCommarea1);
-			HeaderPart dp = new HeaderPart(map, inputParts.size());
-			Message requestMessage = new Message(dp, inputParts);
-			Request request = new Request("testSingleIterateVolume", address, requestMessage);
+			LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
+			LegStarMessage requestMessage = new LegStarMessage(dp, inputParts);
+			LegStarRequest request = new LegStarRequest("testSingleIterateVolume", address, requestMessage);
 			for (int i = 0; i < MAX_ITERATIONS; i++) {
 				cicsHttp.sendRequest(request);
 				cicsHttp.recvResponse(request);

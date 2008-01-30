@@ -53,7 +53,7 @@ public class CDoubleBinding	extends CBinding
 	public CDoubleBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations,
 			final ICobolComplexBinding parentBinding) {
 		super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
@@ -92,7 +92,8 @@ public class CDoubleBinding	extends CBinding
 	}
 	
 	/** {@inheritDoc} */
-	public final Object getObjectValue(final Class type) throws HostException {
+	public final Object getObjectValue(
+			final Class < ? > type) throws HostException {
 		if (type.equals(Double.class) || type.equals(double.class)) {
 			return mValue;
 		} else if (type.equals(BigDecimal.class)) {

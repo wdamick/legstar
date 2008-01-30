@@ -33,12 +33,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory; 
 
 import com.legstar.codec.HostCodec;
-import com.legstar.messaging.Connection;
+import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.HeaderPartException;
 import com.legstar.messaging.HostReceiveException;
-import com.legstar.messaging.Message;
-import com.legstar.messaging.Request;
+import com.legstar.messaging.LegStarMessage;
+import com.legstar.messaging.LegStarRequest;
 import com.legstar.messaging.RequestException;
 
 
@@ -47,7 +47,7 @@ import com.legstar.messaging.RequestException;
  * methods to connect to CICS over sockets, send requests, receive 
  * results, etc...
  */
-public class CicsSocket implements Connection {
+public class CicsSocket implements LegStarConnection {
 	
 	/** Length of the Transaction Initial Message expected by the IBM CICS
 	 *  Socket listener. */
@@ -309,7 +309,7 @@ public class CicsSocket implements Connection {
 	 * @throws RequestException if send fails
 	 */
 	public final void sendRequest(
-			final Request request) throws RequestException {
+			final LegStarRequest request) throws RequestException {
 		if (LOG.isDebugEnabled()) {
 			try {
 				LOG.debug("Sending Request:" + request.getID()
@@ -358,7 +358,7 @@ public class CicsSocket implements Connection {
 	 * @throws RequestException if receive fails
 	 */
 	public final void recvResponse(
-			final Request request) throws RequestException {
+			final LegStarRequest request) throws RequestException {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Receiving response for Request:" + request.getID()
 					   + " on Connection:" + mConnectionID
@@ -377,7 +377,7 @@ public class CicsSocket implements Connection {
 			}
 			
 			/* Deserialize the rest of the stream into a response message */
-			Message reponseMessage = new Message();
+			LegStarMessage reponseMessage = new LegStarMessage();
 			reponseMessage.recvFromHost(respStream);
 			request.setResponseMessage(reponseMessage);
 		} catch (IOException e) {

@@ -170,7 +170,7 @@ public abstract class CChoiceBinding
     		final String strategyClassName) throws HostException {
     	if (strategyClassName != null && strategyClassName.length() > 0) {
 			try {
-				Class clazz = getClass().getClassLoader().
+				Class < ? > clazz = getClass().getClassLoader().
 				loadClass(strategyClassName);
 				return (ICobolUnmarshalChoiceStrategy) clazz.newInstance();
 			} catch (ClassNotFoundException e) {

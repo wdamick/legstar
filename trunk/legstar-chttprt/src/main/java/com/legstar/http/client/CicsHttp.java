@@ -41,12 +41,12 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.legstar.messaging.Connection;
+import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.HeaderPartException;
 import com.legstar.messaging.HostReceiveException;
-import com.legstar.messaging.Message;
-import com.legstar.messaging.Request;
+import com.legstar.messaging.LegStarMessage;
+import com.legstar.messaging.LegStarRequest;
 import com.legstar.messaging.RequestException;
 
 /**
@@ -58,7 +58,7 @@ import com.legstar.messaging.RequestException;
  * with the LegStar engine which comes with its own connection pooling.
  *
  */
-public class CicsHttp implements Connection  {
+public class CicsHttp implements LegStarConnection  {
 
 	/** Mime type of HTTP content. */
 	private static final String BINARY_CONTENT_TYPE = "binary/octet-stream";
@@ -174,7 +174,7 @@ public class CicsHttp implements Connection  {
 	 * @throws RequestException if send fails
 	 */
 	public final void sendRequest(
-			final Request request) throws RequestException {
+			final LegStarRequest request) throws RequestException {
 		
 		if (LOG.isDebugEnabled()) {
 			try {
@@ -222,7 +222,7 @@ public class CicsHttp implements Connection  {
 	 * @throws RequestException if receive fails
 	 */
 	public final void recvResponse(
-			final Request request) throws RequestException {
+			final LegStarRequest request) throws RequestException {
 		
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Receiving response for Request:" + request.getID()
@@ -364,7 +364,7 @@ public class CicsHttp implements Connection  {
 	 * @throws RequestException if post method cannot be created
 	 */
 	public final PostMethod createPostMethod(
-			final Request request) throws RequestException {
+			final LegStarRequest request) throws RequestException {
 		
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("enter createPostMethod(request)");
@@ -402,16 +402,16 @@ public class CicsHttp implements Connection  {
 	 * @return a response message
 	 * @throws HostReceiveException if response cannot be mapped to a message
 	 */
-	private Message createResponseMessage(
+	private LegStarMessage createResponseMessage(
 			final InputStream respStream) throws HostReceiveException {
 
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("enter createResponseMessage(respStream)");
 		}
 		
-		Message reponseMessage;
+		LegStarMessage reponseMessage;
 		try {
-			reponseMessage = new Message();
+			reponseMessage = new LegStarMessage();
 			reponseMessage.recvFromHost(respStream);
 		} catch (HeaderPartException e) {
 			throw new HostReceiveException(e);
@@ -487,7 +487,7 @@ public class CicsHttp implements Connection  {
 	}
 
 	/** (non-Javadoc).
-	 * @see com.legstar.messaging.Connection#getConnectTimeout()
+	 * @see com.legstar.messaging.LegStarConnection#getConnectTimeout()
 	 * {@inheritDoc}
 	 */
 	public final long getConnectTimeout() {
@@ -495,7 +495,7 @@ public class CicsHttp implements Connection  {
 	}
 
 	/** (non-Javadoc).
-	 * @see com.legstar.messaging.Connection#setConnectTimeout(int)
+	 * @see com.legstar.messaging.LegStarConnection#setConnectTimeout(int)
 	 * {@inheritDoc}
 	 */
 	public final void setConnectTimeout(final long timeout) {
@@ -505,7 +505,7 @@ public class CicsHttp implements Connection  {
 	}
 
 	/** (non-Javadoc).
-	 * @see com.legstar.messaging.Connection#getReceiveTimeout()
+	 * @see com.legstar.messaging.LegStarConnection#getReceiveTimeout()
 	 * {@inheritDoc}
 	 */
 	public final long getReceiveTimeout() {
@@ -513,7 +513,7 @@ public class CicsHttp implements Connection  {
 	}
 	
 	/** (non-Javadoc).
-	 * @see com.legstar.messaging.Connection#setReceiveTimeout(int)
+	 * @see com.legstar.messaging.LegStarConnection#setReceiveTimeout(int)
 	 * {@inheritDoc}
 	 */
 	public final void setReceiveTimeout(final long timeout) {

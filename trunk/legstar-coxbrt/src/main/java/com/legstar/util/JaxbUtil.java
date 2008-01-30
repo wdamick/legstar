@@ -240,7 +240,7 @@ public final class JaxbUtil {
 		try {
 			/* Add reference to object just created to the parent array using
 			 *  the add(index, Object) method */
-			Class[] param = {int.class, Object.class};
+			Class < ? >[] param = {int.class, Object.class};
 			Method setter = parentObject.getClass().getMethod("add", param);
 			setter.invoke(parentObject, index, value);
 		} catch (IllegalAccessException e) {
@@ -277,7 +277,7 @@ public final class JaxbUtil {
 			
 			/* Add reference to object just created to the parent array using
 			 * the add(index, Object) method */
-			Class[] param = {int.class, Object.class};
+			Class < ? >[] param = {int.class, Object.class};
 			Method add = parentObject.getClass().getMethod("add", param);
 			add.invoke(parentObject, index, result);
 			return result;
@@ -308,7 +308,7 @@ public final class JaxbUtil {
 		try {
 			/* Load the JAXB object factory from the package */
 			String ofName = jaxbPackage + ".ObjectFactory";
-			Class cl = Class.forName(ofName);
+			Class < ? > cl = Class.forName(ofName);
 			Object objectFactory = cl.newInstance();
 			
 			/* Get an instance of the requested JAXB object*/
@@ -381,11 +381,11 @@ public final class JaxbUtil {
 	public static Method getSetterMethod(
 			final Object parentObject,
 			final String jaxbName,
-			final Class jaxbType) throws HostException {
+			final Class < ? > jaxbType) throws HostException {
 		String getterName = "set" + jaxbName.substring(0, 1).toUpperCase()
 		+ jaxbName.substring(1);
 		try {
-			Class[] param = {jaxbType};
+			Class < ? >[] param = {jaxbType};
 			Method setter = parentObject.getClass().getMethod(
 					getterName, param);
 			return setter;

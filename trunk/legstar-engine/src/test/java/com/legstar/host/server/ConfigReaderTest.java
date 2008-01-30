@@ -33,6 +33,7 @@ public class ConfigReaderTest extends TestCase {
 	
 	private static final String HOST_ENDPOINT_CFG = "hostEndPoints.hostEndPoint";
 	
+	@SuppressWarnings("unchecked")
 	public void testReadConfig() throws ConfigurationException {
 		HierarchicalConfiguration config = Util.getCombinedConfiguration();
 		List endpoints = config.configurationsAt(HOST_ENDPOINT_CFG);
@@ -45,6 +46,7 @@ public class ConfigReaderTest extends TestCase {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	public void testReadConfigXPath() throws ConfigurationException {
 		HierarchicalConfiguration config = Util.getCombinedConfiguration();
 		config.setExpressionEngine(new XPathExpressionEngine());
@@ -59,6 +61,7 @@ public class ConfigReaderTest extends TestCase {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void testNotFoundElement() throws ConfigurationException {
 		HierarchicalConfiguration config = Util.getCombinedConfiguration();
 		config.setExpressionEngine(new XPathExpressionEngine());
@@ -72,6 +75,7 @@ public class ConfigReaderTest extends TestCase {
 		assertTrue(endpoints.isEmpty());
 	}
 
+	@SuppressWarnings("unchecked")
 	public void testReadConfigXPathDirect() throws ConfigurationException {
 		HierarchicalConfiguration config = Util.getCombinedConfiguration();
 		config.setExpressionEngine(new XPathExpressionEngine());

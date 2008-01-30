@@ -48,7 +48,7 @@ public class CArrayZonedDecimalBinding extends CArrayNumericBinding
 	public CArrayZonedDecimalBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations,
 			final ICobolComplexBinding parentBinding) {
 		super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);

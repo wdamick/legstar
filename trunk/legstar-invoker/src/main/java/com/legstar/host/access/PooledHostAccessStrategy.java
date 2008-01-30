@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.legstar.host.server.EngineHolder;
 import com.legstar.host.server.EngineNotStartedException;
-import com.legstar.messaging.Request;
+import com.legstar.messaging.LegStarRequest;
 
 /**
  * This class implements a host accessor over a pool of host connections
@@ -67,7 +67,7 @@ public class PooledHostAccessStrategy implements HostAccessStrategy {
 	 * {@inheritDoc}
 	 */
 	public final void invoke(
-			final Request request) throws HostAccessStrategyException {
+			final LegStarRequest request) throws HostAccessStrategyException {
 		
 		long startTime = System.currentTimeMillis();
 		if (LOG.isDebugEnabled()) {

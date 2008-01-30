@@ -53,7 +53,7 @@ public abstract class CArrayComplexBinding extends CArrayBinding
 	public CArrayComplexBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations,
 			final ICobolComplexBinding parentBinding,
 			final ICobolComplexBinding complexItemBinding) {

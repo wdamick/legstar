@@ -56,7 +56,7 @@ public class CArrayDoubleBinding extends CArrayBinding
 	public CArrayDoubleBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations,
 			final ICobolComplexBinding parentBinding) {
 		super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
@@ -111,7 +111,8 @@ public class CArrayDoubleBinding extends CArrayBinding
 	}
 
 	/** {@inheritDoc} */
-	public final Object getObjectValue(final Class type) throws HostException {
+	public final Object getObjectValue(
+			final Class < ? > type) throws HostException {
 		if (type.equals(Double.class)) {
 			return mList;
 		} else if (type.equals(BigDecimal.class)) {

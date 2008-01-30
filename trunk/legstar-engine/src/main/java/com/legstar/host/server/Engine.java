@@ -24,8 +24,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.apache.commons.logging.Log; 
 import org.apache.commons.logging.LogFactory; 
 
-import com.legstar.messaging.Connection;
-import com.legstar.messaging.Request;
+import com.legstar.messaging.LegStarConnection;
+import com.legstar.messaging.LegStarRequest;
 import com.legstar.messaging.RequestException;
 import com.legstar.pool.manager.ConnectionPool;
 import com.legstar.pool.manager.ConnectionPoolException;
@@ -44,7 +44,7 @@ import commonj.work.WorkListener;
 public class Engine implements Work {
 
 	/** Incoming requests waiting to be serviced. */
-	private LinkedBlockingQueue < Request > mRequests;
+	private LinkedBlockingQueue < LegStarRequest > mRequests;
 	
 	/** Will be true when shutdown is initiated. */
 	private boolean mShuttingDown;
@@ -78,7 +78,7 @@ public class Engine implements Work {
 			final WorkManager workManager,
 			final ConnectionPoolManager poolManager,
 			final WorkFactory workFactory) {
-		mRequests = new LinkedBlockingQueue < Request >(maxRequests);
+		mRequests = new LinkedBlockingQueue < LegStarRequest >(maxRequests);
 		mShuttingDown = false;
 		mWorkManager = workManager;
 		mPoolManager = poolManager;
@@ -94,7 +94,7 @@ public class Engine implements Work {
 		
 		while (!mShuttingDown) {
 			LOG.debug("Waiting for requests");
-			Request request;
+			LegStarRequest request;
 			try {
 				request = mRequests.take();
 				if (!mShuttingDown) {
@@ -118,8 +118,8 @@ public class Engine implements Work {
 	 * @throws WorkException if scheduling fails
 	 */
 	private void scheduleWork(
-			final Request request) throws WorkException {
-		Connection connection;
+			final LegStarRequest request) throws WorkException {
+		LegStarConnection connection;
 		ConnectionPool pool;
 		try {
 			/* Get a pool that matches this request criteria */
@@ -144,7 +144,7 @@ public class Engine implements Work {
 	 *  Place a new request in request queue.
 	 *  @param request the request to be added
 	 *   */
-	public final void addRequest(final Request request) {
+	public final void addRequest(final LegStarRequest request) {
 		if (!mShuttingDown) {
 			mRequests.add(request);
 		} else {
@@ -167,7 +167,7 @@ public class Engine implements Work {
 		LOG.info("Attempting to shutdown...");
 		if (mRequests.size() == 0) {
 			/* Empty request to get the engine to process shutdown */
-			mRequests.add(new Request());
+			mRequests.add(new LegStarRequest());
 		} else {
 			LOG.warn("Shutdown requested. "
 					+ mRequests.size() + " requests are pending.");

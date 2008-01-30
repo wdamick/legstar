@@ -45,7 +45,7 @@ public abstract class CBinding implements ICobolBinding {
 	private String mJaxbName;
 
 	/** Java property type bound to this cobol element. */
-	private Class mJaxbType;
+	private Class < ? > mJaxbType;
 
 	/** Cobol element name. */
 	private String mCobolName = "";
@@ -130,7 +130,7 @@ public abstract class CBinding implements ICobolBinding {
 	public CBinding(
 			final String name,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations,
 			final ICobolComplexBinding parentBinding) {
 		setBindingName(name);
@@ -446,14 +446,14 @@ public abstract class CBinding implements ICobolBinding {
 	/**
 	 * @return the Java property type bound to this cobol element
 	 */
-	public final Class getJaxbType() {
+	public final Class < ? > getJaxbType() {
 		return mJaxbType;
 	}
 
 	/**
 	 * @param jaxbType the Java property type bound to this cobol element to set
 	 */
-	public final void setJaxbType(final Class jaxbType) {
+	public final void setJaxbType(final Class < ? > jaxbType) {
 		mJaxbType = jaxbType;
 	}
 

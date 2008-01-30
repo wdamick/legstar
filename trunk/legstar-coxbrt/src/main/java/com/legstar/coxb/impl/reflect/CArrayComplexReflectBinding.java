@@ -40,7 +40,7 @@ public class CArrayComplexReflectBinding extends CArrayComplexBinding {
 	private Object mJaxbObjectFactory;
 
     /** Java object to which this cobol complex array element is bound. */
-    private List mJaxbObject;
+    private List < Object > mJaxbObject;
   
 	/**
 	 * Creates a binding between a Cobol array of complex elements and a
@@ -57,7 +57,7 @@ public class CArrayComplexReflectBinding extends CArrayComplexBinding {
 	public CArrayComplexReflectBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations,
 			final ICobolComplexBinding parentBinding,
 			final ICobolComplexBinding complexItemBinding,
@@ -70,7 +70,7 @@ public class CArrayComplexReflectBinding extends CArrayComplexBinding {
 
 	/** {@inheritDoc} */
 	public final void createJaxbObject() throws HostException {
-		mJaxbObject = new ArrayList();
+		mJaxbObject = new ArrayList < Object >();
 	}
 	
 	/** {@inheritDoc} */
@@ -111,7 +111,7 @@ public class CArrayComplexReflectBinding extends CArrayComplexBinding {
 	/**
 	 * @return the List of items
 	 */
-	public final List getObjectList() {
+	public final List < ? > getObjectList() {
 		return mJaxbObject;
 	}
 
@@ -124,7 +124,8 @@ public class CArrayComplexReflectBinding extends CArrayComplexBinding {
 	}
 
     /** {@inheritDoc} */
-    public final Object getObjectValue(final Class type) throws HostException {
+    public final Object getObjectValue(
+    		final Class < ? > type) throws HostException {
     	if (type.equals(getJaxbType())) {
     		return mJaxbObject;
 		} else {
@@ -134,21 +135,22 @@ public class CArrayComplexReflectBinding extends CArrayComplexBinding {
     }
 
     /** {@inheritDoc} */
-    public final void setObjectValue(final Object value) throws HostException {
+    @SuppressWarnings("unchecked")
+	public final void setObjectValue(final Object value) throws HostException {
     	if (value == null) {
     		mJaxbObject = null;
     		return;
     	}
 		if (value instanceof List) {
-			if (((List) value).size() == 0) {
-				mJaxbObject = new ArrayList();
+			if (((List < ? >) value).size() == 0) {
+				mJaxbObject = new ArrayList < Object >();
 				return;
 			}
 			/* We assume all items will have the same type as the first one.
 			 * The unchecked cast might break at runtime. */
-			Object item = ((List) value).get(0);
+			Object item = ((List < ? >) value).get(0);
 			if (item.getClass().equals(getJaxbType())) {
-				mJaxbObject = (List) value;
+				mJaxbObject = (List < Object >) value;
 				return;
 			}
 		}

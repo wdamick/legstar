@@ -21,7 +21,7 @@
 package com.legstar.host.invoke;
 
 import com.legstar.host.invoke.HostInvokerException;
-import com.legstar.messaging.Address;
+import com.legstar.messaging.LegStarAddress;
 import com.legstar.test.coxb.lsfileae.DfhcommareaType;
 import com.legstar.test.coxb.lsfileae.bind.DfhcommareaTypeBinding;
 
@@ -35,7 +35,7 @@ public class CommareaInvokerTest extends TestCase {
 
 	public void testValidInvokeCommarea()  {
 		try {
-			Address address = new Address("TheMainframe");
+			LegStarAddress address = new LegStarAddress("TheMainframe");
 			address.setHostUserID(HOST_USERID);
 			address.setHostPassword(HOST_PASSWORD);
 			HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "lsfileae.properties");
@@ -72,7 +72,7 @@ public class CommareaInvokerTest extends TestCase {
 	
 	public void testWrongProgInvokeCommarea() {
 		try {
-			Address address = new Address("TheMainframe");
+			LegStarAddress address = new LegStarAddress("TheMainframe");
 			address.setHostUserID(HOST_USERID);
 			address.setHostPassword(HOST_PASSWORD);
 			HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "wrongprog.properties");
@@ -136,7 +136,7 @@ public class CommareaInvokerTest extends TestCase {
 
 	public void testPartiallyEmptyAddress() {
 		try {
-			Address address = new Address("");
+			LegStarAddress address = new LegStarAddress("");
 			address.setHostUserID("IBMUSER");
 			address.setHostPassword(HOST_PASSWORD);
 			HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "lsfileae.properties");
@@ -172,7 +172,7 @@ public class CommareaInvokerTest extends TestCase {
 	}
 	public void testValidInvokeCommareaOverHttp() {
 		try {
-			Address address = new Address("TheMainframe");
+			LegStarAddress address = new LegStarAddress("TheMainframe");
 			address.setHostUserID(HOST_USERID);
 			address.setHostPassword(HOST_PASSWORD);
 			HostInvoker invoker = HostInvokerFactory.createHostInvoker("config4.xml", address, "lsfileae.properties");

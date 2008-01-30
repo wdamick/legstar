@@ -26,10 +26,10 @@ import org.apache.commons.configuration.tree.xpath.XPathExpressionEngine;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.legstar.messaging.Connection;
+import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.ConnectionFactory;
-import com.legstar.messaging.Request;
+import com.legstar.messaging.LegStarRequest;
 import com.legstar.messaging.RequestException;
 import com.legstar.config.Config;
 
@@ -69,14 +69,14 @@ public class DirectHostAccessStrategy implements HostAccessStrategy {
 	 * {@inheritDoc}
 	 */
 	public final void invoke(
-			final Request request) throws HostAccessStrategyException {
+			final LegStarRequest request) throws HostAccessStrategyException {
 		
 		long startTime = System.currentTimeMillis();
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Direct invoke for Request:" + request.getID());
 		}
 		try {
-			Connection connection = mConnectionFactory.createConnection(
+			LegStarConnection connection = mConnectionFactory.createConnection(
 					request.getID(), request.getAddress());
 			connection.connect(request.getAddress().getHostPassword());
 			connection.sendRequest(request);

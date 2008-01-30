@@ -52,7 +52,7 @@ public class COctetStreamBinding extends CBinding
 	public COctetStreamBinding(
 			final String bindingName,
 			final String jaxbName,
-			final Class jaxbType,
+			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations,
 			final ICobolComplexBinding parentBinding) {
 		super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
@@ -81,7 +81,8 @@ public class COctetStreamBinding extends CBinding
 	}
 
 	/** {@inheritDoc} */
-	public final Object getObjectValue(final Class type) throws HostException {
+	public final Object getObjectValue(
+			final Class < ? > type) throws HostException {
 		if (type.equals(byte[].class)) {
 			return mValue;
 		} else {

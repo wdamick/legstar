@@ -23,7 +23,7 @@ package com.legstar.pool.manager;
 import org.apache.commons.configuration.ConfigurationException;
 
 import com.legstar.host.server.Util;
-import com.legstar.messaging.Address;
+import com.legstar.messaging.LegStarAddress;
 
 import junit.framework.TestCase;
 
@@ -33,7 +33,7 @@ public class ConnectionManagerTest extends TestCase {
 		try {
 			ConnectionPoolManager pm = new ConnectionPoolManager(
 					Util.getCombinedConfiguration());
-			Address address = new Address("TheOtherMainframe");
+			LegStarAddress address = new LegStarAddress("TheOtherMainframe");
 			/* This should not return a pool since we are not
 			 * requesting creation and the pool map is initially
 			 * empty. */
@@ -56,9 +56,9 @@ public class ConnectionManagerTest extends TestCase {
 		try {
 			ConnectionPoolManager pm = new ConnectionPoolManager(
 					Util.getCombinedConfiguration());
-			Address address = new Address("TheMainframe");
+			LegStarAddress address = new LegStarAddress("TheMainframe");
 			ConnectionPool cp = pm.getPool(address, true);
-			Address address2 = new Address("TheOtherMainframe");
+			LegStarAddress address2 = new LegStarAddress("TheOtherMainframe");
 			ConnectionPool cp2 = pm.getPool(address2, true);
 			assertTrue(cp.getAddress().equals(address));
 			assertTrue(cp2.getAddress().equals(address2));
@@ -81,9 +81,9 @@ public class ConnectionManagerTest extends TestCase {
 			/* Shutdown an empty pool */
 			pm.shutDown();
 			
-			Address address = new Address("TheMainframe");
+			LegStarAddress address = new LegStarAddress("TheMainframe");
 			ConnectionPool cp = pm.getPool(address, true);
-			Address address2 = new Address("TheOtherMainframe");
+			LegStarAddress address2 = new LegStarAddress("TheOtherMainframe");
 			ConnectionPool cp2 = pm.getPool(address2, true);
 			
 			/* Shutdown with pools */

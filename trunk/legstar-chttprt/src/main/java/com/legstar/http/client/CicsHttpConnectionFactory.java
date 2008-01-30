@@ -23,8 +23,8 @@ package com.legstar.http.client;
 import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.tree.xpath.XPathExpressionEngine;
 
-import com.legstar.messaging.Address;
-import com.legstar.messaging.Connection;
+import com.legstar.messaging.LegStarAddress;
+import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.ConnectionFactory;
 
@@ -66,9 +66,9 @@ public class CicsHttpConnectionFactory  implements ConnectionFactory {
 	 * java.lang.String, com.legstar.messaging.Address)
 	 * {@inheritDoc}
 	 */
-	public final Connection createConnection(
+	public final LegStarConnection createConnection(
 			final String connectionID,
-			final Address address) throws ConnectionException {
+			final LegStarAddress address) throws ConnectionException {
 		
 		CicsHttp connection = new CicsHttp(
 				connectionID,
@@ -91,7 +91,7 @@ public class CicsHttpConnectionFactory  implements ConnectionFactory {
 	 * @throws CicsHttpConnectionException if endpoint cannot be constructed
 	 */
 	private CicsHttpEndpoint createEndPoint(
-			final Address address,
+			final LegStarAddress address,
 			final HierarchicalConfiguration endpointConfig)
 			throws CicsHttpConnectionException {
 		CicsHttpEndpoint cicsHttpEndpoint =

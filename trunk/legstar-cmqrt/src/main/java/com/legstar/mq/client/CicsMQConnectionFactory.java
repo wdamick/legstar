@@ -23,8 +23,8 @@ package com.legstar.mq.client;
 import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.tree.xpath.XPathExpressionEngine;
 
-import com.legstar.messaging.Address;
-import com.legstar.messaging.Connection;
+import com.legstar.messaging.LegStarAddress;
+import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.ConnectionFactory;
 
@@ -63,12 +63,12 @@ public class CicsMQConnectionFactory  implements ConnectionFactory {
 	
 	/** (non-Javadoc).
 	 * @see com.legstar.messaging.ConnectionFactory#createConnection(
-	 * java.lang.String, com.legstar.messaging.Address)
+	 * java.lang.String, com.legstar.messaging.LegStarAddress)
 	 * {@inheritDoc}
 	 */
-	public final Connection createConnection(
+	public final LegStarConnection createConnection(
 			final String connectionID,
-			final Address address) throws ConnectionException {
+			final LegStarAddress address) throws ConnectionException {
 		
 		CicsMQ connection = new CicsMQ(
 				connectionID,
@@ -91,7 +91,7 @@ public class CicsMQConnectionFactory  implements ConnectionFactory {
 	 * @throws CicsMQConnectionException if endpoint cannot be constructed
 	 */
 	private CicsMQEndpoint createEndPoint(
-			final Address address,
+			final LegStarAddress address,
 			final HierarchicalConfiguration endpointConfig)
 			throws CicsMQConnectionException {
 		CicsMQEndpoint cicsMQEndpoint =
