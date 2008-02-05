@@ -486,5 +486,44 @@ public final class JaxbUtil {
 		+ binding.getBindingName().substring(
 				1, binding.getBindingName().length());
 	}
+
+	/**
+	 * This will determine if a type name for a simple element is one of
+	 * java's native types and assume it is an enum otherwise.
+	 * @param type the element java type
+	 * @return true if it should be considered an enum
+	 */
+	public static boolean isEnum(final String type) {
+		if (type == null) {
+			return false;
+		}
+		if (type.compareToIgnoreCase("String") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("[B") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("byte[]") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("short") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("int") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("Integer") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("long") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("float") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("double") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("BigInteger") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("BigDecimal") == 0) {
+			return false;
+		} else if (type.compareToIgnoreCase("byte") == 0) {
+			return false;
+		}
+		return true;
+	}
+	
 	
 }
