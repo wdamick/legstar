@@ -25,7 +25,7 @@ import ${jaxb-package}.$helper.getParentJaxbTypeName($binding);
 
 /**
  * LegStar Binding for Choice element:
- *   $binding.jaxbType.
+ *   $helper.getParentJaxbTypeName($binding).
  * 
  * Represents a choice between 2 or more elements. A choice maps to a cobol
  * REDEFINES clause exposed as an xs:choice in the corresponding XML schema
