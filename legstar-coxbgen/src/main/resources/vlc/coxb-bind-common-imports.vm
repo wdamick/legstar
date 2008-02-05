@@ -1,0 +1,55 @@
+#**
+Common imports Velocity Template.
+@author Fady
+@version 1.1.1
+*#
+## ==================================================================
+## Builds a list of imports for a complex element, based on the type
+## of children.
+##
+#macro(addType)
+#if (!$importTypes.contains($newType))
+#set($ret = $importTypes.add($newType))
+#end
+#end
+##end of macro
+##
+#macro(checkChild $child)
+#set($newType = $helper.getQualifiedBindingInterfaceName($child))
+#addType()
+#if($helper.getGenericType($child).equals("simple") || $helper.getGenericType($child).equals("enum"))
+#set($newType = $helper.coxbPackageName + ".CobolBindingFactory")
+#addType()
+#set($newType = $helper.coxbPackageName + ".ICobolBindingFactory")
+#addType()
+#set($hasSimpleChilds = true)
+#end
+#if($helper.getJaxbTypeName($child).equals("BigDecimal"))
+#set($newType = "java.math.BigDecimal")
+#addType()
+#end
+#if($helper.getJaxbTypeName($child).equals("BigInteger"))
+#set($newType = "java.math.BigInteger")
+#addType()
+#end
+#if($helper.getGenericType($child).equals("complex")
+        || $helper.getGenericType($child).equals("complexArray")
+        || $helper.getGenericType($child).equals("enum"))
+#set($newType = ${jaxb-package} + '.' + $helper.getJaxbTypeName($child))
+#addType()
+#end
+#if($child.maxOccurs > 0 || $helper.getGenericType($child).equals("complexArray"))
+#set($newType = "java.util.List")
+#addType()
+#end
+#end
+##end of macro
+##
+#set($hasSimpleChilds = false)
+#set($importTypes = [])
+#foreach ($child in $binding.childrenList)
+#checkChild($child)
+#end
+#foreach ($child in $binding.alternativesList)
+#checkChild($child)
+#end

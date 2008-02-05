@@ -47,8 +47,7 @@ import org.xml.sax.SAXException;
 
 /**
  * This class implements an ant task to generate COXB binding data from
- * JAXB cobol annotated instances. The binding data is temporarily stored in an
- * XML file on which XSL transforms are applied to generated the target classes.
+ * JAXB cobol annotated instances.
  * 
  * @author Fady Moussallam
  * 
@@ -60,6 +59,9 @@ public class CoxbBindingGenerator extends Task {
 	
 	/** The package name used for JAXB classes. */
 	private String mJaxbPackageName;
+	
+	/** The target package name for generated binding classes. */
+	private String mCoxbPackageName;
 	
 	/** The location where JAXB classes live. */
 	private File mJaxbDir;
@@ -81,6 +83,9 @@ public class CoxbBindingGenerator extends Task {
 	
 	/** The JAXB package name attribute. */
 	private static final String JAXB_PACKAGE_ATTR = "name";
+	
+	/** The additional package level for generated binding classes. */
+	private static final String COXB_PACKAGE_SUFFIX = "bind";
 	
 	/**
 	 *  The ant method. Generates COXB binding code.
@@ -121,8 +126,10 @@ public class CoxbBindingGenerator extends Task {
     	
     	try {
         	/* Create a visitor */
-        	CoxbReflectVisitor visitor = new CoxbReflectVisitor(
-        			mJaxbPackageName, mTargetDir);
+        	CoxbGenReflectVisitor visitor = new CoxbGenReflectVisitor(
+        			mTargetDir.getAbsolutePath(),
+        			getJaxbPackageName(),
+        			getCoxbPackageName());
         	/* Bind the root object to a COXB type */
         	CComplexReflectBinding ce = new CComplexReflectBinding(
                     jaxbObjectFactory, jaxbRootObject);
@@ -429,6 +436,26 @@ public class CoxbBindingGenerator extends Task {
 	 */
 	public final void setJaxbPackageName(final String jaxbPackageName) {
 		mJaxbPackageName = jaxbPackageName;
+	}
+
+	/**
+	 * @return the package name for generated binding classes
+	 */
+	public final String getCoxbPackageName() {
+		if (mCoxbPackageName == null || mCoxbPackageName.length() == 0) {
+			if (mJaxbPackageName == null || mJaxbPackageName.length() == 0) {
+				return mCoxbPackageName;
+			}
+			return mJaxbPackageName + '.' + COXB_PACKAGE_SUFFIX;
+		}
+		return mCoxbPackageName;
+	}
+
+	/**
+	 * @param coxbPackageName package name for generated binding classes to set
+	 */
+	public final void setCoxbPackageName(final String coxbPackageName) {
+		mCoxbPackageName = coxbPackageName;
 	}
 
 

@@ -22,12 +22,12 @@
     
     <dependency>
       <groupId>com.legsem.legstar</groupId>
-      <artifactId>legstar-coxbrt</artifactId>
+      <artifactId>legstar-codegen</artifactId>
     </dependency>
     
     <dependency>
       <groupId>com.legsem.legstar</groupId>
-      <artifactId>legstar-common</artifactId>
+      <artifactId>legstar-coxbrt</artifactId>
     </dependency>
     
     <dependency>
