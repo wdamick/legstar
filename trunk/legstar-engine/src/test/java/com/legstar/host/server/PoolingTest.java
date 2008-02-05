@@ -39,7 +39,7 @@ import com.legstar.messaging.LegStarMessagePart;
 import com.legstar.messaging.LegStarRequest;
 import com.legstar.config.Constants;
 import com.legstar.messaging.RequestException;
-import com.legstar.work.manager.LsWorkManager;
+import com.legstar.work.manager.WorkManagerImpl;
 
 import commonj.work.Work;
 import commonj.work.WorkEvent;
@@ -69,7 +69,7 @@ public class PoolingTest extends TestCase {
 	public void testScheduleWork() throws Exception {
 		HierarchicalConfiguration config = Util.getCombinedConfiguration();
 		ExecutorService executor = Executors.newFixedThreadPool(CLIENT_THREADS);
-		WorkManager wm = new LsWorkManager(executor);
+		WorkManager wm = new WorkManagerImpl(executor);
 		EngineHandler engHandler = new EngineHandler(config);
 		engHandler.init();
 		
@@ -93,7 +93,7 @@ public class PoolingTest extends TestCase {
 	public void testScheduleWorkInvalidAddress() throws Exception {
 		HierarchicalConfiguration config = Util.getCombinedConfiguration();
 		ExecutorService executor = Executors.newFixedThreadPool(CLIENT_THREADS);
-		WorkManager wm = new LsWorkManager(executor);
+		WorkManager wm = new WorkManagerImpl(executor);
 		EngineHandler engHandler = new EngineHandler(config);
 		engHandler.init();
 		
@@ -146,7 +146,7 @@ public class PoolingTest extends TestCase {
 	public void testScheduleMultipleWork() throws Exception {
 		HierarchicalConfiguration config = Util.getCombinedConfiguration();
 		ExecutorService executor = Executors.newFixedThreadPool(CLIENT_THREADS);
-		WorkManager wm = new LsWorkManager(executor);
+		WorkManager wm = new WorkManagerImpl(executor);
 		EngineHandler engHandler = new EngineHandler(config);
 		engHandler.init();
 		
@@ -176,7 +176,7 @@ public class PoolingTest extends TestCase {
 	public void testScheduleMultiplePools() throws Exception {
 		HierarchicalConfiguration config = Util.getCombinedConfiguration();
 		ExecutorService executor = Executors.newFixedThreadPool(CLIENT_THREADS);
-		WorkManager wm = new LsWorkManager(executor);
+		WorkManager wm = new WorkManagerImpl(executor);
 		EngineHandler engHandler = new EngineHandler(config);
 		engHandler.init();
 

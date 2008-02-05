@@ -32,7 +32,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.legstar.pool.manager.ConnectionPoolManager;
 import com.legstar.work.invoke.InvokeWorkFactory;
-import com.legstar.work.manager.LsWorkManager;
+import com.legstar.work.manager.WorkManagerImpl;
 
 import commonj.work.WorkException;
 import commonj.work.WorkManager;
@@ -164,7 +164,7 @@ public final class EngineHolder {
 		if (sWorkManager == null) {
 			int threadPoolSize = sConfig.getInt(WM_TPOOL_SIZE);
 			sExecutor = Executors.newFixedThreadPool(threadPoolSize);
-			sWorkManager = new LsWorkManager(sExecutor);
+			sWorkManager = new WorkManagerImpl(sExecutor);
 		}
 	}
 

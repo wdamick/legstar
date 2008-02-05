@@ -28,22 +28,18 @@ import commonj.work.WorkItem;
  * Implements a <code>WorkEvent</code> as required by the commonj spec.
  * Original work from Apache Software Foundation.
  */
-public class LsWorkEvent implements WorkEvent {
+public class WorkEventImpl implements WorkEvent {
 
 	/** Work item for this event. */
-	private WorkItem mWorkItem;
+	private WorkItemImpl mWorkItem;
 
-	/** Exception if something has gone wrong.  */
-	private WorkException mException;
-	
 	/**
 	 * Instantiates the event.
 	 *
 	 * @param workItem Work item for this event.
 	 */
-	public LsWorkEvent(final LsWorkItem workItem) {
+	public WorkEventImpl(final WorkItemImpl workItem) {
 		mWorkItem = workItem;
-		mException = workItem.getException();
 	}
 
 	/**
@@ -71,6 +67,6 @@ public class LsWorkEvent implements WorkEvent {
 	 * @return Work exception.
 	 */
 	public final WorkException getException() {
-	    return mException;
+	    return mWorkItem.getException();
 	}
 }
