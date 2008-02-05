@@ -70,11 +70,11 @@ Initializes children Velocity Template.
 #if(${child.isCustomVariable()} == true)
         ${helper.getFieldName($child)}.setIsCustomVariable(${child.isCustomVariable()});
 #end
-#if(${helper.isEmpty("${child.getMarshalChoiceStrategyClassName()}")} == false)
+#if(${helper.isEmpty(${child.getMarshalChoiceStrategyClassName()})} == false)
         ${helper.getFieldName($child)}.setMarshalChoiceStrategyClassName(
             "${child.getMarshalChoiceStrategyClassName()}");
 #end
-#if(${helper.isEmpty("${child.getUnmarshalChoiceStrategyClassName()}")} == false)
+#if(${helper.isEmpty(${child.getUnmarshalChoiceStrategyClassName()})} == false)
         ${helper.getFieldName($child)}.setUnmarshalChoiceStrategyClassName(
             "${child.getUnmarshalChoiceStrategyClassName()}");
 #end
