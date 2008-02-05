@@ -1,0 +1,81 @@
+#**
+Initializes children Velocity Template.
+@author Fady
+@version 1.1.1
+*#
+## ==================================================================
+## Each child of a complex element is initialized
+##
+#foreach ($child in $childrenList)
+#if($helper.getGenericType($child).equals("simple") || $helper.getGenericType($child).equals("enum"))
+        $helper.getFieldName($child) = BF.create${helper.getCreateMethod($child)}("${child.bindingName}",
+#if($child.isBound())
+               "$child.jaxbName", ${helper.getJaxbTypeName($child)}.class, ${parent-binding});
+#else
+               ${parent-binding});
+#end
+#end
+#if($helper.getGenericType($child).equals("choice"))
+        $helper.getFieldName($child) = new ${helper.getCoxbTypeName($child)}("${child.bindingName}", ${parent-binding});
+#end
+#if($helper.getGenericType($child).equals("complex"))
+        $helper.getFieldName($child) = new ${helper.getCoxbTypeName($child)}("${child.bindingName}",
+               "$child.jaxbName", ${parent-binding}, null);
+#end
+#if($helper.getGenericType($child).equals("complexArray"))
+        ${helper.getFieldName($child)}Item = new ${helper.getItemCoxbTypeName($child)}("${child.bindingName}Item",
+               "$child.jaxbName", ${parent-binding}, null);
+        $helper.getFieldName($child) = new ${helper.getCoxbTypeName($child)}("${child.bindingName}",
+               "$child.jaxbName", ${parent-binding}, ${helper.getFieldName($child)}Item);
+#end
+#if(${helper.isEmpty("${child.getCobolName()}")} == false)
+        ${helper.getFieldName($child)}.setCobolName("${child.getCobolName()}");
+#end
+#if(${child.getByteLength()} > 0)
+        ${helper.getFieldName($child)}.setByteLength(${child.getByteLength()});
+#end
+#if(${child.isJustifiedRight()} == true)
+        ${helper.getFieldName($child)}.setIsJustifiedRight(${child.isJustifiedRight()});
+#end
+#if(${child.getTotalDigits()} > 0)
+        ${helper.getFieldName($child)}.setTotalDigits(${child.getTotalDigits()});
+#end
+#if(${child.getFractionDigits()} > 0)
+        ${helper.getFieldName($child)}.setFractionDigits(${child.getFractionDigits()});
+#end
+#if(${child.isSigned()} == true)
+        ${helper.getFieldName($child)}.setIsSigned(${child.isSigned()});
+#end
+#if(${child.isSignLeading()} == true)
+        ${helper.getFieldName($child)}.setIsSignLeading(${child.isSignLeading()});
+#end
+#if(${child.isSignSeparate()} == true)
+        ${helper.getFieldName($child)}.setIsSignSeparate(${child.isSignSeparate()});
+#end
+#if(${child.getMinOccurs()} > 0)
+        ${helper.getFieldName($child)}.setMinOccurs(${child.getMinOccurs()});
+#end
+#if(${child.getMaxOccurs()} > 0)
+        ${helper.getFieldName($child)}.setMaxOccurs(${child.getMaxOccurs()});
+#end
+#if(${helper.isEmpty("${child.getRedefines()}")} == false)
+        ${helper.getFieldName($child)}.setRedefines("${child.getRedefines()}");
+#end
+#if(${child.isODOObject()} == true)
+        ${helper.getFieldName($child)}.setIsODOObject(${child.isODOObject()});
+#end
+#if(${helper.isEmpty("${child.getDependingOn()}")} == false)
+        ${helper.getFieldName($child)}.setDependingOn("${child.getDependingOn()}");
+#end
+#if(${child.isCustomVariable()} == true)
+        ${helper.getFieldName($child)}.setIsCustomVariable(${child.isCustomVariable()});
+#end
+#if(${helper.isEmpty("${child.getMarshalChoiceStrategyClassName()}")} == false)
+        ${helper.getFieldName($child)}.setMarshalChoiceStrategyClassName(
+            "${child.getMarshalChoiceStrategyClassName()}");
+#end
+#if(${helper.isEmpty("${child.getUnmarshalChoiceStrategyClassName()}")} == false)
+        ${helper.getFieldName($child)}.setUnmarshalChoiceStrategyClassName(
+            "${child.getUnmarshalChoiceStrategyClassName()}");
+#end
+#end

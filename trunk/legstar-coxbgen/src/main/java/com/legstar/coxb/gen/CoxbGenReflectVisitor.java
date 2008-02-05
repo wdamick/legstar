@@ -20,8 +20,6 @@
  *******************************************************************************/
 package com.legstar.coxb.gen;
 
-import java.io.File;
-
 import com.legstar.coxb.CobolElementVisitor;
 import com.legstar.coxb.ICobolArrayBinaryBinding;
 import com.legstar.coxb.ICobolArrayComplexBinding;
@@ -44,39 +42,39 @@ import com.legstar.coxb.ICobolStringBinding;
 import com.legstar.coxb.ICobolNationalBinding;
 import com.legstar.coxb.ICobolZonedDecimalBinding;
 import com.legstar.coxb.host.HostException;
-import com.legstar.xslt.XSLTException;
 
 /**
- * This class implements the visitor pattern in order to reflect a JAXB object
- * tree instance into an XML format. Each complex element, choice element
- * and complex array generates a separate XML file that describes the elements
- * and can be later used by XSL to generate code.
+ * This class implements the visitor pattern in order to reflect on a JAXB
+ * object tree instance. Each complex element, choice element and complex 
+ * array generates a separate java class which code is generated using
+ * appropriate velocity templates.
  *
  * @author Fady Moussallam
  * 
 */
-public class CoxbReflectVisitor extends CobolElementVisitor {
+public class CoxbGenReflectVisitor extends CobolElementVisitor {
 
-	/** All classes reflected upon belong to this package. */
-	private String mPackageName;
-	
-	/** Class used to create source files. */
-	private CoxbWriter mWriter;
-	
+	/** Actual code generator. */
+	private CoxbGenWriter mWriter;
 	
 	/**
 	 * Constructor.
      * 
-	 * @param packageName the package name used for all generated binding
-	 *  classes
-	 * @param targetDir the target directory for generated files
+	 * @param targetDir an existing directory where new files are to be created
+	 * @param jaxbPackageName the jaxb classes package name
+	 * @param coxbPackageName the target generated binding classes package name
 	 * @throws HostException if directory provided is not accessible
 	 */
-	public CoxbReflectVisitor(
-			final String packageName,
-			final File targetDir) throws HostException {
-		mPackageName = packageName;
-		mWriter = new CoxbWriter(targetDir);
+	public CoxbGenReflectVisitor(
+			final String targetDir,
+			final String jaxbPackageName,
+			final String coxbPackageName) throws HostException {
+		try {
+			mWriter = new CoxbGenWriter(
+					targetDir, jaxbPackageName, coxbPackageName);
+		} catch (CodeGenException e) {
+			throw new HostException(e);
+		}
 	}
 	
 	/** {@inheritDoc} */
@@ -84,18 +82,8 @@ public class CoxbReflectVisitor extends CobolElementVisitor {
 	public final void visit(final ICobolComplexBinding ce)
 		throws HostException {
 		
-		/* If this is the child of a parent complex item, first insert a
-		 *  property description in parent XML*/
-		if (ce.getParentBinding() != null) {
-			mWriter.write(CoxbFormatter.formatProperty(ce));
-		}
-		
-		/* Each complex element goes in its own XML file*/
-		String tempFile = mWriter.openWrite(
-				CoxbFormatter.formatComplexProlog(ce, mPackageName));
-		
 		/* Create an ordered list of properties in this complex element.
-		 * Since we are unmarshaling, bound objects  do not pre-exist so
+		 * Since we are unmarshaling, bound objects do not pre-exist so
 		 * we need to create them. */
 		ce.createJaxbObject();
 		java.util.List < ICobolBinding > children =
@@ -106,15 +94,13 @@ public class CoxbReflectVisitor extends CobolElementVisitor {
 		for (ICobolBinding child : children) {
 			child.accept(this);
 		}
-		mWriter.writeClose(CoxbFormatter.formatComplexEpilog());
 		
-		/* Apply XSL transform on the XML just formatted */
-		CoxbBinding cb;
+		/* Now that all children have been processed, its time to generate
+		 * this element binding*/
 		try {
-			cb = new CoxbBinding();
-			cb.createBinding(tempFile, mWriter.getTargetDirName());
-		} catch (XSLTException e) {
-			throw (new HostException("XSLTException " + e.getMessage()));
+			mWriter.write(ce);
+		} catch (CodeGenException e) {
+			throw new HostException(e);
 		}
 		return;
 	}
@@ -123,12 +109,7 @@ public class CoxbReflectVisitor extends CobolElementVisitor {
 	@Override
 	public final void visit(final ICobolChoiceBinding ce)
 		throws HostException {
-		/* First insert a property description in parent XML */
-		mWriter.write(CoxbFormatter.formatProperty(ce));
 
-		/* Create a separate XML to describe alternatives */
-		String tempFile = mWriter.openWrite(
-				CoxbFormatter.formatComplexProlog(ce, mPackageName));
 		/* We want to reflect on all alternatives */
 		for (ICobolBinding alt : ce.getAlternativesList()) {
 			try {
@@ -137,15 +118,12 @@ public class CoxbReflectVisitor extends CobolElementVisitor {
 				continue;
 			}
 		}
-		mWriter.writeClose(CoxbFormatter.formatComplexEpilog());
-
-		/* Apply XSL transform on the XML just formatted */
-		CoxbBinding cb;
+		/* Now that all alternatives have been processed, its time to generate
+		 * this element binding*/
 		try {
-			cb = new CoxbBinding();
-			cb.createBinding(tempFile, mWriter.getTargetDirName());
-		} catch (XSLTException e) {
-			throw (new HostException("XSLTException " + e.getMessage()));
+			mWriter.write(ce);
+		} catch (CodeGenException e) {
+			throw new HostException(e);
 		}
 		return;
 	}
@@ -154,24 +132,17 @@ public class CoxbReflectVisitor extends CobolElementVisitor {
 	@Override
 	public final void visit(final ICobolArrayComplexBinding ce)
 		throws HostException {
-		/* First insert a property description in parent XML */
-		mWriter.write(CoxbFormatter.formatProperty(ce));
-
-		String tempFile = mWriter.openWrite(
-				CoxbFormatter.formatComplexProlog(ce, mPackageName));
 		/* We reflect on only one item of the array */
 		ce.createJaxbObject();
 		ICobolBinding itemDesc = ce.getComplexItemBinding();
 		itemDesc.accept(this);
-		mWriter.writeClose(CoxbFormatter.formatComplexEpilog());
-
-		/* Apply XSL transform on the XML just formatted */
-		CoxbBinding cb;
+		
+		/* Now that an item has been processed, its time to generate
+		 * this element binding*/
 		try {
-			cb = new CoxbBinding();
-			cb.createBinding(tempFile, mWriter.getTargetDirName());
-		} catch (XSLTException e) {
-			throw (new HostException("XSLTException " + e.getMessage()));
+			mWriter.write(ce);
+		} catch (CodeGenException e) {
+			throw new HostException(e);
 		}
 		return;
 	}
@@ -180,14 +151,12 @@ public class CoxbReflectVisitor extends CobolElementVisitor {
 	@Override
 	public final void visit(final ICobolStringBinding ce)
 		throws HostException {
-		mWriter.write(CoxbFormatter.formatProperty(ce));
 		return;
 	}
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolArrayStringBinding ce)
 		throws HostException {
-		mWriter.write(CoxbFormatter.formatProperty(ce));
 		return;
 	}
 
@@ -195,14 +164,12 @@ public class CoxbReflectVisitor extends CobolElementVisitor {
 	@Override
 	public final void visit(final ICobolNationalBinding ce)
 		throws HostException {
-		mWriter.write(CoxbFormatter.formatProperty(ce));
 		return;
 	}
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolArrayNationalBinding ce)
 		throws HostException {
-		mWriter.write(CoxbFormatter.formatProperty(ce));
 		return;
 	}
 
@@ -210,14 +177,12 @@ public class CoxbReflectVisitor extends CobolElementVisitor {
 	@Override
 	public final void visit(final ICobolZonedDecimalBinding ce)
 		throws HostException {
-		mWriter.write(CoxbFormatter.formatProperty(ce));
 		return;
 	}
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolArrayZonedDecimalBinding ce)
 		throws HostException {
-		mWriter.write(CoxbFormatter.formatProperty(ce));
 		return;
 	}
 
@@ -225,14 +190,12 @@ public class CoxbReflectVisitor extends CobolElementVisitor {
 	@Override
 	public final void visit(final ICobolPackedDecimalBinding ce)
 		throws HostException {
-		mWriter.write(CoxbFormatter.formatProperty(ce));
 		return;
 	}
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolArrayPackedDecimalBinding ce)
 		throws HostException {
-		mWriter.write(CoxbFormatter.formatProperty(ce));
 		return;
 	}
 
@@ -240,14 +203,12 @@ public class CoxbReflectVisitor extends CobolElementVisitor {
 	@Override
 	public final void visit(final ICobolBinaryBinding ce)
 		throws HostException {
-		mWriter.write(CoxbFormatter.formatProperty(ce));
 		return;
 	}
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolArrayBinaryBinding ce)
 		throws HostException {
-		mWriter.write(CoxbFormatter.formatProperty(ce));
 		return;
 	}
 
@@ -255,14 +216,12 @@ public class CoxbReflectVisitor extends CobolElementVisitor {
 	@Override
 	public final void visit(final ICobolFloatBinding ce)
 		throws HostException {
-		mWriter.write(CoxbFormatter.formatProperty(ce));
 		return;
 	}
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolArrayFloatBinding ce)
 		throws HostException {
-		mWriter.write(CoxbFormatter.formatProperty(ce));
 		return;
 	}
 
@@ -270,57 +229,25 @@ public class CoxbReflectVisitor extends CobolElementVisitor {
 	@Override
 	public final void visit(final ICobolDoubleBinding ce)
 		throws HostException {
-		mWriter.write(CoxbFormatter.formatProperty(ce));
 		return;
 	}
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolArrayDoubleBinding ce)
 		throws HostException {
-		mWriter.write(CoxbFormatter.formatProperty(ce));
 		return;
 	}
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolOctetStreamBinding ce)
 		throws HostException {
-		mWriter.write(CoxbFormatter.formatProperty(ce));
 		return;
 	}
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolArrayOctetStreamBinding ce)
 		throws HostException {
-		mWriter.write(CoxbFormatter.formatProperty(ce));
 		return;
 	}
 
-	/**
-	 * @return the JAXB classes reflected upon package name
-	 */
-	public final String getPackageName() {
-		return mPackageName;
-	}
-
-	/**
-	 * @param packageName the package name to set
-	 */
-	public final void setPackageName(final String packageName) {
-		mPackageName = packageName;
-	}
-
-	/**
-	 * @return the Writer instance
-	 */
-	public final CoxbWriter getWriter() {
-		return mWriter;
-	}
-
-	/**
-	 * @param writer the Writer instance to set
-	 */
-	public final void setWriter(final CoxbWriter writer) {
-		mWriter = writer;
-	}
-	
 }

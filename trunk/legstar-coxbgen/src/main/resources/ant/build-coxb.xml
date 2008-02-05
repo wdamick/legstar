@@ -1,9 +1,7 @@
 <!-- =================================================================================
-     This script generates binding classes from JAXB objects. It is a 2 stages
-     process: first a temporary XML is created by reflecting on the JAXB objects
-     and then a set of cobol binding classes is generated, using XSLT, to  
-     provide efficient runtime code for visitors (avoids reflection and use of
-     annotations at runtime).
+     This script generates binding classes from JAXB objects. A set of cobol binding
+     classes is generated, to provide efficient runtime code for visitors (avoids
+     reflection and use of annotations at runtime).
   -->
 <project basedir=".." default="compileCOXB" name="generate-COXB-classes">
 
