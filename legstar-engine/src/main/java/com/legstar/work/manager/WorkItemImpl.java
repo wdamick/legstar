@@ -28,7 +28,7 @@ import commonj.work.WorkItem;
  * Implements a <code>WorkItem</code> as required by the commonj spec.
   * Original work from Apache Software Foundation.
 */
-class LsWorkItem implements WorkItem {
+class WorkItemImpl implements WorkItem {
 
 	/** Identifier if this work item. */
 	private String mId;
@@ -51,7 +51,7 @@ class LsWorkItem implements WorkItem {
 	 * @param id of this work event.
 	 * @param orginalWork associated work unit
 	 */
-	protected LsWorkItem(final String id, final Work orginalWork) {
+	protected WorkItemImpl(final String id, final Work orginalWork) {
 		mId = id;
 		mOriginalWork = orginalWork;
 		mResult = null;
@@ -148,8 +148,8 @@ class LsWorkItem implements WorkItem {
 	 *         otherwise..
 	 */
 	public boolean equals(final Object obj) {
-	    return (obj != null) && (obj.getClass() == LsWorkItem.class)
-	    	&& ((LsWorkItem) obj).mId.equals(mId);
+	    return (obj != null) && (obj.getClass() == WorkItemImpl.class)
+	    	&& ((WorkItemImpl) obj).mId.equals(mId);
 	}
 	
 	/**
@@ -162,10 +162,10 @@ class LsWorkItem implements WorkItem {
 	 *         is less than, equal to, or greater than the specified object.
 	 */
 	public int compareTo(final Object o) {
-	    if (o.getClass() != LsWorkItem.class) {
+	    if (o.getClass() != WorkItemImpl.class) {
 	        throw new ClassCastException(o.getClass().getName());
 	    } else {
-	        return ((LsWorkItem) o).getId().compareTo(getId());
+	        return ((WorkItemImpl) o).getId().compareTo(getId());
 	    }
 	}
 }

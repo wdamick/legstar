@@ -19,12 +19,13 @@
  *  
  *******************************************************************************/
 package com.legstar.work.manager;
-import java.rmi.server.UID;
 import java.util.Collection;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.RejectedExecutionException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import commonj.work.Work;
 import commonj.work.WorkEvent;
@@ -39,21 +40,20 @@ import commonj.work.WorkRejectedException;
  * (by a J2EE container for instance).
  * Original work from Apache Software Foundation.
  */
-public class LsWorkManager implements WorkManager {
+public class WorkManagerImpl implements WorkManager {
 	
-	/** Map of work items currently handled by the work manager. */
-	private Map < LsWorkItem, WorkListener > mWorkItems =
-		new ConcurrentHashMap < LsWorkItem, WorkListener >();
-
 	/** Thread-pool. */
 	private ExecutorService mExecutor;
 	
+	/** Logger. */
+	private static final Log LOG = LogFactory.getLog(WorkManagerImpl.class);
+
 	/**
-	 * Creates a work manager with a fixed size thread pool.
+	 * Creates a work manager from an executor.
 	 * 
-	 * @param executor Thread-pool manager.
+	 * @param executor Thread-pool for work unit execution.
 	 */
-	public LsWorkManager(final ExecutorService executor) {
+	public WorkManagerImpl(final ExecutorService executor) {
 		mExecutor = executor;
 	}
 	/**
@@ -77,20 +77,17 @@ public class LsWorkManager implements WorkManager {
 	public final WorkItem schedule(
 			final Work work,
 			final WorkListener workListener) throws WorkRejectedException {
- 	    LsWorkItem workItem = new LsWorkItem(new UID().toString(), work);
-	    if (scheduleWork(workItem, work)) {
-	        if (workListener != null) {
-	        	mWorkItems.put(workItem, workListener);
-	        }
-	        workAccepted(workItem, work);
+ 	    WorkItemImpl workItem = new WorkItemImpl(
+ 	    		UUID.randomUUID().toString(), work);
+		LOG.debug("Scheduling new work item " + workItem.getId());
+        try {
+			mExecutor.execute(new DecoratingWork(workItem, work, workListener));
+	        workAccepted(workItem, work, workListener);
 	        return workItem;
-	    } else {
-	        workItem.setStatus(WorkEvent.WORK_REJECTED);
-	        if (workListener != null) {
-	            workListener.workRejected(new LsWorkEvent(workItem));
-	        }
-	        throw new WorkRejectedException("Unable to schedule work");
-	    }
+		} catch (RejectedExecutionException e) {
+	    	workRejected(workItem, work, workListener);
+			throw new WorkRejectedException(e);
+		}
 	}
 	
 	/**
@@ -120,80 +117,97 @@ public class LsWorkManager implements WorkManager {
 	}
 	
 	/**
-	 * Method provided for subclasses to indicate a work accptance.
+	 * Method provided for subclasses to indicate a work acceptance.
 	 *
 	 * @param workItem Work item representing the work that was accepted.
 	 * @param work     Work that was accepted.
+	 * @param workListener Work listener for callbacks.
 	 */
 	private void workAccepted(
-			final LsWorkItem workItem, final Work work) {
- 	    WorkListener listener = (WorkListener) mWorkItems.get(workItem);
-	    if (listener != null) {
+			final WorkItemImpl workItem,
+			final Work work,
+			final WorkListener workListener) {
+		synchronized (workItem) {
+			LOG.debug("Work item " + workItem.getId() + " accepted");
 	        workItem.setStatus(WorkEvent.WORK_ACCEPTED);
-	        WorkEvent event = new LsWorkEvent(workItem);
-	        listener.workAccepted(event);
-	    }
+		    if (workListener != null) {
+		        WorkEvent event = new WorkEventImpl(workItem);
+		        workListener.workAccepted(event);
+		    }
+		}
+	}
+	
+	/**
+	 * Method to indicate a work was rejected.
+	 * @param workItem Work item representing the work that was started.
+	 * @param work     Work that was started.
+	 * @param workListener Work listener for callbacks.
+	 */
+	private void workRejected(
+			final WorkItemImpl workItem,
+			final Work work,
+			final WorkListener workListener) {
+		synchronized (workItem) {
+			LOG.debug("Work item " + workItem.getId() + " rejected");
+	        workItem.setStatus(WorkEvent.WORK_REJECTED);
+	        if (workListener != null) {
+	            workListener.workRejected(new WorkEventImpl(workItem));
+	        }
+		}
 	}
 	
 	/**
 	 * Method to indicate a work start.
 	 * @param workItem Work item representing the work that was started.
-	 * @param work     Work that was started.
+	 * @param decoratingWork  Work that was started with additional properties.
 	 */
-	private synchronized void workStarted(
-			final LsWorkItem workItem, final Work work) {
-	    WorkListener listener = (WorkListener) mWorkItems.get(workItem);
-	    if (listener != null) {
+	private void workStarted(
+			final WorkItemImpl workItem,
+			final DecoratingWork decoratingWork) {
+		synchronized (workItem) {
+			LOG.debug("Work item " + workItem.getId() + " started");
 	        workItem.setStatus(WorkEvent.WORK_STARTED);
-	        WorkEvent event = new LsWorkEvent(workItem);
-	        listener.workStarted(event);
-	    }
+		    WorkListener workListener = decoratingWork.getWorkListener();
+		    if (workListener != null) {
+		        WorkEvent event = new WorkEventImpl(workItem);
+		        workListener.workStarted(event);
+		    }
+		}
 	}
 	
 	/**
 	 * Method to indicate a work completion.
 	 * @param workItem Work item representing the work that was completed.
-	 * @param work     Work that was completed.
+	 * @param decoratingWork Work that was completed with additional properties.
 	 */
 	private void workCompleted(
-			final LsWorkItem workItem, final Work work) {
-	    workCompleted(workItem, work, null);
+			final WorkItemImpl workItem, final DecoratingWork decoratingWork) {
+		workCompleted(workItem, decoratingWork, null);
 	}
 	
 	/**
 	 * Method to indicate a work completion with an exception.
 	 * @param workItem Work item representing the work that was completed.
-	 * @param work     Work that was completed.
+	 * @param decoratingWork Work that was completed with additional properties.
 	 * @param exception the exception that was raised
 	 */
 	private void workCompleted(
-			final LsWorkItem workItem,
-			final Work work,
+			final WorkItemImpl workItem,
+			final DecoratingWork decoratingWork,
 			final WorkException exception) {
-	    WorkListener listener = (WorkListener) mWorkItems.get(workItem);
-	    if (listener != null) {
+		synchronized (workItem) {
+			LOG.debug("Work item " + workItem.getId() + " completed");
 	        workItem.setStatus(WorkEvent.WORK_COMPLETED);
-	        workItem.setResult(work);
+	        workItem.setResult(decoratingWork.getDecoratedWork());
 	        workItem.setException(exception);
-	        WorkEvent event = new LsWorkEvent(workItem);
-	        listener.workCompleted(event);
-	        mWorkItems.remove(workItem);
-	    }
-	}
-	
-	/**
-	 * Schedules the work using the threadpool.
-	 * @param workItem Work item representing the work that was completed.
-	 * @param work     Work that was completed.
-	 * @return true if scheduling was accepted
-	 */
-	private boolean scheduleWork(final LsWorkItem workItem, final Work work) {
-	    try {
-	        mExecutor.execute(new DecoratingWork(workItem, work));
-	        return true;
-	    } catch (RejectedExecutionException ex) {
-	        return false;
-	    }
+			LOG.debug("Work item " + workItem.getId()
+					+ " updated with results");
+		    WorkListener workListener = decoratingWork.getWorkListener();
+		    if (workListener != null) {
+		        WorkEvent event = new WorkEventImpl(workItem);
+		        workListener.workCompleted(event);
+		    }
+		}
 	}
 	
 	/**
@@ -203,35 +217,56 @@ public class LsWorkManager implements WorkManager {
 	private final class DecoratingWork implements Runnable {
 		
 	    /** Work item for this work. */
-	    private LsWorkItem mWorkItem;
+	    private WorkItemImpl mWorkItem;
 	    
 	    /** The original work. */
 	    private Work mDecoratedWork;
+	    
+	    /** Observer listening on this work item events. */
+	    private WorkListener mWorkListener;
 	    
 	    /**
 	     * Initializes the work item and underlying work.
 	     * @param workItem Work item to be scheduled.
 	     * @param decoratedWork original work.
+	     * @param workListener an listener on the work events.
 	     */
-	    private DecoratingWork(
-	    		final LsWorkItem workItem,
-	    		final Work decoratedWork) {
+	    public DecoratingWork(
+	    		final WorkItemImpl workItem,
+	    		final Work decoratedWork,
+	    		final WorkListener workListener) {
 	    	mWorkItem = workItem;
 	    	mDecoratedWork = decoratedWork;
+	    	mWorkListener = workListener;
 	    }
 	    
 	    /**
 	     * Overrides the run method.
 	     */
 	    public void run() {
-	        workStarted(mWorkItem, mDecoratedWork);
+	        workStarted(mWorkItem, this);
 	        try {
 	        	mDecoratedWork.run();
-	            workCompleted(mWorkItem, mDecoratedWork);
+	            workCompleted(mWorkItem, this);
 	        } catch (Throwable th) {
-	            workCompleted(mWorkItem, mDecoratedWork,
+				LOG.error("Work item: " + mWorkItem.getId() + " failed", th);
+	            workCompleted(mWorkItem, this,
 	            		new WorkException(th.getMessage(), th));
 	        }
+	    }
+	    
+	    /**
+	     * @return the current work listener
+	     */
+	    public WorkListener getWorkListener() {
+	    	return mWorkListener;
+	    }
+
+	    /**
+	     * @return the decorated work
+	     */
+	    public Work getDecoratedWork() {
+	    	return mDecoratedWork;
 	    }
 	}
 
