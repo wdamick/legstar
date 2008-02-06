@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 
 import com.legstar.config.Constants;
+import com.legstar.util.Util;
 
 import junit.framework.TestCase;
 

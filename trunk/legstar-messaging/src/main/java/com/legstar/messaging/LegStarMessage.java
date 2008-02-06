@@ -132,5 +132,60 @@ public class LegStarMessage {
 	public final void setHeaderPart(final LegStarHeaderPart headerPart) {
 		mHeaderPart = headerPart;
 	}
+	
+	/** {@inheritDoc} */
+	public final String toString() {
+        StringBuffer sb = new StringBuffer(80);
+        sb.append(this.getClass().getSimpleName());
+        sb.append("{this=").append(Integer.toHexString(
+        		System.identityHashCode(this)));
+        sb.append(", headerPart=").append(mHeaderPart.toString());
+		for (int i = 0; i < mHeaderPart.getDataPartsNumber(); i++) {
+			LegStarMessagePart part = mDataParts.get(i);
+		    sb.append(", messagePart=").append(part.toString());
+		}
+        sb.append("\"}");
+        return sb.toString();                        
+	}
+
+	/**
+	 * Two messages are equal if headers and all parts are equal.
+	 * @param obj message part to compare to
+	 * @return true if message part compared to has same id and content.
+	 */
+	public final boolean equals(final Object obj) {
+		if (obj == null) {
+			return false;
+		}
+        if (!(obj instanceof LegStarMessage)) {
+			return false;
+		}
+        LegStarMessage msg = (LegStarMessage) obj;
+        if (!msg.getHeaderPart().equals(getHeaderPart())) {
+        	return false;
+        }
+        if (msg.getDataParts().size() != getDataParts().size()) {
+        	return false;
+        }
+        for (int i = 0; i < msg.getDataParts().size(); i++) {
+        	if (!msg.getDataParts().get(i).equals(
+        			getDataParts().get(i))) {
+        		return false;
+        	}
+        }
+        return true;
+	}
+	
+    /**
+     * @see Object#hashCode() 
+     * {@inheritDoc}
+     */
+    public final int hashCode() {
+    	int hash = getHeaderPart().hashCode();
+        for (int i = 0; i < getDataParts().size(); i++) {
+        	hash += getDataParts().get(i).hashCode();
+        }
+        return hash;
+    }
 
 }
