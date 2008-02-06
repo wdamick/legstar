@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.legstar.config.Constants;
+import com.legstar.util.Util;
 
 import junit.framework.TestCase;
 
@@ -106,6 +107,36 @@ public class LegStarMessageTest extends TestCase {
 		assertEquals(0, message.getHeaderPart().getJsonStringLen());
 		assertEquals(null, message.getHeaderPart().getJsonString());
 		assertEquals(0, message.getHeaderPart().getDataPartsNumber());
+		
+	}
+
+	public final void testToString() throws Exception {
+		byte[] hostBytes = Util.toByteArray("d3e2d6d2c8c5c1c4404040404040404000000077000000020000006fc07fc3c9c3e2d6a4a3c39695a38189958599a27f7aad7fd9859793a8c481a3817f6b7fd9859793a8e2a381a3a4a27fbd6b7fc3c9c3e2c38881959585937f7a7fd3e2c6c9d3c5c1c360c3c8c1d5d5c5d37f6b7fc3c9c3e2d7999687998194d58194857f7a7fd3e2c6c9d3c5c1c37fd0d8a48599a8c481a3814040404040404000000004f1f2f3f4d8a48599a8d3899489a340404040404000000002f5f6");
+		ByteArrayInputStream hostStream = new ByteArrayInputStream(hostBytes);
+		LegStarMessage message = new LegStarMessage();
+		message.recvFromHost(hostStream);
+		System.out.println(message.toString());
+		assertTrue(message.toString().contains("dataPartsNumber=2"));
+		assertTrue(message.toString().contains("\"CICSOutContainers\":[\"ReplyData\",\"ReplyStatus\"]"));
+		assertTrue(message.toString().contains("\"CICSChannel\":\"LSFILEAC-CHANNEL\""));
+		assertTrue(message.toString().contains("\"CICSChannel\":\"LSFILEAC-CHANNEL\""));
+		assertTrue(message.toString().contains("\"CICSProgramName\":\"LSFILEAC\""));
+		assertTrue(message.toString().contains("id=QueryData, content=[f1f2f3f4]"));
+		assertTrue(message.toString().contains("id=QueryLimit, content=[f5f6]"));
+		
+	}
+	
+	public final void testEquals() throws Exception {
+		byte[] hostBytes = Util.toByteArray("d3e2d6d2c8c5c1c4404040404040404000000077000000020000006fc07fc3c9c3e2d6a4a3c39695a38189958599a27f7aad7fd9859793a8c481a3817f6b7fd9859793a8e2a381a3a4a27fbd6b7fc3c9c3e2c38881959585937f7a7fd3e2c6c9d3c5c1c360c3c8c1d5d5c5d37f6b7fc3c9c3e2d7999687998194d58194857f7a7fd3e2c6c9d3c5c1c37fd0d8a48599a8c481a3814040404040404000000004f1f2f3f4d8a48599a8d3899489a340404040404000000002f5f6");
+		byte[] hostBytes2 = Util.toByteArray("d3e2d6d2c8c5c1c4404040404040404000000077000000020000006fc07fc3c9c3e2d6a4a3c39695a38189958599a27f7aad7fd9859793a8c481a3817f6b7fd9859793a8e2a381a3a4a27fbd6b7fc3c9c3e2c38881959585937f7a7fd3e2c6c9d3c5c1c360c3c8c1d5d5c5d37f6b7fc3c9c3e2d7999687998194d58194857f7a7fd3e2c6c9d3c5c1c37fd0d8a48599a8c481a3814040404040404000000004f1f2f3f5d8a48599a8d3899489a340404040404000000002f5f6");
+		LegStarMessage message = new LegStarMessage();
+		message.recvFromHost(new ByteArrayInputStream(hostBytes));
+		LegStarMessage message2 = new LegStarMessage();
+		message2.recvFromHost(new ByteArrayInputStream(hostBytes));
+		assertTrue(message2.equals(message));
+		LegStarMessage message3 = new LegStarMessage();
+		message3.recvFromHost(new ByteArrayInputStream(hostBytes2));
+		assertFalse(message3.equals(message));
 		
 	}
 }

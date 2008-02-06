@@ -18,7 +18,7 @@
  *  02110-1301  USA
  *  
  *******************************************************************************/
-package com.legstar.messaging;
+package com.legstar.util;
 
 /** Test utility class. */
 public final class Util {
@@ -50,6 +50,42 @@ public final class Util {
 		return hexString.toString();
 	}
 	
+	/**
+	 * Another pretty printing method but with a limit to the number of
+	 * bytes printed. This method will print an even number of starting
+	 * and ending bytes.
+	 * @param hostBytes byte array to print
+	 * @param maxBytes maximum number of bytes to process
+	 * @return a pretty string
+	 */
+	public static String toHexString(
+			final byte[] hostBytes, final int maxBytes) {
+		
+		if (hostBytes == null) {
+			return null;
+		}
+		
+		if (hostBytes.length <= maxBytes) {
+			return toHexString(hostBytes);
+		}
+		
+		int gap = maxBytes / 2;
+		StringBuffer hexString = new StringBuffer("");
+		for (int i = 0; i < gap; i++) {
+			hexString.append(
+					Integer.toHexString(
+							hostBytes[i] & 0xFF | 0x100).substring(1, 3));
+		}
+		hexString.append("....");
+		for (int i = (hostBytes.length - gap); i < hostBytes.length; i++) {
+			hexString.append(
+					Integer.toHexString(
+							hostBytes[i] & 0xFF | 0x100).substring(1, 3));
+		}
+		
+		return hexString.toString();
+	}
+
 	/**
 	 * Takes a string of characters representing hex data and converts it
 	 * to a byte array.

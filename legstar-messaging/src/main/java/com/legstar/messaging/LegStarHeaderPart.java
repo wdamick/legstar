@@ -246,4 +246,20 @@ public class LegStarHeaderPart extends LegStarMessagePart {
 		setContent(getDataPartsNumber(), getJsonFromMap(keyValues));
 	}
 
+	/** {@inheritDoc} */
+	public final String toString() {
+        StringBuffer sb = new StringBuffer(80);
+        sb.append(this.getClass().getSimpleName());
+        sb.append("{this=").append(Integer.toHexString(
+        		System.identityHashCode(this)));
+        sb.append(", dataPartsNumber=").append(getDataPartsNumber());
+        try {
+			sb.append(", jsonString=").append(getJsonString());
+		} catch (HeaderPartException e) {
+			sb.append(", jsonString=").append("");
+		}
+        sb.append("}");
+        return sb.toString();                        
+	}
+
 }

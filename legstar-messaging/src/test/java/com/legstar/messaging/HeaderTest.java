@@ -26,6 +26,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import com.legstar.config.Constants;
+import com.legstar.util.Util;
+
 import junit.framework.TestCase;
 
 /** Tests for Header parts. */

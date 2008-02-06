@@ -26,8 +26,10 @@ import java.io.InputStream;
 import java.io.SequenceInputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 import com.legstar.codec.HostCodec;
+import com.legstar.util.Util;
 
 /**
  * MessageParts are generic named, binary containers used to send
@@ -228,4 +230,52 @@ public class LegStarMessagePart {
 		return (MSG_PART_ID_LEN + CONTENT_LEN_LEN + ((mContent == null)
 		? 0 : mContent.length));
 	}
+
+	/**
+	 * Available to class inheriting from this one in case they need a
+	 * generic print capability.
+	 * @return a string representation of this 
+	 */
+	public String toString() {
+        StringBuffer sb = new StringBuffer(80);
+        sb.append(this.getClass().getSimpleName());
+        sb.append("{this=").append(Integer.toHexString(
+        		System.identityHashCode(this)));
+        sb.append(", id=").append(getID());
+		sb.append(", content=[").append(Util.toHexString(getContent(), 10));
+        sb.append("]}");
+        return sb.toString();                        
+	}
+	
+	/**
+	 * Two message parts are equal if they have same ID and same content.
+	 * @param obj message part to compare to
+	 * @return true if message part compared to has same id and content.
+	 */
+	public final boolean equals(final Object obj) {
+		if (obj == null) {
+			return false;
+		}
+        if (!(obj instanceof LegStarMessagePart)) {
+			return false;
+		}
+        LegStarMessagePart msgPart = (LegStarMessagePart) obj;
+        if (!msgPart.getID().equals(getID())) {
+        	return false;
+        }
+        if (!Arrays.equals(msgPart.getContent(), getContent())) {
+        	return false;
+        }
+        return true;
+	}
+	
+    /**
+     * @see Object#hashCode() 
+     * {@inheritDoc}
+     */
+    public final int hashCode() {
+        return getID().hashCode() + Arrays.hashCode(getContent());
+    }
+
+	
 }
