@@ -16,7 +16,7 @@
 	 	<property name="jaxb.src.dir" value="src/main/java" />
 		<!-- Location for generated JAXB binaries   -->
 	 	<property name="jaxb.bin.dir" value="target/classes" />
-		<!-- Wehther to fork the java compiler or not   -->
+		<!-- Whether to fork the java compiler or not   -->
 	 	<property name="javac.fork" value="no" />
 			
 		<!-- Classpath setting  -->
