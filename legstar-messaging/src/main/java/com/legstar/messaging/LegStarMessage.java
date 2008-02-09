@@ -22,6 +22,7 @@ package com.legstar.messaging;
 
 import java.io.InputStream;
 import java.io.SequenceInputStream;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -32,8 +33,11 @@ import java.util.Vector;
  * Messages represents the input and output of requests. A message is composed
  * of message parts: one header part and any number of data message parts.
  */
-public class LegStarMessage {
+public class LegStarMessage implements Serializable {
 	
+	/** Serial version ID.  */
+	private static final long serialVersionUID = -1107635334404959251L;
+
 	/** Header message part. */
 	private LegStarHeaderPart mHeaderPart;
 	

@@ -25,6 +25,9 @@ import java.util.Map;
 /** @deprecated */
 public class HeaderPart extends LegStarHeaderPart {
 
+	/** Serial version ID. */
+	private static final long serialVersionUID = -5049074592429902791L;
+
 	/**
 	 * Default constructor.
 	 * @throws HeaderPartException if header part cannot be constructed

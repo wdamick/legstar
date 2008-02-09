@@ -26,6 +26,11 @@ import java.util.List;
 public class Message extends LegStarMessage {
 	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 559969254269260584L;
+
+	/**
 	 * Creates an empty message.
 	 * @throws HeaderPartException if host encoding is wrong
 	 */
