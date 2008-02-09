@@ -24,6 +24,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
@@ -35,8 +36,11 @@ import com.legstar.util.Util;
  * MessageParts are generic named, binary containers used to send
  * and receive from host.
  */
-public class LegStarMessagePart {
+public class LegStarMessagePart implements Serializable {
 	
+	/** Serial version ID.  */
+	private static final long serialVersionUID = -2361247952255347371L;
+
 	/** The message part identifier. */
 	private String mID;
 	

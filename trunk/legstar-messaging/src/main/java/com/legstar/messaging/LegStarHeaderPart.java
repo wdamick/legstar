@@ -34,6 +34,9 @@ import com.legstar.codec.HostCodec;
  */
 public class LegStarHeaderPart extends LegStarMessagePart {
 
+	/** Serial version ID. */
+	private static final long serialVersionUID = -4021804844084093286L;
+
 	/** The header identifier (used as an eye catcher by the CICS
 	 *  counterpart).*/
 	public static final String HEADER_PART_ID = "LSOKHEAD";

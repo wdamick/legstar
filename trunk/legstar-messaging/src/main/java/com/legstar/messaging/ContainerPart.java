@@ -26,6 +26,9 @@ package com.legstar.messaging;
  */
 public class ContainerPart extends LegStarMessagePart {
 
+	/** Serial version ID. */
+	private static final long serialVersionUID = -2440806472909705571L;
+
 	/**
 	 * Create an empty container.
 	 * @param id name of the container

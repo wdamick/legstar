@@ -25,6 +25,11 @@ package com.legstar.messaging;
 public class MessagePart extends LegStarMessagePart {
 	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5672052862054658459L;
+
+	/**
 	 * Create an empty message part.
 	 */
 	public MessagePart() {
