@@ -65,33 +65,35 @@
   </build>
   
   <!--
-    -->
-  <modules>
-    <module>../legstar-common</module>
-    <module>../legstar-messaging</module>
-    <module>../legstar-csokrt</module>
+   <modules>
+    <module>../legstar-c2wsrt</module>
     <module>../legstar-chttprt</module>
-    <module>../legstar-cmqrt</module>
-    <module>../legstar-engine</module>
-    <module>../legstar-invoker</module>
-    <module>../legstar-schemagen</module>
-    <module>../legstar-coxbapi</module>
-    <module>../legstar-jaxbgen</module>
-    <module>../legstar-jaxbgen-cases</module>
-    <module>../legstar-coxbgen</module>
-    <module>../legstar-coxbgen-cases</module>
     <module>../legstar-cixsgen</module>
     <module>../legstar-cixsgen-cases</module>
-    <module>../legstar-coxbrt</module>
-    <module>../legstar-c2wsrt</module>
-    <module>../legstar-xsdcgen</module>
-    <module>../legstar-cobcgen</module>
-    <module>../legstar-schemagen-plugin</module>
-    <module>../legstar-coxbgen-plugin</module>
+    <module>../legstar-cixsgen-model</module>
     <module>../legstar-cixsgen-plugin</module>
+    <module>../legstar-cmqrt</module>
+    <module>../legstar-cobcgen</module>
+    <module>../legstar-codegen</module>
+    <module>../legstar-common</module>
     <module>../legstar-common-plugin</module>
+    <module>../legstar-coxbapi</module>
+    <module>../legstar-coxbgen</module>
+    <module>../legstar-coxbgen-cases</module>
+    <module>../legstar-coxbgen-plugin</module>
+    <module>../legstar-coxbrt</module>
+    <module>../legstar-csokrt</module>
     <module>../legstar-distribution</module>
+    <module>../legstar-engine</module>
+    <module>../legstar-invoker</module>
+    <module>../legstar-jaxbgen</module>
+    <module>../legstar-jaxbgen-cases</module>
+    <module>../legstar-messaging</module>
+    <module>../legstar-schemagen</module>
+    <module>../legstar-schemagen-plugin</module>
+    <module>../legstar-xsdcgen</module>
   </modules>
+    -->
   
   <!-- Enabling the use of FTP -->
   <distributionManagement>
@@ -385,6 +387,16 @@
             </dependency>
 
             <!-- LegStar dependencies section -->    
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-codegen</artifactId>
+                <version>${legstarVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-cixsgen-model</artifactId>
+                <version>${legstarVersion}</version>
+            </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-common</artifactId>
