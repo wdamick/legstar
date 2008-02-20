@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+	  <groupId>com.legsem.legstar</groupId>
+	  <artifactId>Legstar</artifactId>
+      <version>SNAPSHOT</version>
+	</parent>
+	<artifactId>legstar-codegen</artifactId>
+	<name>Code generation</name>
+    <version>SNAPSHOT</version>
+	<description>Common code generation classes for LegStar</description>
+    <url>http://www.legsem.com/legstar/codegen/</url>
+
+	<dependencies>
+	
+		<dependency>
+		  <groupId>ant</groupId>
+		  <artifactId>ant</artifactId>
+		</dependency>
+
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>logkit</groupId>
+            <artifactId>logkit</artifactId>
+            <version>2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+		
+ 	</dependencies>
+ 	
+</project>
