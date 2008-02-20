@@ -18,13 +18,11 @@
  *  02110-1301  USA
  *  
  *******************************************************************************/
-package com.legstar.cixs.gen;
+package com.legstar.cixs.jaxws.model;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.List;
-import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -36,28 +34,36 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.legstar.cixs.gen.model.AbstractCixsService;
+import com.legstar.cixs.gen.model.CixsModelException;
+import com.legstar.cixs.gen.model.CixsOperation;
+import com.legstar.codegen.CodeGenUtil;
+
 /**
  * This class describes a service.
  * 
  * @author Fady Moussallam
  * 
- */
-public class CixsService {
+ */ 
+public class CixsJaxwsService extends AbstractCixsService {
 	
 	/** Service name. */
 	private String mName;
 
 	/** Service endpoint package name. */
-	private String mEndpointPackageName;
+	private String mPackageName;
 	
 	/** Service target namespace. */
 	private String mTargetNamespace;
 	
 	/** Service interface class name. */
-	private String mEndpointInterfaceClassName;
+	private String mInterfaceClassName;
 	
 	/** Service implementation class name. */
-	private String mEndpointImplementationClassName;
+	private String mImplementationClassName;
+	
+	/** Service host header class name. */
+	private String mHeaderClassName;
 	
 	/** Service name in WSDL. */
 	private String mWsdlServiceName;
@@ -65,29 +71,25 @@ public class CixsService {
 	/** Port type in WSDL. */
 	private String mWsdlPortType;
 	
-	/** The service list of operations. */
-	private List < CixsOperation > mCixsOperations =
-		new ArrayList < CixsOperation >();
-
-	/** XML element representing a CIXS service definition. */
-	public static final String CIXS_SERVICE_XML_E = "cixsService";
+	/** XML element representing a CIXS Jaxws service definition. */
+	public static final String CIXS_SERVICE_XML_E = "cixsJaxwsService";
 
 	/** XML attribute representing a CIXS service name. */
 	public static final String CIXS_SERVICE_NAME_XML_A = "name";
 
 	/** XML attribute representing a CIXS endpoint package name. */
 	public static final String CIXS_ENDPOINT_PKG_XML_A
-			= "endpointPackageName";
+			= "packageName";
 
 	/** XML attribute representing a CIXS target namespace. */
 	public static final String CIXS_NAMESPACE_XML_A = "targetNamespace";
 	
 	/** XML attribute representing a service interface class name. */
-	public static final String CIXS_SEI_CLASS_A = "endpointInterfaceClassName";
+	public static final String CIXS_SEI_CLASS_A = "interfaceClassName";
 	
 	/** XML attribute representing a Service implementation class name. */
 	public static final String CIXS_SEIMPL_CLASS_A =
-		"endpointImplementationClassName";
+		"implementationClassName";
 	
 	/** XML attribute representing a Service name in WSDL. */
 	public static final String CIXS_WSDL_SERVICE_XML_A = "wsdlServiceName";
@@ -95,8 +97,22 @@ public class CixsService {
 	/** XML attribute representing a Port type in WSDL. */
 	public static final String CIXS_WSDL_PORT_TYPE_XML_A = "wsdlPortType";
 	
+	/** Used to construct implementation class name if none is provided. */
+	private static final String IMPLEMENTATION_TYPE_SUFFIX = "Impl";
+
+	/** Will be appended to service name to form a port type name. */
+	private static final String WSDL_PORT_TYPE_SUFFIX = "Port";
+	
+	/** Will be appended to implementation class name to form a host header
+	 *  class name. */
+	private static final String HOST_HEADER_SUFFIX = "HostHeader";
+	
 	/** A constant used to pretty print serialized XML. */
 	private static final String CRLF = "\r\n";
+
+	/** By default the web service name is built from component name and this
+	 * suffix.*/
+	private static final String WSDL_SERVICE_NAME_SUFFIX = "Service";
 	
 	/**
 	 * @return the service name
@@ -115,15 +131,15 @@ public class CixsService {
 	/**
 	 * @return the service endpoint package name
 	 */
-	public final String getEndpointPackageName() {
-		return mEndpointPackageName;
+	public final String getPackageName() {
+		return mPackageName;
 	}
 
 	/**
-	 * @param endpointPackageName the service endpoint package name to set
+	 * @param packageName the service endpoint package name to set
 	 */
-	public final void setEndpointPackageName(final String endpointPackageName) {
-		mEndpointPackageName = endpointPackageName;
+	public final void setPackageName(final String packageName) {
+		mPackageName = packageName;
 	}
 
 	/**
@@ -141,36 +157,6 @@ public class CixsService {
 	}
 
 	/**
-	 * @return the service list of operations
-	 */
-	public final List < CixsOperation > getCixsOperations() {
-		return mCixsOperations;
-	}
-
-	/**
-	 * @param operations the list of operations to set
-	 */
-	public final void setCixsOperations(
-			final List < CixsOperation > operations) {
-		mCixsOperations = operations;
-	}
-
-	/**
-	 * Operations are actually a set of uniquely named operations.
-	 * @param operation the operation to add
-	 * @throws CixsException if operation is a duplicate
-	 */
-	public final void addCixsOperation(
-			final CixsOperation operation) throws CixsException {
-		/* Check that this operation is not already part of the set */
-		if (mCixsOperations.contains(operation)) {
-			throw new CixsException(
-					"This service already contains this operation");
-		}
-		mCixsOperations.add(operation);
-	}
-	
-	/**
 	 * Create an XML usable as input for and ant task.
 	 * @return the XML
 	 */
@@ -180,18 +166,18 @@ public class CixsService {
 				+ CIXS_SERVICE_NAME_XML_A + "="
 				+ '\"' + mName + '\"');
 		result.append(" " + CIXS_ENDPOINT_PKG_XML_A + "="
-				+ '\"' + mEndpointPackageName + '\"');
+				+ '\"' + mPackageName + '\"');
 		result.append(" " + CIXS_NAMESPACE_XML_A + "="
 				+ '\"' + mTargetNamespace + '\"');
-		if (getEndpointInterfaceClassName() != null
-				&& getEndpointInterfaceClassName().length() > 0) {
+		if (getInterfaceClassName() != null
+				&& getInterfaceClassName().length() > 0) {
 			result.append(" " + CIXS_SEI_CLASS_A + "=" + '\"'
-					+ getEndpointInterfaceClassName() + '\"');
+					+ getInterfaceClassName() + '\"');
 		}
-		if (getEndpointImplementationClassName() != null
-				&& getEndpointImplementationClassName().length() > 0) {
+		if (getImplementationClassName() != null
+				&& getImplementationClassName().length() > 0) {
 			result.append(" " + CIXS_SEIMPL_CLASS_A + "=" + '\"'
-					+ getEndpointImplementationClassName() + '\"');
+					+ getImplementationClassName() + '\"');
 		}
 		if (getWsdlServiceName() != null 
 				&& getWsdlServiceName().length() > 0) {
@@ -204,7 +190,7 @@ public class CixsService {
 					+ getWsdlPortType() + '\"');
 		}
 		result.append('>' + CRLF);
-		for (CixsOperation op : mCixsOperations) {
+		for (CixsOperation op : getCixsOperations()) {
 			result.append(op.serialize());
 			result.append(CRLF);
 		}
@@ -215,9 +201,9 @@ public class CixsService {
 	/**
 	 * Loads the CIXS Service from a serialized XML.
 	 * @param serviceFile the serialized file
-	 * @throws CixsException if load fails
+	 * @throws CixsModelException if load fails
 	 */
-	public final void load(final File serviceFile) throws CixsException {
+	public final void load(final File serviceFile) throws CixsModelException {
     	DocumentBuilderFactory docBuilderFactory =
     		DocumentBuilderFactory.newInstance();
     	DocumentBuilder docBuilder;
@@ -227,20 +213,20 @@ public class CixsService {
 			Document doc = docBuilder.parse(serviceFile);
 			load(doc);
 		} catch (ParserConfigurationException e) {
-			throw (new CixsException(e));
+			throw (new CixsModelException(e));
 		} catch (SAXException e) {
-			throw (new CixsException(e));
+			throw (new CixsModelException(e));
 		} catch (IOException e) {
-			throw (new CixsException(e));
+			throw (new CixsModelException(e));
 		}
 	}
 	
 	/**
 	 * Loads the CIXS Service from a serialized XML in a string.
 	 * @param serviceDesc the service description
-	 * @throws CixsException if load fails
+	 * @throws CixsModelException if load fails
 	 */
-	public final void load(final String serviceDesc) throws CixsException {
+	public final void load(final String serviceDesc) throws CixsModelException {
     	DocumentBuilderFactory docBuilderFactory =
     		DocumentBuilderFactory.newInstance();
     	DocumentBuilder docBuilder;
@@ -251,51 +237,55 @@ public class CixsService {
 					new InputSource(new StringReader(serviceDesc)));
 			load(doc);
 		} catch (ParserConfigurationException e) {
-			throw (new CixsException(e));
+			throw (new CixsModelException(e));
 		} catch (SAXException e) {
-			throw (new CixsException(e));
+			throw (new CixsModelException(e));
 		} catch (IOException e) {
-			throw (new CixsException(e));
+			throw (new CixsModelException(e));
 		}
 	}
 	
 	/**
 	 * Loads the CIXS Service from an XML document.
 	 * @param doc an XML document
-	 * @throws CixsException if load fails
+	 * @throws CixsModelException if load fails
 	 */
-	public final void load(final Document doc) throws CixsException {
+	public final void load(final Document doc) throws CixsModelException {
 		NodeList listOfElements = doc.getElementsByTagName(
 				CIXS_SERVICE_XML_E);
 		if (listOfElements == null || listOfElements.getLength() == 0) {
-			throw (new CixsException(
+			throw (new CixsModelException(
 					"Empty or invalid service descriptor file"));
 		}
-		Element serviceElement = (Element) listOfElements.item(0);
-		mName = serviceElement.getAttribute(CIXS_SERVICE_NAME_XML_A);
-		if (mName == null || mName.length() == 0) {
-			throw new CixsException("Service must have a name");
-		}
-		mEndpointPackageName = serviceElement.getAttribute(
-				CIXS_ENDPOINT_PKG_XML_A);
-		mTargetNamespace = serviceElement.getAttribute(
-				CIXS_NAMESPACE_XML_A);
-		mEndpointInterfaceClassName = serviceElement.getAttribute(
-				CIXS_SEI_CLASS_A);
-		mEndpointImplementationClassName = serviceElement.getAttribute(
-				CIXS_SEIMPL_CLASS_A);
-		mWsdlServiceName =  serviceElement.getAttribute(
-				CIXS_WSDL_SERVICE_XML_A);
-		mWsdlPortType =  serviceElement.getAttribute(
-				CIXS_WSDL_PORT_TYPE_XML_A);
-		
-		mCixsOperations = new ArrayList < CixsOperation >();
-		listOfElements = serviceElement.getElementsByTagName(
-				CixsOperation.CIXS_OPERATION_XML_E);
-		for (int i = 0; i < listOfElements.getLength(); i++) {
-			CixsOperation operation = new CixsOperation();
-			operation.load(listOfElements.item(i));
-			mCixsOperations.add(operation);
+		try {
+			Element serviceElement = (Element) listOfElements.item(0);
+			mName = serviceElement.getAttribute(CIXS_SERVICE_NAME_XML_A);
+			if (mName == null || mName.length() == 0) {
+				throw new CixsModelException("Service must have a name");
+			}
+			mPackageName = serviceElement.getAttribute(
+					CIXS_ENDPOINT_PKG_XML_A);
+			mTargetNamespace = serviceElement.getAttribute(
+					CIXS_NAMESPACE_XML_A);
+			mInterfaceClassName = serviceElement.getAttribute(
+					CIXS_SEI_CLASS_A);
+			mImplementationClassName = serviceElement.getAttribute(
+					CIXS_SEIMPL_CLASS_A);
+			mWsdlServiceName =  serviceElement.getAttribute(
+					CIXS_WSDL_SERVICE_XML_A);
+			mWsdlPortType =  serviceElement.getAttribute(
+					CIXS_WSDL_PORT_TYPE_XML_A);
+			
+			getCixsOperations().clear();
+			listOfElements = serviceElement.getElementsByTagName(
+					CixsOperation.CIXS_OPERATION_XML_E);
+			for (int i = 0; i < listOfElements.getLength(); i++) {
+				CixsOperation operation = new CixsOperation();
+				operation.load(listOfElements.item(i));
+				addCixsOperation(operation);
+			}
+		} catch (CixsModelException e) {
+			throw new CixsModelException(e);
 		}
 	}
 	/**
@@ -314,8 +304,8 @@ public class CixsService {
 	 *         otherwise..
 	 */
 	public final boolean equals(final Object obj) {
-	    return (obj != null) && (obj.getClass() == CixsService.class)
-	    	&& ((CixsService) obj).getName().equals(getName());
+	    return (obj != null) && (obj.getClass() == CixsJaxwsService.class)
+	    	&& ((CixsJaxwsService) obj).getName().equals(getName());
 	}
 	
 	/**
@@ -328,48 +318,60 @@ public class CixsService {
 	 *         is less than, equal to, or greater than the specified object.
 	 */
 	public final int compareTo(final Object o) {
-	    if (o.getClass() != CixsService.class) {
+	    if (o.getClass() != CixsJaxwsService.class) {
 	        throw new ClassCastException(o.getClass().getName());
 	    } else {
-	        return ((CixsService) o).getName().compareTo(getName());
+	        return ((CixsJaxwsService) o).getName().compareTo(getName());
 	    }
 	}
 
 	/**
 	 * @return the Service implementation class name
 	 */
-	public final String getEndpointImplementationClassName() {
-		return mEndpointImplementationClassName;
+	public final String getImplementationClassName() {
+		if (mImplementationClassName == null
+				|| mImplementationClassName.length() == 0) {
+			return getInterfaceClassName() + IMPLEMENTATION_TYPE_SUFFIX;
+		}
+		return mImplementationClassName;
 	}
 
 	/**
-	 * @param endpointImplementationClassName the Service implementation class
+	 * @param implementationClassName the Service implementation class
 	 *  name to set
 	 */
-	public final void setEndpointImplementationClassName(
-			final String endpointImplementationClassName) {
-		mEndpointImplementationClassName = endpointImplementationClassName;
+	public final void setImplementationClassName(
+			final String implementationClassName) {
+		mImplementationClassName = implementationClassName;
 	}
 
 	/**
 	 * @return the Service interface class name
 	 */
-	public final String getEndpointInterfaceClassName() {
-		return mEndpointInterfaceClassName;
+	public final String getInterfaceClassName() {
+		if (mInterfaceClassName == null || mInterfaceClassName.length() == 0) {
+			if (mName != null && mName.length() > 0) {
+				return CodeGenUtil.classNormalize(mName);
+			}
+		}
+		return mInterfaceClassName;
 	}
 
 	/**
 	 * @param endpointInterfaceClassName the Service interface class name to set
 	 */
-	public final void setEndpointInterfaceClassName(
+	public final void setInterfaceClassName(
 			final String endpointInterfaceClassName) {
-		mEndpointInterfaceClassName = endpointInterfaceClassName;
+		mInterfaceClassName = endpointInterfaceClassName;
 	}
 
 	/**
 	 * @return the Port type in WSDL
 	 */
 	public final String getWsdlPortType() {
+		if (mWsdlPortType == null || mWsdlPortType.length() == 0) {
+			return getName() + WSDL_PORT_TYPE_SUFFIX;
+		}
 		return mWsdlPortType;
 	}
 
@@ -384,6 +386,9 @@ public class CixsService {
 	 * @return the Service name in WSDL
 	 */
 	public final String getWsdlServiceName() {
+		if (mWsdlServiceName == null || mWsdlServiceName.length() == 0) {
+			return getName() + WSDL_SERVICE_NAME_SUFFIX;
+		}
 		return mWsdlServiceName;
 	}
 
@@ -392,6 +397,23 @@ public class CixsService {
 	 */
 	public final void setWsdlServiceName(final String wsdlServiceName) {
 		mWsdlServiceName = wsdlServiceName;
+	}
+
+	/**
+	 * @return the host header class name
+	 */
+	public final String getHeaderClassName() {
+		if (mHeaderClassName == null || mHeaderClassName.length() == 0) {
+			return getInterfaceClassName() + HOST_HEADER_SUFFIX;
+		}
+		return mHeaderClassName;
+	}
+
+	/**
+	 * @param headerClassName the host header class name to set
+	 */
+	public final void setHeaderClassName(final String headerClassName) {
+		mHeaderClassName = headerClassName;
 	}
 
 }

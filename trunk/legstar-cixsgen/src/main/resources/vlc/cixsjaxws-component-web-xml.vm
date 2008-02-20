@@ -1,0 +1,32 @@
+##/////////////////////////////////////////////////////////////////////
+##Jaxws Component Sun Jaxws XML Template.
+##@author Fady
+##@version 0.1
+##/////////////////////////////////////////////////////////////////////
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+   <display-name>LegStar Jaxws ${jaxwsComponent.name}</display-name>
+   <description>LegStar Jaxws ${jaxwsComponent.name} Web Service</description>
+   <listener>
+      <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
+   </listener>
+   <servlet>
+      <servlet-name>${jaxwsComponent.wsdlServiceName}</servlet-name>
+      <display-name>LegStar Jaxws ${jaxwsComponent.wsdlServiceName}</display-name>
+      <description>LegStar Jaxws ${jaxwsComponent.name} Web Service</description>
+      <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+      <load-on-startup>1</load-on-startup>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>${jaxwsComponent.wsdlServiceName}</servlet-name>
+      <url-pattern>/${jaxwsComponent.name}</url-pattern>
+   </servlet-mapping>
+   <session-config>
+      <session-timeout>60</session-timeout>
+   </session-config>
+   <env-entry>
+      <env-entry-name>legstar/configFileName</env-entry-name>
+      <env-entry-value>legstar-invoker-config.xml</env-entry-value>
+      <env-entry-type>java.lang.String</env-entry-type>
+   </env-entry>
+</web-app>
