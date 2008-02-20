@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: LegsStar Schema Generator
 Bundle-SymbolicName: com.legstar.eclipse.plugin.schemagen; singleton:=true
-Bundle-Version: 1.1.0
+Bundle-Version: 1.2.0
 Bundle-Activator: com.legstar.eclipse.plugin.schemagen.Activator
 Bundle-Vendor: LegSem
 Bundle-Localization: plugin
