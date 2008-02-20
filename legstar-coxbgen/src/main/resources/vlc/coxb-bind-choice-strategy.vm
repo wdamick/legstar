@@ -15,7 +15,7 @@ import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobol${choice-strategy-type}ChoiceStrategy;
 import com.legstar.coxb.host.HostException;
-import ${jaxb-package}.$helper.getParentJaxbTypeName($binding);
+import ${jaxb-package}.$coxbHelper.getParentJaxbTypeName($binding);
 
 /** 
  * Skeleton implementation of a custom choice selection strategy. Modify this
@@ -31,7 +31,7 @@ public class ${helper.getClassName(${choice-strategy-qualified-class-name})} imp
         
         /* Get the parent JAXB object which properties might help select the
          * right alternative. */
-        ${helper.getParentJaxbTypeName($binding)} jaxbo = (${helper.getParentJaxbTypeName($binding)}) choice.getObjectValue(${helper.getParentJaxbTypeName($binding)}.class);
+        ${coxbHelper.getParentJaxbTypeName($binding)} jaxbo = (${coxbHelper.getParentJaxbTypeName($binding)}) choice.getObjectValue(${coxbHelper.getParentJaxbTypeName($binding)}.class);
         assert (jaxbo != null);
         
         /* Replace following code with actual logic. */

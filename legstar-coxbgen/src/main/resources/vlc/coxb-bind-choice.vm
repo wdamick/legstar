@@ -21,11 +21,11 @@ import com.legstar.coxb.host.HostException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import ${jaxb-package}.$helper.getParentJaxbTypeName($binding);
+import ${jaxb-package}.$coxbHelper.getParentJaxbTypeName($binding);
 
 /**
  * LegStar Binding for Choice element:
- *   $helper.getParentJaxbTypeName($binding).
+ *   $coxbHelper.getParentJaxbTypeName($binding).
  * 
  * Represents a choice between 2 or more elements. A choice maps to a cobol
  * REDEFINES clause exposed as an xs:choice in the corresponding XML schema
@@ -38,11 +38,11 @@ public class $binding-class-name
 
 #foreach ($child in $binding.alternativesList)
 #if($child.isBound())
-    /** Alternative bound bound to jaxb property ${child.jaxbName}(${helper.getJaxbTypeName($child)}). */
+    /** Alternative bound bound to jaxb property ${child.jaxbName}(${coxbHelper.getJaxbTypeName($child)}). */
 #else
     /** Unbound Alternative. */
 #end
-    public $helper.getBindingInterfaceName($child) $helper.getFieldName($child);
+    public $coxbHelper.getBindingInterfaceName($child) $coxbHelper.getFieldName($child);
 #end
 
     /** Logger. */
@@ -89,7 +89,7 @@ public class $binding-class-name
 
         /* Add alternatives to alternatives list */
 #foreach ($child in $binding.alternativesList)
-        addAlternative(${helper.getFieldName($child)});
+        addAlternative(${coxbHelper.getFieldName($child)});
 #end ##foreach
 
         if (LOG.isDebugEnabled()) {
@@ -102,14 +102,14 @@ public class $binding-class-name
         Object value;
 #foreach ($child in $binding.alternativesList)
 #if($child.isBound())
-        value = get${helper.getParentJaxbTypeName($binding)}().get${child.jaxbName}();
+        value = get${coxbHelper.getParentJaxbTypeName($binding)}().get${child.jaxbName}();
         if (value != null) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Getting value from JAXB property "
                         + "${child.jaxbName}"
                         + " value=" + value);
             }
-            ${helper.getFieldName($child)}.setObjectValue(value);
+            ${coxbHelper.getFieldName($child)}.setObjectValue(value);
         }
 #end
 #end
@@ -139,13 +139,13 @@ public class $binding-class-name
 #foreach ($child in $binding.alternativesList)
         case ${counter}:
 #if($child.isBound())
-#if(${helper.isArray($child)})
-            get${helper.getParentJaxbTypeName($binding)}().${helper.getterMethodName($child)}().clear();
-            get${helper.getParentJaxbTypeName($binding)}().${helper.getterMethodName($child)}().addAll(
-                (List < $helper.getJaxbTypeName($child) >) bindingValue);
+#if(${coxbHelper.isArray($child)})
+            get${coxbHelper.getParentJaxbTypeName($binding)}().${coxbHelper.getterMethodName($child)}().clear();
+            get${coxbHelper.getParentJaxbTypeName($binding)}().${coxbHelper.getterMethodName($child)}().addAll(
+                (List < $coxbHelper.getJaxbTypeName($child) >) bindingValue);
 #else
-            get${helper.getParentJaxbTypeName($binding)}().${helper.setterMethodName($child)}(
-                ($helper.getJaxbTypeName($child)) bindingValue);
+            get${coxbHelper.getParentJaxbTypeName($binding)}().${coxbHelper.setterMethodName($child)}(
+                ($coxbHelper.getJaxbTypeName($child)) bindingValue);
 #end
 #end
             break;
@@ -185,8 +185,8 @@ public class $binding-class-name
      * @return the JAXB object bound to the parent of this choice
      * @throws HostException if parent bound JAXB object cannot be retrieved
      */
-    public final ${helper.getParentJaxbTypeName($binding)} get${helper.getParentJaxbTypeName($binding)}() throws HostException {
-        return (${helper.getParentJaxbTypeName($binding)}) getParentJaxbObject();
+    public final ${coxbHelper.getParentJaxbTypeName($binding)} get${coxbHelper.getParentJaxbTypeName($binding)}() throws HostException {
+        return (${coxbHelper.getParentJaxbTypeName($binding)}) getParentJaxbObject();
     }
     
 }

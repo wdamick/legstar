@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.legstar.codegen.CodeGenHelper;
 import com.legstar.codegen.CodeGenUtil;
 import com.legstar.coxb.ICobolArrayComplexBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
@@ -18,6 +19,10 @@ import junit.framework.TestCase;
 
 public class VelocityTemplatesTest extends TestCase {
 	
+	/** This generator name. */
+	private static final String BINDING_GENERATOR_NAME =
+		"LegStar Binding generator";
+
     /** Logger. */
 	private static final Log LOG = LogFactory.getLog(VelocityTemplatesTest.class);
 	
@@ -42,10 +47,14 @@ public class VelocityTemplatesTest extends TestCase {
     	parameters.put("jaxb-package", "com.legstar.test.coxb.alltypes");
     	parameters.put("binding-type-package", "com.legstar.test.coxb.alltypes.bind");
     	parameters.put("binding-class-name", "DfhcommareaTypeBinding");
-    	CoxbHelper helper = new CoxbHelper();
+    	CodeGenHelper helper = new CodeGenHelper();
     	parameters.put("helper", helper);
+    	CoxbHelper coxbHelper = new CoxbHelper();
+    	parameters.put("coxbHelper", coxbHelper);
 
-    	CodeGenUtil.processTemplate("vlc/coxb-bind-complex.vm",
+    	CodeGenUtil.processTemplate(
+    			BINDING_GENERATOR_NAME,
+    			"vlc/coxb-bind-complex.vm",
         		"binding", ce,
         		parameters,
                 CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
@@ -108,10 +117,14 @@ public class VelocityTemplatesTest extends TestCase {
     	parameters.put("jaxb-package", "com.legstar.test.coxb.arrayssm");
     	parameters.put("binding-type-package", "com.legstar.test.coxb.arrayssm.bind");
     	parameters.put("binding-class-name", "DfhcommareaTypeBinding");
-    	CoxbHelper helper = new CoxbHelper();
+    	CodeGenHelper helper = new CodeGenHelper();
     	parameters.put("helper", helper);
+    	CoxbHelper coxbHelper = new CoxbHelper();
+    	parameters.put("coxbHelper", coxbHelper);
 
-    	CodeGenUtil.processTemplate("vlc/coxb-bind-complex.vm",
+    	CodeGenUtil.processTemplate(
+    			BINDING_GENERATOR_NAME,
+    			"vlc/coxb-bind-complex.vm",
         		"binding", ce,
         		parameters,
                 CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
@@ -166,10 +179,14 @@ public class VelocityTemplatesTest extends TestCase {
     	parameters.put("jaxb-package", "com.legstar.test.coxb.arrayssm");
     	parameters.put("binding-type-package", "com.legstar.test.coxb.arrayssm.bind");
     	parameters.put("binding-class-name", "TableComplexTypeWrapperBinding");
-    	CoxbHelper helper = new CoxbHelper();
+    	CodeGenHelper helper = new CodeGenHelper();
     	parameters.put("helper", helper);
+    	CoxbHelper coxbHelper = new CoxbHelper();
+    	parameters.put("coxbHelper", coxbHelper);
 
-    	CodeGenUtil.processTemplate("vlc/coxb-bind-complex-array.vm",
+    	CodeGenUtil.processTemplate(
+    			BINDING_GENERATOR_NAME,
+    			"vlc/coxb-bind-complex-array.vm",
         		"binding", ca,
         		parameters,
                 CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
@@ -214,10 +231,14 @@ public class VelocityTemplatesTest extends TestCase {
     	parameters.put("jaxb-package", "com.legstar.test.coxb.arraysdo");
     	parameters.put("binding-type-package", "com.legstar.test.coxb.arraysdo.bind");
     	parameters.put("binding-class-name", "DfhcommareaTypeBinding");
-    	CoxbHelper helper = new CoxbHelper();
+    	CodeGenHelper helper = new CodeGenHelper();
     	parameters.put("helper", helper);
+    	CoxbHelper coxbHelper = new CoxbHelper();
+    	parameters.put("coxbHelper", coxbHelper);
 
-    	CodeGenUtil.processTemplate("vlc/coxb-bind-complex.vm",
+    	CodeGenUtil.processTemplate(
+    			BINDING_GENERATOR_NAME,
+    			"vlc/coxb-bind-complex.vm",
         		"binding", ce,
         		parameters,
                 CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
@@ -273,10 +294,14 @@ public class VelocityTemplatesTest extends TestCase {
     	parameters.put("jaxb-package", "com.legstar.test.coxb.redsimpt");
     	parameters.put("binding-type-package", "com.legstar.test.coxb.redsimpt.bind");
     	parameters.put("binding-class-name", "DfhcommareaTypeBinding");
-    	CoxbHelper helper = new CoxbHelper();
+    	CodeGenHelper helper = new CodeGenHelper();
     	parameters.put("helper", helper);
+    	CoxbHelper coxbHelper = new CoxbHelper();
+    	parameters.put("coxbHelper", coxbHelper);
 
-    	CodeGenUtil.processTemplate("vlc/coxb-bind-complex.vm",
+    	CodeGenUtil.processTemplate(
+    			BINDING_GENERATOR_NAME,
+    			"vlc/coxb-bind-complex.vm",
         		"binding", ce,
         		parameters,
                 CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
@@ -314,10 +339,14 @@ public class VelocityTemplatesTest extends TestCase {
     	parameters.put("jaxb-package", "com.legstar.test.coxb.redsimpt");
     	parameters.put("binding-type-package", "com.legstar.test.coxb.redsimpt.bind");
     	parameters.put("binding-class-name", "CDefinition1ChoiceBinding");
-    	CoxbHelper helper = new CoxbHelper();
+    	CodeGenHelper helper = new CodeGenHelper();
     	parameters.put("helper", helper);
+    	CoxbHelper coxbHelper = new CoxbHelper();
+    	parameters.put("coxbHelper", coxbHelper);
 
-    	CodeGenUtil.processTemplate("vlc/coxb-bind-choice.vm",
+    	CodeGenUtil.processTemplate(
+    			BINDING_GENERATOR_NAME,
+    			"vlc/coxb-bind-choice.vm",
         		"binding", cc,
         		parameters,
                 CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
@@ -381,10 +410,14 @@ public class VelocityTemplatesTest extends TestCase {
     	parameters.put("binding-type-package", "com.legstar.test.coxb.redsimpt.bind");
     	parameters.put("choice-strategy-type", "Unmarshal");
 		parameters.put("choice-strategy-qualified-class-name", "com.legstar.coxb.cust.redsimpt.ChoiceSelector");
-		CoxbHelper helper = new CoxbHelper();
-		parameters.put("helper", helper);
+    	CodeGenHelper helper = new CodeGenHelper();
+    	parameters.put("helper", helper);
+    	CoxbHelper coxbHelper = new CoxbHelper();
+    	parameters.put("coxbHelper", coxbHelper);
 	
-		CodeGenUtil.processTemplate("vlc/coxb-bind-choice-strategy.vm",
+		CodeGenUtil.processTemplate(
+				BINDING_GENERATOR_NAME,
+				"vlc/coxb-bind-choice-strategy.vm",
 	    		"binding", cc,
 	    		parameters,
 	            CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));

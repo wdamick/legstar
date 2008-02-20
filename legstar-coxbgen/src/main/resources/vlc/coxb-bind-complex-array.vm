@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import ${jaxb-package}.$helper.getItemJaxbTypeName($binding);
+import ${jaxb-package}.$coxbHelper.getItemJaxbTypeName($binding);
 
  /**
  * LegStar Binding for Complex Array (Wrapper) element:
@@ -38,7 +38,7 @@ public class $binding-class-name
              extends CArrayComplexBinding {
 
     /** Java object to which this cobol complex array element is bound. */
-    private $helper.getComplexArrayJaxbTypeName($binding) mJaxbObject;
+    private $coxbHelper.getComplexArrayJaxbTypeName($binding) mJaxbObject;
     
     /** Logger. */
     private static final Log LOG
@@ -58,7 +58,7 @@ public class $binding-class-name
             final ICobolComplexBinding parentBinding,
             final ICobolComplexBinding complexItemBinding) {
         
-        super(bindingName, jaxbName, ${helper.getItemJaxbTypeName($binding)}.class, null, parentBinding, complexItemBinding);
+        super(bindingName, jaxbName, ${coxbHelper.getItemJaxbTypeName($binding)}.class, null, parentBinding, complexItemBinding);
         setMinOccurs(${binding.getMinOccurs()});
         setMaxOccurs(${binding.getMaxOccurs()});
 #if(${helper.isEmpty("${binding.getDependingOn()}")} == false)
@@ -68,7 +68,7 @@ public class $binding-class-name
 
     /** {@inheritDoc} */
     public final void createJaxbObject() throws HostException {
-        mJaxbObject = new Array$helper.getComplexArrayJaxbTypeName($binding)();
+        mJaxbObject = new Array$coxbHelper.getComplexArrayJaxbTypeName($binding)();
     }
 
     /** {@inheritDoc} */
@@ -84,7 +84,7 @@ public class $binding-class-name
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Getting value from item " +  index
                         + " of JAXB property "
-                        + "$helper.getComplexArrayJaxbTypeName($binding)"
+                        + "$coxbHelper.getComplexArrayJaxbTypeName($binding)"
                         + " value=" + mJaxbObject.get(index));
             }
             getComplexItemBinding().setObjectValue(mJaxbObject.get(index));
@@ -105,8 +105,8 @@ public class $binding-class-name
             throw new HostException(
                     "Binded object not initialized for " + getBindingName());
         }
-        mJaxbObject.add((${helper.getItemJaxbTypeName($binding)}) getComplexItemBinding().
-        		getObjectValue(${helper.getItemJaxbTypeName($binding)}.class));
+        mJaxbObject.add((${coxbHelper.getItemJaxbTypeName($binding)}) getComplexItemBinding().
+        		getObjectValue(${coxbHelper.getItemJaxbTypeName($binding)}.class));
     }
  
     /** {@inheritDoc} */
@@ -124,7 +124,7 @@ public class $binding-class-name
     /** {@inheritDoc} */
     public final Object getObjectValue(
             final Class < ? > type) throws HostException {
-        if (type.equals(${helper.getItemJaxbTypeName($binding)}.class)) {
+        if (type.equals(${coxbHelper.getItemJaxbTypeName($binding)}.class)) {
             return mJaxbObject;
         } else {
             throw new HostException("Attempt to get binding " + getBindingName()
@@ -141,14 +141,14 @@ public class $binding-class-name
         }
         if (value instanceof List) {
             if (((List < ? >) value).size() == 0) {
-                mJaxbObject = new Array${helper.getComplexArrayJaxbTypeName($binding)}();
+                mJaxbObject = new Array${coxbHelper.getComplexArrayJaxbTypeName($binding)}();
                 return;
             }
             /* We assume all items will have the same type as the first one.
              * The unchecked cast might break at runtime. */
             Object item = ((List < ? >) value).get(0);
-            if (item.getClass().equals(${helper.getItemJaxbTypeName($binding)}.class)) {
-                mJaxbObject = (${helper.getComplexArrayJaxbTypeName($binding)}) value;
+            if (item.getClass().equals(${coxbHelper.getItemJaxbTypeName($binding)}.class)) {
+                mJaxbObject = (${coxbHelper.getComplexArrayJaxbTypeName($binding)}) value;
                 return;
             }
         }
@@ -166,8 +166,8 @@ public class $binding-class-name
      * @throws HostException if bound JAXB object cannot be retrieved
      */
     @SuppressWarnings("unchecked")
-    public final ${helper.getComplexArrayJaxbTypeName($binding)} get${helper.getItemJaxbTypeName($binding)}() throws HostException {
-        return (${helper.getComplexArrayJaxbTypeName($binding)}) getObjectValue(${helper.getItemJaxbTypeName($binding)}.class);
+    public final ${coxbHelper.getComplexArrayJaxbTypeName($binding)} get${coxbHelper.getItemJaxbTypeName($binding)}() throws HostException {
+        return (${coxbHelper.getComplexArrayJaxbTypeName($binding)}) getObjectValue(${coxbHelper.getItemJaxbTypeName($binding)}.class);
     }
     
 }
