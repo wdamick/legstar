@@ -39,13 +39,13 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 
-import com.legstar.cixs.gen.CixsOperation;
-import com.legstar.cixs.gen.CixsStructure;
+import com.legstar.cixs.gen.model.CixsOperation;
+import com.legstar.cixs.gen.model.CixsStructure;
 import com.legstar.eclipse.plugin.cixsgen.Activator;
 
 
 /**
- * Dialog used to capture a legacy Web service operation aattributes.
+ * Dialog used to capture a legacy Web service operation attributes.
  *
  * @author Fady Moussallam
  * 

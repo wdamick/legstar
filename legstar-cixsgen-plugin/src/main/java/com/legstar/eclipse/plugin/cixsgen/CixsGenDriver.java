@@ -28,7 +28,7 @@ import java.io.InputStream;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import com.legstar.cixs.gen.CixsService;
+import com.legstar.cixs.jaxws.model.CixsJaxwsService;
 
 import com.legstar.eclipse.plugin.common.LegstarAntRunner;
 
@@ -82,7 +82,7 @@ public class CixsGenDriver {
 	public final void generate(
 			final String serviceName,
 			final CixsGenDescriptor cixsGenDescriptor,
-			final CixsService service,
+			final CixsJaxwsService service,
 			final IProgressMonitor monitor)
 		throws AntCreationException, CoreException {
 
@@ -118,7 +118,7 @@ public class CixsGenDriver {
 	 */
 	private void createBuild(
 			final CixsGenDescriptor cixsGenDescriptor,
-			final CixsService service,
+			final CixsJaxwsService service,
 			final File scriptFile) throws AntCreationException {
 		try {
 			/* Load the template ANT script */
