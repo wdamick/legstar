@@ -58,7 +58,7 @@
 
     <!-- Service Generator ant task -->
     <taskdef name="cixsgen"
-      classname="com.legstar.cixs.gen.CixsServiceGenerator"
+      classname="com.legstar.cixs.jaxws.gen.CixsJaxwsGenerator"
       classpathref="classpath" 
     /> 
 
@@ -68,11 +68,6 @@
   <!-- This step creates all the artifacts for a service.  -->
   
   <target name="generateService" depends="init">
-    
-    <!-- Make sure we have target source directories -->
-    <mkdir dir="${cixs.src.dir}"/>
-    <mkdir dir="${wdd.dir}"/>
-    <mkdir dir="${ant.dir}"/>
     
     <cixsgen targetSrcDir="${cixs.src.dir}"
              targetWDDDir="${wdd.dir}"
@@ -88,24 +83,24 @@
              cicsChannel attribute to the cixsOperation element,
              specify as many input and output elements as necessary
              providing  a cicsContainer attribute for each. -->
-        <cixsService name="${service}"
-        endpointPackageName="${cixs.package.pfx}.${service}"
-        targetNamespace="${cixs.namespace.pfx}/${service}">
-		<cixsOperation name="${service}"
-			cicsProgramName="${cics.program.name}">
-			<input
-				jaxbType="${jaxb.root.name.in}"
-				jaxbPackageName="${jaxb.package.pfx}.${service}"
-			/>
-			<output
-				jaxbType="${jaxb.root.name.out}"
-				jaxbPackageName="${jaxb.package.pfx}.${service}"
-			/>
-		</cixsOperation>
-      </cixsService>
+        <cixsJaxwsService name="${service}"
+            packageName="${cixs.package.pfx}.${service}"
+            targetNamespace="${cixs.namespace.pfx}/${service}">
+            <cixsOperation name="${service}"
+                cicsProgramName="${cics.program.name}">
+                <input
+                    jaxbType="${jaxb.root.name.in}"
+                    jaxbPackageName="${jaxb.package.pfx}.${service}"
+                />
+                <output
+                    jaxbType="${jaxb.root.name.out}"
+                    jaxbPackageName="${jaxb.package.pfx}.${service}"
+                />
+            </cixsOperation>
+        </cixsJaxwsService>
     </cixsgen>
     
-    </target>
+  </target>
    
   <!-- ===========================================================  -->
   <!-- Compile the generated service classes

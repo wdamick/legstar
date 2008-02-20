@@ -48,14 +48,15 @@
 		<!-- Classpath setting -->
 		<property name="maven.repo" value="C:\Documents and Settings\Fady\.m2\repository"/>
 		<path id="classpath">
-	  		<!--SAXON binaries -->
-		    <pathelement location="${maven.repo}\net\sf\saxon\saxon\8.7\saxon-8.7.jar"/>
+	  		<!--Velocity -->
+	  		<pathelement location="${maven.repo}/org/apache/velocity/velocity/1.5/velocity-1.5.jar"/>
 	  		<!--CIXS runtime -->
 	        <fileset dir="${tomcat.dir}" includes="shared/lib/*.jar" />
 	  		<!--CIXS Generator classes -->
 	  		<pathelement location="${build.dir}/classes"/>
 	  		<pathelement location="${build.dir}/test-classes"/>
-		    <pathelement location="${basedir}/../legstar-common/target/classes"/>
+		    <pathelement location="${basedir}/../legstar-codegen/target/classes"/>
+		    <pathelement location="${basedir}/../legstar-cixsgen-model/target/classes"/>
 	  		<!--JAXB generated classes and custom code  -->
 	  		<pathelement location="${jaxb.bin.dir}"/>
 	  		<!--COXB generated classes -->
@@ -64,7 +65,7 @@
 
 		<!-- Service Generator ant task -->
 		<taskdef name="cixsgen"
-			classname="com.legstar.cixs.gen.CixsServiceGenerator"
+			classname="com.legstar.cixs.jaxws.gen.CixsJaxwsGenerator"
 			classpathref="classpath" 
 		/> 
 
@@ -110,21 +111,18 @@
 	<target name="generateService" depends="init">
 		<basename property="service" file="${xsd.file}" suffix="xsd"/>
 		
-		<mkdir dir="${wdd.dir}/${service}"/>
-		<mkdir dir="${ant.dir}/${service}"/>
-		
 		<cixsgen targetSrcDir="${cixs.src.dir}"
-		         targetWDDDir="${wdd.dir}/${service}"
+		         targetWDDDir="${wdd.dir}"
 			     targetPropDir="${prop.dir}"
-			     targetAntDir="${ant.dir}/${service}"
+			     targetAntDir="${ant.dir}"
 		         targetWarDir="${war.dir}"
 		         jaxbBinDir="${jaxb.bin.dir}"
 	         	 coxbBinDir="${coxb.bin.dir}"
 		         cixsBinDir="${cixs.bin.dir}"
 	             custBinDir="${cust.bin.dir}"
 			>
-			<cixsService name="${service}"
-				endpointPackageName="${cixs.package.pfx}.${service}"
+			<cixsJaxwsService name="${service}"
+				packageName="${cixs.package.pfx}.${service}"
 				targetNamespace="${cixs.namespace.pfx}/${service}">
 				<cixsOperation name="${service}"
 					cicsProgramName="${service}">
@@ -137,7 +135,7 @@
 						jaxbPackageName="${jaxb.package.pfx}.${service}"
 					/>
 				</cixsOperation>
-			</cixsService>
+			</cixsJaxwsService>
 		</cixsgen>
 		
   	</target>
@@ -151,21 +149,18 @@
 		<property name="special-jaxb.root.name.in" value="RequestParmsType"/>
 		<property name="special-jaxb.root.name.out" value="ReplyDataType"/>
 		
-		<mkdir dir="${wdd.dir}/${special-service}"/>
-		<mkdir dir="${ant.dir}/${special-service}"/>
-		
 		<cixsgen targetSrcDir="${cixs.src.dir}"
-		         targetWDDDir="${wdd.dir}/${special-service}"
+		         targetWDDDir="${wdd.dir}"
 			     targetPropDir="${prop.dir}"
-			     targetAntDir="${ant.dir}/${special-service}"
+			     targetAntDir="${ant.dir}"
 		         targetWarDir="${war.dir}"
 		         jaxbBinDir="${jaxb.bin.dir}"
 	        	 coxbBinDir="${coxb.bin.dir}"
 		         cixsBinDir="${cixs.bin.dir}"
 	             custBinDir="${cust.bin.dir}"
 			>
-			<cixsService name="${special-service}"
-				endpointPackageName="${cixs.package.pfx}.${special-service}"
+			<cixsJaxwsService name="${special-service}"
+				packageName="${cixs.package.pfx}.${special-service}"
 				targetNamespace="${cixs.namespace.pfx}/${special-service}">
 				<cixsOperation name="${special-service}"
 					cicsProgramName="${special-service}">
@@ -178,7 +173,7 @@
 						jaxbPackageName="${jaxb.package.pfx}.${special-service}"
 					/>
 				</cixsOperation>
-			</cixsService>
+			</cixsJaxwsService>
 		</cixsgen>
 		
   	</target>
@@ -190,21 +185,18 @@
 	<target name="generateLsfileacService" depends="init">
 		<property name="service" value="lsfileac"/>
 		
-		<mkdir dir="${wdd.dir}/${service}"/>
-		<mkdir dir="${ant.dir}/${service}"/>
-		
 		<cixsgen targetSrcDir="${cixs.src.dir}"
-		         targetWDDDir="${wdd.dir}/${service}"
+		         targetWDDDir="${wdd.dir}"
 			     targetPropDir="${prop.dir}"
-			     targetAntDir="${ant.dir}/${service}"
+			     targetAntDir="${ant.dir}"
 		         targetWarDir="${war.dir}"
 		         jaxbBinDir="${jaxb.bin.dir}"
 		       	 coxbBinDir="${coxb.bin.dir}"
 		         cixsBinDir="${cixs.bin.dir}"
 	             custBinDir="${cust.bin.dir}"
 			>
-			<cixsService name="${service}"
-				endpointPackageName="${cixs.package.pfx}.${service}"
+			<cixsJaxwsService name="${service}"
+				packageName="${cixs.package.pfx}.${service}"
 				targetNamespace="${cixs.namespace.pfx}/${service}">
 				<cixsOperation name="${service}"
 					cicsProgramName="${service}"
@@ -230,7 +222,7 @@
 						cicsContainer="ReplyData"
 					/>
 				</cixsOperation>
-			</cixsService>
+			</cixsJaxwsService>
 		</cixsgen>
 		
   	</target>

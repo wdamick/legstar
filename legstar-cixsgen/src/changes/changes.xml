@@ -4,6 +4,19 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
+    <release version="1.2.0" date="2008-04-01" description="Velocity macros">
+      <action dev="fady" type="update">
+        The XSLT based generation has been replaced by Velocity macros. The code is
+        easier to maintain and performances are better.
+        There is a new legstar-cixsgen-model project that isolates classes that are
+        common to multiple target platforms (Jaxws, Mule, ...).
+        The Ant Task has been renamed CixsJaxwsGenerator to show the dependency on
+        Jaxws. There are also minor changes in the Task properties so old Ant script
+        may break with this new version.
+        Test cases have been revised and are more thorough.
+      </action>
+    </release>
+
     <release version="1.1.0" date="2007-08-30" description="CICS Containers support">
       <action dev="fady" type="add">
         Operations now support multiple inputs and multiple outputs where each input or
