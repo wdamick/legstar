@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.legstar.codegen.CodeGenHelper;
 import com.legstar.codegen.CodeGenMakeException;
 import com.legstar.codegen.CodeGenUtil;
 import com.legstar.codegen.CodeGenVelocityException;
@@ -36,13 +37,20 @@ public class CoxbGenWriter {
 		"vlc/coxb-bind-complex-array.vm";
 
 	/** A set of methods to simplify the velocity templates. */
-	private CoxbHelper mHelper;
+	private CodeGenHelper mHelper;
+
+	/** Simplifying methods specific to coxb. */
+	private CoxbHelper mCoxbHelper;
 
 	/** The package name used for JAXB classes. */
 	private String mJaxbPackageName;
 
 	/** The package name used for generated binding classes. */
 	private String mCoxbPackageName;
+	
+	/** This generator name. */
+	private static final String BINDING_GENERATOR_NAME =
+		"LegStar Binding generator";
 
 	/**
 	 * Constructor from an existing directory.
@@ -65,7 +73,8 @@ public class CoxbGenWriter {
 			throw new CodeGenException(e);
 		}
 		mTargetDir = targetDir;
-		mHelper = new CoxbHelper();
+		mHelper = new CodeGenHelper();
+		mCoxbHelper = new CoxbHelper();
 	}
 
 	/**
@@ -80,18 +89,22 @@ public class CoxbGenWriter {
 				new HashMap < String, Object >();
 			parameters.put("jaxb-package", mJaxbPackageName);
 			parameters.put("binding-type-package", mCoxbPackageName);
-			parameters.put("binding-class-name", mHelper.getCoxbTypeName(ce));
+			parameters.put("binding-class-name",
+					mCoxbHelper.getCoxbTypeName(ce));
 			parameters.put("helper", mHelper);
+			parameters.put("coxbHelper", mCoxbHelper);
 
 			String dir = mTargetDir + '/'
 				+ CodeGenUtil.relativeLocation(mCoxbPackageName);
 			CodeGenUtil.checkDirectory(dir, true);
 
-			CodeGenUtil.processTemplate(COMPLEX_VLC_TEMPLATE,
+			CodeGenUtil.processTemplate(
+					BINDING_GENERATOR_NAME,
+					COMPLEX_VLC_TEMPLATE,
 					"binding", ce,
 					parameters,
 					CodeGenUtil.getFile(dir,
-							mHelper.getCoxbTypeName(ce) + ".java"));
+							mCoxbHelper.getCoxbTypeName(ce) + ".java"));
 		} catch (CodeGenMakeException e) {
 			throw new CodeGenException(e);
 		}
@@ -110,18 +123,22 @@ public class CoxbGenWriter {
 				new HashMap < String, Object >();
 			parameters.put("jaxb-package", mJaxbPackageName);
 			parameters.put("binding-type-package", mCoxbPackageName);
-			parameters.put("binding-class-name", mHelper.getCoxbTypeName(ce));
+			parameters.put("binding-class-name",
+					mCoxbHelper.getCoxbTypeName(ce));
 			parameters.put("helper", mHelper);
+			parameters.put("coxbHelper", mCoxbHelper);
 
 			String dir = mTargetDir + '/'
 				+ CodeGenUtil.relativeLocation(mCoxbPackageName);
 			CodeGenUtil.checkDirectory(dir, true);
 
-			CodeGenUtil.processTemplate(CHOICE_VLC_TEMPLATE,
+			CodeGenUtil.processTemplate(
+					BINDING_GENERATOR_NAME,
+					CHOICE_VLC_TEMPLATE,
 					"binding", ce,
 					parameters,
 					CodeGenUtil.getFile(dir,
-							mHelper.getCoxbTypeName(ce) + ".java"));
+							mCoxbHelper.getCoxbTypeName(ce) + ".java"));
 			
 			if (ce.getMarshalChoiceStrategyClassName() != null
 					&& ce.getMarshalChoiceStrategyClassName().length() > 0) {
@@ -162,6 +179,7 @@ public class CoxbGenWriter {
 			parameters.put("choice-strategy-qualified-class-name",
 					strategyClassName);
 			parameters.put("helper", mHelper);
+			parameters.put("coxbHelper", mCoxbHelper);
 			
 			String dir = mTargetDir + '/'
 				+ CodeGenUtil.relativeLocation(
@@ -171,13 +189,15 @@ public class CoxbGenWriter {
 
 			/* Check for previous code */
 			File targetFile = CodeGenUtil.getFile(dir,
-							mHelper.getClassName(strategyClassName) + ".java");
+					mHelper.getClassName(strategyClassName) + ".java");
 			if (targetFile.exists()) {
 				targetFile = CodeGenUtil.getFile(dir,
 						mHelper.getClassName(strategyClassName) + ".java.new");
 			}
 			
-			CodeGenUtil.processTemplate(CHOICE_STRATEGY_VLC_TEMPLATE,
+			CodeGenUtil.processTemplate(
+					BINDING_GENERATOR_NAME,
+					CHOICE_STRATEGY_VLC_TEMPLATE,
 					"binding", ce,
 					parameters,
 					targetFile);
@@ -199,18 +219,22 @@ public class CoxbGenWriter {
 				new HashMap < String, Object >();
 			parameters.put("jaxb-package", mJaxbPackageName);
 			parameters.put("binding-type-package", mCoxbPackageName);
-			parameters.put("binding-class-name", mHelper.getCoxbTypeName(ce));
+			parameters.put("binding-class-name",
+					mCoxbHelper.getCoxbTypeName(ce));
 			parameters.put("helper", mHelper);
+			parameters.put("coxbHelper", mCoxbHelper);
 
 			String dir = mTargetDir + '/'
 				+ CodeGenUtil.relativeLocation(mCoxbPackageName);
 			CodeGenUtil.checkDirectory(dir, true);
 
-			CodeGenUtil.processTemplate(COMPLEX_ARRAY_VLC_TEMPLATE,
+			CodeGenUtil.processTemplate(
+					BINDING_GENERATOR_NAME,
+					COMPLEX_ARRAY_VLC_TEMPLATE,
 					"binding", ce,
 					parameters,
 					CodeGenUtil.getFile(dir,
-							mHelper.getCoxbTypeName(ce) + ".java"));
+							mCoxbHelper.getCoxbTypeName(ce) + ".java"));
 		} catch (CodeGenMakeException e) {
 			throw new CodeGenException(e);
 		}

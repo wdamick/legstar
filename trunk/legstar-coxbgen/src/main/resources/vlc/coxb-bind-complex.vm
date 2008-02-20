@@ -23,7 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import ${jaxb-package}.ObjectFactory;
-import ${jaxb-package}.$helper.getJaxbTypeName($binding);
+import ${jaxb-package}.$coxbHelper.getJaxbTypeName($binding);
 
 /**
  * LegStar Binding for Complex element :
@@ -36,7 +36,7 @@ public class $binding-class-name
              extends CComplexBinding {
 
     /** Jaxb object to which this cobol complex element is bound. */
-    private $helper.getJaxbTypeName($binding) mJaxbObject;
+    private $coxbHelper.getJaxbTypeName($binding) mJaxbObject;
   
     /** Indicates that the associated Jaxb object just came from the constructor
      * and doesn't need to be recreated. */
@@ -44,14 +44,14 @@ public class $binding-class-name
     
 #foreach ($child in $binding.childrenList)
 #if($child.isBound())
-    /** Child bound to jaxb property ${child.jaxbName}(${helper.getJaxbTypeName($child)}). */
+    /** Child bound to jaxb property ${child.jaxbName}(${coxbHelper.getJaxbTypeName($child)}). */
 #else
     /** Unbound child. */
 #end
-    public $helper.getBindingInterfaceName($child) $helper.getFieldName($child);
-#if ($helper.getGenericType($child).equals("complexArray"))
-    /** Binding item for complex array binding $helper.getCoxbTypeName($child). */
-    public ICobolComplexBinding $helper.getFieldName($child)Item;
+    public $coxbHelper.getBindingInterfaceName($child) $coxbHelper.getFieldName($child);
+#if ($coxbHelper.getGenericType($child).equals("complexArray"))
+    /** Binding item for complex array binding $coxbHelper.getCoxbTypeName($child). */
+    public ICobolComplexBinding $coxbHelper.getFieldName($child)Item;
 #end
 #end
             
@@ -86,7 +86,7 @@ public class $binding-class-name
      *        complex element
      */
     public ${binding-class-name}(
-            final $helper.getJaxbTypeName($binding) jaxbObject) {
+            final $coxbHelper.getJaxbTypeName($binding) jaxbObject) {
 #if($helper.isEmpty(${complexBinding.bindingName}) == true)
 #set($bindingName = "")
 #else
@@ -114,9 +114,9 @@ public class $binding-class-name
             final String bindingName,
             final String jaxbName,
             final ICobolComplexBinding parentBinding,
-            final $helper.getJaxbTypeName($binding) jaxbObject) {
+            final $coxbHelper.getJaxbTypeName($binding) jaxbObject) {
         
-        super(bindingName, jaxbName, ${helper.getJaxbTypeName($binding)}.class, null, parentBinding);
+        super(bindingName, jaxbName, ${coxbHelper.getJaxbTypeName($binding)}.class, null, parentBinding);
         mJaxbObject = jaxbObject;
         if (mJaxbObject != null) {
             mUnusedJaxbObject = true;
@@ -136,7 +136,7 @@ public class $binding-class-name
 
         /* Add children to children list */
 #foreach ($child in $binding.childrenList)
-        getChildrenList().add(${helper.getFieldName($child)});
+        getChildrenList().add(${coxbHelper.getFieldName($child)});
 #end ##foreach
 
         if (LOG.isDebugEnabled()) {
@@ -153,7 +153,7 @@ public class $binding-class-name
             mUnusedJaxbObject = false;
             return;
         }
-        mJaxbObject = mJaxbObjectFactory.create${helper.getJaxbTypeName($binding)}();
+        mJaxbObject = mJaxbObjectFactory.create${coxbHelper.getJaxbTypeName($binding)}();
     }
 
     /** {@inheritDoc} */
@@ -165,18 +165,18 @@ public class $binding-class-name
         }
 #foreach ($child in $binding.childrenList)
 #if($child.isBound())
-        /* Get JAXB property ${helper.getFieldName($child)} */
+        /* Get JAXB property ${coxbHelper.getFieldName($child)} */
         if (LOG.isDebugEnabled()) {
             LOG.debug("Getting value from JAXB property "
-                    + "${helper.getFieldName($child)}"
-                    + " value=" + mJaxbObject.${helper.getterMethodName($child)}());
+                    + "${coxbHelper.getFieldName($child)}"
+                    + " value=" + mJaxbObject.${coxbHelper.getterMethodName($child)}());
         }
-        ${helper.getFieldName($child)}.setObjectValue(mJaxbObject.${helper.getterMethodName($child)}());
-#if(${helper.isVariableSizeArray($child)})
+        ${coxbHelper.getFieldName($child)}.setObjectValue(mJaxbObject.${coxbHelper.getterMethodName($child)}());
+#if(${coxbHelper.isVariableSizeArray($child)})
         /* For variable size array or list, we make sure any
          * associated counter is updated */
-        setCounterValue(${helper.getFieldName($child)}.getDependingOn(),
-                ((List < ? >) mJaxbObject.${helper.getterMethodName($child)}()).size());
+        setCounterValue(${coxbHelper.getFieldName($child)}.getDependingOn(),
+                ((List < ? >) mJaxbObject.${coxbHelper.getterMethodName($child)}()).size());
 #end
 #end
 #end ##foreach
@@ -207,12 +207,12 @@ public class $binding-class-name
 #foreach ($child in $binding.childrenList)
         case ${counter}:
 #if($child.isBound())
-#if(${helper.isArray($child)})
-            mJaxbObject.${helper.getterMethodName($child)}().clear();
-            mJaxbObject.${helper.getterMethodName($child)}().addAll(
-                (List < $helper.getJaxbTypeName($child) >) bindingValue);
+#if(${coxbHelper.isArray($child)})
+            mJaxbObject.${coxbHelper.getterMethodName($child)}().clear();
+            mJaxbObject.${coxbHelper.getterMethodName($child)}().addAll(
+                (List < $coxbHelper.getJaxbTypeName($child) >) bindingValue);
 #else
-            mJaxbObject.${helper.setterMethodName($child)}(($helper.getJaxbTypeName($child)) bindingValue);
+            mJaxbObject.${coxbHelper.setterMethodName($child)}(($coxbHelper.getJaxbTypeName($child)) bindingValue);
 #end
 #end
             break;
@@ -226,7 +226,7 @@ public class $binding-class-name
     /** {@inheritDoc} */
     public final Object getObjectValue(
             final Class < ? > type) throws HostException {
-        if (type.equals(${helper.getJaxbTypeName($binding)}.class)) {
+        if (type.equals(${coxbHelper.getJaxbTypeName($binding)}.class)) {
             return mJaxbObject;
         } else {
             throw new HostException("Attempt to get binding " + getBindingName()
@@ -241,8 +241,8 @@ public class $binding-class-name
             mJaxbObject = null;
             return;
         }
-        if (bindingValue.getClass().equals(${helper.getJaxbTypeName($binding)}.class)) {
-            mJaxbObject = ($helper.getJaxbTypeName($binding)) bindingValue;
+        if (bindingValue.getClass().equals(${coxbHelper.getJaxbTypeName($binding)}.class)) {
+            mJaxbObject = ($coxbHelper.getJaxbTypeName($binding)) bindingValue;
         } else {
             throw new HostException("Attempt to set binding " + getBindingName()
                     + " from an incompatible value " + bindingValue);
@@ -271,7 +271,7 @@ public class $binding-class-name
     /**
      * @return the bound JAXB object
      */
-    public final $helper.getJaxbTypeName($binding) get${helper.getJaxbTypeName($binding)}() {
+    public final $coxbHelper.getJaxbTypeName($binding) get${coxbHelper.getJaxbTypeName($binding)}() {
         return mJaxbObject;
     }
     

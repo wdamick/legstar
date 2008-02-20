@@ -221,16 +221,6 @@ public class CoxbHelper {
 	}
 	
 	/**
-	 * Checks a string for emptiness. This is needed because velocity
-	 * cannot check for nulls.
-	 * @param str the string to check
-	 * @return true if the string has a content (not empty)
-	 */
-	public final boolean isEmpty(final String str) {
-		return (str == null || str.length() == 0);
-	}
-	
-	/**
 	 * Builds a get method name for a field name. The get method must
 	 * be a valid Jaxb method.
 	 * @param binding a bound element
@@ -305,31 +295,4 @@ public class CoxbHelper {
 		return false;
 	}
 	
-	/**
-	 * Determines the package name of a fully qualified class name.
-	 * @param qualClassName class name including package
-	 * @param defaultPackageName a default to return if class is not qualified
-	 * @return the package name or default if class not qualified
-	 */
-	public final String getPackageName(
-			final String qualClassName, final String defaultPackageName) {
-		int idx = qualClassName.lastIndexOf('.');
-		if (idx < 1) {
-			return defaultPackageName;
-		}
-		return qualClassName.substring(0, idx);
-	}
-	
-	/**
-	 * Get the simple class name from a fully qualified class name.
-	 * @param qualClassName class name including package
-	 * @return the last part of the fully qualified name
-	 */
-	public final String getClassName(final String qualClassName) {
-		int idx = qualClassName.lastIndexOf('.');
-		if (idx < 0) {
-			return qualClassName;
-		}
-		return qualClassName.substring(idx + 1, qualClassName.length());
-	}
 }
