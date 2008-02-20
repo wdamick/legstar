@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="plugin_export" name="build">
 	<target name="plugin_export">
-		<pde.exportPlugins destination="D:\Legsem\Legstar\Dev\trunk\legstar-schemagen-plugin\target" exportSource="false" exportType="directory" plugins="com.legstar.eclipse.plugin.schemagen" useJARFormat="true"/>
+		<pde.exportPlugins destination="D:\Legsem\Legstar\Dev\trunk\legstar-common-plugin\target" exportSource="false" exportType="directory" plugins="com.legstar.eclipse.plugin.common" useJARFormat="false"/>
 	</target>
 </project>

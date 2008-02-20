@@ -2,7 +2,7 @@
 <feature
       id="com.legstar.eclipse.feature.cixsgen"
       label="LegStar Service Generator"
-      version="1.1.0"
+      version="1.2.0"
       provider-name="LegSem">
 
    <description url="http://www.legsem.com/legstar/cixsgen-plugin">
@@ -420,7 +420,7 @@ END OF TERMS AND CONDITIONS
    </url>
 
    <requires>
-      <import feature="com.legstar.eclipse.feature.common" version="1.1.0"/>
+      <import feature="com.legstar.eclipse.feature.common" version="1.2.0"/>
    </requires>
 
    <plugin
