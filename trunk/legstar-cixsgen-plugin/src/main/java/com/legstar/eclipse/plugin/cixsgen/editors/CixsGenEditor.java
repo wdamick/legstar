@@ -60,8 +60,8 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 
-import com.legstar.cixs.gen.CixsException;
-import com.legstar.cixs.gen.CixsService;
+import com.legstar.cixs.gen.model.CixsModelException;
+import com.legstar.cixs.jaxws.model.CixsJaxwsService;
 import com.legstar.eclipse.plugin.cixsgen.Activator;
 import com.legstar.eclipse.plugin.cixsgen.AntCreationException;
 import com.legstar.eclipse.plugin.cixsgen.CixsGenDescriptor;
@@ -145,7 +145,7 @@ public class CixsGenEditor
 	 */
 	private void createOperationsPage() {
 
-		CixsService service = null;
+		CixsJaxwsService service = null;
 		try {
 			service = loadModel();
 		} catch (CoreException e) {
@@ -407,15 +407,15 @@ public class CixsGenEditor
 	 * @return the new properties model file
 	 * @throws CoreException if model can't be loaded
 	 */
-	private CixsService loadModel() throws CoreException {
-		CixsService service = new CixsService();
+	private CixsJaxwsService loadModel() throws CoreException {
+		CixsJaxwsService service = new CixsJaxwsService();
 		String editorText =
 			editor.getDocumentProvider().getDocument(
 					editor.getEditorInput()).get();
 		if (editorText != null && editorText.length() > 0) {
 			try {
 				service.load(editorText);
-			} catch (CixsException e) {
+			} catch (CixsModelException e) {
 				LegstarReport.throwCoreException(e, Activator.PLUGIN_ID);
 			}
 		}
@@ -531,7 +531,7 @@ public class CixsGenEditor
 	 * @throws CoreException if generation fails
 	 */
 	private void doGenerate(
-			final CixsService service,
+			final CixsJaxwsService service,
 			final CixsGenDescriptor cixsAntPropMap,
 			final IProgressMonitor monitor) throws CoreException {
 

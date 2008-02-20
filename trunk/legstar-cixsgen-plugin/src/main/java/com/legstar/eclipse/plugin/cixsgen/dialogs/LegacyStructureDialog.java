@@ -53,7 +53,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
 
-import com.legstar.cixs.gen.CixsStructure;
+import com.legstar.cixs.gen.model.CixsStructure;
 import com.legstar.eclipse.plugin.cixsgen.Activator;
 import com.legstar.eclipse.plugin.common.LegstarReport;
 

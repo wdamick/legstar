@@ -35,7 +35,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
-import com.legstar.cixs.gen.CixsStructure;
+import com.legstar.cixs.gen.model.CixsStructure;
 
 /**
  * This control displays a table and add/modify/delete buttons for

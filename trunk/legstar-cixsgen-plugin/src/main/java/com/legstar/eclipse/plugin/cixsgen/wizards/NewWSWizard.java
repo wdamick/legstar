@@ -47,7 +47,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-import com.legstar.cixs.gen.CixsService;
+import com.legstar.cixs.jaxws.model.CixsJaxwsService;
 import com.legstar.eclipse.plugin.cixsgen.Activator;
 import com.legstar.eclipse.plugin.cixsgen.CixsGenPreferences;
 import com.legstar.eclipse.plugin.common.LegstarReport;
@@ -184,10 +184,10 @@ public class NewWSWizard extends Wizard implements INewWizard {
 		try {
 			OutputStream os =
                 new FileOutputStream(file, false);
-			CixsService service = new CixsService();
+			CixsJaxwsService service = new CixsJaxwsService();
 			CixsGenPreferences cixsgenPref = new CixsGenPreferences();
 			service.setName(serviceName);
-			service.setEndpointPackageName(
+			service.setPackageName(
 					cixsgenPref.getCixsPackagePrefix() + '.' + serviceName);
 			service.setTargetNamespace(
 					cixsgenPref.getCixsNamespacePrefix() + '/' + serviceName);

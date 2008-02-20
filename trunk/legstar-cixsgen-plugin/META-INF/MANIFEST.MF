@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: LegStar Service Generator
 Bundle-SymbolicName: com.legstar.eclipse.plugin.cixsgen;singleton:=true
-Bundle-Version: 1.1.0
+Bundle-Version: 1.2.0
 Bundle-Activator: com.legstar.eclipse.plugin.cixsgen.Activator
 Bundle-Vendor: LegSem
 Bundle-Localization: plugin
@@ -17,5 +17,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.workbench.texteditor,
  com.legstar.eclipse.plugin.common
 Eclipse-LazyStart: true
-Bundle-ClassPath: .
- 
+Bundle-ClassPath: lib/legstar-cixsgen-SNAPSHOT.jar,
+ .,
+ lib/legstar-cixsgen-model-SNAPSHOT.jar,
+ lib/legstar-codegen-SNAPSHOT.jar,
+ lib/velocity-1.5.jar,
+ lib/commons-logging-1.1.jar

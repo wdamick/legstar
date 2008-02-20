@@ -38,9 +38,9 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
-import com.legstar.cixs.gen.CixsException;
-import com.legstar.cixs.gen.CixsOperation;
-import com.legstar.cixs.gen.CixsService;
+import com.legstar.cixs.gen.model.CixsModelException;
+import com.legstar.cixs.gen.model.CixsOperation;
+import com.legstar.cixs.jaxws.model.CixsJaxwsService;
 import com.legstar.eclipse.plugin.cixsgen.Activator;
 import com.legstar.eclipse.plugin.cixsgen.editors.CixsGenEditor;
 
@@ -57,7 +57,7 @@ public class LegacyWebServiceDialog extends Composite {
 	private Table mOperationsTable = null;
 	
 	/** The document model for the Web Service. */
-	private CixsService mService;
+	private CixsJaxwsService mService;
 
 	/** Title that should appear on message dialogs.*/
 	private static final String DLG_TITLE = "CIXS Web Service generation";
@@ -145,7 +145,7 @@ public class LegacyWebServiceDialog extends Composite {
 		"You must specify a target namespace for service";
 
 	/**
-	 * Contructor for Legacy Web Service dialog.
+	 * Constructor for Legacy Web Service dialog.
 	 * @param parent the composite using this dialog
 	 * @param style an SWT style to propagate on this composite
 	 * @param service the document model for the legacy Web Service
@@ -154,7 +154,7 @@ public class LegacyWebServiceDialog extends Composite {
 	public LegacyWebServiceDialog(
 			final Composite parent,
 			final int style,
-			final CixsService service,
+			final CixsJaxwsService service,
 			final IFile serviceFile) {
 		super(parent, style);
 		mService = service;
@@ -199,10 +199,10 @@ public class LegacyWebServiceDialog extends Composite {
 
 		WidgetCreator.createLabel(this, ENDPOINT_PKG_LABEL);
 		mPackageNameText = WidgetCreator.createText(this,
-				mService.getEndpointPackageName());
+				mService.getPackageName());
 		mPackageNameText.addModifyListener(new ModifyListener() {
 			public void modifyText(final ModifyEvent e) {
-				mService.setEndpointPackageName(mPackageNameText.getText());
+				mService.setPackageName(mPackageNameText.getText());
 				postProcessChange();
 			}
 		});
@@ -327,7 +327,7 @@ public class LegacyWebServiceDialog extends Composite {
 		if (Window.OK == dlg.open()) {
 	        try {
 				mService.addCixsOperation(operation);
-			} catch (CixsException e) {
+			} catch (CixsModelException e) {
 				MessageDialog.openError(
 						null,
 						DLG_TITLE,
@@ -442,7 +442,7 @@ public class LegacyWebServiceDialog extends Composite {
 	 * the control to reset its content.
 	 * @param service the service model
 	 */
-	public final void resetOperations(final CixsService service) {
+	public final void resetOperations(final CixsJaxwsService service) {
 		mService = service;
 		loadOperations();
 		enableButtons();
@@ -465,7 +465,7 @@ public class LegacyWebServiceDialog extends Composite {
 	/**
 	 * @return the service model
 	 */
-	public final CixsService getService() {
+	public final CixsJaxwsService getService() {
 		return mService;
 	}
 }
