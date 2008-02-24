@@ -5,7 +5,6 @@ Bundle-SymbolicName: com.legstar.eclipse.plugin.schemagen; singleton:=true
 Bundle-Version: 1.2.0
 Bundle-Activator: com.legstar.eclipse.plugin.schemagen.Activator
 Bundle-Vendor: LegSem
-Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.ide,
