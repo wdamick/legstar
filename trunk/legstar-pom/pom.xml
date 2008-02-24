@@ -7,6 +7,9 @@
   <version>SNAPSHOT</version>
   <description>Legacy integration open-source developers toolkit</description>
   <url>http://www.legsem.com/legstar</url>
+    <properties>
+        <legstarVersion>SNAPSHOT</legstarVersion>
+    </properties>
   <developers>
     <developer>
       <id>fady</id>
@@ -64,23 +67,18 @@
     </plugins>
   </build>
   
-  <!--
    <modules>
     <module>../legstar-c2wsrt</module>
     <module>../legstar-chttprt</module>
     <module>../legstar-cixsgen</module>
     <module>../legstar-cixsgen-cases</module>
     <module>../legstar-cixsgen-model</module>
-    <module>../legstar-cixsgen-plugin</module>
     <module>../legstar-cmqrt</module>
     <module>../legstar-cobcgen</module>
     <module>../legstar-codegen</module>
-    <module>../legstar-common</module>
-    <module>../legstar-common-plugin</module>
     <module>../legstar-coxbapi</module>
     <module>../legstar-coxbgen</module>
     <module>../legstar-coxbgen-cases</module>
-    <module>../legstar-coxbgen-plugin</module>
     <module>../legstar-coxbrt</module>
     <module>../legstar-csokrt</module>
     <module>../legstar-distribution</module>
@@ -90,9 +88,9 @@
     <module>../legstar-jaxbgen-cases</module>
     <module>../legstar-messaging</module>
     <module>../legstar-schemagen</module>
-    <module>../legstar-schemagen-plugin</module>
     <module>../legstar-xsdcgen</module>
   </modules>
+  <!--
     -->
   
   <!-- Enabling the use of FTP -->
@@ -104,10 +102,16 @@
       <url>file:///c:/Program Files/Apache Software Foundation/Apache2.2/htdocs/legstar/</url>
     </site>
     <repository>
-      <name>LegStar remote repository</name>
-      <id>ftp-repository</id>
+      <id>ftp-release-repository</id>
+      <name>LEGSTAR Distributions Repository</name>
       <url>ftp://ftp.legsem.com/public_html/legstar/maven/repo</url>
     </repository>
+     <snapshotRepository>
+      <id>ftp-snapshots-repository</id>
+      <name>LEGSTAR Distributions Snapshot Repository</name>
+      <url>ftp://ftp.legsem.com/public_html/legstar/maven/snapshots</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
   </distributionManagement>
 
   <!-- 
@@ -490,11 +494,6 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-c2wsrt</artifactId>
-                <version>${legstarVersion}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.legsem.legstar</groupId>
-                <artifactId>legstar-common-plugin</artifactId>
                 <version>${legstarVersion}</version>
             </dependency>
       
