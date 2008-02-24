@@ -21,6 +21,8 @@
 		<mkdir dir="${jaxb.bin.dir}"/>
 		<!-- Location of XML schemas  -->
 	 	<property name="xsd.dir" value="${basedir}/../legstar-schemagen/src/test/schema" />
+		<!-- Location of external bindings files   -->
+	 	<property name="bindings.dir" value="${basedir}/../legstar-jaxbgen/src/main/resources/xjb" />
 		<!-- Location of LegStar binaries   -->
 		<property name="build.dir" value="${basedir}/target"/>
 
@@ -54,6 +56,9 @@
 			<arg value="-Xlegstar-code" />
 			<!--Without this option (no validation), out of memory errors -->
 			<arg value="-nv" />
+			<!-- External XJC bindings directory. Collects all *.xjb files -->
+			<arg value="-b" />
+			<arg value="${bindings.dir}" />
 	    </xjc>
 	</target>
 	
