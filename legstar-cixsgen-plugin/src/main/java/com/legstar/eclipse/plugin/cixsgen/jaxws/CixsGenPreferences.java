@@ -18,10 +18,11 @@
  *  02110-1301  USA
  *  
  *******************************************************************************/
-package com.legstar.eclipse.plugin.cixsgen;
+package com.legstar.eclipse.plugin.cixsgen.jaxws;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.IPreferencesService;
+
 
 
 /**
@@ -121,6 +122,9 @@ public class CixsGenPreferences {
 	
 	/** The CIXS location of JAXB binaries. */
 	private String mCixsJaxbBinariesDir;
+	
+	/** The CIXS location of COXB binaries. */
+	private String mCixsCoxbBinariesDir;
 	
 	/** The CIXS location of custom classes binaries. */
 	private String mCixsCustBinariesDir;
@@ -324,6 +328,21 @@ public class CixsGenPreferences {
 	public final void setCixsJaxbBinariesDir(
 			final String cixsJaxbBinariesDir) {
 		mCixsJaxbBinariesDir = cixsJaxbBinariesDir;
+	}
+
+	/**
+	 * @return the location of COXB binaries
+	 */
+	public final String getCixsCoxbBinariesDir() {
+		return mCixsCoxbBinariesDir;
+	}
+
+	/**
+	 * @param cixsCoxbBinariesDir the location of COXB binaries to set
+	 */
+	public final void setCixsCoxbBinariesDir(
+			final String cixsCoxbBinariesDir) {
+		mCixsCoxbBinariesDir = cixsCoxbBinariesDir;
 	}
 
 }

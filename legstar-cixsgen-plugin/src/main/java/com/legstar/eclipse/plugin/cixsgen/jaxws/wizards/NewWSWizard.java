@@ -18,7 +18,7 @@
  *  02110-1301  USA
  *  
  *******************************************************************************/
-package com.legstar.eclipse.plugin.cixsgen.wizards;
+package com.legstar.eclipse.plugin.cixsgen.jaxws.wizards;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -48,8 +48,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
-import com.legstar.eclipse.plugin.cixsgen.Activator;
-import com.legstar.eclipse.plugin.cixsgen.CixsGenPreferences;
+import com.legstar.eclipse.plugin.cixsgen.jaxws.Activator;
+import com.legstar.eclipse.plugin.cixsgen.jaxws.CixsGenPreferences;
 import com.legstar.eclipse.plugin.common.LegstarReport;
 
 import org.eclipse.ui.ide.IDE;

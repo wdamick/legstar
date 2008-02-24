@@ -18,7 +18,7 @@
  *  02110-1301  USA
  *  
  *******************************************************************************/
-package com.legstar.eclipse.plugin.cixsgen.wizards;
+package com.legstar.eclipse.plugin.cixsgen.jaxws.wizards;
 
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;

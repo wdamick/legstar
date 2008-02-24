@@ -18,7 +18,7 @@
  *  02110-1301  USA
  *  
  *******************************************************************************/
-package com.legstar.eclipse.plugin.cixsgen;
+package com.legstar.eclipse.plugin.cixsgen.jaxws;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -30,7 +30,8 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	/** The plug-in ID. */
-	public static final String PLUGIN_ID = "com.legstar.eclipse.plugin.cixsgen";
+	public static final String PLUGIN_ID =
+		"com.legstar.eclipse.plugin.cixsgen";
 
 	/** The shared instance. */
 	private static Activator plugin;

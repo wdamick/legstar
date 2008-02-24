@@ -18,7 +18,9 @@
  *  02110-1301  USA
  *  
  *******************************************************************************/
-package com.legstar.eclipse.plugin.cixsgen;
+package com.legstar.eclipse.plugin.cixsgen.jaxws;
+
+import com.legstar.eclipse.plugin.cixsgen.AntCreationException;
 
 /**
  * This class expose all properties that are useful at generation time.

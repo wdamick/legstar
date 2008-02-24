@@ -43,6 +43,9 @@ import com.legstar.cixs.gen.model.CixsStructure;
  */
 public class StructuresTable extends Composite {
 
+	/** Used in error messages. */
+	private String mPluginID;
+
 	/** Add new operation. */
 	private Button mAddButton;
 	
@@ -92,17 +95,20 @@ public class StructuresTable extends Composite {
 	
 	/**
 	 * Creates a composite control with a table for structures handling.
+	 * @param pluginID the current plugin ID
 	 * @param parent the parent composite
 	 * @param style an additional style
 	 * @param serviceFile the current service descriptor file
 	 * @param structures a set if structures to edit
 	 */
 	public StructuresTable(
+			final String pluginID,
 			final Composite parent,
 			final int style,
 			final IFile serviceFile,
 			final List < CixsStructure > structures) {
 		super(parent, style);
+		mPluginID = pluginID;
 		mServiceFile = serviceFile;
 		mStructures = structures;
 		GridLayout layout = new GridLayout(2, false);
@@ -215,7 +221,8 @@ public class StructuresTable extends Composite {
 	private void handleAdd() {
 		CixsStructure structure = new CixsStructure();
 		LegacyStructureDialog dlg =
-			new LegacyStructureDialog(getShell(), mServiceFile, structure);
+			new LegacyStructureDialog(
+					mPluginID, getShell(), mServiceFile, structure);
 		if (Window.OK == dlg.open()) {
 	        TableItem ti = new TableItem(mStructuresTable, SWT.NONE);
 	        ti.setText(structure.getAsStringArray());
@@ -244,7 +251,8 @@ public class StructuresTable extends Composite {
 			CixsStructure structure = mStructures.get(idx);
 			/* Display editing dialog */
 			LegacyStructureDialog dlg =
-				new LegacyStructureDialog(getShell(), mServiceFile, structure);
+				new LegacyStructureDialog(
+						mPluginID, getShell(), mServiceFile, structure);
 			if (Window.OK == dlg.open()) {
 		        ti.setText(structure.getAsStringArray());
 		        mStructuresTable.showItem(ti);
