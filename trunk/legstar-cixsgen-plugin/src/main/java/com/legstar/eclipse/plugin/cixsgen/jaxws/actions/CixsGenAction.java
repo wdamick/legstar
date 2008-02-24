@@ -18,14 +18,14 @@
  *  02110-1301  USA
  *  
  *******************************************************************************/
-package com.legstar.eclipse.plugin.cixsgen.actions;
+package com.legstar.eclipse.plugin.cixsgen.jaxws.actions;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
-import com.legstar.eclipse.plugin.cixsgen.wizards.RunWizardAction;
+import com.legstar.eclipse.plugin.cixsgen.jaxws.wizards.RunWizardAction;
 
 /**
  * Our sample action implements workbench action delegate.

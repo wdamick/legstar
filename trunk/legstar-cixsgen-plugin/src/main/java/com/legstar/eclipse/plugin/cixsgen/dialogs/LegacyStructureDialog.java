@@ -54,17 +54,19 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.legstar.cixs.gen.model.CixsStructure;
-import com.legstar.eclipse.plugin.cixsgen.Activator;
 import com.legstar.eclipse.plugin.common.LegstarReport;
 
 
 /**
- * Dialog used to capture a legacy Web service operation aattributes.
+ * Dialog used to capture a legacy Web service operation attributes.
  *
  * @author Fady Moussallam
  * 
  */
 public class LegacyStructureDialog extends Dialog {
+
+	/** Used in error messages. */
+	private String mPluginID;
 
 	/** Last segment of coxb binding classes package. */
 	private static final String BIND_FRAG = "bind";
@@ -106,15 +108,18 @@ public class LegacyStructureDialog extends Dialog {
 	
 	/**
 	 * Constructor for structure dialog.
+	 * @param pluginID the current plugin ID
 	 * @param parentShell the parent shell
 	 * @param serviceFile the legacy web service descriptor file
 	 * @param structure the structure being edited
 	 */
-	protected LegacyStructureDialog(
+	public LegacyStructureDialog(
+			final String pluginID,
 			final Shell parentShell,
 			final IFile serviceFile,
 			final CixsStructure structure) {
 		super(parentShell);
+		mPluginID = pluginID;
 		mServiceFile = serviceFile;
 		mStructure = structure;
 	}
@@ -156,7 +161,7 @@ public class LegacyStructureDialog extends Dialog {
 			createPackageList();
 			loadPackageCombos();
 		} catch (JavaModelException e) {
-			LegstarReport.throwCoreException(e, Activator.PLUGIN_ID);
+			LegstarReport.throwCoreException(e, mPluginID);
 		}
 	}
 	
@@ -244,7 +249,7 @@ public class LegacyStructureDialog extends Dialog {
 			final List typeList,
 			final String type) {
 		IPackageFragment pkgf = mPkgMap.get(
-				pkgCombo.getText() + "."  + BIND_FRAG);
+				pkgCombo.getText().trim() + "."  + BIND_FRAG);
 		if (pkgf != null) {
 			java.util.List < String > typesList = classList(pkgf);
 			typeList.removeAll();
@@ -288,8 +293,8 @@ public class LegacyStructureDialog extends Dialog {
 			return;
 		}
 		setReturnCode(OK);
-		mStructure.setCicsContainer(mCicsContainerText.getText());
-		mStructure.setJaxbPackageName(mJaxbPackageCombo.getText());
+		mStructure.setCicsContainer(mCicsContainerText.getText().trim());
+		mStructure.setJaxbPackageName(mJaxbPackageCombo.getText().trim());
 		jaxbTypeListChanged();
 		close();
 	}
@@ -368,9 +373,9 @@ public class LegacyStructureDialog extends Dialog {
      * @param shell parent shell
      * @param message text
      */
-    private static void errorDialog(final Shell shell, final String message) { 
+    private void errorDialog(final Shell shell, final String message) { 
 	    IStatus status = new Status(
-	    		IStatus.ERROR, Activator.PLUGIN_ID,
+	    		IStatus.ERROR, mPluginID,
 	    		IStatus.ERROR, message, null);         
 	    ErrorDialog.openError(shell, "Structure Error", null, status); 
     } 

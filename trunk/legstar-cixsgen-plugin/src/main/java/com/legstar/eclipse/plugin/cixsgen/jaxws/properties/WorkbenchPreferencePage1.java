@@ -18,7 +18,7 @@
  *  02110-1301  USA
  *  
  *******************************************************************************/
-package com.legstar.eclipse.plugin.cixsgen.properties;
+package com.legstar.eclipse.plugin.cixsgen.jaxws.properties;
 
 import java.io.File;
 
@@ -39,8 +39,8 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.jface.preference.IPreferenceStore;
-import com.legstar.eclipse.plugin.cixsgen.Activator;
-import com.legstar.eclipse.plugin.cixsgen.CixsGenPreferences;
+import com.legstar.eclipse.plugin.cixsgen.jaxws.Activator;
+import com.legstar.eclipse.plugin.cixsgen.jaxws.CixsGenPreferences;
 
 /**
  * A preference page to setup settings for CIXS generation.

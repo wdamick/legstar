@@ -9,10 +9,10 @@
             id="com.legstar.eclipse.plugin">
       </category>
       <wizard
-            name="CIXS Web Service endpoint"
+            name="CIXS Jaxws Service endpoint"
             icon="icons/cixsgen-generate.gif"
             category="com.legstar.eclipse.plugin"
-            class="com.legstar.eclipse.plugin.cixsgen.wizards.NewWSWizard"
+            class="com.legstar.eclipse.plugin.cixsgen.jaxws.wizards.NewWSWizard"
             id="com.legstar.eclipse.plugin.cixsgen.wizards.NewWSWizard">
       </wizard>
    </extension>
@@ -28,32 +28,32 @@
             <separator name="legstarGroup"/>
          </menu>
          <action
-               class="com.legstar.eclipse.plugin.cixsgen.actions.CixsGenAction"
+               class="com.legstar.eclipse.plugin.cixsgen.jaxws.actions.CixsGenAction"
                icon="icons/cixsgen-generate.gif"
                id="com.legstar.eclipse.plugin.cixsgen.actions.CixsGenAction"
-               label="&amp;Web Service generation"
+               label="&amp;Jaxws Service generation"
                menubarPath="legstarMenu/legstarGroup"
                toolbarPath="legstarGroup"
-               tooltip="Generate CIXS Web Service endpoint"/>
+               tooltip="Generate CIXS Jaxws Service endpoint"/>
       </actionSet>
    </extension>
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="com.legstar.eclipse.plugin.cixsgen.editors.CixsGenEditor"
+            class="com.legstar.eclipse.plugin.cixsgen.jaxws.editors.CixsGenEditor"
             extensions="cixs"
             icon="icons/cixsgen-generate.gif"
             id="com.legstar.eclipse.plugin.cixsgen.editors.CixsGenEditor"
-            name="CIXS Web Service editor"/>
+            name="CIXS Jaxws Service editor"/>
    </extension>
  
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
             category="com.legstar.eclipse.plugin"
-            class="com.legstar.eclipse.plugin.cixsgen.properties.WorkbenchPreferencePage1"
+            class="com.legstar.eclipse.plugin.cixsgen.jaxws.properties.WorkbenchPreferencePage1"
             id="com.legstar.eclipse.plugin.cixsgen.page1"
-            name="Service Generator"/>
+            name="Jaxws Service Generator"/>
    </extension>
 
 </plugin>

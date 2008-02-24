@@ -41,8 +41,6 @@ import org.eclipse.core.runtime.Status;
 
 import com.legstar.cixs.gen.model.CixsOperation;
 import com.legstar.cixs.gen.model.CixsStructure;
-import com.legstar.eclipse.plugin.cixsgen.Activator;
-
 
 /**
  * Dialog used to capture a legacy Web service operation attributes.
@@ -54,6 +52,9 @@ public class LegacyOperationDialog extends Dialog {
 
 	/** Maximum number of characters in a host program name. */
 	private static final int HOSTPGM_LEN = 8;
+	
+	/** Used in error messages. */
+	private String mPluginID;
 	
 	/** The operation being edited. */
 	private CixsOperation mOperation;
@@ -100,15 +101,18 @@ public class LegacyOperationDialog extends Dialog {
 	
 	/**
 	 * Constructor for operation dialog.
+	 * @param pluginID the current plugin ID
 	 * @param parentShell the parent shell
 	 * @param serviceFile the web service descriptor file
 	 * @param operation the operation being edited
 	 */
-	protected LegacyOperationDialog(
+	public LegacyOperationDialog(
+			final String pluginID,
 			final Shell parentShell,
 			final IFile serviceFile,
 			final CixsOperation operation) {
 		super(parentShell);
+		mPluginID = pluginID;
 		mServiceFile = serviceFile;
 		mOperation = operation;
 	}
@@ -141,14 +145,14 @@ public class LegacyOperationDialog extends Dialog {
 		mOperationNameText.addModifyListener(new ModifyListener() {
 			public void modifyText(final ModifyEvent e) {
 				/* Automatically populate host name when operation changes */
-				if (pgnameAuto
-						&& mOperationNameText.getText().length() > 0) {
+				String operationName = mOperationNameText.getText().trim();
+				if (pgnameAuto && operationName.length() > 0) {
 					int ol =
-						(mOperationNameText.getText().length()  > HOSTPGM_LEN)
-						? HOSTPGM_LEN : mOperationNameText.getText().length();
+						(operationName.length()  > HOSTPGM_LEN)
+						? HOSTPGM_LEN : operationName.length();
 					pgnameAutoSet = true;
 					mCicsProgramNameText.setText(
-							mOperationNameText.getText().
+							operationName.
 							substring(0, ol).toUpperCase());
 				}
 			}
@@ -196,7 +200,8 @@ public class LegacyOperationDialog extends Dialog {
 			final Composite area,
 			final List < CixsStructure > structures) {
 		StructuresTable structuresTable =
-			new StructuresTable(area, SWT.NONE, mServiceFile, structures);
+			new StructuresTable(
+					mPluginID, area, SWT.NONE, mServiceFile, structures);
 		GridData gdRight = new GridData(GridData.FILL_HORIZONTAL);
 		structuresTable.setLayoutData(gdRight);
 		return structuresTable;
@@ -217,9 +222,9 @@ public class LegacyOperationDialog extends Dialog {
 			return;
 		}
 		setReturnCode(OK);
-		mOperation.setName(mOperationNameText.getText());
-		mOperation.setCicsProgramName(mCicsProgramNameText.getText());
-		mOperation.setCicsChannel(mCicsChannelText.getText());
+		mOperation.setName(mOperationNameText.getText().trim());
+		mOperation.setCicsProgramName(mCicsProgramNameText.getText().trim());
+		mOperation.setCicsChannel(mCicsChannelText.getText().trim());
 		mOperation.setInput(mInputStructuresTable.getStructures());
 		mOperation.setOutput(mOutputStructuresTable.getStructures());
 		close();
@@ -232,14 +237,14 @@ public class LegacyOperationDialog extends Dialog {
 	private boolean validDialogData() {
 		
 		/* We must have an operation name */
-		String operationName = mOperationNameText.getText();
+		String operationName = mOperationNameText.getText().trim();
 		if (operationName.length() == 0) {
 			errorDialog(getShell(), "You must provide an operation name");
 			return false;
 		}
 		
 		/* We must have an program name */
-		String cicsProgramName = mCicsProgramNameText.getText();
+		String cicsProgramName = mCicsProgramNameText.getText().trim();
 		if (cicsProgramName.length() == 0) {
 			errorDialog(getShell(), "You must provide an program name");
 			return false;
@@ -265,17 +270,18 @@ public class LegacyOperationDialog extends Dialog {
 	private boolean validStructures(
 			final List < CixsStructure > structures) {
 		/*  */
+		String channel = mCicsChannelText.getText().trim();
 		for (CixsStructure structure : structures) {
 			if (structure.getCicsContainer() != null
 					&& structure.getCicsContainer().length() > 0) {
-				if (mCicsChannelText.getText().length() == 0) {
+				if (channel.length() == 0) {
 					errorDialog(getShell(), "Structures cannot specify a CICS"
 							+ " Container if operation does not specify a CICS"
 							+ " Channel");
 					return false;
 				}
 			} else {
-				if (mCicsChannelText.getText().length() > 0) {
+				if (channel.length() > 0) {
 					errorDialog(getShell(), "All structures must specify a CICS"
 							+ " Container when operation specifies a CICS"
 							+ " Channel");
@@ -291,9 +297,9 @@ public class LegacyOperationDialog extends Dialog {
      * @param shell parent shell
      * @param message text
      */
-    private static void errorDialog(final Shell shell, final String message) { 
+    private void errorDialog(final Shell shell, final String message) { 
 	    IStatus status = new Status(
-	    		IStatus.ERROR, Activator.PLUGIN_ID,
+	    		IStatus.ERROR, mPluginID,
 	    		IStatus.ERROR, message, null);         
 	    ErrorDialog.openError(shell, "Operation Error", null, status); 
     } 

@@ -18,7 +18,7 @@
  *  02110-1301  USA
  *  
  *******************************************************************************/
-package com.legstar.eclipse.plugin.cixsgen.editors;
+package com.legstar.eclipse.plugin.cixsgen.jaxws.editors;
 
 
 import java.io.File;
@@ -62,11 +62,11 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 
 import com.legstar.cixs.gen.model.CixsModelException;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
-import com.legstar.eclipse.plugin.cixsgen.Activator;
 import com.legstar.eclipse.plugin.cixsgen.AntCreationException;
-import com.legstar.eclipse.plugin.cixsgen.CixsGenDescriptor;
-import com.legstar.eclipse.plugin.cixsgen.CixsGenDriver;
-import com.legstar.eclipse.plugin.cixsgen.dialogs.LegacyWebServiceDialog;
+import com.legstar.eclipse.plugin.cixsgen.jaxws.Activator;
+import com.legstar.eclipse.plugin.cixsgen.jaxws.CixsGenDescriptor;
+import com.legstar.eclipse.plugin.cixsgen.jaxws.CixsGenDriver;
+import com.legstar.eclipse.plugin.cixsgen.jaxws.dialogs.LegacyWebServiceDialog;
 import com.legstar.eclipse.plugin.common.LegstarReport;
 
 import java.io.ByteArrayOutputStream;
@@ -494,6 +494,7 @@ public class CixsGenEditor
 		mCixsGenDescriptor.setCixsSourcesDir(mCixsSrcDir);
 		mCixsGenDescriptor.setCixsBinariesDir(mCixsBinDir);
 		mCixsGenDescriptor.setCixsJaxbBinariesDir(mCixsBinDir);
+		mCixsGenDescriptor.setCixsCoxbBinariesDir(mCixsBinDir);
 		mCixsGenDescriptor.setCixsCustBinariesDir(mCixsBinDir);
 		mCixsGenDescriptor.setCixsAntScriptsDir(
 				makeAbsolute(mCixsGenDescriptor.getCixsAntScriptsDir()));

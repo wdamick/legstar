@@ -18,7 +18,7 @@
  *  02110-1301  USA
  *  
  *******************************************************************************/
-package com.legstar.eclipse.plugin.cixsgen;
+package com.legstar.eclipse.plugin.cixsgen.jaxws;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +30,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
 
+import com.legstar.eclipse.plugin.cixsgen.AntCreationException;
 import com.legstar.eclipse.plugin.common.LegstarAntRunner;
 
 
@@ -48,7 +49,7 @@ public class CixsGenDriver {
 	
 	/** Relative path to ANT template generation script. */
 	private static final String CIXS_ANT_TEMPLATE_LOC =
-		"/ant/build-service.template";
+		"/ant/build-jaxws-service.template";
 	
 	/**  Suffix of generated ANT script file. */
 	private static final String ANT_FILE_SUFFIX = "xml";
@@ -135,6 +136,8 @@ public class CixsGenDriver {
 					cixsGenDescriptor.getCixsgenLocation());
 			script = script.replace("${jaxb.bin.dir}",
 					cixsGenDescriptor.getCixsJaxbBinariesDir());
+			script = script.replace("${coxb.bin.dir}",
+					cixsGenDescriptor.getCixsCoxbBinariesDir());
 			script = script.replace("${cixs.src.dir}",
 					cixsGenDescriptor.getCixsSourcesDir());
 			script = script.replace("${wdd.dir}",

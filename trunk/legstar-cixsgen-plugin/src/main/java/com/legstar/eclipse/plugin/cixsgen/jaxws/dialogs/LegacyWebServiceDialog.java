@@ -18,7 +18,7 @@
  *  02110-1301  USA
  *  
  *******************************************************************************/
-package com.legstar.eclipse.plugin.cixsgen.dialogs;
+package com.legstar.eclipse.plugin.cixsgen.jaxws.dialogs;
 
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.events.ModifyEvent;
@@ -41,8 +41,10 @@ import org.eclipse.jface.window.Window;
 import com.legstar.cixs.gen.model.CixsModelException;
 import com.legstar.cixs.gen.model.CixsOperation;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
-import com.legstar.eclipse.plugin.cixsgen.Activator;
-import com.legstar.eclipse.plugin.cixsgen.editors.CixsGenEditor;
+import com.legstar.eclipse.plugin.cixsgen.dialogs.LegacyOperationDialog;
+import com.legstar.eclipse.plugin.cixsgen.dialogs.WidgetCreator;
+import com.legstar.eclipse.plugin.cixsgen.jaxws.Activator;
+import com.legstar.eclipse.plugin.cixsgen.jaxws.editors.CixsGenEditor;
 
 /**
  * This dialog is meant to be used as part of a wizard (either new Web Service
@@ -202,7 +204,7 @@ public class LegacyWebServiceDialog extends Composite {
 				mService.getPackageName());
 		mPackageNameText.addModifyListener(new ModifyListener() {
 			public void modifyText(final ModifyEvent e) {
-				mService.setPackageName(mPackageNameText.getText());
+				mService.setPackageName(mPackageNameText.getText().trim());
 				postProcessChange();
 			}
 		});
@@ -212,7 +214,7 @@ public class LegacyWebServiceDialog extends Composite {
 				mService.getTargetNamespace());
 		mNamespaceText.addModifyListener(new ModifyListener() {
 			public void modifyText(final ModifyEvent e) {
-				mService.setTargetNamespace(mNamespaceText.getText());
+				mService.setTargetNamespace(mNamespaceText.getText().trim());
 				postProcessChange();
 			}
 		});
@@ -323,7 +325,8 @@ public class LegacyWebServiceDialog extends Composite {
 	private void handleAdd() {
 		CixsOperation operation = new CixsOperation();
 		LegacyOperationDialog dlg =
-			new LegacyOperationDialog(getShell(), mServiceFile, operation);
+			new LegacyOperationDialog(
+					Activator.PLUGIN_ID, getShell(), mServiceFile, operation);
 		if (Window.OK == dlg.open()) {
 	        try {
 				mService.addCixsOperation(operation);
@@ -361,7 +364,9 @@ public class LegacyWebServiceDialog extends Composite {
 			CixsOperation operation = mService.getCixsOperations().get(idx);
 			/* Display editing dialog */
 			LegacyOperationDialog dlg =
-				new LegacyOperationDialog(getShell(), mServiceFile, operation);
+				new LegacyOperationDialog(
+						Activator.PLUGIN_ID, getShell(), mServiceFile,
+						operation);
 			if (Window.OK == dlg.open()) {
 		        ti.setText(operation.getAsStringArray());
 		        mOperationsTable.showItem(ti);
@@ -410,7 +415,8 @@ public class LegacyWebServiceDialog extends Composite {
 			return;
 		}
 		/* There endpoint package cannot be empty */
-		if (mPackageNameText.getText().length() == 0) {
+		String packageName = mPackageNameText.getText().trim();
+		if (packageName.length() == 0) {
 			MessageDialog.openError(
 					null,
 					DLG_TITLE,
@@ -418,7 +424,8 @@ public class LegacyWebServiceDialog extends Composite {
 			return;
 		}
 		/* There namespace cannot be empty */
-		if (mNamespaceText.getText().length() == 0) {
+		String nameSpace = mNamespaceText.getText().trim();
+		if (nameSpace.length() == 0) {
 			MessageDialog.openError(
 					null,
 					DLG_TITLE,
