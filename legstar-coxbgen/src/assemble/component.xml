@@ -19,6 +19,14 @@
 		</fileSet>
 		
         <fileSet>
+            <directory>../legstar-jaxbgen/src/main/resources/xjb</directory>
+            <outputDirectory>xjb</outputDirectory>
+            <includes>
+                <include>*.xjb</include>
+            </includes>
+        </fileSet>
+        
+        <fileSet>
             <directory>../legstar-samples/schema</directory>
             <outputDirectory>schema</outputDirectory>
             <includes>
