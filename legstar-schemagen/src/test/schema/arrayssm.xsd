@@ -9,7 +9,6 @@ jaxb:version="2.0"
 jaxb:extensionBindingPrefixes="cb"
 elementFormDefault="qualified">
  <xs:annotation><xs:appinfo>
- <jaxb:globalBindings generateIsSetMethod="true"/>
  <jaxb:schemaBindings>
  <jaxb:package  name="com.legstar.test.coxb.arrayssm"/>
  </jaxb:schemaBindings>

@@ -9,9 +9,9 @@ jaxb:version="2.0"
 jaxb:extensionBindingPrefixes="cb"
 elementFormDefault="qualified">
  <xs:annotation><xs:appinfo>
- <jaxb:schemaBindings>
- <jaxb:package  name="com.legstar.test.coxb.lsfileae"/>
- </jaxb:schemaBindings>
+   <jaxb:schemaBindings>
+     <jaxb:package  name="com.legstar.test.coxb.lsfileae"/>
+   </jaxb:schemaBindings>
  </xs:appinfo></xs:annotation>
  <xs:complexType name="DfhcommareaType">
     <xs:sequence>
