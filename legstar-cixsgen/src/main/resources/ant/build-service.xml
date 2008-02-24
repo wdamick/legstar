@@ -39,8 +39,10 @@
     <!-- Properties files target location   -->
     <property name="prop.dir" value="${basedir}/src/main/WebContent/WEB-INF/classes"/>
 
-    <!-- Location of JAXB and binding classes   -->
+    <!-- Location of JAXB classes   -->
     <property name="jaxb.bin.dir" value="${basedir}/target/classes"/>
+    <!-- Location of COXB binding classes   -->
+    <property name="coxb.bin.dir" value="${basedir}/target/classes"/>
     <!-- Location of custom code classes   -->
     <property name="cust.bin.dir" value="${basedir}/target/classes"/>
     
@@ -54,6 +56,7 @@
         <fileset dir="${basedir}" includes="lib/*.jar" />
         <!--JAXB and COXB binding classes  -->
         <dirset dir="${jaxb.bin.dir}"/>
+        <dirset dir="${coxb.bin.dir}"/>
     </path>
 
     <!-- Service Generator ant task -->
@@ -75,6 +78,7 @@
              targetAntDir="${ant.dir}"
              targetWarDir="${war.dir}"
              jaxbBinDir="${jaxb.bin.dir}"
+             coxbBinDir="${coxb.bin.dir}"
              cixsBinDir="${cixs.bin.dir}"
              custBinDir="${cust.bin.dir}"
       >

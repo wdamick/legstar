@@ -42,17 +42,20 @@ public class CixsJaxwsGeneratorTest extends TestCase {
     /** Logger. */
 	private static final Log LOG = LogFactory.getLog(CixsJaxwsGeneratorTest.class);
 	
+	/** General location for generated artifacts. */
+	private static final String GEN_DIR = "src/test/gen";
+
 	/** Java Code will be generated here. */
-	private static final String GEN_SRC_DIR = "src/test/gen/java";
+	private static final String GEN_SRC_DIR = GEN_DIR + "/java";
 
 	/** Ant scripts will be generated here. */
-	private static final String GEN_ANT_DIR = "src/test/gen/ant";
+	private static final String GEN_ANT_DIR = "ant";
 
 	/** Web descriptors will be generated here. */
-	private static final String GEN_WEB_DIR = "src/test/gen/WebContent/WEB-INF";
+	private static final String GEN_WEB_DIR = "WebContent/WEB-INF";
 
 	/** Property files will be generated here. */
-	private static final String GEN_PROP_DIR = "src/test/gen/WebContent/WEB-INF/classes";
+	private static final String GEN_PROP_DIR = "WebContent/WEB-INF/classes";
 	
 	private CixsJaxwsGenerator mGenerator;
 
@@ -60,9 +63,6 @@ public class CixsJaxwsGeneratorTest extends TestCase {
         mGenerator = new CixsJaxwsGenerator();
         mGenerator.init();
         mGenerator.setTargetSrcDir(GEN_SRC_DIR);
-        mGenerator.setTargetAntDir(GEN_ANT_DIR);
-        mGenerator.setTargetWDDDir(GEN_WEB_DIR);
-        mGenerator.setTargetPropDir(GEN_PROP_DIR);
     }
 	
 	/**
@@ -96,11 +96,15 @@ public class CixsJaxwsGeneratorTest extends TestCase {
      */
     public final void testGenerateClassesNoOperations() throws Exception {
     	
+        
         CixsJaxwsService cixsJaxwsService = new CixsJaxwsService();
         cixsJaxwsService.setName("jaxwsServiceName");
         cixsJaxwsService.setInterfaceClassName("JaxwsService");
         cixsJaxwsService.setImplementationClassName("JaxwsServiceImpl");
         mGenerator.setCixsJaxwsService(cixsJaxwsService);
+        mGenerator.setTargetAntDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_ANT_DIR);
+        mGenerator.setTargetWDDDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_WEB_DIR);
+        mGenerator.setTargetPropDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_PROP_DIR);
         mGenerator.execute();
         String resStr = getContent(GEN_SRC_DIR + "/JaxwsService.java");
         assertTrue(resStr.contains("public interface JaxwsService {"));
@@ -121,6 +125,9 @@ public class CixsJaxwsGeneratorTest extends TestCase {
     public final void testLsfileaeGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = TestCases.getLsfileae();
         mGenerator.setCixsJaxwsService(cixsJaxwsService);
+        mGenerator.setTargetAntDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_ANT_DIR);
+        mGenerator.setTargetWDDDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_WEB_DIR);
+        mGenerator.setTargetPropDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_PROP_DIR);
         mGenerator.execute();
         checkComponentResult("/com/legstar/test/cixs/Lsfileae", "lsfileae", "Lsfileae");
         checkOperationResult("/com/legstar/test/cixs/Lsfileae", "lsfileae", "lsfileae", "Lsfileae");
@@ -135,6 +142,9 @@ public class CixsJaxwsGeneratorTest extends TestCase {
     public final void testgetLsfilealGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = TestCases.getLsfileal();
         mGenerator.setCixsJaxwsService(cixsJaxwsService);
+        mGenerator.setTargetAntDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_ANT_DIR);
+        mGenerator.setTargetWDDDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_WEB_DIR);
+        mGenerator.setTargetPropDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_PROP_DIR);
         mGenerator.execute();
         checkComponentResult("/com/legstar/test/cixs/Lsfileal", "lsfileal", "Lsfileal");
         checkOperationResult("/com/legstar/test/cixs/Lsfileal", "lsfileal", "lsfileal", "Lsfileal");
@@ -149,6 +159,9 @@ public class CixsJaxwsGeneratorTest extends TestCase {
     public final void testLsfileacGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = TestCases.getLsfileac();
         mGenerator.setCixsJaxwsService(cixsJaxwsService);
+        mGenerator.setTargetAntDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_ANT_DIR);
+        mGenerator.setTargetWDDDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_WEB_DIR);
+        mGenerator.setTargetPropDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_PROP_DIR);
         mGenerator.execute();
         checkComponentResult("/com/legstar/test/cixs/Lsfileac", "lsfileac", "Lsfileac");
         checkOperationResult("/com/legstar/test/cixs/Lsfileac", "lsfileac", "lsfileac", "Lsfileac");
@@ -163,6 +176,9 @@ public class CixsJaxwsGeneratorTest extends TestCase {
     public final void testLsfileaxGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = TestCases.getLsfileax();
         mGenerator.setCixsJaxwsService(cixsJaxwsService);
+        mGenerator.setTargetAntDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_ANT_DIR);
+        mGenerator.setTargetWDDDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_WEB_DIR);
+        mGenerator.setTargetPropDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_PROP_DIR);
         mGenerator.execute();
         checkComponentResult("/com/legstar/test/cixs/Lsfileax", "lsfileax", "Lsfileax");
         checkOperationResult("/com/legstar/test/cixs/Lsfileax", "lsfileax", "lsfileae", "Lsfileae");
@@ -180,6 +196,9 @@ public class CixsJaxwsGeneratorTest extends TestCase {
     public final void testLsfileapGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = TestCases.getLsfileap();
         mGenerator.setCixsJaxwsService(cixsJaxwsService);
+        mGenerator.setTargetAntDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_ANT_DIR);
+        mGenerator.setTargetWDDDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_WEB_DIR);
+        mGenerator.setTargetPropDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_PROP_DIR);
         mGenerator.execute();
         checkComponentResult("", "lsfileap", "Lsfileap");
         checkOperationResult("", "lsfileap", "lsfileae", "Lsfileae");
@@ -192,9 +211,29 @@ public class CixsJaxwsGeneratorTest extends TestCase {
     public final void testLsfileanGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = TestCases.getLsfilean();
         mGenerator.setCixsJaxwsService(cixsJaxwsService);
+        mGenerator.setTargetAntDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_ANT_DIR);
+        mGenerator.setTargetWDDDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_WEB_DIR);
+        mGenerator.setTargetPropDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_PROP_DIR);
         mGenerator.execute();
         checkComponentResult("/com/legstar/test/cixs/Lsfilean", "lsfilean", "Lsfilean");
         checkOperationResult("/com/legstar/test/cixs/oper/Lsfilean", "lsfilean", "lsfileae", "Lsfileae");
+    }
+
+    /**
+     * Check generation for service with different a single structure per container.
+     * @throws Exception if generation fails
+     */
+    public final void testLsfileaqGenerateClasses() throws Exception {
+        CixsJaxwsService cixsJaxwsService = TestCases.getLsfileaq();
+        mGenerator.setCixsJaxwsService(cixsJaxwsService);
+        mGenerator.setTargetAntDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_ANT_DIR);
+        mGenerator.setTargetWDDDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_WEB_DIR);
+        mGenerator.setTargetPropDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_PROP_DIR);
+        mGenerator.execute();
+        checkComponentResult("/com/legstar/test/cixs/Lsfileaq", "lsfileaq", "Lsfileaq");
+        checkOperationResult("/com/legstar/test/cixs/Lsfileaq", "lsfileaq", "lsfileac", "Lsfileac");
+        checkHolderResult("/com/legstar/test/cixs/Lsfileaq", "lsfileaq", "lsfileaq", "Lsfileac", "Request");
+        checkHolderResult("/com/legstar/test/cixs/Lsfileaq", "lsfileaq", "lsfileaq", "Lsfileac", "Response");
     }
 
     private void checkComponentResult(
@@ -225,21 +264,20 @@ public class CixsJaxwsGeneratorTest extends TestCase {
                 "HostHeader {"));
 
         resStr = getContent(
-        		GEN_ANT_DIR + "/"  + service +
-        				"/"
+        		GEN_DIR + '/' + service + '/' + GEN_ANT_DIR + "/"
                 + "build.xml");
         assertTrue(resStr.contains(
                 "<war warfile=\"${warDir}/cixs-" + service +
                 ".war\""));
         
         resStr = getContent(
-        		GEN_WEB_DIR + "/" + service + "/"
+        		GEN_DIR + '/' + service + '/' + GEN_WEB_DIR + "/"
                 + "web.xml");
         assertTrue(resStr.contains(
                 "<servlet-name>" + service + "Service</servlet-name>"));
         
         resStr = getContent(
-        		GEN_WEB_DIR + "/" + service + "/"
+        		GEN_DIR + '/' + service + '/' + GEN_WEB_DIR + "/"
                 + "sun-jaxws.xml");
         assertTrue(resStr.contains(
                 "<endpoint name=\"" + service + "Service\""));
@@ -249,7 +287,7 @@ public class CixsJaxwsGeneratorTest extends TestCase {
     public void checkOperationResult(
     		String relativeLoc, String service, String operation, String ClassName) throws IOException {
     	String resStr = getContent(
-        		GEN_PROP_DIR
+    			GEN_DIR + '/' + service + '/' + GEN_PROP_DIR
                 + "/" + operation + ".properties");
         assertTrue(resStr.contains(
                 "CICSProgramName=" + operation.toUpperCase() ));

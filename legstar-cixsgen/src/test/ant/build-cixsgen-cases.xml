@@ -30,11 +30,13 @@
 	 	<property name="jaxb.root.name.out" value="DfhcommareaType" />
 		<!-- Location of LegStar binaries   -->
 		<property name="build.dir" value="${basedir}/target"/>
-		<!-- Location of ant target script location   -->
-		<property name="ant.dir" value="${basedir}/../legstar-cixsgen-cases/src/main/resources/ant"/>
-		<!-- Location of web descriptors target location   -->
-		<property name="wdd.dir" value="${basedir}/../legstar-cixsgen-cases/src/main/resources/WebContent/WEB-INF"/>
-		<!-- Properties files target location   -->
+		<!-- Location of generated resources   -->
+		<property name="res.dir" value="${basedir}/../legstar-cixsgen-cases/src/main/resources"/>
+		<!-- Generated Ant target script relative location   -->
+		<property name="ant.dir" value="ant"/>
+		<!-- Generated Web descriptors target relative location   -->
+		<property name="wdd.dir" value="WebContent/WEB-INF"/>
+		<!-- Generated Properties files target relative location   -->
 		<property name="prop.dir" value="${wdd.dir}/classes"/>
 		<!-- War files target location   -->
 		<property name="war.dir" value="${tomcat.dir}\webapps"/>
@@ -112,9 +114,9 @@
 		<basename property="service" file="${xsd.file}" suffix="xsd"/>
 		
 		<cixsgen targetSrcDir="${cixs.src.dir}"
-		         targetWDDDir="${wdd.dir}"
-			     targetPropDir="${prop.dir}"
-			     targetAntDir="${ant.dir}"
+		         targetWDDDir="${res.dir}/${service}/${wdd.dir}"
+			     targetPropDir="${res.dir}/${service}/${prop.dir}"
+			     targetAntDir="${res.dir}/${service}/${ant.dir}"
 		         targetWarDir="${war.dir}"
 		         jaxbBinDir="${jaxb.bin.dir}"
 	         	 coxbBinDir="${coxb.bin.dir}"
@@ -150,9 +152,9 @@
 		<property name="special-jaxb.root.name.out" value="ReplyDataType"/>
 		
 		<cixsgen targetSrcDir="${cixs.src.dir}"
-		         targetWDDDir="${wdd.dir}"
-			     targetPropDir="${prop.dir}"
-			     targetAntDir="${ant.dir}"
+		         targetWDDDir="${res.dir}/${special-service}/${wdd.dir}"
+			     targetPropDir="${res.dir}/${special-service}/${prop.dir}"
+			     targetAntDir="${res.dir}/${special-service}/${ant.dir}"
 		         targetWarDir="${war.dir}"
 		         jaxbBinDir="${jaxb.bin.dir}"
 	        	 coxbBinDir="${coxb.bin.dir}"
@@ -186,9 +188,9 @@
 		<property name="service" value="lsfileac"/>
 		
 		<cixsgen targetSrcDir="${cixs.src.dir}"
-		         targetWDDDir="${wdd.dir}"
-			     targetPropDir="${prop.dir}"
-			     targetAntDir="${ant.dir}"
+		         targetWDDDir="${res.dir}/${service}/${wdd.dir}"
+			     targetPropDir="${res.dir}/${service}/${prop.dir}"
+			     targetAntDir="${res.dir}/${service}/${ant.dir}"
 		         targetWarDir="${war.dir}"
 		         jaxbBinDir="${jaxb.bin.dir}"
 		       	 coxbBinDir="${coxb.bin.dir}"
