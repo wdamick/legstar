@@ -12,6 +12,8 @@
 		
 		<!-- Path to the source XML schema file   -->
 	 	<property name="xsd.file" value="schema/lsfileae.xsd" />
+		<!-- Location of external bindings files   -->
+	 	<property name="bindings.dir" value="${basedir}/xjb" />
 		<!-- Location for generated JAXB classes   -->
 	 	<property name="jaxb.src.dir" value="src/main/java" />
 		<!-- Location for generated JAXB binaries   -->
@@ -43,6 +45,9 @@
 			<arg value="-Xlegstar-code" />
 			<!--Without this option (no validation), out of memory errors -->
 			<arg value="-nv" />
+			<!-- External XJC bindings directory. Collects all *.xjb files -->
+			<arg value="-b" />
+			<arg value="${bindings.dir}" />
 	    </xjc>
 	</target>
 
