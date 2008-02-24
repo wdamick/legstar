@@ -468,16 +468,21 @@ public class CixsOperation {
     }
 
     /**
-     * @return the Class name for request holder (groups multiple input parts)
+     * @return the Class name for request holder (groups multiple input parts
+     * which happens only if channel/containers are supported)
      * for single input operations this is the input type
      */
     public final String getRequestHolderType() {
         if (mRequestHolderType == null || mRequestHolderType.length() == 0) {
-            if (mInput.size() > 1) {
+            if (hasChannel()) {
                 return ModelUtil.classNormalize(getName())
                 + DEFAULT_REQUEST_HOLDER_SUFFIX;
             } else {
-                return mInput.get(0).getJaxbType();
+            	if (mInput.size() > 0) {
+            		return mInput.get(0).getJaxbType();
+            	} else {
+            		return null;
+            	}
             }
         }
         return mRequestHolderType;
@@ -512,15 +517,20 @@ public class CixsOperation {
     }
 
     /**
-     * @return the Class name for response holder (groups multiple output parts)
+     * @return the Class name for response holder ((groups multiple output parts
+     * which happens only if channel/containers are supported)
      */
     public final String getResponseHolderType() {
         if (mResponseHolderType == null || mResponseHolderType.length() == 0) {
-            if (mOutput.size() > 1) {
+            if (hasChannel()) {
                 return ModelUtil.classNormalize(getName())
                 + DEFAULT_RESPONSE_HOLDER_SUFFIX;
             } else {
-                return mOutput.get(0).getJaxbType();
+            	if (mOutput.size() > 0) {
+            		return mOutput.get(0).getJaxbType();
+            	} else {
+            		return null;
+            	}
             }
         }
         return mResponseHolderType;
@@ -552,5 +562,16 @@ public class CixsOperation {
     public final void setResponseWrapperType(
             final String responseWrapperType) {
         mResponseWrapperType = responseWrapperType;
+    }
+    
+    /**
+     * @return true if this operation uses Channel/Containers
+     */
+    public final boolean hasChannel() {
+    	if (mCicsChannel != null && mCicsChannel.length() > 0) {
+    		return true;
+    	} else {
+    		return false;
+    	}
     }
 }
