@@ -24,17 +24,20 @@ public class MiscVelocityTemplatesTest extends TestCase {
     /** Logger. */
 	private static final Log LOG = LogFactory.getLog(MiscVelocityTemplatesTest.class);
 	
+	/** General location for generated artifacts. */
+	private static final String GEN_DIR = "src/test/gen";
+
 	/** Java Code will be generated here. */
-	private static final String GEN_SRC_DIR = "src/test/gen/java";
+	private static final String GEN_SRC_DIR = GEN_DIR + "/java";
 
 	/** Ant scripts will be generated here. */
-	private static final String GEN_ANT_DIR = "src/test/gen/ant";
+	private static final String GEN_ANT_DIR = "ant";
 
 	/** Web descriptors will be generated here. */
-	private static final String GEN_WEB_DIR = "src/test/gen/WebContent/WEB-INF";
+	private static final String GEN_WEB_DIR = "WebContent/WEB-INF";
 
 	/** Property files will be generated here. */
-	private static final String GEN_PROP_DIR = "src/test/gen/WebContent/WEB-INF/classes";
+	private static final String GEN_PROP_DIR = "WebContent/WEB-INF/classes";
 
 	private Map <String, Object> mParameters;
 	
@@ -157,6 +160,44 @@ public class MiscVelocityTemplatesTest extends TestCase {
         assertTrue(resStr.contains("request = value;"));
 	}
 
+	public void testHolderSingle() throws Exception {
+		
+		CixsJaxwsService jaxwsComponent = TestCases.getLsfileaq();
+		CixsOperation operation = jaxwsComponent.getCixsOperations().get(0);
+    	
+    	String operationNamespace = mCixsHelper.getOperationNamespace(
+    			operation, jaxwsComponent.getTargetNamespace());
+    	mParameters.put("operationNamespace", operationNamespace);
+    	String operationPackageName = mCixsHelper.getOperationPackageName(
+    			operation, jaxwsComponent.getPackageName());
+    	mParameters.put("operationPackageName", operationPackageName);
+    	
+    	mParameters.put("propertyName", "Request");
+
+		String operationClassFilesLocation = CodeGenUtil.classFilesLocation(
+				GEN_SRC_DIR, operationPackageName);
+		CixsJaxwsGenerator.generateHolders(
+				operation, mParameters, operationClassFilesLocation);
+        String resStr = getSource(
+        		operationClassFilesLocation,
+        		operation.getRequestHolderType() + ".java");
+        
+        assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileaq;"));
+        assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileac.QueryDataType;"));
+        assertTrue(resStr.contains("@XmlType(name = \"LsfileacRequestHolder\","));
+        assertTrue(resStr.contains("namespace = \"http://cixs.test.legstar.com/lsfileaq\","));
+        assertTrue(resStr.contains("\"queryData\""));
+        assertTrue(resStr.contains("public class LsfileacRequestHolder {"));
+        assertTrue(resStr.contains("@XmlElement(name = \"queryData\","));
+        assertTrue(resStr.contains("private QueryDataType queryData;"));
+        assertTrue(resStr.contains("public final QueryDataType getQueryData() {"));
+        assertTrue(resStr.contains("return queryData;"));
+        assertTrue(resStr.contains("public final void setQueryData("));
+        assertTrue(resStr.contains("private QueryDataType queryData;"));
+        assertTrue(resStr.contains("final QueryDataType value) {"));
+        assertTrue(resStr.contains("queryData = value;"));
+	}
+	
 	public void testFault() throws Exception {
 		
 		CixsJaxwsService jaxwsComponent = TestCases.getLsfileae();
@@ -227,7 +268,7 @@ public class MiscVelocityTemplatesTest extends TestCase {
     			operation, jaxwsComponent.getPackageName());
     	mParameters.put("operationPackageName", operationPackageName);
 
-		String operationPropertiesFilesLocation = GEN_PROP_DIR + '/' + jaxwsComponent.getName();
+		String operationPropertiesFilesLocation = GEN_DIR + '/' + jaxwsComponent.getName() + '/' + GEN_PROP_DIR;
 		CodeGenUtil.checkDirectory(operationPropertiesFilesLocation, true);
 		CixsJaxwsGenerator.generateProgramProperties(
 				operation, mParameters, operationPropertiesFilesLocation);
@@ -252,7 +293,7 @@ public class MiscVelocityTemplatesTest extends TestCase {
     			operation, jaxwsComponent.getPackageName());
     	mParameters.put("operationPackageName", operationPackageName);
 
-		String operationPropertiesFilesLocation = GEN_PROP_DIR + '/' + jaxwsComponent.getName();
+		String operationPropertiesFilesLocation = GEN_DIR + '/' + jaxwsComponent.getName() + '/' + GEN_PROP_DIR;
 		CodeGenUtil.checkDirectory(operationPropertiesFilesLocation, true);
 		CixsJaxwsGenerator.generateProgramProperties(
 				operation, mParameters, operationPropertiesFilesLocation);
@@ -276,7 +317,7 @@ public class MiscVelocityTemplatesTest extends TestCase {
 		
 		CixsJaxwsService jaxwsComponent = TestCases.getLsfileae();
     	
-		String componentWebFilesLocation = GEN_WEB_DIR + '/' + jaxwsComponent.getName();
+		String componentWebFilesLocation = GEN_DIR + '/' + jaxwsComponent.getName() + '/' + GEN_WEB_DIR;
 		CodeGenUtil.checkDirectory(componentWebFilesLocation, true);
 		CixsJaxwsGenerator.generateSunJaxwsXml(
 				jaxwsComponent, mParameters, componentWebFilesLocation);
@@ -293,7 +334,7 @@ public class MiscVelocityTemplatesTest extends TestCase {
 		
 		CixsJaxwsService jaxwsComponent = TestCases.getLsfileae();
     	
-		String componentWebFilesLocation = GEN_WEB_DIR + '/' + jaxwsComponent.getName();
+		String componentWebFilesLocation = GEN_DIR + '/' + jaxwsComponent.getName() + '/' + GEN_WEB_DIR;
 		CodeGenUtil.checkDirectory(componentWebFilesLocation, true);
 		CixsJaxwsGenerator.generateWebXml(
 				jaxwsComponent, mParameters, componentWebFilesLocation);
@@ -319,7 +360,7 @@ public class MiscVelocityTemplatesTest extends TestCase {
 		mParameters.put("custBinDir", "/legstar-cixsgen-cust-cases/target/classes");
 		mParameters.put("propDir", "/Legsem/Legstar/Dev/WebContent/WEB-INF/classes");
 
-		String componentAntFilesLocation = GEN_ANT_DIR + '/' + jaxwsComponent.getName();
+		String componentAntFilesLocation = GEN_DIR + '/' + jaxwsComponent.getName() + '/' + GEN_ANT_DIR;
 		CodeGenUtil.checkDirectory(componentAntFilesLocation, true);
 		CixsJaxwsGenerator.generateAntBuildWar(
 				jaxwsComponent, mParameters, componentAntFilesLocation);
@@ -329,8 +370,8 @@ public class MiscVelocityTemplatesTest extends TestCase {
 
         assertTrue(resStr.contains("<delete file=\"/Servers/TOMDev/webapps/cixs-lsfileae.war\" includeEmptyDirs=\"true\""));
         assertTrue(resStr.contains("<war warfile=\"/Servers/TOMDev/webapps/cixs-lsfileae.war\""));
-        assertTrue(resStr.contains("webxml=\"/Legsem/Legstar/Dev/WebContent/WEB-INF/lsfileae/web.xml\">"));
-        assertTrue(resStr.contains("<webinf dir=\"/Legsem/Legstar/Dev/WebContent/WEB-INF/lsfileae\""));
+        assertTrue(resStr.contains("webxml=\"/Legsem/Legstar/Dev/WebContent/WEB-INF/web.xml\">"));
+        assertTrue(resStr.contains("<webinf dir=\"/Legsem/Legstar/Dev/WebContent/WEB-INF\""));
         assertTrue(resStr.contains("<classes dir=\"/legstar-jaxbgen-cases/target/classes\">"));
         assertTrue(resStr.contains("<include name=\"com/legstar/test/coxb/lsfileae/*.class\"/>"));
         assertTrue(resStr.contains("<classes dir=\"/legstar-coxbgen-cases/target/classes\">"));

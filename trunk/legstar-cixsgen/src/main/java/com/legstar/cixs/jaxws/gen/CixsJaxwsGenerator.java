@@ -136,8 +136,8 @@ public class CixsJaxwsGenerator extends Task {
 	}
 
 	/**
-	 * Create a temporary cixs make file describing the templates that
-	 * needs to be applied to create a complete Jaxws service.
+	 * Check that enough input parameters are set and then
+	 * generate the requested artifacts.
 	 * 
 	 * */
 	@Override
@@ -204,10 +204,10 @@ public class CixsJaxwsGenerator extends Task {
 		String componentClassFilesLocation = CodeGenUtil.classFilesLocation(
 				mTargetSrcDir, mCixsJaxwsService.getPackageName());
 		String componentWebFilesLocation =
-			getTargetWDDDir() + '/' + mCixsJaxwsService.getName();
+			getTargetWDDDir();
 		CodeGenUtil.checkDirectory(componentWebFilesLocation, true);
 		String componentAntFilesLocation =
-			getTargetAntDir() + '/' + mCixsJaxwsService.getName();
+			getTargetAntDir();
 		CodeGenUtil.checkDirectory(componentAntFilesLocation, true);
 		
 		/* Produce artifacts */
@@ -411,7 +411,7 @@ public class CixsJaxwsGenerator extends Task {
 	throws CodeGenMakeException {
 
 		File targetFile = CodeGenUtil.getFile(componentPropertiesLocation,
-				operation.getCicsProgramName() + ".properties");
+				operation.getCicsProgramName().toLowerCase() + ".properties");
 		LOG.info("Generating " + targetFile.getAbsolutePath());
 		CodeGenUtil.processTemplate(
 				CIXS_JAXWS_GENERATOR_NAME,
@@ -529,7 +529,8 @@ public class CixsJaxwsGenerator extends Task {
 		parameters.put("fieldName", propertyName.toLowerCase());
 		parameters.put("wrapperType", wrapperType);
 		
-		if (structures.size() == 1) {
+		if (operation.getCicsChannel() == null
+				|| operation.getCicsChannel().length() == 0) {
 			CixsStructure structure = structures.get(0);
 			if (structure.getJaxbPackageName() != null
 					&& structure.getJaxbPackageName().length() > 0) {
@@ -550,7 +551,7 @@ public class CixsJaxwsGenerator extends Task {
 	}
 
 	/**
-	 * Create a holder classes for multi-input and multi-output.
+	 * Create a holder classes for channel/containers.
 	 * @param operation the cixs operation
 	 * @param parameters miscellaneous help parameters
 	 * @param operationClassFilesLocation where to store the generated file
@@ -562,7 +563,12 @@ public class CixsJaxwsGenerator extends Task {
 			final String operationClassFilesLocation)
 	throws CodeGenMakeException {
 
-		if (operation.getInput().size() > 1) {
+		if (operation.getCicsChannel() == null
+				|| operation.getCicsChannel().length() == 0) {
+			return;
+		}
+		
+		if (operation.getInput().size() > 0) {
 			File targetFile = CodeGenUtil.getFile(operationClassFilesLocation,
 					operation.getRequestHolderType() + ".java");
 			LOG.info("Generating " + targetFile.getAbsolutePath());
@@ -574,7 +580,7 @@ public class CixsJaxwsGenerator extends Task {
 					parameters,
 					targetFile);
 		}
-		if (operation.getOutput().size() > 1) {
+		if (operation.getOutput().size() > 0) {
 			File targetFile = CodeGenUtil.getFile(operationClassFilesLocation,
 					operation.getResponseHolderType() + ".java");
 			LOG.info("Generating " + targetFile.getAbsolutePath());

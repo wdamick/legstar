@@ -16,17 +16,25 @@ ${prefix}ContainersLength_${pos}=${cixsHelper.getByteLength(${cixsStructure.jaxb
 #end
 #end
 ## ==================================================================
+#macro(getLength $structures)
 ##
+#set($length = 0)
+#if(${structures.size()} > 0)
+#set($structure = ${structures.get(0)})
+#set($length = ${cixsHelper.getByteLength(${structure.jaxbPackageName}, ${structure.jaxbType})})
+#end
+#end
+## ==================================================================
 CICSProgramName=${cixsOperation.cicsProgramName.toUpperCase()}
 #if(${cixsOperation.cicsChannel})
 CICSChannel=${cixsOperation.cicsChannel}
 #setContainers("CICSIn", ${cixsOperation.getInput()})
 #setContainers("CICSOut", ${cixsOperation.getOutput()})
 #else
-#set($inputStructure = ${cixsOperation.getInput().get(0)})
-#set($outputStructure = ${cixsOperation.getOutput().get(0)})
-#set($inputLength = ${cixsHelper.getByteLength(${inputStructure.jaxbPackageName}, ${inputStructure.jaxbType})})
-#set($outputLength = ${cixsHelper.getByteLength(${outputStructure.jaxbPackageName}, ${outputStructure.jaxbType})})
+#getLength(${cixsOperation.getInput()})
+#set($inputLength = $length)
+#getLength(${cixsOperation.getOutput()})
+#set($outputLength = $length)
 #if($outputLength > $inputLength)
 CICSLength=$outputLength
 #else

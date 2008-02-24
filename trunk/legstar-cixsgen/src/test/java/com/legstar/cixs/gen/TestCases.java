@@ -75,6 +75,17 @@ public class TestCases {
 		return service;
 	}
 
+	/** A case with with single input and output containers. */
+	public static CixsJaxwsService getLsfileaq() {
+		CixsJaxwsService service = getNewService("lsfileaq");
+		Map <String, String> inputContainers = new HashMap <String, String>();
+		inputContainers.put("QueryDataType", "QueryData");
+		Map <String, String> outputContainers = new HashMap <String, String>();
+		outputContainers.put("ReplyDataType", "ReplyData");
+		service.getCixsOperations().add(getNewContainerOperation("lsfileac", inputContainers, outputContainers));
+		return service;
+	}
+	
 	/**
 	 * Helper function to setup a Service in case of a single, commarea-driven
 	 * operation with identical input and output layouts.

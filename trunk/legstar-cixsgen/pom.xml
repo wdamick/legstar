@@ -45,10 +45,11 @@
           <scope>test</scope>
         </dependency>
 
-		<dependency>
+		<!-- Although not stricly a runtime dependency this will make
+             sure the invoker is part of the delivery. -->
+        <dependency>
 		  <groupId>com.legsem.legstar</groupId>
 		  <artifactId>legstar-invoker</artifactId>
-           <scope>test</scope>
 		</dependency>
 		
 		<dependency>

@@ -3,11 +3,15 @@
 ##@author Fady
 ##@version 0.1
 ##/////////////////////////////////////////////////////////////////////
+## ==================================================================
+## Create a list of unique import names
+##
 #macro(addType)
 #if (!$importTypes.contains($newType))
 #set($ret = $importTypes.add($newType))
 #end
 #end
+## ==================================================================
 #parse("vlc/cixsjaxws-component-common-package.vm")
 #parse("vlc/cixsjaxws-component-common-imports.vm")
 import javax.jws.WebService;
@@ -46,24 +50,27 @@ import ${importType};
 ## Since input and output structures are initialized almost in the
 ## same way, we use a common macro.
 ##
-#macro(initStruct $cixsStructures $mode)
+#macro(initStruct $cixsStructures $mode $containers)
             /* Prepare the $mode parameter set using static binding */
-#set($multi = false)
-#if ($cixsStructures.size() > 1)#set($multi = true)#end
-#if($multi)
+#if($containers)
             Map <String, ICobolComplexBinding> ${mode}Parts =
               new LinkedHashMap <String, ICobolComplexBinding>(); 
 #end
 #foreach($cixsStructure in $cixsStructures)
             ${cixsStructure.coxbType} ${mode}${cixsStructure.coxbType} =
-                  new ${cixsStructure.coxbType}(#if(${mode} == "input")request#if($multi).get${cixsStructure.jaxbPropertyName}()#end#end);
-#if($multi)
+                  new ${cixsStructure.coxbType}(#if(${mode} == "input")request#if($containers).get${cixsStructure.jaxbPropertyName}()#end#end);
+#if($containers)
             ${mode}Parts.put("${cixsStructure.cicsContainer}", ${mode}${cixsStructure.coxbType});
 #end
 #end ##foreach            
 #end
 ## ==================================================================
-
+## Setting input or output structure
+##
+#macro(setStruct $cixsStructures $mode $containers)
+#if($containers)${mode}Parts#else#if($cixsStructures.size() > 0)${mode}${cixsStructures.get(0).coxbType}#else null#end#end
+#end
+## ==================================================================
 /**
  * LegStar/Jaxws Component implementation.
  * Each method maps to a CICS program. 
@@ -95,8 +102,12 @@ public class ${jaxwsComponent.implementationClassName} implements ${jaxwsCompone
             mConfigFileName = DEFAULT_CONFIG_FILE;
         }
     }
-  
 #foreach ($cixsOperation in $jaxwsComponent.cixsOperations)
+#if(${cixsOperation.cicsChannel})
+#set($containers = true)
+#else
+#set($containers = false)
+#end
 #set($operationNamespace = $cixsHelper.getOperationNamespace(${cixsOperation}, ${jaxwsComponent.targetNamespace}))
 #set($operationPackageName = $cixsHelper.getOperationPackageName(${cixsOperation}, ${jaxwsComponent.packageName}))
     /** Properties for operation ${cixsOperation.name}. */
@@ -119,24 +130,26 @@ public class ${jaxwsComponent.implementationClassName} implements ${jaxwsCompone
             	requestID = hostHeader.getHostRequestID();
             }
 
-#initStruct($cixsOperation.getInput() "input")
+#initStruct($cixsOperation.getInput() "input" $containers)
 
-#initStruct($cixsOperation.getOutput() "output")
+#initStruct($cixsOperation.getOutput() "output" $containers)
 
             /* Call remote program */
             mInvoker.invoke(requestID,
-                    #if($cixsOperation.getInput().size() > 1)inputParts#else input${cixsOperation.getInput().get(0).coxbType}#end,
-                    #if($cixsOperation.getOutput().size() > 1)outputParts#else output${cixsOperation.getOutput().get(0).coxbType}#end);
+                    #setStruct($cixsOperation.getInput() "input" $containers),
+                    #setStruct($cixsOperation.getOutput() "output" $containers));
 
-#if($cixsOperation.getOutput().size() > 1)
+#if($containers)
             /* Populate response holder with reply objects */
             reply = new ${cixsOperation.responseHolderType}();
 #foreach($cixsStructure in $cixsOperation.getOutput())
             reply.set${cixsStructure.jaxbPropertyName}(output${cixsStructure.coxbType}.get${cixsStructure.jaxbType}());
 #end  
 #else
+#if($cixsOperation.getOutput().size() > 0)
             /* Get reply object */
             reply = output${cixsOperation.getOutput().get(0).coxbType}.get${cixsOperation.getOutput().get(0).jaxbType}();
+#end
 #end
 
         } catch (HostInvokerException e) {

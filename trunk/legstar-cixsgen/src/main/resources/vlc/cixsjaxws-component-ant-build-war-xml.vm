@@ -1,11 +1,11 @@
 ##/////////////////////////////////////////////////////////////////////
-##Jaxws Component Sun Jaxws XML Template.
+##Jaxws Component ANT Build and deploy Template.
 ##@author Fady
 ##@version 0.1
 ##/////////////////////////////////////////////////////////////////////
 ##
 #set($warFile = "${warDir}/cixs-${jaxwsComponent.name}.war")
-#set($wddFile = "${wddDir}/${jaxwsComponent.name}/web.xml")
+#set($wddFile = "${wddDir}/web.xml")
 ## ==================================================================
 ## Macro will help make sure we process packages only once
 ## ==================================================================
@@ -53,7 +53,7 @@
    <target name="create-war" depends="clean">
       <war warfile="${warFile}"
            webxml="${wddFile}">
-         <webinf dir="${wddDir}/${jaxwsComponent.name}"
+         <webinf dir="${wddDir}"
                  includes="sun-jaxws.xml"/>
 #foreach ($jaxbPackage in $jaxbPackages)
          <classes dir="${jaxbBinDir}">
