@@ -16,7 +16,7 @@
 	<target name="deployAllServices">
 		<foreach target="deployService" param="file.name">
 			<path>
-				<fileset dir="${basedir}/src/main/resources/ant" includes="*/*"/>
+				<fileset dir="${basedir}/src/main/resources" includes="**/build.xml"/>
 			</path>
 		</foreach>
 	</target>
