@@ -116,6 +116,30 @@ public class LegStarMessage implements Serializable {
 	}
 	
 	/**
+	 * Look for a part identified with a specific ID (usually a container 
+	 * name).
+	 * @param partID part identifier
+	 * @return the part found or null otherwise
+	 */
+	public final LegStarMessagePart lookupDataPart(final String partID) {
+		for (LegStarMessagePart part : getDataParts()) {
+			if (part.getID().equals(partID)) {
+				return part;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Add a new data part. This assumes a header part has already been created.
+	 * @param part the data part to add.
+	 */
+	public final void addDataPart(final LegStarMessagePart part) {
+		mDataParts.add(part);
+		mHeaderPart.setDataPartsNumber(mHeaderPart.getDataPartsNumber() + 1);
+	}
+	
+	/**
 	 * @param dataParts the list of data message parts to set
 	 */
 	public final void setDataParts(

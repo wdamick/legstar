@@ -47,6 +47,15 @@ public class LegStarMessagePart implements Serializable {
 	/** The message content. */
 	private byte[] mContent;
 	
+	/** This is the amount of actual data in mContent. This allows
+	 * mContent to be larger than the actual payload. Payload can
+	 * dynamically vary for variable size structures. */
+	private int mPayloadSize;
+	
+	/** This indicates if the payload size was explicitly set. If not,
+	 * then the payload size will be identical to mContent.length. */
+	private boolean mPayloadSizeSet = false;
+	
 	/** Size of message part identifier on host (bytes). */
 	private static final int MSG_PART_ID_LEN = 16;
 	
@@ -117,14 +126,13 @@ public class LegStarMessagePart implements Serializable {
 				MSG_PART_ID_LEN, HostCodec.HEADER_CODE_PAGE);
 		pos += MSG_PART_ID_LEN;
 		ByteBuffer bb = ByteBuffer.allocate(4);
-		bb.putInt((mContent == null)
-				? 0 : mContent.length);
+		bb.putInt(getPayloadSize());
 		bb.flip();
 		bb.get(headerBytes, pos, CONTENT_LEN_LEN);
 		pos += CONTENT_LEN_LEN;
 		ByteArrayInputStream headerStream =
 			new ByteArrayInputStream(headerBytes);
-		if (mContent != null && mContent.length > 0) {
+		if (getPayloadSize() > 0) {
 			ByteArrayInputStream contentStream =
 				new ByteArrayInputStream(mContent);
 			return new SequenceInputStream(headerStream, contentStream);
@@ -231,15 +239,16 @@ public class LegStarMessagePart implements Serializable {
 	 * @return the size in bytes of this message part host serialization
 	 */
 	public final int getHostSize() {
-		return (MSG_PART_ID_LEN + CONTENT_LEN_LEN + ((mContent == null)
-		? 0 : mContent.length));
+		return (MSG_PART_ID_LEN + CONTENT_LEN_LEN + getPayloadSize());
 	}
 
 	/**
 	 * Available to class inheriting from this one in case they need a
 	 * generic print capability.
-	 * @return a string representation of this 
+	 * @return a string representation of this message part
+	 * 
 	 */
+	@Override
 	public String toString() {
         StringBuffer sb = new StringBuffer(80);
         sb.append(this.getClass().getSimpleName());
@@ -280,6 +289,35 @@ public class LegStarMessagePart implements Serializable {
     public final int hashCode() {
         return getID().hashCode() + Arrays.hashCode(getContent());
     }
+
+	/**
+	 * @return the amount of actual data in this message part. This allows
+	 * message part content to be larger than the actual payload. Payload can
+	 * dynamically vary for variable size structures.
+	 */
+	public final int getPayloadSize() {
+		if (mPayloadSizeSet) {
+			return mPayloadSize;
+		}
+		if (mContent != null) {
+			return mContent.length;
+		}
+		return 0;
+	}
+
+	/**
+	 * @param payloadSize the payload size to set. Caller should set payload
+	 * size if it is different from the content length. It cannot exceed the
+	 * content length though.
+	 */
+	public final void setPayloadSize(final int payloadSize) {
+		if (mContent == null || payloadSize > mContent.length) {
+			throw new IllegalArgumentException(
+					"Payload size cannot exceed content length");
+		}
+		mPayloadSize = payloadSize;
+		mPayloadSizeSet = true;
+	}
 
 	
 }
