@@ -29,11 +29,11 @@
 			<artifactId>legstar-messaging</artifactId>
 		</dependency>
 		
-		<dependency>
-		  <groupId>com.legsem.legstar</groupId>
-		  <artifactId>legstar-coxbrt</artifactId>
-		</dependency>
-		
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-messaging-impl</artifactId>
+        </dependency>
+        
 		<dependency>
 			<groupId>com.legsem.legstar</groupId>
 			<artifactId>legstar-engine</artifactId>
@@ -57,7 +57,7 @@
         <dependency>
           <groupId>com.legsem.legstar</groupId>
           <artifactId>legstar-jaxbgen-cases</artifactId>
-            <scope>test</scope>
+          <scope>test</scope>
         </dependency>
         
         <dependency>
