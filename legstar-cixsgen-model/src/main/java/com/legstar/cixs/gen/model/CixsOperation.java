@@ -404,16 +404,24 @@ public class CixsOperation {
     }
 
     /**
+     * A convenience method to return a valid class name built from this
+     * operation name.
+     * @return a valid class name built from the operation name.
+     */
+    public final String getClassName() {
+    	return ModelUtil.classNormalize(getName());
+    }
+
+    /**
      * @return the Class name for faults
      */
     public final String getFaultType() {
         if (mFaultType == null || mFaultType.length() == 0) {
-            return ModelUtil.classNormalize(getName())
-            + DEFAULT_FAULT_SUFFIX;
+            return getClassName() + DEFAULT_FAULT_SUFFIX;
         }
         return mFaultType;
     }
-
+    
     /**
      * @param faultType the Class name for faults to set
      */
@@ -426,8 +434,7 @@ public class CixsOperation {
      */
     public final String getFaultInfoType() {
         if (mFaultInfoType == null || mFaultInfoType.length() == 0) {
-            return ModelUtil.classNormalize(getName())
-            + DEFAULT_FAULT_INFO_SUFFIX;
+            return getClassName() + DEFAULT_FAULT_INFO_SUFFIX;
         }
         return mFaultInfoType;
     }
@@ -475,8 +482,7 @@ public class CixsOperation {
     public final String getRequestHolderType() {
         if (mRequestHolderType == null || mRequestHolderType.length() == 0) {
             if (hasChannel()) {
-                return ModelUtil.classNormalize(getName())
-                + DEFAULT_REQUEST_HOLDER_SUFFIX;
+                return getClassName() + DEFAULT_REQUEST_HOLDER_SUFFIX;
             } else {
             	if (mInput.size() > 0) {
             		return mInput.get(0).getJaxbType();
@@ -502,8 +508,7 @@ public class CixsOperation {
      */
     public final String getRequestWrapperType() {
     	if (mRequestWrapperType == null || mRequestWrapperType.length() == 0) {
-    		return ModelUtil.classNormalize(getName())
-    			+ DEFAULT_REQUEST_WRAPPER_SUFFIX;
+    		return getClassName() + DEFAULT_REQUEST_WRAPPER_SUFFIX;
     	}
         return mRequestWrapperType;
     }
@@ -523,8 +528,7 @@ public class CixsOperation {
     public final String getResponseHolderType() {
         if (mResponseHolderType == null || mResponseHolderType.length() == 0) {
             if (hasChannel()) {
-                return ModelUtil.classNormalize(getName())
-                + DEFAULT_RESPONSE_HOLDER_SUFFIX;
+                return getClassName() + DEFAULT_RESPONSE_HOLDER_SUFFIX;
             } else {
             	if (mOutput.size() > 0) {
             		return mOutput.get(0).getJaxbType();
@@ -550,8 +554,7 @@ public class CixsOperation {
      */
     public final String getResponseWrapperType() {
     	if (mResponseWrapperType == null || mResponseWrapperType.length() == 0) {
-    		return ModelUtil.classNormalize(getName())
-    			+ DEFAULT_RESPONSE_WRAPPER_SUFFIX;
+    		return getClassName() + DEFAULT_RESPONSE_WRAPPER_SUFFIX;
     	}
         return mResponseWrapperType;
     }
