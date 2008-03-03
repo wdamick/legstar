@@ -87,6 +87,7 @@
     <module>../legstar-jaxbgen</module>
     <module>../legstar-jaxbgen-cases</module>
     <module>../legstar-messaging</module>
+    <module>../legstar-messaging-impl</module>
     <module>../legstar-schemagen</module>
     <module>../legstar-xsdcgen</module>
   </modules>
@@ -409,6 +410,11 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-messaging</artifactId>
+                <version>${legstarVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-messaging-impl</artifactId>
                 <version>${legstarVersion}</version>
             </dependency>
             <dependency>
