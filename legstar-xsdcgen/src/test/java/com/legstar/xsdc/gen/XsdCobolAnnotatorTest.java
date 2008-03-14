@@ -24,7 +24,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -177,6 +180,41 @@ public class XsdCobolAnnotatorTest extends TestCase {
             assertEquals("cb", attr.getLocalName()); 
             assertEquals("xmlns:cb", attr.getNodeName());
             assertEquals("http://www.legsem.com/xml/ns/coxb", attr.getTextContent());
+    	} catch (BuildException e) {
+    		fail(e.getMessage());
+    	}
+    }
+    
+    /**
+     * Check that root elements can be added to a schema.
+     * @throws Exception Any exception encountered
+     */
+    public void testAddRootElements() throws Exception {
+    	XsdCobolAnnotator xca = new XsdCobolAnnotator();
+    	xca.setInputXsdFile(new File("src/test/resources/noRootElementschema.xsd"));
+    	xca.setTargetDir(new File("target"));
+    	Map <QName, QName> rootElements = new HashMap <QName, QName>();
+    	rootElements.put(new QName("http://legsem.test","jvmQueryReply"),
+    			new QName("http://legsem.test","jvmQueryReplyElement"));
+    	xca.setRootElements(rootElements);
+    	try {
+    		xca.execute();
+			/* Read the resulting output source*/
+		    try {
+		        BufferedReader in = new BufferedReader(new FileReader("target/noRootElementschema.xsd"));
+		        StringBuffer res = new StringBuffer();
+		        String str = in.readLine();
+		        while (str != null) {
+		        	res.append(str);
+		        	str = in.readLine();
+		        }
+		        in.close();
+				assertTrue(res.toString().contains("<xs:element name=\"jvmQueryReplyElement\" type=\"tns:jvmQueryReply\">"));
+				assertTrue(res.toString().contains("<cb:cobolElement cobolName=\"jvmQueryReplyElement\" levelNumber=\"1\" type=\"GROUP_ITEM\"/>"));
+				assertTrue(res.toString().contains("<cb:cobolElement byteLength=\"32\" cobolName=\"country\" levelNumber=\"3\" picture=\"X(32)\" type=\"ALPHANUMERIC_ITEM\" usage=\"DISPLAY\"/>"));
+		    } catch (IOException e) {
+	    		fail(e.getMessage());
+		    }
     	} catch (BuildException e) {
     		fail(e.getMessage());
     	}
