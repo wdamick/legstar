@@ -54,6 +54,7 @@ import org.apache.ws.commons.schema.XmlSchemaSimpleType;
 import org.apache.ws.commons.schema.XmlSchemaSimpleTypeList;
 import org.apache.ws.commons.schema.XmlSchemaSimpleTypeRestriction;
 import org.apache.ws.commons.schema.XmlSchemaTotalDigitsFacet;
+import org.apache.ws.commons.schema.XmlSchemaType;
 import org.apache.ws.commons.schema.constants.Constants;
 import org.apache.ws.commons.schema.utils.NamespaceMap;
 import org.apache.ws.commons.schema.utils.NamespacePrefixList;
@@ -112,6 +113,10 @@ public class XsdCobolAnnotator extends Task {
 	
 	/** Parameters that can be externally modified. */
 	private Properties mOptions;
+	
+	/** Must be a map of Type names and Element names where Type names
+	 *  must be registered. */
+	private Map < QName, QName > mRootElements;
 	
 	/* ====================================================================== */
 	/* = Constants section                                                  = */
@@ -210,7 +215,10 @@ public class XsdCobolAnnotator extends Task {
     	checkInput();
     	XmlSchema schema = getSchema();
     	annotateSchema(schema);
+    	addRootElements(schema);
+
     	OutputStream out = getOutputStream();
+    	
         XmlSchemaObjectCollection items = schema.getItems();
  
         /* Process each element in the input Schema */
@@ -228,6 +236,34 @@ public class XsdCobolAnnotator extends Task {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("XML Schema Cobol annotation ended");
 		}
+    }
+    
+    /**
+     * As an option, caller might want to add root elements to the
+     * schema before it is processed. To be valid these elements
+     * must map to an existing type and should not conflict with
+     * existing elements.
+     * @param schema the schema to be annotated
+     */
+    private void addRootElements(final XmlSchema schema) {
+    	if (mRootElements == null) {
+    		return;
+    	}
+    	for (QName typeName : mRootElements.keySet()) {
+    		XmlSchemaType schemaType = schema.getTypeByName(typeName);
+    		QName eln = mRootElements.get(typeName);
+    		if (schema.getTypeByName(typeName) == null) {
+    			throw (new BuildException("Root element " + eln
+    					+ " has unknown type " + typeName));
+    		}
+    		XmlSchemaElement el = new XmlSchemaElement();
+    		el.setQName(mRootElements.get(typeName));
+    		el.setName(mRootElements.get(typeName).getLocalPart());
+    		el.setSchemaTypeName(typeName);
+    		el.setSchemaType(schemaType);
+    		schema.getElements().add(eln, el);
+    		schema.getItems().add(el);
+    	}
     }
 
     /**
@@ -1145,7 +1181,8 @@ public class XsdCobolAnnotator extends Task {
      * @param facets the facets extracted so far
      * @throws XsdCobolAnnotatorException if facets cannot be located
      */
-    private void getFacets(
+    @SuppressWarnings("unchecked")
+	private void getFacets(
     		final XmlSchema schema,
     		final XmlSchemaSimpleType type,
     		final XsdFacets facets) throws XsdCobolAnnotatorException {
@@ -1163,8 +1200,9 @@ public class XsdCobolAnnotator extends Task {
 				(XmlSchemaSimpleTypeRestriction) type.getContent();
 			if (restriction.getFacets() != null) {
     			XmlSchemaObjectCollection collection = restriction.getFacets();
-    	        for (Iterator i  = collection.getIterator(); i.hasNext();) {
-    	        	XmlSchemaObject facet = (XmlSchemaObject) i.next();
+    	        for (Iterator < XmlSchemaObject > i  =
+    	        	collection.getIterator(); i.hasNext();) {
+    	        	XmlSchemaObject facet = i.next();
     	        	/* When a facet value is found, we keep it only if
     	        	 * no previous type did set the same facet value */
     	        	if (facet instanceof XmlSchemaLengthFacet) {
@@ -1314,6 +1352,22 @@ public class XsdCobolAnnotator extends Task {
 	 */
 	public final void setJaxbPackageName(final String jaxbPackageName) {
 		mJaxbPackageName = jaxbPackageName;
+	}
+
+	/**
+	 * @return the map of Type names / Element names for elements that need
+	 * to be added to the annotated schema.
+	 */
+	public final Map < QName, QName > getRootElements() {
+		return mRootElements;
+	}
+
+	/**
+	 * @param rootElements map of Type names / Element names for elements that
+	 * need to be added to the annotated schema to set
+	 */
+	public final void setRootElements(final Map < QName, QName > rootElements) {
+		mRootElements = rootElements;
 	}
 
 }
