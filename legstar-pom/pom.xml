@@ -67,6 +67,7 @@
     </plugins>
   </build>
   
+  <!--
    <modules>
     <module>../legstar-c2wsrt</module>
     <module>../legstar-chttprt</module>
@@ -90,8 +91,8 @@
     <module>../legstar-messaging-impl</module>
     <module>../legstar-schemagen</module>
     <module>../legstar-xsdcgen</module>
+    <module>../legstar-xsdcgen-cases</module>
   </modules>
-  <!--
     -->
   
   <!-- Enabling the use of FTP -->
@@ -490,6 +491,11 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-xsdcgen</artifactId>
+                <version>${legstarVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-xsdcgen-cases</artifactId>
                 <version>${legstarVersion}</version>
             </dependency>
             <dependency>
