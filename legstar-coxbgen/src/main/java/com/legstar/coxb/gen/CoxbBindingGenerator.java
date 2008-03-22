@@ -29,6 +29,7 @@ import java.util.Vector;
 
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.coxb.host.HostException;
+import com.sun.xml.bind.api.impl.NameConverter;
 
 import java.io.File;
 import java.io.IOException;
@@ -290,7 +291,10 @@ public class CoxbBindingGenerator extends Task {
     	}
     	
 		try {
-			String createName = "create" + rootObjectName;
+			/* Here we make sure the object name is following the
+			 * jaxb naming conventions. */
+			String createName = "create"
+				+ NameConverter.standard.toClassName(rootObjectName);
 			Method creator = jaxbObjectFactory.getClass().getMethod(createName);
 			jaxbRootObject = creator.invoke(jaxbObjectFactory);
 		} catch (IllegalAccessException e) {
