@@ -232,7 +232,8 @@ public class CComplexReflectBinding extends CComplexBinding {
 			String jaxbName = hostField.getName();
 			XmlElement xmlAnnotation =
 				hostField.getAnnotation(XmlElement.class);
-			if (xmlAnnotation == null) {
+			if (xmlAnnotation == null || xmlAnnotation.name() == null
+					|| xmlAnnotation.name().equals("##default")) {
 				/* I have noticed situations where XJC does not generate the
 				 * expected XmlElement. Unsure if this is a bug or not. The
 				 * following code is a work around :*/
