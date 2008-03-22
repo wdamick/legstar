@@ -1,0 +1,48 @@
+<!-- =================================================================================
+     This script generates a Cobol-annotated XML Schema from Java set of classes.
+  -->
+<project basedir=".." default="generateXSD" name="generate-XSD">
+
+  <!-- ===========================================================  -->
+  <!-- Setup environment
+    -->
+  <target name="init">
+    
+    <!-- Package name to which java classes belong   -->
+    <property name="package.name" value="com.legstar.test.cases" />
+    <!-- Root Java class   -->
+    <property name="class.name" value="JVMQueryReply" />
+    <!-- Target location for generated XML schema   -->
+    <property name="schema.dir" value="schema" />
+    <!-- Name of generated XSD file  -->
+    <property name="gen.file.name" value="${class.name}.xsd" />
+      
+    <!-- Classpath setting -->
+    <path id="classpath">
+        <fileset dir="${basedir}" includes="lib/*.jar" />
+    	<pathelement location="${basedir}/bin"/>
+    </path>
+
+    <!-- Annotator ant task -->
+    <taskdef name="j2scgen"
+      classname="com.legstar.j2sc.gen.JavaToXsdCobolTask"
+      classpathref="classpath"/>
+  
+  </target>
+
+  <!-- ===========================================================  -->
+  <!-- Generate a Cobol-annotated XML Schema.
+    -->
+  <target name="generateXSD" depends="init">
+    <echo message="Generating annotated ${gen.file.name}" />
+    <mkdir dir="${schema.dir}"/>
+    <j2scgen 
+      packageName="${package.name}"
+      targetDir="${schema.dir}"
+      targetXsdFileName="${gen.file.name}"
+    >
+    	<rootClass name="${class.name}"/>
+    </j2scgen>
+  </target>
+
+</project>

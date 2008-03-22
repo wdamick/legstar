@@ -256,13 +256,18 @@ public class XsdCobolAnnotator extends Task {
     			throw (new BuildException("Root element " + eln
     					+ " has unknown type " + typeName));
     		}
-    		XmlSchemaElement el = new XmlSchemaElement();
-    		el.setQName(mRootElements.get(typeName));
-    		el.setName(mRootElements.get(typeName).getLocalPart());
-    		el.setSchemaTypeName(typeName);
-    		el.setSchemaType(schemaType);
-    		schema.getElements().add(eln, el);
-    		schema.getItems().add(el);
+    		
+    		QName elementName = mRootElements.get(typeName);
+    		XmlSchemaElement el = schema.getElementByName(elementName);
+    		if (el == null) {
+	    		el = new XmlSchemaElement();
+	    		el.setQName(elementName);
+	    		el.setName(elementName.getLocalPart());
+	    		el.setSchemaTypeName(typeName);
+	    		el.setSchemaType(schemaType);
+	    		schema.getElements().add(eln, el);
+	    		schema.getItems().add(el);
+    		}
     	}
     }
 
@@ -613,11 +618,11 @@ public class XsdCobolAnnotator extends Task {
     	 * inefficient Cobol structures, we impose a limit on arrays sizes. */
 		if (obj.getMaxOccurs() > 1) {
 	    	if (obj.getMaxOccurs() > Short.MAX_VALUE) {
-	        	elc.setAttribute(CobolMarkup.MAX_OCCURS,
-	        			XsdcUtil.getStringOption(mOptions,
-	        					"default.max.occurs"));
+	    		String defaultMaxOccurs = XsdcUtil.getStringOption(mOptions,
+					"default.max.occurs");
+	        	elc.setAttribute(CobolMarkup.MAX_OCCURS, defaultMaxOccurs);
 		    	LOG.warn("Max occurs for element " + obj.getName()
-		    			+ " has been set to " + Short.MAX_VALUE);
+		    			+ " has been set to default value " + defaultMaxOccurs);
 	    	} else {
 	        	elc.setAttribute(CobolMarkup.MAX_OCCURS,
 	        			Long.toString(obj.getMaxOccurs()));
@@ -816,7 +821,10 @@ public class XsdCobolAnnotator extends Task {
     	int byteLength = facets.getLength();
     	if (byteLength < 0) {
     		byteLength = XsdcUtil.getIntOption(mOptions,
-    				"default.alphanumeric.len");
+				"default.alphanumeric.len");
+	    	LOG.warn("Byte length for element "
+	    			+ elc.getAttribute(CobolMarkup.COBOL_NAME)
+	    			+ " has been set to default value " + byteLength);
     	}
     	
     	/* TODO add analysis of pattern facet to refine type and picture 
