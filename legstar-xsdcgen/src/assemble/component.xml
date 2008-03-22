@@ -19,6 +19,22 @@
                 <include>*.wsdl</include>
             </includes>
 		</fileSet>
+
+        <!-- sample java classes  -->
+        <fileSet>
+            <directory>/src/test/java</directory>
+            <outputDirectory>src</outputDirectory>
+            <includes>
+                <include>**/cases/**/*.java</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>/target/test-classes</directory>
+            <outputDirectory>bin</outputDirectory>
+            <includes>
+                <include>**/cases/**/*.class</include>
+            </includes>
+        </fileSet>
 		
 	</fileSets>
   

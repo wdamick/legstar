@@ -46,7 +46,7 @@ public class NamespaceContextImpl implements NamespaceContext{
 		mNamespaceMap.put(prefix, uri);
 	 }
 	 
-	 public Iterator getPrefixes(String uri){
+	 public Iterator < String > getPrefixes(String uri){
 		 return mNamespaceMap.keySet().iterator();
 	 }
 	 
