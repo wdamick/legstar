@@ -50,7 +50,7 @@
         
         <!-- Deliver a sample web service -->
         <file>
-            <source>../legstar-samples/war/jaxws-cultureinfo.war</source>
+            <source>../legstar-xsdcgen-cases/war/jaxws-cultureinfo.war</source>
             <outputDirectory>/war/</outputDirectory>
         </file>
     </files>

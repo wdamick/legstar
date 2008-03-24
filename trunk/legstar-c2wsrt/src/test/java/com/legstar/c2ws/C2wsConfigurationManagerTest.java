@@ -47,7 +47,7 @@ public class C2wsConfigurationManagerTest extends TestCase {
 	public void testGetService() throws Exception {
 		C2wsConfigurationManager c2wsConfigManager = new C2wsConfigurationManager("legstar-c2wsrt-config.xml");
 		C2wsWSDescriptor wsd = c2wsConfigManager.getWebServiceDescriptor("CultureInfo");
-		assertEquals("http://sample.c2ws.legstar.com/", wsd.getWsdlTargetNamespace());
+		assertEquals("http://cultureinfo.cases.test.xsdc.legstar.com/", wsd.getWsdlTargetNamespace());
 		assertEquals("CultureInfoImplService", wsd.getWsdlName());
 		assertEquals("CultureInfoImplPort", wsd.getWsdlPort());
 		assertEquals("http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl", wsd.getWsdlUrl());
@@ -62,7 +62,7 @@ public class C2wsConfigurationManagerTest extends TestCase {
 	public void testGetServiceFromCache() throws Exception {
 		C2wsConfigurationManager c2wsConfigManager = new C2wsConfigurationManager("legstar-c2wsrt-config.xml");
 		C2wsWSDescriptor wsd = c2wsConfigManager.getWebServiceDescriptor("CultureInfo");
-		assertEquals("http://sample.c2ws.legstar.com/", wsd.getWsdlTargetNamespace());
+		assertEquals("http://cultureinfo.cases.test.xsdc.legstar.com/", wsd.getWsdlTargetNamespace());
 		assertEquals("CultureInfoImplService", wsd.getWsdlName());
 		assertEquals("CultureInfoImplPort", wsd.getWsdlPort());
 		assertEquals("http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl", wsd.getWsdlUrl());
@@ -73,7 +73,7 @@ public class C2wsConfigurationManagerTest extends TestCase {
 		assertEquals("GetInfoResponseType", wsd.getJaxbResponse().getTypeName());
 		assertEquals("GetInfoResponse", wsd.getJaxbResponse().getElementName());
 		wsd = c2wsConfigManager.getWebServiceDescriptor("CultureInfo");
-		assertEquals("http://sample.c2ws.legstar.com/", wsd.getWsdlTargetNamespace());
+		assertEquals("http://cultureinfo.cases.test.xsdc.legstar.com/", wsd.getWsdlTargetNamespace());
 	}
 
 	public void testEmptyConfig() throws Exception {
