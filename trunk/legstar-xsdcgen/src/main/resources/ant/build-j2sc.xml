@@ -9,7 +9,7 @@
   <target name="init">
     
     <!-- Package name to which java classes belong   -->
-    <property name="package.name" value="com.legstar.test.cases" />
+    <property name="package.name" value="com.legstar.xsdc.test.cases.jvmquery" />
     <!-- Root Java class   -->
     <property name="class.name" value="JVMQueryReply" />
     <!-- Target location for generated XML schema   -->

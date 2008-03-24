@@ -69,7 +69,8 @@ public class XsdCobolAnnotatorTest extends TestCase {
      *
      * @throws Exception Any exception encountered
      */
-    public void testInvalidInputXsdFile() throws Exception {
+    @SuppressWarnings("deprecation")
+	public void testInvalidInputXsdFile() throws Exception {
     	/* No Xsd file at all */
     	XsdCobolAnnotator xca = new XsdCobolAnnotator();
     	try {
@@ -97,7 +98,8 @@ public class XsdCobolAnnotatorTest extends TestCase {
     public void testInvalidTargetDir() throws Exception {
     	/* No target dir at all (should use the default "schema" dir */
     	XsdCobolAnnotator xca = new XsdCobolAnnotator();
-    	xca.setInputXsdFile(new File("src/test/resources/SimpleContentRestriction.xsd"));
+    	xca.setInputXsdUri(new File(
+    			"src/test/resources/SimpleContentRestriction.xsd").toURI());
     	try {
     		xca.execute();
     		fail("testInvalidTargetDir");
@@ -131,7 +133,8 @@ public class XsdCobolAnnotatorTest extends TestCase {
      */
     public void testTargetXsdFileName() throws Exception {
     	XsdCobolAnnotator xca = new XsdCobolAnnotator();
-    	xca.setInputXsdFile(new File("src/test/resources/SimpleContentRestriction.xsd"));
+    	xca.setInputXsdUri(new File(
+    			"src/test/resources/SimpleContentRestriction.xsd").toURI());
     	xca.setTargetDir(new File("target"));
     	try {
     		xca.execute();
@@ -156,7 +159,8 @@ public class XsdCobolAnnotatorTest extends TestCase {
      */
     public void testCobolNamespaceAdded() throws Exception {
     	XsdCobolAnnotator xca = new XsdCobolAnnotator();
-    	xca.setInputXsdFile(new File("src/test/resources/SimpleContentRestriction.xsd"));
+    	xca.setInputXsdUri(
+    			new File("src/test/resources/SimpleContentRestriction.xsd").toURI());
     	xca.setTargetDir(new File("target"));
     	try {
     		xca.execute();
@@ -200,7 +204,8 @@ public class XsdCobolAnnotatorTest extends TestCase {
      */
     public void testAddRootElements() throws Exception {
     	XsdCobolAnnotator xca = new XsdCobolAnnotator();
-    	xca.setInputXsdFile(new File("src/test/resources/noRootElementschema.xsd"));
+    	xca.setInputXsdUri(new File(
+    			"src/test/resources/noRootElementschema.xsd").toURI());
     	xca.setTargetDir(new File("target"));
     	Map <QName, QName> rootElements = new HashMap <QName, QName>();
     	rootElements.put(new QName("http://legsem.test","jvmQueryReply"),
@@ -236,7 +241,8 @@ public class XsdCobolAnnotatorTest extends TestCase {
      */
     public void testSimpleAttributesInsertion() throws Exception {
     	XsdCobolAnnotator xca = new XsdCobolAnnotator();
-    	xca.setInputXsdFile(new File("src/test/resources/singleSimpleElement.xsd"));
+    	xca.setInputXsdUri(new File(
+    			"src/test/resources/singleSimpleElement.xsd").toURI());
     	xca.setTargetDir(new File("target"));
     	try {
     		xca.execute();
@@ -594,7 +600,8 @@ public class XsdCobolAnnotatorTest extends TestCase {
     	Document doc = null;
     	try {
 	    	XsdCobolAnnotator xca = new XsdCobolAnnotator();
-	    	xca.setInputXsdFile(new File("src/test/resources/" + xsdFileName));
+	    	xca.setInputXsdUri(new File(
+	    			"src/test/resources/" + xsdFileName).toURI());
 	    	xca.setTargetDir(new File("target"));
 			xca.setJaxbTypeClassesSuffix(jaxbTypeClassesSuffix);
 			xca.execute();

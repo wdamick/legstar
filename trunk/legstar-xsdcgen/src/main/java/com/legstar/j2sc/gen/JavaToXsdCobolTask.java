@@ -183,7 +183,7 @@ public class JavaToXsdCobolTask extends Task {
 
         /* Now annotate the temporary schema to create the final one */
         XsdCobolAnnotator task = new XsdCobolAnnotator();
-        task.setInputXsdFile(tempXsdFile);
+        task.setInputXsdUri(tempXsdFile.toURI());
         task.setJaxbPackageName(mPackageName);
         task.setTargetDir(mTargetDir);
         task.setTargetXsdFileName(mTargetXsdFileName);
