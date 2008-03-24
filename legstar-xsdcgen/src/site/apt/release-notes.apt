@@ -34,12 +34,17 @@ INSTALLING/UNINSTALLING:
                 |---->*.jar
         |----><src>
                 |---->**/*.java
-        |----><wsdl>
-                |---->*.wsdl
+        |----><war>
+                |---->*.war
                 
 +---------------------------------------+
    
- [[2]] From the installDir/ant folder, run command "ant -f build-xsdc.xml".
+ [[2]] In order to run the sample build you need to deploy the war file
+       found under the war folder into a J2EE server such as Tomcat.
+   
+ [[3]] From the installDir/ant folder, run command "ant -f build-xsdc.xml".
+       This script assumes the J2EE server is on localhost listening on port
+       8080.
        This should create a schema folder with a generated XML schema file.
        The starting point is a sample wsdl file found under the wsdl folder.
        This generated XML schema has special Cobol annotations with default
@@ -50,10 +55,10 @@ INSTALLING/UNINSTALLING:
        a COBOL-annotated XML schema but the starting point is a set of sample
        Java classes which sources can be found under the src folder.
    
- [[3]] Follow instructions in build-xsdc.xml and build-j2sc.xml to generate
+ [[4]] Follow instructions in build-xsdc.xml and build-j2sc.xml to generate
        annotated schemas from your own XML schemas, WSDL and Java classes.
    
- [[4]] To uninstall, remove the installDir folder.
+ [[5]] To uninstall, remove the installDir folder.
 
 DOCUMENTATION:
 
