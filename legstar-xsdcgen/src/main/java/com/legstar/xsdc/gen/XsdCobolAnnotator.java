@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URI;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
@@ -84,8 +85,11 @@ public class XsdCobolAnnotator extends Task {
 	/* ====================================================================== */
 	/* = Properties section                                                 = */
 	/* ====================================================================== */
-	/** The original XSD file to annotate.*/
+	/** @deprecated The original XSD file to annotate.*/
 	private File mInputXsdFile;
+	
+	/** A URI where the XSD is available. */
+	private URI mInputXsdUri;
 
 	/** The target directory where annotated XSD will be created. */
 	private File mTargetDir;
@@ -278,6 +282,9 @@ public class XsdCobolAnnotator extends Task {
     	
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("checkInput started");
+			LOG.debug("   Source Xsd URI      = "
+					+ ((mInputXsdUri == null) ? null
+							: mInputXsdUri.toString()));
 			LOG.debug("   Source Xsd file      = "
 					+ ((mInputXsdFile == null) ? null
 							: mInputXsdFile.getAbsolutePath()));
@@ -285,9 +292,12 @@ public class XsdCobolAnnotator extends Task {
 			LOG.debug("   Target Xsd file name = " + mTargetXsdFileName);
 		}
     	/* Check that we have a valid input XML schema.  */
-    	if (mInputXsdFile == null || !mInputXsdFile.exists()) {
-			throw (new BuildException(
-					"Invalid input XML schema file"));
+    	if (mInputXsdUri == null) {
+        	if (mInputXsdFile == null || !mInputXsdFile.exists()) {
+    			throw (new BuildException(
+    					"Invalid input XML schema"));
+        	}
+        	mInputXsdUri = mInputXsdFile.toURI();
     	}
     	
     	/* Check that we have a valid target directory.  */
@@ -306,7 +316,7 @@ public class XsdCobolAnnotator extends Task {
     	
     	/* Set a valid target annotated XSD file name */
     	if (mTargetXsdFileName == null || mTargetXsdFileName.length() == 0) {
-    		mTargetXsdFileName = mInputXsdFile.getName();
+    		mTargetXsdFileName = getLastSegment(mInputXsdUri);
     		/* If there is no extension or extension is not xsd, add xsd as
     		 * the extension. */
             int p = mTargetXsdFileName.lastIndexOf('.');
@@ -316,11 +326,33 @@ public class XsdCobolAnnotator extends Task {
             	if (ext.compareToIgnoreCase(".xsd") != 0) {
             		mTargetXsdFileName = mTargetXsdFileName + ".xsd";
             	}
+            } else {
+            	mTargetXsdFileName += ".xsd";
             }
    	}
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("checkInput ended");
 		}
+    }
+    
+    /**
+     * Retrieves the last segment from a URI.
+     * @param uri the uri to process
+     * @return the last segment of the path
+     */
+    private String getLastSegment(final URI uri) {
+    	String path = uri.getPath();
+    	if (path == null || path.length() < 2) {
+    		return null;
+    	}
+    	if ((path.charAt(path.length() - 1)) == '/') {
+    		path = path.substring(0, path.length() - 1);
+    	}
+    	int pos = path.lastIndexOf('/');
+    	if (pos < 0) {
+    		return null;
+    	}
+    	return path.substring(++pos, path.length());
     }
     
     /**
@@ -336,7 +368,7 @@ public class XsdCobolAnnotator extends Task {
     	XmlSchemaCollection schemaCol = new XmlSchemaCollection();
     	XmlSchema schema;
 		try {
-	        Document doc = mDb.parse(mInputXsdFile);
+	        Document doc = mDb.parse(mInputXsdUri.toString());
 	        
 	        /* Get the root element (skipping any comments) */
 	        Node root = doc.getFirstChild();
@@ -344,18 +376,19 @@ public class XsdCobolAnnotator extends Task {
 	        	root = root.getNextSibling();
 	        }
 	        if (root == null) {
-	        	throw new BuildException("File " + mInputXsdFile
+	        	throw new BuildException("File " + mInputXsdUri.toString()
 	        			+ " does not contain an XML schema");
 	        }
 
 	        /* Look for an XML schema node */
 	        NodeList nodes  = doc.getElementsByTagNameNS(XSD_NS, "schema");
 	        if (nodes == null || nodes.getLength() == 0) {
-	        	throw new BuildException("File " + mInputXsdFile
+	        	throw new BuildException("File " + mInputXsdUri.toString()
 	        			+ " does not contain an XML schema");
 	        }
 	        if (nodes.getLength() > 1) {
-	        	LOG.warn("Only the first XML schema in " + mInputXsdFile
+	        	LOG.warn("Only the first XML schema in "
+	        			+ mInputXsdUri.toString()
 	        			+ " will be processed");
 	        }
 	        Node schemaNode = nodes.item(0);
@@ -472,10 +505,10 @@ public class XsdCobolAnnotator extends Task {
         Element elsb = doc.createElementNS(JAXB_NS, JAXB_SCHEMAB_ELN);
         
         Element elpk = doc.createElementNS(JAXB_NS, JAXB_PKG_ELN);
-        String name = mInputXsdFile.getName();
+        String name = mTargetXsdFileName;
         int p = name.lastIndexOf('.');
         if (p > 0) {
-        	name = mInputXsdFile.getName().substring(0, p);
+        	name = mTargetXsdFileName.substring(0, p);
         }
         if (mJaxbPackageName == null || mJaxbPackageName.length() == 0) {
 	        elpk.setAttribute("name", DEFAULT_JAXB_PKG_PREFIX + '.' + name);
@@ -1290,6 +1323,7 @@ public class XsdCobolAnnotator extends Task {
     }
     
 	/**
+	 * @deprecated use <code>getInputXsdUri()</code>
 	 * @return the input XML schema file
 	 */
 	public final File getInputXsdFile() {
@@ -1297,11 +1331,27 @@ public class XsdCobolAnnotator extends Task {
 	}
 
 	/**
+	 * @deprecated use <code>setInputXsdUri()</code>
 	 * @param xsdFile the input XML schema file to set
 	 */
 	public final void setInputXsdFile(
 			final File xsdFile) {
 		mInputXsdFile = xsdFile;
+	}
+
+	/**
+	 * @return the input XML schema uri
+	 */
+	public final URI getInputXsdUri() {
+		return mInputXsdUri;
+	}
+
+	/**
+	 * @param xsdUri the input XML schema uri to set
+	 */
+	public final void setInputXsdUri(
+			final URI xsdUri) {
+		mInputXsdUri = xsdUri;
 	}
 
 	/**

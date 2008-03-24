@@ -24,6 +24,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,7 +76,7 @@ public class XsdCobolAnnotatorTest extends TestCase {
     		xca.execute();
     		fail("testInvalidInputXsdFile");
     	} catch (BuildException e) {
-    		assertEquals("Invalid input XML schema file", e.getMessage());
+    		assertEquals("Invalid input XML schema", e.getMessage());
     	}
     	
     	/* Non existant xsd File */
@@ -84,7 +85,7 @@ public class XsdCobolAnnotatorTest extends TestCase {
     		xca.execute();
     		fail("testInvalidInputXsdFile");
     	} catch (BuildException e) {
-    		assertEquals("Invalid input XML schema file", e.getMessage());
+    		assertEquals("Invalid input XML schema", e.getMessage());
     	}
     }
 
@@ -135,6 +136,14 @@ public class XsdCobolAnnotatorTest extends TestCase {
     	try {
     		xca.execute();
     		assertEquals("SimpleContentRestriction.xsd", xca.getTargetXsdFileName());
+    	} catch (BuildException e) {
+    		fail(e.getMessage());
+    	}
+    	xca.setInputXsdUri(new URI("http://megamouss:8080/jaxws-cultureinfo/getinfo?xsd=1"));
+    	xca.setTargetXsdFileName(null);
+    	try {
+    		xca.execute();
+    		assertEquals("getinfo.xsd", xca.getTargetXsdFileName());
     	} catch (BuildException e) {
     		fail(e.getMessage());
     	}

@@ -10,8 +10,8 @@
     
     <!-- Schema or Wsdl name   -->
     <property name="schema.name" value="cultureinfo" />
-    <!-- Path to the source XML schema or WSDL file name  -->
-    <property name="in.file.path" value="wsdl/${schema.name}.wsdl" />
+    <!-- URI for input XML schema or WSDL  -->
+    <property name="in.uri" value="http://localhost:8080/jaxws-cultureinfo/getinfo?xsd=1" />
     <!-- Target location for generated XML schema   -->
     <property name="schema.dir" value="schema" />
     <!-- Name of generated XSD file  -->
@@ -35,15 +35,16 @@
   <!-- Generate a Cobol-annotated XML Schema.
     -->
   <target name="annotateXSD" depends="init">
-    <echo message="Generating annotated schema for ${in.file.path}" />
+    <echo message="Generating annotated schema for ${in.uri}" />
     <mkdir dir="${schema.dir}"/>
     <xsdcgen 
-      inputXsdFile="${in.file.path}"
+      inputXsdUri="${in.uri}"
       targetDir="${schema.dir}"
       targetXsdFileName="${gen.file.name}"
       jaxbTypeClassesSuffix="Type"
       jaxbPackageName="${jaxb.package.name}"  
     />
+    <echo message="XML Schema successfully generated ${schema.dir}/${gen.file.name}" />
   </target>
 
 </project>
