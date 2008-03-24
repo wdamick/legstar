@@ -28,7 +28,7 @@ import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.coxb.visitor.CobolMarshalVisitor;
 import com.legstar.coxb.visitor.CobolUnmarshalVisitor;
 import com.legstar.test.coxb.cultureinfo.CultureInfoReplyType;
-import com.legstar.test.coxb.cultureinfo.CultureInfoRequestType;
+import com.legstar.test.coxb.cultureinfo.CultureInfoParametersType;
 import com.legstar.test.coxb.cultureinfo.ServerCultureInfoType;
 
 public final class CultureInfoCases {
@@ -37,7 +37,7 @@ public final class CultureInfoCases {
 		com.legstar.test.coxb.cultureinfo.ObjectFactory of =
 			new com.legstar.test.coxb.cultureinfo.ObjectFactory();
 		
-		CultureInfoRequestType o = of.createCultureInfoRequestType();
+		CultureInfoParametersType o = of.createCultureInfoParametersType();
 		o.setCultureCode("fr-FR");
 		o.setDecimalNumber(new BigDecimal("125645.62"));
 

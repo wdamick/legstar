@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 import junit.framework.TestCase;
 
 import com.legstar.test.coxb.cultureinfo.CultureInfoReplyType;
-import com.legstar.test.coxb.cultureinfo.CultureInfoRequestType;
+import com.legstar.test.coxb.cultureinfo.CultureInfoParametersType;
 import com.legstar.c2ws.C2wsConfigurationManager;
 import com.legstar.c2ws.CultureInfoCases;
 import com.legstar.c2ws.C2wsWSDescriptor;
@@ -40,8 +40,8 @@ public class C2wsReflectAdapterTest extends TestCase {
 			new com.legstar.test.coxb.cultureinfo.ObjectFactory();
 		byte[] hostBytes = HostData.toByteArray("869960C6D9404040404040404040404040404040404040404040404040404040012564562C");
 		C2wsReflectAdapter adapter = new C2wsReflectAdapter();
-		CultureInfoRequestType request = (CultureInfoRequestType) adapter.unmarshalReflect(
-				objectFactory, CultureInfoRequestType.class, hostBytes);
+		CultureInfoParametersType request = (CultureInfoParametersType) adapter.unmarshalReflect(
+				objectFactory, CultureInfoParametersType.class, hostBytes);
 		assertEquals("fr-FR", request.getCultureCode());
 		assertEquals(new BigDecimal("125645.62"), request.getDecimalNumber());
 	}

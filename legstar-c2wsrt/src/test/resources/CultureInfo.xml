@@ -2,7 +2,7 @@
 
 <service>
     <wsdl>
-        <targetNamespace>http://sample.c2ws.legstar.com/</targetNamespace>
+        <targetNamespace>http://cultureinfo.cases.test.xsdc.legstar.com/</targetNamespace>
         <name>CultureInfoImplService</name>
         <port>CultureInfoImplPort</port>
         <url>http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl</url>
