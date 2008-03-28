@@ -14,7 +14,7 @@ public class JVMQueryTest extends TestCase {
 		JVMQueryRequest request = new JVMQueryRequest();
 		request.setEnvVarNames(envVarNames);
 		JVMQuery query = new JVMQuery();
-		JVMQueryReply reply = query.execute(request);
+		JVMQueryReply reply = query.queryJvm(request);
 		assertEquals("Japan", reply.getCountry());
 		assertEquals("jp", reply.getLanguage());
 		assertEquals("JPY", reply.getCurrencySymbol());
@@ -22,7 +22,7 @@ public class JVMQueryTest extends TestCase {
 		assertEquals(0, reply.getEnvVarValues().size());
 		
 		envVarNames.add("JAVA_HOME");
-		reply = query.execute(request);
+		reply = query.queryJvm(request);
 		assertEquals(1, reply.getEnvVarValues().size());
 		assertTrue(reply.getEnvVarValues().get(0).contains("jre")
 				|| reply.getEnvVarValues().get(0).contains("jdk"));
