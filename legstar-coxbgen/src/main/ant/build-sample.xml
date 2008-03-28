@@ -9,6 +9,8 @@
 	<target name="init">
         <xmlproperty file="${basedir}/pom.xml"/>
 		
+		<!-- Source XML schema location  -->
+	 	<property name="schema.dir" value="${basedir}/../legstar-schemagen/src/test/schema" />
 		<!-- Sample project location  -->
 	 	<property name="sample.project" value="${basedir}/../legstar-samples" />
 		<!-- Distribution name  -->
@@ -46,16 +48,16 @@
         <!-- These will process the cultureinfo sample. -->      
         <ant antfile="${sample.project}/${dist.name}/ant/build-jaxb.xml"
              dir="${sample.project}/${dist.name}">
-            <property name="xsd.file" value="schema/cultureinfo.xsd"/>   
+            <property name="xsd.file" value="${schema.dir}/cultureinfo.xsd"/>   
         </ant>
         <ant antfile="${sample.project}/${dist.name}/ant/build-coxb.xml"
              dir="${sample.project}/${dist.name}">
-            <property name="xsd.file" value="schema/cultureinfo.xsd"/>   
-            <property name="jaxb.root.name" value="CultureInfoRequestType" />
+            <property name="xsd.file" value="${schema.dir}/cultureinfo.xsd"/>   
+            <property name="jaxb.root.name" value="CultureInfoParametersType" />
         </ant>
         <ant antfile="${sample.project}/${dist.name}/ant/build-coxb.xml"
              dir="${sample.project}/${dist.name}">
-            <property name="xsd.file" value="schema/cultureinfo.xsd"/>   
+            <property name="xsd.file" value="${schema.dir}/cultureinfo.xsd"/>   
             <property name="jaxb.root.name" value="CultureInfoReplyType" />
         </ant>
         
