@@ -30,6 +30,14 @@
 			<scope>test</scope>
 		</dependency>
  	
+        <!-- This ensures that xsdcgen was given a chance to generate schemas
+             that serve as input for the jaxbgen-cases generation
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-xsdcgen</artifactId>
+            <scope>test</scope>
+        </dependency> 
+         -->
 	</dependencies>
 
 	<build>

@@ -50,7 +50,7 @@
 	<!-- Generate the JAXB classes source
 	  -->
 	<target name="generateAllJAXB" depends="init">
-		<echo message="Generating JAXB classes for ${xsd.file}" />
+		<echo message="Generating JAXB classes for ${xsd.dir}" />
 	    <xjc destdir="${jaxb.src.dir}" extension="true" removeOldOutput="yes">
 	    	<schema dir="${xsd.dir}"/>
 			<arg value="-Xlegstar-code" />

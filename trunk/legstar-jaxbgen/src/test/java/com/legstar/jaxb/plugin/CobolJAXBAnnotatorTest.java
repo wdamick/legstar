@@ -66,6 +66,12 @@ public class CobolJAXBAnnotatorTest extends TestCase {
 	    assertTrue(srce.contains("@CobolElement(cobolName = \"SafeSearch\", type = CobolType.ALPHANUMERIC_ITEM, levelNumber = 5, byteLength = 32, picture = \"X(32)\", usage = \"DISPLAY\")"));
 	}
 	
+	public void testXsdcgenOutput() {
+		genSource("cultureinfo");
+		String srce = getSource("cultureinfo", "CultureInfoParametersType" );
+	    assertTrue(srce.contains("@CobolElement(cobolName = \"cultureCode\", type = CobolType.ALPHANUMERIC_ITEM, levelNumber = 5, byteLength = 32, picture = \"X(32)\", usage = \"DISPLAY\")"));
+	}
+
 	/** Generates JAXB classes with Cobol annotations */
 	private void genSource(String schemaName) {
 		Project project = new Project();
