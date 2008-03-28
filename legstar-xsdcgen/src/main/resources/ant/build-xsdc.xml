@@ -17,7 +17,7 @@
     <!-- Name of generated XSD file  -->
     <property name="gen.file.name" value="${schema.name}.xsd" />
     <!-- Target package for generated JAXB classes   -->
-    <property name="jaxb.package.name" value="legstar.test.${schema.name}" />
+    <property name="jaxb.package.name" value="com.legstar.test.coxb.${schema.name}" />
       
     <!-- Classpath setting -->
     <path id="classpath">
