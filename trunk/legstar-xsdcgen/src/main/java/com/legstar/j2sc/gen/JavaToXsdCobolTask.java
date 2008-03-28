@@ -39,6 +39,10 @@ public class JavaToXsdCobolTask extends Task {
 	/** Package name of input classes. */
 	private String mPackageName;
 
+	/** Package name of target JAXB classes as it appears in the generated
+	 *  XSD annotations. */
+	private String mJaxbPackageName;
+
 	/** The target schema namespace. */
 	private String mNamespace = "";
 	
@@ -84,17 +88,18 @@ public class JavaToXsdCobolTask extends Task {
 
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("checkInput started");
-			LOG.debug("   Package name         = " + mPackageName);
-			LOG.debug("   Namespace name       = " + mNamespace);
+			LOG.debug("   Input package name       = " + mPackageName);
+			LOG.debug("   Target Jaxb Package name = " + mJaxbPackageName);
+			LOG.debug("   Target namespace name    = " + mNamespace);
 			if (mRootClassNames != null) {
 				for (RootClass className : mRootClassNames) {
 					LOG.debug("   Class name           = "
 							+ className.getName());
 				}
 			}
-			LOG.debug("   Elements name suffix = " + mElementSuffix);
-			LOG.debug("   Target directory     = " + mTargetDir);
-			LOG.debug("   Target Xsd file name = " + mTargetXsdFileName);
+			LOG.debug("   Elements name suffix     = " + mElementSuffix);
+			LOG.debug("   Target directory         = " + mTargetDir);
+			LOG.debug("   Target Xsd file name     = " + mTargetXsdFileName);
 		}
 		/* Check that we have a valid target directory.  */
 		if (mTargetDir == null) {
@@ -184,7 +189,7 @@ public class JavaToXsdCobolTask extends Task {
         /* Now annotate the temporary schema to create the final one */
         XsdCobolAnnotator task = new XsdCobolAnnotator();
         task.setInputXsdUri(tempXsdFile.toURI());
-        task.setJaxbPackageName(mPackageName);
+        task.setJaxbPackageName(mJaxbPackageName);
         task.setTargetDir(mTargetDir);
         task.setTargetXsdFileName(mTargetXsdFileName);
         task.setRootElements(getRootElements());
@@ -399,7 +404,7 @@ public class JavaToXsdCobolTask extends Task {
 	 * @return when extra XSD elements are created from a type name,
 	 * this suffix will be added to form a unique name
 	 */
-	public final String geMElementSuffix() {
+	public final String getElementSuffix() {
 		return mElementSuffix;
 	}
 
@@ -409,5 +414,23 @@ public class JavaToXsdCobolTask extends Task {
 	 */
 	public final void setElementSuffix(final String elementSuffix) {
 		mElementSuffix = elementSuffix;
+	}
+
+	/**
+	 * Package name of target JAXB classes as it appears in the generated
+	 *  XSD annotations.
+	 * @return the mJaxbPackageName JAXB package name
+	 */
+	public final String getJaxbPackageName() {
+		return mJaxbPackageName;
+	}
+
+	/**
+	 * Package name of target JAXB classes as it appears in the generated
+	 *  XSD annotations.
+	 * @param jaxbPackageName the JAXB package name to set
+	 */
+	public final void setJaxbPackageName(final String jaxbPackageName) {
+		mJaxbPackageName = jaxbPackageName;
 	}
 }
