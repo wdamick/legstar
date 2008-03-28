@@ -142,6 +142,9 @@ public class XsdCobolAnnotatorTest extends TestCase {
     	} catch (BuildException e) {
     		fail(e.getMessage());
     	}
+    	/* Maven builds might fail if Tomcat was not given enough time to reload
+    	 * the war */
+    	Thread.sleep(10000);
     	xca.setInputXsdUri(new URI("http://megamouss:8080/jaxws-cultureinfo/getinfo?xsd=1"));
     	xca.setTargetXsdFileName(null);
     	try {
