@@ -140,7 +140,7 @@ public class CobolGeneratorTest extends TestCase {
 
 	public void testGenerateCultureInfo() throws Exception {
 		CobolGenerator gen = new CobolGenerator();
-		gen.setJaxbTypeName("CultureInfoRequestType");
+		gen.setJaxbTypeName("CultureInfoParametersType");
 		gen.setJaxbPackageName("com.legstar.test.coxb.cultureinfo");
 		gen.setTargetDir(new File("target"));
 		gen.setCobolRootDataItemName("COM-REQUEST");
