@@ -33,7 +33,7 @@ import java.util.Locale;
  */
 public class JVMQuery {
     
-    public JVMQueryReply execute(JVMQueryRequest request) throws JVMQueryException {
+    public JVMQueryReply queryJvm(JVMQueryRequest request) throws JVMQueryException {
         
         JVMQueryReply reply = new JVMQueryReply();
         
