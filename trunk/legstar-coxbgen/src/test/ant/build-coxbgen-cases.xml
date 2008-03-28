@@ -63,13 +63,15 @@
 	</target>
 
 	<!-- ===========================================================  -->
-	<!-- Generate COXB output for a each XML schema in a given folder
+	<!-- Generate COXB output for a each XML schema in a given folder. 
+	     Methods with same request/reply are treated alltogether, others
+	     must be dealt with individually
 	  -->
 	<target name="generateAllCOXB" depends="init">
 		<mkdir dir="${coxb.bin.dir}"/>
 		<foreach target="generateCOXB" param="xsd.file">
 			<path>
-				<fileset dir="${xsd.dir}" includes="*.xsd" excludes="clegtstc.cbl.xsd lsfileal.xsd lsfileac.xsd enumvar.xsd MSNSearch.xsd cultureinfo.xsd"/>
+				<fileset dir="${xsd.dir}" includes="*.xsd" excludes="clegtstc.cbl.xsd lsfileal.xsd lsfileac.xsd enumvar.xsd MSNSearch.xsd cultureinfo.xsd jvmquery.xsd"/>
 			</path>
 		</foreach>
 		<coxbgen 
@@ -102,6 +104,26 @@
 			JaxbRootObjectName="ReplyDataType"
 			targetDir="${coxb.src.dir}"
 			/>
+        <coxbgen 
+            XsdFile="${xsd.dir}/cultureinfo.xsd"
+            JaxbRootObjectName="CultureInfoParametersType"
+            targetDir="${coxb.src.dir}"
+            />
+        <coxbgen 
+            XsdFile="${xsd.dir}/cultureinfo.xsd"
+            JaxbRootObjectName="CultureInfoReplyType"
+            targetDir="${coxb.src.dir}"
+            />
+        <coxbgen 
+            XsdFile="${xsd.dir}/jvmquery.xsd"
+            JaxbRootObjectName="JvmQueryRequest"
+            targetDir="${coxb.src.dir}"
+            />
+        <coxbgen 
+            XsdFile="${xsd.dir}/jvmquery.xsd"
+            JaxbRootObjectName="JvmQueryReply"
+            targetDir="${coxb.src.dir}"
+            />
         <!--
         <coxbgen 
             XsdFile="${xsd.dir}/MSNSearch.xsd"
@@ -111,16 +133,6 @@
         <coxbgen 
             XsdFile="${xsd.dir}/MSNSearch.xsd"
             JaxbRootObjectName="SearchResponseType"
-            targetDir="${coxb.src.dir}"
-            />
-        <coxbgen 
-            XsdFile="${xsd.dir}/cultureinfo.xsd"
-            JaxbRootObjectName="CultureInfoRequestType"
-            targetDir="${coxb.src.dir}"
-            />
-        <coxbgen 
-            XsdFile="${xsd.dir}/cultureinfo.xsd"
-            JaxbRootObjectName="CultureInfoReplyType"
             targetDir="${coxb.src.dir}"
             />
 		<coxbgen 
