@@ -13,7 +13,7 @@
         
         <!-- Sample configuration files -->
         <fileSet>
-            <directory>../legstar-c2wsrt/src/site/resources/samples</directory>
+            <directory>../legstar-c2wsrt/src/main/resources</directory>
             <outputDirectory>/samples</outputDirectory>
             <includes>
                 <include>**</include>
@@ -50,7 +50,7 @@
         
         <!-- Deliver a sample web service -->
         <file>
-            <source>../legstar-xsdcgen-cases/war/jaxws-cultureinfo.war</source>
+            <source>../legstar-xsdcgen-cases/target/war/jaxws-cultureinfo.war</source>
             <outputDirectory>/war/</outputDirectory>
         </file>
     </files>
