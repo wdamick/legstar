@@ -7,7 +7,7 @@ Choice binding class Velocity Template.
 ## Choice element binding code
 ##
 #parse("vlc/coxb-bind-common-imports.vm")
-package $binding-type-package;
+package $coxbContext.getCoxbPackageName();
 
 import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.common.CChoiceBinding;
@@ -21,11 +21,21 @@ import com.legstar.coxb.host.HostException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import ${jaxb-package}.$coxbHelper.getParentJaxbTypeName($binding);
+## Determine the value Object type
+#set ($parentObjectType = $coxbContext.getAlternativeClassName($coxbHelper.getParentJaxbTypeName($binding)))
+#if (${coxbContext.getAlternativePackageName()})
+import ${coxbContext.getAlternativePackageName()}.$parentObjectType;
+#else
+#if (${coxbContext.getJaxbPackageName()})
+import ${coxbContext.getJaxbPackageName()}.$parentObjectType;
+#end
+#end
 
 /**
  * LegStar Binding for Choice element:
- *   $coxbHelper.getParentJaxbTypeName($binding).
+#foreach ($child in $binding.alternativesList)
+ *   ${child.jaxbName}
+#end
  * 
  * Represents a choice between 2 or more elements. A choice maps to a cobol
  * REDEFINES clause exposed as an xs:choice in the corresponding XML schema
@@ -37,8 +47,9 @@ public class $binding-class-name
              extends CChoiceBinding {
 
 #foreach ($child in $binding.alternativesList)
+#set ($childObjectType = $coxbContext.getAlternativeClassName($coxbHelper.getJaxbTypeName($child)))
 #if($child.isBound())
-    /** Alternative bound bound to jaxb property ${child.jaxbName}(${coxbHelper.getJaxbTypeName($child)}). */
+    /** Alternative bound bound to value object property ${child.jaxbName}($childObjectType). */
 #else
     /** Unbound Alternative. */
 #end
@@ -102,10 +113,10 @@ public class $binding-class-name
         Object value;
 #foreach ($child in $binding.alternativesList)
 #if($child.isBound())
-        value = get${coxbHelper.getParentJaxbTypeName($binding)}().get${child.jaxbName}();
+        value = get${parentObjectType}().get${child.jaxbName}();
         if (value != null) {
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Getting value from JAXB property "
+                LOG.debug("Getting value from Value object property "
                         + "${child.jaxbName}"
                         + " value=" + value);
             }
@@ -118,10 +129,10 @@ public class $binding-class-name
     /** {@inheritDoc} */
     public final void setJaxbPropertyValue(
             final int index) throws HostException {
-        /* Set the JAXB object property value from binding object */
+        /* Set the Value object property value from binding object */
         ICobolBinding alt = getAlternativesList().get(index);
 
-    	/* Alternatives that are not bound to a jaxb property are ignored.
+    	/* Alternatives that are not bound to a value object property are ignored.
     	 * This includes Choices and dynamically generated counters
     	 * for instance.  */
         if (!alt.isBound()) {
@@ -130,22 +141,23 @@ public class $binding-class-name
 
         Object bindingValue = alt.getObjectValue(alt.getJaxbType());
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Setting value of JAXB property "
+            LOG.debug("Setting value of Value object property "
                     + alt.getJaxbName()
                     + " value=" + bindingValue);
         }
         switch (index) {
 #set($counter = 0)
 #foreach ($child in $binding.alternativesList)
+#set ($childObjectType = $coxbContext.getAlternativeClassName($coxbHelper.getJaxbTypeName($child)))
         case ${counter}:
 #if($child.isBound())
 #if(${coxbHelper.isArray($child)})
-            get${coxbHelper.getParentJaxbTypeName($binding)}().${coxbHelper.getterMethodName($child)}().clear();
-            get${coxbHelper.getParentJaxbTypeName($binding)}().${coxbHelper.getterMethodName($child)}().addAll(
-                (List < $coxbHelper.getJaxbTypeName($child) >) bindingValue);
+            get${parentObjectType}().${coxbHelper.getterMethodName($child)}().clear();
+            get${parentObjectType}().${coxbHelper.getterMethodName($child)}().addAll(
+                (List < $childObjectType >) bindingValue);
 #else
-            get${coxbHelper.getParentJaxbTypeName($binding)}().${coxbHelper.setterMethodName($child)}(
-                ($coxbHelper.getJaxbTypeName($child)) bindingValue);
+            get${parentObjectType}().${coxbHelper.setterMethodName($child)}(
+                ($childObjectType) bindingValue);
 #end
 #end
             break;
@@ -182,11 +194,11 @@ public class $binding-class-name
     }
 
     /**
-     * @return the JAXB object bound to the parent of this choice
-     * @throws HostException if parent bound JAXB object cannot be retrieved
+     * @return the Value object bound to the parent of this choice
+     * @throws HostException if parent bound Value object cannot be retrieved
      */
-    public final ${coxbHelper.getParentJaxbTypeName($binding)} get${coxbHelper.getParentJaxbTypeName($binding)}() throws HostException {
-        return (${coxbHelper.getParentJaxbTypeName($binding)}) getParentJaxbObject();
+    public final ${parentObjectType} get${parentObjectType}() throws HostException {
+        return (${parentObjectType}) getParentJaxbObject();
     }
     
 }

@@ -6,6 +6,12 @@
   <body>
     <release version="1.2.0" date="2008-04-01" description="Velocity macros">
       <action dev="fady" type="update">
+        The binding generator now accepts to bind to a Java class that is different from
+        the JAXB class. In such a case, the JAXB class is only used at generation time.
+        At runtime, the binding class refers to the alternative Java class. This
+        alternative class does not need to hold annotations.
+      </action>
+      <action dev="fady" type="update">
         The XSLT based generation has been replaced by Velocity macros. The code is
         easier to maintain and performances are better.
       </action>

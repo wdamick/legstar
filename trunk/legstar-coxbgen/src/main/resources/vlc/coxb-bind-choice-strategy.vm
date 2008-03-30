@@ -7,7 +7,7 @@ Choice strategy class Velocity Template.
 ## Choice strategy code
 ##
 
-package ${helper.getPackageName(${choice-strategy-qualified-class-name}, ${binding-type-package})};
+package ${helper.getPackageName(${choice-strategy-qualified-class-name}, ${coxbContext.getCoxbPackageName()})};
 import java.util.Hashtable;
 
 import com.legstar.coxb.CobolElementVisitor;
@@ -15,7 +15,16 @@ import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobol${choice-strategy-type}ChoiceStrategy;
 import com.legstar.coxb.host.HostException;
-import ${jaxb-package}.$coxbHelper.getParentJaxbTypeName($binding);
+
+## Determine the value Object type
+#set ($parentObjectType = $coxbContext.getAlternativeClassName($coxbHelper.getParentJaxbTypeName($binding)))
+#if (${coxbContext.getAlternativePackageName()})
+import ${coxbContext.getAlternativePackageName()}.$parentObjectType;
+#else
+#if (${coxbContext.getJaxbPackageName()})
+import ${coxbContext.getJaxbPackageName()}.$parentObjectType;
+#end
+#end
 
 /** 
  * Skeleton implementation of a custom choice selection strategy. Modify this
@@ -31,7 +40,7 @@ public class ${helper.getClassName(${choice-strategy-qualified-class-name})} imp
         
         /* Get the parent JAXB object which properties might help select the
          * right alternative. */
-        ${coxbHelper.getParentJaxbTypeName($binding)} jaxbo = (${coxbHelper.getParentJaxbTypeName($binding)}) choice.getObjectValue(${coxbHelper.getParentJaxbTypeName($binding)}.class);
+        ${parentObjectType} jaxbo = (${parentObjectType}) choice.getObjectValue(${parentObjectType}.class);
         assert (jaxbo != null);
         
         /* Replace following code with actual logic. */

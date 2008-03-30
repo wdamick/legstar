@@ -60,18 +60,13 @@ public class CoxbGenReflectVisitor extends CobolElementVisitor {
 	/**
 	 * Constructor.
      * 
-	 * @param targetDir an existing directory where new files are to be created
-	 * @param jaxbPackageName the jaxb classes package name
-	 * @param coxbPackageName the target generated binding classes package name
+	 * @param coxbGenContext set of parameters
 	 * @throws HostException if directory provided is not accessible
 	 */
 	public CoxbGenReflectVisitor(
-			final String targetDir,
-			final String jaxbPackageName,
-			final String coxbPackageName) throws HostException {
+			final CoxbGenContext coxbGenContext) throws HostException {
 		try {
-			mWriter = new CoxbGenWriter(
-					targetDir, jaxbPackageName, coxbPackageName);
+			mWriter = new CoxbGenWriter(coxbGenContext);
 		} catch (CodeGenException e) {
 			throw new HostException(e);
 		}

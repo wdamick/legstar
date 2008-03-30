@@ -36,6 +36,17 @@
 
 	<!-- ===========================================================  -->
 	<!-- Generate binding classes by reflecting on JAXB classes.
+	     Coxbgen supports additional attributes and elements to
+	     support cases where you want to bind to a Java class that
+	     is different from the JAXB object that coxbgen uses to
+	     generate the binding.
+	     Additional attributes are:
+	     alternativePackageName: Package where value object resides
+	     alternativeFactoryName: Factory class name to create value object
+	     Additional elements are:
+	     <alternativeClassName jaxbClassName="x" toClassName="y"/>
+	     These elements allow you to use a different class name than the
+	     original JAXB classe.
 	  -->
 	<target name="generateCOXB" depends="init">
 	    <echo message="Generating binding classes for ${xsd.file}" />

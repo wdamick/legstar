@@ -1,6 +1,7 @@
 package com.legstar.coxb.gen;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 
 import org.apache.commons.logging.Log;
@@ -26,10 +27,12 @@ public class CoxbGenReflectVisitorTest extends TestCase {
 				objectFactory,
 				Class.forName("com.legstar.test.coxb.dplarcht.DfhcommareaType"));
 
-		CoxbGenReflectVisitor visitor = new CoxbGenReflectVisitor(
-				GEN_SRC_DIR,
-				"com.legstar.test.coxb.dplarcht",
-				"com.legstar.test.coxb.dplarcht.bind");
+		CoxbGenContext coxbGenContext = new CoxbGenContext();
+		coxbGenContext.setTargetDir(new File(GEN_SRC_DIR));
+		coxbGenContext.setJaxbPackageName("com.legstar.test.coxb.dplarcht");
+		coxbGenContext.setCoxbPackageName("com.legstar.test.coxb.dplarcht.bind");
+		
+		CoxbGenReflectVisitor visitor = new CoxbGenReflectVisitor(coxbGenContext);
 		
 		visitor.visit(ce);
 		
@@ -148,7 +151,7 @@ public class CoxbGenReflectVisitorTest extends TestCase {
 		assertTrue(resStr.contains("setMinOccurs(1);"));
 		assertTrue(resStr.contains("setMaxOccurs(500);"));
 		assertTrue(resStr.contains("setDependingOn(\"LS-ITEMS-COUNT\");"));
-		assertTrue(resStr.contains("mJaxbObject.add((LsItemsArrayType) getComplexItemBinding()."));
+		assertTrue(resStr.contains("mValueObject.add((LsItemsArrayType) getComplexItemBinding()."));
 		assertTrue(resStr.contains("getObjectValue(LsItemsArrayType.class));"));
 		/* Check LsItemsArrayTypeBinding */
 		in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/LsItemsArrayTypeBinding.java"));
