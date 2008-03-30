@@ -67,10 +67,10 @@ public class CoxbGenWizard extends Wizard implements INewWizard {
 	/** Set of common preferences. */
 	private CoxbgenPreferences mCoxbgenPref;
 	
-	/** Relative path to JAXB classes generation XSLT. */
+	/** Relative path to JAXB classes generation ant script. */
 	private static final String JAXB_XSL_LOC = "/ant/build-jaxb.xml";
 	
-	/** Relative path to COXB classes generation XSLT. */
+	/** Relative path to COXB classes generation ant script. */
 	private static final String COXB_XSL_LOC = "/ant/build-coxb.xml";
 	
 	/** Target for JAXB generation (compilation is necessary because COXB
