@@ -1,6 +1,7 @@
 package com.legstar.coxb.gen;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 
 import org.apache.commons.logging.Log;
@@ -28,10 +29,12 @@ public class CoxbGenWriterTest extends TestCase {
 				objectFactory,
 				Class.forName("com.legstar.test.coxb.alltypes.DfhcommareaType"));
 
-		CoxbGenWriter writer = new CoxbGenWriter(
-				GEN_SRC_DIR,
-				"com.legstar.test.coxb.alltypes",
-				"com.legstar.test.coxb.alltypes.bind");
+		CoxbGenContext coxbGenContext = new CoxbGenContext();
+		coxbGenContext.setTargetDir(new File(GEN_SRC_DIR));
+		coxbGenContext.setJaxbPackageName("com.legstar.test.coxb.alltypes");
+		coxbGenContext.setCoxbPackageName("com.legstar.test.coxb.alltypes.bind");
+		
+		CoxbGenWriter writer = new CoxbGenWriter(coxbGenContext);
 
 		writer.write(ce);
 
@@ -57,10 +60,12 @@ public class CoxbGenWriterTest extends TestCase {
 		
 		ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList().get(0);
 
-		CoxbGenWriter writer = new CoxbGenWriter(
-				GEN_SRC_DIR,
-				"com.legstar.test.coxb.redsimpt",
-				"com.legstar.test.coxb.redsimpt.bind");
+		CoxbGenContext coxbGenContext = new CoxbGenContext();
+		coxbGenContext.setTargetDir(new File(GEN_SRC_DIR));
+		coxbGenContext.setJaxbPackageName("com.legstar.test.coxb.redsimpt");
+		coxbGenContext.setCoxbPackageName("com.legstar.test.coxb.redsimpt.bind");
+		
+		CoxbGenWriter writer = new CoxbGenWriter(coxbGenContext);
 
 		writer.write(cc);
 
@@ -86,10 +91,12 @@ public class CoxbGenWriterTest extends TestCase {
 		
 		ICobolArrayComplexBinding ca = (ICobolArrayComplexBinding) ce.getChildrenList().get(1);
 
-		CoxbGenWriter writer = new CoxbGenWriter(
-				GEN_SRC_DIR,
-				"com.legstar.test.coxb.arrayssm",
-				"com.legstar.test.coxb.arrayssm.bind");
+		CoxbGenContext coxbGenContext = new CoxbGenContext();
+		coxbGenContext.setTargetDir(new File(GEN_SRC_DIR));
+		coxbGenContext.setJaxbPackageName("com.legstar.test.coxb.arrayssm");
+		coxbGenContext.setCoxbPackageName("com.legstar.test.coxb.arrayssm.bind");
+		
+		CoxbGenWriter writer = new CoxbGenWriter(coxbGenContext);
 
 		writer.write(ca);
 
@@ -115,10 +122,12 @@ public class CoxbGenWriterTest extends TestCase {
 		
 		ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList().get(0);
 
-		CoxbGenWriter writer = new CoxbGenWriter(
-				GEN_SRC_DIR,
-				"com.legstar.test.coxb.redsimpt",
-				"com.legstar.test.coxb.redsimpt.bind");
+		CoxbGenContext coxbGenContext = new CoxbGenContext();
+		coxbGenContext.setTargetDir(new File(GEN_SRC_DIR));
+		coxbGenContext.setJaxbPackageName("com.legstar.test.coxb.redsimpt");
+		coxbGenContext.setCoxbPackageName("com.legstar.test.coxb.redsimpt.bind");
+		
+		CoxbGenWriter writer = new CoxbGenWriter(coxbGenContext);
 
 		/* Do it twice to check the backup mechanism */
 		writer.write(cc, "Unmarshal", "com.legstar.coxb.cust.redsimpt.ChoiceSelector");

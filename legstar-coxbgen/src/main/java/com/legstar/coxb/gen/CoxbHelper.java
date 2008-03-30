@@ -202,17 +202,6 @@ public class CoxbHelper {
 	}
 
 	/**
-	 * Jaxb type to which a complex array is bound.
-	 * @param binding a choice element
-	 * @return the jaxb type name of the parent element
-	 */
-	public final String getComplexArrayJaxbTypeName(
-			final ICobolArrayComplexBinding binding) {
-		return "List < " + JaxbUtil.getJaxbTypeName(
-				binding.getComplexItemBinding()) + " >";
-	}
-
-	/**
 	 * @param binding a bound element
 	 * @return the jaxb variable name of the element
 	 */

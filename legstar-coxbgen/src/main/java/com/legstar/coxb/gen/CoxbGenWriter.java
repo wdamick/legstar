@@ -9,6 +9,7 @@ import com.legstar.codegen.CodeGenMakeException;
 import com.legstar.codegen.CodeGenUtil;
 import com.legstar.codegen.CodeGenVelocityException;
 import com.legstar.coxb.ICobolArrayComplexBinding;
+import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolComplexBinding;
 
@@ -16,9 +17,6 @@ import com.legstar.coxb.ICobolComplexBinding;
  * Encapsulates file management and velocity template generation.
  */
 public class CoxbGenWriter {
-
-	/** This is the folder where all generated files will be created. */
-	private String mTargetDir;
 
 	/** Velocity template for complex elements. */
 	public static final String COMPLEX_VLC_TEMPLATE =
@@ -42,11 +40,8 @@ public class CoxbGenWriter {
 	/** Simplifying methods specific to coxb. */
 	private CoxbHelper mCoxbHelper;
 
-	/** The package name used for JAXB classes. */
-	private String mJaxbPackageName;
-
-	/** The package name used for generated binding classes. */
-	private String mCoxbPackageName;
+	/** Container for all parameters to move around. */
+	private CoxbGenContext mCoxbGenContext;
 	
 	/** This generator name. */
 	private static final String BINDING_GENERATOR_NAME =
@@ -55,24 +50,19 @@ public class CoxbGenWriter {
 	/**
 	 * Constructor from an existing directory.
 	 * 
-	 * @param targetDir an existing directory where new files are to be created
-	 * @param jaxbPackageName the jaxb classes package name
-	 * @param coxbPackageName the target generated binding classes package name
+	 * @param coxbGenContext set of parameters
 	 * @throws CodeGenException if velocity engine failed to initialize 
 	 */
 	public CoxbGenWriter(
-			final String targetDir,
-			final String jaxbPackageName,
-			final String coxbPackageName) throws CodeGenException {
+			final CoxbGenContext coxbGenContext) throws CodeGenException {
+		mCoxbGenContext = coxbGenContext;
 		try {
 			CodeGenUtil.initVelocity();
-			CodeGenUtil.checkDirectory(targetDir, false);
-			mJaxbPackageName = jaxbPackageName;
-			mCoxbPackageName = coxbPackageName;
+			CodeGenUtil.checkDirectory(
+					mCoxbGenContext.getTargetDir().getAbsolutePath(), false);
 		} catch (CodeGenVelocityException e) {
 			throw new CodeGenException(e);
 		}
-		mTargetDir = targetDir;
 		mHelper = new CodeGenHelper();
 		mCoxbHelper = new CoxbHelper();
 	}
@@ -85,17 +75,11 @@ public class CoxbGenWriter {
 	public final void write(
 			final ICobolComplexBinding ce) throws CodeGenException {
 		try {
-			Map < String, Object > parameters =
-				new HashMap < String, Object >();
-			parameters.put("jaxb-package", mJaxbPackageName);
-			parameters.put("binding-type-package", mCoxbPackageName);
-			parameters.put("binding-class-name",
-					mCoxbHelper.getCoxbTypeName(ce));
-			parameters.put("helper", mHelper);
-			parameters.put("coxbHelper", mCoxbHelper);
+			Map < String, Object > parameters =	createParameters(ce);
 
-			String dir = mTargetDir + '/'
-				+ CodeGenUtil.relativeLocation(mCoxbPackageName);
+			String dir = mCoxbGenContext.getTargetDir().getAbsolutePath() + '/'
+				+ CodeGenUtil.relativeLocation(
+						mCoxbGenContext.getCoxbPackageName());
 			CodeGenUtil.checkDirectory(dir, true);
 
 			CodeGenUtil.processTemplate(
@@ -119,17 +103,11 @@ public class CoxbGenWriter {
 	public final void write(
 			final ICobolChoiceBinding ce) throws CodeGenException {
 		try {
-			Map < String, Object > parameters =
-				new HashMap < String, Object >();
-			parameters.put("jaxb-package", mJaxbPackageName);
-			parameters.put("binding-type-package", mCoxbPackageName);
-			parameters.put("binding-class-name",
-					mCoxbHelper.getCoxbTypeName(ce));
-			parameters.put("helper", mHelper);
-			parameters.put("coxbHelper", mCoxbHelper);
+			Map < String, Object > parameters =	createParameters(ce);
 
-			String dir = mTargetDir + '/'
-				+ CodeGenUtil.relativeLocation(mCoxbPackageName);
+			String dir = mCoxbGenContext.getTargetDir().getAbsolutePath() + '/'
+				+ CodeGenUtil.relativeLocation(
+						mCoxbGenContext.getCoxbPackageName());
 			CodeGenUtil.checkDirectory(dir, true);
 
 			CodeGenUtil.processTemplate(
@@ -171,20 +149,15 @@ public class CoxbGenWriter {
 			final String strategyType,
 			final String strategyClassName) throws CodeGenException {
 		try {
-			Map < String, Object > parameters =
-				new HashMap < String, Object >();
-			parameters.put("jaxb-package", mJaxbPackageName);
-	    	parameters.put("binding-type-package", mCoxbPackageName);
+			Map < String, Object > parameters =	createParameters(ce);
 	    	parameters.put("choice-strategy-type", strategyType);
 			parameters.put("choice-strategy-qualified-class-name",
 					strategyClassName);
-			parameters.put("helper", mHelper);
-			parameters.put("coxbHelper", mCoxbHelper);
 			
-			String dir = mTargetDir + '/'
+			String dir = mCoxbGenContext.getTargetDir().getAbsolutePath() + '/'
 				+ CodeGenUtil.relativeLocation(
 						mHelper.getPackageName(strategyClassName,
-								mCoxbPackageName));
+								mCoxbGenContext.getCoxbPackageName()));
 			CodeGenUtil.checkDirectory(dir, true);
 
 			/* Check for previous code */
@@ -215,17 +188,11 @@ public class CoxbGenWriter {
 	public final void write(
 			final ICobolArrayComplexBinding ce) throws CodeGenException {
 		try {
-			Map < String, Object > parameters =
-				new HashMap < String, Object >();
-			parameters.put("jaxb-package", mJaxbPackageName);
-			parameters.put("binding-type-package", mCoxbPackageName);
-			parameters.put("binding-class-name",
-					mCoxbHelper.getCoxbTypeName(ce));
-			parameters.put("helper", mHelper);
-			parameters.put("coxbHelper", mCoxbHelper);
+			Map < String, Object > parameters =	createParameters(ce);
 
-			String dir = mTargetDir + '/'
-				+ CodeGenUtil.relativeLocation(mCoxbPackageName);
+			String dir = mCoxbGenContext.getTargetDir().getAbsolutePath() + '/'
+				+ CodeGenUtil.relativeLocation(
+						mCoxbGenContext.getCoxbPackageName());
 			CodeGenUtil.checkDirectory(dir, true);
 
 			CodeGenUtil.processTemplate(
@@ -238,5 +205,22 @@ public class CoxbGenWriter {
 		} catch (CodeGenMakeException e) {
 			throw new CodeGenException(e);
 		}
+	}
+	
+	/**
+	 * @param binding the binding element being processed
+	 * @return a set of parameters that velocity templates can use.
+	 */
+	private Map < String, Object > createParameters(
+			final ICobolBinding binding) {
+		Map < String, Object > parameters =
+			new HashMap < String, Object >();
+		
+		parameters.put("helper", mHelper);
+		parameters.put("coxbContext", mCoxbGenContext);
+		parameters.put("coxbHelper", mCoxbHelper);
+		parameters.put("binding-class-name",
+				mCoxbHelper.getCoxbTypeName(binding));
+		return parameters;
 	}
 }

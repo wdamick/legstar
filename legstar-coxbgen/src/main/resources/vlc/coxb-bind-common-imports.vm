@@ -35,7 +35,7 @@ Common imports Velocity Template.
 #if($coxbHelper.getGenericType($child).equals("complex")
         || $coxbHelper.getGenericType($child).equals("complexArray")
         || $coxbHelper.getGenericType($child).equals("enum"))
-#set($newType = ${jaxb-package} + '.' + $coxbHelper.getJaxbTypeName($child))
+#set($newType = ${coxbContext.getJaxbPackageName()} + '.' + $coxbHelper.getJaxbTypeName($child))
 #addType()
 #end
 #if($child.maxOccurs > 0 || $coxbHelper.getGenericType($child).equals("complexArray"))
