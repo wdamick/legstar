@@ -122,6 +122,9 @@ public class XsdCobolAnnotator extends Task {
 	 *  must be registered. */
 	private Map < QName, QName > mRootElements;
 	
+	/** Maps a complexType to a Java qualified class name. */
+	private Map < String, String > mComplexTypeToJavaClassMap;
+	
 	/* ====================================================================== */
 	/* = Constants section                                                  = */
 	/* ====================================================================== */
@@ -483,10 +486,9 @@ public class XsdCobolAnnotator extends Task {
     
     /**
      * The generated schema holds JAXB annotations needed when, later on, the
-     * schema is used to generated JAXB classes. The markup looks like this:
+     * schema is used to generate JAXB classes. The markup looks like this:
      * <pre>
      * &lt;xsd:appinfo>
-     *    &lt;jaxb:globalBindings generateIsSetMethod="true"/>
 	 *    &lt;jaxb:schemaBindings>
 	 *       &lt;jaxb:package name="com.legstar.test.coxb.schema"/>
 	 *       &lt;jaxb:nameXmlTransform>
@@ -801,6 +803,16 @@ public class XsdCobolAnnotator extends Task {
 		if (LOG.isDebugEnabled()) {
 	    	LOG.debug("   Cobol type           = "
 	    			+ elc.getAttribute(CobolMarkup.TYPE));
+		}
+		
+		/* If this complex element maps to a java class name, add this
+		 * attribute to the annotation */
+		if (mComplexTypeToJavaClassMap != null) {
+			String javaClassName =
+				mComplexTypeToJavaClassMap.get(type.getName());
+			if (javaClassName != null) {
+		    	elc.setAttribute(CobolMarkup.JAVA_CLASS_NAME, javaClassName);
+			}
 		}
 		
 		if (type.getParticle() instanceof XmlSchemaSequence) {
@@ -1426,6 +1438,22 @@ public class XsdCobolAnnotator extends Task {
 	 */
 	public final void setRootElements(final Map < QName, QName > rootElements) {
 		mRootElements = rootElements;
+	}
+
+	/**
+	 * @return the complexType to Java qualified class name map
+	 */
+	public final Map < String, String > getComplexTypeToJavaClassMap() {
+		return mComplexTypeToJavaClassMap;
+	}
+
+	/**
+	 * @param complexTypeToJavaClassMap the complexType to Java qualified class
+	 *  name map to set
+	 */
+	public final void setComplexTypeToJavaClassMap(
+			final Map < String, String > complexTypeToJavaClassMap) {
+		mComplexTypeToJavaClassMap = complexTypeToJavaClassMap;
 	}
 
 }
