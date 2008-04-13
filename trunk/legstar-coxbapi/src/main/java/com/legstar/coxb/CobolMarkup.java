@@ -83,4 +83,6 @@ public final class CobolMarkup {
 	public static final  String SRCE_LINE = 	"srceLine";
 	/** Cobol value appears inline in cobolElement. */
 	public static final  String ELEMENT_VALUE = "value";
+	/** The java class name bound to a cobol element. */
+	public static final  String JAVA_CLASS_NAME = "javaClassName";
 }
