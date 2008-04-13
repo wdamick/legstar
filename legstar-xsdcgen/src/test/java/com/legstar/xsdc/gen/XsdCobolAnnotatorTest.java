@@ -238,6 +238,46 @@ public class XsdCobolAnnotatorTest extends TestCase {
     }
 
     /**
+     * Check that we can add extra annotations when we need to keep track
+     * of java class names we want to bind to.
+     * @throws Exception Any exception encountered
+     */
+    public void testMappingToJavaClassNames() throws Exception {
+    	XsdCobolAnnotator xca = new XsdCobolAnnotator();
+    	xca.setInputXsdUri(new File(
+    			"src/test/resources/complexAndsimpleTypesSchema.xsd").toURI());
+    	xca.setTargetDir(new File("target"));
+    	Map <String, String> complexTypeToJavaClassMap =
+    		new HashMap <String, String>();
+    	complexTypeToJavaClassMap.put("jvmQueryReply",
+    			"com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply");
+    	complexTypeToJavaClassMap.put("jvmQueryRequest",
+		"com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest");
+    	xca.setComplexTypeToJavaClassMap(complexTypeToJavaClassMap);
+    	try {
+    		xca.execute();
+			/* Read the resulting output source*/
+		    try {
+		        BufferedReader in = new BufferedReader(new FileReader("target/complexAndsimpleTypesSchema.xsd"));
+		        StringBuffer res = new StringBuffer();
+		        String str = in.readLine();
+		        while (str != null) {
+		        	res.append(str);
+		        	str = in.readLine();
+		        }
+		        in.close();
+				assertTrue(res.toString().contains("<xs:element minOccurs=\"0\" name=\"reply\" type=\"tns:jvmQueryReply\">"));
+				assertTrue(res.toString().contains("<cb:cobolElement cobolName=\"reply\" javaClassName=\"com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply\" levelNumber=\"3\" type=\"GROUP_ITEM\"/>"));
+				assertTrue(res.toString().contains("<cb:cobolElement cobolName=\"query\" javaClassName=\"com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest\" levelNumber=\"3\" type=\"GROUP_ITEM\"/>"));
+		    } catch (IOException e) {
+	    		fail(e.getMessage());
+		    }
+    	} catch (BuildException e) {
+    		fail(e.getMessage());
+    	}
+    }
+
+    /**
      * Test that simplest attributes get added.
      *
      * @throws Exception Any exception encountered

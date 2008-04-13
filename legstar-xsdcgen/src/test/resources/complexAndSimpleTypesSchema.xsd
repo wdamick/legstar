@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://legsem.test" xmlns:tns="http://legsem.test" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:complexType name="jvmQueryAggregate">
+    <xs:sequence>
+      <xs:element name="reply" type="tns:jvmQueryReply" minOccurs="0"/>
+      <xs:element name="query" type="tns:jvmQueryRequest" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="jvmQueryReply">
+    <xs:sequence>
+      <xs:element name="country" type="xs:string" minOccurs="0"/>
+      <xs:element name="currencySymbol" type="xs:string" minOccurs="0"/>
+      <xs:element name="envVarValues" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="formattedDate" type="xs:string" minOccurs="0"/>
+      <xs:element name="language" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="jvmQueryRequest">
+    <xs:sequence>
+      <xs:element name="envVarNames" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="jvmQueryAggregateElement" type="jvmQueryAggregate" />
+</xs:schema>
+
