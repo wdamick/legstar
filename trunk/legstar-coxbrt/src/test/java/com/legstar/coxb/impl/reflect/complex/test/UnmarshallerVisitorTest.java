@@ -695,9 +695,51 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
 		ccem.accept(uv);
 		
+		assertEquals("com.legstar.test.coxb.charsets.DfhcommareaType", ccem.getValueObjectClassName());
+		assertEquals("com.legstar.test.coxb.charsets.ObjectFactory", ccem.getValueObjectsFactoryClassName());
 		assertEquals("ça c'est un problème", dfhcommarea.getComLocal());
 		assertEquals("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",HostData.toHexString(dfhcommarea.getComDbcs()));
 		assertEquals("élémentaire à résoudre          ", dfhcommarea.getComNational());
 	}
+	
+	/**
+	 * Check that new annotation CobolComplexType is being read and result in an
+	 * substitute java class name to the original jaxb class name. In the reflective
+	 * implementation of complex binding, the actual binding is still with the JAXB
+	 * object but the substitute should be detected.
+	 * @throws HostException if anything goes wrong
+	 */
+	public final void testValueObjectClass() throws HostException {
+		// Create a cobol context 
+		CobolContext cobolContext = new CobolContext();
+		cobolContext.setHostCharsetName("IBM01147");
+		// Select a conversion strategy 
+		CobolSimpleConverters cc = new CobolSimpleConverters(cobolContext);
+		String hexString = "00000000d1d7404040404040404040404040404040404040404040404040404040404040e840404040404040404040404040404040404040404040404040404040404040e8e8e8e860d4d460c4c440404040404040404040404040404040404040404040d18197819585a28540404040404040404040404040404040404040404040404000000000000000000000000000000000000000000000000000000000";
+		byte[] hostBytes = HostData.toByteArray(hexString);
+
+		// Create a concrete visitor
+		CobolUnmarshalVisitor uv = new CobolUnmarshalVisitor(hostBytes, 0, cc);
+		
+		// Create an instance of the JAXB object factory
+		com.legstar.test.coxb.jvmquery.ObjectFactory objectFactory = new com.legstar.test.coxb.jvmquery.ObjectFactory();
+		// Create an initial empty instance of an object
+		com.legstar.test.coxb.jvmquery.JvmQueryReply jvmQueryReply = objectFactory.createJvmQueryReply();
+
+		// Traverse the object structure, visiting each node with the visitor
+		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, jvmQueryReply);
+		ccem.accept(uv);
+		
+		assertEquals("com.legstar.test.coxb.jvmquery.ObjectFactory", ccem.getObjectFactory().getClass().getName());
+		assertEquals("JvmQueryReply", ccem.getJaxbName());
+		assertEquals("com.legstar.test.coxb.jvmquery.JvmQueryReply", ccem.getJaxbType().getName());
+		assertEquals("com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply", ccem.getValueObjectClassName());
+		assertEquals(null, ccem.getValueObjectsFactoryClassName());
+		assertEquals("JP", jvmQueryReply.getCountry());
+		assertEquals("Y", jvmQueryReply.getCurrencySymbol());
+		assertEquals("YYYY-MM-DD", jvmQueryReply.getFormattedDate());
+		assertEquals("Japanese", jvmQueryReply.getLanguage());
+	}
+	
 
 }

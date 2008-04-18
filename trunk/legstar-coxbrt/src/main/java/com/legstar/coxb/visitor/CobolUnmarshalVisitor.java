@@ -79,16 +79,16 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 			LOG.debug("Unmarshaling started for complex binding "
 					+ ce.getBindingName());
 		}
-		/* Ask complex binding to create an empty jaxb bound object so it is
-		 * ready for unmarshaling. */
-		ce.createJaxbObject();
+		/* Ask complex binding to create an empty bound value object ready for
+		 * unmarshaling. */
+		ce.createValueObject();
 		
 		/* Iteratively propagate the accept on complex element children.
 		 * The order in which children are processed is important. */
 		int index = 0;
 		for (ICobolBinding child : ce.getChildrenList()) {
 			child.accept(this);
-			ce.setJaxbPropertyValue(index++);
+			ce.setPropertyValue(index++);
 		}
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Unmarshaling successful for complex binding "
@@ -129,7 +129,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 				bAlternativeFound = true;
 				/* Ask choice binding to set bound object value from 
 				 * unmarshaled data. */
-				ce.setJaxbPropertyValue(
+				ce.setPropertyValue(
 						ce.getAlternativesList().indexOf(alt));
 			}
 		}
@@ -147,7 +147,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 					bAlternativeFound = true;
 					/* Ask choice binding to set bound object value from 
 					 * unmarshaled data. */
-					ce.setJaxbPropertyValue(
+					ce.setPropertyValue(
 							ce.getAlternativesList().indexOf(alt));
 					break;
 				} catch (HostException he) {
@@ -180,13 +180,13 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 		}
 		/* Ask complex array binding to initialize bound array so that it is
 		 * ready for unmarshaling. */
-		ce.createJaxbObject();
+		ce.createValueObject();
 		
 		/* Visit each item of the array in turn */
 		for (int i = 0; i < ce.getCurrentOccurs(); i++) {
 			ICobolBinding itemDesc = ce.getComplexItemBinding();
 			itemDesc.accept(this);
-			ce.addJaxbPropertyValue(i);
+			ce.addPropertyValue(i);
 		}
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Unmarshaling successful for array of complex bindings "

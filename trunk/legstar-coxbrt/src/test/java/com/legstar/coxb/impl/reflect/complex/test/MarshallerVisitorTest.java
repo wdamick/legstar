@@ -615,4 +615,30 @@ public class MarshallerVisitorTest  extends TestCase {
 		ccem.accept(mv);
 		assertEquals("e08140837d85a2a340a495409799968293d094854040404040404040404040400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e9006c00e9006d0065006e00740061006900720065002000e00020007200e90073006f00750064007200650020002000200020002000200020002000200020", HostData.toHexString(hostBytes));
 	}
+
+	public void testValueObjectClass() throws HostException{
+		// Create a cobol context 
+		CobolContext cobolContext = new CobolContext();
+		cobolContext.setHostCharsetName("IBM01147");
+		// Select a conversion strategy 
+		CobolSimpleConverters cc = new CobolSimpleConverters(cobolContext);
+		// Create a concrete visitor
+		byte[] hostBytes = new byte[160];
+		CobolMarshalVisitor mv = new CobolMarshalVisitor(hostBytes, 0, cc);
+		
+		// Create an instance of the JAXB object factory
+		com.legstar.test.coxb.jvmquery.ObjectFactory objectFactory = new com.legstar.test.coxb.jvmquery.ObjectFactory();
+		// Create and populate an instance of an object (JAXB annotated)
+		com.legstar.test.coxb.jvmquery.JvmQueryReply jvmQueryReply = objectFactory.createJvmQueryReply();
+		
+		jvmQueryReply.setCountry("JP");
+		jvmQueryReply.setCurrencySymbol("Y");
+		jvmQueryReply.setFormattedDate("YYYY-MM-DD");
+		jvmQueryReply.setLanguage("Japanese");
+
+		// Traverse the object structure, visiting each node with the visitor
+		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, jvmQueryReply);
+		ccem.accept(mv);
+		assertEquals("00000000d1d7404040404040404040404040404040404040404040404040404040404040e840404040404040404040404040404040404040404040404040404040404040e8e8e8e860d4d460c4c440404040404040404040404040404040404040404040d18197819585a28540404040404040404040404040404040404040404040404000000000000000000000000000000000000000000000000000000000", HostData.toHexString(hostBytes));
+	}
 }
