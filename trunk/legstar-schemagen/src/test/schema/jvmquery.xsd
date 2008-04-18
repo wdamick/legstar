@@ -7,6 +7,11 @@
         </xs:appinfo>
     </xs:annotation>
     <xs:complexType name="jvmQueryRequest">
+        <xs:annotation>
+            <xs:appinfo>
+                <cb:cobolType javaClassName="com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest"/>
+            </xs:appinfo>
+        </xs:annotation>
         <xs:sequence>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="envVarNames" nillable="true" type="xs:string">
                 <xs:annotation>
@@ -18,6 +23,11 @@
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="jvmQueryReply">
+        <xs:annotation>
+            <xs:appinfo>
+                <cb:cobolType javaClassName="com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply"/>
+            </xs:appinfo>
+        </xs:annotation>
         <xs:sequence>
             <xs:element minOccurs="0" name="country" type="xs:string">
                 <xs:annotation>
@@ -59,14 +69,14 @@
     <xs:element name="jvmQueryReply" type="jvmQueryReply">
         <xs:annotation>
             <xs:appinfo>
-                <cb:cobolElement cobolName="jvmQueryReply" javaClassName="com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply" levelNumber="1" type="GROUP_ITEM"/>
+                <cb:cobolElement cobolName="jvmQueryReply" levelNumber="1" type="GROUP_ITEM"/>
             </xs:appinfo>
         </xs:annotation>
     </xs:element>
     <xs:element name="jvmQueryRequest" type="jvmQueryRequest">
         <xs:annotation>
             <xs:appinfo>
-                <cb:cobolElement cobolName="jvmQueryRequest" javaClassName="com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest" levelNumber="1" type="GROUP_ITEM"/>
+                <cb:cobolElement cobolName="jvmQueryRequest" levelNumber="1" type="GROUP_ITEM"/>
             </xs:appinfo>
         </xs:annotation>
     </xs:element>
