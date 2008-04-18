@@ -1,7 +1,7 @@
 #**
 Initializes children Velocity Template.
 @author Fady
-@version 1.1.1
+@version 1.2
 *#
 ## ==================================================================
 ## Each child of a complex element is initialized
@@ -10,7 +10,7 @@ Initializes children Velocity Template.
 #if($coxbHelper.getGenericType($child).equals("simple") || $coxbHelper.getGenericType($child).equals("enum"))
         $coxbHelper.getFieldName($child) = BF.create${coxbHelper.getCreateMethod($child)}("${child.bindingName}",
 #if($child.isBound())
-               "$child.jaxbName", ${coxbHelper.getJaxbTypeName($child)}.class, ${parent-binding});
+               "$child.jaxbName", ${coxbHelper.getBoundTypeName($child)}.class, ${parent-binding});
 #else
                ${parent-binding});
 #end

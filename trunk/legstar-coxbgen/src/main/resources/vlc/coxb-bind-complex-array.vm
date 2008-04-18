@@ -1,7 +1,7 @@
 #**
 Complex array binding class Velocity Template.
 @author Fady
-@version 1.1.1
+@version 1.2
 *#
 ## ==================================================================
 ## Complex array (Wrapper) element binding code
@@ -21,16 +21,9 @@ import java.util.ArrayList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-## Determine the item value Object type
-#set ($valueObjectType = $coxbContext.getAlternativeClassName($coxbHelper.getItemJaxbTypeName($binding)))
-#if (${coxbContext.getAlternativePackageName()})
-import ${coxbContext.getAlternativePackageName()}.$valueObjectType;
-#else
-#if (${coxbContext.getJaxbPackageName()})
-import ${coxbContext.getJaxbPackageName()}.$valueObjectType;
-#end
-#end
-
+## Determine the value Object type
+#set ($valueObjectType = $coxbHelper.getBoundTypeName($binding))
+import ${binding.getValueObjectClassName()};
 
  /**
  * LegStar Binding for Complex Array (Wrapper) element:
@@ -57,17 +50,17 @@ public class $binding-class-name
      * Constructor for an array of Complex elements.
      * 
      * @param bindingName the identifier for this binding
-     * @param jaxbName name of field in parent value object
+     * @param fieldName name of field in parent value object
      * @param parentBinding a reference to the parent binding
      * @param complexItemBinding a binding element for array items
      */
     public $binding-class-name(
             final String bindingName,
-            final String jaxbName,
+            final String fieldName,
             final ICobolComplexBinding parentBinding,
             final ICobolComplexBinding complexItemBinding) {
         
-        super(bindingName, jaxbName, ${valueObjectType}.class, null, parentBinding, complexItemBinding);
+        super(bindingName, fieldName, ${valueObjectType}.class, null, parentBinding, complexItemBinding);
         setMinOccurs(${binding.getMinOccurs()});
         setMaxOccurs(${binding.getMaxOccurs()});
 #if(${helper.isEmpty("${binding.getDependingOn()}")} == false)
@@ -76,7 +69,7 @@ public class $binding-class-name
     }
 
     /** {@inheritDoc} */
-    public final void createJaxbObject() throws HostException {
+    public final void createValueObject() throws HostException {
         mValueObject = new ArrayList < $valueObjectType >();
     }
 
@@ -85,7 +78,7 @@ public class $binding-class-name
         final int index) throws HostException {
          /* Make sure there is an associated Value object*/
         if (mValueObject == null) {
-            createJaxbObject();
+            createValueObject();
         }
         /* The value object list might have less items than expected by the
          * binding. In this case, we fill the binding with empty items. */
@@ -107,7 +100,7 @@ public class $binding-class-name
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public final void addJaxbPropertyValue(
+    public final void addPropertyValue(
         final int index) throws HostException {
          /* Make sure there is an associated Value object*/
         if (mValueObject == null) {
@@ -171,8 +164,8 @@ public class $binding-class-name
     }
 
     /**
-     * @return the bound JAXB object
-     * @throws HostException if bound JAXB object cannot be retrieved
+     * @return the bound value object
+     * @throws HostException if bound value object cannot be retrieved
      */
     @SuppressWarnings("unchecked")
     public final List < $valueObjectType > get${valueObjectType}() throws HostException {

@@ -120,20 +120,12 @@
             XsdFile="${xsd.dir}/jvmquery.xsd"
             JaxbRootObjectName="JvmQueryRequest"
             targetDir="${coxb.src.dir}"
-        	alternativePackageName="com.legstar.xsdc.test.cases.jvmquery"
-        	alternativeFactoryName="ObjectFactory"
-            >
-        	<alternativeClassName jaxbClassName="JvmQueryRequest" toClassName="JVMQueryRequest"/>
-        </coxbgen>
+            />
         <coxbgen 
             XsdFile="${xsd.dir}/jvmquery.xsd"
             JaxbRootObjectName="JvmQueryReply"
             targetDir="${coxb.src.dir}"
-        	alternativePackageName="com.legstar.xsdc.test.cases.jvmquery"
-        	alternativeFactoryName="ObjectFactory"
-            >
-        	<alternativeClassName jaxbClassName="JvmQueryReply" toClassName="JVMQueryReply"/>
-        </coxbgen>
+            />
         <!--
         <coxbgen 
             XsdFile="${xsd.dir}/MSNSearch.xsd"

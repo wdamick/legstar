@@ -108,7 +108,7 @@ public class CoxbBindingGeneratorTest extends TestCase {
 		assertTrue(srce.contains("cDefinition1Choice.setUnmarshalChoiceStrategyClassName("));
 		assertTrue(srce.contains("\"com.legstar.coxb.cust.redsimpt.ChoiceSelector\");"));
 		String custSrce = getSource(getGetCustFilename("redsimpt"));
-		assertTrue(custSrce.contains("DfhcommareaType jaxbo = (DfhcommareaType) choice.getObjectValue(DfhcommareaType.class);"));
+		assertTrue(custSrce.contains("DfhcommareaType valueObject = (DfhcommareaType) choice.getObjectValue(DfhcommareaType.class);"));
 	}
 	
 	/** Generate binding for Arrayssm. */

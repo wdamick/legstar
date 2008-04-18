@@ -1,5 +1,6 @@
 package com.legstar.coxb.gen;
 
+import com.legstar.codegen.CodeGenHelper;
 import com.legstar.coxb.ICobolArrayBinaryBinding;
 import com.legstar.coxb.ICobolArrayComplexBinding;
 import com.legstar.coxb.ICobolArrayDoubleBinding;
@@ -173,32 +174,46 @@ public class CoxbHelper {
 	}
 	
 	/**
-	 * @param binding a bound element
-	 * @return the jaxb type name of the element
+	 * Retrieve the bound object type. Since there are more
+	 * precise methods for complex objects, this will apply for
+	 * simple objects.
+	 * @param binding a binding element
+	 * @return the bound object type name
 	 */
-	public final String getJaxbTypeName(final ICobolBinding binding) {
+	public final String getBoundTypeName(final ICobolBinding binding) {
 		return JaxbUtil.getJaxbTypeName(binding);
 	}
 
 	/**
-	 * Choices do not have a boun jaxb element but they always belong to
-	 * a complex parent that does.
-	 * @param binding a choice element
-	 * @return the jaxb type name of the parent element
+	 * Retrieve the bound object type. Complex objects can be bound t
+	 * JAXB objects or straight POJOs.
+	 * @param binding a complex element
+	 * @return the bound object type name
 	 */
-	public final String getParentJaxbTypeName(
-			final ICobolChoiceBinding binding) {
-		return JaxbUtil.getJaxbTypeName(binding.getParentBinding());
+	public final String getBoundTypeName(final ICobolComplexBinding binding) {
+		return new CodeGenHelper().getClassName(
+				binding.getValueObjectClassName());
 	}
 
 	/**
-	 * Complex array inner item jaxb type.
+	 * Choices do not have a bound object but they always belong to
+	 * a complex parent that does.
 	 * @param binding a choice element
-	 * @return the jaxb type name of the parent element
+	 * @return the parent's bound object type name
 	 */
-	public final String getItemJaxbTypeName(
+	public final String getBoundTypeName(
+			final ICobolChoiceBinding binding) {
+		return getBoundTypeName(binding.getParentBinding());
+	}
+
+	/**
+	 * Complex array inner item bound object.
+	 * @param binding a complex array element
+	 * @return the items bound object type name
+	 */
+	public final String getItemBoundTypeName(
 			final ICobolArrayComplexBinding binding) {
-		return JaxbUtil.getJaxbTypeName(binding.getComplexItemBinding());
+		return getBoundTypeName(binding.getComplexItemBinding());
 	}
 
 	/**
