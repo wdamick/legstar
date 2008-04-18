@@ -72,6 +72,12 @@ public class CobolJAXBAnnotatorTest extends TestCase {
 	    assertTrue(srce.contains("@CobolElement(cobolName = \"cultureCode\", type = CobolType.ALPHANUMERIC_ITEM, levelNumber = 5, byteLength = 32, picture = \"X(32)\", usage = \"DISPLAY\")"));
 	}
 
+	public void testXsdcgenOutputWithJavaClassNames() {
+		genSource("jvmquery");
+		String srce = getSource("jvmquery", "JvmQueryReply" );
+	    assertTrue(srce.contains("@CobolComplexType(javaClassName = \"com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply\")"));
+	}
+
 	/** Generates JAXB classes with Cobol annotations */
 	private void genSource(String schemaName) {
 		Project project = new Project();

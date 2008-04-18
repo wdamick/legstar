@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Collections;
 import javax.xml.bind.annotation.XmlSchemaType;
 
+import com.legstar.coxb.CobolComplexType;
 import com.legstar.coxb.CobolType;
 import com.legstar.coxb.CobolElement;
 import com.legstar.coxb.CobolMarkup;
@@ -100,7 +101,8 @@ public class CobolJAXBAnnotator extends Plugin {
 		
 		return (nsUri.equals(CobolMarkup.NS)
 				&& (localName.equals(CobolMarkup.ELEMENT)
-				|| localName.equals(CobolMarkup.ELEMENT_VALUE)));
+				|| localName.equals(CobolMarkup.ELEMENT_VALUE)
+				|| localName.equals(CobolMarkup.COMPLEX_TYPE)));
 	}
 	
 	/** {@inheritDoc} */
@@ -148,6 +150,7 @@ public class CobolJAXBAnnotator extends Plugin {
 						"CobolJAXBAnnotator::run::ClassOutline::"
 						+ co.implClass);
 			}
+			annotateClass(co);
 			
 			for (FieldOutline fo : co.getDeclaredFields()) {
 				
@@ -216,6 +219,23 @@ public class CobolJAXBAnnotator extends Plugin {
     	System.out.println("Duration=" + (end - start) + " ms");
 		
 		return true;
+	}
+	
+	/**
+	 * Propagate xsd complex type annotations on a class type.
+	 * @param co the class outline
+	 */
+	private void annotateClass(final ClassOutline co) {
+        CPluginCustomization c = co.target.getCustomizations().find(
+        		CobolMarkup.NS, CobolMarkup.COMPLEX_TYPE);
+        if (c == null) {
+            return;   // no customization --- nothing to inject here
+        }
+        c.markAsAcknowledged();
+        
+		JAnnotationUse ce = co.implClass.annotate(CobolComplexType.class);
+		ce.param(CobolMarkup.JAVA_CLASS_NAME,
+				c.element.getAttribute(CobolMarkup.JAVA_CLASS_NAME).toString());
 	}
 	
 	/**
