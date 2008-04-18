@@ -23,6 +23,7 @@ package com.legstar.coxb.impl.reflect;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.legstar.coxb.CobolComplexType;
 import com.legstar.coxb.CobolElement;
 import com.legstar.coxb.common.CArrayComplexBinding;
 import com.legstar.coxb.host.HostException;
@@ -66,13 +67,35 @@ public class CArrayComplexReflectBinding extends CArrayComplexBinding {
 		super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding,
 				complexItemBinding);
 		mJaxbObjectFactory = objectFactory;
+		/* Assume we are bound to a JAXB object */
+		setValueObjectClassName(jaxbType.getName());
+		setValueObjectsFactoryClassName(objectFactory.getClass().getName());
+		/* Jaxb class might hold an annotation which gives more details
+		 * on how to bind*/
+		CobolComplexType cobolComplexType =
+			(CobolComplexType) jaxbType.getAnnotation(CobolComplexType.class);
+		if (cobolComplexType != null) {
+			if (cobolComplexType.javaClassName() != null
+					&& cobolComplexType.javaClassName().length() > 0) {
+				setValueObjectClassName(cobolComplexType.javaClassName());
+				/* TODO allow more options, such as factory name, to be 
+				 * passed as annotations */
+				setValueObjectsFactoryClassName(null);
+			}
+		}
 	}
 
-	/** {@inheritDoc} */
+	/** {@inheritDoc}
+	 * @deprecated */
 	public final void createJaxbObject() throws HostException {
-		mJaxbObject = new ArrayList < Object >();
+		createValueObject();
 	}
 	
+	/** {@inheritDoc} */
+	public final void createValueObject() throws HostException {
+		mJaxbObject = new ArrayList < Object >();
+	}
+
 	/** {@inheritDoc} */
 	public final void setItemValue(
 			final int index) throws HostException {
@@ -89,9 +112,16 @@ public class CArrayComplexReflectBinding extends CArrayComplexBinding {
     	}
 	}
 	
+	/** {@inheritDoc}
+	 * @deprecated */
+	public final void addJaxbPropertyValue(
+			final int index) throws HostException {
+		addPropertyValue(index);
+	}
+	
 	/** {@inheritDoc} */
 	@SuppressWarnings("unchecked")
-	public final void addJaxbPropertyValue(
+	public final void addPropertyValue(
 			final int index) throws HostException {
         /* Make sure there is an associated JAXB object*/
     	if (mJaxbObject == null) {

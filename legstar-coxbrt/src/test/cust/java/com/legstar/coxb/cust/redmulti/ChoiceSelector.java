@@ -44,7 +44,7 @@ public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
     
 		/* Get the current value of the cOutputType variable. */
 		DfhcommareaType jobj =
-			(DfhcommareaType) choice.getParentJaxbObject();
+			(DfhcommareaType) choice.getParentValueObject();
 		
 		if (jobj.getCOutputType().compareTo("normal") == 0) {
 			return choice.getAlternativeByName("Filler35");

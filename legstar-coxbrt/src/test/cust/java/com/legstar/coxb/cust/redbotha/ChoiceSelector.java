@@ -47,7 +47,7 @@ public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
 		/* Force visitor to visit the second alternative (the default
 		 * code will process the first one) and update the JAXB object*/
 		choice.getAlternativesList().get(1).accept(visitor);
-		choice.setJaxbPropertyValue(1);
+		choice.setPropertyValue(1);
 		
 		/* Now restore offset and pretend no alternative was processed.*/
 		visitor.setOffset(saveOffset);

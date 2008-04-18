@@ -24,6 +24,7 @@ package com.legstar.coxb.impl.reflect;
 import com.legstar.coxb.common.CComplexBinding;
 import com.legstar.coxb.host.HostException;
 import com.legstar.util.JaxbUtil;
+import com.legstar.coxb.CobolComplexType;
 import com.legstar.coxb.CobolElement;
 import com.legstar.coxb.ICobolArrayComplexBinding;
 import com.legstar.coxb.ICobolBinding;
@@ -149,18 +150,20 @@ public class CComplexReflectBinding extends CComplexBinding {
 		
 		super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
 		mJaxbObjectFactory = jaxbObjectFactory;
-		initComplexElement(jaxbType);
+		initComplexElement(jaxbType, jaxbObjectFactory);
 	}
 
 	/**
 	 * Helper method. JAXB Types are annotated with an XmlType which gives
 	 * an ordered list of properties
 	 * @param jaxbType the JAXB Class with annotations
-	 * @throws ReflectBindingException if initialisation fails
+	 * @param jaxbObjectFactory the JAXB object factory
+	 * @throws ReflectBindingException if initialization fails
 	 */
 	@SuppressWarnings("unchecked")
 	private void initComplexElement(
-			final Class jaxbType) throws ReflectBindingException {
+			final Class jaxbType,
+			final Object jaxbObjectFactory) throws ReflectBindingException {
 
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Initializing Complex binding for " + jaxbType);
@@ -173,6 +176,25 @@ public class CComplexReflectBinding extends CComplexBinding {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Found JAXB annotations: " + xmlType.toString());
 		}
+		
+		/* Assume we are bound to a JAXB object */
+		setValueObjectClassName(jaxbType.getName());
+		setValueObjectsFactoryClassName(jaxbObjectFactory.getClass().getName());
+		
+		/* Jaxb class might hold an annotation which gives more details
+		 * on how to bind*/
+		CobolComplexType cobolComplexType =
+			(CobolComplexType) jaxbType.getAnnotation(CobolComplexType.class);
+		if (cobolComplexType != null) {
+			if (cobolComplexType.javaClassName() != null
+					&& cobolComplexType.javaClassName().length() > 0) {
+				setValueObjectClassName(cobolComplexType.javaClassName());
+				/* TODO allow more options, such as factory name, to be 
+				 * passed as annotations */
+				setValueObjectsFactoryClassName(null);
+			}
+		}
+		
 		initChildren(jaxbType, xmlType);
 
 		if (LOG.isDebugEnabled()) {
@@ -791,8 +813,13 @@ public class CComplexReflectBinding extends CComplexBinding {
 	
 	/** {@inheritDoc} */
     public final void createJaxbObject() throws HostException {
+    	createValueObject();
+    }
+       
+	/** {@inheritDoc} */
+    public final void createValueObject() throws HostException {
     	/* Since this complex binding has a constructor that takes a
-    	 * JAXB object, we might already have a Jaxb object that
+    	 * value object, we might already have a value object that
     	 * was not used yet. */
     	if (mUnusedJaxbObject && mJaxbObject != null) {
     		mUnusedJaxbObject = false;
@@ -801,7 +828,7 @@ public class CComplexReflectBinding extends CComplexBinding {
     	mJaxbObject = JaxbUtil.createComplexProperty(mJaxbObjectFactory,
     			getJaxbType().getName());
     }
-       
+
     /** {@inheritDoc} */
     public final void setChildrenValues() throws HostException {
     	
@@ -841,11 +868,18 @@ public class CComplexReflectBinding extends CComplexBinding {
     /** {@inheritDoc} */
     public final void setJaxbPropertyValue(
     		final int index) throws HostException {
+    	setPropertyValue(index);
+    }
+            
+
+    /** {@inheritDoc} */
+    public final void setPropertyValue(
+    		final int index) throws HostException {
     	
      	ICobolBinding child = getChildrenList().get(index);
      	
-    	/* Children that are not bound to a jaxb property are ignored.
-    	 * This includes Choices and dynamically generated counbters
+    	/* Children that are not bound to a value object are ignored.
+    	 * This includes Choices and dynamically generated counters
     	 * for instance.  */
         if (!child.isBound()) {
     		return;
@@ -861,7 +895,6 @@ public class CComplexReflectBinding extends CComplexBinding {
 		JaxbUtil.invokeSetProperty(mJaxbObject, child.getJaxbName(),
 				value, child.getJaxbType());
     }
-            
 
     /** {@inheritDoc} */
     public final Object getObjectValue(
@@ -889,17 +922,17 @@ public class CComplexReflectBinding extends CComplexBinding {
     }
 
     /**
-     * @return the java object factory for objects creation
+     * @return the java object factory for value objects creation
      */
     public final Object getObjectFactory() {
         return mJaxbObjectFactory;
     }
 
     /**
-     * @param jaxbObjectFactory the java object factory for objects creation 
+     * @param objectFactory the java object factory for value objects creation 
      */
-    public final void setObjectFactory(final Object jaxbObjectFactory) {
-    	mJaxbObjectFactory = jaxbObjectFactory;
+    public final void setObjectFactory(final Object objectFactory) {
+    	mJaxbObjectFactory = objectFactory;
     }
 
     /** {@inheritDoc} */

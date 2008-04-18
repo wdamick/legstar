@@ -43,7 +43,7 @@ public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
     throws HostException {
     
 		/* Get the current value of the function variable. */
-		DfhcommareaType jobj = (DfhcommareaType) choice.getParentJaxbObject();
+		DfhcommareaType jobj = (DfhcommareaType) choice.getParentValueObject();
 		
 		if (jobj.getCFunction().trim().compareTo("stringMethod") == 0) {
 			return choice.getAlternativeByName("Filler25");

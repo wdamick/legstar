@@ -82,8 +82,14 @@ public class CChoiceReflectBinding extends CChoiceBinding {
 		}
 	}
 	
-	/** {@inheritDoc} */
-	public final void setJaxbPropertyValue(
+    /** {@inheritDoc} */
+    public final void setJaxbPropertyValue(
+    		final int index) throws HostException {
+    	setPropertyValue(index);
+    }
+
+    /** {@inheritDoc} */
+	public final void setPropertyValue(
 			final int index) throws HostException {
         /* Set the JAXB object property value from binding object */
     	ICobolBinding alt = getAlternativesList().get(index);
@@ -105,6 +111,17 @@ public class CChoiceReflectBinding extends CChoiceBinding {
 				value, alt.getJaxbType());
 	}
 	
+    /** {@inheritDoc} */
+    public final Object getParentJaxbObject() throws HostException {
+    	return getParentBinding().getObjectValue(
+				getParentBinding().getJaxbType());
+    }
+ 
+    /** {@inheritDoc} */
+    public final Object getParentValueObject() throws HostException {
+    	return getParentJaxbObject();
+    }
+
     /** {@inheritDoc} */
     public final Object getObjectValue(
     		final Class < ? > type) throws HostException {
