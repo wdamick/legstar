@@ -154,13 +154,14 @@ public abstract class CChoiceBinding
 		mUnmarshalChoiceStrategy = strategy;
 	}
 
-    /** {@inheritDoc} */
-    public final Object getParentJaxbObject() throws HostException {
+    /** {@inheritDoc}
+     * @deprecated */
+    public Object getParentJaxbObject() throws HostException {
     	return getParentBinding().getObjectValue(
 				getParentBinding().getJaxbType());
     }
- 
-	/**
+
+    /**
      * Try to load the proposed strategy.
      * @param strategyClassName the class name for the strategy implementation
      * @return an instance of the class
@@ -184,5 +185,28 @@ public abstract class CChoiceBinding
     		return null;
     	}
     }
+
+    /**
+	 * This method is meant to be overridden. If it is not, then we are dealing
+	 * with an previous version of a binding object which did not implement
+	 * this method. For backward compatibility, we route the call to the now
+	 * deprecated <code>setJaxbPropertyValue</code>
+	 * {@inheritDoc}
+	 */
+	@SuppressWarnings("deprecation")
+	public void setPropertyValue(final int index) throws HostException {
+		setJaxbPropertyValue(index);
+	}
  
+    /**
+	 * This method is meant to be overridden. If it is not, then we are dealing
+	 * with an previous version of a binding object which did not implement
+	 * this method. For backward compatibility, we route the call to the now
+	 * deprecated <code>getParentJaxbObject</code>
+	 * {@inheritDoc}
+	 */
+	@SuppressWarnings("deprecation")
+	public Object getParentValueObject() throws HostException {
+		return getParentJaxbObject();
+	}
 }

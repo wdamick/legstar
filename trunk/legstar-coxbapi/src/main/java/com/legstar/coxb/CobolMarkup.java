@@ -28,7 +28,7 @@ public final class CobolMarkup {
 	
 	/** Namespace for cobol annotations. */
 	public static final String NS = "http://www.legsem.com/xml/ns/coxb";
-	/** Cobol annotation class. */
+	/** Cobol annotation for elements. */
 	public static final  String ELEMENT = "cobolElement";
 	/* XSD annotation tags mapped to java cobol annotations */
 	/** Cobol level number. */
@@ -83,6 +83,8 @@ public final class CobolMarkup {
 	public static final  String SRCE_LINE = 	"srceLine";
 	/** Cobol value appears inline in cobolElement. */
 	public static final  String ELEMENT_VALUE = "value";
+	/** Cobol annotation for complex types. */
+	public static final  String COMPLEX_TYPE = "cobolType";
 	/** The java class name bound to a cobol element. */
 	public static final  String JAVA_CLASS_NAME = "javaClassName";
 }

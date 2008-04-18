@@ -32,12 +32,24 @@ import com.legstar.coxb.host.HostException;
 public interface ICobolComplexBinding extends ICobolBinding {
 	
 	/**
+	 * @deprecated
+	 * Requests complex binding to create an instance of its bound
+	 * jaxb object. Since bindings can now be bound to arbitrary
+	 * value objects, use method <code>createValueObject</code>
+	 * instead of this one.
+	 * 
+	 * @throws HostException if initialization fails
+	 */
+	
+	void createJaxbObject() throws HostException;
+	
+	/**
 	 * Requests complex binding to create an instance of its bound
 	 * object.
 	 * 
 	 * @throws HostException if initialization fails
 	 */
-	void createJaxbObject() throws HostException;
+	void createValueObject() throws HostException;
 	
 	/**
 	 * Requests complex binding to set its children values from bound
@@ -48,14 +60,26 @@ public interface ICobolComplexBinding extends ICobolBinding {
 	void setChildrenValues() throws HostException;
 
 	/**
+	 * @deprecated
 	 * Request complex binding to set a property of the bound Jaxb object
-	 * to the value of a corresponding child.
+	 * to the value of a corresponding child.  Since bindings can now be bound
+	 * to arbitrary value objects, use method <code>setPropertyValue</code>
+	 * instead of this one.
 	 * 
 	 * @param index the position of the child in the complex element child list
 	 * @throws HostException if bound object values cannot be set
 	 */
 	void setJaxbPropertyValue(int index) throws HostException;
 	
+	/**
+	 * Request complex binding to set a property of the bound value object
+	 * to the value of a corresponding child.
+	 * 
+	 * @param index the position of the child in the complex element child list
+	 * @throws HostException if bound object values cannot be set
+	 */
+	void setPropertyValue(int index) throws HostException;
+
 	/**
 	 * Request a list of children from this complex binding.
 	 * 
@@ -66,14 +90,14 @@ public interface ICobolComplexBinding extends ICobolBinding {
 		throws HostException;
 	
 	/**
-     * @return the java object factory for objects creation
+     * @return the java object factory for bound objects creation
      */
     Object getObjectFactory();
 
     /**
-     * @param jaxbObjectFactory the java object factory for objects creation 
+     * @param objectFactory the java object factory for bound objects creation 
      */
-    void setObjectFactory(Object jaxbObjectFactory);
+    void setObjectFactory(Object objectFactory);
     
 	/**
 	 * @return the number of dynamic counters this complex element is handling
@@ -108,4 +132,33 @@ public interface ICobolComplexBinding extends ICobolBinding {
 	 * @throws HostException if counter cannot be queried
 	 */
 	int getCounterValue(String cobolName) throws HostException;
+
+	/**
+     * Complex bindings can be bound to JAXB objects or arbitrary POJOs
+     * jointly referred to as value objects.
+     * This property is the fully qualified java class name of the bound
+     * value object.
+	 * @return the fully qualified bound value object class name
+	 */
+	String getValueObjectClassName();
+
+	/**
+	 * @param valueObjectClassName the fully qualified bound value object class
+	 *  name to set
+	 */
+	void setValueObjectClassName(final String valueObjectClassName);
+
+	/**
+     * Optional factory class name used to create bound value objects.
+     * If null, value objects are assumed to have a no-argument constructor.
+	 * @return the factory class name used to create bound value objects
+	 */
+	String getValueObjectsFactoryClassName();
+
+	/**
+	 * @param valueObjectsFactoryClassName the factory class name used to create
+	 *  bound value objects to set
+	 */
+	void setValueObjectsFactoryClassName(
+			final String valueObjectsFactoryClassName);
 }
