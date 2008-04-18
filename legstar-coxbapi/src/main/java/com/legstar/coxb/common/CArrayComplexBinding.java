@@ -40,6 +40,20 @@ public abstract class CArrayComplexBinding extends CArrayBinding
 	 * array. */
 	private ICobolComplexBinding mComplexItemBinding;
 
+    /**
+     * Complex bindings can be bound to JAXB objects or arbitrary POJOs
+     * jointly referred to as value objects.
+     * This property is the fully qualified java class name of the bound
+     * value object.
+     */
+    private String mValueObjectClassName;
+    
+    /**
+     * Optional factory class name used to create bound value objects.
+     * If null, value objects are assumed to have a no-argument constructor.
+     */
+    private String mValueObjectsFactoryClassName;
+    
 	/**
 	 * Constructor for a cobol element to java binding.
 	 * 
@@ -87,4 +101,70 @@ public abstract class CArrayComplexBinding extends CArrayBinding
 		mComplexItemBinding = complexItemBinding;
 	}
 
+	/**
+	 * This method is meant to be overridden. If it is not, then we are dealing
+	 * with an previous version of a binding object which did not implement
+	 * this method. For backward compatibility, we route the call to the now
+	 * deprecated <code>createJaxbObject</code>
+	 * {@inheritDoc}
+	 */
+	@SuppressWarnings("deprecation")
+	public void createValueObject() throws HostException {
+		createJaxbObject();
+	}
+
+	/**
+	 * This method is meant to be overridden. If it is not, then we are dealing
+	 * with an previous version of a binding object which did not implement
+	 * this method. For backward compatibility, we route the call to the now
+	 * deprecated <code>addJaxbPropertyValue</code>
+	 * {@inheritDoc}
+	 */
+	@SuppressWarnings("deprecation")
+	public void addPropertyValue(final int index) throws HostException {
+		addJaxbPropertyValue(index);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @deprecated
+	 */
+	public void createJaxbObject() throws HostException {
+	}
+	/**
+	 * {@inheritDoc}
+	 * @deprecated
+	 */
+	public void addJaxbPropertyValue(final int index) throws HostException {
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public final String getValueObjectClassName() {
+		return mValueObjectClassName;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void setValueObjectClassName(
+			final String valueObjectClassName) {
+		mValueObjectClassName = valueObjectClassName;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final String getValueObjectsFactoryClassName() {
+		return mValueObjectsFactoryClassName;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void setValueObjectsFactoryClassName(
+			final String valueObjectsFactoryClassName) {
+		mValueObjectsFactoryClassName = valueObjectsFactoryClassName;
+	}
 }

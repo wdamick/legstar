@@ -31,23 +31,36 @@ import com.legstar.coxb.host.HostException;
 public interface ICobolChoiceBinding extends ICobolBinding {
 	
 	/**
-	 * Requests choice binding to set its alternatives values from bound jaxb
-	 * object values.
+	 * Requests choice binding to set its alternatives values from bound value
+	 * objects.
 	 * 
 	 * @throws HostException if reading from bound object values fails
 	 */
 	void setAlternativesValues() throws HostException;
 
 	/**
+	 * @deprecated
 	 * Request choice binding to set to set a property of the bound Jaxb object
 	 * to the value of a corresponding alternative.
-	 * child value.
+	 * child value. Since bindings can now be bound
+	 * to arbitrary value objects, use method <code>setPropertyValue</code>
+	 * instead of this one.
 	 * 
 	 * @param index the position of the child in the alternatives list
 	 * @throws HostException if bound object values cannot be set
 	 */
 	void setJaxbPropertyValue(int index) throws HostException;
 	
+	/**
+	 * Request choice binding to set to set a property of the bound value object
+	 * to the value of a corresponding alternative.
+	 * child value.
+	 * 
+	 * @param index the position of the child in the alternatives list
+	 * @throws HostException if bound object values cannot be set
+	 */
+	void setPropertyValue(int index) throws HostException;
+
 	/**
 	 * Returns the current list of alternatives for this choice element.
 	 * 
@@ -89,16 +102,29 @@ public interface ICobolChoiceBinding extends ICobolBinding {
 	ICobolComplexBinding getParentBinding();
 	
     /**
+     * @deprecated
      * Retrieves the parent jaxb object. Choice bindings are not directly
      * bound to a jaxb object themselves but they are always children of a
-     * complex binding.
+     * complex binding. Since bindings can now be bound
+	 * to arbitrary value objects, use method <code>getParentValueObject</code>
+	 * instead of this one.
      * 
      * @return the parent bound jaxb object
      * @throws HostException if parent jaxb object cannot be retrieved
      */
     Object getParentJaxbObject() throws HostException;
     
-	/**
+    /**
+     * Retrieves the parent's value object. Choice bindings are not directly
+     * bound to a value object themselves but they are always children of a
+     * complex binding.
+     * 
+     * @return the parent's bound value object
+     * @throws HostException if parent's value object cannot be retrieved
+     */
+    Object getParentValueObject() throws HostException;
+
+    /**
 	 * Sets a instance of a class providing additional logic to select an
 	 * alternative within a choice element at marshaling (Java to Host) time.
 	 * @param strategy a choice strategy implementation

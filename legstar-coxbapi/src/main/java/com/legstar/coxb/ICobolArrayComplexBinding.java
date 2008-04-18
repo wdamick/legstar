@@ -33,12 +33,23 @@ import com.legstar.coxb.host.HostException;
 public interface ICobolArrayComplexBinding extends ICobolArrayBinding {
 	
 	/**
-	 * Requests array to create a JAXB complex array.
+	 * @deprecated
+	 * Requests array to create a JAXB complex array. Since bindings can now be
+	 * bound to arbitrary value objects, use method
+	 * <code>createValueObject</code>
+	 * instead of this one.
 	 * 
 	 * @throws HostException if initialization fails
 	 */
 	void createJaxbObject() throws HostException;
 	
+	/**
+	 * Requests array to create a complex value array.
+	 * 
+	 * @throws HostException if initialization fails
+	 */
+	void createValueObject() throws HostException;
+
 	/**
 	 * Requests complex array binding to set its item values from the
 	 * JAXB item identified by index.
@@ -49,14 +60,27 @@ public interface ICobolArrayComplexBinding extends ICobolArrayBinding {
 	void setItemValue(int index) throws HostException;
 
 	/**
+	 * @deprecated
 	 * Request complex binding item to add a value to a jaxb bound object
+	 * of the List type. The value is taken at index index in this binding
+	 * array of values.
+	 * Since bindings can now be bound to arbitrary value objects, use method
+	 * <code>addPropertyValue</code>
+	 * 
+	 * @param index item index in this array.
+	 * @throws HostException if bound object values cannot be set
+	 */
+	void addJaxbPropertyValue(int index) throws HostException;
+
+	/**
+	 * Request complex binding item to add a value to a bound value object
 	 * of the List type. The value is taken at index index in this binding
 	 * array of values.
 	 * 
 	 * @param index item index in this array.
 	 * @throws HostException if bound object values cannot be set
 	 */
-	void addJaxbPropertyValue(int index) throws HostException;
+	void addPropertyValue(int index) throws HostException;
 
 	/**
 	 * Returns the complex binding used for items of this array.
@@ -73,4 +97,33 @@ public interface ICobolArrayComplexBinding extends ICobolArrayBinding {
 	 * @param list the items List to set
 	 */
 	void setObjectList(List < ? > list);
+
+	/**
+     * Complex bindings can be bound to JAXB objects or arbitrary POJOs
+     * jointly referred to as value objects.
+     * This property is the fully qualified java class name of the bound
+     * value object.
+	 * @return the fully qualified bound value object class name
+	 */
+	String getValueObjectClassName();
+
+	/**
+	 * @param valueObjectClassName the fully qualified bound value object class
+	 *  name to set
+	 */
+	void setValueObjectClassName(final String valueObjectClassName);
+
+	/**
+     * Optional factory class name used to create bound value objects.
+     * If null, value objects are assumed to have a no-argument constructor.
+	 * @return the factory class name used to create bound value objects
+	 */
+	String getValueObjectsFactoryClassName();
+
+	/**
+	 * @param valueObjectsFactoryClassName the factory class name used to create
+	 *  bound value objects to set
+	 */
+	void setValueObjectsFactoryClassName(
+			final String valueObjectsFactoryClassName);
 }
