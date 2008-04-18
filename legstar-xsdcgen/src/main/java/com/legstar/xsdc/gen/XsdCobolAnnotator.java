@@ -25,6 +25,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
@@ -163,6 +164,12 @@ public class XsdCobolAnnotator extends Task {
 	/** Cobol annotation element name. */
 	private static final String COBOL_ELN = "cb:cobolElement";
 	
+	/** Cobol annotation parent complex type name. */
+	private static final String COBOL_PARENT_CTN = "cb:cobolTypes";
+	
+	/** Cobol annotation complex type name. */
+	private static final String COBOL_CTN = "cb:cobolType";
+	
 	/** JAXB annotation parent element name. */
 	private static final String JAXB_PARENT_ELN = "jaxb:jaxbElements";
 	
@@ -234,6 +241,9 @@ public class XsdCobolAnnotator extends Task {
 	            XmlSchemaObject obj = items.getItem(i);
 	            if (obj instanceof XmlSchemaElement) {
 	            	annotateElement(schema, (XmlSchemaElement) obj, 1);
+	            }
+	            if (obj instanceof XmlSchemaComplexType) {
+	            	annotateComplexType(schema, (XmlSchemaComplexType) obj);
 	            }
 	        }
 		} catch (XsdCobolAnnotatorException e) {
@@ -465,18 +475,21 @@ public class XsdCobolAnnotator extends Task {
     	
     	/* Add JAXB extension attributes to the target schema */
     	Document doc = mDb.newDocument();
+    	Map extensionMap = new HashMap();
         Attr attrib = doc.createAttributeNS(JAXB_NS, "version");
         attrib.setValue("2.0");
-        Map eam = (Map) schema.getMetaInfoMap().get(
-        		Constants.MetaDataConstants.EXTERNAL_ATTRIBUTES);
-        eam.put(new QName(JAXB_NS, "version"), attrib);
+        extensionMap.put(new QName(JAXB_NS, "version"), attrib);
         
         attrib = doc.createAttributeNS(JAXB_NS, "extensionBindingPrefixes");
         attrib.setValue(COBOL_PFX);
-        eam.put(new QName(JAXB_NS, "extensionBindingPrefixes"), attrib);
+        extensionMap.put(
+        		new QName(JAXB_NS, "extensionBindingPrefixes"), attrib);
+        
+        schema.addMetaInfo(
+        		Constants.MetaDataConstants.EXTERNAL_ATTRIBUTES, extensionMap);
    	
     	/* Annotate the schema element with JAXB extension parameters */
-    	schema.setAnnotation(getSchemaAnnotations(doc));
+    	schema.setAnnotation(createSchemaAnnotations(doc));
     	
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("AnnotateSchema ended");
@@ -500,7 +513,7 @@ public class XsdCobolAnnotator extends Task {
      * @param doc a DOM document to hold nodes used for annotations
      * @return a schema level annotation
      *  */
-    private XmlSchemaAnnotation getSchemaAnnotations(
+    private XmlSchemaAnnotation createSchemaAnnotations(
     		final Document doc) {
         
         Element el = doc.createElementNS(JAXB_NS, JAXB_PARENT_ELN);
@@ -567,7 +580,7 @@ public class XsdCobolAnnotator extends Task {
     		final XmlSchemaElement obj,
     		final int level) throws XsdCobolAnnotatorException {
     	/* If this element is referencing another, it might not be useful to 
-    	 * annote it. */
+    	 * annotate it. */
     	if (obj.getRefName() != null) {
     		return;
     	}
@@ -583,16 +596,68 @@ public class XsdCobolAnnotator extends Task {
         el.appendChild(elc);
         
     	/* Add an annotation */
+    	obj.setAnnotation(createAnnotation(el));
+    	
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("annotate ended for element = " + obj.getName());
+		}
+    }
+    
+    /**
+     * Main annotation process applied to an XML schema complex type.
+     * For now the only attribute that needs to go at the complex Type
+     * level is the java class name used when the schema is derived from 
+     * a POJO rather than an XSD or WSDL.
+     * @param schema the XML Schema being annotated
+     * @param obj the XML Schema type to annotate
+     * @throws XsdCobolAnnotatorException if annotation fails
+     */
+    public final void annotateComplexType(
+    		final XmlSchema schema,
+    		final XmlSchemaComplexType obj) throws XsdCobolAnnotatorException {
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("annotate started for complex type = " + obj.getName());
+		}
+		
+		/* If this complex type maps to a java class name, add this
+		 * attribute to the annotation */
+		if (mComplexTypeToJavaClassMap != null) {
+			String javaClassName =
+				mComplexTypeToJavaClassMap.get(obj.getName());
+			if (javaClassName != null) {
+				if (LOG.isDebugEnabled()) {
+					LOG.debug("   java class name = " + javaClassName);
+				}
+		    	/* Create a DOM document to hold annotation notes */
+		        Document doc = mDb.newDocument();
+		        Element el = doc.createElementNS(COBOL_NS, COBOL_PARENT_CTN);
+		        Element elc = doc.createElementNS(COBOL_NS, COBOL_CTN);
+		    	elc.setAttribute(CobolMarkup.JAVA_CLASS_NAME, javaClassName);
+		        el.appendChild(elc);
+		        
+		    	/* Add an annotation */
+		    	obj.setAnnotation(createAnnotation(el));
+			}
+		}
+		
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("annotate ended for complex type = " + obj.getName());
+		}
+    }
+    
+    /**
+     * Create an Xml schema annotation ready to be added on some schema
+     * object.
+     * @param el a DOM element holding the annotations as child elements
+     * @return an Xml schema annotation
+     */
+    private XmlSchemaAnnotation createAnnotation(final Element el) {
     	XmlSchemaAnnotation annotation = new XmlSchemaAnnotation();
     	XmlSchemaAppInfo appInfo = new XmlSchemaAppInfo();
     	NodeList markup = el.getChildNodes();
     	appInfo.setMarkup(markup);
     	annotation.getItems().add(appInfo);
-    	obj.setAnnotation(annotation);
-    	
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("annotate ended for element = " + obj.getName());
-		}
+    	return annotation;
     }
     
     /**
@@ -803,16 +868,6 @@ public class XsdCobolAnnotator extends Task {
 		if (LOG.isDebugEnabled()) {
 	    	LOG.debug("   Cobol type           = "
 	    			+ elc.getAttribute(CobolMarkup.TYPE));
-		}
-		
-		/* If this complex element maps to a java class name, add this
-		 * attribute to the annotation */
-		if (mComplexTypeToJavaClassMap != null) {
-			String javaClassName =
-				mComplexTypeToJavaClassMap.get(type.getName());
-			if (javaClassName != null) {
-		    	elc.setAttribute(CobolMarkup.JAVA_CLASS_NAME, javaClassName);
-			}
 		}
 		
 		if (type.getParticle() instanceof XmlSchemaSequence) {

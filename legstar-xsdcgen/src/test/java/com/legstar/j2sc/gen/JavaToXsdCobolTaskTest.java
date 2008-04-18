@@ -115,7 +115,8 @@ public class JavaToXsdCobolTaskTest extends TestCase {
 			String result = getSource(TARGET_SCHEMA_DIR, targetFile);
 			assertTrue(result.contains("targetNamespace=\"http://legstar.com\""));
 			assertTrue(result.contains("<xs:element name=\"cultureInfoParameters\" type=\"cultureInfoParameters\">"));
-			assertTrue(result.contains("<cb:cobolElement cobolName=\"cultureInfoParameters\" javaClassName=\"com.legstar.xsdc.test.cases.cultureinfo.CultureInfoRequest\" levelNumber=\"1\" type=\"GROUP_ITEM\"/>"));
+			assertTrue(result.contains("<cb:cobolType javaClassName=\"com.legstar.xsdc.test.cases.cultureinfo.CultureInfoRequest\"/>"));
+			assertTrue(result.contains("<cb:cobolElement cobolName=\"cultureInfoParameters\" levelNumber=\"1\" type=\"GROUP_ITEM\"/>"));
 		} catch (BuildException e) {
 			assertEquals("java.lang.ClassNotFoundException: JVMQuery", e.getMessage());
 		}
@@ -157,11 +158,9 @@ public class JavaToXsdCobolTaskTest extends TestCase {
 			assertTrue(result.contains("targetNamespace=\"http://legstar.com\""));
 			assertTrue(result.contains("<xs:complexType name=\"container\">"));
 			assertTrue(result.contains("<xs:element maxOccurs=\"unbounded\" minOccurs=\"0\" name=\"itemsArray\" nillable=\"true\" type=\"tns:item\">"));
-			assertTrue(result.contains("<cb:cobolElement cobolName=\"itemsArray\" javaClassName=\"com.legstar.xsdc.test.cases.collections.Item\" levelNumber=\"3\" maxOccurs=\"10\" minOccurs=\"0\" type=\"GROUP_ITEM\"/>"));
-			assertTrue(result.contains("<xs:element maxOccurs=\"unbounded\" minOccurs=\"0\" name=\"itemsList\" nillable=\"true\" type=\"tns:item\">"));
-			assertTrue(result.contains("<cb:cobolElement cobolName=\"itemsList\" javaClassName=\"com.legstar.xsdc.test.cases.collections.Item\" levelNumber=\"3\" maxOccurs=\"10\" minOccurs=\"0\" type=\"GROUP_ITEM\"/>"));
-			assertTrue(result.contains("<xs:element name=\"container\" type=\"tns:container\">"));
-			assertTrue(result.contains("<cb:cobolElement cobolName=\"container\" javaClassName=\"com.legstar.xsdc.test.cases.collections.Container\" levelNumber=\"1\" type=\"GROUP_ITEM\"/>"));
+			assertTrue(result.contains("<cb:cobolType javaClassName=\"com.legstar.xsdc.test.cases.collections.Container\"/>"));
+			assertTrue(result.contains("<cb:cobolType javaClassName=\"com.legstar.xsdc.test.cases.collections.Item\"/>"));
+			assertTrue(result.contains("<cb:cobolElement cobolName=\"container\" levelNumber=\"1\" type=\"GROUP_ITEM\"/>"));
 		} catch (BuildException e) {
 			fail(e.getMessage());
 		}
