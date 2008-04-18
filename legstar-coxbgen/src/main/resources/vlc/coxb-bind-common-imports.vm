@@ -1,7 +1,7 @@
 #**
 Common imports Velocity Template.
 @author Fady
-@version 1.1.1
+@version 1.2
 *#
 ## ==================================================================
 ## Builds a list of imports for a complex element, based on the type
@@ -24,18 +24,22 @@ Common imports Velocity Template.
 #addType()
 #set($hasSimpleChilds = true)
 #end
-#if($coxbHelper.getJaxbTypeName($child).equals("BigDecimal"))
+#if($coxbHelper.getBoundTypeName($child).equals("BigDecimal"))
 #set($newType = "java.math.BigDecimal")
 #addType()
 #end
-#if($coxbHelper.getJaxbTypeName($child).equals("BigInteger"))
+#if($coxbHelper.getBoundTypeName($child).equals("BigInteger"))
 #set($newType = "java.math.BigInteger")
 #addType()
 #end
 #if($coxbHelper.getGenericType($child).equals("complex")
-        || $coxbHelper.getGenericType($child).equals("complexArray")
-        || $coxbHelper.getGenericType($child).equals("enum"))
-#set($newType = ${coxbContext.getJaxbPackageName()} + '.' + $coxbHelper.getJaxbTypeName($child))
+        || $coxbHelper.getGenericType($child).equals("complexArray"))
+#set($newType = ${child.getValueObjectClassName()})
+#addType()
+#end
+##TODO allow enums to bind to POJOs
+#if($coxbHelper.getGenericType($child).equals("enum"))
+#set($newType = $child.getJaxbType().getName())
 #addType()
 #end
 #if($child.maxOccurs > 0 || $coxbHelper.getGenericType($child).equals("complexArray"))

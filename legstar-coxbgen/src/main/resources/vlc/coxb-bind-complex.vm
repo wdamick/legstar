@@ -1,7 +1,7 @@
 #**
 Complex binding class Velocity Template.
 @author Fady
-@version 1.1.1
+@version 1.2
 *#
 ## ==================================================================
 ## Complex element binding code
@@ -23,18 +23,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 ## Determine the value Object type
-#set ($valueObjectType = $coxbContext.getAlternativeClassName($coxbHelper.getJaxbTypeName($binding)))
-
-#if (${coxbContext.getAlternativePackageName()})
-#if (${coxbContext.getAlternativeFactoryName()})
-import ${coxbContext.getAlternativePackageName()}.${coxbContext.getAlternativeFactoryName()};
-#end
-import ${coxbContext.getAlternativePackageName()}.$valueObjectType;
-#else
-#if (${coxbContext.getJaxbPackageName()})
-import ${coxbContext.getJaxbPackageName()}.ObjectFactory;
-import ${coxbContext.getJaxbPackageName()}.$valueObjectType;
-#end
+#set ($valueObjectType = $coxbHelper.getBoundTypeName($binding))
+import ${binding.getValueObjectClassName()};
+#if (${binding.getValueObjectsFactoryClassName()})
+import ${binding.getValueObjectsFactoryClassName()};
 #end
 
 /**
@@ -55,7 +47,7 @@ public class $binding-class-name
     private boolean mUnusedValueObject = false;
     
 #foreach ($child in $binding.childrenList)
-#set ($childObjectType = $coxbContext.getAlternativeClassName($coxbHelper.getJaxbTypeName($child)))
+#set ($childObjectType = $coxbHelper.getBoundTypeName($child))
 #if($child.isBound())
     /** Child bound to value object property ${child.jaxbName}(${childObjectType}). */
 #else
@@ -78,12 +70,14 @@ public class $binding-class-name
         = CobolBindingFactory.getBindingFactory();
 #end    
  
+#if (${binding.getValueObjectsFactoryClassName()})
     /** Static reference to Value object factory to be used as default. */
     private static final ObjectFactory JF = new ObjectFactory();
     
     /** Current Value object factory (Defaults to the static one but can be
      *  changed). */
     private ObjectFactory mValueObjectFactory = JF;
+#end    
     
     /**
      * Constructor for a root Complex element without a bound Value object.
@@ -106,11 +100,11 @@ public class $binding-class-name
 #set($bindingName = ${complexBinding.bindingName})
 #end
 #if($helper.isEmpty(${complexBinding.jaxbName}) == true)
-#set($jaxbName = "")
+#set($fieldName = "")
 #else
-#set($jaxbName = ${complexBinding.jaxbName})
+#set($fieldName = ${complexBinding.jaxbName})
 #end
-        this("${bindingName}", "${jaxbName}", null, valueObject);
+        this("${bindingName}", "${fieldName}", null, valueObject);
     }
 
     /**
@@ -118,18 +112,18 @@ public class $binding-class-name
     * an associated Value object.
     * 
     * @param bindingName the identifier for this binding
-    * @param jaxbName field name in parent Value object
+    * @param fieldName field name in parent Value object
     * @param valueObject the concrete Value object instance bound to this
     *        complex element
     * @param parentBinding a reference to the parent binding
     */
     public ${binding-class-name}(
             final String bindingName,
-            final String jaxbName,
+            final String fieldName,
             final ICobolComplexBinding parentBinding,
             final $valueObjectType valueObject) {
         
-        super(bindingName, jaxbName, ${valueObjectType}.class, null, parentBinding);
+        super(bindingName, fieldName, ${valueObjectType}.class, null, parentBinding);
         mValueObject = valueObject;
         if (mValueObject != null) {
             mUnusedValueObject = true;
@@ -158,7 +152,7 @@ public class $binding-class-name
     }
     
     /** {@inheritDoc} */
-    public final void createJaxbObject() throws HostException {
+    public final void createValueObject() throws HostException {
         /* Since this complex binding has a constructor that takes a
          * Value object, we might already have a Value object that
          * was not used yet. */
@@ -166,7 +160,11 @@ public class $binding-class-name
             mUnusedValueObject = false;
             return;
         }
+#if (${binding.getValueObjectsFactoryClassName()})
         mValueObject = mValueObjectFactory.create${valueObjectType}();
+#else
+        mValueObject = new ${valueObjectType}();
+#end
     }
 
     /** {@inheritDoc} */
@@ -174,7 +172,7 @@ public class $binding-class-name
 
          /* Make sure there is an associated Value object*/
         if (mValueObject == null) {
-            createJaxbObject();
+            createValueObject();
         }
 #foreach ($child in $binding.childrenList)
 #if($child.isBound())
@@ -197,30 +195,26 @@ public class $binding-class-name
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public final void setJaxbPropertyValue(final int index) throws HostException {
+    public final void setPropertyValue(final int index) throws HostException {
  
         ICobolBinding child = getChildrenList().get(index);
         
-    	/* Children that are not bound to a jaxb property are ignored.
+    	/* Children that are not bound to a value object are ignored.
     	 * This includes Choices and dynamically generated counters
     	 * for instance.  */
         if (!child.isBound()) {
             return;
         }
         
-        Object bindingValue = child.getObjectValue(child.getJaxbType());
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Setting value of Value object property "
-                    + child.getJaxbName()
-                    + " value=" + bindingValue);
-        }
         /* Set the Value object property value from binding object */
+        Object bindingValue = null;
         switch (index) {
 #set($counter = 0)
 #foreach ($child in $binding.childrenList)
         case ${counter}:
 #if($child.isBound())
-#set ($childObjectType = $coxbContext.getAlternativeClassName($coxbHelper.getJaxbTypeName($child)))
+#set ($childObjectType = $coxbHelper.getBoundTypeName($child))
+            bindingValue = child.getObjectValue(${childObjectType}.class);
 #if(${coxbHelper.isArray($child)})
             mValueObject.${coxbHelper.getterMethodName($child)}().clear();
             mValueObject.${coxbHelper.getterMethodName($child)}().addAll(
@@ -234,6 +228,11 @@ public class $binding-class-name
 #end ##foreach
         default:
             break;
+        }
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Setting value of Value object property "
+                    + child.getJaxbName()
+                    + " value=" + bindingValue);
         }
     }
 
@@ -266,15 +265,22 @@ public class $binding-class-name
     /**
      * @return the java object factory for objects creation
      */
+#if (${binding.getValueObjectsFactoryClassName()})
     public final ObjectFactory getObjectFactory() {
         return mValueObjectFactory;
+#else
+    public final Object getObjectFactory() {
+        return null;
+#end
     }
 
     /**
      * @param valueObjectFactory the java object factory for objects creation 
      */
     public final void setObjectFactory(final Object valueObjectFactory) {
+#if (${binding.getValueObjectsFactoryClassName()})
         mValueObjectFactory = (ObjectFactory) valueObjectFactory;
+#end
     }
 
     /** {@inheritDoc} */

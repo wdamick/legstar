@@ -80,7 +80,7 @@ public class CoxbGenReflectVisitor extends CobolElementVisitor {
 		/* Create an ordered list of properties in this complex element.
 		 * Since we are unmarshaling, bound objects do not pre-exist so
 		 * we need to create them. */
-		ce.createJaxbObject();
+		ce.createValueObject();
 		java.util.List < ICobolBinding > children =
 			ce.getChildrenList();
 		
@@ -128,7 +128,7 @@ public class CoxbGenReflectVisitor extends CobolElementVisitor {
 	public final void visit(final ICobolArrayComplexBinding ce)
 		throws HostException {
 		/* We reflect on only one item of the array */
-		ce.createJaxbObject();
+		ce.createValueObject();
 		ICobolBinding itemDesc = ce.getComplexItemBinding();
 		itemDesc.accept(this);
 		

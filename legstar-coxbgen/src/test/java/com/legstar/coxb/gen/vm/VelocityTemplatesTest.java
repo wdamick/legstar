@@ -2,9 +2,7 @@ package com.legstar.coxb.gen.vm;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -14,7 +12,6 @@ import com.legstar.codegen.CodeGenHelper;
 import com.legstar.codegen.CodeGenUtil;
 import com.legstar.coxb.ICobolArrayComplexBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
-import com.legstar.coxb.gen.AlternativeClassName;
 import com.legstar.coxb.gen.CoxbGenContext;
 import com.legstar.coxb.gen.CoxbHelper;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
@@ -210,7 +207,7 @@ public class VelocityTemplatesTest extends TestCase {
 		assertTrue(resStr.contains("public class TableComplexTypeWrapperBinding"));
 		assertTrue(resStr.contains("extends CArrayComplexBinding {"));
 		assertTrue(resStr.contains("private List < TableComplexType > mValueObject;"));
-		assertTrue(resStr.contains("super(bindingName, jaxbName, TableComplexType.class, null, parentBinding, complexItemBinding);"));
+		assertTrue(resStr.contains("super(bindingName, fieldName, TableComplexType.class, null, parentBinding, complexItemBinding);"));
 		assertTrue(resStr.contains("setMinOccurs(3);"));
 		assertTrue(resStr.contains("setMaxOccurs(3);"));
 		assertTrue(resStr.contains("mValueObject = new ArrayList < TableComplexType >();"));
@@ -390,7 +387,8 @@ public class VelocityTemplatesTest extends TestCase {
 		assertTrue(resStr.contains("(Long) bindingValue);"));
 
 		assertTrue(resStr.contains("public final DfhcommareaType getDfhcommareaType() throws HostException {"));
-		assertTrue(resStr.contains("return (DfhcommareaType) getParentJaxbObject();"));
+		assertTrue(resStr.contains("return ((DfhcommareaTypeBinding) getParentBinding()).getDfhcommareaType();"));
+		assertTrue(resStr.contains("return (DfhcommareaType) getParentValueObject();"));
 	}
 
 	public void testGenRedsimptChoiceStrategy() throws Exception {
@@ -429,7 +427,7 @@ public class VelocityTemplatesTest extends TestCase {
 		in.close();
 		assertTrue(resStr.contains("package com.legstar.coxb.cust.redsimpt;"));
 		assertTrue(resStr.contains("public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {"));
-		assertTrue(resStr.contains("DfhcommareaType jaxbo = (DfhcommareaType) choice.getObjectValue(DfhcommareaType.class);"));
+		assertTrue(resStr.contains("DfhcommareaType valueObject = (DfhcommareaType) choice.getObjectValue(DfhcommareaType.class);"));
 		assertTrue(resStr.contains("return choice.getAlternativeByName(\"CDefinition1\");"));
 		assertTrue(resStr.contains("return choice.getAlternativeByName(\"CDefinition2\");"));
 	}
@@ -448,13 +446,6 @@ public class VelocityTemplatesTest extends TestCase {
 		coxbContext.setCoxbPackageName("com.legstar.test.coxb.jvmquery.bind");
 		coxbContext.setAlternativePackageName("com.legstar.xsdc.test.cases.jvmquery");
 		coxbContext.setAlternativeFactoryName("ObjectFactory");
-		List < AlternativeClassName > alternativeClassNameMap =
-			new ArrayList < AlternativeClassName >();
-		AlternativeClassName aClassName = new AlternativeClassName();
-		aClassName.setJaxbClassName("JvmQueryReply");
-		aClassName.setToClassName("JVMQueryReply");
-		alternativeClassNameMap.add(aClassName);
-		coxbContext.setAlternativeClassNameMap(alternativeClassNameMap);
 		
 		mParameters.put("coxbContext", coxbContext);
 		mParameters.put("binding-class-name", "JvmQueryReplyBinding");
@@ -485,7 +476,6 @@ public class VelocityTemplatesTest extends TestCase {
 		assertTrue(resStr.contains("import java.util.List;"));
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolComplexBinding;"));
 		
-		assertTrue(resStr.contains("import com.legstar.xsdc.test.cases.jvmquery.ObjectFactory;"));
 		assertTrue(resStr.contains("import com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply;"));
 		
 		assertTrue(resStr.contains("public class JvmQueryReplyBinding"));
@@ -499,9 +489,9 @@ public class VelocityTemplatesTest extends TestCase {
 
 		assertTrue(resStr.contains("public JvmQueryReplyBinding("));
 		assertTrue(resStr.contains("final JVMQueryReply valueObject) {"));
-		assertTrue(resStr.contains("super(bindingName, jaxbName, JVMQueryReply.class, null, parentBinding);"));
+		assertTrue(resStr.contains("super(bindingName, fieldName, JVMQueryReply.class, null, parentBinding);"));
 
-		assertTrue(resStr.contains("mValueObject = mValueObjectFactory.createJVMQueryReply();"));
+		assertTrue(resStr.contains("mValueObject = new JVMQueryReply();"));
 		assertTrue(resStr.contains("if (type.equals(JVMQueryReply.class)) {"));
 		assertTrue(resStr.contains("if (bindingValue.getClass().equals(JVMQueryReply.class)) {"));
 		assertTrue(resStr.contains("mValueObject = (JVMQueryReply) bindingValue;"));

@@ -1,7 +1,6 @@
 package com.legstar.coxb.gen;
 
 import java.io.File;
-import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -40,10 +39,6 @@ public class CoxbGenContext {
 	 * factory can be used rather than the JAXB one. */
 	private String mAlternativeFactoryName;
 	
-	/** When a alternativePackageName is specified, each JAXB class name can
-	 * be mapped to an alternative class name. */
-	private List < AlternativeClassName > mAlternativeClassNameMap;
-	
 	/** The additional package level for generated binding classes. */
 	private static final String COXB_PACKAGE_SUFFIX = "bind";
 	
@@ -70,13 +65,6 @@ public class CoxbGenContext {
 				+ " " + getAlternativePackageName());
 		LOG.debug("   Alternative factory name        ="
 				+ " " + getAlternativeFactoryName());
-		if (mAlternativeClassNameMap != null) {
-			for (AlternativeClassName rename : mAlternativeClassNameMap) {
-				LOG.debug("   Rename Jaxb class "
-						+ rename.getJaxbClassName() + " to " 
-						+ rename.getToClassName());
-			}
-		}
 	}
 
 	/**
@@ -206,38 +194,5 @@ public class CoxbGenContext {
 		mAlternativeFactoryName = targetFactoryName;
 	}
 	
-	/**
-	 * @return a list of alternative class names to Jaxb class names
-	 */
-	public final List < AlternativeClassName > getAlternativeClassNameMap() {
-		return mAlternativeClassNameMap;
-	}
-	
-	/**
-	 * Translate a jaxb class name into an alternative class name if one is
-	 * found into the AlternativeClassNameMap.
-	 * @param jaxbClassName the jaxb class name to be renamed
-	 * @return a new name if one is found, the original name otherwise
-	 */
-	public final String getAlternativeClassName(final String jaxbClassName) {
-		if (mAlternativeClassNameMap != null) {
-			for (AlternativeClassName aClassName : mAlternativeClassNameMap) {
-				if (aClassName.getJaxbClassName().equals(jaxbClassName)) {
-					return aClassName.getToClassName();
-				}
-			}
-		}
-		return jaxbClassName;
-	}
-	
-	/**
-	 * @param alternativeClassNameMap a list of alternative class names to Jaxb
-	 * class names
-	 */
-	public final void setAlternativeClassNameMap(
-			final List < AlternativeClassName > alternativeClassNameMap) {
-		mAlternativeClassNameMap = alternativeClassNameMap;
-	}
-
 
 }

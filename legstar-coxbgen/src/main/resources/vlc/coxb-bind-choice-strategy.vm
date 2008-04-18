@@ -1,7 +1,7 @@
 #**
 Choice strategy class Velocity Template.
 @author Fady
-@version 1.1.1
+@version 1.2
 *#
 ## ==================================================================
 ## Choice strategy code
@@ -17,14 +17,8 @@ import com.legstar.coxb.ICobol${choice-strategy-type}ChoiceStrategy;
 import com.legstar.coxb.host.HostException;
 
 ## Determine the value Object type
-#set ($parentObjectType = $coxbContext.getAlternativeClassName($coxbHelper.getParentJaxbTypeName($binding)))
-#if (${coxbContext.getAlternativePackageName()})
-import ${coxbContext.getAlternativePackageName()}.$parentObjectType;
-#else
-#if (${coxbContext.getJaxbPackageName()})
-import ${coxbContext.getJaxbPackageName()}.$parentObjectType;
-#end
-#end
+#set ($parentObjectType = $coxbHelper.getBoundTypeName($binding))
+import ${binding.getParentBinding().getValueObjectClassName()};
 
 /** 
  * Skeleton implementation of a custom choice selection strategy. Modify this
@@ -38,10 +32,10 @@ public class ${helper.getClassName(${choice-strategy-qualified-class-name})} imp
         final Hashtable < String, Object > variablesMap,
         final CobolElementVisitor visitor) throws HostException {
         
-        /* Get the parent JAXB object which properties might help select the
+        /* Get the parent value object which properties might help select the
          * right alternative. */
-        ${parentObjectType} jaxbo = (${parentObjectType}) choice.getObjectValue(${parentObjectType}.class);
-        assert (jaxbo != null);
+        ${parentObjectType} valueObject = (${parentObjectType}) choice.getObjectValue(${parentObjectType}.class);
+        assert (valueObject != null);
         
         /* Replace following code with actual logic. */
         int index = 0;

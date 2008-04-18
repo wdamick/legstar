@@ -27,8 +27,6 @@ import org.apache.tools.ant.BuildException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.coxb.host.HostException;
@@ -450,35 +448,4 @@ public class CoxbBindingGenerator extends Task {
 		mCoxbGenContext.setAlternativeFactoryName(targetFactoryName);
 	}
 	
-	/**
-	 * @return a list of alternative class names to Jaxb class names
-	 */
-	public final List < AlternativeClassName > getAlternativeClassNameMap() {
-		return mCoxbGenContext.getAlternativeClassNameMap();
-	}
-	
-	/**
-	 * @param alternativeClassNameMap a list of alternative class names to Jaxb
-	 * class names
-	 */
-	public final void setAlternativeClassNameMap(
-			final List < AlternativeClassName > alternativeClassNameMap) {
-		mCoxbGenContext.setAlternativeClassNameMap(alternativeClassNameMap);
-	}
-
-	/**
-	 * Add a mapping between a Jaxb class name and an alternative class name.
-	 * @return an inner class name
-	 */
-	public final AlternativeClassName createAlternativeClassName() {
-		if (getAlternativeClassNameMap() == null) {
-			setAlternativeClassNameMap(
-					new ArrayList < AlternativeClassName >());
-		}
-		AlternativeClassName aClassName = new AlternativeClassName();
-		getAlternativeClassNameMap().add(aClassName);
-		return aClassName;
-	}
-	
-
 }
