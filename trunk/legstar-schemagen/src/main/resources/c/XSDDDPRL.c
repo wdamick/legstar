@@ -654,7 +654,8 @@ int XSD_produceAnnotations(COBOL_DATA_DESCRIPTION* dds,
         }
         if (strlen(dds->picture) > 0)
             fprintf(output_file, " picture='%s'",dds->picture);
-        fprintf(output_file, " usage='%s'",dds->usage);
+        if (strlen(dds->usage) > 0)
+            fprintf(output_file, " usage='%s'",dds->usage);
         if (0 < dds->byteLength)
             fprintf(output_file, " byteLength='%d'",dds->byteLength);
 

@@ -56,6 +56,8 @@ public class CheckInputTestCase extends TestCase {
 
 		COXBSchemaGenerator gen = new COXBSchemaGenerator();
 		try {
+			gen.setTargetDir(new File(XSD_DIR));
+			gen.setNamespace("http://legstar.test/schemagen");
 			gen.execute();
 			fail("Check cobol file failed");
 		} catch (Exception e) {
@@ -70,7 +72,9 @@ public class CheckInputTestCase extends TestCase {
 
 		COXBSchemaGenerator gen = new COXBSchemaGenerator();
 		try {
-			gen.setCobolFile("cob.file");
+			gen.setTargetDir(new File(XSD_DIR));
+			gen.setNamespace("http://legstar.test/schemagen");
+			gen.setSourceCobolFilePath("cob.file");
 			gen.execute();
 			fail("Check xsd file failed");
 		} catch (Exception e) {
@@ -85,8 +89,9 @@ public class CheckInputTestCase extends TestCase {
 
 		COXBSchemaGenerator gen = new COXBSchemaGenerator();
 		try {
-			gen.setCobolFile("cob.file");
-			gen.setXSDFile("xsd.file");
+			gen.setSourceCobolFilePath("cob.file");
+			gen.setTargetDir(new File(XSD_DIR));
+			gen.setTargetXsdFileName("xsd.file");
 			gen.execute();
 			fail("Check no namespace failed");
 		} catch (Exception e) {
@@ -101,13 +106,14 @@ public class CheckInputTestCase extends TestCase {
 
 		COXBSchemaGenerator gen = new COXBSchemaGenerator();
 		try {
-			gen.setCobolFile("cob.file");
-			gen.setXSDFile("xsd.file");
+			gen.setTargetDir(new File(XSD_DIR));
+			gen.setSourceCobolFilePath("cob.file");
+			gen.setTargetXsdFileName("xsd.file");
 			gen.setNamespace("^");
 			gen.execute();
 			fail("Check invalid namespace failed");
 		} catch (Exception e) {
-			assertEquals("The namespace ^ is invalid", e.getMessage());
+			assertEquals("java.net.URISyntaxException: Illegal character in path at index 0: ^", e.getMessage());
 		}
 
 	}
@@ -117,8 +123,9 @@ public class CheckInputTestCase extends TestCase {
 
 		COXBSchemaGenerator gen = new COXBSchemaGenerator();
 		try {
-			gen.setCobolFile("cob.file");
-			gen.setXSDFile("xsd.file");
+			gen.setTargetDir(new File(XSD_DIR));
+			gen.setSourceCobolFilePath("cob.file");
+			gen.setTargetXsdFileName("xsd.file");
 			gen.setNamespace("mailto:java-net@java.sun.com");
 			gen.execute();
 			fail("Check opaque namespace failed");
@@ -135,8 +142,9 @@ public class CheckInputTestCase extends TestCase {
 		
 		COXBSchemaGenerator gen = new COXBSchemaGenerator();
 		try {
-			gen.setCobolFile("cob.file");
-			gen.setXSDFile("xsd.file");
+			gen.setTargetDir(new File(XSD_DIR));
+			gen.setSourceCobolFilePath("cob.file");
+			gen.setTargetXsdFileName("xsd.file");
 			gen.setNamespace("http://java.sun.com/j2se/1.3/");
 			gen.execute();
 			fail("Invalid cobol file test failed");
@@ -150,11 +158,12 @@ public class CheckInputTestCase extends TestCase {
 		
 		COXBSchemaGenerator gen = new COXBSchemaGenerator();
 		try {
-			gen.setCobolFile(COB_DIR + "/simplest.cob");
-			gen.setXSDFile(XSD_DIR + "/xsd.file");
+			gen.setSourceCobolFilePath(COB_DIR + "/simplest.cob");
+			gen.setTargetDir(new File(XSD_DIR));
+			gen.setTargetXsdFileName("/xsd.file");
 			gen.setNamespace("http://java.sun.com/j2se/1.3/");
 			gen.execute();
-			assertEquals("com.sun.java.j2se.1.3", gen.getPackage());
+			assertEquals("com.sun.java.j2se.1.3", gen.getJaxbPackageName());
 		} catch (Exception e) {
 			fail("Check derived package name failed " + e.getMessage());
 		}
@@ -170,10 +179,10 @@ public class CheckInputTestCase extends TestCase {
 			fs.setExcludes("**/currencySign.cob");
 			pa.addFileset(fs);
 			gen.addPath(pa);
-			gen.setXSDFile(XSD_DIR + "/");
+			gen.setTargetDir(new File(XSD_DIR));
 			gen.setNamespace("http://java.sun.com/j2se/1.3/");
 			gen.execute();
-			assertEquals("com.sun.java.j2se.1.3", gen.getPackage());
+			assertEquals("com.sun.java.j2se.1.3", gen.getJaxbPackageName());
 		} catch (Exception e) {
 			fail("Path instead of file failed " + e.getMessage());
 		}
@@ -187,9 +196,10 @@ public class CheckInputTestCase extends TestCase {
 			FileSet fs = new FileSet();
 			fs.setDir(new File(COB_DIR));
 			pa.addFileset(fs);
-			gen.setCobolFile(COB_DIR + "/simplest.cob");
+			gen.setSourceCobolFilePath(COB_DIR + "/simplest.cob");
 			gen.addPath(pa);
-			gen.setXSDFile(XSD_DIR + "/xsd.file");
+			gen.setTargetDir(new File(XSD_DIR));
+			gen.setTargetXsdFileName("/xsd.file");
 			gen.setNamespace("http://java.sun.com/j2se/1.3/");
 			gen.execute();
 			fail("Path and file failed " );
@@ -207,12 +217,31 @@ public class CheckInputTestCase extends TestCase {
 			fs.setDir(new File(COB_DIR));
 			pa.addFileset(fs);
 			gen.addPath(pa);
-			gen.setXSDFile(XSD_DIR + "/xsd.file");
+			gen.setTargetDir(new File(XSD_DIR));
+			gen.setTargetXsdFileName("/xsd.file");
 			gen.setNamespace("http://java.sun.com/j2se/1.3/");
 			gen.execute();
 			fail("Path and file failed " );
 		} catch (Exception e) {
-			assertEquals("XSD file should be a folder name (end with '/') when path option is used", e.getMessage());
+			assertEquals("You should not specify an XML schema file name when a path is provided", e.getMessage());
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void testOldSetXsdFile() {
+		COXBSchemaGenerator gen = new COXBSchemaGenerator();
+		try {
+			Path pa = new Path(mProject);
+			FileSet fs = new FileSet();
+			fs.setDir(new File("./src/test/cobol"));
+			fs.setExcludes("local/**");
+			pa.addFileset(fs);
+			gen.addPath(pa);
+			gen.setXSDFile("./target/schema");
+			gen.setNamespace("http://java.sun.com/j2se/1.3/");
+			gen.execute();
+		} catch (Exception e) {
+			assertEquals("Line=5, Unrecognized symbol € in picture clause", e.getMessage());
 		}
 	}
 }

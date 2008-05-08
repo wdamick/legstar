@@ -665,7 +665,8 @@ enum INDCLAUSE isClause()
 
  
         /* Ignore the IS keyword  */
-        if (strcmp("IS", current_tok) == 0)
+        if ((strcmp("IS", current_tok) == 0) ||
+            (strcmp("is", current_tok) == 0))
         {
             if (0 != getNextToken()) return not_a_clause;
             if (strlen(current_tok) == 0) return not_a_clause;
@@ -778,7 +779,8 @@ int setPicture(COBOL_DATA_DESCRIPTION* dds)
     }
 
     /* Ignore the IS keyword  */
-    if (strcmp("IS", current_tok) == 0)
+    if ((strcmp("IS", current_tok) == 0) ||
+        (strcmp("is", current_tok) == 0))
     {
         if (0 != getNextToken()) return rc;
         if (0 == strlen(current_tok))
@@ -820,7 +822,8 @@ int setValue(COBOL_DATA_DESCRIPTION* dds)
         }
 
         /* Ignore the IS keyword  */
-        if (strcmp("IS", current_tok) == 0)
+        if ((strcmp("IS", current_tok) == 0) ||
+            (strcmp("is", current_tok) == 0))
         {
             if (0 != getNextToken()) return rc;
             if (0 == strlen(current_tok))
@@ -864,7 +867,8 @@ int setOccurs(COBOL_DATA_DESCRIPTION* dds)
     if (0 != getNextToken()) return rc;
     if (0 != strlen(current_tok))
     {
-        if (strcmp("TO", current_tok) == 0)
+        if ((strcmp("TO", current_tok) == 0) ||
+            (strcmp("to", current_tok) == 0))
         {
             /* At this stage, the first ddname is the lower bound */
             minOccurs = atoi(occurs_dd);
@@ -926,7 +930,8 @@ int setDepending(COBOL_DATA_DESCRIPTION* dds)
     }
 
     /* Ignore the ON keyword  */
-    if (strcmp("ON", current_tok) == 0)
+    if ((strcmp("ON", current_tok) == 0) ||
+        (strcmp("on", current_tok) == 0))
     {
         if (0 != getNextToken()) return rc;
         if (0 == strlen(current_tok))
