@@ -1,0 +1,44 @@
+<!-- =================================================================================
+     This script generates an XML schema from a cobol source file. Since this
+     script uses JNI and native libraries, you want to make sure that the
+     distribution bin directory is in the PATH.
+ -->
+<project basedir="${model.productLocation}" default="generateXSD" name="generate-XSD">
+#**
+Cobol to Xsd ant script Velocity Template.
+@author Fady
+@version 1.2
+*#
+## ==================================================================
+## Generates an ant script for Cobol to Xsd generation
+##
+
+  <!-- ===========================================================  -->
+  <!-- Setup environment
+    -->
+  <target name="init">
+    
+    <!-- Cobol to Xsd generator ant task  -->
+    <taskdef name="c2scgen"
+             classname="com.legstar.schemagen.COXBSchemaGenerator">
+        <classpath>
+            <fileset dir="${basedir}" includes="lib/*.jar"/>
+        </classpath>
+    </taskdef> 
+    
+  </target>
+
+  <!-- ===========================================================  -->
+  <!-- Generate a Cobol-annotated XML Schema.
+    -->
+  <target name="generateXSD" depends="init">
+    <echo message="Generating annotated XML schema ${model.targetXsdFileName}" />
+    <c2scgen
+      namespace="${model.namespace}"
+      jaxbPackageName="${model.jaxbPackageName}"
+      sourceCobolFilePath="${model.sourceCobolFilePath}"
+      targetDir="${model.targetDir}"/>
+      targetXsdFileName="${model.targetXsdFileName}"/>
+  </target>
+  
+</project>

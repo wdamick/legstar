@@ -9,6 +9,7 @@
 	  -->
 	<target name="init">
 		
+		<property name="maven.repo" value="C:\Documents and Settings\Fady\.m2\repository"/>
 		<!-- Target location for generated XML schemas   -->
 		<property name="gen.schema.dir" value="${basedir}/target/schema"/>
 		<!-- Make sure we have a target XSD directory -->
@@ -25,10 +26,16 @@
 			<dirset dir="${build.dir}">
 				<include name="**/classes"/>
 			</dirset>
-  	    </path>
+	  		<!--LegStar Code generation location -->
+		    <pathelement location="${basedir}/../legstar-codegen/target/classes"/>
+	  		<!--WS logging binaries -->
+		    <pathelement location="${maven.repo}\commons-logging\commons-logging-api\1.0.4\commons-logging-api-1.0.4.jar"/>
+ 	    </path>
 		
 		<!-- Schema generator ant task  -->
-		<taskdef name="schemagen" classname="com.legstar.schemagen.COXBSchemaGenerator" classpathref="classpath"/>
+		<taskdef name="schemagen"
+			classname="com.legstar.schemagen.COXBSchemaGenerator" 
+			classpathref="classpath"/>
 		
 	</target>
 	
@@ -36,9 +43,9 @@
 	<!-- Generate a schema for each cobol source from a directory
 	  -->
 	<target name="generateAllSchemas" depends="init">
-		 <schemagen XSDFile="${gen.schema.dir}/"
-			 Namespace="${namespace.pfx}/"
-			 Package="">
+		 <schemagen targetDir="${gen.schema.dir}/"
+		 	namespace="${namespace.pfx}/"
+		 	jaxbPackageName="">
 	        <path>
 	            <fileset dir="${cobol.dir}" excludes="local/**"/>
 	        </path>
