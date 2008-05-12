@@ -22,10 +22,13 @@ package com.legstar.eclipse.plugin.schemagen.actions;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
+import org.eclipse.ui.PlatformUI;
 
-import com.legstar.eclipse.plugin.schemagen.wizards.RunWizardAction;
+import com.legstar.eclipse.plugin.schemagen.wizards.MainWizard;
 
 /**
  * Our sample action implements workbench action delegate.
@@ -40,6 +43,9 @@ public class SchemaGenAction implements IWorkbenchWindowActionDelegate {
 	/** Top level window in the workbench. */
 	@SuppressWarnings("unused")
 	private IWorkbenchWindow mWindow;
+	
+	/** Helps track selection changes in the workbench. */
+	private IStructuredSelection mSelection;
 	
 	/**
 	 * The constructor.
@@ -57,9 +63,10 @@ public class SchemaGenAction implements IWorkbenchWindowActionDelegate {
 	 */
 	public final void run(
 			final IAction action) {
-		RunWizardAction runWizard;
-		runWizard = new RunWizardAction();
-		runWizard.run(action);
+        MainWizard wizard = new MainWizard();
+        wizard.init(PlatformUI.getWorkbench(), mSelection);
+        WizardDialog dialog = new WizardDialog(mWindow.getShell(), wizard);
+        dialog.open();
 	}
 
 	/**
@@ -75,6 +82,10 @@ public class SchemaGenAction implements IWorkbenchWindowActionDelegate {
 	 */
 	public void selectionChanged(
 			final IAction action, final ISelection selection) {
+	    mSelection =
+	        selection instanceof IStructuredSelection
+	            ? (IStructuredSelection) selection
+	            : null;
 	}
 
 	/**
