@@ -20,9 +20,6 @@
  *******************************************************************************/
 package com.legstar.eclipse.plugin.schemagen;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -37,42 +34,36 @@ public class Activator extends AbstractUIPlugin {
 		"com.legstar.eclipse.plugin.schemagen";
 
 	/** The shared instance. */
-	private static Activator plugin;
+	public static Activator plugin;
 	
 	/**
 	 * The constructor.
 	 */
 	public Activator() {
+	}
+
+	/**
+	 * {@inheritDoc}.
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(
+	 * org.osgi.framework.BundleContext)
+	 */
+	public void start(final BundleContext context) throws Exception {
+		super.start(context);
 		plugin = this;
 	}
 
 	/**
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(
-	 * org.osgi.framework.BundleContext)
-	 * @param context the bundle context for this plug-in
-	 * @throws Exception if this plug-in did not start up properly
-	 */
-	@Override
-	public final void start(
-			final BundleContext context) throws Exception {
-		super.start(context);
-	}
-
-	/**
+	 * {@inheritDoc}.
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(
 	 * org.osgi.framework.BundleContext)
-	 * @param context the bundle context for this plug-in
-	 * @throws Exception if this plug-in did not start up properly
 	 */
-	@Override
-	public final void stop(final BundleContext context) throws Exception {
+	public void stop(final BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
 	}
 
 	/**
 	 * Returns the shared instance.
-	 *
 	 * @return the shared instance
 	 */
 	public static Activator getDefault() {
@@ -82,49 +73,11 @@ public class Activator extends AbstractUIPlugin {
 	/**
 	 * Returns an image descriptor for the image file at the given
 	 * plug-in relative path.
-	 *
 	 * @param path the path
 	 * @return the image descriptor
 	 */
-	public static ImageDescriptor getImageDescriptor(final String path) {
+	public static ImageDescriptor getImageDescriptor(
+			final String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
-	}
-	/**
-	 * Generate an architected exception using IStatus.
-	 * @param message the exception description
-	 * @throws CoreException the resulting exception
-	 */
-	public static void throwCoreException(
-			final String message) throws CoreException {
-		IStatus status =
-			new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-					IStatus.OK, message, null);
-		throw new CoreException(status);
-	}
-
-	/**
-	 * Rethrows an architected exception using IStatus.
-	 * @param innerException the exception to propagate
-	 * @throws CoreException the resulting exception
-	 */
-	public static void throwCoreException(
-			final Throwable innerException) throws CoreException {
-		IStatus status =
-			new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-					IStatus.OK, innerException.getMessage(), innerException);
-		throw new CoreException(status);
-	}
-
-	/**
-	 * Logs an exception using IStatus.
-	 * @param innerException the exception to trace
-	 */
-	public static void logCoreException(
-			final Throwable innerException) {
-		IStatus status =
-			new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-					IStatus.OK, innerException.getMessage(), innerException);
-		getDefault().getLog().log(status);
-		return;
 	}
 }

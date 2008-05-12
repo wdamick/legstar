@@ -9,11 +9,11 @@
             id="com.legstar.eclipse.plugin">
       </category>
       <wizard
-            name="Cobol to XML schema generation"
+            name="Cobol-annotated XML schema generation"
             icon="icons/schemagen-generate.gif"
             category="com.legstar.eclipse.plugin"
-            class="com.legstar.eclipse.plugin.schemagen.wizards.SchemaGenWizard"
-            id="com.legstar.eclipse.plugin.schemagen.wizards.NewXSDWizard">
+            class="com.legstar.eclipse.plugin.schemagen.wizards.MainWizard"
+            id="com.legstar.eclipse.plugin.schemagen.wizards.MainWizard">
       </wizard>
    </extension>
    <extension
@@ -31,19 +31,25 @@
                class="com.legstar.eclipse.plugin.schemagen.actions.SchemaGenAction"
                icon="icons/schemagen-generate.gif"
                id="com.legstar.eclipse.plugin.schemagen.actions.SchemaGenAction"
-               label="&amp;XML schema generation"
+               label="&amp;COBOL-annotated XML schema generation"
                menubarPath="legstarMenu/legstarGroup"
                toolbarPath="legstarGroup"
-               tooltip="Generate XML schema from COBOL source"/>
+               tooltip="Generate COBOL-annotated XML schema"/>
       </actionSet>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
             category="com.legstar.eclipse.plugin"
-            class="com.legstar.eclipse.plugin.schemagen.properties.WorkbenchPreferencePage1"
-            id="com.legstar.eclipse.plugin.schemagen.page1"
-            name="Schema Generator"/>
+            class="com.legstar.eclipse.plugin.schemagen.preferences.SchemaGenPreferencePage"
+            id="com.legstar.eclipse.plugin.schemagen.preferences.SchemaGenPreferencePage"
+            name="XML Schema Generator"/>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.legstar.eclipse.plugin.schemagen.preferences.PreferenceInitializer">
+      </initializer>
    </extension>
 
 </plugin>
