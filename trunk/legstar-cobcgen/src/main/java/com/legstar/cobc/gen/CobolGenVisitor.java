@@ -58,24 +58,34 @@ public class CobolGenVisitor extends CobolElementVisitor {
 	/** This writer receives the generated source code. */
 	private BufferedWriter mWriter;
 	
-	/** Current identation level. */
-	private int mIndentFactor;
-	
-	/** New line characters. */
-	private static final String CRLF = "\r\n";
+	/** First COBOL level. */
+	private int mFirstCobolLevel;
+
+	/** Current COBOL level. */
+	private int mCurrentCobolLevel;
+
+	/** Children level will be parent level plus this increment. */
+	private int mCobolLevelIncrement;
 	
 	/** Used to build valid cobol names from java names. */
 	private CobolNameResolver mNameResolver;
 	
 	/**
 	 * Create a Cobol generator visitor.
+	 * @param startCobolLevel the first COBOL level in the generated structure
+	 * @param cobolLevelIncrement Children level will be parent level plus this
+	 *  increment (must be greater than 0)
 	 * @param writer destination for the generated cobol source
 	 * @throws HostException if generator cannot be created
 	 */
 	public CobolGenVisitor(
+			final int startCobolLevel,
+			final int cobolLevelIncrement,
 			final BufferedWriter writer) throws HostException {
 		mWriter = writer;
-		mIndentFactor = 0;
+		mFirstCobolLevel = startCobolLevel;
+		mCurrentCobolLevel = startCobolLevel;
+		mCobolLevelIncrement = cobolLevelIncrement;
 		try {
 			mNameResolver = new CobolNameResolver();
 		} catch (CobolNameResolverException e) {
@@ -83,16 +93,26 @@ public class CobolGenVisitor extends CobolElementVisitor {
 		}
 	}
 
+	/**
+	 * Create a Cobol generator visitor.
+	 * @param writer destination for the generated cobol source
+	 * @throws HostException if generator cannot be created
+	 */
+	public CobolGenVisitor(
+			final BufferedWriter writer) throws HostException {
+		this(1, 1, writer);
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(
 			final ICobolComplexBinding ce) throws HostException {
 		write(ce);
-		mIndentFactor++;
+		mCurrentCobolLevel += mCobolLevelIncrement;
 		for (ICobolBinding cb : ce.getChildrenList()) {
 			cb.accept(this);
 		}
-		mIndentFactor--;
+		mCurrentCobolLevel -= mCobolLevelIncrement;
 	}
 
 	/** {@inheritDoc} */
@@ -227,15 +247,16 @@ public class CobolGenVisitor extends CobolElementVisitor {
 		try {
 			/* Because level numbers returned by xsdCobolAnnotator are
 			 * not reliable, we substitute our own here. */
-			ce.setLevelNumber(mIndentFactor + 1);
+			ce.setLevelNumber(mCurrentCobolLevel);
 			
 			/* We also check that our cobol names are unique because
 			 * this is simpler to manipulate in Cobol. */
 			ce.setCobolName(mNameResolver.getUniqueName(ce.getCobolName()));
 			
 			mWriter.write(CobolGenFormatter.formatCobolClause(
-					ce, mIndentFactor));
-			mWriter.write(CRLF);
+					ce, (mCurrentCobolLevel - mFirstCobolLevel)
+					/ mCobolLevelIncrement));
+			mWriter.newLine();
 		} catch (IOException e) {
 			throw new HostException(e);
 		} catch (CobolNameResolverException e) {

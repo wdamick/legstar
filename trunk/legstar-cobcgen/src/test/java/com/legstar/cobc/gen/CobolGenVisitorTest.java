@@ -24,6 +24,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 
 import com.legstar.cobc.gen.CobolGenVisitor;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
@@ -83,16 +84,15 @@ public class CobolGenVisitorTest extends TestCase {
 	
 	public void testMSNSearchResponse() throws Exception {
 
-		File outFile = File.createTempFile(TEMP_PATTERN, TEMP_SUFFIX);
-		processMSNSearchResponse(outFile);
-		String source = CobcUtil.getSource(outFile, DEBUG_MODE);
-		assertTrue(source.contains("05 Results."));
-		assertTrue(source.contains("06 Result OCCURS 0"));
+		String source = processMSNSearchResponse();
+		assertTrue(source.contains("05 COM-MSNSEARCH-RESPONSE."));
+		assertTrue(source.contains("25 Results."));
+		assertTrue(source.contains("30 Result OCCURS 0"));
 		assertTrue(source.contains("TO 10 DEPENDING ON Result--C."));
-		assertTrue(source.contains("07 SearchTags PIC X(32)."));
-		assertTrue(source.contains("08 Minute PIC 9(9) COMP-5."));
-		assertTrue(source.contains("08 Latitude COMP-2."));
-		assertTrue(source.contains("08 ImageHeight PIC 9(9) COMP-5."));
+		assertTrue(source.contains("35 SearchTags PIC X(32)."));
+		assertTrue(source.contains("40 Minute PIC 9(9) COMP-5."));
+		assertTrue(source.contains("40 Latitude COMP-2."));
+		assertTrue(source.contains("40 ImageHeight PIC 9(9) COMP-5."));
 	}
 
 	private void processLsfileae(File outFile) throws HostException, IOException {
@@ -163,7 +163,7 @@ public class CobolGenVisitorTest extends TestCase {
 		writer.close();
 	}
 
-	private void processMSNSearchResponse(File outFile) throws HostException, IOException {
+	private String processMSNSearchResponse() throws HostException, IOException {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.MSNSearch.ObjectFactory objectFactory = new com.legstar.test.coxb.MSNSearch.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
@@ -189,10 +189,12 @@ public class CobolGenVisitorTest extends TestCase {
 		CComplexReflectBinding ccem = new CComplexReflectBinding(
 				objectFactory, searchResponse);
 		ccem.setCobolName("COM-MSNSEARCH-RESPONSE");
-		BufferedWriter writer = new BufferedWriter(new FileWriter(outFile));
-		CobolGenVisitor cev = new CobolGenVisitor(writer);
+		StringWriter writer = new StringWriter();
+		BufferedWriter bufWriter = new BufferedWriter(writer);
+		CobolGenVisitor cev = new CobolGenVisitor(5, 5, bufWriter);
 		ccem.accept(cev);
-		writer.close();
+		bufWriter.flush();
+		return writer.toString();
 	}
 
 }
