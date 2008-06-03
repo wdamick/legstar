@@ -198,15 +198,34 @@ public class CixsStructure {
         if (mJaxbType == null || mJaxbType.length() == 0) {
             throw new CixsModelException("Structure must have a JAXB type");
         }
-        mJaxbPackageName = structureElement.getAttribute(
+        mJaxbPackageName = loadAttribute(structureElement,
                 CIXS_JAXB_PKG_XML_A);
-        mCicsContainer =  structureElement.getAttribute(
+        mCicsContainer =  loadAttribute(structureElement,
                 CIXS_CICS_CONTAINER_XML_A);
-        mJaxbPropertyName =  structureElement.getAttribute(
+        mJaxbPropertyName =  loadAttribute(structureElement,
                 JAXB_PROP_NAME_A);
-        mJaxbFieldName =  structureElement.getAttribute(
+        mJaxbFieldName =  loadAttribute(structureElement,
                 JAXB_FIELD_NAME_A);
 
+    }
+    
+    /**
+     * The DOM always returns a value for a getAttribute. 
+     * The semantic used for velocity templates assumes null values
+     * for empty strings.
+     * @param element the element to get an attribute from
+     * @param attributeName the attribute name
+     * @return not null only if not empty
+     */
+    private String loadAttribute(
+    		final Element element, final String attributeName) {
+    	String value = element.getAttribute(attributeName);
+    	if (value.trim().length() == 0) {
+    		return null;
+    	} else {
+    		return value.trim();
+    	}
+    	
     }
 
     /**
