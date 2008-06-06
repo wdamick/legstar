@@ -1,0 +1,65 @@
+<!-- =================================================================================
+     This script generates a COBOL CICS program from JAXB objects.
+     The generated program is an example that illustrate how to call a remote
+     service from CICS.
+  -->
+<project basedir=".." default="generateC2WS" name="generate-c2ws">
+
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+	<target name="init">
+		
+		<!-- The remote service URI   -->
+	 	<property name="service.URI" value="http://192.168.0.5:8083" />
+		<!-- The operation name   -->
+	 	<property name="operation.name" value="jvmquery" />
+		<!-- The generated COBOL CICS program name   -->
+	 	<property name="cics.program.name" value="JVMQUERY" />
+	    <!-- JAXB classes package name prefix    -->
+	    <property name="jaxb.package.pfx" value="com.legstar.test.coxb"/>
+	    <!-- The input JAXB type name   -->
+	    <property name="jaxb.root.name.in" value="JvmQueryRequest" />
+	    <!-- The output JAXB type name   -->
+	    <property name="jaxb.root.name.out" value="JvmQueryReply" />
+		<!-- Location for generated classes   -->
+	 	<property name="cobol.src.dir" value="src/main/cobol" />
+			
+		<!-- Classpath setting -->
+		<path id="classpath">
+	    	<fileset dir="${basedir}" includes="lib/*.jar" />
+	  	</path>
+
+		<!-- Generator ant task -->
+		<taskdef name="c2wsgen"
+			classname="com.legstar.c2ws.gen.C2wsCobolCicsClientGenerator"
+			classpathref="classpath"/>
+	
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Generate COBOL CICS code by reflecting on JAXB classes.
+	  -->
+	<target name="generateC2WS" depends="init">
+	    <echo message="Generating COBOL CICS code for ${operation.name}" />
+		<c2wsgen 
+			serviceURI="${service.URI}"
+			serviceUserId=""
+			servicePassword=""
+			targetCobolDir="${cobol.src.dir}"
+		>
+	        <cixsOperation name="${operation.name}"
+	            cicsProgramName="${cics.program.name}">
+	            <input
+	                jaxbType="${jaxb.root.name.in}"
+	                jaxbPackageName="${jaxb.package.pfx}.${operation.name}"
+	            />
+	            <output
+	                jaxbType="${jaxb.root.name.out}"
+	                jaxbPackageName="${jaxb.package.pfx}.${operation.name}"
+	            />
+	        </cixsOperation>
+		</c2wsgen>
+	</target>
+
+</project>
