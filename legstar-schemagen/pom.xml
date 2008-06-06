@@ -34,98 +34,113 @@
     </dependencies>
 
     <build>
-      <plugins>
+        <plugins>
       
-       <!-- We would like the maven generated jar file to be a valid 
+            <!-- We would like the maven generated jar file to be a valid 
             Eclipse plugin. This will create the necessary entries
             in the manifest.  -->
-		<plugin>
-		  <groupId>org.apache.maven.plugins</groupId>
-		  <artifactId>maven-jar-plugin</artifactId>
-		  <configuration>
-		    <archive>
-		      <manifestEntries>
-		        <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
-		        <Bundle-Name>LegStar Schemagen</Bundle-Name>
-		        <Bundle-SymbolicName>com.legstar.schemagen</Bundle-SymbolicName>
-		        <Bundle-Version>SNAPSHOT</Bundle-Version>
-		        <Bundle-ClassPath>.</Bundle-ClassPath>
-		        <Bundle-Vendor>LegSem</Bundle-Vendor>
-		        <Bundle-Localization>plugin</Bundle-Localization>
-		        <Export-Package>com.legstar.schemagen</Export-Package>
-		        <Require-Bundle>org.apache.ant</Require-Bundle>
-		      </manifestEntries>
-		    </archive>
-		  </configuration>
-		</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+                            <Bundle-Name>LegStar Schemagen</Bundle-Name>
+                            <Bundle-SymbolicName>com.legstar.schemagen</Bundle-SymbolicName>
+                            <Bundle-Version>SNAPSHOT</Bundle-Version>
+                            <Bundle-ClassPath>.</Bundle-ClassPath>
+                            <Bundle-Vendor>LegSem</Bundle-Vendor>
+                            <Bundle-Localization>plugin</Bundle-Localization>
+                            <Export-Package>com.legstar.schemagen</Export-Package>
+                            <Require-Bundle>org.apache.ant</Require-Bundle>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
       
-       <!-- Assembly generation plugin. Put the result in the source site
+            <!-- Assembly generation plugin. Put the result in the source site
             so that it gets uploaded with the site.  -->
-        <plugin>
-          <artifactId>maven-assembly-plugin</artifactId>
-          <configuration>
-            <outputDirectory>src/site/resources/binaries</outputDirectory>
-            <descriptors>
-              <descriptor>src/assemble/distribution.xml</descriptor>
-            </descriptors>
-          </configuration>
-          <executions>
-            <execution>
-              <id>make-assembly</id> <!-- this is used for inheritance merges -->
-              <phase>package</phase> <!-- append to the packaging phase. -->
-              <goals>
-                 <goal>attached</goal> <!-- goals == mojos -->
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>src/site/resources/binaries</outputDirectory>
+                    <descriptors>
+                        <descriptor>src/assemble/distribution.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- append to the packaging phase. -->
+                        <goals>
+                            <goal>attached</goal> <!-- goals == mojos -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
- 		<plugin>
-			<artifactId>maven-antrun-plugin</artifactId>
-			<executions>
-		  		<!-- This will generate all XML schema test cases as soon as
-		       		compilation has taken place.  -->
-				<execution>
-				  <id>build-test-schema</id>
-				  <phase>generate-test-sources</phase>
-				  <configuration>
-				    <tasks>
-						<ant antfile="${basedir}/src/test/ant/build-test-schema.xml"/>
-				    </tasks>
-				  </configuration>
-				  <goals>
-				    <goal>run</goal>
-				  </goals>
-				</execution>
-		        <!-- This will compile all C sources. -->
-				<execution>
-				  <id>build-c</id>
-				  <phase>generate-resources</phase>
-				  <configuration>
-				    <tasks>
-						<ant antfile="${basedir}/src/main/ant/build-c.xml" />
-				    </tasks>
-				  </configuration>
-				  <goals>
-				    <goal>run</goal>
-				  </goals>
-				</execution>
-		        <!-- This will check that the distribution file is valid. This is also
-		            used to create samples to be delivered by upstream modules. -->
-				<execution>
-				  <id>build-sample</id>
-				  <phase>pre-integration-test</phase>
-				  <configuration>
-				    <tasks>
-						<ant antfile="${basedir}/src/main/ant/build-sample.xml" />
-				    </tasks>
-				  </configuration>
-				  <goals>
-				    <goal>run</goal>
-				  </goals>
-				</execution>
-			</executions>
-		</plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <!-- This will generate all XML schema test cases as soon as
+                    compilation has taken place.  -->
+                    <execution>
+                        <id>build-test-schema</id>
+                        <phase>generate-test-sources</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/test/ant/build-test-schema.xml"/>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <!-- This will compile all C sources. -->
+                    <execution>
+                        <id>build-c</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/build-c.xml" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <!-- This will check that the distribution file is valid. This is also
+                    used to create samples to be delivered by upstream modules. -->
+                    <execution>
+                        <id>build-sample</id>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/build-sample.xml" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <!-- This script copies some jar files from this project to various Eclipse
+                    plugins. This allows the plugins to be distributed via the standard
+                    Eclipse site mechanism without Maven interference -->
+                    <execution>
+                        <id>copy-to-plugins</id>
+                        <phase>install</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/copy-to-plugin.xml"/>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
  
       </plugins>
     </build>

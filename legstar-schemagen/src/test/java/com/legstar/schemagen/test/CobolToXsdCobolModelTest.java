@@ -31,6 +31,7 @@ public class CobolToXsdCobolModelTest extends TestCase {
 		model.setNamespace("http://lsfileae.cases.test.schemagen.legstar.com/");
 		model.setTargetDir(new File("src/test/gen/schema"));
 		model.setTargetXsdFileName("lsfileae.xsd");
+		model.setProbeFile(new File("probe.file.tmp"));
 		
 		model.generateBuild(CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 		
@@ -43,13 +44,14 @@ public class CobolToXsdCobolModelTest extends TestCase {
 			str = in.readLine();
 		}
 		in.close();
-		assertTrue(resStr.contains("<project basedir=\"/Users/Fady/sandbox/legstar-1.2.0\" default=\"generateXSD\" name=\"generate-XSD\">"));
+		assertTrue(resStr.contains("<project basedir=\"/Users/Fady/sandbox/legstar-1.2.0\" default=\"signalSuccess\" name=\"generate-XSD\">"));
 		assertTrue(resStr.contains("<echo message=\"Generating annotated XML schema lsfileae.xsd\" />"));
 		assertTrue(resStr.contains("namespace=\"http://lsfileae.cases.test.schemagen.legstar.com/\""));
 		assertTrue(resStr.contains("jaxbPackageName=\"com.legstar.test.coxb.lsfileae\""));
 		assertTrue(resStr.contains("sourceCobolFilePath=\"src/main/resources/cobol/LSFILEAE.CBL\""));
-		assertTrue(resStr.contains("targetDir=\"src\\test\\gen\\schema\"/>"));
-		assertTrue(resStr.contains("targetXsdFileName=\"lsfileae.xsd\"/>"));
+		assertTrue(resStr.contains("targetDir=\"src\\test\\gen\\schema\""));
+		assertTrue(resStr.contains("targetXsdFileName=\"lsfileae.xsd\""));
+		assertTrue(resStr.contains("<delete file=\"probe.file.tmp\" quiet=\"true\"/>"));
 	}
 
 }

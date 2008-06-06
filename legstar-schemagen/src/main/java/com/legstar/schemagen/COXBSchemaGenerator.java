@@ -20,6 +20,8 @@
  *******************************************************************************/
 package com.legstar.schemagen;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Path;
 
@@ -37,7 +39,11 @@ import java.util.Vector;
 public class COXBSchemaGenerator extends SourceToXsdCobolTask  {
 
 
+	/** Logger. */
+	private static final Log LOG =
+		LogFactory.getLog(COXBSchemaGenerator.class);
 	/** Extension used when XML schema name is built. */
+
 	private static final String XSD_EXT = ".xsd";
 
 	/** True will produce extra traces. */
@@ -53,16 +59,13 @@ public class COXBSchemaGenerator extends SourceToXsdCobolTask  {
 	/** Alternative way to specify cobol files using a path collection. */
 	private Vector < Path > mCobolPaths = new Vector < Path >();
 
-	/** Groups all the data needed to generate an annotated XML schema. */
-	private CobolToXsdCobolModel mModel = new CobolToXsdCobolModel();
-
 	/** An instance of the JNI wrapper for Schema generation. */
 	private COB2XSDJNIWrapper mSchemagen;
 
 	/** No arg constructor. */
 	public COXBSchemaGenerator() {
 		mSchemagen = new COB2XSDJNIWrapper();
-		setModel(mModel);
+		setModel(new CobolToXsdCobolModel());
 	}
 
 	/**
@@ -157,7 +160,18 @@ public class COXBSchemaGenerator extends SourceToXsdCobolTask  {
 	 * Check the mandatory options.
 	 */
 	private void checkInput() {
-		super.checkInput(false);
+		
+		super.checkInput(false, true);
+
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("   Cobol file path     = " + mSourceCobolFilePath);
+			if (!mCobolPaths.isEmpty()) {
+				for (Path path : mCobolPaths) {
+					LOG.debug("   Cobol path           = "
+							+ path);
+				}
+			}
+		}
 
 		if (mSourceCobolFilePath == null
 				|| mSourceCobolFilePath.length() == 0) {
@@ -188,6 +202,9 @@ public class COXBSchemaGenerator extends SourceToXsdCobolTask  {
 			}
 		}
 
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("checkInput ended");
+		}
 	}
 
 	/**
