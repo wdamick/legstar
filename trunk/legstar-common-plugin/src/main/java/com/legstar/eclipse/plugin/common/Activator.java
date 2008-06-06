@@ -32,6 +32,9 @@ public class Activator extends AbstractUIPlugin {
 	/** The plug-in ID. */
 	public static final String PLUGIN_ID = "com.legstar.eclipse.plugin.common";
 
+	/** Legstar logo shared by all plugins. */
+	public static final String LOGO_IMG = "icons/legstar-logo-2008.png";
+
 	/** The shared instance. */
 	private static Activator plugin;
 	
