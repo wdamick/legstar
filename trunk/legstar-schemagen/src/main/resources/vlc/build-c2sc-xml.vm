@@ -3,7 +3,7 @@
      script uses JNI and native libraries, you want to make sure that the
      distribution bin directory is in the PATH.
  -->
-<project basedir="${model.productLocation}" default="generateXSD" name="generate-XSD">
+<project basedir="${model.productLocation}" default="signalSuccess" name="generate-XSD">
 #**
 Cobol to Xsd ant script Velocity Template.
 @author Fady
@@ -13,32 +13,40 @@ Cobol to Xsd ant script Velocity Template.
 ## Generates an ant script for Cobol to Xsd generation
 ##
 
-  <!-- ===========================================================  -->
-  <!-- Setup environment
+    <!-- ===========================================================  -->
+    <!-- Setup environment
     -->
-  <target name="init">
+    <target name="init">
     
-    <!-- Cobol to Xsd generator ant task  -->
-    <taskdef name="c2scgen"
-             classname="com.legstar.schemagen.COXBSchemaGenerator">
-        <classpath>
-            <fileset dir="${basedir}" includes="lib/*.jar"/>
-        </classpath>
-    </taskdef> 
+        <!-- Cobol to Xsd generator ant task  -->
+        <taskdef name="c2scgen"
+            classname="com.legstar.schemagen.COXBSchemaGenerator">
+            <classpath>
+                <fileset dir="${basedir}" includes="lib/*.jar"/>
+            </classpath>
+        </taskdef> 
     
-  </target>
+    </target>
 
-  <!-- ===========================================================  -->
-  <!-- Generate a Cobol-annotated XML Schema.
+    <!-- ===========================================================  -->
+    <!-- Generate a Cobol-annotated XML Schema.
     -->
-  <target name="generateXSD" depends="init">
-    <echo message="Generating annotated XML schema ${model.targetXsdFileName}" />
-    <c2scgen
-      namespace="${model.namespace}"
-      jaxbPackageName="${model.jaxbPackageName}"
-      sourceCobolFilePath="${model.sourceCobolFilePath}"
-      targetDir="${model.targetDir}"/>
-      targetXsdFileName="${model.targetXsdFileName}"/>
-  </target>
+    <target name="generateXSD" depends="init">
+        <echo message="Generating annotated XML schema ${model.targetXsdFileName}" />
+        <c2scgen
+            namespace="${model.namespace}"
+            jaxbPackageName="${model.jaxbPackageName}"
+            sourceCobolFilePath="${model.sourceCobolFilePath}"
+            targetDir="${model.targetDir}"
+            targetXsdFileName="${model.targetXsdFileName}"
+        />
+    </target>
   
+    <!-- ===========================================================  -->
+    <!-- Delete the probe file to signal success
+    -->
+    <target name="signalSuccess" depends="generateXSD">
+        <delete file="${model.probeFile}" quiet="true"/>
+    </target>
+    
 </project>

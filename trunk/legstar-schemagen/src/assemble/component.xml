@@ -35,7 +35,6 @@
             <outputDirectory>cobol</outputDirectory>
             <includes>
                 <include>lsfileae.cbl</include>
-                <include>LSFILEAE.CBL</include>
             </includes>
         </fileSet>
         
