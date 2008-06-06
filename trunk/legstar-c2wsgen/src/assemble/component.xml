@@ -1,0 +1,33 @@
+<component>
+
+	<fileSets>
+		
+		<fileSet>
+            <directory>../legstar-c2wsgen/src/main/resources/ant</directory>
+            <outputDirectory>ant</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+		</fileSet>
+		
+	</fileSets>
+  
+	<files>
+        <file>
+            <source>../legstar-distribution/LICENSE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>LICENSE</destName>
+        </file>
+        <file>
+            <source>../legstar-c2wsgen/NOTICE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>c2wsgen-NOTICE</destName>
+        </file>
+		<file>
+		   <source>../legstar-c2wsgen/src/site/apt/release-notes.apt</source>
+		   <outputDirectory>/</outputDirectory>
+		   <destName>c2wsgen-README</destName>
+		</file>
+	</files>
+
+</component>
