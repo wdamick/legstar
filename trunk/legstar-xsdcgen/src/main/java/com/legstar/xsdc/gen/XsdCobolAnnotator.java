@@ -39,7 +39,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Task;
 import org.apache.ws.commons.schema.XmlSchema;
 import org.apache.ws.commons.schema.XmlSchemaAnnotation;
 import org.apache.ws.commons.schema.XmlSchemaAppInfo;
@@ -68,6 +67,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.legstar.codegen.tasks.SourceToXsdCobolTask;
 import com.legstar.coxb.CobolType;
 import com.legstar.coxb.CobolMarkup;
 
@@ -77,7 +77,7 @@ import com.legstar.coxb.CobolMarkup;
  * legacy data.
  *
  */
-public class XsdCobolAnnotator extends Task {
+public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 	
 	/** Logger. */
 	private static final Log LOG =
@@ -88,24 +88,6 @@ public class XsdCobolAnnotator extends Task {
 	/* ====================================================================== */
 	/** @deprecated The original XSD file to annotate.*/
 	private File mInputXsdFile;
-	
-	/** A URI where the XSD is available. */
-	private URI mInputXsdUri;
-
-	/** The target directory where annotated XSD will be created. */
-	private File mTargetDir;
-	
-	/** The target annotated XSD file name. */
-	private String mTargetXsdFileName;
-	
-	/** Suffix to be added to JAXB classes names for XML schema types. This 
-	 * is used to disambiguate java object names when elements and types
-	 * have the same names (frequently used by Microsoft).*/
-	private String mJaxbTypeClassesSuffix;
-	
-	/** For JAXB, the generated XML Schema contains a special annotation that
-	 * determines the JAXB classes package name. */
-	private String mJaxbPackageName;
 	
 	/** This builder is used for annotation markup elements. */
 	private final DocumentBuilder mDb;
@@ -195,6 +177,12 @@ public class XsdCobolAnnotator extends Task {
 	/** The cobol reserved words substitution file name. */
 	private static final String OPTIONS_FILE_NAME = "xsdcoptions.properties";
 	
+	/** This is the target namespace from the source Xsd. */
+	private String mOriginalTargetNamespace;
+	
+	/** Indicates if namespace switching is requested.*/
+	private boolean mNeedNamespaceSwitch = false;
+	
 	/**
 	 * At construction time, a DOM factory is created. The DOM factory is later
 	 * used to create DOM documents which serve as home for all the annotation
@@ -202,6 +190,7 @@ public class XsdCobolAnnotator extends Task {
 	 * We also load cobol name substitution lists and options.
 	 */
 	public XsdCobolAnnotator() {
+		setModel(new XsdToXsdCobolModel());
 		try {
 			DocumentBuilderFactory docFac =
 				DocumentBuilderFactory.newInstance();
@@ -228,6 +217,10 @@ public class XsdCobolAnnotator extends Task {
 		}
     	checkInput();
     	XmlSchema schema = getSchema();
+    	/* If user requests a new target namespace, switch. */
+    	if (getNamespace() != null && getNamespace().length() > 0) {
+    		switchTargetNamespace(schema, getNamespace());
+    	}
     	annotateSchema(schema);
     	addRootElements(schema);
 
@@ -293,55 +286,45 @@ public class XsdCobolAnnotator extends Task {
      */
     private void checkInput() {
     	
+		/* Xsd file name is not mandatory because we can generate a
+		 * sensible default value. The namespace can also be propagated
+		 * from the input schema and therefore is not mandatory.*/
+    	super.checkInput(false, false);
+
 		if (LOG.isDebugEnabled()) {
-			LOG.debug("checkInput started");
 			LOG.debug("   Source Xsd URI      = "
-					+ ((mInputXsdUri == null) ? null
-							: mInputXsdUri.toString()));
+					+ ((getInputXsdUri() == null) ? null
+							: getInputXsdUri().toString()));
 			LOG.debug("   Source Xsd file      = "
 					+ ((mInputXsdFile == null) ? null
 							: mInputXsdFile.getAbsolutePath()));
-			LOG.debug("   Target directory     = " + mTargetDir);
-			LOG.debug("   Target Xsd file name = " + mTargetXsdFileName);
 		}
     	/* Check that we have a valid input XML schema.  */
-    	if (mInputXsdUri == null) {
+    	if (getInputXsdUri() == null) {
         	if (mInputXsdFile == null || !mInputXsdFile.exists()) {
     			throw (new BuildException(
     					"Invalid input XML schema"));
         	}
-        	mInputXsdUri = mInputXsdFile.toURI();
+        	setInputXsdUri(mInputXsdFile.toURI());
     	}
     	
-    	/* Check that we have a valid target directory.  */
-    	if (mTargetDir == null) {
-			throw (new BuildException(
-					"You must provide a target directory"));
-    	}
-    	if (!mTargetDir.exists()) {
-			throw (new BuildException(
-					"Directory " + mTargetDir + " does not exist"));
-    	}
-    	if (!mTargetDir.isDirectory() || !mTargetDir.canWrite()) {
-			throw (new BuildException(
-					mTargetDir + " is not a directory or is not writable"));
-    	}
-    	
-    	/* Set a valid target annotated XSD file name */
-    	if (mTargetXsdFileName == null || mTargetXsdFileName.length() == 0) {
-    		mTargetXsdFileName = getLastSegment(mInputXsdUri);
+    	/* Set a valid default target annotated XSD file name */
+    	if (getTargetXsdFileName() == null 
+    			|| getTargetXsdFileName().length() == 0) {
+    		String targetXsdFileName = getLastSegment(getInputXsdUri());
     		/* If there is no extension or extension is not xsd, add xsd as
     		 * the extension. */
-            int p = mTargetXsdFileName.lastIndexOf('.');
+            int p = targetXsdFileName.lastIndexOf('.');
             if (p > 0) {
-            	String ext = mTargetXsdFileName.substring(
-            			p, mTargetXsdFileName.length());
+            	String ext = targetXsdFileName.substring(
+            			p, targetXsdFileName.length());
             	if (ext.compareToIgnoreCase(".xsd") != 0) {
-            		mTargetXsdFileName = mTargetXsdFileName + ".xsd";
+                	targetXsdFileName += ".xsd";
             	}
             } else {
-            	mTargetXsdFileName += ".xsd";
+            	targetXsdFileName += ".xsd";
             }
+    		setTargetXsdFileName(targetXsdFileName);
    	}
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("checkInput ended");
@@ -381,7 +364,7 @@ public class XsdCobolAnnotator extends Task {
     	XmlSchemaCollection schemaCol = new XmlSchemaCollection();
     	XmlSchema schema;
 		try {
-	        Document doc = mDb.parse(mInputXsdUri.toString());
+	        Document doc = mDb.parse(getInputXsdUri().toString());
 	        
 	        /* Get the root element (skipping any comments) */
 	        Node root = doc.getFirstChild();
@@ -389,19 +372,19 @@ public class XsdCobolAnnotator extends Task {
 	        	root = root.getNextSibling();
 	        }
 	        if (root == null) {
-	        	throw new BuildException("File " + mInputXsdUri.toString()
+	        	throw new BuildException("File " + getInputXsdUri().toString()
 	        			+ " does not contain an XML schema");
 	        }
 
 	        /* Look for an XML schema node */
 	        NodeList nodes  = doc.getElementsByTagNameNS(XSD_NS, "schema");
 	        if (nodes == null || nodes.getLength() == 0) {
-	        	throw new BuildException("File " + mInputXsdUri.toString()
+	        	throw new BuildException("File " + getInputXsdUri().toString()
 	        			+ " does not contain an XML schema");
 	        }
 	        if (nodes.getLength() > 1) {
 	        	LOG.warn("Only the first XML schema in "
-	        			+ mInputXsdUri.toString()
+	        			+ getInputXsdUri().toString()
 	        			+ " will be processed");
 	        }
 	        Node schemaNode = nodes.item(0);
@@ -445,6 +428,60 @@ public class XsdCobolAnnotator extends Task {
 		}
     	return schema;
     }
+	
+	/**
+	 * When the user requests a new target namespace, we need to switch
+	 * from the original one keeping the same prefix.
+	 * A namespace prefix list is immutable so we need to create a
+	 * complete namespace context.
+	 * @param schema the schema being built
+	 * @param newTargetNamespace the new target namespace
+	 */
+	private void switchTargetNamespace(
+			final XmlSchema schema, final String newTargetNamespace) {
+		mOriginalTargetNamespace = schema.getTargetNamespace();
+		if (mOriginalTargetNamespace.equals(newTargetNamespace)) {
+			return;
+		}
+		mNeedNamespaceSwitch = true;
+		schema.setTargetNamespace(newTargetNamespace);
+    	NamespaceMap prefixmap = new NamespaceMap();
+    	NamespacePrefixList npl = schema.getNamespaceContext();
+    	for (int i = 0; i < npl.getDeclaredPrefixes().length; i++) {
+    		String ns = npl.getNamespaceURI(npl.getDeclaredPrefixes()[i]);
+    		if (ns.equals(mOriginalTargetNamespace)) {
+        		prefixmap.add(npl.getDeclaredPrefixes()[i], newTargetNamespace);
+    		} else {
+	    		prefixmap.add(npl.getDeclaredPrefixes()[i], ns);
+    		}
+    	}
+    	schema.setNamespaceContext(prefixmap);
+	}
+	
+	/**
+	 * Switches namespace for a schema element.
+	 * @param schema the schema
+	 * @param obj the schema element
+	 */
+	private void switchNamespace(
+			final XmlSchema schema,
+			final XmlSchemaElement obj) {
+		if (obj.getQName().getNamespaceURI().equals(mOriginalTargetNamespace)) {
+			QName newQName = new QName(
+					schema.getTargetNamespace(),
+					obj.getQName().getLocalPart(),
+					obj.getQName().getPrefix());
+			obj.setQName(newQName);
+		}
+		QName typeQName = obj.getSchemaTypeName();
+		if (typeQName.getNamespaceURI().equals(mOriginalTargetNamespace)) {
+			QName newTypeQName = new QName(
+					schema.getTargetNamespace(),
+					typeQName.getLocalPart(),
+					typeQName.getPrefix());
+			obj.setSchemaTypeName(newTypeQName);
+		}
+	}
     
     /**
      * Adds JAXB and COXB annotations at the schema level.
@@ -520,23 +557,24 @@ public class XsdCobolAnnotator extends Task {
         Element elsb = doc.createElementNS(JAXB_NS, JAXB_SCHEMAB_ELN);
         
         Element elpk = doc.createElementNS(JAXB_NS, JAXB_PKG_ELN);
-        String name = mTargetXsdFileName;
+        String name = getTargetXsdFileName();
         int p = name.lastIndexOf('.');
         if (p > 0) {
-        	name = mTargetXsdFileName.substring(0, p);
+        	name = getTargetXsdFileName().substring(0, p);
         }
-        if (mJaxbPackageName == null || mJaxbPackageName.length() == 0) {
+        if (getJaxbPackageName() == null
+        		|| getJaxbPackageName().length() == 0) {
 	        elpk.setAttribute("name", DEFAULT_JAXB_PKG_PREFIX + '.' + name);
         } else {
-	        elpk.setAttribute("name", mJaxbPackageName);
+	        elpk.setAttribute("name", getJaxbPackageName());
         }
         elsb.appendChild(elpk);
         
-        if (mJaxbTypeClassesSuffix != null
-        		&& mJaxbTypeClassesSuffix.length() > 0) {
+        if (getJaxbTypeClassesSuffix() != null
+        		&& getJaxbTypeClassesSuffix().length() > 0) {
 	        Element eltr = doc.createElementNS(JAXB_NS, JAXB_XFORM_ELN);
 	        Element eltn = doc.createElementNS(JAXB_NS, JAXB_TYPENAME_ELN);
-	        eltn.setAttribute("suffix", mJaxbTypeClassesSuffix);
+	        eltn.setAttribute("suffix", getJaxbTypeClassesSuffix());
 	        eltr.appendChild(eltn);
 	        elsb.appendChild(eltr);
         }
@@ -556,8 +594,8 @@ public class XsdCobolAnnotator extends Task {
      */
     private OutputStream getOutputStream() {
     	OutputStream out;
-    	String outPath = mTargetDir.getPath() + File.separator
-    	        + mTargetXsdFileName;
+    	String outPath = getTargetDir().getPath() + File.separator
+    	        + getTargetXsdFileName();
     	try {
 			out = new FileOutputStream(new File(outPath));
 			return out;
@@ -598,10 +636,15 @@ public class XsdCobolAnnotator extends Task {
     	/* Add an annotation */
     	obj.setAnnotation(createAnnotation(el));
     	
+    	if (mNeedNamespaceSwitch) {
+    		switchNamespace(schema, obj);
+    	}
+    	
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("annotate ended for element = " + obj.getName());
 		}
     }
+    
     
     /**
      * Main annotation process applied to an XML schema complex type.
@@ -1410,7 +1453,7 @@ public class XsdCobolAnnotator extends Task {
 	 * @return the input XML schema uri
 	 */
 	public final URI getInputXsdUri() {
-		return mInputXsdUri;
+		return getModel().getInputXsdUri();
 	}
 
 	/**
@@ -1418,42 +1461,14 @@ public class XsdCobolAnnotator extends Task {
 	 */
 	public final void setInputXsdUri(
 			final URI xsdUri) {
-		mInputXsdUri = xsdUri;
-	}
-
-	/**
-	 * @return the current target directory
-	 */
-	public final File getTargetDir() {
-		return mTargetDir;
-	}
-
-	/**
-	 * @param targetDir the target directory to set
-	 */
-	public final void setTargetDir(final File targetDir) {
-		mTargetDir = targetDir;
-	}
-
-	/**
-	 * @return the target annotated XSD file name
-	 */
-	public final String getTargetXsdFileName() {
-		return mTargetXsdFileName;
-	}
-
-	/**
-	 * @param targetXsdFileName the target annotated XSD file name to set
-	 */
-	public final void setTargetXsdFileName(final String targetXsdFileName) {
-		mTargetXsdFileName = targetXsdFileName;
+		getModel().setInputXsdUri(xsdUri);
 	}
 
 	/**
 	 * @return the Suffix to be added to JAXB classes names for XML schema types
 	 */
 	public final String getJaxbTypeClassesSuffix() {
-		return mJaxbTypeClassesSuffix;
+		return getModel().getJaxbTypeClassesSuffix();
 	}
 
 	/**
@@ -1462,21 +1477,7 @@ public class XsdCobolAnnotator extends Task {
 	 */
 	public final void setJaxbTypeClassesSuffix(
 			final String jaxbTypeClassesSuffix) {
-		mJaxbTypeClassesSuffix = jaxbTypeClassesSuffix;
-	}
-
-	/**
-	 * @return the Jaxb Package Name
-	 */
-	public final String getJaxbPackageName() {
-		return mJaxbPackageName;
-	}
-
-	/**
-	 * @param jaxbPackageName the Jaxb Package Name to set
-	 */
-	public final void setJaxbPackageName(final String jaxbPackageName) {
-		mJaxbPackageName = jaxbPackageName;
+		getModel().setJaxbTypeClassesSuffix(jaxbTypeClassesSuffix);
 	}
 
 	/**
@@ -1509,6 +1510,13 @@ public class XsdCobolAnnotator extends Task {
 	public final void setComplexTypeToJavaClassMap(
 			final Map < String, String > complexTypeToJavaClassMap) {
 		mComplexTypeToJavaClassMap = complexTypeToJavaClassMap;
+	}
+	
+	/**
+	 * @return this model.
+	 */
+	public XsdToXsdCobolModel getModel() {
+		return (XsdToXsdCobolModel) super.getModel();
 	}
 
 }

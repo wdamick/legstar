@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-	<modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
     <parent>
       <groupId>com.legsem.legstar</groupId>
       <artifactId>Legstar</artifactId>
       <version>SNAPSHOT</version>
     </parent>
-	<artifactId>legstar-xsdcgen</artifactId>
-	<name>XSD Cobol Annotator</name>
+  <artifactId>legstar-xsdcgen</artifactId>
+  <name>XSD Cobol Annotator</name>
     <version>SNAPSHOT</version>
-	<description>Generates Cobol annotations in XSD Schemas.</description>
-	<url>http://www.legsem.com/legstar/xsdcgen/</url>
+  <description>Generates Cobol annotations in XSD Schemas.</description>
+  <url>http://www.legsem.com/legstar/xsdcgen/</url>
 
-	<dependencies>
+    <dependencies>
 
-		<dependency>
-		    <groupId>com.legsem.legstar</groupId>
-		    <artifactId>legstar-coxbapi</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbapi</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>commons-logging</groupId>
@@ -35,24 +35,29 @@
             <version>2.1.3</version>
         </dependency>
 
-		<dependency>
-			<groupId>ant</groupId>
-			<artifactId>ant</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant</artifactId>
+        </dependency>
 
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-codegen</artifactId>
+        </dependency>
+        
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-coxbrt</artifactId>
             <scope>test</scope>
         </dependency>
- 	
+  
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-xsdcgen-cases</artifactId>
             <scope>test</scope>
         </dependency> 
 
-	</dependencies>
+    </dependencies>
     <build>
         <plugins>
             
@@ -81,20 +86,36 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                 
-                  <!-- This will check that the distribution file is valid. This is also
-                     used to create samples to be de delivered by upstream modules. -->
-                  <execution>
-                    <id>prepare-integration-tests</id>
-                    <phase>pre-integration-test</phase>
-                    <configuration>
-                      <tasks>
-                        <ant antfile="${basedir}/src/main/ant/build-sample.xml"/>
-                      </tasks>
-                    </configuration>
-                    <goals>
-                      <goal>run</goal>
-                    </goals>
-                  </execution>
+                    <!-- This script copies some jar files from this project to various Eclipse
+                    plugins. This allows the plugins to be distributed via the standard
+                    Eclipse site mechanism without Maven interference -->
+                    <execution>
+                        <id>copy-to-plugins</id>
+                        <phase>install</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/copy-to-plugin.xml"/>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- This will check that the distribution file is valid. This is also
+                    used to create samples to be de delivered by upstream modules. -->
+                    <execution>
+                        <id>prepare-integration-tests</id>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/build-sample.xml"/>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
                   
                 </executions>
             </plugin>

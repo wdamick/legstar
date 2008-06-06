@@ -1,0 +1,60 @@
+<!-- =================================================================================
+     This script generates a Cobol-annotated XML Schema from a set of Java classes.
+  -->
+<project basedir="${model.productLocation}" default="signalSuccess" name="generate-XSD">
+#**
+Java to Xsd ant script Velocity Template.
+@author Fady
+@version 1.2
+*#
+## ==================================================================
+## Generates an ant script for Java to Xsd generation
+##
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
+    <target name="init">
+    
+        <!-- Classpath setting -->
+        <path id="classpath">
+            <fileset dir="${basedir}" includes="lib/*.jar" />
+#foreach ($pathElementLocation in $model.pathElementLocations)
+            <pathelement location="${pathElementLocation}"/>
+#end
+        </path>
+        
+        <!-- Java to Xsd generator ant task -->
+        <taskdef name="j2scgen"
+            classname="com.legstar.j2sc.gen.JavaToXsdCobolTask"
+            classpathref="classpath"/>
+        
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- Generate a Cobol-annotated XML Schema. Here we explicitly
+    specify the root class names. As an alternative, the POJO
+    could be annotated with JSR 181 XmlRootElement.
+    -->
+    <target name="generateXSD" depends="init">
+        <echo message="Generating annotated XML schema ${model.targetXsdFileName}" />
+        <mkdir dir="${model.targetDir}"/>
+        <j2scgen 
+            namespace="${model.namespace}"
+            jaxbPackageName="${model.jaxbPackageName}"
+            targetDir="${model.targetDir}"
+            targetXsdFileName="${model.targetXsdFileName}"
+        >
+#foreach ($className in $model.classNames)
+            <rootClass name="${className}"/>
+#end
+        </j2scgen>
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- Delete the probe file to signal success
+    -->
+    <target name="signalSuccess" depends="generateXSD">
+        <delete file="${model.probeFile}" quiet="true"/>
+    </target>
+    
+</project>
