@@ -34,7 +34,7 @@
                label="&amp;COBOL-annotated XML schema generation"
                menubarPath="legstarMenu/legstarGroup"
                toolbarPath="legstarGroup"
-               tooltip="Generate COBOL-annotated XML schema"/>
+               tooltip="COBOL-annotated XML schema generation"/>
       </actionSet>
    </extension>
    <extension
@@ -43,7 +43,7 @@
             category="com.legstar.eclipse.plugin"
             class="com.legstar.eclipse.plugin.schemagen.preferences.SchemaGenPreferencePage"
             id="com.legstar.eclipse.plugin.schemagen.preferences.SchemaGenPreferencePage"
-            name="XML Schema Generator"/>
+            name="COBOL-annotated XML schema generation"/>
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">

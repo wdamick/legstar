@@ -18,12 +18,14 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jdt.core.search.SearchEngine;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.ListViewer;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -32,328 +34,469 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ResourceSelectionDialog;
+import org.eclipse.ui.dialogs.SelectionDialog;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 
 import org.eclipse.jdt.launching.JavaRuntime;
+import org.eclipse.jdt.ui.IJavaElementSearchConstants;
 import org.eclipse.jdt.ui.ISharedImages;
 import org.eclipse.jdt.ui.JavaUI;
 
 import com.legstar.eclipse.plugin.schemagen.Activator;
 import com.legstar.eclipse.plugin.schemagen.util.JavaClass;
+import com.legstar.eclipse.plugin.schemagen.viewers.JavaClassSorter;
 
 /**
  * This wizard page allows users to create a list of java classes
  * that will be introspected to generate an XML schema.
  */
-public class JavaToXsdWizardPage extends AbstractWizardPage {
+public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
 
-    /** List view of the selected java classes. */
-    private ListViewer mJavaClassesListViewer;
+	/** Table that is wrappered in a table viewer. */
+	private Table mTable;
 
-    /** The list viewer height. */
-    private static final int LIST_VIEWER_HEIGHT = 200;
+	/** The table column names. */
+	private String[] mColumnNames = {"Java Project", "Class name"};
 
-    /** No java classes error message. */
-    private static final String NO_JAVA_CLASSES_MSG =
-        "You must select at least one java class";
+	/** Table view of the selected java classes. */
+	private TableViewer mJavaClassesTableViewer;
+	
+	/** The actual content displayed by the viewer. */
+	private List < JavaClass > mModel = new ArrayList < JavaClass >();
 
-    /**
-     * Constructs the wizard page.
-     * @param initialSelection the workbench current selection
-     */
-    public JavaToXsdWizardPage(final IStructuredSelection initialSelection) {
-        super(initialSelection,
-                "JavaToXsdWizardPage",
-                "Generate COBOL-annotated XML Schema from Java Classes",
-        "Select the java classes to be used for"
-        + " COBOL-annotated XML Schema generation");
-    }
+	/** The table viewer height. */
+	private static final int TABLE_VIEWER_HEIGHT = 200;
+
+	/** No java classes error message. */
+	private static final String NO_JAVA_CLASSES_MSG =
+		"You must select at least one java class";
+
+	/**
+	 * Constructs the wizard page.
+	 * @param initialSelection the workbench current selection
+	 */
+	public JavaToXsdWizardPage(final IStructuredSelection initialSelection) {
+		super(initialSelection,
+				"JavaToXsdWizardPage",
+				"Generate XML Schema from Java Classes",
+				"Select the java classes to be used for"
+				+ " COBOL-annotated XML Schema generation");
+	}
 
 	/** {@inheritDoc} */
-    @Override
-    protected void createExtendedControls(final Composite container) {
-        createSelectJavaClassesLink(container);
-        createJavaClassesListViewer(container);
-    }
+	@Override
+	protected void createExtendedControls(final Composite container) {
+		createSelectJavaClassesLink(container);
+		createJavaClassesTableViewer(container);
+	}
 
-    /**
-     * This link will popup the resource selection dialog.
-     * @param container the parent container
-     */
-    private void createSelectJavaClassesLink(final Composite container) {
-        createHyperlink(container,
-                "Select Java classes from workspace",
-                JavaUI.getSharedImages().getImage(
-                        ISharedImages.IMG_OBJS_CLASS),
-                new HyperlinkAdapter() {
-            public void linkActivated(final HyperlinkEvent e) {
-                addJavaClasses();
-            }
-        });
-    }
+	/**
+	 * This link will popup the resource selection dialog.
+	 * @param container the parent container
+	 */
+	private void createSelectJavaClassesLink(final Composite container) {
+		createHyperlink(container,
+				"Select Java classes from workspace",
+				JavaUI.getSharedImages().getImage(
+						ISharedImages.IMG_OBJS_CLASS),
+						new HyperlinkAdapter() {
+			public void linkActivated(final HyperlinkEvent e) {
+				addJavaClasses();
+			}
+		});
+	}
 
-    /**
-     * The composite widget presenting the currently selected java classes.
-     * @param container the parent container
-     */
-    private void createJavaClassesListViewer(final Composite container) {
-        mJavaClassesListViewer = new ListViewer(
-                container,
-                SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
-        mJavaClassesListViewer.setLabelProvider(
-        		new JavaClassesListLabelProvider());
-        mJavaClassesListViewer.setContentProvider(new ArrayContentProvider());
-        mJavaClassesListViewer.setSorter(new ViewerSorter() {
-            public int compare(
-                    final Viewer viewer, final Object p1, final Object p2) {
-                return ((JavaClass) p1).compare((JavaClass) p2);
-            }
-        });
-        GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
-        gridData.horizontalSpan = LAYOUT_COLUMNS;
-        gridData.heightHint = LIST_VIEWER_HEIGHT;
-        mJavaClassesListViewer.getList().setLayoutData(gridData);
+	/**
+	 * The composite widget presenting the currently selected java classes.
+	 * @param container the parent container
+	 */
+	private void createJavaClassesTableViewer(final Composite container) {
+		createTable(container);
+		mJavaClassesTableViewer = new TableViewer(mTable);
+		mJavaClassesTableViewer.setUseHashlookup(true);
+		mJavaClassesTableViewer.setColumnProperties(mColumnNames);
+		mJavaClassesTableViewer.setSorter(
+				new JavaClassSorter(JavaClassSorter.JAVAPROJECT));
+		mJavaClassesTableViewer.setLabelProvider(
+				new JavaClassesTableLabelProvider());
+		mJavaClassesTableViewer.setContentProvider(
+				new JavaClassesTableContentProvider());
+		mJavaClassesTableViewer.setInput(mModel);
 
-        final Button removeButton = new Button(container, SWT.NONE);
-        removeButton.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(final SelectionEvent e) {
-                IStructuredSelection selection = (IStructuredSelection)
-                	mJavaClassesListViewer.getSelection();
-                for (Iterator < ? > iterator = selection.iterator();
-                		iterator.hasNext();) {
-                    JavaClass element = (JavaClass) iterator.next();
-                    mJavaClassesListViewer.remove(element);
-                }
-                dialogChanged();
+		final Button removeButton = new Button(container, SWT.NONE);
+		removeButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(final SelectionEvent e) {
+				IStructuredSelection selection = (IStructuredSelection)
+				mJavaClassesTableViewer.getSelection();
+				for (Iterator < ? > iterator = selection.iterator();
+				iterator.hasNext();) {
+					JavaClass element = (JavaClass) iterator.next();
+					removeJavaClass(element);
+				}
+				dialogChanged();
 
-            }
-        });
-        removeButton.setText("Remove");
-        gridData = new GridData(GridData.HORIZONTAL_ALIGN_END);
-        gridData.horizontalSpan = LAYOUT_COLUMNS;
-        removeButton.setLayoutData(gridData);
+			}
+		});
+		removeButton.setText("Remove");
+		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_END);
+		gridData.horizontalSpan = LAYOUT_COLUMNS;
+		removeButton.setLayoutData(gridData);
 
-    }
+	}
 
-    /**
-     * Java classes appear in the list viewer as a descriptive string.
-     */
-    public class JavaClassesListLabelProvider extends LabelProvider {
+	/**
+	 * Create the internal viewer table.
+	 * @param container the parent container
+	 */
+	private void createTable(final Composite container) {
+		int style = SWT.MULTI | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL
+		| SWT.FULL_SELECTION | SWT.HIDE_SELECTION;
 
-    	/** {@inheritDoc}
-         * @see org.eclipse.jface.viewers.LabelProvider#getImage(
-         * java.lang.Object)
-         */
-        @Override
-        public Image getImage(final Object element) {
-            return super.getImage(element);
-        }
 
-    	/** {@inheritDoc}
-         * @see org.eclipse.jface.viewers.LabelProvider#getText(
-         * java.lang.Object)
-         */
-        @Override
-        public String getText(final Object element) {
-            JavaClass jClass = (JavaClass) element;
-            return jClass.toString();
-        }
-    }
+		mTable = new Table(container, style);
 
-    /**
-     * Present a resource selection dialog starting from the workspace root.
-     * This will allow user to select java classes from more than one project.
-     */
-    private void addJavaClasses() {
-        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-        ResourceSelectionDialog dialog =
-            new ResourceSelectionDialog(getShell(), root,
-            "Select Java classes from the workspace");
-        dialog.open();
-        for (Object obj : dialog.getResult()) {
-            if (obj instanceof IResource) {
-                if (!addJavaClass((IResource) obj)) {
-                    break;
-                }
-            }
-        }
-        dialogChanged();
-    }
+		GridData gridData = new GridData(GridData.FILL_BOTH);
+		gridData.grabExcessVerticalSpace = true;
+		gridData.horizontalSpan = LAYOUT_COLUMNS;
+		gridData.heightHint = TABLE_VIEWER_HEIGHT;
+		mTable.setLayoutData(gridData);		
 
-    /**
-     * Checks a resource to see if it is a java class and adds it to the class
-     * list.
-     * @param resource the resource to checks
-     * @return true if the java class is successfully added
-     */
-    private boolean addJavaClass(final IResource resource) {
-        IProject project = resource.getProject();
-        IJavaProject javaProject = JavaCore.create(project);
-        if (javaProject == null) {
-            errorDialog(getShell(), "Add Java class error", Activator.PLUGIN_ID,
-                    "Selected project is not a java project ",
-                    "The project selected " + project.getName()
-                    + " may not have a Java nature");
-            return false;
-        }
-        if (resource instanceof IFile) {
-            IJavaElement element = JavaCore.create((IFile) resource);
-            if (element instanceof ICompilationUnit) {
-                IType type = ((ICompilationUnit) element).findPrimaryType();
-                JavaClass jClass = new JavaClass(
-                		type.getFullyQualifiedName(), javaProject);
-                mJavaClassesListViewer.add(jClass);
-                mJavaClassesListViewer.refresh(jClass, false);
-            }
-        }
-        return true;
-    }
+		mTable.setLinesVisible(true);
+		mTable.setHeaderVisible(true);
 
-    /**
-     * @return a list of all fully qualified selected class names
-     */
-    public List < String > getSelectedClassNames() {
-        List < String > selectedClassNames = new ArrayList < String >();
-        for (int i = 0; i <  mJavaClassesListViewer.getList().getItemCount();
-        		i++) {
-            JavaClass jClass = (JavaClass)
-            	mJavaClassesListViewer.getElementAt(i);
-            selectedClassNames.add(jClass.className);
-        }
-        return selectedClassNames;
-    }
+		/* First column in the Java project */
+		TableColumn column = new TableColumn(mTable, SWT.LEFT, 0);		
+		column.setText(mColumnNames[0]);
+		column.setWidth(120);
+		/* Add listener to column so tasks are sorted by class name when
+		 * clicked */ 
+		column.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(final SelectionEvent e) {
+				mJavaClassesTableViewer.setSorter(
+						new JavaClassSorter(JavaClassSorter.JAVAPROJECT));
+			}
+		});
 
-    /**
-     * Given a set of selected java classes, this will create a list of path
-     * element locations from their projects classpath entries.
-     * @return a list of path element locations
-     */
-    public List < String > getSelectedPathElementsLocations() {
-        List < String > selectedPathElementsLocations =
-        	new ArrayList < String >();
-        List < IJavaProject > mProcessed = new ArrayList < IJavaProject >();
-        for (int i = 0; i <  mJavaClassesListViewer.getList().getItemCount();
-        		i++) {
-            JavaClass jClass = (JavaClass)
-            	mJavaClassesListViewer.getElementAt(i);
-            IJavaProject javaProject = jClass.javaProject;
-            if (!mProcessed.contains(javaProject)) {
-                addPathElements(selectedPathElementsLocations, javaProject);
-            }
-        }
-        return selectedPathElementsLocations;
-    }
+		/* 2nd column is the java class name */
+		column = new TableColumn(mTable, SWT.LEFT, 1);
+		column.setText(mColumnNames[1]);
+		column.setWidth(400);
+		/* Add listener to column so tasks are sorted by class name when
+		 * clicked */ 
+		column.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(final SelectionEvent e) {
+				mJavaClassesTableViewer.setSorter(
+						new JavaClassSorter(JavaClassSorter.JAVACLASS));
+			}
+		});
 
-    /**
-     * Extract classpath entries from given java project and store them as
-     * path elements in a list.
-     * @param selectedPathElementsLocations list of path elements locations
-     * @param javaProject the input java project
-     */
-    private void addPathElements(
-    		final List < String > selectedPathElementsLocations,
-    		final IJavaProject javaProject) {
+	}
+
+	/**
+	 * Java classes appear in the table viewer as a descriptive string.
+	 */
+	public class JavaClassesTableLabelProvider extends LabelProvider
+	implements ITableLabelProvider {
+
+		/** {@inheritDoc} */
+		public Image getColumnImage(
+				final Object element, final int columnIndex) {
+			return null;
+		}
+
+		/** {@inheritDoc} */
+		public String getColumnText(
+				final Object element, final int columnIndex) {
+			JavaClass jClass = (JavaClass) element;
+			switch (columnIndex) {
+			case 0:
+				return jClass.javaProject.getProject().getName();
+			case 1 :
+				return jClass.className;
+			default :
+				return ""; 	
+			}
+		}
+	}
+	
+	/**
+	 * The content provider bridging the model with the viewer.
+	 */
+	public class JavaClassesTableContentProvider
+			implements IStructuredContentProvider {
+
+		/** {@inheritDoc} */
+		public Object[] getElements(final Object parent) {
+			return mModel.toArray();
+		}
+
+		/** {@inheritDoc} */
+		public void dispose() {
+			
+		}
+
+		/** {@inheritDoc} */
+		public void inputChanged(final Viewer viewer,
+				final Object oldInput, final Object newInput) {
+			
+		}
+		
+	}
+
+	/**
+	 * Present a type selection dialog starting from the workspace root.
+	 * This will allow user to select java classes from more than one project.
+	 */
+	private void addJavaClasses() {
         try {
-            IClasspathEntry[] classPathEntries = javaProject.getRawClasspath();
-            addPathElements(selectedPathElementsLocations,
-            		classPathEntries, javaProject);
-        } catch (JavaModelException e) {
-            errorDialog(getShell(), "Extract classpath error",
-            		Activator.PLUGIN_ID,
-                    "Selected project has a classpath issue ",
-                    "The java project selected " + javaProject.getElementName()
-                    + " has generated a JavaModelException " + e);
-        }
-    }
-
-    /**
-     * Given classpath entries from a java project, populate a list of
-     *  collections.
-     * @param selectedPathElementsLocations the output path locations
-     * @param classPathEntries the java project class path entries
-     * @param javaProject the java project
-     * @throws JavaModelException if invalid classpath
-     */
-    private void addPathElements(
-    		final List < String > selectedPathElementsLocations,
-    		final IClasspathEntry[] classPathEntries,
-    		final IJavaProject javaProject) throws JavaModelException {
-
-        IClasspathEntry jreEntry = JavaRuntime.getDefaultJREContainerEntry();
-        IPath projectPath = javaProject.getProject().getLocation();
-       
-        for (int i = 0; i < classPathEntries.length; i++) {
-            IClasspathEntry classpathEntry = classPathEntries[i];
-            String pathElementLocation = null;
-            switch (classpathEntry.getEntryKind()) {
-            case IClasspathEntry.CPE_LIBRARY :
-                pathElementLocation = classpathEntry.getPath().toOSString();
-                break;
-            case IClasspathEntry.CPE_CONTAINER :
-                /* No need for the default jre */
-                if (classpathEntry.equals(jreEntry)) {
-                    break;
+            SelectionDialog dialog = JavaUI.createTypeDialog(
+                    getShell(),
+                    PlatformUI.getWorkbench().getProgressService(),
+                    SearchEngine.createWorkspaceScope(),
+                    IJavaElementSearchConstants.CONSIDER_CLASSES,
+                    true);
+            if (Window.OK == dialog.open()) {
+                Object[] results = dialog.getResult();
+                if (results != null && results.length > 0) {
+            		for (Object obj : results) {
+            			if (obj instanceof IType) {
+            				if (!addJavaClass((IType) obj)) {
+            					break;
+            				}
+            			}
+            		}
                 }
-                /* Resolve container into class path entries */
-                IClasspathContainer classpathContainer =
-                    JavaCore.getClasspathContainer(classpathEntry.getPath(),
-                            javaProject);
-                addPathElements(selectedPathElementsLocations,
-                        classpathContainer.getClasspathEntries(),
-                        javaProject);
-                break;
-            case IClasspathEntry.CPE_VARIABLE :
-                pathElementLocation = JavaCore.getResolvedVariablePath(
-                        classpathEntry.getPath()).toOSString();
-                break;
-            case IClasspathEntry.CPE_SOURCE :
-                /* If source has no specific output, use the project default
-                 *  one*/
-                IPath outputLocation = classpathEntry.getOutputLocation();
-                if (outputLocation == null) {
-                    outputLocation = javaProject.getOutputLocation();
-                }
-                pathElementLocation = projectPath.append(
-                        outputLocation.removeFirstSegments(1)).toOSString();
-                break;
-            default:
-            	break;
+        		dialogChanged();
             }
-            
-            if (pathElementLocation != null
-                    && !selectedPathElementsLocations.contains(
-                    		pathElementLocation)) {
-                selectedPathElementsLocations.add(pathElementLocation);
-            }
+        } catch (JavaModelException e1) {
+            errorDialog(getShell(), "Selection error", Activator.PLUGIN_ID,
+                    "Creating class selection dialog failed ",
+                    " Selection has generated a JavaModelException "
+                    + e1);
+            logCoreException(e1, Activator.PLUGIN_ID);
         }
-    }
+	}
+
+	/**
+	 * Checks a resource to see if it is a java class and adds it to the class
+	 * list.
+	 * @param resource the resource to checks
+	 * @return true if the java class is successfully added
+	 */
+	private boolean addJavaClass(final IResource resource) {
+		IProject project = resource.getProject();
+		IJavaProject javaProject = JavaCore.create(project);
+		if (javaProject == null) {
+			errorDialog(getShell(), "Add Java class error", Activator.PLUGIN_ID,
+					"Selected project is not a java project ",
+					"The project selected " + project.getName()
+					+ " may not have a Java nature");
+			return false;
+		}
+		if (resource instanceof IFile) {
+			IJavaElement element = JavaCore.create((IFile) resource);
+			/* Not a java resource, ignore*/
+			if (element == null) {
+				return true;
+			}
+			if (element instanceof ICompilationUnit) {
+				IType type = ((ICompilationUnit) element).findPrimaryType();
+				/* Not a java type, ignore*/
+				if (type == null) {
+					return true;
+				}
+				JavaClass jClass = new JavaClass(
+						type.getFullyQualifiedName(), javaProject);
+				addJavaClass(jClass);
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * Add a new type as a java class.
+	 * @param type the java type
+	 * @return true if add succeeded
+	 */
+	private boolean addJavaClass(final IType type) {
+		JavaClass jClass = new JavaClass(
+				type.getFullyQualifiedName(), type.getJavaProject());
+		addJavaClass(jClass);
+		return true;
+	}
+	
+	/**
+	 * Adds the class to the model and makes sure the viewer is aware.
+	 * @param jClass the new java class
+	 */
+	private void addJavaClass(final JavaClass jClass) {
+		if (mModel.contains(jClass)) {
+			return;
+		}
+		mModel.add(jClass);
+		mJavaClassesTableViewer.add(jClass);
+	}
+
+	/**
+	 * Remove a class from the model and makes sure the viewer is aware.
+	 * @param jClass the new java class
+	 */
+	private void removeJavaClass(final JavaClass jClass) {
+		if (!mModel.contains(jClass)) {
+			return;
+		}
+		mModel.remove(jClass);
+		mJavaClassesTableViewer.remove(jClass);
+	}
+
+	/**
+	 * @return a list of all fully qualified selected class names
+	 */
+	public List < String > getSelectedClassNames() {
+		List < String > selectedClassNames = new ArrayList < String >();
+		for (int i = 0; i <  mJavaClassesTableViewer.getTable().getItemCount();
+		i++) {
+			JavaClass jClass = (JavaClass)
+			mJavaClassesTableViewer.getElementAt(i);
+			selectedClassNames.add(jClass.className);
+		}
+		return selectedClassNames;
+	}
+
+	/**
+	 * Given a set of selected java classes, this will create a list of path
+	 * element locations from their projects classpath entries.
+	 * @return a list of path element locations
+	 */
+	public List < String > getSelectedPathElementsLocations() {
+		List < String > selectedPathElementsLocations =
+			new ArrayList < String >();
+		List < IJavaProject > mProcessed = new ArrayList < IJavaProject >();
+		for (int i = 0; i <  mJavaClassesTableViewer.getTable().getItemCount();
+		i++) {
+			JavaClass jClass = (JavaClass)
+			mJavaClassesTableViewer.getElementAt(i);
+			IJavaProject javaProject = jClass.javaProject;
+			if (!mProcessed.contains(javaProject)) {
+				addPathElements(selectedPathElementsLocations, javaProject);
+			}
+		}
+		return selectedPathElementsLocations;
+	}
+
+	/**
+	 * Extract classpath entries from given java project and store them as
+	 * path elements in a list.
+	 * @param selectedPathElementsLocations list of path elements locations
+	 * @param javaProject the input java project
+	 */
+	private void addPathElements(
+			final List < String > selectedPathElementsLocations,
+			final IJavaProject javaProject) {
+		try {
+			IClasspathEntry[] classPathEntries = javaProject.getRawClasspath();
+			addPathElements(selectedPathElementsLocations,
+					classPathEntries, javaProject);
+		} catch (JavaModelException e) {
+			errorDialog(getShell(), "Extract classpath error",
+					Activator.PLUGIN_ID,
+					"Selected project has a classpath issue ",
+					"The java project selected " + javaProject.getElementName()
+					+ " has generated a JavaModelException " + e);
+		}
+	}
+
+	/**
+	 * Given classpath entries from a java project, populate a list of
+	 *  collections.
+	 * @param selectedPathElementsLocations the output path locations
+	 * @param classPathEntries the java project class path entries
+	 * @param javaProject the java project
+	 * @throws JavaModelException if invalid classpath
+	 */
+	private void addPathElements(
+			final List < String > selectedPathElementsLocations,
+			final IClasspathEntry[] classPathEntries,
+			final IJavaProject javaProject) throws JavaModelException {
+
+		IClasspathEntry jreEntry = JavaRuntime.getDefaultJREContainerEntry();
+		IPath projectPath = javaProject.getProject().getLocation();
+
+		for (int i = 0; i < classPathEntries.length; i++) {
+			IClasspathEntry classpathEntry = classPathEntries[i];
+			String pathElementLocation = null;
+			switch (classpathEntry.getEntryKind()) {
+			case IClasspathEntry.CPE_LIBRARY :
+				pathElementLocation = classpathEntry.getPath().toOSString();
+				break;
+			case IClasspathEntry.CPE_CONTAINER :
+				/* No need for the default jre */
+				if (classpathEntry.equals(jreEntry)) {
+					break;
+				}
+				/* Resolve container into class path entries */
+				IClasspathContainer classpathContainer =
+					JavaCore.getClasspathContainer(classpathEntry.getPath(),
+							javaProject);
+				addPathElements(selectedPathElementsLocations,
+						classpathContainer.getClasspathEntries(),
+						javaProject);
+				break;
+			case IClasspathEntry.CPE_VARIABLE :
+				pathElementLocation = JavaCore.getResolvedVariablePath(
+						classpathEntry.getPath()).toOSString();
+				break;
+			case IClasspathEntry.CPE_SOURCE :
+				/* If source has no specific output, use the project default
+				 *  one*/
+				IPath outputLocation = classpathEntry.getOutputLocation();
+				if (outputLocation == null) {
+					outputLocation = javaProject.getOutputLocation();
+				}
+				pathElementLocation = projectPath.append(
+						outputLocation.removeFirstSegments(1)).toOSString();
+				break;
+			default:
+				break;
+			}
+
+			if (pathElementLocation != null
+					&& !selectedPathElementsLocations.contains(
+							pathElementLocation)) {
+				selectedPathElementsLocations.add(pathElementLocation);
+			}
+		}
+	}
 
 	/** {@inheritDoc} */
-    @Override
-    protected void dialogChanged() {
-        if (mJavaClassesListViewer.getList().getItemCount() > 0) {
-            ((MainWizard) getWizard()).setCanFinish(true);
-            updateStatus(null);
-        } else {
-            updateStatus(NO_JAVA_CLASSES_MSG);
-            ((MainWizard) getWizard()).setCanFinish(false);
-        }
+	@Override
+	protected void dialogChanged() {
+		if (mJavaClassesTableViewer.getTable().getItemCount() > 0) {
+			((MainWizard) getWizard()).setCanFinish(true);
+			updateStatus(null);
+		} else {
+			updateStatus(NO_JAVA_CLASSES_MSG);
+			((MainWizard) getWizard()).setCanFinish(false);
+		}
 
-    }
+	}
 
 	/** {@inheritDoc} */
-    @Override
-    protected void initContents() {
-    }
- 
+	@Override
+	protected void initContents() {
+	}
+
 	/** 
 	 * {@inheritDoc}
-     * @see org.eclipse.jface.wizard.WizardPage#getNextPage()
+	 * @see org.eclipse.jface.wizard.WizardPage#getNextPage()
 	 *  */
-   @Override
-    public IWizardPage getNextPage() {
-        return null;
-    }
+	@Override
+	public IWizardPage getNextPage() {
+		return null;
+	}
 }

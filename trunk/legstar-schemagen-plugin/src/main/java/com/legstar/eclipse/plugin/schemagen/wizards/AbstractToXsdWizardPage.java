@@ -25,6 +25,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -47,13 +48,16 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
+
+import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
 
 
 /**
  * A generic wizard page that gives all LegStar wizards the same look
  * and feel.
  */
-public abstract class AbstractWizardPage extends WizardPage {
+public abstract class AbstractToXsdWizardPage extends WizardPage {
 
     /** The initial selection in the workspace. */
     private IStructuredSelection mInitialSelection = null;
@@ -64,14 +68,14 @@ public abstract class AbstractWizardPage extends WizardPage {
     /** Browse button label text. */
     private static final String BROWSE_LABEL = "Browse...";
     
-    /**
+	/**
      * Construct a wizard page.
      * @param initialSelection the workbench current selection
      * @param pageName the name of this page
      * @param title the title that should appear on this page
      * @param description the text that should describe the purpose of this page
      */
-    protected AbstractWizardPage(
+    protected AbstractToXsdWizardPage(
             final IStructuredSelection initialSelection,
             final String pageName,
             final String title,
@@ -80,6 +84,12 @@ public abstract class AbstractWizardPage extends WizardPage {
         setTitle(title);
         setDescription(description);
         mInitialSelection = initialSelection;
+		ImageDescriptor image =
+            AbstractUIPlugin.
+                imageDescriptorFromPlugin(
+                		com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID,
+                		com.legstar.eclipse.plugin.common.Activator.LOGO_IMG);
+        setImageDescriptor(image);
     }
 
     /** {@inheritDoc}*/
@@ -424,5 +434,16 @@ public abstract class AbstractWizardPage extends WizardPage {
             final String reason) {
     	AbstractWizard.errorDialog(
     			shell, dialogTitle, pluginID, shortMessage, reason);
+    }
+    
+    /**
+     * Log exception.
+     * @param innerException exception
+     * @param pluginID plugin ID
+     */
+    public static void logCoreException(
+            final Throwable innerException,
+            final String pluginID) {
+    	AbstractWizard.logCoreException(innerException, pluginID);
     }
 }

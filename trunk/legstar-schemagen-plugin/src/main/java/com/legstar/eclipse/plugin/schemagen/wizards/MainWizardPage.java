@@ -31,7 +31,7 @@ import com.legstar.eclipse.plugin.schemagen.preferences.PreferenceConstants;
  * the target location and parameters for the XSD.
  *
  */
-public class MainWizardPage extends AbstractWizardPage {
+public class MainWizardPage extends AbstractToXsdWizardPage {
 
     /** Selection of available source types. */
     private Combo mSourceTypeCombo;
@@ -96,7 +96,7 @@ public class MainWizardPage extends AbstractWizardPage {
     public MainWizardPage(final IStructuredSelection initialSelection) {
         super(initialSelection,
                 "MainWizardPage",
-                "Generate XML Schema with COBOL annotations",
+                "COBOL-annotated XML schema generation",
         "Select the source type and target XML schema");
     }
 
@@ -128,7 +128,7 @@ public class MainWizardPage extends AbstractWizardPage {
         mTargetNamespaceText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 mXsdNamespaceUserChanged = userChanged(
-                		mTargetNamespaceText, '/');
+                		mTargetNamespaceText, '/', false);
             }
         });
         
@@ -137,7 +137,7 @@ public class MainWizardPage extends AbstractWizardPage {
         mTargetJaxbPackageNameText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 mJaxbPackageNameUserChanged = userChanged(
-                		mTargetJaxbPackageNameText, '.');
+                		mTargetJaxbPackageNameText, '.', true);
             }
         });
     }
@@ -231,7 +231,8 @@ public class MainWizardPage extends AbstractWizardPage {
             mTargetNamespaceText.setText(mXsdNamespacePrefix + str);
         }
         if (!mJaxbPackageNameUserChanged) {
-            mTargetJaxbPackageNameText.setText(mJaxbPackageNamePrefix + str);
+            mTargetJaxbPackageNameText.setText(mJaxbPackageNamePrefix
+            		+ javaIdentifierNormalize(str));
         }
     }
     
@@ -241,9 +242,12 @@ public class MainWizardPage extends AbstractWizardPage {
      * the same, we assume no user modification was done.
      * @param text the text to compare
      * @param c the segments separator character 
+     * @param isJavaIdentifierPart tells if the text must be a valid java
+     *  identifier 
      * @return true if the content of the text field now differs from autofill
      */
-    private boolean userChanged(final Text text, final char c) {
+    private boolean userChanged(
+    		final Text text, final char c, final boolean isJavaIdentifierPart) {
         String str = getXsdSimpleFileName();
         String content = lastSegment(text.getText(), c);
         if (str.length() == 0) {
@@ -252,9 +256,30 @@ public class MainWizardPage extends AbstractWizardPage {
             if (content == null || content.length() == 0) {
                 return true;
             } else {
+            	if (isJavaIdentifierPart) {
+            		return !(javaIdentifierNormalize(str).equals(content));
+            	}
             	return !(str.equals(content));
             }
         }
+    }
+    
+    /**
+     * Replaces all illegal characters by underscore. This ensures the
+     * string can be used as a java identifier.
+     * @param str the string to normalize
+     * @return the normalized string.
+     */
+    private String javaIdentifierNormalize(final String str) {
+    	StringBuilder sb = new StringBuilder();
+    	for (char ch : str.toCharArray()) {
+    		if (Character.isJavaIdentifierPart(ch)) {
+    			sb.append(ch);
+    		} else {
+    			sb.append('_');
+    		}
+    	}
+    	return sb.toString();
     }
     
     /**

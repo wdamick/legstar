@@ -19,7 +19,7 @@ import org.eclipse.jface.wizard.IWizardPage;
  * a COBOL source. Alternatively, user can copy/paste COBOL code
  * directly and then generate an annotated XML Schema.
  */
-public class CobolToXsdWizardPage extends AbstractWizardPage {
+public class CobolToXsdWizardPage extends AbstractToXsdWizardPage {
 
 	/** A COBOL fragment. */
 	private Text mCobolFragmentText;
@@ -40,7 +40,7 @@ public class CobolToXsdWizardPage extends AbstractWizardPage {
 	public CobolToXsdWizardPage(final IStructuredSelection initialSelection) {
 		super(initialSelection,
 				"CobolToXsdWizardPage",
-				"Generate COBOL-annotated XML Schema from COBOL fragments",
+				"Generate XML Schema from COBOL fragments",
 				"Select the COBOL fragments to be used for"
 				+ " COBOL-annotated XML Schema generation");
 	}

@@ -7,7 +7,7 @@ import com.legstar.j2sc.gen.JavaToXsdCobolModel;
 /**
  * Background task that performs the actual XSD generation.
  */
-public class JavaToXsdWizardRunnable extends AbstractWizardRunnable {
+public class JavaToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
 
      /**
      * Instantiate this runnable from UI items. It is important not to attempt

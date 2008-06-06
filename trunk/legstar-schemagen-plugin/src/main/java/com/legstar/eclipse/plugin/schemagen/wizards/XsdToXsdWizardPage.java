@@ -27,7 +27,7 @@ import com.legstar.eclipse.plugin.schemagen.util.HttpClientHelperException;
  * source either from the file system or via an HTTP GET and 
  * generate a COBOL annotated Xml Schema.
  */
-public class XsdToXsdWizardPage extends AbstractWizardPage {
+public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
 
     /** An XSD or WSDL source. */
     private Text mXsdSourceText;
@@ -52,7 +52,7 @@ public class XsdToXsdWizardPage extends AbstractWizardPage {
     public XsdToXsdWizardPage(final IStructuredSelection initialSelection) {
         super(initialSelection,
                 "XsdToXsdWizardPage",
-                "Generate COBOL-annotated XML Schema from XML Schema or WSDL",
+                "Generate XML Schema from XML Schema or WSDL",
         "Select the XML Schema or WSDL source to be used for"
                 + " COBOL-annotated XML Schema generation");
     }
