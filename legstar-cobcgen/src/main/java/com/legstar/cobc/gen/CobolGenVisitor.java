@@ -72,17 +72,30 @@ public class CobolGenVisitor extends CobolElementVisitor {
 	
 	/**
 	 * Create a Cobol generator visitor.
-	 * @param startCobolLevel the first COBOL level in the generated structure
+	 * @param firstCobolLevel the first COBOL level in the generated structure
 	 * @param cobolLevelIncrement Children level will be parent level plus this
 	 *  increment (must be greater than 0)
 	 * @param writer destination for the generated cobol source
 	 * @throws HostException if generator cannot be created
 	 */
 	public CobolGenVisitor(
-			final int startCobolLevel,
+			final int firstCobolLevel,
 			final int cobolLevelIncrement,
 			final BufferedWriter writer) throws HostException {
 		mWriter = writer;
+		/* If the start cobol level is not 1, it must be a multiple of the
+		 * increment */
+		int startCobolLevel = 0;
+		if (firstCobolLevel == 1) {
+			startCobolLevel = 1;
+		} else {
+			int rest = firstCobolLevel % cobolLevelIncrement;
+			if (rest == 0) {
+				startCobolLevel = firstCobolLevel;
+			} else {
+				startCobolLevel = firstCobolLevel + cobolLevelIncrement - rest;
+			}
+		}
 		mFirstCobolLevel = startCobolLevel;
 		mCurrentCobolLevel = startCobolLevel;
 		mCobolLevelIncrement = cobolLevelIncrement;
@@ -108,11 +121,34 @@ public class CobolGenVisitor extends CobolElementVisitor {
 	public final void visit(
 			final ICobolComplexBinding ce) throws HostException {
 		write(ce);
-		mCurrentCobolLevel += mCobolLevelIncrement;
+		increaseCurrentCobolLevel();
 		for (ICobolBinding cb : ce.getChildrenList()) {
 			cb.accept(this);
 		}
+		decreaseCurrentCobolLevel();
+	}
+	
+	/**
+	 * It is customary in COBOL to start incrementing uniformly only after
+	 * level 1.
+	 */
+	private void increaseCurrentCobolLevel() {
+		if (mCurrentCobolLevel == 1 && mCobolLevelIncrement > 1) {
+			mCurrentCobolLevel = mCobolLevelIncrement;
+		} else {
+			mCurrentCobolLevel += mCobolLevelIncrement;
+		}
+	}
+
+	/**
+	 * It is customary in COBOL to start incrementing uniformly only after
+	 * level 1.
+	 */
+	private void decreaseCurrentCobolLevel() {
 		mCurrentCobolLevel -= mCobolLevelIncrement;
+		if (mCurrentCobolLevel == 0) {
+			mCurrentCobolLevel = 1;
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -254,13 +290,37 @@ public class CobolGenVisitor extends CobolElementVisitor {
 			ce.setCobolName(mNameResolver.getUniqueName(ce.getCobolName()));
 			
 			mWriter.write(CobolGenFormatter.formatCobolClause(
-					ce, (mCurrentCobolLevel - mFirstCobolLevel)
-					/ mCobolLevelIncrement));
+					ce, getIndentFactor(
+							mFirstCobolLevel,
+							mCurrentCobolLevel,
+							mCobolLevelIncrement)));
 			mWriter.newLine();
 		} catch (IOException e) {
 			throw new HostException(e);
 		} catch (CobolNameResolverException e) {
 			throw new HostException(e);
+		}
+	}
+	
+	/**
+	 * Calculates how many white space characters should be added to indent an
+	 * element in the data structure.
+	 * Data items starting at column 8 have an indent factor of 0.
+	 * @param firstCobolLevel the cobol level of the root element
+	 * @param currentCobolLevel the current element cobol level
+	 * @param cobolLevelIncrement the cobol level increment
+	 * @return the number of white space characters to prepend to data
+	 *  description.
+	 */
+	private int getIndentFactor(
+			final int firstCobolLevel,
+			final int currentCobolLevel,
+			final int cobolLevelIncrement) {
+		
+		if (firstCobolLevel == 1) {
+			return (currentCobolLevel / cobolLevelIncrement) - 1;
+		} else {
+			return currentCobolLevel / cobolLevelIncrement;
 		}
 	}
 
