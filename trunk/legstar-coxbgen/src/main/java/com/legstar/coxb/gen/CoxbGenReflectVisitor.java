@@ -64,7 +64,7 @@ public class CoxbGenReflectVisitor extends CobolElementVisitor {
 	 * @throws HostException if directory provided is not accessible
 	 */
 	public CoxbGenReflectVisitor(
-			final CoxbGenContext coxbGenContext) throws HostException {
+			final CoxbGenModel coxbGenContext) throws HostException {
 		try {
 			mWriter = new CoxbGenWriter(coxbGenContext);
 		} catch (CodeGenException e) {

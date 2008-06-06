@@ -27,8 +27,8 @@ public class CoxbGenReflectVisitorTest extends TestCase {
 				objectFactory,
 				Class.forName("com.legstar.test.coxb.dplarcht.DfhcommareaType"));
 
-		CoxbGenContext coxbGenContext = new CoxbGenContext();
-		coxbGenContext.setTargetDir(new File(GEN_SRC_DIR));
+		CoxbGenModel coxbGenContext = new CoxbGenModel();
+		coxbGenContext.setCoxbSrcDir(new File(GEN_SRC_DIR));
 		coxbGenContext.setJaxbPackageName("com.legstar.test.coxb.dplarcht");
 		coxbGenContext.setCoxbPackageName("com.legstar.test.coxb.dplarcht.bind");
 		

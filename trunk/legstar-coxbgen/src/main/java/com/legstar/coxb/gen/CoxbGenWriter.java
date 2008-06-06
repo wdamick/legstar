@@ -41,7 +41,7 @@ public class CoxbGenWriter {
 	private CoxbHelper mCoxbHelper;
 
 	/** Container for all parameters to move around. */
-	private CoxbGenContext mCoxbGenContext;
+	private CoxbGenModel mCoxbGenContext;
 	
 	/** This generator name. */
 	private static final String BINDING_GENERATOR_NAME =
@@ -54,12 +54,12 @@ public class CoxbGenWriter {
 	 * @throws CodeGenException if velocity engine failed to initialize 
 	 */
 	public CoxbGenWriter(
-			final CoxbGenContext coxbGenContext) throws CodeGenException {
+			final CoxbGenModel coxbGenContext) throws CodeGenException {
 		mCoxbGenContext = coxbGenContext;
 		try {
 			CodeGenUtil.initVelocity();
 			CodeGenUtil.checkDirectory(
-					mCoxbGenContext.getTargetDir().getAbsolutePath(), false);
+					mCoxbGenContext.getCoxbSrcDir().getAbsolutePath(), false);
 		} catch (CodeGenVelocityException e) {
 			throw new CodeGenException(e);
 		}
@@ -77,7 +77,7 @@ public class CoxbGenWriter {
 		try {
 			Map < String, Object > parameters =	createParameters(ce);
 
-			String dir = mCoxbGenContext.getTargetDir().getAbsolutePath() + '/'
+			String dir = mCoxbGenContext.getCoxbSrcDir().getAbsolutePath() + '/'
 				+ CodeGenUtil.relativeLocation(
 						mCoxbGenContext.getCoxbPackageName());
 			CodeGenUtil.checkDirectory(dir, true);
@@ -105,7 +105,7 @@ public class CoxbGenWriter {
 		try {
 			Map < String, Object > parameters =	createParameters(ce);
 
-			String dir = mCoxbGenContext.getTargetDir().getAbsolutePath() + '/'
+			String dir = mCoxbGenContext.getCoxbSrcDir().getAbsolutePath() + '/'
 				+ CodeGenUtil.relativeLocation(
 						mCoxbGenContext.getCoxbPackageName());
 			CodeGenUtil.checkDirectory(dir, true);
@@ -154,7 +154,7 @@ public class CoxbGenWriter {
 			parameters.put("choice-strategy-qualified-class-name",
 					strategyClassName);
 			
-			String dir = mCoxbGenContext.getTargetDir().getAbsolutePath() + '/'
+			String dir = mCoxbGenContext.getCoxbSrcDir().getAbsolutePath() + '/'
 				+ CodeGenUtil.relativeLocation(
 						mHelper.getPackageName(strategyClassName,
 								mCoxbGenContext.getCoxbPackageName()));
@@ -190,7 +190,7 @@ public class CoxbGenWriter {
 		try {
 			Map < String, Object > parameters =	createParameters(ce);
 
-			String dir = mCoxbGenContext.getTargetDir().getAbsolutePath() + '/'
+			String dir = mCoxbGenContext.getCoxbSrcDir().getAbsolutePath() + '/'
 				+ CodeGenUtil.relativeLocation(
 						mCoxbGenContext.getCoxbPackageName());
 			CodeGenUtil.checkDirectory(dir, true);

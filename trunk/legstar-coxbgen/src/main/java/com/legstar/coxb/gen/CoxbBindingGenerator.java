@@ -35,6 +35,8 @@ import com.sun.xml.bind.api.impl.NameConverter;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Document;
@@ -69,8 +71,12 @@ public class CoxbBindingGenerator extends Task {
 	private static final String JAXB_PACKAGE_ATTR = "name";
 	
 	/** Container for all parameters to move around. */
-	private CoxbGenContext mCoxbGenContext = new CoxbGenContext();
+	private CoxbGenModel mCoxbGenModel = new CoxbGenModel();
 	
+	/** List of jaxb root class names for which we need to generate
+	 * binding classes. Beware: this is not reflected in the model. */
+	private List < JaxbRootClass > mJaxbRootClasses;
+
 	/** Logger. */
 	private static final Log LOG =
 		LogFactory.getLog(CoxbBindingGenerator.class);
@@ -84,31 +90,34 @@ public class CoxbBindingGenerator extends Task {
     	/* If we are not provided with a physical location for JAXB classes,
     	 * assume they are available from the current classpath. */
     	Object jaxbObjectFactory;
-    	if (getJaxbDir() == null ||	getJaxbDir().length() == 0) {
+    	if (getJaxbBinDir() == null ||	getJaxbBinDir().length() == 0) {
     		jaxbObjectFactory = getObjectFactory(getJaxbPackageName());
     	} else {
     	/* Create an instance of the JAXB object factory */
     		jaxbObjectFactory = getObjectFactory(
-    				getJaxbPackageName(), getJaxbDir());
+    				getJaxbPackageName(), getJaxbBinDir());
     	}
     	
-    	/* Create an instance of the JAXB root object */
-    	Object jaxbRootObject = getRootObject(
-                jaxbObjectFactory, getJaxbRootObjectName());
+    	for (String jaxbRootClassName : getJaxbRootClassNames()) {
     	
-    	try {
-        	/* Create a visitor */
-        	CoxbGenReflectVisitor visitor =
-        		new CoxbGenReflectVisitor(mCoxbGenContext);
-        	/* Bind the root object to a COXB type */
-        	CComplexReflectBinding ce = new CComplexReflectBinding(
-                    jaxbObjectFactory, jaxbRootObject);
-			ce.accept(visitor);
-		} catch (HostException e) {
-			e.printStackTrace();
-			throw (new BuildException(
-					"HostException " + e.getMessage()));
-		}
+	    	/* Create an instance of the JAXB root object */
+	    	Object jaxbRootObject = getRootObject(
+	                jaxbObjectFactory, jaxbRootClassName);
+	    	
+	    	try {
+	        	/* Create a visitor */
+	        	CoxbGenReflectVisitor visitor =
+	        		new CoxbGenReflectVisitor(mCoxbGenModel);
+	        	/* Bind the root object to a COXB type */
+	        	CComplexReflectBinding ce = new CComplexReflectBinding(
+	                    jaxbObjectFactory, jaxbRootObject);
+				ce.accept(visitor);
+			} catch (HostException e) {
+				e.printStackTrace();
+				throw (new BuildException(
+						"HostException " + e.getMessage()));
+			}
+    	}
  
     }
     
@@ -119,7 +128,7 @@ public class CoxbBindingGenerator extends Task {
 		
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("checkInput started");
-			mCoxbGenContext.traceContext();
+			mCoxbGenModel.traceContext();
 		}
 		
     	/* If user did not provide a JAXB package name, we need to get it
@@ -137,10 +146,12 @@ public class CoxbBindingGenerator extends Task {
     	if (getTargetDir() == null || !getTargetDir().exists()) {
 			throw (new BuildException("You must specify a target directory"));
     	}
-    	if (getJaxbRootObjectName() == null
-    			|| getJaxbRootObjectName().length() == 0) {
+    	
+    	/* There must be at least one jaxb root class name to process */
+    	if (getJaxbRootClassNames() == null
+    			|| getJaxbRootClassNames().size() == 0) {
 			throw (new BuildException(
-                    "You must specify a JAXB root object name"));
+                    "You must specify at least one JAXB root class name"));
     	}
  		
 	}
@@ -294,9 +305,13 @@ public class CoxbBindingGenerator extends Task {
     	
 		try {
 			/* Here we make sure the object name is following the
-			 * jaxb naming conventions. */
+			 * jaxb naming conventions. Including an optionnal 
+			 * type suffix. */
 			String createName = "create"
 				+ NameConverter.standard.toClassName(rootObjectName);
+			if (getJaxbTypeNameSuffix() != null) {
+				createName += getJaxbTypeNameSuffix();
+			}
 			Method creator = jaxbObjectFactory.getClass().getMethod(createName);
 			jaxbRootObject = creator.invoke(jaxbObjectFactory);
 		} catch (IllegalAccessException e) {
@@ -330,25 +345,50 @@ public class CoxbBindingGenerator extends Task {
     }
 
 	/**
+	 * @deprecated
+	 * Use <code>getJaxbRootClassName</code> instead
 	 * @return Returns the JAXB root object name.
 	 */
 	public final String getJaxbRootObjectName() {
-		return mCoxbGenContext.getJaxbRootObjectName();
+		return getJaxbRootClassName();
 	}
 
 	/**
+	 * @deprecated
+	 * Use <code>setJaxbRootClassName</code> instead
 	 * @param objectName The JAXB root object name to set.
 	 */
 	public final void setJaxbRootObjectName(
 			final String objectName) {
-		mCoxbGenContext.setJaxbRootObjectName(objectName);
+		setJaxbRootClassName(objectName);
+	}
+
+	/**
+	 * This is an alternative to jaxbRootClassNames used when a
+	 * single class is to be bound.
+	 * @return Returns the JAXB root class name.
+	 */
+	public final String getJaxbRootClassName() {
+		if (mCoxbGenModel.getJaxbRootClassNames() != null
+				&& mCoxbGenModel.getJaxbRootClassNames().size() > 0) {
+			return mCoxbGenModel.getJaxbRootClassNames().get(0);
+		}
+		return null;
+	}
+
+	/**
+	 * @param objectName The JAXB root class name to set.
+	 */
+	public final void setJaxbRootClassName(
+			final String objectName) {
+		addJaxbRootClass(objectName);
 	}
 
 	/**
 	 * @return the XML schema file
 	 */
 	public final File getXsdFile() {
-		return mCoxbGenContext.getXsdFile();
+		return mCoxbGenModel.getXsdFile();
 	}
 
 	/**
@@ -356,63 +396,81 @@ public class CoxbBindingGenerator extends Task {
 	 */
 	public final void setXsdFile(
 			final File xsdFile) {
-		mCoxbGenContext.setXsdFile(xsdFile);
+		mCoxbGenModel.setXsdFile(xsdFile);
 	}
 
 	/**
 	 * @return the current target directory
 	 */
 	public final File getTargetDir() {
-		return mCoxbGenContext.getTargetDir();
+		return mCoxbGenModel.getCoxbSrcDir();
 	}
 
 	/**
 	 * @param targetDir the target directory to set
 	 */
 	public final void setTargetDir(final File targetDir) {
-		mCoxbGenContext.setTargetDir(targetDir);
+		mCoxbGenModel.setCoxbSrcDir(targetDir);
+	}
+
+	/**
+	 * @deprecated
+	 * Use <code>getJaxbBinDir</code> instead
+	 * @return the location where JAXB classes live
+	 */
+	public final File getJaxbDir() {
+		return mCoxbGenModel.getJaxbBinDir();
+	}
+
+	/**
+	 * @deprecated
+	 * Use <code>setJaxbBinDir</code> instead
+	 * @param jaxbDir the JAXB location to set
+	 */
+	public final void setJaxbDir(final File jaxbDir) {
+		mCoxbGenModel.setJaxbBinDir(jaxbDir);
 	}
 
 	/**
 	 * @return the location where JAXB classes live
 	 */
-	public final File getJaxbDir() {
-		return mCoxbGenContext.getJaxbDir();
+	public final File getJaxbBinDir() {
+		return mCoxbGenModel.getJaxbBinDir();
 	}
 
 	/**
-	 * @param jaxbDir the JAXB location to set
+	 * @param jaxbBinDir the JAXB location to set
 	 */
-	public final void setJaxbDir(final File jaxbDir) {
-		mCoxbGenContext.setJaxbDir(jaxbDir);
+	public final void setJaxbBinDir(final File jaxbBinDir) {
+		mCoxbGenModel.setJaxbBinDir(jaxbBinDir);
 	}
 
 	/**
 	 * @return the package name used for JAXB classes
 	 */
 	public final String getJaxbPackageName() {
-		return mCoxbGenContext.getJaxbPackageName();
+		return mCoxbGenModel.getJaxbPackageName();
 	}
 
 	/**
 	 * @param jaxbPackageName the JAXB classes package name to set
 	 */
 	public final void setJaxbPackageName(final String jaxbPackageName) {
-		mCoxbGenContext.setJaxbPackageName(jaxbPackageName);
+		mCoxbGenModel.setJaxbPackageName(jaxbPackageName);
 	}
 
 	/**
 	 * @return the package name for generated binding classes
 	 */
 	public final String getCoxbPackageName() {
-		return mCoxbGenContext.getCoxbPackageName();
+		return mCoxbGenModel.getCoxbPackageName();
 	}
 
 	/**
 	 * @param coxbPackageName package name for generated binding classes to set
 	 */
 	public final void setCoxbPackageName(final String coxbPackageName) {
-		mCoxbGenContext.setCoxbPackageName(coxbPackageName);
+		mCoxbGenModel.setCoxbPackageName(coxbPackageName);
 	}
 
 	/**
@@ -420,7 +478,7 @@ public class CoxbBindingGenerator extends Task {
 	 * generation time
 	 */
 	public final String getAlternativePackageName() {
-		return mCoxbGenContext.getAlternativePackageName();
+		return mCoxbGenModel.getAlternativePackageName();
 	}
 
 	/**
@@ -429,14 +487,14 @@ public class CoxbBindingGenerator extends Task {
 	 */
 	public final void setAlternativePackageName(
 			final String alternativePackageName) {
-		mCoxbGenContext.setAlternativePackageName(alternativePackageName);
+		mCoxbGenModel.setAlternativePackageName(alternativePackageName);
 	}
 
 	/**
 	 * @return the alternate factory to used rather than the JAXB one.
 	 */
 	public final String getAlternativeFactoryName() {
-		return mCoxbGenContext.getAlternativeFactoryName();
+		return mCoxbGenModel.getAlternativeFactoryName();
 	}
 
 	/**
@@ -445,7 +503,88 @@ public class CoxbBindingGenerator extends Task {
 	 */
 	public final void setAlternativeFactoryName(
 			final String targetFactoryName) {
-		mCoxbGenContext.setAlternativeFactoryName(targetFactoryName);
+		mCoxbGenModel.setAlternativeFactoryName(targetFactoryName);
 	}
 	
+	/**
+	 * @return the JAXB suffix optionally appended to Xsd complex type names to
+	 *  derive a JAXB class name
+	 */
+	public final String getJaxbTypeNameSuffix() {
+		return mCoxbGenModel.getJaxbTypeNameSuffix();
+	}
+
+	/**
+	 * @param jaxbTypeNameSuffix the JAXB suffix optionally appended to Xsd
+	 *  complex type names to derive a JAXB class name
+	 */
+	public final void setJaxbTypeNameSuffix(
+			final String jaxbTypeNameSuffix) {
+		mCoxbGenModel.setJaxbTypeNameSuffix(jaxbTypeNameSuffix);
+	}
+	
+	/**
+	 * Add a JAXB root class name holder object.
+	 * @param className the class name to add
+	 */
+	public final void addJaxbRootClass(final String className) {
+		JaxbRootClass jaxbRootClass = createJaxbRootClass();
+		jaxbRootClass.setName(className);
+		mCoxbGenModel.addJaxbRootClassName(className);
+	}
+
+	/**
+	 * Creates a JAXB root class name holder object.
+	 * @return a JAXB root class name holder object
+	 */
+	public final JaxbRootClass createJaxbRootClass() {
+		if (mJaxbRootClasses == null) {
+			mJaxbRootClasses = new ArrayList < JaxbRootClass >();
+		}
+		JaxbRootClass jaxbRootClass = new JaxbRootClass();
+		mJaxbRootClasses.add(jaxbRootClass);
+		return jaxbRootClass;
+	}
+	
+	/**
+	 * @return the list of jaxb root class names to process
+	 */
+	public final List < String > getJaxbRootClassNames() {
+		List < String > classNames = new ArrayList < String >();
+		if (mJaxbRootClasses != null) {
+			for (JaxbRootClass className : mJaxbRootClasses) {
+				classNames.add(className.getName());
+			}
+		}
+		return classNames;
+	}
+	
+	/**
+	 * Represent a simple inner element for the ant task. This element 
+	 * holds a jaxb root class name. These elements are useful when there
+	 * are more than one jaxb class name to process.
+	 */
+	public class JaxbRootClass {
+		
+		/** Name of the inner class. */
+		private String mName;
+		
+		/** Needs to be a public constructor. */
+		public JaxbRootClass() { }
+		
+		/**
+		 * @param name the class name
+		 */
+		public final void setName(final String name) {
+			mName = name;
+		}
+		
+		/**
+		 * @return the current text value
+		 */
+		public final String getName() {
+			return mName;
+		}
+	}
+
 }

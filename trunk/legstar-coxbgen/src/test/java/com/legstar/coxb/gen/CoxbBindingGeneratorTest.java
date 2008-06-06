@@ -29,24 +29,25 @@ import junit.framework.TestCase;
 import com.legstar.coxb.gen.CoxbBindingGenerator;
 
 public class CoxbBindingGeneratorTest extends TestCase {
-	
+
 	private static final boolean DEBUG_MODE = false;
 	private static final String GEN_SRC_DIR = "src/test/gen/java";
 	private static final String GEN_SRC_SUBDIR = "com/legstar/test/coxb";
 	private static final String GEN_CUST_SUBDIR = "com/legstar/coxb/cust";
 
 	/** Generated JAXB classes binaries. */
-	private static final String JAXB_DIR = "../legstar-jaxbgen-cases/target/classes";
-	/** Generated JAXB classes pavkage prefix. */
+	private static final String JAXB_BIN_DIR = "../legstar-jaxbgen-cases/target/classes";
+	/** Generated JAXB classes package prefix. */
 	private static final String JAXB_PKG_PFX = "com.legstar.test.coxb";
-	
-	
+
+
 	/** Make sure we have an output folder. */
 	protected void setUp() throws Exception {
 		java.io.File td = new java.io.File(GEN_SRC_DIR);
+		td.delete();
 		td.mkdirs();
 	}
-	
+
 	/** Generator should check on package name. */
 	public void testCheckOnPackageName() {
 		try {
@@ -56,7 +57,7 @@ public class CoxbBindingGeneratorTest extends TestCase {
 			assertEquals("You must specify either a JAXB package name or an XML schema file name", e.getMessage());
 		}
 	}
-	
+
 	/** Generator should check on target directory. */
 	public void testCheckOnTarget() {
 		try {
@@ -67,7 +68,7 @@ public class CoxbBindingGeneratorTest extends TestCase {
 			assertEquals("You must specify a target directory", e.getMessage());
 		}
 	}
-	
+
 	/** Generator should check on JAXB root name. */
 	public void testCheckOnJaxbRoot() {
 		try {
@@ -76,10 +77,10 @@ public class CoxbBindingGeneratorTest extends TestCase {
 			gen.setTargetDir(new File(GEN_SRC_DIR));
 			gen.execute();
 		} catch (RuntimeException e) {
-			assertEquals("You must specify a JAXB root object name", e.getMessage());
+			assertEquals("You must specify at least one JAXB root class name", e.getMessage());
 		}
 	}
-	
+
 	/** Generate binding for Alltypes. */
 	public void testGenAlltypes() throws Exception  {
 		genSource("alltypes", "DfhcommareaType");
@@ -97,7 +98,7 @@ public class CoxbBindingGeneratorTest extends TestCase {
 		assertTrue(srce.contains("lsReply = new LsReplyTypeBinding(\"LsReply\","));
 		assertTrue(srce.contains("\"LsReply\", this, null);"));
 	}
-	
+
 	/** Generate binding for Redsimpt. */
 	public void testGenRedsimpt() throws Exception   {
 		File custFile = new File(getGetCustFilename("redsimpt"));
@@ -110,7 +111,7 @@ public class CoxbBindingGeneratorTest extends TestCase {
 		String custSrce = getSource(getGetCustFilename("redsimpt"));
 		assertTrue(custSrce.contains("DfhcommareaType valueObject = (DfhcommareaType) choice.getObjectValue(DfhcommareaType.class);"));
 	}
-	
+
 	/** Generate binding for Arrayssm. */
 	public void testGenArrayssm() throws Exception   {
 		genSource("arrayssm", "DfhcommareaType");
@@ -120,15 +121,15 @@ public class CoxbBindingGeneratorTest extends TestCase {
 		assertTrue(srce.contains("tableComplexWrapper = new TableComplexTypeWrapperBinding(\"TableComplexWrapper\","));
 		assertTrue(srce.contains("\"TableComplex\", this, tableComplexWrapperItem);"));
 	}
-	
+
 	/** Generate binding for Redsimpt. */
 	public void testGenLsfileae() throws Exception   {
 		genSource("lsfileae", "DfhcommareaType");
 		String srce = getSource(getGetSrcFilename("lsfileae", "DfhcommareaType"));
 		assertTrue(srce.contains("comNumber = BF.createZonedDecimalBinding(\"ComNumber\","));
 		assertTrue(srce.contains("\"ComNumber\", Long.class, this);"));
-		}
-	
+	}
+
 	/** Generate binding for Arraysdo. */
 	public void testGenArraysdo() throws Exception   {
 		genSource("arraysdo", "DfhcommareaType");
@@ -140,8 +141,8 @@ public class CoxbBindingGeneratorTest extends TestCase {
 		assertTrue(srce.contains("tableOdo.setMinOccurs(1);"));
 		assertTrue(srce.contains("tableOdo.setMaxOccurs(100);"));
 		assertTrue(srce.contains("tableOdo.setDependingOn(\"TABLE-SIZE\");"));
-		}
-	
+	}
+
 	/** Generate binding for Listssdo. */
 	public void testGenListssdo() throws Exception   {
 		genSource("listssdo", "DfhcommareaType");
@@ -154,11 +155,11 @@ public class CoxbBindingGeneratorTest extends TestCase {
 		assertTrue(srce.contains("listOdoCounter.setIsODOObject(true);"));
 		assertTrue(srce.contains("listOdo = BF.createArrayStringBinding(\"ListOdo\","));
 		assertTrue(srce.contains("\"ListOdo\", String.class, this);"));
-		}
-	
+	}
+
 	/** Generate binding for MSNSearch SearchRequestType. */
 	public void testMSNSearchSearchRequestType() throws Exception   {
-		genSource("MSNSearch", "SearchRequestType");
+		genSource("MSNSearch", "SearchRequest", "Type");
 		String srce = getSource(getGetSrcFilename("MSNSearch", "SearchRequestType"));
 		assertTrue(srce.contains("flagsCounter = BF.createBinaryBinding(\"FlagsCounter\","));
 		assertTrue(srce.contains("this);"));
@@ -168,11 +169,11 @@ public class CoxbBindingGeneratorTest extends TestCase {
 		assertTrue(srce.contains("flagsCounter.setIsODOObject(true);"));
 		assertTrue(srce.contains("safeSearch = BF.createStringBinding(\"SafeSearch\","));
 		assertTrue(srce.contains("\"SafeSearch\", SafeSearchOptionsType.class, this);"));
-		}
-	
+	}
+
 	/** Generate binding for MSNSearch SearchResponseType. */
 	public void testMSNSearchSearchResponseType() throws Exception   {
-		genSource("MSNSearch", "SearchResponseType");
+		genSource("MSNSearch", "SearchResponse", "Type");
 		String srce = getSource(getGetSrcFilename("MSNSearch", "SourceResponseType"));
 		assertTrue(srce.contains("source = BF.createStringBinding(\"Source\","));
 		assertTrue(srce.contains("\"Source\", SourceTypeType.class, this);"));
@@ -180,45 +181,67 @@ public class CoxbBindingGeneratorTest extends TestCase {
 		assertTrue(srce.contains("source.setCobolName(\"R-Source\");"));
 		assertTrue(srce.contains("results = new ArrayOfResultResultsTypeBinding(\"Results\","));
 		assertTrue(srce.contains("\"Results\", this, null);"));
-		}
+	}
 	
+	/** Check that we can provide multiple class names at once. */
+	public void testMultipleJaxbRootClassNames() throws Exception {
+		CoxbBindingGenerator gen = new CoxbBindingGenerator();
+		gen.setJaxbBinDir(new File(JAXB_BIN_DIR));
+		gen.setJaxbPackageName(JAXB_PKG_PFX + '.' + "cultureinfo");
+		gen.addJaxbRootClass("CultureInfoParametersType");
+		gen.addJaxbRootClass("CultureInfoReplyType");
+		gen.setTargetDir(new File(GEN_SRC_DIR));
+		gen.setJaxbTypeNameSuffix("");
+		gen.execute();
+		String src1 = getSource(getGetSrcFilename("cultureinfo", "CultureInfoParametersType"));
+		assertTrue(src1.contains("cultureCode = BF.createStringBinding(\"CultureCode\","));
+		String src2 = getSource(getGetSrcFilename("cultureinfo", "CultureInfoReplyType"));
+		assertTrue(src2.contains("currencySymbol = BF.createStringBinding(\"CurrencySymbol\","));
+	}
+
 	/** Generates COXB classes */
 	private void genSource(String schemaName, String rootName) {
+		genSource(schemaName, rootName, null);
+	}
+
+	/** Generates COXB classes */
+	private void genSource(String schemaName, String rootName, String jaxbTypeNameSuffix) {
 		CoxbBindingGenerator gen = new CoxbBindingGenerator();
-		gen.setJaxbDir(new File(JAXB_DIR));
+		gen.setJaxbBinDir(new File(JAXB_BIN_DIR));
 		gen.setJaxbPackageName(JAXB_PKG_PFX + '.' + schemaName);
-		gen.setJaxbRootObjectName(rootName);
+		gen.setJaxbRootClassName(rootName);
 		gen.setTargetDir(new File(GEN_SRC_DIR));
+		gen.setJaxbTypeNameSuffix(jaxbTypeNameSuffix);
 		gen.execute();
 	}
-	
+
 	private String getGetSrcFilename(String schemaName, String className) {
-        return GEN_SRC_DIR + '/' + GEN_SRC_SUBDIR + '/' + schemaName + "/bind/" + className + "Binding.java";
+		return GEN_SRC_DIR + '/' + GEN_SRC_SUBDIR + '/' + schemaName + "/bind/" + className + "Binding.java";
 	}
-	
+
 	private String getGetCustFilename(String schemaName) {
-        return GEN_SRC_DIR + '/' + GEN_CUST_SUBDIR + '/' + schemaName + "/ChoiceSelector.java";
+		return GEN_SRC_DIR + '/' + GEN_CUST_SUBDIR + '/' + schemaName + "/ChoiceSelector.java";
 	}
-	
+
 	/** Reads a complete source file into a string. */
 	private String getSource(String srcFileName) {
 		/* Read the resulting output source*/
-	    try {
-	    	BufferedReader in = new BufferedReader(new FileReader(srcFileName));
-	        StringBuffer resStr = new StringBuffer();
-	        String str = in.readLine();
-	        while (str != null) {
-	        	if (DEBUG_MODE) {
-	        		System.out.println(str);
-	        	}
-	        	resStr.append(str);
-	        	str = in.readLine();
-	        }
-	        in.close();
+		try {
+			BufferedReader in = new BufferedReader(new FileReader(srcFileName));
+			StringBuffer resStr = new StringBuffer();
+			String str = in.readLine();
+			while (str != null) {
+				if (DEBUG_MODE) {
+					System.out.println(str);
+				}
+				resStr.append(str);
+				str = in.readLine();
+			}
+			in.close();
 			return resStr.toString();
-	    } catch (IOException e) {
+		} catch (IOException e) {
 			fail("Source file " + srcFileName + " was not generated");
 			return null;
-	    }
+		}
 	}
 }

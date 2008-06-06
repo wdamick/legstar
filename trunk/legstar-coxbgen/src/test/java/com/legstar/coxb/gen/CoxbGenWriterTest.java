@@ -29,8 +29,8 @@ public class CoxbGenWriterTest extends TestCase {
 				objectFactory,
 				Class.forName("com.legstar.test.coxb.alltypes.DfhcommareaType"));
 
-		CoxbGenContext coxbGenContext = new CoxbGenContext();
-		coxbGenContext.setTargetDir(new File(GEN_SRC_DIR));
+		CoxbGenModel coxbGenContext = new CoxbGenModel();
+		coxbGenContext.setCoxbSrcDir(new File(GEN_SRC_DIR));
 		coxbGenContext.setJaxbPackageName("com.legstar.test.coxb.alltypes");
 		coxbGenContext.setCoxbPackageName("com.legstar.test.coxb.alltypes.bind");
 		
@@ -60,8 +60,8 @@ public class CoxbGenWriterTest extends TestCase {
 		
 		ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList().get(0);
 
-		CoxbGenContext coxbGenContext = new CoxbGenContext();
-		coxbGenContext.setTargetDir(new File(GEN_SRC_DIR));
+		CoxbGenModel coxbGenContext = new CoxbGenModel();
+		coxbGenContext.setCoxbSrcDir(new File(GEN_SRC_DIR));
 		coxbGenContext.setJaxbPackageName("com.legstar.test.coxb.redsimpt");
 		coxbGenContext.setCoxbPackageName("com.legstar.test.coxb.redsimpt.bind");
 		
@@ -91,8 +91,8 @@ public class CoxbGenWriterTest extends TestCase {
 		
 		ICobolArrayComplexBinding ca = (ICobolArrayComplexBinding) ce.getChildrenList().get(1);
 
-		CoxbGenContext coxbGenContext = new CoxbGenContext();
-		coxbGenContext.setTargetDir(new File(GEN_SRC_DIR));
+		CoxbGenModel coxbGenContext = new CoxbGenModel();
+		coxbGenContext.setCoxbSrcDir(new File(GEN_SRC_DIR));
 		coxbGenContext.setJaxbPackageName("com.legstar.test.coxb.arrayssm");
 		coxbGenContext.setCoxbPackageName("com.legstar.test.coxb.arrayssm.bind");
 		
@@ -122,8 +122,8 @@ public class CoxbGenWriterTest extends TestCase {
 		
 		ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList().get(0);
 
-		CoxbGenContext coxbGenContext = new CoxbGenContext();
-		coxbGenContext.setTargetDir(new File(GEN_SRC_DIR));
+		CoxbGenModel coxbGenContext = new CoxbGenModel();
+		coxbGenContext.setCoxbSrcDir(new File(GEN_SRC_DIR));
 		coxbGenContext.setJaxbPackageName("com.legstar.test.coxb.redsimpt");
 		coxbGenContext.setCoxbPackageName("com.legstar.test.coxb.redsimpt.bind");
 		

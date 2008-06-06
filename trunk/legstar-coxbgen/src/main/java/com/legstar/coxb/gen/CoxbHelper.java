@@ -21,6 +21,7 @@ import com.legstar.coxb.ICobolOctetStreamBinding;
 import com.legstar.coxb.ICobolPackedDecimalBinding;
 import com.legstar.coxb.ICobolStringBinding;
 import com.legstar.coxb.ICobolZonedDecimalBinding;
+import com.legstar.coxb.host.HostException;
 import com.legstar.util.JaxbUtil;
 
 /**
@@ -297,6 +298,38 @@ public class CoxbHelper {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * A mere wrapper on the static <code>JaxbUtil.byteLength</code>.
+	 * TODO revise JaxbUtil to get a numeric rather than a string
+	 * @param jaxbPackage the JAXB package name from which an ObjectFactory
+	 *        can be instanciated
+	 * @param jaxbTypeName the JAXB type name of the object for which byte 
+	 *        length must be returned
+	 * @return the byte length as a string
+	 * @throws HostException if byte length calculation failed
+	 */
+	public final long getByteLength(
+			final String jaxbPackage,
+			final String jaxbTypeName) throws HostException {
+		return Long.parseLong(JaxbUtil.byteLength(jaxbPackage, jaxbTypeName));
+	}
+	
+	/**
+	 * A mere wrapper on the static <code>JaxbUtil.getJavaClassName</code>.
+	 * @param jaxbPackage the JAXB package name from which a java class name
+	 *        is to be derived
+	 * @param jaxbTypeName the JAXB type name from which a java class name
+	 *        is to be derived
+	 * @return a class name (including package name) that the JAXB class
+	 * is hiding or the JAXB class itself if it is not hiding a POJO.
+	 * @throws HostException if deriving a java class name fails
+	 */
+	public final String getJavaClassName(
+			final String jaxbPackage,
+			final String jaxbTypeName) throws HostException {
+		return JaxbUtil.getJavaClassName(jaxbPackage, jaxbTypeName);
 	}
 	
 }

@@ -12,7 +12,7 @@ import com.legstar.codegen.CodeGenHelper;
 import com.legstar.codegen.CodeGenUtil;
 import com.legstar.coxb.ICobolArrayComplexBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
-import com.legstar.coxb.gen.CoxbGenContext;
+import com.legstar.coxb.gen.CoxbGenModel;
 import com.legstar.coxb.gen.CoxbHelper;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 
@@ -52,7 +52,7 @@ public class VelocityTemplatesTest extends TestCase {
 				objectFactory,
 				Class.forName("com.legstar.test.coxb.alltypes.DfhcommareaType"));
 
-		CoxbGenContext coxbContext = new CoxbGenContext();
+		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.alltypes");
 		coxbContext.setCoxbPackageName("com.legstar.test.coxb.alltypes.bind");
 		mParameters.put("coxbContext", coxbContext);
@@ -119,7 +119,7 @@ public class VelocityTemplatesTest extends TestCase {
 				objectFactory,
 				Class.forName("com.legstar.test.coxb.arrayssm.DfhcommareaType"));
 
-		CoxbGenContext coxbContext = new CoxbGenContext();
+		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.arrayssm");
 		coxbContext.setCoxbPackageName("com.legstar.test.coxb.arrayssm.bind");
 		mParameters.put("coxbContext", coxbContext);
@@ -178,7 +178,7 @@ public class VelocityTemplatesTest extends TestCase {
 
 		ICobolArrayComplexBinding ca = (ICobolArrayComplexBinding) ce.getChildrenList().get(1);
 
-		CoxbGenContext coxbContext = new CoxbGenContext();
+		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.arrayssm");
 		coxbContext.setCoxbPackageName("com.legstar.test.coxb.arrayssm.bind");
 		mParameters.put("coxbContext", coxbContext);
@@ -227,7 +227,7 @@ public class VelocityTemplatesTest extends TestCase {
 				objectFactory,
 				Class.forName("com.legstar.test.coxb.arraysdo.DfhcommareaType"));
 
-		CoxbGenContext coxbContext = new CoxbGenContext();
+		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.arraysdo");
 		coxbContext.setCoxbPackageName("com.legstar.test.coxb.arraysdo.bind");
 		mParameters.put("coxbContext", coxbContext);
@@ -287,7 +287,7 @@ public class VelocityTemplatesTest extends TestCase {
 				objectFactory,
 				Class.forName("com.legstar.test.coxb.redsimpt.DfhcommareaType"));
 
-		CoxbGenContext coxbContext = new CoxbGenContext();
+		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.redsimpt");
 		coxbContext.setCoxbPackageName("com.legstar.test.coxb.redsimpt.bind");
 		mParameters.put("coxbContext", coxbContext);
@@ -329,7 +329,7 @@ public class VelocityTemplatesTest extends TestCase {
 
 		ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList().get(0);
 
-		CoxbGenContext coxbContext = new CoxbGenContext();
+		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.redsimpt");
 		coxbContext.setCoxbPackageName("com.legstar.test.coxb.redsimpt.bind");
 		mParameters.put("coxbContext", coxbContext);
@@ -402,7 +402,7 @@ public class VelocityTemplatesTest extends TestCase {
 
 		ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList().get(0);
 
-		CoxbGenContext coxbContext = new CoxbGenContext();
+		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.redsimpt");
 		coxbContext.setCoxbPackageName("com.legstar.test.coxb.redsimpt.bind");
 		mParameters.put("coxbContext", coxbContext);
@@ -441,7 +441,7 @@ public class VelocityTemplatesTest extends TestCase {
 				objectFactory,
 				Class.forName("com.legstar.test.coxb.jvmquery.JvmQueryReply"));
 
-		CoxbGenContext coxbContext = new CoxbGenContext();
+		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.jvmquery");
 		coxbContext.setCoxbPackageName("com.legstar.test.coxb.jvmquery.bind");
 		coxbContext.setAlternativePackageName("com.legstar.xsdc.test.cases.jvmquery");
