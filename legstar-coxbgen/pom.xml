@@ -1,96 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
 
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.legsem.legstar</groupId>
-    <artifactId>Legstar</artifactId>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>SNAPSHOT</version>
+    </parent>
+    <artifactId>legstar-coxbgen</artifactId>
+    <name>COXB Generator</name>
     <version>SNAPSHOT</version>
-  </parent>
-  <artifactId>legstar-coxbgen</artifactId>
-  <name>COXB Generator</name>
-  <version>SNAPSHOT</version>
-  <description>Generates JAXB classes with COBOL annotations as well as runtime classes.</description>
-  <url>http://www.legsem.com/legstar/coxbgen/</url>
+    <description>Generates JAXB classes with COBOL annotations as well as runtime classes.</description>
+    <url>http://www.legsem.com/legstar/coxbgen/</url>
   
-  <dependencies>
-  
-    <dependency>
-      <groupId>ant</groupId>
-      <artifactId>ant</artifactId>
-    </dependency>
+    <dependencies>
     
-    <dependency>
-      <groupId>com.legsem.legstar</groupId>
-      <artifactId>legstar-codegen</artifactId>
-    </dependency>
-    
-    <dependency>
-      <groupId>com.legsem.legstar</groupId>
-      <artifactId>legstar-coxbrt</artifactId>
-    </dependency>
-    
-    <dependency>
-      <groupId>com.legsem.legstar</groupId>
-      <artifactId>legstar-jaxbgen</artifactId>
-    </dependency>
-    
-    <dependency>
-      <groupId>com.legsem.legstar</groupId>
-      <artifactId>legstar-jaxbgen-cases</artifactId>
-      <scope>test</scope>
-    </dependency>
-    
-  </dependencies>
-  
-  <build>
-    <plugins>
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant</artifactId>
+        </dependency>
         
-       <!-- Assembly generation plugin. Put the result in the source site
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-codegen</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbrt</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-jaxbgen</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-jaxbgen-cases</artifactId>
+            <scope>test</scope>
+        </dependency>
+    
+    </dependencies>
+  
+    <build>
+        <plugins>
+        
+            <!-- Assembly generation plugin. Put the result in the source site
             so that it gets uploaded with the site.  -->
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <outputDirectory>src/site/resources/binaries</outputDirectory>
-          <descriptors>
-            <descriptor>src/assemble/distribution.xml</descriptor>
-          </descriptors>
-        </configuration>
-        <executions>
-          <execution>
-            <id>make-assembly</id> <!-- this is used for inheritance merges -->
-            <phase>package</phase> <!-- append to the packaging phase. -->
-            <goals>
-               <goal>attached</goal> <!-- goals == mojos -->
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>src/site/resources/binaries</outputDirectory>
+                    <descriptors>
+                        <descriptor>src/assemble/distribution.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- append to the packaging phase. -->
+                        <goals>
+                            <goal>attached</goal> <!-- goals == mojos -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
  
-      <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-        
-          <!-- This will check that the distribution file is valid. This is also
-             used to create samples to be de delivered by upstream modules. -->
-          <execution>
-            <id>prepare-integration-tests</id>
-            <phase>pre-integration-test</phase>
-            <configuration>
-              <tasks>
-                <ant antfile="${basedir}/src/test/ant/build-coxbgen-cases.xml"/>
-                <ant antfile="${basedir}/src/main/ant/build-sample.xml"/>
-              </tasks>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                
+                    <!-- This will check that the distribution file is valid. This is also
+                    used to create samples to be de delivered by upstream modules. -->
+                    <execution>
+                        <id>prepare-integration-tests</id>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/test/ant/build-coxbgen-cases.xml"/>
+                                <ant antfile="${basedir}/src/main/ant/build-sample.xml"/>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
           
-        </executions>
-      </plugin>
+                    <!-- This script copies some jar files from this project to various Eclipse
+                    plugins. This allows the plugins to be distributed via the standard
+                    Eclipse site mechanism without Maven interference -->
+                    <execution>
+                        <id>copy-to-plugins</id>
+                        <phase>install</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/copy-to-plugin.xml"/>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
  
-    </plugins>
-  </build>
+        </plugins>
+    </build>
   
 </project>

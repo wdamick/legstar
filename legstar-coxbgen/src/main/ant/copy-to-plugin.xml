@@ -1,0 +1,52 @@
+<!-- =================================================================================
+     This script copies some jar files from this project to the common Eclipse
+     plugin. This allows the plugin to be distributed via the standard
+     Eclipse site mechanism without Maven interference.
+ -->
+<project basedir="../../.." default="copyToPlugin">
+
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+	<target name="init">
+		
+	    <property file="${basedir}/../legstar-pom/legstar-dev.properties"/>   
+		<!-- Source directory  -->
+	 	<property name="src.dir" value="${basedir}/target" />
+		<!-- Source directory for jaxbgen -->
+	 	<property name="jaxbgen-src.dir" value="${basedir}/../legstar-jaxbgen/target" />
+		<!-- Source directory for jaxbgen xjb files -->
+	 	<property name="jaxbgen-xjb.dir" value="${basedir}/../legstar-jaxbgen/src/main/resources/xjb" />
+		<!-- Target directories  -->
+	 	<property name="common-plugin-dest.dir" value="${basedir}/../legstar-common-plugin/lib" />
+		
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Copy files
+	  -->
+	<target name="copyToPlugin" depends="init">
+		<copy todir="${common-plugin-dest.dir}">
+			<fileset dir="${src.dir}">
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+			</fileset>
+			<fileset dir="${jaxbgen-src.dir}">
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+			</fileset>
+			<fileset dir="${jaxbgen-xjb.dir}">
+				<include name="*.xjb"/>
+			</fileset>
+			<fileset dir="${maven.repo}/com/sun/xml/bind/jaxb-xjc/2.1.3">
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+			</fileset>
+			<fileset dir="${maven.repo}/com/sun/xml/bind/jaxb-impl/2.1.3">
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+			</fileset>
+		</copy>
+	</target>
+	
+</project>

@@ -47,9 +47,9 @@ public class EnumgenCases extends TestCase {
 	/** Check for a successful generation. */
 	public void testGenEnumTypes() throws Exception  {
 		CoxbBindingGenerator gen = new CoxbBindingGenerator();
-		gen.setJaxbDir(new File(JAXB_DIR));
+		gen.setJaxbBinDir(new File(JAXB_DIR));
 		gen.setJaxbPackageName("com.legstar.test.coxb.enumvar");
-		gen.setJaxbRootObjectName("SearchRequestType");
+		gen.setJaxbRootClassName("SearchRequestType");
 		gen.setTargetDir(new File(GEN_SRC_DIR));
 		gen.execute();
 		String srce = getSource("enumtypes", "SearchRequestType" );
