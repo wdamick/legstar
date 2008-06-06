@@ -73,25 +73,41 @@ public final class CodeGenUtil {
             throw (new IllegalArgumentException("No directory name was specified"));
         }
 
-        File fdir = new File(dir);
-
+        checkDirectory(new File(dir), create);
+    }
+    
+    /**
+     * Check that a directory is valid.
+     * 
+     * @param fdir the directory to check
+     * @param create
+     *            true if directory should be created when not found
+     */
+    public static void checkDirectory(final File fdir, final boolean create) {
+    	
+        if (fdir == null) {
+            throw (new IllegalArgumentException("No directory name was specified"));
+        }
+        
         if (!fdir.exists()) {
             if (!create) {
-                throw (new IllegalArgumentException(dir + " does not exist"));
+                throw (new IllegalArgumentException(fdir.getName() + " does not exist"));
             } else {
                 if (!fdir.mkdirs()) {
                     throw (new IllegalArgumentException("Could not create directory "
-                            + dir));
+                            + fdir.getName()));
                 } else {
                     return;
                 }
             }
         }
         if (!fdir.isDirectory()) {
-            throw (new IllegalArgumentException(dir + " is not a directory"));
+            throw (new IllegalArgumentException(fdir.getName()
+            		+ " is not a directory"));
         }
         if (!fdir.canWrite()) {
-            throw (new IllegalArgumentException("Directory " + dir + " is not writable"));
+            throw (new IllegalArgumentException("Directory "
+            		+ fdir.getName() + " is not writable"));
         }
     }
 
@@ -103,7 +119,7 @@ public final class CodeGenUtil {
      *  <li>If the filename is absolute, the directory name is ignored</li>
      *  <li>If the directory is not null, it is assumed to exist</li>
      *  <li>If the directory is not null and the filename is not absolute, then
-     *   directory is appended to the filename</li>
+     *   filename is appended to directory</li>
      * </ul>
      * @param dir
      *            parent directory
@@ -120,6 +136,28 @@ public final class CodeGenUtil {
             return new File(filename);
         }
         return new File(dir, filename);
+    }
+    
+    /**
+     * Retrieve a file.
+     * Given a directory and a filename, this creates a File according to
+     * the following rules:
+     * <ul>
+     *  <li>If the filename is absolute, the directory name is ignored</li>
+     *  <li>Otherwise, filename is appended to directory</li>
+     * </ul>
+     * @param dir
+     *            parent directory
+     * @param filename
+     *            absolute or relative file name
+     * @return a File
+     */
+   public static File getFile(final File fdir, final String filename) {
+        File file = new File(filename);
+        if (file.isAbsolute()) {
+            return file;
+        }
+        return new File(fdir, filename);
     }
 
     /**
@@ -184,6 +222,22 @@ public final class CodeGenUtil {
 		}
 		CodeGenUtil.checkDirectory(dir, true);
 		return dir;
+    }
+    
+    /**
+     * Concatenates the path derived from a package name to a root directory.
+     * @param rootDir the root directory
+     * @param packageName the package name
+     * @return the file derived from concatenating the root directory with the
+     *  package path.
+     */
+    public static File classFilesLocation(
+    		final File rootDir, final  String packageName) {
+		if (packageName != null && packageName.length() > 0) {
+			return new File(rootDir,  CodeGenUtil.relativeLocation(packageName));
+		} else {
+			return rootDir;
+		}
     }
 
     /**
