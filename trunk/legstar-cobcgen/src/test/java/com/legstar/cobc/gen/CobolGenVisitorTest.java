@@ -191,9 +191,11 @@ public class CobolGenVisitorTest extends TestCase {
 		ccem.setCobolName("COM-MSNSEARCH-RESPONSE");
 		StringWriter writer = new StringWriter();
 		BufferedWriter bufWriter = new BufferedWriter(writer);
-		CobolGenVisitor cev = new CobolGenVisitor(5, 5, bufWriter);
+		CobolGenVisitor cev = new CobolGenVisitor(3, 5, bufWriter);
 		ccem.accept(cev);
 		bufWriter.flush();
+		System.out.print(writer.toString());
+
 		return writer.toString();
 	}
 
