@@ -8,11 +8,9 @@
     -->
   <target name="init">
     
-    <!-- Package name to which input java classes belong   -->
-    <property name="package.name" value="com.legstar.xsdc.test.cases.jvmquery" />
     <!-- Root Java classes   -->
-    <property name="request.class.name" value="JVMQueryRequest" />
-    <property name="reply.class.name" value="JVMQueryReply" />
+    <property name="request.class.name" value="com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest" />
+    <property name="reply.class.name" value="com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply" />
     <!-- Target package name for JAXB classes   -->
     <property name="jaxb.package.name" value="com.legstar.test.coxb.jvmquery" />
     <!-- Target namespace for generated XML schema   -->
@@ -44,7 +42,6 @@
     <echo message="Generating annotated ${gen.file.name}" />
     <mkdir dir="${schema.dir}"/>
     <j2scgen 
-      packageName="${package.name}"
       namespace="${namespace}"
       jaxbPackageName="${jaxb.package.name}"
       targetDir="${schema.dir}"

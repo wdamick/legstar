@@ -49,6 +49,13 @@ public class JavaToXsdCobolTaskTest extends TestCase {
 			task.execute();
 			fail();
 		} catch (BuildException e) {
+			assertEquals("You must specify an output XML schema namespace", e.getMessage());
+		}
+		task.setNamespace("http://legstar.test");
+		try {
+			task.execute();
+			fail();
+		} catch (BuildException e) {
 			assertEquals("You must provide at least one class name", e.getMessage());
 		}
 		task.addRootClass("JVMQuery");
@@ -65,9 +72,8 @@ public class JavaToXsdCobolTaskTest extends TestCase {
 		JavaToXsdCobolTask task = new JavaToXsdCobolTask();
 		task.setTargetDir(new File(TARGET_SCHEMA_DIR));
 		task.setTargetXsdFileName(targetFile);
-		task.addRootClass("JVMQueryRequest");
-		task.addRootClass("JVMQueryReply");
-		task.setPackageName("com.legstar.xsdc.test.cases.jvmquery");
+		task.addRootClass("com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest");
+		task.addRootClass("com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply");
 		task.setNamespace("http://legstar.com");
 		try {
 			task.execute();
@@ -107,8 +113,7 @@ public class JavaToXsdCobolTaskTest extends TestCase {
 		JavaToXsdCobolTask task = new JavaToXsdCobolTask();
 		task.setTargetDir(new File(TARGET_SCHEMA_DIR));
 		task.setTargetXsdFileName(targetFile);
-		task.addRootClass("CultureInfoRequest");
-		task.setPackageName("com.legstar.xsdc.test.cases.cultureinfo");
+		task.addRootClass("com.legstar.xsdc.test.cases.cultureinfo.CultureInfoRequest");
 		task.setNamespace("http://legstar.com");
 		try {
 			task.execute();
@@ -127,8 +132,7 @@ public class JavaToXsdCobolTaskTest extends TestCase {
 		JavaToXsdCobolTask task = new JavaToXsdCobolTask();
 		task.setTargetDir(new File(TARGET_SCHEMA_DIR));
 		task.setTargetXsdFileName(targetFile);
-		task.addRootClass("CultureInfoReply");
-		task.setPackageName("com.legstar.xsdc.test.cases.cultureinfo");
+		task.addRootClass("com.legstar.xsdc.test.cases.cultureinfo.CultureInfoReply");
 		task.setNamespace("http://legstar.com");
 		try {
 			task.execute();
@@ -149,8 +153,7 @@ public class JavaToXsdCobolTaskTest extends TestCase {
 		JavaToXsdCobolTask task = new JavaToXsdCobolTask();
 		task.setTargetDir(new File(TARGET_SCHEMA_DIR));
 		task.setTargetXsdFileName(targetFile);
-		task.addRootClass("Container");
-		task.setPackageName("com.legstar.xsdc.test.cases.collections");
+		task.addRootClass("com.legstar.xsdc.test.cases.collections.Container");
 		task.setNamespace("http://legstar.com");
 		try {
 			task.execute();

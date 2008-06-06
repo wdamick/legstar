@@ -62,6 +62,8 @@ public class XsdCobolAnnotatorTest extends TestCase {
 	
 	/** A single Xpathfactory. */
 	private XPathFactory mXpathFac = XPathFactory.newInstance();
+	
+	private static final String JAXB_PACKAGE_NAME = "com.legstar.test.coxb";
 
 	
    /**
@@ -69,12 +71,14 @@ public class XsdCobolAnnotatorTest extends TestCase {
      *
      * @throws Exception Any exception encountered
      */
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public void testInvalidInputXsdFile() throws Exception {
     	/* No Xsd file at all */
     	XsdCobolAnnotator xca = new XsdCobolAnnotator();
     	try {
-    		xca.execute();
+        	xca.setTargetDir(new File("target"));
+        	xca.setJaxbPackageName(JAXB_PACKAGE_NAME);
+        	xca.execute();
     		fail("testInvalidInputXsdFile");
     	} catch (BuildException e) {
     		assertEquals("Invalid input XML schema", e.getMessage());
@@ -91,42 +95,6 @@ public class XsdCobolAnnotatorTest extends TestCase {
     }
 
     /**
-     * Invalid target directory should be reported.
-     *
-     * @throws Exception Any exception encountered
-     */
-    public void testInvalidTargetDir() throws Exception {
-    	/* No target dir at all (should use the default "schema" dir */
-    	XsdCobolAnnotator xca = new XsdCobolAnnotator();
-    	xca.setInputXsdUri(new File(
-    			"src/test/resources/SimpleContentRestriction.xsd").toURI());
-    	try {
-    		xca.execute();
-    		fail("testInvalidTargetDir");
-    	} catch (BuildException e) {
-    		assertEquals("You must provide a target directory", e.getMessage());
-    	}
-    	
-    	/* Non existant */
-    	xca.setTargetDir(new File("nonexistant"));
-    	try {
-    		xca.execute();
-    		fail("testInvalidTargetDir");
-    	} catch (BuildException e) {
-    		assertEquals("Directory nonexistant does not exist", e.getMessage());
-    	}
-
-    	/* Not a directory */
-    	xca.setTargetDir(new File("src/test/resources/SimpleContentRestriction.xsd"));
-    	try {
-    		xca.execute();
-    		fail("testInvalidTargetDir");
-    	} catch (BuildException e) {
-    		assertEquals("src\\test\\resources\\SimpleContentRestriction.xsd is not a directory or is not writable", e.getMessage());
-    	}
-    }
-
-    /**
      * Default value should be provided for the target XSD file.
      *
      * @throws Exception Any exception encountered
@@ -136,6 +104,7 @@ public class XsdCobolAnnotatorTest extends TestCase {
     	xca.setInputXsdUri(new File(
     			"src/test/resources/SimpleContentRestriction.xsd").toURI());
     	xca.setTargetDir(new File("target"));
+    	xca.setJaxbPackageName(JAXB_PACKAGE_NAME);
     	try {
     		xca.execute();
     		assertEquals("SimpleContentRestriction.xsd", xca.getTargetXsdFileName());
@@ -165,6 +134,7 @@ public class XsdCobolAnnotatorTest extends TestCase {
     	xca.setInputXsdUri(
     			new File("src/test/resources/SimpleContentRestriction.xsd").toURI());
     	xca.setTargetDir(new File("target"));
+    	xca.setJaxbPackageName(JAXB_PACKAGE_NAME);
     	try {
     		xca.execute();
             DocumentBuilderFactory docFac = DocumentBuilderFactory.newInstance();
@@ -210,6 +180,7 @@ public class XsdCobolAnnotatorTest extends TestCase {
     	xca.setInputXsdUri(new File(
     			"src/test/resources/noRootElementschema.xsd").toURI());
     	xca.setTargetDir(new File("target"));
+    	xca.setJaxbPackageName(JAXB_PACKAGE_NAME);
     	Map <QName, QName> rootElements = new HashMap <QName, QName>();
     	rootElements.put(new QName("http://legsem.test","jvmQueryReply"),
     			new QName("http://legsem.test","jvmQueryReplyElement"));
@@ -247,7 +218,8 @@ public class XsdCobolAnnotatorTest extends TestCase {
     	xca.setInputXsdUri(new File(
     			"src/test/resources/complexAndsimpleTypesSchema.xsd").toURI());
     	xca.setTargetDir(new File("target"));
-    	Map <String, String> complexTypeToJavaClassMap =
+    	xca.setJaxbPackageName(JAXB_PACKAGE_NAME);
+     	Map <String, String> complexTypeToJavaClassMap =
     		new HashMap <String, String>();
     	complexTypeToJavaClassMap.put("jvmQueryReply",
     			"com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply");
@@ -289,6 +261,7 @@ public class XsdCobolAnnotatorTest extends TestCase {
     	xca.setInputXsdUri(new File(
     			"src/test/resources/singleSimpleElement.xsd").toURI());
     	xca.setTargetDir(new File("target"));
+    	xca.setJaxbPackageName(JAXB_PACKAGE_NAME);
     	try {
     		xca.execute();
 			/* Read the resulting output source*/
@@ -304,6 +277,44 @@ public class XsdCobolAnnotatorTest extends TestCase {
 				assertTrue(res.toString().contains("<cb:cobolElement"));
 				assertTrue(res.toString().contains("cobolName=\"CreditCardNumber\""));
 				assertTrue(res.toString().contains("levelNumber=\"1\""));
+		    } catch (IOException e) {
+	    		fail(e.getMessage());
+		    }
+    	} catch (BuildException e) {
+    		fail(e.getMessage());
+    	}
+    }
+ 
+    /**
+     * Test that we can replace the target namespace.
+     *
+     * @throws Exception Any exception encountered
+     */
+    public void testNamespaceReplacement() throws Exception {
+    	XsdCobolAnnotator xca = new XsdCobolAnnotator();
+    	xca.setInputXsdUri(new File(
+    			"src/test/resources/complexAndSimpleTypesSchema.xsd").toURI());
+    	xca.setTargetDir(new File("target"));
+    	xca.setJaxbPackageName(JAXB_PACKAGE_NAME);
+    	xca.setNamespace("http://a/new/namespace");
+    	try {
+    		xca.execute();
+			/* Read the resulting output source*/
+		    try {
+		        BufferedReader in = new BufferedReader(new FileReader("target/complexAndSimpleTypesSchema.xsd"));
+		        StringBuffer res = new StringBuffer();
+		        String str = in.readLine();
+		        while (str != null) {
+		        	res.append(str);
+		        	str = in.readLine();
+		        }
+		        in.close();
+				assertTrue(res.toString().contains("targetNamespace=\"http://a/new/namespace\""));
+				assertTrue(res.toString().contains("xmlns:tns=\"http://a/new/namespace\""));
+				assertTrue(res.toString().contains("xmlns:cb=\"http://www.legsem.com/xml/ns/coxb\""));
+				assertTrue(res.toString().contains("xmlns:jaxb=\"http://java.sun.com/xml/ns/jaxb\""));
+				assertTrue(res.toString().contains("<xs:element minOccurs=\"0\" name=\"reply\" type=\"tns:jvmQueryReply\">"));
+				assertTrue(res.toString().contains("<xs:element name=\"jvmQueryAggregateElement\" type=\"tns:jvmQueryAggregate\">"));
 		    } catch (IOException e) {
 	    		fail(e.getMessage());
 		    }
@@ -648,6 +659,7 @@ public class XsdCobolAnnotatorTest extends TestCase {
 	    	xca.setInputXsdUri(new File(
 	    			"src/test/resources/" + xsdFileName).toURI());
 	    	xca.setTargetDir(new File("target"));
+	    	xca.setJaxbPackageName(JAXB_PACKAGE_NAME);
 			xca.setJaxbTypeClassesSuffix(jaxbTypeClassesSuffix);
 			xca.execute();
 	        DocumentBuilderFactory docFac = DocumentBuilderFactory.newInstance();

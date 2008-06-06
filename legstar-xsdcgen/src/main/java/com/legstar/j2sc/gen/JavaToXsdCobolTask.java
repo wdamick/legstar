@@ -21,9 +21,9 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Task;
 import org.xml.sax.SAXParseException;
 
+import com.legstar.codegen.tasks.SourceToXsdCobolTask;
 import com.legstar.xsdc.gen.XsdCobolAnnotator;
 import com.sun.istack.NotNull;
 import com.sun.xml.bind.api.CompositeStructure;
@@ -44,33 +44,17 @@ import com.sun.xml.bind.v2.schemagen.XmlSchemaGenerator;
  * more Java classes taken from a single package.
  *
  */
-public class JavaToXsdCobolTask extends Task {
+public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
 
 	/** Logger. */
 	private static final Log LOG =
 		LogFactory.getLog(JavaToXsdCobolTask.class);
-
-	/** Package name of input classes. */
-	private String mPackageName;
-
-	/** Package name of target JAXB classes as it appears in the generated
-	 *  XSD annotations. */
-	private String mJaxbPackageName;
-
-	/** The target schema namespace. */
-	private String mNamespace = "";
 	
 	/** List of input classes. Only top level classes are needed since
 	 * schemagen will reflect on these classes and recursively process
 	 * children. */
 	private List < RootClass > mRootClassNames;
 
-	/** The target directory where annotated XSD will be created. */
-	private File mTargetDir;
-
-	/** The target annotated XSD file name. */
-	private String mTargetXsdFileName;
-	
 	/** When extra XSD elements are created from a type name, this suffix 
 	 * will be added to form a unique name. */
 	private String mElementSuffix = "";
@@ -78,6 +62,11 @@ public class JavaToXsdCobolTask extends Task {
 	/** The corresponding list of java classes. */
 	private List < Class < ? > > mClassTypes;
 
+	/** No arg constructor. */
+	public JavaToXsdCobolTask() {
+		setModel(new JavaToXsdCobolModel());
+	}
+	
 	/**
 	 *  The ant execute method. Generates a new annotated schema.
 	 */
@@ -98,11 +87,10 @@ public class JavaToXsdCobolTask extends Task {
 	 */
 	private void checkInput() {
 
+		/* Both xsd file name and namespace are mandatory */
+		super.checkInput(true, true);
+
 		if (LOG.isDebugEnabled()) {
-			LOG.debug("checkInput started");
-			LOG.debug("   Input package name       = " + mPackageName);
-			LOG.debug("   Target Jaxb Package name = " + mJaxbPackageName);
-			LOG.debug("   Target namespace name    = " + mNamespace);
 			if (mRootClassNames != null) {
 				for (RootClass className : mRootClassNames) {
 					LOG.debug("   Class name           = "
@@ -110,44 +98,19 @@ public class JavaToXsdCobolTask extends Task {
 				}
 			}
 			LOG.debug("   Elements name suffix     = " + mElementSuffix);
-			LOG.debug("   Target directory         = " + mTargetDir);
-			LOG.debug("   Target Xsd file name     = " + mTargetXsdFileName);
-		}
-		/* Check that we have a valid target directory.  */
-		if (mTargetDir == null) {
-			throw (new BuildException(
-			"You must provide a target directory"));
-		}
-		if (!mTargetDir.exists()) {
-			throw (new BuildException(
-					"Directory " + mTargetDir + " does not exist"));
-		}
-		if (!mTargetDir.isDirectory() || !mTargetDir.canWrite()) {
-			throw (new BuildException(
-					mTargetDir + " is not a directory or is not writable"));
 		}
 
-		/* Set a valid target annotated XSD file name */
-		if (mTargetXsdFileName == null || mTargetXsdFileName.length() == 0) {
-			throw (new BuildException(
-			"You must provide a target xsd file name"));
-		}
 		/* There must be at least one class name. */
 		if (mRootClassNames == null || mRootClassNames.size() == 0) {
 			throw (new BuildException(
 			"You must provide at least one class name"));
 		}
 
-		/* Class names should not be qualified. */
+		/* Class names should be valid. */
 		for (RootClass className : mRootClassNames) {
 			if (className == null || className.getName() == null) {
 				throw (new BuildException(
 						"Class name has null value"));
-			}
-			if (className.getName().indexOf('.') != -1) {
-				throw (new BuildException(
-					"Class name " + className.getName()
-					+ " should not be qualified"));
 			}
 		}
 
@@ -156,9 +119,6 @@ public class JavaToXsdCobolTask extends Task {
 			mClassTypes = new ArrayList < Class < ? > >();
 			for (RootClass className : mRootClassNames) {
 				String qualClassName = className.getName();
-				if (mPackageName != null && mPackageName.length() > 0) {
-					qualClassName = mPackageName + '.' + qualClassName;
-				}
 				mClassTypes.add(Class.forName(qualClassName));
 			}
 		} catch (ClassNotFoundException e) {
@@ -203,9 +163,9 @@ public class JavaToXsdCobolTask extends Task {
 			/* Now annotate the temporary schema to create the final one */
 			XsdCobolAnnotator task = new XsdCobolAnnotator();
 			task.setInputXsdUri(tempXsdFile.toURI());
-			task.setJaxbPackageName(mJaxbPackageName);
-			task.setTargetDir(mTargetDir);
-			task.setTargetXsdFileName(mTargetXsdFileName);
+			task.setJaxbPackageName(getJaxbPackageName());
+			task.setTargetDir(getTargetDir());
+			task.setTargetXsdFileName(getTargetXsdFileName());
 			task.setRootElements(getRootElements());
 			task.setComplexTypeToJavaClassMap(complexTypeToJavaClassMap);
 			task.execute();
@@ -354,8 +314,8 @@ public class JavaToXsdCobolTask extends Task {
             	 * used. */
         		String jaxbName = NameConverter.standard.toVariableName(
         				clazz.getSimpleName());
-                rootElements.put(new QName(mNamespace, jaxbName),
-                        new QName(mNamespace, jaxbName + mElementSuffix));
+                rootElements.put(new QName(getNamespace(), jaxbName),
+                        new QName(getNamespace(), jaxbName + mElementSuffix));
         	} else {
         		/* If XmlType does not explicitly provide a complex type name
         		 * use the default jaxb naming. */
@@ -366,7 +326,7 @@ public class JavaToXsdCobolTask extends Task {
         		}
         		String namespace = xmlType.namespace();
         		if (namespace.equals("##default")) {
-            		namespace = mNamespace;
+            		namespace = getNamespace();
         		}
                 rootElements.put(
                 		new QName(namespace, typeName),
@@ -377,20 +337,6 @@ public class JavaToXsdCobolTask extends Task {
         return rootElements;
      }
 
-
-	/**
-	 * @return the package name of input classes
-	 */
-	public final String getPackageName() {
-		return mPackageName;
-	}
-
-	/**
-	 * @param packageName the package name of input classes to set
-	 */
-	public final void setPackageName(final String packageName) {
-		mPackageName = packageName;
-	}
 
 	/**
 	 * List of input classes. Only top level classes are needed since
@@ -425,34 +371,6 @@ public class JavaToXsdCobolTask extends Task {
 		for (String className : classNames) {
 			addRootClass(className);
 		}
-	}
-
-	/**
-	 * @return the current target directory
-	 */
-	public final File getTargetDir() {
-		return mTargetDir;
-	}
-
-	/**
-	 * @param targetDir the target directory to set
-	 */
-	public final void setTargetDir(final File targetDir) {
-		mTargetDir = targetDir;
-	}
-
-	/**
-	 * @return the target annotated XSD file name
-	 */
-	public final String getTargetXsdFileName() {
-		return mTargetXsdFileName;
-	}
-
-	/**
-	 * @param targetXsdFileName the target annotated XSD file name to set
-	 */
-	public final void setTargetXsdFileName(final String targetXsdFileName) {
-		mTargetXsdFileName = targetXsdFileName;
 	}
 
 	/**
@@ -495,20 +413,6 @@ public class JavaToXsdCobolTask extends Task {
 	}
 
 	/**
-	 * @return the target schema namespace
-	 */
-	public final String getNamespace() {
-		return mNamespace;
-	}
-
-	/**
-	 * @param namespace the target schema namespace to set
-	 */
-	public final void setNamespace(final String namespace) {
-		mNamespace = namespace;
-	}
-
-	/**
 	 * @return when extra XSD elements are created from a type name,
 	 * this suffix will be added to form a unique name
 	 */
@@ -522,23 +426,5 @@ public class JavaToXsdCobolTask extends Task {
 	 */
 	public final void setElementSuffix(final String elementSuffix) {
 		mElementSuffix = elementSuffix;
-	}
-
-	/**
-	 * Package name of target JAXB classes as it appears in the generated
-	 *  XSD annotations.
-	 * @return the mJaxbPackageName JAXB package name
-	 */
-	public final String getJaxbPackageName() {
-		return mJaxbPackageName;
-	}
-
-	/**
-	 * Package name of target JAXB classes as it appears in the generated
-	 *  XSD annotations.
-	 * @param jaxbPackageName the JAXB package name to set
-	 */
-	public final void setJaxbPackageName(final String jaxbPackageName) {
-		mJaxbPackageName = jaxbPackageName;
 	}
 }
