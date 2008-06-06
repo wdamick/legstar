@@ -43,6 +43,9 @@ public class CixsStructure {
     /** COXB package of binding type. */
     private String mCoxbPackageName;
 
+    /** The COBOL structure root data item name. */
+    private String mCobolRootDataItemName;
+
     /** A CICS container mapping this structure. */
     private String mCicsContainer;
 
@@ -57,6 +60,16 @@ public class CixsStructure {
 
     /** XML attribute representing a JAXB package name. */
     public static final String CIXS_JAXB_PKG_XML_A = "jaxbPackageName";
+
+    /** XML attribute representing a COXB type. */
+    public static final String CIXS_COXB_TYPE_XML_A = "coxbType";
+
+    /** XML attribute representing a COXB package name. */
+    public static final String CIXS_COXB_PKG_XML_A = "coxbPackageName";
+
+    /** XML attribute representing a COBOL root data item name. */
+    public static final String CIXS_COBOL_ROOT_NAME_XML_A
+    = "cobolRootDataItemName";
 
     /** XML attribute representing a CICS Container name. */
     public static final String CIXS_CICS_CONTAINER_XML_A
@@ -157,9 +170,13 @@ public class CixsStructure {
      */
     public final String serialize(final String direction) {
         StringBuffer result = new StringBuffer();
-        result.append("<" + direction + " " + CIXS_JAXB_TYPE_XML_A + "=" + '\"'
-                + getJaxbType() + '\"');
+        result.append("<" + direction);
+        serializeAttribute(result, getJaxbType(), CIXS_JAXB_TYPE_XML_A);
         serializeAttribute(result, getJaxbPackageName(), CIXS_JAXB_PKG_XML_A);
+        serializeAttribute(result, getCoxbType(), CIXS_COXB_TYPE_XML_A);
+        serializeAttribute(result, getCoxbPackageName(), CIXS_COXB_PKG_XML_A);
+        serializeAttribute(result, getCobolRootDataItemName(),
+        		CIXS_COBOL_ROOT_NAME_XML_A);
         serializeAttribute(result, getCicsContainer(),
                 CIXS_CICS_CONTAINER_XML_A);
         serializeAttribute(result, getJaxbPropertyName(),
@@ -200,6 +217,11 @@ public class CixsStructure {
         }
         mJaxbPackageName = loadAttribute(structureElement,
                 CIXS_JAXB_PKG_XML_A);
+        mCoxbType = structureElement.getAttribute(CIXS_COXB_TYPE_XML_A);
+        mCoxbPackageName = loadAttribute(structureElement,
+                CIXS_COXB_PKG_XML_A);
+        mCobolRootDataItemName =  loadAttribute(structureElement,
+        		CIXS_COBOL_ROOT_NAME_XML_A);
         mCicsContainer =  loadAttribute(structureElement,
                 CIXS_CICS_CONTAINER_XML_A);
         mJaxbPropertyName =  loadAttribute(structureElement,
@@ -283,4 +305,18 @@ public class CixsStructure {
     public final void setJaxbPropertyName(final String jaxbPropertyName) {
         mJaxbPropertyName = jaxbPropertyName;
     }
+
+	/**
+	 * @return the COBOL structure root data item name
+	 */
+	public final String getCobolRootDataItemName() {
+		return mCobolRootDataItemName;
+	}
+
+	/**
+	 * @param cobolRootDataItemName the COBOL structure root data item name to set
+	 */
+	public final void setCobolRootDataItemName(String cobolRootDataItemName) {
+		mCobolRootDataItemName = cobolRootDataItemName;
+	}
 }
