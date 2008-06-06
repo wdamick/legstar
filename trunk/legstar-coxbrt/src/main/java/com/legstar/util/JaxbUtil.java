@@ -25,6 +25,7 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
 
+import com.legstar.coxb.CobolComplexType;
 import com.legstar.coxb.ICobolArrayComplexBinding;
 import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
@@ -326,6 +327,49 @@ public final class JaxbUtil {
 		} catch (IllegalAccessException e) {
 			throw (new HostException(e));
 		}
+	}
+	
+	/**
+	 * Since JAXB classes may hide a POJO, this method gets a special
+	 * javaClassName annotation from the JAXB class. Such an annotation
+	 * is planted by schema generators and propagated by jaxbgen.
+	 * If no such annotation is present, then the JAXB class itself is
+	 * returned as it is considered it is not hiding a POJO.
+	 * @param jaxbPackage the JAXB package name
+	 * @param jaxbTypeName the JAXB type name
+	 * @return a class name (including package name) that the JAXB class
+	 * is hiding or the JAXB class itself if it is not hiding a POJO.
+	 * @throws HostException if getting annotation fails
+	 */
+	public static String getJavaClassName(
+			final String jaxbPackage,
+			final String jaxbTypeName)throws HostException {
+		try {
+			/* Load the JAXB class from the package */
+			String jaxbClassName = null;
+			if (jaxbPackage == null || jaxbPackage.length() == 0) {
+				jaxbClassName = jaxbTypeName;
+			} else {
+				jaxbClassName = jaxbPackage + "." + jaxbTypeName;
+			}
+			Class < ? > clazz = Class.forName(jaxbClassName);
+			
+			/* Get the complex type annotation if any */
+			CobolComplexType annotation =
+				clazz.getAnnotation(CobolComplexType.class);
+			if (annotation != null) {
+				if (annotation.javaClassName() != null
+						&& annotation.javaClassName().length() > 0) {
+					return annotation.javaClassName();
+				}
+			}
+			/* No annotations found, just return the JAXB class itself */
+			return jaxbClassName;
+			
+		} catch (ClassNotFoundException e) {
+			throw (new HostException(e));
+		}
+		
 	}
 
 	/**
