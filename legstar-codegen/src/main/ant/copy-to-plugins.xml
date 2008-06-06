@@ -1,0 +1,49 @@
+<!-- =================================================================================
+     This script copies some jar files from this project to various Eclipse
+     plugins. This allows the plugins to be distributed via the standard
+     Eclipse site mechanism without Maven interference.
+ -->
+<project basedir="../../.." default="copyToPlugin">
+
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+	<target name="init">
+		
+	    <property file="${basedir}/../legstar-pom/legstar-dev.properties"/>   
+		<!-- Source directory  -->
+	 	<property name="src.dir" value="${basedir}/target" />
+		<!-- Target directories  -->
+	 	<property name="common-plugin-dest.dir" value="${basedir}/../legstar-common-plugin/lib" />
+		
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Copy files
+	  -->
+	<target name="copyToPlugin" depends="init">
+		<copy todir="${common-plugin-dest.dir}">
+			<fileset dir="${src.dir}">
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+			</fileset>
+			<fileset dir="${maven.repo}/commons-logging/commons-logging/1.1">
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+			</fileset>
+			<fileset dir="${maven.repo}/commons-collections/commons-collections/3.1">
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+			</fileset>
+			<fileset dir="${maven.repo}/commons-lang/commons-lang/2.1">
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+			</fileset>
+			<fileset dir="${maven.repo}/org/apache/velocity/velocity/1.5">
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+			</fileset>
+		</copy>
+	</target>
+	
+</project>

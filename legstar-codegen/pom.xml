@@ -37,4 +37,34 @@
 		
  	</dependencies>
  	
+    <build>
+      <plugins>
+      
+        <plugin>
+        
+          <artifactId>maven-antrun-plugin</artifactId>
+          <executions>
+          
+        <!-- This script copies some jar files from this project to various Eclipse
+             plugins. This allows the plugins to be distributed via the standard
+             Eclipse site mechanism without Maven interference -->
+            <execution>
+                <id>copy-to-plugins</id>
+                <phase>install</phase>
+                <configuration>
+                    <tasks>
+                        <ant antfile="${basedir}/src/main/ant/copy-to-plugins.xml"/>
+                    </tasks>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+            </execution>
+            
+          </executions>
+        </plugin>
+          
+      </plugins>
+    </build>
+
 </project>
