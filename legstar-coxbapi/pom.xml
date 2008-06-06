@@ -1,43 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
     <parent>
-      <groupId>com.legsem.legstar</groupId>
-      <artifactId>Legstar</artifactId>
-      <version>SNAPSHOT</version>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>SNAPSHOT</version>
     </parent>
-	<artifactId>legstar-coxbapi</artifactId>
-	<name>Binding classes</name>
+    <artifactId>legstar-coxbapi</artifactId>
+    <name>Binding classes</name>
     <version>SNAPSHOT</version>
-	<description>Cobol binding Application Programming Interface.</description>
-	<url>http://www.legsem.com/legstar/coxbapi/</url>
+    <description>Cobol binding Application Programming Interface.</description>
+    <url>http://www.legsem.com/legstar/coxbapi/</url>
 
     <build>
-      <plugins>
+        <plugins>
       
-       <!-- Running ANT complementary tasks.  -->
-        <plugin>
-          <artifactId>maven-antrun-plugin</artifactId>
-          <executions>
-          
-            <execution>
-                <!-- This will deploy the jar file to a Tomcat dev instance.  -->
-                <id>deploy-to-tomcat</id>
-                <phase>package</phase>
-                <configuration>
-                    <tasks>
-                        <ant antfile="${basedir}/src/main/ant/deploy-to-tomcat.xml"/>
-                    </tasks>
-                </configuration>
-                <goals>
-                    <goal>run</goal>
-                </goals>
-            </execution>
+            <!-- Running ANT complementary tasks.  -->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                
+                    <execution>
+                        <!-- This will deploy the jar file to a Tomcat dev instance.  -->
+                        <id>deploy-to-tomcat</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/deploy-to-tomcat.xml"/>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
 
-          </executions>
-        </plugin>
+                    <!-- This script copies some jar files from this project to various Eclipse
+                    plugins. This allows the plugins to be distributed via the standard
+                    Eclipse site mechanism without Maven interference -->
+                    <execution>
+                        <id>copy-to-plugins</id>
+                        <phase>install</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/copy-to-plugin.xml"/>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    
+                </executions>
+            </plugin>
         
-      </plugins>
+        </plugins>
     </build>
 
 </project>
