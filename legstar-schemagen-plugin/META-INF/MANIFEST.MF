@@ -10,23 +10,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
  org.eclipse.core.resources,
  org.eclipse.ui.forms,
- org.eclipse.debug.core,
- org.eclipse.ant.ui,
  org.eclipse.jdt.core,
  org.eclipse.jdt.launching,
- org.eclipse.jdt.ui
+ org.eclipse.jdt.ui,
+ com.legstar.eclipse.plugin.common
 Eclipse-LazyStart: true
-Bundle-ClassPath: .,
- lib/legstar-codegen-SNAPSHOT.jar,
- lib/velocity-1.5.jar,
- lib/commons-collections-3.1.jar,
- lib/commons-lang-2.1.jar,
- lib/commons-logging-1.1.jar,
- lib/commons-codec-1.3.jar,
- lib/commons-httpclient-3.1.jar,
- lib/legstar-xsdcgen-SNAPSHOT.jar,
- lib/legstar-schemagen-SNAPSHOT.jar,
- lib/XmlSchema-1.4.jar,
- lib/legstar-coxbapi-SNAPSHOT.jar,
- lib/legstar-coxbrt-SNAPSHOT.jar
+Bundle-ClassPath: .
 

@@ -10,7 +10,7 @@ import com.legstar.xsdc.gen.XsdToXsdCobolModel;
 /**
  * Background task that performs the actual XSD generation.
  */
-public class XsdToXsdWizardRunnable extends AbstractWizardRunnable {
+public class XsdToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
 
     /** Pattern for temporary files. */
     private static final String TEMP_PATTERN = "legstar-schemagen";

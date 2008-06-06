@@ -8,6 +8,7 @@ import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
+import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
 import com.legstar.eclipse.plugin.schemagen.Activator;
 
 /**
@@ -29,9 +30,6 @@ public class MainWizard extends AbstractWizard implements INewWizard {
 
     /** The generation from a set of Java classes page. */
     private JavaToXsdWizardPage mJavaToXsdWizardPage;
-    
-    /** Unlocks the finish button. */
-    private boolean mCanFinish = false;
     
     /**
      * No arg constructor.
@@ -105,21 +103,6 @@ public class MainWizard extends AbstractWizard implements INewWizard {
         addPage(mJavaToXsdWizardPage);
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.eclipse.jface.wizard.Wizard#canFinish()
-     */
-    public boolean canFinish() {
-        return mCanFinish;
-    }
-    
-    /**
-     * @param canFinish true if finish button should be available
-     */
-    public void setCanFinish(final boolean canFinish) {
-        mCanFinish = canFinish;
-    }
-
     /**
      * @return the Cobol To Xsd Wizard Page
      */

@@ -28,7 +28,7 @@ public class JavaClass {
     /** {@inheritDoc} */
     public String toString() {
         return "Class name=" + className + ","
-        	+ " Java project=" + javaProject.getElementName();
+        	+ " Java project=" + javaProject.getProject().getName();
     }
     
     /**
@@ -37,16 +37,31 @@ public class JavaClass {
      * @return 0 if identical
      */
     public int compare(final JavaClass jClass) {
-        int locationCompare =
-        	this.javaProject.getElementName().compareToIgnoreCase(
-                jClass.javaProject.getElementName());
-        if (locationCompare == 0) {
+        int projectCompare =
+        	this.javaProject.getProject().getName().compareToIgnoreCase(
+                jClass.javaProject.getProject().getName());
+        if (projectCompare == 0) {
             return this.className.compareToIgnoreCase(jClass.className);
         }
-        return locationCompare;
+        return projectCompare;
     }
     
-    /**
+    /** {@inheritDoc} */
+	@Override
+	public boolean equals(final Object obj) {
+		if (obj instanceof JavaClass) {
+			return compare(((JavaClass) obj)) == 0 ? true : false;
+		}
+		return false;
+	}
+
+    /** {@inheritDoc} */
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	/**
      * @return an instance of the referenced java class
      * @throws ClassNotFoundException if class cannot be found
      */
