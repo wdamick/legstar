@@ -25,7 +25,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.legstar.cixs.model.util.ModelUtil;
+import com.legstar.codegen.CodeGenUtil;
 
 /**
  * This class describes a service operation and its binding to JAXB and CICS.
@@ -127,9 +127,6 @@ public class CixsOperation {
     public static final String CIXS_OUTPUT_STRUCTURE_XML_E
     = "output";
 
-    /** A constant used to pretty print serialized XML. */
-    private static final String CRLF = "\r\n";
-
     /** Default suffix for exception class names. */
     private static final String DEFAULT_FAULT_SUFFIX = "Fault";
 
@@ -146,7 +143,8 @@ public class CixsOperation {
     private static final String DEFAULT_REQUEST_HOLDER_SUFFIX = "RequestHolder";
 
     /** Default suffix for multi-input response holder class names. */
-    private static final String DEFAULT_RESPONSE_HOLDER_SUFFIX = "ResponseHolder";
+    private static final String DEFAULT_RESPONSE_HOLDER_SUFFIX =
+    	"ResponseHolder";
 
     /**
      * @return the service operation name
@@ -285,14 +283,14 @@ public class CixsOperation {
             result.append(" " + CIXS_OP_RES_WRAPPER_XML_A + "=" + '\"'
                     + getResponseWrapperType() + '\"');
         }
-        result.append('>' + CRLF);
+        result.append('>' +  CodeGenUtil.CRLF);
         for (CixsStructure structure : getInput()) {
             result.append(structure.serialize(CIXS_INPUT_STRUCTURE_XML_E));
-            result.append(CRLF);
+            result.append(CodeGenUtil.CRLF);
         }
         for (CixsStructure structure : getOutput()) {
             result.append(structure.serialize(CIXS_OUTPUT_STRUCTURE_XML_E));
-            result.append(CRLF);
+            result.append(CodeGenUtil.CRLF);
         }
         result.append("</" + CIXS_OPERATION_XML_E + ">");
         return result.toString();
@@ -409,7 +407,7 @@ public class CixsOperation {
      * @return a valid class name built from the operation name.
      */
     public final String getClassName() {
-    	return ModelUtil.classNormalize(getName());
+    	return CodeGenUtil.classNormalize(getName());
     }
 
     /**
@@ -553,7 +551,8 @@ public class CixsOperation {
      * @return the Class name for response wrapper
      */
     public final String getResponseWrapperType() {
-    	if (mResponseWrapperType == null || mResponseWrapperType.length() == 0) {
+    	if (mResponseWrapperType == null
+    			|| mResponseWrapperType.length() == 0) {
     		return getClassName() + DEFAULT_RESPONSE_WRAPPER_SUFFIX;
     	}
         return mResponseWrapperType;
@@ -571,10 +570,6 @@ public class CixsOperation {
      * @return true if this operation uses Channel/Containers
      */
     public final boolean hasChannel() {
-    	if (mCicsChannel != null && mCicsChannel.length() > 0) {
-    		return true;
-    	} else {
-    		return false;
-    	}
+    	return (mCicsChannel != null && mCicsChannel.length() > 0);
     }
 }

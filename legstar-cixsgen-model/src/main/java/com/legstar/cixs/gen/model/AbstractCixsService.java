@@ -20,49 +20,80 @@
  *******************************************************************************/
 package com.legstar.cixs.gen.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.legstar.codegen.CodeGenUtil;
 
 /**
  * Abstract representation of the mapping between a service and a set of CICS
- * programs.
+ * programs. A Service has a name and some form of Java interface and 
+ * implementation.
  *
  */
-public abstract class AbstractCixsService {
+public abstract class AbstractCixsService extends CixsMappingModel {
 
-	/** List of operations provided by this service. */
-	private List < CixsOperation > mCixsOperations =
-		new ArrayList < CixsOperation >();
-
-	/**
-	 * @return the service list of operations
-	 */
-	public final List<CixsOperation> getCixsOperations() {
-		return mCixsOperations;
-	}
-
-	/**
-	 * @param cixsOperations the service list of operations to set
-	 */
-	public final void setCixsOperations(final List<CixsOperation> cixsOperations) {
-		mCixsOperations = cixsOperations;
-	}
-
-    /**
-     * Operations are actually a set of uniquely named operations.
-     * @param operation the operation to add
-     * @throws CixsModelException if operation is a duplicate
-     */
-    public final void addCixsOperation(
-            final CixsOperation operation) throws CixsModelException {
-        /* Check that this operation is not already part of the set */
-        if (mCixsOperations.contains(operation)) {
-            throw new CixsModelException(
-                    "This service already contains this operation");
-        }
-        
-        mCixsOperations.add(operation);
-    }
+	/** Default suffix for class implementation name. */
+    private static final String DEFAULT_IMPL_SUFFIX = "Impl";
     
+	/** Service package name. */
+	private String mPackageName;
+
+	/** Service interface class name. */
+	private String mInterfaceClassName;
+	
+	/** Service implementation class name. */
+	private String mImplementationClassName;
+
+	/**
+	 * @return the Service package name
+	 */
+	public final String getPackageName() {
+		return mPackageName;
+	}
+
+	/**
+	 * @param packageName the Service package name to set
+	 */
+	public final void setPackageName(final String packageName) {
+		mPackageName = packageName;
+	}
+
+	/**
+	 * @return the Service interface class name
+	 */
+	public final String getInterfaceClassName() {
+		if (mInterfaceClassName == null || mInterfaceClassName.length() == 0) {
+			return CodeGenUtil.classNormalize(getName());
+		}
+		return mInterfaceClassName;
+	}
+
+	/**
+	 * @param interfaceClassName the Service interface class name to set
+	 */
+	public final void setInterfaceClassName(final String interfaceClassName) {
+		mInterfaceClassName = interfaceClassName;
+	}
+
+	/**
+	 * @return the Service implementation class name
+	 */
+	public final String getImplementationClassName() {
+		if (mImplementationClassName == null 
+				|| mImplementationClassName.length() == 0) {
+			if (getName() == null) {
+				return DEFAULT_IMPL_SUFFIX;
+			}
+			return CodeGenUtil.classNormalize(getName() + DEFAULT_IMPL_SUFFIX);
+		}
+		return mImplementationClassName;
+	}
+
+	/**
+	 * @param implementationClassName the Service implementation class name to
+	 *  set
+	 */
+	public final void setImplementationClassName(
+			final String implementationClassName) {
+		mImplementationClassName = implementationClassName;
+	}
 
 }
