@@ -23,7 +23,7 @@ package com.legstar.cixs.gen.model;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import com.legstar.cixs.model.util.ModelUtil;
+import com.legstar.codegen.CodeGenUtil;
 
 /**
  * This class describes a mapping between a CICS structure (either commarea or
@@ -268,7 +268,7 @@ public class CixsStructure {
      */
     public final String getJaxbFieldName() {
     	if (mJaxbFieldName == null || mJaxbFieldName.length() == 0) {
-        	return ModelUtil.fieldNameFromPropertyName(getJaxbPropertyName());
+        	return CodeGenUtil.fieldNameFromPropertyName(getJaxbPropertyName());
     	}
         return mJaxbFieldName;
     }
@@ -289,9 +289,9 @@ public class CixsStructure {
     public final String getJaxbPropertyName() {
         if (mJaxbPropertyName == null || mJaxbPropertyName.length() == 0) {
         	String propertyName =
-        		ModelUtil.propertyNameFromFieldName(mJaxbFieldName);
+        		CodeGenUtil.propertyNameFromFieldName(mJaxbFieldName);
         	if (propertyName == null || propertyName.length() == 0) {
-        		return ModelUtil.propertyNameFromJaxbType(mJaxbType);
+        		return CodeGenUtil.propertyNameFromJaxbType(mJaxbType);
         	} else {
         		return propertyName;
         	}
@@ -314,9 +314,11 @@ public class CixsStructure {
 	}
 
 	/**
-	 * @param cobolRootDataItemName the COBOL structure root data item name to set
+	 * @param cobolRootDataItemName the COBOL structure root data item name to
+	 *  set
 	 */
-	public final void setCobolRootDataItemName(String cobolRootDataItemName) {
+	public final void setCobolRootDataItemName(
+			final String cobolRootDataItemName) {
 		mCobolRootDataItemName = cobolRootDataItemName;
 	}
 }

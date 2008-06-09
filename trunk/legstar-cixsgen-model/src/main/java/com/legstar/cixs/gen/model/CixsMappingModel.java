@@ -36,15 +36,13 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.legstar.cixs.gen.model.CixsModelException;
-import com.legstar.cixs.gen.model.CixsOperation;
+import com.legstar.codegen.CodeGenUtil;
 
 /**
  * This class describes a mapping between list of operations and
  * their CICS programs counterparts.
  * This is a generic mapping that is usable for many generation
  * targets.
- * TODO should ultimately replace AbstractCicsService
  * 
  * @author Fady Moussallam
  * 
@@ -54,7 +52,7 @@ public class CixsMappingModel {
 	/** Mapping name. */
 	private String mName;
 
-    /** List of operations provided by this service. */
+    /** List of operations provided by this mapping. */
     private List < CixsOperation > mCixsOperations =
         new ArrayList < CixsOperation >();
 
@@ -68,18 +66,15 @@ public class CixsMappingModel {
 	/** XML attribute representing a CIXS mapping name. */
 	public static final String CIXS_MAPPING_NAME_XML_A = "name";
 
-	/** A constant used to pretty print serialized XML. */
-	private static final String CRLF = "\r\n";
-
 	/**
-	 * @return the service name
+	 * @return the mapping name
 	 */
 	public final String getName() {
 		return mName;
 	}
 
 	/**
-	 * @param name the service name to set
+	 * @param name the mapping name to set
 	 */
 	public final void setName(final String name) {
 		mName = name;
@@ -88,16 +83,17 @@ public class CixsMappingModel {
     /**
      * @return the service list of operations
      */
-    public final List<CixsOperation> getCixsOperations() {
+    public final List < CixsOperation > getCixsOperations() {
         return mCixsOperations;
     }
 
-    /**
-     * @param cixsOperations the service list of operations to set
-     */
-    public final void setCixsOperations(final List<CixsOperation> cixsOperations) {
-        mCixsOperations = cixsOperations;
-    }
+	/**
+	 * @param cixsOperations the service list of operations to set
+	 */
+	public final void setCixsOperations(
+			final List < CixsOperation > cixsOperations) {
+		mCixsOperations = cixsOperations;
+	}
 
     /**
      * Operations are actually a set of uniquely named operations.
@@ -124,10 +120,10 @@ public class CixsMappingModel {
 		result.append("<" + CIXS_MAPPING_XML_E + " "
 				+ CIXS_MAPPING_NAME_XML_A + "="
 				+ '\"' + mName + '\"');
-		result.append('>' + CRLF);
+		result.append('>' + CodeGenUtil.CRLF);
 		for (CixsOperation op : getCixsOperations()) {
 			result.append(op.serialize());
-			result.append(CRLF);
+			result.append(CodeGenUtil.CRLF);
 		}
 		result.append("</" + CIXS_MAPPING_XML_E + ">");
 		return result.toString();
