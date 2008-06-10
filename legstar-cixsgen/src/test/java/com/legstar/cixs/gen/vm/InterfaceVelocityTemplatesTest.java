@@ -1,56 +1,26 @@
 package com.legstar.cixs.gen.vm;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.File;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import com.legstar.cixs.gen.AbstractTestTemplate;
 import com.legstar.cixs.gen.TestCases;
-import com.legstar.cixs.jaxws.gen.CixsHelper;
-import com.legstar.cixs.jaxws.gen.CixsJaxwsGenerator;
+import com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
-import com.legstar.codegen.CodeGenHelper;
 import com.legstar.codegen.CodeGenUtil;
 
-import junit.framework.TestCase;
-
-public class InterfaceVelocityTemplatesTest extends TestCase {
+public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
 	
-    /** Logger. */
-	private static final Log LOG = LogFactory.getLog(InterfaceVelocityTemplatesTest.class);
-	
-	/** Code will be generated here. */
-	private static final String GEN_SRC_DIR = "src/test/gen/java";
-
 	private static final String CIXS_JAXWS_GENERATOR_NAME =
 		"LegStar Jaxws service Generator";
-	
-	private Map <String, Object> mParameters;
-
-	public void setUp() throws Exception {
-        CodeGenUtil.initVelocity();
-       	CodeGenUtil.checkDirectory(GEN_SRC_DIR, true);
-       	mParameters = new HashMap <String, Object>();
-    	CodeGenHelper helper = new CodeGenHelper();
-    	mParameters.put("helper", helper);
-    	CixsHelper cixsHelper = new CixsHelper();
-    	mParameters.put("cixsHelper", cixsHelper);
-	}
 	
 	public void testCommonPackage() throws Exception {
 		
 		CixsJaxwsService jaxwsComponent = TestCases.getLsfileae();
-    	
-    	Map <String, Object> parameters = new HashMap <String, Object>();
-
     	CodeGenUtil.processTemplate(
     			CIXS_JAXWS_GENERATOR_NAME,
     			"vlc/cixsjaxws-component-common-package.vm",
         		"jaxwsComponent", jaxwsComponent,
-        		parameters,
+        		getParameters(),
                 CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 		
         String resStr = getSource(GEN_SRC_DIR, "test.txt");
@@ -61,12 +31,12 @@ public class InterfaceVelocityTemplatesTest extends TestCase {
 		
 		CixsJaxwsService jaxwsComponent = TestCases.getLsfileae();
 
-		String componentClassFilesLocation = CodeGenUtil.classFilesLocation(
-				GEN_SRC_DIR, jaxwsComponent.getPackageName());
-		CixsJaxwsGenerator.generateInterface(
-				jaxwsComponent, mParameters, componentClassFilesLocation);
+		File componentClassFilesDir = CodeGenUtil.classFilesLocation(
+				GEN_SRC_DIR, jaxwsComponent.getPackageName(), true);
+		Jaxws2CixsGenerator.generateInterface(
+				jaxwsComponent, getParameters(), componentClassFilesDir);
         String resStr = getSource(
-        		componentClassFilesLocation,
+        		componentClassFilesDir,
         		jaxwsComponent.getInterfaceClassName() + ".java");
         
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileae;"));
@@ -93,12 +63,12 @@ public class InterfaceVelocityTemplatesTest extends TestCase {
 		
 		CixsJaxwsService jaxwsComponent = TestCases.getLsfileal();
     	
-		String componentClassFilesLocation = CodeGenUtil.classFilesLocation(
-				GEN_SRC_DIR, jaxwsComponent.getPackageName());
-		CixsJaxwsGenerator.generateInterface(
-				jaxwsComponent, mParameters, componentClassFilesLocation);
+		File componentClassFilesDir = CodeGenUtil.classFilesLocation(
+				GEN_SRC_DIR, jaxwsComponent.getPackageName(), true);
+		Jaxws2CixsGenerator.generateInterface(
+				jaxwsComponent, getParameters(), componentClassFilesDir);
         String resStr = getSource(
-        		componentClassFilesLocation,
+        		componentClassFilesDir,
         		jaxwsComponent.getInterfaceClassName() + ".java");
 		
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileal;"));
@@ -127,12 +97,12 @@ public class InterfaceVelocityTemplatesTest extends TestCase {
 		
 		CixsJaxwsService jaxwsComponent = TestCases.getLsfileac();
     	
-		String componentClassFilesLocation = CodeGenUtil.classFilesLocation(
-				GEN_SRC_DIR, jaxwsComponent.getPackageName());
-		CixsJaxwsGenerator.generateInterface(
-				jaxwsComponent, mParameters, componentClassFilesLocation);
+		File componentClassFilesDir = CodeGenUtil.classFilesLocation(
+				GEN_SRC_DIR, jaxwsComponent.getPackageName(), true);
+		Jaxws2CixsGenerator.generateInterface(
+				jaxwsComponent, getParameters(), componentClassFilesDir);
         String resStr = getSource(
-        		componentClassFilesLocation,
+        		componentClassFilesDir,
         		jaxwsComponent.getInterfaceClassName() + ".java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileac;"));
@@ -159,12 +129,12 @@ public class InterfaceVelocityTemplatesTest extends TestCase {
 		
 		CixsJaxwsService jaxwsComponent = TestCases.getLsfileax();
     	
-		String componentClassFilesLocation = CodeGenUtil.classFilesLocation(
-				GEN_SRC_DIR, jaxwsComponent.getPackageName());
-		CixsJaxwsGenerator.generateInterface(
-				jaxwsComponent, mParameters, componentClassFilesLocation);
+		File componentClassFilesDir = CodeGenUtil.classFilesLocation(
+				GEN_SRC_DIR, jaxwsComponent.getPackageName(), true);
+		Jaxws2CixsGenerator.generateInterface(
+				jaxwsComponent, getParameters(), componentClassFilesDir);
         String resStr = getSource(
-        		componentClassFilesLocation,
+        		componentClassFilesDir,
         		jaxwsComponent.getInterfaceClassName() + ".java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileax;"));
@@ -207,12 +177,12 @@ public class InterfaceVelocityTemplatesTest extends TestCase {
 		
 		CixsJaxwsService jaxwsComponent = TestCases.getLsfilean();
     	
-		String componentClassFilesLocation = CodeGenUtil.classFilesLocation(
-				GEN_SRC_DIR, jaxwsComponent.getPackageName());
-		CixsJaxwsGenerator.generateInterface(
-				jaxwsComponent, mParameters, componentClassFilesLocation);
+		File componentClassFilesDir = CodeGenUtil.classFilesLocation(
+				GEN_SRC_DIR, jaxwsComponent.getPackageName(), true);
+		Jaxws2CixsGenerator.generateInterface(
+				jaxwsComponent, getParameters(), componentClassFilesDir);
         String resStr = getSource(
-        		componentClassFilesLocation,
+        		componentClassFilesDir,
         		jaxwsComponent.getInterfaceClassName() + ".java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfilean;"));
@@ -240,12 +210,12 @@ public class InterfaceVelocityTemplatesTest extends TestCase {
 		
 		CixsJaxwsService jaxwsComponent = TestCases.getLsfileap();
     	
-		String componentClassFilesLocation = CodeGenUtil.classFilesLocation(
-				GEN_SRC_DIR, jaxwsComponent.getPackageName());
-		CixsJaxwsGenerator.generateInterface(
-				jaxwsComponent, mParameters, componentClassFilesLocation);
+		File componentClassFilesDir = CodeGenUtil.classFilesLocation(
+				GEN_SRC_DIR, jaxwsComponent.getPackageName(), true);
+		Jaxws2CixsGenerator.generateInterface(
+				jaxwsComponent, getParameters(), componentClassFilesDir);
         String resStr = getSource(
-        		componentClassFilesLocation,
+        		componentClassFilesDir,
         		jaxwsComponent.getInterfaceClassName() + ".java");
 
         assertFalse(resStr.contains("package com.legstar.test.cixs.lsfileap;"));
@@ -269,17 +239,4 @@ public class InterfaceVelocityTemplatesTest extends TestCase {
         assertTrue(resStr.contains("throws LsfileaeFault;"));
 	}
 	
-	private String getSource(String srcLocation, String srcName) throws Exception {
-        BufferedReader in = new BufferedReader(new FileReader(srcLocation + '/' + srcName));
-        String resStr = "";
-        String str = in.readLine();
-        while (str != null) {
-            LOG.debug(str);
-            resStr += str;
-            str = in.readLine();
-        }
-        in.close();
-        return resStr;
-	}
-
 }

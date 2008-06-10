@@ -58,6 +58,7 @@
 	  		<pathelement location="${build.dir}/classes"/>
 	  		<pathelement location="${build.dir}/test-classes"/>
 		    <pathelement location="${basedir}/../legstar-codegen/target/classes"/>
+		    <pathelement location="${basedir}/../legstar-coxbgen/target/classes"/>
 		    <pathelement location="${basedir}/../legstar-cixsgen-model/target/classes"/>
 	  		<!--JAXB generated classes and custom code  -->
 	  		<pathelement location="${jaxb.bin.dir}"/>

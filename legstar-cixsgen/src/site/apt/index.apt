@@ -36,7 +36,7 @@ Service Generator (Cixsgen) overview
   
 Running the Ant script
   
-  The build-service.xml ant script shows how to generate a Web Service for a commarea-driven
+  The build-j2c.xml ant script shows how to generate a Web Service for a commarea-driven
   program.
   
   Service generator now supports container-driven programs. This is how you would use the

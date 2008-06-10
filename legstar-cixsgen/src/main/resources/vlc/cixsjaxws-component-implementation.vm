@@ -108,8 +108,6 @@ public class ${jaxwsComponent.implementationClassName} implements ${jaxwsCompone
 #else
 #set($containers = false)
 #end
-#set($operationNamespace = $cixsHelper.getOperationNamespace(${cixsOperation}, ${jaxwsComponent.targetNamespace}))
-#set($operationPackageName = $cixsHelper.getOperationPackageName(${cixsOperation}, ${jaxwsComponent.packageName}))
     /** Properties for operation ${cixsOperation.name}. */
     private static final String  ${cixsOperation.name.toUpperCase()}_PROP_FILE = "${cixsOperation.name}.properties";
 
@@ -176,7 +174,7 @@ public class ${jaxwsComponent.implementationClassName} implements ${jaxwsCompone
         faultInfo.setDetail("Operation="
                 + "${cixsOperation.name}"
                 + " Package="
-                + "${operationPackageName}");
+                + "${cixsOperation.packageName}");
         throw (new ${cixsOperation.faultType}(text + ' ' 
                 + faultInfo.getMessage(), faultInfo));
 

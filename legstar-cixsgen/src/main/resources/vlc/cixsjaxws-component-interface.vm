@@ -27,8 +27,6 @@ import ${importType};
 public interface ${jaxwsComponent.interfaceClassName} {
   
 #foreach ($cixsOperation in $jaxwsComponent.cixsOperations)
-#set($operationNamespace = $cixsHelper.getOperationNamespace(${cixsOperation}, ${jaxwsComponent.targetNamespace}))
-#set($operationPackageName = $cixsHelper.getOperationPackageName(${cixsOperation}, ${jaxwsComponent.packageName}))
     /**
      * LegStar operation ${cixsOperation.name}.
      * 
@@ -39,19 +37,19 @@ public interface ${jaxwsComponent.interfaceClassName} {
      */
     @WebMethod
     @WebResult(name = "Response",
-        targetNamespace = "${operationNamespace}")
+        targetNamespace = "${cixsOperation.namespace}")
     @RequestWrapper(localName = "${cixsOperation.requestWrapperType}",
-        targetNamespace = "${operationNamespace}",
-        className = "${helper.getQualClassName(${operationPackageName}, ${cixsOperation.requestWrapperType})}")
+        targetNamespace = "${cixsOperation.namespace}",
+        className = "${helper.getQualClassName(${cixsOperation.packageName}, ${cixsOperation.requestWrapperType})}")
     @ResponseWrapper(localName = "${cixsOperation.responseWrapperType}",
-        targetNamespace = "${operationNamespace}",
-        className = "${helper.getQualClassName(${operationPackageName}, ${cixsOperation.responseWrapperType})}")
+        targetNamespace = "${cixsOperation.namespace}",
+        className = "${helper.getQualClassName(${cixsOperation.packageName}, ${cixsOperation.responseWrapperType})}")
     $cixsOperation.responseHolderType ${cixsOperation.name}(
         @WebParam(name = "Request",
-               targetNamespace = "${operationNamespace}")
+               targetNamespace = "${cixsOperation.namespace}")
             $cixsOperation.requestHolderType request,
         @WebParam(name = "HostHeader", header = true, partName = "HostHeader",
-                targetNamespace = "${operationNamespace}")
+                targetNamespace = "${cixsOperation.namespace}")
             ${jaxwsComponent.headerClassName} hostHeader)
         throws ${cixsOperation.faultType};
         
