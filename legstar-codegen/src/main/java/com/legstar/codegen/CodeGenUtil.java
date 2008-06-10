@@ -25,6 +25,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Map;
@@ -49,6 +52,14 @@ public final class CodeGenUtil {
     
     /** Used to generate random serial version IDs. */
     private static Random mRandom = new Random();
+    
+    /** Suffix used for JAXB type variable names. */
+    public static final String JAXB_TYPE_SUFFIX = "Type";
+    
+    /** Get the platform specific line separator.*/
+    public static final String CRLF =
+    	(String) java.security.AccessController.doPrivileged(
+    		  new sun.security.action.GetPropertyAction("line.separator"));
 
     /** Logger. */
 	private static final Log LOG = LogFactory.getLog(CodeGenUtil.class);
@@ -202,14 +213,18 @@ public final class CodeGenUtil {
     
     /**
      * Given a root directory name and a package name, returns the location
-     * for class files making sure this location exist.
+     * for class files. Optionally the location can be physically created.
      * 
      * @param rootDirName the root directory name.
      * @param packageName the package name or null if none
+     * @param create
+     *            true if directory should be created when not found
      * @return an existing location to store class files
      */
     public static String classFilesLocation(
-    		final String rootDirName, final  String packageName) {
+    		final String rootDirName,
+    		final  String packageName,
+    		final boolean create) {
 		if (rootDirName == null || rootDirName.length() == 0) {
             throw (new IllegalArgumentException(
             		"No root directory name was specified"));
@@ -220,24 +235,34 @@ public final class CodeGenUtil {
 		} else {
 			dir = rootDirName;
 		}
-		CodeGenUtil.checkDirectory(dir, true);
+		if (create) {
+			CodeGenUtil.checkDirectory(dir, true);
+		}
 		return dir;
     }
     
     /**
      * Concatenates the path derived from a package name to a root directory.
-     * @param rootDir the root directory
+     * @param rootDir the root directory. Optionally the location can be
+     *  physically created.
      * @param packageName the package name
+     * @param create
+     *            true if directory should be created when not found
      * @return the file derived from concatenating the root directory with the
      *  package path.
      */
     public static File classFilesLocation(
-    		final File rootDir, final  String packageName) {
+    		final File rootDir,
+    		final  String packageName,
+    		final boolean create) {
+    	File dir = rootDir;
 		if (packageName != null && packageName.length() > 0) {
-			return new File(rootDir,  CodeGenUtil.relativeLocation(packageName));
-		} else {
-			return rootDir;
+			dir = new File(rootDir,  CodeGenUtil.relativeLocation(packageName));
 		}
+		if (create) {
+			CodeGenUtil.checkDirectory(dir, true);
+		}
+		return dir;
     }
 
     /**
@@ -345,4 +370,97 @@ public final class CodeGenUtil {
         return sdf.format(cal.getTime());
     }
 
+    /**
+     * Checks that a URI is valid and HTTP scheme.
+     * @param URI the URI to check
+     * @throws CodeGenMakeException
+     */
+    public static void checkHttpURI(
+            final String httpUri) throws CodeGenMakeException {
+        try {
+            if (httpUri == null || httpUri.length() == 0) {
+                throw new CodeGenMakeException(
+                    "You must specify a valid URI");
+            }
+            URI uri = new URI(httpUri);
+            if (uri.getScheme() == null ||
+                    uri.getScheme().compareToIgnoreCase("http") != 0) {
+                throw new CodeGenMakeException(
+                        "URI " + uri + " must have http scheme");
+            }
+        } catch (URISyntaxException e) {
+            throw new CodeGenMakeException(e);
+        }
+        
+    }
+    
+    /**
+     * Checks that a character set is valid
+     * @param charset the character set
+     * @see java.nio.charset.Charset
+     * @throws CodeGenMakeException
+     */
+    public static void checkCharset(
+            final String charset) throws CodeGenMakeException {
+        if (charset == null || charset.length() == 0) {
+            throw new CodeGenMakeException(
+                    "You must specify a valid character set");
+        }
+        if (!Charset.isSupported(charset)) {
+            throw new CodeGenMakeException(
+                    "Character set " + charset + " is not supported");
+        }
+    }
+    
+    /**
+     * Field names are derived from property names by lower casing the
+     * first character.
+     * @param propertyName the property name
+     * @return a valid field name or null if property name is empty
+     */
+    public static String fieldNameFromPropertyName(final String propertyName) {
+    	String fieldName = null;
+    	if (propertyName != null && propertyName.length() > 0) {
+    		fieldName = propertyName.substring(0, 1).toLowerCase();
+    		if (propertyName.length() > 1) {
+    			fieldName += propertyName.substring(1, propertyName.length());
+    		}
+    	}
+    	return fieldName;
+    }
+
+    /**
+     * Property names are derived from field names by upper casing the
+     * first character.
+     * @param fieldName the field name
+     * @return a valid property name or null if field name is empty
+     */
+    public static String propertyNameFromFieldName(final String fieldName) {
+    	String propertyName = null;
+    	if (fieldName != null && fieldName.length() > 0) {
+    		propertyName = fieldName.substring(0, 1).toUpperCase();
+    		if (fieldName.length() > 1) {
+    			propertyName += fieldName.substring(1, fieldName.length());
+    		}
+    	}
+    	return propertyName;
+    }
+
+    /**
+     * Property names are derived from jaxb type names by stripping the
+     * type suffix (if any).
+     * @param jaxbType the jaxb type name
+     * @return a valid property name or null if jaxb type name is empty
+     */
+    public static String propertyNameFromJaxbType(final String jaxbType) {
+    	String propertyName = null;
+    	if (jaxbType != null && jaxbType.length() > 0) {
+            propertyName = jaxbType;
+            if (propertyName.endsWith(JAXB_TYPE_SUFFIX)) {
+            	propertyName = propertyName.substring(0,
+            			propertyName.length() - JAXB_TYPE_SUFFIX.length());
+            }
+    	}
+    	return propertyName;
+    }
 }
