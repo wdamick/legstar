@@ -21,7 +21,6 @@
 package com.legstar.codegen;
 
 import java.io.File;
-
 import junit.framework.TestCase;
 
 /**
@@ -74,15 +73,32 @@ public class CodeGenUtilTest extends TestCase {
 		assertEquals("/abc/", CodeGenUtil.relativeLocation("abc"));
 		assertEquals("/abc/def/", CodeGenUtil.relativeLocation("abc.def"));
 	}
-	
+
 	public final void testPackageConcatenation() {
 		File dir = new File("c:\\root\\com\\legstar\\zut");
 		dir.delete();
 		assertEquals("c:\\root\\com\\legstar\\zut",
 				CodeGenUtil.classFilesLocation(new File("c:/root"),
-						"com.legstar.zut").getAbsolutePath());
+						"com.legstar.zut", true).getAbsolutePath());
 		dir = new File("c:\\root\\com\\legstar\\zut");
 		assertTrue(dir.exists());
 	}
 
+	public final void testFieldNameFromPropertyName() throws Exception {
+		assertEquals(null, CodeGenUtil.fieldNameFromPropertyName(null));
+		assertEquals("a", CodeGenUtil.fieldNameFromPropertyName("A"));
+		assertEquals("abc", CodeGenUtil.fieldNameFromPropertyName("Abc"));
+	}
+
+	public final void testPropertyNameFromFieldName() throws Exception {
+		assertEquals(null, CodeGenUtil.propertyNameFromFieldName(null));
+		assertEquals("A", CodeGenUtil.propertyNameFromFieldName("a"));
+		assertEquals("Abc", CodeGenUtil.propertyNameFromFieldName("abc"));
+	}
+
+	public final void testPropertyNameFromJaxbType() throws Exception {
+		assertEquals(null, CodeGenUtil.propertyNameFromJaxbType(null));
+		assertEquals("A", CodeGenUtil.propertyNameFromJaxbType("A"));
+		assertEquals("A", CodeGenUtil.propertyNameFromJaxbType("AType"));
+	}
 }
