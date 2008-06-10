@@ -19,6 +19,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
         store.setDefault(PreferenceConstants.ANT_SCRIPTS_FOLDER,
             "ant");
+        store.setDefault(PreferenceConstants.HOST_CHARSET,
+        	"IBM01140");
     }
 
     /**

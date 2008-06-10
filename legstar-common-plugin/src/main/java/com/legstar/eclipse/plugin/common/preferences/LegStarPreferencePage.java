@@ -30,7 +30,7 @@ public class LegStarPreferencePage extends FieldEditorPreferencePage
 	public LegStarPreferencePage() {
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Setup preferences for Schema generator");
+		setDescription("Setup preferences for LegStar");
 	}
 
 	/**
@@ -44,6 +44,10 @@ public class LegStarPreferencePage extends FieldEditorPreferencePage
 		addField(new StringFieldEditor(
 				PreferenceConstants.ANT_SCRIPTS_FOLDER,
 				"&Ant scripts folder:", getFieldEditorParent()));
+
+		addField(new StringFieldEditor(
+				PreferenceConstants.HOST_CHARSET,
+				"&Mainframe character set:", getFieldEditorParent()));
 	}
 
 	/**
