@@ -15,8 +15,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.debug.core
 Eclipse-LazyStart: true
 Eclipse-BuddyPolicy: registered
-Export-Package: com.legstar.cixs.gen.model,
- com.legstar.cixs.model.util,
+Export-Package: com.legstar.cixs.gen.ant.model,
+ com.legstar.cixs.gen.model,
  com.legstar.codegen,
  com.legstar.codegen.models,
  com.legstar.codegen.tasks,
