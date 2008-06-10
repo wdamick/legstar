@@ -31,7 +31,17 @@
 
         <dependency>
           <groupId>com.legsem.legstar</groupId>
+          <artifactId>legstar-coxbgen</artifactId>
+        </dependency>
+
+        <dependency>
+          <groupId>com.legsem.legstar</groupId>
           <artifactId>legstar-coxbrt</artifactId>
+        </dependency>
+        
+        <dependency>
+          <groupId>ant</groupId>
+          <artifactId>ant</artifactId>
         </dependency>
         
  	</dependencies>
