@@ -31,7 +31,7 @@ public class AntBuildJaxws2CixsModel extends AbstractAntBuildCixsModel {
    /** This velocity template that creates an ant build which in turn
      * generates the target web service. */
     public static final String JAXWS2CIXS_VELOCITY_MACRO_NAME =
-        "vlc/build-m2c-xml.vm";
+        "vlc/build-j2c-xml.vm";
     
     /**
      * Construct the model.
@@ -60,7 +60,7 @@ public class AntBuildJaxws2CixsModel extends AbstractAntBuildCixsModel {
     /**
      * @return the Jaxws web service being generated
      */
-    public final CixsJaxwsService getCixsJaxwsServicet() {
+    public final CixsJaxwsService getCixsJaxwsService() {
         return (CixsJaxwsService) getCixsService();
     }
 

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =================================================================================
+     Generate a Jaxws web service as an adapter for a mainframe program.
+     Artifacts can be used to call a remote Mainframe function.
+     Prerequisite: Cobol binding classes should have been generated
+     using Coxbgen prior to using this script.
+     Refer to http://www.legsem.com/legstar for info on generating binding classes.
+  -->
+<project basedir="${model.productLocation}" default="signalSuccess" name="generate-jaxws2Cixs">
+
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
+    <target name="init">
+    
+        <!-- Classpath setting -->
+        <path id="classpath">
+            <pathelement location="${model.jaxbBinDir}"/>
+            <pathelement location="${model.coxbBinDir}"/>
+            <pathelement location="${model.custBinDir}"/>
+            <fileset dir="${basedir}" includes="lib/*.jar" />
+        </path>
+        
+        <!-- Service Generator ant task -->
+        <taskdef name="jaxws2cixsgen"
+            classname="com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator"
+            classpathref="classpath" 
+        /> 
+    
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- This step creates all the artifacts for a service.  -->
+    
+    <target name="generateJaxws2Cixs" depends="init">
+    
+        <jaxws2cixsgen targetSrcDir="${model.targetSrcDir}"
+            targetBinDir="${model.targetBinDir}"
+            targetWDDDir="${model.targetWDDDir}"
+            targetPropDir="${model.targetPropDir}"
+            targetAntDir="${model.targetAntDir}"
+            targetWarDir="${model.targetWarDir}"
+            jaxbBinDir="${model.jaxbBinDir}"
+            coxbBinDir="${model.coxbBinDir}"
+            custBinDir="${model.custBinDir}"
+        >
+            <cixsJaxwsService name="${model.cixsJaxwsService.name}"
+                packageName="${model.cixsJaxwsService.packageName}"
+                targetNamespace="${model.cixsJaxwsService.targetNamespace}"
+            >
+#foreach ($cixsOperation in $model.cixsJaxwsService.cixsOperations)
+                <cixsOperation name="${cixsOperation.name}"
+                    cicsProgramName="${cixsOperation.cicsProgramName}"
+#if(!${helper.isEmpty(${cixsOperation.cicsChannel})})
+                    cicsChannel="${cixsOperation.cicsChannel}"
+#end
+                >
+#foreach ($cixsStructure in $cixsOperation.input)
+                    <input
+                        jaxbType="${cixsStructure.jaxbType}"
+                        jaxbPackageName="${cixsStructure.jaxbPackageName}"
+#if ($cixsStructure.cicsContainer)
+                        cicsContainer="${cixsStructure.cicsContainer}"
+#end
+                    />
+#end
+#foreach ($cixsStructure in $cixsOperation.output)
+                    <output
+                        jaxbType="${cixsStructure.jaxbType}"
+                        jaxbPackageName="${cixsStructure.jaxbPackageName}"
+#if ($cixsStructure.cicsContainer)
+                        cicsContainer="${cixsStructure.cicsContainer}"
+#end
+                    />
+#end
+                </cixsOperation>
+#end
+            </cixsJaxwsService>
+        </jaxws2cixsgen>
+    
+    </target>
+   
+    <!-- ===========================================================  -->
+    <!-- Compile the generated service classes
+    -->
+    <target name="compileJaxws2Cixs" depends="generateJaxws2Cixs">
+        <mkdir dir="${model.targetBinDir}"/>
+        <javac srcdir="${model.targetSrcDir}"
+            includes="**/*.java"
+            destdir="${model.targetBinDir}"
+            classpathref="classpath"
+            fork="yes"
+        />
+    </target>
+  
+    <!-- ===========================================================  -->
+    <!-- Delete the probe file to signal success
+    -->
+    <target name="signalSuccess" depends="compileJaxws2Cixs">
+        <delete file="${model.probeFile}" quiet="true"/>
+    </target>
+  
+</project>
