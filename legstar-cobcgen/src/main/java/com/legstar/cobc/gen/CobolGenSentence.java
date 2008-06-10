@@ -20,6 +20,8 @@
  *******************************************************************************/
 package com.legstar.cobc.gen;
 
+import com.legstar.codegen.CodeGenUtil;
+
 /**
  * Represents a multi-line formatted Cobol sentence. A Cobol sentence fits into
  * the following format:
@@ -65,9 +67,6 @@ public class CobolGenSentence {
 	 *  indentation factor). */
 	private static final int INDENT_SLOPE = 4;
 
-	/** New line characters. */
-	private static final String CRLF = "\r\n";
-	
 	/** Sentence delimiter character. */
 	private static final String SENTENCE_DELIM = ".";
 	
@@ -108,7 +107,7 @@ public class CobolGenSentence {
 		/* If no place left on current line, create a new one with an
 		 * indent to show continuation*/
 		if (mEndColumn + spacedClause.length() > LINE_WIDTH) {
-			mContent.append(CRLF);
+			mContent.append(CodeGenUtil.CRLF);
 			mLinesCount++;
 			mEndColumn = mStartColumn + INDENT_SLOPE;
 			mContent.append(fillString(' ', mEndColumn));
