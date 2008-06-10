@@ -29,9 +29,9 @@
     <property name="cixs.namespace.pfx" value="http://test.legstar/ws"/>
 
     <!-- CIXS Sources target location   -->
-    <property name="cixs.src.dir" value="${basedir}/src/main/java"/>
+    <property name="src.dir" value="${basedir}/src/main/java"/>
     <!-- CIXS binaries target location  -->
-    <property name="cixs.bin.dir" value="${basedir}/target/classes"/>
+    <property name="bin.dir" value="${basedir}/target/classes"/>
     <!-- Ant scripts target location   -->
     <property name="ant.dir" value="${basedir}/src/main/ant"/>
     <!-- Web descriptors target location   -->
@@ -60,8 +60,8 @@
     </path>
 
     <!-- Service Generator ant task -->
-    <taskdef name="cixsgen"
-      classname="com.legstar.cixs.jaxws.gen.CixsJaxwsGenerator"
+    <taskdef name="jaxws2cixsgen"
+      classname="com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator"
       classpathref="classpath" 
     /> 
 
@@ -72,14 +72,14 @@
   
   <target name="generateService" depends="init">
     
-    <cixsgen targetSrcDir="${cixs.src.dir}"
+    <jaxws2cixsgen targetSrcDir="${src.dir}"
+             targetBinDir="${bin.dir}"
              targetWDDDir="${wdd.dir}"
              targetPropDir="${prop.dir}"
              targetAntDir="${ant.dir}"
              targetWarDir="${war.dir}"
              jaxbBinDir="${jaxb.bin.dir}"
              coxbBinDir="${coxb.bin.dir}"
-             cixsBinDir="${cixs.bin.dir}"
              custBinDir="${cust.bin.dir}"
       >
         <!-- This sample is for a commarea-driven program. If your
@@ -102,7 +102,7 @@
                 />
             </cixsOperation>
         </cixsJaxwsService>
-    </cixsgen>
+    </jaxws2cixsgen>
     
   </target>
    
@@ -110,10 +110,10 @@
   <!-- Compile the generated service classes
     -->
   <target name="compileService" depends="generateService">
-    <mkdir dir="${cixs.bin.dir}"/>
-    <javac srcdir="${cixs.src.dir}"
+    <mkdir dir="${bin.dir}"/>
+    <javac srcdir="${src.dir}"
            includes="**/*.java"
-           destdir="${cixs.bin.dir}"
+           destdir="${bin.dir}"
            classpathref="classpath"
            fork="yes"
     />

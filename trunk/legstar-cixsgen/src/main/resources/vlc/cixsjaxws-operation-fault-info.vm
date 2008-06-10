@@ -3,8 +3,8 @@
 ##@author Fady
 ##@version 0.1
 ##/////////////////////////////////////////////////////////////////////
-#if(${operationPackageName})
-package ${operationPackageName};
+#if(${cixsOperation.packageName})
+package ${cixsOperation.packageName};
 #end
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "${cixsOperation.faultInfoType}",
-         namespace = "${operationNamespace}",
+         namespace = "${cixsOperation.namespace}",
          propOrder = {
     "detail",
     "message"

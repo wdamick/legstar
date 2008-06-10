@@ -3,8 +3,8 @@
 ##@author Fady
 ##@version 0.1
 ##/////////////////////////////////////////////////////////////////////
-#if(${operationPackageName})
-package ${operationPackageName};
+#if(${cixsOperation.packageName})
+package ${cixsOperation.packageName};
 #end
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -32,7 +32,7 @@ import ${helper.getQualClassName(${cixsStructure.jaxbPackageName}, ${cixsStructu
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "${holderType}",
-         namespace = "${operationNamespace}",
+         namespace = "${cixsOperation.namespace}",
          propOrder = {
 #set($last = ${cixsStructures.size()})
 #set($pos = 0)
@@ -47,7 +47,7 @@ public class ${holderType} {
 #foreach($cixsStructure in $cixsStructures)
     /** Inner ${cixsStructure.jaxbType} JAXB-bound object. */
     @XmlElement(name = "${cixsStructure.jaxbFieldName}",
-                namespace = "${operationNamespace}",
+                namespace = "${cixsOperation.namespace}",
                 required = true)
     private ${cixsStructure.jaxbType} ${cixsStructure.jaxbFieldName};
 #end

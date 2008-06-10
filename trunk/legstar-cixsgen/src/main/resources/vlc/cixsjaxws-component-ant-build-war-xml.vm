@@ -4,8 +4,8 @@
 ##@version 0.1
 ##/////////////////////////////////////////////////////////////////////
 ##
-#set($warFile = "${warDir}/cixs-${jaxwsComponent.name}.war")
-#set($wddFile = "${wddDir}/web.xml")
+#set($warFile = "${targetWarDir}/cixs-${jaxwsComponent.name}.war")
+#set($wddFile = "${targetWDDDir}/web.xml")
 ## ==================================================================
 ## Macro will help make sure we process packages only once
 ## ==================================================================
@@ -53,7 +53,7 @@
    <target name="create-war" depends="clean">
       <war warfile="${warFile}"
            webxml="${wddFile}">
-         <webinf dir="${wddDir}"
+         <webinf dir="${targetWDDDir}"
                  includes="sun-jaxws.xml"/>
 #foreach ($jaxbPackage in $jaxbPackages)
          <classes dir="${jaxbBinDir}">
@@ -74,7 +74,7 @@
          </classes>
 #end
 #foreach ($cixsOperation in $jaxwsComponent.cixsOperations)
-         <classes dir="${propDir}">
+         <classes dir="${targetPropDir}">
             <include name="${cixsOperation.name}.properties"/>
          </classes>
 #end

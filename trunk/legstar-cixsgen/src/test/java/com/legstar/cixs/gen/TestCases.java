@@ -7,7 +7,7 @@ import java.util.Map;
 import com.legstar.cixs.gen.model.CixsOperation;
 import com.legstar.cixs.gen.model.CixsStructure;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
-import com.legstar.cixs.model.util.ModelUtil;
+import com.legstar.codegen.CodeGenUtil;
 
 /**
  * Produces models to use for generation testing.
@@ -45,31 +45,32 @@ public class TestCases {
 	public static CixsJaxwsService getLsfileax() {
 		CixsJaxwsService service = getNewService("lsfileax");
 		service.getCixsOperations().add(
-				getNewCommareaOperation("lsfileae", "DfhcommareaType", "DfhcommareaType"));
+				getNewCommareaOperation("lsfileax", "lsfileae", "DfhcommareaType", "DfhcommareaType"));
 		Map <String, String> inputContainers = new HashMap <String, String>();
 		inputContainers.put("QueryDataType", "QueryData");
 		inputContainers.put("QueryLimitType", "QueryLimit");
 		Map <String, String> outputContainers = new HashMap <String, String>();
 		outputContainers.put("ReplyDataType", "ReplyData");
 		outputContainers.put("ReplyStatusType", "ReplyStatus");
-		service.getCixsOperations().add(getNewContainerOperation("lsfileac", inputContainers, outputContainers));
+		service.getCixsOperations().add(getNewContainerOperation("lsfileax", "lsfileac", inputContainers, outputContainers));
 		return service;
 	}
 
 	/** A case where the operation has a different namespace/package than the service. */
 	public static CixsJaxwsService getLsfilean() {
 		CixsJaxwsService service = getNewService("lsfilean");
-		CixsOperation operation = getNewCommareaOperation("lsfileae", "DfhcommareaType", "DfhcommareaType");
+		CixsOperation operation = getNewCommareaOperation("lsfilean", "lsfileae", "DfhcommareaType", "DfhcommareaType");
 		operation.setNamespace(NAMESPACE_PREFIX + "oper/" + "lsfilean");
 		operation.setPackageName(CIXS_PACKAGE_PREFIX + "oper." + "lsfilean");
 		service.getCixsOperations().add(operation);
 		return service;
 	}
 	
-	/** A case where there is no package names. */
+	/** A case where there is no operation package names. */
 	public static CixsJaxwsService getLsfileap() {
 		CixsJaxwsService service = getNewService("lsfileap");
-		CixsOperation operation = getNewCommareaOperation("lsfileae", "DfhcommareaType", "DfhcommareaType");
+		CixsOperation operation = getNewCommareaOperation("lsfileap", "lsfileae", "DfhcommareaType", "DfhcommareaType");
+		operation.setPackageName(null);
 		service.setPackageName(null);
 		service.getCixsOperations().add(operation);
 		return service;
@@ -82,7 +83,7 @@ public class TestCases {
 		inputContainers.put("QueryDataType", "QueryData");
 		Map <String, String> outputContainers = new HashMap <String, String>();
 		outputContainers.put("ReplyDataType", "ReplyData");
-		service.getCixsOperations().add(getNewContainerOperation("lsfileac", inputContainers, outputContainers));
+		service.getCixsOperations().add(getNewContainerOperation("lsfileaq", "lsfileac", inputContainers, outputContainers));
 		return service;
 	}
 	
@@ -102,7 +103,7 @@ public class TestCases {
 	private static CixsJaxwsService getCommareaService(
 			String name, String inputJaxbType, String outputJaxbType) {
 		CixsJaxwsService service = getNewService(name);
-		service.getCixsOperations().add(getNewCommareaOperation(name, inputJaxbType, outputJaxbType));
+		service.getCixsOperations().add(getNewCommareaOperation(name, name, inputJaxbType, outputJaxbType));
 		return service;
 	}
 	
@@ -116,7 +117,7 @@ public class TestCases {
 			Map <String, String> outputContainers) {
 
 		CixsJaxwsService service = getNewService(name);
-		CixsOperation operation = getNewContainerOperation(name, inputContainers, outputContainers);
+		CixsOperation operation = getNewContainerOperation(name, name, inputContainers, outputContainers);
 		service.getCixsOperations().add(operation);
 		
 		return service;
@@ -126,25 +127,31 @@ public class TestCases {
 		CixsJaxwsService serviceModel = new CixsJaxwsService();
 		serviceModel.setPackageName(CIXS_PACKAGE_PREFIX + name);
 		serviceModel.setImplementationClassName(
-				ModelUtil.classNormalize(name) + "Impl");
+				CodeGenUtil.classNormalize(name) + "Impl");
 		serviceModel.setInterfaceClassName(
-				ModelUtil.classNormalize(name));
+				CodeGenUtil.classNormalize(name));
 		serviceModel.setName(name);
 		serviceModel.setTargetNamespace(NAMESPACE_PREFIX + name);
 		return serviceModel;
 	}
 	
-	private static CixsOperation getNewCommareaOperation(String name, String inputJaxbType, String outputJaxbType) {
+	private static CixsOperation getNewCommareaOperation(
+			String serviceName,
+			String operationName,
+			String inputJaxbType,
+			String outputJaxbType) {
 		CixsOperation operation = new CixsOperation();
 		operation.setInput(new ArrayList < CixsStructure >());
 		operation.setOutput(new ArrayList < CixsStructure >());
 		CixsStructure inStruct = new CixsStructure();
 		CixsStructure outStruct = new CixsStructure();
 		
-		operation.setName(name);
-		operation.setCicsProgramName(name.toUpperCase());
+		operation.setName(operationName);
+		operation.setCicsProgramName(operationName.toUpperCase());
+		operation.setNamespace(NAMESPACE_PREFIX + serviceName);
+		operation.setPackageName(CIXS_PACKAGE_PREFIX + serviceName);
 		inStruct.setJaxbType(inputJaxbType);
-		inStruct.setJaxbPackageName(COXB_PACKAGE_PREFIX + name);
+		inStruct.setJaxbPackageName(COXB_PACKAGE_PREFIX + operationName);
 		outStruct.setJaxbType(outputJaxbType);
 		outStruct.setJaxbPackageName(inStruct.getJaxbPackageName());
 		
@@ -155,21 +162,24 @@ public class TestCases {
 	}
 
 	private static CixsOperation getNewContainerOperation(
-			String name,
+			String serviceName,
+			String operationName,
 			Map <String, String> inputContainers,
 			Map <String, String> outputContainers) {
 		CixsOperation operation = new CixsOperation();
 		operation.setInput(new ArrayList < CixsStructure >());
 		operation.setOutput(new ArrayList < CixsStructure >());
 		
-		operation.setName(name);
-		operation.setCicsProgramName(name.toUpperCase());
-		operation.setCicsChannel(name.toUpperCase() + "-CHANNEL");
+		operation.setName(operationName);
+		operation.setNamespace(NAMESPACE_PREFIX + serviceName);
+		operation.setPackageName(CIXS_PACKAGE_PREFIX + serviceName);
+		operation.setCicsProgramName(operationName.toUpperCase());
+		operation.setCicsChannel(operationName.toUpperCase() + "-CHANNEL");
 
 		for(String jaxbType : inputContainers.keySet()) {
 			CixsStructure inStruct = new CixsStructure();
 			inStruct.setJaxbType(jaxbType);
-			inStruct.setJaxbPackageName(COXB_PACKAGE_PREFIX + name);
+			inStruct.setJaxbPackageName(COXB_PACKAGE_PREFIX + operationName);
 			inStruct.setCicsContainer(inputContainers.get(jaxbType));
 			operation.getInput().add(inStruct);
 		}
@@ -177,7 +187,7 @@ public class TestCases {
 		for(String jaxbType : outputContainers.keySet()) {
 			CixsStructure outStruct = new CixsStructure();
 			outStruct.setJaxbType(jaxbType);
-			outStruct.setJaxbPackageName(COXB_PACKAGE_PREFIX + name);
+			outStruct.setJaxbPackageName(COXB_PACKAGE_PREFIX + operationName);
 			outStruct.setCicsContainer(outputContainers.get(jaxbType));
 			operation.getOutput().add(outStruct);
 		}

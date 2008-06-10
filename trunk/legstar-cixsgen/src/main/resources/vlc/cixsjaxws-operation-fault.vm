@@ -3,8 +3,8 @@
 ##@author Fady
 ##@version 0.1
 ##/////////////////////////////////////////////////////////////////////
-#if(${operationPackageName})
-package ${operationPackageName};
+#if(${cixsOperation.packageName})
+package ${cixsOperation.packageName};
 #end
 import javax.xml.ws.WebFault;
 
@@ -16,7 +16,7 @@ import javax.xml.ws.WebFault;
  * Generated on $formattedDate
  */
 @WebFault(name = "${cixsOperation.faultInfoType}",
-          targetNamespace = "${operationNamespace}")
+          targetNamespace = "${cixsOperation.namespace}")
 public class ${cixsOperation.faultType}
     extends Exception {
 
@@ -57,7 +57,7 @@ public class ${cixsOperation.faultType}
     /**
      * 
      * @return
-     *     returns fault bean: ${operationPackageName}.${cixsOperation.faultInfoType}
+     *     returns fault bean: ${cixsOperation.packageName}.${cixsOperation.faultInfoType}
      */
     public final ${cixsOperation.faultInfoType} getFaultInfo() {
         return faultInfo;

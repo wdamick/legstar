@@ -3,8 +3,8 @@
 ##@author Fady
 ##@version 0.1
 ##/////////////////////////////////////////////////////////////////////
-#if(${operationPackageName})
-package ${operationPackageName};
+#if(${cixsOperation.packageName})
+package ${cixsOperation.packageName};
 #end
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,7 +25,7 @@ import ${importType};
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "${wrapperType}",
-         namespace = "${operationNamespace}",
+         namespace = "${cixsOperation.namespace}",
          propOrder = {
     "${fieldName}"
 })
@@ -33,7 +33,7 @@ public class ${wrapperType} {
     
     /** Inner JAXB-bound object. */
     @XmlElement(name = "${propertyName}",
-                namespace = "${operationNamespace}",
+                namespace = "${cixsOperation.namespace}",
                 required = true)
     private ${fieldType} ${fieldName};
 

@@ -26,17 +26,7 @@
 
         <dependency>
           <groupId>com.legsem.legstar</groupId>
-          <artifactId>legstar-codegen</artifactId>
-        </dependency>
-
-        <dependency>
-          <groupId>com.legsem.legstar</groupId>
-          <artifactId>legstar-coxbapi</artifactId>
-        </dependency>
-
-        <dependency>
-          <groupId>com.legsem.legstar</groupId>
-          <artifactId>legstar-coxbrt</artifactId>
+          <artifactId>legstar-coxbgen</artifactId>
         </dependency>
 
         <dependency>

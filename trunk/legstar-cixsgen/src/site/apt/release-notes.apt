@@ -34,7 +34,7 @@ INSTALLING/UNINSTALLING:
         |---->cixsgen-NOTICE
         |---->cixsgen-README
         |----><ant>
-                |---->build-service.xml
+                |---->build-j2c.xml
                 |---->build-service-client.xml
         |----><lib>
                 |---->*.jar
@@ -50,7 +50,7 @@ INSTALLING/UNINSTALLING:
    
  [[2]] If you have Tomcat running, check that the <CATALINA_BASE> environment
        variable points to the location where your webapps reside. 
-       From the installDir/ant folder, run command "ant -f build-service.xml".
+       From the installDir/ant folder, run command "ant -f build-j2c.xml".
        This should add a set of java files to the src/main/java folder. This 
        also creates a WebContent and an ant folders under src/main.
    
@@ -61,14 +61,11 @@ INSTALLING/UNINSTALLING:
  [[4]] Optionally, you can use build-service-client.xml to generate a Web
        service client using JAXWS.
    
- [[5]] Optionally, you can use build-service-client.xml to generate a Web
-       service client using JAXWS.
-   
- [[6]] In order to actually run the deployed Web Service, you need to select
+ [[5]] In order to actually run the deployed Web Service, you need to select
        a transport and put a customized version of the legstar-invoker.config.xml
        configuration file in a location such as CATALINA_HOME/shared/classes.
    
- [[7]] To uninstall, remove the installDir folder.
+ [[6]] To uninstall, remove the installDir folder.
 
 DOCUMENTATION:
 

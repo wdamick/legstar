@@ -20,33 +20,24 @@
  *******************************************************************************/
 package com.legstar.cixs.gen.test;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import com.legstar.cixs.gen.AbstractTestTemplate;
 import com.legstar.cixs.gen.TestCases;
-import com.legstar.cixs.jaxws.gen.CixsJaxwsGenerator;
+import com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
 
-import junit.framework.TestCase;
 
 /**
- * Test cases for CixsJaxwsGenerator.
+ * Test cases for Jaxws2CixsGenerator.
  */
-public class CixsJaxwsGeneratorTest extends TestCase {
+public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
 
-    /** Logger. */
-	private static final Log LOG = LogFactory.getLog(CixsJaxwsGeneratorTest.class);
-	
+	private Jaxws2CixsGenerator mGenerator;
+
 	/** General location for generated artifacts. */
 	private static final String GEN_DIR = "src/test/gen";
-
-	/** Java Code will be generated here. */
-	private static final String GEN_SRC_DIR = GEN_DIR + "/java";
 
 	/** Ant scripts will be generated here. */
 	private static final String GEN_ANT_DIR = "ant";
@@ -57,10 +48,9 @@ public class CixsJaxwsGeneratorTest extends TestCase {
 	/** Property files will be generated here. */
 	private static final String GEN_PROP_DIR = "WebContent/WEB-INF/classes";
 	
-	private CixsJaxwsGenerator mGenerator;
 
     public void setUp() {
-        mGenerator = new CixsJaxwsGenerator();
+        mGenerator = new Jaxws2CixsGenerator();
         mGenerator.init();
         mGenerator.setTargetSrcDir(GEN_SRC_DIR);
     }
@@ -69,11 +59,11 @@ public class CixsJaxwsGeneratorTest extends TestCase {
      * Check controls on input make file.
      */
     public final void testInputValidation() {
-        CixsJaxwsGenerator generator = new CixsJaxwsGenerator();
+        Jaxws2CixsGenerator generator = new Jaxws2CixsGenerator();
         try {
             generator.execute();
         } catch (Exception e) {
-            assertEquals("Missing cixs Jaxws service parameter",
+            assertEquals("Missing service description parameter",
                     e.getCause().getMessage());
         }
         CixsJaxwsService cixsJaxwsService = new CixsJaxwsService();
@@ -90,6 +80,16 @@ public class CixsJaxwsGeneratorTest extends TestCase {
        
     }
     
+    private void initJaxwsService(CixsJaxwsService cixsJaxwsService) {
+        mGenerator.setCixsJaxwsService(cixsJaxwsService);
+        mGenerator.setTargetAntDir(
+        		new File(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_ANT_DIR));
+        mGenerator.setTargetWDDDir(
+        		new File(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_WEB_DIR));
+        mGenerator.setTargetPropDir(
+        		new File(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_PROP_DIR));
+    }
+    
     /**
      * Check generation when no operations are specified.
      * @throws Exception if generation fails
@@ -101,12 +101,9 @@ public class CixsJaxwsGeneratorTest extends TestCase {
         cixsJaxwsService.setName("jaxwsServiceName");
         cixsJaxwsService.setInterfaceClassName("JaxwsService");
         cixsJaxwsService.setImplementationClassName("JaxwsServiceImpl");
-        mGenerator.setCixsJaxwsService(cixsJaxwsService);
-        mGenerator.setTargetAntDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_ANT_DIR);
-        mGenerator.setTargetWDDDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_WEB_DIR);
-        mGenerator.setTargetPropDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_PROP_DIR);
+        initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
-        String resStr = getContent(GEN_SRC_DIR + "/JaxwsService.java");
+        String resStr = getSource(GEN_SRC_DIR + "/JaxwsService.java");
         assertTrue(resStr.contains("public interface JaxwsService {"));
         
         File interfaceFile = new File(GEN_SRC_DIR + "/JaxwsService.java");
@@ -124,10 +121,7 @@ public class CixsJaxwsGeneratorTest extends TestCase {
      */
     public final void testLsfileaeGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = TestCases.getLsfileae();
-        mGenerator.setCixsJaxwsService(cixsJaxwsService);
-        mGenerator.setTargetAntDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_ANT_DIR);
-        mGenerator.setTargetWDDDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_WEB_DIR);
-        mGenerator.setTargetPropDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_PROP_DIR);
+        initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
         checkComponentResult("/com/legstar/test/cixs/Lsfileae", "lsfileae", "Lsfileae");
         checkOperationResult("/com/legstar/test/cixs/Lsfileae", "lsfileae", "lsfileae", "Lsfileae");
@@ -141,10 +135,7 @@ public class CixsJaxwsGeneratorTest extends TestCase {
      */
     public final void testgetLsfilealGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = TestCases.getLsfileal();
-        mGenerator.setCixsJaxwsService(cixsJaxwsService);
-        mGenerator.setTargetAntDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_ANT_DIR);
-        mGenerator.setTargetWDDDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_WEB_DIR);
-        mGenerator.setTargetPropDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_PROP_DIR);
+        initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
         checkComponentResult("/com/legstar/test/cixs/Lsfileal", "lsfileal", "Lsfileal");
         checkOperationResult("/com/legstar/test/cixs/Lsfileal", "lsfileal", "lsfileal", "Lsfileal");
@@ -158,10 +149,7 @@ public class CixsJaxwsGeneratorTest extends TestCase {
      */
     public final void testLsfileacGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = TestCases.getLsfileac();
-        mGenerator.setCixsJaxwsService(cixsJaxwsService);
-        mGenerator.setTargetAntDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_ANT_DIR);
-        mGenerator.setTargetWDDDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_WEB_DIR);
-        mGenerator.setTargetPropDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_PROP_DIR);
+        initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
         checkComponentResult("/com/legstar/test/cixs/Lsfileac", "lsfileac", "Lsfileac");
         checkOperationResult("/com/legstar/test/cixs/Lsfileac", "lsfileac", "lsfileac", "Lsfileac");
@@ -175,10 +163,7 @@ public class CixsJaxwsGeneratorTest extends TestCase {
      */
     public final void testLsfileaxGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = TestCases.getLsfileax();
-        mGenerator.setCixsJaxwsService(cixsJaxwsService);
-        mGenerator.setTargetAntDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_ANT_DIR);
-        mGenerator.setTargetWDDDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_WEB_DIR);
-        mGenerator.setTargetPropDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_PROP_DIR);
+        initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
         checkComponentResult("/com/legstar/test/cixs/Lsfileax", "lsfileax", "Lsfileax");
         checkOperationResult("/com/legstar/test/cixs/Lsfileax", "lsfileax", "lsfileae", "Lsfileae");
@@ -195,10 +180,7 @@ public class CixsJaxwsGeneratorTest extends TestCase {
      */
     public final void testLsfileapGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = TestCases.getLsfileap();
-        mGenerator.setCixsJaxwsService(cixsJaxwsService);
-        mGenerator.setTargetAntDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_ANT_DIR);
-        mGenerator.setTargetWDDDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_WEB_DIR);
-        mGenerator.setTargetPropDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_PROP_DIR);
+        initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
         checkComponentResult("", "lsfileap", "Lsfileap");
         checkOperationResult("", "lsfileap", "lsfileae", "Lsfileae");
@@ -210,10 +192,7 @@ public class CixsJaxwsGeneratorTest extends TestCase {
      */
     public final void testLsfileanGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = TestCases.getLsfilean();
-        mGenerator.setCixsJaxwsService(cixsJaxwsService);
-        mGenerator.setTargetAntDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_ANT_DIR);
-        mGenerator.setTargetWDDDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_WEB_DIR);
-        mGenerator.setTargetPropDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_PROP_DIR);
+        initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
         checkComponentResult("/com/legstar/test/cixs/Lsfilean", "lsfilean", "Lsfilean");
         checkOperationResult("/com/legstar/test/cixs/oper/Lsfilean", "lsfilean", "lsfileae", "Lsfileae");
@@ -225,10 +204,7 @@ public class CixsJaxwsGeneratorTest extends TestCase {
      */
     public final void testLsfileaqGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = TestCases.getLsfileaq();
-        mGenerator.setCixsJaxwsService(cixsJaxwsService);
-        mGenerator.setTargetAntDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_ANT_DIR);
-        mGenerator.setTargetWDDDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_WEB_DIR);
-        mGenerator.setTargetPropDir(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_PROP_DIR);
+        initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
         checkComponentResult("/com/legstar/test/cixs/Lsfileaq", "lsfileaq", "Lsfileaq");
         checkOperationResult("/com/legstar/test/cixs/Lsfileaq", "lsfileaq", "lsfileac", "Lsfileac");
@@ -238,7 +214,7 @@ public class CixsJaxwsGeneratorTest extends TestCase {
 
     private void checkComponentResult(
     		String relativeLoc, String service, String ClassName) throws IOException {
-        String resStr = getContent(
+        String resStr = getSource(
         		GEN_SRC_DIR + relativeLoc +
         				"/" + ClassName +
         				".java");
@@ -246,7 +222,7 @@ public class CixsJaxwsGeneratorTest extends TestCase {
                 "public interface " + ClassName +
                 " {"));
 
-        resStr = getContent(
+        resStr = getSource(
         		GEN_SRC_DIR + relativeLoc +
         				"/"  + ClassName +
         				"Impl.java");
@@ -255,7 +231,7 @@ public class CixsJaxwsGeneratorTest extends TestCase {
                 "Impl implements " + ClassName +
                 " {"));
 
-        resStr = getContent(
+        resStr = getSource(
         		GEN_SRC_DIR + relativeLoc +
         				"/" + ClassName +
         				"HostHeader.java");
@@ -263,20 +239,20 @@ public class CixsJaxwsGeneratorTest extends TestCase {
                 "public class " + ClassName +
                 "HostHeader {"));
 
-        resStr = getContent(
+        resStr = getSource(
         		GEN_DIR + '/' + service + '/' + GEN_ANT_DIR + "/"
                 + "build.xml");
         assertTrue(resStr.contains(
-                "<war warfile=\"${warDir}/cixs-" + service +
+                "<war warfile=\"${targetWarDir}/cixs-" + service +
                 ".war\""));
         
-        resStr = getContent(
+        resStr = getSource(
         		GEN_DIR + '/' + service + '/' + GEN_WEB_DIR + "/"
                 + "web.xml");
         assertTrue(resStr.contains(
                 "<servlet-name>" + service + "Service</servlet-name>"));
         
-        resStr = getContent(
+        resStr = getSource(
         		GEN_DIR + '/' + service + '/' + GEN_WEB_DIR + "/"
                 + "sun-jaxws.xml");
         assertTrue(resStr.contains(
@@ -286,12 +262,12 @@ public class CixsJaxwsGeneratorTest extends TestCase {
     
     public void checkOperationResult(
     		String relativeLoc, String service, String operation, String ClassName) throws IOException {
-    	String resStr = getContent(
+    	String resStr = getSource(
     			GEN_DIR + '/' + service + '/' + GEN_PROP_DIR
                 + "/" + operation + ".properties");
         assertTrue(resStr.contains(
                 "CICSProgramName=" + operation.toUpperCase() ));
-        resStr = getContent(
+        resStr = getSource(
         		GEN_SRC_DIR + relativeLoc +
         				"/" + ClassName +
                 "Fault.java");
@@ -299,7 +275,7 @@ public class CixsJaxwsGeneratorTest extends TestCase {
                 "public class " + ClassName +
                 "Fault"));
         
-        resStr = getContent(
+        resStr = getSource(
         		GEN_SRC_DIR + relativeLoc +
         				"/" + ClassName +
                 "FaultInfo.java");
@@ -311,7 +287,7 @@ public class CixsJaxwsGeneratorTest extends TestCase {
     
     public void checkHolderResult(
     		String relativeLoc, String service, String operation, String ClassName, String propertyName) throws IOException {
-        String resStr = getContent(
+        String resStr = getSource(
         		GEN_SRC_DIR + relativeLoc +
         				"/" + ClassName + propertyName +
                 "Holder.java");
@@ -323,7 +299,7 @@ public class CixsJaxwsGeneratorTest extends TestCase {
     
     public void checkWebWrapperResult(
     		String relativeLoc, String service, String operation, String ClassName, String propertyName) throws IOException {
-        String resStr = getContent(
+        String resStr = getSource(
         		GEN_SRC_DIR + relativeLoc +
         				"/" + ClassName + propertyName +
                 ".java");
@@ -333,23 +309,4 @@ public class CixsJaxwsGeneratorTest extends TestCase {
         
     }
     
-    /**
-     * Reads the content of a file in a string.
-     * @param fileName name of the file
-     * @return a string with the file content
-     * @throws IOException if fails to read file
-     */
-    private static String getContent(final String fileName) throws IOException {
-        BufferedReader in = new BufferedReader(new FileReader(fileName));
-        StringBuilder resStr = new StringBuilder();
-        String str = in.readLine();
-        while (str != null) {
-            LOG.debug(str);
-            resStr.append(str);
-            str = in.readLine();
-        }
-        in.close();
-        return resStr.toString();
-    }
-
 }
