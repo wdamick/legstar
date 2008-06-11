@@ -27,18 +27,6 @@
 				<include name="*.jar"/>
 				<exclude name="*-sources.jar"/>
 			</fileset>
-			<fileset dir="${maven.repo}/commons-logging/commons-logging/1.1">
-				<include name="*.jar"/>
-				<exclude name="*-sources.jar"/>
-			</fileset>
-			<fileset dir="${maven.repo}/commons-collections/commons-collections/3.1">
-				<include name="*.jar"/>
-				<exclude name="*-sources.jar"/>
-			</fileset>
-			<fileset dir="${maven.repo}/commons-lang/commons-lang/2.1">
-				<include name="*.jar"/>
-				<exclude name="*-sources.jar"/>
-			</fileset>
 			<fileset dir="${maven.repo}/org/apache/velocity/velocity/1.5">
 				<include name="*.jar"/>
 				<exclude name="*-sources.jar"/>
