@@ -231,14 +231,28 @@
             <dependency>
                 <groupId>commons-httpclient</groupId>
                 <artifactId>commons-httpclient</artifactId>
-                <version>3.0.1</version>
+                <version>3.1</version>
             </dependency>
       
             <!-- Apache Logging API -->    
             <dependency>
                 <groupId>commons-logging</groupId>
                 <artifactId>commons-logging</artifactId>
-                <version>1.0.4</version>
+                <version>1.1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>logkit</groupId>
+                        <artifactId>logkit</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>avalon-framework</groupId>
+                        <artifactId>avalon-framework</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>servlet-api</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>log4j</groupId>
@@ -253,13 +267,20 @@
                 <version>2.3</version>
             </dependency>
 
-            <!-- Apache Configuration API. Brings unwanted dependencies on Xalan/Xerces
-               and older versions of the servlet and xml API's which are referenced
-               by the jxpath sub-dependency. -->    
+            <!-- Apache Configuration API. -->    
             <dependency>
                 <groupId>commons-configuration</groupId>
                 <artifactId>commons-configuration</artifactId>
-                <version>1.4</version>
+                <version>1.5</version>
+            </dependency>
+            <!-- This is a commons-configuration dependency but it is
+                 declared optional since 1.5. Brings all sorts of unwanted
+                 dependencies such as Xalan/Xerces, older versions of the
+                 servlet api, etc. -->    
+            <dependency>
+                <groupId>commons-jxpath</groupId>
+                <artifactId>commons-jxpath</artifactId>
+                <version>1.2</version>
                 <exclusions>
                     <exclusion>
                         <groupId>xml-apis</groupId>
@@ -272,6 +293,18 @@
                     <exclusion>
                         <groupId>xalan</groupId>
                         <artifactId>xalan</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-collections</groupId>
+                        <artifactId>commons-collections</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-beanutils</groupId>
+                        <artifactId>commons-beanutils</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
