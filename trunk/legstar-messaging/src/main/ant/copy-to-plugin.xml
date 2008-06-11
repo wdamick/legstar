@@ -1,0 +1,64 @@
+<!-- =================================================================================
+     This script copies some jar files from this project to the
+     legstar-common-plugin project.
+ -->
+<project basedir="../../.." default="copyToPlugin">
+
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+	<target name="init">
+		
+	    <property file="${basedir}/../legstar-pom/legstar-dev.properties"/>   
+		<!-- Source directory  -->
+	 	<property name="src.dir" value="${basedir}/target" />
+		<!-- Target directories  -->
+	 	<property name="common-plugin-dest.dir" value="${basedir}/../legstar-common-plugin/lib" />
+		
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Copy files
+	  -->
+	<target name="copyToPlugin" depends="init">
+		<copy todir="${common-plugin-dest.dir}">
+			<fileset dir="${src.dir}">
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+			</fileset>
+			<fileset dir="${maven.repo}/commons-configuration/commons-configuration/1.5">
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+			</fileset>
+			<fileset dir="${maven.repo}/commons-jxpath/commons-jxpath/1.2">
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+			</fileset>
+			<fileset dir="${maven.repo}/jdom/jdom/b9">
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+			</fileset>
+			<fileset dir="${maven.repo}/commons-beanutils/commons-beanutils/1.7.0">
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+			</fileset>
+			<fileset dir="${maven.repo}/commons-beanutils/commons-beanutils-core/1.7.0">
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+			</fileset>
+			<fileset dir="${maven.repo}/commons-logging/commons-logging/1.1">
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+			</fileset>
+			<fileset dir="${maven.repo}/commons-collections/commons-collections/3.2">
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+			</fileset>
+			<fileset dir="${maven.repo}/commons-lang/commons-lang/2.3">
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+			</fileset>
+		</copy>
+	</target>
+	
+</project>
