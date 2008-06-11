@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="com.legstar.eclipse.plugin.jaxwsgen.contribution1"
+            nameFilter="*.cixs"
+            objectClass="org.eclipse.core.resources.IFile">
+         <menu
+               id="com.legstar.eclipse.plugin.jaxwsgen.menu1"
+               label="LegStar"
+               path="additions">
+            <separator name="group1"/>
+         </menu>
+         <action
+               class="com.legstar.eclipse.plugin.jaxwsgen.popup.actions.Jaxws2CixsGeneratorAction"
+               enablesFor="1"
+               icon="icons/jaxwsgen-generate.gif"
+               id="com.legstar.eclipse.plugin.jaxwsgen.jaxwsgen2CixsGeneratorAction"
+               label="Generate Jaxws to CICS artifacts..."
+               menubarPath="com.legstar.eclipse.plugin.jaxwsgen.menu1/group1"/>
+      </objectContribution>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="com.legstar.eclipse.plugin"
+            class="com.legstar.eclipse.plugin.jaxwsgen.preferences.JaxwsCixsPreferencePage"
+            id="com.legstar.eclipse.plugin.jaxwsgen"
+            name="jaxwsgen generator"/>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.legstar.eclipse.plugin.jaxwsgen.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+   </extension>
+</plugin>
