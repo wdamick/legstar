@@ -17,6 +17,7 @@ Eclipse-LazyStart: true
 Eclipse-BuddyPolicy: registered
 Export-Package: com.legstar.cixs.gen.ant.model,
  com.legstar.cixs.gen.model,
+ com.legstar.cixs.jaxws.model,
  com.legstar.codegen,
  com.legstar.codegen.models,
  com.legstar.codegen.tasks,
@@ -122,4 +123,5 @@ Bundle-ClassPath: .,
  lib/jaxb-impl-2.1.3.jar,
  lib/jaxb-xjc-2.1.3.jar,
  lib/legstar-jaxbgen-SNAPSHOT.jar,
- lib/legstar-cixsgen-model-SNAPSHOT.jar
+ lib/legstar-cixsgen-model-SNAPSHOT.jar,
+ lib/legstar-cixsgen-SNAPSHOT.jar

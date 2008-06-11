@@ -22,7 +22,6 @@ package com.legstar.eclipse.plugin.coxbgen.wizards;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import java.lang.reflect.InvocationTargetException;
 import org.eclipse.jface.viewers.ISelection;
