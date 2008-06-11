@@ -1,8 +1,6 @@
 <!-- =================================================================================
      This script copies some jar files from this project to the
-     legstar-cixsgen-plugin project. Because the contact surface
-     between these 2 projects is very small, this is more
-     efficient than creating a full-blown dependency between them.
+     legstar-common-plugin project.
  -->
 <project basedir="../../.." default="copyToPlugin">
 

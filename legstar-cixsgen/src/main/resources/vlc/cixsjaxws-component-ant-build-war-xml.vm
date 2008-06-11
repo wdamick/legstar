@@ -65,10 +65,10 @@
             <include name="${coxbPackage.replace(".","/")}/*.class"/>
          </classes>
 #end
-         <classes dir="${cixsBinDir}">
+         <classes dir="${targetBinDir}">
             <include name="**/${service}/**/*.class"/>
          </classes>
-#if($cixsBinDir != $custBinDir)
+#if($targetBinDir != $custBinDir)
          <classes dir="${custBinDir}">
             <include name="**/${service}/**/*.class"/>
          </classes>

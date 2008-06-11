@@ -68,7 +68,7 @@
 
 		<!-- Service Generator ant task -->
 		<taskdef name="cixsgen"
-			classname="com.legstar.cixs.jaxws.gen.CixsJaxwsGenerator"
+			classname="com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator"
 			classpathref="classpath" 
 		/> 
 
@@ -116,13 +116,13 @@
 		<basename property="service" file="${xsd.file}" suffix="xsd"/>
 		
 		<cixsgen targetSrcDir="${cixs.src.dir}"
+		         targetBinDir="${cixs.bin.dir}"
 		         targetWDDDir="${res.dir}/${service}/${wdd.dir}"
 			     targetPropDir="${res.dir}/${service}/${prop.dir}"
 			     targetAntDir="${res.dir}/${service}/${ant.dir}"
 		         targetWarDir="${war.dir}"
 		         jaxbBinDir="${jaxb.bin.dir}"
 	         	 coxbBinDir="${coxb.bin.dir}"
-		         cixsBinDir="${cixs.bin.dir}"
 	             custBinDir="${cust.bin.dir}"
 			>
 			<cixsJaxwsService name="${service}"
@@ -154,13 +154,13 @@
 		<property name="special-jaxb.root.name.out" value="ReplyDataType"/>
 		
 		<cixsgen targetSrcDir="${cixs.src.dir}"
+	             targetBinDir="${cixs.bin.dir}"
 		         targetWDDDir="${res.dir}/${special-service}/${wdd.dir}"
 			     targetPropDir="${res.dir}/${special-service}/${prop.dir}"
 			     targetAntDir="${res.dir}/${special-service}/${ant.dir}"
 		         targetWarDir="${war.dir}"
 		         jaxbBinDir="${jaxb.bin.dir}"
 	        	 coxbBinDir="${coxb.bin.dir}"
-		         cixsBinDir="${cixs.bin.dir}"
 	             custBinDir="${cust.bin.dir}"
 			>
 			<cixsJaxwsService name="${special-service}"
@@ -190,13 +190,13 @@
 		<property name="service" value="lsfileac"/>
 		
 		<cixsgen targetSrcDir="${cixs.src.dir}"
+			     targetBinDir="${cixs.bin.dir}"
 		         targetWDDDir="${res.dir}/${service}/${wdd.dir}"
 			     targetPropDir="${res.dir}/${service}/${prop.dir}"
 			     targetAntDir="${res.dir}/${service}/${ant.dir}"
 		         targetWarDir="${war.dir}"
 		         jaxbBinDir="${jaxb.bin.dir}"
 		       	 coxbBinDir="${coxb.bin.dir}"
-		         cixsBinDir="${cixs.bin.dir}"
 	             custBinDir="${cust.bin.dir}"
 			>
 			<cixsJaxwsService name="${service}"
