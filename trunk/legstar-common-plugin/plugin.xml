@@ -5,10 +5,9 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            category="com.legstar.eclipse.plugin"
             class="com.legstar.eclipse.plugin.common.preferences.LegStarPreferencePage"
-            id="com.legstar.eclipse.plugin.common"
-            name="LegStar preferences"/>
+            id="com.legstar.eclipse.plugin"
+            name="LegStar"/>
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">
