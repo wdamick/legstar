@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="LegStar"
+            id="com.legstar.eclipse.plugin">
+      </category>
+      <wizard
+            name="LegStar Mapping file"
+            icon="icons/cixsgen-mapping.gif"
+            category="com.legstar.eclipse.plugin"
+            class="com.legstar.eclipse.plugin.cixsmap.wizards.NewMappingFileWizard"
+            id="com.legstar.eclipse.plugin.cixsmap.wizards.NewMappingFileWizard">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="com.legstar.eclipse.plugin.cixsmap.editors.CixsGenEditor"
+            extensions="cixs"
+            icon="icons/cixsgen-mapping.gif"
+            id="com.legstar.eclipse.plugin.cixsmap.editors.CixsGenEditor"
+            name="Legacy Mapping editor"/>
+   </extension>
+
+</plugin>
