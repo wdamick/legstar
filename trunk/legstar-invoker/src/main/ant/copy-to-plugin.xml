@@ -1,0 +1,36 @@
+<!-- =================================================================================
+     This script copies some jar files from this project to the
+     legstar-common-plugin project.
+ -->
+<project basedir="../../.." default="copyToPlugin">
+
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+	<target name="init">
+		
+	    <property file="${basedir}/../legstar-pom/legstar-dev.properties"/>   
+		<!-- Source directory  -->
+	 	<property name="src.dir" value="${basedir}/target" />
+		<!-- Target directories  -->
+	 	<property name="common-plugin-dest.dir" value="${basedir}/../legstar-common-plugin/lib" />
+		
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Copy files
+	  -->
+	<target name="copyToPlugin" depends="init">
+		<copy todir="${common-plugin-dest.dir}">
+			<fileset dir="${src.dir}">
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+			</fileset>
+			<fileset dir="${maven.repo}/commons-logging/commons-logging/1.1">
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+			</fileset>
+		</copy>
+	</target>
+	
+</project>
