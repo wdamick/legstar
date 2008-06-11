@@ -14,12 +14,8 @@
 	    <property file="${basedir}/../legstar-pom/legstar-dev.properties"/>   
 		<!-- Source directory  -->
 	 	<property name="src.dir" value="${basedir}/target" />
-		<!-- Source directory for cixsgen-model -->
-	 	<property name="cixsgen-model-src.dir" value="${basedir}/../legstar-cixsgen-model/target" />
-		<!-- Source directory for codegen -->
-	 	<property name="codegen-src.dir" value="${basedir}/../legstar-codegen/target" />
-		<!-- Target directory  -->
-	 	<property name="dest.dir" value="${basedir}/../legstar-cixsgen-plugin/lib" />
+		<!-- Target directories  -->
+	 	<property name="common-plugin-dest.dir" value="${basedir}/../legstar-common-plugin/lib" />
 		
 	</target>
 
@@ -27,24 +23,8 @@
 	<!-- Copy files
 	  -->
 	<target name="copyToPlugin" depends="init">
-		<copy todir="${dest.dir}">
+		<copy todir="${common-plugin-dest.dir}">
 			<fileset dir="${src.dir}">
-				<include name="*.jar"/>
-				<exclude name="*-sources.jar"/>
-			</fileset>
-			<fileset dir="${cixsgen-model-src.dir}">
-				<include name="*.jar"/>
-				<exclude name="*-sources.jar"/>
-			</fileset>
-			<fileset dir="${codegen-src.dir}">
-				<include name="*.jar"/>
-				<exclude name="*-sources.jar"/>
-			</fileset>
-			<fileset dir="${maven.repo}/commons-logging/commons-logging/1.1">
-				<include name="*.jar"/>
-				<exclude name="*-sources.jar"/>
-			</fileset>
-			<fileset dir="${maven.repo}/org/apache/velocity/velocity/1.5">
 				<include name="*.jar"/>
 				<exclude name="*-sources.jar"/>
 			</fileset>
