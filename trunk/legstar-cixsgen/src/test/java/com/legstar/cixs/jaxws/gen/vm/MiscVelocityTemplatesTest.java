@@ -283,7 +283,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
 		getParameters().put("targetWDDDir", "/Legsem/Legstar/Dev/WebContent/WEB-INF");
 		getParameters().put("jaxbBinDir", "/legstar-jaxbgen-cases/target/classes");
 		getParameters().put("coxbBinDir", "/legstar-coxbgen-cases/target/classes");
-		getParameters().put("cixsBinDir", "/legstar-cixsgen-cases/target/classes");
+		getParameters().put("targetBinDir", "/legstar-cixsgen-cases/target/classes");
 		getParameters().put("custBinDir", "/legstar-cixsgen-cust-cases/target/classes");
 		getParameters().put("targetPropDir", "/Legsem/Legstar/Dev/WebContent/WEB-INF/classes");
 

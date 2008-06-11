@@ -45,13 +45,13 @@ Running the Ant script
   
 +------------------
     <cixsgen targetSrcDir="${cixs.src.dir}"
+             targetBinDir="${cixs.bin.dir}"
              targetWDDDir="${wdd.dir}"
              targetPropDir="${prop.dir}"
              targetAntDir="${ant.dir}"
              targetWarDir="${war.dir}"
              jaxbBinDir="${jaxb.bin.dir}"
              coxbBinDir="${coxb.bin.dir}"
-             cixsBinDir="${cixs.bin.dir}"
              custBinDir="${cust.bin.dir}"
       >
       <cixsJaxwsService name="${service}"

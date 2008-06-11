@@ -10,7 +10,7 @@
         easier to maintain and performances are better.
         There is a new legstar-cixsgen-model project that isolates classes that are
         common to multiple target platforms (Jaxws, Mule, ...).
-        The Ant Task has been renamed CixsJaxwsGenerator to show the dependency on
+        The Ant Task has been renamed Jaxws2CixsGenerator to show the dependency on
         Jaxws. There are also minor changes in the Task properties so old Ant script
         may break with this new version.
         Test cases have been revised and are more thorough.

@@ -54,6 +54,17 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
         mGenerator.init();
         mGenerator.setTargetSrcDir(GEN_SRC_DIR);
     }
+    
+    public void testGetSet() {
+        Jaxws2CixsGenerator generator = new Jaxws2CixsGenerator();
+        generator.setJaxbBinDir(new File("jaxb"));
+        generator.setCoxbBinDir(new File("coxb"));
+        generator.setCustBinDir(new File("cust"));
+        assertEquals("jaxb", generator.getJaxbBinDir().toString());
+        assertEquals("coxb", generator.getCoxbBinDir().toString());
+        assertEquals("cust", generator.getCustBinDir().toString());
+    	
+    }
 	
 	/**
      * Check controls on input make file.
