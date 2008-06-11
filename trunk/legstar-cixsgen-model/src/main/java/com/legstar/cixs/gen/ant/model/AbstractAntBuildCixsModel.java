@@ -143,7 +143,7 @@ public class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
      * location as Jaxb classes.
      */
     public final File getCoxbBinDir() {
-    	if (mCoxbBinDir == null || mCoxbBinDir.length() == 0) {
+    	if (mCoxbBinDir == null) {
     		return getJaxbBinDir();
     	}
         return mCoxbBinDir;
@@ -161,7 +161,7 @@ public class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
      * location as Jaxb classes.
      */
     public final File getCustBinDir() {
-    	if (mCustBinDir == null || mCustBinDir.length() == 0) {
+    	if (mCustBinDir == null) {
     		return getJaxbBinDir();
     	}
         return mCustBinDir;
