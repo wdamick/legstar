@@ -118,12 +118,12 @@
             />
         <coxbgen 
             XsdFile="${xsd.dir}/jvmquery.xsd"
-            JaxbRootObjectName="JvmQueryRequest"
+            JaxbRootObjectName="JvmQueryRequestType"
             targetDir="${coxb.src.dir}"
             />
         <coxbgen 
             XsdFile="${xsd.dir}/jvmquery.xsd"
-            JaxbRootObjectName="JvmQueryReply"
+            JaxbRootObjectName="JvmQueryReplyType"
             targetDir="${coxb.src.dir}"
             />
         <!--
