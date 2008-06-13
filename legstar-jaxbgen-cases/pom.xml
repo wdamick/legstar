@@ -14,10 +14,6 @@
   
         <dependency>
             <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-jaxbgen</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-coxbapi</artifactId>
         </dependency>
     
