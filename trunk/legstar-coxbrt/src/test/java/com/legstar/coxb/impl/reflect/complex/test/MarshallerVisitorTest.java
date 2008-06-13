@@ -629,7 +629,7 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.jvmquery.ObjectFactory objectFactory = new com.legstar.test.coxb.jvmquery.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.jvmquery.JvmQueryReply jvmQueryReply = objectFactory.createJvmQueryReply();
+		com.legstar.test.coxb.jvmquery.JvmQueryReplyType jvmQueryReply = objectFactory.createJvmQueryReplyType();
 		
 		jvmQueryReply.setCountry("JP");
 		jvmQueryReply.setCurrencySymbol("Y");
