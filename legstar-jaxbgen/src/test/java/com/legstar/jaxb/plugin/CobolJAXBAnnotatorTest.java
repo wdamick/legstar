@@ -74,7 +74,7 @@ public class CobolJAXBAnnotatorTest extends TestCase {
 
 	public void testXsdcgenOutputWithJavaClassNames() {
 		genSource("jvmquery");
-		String srce = getSource("jvmquery", "JvmQueryReply" );
+		String srce = getSource("jvmquery", "JvmQueryReplyType" );
 	    assertTrue(srce.contains("@CobolComplexType(javaClassName = \"com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply\")"));
 	}
 
