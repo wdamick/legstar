@@ -7,7 +7,7 @@ public class JaxbUtilTest extends TestCase {
 	public void testGetJavaClassNameAnnotations() throws Exception {
 		assertEquals("com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply",
 				JaxbUtil.getJavaClassName(
-				"com.legstar.test.coxb.jvmquery", "JvmQueryReply"));
+				"com.legstar.test.coxb.jvmquery", "JvmQueryReplyType"));
 		
 	}
 
