@@ -67,7 +67,6 @@
     </plugins>
   </build>
   
-  <!--
    <modules>
     <module>../legstar-c2wsgen</module>
     <module>../legstar-c2wsrt</module>
@@ -94,6 +93,7 @@
     <module>../legstar-xsdcgen</module>
     <module>../legstar-xsdcgen-cases</module>
   </modules>
+  <!--
     -->
   
   <!-- Enabling the use of FTP -->
@@ -265,6 +265,7 @@
                 <groupId>javax.servlet</groupId>
                 <artifactId>servlet-api</artifactId>
                 <version>2.3</version>
+                <scope>provided</scope>
             </dependency>
 
             <!-- Apache Configuration API. -->    
@@ -330,24 +331,7 @@
                 <artifactId>jaxws-api</artifactId>
                 <version>2.1</version>
             </dependency>
-            <dependency>
-                <groupId>com.sun.xml.ws</groupId>
-                <artifactId>jaxws-rt</artifactId>
-                <version>2.1</version>
-            </dependency>
-            <dependency>
-                <groupId>com.sun.xml.ws</groupId>
-                <artifactId>jaxws-tools</artifactId>
-                <version>2.1</version>
-            </dependency>
     
-            <!-- Saxon dependencies section -->    
-            <dependency>
-                <groupId>net.sf.saxon</groupId>
-                <artifactId>saxon</artifactId>
-                <version>8.7</version>
-            </dependency>
-
             <!-- IBM MQSeries -->    
             <dependency>
                 <groupId>com.ibm</groupId>
@@ -361,69 +345,6 @@
                 <groupId>javax.resource</groupId>
                 <artifactId>connector-api</artifactId>
                 <version>1.5</version>
-            </dependency>
-
-      
-            <!-- Eclipse dependencies section -->    
-            <dependency>
-                <groupId>org.eclipse.core</groupId>
-                <artifactId>org.eclipse.core.runtime</artifactId>
-                <version>3.2.0</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.core</groupId>
-                <artifactId>org.eclipse.core.resources</artifactId>
-                <version>3.2.1</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.ui</groupId>
-                <artifactId>org.eclipse.ui</artifactId>
-                <version>3.2.1</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.ui</groupId>
-                <artifactId>org.eclipse.ui.ide</artifactId>
-                <version>3.2.1</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.ui</groupId>
-                <artifactId>org.eclipse.ui.console</artifactId>
-                <version>3.1.100</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.ui</groupId>
-                <artifactId>org.eclipse.ui.editors</artifactId>
-                <version>3.2.1</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jdt</groupId>
-                <artifactId>org.eclipse.jdt</artifactId>
-                <version>3.2.1</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jdt</groupId>
-                <artifactId>org.eclipse.jdt.core</artifactId>
-                <version>3.2.1</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.swt</groupId>
-                <artifactId>org.eclipse.swt</artifactId>
-                <version>3.2.1</version>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.swt</groupId>
-                <artifactId>org.eclipse.swt.win32.win32.x86</artifactId>
-                <version>3.2.1</version>
-                <scope>compile</scope>
             </dependency>
 
             <!-- LegStar dependencies section -->    
