@@ -85,7 +85,7 @@ public class CicsMQTest extends TestCase {
 	
 	public void testConnectWrongHost() {
 		try {
-			mMQEndpoint.setHostIPAddress("www.bozothecloon.com");
+			mMQEndpoint.setHostIPAddress(" ");
 			CicsMQ cicsMQ = new CicsMQ("testInstantiation", mMQEndpoint, DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
 			cicsMQ.connect("tiramisu");
 			fail("testConnectFailure");
