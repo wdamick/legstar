@@ -184,6 +184,7 @@ public class CobolGenVisitorTest extends TestCase {
 		sourceResponse.setResults(results);
 		
 		sourceResponses.getSourceResponse().add(sourceResponse);
+		searchResponses.setResponses(sourceResponses);
 		searchResponse.setResponse(searchResponses);
 		
 		CComplexReflectBinding ccem = new CComplexReflectBinding(
