@@ -30,7 +30,7 @@ import java.lang.reflect.Method;
 
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.coxb.host.HostException;
-import com.sun.xml.bind.api.impl.NameConverter;
+import com.legstar.util.NameUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -305,10 +305,10 @@ public class CoxbBindingGenerator extends Task {
     	
 		try {
 			/* Here we make sure the object name is following the
-			 * jaxb naming conventions. Including an optionnal 
+			 * jaxb naming conventions. Including an optional 
 			 * type suffix. */
 			String createName = "create"
-				+ NameConverter.standard.toClassName(rootObjectName);
+				+ NameUtil.toClassName(rootObjectName);
 			if (getJaxbTypeNameSuffix() != null) {
 				createName += getJaxbTypeNameSuffix();
 			}
