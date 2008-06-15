@@ -30,6 +30,7 @@ import com.legstar.coxb.host.HostException;
 import junit.framework.TestCase;
 import com.legstar.test.coxb.redsimpt.ObjectFactory;
 import com.legstar.test.coxb.redsimpt.DfhcommareaType;
+import com.legstar.util.JaxbUtil;
 
 public class UnmarshalRedsimptTest extends TestCase {
 	/**
@@ -50,7 +51,7 @@ public class UnmarshalRedsimptTest extends TestCase {
 		byte[] hostBytes = HostData.toByteArray("f0f1f2f3f4f5f6f7f8c1f1f2f3f4f5f6f7f8");
 		CobolUnmarshalVisitor uv = new CobolUnmarshalVisitor(hostBytes, 0, cc);
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory,
-				Class.forName("com.legstar.test.coxb.redsimpt.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.redsimpt.DfhcommareaType"));
 		ccem.accept(uv);
 		DfhcommareaType dfhcommarea = (DfhcommareaType) ccem.getObjectValue(DfhcommareaType.class);
 		assertEquals("012345678A12345678", dfhcommarea.getCDefinition1());

@@ -31,6 +31,7 @@ import junit.framework.TestCase;
 import com.legstar.test.coxb.enumvar.ObjectFactory;
 import com.legstar.test.coxb.enumvar.SearchRequestType;
 import com.legstar.test.coxb.enumvar.SafeSearchOptionsType; // Enum
+import com.legstar.util.JaxbUtil;
 
 public class UnmarshalEnumvarTest extends TestCase {
 	/**
@@ -57,7 +58,7 @@ public class UnmarshalEnumvarTest extends TestCase {
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory,
-				Class.forName("com.legstar.test.coxb.enumvar.SearchRequestType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.enumvar.SearchRequestType"));
 		ccem.accept(uv);
 		SearchRequestType searchRequest = (SearchRequestType) ccem.getObjectValue(SearchRequestType.class);
 		
