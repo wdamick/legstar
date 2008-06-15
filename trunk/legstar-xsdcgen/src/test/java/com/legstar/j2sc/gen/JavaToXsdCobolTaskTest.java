@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tools.ant.BuildException;
 
 import com.legstar.j2sc.gen.JavaToXsdCobolTask;
+import com.legstar.util.JaxbUtil;
 
 import junit.framework.TestCase;
 
@@ -92,7 +93,7 @@ public class JavaToXsdCobolTaskTest extends TestCase {
 		final String targetFile = "JVMQueryReply.xsd";
 		JavaToXsdCobolTask task = new JavaToXsdCobolTask();
 		task.setNamespace("http://legstar.com");
-		Class <? >[] classes = {Class.forName("com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply")};
+		Class <? >[] classes = {JaxbUtil.loadClass("com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply")};
 		Map < String, String > complexTypeToJavaClassMap =
 			new HashMap < String, String >();
 		
