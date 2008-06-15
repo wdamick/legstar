@@ -30,6 +30,16 @@
         </dependency>
 
         <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-xsdcgen</artifactId>
+        </dependency>
+
+         <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-cobcgen</artifactId>
+        </dependency>
+        
+        <dependency>
             <groupId>javax.xml.ws</groupId>
             <artifactId>jaxws-api</artifactId>
             <scope>test</scope>

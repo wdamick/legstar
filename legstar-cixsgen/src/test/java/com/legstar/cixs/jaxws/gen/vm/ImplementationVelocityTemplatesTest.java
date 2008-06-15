@@ -13,15 +13,15 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
 	
 	public void testImplementationCommareainEqCommareaout() throws Exception {
 		
-		CixsJaxwsService jaxwsComponent = TestCases.getLsfileae();
+		CixsJaxwsService model = TestCases.getLsfileae();
     	
 		File componentClassFilesDir = CodeGenUtil.classFilesLocation(
-				GEN_SRC_DIR, jaxwsComponent.getPackageName(), true);
+				GEN_SRC_DIR, model.getPackageName(), true);
 		Jaxws2CixsGenerator.generateImplementation(
-				jaxwsComponent, getParameters(), componentClassFilesDir);
+				model, getParameters(), componentClassFilesDir);
         String resStr = getSource(
         		componentClassFilesDir,
-        		jaxwsComponent.getImplementationClassName() + ".java");
+        		model.getImplementationClassName() + ".java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileae;"));
         assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileae.DfhcommareaType;"));
@@ -59,15 +59,15 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
 	
 	public void testInterfaceCommareainNeqCommareaout() throws Exception {
 		
-		CixsJaxwsService jaxwsComponent = TestCases.getLsfileal();
+		CixsJaxwsService model = TestCases.getLsfileal();
     	
 		File componentClassFilesDir = CodeGenUtil.classFilesLocation(
-				GEN_SRC_DIR, jaxwsComponent.getPackageName(), true);
+				GEN_SRC_DIR, model.getPackageName(), true);
 		Jaxws2CixsGenerator.generateImplementation(
-				jaxwsComponent, getParameters(), componentClassFilesDir);
+				model, getParameters(), componentClassFilesDir);
         String resStr = getSource(
         		componentClassFilesDir,
-        		jaxwsComponent.getImplementationClassName() + ".java");
+        		model.getImplementationClassName() + ".java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileal;"));
         assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileal.RequestParmsType;"));
@@ -107,15 +107,15 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
 	
 	public void testImplementationContainer() throws Exception {
 		
-		CixsJaxwsService jaxwsComponent = TestCases.getLsfileac();
+		CixsJaxwsService model = TestCases.getLsfileac();
     	
 		File componentClassFilesDir = CodeGenUtil.classFilesLocation(
-				GEN_SRC_DIR, jaxwsComponent.getPackageName(), true);
+				GEN_SRC_DIR, model.getPackageName(), true);
 		Jaxws2CixsGenerator.generateImplementation(
-				jaxwsComponent, getParameters(), componentClassFilesDir);
+				model, getParameters(), componentClassFilesDir);
         String resStr = getSource(
         		componentClassFilesDir,
-        		jaxwsComponent.getImplementationClassName() + ".java");
+        		model.getImplementationClassName() + ".java");
 
         assertTrue(resStr.contains("import java.util.LinkedHashMap;"));
         assertTrue(resStr.contains("import java.util.Map;"));

@@ -3,7 +3,7 @@
 ##@author Fady
 ##@version 0.1
 ##/////////////////////////////////////////////////////////////////////
-#parse("vlc/cixsjaxws-component-common-package.vm")
+#parse("vlc/j2c-service-common-package.vm")
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -18,8 +18,8 @@ import javax.xml.bind.annotation.XmlType;
  */
  
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "${jaxwsComponent.headerClassName}",
-         namespace = "${jaxwsComponent.targetNamespace}",
+@XmlType(name = "${model.headerClassName}",
+         namespace = "${model.targetNamespace}",
          propOrder = {
     "hostUserID", 
     "hostPassword", 
@@ -28,41 +28,41 @@ import javax.xml.bind.annotation.XmlType;
     "hostTraceMode", 
     "hostRequestID"  
 })
-public class ${jaxwsComponent.headerClassName} {
+public class ${model.headerClassName} {
   
     /** User ID used for host authentication/impersonation. */
     @XmlElement(name = "hostUserID",
-                namespace = "${jaxwsComponent.targetNamespace}",
+                namespace = "${model.targetNamespace}",
                 required = false)
     private String hostUserID;
 
     /** Password used for authentication. */
     @XmlElement(name = "hostPassword",
-                namespace = "${jaxwsComponent.targetNamespace}",
+                namespace = "${model.targetNamespace}",
                 required = false)
     private String hostPassword;
 
     /** The host endpoint identifier. */
     @XmlElement(name = "hostEndPoint",
-                namespace = "${jaxwsComponent.targetNamespace}",
+                namespace = "${model.targetNamespace}",
                 required = false)
     private String hostEndPoint;
 
     /** The host character set. */
     @XmlElement(name = "hostCharset",
-                namespace = "${jaxwsComponent.targetNamespace}",
+                namespace = "${model.targetNamespace}",
                 required = false)
     private String hostCharset;
 
     /** Whether the host should trace this request. */
     @XmlElement(name = "hostTraceMode",
-                namespace = "${jaxwsComponent.targetNamespace}",
+                namespace = "${model.targetNamespace}",
                 required = false)
     private boolean hostTraceMode = false;
 
     /** An identifier for this request (used for tracability). */
     @XmlElement(name = "hostRequestID",
-                namespace = "${jaxwsComponent.targetNamespace}",
+                namespace = "${model.targetNamespace}",
                 required = false)
     private String hostRequestID;
 

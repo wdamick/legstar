@@ -4,7 +4,7 @@
 ##@version 0.1
 ##/////////////////////////////////////////////////////////////////////
 ##
-#set($warFile = "${targetWarDir}/cixs-${jaxwsComponent.name}.war")
+#set($warFile = "${targetWarDir}/cixs-${model.name}.war")
 #set($wddFile = "${targetWDDDir}/web.xml")
 ## ==================================================================
 ## Macro will help make sure we process packages only once
@@ -18,7 +18,7 @@
 ## Create a list of unique jaxb package names
 ## ==================================================================
 #set($jaxbPackages = [])
-#foreach ($cixsOperation in $jaxwsComponent.cixsOperations)
+#foreach ($cixsOperation in $model.cixsOperations)
 #foreach ($cixsStructure in $cixsOperation.getInput())
 #set($newPackage = ${cixsStructure.jaxbPackageName})
 #addPackage($jaxbPackages, $newPackage)
@@ -26,26 +26,12 @@
 #foreach ($cixsStructure in $cixsOperation.getOutput())
 #set($newPackage = ${cixsStructure.jaxbPackageName})
 #addPackage($jaxbPackages, $newPackage)
-#end
-#end
-## ==================================================================
-## Create a list of unique coxb (binding) package names
-## ==================================================================
-#set($coxbPackages = [])
-#foreach ($cixsOperation in $jaxwsComponent.cixsOperations)
-#foreach ($cixsStructure in $cixsOperation.getInput())
-#set($newPackage = ${cixsStructure.coxbPackageName})
-#addPackage($coxbPackages, $newPackage)
-#end
-#foreach ($cixsStructure in $cixsOperation.getOutput())
-#set($newPackage = ${cixsStructure.coxbPackageName})
-#addPackage($coxbPackages, $newPackage)
 #end
 #end
 <?xml version="1.0" encoding="UTF-8"?>
 <project basedir=".." default="create-war" name="build-war">
    <property environment="env"/>
-   <property name="service" value="${jaxwsComponent.name}"/>
+   <property name="service" value="${model.name}"/>
    <target name="clean">
       <delete file="${warFile}" includeEmptyDirs="true"
               quiet="true"/>
@@ -53,29 +39,9 @@
    <target name="create-war" depends="clean">
       <war warfile="${warFile}"
            webxml="${wddFile}">
-         <webinf dir="${targetWDDDir}"
-                 includes="sun-jaxws.xml"/>
 #foreach ($jaxbPackage in $jaxbPackages)
          <classes dir="${jaxbBinDir}">
             <include name="${jaxbPackage.replace(".","/")}/*.class"/>
-         </classes>
-#end
-#foreach ($coxbPackage in $coxbPackages)
-         <classes dir="${coxbBinDir}">
-            <include name="${coxbPackage.replace(".","/")}/*.class"/>
-         </classes>
-#end
-         <classes dir="${targetBinDir}">
-            <include name="**/${service}/**/*.class"/>
-         </classes>
-#if($targetBinDir != $custBinDir)
-         <classes dir="${custBinDir}">
-            <include name="**/${service}/**/*.class"/>
-         </classes>
-#end
-#foreach ($cixsOperation in $jaxwsComponent.cixsOperations)
-         <classes dir="${targetPropDir}">
-            <include name="${cixsOperation.name}.properties"/>
          </classes>
 #end
       </war>

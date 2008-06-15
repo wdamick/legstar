@@ -23,51 +23,54 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
 
 	/** This generator name. */
 	private static final String CIXS_JAXWS_GENERATOR_NAME =
-		"LegStar Jaxws Service generator";
+		"LegStar Mainframe Web Service adapter generator";
 
 	/** Velocity template for component interface. */
 	public static final String COMPONENT_INTERFACE_VLC_TEMPLATE =
-		"vlc/cixsjaxws-component-interface.vm";
+		"vlc/j2c-service-interface.vm";
 	
 	/** Velocity template for component implementation. */
 	public static final String COMPONENT_IMPLEMENTATION_VLC_TEMPLATE =
-		"vlc/cixsjaxws-component-implementation.vm";
+		"vlc/j2c-service-implementation.vm";
 
 	/** Velocity template for component header. */
 	public static final String COMPONENT_HEADER_VLC_TEMPLATE =
-		"vlc/cixsjaxws-component-header.vm";
+		"vlc/j2c-service-header.vm";
 
 	/** Velocity template for component ant-build-war. */
 	public static final String COMPONENT_ANT_BUILD_WAR_VLC_TEMPLATE =
-		"vlc/cixsjaxws-component-ant-build-war-xml.vm";
+		"vlc/j2c-service-ant-build-war-xml.vm";
 
 	/** Velocity template for component sun-jaxws-xml. */
 	public static final String COMPONENT_SUN_JAXWS_XML_VLC_TEMPLATE =
-		"vlc/cixsjaxws-component-sun-jaxws-xml.vm";
+		"vlc/j2c-service-sun-jaxws-xml.vm";
 
 	/** Velocity template for component web-xml. */
 	public static final String COMPONENT_WEB_XML_VLC_TEMPLATE =
-		"vlc/cixsjaxws-component-web-xml.vm";
+		"vlc/j2c-service-web-xml.vm";
 
 	/** Velocity template for fault. */
 	public static final String OPERATION_FAULT_VLC_TEMPLATE =
-		"vlc/cixsjaxws-operation-fault.vm";
+		"vlc/j2c-operation-fault.vm";
 
 	/** Velocity template for fault info. */
 	public static final String OPERATION_FAULT_INFO_VLC_TEMPLATE =
-		"vlc/cixsjaxws-operation-fault-info.vm";
+		"vlc/j2c-operation-fault-info.vm";
 
 	/** Velocity template for holder. */
 	public static final String OPERATION_HOLDER_VLC_TEMPLATE =
-		"vlc/cixsjaxws-operation-holder.vm";
+		"vlc/j2c-operation-holder.vm";
 
 	/** Velocity template for program. */
 	public static final String OPERATION_PROGRAM_VLC_TEMPLATE =
-		"vlc/cixsjaxws-operation-program.vm";
+		"vlc/j2c-operation-program.vm";
 
 	/** Velocity template for wrapper. */
 	public static final String OPERATION_WRAPPER_VLC_TEMPLATE =
-		"vlc/cixsjaxws-operation-wrapper.vm";
+		"vlc/j2c-operation-wrapper.vm";
+	
+	/** The service model name is it apperas in templates. */
+	private static final String SERVICE_MODEL_NAME = "model";
 
 	/**
      * Constructor.
@@ -179,7 +182,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
 	throws CodeGenMakeException {
         generateFile(CIXS_JAXWS_GENERATOR_NAME,
         		COMPONENT_INTERFACE_VLC_TEMPLATE,
-                "jaxwsComponent",
+                SERVICE_MODEL_NAME,
                 service,
                 parameters,
                 componentClassFilesDir,
@@ -200,7 +203,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
 	throws CodeGenMakeException {
         generateFile(CIXS_JAXWS_GENERATOR_NAME,
         		COMPONENT_IMPLEMENTATION_VLC_TEMPLATE,
-                "jaxwsComponent",
+                SERVICE_MODEL_NAME,
                 service,
                 parameters,
                 componentClassFilesDir,
@@ -221,7 +224,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
 	throws CodeGenMakeException {
         generateFile(CIXS_JAXWS_GENERATOR_NAME,
         		COMPONENT_HEADER_VLC_TEMPLATE,
-                "jaxwsComponent",
+                SERVICE_MODEL_NAME,
                 service,
                 parameters,
                 componentClassFilesDir,
@@ -242,7 +245,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
 	throws CodeGenMakeException {
         generateFile(CIXS_JAXWS_GENERATOR_NAME,
         		COMPONENT_ANT_BUILD_WAR_VLC_TEMPLATE,
-                "jaxwsComponent",
+                SERVICE_MODEL_NAME,
                 service,
                 parameters,
                 componentAntFilesDir,
@@ -263,7 +266,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
 	throws CodeGenMakeException {
         generateFile(CIXS_JAXWS_GENERATOR_NAME,
         		COMPONENT_WEB_XML_VLC_TEMPLATE,
-                "jaxwsComponent",
+                SERVICE_MODEL_NAME,
                 service,
                 parameters,
                 componentWebFilesDir,
@@ -284,7 +287,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
 	throws CodeGenMakeException {
         generateFile(CIXS_JAXWS_GENERATOR_NAME,
         		COMPONENT_SUN_JAXWS_XML_VLC_TEMPLATE,
-                "jaxwsComponent",
+                SERVICE_MODEL_NAME,
                 service,
                 parameters,
                 componentWebFilesDir,

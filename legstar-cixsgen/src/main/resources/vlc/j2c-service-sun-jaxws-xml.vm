@@ -5,7 +5,7 @@
 ##/////////////////////////////////////////////////////////////////////
 <?xml version="1.0" encoding="UTF-8"?>
 <endpoints xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime" version="2.0">
-   <endpoint name="${jaxwsComponent.wsdlServiceName}"
-             implementation="${helper.getQualClassName(${jaxwsComponent.packageName}, ${jaxwsComponent.implementationClassName})}"
-             url-pattern="/${jaxwsComponent.name}"/>
+   <endpoint name="${model.wsdlServiceName}"
+             implementation="${helper.getQualClassName(${model.packageName}, ${model.implementationClassName})}"
+             url-pattern="/${model.name}"/>
 </endpoints>

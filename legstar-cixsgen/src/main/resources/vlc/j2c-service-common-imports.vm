@@ -9,7 +9,7 @@
 ## Operations with containers have special import needs
 ##
 #set($maps = false)
-#foreach ($cixsOperation in $jaxwsComponent.cixsOperations)
+#foreach ($cixsOperation in $model.cixsOperations)
 #if(${cixsOperation.cicsChannel})
 #set ($maps = true)
 #end
@@ -20,8 +20,8 @@
 ## component. In this case we need to import these packages.
 ## TODO: Check for same operation package name occurring more than once
 ##
-#foreach ($cixsOperation in $jaxwsComponent.cixsOperations)
-#if($cixsOperation.packageName && $cixsOperation.packageName != $jaxwsComponent.packageName)
+#foreach ($cixsOperation in $model.cixsOperations)
+#if($cixsOperation.packageName && $cixsOperation.packageName != $model.packageName)
 import ${cixsOperation.packageName}.*;
 #end
 #end
@@ -41,7 +41,7 @@ import ${cixsOperation.packageName}.*;
 ## jaxb type.
 ##
 #set($importTypes = [])
-#foreach ($cixsOperation in $jaxwsComponent.cixsOperations)
+#foreach ($cixsOperation in $model.cixsOperations)
 #if($cixsOperation.hasChannel() == false)
 #if($cixsOperation.getInput().size() > 0)
 #set($cixsStructure = ${cixsOperation.getInput().get(0)})
