@@ -24,12 +24,13 @@ import org.apache.tools.ant.BuildException;
 import org.xml.sax.SAXParseException;
 
 import com.legstar.codegen.tasks.SourceToXsdCobolTask;
+import com.legstar.util.JaxbUtil;
+import com.legstar.util.NameUtil;
 import com.legstar.xsdc.gen.XsdCobolAnnotator;
 import com.sun.istack.NotNull;
 import com.sun.xml.bind.api.CompositeStructure;
 import com.sun.xml.bind.api.ErrorListener;
 import com.sun.xml.bind.api.JAXBRIContext;
-import com.sun.xml.bind.api.impl.NameConverter;
 import com.sun.xml.bind.v2.model.annotation.RuntimeInlineAnnotationReader;
 import com.sun.xml.bind.v2.model.core.ClassInfo;
 import com.sun.xml.bind.v2.model.core.Ref;
@@ -119,7 +120,7 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
 			mClassTypes = new ArrayList < Class < ? > >();
 			for (RootClass className : mRootClassNames) {
 				String qualClassName = className.getName();
-				mClassTypes.add(Class.forName(qualClassName));
+				mClassTypes.add(JaxbUtil.loadClass(qualClassName));
 			}
 		} catch (ClassNotFoundException e) {
 			throw (new BuildException(e));
@@ -312,7 +313,7 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
             	/* Since the developer did not specify an XmlType, the standard
             	 * jaxb naming will apply and the default namespace will be
             	 * used. */
-        		String jaxbName = NameConverter.standard.toVariableName(
+        		String jaxbName = NameUtil.toVariableName(
         				clazz.getSimpleName());
                 rootElements.put(new QName(getNamespace(), jaxbName),
                         new QName(getNamespace(), jaxbName + mElementSuffix));
@@ -321,7 +322,7 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
         		 * use the default jaxb naming. */
         		String typeName = xmlType.name();
         		if (typeName .equals("##default")) {
-        			typeName = NameConverter.standard.toVariableName(
+        			typeName = NameUtil.toVariableName(
             				clazz.getSimpleName());
         		}
         		String namespace = xmlType.namespace();

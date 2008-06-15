@@ -20,6 +20,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbrt</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
         </dependency>
@@ -44,12 +49,6 @@
             <artifactId>legstar-codegen</artifactId>
         </dependency>
         
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-coxbrt</artifactId>
-            <scope>test</scope>
-        </dependency>
-  
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-xsdcgen-cases</artifactId>
