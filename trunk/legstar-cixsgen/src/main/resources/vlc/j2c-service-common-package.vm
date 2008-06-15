@@ -8,7 +8,7 @@
 ## ==================================================================
 ## All generated Java classes go into the same package
 ##
-#if($jaxwsComponent.packageName)
-package $jaxwsComponent.packageName;
+#if($model.packageName)
+package $model.packageName;
 #end
 ##

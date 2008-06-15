@@ -87,6 +87,34 @@ public class TestCases {
 		return service;
 	}
 	
+	public static CixsJaxwsService getJvmquery() throws Exception {
+		CixsJaxwsService service = getNewService("jvmquery");
+		service.addCixsOperation(getJvmqueryOperation());
+		service.setServiceURI("http://192.168.0.5/");
+		service.setServiceUserId("alice");
+		service.setServicePassword("inwonderland");
+		return service;
+	}
+	
+	public static CixsJaxwsService getCutureInfoModel() throws Exception {
+		CixsJaxwsService service = getNewService("cultureinfo");
+		service.addCixsOperation(getCutureInfoOperation());
+		service.setTargetNamespace("http://cultureinfo.cases.test.xsdc.legstar.com/");
+		service.setWsdlUrl("http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl");
+		service.setWsdlServiceName("CultureInfoImplService");
+		service.setWsdlPortName("CultureInfoImplPort");
+		service.setServiceURI("http://localhost:8080/jaxws-cultureinfo/getinfo");
+		return service;
+	}
+	
+	public static CixsOperation getCutureInfoOperation() {
+		return getNewCommareaOperation("cultureinfo", "cultureinfo", "GetInfoType", "GetInfoResponseType");
+	}
+	
+	public static CixsOperation getJvmqueryOperation() {
+		return getNewCommareaOperation("jvmquery", "jvmquery", "JvmQueryRequestType", "JvmQueryReplyType");
+	}
+	
 	/**
 	 * Helper function to setup a Service in case of a single, commarea-driven
 	 * operation with identical input and output layouts.
@@ -124,15 +152,15 @@ public class TestCases {
 	}
 	
 	private static CixsJaxwsService getNewService(String name) {
-		CixsJaxwsService serviceModel = new CixsJaxwsService();
-		serviceModel.setPackageName(CIXS_PACKAGE_PREFIX + name);
-		serviceModel.setImplementationClassName(
+		CixsJaxwsService model = new CixsJaxwsService();
+		model.setPackageName(CIXS_PACKAGE_PREFIX + name);
+		model.setImplementationClassName(
 				CodeGenUtil.classNormalize(name) + "Impl");
-		serviceModel.setInterfaceClassName(
+		model.setInterfaceClassName(
 				CodeGenUtil.classNormalize(name));
-		serviceModel.setName(name);
-		serviceModel.setTargetNamespace(NAMESPACE_PREFIX + name);
-		return serviceModel;
+		model.setName(name);
+		model.setTargetNamespace(NAMESPACE_PREFIX + name);
+		return model;
 	}
 	
 	private static CixsOperation getNewCommareaOperation(

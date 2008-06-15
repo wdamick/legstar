@@ -5,21 +5,21 @@
 ##/////////////////////////////////////////////////////////////////////
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app>
-   <display-name>LegStar Jaxws ${jaxwsComponent.name}</display-name>
-   <description>LegStar Jaxws ${jaxwsComponent.name} Web Service</description>
+   <display-name>LegStar Jaxws ${model.name}</display-name>
+   <description>LegStar Jaxws ${model.name} Web Service</description>
    <listener>
       <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
    </listener>
    <servlet>
-      <servlet-name>${jaxwsComponent.wsdlServiceName}</servlet-name>
-      <display-name>LegStar Jaxws ${jaxwsComponent.wsdlServiceName}</display-name>
-      <description>LegStar Jaxws ${jaxwsComponent.name} Web Service</description>
+      <servlet-name>${model.wsdlServiceName}</servlet-name>
+      <display-name>LegStar Jaxws ${model.wsdlServiceName}</display-name>
+      <description>LegStar Jaxws ${model.name} Web Service</description>
       <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
       <load-on-startup>1</load-on-startup>
    </servlet>
    <servlet-mapping>
-      <servlet-name>${jaxwsComponent.wsdlServiceName}</servlet-name>
-      <url-pattern>/${jaxwsComponent.name}</url-pattern>
+      <servlet-name>${model.wsdlServiceName}</servlet-name>
+      <url-pattern>/${model.name}</url-pattern>
    </servlet-mapping>
    <session-config>
       <session-timeout>60</session-timeout>

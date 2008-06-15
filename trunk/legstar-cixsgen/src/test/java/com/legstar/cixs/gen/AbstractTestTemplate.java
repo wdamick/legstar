@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.legstar.cixs.jaxws.model.CixsJaxwsService;
 import com.legstar.codegen.CodeGenHelper;
 import com.legstar.codegen.CodeGenUtil;
 import com.legstar.coxb.gen.CoxbHelper;
@@ -25,18 +26,17 @@ public class AbstractTestTemplate extends TestCase {
     /** Code will be generated here. */
     public static final File GEN_SRC_DIR = new File("src/test/gen/java");
 
-    /** General location for generated artifacts. */
-    public static final File GEN_RES_DIR = new File(
-            "src/test/gen/resources");
-
-    /** Property files will be generated here. */
-    public static final File GEN_PROP_DIR = GEN_RES_DIR;
-
-    /** Ant scripts will be generated here. */
-    public static final File GEN_ANT_DIR = new File("ant");
-    
     /** Configuration files will be generated here. */
-    public static final File GEN_CONF_DIR = new File("conf");
+    public static final File GEN_CONF_DIR = new File("src/test/gen/conf");
+    
+    /** Cobol files will be generated here. */
+    public static final File GEN_COBOL_DIR = new File("src/test/gen/cobol");
+    
+    /** Web descriptors files will be generated here. */
+    public static final File GEN_WDD_DIR = new File("src/test/gen/webapp");
+    
+    /** Web descriptors files will be generated here. */
+    public static final File GEN_ANT_DIR = new File("src/test/gen/ant");
     
     /** Additional parameter set passed to templates */
     private Map <String, Object> mParameters;
@@ -51,6 +51,10 @@ public class AbstractTestTemplate extends TestCase {
         try {
             CodeGenUtil.initVelocity();
            	CodeGenUtil.checkDirectory(GEN_SRC_DIR, true);
+           	CodeGenUtil.checkDirectory(GEN_CONF_DIR, true);
+           	CodeGenUtil.checkDirectory(GEN_COBOL_DIR, true);
+           	CodeGenUtil.checkDirectory(GEN_WDD_DIR, true);
+           	CodeGenUtil.checkDirectory(GEN_ANT_DIR, true);
             mParameters = new HashMap <String, Object>();
             CodeGenHelper helper = new CodeGenHelper();
             mParameters.put("helper", helper);
@@ -61,6 +65,31 @@ public class AbstractTestTemplate extends TestCase {
     }
     
     
+	/**
+	 * Apply a velocity template and return the generated source.
+	 * @param model model to use
+	 * @param generatorName the name to appear as generator 
+	 * @param templateName the velocity template to apply
+	 * @param dir the folder where generated source should go
+	 * @param genSourceName the generate file name
+	 * @return the source code generated
+	 * @throws Exception if something goes wrong
+	 */
+	public String genSource(
+			CixsJaxwsService model,
+			String generatorName,
+			String templateName,
+			File dir,
+			String genSourceName) throws Exception {
+		CodeGenUtil.processTemplate(
+				generatorName,
+				templateName,
+				"model", model,
+				getParameters(),
+				CodeGenUtil.getFile(dir, genSourceName));
+		return getSource(dir, genSourceName);
+	}
+	
     /**
      * A general purpose reader that gets the file content into a string.
      * @param srcDir the location of the source artifact

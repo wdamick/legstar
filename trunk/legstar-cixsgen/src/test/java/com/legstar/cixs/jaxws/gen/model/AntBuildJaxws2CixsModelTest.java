@@ -22,7 +22,7 @@ public class AntBuildJaxws2CixsModelTest extends TestCase {
 	/** Code will be generated here. */
 	private static final String GEN_SRC_DIR = "src/test/gen/ant";
 
-	public void testMule2CixsBuild() throws Exception {
+	public void testJaxws2CixsBuild() throws Exception {
 
 		AntBuildJaxws2CixsModel model = new AntBuildJaxws2CixsModel();
         model.setProductLocation("/Users/Fady/sandbox/legstar-1.2.0");
