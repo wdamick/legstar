@@ -32,7 +32,7 @@ public final class C2wsUtil {
 	/** Logger. */
 	private static final Log LOG =	LogFactory.getLog(C2wsUtil.class);
 	
-	/** Utility classes are not instanciated. */
+	/** Utility classes are not instantiated. */
 	private C2wsUtil() {
 		
 	}
@@ -89,5 +89,23 @@ public final class C2wsUtil {
 		return;
 	}
 
+	/**
+	 * Returns a fully qualified class name.
+	 * @param packageName the package name (can be null)
+	 * @param typeName the type name
+	 * @return a fully qualified class name
+	 */
+	public static String getClassName(
+			final String packageName, final String typeName) {
+		String className = null;
+		if (packageName == null || packageName.length() == 0) {
+			className = "";
+		} else {
+			className = packageName + '.';
+		}
+		className += typeName;
+		return className;
+	}
+	
 
 }

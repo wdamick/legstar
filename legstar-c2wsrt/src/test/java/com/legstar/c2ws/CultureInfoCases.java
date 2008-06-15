@@ -21,12 +21,20 @@
 package com.legstar.c2ws;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
+import com.legstar.util.JAXBAnnotationException;
+import com.legstar.util.JAXBElementDescriptor;
 import com.legstar.coxb.visitor.CobolMarshalVisitor;
 import com.legstar.coxb.visitor.CobolUnmarshalVisitor;
+import com.legstar.messaging.CommareaPart;
+import com.legstar.messaging.LegStarHeaderPart;
+import com.legstar.messaging.LegStarMessage;
+import com.legstar.messaging.LegStarMessagePart;
 import com.legstar.test.coxb.cultureinfo.CultureInfoReplyType;
 import com.legstar.test.coxb.cultureinfo.CultureInfoParametersType;
 import com.legstar.test.coxb.cultureinfo.ServerCultureInfoType;
@@ -78,5 +86,28 @@ public final class CultureInfoCases {
 		return response;
 	}
 	
+	public static C2wsWSDescriptor getWSDescriptor() throws JAXBAnnotationException {
+		C2wsWSDescriptor wsd = new C2wsWSDescriptor();
+		wsd.setWsdlUrl("http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl");
+		wsd.setWsdlTargetNamespace("http://cultureinfo.cases.test.xsdc.legstar.com/");
+		wsd.setWsdlPort("CultureInfoImplPort");
+		wsd.setWsdlName("CultureInfoImplService");
+		JAXBElementDescriptor request = new JAXBElementDescriptor(
+				"com.legstar.test.coxb.cultureinfo", "GetInfoType");
+		wsd.setRequestElementDescriptor(request);
+		JAXBElementDescriptor response = new JAXBElementDescriptor(
+				"com.legstar.test.coxb.cultureinfo", "GetInfoResponseType");
+		wsd.setResponseElementDescriptor(response);
+		return wsd;
+	}
+	
+	public static LegStarMessage getCultureInfoRequestMessage() throws Exception {
+		List <LegStarMessagePart> dataParts = new ArrayList <LegStarMessagePart>();
+		LegStarMessagePart inCommarea = new CommareaPart(getRequestHostData());
+		dataParts.add(inCommarea);
+		LegStarHeaderPart headerPart = new LegStarHeaderPart();
+		headerPart.setJsonString("{\"ServiceName\":\"CultureInfo\"}");
+		return new LegStarMessage(headerPart, dataParts);
+	}
 
 }

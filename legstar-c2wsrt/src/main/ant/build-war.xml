@@ -1,5 +1,5 @@
 <!-- =================================================================================
-     This script builds a war file for the c2ws gateway servlet .
+     This script builds a war file for the c2ws proxy sample servlet .
  -->
 <project basedir="../../.." default="buildWar" name="build-war">
 
@@ -16,13 +16,11 @@
 	</target>
 
 	<!-- ===========================================================  -->
-	<!-- Build the war file including lib and sample
+	<!-- Build the war file including lib
 	  -->
 	<target name="buildWar" depends="init">
 		<war destfile="${target.war.file}" webxml="${web.xml.file}">
-            <lib dir="target" includes="*.jar" excludes="*sources.jar"/>
             <classes dir="${basedir}/../legstar-jaxbgen-cases/target/classes" includes="**/cultureinfo/**/*.class"/>
-            <classes dir="src/main/resources" excludes="*.svn"/>
         </war>
 	</target>
 	

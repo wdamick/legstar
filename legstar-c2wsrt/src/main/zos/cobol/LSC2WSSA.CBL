@@ -22,8 +22,8 @@
       *---------------------------------------------------------------*
       * Address of c2ws gateway.
       *    
-       77  C2WS-GATEWAY-URI            PIC X(50) VALUE
-           'http://192.168.0.5:8080/legstar-c2wsrt/C2wsGateway'.
+       77  C2WS-GATEWAY-URI            PIC X(55) VALUE
+           'http://192.168.0.7:8080/legstar-c2wsrt/CultureInfoProxy'.
       *    
       * C2ws gateway credentials.
       *    

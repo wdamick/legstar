@@ -25,6 +25,9 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.commons.configuration.Configuration;
 
+import com.legstar.util.JAXBAnnotationException;
+import com.legstar.util.JAXBElementDescriptor;
+
 /**
  * This class holds the parameters that are necessary to call a remote
  * Web Service method.
@@ -46,11 +49,11 @@ public class C2wsWSDescriptor {
 	/** The WSDL URL. */
 	private String mWsdlUrl;
 	
-	/** The JAXB request object. */
-	private JaxbObjectDescriptor mJaxbRequest;
+	/** The request descriptor. */
+	private JAXBElementDescriptor mRequestElementDescriptor;
 	
-	/** The JAXB response object. */
-	private JaxbObjectDescriptor mJaxbResponse;
+	/** The response descriptor. */
+	private JAXBElementDescriptor mResponseElementDescriptor;
 	
 	/** This is a JAXB Context that can be used to marshal/unmarshal the
 	 * JAXB annotated classes that form the request and reply for this
@@ -62,12 +65,6 @@ public class C2wsWSDescriptor {
 	 * the default. */
 	private boolean mJaxbContextAutoGeneration = true;
 	
-	/** JAXB Object factory for the request package. */
-	private Object mRequestObjectFactory;
-
-	/** JAXB Object factory for the response package. */
-	private Object mResponseObjectFactory;
-
 	/* ====================================================================== */
 	/* = Constants section                                                  = */
 	/* ====================================================================== */
@@ -91,10 +88,6 @@ public class C2wsWSDescriptor {
 	private static final String JAXB_REQUEST_TYPE_KEY =
 		"jaxb.request.typeName";
 
-	/** Path to jaxb request element name in configuration file. */
-	private static final String JAXB_REQUEST_ELEMENT_KEY =
-		"jaxb.request.elementName";
-
 	/** Path to jaxb response package name in configuration file. */
 	private static final String JAXB_RESPONSE_PKG_KEY =
 		"jaxb.response.packageName";
@@ -102,10 +95,6 @@ public class C2wsWSDescriptor {
 	/** Path to jaxb response type name in configuration file. */
 	private static final String JAXB_RESPONSE_TYPE_KEY =
 		"jaxb.response.typeName";
-
-	/** Path to jaxb response element name in configuration file. */
-	private static final String JAXB_RESPONSE_ELEMENT_KEY =
-		"jaxb.response.elementName";
 
 	/** No-Argument constructor. */
 	public C2wsWSDescriptor() {
@@ -115,77 +104,68 @@ public class C2wsWSDescriptor {
 	/**
 	 * Create a descriptor from a configuration.
 	 * @param wsConfig a configuration fragment describing this service
+	 * @throws C2wsConfigurationException if configuration is invalid
 	 */
-	public C2wsWSDescriptor(final Configuration wsConfig) {
-		mWsdlTargetNamespace =
-				(String) wsConfig.getString(WSDL_NS_KEY);
-		mWsdlName =
-				(String) wsConfig.getString(WSDL_SERVICE_KEY);
-		mWsdlPort =
-				(String) wsConfig.getString(WSDL_PORT_KEY);
-		mWsdlUrl =
-				(String) wsConfig.getString(WSDL_URL_KEY);
-		mJaxbRequest = new JaxbObjectDescriptor();
-		mJaxbRequest.setPackageName(
-				(String) wsConfig.getString(JAXB_REQUEST_PKG_KEY));
-		mJaxbRequest.setTypeName(
-				(String) wsConfig.getString(JAXB_REQUEST_TYPE_KEY));
-		mJaxbRequest.setElementName(
-				(String) wsConfig.getString(JAXB_REQUEST_ELEMENT_KEY));
-		mJaxbResponse = new JaxbObjectDescriptor();
-		mJaxbResponse.setPackageName(
-				(String) wsConfig.getString(JAXB_RESPONSE_PKG_KEY));
-		mJaxbResponse.setTypeName(
-				(String) wsConfig.getString(JAXB_RESPONSE_TYPE_KEY));
-		mJaxbResponse.setElementName(
-				(String) wsConfig.getString(JAXB_RESPONSE_ELEMENT_KEY));
-		
+	public C2wsWSDescriptor(
+			final Configuration wsConfig) throws C2wsConfigurationException {
+		try {
+			mWsdlTargetNamespace =
+					(String) wsConfig.getString(WSDL_NS_KEY);
+			mWsdlName =
+					(String) wsConfig.getString(WSDL_SERVICE_KEY);
+			mWsdlPort =
+					(String) wsConfig.getString(WSDL_PORT_KEY);
+			mWsdlUrl =
+					(String) wsConfig.getString(WSDL_URL_KEY);
+			mRequestElementDescriptor = new JAXBElementDescriptor(
+					(String) wsConfig.getString(JAXB_REQUEST_PKG_KEY),
+					(String) wsConfig.getString(JAXB_REQUEST_TYPE_KEY));
+			mResponseElementDescriptor = new JAXBElementDescriptor(
+					(String) wsConfig.getString(JAXB_RESPONSE_PKG_KEY),
+					(String) wsConfig.getString(JAXB_RESPONSE_TYPE_KEY));
+		} catch (JAXBAnnotationException e) {
+			throw new C2wsConfigurationException(e);
+		}
 	}
 	
 	/**
-	 * @return the JAXB package name
+	 * @return the request element descriptor
 	 */
-	public final JaxbObjectDescriptor getJaxbRequest() {
-		return mJaxbRequest;
+	public final JAXBElementDescriptor getRequestElementDescriptor() {
+		return mRequestElementDescriptor;
 	}
 
 	/**
-	 * @param jaxbRequest the JAXB package name to set
+	 * @param requestElementDescriptor the request element descriptor to set
 	 */
-	public final void setJaxbRequest(final JaxbObjectDescriptor jaxbRequest) {
+	public final void setRequestElementDescriptor(
+			final JAXBElementDescriptor requestElementDescriptor) {
 		/* If we are responsible for the JAXBContext, make sure it gets
 		 * regenerated since caller is changing the request here. */
 		if (mJaxbContextAutoGeneration) {
 			mJaxbContext = null;
 		}
-		/* Invalidate the associated object factory so its get recreated next
-		 * time it is queried. */
-		mRequestObjectFactory = null;
-
-		mJaxbRequest = jaxbRequest;
+		mRequestElementDescriptor = requestElementDescriptor;
 	}
 
 	/**
-	 * @return the JAXB package name
+	 * @return the response element descriptor
 	 */
-	public final JaxbObjectDescriptor getJaxbResponse() {
-		return mJaxbResponse;
+	public final JAXBElementDescriptor getResponseElementDescriptor() {
+		return mResponseElementDescriptor;
 	}
 
 	/**
-	 * @param jaxbResponse the JAXB package name to set
+	 * @param responseElementDescriptor the response element descriptor to set
 	 */
-	public final void setJaxbResponse(final JaxbObjectDescriptor jaxbResponse) {
+	public final void setResponseElementDescriptor(
+			final JAXBElementDescriptor responseElementDescriptor) {
 		/* If we are responsible for the JAXBContext, make sure it gets
 		 * regenerated since caller is changing the response here. */
 		if (mJaxbContextAutoGeneration) {
 			mJaxbContext = null;
 		}
-		/* Invalidate the associated object factory so its get recreated next
-		 * time it is queried. */
-		mResponseObjectFactory = null;
-
-		mJaxbResponse = jaxbResponse;
+		mResponseElementDescriptor = responseElementDescriptor;
 	}
 
 	/**
@@ -259,11 +239,11 @@ public class C2wsWSDescriptor {
 		sb.append("Wsdl Url=");
 		sb.append(mWsdlUrl);
 		sb.append(", ");
-		sb.append("JAXB request=[");
-		sb.append(mJaxbRequest.toString());
+		sb.append("Request element=[");
+		sb.append(mRequestElementDescriptor.toString());
 		sb.append("], ");
-		sb.append("JAXB response=[");
-		sb.append(mJaxbResponse.toString());
+		sb.append("Response element=[");
+		sb.append(mResponseElementDescriptor.toString());
 		sb.append("]");
 		return sb.toString();
 	}
@@ -279,14 +259,17 @@ public class C2wsWSDescriptor {
 		if (mJaxbContext == null) {
 			mJaxbContextAutoGeneration = true;
 			try {
-				if (mJaxbResponse.getPackageName().compareTo(
-						mJaxbRequest.getPackageName()) == 0) {
+				if (mResponseElementDescriptor.getJaxbPackageName().compareTo(
+						mRequestElementDescriptor.getJaxbPackageName()) == 0) {
 					mJaxbContext = JAXBContext.newInstance(
-							getRequestObjectFactory().getClass());
+						mRequestElementDescriptor.getObjectFactory()
+						.getClass());
 				} else {
 					mJaxbContext = JAXBContext.newInstance(
-							getRequestObjectFactory().getClass(),
-							getResponseObjectFactory().getClass());
+							mRequestElementDescriptor.getObjectFactory()
+							.getClass(),
+							mResponseElementDescriptor.getObjectFactory()
+							.getClass());
 				}
 			} catch (JAXBException e) {
 				throw new C2wsConfigurationException(e);
@@ -302,54 +285,5 @@ public class C2wsWSDescriptor {
 		mJaxbContextAutoGeneration = false;
 		mJaxbContext = jaxbContext;
 	}
-
-	/**
-	 * Returns the request package JAXB Object factory.
-	 * @return the object factory
-	 * @throws C2wsConfigurationException if object factory cannot be
-	 *  instanciated
-	 */
-	public final Object getRequestObjectFactory()
-	            throws C2wsConfigurationException {
-		if (mRequestObjectFactory == null) {
-			try {
-				Class < ? > ofClass = Class.forName(
-						mJaxbRequest.getPackageName() + ".ObjectFactory");
-				return ofClass.newInstance();
-			} catch (ClassNotFoundException e) {
-				throw new C2wsConfigurationException(e);
-			} catch (InstantiationException e) {
-				throw new C2wsConfigurationException(e);
-			} catch (IllegalAccessException e) {
-				throw new C2wsConfigurationException(e);
-			}
-		}
-		return mRequestObjectFactory;
-	}
-	
-	/**
-	 * Returns the response package JAXB Object factory.
-	 * @return the object factory
-	 * @throws C2wsConfigurationException if object factory cannot be
-	 *  instanciated
-	 */
-	public final Object getResponseObjectFactory()
-				throws C2wsConfigurationException {
-		if (mResponseObjectFactory == null) {
-			try {
-				Class < ? > ofClass = Class.forName(
-						mJaxbResponse.getPackageName() + ".ObjectFactory");
-				return ofClass.newInstance();
-			} catch (ClassNotFoundException e) {
-				throw new C2wsConfigurationException(e);
-			} catch (InstantiationException e) {
-				throw new C2wsConfigurationException(e);
-			} catch (IllegalAccessException e) {
-				throw new C2wsConfigurationException(e);
-			}
-		}
-		return mResponseObjectFactory;
-	}
-	
 
 }

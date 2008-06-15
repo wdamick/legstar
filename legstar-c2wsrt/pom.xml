@@ -9,7 +9,7 @@
     <artifactId>legstar-c2wsrt</artifactId>
     <name>Host to Web service runtime</name>
     <version>SNAPSHOT</version>
-    <description>Host to Web Service gateway.</description>
+    <description>Host to Web Service proxy.</description>
     <url>http://www.legsem.com/legstar/c2wsrt/</url>
 
     <dependencies>
@@ -82,7 +82,7 @@
                         </goals>
                 	</execution>
                 
-                	<!-- This will deploy the jar file to a Tomcat dev instance.  -->
+                	<!-- This will deploy the war file to a Tomcat dev instance.  -->
                     <execution>
                         <id>deploy-to-tomcat</id>
                         <phase>package</phase>

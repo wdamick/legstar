@@ -46,6 +46,8 @@ import com.legstar.coxb.convert.CobolConverters;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.host.HostException;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
+import com.legstar.util.JAXBAnnotationException;
+import com.legstar.util.NameUtil;
 import com.legstar.coxb.visitor.CobolMarshalVisitor;
 import com.legstar.coxb.visitor.CobolUnmarshalVisitor;
 
@@ -105,26 +107,24 @@ public class C2wsReflectAdapter implements C2wsAdapter {
 	}
 	
 	/**
-	 * Buils a request JAXB object.
+	 * Builds a request JAXB object.
 	 * @param wsd the web service descriptor
 	 * @param hostBytes the inbound request host data 
 	 * @return a JAXB request object
-	 * @throws C2wsAdapterException if object cannot be instanciated
+	 * @throws C2wsAdapterException if object cannot be instantiated
 	 */
 	private Object getRequestObject(
 			final C2wsWSDescriptor wsd,
 			final byte[] hostBytes) throws C2wsAdapterException {
 		try {
-			Class < ? > requestClass = Class.forName(
-					wsd.getJaxbRequest().getPackageName() + '.'
-					+ wsd.getJaxbRequest().getTypeName());
+			Class < ? > requestClass =
+				wsd.getRequestElementDescriptor().loadJaxbClass();
 			return unmarshalReflect(
-					wsd.getRequestObjectFactory(), requestClass, hostBytes);
+					wsd.getRequestElementDescriptor().getObjectFactory(),
+					requestClass, hostBytes);
 		} catch (ClassNotFoundException e) {
 			throw new C2wsAdapterException(e);
 		} catch (HostUnmarshalException e) {
-			throw new C2wsAdapterException(e);
-		} catch (C2wsConfigurationException e) {
 			throw new C2wsAdapterException(e);
 		}
 	}
@@ -142,22 +142,27 @@ public class C2wsReflectAdapter implements C2wsAdapter {
 			final C2wsWSDescriptor wsd,
 			final Object oResponse) throws C2wsAdapterException {
 		try {
-			if (wsd.getJaxbResponse().isXmlRootElement()) {
-				return marshalReflect(wsd.getResponseObjectFactory(),
+			if (wsd.getResponseElementDescriptor().isXmlRootElement()) {
+				return marshalReflect(
+						wsd.getResponseElementDescriptor().getObjectFactory(),
 						oResponse);
 			} else {
-				return marshalReflect(wsd.getResponseObjectFactory(),
+				return marshalReflect(
+						wsd.getResponseElementDescriptor().getObjectFactory(),
 						((JAXBElement < ? >) oResponse).getValue());
 			}
 		} catch (HostMarshalException e) {
 			throw new C2wsAdapterException(e);
-		} catch (C2wsConfigurationException e) {
+		} catch (JAXBAnnotationException e) {
 			throw new C2wsAdapterException(e);
 		}
 	}
 
 	/**
 	 * Call the JAXWS dispatch method.
+	 * The parameters passed and received from dispatch.invoke must
+	 * be of XmlRootElement type or otherwise must be wrapped in a
+	 * JAXBElement.
 	 * @param wsd the web service descriptor
 	 * @param oRequest the request object
 	 * @return the object response
@@ -182,15 +187,14 @@ public class C2wsReflectAdapter implements C2wsAdapter {
 		try {
 			Dispatch < Object > dispatcher = service.createDispatch(
 					portQname, wsd.getJaxbContext(), Service.Mode.PAYLOAD);
-			/* The parameters passed and received from dispatch.invoke must
-			 * be of XmlRootElement type. */
 			Object oResponse;
-			if (wsd.getJaxbRequest().isXmlRootElement()) {
+			if (wsd.getRequestElementDescriptor().isXmlRootElement()) {
 				oResponse = dispatcher.invoke(oRequest);
 			} else {
 				JAXBElement < ? > jeRequest = getJAXBElement(
-						wsd.getRequestObjectFactory(),
-						wsd.getJaxbRequest().getElementName(), oRequest);
+						wsd.getRequestElementDescriptor().getObjectFactory(),
+						wsd.getRequestElementDescriptor().getElementName(),
+						oRequest);
 				oResponse = dispatcher.invoke(jeRequest);
 			}
 			if (mLog.isDebugEnabled()) {
@@ -199,6 +203,8 @@ public class C2wsReflectAdapter implements C2wsAdapter {
 			return oResponse;
 		} catch (C2wsConfigurationException e) {
 			throw new C2wsAdapterException(e);
+		} catch (JAXBAnnotationException e) {
+			throw new C2wsAdapterException(e);
 		}
 	}
 	
@@ -206,7 +212,7 @@ public class C2wsReflectAdapter implements C2wsAdapter {
 	 * Root elements can be created with special methods in the JAXB object 
 	 * factory. This method will use reflection to create a JAXBElement.
 	 * @param objectFactory the JAXB object factory
-	 * @param elementName the element name
+	 * @param elementName the XML element name
 	 * @param type an occurence of the element type
 	 * @return a JAXBElement
 	 * @throws C2wsAdapterException if the JAXBElement cannot be created
@@ -216,7 +222,7 @@ public class C2wsReflectAdapter implements C2wsAdapter {
 			final String elementName,
 			final Object type) throws C2wsAdapterException {
 		try {
-			String createName = "create" + elementName;
+			String createName = "create" + NameUtil.toClassName(elementName);
 			Method creator = objectFactory.getClass().getMethod(
 					createName, type.getClass());
 			return (JAXBElement < ? >) creator.invoke(objectFactory, type);
