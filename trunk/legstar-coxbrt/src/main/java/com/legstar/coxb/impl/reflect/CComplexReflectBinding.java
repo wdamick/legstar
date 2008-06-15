@@ -297,7 +297,7 @@ public class CComplexReflectBinding extends CComplexBinding {
     		jaxbTypeName = jaxbTypeName.substring(
     				jaxbTypeName.indexOf("<") + 1, jaxbTypeName.length() - 1);
     		try {
-				javaClass = Class.forName(jaxbTypeName);
+				javaClass = JaxbUtil.loadClass(jaxbTypeName);
 			} catch (ClassNotFoundException e) {
 				throw new ReflectBindingException(e);
 			}

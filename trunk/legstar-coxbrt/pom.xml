@@ -89,7 +89,7 @@
                     <execution>
                         <!-- This will deploy the jar file to a Tomcat dev instance.  -->
                         <id>deploy-to-tomcat</id>
-                        <phase>package</phase>
+                        <phase>install</phase>
                         <configuration>
                             <tasks>
                                 <ant antfile="${basedir}/src/main/ant/deploy-to-tomcat.xml"/>
