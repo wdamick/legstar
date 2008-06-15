@@ -26,20 +26,20 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Error while processing host request.
  */
-public class C2wsInvokerException extends Exception {
+public class C2wsInvokeException extends Exception {
 	
 	/** Default serial ID. */
 	private static final long serialVersionUID = -7634449834844672823L;
 
 	/** Logger. */
 	private static final Log LOG =	LogFactory.getLog(
-			C2wsInvokerException.class);
+			C2wsInvokeException.class);
 	
 	/** 
 	 * Constructor from an error message. 
 	 * @param message the text message 
 	 * */
-	public C2wsInvokerException(final String message) {
+	public C2wsInvokeException(final String message) {
 		super(message);
 		LOG.error(message);
 	}
@@ -47,7 +47,7 @@ public class C2wsInvokerException extends Exception {
 	 * Constructor from an inner exception. 
 	 * @param e the inner exception 
 	 * */
-	public C2wsInvokerException(final Exception e) {
+	public C2wsInvokeException(final Exception e) {
 		super(e);
 		LOG.error(e);
 	}

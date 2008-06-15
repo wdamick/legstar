@@ -6,6 +6,5 @@
 	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/Fady/.m2/repository/commons-configuration/commons-configuration/1.4/commons-configuration-1.4-sources.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
