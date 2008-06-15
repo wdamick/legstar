@@ -8,6 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
+import com.legstar.util.JaxbUtil;
 
 import junit.framework.TestCase;
 
@@ -25,7 +26,7 @@ public class CoxbGenReflectVisitorTest extends TestCase {
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				Class.forName("com.legstar.test.coxb.dplarcht.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.dplarcht.DfhcommareaType"));
 
 		CoxbGenModel coxbGenContext = new CoxbGenModel();
 		coxbGenContext.setCoxbSrcDir(new File(GEN_SRC_DIR));

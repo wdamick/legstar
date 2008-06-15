@@ -15,6 +15,7 @@ import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.gen.CoxbGenModel;
 import com.legstar.coxb.gen.CoxbHelper;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
+import com.legstar.util.JaxbUtil;
 
 import junit.framework.TestCase;
 
@@ -50,7 +51,7 @@ public class VelocityTemplatesTest extends TestCase {
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				Class.forName("com.legstar.test.coxb.alltypes.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.alltypes.DfhcommareaType"));
 
 		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.alltypes");
@@ -117,7 +118,7 @@ public class VelocityTemplatesTest extends TestCase {
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				Class.forName("com.legstar.test.coxb.arrayssm.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.arrayssm.DfhcommareaType"));
 
 		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.arrayssm");
@@ -174,7 +175,7 @@ public class VelocityTemplatesTest extends TestCase {
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				Class.forName("com.legstar.test.coxb.arrayssm.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.arrayssm.DfhcommareaType"));
 
 		ICobolArrayComplexBinding ca = (ICobolArrayComplexBinding) ce.getChildrenList().get(1);
 
@@ -225,7 +226,7 @@ public class VelocityTemplatesTest extends TestCase {
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				Class.forName("com.legstar.test.coxb.arraysdo.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.arraysdo.DfhcommareaType"));
 
 		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.arraysdo");
@@ -285,7 +286,7 @@ public class VelocityTemplatesTest extends TestCase {
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				Class.forName("com.legstar.test.coxb.redsimpt.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.redsimpt.DfhcommareaType"));
 
 		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.redsimpt");
@@ -325,7 +326,7 @@ public class VelocityTemplatesTest extends TestCase {
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				Class.forName("com.legstar.test.coxb.redsimpt.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.redsimpt.DfhcommareaType"));
 
 		ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList().get(0);
 
@@ -398,7 +399,7 @@ public class VelocityTemplatesTest extends TestCase {
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				Class.forName("com.legstar.test.coxb.redsimpt.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.redsimpt.DfhcommareaType"));
 
 		ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList().get(0);
 
@@ -439,7 +440,7 @@ public class VelocityTemplatesTest extends TestCase {
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				Class.forName("com.legstar.test.coxb.jvmquery.JvmQueryReplyType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.jvmquery.JvmQueryReplyType"));
 
 		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.jvmquery");

@@ -10,6 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import com.legstar.coxb.ICobolArrayComplexBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
+import com.legstar.util.JaxbUtil;
 
 import junit.framework.TestCase;
 
@@ -27,7 +28,7 @@ public class CoxbGenWriterTest extends TestCase {
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				Class.forName("com.legstar.test.coxb.alltypes.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.alltypes.DfhcommareaType"));
 
 		CoxbGenModel coxbGenContext = new CoxbGenModel();
 		coxbGenContext.setCoxbSrcDir(new File(GEN_SRC_DIR));
@@ -56,7 +57,7 @@ public class CoxbGenWriterTest extends TestCase {
 	
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				Class.forName("com.legstar.test.coxb.redsimpt.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.redsimpt.DfhcommareaType"));
 		
 		ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList().get(0);
 
@@ -87,7 +88,7 @@ public class CoxbGenWriterTest extends TestCase {
 		
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				Class.forName("com.legstar.test.coxb.arrayssm.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.arrayssm.DfhcommareaType"));
 		
 		ICobolArrayComplexBinding ca = (ICobolArrayComplexBinding) ce.getChildrenList().get(1);
 
@@ -118,7 +119,7 @@ public class CoxbGenWriterTest extends TestCase {
 			
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				Class.forName("com.legstar.test.coxb.redsimpt.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.redsimpt.DfhcommareaType"));
 		
 		ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList().get(0);
 
