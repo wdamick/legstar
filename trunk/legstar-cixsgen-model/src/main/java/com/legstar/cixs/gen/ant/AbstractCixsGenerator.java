@@ -92,6 +92,15 @@ public abstract class AbstractCixsGenerator extends Task {
             CodeGenUtil.checkDirectory(getTargetSrcDir(), true);
             CodeGenUtil.checkDirectory(getTargetAntDir(), true);
             CodeGenUtil.checkDirectory(getTargetPropDir(), true);
+			if (getCixsService() == null) {
+                throw new CodeGenMakeException(
+            		"You must specify a service description");
+			}
+			String serviceName = getCixsService().getName();
+            if (serviceName == null || serviceName.length() == 0) {
+                throw new CodeGenMakeException(
+                        "You must provide a service name");
+            }
             
             CodeGenUtil.checkCharset(getHostCharset());
         } catch (IllegalArgumentException e) {
