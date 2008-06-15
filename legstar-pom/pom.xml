@@ -68,7 +68,6 @@
   </build>
   
    <modules>
-    <module>../legstar-c2wsgen</module>
     <module>../legstar-c2wsrt</module>
     <module>../legstar-chttprt</module>
     <module>../legstar-cixsgen</module>
@@ -461,11 +460,6 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-c2wsrt</artifactId>
-                <version>${legstarVersion}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.legsem.legstar</groupId>
-                <artifactId>legstar-c2wsgen</artifactId>
                 <version>${legstarVersion}</version>
             </dependency>
       
