@@ -24,6 +24,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,7 +34,9 @@ import org.apache.tools.ant.Task;
 import com.legstar.coxb.host.HostException;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.coxb.impl.reflect.ReflectBindingException;
-import com.legstar.util.JaxbUtil;
+import com.legstar.util.JAXBAnnotationException;
+import com.legstar.util.JAXBElementDescriptor;
+import com.legstar.xsdc.gen.CobolNameResolver;
 import com.legstar.xsdc.gen.CobolNameResolverException;
 
 /**
@@ -66,6 +69,19 @@ public class CobolGenerator extends Task  {
 	/** The target generated Cobol file name. */
 	private String mTargetCobolFileName;
 	
+	/** Where to start numbering Cobol data items. */
+	private int mFirstCobolLevel;
+	
+	/** How much to increment Cobol data items moving from parent to child. */
+	private int mCobolLevelIncrement;
+	
+	/* ====================================================================== */
+	/* = Local variables section                                            = */
+	/* ====================================================================== */
+
+    /** Helper to suggest COBOL names from Java names. */
+    private static CobolNameResolver mCobolNameResolver;
+    
 	/**
 	 *  The ant execute method. Generates a new Cobol data description source.
 	 */
@@ -77,19 +93,19 @@ public class CobolGenerator extends Task  {
     	String outPath = mTargetDir.getPath() + File.separator
         	+ mTargetCobolFileName;
     	try {
-			BufferedWriter writer = new BufferedWriter(
+    		String code = generate(
+    				mJaxbPackageName,
+    				mJaxbTypeName,
+    				mCobolRootDataItemName,
+    				mFirstCobolLevel,
+    				mCobolLevelIncrement);
+    		BufferedWriter writer = new BufferedWriter(
 					new FileWriter(new File(outPath)));
-			CobolGenVisitor cev = new CobolGenVisitor(writer);
-			CComplexReflectBinding ccem = getBinding();
-			ccem.setCobolName(
-					cev.getNameResolver().getName(mCobolRootDataItemName));
-			ccem.accept(cev);
+    		writer.write(code);
 			writer.close();
     	} catch (IOException e) {
 			throw new BuildException(e);
-		} catch (HostException e) {
-			throw new BuildException(e);
-		} catch (CobolNameResolverException e) {
+		} catch (CobolGenerationException e) {
 			throw new BuildException(e);
 		}
 		if (LOG.isDebugEnabled()) {
@@ -107,6 +123,8 @@ public class CobolGenerator extends Task  {
 			LOG.debug("   Source JAXB package    = " + mJaxbPackageName);
 			LOG.debug("   Source JAXB type name  = " + mJaxbTypeName);
 			LOG.debug("   Root data item name    = " + mCobolRootDataItemName);
+			LOG.debug("   First data item level  = " + mFirstCobolLevel);
+			LOG.debug("   Level increment        = " + mCobolLevelIncrement);
 			LOG.debug("   Target directory       = " + mTargetDir);
 			LOG.debug("   Target Cobol file name = " + mTargetCobolFileName);
 		}
@@ -130,6 +148,26 @@ public class CobolGenerator extends Task  {
 					mTargetDir + " is not a directory or is not writable"));
     	}
     	
+    	/* Check levels */
+    	if (mFirstCobolLevel < 0 || mFirstCobolLevel > 49) {
+			throw (new BuildException(
+					mFirstCobolLevel
+					+ " is not a valid COBOL level number"));
+    	}
+    	if (mCobolLevelIncrement < 0 || mCobolLevelIncrement > 49) {
+			throw (new BuildException(
+					mCobolLevelIncrement
+					+ " is not a valid COBOL level increment"));
+    	}
+    	
+    	/* Set valid default level related values */
+    	if (mFirstCobolLevel == 0) {
+    		mFirstCobolLevel = 1;
+    	}
+    	if (mCobolLevelIncrement == 0) {
+    		mCobolLevelIncrement = 1;
+    	}
+    	
     	/* Set a valid root cobol data item */
     	if (mCobolRootDataItemName == null
     			|| mCobolRootDataItemName.length() == 0) {
@@ -147,40 +185,74 @@ public class CobolGenerator extends Task  {
 		}
     }
     
-    /**
-     * Creates an instance of a JAXB object factory and creates a binding
-     * for a JAXB class of the given type.
-     * @return a Cobol binding
-     */
-    private CComplexReflectBinding getBinding() {
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("Binding JAXB type started");
-		}
-    	String ofClassName = "ObjectFactory";
-    	String oClassName = mJaxbTypeName;
-    	if (mJaxbPackageName != null && mJaxbPackageName.length() > 0) {
-    		ofClassName = mJaxbPackageName + '.' + ofClassName;
-    		oClassName = mJaxbPackageName + '.' + oClassName;
-    	}
-    	try {
-			Class < ? > ofClass = JaxbUtil.loadClass(ofClassName);
-			Object of = ofClass.newInstance();
-			Class < ? > oClass = JaxbUtil.loadClass(oClassName);
-			if (LOG.isDebugEnabled()) {
-				LOG.debug("Binding JAXB type ended");
+	/**
+	 * Using the <code>cobcgen</code> utility, this will use reflection
+	 * to instantiate a Jaxb object corresponding to a structure
+	 * received and then generate COBOL data description code using
+	 * the COBOL annotations in the jaxb class. 
+	 * @param jaxbPackageName the JAXB classes package name
+	 * @param jaxbType the JAXB class
+	 * @param cobolRootDataItemName the COBOL structure root data item name
+	 * @param firstCobolLevel where to start numbering Cobol data items
+	 * @param cobolLevelIncrement how much to increment Cobol data items moving
+	 *  from parent to child
+	 * @return data description COBOL source code for the structure
+	 * @throws CobolGenerationException if code generation fails
+	 */
+	public static String generate(
+			final String jaxbPackageName,
+			final String jaxbType,
+			final String cobolRootDataItemName,
+			final int firstCobolLevel,
+			final int cobolLevelIncrement)
+	throws CobolGenerationException {
+		try {
+			JAXBElementDescriptor elementDescriptor = new JAXBElementDescriptor(
+					jaxbPackageName, jaxbType);
+			Object objectFactory = elementDescriptor.createObjectFactory();
+			Class < ? > clazz = elementDescriptor.loadJaxbClass();
+			CComplexReflectBinding ccem = new CComplexReflectBinding(
+					objectFactory, clazz);
+			String cobolRootName = cobolRootDataItemName;
+			if (cobolRootName == null || cobolRootName.length() == 0) {
+				cobolRootName = getCobolNameResolver().getName(
+						jaxbType);
 			}
-			return new CComplexReflectBinding(of, oClass);
-		} catch (ClassNotFoundException e) {
-			throw new BuildException(e);
-		} catch (InstantiationException e) {
-			throw new BuildException(e);
-		} catch (IllegalAccessException e) {
-			throw new BuildException(e);
+			ccem.setCobolName(cobolRootName);
+			StringWriter writer = new StringWriter();
+			BufferedWriter bufWriter = new BufferedWriter(writer);
+			CobolGenVisitor cev = new CobolGenVisitor(
+					firstCobolLevel, cobolLevelIncrement, bufWriter);
+			ccem.accept(cev);
+			bufWriter.flush();
+			return writer.toString();
 		} catch (ReflectBindingException e) {
-			throw new BuildException(e);
+			throw new CobolGenerationException(e);
+		} catch (HostException e) {
+			throw new CobolGenerationException(e);
+		} catch (IOException e) {
+			throw new CobolGenerationException(e);
+		} catch (ClassNotFoundException e) {
+			throw new CobolGenerationException(e);
+		} catch (CobolNameResolverException e) {
+			throw new CobolGenerationException(e);
+		} catch (JAXBAnnotationException e) {
+			throw new CobolGenerationException(e);
 		}
-    }
-    
+	}
+	
+	/**
+	 * @return the current name resolver or a new one if none existed before
+	 * @throws CobolNameResolverException if resolver cannot be created
+	 */
+	private static CobolNameResolver getCobolNameResolver()
+	throws CobolNameResolverException {
+		if (mCobolNameResolver == null) {
+			mCobolNameResolver = new CobolNameResolver();
+		}
+		return mCobolNameResolver;
+	}
+	
 	/**
 	 * @return the package name used for JAXB classes
 	 */
@@ -251,6 +323,36 @@ public class CobolGenerator extends Task  {
 	public final void setCobolRootDataItemName(
 			final String cobolRootDataItemName) {
 		mCobolRootDataItemName = cobolRootDataItemName;
+	}
+
+	/**
+	 * @return where to start numbering Cobol data items
+	 */
+	public final int getFirstCobolLevel() {
+		return mFirstCobolLevel;
+	}
+
+	/**
+	 * @param firstCobolLevel where to start numbering Cobol data items
+	 */
+	public final void setFirstCobolLevel(final int firstCobolLevel) {
+		mFirstCobolLevel = firstCobolLevel;
+	}
+
+	/**
+	 * @return how much to increment Cobol data items moving from parent to
+	 *  child
+	 */
+	public final int getCobolLevelIncrement() {
+		return mCobolLevelIncrement;
+	}
+
+	/**
+	 * @param cobolLevelIncrement how much to increment Cobol data items
+	 *  moving from parent to child
+	 */
+	public final void setCobolLevelIncrement(final int cobolLevelIncrement) {
+		mCobolLevelIncrement = cobolLevelIncrement;
 	}
 
 }
