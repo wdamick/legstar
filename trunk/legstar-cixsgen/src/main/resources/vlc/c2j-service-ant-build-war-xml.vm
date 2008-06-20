@@ -4,7 +4,7 @@
 ##@version 0.1
 ##/////////////////////////////////////////////////////////////////////
 ##
-#set($warFile = "${targetWarDir}/cixs-${model.name}.war")
+#set($warFile = "${targetWarDir}/c2ws-${model.name}.war")
 #set($wddFile = "${targetWDDDir}/web.xml")
 ## ==================================================================
 ## Macro will help make sure we process packages only once

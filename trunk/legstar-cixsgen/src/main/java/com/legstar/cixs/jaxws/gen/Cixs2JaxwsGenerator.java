@@ -24,8 +24,8 @@ import com.legstar.codegen.CodeGenUtil;
 public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
 
 	/** This generator name. */
-	private static final String JAXWS_CIXS_GENERATOR_NAME =
-		"LegStar Web Service proxy for Mainframe generator";
+	public static final String CIXS_TO_JAXWS_GENERATOR_NAME =
+		"LegStar Mainframe to Jaxws generator";
 
 	/** Velocity template for war ant build generation. */
 	public static final String SERVICE_ANT_BUILD_WAR_VLC_TEMPLATE =
@@ -39,6 +39,9 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
 	public static final String OPERATION_COBOL_CICS_CLIENT_VLC_TEMPLATE =
 		"vlc/c2j-operation-cobol-cics-client.vm";
 
+	/** The service model name is it appears in templates. */
+	public static final String SERVICE_MODEL_NAME = "model";
+
 	/**
      * Constructor.
      */
@@ -49,19 +52,32 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
 	/** {@inheritDoc}*/
 	public void checkExtendedInput() throws CodeGenMakeException {
         try {
-			CodeGenUtil.checkDirectory(getTargetWDDDir(), true);
-			CodeGenUtil.checkDirectory(getTargetCobolDir(), true);
+            CodeGenUtil.checkDirectory(
+            		getTargetAntDir(), true, "TargetAntDir");
+			CodeGenUtil.checkDirectory(
+					getTargetWDDDir(), true, "TargetWDDDir");
+			CodeGenUtil.checkDirectory(
+					getTargetCobolDir(), true, "TargetCobolDir");
+			/* Check that we are provided with valid locations to
+        	 * reference.*/
+	        if (getTargetWarDir() == null) {
+	            throw (new IllegalArgumentException(
+	            		"TargetWarDir: No directory name was specified"));
+	        }
+
+	        /* Check that we have a URI to expose to mainframe programs */
 			String serviceURI = getCixsJaxwsService().getServiceURI();
-            if (serviceURI == null || serviceURI.length() == 0) {
+            CodeGenUtil.checkHttpURI(serviceURI);
+			
+            /* Check that we have a target Web Service WSDL URL */
+            String wsdlUrl = getCixsJaxwsService().getWsdlUrl();
+            if (wsdlUrl == null || wsdlUrl.length() == 0) {
                 throw new CodeGenMakeException(
-                	"You must specify a service URI");
+                	"You must specify a target Web Service WSDL URL");
             }
-            URI uri = new URI(serviceURI);
-            if (uri.getScheme() == null
-            		|| uri.getScheme().compareToIgnoreCase("http") != 0) {
-                throw new CodeGenMakeException(
-                		"URI " + uri + " must have http scheme");
-            }
+            new URI(wsdlUrl);
+            
+            /* Check that we have CICS program names mapped to operations */
             for (CixsOperation operation : getCixsOperations()) {
                 String cicsProgramName = operation.getCicsProgramName();
                 if (cicsProgramName == null || cicsProgramName.length() == 0) {
@@ -83,10 +99,95 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
         parameters.put("targetWarDir", getTargetWarDir());
         parameters.put("targetWDDDir", getTargetWDDDir());
         parameters.put("hostCharset", getHostCharset());
+        parameters.put("structHelper", new StructuresGenerator());
 		
-        /* TODO fill this to generate ant build */
+		/* Determine target files locations */
+		File serviceWebFilesDir = getTargetWDDDir();
+		CodeGenUtil.checkDirectory(serviceWebFilesDir, true);
+		File serviceAntFilesDir = getTargetAntDir();
+		CodeGenUtil.checkDirectory(serviceAntFilesDir, true);
+		File serviceCobolCicsClientDir = getTargetCobolDir();
+		CodeGenUtil.checkDirectory(serviceCobolCicsClientDir, true);
+
+		generateWebXml(
+				getCixsJaxwsService(), parameters, serviceWebFilesDir);
+		generateAntBuildWar(
+				getCixsJaxwsService(), parameters, serviceAntFilesDir);
+		
+		for (CixsOperation operation : getCixsService().getCixsOperations()) {
+	        parameters.put("cixsOperation", operation);
+	        generateCobolCicsClient(
+	        		getCixsJaxwsService(), operation, parameters,
+	        		serviceCobolCicsClientDir);
+		}
+		
 	}
 
+    /**
+     * Create the Ant Build for a War file generation.
+     * @param service the service description
+     * @param parameters miscellaneous help parameters
+     * @param serviceAntFilesDir where to store the generated file
+     * @throws CodeGenMakeException if generation fails
+     */
+    public static void generateAntBuildWar(
+            final CixsJaxwsService service,
+            final Map < String, Object > parameters,
+            final File serviceAntFilesDir)
+    throws CodeGenMakeException {
+        generateFile(CIXS_TO_JAXWS_GENERATOR_NAME,
+        		SERVICE_ANT_BUILD_WAR_VLC_TEMPLATE,
+        		SERVICE_MODEL_NAME,
+                service,
+                parameters,
+                serviceAntFilesDir,
+                "build.xml");
+    }
+
+	/**
+	 * Create the Jaxws Web Xml file.
+	 * @param service the Jaxws service description
+	 * @param parameters miscellaneous help parameters
+	 * @param serviceWebFilesDir where to store the generated file
+	 * @throws CodeGenMakeException if generation fails
+	 */
+	public static void generateWebXml(
+			final CixsJaxwsService service,
+			final Map < String, Object > parameters,
+			final File serviceWebFilesDir)
+	throws CodeGenMakeException {
+        generateFile(CIXS_TO_JAXWS_GENERATOR_NAME,
+        		SERVICE_WEB_XML_VLC_TEMPLATE,
+                SERVICE_MODEL_NAME,
+                service,
+                parameters,
+                serviceWebFilesDir,
+                "web.xml");
+	}
+	
+    /**
+     * Create a COBOl CICS Client program to use for testing.
+	 * @param service the Jaxws service description
+     * @param operation the operation for which a program is to be generated
+     * @param parameters the set of parameters to pass to template engine
+     * @param cobolFilesDir location where COBOL code should be generated
+     * @throws CodeGenMakeException if generation fails
+     */
+	public static void generateCobolCicsClient(
+			final CixsJaxwsService service,
+            final CixsOperation operation,
+			final Map < String, Object > parameters,
+			final File cobolFilesDir)
+	throws CodeGenMakeException {
+        generateFile(CIXS_TO_JAXWS_GENERATOR_NAME,
+        		OPERATION_COBOL_CICS_CLIENT_VLC_TEMPLATE,
+                SERVICE_MODEL_NAME,
+                service,
+                parameters,
+                cobolFilesDir,
+                operation.getCicsProgramName() + ".cbl");
+	}
+	
 	/**
 	 * @return the Target location for web deployment descriptors
 	 */
@@ -179,7 +280,7 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
     
 	/** {@inheritDoc}*/
 	public String getGeneratorName() {
-		return JAXWS_CIXS_GENERATOR_NAME;
+		return CIXS_TO_JAXWS_GENERATOR_NAME;
 	}
 
 }

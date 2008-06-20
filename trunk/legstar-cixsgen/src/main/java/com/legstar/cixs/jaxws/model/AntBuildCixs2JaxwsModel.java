@@ -3,7 +3,6 @@ package com.legstar.cixs.jaxws.model;
 import java.io.File;
 
 import com.legstar.cixs.gen.ant.model.AbstractAntBuildCixsModel;
-import com.legstar.codegen.CodeGenMakeException;
 
 /**
  * This model groups parameters needed to generate artifacts for an inbound
@@ -36,13 +35,6 @@ public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsModel {
     public AntBuildCixs2JaxwsModel() {
         super(CIXS2JAXWS_GENERATOR_NAME, CIXS2JAXWS_VELOCITY_MACRO_NAME);
     }
-
-	/** {@inheritDoc} */
-	public void generateBuild(
-			final File scriptFile) throws CodeGenMakeException {
-		// TODO Auto-generated method stub
-
-	}
 
     /**
      * @return the web service mapping description

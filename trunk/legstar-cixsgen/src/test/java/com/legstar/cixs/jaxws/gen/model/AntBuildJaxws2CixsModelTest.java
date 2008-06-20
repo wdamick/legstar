@@ -52,7 +52,7 @@ public class AntBuildJaxws2CixsModelTest extends TestCase {
 			str = in.readLine();
 		}
 		in.close();
-		assertTrue(resStr.contains("<project basedir=\"/Users/Fady/sandbox/legstar-1.2.0\" default=\"signalSuccess\" name=\"generate-jaxws2Cixs\">"));
+		assertTrue(resStr.contains("<project basedir=\"/Users/Fady/sandbox/legstar-1.2.0\" default=\"signalSuccess\" name=\"generate-jaxws2cixs\">"));
 		assertTrue(resStr.replace('\\', '/').contains("<pathelement location=\"src/test/gen/target/classes\"/>"));
 		assertTrue(resStr.contains("<taskdef name=\"jaxws2cixsgen\""));
 		assertTrue(resStr.contains("classname=\"com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator\""));
