@@ -3,7 +3,7 @@
      script uses JNI and native libraries, you want to make sure that the
      distribution bin directory is in the PATH.
  -->
-<project basedir="${model.productLocation}" default="signalSuccess" name="generate-XSD">
+<project basedir="${antModel.productLocation}" default="signalSuccess" name="generate-XSD">
 #**
 Cobol to Xsd ant script Velocity Template.
 @author Fady
@@ -32,13 +32,13 @@ Cobol to Xsd ant script Velocity Template.
     <!-- Generate a Cobol-annotated XML Schema.
     -->
     <target name="generateXSD" depends="init">
-        <echo message="Generating annotated XML schema ${model.targetXsdFileName}" />
+        <echo message="Generating annotated XML schema ${antModel.targetXsdFileName}" />
         <c2scgen
-            namespace="${model.namespace}"
-            jaxbPackageName="${model.jaxbPackageName}"
-            sourceCobolFilePath="${model.sourceCobolFilePath}"
-            targetDir="${model.targetDir}"
-            targetXsdFileName="${model.targetXsdFileName}"
+            namespace="${antModel.namespace}"
+            jaxbPackageName="${antModel.jaxbPackageName}"
+            sourceCobolFilePath="${antModel.sourceCobolFilePath}"
+            targetDir="${antModel.targetDir}"
+            targetXsdFileName="${antModel.targetXsdFileName}"
         />
     </target>
   
@@ -46,7 +46,7 @@ Cobol to Xsd ant script Velocity Template.
     <!-- Delete the probe file to signal success
     -->
     <target name="signalSuccess" depends="generateXSD">
-        <delete file="${model.probeFile}" quiet="true"/>
+        <delete file="${antModel.probeFile}" quiet="true"/>
     </target>
     
 </project>
