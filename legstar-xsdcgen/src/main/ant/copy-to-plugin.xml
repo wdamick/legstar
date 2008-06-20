@@ -39,6 +39,10 @@
 				<include name="*.jar"/>
 				<exclude name="*-sources.jar"/>
 			</fileset>
+			<fileset dir="${maven.repo}/wsdl4j/wsdl4j/1.6.2">
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+			</fileset>
 		</copy>
 	</target>
 	

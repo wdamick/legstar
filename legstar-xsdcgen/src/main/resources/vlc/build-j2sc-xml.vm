@@ -1,7 +1,7 @@
 <!-- =================================================================================
      This script generates a Cobol-annotated XML Schema from a set of Java classes.
   -->
-<project basedir="${model.productLocation}" default="signalSuccess" name="generate-XSD">
+<project basedir="${antModel.productLocation}" default="signalSuccess" name="generate-XSD">
 #**
 Java to Xsd ant script Velocity Template.
 @author Fady
@@ -18,7 +18,7 @@ Java to Xsd ant script Velocity Template.
         <!-- Classpath setting -->
         <path id="classpath">
             <fileset dir="${basedir}" includes="lib/*.jar" />
-#foreach ($pathElementLocation in $model.pathElementLocations)
+#foreach ($pathElementLocation in $antModel.pathElementLocations)
             <pathelement location="${pathElementLocation}"/>
 #end
         </path>
@@ -36,15 +36,15 @@ Java to Xsd ant script Velocity Template.
     could be annotated with JSR 181 XmlRootElement.
     -->
     <target name="generateXSD" depends="init">
-        <echo message="Generating annotated XML schema ${model.targetXsdFileName}" />
-        <mkdir dir="${model.targetDir}"/>
+        <echo message="Generating annotated XML schema ${antModel.targetXsdFileName}" />
+        <mkdir dir="${antModel.targetDir}"/>
         <j2scgen 
-            namespace="${model.namespace}"
-            jaxbPackageName="${model.jaxbPackageName}"
-            targetDir="${model.targetDir}"
-            targetXsdFileName="${model.targetXsdFileName}"
+            namespace="${antModel.namespace}"
+            jaxbPackageName="${antModel.jaxbPackageName}"
+            targetDir="${antModel.targetDir}"
+            targetXsdFileName="${antModel.targetXsdFileName}"
         >
-#foreach ($className in $model.classNames)
+#foreach ($className in $antModel.classNames)
             <rootClass name="${className}"/>
 #end
         </j2scgen>
@@ -54,7 +54,7 @@ Java to Xsd ant script Velocity Template.
     <!-- Delete the probe file to signal success
     -->
     <target name="signalSuccess" depends="generateXSD">
-        <delete file="${model.probeFile}" quiet="true"/>
+        <delete file="${antModel.probeFile}" quiet="true"/>
     </target>
     
 </project>

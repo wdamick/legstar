@@ -44,6 +44,14 @@
             <artifactId>ant</artifactId>
         </dependency>
 
+        <!--  xsdcgen does not depend of wsdl4j yet. But since some
+              plugins (which are not Maven managed) now depend on
+              wsdl4j, it is convenient to add it here. -->
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-codegen</artifactId>
