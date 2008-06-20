@@ -29,6 +29,9 @@ public abstract class AbstractAntBuildModel implements IAntBuildModel {
 
 	/** Prefix of generated ANT script file. */
 	public static final String ANT_FILE_PREFIX = "build-";
+	
+	/** Set of parameters to be passed to velocity.*/
+	private Map < String, Object > mParameters;
 
 	/**
 	 * Creates an ant build script file ready for launching.
@@ -42,17 +45,18 @@ public abstract class AbstractAntBuildModel implements IAntBuildModel {
 			final String velocityMacro,
 			final File targetFile) throws CodeGenMakeException {
 		try {
-			CodeGenUtil.initVelocity();
-			CodeGenHelper helper = new CodeGenHelper();
-			Map < String, Object > parameters =
-				new HashMap < String, Object >();
-			parameters.put("helper", helper);
+			if (mParameters == null) {
+				CodeGenUtil.initVelocity();
+				CodeGenHelper helper = new CodeGenHelper();
+				mParameters = new HashMap < String, Object >();
+				mParameters.put("helper", helper);
+			}
 
 			CodeGenUtil.processTemplate(
 					generatorName,
 					velocityMacro,
-					"model", this,
-					parameters,
+					"antModel", this,
+					mParameters,
 					targetFile);
 			
 		} catch (CodeGenVelocityException e) {
