@@ -1,7 +1,7 @@
 <!-- =================================================================================
      This script generates a Cobol-annotated XML Schema from a set of Java classes.
   -->
-<project basedir="${model.productLocation}" default="signalSuccess" name="generate-XSD">
+<project basedir="${antModel.productLocation}" default="signalSuccess" name="generate-XSD">
 #**
 XML Schema and WSDL to Xsd ant script Velocity Template.
 @author Fady
@@ -31,15 +31,15 @@ XML Schema and WSDL to Xsd ant script Velocity Template.
     <!-- Generate a Cobol-annotated XML Schema.
     -->
     <target name="generateXSD" depends="init">
-        <echo message="Generating annotated XML schema ${model.targetXsdFileName}" />
-        <mkdir dir="${model.targetDir}"/>
+        <echo message="Generating annotated XML schema ${antModel.targetXsdFileName}" />
+        <mkdir dir="${antModel.targetDir}"/>
         <x2scgen
-            inputXsdUri="${model.inputXsdUri}"
-            jaxbTypeClassesSuffix="${model.jaxbTypeClassesSuffix}"
-            namespace="${model.namespace}"
-            jaxbPackageName="${model.jaxbPackageName}"
-            targetDir="${model.targetDir}"
-            targetXsdFileName="${model.targetXsdFileName}"
+            inputXsdUri="${antModel.inputXsdUri}"
+            jaxbTypeClassesSuffix="${antModel.jaxbTypeClassesSuffix}"
+            namespace="${antModel.namespace}"
+            jaxbPackageName="${antModel.jaxbPackageName}"
+            targetDir="${antModel.targetDir}"
+            targetXsdFileName="${antModel.targetXsdFileName}"
         />
     </target>
 
@@ -47,7 +47,7 @@ XML Schema and WSDL to Xsd ant script Velocity Template.
     <!-- Delete the probe file to signal success
     -->
     <target name="signalSuccess" depends="generateXSD">
-        <delete file="${model.probeFile}" quiet="true"/>
+        <delete file="${antModel.probeFile}" quiet="true"/>
     </target>
     
 </project>
