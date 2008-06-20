@@ -53,10 +53,10 @@
     
     <!-- Classpath setting -->
     <path id="classpath">
+        <pathelement location="${jaxb.bin.dir}"/>
+        <pathelement location="${coxb.bin.dir}"/>
+        <pathelement location="${cust.bin.dir}"/>
         <fileset dir="${basedir}" includes="lib/*.jar" />
-        <!--JAXB and COXB binding classes  -->
-        <dirset dir="${jaxb.bin.dir}"/>
-        <dirset dir="${coxb.bin.dir}"/>
     </path>
 
     <!-- Service Generator ant task -->

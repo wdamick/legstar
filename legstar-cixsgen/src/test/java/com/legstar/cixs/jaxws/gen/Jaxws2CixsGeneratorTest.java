@@ -36,23 +36,12 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
 
 	private Jaxws2CixsGenerator mGenerator;
 
-	/** General location for generated artifacts. */
-	private static final String GEN_DIR = "src/test/gen";
-
-	/** Ant scripts will be generated here. */
-	private static final String GEN_ANT_DIR = "ant";
-
-	/** Web descriptors will be generated here. */
-	private static final String GEN_WEB_DIR = "WebContent/WEB-INF";
-
-	/** Property files will be generated here. */
-	private static final String GEN_PROP_DIR = "WebContent/WEB-INF/classes";
-	
 
     public void setUp() {
+    	emptyDir(GEN_DIR);
         mGenerator = new Jaxws2CixsGenerator();
         mGenerator.init();
-        mGenerator.setTargetSrcDir(GEN_SRC_DIR);
+        mGenerator.setJaxbBinDir(JAXB_BIN_DIR);
     }
     
     public void testGetSet() {
@@ -74,18 +63,78 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
         try {
             generator.execute();
         } catch (Exception e) {
-            assertEquals("Missing service description parameter",
+            assertEquals("java.lang.IllegalArgumentException: JaxbBinDir:" +
+            		" No directory name was specified",
+                    e.getCause().getMessage());
+        }
+        try {
+            generator.setJaxbBinDir(JAXB_BIN_DIR);
+            generator.execute();
+        } catch (Exception e) {
+            assertEquals("You must specify a service description",
                     e.getCause().getMessage());
         }
         CixsJaxwsService cixsJaxwsService = new CixsJaxwsService();
-        cixsJaxwsService.setName("jaxwsServiceName");
         try {
             generator.setCixsJaxwsService(cixsJaxwsService);
             generator.execute();
             fail();
         } catch (Exception e) {
-            assertEquals("java.lang.IllegalArgumentException:"
-                    + " No directory name was specified",
+            assertEquals("You must provide a service name",
+                    e.getCause().getMessage());
+        }
+        try {
+            cixsJaxwsService.setName("jaxwsServiceName");
+            generator.execute();
+            fail();
+        } catch (Exception e) {
+            assertEquals("java.lang.IllegalArgumentException:" +
+            		" TargetSrcDir: No directory name was specified",
+                    e.getCause().getMessage());
+        }
+        try {
+            generator.setTargetSrcDir(GEN_SRC_DIR);
+            generator.execute();
+            fail();
+        } catch (Exception e) {
+            assertEquals("java.lang.IllegalArgumentException:" +
+            		" TargetAntDir: No directory name was specified",
+                    e.getCause().getMessage());
+        }
+        try {
+            generator.setTargetAntDir(GEN_ANT_DIR);
+            generator.execute();
+            fail();
+        } catch (Exception e) {
+            assertEquals("java.lang.IllegalArgumentException:" +
+            		" TargetPropDir: No directory name was specified",
+                    e.getCause().getMessage());
+        }
+        try {
+            generator.setTargetPropDir(GEN_PROP_DIR);
+            generator.execute();
+            fail();
+        } catch (Exception e) {
+            assertEquals("java.lang.IllegalArgumentException:" +
+            		" TargetWDDDir: No directory name was specified",
+                    e.getCause().getMessage());
+        }
+        try {
+            generator.setTargetWDDDir(GEN_WDD_DIR);
+            generator.execute();
+            fail();
+        } catch (Exception e) {
+            assertEquals("java.lang.IllegalArgumentException:" +
+            		" TargetBinDir: No directory name was specified",
+                    e.getCause().getMessage());
+        }
+        try {
+            generator.setTargetBinDir(GEN_BIN_DIR);
+            generator.execute();
+            fail();
+        } catch (Exception e) {
+            assertEquals("java.lang.IllegalArgumentException:" +
+            		" TargetWarDir: No directory name was specified",
                     e.getCause().getMessage());
         }
        
@@ -93,12 +142,15 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
     
     private void initJaxwsService(CixsJaxwsService cixsJaxwsService) {
         mGenerator.setCixsJaxwsService(cixsJaxwsService);
+        mGenerator.setTargetSrcDir(GEN_SRC_DIR);
+        mGenerator.setTargetBinDir(GEN_BIN_DIR);
+        mGenerator.setTargetWarDir(GEN_WAR_DIR);
         mGenerator.setTargetAntDir(
-        		new File(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_ANT_DIR));
+        		new File(GEN_ANT_DIR, cixsJaxwsService.getName()));
         mGenerator.setTargetWDDDir(
-        		new File(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_WEB_DIR));
+        		new File(GEN_WDD_DIR, cixsJaxwsService.getName()));
         mGenerator.setTargetPropDir(
-        		new File(GEN_DIR + '/' + cixsJaxwsService.getName() + '/' + GEN_PROP_DIR));
+        		new File(GEN_PROP_DIR, cixsJaxwsService.getName()));
     }
     
     /**
@@ -251,21 +303,18 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
                 "HostHeader {"));
 
         resStr = getSource(
-        		GEN_DIR + '/' + service + '/' + GEN_ANT_DIR + "/"
-                + "build.xml");
-        assertTrue(resStr.contains(
-                "<war warfile=\"${targetWarDir}/cixs-" + service +
+        		GEN_ANT_DIR, service + '/' + "build.xml");
+        assertTrue(resStr.replace('\\', '/').contains(
+                "<war warfile=\"${env.CATALINA_BASE}/webapp/cixs-" + service +
                 ".war\""));
         
         resStr = getSource(
-        		GEN_DIR + '/' + service + '/' + GEN_WEB_DIR + "/"
-                + "web.xml");
+        		GEN_WDD_DIR,  service + '/' + "web.xml");
         assertTrue(resStr.contains(
                 "<servlet-name>" + service + "Service</servlet-name>"));
         
         resStr = getSource(
-        		GEN_DIR + '/' + service + '/' + GEN_WEB_DIR + "/"
-                + "sun-jaxws.xml");
+        		GEN_WDD_DIR, service + '/' + "sun-jaxws.xml");
         assertTrue(resStr.contains(
                 "<endpoint name=\"" + service + "Service\""));
         
@@ -274,8 +323,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
     public void checkOperationResult(
     		String relativeLoc, String service, String operation, String ClassName) throws IOException {
     	String resStr = getSource(
-    			GEN_DIR + '/' + service + '/' + GEN_PROP_DIR
-                + "/" + operation + ".properties");
+    			GEN_PROP_DIR, service + '/' + operation + ".properties");
         assertTrue(resStr.contains(
                 "CICSProgramName=" + operation.toUpperCase() ));
         resStr = getSource(

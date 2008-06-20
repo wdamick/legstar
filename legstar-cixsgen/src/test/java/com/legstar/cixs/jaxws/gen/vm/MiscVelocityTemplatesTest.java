@@ -13,18 +13,6 @@ import com.legstar.codegen.CodeGenUtil;
 public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
 	
 	
-	/** General location for generated artifacts. */
-	private static final String GEN_DIR = "src/test/gen";
-
-	/** Ant scripts will be generated here. */
-	private static final String GEN_ANT_DIR = "ant";
-
-	/** Web descriptors will be generated here. */
-	private static final String GEN_WEB_DIR = "WebContent/WEB-INF";
-
-	/** Property files will be generated here. */
-	private static final String GEN_PROP_DIR = "WebContent/WEB-INF/classes";
-
 	public void testHostHeader() throws Exception {
 		
 		CixsJaxwsService jaxwsComponent = TestCases.getLsfileae();
@@ -199,7 +187,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
 		CixsOperation operation = jaxwsComponent.getCixsOperations().get(0);
     	
 		File operationPropertiesFilesDir =
-			new File(GEN_DIR + '/' + jaxwsComponent.getName() + '/' + GEN_PROP_DIR);
+			new File(GEN_PROP_DIR, jaxwsComponent.getName());
 		CodeGenUtil.checkDirectory(operationPropertiesFilesDir, true);
 		Jaxws2CixsGenerator.generateProgramProperties(
 				operation, getParameters(), operationPropertiesFilesDir);
@@ -218,7 +206,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
 		CixsOperation operation = jaxwsComponent.getCixsOperations().get(0);
     	
 		File operationPropertiesFilesDir = 
-			new File(GEN_DIR + '/' + jaxwsComponent.getName() + '/' + GEN_PROP_DIR);
+			new File(GEN_PROP_DIR, jaxwsComponent.getName());
 		CodeGenUtil.checkDirectory(operationPropertiesFilesDir, true);
 		Jaxws2CixsGenerator.generateProgramProperties(
 				operation, getParameters(), operationPropertiesFilesDir);
@@ -243,7 +231,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
 		CixsJaxwsService jaxwsComponent = TestCases.getLsfileae();
     	
 		File componentWebFilesDir =
-			new File(GEN_DIR + '/' + jaxwsComponent.getName() + '/' + GEN_WEB_DIR);
+			new File(GEN_WDD_DIR, jaxwsComponent.getName());
 		CodeGenUtil.checkDirectory(componentWebFilesDir, true);
 		Jaxws2CixsGenerator.generateSunJaxwsXml(
 				jaxwsComponent, getParameters(), componentWebFilesDir);
@@ -261,7 +249,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
 		CixsJaxwsService jaxwsComponent = TestCases.getLsfileae();
     	
 		File componentWebFilesDir = 
-			new File(GEN_DIR + '/' + jaxwsComponent.getName() + '/' + GEN_WEB_DIR);
+			new File(GEN_WDD_DIR, jaxwsComponent.getName());
 		CodeGenUtil.checkDirectory(componentWebFilesDir, true);
 		Jaxws2CixsGenerator.generateWebXml(
 				jaxwsComponent, getParameters(), componentWebFilesDir);
@@ -288,7 +276,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
 		getParameters().put("targetPropDir", "/Legsem/Legstar/Dev/WebContent/WEB-INF/classes");
 
 		File componentAntFilesDir =
-			new File(GEN_DIR + '/' + jaxwsComponent.getName() + '/' + GEN_ANT_DIR);
+			new File(GEN_ANT_DIR, jaxwsComponent.getName());
 		CodeGenUtil.checkDirectory(componentAntFilesDir, true);
 		Jaxws2CixsGenerator.generateAntBuildWar(
 				jaxwsComponent, getParameters(), componentAntFilesDir);

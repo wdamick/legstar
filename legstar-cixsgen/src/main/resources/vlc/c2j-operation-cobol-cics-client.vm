@@ -1,4 +1,3 @@
-#foreach ($cixsOperation in ${model.cixsOperations})
        PROCESS XOPTS(APOST)
        PROCESS NOSEQ LIB OPTIMIZE(FULL)
        IDENTIFICATION DIVISION.
@@ -27,19 +26,19 @@
       * Address of c2ws service provider.
       *    
        77  C2WS-SERVICE-URI            PIC X(${model.serviceURI.length()}) VALUE
-           '${model.serviceURI}'.
+${structHelper.getCobolValueCode("'${model.serviceURI}'", 1)}
       *    
       * C2ws service credentials.
       *    
        77  C2WS-USERID                 PIC X(${model.serviceUserId.length()}) VALUE
-           '${model.serviceUserId}'.
+${structHelper.getCobolValueCode("'${model.serviceUserId}'", 1)}
        77  C2WS-PASSWORD               PIC X(${model.servicePassword.length()}) VALUE
-           '${model.servicePassword}'.
+${structHelper.getCobolValueCode("'${model.servicePassword}'", 1)}
       *    
       * Service requested.
       *    
        77  C2WS-SERVICE-NAME           PIC X(${model.name.length()}) VALUE
-           '${model.name}'.
+${structHelper.getCobolValueCode("'${model.name}'", 1)}
            
       *---------------------------------------------------------------*
       *  Constants                                                    *
@@ -87,7 +86,7 @@
       *  Request parameters expected by target web service            *
       *---------------------------------------------------------------*
        01 COM-REQUEST.
-${model.getInputStructuresCode($cixsOperation)}
+${structHelper.getInputStructuresCode($cixsOperation, 5, 5)}
        
       *****************************************************************
       *            L I N K A G E       S E C T I O N                  *
@@ -98,7 +97,7 @@ ${model.getInputStructuresCode($cixsOperation)}
       *  Reply parameters as returned by target web service           *
       *---------------------------------------------------------------*
        01 COM-REPLY.
-${model.getOutputStructuresCode($cixsOperation)}
+${structHelper.getOutputStructuresCode($cixsOperation, 5, 5)}
                
       *****************************************************************
       *    P R O C E D U R E  D I V I S I O N   S E C T I O N         *
@@ -216,4 +215,3 @@ ${model.getOutputStructuresCode($cixsOperation)}
        END-PRINT-RESULTS.   EXIT.
        
        END PROGRAM ${cixsOperation.cicsProgramName}.
-#end

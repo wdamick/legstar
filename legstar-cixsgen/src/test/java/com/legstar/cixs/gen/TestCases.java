@@ -90,7 +90,7 @@ public class TestCases {
 	public static CixsJaxwsService getJvmquery() throws Exception {
 		CixsJaxwsService service = getNewService("jvmquery");
 		service.addCixsOperation(getJvmqueryOperation());
-		service.setServiceURI("http://192.168.0.5/");
+		service.setServiceURI(service.getDefaultServiceURI());
 		service.setServiceUserId("alice");
 		service.setServicePassword("inwonderland");
 		return service;
@@ -103,7 +103,7 @@ public class TestCases {
 		service.setWsdlUrl("http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl");
 		service.setWsdlServiceName("CultureInfoImplService");
 		service.setWsdlPortName("CultureInfoImplPort");
-		service.setServiceURI("http://localhost:8080/jaxws-cultureinfo/getinfo");
+		service.setServiceURI(service.getDefaultServiceURI());
 		return service;
 	}
 	
@@ -175,7 +175,7 @@ public class TestCases {
 		CixsStructure outStruct = new CixsStructure();
 		
 		operation.setName(operationName);
-		operation.setCicsProgramName(operationName.toUpperCase());
+		operation.setCicsProgramName(operationName.toUpperCase().substring(0, 8));
 		operation.setNamespace(NAMESPACE_PREFIX + serviceName);
 		operation.setPackageName(CIXS_PACKAGE_PREFIX + serviceName);
 		inStruct.setJaxbType(inputJaxbType);

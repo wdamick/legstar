@@ -23,6 +23,12 @@ import junit.framework.TestCase;
  */
 public class AbstractTestTemplate extends TestCase {
 
+    /** Parent generation folder. */
+    public static final File GEN_DIR = new File("src/test/gen");
+    
+    /** Location of JAXB classes. */
+    public static final File JAXB_BIN_DIR = new File("target/classes");
+
     /** Code will be generated here. */
     public static final File GEN_SRC_DIR = new File("src/test/gen/java");
 
@@ -38,6 +44,15 @@ public class AbstractTestTemplate extends TestCase {
     /** Web descriptors files will be generated here. */
     public static final File GEN_ANT_DIR = new File("src/test/gen/ant");
     
+    /** Properties files will be generated here. */
+    public static final File GEN_PROP_DIR = new File("src/test/gen/prop");
+    
+    /** Reference to binaries location. */
+    public static final File GEN_BIN_DIR = new File("src/test/gen/target/classes");
+
+    /** Reference to war files location. */
+    public static final File GEN_WAR_DIR = new File("${env.CATALINA_BASE}/webapp");
+
     /** Additional parameter set passed to templates */
     private Map <String, Object> mParameters;
     
@@ -49,6 +64,7 @@ public class AbstractTestTemplate extends TestCase {
     @Override
     public void setUp() {
         try {
+        	emptyDir(GEN_DIR);
             CodeGenUtil.initVelocity();
            	CodeGenUtil.checkDirectory(GEN_SRC_DIR, true);
            	CodeGenUtil.checkDirectory(GEN_CONF_DIR, true);
@@ -139,5 +155,28 @@ public class AbstractTestTemplate extends TestCase {
         return mParameters;
     }
 
+    /**
+     * Recreates a folder after emptying its content.
+     * @param dir the folder to empy
+     */
+    public void emptyDir(File dir) {
+        deleteDir(dir);
+        dir.mkdirs();
+    }
+    
+    /**
+     * Destroys a folder and all of its content.
+     * @param dir the folder to destroy
+     */
+    public void deleteDir(File dir) {
+        if (dir.exists()) {
+            for (File file : dir.listFiles()) {
+                if (file.isDirectory()) {
+                    deleteDir(file);
+                }
+                file.delete();
+            }
+        }
+    }
 
 }
