@@ -9,7 +9,7 @@
 	<target name="init">
 		
 		<!-- Target war file  -->
-	 	<property name="target.war.file" value="${basedir}/target/legstar-c2wsrt.war" />
+	 	<property name="target.war.file" value="${basedir}/target/c2ws-cultureinfo.war" />
 		<!-- Web.xml file  -->
 	 	<property name="web.xml.file" value="${basedir}/src/main/webapp/WEB-INF/web.xml" />
 		

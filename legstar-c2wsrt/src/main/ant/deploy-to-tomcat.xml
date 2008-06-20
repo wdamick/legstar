@@ -16,7 +16,7 @@
 	</target>
 
 	<!-- ===========================================================  -->
-	<!-- The war file contains the legstar-c2wsrt jar file
+	<!-- The war file contains the sample cultureinfoProxy
 	  -->
 	<target name="deployToTomcat" depends="init">
 		

@@ -7,6 +7,10 @@
       * --------                                                      *
       * Sample transaction calling a remote Web service using legstar *
       * c2wsrt C API.                                                 *
+      * This program assumes the c2ws-cultureinfo servlet has been    *
+      * deployed to a J2EE server along with LegStar dependencies.    *
+      * c2ws-cultureinfo is a proxy to the target Web Service         *
+      * jaxws-cultureinfo, also delivered as a sample.                *
       *****************************************************************
 
        ENVIRONMENT DIVISION.
@@ -22,8 +26,8 @@
       *---------------------------------------------------------------*
       * Address of c2ws gateway.
       *    
-       77  C2WS-GATEWAY-URI            PIC X(55) VALUE
-           'http://192.168.0.7:8080/legstar-c2wsrt/CultureInfoProxy'.
+       77  C2WS-SERVICE-URI            PIC X(54) VALUE
+           'http://locahost:8080/c2ws-cultureinfo/cultureinfoProxy'.
       *    
       * C2ws gateway credentials.
       *    
@@ -122,14 +126,15 @@
                END-INVOKE-SERVICE.
                
            IF TRACES-ON
-	           PERFORM PRINT-RESULTS THRU
-	               END-PRINT-RESULTS 
+               PERFORM PRINT-RESULTS THRU
+                   END-PRINT-RESULTS 
            END-IF.
                
            IF TRACES-ON
                DISPLAY
                    'LSC2WSSA STOPPING ===============================' 
            END-IF.
+           EXEC CICS SEND CONTROL FREEKB END-EXEC. 
            EXEC CICS RETURN END-EXEC.
 
            GOBACK.
@@ -145,7 +150,9 @@
            CALL 'init' USING dfheiblk TRACE-PARMS
                        RETURNING WS-RESP.
            IF (WS-RESP NOT = OK-CODE)
-               DISPLAY 'INITIALIZE-C2WS-API failed'
+               MOVE 'INITIALIZE-C2WS-API failed' TO ERROR-MESSAGE
+               DISPLAY ERROR-MESSAGE
+               EXEC CICS SEND TEXT FROM(ERROR-MESSAGE) FREEKB END-EXEC 
                EXEC CICS RETURN END-EXEC
            END-IF.
            
@@ -157,14 +164,14 @@
        SET-REQUEST.
        
            IF TRACES-ON
-	           DISPLAY 'START SET-REQUEST' 
+               DISPLAY 'START SET-REQUEST' 
            END-IF.
            
            MOVE 'fr-FR' TO cultureCode OF COM-REQUEST.
            MOVE 20569.25 TO decimalNumber OF COM-REQUEST.
            
            IF TRACES-ON
-	           DISPLAY 'SET-REQUEST ENDED' 
+               DISPLAY 'SET-REQUEST ENDED' 
            END-IF.
            
        END-SET-REQUEST.   EXIT.
@@ -174,12 +181,12 @@
       *---------------------------------------------------------------*
        INVOKE-SERVICE.
            IF TRACES-ON
-	           DISPLAY 'ABOUT TO RUN INVOKE-SERVICE' 
+               DISPLAY 'ABOUT TO RUN INVOKE-SERVICE' 
            END-IF.
       *
       * Prepare invoke parameter set
       *    
-           MOVE C2WS-GATEWAY-URI   TO WS-URI.
+           MOVE C2WS-SERVICE-URI   TO WS-URI.
            MOVE C2WS-SERVICE-NAME  TO WS-SERVICE-NAME.
            SET WS-REQUEST-DATA     TO ADDRESS OF COM-REQUEST.
            MOVE LENGTH OF COM-REQUEST TO WS-REQUEST-DATA-LEN.
@@ -193,13 +200,15 @@
            IF (WS-RESP NOT = OK-CODE)
                COMPUTE WS-RDISP = WS-RESP
                DISPLAY 'INVOKE-SERVICE failed. Return code=' WS-RDISP
+               DISPLAY ERROR-MESSAGE
+               EXEC CICS SEND TEXT FROM(ERROR-MESSAGE) FREEKB END-EXEC 
                EXEC CICS RETURN END-EXEC
            END-IF.
            
            SET ADDRESS OF COM-REPLY TO WS-REPLY-DATA.
 
            IF TRACES-ON
-	           DISPLAY 'INVOKE-SERVICE SUCCESS' 
+               DISPLAY 'INVOKE-SERVICE SUCCESS' 
            END-IF.
            
        END-INVOKE-SERVICE.   EXIT.
@@ -208,6 +217,13 @@
       *  Display results returned from target web service             *
       *---------------------------------------------------------------*
        PRINT-RESULTS.
+       
+           STRING 'INVOKE-SERVICE success. Server language is '
+                  DELIMITED BY SIZE
+                  displayLanguage
+                  DELIMITED BY SPACE
+                  INTO ERROR-MESSAGE.
+           EXEC CICS SEND TEXT FROM(ERROR-MESSAGE) FREEKB END-EXEC.
        
            DISPLAY 'Response data length=' WS-REPLY-DATA-LEN.
            
