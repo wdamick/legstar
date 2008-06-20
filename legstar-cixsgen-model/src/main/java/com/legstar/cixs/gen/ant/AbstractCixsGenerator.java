@@ -82,16 +82,10 @@ public abstract class AbstractCixsGenerator extends Task {
      * @throws CodeGenMakeException if input is invalid
      */
     private void checkInput() throws CodeGenMakeException {
-        if (getCixsService() == null) {
-            throw new CodeGenMakeException(
-                    "Missing service description parameter");
-        }
         try {
-        	/* Check that we are provided with valid locations to
-        	 * generate in.*/
-            CodeGenUtil.checkDirectory(getTargetSrcDir(), true);
-            CodeGenUtil.checkDirectory(getTargetAntDir(), true);
-            CodeGenUtil.checkDirectory(getTargetPropDir(), true);
+            CodeGenUtil.checkDirectory(
+            		getJaxbBinDir(), false, "JaxbBinDir");
+            
 			if (getCixsService() == null) {
                 throw new CodeGenMakeException(
             		"You must specify a service description");
