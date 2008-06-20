@@ -16,6 +16,5 @@ Require-Bundle: org.eclipse.ui,
 Bundle-ClassPath: .
 Export-Package: com.legstar.eclipse.plugin.coxbgen,
  com.legstar.eclipse.plugin.coxbgen.popup.actions,
- com.legstar.eclipse.plugin.coxbgen.properties,
  com.legstar.eclipse.plugin.coxbgen.wizards
 

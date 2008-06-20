@@ -35,10 +35,6 @@ public class CoxbGenWizardRunnable extends AbstractWizardRunnable {
 	/** Source Xsd file name. */
 	private String mXsdFileName;
 	
-	/** The JAXB suffix optionally appended to Xsd complex type names to derive
-	 *  a JAXB class name. */
-	private String mJaxbTypeNameSuffix;
-	
 	/** Monitor text when COXB generation starts. */
 	private static final String MONITOR_COXB_GENERATION_START =
 		"Generating ANT script for binding classes generation";
@@ -58,7 +54,6 @@ public class CoxbGenWizardRunnable extends AbstractWizardRunnable {
 				coxbGenWizardPage.getSrcDirRelativePathName(),
 				getAntScriptFileName(coxbGenWizardPage.getXsdFile().getName()));
         mXsdFileName = coxbGenWizardPage.getXsdFile().getName();
-        mJaxbTypeNameSuffix = coxbGenWizardPage.getJaxbTypeNameSuffix();
         setAntBuildModel(getModel(coxbGenWizardPage));
 	}
 
@@ -95,7 +90,6 @@ public class CoxbGenWizardRunnable extends AbstractWizardRunnable {
         model.setProductLocation(getPluginInstallLocation());
         model.setXsdFile(new File(
         		coxbGenWizardPage.getXsdFile().getLocation().toOSString()));
-        /* TODO add fields to support different src/bin dirs for Jaxb & Coxb */
 		model.setJaxbSrcDir(new File(
 				getPathName(coxbGenWizardPage.getSrcDirRelativePathName())));
 		model.setJaxbBinDir(new File(
@@ -107,7 +101,6 @@ public class CoxbGenWizardRunnable extends AbstractWizardRunnable {
 		model.setCoxbBinDir(new File(
 				getPathName(coxbGenWizardPage.getBinDirRelativePathName())));
         model.setJaxbRootClassNames(coxbGenWizardPage.getJaxbRootClassNames());
-        model.setJaxbTypeNameSuffix(mJaxbTypeNameSuffix);
         return model;
     }
     

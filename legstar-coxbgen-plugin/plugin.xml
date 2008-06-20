@@ -24,13 +24,4 @@
       </objectContribution>
    </extension>
  
-   <extension
-         point="org.eclipse.ui.preferencePages">
-      <page
-            category="com.legstar.eclipse.plugin"
-            class="com.legstar.eclipse.plugin.coxbgen.properties.WorkbenchPreferencePage1"
-            id="com.legstar.eclipse.plugin.coxbgen.page1"
-            name="Binding Generator"/>
-   </extension>
-
 </plugin>

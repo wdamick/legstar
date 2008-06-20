@@ -24,7 +24,6 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbench;
 import java.lang.reflect.InvocationTargetException;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 
@@ -43,7 +42,7 @@ public class CoxbGenWizard extends AbstractWizard {
 	private CoxbGenWizardPage mCoxbGenPage;
 	
 	/** The current workbench selection. */
-	private ISelection mInitialSelection;
+	private IStructuredSelection mInitialSelection;
 	
 	/** The current XML schema file. */
 	private IFile mXsdFile = null;
