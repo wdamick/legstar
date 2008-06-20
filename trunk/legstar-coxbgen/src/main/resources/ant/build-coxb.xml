@@ -42,7 +42,6 @@
 		<coxbgen 
 			XsdFile="${xsd.file}"
 			JaxbRootObjectName="${jaxb.root.name}"
-			JaxbTypeNameSuffix=""
 			targetDir="${jaxb.src.dir}"
 		/>
 	</target>

@@ -159,7 +159,7 @@ public class CoxbBindingGeneratorTest extends TestCase {
 
 	/** Generate binding for MSNSearch SearchRequestType. */
 	public void testMSNSearchSearchRequestType() throws Exception   {
-		genSource("MSNSearch", "SearchRequest", "Type");
+		genSource("MSNSearch", "SearchRequestType");
 		String srce = getSource(getGetSrcFilename("MSNSearch", "SearchRequestType"));
 		assertTrue(srce.contains("flagsCounter = BF.createBinaryBinding(\"FlagsCounter\","));
 		assertTrue(srce.contains("this);"));
@@ -173,7 +173,7 @@ public class CoxbBindingGeneratorTest extends TestCase {
 
 	/** Generate binding for MSNSearch SearchResponseType. */
 	public void testMSNSearchSearchResponseType() throws Exception   {
-		genSource("MSNSearch", "SearchResponse", "Type");
+		genSource("MSNSearch", "SearchResponse");
 		String srce = getSource(getGetSrcFilename("MSNSearch", "SourceResponseType"));
 		assertTrue(srce.contains("source = BF.createStringBinding(\"Source\","));
 		assertTrue(srce.contains("\"Source\", SourceTypeType.class, this);"));
@@ -191,7 +191,6 @@ public class CoxbBindingGeneratorTest extends TestCase {
 		gen.addJaxbRootClass("CultureInfoParametersType");
 		gen.addJaxbRootClass("CultureInfoReplyType");
 		gen.setTargetDir(new File(GEN_SRC_DIR));
-		gen.setJaxbTypeNameSuffix("");
 		gen.execute();
 		String src1 = getSource(getGetSrcFilename("cultureinfo", "CultureInfoParametersType"));
 		assertTrue(src1.contains("cultureCode = BF.createStringBinding(\"CultureCode\","));
@@ -201,17 +200,11 @@ public class CoxbBindingGeneratorTest extends TestCase {
 
 	/** Generates COXB classes */
 	private void genSource(String schemaName, String rootName) {
-		genSource(schemaName, rootName, null);
-	}
-
-	/** Generates COXB classes */
-	private void genSource(String schemaName, String rootName, String jaxbTypeNameSuffix) {
 		CoxbBindingGenerator gen = new CoxbBindingGenerator();
 		gen.setJaxbBinDir(new File(JAXB_BIN_DIR));
 		gen.setJaxbPackageName(JAXB_PKG_PFX + '.' + schemaName);
 		gen.setJaxbRootClassName(rootName);
 		gen.setTargetDir(new File(GEN_SRC_DIR));
-		gen.setJaxbTypeNameSuffix(jaxbTypeNameSuffix);
 		gen.execute();
 	}
 

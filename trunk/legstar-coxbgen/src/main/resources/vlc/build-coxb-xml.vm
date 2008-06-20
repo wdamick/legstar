@@ -4,7 +4,7 @@
      Binding classes provide an efficient runtime code for visitors. They avoid
      reflection and use of annotations at runtime.
   -->
-<project basedir="${model.productLocation}" default="signalSuccess" name="generate-COXB-classes">
+<project basedir="${antModel.productLocation}" default="signalSuccess" name="generate-COXB-classes">
 
     <!-- ===========================================================  -->
     <!-- Setup environment
@@ -15,7 +15,7 @@
         <path id="classpath">
             <fileset dir="${basedir}" includes="lib/*.jar" />
             <!--JAXB generated classes (needed for reflection) -->
-            <dirset dir="${model.jaxbBinDir}"/>
+            <dirset dir="${antModel.jaxbBinDir}"/>
         </path>
         
         <!-- Regular Sun JAXB XJC tool ant task  -->
@@ -29,8 +29,8 @@
             classpathref="classpath"/>
         
         <!-- Make sure target directories exist -->
-        <mkdir dir="${model.jaxbSrcDir}"/>
-        <mkdir dir="${model.jaxbBinDir}"/>
+        <mkdir dir="${antModel.jaxbSrcDir}"/>
+        <mkdir dir="${antModel.jaxbBinDir}"/>
     
     </target>
 
@@ -38,15 +38,15 @@
     <!-- Generate the JAXB classes source
     -->
     <target name="generateJAXB" depends="init">
-        <echo message="Generating JAXB classes for ${model.xsdFile}" />
-        <xjc schema="${model.xsdFile}" destdir="${model.jaxbSrcDir}" extension="true" removeOldOutput="yes">
+        <echo message="Generating JAXB classes for ${antModel.xsdFile}" />
+        <xjc schema="${antModel.xsdFile}" destdir="${antModel.jaxbSrcDir}" extension="true" removeOldOutput="yes">
             <!--COXB xjc plugin extension-->
             <arg value="-Xlegstar-code" />
             <!--Without this option (no validation), out of memory errors -->
             <arg value="-nv" />
             <!-- External XJC bindings directory. Collects all *.xjb files -->
             <arg value="-b" />
-            <arg value="${model.jaxbXjcBindingDir}" />
+            <arg value="${antModel.jaxbXjcBindingDir}" />
         </xjc>
     </target>
 
@@ -55,8 +55,8 @@
     the bug on package-info.java
     -->
     <target name="compileJAXB" depends="generateJAXB">
-        <javac srcdir="${model.jaxbSrcDir}"
-            destdir="${model.jaxbBinDir}"
+        <javac srcdir="${antModel.jaxbSrcDir}"
+            destdir="${antModel.jaxbBinDir}"
             classpathref="classpath"
             fork="no"
         />
@@ -66,13 +66,12 @@
     <!-- Generate binding classes by reflecting on JAXB classes.
     -->
     <target name="generateCOXB" depends="compileJAXB">
-        <echo message="Generating binding classes for ${model.xsdFile}" />
+        <echo message="Generating binding classes for ${antModel.xsdFile}" />
         <coxbgen 
-            xsdFile="${model.xsdFile}"
-            jaxbTypeNameSuffix="${model.jaxbTypeNameSuffix}"
-            targetDir="${model.coxbSrcDir}"
+            xsdFile="${antModel.xsdFile}"
+            targetDir="${antModel.coxbSrcDir}"
             >
-#foreach ($jaxbRootClassName in $model.jaxbRootClassNames)
+#foreach ($jaxbRootClassName in $antModel.jaxbRootClassNames)
             <jaxbRootClass name="${jaxbRootClassName}"/>
 #end
         </coxbgen>
@@ -82,8 +81,8 @@
     <!-- Compile the generated binding classes.
     -->
     <target name="compileCOXB" depends="generateCOXB">
-        <javac srcdir="${model.coxbSrcDir}"
-            destdir="${model.coxbBinDir}"
+        <javac srcdir="${antModel.coxbSrcDir}"
+            destdir="${antModel.coxbBinDir}"
             classpathref="classpath"
             fork="yes"
         />
@@ -93,7 +92,7 @@
     <!-- Delete the probe file to signal success
     -->
     <target name="signalSuccess" depends="generateCOXB">
-        <delete file="${model.probeFile}" quiet="true"/>
+        <delete file="${antModel.probeFile}" quiet="true"/>
     </target>
     
 </project>

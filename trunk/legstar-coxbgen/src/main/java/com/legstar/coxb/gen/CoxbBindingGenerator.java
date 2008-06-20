@@ -30,7 +30,6 @@ import java.lang.reflect.Method;
 
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.coxb.host.HostException;
-import com.legstar.util.NameUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -304,14 +303,7 @@ public class CoxbBindingGenerator extends Task {
     	}
     	
 		try {
-			/* Here we make sure the object name is following the
-			 * jaxb naming conventions. Including an optional 
-			 * type suffix. */
-			String createName = "create"
-				+ NameUtil.toClassName(rootObjectName);
-			if (getJaxbTypeNameSuffix() != null) {
-				createName += getJaxbTypeNameSuffix();
-			}
+			String createName = "create" + rootObjectName;
 			Method creator = jaxbObjectFactory.getClass().getMethod(createName);
 			jaxbRootObject = creator.invoke(jaxbObjectFactory);
 		} catch (IllegalAccessException e) {
@@ -504,23 +496,6 @@ public class CoxbBindingGenerator extends Task {
 	public final void setAlternativeFactoryName(
 			final String targetFactoryName) {
 		mCoxbGenModel.setAlternativeFactoryName(targetFactoryName);
-	}
-	
-	/**
-	 * @return the JAXB suffix optionally appended to Xsd complex type names to
-	 *  derive a JAXB class name
-	 */
-	public final String getJaxbTypeNameSuffix() {
-		return mCoxbGenModel.getJaxbTypeNameSuffix();
-	}
-
-	/**
-	 * @param jaxbTypeNameSuffix the JAXB suffix optionally appended to Xsd
-	 *  complex type names to derive a JAXB class name
-	 */
-	public final void setJaxbTypeNameSuffix(
-			final String jaxbTypeNameSuffix) {
-		mCoxbGenModel.setJaxbTypeNameSuffix(jaxbTypeNameSuffix);
 	}
 	
 	/**
