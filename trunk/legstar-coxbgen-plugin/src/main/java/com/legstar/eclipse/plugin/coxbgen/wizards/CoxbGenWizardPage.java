@@ -20,42 +20,51 @@
  *******************************************************************************/
 package com.legstar.eclipse.plugin.coxbgen.wizards;
 
-import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.ArrayList;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.stream.StreamSource;
 
+import org.apache.ws.commons.schema.XmlSchema;
+import org.apache.ws.commons.schema.XmlSchemaAnnotation;
+import org.apache.ws.commons.schema.XmlSchemaAppInfo;
+import org.apache.ws.commons.schema.XmlSchemaCollection;
+import org.apache.ws.commons.schema.XmlSchemaComplexType;
+import org.apache.ws.commons.schema.XmlSchemaElement;
+import org.apache.ws.commons.schema.XmlSchemaObject;
+import org.apache.ws.commons.schema.XmlSchemaObjectCollection;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.IClasspathEntry;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.List;
-import org.eclipse.ui.dialogs.ContainerSelectionDialog;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+
+import com.legstar.eclipse.plugin.common.ClasspathInitializer;
+import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
+import com.legstar.eclipse.plugin.common.wizards.AbstractWizardPage;
+import com.legstar.eclipse.plugin.coxbgen.Activator;
+import com.legstar.util.NameUtil;
 
 /**
  * This basic version of the generation UI will display some of the parameters
@@ -63,10 +72,16 @@ import org.xml.sax.SAXException;
  * if necessary.
  */
 
-public class CoxbGenWizardPage extends WizardPage {
+public class CoxbGenWizardPage extends AbstractWizardPage {
 
-	/** XML schema text field. */
-	private Text xsdFileText;
+	/** XML schema label field. */
+	private Label mXsdFileLabel;
+
+	/** JAXB package name extracted from XML Schema annotations. */
+	private Label mXsdJaxbPackageName;
+
+	/** JAXB type name suffix extracted from XML Schema annotations. */
+	private Label mXsdTypeNameSuffix;
 
 	/** List of complex types from XML schema. . */
 	private List mJaxbRootClassNamesList;
@@ -74,24 +89,11 @@ public class CoxbGenWizardPage extends WizardPage {
 	/** Target source directory for generated sources. */
 	private Text mTargetSrcDirText;
 
-	/** Target JAXB package name. */
-	private String mJaxbPackageName;
-
-	/** The JAXB suffix optionally appended to Xsd complex type names to derive
-	 *  a JAXB class name. */
-	private String mJaxbTypeNameSuffix;
-
-	/** The current workbench selection. */
-	private ISelection mSelection;
+	/** Target binaries directory for generated sources. */
+	private Label mTargetBinDirLabel;
 
 	/** XML schema file. */
 	private IFile mXsdFile;
-
-	/** The XML schema namespace . */
-	private static final String XSD_NS = "http://www.w3.org/2001/XMLSchema";
-
-	/** The XML schema complex element . */
-	private static final String COMPLEX_E = "complexType";
 
 	/** The XML schema complex element name attribute. */
 	private static final String NAME_A = "name";
@@ -120,106 +122,50 @@ public class CoxbGenWizardPage extends WizardPage {
 	private static final String PAGE_DESC =
 		"Select root elements and destination for generated binding classes";
 
-	/** XML Schema label text. */
-	private static final String XSD_LABEL = "&XML schema:";
-
-	/** Root element. */
-	private static final String ROOT_LABEL = "&Root elements:";
-
-	/** Browse button label text. */
-	private static final String BROWSE_LABEL = "Browse...";
-
-	/** Target source folder label text. */
-	private static final String TARGET_SRCDIR_LABEL = "&Target source folder:";
-
-	/** No JAXB annotations found error message. */
-	private static final String NO_JAXB_ANNOTATIONS_MSG =
-		"No JAXB annotation for target package in XML schema file";
-
-	/** Browse dialog title. */
-	private static final String BROWSE_DIALOG_TITLE =
-		"Select new file container";
-
-	/** No complex element error message. */
-	private static final String NO_COMPLEX_ELEMENT_MSG =
-		"No complex element in XML schema file";
-
 	/** No root element selected error message. */
 	private static final String NO_ROOT_SELECTED_MSG =
 		"Select at least one root element";
-
 
 	/** Target source folder is not valid error message. */
 	private static final String INVALID_SRC_FOLDER_MSG =
 		"Source folder is not a valid Java project source folder";
 
+	/** Unable to setup classpath for the target java project.. */
+	private static final String CLASSPATH_SETUP_FAILURE_MSG =
+		"Failed to setup classpath for target projet. Message:";
+
 	/**
 	 * Constructor for CoxbGenWizardPage from existing XML schema file.
 	 * By default, the target project is the Xsd file containing project.
 	 * 
-	 * @param sel current workbench selection
+	 * @param selection current workbench selection
 	 * @param xsdFile XML schema file
 	 */
-	public CoxbGenWizardPage(final ISelection sel, final IFile xsdFile) {
-		super(PAGE_NAME);
-		init(sel);
+	public CoxbGenWizardPage(
+			final IStructuredSelection selection, final IFile xsdFile) {
+		super(selection, PAGE_NAME, PAGE_TITLE, PAGE_DESC);
 		mXsdFile = xsdFile;
 	}
 
-	/**
-	 * Setup the new page.
-	 * @param selection current workbench selection
-	 */
-	private void init(final ISelection selection) {
-		setTitle(PAGE_TITLE);
-		setDescription(PAGE_DESC);
-		mSelection = selection;
-		ImageDescriptor image =
-            AbstractUIPlugin.
-                imageDescriptorFromPlugin(
-                		com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID,
-                		com.legstar.eclipse.plugin.common.Activator.LOGO_IMG);
-		setImageDescriptor(image);
-	}
-
-	/**
-	 * @see IDialogPage#createControl(Composite)
-	 * @param parent composite
-	 */
-	public final void createControl(final Composite parent) {
-		Composite container = new Composite(parent, SWT.NULL);
-		GridLayout layout = new GridLayout();
-		container.setLayout(layout);
-		layout.numColumns = 3;
-		layout.verticalSpacing = 9;
-		setControl(container);
-
-		/* XML schema file edit box */
-		Label label = new Label(container, SWT.NULL);
-		label.setText(XSD_LABEL);
-
-		xsdFileText = new Text(container,
-				SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalSpan = 2;
-		xsdFileText.setLayoutData(gd);
-		xsdFileText.addModifyListener(new ModifyListener() {
-			public void modifyText(final ModifyEvent e) {
-				dialogChanged();
-			}
-		});
-
+	/** {@inheritDoc} */
+	public final void createExtendedControls(final Composite container) {
+		/* Reminder of XML Schema being processed */
+		/* Data extracted from XML schema annotations */
+		Group group = createGroup(container, "XML Schema");
+		createLabel(group, "File name:");
+		mXsdFileLabel = createLabel(group, "", 2);
+		createLabel(group, "JAXB package name:");
+		mXsdJaxbPackageName = createLabel(group, "", 2);
+		createLabel(group, "JAXB type name suffix:");
+		mXsdTypeNameSuffix = createLabel(group, "", 2);
 
 		/* root name edit box */
-		label = new Label(container, SWT.NULL);
-		label.setText(ROOT_LABEL);
-		label.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
-
+		createLabel(container, "Available root elements:", 3);
 		mJaxbRootClassNamesList = new List(
 				container, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.heightHint = 100;
-		gd.horizontalSpan = 2;
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 3;
+		gd.heightHint = 250;
 		mJaxbRootClassNamesList.setLayoutData(gd);
 		mJaxbRootClassNamesList.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(final SelectionEvent e) {
@@ -232,66 +178,228 @@ public class CoxbGenWizardPage extends WizardPage {
 		mJaxbRootClassNamesList.setFocus();
 
 		/* Target source folder edit box and browse button */
-		label = new Label(container, SWT.NULL);
-		label.setText(TARGET_SRCDIR_LABEL);
-
-		mTargetSrcDirText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-
-		mTargetSrcDirText.setLayoutData(gd);
+		createLabel(container, "Target source folder:");
+		mTargetSrcDirText = createText(container);
 		mTargetSrcDirText.addModifyListener(new ModifyListener() {
 			public void modifyText(final ModifyEvent e) {
 				dialogChanged();
 			}
 		});
+		createBrowseForContainerButton(container,
+				"Select target source folder", mTargetSrcDirText);
+		
+		createLabel(container, "Target binaries folder:");
+		mTargetBinDirLabel = createLabel(container, "", 2);
 
-		Button button = new Button(container, SWT.PUSH);
-		button.setText(BROWSE_LABEL);
-		button.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(final SelectionEvent e) {
-				handleBrowseTargetSrcDir();
-			}
-		});
-
-		initContents();
-		dialogChanged();
 	}
 
 	/**
-	 * Tests if the current workbench selection is a suitable container to use.
+	 * Initialize all fields.
 	 */
-	private void initContents() {
-		xsdFileText.setText(mXsdFile.getName());
-		initTargetSrcDir();
-		initRootNameList();
+	protected void initContents() {
+		try {
+			mXsdFileLabel.setText(mXsdFile.getName());
+			initRootElements(mXsdFile);
+			initTargetSrcDir(mXsdFile);
+		} catch (CoreException e) {
+			errorDialog(getShell(), PAGE_TITLE + " Error", Activator.PLUGIN_ID,
+					"Failed to initialize page", e.getMessage());
+		}
+	}
+
+	/**
+	 * Loads a COBOL-annotated XML Schema and populates related widgets.
+	 * @param xsdFile the XML schema file from the workspace
+	 * @throws CoreException if loading fails. XML Schema file is probably
+	 *  invalid.
+	 */
+	private void initRootElements(final IFile xsdFile) throws CoreException {
+		if (mXsdFile == null) {
+			throwCoreException("There is no XML schema file");
+		}
+		try {
+			InputStream is = new FileInputStream(
+					xsdFile.getLocation().toFile());
+			XmlSchemaCollection schemaCol = new XmlSchemaCollection();
+			XmlSchema schema = schemaCol.read(new StreamSource(is), null);
+			XmlSchemaAnnotation schemaAnnotation = schema.getAnnotation();
+			loadXmlSchemaAnnotation(xsdFile, schemaAnnotation);
+			XmlSchemaObjectCollection items = schema.getItems();
+			for (int i = 0; i < items.getCount(); i++) {
+				XmlSchemaObject obj = items.getItem(i);
+				if (obj instanceof XmlSchemaElement) {
+					loadXmlSchemaRootElement(xsdFile,
+							(XmlSchemaElement) obj);
+				}
+				if (obj instanceof XmlSchemaComplexType) {
+					loadXmlSchemaComplexType(xsdFile,
+							(XmlSchemaComplexType) obj);
+				}
+			}
+
+		} catch (FileNotFoundException e) {
+			throwCoreException(e);
+		}
+	}
+
+	/**
+	 * The annotation at the XML Schema level is important. It gives the
+	 * target JAXB package name and potentially a type name suffix.
+	 * The markup is expected to have the following format:
+	 *  &lt;xsd:appinfo&gt;
+	 *      &lt;jaxb:schemaBindings&gt;
+	 *          &lt;jaxb:package name="com.legstar.test.coxb.MSNSearch"/&gt;
+	 *          &lt;jaxb:nameXmlTransform&gt;
+	 *              &lt;jaxb:typeName suffix="Type"/&gt;
+	 *          &lt;/jaxb:nameXmlTransform&gt;
+	 *      &lt;/jaxb:schemaBindings&gt;
+	 *  &lt;/xsd:appinfo>
+	 * @param xsdFile the XML schema file from the workspace
+	 * @param schemaAnnotation the annotation node
+	 * @throws CoreException if annotation is invalid
+	 */
+	private void loadXmlSchemaAnnotation(
+			final IFile xsdFile,
+			final XmlSchemaAnnotation schemaAnnotation) throws CoreException {
+		if (schemaAnnotation == null) {
+			throwCoreException("XML Schema file " 
+					+ xsdFile.getLocation().toOSString() + " is not annotated");
+		}
+		for (int i = 0; i < schemaAnnotation.getItems().getCount(); i++) {
+			XmlSchemaObject item = schemaAnnotation.getItems().getItem(i);
+			if (item instanceof XmlSchemaAppInfo) {
+				XmlSchemaAppInfo appInfo = (XmlSchemaAppInfo) item;
+				NodeList markup = appInfo.getMarkup();
+				for (int j = 0; j < markup.getLength(); j++) {
+					Node node = markup.item(j);
+					if (node instanceof Element) {
+						Element el = (Element) node;
+						if (JAXB_NS.equals(el.getNamespaceURI())) {
+							if ("schemaBindings".equals(el.getLocalName())) {
+
+								NodeList l = el.getElementsByTagNameNS(
+										JAXB_NS, PACKAGE_E);
+								if (l.getLength() > 0) {
+									mXsdJaxbPackageName.setText(getAttrValue(
+											l.item(0), NAME_A));
+								}
+
+								l = el.getElementsByTagNameNS(JAXB_NS,
+										JAXB_TYPENAME_E);
+								if (l.getLength() > 0) {
+									mXsdTypeNameSuffix.setText(getAttrValue(
+											l.item(0), JAXB_TYPENAME_SUFFIX_A));
+								}
+								break;
+							}
+
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Convenience method to get and attribute value from a node when we are
+	 * sure it is an element.
+	 * @param node the w3c node
+	 * @param attrName the attribute name
+	 * @return the attribute value
+	 */
+	private String getAttrValue(final Node node, final String attrName) {
+		return ((Element) node).getAttribute(attrName);
+	}
+
+	/**
+	 * All complex types are potential root elements. The name displayed is
+	 * the expected JAXB Class name including any suffix if requested.
+	 * @param xsdFile the XML schema file from the workspace
+	 * @param xsdComplexType the complex type
+	 */
+	private void loadXmlSchemaComplexType(
+			final IFile xsdFile, final XmlSchemaComplexType xsdComplexType) {
+		String normalizedName = NameUtil.toClassName(xsdComplexType.getName());
+		if (getJaxbTypeNameSuffix() != null) {
+			normalizedName += getJaxbTypeNameSuffix();
+		}
+		mJaxbRootClassNamesList.add(normalizedName);
+	}
+
+	/**
+	 * Root XSD elements are also potential root elements. The name displayed
+	 * is the JAXB class name.
+	 * @param xsdFile the XML schema file from the workspace
+	 * @param xsdElement element
+	 */
+	private void loadXmlSchemaRootElement(
+			final IFile xsdFile, final XmlSchemaElement xsdElement) {
+		String normalizedName = NameUtil.toClassName(xsdElement.getName());
+		mJaxbRootClassNamesList.add(normalizedName);
 	}
 
 	/**
 	 * Initially, try to set the target src dir as the first source directory of
 	 * the project containing the Xsd file. If that project is not a Java 
 	 * project leave the field not initialized.
+	 * @param xsdFile the XML schema file from the workspace
+	 * @throws CoreException if project is invalid
 	 */
-	private void initTargetSrcDir() {
+	private void initTargetSrcDir(final IFile xsdFile) throws CoreException {
 		try {
-			IJavaProject jproject = JavaCore.create(mXsdFile.getProject());
+			IJavaProject jproject = JavaCore.create(xsdFile.getProject());
 			if (jproject == null) {
-				return;
+				throwCoreException("XML Schema file " 
+						+ xsdFile.getLocation().toOSString()
+						+ " belongs to an invalid project");
 			}
 			IClasspathEntry[] cpe = jproject.getRawClasspath();
 			/* Find the first source location */
 			for (int i = 0; i < cpe.length; i++) {
 				if (cpe[i].getEntryKind() == IClasspathEntry.CPE_SOURCE) {
 					mTargetSrcDirText.setText(cpe[i].getPath().toOSString());
-					return;
+					break;
 				}
 			}
 		} catch (JavaModelException e) {
-			return;
+			throwCoreException(e);
 		}
 	}
 
 	/**
+	 * Perform validation on data entered so far.
+	 */
+	protected void dialogChanged() {
+
+		/* Validate the source directory as a Java project source folder */
+		if (!isJavaSrcDir(getSrcDirRelativePathName())) {
+			updateStatus(INVALID_SRC_FOLDER_MSG);
+			return;
+		}
+
+		/* Make sure at least one root name is selected */
+		if (getJaxbRootClassNames().size() == 0) {
+			updateStatus(NO_ROOT_SELECTED_MSG);
+			return;
+		}
+
+		/* Make sure the target project has LegStar libraries in its classpath*/
+		if (!lookupLegStarLibrary(getTargetJavaProject())) {
+			try {
+				setupLegStarLibrary(getTargetJavaProject());
+			} catch (JavaModelException e) {
+				updateStatus(CLASSPATH_SETUP_FAILURE_MSG + e.getMessage());
+			}
+		}
+
+		((AbstractWizard) getWizard()).setCanFinish(true);
+		updateStatus(null);
+
+	}
+
+	/**
 	 * Check if a relative path name is a valid java source directory.
+	 * Also sets the target binary folder.
 	 * @param relativePathName the path name
 	 * @return true if this is a valid java source folder
 	 */
@@ -309,6 +417,15 @@ public class CoxbGenWizardPage extends WizardPage {
 								== IClasspathEntry.CPE_SOURCE) {
 							if (relativePathName.equals(
 									cpe[i].getPath().toOSString())) {
+								if (cpe[i].getOutputLocation() != null) {
+									mTargetBinDirLabel.setText(
+											cpe[i].getOutputLocation()
+											.toOSString());
+								} else {
+									mTargetBinDirLabel.setText(
+											jproject.getOutputLocation()
+											.toOSString());
+								}
 								return true;
 							}
 						}
@@ -322,161 +439,66 @@ public class CoxbGenWizardPage extends WizardPage {
 	}
 
 	/**
-	 * Retrieves the output location for java classes associated with a
-	 * given java source folder (assumed to be valid).
-	 * @param relativePathName the java source folder path name
-	 * @return the binaries output location or null if none is found
+	 * The target Java project where binding classes will be generated needs
+	 * the LegStar core libraries to successfully compile. What we do here
+	 * is that we search the current classpath for any occurrence of the
+	 * LegStar library.
+	 * @param jproject the target java project
+	 * @return true if there is a LegStar user library already on the classpath
 	 */
-	private String getBinDirRelativePathName(final String relativePathName) {
-		IResource resource = ResourcesPlugin.getWorkspace().getRoot()
-		.findMember(new Path(relativePathName));
-		IJavaProject jproject = JavaCore.create(resource.getProject());
+	private boolean lookupLegStarLibrary(final IJavaProject jproject) {
 		try {
 			IClasspathEntry[] cpe = jproject.getRawClasspath();
-			/* Lookup the pathname */
 			for (int i = 0; i < cpe.length; i++) {
 				if (cpe[i].getEntryKind()
-						== IClasspathEntry.CPE_SOURCE) {
-					if (relativePathName.equals(
-							cpe[i].getPath().toOSString())) {
-						if (cpe[i].getOutputLocation() != null) {
-							return cpe[i].
-							getOutputLocation().toOSString();
-						} else {
-							return jproject.
-							getOutputLocation().toOSString();
-						}
+						== IClasspathEntry.CPE_CONTAINER) {
+					if (cpe[i].getPath().equals(
+							new Path(ClasspathInitializer.LIBRARY_NAME))) {
+						return true;
 					}
 				}
 			}
-			return null;
+			return false;
 		} catch (JavaModelException e) {
-			return null;
+			return false;
 		}
 	}
 
 	/**
-	 * The root name list is created from the list of complex types in
-	 * the XML schema.
+	 * The target Java project needs all the LegStar libraries on its classpath.
+	 * This assumes a classpath initializer did define the LegStar library
+	 * container and all what is left to do is to update the project with yet
+	 * another classpath entry.
+	 * 
+	 * @param jproject the target java project
+	 * @throws JavaModelException if seting up classpath fails
 	 */
-	private void initRootNameList() {
+	private void setupLegStarLibrary(
+			final IJavaProject jproject) throws JavaModelException {
+		IClasspathEntry varEntry = JavaCore.newContainerEntry(
+				new Path(ClasspathInitializer.LIBRARY_NAME),
+				false);
 
-		if (mXsdFile == null) {
-			return;
+		java.util.List < IClasspathEntry > sourceEntries =
+			new ArrayList < IClasspathEntry >();
+		for (IClasspathEntry entry : jproject.getRawClasspath()) {
+			sourceEntries.add(entry);
 		}
-		mJaxbRootClassNamesList.removeAll();
-		DocumentBuilderFactory docBuilderFactory =
-			DocumentBuilderFactory.newInstance();
-		DocumentBuilder docBuilder;
-		try {
-			docBuilderFactory.setNamespaceAware(true);
-			docBuilder = docBuilderFactory.newDocumentBuilder();
-			Document doc = docBuilder.parse(mXsdFile.getLocation().toFile());
-
-			/* Get the target package name that JAXB will be using */
-			NodeList listOfElements = doc.getElementsByTagNameNS(JAXB_NS,
-					PACKAGE_E);
-			if (listOfElements == null || listOfElements.getLength() == 0) {
-				throw (new RuntimeException(NO_JAXB_ANNOTATIONS_MSG));
-			}
-			mJaxbPackageName = ((Element) listOfElements.item(0)).
-			getAttribute(NAME_A);
-
-			/* See if there is a suffix to use for complex types */
-			fetchTypeNameSuffix(doc);
-
-			/* Now look for all the complex elements */
-			listOfElements = doc.getElementsByTagNameNS(XSD_NS,
-					COMPLEX_E);
-			if (listOfElements == null || listOfElements.getLength() == 0) {
-				throw (new RuntimeException(NO_COMPLEX_ELEMENT_MSG));
-			}
-			for (int i = 0; i < listOfElements.getLength(); i++) {
-				mJaxbRootClassNamesList.add(((Element) listOfElements.item(i)).
-						getAttribute(NAME_A));
-			}
-			mJaxbRootClassNamesList.select(0);
-
-		} catch (ParserConfigurationException e) {
-			throw (new RuntimeException(
-					"ParserConfigurationException " + e.getMessage()));
-		} catch (SAXException e) {
-			throw (new RuntimeException(
-					"SAXException " + e.getMessage()));
-		} catch (IOException e) {
-			throw (new RuntimeException(
-					"IOException " + e.getMessage()));
-		}
-
+		sourceEntries.add(varEntry);
+		IClasspathEntry[] entries = (IClasspathEntry[]) sourceEntries.toArray(
+				new IClasspathEntry[sourceEntries.size()]);
+		jproject.setRawClasspath(entries, null);
 	}
 
 	/**
-	 * Retrieve the Jaxb type name suffix attribute if there is one
-	 * Assumes a construct like this one.
-	 *        <jaxb:nameXmlTransform>
-	 *               <jaxb:typeName suffix="Type"/>
-	 *          </jaxb:nameXmlTransform>
-	 * @param doc the XSD as an XML document 
+	 * The target source folder is part of a Java project. This is validated
+	 * by <code>isJavaSrcDir</code>.
+	 * @return the target java project
 	 */
-	private void fetchTypeNameSuffix(final Document doc) {
-		NodeList listOfElements = doc.getElementsByTagNameNS(JAXB_NS,
-				JAXB_TYPENAME_E);
-		if (listOfElements == null || listOfElements.getLength() == 0) {
-			return;
-		}
-		mJaxbTypeNameSuffix = ((Element) listOfElements.item(0)).
-		getAttribute(JAXB_TYPENAME_SUFFIX_A);
-	}
-
-	/**
-	 * Uses the standard container selection dialog to choose the new value for
-	 * the source container field.
-	 */
-
-	private void handleBrowseTargetSrcDir() {
-		ContainerSelectionDialog dialog = new ContainerSelectionDialog(
-				getShell(), ResourcesPlugin.getWorkspace().getRoot(), false,
-				BROWSE_DIALOG_TITLE);
-		if (dialog.open() == ContainerSelectionDialog.OK) {
-			Object[] result = dialog.getResult();
-			if (result.length == 1) {
-				mTargetSrcDirText.setText(((Path) result[0]).toOSString());
-			}
-		}
-	}
-
-	/**
-	 * Ensures that all text fields are set.
-	 */
-	private void dialogChanged() {
-
-		/* Make sure at least one root name is selected */
-		if (getJaxbRootClassNames().size() == 0) {
-			((CoxbGenWizard) getWizard()).setCanFinish(false);
-			updateStatus(NO_ROOT_SELECTED_MSG);
-			return;
-		}
-
-		/* Validate the source directory */
-		if (!isJavaSrcDir(getSrcDirRelativePathName())) {
-			((CoxbGenWizard) getWizard()).setCanFinish(false);
-			updateStatus(INVALID_SRC_FOLDER_MSG);
-			return;
-		}
-
-		((CoxbGenWizard) getWizard()).setCanFinish(true);
-		updateStatus(null);
-		
-
-	}
-
-	/**
-	 * Pass on messages.
-	 * @param message the text
-	 */
-	private void updateStatus(final String message) {
-		setErrorMessage(message);
-		setPageComplete(message == null);
+	private IJavaProject getTargetJavaProject() {
+		IResource resource = ResourcesPlugin.getWorkspace().getRoot()
+		.findMember(new Path(getSrcDirRelativePathName()));
+		return JavaCore.create(resource.getProject());
 	}
 
 	/**
@@ -487,10 +509,12 @@ public class CoxbGenWizardPage extends WizardPage {
 	}
 
 	/**
-	 * @return the the binary directory name
+	 * Retrieves the output location for java classes associated with a
+	 * given java source folder (assumed to be valid).
+	 * @return the binaries output location
 	 */
-	public final String getBinDirRelativePathName() {
-		return getBinDirRelativePathName(getSrcDirRelativePathName());
+	public String getBinDirRelativePathName() {
+		return mTargetBinDirLabel.getText();
 	}
 
 	/**
@@ -515,14 +539,7 @@ public class CoxbGenWizardPage extends WizardPage {
 	 * @return the target JAXB package name
 	 */
 	public final String getJaxbPackageName() {
-		return mJaxbPackageName;
-	}
-
-	/**
-	 * @return the selection
-	 */
-	public final ISelection getSelection() {
-		return mSelection;
+		return mXsdJaxbPackageName.getText();
 	}
 
 	/**
@@ -530,16 +547,7 @@ public class CoxbGenWizardPage extends WizardPage {
 	 *  derive a JAXB class name
 	 */
 	public final String getJaxbTypeNameSuffix() {
-		return mJaxbTypeNameSuffix;
-	}
-
-	/**
-	 * @param jaxbTypeNameSuffix the JAXB suffix optionally appended to Xsd
-	 *  complex type names to derive a JAXB class name
-	 */
-	public final void setJaxbTypeNameSuffix(
-			final String jaxbTypeNameSuffix) {
-		mJaxbTypeNameSuffix = jaxbTypeNameSuffix;
+		return mXsdTypeNameSuffix.getText();
 	}
 
 }
