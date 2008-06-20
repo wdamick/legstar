@@ -6,8 +6,8 @@
   </welcome-file-list>
   <servlet>
     <description></description>
-    <display-name>CultureInfoProxy</display-name>
-    <servlet-name>CultureInfoProxy</servlet-name>
+    <display-name>cultureinfoProxy</display-name>
+    <servlet-name>cultureinfoProxy</servlet-name>
     <servlet-class>com.legstar.c2ws.servlet.C2wsProxy</servlet-class>
     <init-param>
         <description>URL locating target Web service WSDL</description>
@@ -56,7 +56,7 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>CultureInfoProxy</servlet-name>
-    <url-pattern>/CultureInfoProxy</url-pattern>
+    <servlet-name>cultureinfoProxy</servlet-name>
+    <url-pattern>/cultureinfoProxy</url-pattern>
   </servlet-mapping>
 </web-app>
