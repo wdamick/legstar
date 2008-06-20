@@ -50,10 +50,6 @@ public class CoxbGenModel extends AbstractAntBuildModel {
 	/** The target directory where binary files will be created. */
 	private File mCoxbBinDir;
 	
-	/** The JAXB suffix optionally appended to Xsd complex type names to derive
-	 *  a JAXB class name. */
-	private String mJaxbTypeNameSuffix;
-	
 	/** An optional runtime alternative to the Jaxb package name used at
 	 * generation time. */
 	private String mAlternativePackageName;
@@ -92,8 +88,6 @@ public class CoxbGenModel extends AbstractAntBuildModel {
 						+ " " + jaxbRootClassName);
 			}
 		}
-		LOG.debug("   JAXB Type name suffix             ="
-				+ " " + getJaxbTypeNameSuffix());
 		LOG.debug("   COBOL annotated XML schema file   ="
 				+ " " + getXsdFile());
 		LOG.debug("   Binding classes source location   ="
@@ -243,26 +237,6 @@ public class CoxbGenModel extends AbstractAntBuildModel {
 	public final void setAlternativeFactoryName(
 			final String targetFactoryName) {
 		mAlternativeFactoryName = targetFactoryName;
-	}
-
-	/**
-	 * @return the JAXB suffix optionally appended to Xsd complex type names to
-	 *  derive a JAXB class name
-	 */
-	public final String getJaxbTypeNameSuffix() {
-		if (mJaxbTypeNameSuffix == null) {
-			return "";
-		}
-		return mJaxbTypeNameSuffix;
-	}
-
-	/**
-	 * @param jaxbTypeNameSuffix the JAXB suffix optionally appended to Xsd
-	 *  complex type names to derive a JAXB class name
-	 */
-	public final void setJaxbTypeNameSuffix(
-			final String jaxbTypeNameSuffix) {
-		mJaxbTypeNameSuffix = jaxbTypeNameSuffix;
 	}
 
 	/**

@@ -61,7 +61,6 @@ public class CoxbGenModelTest extends TestCase {
 		assertTrue(resStr.contains("destdir=\"jaxb\\bin\""));
 		assertTrue(resStr.contains("<echo message=\"Generating binding classes for myXsd.xsd\" />"));
 		assertTrue(resStr.contains("xsdFile=\"myXsd.xsd\""));
-		assertTrue(resStr.contains("jaxbTypeNameSuffix=\"\""));
 		assertTrue(resStr.contains("targetDir=\"coxb\\src\""));
 		assertTrue(resStr.contains("<jaxbRootClass name=\"class1\"/>"));
 		assertTrue(resStr.contains("<jaxbRootClass name=\"class2\"/>"));
