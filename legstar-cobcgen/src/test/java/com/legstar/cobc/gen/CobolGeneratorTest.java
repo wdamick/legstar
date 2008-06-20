@@ -50,7 +50,7 @@ public class CobolGeneratorTest extends TestCase {
 		}
 	}
 	
-	public void testGetBinding() {
+	public void testClasspathIssues() {
 		try {
 			CobolGenerator gen = new CobolGenerator();
 			gen.setJaxbTypeName("dfhcommarea");
@@ -58,7 +58,7 @@ public class CobolGeneratorTest extends TestCase {
 			gen.execute();
 			fail();
 		} catch (BuildException e) {
-			assertEquals("java.lang.ClassNotFoundException: ObjectFactory", e.getMessage());
+			assertEquals("java.lang.ClassNotFoundException: dfhcommarea", e.getCause().getCause().getMessage());
 		}
 
 		try {
@@ -69,7 +69,7 @@ public class CobolGeneratorTest extends TestCase {
 			gen.execute();
 			fail();
 		} catch (BuildException e) {
-			assertEquals("java.lang.ClassNotFoundException: com.legstar.test.coxb.lsfileae.dfhcommarea", e.getMessage());
+			assertEquals("java.lang.ClassNotFoundException: com.legstar.test.coxb.lsfileae.dfhcommarea", e.getCause().getCause().getMessage());
 		}
 	}
 
@@ -159,4 +159,23 @@ public class CobolGeneratorTest extends TestCase {
 		
 	}
 
+	public void testGenerateDirect() throws Exception {
+		String code = CobolGenerator.generate(
+				"com.legstar.test.coxb.lsfileae",
+				"DfhcommareaType",
+				"COM-LSFILEAE",
+				5,
+				5);
+		System.out.println(code);
+		assertTrue(code.contains("       05 COM-LSFILEAE."));
+		assertTrue(code.contains("           10 COM-NUMBER PIC 9(6)."));
+		assertTrue(code.contains("           10 COM-PERSONAL."));
+		assertTrue(code.contains("               15 COM-NAME PIC X(20)."));
+		assertTrue(code.contains("               15 COM-ADDRESS PIC X(20)."));
+		assertTrue(code.contains("               15 COM-PHONE PIC X(8)."));
+		assertTrue(code.contains("           10 COM-DATE PIC X(8)."));
+		assertTrue(code.contains("           10 COM-AMOUNT PIC X(8)."));
+		assertTrue(code.contains("           10 COM-COMMENT PIC X(9)."));
+	}
+	
 }

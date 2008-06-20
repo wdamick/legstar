@@ -54,7 +54,7 @@ public class CobolGenSentenceTest extends TestCase {
 		s.addClause("01");
 		s.addClause("A-VERY-LONG-VARIABLE-NAME");
 		s.addClause("PICTURE 9999999999V99");
-		s.addClause("USAGE DISPLAY");
+		s.addClause("USAGE   DISPLAY");
 		assertEquals(7, s.getStartColumn());
 		assertEquals(71, s.getEndColumn());
 		assertEquals(1, s.getLinesCount());
@@ -82,5 +82,15 @@ public class CobolGenSentenceTest extends TestCase {
 		assertEquals(1, s.getLinesCount());
 		/*            12345678901234*/
 		assertEquals("       01 VAR.", s.toString());
+	}
+	
+	public void testLongValue() {
+		CobolGenSentence s = new CobolGenSentence(0);
+		s.addValue("'12345678901234567890123456789012345678901234567890123456789012345678901234567890'");
+		s.close();
+		assertEquals(7, s.getStartColumn());
+		assertEquals(29, s.getEndColumn());
+		assertEquals(2, s.getLinesCount());
+		assertEquals("       '1234567890123456789012345678901234567890123456789012345678901234\r\n      -    5678901234567890'.", s.toString());
 	}
 }

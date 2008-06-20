@@ -64,8 +64,8 @@ public class CobolGenVisitorTest extends TestCase {
 		assertTrue(source.contains("01 COM-DPLARCHT."));
 		assertTrue(source.contains("03 LS-MAX-ITEMS PIC 9(4) REDEFINES LS-ALL-ITEMS."));
 		assertTrue(source.contains("04 LS-ITEMS-ARRAY"));
-		assertTrue(source.contains("04 LS-ITEMS-ARRAY OCCURS 1"));
-		assertTrue(source.contains("TO 500 DEPENDING ON LS-ITEMS-COUNT."));
+		assertTrue(source.contains("04 LS-ITEMS-ARRAY OCCURS 1 TO 500 DEPENDING ON"));
+		assertTrue(source.contains("LS-ITEMS-COUNT."));
 		assertTrue(source.contains("05 LS-PROGRAMS-DATA REDEFINES LS-FILES-DATA."));
 	}
 	
@@ -78,8 +78,8 @@ public class CobolGenVisitorTest extends TestCase {
 		assertTrue(source.contains("02 SourceRequest--C PIC 9(9) BINARY."));
 		assertTrue(source.contains("03 Flags PIC X(32) OCCURS 1 TO 10 DEPENDING ON Flags--C."));
 		assertTrue(source.contains("04 Longitude COMP-2."));
-		assertTrue(source.contains("05 SortBy PIC X(32) OCCURS 1"));
-		assertTrue(source.contains("TO 10 DEPENDING ON SortBy--C."));
+		assertTrue(source.contains("05 SortBy PIC X(32) OCCURS 1 TO 10 DEPENDING ON"));
+		assertTrue(source.contains("SortBy--C."));
 	}
 	
 	public void testMSNSearchResponse() throws Exception {
@@ -87,8 +87,8 @@ public class CobolGenVisitorTest extends TestCase {
 		String source = processMSNSearchResponse();
 		assertTrue(source.contains("05 COM-MSNSEARCH-RESPONSE."));
 		assertTrue(source.contains("25 Results."));
-		assertTrue(source.contains("30 Result OCCURS 0"));
-		assertTrue(source.contains("TO 10 DEPENDING ON Result--C."));
+		assertTrue(source.contains("30 Result OCCURS 0 TO 10 DEPENDING ON"));
+		assertTrue(source.contains("Result--C."));
 		assertTrue(source.contains("35 SearchTags PIC X(32)."));
 		assertTrue(source.contains("40 Minute PIC 9(9) COMP-5."));
 		assertTrue(source.contains("40 Latitude COMP-2."));

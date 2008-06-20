@@ -104,19 +104,82 @@ public class CobolGenSentence {
 			spacedClause = ' ' + clause;
 		}
 		
+		/* Tokenize the clause on space (any number) boundaries.
+		 * This way we reprocess each token separately. */
+		String[] tokens = clause.trim().split("\\s+");
+		if (tokens.length == 0) {
+			return;
+		} else if (tokens.length > 1) {
+			addClause(tokens[0]);
+			String rest = clause.substring(
+					clause.indexOf(tokens[0]) + tokens[0].length() + 1).trim();
+			if (tokens[0].compareToIgnoreCase("value") == 0) {
+				addValue(rest);
+			} else {
+				addClause(rest);
+			}
+			return;
+		}
+		
 		/* If no place left on current line, create a new one with an
 		 * indent to show continuation*/
 		if (mEndColumn + spacedClause.length() > LINE_WIDTH) {
-			mContent.append(CodeGenUtil.CRLF);
-			mLinesCount++;
-			mEndColumn = mStartColumn + INDENT_SLOPE;
-			mContent.append(fillString(' ', mEndColumn));
-			needSpaceSeparator = false;
+			moveToNextLine(false);
 			spacedClause = clause;
 		}
 		
-		mContent.append(spacedClause);
-		mEndColumn += spacedClause.length();
+		appendToken(spacedClause);
+	}
+	
+	/**
+	 * Contrary to other clauses, Values might extend on multiple lines and
+	 * have special handling for continuation characters.
+	 * @param value the COBOL value that follows the VALUE clause, including
+	 *  starting and ending delimiters (QUOTE or APOST)
+	 */
+	public final void addValue(final String value) {
+		String spacedValue = value;
+		
+		/* New clause needs to be separated from the previous one */
+		if (needSpaceSeparator) {
+			spacedValue = ' ' + value;
+		}
+		int lineCapacity = LINE_WIDTH - mEndColumn;
+		if (spacedValue.length() > lineCapacity) {
+			addValue(spacedValue.substring(0, lineCapacity));
+			moveToNextLine(true);
+			addValue(spacedValue.substring(lineCapacity));
+		} else {
+			appendToken(spacedValue);
+		}
+	}
+	
+	/**
+	 * Position on the start of the next line.
+	 * @param valueContinuation true if this is a subsequent value line in
+	 *   which case we need a special continuation character in column 7.
+	 */
+	private void moveToNextLine(final boolean valueContinuation) {
+		mContent.append(CodeGenUtil.CRLF);
+		mLinesCount++;
+		mEndColumn = mStartColumn + INDENT_SLOPE;
+		if (valueContinuation) {
+			mContent.append(fillString(' ', SEQ_NUM_AREA_LEN));
+			mContent.append('-');
+			mContent.append(fillString(' ', mEndColumn - SEQ_NUM_AREA_LEN - 1));
+		} else {
+			mContent.append(fillString(' ', mEndColumn));
+		}
+		needSpaceSeparator = false;
+	}
+	
+	/**
+	 * Appends an atomic token to the content.
+	 * @param token the atomic token
+	 */
+	private void appendToken(final String token) {
+		mContent.append(token);
+		mEndColumn += token.length();
 		needSpaceSeparator = true;
 	}
 	
