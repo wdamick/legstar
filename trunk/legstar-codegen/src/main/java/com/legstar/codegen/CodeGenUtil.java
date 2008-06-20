@@ -77,6 +77,46 @@ public final class CodeGenUtil {
      *            the directory name to check
      * @param create
      *            true if directory should be created when not found
+     * @param errorDirName
+     *            name to refer to if an error occurs
+     */
+    public static void checkDirectory(
+    		final String dir, final boolean create, final String errorDirName) {
+    	try {
+			checkDirectory(dir, create);
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException(
+					errorDirName + ": " + e.getMessage());
+		}
+    }
+    
+    /**
+     * Check that a directory is valid.
+     * 
+     * @param fdir
+     *            the directory name to check
+     * @param create
+     *            true if directory should be created when not found
+     * @param errorDirName
+     *            name to refer to if an error occurs
+     */
+    public static void checkDirectory(
+    		final File fdir, final boolean create, final String errorDirName) {
+    	try {
+			checkDirectory(fdir, create);
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException(
+					errorDirName + ": " + e.getMessage());
+		}
+    }
+    
+    /**
+     * Check that a directory is valid.
+     * 
+     * @param dir
+     *            the directory name to check
+     * @param create
+     *            true if directory should be created when not found
      */
     public static void checkDirectory(final String dir, final boolean create) {
 
