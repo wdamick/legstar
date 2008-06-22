@@ -9,8 +9,8 @@
             id="com.legstar.eclipse.plugin">
       </category>
       <wizard
-            name="LegStar Mapping file"
-            icon="icons/cixsgen-mapping.gif"
+            name="%new_file_title"
+            icon="%operations_mapping_icon"
             category="com.legstar.eclipse.plugin"
             class="com.legstar.eclipse.plugin.cixsmap.wizards.NewMappingFileWizard"
             id="com.legstar.eclipse.plugin.cixsmap.wizards.NewMappingFileWizard">
@@ -20,10 +20,26 @@
          point="org.eclipse.ui.editors">
       <editor
             class="com.legstar.eclipse.plugin.cixsmap.editors.CixsGenEditor"
-            extensions="cixs"
-            icon="icons/cixsgen-mapping.gif"
+            extensions="%operations_mapping_file_suffix"
+            icon="%operations_mapping_icon"
             id="com.legstar.eclipse.plugin.cixsmap.editors.CixsGenEditor"
-            name="Legacy Mapping editor"/>
+            name="%editor_title"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="com.legstar.eclipse.plugin.cixsmap.actionSet"
+            label="LegStar Mapping Action Set"
+            visible="true">
+         <action
+               class="com.legstar.eclipse.plugin.cixsmap.actions.OpenMappingEditorActionDelegate"
+               icon="%operations_mapping_icon"
+               id="com.legstar.eclipse.plugin.cixsmap.actions.OpenMappingEditorActionDelegate"
+               label="%action_label"
+               menubarPath="com_legstar_eclipse_menu/slot2"
+               toolbarPath="legstarGroup"
+               tooltip="%action_tooltip"/>
+      </actionSet>
    </extension>
 
 </plugin>

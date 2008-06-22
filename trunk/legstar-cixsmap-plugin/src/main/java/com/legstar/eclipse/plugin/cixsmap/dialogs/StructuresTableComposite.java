@@ -36,6 +36,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
 import com.legstar.cixs.gen.model.CixsStructure;
+import com.legstar.eclipse.plugin.cixsmap.Messages;
+import com.legstar.eclipse.plugin.common.dialogs.AbstractDialog;
 
 /**
  * This control displays a table and add/modify/delete buttons for
@@ -58,35 +60,6 @@ public class StructuresTableComposite extends Composite {
 	/** SWT Table holding operations attributes. */
 	private Table mStructuresTable = null;
 
-	/** Dialog box title. */
-	private static final String DIALOG_TITLE = "CIXS Structure";
-	
-	/** Jaxb type column label. */
-	private static final String JAXB_TYPE_COL_LABEL = "JAXB Type name";
-	
-	/** Jaxb package column label. */
-	private static final String JAXB_PKG_COL_LABEL = "JAXB Type package name";
-	
-	/** CICS Container column label. */
-	private static final String CICS_CONTAINER_COL_LABEL = "CICS Container";
-	
-	/** No structures selected error message. */
-	private static final String NO_STRUCT_SELECTED_MSG =
-		"No structures selected";
-	
-	/** Confirm structure remove message. */
-	private static final String CONFIRM_STRUCT_DELETE_MSG =
-		"Confirm selected structures removal?";
-	
-	/** Add button label. */
-	private static final String ADD_LABEL = "Add...";
-	
-	/** Modify button label. */
-	private static final String MODIFY_LABEL = "Modify...";
-	
-	/** Delete button label. */
-	private static final String DELETE_LABEL = "Delete";
-	
 	/** The collection of structures. */
 	private List < CixsStructure > mStructures;
 	
@@ -133,7 +106,8 @@ public class StructuresTableComposite extends Composite {
 		GridData gridData = new GridData(GridData.FILL_BOTH);
 		btnContainer.setLayoutData(gridData);
 
-		mAddButton = AbstractDialog.createButton(btnContainer, ADD_LABEL);
+		mAddButton = AbstractDialog.createButton(btnContainer,
+				Messages.add_button_label);
 		mAddButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(final SelectionEvent e) {
 				handleAdd();
@@ -141,13 +115,15 @@ public class StructuresTableComposite extends Composite {
 		});
 		mAddButton.setEnabled(true); // Add is always available
 		
-		mModifyButton = AbstractDialog.createButton(btnContainer, MODIFY_LABEL);
+		mModifyButton = AbstractDialog.createButton(btnContainer,
+				Messages.edit_button_label);
 		mModifyButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(final SelectionEvent e) {
 				handleModify();
 			}
 		});
-		mDeleteButton = AbstractDialog.createButton(btnContainer, DELETE_LABEL);
+		mDeleteButton = AbstractDialog.createButton(btnContainer,
+				Messages.delete_button_label);
 		mDeleteButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(final SelectionEvent e) {
 				handleDelete();
@@ -189,11 +165,11 @@ public class StructuresTableComposite extends Composite {
 		table.setLayoutData(gridData);
 
 		AbstractDialog.createTableColumn(table, SWT.LEFT,
-				JAXB_TYPE_COL_LABEL, 120);
+				Messages.structure_jaxb_type_label, 120);
 		AbstractDialog.createTableColumn(table, SWT.LEFT,
-				JAXB_PKG_COL_LABEL, 230);
+				Messages.structure_jaxb_package_label, 230);
 		AbstractDialog.createTableColumn(table, SWT.LEFT,
-				CICS_CONTAINER_COL_LABEL);
+				Messages.structure_container_label);
 	    
 	    return table;
 	}
@@ -239,8 +215,8 @@ public class StructuresTableComposite extends Composite {
 		if (mStructuresTable.getSelectionIndices().length == 0) {
 			MessageDialog.openError(
 					null,
-					DIALOG_TITLE,
-					NO_STRUCT_SELECTED_MSG);
+					Messages.structure_mapping_error_dialog_title,
+					Messages.no_structure_selected_msg);
 			return;
 		}
 		for (int i = 0;
@@ -269,14 +245,14 @@ public class StructuresTableComposite extends Composite {
 		if (mStructuresTable.getSelectionIndices().length == 0) {
 			MessageDialog.openError(
 					null,
-					DIALOG_TITLE,
-					NO_STRUCT_SELECTED_MSG);
+					Messages.structure_mapping_error_dialog_title,
+					Messages.no_structure_selected_msg);
 			return;
 		}
 		if (MessageDialog.openConfirm(
 				null,
-				DIALOG_TITLE,
-				CONFIRM_STRUCT_DELETE_MSG)) {
+				Messages.structure_mapping_error_dialog_title,
+				Messages.confirm_structure_delete_msg)) {
 			/* Remove this structure from the structures */
 			for (int i = 0; i < mStructuresTable.getSelectionIndices().length;
 					i++) {
