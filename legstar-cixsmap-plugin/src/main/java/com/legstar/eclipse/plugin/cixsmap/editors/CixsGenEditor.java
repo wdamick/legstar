@@ -33,6 +33,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -52,6 +53,7 @@ import org.eclipse.jface.text.IDocument;
 import com.legstar.cixs.gen.model.CixsMappingModel;
 import com.legstar.cixs.gen.model.CixsModelException;
 import com.legstar.eclipse.plugin.cixsmap.Activator;
+import com.legstar.eclipse.plugin.cixsmap.Messages;
 import com.legstar.eclipse.plugin.cixsmap.dialogs.LegacyMappingComposite;
 
 import java.io.ByteArrayOutputStream;
@@ -109,7 +111,7 @@ public class CixsGenEditor
 		try {
 			mapping = loadModel();
 		} catch (CoreException e) {
-            errorDialog("loading model", e);
+            errorDialog(Messages.editor_error_loading_msg, e);
 			return;
 		}
 
@@ -122,7 +124,7 @@ public class CixsGenEditor
 				try {
 					saveModel();
 				} catch (CoreException e) {
-				    errorDialog("saving model", e);
+				    errorDialog(Messages.editor_error_saving_msg, e);
 				}
 			}
 		});
@@ -130,16 +132,12 @@ public class CixsGenEditor
 		mMappingComposite.addListener(
 		        LegacyMappingComposite.GEN_EVENT, new Listener() {
 			public void handleEvent(final Event event) {
-				try {
-					generate();
-				} catch (CoreException e) {
-                    errorDialog("generating", e);
-				}
+				doSave(null);
 			}
 		});
 		
 		int index = addPage(mMappingComposite);
-		setPageText(index, "Operations");
+		setPageText(index, Messages.editor_text_label);
 	}
 
 	/**
@@ -152,7 +150,7 @@ public class CixsGenEditor
 			int index = addPage(editor, getEditorInput());
 			setPageText(index, editor.getTitle());
 		} catch (PartInitException e) {
-            errorDialog("creating nested text editor", e);
+            errorDialog(Messages.editor_error_creating_nested_text_msg, e);
 		}
 	}
 
@@ -253,7 +251,7 @@ public class CixsGenEditor
 			try {
 				mMappingComposite.resetOperations(loadModel());
 			} catch (CoreException e) {
-	            errorDialog("loading document model", e);
+	            errorDialog(Messages.editor_error_loading_msg, e);
 			}
 		}
 	}
@@ -296,15 +294,6 @@ public class CixsGenEditor
 	}
 
 	/**
-	 * Initiate the endpoint generation process.
-	 * @throws CoreException if generation fails
-	 */
-	private void generate() throws CoreException {
-		doSave(null);
-
-	}
-	
-	/**
 	 * @see org.eclipse.core.resources.IResourceChangeListener#resourceChanged(
 	 * org.eclipse.core.resources.IResourceChangeEvent)
 	 * @param event the resource change event
@@ -337,7 +326,8 @@ public class CixsGenEditor
 	 */
 	private void errorDialog(final String context, final CoreException e) {
         ErrorDialog.openError(getSite().getShell(),
-                "Error while " + context + ": " + e.getMessage(),
+        		NLS.bind(Messages.editor_generic_error_msg,
+        				context, e.getMessage()),
                 null, e.getStatus());
 	}
 

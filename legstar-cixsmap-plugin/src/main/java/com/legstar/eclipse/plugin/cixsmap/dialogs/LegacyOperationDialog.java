@@ -30,12 +30,16 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import com.legstar.cixs.gen.model.CixsOperation;
 import com.legstar.cixs.gen.model.CixsStructure;
+import com.legstar.eclipse.plugin.cixsmap.Activator;
+import com.legstar.eclipse.plugin.cixsmap.Messages;
+import com.legstar.eclipse.plugin.common.dialogs.AbstractDialog;
 
 /**
  * Dialog used to capture a legacy Web service operation attributes.
@@ -70,27 +74,6 @@ public class LegacyOperationDialog extends AbstractDialog {
 	 * the user. */
 	private boolean pgnameAutoSet = false;
 	
-	/** Dialog box title. */
-	private static final String DIALOG_TITLE = "Legacy Operation mapping";
-	
-    /** Dialog box title. */
-    private static final String DIALOG_ERROR_TITLE = "Legacy Operation Error";
-    
-	/** Operation name label. */
-	private static final String OP_NAME_LABEL = "Operation name:";
-	
-	/** CICS program name label. */
-	private static final String PROGRAM_LABEL = "CICS Program:";
-	
-	/** CICS channel name label. */
-	private static final String CHANNEL_LABEL = "CICS Channel:";
-	
-	/** Input structures label. */
-	private static final String INPUT_LABEL = "Input:";
-	
-	/** Output structures label. */
-	private static final String OUTPUT_LABEL = "Output:";
-	
 	/** The legacy mapping file. */
 	private IFile mMappingFile;
 	
@@ -114,30 +97,21 @@ public class LegacyOperationDialog extends AbstractDialog {
 	/** {@inheritDoc}	 */
 	protected final Control createDialogArea(final Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
-		try {
-			initialize(composite);
-		} catch (CoreException e) {
-            errorDialog(DIALOG_ERROR_TITLE,
-                    "Selected Project " +  mMappingFile.getProject().getName()
-                    + " is not a valid project. "
-                    + "CoreException: " 
-                    + " " + e.getMessage());
-		}
+		initialize(composite);
 		return composite;
 	}
 
 	/**
 	 * Create dialog widgets.
 	 * @param parent the parent composite
-	 * @throws CoreException if creation fails
 	 */
-	private void initialize(final Composite parent) throws CoreException {
+	private void initialize(final Composite parent) {
 
 		Composite area = new Composite(parent, SWT.NULL);
 		GridLayout gridLayout = new GridLayout(2, false);
 		area.setLayout(gridLayout);
 
-		createLabel(area, OP_NAME_LABEL);
+		createLabel(area, Messages.operation_name_label + ':');
 		mOperationNameText = createText(area,
 				mOperation.getName(), -1);
 		mOperationNameText.addModifyListener(new ModifyListener() {
@@ -156,7 +130,7 @@ public class LegacyOperationDialog extends AbstractDialog {
 			}
 		});
 		
-		createLabel(area, PROGRAM_LABEL);
+		createLabel(area, Messages.operation_program_label + ':');
 		mCicsProgramNameText = createText(area,
 				mOperation.getCicsProgramName(), -1);
 		mCicsProgramNameText.addModifyListener(new ModifyListener() {
@@ -170,7 +144,7 @@ public class LegacyOperationDialog extends AbstractDialog {
 			}
 		});
 		
-		createLabel(area, CHANNEL_LABEL);
+		createLabel(area, Messages.operation_channel_label + ':');
 		mCicsChannelText = createText(area,
 				mOperation.getCicsChannel(), -1);
 		mCicsChannelText.addModifyListener(new ModifyListener() {
@@ -178,11 +152,11 @@ public class LegacyOperationDialog extends AbstractDialog {
 			}
 		});
 		
-		createLabel(area, INPUT_LABEL);
+		createLabel(area, Messages.operation_input_structures_label + ':');
 		mInputStructuresTable = addStructuresTable(
 				area, mOperation.getInput());
 
-		createLabel(area, OUTPUT_LABEL);
+		createLabel(area, Messages.operation_output_structures_label + ':');
 		mOutputStructuresTable = addStructuresTable(
 				area, mOperation.getOutput());
 	}
@@ -208,7 +182,13 @@ public class LegacyOperationDialog extends AbstractDialog {
 	/** {@inheritDoc}	 */
 	protected final void configureShell(final Shell newShell) {
 		super.configureShell(newShell);
-		newShell.setText(DIALOG_TITLE);
+		newShell.setText(Messages.operation_mapping_dialog_title);
+		ImageDescriptor image =
+            AbstractUIPlugin.
+                imageDescriptorFromPlugin(
+                		Activator.PLUGIN_ID,
+                		Messages.operations_mapping_icon);
+		newShell.setImage(image.createImage());
 	}
 	
 	/* (non-Javadoc)
@@ -237,16 +217,16 @@ public class LegacyOperationDialog extends AbstractDialog {
 		/* We must have an operation name */
 		String operationName = mOperationNameText.getText().trim();
 		if (operationName.length() == 0) {
-			errorDialog(DIALOG_ERROR_TITLE,
-			        "You must provide an operation name");
+			errorDialog(Messages.operation_mapping_error_dialog_title,
+					Messages.no_operation_name_msg);
 			return false;
 		}
 		
 		/* We must have an program name */
 		String cicsProgramName = mCicsProgramNameText.getText().trim();
 		if (cicsProgramName.length() == 0) {
-			errorDialog(DIALOG_ERROR_TITLE,
-			        "You must provide an program name");
+			errorDialog(Messages.operation_mapping_error_dialog_title,
+			        Messages.no_program_msg);
 			return false;
 		}
 		
@@ -275,18 +255,14 @@ public class LegacyOperationDialog extends AbstractDialog {
 			if (structure.getCicsContainer() != null
 					&& structure.getCicsContainer().length() > 0) {
 				if (channel.length() == 0) {
-					errorDialog(DIALOG_ERROR_TITLE,
-					        "Structures cannot specify a CICS"
-							+ " Container if operation does not specify a CICS"
-							+ " Channel");
+					errorDialog(Messages.operation_mapping_error_dialog_title,
+							Messages.container_without_channel_msg);
 					return false;
 				}
 			} else {
 				if (channel.length() > 0) {
-					errorDialog(DIALOG_ERROR_TITLE,
-					        "All structures must specify a CICS"
-							+ " Container when operation specifies a CICS"
-							+ " Channel");
+					errorDialog(Messages.operation_mapping_error_dialog_title,
+							Messages.channel_without_container_msg);
 					return false;
 				}
 			}

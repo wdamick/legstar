@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -19,6 +20,8 @@ import org.osgi.framework.ServiceReference;
 
 import com.legstar.eclipse.plugin.cixscom.wizards.ICixsGeneratorWizardLauncher;
 import com.legstar.eclipse.plugin.cixsmap.Activator;
+import com.legstar.eclipse.plugin.cixsmap.Messages;
+import com.legstar.eclipse.plugin.common.dialogs.AbstractDialog;
 
 /**
  * This dialog dynamically builds a list of available generators for legacy
@@ -29,12 +32,6 @@ import com.legstar.eclipse.plugin.cixsmap.Activator;
  *
  */
 public class GenerateDialog extends AbstractDialog {
-
-	/** Dialog title. */
-	private static final String DIALOG_TITLE = "Select generation target";
-
-	/** Dialog box title. */
-	private static final String DIALOG_ERROR_TITLE = "Generation Error";
 
 	/** The legacy mapping file. */
 	private IFile mMappingFile;
@@ -73,32 +70,25 @@ public class GenerateDialog extends AbstractDialog {
 
 	/** {@inheritDoc}    */
 	protected final Control createDialogArea(final Composite parent) {
-		parent.getShell().setText(DIALOG_TITLE);
+		parent.getShell().setText(Messages.generate_dialog_title);
 		Composite composite = (Composite) super.createDialogArea(parent);
-		try {
-			initialize(composite);
-		} catch (CoreException e) {
-			errorDialog(DIALOG_ERROR_TITLE,
-					"Selected file " +  mMappingFile.getName()
-					+ " is not a valid mapping file. "
-					+ "CoreException: " 
-					+ " " + e.getMessage());
-		}
+		initialize(composite);
 		return composite;
 	}
 
 	/**
 	 * Create dialog widgets.
 	 * @param parent the parent composite
-	 * @throws CoreException if creation fails
 	 */
-	private void initialize(final Composite parent) throws CoreException {
+	private void initialize(final Composite parent) {
 
 		Composite area = new Composite(parent, SWT.NULL);
 		GridLayout gridLayout = new GridLayout(2, false);
 		area.setLayout(gridLayout);
+		
+		createLabel(area, "Registered generators:", 2);
 
-		mGeneratorsList = createList(area);
+		mGeneratorsList = createList(area, 2);
 		mGeneratorsList.addSelectionListener(
 				new SelectionListener() {
 
@@ -114,7 +104,7 @@ public class GenerateDialog extends AbstractDialog {
 				});
 		mWizardLaunchers = loadWizardLaunchers();
 
-		initGeneratorsCombo();
+		initGeneratorsList();
 	}
 
 	/**
@@ -133,7 +123,7 @@ public class GenerateDialog extends AbstractDialog {
 	/**
 	 * Populates the list box with the names of available launchers.
 	 */
-	private void initGeneratorsCombo() {
+	private void initGeneratorsList() {
 		for (ICixsGeneratorWizardLauncher launcher : mWizardLaunchers) {
 			mGeneratorsList.add(launcher.getName());
 		}
@@ -163,15 +153,13 @@ public class GenerateDialog extends AbstractDialog {
 					wizardLaunchers.add(launcher);
 				}
 			} else {
-				errorDialog(DIALOG_ERROR_TITLE,
-						"Unable to find any available component generators");
+				errorDialog(Messages.generate_error_dialog_title,
+						Messages.no_generators_found_msg);
 			}
 		} catch (InvalidSyntaxException e) {
-			errorDialog(DIALOG_ERROR_TITLE,
-					"Exception trying to retrieve available"
-					+ " component generators. "
-					+ "InvalidSyntaxException: " 
-					+ " " + e.getMessage());
+			errorDialog(Messages.generate_error_dialog_title,
+					NLS.bind(Messages.listing_generators_failed_msg,
+							e.getMessage()));
 		}
 		return wizardLaunchers;
 
@@ -190,11 +178,9 @@ public class GenerateDialog extends AbstractDialog {
 		try {
 			launcher.startGenerationWizard(mMappingFile);
 		} catch (CoreException e) {
-			errorDialog(DIALOG_ERROR_TITLE,
-					"Exception trying to launch generation wizard:"
-					+ launcher.getName()
-					+ " CoreException: " 
-					+ " " + e.getMessage());
+			errorDialog(Messages.generate_error_dialog_title,
+					NLS.bind(Messages.launching_generator_wizard_failed_msg,
+							launcher.getName(), e.getMessage()));
 		}
 		setReturnCode(OK);
 		close();

@@ -2,7 +2,6 @@ package com.legstar.eclipse.plugin.cixsmap.wizards;
 
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -14,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -21,13 +21,12 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.ide.IDE;
 
 import com.legstar.cixs.gen.model.CixsMappingModel;
 import com.legstar.eclipse.plugin.cixsmap.Activator;
+import com.legstar.eclipse.plugin.cixsmap.Messages;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
 
 /**
@@ -36,10 +35,9 @@ import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
  * operations.  
  * The mapping file has an extension of ".cixs" and is registered with
  * a multi-page editor.
- * TODO derive from common-plugin wizard and adapt error processing
  */
 
-public class NewMappingFileWizard extends Wizard implements INewWizard {
+public class NewMappingFileWizard extends AbstractWizard implements INewWizard {
 
     /** This wizard only has one page. */
     private NewMappingFileWizardPage mPage;
@@ -92,7 +90,8 @@ public class NewMappingFileWizard extends Wizard implements INewWizard {
             return false;
         } catch (InvocationTargetException e) {
             Throwable realException = e.getTargetException();
-            MessageDialog.openError(getShell(), "Error",
+            MessageDialog.openError(getShell(),
+            		Messages.generate_error_dialog_title,
             		realException.getMessage());
             return false;
         }
@@ -115,7 +114,8 @@ public class NewMappingFileWizard extends Wizard implements INewWizard {
             final IProgressMonitor monitor)
     throws CoreException {
         // create a sample file
-        monitor.beginTask("Creating " + fileName, 2);
+        monitor.beginTask(NLS.bind(
+        		Messages.editor_creating_file_task_label, fileName), 2);
         IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
         IResource resource = root.findMember(new Path(containerName));
         if (!resource.exists() || !(resource instanceof IContainer)) {
@@ -135,10 +135,11 @@ public class NewMappingFileWizard extends Wizard implements INewWizard {
             }
             stream.close();
         } catch (IOException e) {
-        	AbstractWizard.logCoreException(e, Activator.PLUGIN_ID);
+        	throwCoreException(e);
         }
         monitor.worked(1);
-        monitor.setTaskName("Opening file for editing...");
+        monitor.setTaskName(NLS.bind(
+        		Messages.editor_opening_file_task_label, fileName));
         getShell().getDisplay().asyncExec(new Runnable() {
             public void run() {
                 IWorkbenchPage page =
@@ -147,7 +148,7 @@ public class NewMappingFileWizard extends Wizard implements INewWizard {
                 try {
                     IDE.openEditor(page, file, true);
                 } catch (PartInitException e) {
-                	AbstractWizard.logCoreException(e, Activator.PLUGIN_ID);
+                	logCoreException(e, Activator.PLUGIN_ID);
                }
             }
         });
@@ -164,20 +165,6 @@ public class NewMappingFileWizard extends Wizard implements INewWizard {
         model.setName(serviceName);
         String contents = model.serialize();
         return new ByteArrayInputStream(contents.getBytes());
-    }
-
-    /**
-     * Throws a core exception.
-     * @param message the message to display
-     * @throws CoreException the core exception
-     */
-    private void throwCoreException(final String message) throws CoreException {
-        IStatus status =
-            new Status(IStatus.ERROR,
-            		Activator.PLUGIN_ID,
-            		IStatus.OK,
-            		message, null);
-        throw new CoreException(status);
     }
 
     /**

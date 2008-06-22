@@ -20,6 +20,7 @@
  *******************************************************************************/
 package com.legstar.eclipse.plugin.cixsmap.dialogs;
 
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -33,6 +34,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 
@@ -46,12 +48,16 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.resource.ImageDescriptor;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
 
 import com.legstar.cixs.gen.model.CixsStructure;
+import com.legstar.eclipse.plugin.cixsmap.Activator;
+import com.legstar.eclipse.plugin.cixsmap.Messages;
+import com.legstar.eclipse.plugin.common.dialogs.AbstractDialog;
 import com.legstar.xsdc.gen.CobolNameResolver;
 import com.legstar.xsdc.gen.CobolNameResolverException;
 
@@ -92,25 +98,6 @@ public class LegacyStructureDialog extends AbstractDialog {
     /** The legacy mapping file. */
     private IFile mMappingFile;
 
-    /** Dialog box title. */
-    private static final String DIALOG_TITLE = "Legacy Structure";
-
-    /** Dialog box title. */
-    private static final String DIALOG_ERROR_TITLE = "Legacy Structure Error";
-
-    /** COBOL root data item name label. */
-    private static final String COBOL_ROOT_LABEL = "COBOL root name:";
-
-    /** CICS container name label. */
-    private static final String CONTAINER_LABEL = "CICS Container:";
-
-    /** Package name of jaxb type. */
-    private static final String PACKAGE_COL_LABEL =
-        "JAXB Type package name:";
-
-    /** Name of JAXB class. */
-    private static final String CLASS_COL_LABEL = "JAXB Type name:";
-
     /** Helper to suggest COBOL names from Java names. */
     private CobolNameResolver mCobolNameResolver;
 
@@ -138,16 +125,13 @@ public class LegacyStructureDialog extends AbstractDialog {
             mCobolNameResolver = new CobolNameResolver();
             initialize(composite);
         } catch (CoreException e) {
-            errorDialog(DIALOG_ERROR_TITLE,
-                    "Selected Project " +  mMappingFile.getProject().getName()
-                    + " is not a valid project. "
-                    + "CoreException: " 
-                    + " " + e.getMessage());
+            errorDialog(Messages.structure_mapping_error_dialog_title,
+            		NLS.bind(Messages.invalid_java_project_msg,
+            				mMappingFile.getProject().getName(),
+            				e.getMessage()));
         } catch (CobolNameResolverException e) {
-            errorDialog(DIALOG_ERROR_TITLE,
-                    "There is a setup error "
-                    + "CobolNameResolverException: " 
-                    + " " + e.getMessage());
+            errorDialog(Messages.structure_mapping_error_dialog_title,
+            		NLS.bind(Messages.setup_error_msg, e.getMessage()));
         }
         return composite;
     }
@@ -178,7 +162,7 @@ public class LegacyStructureDialog extends AbstractDialog {
         initJaxbPackageCombo(area);
         initJaxbTypeCombo(area);
 
-        createLabel(area, COBOL_ROOT_LABEL);
+        createLabel(area, Messages.structure_cobol_root_label + ':');
         mCobolRootDataItemNameText = createText(area,
                 mStructure.getCobolRootDataItemName(), -1);
         mCobolRootDataItemNameText.addModifyListener(new ModifyListener() {
@@ -187,7 +171,7 @@ public class LegacyStructureDialog extends AbstractDialog {
             }
         });
 
-        createLabel(area, CONTAINER_LABEL);
+        createLabel(area, Messages.structure_container_label + ':');
         mCicsContainerText = createText(area,
                 mStructure.getCicsContainer(), -1);
         mCicsContainerText.addModifyListener(new ModifyListener() {
@@ -207,7 +191,7 @@ public class LegacyStructureDialog extends AbstractDialog {
      * @param area the parent composite
      */
     private void initJaxbPackageCombo(final Composite area) {
-        createLabel(area, PACKAGE_COL_LABEL);
+        createLabel(area, Messages.structure_jaxb_package_label + ':');
         mJaxbPackageCombo = createCombo(area);
         mJaxbPackageCombo.addSelectionListener(
                 new SelectionListener() {
@@ -229,7 +213,7 @@ public class LegacyStructureDialog extends AbstractDialog {
      * @param area the parent composite
      */
     private void initJaxbTypeCombo(final Composite area) {
-        createLabel(area, CLASS_COL_LABEL);
+        createLabel(area, Messages.structure_jaxb_type_label + ':');
         mJaxbTypeList = createList(area);
         mJaxbTypeList.addSelectionListener(new SelectionListener() {
             public void widgetDefaultSelected(final SelectionEvent e) {
@@ -273,7 +257,13 @@ public class LegacyStructureDialog extends AbstractDialog {
     /** {@inheritDoc}	 */
     protected final void configureShell(final Shell newShell) {
         super.configureShell(newShell);
-        newShell.setText(DIALOG_TITLE);
+        newShell.setText(Messages.structure_mapping_dialog_title);
+		ImageDescriptor image =
+            AbstractUIPlugin.
+                imageDescriptorFromPlugin(
+                		Activator.PLUGIN_ID,
+                		Messages.operations_mapping_icon);
+		newShell.setImage(image.createImage());
     }
 
     /**
@@ -383,7 +373,7 @@ public class LegacyStructureDialog extends AbstractDialog {
      * Given a package fragment, this method gets all the Java compilation
      *  units.
      * @param pkg the package fragment
-     * @return a list of Java comilation units names within the package
+     * @return a list of Java compilation units names within the package
      */
     private java.util.List < String > classList(
             final IPackageFragment pkg) {
@@ -411,24 +401,25 @@ public class LegacyStructureDialog extends AbstractDialog {
      */
     private void dialogChanged() {
 
-        /* A JAXB package must be selected */
+        /* The project must contain at least one package with binding classes */
         if (mJaxbPackageCombo.getItemCount() == 0 
                 || mJaxbPackageCombo.getSelectionIndex() == -1) {
             updateStatus(false,
-            "The project does not seem to contain LegStar binding classes");
+            		NLS.bind(Messages.no_coxb_classes_in_project_msg,
+            				mMappingFile.getProject().getName()));
             return;
         }
 
         /* The selected package must contain at least one JAXB type */
         if (mJaxbTypeList.getItemCount() == 0) {
             updateStatus(false,
-            "The selected package does not contain any JAXB type");
+            Messages.no_coxb_classes_in_package_msg);
             return;
         }
 
         /* A JAXB type must be selected */
         if (mJaxbTypeList.getSelectionCount() < 1) {
-            updateStatus(false, "You must select a JAXB type");
+            updateStatus(false, Messages.no_jaxb_type_selected_msg);
             return;
         }
 
@@ -444,13 +435,15 @@ public class LegacyStructureDialog extends AbstractDialog {
                         mCobolRootDataItemNameText.getText());
                 if (!validContent.equals(
                 		mCobolRootDataItemNameText.getText())) {
-                    updateStatus(false, "COBOL root name is not valid COBOL");
+                    updateStatus(false,
+                    		Messages.invalid_structure_cobol_name_msg);
                     return;
                }
             }
         } catch (CobolNameResolverException e) {
             updateStatus(false,
-                    "Unable to suggest COBOL root name " + e.getMessage());
+            		NLS.bind(Messages.cobol_name_validation_failure_msg,
+            				e.getMessage()));
             return;
         }
         /* TODO check for CICS container maximum size (16) */
@@ -467,7 +460,7 @@ public class LegacyStructureDialog extends AbstractDialog {
     private void updateStatus(
             final boolean valid, final String message) {
         if (!valid) {
-            errorDialog(DIALOG_ERROR_TITLE, message);
+            errorDialog(Messages.structure_mapping_error_dialog_title, message);
         }
         if (getButton(IDialogConstants.OK_ID) != null) {
             if (valid) {

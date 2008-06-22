@@ -29,10 +29,14 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
+import com.legstar.eclipse.plugin.cixsmap.Messages;
 import com.legstar.eclipse.plugin.cixsmap.dialogs.LegacyStructureDialog;
 
 /**
@@ -46,17 +50,6 @@ public class NewMappingFileWizardPage extends WizardNewFileCreationPage {
 	private static final String PAGE_NAME =
 		"NewWSWizardPage";
 	
-	/** Page title text. */
-	private static final String PAGE_TITLE =
-		"Create an operations mapping file";
-	
-	/** Page description text. */
-	private static final String PAGE_DESC =
-		"Map CICS programs to Java/Web Services operations";
-	
-	/** New mapping file name. */
-	private static final String NEW_WS_NAME =
-		"Mapping file name:";
 	
 	 /**
 	 * Constructor for NewWSWizardPage.
@@ -66,8 +59,14 @@ public class NewMappingFileWizardPage extends WizardNewFileCreationPage {
 	public NewMappingFileWizardPage(
 			final IStructuredSelection selection) {
 		super(PAGE_NAME, selection);
-		setTitle(PAGE_TITLE);
-		setDescription(PAGE_DESC);
+		setTitle(Messages.new_file_wizard_page_title);
+		setDescription(Messages.new_file_wizard_description);
+		ImageDescriptor image =
+            AbstractUIPlugin.
+                imageDescriptorFromPlugin(
+                		com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID,
+                		com.legstar.eclipse.plugin.common.Activator.LOGO_IMG);
+        setImageDescriptor(image);
 	}
 	
 	/**
@@ -80,7 +79,7 @@ public class NewMappingFileWizardPage extends WizardNewFileCreationPage {
         Preferences preferences =
         	ResourcesPlugin.getPlugin().getPluginPreferences();
         preferences.setValue(ResourcesPlugin.PREF_DISABLE_LINKING, true);
-        setFileExtension("cixs");
+        setFileExtension(Messages.operations_mapping_file_suffix);
         super.createAdvancedControls(parent);
 	}
 	
@@ -110,12 +109,12 @@ public class NewMappingFileWizardPage extends WizardNewFileCreationPage {
                     }
                 }
             }
-            setErrorMessage("Project " + resource.getProject().getName()
-                    + " does not contain LegStar binding classes");
+            setErrorMessage(NLS.bind(Messages.no_coxb_classes_in_project_msg,
+            				resource.getProject().getName()));
             return false;
         } catch (JavaModelException e) {
-            setErrorMessage("Project " + resource.getProject().getName()
-                    + " is not a Java project");
+            setErrorMessage(NLS.bind(Messages.invalid_java_project_msg,
+            		resource.getProject().getName(), e.getMessage()));
             return false;
         }
     }
@@ -127,7 +126,7 @@ public class NewMappingFileWizardPage extends WizardNewFileCreationPage {
      * {@inheritDoc}
 	 */
 	protected final String getNewFileLabel() {
-		return NEW_WS_NAME;
+		return Messages.new_operations_mapping_file_name_label;
 	}
 
 	/**

@@ -42,6 +42,8 @@ import com.legstar.cixs.gen.model.CixsMappingModel;
 import com.legstar.cixs.gen.model.CixsModelException;
 import com.legstar.cixs.gen.model.CixsOperation;
 import com.legstar.eclipse.plugin.cixsmap.Activator;
+import com.legstar.eclipse.plugin.cixsmap.Messages;
+import com.legstar.eclipse.plugin.common.dialogs.AbstractDialog;
 
 /**
  * This composite is meant to be used as part of a wizard (either new Mapping
@@ -58,9 +60,6 @@ public class LegacyMappingComposite extends Composite {
 	/** The document model for the mapping. */
 	private CixsMappingModel mMappingModel;
 
-	/** Title that should appear on message dialogs.*/
-	private static final String DLG_TITLE = "CIXS Legacy operations mapping";
-	
 	/** The legacy mapping file. */
 	private IFile mMappingFile;
 	
@@ -84,47 +83,6 @@ public class LegacyMappingComposite extends Composite {
 	
 	/** Operation image location. */
 	private static final String OPERATION_IMG = "icons/cixsgen-operation.gif";
-	
-	/** Mapping name label. */
-	private static final String MAPPING_NAME_LABEL = "Mapping name:";
-	
-	/** Add button label. */
-	private static final String ADD_LABEL = "Add...";
-	
-	/** Modify button label. */
-	private static final String MODIFY_LABEL = "Modify...";
-	
-	/** Delete button label. */
-	private static final String DELETE_LABEL = "Delete";
-	
-	/** Generate button label. */
-	private static final String GENERATE_LABEL = "Generate";
-	
-	/** Operation name column label. */
-	private static final String OPERATION_COL_LABEL = "Operation";
-	
-	/** CICS program name column label. */
-	private static final String PROGRAM_COL_LABEL = "CICS Program";
-	
-	/** CICS channel column label. */
-	private static final String CHANNEL_COL_LABEL = "CICS Channel";
-	
-	/** Number of input structures column label. */
-	private static final String NB_INPUTS_COL_LABEL = "Input structures";
-	
-	/** Number of output structures column label. */
-	private static final String NB_OUTPUTS_COL_LABEL = "Output structures";
-	
-	/** No operations selected error message. */
-	private static final String NO_OP_SELECTED_MSG = "No operations selected";
-	
-	/** Confirm operation remove message. */
-	private static final String CONFIRM_OP_DELETE_MSG =
-		"Confirm selected operations removal?";
-	
-	/** No operations defined error message. */
-	private static final String NO_OPERATIONS_MSG =
-		"There must be at least one operation";
 	
     /** Event type corresponding to an update on operation dialog composite. */
     public static final int CHG_EVENT = 1035;
@@ -185,7 +143,8 @@ public class LegacyMappingComposite extends Composite {
 	 */
 	private void createControls(final Composite parent) {
 
-		AbstractDialog.createLabel(parent, MAPPING_NAME_LABEL);
+		AbstractDialog.createLabel(parent,
+				Messages.operations_mapping_name_label + ':');
 		mNameText = AbstractDialog.createText(
 		        parent, mMappingModel.getName(), TEXT_WIDGETS_WIDTH);
 		mNameText.addModifyListener(new ModifyListener() {
@@ -202,7 +161,8 @@ public class LegacyMappingComposite extends Composite {
 		gridData.verticalAlignment = GridData.BEGINNING;
 		btnContainer.setLayoutData(gridData);
 
-		mAddButton = AbstractDialog.createButton(btnContainer, ADD_LABEL);
+		mAddButton = AbstractDialog.createButton(btnContainer,
+				Messages.add_button_label);
 		mAddButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(final SelectionEvent e) {
 				handleAdd();
@@ -210,20 +170,22 @@ public class LegacyMappingComposite extends Composite {
 		});
 		mAddButton.setEnabled(true); // Add is always available
 		
-		mModifyButton = AbstractDialog.createButton(btnContainer, MODIFY_LABEL);
+		mModifyButton = AbstractDialog.createButton(btnContainer,
+				Messages.edit_button_label);
 		mModifyButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(final SelectionEvent e) {
 				handleModify();
 			}
 		});
-		mDeleteButton = AbstractDialog.createButton(btnContainer, DELETE_LABEL);
+		mDeleteButton = AbstractDialog.createButton(btnContainer,
+				Messages.delete_button_label);
 		mDeleteButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(final SelectionEvent e) {
 				handleDelete();
 			}
 		});
 		mGenerateButton = AbstractDialog.createButton(
-				btnContainer, GENERATE_LABEL);
+				btnContainer, Messages.generate_button_label);
 		mGenerateButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(final SelectionEvent e) {
 				handleGenerate();
@@ -289,11 +251,16 @@ public class LegacyMappingComposite extends Composite {
 		final GridData gridData = new GridData(GridData.FILL_BOTH);
 		table.setLayoutData(gridData);
 
-		AbstractDialog.createTableColumn(table, SWT.LEFT, OPERATION_COL_LABEL);
-		AbstractDialog.createTableColumn(table, SWT.LEFT, PROGRAM_COL_LABEL);
-		AbstractDialog.createTableColumn(table, SWT.LEFT, CHANNEL_COL_LABEL);
-		AbstractDialog.createTableColumn(table, SWT.LEFT, NB_INPUTS_COL_LABEL);
-		AbstractDialog.createTableColumn(table, SWT.LEFT, NB_OUTPUTS_COL_LABEL);
+		AbstractDialog.createTableColumn(table, SWT.LEFT,
+				Messages.operation_name_label);
+		AbstractDialog.createTableColumn(table, SWT.LEFT,
+				Messages.operation_program_label);
+		AbstractDialog.createTableColumn(table, SWT.LEFT,
+				Messages.operation_channel_label);
+		AbstractDialog.createTableColumn(table, SWT.RIGHT,
+				Messages.operation_input_structures_nbr_label);
+		AbstractDialog.createTableColumn(table, SWT.RIGHT,
+				Messages.operation_output_structures_nbr_label);
 	    
 	    return table;
 	}
@@ -312,7 +279,7 @@ public class LegacyMappingComposite extends Composite {
 			} catch (CixsModelException e) {
 				MessageDialog.openError(
 						null,
-						DLG_TITLE,
+						Messages.operation_mapping_error_dialog_title,
 						e.getMessage());
 				return;
 			}
@@ -331,8 +298,8 @@ public class LegacyMappingComposite extends Composite {
 		if (mOperationsTable.getSelectionIndices().length == 0) {
 			MessageDialog.openError(
 					null,
-					DLG_TITLE,
-					NO_OP_SELECTED_MSG);
+					Messages.operation_mapping_error_dialog_title,
+					Messages.no_operations_selected_msg);
 			return;
 		}
 		for (int i = 0;
@@ -363,14 +330,14 @@ public class LegacyMappingComposite extends Composite {
 		if (mOperationsTable.getSelectionIndices().length == 0) {
 			MessageDialog.openError(
 					null,
-					DLG_TITLE,
-					NO_OP_SELECTED_MSG);
+					Messages.operation_mapping_error_dialog_title,
+					Messages.no_operations_selected_msg);
 			return;
 		}
 		if (MessageDialog.openConfirm(
 				null,
-				DLG_TITLE,
-				CONFIRM_OP_DELETE_MSG)) {
+				Messages.operation_mapping_error_dialog_title,
+				Messages.confirm_operation_delete_msg)) {
 			/* Remove this operation from the service */
 			for (int i = 0; i < mOperationsTable.getSelectionIndices().length;
 					i++) {
@@ -390,8 +357,8 @@ public class LegacyMappingComposite extends Composite {
 		if (mOperationsTable.getItemCount() == 0) {
 			MessageDialog.openError(
 					null,
-					DLG_TITLE,
-					NO_OPERATIONS_MSG);
+					Messages.operation_mapping_error_dialog_title,
+					Messages.no_operations_msg);
 			return;
 		}
 		/* Notify listeners early because we need the generation dialog
