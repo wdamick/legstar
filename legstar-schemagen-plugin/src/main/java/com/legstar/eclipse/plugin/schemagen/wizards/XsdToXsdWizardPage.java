@@ -1,30 +1,30 @@
 package com.legstar.eclipse.plugin.schemagen.wizards;
 
-import org.eclipse.jface.dialogs.InputDialog;
-import org.eclipse.jface.dialogs.MessageDialog;
+import java.io.StringWriter;
+
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.forms.events.HyperlinkAdapter;
-import org.eclipse.ui.forms.events.HyperlinkEvent;
 
-import com.legstar.eclipse.plugin.schemagen.dialogs.HttpGetDialog;
-import com.legstar.eclipse.plugin.schemagen.util.HttpClientHelper;
-import com.legstar.eclipse.plugin.schemagen.util.HttpClientHelperException;
+import com.legstar.eclipse.plugin.common.wizards.IURLSelectionListener;
+import com.legstar.eclipse.plugin.schemagen.Activator;
+import com.legstar.eclipse.plugin.schemagen.util.XmlDocumentHelper;
+import com.legstar.eclipse.plugin.schemagen.util.XmlDocumentHelperException;
 
 /**
  * This wizard page allows users to select an Xml Schema or a WSDL
- * source either from the file system or via an HTTP GET and 
+ * source either from the file system or over the network and 
  * generate a COBOL annotated Xml Schema.
  */
 public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
@@ -32,8 +32,11 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
     /** An XSD or WSDL source. */
     private Text mXsdSourceText;
 
-    /** A class that provides Http get capabilities. */
-    private HttpClientHelper mHttpHelper = new HttpClientHelper();
+    /** URL locating target XSD or WSDL. */
+    private Combo mXsdUrlCombo = null;
+
+    /** A class that provides XML loading/formatting capabilities. */
+    private XmlDocumentHelper mXmlDocumentHelper = new XmlDocumentHelper();
 
     /** Whether the input XSD/WSDL target namespace should be changed. */
     private boolean mSwitchNamespaceAllowed = false;
@@ -58,10 +61,16 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
     }
 
     /** {@inheritDoc} */
-    @Override
     protected void createExtendedControls(final Composite container) {
-        createSelectXsdFromFileSystemLink(container);
-        createSelectXsdFromWebSite(container);
+        mXsdUrlCombo = createUrlComboGroup(
+        		container, "XML Schema or WSDL",
+        		new ModifyListener() {
+                    public void modifyText(final ModifyEvent e) {
+                        dialogChanged();
+                    }
+                },
+        		new URLSelectionAdapter());
+     	
         mSwitchNamespaceCheckBox =
         	createSwitchNamespaceAllowedCheckButton(container);
         mXsdSourceText = createMultilineTextField(container, LAYOUT_COLUMNS);
@@ -70,55 +79,29 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
         mXsdSourceText.setFont(font);
     }
 
-    /**
-     * This link will popup the resource selection dialog.
-     * @param container the parent container
-     */
-    private void createSelectXsdFromFileSystemLink(final Composite container) {
-        createHyperlink(container,
-                "Select XML Schema or WSDL source from file system",
-                PlatformUI.getWorkbench().getSharedImages().getImage(
-                        ISharedImages.IMG_OBJ_FOLDER),
-                        new HyperlinkAdapter() {
-            public void linkActivated(final HyperlinkEvent e) {
-                setXsdText(selectSingleFileContent(
-                "Select an XML Schema or WSDL source"));
-            }
-        });
-    }
-
-    /**
-     * This link will popup a custom dialog to issue an HTTP GET
-     * on a remote Web Site.
-     * @param container the parent container
-     */
-    private void createSelectXsdFromWebSite(
-            final Composite container) {
-        createHyperlink(container,
-                "Select XML Schema or WSDL from Web site",
-                PlatformUI.getWorkbench().getSharedImages().getImage(
-                        ISharedImages.IMG_TOOL_FORWARD),
-                        new HyperlinkAdapter() {
-            public void linkActivated(final HyperlinkEvent e) {
-                HttpGetDialog httpDialog =
-                	new HttpGetDialog(container.getShell());
-                if (httpDialog.open() == InputDialog.OK) {
-                    try {
-                        setXsdText(mHttpHelper.get(
-                                httpDialog.getUrl(),
-                                httpDialog.getUser(),
-                                httpDialog.getPassword()));
-                    } catch (HttpClientHelperException e1) {
-                        MessageDialog.openError(
-                                null,
-                                HttpGetDialog.DIALOG_TITLE,
-                                e1.getMessage());
-                    }
-                }
-            }
-        });
-    }
-
+	/**
+	 *Defines what happens when a URL is selected.
+	 */
+	private class URLSelectionAdapter implements IURLSelectionListener {
+	
+		/** {@inheritDoc} */
+		public void urlSelected(final String urlString) {
+	    	try {
+				mXmlDocumentHelper.load(getXsdUrl());
+				StringWriter writer = new StringWriter();
+				mXmlDocumentHelper.serialize(writer);
+				mXsdSourceText.setText(writer.toString());
+			} catch (XmlDocumentHelperException e1) {
+				errorDialog(getShell(),
+						"XML load error",
+						Activator.PLUGIN_ID,
+						"failed to load XML source \""
+						+ urlString + "\"",
+						e1.getMessage());
+			}
+		}
+	}
+	
     /**
      * Adds a check button that reflects its state in an associated boolean
      * variable.
@@ -143,17 +126,7 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
         return button;
     }
     
-    /**
-     * This will perform very minimal formatting assuming the content is XML.
-     * @param xmlText the text to be reformatted
-     */
-    private void setXsdText(final String xmlText) {
-        String formattedText = xmlText.replaceAll("><", ">\n<");
-        mXsdSourceText.setText(formattedText);
-    }
-
     /** {@inheritDoc} */
-    @Override
     protected void dialogChanged() {
         if (mXsdSourceText.getText().length() > 0) {
             ((MainWizard) getWizard()).setCanFinish(true);
@@ -165,8 +138,31 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
     }
 
     /** {@inheritDoc} */
-   @Override
     protected void initContents() {
+	   initUrlHistory();
+    }
+
+   /**
+    * Setup the initial history list attached to the URL combo box.
+    */
+   private void initUrlHistory() {
+	   for (String value : getUrlHistory().get()) {
+		   mXsdUrlCombo.add(value);
+	   }
+   }
+
+    /**
+     * @return the Xml Schema or Wsdl source URI
+     */
+    public final String getXsdUrl() {
+        return mXsdUrlCombo.getText();
+    }
+    
+    /**
+     * @return the Xml Schema or Wsdl source Text
+     */
+    public final Text getXsdSourceText() {
+        return mXsdSourceText;
     }
 
     /**
@@ -177,14 +173,7 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
         return null;
     }
 
-    /**
-     * @return the Xml Schema or Wsdl source Text
-     */
-    public final Text getXsdSourceText() {
-        return mXsdSourceText;
-    }
-
-    /**
+   /**
      * @return true if the input XSD/WSDL target namespace should be changed
      */
     public final boolean isSwitchNamespaceAllowed() {

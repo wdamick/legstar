@@ -104,18 +104,29 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
     @Override
     public void createExtendedControls(final Composite container) {
         Group groupSource = createGroup(container, "Select source type");
-        mSourceTypeCombo = createCombo(groupSource, new String [] {
+        mSourceTypeCombo = createComboFromItemsArray(
+        		groupSource, new String [] {
                 "COBOL source fragment", "XSD or WSDL", "Java classes"});
 
         Group groupTarget = createGroup(container, "Select target");
         
         createLabel(groupTarget, "Container");
-        mTargetContainerText = createTextField(groupTarget);
+        mTargetContainerText = createText(groupTarget);
+        mTargetContainerText.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent e) {
+               dialogChanged();
+            }
+        });
         createBrowseForContainerButton(
         		groupTarget, "Target container", mTargetContainerText);
         
         createLabel(groupTarget, "XSD file name");
-        mTargetXSDFileNameText = createTextField(groupTarget);
+        mTargetXSDFileNameText = createText(groupTarget);
+        mTargetXSDFileNameText.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent e) {
+               dialogChanged();
+            }
+        });
         mTargetXSDFileNameText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 autoFill();
@@ -124,7 +135,12 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
         createOverwriteAllowedCheckButton(groupTarget, "Overwrite");
         
         createLabel(groupTarget, "Namespace");
-        mTargetNamespaceText = createTextField(groupTarget, 2);
+        mTargetNamespaceText = createText(groupTarget, 2);
+        mTargetNamespaceText.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent e) {
+               dialogChanged();
+            }
+        });
         mTargetNamespaceText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 mXsdNamespaceUserChanged = userChanged(
@@ -133,7 +149,12 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
         });
         
         createLabel(groupTarget, "Jaxb package");
-        mTargetJaxbPackageNameText = createTextField(groupTarget, 2);
+        mTargetJaxbPackageNameText = createText(groupTarget, 2);
+        mTargetJaxbPackageNameText.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent e) {
+               dialogChanged();
+            }
+        });
         mTargetJaxbPackageNameText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 mJaxbPackageNameUserChanged = userChanged(

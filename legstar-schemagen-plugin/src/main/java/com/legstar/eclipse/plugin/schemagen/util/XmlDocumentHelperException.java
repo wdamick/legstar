@@ -1,18 +1,18 @@
 package com.legstar.eclipse.plugin.schemagen.util;
 
 /**
- * Exception raised while doing an http access.
+ * Exception raised while parsing or formatting Xml.
  */
-public class HttpClientHelperException extends Exception {
+public class XmlDocumentHelperException extends Exception {
 
 	/** Serial ID. */
-    private static final long serialVersionUID = -1496098769172853687L;
+	private static final long serialVersionUID = -7109200198756195977L;
 
-    /** 
+	/** 
 	 * Constructor from an error message. 
 	 * @param message the text message 
 	 * */
-	public HttpClientHelperException(final String message) {
+	public XmlDocumentHelperException(final String message) {
 		super(message);
 	}
 
@@ -20,7 +20,7 @@ public class HttpClientHelperException extends Exception {
 	 * Constructor from an inner exception. 
 	 * @param e the inner exception 
 	 * */
-	public HttpClientHelperException(final Exception e) {
+	public XmlDocumentHelperException(final Exception e) {
 		super(e);
 	}
 }

@@ -4,14 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IClasspathContainer;
 import org.eclipse.jdt.core.IClasspathEntry;
-import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
@@ -280,42 +275,6 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
 	}
 
 	/**
-	 * Checks a resource to see if it is a java class and adds it to the class
-	 * list.
-	 * @param resource the resource to checks
-	 * @return true if the java class is successfully added
-	 */
-	private boolean addJavaClass(final IResource resource) {
-		IProject project = resource.getProject();
-		IJavaProject javaProject = JavaCore.create(project);
-		if (javaProject == null) {
-			errorDialog(getShell(), "Add Java class error", Activator.PLUGIN_ID,
-					"Selected project is not a java project ",
-					"The project selected " + project.getName()
-					+ " may not have a Java nature");
-			return false;
-		}
-		if (resource instanceof IFile) {
-			IJavaElement element = JavaCore.create((IFile) resource);
-			/* Not a java resource, ignore*/
-			if (element == null) {
-				return true;
-			}
-			if (element instanceof ICompilationUnit) {
-				IType type = ((ICompilationUnit) element).findPrimaryType();
-				/* Not a java type, ignore*/
-				if (type == null) {
-					return true;
-				}
-				JavaClass jClass = new JavaClass(
-						type.getFullyQualifiedName(), javaProject);
-				addJavaClass(jClass);
-			}
-		}
-		return true;
-	}
-	
-	/**
 	 * Add a new type as a java class.
 	 * @param type the java type
 	 * @return true if add succeeded
@@ -471,7 +430,6 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
 	}
 
 	/** {@inheritDoc} */
-	@Override
 	protected void dialogChanged() {
 		if (mJavaClassesTableViewer.getTable().getItemCount() > 0) {
 			((MainWizard) getWizard()).setCanFinish(true);
@@ -484,7 +442,6 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
 	}
 
 	/** {@inheritDoc} */
-	@Override
 	protected void initContents() {
 	}
 
