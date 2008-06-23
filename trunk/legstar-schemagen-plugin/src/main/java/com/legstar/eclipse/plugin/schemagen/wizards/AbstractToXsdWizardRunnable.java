@@ -58,13 +58,6 @@ public abstract class AbstractToXsdWizardRunnable
 	 * this ant file from the ones produced by other LegStar wizards. */
 	private static final String ANT_FILE_NAME_ID = "schemagen-";
 
-	/** Error message if product location has not been set. */
-	public static final String PRODUCT_LOCATION_NOT_SET =
-		"Product location not set in "
-		+ "preferences. Use Window-->Preferences to set the LegStar product "
-		+ "location to a valid install folder (LegStar must "
-		+ "have been installed prior to using this plugin).";
-
 	/**
 	 * Instantiate this runnable from UI items. It is important not to attempt
 	 * access to UI elements from the background thread.
