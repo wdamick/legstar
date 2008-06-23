@@ -29,6 +29,10 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
+import com.legstar.eclipse.plugin.cixscom.Activator;
+import com.legstar.eclipse.plugin.cixscom.Messages;
+import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
+
 /**
  * This action becomes available when a LegStar mapping file is selected.
  */
@@ -63,29 +67,28 @@ public abstract class AbstractGeneratorAction implements IObjectActionDelegate {
      *            action; must not be <code>null</code>.
      */
     public final void run(final IAction action) {
-        /* Get us the selected file */
-        IFile file = null;
-        if (mSelection != null && !mSelection.isEmpty()
-                && mSelection instanceof IStructuredSelection) {
-            IStructuredSelection ssel = (IStructuredSelection) mSelection;
-            if (ssel.size() > 1) {
-                return;
-            }
-            Object obj = ssel.getFirstElement();
-            if (obj instanceof IResource) {
-                if (obj instanceof IFile) {
-                    file = (IFile) obj;
-                } else {
-                    throw new RuntimeException(
-                        "no valid LegStar mapping file selected");
-                }
-            }
-        }
         try {
+	       /* Get us the selected file */
+	        IFile file = null;
+	        if (mSelection != null && !mSelection.isEmpty()
+	                && mSelection instanceof IStructuredSelection) {
+	            IStructuredSelection ssel = (IStructuredSelection) mSelection;
+	            if (ssel.size() > 1) {
+	                return;
+	            }
+	            Object obj = ssel.getFirstElement();
+	            if (obj instanceof IResource) {
+	                if (obj instanceof IFile) {
+	                    file = (IFile) obj;
+	                } else {
+	                	AbstractWizard.throwCoreException(
+	                			Messages.no_mapping_file_msg);
+	                }
+	            }
+	        }
             startWizard(file);
         } catch (CoreException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+        	AbstractWizard.logCoreException(e, Activator.PLUGIN_ID);
         }
     }
     

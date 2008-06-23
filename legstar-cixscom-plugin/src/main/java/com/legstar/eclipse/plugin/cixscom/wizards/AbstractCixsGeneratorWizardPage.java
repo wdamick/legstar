@@ -2,51 +2,44 @@ package com.legstar.eclipse.plugin.cixscom.wizards;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import com.legstar.cixs.gen.model.CixsMappingModel;
 import com.legstar.cixs.gen.model.CixsModelException;
 import com.legstar.codegen.CodeGenMakeException;
 import com.legstar.codegen.CodeGenUtil;
+import com.legstar.eclipse.plugin.cixscom.Messages;
 import com.legstar.eclipse.plugin.cixscom.preferences.PreferenceConstants;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
+import com.legstar.eclipse.plugin.common.wizards.AbstractWizardPage;
 
 /**
  * Abstract page. Collects parameters needed for common Cixs Artifacts
  * generation. Each subclass will ad its own widgets. 
  *
  */
-public abstract class AbstractCixsGeneratorWizardPage extends WizardPage {
-
-	/** The main grid layout column number. */
-	public static final int LAYOUT_COLUMNS = 3;
-
-	/** The current workbench selection. */
-	private ISelection mInitialSelection;
+public abstract class AbstractCixsGeneratorWizardPage
+extends AbstractWizardPage {
 
 	/** The current mapping file. */
 	private IFile mMappingFile = null;
@@ -83,7 +76,7 @@ public abstract class AbstractCixsGeneratorWizardPage extends WizardPage {
 
 	/** The host character set. */
 	private Text mHostCharsetText = null;
-
+	
 	/**
 	 * Construct the page.
 	 * @param pageName the page name
@@ -93,46 +86,28 @@ public abstract class AbstractCixsGeneratorWizardPage extends WizardPage {
 	 * @param mappingFile the mapping file
 	 */
 	protected AbstractCixsGeneratorWizardPage(
+			final IStructuredSelection selection,
 			final String pageName,
 			final String pageTitle,
 			final String pageDesc,
-			final ISelection selection,
 			final IFile mappingFile) {
-		super(pageName);
-		mInitialSelection = selection;
+		super(selection, pageName, pageTitle, pageDesc);
 		mMappingFile = mappingFile;
-		setTitle(pageTitle);
-		setDescription(pageDesc);
-		ImageDescriptor image =
-			AbstractUIPlugin.
-			imageDescriptorFromPlugin(
-					com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID,
-					com.legstar.eclipse.plugin.common.Activator.LOGO_IMG);
-		setImageDescriptor(image);
 	}
 
 	/** {@inheritDoc} */
-	public void createControl(final Composite parent) {
-		/* Fit controls in a 3 column grid */
-		Composite container = new Composite(parent, SWT.NULL);
-		final GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = LAYOUT_COLUMNS;
-		container.setLayout(gridLayout);
-		setControl(container);
+	public void createExtendedControls(final Composite parent) {
 
-		addCixsGroup(container);
+		addCixsGroup(parent);
 
-		final TabFolder tabFolder = new TabFolder(container, SWT.NONE);
+		final TabFolder tabFolder = new TabFolder(parent, SWT.NONE);
 		final GridData groupGridData = new GridData(GridData.FILL_HORIZONTAL);
 		groupGridData.horizontalSpan = LAYOUT_COLUMNS;
 		tabFolder.setLayoutData(groupGridData);
 
-		addCoxbGroup(tabFolder);
 		addTargetGroup(tabFolder);
 		addDeploymentGroup(tabFolder);
-
-		initContents();
-		dialogChanged();
+		addCoxbGroup(tabFolder);
 	}
 
 	/**
@@ -140,15 +115,16 @@ public abstract class AbstractCixsGeneratorWizardPage extends WizardPage {
 	 * @param container parent container
 	 */
 	protected void addCixsGroup(final Composite container) {
-		Group group = createGroup(container, "Generated artifacts", 2);
-		createLabel(group, "Name:");
+		Group group = createGroup(container,
+				Messages.generation_project_label, 2);
+		createLabel(group, Messages.generation_project_name_label + ':');
 		mServiceNameText = createText(group);
 		mServiceNameText.addModifyListener(new ModifyListener() {
 			public void modifyText(final ModifyEvent e) {
 				dialogChanged();
 			}
 		});
-		createLabel(group, "Java package:");
+		createLabel(group, Messages.generation_java_package_label + ':');
 		mJavaClassesPackageNameText = createText(group);
 		addWidgetsToCixsGroup(group);
 	}
@@ -163,25 +139,29 @@ public abstract class AbstractCixsGeneratorWizardPage extends WizardPage {
 	 * @param tabFolder the parent folder
 	 */
 	private void addCoxbGroup(final TabFolder tabFolder) {
-		Canvas canvas = createCanvasInFolder(
-				tabFolder, "Sources location", LAYOUT_COLUMNS);
+		Canvas canvas = createCanvasInFolder(tabFolder,
+				Messages.structures_binding_classes_label,
+				LAYOUT_COLUMNS);
 		Canvas canvas2 = createCanvas(canvas, LAYOUT_COLUMNS);
 		mJaxbBinDirText = createDirectoryFieldEditor(canvas2,
-				"jaxbBinDir", "JAXB classes:");
+				"com.legstar.eclipse.plugin.cixscom.jaxbBinDir",
+				Messages.jaxb_classes_location_label + ':');
 		mJaxbBinDirText.addModifyListener(new ModifyListener() {
 			public void modifyText(final ModifyEvent e) {
 				dialogChanged();
 			}
 		});
 		mCoxbBinDirText = createDirectoryFieldEditor(canvas2,
-				"coxbBinDir", "Binding classes:");
+				"com.legstar.eclipse.plugin.cixscom.coxbBinDir",
+				Messages.coxb_classes_location_label + ':');
 		mCoxbBinDirText.addModifyListener(new ModifyListener() {
 			public void modifyText(final ModifyEvent e) {
 				dialogChanged();
 			}
 		});
 		mCustBinDirText = createDirectoryFieldEditor(canvas2,
-				"custBinDir", "Custom classes:");
+				"com.legstar.eclipse.plugin.cixscom.custBinDir",
+				Messages.cust_classes_location_label + ':');
 		mCustBinDirText.addModifyListener(new ModifyListener() {
 			public void modifyText(final ModifyEvent e) {
 				dialogChanged();
@@ -196,31 +176,36 @@ public abstract class AbstractCixsGeneratorWizardPage extends WizardPage {
 	 */
 	private void addTargetGroup(final TabFolder tabFolder) {
 		Canvas canvas = createCanvasInFolder(
-				tabFolder, "Targets location", LAYOUT_COLUMNS);
+				tabFolder, Messages.generation_target_locations,
+				LAYOUT_COLUMNS);
 		Canvas canvas2 = createCanvas(canvas, LAYOUT_COLUMNS);
 		mTargetSrcDirText = createDirectoryFieldEditor(canvas2,
-				"targetSrcDir", "Java sources:");
+				"com.legstar.eclipse.plugin.cixscom.targetSrcDir",
+				Messages.java_sources_target_location + ':');
 		mTargetSrcDirText.addModifyListener(new ModifyListener() {
 			public void modifyText(final ModifyEvent e) {
 				dialogChanged();
 			}
 		});
 		mTargetBinDirText = createDirectoryFieldEditor(canvas2,
-				"targetBinDir", "Java classes:");
+				"com.legstar.eclipse.plugin.cixscom.targetBinDir",
+				Messages.java_classes_target_location + ':');
 		mTargetBinDirText.addModifyListener(new ModifyListener() {
 			public void modifyText(final ModifyEvent e) {
 				dialogChanged();
 			}
 		});
 		mTargetAntDirText = createDirectoryFieldEditor(canvas2,
-				"targetAntDir", "Ant scripts:");
+				"com.legstar.eclipse.plugin.cixscom.targetAntDir",
+				Messages.ant_scripts_target_location + ':');
 		mTargetAntDirText.addModifyListener(new ModifyListener() {
 			public void modifyText(final ModifyEvent e) {
 				dialogChanged();
 			}
 		});
 		mTargetPropDirText = createDirectoryFieldEditor(canvas2,
-				"targetPropDir", "Properties files:");
+				"com.legstar.eclipse.plugin.cixscom.targetPropDir",
+				Messages.properties_files_target_location + ':');
 		mTargetPropDirText.addModifyListener(new ModifyListener() {
 			public void modifyText(final ModifyEvent e) {
 				dialogChanged();
@@ -235,11 +220,11 @@ public abstract class AbstractCixsGeneratorWizardPage extends WizardPage {
 	 */
 	private void addDeploymentGroup(final TabFolder tabFolder) {
 		Canvas canvas = createCanvasInFolder(
-				tabFolder, "Deployment", 2);
+				tabFolder, Messages.deployment_group_label, 2);
 		mHostCharsetText = createTextField(canvas, getCommonStore(),
 				com.legstar.eclipse.plugin.common.preferences
 				.PreferenceConstants.HOST_CHARSET,
-				"Mainframe character set:");
+				Messages.mainframe_charset_label + ':');
 		mHostCharsetText.addModifyListener(new ModifyListener() {
 			public void modifyText(final ModifyEvent e) {
 				dialogChanged();
@@ -268,47 +253,54 @@ public abstract class AbstractCixsGeneratorWizardPage extends WizardPage {
 	protected void dialogChanged() {
 
 		if (getServiceName().length() == 0) {
-			updateStatus("Invalid component name");
+			updateStatus(Messages.invalid_project_name_msg);
 			return;
 		}
 		if (!checkDirectory(getJaxbBinDir(),
-		"Invalid JAXB classes location")) {
+				NLS.bind(Messages.invalid_location_msg,
+						Messages.jaxb_classes_location_label))) {
 			return;
 		}
 
 		if (!checkDirectory(getCoxbBinDir(),
-		"Invalid Binding classes location")) {
+				NLS.bind(Messages.invalid_location_msg,
+						Messages.coxb_classes_location_label))) {
 			return;
 		}
 
 		if (!checkDirectory(getCustBinDir(),
-		"Invalid Custom classes location")) {
+				NLS.bind(Messages.invalid_location_msg,
+						Messages.cust_classes_location_label))) {
 			return;
 		}
 
 		if (!checkDirectory(getTargetSrcDir(),
-		"Invalid Target Java sources location")) {
+				NLS.bind(Messages.invalid_location_msg,
+						Messages.java_sources_target_location))) {
 			return;
 		}
 
 		if (!checkDirectory(getTargetBinDir(),
-		"Invalid Target Java classes location")) {
+				NLS.bind(Messages.invalid_location_msg,
+						Messages.java_classes_target_location))) {
 			return;
 		}
 
 		if (!checkDirectory(getTargetPropDir(),
-		"Invalid Target properties file location")) {
+				NLS.bind(Messages.invalid_location_msg,
+						Messages.properties_files_target_location))) {
 			return;
 		}
 		if (!checkDirectory(getTargetAntDir(),
-		"Invalid Target ant scripts location")) {
+				NLS.bind(Messages.invalid_location_msg,
+						Messages.ant_scripts_target_location))) {
 			return;
 		}
 
 		try {
 			CodeGenUtil.checkCharset(getHostCharset());
 		} catch (CodeGenMakeException e) {
-			updateStatus("Invalid host character set");
+			updateStatus(Messages.invalid_mainframe_charset_msg);
 			return;
 		}
 
@@ -319,23 +311,6 @@ public abstract class AbstractCixsGeneratorWizardPage extends WizardPage {
 		((AbstractWizard) getWizard()).setCanFinish(true);
 		updateStatus(null);
 
-	}
-
-	/**
-	 * Checks that a folder exists.
-	 * @param dir folder name
-	 * @param erorMessage the message to use if folder does not exist
-	 * @return true if folder exist, false otherwise
-	 */
-	protected boolean checkDirectory(
-			final String dir, final String erorMessage) {
-		try {
-			CodeGenUtil.checkDirectory(dir, false);
-		} catch (IllegalArgumentException e1) {
-			updateStatus(erorMessage);
-			return false;
-		}
-		return true;
 	}
 
 	/**
@@ -379,102 +354,6 @@ public abstract class AbstractCixsGeneratorWizardPage extends WizardPage {
 	public abstract AbstractCixsActivator getActivator();
 
 	/**
-	 * Create a label SWT widget.
-	 * @param container parent container
-	 * @param text the labels text
-	 * @return the new label
-	 */
-	protected static Label createLabel(
-			final Composite container, final String text) {
-		final Label label = new Label(container, SWT.NONE);
-		label.setText(text);
-		return label;
-	}
-
-	/**
-	 * Create a textbook SWT widget.
-	 * @param container parent container
-	 * @return the textbox
-	 */
-	protected static Text createText(final Composite container) {
-		final Text text = new Text(container, SWT.BORDER | SWT.SINGLE);
-		final GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
-		text.setLayoutData(gridData);
-		return text;
-	}
-
-	/**
-	 * Add a new button on a composite.
-	 * @param parent the parent composite
-	 * @param text text to appear on button
-	 * @return the newly created button
-	 */
-	public static Button createButton(
-			final Composite parent, final String text) {
-		Button button = new Button(parent, SWT.PUSH);
-		button.setText(text);
-		return button;
-	}
-
-	/**
-	 * This type of widget has a textbox and a browse button to lookup a folder
-	 * on the file system. The content is tied to a preference store element so
-	 * content can be saved and restored.
-	 * @param container the parent composite
-	 * @param preferenceName the preference store item
-	 * @param labelText the label's text appearing before the textbox
-	 * @return the composite
-	 */
-	protected static Text createDirectoryFieldEditor(
-			final Composite container,
-			final String preferenceName,
-			final String labelText) {
-		DirectoryFieldEditor editor = new DirectoryFieldEditor(preferenceName,
-				labelText, container);
-		return editor.getTextControl(container);
-	}
-
-	/**
-	 * This type of widget is a simple textbox preceded by a label.
-	 * The content can be initialized from a preference store.
-	 * @param container the parent composite
-	 * @param store a preference store
-	 * @param preferenceName the preference store item
-	 * @param labelText the label's text appearing before the textbox
-	 * @return the composite
-	 */
-	protected static Text createTextField(
-			final Composite container,
-			final IPreferenceStore store,
-			final String preferenceName,
-			final String labelText) {
-		createLabel(container, labelText);
-		Text text = createText(container);
-		if (preferenceName != null) {
-			text.setText(store.getDefaultString(preferenceName));
-		}
-		return text;
-	}
-
-	/**
-	 * Create a group container.
-	 * @param container the parent container
-	 * @param text the group text
-	 * @param columns the number of columns this groups layout should have
-	 * @return the new group
-	 */
-	protected static Group createGroup(
-			final Composite container, final String text, final int columns) {
-		final Group group = new Group(container, SWT.SHADOW_ETCHED_IN);
-		final GridData groupGridData = new GridData(GridData.FILL_HORIZONTAL);
-		groupGridData.horizontalSpan = LAYOUT_COLUMNS;
-		group.setLayoutData(groupGridData);
-		group.setLayout(new GridLayout(columns, false));
-		group.setText(text);
-		return group;
-	}
-
-	/**
 	 * Create a container in a tabfolder.
 	 * @param tabFolder the parent tab folder
 	 * @param text the tab folder text
@@ -487,22 +366,6 @@ public abstract class AbstractCixsGeneratorWizardPage extends WizardPage {
 		tabItem.setText(text);
 		final Canvas canvas = createCanvas(tabFolder, columns);
 		tabItem.setControl(canvas);
-		return canvas;
-	}
-
-	/**
-	 * Create a container spanning all columns of parent container grid.
-	 * @param container the parent container
-	 * @param columns the number of columns this containers layout should have
-	 * @return the new container
-	 */
-	protected static Canvas createCanvas(
-			final Composite container, final int columns) {
-		final Canvas canvas = new Canvas(container, SWT.NONE);
-		final GridData groupGridData = new GridData(GridData.FILL_HORIZONTAL);
-		groupGridData.horizontalSpan = LAYOUT_COLUMNS;
-		canvas.setLayoutData(groupGridData);
-		canvas.setLayout(new GridLayout(columns, false));
 		return canvas;
 	}
 
@@ -538,12 +401,11 @@ public abstract class AbstractCixsGeneratorWizardPage extends WizardPage {
 				}
 			} catch (JavaModelException e) {
 				AbstractWizard.errorDialog(
-						getShell(), "Initialization error",
+						getShell(), Messages.generate_error_dialog_title,
 						getPluginId(),
-						"Attempt to locate default java source and"
-						+ " binary folders failed ",
-						"Project " + project.getName()
-						+ " is not a valid Java project " + e.getMessage());
+						Messages.java_location_lookup_failure_msg,
+						NLS.bind(Messages.invalid_java_project_msg,
+								project.getName(), e.getMessage()));
 				AbstractWizard.logCoreException(e,
 						getPluginId());
 			}
@@ -563,9 +425,9 @@ public abstract class AbstractCixsGeneratorWizardPage extends WizardPage {
 		String prefix = getCixscomStore().getString(
 				PreferenceConstants.CIXS_PACKAGE_NAME_PREFIX);
 		if (prefix == null || prefix.length() == 0) {
-			setJavaClassesPackageName(serviceName);
+			setJavaClassesPackageName(serviceName.toLowerCase());
 		} else {
-			setJavaClassesPackageName(prefix + '.' + serviceName);
+			setJavaClassesPackageName(prefix + '.' + serviceName.toLowerCase());
 		}
 	}
 
@@ -584,18 +446,58 @@ public abstract class AbstractCixsGeneratorWizardPage extends WizardPage {
 	 * @param project the target project with the workbench
 	 */
 	private void initOtherArtifactsDirs(final IProject project) {
-		IPath projectPath = project.getProject().getLocation();
+		setTargetAntDir(getDefaultTargetDir(getCommonStore(),
+				com.legstar.eclipse.plugin.common.preferences
+				.PreferenceConstants.ANT_SCRIPTS_FOLDER));
 
-		String antFolder = getCixscomStore().getString(
-				PreferenceConstants.CIXS_TARGET_ANT_FOLDER);
-		setTargetAntDir(projectPath.append(
-				new Path(antFolder)).toOSString());
+		setTargetPropDir(getDefaultTargetDir(getCixscomStore(),
+				PreferenceConstants.CIXS_TARGET_PROP_FOLDER));
 
-		String propFolder = getCixscomStore().getString(
-				PreferenceConstants.CIXS_TARGET_PROP_FOLDER);
-		setTargetPropDir(projectPath.append(
-				new Path(propFolder)).toOSString());
+	}
+	
+	/**
+	 * Target locations have default values that are built relative to the
+	 * project containing the mapping file and preferences taken from a
+	 * preference store.
+	 * This will make sure the deafault location exists.
+	 * @param store the preference store to use
+	 * @param storeKey the preference store key for this target 
+	 * @return the corresponding default target location
+	 */
+	protected String getDefaultTargetDir(
+			final IPreferenceStore store, final String storeKey) {
+		IPath projectPath = getMappingFile().getProject().getLocation();
+		String folder = store.getString(storeKey);
+		String defaultValue = projectPath.append(new Path(folder)).toOSString();
+		try {
+			CodeGenUtil.checkDirectory(defaultValue, true);
+			getMappingFile().getProject().refreshLocal(
+					IResource.DEPTH_INFINITE, null);
+		} catch (IllegalArgumentException e) {
+			updateStatus(NLS.bind(Messages.invalid_default_location_msg,
+							defaultValue, storeKey));
+		} catch (CoreException e) {
+			updateStatus(NLS.bind(Messages.location_refresh_failure_msg,
+					defaultValue, storeKey));
+		}
+		return defaultValue;
+	}
 
+	/**
+	 * Checks that a folder exists.
+	 * @param dir folder name
+	 * @param erorMessage the message to use if folder does not exist
+	 * @return true if folder exist, false otherwise
+	 */
+	protected boolean checkDirectory(
+			final String dir, final String erorMessage) {
+		try {
+			CodeGenUtil.checkDirectory(dir, false);
+		} catch (IllegalArgumentException e1) {
+			updateStatus(erorMessage);
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -763,34 +665,16 @@ public abstract class AbstractCixsGeneratorWizardPage extends WizardPage {
 		try {
 			mappingModel.load(mappingFile.getLocation().toFile());
 		} catch (CixsModelException e) {
-			AbstractWizard.errorDialog(getShell(), "Load error", getPluginId(),
-					"Attempt to load mapping file failed ",
-					"Mapping file " 
-					+ mappingFile.getName()
-					+ " is corrupted " + e.getMessage());
+			AbstractWizard.errorDialog(getShell(),
+					Messages.generate_error_dialog_title,
+					getPluginId(),
+					Messages.mapping_file_load_failure_short_msg,
+					NLS.bind(Messages.mapping_file_load_failure_long_msg,
+							mappingFile.getName(), e.getMessage()));
 			AbstractWizard.logCoreException(e, getPluginId());
 		}
 		return mappingModel;
 
-	}
-
-	/**
-	 * Invalidate the dialog content if error message is not null and make sure
-	 * error message is displayed.
-	 * @param errorMessage the text
-	 */
-	protected void updateStatus(final String errorMessage) {
-		setErrorMessage(errorMessage);
-		setPageComplete(errorMessage == null);
-		((AbstractWizard) getWizard()).setCanFinish(
-				(errorMessage == null) ? true : false);
-	}
-
-	/**
-	 * @return the Initial Selection
-	 */
-	public final ISelection getInitialSelection() {
-		return mInitialSelection;
 	}
 
 	/**

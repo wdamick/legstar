@@ -6,6 +6,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.IWorkbench;
 
 import com.legstar.eclipse.plugin.cixscom.Activator;
+import com.legstar.eclipse.plugin.cixscom.Messages;
 
 /**
  * This class represents a preference page that
@@ -30,7 +31,7 @@ public class CixsPreferencePage extends FieldEditorPreferencePage
 	public CixsPreferencePage() {
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Setup preferences for Cixs generators");
+		setDescription(Messages.preference_page_description);
 	}
 
 	/**
@@ -43,15 +44,13 @@ public class CixsPreferencePage extends FieldEditorPreferencePage
 
         addField(new StringFieldEditor(
 				PreferenceConstants.CIXS_PACKAGE_NAME_PREFIX,
-				"Package name prefix:", getFieldEditorParent()));
-
-        addField(new StringFieldEditor(
-                PreferenceConstants.CIXS_TARGET_ANT_FOLDER,
-                "Ant scripts folder:", getFieldEditorParent()));
+				Messages.cixs_package_name_prefix + ':',
+				getFieldEditorParent()));
 
         addField(new StringFieldEditor(
                 PreferenceConstants.CIXS_TARGET_PROP_FOLDER,
-                "Properties folder:", getFieldEditorParent()));
+                Messages.cixs_properties_folder + ':',
+                getFieldEditorParent()));
 
 	}
 

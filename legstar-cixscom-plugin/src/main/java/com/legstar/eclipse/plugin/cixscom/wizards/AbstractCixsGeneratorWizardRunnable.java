@@ -4,12 +4,14 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.osgi.util.NLS;
 
 import com.legstar.cixs.gen.ant.model.AbstractAntBuildCixsModel;
 import com.legstar.cixs.gen.model.AbstractCixsService;
 import com.legstar.cixs.gen.model.CixsMappingModel;
 import com.legstar.codegen.models.AbstractAntBuildModel;
 
+import com.legstar.eclipse.plugin.cixscom.Messages;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizardRunnable;
 
 /**
@@ -26,10 +28,6 @@ public abstract class AbstractCixsGeneratorWizardRunnable
     /** The current mapping model. */
     private CixsMappingModel mMappingModel = null;
 	
-	/** Monitor text when generation starts. */
-	private static final String MONITOR_CIXS_GENERATION_START =
-		"Generating ANT script for artifacts generation";
-
 	/**
 	 * Constructs the backend generation task. 
 	 * The ant script will be generated under the folder from
@@ -58,7 +56,8 @@ public abstract class AbstractCixsGeneratorWizardRunnable
 		int scale = 1;
 		/* 3 tasks because launcher counts as a hidden one*/
 		monitor.beginTask(
-				MONITOR_CIXS_GENERATION_START + mMappingModel.getName(),
+				NLS.bind(Messages.ant_generation_task_label,
+						mMappingModel.getName()),
 				3 * scale);
 		try {
 			/* 1. Create the ant build */
