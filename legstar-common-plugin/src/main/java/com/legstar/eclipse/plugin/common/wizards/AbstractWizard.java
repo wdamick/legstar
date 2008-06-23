@@ -20,6 +20,7 @@
  *******************************************************************************/
 package com.legstar.eclipse.plugin.common.wizards;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -38,7 +39,6 @@ public abstract class AbstractWizard extends Wizard {
     private boolean mCanFinish = false;
     
 	/**
-     * TODO move to AbstractLegStarWizard
      * Pops an error message.
      * @param shell parent shell
      * @param dialogTitle the error dialog title
@@ -59,7 +59,6 @@ public abstract class AbstractWizard extends Wizard {
     } 
  
     /**
-     * TODO move to AbstractLegStarWizard
      * Logs an exception using IStatus.
      * @param innerException the exception to trace
      * @param pluginID plug-in identifier
@@ -67,16 +66,29 @@ public abstract class AbstractWizard extends Wizard {
     public static void logCoreException(
             final Throwable innerException,
             final String pluginID) {
-        String message = (innerException.getMessage() == null)
-                ? innerException.getClass().toString()
-                : innerException.getMessage();
-        IStatus status =
-            new Status(IStatus.ERROR, pluginID,
-                    IStatus.OK, message, innerException);
-        Activator.getDefault().getLog().log(status);
-        return;
+    	Activator.logCoreException(innerException, pluginID);
     }
     
+    /**
+     * Create a formatted core exception.
+     * @param e an exception
+     * @throws CoreException the core exception
+     */
+    public static void throwCoreException(
+    		final Exception e) throws CoreException {
+    	Activator.throwCoreException(e);
+    }
+
+    /**
+     * Create a formatted core exception.
+     * @param message the error message
+     * @throws CoreException the core exception
+     */
+    public static void throwCoreException(
+    		final String message) throws CoreException {
+    	Activator.throwCoreException(message);
+    }
+
     /**
      * {@inheritDoc}
      * @see org.eclipse.jface.wizard.Wizard#canFinish()

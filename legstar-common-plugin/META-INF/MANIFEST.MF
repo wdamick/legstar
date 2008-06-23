@@ -5,6 +5,7 @@ Bundle-SymbolicName: com.legstar.eclipse.plugin.common; singleton:=true
 Bundle-Version: 1.2.0
 Bundle-Activator: com.legstar.eclipse.plugin.common.Activator
 Bundle-Vendor: LegSem
+Bundle-Localization: src/main/resources/com/legstar/eclipse/plugin/common/messages
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -12,12 +13,16 @@ Require-Bundle: org.eclipse.ui,
  org.apache.ant,
  org.eclipse.ui.console,
  org.eclipse.ant.ui,
- org.eclipse.debug.core
+ org.eclipse.debug.core,
+ org.eclipse.ui.forms,
+ org.eclipse.ui.ide,
+ org.eclipse.jdt.core
 Eclipse-LazyStart: true
 Eclipse-BuddyPolicy: registered
 Export-Package: com.legstar.cixs.gen.ant.model;uses:="com.legstar.codegen.models,com.legstar.cixs.gen.model",
  com.legstar.cixs.gen.model;uses:="org.w3c.dom",
  com.legstar.cixs.jaxws.model;uses:="com.legstar.cixs.gen.model,com.legstar.cixs.gen.ant.model",
+ com.legstar.cobc.gen,
  com.legstar.codegen;uses:="org.apache.velocity,org.apache.tools.ant,org.w3c.dom",
  com.legstar.codegen.models,
  com.legstar.codegen.tasks;uses:="com.legstar.codegen.models,org.apache.tools.ant",
@@ -40,6 +45,7 @@ Export-Package: com.legstar.cixs.gen.ant.model;uses:="com.legstar.codegen.models
    org.eclipse.core.resources,
    org.apache.tools.ant",
  com.legstar.eclipse.plugin.common;uses:="org.eclipse.jface.resource,org.eclipse.ui.plugin,org.osgi.framework",
+ com.legstar.eclipse.plugin.common.dialogs,
  com.legstar.eclipse.plugin.common.preferences;uses:="org.eclipse.jface.preference,org.eclipse.ui,org.eclipse.core.runtime.preferences",
  com.legstar.eclipse.plugin.common.wizards;
   uses:="org.eclipse.jface.wizard,
@@ -58,6 +64,9 @@ Export-Package: com.legstar.cixs.gen.ant.model;uses:="com.legstar.codegen.models
  com.legstar.schemagen;uses:="com.legstar.codegen.tasks,com.legstar.codegen.models,org.apache.tools.ant.types",
  com.legstar.util;uses:="com.legstar.coxb",
  com.legstar.xsdc.gen;uses:="com.legstar.codegen.tasks,org.apache.ws.commons.schema,com.legstar.codegen.models",
+ javax.wsdl,
+ javax.wsdl.factory,
+ javax.wsdl.xml,
  org.apache.commons.codec,
  org.apache.commons.codec.binary;uses:="org.apache.commons.codec",
  org.apache.commons.codec.digest,
@@ -251,4 +260,6 @@ Bundle-ClassPath: .,
  lib/commons-configuration-1.5.jar,
  lib/commons-jxpath-1.2.jar,
  lib/commons-lang-2.3.jar,
- lib/jdom-b9.jar
+ lib/jdom-b9.jar,
+ lib/legstar-cobcgen-SNAPSHOT.jar,
+ lib/wsdl4j-1.6.2.jar

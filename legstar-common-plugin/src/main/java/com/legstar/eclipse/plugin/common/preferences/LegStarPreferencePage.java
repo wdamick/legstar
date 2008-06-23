@@ -6,6 +6,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.IWorkbench;
 
 import com.legstar.eclipse.plugin.common.Activator;
+import com.legstar.eclipse.plugin.common.Messages;
 
 /**
  * This class represents a preference page that
@@ -30,7 +31,7 @@ public class LegStarPreferencePage extends FieldEditorPreferencePage
 	public LegStarPreferencePage() {
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Setup preferences for LegStar");
+		setDescription(Messages.preference_page_description);
 	}
 
 	/**
@@ -43,11 +44,13 @@ public class LegStarPreferencePage extends FieldEditorPreferencePage
 
 		addField(new StringFieldEditor(
 				PreferenceConstants.ANT_SCRIPTS_FOLDER,
-				"&Ant scripts folder:", getFieldEditorParent()));
+				Messages.ant_scripts_folder_label + ':',
+				getFieldEditorParent()));
 
 		addField(new StringFieldEditor(
 				PreferenceConstants.HOST_CHARSET,
-				"&Mainframe character set:", getFieldEditorParent()));
+				Messages.mainframe_charset_label + ':',
+				getFieldEditorParent()));
 	}
 
 	/**
