@@ -85,6 +85,7 @@ public class NewMappingFileWizardPage extends WizardNewFileCreationPage {
 	
     /** {@inheritDoc} */
     protected boolean validatePage() {
+        setCanFinish(false);
         if (!super.validatePage()) {
             return false;
         }
@@ -104,6 +105,7 @@ public class NewMappingFileWizardPage extends WizardNewFileCreationPage {
                         IJavaElement el = pkgRoot.getChildren()[k];
                         if (el.getPath().lastSegment().compareTo(
                         		LegacyStructureDialog.BIND_FRAG) == 0) {
+                            setCanFinish(true);
                             return true;
                         }
                     }
@@ -142,5 +144,14 @@ public class NewMappingFileWizardPage extends WizardNewFileCreationPage {
 	public final String getMappingFileName() {
 		return getFileName();
 	}
+	
+	/**
+	 * Tells the wizard wether its ok to finish.
+	 * @param canFinish true or false
+	 */
+	private void setCanFinish(final boolean canFinish) {
+		((NewMappingFileWizard) getWizard()).setCanFinish(canFinish);
+	}
+
 
 }
