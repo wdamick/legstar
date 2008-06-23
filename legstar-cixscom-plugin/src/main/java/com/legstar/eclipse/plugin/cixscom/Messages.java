@@ -18,9 +18,9 @@ public class Messages extends NLS {
 	/** Description on preference page.*/
 	public static String preference_page_description;
 	/** Generated java classes package name prefix.*/
-	public static String cixs_package_name_prefix;
+	public static String cixs_package_name_prefix_label;
 	/** Target properties files folder.*/
-	public static String cixs_properties_folder;
+	public static String cixs_properties_folder_label;
 	
 	/** Generation error dialog boxes title.*/
 	public static String generate_error_dialog_title;

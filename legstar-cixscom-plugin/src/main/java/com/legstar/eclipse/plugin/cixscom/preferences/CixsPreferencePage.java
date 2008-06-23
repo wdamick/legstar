@@ -44,12 +44,12 @@ public class CixsPreferencePage extends FieldEditorPreferencePage
 
         addField(new StringFieldEditor(
 				PreferenceConstants.CIXS_PACKAGE_NAME_PREFIX,
-				Messages.cixs_package_name_prefix + ':',
+				Messages.cixs_package_name_prefix_label + ':',
 				getFieldEditorParent()));
 
         addField(new StringFieldEditor(
                 PreferenceConstants.CIXS_TARGET_PROP_FOLDER,
-                Messages.cixs_properties_folder + ':',
+                Messages.cixs_properties_folder_label + ':',
                 getFieldEditorParent()));
 
 	}
