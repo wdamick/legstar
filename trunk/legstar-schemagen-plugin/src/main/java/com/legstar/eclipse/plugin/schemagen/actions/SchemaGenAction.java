@@ -41,7 +41,6 @@ import com.legstar.eclipse.plugin.schemagen.wizards.MainWizard;
 public class SchemaGenAction implements IWorkbenchWindowActionDelegate {
 	
 	/** Top level window in the workbench. */
-	@SuppressWarnings("unused")
 	private IWorkbenchWindow mWindow;
 	
 	/** Helps track selection changes in the workbench. */
@@ -63,6 +62,9 @@ public class SchemaGenAction implements IWorkbenchWindowActionDelegate {
 	 */
 	public final void run(
 			final IAction action) {
+		if (mWindow == null) {
+			return;
+		}
         MainWizard wizard = new MainWizard();
         wizard.init(PlatformUI.getWorkbench(), mSelection);
         WizardDialog dialog = new WizardDialog(mWindow.getShell(), wizard);
