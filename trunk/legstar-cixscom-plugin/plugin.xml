@@ -8,7 +8,7 @@
             category="com.legstar.eclipse.plugin"
             class="com.legstar.eclipse.plugin.cixscom.preferences.CixsPreferencePage"
             id="com.legstar.eclipse.plugin.cixscom.page1"
-            name="Common Cixs Generator"/>
+            name="%cixscom_preference_page_title"/>
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">
@@ -16,5 +16,5 @@
             class="com.legstar.eclipse.plugin.cixscom.preferences.PreferenceInitializer">
       </initializer>
    </extension>
-
+ 
 </plugin>

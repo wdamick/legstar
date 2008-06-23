@@ -22,12 +22,13 @@ package com.legstar.eclipse.plugin.cixscom.wizards;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.IWorkbench;
 import java.lang.reflect.InvocationTargetException;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 
+import com.legstar.eclipse.plugin.cixscom.Messages;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
 
 /**
@@ -38,7 +39,7 @@ import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
 public abstract class AbstractCixsGeneratorWizard extends AbstractWizard {
 	
 	/** The current workbench selection. */
-	private ISelection mInitialSelection;
+	private IStructuredSelection mInitialSelection;
 	
 	/** The current mapping file. */
 	private IFile mMappingFile = null;
@@ -73,12 +74,12 @@ public abstract class AbstractCixsGeneratorWizard extends AbstractWizard {
 		} catch (InterruptedException e) {
 			return false;
 		} catch (InvocationTargetException e) {
-            errorDialog(getShell(), "Generation error", getPluginId(),
-                    "Artifacts generation failed ",
-                    "The generation attempt for " 
-                    + mMappingFile.getName()
-                    + " has generated a InvocationTargetException "
-                    + e.getTargetException());
+            errorDialog(getShell(),
+            		Messages.generate_error_dialog_title,
+            		getPluginId(),
+                    Messages.generation_failure_short_msg,
+                    NLS.bind(Messages.generation_failure_long_msg,
+                    		mMappingFile.getName(), e.getTargetException()));
             logCoreException(e.getTargetException(), getPluginId());
             return false;
 		}
@@ -108,7 +109,7 @@ public abstract class AbstractCixsGeneratorWizard extends AbstractWizard {
     /**
      * @return the Initial Selection
      */
-    public final ISelection getInitialSelection() {
+    public final IStructuredSelection getInitialSelection() {
         return mInitialSelection;
     }
 

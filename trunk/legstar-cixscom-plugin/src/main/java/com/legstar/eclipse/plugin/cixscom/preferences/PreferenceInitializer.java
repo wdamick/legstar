@@ -20,8 +20,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
         store.setDefault(PreferenceConstants.CIXS_PACKAGE_NAME_PREFIX,
                 "com.legstar.test.cixs");
-
-        store.setDefault(PreferenceConstants.CIXS_TARGET_ANT_FOLDER, "ant");
         store.setDefault(PreferenceConstants.CIXS_TARGET_PROP_FOLDER, "prop");
     }
 
