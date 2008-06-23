@@ -6,6 +6,7 @@ Bundle-Version: 1.2.0
 Bundle-Activator: com.legstar.eclipse.plugin.coxbgen.Activator
 Eclipse-LazyStart: true
 Bundle-Vendor: LegSem
+Bundle-Localization: src/main/resources/com/legstar/eclipse/plugin/coxbgen/messages
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
