@@ -11,6 +11,11 @@ public class Messages extends NLS {
 	private static final String BUNDLE_NAME =
 		"com.legstar.eclipse.plugin.common.messages";
 
+	/** Preference page title.*/
+	public static String common_preference_page_title;
+	/** Menu action label.*/
+	public static String action_label;
+	
 	/** Product logo icon.*/
 	public static String legstar_logo_icon;
 	/** Preference page description.*/
