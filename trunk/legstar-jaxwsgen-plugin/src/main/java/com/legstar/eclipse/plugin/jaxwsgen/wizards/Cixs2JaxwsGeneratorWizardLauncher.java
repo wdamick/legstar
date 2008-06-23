@@ -15,9 +15,9 @@ import com.legstar.eclipse.plugin.jaxwsgen.Messages;
 
 /**
  * Implementation of a component generator which basically hands over
- * control to the Jaxws2Cixs wizard.
+ * control to the Cixs2Jaxws wizard.
   */
-public class Jaxws2CixsGeneratorWizardLauncher
+public class Cixs2JaxwsGeneratorWizardLauncher
 		extends AbstractCixsGeneratorWizardLauncher {
 
     /**
@@ -28,13 +28,13 @@ public class Jaxws2CixsGeneratorWizardLauncher
      */
     protected IWizard getWizard(
     		final IFile mappingFile) throws CoreException {
-    	return new Jaxws2CixsGeneratorWizard(mappingFile);
+    	return new Cixs2JaxwsGeneratorWizard(mappingFile);
     	
     }
 
 	/** {@inheritDoc} */
     public String getName() {
-		return Messages.jaxws_to_cixs_wizard_page_title;
+		return Messages.cixs_to_jaxws_wizard_page_title;
 	}
     
     /**
@@ -47,7 +47,7 @@ public class Jaxws2CixsGeneratorWizardLauncher
             final BundleContext context) {
         return context.registerService(
                 ICixsGeneratorWizardLauncher.class.getName(),
-                new Jaxws2CixsGeneratorWizardLauncher(),
+                new Cixs2JaxwsGeneratorWizardLauncher(),
                 new Properties());
         
     }

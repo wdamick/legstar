@@ -5,7 +5,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
@@ -15,6 +15,7 @@ import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsActivator;
 import com.legstar.eclipse.plugin.cixscom.wizards
 		.AbstractCixsGeneratorWizardPage;
 import com.legstar.eclipse.plugin.jaxwsgen.Activator;
+import com.legstar.eclipse.plugin.jaxwsgen.Messages;
 import com.legstar.eclipse.plugin.jaxwsgen.preferences.PreferenceConstants;
 
 /**
@@ -26,13 +27,6 @@ public class Jaxws2CixsGeneratorWizardPage
 
     /** Page name. */
     private static final String PAGE_NAME = "Jaxws2CixsGeneratorWizardPage";
-    
-    /** Page title text. */
-    private static final String PAGE_TITLE = "Jaxws to CICS Generation";
-    
-    /** Page description text. */
-    private static final String PAGE_DESC =
-        "Select parameters and destination for generated Jaxws artifacts";
     
     /** J2ee folder where web deployment files should be generated. */
     private Text mTargetWDDDirText = null;
@@ -49,15 +43,19 @@ public class Jaxws2CixsGeneratorWizardPage
      * @param mappingFile the mapping file
      */
     protected Jaxws2CixsGeneratorWizardPage(
-            final ISelection selection,
+            final IStructuredSelection selection,
             final IFile mappingFile) {
-        super(PAGE_NAME, PAGE_TITLE, PAGE_DESC, selection, mappingFile);
+        super(selection, PAGE_NAME,
+        		Messages.jaxws_to_cixs_wizard_page_title,
+        		Messages.jaxws_to_cixs_wizard_page_description,
+        		mappingFile);
     }
 
     /** {@inheritDoc} */
     public void addWidgetsToCixsGroup(final Composite container) {
     	mTargetNamespaceText = createTextField(container, getStore(),
-                "targetNamespace", "Web Service namespace:");
+                "targetNamespace",
+                Messages.adapter_target_namespace_label + ':');
     	mTargetNamespaceText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
@@ -68,7 +66,8 @@ public class Jaxws2CixsGeneratorWizardPage
     /** {@inheritDoc} */
     public void addWidgetsToTargetGroup(final Composite container) {
         mTargetWDDDirText = createDirectoryFieldEditor(container,
-                "targetWDDDir", "J2EE descriptors location:");
+                "targetWDDDir",
+                Messages.wdd_target_location_label + ':');
         mTargetWDDDirText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
@@ -83,7 +82,8 @@ public class Jaxws2CixsGeneratorWizardPage
     /** {@inheritDoc} */
     public void addWidgetsToDeploymentGroup(final Composite container) {
         mTargetWarDirText = createTextField(container, getStore(),
-                "targetJarDir", "J2EE war location:");
+                "targetJarDir",
+                Messages.war_deployment_location_label + ':');
         mTargetWarDirText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
@@ -99,7 +99,8 @@ public class Jaxws2CixsGeneratorWizardPage
                 PreferenceConstants.J2EE_WDD_FOLDER);
         setTargetWDDDir(projectPath.append(
                 new Path(j2eeWDDFolder)).toOSString());
-        setTargetWarDir(new Path(getJ2eeHome() + "/webapps").toOSString());
+        setTargetWarDir(store.getDefaultString(
+				PreferenceConstants.J2EE_WAR_FOLDER));
         initPackageName(getServiceName());
     }
 
@@ -122,11 +123,11 @@ public class Jaxws2CixsGeneratorWizardPage
 	/** {@inheritDoc} */
     public boolean validateExtendedWidgets() {
         if (!checkDirectory(getTargetWDDDir(),
-            "Invalid Target J2EE web deployment descriptors location")) {
+        		Messages.invalid_wdd_target_location_msg)) {
             return false;
         }
         if (getTargetNamespace().length() == 0) {
-			updateStatus("Invalid target namespace");
+			updateStatus(Messages.invalid_target_namespace_msg);
 			return false;
         }
 
@@ -181,15 +182,5 @@ public class Jaxws2CixsGeneratorWizardPage
     public AbstractCixsActivator getActivator() {
         return Activator.getDefault();
     }
-
-    /**
-     * @return JEEE home
-     */
-    public String getJ2eeHome() {
-        IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-        return store.getString(
-                PreferenceConstants.J2EE_INSTALL_FOLDER);
-    }
-
 
 }

@@ -7,6 +7,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.IWorkbench;
 
 import com.legstar.eclipse.plugin.jaxwsgen.Activator;
+import com.legstar.eclipse.plugin.jaxwsgen.Messages;
 
 
 /**
@@ -32,7 +33,7 @@ public class JaxwsCixsPreferencePage extends FieldEditorPreferencePage
 	public JaxwsCixsPreferencePage() {
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Setup preferences for Jaxws Cixs generators");
+		setDescription(Messages.preference_page_description);
 	}
 
 	/**
@@ -44,20 +45,29 @@ public class JaxwsCixsPreferencePage extends FieldEditorPreferencePage
 	public void createFieldEditors() {
 
         addField(new DirectoryFieldEditor(
-                PreferenceConstants.J2EE_INSTALL_FOLDER,
-                "J2EE install folder:", getFieldEditorParent()));
-
-        addField(new DirectoryFieldEditor(
                 PreferenceConstants.J2EE_WAR_FOLDER,
-                "J2EE deployment folder:", getFieldEditorParent()));
+                Messages.preference_war_location_label + ':',
+                getFieldEditorParent()));
  
         addField(new StringFieldEditor(
                 PreferenceConstants.J2EE_WDD_FOLDER,
-                "Web descriptors folder:", getFieldEditorParent()));
+                Messages.preference_wdd_folder_label + ':',
+                getFieldEditorParent()));
 
         addField(new StringFieldEditor(
                 PreferenceConstants.WS_TARGET_NAMESPACE_PREFIX,
-                "Web Services namespace prefix:", getFieldEditorParent()));
+                Messages.preference_ws_namespace_label + ':',
+                getFieldEditorParent()));
+
+        addField(new StringFieldEditor(
+                PreferenceConstants.PROXY_URI_TEMPLATE,
+                Messages.preference_proxy_uri_template_label + ':',
+                getFieldEditorParent()));
+
+        addField(new StringFieldEditor(
+                PreferenceConstants.COBOL_SAMPLE_FOLDER,
+                Messages.preference_cobol_folder_label + ':',
+                getFieldEditorParent()));
 
 	}
 
