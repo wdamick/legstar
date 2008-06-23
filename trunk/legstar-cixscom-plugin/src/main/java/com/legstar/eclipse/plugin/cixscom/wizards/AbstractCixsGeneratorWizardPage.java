@@ -308,7 +308,6 @@ extends AbstractWizardPage {
 			return;
 		}
 
-		((AbstractWizard) getWizard()).setCanFinish(true);
 		updateStatus(null);
 
 	}
