@@ -533,10 +533,10 @@ public abstract class AbstractWizardPage extends WizardPage {
 	 * @param errorMessage the text
 	 */
     protected void updateStatus(final String errorMessage) {
-        setErrorMessage(errorMessage);
-        setPageComplete(errorMessage == null);
 		((AbstractWizard) getWizard()).setCanFinish(
 				(errorMessage == null) ? true : false);
+        setErrorMessage(errorMessage);
+        setPageComplete(errorMessage == null);
     }
 
     /**
