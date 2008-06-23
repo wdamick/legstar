@@ -22,12 +22,14 @@ package com.legstar.eclipse.plugin.coxbgen.wizards;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.IWorkbench;
 import java.lang.reflect.InvocationTargetException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 
 import com.legstar.eclipse.plugin.coxbgen.Activator;
+import com.legstar.eclipse.plugin.coxbgen.Messages;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
 
 
@@ -79,12 +81,12 @@ public class CoxbGenWizard extends AbstractWizard {
 		} catch (InterruptedException e) {
 			return false;
 		} catch (InvocationTargetException e) {
-            errorDialog(getShell(), "Generation error", Activator.PLUGIN_ID,
-                    "Binding classes generation failed ",
-                    "The generation attempt for " 
-                    + mXsdFile.getName()
-                    + " has generated a InvocationTargetException "
-                    + e.getTargetException());
+            errorDialog(getShell(),
+            		Messages.generate_error_dialog_title,
+            		Activator.PLUGIN_ID,
+                    Messages.generation_failure_short_msg,
+                    NLS.bind(Messages.generation_failure_long_msg,
+                    		mXsdFile.getName(), e.getTargetException()));
             logCoreException(e.getTargetException(), Activator.PLUGIN_ID);
             return false;
 		}

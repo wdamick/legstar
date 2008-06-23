@@ -22,12 +22,20 @@ package com.legstar.eclipse.plugin.coxbgen.popup.actions;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
-import com.legstar.eclipse.plugin.coxbgen.wizards.RunWizardAction;
+import org.eclipse.ui.PlatformUI;
+
+import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
+import com.legstar.eclipse.plugin.coxbgen.Activator;
+import com.legstar.eclipse.plugin.coxbgen.Messages;
+import com.legstar.eclipse.plugin.coxbgen.wizards.CoxbGenWizard;
 
 /**
  * This action becomes available when an XML schema is selected.
@@ -63,26 +71,34 @@ public class CoxbGenAction implements IObjectActionDelegate {
 	 *            action; must not be <code>null</code>.
 	 */
 	public final void run(final IAction action) {
-		/* Get us the selected file */
-		IFile file = null;
-		if (mSelection != null && !mSelection.isEmpty()
-				&& mSelection instanceof IStructuredSelection) {
-			IStructuredSelection ssel = (IStructuredSelection) mSelection;
-			if (ssel.size() > 1) {
-				return;
-			}
-			Object obj = ssel.getFirstElement();
-			if (obj instanceof IResource) {
-				if (obj instanceof IFile) {
-					file = (IFile) obj;
-				} else {
-					throw new RuntimeException("no valid XML schema selected");
+        try {
+			/* Get us the selected file */
+			IFile file = null;
+			if (mSelection != null && !mSelection.isEmpty()
+					&& mSelection instanceof IStructuredSelection) {
+				IStructuredSelection ssel = (IStructuredSelection) mSelection;
+				if (ssel.size() > 1) {
+					return;
+				}
+				Object obj = ssel.getFirstElement();
+				if (obj instanceof IResource) {
+					if (obj instanceof IFile) {
+						file = (IFile) obj;
+					} else {
+	                	AbstractWizard.throwCoreException(
+	                			Messages.no_xsd_file_msg);
+					}
 				}
 			}
-		}
-		RunWizardAction runWizard = new RunWizardAction();
-		runWizard.setXsdFile(file);
-		runWizard.run(action);
+			CoxbGenWizard wizard = new CoxbGenWizard(file);
+			Shell shell =
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+			WizardDialog dialog = new WizardDialog(shell, wizard);
+			dialog.create();
+			dialog.open();
+        } catch (CoreException e) {
+        	AbstractWizard.logCoreException(e, Activator.PLUGIN_ID);
+        }
 	}
 	
 	/**

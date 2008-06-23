@@ -11,6 +11,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import com.legstar.codegen.models.AbstractAntBuildModel;
 import com.legstar.coxb.gen.CoxbGenModel;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizardRunnable;
+import com.legstar.eclipse.plugin.coxbgen.Messages;
 
 /**
  * Background task that performs the actual binding generation. The process
@@ -32,13 +33,6 @@ public class CoxbGenWizardRunnable extends AbstractWizardRunnable {
 	 * this ant file from the ones produced by other LegStar wizards. */
 	private static final String ANT_FILE_NAME_ID = "coxb-";
 
-	/** Source Xsd file name. */
-	private String mXsdFileName;
-	
-	/** Monitor text when COXB generation starts. */
-	private static final String MONITOR_COXB_GENERATION_START =
-		"Generating ANT script for binding classes generation";
-
 	/**
 	 * Constructs the backend generation task. 
 	 * The ant script will be generated under the folder from
@@ -53,7 +47,6 @@ public class CoxbGenWizardRunnable extends AbstractWizardRunnable {
 		super(null,
 				coxbGenWizardPage.getSrcDirRelativePathName(),
 				getAntScriptFileName(coxbGenWizardPage.getXsdFile().getName()));
-        mXsdFileName = coxbGenWizardPage.getXsdFile().getName();
         setAntBuildModel(getModel(coxbGenWizardPage));
 	}
 
@@ -63,7 +56,7 @@ public class CoxbGenWizardRunnable extends AbstractWizardRunnable {
 			InterruptedException {
 		int scale = 1;
 		/* 3 tasks because launcher counts as a hidden one*/
-		monitor.beginTask(MONITOR_COXB_GENERATION_START + mXsdFileName,
+		monitor.beginTask(Messages.ant_generating_task_label,
 				3 * scale);
 		try {
 			/* 1. Create the ant build */

@@ -33,6 +33,7 @@ import org.apache.ws.commons.schema.XmlSchemaAppInfo;
 import org.apache.ws.commons.schema.XmlSchemaCollection;
 import org.apache.ws.commons.schema.XmlSchemaComplexType;
 import org.apache.ws.commons.schema.XmlSchemaElement;
+import org.apache.ws.commons.schema.XmlSchemaException;
 import org.apache.ws.commons.schema.XmlSchemaObject;
 import org.apache.ws.commons.schema.XmlSchemaObjectCollection;
 import org.eclipse.core.resources.IFile;
@@ -45,6 +46,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -61,9 +63,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.legstar.eclipse.plugin.common.ClasspathInitializer;
-import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizardPage;
 import com.legstar.eclipse.plugin.coxbgen.Activator;
+import com.legstar.eclipse.plugin.coxbgen.Messages;
 import com.legstar.util.NameUtil;
 
 /**
@@ -114,26 +116,6 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
 	private static final String PAGE_NAME =
 		"CoxbGenWizardPage";
 
-	/** Page description text. */
-	private static final String PAGE_TITLE =
-		"COXB Generation";
-
-	/** Page description text. */
-	private static final String PAGE_DESC =
-		"Select root elements and destination for generated binding classes";
-
-	/** No root element selected error message. */
-	private static final String NO_ROOT_SELECTED_MSG =
-		"Select at least one root element";
-
-	/** Target source folder is not valid error message. */
-	private static final String INVALID_SRC_FOLDER_MSG =
-		"Source folder is not a valid Java project source folder";
-
-	/** Unable to setup classpath for the target java project.. */
-	private static final String CLASSPATH_SETUP_FAILURE_MSG =
-		"Failed to setup classpath for target projet. Message:";
-
 	/**
 	 * Constructor for CoxbGenWizardPage from existing XML schema file.
 	 * By default, the target project is the Xsd file containing project.
@@ -143,7 +125,8 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
 	 */
 	public CoxbGenWizardPage(
 			final IStructuredSelection selection, final IFile xsdFile) {
-		super(selection, PAGE_NAME, PAGE_TITLE, PAGE_DESC);
+		super(selection, PAGE_NAME,
+				Messages.wizard_page_title, Messages.wizard_page_description);
 		mXsdFile = xsdFile;
 	}
 
@@ -151,21 +134,21 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
 	public final void createExtendedControls(final Composite container) {
 		/* Reminder of XML Schema being processed */
 		/* Data extracted from XML schema annotations */
-		Group group = createGroup(container, "XML Schema");
-		createLabel(group, "File name:");
+		Group group = createGroup(container, Messages.xsd_group_label);
+		createLabel(group, Messages.xsd_file_name_label + ':');
 		mXsdFileLabel = createLabel(group, "", 2);
-		createLabel(group, "JAXB package name:");
+		createLabel(group, Messages.jaxb_package_name_label + ':');
 		mXsdJaxbPackageName = createLabel(group, "", 2);
-		createLabel(group, "JAXB type name suffix:");
+		createLabel(group, Messages.jaxb_type_name_suffix_label + ':');
 		mXsdTypeNameSuffix = createLabel(group, "", 2);
 
 		/* root name edit box */
-		createLabel(container, "Available root elements:", 3);
+		createLabel(container, Messages.root_elements_list_label + ':', 3);
 		mJaxbRootClassNamesList = new List(
 				container, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalSpan = 3;
-		gd.heightHint = 250;
+		gd.horizontalSpan = LAYOUT_COLUMNS;
+		gd.heightHint = 200;
 		mJaxbRootClassNamesList.setLayoutData(gd);
 		mJaxbRootClassNamesList.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(final SelectionEvent e) {
@@ -178,7 +161,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
 		mJaxbRootClassNamesList.setFocus();
 
 		/* Target source folder edit box and browse button */
-		createLabel(container, "Target source folder:");
+		createLabel(container, Messages.target_source_folder_label + ':');
 		mTargetSrcDirText = createText(container);
 		mTargetSrcDirText.addModifyListener(new ModifyListener() {
 			public void modifyText(final ModifyEvent e) {
@@ -186,9 +169,10 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
 			}
 		});
 		createBrowseForContainerButton(container,
-				"Select target source folder", mTargetSrcDirText);
+				Messages.target_source_folder_select_label,
+				mTargetSrcDirText);
 		
-		createLabel(container, "Target binaries folder:");
+		createLabel(container, Messages.target_classes_folder_label + ':');
 		mTargetBinDirLabel = createLabel(container, "", 2);
 
 	}
@@ -202,8 +186,14 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
 			initRootElements(mXsdFile);
 			initTargetSrcDir(mXsdFile);
 		} catch (CoreException e) {
-			errorDialog(getShell(), PAGE_TITLE + " Error", Activator.PLUGIN_ID,
-					"Failed to initialize page", e.getMessage());
+			errorDialog(getShell(),
+					Messages.generate_error_dialog_title,
+					Activator.PLUGIN_ID,
+					Messages.page_initialization_failure_msg,
+					e.getMessage());
+			
+			/* No use continuing if can't even initialize*/
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -215,7 +205,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
 	 */
 	private void initRootElements(final IFile xsdFile) throws CoreException {
 		if (mXsdFile == null) {
-			throwCoreException("There is no XML schema file");
+			throwCoreException(Messages.no_xsd_file_msg);
 		}
 		try {
 			InputStream is = new FileInputStream(
@@ -238,6 +228,8 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
 			}
 
 		} catch (FileNotFoundException e) {
+			throwCoreException(e);
+		} catch (XmlSchemaException e) {
 			throwCoreException(e);
 		}
 	}
@@ -262,8 +254,9 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
 			final IFile xsdFile,
 			final XmlSchemaAnnotation schemaAnnotation) throws CoreException {
 		if (schemaAnnotation == null) {
-			throwCoreException("XML Schema file " 
-					+ xsdFile.getLocation().toOSString() + " is not annotated");
+			throwCoreException(
+					NLS.bind(Messages.no_annotations_xsd_file_msg,
+							xsdFile.getLocation().toOSString()));
 		}
 		for (int i = 0; i < schemaAnnotation.getItems().getCount(); i++) {
 			XmlSchemaObject item = schemaAnnotation.getItems().getItem(i);
@@ -349,9 +342,9 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
 		try {
 			IJavaProject jproject = JavaCore.create(xsdFile.getProject());
 			if (jproject == null) {
-				throwCoreException("XML Schema file " 
-						+ xsdFile.getLocation().toOSString()
-						+ " belongs to an invalid project");
+				throwCoreException(
+						NLS.bind(Messages.xsd_file_in_invalid_project_msg,
+								xsdFile.getLocation().toOSString()));
 			}
 			IClasspathEntry[] cpe = jproject.getRawClasspath();
 			/* Find the first source location */
@@ -373,13 +366,13 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
 
 		/* Validate the source directory as a Java project source folder */
 		if (!isJavaSrcDir(getSrcDirRelativePathName())) {
-			updateStatus(INVALID_SRC_FOLDER_MSG);
+			updateStatus(Messages.invalid_target_src_folder_msg);
 			return;
 		}
 
 		/* Make sure at least one root name is selected */
 		if (getJaxbRootClassNames().size() == 0) {
-			updateStatus(NO_ROOT_SELECTED_MSG);
+			updateStatus(Messages.no_root_elements_selected_msg);
 			return;
 		}
 
@@ -388,11 +381,13 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
 			try {
 				setupLegStarLibrary(getTargetJavaProject());
 			} catch (JavaModelException e) {
-				updateStatus(CLASSPATH_SETUP_FAILURE_MSG + e.getMessage());
+				updateStatus(NLS.bind(
+						Messages.classpath_setup_failure_msg,
+						getSrcDirRelativePathName(), e.getMessage()));
+				return;
 			}
 		}
 
-		((AbstractWizard) getWizard()).setCanFinish(true);
 		updateStatus(null);
 
 	}

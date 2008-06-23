@@ -6,20 +6,20 @@
          point="org.eclipse.ui.popupMenus">
       <objectContribution
             id="com.legstar.eclipse.plugin.coxbgen.contribution1"
-            nameFilter="*.xsd"
+            nameFilter="%filename_filter"
             objectClass="org.eclipse.core.resources.IFile">
          <menu
                id="com.legstar.eclipse.plugin.coxbgen.menu1"
-               label="LegStar"
+               label="%popup_menu_label"
                path="additions">
             <separator name="group1"/>
          </menu>
          <action
                class="com.legstar.eclipse.plugin.coxbgen.popup.actions.CoxbGenAction"
                enablesFor="1"
-               icon="icons/coxbgen-generate.gif"
+               icon="%binding_generator_icon"
                id="com.legstar.eclipse.plugin.coxbgen.newAction"
-               label="Generate COXB binding classes..."
+               label="%action_label"
                menubarPath="com.legstar.eclipse.plugin.coxbgen.menu1/group1"/>
       </objectContribution>
    </extension>
