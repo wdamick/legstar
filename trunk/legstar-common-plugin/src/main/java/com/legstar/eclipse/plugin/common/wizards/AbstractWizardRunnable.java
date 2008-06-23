@@ -3,7 +3,6 @@ package com.legstar.eclipse.plugin.common.wizards;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -11,24 +10,22 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.IStreamsProxy;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.osgi.framework.Bundle;
+import org.eclipse.osgi.util.NLS;
 
 import com.legstar.codegen.CodeGenMakeException;
 import com.legstar.codegen.models.IAntBuildModel;
 import com.legstar.eclipse.ant.AntLaunchException;
 import com.legstar.eclipse.ant.AntLaunchHelper;
 import com.legstar.eclipse.plugin.common.Activator;
+import com.legstar.eclipse.plugin.common.Messages;
 import com.legstar.eclipse.plugin.common.preferences.PreferenceConstants;
 
 /**
@@ -45,21 +42,6 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
 	/** The target ant file name (without path). */
 	private String mTargetAntFileName;
 
-	/** Monitor text when ant build generation starts. */
-	private static final String MONITOR_ANT_GENERATION_START =
-		"Generating ANT script...";
-
-	/** Monitor text when ant execute starts. */
-	private static final String MONITOR_ANT_RUN_START =
-		"Running ANT script...";
-
-	/** Error message if product location has not been set. */
-	public static final String PRODUCT_LOCATION_NOT_SET =
-		"Product location not set in "
-		+ "preferences. Use Window-->Preferences to set the LegStar product "
-		+ "location to a valid install folder (LegStar must "
-		+ "have been installed prior to using this plugin).";
-	
 	/** Probe files prefixes. */
 	private static final String PROBE_FILE_PREFIX = "probe";
 
@@ -97,7 +79,7 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
 	protected void createBuild(
 			final IProgressMonitor monitor,
 			final int scale) throws InvocationTargetException {
-		monitor.setTaskName(MONITOR_ANT_GENERATION_START);
+		monitor.setTaskName(Messages.ant_generating_task_label);
 		try {
 			File antFile = getAntFile();
 			mAntBuildModel.setProbeFile(getProbeFile());
@@ -118,7 +100,7 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
 			final IProgressMonitor monitor,
 			final int scale) throws InvocationTargetException {
 
-		monitor.setTaskName(MONITOR_ANT_RUN_START);
+		monitor.setTaskName(Messages.ant_running_task_label);
 		try {
 			getTargetProject().refreshLocal(IResource.DEPTH_INFINITE, null);
 			IFile antFile = getGeneratedAntFile();
@@ -147,15 +129,15 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
 						streamsProxy.getErrorStreamMonitor().getContents();
 					if (errorMessage != null && errorMessage.length() > 0) {
 						Throwable th = new AntLaunchException(
-								"Ant launch for " + antFile.getName()
-								+ " failed. error message=" + errorMessage);
+								NLS.bind(Messages.ant_failure_stream_msg,
+										antFile.getName(), errorMessage));
 						throw new InvocationTargetException(th);
 					}
 				}
 				if (process.getExitValue() != 0) {
 					Throwable th = new AntLaunchException(
-							"Ant launch for " + antFile.getName()
-							+ " failed. return code=" + process.getExitValue());
+							NLS.bind(Messages.ant_failure_retcode_msg,
+									antFile.getName(), process.getExitValue()));
 					throw new InvocationTargetException(th);
 				}
 			}
@@ -164,8 +146,8 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
 			getTargetProject().refreshLocal(IResource.DEPTH_INFINITE, null);
 			if (!checkProbeFile()) {
 				Throwable th = new AntLaunchException(
-						"Ant launch for " + antFile.getName()
-						+ " failed.\nCheck console for error description.");
+						NLS.bind(Messages.ant_failure_console_msg,
+								antFile.getName()));
 				throw new InvocationTargetException(th);
 			}
 
@@ -196,8 +178,7 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
 	protected File getProbeFile() throws CodeGenMakeException {
 		try {
 			return File.createTempFile(
-					PROBE_FILE_PREFIX, PROBE_FILE_SUFFIX,
-					new File(getTargetAntScriptLocation().toOSString()));
+					PROBE_FILE_PREFIX, PROBE_FILE_SUFFIX);
 		} catch (IOException e) {
 			throw new CodeGenMakeException(e);
 		}
@@ -219,14 +200,13 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
 	/**
 	 * The generated script goes into the target project under a specific
 	 * ant folder.
+	 * If the ant folder does not yet exist, it is created
 	 * @return the location for the ant script
 	 */
 	protected IPath getTargetAntScriptLocation() {
-		IPath antFolder = getAntFolderRelativePath();
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		IResource resource = root.findMember(antFolder);
-		mkDir(resource.getLocation());
-		return resource.getLocation();
+		IPath antFolder = getAntFolderAbsolutePath();
+		mkDir(antFolder);
+		return antFolder;
 	}
 	
 	/**
@@ -234,6 +214,15 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
 	 */
 	protected IPath getAntFolderRelativePath() {
 		IPath projectPath = mTargetProject.getFullPath();
+		IPath containerPath = projectPath.append(getPreferenceAntFolder());
+		return containerPath;
+	}
+	
+	/**
+	 * @return the folder where ant scripts need to be stored.
+	 */
+	protected IPath getAntFolderAbsolutePath() {
+		IPath projectPath = mTargetProject.getLocation();
 		IPath containerPath = projectPath.append(getPreferenceAntFolder());
 		return containerPath;
 	}
@@ -268,25 +257,6 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
 		}
 	}
 
-	/**
-	 * Determines where this plugin is installed on the file system.
-	 * @return the plugin location
-	 * @throws InvocationTargetException if location cannot be determined
-	 */
-	protected String getPluginInstallLocation()
-			throws InvocationTargetException {
-        Bundle bundle = Platform.getBundle(Activator.PLUGIN_ID);
-        Path path = new Path("/");
-        URL fileURL = FileLocator.find(bundle, path, null);
-        String productLocation = null;
-		try {
-			productLocation = FileLocator.resolve(fileURL).getPath();
-		} catch (IOException e) {
-			throw new InvocationTargetException(e);
-		}
-		return productLocation;
-	}
-	
     /**
      * @return the preferred ant script sub folder relative to projects.
      */
@@ -313,6 +283,17 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
 	}
 	
 
+	/**
+	 * Determines where the common LegStar plugin is installed on the file
+	 *  system.
+	 * @return the plugin location
+	 * @throws InvocationTargetException if location cannot be determined
+	 */
+	public static String getPluginInstallLocation()
+			throws InvocationTargetException {
+		return Activator.getPluginInstallLocation();
+	}
+	
 	/**
 	 * @return the target project
 	 */

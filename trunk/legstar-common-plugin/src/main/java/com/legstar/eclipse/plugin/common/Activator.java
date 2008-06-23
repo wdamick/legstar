@@ -20,8 +20,19 @@
  *******************************************************************************/
 package com.legstar.eclipse.plugin.common;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -33,7 +44,7 @@ public class Activator extends AbstractUIPlugin {
 	public static final String PLUGIN_ID = "com.legstar.eclipse.plugin.common";
 
 	/** Legstar logo shared by all plugins. */
-	public static final String LOGO_IMG = "icons/legstar-logo-2008.png";
+	public static final String LOGO_IMG = Messages.legstar_logo_icon;
 
 	/** The shared instance. */
 	private static Activator plugin;
@@ -53,6 +64,7 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public final void start(final BundleContext context) throws Exception {
 		super.start(context);
+		
 	}
 
 	/**
@@ -85,4 +97,76 @@ public class Activator extends AbstractUIPlugin {
 	public static ImageDescriptor getImageDescriptor(final String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
 	}
+    /**
+     * Create a formatted core exception.
+     * @param e an exception
+     * @throws CoreException the core exception
+     */
+    public static void throwCoreException(
+    		final Exception e) throws CoreException {
+        IStatus status =
+            new Status(IStatus.ERROR,
+            		PLUGIN_ID,
+            		IStatus.OK,
+            		e.getMessage(),
+            		e);
+        getDefault().getLog().log(status);
+        throw new CoreException(status);
+    }
+
+    /**
+     * Create a formatted core exception.
+     * @param message the error message
+     * @throws CoreException the core exception
+     */
+    public static void throwCoreException(
+    		final String message) throws CoreException {
+        IStatus status =
+            new Status(IStatus.ERROR,
+            		PLUGIN_ID,
+            		IStatus.OK,
+            		message,
+            		null);
+        getDefault().getLog().log(status);
+        throw new CoreException(status);
+    }
+    
+	/**
+	 * Determines where the common LegStar plugin is installed on the file
+	 *  system.
+	 * @return the plugin location
+	 * @throws InvocationTargetException if location cannot be determined
+	 */
+	public static String getPluginInstallLocation()
+			throws InvocationTargetException {
+        Bundle bundle = Platform.getBundle(PLUGIN_ID);
+        Path path = new Path("/");
+        URL fileURL = FileLocator.find(bundle, path, null);
+        String productLocation = null;
+		try {
+			productLocation = FileLocator.resolve(fileURL).getPath();
+		} catch (IOException e) {
+			throw new InvocationTargetException(e);
+		}
+		return productLocation;
+	}
+	
+    /**
+     * Logs an exception using IStatus.
+     * @param innerException the exception to trace
+     * @param pluginID plug-in identifier
+     */
+    public static void logCoreException(
+            final Throwable innerException,
+            final String pluginID) {
+        String message = (innerException.getMessage() == null)
+                ? innerException.getClass().toString()
+                : innerException.getMessage();
+        IStatus status =
+            new Status(IStatus.ERROR, pluginID,
+                    IStatus.OK, message, innerException);
+        Activator.getDefault().getLog().log(status);
+        return;
+    }
+    
 }
