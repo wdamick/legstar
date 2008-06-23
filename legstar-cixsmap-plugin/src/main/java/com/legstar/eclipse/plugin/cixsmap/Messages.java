@@ -18,6 +18,15 @@ public class Messages extends NLS {
 	/** New mapping file name. */
 	public static String new_operations_mapping_file_name_label;
 	
+	/** Mapping Editor name. */
+	public static String editor_title;
+	/** Toolbar button tooltip.. */
+	public static String action_tooltip;
+	/** Menu option label. */
+	public static String action_label;
+	/** New file action name. */
+	public static String new_file_title;
+	
 	/** New file wizard title.*/
 	public static String new_file_wizard_page_title;
 	/** New file wizard description.*/
