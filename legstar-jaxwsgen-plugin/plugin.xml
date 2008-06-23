@@ -5,20 +5,27 @@
          point="org.eclipse.ui.popupMenus">
       <objectContribution
             id="com.legstar.eclipse.plugin.jaxwsgen.contribution1"
-            nameFilter="*.cixs"
+            nameFilter="%filename_filter"
             objectClass="org.eclipse.core.resources.IFile">
          <menu
                id="com.legstar.eclipse.plugin.jaxwsgen.menu1"
-               label="LegStar"
+               label="%popup_menu_label"
                path="additions">
             <separator name="group1"/>
          </menu>
          <action
                class="com.legstar.eclipse.plugin.jaxwsgen.popup.actions.Jaxws2CixsGeneratorAction"
                enablesFor="1"
-               icon="icons/jaxwsgen-generate.gif"
-               id="com.legstar.eclipse.plugin.jaxwsgen.jaxwsgen2CixsGeneratorAction"
-               label="Generate Jaxws to CICS artifacts..."
+               icon="%jaxws_to_cixs_generator_icon"
+               id="com.legstar.eclipse.plugin.jaxwsgen.Jaxws2CixsGeneratorAction"
+               label="%jaxws_to_cixs_action_label"
+               menubarPath="com.legstar.eclipse.plugin.jaxwsgen.menu1/group1"/>
+         <action
+               class="com.legstar.eclipse.plugin.jaxwsgen.popup.actions.Cixs2JaxwsGeneratorAction"
+               enablesFor="1"
+               icon="%cixs_to_jaxws_generator_icon"
+               id="com.legstar.eclipse.plugin.jaxwsgen.Cixs2JaxwsGeneratorAction"
+               label="%cixs_to_jaxws_action_label"
                menubarPath="com.legstar.eclipse.plugin.jaxwsgen.menu1/group1"/>
       </objectContribution>
    </extension>
@@ -29,7 +36,7 @@
             category="com.legstar.eclipse.plugin"
             class="com.legstar.eclipse.plugin.jaxwsgen.preferences.JaxwsCixsPreferencePage"
             id="com.legstar.eclipse.plugin.jaxwsgen"
-            name="jaxwsgen generator"/>
+            name="%jaxwsgen_preference_page_title"/>
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">

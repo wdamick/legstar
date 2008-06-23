@@ -3,6 +3,7 @@ package com.legstar.eclipse.plugin.jaxwsgen.preferences;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 
+import com.legstar.cixs.jaxws.model.CixsJaxwsService;
 import com.legstar.eclipse.plugin.jaxwsgen.Activator;
 
 /**
@@ -18,9 +19,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
     public void initializeDefaultPreferences() {
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 
-        store.setDefault(PreferenceConstants.J2EE_INSTALL_FOLDER,
-                getDefaultJ2eeLocation());
-
         store.setDefault(PreferenceConstants.J2EE_WAR_FOLDER,
                 getDefaultJ2eeLocation() + "/webapps");
 
@@ -29,6 +27,12 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
         store.setDefault(PreferenceConstants.WS_TARGET_NAMESPACE_PREFIX,
 				"http://test.legstar");
+
+        store.setDefault(PreferenceConstants.PROXY_URI_TEMPLATE,
+        		CixsJaxwsService.DEFAULT_SERVER_URI_TEMPLATE);
+
+        store.setDefault(PreferenceConstants.COBOL_SAMPLE_FOLDER,
+		"cobol");
     }
 
     /**

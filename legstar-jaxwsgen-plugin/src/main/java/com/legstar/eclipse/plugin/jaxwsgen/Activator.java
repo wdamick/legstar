@@ -6,6 +6,8 @@ import org.osgi.framework.ServiceRegistration;
 import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsActivator;
 import com.legstar.eclipse.plugin.jaxwsgen.wizards
 					.Jaxws2CixsGeneratorWizardLauncher;
+import com.legstar.eclipse.plugin.jaxwsgen.wizards
+					.Cixs2JaxwsGeneratorWizardLauncher;
 
 /**
  * This generator plugin register itself for dynamic discovery.
@@ -23,6 +25,9 @@ public class Activator extends AbstractCixsActivator  {
 	/** The result of registering a Jaxws2Cixs generator service. */
 	private ServiceRegistration mJaxws2CixsGeneratorService;
 	
+	/** The result of registering a Cixs2Jaxws generator service. */
+	private ServiceRegistration mCixs2JaxwsGeneratorService;
+	
 	/**
 	 * Default constructor.
 	 */
@@ -38,6 +43,8 @@ public class Activator extends AbstractCixsActivator  {
 		mPlugin = this;
 		mJaxws2CixsGeneratorService = 
 			Jaxws2CixsGeneratorWizardLauncher.register(context);
+		mCixs2JaxwsGeneratorService = 
+			Cixs2JaxwsGeneratorWizardLauncher.register(context);
 	}
 
 	/**
@@ -46,6 +53,9 @@ public class Activator extends AbstractCixsActivator  {
 	public void stop(final BundleContext context) throws Exception {
 		if (mJaxws2CixsGeneratorService != null) {
 			mJaxws2CixsGeneratorService.unregister();
+		}
+		if (mCixs2JaxwsGeneratorService != null) {
+			mCixs2JaxwsGeneratorService.unregister();
 		}
 		mPlugin = null;
 		super.stop(context);
