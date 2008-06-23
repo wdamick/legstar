@@ -34,7 +34,7 @@ public class Activator extends AbstractUIPlugin {
 		"com.legstar.eclipse.plugin.schemagen";
 
 	/** The shared instance. */
-	public static Activator plugin;
+	private static Activator mPlugin;
 	
 	/**
 	 * The constructor.
@@ -49,7 +49,7 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public void start(final BundleContext context) throws Exception {
 		super.start(context);
-		plugin = this;
+		mPlugin = this;
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class Activator extends AbstractUIPlugin {
 	 * org.osgi.framework.BundleContext)
 	 */
 	public void stop(final BundleContext context) throws Exception {
-		plugin = null;
+		mPlugin = null;
 		super.stop(context);
 	}
 
@@ -67,7 +67,7 @@ public class Activator extends AbstractUIPlugin {
 	 * @return the shared instance
 	 */
 	public static Activator getDefault() {
-		return plugin;
+		return mPlugin;
 	}
 
 	/**
