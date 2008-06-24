@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 
 import com.legstar.eclipse.plugin.schemagen.Activator;
+import com.legstar.eclipse.plugin.schemagen.Messages;
 import com.legstar.eclipse.plugin.schemagen.preferences.PreferenceConstants;
 
 /**
@@ -51,30 +52,6 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
     /** Target jaxb classes package name. */
     private Text mTargetJaxbPackageNameText;
 
-    /** No target container error message. */
-    private static final String NO_TARGET_CONTAINER_MSG =
-    	"Target container should not be empty";
-
-    /** Invalid target container error message. */
-    private static final String INVALID_TARGET_CONTAINER_MSG =
-    	"Invalid target container";
-
-    /** No file name error message. */
-    private static final String NO_TARGET_XSD_FILE_NAME_MSG =
-    	"Target XSD file name should not be empty";
-
-    /** XSD file already exists. */
-    private static final String ALREADY_EXISTS_TARGET_XSD_FILE_MSG =
-    	"Target XSD file already exists";
-
-    /** No target namespace error message. */
-    private static final String NO_TARGET_NAMESPACE_MSG =
-    	"Target namespace should not be empty";
-
-    /** No target jaxb package name error message. */
-    private static final String NO_TARGET_JAXB_PACKAGE_MSG =
-    	"Target Jaxb package name should not be empty";
-
     /** The final namespace is built starting with this prefix. */
     private String mXsdNamespacePrefix = "";
     
@@ -96,21 +73,25 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
     public MainWizardPage(final IStructuredSelection initialSelection) {
         super(initialSelection,
                 "MainWizardPage",
-                "COBOL-annotated XML schema generation",
-        "Select the source type and target XML schema");
+                Messages.main_wizard_page_title,
+                Messages.main_wizard_page_description);
     }
 
     /** {@inheritDoc} */
     @Override
     public void createExtendedControls(final Composite container) {
-        Group groupSource = createGroup(container, "Select source type");
+        Group groupSource = createGroup(container,
+        		Messages.source_type_group_label);
         mSourceTypeCombo = createComboFromItemsArray(
         		groupSource, new String [] {
-                "COBOL source fragment", "XSD or WSDL", "Java classes"});
+                Messages.cobol_source_type_text, 
+                Messages.xsd_source_type_text,
+                Messages.java_source_type_text});
 
-        Group groupTarget = createGroup(container, "Select target");
+        Group groupTarget = createGroup(container,
+        		Messages.target_group_label);
         
-        createLabel(groupTarget, "Container");
+        createLabel(groupTarget, Messages.container_label);
         mTargetContainerText = createText(groupTarget);
         mTargetContainerText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
@@ -118,9 +99,10 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
             }
         });
         createBrowseForContainerButton(
-        		groupTarget, "Target container", mTargetContainerText);
+        		groupTarget, Messages.container_selection_label,
+        		mTargetContainerText);
         
-        createLabel(groupTarget, "XSD file name");
+        createLabel(groupTarget, Messages.xsd_file_name_label);
         mTargetXSDFileNameText = createText(groupTarget);
         mTargetXSDFileNameText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
@@ -132,9 +114,10 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
                 autoFill();
             }
         });
-        createOverwriteAllowedCheckButton(groupTarget, "Overwrite");
+        createOverwriteAllowedCheckButton(groupTarget,
+        		Messages.overwrite_button_label);
         
-        createLabel(groupTarget, "Namespace");
+        createLabel(groupTarget, Messages.namespace_label);
         mTargetNamespaceText = createText(groupTarget, 2);
         mTargetNamespaceText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
@@ -148,7 +131,7 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
             }
         });
         
-        createLabel(groupTarget, "Jaxb package");
+        createLabel(groupTarget, Messages.jaxb_package_name_label);
         mTargetJaxbPackageNameText = createText(groupTarget, 2);
         mTargetJaxbPackageNameText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
@@ -364,7 +347,7 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
         /* Target container should not be empty */
         String targetContainer = getTargetContainerText().getText();
         if (targetContainer.length() == 0) {
-            updateStatus(NO_TARGET_CONTAINER_MSG);
+            updateStatus(Messages.no_target_container_msg);
             return;
         }
 
@@ -374,13 +357,13 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
         if (containerResource == null 
                 || !containerResource.exists()
                 || !(containerResource instanceof IContainer)) {
-            updateStatus(INVALID_TARGET_CONTAINER_MSG);
+            updateStatus(Messages.invalid_target_container_msg);
             return;
         }
 
         /* Target XML schema file name must not be empty */
         if (getXsdSimpleFileName().length() == 0) {
-            updateStatus(NO_TARGET_XSD_FILE_NAME_MSG);
+            updateStatus(Messages.no_target_xsd_file_name_msg);
             return;
         }
 
@@ -391,7 +374,7 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
             IResource fileResource = root.findMember(
             		new Path(targetContainer).append(fileName));
             if (fileResource != null && fileResource.exists()) {
-                updateStatus(ALREADY_EXISTS_TARGET_XSD_FILE_MSG);
+                updateStatus(Messages.already_exists_target_xsd_file_msg);
                 return;
             }
         }
@@ -401,7 +384,7 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
          * empty namespace here.*/
         String namespace = getTargetNamespaceText().getText();
         if (namespace.length() == 0 && getSelectedSource() != 1) {
-            updateStatus(NO_TARGET_NAMESPACE_MSG);
+            updateStatus(Messages.no_target_namespace_msg);
             return;
         }
 
@@ -409,7 +392,7 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
          * unsafe right now.*/
         String jaxbPackageName = getTargetJaxbPackageNameText().getText();
         if (jaxbPackageName.length() == 0) {
-            updateStatus(NO_TARGET_JAXB_PACKAGE_MSG);
+            updateStatus(Messages.no_target_jaxb_package_msg);
             return;
         }
 

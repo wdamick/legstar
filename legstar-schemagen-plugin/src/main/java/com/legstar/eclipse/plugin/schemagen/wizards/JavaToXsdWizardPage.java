@@ -20,6 +20,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -40,6 +41,7 @@ import org.eclipse.jdt.ui.ISharedImages;
 import org.eclipse.jdt.ui.JavaUI;
 
 import com.legstar.eclipse.plugin.schemagen.Activator;
+import com.legstar.eclipse.plugin.schemagen.Messages;
 import com.legstar.eclipse.plugin.schemagen.util.JavaClass;
 import com.legstar.eclipse.plugin.schemagen.viewers.JavaClassSorter;
 
@@ -64,10 +66,6 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
 	/** The table viewer height. */
 	private static final int TABLE_VIEWER_HEIGHT = 200;
 
-	/** No java classes error message. */
-	private static final String NO_JAVA_CLASSES_MSG =
-		"You must select at least one java class";
-
 	/**
 	 * Constructs the wizard page.
 	 * @param initialSelection the workbench current selection
@@ -75,9 +73,8 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
 	public JavaToXsdWizardPage(final IStructuredSelection initialSelection) {
 		super(initialSelection,
 				"JavaToXsdWizardPage",
-				"Generate XML Schema from Java Classes",
-				"Select the java classes to be used for"
-				+ " COBOL-annotated XML Schema generation");
+				Messages.java_To_xsd_wizard_page_title,
+				Messages.java_To_xsd_wizard_page_description);
 	}
 
 	/** {@inheritDoc} */
@@ -93,7 +90,7 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
 	 */
 	private void createSelectJavaClassesLink(final Composite container) {
 		createHyperlink(container,
-				"Select Java classes from workspace",
+				Messages.selection_dialog_title,
 				JavaUI.getSharedImages().getImage(
 						ISharedImages.IMG_OBJS_CLASS),
 						new HyperlinkAdapter() {
@@ -134,7 +131,7 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
 
 			}
 		});
-		removeButton.setText("Remove");
+		removeButton.setText(Messages.remove_button_label);
 		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_END);
 		gridData.horizontalSpan = LAYOUT_COLUMNS;
 		removeButton.setLayoutData(gridData);
@@ -148,7 +145,6 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
 	private void createTable(final Composite container) {
 		int style = SWT.MULTI | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL
 		| SWT.FULL_SELECTION | SWT.HIDE_SELECTION;
-
 
 		mTable = new Table(container, style);
 
@@ -266,10 +262,12 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
         		dialogChanged();
             }
         } catch (JavaModelException e1) {
-            errorDialog(getShell(), "Selection error", Activator.PLUGIN_ID,
-                    "Creating class selection dialog failed ",
-                    " Selection has generated a JavaModelException "
-                    + e1);
+            errorDialog(getShell(),
+            		Messages.selection_error_dialog_title,
+            		Activator.PLUGIN_ID,
+                    Messages.selection_dialog_init_failure_short_msg,
+                    NLS.bind(Messages.selection_dialog_init_failure_long_msg,
+                    		e1.getMessage()));
             logCoreException(e1, Activator.PLUGIN_ID);
         }
 	}
@@ -359,11 +357,12 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
 			addPathElements(selectedPathElementsLocations,
 					classPathEntries, javaProject);
 		} catch (JavaModelException e) {
-			errorDialog(getShell(), "Extract classpath error",
+			errorDialog(getShell(),
+					Messages.classpath_init_error_dialog_title,
 					Activator.PLUGIN_ID,
-					"Selected project has a classpath issue ",
-					"The java project selected " + javaProject.getElementName()
-					+ " has generated a JavaModelException " + e);
+					Messages.classpath_init_failure_short_msg,
+					NLS.bind(Messages.classpath_init_failure_long_msg,
+							javaProject.getElementName(), e.getMessage()));
 		}
 	}
 
@@ -432,11 +431,9 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
 	/** {@inheritDoc} */
 	protected void dialogChanged() {
 		if (mJavaClassesTableViewer.getTable().getItemCount() > 0) {
-			((MainWizard) getWizard()).setCanFinish(true);
 			updateStatus(null);
 		} else {
-			updateStatus(NO_JAVA_CLASSES_MSG);
-			((MainWizard) getWizard()).setCanFinish(false);
+			updateStatus(Messages.no_java_classes_selected_msg);
 		}
 
 	}

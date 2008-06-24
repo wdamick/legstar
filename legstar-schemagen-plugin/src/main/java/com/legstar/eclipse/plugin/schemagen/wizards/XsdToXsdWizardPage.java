@@ -4,6 +4,7 @@ import java.io.StringWriter;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -19,6 +20,7 @@ import org.eclipse.swt.widgets.Text;
 
 import com.legstar.eclipse.plugin.common.wizards.IURLSelectionListener;
 import com.legstar.eclipse.plugin.schemagen.Activator;
+import com.legstar.eclipse.plugin.schemagen.Messages;
 import com.legstar.eclipse.plugin.schemagen.util.XmlDocumentHelper;
 import com.legstar.eclipse.plugin.schemagen.util.XmlDocumentHelperException;
 
@@ -41,10 +43,6 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
     /** Whether the input XSD/WSDL target namespace should be changed. */
     private boolean mSwitchNamespaceAllowed = false;
 
-    /** No XSD or WSDL source error message. */
-    private static final String NO_XSD_OR_WSDL_SOURCE_MSG =
-        "You must provide XML Schema or WSDL source";
-    
     /** A control that is enabled when user can switch the target namespace. */
     private Button mSwitchNamespaceCheckBox;
     
@@ -55,15 +53,14 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
     public XsdToXsdWizardPage(final IStructuredSelection initialSelection) {
         super(initialSelection,
                 "XsdToXsdWizardPage",
-                "Generate XML Schema from XML Schema or WSDL",
-        "Select the XML Schema or WSDL source to be used for"
-                + " COBOL-annotated XML Schema generation");
+                Messages.xsd_To_xsd_wizard_page_title,
+                Messages.xsd_To_xsd_wizard_page_description);
     }
 
     /** {@inheritDoc} */
     protected void createExtendedControls(final Composite container) {
         mXsdUrlCombo = createUrlComboGroup(
-        		container, "XML Schema or WSDL",
+        		container, Messages.url_type_label,
         		new ModifyListener() {
                     public void modifyText(final ModifyEvent e) {
                         dialogChanged();
@@ -93,11 +90,11 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
 				mXsdSourceText.setText(writer.toString());
 			} catch (XmlDocumentHelperException e1) {
 				errorDialog(getShell(),
-						"XML load error",
+						Messages.xml_load_error_dialog_title,
 						Activator.PLUGIN_ID,
-						"failed to load XML source \""
-						+ urlString + "\"",
-						e1.getMessage());
+						Messages.xml_load_failure_short_msg,
+						NLS.bind(Messages.xml_load_failure_long_msg,
+								urlString, e1.getMessage()));
 			}
 		}
 	}
@@ -111,7 +108,7 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
     private Button createSwitchNamespaceAllowedCheckButton(
             final Composite container) {
         final Button button = new Button(container, SWT.CHECK);
-        button.setText("Switch target namespace");
+        button.setText(Messages.switch_namespace_button_label);
         button.setSelection(isSwitchNamespaceAllowed());
         button.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(final SelectionEvent e) {
@@ -129,11 +126,9 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
     /** {@inheritDoc} */
     protected void dialogChanged() {
         if (mXsdSourceText.getText().length() > 0) {
-            ((MainWizard) getWizard()).setCanFinish(true);
             updateStatus(null);
         } else {
-            updateStatus(NO_XSD_OR_WSDL_SOURCE_MSG);
-            ((MainWizard) getWizard()).setCanFinish(false);
+            updateStatus(Messages.no_xsd_or_wsdl_source_msg);
         }
     }
 
@@ -197,10 +192,12 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
     public final void setNewTargetNamespace(final String newTargetNamespace) {
         if (newTargetNamespace != null && newTargetNamespace.length() > 0) {
             mSwitchNamespaceCheckBox.setText(
-            		"Switch namespace to " + newTargetNamespace);
+            		Messages.switch_namespace_to_button_label
+            		+ newTargetNamespace);
             mSwitchNamespaceCheckBox.setEnabled(true);
         } else {
-            mSwitchNamespaceCheckBox.setText("Switch namespace");
+            mSwitchNamespaceCheckBox.setText(
+            		Messages.switch_namespace_button_label);
             mSwitchNamespaceCheckBox.setEnabled(false);
         }
     }

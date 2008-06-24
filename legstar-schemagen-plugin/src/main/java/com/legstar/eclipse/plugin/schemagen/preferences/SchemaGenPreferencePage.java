@@ -6,6 +6,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.IWorkbench;
 
 import com.legstar.eclipse.plugin.schemagen.Activator;
+import com.legstar.eclipse.plugin.schemagen.Messages;
 
 /**
  * This class represents a preference page that
@@ -30,7 +31,7 @@ public class SchemaGenPreferencePage extends FieldEditorPreferencePage
 	public SchemaGenPreferencePage() {
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Setup preferences for Schema generator");
+		setDescription(Messages.preference_page_description);
 	}
 
 	/**
@@ -42,15 +43,14 @@ public class SchemaGenPreferencePage extends FieldEditorPreferencePage
 	public void createFieldEditors() {
 
 		addField(new StringFieldEditor(
-				PreferenceConstants.ANT_SCRIPTS_FOLDER,
-				"&Ant scripts folder:", getFieldEditorParent()));
-		addField(new StringFieldEditor(
 				PreferenceConstants.XSD_NAMESPACE_PREFIX,
-				"Xsd &namespace prefix:", getFieldEditorParent()));
+				Messages.preference_xsd_namespace_prefix_label + ':',
+				getFieldEditorParent()));
+		
 		addField(new StringFieldEditor(
 				PreferenceConstants.JAXB_PACKAGE_NAME_PREFIX,
-				"Jaxb package name prefix:", getFieldEditorParent()));
-
+				Messages.preference_jaxb_package_prefix_label + ':',
+				getFieldEditorParent()));
 
 	}
 
