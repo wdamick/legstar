@@ -5,11 +5,13 @@ import java.lang.reflect.InvocationTargetException;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
 import com.legstar.eclipse.plugin.schemagen.Activator;
+import com.legstar.eclipse.plugin.schemagen.Messages;
 
 /**
  * The main wizard orchestrates the various wizard pages.
@@ -65,12 +67,13 @@ public class MainWizard extends AbstractWizard implements INewWizard {
         } catch (InterruptedException e) {
             return false;
         } catch (InvocationTargetException e) {
-            errorDialog(getShell(), "Generation error", Activator.PLUGIN_ID,
-                    "Java to Xsd generation failed ",
-                    "The generation attempt for " 
-                    + mMainWizardPage.getTargetFileText().getText()
-                    + " has generated a InvocationTargetException "
-                    + e.getTargetException());
+            errorDialog(getShell(),
+            		Messages.generation_error_dialog_title,
+            		Activator.PLUGIN_ID,
+                    Messages.generation_dialog_failure_short_msg,
+                    NLS.bind(Messages.generation_dialog_failure_long_msg,
+                    		mMainWizardPage.getTargetFileText().getText(),
+                    		e.getTargetException().getMessage()));
             logCoreException(e.getTargetException(), Activator.PLUGIN_ID);
             return false;
         }

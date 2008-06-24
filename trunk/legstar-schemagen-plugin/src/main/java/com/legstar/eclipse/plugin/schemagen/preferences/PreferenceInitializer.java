@@ -17,8 +17,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
      */
     public void initializeDefaultPreferences() {
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-        store.setDefault(PreferenceConstants.ANT_SCRIPTS_FOLDER,
-            "ant");
+
         store.setDefault(PreferenceConstants.XSD_NAMESPACE_PREFIX,
             "http://test.legstar");
         store.setDefault(PreferenceConstants.JAXB_PACKAGE_NAME_PREFIX,

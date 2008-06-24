@@ -9,8 +9,8 @@
             id="com.legstar.eclipse.plugin">
       </category>
       <wizard
-            name="New mainframe data structure mapping..."
-            icon="icons/schemagen-mapping.gif"
+            name="%new_file_title"
+            icon="%data_structure_mapping_icon"
             category="com.legstar.eclipse.plugin"
             class="com.legstar.eclipse.plugin.schemagen.wizards.MainWizard"
             id="com.legstar.eclipse.plugin.schemagen.wizards.MainWizard">
@@ -24,12 +24,12 @@
             visible="true">
          <action
                class="com.legstar.eclipse.plugin.schemagen.actions.SchemaGenAction"
-               icon="icons/schemagen-mapping.gif"
+               icon="%data_structure_mapping_icon"
                id="com.legstar.eclipse.plugin.schemagen.actions.SchemaGenAction"
-               label="New mainframe &amp;data structure mapping..."
+               label="%action_label"
                menubarPath="com_legstar_eclipse_menu/slot1"
                toolbarPath="legstarGroup"
-               tooltip="New mainframe data structure mapping..."/>
+               tooltip="%action_tooltip"/>
       </actionSet>
    </extension>
    <extension
@@ -38,7 +38,7 @@
             category="com.legstar.eclipse.plugin"
             class="com.legstar.eclipse.plugin.schemagen.preferences.SchemaGenPreferencePage"
             id="com.legstar.eclipse.plugin.schemagen.preferences.SchemaGenPreferencePage"
-            name="Mainframe data structure mapping"/>
+            name="%schemagen_preference_page_title"/>
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">
@@ -48,3 +48,4 @@
    </extension>
 
 </plugin>
+ 

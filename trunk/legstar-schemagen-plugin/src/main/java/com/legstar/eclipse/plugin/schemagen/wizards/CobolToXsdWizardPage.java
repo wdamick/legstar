@@ -14,6 +14,8 @@ import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 
+import com.legstar.eclipse.plugin.schemagen.Messages;
+
 /**
  * This wizard page allows users to select and edit the content of
  * a COBOL source. Alternatively, user can copy/paste COBOL code
@@ -23,10 +25,6 @@ public class CobolToXsdWizardPage extends AbstractToXsdWizardPage {
 
 	/** A COBOL fragment. */
 	private Text mCobolFragmentText;
-
-	/** No COBOL fragment error message. */
-	private static final String NO_COBOL_FRAGMENT_MSG =
-		"You must select at least a COBOL fragment or type COBOL code";
 
 	/** A simple ruler to help with COBOL instructions entry. */
 	private static final String COBOL_RULE_LABEL_LINE1 =
@@ -40,9 +38,8 @@ public class CobolToXsdWizardPage extends AbstractToXsdWizardPage {
 	public CobolToXsdWizardPage(final IStructuredSelection initialSelection) {
 		super(initialSelection,
 				"CobolToXsdWizardPage",
-				"Generate XML Schema from COBOL fragments",
-				"Select the COBOL fragments to be used for"
-				+ " COBOL-annotated XML Schema generation");
+				Messages.cobol_To_xsd_wizard_page_title,
+				Messages.cobol_To_xsd_wizard_page_description);
 	}
 
 	/** {@inheritDoc} */
@@ -67,13 +64,13 @@ public class CobolToXsdWizardPage extends AbstractToXsdWizardPage {
 	 */
 	private void createSelectCobolFragmentsLink(final Composite container) {
 		createHyperlink(container,
-				"Select Cobol fragments from file system",
+				Messages.select_cobol_fragments_fs_label,
 				PlatformUI.getWorkbench().getSharedImages().getImage(
 						ISharedImages.IMG_OBJ_FOLDER),
 						new HyperlinkAdapter() {
 			public void linkActivated(final HyperlinkEvent e) {
 				mCobolFragmentText.setText(selectSingleFileContent(
-						"Select a COBOL file"));
+						Messages.select_cobol_fragments_dialog_title));
 			}
 		});
 	}
@@ -82,11 +79,9 @@ public class CobolToXsdWizardPage extends AbstractToXsdWizardPage {
 	@Override
 	protected void dialogChanged() {
 		if (mCobolFragmentText.getText().length() > 0) {
-			((MainWizard) getWizard()).setCanFinish(true);
 			updateStatus(null);
 		} else {
-			updateStatus(NO_COBOL_FRAGMENT_MSG);
-			((MainWizard) getWizard()).setCanFinish(false);
+			updateStatus(Messages.no_cobol_fragment_selected_msg);
 		}
 	}
 

@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -23,7 +24,10 @@ import org.eclipse.ui.ide.IDE;
 import com.legstar.codegen.models.AbstractAntBuildModel;
 import com.legstar.codegen.models.IAntBuildModel;
 import com.legstar.eclipse.ant.AntLaunchException;
+import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizardRunnable;
+import com.legstar.eclipse.plugin.schemagen.Activator;
+import com.legstar.eclipse.plugin.schemagen.Messages;
 
 /**
  * Background task that performs the actual XSD generation. The process
@@ -39,14 +43,6 @@ public abstract class AbstractToXsdWizardRunnable
 
 	/** The target xsd file name. */
 	private String mTargetXsdFileName;
-
-	/** Monitor text when XSD generation starts. */
-	private static final String MONITOR_XSD_GENERATION_START =
-		"Generating ANT script for XML Schema generation";
-
-	/** Monitor text when opening editor on Xsd file. */
-	private static final String MONITOR_OPEN_EDITOR_START =
-		"Opening file for editing...";
 
 	/** The wizard submitting this runnable. */
 	private IWizard mWizard;
@@ -83,7 +79,7 @@ public abstract class AbstractToXsdWizardRunnable
 	throws InvocationTargetException, InterruptedException {
 		int scale = 1;
 		/* 4 tasks because launcher counts as a hidden one*/
-		monitor.beginTask(MONITOR_XSD_GENERATION_START + getTargetXsdFileName(),
+		monitor.beginTask(Messages.ant_generating_task_label,
 				4 * scale);
 		try {
 			/* 1. Create the ant build */
@@ -112,15 +108,15 @@ public abstract class AbstractToXsdWizardRunnable
 	protected void editXsdFile(
 			final IProgressMonitor monitor,
 			final int scale) throws InvocationTargetException {
-		monitor.setTaskName(MONITOR_OPEN_EDITOR_START);
+		monitor.setTaskName(Messages.editor_opening_task_label);
 		try {
 			((IContainer) getProject(mTargetContainer)).refreshLocal(
 					IResource.DEPTH_INFINITE,
 					new SubProgressMonitor(monitor, 1 * scale));
 			if (getXsdFile() == null) {
-				Throwable th = new AntLaunchException("Xsd file "
-						+ getTargetXsdFileName() + " was not generated."
-						+ " Check ant script log for a failure.");
+				Throwable th = new AntLaunchException(
+						NLS.bind(Messages.ant_failure_console_msg,
+								getTargetXsdFileName()));
 				throw new InvocationTargetException(th);
 			}
 			Shell shell = mWizard.getContainer().getShell();
@@ -132,7 +128,8 @@ public abstract class AbstractToXsdWizardRunnable
 					try {
 						IDE.openEditor(page, getXsdFile(), true);
 					} catch (PartInitException e) {
-						return;
+						AbstractWizard.logCoreException(e,
+								Activator.PLUGIN_ID);
 					}
 				}
 			});
