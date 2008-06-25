@@ -1,21 +1,21 @@
 <assembly>
 
-	<id>bin</id>
+    <id>bin</id>
 
-	<formats>
-	  <format>zip</format>
-	</formats>
+    <formats>
+        <format>zip</format>
+    </formats>
 
     <componentDescriptors>
         <componentDescriptor>../legstar-coxbgen/src/assemble/component.xml</componentDescriptor>
     </componentDescriptors>
 
-	<dependencySets>
+    <dependencySets>
         <dependencySet>
             <outputDirectory>/lib/</outputDirectory>
             <unpack>false</unpack>
             <scope>runtime</scope>
         </dependencySet>
-	</dependencySets>
+    </dependencySets>
   
 </assembly>
