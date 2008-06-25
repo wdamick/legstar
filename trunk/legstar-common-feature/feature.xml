@@ -6,11 +6,11 @@
       provider-name="LegSem">
 
    <description url="http://www.legsem.com/legstar/common-plugin">
-      Common LegStar utility functions such as Ant loggers, common preferences, etc.
+      Common LegStar abstract plugin classes, common preferences, etc.
    </description>
 
    <copyright url="http://www.legsem.com/legstar/copyright.html">
-      C) LegSem 2007
+      (C) LegSem 2008
    </copyright>
 
    <license url="http://www.gnu.org/licenses/lgpl.html">
