@@ -140,7 +140,7 @@ public class GenerateDialog extends AbstractDialog {
 			new ArrayList < ICixsGeneratorWizardLauncher >();
 		try {
 			BundleContext context =
-				Activator.getDefault().getBundle().getBundleContext();
+				Activator.getDefault().getContext();
 			ServiceReference[] references =
 				context.getServiceReferences(
 						ICixsGeneratorWizardLauncher.class.getName(),
