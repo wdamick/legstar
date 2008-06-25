@@ -43,6 +43,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -270,7 +271,7 @@ public abstract class AbstractWizardPage extends WizardPage {
 	 * @param labelText the label's text appearing before the textbox
 	 * @return the composite
 	 */
-    public static Text createDirectoryFieldEditor(
+    public Text createDirectoryFieldEditor(
 			final Composite container,
 			final String preferenceName,
 			final String labelText) {
@@ -329,6 +330,29 @@ public abstract class AbstractWizardPage extends WizardPage {
     }
     
     /**
+     * Create a browse button. It pops up a dialog to select a folder and
+     * sets an associated text field with the result.
+     * @param container parent container
+     * @param dialogTitle title that browse dialog should display
+     * @param result Text field to update on return from dialog
+     * @return a new button
+     */
+    protected Button createBrowseForFolderButton(
+            final Composite container,
+            final String dialogTitle,
+            final Text result) {
+        final Button button = new Button(container, SWT.PUSH);
+        button.setText(Messages.browse_button_label);
+        button.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(final SelectionEvent e) {
+                String folderName = handleBrowseForDirectory(dialogTitle);
+                result.setText(folderName);
+            }
+        });
+        return button;
+    }
+    
+    /**
      * Create a browse button. It pops up a dialog to select files. It
      * then reads each file and store its content in a text area.
      * @param container parent container
@@ -379,6 +403,19 @@ public abstract class AbstractWizardPage extends WizardPage {
      */
     protected String handleBrowseForFiles(final String dialogTitle) {
         FileDialog dialog = new FileDialog(
+                getShell(), SWT.OPEN);
+        dialog.setText(dialogTitle);
+        return dialog.open();
+    }
+
+    /**
+     * Uses the standard directory selection dialog to choose folders
+     * from the file system.
+     * @param dialogTitle what the title should say
+     * @return an array of selected file names or null
+     */
+    protected String handleBrowseForDirectory(final String dialogTitle) {
+        DirectoryDialog dialog = new DirectoryDialog(
                 getShell(), SWT.OPEN);
         dialog.setText(dialogTitle);
         return dialog.open();

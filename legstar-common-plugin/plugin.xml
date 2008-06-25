@@ -15,11 +15,11 @@
             class="com.legstar.eclipse.plugin.common.preferences.PreferenceInitializer">
       </initializer>
    </extension>
-	<extension point="org.eclipse.jdt.core.classpathContainerInitializer">            
-		<classpathContainerInitializer                                          
-			id="com.legstar.eclipse.LIBRARY"                                                        
-			class="com.legstar.eclipse.plugin.common.ClasspathInitializer"/>                           
-	</extension>
+  <extension point="org.eclipse.jdt.core.classpathContainerInitializer">
+    <classpathContainerInitializer
+      id="com.legstar.eclipse.LIBRARY"
+      class="com.legstar.eclipse.plugin.common.ClasspathInitializer"/>
+  </extension>
    <extension
          point="org.eclipse.ui.actionSets">
       <actionSet

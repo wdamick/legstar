@@ -2,14 +2,18 @@
 <classpath>
 	<classpathentry kind="src" output="target/classes" path="src/main/java"/>
 	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxws-api-2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jsr181-api-1.0-MR1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jsr250-api-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/activation-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxb-api-2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jsr173_api-1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/wsdl4j-1.6.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-cobcgen-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-beanutils-1.7.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-beanutils-core-1.7.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-collections-3.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-configuration-1.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-jxpath-1.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-lang-2.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jdom-b9.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-invoker-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-messaging-SNAPSHOT.jar"/>
@@ -19,8 +23,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/jaxb-xjc-2.1.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-jaxbgen-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-coxbgen-SNAPSHOT.jar" sourcepath="/legstar-coxbgen"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-codec-1.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-httpclient-3.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-coxbapi-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-coxbrt-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-schemagen-SNAPSHOT.jar"/>
