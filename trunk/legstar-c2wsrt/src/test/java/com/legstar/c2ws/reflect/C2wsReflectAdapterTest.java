@@ -120,7 +120,7 @@ public class C2wsReflectAdapterTest extends TestCase {
 		assertEquals(1, results.size());
 		assertEquals("Live Search", results.get(0).getTitle());
 		assertEquals("Find exactly what you are lookin", results.get(0).getDescription());
-		assertEquals("http://search.live.com/", results.get(0).getUrl());
+		assertEquals("http://www.live.com/", results.get(0).getUrl());
 	}
 	
 	public void testDumpMSNSearch() throws Exception {
