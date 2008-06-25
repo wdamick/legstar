@@ -6,12 +6,11 @@
       provider-name="LegSem">
 
    <description url="http://www.legsem.com/legstar/coxbgen-plugin">
-      Generates JAXB classes from an XML schema. Cobol annotations are propagated from the XML schema to the JAXB classes.
-Also generates binding classes for fast runtime mapping.
+      Generates JAXB classes and COBOL binding classes (for fast runtime mapping) from an XML schema. Cobol annotations are propagated from the XML schema to the JAXB classes.
    </description>
 
    <copyright url="http://www.legsem.com/legstar/copyright.html">
-      (C) LegSem 2007
+      (C) LegSem 2008
    </copyright>
 
    <license url="http://www.gnu.org/licenses/lgpl.html">
