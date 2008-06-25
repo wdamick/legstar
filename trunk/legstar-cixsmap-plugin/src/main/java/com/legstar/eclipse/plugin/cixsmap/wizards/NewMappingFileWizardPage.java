@@ -23,6 +23,8 @@ package com.legstar.eclipse.plugin.cixsmap.wizards;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
@@ -69,6 +71,13 @@ public class NewMappingFileWizardPage extends WizardNewFileCreationPage {
         setImageDescriptor(image);
 	}
 	
+	/** {@inheritDoc} */
+	public void createControl(final Composite parent) {
+		super.createControl(parent);
+		setFileName('.' + Messages.operations_mapping_file_suffix);
+	}
+
+	
 	/**
 	 * Overriding this to prevent WizardNewFileCreationPage from displaying
 	 * the advanced button which was not tested enough and is somewhat
@@ -79,7 +88,6 @@ public class NewMappingFileWizardPage extends WizardNewFileCreationPage {
         Preferences preferences =
         	ResourcesPlugin.getPlugin().getPluginPreferences();
         preferences.setValue(ResourcesPlugin.PREF_DISABLE_LINKING, true);
-        setFileExtension(Messages.operations_mapping_file_suffix);
         super.createAdvancedControls(parent);
 	}
 	
@@ -90,6 +98,19 @@ public class NewMappingFileWizardPage extends WizardNewFileCreationPage {
             return false;
         }
         
+        /* Make sure the file name has the correct extension */
+        if (getFileName() != null && getFileName().length() > 0) {
+        	IPath path = new Path(getFileName());
+        	String extension = path.getFileExtension();
+    		if (extension == null || !extension.equals(
+    				Messages.operations_mapping_file_suffix)) {
+    			setErrorMessage(NLS.bind(
+    					Messages.invalid_mapping_file_extension_msg,
+    					extension));
+                return false;
+    		}
+        }
+
         /* Only Java projects are valid containers. */
         IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
         IResource resource = root.findMember(getContainerFullPath());
@@ -119,6 +140,7 @@ public class NewMappingFileWizardPage extends WizardNewFileCreationPage {
             		resource.getProject().getName(), e.getMessage()));
             return false;
         }
+        
     }
 
     /**
@@ -152,6 +174,5 @@ public class NewMappingFileWizardPage extends WizardNewFileCreationPage {
 	private void setCanFinish(final boolean canFinish) {
 		((NewMappingFileWizard) getWizard()).setCanFinish(canFinish);
 	}
-
-
+	
 }

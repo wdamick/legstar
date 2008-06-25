@@ -17,6 +17,9 @@ public class Activator extends AbstractUIPlugin {
 	/** The shared instance. */
 	private static Activator mPlugin;
 	
+	/** Context returned by start is needed for registration services. */
+	private BundleContext mContext;
+	
 	/**
 	 * The constructor.
 	 */
@@ -28,6 +31,7 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public void start(final BundleContext context) throws Exception {
 		super.start(context);
+		mContext = context;
 		mPlugin = this;
 	}
 
@@ -36,6 +40,7 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public void stop(final BundleContext context) throws Exception {
 		mPlugin = null;
+		mContext = null;
 		super.stop(context);
 	}
 
@@ -57,6 +62,13 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static ImageDescriptor getImageDescriptor(final String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
+	}
+
+	/**
+	 * @return the bundle context
+	 */
+	public final BundleContext getContext() {
+		return mContext;
 	}
 	
 }
