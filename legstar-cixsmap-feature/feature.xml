@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="com.legstar.eclipse.feature.cixsmap"
-      label="LegStar Mapping Editor"
+      label="LegStar Operations Mapping Editor"
       version="1.2.0"
       provider-name="LegSem">
 
    <description url="http://www.legsem.com/legstar/cixsmap-plugin">
-      Provides an editor to map Mainframe programs to local operations.
-The mapping file generated can be later used to generate various integration artifacts.
+      Provides an editor to map Mainframe programs to local operations. The mapping file generated can be later used to generate various integration artifacts.
    </description>
 
    <copyright url="http://www.legsem.com/legstar/copyright.html">
