@@ -19,7 +19,7 @@
    <extension
          point="org.eclipse.ui.actionSets">
       <actionSet
-            id="com.legstar.eclipse.plugin.schemagen.actionSet"
+            id="com.legstar.eclipse.plugin.slot1.schemagen.actionSet"
             label="LegStar Schemagen Action Set"
             visible="true">
          <action
@@ -28,7 +28,7 @@
                id="com.legstar.eclipse.plugin.schemagen.actions.SchemaGenAction"
                label="%action_label"
                menubarPath="com_legstar_eclipse_menu/slot1"
-               toolbarPath="legstarGroup"
+               toolbarPath="com.legstar.eclipse.plugin.common.actionSet/legstarGroup"
                tooltip="%action_tooltip"/>
       </actionSet>
    </extension>
