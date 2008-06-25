@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>SNAPSHOT</version>
+    </parent>
+    <artifactId>legstar-common-plugin</artifactId>
+    <packaging>pom</packaging>
+    <name>Common Eclipse plugin</name>
+    <version>SNAPSHOT</version>
+    <description>Common Eclipse plugin.</description>
+    <url>http://www.legsem.com/legstar/common-plugin/</url>
+
+    <dependencies>
+    
+    
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-schemagen</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbgen</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-cixsgen</artifactId>
+        </dependency>
+    
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+    
+    </dependencies>
+
+    <build>
+
+        <plugins>
+        
+            <!-- See distribution.xml for an explanation on the reasons for the
+                 unusual distribution options here.  -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <finalName>lib</finalName>
+                    <outputDirectory>.</outputDirectory>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptors>
+                        <descriptor>src/assemble/distribution.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- append to the packaging phase. -->
+                        <goals>
+                             <goal>directory-inline</goal> <!-- goals == mojos -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+          
+        </plugins>
+    
+    </build>
+    
+</project>
