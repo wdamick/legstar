@@ -1054,19 +1054,19 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     	if (totalDigits < 0) {
     		totalDigits = XsdcUtil.getIntOption(mOptions,
     				"default.int.total.digits");
-    		if (primitiveType.getLocalPart() == "boolean") {
+    		if (primitiveType.getLocalPart().equals("boolean")) {
     			totalDigits = XsdcUtil.getIntOption(mOptions, 
     					"default.bool.total.digits");
-    		} else if (primitiveType.getLocalPart() == "unsignedShort") {
+    		} else if (primitiveType.getLocalPart().equals("unsignedShort")) {
     			totalDigits = XsdcUtil.getIntOption(mOptions, 
     					"default.short.total.digits");
-    		} else if (primitiveType.getLocalPart() == "unsignedLong") {
+    		} else if (primitiveType.getLocalPart().equals("unsignedLong")) {
     			totalDigits = XsdcUtil.getIntOption(mOptions, 
     					"default.long.total.digits");
-    		} else if (primitiveType.getLocalPart() == "long") {
+    		} else if (primitiveType.getLocalPart().equals("long")) {
     			totalDigits = XsdcUtil.getIntOption(mOptions, 
     					"default.long.total.digits");
-    		} else if (primitiveType.getLocalPart() == "short") {
+    		} else if (primitiveType.getLocalPart().equals("short")) {
     			totalDigits = XsdcUtil.getIntOption(mOptions, 
     					"default.short.total.digits");
     		}
@@ -1092,12 +1092,12 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     	
     	/* Determine if this is an unsigned numeric */
     	boolean signed = true;
-		if (primitiveType.getLocalPart() == "boolean"
-			|| primitiveType.getLocalPart() == "positiveInteger"
-			|| primitiveType.getLocalPart() == "nonNegativeInteger"
-			|| primitiveType.getLocalPart() == "unsignedShort"
-			|| primitiveType.getLocalPart() == "unsignedLong"
-			|| primitiveType.getLocalPart() == "unsignedInt") {
+		if (primitiveType.getLocalPart().equals("boolean")
+			|| primitiveType.getLocalPart().equals("positiveInteger")
+			|| primitiveType.getLocalPart().equals("nonNegativeInteger")
+			|| primitiveType.getLocalPart().equals("unsignedShort")
+			|| primitiveType.getLocalPart().equals("unsignedLong")
+			|| primitiveType.getLocalPart().equals("unsignedInt")) {
 			signed = false;
 		}
     	
@@ -1279,7 +1279,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 		}
     	
     	QName typeName = type.getQName();
-    	if (typeName != null && typeName.getNamespaceURI() == XSD_NS) {
+    	if (typeName != null && XSD_NS.equals(typeName.getNamespaceURI())) {
         	if (LOG.isDebugEnabled()) {
     			LOG.debug("getPrimitiveType ended for type = "
     					+ type.getName());
@@ -1297,7 +1297,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     			if (restriction.getBaseType() == null) {
     				typeName = restriction.getBaseTypeName();
     				if (typeName != null) {
-    			    	if (typeName.getNamespaceURI() == XSD_NS) {
+    			    	if (XSD_NS.equals(typeName.getNamespaceURI())) {
     			        	if (LOG.isDebugEnabled()) {
     			    			LOG.debug("getPrimitiveType ended for type = "
     			    					+ type.getName());
@@ -1305,9 +1305,18 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     			    		}
     			    		return typeName;
     			    	}
-        				return getPrimitiveType(schema,
-        						(XmlSchemaSimpleType) schema.getTypeByName(
-        								typeName));
+    			    	/* Since restriction base type is not an XML Schema
+    			    	 * standard type, it must be defined in this schema.
+    			    	 * We don't support restrictions that are not simple
+    			    	 * types. */
+    			    	XmlSchemaType restrictionBaseType =
+    			    		schema.getTypeByName(typeName);
+    			    	if (restrictionBaseType != null
+    			    			&& restrictionBaseType
+    			    				instanceof XmlSchemaSimpleType) {
+	        				return getPrimitiveType(schema,
+	        						(XmlSchemaSimpleType) restrictionBaseType);
+    			    	}
     				}
     			} else {
     				return getPrimitiveType(schema, restriction.getBaseType());
@@ -1395,7 +1404,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 			if (restriction.getBaseType() == null) {
 				QName typeName = restriction.getBaseTypeName();
 				if (typeName != null) {
-			    	if (typeName.getNamespaceURI() == XSD_NS) {
+			    	if (XSD_NS.equals(typeName.getNamespaceURI())) {
 			    		return;
 			    	}
     				getFacets(schema,
