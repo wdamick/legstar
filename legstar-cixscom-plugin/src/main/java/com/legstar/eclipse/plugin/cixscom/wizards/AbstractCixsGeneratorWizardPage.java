@@ -458,7 +458,7 @@ extends AbstractWizardPage {
 	 * Target locations have default values that are built relative to the
 	 * project containing the mapping file and preferences taken from a
 	 * preference store.
-	 * This will make sure the deafault location exists.
+	 * This will make sure the default location exists.
 	 * @param store the preference store to use
 	 * @param storeKey the preference store key for this target 
 	 * @return the corresponding default target location
