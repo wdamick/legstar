@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="com.legstar.eclipse.feature.schemagen"
-      label="LegStar Schema Generator"
+      label="LegStar Data Structures Mapping Schema Generator"
       version="1.2.0"
       provider-name="LegSem">
 
    <description url="http://www.legsem.com/legstar/schemagen-plugin">
-      Generates an XML schema from a Cobol source fragment (copybook
-or otherwise). XML schema has binding annotations.
+      Generates a special XML schema from Cobol source fragments (copybook
+or otherwise), Java classes or XML Schema. The generated XML schema has JAXB and COBOL annotations
+which effectively map mainframe data structures to XML schema.
    </description>
 
    <copyright url="http://www.legsem.com/legstar/copyright.html">
-      (C) LegSem 2007
+      (C) LegSem 2008
    </copyright>
 
    <license url="http://www.gnu.org/licenses/lgpl.html">
