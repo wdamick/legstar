@@ -2,8 +2,6 @@ package com.legstar.eclipse.plugin.jaxwsgen.wizards;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.events.ModifyEvent;
@@ -94,11 +92,10 @@ public class Jaxws2CixsGeneratorWizardPage
     /** {@inheritDoc} */
     public void initExtendedWidgets(final IProject project) {
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-        IPath projectPath = project.getProject().getLocation();
-        String j2eeWDDFolder = store.getString(
-                PreferenceConstants.J2EE_WDD_FOLDER);
-        setTargetWDDDir(projectPath.append(
-                new Path(j2eeWDDFolder)).toOSString());
+
+        setTargetWDDDir(getDefaultTargetDir(store,
+				PreferenceConstants.J2EE_WDD_FOLDER));
+
         setTargetWarDir(store.getDefaultString(
 				PreferenceConstants.J2EE_WAR_FOLDER));
         initPackageName(getServiceName());
