@@ -7,7 +7,7 @@
       <page
             category="com.legstar.eclipse.plugin"
             class="com.legstar.eclipse.plugin.cixscom.preferences.CixsPreferencePage"
-            id="com.legstar.eclipse.plugin.cixscom.page1"
+            id="com.legstar.eclipse.plugin.cixscom"
             name="%cixscom_preference_page_title"/>
    </extension>
    <extension
