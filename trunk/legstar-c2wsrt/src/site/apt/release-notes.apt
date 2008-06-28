@@ -1,32 +1,29 @@
 
 
  -------------------------------------------------------------------------------
-                     LegSem LegStar C2wsrt Version 1.1.0
+                     LegSem LegStar C2wsrt Version 1.2.0
                                Release Notes
  -------------------------------------------------------------------------------
 
 PREREQUISITES:
 
- LegStar Host to Web Service runtime (C2wsrt) requires a Servlet engine such as
-  {{{http://tomcat.apache.org/} Apache Tomcat}}.
+ LegStar Mainframe to Web Service runtime (C2wsrt) requires a Servlet engine such
+ as {{{http://tomcat.apache.org/} Apache Tomcat}}.
   
  LegStar C2wsrt uses JAXWS as client SOAP stack to invoke target Web Services.
  C2wsrt should work with any JAXWS 2.1 compliant implementation. The JAXWS runtime
  is not delivered as part of LegStar. You can get such a runtime from Sun
  {{{https://jax-ws.dev.java.net/ri-download.html} here}}.
  
- Service Generator requires JAXWS 2.1 and above.
- 
  LegStar C2wsrt uses JAXB for XML marshaling/unmarshaling. The JAXB implementation
- must be at least 2.1 compliant (The default implementation that comes with JRE 1.6
- is too old).
+ must be at least 2.1.3 compliant. If your JRE is oldest than 1.6.4, the JAXB
+ version included in the JRE is too old.
   
  On the host side, the LSHTTAPI CICS Program must be installed in the
  source CICS region. The {{{LSHTTAPI-readme.html} LSHTTAPI readme}} document
  describes the program and how to install it.
  
- C2wsrt also uses the {{{http://jakarta.apache.org/commons/logging/} Apache Commons logging}}
- and {{{http://jakarta.apache.org/commons/configuration/} Apache commons configuration}}.
+ C2wsrt also uses the {{{http://jakarta.apache.org/commons/logging/} Apache Commons logging}}.
  
 INSTALLING/UNINSTALLING:
 

@@ -9,12 +9,12 @@
   </head>
   <body>
     <!-- The body of the document contains a number of sections -->
-    <section name="Download Host to Web Service runtime C2wsrt">
+    <section name="Download Mainframe to Web Service runtime C2wsrt">
 
       <!-- Within sections, any XHTML can be used -->
 		<table border="1">
 			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
-			<tr><td>Host to Web Service runtime</td><td>Java</td><td><a href="./binaries/legstar-c2wsrt-1.1.0-bin.zip">legstar-c2wsrt-1.1.0-bin.zip</a></td></tr>
+			<tr><td>Mainframe to Web Service runtime</td><td>Java</td><td><a href="./binaries/legstar-c2wsrt-1.2.0-bin.zip">legstar-c2wsrt-1.2.0-bin.zip</a></td></tr>
 		</table>
 
     </section>
