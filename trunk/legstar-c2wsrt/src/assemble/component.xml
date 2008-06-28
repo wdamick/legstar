@@ -11,9 +11,9 @@
             </includes>
         </fileSet>
         
-        <!-- Sample configuration files -->
+        <!-- Sample files -->
         <fileSet>
-            <directory>../legstar-c2wsrt/src/main/resources</directory>
+            <directory>../legstar-c2wsrt/examples/src/main</directory>
             <outputDirectory>/samples</outputDirectory>
             <includes>
                 <include>**</include>
@@ -47,11 +47,11 @@
         <!-- Deliver a sample web service and a sample proxy -->
         <file>
             <source>../legstar-xsdcgen-cases/target/war/jaxws-cultureinfo.war</source>
-            <outputDirectory>/war/</outputDirectory>
+            <outputDirectory>/samples/war/</outputDirectory>
         </file>
         <file>
             <source>../legstar-c2wsrt/target/c2ws-cultureinfo.war</source>
-            <outputDirectory>/war/</outputDirectory>
+            <outputDirectory>/samples/war/</outputDirectory>
         </file>
     </files>
   
