@@ -1,5 +1,5 @@
 <!-- =================================================================================
-     This script deploys a war to an instance of Tomcat.
+     This script deploys war files to a Tomcat instance.
  -->
 <project basedir="../../.." default="deployToTomcat" name="deploy-to-tomcat">
 

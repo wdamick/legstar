@@ -1,23 +1,26 @@
-Host to Web Service API LSHTTAPI
+Mainframe to Web Service API LSHTTAPI
 
 * Overview:
 
  This C/370 sub-program can be used to invoke a remote Web Service from 
  a CICS program.
  
- Provided that the legstar c2wsrt gateway has been installed in a
- servlet engine, the API uses HTTP connectivity to the gateway which will
+ Provided that a LegStar c2wsrt proxy has been installed in a
+ servlet engine, the API uses HTTP connectivity to the servlet which will
  in turn call the target Web Service.
  
- The messaging protocol used between the API and the c2wsrt gateway is
+ The messaging protocol used between the API and the c2wsrt proxy is
  identical to the one used for inbound calls to CICS programs by csokrt
- or chttprt. This means that data flowing between CICS and the Gateway is
+ or chttprt. This means that data flowing between CICS and the proxy is
  raw EBCDIC relieving CICS from code page conversions and XML processing.
  
- A sample Cobol program, LSC2WSSA, is part of the distribution and should
- help understand how the API operates. A sample COBCWSSA JCL is provided
- to compile the sample. LSC2WSSA calls the cultureinfo sample Web Service
- that is part of the distribution.
+ Two sample Cobol programs, LSC2WSSA and MSNSEARC, are part of the distribution
+ and should help understand how the API operates. Sample COBCWSSA and COBCMSNS
+ JCL are provided to compile the samples.
+ LSC2WSSA calls the cultureinfo sample Web Service that is part of the
+ distribution (samples/jaxws-cultureinfo.war). A working proxy is also part
+ of the delivery (samples/c2ws-cultureinfo).
+ MSNSEARC calls the Microsoft Live SOAP search API.
 
 * Prerequisites:
 

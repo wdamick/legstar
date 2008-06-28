@@ -16,6 +16,7 @@
       * an issue with AppID which needs to be 40 characters. To fix   *
       * this you need to edit the generated XML Schema and change the *
       * COBOL annotation for AppID to specify byteLength="40".        *
+      * Also change Query to byteLength="128".                        *
       * Similarly, you might want to increase the size of Description *
       * in the Result structure from 32 to 256 otherwise results will *
       * most certainly be truncated.                                  *
@@ -103,7 +104,7 @@
                10 SourceRequest--C PIC 9(9) BINARY.
                10 Request.
                    15 AppID PIC X(40).
-                   15 Query PIC X(32).
+                   15 Query PIC X(128).
                    15 CultureInfo PIC X(32).
                    15 SafeSearch PIC X(32).
                    15 Flags PIC X(32) OCCURS 1 TO 10 DEPENDING ON

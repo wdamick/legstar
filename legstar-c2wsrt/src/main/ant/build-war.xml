@@ -1,26 +1,17 @@
 <!-- =================================================================================
-     This script builds a war file for the c2ws proxy sample servlet .
+     This script builds war files for the c2ws proxy samples servlet.
  -->
-<project basedir="../../.." default="buildWar" name="build-war">
+<project basedir="../../.." default="buildWars" name="build-war">
 
 	<!-- ===========================================================  -->
-	<!-- Setup environment
+	<!-- Build the war files including lib
 	  -->
-	<target name="init">
-		
-		<!-- Target war file  -->
-	 	<property name="target.war.file" value="${basedir}/target/c2ws-cultureinfo.war" />
-		<!-- Web.xml file  -->
-	 	<property name="web.xml.file" value="${basedir}/src/main/webapp/WEB-INF/web.xml" />
-		
-	</target>
-
-	<!-- ===========================================================  -->
-	<!-- Build the war file including lib
-	  -->
-	<target name="buildWar" depends="init">
-		<war destfile="${target.war.file}" webxml="${web.xml.file}">
+	<target name="buildWars">
+		<war destfile="${basedir}/target/c2ws-cultureinfo.war" webxml="${basedir}/examples/src/main/webapp/cultureinfo/WEB-INF/web.xml">
             <classes dir="${basedir}/../legstar-jaxbgen-cases/target/classes" includes="**/cultureinfo/**/*.class"/>
+        </war>
+		<war destfile="${basedir}/target/c2ws-MSNSearch.war" webxml="${basedir}/examples/src/main/webapp/MSNSearch/WEB-INF/web.xml">
+            <classes dir="${basedir}/../legstar-jaxbgen-cases/target/classes" includes="**/MSNSearch/**/*.class"/>
         </war>
 	</target>
 	
