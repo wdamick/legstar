@@ -1,15 +1,24 @@
  -----
- LegStar Common Eclipse Plugin
+ LegStar Eclipse Plugins
  -----
  Fady Moussallam
  -----
- 23 January 2007
+ 29 June 2008
  -----
 
-Common Eclipse Plugin overview
+LegStar Eclipse Plugins overview
 
-  This Eclipse plugin provides utility functions such as ANT logging or Eclipse logging for other
-  LegStar Eclipse plugins to use.
+  LegStar provides a set of Eclipse plugins which greatly simplify using the LegStar features.
+  
+  With the LegStar Eclipse plugins you get a friendly user interface with the following capabilities:
+  
+  * Generate COBOL structure data mapping starting from COBOL fragments, XSD/WSDL or Java classes.
+  
+  * Generate Binding classes from a data mapping XML Schema.
+  
+  * Generate Web Service adapters and proxies for Mainframe programs.
+  
+  []
 
-  For answers to common questions about LegStar Common Eclipse plugin, see the {{{faq.html} FAQ}}.
+  For answers to common questions about LegStar Eclipse plugins, see the {{{faq.html} FAQ}}.
   

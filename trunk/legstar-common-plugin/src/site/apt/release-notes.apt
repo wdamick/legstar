@@ -1,11 +1,11 @@
  -------------------------------------------------------------------------------
-           LegSem LegStar Common Eclipse plugin Version 1.1.0
+           LegSem LegStar Eclipse plugins Version 1.2.0
                            Release Notes
  -------------------------------------------------------------------------------
 
 PREREQUISITES:
 
- This plugin requires Eclipse 3.2.1.
+ LegStar Eclipse plugins require Eclipse version 3.2.1 and above.
  
 INSTALLING/UNINSTALLING:
 
@@ -15,10 +15,10 @@ INSTALLING/UNINSTALLING:
   Help-->Software Updates-->Find and Install-->Search for new features-->New Remote site
 -----------------------------------------------------------------------------------------
   
-  Have the URL point to http://www.legsem.com/legstar/eclipse/update and select the
-    Common feature.
+  Have the URL point to http://www.legsem.com/legstar/eclipse/update and select all the
+    features.
 
- [[2]] Restart Eclipse and check that "LegStar Commons" shows up in:
+ [[2]] Restart Eclipse and check that the LegStar plugins show up in:
  
 -----------------------------------------------------------------------------------------
   Help-->About Eclipse SDK-->Plug-in details
