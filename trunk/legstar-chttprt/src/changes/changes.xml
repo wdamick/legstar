@@ -5,6 +5,9 @@
   </properties>
   <body>
     <release version="1.2.0" date="2008-08-01" description="No major change">
+      <action dev="fady" type="update">
+        Uses new naming convention for LegStar messaging classes.
+      </action>
     </release>
     <release version="1.1.0" date="2007-08-30" description="CICS Containers support">
       <action dev="fady" type="add">
