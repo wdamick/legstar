@@ -170,6 +170,10 @@
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <aggregate>true</aggregate>
+          <excludePackageNames>com.legstar.test.*:com.legstar.coxb.*:com.legstar.xsdc.test.*</excludePackageNames>
+        </configuration>
       </plugin>
       <!-- 
       <plugin>
