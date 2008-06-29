@@ -1,4 +1,9 @@
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/xml/ns/coxb" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:tns="http://schemas.microsoft.com/MSNSearch/2005/09/fex" attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:ns0="http://java.sun.com/xml/ns/jaxb" ns0:extensionBindingPrefixes="cb" targetNamespace="http://schemas.microsoft.com/MSNSearch/2005/09/fex" xmlns:ns1="http://java.sun.com/xml/ns/jaxb" ns1:version="2.0">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/xml/ns/coxb" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://schemas.microsoft.com/MSNSearch/2005/09/fex" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:ns0="http://java.sun.com/xml/ns/jaxb" ns0:extensionBindingPrefixes="cb" targetNamespace="http://schemas.microsoft.com/MSNSearch/2005/09/fex" xmlns:ns1="http://java.sun.com/xml/ns/jaxb" ns1:version="2.0">
+    <!-- This mapping XML Schema has 3 sizes that were changed from the default 32:
+         1. AppID has byteLength="40" and picture="X(40)" otherwise MS rejects the truncated application ID
+         2. Query has byteLength="128" and picture="X(128)" to accomodate longer query strings
+         3. Description has byteLength="256" because descriptions tend to be long
+     -->
     <xsd:annotation>
         <xsd:appinfo>
             <jaxb:schemaBindings>
@@ -20,6 +25,7 @@
             <xsd:enumeration value="Spelling"/>
             <xsd:enumeration value="QueryLocation"/>
             <xsd:enumeration value="Image"/>
+            <xsd:enumeration value="Video"/>
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="ResultFieldMask">
@@ -42,6 +48,7 @@
                     <xsd:enumeration value="Summary"/>
                     <xsd:enumeration value="ResultType"/>
                     <xsd:enumeration value="Image"/>
+                    <xsd:enumeration value="Video"/>
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:list>
@@ -62,6 +69,7 @@
                     <xsd:enumeration value="DisableSpellCorrectForSpecialWords"/>
                     <xsd:enumeration value="DisableHostCollapsing"/>
                     <xsd:enumeration value="DisableLocationDetection"/>
+                    <xsd:enumeration value="DisableWebQueryAlteration"/>
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:list>
@@ -225,6 +233,91 @@
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
+    <xsd:complexType name="StaticThumbnail">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="URL" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="URL" levelNumber="17" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Format" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="Format" levelNumber="17" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Width" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement byteLength="4" cobolName="Width" levelNumber="17" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Height" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement byteLength="4" cobolName="Height" levelNumber="17" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="FileSize" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement byteLength="4" cobolName="FileSize" levelNumber="17" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="MotionThumbnail">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="URL" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="URL" levelNumber="17" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Format" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="Format" levelNumber="17" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="RunTime" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement byteLength="4" cobolName="RunTime" levelNumber="17" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Width" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement byteLength="4" cobolName="Width" levelNumber="17" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Height" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement byteLength="4" cobolName="Height" levelNumber="17" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="FileSize" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement byteLength="4" cobolName="FileSize" levelNumber="17" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
     <xsd:complexType name="Image">
         <xsd:sequence>
             <xsd:element minOccurs="0" name="ImageURL" type="xsd:string">
@@ -280,6 +373,73 @@
                 <xsd:annotation>
                     <xsd:appinfo>
                         <cb:cobolElement byteLength="4" cobolName="ThumbnailFileSize" levelNumber="15" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Video">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="PlayUrl" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="PlayUrl" levelNumber="15" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="SourceTitle" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="SourceTitle" levelNumber="15" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Format" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="Format" levelNumber="15" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="RunTime" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement byteLength="4" cobolName="RunTime" levelNumber="15" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Width" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement byteLength="4" cobolName="Width" levelNumber="15" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Height" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement byteLength="4" cobolName="Height" levelNumber="15" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="FileSize" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement byteLength="4" cobolName="FileSize" levelNumber="15" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="StaticThumbnail" type="tns:StaticThumbnail">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement cobolName="StaticThumbnail" levelNumber="15" type="GROUP_ITEM"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="MotionThumbnail" type="tns:MotionThumbnail">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement cobolName="MotionThumbnail" levelNumber="15" type="GROUP_ITEM"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
@@ -361,7 +521,7 @@
             <xsd:element minOccurs="0" name="Description" type="xsd:string">
                 <xsd:annotation>
                     <xsd:appinfo>
-                        <cb:cobolElement byteLength="32" cobolName="Description" levelNumber="13" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement byteLength="256" cobolName="Description" levelNumber="13" picture="X(256)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
@@ -456,6 +616,13 @@
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
+            <xsd:element minOccurs="0" name="Video" type="tns:Video">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement cobolName="Video" levelNumber="13" type="GROUP_ITEM"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="ArrayOfSearchTagSearchTagsArray">
@@ -489,6 +656,13 @@
                 <xsd:annotation>
                     <xsd:appinfo>
                         <cb:cobolElement byteLength="4" cobolName="Total" levelNumber="9" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="RecourseQuery" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="RecourseQuery" levelNumber="9" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
@@ -531,7 +705,7 @@
             <xsd:element name="CultureInfo" type="xsd:string">
                 <xsd:annotation>
                     <xsd:appinfo>
-                        <cb:cobolElement byteLength="16" cobolName="CultureInfo" levelNumber="5" picture="X(16)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement byteLength="32" cobolName="CultureInfo" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
