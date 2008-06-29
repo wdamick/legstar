@@ -16,7 +16,7 @@
 	</target>
 
 	<!-- ===========================================================  -->
-	<!-- The war file contains the sample cultureinfoProxy
+	<!-- The war files contain the samples cultureinfoProxy and MSNSearchProxy
 	  -->
 	<target name="deployToTomcat" depends="init">
 		

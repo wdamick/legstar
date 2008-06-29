@@ -18,9 +18,10 @@ Mainframe to Web Service API LSHTTAPI
  and should help understand how the API operates. Sample COBCWSSA and COBCMSNS
  JCL are provided to compile the samples.
  LSC2WSSA calls the cultureinfo sample Web Service that is part of the
- distribution (samples/jaxws-cultureinfo.war). A working proxy is also part
- of the delivery (samples/c2ws-cultureinfo).
- MSNSEARC calls the Microsoft Live SOAP search API.
+ distribution (samples/war/jaxws-cultureinfo.war). A working proxy is also part
+ of the delivery (samples/war/c2ws-cultureinfo.war).
+ MSNSEARC calls the Microsoft Live SOAP search API, a sample working proxy is
+ part of the delivery (samples/war/c2ws-MSNSearch.war).
 
 * Prerequisites:
 
@@ -34,7 +35,7 @@ Mainframe to Web Service API LSHTTAPI
  The API itself uses an HTTP library, called LSHTTLIB, also written in C/370.
  LSHTTLIB is a simple HTTP 1.0 library with support for basic authentication
  whose focus is on performance rather than functionality. Please note that
- this library connects CICS programs to the c2wsrt gateway, not to the target
+ this library connects CICS programs to the c2wsrt proxies, not to the target
  web service.
    
  LSHTTLIB uses CICS Sockets. Please refer to z/os Communication Server 
@@ -42,12 +43,12 @@ Mainframe to Web Service API LSHTTAPI
  C370HLIB.JCL is a sample compilation job for LSHTTLIB.
  
  LSHTTAPI also depends on the LSCOMLOG sub-program which is described in
- legster csokrt.
+ {{{../legstar-csokrt} LegStar socket runtime}}.
  
  When writing your client program you will need data descriptions of the
  input and output structures produced by the target web service.
  The {{{../legstar-cobcgen} LegStar cobcgen}} module generates such data 
- descriptions
+ descriptions.
    
 * Limitations:
 
@@ -63,9 +64,9 @@ Mainframe to Web Service API LSHTTAPI
 
 * How to use:
 
- The first step is to register a target web service with the c2wsrt gateway.
- Such a web service will be identified by a 32-characters logical name by your
- CICS program.
+ The first step is to create and deploy a web service proxy in a servlet engine.
+ The {{{../legstar-cixsgen} LegStar Web service generator}} module helps you
+ generate such a proxy.
 
  Once LSHTTAPI and LSHTTLIB have been compiled in a library available to your
  CICS region in the RPL list, you might need to define LSHTTLIB using RDO

@@ -15,8 +15,12 @@
       * default all strings are 32 characters long. This will create  *
       * an issue with AppID which needs to be 40 characters. To fix   *
       * this you need to edit the generated XML Schema and change the *
-      * COBOL annotation for AppID to specify byteLength="40".        *
-      * Also change Query to byteLength="128".                        *
+      * COBOL annotation for AppID to specify:                        *
+      * - byteLength="40"                                             *
+      * - picture="X(40)"                                             *
+      * Also change Query to:                                         *
+      * - byteLength="128".                                           *
+      * - picture="X(128)"                                            *
       * Similarly, you might want to increase the size of Description *
       * in the Result structure from 32 to 256 otherwise results will *
       * most certainly be truncated.                                  *
@@ -29,34 +33,34 @@
       *        W O R K I N G    S T O R A G E    S E C T I O N        *
       *****************************************************************
        WORKING-STORAGE SECTION.
-
+       
       *---------------------------------------------------------------*
       *  C2WS API parameters                                          *
       *---------------------------------------------------------------*
       * Address of c2ws service provider.
-      *
-       77  C2WS-SERVICE-URI            PIC X(50) VALUE
+      *    
+       77  C2WS-SERVICE-URI            PIC X(51) VALUE
            'http://localhost:8080/c2ws-MSNSearch/MSNSearchProxy'.
-      *
+      *    
       * C2ws service credentials.
-      *
+      *    
        77  C2WS-USERID                 PIC X(8) VALUE
            '        '.
        77  C2WS-PASSWORD               PIC X(8) VALUE
            '        '.
-      *
+      *    
       * Service requested.
-      *
+      *    
        77  C2WS-SERVICE-NAME           PIC X(9) VALUE
            'MSNSearch'.
-
+           
       *---------------------------------------------------------------*
       *  Constants                                                    *
       *---------------------------------------------------------------*
        77  OK-CODE                     PIC S9(8) BINARY VALUE 0.
        77  ERROR-CODE                  PIC S9(8) BINARY VALUE -1.
        77  THIS-TRACE-ID               PIC X(13) VALUE 'MSNSEARC'.
-
+ 
       *---------------------------------------------------------------*
       * Structure shared with c2ws C API.                             *
       * C Structures are aligned on natural storage boundaries so we  *
@@ -84,7 +88,7 @@
                10  WS-PROXY-URI        PIC X(513) VALUE SPACES.
                10  WS-USERID           PIC X(33) VALUE SPACES.
                10  WS-PASSWORD         PIC X(33) VALUE SPACES.
-
+           
       *---------------------------------------------------------------*
       *  Work variables                                               *
       *---------------------------------------------------------------*
@@ -128,7 +132,7 @@
                                30 R-string PIC X(32) OCCURS 0 TO 10
                                    DEPENDING ON R-string--C.
 
-
+       
       *****************************************************************
       *            L I N K A G E       S E C T I O N                  *
       *****************************************************************
@@ -221,7 +225,7 @@
                                            45 Height1 PIC 9(9) COMP-5.
                                            45 FileSize1 PIC 9(9) COMP-5.
 
-
+               
       *****************************************************************
       *    P R O C E D U R E  D I V I S I O N   S E C T I O N         *
       *****************************************************************
@@ -229,69 +233,69 @@
 
            IF TRACES-ON
                DISPLAY
-                   'MSNSEARC STARTING ==============================='
+                   'MSNSEARC STARTING ===============================' 
            END-IF.
-
+           
            PERFORM INITIALIZE-C2WS-API THRU
-               END-INITIALIZE-C2WS-API.
+               END-INITIALIZE-C2WS-API.  
 
            PERFORM SET-REQUEST THRU
                END-SET-REQUEST.
 
            PERFORM INVOKE-SERVICE THRU
                END-INVOKE-SERVICE.
-
+               
            IF TRACES-ON
                PERFORM PRINT-RESULTS THRU
-                   END-PRINT-RESULTS
+                   END-PRINT-RESULTS 
            END-IF.
-
+               
            IF TRACES-ON
                DISPLAY
-                   'MSNSEARC STOPPING ==============================='
+                   'MSNSEARC STOPPING ===============================' 
            END-IF.
-           EXEC CICS SEND CONTROL FREEKB END-EXEC.
+           EXEC CICS SEND CONTROL FREEKB END-EXEC. 
            EXEC CICS RETURN END-EXEC.
 
            GOBACK.
-
+       
       *---------------------------------------------------------------*
       *  Initialize the c2ws API. You can turn traces on and specify  *
       *  a trace identifier.                                          *
       *---------------------------------------------------------------*
        INITIALIZE-C2WS-API.
-
+       
            MOVE THIS-TRACE-ID TO TRACE-ID.
-
+           
            CALL 'init' USING dfheiblk TRACE-PARMS
                        RETURNING WS-RESP.
            IF (WS-RESP NOT = OK-CODE)
                MOVE 'INITIALIZE-C2WS-API failed' TO ERROR-MESSAGE
                DISPLAY ERROR-MESSAGE
-               EXEC CICS SEND TEXT FROM(ERROR-MESSAGE) FREEKB END-EXEC
+               EXEC CICS SEND TEXT FROM(ERROR-MESSAGE) FREEKB END-EXEC 
                EXEC CICS RETURN END-EXEC
            END-IF.
-
+           
        END-INITIALIZE-C2WS-API.   EXIT.
-
+      
       *---------------------------------------------------------------*
       *  Populate the request parameters                              *
       *---------------------------------------------------------------*
        SET-REQUEST.
-
+       
            IF TRACES-ON
-               DISPLAY 'START SET-REQUEST'
+               DISPLAY 'START SET-REQUEST' 
            END-IF.
-
+           
            MOVE ZERO TO Flags--C OF COM-REQUEST.
            MOVE ZERO TO SortBy--C OF COM-REQUEST.
            MOVE ZERO TO ResultFields--C OF COM-REQUEST.
            MOVE ZERO TO R-string--C OF COM-REQUEST.
            MOVE 1 TO SourceRequest--C OF COM-REQUEST.
-      *  You should sepcify your own Microsoft LIVE application ID
+      *  You should specify your own Microsoft LIVE application ID
            MOVE '5588C3ACE949315B3ECAADDA908611BDF5D8D5AA'
              TO AppID OF COM-REQUEST.
-           MOVE 'legstar' TO Query OF COM-REQUEST.
+           MOVE 'Mainframe' TO Query OF COM-REQUEST.
            MOVE 'en-US' TO CultureInfo OF COM-REQUEST.
            MOVE 'Moderate' to SafeSearch OF COM-REQUEST.
            MOVE ZERO TO Latitude OF COM-REQUEST.
@@ -301,23 +305,23 @@
            MOVE ZERO TO Offset OF COM-REQUEST(1).
            MOVE 1 TO R-Count OF COM-REQUEST(1).
            MOVE SPACES TO FileType OF COM-REQUEST(1).
-
+           
            IF TRACES-ON
-               DISPLAY 'SET-REQUEST ENDED'
+               DISPLAY 'SET-REQUEST ENDED' 
            END-IF.
-
+           
        END-SET-REQUEST.   EXIT.
-
+       
       *---------------------------------------------------------------*
       *  Invoke target web service                                    *
       *---------------------------------------------------------------*
        INVOKE-SERVICE.
            IF TRACES-ON
-               DISPLAY 'ABOUT TO RUN INVOKE-SERVICE'
+               DISPLAY 'ABOUT TO RUN INVOKE-SERVICE' 
            END-IF.
       *
       * Prepare invoke parameter set
-      *
+      *    
            MOVE C2WS-SERVICE-URI   TO WS-URI.
            MOVE C2WS-SERVICE-NAME  TO WS-SERVICE-NAME.
            SET WS-REQUEST-DATA     TO ADDRESS OF COM-REQUEST.
@@ -326,30 +330,30 @@
            MOVE C2WS-PASSWORD      TO WS-PASSWORD.
       *
       * Invoke target web service
-      *
+      *    
            CALL 'invoke' USING WS-INVOKE-PARMS
                          RETURNING WS-RESP.
            IF (WS-RESP NOT = OK-CODE)
                COMPUTE WS-RDISP = WS-RESP
                DISPLAY 'INVOKE-SERVICE failed. Return code=' WS-RDISP
                DISPLAY ERROR-MESSAGE
-               EXEC CICS SEND TEXT FROM(ERROR-MESSAGE) FREEKB END-EXEC
+               EXEC CICS SEND TEXT FROM(ERROR-MESSAGE) FREEKB END-EXEC 
                EXEC CICS RETURN END-EXEC
            END-IF.
-
+           
            SET ADDRESS OF COM-REPLY TO WS-REPLY-DATA.
 
            IF TRACES-ON
-               DISPLAY 'INVOKE-SERVICE SUCCESS'
+               DISPLAY 'INVOKE-SERVICE SUCCESS' 
            END-IF.
-
+           
        END-INVOKE-SERVICE.   EXIT.
-
+      
       *---------------------------------------------------------------*
       *  Display results returned from target web service             *
       *---------------------------------------------------------------*
        PRINT-RESULTS.
-
+       
            DISPLAY 'Response data length=' WS-REPLY-DATA-LEN.
 
            DISPLAY 'SourceResponse--C ='
@@ -365,9 +369,7 @@
                   DELIMITED BY SIZE
                   INTO ERROR-MESSAGE.
            EXEC CICS SEND TEXT FROM(ERROR-MESSAGE) FREEKB END-EXEC.
-
-
+           
        END-PRINT-RESULTS.   EXIT.
-
+       
        END PROGRAM MSNSEARC.
-
