@@ -7,9 +7,9 @@
         <version>SNAPSHOT</version>
     </parent>
     <artifactId>legstar-cixsgen</artifactId>
-    <name>CIXS Generator</name>
+    <name>Web Service generator</name>
     <version>SNAPSHOT</version>
-    <description>Generates JAXWS endpoints where operations map to CICS program execution.</description>
+    <description>Generates adapters and proxies for inbound and outbound mainframe integration with Web Services.</description>
     <url>http://www.legsem.com/legstar/cixsgen/</url>
 
     <dependencies>
@@ -45,10 +45,14 @@
         </dependency>
 
         <!-- Although not stricly a runtime dependency this will make
-        sure the invoker is part of the delivery. -->
+        sure the invoker and c2wsrt are part of the delivery. -->
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-invoker</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-c2wsrt</artifactId>
         </dependency>
     
         <dependency>

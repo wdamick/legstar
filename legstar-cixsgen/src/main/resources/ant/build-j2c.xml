@@ -33,11 +33,11 @@
     <!-- CIXS binaries target location  -->
     <property name="bin.dir" value="${basedir}/target/classes"/>
     <!-- Ant scripts target location   -->
-    <property name="ant.dir" value="${basedir}/src/main/ant"/>
+    <property name="ant.dir" value="${basedir}/src/main/ant/${service}"/>
     <!-- Web descriptors target location   -->
-    <property name="wdd.dir" value="${basedir}/src/main/WebContent/WEB-INF"/>
+    <property name="wdd.dir" value="${basedir}/src/main/WebContent/${service}/WEB-INF"/>
     <!-- Properties files target location   -->
-    <property name="prop.dir" value="${basedir}/src/main/WebContent/WEB-INF/classes"/>
+    <property name="prop.dir" value="${wdd.dir}/classes"/>
 
     <!-- Location of JAXB classes   -->
     <property name="jaxb.bin.dir" value="${basedir}/target/classes"/>

@@ -21,8 +21,8 @@ public class Cixs2JaxwsVelocityTemplatesTest extends AbstractTestTemplate {
 		
 		assertTrue(resStr.contains("       PROGRAM-ID. JVMQUERY."));
 		assertTrue(resStr.contains("       77  THIS-TRACE-ID               PIC X(13) VALUE 'JVMQUERY'."));
-		assertTrue(resStr.contains("77  C2WS-SERVICE-URI            PIC X(48) VALUE"));
-		assertTrue(resStr.contains("http://locahost:8080/c2ws-jvmquery/jvmqueryProxy'."));
+		assertTrue(resStr.contains("77  C2WS-SERVICE-URI            PIC X(49) VALUE"));
+		assertTrue(resStr.contains("http://localhost:8080/c2ws-jvmquery/jvmqueryProxy'."));
 		assertTrue(resStr.contains("77  C2WS-USERID                 PIC X(5) VALUE"));
 		assertTrue(resStr.contains("'alice'."));
 		assertTrue(resStr.contains("77  C2WS-PASSWORD               PIC X(12) VALUE"));

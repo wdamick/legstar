@@ -1,10 +1,16 @@
 <document>
   <properties>
-    <title>Changes CIXS Generator</title>
+    <title>Changes Web service Generator</title>
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
-    <release version="1.2.0" date="2008-04-01" description="Velocity macros">
+    <release version="1.2.0" date="2008-08-01" description="Velocity macros and Proxies generation">
+      <action dev="fady" type="add">
+        The Generator can now produce Web Service proxies for mainframe clients. These
+        can be deployed with the legstar-c2wsrt runtime to provide mainframe programs
+        with the ability to call oubound Web Services.
+        In this case, the generator produces a Servlet and a COBOL sample client.
+      </action>
       <action dev="fady" type="update">
         The XSLT based generation has been replaced by Velocity macros. The code is
         easier to maintain and performances are better.
