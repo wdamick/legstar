@@ -41,16 +41,18 @@ INSTALLING/UNINSTALLING:
         |----><lib>
                 |---->*.jar
         |----><samples>
-                |---->*.xml
-                |---->*.properties
-        |----><war>
-                |---->*.war
+                |----><cobol>
+                         |---->*.CBL
+                |----><jcl>
+                         |---->COBC*
+                |----><war>
+                        |---->*.war
+                |----><webapp>
+                        |---->*/WEB-INF/web.xml
         |----><zos>
                 |----><C370>
                          |---->*.C
                          |---->*.H
-                |----><cobol>
-                         |---->*.CBL
                 |----><JCL>
                          |---->C370*
                 
@@ -59,25 +61,16 @@ INSTALLING/UNINSTALLING:
  [[2]] Upload and compile the zos programs following instructions in
        LSHTTAPI-README file.
    
- [[3]] Deploy the legstar-c2wsrt.war file into a servlet engine, such as
-       Tomcat, webapp directory.
+ [[3]] Deploy the sample war files into a servlet engine, such as
+       Tomcat or Jetty.
        
  [[4]] You will also need to copy the jar files from the <lib> folder to 
-       a location such as <CATALINA_BASE>/shared/lib. Do not copy the
-       legstar-c2wsrt-*.jar file though, as it is already part of the war
-       file you deployed in step 3.
+       a location such as <CATALINA_BASE>/shared/lib.
    
- [[5]] If you would like a simple Web Service sample that you can invoke from
-       CICS, copy jaxws-cultureinfo.war to the webapp directory.
+ [[5]] You can use the COBOL sample programs to check that you can access
+       remote web services.
        
- [[6]] A set of configuration files referring to the cultureinfo sample are
-       part of legstar-c2wsrt.war. After deployment, you will find them under
-       <CATALINA_BASE>\webapps\legstar-c2wsrt\WEB-INF\classes.
-       
-       You might want to check CultureInfo.xml for IP address and port where
-       you deployed the sample.
-   
- [[7]] To uninstall, cleanup Tomcat from all LegStar files and remove the installDir folder.
+ [[6]] To uninstall, cleanup Tomcat from all LegStar files and remove the installDir folder.
 
 DOCUMENTATION:
 

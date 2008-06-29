@@ -53,6 +53,10 @@
             <source>../legstar-c2wsrt/target/c2ws-cultureinfo.war</source>
             <outputDirectory>/samples/war/</outputDirectory>
         </file>
+        <file>
+            <source>../legstar-c2wsrt/target/c2ws-MSNSearch.war</source>
+            <outputDirectory>/samples/war/</outputDirectory>
+        </file>
     </files>
   
 </component>
