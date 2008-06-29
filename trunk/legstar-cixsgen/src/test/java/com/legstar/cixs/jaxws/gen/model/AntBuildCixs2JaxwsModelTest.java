@@ -70,7 +70,7 @@ public class AntBuildCixs2JaxwsModelTest extends TestCase {
 		assertTrue(resStr.contains("wsdlPortName=\"CultureInfoImplPort\""));
 		assertTrue(resStr.contains("wsdlServiceName=\"CultureInfoImplService\""));
 		assertTrue(resStr.contains("targetNamespace=\"http://cultureinfo.cases.test.xsdc.legstar.com/\""));
-		assertTrue(resStr.contains("serviceURI=\"http://locahost:8080/c2ws-cultureinfo/cultureinfoProxy\""));
+		assertTrue(resStr.contains("serviceURI=\"http://localhost:8080/c2ws-cultureinfo/cultureinfoProxy\""));
 		assertTrue(resStr.contains("<cixsOperation name=\"cultureinfo\""));
 		assertTrue(resStr.contains("cicsProgramName=\"CULTUREI\""));
 		assertTrue(resStr.contains("jaxbType=\"GetInfoType\""));

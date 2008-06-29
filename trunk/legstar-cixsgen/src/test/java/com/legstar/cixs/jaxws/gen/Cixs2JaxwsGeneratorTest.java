@@ -170,7 +170,8 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
 		resStr = getSource(
 				GEN_COBOL_DIR, service + '/' + cicsProgramName + ".cbl");
 		assertTrue(resStr.contains("PROGRAM-ID. JVMQUERY."));
-		assertTrue(resStr.contains("'http://locahost:8080/c2ws-jvmquery/jvmqueryProxy'"));
+		assertTrue(resStr.contains("77  C2WS-SERVICE-URI            PIC X(49) VALUE"));
+		assertTrue(resStr.contains("'http://localhost:8080/c2ws-jvmquery/jvmqueryProxy'"));
 		assertTrue(resStr.contains("'alice'"));
 		assertTrue(resStr.contains("'inwonderland'"));
 		assertTrue(resStr.contains("'jvmquery'."));

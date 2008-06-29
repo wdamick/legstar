@@ -18,7 +18,7 @@
         <!-- Service name   -->
         <property name="service" value="cultureinfo" />
         <!-- Service URI where generated proxy will be listening for Mainframe calls   -->
-        <property name="serviceURI" value="http://locahost:8080/c2ws-${service}/${service}Proxy" />
+        <property name="serviceURI" value="http://localhost:8080/c2ws-${service}/${service}Proxy" />
         
         <!-- Target Web Service WSDL URL   -->
         <property name="wsdl.url" value="http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl"/>
@@ -47,9 +47,9 @@
         <property name="cust.bin.dir" value="${basedir}/target/classes"/>
     
         <!-- Generated Ant scripts target location   -->
-        <property name="ant.dir" value="${basedir}/src/main/ant"/>
+        <property name="ant.dir" value="${basedir}/src/main/ant/${service}"/>
         <!-- Generated Web descriptors target location   -->
-        <property name="wdd.dir" value="${basedir}/src/main/WebContent/WEB-INF"/>
+        <property name="wdd.dir" value="${basedir}/src/main/WebContent/${service}/WEB-INF"/>
         <!-- Generated COBOL CICS program target location   -->
         <property name="cobol.dir" value="${basedir}/src/main/cobol"/>
         <!-- Generated sample COBOL CICS program name   -->

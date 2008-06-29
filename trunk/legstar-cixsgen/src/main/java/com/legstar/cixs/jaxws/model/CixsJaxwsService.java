@@ -37,7 +37,7 @@ public class CixsJaxwsService extends AbstractCixsService {
 	/** Default pattern for server URI. Must be kept in sync with
 	 * various velocity templates. */
     public static final String DEFAULT_SERVER_URI_TEMPLATE =
-    	"http://locahost:8080/c2ws-${service.name}/${service.name}Proxy";
+    	"http://localhost:8080/c2ws-${service.name}/${service.name}Proxy";
     
 	/** Will be appended to implementation class name to form a host header
 	 *  class name. */

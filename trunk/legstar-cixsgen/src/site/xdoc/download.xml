@@ -9,12 +9,12 @@
   </head>
   <body>
     <!-- The body of the document contains a number of sections -->
-    <section name="Download Service Generator">
+    <section name="Download Web Service generator">
 
       <!-- Within sections, any XHTML can be used -->
 		<table border="1">
 			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
-			<tr><td>Service Generator</td><td>Java</td><td><a href="./binaries/legstar-cixsgen-1.1.0-bin.zip">legstar-cixsgen-1.1.0-bin.zip</a></td></tr>
+			<tr><td>Web Service generator</td><td>Java</td><td><a href="./binaries/legstar-cixsgen-1.2.0-bin.zip">legstar-cixsgen-1.2.0-bin.zip</a></td></tr>
 		</table>
 
     </section>
