@@ -16,7 +16,7 @@ Cobol binding Application Programming Interface (Coxbapi) overview
   modules.
   
   An important class in the API is {{{apidocs/com/legstar/coxb/CobolElement.html}CobolElement}} which is a java annotation that represent
-  the association between a Java property and a Cobol data element. 
+  the mapping between a Java property and a Cobol data element. 
   
   Another important class is {{{apidocs/com/legstar/coxb/common/CComplexBinding.html}CComplexBinding}} which represents binding of a complex
   structure. It implements the visitor pattern by providing a generic "accept" method. This is important
