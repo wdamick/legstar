@@ -1,5 +1,5 @@
  -------------------------------------------------------------------------------
-                     LegSem LegStar Chttprt Version 1.1.0
+                     LegSem LegStar Chttprt Version 1.2.0
                                Release Notes
  -------------------------------------------------------------------------------
 
@@ -11,7 +11,7 @@ PREREQUISITES:
 
  LegStar Chttprt is based upon {{{http://jakarta.apache.org/commons/httpclient/} Apache HTTPClient}}.
  
- Chttprt does not use the pooling capabilities of HTTPClient. Pooling is provided
+ Chttprt does not use the pooling capabilities of HTTPClient. Connection pooling is provided
  in a transport independent fashion by {{{../legstar-engine} LegStar pooling engine}}.
  
  Chttprt uses the {{{../legstar-messaging} LegStar messaging}} layer which is included
