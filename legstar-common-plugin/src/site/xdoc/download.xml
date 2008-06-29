@@ -1,7 +1,7 @@
 <document>
   <properties>
     <author email="admin@legsem.com">Fady Moussallam</author>
-    <title>Download LegStar Common Eclipse plugin</title>
+    <title>Download LegStar Eclipse plugins</title>
   </properties>
   <!-- Optional HEAD element, which is copied as is into the XHTML <head> element -->
   <head>
@@ -9,11 +9,10 @@
   </head>
   <body>
     <!-- The body of the document contains a number of sections -->
-    <section name="Download Common Eclipse plugin">
+    <section name="Download Eclipse plugins">
       <!-- Within sections, any XHTML can be used -->
-      <p>To install this Eclipse plugin, use the standard Eclipse update mechanism by pointing to the
-      <a href="http://www.legsem.com/legstar/eclipse/update">http://www.legsem.com/legstar/eclipse/update</a>
-      site (Help-->Software Updates-->Find and Install-->Search for new features-->New Remote site)</p>
+      <p>To install the LegStar Eclipse plugins, use the standard Eclipse update mechanism by pointing to the
+      <a href="http://www.legsem.com/legstar/eclipse/update">http://www.legsem.com/legstar/eclipse/update</a> site (Help-->Software Updates-->Find and Install-->Search for new features-->New Remote site)</p>
     </section>
 
   </body>
