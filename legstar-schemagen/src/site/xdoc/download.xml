@@ -9,12 +9,12 @@
   </head>
   <body>
     <!-- The body of the document contains a number of sections -->
-    <section name="Download XML Schema Generator">
+    <section name="Download COBOL Structures to XML Schema Generator">
 
       <!-- Within sections, any XHTML can be used -->
  		<table border="1">
 			<tr><th>Module</th><th>Format</th><th>Link</th></tr>
-			<tr><td>Schema Generator</td><td>zip file</td><td><a href="./binaries/legstar-schemagen-1.1.0-bin.zip">legstar-schemagen-1.1.0-bin.zip</a></td></tr>
+			<tr><td>COBOL Structures to XML Schema Generator</td><td>zip file</td><td><a href="./binaries/legstar-schemagen-1.2.0-bin.zip">legstar-schemagen-1.2.0-bin.zip</a></td></tr>
 		</table>
 
     </section>

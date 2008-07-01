@@ -3,22 +3,21 @@
  -----
  Fady Moussallam
  -----
- 25 August 2007
+ 01 July 2008
  -----
 
-XML Schema Generator (Schemagen) overview
+COBOL Structures to XML Schema Generator (Schemagen) overview
 
-  The LegStar Schemagen project provides COBOL to XML Schema generation. It is part of the LegStar project,
-  an open-source initiative toward service enablement of legacy applications.
+  The LegStar Schemagen project provides COBOL to XML Schema generation.
 
-  LegStar Schemagen translates COBOL constructs into XML Schema elements. The resulting XML schema is extented
+  LegStar Schemagen translates COBOL structures into XML Schema elements. The resulting XML schema is extended
   with COBOL specific annotations. For instance, a COBOL sentence such as:
   
 ---------------------------------------------
   10 REPLY-ITEMSCOUNT        PIC 9(8) COMP-3.        
 ---------------------------------------------
   
-  Would be translated to:
+  Is translated into:
   
 +-------------------------------+
      <xs:element name="ReplyItemscount">

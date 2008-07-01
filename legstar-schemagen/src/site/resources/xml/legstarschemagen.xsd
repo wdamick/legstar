@@ -3,10 +3,13 @@
     <annotation>
         <documentation>
           This XML Schema describes the LegStar COBOL binding language.
-                A cobolElement can be attached to an XML Schema element or a Java property to
-                describe how that element or property translates into a COBOL data item.
+          A cobolElement can be attached to an XML Schema element or a Java property to
+          describe how that element or property translates into a COBOL data item.
+          A cobolComplexType can be attached to an XML Schema complex type to
+          describe how complex types relate to java classes.
         </documentation>
     </annotation>
+
     <complexType name="cobolElement">
       <attribute name="levelNumber" use="required">
         <annotation>
@@ -296,4 +299,19 @@
         </simpleType>
       </attribute>
     </complexType>
+
+    <complexType name="cobolComplexType">
+      <attribute name="javaClassName" use="optional">
+        <annotation>
+          <documentation>
+            A POJO class name that maps to this complex type.
+          </documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="string">
+          </restriction>
+        </simpleType>
+      </attribute>
+    </complexType>
+
 </schema>

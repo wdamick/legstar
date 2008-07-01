@@ -1,17 +1,17 @@
 
 
  -------------------------------------------------------------------------------
-                     LegSem LegStar Schemagen Version 1.1.0
+                     LegSem LegStar Schemagen Version 1.2.0
                                Release Notes
  -------------------------------------------------------------------------------
 
 PREREQUISITES:
 
- The LegStar XML Schema Generator is implemented as an Apache Ant task (Apache  
- Software Foundation (http://www.apache.org/).
+ The LegStar COBOL Structures to XML Schema Generator is implemented as an Apache
+ Ant task (Apache Software Foundation (http://www.apache.org/).
  
- XML Schema Generator has been tested with ant 1.6.5. The binaries can be downloaded
- from http://ant.apache.org/.
+ COBOL Structures to XML Schema Generator has been tested with ant 1.6.5. The
+ binaries can be downloaded from http://ant.apache.org/.
  
  Schemagen is the only LegStar module that uses native C programs. The standard
  delivery includes dlls for Windows and shared objects for Linux. The Linux
