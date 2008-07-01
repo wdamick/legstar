@@ -84,7 +84,7 @@ public final class CobolMarkup {
 	/** Cobol value appears inline in cobolElement. */
 	public static final  String ELEMENT_VALUE = "value";
 	/** Cobol annotation for complex types. */
-	public static final  String COMPLEX_TYPE = "cobolType";
+	public static final  String COMPLEX_TYPE = "cobolComplexType";
 	/** The java class name bound to a cobol element. */
 	public static final  String JAVA_CLASS_NAME = "javaClassName";
 }
