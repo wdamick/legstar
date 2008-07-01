@@ -14,7 +14,8 @@ Distribution overview
   the distribution, you don't need to individually download the various LegStar modules.
   
   The distribution does not contain the Eclipse plugins though which are expected to
-  be installed using the standard Eclipse update mechanism.
+  be installed using the standard Eclipse update mechanism from
+  {{{../http://www.legsem.com/legstar/eclipse/update} here}}.
   
   The distribution also provides source code for the current release as well as access
   to previous releases downloads.
