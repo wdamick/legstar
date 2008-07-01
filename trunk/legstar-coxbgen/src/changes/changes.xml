@@ -1,10 +1,10 @@
 <document>
   <properties>
-    <title>Cobol binding generator</title>
+    <title>COBOL Binding Generator</title>
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
-    <release version="1.2.0" date="2008-04-01" description="Velocity macros">
+    <release version="1.2.0" date="2008-07-08" description="Velocity macros">
       <action dev="fady" type="update">
         You can now provide multiple Jaxb root class names for a single execution
         of the binding generator.
@@ -31,7 +31,7 @@
 
     <release version="0.0.1" date="2006-12-31" description="First release">
       <action dev="fady" type="add">
-        First version of the Cobol binding generator.
+        First version of the COBOL Binding Generator.
       </action>
     </release>
   </body>

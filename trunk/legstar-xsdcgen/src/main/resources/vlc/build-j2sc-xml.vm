@@ -23,7 +23,7 @@ Java to Xsd ant script Velocity Template.
 #end
         </path>
         
-        <!-- Java to Xsd generator ant task -->
+        <!-- Java to COBOL Structures Generator ant task -->
         <taskdef name="j2scgen"
             classname="com.legstar.j2sc.gen.JavaToXsdCobolTask"
             classpathref="classpath"/>

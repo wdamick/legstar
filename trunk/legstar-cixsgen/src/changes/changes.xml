@@ -4,7 +4,7 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
-    <release version="1.2.0" date="2008-08-01" description="Velocity macros and Proxies generation">
+    <release version="1.2.0" date="2008-07-08" description="Velocity macros and Proxies generation">
       <action dev="fady" type="add">
         The Generator can now produce Web Service proxies for mainframe clients. These
         can be deployed with the legstar-c2wsrt runtime to provide mainframe programs

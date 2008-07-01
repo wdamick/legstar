@@ -31,7 +31,7 @@
             <dirset dir="${jaxb.bin.dir}"/>
         </path>
 
-        <!-- Cobol generator ant task -->
+        <!-- COBOL Structures Generator ant task -->
         <taskdef name="cobcgen"
           classname="com.legstar.cobc.gen.CobolGenerator"
           classpathref="classpath"/>

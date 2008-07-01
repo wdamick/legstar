@@ -22,7 +22,7 @@
             <fileset dir="${basedir}" includes="lib/*.jar" />
         </path>
         
-        <!-- Service Proxy Generator ant task -->
+        <!-- Mainframe Proxy Generator ant task -->
         <taskdef name="cixs2jaxwsgen"
             classname="com.legstar.cixs.jaxws.gen.Cixs2JaxwsGenerator"
             classpathref="classpath" 

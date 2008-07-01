@@ -6,19 +6,19 @@
 PREREQUISITES:
 
  Before Chttprt can be used, the LSWEBBIN CICS Program must be installed in the
- target CICS region. The {{{LSWEBBIN-readme.html} LSWEBBIN readme}} document
+ target CICS region. The {{{LSWEBBIN-readme.html}LSWEBBIN readme}} document
  describes the program and how to install it.
 
- LegStar Chttprt is based upon {{{http://jakarta.apache.org/commons/httpclient/} Apache HTTPClient}}.
+ LegStar Chttprt is based upon {{{http://jakarta.apache.org/commons/httpclient/}Apache HTTPClient}}.
  
  Chttprt does not use the pooling capabilities of HTTPClient. Connection pooling is provided
- in a transport independent fashion by {{{../legstar-engine} LegStar pooling engine}}.
+ in a transport independent fashion by {{{../legstar-engine}Connection Pooling Engine}}.
  
- Chttprt uses the {{{../legstar-messaging} LegStar messaging}} layer which is included
+ Chttprt uses the {{{../legstar-messaging}Messaging Protocol}} layer which is included
  in the distribution.
  
- Chttprt also uses the {{{http://jakarta.apache.org/commons/logging/} Apache Commons logging}}
- and {{{http://jakarta.apache.org/commons/configuration/} Apache commons configuration}}.
+ Chttprt also uses the {{{http://jakarta.apache.org/commons/logging/}Apache Commons logging}}
+ and {{{http://jakarta.apache.org/commons/configuration/}Apache commons configuration}}.
  
 INSTALLING/UNINSTALLING:
 

@@ -2,7 +2,7 @@
 <project name="legstar-coxbrt">
   <body>
 
-    <menu name="Binding runtime">
+    <menu name="COBOL Binding Runtime">
       <item name="Introduction" href="index.html"/>
       <item name="FAQ" href="faq.html" />
     </menu>

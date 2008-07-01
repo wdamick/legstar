@@ -7,7 +7,7 @@
       <version>SNAPSHOT</version>
     </parent>
 	<artifactId>legstar-cobcgen</artifactId>
-	<name>COBOL data structure Generator</name>
+	<name>COBOL Structures Generator</name>
     <version>SNAPSHOT</version>
 	<description>Generates Cobol data descriptions from cobol-annotated jaxb classes.</description>
 	<url>http://www.legsem.com/legstar/cobcgen/</url>

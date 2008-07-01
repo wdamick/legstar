@@ -5,18 +5,18 @@
 
 PREREQUISITES:
 
- This plugin requires Eclipse 3.2.1. It uses the LegStar Binding Generator (Coxbgen)
+ This plugin requires Eclipse 3.2.1. It uses the COBOL Binding Generator (Coxbgen)
  module which needs to be installed prior to using this plugin.
  
- The Binding Generator module can be downloaded from {{{../legstar-coxbgen/download.html} here}}.
+ The COBOL Binding Generator module can be downloaded from {{{../legstar-coxbgen/download.html}here}}.
  
- The Binding Generator Eclipse Plugin also requires the LegStar Common Eclipse plugin. For
+ The COBOL Binding Generator Eclipse Plugin also requires the LegStar Common Eclipse plugin. For
  intructions on how to install the Common Eclipse Plugin,
-  see {{{../legstar-common-plugin/release-notes.html} here}}.
+  see {{{../legstar-common-plugin/release-notes.html}here}}.
  
 INSTALLING/UNINSTALLING:
 
- [[1]] Ensure that the base Binding Generator module has been installed.
+ [[1]] Ensure that the base COBOL Binding Generator module has been installed.
     
  [[2]] Within Eclipse, create a remote site using:
  
@@ -25,9 +25,9 @@ INSTALLING/UNINSTALLING:
 -----------------------------------------------------------------------------------------
   
   Have the URL point to http://www.legsem.com/legstar/eclipse/update and select the
-  LegsStar Binding Generator feature.
+  COBOL Binding Generator feature.
 
- [[3]] Restart Eclipse and check that "LegsStar Binding Generator" shows up in:
+ [[3]] Restart Eclipse and check that "COBOL Binding Generator" shows up in:
  
 -----------------------------------------------------------------------------------------
   Help-->About Eclipse SDK-->Plug-in details.

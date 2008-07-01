@@ -6,20 +6,20 @@
 PREREQUISITES:
 
  Before Cmqrt can be used, the LSMQHBIN CICS Program must be installed in the
- target CICS region. The {{{LSMQHBIN-readme.html} LSMQHBIN readme}} document
+ target CICS region. The {{{LSMQHBIN-readme.html}LSMQHBIN readme}} document
  describes the program and how to install it.
  
  If you need to regulate LSMQHBIN activity (high volumes for instance) read 
- the {{{LSMQCBIN-readme.html} LSMQCBIN readme}} document.
+ the {{{LSMQCBIN-readme.html}LSMQCBIN readme}} document.
 
  LegStar Cmqrt is based upon {{{http://www-306.ibm.com/software/integration/wmq/}
  IBM WebSphere MQ client library}}.
  
- Cmqrt uses the {{{../legstar-messaging} LegStar messaging}} layer which is included
+ Cmqrt uses the {{{../legstar-messaging}Messaging Protocol}} layer which is included
  in the distribution.
  
- Cmqrt also uses the {{{http://jakarta.apache.org/commons/logging/} Apache Commons logging}}
- and {{{http://jakarta.apache.org/commons/configuration/} Apache commons configuration}}.
+ Cmqrt also uses the {{{http://jakarta.apache.org/commons/logging/}Apache Commons logging}}
+ and {{{http://jakarta.apache.org/commons/configuration/}Apache commons configuration}}.
  
 INSTALLING/UNINSTALLING:
 

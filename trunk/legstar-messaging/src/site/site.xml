@@ -2,7 +2,7 @@
 <project name="legstar-messaging">
   <body>
 
-    <menu name="Messaging protocol">
+    <menu name="Messaging Protocol">
       <item name="Introduction" href="index.html"/>
     </menu>
 

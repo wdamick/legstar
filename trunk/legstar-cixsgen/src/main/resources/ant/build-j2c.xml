@@ -59,7 +59,7 @@
         <fileset dir="${basedir}" includes="lib/*.jar" />
     </path>
 
-    <!-- Service Generator ant task -->
+    <!-- Web Service Adapter Generator ant task -->
     <taskdef name="jaxws2cixsgen"
       classname="com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator"
       classpathref="classpath" 

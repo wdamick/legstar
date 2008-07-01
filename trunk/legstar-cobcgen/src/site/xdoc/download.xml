@@ -9,12 +9,12 @@
   </head>
   <body>
     <!-- The body of the document contains a number of sections -->
-    <section name="Download COBOL data structure Generator">
+    <section name="Download COBOL Structures Generator">
 
       <!-- Within sections, any XHTML can be used -->
  		<table border="1">
 			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
-			<tr><td>COBOL data structure Generator</td><td>Java</td><td><a href="./binaries/legstar-cobcgen-1.2.0-bin.zip">legstar-cobcgen-1.2.0-bin.zip</a></td></tr>
+			<tr><td>COBOL Structures Generator</td><td>Java</td><td><a href="./binaries/legstar-cobcgen-1.2.0-bin.zip">legstar-cobcgen-1.2.0-bin.zip</a></td></tr>
 		</table>
 
     </section>

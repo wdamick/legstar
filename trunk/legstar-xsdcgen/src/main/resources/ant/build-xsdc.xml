@@ -24,7 +24,7 @@
         <fileset dir="${basedir}" includes="lib/*.jar" />
       </path>
 
-    <!-- Annotator ant task -->
+    <!-- XSD/WSDL to COBOL Structures Generator ant task -->
     <taskdef name="xsdcgen"
       classname="com.legstar.xsdc.gen.XsdCobolAnnotator"
       classpathref="classpath"/>

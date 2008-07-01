@@ -2,7 +2,7 @@
 <project name="legstar-coxbgen">
   <body>
 
-    <menu name="Binding Generator">
+    <menu name="COBOL Binding Generator">
       <item name="Introduction" href="index.html"/>
       <item name="Download" href="download.html"/>
       <item name="Release Notes" href="release-notes.html" />

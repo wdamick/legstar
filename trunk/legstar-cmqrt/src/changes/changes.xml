@@ -4,7 +4,7 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
-    <release version="1.2.0" date="2008-08-01" description="No major change">
+    <release version="1.2.0" date="2008-07-08" description="No major change">
       <action dev="fady" type="update">
         Uses new naming convention for LegStar messaging classes.
       </action>

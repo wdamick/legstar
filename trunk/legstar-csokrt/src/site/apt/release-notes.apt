@@ -6,14 +6,14 @@
 PREREQUISITES:
 
  Before Csokrt can be used, the LSSOKBIN CICS Program must be installed in the
- target CICS region. The {{{LSSOKBIN-readme.html} LSSOKBIN readme}} document
+ target CICS region. The {{{LSSOKBIN-readme.html}LSSOKBIN readme}} document
  describes the program and how to install it.
 
- Csokrt uses the {{{../legstar-messaging} LegStar messaging}} layer which is included
+ Csokrt uses the {{{../legstar-messaging}Messaging Protocol}} layer which is included
  in the distribution.
  
- Csokrt also uses the {{{http://jakarta.apache.org/commons/logging/} Apache Commons logging}}
- and {{{http://jakarta.apache.org/commons/configuration/} Apache commons configuration}}.
+ Csokrt also uses the {{{http://jakarta.apache.org/commons/logging/}Apache Commons logging}}
+ and {{{http://jakarta.apache.org/commons/configuration/}Apache commons configuration}}.
  
 INSTALLING/UNINSTALLING:
 

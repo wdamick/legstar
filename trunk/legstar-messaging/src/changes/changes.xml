@@ -4,7 +4,7 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
-    <release version="1.2.0" date="2008-08-01" description="Refactoring">
+    <release version="1.2.0" date="2008-07-08" description="Refactoring">
       <action dev="fady" type="update">
         Main classes were renamed from MessageXxx to LegStarMessageXxx. This was necessary
         because several third party products were using similar class names causing

@@ -28,13 +28,13 @@ CICS MQ handler LSMQHBIN
  CICS region.
  
  LSMQHBIN uses the LSLNKBIN and LSCOMLOG programs part of the
- {{{../legstar-csokrt}LegStar csokrt module}}. Please refer to the
-  {{{../legstar-csokrt/LSSOKBIN-readme.html} LSSOKBIN documentation}} for
+ {{{../legstar-csokrt}Socket Transport}}. Please refer to the
+  {{{../legstar-csokrt/LSSOKBIN-readme.html}LSSOKBIN documentation}} for
  instructions on how to install these programs.
  
  LSMQHBIN also uses the LSMSGLIB library part of the
- {{{../legstar-messaging}LegStar messaging module}}. Please refer to the
-  {{{../legstar-messaging/LSMSGLIB-readme.html} LSMSGLIB documentation}} for
+ {{{../legstar-messaging}Messaging Protocol}}. Please refer to the
+  {{{../legstar-messaging/LSMSGLIB-readme.html}LSMSGLIB documentation}} for
  instructions on how to install this library.
  
  You will need WebSphere MQ for z/OS version 5.3 or above.

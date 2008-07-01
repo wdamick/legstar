@@ -6,12 +6,12 @@
  01 August 2007
  -----
 
-Cobol binding Application Programming Interface (Coxbapi) overview
+COBOL Binding Application Programming Interface (Coxbapi) overview
 
   The Cobol binding API provides the capability to dynamically map Cobol structures to
   complex Java objects.
   
-  The API itself does not provide implementation (see {{{../legstar-coxbrt} Binding Runtime}} for an
+  The API itself does not provide implementation (see {{{../legstar-coxbrt}COBOL Binding Runtime}} for an
   implementation). This separation allows implementations to evolve without impact on higher level
   modules.
   

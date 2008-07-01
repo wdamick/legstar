@@ -11,7 +11,7 @@ HTTP Transport (Chttprt) overview
   The HTTP Transport provides connectivity with CICS Web Support.
   
   To select this transport, there needs to be a valid endpoint definition in the active
-  LegStar invoker configuration file. See {{{../legstar-invoker}LegStar invoker module}} for more info on
+  LegStar invoker configuration file. See {{{../legstar-invoker}Mainframe Invoker Runtime}} for more info on
   the configuration file location.
   
   The hostConnectionFactory element in the configuration file must be:

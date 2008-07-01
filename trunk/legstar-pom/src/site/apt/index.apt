@@ -14,35 +14,35 @@ Overview
   LegStar is based on a {{{legstar-schemagen/xml/legstarschemagen.xsd}COBOL binding language}}
   to describe how COBOL data items should map to XML Schema elements.
   
-  LegStar offers {{{legstar-coxbapi/}Java to COBOL}} marshaling/unmarshaling capabilities. This feature
-  is built on top of the standard {{{http://www.jcp.org/en/jsr/detail?id=222} JAXB framework}}
+  LegStar offers {{{legstar-coxbapi/}COBOL Binding API}} marshaling/unmarshaling capabilities. This feature
+  is built on top of the standard {{{http://www.jcp.org/en/jsr/detail?id=222}JAXB framework}}
   which provides Java to XML binding. As a result of this combination, LegStar can convert z/OS data buffers
   to XML and vice versa.
   
-  LegStar also provides mapping of {{{legstar-cixsgen/index.html} CICS programs to Web Service operations}}.
-  This feature is an implementation of the standard {{{http://jcp.org/en/jsr/detail?id=224} JAXWS}}
+  LegStar also provides mapping of {{{legstar-cixsgen/index.html}Web Service Generator}}.
+  This feature is an implementation of the standard {{{http://jcp.org/en/jsr/detail?id=224}JAXWS}}
   Web Service API. This allows you to expose legacy CICS programs as Web Services.
   
   Because LegStar uses the JAXWS standard framework you benefit from the latest advances in SOA.
   
   In addition to the code-first approach to integration where you would start with a tool such as
-  {{{legstar-schemagen/index.html} XML Schema Generator}} to turn a COBOL code fragment into an XML Schema,
-  LegStar proposes a contract-first approach with the {{{legstar-xsdcgen/index.html} XML Schema Annotator}}.
+  {{{legstar-schemagen/index.html}COBOL Structures to XML Schema Generator}} to turn a COBOL code fragment into an XML Schema,
+  LegStar proposes a contract-first approach with the {{{legstar-xsdcgen/index.html}Complex Types to COBOL Structures Generator}}.
   This tool takes a WSDL or XML Schema and automatically adds COBOL annotations to it.
   
   You can actually write new CICS programs and expose them as Web Services. LegStar fully supports the new
   CICS channel/container mechanism in addition to the standard commarea. LegStar supports multiple input
   containers and multiple output containers.
   
-  LegStar also provides an API to allow CICS programs to {{{legstar-c2wsrt/index.html} call remote Web Services}}.
+  LegStar also provides an API to allow CICS programs to {{{legstar-c2wsrt/index.html}Mainframe to Web Service runtime}}.
   
   In term of transport protocols to CICS, LegStar offers:
   
-  * {{{legstar-csokrt/index.html} CICS Sockets}}
+  * {{{legstar-csokrt/index.html}Socket Transport}}
   
-  * {{{legstar-chttprt/index.html} CICS Web Support}}
+  * {{{legstar-chttprt/index.html}HTTP Transport}}
   
-  * {{{legstar-cmqrt/index.html} WebSphere MQ}}
+  * {{{legstar-cmqrt/index.html}WebSphere MQ Transport}}
 
 []
 

@@ -6,13 +6,13 @@
  26 July 2007
  -----
 
-COBOL data structure Generator (cobcgen) overview
+COBOL Structures Generator (cobcgen) overview
 
   LegStar cobcgen generates cobol source with data descriptions. Such source can then be
   used as regular cobol copybooks in a cobol program.
   
   The cobol data descriptions are derived from JAXB annotated classes such as the ones
-  produced by {{{../legstar-jaxbgen} JAXB Generator}}.
+  produced by {{{../legstar-jaxbgen}JAXB COBOL Annotator}}.
   
   The cobol data description have the same morphology as the JAXB class properties. This
   means that order and depth are driven by the JAXB annotated properties.
