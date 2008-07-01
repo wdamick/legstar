@@ -6,22 +6,23 @@
  30 July 2007
  -----
 
-Invoker overview
+Mainframe invoker runtime overview
 
-  The LegStar Invoker provides a general purpose remote invokation mechanism for host programs.
+  The LegStar Invoker provides a general purpose remote call mechanism to mainframe programs
+  from Java clients.
   
   The Invoker receives input structures as JAXB object trees and produces output JAXB object
-  trees. The HostInvoker has the capability to call single input/single output program such as
+  trees. The Invoker has the capability to call single input/single output programs such as
   CICS commarea-driven programs but it can also call multiple input/multiple output programs
-  such as CICS containers-driven programs.
+  such as CICS container-driven programs.
   
   Invoker uses the {{{../legstar-coxbrt} COBOL to XML Binding}} classes to marshal/unmarshal
-  host data buffers.
+  mainframe data streams.
   
-  Host programs to call are described by properties files such as the lsfileae.properties
+  Mainframe programs to call are described by properties files such as the lsfileae.properties
   sample file provided. Such a properties file is expected to be available from the classpath.
   
-  The Invoker expects a configuration file as well as a target address to run the host
+  The Invoker expects a configuration file as well as a target address to run the mainframe
   program on. A configuration file is an XML file. The Invoker looks for host endpoint
   definitions similar to the one found in the legstar-invoker-config.xml sample provided.
   
@@ -49,7 +50,7 @@ Invoker overview
    
   The host access strategy is independent from the underlying transport.
   
-  Pooling allows host connections to be reused. For details, refer to {{{../legstar-engine} LegStar engine}}.
+  Pooling allows host connections to be reused. For details, refer to {{{../legstar-engine} LegStar Connection pooling engine}}.
   
   For answers to common questions about LegStar Invoker, see the {{{faq.html} FAQ}}.
   
