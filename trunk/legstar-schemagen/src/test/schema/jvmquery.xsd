@@ -12,7 +12,7 @@
     <xs:complexType name="jvmQueryRequest">
         <xs:annotation>
             <xs:appinfo>
-                <cb:cobolType javaClassName="com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest"/>
+                <cb:cobolComplexType javaClassName="com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest"/>
             </xs:appinfo>
         </xs:annotation>
         <xs:sequence>
@@ -28,7 +28,7 @@
     <xs:complexType name="jvmQueryReply">
         <xs:annotation>
             <xs:appinfo>
-                <cb:cobolType javaClassName="com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply"/>
+                <cb:cobolComplexType javaClassName="com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply"/>
             </xs:appinfo>
         </xs:annotation>
         <xs:sequence>
