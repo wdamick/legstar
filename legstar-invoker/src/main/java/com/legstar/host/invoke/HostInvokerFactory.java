@@ -27,7 +27,6 @@ import com.legstar.config.Config;
 import com.legstar.host.access.HostAccessStrategy;
 import com.legstar.host.access.HostAccessStrategyException;
 import com.legstar.host.access.HostAccessStrategyFactory;
-import com.legstar.messaging.Address;
 import com.legstar.messaging.LegStarAddress;
 
 /**
@@ -123,7 +122,7 @@ public final class HostInvokerFactory {
 	@SuppressWarnings("deprecation")
 	public static HostInvoker createHostInvoker(
 			final String generalConfigFileName,
-			final Address address,
+			final com.legstar.messaging.Address address,
 			final String cicsProgramFileName)
 			throws HostInvokerException {
 		return createHostInvoker(generalConfigFileName,
