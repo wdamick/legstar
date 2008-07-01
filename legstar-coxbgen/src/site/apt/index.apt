@@ -3,21 +3,27 @@
  -----
  Fady Moussallam
  -----
- 01 August 2007
+ 01 August 2008
  -----
 
 Binding Generator (Coxbgen) overview
 
-  LegStar Coxbgen is a Java source code generator based on COBOL-annotated XML schemas such as the ones
-  produced by {{{../legstar-schemagen} XML Schema Generator}}.
+  LegStar Coxbgen is a Java source code generator based on Data mapping XML Schemas such as the ones
+  produced by {{{../legstar-schemagen} Data mapping XML Schema Generator}}.
 
-  Coxbgen produces Runtime binding classes which provide fast conversion of COBOL z/os data buffers to
-  Java instances and vice-versa. These binding classes do not use reflection at runtime which provides
+  Coxbgen includes an XML Schema to Java binding utility built with Sun's JAXB (More precisely as a
+  JAXB XJC plugin). This capability, although bundled with Coxbgen, has its own project called
+   {{{../legstar-jaxbgen}JAXB Generator}}or Jaxbgen.
+   
+  Jaxbgen produces {{{https://jaxb.dev.java.net/}JAXB Classes}}with COBOL annotations. These classes are
+  not different from regular JAXB Classes apart from additional Java annotations providing mapping meta-data
+  between Java types and COBOL types.
+  
+  Coxbgen also produces Runtime binding classes which provide fast conversion of COBOL z/os data streams
+  to Java instances and vice-versa. These binding classes do not use reflection at runtime which provides
   substantial performance gains.
   
-  The generator itself uses reflection on JAXB classes produced by {{{../legstar-jaxbgen}JAXB Generator}}.
-  The JAXB Generator is delivered with the Binding Generator.
- 
-  Coxbgen generated classes use the {{{../legstar-coxbapi} Cobol binding API}}.
+  Coxbgen generated classes use the {{{../legstar-coxbapi} Cobol binding API}}. This API shields the 
+  generated code from underlying implementation.
   
   For answers to common questions about LegStar Coxbgen, see the {{{faq.html} FAQ}}.
