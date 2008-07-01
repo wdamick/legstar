@@ -2,7 +2,7 @@
 <project name="legstar-invoker">
   <body>
 
-    <menu name="Mainframe invoker runtime">
+    <menu name="Mainframe Invoker Runtime">
       <item name="Introduction" href="index.html"/>
       <item name="FAQ" href="faq.html" />
     </menu>

@@ -18,11 +18,11 @@ PREREQUISITES:
  API from BEA/IBM (TWM). The Engine provides a default implementation of this API
  but you should be able to substitute the one provided by your application server.
  
- The Engine also uses the {{{http://jakarta.apache.org/commons/logging/} Apache Commons logging}}
- and {{{http://jakarta.apache.org/commons/configuration/} Apache commons configuration}}.
+ The Engine also uses the {{{http://jakarta.apache.org/commons/logging/}Apache Commons logging}}
+ and {{{http://jakarta.apache.org/commons/configuration/}Apache commons configuration}}.
  
  The Engine is used to pool abstract connections as defined in {{{../legstar-messaging}
-  LegStar messaging}}. It has no additional dependencies on LegStar.
+ Messaging Protocol}}. It has no additional dependencies on LegStar.
  
 INSTALLING/UNINSTALLING:
 

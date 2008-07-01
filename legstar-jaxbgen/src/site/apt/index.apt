@@ -6,12 +6,12 @@
  01 July 2008
  -----
 
-JAXB Cobol Annotator (Jaxbgen) overview
+JAXB COBOL Annotator (Jaxbgen) overview
 
   LegStar Jaxbgen is a Java source code generator based on COBOL-annotated XML schemas such as the ones
-  produced by {{{../legstar-schemagen} Data mapping XML Schema Generator}}.
+  produced by {{{../legstar-schemagen}COBOL Structures to XML Schema Generator}}.
 
-  Jaxbgen produces {{{https://jaxb.dev.java.net/} JAXB classes}} with COBOL annotations. These classes are
+  Jaxbgen produces {{{https://jaxb.dev.java.net/}JAXB classes}} with COBOL annotations. These classes are
   not different from regular JAXB classes apart from additional Java annotations providing mapping meta-data
   between Java types and COBOL types.
   
@@ -20,7 +20,7 @@ JAXB Cobol Annotator (Jaxbgen) overview
   The LegStar code augments the regular JAXB XJC generation tool to annotate the generated classes
   with COBOL mapping meta-data.
   
-  Jaxbgen is delivered as part of the {{{../legstar-coxbgen} Binding Generator}}
+  Jaxbgen is delivered as part of the {{{../legstar-coxbgen}COBOL Binding Generator}}
   
-  For answers to common questions about LegStar Jaxbgen, see the {{{faq.html} FAQ}}.
+  For answers to common questions about LegStar Jaxbgen, see the {{{faq.html}FAQ}}.
   

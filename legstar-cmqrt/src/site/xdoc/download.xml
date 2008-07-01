@@ -9,12 +9,12 @@
   </head>
   <body>
     <!-- The body of the document contains a number of sections -->
-    <section name="Download MQ Transport (Cmqrt)">
+    <section name="Download WebSphere MQ Transport (Cmqrt)">
 
       <!-- Within sections, any XHTML can be used -->
 		<table border="1">
 			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
-			<tr><td>MQ Transport</td><td>Java</td><td><a href="./binaries/legstar-cmqrt-1.2.0-bin.zip">legstar-cmqrt-1.2.0-bin.zip</a></td></tr>
+			<tr><td>WebSphere MQ Transport</td><td>Java</td><td><a href="./binaries/legstar-cmqrt-1.2.0-bin.zip">legstar-cmqrt-1.2.0-bin.zip</a></td></tr>
 		</table>
 
     </section>

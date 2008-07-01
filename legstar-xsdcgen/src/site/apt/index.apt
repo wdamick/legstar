@@ -16,7 +16,7 @@ Complex Types to COBOL Structures Generator (xsdcgen) overview
   * The <<Java to COBOL Structures Generator>> takes an existing set of Java classes as input and creates
     a mapping XML Schema where classes map to COBOL structures.
   
-  The generated mapping XML Schema can then be processed by the {{{../legstar-coxbgen} Binding Generator}}
+  The generated mapping XML Schema can then be processed by the {{{../legstar-coxbgen}COBOL Binding Generator}}
   to produce a set of annotated JAXB classes that can, in-turn, be used to marshal/unmarshal
   mainframe data.
   

@@ -21,8 +21,8 @@ CICS Messaging library LSMSGLIB
 * Prerequisites:
 
  LSMSGLIB uses the LSCOMLOG program part of the {{{../legstar-csokrt}
- LegStar csokrt module}}. Please refer to the
-  {{{../legstar-csokrt/LSSOKBIN-readme.html} LSSOKBIN documentation}} for
+ Socket Transport}}. Please refer to the
+  {{{../legstar-csokrt/LSSOKBIN-readme.html}LSSOKBIN documentation}} for
  instructions on how to install this program.
  
  You will need a C/370 compiler. Since LSMSGLIB is also a CICS program

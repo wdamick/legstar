@@ -19,7 +19,7 @@ Connection pooling engine overview
   driven by an XML configuration file. The configuration file is called "legstar-engine-config.xml"
   by default. It is a combination of "legstar-pooling-config.xml" which contain the engine pooling
   parameters and the "legstar-invoker-config.xml" which is shared with the {{{../legstar-invoker}
-  invoker}}.
+  Mainframe Invoker Runtime}}.
   
   The Connection pooling engine is not a stand-alone application. It has to be started by an initiator.
   A Servlet initiator is part of the delivery. The Servlet initiator starts when the servlet engine

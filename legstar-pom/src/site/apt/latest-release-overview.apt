@@ -15,19 +15,19 @@ Version 1.1.0
  
  To support this option, 3 new modules were added:
  
- * {{{legstar-xsdcgen} XML Schema Annotator}} takes a WSDL or XML Schema file and
+ * {{{legstar-xsdcgen}Complex Types to COBOL Structures Generator}} takes a WSDL or XML Schema file and
    produces a COBOL-annotated XML Schema that you can edit and customize. This
-   annotated schema can be used as input to {{{legstar-jaxbgen} JAXB Generator}}.
+   annotated schema can be used as input to {{{legstar-jaxbgen}JAXB COBOL Annotator}}.
 
  []
    
- * {{{legstar-cobcgen} Cobol Generator}} takes as input a JAXB annotated class and
+ * {{{legstar-cobcgen}COBOL Structures Generator}} takes as input a JAXB annotated class and
    produces COBOL source that contains the data descriptions mapping the JAXB
    class properties. Such sources can be used as regular COBOL copybooks.
 
  []
     
- * {{{legstar-c2wsrt} Host to Web Service runtime}} provides an API that your
+ * {{{legstar-c2wsrt}Mainframe to Web Service runtime}} provides an API that your
    COBOL-CICS programs can invoke and a gateway runtime implemented as a Servlet.
    Together the API and the Servlet provide the call infrastructure to remote
    Web Services.
@@ -40,7 +40,7 @@ Version 1.1.0
   CICS containers are expected as input and multiple CICS containers are
   produced on output.
   
-  The {{{legstar-cixsgen} Service Generator}} and the associated {{{legstar-cixsgen-plugin}
+  The {{{legstar-cixsgen}Web Service Generator}} and the associated {{{legstar-cixsgen-plugin}
   Service Generator Eclipse plugin}} has been modified to support multiple
   input bindings and multiple output bindings. Each binding can be mapped to
   a container name. 
@@ -50,9 +50,9 @@ Version 1.1.0
 * WebSphere MQ Transport
  
  In addition to Socket and HTTP transport, it is now possible to connect to the host
- using {{{http://www-306.ibm.com/software/integration/wmq/} WebSphere MQ}}.
+ using {{{http://www-306.ibm.com/software/integration/wmq/}WebSphere MQ}}.
  
  WebSphere MQ adds guaranteed delivery and offers a high degree of reliability.
  
- Documentation for WebSphere MQ connectivity is available {{{legstar-cmqrt} here}}.
+ Documentation for WebSphere MQ connectivity is available {{{legstar-cmqrt}here}}.
  

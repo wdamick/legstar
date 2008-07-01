@@ -16,13 +16,13 @@ CICS Web-aware program LSWEBBIN
 * Prerequisites:
 
  LSWEBBIN uses the LSLNKBIN and LSCOMLOG programs part of the
- {{{../legstar-csokrt}LegStar csokrt module}}. Please refer to the
-  {{{../legstar-csokrt/LSSOKBIN-readme.html} LSSOKBIN documentation}} for
+ {{{../legstar-csokrt}Socket Transport}}. Please refer to the
+  {{{../legstar-csokrt/LSSOKBIN-readme.html}LSSOKBIN documentation}} for
  instructions on how to install these programs.
  
  LSWEBBIN also uses the LSMSGLIB library part of the
- {{{../legstar-messaging}LegStar messaging module}}. Please refer to the
-  {{{../legstar-messaging/LSMSGLIB-readme.html} LSMSGLIB documentation}} for
+ {{{../legstar-messaging}Messaging Protocol}}. Please refer to the
+  {{{../legstar-messaging/LSMSGLIB-readme.html}LSMSGLIB documentation}} for
  instructions on how to install this library.
  
  You will need CICS TS 2.3 and above (Although it is believed the

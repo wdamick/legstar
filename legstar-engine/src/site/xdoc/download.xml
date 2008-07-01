@@ -9,12 +9,12 @@
   </head>
   <body>
     <!-- The body of the document contains a number of sections -->
-    <section name="Download Connection pooling engine">
+    <section name="Download Connection Pooling Engine">
 
       <!-- Within sections, any XHTML can be used -->
 		<table border="1">
 			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
-			<tr><td>Connection pooling engine</td><td>Java</td><td><a href="./binaries/legstar-engine-1.2.0-bin.zip">legstar-engine-1.2.0-bin.zip</a></td></tr>
+			<tr><td>Connection Pooling Engine</td><td>Java</td><td><a href="./binaries/legstar-engine-1.2.0-bin.zip">legstar-engine-1.2.0-bin.zip</a></td></tr>
 		</table>
 
     </section>

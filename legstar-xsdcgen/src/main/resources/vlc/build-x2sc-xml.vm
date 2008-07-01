@@ -20,7 +20,7 @@ XML Schema and WSDL to Xsd ant script Velocity Template.
             <fileset dir="${basedir}" includes="lib/*.jar" />
         </path>
         
-        <!-- Xsd and Wsdl to Xsd generator ant task -->
+        <!-- XSD/WSDL to COBOL Structures Generator ant task -->
         <taskdef name="x2scgen"
             classname="com.legstar.xsdc.gen.XsdCobolAnnotator"
             classpathref="classpath"/>

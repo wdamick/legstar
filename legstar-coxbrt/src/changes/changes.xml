@@ -1,10 +1,10 @@
 <document>
   <properties>
-    <title>Binding Runtime</title>
+    <title>COBOL Binding Runtime</title>
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
-    <release version="1.2.0" date="2008-08-01" description="Binding to POJO">
+    <release version="1.2.0" date="2008-07-08" description="Binding to POJO">
       <action dev="fady" type="update">
         It is now possible to bind directly to a POJO rather than a JAXB class. The JAXB classes
         are still needed at generation time but not at runtime anymore.
@@ -41,7 +41,7 @@
 
     <release version="0.0.1" date="2006-12-31" description="First release">
       <action dev="fady" type="add">
-        First version of the Cobol binding runtime.
+        First version of the COBOL Binding Runtime.
       </action>
     </release>
   </body>

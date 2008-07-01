@@ -12,29 +12,29 @@ PREREQUISITES:
  
  The development tools included are:
  
- * {{{../legstar-schemagen/release-notes.html} Data mapping XML Schema Generator}} 
+ * {{{../legstar-schemagen/release-notes.html}COBOL Structures to XML Schema Generator}} 
 
- * {{{../legstar-xsdcgen/release-notes.html} Data mapping XML Schema Annotator}} 
+ * {{{../legstar-xsdcgen/release-notes.html}Complex Types to COBOL Structures Generator}} 
  
- * {{{../legstar-coxbgen/release-notes.html} Binding Generator}} 
+ * {{{../legstar-coxbgen/release-notes.html}COBOL Binding Generator}} 
 
- * {{{../legstar-cixsgen/release-notes.html} Web Service Generator}} 
+ * {{{../legstar-cixsgen/release-notes.html}Web Service Generator}} 
  
- * {{{../legstar-cobcgen/release-notes.html} COBOL data structure Generator}}
+ * {{{../legstar-cobcgen/release-notes.html}COBOL Structures Generator}}
   
  []
  
  The runtime modules included are:
   
- * {{{../legstar-csokrt/release-notes.html} Socket transport}} 
+ * {{{../legstar-csokrt/release-notes.html}Socket Transport}} 
 
- * {{{../legstar-chttprt/release-notes.html} HTTP Transport}} 
+ * {{{../legstar-chttprt/release-notes.html}HTTP Transport}} 
 
- * {{{../legstar-cmqrt/release-notes.html} WebSphere MQ Transport}} 
+ * {{{../legstar-cmqrt/release-notes.html}WebSphere MQ Transport}} 
 
- * {{{../legstar-engine/release-notes.html} Connection pooling engine}} 
+ * {{{../legstar-engine/release-notes.html}Connection Pooling Engine}} 
 
- * {{{../legstar-c2wsrt/release-notes.html} Mainframe to Web Service runtime}} 
+ * {{{../legstar-c2wsrt/release-notes.html}Mainframe to Web Service runtime}} 
 
  []
 

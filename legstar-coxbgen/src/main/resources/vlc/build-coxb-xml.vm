@@ -23,7 +23,7 @@
             classname="com.sun.tools.xjc.XJC2Task"
             classpathref="classpath"/>
         
-        <!-- Binding generator ant task -->
+        <!-- COBOL Binding Generator ant task -->
         <taskdef name="coxbgen"
             classname="com.legstar.coxb.gen.CoxbBindingGenerator"
             classpathref="classpath"/>

@@ -10,7 +10,7 @@ PREREQUISITES:
  
  You must install the XML Schema Generator module before you can use this Eclipse plugin.
  
- The XML Schema Generator module can be downloaded from {{{../legstar-schemagen/download.html} here}}.
+ The XML Schema Generator module can be downloaded from {{{../legstar-schemagen/download.html}here}}.
  
  The XML Schema Generator Eclipse Plugin also requires the LegStar Common Eclipse plugin. For
  intructions on how to install the Common Eclipse Plugin,

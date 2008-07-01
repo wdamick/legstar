@@ -7,21 +7,21 @@
 
 PREREQUISITES:
 
- LegStar Binding Generator is implemented as an Apache ant task (Apache Software
- Foundation (http://www.apache.org/).
+ LegStar COBOL Binding Generator is implemented as an Apache ant task (Apache
+ Software Foundation (http://www.apache.org/).
  
- Binding Generator has been tested with ant 1.6.5. The binaries can be downloaded from 
+ Coxbgen has been tested with ant 1.6.5. The binaries can be downloaded from 
  http://ant.apache.org/.
  
- Generated classes use the {{{../legstar-coxbapi} Cobol binding API}}. The 
- {{{../legstar-coxbrt} Binding Runtime}} provides an implementation of the actual
- COBOl to java conversion mechanisms. The Binding Runtime is included with the
- Binding Generator but can be replaced with user provided implementations if
- necessary.
+ Generated classes use the {{{../legstar-coxbapi}COBOL Binding API}}. The 
+ {{{../legstar-coxbrt}COBOL Binding Runtime}} provides an implementation of the
+ actual COBOl to java conversion mechanisms. The COBOL Binding Runtime is
+ included with the COBOL Binding Runtime but can be replaced with user provided
+ implementations if necessary.
  
- In order to use the Binding Generator, JAXB annotated classes must first be generated
- as described in {{{../legstar-jaxbgen} JAXB Generator}}. The JAXB Generator is included
- with the Binding Generator.
+ In order to use the COBOL Binding Generator, JAXB annotated classes must first
+ be generated as described in {{{../legstar-jaxbgen}JAXB COBOL Annotator}}.
+ The JAXB Generator is included with the COBOL Binding Generator.
  
 INSTALLING/UNINSTALLING:
 

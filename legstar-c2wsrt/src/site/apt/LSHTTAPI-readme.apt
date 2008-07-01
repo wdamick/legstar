@@ -43,12 +43,12 @@ Mainframe to Web Service API LSHTTAPI
  C370HLIB.JCL is a sample compilation job for LSHTTLIB.
  
  LSHTTAPI also depends on the LSCOMLOG sub-program which is described in
- {{{../legstar-csokrt} LegStar socket runtime}}.
+ {{{../legstar-csokrt}Socket Transport}}.
  
  When writing your client program you will need data descriptions of the
  input and output structures produced by the target web service.
- The {{{../legstar-cobcgen} LegStar cobcgen}} module generates such data 
- descriptions.
+ The {{{../legstar-cobcgen}COBOL Structures Generator}} module generates
+ such data descriptions.
    
 * Limitations:
 
@@ -65,7 +65,7 @@ Mainframe to Web Service API LSHTTAPI
 * How to use:
 
  The first step is to create and deploy a web service proxy in a servlet engine.
- The {{{../legstar-cixsgen} LegStar Web service generator}} module helps you
+ The {{{../legstar-cixsgen}Web Service Generator}} module helps you
  generate such a proxy.
 
  Once LSHTTAPI and LSHTTLIB have been compiled in a library available to your

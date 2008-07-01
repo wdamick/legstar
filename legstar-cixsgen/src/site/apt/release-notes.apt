@@ -14,19 +14,19 @@ PREREQUISITES:
  There are 2 different usages for Web Service Generator:
  
  * Generate adapters for mainframe programs. This creates JAXWS endpoint
-   implementations which rely on the {{{../legstar-invoker} Invoker}}
+   implementations which rely on the {{{../legstar-invoker}Mainframe Invoker Runtime}}
    which is included in this distribution.
    
  * Generate proxies for Web Services. This gives mainframe programs outbound access
    to remote Web Services. This relies on the
-   {{{../legstar-c2wsrt} Mainframe to Web Service runtime}} which is included in this
+   {{{../legstar-c2wsrt}Mainframe to Web Service runtime}} which is included in this
    distribution.
    
  []
  
  The JAXWS runtime is not delivered as part of LegStar. It is needed at runtime
  for the generated JAXWS endpoints to work. You can get such a runtime from Sun
- {{{https://jax-ws.dev.java.net/ri-download.html} here}}.
+ {{{https://jax-ws.dev.java.net/ri-download.html}here}}.
  
  Web Service Generator requires JAXWS 2.1 and above.
  
@@ -67,7 +67,7 @@ INSTALLING/UNINSTALLING:
    
  [[3]] From the installDir/src/main/ant/lsfileae folder, run command "ant".
        This should deploy the sample JAXWS endpoint into your target Tomcat.
-       See the {{{faq.html} FAQ}} for common deployment issues.
+       See the {{{faq.html}FAQ}} for common deployment issues.
        
  [[4]] Optionally, you can use build-service-client.xml to generate a Web
        service client using JAXWS.
@@ -85,7 +85,7 @@ INSTALLING/UNINSTALLING:
  [[7]] From the installDir/src/main/ant/cultureinfo folder, run command "ant".
        This should deploy the proxy servlet into your target Tomcat.
 
- [[8]] Read {{{../legstar-c2wsrt} Mainframe to Web Service runtime}} documentation
+ [[8]] Read {{{../legstar-c2wsrt}Mainframe to Web Service runtime}} documentation
        for instruction on deploying the COBOL sample client and running the
        outbound access.
 

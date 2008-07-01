@@ -4,7 +4,7 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
-    <release version="1.2.0" date="2008-08-01" description="Refactoring">
+    <release version="1.2.0" date="2008-07-08" description="Refactoring">
       <action dev="fady" type="update">
         The central configuration where all new service proxies were to be added
         in an XML file is gone. Proxies are now servlets with a web.xml that contains
