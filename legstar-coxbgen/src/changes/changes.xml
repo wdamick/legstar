@@ -19,14 +19,6 @@
         The XSLT based generation has been replaced by Velocity macros. The code is
         easier to maintain and performances are better.
       </action>
-      <action dev="fady" type="update">
-        The JAXB generation now takes an external bindings file in order for all
-        generated JAXB implementation classes to be serializable.
-        This actually conflicts with XML Schemas generated with the previous version
-        of schemagen. JAXB does not accept a globalbindings element both inside the Schema
-        and within the external binding file. The globalbinding element needs to be removed
-        manually from older XML schemas.
-      </action>
     </release>
 
     <release version="1.1.0" date="2007-08-30" description="XSL and API refactoring">
