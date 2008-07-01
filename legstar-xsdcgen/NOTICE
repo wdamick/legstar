@@ -1,4 +1,4 @@
-Tke LegStar XML Schema annotator uses the following third-party products:
+The LegStar Complex Types to COBOL Structures Generator uses the following third-party products:
 
 JAXB RI by Sun Microsystems, Inc released under COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0 1.
 
@@ -6,4 +6,6 @@ Ant by Apache Software Foundation released under the Apache License, Version 2.0
 
 Commons Logging by Apache Software Foundation released under the Apache License, Version 2.0.
 
-XmlSchema by Apache Software Foundation released under the Apache License, Version 2.0. 
+XmlSchema by Apache Software Foundation released under the Apache License, Version 2.0.
+
+WSLD4J by John Kaputin released under the Common Public License

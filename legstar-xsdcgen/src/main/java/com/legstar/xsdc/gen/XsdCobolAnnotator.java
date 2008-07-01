@@ -147,10 +147,10 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 	private static final String COBOL_ELN = "cb:cobolElement";
 	
 	/** Cobol annotation parent complex type name. */
-	private static final String COBOL_PARENT_CTN = "cb:cobolTypes";
+	private static final String COBOL_PARENT_CTN = "cb:cobolComplexTypes";
 	
 	/** Cobol annotation complex type name. */
-	private static final String COBOL_CTN = "cb:cobolType";
+	private static final String COBOL_CTN = "cb:cobolComplexType";
 	
 	/** JAXB annotation parent element name. */
 	private static final String JAXB_PARENT_ELN = "jaxb:jaxbElements";

@@ -7,10 +7,10 @@
 
 PREREQUISITES:
 
- LegStar XML Schema Annotator is implemented as a set of Apache ant task (Apache
- Software Foundation (http://www.apache.org/).
+ LegStar Complex Types to COBOL Structures Generator is implemented as a set of
+ Apache ant task (Apache Software Foundation (http://www.apache.org/).
  
- XML Schema Annotator has been tested with ant 1.6.5. The binaries can be downloaded
+ Xsdcgen has been tested with ant 1.6.5. The binaries can be downloaded
  from http://ant.apache.org/.
  
 INSTALLING/UNINSTALLING:
@@ -39,26 +39,33 @@ INSTALLING/UNINSTALLING:
                 
 +---------------------------------------+
    
- [[2]] In order to run the sample build you need to deploy the war file
+ [[2]] In order to run the sample builds you need to deploy the war file
        found under the war folder into a J2EE server such as Tomcat.
+       
+       The war file contains a simple JAXWS endpoint that provides a Web
+       Service implementation to be consumed by a mainframe program. This
+       sample assumes a JAXWS runtime is available (you can get the JAXWS RI
+       from Sun if you need one).
    
  [[3]] From the installDir/ant folder, run command "ant -f build-xsdc.xml".
        This script assumes the J2EE server is on localhost listening on port
-       8080.
-       This should create a schema folder with a generated XML schema file.
-       The starting point is a sample wsdl file found under the wsdl folder.
-       This generated XML schema has special Cobol annotations with default
-       attributes, such as maximum character string sizes, that you can
-       customize.
+       8080. Starting from the WSDL exposed by the target Web Service,
+       this should create a schema folder with a generated XML schema file.
        
-       Alternatively, you can run "ant build-j2sc.xml" which also generates
-       a COBOL-annotated XML schema but the starting point is a set of sample
-       Java classes which sources can be found under the src folder.
+       Each complex type and element from the origin WSDL XML Schema also
+       exists in the generated mapping XML schema. Each element also has
+       special Cobol annotations with default attributes, such as maximum
+       character string sizes, that you can (and probably should) customize.
+       
+ [[4]] From the installDir/ant folder, run command "ant -f build-j2sc.xml".
+       This script also generates a COBOL-annotated XML schema but the
+       starting point is a set of sample Java classes which sources can be
+       found under the src folder.
    
- [[4]] Follow instructions in build-xsdc.xml and build-j2sc.xml to generate
+ [[5]] Follow instructions in build-xsdc.xml and build-j2sc.xml to generate
        annotated schemas from your own XML schemas, WSDL and Java classes.
    
- [[5]] To uninstall, remove the installDir folder.
+ [[6]] To uninstall, remove the installDir folder.
 
 DOCUMENTATION:
 

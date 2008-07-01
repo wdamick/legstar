@@ -1,10 +1,10 @@
 <document>
   <properties>
-    <title>XML Schema annotator</title>
+    <title>Complex Types to COBOL Structures Generator</title>
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
-    <release version="1.2.0" date="2008-04-01" description="Velocity macros">
+    <release version="1.2.0" date="2008-08-01" description="New Java to Cobol Structures Generator">
       <action dev="fady" type="add">
         A new j2sc Ant task takes standard Java classes as input and generates
         COBOL-annotated XML schemas. This is an alternative to the xsdc Ant
