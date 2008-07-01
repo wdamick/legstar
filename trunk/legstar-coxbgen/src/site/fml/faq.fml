@@ -6,13 +6,12 @@
    
     <faq id="footer-company">
       <question>
-       Why am I getting a "java.lang.UnsupportedOperationException: This parser does not support specification "null" version "null"
-        at javax.xml.parsers.SAXParserFactory.setXIncludeAware(SAXParserFactory.java:390)"
-        when running build-coxb.xml?
+       Do I need to generate Runtime binding classes in addition to the JAXB classes produced with build-jaxb.xml?
       </question>
       <answer>
-       Your default XML parser does not seem to support XInclude (http://www.w3.org/TR/xinclude/). Check that there are no
-       left overs from JDK 1.4 or older in your classpath.
+       This is a performance versus flexibility trade off. The runtime binding classes are faster but they need
+       to be rebuilt (using build-coxb.xml) every time something changes.
+       Please note that some other LegStar generators favor runtime binding classes over annotated JAXB classes.
       </answer>
     </faq>
 
