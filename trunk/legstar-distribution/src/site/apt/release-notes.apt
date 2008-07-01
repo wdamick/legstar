@@ -32,7 +32,7 @@ PREREQUISITES:
 
  * {{{../legstar-cmqrt/release-notes.html} WebSphere MQ Transport}} 
 
- * {{{../legstar-engine/release-notes.html} Pooling engine}} 
+ * {{{../legstar-engine/release-notes.html} Connection pooling engine}} 
 
  * {{{../legstar-c2wsrt/release-notes.html} Mainframe to Web Service runtime}} 
 

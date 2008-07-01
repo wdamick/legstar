@@ -23,7 +23,7 @@
         <table border="1">
 			<tr><th>Version</th><th>Platform</th><th>Binaries</th><th>Sources</th></tr>
             <tr><td>1.1.0 (September 2007)</td><td>Java (some native Win32/Linux DLLs)</td><td><a href="./binaries/legstar-1.1.0-bin.zip">legstar-1.1.0-bin.zip</a></td><td><a href="./binaries/legstar-1.1.0-sources.jar">legstar-1.1.0-sources.jar</a></td></tr>
-            <tr><td>1.0.1 (June 2007)</td><td>Java (some native Win32 DLLs)</td><td><a href="./binaries/legstar-distribution-1.0.1-win32.zip">legstar-distribution-1.0.1-win32.zip</a></td><td><a href="./binaries/legstar-distribution-1.0.1-sources.jar">legstar-distribution-1.0.1-sources.jar</a></td></tr>
+            <tr><td>1.0.1 (April 2007)</td><td>Java (some native Win32 DLLs)</td><td><a href="./binaries/legstar-distribution-1.0.1-win32.zip">legstar-distribution-1.0.1-win32.zip</a></td><td><a href="./binaries/legstar-distribution-1.0.1-sources.jar">legstar-distribution-1.0.1-sources.jar</a></td></tr>
  			<tr><td>0.0.1 (December 2006)</td><td>Java (some native Win32 DLLs)</td><td><a href="./binaries/legstar-0.0.1-win32.zip">legstar-0.0.1-win32.zip</a></td><td><a href="./binaries/legstar-0.0.1-sources.jar">legstar-0.0.1-sources.jar</a></td></tr>
 		</table>
  
