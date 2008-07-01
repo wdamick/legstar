@@ -8,9 +8,9 @@
       <version>SNAPSHOT</version>
     </parent>
     <artifactId>legstar-schemagen</artifactId>
-    <name>Schema Generator</name>
+    <name>COBOL Structures to XML Schema Generator</name>
     <version>SNAPSHOT</version>
-    <description>COBOL to XML Schema generator</description>
+    <description>COBOL Structures to XML Schema Generator</description>
     <url>http://www.legsem.com/legstar/schemagen/</url>
     
     <dependencies>
@@ -35,29 +35,6 @@
 
     <build>
         <plugins>
-      
-            <!-- We would like the maven generated jar file to be a valid 
-            Eclipse plugin. This will create the necessary entries
-            in the manifest.  -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifestEntries>
-                            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
-                            <Bundle-Name>LegStar Schemagen</Bundle-Name>
-                            <Bundle-SymbolicName>com.legstar.schemagen</Bundle-SymbolicName>
-                            <Bundle-Version>SNAPSHOT</Bundle-Version>
-                            <Bundle-ClassPath>.</Bundle-ClassPath>
-                            <Bundle-Vendor>LegSem</Bundle-Vendor>
-                            <Bundle-Localization>plugin</Bundle-Localization>
-                            <Export-Package>com.legstar.schemagen</Export-Package>
-                            <Require-Bundle>org.apache.ant</Require-Bundle>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
       
             <!-- Assembly generation plugin. Put the result in the source site
             so that it gets uploaded with the site.  -->
