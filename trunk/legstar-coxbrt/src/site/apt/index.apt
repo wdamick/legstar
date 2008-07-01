@@ -3,13 +3,13 @@
  -----
  Fady Moussallam
  -----
- 03 August 2007
+ 01 July 2008
  -----
 
 Binding Runtime (Coxbrt) overview
 
   The LegStar Coxbrt project is an implementation of the {{{../legstar-coxbapi} Binding API}}. 
-  Coxbrt provides runtime for XML conversion to z/OS data buffers and vice-versa.
+  Coxbrt provides runtime conversion from Java objects to z/OS data streams and vice-versa.
   
   Coxbrt provides low-level conversions for simple types such as strings, Cobol packed decimals,
   Cobol zoned decimals, simple arrays, etc.
@@ -22,6 +22,6 @@ Binding Runtime (Coxbrt) overview
   annotated classes are typically generated using {{{../legstar-jaxbgen} JAXB Generator}}.
   
   As an alternative to the reflection-based capabilities, you can use the {{{../legstar-coxbgen}
-  Binding Generator}} to generate binding classes which are more efficient.
+  Binding Generator}} to generate runtime binding classes which are more efficient.
   
   For answers to common questions about LegStar Coxbrt, see the {{{faq.html} FAQ}}.
