@@ -1,17 +1,18 @@
  -------------------------------------------------------------------------------
-                     LegSem LegStar Engine Version 1.1.0
+                     LegSem LegStar Connection pooling engine Version 1.2.0
                                Release Notes
  -------------------------------------------------------------------------------
 
 PREREQUISITES:
 
- These prerequisites assume you are using the default Servlet initiator.
+ These prerequisites assume you are using the default Servlet initiator, in
+ which case, you will need a Servlet engine such as Tomcat or Jetty.
  
  It is assumed you already successfully used LegStar using direct host access
  strategy (without a pooling engine).
  
- The Servlet initiator is targetted at the Servlet 2.3 API. It has been tested
- with Tomcat 5.5.
+ The Servlet initiator is targeted at the Servlet 2.3 API. It has been tested
+ with Tomcat 5.5 and 6.0.
  
  The Engine uses the "Timer and Work Manager for Application Servers"
  API from BEA/IBM (TWM). The Engine provides a default implementation of this API
@@ -25,7 +26,8 @@ PREREQUISITES:
  
 INSTALLING/UNINSTALLING:
 
- These instructions are for a Tomcat deployment.
+ These instructions are for a Tomcat deployment but can easily be translated to
+ Jetty or other servlet engines.
 
  [[1]] Unzip the binary distribution package into the directory of your choice,
        referred to as <installDir> in the following steps.
@@ -46,7 +48,8 @@ INSTALLING/UNINSTALLING:
                 
 +---------------------------------------+
    
- [[2]] Copy the jar files from <lib> to <CATALINA_BASE>/shared/lib.
+ [[2]] Copy the jar files from <lib> to <CATALINA_BASE>/shared/lib in the case of
+       Tomcat.
    
  [[3]] Copy the legstar-engine-config.xml and legstar-pooling-config.xml configuration files
        from <samples> to <CATALINA_BASE>/shared/classes. Customize

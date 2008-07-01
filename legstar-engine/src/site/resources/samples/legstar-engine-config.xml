@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 
 <!-- 
- This legstar engine configuration is a combination of pooling and invoker
+ This legstar engine configuration is a combination of connection pooling and invoker
  configuration parameters.
   -->
 <configuration>
