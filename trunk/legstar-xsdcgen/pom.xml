@@ -7,9 +7,9 @@
       <version>SNAPSHOT</version>
     </parent>
   <artifactId>legstar-xsdcgen</artifactId>
-  <name>XSD Cobol Annotator</name>
+  <name>Complex Types to COBOL Structures Generator</name>
     <version>SNAPSHOT</version>
-  <description>Generates Cobol annotations in XSD Schemas.</description>
+  <description>Generates mapping XML Schema from XSD, WSDL or Java classes.</description>
   <url>http://www.legsem.com/legstar/xsdcgen/</url>
 
     <dependencies>

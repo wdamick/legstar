@@ -3,23 +3,23 @@
  -----
  Fady Moussallam
  -----
- 26 July 2007
+ 01 July 2008
  -----
 
-XML Schema Annotator (xsdcgen) overview
+Complex Types to COBOL Structures Generator (xsdcgen) overview
 
-  LegStar xsdcgen adds cobol-related meta-data to an XML schema.
+  Xsdcgen provides 2 generator ant tasks:
   
-  The meta-data is added to the input XML schema as standard XML Schema annotations
-  producing an annotated XML schema.
+  * The <<XSD/WSDL to COBOL Structures Generator>> takes an existing XML Schema or WDL as input and creates
+    a mapping XML Schema where complex types map to COBOL structures.
+    
+  * The <<Java to COBOL Structures Generator>> takes an existing set of Java classes as input and creates
+    a mapping XML Schema where classes map to COBOL structures.
   
-  The resulting cobol annotations can then be processed by the {{{../legstar-jaxbgen} JAXB Generator}}
+  The generated mapping XML Schema can then be processed by the {{{../legstar-coxbgen} Binding Generator}}
   to produce a set of annotated JAXB classes that can, in-turn, be used to marshal/unmarshal
-  host data.
+  mainframe data.
   
-  Xsdcgen is typically used when host programs need to consume remote web services. In this
-  use-case, Xsdcgen will process the schema data from the target web service WSDL.
-  
-  Xsdcgen is an ant task which takes as input either an XML schema or a WSDL file.
+  Xsdcgen is typically used when host programs need to consume remote web services or POJOs.
  
   

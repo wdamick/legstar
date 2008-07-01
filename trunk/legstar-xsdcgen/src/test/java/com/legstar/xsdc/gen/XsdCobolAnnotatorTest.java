@@ -240,9 +240,9 @@ public class XsdCobolAnnotatorTest extends TestCase {
 		        in.close();
 				assertTrue(res.toString().contains("<xs:element minOccurs=\"0\" name=\"reply\" type=\"tns:jvmQueryReply\">"));
 				assertTrue(res.toString().contains("<xs:complexType name=\"jvmQueryReply\">"));
-				assertTrue(res.toString().contains("<cb:cobolType javaClassName=\"com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply\"/>"));
+				assertTrue(res.toString().contains("<cb:cobolComplexType javaClassName=\"com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply\"/>"));
 				assertTrue(res.toString().contains("<xs:complexType name=\"jvmQueryRequest\">"));
-				assertTrue(res.toString().contains("<cb:cobolType javaClassName=\"com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest\"/>"));
+				assertTrue(res.toString().contains("<cb:cobolComplexType javaClassName=\"com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest\"/>"));
 		    } catch (IOException e) {
 	    		fail(e.getMessage());
 		    }

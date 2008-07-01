@@ -9,12 +9,12 @@
   </head>
   <body>
     <!-- The body of the document contains a number of sections -->
-    <section name="Download XML Schema Annotator">
+    <section name="Download Complex Types to COBOL Structures Generator">
 
       <!-- Within sections, any XHTML can be used -->
  		<table border="1">
 			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
-			<tr><td>XML Schema Annotator</td><td>Java</td><td><a href="./binaries/legstar-xsdcgen-1.1.0-bin.zip">legstar-xsdcgen-1.1.0-bin.zip</a></td></tr>
+			<tr><td>Complex Types to COBOL Structures Generator</td><td>Java</td><td><a href="./binaries/legstar-xsdcgen-1.2.0-bin.zip">legstar-xsdcgen-1.2.0-bin.zip</a></td></tr>
 		</table>
 
     </section>
