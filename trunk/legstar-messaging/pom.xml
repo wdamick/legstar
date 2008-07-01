@@ -9,7 +9,7 @@
     <version>SNAPSHOT</version>
     <artifactId>legstar-messaging</artifactId>
     <name>Messaging protocol</name>
-    <description>Host access protocol.</description>
+    <description>Mainframe message exchange protocol.</description>
     <url>http://www.legsem.com/legstar/messaging/</url>
 
     <dependencies>
