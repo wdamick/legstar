@@ -6,8 +6,8 @@
   <body>
     <release version="1.2.0" date="2008-04-01" description="POJO support">
       <action dev="fady" type="update">
-        The JAXB Cobol Annotator propagates the cobolType annotation at the class level. This
-        annotation keeps track of an associated POJO.
+        The JAXB Cobol Annotator propagates the cobolComplexType annotation at the class level.
+        This annotation keeps track of an associated POJO.
       </action>
       <action dev="fady" type="update">
         The JAXB Cobol Annotator now takes an external bindings file in order for all
