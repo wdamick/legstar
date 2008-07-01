@@ -4,6 +4,11 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
+    <release version="1.2.0" date="2008-08-01" description="Messaging refactoring">
+      <action dev="fady" type="update">
+        The invoker uses the new messaging implementation code introduced in 1.2.0.
+      </action>
+    </release>
     <release version="1.1.0" date="2007-08-30" description="Containers support">
       <action dev="fady" type="update">
         The invoker now supports multiple input/multiple output. This is needed for

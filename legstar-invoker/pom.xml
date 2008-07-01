@@ -7,9 +7,9 @@
         <version>SNAPSHOT</version>
     </parent>
     <artifactId>legstar-invoker</artifactId>
-    <name>Host invoker runtime</name>
+    <name>Mainframe invoker runtime</name>
     <version>SNAPSHOT</version>
-    <description>XML RPC to host.</description>
+    <description>Provide remote procedure call to mainframe programs.</description>
     <url>http://www.legsem.com/legstar/invoker/</url>
 
     <dependencies>
