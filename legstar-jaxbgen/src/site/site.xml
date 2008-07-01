@@ -2,7 +2,7 @@
 <project name="legstar-jaxbgen">
   <body>
 
-    <menu name="JAXB Generator">
+    <menu name="JAXB Cobol Annotator">
       <item name="Introduction" href="index.html"/>
       <item name="FAQ" href="faq.html" />
     </menu>
