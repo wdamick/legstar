@@ -2,7 +2,7 @@
 <project name="legstar-engine">
   <body>
 
-    <menu name="Pooling Engine">
+    <menu name="Connection pooling engine">
       <item name="Introduction" href="index.html"/>
       <item name="Download" href="download.html"/>
       <item name="Release Notes" href="release-notes.html" />
