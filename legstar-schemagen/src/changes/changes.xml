@@ -1,6 +1,6 @@
 <document>
   <properties>
-    <title>COBOL Structures to XML Schema Generator</title>
+    <title>COBOL Structures Mapping Generator</title>
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
@@ -26,7 +26,7 @@
 
     <release version="0.0.1" date="2006-12-31" description="First release">
       <action dev="fady" type="add">
-        First version of the COBOL Structures to XML Schema Generator.
+        First version of the COBOL Structures Mapping Generator.
       </action>
     </release>
   </body>

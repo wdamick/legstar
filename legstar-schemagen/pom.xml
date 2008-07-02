@@ -8,9 +8,9 @@
       <version>SNAPSHOT</version>
     </parent>
     <artifactId>legstar-schemagen</artifactId>
-    <name>COBOL Structures to XML Schema Generator</name>
+    <name>COBOL Structures Mapping Generator</name>
     <version>SNAPSHOT</version>
-    <description>COBOL Structures to XML Schema Generator</description>
+    <description>Generates mapping XML Schema from COBOL structures</description>
     <url>http://www.legsem.com/legstar/schemagen/</url>
     
     <dependencies>

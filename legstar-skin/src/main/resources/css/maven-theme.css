@@ -40,7 +40,7 @@ a.newWindow, a.newWindow:link, a.newWindow:visited, a.newWindow:active, a.newWin
 h2 {
   padding: 4px 4px 4px 6px;
   border: 1px solid #999;
-  color: #00A3A3;
+  color: #512623;
   background-color: #ddd;
   font-weight:900;
   font-size: x-large;
@@ -48,7 +48,7 @@ h2 {
 h3 {
   padding: 4px 4px 4px 6px;
   border: 1px solid #aaa;
-  color: #00A3A3;
+  color: #512623;
   background-color: #eee;
   font-weight: normal;
   font-size: large;
@@ -56,14 +56,14 @@ h3 {
 h4 {
   padding: 4px 4px 4px 6px;
   border: 1px solid #bbb;
-  color: #00A3A3;
+  color: #512623;
   background-color: #fff;
   font-weight: normal;
   font-size: large;
 }
 h5 {
   padding: 4px 4px 4px 6px;
-  color: #00A3A3;
+  color: #512623;
   font-size: normal;
 }
 p {
@@ -79,7 +79,14 @@ p {
   margin: 10px 0 0 5px;
   border: 1px solid #999;
   background-color: #eee;
+  width: 250px;
 }
+
+#bodyColumn {
+    margin-left:287px;
+    margin-right:1.5em;
+}
+
 #navcolumn h5 {
   font-size: smaller;
   border-bottom: 1px solid #aaaaaa;
@@ -115,7 +122,7 @@ dl {
   background-color: #ffc;
 }
 dt {
-  color: #00A3A3;
+  color: #512623;
 }
 #organizationLogo img, #projectLogo img, #projectLogo span{
   margin: 8px;

@@ -6,14 +6,14 @@
  01 July 2008
  -----
 
-Complex Types to COBOL Structures Generator (xsdcgen) overview
+Complex Types Mapping Generator (xsdcgen) overview
 
   Xsdcgen provides 2 generator ant tasks:
   
-  * The <<XSD/WSDL to COBOL Structures Generator>> takes an existing XML Schema or WDL as input and creates
+  * The <<XSD/WSDL Mapping Generator>> takes an existing XML Schema or WDL as input and creates
     a mapping XML Schema where complex types map to COBOL structures.
     
-  * The <<Java to COBOL Structures Generator>> takes an existing set of Java classes as input and creates
+  * The <<Java Mapping Generator>> takes an existing set of Java classes as input and creates
     a mapping XML Schema where classes map to COBOL structures.
   
   The generated mapping XML Schema can then be processed by the {{{../legstar-coxbgen}COBOL Binding Generator}}

@@ -26,7 +26,7 @@
     	<pathelement location="${basedir}/bin"/>
     </path>
 
-    <!-- Java to COBOL Structures Generator ant task -->
+    <!-- Java Mapping Generator ant task -->
     <taskdef name="j2scgen"
       classname="com.legstar.j2sc.gen.JavaToXsdCobolTask"
       classpathref="classpath"/>
