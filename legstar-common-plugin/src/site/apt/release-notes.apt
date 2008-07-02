@@ -7,9 +7,20 @@ PREREQUISITES:
 
  LegStar Eclipse plugins require Eclipse version 3.2.1 and above.
  
+ Any previous version of the LegStar Eclipse plugins must be uninstalled before
+ installing this version.
+ 
+ Prior to using the legStar Eclipse Plugins, the core LegStar product must have been
+ installed and search PATH set to include the LegStar installation bin folder.
+ 
+ The LegStar product can be downloaded from {{{../legstar-distribution/download.html}here}}.
+ 
 INSTALLING/UNINSTALLING:
 
-  [[1]] Within Eclipse, create a remote site using:
+  [[1]] Ensure that the core LegStar product has been installed and that the folder
+  holding native libraries has been added to the search PATH.
+
+  [[2]] Within Eclipse, create a remote site using:
  
 -----------------------------------------------------------------------------------------
   Help-->Software Updates-->Find and Install-->Search for new features-->New Remote site
@@ -18,13 +29,20 @@ INSTALLING/UNINSTALLING:
   Have the URL point to http://www.legsem.com/legstar/eclipse/update and select all the
     features.
 
- [[2]] Restart Eclipse and check that the LegStar plugins show up in:
+ [[3]] Once installation is complete, restart Eclipse and check that the LegStar plugins
+       show up in:
  
 -----------------------------------------------------------------------------------------
   Help-->About Eclipse SDK-->Plug-in details
 -----------------------------------------------------------------------------------------
    
- [[3]] To uninstall, use:
+ [[4]] From within Eclipse, setup your preferences:
+ 
+-----------------------------------------------------------------------------------------
+  Window-->Preferences...-->LegStar
+-----------------------------------------------------------------------------------------
+
+ [[5]] To uninstall, use:
 
 -----------------------------------------------------------------------------------------
   Help-->Software Updates-->Manage Configurations.
