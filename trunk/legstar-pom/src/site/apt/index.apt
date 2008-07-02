@@ -26,8 +26,8 @@ Overview
   Because LegStar uses the JAXWS standard framework you benefit from the latest advances in SOA.
   
   In addition to the code-first approach to integration where you would start with a tool such as
-  {{{legstar-schemagen/index.html}COBOL Structures to XML Schema Generator}} to turn a COBOL code fragment into an XML Schema,
-  LegStar proposes a contract-first approach with the {{{legstar-xsdcgen/index.html}Complex Types to COBOL Structures Generator}}.
+  {{{legstar-schemagen/index.html}COBOL Structures Mapping Generator}} to turn a COBOL code fragment into an XML Schema,
+  LegStar proposes a contract-first approach with the {{{legstar-xsdcgen/index.html}Complex Types Mapping Generator}}.
   This tool takes a WSDL or XML Schema and automatically adds COBOL annotations to it.
   
   You can actually write new CICS programs and expose them as Web Services. LegStar fully supports the new

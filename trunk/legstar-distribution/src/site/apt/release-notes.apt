@@ -12,9 +12,9 @@ PREREQUISITES:
  
  The development tools included are:
  
- * {{{../legstar-schemagen/release-notes.html}COBOL Structures to XML Schema Generator}} 
+ * {{{../legstar-schemagen/release-notes.html}COBOL Structures Mapping Generator}} 
 
- * {{{../legstar-xsdcgen/release-notes.html}Complex Types to COBOL Structures Generator}} 
+ * {{{../legstar-xsdcgen/release-notes.html}Complex Types Mapping Generator}} 
  
  * {{{../legstar-coxbgen/release-notes.html}COBOL Binding Generator}} 
 

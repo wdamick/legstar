@@ -2,7 +2,7 @@
 <project name="legstar-schemagen">
   <body>
 
-    <menu name="COBOL Structures to XML Schema Generator">
+    <menu name="COBOL Structures Mapping Generator">
       <item name="Introduction" href="index.html"/>
       <item name="Download" href="download.html"/>
       <item name="Release Notes" href="release-notes.html" />

@@ -1,58 +1,113 @@
 
 
  -------------------------------------------------------------------------------
-                          LegSem LegStar Version 1.1.0
+                          LegSem LegStar Version 1.2.0
                              Latest release overview
  -------------------------------------------------------------------------------
 
-Version 1.1.0
+Version 1.2.0
 
- Version 1.1.0 has added important new features:
+ This new version is a major release with many enhancements across all the 
+ feature set.
  
-* Outbound Host to Web Service calls
+ The most dramatic changes concern the Eclipse plugins which have been completely
+ redesigned.
  
- This feature gives the ability for CICS programs to call a remote Web Service.
+* Redesign of Eclipse Plugins
  
- To support this option, 3 new modules were added:
+  In addition to mapping COBOL structures to XML schema, it is now possible to
+  map XSD/WSDL or Java Classes to COBOL structures. The schema generator plugin allows
+  you to select the source type you want to start from.
+  
+  The result is a mapping XML Schema which maps COBOL data descriptions to
+  XML Schema elements using special COBOL annotations.
+  
+  In addition to generating Web Services Adapters, which expose mainframe programs
+  as Web Services, it is now possible to generate Mainframe Proxies which give
+  mainframe programs access to remote Web Services.
+  
+  The ant task launcher has been completely refactored and its use standardized
+  across all plugins. All plugins generate ant scripts that are kept in the 
+  Eclipse project under a folder that you set in your preferences (default is a
+  folder called ant).
+  
+  The best description of the new Eclipse plugins is the {{{pdf/legstar-presentation.pdf}presentation document}}.
+  
+  Information on Eclipse plugins installation can be found {{{legstar-common-plugin/index.html}here}}.
  
- * {{{legstar-xsdcgen}Complex Types to COBOL Structures Generator}} takes a WSDL or XML Schema file and
-   produces a COBOL-annotated XML Schema that you can edit and customize. This
-   annotated schema can be used as input to {{{legstar-jaxbgen}JAXB COBOL Annotator}}.
+* Java Mapping Generator
+ 
+   {{{legstar-xsdcgen/index.html}Complex Types Mapping Generator}} now comes with a new ant task
+   that takes a set of Java classes and generate a mapping XML Schema. This feature is built
+   on Sun's {{{http://java.sun.com/webservices/docs/2.0/jaxb/schemagen.html}JAXB Schemagen}} utility.
 
- []
+* Mainframe Proxies Generator
+
+   {{{legstar-cixsgen}Web Service Generator}} now comes with a new ant task that creates Servlet proxies
+   for target Web Services. This allows mainframe programs, using the
+   {{{legstar-c2wsrt}Mainframe to Web Service Runtime}} to perform outbound calls to Web Services.
    
- * {{{legstar-cobcgen}COBOL Structures Generator}} takes as input a JAXB annotated class and
-   produces COBOL source that contains the data descriptions mapping the JAXB
-   class properties. Such sources can be used as regular COBOL copybooks.
+   One sample provided calls the Live search SOAP API from a CICS program.
+ 
+* Naming changes
 
- []
-    
- * {{{legstar-c2wsrt}Mainframe to Web Service runtime}} provides an API that your
-   COBOL-CICS programs can invoke and a gateway runtime implemented as a Servlet.
-   Together the API and the Servlet provide the call infrastructure to remote
-   Web Services.
+   Because the purpose of several generators has changed, it was necessary to adapt the naming.
+   The choice of very short names in previous versions has also proven ambiguous.
+   This table gives the correspondence between names used in version 1.1.0 and names in version 1.2.0:
 
- []
+*------------------------------------------+---------------------------------------------+
+|      <<Name in version 1.1.0>>           |     <<Name in version 1.2.0>>               |
+*------------------------------------------+---------------------------------------------+
+| XML Schema Generator                     | COBOL Structures Mapping Generator          |
+*------------------------------------------+---------------------------------------------+
+| XML Schema Annotator                     | Complex Types Mapping Generator             |
+*------------------------------------------+---------------------------------------------+
+| Binding Generator                        | COBOL Binding Generator                     |
+*------------------------------------------+---------------------------------------------+
+| JAXB Generator                           | JAXB COBOL Annotator                        |
+*------------------------------------------+---------------------------------------------+
+| Service Generator                        | Web Service Generator                       |
+*------------------------------------------+---------------------------------------------+
+| Cobol Generator                          | COBOL Structures Generator                  |
+*------------------------------------------+---------------------------------------------+
+| Host to Web Service Runtime              | Mainframe to Web Service Runtime            |
+*------------------------------------------+---------------------------------------------+
+| Pooling engine                           | Connection Pooling Engine                   |
+*------------------------------------------+---------------------------------------------+
+| Invoker                                  | Mainframe Invoker Runtime                   |
+*------------------------------------------+---------------------------------------------+
+| Messaging                                | Messaging Protocol                          |
+*------------------------------------------+---------------------------------------------+
+
+* Detailed changes
+
+  You will find details on changes affecting each important module at the following links:
   
-* Full CICS Channel-Container support
+  {{{legstar-schemagen/changes-report.html}COBOL Structures Mapping Generator}}
 
-  This feature allow you to call container-driven CICS programs even when multiple
-  CICS containers are expected as input and multiple CICS containers are
-  produced on output.
-  
-  The {{{legstar-cixsgen}Web Service Generator}} and the associated {{{legstar-cixsgen-plugin}
-  Service Generator Eclipse plugin}} has been modified to support multiple
-  input bindings and multiple output bindings. Each binding can be mapped to
-  a container name. 
- 
- 
- 
-* WebSphere MQ Transport
- 
- In addition to Socket and HTTP transport, it is now possible to connect to the host
- using {{{http://www-306.ibm.com/software/integration/wmq/}WebSphere MQ}}.
- 
- WebSphere MQ adds guaranteed delivery and offers a high degree of reliability.
- 
- Documentation for WebSphere MQ connectivity is available {{{legstar-cmqrt}here}}.
- 
+  {{{legstar-xsdcgen/changes-report.html}Complex Types Mapping Generator}}
+
+  {{{legstar-coxbgen/changes-report.html}COBOL Binding Generator}}
+
+  {{{legstar-cixsgen/changes-report.html}Web Service Generator}}
+   
+  {{{legstar-jaxbgen/changes-report.html}JAXB COBOL Annotator}}
+
+  {{{legstar-cobcgen/changes-report.html}COBOL Structures Generator}}
+
+  {{{legstar-messaging/changes-report.html}Messaging Protocol}}
+
+  {{{legstar-coxbrt/changes-report.html}COBOL Binding Runtime}}
+
+  {{{legstar-engine/changes-report.html}Connection Pooling Engine}}
+
+  {{{legstar-invoker/changes-report.html}Mainframe Invoker Runtime}}
+
+  {{{legstar-c2wsrt/changes-report.html}Mainframe to Web Service Runtime}}
+
+  {{{legstar-chttprt/changes-report.html}HTTP Transport}}
+
+  {{{legstar-cmqrt/changes-report.html}Websphere MQ Transport}}
+
+  {{{legstar-csokrt/changes-report.html}Socket Transport}}
+

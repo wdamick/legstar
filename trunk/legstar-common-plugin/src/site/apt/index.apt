@@ -16,11 +16,13 @@ LegStar Eclipse Plugins overview
   
   * Generate COBOL Binding classes from a mapping XML Schema.
   
-  * Generate Web Service adapters and proxies for Mainframe programs.
+  * Generate Web Service Adapters and Proxies for Mainframe programs.
   
   []
   
   The LegStar Eclipse plugins are described in the {{{../pdf/legstar-presentation.pdf}presentation document}}.
  
+  For installation instructions, see the {{{release-notes.html}release notes}}.
+
   For answers to common questions about LegStar Eclipse plugins, see the {{{faq.html}FAQ}}.
   
