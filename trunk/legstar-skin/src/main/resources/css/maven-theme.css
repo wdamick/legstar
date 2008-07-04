@@ -21,14 +21,6 @@ a:visited  {
 a:active, a:hover {
   color:#69c;
 }
-#legend li.externalLink {
-  background: url(../images/external.png) left top no-repeat;
-  padding-left: 18px;
-}
-a.externalLink, a.externalLink:link, a.externalLink:visited, a.externalLink:active, a.externalLink:hover {
-  background: url(../images/external.png) right center no-repeat;
-  padding-right: 18px;
-}
 #legend li.newWindow {
   background: url(../images/newwindow.png) left top no-repeat;
   padding-left: 18px;
@@ -79,19 +71,24 @@ p {
   margin: 10px 0 0 5px;
   border: 1px solid #999;
   background-color: #eee;
-  width: 250px;
+  width: 220px;
 }
 
 #bodyColumn {
-    margin-left:287px;
+    margin-left:257px;
     margin-right:1.5em;
 }
 
 #navcolumn h5 {
-  font-size: smaller;
+  font-size: small;
   border-bottom: 1px solid #aaaaaa;
-  padding-top: 2px;
-  color: #000;
+  padding-top: 4px;
+  color: #512623;
+}
+
+#navcolumn li {
+  font-size: small;
+  padding: 2px 0px 0px 16px;
 }
 
 table.bodyTable th {
