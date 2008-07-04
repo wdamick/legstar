@@ -3,38 +3,70 @@
                                              -----
                                          Fady Moussallam
                                              -----
-                                          16 August 2007
+                                          3 July 2008
 
 Overview
 
-  LegStar is the first open-source initiative in the domain of legacy application integration.
+  LegStar is the first {{{http://www.opensource.org/docs/definition.php}open-source}} initiative in the domain of
+  legacy application integration.
   
   To get a general idea of LegStar, you can read the {{{./pdf/legstar-presentation.pdf}presentation document}}.
     
-  LegStar is based on a {{{legstar-schemagen/xml/legstarschemagen.xsd}COBOL binding language}}
-  to describe how COBOL data items should map to XML Schema elements.
+  To latest version is described {{{./latest-release-overview.html}here}}.
+
+Mapping legacy data structures to open world complex types
+
+  Because COBOL is very often the legacy applications development language, LegStar focuses primarily on that
+  language (Although nothing prevents future support for PLI or others).
   
-  LegStar offers {{{legstar-coxbapi/}COBOL Binding API}} marshaling/unmarshaling capabilities. This feature
+  Since most open-world languages, such as Java, have already been mapped to XML Schema, the approach we have
+  taken in LegStar is to map COBOL to XML Schema and then let existing tools, such as,
+  {{{http://www.jcp.org/en/jsr/detail?id=222}JAXB}} do the final mapping to the target language.
+  
+  LegStar has introduced a {{{legstar-schemagen/xml/legstarschemagen.xsd}COBOL binding language}}
+  to describe how COBOL data items should map to XML Schema elements. That binding language is itself an
+  extension to XML Schema.
+  
+  The mapping process can start from an existing COBOL code fragment in which case you would use the
+  {{{legstar-schemagen/index.html}COBOL Structures Mapping Generator}}, but you can also start from
+  XML Schema, a Web Service WSDL file or even a Java class using the
+  {{{legstar-xsdcgen/index.html}Complex Types Mapping Generator}}.
+  
+Converting mainframe data streams to Java objects or XML
+
+  LegStar offers {{{legstar-coxbrt/}marshaling/unmarshaling capabilities}}. This
   is built on top of the standard {{{http://www.jcp.org/en/jsr/detail?id=222}JAXB framework}}
-  which provides Java to XML binding. As a result of this combination, LegStar can convert z/OS data buffers
-  to XML and vice versa.
+  which provides Java to XML binding. As a result of this combination, LegStar can convert mainframe data
+  streams to Java objects and XML.
   
-  LegStar also provides mapping of {{{legstar-cixsgen/index.html}Web Service Generator}}.
+  Conversions deal with the various COBOL numeric data types, code page conversions for character strings,
+  fixed or variable size arrays. It also offers unique capabilities to deal with the COBOL REDEFINE clause.
+  
+  Please note that conversions do not run on the mainframe itself therefore reducing the footprint
+  of the solution on the mainframe.
+  
+  These marshaling/unmarshaling capabilities can be used independently from the transport mechanisms also
+  provided by LegStar.
+  
+Adapting a mainframe program as a Web Service
+
+  LegStar provides a {{{legstar-cixsgen/index.html}Web Service Generator}} which allows you to map
+  mainframe programs to Web Service operations. 
+  
+  Input complex types and output complex types are mapped to COBOL structures as seen previously.
+  
   This feature is an implementation of the standard {{{http://jcp.org/en/jsr/detail?id=224}JAXWS}}
-  Web Service API. This allows you to expose legacy CICS programs as Web Services.
+  Web Service API. 
   
-  Because LegStar uses the JAXWS standard framework you benefit from the latest advances in SOA.
+  The {{{legstar-invoker/index.html}Mainframe Invoker Runtime}} provides the runtime RPC mechanism.
+  The invoker uses a binary {{{legstar-messaging/index.html}Messaging protocol}} that optimizes
+  the payload size. This significantly reduces resource consumption on the mainframe.
   
-  In addition to the code-first approach to integration where you would start with a tool such as
-  {{{legstar-schemagen/index.html}COBOL Structures Mapping Generator}} to turn a COBOL code fragment into an XML Schema,
-  LegStar proposes a contract-first approach with the {{{legstar-xsdcgen/index.html}Complex Types Mapping Generator}}.
-  This tool takes a WSDL or XML Schema and automatically adds COBOL annotations to it.
+  Here, the target legacy environment has primarily been IBM CICS, although nothing prevents the
+  architecture from being extended to other legacy environments in the future.
   
-  You can actually write new CICS programs and expose them as Web Services. LegStar fully supports the new
-  CICS channel/container mechanism in addition to the standard commarea. LegStar supports multiple input
-  containers and multiple output containers.
-  
-  LegStar also provides an API to allow CICS programs to {{{legstar-c2wsrt/index.html}Mainframe to Web Service runtime}}.
+  LegStar fully supports the CICS channel/container mechanism in addition to the standard commarea.
+  LegStar supports multiple input containers and multiple output containers.
   
   In term of transport protocols to CICS, LegStar offers:
   
@@ -43,6 +75,20 @@ Overview
   * {{{legstar-chttprt/index.html}HTTP Transport}}
   
   * {{{legstar-cmqrt/index.html}WebSphere MQ Transport}}
+  
+  
+Providing mainframe programs with outbound access to Web Services
+
+  The LegStar {{{legstar-cixsgen/index.html}Web Service Generator}} also has the capability to
+  generate Proxy objects (actually Java servlets) based on target Web Services.
+  
+  Once deployed, these Proxy servlets listen for requests from the mainframe and access the
+  target Web Service on behalf of the mainframe client program.
+
+  The {{{legstar-c2wsrt/index.html}Mainframe to Web Service Runtime}} provides the servlet-based
+  architecture needed to call the target Web Service.
+  
+  
 
 []
 
@@ -65,12 +111,12 @@ Use cases
  
 [images/legstar-run-inbound.png] Runtime process
   
-* Execute a remote Web Service from a CICS program
+* Consume a Web Service from a CICS program
 
   <<Development steps:>>
 
-  To give a CICS program execute capabilities over a remote Web Service, you would
-  follow these steps:
+  To give a CICS program access to a remote Web Service, you would
+  follow these development steps:
  
 [images/legstar-dev-outbound.png] Development process
 

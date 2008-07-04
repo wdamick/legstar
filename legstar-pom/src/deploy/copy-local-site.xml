@@ -18,50 +18,59 @@
 	  -->
 	<target name="copyLocalSite" depends="init">
 		
+		<copy todir="${local.root}/modules/legstar-c2wsrt">
+			<fileset dir="${basedir}/../legstar-c2wsrt/target/site"/>
+		</copy>
+		<copy todir="${local.root}/modules/legstar-chttprt">
+			<fileset dir="${basedir}/../legstar-chttprt/target/site"/>
+		</copy>
+		<copy todir="${local.root}/modules/legstar-cixsgen">
+			<fileset dir="${basedir}/../legstar-cixsgen/target/site"/>
+		</copy>
+		<copy todir="${local.root}/modules/legstar-cmqrt">
+			<fileset dir="${basedir}/../legstar-cmqrt/target/site"/>
+		</copy>
+		<copy todir="${local.root}/modules/legstar-cobcgen">
+			<fileset dir="${basedir}/../legstar-cobcgen/target/site"/>
+		</copy>
+		<copy todir="${local.root}/modules/legstar-coxbapi">
+			<fileset dir="${basedir}/../legstar-coxbapi/target/site"/>
+		</copy>
+		<copy todir="${local.root}/modules/legstar-coxbgen">
+			<fileset dir="${basedir}/../legstar-coxbgen/target/site"/>
+		</copy>
+		<copy todir="${local.root}/modules/legstar-coxbrt">
+			<fileset dir="${basedir}/../legstar-coxbrt/target/site"/>
+		</copy>
+		<copy todir="${local.root}/modules/legstar-csokrt">
+			<fileset dir="${basedir}/../legstar-csokrt/target/site"/>
+		</copy>
+		<copy todir="${local.root}/modules/legstar-distribution">
+			<fileset dir="${basedir}/../legstar-distribution/target/site"/>
+		</copy>
+		<copy todir="${local.root}/modules/legstar-engine">
+			<fileset dir="${basedir}/../legstar-engine/target/site"/>
+		</copy>
+		<copy todir="${local.root}/modules/legstar-invoker">
+			<fileset dir="${basedir}/../legstar-invoker/target/site"/>
+		</copy>
+		<copy todir="${local.root}/modules/legstar-jaxbgen">
+			<fileset dir="${basedir}/../legstar-jaxbgen/target/site"/>
+		</copy>
+		<copy todir="${local.root}/modules/legstar-messaging">
+			<fileset dir="${basedir}/../legstar-messaging/target/site"/>
+		</copy>
 		<copy todir="${local.root}">
 			<fileset dir="${basedir}/../legstar-pom/target/site"/>
 		</copy>
-		<copy todir="${local.root}/legstar-distribution">
-			<fileset dir="${basedir}/../legstar-distribution/target/site"/>
-		</copy>
-		<copy todir="${local.root}/legstar-schemagen">
+		<copy todir="${local.root}/modules/legstar-schemagen">
 			<fileset dir="${basedir}/../legstar-schemagen/target/site"/>
 		</copy>
-		<copy todir="${local.root}/legstar-coxbgen">
-			<fileset dir="${basedir}/../legstar-coxbgen/target/site"/>
+		<copy todir="${local.root}/modules/legstar-xsdcgen">
+			<fileset dir="${basedir}/../legstar-xsdcgen/target/site"/>
 		</copy>
-		<copy todir="${local.root}/legstar-cixsgen">
-			<fileset dir="${basedir}/../legstar-cixsgen/target/site"/>
-		</copy>
-		<copy todir="${local.root}/legstar-messaging">
-			<fileset dir="${basedir}/../legstar-messaging/target/site"/>
-		</copy>
-		<copy todir="${local.root}/legstar-invoker">
-			<fileset dir="${basedir}/../legstar-invoker/target/site"/>
-		</copy>
-		<copy todir="${local.root}/legstar-coxbrt">
-			<fileset dir="${basedir}/../legstar-coxbrt/target/site"/>
-		</copy>
-		<copy todir="${local.root}/legstar-engine">
-			<fileset dir="${basedir}/../legstar-engine/target/site"/>
-		</copy>
-		<copy todir="${local.root}/legstar-csokrt">
-			<fileset dir="${basedir}/../legstar-csokrt/target/site"/>
-		</copy>
-		<copy todir="${local.root}/legstar-chttprt">
-			<fileset dir="${basedir}/../legstar-chttprt/target/site"/>
-		</copy>
-		<copy todir="${local.root}/legstar-common-plugin">
+		<copy todir="${local.root}/modules/legstar-common-plugin">
 			<fileset dir="${basedir}/../legstar-common-plugin/target/site"/>
-		</copy>
-		<copy todir="${local.root}/legstar-schemagen-plugin">
-			<fileset dir="${basedir}/../legstar-schemagen-plugin/target/site"/>
-		</copy>
-		<copy todir="${local.root}/legstar-coxbgen-plugin">
-			<fileset dir="${basedir}/../legstar-coxbgen-plugin/target/site"/>
-		</copy>
-		<copy todir="${local.root}/legstar-cixsgen-plugin">
-			<fileset dir="${basedir}/../legstar-cixsgen-plugin/target/site"/>
 		</copy>
 
 	</target>

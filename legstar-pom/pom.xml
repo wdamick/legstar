@@ -67,7 +67,6 @@
     </plugins>
   </build>
   
-  <!--
    <modules>
     <module>../legstar-c2wsrt</module>
     <module>../legstar-chttprt</module>
@@ -94,6 +93,7 @@
     <module>../legstar-xsdcgen-cases</module>
     <module>../legstar-common-plugin</module>
   </modules>
+  <!--
     -->
   
   <!-- Enabling the use of FTP -->
