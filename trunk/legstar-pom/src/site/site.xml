@@ -33,34 +33,34 @@
     <menu name="LegStar">
       <item name="Introduction" href="index.html"/>
       <item name="Presentation (pdf)" href="pdf/legstar-presentation.pdf"/>
-      <item name="Download" href="legstar-distribution/download.html"/>
+      <item name="Distribution" href="modules/legstar-distribution/index.html"/>
       <item name="Copyright" href="copyright.html" />
     </menu>
 
-    <menu name="Development Modules">
-      <item name="COBOL Structures Mapping Generator" href="legstar-schemagen/index.html"/>
-      <item name="Complex Types Mapping Generator" href="legstar-xsdcgen/index.html"/>
-      <item name="COBOL Binding Generator" href="legstar-coxbgen/index.html"/>
-      <item name="Web Service Generator" href="legstar-cixsgen/index.html"/>
-      <item name="COBOL Structures Generator" href="legstar-cobcgen/index.html"/>
-    </menu>
-
-    <menu name="Runtime Modules">
-      <item name="COBOL Binding Runtime" href="legstar-coxbrt/index.html"/>
-      <item name="Mainframe Invoker Runtime" href="legstar-invoker/index.html"/>
-      <item name="Mainframe to Web Service Runtime" href="legstar-c2wsrt/index.html"/>
-      <item name="Connection Pooling Engine" href="legstar-engine/index.html"/>
-      <item name="Messaging Protocol" href="legstar-messaging/index.html"/>
-    </menu>
-    
-    <menu name="Transport Modules">
-      <item name="Socket transport" href="legstar-csokrt/index.html"/>
-      <item name="HTTP transport" href="legstar-chttprt/index.html"/>
-      <item name="WebSphere MQ transport" href="legstar-chttprt/index.html"/>
+    <menu name="Development Generators">
+      <item name="COBOL Structures Mapping" href="modules/legstar-schemagen/index.html"/>
+      <item name="Complex Types Mapping" href="modules/legstar-xsdcgen/index.html"/>
+      <item name="COBOL Binding" href="modules/legstar-coxbgen/index.html"/>
+      <item name="Web Service" href="modules/legstar-cixsgen/index.html"/>
+      <item name="COBOL Structures" href="modules/legstar-cobcgen/index.html"/>
     </menu>
 
     <menu name="Eclipse Modules">
-      <item name="Eclipse plugins" href="legstar-common-plugin/index.html"/>
+      <item name="Eclipse plugins" href="modules/legstar-common-plugin/index.html"/>
+    </menu>
+
+    <menu name="Runtime Modules">
+      <item name="COBOL Binding" href="modules/legstar-coxbrt/index.html"/>
+      <item name="Mainframe Invoker" href="modules/legstar-invoker/index.html"/>
+      <item name="Mainframe to Web Service" href="modules/legstar-c2wsrt/index.html"/>
+      <item name="Connection Pooling Engine" href="modules/legstar-engine/index.html"/>
+      <item name="Messaging Protocol" href="modules/legstar-messaging/index.html"/>
+    </menu>
+    
+    <menu name="Transport Modules">
+      <item name="Socket transport" href="modules/legstar-csokrt/index.html"/>
+      <item name="HTTP transport" href="modules/legstar-chttprt/index.html"/>
+      <item name="WebSphere MQ transport" href="modules/legstar-chttprt/index.html"/>
     </menu>
 
     ${reports}
