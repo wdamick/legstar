@@ -40,6 +40,9 @@ PREREQUISITES:
 
   Le LegStar single assembly is a convenience download. The same result can be
   achieved by separately installing the various modules.
+  
+  For a detailed description of pre-requisites, read the release notes for the
+  modules you are interested in.
  
 INSTALLING/UNINSTALLING:
 
@@ -79,15 +82,45 @@ INSTALLING/UNINSTALLING:
                 
 +---------------------------------------+
    
- [[2]] If you would like to expose a mainframe program as a Web Service, read
-       schemagen-README, coxbgen-README and cixsgen-README. Moreover,
-       depending on your choice of transport, read csokrt-README, chttprt-README
-       or cmqrt-README.
+ [[2]] On Windows:
+       Include installDir/bin in the search PATH. This is needed because Schemagen
+       uses native libraries.
+       
+       On Linux:
+       copy the *.so shared objects from installDir/bin to /usr/lib
 
- [[3]] If you would like to access remote Web Services from mainframe programs,
-       read xsdcgen-README, coxbgen-README,  cixsgen-README and c2wsrt-README.
+ [[3]] If you would like to expose a mainframe program as a Web Service, read:
  
- [[4]] To uninstall, remove the installDir folder and remove references to 
+       * {{{../legstar-schemagen/release-notes.html}schemagen-README}}
+       
+       * {{{../legstar-coxbgen/release-notes.html}coxbgen-README}}
+       
+       * {{{../legstar-cixsgen/release-notes.html}cixsgen-README}}
+       
+       []
+       
+ [[4]] Moreover, depending on your choice of transport, read:
+       
+       * {{{../legstar-csokrt/release-notes.html}csokrt-README}}
+
+       * {{{../legstar-chttprt/release-notes.html}chttprt-README}}
+
+       * {{{../legstar-cmqrt/release-notes.html}cmqrt-README}}
+
+       []
+       
+ [[5]] If you would like to access remote Web Services from mainframe programs, read:
+
+       * {{{../legstar-xsdcgen/release-notes.html}xsdcgen-README}}
+       
+       * {{{../legstar-coxbgen/release-notes.html}coxbgen-README}}
+       
+       * {{{../legstar-cixsgen/release-notes.html}cixsgen-README}}
+       
+       * {{{../legstar-c2wsrt/release-notes.html}c2wsrt-README}}
+       
+ 
+ [[6]] To uninstall, remove the installDir folder and remove references to 
        installDir/bin from the search PATH.
 
 DOCUMENTATION:
