@@ -23,6 +23,10 @@ public class LegStarMessageImpl extends LegStarMessage {
 	private static final long serialVersionUID = -2901290130092178692L;
 
 
+	/**
+	 * No-arg constructor.
+	 * @throws HeaderPartException if message cannot be built.
+	 */
 	public LegStarMessageImpl() throws HeaderPartException {
 		super();
 	}
@@ -43,8 +47,8 @@ public class LegStarMessageImpl extends LegStarMessage {
 	/**
 	 * Constructor for situations where a LegStar message exists and needs
 	 * to be adapted.
-	 * @param legStarMessage
-	 * @throws HeaderPartException
+	 * @param legStarMessage the original message
+	 * @throws HeaderPartException if fails to adapt
 	 */
 	public LegStarMessageImpl(
 			final LegStarMessage legStarMessage) throws HeaderPartException {
@@ -61,7 +65,6 @@ public class LegStarMessageImpl extends LegStarMessage {
      * @param hostCharset the host character set
      * @param containerName the container name if this part should be a
      * named container, null otherwise
-     * @return a LegStar message part
      * @throws HostMessageFormatException if formatting fails
      */
     public void addMessagePart(
