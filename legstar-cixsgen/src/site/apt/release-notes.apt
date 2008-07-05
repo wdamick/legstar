@@ -43,9 +43,9 @@ INSTALLING/UNINSTALLING:
         |---->cixsgen-NOTICE
         |---->cixsgen-README
         |----><ant>
-                |---->build-c2j.xml
-                |---->build-j2c.xml
-                |---->build-service-client.xml
+                |---->build-cixs2jws.xml
+                |---->build-jws2cixs.xml
+                |---->build-jws-client.xml
         |----><lib>
                 |---->*.jar
         |----><samples>
@@ -61,7 +61,7 @@ INSTALLING/UNINSTALLING:
  [[2]] Steps 2 to 5 apply to Web Service adapters generation.
        If you have Tomcat running, check that the <CATALINA_BASE> environment
        variable points to the location where your webapps reside. 
-       From the installDir/ant folder, run command "ant -f build-j2c.xml".
+       From the installDir/ant folder, run command "ant -f build-jws2cixs.xml".
        This should add a set of java files to the src/main/java folder. This 
        also creates a WebContent and an ant folders under src/main.
    
@@ -69,7 +69,7 @@ INSTALLING/UNINSTALLING:
        This should deploy the sample JAXWS endpoint into your target Tomcat.
        See the {{{faq.html}FAQ}} for common deployment issues.
        
- [[4]] Optionally, you can use build-service-client.xml to generate a Web
+ [[4]] Optionally, you can use build-jws-client.xml to generate a Web
        service client using JAXWS.
    
  [[5]] In order to actually run the deployed Web Service, you need to select
@@ -77,7 +77,7 @@ INSTALLING/UNINSTALLING:
        configuration file in a location such as CATALINA_HOME/shared/classes.
    
  [[6]] Steps 6 to 8 apply to Mainframe proxies generation.
-       From the installDir/ant folder, run command "ant -f build-c2j.xml".
+       From the installDir/ant folder, run command "ant -f build-cixs2jws.xml".
        This should generate a servlet descriptor in
        src/main/WebContent/cultureinfo/WEB-INF.
        This also creates a sample COBOL client program under src/main/cobol.

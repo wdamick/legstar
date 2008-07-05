@@ -30,9 +30,9 @@
     -->
   <target name="buildSample" depends="init">
     <unzip src="${zip.file}" dest="${sample.project}"/>
-    <ant antfile="${sample.project}/${dist.name}/ant/build-xsdc.xml"
+    <ant antfile="${sample.project}/${dist.name}/ant/build-xsd2xs.xml"
        dir="${sample.project}/${dist.name}"/>
-    <ant antfile="${sample.project}/${dist.name}/ant/build-j2sc.xml"
+    <ant antfile="${sample.project}/${dist.name}/ant/build-java2xs.xml"
        dir="${sample.project}/${dist.name}"/>
     <copy todir="${sample.schema}">
       <fileset dir="${sample.project}/${dist.name}/schema"/>

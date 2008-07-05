@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- =================================================================================
-     Generate a web service proxy for mainframe programs.
+     Generate a mainframe proxy to a Web Service.
      Artifacts can be used to allow remote Mainframe programs to execute
      a target Web Service operations.
-     Prerequisite: Cobol binding classes should have been generated
+     Prerequisite: COBOL binding classes should have been generated
      using Coxbgen prior to using this script.
      Refer to http://www.legsem.com/legstar for info on generating binding classes.
   -->

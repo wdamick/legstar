@@ -26,8 +26,8 @@ INSTALLING/UNINSTALLING:
         |---->xsdcgen-NOTICE
         |---->xsdcgen-README
         |----><ant>
-                |---->build-j2sc.xml
-                |---->build-xsdc.xml
+                |---->build-java2xs.xml
+                |---->build-xsd2xs.xml
         |----><bin>
                 |---->**/*.class
         |----><lib>
@@ -47,7 +47,7 @@ INSTALLING/UNINSTALLING:
        sample assumes a JAXWS runtime is available (you can get the JAXWS RI
        from Sun if you need one).
    
- [[3]] From the installDir/ant folder, run command "ant -f build-xsdc.xml".
+ [[3]] From the installDir/ant folder, run command "ant -f build-xsd2xs.xml".
        This script assumes the J2EE server is on localhost listening on port
        8080. Starting from the WSDL exposed by the target Web Service,
        this should create a schema folder with a generated XML schema file.
@@ -57,12 +57,12 @@ INSTALLING/UNINSTALLING:
        special Cobol annotations with default attributes, such as maximum
        character string sizes, that you can (and probably should) customize.
        
- [[4]] From the installDir/ant folder, run command "ant -f build-j2sc.xml".
+ [[4]] From the installDir/ant folder, run command "ant -f build-java2xs.xml".
        This script also generates a COBOL-annotated XML schema but the
        starting point is a set of sample Java classes which sources can be
        found under the src folder.
    
- [[5]] Follow instructions in build-xsdc.xml and build-j2sc.xml to generate
+ [[5]] Follow instructions in build-xsd2xs.xml and build-java2xs.xml to generate
        annotated schemas from your own XML schemas, WSDL and Java classes.
    
  [[6]] To uninstall, remove the installDir folder.

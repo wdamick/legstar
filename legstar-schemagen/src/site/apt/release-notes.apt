@@ -32,7 +32,7 @@ PREREQUISITES:
         |---->schemagen-NOTICE
         |---->schemagen-README
         |----><ant>
-                |---->build-schema.xml
+                |---->build-cob2xs.xml
         |----><bin>
                 |---->*.dll
                 |---->*.so
@@ -49,11 +49,11 @@ PREREQUISITES:
        On Linux:
        copy the *.so shared objects from installDir/bin to /usr/lib
 
- [[3]] From the installDir/ant folder, run command "ant -f build-schema.xml".
+ [[3]] From the installDir/ant folder, run command "ant -f build-cob2xs.xml".
        This should create a schema folder with a generated XML schema from the
        sample cobol source in the cobol folder.
    
- [[4]] Follow instructions in build-schema.xml to generate XML schemas from your
+ [[4]] Follow instructions in build-cob2xs.xml to generate XML schemas from your
        own COBOL source files.
    
  [[5]] To uninstall, remove the installDir folder and remove references to 
