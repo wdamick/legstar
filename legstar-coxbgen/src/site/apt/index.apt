@@ -13,9 +13,9 @@ COBOL Binding Generator (Coxbgen) overview
 
   Coxbgen includes an XML Schema to Java binding utility built with Sun's JAXB (More precisely as a
   JAXB XJC plugin). This capability, although bundled with Coxbgen, has its own project called
-   {{{../legstar-jaxbgen}JAXB COBOL Annotator}}or Jaxbgen.
+   {{{../legstar-jaxbgen}JAXB COBOL Annotator}} or Jaxbgen.
    
-  Jaxbgen produces {{{https://jaxb.dev.java.net/}JAXB Classes}}with COBOL annotations. These classes are
+  Jaxbgen produces {{{https://jaxb.dev.java.net/}JAXB Classes}} with COBOL annotations. These classes are
   not different from regular JAXB Classes apart from additional Java annotations providing mapping meta-data
   between Java types and COBOL types.
   

@@ -4,11 +4,11 @@
     <parent>
       <groupId>com.legsem.legstar</groupId>
       <artifactId>Legstar</artifactId>
-      <version>SNAPSHOT</version>
+      <version>1.2.0</version>
     </parent>
 	<artifactId>legstar-cmqrt</artifactId>
 	<name>WebSphere MQ Transport</name>
-    <version>SNAPSHOT</version>
+    <version>1.2.0</version>
 	<description>MQ-based connectivity to CICS.</description>
 	<url>http://www.legsem.com/legstar/cmqrt/</url>
 

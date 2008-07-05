@@ -4,11 +4,11 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>SNAPSHOT</version>
+        <version>1.2.0</version>
     </parent>
     <artifactId>legstar-cixsgen</artifactId>
     <name>Web Service Generator</name>
-    <version>SNAPSHOT</version>
+    <version>1.2.0</version>
     <description>Generates adapters and proxies for inbound and outbound mainframe integration with Web Services.</description>
     <url>http://www.legsem.com/legstar/cixsgen/</url>
 

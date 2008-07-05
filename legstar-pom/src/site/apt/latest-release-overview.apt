@@ -33,19 +33,19 @@ Version 1.2.0
   
   The best description of the new Eclipse plugins is the {{{pdf/legstar-presentation.pdf}presentation document}}.
   
-  Information on Eclipse plugins installation can be found {{{legstar-common-plugin/index.html}here}}.
+  Information on Eclipse plugins installation can be found {{{modules/legstar-common-plugin/index.html}here}}.
  
 * Java Mapping Generator
  
-   {{{legstar-xsdcgen/index.html}Complex Types Mapping Generator}} now comes with a new ant task
+   {{{modules/legstar-xsdcgen/index.html}Complex Types Mapping Generator}} now comes with a new ant task
    that takes a set of Java classes and generate a mapping XML Schema. This feature is built
    on Sun's {{{http://java.sun.com/webservices/docs/2.0/jaxb/schemagen.html}JAXB Schemagen}} utility.
 
 * Mainframe Proxies Generator
 
-   {{{legstar-cixsgen}Web Service Generator}} now comes with a new ant task that creates Servlet proxies
+   {{{modules/legstar-cixsgen}Web Service Generator}} now comes with a new ant task that creates Servlet proxies
    for target Web Services. This allows mainframe programs, using the
-   {{{legstar-c2wsrt}Mainframe to Web Service Runtime}} to perform outbound calls to Web Services.
+   {{{modules/legstar-c2wsrt}Mainframe to Web Service Runtime}} to perform outbound calls to Web Services.
    
    One sample provided calls the Live search SOAP API from a CICS program.
  
@@ -83,31 +83,31 @@ Version 1.2.0
 
   You will find details on changes affecting each important module at the following links:
   
-  {{{legstar-schemagen/changes-report.html}COBOL Structures Mapping Generator}}
+  {{{modules/legstar-schemagen/changes-report.html}COBOL Structures Mapping Generator}}
 
-  {{{legstar-xsdcgen/changes-report.html}Complex Types Mapping Generator}}
+  {{{modules/legstar-xsdcgen/changes-report.html}Complex Types Mapping Generator}}
 
-  {{{legstar-coxbgen/changes-report.html}COBOL Binding Generator}}
+  {{{modules/legstar-coxbgen/changes-report.html}COBOL Binding Generator}}
 
-  {{{legstar-cixsgen/changes-report.html}Web Service Generator}}
+  {{{modules/legstar-cixsgen/changes-report.html}Web Service Generator}}
    
-  {{{legstar-jaxbgen/changes-report.html}JAXB COBOL Annotator}}
+  {{{modules/legstar-jaxbgen/changes-report.html}JAXB COBOL Annotator}}
 
-  {{{legstar-cobcgen/changes-report.html}COBOL Structures Generator}}
+  {{{modules/legstar-cobcgen/changes-report.html}COBOL Structures Generator}}
 
-  {{{legstar-messaging/changes-report.html}Messaging Protocol}}
+  {{{modules/legstar-messaging/changes-report.html}Messaging Protocol}}
 
-  {{{legstar-coxbrt/changes-report.html}COBOL Binding Runtime}}
+  {{{modules/legstar-coxbrt/changes-report.html}COBOL Binding Runtime}}
 
-  {{{legstar-engine/changes-report.html}Connection Pooling Engine}}
+  {{{modules/legstar-engine/changes-report.html}Connection Pooling Engine}}
 
-  {{{legstar-invoker/changes-report.html}Mainframe Invoker Runtime}}
+  {{{modules/legstar-invoker/changes-report.html}Mainframe Invoker Runtime}}
 
-  {{{legstar-c2wsrt/changes-report.html}Mainframe to Web Service Runtime}}
+  {{{modules/legstar-c2wsrt/changes-report.html}Mainframe to Web Service Runtime}}
 
-  {{{legstar-chttprt/changes-report.html}HTTP Transport}}
+  {{{modules/legstar-chttprt/changes-report.html}HTTP Transport}}
 
-  {{{legstar-cmqrt/changes-report.html}Websphere MQ Transport}}
+  {{{modules/legstar-cmqrt/changes-report.html}Websphere MQ Transport}}
 
-  {{{legstar-csokrt/changes-report.html}Socket Transport}}
+  {{{modules/legstar-csokrt/changes-report.html}Socket Transport}}
 

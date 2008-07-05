@@ -4,11 +4,11 @@
 	<parent>
 	  <groupId>com.legsem.legstar</groupId>
 	  <artifactId>Legstar</artifactId>
-      <version>SNAPSHOT</version>
+      <version>1.2.0</version>
 	</parent>
 	<artifactId>legstar-codegen</artifactId>
 	<name>Code generation</name>
-    <version>SNAPSHOT</version>
+    <version>1.2.0</version>
 	<description>Common code generation classes for LegStar</description>
     <url>http://www.legsem.com/legstar/codegen/</url>
 
