@@ -19,7 +19,7 @@ public class CobolToXsdCobolModel extends SourceToXsdCobolModel {
 
 	/** This velocity template. */
 	public static final String C2S_VELOCITY_MACRO_NAME =
-		"vlc/build-c2sc-xml.vm";
+		"vlc/build-cob2xs-xml.vm";
 	
 	/**
 	 * Creates an ant build script file ready for XSD generation.

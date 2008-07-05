@@ -1,5 +1,5 @@
 <!-- =================================================================================
-     This script generates a Cobol-annotated XML Schema from Java set of classes.
+     This script generates a Mapping XML Schema from a set of Java classes.
   -->
 <project basedir=".." default="generateXSD" name="generate-XSD">
 
@@ -34,7 +34,7 @@
   </target>
 
   <!-- ===========================================================  -->
-  <!-- Generate a Cobol-annotated XML Schema. Here we explicitly
+  <!-- Generate a Mapping XML Schema. Here we explicitly
        specify the root class names. As an alternative, the POJO
        could be annotated with JSR 181 XmlRootElement.
     -->

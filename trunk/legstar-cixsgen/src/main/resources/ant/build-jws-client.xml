@@ -6,7 +6,7 @@
     The script also assumes an environment variable JAXWS_HOME points to an
     install of JAXWS RI.
  -->
-<project basedir=".." default="compileServiceClient" name="build-service-client">
+<project basedir=".." default="compileServiceClient" name="build-jws-client">
 
 	<!-- ===========================================================  -->
 	<!-- Setup environment

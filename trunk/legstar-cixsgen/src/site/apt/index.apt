@@ -65,7 +65,7 @@ Mainframe Proxies:
   
 Running the Ant scripts
   
-  The build-j2c.xml ant script shows how to generate a Web Service adapter for a commarea-driven
+  The build-jws2cixs.xml ant script shows how to generate a Web Service adapter for a commarea-driven
   program.
   
   Service generator supports container-driven programs. This is how you would use the
@@ -114,5 +114,5 @@ Running the Ant scripts
     </cixsgen>
 +------------------
 
-  The build-c2j.xml ant script shows how to generate a Mainframe proxy.
+  The build-cixs2jws.xml ant script shows how to generate a Mainframe proxy.
 

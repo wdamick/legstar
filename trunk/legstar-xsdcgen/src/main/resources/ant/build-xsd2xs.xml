@@ -1,5 +1,5 @@
 <!-- =================================================================================
-     This script generates a Cobol-annotated XML Schema from an XML Schema or WSDL.
+     This script generates a Mapping XML Schema from an XML Schema or WSDL.
   -->
 <project basedir=".." default="annotateXSD" name="annotate-XSD">
 
@@ -32,7 +32,7 @@
   </target>
 
   <!-- ===========================================================  -->
-  <!-- Generate a Cobol-annotated XML Schema.
+  <!-- Generate a Mapping XML Schema.
     -->
   <target name="annotateXSD" depends="init">
     <echo message="Generating annotated schema for ${in.uri}" />

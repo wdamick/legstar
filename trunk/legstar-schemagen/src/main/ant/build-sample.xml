@@ -34,7 +34,7 @@
 		    <arg value="/c"/>
 		    <arg value="ant.bat"/>
 		    <arg value="-f"/>
-		    <arg value="${sample.project}/${dist.name}/ant/build-schema.xml"/>
+		    <arg value="${sample.project}/${dist.name}/ant/build-cob2xs.xml"/>
 		</exec>
 		<copy todir="${sample.dest}">
 			<fileset dir="${sample.project}/${dist.name}/schema"/>

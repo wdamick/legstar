@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- =================================================================================
-     This script creates all artifacts needed for a JAXWS endpoint using
-     COXB cobol binding to JAXB and CIXS connectivity.
-     Prerequisite: COXB binding classes should have been generated
+     Generate a web service adapter for a mainframe program.
+     This script creates all artifacts needed for a JAXWS endpoint that
+     expose a mainframe proram as a Web Service.
+     Prerequisite: COBOL binding classes should have been generated
      using Coxbgen prior to using this script.
   -->
 <project basedir=".." default="compileService" name="generate-service">
