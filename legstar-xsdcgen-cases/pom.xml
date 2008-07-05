@@ -34,20 +34,6 @@
                         </goals>
                     </execution>
                 
-                    <!-- This copy the jar & war for this project into Tomcat.  -->
-                    <execution>
-                        <id>deploy-jar</id>
-                        <phase>package</phase>
-                        <configuration>
-                            <tasks>
-                                <ant antfile="${basedir}/src/main/ant/deploy-to-tomcat.xml"/>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-
                 </executions>
             </plugin>
         </plugins>
