@@ -4,11 +4,11 @@
   <artifactId>Legstar</artifactId>
   <packaging>pom</packaging>
   <name>LegStar Project</name>
-  <version>SNAPSHOT</version>
+  <version>1.2.0</version>
   <description>Legacy integration open-source developers toolkit</description>
   <url>http://www.legsem.com/legstar</url>
     <properties>
-        <legstarVersion>SNAPSHOT</legstarVersion>
+        <legstarVersion>1.2.0</legstarVersion>
     </properties>
   <developers>
     <developer>

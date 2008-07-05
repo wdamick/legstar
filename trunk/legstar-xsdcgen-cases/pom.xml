@@ -4,11 +4,11 @@
     <parent>
       <groupId>com.legsem.legstar</groupId>
       <artifactId>Legstar</artifactId>
-      <version>SNAPSHOT</version>
+      <version>1.2.0</version>
     </parent>
 	<artifactId>legstar-xsdcgen-cases</artifactId>
 	<name>Sample xsdcgen cases</name>
-    <version>SNAPSHOT</version>
+    <version>1.2.0</version>
 	<description>Sample cases to use for mainframe consumption.</description>
 	<url>http://www.legsem.com/legstar/xsdcgen/</url>
     
