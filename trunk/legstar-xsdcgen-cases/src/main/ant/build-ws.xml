@@ -11,6 +11,9 @@
 
     <property environment="env"/>
     <property file="../legstar-pom/legstar-dev.properties"/>   
+	<!-- Tomcat destination  -->
+ 	<property name="tomcat.lib" value="${tomcat.dir}\shared\lib" />
+ 	<property name="tomcat.webapps" value="${tomcat.dir}\webapps" />
 
     <property name="verbose" value="true"/>
     <property name="jaxws.lib" value="${env.JAXWS_HOME}/lib"/>
@@ -60,9 +63,16 @@
         </war>
     </target>
 
-    <target name="server" depends="setup">
+    <target name="deploy-war">
+		<copy todir="${tomcat.webapps}">
+			<fileset dir="${build.war.home}" includes="*.war"/>
+		</copy>
+    </target>
+
+	<target name="server" depends="setup">
         <antcall target="build-server-java"/>
         <antcall target="create-war"/>
+        <antcall target="deploy-war"/>
     </target>
 
 </project>
