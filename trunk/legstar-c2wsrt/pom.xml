@@ -49,6 +49,11 @@
             <artifactId>legstar-jaxbgen-cases</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-xsdcgen-cases</artifactId>
+            <scope>test</scope>
+        </dependency>
     
         <dependency>
             <groupId>log4j</groupId>
