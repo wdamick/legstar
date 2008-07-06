@@ -49,10 +49,14 @@
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-invoker</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-c2wsrt</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
         </dependency>
     
         <dependency>
