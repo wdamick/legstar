@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="com.legstar.eclipse.feature.coxbgen"
-      label="LegStar Binding Generator"
+      label="LegStar COBOL Binding Generator"
       version="1.2.0"
       provider-name="LegSem">
 
