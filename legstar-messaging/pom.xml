@@ -23,6 +23,10 @@
             <groupId>commons-configuration</groupId>
             <artifactId>commons-configuration</artifactId>
         </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
         <!-- This is a commons-configuration dependency but it is
              declared optional since 1.5 -->    
         <dependency>
