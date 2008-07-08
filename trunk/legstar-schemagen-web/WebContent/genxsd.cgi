@@ -7,8 +7,14 @@ use strict;
 use File::Temp qw/ tempdir mktemp/;
 use CGI;
 use CGI::Carp qw(fatalsToBrowser);    # Remove for production use
+my $os = $^O;
 # This is needed because of the command execution
-$ENV{'PATH'} = 'C:\WINDOWS;C:\WINDOWS\System32;C:\Program Files\Apache Software Foundation\Apache2.2\cgi-bin\legstar\legstar-schemagen-web';
+if ($os eq 'MSWin32') {
+    $ENV{'PATH'} = 'C:\WINDOWS;C:\WINDOWS\System32;C:\Program Files\Apache Software Foundation\Apache2.2\cgi-bin\legstar\legstar-schemagen-web';
+} else {
+    $ENV{'PATH'} = '/usr/local/bin:/usr/bin:/bin';
+    $ENV{"LD_LIBRARY_PATH"}="/home/legse7/public_html/cgi-bin/legstar/legstar-schemagen-web/"; 
+}
 
 #-------------------------------------------------------------
 # Functions prototypes                                       -
@@ -71,9 +77,15 @@ sub gen_xsd($$) {
     # Parse and create schema 
     #
     my $xsdFileName = "temp/" . "$$" . "$^T" . ".xml"; 
-    open (IN, "PARSTSTS.exe $cobFileName $xsdFileName |")
-        or die "failed to execute PARSTSTS.exe $cobFileName $xsdFileName: $!";
-    close IN;
+    if ($os eq 'MSWin32') {
+        open (IN, "PARSTSTS.exe $cobFileName $xsdFileName |")
+            or die "failed to execute PARSTSTS.exe $cobFileName $xsdFileName: $!";
+        close IN;
+    } else {
+        open (IN, "./PARSTSTS $cobFileName $xsdFileName |")
+            or die "failed to execute PARSTSTS $cobFileName $xsdFileName: $!";
+        close IN;
+    }
     
     open (XSDFILE, "<", "$xsdFileName")
         or die "Couldn't open $xsdFileName for reading: $!";
