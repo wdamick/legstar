@@ -282,6 +282,11 @@
                 <artifactId>commons-configuration</artifactId>
                 <version>1.5</version>
             </dependency>
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.3</version>
+            </dependency>
             <!-- This is a commons-configuration dependency but it is
                  declared optional since 1.5. Brings all sorts of unwanted
                  dependencies such as Xalan/Xerces, older versions of the
