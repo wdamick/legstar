@@ -50,7 +50,8 @@
 	<!-- Compile the generated binding classes
 	  -->
 	<target name="compileCOXB" depends="generateCOXB">
-		<javac srcdir="${jaxb.src.dir}"
+		<javac target="1.5"
+ 	           srcdir="${jaxb.src.dir}"
 		       destdir="${jaxb.bin.dir}"
 		       classpathref="classpath"
 		       fork="yes"
