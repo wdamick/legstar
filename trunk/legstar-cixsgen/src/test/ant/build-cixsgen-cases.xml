@@ -237,7 +237,8 @@
 	<!-- Compiles the JAXB generated classes
 	  -->
 	<target name="compileAllServices" depends="generateAllServices,generateLsfilealService,generateLsfileacService">
-		 <javac srcdir="${cixs.src.dir}"
+		 <javac  target="1.5"
+    	         srcdir="${cixs.src.dir}"
 		 	     includes="**/*.java"
 	 	         excludes="**/gen/**"
 		         destdir="${cixs.bin.dir}"
