@@ -41,7 +41,8 @@
 
     <target name="build-server-java">
         <apt
-            fork="true"
+            target="1.5"
+        	fork="true"
             verbose="${verbose}"
             destdir="${build.classes.home}"
             sourcedestdir="${basedir}/src/gen/java"
