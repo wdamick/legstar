@@ -21,10 +21,15 @@
 package com.legstar.xsdc.test.cases.cultureinfo;
 
 import java.math.BigDecimal;
+import java.util.Locale;
 
 import junit.framework.TestCase;
 
 public class CultureInfoTest extends TestCase {
+	
+	public void setUp() {
+		Locale.setDefault(new Locale("fr", "FR"));
+	}
 	
 	public void testEmptyRequest() {
 		CultureInfoImpl si = new CultureInfoImpl();
