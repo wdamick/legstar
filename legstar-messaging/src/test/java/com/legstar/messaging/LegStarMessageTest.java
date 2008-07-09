@@ -57,6 +57,8 @@ public class LegStarMessageTest extends TestCase {
 			}
 			/*            L S O K H E A D                      119       2     111{                                                                                                                                                                                                                            }Q u e r y D a t a                      4 1 2 3 4Q u e r y L i m i t                    2 5 6*/
 			assertEquals("d3e2d6d2c8c5c1c4404040404040404000000077000000020000006fc07fc3c9c3e2d6a4a3c39695a38189958599a27f7aad7fd9859793a8c481a3817f6b7fd9859793a8e2a381a3a4a27fbd6b7fc3c9c3e2c38881959585937f7a7fd3e2c6c9d3c5c1c360c3c8c1d5d5c5d37f6b7fc3c9c3e2d7999687998194d58194857f7a7fd3e2c6c9d3c5c1c37fd0d8a48599a8c481a3814040404040404000000004f1f2f3f4d8a48599a8d3899489a340404040404000000002f5f6", Util.toHexString(headerBytes));
+			//                                                                            <...d6a4a3c39695a38189958599a27f7aad7fd9859793a8c481a3817f6b7fd9859793a8e2a381a3a4a27fbd6b7fc3c9c3e2c38881959585937f7a7fd3e2c6c9d3c5c1c360c3c8c1d5d5c5d37f6b7fc3c9c3e2d7999687998194d58194857f7a7fd3e2c6c9d3c5c1c37f...>
+			//                                                                    but was:<...c38881959585937f7a7fd3e2c6c9d3c5c1c360c3c8c1d5d5c5d37f6b7fc3c9c3e2d7999687998194d58194857f7a7fd3e2c6c9d3c5c1c37f6b7fc3c9c3e2d6a4a3c39695a38189958599a27f7aad7fd9859793a8c481a3817f6b7fd9859793a8e2a381a3a4a27fbd...>
 		} catch (HeaderPartException e) {
 			fail("testHostSerializeHeaderPart failed " + e);
 		}
@@ -80,7 +82,9 @@ public class LegStarMessageTest extends TestCase {
 		dataParts.add(part);
 		message = new LegStarMessage(headerPart, dataParts);
 		assertEquals(88, message.getHostSize());
-		assertEquals("{\"CICSDataLength\":\"6\",\"CICSLength\":\"79\"}", headerPart.getJsonString());
+		String jsonString = headerPart.getJsonString();
+		assertTrue(jsonString.contains("\"CICSDataLength\":\"6\""));
+		assertTrue(jsonString.contains("\"CICSLength\":\"79\""));
 	}
 	
 	public final void testRecvFromHost() throws HeaderPartException, HostReceiveException {
