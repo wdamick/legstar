@@ -51,7 +51,8 @@
 	     the bug on package-info.java
 	  -->
 	<target name="compileServiceClient" depends="generateServiceClient">
-		<javac srcdir="${src.dir}"
+		<javac target="1.5"
+ 	           srcdir="${src.dir}"
 		       destdir="${bin.dir}"
 		       classpathref="classpath"
 		       fork="no"
