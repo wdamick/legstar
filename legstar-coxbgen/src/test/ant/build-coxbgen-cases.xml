@@ -149,7 +149,8 @@
 	<!-- Compiles the generated binding classes
 	  -->
 	<target name="compileAllCOXB" depends="generateAllCOXB">
-		 <javac srcdir="${coxb.src.dir}"
+		 <javac  target="1.5"
+    	         srcdir="${coxb.src.dir}"
 		 	     includes="**/*.java"
 	             excludes="local/**"
 		         destdir="${coxb.bin.dir}"
