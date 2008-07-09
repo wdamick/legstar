@@ -56,7 +56,8 @@
 	     the bug on package-info.java
 	  -->
 	<target name="compileJAXB" depends="generateJAXB">
-		<javac srcdir="${jaxb.src.dir}"
+		<javac target="1.5"
+			   srcdir="${jaxb.src.dir}"
 		       destdir="${jaxb.bin.dir}"
 		       classpathref="classpath"
 		       fork="${javac.fork}"
