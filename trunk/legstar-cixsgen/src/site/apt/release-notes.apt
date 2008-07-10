@@ -24,9 +24,8 @@ PREREQUISITES:
    
  []
  
- The JAXWS runtime is not delivered as part of LegStar. It is needed at runtime
- for the generated JAXWS endpoints to work. You can get such a runtime from Sun
- {{{https://jax-ws.dev.java.net/ri-download.html}here}}.
+ The Sun's JAXWS runtime version 2.1.3 is shipped with LegStar. You can replace this
+ implementation with any JAXWS 2.1 compliant provider.
  
  Web Service Generator requires JAXWS 2.1 and above.
  

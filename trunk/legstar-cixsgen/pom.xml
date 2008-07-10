@@ -54,6 +54,12 @@
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-c2wsrt</artifactId>
         </dependency>
+        <!-- We also ship jaxws-rt because otherwise the user is left
+             guessing which version he needs to get from Sun. -->
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-rt</artifactId>
+        </dependency>
     
         <dependency>
             <groupId>com.legsem.legstar</groupId>
