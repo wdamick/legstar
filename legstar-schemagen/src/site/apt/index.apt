@@ -10,8 +10,6 @@ COBOL Structures Mapping Generator (Schemagen) overview
 
   The LegStar Schemagen project automatically maps COBOL Structures to XML Schema complex types.
   
-  You can try it online {{{SchemagenForm.html}here}}.
-
   LegStar Schemagen translates COBOL structures into XML Schema elements. The resulting XML schema is extended
   with COBOL specific annotations. For instance, a COBOL sentence such as:
   
