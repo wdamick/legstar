@@ -24,8 +24,8 @@
   
   <body>
     <links>
-      <item name="Email" href="mailto:admin@legsem.com" />
       <item name="LegStar" href="http://www.legsem.com/legstar" />
+      <item name="Support" href="phpBB3" />
       <item name="JAXB RI" href="https://jaxb.dev.java.net/" />
       <item name="JAXWS RI" href="https://jax-ws.dev.java.net/"/>
     </links>
@@ -34,6 +34,7 @@
       <item name="Introduction" href="index.html"/>
       <item name="Presentation (pdf)" href="pdf/legstar-presentation.pdf"/>
       <item name="Distribution" href="modules/legstar-distribution/index.html"/>
+      <item name="Support" href="phpBB3"/>
       <item name="JavaDocs" href="apidocs/index.html"/>
       <item name="Copyright" href="copyright.html" />
     </menu>
