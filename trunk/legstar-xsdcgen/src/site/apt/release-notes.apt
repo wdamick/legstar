@@ -43,9 +43,7 @@ INSTALLING/UNINSTALLING:
        found under the war folder into a J2EE server such as Tomcat.
        
        The war file contains a simple JAXWS endpoint that provides a Web
-       Service implementation to be consumed by a mainframe program. This
-       sample assumes a JAXWS runtime is available (you can get the JAXWS RI
-       from Sun if you need one).
+       Service implementation to be consumed by a mainframe program.
    
  [[3]] From the installDir/ant folder, run command "ant -f build-xsd2xs.xml".
        This script assumes the J2EE server is on localhost listening on port
