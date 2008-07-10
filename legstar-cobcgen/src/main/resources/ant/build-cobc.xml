@@ -12,7 +12,7 @@
     <target name="init">
     
         <!-- JAXB package name   -->
-        <property name="jaxb.package.name" value="legstar.test.cultureinfo" />
+        <property name="jaxb.package.name" value="com.legstar.test.coxb.cultureinfo" />
         <!-- Location for generated JAXB binaries   -->
         <property name="jaxb.bin.dir" value="target/classes" />
         <!-- JAXB type name   -->
