@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- =================================================================================
-     This script generates the a web service from a POJO using Sun's JAXWS apt utility.
+     This script generates the a web service from a POJO using Sun's Apt utility.
      The generated classes along with XML descriptors are bundled in a war file ready
      to be deployed to a J2EE server.
      This ant task expects a wsname parameter that serves as the Web Service name.
