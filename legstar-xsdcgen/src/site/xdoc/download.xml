@@ -14,7 +14,8 @@
       <!-- Within sections, any XHTML can be used -->
  		<table border="1">
 			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
-			<tr><td>Complex Types Mapping Generator</td><td>Java</td><td><a href="./binaries/legstar-xsdcgen-1.2.0-bin.zip">legstar-xsdcgen-1.2.0-bin.zip</a></td></tr>
+			<tr><td>Complex Types Mapping Generator</td><td>Java</td>
+            <td><a href="../../maven/repo/com/legsem/legstar/legstar-xsdcgen/1.2.0/legstar-xsdcgen-1.2.0-bin.zip">legstar-xsdcgen-1.2.0-bin.zip</a></td></tr>
 		</table>
 
     </section>

@@ -72,7 +72,6 @@
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
-                  <outputDirectory>src/site/resources/binaries</outputDirectory>
                   <descriptors>
                     <descriptor>src/assemble/distribution.xml</descriptor>
                   </descriptors>
