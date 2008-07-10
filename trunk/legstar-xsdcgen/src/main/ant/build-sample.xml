@@ -16,7 +16,7 @@
     <!-- Distribution zip file  -->
     <property name="dist.zip" value="${dist.name}-bin.zip" />
     <!-- Distribution file location   -->
-    <property name="dist.dir" value="${basedir}/src/site/resources/binaries" />
+    <property name="dist.dir" value="${basedir}/target" />
     <!-- Distribution zip file   -->
     <property name="zip.file" value="${dist.dir}/${dist.zip}" />
     <!-- Sample final destination for schemas  -->

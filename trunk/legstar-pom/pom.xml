@@ -114,6 +114,7 @@
     </snapshotRepository>
   </distributionManagement>
 
+  <!-- 
     <repositories>
         <repository>
             <id>java.net</id>
@@ -124,7 +125,6 @@
             <id>download.java.net</id>
             <url>http://download.java.net/maven/2</url>
         </repository>
-  <!-- 
         <repository>
             <id>Apache</id>
             <url>http://repo1.maven.org/maven2/</url>
@@ -140,8 +140,8 @@
             <url>http://www.ibiblio.org/maven</url>
             <layout>legacy</layout>
         </repository>
-   -->
     </repositories>
+   -->
   
   <dependencies>
     <dependency>

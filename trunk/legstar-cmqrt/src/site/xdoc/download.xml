@@ -14,7 +14,8 @@
       <!-- Within sections, any XHTML can be used -->
 		<table border="1">
 			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
-			<tr><td>WebSphere MQ Transport</td><td>Java</td><td><a href="./binaries/legstar-cmqrt-1.2.0-bin.zip">legstar-cmqrt-1.2.0-bin.zip</a></td></tr>
+			<tr><td>WebSphere MQ Transport</td><td>Java</td>
+            <td><a href="../../maven/repo/com/legsem/legstar/legstar-cmqrt/1.2.0/legstar-cmqrt-1.2.0-bin.zip">legstar-cmqrt-1.2.0-bin.zip</a></td></tr>
 		</table>
 
     </section>
