@@ -56,13 +56,7 @@
        Why am I getting a "java.lang.LinkageError: JAXB 2.0 API is being loaded from the bootstrap classloader, but this RI (...) needs 2.1 API.?
       </question>
       <answer>
-       Your are probably running with JRE 1.6. JRE 1.6 comes with an implementation of JAXB 2.0 and JAXWS 2.0 while LegStar needs JAXB 2.1 and JAXWS 2.1.
-       To fix this issue, copy the following jars from JAXWS version 2.1 into %JAVA_HOME%/lib/endorsed:
-       <P>jaxb-api.jar, jaxb-impl.jar, jaxws-api.jar, jaxws-rt.jar, saaj-api.jar, saaj-impl.jar, stax-ex.jar and
-       streambuffer.jar.</P>
-       <P>Some application servers have their own endorsement mechanism which may invalidate the previous
-       action. For Tomcat 6 for instance, you need to create an <B>endorsed</B> folder as a sibling of the
-       <B>lib</B> folder and copy the same libraries into it.</P>
+       This issue is discussed <a href="http://www.legsem.com/legstar/phpBB3/viewtopic.php?f=2&amp;t=4">here.</a>
       </answer>
     </faq>
     
