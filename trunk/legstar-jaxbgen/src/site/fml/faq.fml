@@ -24,11 +24,7 @@
         classloader, but this RI (...) needs 2.1 API.?
       </question>
       <answer>
-       Your are probably running with JRE 1.6 pre u4. JRE 1.6 pre u4 comes with an implementation of JAXB 2.0 while
-       LegStar needs JAXB 2.1.
-       To fix this issue, copy jaxb-api.jar and jaxb-impl.jar from version 2.1 into %JAVA_HOME%/lib/endorsed.
-       <p>If you intend to generate Web Services, there might be more libraries to endorse. See the
-       Web Service Generator FAQ</p> 
+       This issue is discussed <a href="http://www.legsem.com/legstar/phpBB3/viewtopic.php?f=2&amp;t=4">here.</a>
       </answer>
     </faq>
   <!--
