@@ -93,6 +93,9 @@ public class Messages extends NLS {
 	/** Invalid mainframe URI message.*/
 	public static String invalid_mainframe_uri_msg;
 
+	/** Unable to setup classpath for the target java project. */
+	public static String classpath_setup_failure_msg;
+
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
 	}

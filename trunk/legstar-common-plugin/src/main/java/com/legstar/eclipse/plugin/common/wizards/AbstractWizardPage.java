@@ -13,9 +13,14 @@ package com.legstar.eclipse.plugin.common.wizards;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -565,6 +570,60 @@ public abstract class AbstractWizardPage extends WizardPage {
         setErrorMessage(errorMessage);
         setPageComplete(errorMessage == null);
     }
+
+	/**
+	 * What we do here is that we search a project classpath for any occurrence
+	 * of a container library.
+	 * @param jproject the target java project
+	 * @param libraryName the name of the container library
+	 * @return true if the container library is already on the classpath
+	 */
+	public boolean lookupContainerLibrary(
+			final IJavaProject jproject,
+			final String libraryName) {
+		try {
+			IClasspathEntry[] cpe = jproject.getRawClasspath();
+			for (int i = 0; i < cpe.length; i++) {
+				if (cpe[i].getEntryKind()
+						== IClasspathEntry.CPE_CONTAINER) {
+					if (cpe[i].getPath().equals(new Path(libraryName))) {
+						return true;
+					}
+				}
+			}
+			return false;
+		} catch (JavaModelException e) {
+			return false;
+		}
+	}
+
+	/**
+	 * The target Java project needs a container library on its classpath.
+	 * This assumes a classpath initializer did define the library
+	 * container and all what is left to do is to update the project with yet
+	 * another classpath entry.
+	 * 
+	 * @param jproject the target java project
+	 * @param libraryName the name of the container library
+	 * @throws JavaModelException if seting up classpath fails
+	 */
+	public void setupContainerLibrary(
+			final IJavaProject jproject,
+			final String libraryName) throws JavaModelException {
+		IClasspathEntry varEntry = JavaCore.newContainerEntry(
+				new Path(libraryName),
+				false);
+
+		java.util.List < IClasspathEntry > sourceEntries =
+			new ArrayList < IClasspathEntry >();
+		for (IClasspathEntry entry : jproject.getRawClasspath()) {
+			sourceEntries.add(entry);
+		}
+		sourceEntries.add(varEntry);
+		IClasspathEntry[] entries = (IClasspathEntry[]) sourceEntries.toArray(
+				new IClasspathEntry[sourceEntries.size()]);
+		jproject.setRawClasspath(entries, null);
+	}
 
     /**
      * @return the initial selection when this page is entered

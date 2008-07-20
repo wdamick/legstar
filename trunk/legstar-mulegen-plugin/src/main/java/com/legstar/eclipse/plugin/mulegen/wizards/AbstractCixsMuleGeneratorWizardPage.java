@@ -12,8 +12,15 @@ package com.legstar.eclipse.plugin.mulegen.wizards;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
@@ -22,6 +29,7 @@ import org.eclipse.swt.widgets.Text;
 import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsActivator;
 import com.legstar.eclipse.plugin.cixscom.wizards
 		.AbstractCixsGeneratorWizardPage;
+import com.legstar.eclipse.plugin.mulegen.ClasspathInitializer;
 import com.legstar.eclipse.plugin.mulegen.Activator;
 import com.legstar.eclipse.plugin.mulegen.Messages;
 import com.legstar.eclipse.plugin.mulegen.preferences.PreferenceConstants;
@@ -105,11 +113,37 @@ public abstract class AbstractCixsMuleGeneratorWizardPage
             Messages.invalid_mule_config_location_msg)) {
             return false;
         }
+		
+        /* Make sure the target project has LegStar Mule libraries on its
+         *  classpath*/
+		if (!lookupContainerLibrary(getTargetJavaProject(),
+				ClasspathInitializer.LIBRARY_NAME)) {
+			try {
+				setupContainerLibrary(getTargetJavaProject(),
+						ClasspathInitializer.LIBRARY_NAME);
+			} catch (JavaModelException e) {
+				updateStatus(NLS.bind(
+						Messages.classpath_setup_failure_msg,
+						getTargetSrcDir(), e.getMessage()));
+				return false;
+			}
+		}
 
         return true;
     }
 
-    /**
+	/**
+	 * The target source folder is part of a Java project. This is validated
+	 * by <code>isJavaSrcDir</code>.
+	 * @return the target java project
+	 */
+	private IJavaProject getTargetJavaProject() {
+		IResource resource = ResourcesPlugin.getWorkspace().getRoot()
+		.getContainerForLocation(new Path(getTargetSrcDir()));
+		return JavaCore.create(resource.getProject());
+	}
+
+   /**
      * @param targetJarDirLocation Where generated Jar files reside
      */
     public void setTargetJarDir(final String targetJarDirLocation) {

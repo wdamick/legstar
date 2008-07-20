@@ -20,6 +20,8 @@
             <includes>
                 <include>org.mule.transports:mule-transport-legstar-tools</include>
                 <include>org.mule.transports:mule-transport-legstar</include>
+                <include>org.mule:mule-core</include>
+                <include>org.mule.transports:mule-transport-http</include>
             </includes>
         </dependencySet>
     </dependencySets>
