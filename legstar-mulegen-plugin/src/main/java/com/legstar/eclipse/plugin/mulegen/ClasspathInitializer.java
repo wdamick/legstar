@@ -8,7 +8,9 @@
  * Contributors:
  *     LegSem - initial API and implementation
  ******************************************************************************/
-package com.legstar.eclipse.plugin.common;
+package com.legstar.eclipse.plugin.mulegen;
+
+import com.legstar.eclipse.plugin.common.AbstractClasspathInitializer;
 
 /**
  * This extension allows us to declare the LegStar library container which
@@ -18,11 +20,12 @@ package com.legstar.eclipse.plugin.common;
 public class ClasspathInitializer extends AbstractClasspathInitializer {
 
 	/** The library container identifier for LegStar. */
-	public static final String LIBRARY_NAME = "com.legstar.eclipse.LIBRARY";
+	public static final String LIBRARY_NAME =
+		"com.legstar.eclipse.mule.LIBRARY";
 	
 	/** The library container description. */
 	public static final String LIBRARY_DESCRIPTION =
-		"LegStar library container";
+		"LegStar Mule library container";
 	
 	/**
 	 * Pass all parameters needed to the parent class.

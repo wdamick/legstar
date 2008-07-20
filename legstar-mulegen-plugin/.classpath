@@ -2,6 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry exported="true" kind="lib" path="lib/mule-core-1.4.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/mule-transport-http-1.4.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/mule-transport-legstar-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/mule-transport-legstar-tools-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>

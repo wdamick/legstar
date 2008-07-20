@@ -13,7 +13,6 @@ package com.legstar.eclipse.plugin.coxbgen.wizards;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 import javax.xml.transform.stream.StreamSource;
 
@@ -366,10 +365,12 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
 			return;
 		}
 
-		/* Make sure the target project has LegStar libraries in its classpath*/
-		if (!lookupLegStarLibrary(getTargetJavaProject())) {
+		/* Make sure the target project has LegStar libraries on its classpath*/
+		if (!lookupContainerLibrary(getTargetJavaProject(),
+				ClasspathInitializer.LIBRARY_NAME)) {
 			try {
-				setupLegStarLibrary(getTargetJavaProject());
+				setupContainerLibrary(getTargetJavaProject(),
+						ClasspathInitializer.LIBRARY_NAME);
 			} catch (JavaModelException e) {
 				updateStatus(NLS.bind(
 						Messages.classpath_setup_failure_msg,
@@ -421,58 +422,6 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * The target Java project where binding classes will be generated needs
-	 * the LegStar core libraries to successfully compile. What we do here
-	 * is that we search the current classpath for any occurrence of the
-	 * LegStar library.
-	 * @param jproject the target java project
-	 * @return true if there is a LegStar user library already on the classpath
-	 */
-	private boolean lookupLegStarLibrary(final IJavaProject jproject) {
-		try {
-			IClasspathEntry[] cpe = jproject.getRawClasspath();
-			for (int i = 0; i < cpe.length; i++) {
-				if (cpe[i].getEntryKind()
-						== IClasspathEntry.CPE_CONTAINER) {
-					if (cpe[i].getPath().equals(
-							new Path(ClasspathInitializer.LIBRARY_NAME))) {
-						return true;
-					}
-				}
-			}
-			return false;
-		} catch (JavaModelException e) {
-			return false;
-		}
-	}
-
-	/**
-	 * The target Java project needs all the LegStar libraries on its classpath.
-	 * This assumes a classpath initializer did define the LegStar library
-	 * container and all what is left to do is to update the project with yet
-	 * another classpath entry.
-	 * 
-	 * @param jproject the target java project
-	 * @throws JavaModelException if seting up classpath fails
-	 */
-	private void setupLegStarLibrary(
-			final IJavaProject jproject) throws JavaModelException {
-		IClasspathEntry varEntry = JavaCore.newContainerEntry(
-				new Path(ClasspathInitializer.LIBRARY_NAME),
-				false);
-
-		java.util.List < IClasspathEntry > sourceEntries =
-			new ArrayList < IClasspathEntry >();
-		for (IClasspathEntry entry : jproject.getRawClasspath()) {
-			sourceEntries.add(entry);
-		}
-		sourceEntries.add(varEntry);
-		IClasspathEntry[] entries = (IClasspathEntry[]) sourceEntries.toArray(
-				new IClasspathEntry[sourceEntries.size()]);
-		jproject.setRawClasspath(entries, null);
 	}
 
 	/**
