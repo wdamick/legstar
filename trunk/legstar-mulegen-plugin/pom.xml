@@ -18,6 +18,11 @@
     
          <dependency>
             <groupId>org.mule.transports</groupId>
+            <artifactId>mule-transport-legstar</artifactId>
+            <version>SNAPSHOT</version>
+        </dependency>
+         <dependency>
+            <groupId>org.mule.transports</groupId>
             <artifactId>mule-transport-legstar-tools</artifactId>
             <version>SNAPSHOT</version>
         </dependency>

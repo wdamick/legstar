@@ -79,7 +79,8 @@ public class ClasspathInitializer extends ClasspathContainerInitializer {
 			java.util.List < IClasspathEntry > pathEntries =
 				new ArrayList < IClasspathEntry >();
 			File libraryFolder = new File(
-					Activator.getPluginInstallLocation() + "/lib");
+					Activator.getPluginInstallLocation(Activator.PLUGIN_ID)
+						+ "/lib");
 			
 			/* Add all jar files to classpath */
 			File[] files = libraryFolder.listFiles(new JarFilter());

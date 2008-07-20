@@ -19,6 +19,7 @@
             <scope>runtime</scope>
             <includes>
                 <include>org.mule.transports:mule-transport-legstar-tools</include>
+                <include>org.mule.transports:mule-transport-legstar</include>
             </includes>
         </dependencySet>
     </dependencySets>
