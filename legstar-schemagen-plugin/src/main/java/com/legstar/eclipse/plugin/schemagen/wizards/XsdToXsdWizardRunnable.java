@@ -55,7 +55,8 @@ public class XsdToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
             final XsdToXsdWizardPage xsdToXsdPage)
             throws InvocationTargetException {
         XsdToXsdCobolModel model = new XsdToXsdCobolModel();
-        model.setProductLocation(getPluginInstallLocation());
+        model.setProductLocation(getPluginInstallLocation(
+        		com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
         
         /* Store the content of the text box in a temporary file */
         File xsdFile;

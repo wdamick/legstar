@@ -124,12 +124,13 @@ public class Activator extends AbstractUIPlugin {
 	/**
 	 * Determines where the common LegStar plugin is installed on the file
 	 *  system.
+	 * @param pluginId the plugin identifier for which the location is sought
 	 * @return the plugin location
 	 * @throws InvocationTargetException if location cannot be determined
 	 */
-	public static String getPluginInstallLocation()
+	public static String getPluginInstallLocation(final String pluginId)
 			throws InvocationTargetException {
-        Bundle bundle = Platform.getBundle(PLUGIN_ID);
+        Bundle bundle = Platform.getBundle(pluginId);
         Path path = new Path("/");
         URL fileURL = FileLocator.find(bundle, path, null);
         String productLocation = null;

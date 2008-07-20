@@ -90,7 +90,8 @@ public class CoxbGenWizardRunnable extends AbstractWizardRunnable {
             final CoxbGenWizardPage coxbGenWizardPage)
             throws InvocationTargetException {
     	CoxbGenModel model = new CoxbGenModel();
-        model.setProductLocation(getPluginInstallLocation());
+        model.setProductLocation(getPluginInstallLocation(
+        		com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
         model.setXsdFile(new File(
         		coxbGenWizardPage.getXsdFile().getLocation().toOSString()));
 		model.setJaxbSrcDir(new File(

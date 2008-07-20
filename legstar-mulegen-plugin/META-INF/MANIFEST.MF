@@ -16,4 +16,5 @@ Require-Bundle: org.eclipse.ui,
 Eclipse-LazyStart: true
 Eclipse-RegisterBuddy:  com.legstar.eclipse.plugin.common
 Bundle-ClassPath: .,
- lib/mule-transport-legstar-tools-SNAPSHOT.jar
+ lib/mule-transport-legstar-tools-SNAPSHOT.jar,
+ lib/mule-transport-legstar-SNAPSHOT.jar

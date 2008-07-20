@@ -20,8 +20,6 @@ import com.legstar.cixs.gen.ant.model.AbstractAntBuildCixsModel;
 import com.legstar.cixs.gen.model.AbstractCixsService;
 import com.legstar.eclipse.plugin.cixscom.wizards
 		.AbstractCixsGeneratorWizardPage;
-import com.legstar.eclipse.plugin.cixscom.wizards
-		.AbstractCixsGeneratorWizardRunnable;
 
 /**
  * Background task that performs the actual artifacts generation. The process
@@ -32,7 +30,7 @@ import com.legstar.eclipse.plugin.cixscom.wizards
  * </ul>
  */
 public class Cixs2MuleGeneratorWizardRunnable
-		extends AbstractCixsGeneratorWizardRunnable {
+		extends AbstractCixsMuleGeneratorWizardRunnable {
 	
 	/** Part of the ant script file name generated. Allows segregating
 	 * this ant file from the ones produced by other LegStar wizards. */

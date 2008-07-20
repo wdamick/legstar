@@ -46,7 +46,8 @@ public class JavaToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
             final JavaToXsdWizardPage javaToXsdPage)
             throws InvocationTargetException {
         JavaToXsdCobolModel model = new JavaToXsdCobolModel();
-        model.setProductLocation(getPluginInstallLocation());
+        model.setProductLocation(getPluginInstallLocation(
+        		com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
         model.setClassNames(javaToXsdPage.getSelectedClassNames());
         model.setPathElementLocations(
                 javaToXsdPage.getSelectedPathElementsLocations());

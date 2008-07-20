@@ -102,7 +102,8 @@ public abstract class AbstractCixsGeneratorWizardRunnable
             final AbstractAntBuildCixsModel genModel)
     throws InvocationTargetException {
         
-        genModel.setProductLocation(getPluginInstallLocation());
+        genModel.setProductLocation(getPluginInstallLocation(
+        		com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
         AbstractCixsService cixsService = createCixsService();
         cixsService.setCixsOperations(mMappingModel.getCixsOperations());
         cixsService.setName(cixsGenWizardPage.getServiceName());

@@ -296,12 +296,13 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
 	/**
 	 * Determines where the common LegStar plugin is installed on the file
 	 *  system.
+	 * @param pluginId the plugin identifier for which the location is sought
 	 * @return the plugin location
 	 * @throws InvocationTargetException if location cannot be determined
 	 */
-	public static String getPluginInstallLocation()
+	public static String getPluginInstallLocation(final String pluginId)
 			throws InvocationTargetException {
-		return Activator.getPluginInstallLocation();
+		return Activator.getPluginInstallLocation(pluginId);
 	}
 	
 	/**

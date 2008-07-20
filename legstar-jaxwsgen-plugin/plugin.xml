@@ -8,7 +8,7 @@
             nameFilter="%filename_filter"
             objectClass="org.eclipse.core.resources.IFile">
          <menu
-               id="com.legstar.eclipse.plugin.jaxwsgen.menu1"
+               id="com.legstar.eclipse.plugin.cixscom.menu1"
                label="%popup_menu_label"
                path="additions">
             <groupMarker name="slot1"/>
@@ -20,14 +20,14 @@
                icon="%jaxws_to_cixs_generator_icon"
                id="com.legstar.eclipse.plugin.jaxwsgen.Jaxws2CixsGeneratorAction"
                label="%jaxws_to_cixs_action_label"
-               menubarPath="com.legstar.eclipse.plugin.jaxwsgen.menu1/slot1"/>
+               menubarPath="com.legstar.eclipse.plugin.cixscom.menu1/slot1"/>
          <action
                class="com.legstar.eclipse.plugin.jaxwsgen.popup.actions.Cixs2JaxwsGeneratorAction"
                enablesFor="1"
                icon="%cixs_to_jaxws_generator_icon"
                id="com.legstar.eclipse.plugin.jaxwsgen.Cixs2JaxwsGeneratorAction"
                label="%cixs_to_jaxws_action_label"
-               menubarPath="com.legstar.eclipse.plugin.jaxwsgen.menu1/slot2"/>
+               menubarPath="com.legstar.eclipse.plugin.cixscom.menu1/slot2"/>
       </objectContribution>
    </extension>
 
