@@ -5,7 +5,7 @@
       version="1.2.0"
       provider-name="LegSem">
 
-   <description url="http://www.legsem.com/legstar/cixsmap-plugin">
+   <description url="http://www.legsem.com/legstar/modules/legstar-common-plugin">
       Provides an editor to map Mainframe programs to local operations. The mapping file generated can be later used to generate various integration artifacts.
    </description>
 

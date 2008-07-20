@@ -5,7 +5,7 @@
       version="1.2.0"
       provider-name="LegSem">
 
-   <description url="http://www.legsem.com/legstar/common-plugin">
+   <description url="http://www.legsem.com/legstar/modules/legstar-common-plugin">
       Common LegStar abstract plugin classes, common preferences, etc.
    </description>
 
