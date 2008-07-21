@@ -34,11 +34,11 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
                 getDefaultMuleLocation() + "/lib/user");
 
         store.setDefault(PreferenceConstants.TARGET_MULE_CONFIG_FOLDER,
-        		"config");
+        		"conf");
         store.setDefault(PreferenceConstants.COBOL_SAMPLE_FOLDER,
         		"cobol");
         store.setDefault(PreferenceConstants.SERVICE_URI,
-        		"http://muleserver:8083");
+        		"http://localhost:8083");
         store.setDefault(PreferenceConstants.HOST_URI,
         		"http://192.168.0.110:4081");
     }

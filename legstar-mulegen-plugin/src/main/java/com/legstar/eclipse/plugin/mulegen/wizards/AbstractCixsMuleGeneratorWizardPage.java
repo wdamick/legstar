@@ -12,11 +12,6 @@ package com.legstar.eclipse.plugin.mulegen.wizards;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -28,7 +23,7 @@ import org.eclipse.swt.widgets.Text;
 
 import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsActivator;
 import com.legstar.eclipse.plugin.cixscom.wizards
-		.AbstractCixsGeneratorWizardPage;
+.AbstractCixsGeneratorWizardPage;
 import com.legstar.eclipse.plugin.mulegen.ClasspathInitializer;
 import com.legstar.eclipse.plugin.mulegen.Activator;
 import com.legstar.eclipse.plugin.mulegen.Messages;
@@ -39,83 +34,91 @@ import com.legstar.eclipse.plugin.mulegen.preferences.PreferenceConstants;
  * wizards.
  */
 public abstract class AbstractCixsMuleGeneratorWizardPage
-        extends AbstractCixsGeneratorWizardPage {
+extends AbstractCixsGeneratorWizardPage {
 
-    /** Where generated Mule configuration files reside. */
-    private Text mTargetMuleConfigDirText = null;
-    
-    /** Where Mule takes users jars from. */
-    private Text mTargetJarDirText = null;
-    
-    /**
-     * Construct the page.
-     * @param pageName the page name
-     * @param pageTitle the page title
-     * @param pageDesc the page description
-    * @param selection the current workbench selection
-     * @param mappingFile the mapping file
-     */
-    protected AbstractCixsMuleGeneratorWizardPage(
-            final String pageName,
-            final String pageTitle,
-            final String pageDesc,
-            final IStructuredSelection selection,
-            final IFile mappingFile) {
-        super(selection, pageName, pageTitle, pageDesc, mappingFile);
-    }
+	/** Where generated Mule configuration files reside. */
+	private Text mTargetMuleConfigDirText = null;
 
-    /** {@inheritDoc} */
-    public void addWidgetsToCixsGroup(final Composite arg0) {
-    }
+	/** Where Mule takes users jars from. */
+	private Text mTargetJarDirText = null;
 
-    /** {@inheritDoc} */
-    public void addWidgetsToTargetGroup(final Composite container) {
-        mTargetMuleConfigDirText = createDirectoryFieldEditor(container,
-                "targetMuleConfigDir",
-                Messages.target_mule_config_location_label + ':');
-        mTargetMuleConfigDirText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
-    }
+	/**
+	 * Construct the page.
+	 * @param pageName the page name
+	 * @param pageTitle the page title
+	 * @param pageDesc the page description
+	 * @param selection the current workbench selection
+	 * @param mappingFile the mapping file
+	 */
+	protected AbstractCixsMuleGeneratorWizardPage(
+			final String pageName,
+			final String pageTitle,
+			final String pageDesc,
+			final IStructuredSelection selection,
+			final IFile mappingFile) {
+		super(selection, pageName, pageTitle, pageDesc, mappingFile);
+	}
 
-    /** {@inheritDoc} */
-    public void addWidgetsToCoxbGroup(final Composite container) {
-    }
+	/** {@inheritDoc} */
+	public void addWidgetsToCixsGroup(final Composite arg0) {
+	}
 
-    /** {@inheritDoc} */
-    public void addWidgetsToDeploymentGroup(final Composite container) {
-        mTargetJarDirText = createTextField(container, getStore(),
-                "targetJarDir",
-                Messages.target_mule_jar_location_label + ':');
-        mTargetJarDirText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
-    }
+	/** {@inheritDoc} */
+	public void addWidgetsToTargetGroup(final Composite container) {
+		mTargetMuleConfigDirText = createDirectoryFieldEditor(container,
+				"targetMuleConfigDir",
+				Messages.target_mule_config_location_label + ':');
+		mTargetMuleConfigDirText.addModifyListener(new ModifyListener() {
+			public void modifyText(final ModifyEvent e) {
+				dialogChanged();
+			}
+		});
+	}
 
-    /** {@inheritDoc} */
-    public void initExtendedWidgets(final IProject project) {
-        IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+	/** {@inheritDoc} */
+	public void addWidgetsToCoxbGroup(final Composite container) {
+	}
 
-        setTargetMuleConfigDir(getDefaultTargetDir(store,
-        		PreferenceConstants.TARGET_MULE_CONFIG_FOLDER));
+	/** {@inheritDoc} */
+	public void addWidgetsToDeploymentGroup(final Composite container) {
+		mTargetJarDirText = createTextField(container, getStore(),
+				"targetJarDir",
+				Messages.target_mule_jar_location_label + ':');
+		mTargetJarDirText.addModifyListener(new ModifyListener() {
+			public void modifyText(final ModifyEvent e) {
+				dialogChanged();
+			}
+		});
+	}
 
-        setTargetJarDir(store.getDefaultString(
+	/** {@inheritDoc} */
+	public void initExtendedWidgets(final IProject project) {
+		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+
+		setTargetMuleConfigDir(getDefaultTargetDir(store,
+				PreferenceConstants.TARGET_MULE_CONFIG_FOLDER));
+
+		setTargetJarDir(store.getDefaultString(
 				PreferenceConstants.MULE_USER_JAR_FOLDER));
-    }
+	}
 
-    /** {@inheritDoc} */
-    public boolean validateExtendedWidgets() {
-        if (!checkDirectory(getTargetMuleConfigDir(),
-            Messages.invalid_mule_config_location_msg)) {
-            return false;
-        }
-		
-        /* Make sure the target project has LegStar Mule libraries on its
-         *  classpath*/
+	/** {@inheritDoc} */
+	public boolean validateExtendedWidgets() {
+		if (!checkDirectory(getTargetMuleConfigDir(),
+				Messages.invalid_mule_config_location_msg)) {
+			return false;
+		}
+		/* Project is valid. Make sure the project is ready for
+		 * generated sources compilation. */
+		return setupProject();
+	}
+
+    /**
+     * Make sure the target project has LegStar Mule libraries on its
+	 *  classpath.
+	 * @return false if the setup failed
+     */
+    protected boolean setupProject() {
 		if (!lookupContainerLibrary(getTargetJavaProject(),
 				ClasspathInitializer.LIBRARY_NAME)) {
 			try {
@@ -128,64 +131,52 @@ public abstract class AbstractCixsMuleGeneratorWizardPage
 				return false;
 			}
 		}
-
-        return true;
+		return true;
     }
 
 	/**
-	 * The target source folder is part of a Java project. This is validated
-	 * by <code>isJavaSrcDir</code>.
-	 * @return the target java project
+	 * @param targetJarDirLocation Where generated Jar files reside
 	 */
-	private IJavaProject getTargetJavaProject() {
-		IResource resource = ResourcesPlugin.getWorkspace().getRoot()
-		.getContainerForLocation(new Path(getTargetSrcDir()));
-		return JavaCore.create(resource.getProject());
+	public void setTargetJarDir(final String targetJarDirLocation) {
+		mTargetJarDirText.setText(targetJarDirLocation);
 	}
 
-   /**
-     * @param targetJarDirLocation Where generated Jar files reside
-     */
-    public void setTargetJarDir(final String targetJarDirLocation) {
-        mTargetJarDirText.setText(targetJarDirLocation);
-    }
-    
-    /**
-     * @return Where generated Jar files reside
-     */
-    public String getTargetJarDir() {
-        return mTargetJarDirText.getText();
-    }
+	/**
+	 * @return Where generated Jar files reside
+	 */
+	public String getTargetJarDir() {
+		return mTargetJarDirText.getText();
+	}
 
-    /**
-     * @param targetMuleConfigDirLocation Where generated Mule configurations
-     *  reside
-     */
-    public void setTargetMuleConfigDir(
-            final String targetMuleConfigDirLocation) {
-        mTargetMuleConfigDirText.setText(targetMuleConfigDirLocation);
-    }
-    
-    /**
-     * @return Where generated Mule configurations reside
-     */
-    public String getTargetMuleConfigDir() {
-        return mTargetMuleConfigDirText.getText();
-    }
+	/**
+	 * @param targetMuleConfigDirLocation Where generated Mule configurations
+	 *  reside
+	 */
+	public void setTargetMuleConfigDir(
+			final String targetMuleConfigDirLocation) {
+		mTargetMuleConfigDirText.setText(targetMuleConfigDirLocation);
+	}
 
-    /** {@inheritDoc} */
-    public AbstractCixsActivator getActivator() {
-        return Activator.getDefault();
-    }
+	/**
+	 * @return Where generated Mule configurations reside
+	 */
+	public String getTargetMuleConfigDir() {
+		return mTargetMuleConfigDirText.getText();
+	}
 
-    /**
-     * @return Mule home
-     */
-    public String getMuleHome() {
-        IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-        return store.getString(
-                PreferenceConstants.MULE_INSTALL_FOLDER);
-    }
+	/** {@inheritDoc} */
+	public AbstractCixsActivator getActivator() {
+		return Activator.getDefault();
+	}
+
+	/**
+	 * @return Mule home
+	 */
+	public String getMuleHome() {
+		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+		return store.getString(
+				PreferenceConstants.MULE_INSTALL_FOLDER);
+	}
 
 
 }
