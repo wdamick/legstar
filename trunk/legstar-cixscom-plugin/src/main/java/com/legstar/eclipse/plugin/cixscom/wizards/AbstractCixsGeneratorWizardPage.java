@@ -13,6 +13,7 @@ package com.legstar.eclipse.plugin.cixscom.wizards;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -492,6 +493,18 @@ extends AbstractWizardPage {
 		return defaultValue;
 	}
 
+	/**
+	 * The target source folder is part of a Java project. It is assumed
+	 * this was tested in the validation step so we can safely infer the
+	 * java nature here.
+	 * @return the target java project
+	 */
+	public IJavaProject getTargetJavaProject() {
+		IResource resource = ResourcesPlugin.getWorkspace().getRoot()
+		.getContainerForLocation(new Path(getTargetSrcDir()));
+		return JavaCore.create(resource.getProject());
+	}
+	
 	/**
 	 * Checks that a folder exists.
 	 * @param dir folder name

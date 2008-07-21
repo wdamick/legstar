@@ -12,7 +12,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.core,
  com.legstar.eclipse.plugin.common,
  com.legstar.eclipse.plugin.cixscom,
- org.eclipse.jdt.ui
+ org.eclipse.jdt.ui,
+ org.apache.ant
 Eclipse-LazyStart: true
 Eclipse-RegisterBuddy:  com.legstar.eclipse.plugin.common
 Bundle-ClassPath: .,
