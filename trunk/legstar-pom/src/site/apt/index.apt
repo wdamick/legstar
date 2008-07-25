@@ -13,6 +13,9 @@ Overview
   To get a general idea of LegStar, you can read the {{{./pdf/legstar-presentation.pdf}presentation document}}.
     
   To latest version is described {{{./latest-release-overview.html}here}}.
+  
+  Check out the new {{{http://www.mulesource.org/display/MULE/Home}Mule}} beta support
+  {{{http://www.mulesource.org/display/LEGSTAR/Home}here}}.
 
 Mapping legacy data structures to open world complex types
 
