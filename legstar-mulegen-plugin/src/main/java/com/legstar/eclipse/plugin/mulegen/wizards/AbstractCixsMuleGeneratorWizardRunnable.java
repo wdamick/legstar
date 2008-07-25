@@ -17,8 +17,11 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IClasspathContainer;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.mule.providers.legstar.model.AbstractAntBuildCixsMuleModel;
 
@@ -27,6 +30,7 @@ import com.legstar.eclipse.plugin.cixscom.wizards
 import com.legstar.eclipse.plugin.cixscom.wizards
 		.AbstractCixsGeneratorWizardRunnable;
 import com.legstar.eclipse.plugin.mulegen.Activator;
+import com.legstar.eclipse.plugin.mulegen.ClasspathInitializer;
 
 /**
  * Background task that performs the actual artifacts generation. The process
@@ -77,6 +81,10 @@ public abstract class AbstractCixsMuleGeneratorWizardRunnable
     /**
      * Creates a list of physical locations on the file system for the
      * target Eclipse project classpath elements.
+     * This will make sure any Referenced Libraries from the Eclipse project
+     * will also be included in the Mule startup script.
+     * Of particular importance are the Legs4Mule libraries found in the
+     * LegStar Mule container.
      * TODO The list is currently not complete. We are missing variables
      * and containers classpath entries.
      * @param cixsGenWizardPage the associated wisard page
@@ -105,6 +113,18 @@ public abstract class AbstractCixsMuleGeneratorWizardRunnable
 				if (cpe.getEntryKind()
 						== IClasspathEntry.CPE_LIBRARY) {
 					cpeSet.add(cpe.getPath().toOSString());
+				}
+				if (cpe.getEntryKind()
+						== IClasspathEntry.CPE_CONTAINER
+						&& cpe.getPath().equals(
+								new Path(ClasspathInitializer.LIBRARY_NAME))) {
+					IClasspathContainer classpathContainer =
+						JavaCore.getClasspathContainer(cpe.getPath(),
+								javaProject);
+					for (IClasspathEntry cpel
+							: classpathContainer.getClasspathEntries()) {
+						cpeSet.add(cpel.getPath().toOSString());
+					}
 				}
 			}
 		} catch (JavaModelException e) {
