@@ -3,10 +3,10 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.2.0</version>
+        <version>1.2.1-SNAPSHOT</version>
         <relativePath>../trunk</relativePath>
     </parent>
-    <version>1.2.0</version>
+    <version>1.2.1-SNAPSHOT</version>
     <artifactId>legstar-messaging</artifactId>
     <name>Messaging Protocol</name>
     <description>Mainframe message exchange protocol.</description>
