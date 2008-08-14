@@ -1,0 +1,155 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/xml/ns/coxb" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:tns="http://cultureinfo.cases.test.xsdc.legstar.com/" attributeFormDefault="unqualified" elementFormDefault="unqualified" xmlns:ns0="http://java.sun.com/xml/ns/jaxb" ns0:extensionBindingPrefixes="cb" targetNamespace="http://cultureinfo.cases.test.xsdc.legstar.com/" xmlns:ns1="http://java.sun.com/xml/ns/jaxb" ns1:version="2.0">
+    <xs:annotation>
+        <xs:appinfo>
+            <jaxb:schemaBindings>
+                <jaxb:package name="com.legstar.test.coxb.cultureinfo"/>
+                <jaxb:nameXmlTransform>
+                    <jaxb:typeName suffix="Type"/>
+                </jaxb:nameXmlTransform>
+            </jaxb:schemaBindings>
+        </xs:appinfo>
+    </xs:annotation>
+    <xs:element name="CultureInfoException" type="tns:CultureInfoException">
+        <xs:annotation>
+            <xs:appinfo>
+                <cb:cobolElement cobolName="CultureInfoException" levelNumber="1" type="GROUP_ITEM"/>
+            </xs:appinfo>
+        </xs:annotation>
+    </xs:element>
+    <xs:element name="getInfo" type="tns:getInfo">
+        <xs:annotation>
+            <xs:appinfo>
+                <cb:cobolElement cobolName="getInfo" levelNumber="1" type="GROUP_ITEM"/>
+            </xs:appinfo>
+        </xs:annotation>
+    </xs:element>
+    <xs:element name="getInfoResponse" type="tns:getInfoResponse">
+        <xs:annotation>
+            <xs:appinfo>
+                <cb:cobolElement cobolName="getInfoResponse" levelNumber="1" type="GROUP_ITEM"/>
+            </xs:appinfo>
+        </xs:annotation>
+    </xs:element>
+    <xs:complexType name="getInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="tns:cultureInfoParameters">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement cobolName="arg0" levelNumber="3" type="GROUP_ITEM"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="cultureInfoParameters">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="cultureCode" type="xs:string">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="cultureCode" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="decimalNumber" type="xs:decimal">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement byteLength="5" cobolName="decimalNumber" fractionDigits="2" levelNumber="5" picture="9(7)V9(2)" signed="true" totalDigits="9" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getInfoResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:cultureInfoReply">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement cobolName="R-return" levelNumber="3" type="GROUP_ITEM"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="cultureInfoReply">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="currencySymbol" type="xs:string">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="currencySymbol" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="displayCountry" type="xs:string">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="displayCountry" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="displayLanguage" type="xs:string">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="displayLanguage" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="formattedDate" type="xs:string">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="formattedDate" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="formattedDecimalNumber" type="xs:string">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="formattedDecimalNumber" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="serverCultureInfo" type="tns:serverCultureInfo">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement cobolName="serverCultureInfo" levelNumber="5" type="GROUP_ITEM"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="serverCultureInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="cultureCode" type="xs:string">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="cultureCode" levelNumber="7" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="displayCountry" type="xs:string">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="displayCountry" levelNumber="7" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="displayLanguage" type="xs:string">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="displayLanguage" levelNumber="7" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CultureInfoException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="R-message" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

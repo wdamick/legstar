@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>1.2.0</version>
+        <relativePath>../legstar-pom/pom.xml</relativePath>
+    </parent>
+    <artifactId>legstar-mulegen-plugin</artifactId>
+    <packaging>pom</packaging>
+    <name>Mule Generator Eclipse plugin</name>
+    <version>1.2.0</version>
+    <description>Mule Generator Eclipse plugin.</description>
+    <url>http://www.legsem.com/legstar/common-plugin/</url>
+
+    <dependencies>
+    
+         <dependency>
+            <groupId>org.mule.transports</groupId>
+            <artifactId>mule-transport-legstar</artifactId>
+            <version>1.0-RC3-SNAPSHOT</version>
+        </dependency>
+         <dependency>
+            <groupId>org.mule.transports</groupId>
+            <artifactId>mule-transport-legstar-tools</artifactId>
+            <version>1.0-RC3-SNAPSHOT</version>
+        </dependency>
+         <dependency>
+            <groupId>org.mule</groupId>
+            <artifactId>mule-core</artifactId>
+            <version>1.4.4</version>
+        </dependency>
+         <dependency>
+            <groupId>org.mule.transports</groupId>
+            <artifactId>mule-transport-http</artifactId>
+            <version>1.4.4</version>
+        </dependency>
+    
+        <!-- This is to prevent Log4j from being part of the
+             dependency set. Otherwise, it would end up in the lib
+             folder. We don't want to force users to use it. -->
+         <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <scope>test</scope>
+        </dependency>
+    
+    </dependencies>
+
+    <build>
+
+        <plugins>
+        
+            <!-- See distribution.xml for an explanation on the reasons for the
+                 unusual distribution options here.  -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <finalName>lib</finalName>
+                    <outputDirectory>.</outputDirectory>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptors>
+                        <descriptor>src/assemble/distribution.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- append to the packaging phase. -->
+                        <goals>
+                             <goal>directory-inline</goal> <!-- goals == mojos -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+          
+        </plugins>
+    
+    </build>
+    
+</project>

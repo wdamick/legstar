@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="LegStar"
+            id="com.legstar.eclipse.plugin">
+      </category>
+      <wizard
+            name="%new_file_title"
+            icon="%data_structure_mapping_icon"
+            category="com.legstar.eclipse.plugin"
+            class="com.legstar.eclipse.plugin.schemagen.wizards.MainWizard"
+            id="com.legstar.eclipse.plugin.schemagen.wizards.MainWizard">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="com.legstar.eclipse.plugin.slot1.schemagen.actionSet"
+            label="LegStar Schemagen Action Set"
+            visible="true">
+         <action
+               class="com.legstar.eclipse.plugin.schemagen.actions.SchemaGenAction"
+               icon="%data_structure_mapping_icon"
+               id="com.legstar.eclipse.plugin.schemagen.actions.SchemaGenAction"
+               label="%action_label"
+               menubarPath="com_legstar_eclipse_menu/slot1"
+               toolbarPath="com.legstar.eclipse.plugin.common.actionSet/legstarGroup"
+               tooltip="%action_tooltip"/>
+      </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="com.legstar.eclipse.plugin"
+            class="com.legstar.eclipse.plugin.schemagen.preferences.SchemaGenPreferencePage"
+            id="com.legstar.eclipse.plugin.schemagen.preferences.SchemaGenPreferencePage"
+            name="%schemagen_preference_page_title"/>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.legstar.eclipse.plugin.schemagen.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+
+</plugin>
+  

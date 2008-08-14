@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="legstar-coxbrt">
+  <body>
+
+    <menu name="COBOL Binding Runtime">
+      <item name="Introduction" href="index.html"/>
+      <item name="FAQ" href="faq.html" />
+    </menu>
+
+    ${reports}
+  </body>
+</project>

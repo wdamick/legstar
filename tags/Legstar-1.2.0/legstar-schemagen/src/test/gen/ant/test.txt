@@ -1,0 +1,45 @@
+<!-- =================================================================================
+     This script generates an XML schema from a cobol source file. Since this
+     script uses JNI and native libraries, you want to make sure that the
+     distribution bin directory is in the PATH.
+ -->
+<project basedir="/Users/Fady/sandbox/legstar-1.2.0" default="signalSuccess" name="generate-XSD">
+
+
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
+    <target name="init">
+    
+        <!-- Cobol to Xsd generator ant task  -->
+        <taskdef name="c2scgen"
+            classname="com.legstar.schemagen.COXBSchemaGenerator">
+            <classpath>
+                <fileset dir="${basedir}" includes="lib/*.jar"/>
+            </classpath>
+        </taskdef> 
+    
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- Generate a Cobol-annotated XML Schema.
+    -->
+    <target name="generateXSD" depends="init">
+        <echo message="Generating annotated XML schema lsfileae.xsd" />
+        <c2scgen
+            namespace="http://lsfileae.cases.test.schemagen.legstar.com/"
+            jaxbPackageName="com.legstar.test.coxb.lsfileae"
+            sourceCobolFilePath="src/main/resources/cobol/LSFILEAE.CBL"
+            targetDir="src\test\gen\schema"
+            targetXsdFileName="lsfileae.xsd"
+        />
+    </target>
+  
+    <!-- ===========================================================  -->
+    <!-- Delete the probe file to signal success
+    -->
+    <target name="signalSuccess" depends="generateXSD">
+        <delete file="probe.file.tmp" quiet="true"/>
+    </target>
+    
+</project>

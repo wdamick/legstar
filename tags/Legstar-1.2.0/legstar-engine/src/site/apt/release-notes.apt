@@ -1,0 +1,71 @@
+ -------------------------------------------------------------------------------
+                     LegSem LegStar Connection pooling engine Version 1.2.0
+                               Release Notes
+ -------------------------------------------------------------------------------
+
+PREREQUISITES:
+
+ These prerequisites assume you are using the default Servlet initiator, in
+ which case, you will need a Servlet engine such as Tomcat or Jetty.
+ 
+ It is assumed you already successfully used LegStar using direct host access
+ strategy (without a pooling engine).
+ 
+ The Servlet initiator is targeted at the Servlet 2.3 API. It has been tested
+ with Tomcat 5.5 and 6.0.
+ 
+ The Engine uses the "Timer and Work Manager for Application Servers"
+ API from BEA/IBM (TWM). The Engine provides a default implementation of this API
+ but you should be able to substitute the one provided by your application server.
+ 
+ The Engine also uses the {{{http://jakarta.apache.org/commons/logging/}Apache Commons logging}}
+ and {{{http://jakarta.apache.org/commons/configuration/}Apache commons configuration}}.
+ 
+ The Engine is used to pool abstract connections as defined in {{{../legstar-messaging}
+ Messaging Protocol}}. It has no additional dependencies on LegStar.
+ 
+INSTALLING/UNINSTALLING:
+
+ These instructions are for a Tomcat deployment but can easily be translated to
+ Jetty or other servlet engines.
+
+ [[1]] Unzip the binary distribution package into the directory of your choice,
+       referred to as <installDir> in the following steps.
+
+   The directory tree should look like this:
+   
++---------------------------------------+
+   <installDir>
+        |---->LICENSE
+        |---->engine-NOTICE
+        |---->engine-README
+        |----><lib>
+                |---->*.jar
+        |----><samples>
+                |---->*.xml
+        |----><war>
+                |---->*.war
+                
++---------------------------------------+
+   
+ [[2]] Copy the jar files from <lib> to <CATALINA_BASE>/shared/lib in the case of
+       Tomcat.
+   
+ [[3]] Copy the legstar-engine-config.xml and legstar-pooling-config.xml configuration files
+       from <samples> to <CATALINA_BASE>/shared/classes. Customize
+       configurations according to your needs. This location for configuration files has been
+       chosen to allow the engine to share the same configuration file with client requests.
+       
+       We assume you already have legstar-invoker-config.xml customized in that same location
+       since this file is also needed to run legstar without pooling.
+   
+ [[4]] Copy the legstar-engine.war file from <war> to <CATALINA_BASE>/webapps.
+ 
+ [[5]] Restart Tomcat and check the logs for the engine startup message.
+ 
+ [[6]] To uninstall, cleanup Tomcat from all LegStar files and remove the installDir folder.
+
+DOCUMENTATION:
+
+ Documentation available at http://www.legsem.com/legstar/legstar-engine
+
