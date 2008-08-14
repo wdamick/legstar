@@ -1,0 +1,200 @@
+//P390MQDF JOB 'COMPILE',CLASS=A,MSGCLASS=X,REGION=0M,
+//          NOTIFY=&SYSUID,COND=(5,LT)
+//******************************************************************
+//* CREATES MQ RESOURCES TO SUPPORT LEGSTAR TRIGGERING TRANSACTION *
+//******************************************************************
+//PROCSTEP EXEC PGM=CSQUTIL,PARM='CSQ1'
+//STEPLIB   DD DSN=CSQ531.SCSQAUTH,DISP=SHR
+//          DD DSN=CSQ531.SCSQANLE,DISP=SHR
+//SYSPRINT  DD SYSOUT=*
+//SYSIN     DD *
+ COMMAND
+/*
+//CSQUCMD   DD *
+DEFINE QLOCAL( 'CICSA.REQUEST.QUEUE' ) REPLACE +
+         QSGDISP( QMGR ) +
+
+* Common queue attributes
+         DESCR( 'ALL REQUESTS MESSAGES TO CICSA ' ) +
+         PUT( ENABLED ) +
+         DEFPSIST( YES ) +
+         DEFPRTY( 0 ) +
+* LOCAL QUEUE ATTRIBUTES
+         GET( ENABLED ) +
+         SHARE +
+         DEFSOPT( SHARED ) +
+         MSGDLVSQ( PRIORITY ) +
+         RETINTVL( 999999999 ) +
+         MAXDEPTH( 999999999 ) +
+         MAXMSGL( 4194304 ) +
+         NOHARDENBO +
+         BOTHRESH( 0 ) +
+         BOQNAME( 'CICSA.ERROR.QUEUE' ) +
+         STGCLASS( 'DEFAULT' ) +
+         USAGE( NORMAL ) +
+         INDXTYPE( NONE ) +
+         CFSTRUCT( ' ' ) +
+* EVENT CONTROL ATTRIBUTES
+         QDPMAXEV( ENABLED ) +
+         QDPHIEV( DISABLED ) +
+         QDEPTHHI( 80 ) +
+         QDPLOEV( DISABLED ) +
+         QDEPTHLO( 40 ) +
+         QSVCIEV( NONE ) +
+         QSVCINT( 999999999 ) +
+* TRIGGER ATTRIBUTES
+         TRIGGER +
+         TRIGTYPE( FIRST ) +
+         TRIGDPTH( 1 ) +
+         TRIGMPRI( 0 ) +
+         TRIGDATA( ' ') +
+         PROCESS( 'CICSA.PROCESS' ) +
+         INITQ( 'CICSA.INITQ' )
+
+****************************************************************
+DEFINE QLOCAL( 'CICSA.REPLY.QUEUE' ) REPLACE +
+         QSGDISP( QMGR ) +
+
+* Common queue attributes
+         DESCR( 'ALL REPLY MESSAGES FROM CICSA ' ) +
+         PUT( ENABLED ) +
+         DEFPSIST( YES ) +
+         DEFPRTY( 0 ) +
+* LOCAL QUEUE ATTRIBUTES
+         GET( ENABLED ) +
+         SHARE +
+         DEFSOPT( SHARED ) +
+         MSGDLVSQ( PRIORITY ) +
+         RETINTVL( 999999999 ) +
+         MAXDEPTH( 999999999 ) +
+         MAXMSGL( 4194304 ) +
+         NOHARDENBO +
+         BOTHRESH( 0 ) +
+         BOQNAME( ' ' ) +
+         STGCLASS( 'DEFAULT' ) +
+         USAGE( NORMAL ) +
+         INDXTYPE( NONE ) +
+         CFSTRUCT( ' ' ) +
+* EVENT CONTROL ATTRIBUTES
+         QDPMAXEV( ENABLED ) +
+         QDPHIEV( DISABLED ) +
+         QDEPTHHI( 80 ) +
+         QDPLOEV( DISABLED ) +
+         QDEPTHLO( 40 ) +
+         QSVCIEV( NONE ) +
+         QSVCINT( 999999999 ) +
+* TRIGGER ATTRIBUTES
+         TRIGGER +
+         TRIGTYPE( EVERY ) +
+         TRIGDPTH( 1 ) +
+         TRIGMPRI( 0 ) +
+         TRIGDATA( ' ') +
+         PROCESS( ' ' ) +
+         INITQ( ' ' )
+
+****************************************************************
+DEFINE QLOCAL( 'CICSA.ERROR.QUEUE' ) REPLACE +
+         QSGDISP( QMGR ) +
+
+* Common queue attributes
+         DESCR( 'ERROR MESSAGES ' ) +
+         PUT( ENABLED ) +
+         DEFPSIST( YES ) +
+         DEFPRTY( 0 ) +
+* LOCAL QUEUE ATTRIBUTES
+         GET( ENABLED ) +
+         SHARE +
+         DEFSOPT( SHARED ) +
+         MSGDLVSQ( PRIORITY ) +
+         RETINTVL( 999999999 ) +
+         MAXDEPTH( 999999999 ) +
+         MAXMSGL( 4194304 ) +
+         NOHARDENBO +
+         BOTHRESH( 0 ) +
+         BOQNAME( ' ' ) +
+         STGCLASS( 'DEFAULT' ) +
+         USAGE( NORMAL ) +
+         INDXTYPE( NONE ) +
+         CFSTRUCT( ' ' ) +
+* EVENT CONTROL ATTRIBUTES
+         QDPMAXEV( ENABLED ) +
+         QDPHIEV( DISABLED ) +
+         QDEPTHHI( 80 ) +
+         QDPLOEV( DISABLED ) +
+         QDEPTHLO( 40 ) +
+         QSVCIEV( NONE ) +
+         QSVCINT( 999999999 ) +
+* TRIGGER ATTRIBUTES
+         TRIGGER +
+         TRIGTYPE( EVERY ) +
+         TRIGDPTH( 1 ) +
+         TRIGMPRI( 0 ) +
+         TRIGDATA( ' ') +
+         PROCESS( ' ' ) +
+         INITQ( ' ' )
+
+****************************************************************
+DEFINE QLOCAL( 'CICSA.INITQ' ) REPLACE +
+         QSGDISP( QMGR ) +
+
+* Common queue attributes
+         DESCR( 'CKTI initiation queue' ) +
+         PUT( ENABLED ) +
+         DEFPRTY( 5 ) +
+         DEFPSIST( YES ) +
+         CLUSTER( ' ' ) CLUSNL( ' ' ) DEFBIND( OPEN ) +
+
+* Local queue attributes
+         GET( ENABLED ) +
+         SHARE +
+         DEFSOPT( SHARED ) +
+         MSGDLVSQ( FIFO ) +
+         RETINTVL( 999999999 ) +
+         MAXDEPTH( 100 ) +
+         MAXMSGL( 1000 ) +
+         NOHARDENBO +
+         BOTHRESH( 0 ) +
+         BOQNAME( ' ' ) +
+         STGCLASS( 'SYSVOLAT' ) +
+         USAGE( NORMAL ) +
+         INDXTYPE( NONE ) +
+         CFSTRUCT( ' ' ) +
+
+* Event control attributes
+         QDPMAXEV( ENABLED ) +
+         QDPHIEV( DISABLED ) +
+         QDEPTHHI( 80 ) +
+         QDPLOEV( DISABLED ) +
+         QDEPTHLO( 40 ) +
+         QSVCIEV( NONE ) +
+         QSVCINT( 999999999 ) +
+
+* Trigger attributes
+         TRIGGER +
+         TRIGTYPE( FIRST ) +
+         TRIGMPRI( 0 ) +
+         TRIGDPTH( 1 ) +
+         TRIGDATA( ' ' ) +
+         PROCESS( ' ' ) +
+         INITQ( ' ' )
+
+****************************************************************
+* User data format (positional):
+*                   123456789012345678901234567890123
+*                   +(1)+--(2)--+(3)-+------(4)------
+* (1) = Handler CICS transaction ID
+* (2) = work buffer initial size (bytes) as 8 digits. Must be 
+*       larger or equal to 1024
+* (3) = true to turn host traces on, false otherwise
+* (4) = 16 characters trace ID
+*
+DEFINE PROCESS( 'CICSA.PROCESS' ) REPLACE +
+         QSGDISP( QMGR ) +
+         DESCR( 'PROCESS TRIGGERING LEGSTAR TRANSACTION' ) +
+         APPLTYPE( CICS ) +
+         APPLICID( 'LEGQ' ) +
+         USERDATA( 'LEGQ00004096falseController      ' ) +
+         ENVRDATA( ' ' )
+********************************************************************
+/*
+//

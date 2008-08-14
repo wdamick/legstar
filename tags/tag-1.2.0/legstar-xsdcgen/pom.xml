@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+    <parent>
+      <groupId>com.legsem.legstar</groupId>
+      <artifactId>Legstar</artifactId>
+      <version>1.2.0</version>
+    </parent>
+  <artifactId>legstar-xsdcgen</artifactId>
+  <name>Complex Types Mapping Generator</name>
+    <version>1.2.0</version>
+  <description>Generates mapping XML Schema from XSD, WSDL or Java classes.</description>
+  <url>http://www.legsem.com/legstar/xsdcgen/</url>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbapi</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbrt</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.ws.commons.schema</groupId>
+            <artifactId>XmlSchema</artifactId> 
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-xjc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant</artifactId>
+        </dependency>
+
+        <!--  xsdcgen does not depend of wsdl4j yet. But since some
+              plugins (which are not Maven managed) now depend on
+              wsdl4j, it is convenient to add it here. -->
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-codegen</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-xsdcgen-cases</artifactId>
+            <scope>test</scope>
+        </dependency> 
+
+    </dependencies>
+    <build>
+        <plugins>
+            
+            <!-- Assembly generation plugin. Put the result in the source site
+                so that it gets uploaded with the site.  -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                  <descriptors>
+                    <descriptor>src/assemble/distribution.xml</descriptor>
+                  </descriptors>
+                </configuration>
+                <executions>
+                  <execution>
+                    <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                    <phase>package</phase> <!-- append to the packaging phase. -->
+                    <goals>
+                       <goal>attached</goal> <!-- goals == mojos -->
+                    </goals>
+                  </execution>
+                </executions>
+            </plugin>
+ 
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                
+                    <!-- This will check that the distribution file is valid. This is also
+                    used to create samples to be de delivered by upstream modules. -->
+                    <execution>
+                        <id>prepare-integration-tests</id>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/build-sample.xml"/>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                  
+                </executions>
+            </plugin>
+    
+        </plugins>
+    </build>
+    
+</project>

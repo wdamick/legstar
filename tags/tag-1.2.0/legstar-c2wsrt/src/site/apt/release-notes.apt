@@ -1,0 +1,77 @@
+
+
+ -------------------------------------------------------------------------------
+                     LegSem LegStar C2wsrt Version 1.2.0
+                               Release Notes
+ -------------------------------------------------------------------------------
+
+PREREQUISITES:
+
+ LegStar Mainframe to Web Service runtime (C2wsrt) requires a Servlet engine such
+ as {{{http://tomcat.apache.org/}Apache Tomcat}}.
+  
+ LegStar C2wsrt uses JAXWS as client SOAP stack to invoke target Web Services.
+ C2wsrt should work with any JAXWS 2.1 compliant implementation. The Sun's JAXWS
+ runtime version 2.1.3 is shipped with LegStar.
+ 
+ LegStar C2wsrt uses JAXB for XML marshaling/unmarshaling. The JAXB implementation
+ must be at least 2.1.3 compliant. If your JRE is oldest than 1.6.4, the JAXB
+ version included in the JRE is too old.
+  
+ On the host side, the LSHTTAPI CICS Program must be installed in the
+ source CICS region. The {{{LSHTTAPI-readme.html}LSHTTAPI readme}} document
+ describes the program and how to install it.
+ 
+ C2wsrt also uses the {{{http://jakarta.apache.org/commons/logging/}Apache Commons logging}}.
+ 
+INSTALLING/UNINSTALLING:
+
+ [[1]] Unzip the binary distribution package into the directory of your choice,
+       referred to as <installDir> in the following steps.
+
+   The directory tree should look like this:
+   
++---------------------------------------+
+   <installDir>
+        |---->LICENSE
+        |---->c2wsrt-NOTICE
+        |---->LSHTTAPI-README
+        |---->c2wsrt-README
+        |----><lib>
+                |---->*.jar
+        |----><samples>
+                |----><cobol>
+                         |---->*.CBL
+                |----><jcl>
+                         |---->COBC*
+                |----><war>
+                        |---->*.war
+                |----><webapp>
+                        |---->*/WEB-INF/web.xml
+        |----><zos>
+                |----><C370>
+                         |---->*.C
+                         |---->*.H
+                |----><JCL>
+                         |---->C370*
+                
++---------------------------------------+
+   
+ [[2]] Upload and compile the zos programs following instructions in
+       LSHTTAPI-README file.
+   
+ [[3]] Deploy the sample war files into a servlet engine, such as
+       Tomcat or Jetty.
+       
+ [[4]] You will also need to copy the jar files from the <lib> folder to 
+       a location such as <CATALINA_BASE>/shared/lib.
+   
+ [[5]] You can use the COBOL sample programs to check that you can access
+       remote web services.
+       
+ [[6]] To uninstall, cleanup Tomcat from all LegStar files and remove the installDir folder.
+
+DOCUMENTATION:
+
+ Documentation available at http://www.legsem.com/legstar/legstar-c2wsrt
+

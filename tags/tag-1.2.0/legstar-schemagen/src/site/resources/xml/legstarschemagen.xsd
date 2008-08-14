@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.legstar.legsem.com/xml/ns/coxb" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.legstar.legsem.com/xml/ns/coxb">
+    <annotation>
+        <documentation>
+          This XML Schema describes the LegStar COBOL binding language.
+          A cobolElement can be attached to an XML Schema element or a Java property to
+          describe how that element or property translates into a COBOL data item.
+          A cobolComplexType can be attached to an XML Schema complex type to
+          describe how complex types relate to java classes.
+        </documentation>
+    </annotation>
+
+    <complexType name="cobolElement">
+      <attribute name="levelNumber" use="required">
+        <annotation>
+          <documentation>
+            The COBOL data item level.
+          </documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="int">
+            <minInclusive value="01"></minInclusive>
+            <maxInclusive value="88"></maxInclusive>
+          </restriction>
+        </simpleType>
+      </attribute>
+      <attribute name="cobolName" use="required">
+        <annotation>
+          <documentation>
+            The COBOL data item name as it appears in the
+            original source code.
+          </documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="string">
+            <minLength value="1"></minLength>
+            <maxLength value="30"></maxLength>
+          </restriction>
+        </simpleType>
+      </attribute>
+      <attribute name="type" use="required">
+        <annotation>
+          <documentation>
+            The COBOL data item type, derived from its PICTURE
+            and USAGE clauses.
+          </documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="string">
+            <enumeration value="ALPHABETIC_ITEM"></enumeration>
+            <enumeration value="NATIONAL_ITEM"></enumeration>
+            <enumeration value="DBCS_ITEM"></enumeration>
+            <enumeration value="ALPHANUMERIC_EDITED_ITEM"></enumeration>
+            <enumeration value="ALPHANUMERIC_ITEM"></enumeration>
+            <enumeration value="OCTET_STREAM_ITEM"></enumeration>
+            <enumeration value="SINGLE_FLOAT_ITEM"></enumeration>
+            <enumeration value="DOUBLE_FLOAT_ITEM"></enumeration>
+            <enumeration value="PACKED_DECIMAL_ITEM"></enumeration>
+            <enumeration value="ZONED_DECIMAL_ITEM"></enumeration>
+            <enumeration value="NUMERIC_EDITED_ITEM"></enumeration>
+            <enumeration value="INDEX_ITEM"></enumeration>
+            <enumeration value="POINTER_ITEM"></enumeration>
+            <enumeration value="PROC_POINTER_ITEM"></enumeration>
+            <enumeration value="FUNC_POINTER_ITEM"></enumeration>
+            <enumeration value="OBJECT_ITEM"></enumeration>
+            <enumeration value="EXTERNAL_FLOATING_ITEM"></enumeration>
+            <enumeration value="BINARY_ITEM"></enumeration>
+            <enumeration value="NATIVE_BINARY_ITEM"></enumeration>
+            <enumeration value="ALPHANUMERIC_ITEM"></enumeration>
+            <enumeration value="GROUP_ITEM"></enumeration>
+          </restriction>
+        </simpleType>
+      </attribute>
+      <attribute name="picture" use="optional">
+        <annotation>
+          <documentation>
+            Elementary data item PICTURE clause.
+          </documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="string">
+            <maxLength value="50"></maxLength>
+          </restriction>
+        </simpleType>
+      </attribute>
+      <attribute name="usage" use="optional">
+        <annotation>
+          <documentation>
+            Elementary data item USAGE clause.
+          </documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="string">
+            <enumeration value="DISPLAY"></enumeration>
+            <enumeration value="BINARY"></enumeration>
+            <enumeration value="COMP-1"></enumeration>
+            <enumeration value="COMP-2"></enumeration>
+            <enumeration value="COMP-5"></enumeration>
+            <enumeration value="NATIONAL"></enumeration>
+            <enumeration value="DISPLAY-1"></enumeration>
+            <enumeration value="PACKED-DECIMAL"></enumeration>
+            <enumeration value="INDEX"></enumeration>
+            <enumeration value="POINTER"></enumeration>
+            <enumeration value="PROCEDURE-POINTER"></enumeration>
+            <enumeration value="FUNCTION-POINTER"></enumeration>
+            <enumeration value="OBJECT"></enumeration>
+          </restriction>
+        </simpleType>
+      </attribute>
+      <attribute name="byteLength" use="optional">
+        <annotation>
+          <documentation>
+            Elementary data item size expressed as a number of
+            bytes. It is the exact length occupied by this item
+            in memory.
+          </documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="int">
+            <minExclusive value="0"></minExclusive>
+          </restriction>
+        </simpleType>
+      </attribute>
+      <attribute name="signed" use="optional">
+        <annotation>
+          <documentation>
+            Numeric items might be signed or not.
+          </documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="string">
+            <enumeration value="true"></enumeration>
+            <enumeration value="false"></enumeration>
+          </restriction>
+        </simpleType>
+      </attribute>
+      <attribute name="totalDigits" use="optional">
+        <annotation>
+          <documentation>
+            Numeric item total number of digits (including
+            fractional digits if this is a decimal)
+          </documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="int">            <minInclusive value="1"></minInclusive>
+            <maxInclusive value="31"></maxInclusive>
+          </restriction>
+        </simpleType>
+      </attribute>
+      <attribute name="fractionDigits" use="optional">
+        <annotation>
+          <documentation>
+            Decimal item number of fractional digits
+          </documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="int">            <minInclusive value="1"></minInclusive>
+            <maxInclusive value="31"></maxInclusive>
+          </restriction>
+        </simpleType>
+      </attribute>
+      <attribute name="signLeading" use="optional">
+        <annotation>
+          <documentation>
+            Numeric item position of the plus/minus sign
+          </documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="string">
+            <enumeration value="true"></enumeration>
+            <enumeration value="false"></enumeration>
+          </restriction>
+        </simpleType>
+      </attribute>
+      <attribute name="signSeparate" use="optional">
+        <annotation>
+          <documentation>
+            Numeric item indicator that sign occupies its own
+            byte location instead of being stored in a bit
+            location within some other byte, part of the numeric
+            representation.
+          </documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="string">
+            <enumeration value="true"></enumeration>
+            <enumeration value="false"></enumeration>
+          </restriction>
+        </simpleType>
+      </attribute>
+      <attribute name="minOccurs" use="optional">
+        <annotation>
+          <documentation>Array lower bound</documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="int">
+            <minInclusive value="0"></minInclusive>
+          </restriction>
+        </simpleType>
+      </attribute>
+      <attribute name="maxOccurs" use="optional">
+        <annotation>
+          <documentation>Array upper bound</documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="int">
+            <minInclusive value="0"></minInclusive>
+          </restriction>
+        </simpleType>
+      </attribute>
+      <attribute name="dependingOn" use="optional">
+        <annotation>
+          <documentation>
+            Variable size array size is given by this COBOL data
+            item. The COBOL data item giving the size is known
+            as the Occurs Depending On Object.
+          </documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="string">
+            <minLength value="1"></minLength>
+            <maxLength value="30"></maxLength>
+          </restriction>
+        </simpleType>
+      </attribute>
+      <attribute name="isODOObject" use="optional">
+        <annotation>
+          <documentation>
+            Data item gives the size of at least one variable
+            size array. Data item must ne numeric.
+          </documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="string">
+            <enumeration value="true"></enumeration>
+            <enumeration value="false"></enumeration>
+          </restriction>
+        </simpleType>
+      </attribute>
+      <attribute name="redefines" use="optional">
+        <annotation>
+          <documentation>
+            Name of a COBOL data item sharing the same memory
+            location as this COBOL item.
+          </documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="string">
+            <minLength value="1"></minLength>
+            <maxLength value="30"></maxLength>
+          </restriction>
+        </simpleType>
+      </attribute>
+      <attribute name="isRedefined" use="optional">
+        <annotation>
+          <documentation>
+            At least one other COBOL data item shares the same
+            memory location as this COBOL data item
+          </documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="string">
+            <enumeration value="true"></enumeration>
+            <enumeration value="false"></enumeration>
+          </restriction>
+        </simpleType>
+      </attribute>
+      <attribute name="unmarshalChoiceStrategyClassName" type="string"
+        use="optional">
+        <annotation>
+          <documentation>
+            Points to user code providing extra logic to help
+            determine which alternative is to be used in
+            redefines situations
+          </documentation>
+        </annotation>
+      </attribute>
+      <attribute name="marshalChoiceStrategyClassName" type="string"
+        use="optional">
+        <annotation>
+          <documentation>
+            Points to user code providing extra logic to help
+            determine which alternative is to be used in
+            redefines situations
+          </documentation>
+        </annotation>
+      </attribute>
+      <attribute name="srceLine" use="optional">
+            <annotation>
+              <documentation>
+                Points back to the originating source code line
+                location
+              </documentation>
+            </annotation>
+            <simpleType>
+          <restriction base="int">
+            <minInclusive value="1"></minInclusive>
+          </restriction>
+        </simpleType>
+      </attribute>
+    </complexType>
+
+    <complexType name="cobolComplexType">
+      <attribute name="javaClassName" use="optional">
+        <annotation>
+          <documentation>
+            A POJO class name that maps to this complex type.
+          </documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="string">
+          </restriction>
+        </simpleType>
+      </attribute>
+    </complexType>
+
+</schema>

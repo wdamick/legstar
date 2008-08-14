@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="com.legstar.eclipse.plugin.common.preferences.LegStarPreferencePage"
+            id="com.legstar.eclipse.plugin"
+            name="%common_preference_page_title"/>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.legstar.eclipse.plugin.common.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+  <extension point="org.eclipse.jdt.core.classpathContainerInitializer">
+    <classpathContainerInitializer
+      id="com.legstar.eclipse.LIBRARY"
+      class="com.legstar.eclipse.plugin.common.ClasspathInitializer"/>
+  </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="com.legstar.eclipse.plugin.common.actionSet"
+            label="LegStar Action Set"
+            visible="true">
+         <menu
+               id="com_legstar_eclipse_menu"
+               label="%action_label">
+            <groupMarker name="slot1"/>
+            <groupMarker name="slot2"/>
+            <groupMarker name="slot3"/>
+         </menu>
+      </actionSet>
+   </extension>
+
+</plugin>

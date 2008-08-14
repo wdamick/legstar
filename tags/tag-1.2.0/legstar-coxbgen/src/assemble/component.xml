@@ -1,0 +1,57 @@
+<component>
+
+    <fileSets>
+    
+        <fileSet>
+            <directory>../legstar-coxbgen/src/main/resources/ant</directory>
+            <outputDirectory>ant</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+        </fileSet>
+    
+        <fileSet>
+            <directory>../legstar-jaxbgen/src/main/resources/ant</directory>
+            <outputDirectory>ant</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+        </fileSet>
+    
+        <fileSet>
+            <directory>../legstar-jaxbgen/src/main/resources/xjb</directory>
+            <outputDirectory>xjb</outputDirectory>
+            <includes>
+                <include>*.xjb</include>
+            </includes>
+        </fileSet>
+        
+        <fileSet>
+            <directory>../legstar-samples/schema</directory>
+            <outputDirectory>schema</outputDirectory>
+            <includes>
+                <include>*.xsd</include>
+            </includes>
+        </fileSet>
+    
+    </fileSets>
+  
+    <files>
+        <file>
+            <source>../legstar-distribution/LICENSE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>LICENSE</destName>
+        </file>
+        <file>
+            <source>../legstar-coxbgen/NOTICE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>coxbgen-NOTICE</destName>
+        </file>
+        <file>
+           <source>../legstar-coxbgen/src/site/apt/release-notes.apt</source>
+           <outputDirectory>/</outputDirectory>
+           <destName>coxbgen-README</destName>
+        </file>
+    </files>
+
+</component>

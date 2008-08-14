@@ -1,0 +1,28 @@
+<document>
+  <properties>
+    <title>Mainframe Invoker Runtime</title>
+    <author email="fady@legsem.com">Fady Moussallam</author>
+  </properties>
+  <body>
+    <release version="1.2.0" date="2008-07-08" description="Messaging refactoring">
+      <action dev="fady" type="update">
+        The invoker uses the new messaging implementation code introduced in 1.2.0.
+      </action>
+    </release>
+    <release version="1.1.0" date="2007-08-30" description="Containers support">
+      <action dev="fady" type="update">
+        The invoker now supports multiple input/multiple output. This is needed for
+        CICS containers full support.
+      </action>
+      <action dev="fady" type="update">
+        The configuration file is now called "legstar-invoker-config.xml" by default.
+      </action>
+    </release>
+
+    <release version="1.0.1" date="2007-05-15" description="First release">
+      <action dev="fady" type="add">
+        First version of the Mainframe Invoker Runtime.
+      </action>
+    </release>
+  </body>
+</document>

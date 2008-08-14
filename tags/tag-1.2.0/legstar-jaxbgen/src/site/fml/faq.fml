@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<faqs title="Frequently Asked Questions">
+
+  <part id="general">
+    <title>General</title>
+   
+    <faq id="footer-company">
+      <question>
+       Why am I getting a "unrecognized parameter -Xlegstar-code" when running build-jaxb.xml?
+      </question>
+      <answer>
+       This is probably a classpath issue. XJC is not finding the LegStar Jaxbgen classes.
+       Make sure the legstar-jaxbgen-nnn jar file is in the XJC classpathref.
+       If you are running an older version of build-jaxb.xml (pre 1.0.1) with JRE 1.6 and above,
+       you also need to modify the ant script from "com.sun.tools.xjc.XJCTask" to "com.sun.tools.xjc.XJC2Task".
+       <p>This error also shows up if the JRE is too old (older than JRE 1.5). In this case, XJC
+       fails to load the LegStar classes which needs JRE 1.5 at least.</p>
+      </answer>
+    </faq>
+
+    <faq id="footer-company">
+      <question>
+       Why am I getting a "java.lang.LinkageError: JAXB 2.0 API is being loaded from the bootstrap
+        classloader, but this RI (...) needs 2.1 API.?
+      </question>
+      <answer>
+       This issue is discussed <a href="http://www.legsem.com/legstar/phpBB3/viewtopic.php?f=2&amp;t=4">here.</a>
+      </answer>
+    </faq>
+  <!--
+    <faq id="">
+      <question></question>
+      <answer>
+      </answer>
+    </faq>
+  -->
+  </part>
+</faqs>

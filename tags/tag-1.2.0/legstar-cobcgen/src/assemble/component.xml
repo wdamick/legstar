@@ -1,0 +1,50 @@
+<component>
+
+	<fileSets>
+		
+        <!-- Ant scripts -->
+		<fileSet>
+            <directory>../legstar-cobcgen/src/main/resources/ant</directory>
+            <outputDirectory>ant</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+		</fileSet>
+		
+        <!-- The sample Binding classes -->
+		<fileSet>
+            <directory>../legstar-samples/src</directory>
+            <outputDirectory>src</outputDirectory>
+            <includes>
+                <include>**/cultureinfo/**/*.java</include>
+            </includes>
+		</fileSet>
+        <fileSet>
+            <directory>../legstar-samples/target</directory>
+            <outputDirectory>target</outputDirectory>
+            <includes>
+                <include>**/cultureinfo/**/*.class</include>
+            </includes>
+        </fileSet>
+
+	</fileSets>
+  
+	<files>
+        <file>
+            <source>../legstar-distribution/LICENSE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>LICENSE</destName>
+        </file>
+        <file>
+            <source>../legstar-cobcgen/NOTICE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>cobcgen-NOTICE</destName>
+        </file>
+		<file>
+		   <source>../legstar-cobcgen/src/site/apt/release-notes.apt</source>
+		   <outputDirectory>/</outputDirectory>
+		   <destName>cobcgen-README</destName>
+		</file>
+	</files>
+
+</component>
