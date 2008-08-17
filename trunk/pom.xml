@@ -8,7 +8,7 @@
     <description>Legacy integration developers toolkit</description>
     <url>http://www.legsem.com/legstar</url>
     <properties>
-        <legstarVersion>1.2.0-SNAPSHOT</legstarVersion>
+        <legstarVersion>${project.version}</legstarVersion>
     </properties>
 
     <scm>
@@ -58,6 +58,21 @@
             </extension>
         </extensions>
 
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId> 
+                    <artifactId>maven-assembly-plugin</artifactId> 
+                    <version>2.2-beta-2</version> 
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId> 
+                    <artifactId>maven-site-plugin</artifactId> 
+                    <version>2.0-beta-7</version> 
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
 
             <plugin>
@@ -84,7 +99,6 @@
     </build>
   
     <modules>
-  <!--
         <module>legstar-c2wsrt</module>
         <module>legstar-chttprt</module>
         <module>legstar-cixsgen</module>
@@ -103,14 +117,13 @@
         <module>legstar-invoker</module>
         <module>legstar-jaxbgen</module>
         <module>legstar-jaxbgen-cases</module>
-    -->
         <module>legstar-messaging</module>
-  <!--
         <module>legstar-messaging-impl</module>
         <module>legstar-schemagen</module>
         <module>legstar-xsdcgen</module>
         <module>legstar-xsdcgen-cases</module>
         <module>legstar-common-plugin</module>
+  <!--
     -->
     </modules>
   

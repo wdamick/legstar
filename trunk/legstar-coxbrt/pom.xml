@@ -4,13 +4,13 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.2.0</version>
+        <version>1.2.1-SNAPSHOT</version>
     </parent>
+    <version>1.2.1-SNAPSHOT</version>
     <artifactId>legstar-coxbrt</artifactId>
     <name>COBOL Binding Runtime</name>
-    <version>1.2.0</version>
     <description>COBOL to XML Binding runtime.</description>
-    <url>http://www.legsem.com/legstar/coxbrt/</url>
+    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
     

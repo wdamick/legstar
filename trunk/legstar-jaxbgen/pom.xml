@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
     <parent>
-      <groupId>com.legsem.legstar</groupId>
-      <artifactId>Legstar</artifactId>
-      <version>1.2.0</version>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>1.2.1-SNAPSHOT</version>
     </parent>
-	<artifactId>legstar-jaxbgen</artifactId>
-	<name>JAXB COBOL Annotator</name>
-    <version>1.2.0</version>
-	<description>Generates Cobol annotations in JAXB classes.</description>
-	<url>http://www.legsem.com/legstar/jaxbgen/</url>
+    <version>1.2.1-SNAPSHOT</version>
+    <artifactId>legstar-jaxbgen</artifactId>
+    <name>JAXB COBOL Annotator</name>
+    <description>Generates Cobol annotations in JAXB classes.</description>
+    <url>http://www.legsem.com/legstar</url>
 
-	<dependencies>
+    <dependencies>
 
-		<dependency>
-		    <groupId>com.legsem.legstar</groupId>
-		    <artifactId>legstar-coxbapi</artifactId>
-		</dependency>
-
- 		<dependency>
-			<groupId>com.sun.xml.bind</groupId>
-			<artifactId>jaxb-xjc</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>ant</groupId>
-			<artifactId>ant</artifactId>
-			<scope>test</scope>
-		</dependency>
- 	
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbapi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-xjc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant</artifactId>
+            <scope>test</scope>
+        </dependency>
+  
         <!-- This ensures that xsdcgen was given a chance to generate schemas
              that serve as input for the jaxbgen-cases generation
         <dependency>
@@ -38,31 +36,32 @@
             <scope>test</scope>
         </dependency> 
          -->
-	</dependencies>
+    </dependencies>
+    
+    <build>
+        <plugins>
 
-	<build>
-	  <plugins>
-	    <plugin>
-	      <artifactId>maven-antrun-plugin</artifactId>
-	      <executions>
-	      
-	        <!-- This will generate all JAXB test cases for other projects to use.  -->
-	        <execution>
-	          <id>prepare-integration-tests</id>
-	          <phase>pre-integration-test</phase>
-	          <configuration>
-	            <tasks>
-	              <ant antfile="${basedir}/src/test/ant/build-jaxbgen-cases.xml" target="compileAllJAXB"/>
-	            </tasks>
-	          </configuration>
-	          <goals>
-	            <goal>run</goal>
-	          </goals>
-	        </execution>
-	      </executions>
-	    </plugin>
-	
-	  </plugins>
-	</build>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                
+                    <!-- This will generate all JAXB test cases for other projects to use.  -->
+                    <execution>
+                        <id>prepare-integration-tests</id>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/test/ant/build-jaxbgen-cases.xml" target="compileAllJAXB"/>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        
+        </plugins>
+    </build>
     
 </project>

@@ -1,54 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
     <parent>
-      <groupId>com.legsem.legstar</groupId>
-      <artifactId>Legstar</artifactId>
-      <version>1.2.0</version>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>1.2.1-SNAPSHOT</version>
     </parent>
-  <artifactId>legstar-coxbgen-cases</artifactId>
-  <name>COXB Generator test classes</name>
-  <version>1.2.0</version>
-  <description>Test cases used by various LegStar projects</description>
-  <dependencies>
-  
-    <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging</artifactId>
-    </dependency>
+    <version>1.2.1-SNAPSHOT</version>
+    <artifactId>legstar-coxbgen-cases</artifactId>
+    <name>COXB Generator test classes</name>
+    <description>Test cases used by various LegStar projects</description>
+    <url>http://www.legsem.com/legstar</url>
 
-    <dependency>
-      <groupId>com.legsem.legstar</groupId>
-      <artifactId>legstar-jaxbgen-cases</artifactId>
-    </dependency>
+    <dependencies>
     
-    <dependency>
-      <groupId>com.legsem.legstar</groupId>
-      <artifactId>legstar-xsdcgen-cases</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.xml.bind</groupId>
-      <artifactId>jaxb-api</artifactId>
-    </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-jaxbgen-cases</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-xsdcgen-cases</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbapi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbgen</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <scope>test</scope>
+        </dependency>
     
-    <dependency>
-      <groupId>com.legsem.legstar</groupId>
-      <artifactId>legstar-coxbapi</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.legsem.legstar</groupId>
-      <artifactId>legstar-coxbgen</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <scope>test</scope>
-    </dependency>
-    
-  </dependencies>
+    </dependencies>
   
 </project>

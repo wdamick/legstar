@@ -7,7 +7,7 @@
     </formats>
 
     <componentDescriptors>
-        <componentDescriptor>../legstar-schemagen/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>src/assemble/component.xml</componentDescriptor>
     </componentDescriptors>
 
     <dependencySets>

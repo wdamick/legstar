@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
     <parent>
-      <groupId>com.legsem.legstar</groupId>
-      <artifactId>Legstar</artifactId>
-      <version>1.2.0</version>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>1.2.1-SNAPSHOT</version>
     </parent>
-	<artifactId>legstar-xsdcgen-cases</artifactId>
-	<name>Sample xsdcgen cases</name>
-    <version>1.2.0</version>
-	<description>Sample cases to use for mainframe consumption.</description>
-	<url>http://www.legsem.com/legstar/xsdcgen/</url>
+    <version>1.2.1-SNAPSHOT</version>
+    <artifactId>legstar-xsdcgen-cases</artifactId>
+    <name>Sample xsdcgen cases</name>
+    <description>Sample cases to use for mainframe consumption.</description>
+    <url>http://www.legsem.com/legstar</url>
     
     <dependencies>
     

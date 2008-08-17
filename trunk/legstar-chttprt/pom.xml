@@ -1,86 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
     <parent>
-      <groupId>com.legsem.legstar</groupId>
-      <artifactId>Legstar</artifactId>
-      <version>1.2.0</version>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>1.2.1-SNAPSHOT</version>
     </parent>
-	<artifactId>legstar-chttprt</artifactId>
-	<name>HTTP Transport</name>
-    <version>1.2.0</version>
-	<description>HTTP-based connectivity to CICS.</description>
-	<url>http://www.legsem.com/legstar/chttprt/</url>
+    <version>1.2.1-SNAPSHOT</version>
+    <artifactId>legstar-chttprt</artifactId>
+    <name>HTTP Transport</name>
+    <description>HTTP-based connectivity to CICS.</description>
+    <url>http://www.legsem.com/legstar</url>
 
-	<dependencies>
-	
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-		</dependency>
-
-		<dependency>
-		  <groupId>commons-httpclient</groupId>
-		  <artifactId>commons-httpclient</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.legsem.legstar</groupId>
-			<artifactId>legstar-messaging</artifactId>
-		</dependency>
-
-		<dependency>
-		    <groupId>log4j</groupId>
-		    <artifactId>log4j</artifactId>
-		    <scope>test</scope>
-		</dependency>
-		
-	</dependencies>
+    <dependencies>
+  
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-messaging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <scope>test</scope>
+        </dependency>
+    
+    </dependencies>
 
     <build>
-      <plugins>
-       <!-- Assembly generation plugin. Put the result in the source site
+        <plugins>
+            <!-- Assembly generation plugin. Put the result in the source site
             so that it gets uploaded with the site.  -->
-        <plugin>
-          <artifactId>maven-assembly-plugin</artifactId>
-          <configuration>
-            <descriptors>
-              <descriptor>src/assemble/distribution.xml</descriptor>
-            </descriptors>
-          </configuration>
-          <executions>
-            <execution>
-              <id>make-assembly</id> <!-- this is used for inheritance merges -->
-              <phase>package</phase> <!-- append to the packaging phase. -->
-              <goals>
-                 <goal>attached</goal> <!-- goals == mojos -->
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-
-		<plugin>
-		  <artifactId>maven-antrun-plugin</artifactId>
-		  <executions>
-		
-			<!-- This will deploy the jar file to a Tomcat dev instance.  -->
-		    <execution>
-		      <id>deploy-to-tomcat</id>
-		      <phase>package</phase>
-		      <configuration>
-		        <tasks>
-		          <ant antfile="${basedir}/src/main/ant/deploy-to-tomcat.xml"/>
-		        </tasks>
-		      </configuration>
-		      <goals>
-		        <goal>run</goal>
-		      </goals>
-		    </execution>
-		  
-		  </executions>
-		</plugin>
-
-      </plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assemble/distribution.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- append to the packaging phase. -->
+                        <goals>
+                            <goal>attached</goal> <!-- goals == mojos -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                
+                    <!-- This will deploy the jar file to a Tomcat dev instance.  -->
+                    <execution>
+                        <id>deploy-to-tomcat</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/deploy-to-tomcat.xml"/>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                
+                </executions>
+            </plugin>
+        
+        </plugins>
     </build>
     
 </project>

@@ -1,12 +1,12 @@
 <assembly>
-	<id>bin</id>
-
-	<formats>
-	  <format>zip</format>
-	</formats>
+    <id>bin</id>
+    
+    <formats>
+        <format>zip</format>
+    </formats>
 
     <componentDescriptors>
-        <componentDescriptor>../legstar-cobcgen/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>src/assemble/component.xml</componentDescriptor>
     </componentDescriptors>
 
     <dependencySets>

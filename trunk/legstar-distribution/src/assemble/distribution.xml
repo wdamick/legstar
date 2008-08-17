@@ -4,21 +4,20 @@
     <formats>
         <format>zip</format>
     </formats>
-  
+
     <componentDescriptors>
-        <componentDescriptor>../legstar-csokrt/src/assemble/component.xml</componentDescriptor>
-        <componentDescriptor>../legstar-chttprt/src/assemble/component.xml</componentDescriptor>
-        <componentDescriptor>../legstar-cmqrt/src/assemble/component.xml</componentDescriptor>
-        <componentDescriptor>../legstar-engine/src/assemble/component.xml</componentDescriptor>
         <componentDescriptor>../legstar-c2wsrt/src/assemble/component.xml</componentDescriptor>
-        <componentDescriptor>../legstar-schemagen/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-chttprt/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-cixsgen/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-cmqrt/src/assemble/component.xml</componentDescriptor>
         <componentDescriptor>../legstar-cobcgen/src/assemble/component.xml</componentDescriptor>
         <componentDescriptor>../legstar-coxbgen/src/assemble/component.xml</componentDescriptor>
-        <componentDescriptor>../legstar-cixsgen/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-csokrt/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-engine/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-schemagen/src/assemble/component.xml</componentDescriptor>
         <componentDescriptor>../legstar-xsdcgen/src/assemble/component.xml</componentDescriptor>
-        <componentDescriptor>../legstar-distribution/src/assemble/component.xml</componentDescriptor>
     </componentDescriptors>
-    
+  
     <dependencySets>
         <dependencySet>
             <outputDirectory>/lib/</outputDirectory>

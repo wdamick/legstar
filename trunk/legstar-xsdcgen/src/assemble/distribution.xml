@@ -6,7 +6,7 @@
     </formats>
 
     <componentDescriptors>
-        <componentDescriptor>../legstar-xsdcgen/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>src/assemble/component.xml</componentDescriptor>
     </componentDescriptors>
 
     <dependencySets>

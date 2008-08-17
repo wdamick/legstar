@@ -1,10 +1,10 @@
 <component>
-  
+
     <fileSets>
     
         <!-- Ant scripts -->
         <fileSet>
-            <directory>../legstar-cixsgen/src/main/resources/ant</directory>
+            <directory>${project.basedir}/../legstar-cixsgen/src/main/resources/ant</directory>
             <outputDirectory>ant</outputDirectory>
             <includes>
                 <include>*.xml</include>
@@ -13,7 +13,7 @@
     
         <!-- The sample invoker configuration files -->
         <fileSet>
-            <directory>../legstar-invoker/src/site/resources/samples</directory>
+            <directory>${project.basedir}/../legstar-invoker/src/site/resources/samples</directory>
             <outputDirectory>samples</outputDirectory>
             <includes>
                 <include>**</include>
@@ -22,14 +22,14 @@
 
         <!-- The sample Binding classes -->
         <fileSet>
-            <directory>../legstar-samples/src</directory>
+            <directory>${project.basedir}/../legstar-samples/src</directory>
             <outputDirectory>src</outputDirectory>
             <includes>
                 <include>**</include>
             </includes>
         </fileSet>
         <fileSet>
-            <directory>../legstar-samples/target</directory>
+            <directory>${project.basedir}/../legstar-samples/target</directory>
             <outputDirectory>target</outputDirectory>
             <includes>
                 <include>**</include>
@@ -40,17 +40,17 @@
   
     <files>
         <file>
-            <source>../legstar-distribution/LICENSE</source>
+            <source>${project.basedir}/../legstar-distribution/LICENSE</source>
             <outputDirectory>/</outputDirectory>
             <destName>LICENSE</destName>
         </file>
         <file>
-            <source>../legstar-cixsgen/NOTICE</source>
+            <source>${project.basedir}/../legstar-cixsgen/NOTICE</source>
             <outputDirectory>/</outputDirectory>
             <destName>cixsgen-NOTICE</destName>
         </file>
         <file>
-           <source>../legstar-cixsgen/src/site/apt/release-notes.apt</source>
+           <source>${project.basedir}/../legstar-cixsgen/src/site/apt/release-notes.apt</source>
            <outputDirectory>/</outputDirectory>
            <destName>cixsgen-README</destName>
         </file>
