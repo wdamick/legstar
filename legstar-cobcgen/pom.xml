@@ -1,58 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
     <parent>
-      <groupId>com.legsem.legstar</groupId>
-      <artifactId>Legstar</artifactId>
-      <version>1.2.0</version>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>1.2.1-SNAPSHOT</version>
     </parent>
-	<artifactId>legstar-cobcgen</artifactId>
-	<name>COBOL Structures Generator</name>
-    <version>1.2.0</version>
-	<description>Generates Cobol data descriptions from cobol-annotated jaxb classes.</description>
-	<url>http://www.legsem.com/legstar/cobcgen/</url>
+    <version>1.2.1-SNAPSHOT</version>
+    <artifactId>legstar-cobcgen</artifactId>
+    <name>COBOL Structures Generator</name>
+    <description>Generates Cobol data descriptions from cobol-annotated jaxb classes.</description>
+    <url>http://www.legsem.com/legstar</url>
 
-	<dependencies>
+    <dependencies>
 
-		<dependency>
-		    <groupId>com.legsem.legstar</groupId>
-		    <artifactId>legstar-coxbapi</artifactId>
-		</dependency>
-
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbapi</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-coxbrt</artifactId>
         </dependency>
-    
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-xsdcgen</artifactId>
         </dependency>
-
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
         </dependency>
-
-		<dependency>
-			<groupId>ant</groupId>
-			<artifactId>ant</artifactId>
-		</dependency>
-
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-jaxbgen-cases</artifactId>
             <scope>test</scope>
         </dependency>
- 
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <scope>test</scope>
         </dependency>
 
-
-	</dependencies>
+    </dependencies>
 
     <build>
         <plugins>
@@ -62,18 +55,18 @@
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
-                  <descriptors>
-                    <descriptor>src/assemble/distribution.xml</descriptor>
-                  </descriptors>
+                    <descriptors>
+                        <descriptor>src/assemble/distribution.xml</descriptor>
+                    </descriptors>
                 </configuration>
                 <executions>
-                  <execution>
-                    <id>make-assembly</id> <!-- this is used for inheritance merges -->
-                    <phase>package</phase> <!-- append to the packaging phase. -->
-                    <goals>
-                       <goal>attached</goal> <!-- goals == mojos -->
-                    </goals>
-                  </execution>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- append to the packaging phase. -->
+                        <goals>
+                            <goal>attached</goal> <!-- goals == mojos -->
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
 

@@ -3,7 +3,15 @@
     <fileSets>
         <!-- C/370 for CICS Server program -->
         <fileSet>
-            <directory>../legstar-csokrt/src/main/zos</directory>
+            <directory>${project.basedir}/../legstar-csokrt/src/main/zos</directory>
+            <outputDirectory>/zos</outputDirectory>
+            <includes>
+                <include>**</include>
+            </includes>
+        </fileSet>
+        <!-- C/370 messaging programs -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-messaging/src/main/zos</directory>
             <outputDirectory>/zos</outputDirectory>
             <includes>
                 <include>**</include>
@@ -13,22 +21,22 @@
   
     <files>
         <file>
-            <source>../legstar-distribution/LICENSE</source>
+            <source>${project.basedir}/../legstar-distribution/LICENSE</source>
             <outputDirectory>/</outputDirectory>
             <destName>LICENSE</destName>
         </file>
         <file>
-            <source>../legstar-csokrt/NOTICE</source>
+            <source>${project.basedir}/../legstar-csokrt/NOTICE</source>
             <outputDirectory>/</outputDirectory>
             <destName>csokrt-NOTICE</destName>
         </file>
         <file>
-           <source>../legstar-csokrt/src/site/apt/release-notes.apt</source>
+           <source>${project.basedir}/../legstar-csokrt/src/site/apt/release-notes.apt</source>
            <outputDirectory>/</outputDirectory>
            <destName>csokrt-README</destName>
         </file>
         <file>
-           <source>../legstar-csokrt/src/site/apt/LSSOKBIN-readme.apt</source>
+           <source>${project.basedir}/../legstar-csokrt/src/site/apt/LSSOKBIN-readme.apt</source>
            <outputDirectory>/</outputDirectory>
            <destName>LSSOKBIN-README</destName>
         </file>

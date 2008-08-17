@@ -4,7 +4,7 @@
 
         <!-- Win32 dlls  -->
         <fileSet>
-            <directory>../legstar-schemagen/target/bin</directory>
+            <directory>${project.basedir}/../legstar-schemagen/target/bin</directory>
             <outputDirectory>bin</outputDirectory>
             <includes>
                 <include>*.dll</include>
@@ -13,7 +13,7 @@
         
         <!-- Linux shared objects  -->
         <fileSet>
-            <directory>../legstar-schemagen/src/main/usrlib</directory>
+            <directory>${project.basedir}/../legstar-schemagen/src/main/usrlib</directory>
             <outputDirectory>bin</outputDirectory>
             <includes>
                 <include>*.so</include>
@@ -22,7 +22,7 @@
         
         <!-- ant scripts  -->
         <fileSet>
-            <directory>../legstar-schemagen/src/main/resources/ant</directory>
+            <directory>${project.basedir}/../legstar-schemagen/src/main/resources/ant</directory>
             <outputDirectory>ant</outputDirectory>
             <includes>
                 <include>*.xml</include>
@@ -31,7 +31,7 @@
 
         <!-- Cobol samples  -->
         <fileSet>
-            <directory>../legstar-schemagen/src/main/resources/cobol</directory>
+            <directory>${project.basedir}/../legstar-schemagen/src/main/resources/cobol</directory>
             <outputDirectory>cobol</outputDirectory>
             <includes>
                 <include>lsfileae.cbl</include>
@@ -42,17 +42,17 @@
   
     <files>
         <file>
-            <source>../legstar-distribution/LICENSE</source>
+            <source>${project.basedir}/../legstar-distribution/LICENSE</source>
             <outputDirectory>/</outputDirectory>
             <destName>LICENSE</destName>
         </file>
         <file>
-            <source>../legstar-schemagen/NOTICE</source>
+            <source>${project.basedir}/../legstar-schemagen/NOTICE</source>
             <outputDirectory>/</outputDirectory>
             <destName>schemagen-NOTICE</destName>
         </file>
         <file>
-           <source>../legstar-schemagen/src/site/apt/release-notes.apt</source>
+           <source>${project.basedir}/../legstar-schemagen/src/site/apt/release-notes.apt</source>
            <outputDirectory>/</outputDirectory>
            <destName>schemagen-README</destName>
         </file>

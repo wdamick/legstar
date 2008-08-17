@@ -1,19 +1,19 @@
 <component>
 
-	<fileSets>
-		
+    <fileSets>
+    
         <!-- ant scripts  -->
-		<fileSet>
-            <directory>../legstar-xsdcgen/src/main/resources/ant</directory>
+        <fileSet>
+            <directory>${project.basedir}/../legstar-xsdcgen/src/main/resources/ant</directory>
             <outputDirectory>ant</outputDirectory>
             <includes>
                 <include>*.xml</include>
             </includes>
-		</fileSet>
-		
+        </fileSet>
+    
         <!-- sample web service  -->
         <fileSet>
-            <directory>../legstar-xsdcgen-cases/target/war</directory>
+            <directory>${project.basedir}/../legstar-xsdcgen-cases/target/war</directory>
             <outputDirectory>war</outputDirectory>
             <includes>
                 <include>*.war</include>
@@ -22,38 +22,39 @@
         
         <!-- sample java classes  -->
         <fileSet>
-            <directory>../legstar-xsdcgen-cases/src/main/java</directory>
+            <directory>${project.basedir}/../legstar-xsdcgen-cases/src/main/java</directory>
             <outputDirectory>src</outputDirectory>
             <includes>
                 <include>**/cases/**/*.java</include>
             </includes>
         </fileSet>
+
         <fileSet>
-            <directory>../legstar-xsdcgen-cases/target/classes</directory>
+            <directory>${project.basedir}/../legstar-xsdcgen-cases/target/classes</directory>
             <outputDirectory>bin</outputDirectory>
             <includes>
                 <include>**/cases/**/*.class</include>
             </includes>
         </fileSet>
-		
-	</fileSets>
+    
+    </fileSets>
   
-	<files>
+    <files>
         <file>
-            <source>../legstar-distribution/LICENSE</source>
+            <source>${project.basedir}/../legstar-distribution/LICENSE</source>
             <outputDirectory>/</outputDirectory>
             <destName>LICENSE</destName>
         </file>
         <file>
-            <source>../legstar-xsdcgen/NOTICE</source>
+            <source>${project.basedir}/../legstar-xsdcgen/NOTICE</source>
             <outputDirectory>/</outputDirectory>
             <destName>xsdcgen-NOTICE</destName>
         </file>
-		<file>
-		   <source>../legstar-xsdcgen/src/site/apt/release-notes.apt</source>
-		   <outputDirectory>/</outputDirectory>
-		   <destName>xsdcgen-README</destName>
-		</file>
-	</files>
+        <file>
+            <source>${project.basedir}/../legstar-xsdcgen/src/site/apt/release-notes.apt</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>xsdcgen-README</destName>
+        </file>
+    </files>
 
 </component>

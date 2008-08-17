@@ -4,15 +4,14 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.2.0</version>
-        <relativePath>../legstar-pom/pom.xml</relativePath>
+        <version>1.2.1-SNAPSHOT</version>
     </parent>
+    <version>1.2.1-SNAPSHOT</version>
     <artifactId>legstar-common-plugin</artifactId>
     <packaging>jar</packaging>
     <name>Common Eclipse plugin</name>
-    <version>1.2.0</version>
     <description>Common Eclipse plugin.</description>
-    <url>http://www.legsem.com/legstar/common-plugin/</url>
+    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
     

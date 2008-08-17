@@ -4,7 +4,7 @@
 
         <!-- C/370 for CICS Server program -->
         <fileSet>
-            <directory>../legstar-cmqrt/src/main/zos</directory>
+            <directory>${project.basedir}/../legstar-cmqrt/src/main/zos</directory>
             <outputDirectory>/zos</outputDirectory>
             <includes>
                 <include>**</include>
@@ -12,7 +12,7 @@
         </fileSet>
         <!-- C/370 messaging programs -->
         <fileSet>
-            <directory>../legstar-messaging/src/main/zos</directory>
+            <directory>${project.basedir}/../legstar-messaging/src/main/zos</directory>
             <outputDirectory>/zos</outputDirectory>
             <includes>
                 <include>**</include>
@@ -23,22 +23,22 @@
     
     <files>
         <file>
-            <source>../legstar-distribution/LICENSE</source>
+            <source>${project.basedir}/../legstar-distribution/LICENSE</source>
             <outputDirectory>/</outputDirectory>
             <destName>LICENSE</destName>
         </file>
         <file>
-            <source>../legstar-cmqrt/NOTICE</source>
+            <source>${project.basedir}/../legstar-cmqrt/NOTICE</source>
             <outputDirectory>/</outputDirectory>
             <destName>cmqrt-NOTICE</destName>
         </file>
         <file>
-            <source>../legstar-cmqrt/src/site/apt/release-notes.apt</source>
+            <source>${project.basedir}/../legstar-cmqrt/src/site/apt/release-notes.apt</source>
             <outputDirectory>/</outputDirectory>
             <destName>cmqrt-README</destName>
         </file>
         <file>
-            <source>../legstar-cmqrt/src/site/apt/LSMQHBIN-readme.apt</source>
+            <source>${project.basedir}/../legstar-cmqrt/src/site/apt/LSMQHBIN-readme.apt</source>
             <outputDirectory>/</outputDirectory>
             <destName>LSMQHBIN-README</destName>
         </file>
