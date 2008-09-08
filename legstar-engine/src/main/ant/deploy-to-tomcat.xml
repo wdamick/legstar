@@ -6,7 +6,7 @@
 	<!-- ===========================================================  -->
 	<!-- Setup environment
 	  -->
-    <property file="../legstar-pom/legstar-dev.properties"/>   
+    <property file="../legstar-dev.properties"/>   
 	<target name="init">
 		
 		<!-- Tomcat destination  -->

@@ -16,6 +16,7 @@
         <componentDescriptor>../legstar-engine/src/assemble/component.xml</componentDescriptor>
         <componentDescriptor>../legstar-schemagen/src/assemble/component.xml</componentDescriptor>
         <componentDescriptor>../legstar-xsdcgen/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-distribution/src/assemble/component.xml</componentDescriptor>
     </componentDescriptors>
   
     <dependencySets>

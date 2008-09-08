@@ -11,7 +11,7 @@
 	<target name="init">
 
 		<!-- Target Tomcat location   -->
-        <property file="../legstar-pom/legstar-dev.properties"/>   
+        <property file="../legstar-dev.properties"/>   
 		<!-- Location of XML schemas  -->
 	 	<property name="xsd.dir" value="${basedir}/../legstar-schemagen/src/test/schema" />
 		<!-- Location of CIXS target source location   -->
