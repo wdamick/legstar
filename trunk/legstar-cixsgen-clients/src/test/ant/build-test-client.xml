@@ -6,7 +6,7 @@
 <project basedir="../../.." default="generateAllJAXWSClients" name="build">
 
 	<!-- Target Tomcat location   -->
-    <property file="../legstar-pom/legstar-dev.properties"/>   
+    <property file="../legstar-dev.properties"/>   
 
 	<!-- Ant-Contrib tasks. Needed for "foreach ", regex, switch, ...
 	     (ant-contrib.jar must be in ant classpath) -->

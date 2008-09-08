@@ -10,7 +10,7 @@
 <project basedir="../../.." default="server" name="wsgen">
 
     <property environment="env"/>
-    <property file="../legstar-pom/legstar-dev.properties"/>   
+    <property file="../legstar-dev.properties"/>   
 	<!-- Tomcat destination  -->
  	<property name="tomcat.lib" value="${tomcat.dir}\shared\lib" />
  	<property name="tomcat.webapps" value="${tomcat.dir}\webapps" />

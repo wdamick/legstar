@@ -10,7 +10,7 @@
 	  -->
 	<target name="init">
 		
-	    <property file="${basedir}/../legstar-pom/legstar-dev.properties"/>   
+	    <property file="${basedir}/../legstar-dev.properties"/>   
 		<!-- Source directory for jaxbgen xjb files -->
 	 	<property name="jaxbgen-xjb.dir" value="${basedir}/../legstar-jaxbgen/src/main/resources/xjb" />
 		<!-- Target directories  -->
