@@ -147,7 +147,7 @@ public class CicsMQTest extends TestCase {
 		} catch (ConnectionException e) {
 			fail(e.getMessage());
 		} catch (RequestException e) {
-			assertEquals("com.legstar.messaging.HostReceiveException: CICS command=LINK COMMAREA failed, resp=PGMIDERR, resp2=3", e.getMessage());
+			assertTrue(e.getMessage().contains("com.legstar.messaging.HostReceiveException: CICS command=LINK COMMAREA failed, resp=PGMIDERR, resp2=") );
 		} catch (HeaderPartException e) {
 			fail(e.getMessage());
 		} finally {
