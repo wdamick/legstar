@@ -15,7 +15,7 @@
 //*-------------------------------------------------------
 //* CICS TRANSLATION SUBSTITUTIONS
 //*-------------------------------------------------------
-//TRN.SYSIN DD DISP=SHR,DSN=P390.DEV.C(LSMQHBIN)
+//TRN.SYSIN DD DISP=SHR,DSN=P390.LEGSTAR.@VERSION@.C370(LSMQHBIN)
 //*-------------------------------------------------------
 //* COMPILE SUBSTITUTIONS
 //*-------------------------------------------------------
@@ -24,25 +24,25 @@
 // DD
 // DD
 // DD
-// DD DISP=SHR,DSN=P390.DEV.H
+// DD DISP=SHR,DSN=P390.LEGSTAR.@VERSION@.H370
 // DD DISP=SHR,DSN=CSQ531.SCSQC370
 //*-------------------------------------------------------
 //* PRE-LINK SUBSTITUTIONS
 //*-------------------------------------------------------
 //PLKED.SYSIN  DD
-//             DD DISP=SHR,DSN=P390.DEV.DECK(LSMSGLIB)
-//             DD DISP=SHR,DSN=P390.DEV.DECK(LSMQLLIB)
-//             DD DISP=SHR,DSN=P390.DEV.DECK(LSLNKBIN)
-//             DD DISP=SHR,DSN=P390.DEV.DECK(LSCOMLOG)
+//             DD DISP=SHR,DSN=P390.LEGSTAR.@VERSION@.DECK(LSMSGLIB)
+//             DD DISP=SHR,DSN=P390.LEGSTAR.@VERSION@.DECK(LSMQLLIB)
+//             DD DISP=SHR,DSN=P390.LEGSTAR.@VERSION@.DECK(LSLNKBIN)
+//             DD DISP=SHR,DSN=P390.LEGSTAR.@VERSION@.DECK(LSCOMLOG)
 //PLKED.SYSDEFSD DD   DUMMY
 //*-------------------------------------------------------
 //* LINK SUBSTITUTIONS
 //*-------------------------------------------------------
 //LKED.SYSLIB DD
 //     DD
-//     DD DISP=SHR,DSN=P390.DEV.LOAD
-//     DD DISP=SHR,DSN=P390.DEV.LOAD
-//LKED.SYSLMOD DD DSN=P390.DEV.LOAD(LSMQHBIN),DISP=SHR
+//     DD DISP=SHR,DSN=P390.LEGSTAR.@VERSION@.LOAD
+//     DD DISP=SHR,DSN=P390.LEGSTAR.@VERSION@.LOAD
+//LKED.SYSLMOD DD DSN=P390.LEGSTAR.@VERSION@.LOAD(LSMQHBIN),DISP=SHR
 //CSQSTUB DD DSN=CSQ531.SCSQLOAD,DISP=SHR
 //LKED.SYSIN  DD *
  INCLUDE CSQSTUB(CSQCSTUB)

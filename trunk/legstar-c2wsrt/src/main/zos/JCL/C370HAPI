@@ -5,7 +5,7 @@
 //* COMPILES LSHTTAPI
 //*-------------------------------------------------------
 //SBPROCS JCLLIB ORDER=CICSTS23.CICS.SDFHPROC
-//CMPCON  EXEC DFHYITDL,PROGLIB='P390.DEV.LOAD',
+//CMPCON  EXEC DFHYITDL,PROGLIB='P390.LEGSTAR.@VERSION@.LOAD',
 //             LE370HLQ=CEE,
 //             INDEX='CICSTS23.CICS',
 //             CPARM='RENT,SOURCE,LIST,OFFSET,LONGNAME,DLL',
@@ -16,7 +16,7 @@
 //*-------------------------------------------------------
 //* CICS TRANSLATION SUBSTITUTIONS
 //*-------------------------------------------------------
-//TRN.SYSIN DD DISP=SHR,DSN=P390.DEV.C(LSHTTAPI)
+//TRN.SYSIN DD DISP=SHR,DSN=P390.LEGSTAR.@VERSION@.C370(LSHTTAPI)
 //*-------------------------------------------------------
 //* COMPILE SUBSTITUTIONS
 //*-------------------------------------------------------
@@ -25,19 +25,19 @@
 // DD
 // DD
 // DD
-// DD DISP=SHR,DSN=P390.DEV.H
+// DD DISP=SHR,DSN=P390.LEGSTAR.@VERSION@.H370
 //*-------------------------------------------------------
 //* PRE-LINK SUBSTITUTIONS
 //*-------------------------------------------------------
 //PLKED.SYSIN  DD
-//             DD DISP=SHR,DSN=P390.DEV.DECK(LSCOMLOG)
-//             DD DISP=SHR,DSN=P390.DEV.DECK(LSHTTLIB)
-//PLKED.SYSDEFSD DD DSN=P390.DEV.DECK(LSHTTAPI),DISP=SHR
+//             DD DISP=SHR,DSN=P390.LEGSTAR.@VERSION@.DECK(LSCOMLOG)
+//             DD DISP=SHR,DSN=P390.LEGSTAR.@VERSION@.DECK(LSHTTLIB)
+//PLKED.SYSDEFSD DD DSN=P390.LEGSTAR.@VERSION@.DECK(LSHTTAPI),DISP=SHR
 //*-------------------------------------------------------
 //* LINK SUBSTITUTIONS
 //*-------------------------------------------------------
 //LKED.SYSLIB DD
 //     DD
-//     DD DISP=SHR,DSN=P390.DEV.LOAD
-//LKED.SYSLMOD DD DSN=P390.DEV.LOAD(LSHTTAPI),DISP=SHR
+//     DD DISP=SHR,DSN=P390.LEGSTAR.@VERSION@.LOAD
+//LKED.SYSLMOD DD DSN=P390.LEGSTAR.@VERSION@.LOAD(LSHTTAPI),DISP=SHR
 //
