@@ -74,9 +74,9 @@ int g_requestsExist = FALSE_CODE;  /* Indicates if requests are to be
                                       serviced.                       */
 char g_HandlerTranclass[TRANCLASS_NAME_LEN + 1]; /* Handler transaction
                                       class name                      */
-long g_ActiveHandlers;             /* Number of active handlers       */
-long g_MaxActiveHandlers;          /* Maximum active handlers         */
-long g_QueuedHandlers;             /* Number of queued handlers       */
+long g_ActiveHandlers = 0;         /* Number of active handlers       */
+long g_MaxActiveHandlers = 0;      /* Maximum active handlers         */
+long g_QueuedHandlers = 0;         /* Number of queued handlers       */
 
 /*====================================================================*/
 /*  Main section                                                      */
@@ -215,10 +215,14 @@ int processRequest() {
     }
     
     /* Get the handler transaction class parameters (gives the number
-     * of active handlers and the max allowed) */
+     * of active handlers and the max allowed).
+     * If no transaction class is defined, then g_MaxActiveHandlers
+     * will keep a value of zero meaning the throttle mechanism is
+     * not active. */
     rc = inquireTranclass();
     if (ERROR_CODE == rc) {
-         return rc;
+        g_MaxActiveHandlers == 0;
+        g_ActiveHandlers == 0;
     }
     
     /* If no outstanding requests, and no handlers are active then
@@ -228,29 +232,11 @@ int processRequest() {
         return OK_CODE;
     }
     
-    /* Don't start new handlers if system is overloaded.
-     * A system is considered overloaded if:
-     * 1. Handlers are being queued by CICS
-     * 2. There are more active handlers than opens on the request 
-     *    queue (This tends to indicate that handlers are stalled).
-     * 3. The maximum number of active handlers is already reached. */
-    if (g_QueuedHandlers == 0
-            && (g_ActiveHandlers <= g_OpenInputCount)
-            && (g_ActiveHandlers < g_MaxActiveHandlers)) {
-        
-        EXEC CICS START
-             TRANSID     (g_HandlerTransID)
-             FROM        (g_triggerMsg)
-             LENGTH      (g_triggerMsgLen)
-             RESP        (g_cicsResp) RESP2(g_cicsResp2);                  
-                                               
-        if (g_cicsResp != DFHRESP(NORMAL)) {
-            logCicsError(MODULE_NAME, "START",g_cicsResp,g_cicsResp2);
-            return ERROR_CODE;
-        }
-    } else {
-        /* Reaching the maximum number of handlers allowed is normal
-         * activity but if handlers are unproductive (not opening the
+    /* When throttle mechanism is enabled, determine if a new
+     * handler needs to be started. */
+    if (g_MaxActiveHandlers > 0) {
+
+        /* If handlers are unproductive (not opening the
          * request queue) or being queued by CICS (maxtask) get out
          * of the way. */
          if (g_QueuedHandlers > 0 ||
@@ -259,6 +245,27 @@ int processRequest() {
              "System overloaded. Stopping controller.");
             return ERROR_CODE;
          }
+         
+         /* The maximum number of active handlers is already reached.
+          * This means one of the active handlers will pick up this
+            new request when idle. No need to start an additional
+            handler. */
+         if (g_ActiveHandlers >= g_MaxActiveHandlers) {
+            return OK_CODE;
+         }
+    
+    }
+    
+    /* Start a new handler to process this request. */
+    EXEC CICS START
+         TRANSID     (g_HandlerTransID)
+         FROM        (g_triggerMsg)
+         LENGTH      (g_triggerMsgLen)
+         RESP        (g_cicsResp) RESP2(g_cicsResp2);                  
+                                           
+    if (g_cicsResp != DFHRESP(NORMAL)) {
+        logCicsError(MODULE_NAME, "START",g_cicsResp,g_cicsResp2);
+        return ERROR_CODE;
     }
     
     /* Give some time for actual work to occur */

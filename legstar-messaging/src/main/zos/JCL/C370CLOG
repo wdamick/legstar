@@ -16,7 +16,7 @@
 //*-------------------------------------------------------
 //* CICS TRANSLATION SUBSTITUTIONS
 //*-------------------------------------------------------
-//TRN.SYSIN DD DISP=SHR,DSN=P390.DEV.C(LSCOMLOG)
+//TRN.SYSIN DD DISP=SHR,DSN=P390.LEGSTAR.@VERSION@.C370(LSCOMLOG)
 //*-------------------------------------------------------
 //* COMPILE SUBSTITUTIONS
 //*-------------------------------------------------------
@@ -25,16 +25,16 @@
 // DD
 // DD
 // DD
-// DD DISP=SHR,DSN=P390.DEV.H
+// DD DISP=SHR,DSN=P390.LEGSTAR.@VERSION@.H370
 //*-------------------------------------------------------
 //* PRE-LINK SUBSTITUTIONS
 //*-------------------------------------------------------
-//PLKED.SYSDEFSD DD DSN=P390.DEV.DECK(LSCOMLOG),DISP=SHR
+//PLKED.SYSDEFSD DD DSN=P390.LEGSTAR.@VERSION@.DECK(LSCOMLOG),DISP=SHR
 //*-------------------------------------------------------
 //* LINK SUBSTITUTIONS
 //*-------------------------------------------------------
 //LKED.SYSLIB DD
 //     DD
-//     DD DISP=SHR,DSN=P390.DEV.LOAD
-//LKED.SYSLMOD DD DSN=P390.DEV.LOAD(LSCOMLOG),DISP=SHR
+//     DD DISP=SHR,DSN=P390.LEGSTAR.@VERSION@.LOAD
+//LKED.SYSLMOD DD DSN=P390.LEGSTAR.@VERSION@.LOAD(LSCOMLOG),DISP=SHR
 //
