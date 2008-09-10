@@ -126,7 +126,7 @@ public class PoolingTest extends TestCase {
 			engHandler.getEngine().addRequest(request);
 			request.wait(3000L);
 		}
-		assertEquals("CICS command=LINK COMMAREA failed, resp=PGMIDERR, resp2=3", request.getException().getMessage());
+		assertTrue(request.getException().getMessage().contains("CICS command=LINK COMMAREA failed, resp=PGMIDERR, resp2=") );
 		assertEquals(null, request.getResponseMessage());
 		
 		Thread.sleep(1000L);
