@@ -86,7 +86,7 @@ public class CommareaInvokerTest extends TestCase {
 			fail("testWrongProgInvokeCommarea failed ");
 		    /* Check */
 		} catch (HostInvokerException e) {
-			assertEquals("com.legstar.host.access.HostAccessStrategyException: com.legstar.messaging.RequestException: CICS command=LINK COMMAREA failed, resp=PGMIDERR, resp2=3", e.getMessage());
+			assertTrue(e.getMessage().contains("com.legstar.host.access.HostAccessStrategyException: com.legstar.messaging.RequestException: CICS command=LINK COMMAREA failed, resp=PGMIDERR, resp2=") );
 		}
 	}
 	
