@@ -17,6 +17,9 @@ Distribution overview
   be installed using the standard Eclipse update mechanism from
   {{{http://www.legsem.com/legstar/eclipse/update}here}}.
   
+  A convenience distribution of all ZOS modules is available {{{../legstar-distribution-zos/index.html}here}}.
+  This is the recommended path for CICS administrators.
+  
   The distribution also provides source code for the current release as well as access
   to previous releases downloads.
   

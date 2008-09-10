@@ -10,7 +10,7 @@ CICS MQ Controller LSMQCBIN
  handlers such as LSMQHBIN are single threaded which might result in long
  response times when activity increases. If the trigger type is
  EVERY, there is a risk for the CICS region to be flooded since each
- MQ message immediatly generates a CICS transaction.
+ MQ message immediately generates a CICS transaction.
  
  LSMQCBIN assumes a trigger type of FIRST but will actually start 
  several LSMQHBIN handlers if the request queue depth justifies so.
@@ -20,19 +20,26 @@ CICS MQ Controller LSMQCBIN
  
 * Prerequisites:
 
- LSMQHBIN must have been installed and tested sucessfully before
+ LSMQHBIN must have been installed and tested successfully before
  LSMQCBIN can actually be used.
  
- You need to create a TRANCLASS for the handler transaction
- (usually LEGQ) and set an appropriate MAXACTIVE limit. LSMQCBIN
- will not start more than MAXACTIVE simultaneous handlers.
- 
- You will need a C/370 compiler. Since LSMQHBIN is also a CICS program
- you can use the CICS procedure called DFHYITDL to perform the translation
- and compilation (see C370CMQC for a sample JCL).
+* Installation:
+
+ LSMQCBIN can be installed from source or using the common distribution of all
+ ZOS modules available {{{../legstar-distribution-zos/index.html}here}}.
+  
+ If you decide to compile the sources,  You will need a C/370 compiler.
+ Since LSMQCBIN is also a CICS program you can use the CICS procedure called
+ DFHYITDL to perform the translation and compilation (see C370CMQC for a
+ sample).
  
  LSMQCBIN actually uses a library called LSMQLLIB that you need to
  compile first (see C370CMQL for a sample JCL).
+ 
+ If you did not use the RDO JCL that comes with the ZOS common distribution
+ You need to create a TRANCLASS for the handler transaction (usually LEGQ) and
+ set an appropriate MAXACTIVE limit. LSMQCBIN will not start more than
+ MAXACTIVE simultaneous handlers.
  
 * Limitations:
 
