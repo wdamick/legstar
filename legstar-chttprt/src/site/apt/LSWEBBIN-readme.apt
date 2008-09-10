@@ -15,22 +15,18 @@ CICS Web-aware program LSWEBBIN
 
 * Prerequisites:
 
- LSWEBBIN uses the LSLNKBIN and LSCOMLOG programs part of the
+ LSWEBBIN uses the LSLNKBIN program part of the
  {{{../legstar-csokrt}Socket Transport}}. Please refer to the
   {{{../legstar-csokrt/LSSOKBIN-readme.html}LSSOKBIN documentation}} for
- instructions on how to install these programs.
+ instructions on how to install this program.
  
- LSWEBBIN also uses the LSMSGLIB library part of the
+ LSWEBBIN also uses the LSMSGLIB and LSCOMLOG programs part of the
  {{{../legstar-messaging}Messaging Protocol}}. Please refer to the
   {{{../legstar-messaging/LSMSGLIB-readme.html}LSMSGLIB documentation}} for
- instructions on how to install this library.
+ instructions on how to install these programs.
  
  You will need CICS TS 2.3 and above (Although it is believed the
  program might work for TS 2.2, TS 2.1 and TS 1.3).
-   
- You will need a C/370 compiler. Since LSWEBBIN is also a CICS program
- you can use the CICS procedure called DFHYITDL to perform the translation
- and compilation (see C370CWEB for a sample JCL).
    
  You will need a TCPIPSERVICE definition in the CICS region used to
  service incoming requests. Make sure the TCPIPSERVICE uses the default
@@ -41,6 +37,16 @@ CICS Web-aware program LSWEBBIN
  Depending on the TCPIPSERVICE definition, you might have to provide
  valid credentials in order to run LSWEBBIN.
 
+* Installation:
+
+  LSWEBBIN can be installed from source or using the common distribution of all
+  ZOS modules available {{{../legstar-distribution-zos/index.html}here}}.
+  
+  If you decide to compile the sources,  You will need a C/370 compiler.
+  Since LSWEBBIN is also a CICS program you can use the CICS procedure called
+  DFHYITDL to perform the translation and compilation (see C370CWEB for a
+  sample).
+ 
 * Limitations:
 
   - LSWEBBIN does not support the INPUTMSG option of the LINK command.

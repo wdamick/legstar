@@ -20,15 +20,19 @@ CICS Messaging library LSMSGLIB
  
 * Prerequisites:
 
- LSMSGLIB uses the LSCOMLOG program part of the {{{../legstar-csokrt}
- Socket Transport}}. Please refer to the
-  {{{../legstar-csokrt/LSSOKBIN-readme.html}LSSOKBIN documentation}} for
- instructions on how to install this program.
+ LSMSGLIB uses the LSCOMLOG also part of this delivery.
  
- You will need a C/370 compiler. Since LSMSGLIB is also a CICS program
- you can use the CICS procedure called DFHYITDL to perform the translation
- and compilation (see C370CMSG for a sample JCL).
- 
+* Installation:
+
+  LSMSGLIB and dependents can be installed from source or using the common
+  distribution of all ZOS modules available
+  {{{../legstar-distribution-zos/index.html}here}}.
+
+  If you decide to compile the sources,  You will need a C/370 compiler.
+  Since LSMSGLIB is also a CICS program you can use the CICS procedure called
+  DFHYITDL to perform the translation and compilation (see C370CMSG and
+  C370CLOG for samples).
+
 * Limitations:
 
   - LSMSGLIB has a limitation of 10 input message parts per complex
