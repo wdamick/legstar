@@ -12,6 +12,7 @@ package com.legstar.cixs.jaxws.gen;
 
 import java.io.File;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import com.legstar.cixs.gen.ant.AbstractCixsGenerator;
@@ -342,7 +343,8 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
                 operation,
                 parameters,
                 servicePropertiesDir,
-                operation.getCicsProgramName().toLowerCase() + ".properties");
+                operation.getCicsProgramName().toLowerCase(
+                		Locale.getDefault()) + ".properties");
 	}
 	
 	/**
@@ -440,7 +442,8 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
 	throws CodeGenMakeException {
 		
 		parameters.put("propertyName", propertyName);
-		parameters.put("fieldName", propertyName.toLowerCase());
+		parameters.put("fieldName", propertyName.toLowerCase(
+				Locale.getDefault()));
 		parameters.put("wrapperType", wrapperType);
 		
 		if (operation.getCicsChannel() == null
