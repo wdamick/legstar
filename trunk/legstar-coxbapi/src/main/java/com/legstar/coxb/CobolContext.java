@@ -33,7 +33,7 @@ public class CobolContext extends HostContext {
 	 * on the number of digits specified in the PICTURE clause.
 	 *
 	 */
-	public enum trunc {
+	public enum Trunc {
 		/** TRUNC(OPT) Leaves it up to the compiler to decide to truncate or
 		 *             not, based on performance considerations. */
 		OPT,
