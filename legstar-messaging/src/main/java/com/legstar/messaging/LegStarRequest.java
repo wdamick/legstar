@@ -10,6 +10,9 @@
  ******************************************************************************/
 package com.legstar.messaging;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 /**
  * This class represents a request for its entire lifetime. It is created
  * by a client with input data and then processed by the server which
@@ -34,6 +37,10 @@ public class LegStarRequest {
 	
 	/** This allows users to attach unstructured data to a particular request.*/
 	private byte[] mAttachment;
+	
+	/** This is used to signal that this request is being processed. Multiple 
+	 * threads might be waiting for completion. */
+	private CountDownLatch mProcessingLatch;
 	
 	/** Creates an empty request. */
 	public LegStarRequest() {
@@ -136,6 +143,39 @@ public class LegStarRequest {
 	 */
 	public final void setAttachment(final byte[] attachment) {
 		mAttachment = attachment;
+	}
+	
+	/**
+	 * Used to signal that this request is now being processed.
+	 */
+	public final void signalProcessingStart() {
+		mProcessingLatch = new CountDownLatch(1);
+	}
+	
+	/**
+	 * Used to signal that this request has been processed. It might have
+	 * failed though so checking for an exception is a good idea.
+	 */
+	public final void signalProcessingStop() {
+		mProcessingLatch.countDown();
+	}
+	
+	/**
+	 * Allows threads to wait for this request completion.
+	 * @param timeout how long to wait
+	 * @param unit the timeout unit
+	 * @return true if request was processed and false if the waiting time
+	 *  elapsed before the request was processed.
+	 * @throws InterruptedException if thread was interrupted
+	 */
+	public final boolean await(
+			final long timeout,
+			final TimeUnit unit) throws InterruptedException {
+		if (mProcessingLatch == null) {
+			return true;
+		} else {
+			return mProcessingLatch.await(timeout, unit);
+		}
 	}
 
 }

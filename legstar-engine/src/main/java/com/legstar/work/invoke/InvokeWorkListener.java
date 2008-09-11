@@ -86,7 +86,7 @@ public class InvokeWorkListener implements WorkListener {
 				LOG.debug("Work completed for Request:" + mRequest.getID()
 					+ " on Connection:" + mConnection.getConnectionID());
 			}
-			mRequest.notifyAll();
+			mRequest.signalProcessingStop();
 		}
 	}
 	
@@ -103,7 +103,7 @@ public class InvokeWorkListener implements WorkListener {
 			} catch (ConnectionPoolException e) {
 				mRequest.setException(e);
 			}
-			mRequest.notifyAll();
+			mRequest.signalProcessingStop();
 			LOG.debug("Work rejected for Request:" + mRequest.getID()
 				    + " on Connection:" + mConnection.getConnectionID());
 		}

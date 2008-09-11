@@ -4,6 +4,11 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
+    <release version="1.2.1" date="2008-09-30" description="Code cleansing">
+      <action dev="fady" type="update">
+        Changed from wait/notify synchronization to Java 1.5 CountDownLatch.
+      </action>
+    </release>
     <release version="1.2.0" date="2008-07-08" description="Messaging refactoring">
       <action dev="fady" type="update">
         The invoker uses the new messaging implementation code introduced in 1.2.0.

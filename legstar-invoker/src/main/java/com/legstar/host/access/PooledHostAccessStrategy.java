@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.legstar.host.access;
 
+import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -66,7 +68,7 @@ public class PooledHostAccessStrategy implements HostAccessStrategy {
 		synchronized (request) {
 			try {
 				EngineHolder.getEngine().addRequest(request);
-				request.wait(mInvokeTimeout);
+				request.await(mInvokeTimeout, TimeUnit.MILLISECONDS);
 				if (request.getException() != null) {
 					throw new HostAccessStrategyException(
 							request.getException());

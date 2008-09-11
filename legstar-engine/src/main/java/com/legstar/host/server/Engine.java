@@ -120,7 +120,7 @@ public class Engine implements Work {
 			 *  threads */
 			synchronized (request) {
 				request.setException(new RequestException(e));
-				request.notifyAll();
+				request.signalProcessingStop();
 			}
 			throw new WorkException(e);
 		}
@@ -131,10 +131,12 @@ public class Engine implements Work {
 	}
 	
 	/**
-	 *  Place a new request in request queue.
+	 *  Place a new request in request queue. Signal to all waiting thread
+	 *  that the request is being processed and is not completed yet.
 	 *  @param request the request to be added
 	 *   */
 	public final void addRequest(final LegStarRequest request) {
+		request.signalProcessingStart();
 		if (!mShuttingDown) {
 			mRequests.add(request);
 		} else {
