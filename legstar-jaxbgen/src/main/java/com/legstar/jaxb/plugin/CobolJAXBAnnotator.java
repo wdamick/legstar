@@ -26,6 +26,8 @@ import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JAnnotationUse;
 import java.util.List;
 import java.util.Collections;
+import java.util.Locale;
+
 import javax.xml.bind.annotation.XmlSchemaType;
 
 import com.legstar.coxb.CobolComplexType;
@@ -225,7 +227,7 @@ public class CobolJAXBAnnotator extends Plugin {
         
 		JAnnotationUse ce = co.implClass.annotate(CobolComplexType.class);
 		ce.param(CobolMarkup.JAVA_CLASS_NAME,
-				c.element.getAttribute(CobolMarkup.JAVA_CLASS_NAME).toString());
+				c.element.getAttribute(CobolMarkup.JAVA_CLASS_NAME));
 	}
 	
 	/**
@@ -240,7 +242,7 @@ public class CobolJAXBAnnotator extends Plugin {
 			final JAnnotationUse ce) {
 		
 		ce.param("cobolName",
-				c.element.getAttribute(CobolMarkup.COBOL_NAME).toString());
+				c.element.getAttribute(CobolMarkup.COBOL_NAME));
 		
 		String cobolType = c.element.getAttribute(CobolMarkup.TYPE);
 		
@@ -286,7 +288,8 @@ public class CobolJAXBAnnotator extends Plugin {
 		 * the java annotation that need to go away in some future
 		 * version.*/
 		if (!cobolProperty.startsWith("is")) {
-			cobolProperty = "is" + xmlMarkup.substring(0, 1).toUpperCase()
+			cobolProperty = "is"
+				+ xmlMarkup.substring(0, 1).toUpperCase(Locale.getDefault())
 				+ xmlMarkup.substring(1, xmlMarkup.length());
 		}
 		String value = e.getAttribute(xmlMarkup);
