@@ -203,8 +203,6 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		if (ce.isCustomVariable()) {
 			storeCustomVariable(ce);
 		}
-		
-		return;
 	}
 	/** {@inheritDoc} */
 	@Override
@@ -213,7 +211,6 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		setOffset(getCobolConverters().
 				getCobolStringConverter().
 				toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
-		return;
 	}
 
 	/** {@inheritDoc} */
@@ -227,8 +224,6 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		if (ce.isCustomVariable()) {
 			storeCustomVariable(ce);
 		}
-		
-		return;
 	}
 	/** {@inheritDoc} */
 	@Override
@@ -237,7 +232,6 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		setOffset(getCobolConverters().
 				getCobolNationalConverter().
 				toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
-		return;
 	}
 
 	/** {@inheritDoc} */
@@ -252,7 +246,6 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 			storeCustomVariable(ce);
 		}
 		
-		return;
 	}
 	/** {@inheritDoc} */
 	@Override
@@ -261,7 +254,6 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		setOffset(getCobolConverters().
 				getCobolZonedDecimalConverter().
 				toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
-		return;
 	}
 
 	/** {@inheritDoc} */
@@ -276,7 +268,6 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 			storeCustomVariable(ce);
 		}
 		
-		return;
 	}
 	/** {@inheritDoc} */
 	@Override
@@ -285,7 +276,6 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		setOffset(getCobolConverters().
 				getCobolPackedDecimalConverter().
 				toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
-		return;
 	}
 
 	/** {@inheritDoc} */
@@ -300,7 +290,6 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 			storeCustomVariable(ce);
 		}
 		
-		return;
 	}
 	/** {@inheritDoc} */
 	@Override
@@ -309,7 +298,6 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		setOffset(getCobolConverters().
 				getCobolBinaryConverter().
 				toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
-		return;
 	}
 
 	/** {@inheritDoc} */
@@ -324,7 +312,6 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 			storeCustomVariable(ce);
 		}
 		
-		return;
 	}
 	/** {@inheritDoc} */
 	@Override
@@ -333,7 +320,6 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		setOffset(getCobolConverters().
 				getCobolFloatConverter().
 				toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
-		return;
 	}
 
 	/** {@inheritDoc} */
@@ -348,8 +334,6 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		if (ce.isCustomVariable()) {
 			storeCustomVariable(ce);
 		}
-		
-		return;
 	}
 	/** {@inheritDoc} */
 	@Override
@@ -358,7 +342,6 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		setOffset(getCobolConverters().
 				getCobolDoubleConverter().
 				toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
-		return;
 	}
 	/** {@inheritDoc} */
 	@Override
@@ -371,8 +354,6 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		if (ce.isCustomVariable()) {
 			storeCustomVariable(ce);
 		}
-		
-		return;
 	}
 	/** {@inheritDoc} */
 	@Override
@@ -381,6 +362,5 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 		setOffset(getCobolConverters().
 				getCobolOctetStreamConverter().
 				toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
-		return;
 	}
 }

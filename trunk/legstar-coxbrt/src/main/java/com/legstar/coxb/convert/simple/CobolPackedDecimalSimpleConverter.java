@@ -81,7 +81,7 @@ public class CobolPackedDecimalSimpleConverter extends CobolSimpleConverter
 			/* If necessary, fill in the array with missing items */
 			for (int i = ce.getBigDecimalList().size();
 							i < currentOccurs; i++) {
-				newOffset = toHostSingle(new BigDecimal(0),
+				newOffset = toHostSingle(BigDecimal.ZERO,
 						ce.getByteLength(),
 						ce.getTotalDigits(),
 						ce.getFractionDigits(),
@@ -176,7 +176,7 @@ public class CobolPackedDecimalSimpleConverter extends CobolSimpleConverter
 		/* Provide a default if input is null */
 		BigDecimal localDecimal = javaDecimal;
 		if (localDecimal == null) {
-			localDecimal = new BigDecimal(0);
+			localDecimal = BigDecimal.ZERO;
 		}
 
 		/* Get a string representation of the decimal value */

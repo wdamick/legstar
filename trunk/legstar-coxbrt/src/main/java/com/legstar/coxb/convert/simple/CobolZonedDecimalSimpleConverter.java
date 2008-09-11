@@ -90,7 +90,7 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
 			/* If necessary, fill in the array with missing items */
 			for (int i = ce.getBigDecimalList().size();
 							i < currentOccurs; i++) {
-				newOffset = toHostSingle(new BigDecimal(0),
+				newOffset = toHostSingle(BigDecimal.ZERO,
 						ce.getByteLength(),
 						ce.getTotalDigits(),
 						ce.getFractionDigits(),

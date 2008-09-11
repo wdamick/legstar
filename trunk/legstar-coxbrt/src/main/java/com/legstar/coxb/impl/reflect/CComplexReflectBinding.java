@@ -39,6 +39,7 @@ import com.legstar.coxb.impl.RedefinesMap;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Locale;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -95,9 +96,7 @@ public class CComplexReflectBinding extends CComplexBinding {
 				jaxbObject.getClass().getSimpleName(),
 				jaxbObject.getClass(), null, null, jaxbObjectFactory);
 		mJaxbObject = jaxbObject;
-		if (mJaxbObject != null) {
-			mUnusedJaxbObject = true;
-		}
+		mUnusedJaxbObject = true;
 	}
 
 	/**
@@ -174,14 +173,13 @@ public class CComplexReflectBinding extends CComplexBinding {
 		 * on how to bind*/
 		CobolComplexType cobolComplexType =
 			(CobolComplexType) jaxbType.getAnnotation(CobolComplexType.class);
-		if (cobolComplexType != null) {
-			if (cobolComplexType.javaClassName() != null
-					&& cobolComplexType.javaClassName().length() > 0) {
-				setValueObjectClassName(cobolComplexType.javaClassName());
-				/* TODO allow more options, such as factory name, to be 
-				 * passed as annotations */
-				setValueObjectsFactoryClassName(null);
-			}
+		if (cobolComplexType != null 
+				&& cobolComplexType.javaClassName() != null
+				&& cobolComplexType.javaClassName().length() > 0) {
+			setValueObjectClassName(cobolComplexType.javaClassName());
+			/* TODO allow more options, such as factory name, to be 
+			 * passed as annotations */
+			setValueObjectsFactoryClassName(null);
 		}
 		
 		initChildren(jaxbType, xmlType);
@@ -248,7 +246,8 @@ public class CComplexReflectBinding extends CComplexBinding {
 				/* I have noticed situations where XJC does not generate the
 				 * expected XmlElement. Unsure if this is a bug or not. The
 				 * following code is a work around :*/
-				jaxbName = jaxbName.substring(0, 1).toUpperCase()
+				jaxbName = jaxbName.substring(0, 1).toUpperCase(
+						Locale.getDefault())
 					+ jaxbName.substring(1, jaxbName.length());
 			} else {
 				jaxbName = xmlAnnotation.name();
@@ -392,7 +391,7 @@ public class CComplexReflectBinding extends CComplexBinding {
 		if ((cobolAnnotations.isRedefined())
 				|| (redefines != null
 						&& redefines.length() > 0)) {
-			return createChoiceBinding(jaxbName, jaxbType,
+			return createChoiceBinding(jaxbName,
 					cobolAnnotations, cobolElement, redefinesMap);
 		}
 		
@@ -438,7 +437,6 @@ public class CComplexReflectBinding extends CComplexBinding {
 	 * All alternative (redefining elements) are then added to the choice.
 	 * 
 	 * @param jaxbName the java property name
-	 * @param jaxbType the java property type
 	 * @param cobolAnnotations the cobol annotations for this element
 	 * @param cobolElement the cobol descriptor for this element
 	 * @param redefinesMap the current list of redefined items
@@ -447,7 +445,6 @@ public class CComplexReflectBinding extends CComplexBinding {
 	 */
 	private ICobolBinding createChoiceBinding(
 			final String jaxbName,
-			final Class < ? > jaxbType,
 			final CobolElement cobolAnnotations,
 			final ICobolBinding cobolElement,
 			final RedefinesMap redefinesMap)
