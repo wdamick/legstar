@@ -146,10 +146,8 @@ public class CobolNameResolver {
 			}
 			/* Ignore invalid characters unless it is an
 			 * underscore */
-			if (!valid) {
-				if (name.charAt(i) == '_') {
-					sb.append('-');
-				}
+			if (!valid && name.charAt(i) == '_') {
+				sb.append('-');
 			}
 		}
 

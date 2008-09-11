@@ -390,16 +390,14 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 	        		String namespaceUri = attribute.getNamespaceURI();
 	        		String value = attribute.getValue();
 	        		if (namespaceUri != null
-	        				&& namespaceUri.compareTo(NS_NS) == 0) {
-	        			
+	        				&& namespaceUri.compareTo(NS_NS) == 0
+        					&& value.compareTo(SOAP_NS) != 0
+	        				&& value.compareTo(WSDL_NS) != 0
+	        				&& value.compareTo(ADDRESSING_NS) != 0) {
 	        			/* Omit soap and wsdl namespaces which are not useful
 	        			 * at an XML schema level. */
-		        		if (value.compareTo(SOAP_NS) != 0
-		        				&& value.compareTo(WSDL_NS) != 0
-		        				&& value.compareTo(ADDRESSING_NS) != 0) {
-		        			((Element) schemaNode).setAttributeNodeNS(
-		        					(Attr) attribute.cloneNode(true));
-		        		}
+	        			((Element) schemaNode).setAttributeNodeNS(
+	        					(Attr) attribute.cloneNode(true));
 	        		}
 	        	}
 	        }
@@ -857,10 +855,10 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     		setDecimalAttributes(primitiveType, facets, elc);
     		break;
     	case SINGLE_FLOAT_ITEM:
-    		setSingleFloatAttributes(primitiveType, facets, elc);
+    		setSingleFloatAttributes(primitiveType, elc);
     		break;
     	case DOUBLE_FLOAT_ITEM:
-    		setDoubleFloatAttributes(primitiveType, facets, elc);
+    		setDoubleFloatAttributes(primitiveType, elc);
     		break;
     	case OCTET_STREAM_ITEM:
     		setOctetStreamAttributes(primitiveType, facets, elc);
@@ -1189,13 +1187,11 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     /**
      * COBOL single float numerics.
      * @param primitiveType the XML Schema primitive type
-     * @param facets the set of XML schema facets
      * @param elc the annotated element
      * @throws XsdCobolAnnotatorException if attributes cannot be set
      */
     private void setSingleFloatAttributes(
     		final QName primitiveType,
-    		final XsdFacets facets,
     		final Element elc) throws XsdCobolAnnotatorException {
     	
     	if (LOG.isDebugEnabled()) {
@@ -1222,13 +1218,11 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     /**
      * COBOL double float numerics.
      * @param primitiveType the XML Schema primitive type
-     * @param facets the set of XML schema facets
      * @param elc the annotated element
      * @throws XsdCobolAnnotatorException if attributes cannot be set
      */
     private void setDoubleFloatAttributes(
     		final QName primitiveType,
-    		final XsdFacets facets,
     		final Element elc) throws XsdCobolAnnotatorException {
     	
     	if (LOG.isDebugEnabled()) {
