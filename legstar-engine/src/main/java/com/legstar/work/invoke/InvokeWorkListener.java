@@ -70,22 +70,22 @@ public class InvokeWorkListener implements WorkListener {
 	 */
 	public final void workCompleted(final WorkEvent workEvent) {
 
-		/* Notify requestor if connection cannot be recycled */
-		try {
-			mConnectionPool.put(mConnection);
-		} catch (ConnectionPoolException e) {
-			mRequest.setException(e);
-		}
-		if (workEvent.getException() != null) {
-			LOG.debug("Work failed for Request:" + mRequest.getID()
-					    + " on Connection:" + mConnection.getConnectionID(),
-					    workEvent.getException());
-		} else {
-			LOG.debug("Work completed for Request:" + mRequest.getID()
-					    + " on Connection:" + mConnection.getConnectionID());
-		}
 		/* Take ownership of request monitor so we can notify waiting threads */
 		synchronized (mRequest) {
+			/* Notify requestor if connection cannot be recycled */
+			try {
+				mConnectionPool.put(mConnection);
+			} catch (ConnectionPoolException e) {
+				mRequest.setException(e);
+			}
+			if (workEvent.getException() != null) {
+				LOG.debug("Work failed for Request:" + mRequest.getID()
+						    + " on Connection:" + mConnection.getConnectionID(),
+						    workEvent.getException());
+			} else {
+				LOG.debug("Work completed for Request:" + mRequest.getID()
+					+ " on Connection:" + mConnection.getConnectionID());
+			}
 			mRequest.notifyAll();
 		}
 	}
@@ -95,14 +95,14 @@ public class InvokeWorkListener implements WorkListener {
 	 * @param workEvent the work event
 	 *  */
 	public final void workRejected(final WorkEvent workEvent) {
-		/* Notify requestor if connection cannot be recycled */
-		try {
-			mConnectionPool.put(mConnection);
-		} catch (ConnectionPoolException e) {
-			mRequest.setException(e);
-		}
 		/* Take ownership of request monitor so we can notify waiting threads */
 		synchronized (mRequest) {
+			/* Notify requestor if connection cannot be recycled */
+			try {
+				mConnectionPool.put(mConnection);
+			} catch (ConnectionPoolException e) {
+				mRequest.setException(e);
+			}
 			mRequest.notifyAll();
 			LOG.debug("Work rejected for Request:" + mRequest.getID()
 				    + " on Connection:" + mConnection.getConnectionID());

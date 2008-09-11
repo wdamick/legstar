@@ -72,10 +72,10 @@ public class WorkManagerImpl implements WorkManager {
 		LOG.debug("Scheduling new work item " + workItem.getId());
         try {
 			mExecutor.execute(new DecoratingWork(workItem, work, workListener));
-	        workAccepted(workItem, work, workListener);
+	        workAccepted(workItem, workListener);
 	        return workItem;
 		} catch (RejectedExecutionException e) {
-	    	workRejected(workItem, work, workListener);
+	    	workRejected(workItem, workListener);
 			throw new WorkRejectedException(e);
 		}
 	}
@@ -110,12 +110,10 @@ public class WorkManagerImpl implements WorkManager {
 	 * Method provided for subclasses to indicate a work acceptance.
 	 *
 	 * @param workItem Work item representing the work that was accepted.
-	 * @param work     Work that was accepted.
 	 * @param workListener Work listener for callbacks.
 	 */
 	private void workAccepted(
 			final WorkItemImpl workItem,
-			final Work work,
 			final WorkListener workListener) {
 		synchronized (workItem) {
 			LOG.debug("Work item " + workItem.getId() + " accepted");
@@ -130,12 +128,10 @@ public class WorkManagerImpl implements WorkManager {
 	/**
 	 * Method to indicate a work was rejected.
 	 * @param workItem Work item representing the work that was started.
-	 * @param work     Work that was started.
 	 * @param workListener Work listener for callbacks.
 	 */
 	private void workRejected(
 			final WorkItemImpl workItem,
-			final Work work,
 			final WorkListener workListener) {
 		synchronized (workItem) {
 			LOG.debug("Work item " + workItem.getId() + " rejected");
