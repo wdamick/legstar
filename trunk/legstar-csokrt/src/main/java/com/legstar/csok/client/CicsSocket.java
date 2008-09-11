@@ -107,7 +107,7 @@ public class CicsSocket implements LegStarConnection {
 		"Invalid or unexpected reply from host.";
 	
 	/** TCPIP Socket connection to a CICS region. */
-	private Socket mClientSocket;
+	private Socket mClientSocket = null;
 	
 	/** An identifier for this connection. */
 	private String mConnectionID;
@@ -615,7 +615,6 @@ public class CicsSocket implements LegStarConnection {
 		HostCodec.toHostBytes(
 				CIM_EYE_CATCHER, cicsCIM, pos, CIM_EYE_CATCHER.length(),
 				charset);
-		pos += CIM_EYE_CATCHER.length();
 		return cicsCIM;
 	}
 	
@@ -634,7 +633,6 @@ public class CicsSocket implements LegStarConnection {
 		int pos = 0;
 		HostCodec.toHostBytes(messageType, aMTBytes, pos,
 				MSG_TYPE_LEN, charset);
-		pos += MSG_TYPE_LEN;
 		return aMTBytes;
 	}
 	
@@ -657,7 +655,6 @@ public class CicsSocket implements LegStarConnection {
 		pos += (UOW_MSG_EC_LEN + 1);
 		HostCodec.toHostBytes(command, aUOWBytes, pos,
 				command.length(), charset);
-		pos += (UOW_COMMAND_LEN + 1);
 		return aUOWBytes;
 	}
 	
@@ -674,7 +671,6 @@ public class CicsSocket implements LegStarConnection {
 		int pos = 0;
 		HostCodec.toHostBytes(PROBE_REQUEST_EC, probeBytes, pos,
 				PROBE_REQUEST_EC.length(), charset);
-		pos += (PROBE_REQUEST_EC.length() + 1);
 		return probeBytes;
 	}
 	
@@ -726,7 +722,7 @@ public class CicsSocket implements LegStarConnection {
 	 * {@inheritDoc}
 	 */
 	public final void setConnectTimeout(final long timeout) {
-		mConnectTimeout = new Long(timeout).intValue();
+		mConnectTimeout = (int) timeout;
 	}
 
 	/** (non-Javadoc).
@@ -734,7 +730,7 @@ public class CicsSocket implements LegStarConnection {
 	 * {@inheritDoc}
 	 */
 	public final void setReceiveTimeout(final long timeout) {
-		mReceiveTimeout = new Long(timeout).intValue();
+		mReceiveTimeout = (int) timeout;
 	}
 
 	/** (non-Javadoc).

@@ -114,7 +114,6 @@ public class CicsSocketOutputBuffer {
 		while ((rc = inStream.read(buffer)) > 0) {
 			write(buffer, 0, rc);
 		}
-		return;
 	}
 	
 	/**
