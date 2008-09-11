@@ -10,8 +10,11 @@
  ******************************************************************************/
 package com.legstar.c2ws.servlet;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.legstar.c2ws.CultureInfoCases;
-import com.legstar.c2ws.reflect.C2wsReflectAdapter;
+import com.legstar.c2ws.util.C2wsLog;
 import com.legstar.messaging.LegStarMessage;
 import com.legstar.test.coxb.cultureinfo.CultureInfoReplyType;
 
@@ -19,13 +22,30 @@ import junit.framework.TestCase;
 
 public class C2wsProxyTest extends TestCase {
 
+	/** Logger. */
+	private static final Log LOG =  LogFactory.getLog(C2wsProxyTest.class);
+	
 	/* A tomcat server running cultureinfo web service must be up. */
 	public void testInvoke() throws Exception {
+		MockServletConfig servletConfig = new MockServletConfig();
+		servletConfig.addInitParameter(C2wsProxy.HOST_CHARSET_KEY, "IBM01140");
+		servletConfig.addInitParameter(C2wsProxy.ADAPTER_CLASSNAME_KEY, "com.legstar.c2ws.reflect.C2wsReflectAdapter");
+		
+		servletConfig.addInitParameter(C2wsProxy.WSDL_URL_KEY, CultureInfoCases.getWSDescriptor().getWsdlUrl());
+		servletConfig.addInitParameter(C2wsProxy.WSDL_TARGET_NAMESPACE_KEY, CultureInfoCases.getWSDescriptor().getWsdlTargetNamespace());
+		servletConfig.addInitParameter(C2wsProxy.WSDL_PORT_NAME_KEY, CultureInfoCases.getWSDescriptor().getWsdlPort());
+		servletConfig.addInitParameter(C2wsProxy.WSDL_SERVICE_NAME_KEY, CultureInfoCases.getWSDescriptor().getWsdlName());
+		servletConfig.addInitParameter(C2wsProxy.REQUEST_JAXB_PACKAGE_NAME_KEY, CultureInfoCases.getWSDescriptor().getRequestElementDescriptor().getJaxbPackageName());
+		servletConfig.addInitParameter(C2wsProxy.REQUEST_JAXB_TYPE_KEY, CultureInfoCases.getWSDescriptor().getRequestElementDescriptor().getJaxbType());
+		servletConfig.addInitParameter(C2wsProxy.RESPONSE_JAXB_PACKAGE_NAME_KEY, CultureInfoCases.getWSDescriptor().getResponseElementDescriptor().getJaxbPackageName());
+		servletConfig.addInitParameter(C2wsProxy.RESPONSE_JAXB_TYPE_KEY, CultureInfoCases.getWSDescriptor().getResponseElementDescriptor().getJaxbType());
+		
 		C2wsProxy c2wsProxy = new C2wsProxy();
-		c2wsProxy.setWSDescriptor(CultureInfoCases.getWSDescriptor());
-		c2wsProxy.setAdapter(new C2wsReflectAdapter());
+		C2wsLog cxidLog = new C2wsLog(LOG);
+		cxidLog.setCorrelationId("TRACE-ID");
+		c2wsProxy.init(servletConfig);
 		LegStarMessage responseMessage = c2wsProxy.invoke(
-				"TRACE-ID", CultureInfoCases.getCultureInfoRequestMessage());
+				cxidLog, CultureInfoCases.getCultureInfoRequestMessage());
 		assertTrue(responseMessage != null);
 		assertTrue(responseMessage.getDataParts().size() == 1);
 		byte[] responseBytes = responseMessage.getDataParts().get(0).getContent();

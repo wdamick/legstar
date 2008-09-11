@@ -76,7 +76,6 @@ public final class C2wsUtil {
 					MAX_TRACES_BYTES));
 			log.debug(dumpLine);
 		}
-		return;
 	}
 
 	/**
