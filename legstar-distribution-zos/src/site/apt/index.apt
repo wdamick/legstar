@@ -17,7 +17,7 @@ Distribution for ZOS overview
   run though and there is also no JCL for CICS RDO definitions.
   
   As a convenience, this project groups all ZOS modules both in executable and source
-  format in a set TSO XMIT files. This way, you can install the executables directly.
+  format in a set of TSO XMIT files. This way, you can install the executables directly.
   Furthermore a JCL with RDO definitions is provided.
   
   
