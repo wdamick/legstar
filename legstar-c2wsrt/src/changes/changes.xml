@@ -4,6 +4,11 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
+    <release version="1.2.1" date="2008-09-30" description="Code cleansing">
+      <action dev="fady" type="update">
+        Removed instance variables which are bad practice in a Servlet.
+      </action>
+    </release>
     <release version="1.2.0" date="2008-07-08" description="Refactoring">
       <action dev="fady" type="update">
         The central configuration where all new service proxies were to be added

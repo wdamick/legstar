@@ -489,7 +489,7 @@ public class CicsHttp implements LegStarConnection  {
 	 * {@inheritDoc}
 	 */
 	public final void setConnectTimeout(final long timeout) {
-		mConnectTimeout = new Long(timeout).intValue();
+		mConnectTimeout = (int) timeout;
 		mHttpClient.getParams().setIntParameter(
 				HttpConnectionParams.CONNECTION_TIMEOUT, mConnectTimeout);
 	}
@@ -507,7 +507,7 @@ public class CicsHttp implements LegStarConnection  {
 	 * {@inheritDoc}
 	 */
 	public final void setReceiveTimeout(final long timeout) {
-		mReceiveTimeout = new Long(timeout).intValue();
+		mReceiveTimeout = (int) timeout;
 		/* Set the receive time out. */
 		mHttpClient.getParams().setSoTimeout(mReceiveTimeout);
 	}
