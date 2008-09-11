@@ -514,7 +514,7 @@ public class CicsMQ implements LegStarConnection  {
 	 * {@inheritDoc}
 	 */
 	public final void setConnectTimeout(final long timeout) {
-		mConnectTimeout = new Long(timeout).intValue();
+		mConnectTimeout = (int) timeout;
 	}
 
 	/** (non-Javadoc).
@@ -530,7 +530,7 @@ public class CicsMQ implements LegStarConnection  {
 	 * {@inheritDoc}
 	 */
 	public final void setReceiveTimeout(final long timeout) {
-		mReceiveTimeout = new Long(timeout).intValue();
+		mReceiveTimeout =  (int) timeout;
 	}
 
 	/**
