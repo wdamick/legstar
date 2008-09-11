@@ -116,10 +116,10 @@ public class Engine implements Work {
 			pool = mPoolManager.getPool(request.getAddress(), true);
 			connection = pool.take(CONNECT_TAKE_MSEC);
 		} catch (ConnectionPoolException e) {
-			request.setException(new RequestException(e));
 			/* Take ownership of request monitor so we can notify waiting
 			 *  threads */
 			synchronized (request) {
+				request.setException(new RequestException(e));
 				request.notifyAll();
 			}
 			throw new WorkException(e);
