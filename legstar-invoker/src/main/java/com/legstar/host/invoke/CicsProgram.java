@@ -154,7 +154,7 @@ public class CicsProgram {
 		int i = 1;
 		String container = programProperties.getProperty(nameKey + '_' + i);
 		while (container != null && container.length() > 0) {
-			Integer size = new Integer(0);
+			Integer size = Integer.valueOf(0);
 			String containerSize = programProperties.getProperty(
 					lengthKey + '_' + i);
 			if (containerSize != null && containerSize.length() > 0) {

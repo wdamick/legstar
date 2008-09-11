@@ -10,6 +10,7 @@
  ******************************************************************************/
 package com.legstar.host.invoke;
 
+import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -139,14 +140,18 @@ public class ContainerInvoker implements HostInvoker {
 					mCicsProgram.getProgramAttrMap());
 			
 			/* A new message part is built from the input bindings */
-			for (String containerName : inParts.keySet()) {
-			    ICobolComplexBinding ccbin =
-			    	(ICobolComplexBinding) inParts.get(containerName);
+			Iterator < Map.Entry < String, ICobolComplexBinding >>
+				keyValuePairs = inParts.entrySet().iterator();
+			for (int i = 0; i < inParts.size(); i++) {
+				Map.Entry < String, ICobolComplexBinding > entry =
+					(Map.Entry < String, ICobolComplexBinding >)
+					keyValuePairs.next();
+			    ICobolComplexBinding ccbin = entry.getValue();
 				requestMessage.addMessagePart(
 						ccbin,
-						mCicsProgram.getInContainers().get(containerName),
+						mCicsProgram.getInContainers().get(entry.getKey()),
 						mAddress.getHostCharset(),
-						containerName);
+						entry.getKey());
 			}
 			return new LegStarRequest(requestID, address, requestMessage);
 		} catch (HeaderPartException e) {
