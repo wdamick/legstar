@@ -62,10 +62,10 @@ public final class CobolGenFormatter {
 		if (cb.getPicture() != null && cb.getPicture().length() > 0) {
 			s.addClause(String.format(PIC_CLAUSE, cb.getPicture()));
 		}
-		if (cb.getUsage() != null && cb.getUsage().length() > 0) {
-			if (cb.getUsage().compareToIgnoreCase(USAGE_DISPLAY) != 0) {
-				s.addClause(String.format(USAGE_CLAUSE, cb.getUsage()));
-			}
+		if (cb.getUsage() != null
+				&& cb.getUsage().length() > 0
+				&& cb.getUsage().compareToIgnoreCase(USAGE_DISPLAY) != 0) {
+			s.addClause(String.format(USAGE_CLAUSE, cb.getUsage()));
 		}
 		if (cb.isJustifiedRight()) {
 			s.addClause(JUST_RIGHT_CLAUSE);
