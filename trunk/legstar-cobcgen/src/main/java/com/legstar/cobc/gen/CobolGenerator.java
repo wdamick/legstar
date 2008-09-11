@@ -54,7 +54,7 @@ public class CobolGenerator extends Task  {
 	private String mCobolRootDataItemName;
 	
 	/** The target directory where generated Cobol will be created. */
-	private File mTargetDir;
+	private File mTargetDir = null;
 	
 	/** The target generated Cobol file name. */
 	private String mTargetCobolFileName;
@@ -82,6 +82,7 @@ public class CobolGenerator extends Task  {
 		checkInput();
     	String outPath = mTargetDir.getPath() + File.separator
         	+ mTargetCobolFileName;
+    	BufferedWriter writer = null;
     	try {
     		String code = generate(
     				mJaxbPackageName,
@@ -89,14 +90,21 @@ public class CobolGenerator extends Task  {
     				mCobolRootDataItemName,
     				mFirstCobolLevel,
     				mCobolLevelIncrement);
-    		BufferedWriter writer = new BufferedWriter(
+    		writer = new BufferedWriter(
 					new FileWriter(new File(outPath)));
     		writer.write(code);
-			writer.close();
     	} catch (IOException e) {
 			throw new BuildException(e);
 		} catch (CobolGenerationException e) {
 			throw new BuildException(e);
+		} finally {
+			if (writer != null) {
+				try {
+					writer.close();
+				} catch (IOException e) {
+					LOG.error(e);
+				}
+			}
 		}
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Cobol source generation ended");
