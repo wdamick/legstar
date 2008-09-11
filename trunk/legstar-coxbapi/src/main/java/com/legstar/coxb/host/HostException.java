@@ -116,7 +116,11 @@ public class HostException extends Exception {
 	 * @return String describes the exception
 	 */
 	public final String getMessage() {
-		return mHostFieldMessage;
+		if (mHostFieldMessage != null) {
+			return mHostFieldMessage;
+		} else {
+			return super.getMessage();
+		}
 	}
 
 	/**
