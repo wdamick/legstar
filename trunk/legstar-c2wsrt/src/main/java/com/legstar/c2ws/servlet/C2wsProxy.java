@@ -49,8 +49,7 @@ import com.legstar.messaging.LegStarMessagePart;
  * URL and get access to the target web service.
  *
  */
-public class C2wsProxy extends javax.servlet.http.HttpServlet
-implements javax.servlet.Servlet {
+public class C2wsProxy extends javax.servlet.http.HttpServlet {
 
 	/** The serial ID. */
 	static final long serialVersionUID = 1L;
@@ -62,63 +61,61 @@ implements javax.servlet.Servlet {
 	private static final String CORRELATION_ID_HDR = "Correlation-id";
 
 	/** Configuration key to a name of a class implementing an adapter. */ 
-	private static final String ADAPTER_CLASSNAME_KEY = "c2ws.adapter";
+	public static final String ADAPTER_CLASSNAME_KEY = "c2ws.adapter";
 
 	/** Default name of a class implementing an adapter. */ 
 	private static final String DEFAULT_ADAPTER_CLASSNAME =
 		"com.legstar.c2ws.reflect.C2wsReflectAdapter";
 
 	/** Configuration key for the host character set. */ 
-	private static final String HOST_CHARSET_KEY = "c2ws.hostCharset";
+	public static final String HOST_CHARSET_KEY = "c2ws.hostCharset";
 
 	/** Default value for host character set. */ 
 	private static final String DEFAULT_HOST_CHARSET = "IBM01140";
 
 	/** URL locating target Web service WSDL. */ 
-	private static final String WSDL_URL_KEY = "c2ws.wsdlUrl";
+	public static final String WSDL_URL_KEY = "c2ws.wsdlUrl";
 
 	/** Target Web service WSDL namespace. */ 
-	private static final String WSDL_TARGET_NAMESPACE_KEY =
+	public static final String WSDL_TARGET_NAMESPACE_KEY =
 		"c2ws.wsdlTargetNamespace";
 
 	/** Target Web service WSDL port name. */ 
-	private static final String WSDL_PORT_NAME_KEY =
+	public static final String WSDL_PORT_NAME_KEY =
 		"c2ws.wsdlPortName";
 
 	/** Target Web service WSDL service name. */ 
-	private static final String WSDL_SERVICE_NAME_KEY =
+	public static final String WSDL_SERVICE_NAME_KEY =
 		"c2ws.wsdlServiceName";
 
 	/** Request JAXB type. */ 
-	private static final String REQUEST_JAXB_TYPE_KEY =
+	public static final String REQUEST_JAXB_TYPE_KEY =
 		"c2ws.requestJaxbType";
 
 	/** Request JAXB package name. */ 
-	private static final String REQUEST_JAXB_PACKAGE_NAME_KEY =
+	public static final String REQUEST_JAXB_PACKAGE_NAME_KEY =
 		"c2ws.requestJaxbPackageName";
 
 	/** Response JAXB type. */ 
-	private static final String RESPONSE_JAXB_TYPE_KEY =
+	public static final String RESPONSE_JAXB_TYPE_KEY =
 		"c2ws.responseJaxbType";
 
 	/** Response JAXB package name. */ 
-	private static final String RESPONSE_JAXB_PACKAGE_NAME_KEY =
+	public static final String RESPONSE_JAXB_PACKAGE_NAME_KEY =
 		"c2ws.responseJaxbPackageName";
 
-	/** Actual provider of Web Service access capabilities. */
-	private C2wsAdapter mAdapter;
+	/** Identifier for the adapter instance in the servlet context. */ 
+	private static final String ADAPTER_ID = "com.legstar.c2ws.servlet.adapter";
 
-	/** Describes the target Web Service. */
-	private C2wsWSDescriptor mWSDescriptor;
+	/** Identifier for the descriptor instance in the servlet context. */ 
+	private static final String DESCRIPTOR_ID =
+		"com.legstar.c2ws.servlet.descriptor";
 
 	/** This servlet proxy name. */
 	private static final String PROXY_NAME = "JvmqueryProxy";
 
 	/** Logger. */
 	private static final Log LOG =  LogFactory.getLog(C2wsProxy.class);
-
-	/** Enhanced logger with correlation id. */
-	private C2wsLog mLog = new C2wsLog(LOG);
 
 	/** {@inheritDoc} */
 	protected void doPost(
@@ -128,9 +125,11 @@ implements javax.servlet.Servlet {
 		/* Use correlation id received in http header. This allows logs on
 		 * this side to be easily correlated with the mainframe logs. */
 		String cxid = request.getHeader(CORRELATION_ID_HDR);
-		mLog.setCorrelationId(cxid);
-		if (mLog.isDebugEnabled()) {
-			mLog.debug(PROXY_NAME + " started for " + request.getRemoteHost());
+		C2wsLog cxidLog = new C2wsLog(LOG);
+		cxidLog.setCorrelationId(cxid);
+		if (cxidLog.isDebugEnabled()) {
+			cxidLog.debug(PROXY_NAME + " started for "
+					+ request.getRemoteHost());
 		}
 
 		/* Make sure this is a Mainframe LegStar request. */
@@ -144,7 +143,7 @@ implements javax.servlet.Servlet {
 		try {
 			LegStarMessage requestMessage = new LegStarMessage();
 			requestMessage.recvFromHost(request.getInputStream());
-			LegStarMessage responseMessage = invoke(cxid, requestMessage);
+			LegStarMessage responseMessage = invoke(cxidLog, requestMessage);
 			response.setContentType(BINARY_CONTENT_TYPE);
 			pipe(responseMessage.sendToHost(), response.getOutputStream());
 		} catch (HeaderPartException e) {
@@ -157,28 +156,28 @@ implements javax.servlet.Servlet {
 			throw (new ServletException(e));
 		}
 
-		if (mLog.isDebugEnabled()) {
-			mLog.debug(PROXY_NAME + " ended");
+		if (cxidLog.isDebugEnabled()) {
+			cxidLog.debug(PROXY_NAME + " ended");
 		}
 	} 
 
 	/**
 	 * Invoke a target Web Service, using its descriptor and then emitting
 	 * a SOAP request. This is for a one input/one output exchange pattern.
-	 * @param cxid a correlation ID sent by the client
+	 * @param cxidLog a logger with correlation id
 	 * @param requestMessage describes the request
 	 * @return a response message
 	 * @throws C2wsInvokeException if invoke fails
 	 */
 	public final LegStarMessage invoke(
-			final String cxid,
+			final C2wsLog cxidLog,
 			final LegStarMessage requestMessage) throws C2wsInvokeException {
 		try {
-			if (mLog.isDebugEnabled()) {
-				mLog.debug("Entered invoke with message " + requestMessage);
+			if (cxidLog.isDebugEnabled()) {
+				cxidLog.debug("Entered invoke with message " + requestMessage);
 			}
-			mAdapter.setCorrelationId(cxid);
-			byte[] responseBytes = mAdapter.invoke(mWSDescriptor,
+			getAdapter().setCorrelationId(cxidLog.getCorrelationId());
+			byte[] responseBytes = getAdapter().invoke(getWSDescriptor(),
 					requestMessage.getDataParts().get(0).getContent());
 			List < LegStarMessagePart > dataParts =
 				new ArrayList < LegStarMessagePart >();
@@ -188,8 +187,9 @@ implements javax.servlet.Servlet {
 			LegStarMessage responseMessage = new LegStarMessage();
 			responseMessage.setHeaderPart(headerPart);
 			responseMessage.setDataParts(dataParts);
-			if (mLog.isDebugEnabled()) {
-				mLog.debug("invoke returned with message " + responseMessage);
+			if (cxidLog.isDebugEnabled()) {
+				cxidLog.debug("invoke returned with message "
+						+ responseMessage);
 			}
 			return responseMessage;
 		} catch (HeaderPartException e) {
@@ -204,16 +204,16 @@ implements javax.servlet.Servlet {
 			final ServletConfig config) throws ServletException {
 		super.init(config);
 
-		if (mLog.isDebugEnabled()) {
-			mLog.debug("Initializing " + PROXY_NAME);
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Initializing " + PROXY_NAME);
 		}
 
 		try {
 			/* Initialize the target web service description. */
-			mWSDescriptor = getInitWSDescriptor();
-			if (mLog.isDebugEnabled()) {
-				mLog.debug("Web Service descriptor:");
-				mLog.debug(mWSDescriptor.toString());
+			C2wsWSDescriptor wsDescriptor = getInitWSDescriptor();
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("Web Service descriptor:");
+				LOG.debug(wsDescriptor.toString());
 			}
 
 			/* Setup a Mainframe character set to use when marshaling/
@@ -224,8 +224,13 @@ implements javax.servlet.Servlet {
 			/* Load an adapter which implements the actual Web Service client */
 			String adapterClassName = getInitParameter(
 					ADAPTER_CLASSNAME_KEY, DEFAULT_ADAPTER_CLASSNAME);
-			mAdapter = loadAdapter(adapterClassName);
-			mAdapter.setHostCharset(hostCharset);
+			C2wsAdapter adapter = loadAdapter(adapterClassName);
+			adapter.setHostCharset(hostCharset);
+			
+			/* Store descriptor and adapter in the servlet context */
+			setWSDescriptor(wsDescriptor);
+			setAdapter(adapter);
+			
 		} catch (C2wsConfigurationException e) {
 			throw new ServletException(e);
 		}
@@ -243,13 +248,13 @@ implements javax.servlet.Servlet {
 		String value = getServletConfig().getInitParameter(parameterName);
 		if (value == null || value.length() == 0) {
 			value = defaultValue;
-			if (mLog.isDebugEnabled()) {
-				mLog.debug("Parameter " + parameterName + " not found."
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("Parameter " + parameterName + " not found."
 						+ " Using default value: " + value);
 			}
 		} else {
-			if (mLog.isDebugEnabled()) {
-				mLog.debug("Parameter " + parameterName + " found."
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("Parameter " + parameterName + " found."
 						+ " Using value: " + value);
 			}
 		}
@@ -328,27 +333,28 @@ implements javax.servlet.Servlet {
 	 * @return the web service client adapter
 	 */
 	public final C2wsAdapter getAdapter() {
-		return mAdapter;
+		return (C2wsAdapter) getServletContext().getAttribute(ADAPTER_ID);
 	}
 
 	/**
 	 * @param adapter the web service client adapter to set
 	 */
 	public final void setAdapter(final C2wsAdapter adapter) {
-		mAdapter = adapter;
+		getServletContext().setAttribute(ADAPTER_ID, adapter);
 	}
 
 	/**
 	 * @return the web service descriptor
 	 */
 	public final C2wsWSDescriptor getWSDescriptor() {
-		return mWSDescriptor;
+		return (C2wsWSDescriptor) getServletContext().getAttribute(
+				DESCRIPTOR_ID);
 	}
 
 	/**
 	 * @param descriptor the web service descriptor to set
 	 */
 	public final void setWSDescriptor(final C2wsWSDescriptor descriptor) {
-		mWSDescriptor = descriptor;
+		getServletContext().setAttribute(DESCRIPTOR_ID, descriptor);
 	}
 }
