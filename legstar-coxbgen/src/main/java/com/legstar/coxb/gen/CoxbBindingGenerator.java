@@ -24,6 +24,8 @@ import com.legstar.coxb.host.HostException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -160,11 +162,9 @@ public class CoxbBindingGenerator extends Task {
     	Object jaxbObjectFactory = null;
     	
         try {
-            URL url = jaxbDir.toURI().toURL();
-            URL[] urls = new URL[]{url};
         
             /* Create a new class loader with the directory */
-            ClassLoader cl = new java.net.URLClassLoader(urls);
+            ClassLoader cl = getURLClassLoader(jaxbDir.toURI().toURL());
         
             /* Load in ObjectFactory.class */
             Class < ? > objfCls = cl.loadClass(
@@ -191,6 +191,29 @@ public class CoxbBindingGenerator extends Task {
        }
 		
 		return jaxbObjectFactory;
+    }
+    
+    /**
+     * Create a class loader from a URL.
+     * @param url where classes are located
+     * @return the class loader
+     */
+    @SuppressWarnings("unchecked")
+	private static ClassLoader getURLClassLoader(final URL url) {
+    	return (ClassLoader) 
+	    	AccessController.doPrivileged(new PrivilegedAction() {
+	    		 public Object run() {
+	    			 ClassLoader cl = null;
+	    			 try {
+	    				 URL[] urls = new URL[]{url};
+	    				 cl = new java.net.URLClassLoader(urls);
+	    				 return cl;
+	    			 } catch (SecurityException e) {
+	    					throw new BuildException(
+	    							"SecurityException " + e.getMessage());
+	    			 }
+	    		 }
+	    	 });
     }
     
     /**
@@ -529,7 +552,7 @@ public class CoxbBindingGenerator extends Task {
 	 * holds a jaxb root class name. These elements are useful when there
 	 * are more than one jaxb class name to process.
 	 */
-	public class JaxbRootClass {
+	public static class JaxbRootClass {
 		
 		/** Name of the inner class. */
 		private String mName;

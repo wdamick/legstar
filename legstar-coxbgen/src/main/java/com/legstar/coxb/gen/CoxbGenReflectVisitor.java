@@ -87,7 +87,6 @@ public class CoxbGenReflectVisitor extends CobolElementVisitor {
 		} catch (CodeGenException e) {
 			throw new HostException(e);
 		}
-		return;
 	}
 	
 	/** {@inheritDoc} */
@@ -110,7 +109,6 @@ public class CoxbGenReflectVisitor extends CobolElementVisitor {
 		} catch (CodeGenException e) {
 			throw new HostException(e);
 		}
-		return;
 	}
 	
 	/** {@inheritDoc} */
@@ -129,110 +127,93 @@ public class CoxbGenReflectVisitor extends CobolElementVisitor {
 		} catch (CodeGenException e) {
 			throw new HostException(e);
 		}
-		return;
 	}
 	
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolStringBinding ce)
 		throws HostException {
-		return;
 	}
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolArrayStringBinding ce)
 		throws HostException {
-		return;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolNationalBinding ce)
 		throws HostException {
-		return;
 	}
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolArrayNationalBinding ce)
 		throws HostException {
-		return;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolZonedDecimalBinding ce)
 		throws HostException {
-		return;
 	}
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolArrayZonedDecimalBinding ce)
 		throws HostException {
-		return;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolPackedDecimalBinding ce)
 		throws HostException {
-		return;
 	}
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolArrayPackedDecimalBinding ce)
 		throws HostException {
-		return;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolBinaryBinding ce)
 		throws HostException {
-		return;
 	}
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolArrayBinaryBinding ce)
 		throws HostException {
-		return;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolFloatBinding ce)
 		throws HostException {
-		return;
 	}
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolArrayFloatBinding ce)
 		throws HostException {
-		return;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolDoubleBinding ce)
 		throws HostException {
-		return;
 	}
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolArrayDoubleBinding ce)
 		throws HostException {
-		return;
 	}
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolOctetStreamBinding ce)
 		throws HostException {
-		return;
 	}
 	/** {@inheritDoc} */
 	@Override
 	public final void visit(final ICobolArrayOctetStreamBinding ce)
 		throws HostException {
-		return;
 	}
 
 }

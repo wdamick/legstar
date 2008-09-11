@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.legstar.coxb.gen;
 
+import java.util.Locale;
+
 import com.legstar.codegen.CodeGenHelper;
 import com.legstar.coxb.ICobolArrayBinaryBinding;
 import com.legstar.coxb.ICobolArrayComplexBinding;
@@ -279,10 +281,11 @@ public class CoxbHelper {
 			throw new IllegalArgumentException(fieldName);
 		}
 		if (fieldName.length() == 1) {
-			return prefix + fieldName.toUpperCase();
+			return prefix + fieldName.toUpperCase(Locale.getDefault());
 		}
-		return prefix + fieldName.substring(0, 1).toUpperCase()
-		             + fieldName.substring(1, fieldName.length());
+		return prefix
+			+ fieldName.substring(0, 1).toUpperCase(Locale.getDefault())
+		    + fieldName.substring(1, fieldName.length());
 	}
 	
 	/**
