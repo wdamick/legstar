@@ -40,7 +40,7 @@ public class LegStarRequest {
 	
 	/** This is used to signal that this request is being processed. Multiple 
 	 * threads might be waiting for completion. */
-	private CountDownLatch mProcessingLatch;
+	private CountDownLatch mProcessingLatch = null;
 	
 	/** Creates an empty request. */
 	public LegStarRequest() {

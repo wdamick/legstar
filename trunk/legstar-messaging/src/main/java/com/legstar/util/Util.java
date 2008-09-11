@@ -84,7 +84,7 @@ public final class Util {
 	 */
 	public static byte[] toByteArray(final String string) {
 		if (string == null) {
-			return null;
+			return new byte[0];
 		}
 		byte[] hostBytes = new byte[string.length() / 2];
 		for (int i = 0; i < string.length(); i += 2) {
