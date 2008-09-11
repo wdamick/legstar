@@ -28,6 +28,7 @@ import org.apache.tools.ant.types.Path;
 import com.legstar.codegen.tasks.SourceToXsdCobolTask;
 
 import java.io.File;
+import java.util.Locale;
 import java.util.Vector;
 
 /**
@@ -138,19 +139,22 @@ public class COXBSchemaGenerator extends SourceToXsdCobolTask  {
 				String xsdName;
 				if (filename.lastIndexOf(".") > -1) {
 					xsdName = xsdDir + File.separator + filename.substring(0,
-							filename.lastIndexOf(".")).toLowerCase() + XSD_EXT;
+							filename.lastIndexOf(".")).toLowerCase(
+									Locale.getDefault()) + XSD_EXT;
 				} else {
 					xsdName = xsdDir + File.separator + filename.toLowerCase()
 					+ XSD_EXT;
 				}
 				String namespace;
 				if (getNamespace().charAt(getNamespace().length() - 1) != '/') {
-					namespace = getNamespace() + '/' + filename.toLowerCase();
+					namespace = getNamespace() + '/'
+					+ filename.toLowerCase(Locale.getDefault());
 				} else {
-					namespace = getNamespace() + filename.toLowerCase();
+					namespace = getNamespace()
+					+ filename.toLowerCase(Locale.getDefault());
 				}
 				String packageName = getJaxbPackageName()
-				+ '.' + filename.toLowerCase();
+				+ '.' + filename.toLowerCase(Locale.getDefault());
 				generateASchema(pathname, xsdName, namespace, packageName);
 			}
 		}
