@@ -222,7 +222,7 @@ public class CicsProgram {
 			map.put(Constants.CICS_SYSID_KEY, mSysID);
 		}
 		if (mSyncOnReturn != DEFAULT_SYNC_ON_RETURN) {
-			map.put(Constants.CICS_SYNCONRET_KEY, new Boolean(
+			map.put(Constants.CICS_SYNCONRET_KEY, Boolean.valueOf(
 					mSyncOnReturn).toString());
 		}
 		if (mTransID != null && mTransID.length() > 0) {

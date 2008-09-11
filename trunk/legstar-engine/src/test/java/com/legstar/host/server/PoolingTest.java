@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.logging.Log; 
@@ -124,7 +125,7 @@ public class PoolingTest extends TestCase {
 		LegStarRequest request = new LegStarRequest("testScheduleWork", address, requestMessage);
 		synchronized (request) {
 			engHandler.getEngine().addRequest(request);
-			request.wait(3000L);
+			request.await(3000L, TimeUnit.MILLISECONDS);
 		}
 		assertTrue(request.getException().getMessage().contains("CICS command=LINK COMMAREA failed, resp=PGMIDERR, resp2=") );
 		assertEquals(null, request.getResponseMessage());
@@ -226,7 +227,7 @@ public class PoolingTest extends TestCase {
 			synchronized (mRequest) {
 				try {
 					mEngine.addRequest(mRequest);
-					mRequest.wait(3000L);
+					mRequest.await(3000L, TimeUnit.MILLISECONDS);
 					if (mRequest.getException() != null) {
 						throw mRequest.getException();
 					} else {
