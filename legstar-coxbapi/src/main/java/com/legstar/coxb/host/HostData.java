@@ -19,7 +19,7 @@ package com.legstar.coxb.host;
 public class HostData {
 
 	/** Internal buffer holding host data. */
-	private byte[] mhostData;
+	private final byte[] mhostData;
     
 	/**
 	 * Contructor from existing host data.
@@ -93,7 +93,7 @@ public class HostData {
 	 */
 	public static byte[] toByteArray(final String string) {
 		if (string == null) {
-			return null;
+			return new byte[0];
 		}
 		byte[] hostBytes = new byte[string.length() / 2];
 		for (int i = 0; i < string.length(); i += 2) {
@@ -108,13 +108,6 @@ public class HostData {
 	 */
 	public final byte[] getHostData() {
 		return mhostData;
-	}
-
-	/**
-	 * @param data The hostData to set.
-	 */
-	public final void setHostData(final byte[] data) {
-		mhostData = data;
 	}
 
 	/**

@@ -22,13 +22,7 @@ public class HostException extends Exception {
 	private static final long serialVersionUID = 1L;
 	
 	/** The host data associated with this exception (if any). */
-	private HostData mhostField = null;
-	
-	/** The offset within the host data where the faulty field starts. */
-	private int mhostFieldErrorOffset = 0;
-	
-	/** The length of the host field. */
-	private int mhostFieldErrorLength = 0;
+	private String mHostFieldMessage = null;
 	
 	/**
 	 * Contructor used when no host field exists.
@@ -50,8 +44,8 @@ public class HostException extends Exception {
 			final HostData hostField,
 			final int errorOffset) {
 		super(message);
-		mhostField = hostField;
-		mhostFieldErrorOffset = errorOffset;
+		mHostFieldMessage = getMessage(
+				hostField, errorOffset, hostField.length());
 	}
 
 	/**
@@ -67,9 +61,7 @@ public class HostException extends Exception {
 			final int errorOffset,
 			final int errorLength) {
 		super(message);
-		mhostField = hostField;
-		mhostFieldErrorOffset = errorOffset;
-		mhostFieldErrorLength = errorLength;
+		mHostFieldMessage = getMessage(hostField, errorOffset, errorLength);
 	}
 
 	/** 
@@ -79,38 +71,52 @@ public class HostException extends Exception {
 	public HostException(final Exception e) {
 		super(e);
 	}
+	
 	/**
-	 * @see java.lang.Throwable#getMessage()
-	 * @return String describes the exception
+	 * Construct an error message showing where in the host data the error lies.
+	 * @param hostField the field holding host data
+	 * @param hostFieldErrorOffset offset where error is detected
+	 * @param hostFieldErrorLength the field length
+	 * @return a message showing the erroneous data
 	 */
-	public final String getMessage() {
+	private String getMessage(
+			final HostData hostField,
+			final int hostFieldErrorOffset,
+			final int hostFieldErrorLength) {
 		String message = super.getMessage();
-		if (mhostField != null) {
+		if (hostField != null) {
 			/* If the offset is off range, just print all the host buffer*/
-			if (mhostFieldErrorOffset > mhostField.length()) {
-				message += ". Host data=0x" + mhostField.toHexString();
+			if (hostFieldErrorOffset > hostField.length()) {
+				message += ". Host data=0x" + hostField.toHexString();
 			} else {
 				/* If the field length is invalid, print data starting
 				 * at offset till the end of the host buffer. */
-				int restl = mhostField.length()	- mhostFieldErrorOffset;
-				if (mhostFieldErrorLength == 0 
-						|| mhostFieldErrorLength > restl) {
+				int restl = hostField.length()	- hostFieldErrorOffset;
+				if (hostFieldErrorLength == 0 
+						|| hostFieldErrorLength > restl) {
 					byte[] restOfBuffer = new byte[restl];
-					System.arraycopy(mhostField.getHostData(),
-							mhostFieldErrorOffset, restOfBuffer, 0, restl);
-					message += ". Host data at offset " + mhostFieldErrorOffset
+					System.arraycopy(hostField.getHostData(),
+							hostFieldErrorOffset, restOfBuffer, 0, restl);
+					message += ". Host data at offset " + hostFieldErrorOffset
 					+ "=0x" + HostData.toHexString(restOfBuffer);
 				} else {
-					byte[] errorBuffer = new byte[mhostFieldErrorLength];
-					System.arraycopy(mhostField.getHostData(),
-							mhostFieldErrorOffset, errorBuffer, 0,
-							mhostFieldErrorLength);
-					message += ". Host data at offset " + mhostFieldErrorOffset
+					byte[] errorBuffer = new byte[hostFieldErrorLength];
+					System.arraycopy(hostField.getHostData(),
+							hostFieldErrorOffset, errorBuffer, 0,
+							hostFieldErrorLength);
+					message += ". Host data at offset " + hostFieldErrorOffset
 					+ "=0x" + HostData.toHexString(errorBuffer);
 				}
 			}
 		}
 		return  message;
+	}
+	/**
+	 * @see java.lang.Throwable#getMessage()
+	 * @return String describes the exception
+	 */
+	public final String getMessage() {
+		return mHostFieldMessage;
 	}
 
 	/**

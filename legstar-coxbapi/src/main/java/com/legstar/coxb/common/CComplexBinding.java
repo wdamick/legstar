@@ -142,7 +142,7 @@ public abstract class CComplexBinding
 		/* Look for a counter with the corresponding cobol name */
 		for (ICobolBinding child : getChildrenList()) {
 			if (child.getCobolName().compareTo(cobolName) == 0) {
-				child.setObjectValue(new Integer(count));
+				child.setObjectValue(Integer.valueOf(count));
 				return;
 			}
 		}
