@@ -113,6 +113,7 @@
         <module>legstar-coxbrt</module>
         <module>legstar-csokrt</module>
         <module>legstar-distribution</module>
+        <module>legstar-distribution-zos</module>
         <module>legstar-engine</module>
         <module>legstar-invoker</module>
         <module>legstar-jaxbgen</module>
