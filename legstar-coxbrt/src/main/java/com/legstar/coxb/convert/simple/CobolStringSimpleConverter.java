@@ -82,7 +82,7 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter
 			/* If necessary, fill in the array with missing items */
 			for (int i = ce.getStringList().size();
 							i < currentOccurs; i++) {
-				newOffset = toHostSingle(new String(""),
+				newOffset = toHostSingle("",
 						getCobolContext().getHostCharsetName(),
 						ce.getByteLength(),
 						ce.isJustifiedRight(),

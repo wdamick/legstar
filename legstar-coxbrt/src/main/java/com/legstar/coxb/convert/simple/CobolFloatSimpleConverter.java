@@ -73,7 +73,7 @@ public class CobolFloatSimpleConverter extends CobolSimpleConverter
 			/* If necessary, fill in the array with missing items */
 			for (int i = ce.getFloatList().size();
 							i < currentOccurs; i++) {
-				newOffset = toHostSingle(new Float(0),
+				newOffset = toHostSingle(Float.valueOf(0),
 						hostTarget,
 						newOffset);
 			}

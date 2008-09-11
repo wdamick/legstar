@@ -73,7 +73,7 @@ public class CobolDoubleSimpleConverter extends CobolSimpleConverter
 			/* If necessary, fill in the array with missing items */
 			for (int i = ce.getDoubleList().size();
 							i < currentOccurs; i++) {
-				newOffset = toHostSingle(new Double(0),
+				newOffset = toHostSingle(Double.valueOf(0),
 						hostTarget,
 						newOffset);
 			}

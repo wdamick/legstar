@@ -13,12 +13,6 @@ package com.legstar.coxb.impl;
 import com.legstar.coxb.CobolElement;
 import com.legstar.coxb.ICobolArrayNationalBinding;
 import com.legstar.coxb.ICobolComplexBinding;
-import com.legstar.coxb.CobolElementVisitor;
-import com.legstar.coxb.common.CArrayBinding;
-import com.legstar.coxb.host.HostException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class implements the behavior of an array of national cobol elements
@@ -27,11 +21,8 @@ import java.util.List;
  * @author Fady Moussallam
  * 
 */
-public class CArrayNationalBinding	extends CArrayBinding
+public class CArrayNationalBinding	extends CArrayStringBinding
 	implements ICobolArrayNationalBinding {
-	
-	/** The current list for this array. */
-	private List < String > mList = null;
 	
 	/**
 	 * Constructor for a cobol element to java binding.
@@ -51,69 +42,4 @@ public class CArrayNationalBinding	extends CArrayBinding
 		super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
 	}
 	
-	/** {@inheritDoc} */
-	public final void accept(final CobolElementVisitor cev)
-		throws HostException {
-		cev.visit(this);
-	}
-	
-	/** {@inheritDoc} */
-	public final int calcByteLength() throws HostException {
-		return getMaxOccurs() * getByteLength();
-	}
-
-	/**
-	 * @return the List of items
-	 */
-	public final List < String > getStringList() {
-		return mList;
-	}
-
-	/**
-	 * @param list the items List to set
-	 */
-	public final void setStringList(
-			final List < String > list) {
-		mList = list;
-	}
-
-	/** {@inheritDoc} */
-	public final Object getObjectValue(
-			final Class < ? > type) throws HostException {
-		if (type.equals(String.class)) {
-			return mList;
-		} else {
-			throw new HostException("Attempt to get binding " + getBindingName()
-					+ " as an incompatible type " + type);
-		}
-	}
-
-	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
-	public final void setObjectValue(final Object value) throws HostException {
-		if (value == null) {
-			mList = null;
-			return;
-		}
-		if (value instanceof List) {
-			if (((List) value).size() == 0) {
-				mList = new ArrayList < String >();
-				return;
-			}
-			/* We assume all items will have the same type as the first one.
-			 * The unchecked cast might break at runtime. */
-			Object item = ((List) value).get(0);
-			if (item instanceof String) {
-				mList = (List) value;
-				return;
-			}
-		}
-		throw new HostException("Attempt to set binding " + getBindingName()
-				+ " from an incompatible value " + value);
-	}
-
-	/** {@inheritDoc} */
-	public final boolean isSet() {
-		return (mList != null);
-	}
 }

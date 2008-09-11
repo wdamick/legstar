@@ -64,14 +64,13 @@ public class CArrayComplexReflectBinding extends CArrayComplexBinding {
 		 * on how to bind*/
 		CobolComplexType cobolComplexType =
 			(CobolComplexType) jaxbType.getAnnotation(CobolComplexType.class);
-		if (cobolComplexType != null) {
-			if (cobolComplexType.javaClassName() != null
-					&& cobolComplexType.javaClassName().length() > 0) {
-				setValueObjectClassName(cobolComplexType.javaClassName());
-				/* TODO allow more options, such as factory name, to be 
-				 * passed as annotations */
-				setValueObjectsFactoryClassName(null);
-			}
+		if (cobolComplexType != null
+				&& cobolComplexType.javaClassName() != null
+				&& cobolComplexType.javaClassName().length() > 0) {
+			setValueObjectClassName(cobolComplexType.javaClassName());
+			/* TODO allow more options, such as factory name, to be 
+			 * passed as annotations */
+			setValueObjectsFactoryClassName(null);
 		}
 	}
 

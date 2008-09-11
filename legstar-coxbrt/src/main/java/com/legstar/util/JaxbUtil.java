@@ -14,6 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 import com.legstar.coxb.CobolComplexType;
 import com.legstar.coxb.ICobolArrayComplexBinding;
@@ -309,7 +310,7 @@ public final class JaxbUtil {
 			/* Create a complex cobol element representing this jaxb object */
 			CComplexReflectBinding ce =
 				new CComplexReflectBinding(objectFactory, jaxbObject);
-			return (new Integer(ce.calcByteLength())).toString();
+			return (Integer.toString(ce.calcByteLength()));
 		} catch (ClassNotFoundException e) {
 			throw (new HostException(e));
 		} catch (InstantiationException e) {
@@ -342,11 +343,10 @@ public final class JaxbUtil {
 			/* Get the complex type annotation if any */
 			CobolComplexType annotation =
 				clazz.getAnnotation(CobolComplexType.class);
-			if (annotation != null) {
-				if (annotation.javaClassName() != null
-						&& annotation.javaClassName().length() > 0) {
-					return annotation.javaClassName();
-				}
+			if (annotation != null
+					&& annotation.javaClassName() != null
+					&& annotation.javaClassName().length() > 0) {
+				return annotation.javaClassName();
 			}
 			/* No annotations found, just return the JAXB class itself */
 			return jaxbClassName;
@@ -433,8 +433,8 @@ public final class JaxbUtil {
 	public static Method getGetterMethod(
 			final Object parentObject,
 			final String jaxbName) throws HostException {
-		String getterName = "get" + jaxbName.substring(0, 1).toUpperCase()
-		+ jaxbName.substring(1);
+		String getterName = "get" + upperFirstChar(jaxbName)
+			+ jaxbName.substring(1);
 		try {
 			Method getter = parentObject.getClass().getMethod(getterName);
 			return getter;
@@ -455,8 +455,8 @@ public final class JaxbUtil {
 			final Object parentObject,
 			final String jaxbName,
 			final Class < ? > jaxbType) throws HostException {
-		String getterName = "set" + jaxbName.substring(0, 1).toUpperCase()
-		+ jaxbName.substring(1);
+		String getterName = "set" + upperFirstChar(jaxbName)
+			+ jaxbName.substring(1);
 		try {
 			Class < ? >[] param = {jaxbType};
 			Method setter = parentObject.getClass().getMethod(
@@ -534,7 +534,7 @@ public final class JaxbUtil {
 		/* If there is no bound jaxb object, the name of the binding type is
 		 * built from the binding name */
 		if (binding.getJaxbType() == null) {
-            return binding.getBindingName().substring(0, 1).toUpperCase()
+            return upperFirstChar(binding.getBindingName())
 				+ binding.getBindingName().substring(
 						1, binding.getBindingName().length())
 				+ BIND_SUFFIX;
@@ -555,8 +555,8 @@ public final class JaxbUtil {
 	 */
 	public static String getFieldName(
 			final ICobolBinding binding) {
-        return binding.getBindingName().substring(0, 1).toLowerCase()
-		+ binding.getBindingName().substring(
+        return lowerFirstChar(binding.getBindingName())
+			+ binding.getBindingName().substring(
 				1, binding.getBindingName().length());
 	}
 
@@ -598,5 +598,27 @@ public final class JaxbUtil {
 		return true;
 	}
 	
+	/**
+	 * Return the first character as a lower case character.
+	 * @param str the string from which character must be extracted
+	 * @return first character lower cased
+	 */
+	public static String lowerFirstChar(final String str) {
+		if (str == null || str.length() == 0) {
+			return null;
+		}
+		return str.substring(0, 1).toLowerCase(Locale.getDefault());
+	}
 	
+	/**
+	 * Return the first character as a upper case character.
+	 * @param str the string from which character must be extracted
+	 * @return first character upper cased
+	 */
+	public static String upperFirstChar(final String str) {
+		if (str == null || str.length() == 0) {
+			return null;
+		}
+		return str.substring(0, 1).toUpperCase(Locale.getDefault());
+	}
 }
