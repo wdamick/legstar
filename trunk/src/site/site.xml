@@ -25,6 +25,7 @@
   <body>
     <links>
       <item name="LegStar" href="http://www.legsem.com/legstar" />
+      <item name="Mail" href="mailto:admin@legsem.com" />
       <item name="Forum" href="phpBB3" />
       <item name="JAXB RI" href="https://jaxb.dev.java.net/" />
       <item name="JAXWS RI" href="https://jax-ws.dev.java.net/"/>

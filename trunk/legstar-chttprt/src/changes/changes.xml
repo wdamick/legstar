@@ -8,6 +8,9 @@
       <action dev="fady" type="update">
         Added automatic upload of ZOS sources to mainframe to help with distribution of ZOS artifacts.
       </action>
+      <action dev="fady" type="update">
+        Documentation update to cross reference the new distribution-zos project.
+      </action>
     </release>
     <release version="1.2.0" date="2008-07-08" description="No major change">
       <action dev="fady" type="update">

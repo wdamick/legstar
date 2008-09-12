@@ -1,13 +1,27 @@
 
 
  -------------------------------------------------------------------------------
-                          LegSem LegStar Version 1.2.0
+                          LegSem LegStar Version 1.2.1
                              Latest release overview
  -------------------------------------------------------------------------------
 
+Version 1.2.1
+
+ This version is a minor release, primarily aimed at simplifying intallation 
+ of ZOS modules.
+ 
+ There is now a complete, separate, zip file for ZOS containing files in
+ TSO XMIT format. ZOS system engineers are familiar with this format. With this
+ distribution there is no more need to compile individual source files and
+ a CICS RDO JCL groups all updates to the CICS CSD.
+ 
+ New Maven reports have been added such as CPD, PMD, FindBugs and Cobertura
+ test coverage. The Maven hierarchy has also been revised.
+ 
+
 Version 1.2.0
 
- This new version is a major release with many enhancements across all the 
+ This version is a major release with many enhancements across all the 
  feature set.
  
  The most dramatic changes concern the Eclipse plugins which have been completely
