@@ -4,6 +4,8 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
+    <release version="1.2.1" date="2008-09-30" description="Code cleansing">
+    </release>
     <release version="1.2.0" date="2008-07-08" description="Minor changes">
       <action dev="fady" type="update">
         Fixed an issue reported by NWA with certain keywords (TO, IS, ...) that the parser
