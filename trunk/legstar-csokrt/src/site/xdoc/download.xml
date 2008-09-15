@@ -15,7 +15,7 @@
 		<table border="1">
 			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
 			<tr><td>Socket Transport</td><td>Java</td>
-            <td><a href="../../maven/repo/com/legsem/legstar/legstar-csokrt/1.2.0/legstar-csokrt-1.2.0-bin.zip">legstar-csokrt-1.2.0-bin.zip</a></td></tr>
+            <td><a href="../../maven/repo/com/legsem/legstar/legstar-csokrt/1.2.1/legstar-csokrt-1.2.1-bin.zip">legstar-csokrt-1.2.1-bin.zip</a></td></tr>
 		</table>
 
     </section>

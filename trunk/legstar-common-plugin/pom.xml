@@ -92,6 +92,7 @@
                     <finalName>lib</finalName>
                     <outputDirectory>.</outputDirectory>
                     <appendAssemblyId>false</appendAssemblyId>
+                    <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
                     <descriptors>
                         <descriptor>src/assemble/distribution.xml</descriptor>
                     </descriptors>

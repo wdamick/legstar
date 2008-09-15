@@ -35,7 +35,7 @@ public class AntBuildCixs2JaxwsModelTest extends TestCase {
 	public void testCixs2JaxwsBuild() throws Exception {
 
 		AntBuildCixs2JaxwsModel antModel = new AntBuildCixs2JaxwsModel();
-        antModel.setProductLocation("/Users/Fady/sandbox/legstar-1.2.0");
+        antModel.setProductLocation("/Users/Fady/sandbox/legstar-version");
         antModel.setProbeFile(new File("probe.file.tmp"));
 
         CixsJaxwsService CixsJaxwsService = TestCases.getCutureInfoModel();
@@ -61,7 +61,7 @@ public class AntBuildCixs2JaxwsModelTest extends TestCase {
 			str = in.readLine();
 		}
 		in.close();
-		assertTrue(resStr.contains("<project basedir=\"/Users/Fady/sandbox/legstar-1.2.0\" default=\"signalSuccess\" name=\"generate-cixs2jaxws\">"));
+		assertTrue(resStr.contains("<project basedir=\"/Users/Fady/sandbox/legstar-version\" default=\"signalSuccess\" name=\"generate-cixs2jaxws\">"));
 		assertTrue(resStr.replace('\\', '/').contains("<pathelement location=\"src/test/gen/target/classes\"/>"));
 		assertTrue(resStr.contains("<taskdef name=\"cixs2jaxwsgen\""));
 		assertTrue(resStr.contains("classname=\"com.legstar.cixs.jaxws.gen.Cixs2JaxwsGenerator\""));

@@ -2,7 +2,7 @@
 <feature
       id="com.legstar.eclipse.feature.coxbgen"
       label="LegStar COBOL Binding Generator"
-      version="1.2.0"
+      version="1.2.1"
       provider-name="LegSem">
 
    <description url="http://www.legsem.com/legstar/modules/legstar-common-plugin">
@@ -165,7 +165,7 @@ END OF TERMS AND CONDITIONS
    </url>
 
    <requires>
-      <import feature="com.legstar.eclipse.feature.common" version="1.2.0"/>
+      <import feature="com.legstar.eclipse.feature.common" version="1.2.1"/>
    </requires>
 
    <plugin
