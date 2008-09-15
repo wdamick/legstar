@@ -110,6 +110,38 @@
       </plugins>
     </build>
     
+    <!-- Disable some reports which cause maven deploy site-deploy to fail because site-deploy
+         attempts to run schemangen a second time resulting in native dll load erreors. -->
+    <reporting>
+        <plugins>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <reportSets>
+                  <reportSet></reportSet>
+                </reportSets>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jdepend-maven-plugin</artifactId>
+                <reportSets>
+                  <reportSet></reportSet>
+                </reportSets>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <reportSets>
+                  <reportSet></reportSet>
+                </reportSets>
+            </plugin>
+
+        </plugins>
+    
+    </reporting>
 
     
   </project>
