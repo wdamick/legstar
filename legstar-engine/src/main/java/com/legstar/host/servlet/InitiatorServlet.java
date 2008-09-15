@@ -76,7 +76,8 @@ public class InitiatorServlet extends HttpServlet {
 			EngineHandler serverHandler = new EngineHandler(
 					loadConfigFile(configFileName));
 			serverHandler.init();
-			setEngineHandler(serverHandler);
+			config.getServletContext().setAttribute(
+					ENGINE_HANDLER_ID, serverHandler);
 		} catch (ConfigurationException e) {
 			LOG.error("Failed to initialize.", e);
 			throw new ServletException(e);
