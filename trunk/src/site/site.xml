@@ -7,8 +7,8 @@
     <href>index.html</href>
   </bannerLeft>
   <bannerRight>
-    <name>AnnouncingV1.2.0</name>
-    <src>images/legstar-1.2.0-new.png</src>
+    <name>AnnouncingNewVersion</name>
+    <src>images/legstar-new-version.png</src>
     <href>latest-release-overview.html</href>
   </bannerRight>
   <poweredBy>
