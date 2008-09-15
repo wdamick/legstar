@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+targetNamespace="http://legstar.com/test/coxb/arrayssm"
+xmlns="http://legstar.com/test/coxb/arrayssm"
+xmlns:xsns="http://legstar.com/test/coxb/arrayssm"
+xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+jaxb:version="2.0"
+jaxb:extensionBindingPrefixes="cb"
+elementFormDefault="qualified">
+ <xs:annotation><xs:appinfo>
+ <jaxb:schemaBindings>
+ <jaxb:package  name="com.legstar.test.coxb.arrayssm"/>
+ </jaxb:schemaBindings>
+ </xs:appinfo></xs:annotation>
+ <xs:complexType name="WsTsType">
+    <xs:sequence>
+     <xs:element name="Filler21">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='FILLER-21' type='ALPHANUMERIC_ITEM' picture='X(2)' usage='DISPLAY' byteLength='2' srceLine='21'>
+         <cb:value>TS</cb:value>
+         </cb:cobolElement>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='2'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsTsA">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-TS-A' type='ZONED_DECIMAL_ITEM' picture='9(1)' usage='DISPLAY' byteLength='1' signed='false' totalDigits='1' srceLine='22'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedShort">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='9'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="WsTcType">
+    <xs:sequence>
+     <xs:element name="Filler24">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='FILLER-24' type='ALPHANUMERIC_ITEM' picture='X(4)' usage='DISPLAY' byteLength='4' srceLine='24'>
+         <cb:value>TCEC</cb:value>
+         </cb:cobolElement>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='4'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsTcA">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-TC-A' type='ZONED_DECIMAL_ITEM' picture='9(1)' usage='DISPLAY' byteLength='1' signed='false' totalDigits='1' srceLine='25'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedShort">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='9'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="WsTc2Type">
+    <xs:sequence>
+     <xs:element name="Filler27">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='FILLER-27' type='ALPHANUMERIC_ITEM' picture='X(6)' usage='DISPLAY' byteLength='6' srceLine='27'>
+         <cb:value>TC2EC2</cb:value>
+         </cb:cobolElement>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='6'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsTc2A">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-TC2-A' type='ZONED_DECIMAL_ITEM' picture='9(1)' usage='DISPLAY' byteLength='1' signed='false' totalDigits='1' srceLine='28'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedShort">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='9'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="DfhcommareaType">
+    <xs:sequence>
+     <xs:element name="TableSimple" minOccurs="2" maxOccurs="2">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='TABLE-SIMPLE' type='ALPHANUMERIC_ITEM' picture='X(3)' usage='DISPLAY' byteLength='3' minOccurs='2' maxOccurs='2' srceLine='32'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='3'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="TableComplex" minOccurs="3" maxOccurs="3" type="xsns:TableComplexType">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='TABLE-COMPLEX' type='GROUP_ITEM' minOccurs='3' maxOccurs='3' srceLine='33'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+     <xs:element name="TableComplex2" type="xsns:TableComplex2Type">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='TABLE-COMPLEX-2' type='GROUP_ITEM' srceLine='35'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+     <xs:element name="TableSimpleNumeric" minOccurs="5" maxOccurs="5">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='TABLE-SIMPLE-NUMERIC' type='ZONED_DECIMAL_ITEM' picture='9' usage='DISPLAY' byteLength='1' signed='false' totalDigits='1' minOccurs='5' maxOccurs='5' srceLine='37'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedShort">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='9'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="TableComplexType">
+    <xs:sequence>
+     <xs:element name="ElementComplex">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='10' cobolName='ELEMENT-COMPLEX' type='ALPHANUMERIC_ITEM' picture='X(5)' usage='DISPLAY' byteLength='5' srceLine='34'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='5'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="TableComplex2Type">
+    <xs:sequence>
+     <xs:element name="ElementComplex2" minOccurs="4" maxOccurs="4">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='10' cobolName='ELEMENT-COMPLEX-2' type='ALPHANUMERIC_ITEM' picture='X(7)' usage='DISPLAY' byteLength='7' minOccurs='4' maxOccurs='4' srceLine='36'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='7'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+</xs:schema>

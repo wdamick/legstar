@@ -1,0 +1,26 @@
+<!-- =================================================================================
+     This script builds a war file for the engine driver servlet .
+ -->
+<project basedir="../../.." default="buildWar" name="build-war">
+
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+	<target name="init">
+		
+		<!-- Target war file  -->
+	 	<property name="target.war.file" value="${basedir}/target/legstar-engine.war" />
+		<!-- Web.xml file  -->
+	 	<property name="web.xml.file" value="${basedir}/src/main/webapp/WEB-INF/web.xml" />
+		
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Build the war
+	  -->
+	<target name="buildWar" depends="init">
+		<war destfile="${target.war.file}" webxml="${web.xml.file}">
+		</war>
+	</target>
+	
+</project>

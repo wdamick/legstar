@@ -1,0 +1,45 @@
+<!-- =================================================================================
+     This script builds the sample that is delivered with the assemblies.
+ -->
+<project basedir="../../.." default="buildSample" name="build-sample">
+
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+	<target name="init">
+        <xmlproperty file="${basedir}/pom.xml"/>
+		
+		<!-- Sample project location  -->
+	 	<property name="sample.project" value="${basedir}/../legstar-samples" />
+		<!-- Distribution name  -->
+        <property name="dist.name" value="${project.artifactId}-${project.version}" />
+		<!-- Distribution zip file  -->
+	 	<property name="dist.zip" value="${dist.name}-bin.zip" />
+		<!-- Distribution file location   -->
+	 	<property name="dist.dir" value="${basedir}/target" />
+		<!-- Distribution zip file   -->
+	 	<property name="zip.file" value="${dist.dir}/${dist.zip}" />
+		<!-- Sample final destination   -->
+	 	<property name="sample.dest" value="${sample.project}/schema" />
+		
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Build the sample
+	  -->
+	<target name="buildSample" depends="init">
+		<mkdir dir="${sample.dest}"/> 
+		<unzip src="${zip.file}" dest="${sample.project}"/>
+		<exec executable="cmd">
+		    <arg value="/c"/>
+		    <arg value="ant.bat"/>
+		    <arg value="-f"/>
+		    <arg value="${sample.project}/${dist.name}/ant/build-cob2xs.xml"/>
+		</exec>
+		<copy todir="${sample.dest}">
+			<fileset dir="${sample.project}/${dist.name}/schema"/>
+		</copy>
+        <delete dir="${sample.project}/${dist.name}" includeEmptyDirs="true" quiet="true"/>
+	</target>
+	
+</project>

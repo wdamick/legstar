@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config description="Default Configuration">
+	<hostEndPoints>
+		<hostEndPoint name="TheMainframe">
+			<hostIPAddress>192.168.0.110</hostIPAddress>
+			<hostIPPort>3081</hostIPPort>
+			<hostCharset>IBM01140</hostCharset>
+			<hostTraceMode>false</hostTraceMode>
+			<hostURLPath>/CICS/CWBA/LSWEBBIN</hostURLPath>
+	   </hostEndPoint>
+  </hostEndPoints>
+</config>
+   

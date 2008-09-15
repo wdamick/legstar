@@ -1,0 +1,62 @@
+<component>
+
+    <fileSets>
+
+        <!-- C/370 for CICS sample program -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-c2wsrt/src/main/zos</directory>
+            <outputDirectory>/zos</outputDirectory>
+            <includes>
+                <include>**</include>
+            </includes>
+        </fileSet>
+        
+        <!-- Sample files -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-c2wsrt/examples/src/main</directory>
+            <outputDirectory>/samples</outputDirectory>
+            <includes>
+                <include>**</include>
+            </includes>
+        </fileSet>
+    
+    </fileSets>
+
+    <files>
+        <file>
+            <source>${project.basedir}/../legstar-distribution/LICENSE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>LICENSE</destName>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-c2wsrt/NOTICE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>c2wsrt-NOTICE</destName>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-c2wsrt/src/site/apt/release-notes.apt</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>c2wsrt-README</destName>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-c2wsrt/src/site/apt/LSHTTAPI-readme.apt</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>LSHTTAPI-README</destName>
+        </file>
+        
+        <file>
+            <source>${project.basedir}/../legstar-xsdcgen-cases/target/war/jaxws-cultureinfo.war</source>
+            <outputDirectory>/samples/war/</outputDirectory>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-c2wsrt/target/c2ws-cultureinfo.war</source>
+            <outputDirectory>/samples/war/</outputDirectory>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-c2wsrt/target/c2ws-MSNSearch.war</source>
+            <outputDirectory>/samples/war/</outputDirectory>
+        </file>
+        
+    </files>
+
+</component>

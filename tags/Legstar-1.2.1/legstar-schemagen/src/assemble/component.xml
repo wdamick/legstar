@@ -1,0 +1,61 @@
+<component>
+
+    <fileSets>
+
+        <!-- Win32 dlls  -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-schemagen/target/bin</directory>
+            <outputDirectory>bin</outputDirectory>
+            <includes>
+                <include>*.dll</include>
+            </includes>
+        </fileSet>
+        
+        <!-- Linux shared objects  -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-schemagen/src/main/usrlib</directory>
+            <outputDirectory>bin</outputDirectory>
+            <includes>
+                <include>*.so</include>
+            </includes>
+        </fileSet>
+        
+        <!-- ant scripts  -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-schemagen/src/main/resources/ant</directory>
+            <outputDirectory>ant</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+        </fileSet>
+
+        <!-- Cobol samples  -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-schemagen/src/main/resources/cobol</directory>
+            <outputDirectory>cobol</outputDirectory>
+            <includes>
+                <include>lsfileae.cbl</include>
+            </includes>
+        </fileSet>
+        
+    </fileSets>
+  
+    <files>
+        <file>
+            <source>${project.basedir}/../legstar-distribution/LICENSE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>LICENSE</destName>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-schemagen/NOTICE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>schemagen-NOTICE</destName>
+        </file>
+        <file>
+           <source>${project.basedir}/../legstar-schemagen/src/site/apt/release-notes.apt</source>
+           <outputDirectory>/</outputDirectory>
+           <destName>schemagen-README</destName>
+        </file>
+    </files>
+
+</component>

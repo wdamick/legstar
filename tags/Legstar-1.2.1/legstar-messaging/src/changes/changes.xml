@@ -1,0 +1,36 @@
+<document>
+  <properties>
+    <title>Messaging protocol</title>
+    <author email="fady@legsem.com">Fady Moussallam</author>
+  </properties>
+  <body>
+    <release version="1.2.1" date="2008-09-30" description="Code cleansing">
+      <action dev="fady" type="update">
+        Changed from wait/notify synchronization to Java 1.5 CountDownLatch.
+      </action>
+      <action dev="fady" type="update">
+        Documentation update to cross reference the new distribution-zos project.
+      </action>
+    </release>
+    <release version="1.2.0" date="2008-07-08" description="Refactoring">
+      <action dev="fady" type="update">
+        Main classes were renamed from MessageXxx to LegStarMessageXxx. This was necessary
+        because several third party products were using similar class names causing
+        conflicts.
+      </action>
+      <action dev="fady" type="update">
+        Some classes were moved into a new messaging-impl project so that messaging could
+        stay agnostic from implementation details.
+      </action>
+    </release>
+
+    <release version="1.1.0" date="2007-08-30" description="No major change">
+    </release>
+
+    <release version="0.0.1" date="2006-12-31" description="First release">
+      <action dev="fady" type="add">
+        First version of the Messaging protocol.
+      </action>
+    </release>
+  </body>
+</document>

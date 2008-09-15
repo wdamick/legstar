@@ -1,0 +1,96 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>1.2.1</version>
+    </parent>
+    <version>1.2.1</version>
+    <artifactId>legstar-invoker</artifactId>
+    <name>Mainframe Invoker Runtime</name>
+    <description>Provide remote procedure call to mainframe programs.</description>
+    <url>http://www.legsem.com/legstar</url>
+
+    <dependencies>
+  
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-messaging</artifactId>
+        </dependency>
+    
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-messaging-impl</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-engine</artifactId>
+        </dependency>
+    
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-csokrt</artifactId>
+        </dependency>
+    
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-chttprt</artifactId>
+        </dependency>
+    
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-cmqrt</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-jaxbgen-cases</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbgen-cases</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <scope>test</scope>
+        </dependency>
+    
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                
+                    <!-- This will deploy the jar file to a Tomcat dev instance.  -->
+                    <execution>
+                        <id>deploy-to-tomcat</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/deploy-to-tomcat.xml" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    
+</project>

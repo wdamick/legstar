@@ -1,0 +1,40 @@
+<document>
+  <properties>
+    <title>COBOL Binding Generator</title>
+    <author email="fady@legsem.com">Fady Moussallam</author>
+  </properties>
+  <body>
+    <release version="1.2.1" date="2008-09-30" description="Code cleansing">
+    </release>
+    <release version="1.2.0" date="2008-07-08" description="Velocity macros">
+      <action dev="fady" type="update">
+        You can now provide multiple Jaxb root class names for a single execution
+        of the binding generator.
+      </action>
+      <action dev="fady" type="update">
+        The binding generator now accepts to bind to a Java class that is different from
+        the JAXB class. In such a case, the JAXB class is only used at generation time.
+        At generation time the Java class to bind with, is extracted from a special
+        annotation called CobolComplexType.
+      </action>
+      <action dev="fady" type="update">
+        The XSLT based generation has been replaced by Velocity macros. The code is
+        easier to maintain and performances are better.
+      </action>
+    </release>
+
+    <release version="1.1.0" date="2007-08-30" description="XSL and API refactoring">
+      <action dev="fady" type="update">
+        The generation XSL has been simplified and the generated classes now use
+        the new Cobol binding API so that generated classes do not directly depend
+        on a particular binding impementation.
+      </action>
+    </release>
+
+    <release version="0.0.1" date="2006-12-31" description="First release">
+      <action dev="fady" type="add">
+        First version of the COBOL Binding Generator.
+      </action>
+    </release>
+  </body>
+</document>

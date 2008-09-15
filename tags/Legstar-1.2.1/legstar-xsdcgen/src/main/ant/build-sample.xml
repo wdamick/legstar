@@ -1,0 +1,43 @@
+<!-- =================================================================================
+     This script builds the sample that is delivered with the assemblies.
+ -->
+<project basedir="../../.." default="buildSample" name="build-sample">
+
+  <!-- ===========================================================  -->
+  <!-- Setup environment
+    -->
+  <target name="init">
+    <xmlproperty file="${basedir}/pom.xml"/>
+      
+    <!-- Sample project location  -->
+    <property name="sample.project" value="${basedir}/../legstar-samples" />
+    <!-- Distribution name  -->
+    <property name="dist.name" value="${project.artifactId}-${project.version}" />
+    <!-- Distribution zip file  -->
+    <property name="dist.zip" value="${dist.name}-bin.zip" />
+    <!-- Distribution file location   -->
+    <property name="dist.dir" value="${basedir}/target" />
+    <!-- Distribution zip file   -->
+    <property name="zip.file" value="${dist.dir}/${dist.zip}" />
+    <!-- Sample final destination for schemas  -->
+    <property name="sample.schema" value="${basedir}/../legstar-schemagen/src/test/schema" />
+    
+  </target>
+
+  <!-- ===========================================================  -->
+  <!-- Build the samples and store the generated xsds with other
+       sample XSDs in the schemagen project
+    -->
+  <target name="buildSample" depends="init">
+    <unzip src="${zip.file}" dest="${sample.project}"/>
+    <ant antfile="${sample.project}/${dist.name}/ant/build-xsd2xs.xml"
+       dir="${sample.project}/${dist.name}"/>
+    <ant antfile="${sample.project}/${dist.name}/ant/build-java2xs.xml"
+       dir="${sample.project}/${dist.name}"/>
+    <copy todir="${sample.schema}">
+      <fileset dir="${sample.project}/${dist.name}/schema"/>
+    </copy>
+    <delete dir="${sample.project}/${dist.name}" includeEmptyDirs="true" quiet="true"/>
+  </target>
+  
+</project>

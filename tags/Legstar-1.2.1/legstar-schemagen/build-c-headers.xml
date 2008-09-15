@@ -1,0 +1,10 @@
+<?xml version="1.0" standalone="yes"?>
+<project basedir="." default="run">
+
+	<target name="run" description="Run the javah utility">
+	    <echo message="Generating classes..." />
+		<javah verbose="true" destdir="src/main/c" class="com.legstar.schemagen.COB2XSDJNIWrapper" classpath="."/>
+		<javah verbose="true" destdir="src/main/c" class="com.legstar.schemagen.COBDDANPJNIWrapper" classpath="."/>
+	</target>
+	
+</project>

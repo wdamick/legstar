@@ -1,0 +1,71 @@
+##/////////////////////////////////////////////////////////////////////
+##J2EE web.xml Template.
+##@author Fady
+##@version 0.1
+##/////////////////////////////////////////////////////////////////////
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+    <servlet>
+        <description>${model.name}Proxy is a proxy for Web Service ${model.name}</description>
+        <display-name>${model.name}Proxy</display-name>
+        <servlet-name>${model.name}Proxy</servlet-name>
+        <servlet-class>com.legstar.c2ws.servlet.C2wsProxy</servlet-class>
+        <init-param>
+            <description>URL locating target Web service WSDL</description>
+            <param-name>c2ws.wsdlUrl</param-name>
+            <param-value>${model.wsdlUrl}</param-value>
+        </init-param>
+        <init-param>
+            <description>Target Web service WSDL namespace</description>
+            <param-name>c2ws.targetNamespace</param-name>
+            <param-value>${model.targetNamespace}</param-value>
+        </init-param>
+        <init-param>
+            <description>Target Web service WSDL port name</description>
+            <param-name>c2ws.wsdlPortName</param-name>
+            <param-value>${model.wsdlPortName}</param-value>
+        </init-param>
+        <init-param>
+            <description>Target Web service WSDL service name</description>
+            <param-name>c2ws.wsdlServiceName</param-name>
+            <param-value>${model.wsdlServiceName}</param-value>
+        </init-param>
+## Even though this seems to iterate through multiple operations and multiple
+## structures, there is currently support for a single operation, single structure only
+#foreach ($cixsOperation in ${model.cixsOperations})
+#foreach ($cixsStructure in ${cixsOperation.getInput()})
+        <init-param>
+            <description>Request JAXB type</description>
+            <param-name>c2ws.requestJaxbType</param-name>
+            <param-value>${cixsStructure.jaxbType}</param-value>
+        </init-param>
+        <init-param>
+            <description>Request JAXB package name</description>
+            <param-name>c2ws.requestJaxbPackageName</param-name>
+            <param-value>${cixsStructure.jaxbPackageName}</param-value>
+        </init-param>
+#end
+#foreach ($cixsStructure in ${cixsOperation.getOutput()})
+        <init-param>
+            <description>Response JAXB type</description>
+            <param-name>c2ws.responseJaxbType</param-name>
+            <param-value>${cixsStructure.jaxbType}</param-value>
+        </init-param>
+        <init-param>
+            <description>Response JAXB package name</description>
+            <param-name>c2ws.responseJaxbPackageName</param-name>
+            <param-value>${cixsStructure.jaxbPackageName}</param-value>
+        </init-param>
+#end
+#end
+        <init-param>
+            <description>Host character set</description>
+            <param-name>c2ws.hostCharset</param-name>
+            <param-value>${hostCharset}</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>${model.name}Proxy</servlet-name>
+        <url-pattern>/${model.name}Proxy</url-pattern>
+    </servlet-mapping>
+</web-app>

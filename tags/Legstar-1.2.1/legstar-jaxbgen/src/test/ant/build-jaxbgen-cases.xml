@@ -1,0 +1,80 @@
+<?xml version="1.0" standalone="yes"?>
+<!-- =================================================================================
+     Iterates thru XML schemas and generates JAXB classes for each. 
+     This script can also be used to generate JAXB classes for a single XML
+     schema.
+  -->
+<project basedir="../../.." default="compileAllJAXB">
+	
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+	<target name="init">
+		
+		<!-- Target location for generated JAXB sources   -->
+		<property name="jaxb.src.dir" value="${basedir}/../legstar-jaxbgen-cases/src/main/java"/>
+		<!-- Make sure we have a target source directory -->
+		<mkdir dir="${jaxb.src.dir}"/>
+		<!-- Target location for generated JAXB binaries   -->
+		<property name="jaxb.bin.dir" value="${basedir}/../legstar-jaxbgen-cases/target/classes"/>
+		<!-- Make sure we have a target bin directory -->
+		<mkdir dir="${jaxb.bin.dir}"/>
+		<!-- Location of XML schemas  -->
+	 	<property name="xsd.dir" value="${basedir}/../legstar-schemagen/src/test/schema" />
+		<!-- Location of external bindings files   -->
+	 	<property name="bindings.dir" value="${basedir}/../legstar-jaxbgen/src/main/resources/xjb" />
+		<!-- Location of LegStar binaries   -->
+		<property name="build.dir" value="${basedir}/target"/>
+
+		<!-- Classpath setting  -->
+		<property name="maven.repo" value="C:\Documents and Settings\Fady\.m2\repository"/>
+		<path id="classpath">
+			<!-- JAXB-related Classpath  -->
+		    <pathelement location="${maven.repo}\com\sun\xml\bind\jaxb-impl\2.1.3\jaxb-impl-2.1.3.jar"/>
+		    <pathelement location="${maven.repo}\com\sun\xml\bind\jaxb-xjc\2.1.3\jaxb-xjc-2.1.3.jar"/>
+		    <pathelement location="${maven.repo}\javax\activation\activation\1.1\activation-1.1.jar"/>
+		    <pathelement location="${maven.repo}\javax\xml\bind\jaxb-api\2.1\jaxb-api-2.1.jar"/>
+		    <pathelement location="${maven.repo}\javax\xml\bind\jsr173_api\1.0\jsr173_api-1.0.jar"/>
+	  		<!--LegStar JAXB Annotator location -->
+    		<pathelement location="${build.dir}/classes"/>
+	  		<!--LegStar COXB API classes location -->
+    		<pathelement location="${basedir}/../legstar-coxbapi/target/classes"/>
+	    </path>
+
+		<!-- The regular sun JAXB XJC tool ant task  -->
+		<taskdef name="xjc" classname="com.sun.tools.xjc.XJC2Task" classpathref="classpath"/>
+		
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Generate the JAXB classes source
+	  -->
+	<target name="generateAllJAXB" depends="init">
+		<echo message="Generating JAXB classes for ${xsd.dir}" />
+	    <xjc destdir="${jaxb.src.dir}" extension="true" removeOldOutput="yes">
+	    	<schema dir="${xsd.dir}"/>
+			<arg value="-Xlegstar-code" />
+			<!--Without this option (no validation), out of memory errors -->
+			<arg value="-nv" />
+			<!-- External XJC bindings directory. Collects all *.xjb files -->
+			<arg value="-b" />
+			<arg value="${bindings.dir}" />
+	    </xjc>
+	</target>
+	
+	<!-- ===========================================================  -->
+	<!-- Compiles the JAXB generated classes
+	  -->
+	<target name="compileAllJAXB" depends="generateAllJAXB">
+		 <javac  target="1.5"
+		 	     srcdir="${jaxb.src.dir}"
+		 	     includes="com/legstar/test/coxb/**/*.java"
+	 	         excludes="local/**"
+		         destdir="${jaxb.bin.dir}"
+		 	     classpathref="classpath"
+		         fork="yes"
+		 />
+	</target>
+
+
+</project>

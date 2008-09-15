@@ -1,0 +1,94 @@
+
+
+ -------------------------------------------------------------------------------
+                          LegSem LegStar Version 1.2.1
+                                   Release Notes
+ -------------------------------------------------------------------------------
+
+PREREQUISITES:
+
+ The prerequisites for this global zos distribution is the union of the individual
+ modules included.
+ 
+ You will find details at these addresses:
+ 
+ * {{{../legstar-csokrt/LSSOKBIN-readme.html}Socket transport server}} 
+
+ * {{{../legstar-chttprt/LSWEBBIN-readme.html}HTTP transport server}} 
+
+ * {{{../legstar-cmqrt/LSMQCBIN-readme.html}MQ transport Trigger Controller}} 
+ 
+ * {{{../legstar-cmqrt/LSMQHBIN-readme.html}MQ transport Trigger Handler}}
+  
+ * {{{../legstar-c2wsrt/LSHTTAPI-readme.html}Mainframe to Web Service API}} 
+ 
+ []
+
+INSTALLING/UNINSTALLING:
+
+ [[1]] Unzip the binary distribution package into the directory of your choice,
+       referred to as <installDir> in the following steps.
+
+   The directory tree should look like this:
+   
++---------------------------------------+
+   <installDir>
+        |---->LEGSTAR.version.C370.XMIT
+        |---->LEGSTAR.version.CNTL.XMIT
+        |---->LEGSTAR.version.COBOL.XMIT
+        |---->LEGSTAR.version.H370.XMIT
+        |---->LEGSTAR.version.LOAD.XMIT
+                
++---------------------------------------+
+   
+ [[2]] Upload the XMIT files into sequential files on zos:
+       It is very important that:
+       
+       * You use a BINARY transfer type
+
+       * Use RECFM=FB LRECL=80 PS files as targets
+       
+       []
+       With FTP, you can use command such as QUOTE SITE RECFM=FB LRECL=80 BLKSIZE=27920
+       to force new uploaded files to have an acceptable format for the TSO XMIT/RECEIVE
+       protocol.
+
+ [[3]] Under TSO, you can now RECEIVE the XMIT files into their target PDSs using a JCL
+       such as:
+ 
++---------------------------------------+
+//P390XMIT   JOB  (ACCT#),'USERID',
+//*          RESTART=REFRESH,
+//           MSGCLASS=X,NOTIFY=&SYSUID,PRTY=14,REGION=0M
+//********************************************************************
+//*  RESTORE XMIT FILES                                              *
+//********************************************************************
+//SUBMIT   EXEC PGM=IKJEFT1A
+//SYSTSPRT DD   SYSOUT=*
+//SYSTSIN  DD   *
+  RECEIVE INDATASET('hlq.LEGSTAR.version.LOAD.XMIT')
+       DSNAME('hlq.LEGSTAR.version.LOAD')
+  RECEIVE INDATASET('hlq.LEGSTAR.version.C370.XMIT')
+       DSNAME('hlq.LEGSTAR.version.C370')
+  RECEIVE INDATASET('hlq.LEGSTAR.version.H370.XMIT')
+       DSNAME('hlq.LEGSTAR.version.H370')
+  RECEIVE INDATASET('hlq.LEGSTAR.version.CNTL.XMIT')
+       DSNAME('hlq.LEGSTAR.version.CNTL')
+  RECEIVE INDATASET('hlq.LEGSTAR.version.COBOL.XMIT')
+       DSNAME('hlq.LEGSTAR.version.COBOL')
+/*
++---------------------------------------+
+       
+ [[4]] Finally in the target CICS region:
+       
+       * Add hlq.LEGSTAR.version.LOAD to the RPL list
+
+       * Customize and run CSD updates from hlq.LEGSTAR.version.CNTL(CICSCSDU)
+
+       []
+       
+
+DOCUMENTATION:
+
+ Documentation available at http://www.legsem.com/legstar
+
