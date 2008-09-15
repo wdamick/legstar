@@ -3,7 +3,7 @@
      script uses JNI and native libraries, you want to make sure that the
      distribution bin directory is in the PATH.
  -->
-<project basedir="/Users/Fady/sandbox/legstar-1.2.0" default="signalSuccess" name="generate-XSD">
+<project basedir="/Users/Fady/sandbox/legstar-version" default="signalSuccess" name="generate-XSD">
 
 
     <!-- ===========================================================  -->
