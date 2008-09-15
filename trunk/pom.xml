@@ -85,8 +85,23 @@
        
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
+                <inherited>false</inherited>
                 <executions>
                     <execution>
+                        <id>aggregate-sources</id>
+                        <goals>
+                            <goal>aggregate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <inherited>true</inherited>
+                <executions>
+                    <execution>
+                        <id>project-sources</id>
                         <goals>
                             <goal>jar</goal>
                         </goals>
