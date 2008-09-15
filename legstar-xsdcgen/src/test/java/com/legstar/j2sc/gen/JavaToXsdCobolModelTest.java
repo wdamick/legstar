@@ -36,7 +36,7 @@ public class JavaToXsdCobolModelTest extends TestCase {
 
 		JavaToXsdCobolModel model = new JavaToXsdCobolModel();
 
-		model.setProductLocation("/Users/Fady/sandbox/legstar-1.2.0");
+		model.setProductLocation("/Users/Fady/sandbox/legstar-version");
 		List < String > classNames = new ArrayList < String >();
 		classNames.add("com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest");
 		classNames.add("com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply");
@@ -62,7 +62,7 @@ public class JavaToXsdCobolModelTest extends TestCase {
 			str = in.readLine();
 		}
 		in.close();
-		assertTrue(resStr.contains("<project basedir=\"/Users/Fady/sandbox/legstar-1.2.0\" default=\"signalSuccess\" name=\"generate-XSD\">"));
+		assertTrue(resStr.contains("<project basedir=\"/Users/Fady/sandbox/legstar-version\" default=\"signalSuccess\" name=\"generate-XSD\">"));
 		assertTrue(resStr.contains("<pathelement location=\"/Users/pat/therat/cobol.jar\"/>"));
 		assertTrue(resStr.contains("<pathelement location=\"/Users/pat/thecat\"/>"));
 		assertTrue(resStr.contains("<echo message=\"Generating annotated XML schema jvmquery.xsd\" />"));

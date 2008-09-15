@@ -15,7 +15,7 @@
 		<table border="1">
 			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
 			<tr><td>LegStar Distribution for ZOS</td><td>TSO XMIT</td>
-            <td><a href="../../maven/repo/com/legsem/legstar/legstar-distribution-zos/1.2.0/legstar-1.2.0-zos-bin.zip">legstar-1.2.0-zos-bin.zip</a></td></tr>
+            <td><a href="../../maven/repo/com/legsem/legstar/legstar-distribution-zos/1.2.1/legstar-1.2.1-zos-bin.zip">legstar-1.2.1-zos-bin.zip</a></td></tr>
 		</table>
 
     </section>

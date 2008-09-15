@@ -35,7 +35,7 @@ public class XsdToXsdCobolModelTest extends TestCase {
 
 		XsdToXsdCobolModel model = new XsdToXsdCobolModel();
 
-		model.setProductLocation("/Users/Fady/sandbox/legstar-1.2.0");
+		model.setProductLocation("/Users/Fady/sandbox/legstar-version");
 		model.setInputXsdUri(new URI("http://some.location/wsdl"));
 		model.setJaxbTypeClassesSuffix("Type");
 		model.setJaxbPackageName("com.legstar.test.coxb.jvmquery");
@@ -55,7 +55,7 @@ public class XsdToXsdCobolModelTest extends TestCase {
 			str = in.readLine();
 		}
 		in.close();
-		assertTrue(resStr.contains("<project basedir=\"/Users/Fady/sandbox/legstar-1.2.0\" default=\"signalSuccess\" name=\"generate-XSD\">"));
+		assertTrue(resStr.contains("<project basedir=\"/Users/Fady/sandbox/legstar-version\" default=\"signalSuccess\" name=\"generate-XSD\">"));
 		assertTrue(resStr.contains("<echo message=\"Generating annotated XML schema jvmquery.xsd\" />"));
 		assertTrue(resStr.contains("<mkdir dir=\"schema\"/>"));
 		assertTrue(resStr.contains("inputXsdUri=\"http://some.location/wsdl\""));

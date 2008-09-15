@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: LegsStar Binding Generator
 Bundle-SymbolicName: com.legstar.eclipse.plugin.coxbgen; singleton:=true
-Bundle-Version: 1.2.0
+Bundle-Version: 1.2.1
 Bundle-Activator: com.legstar.eclipse.plugin.coxbgen.Activator
 Eclipse-LazyStart: true
 Bundle-Vendor: LegSem

@@ -15,7 +15,7 @@
 		<table border="1">
 			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
 			<tr><td>HTTP Transport</td><td>Java</td>
-            <td><a href="../../maven/repo/com/legsem/legstar/legstar-chttprt/1.2.0/legstar-chttprt-1.2.0-bin.zip">legstar-chttprt-1.2.0-bin.zip</a></td></tr>
+            <td><a href="../../maven/repo/com/legsem/legstar/legstar-chttprt/1.2.1/legstar-chttprt-1.2.1-bin.zip">legstar-chttprt-1.2.1-bin.zip</a></td></tr>
 		</table>
 
     </section>
