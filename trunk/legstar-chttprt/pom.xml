@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.2.1-SNAPSHOT</version>
+        <version>1.2.1</version>
     </parent>
-    <version>1.2.1-SNAPSHOT</version>
+    <version>1.2.1</version>
     <artifactId>legstar-chttprt</artifactId>
     <name>HTTP Transport</name>
     <description>HTTP-based connectivity to CICS.</description>
@@ -66,7 +65,7 @@
                         <phase>package</phase>
                         <configuration>
                             <tasks>
-                                <ant antfile="${basedir}/src/main/ant/deploy-to-tomcat.xml"/>
+                                <ant antfile="${basedir}/src/main/ant/deploy-to-tomcat.xml" />
                             </tasks>
                         </configuration>
                         <goals>
@@ -80,7 +79,7 @@
                         <phase>package</phase>
                         <configuration>
                             <tasks>
-                              <ant antfile="${basedir}/src/main/ant/deploy-to-zos.xml"/>
+                              <ant antfile="${basedir}/src/main/ant/deploy-to-zos.xml" />
                             </tasks>
                         </configuration>
                         <goals>
