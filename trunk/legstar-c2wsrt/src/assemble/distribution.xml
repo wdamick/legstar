@@ -9,6 +9,18 @@
         <componentDescriptor>src/assemble/component.xml</componentDescriptor>
     </componentDescriptors>
 
+    <files>
+        <file>
+            <source>${project.basedir}/../legstar-xsdcgen-cases/target/war/jaxws-cultureinfo.war</source>
+            <outputDirectory>/samples/war/</outputDirectory>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-distribution/LICENSE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>LICENSE</destName>
+        </file>
+    </files>
+
     <dependencySets>
         <dependencySet>
             <outputDirectory>/lib/</outputDirectory>

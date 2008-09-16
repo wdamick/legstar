@@ -9,22 +9,9 @@
                 <include>**</include>
             </includes>
         </fileSet>
-        <!-- C/370 messaging programs -->
-        <fileSet>
-            <directory>${project.basedir}/../legstar-messaging/src/main/zos</directory>
-            <outputDirectory>/zos</outputDirectory>
-            <includes>
-                <include>**</include>
-            </includes>
-        </fileSet>
     </fileSets>
   
     <files>
-        <file>
-            <source>${project.basedir}/../legstar-distribution/LICENSE</source>
-            <outputDirectory>/</outputDirectory>
-            <destName>LICENSE</destName>
-        </file>
         <file>
             <source>${project.basedir}/../legstar-csokrt/NOTICE</source>
             <outputDirectory>/</outputDirectory>

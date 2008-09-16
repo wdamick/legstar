@@ -1,0 +1,17 @@
+<component>
+
+    <fileSets>
+
+        <!-- The sample invoker configuration files -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-invoker/src/site/resources/samples</directory>
+            <outputDirectory>samples</outputDirectory>
+            <includes>
+                <include>**</include>
+            </includes>
+        </fileSet>
+
+
+    </fileSets>
+    
+</component>

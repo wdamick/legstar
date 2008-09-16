@@ -7,8 +7,17 @@
  
     <componentDescriptors>
         <componentDescriptor>src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-invoker/src/assemble/component.xml</componentDescriptor>
     </componentDescriptors>
   
+    <files>
+        <file>
+            <source>${project.basedir}/../legstar-distribution/LICENSE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>LICENSE</destName>
+        </file>
+    </files>
+
     <dependencySets>
         <dependencySet>
             <outputDirectory>/lib/</outputDirectory>

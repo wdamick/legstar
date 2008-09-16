@@ -10,23 +10,10 @@
                 <include>**</include>
             </includes>
         </fileSet>
-        <!-- Also provide a sample invoker configuration file -->
-        <fileSet>
-            <directory>${project.basedir}/../legstar-invoker/src/site/resources/samples</directory>
-            <outputDirectory>/samples</outputDirectory>
-            <includes>
-                <include>**</include>
-            </includes>
-        </fileSet>
     
     </fileSets>
   
     <files>
-        <file>
-            <source>${project.basedir}/../legstar-distribution/LICENSE</source>
-            <outputDirectory>/</outputDirectory>
-            <destName>LICENSE</destName>
-        </file>
         <file>
             <source>${project.basedir}/../legstar-engine/NOTICE</source>
             <outputDirectory>/</outputDirectory>

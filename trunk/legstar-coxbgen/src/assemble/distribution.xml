@@ -10,6 +10,24 @@
         <componentDescriptor>src/assemble/component.xml</componentDescriptor>
     </componentDescriptors>
 
+    <fileSets>
+        <fileSet>
+            <directory>${project.basedir}/../legstar-samples/schema</directory>
+            <outputDirectory>schema</outputDirectory>
+            <includes>
+                <include>*.xsd</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+    
+    <files>
+        <file>
+            <source>${project.basedir}/../legstar-distribution/LICENSE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>LICENSE</destName>
+        </file>
+    </files>
+
     <dependencySets>
         <dependencySet>
             <outputDirectory>/lib/</outputDirectory>
