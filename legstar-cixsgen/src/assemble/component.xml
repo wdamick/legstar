@@ -11,39 +11,9 @@
             </includes>
         </fileSet>
     
-        <!-- The sample invoker configuration files -->
-        <fileSet>
-            <directory>${project.basedir}/../legstar-invoker/src/site/resources/samples</directory>
-            <outputDirectory>samples</outputDirectory>
-            <includes>
-                <include>**</include>
-            </includes>
-        </fileSet>
-
-        <!-- The sample Binding classes -->
-        <fileSet>
-            <directory>${project.basedir}/../legstar-samples/src</directory>
-            <outputDirectory>src</outputDirectory>
-            <includes>
-                <include>**</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>${project.basedir}/../legstar-samples/target</directory>
-            <outputDirectory>target</outputDirectory>
-            <includes>
-                <include>**</include>
-            </includes>
-        </fileSet>
-    
     </fileSets>
   
     <files>
-        <file>
-            <source>${project.basedir}/../legstar-distribution/LICENSE</source>
-            <outputDirectory>/</outputDirectory>
-            <destName>LICENSE</destName>
-        </file>
         <file>
             <source>${project.basedir}/../legstar-cixsgen/NOTICE</source>
             <outputDirectory>/</outputDirectory>

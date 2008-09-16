@@ -42,11 +42,6 @@
   
     <files>
         <file>
-            <source>${project.basedir}/../legstar-distribution/LICENSE</source>
-            <outputDirectory>/</outputDirectory>
-            <destName>LICENSE</destName>
-        </file>
-        <file>
             <source>${project.basedir}/../legstar-schemagen/NOTICE</source>
             <outputDirectory>/</outputDirectory>
             <destName>schemagen-NOTICE</destName>
