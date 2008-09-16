@@ -65,7 +65,7 @@
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId> 
                 <configuration>
-                    <outputDirectory>src/site/resources/binaries</outputDirectory>
+                    <finalName>legstar-${project.version}</finalName>
                     <descriptors>
                         <descriptor>src/assemble/distribution.xml</descriptor>
                     </descriptors>
