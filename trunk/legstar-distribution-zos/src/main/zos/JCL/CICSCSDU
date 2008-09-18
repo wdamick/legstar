@@ -132,4 +132,11 @@ DESCRIPTION(LegStar - HTTP client API DLL)
        LANGUAGE(C) RELOAD(NO) RESIDENT(NO) USAGE(NORMAL)
        USELPACOPY(NO) STATUS(ENABLED) CEDF(YES) DATALOCATION(ANY)
        EXECKEY(USER) EXECUTIONSET(FULLAPI)
-
+****************************************************************
+*  Samples                                                     *
+****************************************************************
+DEFINE PROGRAM(LSFILEAE) GROUP(LEGSTAR)
+DESCRIPTION(LegStar - Sample DPL program)
+       LANGUAGE(COBOL) RELOAD(NO) RESIDENT(NO) USAGE(NORMAL)
+       USELPACOPY(NO) STATUS(ENABLED) CEDF(YES) DATALOCATION(ANY)
+       EXECKEY(USER) EXECUTIONSET(FULLAPI)
