@@ -29,18 +29,16 @@
             </includes>
         </fileSet>
 
-        <!-- Cobol samples  -->
-        <fileSet>
-            <directory>${project.basedir}/../legstar-schemagen/src/main/resources/cobol</directory>
-            <outputDirectory>cobol</outputDirectory>
-            <includes>
-                <include>lsfileae.cbl</include>
-            </includes>
-        </fileSet>
-        
     </fileSets>
   
     <files>
+        <!-- Cobol sample. The name is lowercased to ease build-cob2xs.xml  -->
+        <file>
+            <source>${project.basedir}/../legstar-schemagen/src/main/zos/cobol/LSFILEAE.cbl</source>
+            <outputDirectory>cobol</outputDirectory>
+            <destName>lsfileae.cbl</destName>
+         </file>
+        
         <file>
             <source>${project.basedir}/../legstar-schemagen/NOTICE</source>
             <outputDirectory>/</outputDirectory>
