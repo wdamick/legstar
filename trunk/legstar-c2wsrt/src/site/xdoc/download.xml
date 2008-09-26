@@ -15,7 +15,7 @@
 		<table border="1">
 			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
 			<tr><td>Mainframe to Web Service runtime</td><td>Java</td>
-            <td><a href="../../maven/repo/com/legsem/legstar/legstar-c2wsrt/1.2.1/legstar-c2wsrt-1.2.1-bin.zip">legstar-c2wsrt-1.2.1-bin.zip</a></td></tr>
+            <td><a href="../maven/repo/com/legsem/legstar/legstar-c2wsrt/1.2.1/legstar-c2wsrt-1.2.1-bin.zip">legstar-c2wsrt-1.2.1-bin.zip</a></td></tr>
 		</table>
 
     </section>
