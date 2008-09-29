@@ -3,9 +3,9 @@
     <groupId>com.legsem.legstar</groupId>
     <artifactId>Legstar</artifactId>
     <packaging>pom</packaging>
-    <name>LegStar Project</name>
+    <name>LegStar Open-Source Mainframe Integration</name>
     <version>1.2.1</version>
-    <description>Legacy integration developers toolkit</description>
+    <description>Open-Source Mainframe Integration</description>
     <url>http://www.legsem.com/legstar</url>
     <properties>
         <legstarVersion>${project.version}</legstarVersion>

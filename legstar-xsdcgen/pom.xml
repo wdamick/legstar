@@ -7,7 +7,7 @@
     </parent>
     <version>1.2.1</version>
     <artifactId>legstar-xsdcgen</artifactId>
-    <name>Complex Types Mapping Generator</name>
+    <name>LegStar Complex Types Mapping Generator</name>
     <description>Generates mapping XML Schema from XSD, WSDL or Java classes.</description>
     <url>http://www.legsem.com/legstar</url>
 

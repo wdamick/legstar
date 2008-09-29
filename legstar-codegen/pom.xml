@@ -7,7 +7,7 @@
     </parent>
     <version>1.2.1</version>
     <artifactId>legstar-codegen</artifactId>
-    <name>Code generation</name>
+    <name>LegStar Code generation common code</name>
     <description>Common code generation classes for LegStar</description>
     <url>http://www.legsem.com/legstar</url>
 

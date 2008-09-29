@@ -9,7 +9,7 @@
     </parent>
     <version>1.2.1</version>
     <artifactId>legstar-schemagen</artifactId>
-    <name>COBOL Structures Mapping Generator</name>
+    <name>LegStar COBOL Structures Mapping Generator</name>
     <description>Generates mapping XML Schema from COBOL structures</description>
     <url>http://www.legsem.com/legstar</url>
     
