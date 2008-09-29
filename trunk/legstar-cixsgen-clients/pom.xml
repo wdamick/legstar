@@ -8,7 +8,7 @@
     </parent>
     <version>1.2.1-SNAPSHOT</version>
     <artifactId>legstar-cixsgen-clients</artifactId>
-    <name>Clients for Cixsgen Services (Test only project). </name>
+    <name>LegStar Clients for Cixsgen Services (Test only project). </name>
     <description>Testing project for generated Web services</description>
     <url>http://www.legsem.com/legstar</url>
 

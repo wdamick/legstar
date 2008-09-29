@@ -7,7 +7,7 @@
     </parent>
     <version>1.2.1</version>
     <artifactId>legstar-cixsgen-model</artifactId>
-    <name>CICS to Service mapping model</name>
+    <name>LegStar Operations Mapping Model</name>
     <description>Model classes for service to CICS programm mapping</description>
     <url>http://www.legsem.com/legstar</url>
 

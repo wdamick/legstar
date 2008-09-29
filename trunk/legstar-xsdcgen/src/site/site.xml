@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="legstar-xsdcgen">
+<project>
   <body>
 
     <menu name="Complex Types Mapping Generator">

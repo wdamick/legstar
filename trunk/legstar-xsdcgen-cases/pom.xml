@@ -7,7 +7,7 @@
     </parent>
     <version>1.2.1</version>
     <artifactId>legstar-xsdcgen-cases</artifactId>
-    <name>Sample xsdcgen cases</name>
+    <name>LegStar Sample xsdcgen cases</name>
     <description>Sample cases to use for mainframe consumption.</description>
     <url>http://www.legsem.com/legstar</url>
     

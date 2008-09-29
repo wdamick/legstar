@@ -9,7 +9,7 @@
     <version>1.2.1-SNAPSHOT</version>
     <artifactId>legstar-mulegen-plugin</artifactId>
     <packaging>pom</packaging>
-    <name>Mule Generator Eclipse plugin</name>
+    <name>LegStar Mule Generator Eclipse plugin</name>
     <description>Mule Generator Eclipse plugin.</description>
     <url>http://www.legsem.com/legstar</url>
 
