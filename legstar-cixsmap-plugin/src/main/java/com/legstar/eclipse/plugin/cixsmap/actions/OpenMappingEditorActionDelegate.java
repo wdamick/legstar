@@ -13,6 +13,7 @@ package com.legstar.eclipse.plugin.cixsmap.actions;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
@@ -41,6 +42,9 @@ implements IWorkbenchWindowActionDelegate {
 	public void run(final IAction action) {
 		if (mWindow == null) {
 			return;
+		}
+		if (mSelection == null) {
+			mSelection = new StructuredSelection();
 		}
 		NewMappingFileWizard wizard = new NewMappingFileWizard();
 		wizard.init(mWindow.getWorkbench(), mSelection);
