@@ -109,7 +109,7 @@ public class ${model.implementationClassName} implements ${model.interfaceClassN
 #set($containers = false)
 #end
     /** Properties for operation ${cixsOperation.name}. */
-    private static final String  ${cixsOperation.name.toUpperCase()}_PROP_FILE = "${cixsOperation.name}.properties";
+    private static final String  ${cixsOperation.name.toUpperCase()}_PROP_FILE = "${cixsOperation.cicsProgramName.toLowerCase()}.properties";
 
     /** {@inheritDoc} */
     public final $cixsOperation.responseHolderType ${cixsOperation.name}(

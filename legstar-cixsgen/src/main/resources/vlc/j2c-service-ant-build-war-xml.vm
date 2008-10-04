@@ -75,7 +75,7 @@
 #end
 #foreach ($cixsOperation in $model.cixsOperations)
          <classes dir="${targetPropDir}">
-            <include name="${cixsOperation.name}.properties"/>
+            <include name="${cixsOperation.cicsProgramName.toLowerCase()}.properties"/>
          </classes>
 #end
       </war>
