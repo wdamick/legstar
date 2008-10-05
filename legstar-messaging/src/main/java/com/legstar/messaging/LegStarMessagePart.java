@@ -62,6 +62,7 @@ public class LegStarMessagePart implements Serializable {
 	 * Create an empty message part.
 	 */
 	public LegStarMessagePart() {
+		mID = null;
 	}
 
 	/**
@@ -140,7 +141,17 @@ public class LegStarMessagePart implements Serializable {
 		
 		try {
 			/* First get the message part ID */
-			mID = recvMsgPartID(hostStream);
+			String messageId = recvMsgPartID(hostStream);
+			/* If this is a typed message part (such as a header part),
+			 * check that the ID received match the expected one */
+			if (mID != null) {
+				if (!mID.equals(messageId.trim())) {
+					throw new HostReceiveException(
+					"Invalid message header. Expected " + mID
+					+ ", received " + messageId);
+				}
+			}
+			mID = messageId;
 			
 			/* Next is the message part content length */
 			byte[] clBytes = new byte[CONTENT_LEN_LEN];

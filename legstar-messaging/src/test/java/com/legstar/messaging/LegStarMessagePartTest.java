@@ -99,4 +99,17 @@ public class LegStarMessagePartTest extends TestCase {
 		}
 	}
 
+	public final void testrecvCorruptedHeader() {
+		byte[] hostBytes = Util.toByteArray("d4e2d6d2c8c5c1c4404040404040404000000000");
+		ByteArrayInputStream hostStream = new ByteArrayInputStream(hostBytes);
+		try {
+			LegStarHeaderPart part = new LegStarHeaderPart();
+			part.recvFromHost(hostStream);
+			fail();
+		} catch (HostReceiveException e) {
+			assertEquals("Invalid message header. Expected LSOKHEAD, received MSOKHEAD", e.getMessage());
+		} catch (HeaderPartException e) {
+			fail(e.getMessage());
+		}
+	}
 }
