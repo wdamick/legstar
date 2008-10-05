@@ -303,7 +303,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("<classes dir=\"/legstar-coxbgen-cases/target/classes\">"));
         assertTrue(resStr.contains("<include name=\"com/legstar/test/coxb/lsfileae/bind/*.class\"/>"));
         assertTrue(resStr.contains("<classes dir=\"/legstar-cixsgen-cases/target/classes\">"));
-        assertTrue(resStr.contains("<classes dir=\"/legstar-cixsgen-cust-cases/target/classes\">"));
+        assertTrue(resStr.contains("<classes dir=\"/legstar-cixsgen-cust-cases/target/classes\"/>"));
 	}
 
 }
