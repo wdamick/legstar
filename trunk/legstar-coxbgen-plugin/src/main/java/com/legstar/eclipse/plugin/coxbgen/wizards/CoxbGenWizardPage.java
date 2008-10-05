@@ -25,6 +25,7 @@ import org.apache.ws.commons.schema.XmlSchemaElement;
 import org.apache.ws.commons.schema.XmlSchemaException;
 import org.apache.ws.commons.schema.XmlSchemaObject;
 import org.apache.ws.commons.schema.XmlSchemaObjectCollection;
+import org.apache.ws.commons.schema.XmlSchemaType;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -206,13 +207,16 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
 			XmlSchemaObjectCollection items = schema.getItems();
 			for (int i = 0; i < items.getCount(); i++) {
 				XmlSchemaObject obj = items.getItem(i);
-				if (obj instanceof XmlSchemaElement) {
-					loadXmlSchemaRootElement(xsdFile,
-							(XmlSchemaElement) obj);
-				}
 				if (obj instanceof XmlSchemaComplexType) {
 					loadXmlSchemaComplexType(xsdFile,
 							(XmlSchemaComplexType) obj);
+				}
+			}
+			for (int i = 0; i < items.getCount(); i++) {
+				XmlSchemaObject obj = items.getItem(i);
+				if (obj instanceof XmlSchemaElement) {
+					loadXmlSchemaRootElement(xsdFile,
+							(XmlSchemaElement) obj);
 				}
 			}
 
@@ -309,15 +313,21 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
 	}
 
 	/**
-	 * Root XSD elements are also potential root elements. The name displayed
-	 * is the JAXB class name.
+	 * Root XSD elements are also potential root elements. 
+	 * If the element type is a named complex type, it is already present in
+	 * the list so no need to display it. This means we only add elements
+	 * with anonymous complex types here.
+	 * The root class name is the JAXB class name.
 	 * @param xsdFile the XML schema file from the workspace
 	 * @param xsdElement element
 	 */
 	private void loadXmlSchemaRootElement(
 			final IFile xsdFile, final XmlSchemaElement xsdElement) {
-		String normalizedName = NameUtil.toClassName(xsdElement.getName());
-		mJaxbRootClassNamesList.add(normalizedName);
+		XmlSchemaType xsdType = xsdElement.getSchemaType();
+		if (xsdType.getName() == null) {
+			String normalizedName = NameUtil.toClassName(xsdElement.getName());
+			mJaxbRootClassNamesList.add(normalizedName);
+		}
 	}
 
 	/**
