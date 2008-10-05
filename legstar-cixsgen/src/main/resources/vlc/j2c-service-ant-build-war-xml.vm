@@ -55,28 +55,31 @@
            webxml="${wddFile}">
          <webinf dir="${targetWDDDir}"
                  includes="sun-jaxws.xml"/>
+            <!-- Generated Jaxws implementation binaries -->
+            <classes dir="${targetBinDir}">
+                <include name="${model.packageName.replace(".","/")}/*.class"/>
+            </classes>
+            <!-- JAXB binaries -->
 #foreach ($jaxbPackage in $jaxbPackages)
-         <classes dir="${jaxbBinDir}">
-            <include name="${jaxbPackage.replace(".","/")}/*.class"/>
-         </classes>
+            <classes dir="${jaxbBinDir}">
+                <include name="${jaxbPackage.replace(".","/")}/*.class"/>
+            </classes>
 #end
+            <!-- Binding binaries -->
 #foreach ($coxbPackage in $coxbPackages)
-         <classes dir="${coxbBinDir}">
-            <include name="${coxbPackage.replace(".","/")}/*.class"/>
-         </classes>
+            <classes dir="${coxbBinDir}">
+                <include name="${coxbPackage.replace(".","/")}/*.class"/>
+            </classes>
 #end
-         <classes dir="${targetBinDir}">
-            <include name="**/${service}/**/*.class"/>
-         </classes>
-#if($targetBinDir != $custBinDir)
-         <classes dir="${custBinDir}">
-            <include name="**/${service}/**/*.class"/>
-         </classes>
+#if (${custBinDir} != ${targetBinDir})
+            <!-- Custom binding binaries if they are external to the project -->
+            <classes dir="${custBinDir}"/>
 #end
+
 #foreach ($cixsOperation in $model.cixsOperations)
-         <classes dir="${targetPropDir}">
-            <include name="${cixsOperation.cicsProgramName.toLowerCase()}.properties"/>
-         </classes>
+           <classes dir="${targetPropDir}">
+              <include name="${cixsOperation.cicsProgramName.toLowerCase()}.properties"/>
+           </classes>
 #end
       </war>
    </target>
