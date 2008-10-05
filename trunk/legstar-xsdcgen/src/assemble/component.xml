@@ -31,7 +31,7 @@
 
         <fileSet>
             <directory>${project.basedir}/../legstar-xsdcgen-cases/target/classes</directory>
-            <outputDirectory>bin</outputDirectory>
+            <outputDirectory>target/classes</outputDirectory>
             <includes>
                 <include>**/cases/**/*.class</include>
             </includes>
