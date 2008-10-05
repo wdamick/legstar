@@ -23,7 +23,7 @@
     <!-- Classpath setting -->
     <path id="classpath">
         <fileset dir="${basedir}" includes="lib/*.jar" />
-    	<pathelement location="${basedir}/bin"/>
+    	<pathelement location="${basedir}/target/classes"/>
     </path>
 
     <!-- Java Mapping Generator ant task -->
