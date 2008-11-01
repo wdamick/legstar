@@ -143,7 +143,17 @@ public class $binding-class-name
 
         /* Add children to children list */
 #foreach ($child in $binding.childrenList)
+#if($child.isBound())
         getChildrenList().add(${coxbHelper.getFieldName($child)});
+#else
+#if($child.isODOObject())
+##
+## An unbound ODOObject is a dynamic counter
+        storeCounter(${coxbHelper.getFieldName($child)});
+#else
+        getChildrenList().add(${coxbHelper.getFieldName($child)});
+#end
+#end
 #end ##foreach
 
         if (LOG.isDebugEnabled()) {

@@ -157,11 +157,11 @@ public class VelocityTemplatesTest extends TestCase {
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolArrayStringBinding;"));
 		assertTrue(resStr.contains("import com.legstar.test.coxb.arrayssm.TableComplexType;"));
 
-		assertTrue(resStr.contains("public ICobolArrayStringBinding tableSimple;"));
-		assertTrue(resStr.contains("public ICobolArrayComplexBinding tableComplexWrapper;"));
-		assertTrue(resStr.contains("public ICobolComplexBinding tableComplexWrapperItem;"));
-		assertTrue(resStr.contains("public ICobolComplexBinding tableComplex2;"));
-		assertTrue(resStr.contains("public ICobolArrayZonedDecimalBinding tableSimpleNumeric;"));
+		assertTrue(resStr.contains("public ICobolArrayStringBinding _tableSimple;"));
+		assertTrue(resStr.contains("public ICobolArrayComplexBinding _tableComplexWrapper;"));
+		assertTrue(resStr.contains("public ICobolComplexBinding _tableComplexWrapperItem;"));
+		assertTrue(resStr.contains("public ICobolComplexBinding _tableComplex2;"));
+		assertTrue(resStr.contains("public ICobolArrayZonedDecimalBinding _tableSimpleNumeric;"));
 
 		assertTrue(resStr.contains("tableSimple = BF.createArrayStringBinding(\"TableSimple\","));
 		assertTrue(resStr.contains("tableSimple.setByteLength(3);"));
@@ -171,7 +171,7 @@ public class VelocityTemplatesTest extends TestCase {
 		assertTrue(resStr.contains("tableComplexWrapperItem = new TableComplexTypeBinding(\"TableComplexWrapperItem\","));
 		assertTrue(resStr.contains("\"TableComplex\", this, null);"));
 		assertTrue(resStr.contains("tableComplexWrapper = new TableComplexTypeWrapperBinding(\"TableComplexWrapper\","));
-		assertTrue(resStr.contains("\"TableComplex\", this, tableComplexWrapperItem);"));
+		assertTrue(resStr.contains("\"TableComplex\", this, _tableComplexWrapperItem);"));
 
 		assertTrue(resStr.contains("mValueObject.getTableComplex().clear();"));
 		assertTrue(resStr.contains("mValueObject.getTableComplex().addAll("));
@@ -263,8 +263,8 @@ public class VelocityTemplatesTest extends TestCase {
 		assertTrue(resStr.contains("import java.util.List;"));
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolArrayStringBinding;"));
 
-		assertTrue(resStr.contains("public ICobolZonedDecimalBinding tableSize;"));
-		assertTrue(resStr.contains("public ICobolArrayStringBinding tableOdo;"));
+		assertTrue(resStr.contains("public ICobolZonedDecimalBinding _tableSize;"));
+		assertTrue(resStr.contains("public ICobolArrayStringBinding _tableOdo;"));
 
 		assertTrue(resStr.contains("tableSize = BF.createZonedDecimalBinding(\"TableSize\","));
 		assertTrue(resStr.contains("\"TableSize\", Integer.class, this);"));
@@ -280,7 +280,7 @@ public class VelocityTemplatesTest extends TestCase {
 		assertTrue(resStr.contains("tableOdo.setMaxOccurs(100);"));
 		assertTrue(resStr.contains("tableOdo.setDependingOn(\"TABLE-SIZE\");"));
 		assertTrue(resStr.contains("tableSize.setObjectValue(mValueObject.getTableSize());"));
-		assertTrue(resStr.contains("setCounterValue(tableOdo.getDependingOn(),"));
+		assertTrue(resStr.contains("setCounterValue(_tableOdo.getDependingOn(),"));
 		assertTrue(resStr.contains("((List < ? >) mValueObject.getTableOdo()).size());"));
 
 		assertTrue(resStr.contains("mValueObject.setTableSize((Integer) bindingValue);"));
@@ -321,7 +321,7 @@ public class VelocityTemplatesTest extends TestCase {
 		}
 		in.close();
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolChoiceBinding;"));
-		assertTrue(resStr.contains("public ICobolChoiceBinding cDefinition1Choice;"));
+		assertTrue(resStr.contains("public ICobolChoiceBinding _cDefinition1Choice;"));
 		assertTrue(resStr.contains("cDefinition1Choice = new CDefinition1ChoiceBinding(\"CDefinition1Choice\", this);"));
 		assertTrue(resStr.contains("cDefinition1Choice.setCobolName(\"C-DEFINITION-1\");"));
 		assertTrue(resStr.contains("cDefinition1Choice.setByteLength(18);"));
@@ -367,10 +367,10 @@ public class VelocityTemplatesTest extends TestCase {
 		assertTrue(resStr.contains("import com.legstar.coxb.common.CChoiceBinding;"));
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolZonedDecimalBinding;"));
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolStringBinding;"));
-		assertTrue(resStr.contains("public ICobolStringBinding cDefinition1;"));
-		assertTrue(resStr.contains("public ICobolZonedDecimalBinding cDefinition2;"));
+		assertTrue(resStr.contains("public ICobolStringBinding _cDefinition1;"));
+		assertTrue(resStr.contains("public ICobolZonedDecimalBinding _cDefinition2;"));
 		assertTrue(resStr.contains("setUnmarshalChoiceStrategyClassName("));
-		assertTrue(resStr.contains("public ICobolZonedDecimalBinding cDefinition2;"));
+		assertTrue(resStr.contains("public ICobolZonedDecimalBinding _cDefinition2;"));
 		assertTrue(resStr.contains("\"com.legstar.coxb.cust.redsimpt.ChoiceSelector\");"));
 		assertTrue(resStr.contains("cDefinition1 = BF.createStringBinding(\"CDefinition1\","));
 		assertTrue(resStr.contains("\"CDefinition1\", String.class, getParentBinding());"));
@@ -384,8 +384,8 @@ public class VelocityTemplatesTest extends TestCase {
 		assertTrue(resStr.contains("cDefinition2.setByteLength(18);"));
 		assertTrue(resStr.contains("cDefinition2.setTotalDigits(18);"));
 		assertTrue(resStr.contains("cDefinition2.setRedefines(\"C-DEFINITION-1\");"));
-		assertTrue(resStr.contains("addAlternative(cDefinition1);"));
-		assertTrue(resStr.contains("addAlternative(cDefinition2);"));
+		assertTrue(resStr.contains("addAlternative(_cDefinition1);"));
+		assertTrue(resStr.contains("addAlternative(_cDefinition2);"));
 
 		assertTrue(resStr.contains("value = getDfhcommareaType().getCDefinition1();"));
 		assertTrue(resStr.contains("cDefinition1.setObjectValue(value);"));
@@ -491,12 +491,12 @@ public class VelocityTemplatesTest extends TestCase {
 		
 		assertTrue(resStr.contains("public class JvmQueryReplyBinding"));
 		assertTrue(resStr.contains("private JVMQueryReply mValueObject;"));
-		assertTrue(resStr.contains("public ICobolBinaryBinding envVarValuesCounter;"));
-		assertTrue(resStr.contains("public ICobolStringBinding country;"));
-		assertTrue(resStr.contains("public ICobolStringBinding currencySymbol;"));
-		assertTrue(resStr.contains("public ICobolArrayStringBinding envVarValues;"));
-		assertTrue(resStr.contains("public ICobolStringBinding formattedDate;"));
-		assertTrue(resStr.contains("public ICobolStringBinding language;"));
+		assertTrue(resStr.contains("public ICobolBinaryBinding _envVarValuesCounter;"));
+		assertTrue(resStr.contains("public ICobolStringBinding _country;"));
+		assertTrue(resStr.contains("public ICobolStringBinding _currencySymbol;"));
+		assertTrue(resStr.contains("public ICobolArrayStringBinding _envVarValues;"));
+		assertTrue(resStr.contains("public ICobolStringBinding _formattedDate;"));
+		assertTrue(resStr.contains("public ICobolStringBinding _language;"));
 
 		assertTrue(resStr.contains("public JvmQueryReplyBinding("));
 		assertTrue(resStr.contains("final JVMQueryReply valueObject) {"));
