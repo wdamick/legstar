@@ -4,6 +4,22 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
+    <release version="1.2.2" date="2008-12-01" description="Code fixes">
+      <action dev="fady" type="update">
+        Fixed Bug 27: Generated member names might conflict with java reserved words.
+        All member variables in generated binding classes are now prefixed with underscore.
+      </action>
+      <action dev="fady" type="update">
+        Fixed Bug 29: Generated bindind objects have the following issue:
+
+        In a hierarchy where a variable size array is a member of a child, the
+        corresponding dynamic counter in the parent or higher (root actually) complex
+        type is not re-marshalled after children were marshalled.
+
+        This is due to the fact that there is no mechanism to keep track of dynamic
+        counters in static (ie generated) bindind classes.
+      </action>
+    </release>
     <release version="1.2.1" date="2008-09-30" description="Code cleansing">
     </release>
     <release version="1.2.0" date="2008-07-08" description="Velocity macros">
