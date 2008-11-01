@@ -109,7 +109,7 @@ public class CoxbBindingGeneratorTest extends TestCase {
 		assertTrue(srce.contains("tableComplexWrapperItem = new TableComplexTypeBinding(\"TableComplexWrapperItem\","));
 		assertTrue(srce.contains("\"TableComplex\", this, null);"));
 		assertTrue(srce.contains("tableComplexWrapper = new TableComplexTypeWrapperBinding(\"TableComplexWrapper\","));
-		assertTrue(srce.contains("\"TableComplex\", this, tableComplexWrapperItem);"));
+		assertTrue(srce.contains("\"TableComplex\", this, _tableComplexWrapperItem);"));
 	}
 
 	/** Generate binding for Redsimpt. */

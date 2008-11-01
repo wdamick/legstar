@@ -73,7 +73,7 @@
 		<mkdir dir="${coxb.bin.dir}"/>
 		<foreach target="generateCOXB" param="xsd.file">
 			<path>
-				<fileset dir="${xsd.dir}" includes="*.xsd" excludes="clegtstc.cbl.xsd lsfileal.xsd lsfileac.xsd enumvar.xsd MSNSearch.xsd cultureinfo.xsd jvmquery.xsd"/>
+				<fileset dir="${xsd.dir}" includes="*.xsd" excludes="clegtstc.cbl.xsd lsfileal.xsd lsfileac.xsd enumvar.xsd MSNSearch.xsd cultureinfo.xsd jvmquery.xsd jvmquery-ws.xsd"/>
 			</path>
 		</foreach>
 		<coxbgen 
@@ -124,6 +124,16 @@
         <coxbgen 
             XsdFile="${xsd.dir}/jvmquery.xsd"
             JaxbRootObjectName="JvmQueryReplyType"
+            targetDir="${coxb.src.dir}"
+            />
+        <coxbgen 
+            XsdFile="${xsd.dir}/jvmquery-ws.xsd"
+            JaxbRootObjectName="QueryJvmType"
+            targetDir="${coxb.src.dir}"
+            />
+        <coxbgen 
+            XsdFile="${xsd.dir}/jvmquery-ws.xsd"
+            JaxbRootObjectName="QueryJvmResponseType"
             targetDir="${coxb.src.dir}"
             />
         <!--

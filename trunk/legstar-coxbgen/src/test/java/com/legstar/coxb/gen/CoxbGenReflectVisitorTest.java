@@ -215,7 +215,7 @@ public class CoxbGenReflectVisitorTest extends TestCase {
 		assertTrue(resStr.contains("lsItemsArrayWrapperItem = new LsItemsArrayTypeBinding(\"LsItemsArrayWrapperItem\","));
 		assertTrue(resStr.contains("\"LsItemsArray\", this, null);"));
 		assertTrue(resStr.contains("lsItemsArrayWrapper = new LsItemsArrayTypeWrapperBinding(\"LsItemsArrayWrapper\","));
-		assertTrue(resStr.contains("\"LsItemsArray\", this, lsItemsArrayWrapperItem);"));
+		assertTrue(resStr.contains("\"LsItemsArray\", this, _lsItemsArrayWrapperItem);"));
 		assertTrue(resStr.contains("lsItemsArrayWrapper.setCobolName(\"LS-ITEMS-ARRAY\");"));
 		assertTrue(resStr.contains("lsItemsArrayWrapper.setMinOccurs(1);"));
 		assertTrue(resStr.contains("lsItemsArrayWrapper.setMaxOccurs(500);"));
