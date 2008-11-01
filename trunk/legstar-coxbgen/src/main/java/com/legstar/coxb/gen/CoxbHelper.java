@@ -48,6 +48,10 @@ public class CoxbHelper {
 	/** Package name for all binding interfaces. */
 	private static final String COXB_INTERFACES_PKGNAME = "com.legstar.coxb";
 	
+	/** Used for all java fields. Useful in case generated field names happen
+	 * to be java reserved words. */
+	private static final String FIELD_NAMES_PREFIX = "_";
+	
 	/**
 	 * Builds a binding type name using the associated jaxb type name.
 	 * @param binding the binding for which the binding type is to be returned
@@ -234,7 +238,7 @@ public class CoxbHelper {
 	 * @return the jaxb variable name of the element
 	 */
 	public final String getFieldName(final ICobolBinding binding) {
-		return JaxbUtil.getFieldName(binding);
+		return FIELD_NAMES_PREFIX + JaxbUtil.getFieldName(binding);
 	}
 	
 	/**
@@ -276,7 +280,7 @@ public class CoxbHelper {
 	 */
 	private String getterSetterMethodName(
 			final String prefix, final ICobolBinding binding) {
-		String fieldName = getFieldName(binding);
+		String fieldName = JaxbUtil.getFieldName(binding);
 		if (fieldName == null || fieldName.length() == 0) {
 			throw new IllegalArgumentException(fieldName);
 		}
