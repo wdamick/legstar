@@ -2,7 +2,7 @@
 <feature
       id="com.legstar.eclipse.feature.mulegen"
       label="LegStar Mule Component Generator"
-      version="1.2.1"
+      version="1.2.2.SNAPSHOT"
       provider-name="LegSem">
 
    <description url="http://www.legsem.com/legstar/modules/legstar-common-plugin">
@@ -420,14 +420,14 @@ END OF TERMS AND CONDITIONS
    </url>
 
    <requires>
-      <import feature="com.legstar.eclipse.feature.common" version="1.2.1"/>
+      <import feature="com.legstar.eclipse.feature.common" version="1.2.2.SNAPSHOT"/>
    </requires>
 
    <plugin
          id="com.legstar.eclipse.plugin.mulegen"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.2.2.SNAPSHOT"
          unpack="true"/>
 
 </feature>

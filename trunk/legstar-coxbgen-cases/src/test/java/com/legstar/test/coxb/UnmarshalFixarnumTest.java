@@ -46,7 +46,7 @@ public class UnmarshalFixarnumTest extends TestCase {
 		
 		assertEquals("534.236",dfhcommareaType.getCArrayZd().get(0).toString());
 		assertEquals("45.007",dfhcommareaType.getCArrayZd().get(1).toString());
-		assertEquals("1.950",dfhcommareaType.getCArrayZd().get(2).toString());
+		assertEquals("1.95",dfhcommareaType.getCArrayZd().get(2).toString());
 		
 		assertEquals("9998",dfhcommareaType.getCArrayZi().get(0).toString());
 		assertEquals("0",dfhcommareaType.getCArrayZi().get(1).toString());

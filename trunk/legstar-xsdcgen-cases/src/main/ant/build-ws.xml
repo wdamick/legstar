@@ -22,7 +22,7 @@
     <property name="build.classes.home" value="${build.home}/gen-classes"/>
     
     <path id="jaxws.classpath">
-        <pathelement location="${jdk.home}/lib/tools.jar"/>
+        <pathelement location="${jdk15.home}/lib/tools.jar"/>
         <fileset dir="${jaxws.lib}">
             <include name="*.jar"/>
             <exclude name="j2ee.jar"/>

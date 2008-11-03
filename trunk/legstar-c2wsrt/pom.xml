@@ -3,9 +3,9 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.2.1</version>
+        <version>1.2.2-SNAPSHOT</version>
     </parent>
-    <version>1.2.1</version>
+    <version>1.2.2-SNAPSHOT</version>
     <artifactId>legstar-c2wsrt</artifactId>
     <name>LegStar Mainframe to Web service runtime</name>
     <description>Mainframe to Web Service proxy.</description>
@@ -45,6 +45,11 @@
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-xsdcgen-cases</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-rt</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
