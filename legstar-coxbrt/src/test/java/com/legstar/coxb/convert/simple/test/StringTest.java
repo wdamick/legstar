@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.legstar.coxb.convert.simple.test;
 
+import java.io.UnsupportedEncodingException;
+
 import com.legstar.coxb.convert.simple.CobolStringSimpleConverter;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
@@ -138,6 +140,14 @@ public class StringTest extends TestCase {
    	
     	String javaString = CobolStringSimpleConverter.fromHostSingle(usCharSet,4, hostSource, 0);
 		assertEquals("A CD", javaString.toString());
+	}
+	
+	public void testPadding() throws UnsupportedEncodingException {
+		byte[] hostSource = HostData.toByteArray("c100c3c4");
+		int i =  CobolStringSimpleConverter.pad(hostSource, 1, 3, "ISO-8859-1");
+		assertEquals(2, i);
+		assertEquals("c12020c4", HostData.toHexString(hostSource));
+		
 	}
 
 }

@@ -4,6 +4,17 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
+    <release version="1.2.2" date="2008-12-01" description="Code fixes">
+      <action dev="fady" type="update">
+        Fixed Bug 30: String padding character now depends on target host character set rather than being hardcoded as 0x40.
+      </action>
+      <action dev="fady" type="update">
+        Fixed Bug 31: Zoned decimals are now considered as characters and are translated to the target host character set.
+        This opens the possibility that the target character set be ASCII rather than EBCDIC.
+        An important restriction is that COBOL decimals must be unsigned or explicitly declared with SIGN IS SEPARATE if the
+        target character set is not EBCDIC.
+      </action>
+    </release>
     <release version="1.2.1" date="2008-09-30" description="Code cleansing">
     </release>
     <release version="1.2.0" date="2008-07-08" description="Binding to POJO">
