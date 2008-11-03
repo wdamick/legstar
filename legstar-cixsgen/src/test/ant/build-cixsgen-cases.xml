@@ -103,6 +103,7 @@
                     <exclude name="cultureinfo.xsd"/>
                     <exclude name="jvmquery.xsd"/>
                     <exclude name="MSNSearch.xsd"/>
+                    <exclude name="jvmquery-ws.xsd"/>
 				</fileset>
 			</path>
 		</foreach>

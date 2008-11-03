@@ -3,9 +3,10 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.2.1</version>
+        <version>1.2.2-SNAPSHOT</version>
+        <relativePath>..</relativePath>
     </parent>
-    <version>1.2.1</version>
+    <version>1.2.2-SNAPSHOT</version>
     <artifactId>legstar-common-plugin</artifactId>
     <packaging>jar</packaging>
     <name>LegStar Common Eclipse plugin</name>
@@ -13,7 +14,6 @@
     <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
-    
     
         <dependency>
             <groupId>com.legsem.legstar</groupId>
@@ -80,35 +80,54 @@
     </dependencies>
 
     <build>
-
         <plugins>
         
-            <!-- See distribution.xml for an explanation on the reasons for the
-                 unusual distribution options here.  -->
             <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <finalName>lib</finalName>
-                    <outputDirectory>.</outputDirectory>
-                    <appendAssemblyId>false</appendAssemblyId>
-                    <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
-                    <descriptors>
-                        <descriptor>src/assemble/distribution.xml</descriptor>
-                    </descriptors>
-                </configuration>
+        
+                <!-- Update MANIFEST.MF and build.properties with the Maven versions -->
+                <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
-                        <phase>package</phase> <!-- append to the packaging phase. -->
+                        <id>maven-to-pde</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/maven-to-pde.xml">
+                                    <property name="legstarPluginVersion" value="${legstarPluginVersion}" />
+                                    <property name="legstarVersion" value="${legstarVersion}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
                         <goals>
-                             <goal>directory-inline</goal> <!-- goals == mojos -->
+                            <goal>run</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Copy all runtime dependencies to the lib folder -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                          <outputDirectory>lib</outputDirectory>
+                          <overWriteReleases>false</overWriteReleases>
+                          <overWriteSnapshots>false</overWriteSnapshots>
+                          <overWriteIfNewer>true</overWriteIfNewer>
+                          <excludeScope>provided</excludeScope>
+                       </configuration>
                     </execution>
                 </executions>
             </plugin>
           
         </plugins>
-    
     </build>
     
 </project>

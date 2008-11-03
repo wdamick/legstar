@@ -4,11 +4,12 @@
     <artifactId>Legstar</artifactId>
     <packaging>pom</packaging>
     <name>LegStar Open-Source Mainframe Integration</name>
-    <version>1.2.1</version>
+    <version>1.2.2-SNAPSHOT</version>
     <description>Open-Source Mainframe Integration</description>
     <url>http://www.legsem.com/legstar</url>
     <properties>
         <legstarVersion>${project.version}</legstarVersion>
+        <legstarPluginVersion>1.2.2.SNAPSHOT</legstarPluginVersion>
     </properties>
 
     <scm>
@@ -139,9 +140,22 @@
         <module>legstar-xsdcgen</module>
         <module>legstar-xsdcgen-cases</module>
         <module>legstar-common-plugin</module>
+        <module>legstar-common-feature</module>
+        <module>legstar-cixscom-plugin</module>
+        <module>legstar-cixsmap-plugin</module>
+        <module>legstar-cixsmap-feature</module>
+        <module>legstar-coxbgen-plugin</module>
+        <module>legstar-coxbgen-feature</module>
+        <module>legstar-jaxwsgen-plugin</module>
+        <module>legstar-jaxwsgen-feature</module>
+        <module>legstar-mulegen-plugin</module>
+        <module>legstar-mulegen-feature</module>
+        <module>legstar-schemagen-plugin</module>
+        <module>legstar-schemagen-feature</module>
+        <module>legstar-site</module>
+    </modules>
   <!--
     -->
-    </modules>
   
     <distributionManagement>
         <downloadUrl>http://www.legsem.com/legstar/mavenrepo</downloadUrl>
@@ -606,7 +620,7 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-common-plugin</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${legstarPluginVersion}</version>
             </dependency>
       
         </dependencies>

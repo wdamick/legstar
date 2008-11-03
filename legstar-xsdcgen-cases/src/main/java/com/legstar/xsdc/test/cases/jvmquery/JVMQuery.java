@@ -17,10 +17,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.jws.WebService;
+
 /**
  * A simple POJO with a single method. It takes a list of environment variable 
  * names as input and returns their value along with other JVM parameters.
+ * It can also be used as a JAXWS Web Service thanks to the @WebService annotation.
  */
+@WebService
 public class JVMQuery {
     
     public JVMQueryReply queryJvm(JVMQueryRequest request) throws JVMQueryException {

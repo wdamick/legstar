@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: LegStar Common Components Generators
 Bundle-SymbolicName: com.legstar.eclipse.plugin.cixscom;singleton:=true
-Bundle-Version: 1.2.1
+Bundle-Version: 1.2.2.SNAPSHOT
 Bundle-Activator: com.legstar.eclipse.plugin.cixscom.Activator
 Bundle-Vendor: LegSem
 Bundle-Localization: src/main/resources/com/legstar/eclipse/plugin/cixscom/messages
