@@ -26,7 +26,7 @@ public class ZonedDecimalToHostTest extends TestCase {
 		// Create a host buffer
 		byte[] hostBytes = new byte[11];
 		for (int i = 0; i < ITERATIONS; i++) {
-			assertEquals(11, CobolZonedDecimalSimpleConverter.toHostSingle(javaDecimal, 11, 11, 5, false, false, false, hostBytes, 0));
+			assertEquals(11, CobolZonedDecimalSimpleConverter.toHostSingle(javaDecimal, 11, 11, 5, false, false, false, hostBytes, 0, "IBM01140"));
 			assertEquals("f4f5f6f7f9f0f0f0f6f7f5", HostData.toHexString(hostBytes));
 		}
 	}

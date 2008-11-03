@@ -26,7 +26,7 @@ public class ZonedDecimalFromHostTest extends TestCase {
 		byte[] hostBytes = HostData.toByteArray("f4f5f6f7f9f0f0f0f6f7f5");
    	
 		for (int i = 0; i < ITERATIONS; i++) {
-			BigDecimal javaDecimal = CobolZonedDecimalSimpleConverter.fromHostSingle(11, 11, 5, false,false,false,hostBytes, 0);
+			BigDecimal javaDecimal = CobolZonedDecimalSimpleConverter.fromHostSingle(11, 11, 5, false,false,false,hostBytes, 0, "IBM01140");
 			assertEquals("456790.00675", javaDecimal.toString());
 		}
 	}

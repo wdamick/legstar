@@ -32,13 +32,12 @@ import com.legstar.coxb.host.HostException;
 public class CobolStringSimpleConverter extends CobolSimpleConverter
              implements ICobolStringConverter {
 	
-	/** Ebcdic code point for space character. */
-	private static final byte SPACE_EBCDIC = 0x40; 
-	
+
 	/**
 	 * @param cobolContext the Cobol compiler parameters in effect
 	 */
-	public CobolStringSimpleConverter(final CobolContext cobolContext) {
+	public CobolStringSimpleConverter(
+			final CobolContext cobolContext) {
 		super(cobolContext);
 	}
 	
@@ -186,41 +185,39 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter
 				hostSource =
 					javaString.getBytes(hostCharsetName);
 			}
+		
+			/* The target host element might be larger than the converted java
+			 * String and might have to be right or left justified. The padding
+			 * character is a space character. */
+			int iSource = 0;
+			int iTarget = offset;
+			
+			/* Pad with initial spaces if necessary */
+			if (isJustifiedRight) {
+				iTarget += pad(hostTarget,
+						iTarget, (lastOffset - hostSource.length),
+						hostCharsetName);
+			}
+			
+			/* Continue on with source content */
+			while (iSource < hostSource.length && iTarget < lastOffset) {
+				hostTarget[iTarget] = hostSource[iSource];
+				iSource++;
+				iTarget++;
+			}
+			
+			/* Pad with final spaces if necessary */
+			if (!isJustifiedRight) {
+				iTarget += pad(hostTarget,
+						iTarget, lastOffset,
+						hostCharsetName);
+			}
+			return lastOffset;
 		} catch (UnsupportedEncodingException uee) {
 			throw new CobolConversionException(
 					"UnsupportedEncodingException:" + uee.getMessage());
 		}
 		
-		/* The target host element might be larger than the converted java
-		 * String and might have to be right or left justified. The padding
-		 * character is 0x40 (space character). */
-		int iSource = 0;
-		int iTarget = offset;
-		
-		/* Pad with initial spaces if necessary */
-		if (isJustifiedRight) {
-			while (iTarget < (lastOffset - hostSource.length)) {
-				hostTarget[iTarget] = SPACE_EBCDIC;
-				iTarget++;
-			}
-		}
-		
-		/* Continue on with source content */
-		while (iSource < hostSource.length && iTarget < lastOffset) {
-			hostTarget[iTarget] = hostSource[iSource];
-			iSource++;
-			iTarget++;
-		}
-		
-		/* Pad with final spaces if necessary */
-		if (!isJustifiedRight) {
-			while (iTarget < lastOffset) {
-				hostTarget[iTarget] = SPACE_EBCDIC;
-				iTarget++;
-			}
-		}
-		
-		return lastOffset;
 	}
 
 	/** Converts a host character string into a Java string.
@@ -266,5 +263,45 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter
 		}
 		
 		return javaString.trim();
+	}
+	
+	/**
+	 * Determines the padding character depending on the target character set.
+	 * @param hostCharsetName host character set
+	 * @return the padding character
+	 * @throws UnsupportedEncodingException if padding character cannot be
+	 *  translated
+	 */
+	private static byte getPadChar(
+			final String hostCharsetName) throws UnsupportedEncodingException {
+		return " ".getBytes(hostCharsetName)[0];
+	}
+	
+	/**
+	 * Pads a byte array with the padding character corresponding to the target
+	 * host character set.
+	 * <p/>
+	 * Padding begins at the specified beginIndex and extends to the character
+	 *  at index endIndex - 1
+	 * @param bytes the byte array to pad
+	 * @param beginIndex what index to start from
+	 * @param endIndex index of first character that is not to be padded
+	 * @param hostCharsetName host character set
+	 * @return the number of padding characters used
+	 * @throws UnsupportedEncodingException if padding character cannot be
+	 *  translated
+	 */
+	public static int pad(
+			final byte[] bytes,
+			final int beginIndex,
+			final int endIndex,
+			final String hostCharsetName) throws UnsupportedEncodingException {
+		byte padChar = getPadChar(hostCharsetName);
+		int j = 0;
+		for (int i = beginIndex; i < endIndex; i++) {
+			bytes[i] = padChar;
+			j++;
+		}
+		return j;
 	}
 }
