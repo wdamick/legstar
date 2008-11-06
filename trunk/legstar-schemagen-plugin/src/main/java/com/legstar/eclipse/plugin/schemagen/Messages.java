@@ -143,6 +143,9 @@ public class Messages extends NLS {
 	/** XML load failed message (long).*/
 	public static String xml_load_failure_long_msg;
 	
+	/** JAXB types name suffix label.*/
+	public static String jaxb_classes_suffix_label;
+	
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
 	}
