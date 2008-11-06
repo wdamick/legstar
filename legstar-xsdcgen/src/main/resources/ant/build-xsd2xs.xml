@@ -41,7 +41,6 @@
       inputXsdUri="${in.uri}"
       targetDir="${schema.dir}"
       targetXsdFileName="${gen.file.name}"
-      jaxbTypeClassesSuffix="Type"
       jaxbPackageName="${jaxb.package.name}"  
     />
     <echo message="XML Schema successfully generated ${schema.dir}/${gen.file.name}" />
