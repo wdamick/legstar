@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.legstar.eclipse.plugin.schemagen.wizards;
 
+import java.util.Locale;
+
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -246,7 +248,7 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
         }
         if (!mJaxbPackageNameUserChanged) {
             mTargetJaxbPackageNameText.setText(mJaxbPackageNamePrefix
-            		+ javaIdentifierNormalize(str));
+            		+ lowercaseNormalize(str));
         }
     }
     
@@ -271,7 +273,7 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
                 return true;
             } else {
             	if (isJavaIdentifierPart) {
-            		return !(javaIdentifierNormalize(str).equals(content));
+            		return !(lowercaseNormalize(str).equals(content));
             	}
             	return !(str.equals(content));
             }
@@ -279,21 +281,25 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
     }
     
     /**
-     * Replaces all illegal characters by underscore. This ensures the
-     * string can be used as a java identifier.
+     * This ensures a string can be used as a valid identifier for a 
+     * java package name or an XML namespace.
+     * <ul>
+     * <li>Lowercases all uppercase characters.</li>
+     * <li>Replaces all illegal characters by period.</li>
+     * </ul>
      * @param str the string to normalize
      * @return the normalized string.
      */
-    private String javaIdentifierNormalize(final String str) {
+    private String lowercaseNormalize(final String str) {
     	StringBuilder sb = new StringBuilder();
     	for (char ch : str.toCharArray()) {
     		if (Character.isJavaIdentifierPart(ch)) {
     			sb.append(ch);
     		} else {
-    			sb.append('_');
+    			sb.append('.');
     		}
     	}
-    	return sb.toString();
+    	return sb.toString().toLowerCase(Locale.getDefault());
     }
     
     /**
