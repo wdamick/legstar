@@ -146,7 +146,9 @@ public class Messages extends NLS {
     public static String editor_creating_file_task_label;
     /** Editor opening file task. */
     public static String editor_opening_file_task_label;
-	
+
+    /** Menu action label.*/
+	public static String legstar_menu_label;
 
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
