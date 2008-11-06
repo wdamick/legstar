@@ -17,7 +17,7 @@
     </taskdef>
 	
 	<path id="jaxws.classpath">
-        <fileset dir="D:\Legsem\Legstar\dependencies\jaxws-ri-2.1.1" includes="lib/*.jar" />
+        <fileset dir="C:/Sun/jaxws-ri" includes="lib/*.jar" />
     </path>
 
     <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
@@ -28,7 +28,7 @@
 	<target name="generateAllJAXWSClients">
 		<foreach target="generateJAXWSClient" param="cixs.dir">
 			<path>
-				<dirset dir="${basedir}/../legstar-cixsgen-cases/src/main/resources/ant" includes="*"/>
+				<dirset dir="${basedir}/../legstar-cixsgen-cases/src/main/resources" includes="*"/>
 			</path>
 		</foreach>
 	</target>
@@ -41,7 +41,9 @@
 		 	debug="true"
 		 	verbose="true"
 		 	keep="true"
-		 	destdir="src/test/java"
+		    sourcedestdir="src/test/java"
+		 	destdir="target/test-classes"
+		 	xnocompile="true"
 		 	wsdl="http://localhost:8080/cixs-${service-name}/${service-name}?wsdl">
 		 </wsimport>
 		
