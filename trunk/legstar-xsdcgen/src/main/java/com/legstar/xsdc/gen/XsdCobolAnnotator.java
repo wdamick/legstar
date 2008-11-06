@@ -205,12 +205,10 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("XML Schema Cobol annotation started");
 		}
-    	checkInput();
+		checkInputXsd();
     	XmlSchema schema = getSchema();
-    	/* If user requests a new target namespace, switch. */
-    	if (getNamespace() != null && getNamespace().length() > 0) {
-    		switchTargetNamespace(schema, getNamespace());
-    	}
+    	checkAllParameters(schema);
+
     	annotateSchema(schema);
     	addRootElements(schema);
 
@@ -272,53 +270,65 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     }
 
     /**
-     * Checks that properties set are valid.
+     * Checks that the xsd file provided is valid.
      */
-    private void checkInput() {
-    	
-		/* Xsd file name is not mandatory because we can generate a
-		 * sensible default value. The namespace can also be propagated
-		 * from the input schema and therefore is not mandatory.*/
-    	super.checkInput(false, false);
+    private void checkInputXsd() {
 
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("   Source Xsd URI      = "
-					+ ((getInputXsdUri() == null) ? null
-							: getInputXsdUri().toString()));
-			LOG.debug("   Source Xsd file      = "
-					+ ((mInputXsdFile == null) ? null
-							: mInputXsdFile.getAbsolutePath()));
-		}
+    	if (LOG.isDebugEnabled()) {
+    		LOG.debug("   Source Xsd URI      = "
+    				+ ((getInputXsdUri() == null) ? null
+    						: getInputXsdUri().toString()));
+    		LOG.debug("   Source Xsd file      = "
+    				+ ((mInputXsdFile == null) ? null
+    						: mInputXsdFile.getAbsolutePath()));
+    	}
     	/* Check that we have a valid input XML schema.  */
     	if (getInputXsdUri() == null) {
-        	if (mInputXsdFile == null || !mInputXsdFile.exists()) {
+    		if (mInputXsdFile == null || !mInputXsdFile.exists()) {
     			throw (new BuildException(
     					"Invalid input XML schema"));
-        	}
-        	setInputXsdUri(mInputXsdFile.toURI());
+    		}
+    		setInputXsdUri(mInputXsdFile.toURI());
     	}
-    	
+
     	/* Set a valid default target annotated XSD file name */
     	if (getTargetXsdFileName() == null 
     			|| getTargetXsdFileName().length() == 0) {
     		String targetXsdFileName = getLastSegment(getInputXsdUri());
     		/* If there is no extension or extension is not xsd, add xsd as
     		 * the extension. */
-            int p = targetXsdFileName.lastIndexOf('.');
-            if (p > 0) {
-            	String ext = targetXsdFileName.substring(
-            			p, targetXsdFileName.length());
-            	if (ext.compareToIgnoreCase(".xsd") != 0) {
-                	targetXsdFileName += ".xsd";
-            	}
-            } else {
-            	targetXsdFileName += ".xsd";
-            }
+    		int p = targetXsdFileName.lastIndexOf('.');
+    		if (p > 0) {
+    			String ext = targetXsdFileName.substring(
+    					p, targetXsdFileName.length());
+    			if (ext.compareToIgnoreCase(".xsd") != 0) {
+    				targetXsdFileName += ".xsd";
+    			}
+    		} else {
+    			targetXsdFileName += ".xsd";
+    		}
     		setTargetXsdFileName(targetXsdFileName);
-   	}
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("checkInput ended");
-		}
+    	}
+    }
+
+    /**
+     * Checks that parameters set are valid for the specified schema.
+     * @param schema the input schema
+     */
+    private void checkAllParameters(final XmlSchema schema) {
+    	
+    	/* If the user did not specify a namespace get the schema one. */
+    	if (getNamespace() == null || getNamespace().length() == 0) {
+    		setNamespace(schema.getTargetNamespace());
+    	} else {
+    		/* Might be a case where we need to switch namespaces */
+    		switchTargetNamespace(schema, getNamespace());
+    	}
+    	
+		/* Xsd file name is not mandatory because we can generate a
+		 * sensible default value. */
+    	super.checkInput(false, false);
+
     }
     
     /**

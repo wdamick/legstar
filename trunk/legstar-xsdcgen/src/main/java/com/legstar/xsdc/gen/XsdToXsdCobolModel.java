@@ -29,9 +29,6 @@ public class XsdToXsdCobolModel extends SourceToXsdCobolModel {
 	 * have the same names.*/
 	private String mJaxbTypeClassesSuffix;
 	
-	/** A default value for the JAXB type suffix. */
-	public static final String DEFAULT_JAXB_TYPE_CLASSES_SUFFIX = "Type"; 
-	
 	/** This generator name. */
 	public static final String X2S_GENERATOR_NAME =
 		"LegStar Xsd or Wsdl to Xsd generator";
@@ -70,9 +67,6 @@ public class XsdToXsdCobolModel extends SourceToXsdCobolModel {
 	 * @return the Suffix to be added to JAXB classes names for XML schema types
 	 */
 	public final String getJaxbTypeClassesSuffix() {
-		if (mJaxbTypeClassesSuffix == null) {
-			return DEFAULT_JAXB_TYPE_CLASSES_SUFFIX;
-		}
 		return mJaxbTypeClassesSuffix;
 	}
 
