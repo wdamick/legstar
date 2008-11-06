@@ -24,7 +24,7 @@ public class Messages extends NLS {
 	/** Preference page title.*/
 	public static String common_preference_page_title;
 	/** Menu action label.*/
-	public static String action_label;
+	public static String legstar_menu_label;
 	
 	/** Product logo icon.*/
 	public static String legstar_logo_icon;
