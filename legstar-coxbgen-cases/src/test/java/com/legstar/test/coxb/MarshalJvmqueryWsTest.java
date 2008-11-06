@@ -25,9 +25,9 @@ import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.visitor.CobolMarshalVisitor;
-import com.legstar.test.coxb.ws.jvmquery.JvmQueryReplyType;
-import com.legstar.test.coxb.ws.jvmquery.QueryJvmResponseType;
-import com.legstar.test.coxb.ws.jvmquery.bind.QueryJvmResponseTypeBinding;
+import com.legstar.test.coxb.ws.jvmquery.JvmQueryReply;
+import com.legstar.test.coxb.ws.jvmquery.QueryJvmResponse;
+import com.legstar.test.coxb.ws.jvmquery.bind.QueryJvmResponseBinding;
 
 import junit.framework.TestCase;
 
@@ -53,18 +53,18 @@ public class MarshalJvmqueryWsTest extends TestCase {
 	public void testJvmqueryWs() throws Exception {
 
 		// Create and populate an instance of an object (JAXB annotated)
-		JvmQueryReplyType jvmQueryReplyType = new JvmQueryReplyType();
-		jvmQueryReplyType.setCountry("France");
-		jvmQueryReplyType.setCurrencySymbol("€");
-		jvmQueryReplyType.setFormattedDate("vendredi-10-octobre-2008-14h-28");
-		jvmQueryReplyType.setLanguage("français");
-		jvmQueryReplyType.getEnvVarValues().add("D:\\Legsem\\Legstar\\jboss\\mlittle\\product\\build\\jbossesb-server-4.4.GA");
-		jvmQueryReplyType.getEnvVarValues().add("C:\\Program Files\\Java\\jdk1.6.0_10");
+		JvmQueryReply jvmQueryReply = new JvmQueryReply();
+		jvmQueryReply.setCountry("France");
+		jvmQueryReply.setCurrencySymbol("€");
+		jvmQueryReply.setFormattedDate("vendredi-10-octobre-2008-14h-28");
+		jvmQueryReply.setLanguage("français");
+		jvmQueryReply.getEnvVarValues().add("D:\\Legsem\\Legstar\\jboss\\mlittle\\product\\build\\jbossesb-server-4.4.GA");
+		jvmQueryReply.getEnvVarValues().add("C:\\Program Files\\Java\\jdk1.6.0_10");
 		
-		QueryJvmResponseType queryJvmResponseType = new QueryJvmResponseType();
-		queryJvmResponseType.setReturn(jvmQueryReplyType);
+		QueryJvmResponse queryJvmResponse = new QueryJvmResponse();
+		queryJvmResponse.setReturn(jvmQueryReply);
 		
-        ICobolComplexBinding binding = new QueryJvmResponseTypeBinding(queryJvmResponseType);
+        ICobolComplexBinding binding = new QueryJvmResponseBinding(queryJvmResponse);
 
         /* Convert Java data object to a host byte array */
         byte[] hostBytes = new byte[binding.calcByteLength()];

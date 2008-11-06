@@ -450,7 +450,7 @@ public class VelocityTemplatesTest extends TestCase {
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				JaxbUtil.loadClass("com.legstar.test.coxb.jvmquery.JvmQueryReplyType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.jvmquery.JvmQueryReply"));
 
 		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.jvmquery");

@@ -3,9 +3,6 @@
         <xs:appinfo>
             <jaxb:schemaBindings>
                 <jaxb:package name="com.legstar.test.coxb.cultureinfo"/>
-                <jaxb:nameXmlTransform>
-                    <jaxb:typeName suffix="Type"/>
-                </jaxb:nameXmlTransform>
             </jaxb:schemaBindings>
         </xs:appinfo>
     </xs:annotation>

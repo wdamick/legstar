@@ -164,11 +164,11 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
 		assertTrue(resStr.contains(
 			"<param-value>jvmqueryService</param-value>"));
 		assertTrue(resStr.contains(
-			"<param-value>JvmQueryRequestType</param-value>"));
+			"<param-value>JvmQueryRequest</param-value>"));
 		assertTrue(resStr.contains(
 			"<param-value>com.legstar.test.coxb.jvmquery</param-value>"));
 		assertTrue(resStr.contains(
-			"<param-value>JvmQueryReplyType</param-value>"));
+			"<param-value>JvmQueryReply</param-value>"));
 		assertTrue(resStr.contains(
 			"<param-value>com.legstar.test.coxb.jvmquery</param-value>"));
 		assertTrue(resStr.contains(
@@ -185,9 +185,9 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
 		assertTrue(resStr.contains("'alice'"));
 		assertTrue(resStr.contains("'inwonderland'"));
 		assertTrue(resStr.contains("'jvmquery'."));
-		assertTrue(resStr.contains("05 JvmQueryRequestType."));
+		assertTrue(resStr.contains("05 JvmQueryRequest."));
 		assertTrue(resStr.contains("10 envVarNames--C PIC 9(9) BINARY."));
-		assertTrue(resStr.contains("05 JvmQueryReplyType."));
+		assertTrue(resStr.contains("05 JvmQueryReply."));
 		assertTrue(resStr.contains("10 envVarValues--C PIC 9(9) BINARY."));
 		assertTrue(resStr.contains("10 country PIC X(32)."));
 	}

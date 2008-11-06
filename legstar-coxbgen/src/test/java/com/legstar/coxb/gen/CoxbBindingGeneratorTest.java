@@ -178,13 +178,13 @@ public class CoxbBindingGeneratorTest extends TestCase {
 		CoxbBindingGenerator gen = new CoxbBindingGenerator();
 		gen.setJaxbBinDir(new File(JAXB_BIN_DIR));
 		gen.setJaxbPackageName(JAXB_PKG_PFX + '.' + "cultureinfo");
-		gen.addJaxbRootClass("CultureInfoParametersType");
-		gen.addJaxbRootClass("CultureInfoReplyType");
+		gen.addJaxbRootClass("CultureInfoParameters");
+		gen.addJaxbRootClass("CultureInfoReply");
 		gen.setTargetDir(new File(GEN_SRC_DIR));
 		gen.execute();
-		String src1 = getSource(getGetSrcFilename("cultureinfo", "CultureInfoParametersType"));
+		String src1 = getSource(getGetSrcFilename("cultureinfo", "CultureInfoParameters"));
 		assertTrue(src1.contains("cultureCode = BF.createStringBinding(\"CultureCode\","));
-		String src2 = getSource(getGetSrcFilename("cultureinfo", "CultureInfoReplyType"));
+		String src2 = getSource(getGetSrcFilename("cultureinfo", "CultureInfoReply"));
 		assertTrue(src2.contains("currencySymbol = BF.createStringBinding(\"CurrencySymbol\","));
 	}
 

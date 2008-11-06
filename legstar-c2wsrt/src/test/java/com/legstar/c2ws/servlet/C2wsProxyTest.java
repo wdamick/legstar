@@ -16,7 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import com.legstar.c2ws.CultureInfoCases;
 import com.legstar.c2ws.util.C2wsLog;
 import com.legstar.messaging.LegStarMessage;
-import com.legstar.test.coxb.cultureinfo.CultureInfoReplyType;
+import com.legstar.test.coxb.cultureinfo.CultureInfoReply;
 
 import junit.framework.TestCase;
 
@@ -49,7 +49,7 @@ public class C2wsProxyTest extends TestCase {
 		assertTrue(responseMessage != null);
 		assertTrue(responseMessage.getDataParts().size() == 1);
 		byte[] responseBytes = responseMessage.getDataParts().get(0).getContent();
-		CultureInfoReplyType response = CultureInfoCases.getResponseFromHostBytes(responseBytes);
+		CultureInfoReply response = CultureInfoCases.getResponseFromHostBytes(responseBytes);
 		assertEquals("€", response.getCurrencySymbol());
 		assertEquals("France", response.getDisplayCountry());
 		assertEquals("français", response.getDisplayLanguage());

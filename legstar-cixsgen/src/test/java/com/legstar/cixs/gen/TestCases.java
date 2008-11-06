@@ -118,11 +118,11 @@ public class TestCases {
 	}
 	
 	public static CixsOperation getCutureInfoOperation() {
-		return getNewCommareaOperation("cultureinfo", "cultureinfo", "GetInfoType", "GetInfoResponseType");
+		return getNewCommareaOperation("cultureinfo", "cultureinfo", "GetInfo", "GetInfoResponse");
 	}
 	
 	public static CixsOperation getJvmqueryOperation() {
-		return getNewCommareaOperation("jvmquery", "jvmquery", "JvmQueryRequestType", "JvmQueryReplyType");
+		return getNewCommareaOperation("jvmquery", "jvmquery", "JvmQueryRequest", "JvmQueryReply");
 	}
 	
 	/**

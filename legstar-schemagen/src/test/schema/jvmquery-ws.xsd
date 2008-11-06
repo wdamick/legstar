@@ -3,9 +3,6 @@
         <xsd:appinfo>
             <jaxb:schemaBindings>
                 <jaxb:package name="com.legstar.test.coxb.ws.jvmquery"/>
-                <jaxb:nameXmlTransform>
-                    <jaxb:typeName suffix="Type"/>
-                </jaxb:nameXmlTransform>
             </jaxb:schemaBindings>
         </xsd:appinfo>
     </xsd:annotation>

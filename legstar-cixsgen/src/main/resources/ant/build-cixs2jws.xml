@@ -31,11 +31,11 @@
         
         
         <!-- The input JAXB type name   -->
-        <property name="jaxb.root.name.in" value="GetInfoType" />
+        <property name="jaxb.root.name.in" value="GetInfo" />
         <!-- The input JAXB package name  -->
         <property name="jaxb.package.name.in" value="com.legstar.test.coxb.cultureinfo"/>
         <!-- The output JAXB type name   -->
-        <property name="jaxb.root.name.out" value="GetInfoResponseType" />
+        <property name="jaxb.root.name.out" value="GetInfoResponse" />
         <!-- The output JAXB package name  -->
         <property name="jaxb.package.name.out" value="com.legstar.test.coxb.cultureinfo"/>
         

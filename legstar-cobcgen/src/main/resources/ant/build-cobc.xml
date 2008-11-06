@@ -16,7 +16,7 @@
         <!-- Location for generated JAXB binaries   -->
         <property name="jaxb.bin.dir" value="target/classes" />
         <!-- JAXB type name   -->
-        <property name="jaxb.type.name" value="CultureInfoReplyType" />
+        <property name="jaxb.type.name" value="CultureInfoReply" />
         <!-- Cobol root data item name   -->
         <property name="cobol.root.name" value="CI-REPLY" />
         <!-- Target location for generated Cobol   -->
