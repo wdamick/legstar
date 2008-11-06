@@ -63,6 +63,10 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
 
     /** Target jaxb classes package name. */
     private Text mTargetJaxbPackageNameText;
+    
+    /** An optional suffix to append on JAXB classes name generated from Complex
+     *  types in the XSD.*/
+    private Text mJaxbTypeClassesSuffixText;
 
     /** The final namespace is built starting with this prefix. */
     private String mXsdNamespacePrefix = "";
@@ -154,6 +158,13 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
             public void modifyText(final ModifyEvent e) {
                 mJaxbPackageNameUserChanged = userChanged(
                 		mTargetJaxbPackageNameText, '.', true);
+            }
+        });
+        createLabel(groupTarget, Messages.jaxb_classes_suffix_label);
+        mJaxbTypeClassesSuffixText = createText(groupTarget, 2);
+        mJaxbTypeClassesSuffixText.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent e) {
+               dialogChanged();
             }
         });
     }
@@ -520,5 +531,22 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
     		final Text targetJaxbPackageNameText) {
         mTargetJaxbPackageNameText = targetJaxbPackageNameText;
     }
+
+	/**
+	 * @return the optional suffix to append on JAXB classes name generated from
+	 *  Complex types in the XSD
+	 */
+	public final String getJaxbTypeClassesSuffix() {
+		return mJaxbTypeClassesSuffixText.getText();
+	}
+
+	/**
+	 * @param jaxbTypeClassesSuffix the optional suffix to append on JAXB
+	 *  classes name generated from Complex types in the XSD
+	 */
+	public final void setJaxbTypeClassesSuffix(
+			final String jaxbTypeClassesSuffix) {
+		mJaxbTypeClassesSuffixText.setText(jaxbTypeClassesSuffix);
+	}
 
 }

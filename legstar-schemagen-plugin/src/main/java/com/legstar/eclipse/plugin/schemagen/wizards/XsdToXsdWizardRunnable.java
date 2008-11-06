@@ -79,6 +79,7 @@ public class XsdToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
         }
         model.setTargetDir(new File(getTargetXsdLocation()));
         model.setTargetXsdFileName(mainPage.getTargetFileText().getText());
+        model.setJaxbTypeClassesSuffix(mainPage.getJaxbTypeClassesSuffix());
         return model;
     }
 
