@@ -562,15 +562,19 @@ public abstract class AbstractWizardPage extends WizardPage {
 	/**
 	 * Invalidate the dialog content if error message is not null and make sure
 	 * error message is displayed.
+	 * <p/>
+	 * The Finish button is enabled only on the valid last page.
 	 * @param errorMessage the text
 	 */
     protected void updateStatus(final String errorMessage) {
-		((AbstractWizard) getWizard()).setCanFinish(
-				(errorMessage == null) ? true : false);
+    	if (getNextPage() == null) {
+			((AbstractWizard) getWizard()).setCanFinish(
+					(errorMessage == null) ? true : false);
+    	}
         setErrorMessage(errorMessage);
         setPageComplete(errorMessage == null);
     }
-
+    
 	/**
 	 * What we do here is that we search a project classpath for any occurrence
 	 * of a container library.
