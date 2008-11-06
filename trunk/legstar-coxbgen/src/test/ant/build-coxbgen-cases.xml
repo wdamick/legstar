@@ -108,45 +108,45 @@
 			/>
         <coxbgen 
             XsdFile="${xsd.dir}/cultureinfo.xsd"
-            JaxbRootObjectName="CultureInfoParametersType"
+            JaxbRootObjectName="GetInfo"
             targetDir="${coxb.src.dir}"
             />
         <coxbgen 
             XsdFile="${xsd.dir}/cultureinfo.xsd"
-            JaxbRootObjectName="CultureInfoReplyType"
+            JaxbRootObjectName="GetInfoResponse"
             targetDir="${coxb.src.dir}"
             />
         <coxbgen 
             XsdFile="${xsd.dir}/jvmquery.xsd"
-            JaxbRootObjectName="JvmQueryRequestType"
+            JaxbRootObjectName="JvmQueryRequest"
             targetDir="${coxb.src.dir}"
             />
         <coxbgen 
             XsdFile="${xsd.dir}/jvmquery.xsd"
-            JaxbRootObjectName="JvmQueryReplyType"
+            JaxbRootObjectName="JvmQueryReply"
             targetDir="${coxb.src.dir}"
             />
         <coxbgen 
             XsdFile="${xsd.dir}/jvmquery-ws.xsd"
-            JaxbRootObjectName="QueryJvmType"
+            JaxbRootObjectName="QueryJvm"
             targetDir="${coxb.src.dir}"
             />
         <coxbgen 
             XsdFile="${xsd.dir}/jvmquery-ws.xsd"
-            JaxbRootObjectName="QueryJvmResponseType"
+            JaxbRootObjectName="QueryJvmResponse"
+            targetDir="${coxb.src.dir}"
+            />
+        <coxbgen 
+            XsdFile="${xsd.dir}/MSNSearch.xsd"
+            JaxbRootObjectName="Search"
+            targetDir="${coxb.src.dir}"
+            />
+        <coxbgen 
+            XsdFile="${xsd.dir}/MSNSearch.xsd"
+            JaxbRootObjectName="SearchResponse"
             targetDir="${coxb.src.dir}"
             />
         <!--
-        <coxbgen 
-            XsdFile="${xsd.dir}/MSNSearch.xsd"
-            JaxbRootObjectName="SearchRequestType"
-            targetDir="${coxb.src.dir}"
-            />
-        <coxbgen 
-            XsdFile="${xsd.dir}/MSNSearch.xsd"
-            JaxbRootObjectName="SearchResponseType"
-            targetDir="${coxb.src.dir}"
-            />
 		<coxbgen 
 			XsdFile="${xsd.dir}/enumvar.xsd"
 			JaxbRootObjectName="SearchRequestType"

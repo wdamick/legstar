@@ -32,7 +32,7 @@
     <init-param>
         <description>Request JAXB type</description>
         <param-name>c2ws.requestJaxbType</param-name>
-        <param-value>GetInfoType</param-value>
+        <param-value>GetInfo</param-value>
     </init-param>
     <init-param>
         <description>Request JAXB package name</description>
@@ -42,7 +42,7 @@
     <init-param>
         <description>Response JAXB type</description>
         <param-name>c2ws.responseJaxbType</param-name>
-        <param-value>GetInfoResponseType</param-value>
+        <param-value>GetInfoResponse</param-value>
     </init-param>
     <init-param>
         <description>Response JAXB package name</description>

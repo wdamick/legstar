@@ -58,13 +58,13 @@ public class CobolJAXBAnnotatorTest extends TestCase {
 	
 	public void testXsdcgenOutput() {
 		genSource("cultureinfo");
-		String srce = getSource("cultureinfo", "CultureInfoParametersType" );
+		String srce = getSource("cultureinfo", "CultureInfoParameters" );
 	    assertTrue(srce.contains("@CobolElement(cobolName = \"cultureCode\", type = CobolType.ALPHANUMERIC_ITEM, levelNumber = 5, byteLength = 32, picture = \"X(32)\", usage = \"DISPLAY\")"));
 	}
 
 	public void testXsdcgenOutputWithJavaClassNames() {
 		genSource("jvmquery");
-		String srce = getSource("jvmquery", "JvmQueryReplyType" );
+		String srce = getSource("jvmquery", "JvmQueryReply" );
 	    assertTrue(srce.contains("@CobolComplexType(javaClassName = \"com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply\")"));
 	}
 

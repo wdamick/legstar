@@ -130,7 +130,7 @@ public class CobolGeneratorTest extends TestCase {
 
 	public void testGenerateCultureInfo() throws Exception {
 		CobolGenerator gen = new CobolGenerator();
-		gen.setJaxbTypeName("CultureInfoParametersType");
+		gen.setJaxbTypeName("CultureInfoParameters");
 		gen.setJaxbPackageName("com.legstar.test.coxb.cultureinfo");
 		gen.setTargetDir(new File("target"));
 		gen.setCobolRootDataItemName("COM-REQUEST");
@@ -139,7 +139,7 @@ public class CobolGeneratorTest extends TestCase {
 		File outFile = new File("target/cultureinfo-request.cpy");
 		String source = CobcUtil.getSource(outFile, DEBUG_MODE);
 		assertTrue(source.contains("COM-REQUEST."));
-		gen.setJaxbTypeName("CultureInfoReplyType");
+		gen.setJaxbTypeName("CultureInfoReply");
 		gen.setCobolRootDataItemName("COM-REPLY");
 		gen.setTargetCobolFileName("cultureinfo-reply.cpy");
 		gen.execute();

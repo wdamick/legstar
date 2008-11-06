@@ -83,9 +83,9 @@ public class AntBuildCixs2JaxwsModelTest extends TestCase {
 		assertTrue(resStr.contains("serviceURI=\"http://localhost:8080/c2ws-cultureinfo/cultureinfoProxy\""));
 		assertTrue(resStr.contains("<cixsOperation name=\"cultureinfo\""));
 		assertTrue(resStr.contains("cicsProgramName=\"CULTUREI\""));
-		assertTrue(resStr.contains("jaxbType=\"GetInfoType\""));
+		assertTrue(resStr.contains("jaxbType=\"GetInfo\""));
 		assertTrue(resStr.contains("jaxbPackageName=\"com.legstar.test.coxb.cultureinfo\""));
-		assertTrue(resStr.contains("jaxbType=\"GetInfoResponseType\""));
+		assertTrue(resStr.contains("jaxbType=\"GetInfoResponse\""));
 		assertTrue(resStr.contains("jaxbPackageName=\"com.legstar.test.coxb.cultureinfo\""));
 	}
 	

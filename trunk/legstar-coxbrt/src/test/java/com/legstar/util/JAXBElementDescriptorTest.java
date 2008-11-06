@@ -17,8 +17,8 @@ public class JAXBElementDescriptorTest extends TestCase {
 	public void testXmlType() throws JAXBAnnotationException {
 		JAXBElementDescriptor elementDescriptor = new JAXBElementDescriptor(
 				"com.legstar.test.coxb.cultureinfo",
-				"GetInfoType");
-		assertEquals("JAXB package=com.legstar.test.coxb.cultureinfo, JAXB type=GetInfoType, XML element=getInfo, is XmlRootElement=false", elementDescriptor.toString());
+				"GetInfo");
+		assertEquals("JAXB package=com.legstar.test.coxb.cultureinfo, JAXB type=GetInfo, XML element=getInfo, is XmlRootElement=false", elementDescriptor.toString());
 	}
 
 	public void testXmlRootElement() throws JAXBAnnotationException {

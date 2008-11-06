@@ -19,8 +19,8 @@ import com.legstar.test.coxb.MSNSearch.ResultType;
 import com.legstar.test.coxb.MSNSearch.Search;
 import com.legstar.test.coxb.MSNSearch.SearchResponse;
 import com.legstar.test.coxb.MSNSearch.SourceResponseType;
-import com.legstar.test.coxb.cultureinfo.CultureInfoReplyType;
-import com.legstar.test.coxb.cultureinfo.CultureInfoParametersType;
+import com.legstar.test.coxb.cultureinfo.CultureInfoReply;
+import com.legstar.test.coxb.cultureinfo.CultureInfoParameters;
 import com.legstar.c2ws.CultureInfoCases;
 import com.legstar.c2ws.C2wsWSDescriptor;
 import com.legstar.c2ws.MSNSearchCases;
@@ -35,8 +35,8 @@ public class C2wsReflectAdapterTest extends TestCase {
 			new com.legstar.test.coxb.cultureinfo.ObjectFactory();
 		byte[] hostBytes = HostData.toByteArray("869960C6D9404040404040404040404040404040404040404040404040404040012564562C");
 		C2wsReflectAdapter adapter = new C2wsReflectAdapter();
-		CultureInfoParametersType request = (CultureInfoParametersType) adapter.unmarshalReflect(
-				objectFactory, CultureInfoParametersType.class, hostBytes);
+		CultureInfoParameters request = (CultureInfoParameters) adapter.unmarshalReflect(
+				objectFactory, CultureInfoParameters.class, hostBytes);
 		assertEquals("fr-FR", request.getCultureCode());
 		assertEquals(new BigDecimal("125645.62"), request.getDecimalNumber());
 	}
@@ -57,7 +57,7 @@ public class C2wsReflectAdapterTest extends TestCase {
 		C2wsReflectAdapter adapter = new C2wsReflectAdapter();
 		byte[] requestBytes = HostData.toByteArray("869960C6D9404040404040404040404040404040404040404040404040404040012564562C");
 		byte[] responseBytes = adapter.invoke(wsd, requestBytes);
-		CultureInfoReplyType response = CultureInfoCases.getResponseFromHostBytes(responseBytes);
+		CultureInfoReply response = CultureInfoCases.getResponseFromHostBytes(responseBytes);
 		assertEquals("€", response.getCurrencySymbol());
 		assertEquals("France", response.getDisplayCountry());
 		assertEquals("français", response.getDisplayLanguage());

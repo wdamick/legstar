@@ -39,11 +39,11 @@ public class Cixs2JaxwsVelocityTemplatesTest extends AbstractTestTemplate {
 		assertTrue(resStr.contains("'inwonderland'."));
 		assertTrue(resStr.contains("77  C2WS-SERVICE-NAME           PIC X(8) VALUE"));
 		assertTrue(resStr.contains("'jvmquery'."));
-		assertTrue(resStr.contains("           05 JvmQueryRequestType."));
+		assertTrue(resStr.contains("           05 JvmQueryRequest."));
 		assertTrue(resStr.contains("               10 envVarNames--C PIC 9(9) BINARY."));
 		assertTrue(resStr.contains("               10 envVarNames PIC X(32) OCCURS 0 TO 10 DEPENDING ON"));
 		assertTrue(resStr.contains("                   envVarNames--C."));
-		assertTrue(resStr.contains("           05 JvmQueryReplyType."));
+		assertTrue(resStr.contains("           05 JvmQueryReply."));
 		assertTrue(resStr.contains("               10 envVarValues--C PIC 9(9) BINARY."));
 		assertTrue(resStr.contains("               10 country PIC X(32)."));
 		assertTrue(resStr.contains("               10 currencySymbol PIC X(32)."));
@@ -76,11 +76,11 @@ public class Cixs2JaxwsVelocityTemplatesTest extends AbstractTestTemplate {
 		assertTrue(resStr.contains("c2ws.wsdlServiceName"));
 		assertTrue(resStr.contains("<param-value>CultureInfoImplService</param-value>"));
 		assertTrue(resStr.contains("c2ws.requestJaxbType"));
-		assertTrue(resStr.contains("<param-value>GetInfoType</param-value>"));
+		assertTrue(resStr.contains("<param-value>GetInfo</param-value>"));
 		assertTrue(resStr.contains("c2ws.requestJaxbPackageName"));
 		assertTrue(resStr.contains("<param-value>com.legstar.test.coxb.cultureinfo</param-value>"));
 		assertTrue(resStr.contains("c2ws.responseJaxbType"));
-		assertTrue(resStr.contains("<param-value>GetInfoResponseType</param-value>"));
+		assertTrue(resStr.contains("<param-value>GetInfoResponse</param-value>"));
 		assertTrue(resStr.contains("c2ws.responseJaxbPackageName"));
 		assertTrue(resStr.contains("<param-value>com.legstar.test.coxb.cultureinfo</param-value>"));
 		assertTrue(resStr.contains("c2ws.hostCharset"));

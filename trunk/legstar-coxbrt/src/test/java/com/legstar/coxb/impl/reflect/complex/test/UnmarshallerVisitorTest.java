@@ -714,15 +714,15 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.jvmquery.ObjectFactory objectFactory = new com.legstar.test.coxb.jvmquery.ObjectFactory();
 		// Create an initial empty instance of an object
-		com.legstar.test.coxb.jvmquery.JvmQueryReplyType jvmQueryReply = objectFactory.createJvmQueryReplyType();
+		com.legstar.test.coxb.jvmquery.JvmQueryReply jvmQueryReply = objectFactory.createJvmQueryReply();
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, jvmQueryReply);
 		ccem.accept(uv);
 		
 		assertEquals("com.legstar.test.coxb.jvmquery.ObjectFactory", ccem.getObjectFactory().getClass().getName());
-		assertEquals("JvmQueryReplyType", ccem.getJaxbName());
-		assertEquals("com.legstar.test.coxb.jvmquery.JvmQueryReplyType", ccem.getJaxbType().getName());
+		assertEquals("JvmQueryReply", ccem.getJaxbName());
+		assertEquals("com.legstar.test.coxb.jvmquery.JvmQueryReply", ccem.getJaxbType().getName());
 		assertEquals("com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply", ccem.getValueObjectClassName());
 		assertEquals(null, ccem.getValueObjectsFactoryClassName());
 		assertEquals("JP", jvmQueryReply.getCountry());

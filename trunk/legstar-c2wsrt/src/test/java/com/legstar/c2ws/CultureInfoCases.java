@@ -25,9 +25,9 @@ import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.LegStarHeaderPart;
 import com.legstar.messaging.LegStarMessage;
 import com.legstar.messaging.LegStarMessagePart;
-import com.legstar.test.coxb.cultureinfo.CultureInfoReplyType;
-import com.legstar.test.coxb.cultureinfo.CultureInfoParametersType;
-import com.legstar.test.coxb.cultureinfo.ServerCultureInfoType;
+import com.legstar.test.coxb.cultureinfo.CultureInfoReply;
+import com.legstar.test.coxb.cultureinfo.CultureInfoParameters;
+import com.legstar.test.coxb.cultureinfo.ServerCultureInfo;
 
 public final class CultureInfoCases {
 
@@ -35,7 +35,7 @@ public final class CultureInfoCases {
 		com.legstar.test.coxb.cultureinfo.ObjectFactory of =
 			new com.legstar.test.coxb.cultureinfo.ObjectFactory();
 		
-		CultureInfoParametersType o = of.createCultureInfoParametersType();
+		CultureInfoParameters o = of.createCultureInfoParameters();
 		o.setCultureCode("fr-FR");
 		o.setDecimalNumber(new BigDecimal("125645.62"));
 
@@ -48,14 +48,14 @@ public final class CultureInfoCases {
 		return mv.getHostBytes();
 	}
 	
-	public static CultureInfoReplyType getResponseJaxbObject() throws Exception {
-		CultureInfoReplyType response = new CultureInfoReplyType();
+	public static CultureInfoReply getResponseJaxbObject() throws Exception {
+		CultureInfoReply response = new CultureInfoReply();
 		response.setCurrencySymbol("€");
 		response.setDisplayCountry("France");
 		response.setDisplayLanguage("French");
 		response.setFormattedDate("18 avril 1992 18:38");
 		response.setFormattedDecimalNumber("125.645,62");
-		ServerCultureInfoType sci = new ServerCultureInfoType();
+		ServerCultureInfo sci = new ServerCultureInfo();
 		sci.setCultureCode("en-US");
 		sci.setDisplayCountry("United States");
 		sci.setDisplayLanguage("English");
@@ -63,10 +63,10 @@ public final class CultureInfoCases {
 		return response;
 	}
 
-	public static CultureInfoReplyType getResponseFromHostBytes(byte[] hostBytes) throws Exception {
+	public static CultureInfoReply getResponseFromHostBytes(byte[] hostBytes) throws Exception {
 		com.legstar.test.coxb.cultureinfo.ObjectFactory of =
 			new com.legstar.test.coxb.cultureinfo.ObjectFactory();
-		CultureInfoReplyType response = new CultureInfoReplyType();
+		CultureInfoReply response = new CultureInfoReply();
 		
 		CComplexReflectBinding ccem = new CComplexReflectBinding(of, response);
 
@@ -83,10 +83,10 @@ public final class CultureInfoCases {
 		wsd.setWsdlPort("CultureInfoImplPort");
 		wsd.setWsdlName("CultureInfoImplService");
 		JAXBElementDescriptor request = new JAXBElementDescriptor(
-				"com.legstar.test.coxb.cultureinfo", "GetInfoType");
+				"com.legstar.test.coxb.cultureinfo", "GetInfo");
 		wsd.setRequestElementDescriptor(request);
 		JAXBElementDescriptor response = new JAXBElementDescriptor(
-				"com.legstar.test.coxb.cultureinfo", "GetInfoResponseType");
+				"com.legstar.test.coxb.cultureinfo", "GetInfoResponse");
 		wsd.setResponseElementDescriptor(response);
 		return wsd;
 	}

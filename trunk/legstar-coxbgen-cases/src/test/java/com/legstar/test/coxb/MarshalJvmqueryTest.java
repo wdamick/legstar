@@ -25,7 +25,7 @@ import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.visitor.CobolMarshalVisitor;
-import com.legstar.test.coxb.jvmquery.bind.JvmQueryReplyTypeBinding;
+import com.legstar.test.coxb.jvmquery.bind.JvmQueryReplyBinding;
 import com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply;
 
 import junit.framework.TestCase;
@@ -60,7 +60,7 @@ public class MarshalJvmqueryTest extends TestCase {
 		jvmQueryReply.getEnvVarValues().add("D:\\Legsem\\Legstar\\jboss\\mlittle\\product\\build\\jbossesb-server-4.4.GA");
 		jvmQueryReply.getEnvVarValues().add("C:\\Program Files\\Java\\jdk1.6.0_10");
 		
-        ICobolComplexBinding binding = new JvmQueryReplyTypeBinding(jvmQueryReply);
+        ICobolComplexBinding binding = new JvmQueryReplyBinding(jvmQueryReply);
 
         /* Convert Java data object to a host byte array */
         byte[] hostBytes = new byte[binding.calcByteLength()];
