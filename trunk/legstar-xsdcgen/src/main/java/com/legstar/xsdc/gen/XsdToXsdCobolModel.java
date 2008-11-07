@@ -24,11 +24,6 @@ public class XsdToXsdCobolModel extends SourceToXsdCobolModel {
 	/** A URI where the XSD is available. */
 	private URI mInputXsdUri;
 	
-	/** Suffix to be added to JAXB classes names for XML schema types. This 
-	 * is used to disambiguate java object names when elements and types
-	 * have the same names.*/
-	private String mJaxbTypeClassesSuffix;
-	
 	/** This generator name. */
 	public static final String X2S_GENERATOR_NAME =
 		"LegStar Xsd or Wsdl to Xsd generator";
@@ -61,22 +56,6 @@ public class XsdToXsdCobolModel extends SourceToXsdCobolModel {
 	public final void setInputXsdUri(
 			final URI xsdUri) {
 		mInputXsdUri = xsdUri;
-	}
-
-	/**
-	 * @return the Suffix to be added to JAXB classes names for XML schema types
-	 */
-	public final String getJaxbTypeClassesSuffix() {
-		return mJaxbTypeClassesSuffix;
-	}
-
-	/**
-	 * @param jaxbTypeClassesSuffix the Suffix to be added to JAXB classes names
-	 *  for XML schema types
-	 */
-	public final void setJaxbTypeClassesSuffix(
-			final String jaxbTypeClassesSuffix) {
-		mJaxbTypeClassesSuffix = jaxbTypeClassesSuffix;
 	}
 
 }

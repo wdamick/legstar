@@ -1468,22 +1468,6 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 	}
 
 	/**
-	 * @return the Suffix to be added to JAXB classes names for XML schema types
-	 */
-	public final String getJaxbTypeClassesSuffix() {
-		return getModel().getJaxbTypeClassesSuffix();
-	}
-
-	/**
-	 * @param jaxbTypeClassesSuffix the Suffix to be added to JAXB classes names
-	 *  for XML schema types
-	 */
-	public final void setJaxbTypeClassesSuffix(
-			final String jaxbTypeClassesSuffix) {
-		getModel().setJaxbTypeClassesSuffix(jaxbTypeClassesSuffix);
-	}
-
-	/**
 	 * @return the map of Type names / Element names for elements that need
 	 * to be added to the annotated schema.
 	 */

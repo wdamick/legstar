@@ -46,6 +46,7 @@ public class JavaToXsdCobolModelTest extends TestCase {
 		pathElementLocations.add("/Users/pat/thecat");
 		model.setPathElementLocations(pathElementLocations);
 		model.setJaxbPackageName("com.legstar.test.coxb.jvmquery");
+		model.setJaxbTypeClassesSuffix("Typex");
 		model.setNamespace("http://jvmquery.cases.test.xsdc.legstar.com/");
 		model.setTargetDir(new File("schema"));
 		model.setTargetXsdFileName("jvmquery.xsd");
@@ -69,6 +70,7 @@ public class JavaToXsdCobolModelTest extends TestCase {
 		assertTrue(resStr.contains("<mkdir dir=\"schema\"/>"));
 		assertTrue(resStr.contains("namespace=\"http://jvmquery.cases.test.xsdc.legstar.com/\""));
 		assertTrue(resStr.contains("jaxbPackageName=\"com.legstar.test.coxb.jvmquery\""));
+		assertTrue(resStr.contains("jaxbTypeClassesSuffix=\"Typex\""));
 		assertTrue(resStr.contains("targetDir=\"schema\""));
 		assertTrue(resStr.contains("targetXsdFileName=\"jvmquery.xsd\""));
 		assertTrue(resStr.contains("<rootClass name=\"com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest\"/>"));
