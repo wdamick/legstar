@@ -195,42 +195,42 @@ public abstract class SourceToXsdCobolTask extends Task {
 	 * @return the current target directory
 	 */
 	public final File getTargetDir() {
-		return mModel.getTargetDir();
+		return getModel().getTargetDir();
 	}
 
 	/**
 	 * @param targetDir the target directory to set
 	 */
 	public final void setTargetDir(final File targetDir) {
-		mModel.setTargetDir(targetDir);
+		getModel().setTargetDir(targetDir);
 	}
 
 	/**
 	 * @return the target annotated XSD file name
 	 */
 	public final String getTargetXsdFileName() {
-		return mModel.getTargetXsdFileName();
+		return getModel().getTargetXsdFileName();
 	}
 
 	/**
 	 * @param targetXsdFileName the target annotated XSD file name to set
 	 */
 	public final void setTargetXsdFileName(final String targetXsdFileName) {
-		mModel.setTargetXsdFileName(targetXsdFileName);
+		getModel().setTargetXsdFileName(targetXsdFileName);
 	}
 
 	/**
 	 * @return the target schema namespace
 	 */
 	public final String getNamespace() {
-		return mModel.getNamespace();
+		return getModel().getNamespace();
 	}
 
 	/**
 	 * @param namespace the target schema namespace to set
 	 */
 	public final void setNamespace(final String namespace) {
-		mModel.setNamespace(namespace);
+		getModel().setNamespace(namespace);
 	}
 
 	/**
@@ -239,7 +239,7 @@ public abstract class SourceToXsdCobolTask extends Task {
 	 * @return the mJaxbPackageName JAXB package name
 	 */
 	public final String getJaxbPackageName() {
-		return mModel.getJaxbPackageName();
+		return getModel().getJaxbPackageName();
 	}
 
 	/**
@@ -248,7 +248,23 @@ public abstract class SourceToXsdCobolTask extends Task {
 	 * @param jaxbPackageName the JAXB package name to set
 	 */
 	public final void setJaxbPackageName(final String jaxbPackageName) {
-		mModel.setJaxbPackageName(jaxbPackageName);
+		getModel().setJaxbPackageName(jaxbPackageName);
+	}
+
+	/**
+	 * @return the Suffix to be added to JAXB classes names for XML schema types
+	 */
+	public final String getJaxbTypeClassesSuffix() {
+		return getModel().getJaxbTypeClassesSuffix();
+	}
+
+	/**
+	 * @param jaxbTypeClassesSuffix the Suffix to be added to JAXB classes names
+	 *  for XML schema types
+	 */
+	public final void setJaxbTypeClassesSuffix(
+			final String jaxbTypeClassesSuffix) {
+		getModel().setJaxbTypeClassesSuffix(jaxbTypeClassesSuffix);
 	}
 
 	/**
