@@ -25,9 +25,9 @@ public class CoxbHelperTest extends TestCase {
 
 		CComplexReflectBinding binding = new CComplexReflectBinding(
 				objectFactory,
-				JaxbUtil.loadClass("com.legstar.test.coxb.alltypes.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.alltypes.Dfhcommarea"));
 		
-		assertEquals("DfhcommareaType", mCoxbHelper.getBoundTypeName(binding));
+		assertEquals("Dfhcommarea", mCoxbHelper.getBoundTypeName(binding));
 
 	}
 

@@ -81,7 +81,7 @@ public class AntBuildJaxws2CixsModelTest extends TestCase {
 		assertTrue(resStr.contains("targetNamespace=\"http://cixs.test.legstar.com/lsfileae\""));
 		assertTrue(resStr.contains("<cixsOperation name=\"lsfileae\""));
 		assertTrue(resStr.contains("cicsProgramName=\"LSFILEAE\""));
-		assertTrue(resStr.contains("jaxbType=\"DfhcommareaType\""));
+		assertTrue(resStr.contains("jaxbType=\"Dfhcommarea\""));
 		assertTrue(resStr.contains("jaxbPackageName=\"com.legstar.test.coxb.lsfileae\""));
 		assertTrue(resStr.replace('\\', '/').contains("<mkdir dir=\"src/test/gen/target/classes\"/>"));
 		assertTrue(resStr.replace('\\', '/').contains("<javac srcdir=\"src/test/gen/java\""));

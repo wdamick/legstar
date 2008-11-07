@@ -54,7 +54,7 @@ INSTALLING/UNINSTALLING:
        This should create binding classes by reflecting on the JAXB classes  
        generated at step 2.
        
-       By default build-coxb.xml generates binding classes for the DfhcommareaType
+       By default build-coxb.xml generates binding classes for the Dfhcommarea
        class produced by build-jaxb.xml on sample lsfileae.xsd.
     
  [[4]] Follow instructions in build-jaxb.xml and build-coxb.xml to generate

@@ -61,13 +61,13 @@ public class VelocityTemplatesTest extends TestCase {
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				JaxbUtil.loadClass("com.legstar.test.coxb.alltypes.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.alltypes.Dfhcommarea"));
 
 		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.alltypes");
 		coxbContext.setCoxbPackageName("com.legstar.test.coxb.alltypes.bind");
 		mParameters.put("coxbContext", coxbContext);
-		mParameters.put("binding-class-name", "DfhcommareaTypeBinding");
+		mParameters.put("binding-class-name", "DfhcommareaBinding");
 
 		CodeGenUtil.processTemplate(
 				BINDING_GENERATOR_NAME,
@@ -96,8 +96,8 @@ public class VelocityTemplatesTest extends TestCase {
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolArrayFloatBinding;"));
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolDoubleBinding;"));
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolArrayDoubleBinding;"));
-		assertTrue(resStr.contains("public DfhcommareaTypeBinding("));
-		assertTrue(resStr.contains("final DfhcommareaType valueObject) {"));
+		assertTrue(resStr.contains("public DfhcommareaBinding("));
+		assertTrue(resStr.contains("final Dfhcommarea valueObject) {"));
 		assertTrue(resStr.contains("this(\"\", \"\", null, valueObject);"));
 		assertTrue(resStr.contains("import java.math.BigInteger;"));
 		assertTrue(resStr.contains("import java.math.BigDecimal;"));
@@ -128,13 +128,13 @@ public class VelocityTemplatesTest extends TestCase {
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				JaxbUtil.loadClass("com.legstar.test.coxb.arrayssm.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.arrayssm.Dfhcommarea"));
 
 		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.arrayssm");
 		coxbContext.setCoxbPackageName("com.legstar.test.coxb.arrayssm.bind");
 		mParameters.put("coxbContext", coxbContext);
-		mParameters.put("binding-class-name", "DfhcommareaTypeBinding");
+		mParameters.put("binding-class-name", "DfhcommareaBinding");
 
 		CodeGenUtil.processTemplate(
 				BINDING_GENERATOR_NAME,
@@ -155,7 +155,7 @@ public class VelocityTemplatesTest extends TestCase {
 		assertTrue(resStr.contains("import java.util.List;"));
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolArrayComplexBinding;"));
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolArrayStringBinding;"));
-		assertTrue(resStr.contains("import com.legstar.test.coxb.arrayssm.TableComplexType;"));
+		assertTrue(resStr.contains("import com.legstar.test.coxb.arrayssm.TableComplex;"));
 
 		assertTrue(resStr.contains("public ICobolArrayStringBinding _tableSimple;"));
 		assertTrue(resStr.contains("public ICobolArrayComplexBinding _tableComplexWrapper;"));
@@ -168,14 +168,14 @@ public class VelocityTemplatesTest extends TestCase {
 		assertTrue(resStr.contains("tableSimple.setCobolName(\"TABLE-SIMPLE\");"));
 		assertTrue(resStr.contains("tableSimple.setMinOccurs(2);"));
 		assertTrue(resStr.contains("tableSimple.setMaxOccurs(2);"));
-		assertTrue(resStr.contains("tableComplexWrapperItem = new TableComplexTypeBinding(\"TableComplexWrapperItem\","));
+		assertTrue(resStr.contains("tableComplexWrapperItem = new TableComplexBinding(\"TableComplexWrapperItem\","));
 		assertTrue(resStr.contains("\"TableComplex\", this, null);"));
-		assertTrue(resStr.contains("tableComplexWrapper = new TableComplexTypeWrapperBinding(\"TableComplexWrapper\","));
+		assertTrue(resStr.contains("tableComplexWrapper = new TableComplexWrapperBinding(\"TableComplexWrapper\","));
 		assertTrue(resStr.contains("\"TableComplex\", this, _tableComplexWrapperItem);"));
 
 		assertTrue(resStr.contains("mValueObject.getTableComplex().clear();"));
 		assertTrue(resStr.contains("mValueObject.getTableComplex().addAll("));
-		assertTrue(resStr.contains("(List < TableComplexType >) bindingValue);"));
+		assertTrue(resStr.contains("(List < TableComplex >) bindingValue);"));
 	}
 
 	public void testGenArrayssmWrapper() throws Exception {
@@ -185,7 +185,7 @@ public class VelocityTemplatesTest extends TestCase {
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				JaxbUtil.loadClass("com.legstar.test.coxb.arrayssm.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.arrayssm.Dfhcommarea"));
 
 		ICobolArrayComplexBinding ca = (ICobolArrayComplexBinding) ce.getChildrenList().get(1);
 
@@ -193,7 +193,7 @@ public class VelocityTemplatesTest extends TestCase {
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.arrayssm");
 		coxbContext.setCoxbPackageName("com.legstar.test.coxb.arrayssm.bind");
 		mParameters.put("coxbContext", coxbContext);
-		mParameters.put("binding-class-name", "TableComplexTypeWrapperBinding");
+		mParameters.put("binding-class-name", "TableComplexWrapperBinding");
 
 		CodeGenUtil.processTemplate(
 				BINDING_GENERATOR_NAME,
@@ -214,19 +214,19 @@ public class VelocityTemplatesTest extends TestCase {
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolComplexBinding;"));
 		assertTrue(resStr.contains("import java.util.List;"));
 		assertTrue(resStr.contains("import java.util.ArrayList;"));
-		assertTrue(resStr.contains("import com.legstar.test.coxb.arrayssm.TableComplexType;"));
-		assertTrue(resStr.contains("public class TableComplexTypeWrapperBinding"));
+		assertTrue(resStr.contains("import com.legstar.test.coxb.arrayssm.TableComplex;"));
+		assertTrue(resStr.contains("public class TableComplexWrapperBinding"));
 		assertTrue(resStr.contains("extends CArrayComplexBinding {"));
-		assertTrue(resStr.contains("private List < TableComplexType > mValueObject;"));
-		assertTrue(resStr.contains("super(bindingName, fieldName, TableComplexType.class, null, parentBinding, complexItemBinding);"));
+		assertTrue(resStr.contains("private List < TableComplex > mValueObject;"));
+		assertTrue(resStr.contains("super(bindingName, fieldName, TableComplex.class, null, parentBinding, complexItemBinding);"));
 		assertTrue(resStr.contains("setMinOccurs(3);"));
 		assertTrue(resStr.contains("setMaxOccurs(3);"));
-		assertTrue(resStr.contains("mValueObject = new ArrayList < TableComplexType >();"));
-		assertTrue(resStr.contains("mValueObject.add((TableComplexType) getComplexItemBinding()."));
-		assertTrue(resStr.contains("getObjectValue(TableComplexType.class));"));
+		assertTrue(resStr.contains("mValueObject = new ArrayList < TableComplex >();"));
+		assertTrue(resStr.contains("mValueObject.add((TableComplex) getComplexItemBinding()."));
+		assertTrue(resStr.contains("getObjectValue(TableComplex.class));"));
 
-		assertTrue(resStr.contains("public final List < TableComplexType > getTableComplexType() throws HostException {"));
-		assertTrue(resStr.contains("return (List < TableComplexType >) getObjectValue(TableComplexType.class);"));
+		assertTrue(resStr.contains("public final List < TableComplex > getTableComplex() throws HostException {"));
+		assertTrue(resStr.contains("return (List < TableComplex >) getObjectValue(TableComplex.class);"));
 	}
 
 	public void testGenArraysdo() throws Exception {
@@ -236,13 +236,13 @@ public class VelocityTemplatesTest extends TestCase {
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				JaxbUtil.loadClass("com.legstar.test.coxb.arraysdo.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.arraysdo.Dfhcommarea"));
 
 		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.arraysdo");
 		coxbContext.setCoxbPackageName("com.legstar.test.coxb.arraysdo.bind");
 		mParameters.put("coxbContext", coxbContext);
-		mParameters.put("binding-class-name", "DfhcommareaTypeBinding");
+		mParameters.put("binding-class-name", "DfhcommareaBinding");
 
 		CodeGenUtil.processTemplate(
 				BINDING_GENERATOR_NAME,
@@ -296,13 +296,13 @@ public class VelocityTemplatesTest extends TestCase {
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				JaxbUtil.loadClass("com.legstar.test.coxb.redsimpt.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.redsimpt.Dfhcommarea"));
 
 		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.redsimpt");
 		coxbContext.setCoxbPackageName("com.legstar.test.coxb.redsimpt.bind");
 		mParameters.put("coxbContext", coxbContext);
-		mParameters.put("binding-class-name", "DfhcommareaTypeBinding");
+		mParameters.put("binding-class-name", "DfhcommareaBinding");
 
 		CodeGenUtil.processTemplate(
 				BINDING_GENERATOR_NAME,
@@ -336,7 +336,7 @@ public class VelocityTemplatesTest extends TestCase {
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				JaxbUtil.loadClass("com.legstar.test.coxb.redsimpt.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.redsimpt.Dfhcommarea"));
 
 		ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList().get(0);
 
@@ -387,19 +387,19 @@ public class VelocityTemplatesTest extends TestCase {
 		assertTrue(resStr.contains("addAlternative(_cDefinition1);"));
 		assertTrue(resStr.contains("addAlternative(_cDefinition2);"));
 
-		assertTrue(resStr.contains("value = getDfhcommareaType().getCDefinition1();"));
+		assertTrue(resStr.contains("value = getDfhcommarea().getCDefinition1();"));
 		assertTrue(resStr.contains("cDefinition1.setObjectValue(value);"));
-		assertTrue(resStr.contains("value = getDfhcommareaType().getCDefinition2();"));
+		assertTrue(resStr.contains("value = getDfhcommarea().getCDefinition2();"));
 		assertTrue(resStr.contains("cDefinition2.setObjectValue(value);"));
 
-		assertTrue(resStr.contains("getDfhcommareaType().setCDefinition1("));
+		assertTrue(resStr.contains("getDfhcommarea().setCDefinition1("));
 		assertTrue(resStr.contains("(String) bindingValue);"));
-		assertTrue(resStr.contains("getDfhcommareaType().setCDefinition2("));
+		assertTrue(resStr.contains("getDfhcommarea().setCDefinition2("));
 		assertTrue(resStr.contains("(Long) bindingValue);"));
 
-		assertTrue(resStr.contains("public final DfhcommareaType getDfhcommareaType() throws HostException {"));
-		assertTrue(resStr.contains("return ((DfhcommareaTypeBinding) getParentBinding()).getDfhcommareaType();"));
-		assertTrue(resStr.contains("return (DfhcommareaType) getParentValueObject();"));
+		assertTrue(resStr.contains("public final Dfhcommarea getDfhcommarea() throws HostException {"));
+		assertTrue(resStr.contains("return ((DfhcommareaBinding) getParentBinding()).getDfhcommarea();"));
+		assertTrue(resStr.contains("return (Dfhcommarea) getParentValueObject();"));
 	}
 
 	public void testGenRedsimptChoiceStrategy() throws Exception {
@@ -409,7 +409,7 @@ public class VelocityTemplatesTest extends TestCase {
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				JaxbUtil.loadClass("com.legstar.test.coxb.redsimpt.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.redsimpt.Dfhcommarea"));
 
 		ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList().get(0);
 
@@ -438,7 +438,7 @@ public class VelocityTemplatesTest extends TestCase {
 		in.close();
 		assertTrue(resStr.contains("package com.legstar.coxb.cust.redsimpt;"));
 		assertTrue(resStr.contains("public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {"));
-		assertTrue(resStr.contains("DfhcommareaType valueObject = (DfhcommareaType) choice.getObjectValue(DfhcommareaType.class);"));
+		assertTrue(resStr.contains("Dfhcommarea valueObject = (Dfhcommarea) choice.getObjectValue(Dfhcommarea.class);"));
 		assertTrue(resStr.contains("return choice.getAlternativeByName(\"CDefinition1\");"));
 		assertTrue(resStr.contains("return choice.getAlternativeByName(\"CDefinition2\");"));
 	}

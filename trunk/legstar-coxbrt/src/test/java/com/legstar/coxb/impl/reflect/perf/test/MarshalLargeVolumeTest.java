@@ -33,31 +33,31 @@ public class MarshalLargeVolumeTest extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.dplarcht.ObjectFactory objectFactory = new com.legstar.test.coxb.dplarcht.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.dplarcht.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.dplarcht.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		
-		com.legstar.test.coxb.dplarcht.LsRequestType lsRequestType = objectFactory.createLsRequestType();
-		dfhcommarea.setLsRequest(lsRequestType);
-		lsRequestType.setLsRequestType(0); // request files
-		lsRequestType.setLsAllItems("*");  // no limit to number of items
-		com.legstar.test.coxb.dplarcht.LsSearchCriteriaType lsSearchCriteriaType = objectFactory.createLsSearchCriteriaType();
-		lsSearchCriteriaType.setLsStartwith("C");
-		lsSearchCriteriaType.setLsStartwithLen(1);
-		lsRequestType.setLsSearchCriteria(lsSearchCriteriaType);
+		com.legstar.test.coxb.dplarcht.LsRequest lsRequest = objectFactory.createLsRequest();
+		dfhcommarea.setLsRequest(lsRequest);
+		lsRequest.setLsRequestType(0); // request files
+		lsRequest.setLsAllItems("*");  // no limit to number of items
+		com.legstar.test.coxb.dplarcht.LsSearchCriteria lsSearchCriteria = objectFactory.createLsSearchCriteria();
+		lsSearchCriteria.setLsStartwith("C");
+		lsSearchCriteria.setLsStartwithLen(1);
+		lsRequest.setLsSearchCriteria(lsSearchCriteria);
 		
-		com.legstar.test.coxb.dplarcht.LsReplyType lsReplyType = objectFactory.createLsReplyType();
-		dfhcommarea.setLsReply(lsReplyType);
-		com.legstar.test.coxb.dplarcht.LsReplyDataType lsReplyDataType = objectFactory.createLsReplyDataType();
-		lsReplyType.setLsReplyData(lsReplyDataType);
-		lsReplyDataType.setLsItemsCount(500);
+		com.legstar.test.coxb.dplarcht.LsReply lsReply = objectFactory.createLsReply();
+		dfhcommarea.setLsReply(lsReply);
+		com.legstar.test.coxb.dplarcht.LsReplyData lsReplyData = objectFactory.createLsReplyData();
+		lsReply.setLsReplyData(lsReplyData);
+		lsReplyData.setLsItemsCount(500);
         
         for (int i=0; i < 500; i++) {
-            com.legstar.test.coxb.dplarcht.LsItemsArrayType ia = objectFactory.createLsItemsArrayType();
-            com.legstar.test.coxb.dplarcht.LsFilesDataType dt = objectFactory.createLsFilesDataType();
+            com.legstar.test.coxb.dplarcht.LsItemsArray ia = objectFactory.createLsItemsArray();
+            com.legstar.test.coxb.dplarcht.LsFilesData dt = objectFactory.createLsFilesData();
             dt.setLsFileName("FILE" + (new Integer(i)).toString());
             dt.setLsFileDsname("this.is.file." + (new Integer(i)).toString());
             dt.setLsFileEnablestatus("ENABLED");
             ia.setLsFilesData(dt);
-            lsReplyDataType.getLsItemsArray().add(ia);
+            lsReplyData.getLsItemsArray().add(ia);
         }
         
  		

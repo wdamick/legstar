@@ -13,7 +13,7 @@ elementFormDefault="qualified">
  <jaxb:package  name="com.legstar.test.coxb.arrayscx"/>
  </jaxb:schemaBindings>
  </xs:appinfo></xs:annotation>
- <xs:complexType name="Filler23Type">
+ <xs:complexType name="Filler23">
     <xs:sequence>
      <xs:element name="WsItemA" minOccurs="3" maxOccurs="3">
        <xs:annotation>
@@ -30,16 +30,16 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="DfhcommareaType">
+ <xs:complexType name="Dfhcommarea">
     <xs:sequence>
-     <xs:element name="TableThree" type="xsns:TableThreeType">
+     <xs:element name="TableThree" type="xsns:TableThree">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='05' cobolName='TABLE-THREE' type='GROUP_ITEM' srceLine='29'/>
          </xs:appinfo>
        </xs:annotation>
      </xs:element>
-     <xs:element name="TableRedef" minOccurs="3" maxOccurs="3" type="xsns:TableRedefType">
+     <xs:element name="TableRedef" minOccurs="3" maxOccurs="3" type="xsns:TableRedef">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='05' cobolName='TABLE-REDEF' type='GROUP_ITEM' minOccurs='3' maxOccurs='3' srceLine='33'/>
@@ -48,9 +48,9 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="TableThreeType">
+ <xs:complexType name="TableThree">
     <xs:sequence>
-     <xs:element name="ElementOne" minOccurs="3" maxOccurs="3" type="xsns:ElementOneType">
+     <xs:element name="ElementOne" minOccurs="3" maxOccurs="3" type="xsns:ElementOne">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='10' cobolName='ELEMENT-ONE' type='GROUP_ITEM' minOccurs='3' maxOccurs='3' srceLine='30'/>
@@ -59,9 +59,9 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="ElementOneType">
+ <xs:complexType name="ElementOne">
     <xs:sequence>
-     <xs:element name="ElementTwo" minOccurs="3" maxOccurs="3" type="xsns:ElementTwoType">
+     <xs:element name="ElementTwo" minOccurs="3" maxOccurs="3" type="xsns:ElementTwo">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='15' cobolName='ELEMENT-TWO' type='GROUP_ITEM' minOccurs='3' maxOccurs='3' srceLine='31'/>
@@ -70,7 +70,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="ElementTwoType">
+ <xs:complexType name="ElementTwo">
     <xs:sequence>
      <xs:element name="ElementThree" minOccurs="2" maxOccurs="2">
        <xs:annotation>
@@ -86,7 +86,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="TableRedefType">
+ <xs:complexType name="TableRedef">
     <xs:sequence>
      <xs:choice>
      <xs:element name="ElementRedef1">

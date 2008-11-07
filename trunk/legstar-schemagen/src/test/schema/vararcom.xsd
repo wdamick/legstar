@@ -13,7 +13,7 @@ elementFormDefault="qualified">
  <jaxb:package  name="com.legstar.test.coxb.vararcom"/>
  </jaxb:schemaBindings>
  </xs:appinfo></xs:annotation>
- <xs:complexType name="DfhcommareaType">
+ <xs:complexType name="Dfhcommarea">
     <xs:sequence>
      <xs:element name="CItemsNumber">
        <xs:annotation>
@@ -26,7 +26,7 @@ elementFormDefault="qualified">
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
-     <xs:element name="CArray" minOccurs="1" maxOccurs="250" type="xsns:CArrayType">
+     <xs:element name="CArray" minOccurs="1" maxOccurs="250" type="xsns:CArray">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='05' cobolName='C-ARRAY' type='GROUP_ITEM' minOccurs='1' maxOccurs='250' dependingOn='C-ITEMS-NUMBER' srceLine='23'/>
@@ -35,7 +35,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="CArrayType">
+ <xs:complexType name="CArray">
     <xs:sequence>
      <xs:element name="CItem1">
        <xs:annotation>

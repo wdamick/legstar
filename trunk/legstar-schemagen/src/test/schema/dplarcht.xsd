@@ -13,7 +13,7 @@ elementFormDefault="qualified">
  <jaxb:package  name="com.legstar.test.coxb.dplarcht"/>
  </jaxb:schemaBindings>
  </xs:appinfo></xs:annotation>
- <xs:complexType name="WsFileDescriptionType">
+ <xs:complexType name="WsFileDescription">
     <xs:sequence>
      <xs:element name="WsFileStart">
        <xs:annotation>
@@ -74,7 +74,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="WsProgramDescriptionType">
+ <xs:complexType name="WsProgramDescription">
     <xs:sequence>
      <xs:element name="WsProgramStart">
        <xs:annotation>
@@ -162,7 +162,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="WsTransactionDescriptionType">
+ <xs:complexType name="WsTransactionDescription">
     <xs:sequence>
      <xs:element name="WsTransactionStart">
        <xs:annotation>
@@ -223,16 +223,16 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="DfhcommareaType">
+ <xs:complexType name="Dfhcommarea">
     <xs:sequence>
-     <xs:element name="LsRequest" type="xsns:LsRequestType">
+     <xs:element name="LsRequest" type="xsns:LsRequest">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='05' cobolName='LS-REQUEST' type='GROUP_ITEM' srceLine='81'/>
          </xs:appinfo>
        </xs:annotation>
      </xs:element>
-     <xs:element name="LsReply" type="xsns:LsReplyType">
+     <xs:element name="LsReply" type="xsns:LsReply">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='05' cobolName='LS-REPLY' type='GROUP_ITEM' srceLine='93'/>
@@ -241,7 +241,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="LsRequestType">
+ <xs:complexType name="LsRequest">
     <xs:sequence>
      <xs:element name="LsRequestType">
        <xs:annotation>
@@ -283,7 +283,7 @@ elementFormDefault="qualified">
        </xs:simpleType>
      </xs:element>
      </xs:choice>
-     <xs:element name="LsSearchCriteria" type="xsns:LsSearchCriteriaType">
+     <xs:element name="LsSearchCriteria" type="xsns:LsSearchCriteria">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='10' cobolName='LS-SEARCH-CRITERIA' type='GROUP_ITEM' srceLine='89'/>
@@ -292,7 +292,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="LsSearchCriteriaType">
+ <xs:complexType name="LsSearchCriteria">
     <xs:sequence>
      <xs:element name="LsStartwith">
        <xs:annotation>
@@ -321,7 +321,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="LsReplyType">
+ <xs:complexType name="LsReply">
     <xs:sequence>
      <xs:element name="LsReplyType">
        <xs:annotation>
@@ -336,7 +336,7 @@ elementFormDefault="qualified">
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
-     <xs:element name="LsReplyData" type="xsns:LsReplyDataType">
+     <xs:element name="LsReplyData" type="xsns:LsReplyData">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='10' cobolName='LS-REPLY-DATA' type='GROUP_ITEM' srceLine='98'/>
@@ -345,7 +345,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="LsReplyDataType">
+ <xs:complexType name="LsReplyData">
     <xs:sequence>
      <xs:element name="LsItemsCount">
        <xs:annotation>
@@ -358,7 +358,7 @@ elementFormDefault="qualified">
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
-     <xs:element name="LsItemsArray" minOccurs="1" maxOccurs="500" type="xsns:LsItemsArrayType">
+     <xs:element name="LsItemsArray" minOccurs="1" maxOccurs="500" type="xsns:LsItemsArray">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='15' cobolName='LS-ITEMS-ARRAY' type='GROUP_ITEM' minOccurs='1' maxOccurs='500' dependingOn='LS-ITEMS-COUNT' srceLine='101'/>
@@ -367,24 +367,24 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="LsItemsArrayType">
+ <xs:complexType name="LsItemsArray">
     <xs:sequence>
      <xs:choice>
-     <xs:element name="LsFilesData" type="xsns:LsFilesDataType">
+     <xs:element name="LsFilesData" type="xsns:LsFilesData">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='20' cobolName='LS-FILES-DATA' type='GROUP_ITEM' isRedefined='true' unmarshalChoiceStrategyClassName='com.legstar.coxb.cust.dplarcht.ChoiceSelector' srceLine='102'/>
          </xs:appinfo>
        </xs:annotation>
      </xs:element>
-     <xs:element name="LsProgramsData" type="xsns:LsProgramsDataType">
+     <xs:element name="LsProgramsData" type="xsns:LsProgramsData">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='20' cobolName='LS-PROGRAMS-DATA' type='GROUP_ITEM' redefines='LS-FILES-DATA' srceLine='107'/>
          </xs:appinfo>
        </xs:annotation>
      </xs:element>
-     <xs:element name="LsTransactionsData" type="xsns:LsTransactionsDataType">
+     <xs:element name="LsTransactionsData" type="xsns:LsTransactionsData">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='20' cobolName='LS-TRANSACTIONS-DATA' type='GROUP_ITEM' redefines='LS-FILES-DATA' srceLine='115'/>
@@ -394,7 +394,7 @@ elementFormDefault="qualified">
      </xs:choice>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="LsFilesDataType">
+ <xs:complexType name="LsFilesData">
     <xs:sequence>
      <xs:element name="LsFileName">
        <xs:annotation>
@@ -434,7 +434,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="LsProgramsDataType">
+ <xs:complexType name="LsProgramsData">
     <xs:sequence>
      <xs:element name="LsProgramName">
        <xs:annotation>
@@ -512,7 +512,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="LsTransactionsDataType">
+ <xs:complexType name="LsTransactionsData">
     <xs:sequence>
      <xs:element name="LsTransactionName">
        <xs:annotation>

@@ -25,11 +25,11 @@ package com.legstar.test.coxb;
 
 import java.math.BigInteger;
 
-import com.legstar.test.coxb.binnatus.LsUnsignedNativeType;
-import com.legstar.test.coxb.binnatus.LsDoublewordsType;
-import com.legstar.test.coxb.binnatus.LsFullwordsType;
-import com.legstar.test.coxb.binnatus.LsHalfwordsType;
-import com.legstar.test.coxb.binnatus.DfhcommareaType;
+import com.legstar.test.coxb.binnatus.LsUnsignedNative;
+import com.legstar.test.coxb.binnatus.LsDoublewords;
+import com.legstar.test.coxb.binnatus.LsFullwords;
+import com.legstar.test.coxb.binnatus.LsHalfwords;
+import com.legstar.test.coxb.binnatus.Dfhcommarea;
 
 import junit.framework.TestCase;
 
@@ -40,35 +40,35 @@ public class MarshalBinnatusTest extends TestCase {
 	public void testBinnatus() throws Exception {
 
 		// Create and populate an instance of an object (JAXB annotated)
-		DfhcommareaType dfhcommareaType = (DfhcommareaType) Util.getJaxbObject(SCHEMA_NAME);
+		Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
 		
-		LsUnsignedNativeType lsUnsignedNativeType = new LsUnsignedNativeType(); 
+		LsUnsignedNative lsUnsignedNative = new LsUnsignedNative(); 
 		
-		LsHalfwordsType lsHalfwordsType = new LsHalfwordsType();
-		lsHalfwordsType.setLsP9X4High(32769);
-		lsHalfwordsType.setLsP9X4Low(127);
-		lsHalfwordsType.setLsP9X4Max(65535);
-		lsHalfwordsType.setLsP9X4Min(0);
+		LsHalfwords lsHalfwords = new LsHalfwords();
+		lsHalfwords.setLsP9X4High(32769);
+		lsHalfwords.setLsP9X4Low(127);
+		lsHalfwords.setLsP9X4Max(65535);
+		lsHalfwords.setLsP9X4Min(0);
 		
-		LsFullwordsType lsFullwordsType = new LsFullwordsType();
-		lsFullwordsType.setLsP9X9High(2147483649l);
-		lsFullwordsType.setLsP9X9Low(65534);
-		lsFullwordsType.setLsP9X9Max(4294967295l);
-		lsFullwordsType.setLsP9X9Min(0);
+		LsFullwords lsFullwords = new LsFullwords();
+		lsFullwords.setLsP9X9High(2147483649l);
+		lsFullwords.setLsP9X9Low(65534);
+		lsFullwords.setLsP9X9Max(4294967295l);
+		lsFullwords.setLsP9X9Min(0);
 		
-		LsDoublewordsType lsDoublewordsType = new LsDoublewordsType();
-		lsDoublewordsType.setLsP9X18High(new BigInteger("18446744069414584318"));
-		lsDoublewordsType.setLsP9X18Low(new BigInteger("4294967294"));
-		lsDoublewordsType.setLsP9X18Max(new BigInteger("18446744073709551615"));
-		lsDoublewordsType.setLsP9X18Min(new BigInteger("0"));
+		LsDoublewords lsDoublewords = new LsDoublewords();
+		lsDoublewords.setLsP9X18High(new BigInteger("18446744069414584318"));
+		lsDoublewords.setLsP9X18Low(new BigInteger("4294967294"));
+		lsDoublewords.setLsP9X18Max(new BigInteger("18446744073709551615"));
+		lsDoublewords.setLsP9X18Min(new BigInteger("0"));
 		
-		lsUnsignedNativeType.setLsHalfwords(lsHalfwordsType);
-		lsUnsignedNativeType.setLsFullwords(lsFullwordsType);
-		lsUnsignedNativeType.setLsDoublewords(lsDoublewordsType);
+		lsUnsignedNative.setLsHalfwords(lsHalfwords);
+		lsUnsignedNative.setLsFullwords(lsFullwords);
+		lsUnsignedNative.setLsDoublewords(lsDoublewords);
 		
-		dfhcommareaType.setLsUnsignedNative(lsUnsignedNativeType);
+		Dfhcommarea.setLsUnsignedNative(lsUnsignedNative);
 		
 		assertEquals("0000007f8001ffff000000000000fffe80000001ffffffff000000000000000000000000fffffffefffffffefffffffeffffffffffffffff",
-				Util.marshal(SCHEMA_NAME, dfhcommareaType, 56));
+				Util.marshal(SCHEMA_NAME, Dfhcommarea, 56));
 	}
 }

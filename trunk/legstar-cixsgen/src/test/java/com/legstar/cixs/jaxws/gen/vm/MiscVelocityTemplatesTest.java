@@ -57,26 +57,26 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
         		operation.getRequestHolderType() + ".java");
         
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileac;"));
-        assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileac.QueryLimitType;"));
-        assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileac.QueryDataType;"));
+        assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileac.QueryLimit;"));
+        assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileac.QueryData;"));
         assertTrue(resStr.contains("@XmlType(name = \"LsfileacRequestHolder\","));
         assertTrue(resStr.contains("namespace = \"http://cixs.test.legstar.com/lsfileac\","));
         assertTrue(resStr.contains("\"queryLimit\","));
         assertTrue(resStr.contains("\"queryData\""));
         assertTrue(resStr.contains("public class LsfileacRequestHolder {"));
         assertTrue(resStr.contains("@XmlElement(name = \"queryLimit\","));
-        assertTrue(resStr.contains("private QueryLimitType queryLimit;"));
+        assertTrue(resStr.contains("private QueryLimit queryLimit;"));
         assertTrue(resStr.contains("@XmlElement(name = \"queryData\","));
-        assertTrue(resStr.contains("private QueryDataType queryData;"));
-        assertTrue(resStr.contains("public final QueryLimitType getQueryLimit() {"));
+        assertTrue(resStr.contains("private QueryData queryData;"));
+        assertTrue(resStr.contains("public final QueryLimit getQueryLimit() {"));
         assertTrue(resStr.contains("return queryLimit;"));
-        assertTrue(resStr.contains("final QueryLimitType value) {"));
+        assertTrue(resStr.contains("final QueryLimit value) {"));
         assertTrue(resStr.contains("queryLimit = value;"));
-        assertTrue(resStr.contains("public final QueryDataType getQueryData() {"));
+        assertTrue(resStr.contains("public final QueryData getQueryData() {"));
         assertTrue(resStr.contains("return queryData;"));
         assertTrue(resStr.contains("public final void setQueryData("));
-        assertTrue(resStr.contains("private QueryDataType queryData;"));
-        assertTrue(resStr.contains("final QueryDataType value) {"));
+        assertTrue(resStr.contains("private QueryData queryData;"));
+        assertTrue(resStr.contains("final QueryData value) {"));
         assertTrue(resStr.contains("queryData = value;"));
 	}
 	
@@ -102,17 +102,17 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
         		operation.getRequestWrapperType() + ".java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileae;"));
-        assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileae.DfhcommareaType;"));
+        assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileae.Dfhcommarea;"));
         assertTrue(resStr.contains("@XmlType(name = \"LsfileaeRequest\","));
         assertTrue(resStr.contains("namespace = \"http://cixs.test.legstar.com/lsfileae\","));
         assertTrue(resStr.contains("\"request\""));
         assertTrue(resStr.contains("public class LsfileaeRequest {"));
         assertTrue(resStr.contains("@XmlElement(name = \"Request\","));
-        assertTrue(resStr.contains("private DfhcommareaType request;"));
-        assertTrue(resStr.contains("public final DfhcommareaType getRequest() {"));
+        assertTrue(resStr.contains("private Dfhcommarea request;"));
+        assertTrue(resStr.contains("public final Dfhcommarea getRequest() {"));
         assertTrue(resStr.contains("return request;"));
         assertTrue(resStr.contains("public final void setRequest("));
-        assertTrue(resStr.contains("final DfhcommareaType value) {"));
+        assertTrue(resStr.contains("final Dfhcommarea value) {"));
         assertTrue(resStr.contains("request = value;"));
 	}
 
@@ -132,18 +132,18 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
         		operation.getRequestHolderType() + ".java");
         
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileaq;"));
-        assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileac.QueryDataType;"));
+        assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileac.QueryData;"));
         assertTrue(resStr.contains("@XmlType(name = \"LsfileacRequestHolder\","));
         assertTrue(resStr.contains("namespace = \"http://cixs.test.legstar.com/lsfileaq\","));
         assertTrue(resStr.contains("\"queryData\""));
         assertTrue(resStr.contains("public class LsfileacRequestHolder {"));
         assertTrue(resStr.contains("@XmlElement(name = \"queryData\","));
-        assertTrue(resStr.contains("private QueryDataType queryData;"));
-        assertTrue(resStr.contains("public final QueryDataType getQueryData() {"));
+        assertTrue(resStr.contains("private QueryData queryData;"));
+        assertTrue(resStr.contains("public final QueryData getQueryData() {"));
         assertTrue(resStr.contains("return queryData;"));
         assertTrue(resStr.contains("public final void setQueryData("));
-        assertTrue(resStr.contains("private QueryDataType queryData;"));
-        assertTrue(resStr.contains("final QueryDataType value) {"));
+        assertTrue(resStr.contains("private QueryData queryData;"));
+        assertTrue(resStr.contains("final QueryData value) {"));
         assertTrue(resStr.contains("queryData = value;"));
 	}
 	
@@ -224,12 +224,13 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
         		operationPropertiesFilesDir,
         		operation.getCicsProgramName() + ".properties");
 
+        /* Maven tests the containers in this order but not Eclipse FIXME*/
         assertTrue(resStr.contains("CICSProgramName=LSFILEAC"));
         assertTrue(resStr.contains("CICSChannel=LSFILEAC-CHANNEL"));
-        assertTrue(resStr.contains("CICSInContainers_1=QueryLimit"));
-        assertTrue(resStr.contains("CICSInContainersLength_1=10"));
-        assertTrue(resStr.contains("CICSInContainers_2=QueryData"));
-        assertTrue(resStr.contains("CICSInContainersLength_2=48"));
+        assertTrue(resStr.contains("CICSInContainers_1=QueryData"));
+        assertTrue(resStr.contains("CICSInContainersLength_1=48"));
+        assertTrue(resStr.contains("CICSInContainers_2=QueryLimit"));
+        assertTrue(resStr.contains("CICSInContainersLength_2=10"));
         assertTrue(resStr.contains("CICSOutContainers_1=ReplyData"));
         assertTrue(resStr.contains("CICSOutContainersLength_1=7905"));
         assertTrue(resStr.contains("CICSOutContainers_2=ReplyStatus"));

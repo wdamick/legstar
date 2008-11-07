@@ -23,7 +23,7 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.host.HostData;
-import com.legstar.test.coxb.lsfileal.ReplyDataType;
+import com.legstar.test.coxb.lsfileal.ReplyData;
 
 import junit.framework.TestCase;
 
@@ -33,7 +33,7 @@ public class UnmarshalLsfilealTest extends TestCase {
 
 		String hexString = "0000f0f07af0f57af2f2000000044f404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040000000002ff0f0f0f2f0f3c2d6d9c9e2404040404040404040404040404040d1d6c9d5e5c9d3d3c54040404040404040404040f0f1f2f5f4f6f8f9f2f3f0f4f5f940405bf2f5f04bf1f240e8c5d540c140d7c1e2f0f0f0f2f0f4c3c8d9c9e2e3c9c1d54040404040404040404040d5d6c7c5d5e34040404040404040404040404040f2f4f9f6f5f8f4f7f2f3f4f5f8f940405bf0f4f54bf7f840e2c940e8c5d540c140";
 		byte[] hostBytes = HostData.toByteArray(hexString);
-		ReplyDataType replyData = (ReplyDataType) Util.unmarshal(hostBytes, "lsfileal", "ReplyDataType");
+		ReplyData replyData = (ReplyData) Util.unmarshal(hostBytes, "lsfileal", "ReplyData");
 		
 		assertEquals(0,replyData.getReplyType());
 		assertEquals(null,replyData.getReplyErrorHeader());
@@ -62,7 +62,7 @@ public class UnmarshalLsfilealTest extends TestCase {
 
 		String hexString = "00010000001300000050c6c9d3c540c3d3d6e2c5c4404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040000000000f";
 		byte[] hostBytes = HostData.toByteArray(hexString);
-		ReplyDataType replyData = (ReplyDataType) Util.unmarshal(hostBytes, "lsfileal", "ReplyDataType");
+		ReplyData replyData = (ReplyData) Util.unmarshal(hostBytes, "lsfileal", "ReplyData");
 		
 		assertEquals(1,replyData.getReplyType());
 		assertEquals(null,replyData.getReplySuccessHeader());

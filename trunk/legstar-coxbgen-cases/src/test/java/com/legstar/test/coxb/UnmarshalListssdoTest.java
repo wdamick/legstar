@@ -23,7 +23,7 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.host.HostData;
-import com.legstar.test.coxb.listssdo.DfhcommareaType;
+import com.legstar.test.coxb.listssdo.Dfhcommarea;
 
 import junit.framework.TestCase;
 
@@ -37,13 +37,13 @@ public class UnmarshalListssdoTest extends TestCase {
 		String hexString   = "00000005d6c4d6f0f1d6c4d6f0f2d6c4d6f0f3d6c4d6f0f4d6c4d6f0f5";
 		byte[] hostBytes = HostData.toByteArray(hexString);
 
-		DfhcommareaType dfhcommareaType = (DfhcommareaType) Util.unmarshal(hostBytes, "listssdo");
+		Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "listssdo");
 		
-		assertEquals(5, dfhcommareaType.getListOdo().size());
-		assertEquals("ODO01", dfhcommareaType.getListOdo().get(0));
-		assertEquals("ODO02", dfhcommareaType.getListOdo().get(1));
-		assertEquals("ODO03", dfhcommareaType.getListOdo().get(2));
-		assertEquals("ODO04", dfhcommareaType.getListOdo().get(3));
-		assertEquals("ODO05", dfhcommareaType.getListOdo().get(4));
+		assertEquals(5, Dfhcommarea.getListOdo().size());
+		assertEquals("ODO01", Dfhcommarea.getListOdo().get(0));
+		assertEquals("ODO02", Dfhcommarea.getListOdo().get(1));
+		assertEquals("ODO03", Dfhcommarea.getListOdo().get(2));
+		assertEquals("ODO04", Dfhcommarea.getListOdo().get(3));
+		assertEquals("ODO05", Dfhcommarea.getListOdo().get(4));
 	}
 }

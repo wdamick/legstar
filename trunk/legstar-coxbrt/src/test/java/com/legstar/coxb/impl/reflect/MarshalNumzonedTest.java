@@ -19,7 +19,7 @@ import com.legstar.coxb.host.HostException;
 
 import junit.framework.TestCase;
 import com.legstar.test.coxb.numzoned.ObjectFactory;
-import com.legstar.test.coxb.numzoned.DfhcommareaType;
+import com.legstar.test.coxb.numzoned.Dfhcommarea;
 
 public class MarshalNumzonedTest extends TestCase {
 
@@ -45,7 +45,7 @@ public class MarshalNumzonedTest extends TestCase {
 	
 	private Object getNumzoned(ObjectFactory objectFactory) {
 		// Create and populate an instance of an object (JAXB annotated)
-		DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		dfhcommarea.setLU(6);
 		dfhcommarea.setLS(Short.parseShort("-5"));
 		dfhcommarea.setLSSignL(Short.parseShort("-78"));

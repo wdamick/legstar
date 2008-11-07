@@ -20,9 +20,9 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
-import com.legstar.test.coxb.redmulti.DfhcommareaType;
-import com.legstar.test.coxb.redmulti.Filler35Type;
-import com.legstar.test.coxb.redmulti.Filler38Type;
+import com.legstar.test.coxb.redmulti.Dfhcommarea;
+import com.legstar.test.coxb.redmulti.Filler35;
+import com.legstar.test.coxb.redmulti.Filler38;
 
 import junit.framework.TestCase;
 
@@ -32,29 +32,29 @@ public class MarshalRedmultiTest extends TestCase {
 	
 	public void testRedmultiNormal() throws Exception{
 		// Create and populate an instance of an object (JAXB annotated)
-		DfhcommareaType dfhcommareaType = (DfhcommareaType) Util.getJaxbObject(SCHEMA_NAME);
+		Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
 		
-		dfhcommareaType.setCOutputType("normal");
-		Filler35Type filler35Type = new Filler35Type();
-		filler35Type.setCString("ABJADHAOUAZ");
-		dfhcommareaType.setFiller35(filler35Type);
+		Dfhcommarea.setCOutputType("normal");
+		Filler35 filler35 = new Filler35();
+		filler35.setCString("ABJADHAOUAZ");
+		Dfhcommarea.setFiller35(filler35);
 
 		assertEquals("959699948193c1c2d1c1c4c8c1d6e4c1e9404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040",
-				Util.marshal(SCHEMA_NAME, dfhcommareaType, 206));
+				Util.marshal(SCHEMA_NAME, Dfhcommarea, 206));
 	}
 
 	public void testRedmultiError() throws Exception{
 		// Create and populate an instance of an object (JAXB annotated)
-		DfhcommareaType dfhcommareaType = (DfhcommareaType) Util.getJaxbObject(SCHEMA_NAME);
+		Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
 		
-		dfhcommareaType.setCOutputType("error");
-		Filler38Type filler38Type = new Filler38Type();
-		filler38Type.setCErrorNum(75);
-		filler38Type.setCErrorDescription("ABOMINABLE");
-		dfhcommareaType.setFiller38(filler38Type);
+		Dfhcommarea.setCOutputType("error");
+		Filler38 filler38 = new Filler38();
+		filler38.setCErrorNum(75);
+		filler38.setCErrorDescription("ABOMINABLE");
+		Dfhcommarea.setFiller38(filler38);
 
 		assertEquals("859999969940f0f0f7f5c1c2d6d4c9d5c1c2d3c5404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040",
-				Util.marshal(SCHEMA_NAME, dfhcommareaType, 206));
+				Util.marshal(SCHEMA_NAME, Dfhcommarea, 206));
 	}
 
 }

@@ -9,12 +9,12 @@
  *     LegSem - initial API and implementation
  ******************************************************************************/
 package com.legstar.coxb.impl.reflect.complex.test;
-import com.legstar.test.coxb.binnatus.LsDoublewordsType;
-import com.legstar.test.coxb.binnatus.LsFullwordsType;
-import com.legstar.test.coxb.binnatus.LsHalfwordsType;
-import com.legstar.test.coxb.binnatus.LsUnsignedNativeType;
-import com.legstar.test.coxb.redbotha.Filler22Type;
-import com.legstar.test.coxb.redinout.CParainType;
+import com.legstar.test.coxb.binnatus.LsDoublewords;
+import com.legstar.test.coxb.binnatus.LsFullwords;
+import com.legstar.test.coxb.binnatus.LsHalfwords;
+import com.legstar.test.coxb.binnatus.LsUnsignedNative;
+import com.legstar.test.coxb.redbotha.Filler22;
+import com.legstar.test.coxb.redinout.CParain;
 import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
@@ -40,12 +40,12 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.lsfileae.ObjectFactory objectFactory = new com.legstar.test.coxb.lsfileae.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.lsfileae.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.lsfileae.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		dfhcommarea.setComNumber(100);
 		dfhcommarea.setComDate("100458");
 		dfhcommarea.setComAmount("00100.35");
 		dfhcommarea.setComComment("A VOIR");
-		com.legstar.test.coxb.lsfileae.ComPersonalType personal = objectFactory.createComPersonalType();
+		com.legstar.test.coxb.lsfileae.ComPersonal personal = objectFactory.createComPersonal();
 		personal.setComName("TOTO");
 		personal.setComAddress("LABAS STREET");
 		personal.setComPhone("88993314");
@@ -73,7 +73,7 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.fixarsim.ObjectFactory objectFactory = new com.legstar.test.coxb.fixarsim.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.fixarsim.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.fixarsim.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		dfhcommarea.getCArray().add("PREMI");
 		dfhcommarea.getCArray().add("DEUXI");
 		dfhcommarea.getCArray().add("TROIS");
@@ -100,7 +100,7 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.fixarnum.ObjectFactory objectFactory = new com.legstar.test.coxb.fixarnum.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.fixarnum.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.fixarnum.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		
 		dfhcommarea.getCArrayPd().add(new BigDecimal("16534.23"));
 		dfhcommarea.getCArrayPd().add(new BigDecimal("1.5"));
@@ -144,7 +144,7 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.fixarnum.ObjectFactory objectFactory = new com.legstar.test.coxb.fixarnum.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.fixarnum.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.fixarnum.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -168,9 +168,9 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.fixarcom.ObjectFactory objectFactory = new com.legstar.test.coxb.fixarcom.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.fixarcom.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.fixarcom.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		for(int i=0;i< 7;i++) {
-			com.legstar.test.coxb.fixarcom.CArrayType item = objectFactory.createCArrayType();
+			com.legstar.test.coxb.fixarcom.CArray item = objectFactory.createCArray();
 			item.setCItem1("ABJA" + Integer.toString(i));
 			item.setCItem2(Short.parseShort(Integer.toString(7 * i)));
 			dfhcommarea.getCArray().add(item);
@@ -197,7 +197,7 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.vararcom.ObjectFactory objectFactory = new com.legstar.test.coxb.vararcom.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.vararcom.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.vararcom.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		dfhcommarea.setCItemsNumber(Short.parseShort("0"));
 
 		// Traverse the object structure, visiting each node with the visitor
@@ -218,10 +218,10 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.vararcom.ObjectFactory objectFactory = new com.legstar.test.coxb.vararcom.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.vararcom.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.vararcom.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		dfhcommarea.setCItemsNumber(Short.parseShort("1"));
 		for(int i=0;i< 1;i++) {
-			com.legstar.test.coxb.vararcom.CArrayType item = objectFactory.createCArrayType();
+			com.legstar.test.coxb.vararcom.CArray item = objectFactory.createCArray();
 			item.setCItem1("ABJAD");
 			item.setCItem2(Short.parseShort(Integer.toString(7 * i)));
 			dfhcommarea.getCArray().add(item);
@@ -245,10 +245,10 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.vararcom.ObjectFactory objectFactory = new com.legstar.test.coxb.vararcom.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.vararcom.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.vararcom.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		dfhcommarea.setCItemsNumber(Short.parseShort("3"));
 		for(int i=0;i< 3;i++) {
-			com.legstar.test.coxb.vararcom.CArrayType item = new com.legstar.test.coxb.vararcom.CArrayType();
+			com.legstar.test.coxb.vararcom.CArray item = new com.legstar.test.coxb.vararcom.CArray();
 			item.setCItem1("ABJAD");
 			item.setCItem2(Short.parseShort(Integer.toString(7 * i)));
 			dfhcommarea.getCArray().add(item);
@@ -272,7 +272,7 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.redsimpt.ObjectFactory objectFactory = new com.legstar.test.coxb.redsimpt.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.redsimpt.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.redsimpt.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		dfhcommarea.setCDefinition1("012345678912345678");
 
 		// Traverse the object structure, visiting each node with the visitor
@@ -293,7 +293,7 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.redsimpt.ObjectFactory objectFactory = new com.legstar.test.coxb.redsimpt.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.redsimpt.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.redsimpt.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		dfhcommarea.setCDefinition2(12345678912345678L);
 
 		// Traverse the object structure, visiting each node with the visitor
@@ -314,7 +314,7 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.redbotha.ObjectFactory objectFactory = new com.legstar.test.coxb.redbotha.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.redbotha.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.redbotha.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		dfhcommarea.setCNumeric(5);
 
 		// Traverse the object structure, visiting each node with the visitor
@@ -335,8 +335,8 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.redbotha.ObjectFactory objectFactory = new com.legstar.test.coxb.redbotha.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.redbotha.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
-		Filler22Type filler22 = objectFactory.createFiller22Type();
+		com.legstar.test.coxb.redbotha.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
+		Filler22 filler22 = objectFactory.createFiller22();
 		filler22.setCLeftByte("A");
 		filler22.setCRightByte("B");
 		dfhcommarea.setFiller22(filler22);
@@ -359,9 +359,9 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.redinout.ObjectFactory objectFactory = new com.legstar.test.coxb.redinout.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.redinout.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.redinout.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		dfhcommarea.setCNumeric(35);
-		CParainType parain = new CParainType();
+		CParain parain = new CParain();
 		parain.setCSomeInput("ABCDEABCDEABCDE");
 		dfhcommarea.setCParain(parain);
 
@@ -383,9 +383,9 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.redinout.ObjectFactory objectFactory = new com.legstar.test.coxb.redinout.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.redinout.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.redinout.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		dfhcommarea.setCNumeric(35);
-		CParainType parain = new CParainType();
+		CParain parain = new CParain();
 		parain.setCSomeInput("ABCDEABCDEABCDE");
 		dfhcommarea.setCParain(parain);
 
@@ -395,7 +395,7 @@ public class MarshallerVisitorTest  extends TestCase {
 		assertEquals(502,ccem.calcByteLength());
 	}
 
-	public void testTypesmix() throws HostException{
+	public void testsmix() throws HostException{
 		// Create a cobol context 
 		CobolContext cobolContext = new CobolContext();
 		// Select a conversion strategy 
@@ -407,7 +407,7 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.typesmix.ObjectFactory objectFactory = new com.legstar.test.coxb.typesmix.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.typesmix.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.typesmix.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		dfhcommarea.setCAlphabetic("ABCDE");
 		dfhcommarea.setCNational("ABCDE");
 		byte[] cCDbcs = {0x0E,0x40,0x40,0x40,0x40,0x40,0x40, 0x0F};
@@ -449,9 +449,9 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.dplarcht.ObjectFactory objectFactory = new com.legstar.test.coxb.dplarcht.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.dplarcht.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
-		com.legstar.test.coxb.dplarcht.LsRequestType requestType = objectFactory.createLsRequestType();
-		dfhcommarea.setLsRequest(requestType);
+		com.legstar.test.coxb.dplarcht.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
+		com.legstar.test.coxb.dplarcht.LsRequest request = objectFactory.createLsRequest();
+		dfhcommarea.setLsRequest(request);
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -475,10 +475,10 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.dplarcht.ObjectFactory objectFactory = new com.legstar.test.coxb.dplarcht.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.dplarcht.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
-		com.legstar.test.coxb.dplarcht.LsRequestType lsRequestType = objectFactory.createLsRequestType();
-		lsRequestType.setLsAllItems("*");
-		dfhcommarea.setLsRequest(lsRequestType);
+		com.legstar.test.coxb.dplarcht.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
+		com.legstar.test.coxb.dplarcht.LsRequest lsRequest = objectFactory.createLsRequest();
+		lsRequest.setLsAllItems("*");
+		dfhcommarea.setLsRequest(lsRequest);
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -498,32 +498,32 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.binnatus.ObjectFactory objectFactory = new com.legstar.test.coxb.binnatus.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.binnatus.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
-		LsUnsignedNativeType lsUnsignedNativeType = objectFactory.createLsUnsignedNativeType(); 
+		com.legstar.test.coxb.binnatus.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
+		LsUnsignedNative lsUnsignedNative = objectFactory.createLsUnsignedNative(); 
 		
-		LsHalfwordsType lsHalfwordsType = objectFactory.createLsHalfwordsType();
-		lsHalfwordsType.setLsP9X4High(32769);
-		lsHalfwordsType.setLsP9X4Low(127);
-		lsHalfwordsType.setLsP9X4Max(65535);
-		lsHalfwordsType.setLsP9X4Min(0);
+		LsHalfwords lsHalfwords = objectFactory.createLsHalfwords();
+		lsHalfwords.setLsP9X4High(32769);
+		lsHalfwords.setLsP9X4Low(127);
+		lsHalfwords.setLsP9X4Max(65535);
+		lsHalfwords.setLsP9X4Min(0);
 		
-		LsFullwordsType lsFullwordsType = objectFactory.createLsFullwordsType();
-		lsFullwordsType.setLsP9X9High(2147483649l);
-		lsFullwordsType.setLsP9X9Low(65534);
-		lsFullwordsType.setLsP9X9Max(4294967295l);
-		lsFullwordsType.setLsP9X9Min(0);
+		LsFullwords lsFullwords = objectFactory.createLsFullwords();
+		lsFullwords.setLsP9X9High(2147483649l);
+		lsFullwords.setLsP9X9Low(65534);
+		lsFullwords.setLsP9X9Max(4294967295l);
+		lsFullwords.setLsP9X9Min(0);
 		
-		LsDoublewordsType lsDoublewordsType = objectFactory.createLsDoublewordsType();
-		lsDoublewordsType.setLsP9X18High(new BigInteger("18446744069414584318"));
-		lsDoublewordsType.setLsP9X18Low(new BigInteger("4294967294"));
-		lsDoublewordsType.setLsP9X18Max(new BigInteger("18446744073709551615"));
-		lsDoublewordsType.setLsP9X18Min(new BigInteger("0"));
+		LsDoublewords lsDoublewords = objectFactory.createLsDoublewords();
+		lsDoublewords.setLsP9X18High(new BigInteger("18446744069414584318"));
+		lsDoublewords.setLsP9X18Low(new BigInteger("4294967294"));
+		lsDoublewords.setLsP9X18Max(new BigInteger("18446744073709551615"));
+		lsDoublewords.setLsP9X18Min(new BigInteger("0"));
 		
-		lsUnsignedNativeType.setLsHalfwords(lsHalfwordsType);
-		lsUnsignedNativeType.setLsFullwords(lsFullwordsType);
-		lsUnsignedNativeType.setLsDoublewords(lsDoublewordsType);
+		lsUnsignedNative.setLsHalfwords(lsHalfwords);
+		lsUnsignedNative.setLsFullwords(lsFullwords);
+		lsUnsignedNative.setLsDoublewords(lsDoublewords);
 		
-		dfhcommarea.setLsUnsignedNative(lsUnsignedNativeType);
+		dfhcommarea.setLsUnsignedNative(lsUnsignedNative);
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -543,12 +543,12 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.redmulti.ObjectFactory objectFactory = new com.legstar.test.coxb.redmulti.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.redmulti.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.redmulti.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		
 		dfhcommarea.setCOutputType("normal");
-		com.legstar.test.coxb.redmulti.Filler35Type filler35Type = objectFactory.createFiller35Type();
-		filler35Type.setCString("ABJADHAOUAZ");
-		dfhcommarea.setFiller35(filler35Type);
+		com.legstar.test.coxb.redmulti.Filler35 filler35 = objectFactory.createFiller35();
+		filler35.setCString("ABJADHAOUAZ");
+		dfhcommarea.setFiller35(filler35);
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -568,13 +568,13 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.redmulti.ObjectFactory objectFactory = new com.legstar.test.coxb.redmulti.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.redmulti.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.redmulti.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		
 		dfhcommarea.setCOutputType("error");
-		com.legstar.test.coxb.redmulti.Filler38Type filler38Type = objectFactory.createFiller38Type();
-		filler38Type.setCErrorNum(75);
-		filler38Type.setCErrorDescription("ABOMINABLE");
-		dfhcommarea.setFiller38(filler38Type);
+		com.legstar.test.coxb.redmulti.Filler38 filler38 = objectFactory.createFiller38();
+		filler38.setCErrorNum(75);
+		filler38.setCErrorDescription("ABOMINABLE");
+		dfhcommarea.setFiller38(filler38);
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -595,7 +595,7 @@ public class MarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.charsets.ObjectFactory objectFactory = new com.legstar.test.coxb.charsets.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.charsets.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.charsets.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		
 		dfhcommarea.setComLocal("ça c'est un problème");
 		dfhcommarea.setComNational("élémentaire à résoudre");

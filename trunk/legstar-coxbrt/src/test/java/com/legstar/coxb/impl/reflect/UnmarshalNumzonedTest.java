@@ -19,7 +19,7 @@ import com.legstar.coxb.host.HostException;
 
 import junit.framework.TestCase;
 import com.legstar.test.coxb.numzoned.ObjectFactory;
-import com.legstar.test.coxb.numzoned.DfhcommareaType;
+import com.legstar.test.coxb.numzoned.Dfhcommarea;
 import com.legstar.util.JaxbUtil;
 
 public class UnmarshalNumzonedTest extends TestCase {
@@ -47,9 +47,9 @@ public class UnmarshalNumzonedTest extends TestCase {
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory,
-				JaxbUtil.loadClass("com.legstar.test.coxb.numzoned.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.numzoned.Dfhcommarea"));
 		ccem.accept(uv);
-		DfhcommareaType dfhcommarea = (DfhcommareaType) ccem.getObjectValue(DfhcommareaType.class);
+		Dfhcommarea dfhcommarea = (Dfhcommarea) ccem.getObjectValue(Dfhcommarea.class);
 		
 		assertEquals(6, dfhcommarea.getLU());
 		assertEquals(-5, dfhcommarea.getLS());

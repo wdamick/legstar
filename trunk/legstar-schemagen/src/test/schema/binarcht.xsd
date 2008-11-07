@@ -13,7 +13,7 @@ elementFormDefault="qualified">
  <jaxb:package  name="com.legstar.test.coxb.binarcht"/>
  </jaxb:schemaBindings>
  </xs:appinfo></xs:annotation>
- <xs:complexType name="WsSignedNativeType">
+ <xs:complexType name="WsSignedNative">
     <xs:sequence>
      <xs:element name="WsPs9X4Min">
        <xs:annotation>
@@ -89,16 +89,16 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="DfhcommareaType">
+ <xs:complexType name="Dfhcommarea">
     <xs:sequence>
-     <xs:element name="LsUnsignedNative" type="xsns:LsUnsignedNativeType">
+     <xs:element name="LsUnsignedNative" type="xsns:LsUnsignedNative">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='05' cobolName='LS-UNSIGNED-NATIVE' type='GROUP_ITEM' srceLine='41'/>
          </xs:appinfo>
        </xs:annotation>
      </xs:element>
-     <xs:element name="LsSignedNative" type="xsns:LsSignedNativeType">
+     <xs:element name="LsSignedNative" type="xsns:LsSignedNative">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='05' cobolName='LS-SIGNED-NATIVE' type='GROUP_ITEM' srceLine='48'/>
@@ -107,7 +107,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="LsUnsignedNativeType">
+ <xs:complexType name="LsUnsignedNative">
     <xs:sequence>
      <xs:element name="LsP9X4Min">
        <xs:annotation>
@@ -177,7 +177,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="LsSignedNativeType">
+ <xs:complexType name="LsSignedNative">
     <xs:sequence>
      <xs:element name="LsPs9X4Min">
        <xs:annotation>

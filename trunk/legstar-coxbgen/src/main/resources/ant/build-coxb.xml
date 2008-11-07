@@ -18,7 +18,7 @@
 	 	<property name="jaxb.bin.dir" value="target/classes" />
 		<!-- The JAXB root object name. Binding is for a single complex
 		     element.   -->
-	 	<property name="jaxb.root.name" value="DfhcommareaType" />
+	 	<property name="jaxb.root.name" value="Dfhcommarea" />
 			
 		<!-- Classpath setting -->
 		<path id="classpath">

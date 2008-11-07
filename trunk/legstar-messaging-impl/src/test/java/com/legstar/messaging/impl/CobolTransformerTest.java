@@ -13,9 +13,9 @@ package com.legstar.messaging.impl;
 import com.legstar.coxb.convert.CobolConverters;
 import com.legstar.coxb.host.HostData;
 import com.legstar.messaging.impl.CobolTransformer;
-import com.legstar.test.coxb.lsfileae.ComPersonalType;
-import com.legstar.test.coxb.lsfileae.DfhcommareaType;
-import com.legstar.test.coxb.lsfileae.bind.DfhcommareaTypeBinding;
+import com.legstar.test.coxb.lsfileae.ComPersonal;
+import com.legstar.test.coxb.lsfileae.Dfhcommarea;
+import com.legstar.test.coxb.lsfileae.bind.DfhcommareaBinding;
 
 import junit.framework.TestCase;
 
@@ -35,9 +35,9 @@ public class CobolTransformerTest extends TestCase {
 	
 	public void testMarshal() throws Exception {
 	    /* The request java object tree */
-	    DfhcommareaType jaxbObject	= getJaxbObject();
+	    Dfhcommarea jaxbObject	= getJaxbObject();
 	    /* Decorate object tree for static binding */
-	    DfhcommareaTypeBinding binding = new DfhcommareaTypeBinding(jaxbObject);
+	    DfhcommareaBinding binding = new DfhcommareaBinding(jaxbObject);
 	    /* Prepare a byte array to receive the result */
 	    byte[] hostBytes = new byte[binding.calcByteLength()];
 	    CobolTransformer.marshal(mCobolConverters, binding, hostBytes);
@@ -46,9 +46,9 @@ public class CobolTransformerTest extends TestCase {
 	
 	public void testUnmarshal() throws Exception {
 	    byte[] hostBytes = HostData.toByteArray(HOST_DATA);
-	    DfhcommareaTypeBinding binding = new DfhcommareaTypeBinding();
+	    DfhcommareaBinding binding = new DfhcommareaBinding();
 	    CobolTransformer.unmarshal(mCobolConverters, hostBytes, binding);
-	    DfhcommareaType jaxbObject = binding.getDfhcommareaType();
+	    Dfhcommarea jaxbObject = binding.getDfhcommarea();
 	    assertEquals(100, jaxbObject.getComNumber());
 	    assertEquals("00100.35", jaxbObject.getComAmount());
 	    assertEquals("A VOIR", jaxbObject.getComComment());
@@ -62,13 +62,13 @@ public class CobolTransformerTest extends TestCase {
 	 * This method creates an instance of a JAXB object and sets its properties.
 	 * @return a JAXB object
 	 */
-	public static DfhcommareaType getJaxbObject() {
-		DfhcommareaType dfhcommarea = new DfhcommareaType();
+	public static Dfhcommarea getJaxbObject() {
+		Dfhcommarea dfhcommarea = new Dfhcommarea();
 		dfhcommarea.setComNumber(100);
 		dfhcommarea.setComDate("100458");
 		dfhcommarea.setComAmount("00100.35");
 		dfhcommarea.setComComment("A VOIR");
-		ComPersonalType personal = new ComPersonalType();
+		ComPersonal personal = new ComPersonal();
 		personal.setComName("TOTO");
 		personal.setComAddress("LABAS STREET");
 		personal.setComPhone("88993314");

@@ -13,7 +13,7 @@ elementFormDefault="qualified">
  <jaxb:package  name="com.legstar.test.coxb.redmulti"/>
  </jaxb:schemaBindings>
  </xs:appinfo></xs:annotation>
- <xs:complexType name="Filler20Type">
+ <xs:complexType name="Filler20">
     <xs:sequence>
      <xs:element name="SeedHours">
        <xs:annotation>
@@ -69,7 +69,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="DfhcommareaType">
+ <xs:complexType name="Dfhcommarea">
     <xs:sequence>
      <xs:element name="COutputType">
        <xs:annotation>
@@ -96,14 +96,14 @@ elementFormDefault="qualified">
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
-     <xs:element name="Filler35" type="xsns:Filler35Type">
+     <xs:element name="Filler35" type="xsns:Filler35">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='03' cobolName='FILLER-35' type='GROUP_ITEM' redefines='C-DATA' srceLine='35'/>
          </xs:appinfo>
        </xs:annotation>
      </xs:element>
-     <xs:element name="Filler38" type="xsns:Filler38Type">
+     <xs:element name="Filler38" type="xsns:Filler38">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='03' cobolName='FILLER-38' type='GROUP_ITEM' redefines='C-DATA' srceLine='38'/>
@@ -113,7 +113,7 @@ elementFormDefault="qualified">
      </xs:choice>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="Filler35Type">
+ <xs:complexType name="Filler35">
     <xs:sequence>
      <xs:element name="CString">
        <xs:annotation>
@@ -141,7 +141,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="Filler38Type">
+ <xs:complexType name="Filler38">
     <xs:sequence>
      <xs:element name="CErrorNum">
        <xs:annotation>

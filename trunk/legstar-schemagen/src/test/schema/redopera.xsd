@@ -13,7 +13,7 @@ elementFormDefault="qualified">
  <jaxb:package  name="com.legstar.test.coxb.redopera"/>
  </jaxb:schemaBindings>
  </xs:appinfo></xs:annotation>
- <xs:complexType name="DfhcommareaType">
+ <xs:complexType name="Dfhcommarea">
     <xs:sequence>
      <xs:element name="CFunction">
        <xs:annotation>
@@ -40,14 +40,14 @@ elementFormDefault="qualified">
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
-     <xs:element name="Filler25" type="xsns:Filler25Type">
+     <xs:element name="Filler25" type="xsns:Filler25">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='03' cobolName='FILLER-25' type='GROUP_ITEM' redefines='C-DATA' srceLine='25'/>
          </xs:appinfo>
        </xs:annotation>
      </xs:element>
-     <xs:element name="Filler28" type="xsns:Filler28Type">
+     <xs:element name="Filler28" type="xsns:Filler28">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='03' cobolName='FILLER-28' type='GROUP_ITEM' redefines='C-DATA' srceLine='28'/>
@@ -57,7 +57,7 @@ elementFormDefault="qualified">
      </xs:choice>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="Filler25Type">
+ <xs:complexType name="Filler25">
     <xs:sequence>
      <xs:element name="CString">
        <xs:annotation>
@@ -85,7 +85,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="Filler28Type">
+ <xs:complexType name="Filler28">
     <xs:sequence>
      <xs:element name="CInteger">
        <xs:annotation>

@@ -48,10 +48,10 @@ public class UnmarshalSmallVolumeTest extends TestCase {
 		// Perform mashaling a number of times
 		for (int i = 0; i < ITERATIONS; i++) {
 			// Create and populate an instance of an object (JAXB annotated)
-			com.legstar.test.coxb.dplarcht.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+			com.legstar.test.coxb.dplarcht.Dfhcommarea Dfhcommarea = objectFactory.createDfhcommarea();
 			
 			// Traverse the object structure, visiting each node with the visitor
-            com.legstar.test.coxb.dplarcht.bind.DfhcommareaTypeBinding ccem = new com.legstar.test.coxb.dplarcht.bind.DfhcommareaTypeBinding(dfhcommarea);
+            com.legstar.test.coxb.dplarcht.bind.DfhcommareaBinding ccem = new com.legstar.test.coxb.dplarcht.bind.DfhcommareaBinding(Dfhcommarea);
 			mv.setOffset(0);
 			ccem.accept(mv);
 		}

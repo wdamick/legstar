@@ -19,7 +19,7 @@ import com.legstar.coxb.host.HostException;
 
 import junit.framework.TestCase;
 import com.legstar.test.coxb.redsimpt.ObjectFactory;
-import com.legstar.test.coxb.redsimpt.DfhcommareaType;
+import com.legstar.test.coxb.redsimpt.Dfhcommarea;
 import com.legstar.util.JaxbUtil;
 
 public class UnmarshalRedsimptTest extends TestCase {
@@ -41,15 +41,15 @@ public class UnmarshalRedsimptTest extends TestCase {
 		byte[] hostBytes = HostData.toByteArray("f0f1f2f3f4f5f6f7f8c1f1f2f3f4f5f6f7f8");
 		CobolUnmarshalVisitor uv = new CobolUnmarshalVisitor(hostBytes, 0, cc);
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory,
-				JaxbUtil.loadClass("com.legstar.test.coxb.redsimpt.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.redsimpt.Dfhcommarea"));
 		ccem.accept(uv);
-		DfhcommareaType dfhcommarea = (DfhcommareaType) ccem.getObjectValue(DfhcommareaType.class);
+		Dfhcommarea dfhcommarea = (Dfhcommarea) ccem.getObjectValue(Dfhcommarea.class);
 		assertEquals("012345678A12345678", dfhcommarea.getCDefinition1());
 		
 		/* Unmarshal from numeric data */
 		hostBytes = HostData.toByteArray("f8f7f6f5f4f3f2f1f9f8f7f6f5f4f3f2f1f0");
 		uv = new CobolUnmarshalVisitor(hostBytes, 0, cc);
-		dfhcommarea = objectFactory.createDfhcommareaType();
+		dfhcommarea = objectFactory.createDfhcommarea();
 		ccem = new CComplexReflectBinding(objectFactory,
 				dfhcommarea);
 		ccem.accept(uv);

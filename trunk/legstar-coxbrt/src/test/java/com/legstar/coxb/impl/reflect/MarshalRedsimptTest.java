@@ -19,7 +19,7 @@ import com.legstar.coxb.host.HostException;
 
 import junit.framework.TestCase;
 import com.legstar.test.coxb.redsimpt.ObjectFactory;
-import com.legstar.test.coxb.redsimpt.DfhcommareaType;
+import com.legstar.test.coxb.redsimpt.Dfhcommarea;
 
 public class MarshalRedsimptTest extends TestCase {
 
@@ -48,14 +48,14 @@ public class MarshalRedsimptTest extends TestCase {
 	
 	private Object getRedsimptAlternative1(ObjectFactory objectFactory) {
 		// Create and populate an instance of an object (JAXB annotated)
-		DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		dfhcommarea.setCDefinition1("012345678A12345678");
 		return dfhcommarea;
 	}
 
 	private Object getRedsimptAlternative2(ObjectFactory objectFactory) {
 		// Create and populate an instance of an object (JAXB annotated)
-		DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		dfhcommarea.setCDefinition2(876543219876543210L);
 		return dfhcommarea;
 	}

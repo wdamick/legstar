@@ -13,7 +13,7 @@ elementFormDefault="qualified">
  <jaxb:package  name="com.legstar.test.coxb.redinout"/>
  </jaxb:schemaBindings>
  </xs:appinfo></xs:annotation>
- <xs:complexType name="DfhcommareaType">
+ <xs:complexType name="Dfhcommarea">
     <xs:sequence>
      <xs:element name="CNumeric">
        <xs:annotation>
@@ -41,14 +41,14 @@ elementFormDefault="qualified">
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
-     <xs:element name="CParain" type="xsns:CParainType">
+     <xs:element name="CParain" type="xsns:CParain">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='05' cobolName='C-PARAIN' type='GROUP_ITEM' redefines='C-BUFFER' srceLine='23'/>
          </xs:appinfo>
        </xs:annotation>
      </xs:element>
-     <xs:element name="CParaout" type="xsns:CParaoutType">
+     <xs:element name="CParaout" type="xsns:CParaout">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='05' cobolName='C-PARAOUT' type='GROUP_ITEM' redefines='C-BUFFER' srceLine='25'/>
@@ -58,7 +58,7 @@ elementFormDefault="qualified">
      </xs:choice>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="CParainType">
+ <xs:complexType name="CParain">
     <xs:sequence>
      <xs:element name="CSomeInput">
        <xs:annotation>
@@ -74,7 +74,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="CParaoutType">
+ <xs:complexType name="CParaout">
     <xs:sequence>
      <xs:element name="CSomeOutput">
        <xs:annotation>

@@ -53,13 +53,13 @@ public class CobolGeneratorTest extends TestCase {
 
 		try {
 			CobolGenerator gen = new CobolGenerator();
-			gen.setJaxbTypeName("dfhcommarea");
+			gen.setJaxbTypeName("dfhcommareaTruc");
 			gen.setJaxbPackageName("com.legstar.test.coxb.lsfileae");
 			gen.setTargetDir(new File("target"));
 			gen.execute();
 			fail();
 		} catch (BuildException e) {
-			assertEquals("java.lang.ClassNotFoundException: com.legstar.test.coxb.lsfileae.dfhcommarea", e.getCause().getCause().getMessage());
+			assertEquals("java.lang.ClassNotFoundException: com.legstar.test.coxb.lsfileae.dfhcommareaTruc", e.getCause().getCause().getMessage());
 		}
 	}
 
@@ -67,13 +67,13 @@ public class CobolGeneratorTest extends TestCase {
 		/* Use default root name */
 		try {
 			CobolGenerator gen = new CobolGenerator();
-			gen.setJaxbTypeName("DfhcommareaType");
+			gen.setJaxbTypeName("Dfhcommarea");
 			gen.setJaxbPackageName("com.legstar.test.coxb.lsfileae");
 			gen.setTargetDir(new File("target"));
 			gen.execute();
-			File outFile = new File("target/DfhcommareaType.cbl");
+			File outFile = new File("target/Dfhcommarea.cbl");
 			String source = CobcUtil.getSource(outFile, DEBUG_MODE);
-			assertTrue(source.contains("01 DfhcommareaType."));
+			assertTrue(source.contains("01 Dfhcommarea."));
 			assertTrue(source.contains("02 COM-NUMBER PIC 9(6)."));
 			assertTrue(source.contains("02 COM-PERSONAL."));
 			assertTrue(source.contains("03 COM-NAME PIC X(20)."));
@@ -87,12 +87,12 @@ public class CobolGeneratorTest extends TestCase {
 		/* Force a root name */
 		try {
 			CobolGenerator gen = new CobolGenerator();
-			gen.setJaxbTypeName("DfhcommareaType");
+			gen.setJaxbTypeName("Dfhcommarea");
 			gen.setJaxbPackageName("com.legstar.test.coxb.lsfileae");
 			gen.setTargetDir(new File("target"));
 			gen.setCobolRootDataItemName("COM-LSFILEAE");
 			gen.execute();
-			File outFile = new File("target/DfhcommareaType.cbl");
+			File outFile = new File("target/Dfhcommarea.cbl");
 			String source = CobcUtil.getSource(outFile, DEBUG_MODE);
 			assertTrue(source.contains("COM-LSFILEAE."));
 			assertTrue(source.contains("02 COM-NUMBER PIC 9(6)."));
@@ -108,7 +108,7 @@ public class CobolGeneratorTest extends TestCase {
 		/* Force a cobol file name */
 		try {
 			CobolGenerator gen = new CobolGenerator();
-			gen.setJaxbTypeName("DfhcommareaType");
+			gen.setJaxbTypeName("Dfhcommarea");
 			gen.setJaxbPackageName("com.legstar.test.coxb.lsfileae");
 			gen.setTargetDir(new File("target"));
 			gen.setCobolRootDataItemName("COM-LSFILEAE");
@@ -152,7 +152,7 @@ public class CobolGeneratorTest extends TestCase {
 	public void testGenerateDirect() throws Exception {
 		String code = CobolGenerator.generate(
 				"com.legstar.test.coxb.lsfileae",
-				"DfhcommareaType",
+				"Dfhcommarea",
 				"COM-LSFILEAE",
 				5,
 				5);

@@ -25,9 +25,9 @@ import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
 import com.legstar.coxb.visitor.CobolMarshalVisitor;
-import com.legstar.test.coxb.lsfileae.ComPersonalType;
-import com.legstar.test.coxb.lsfileae.DfhcommareaType;
-import com.legstar.test.coxb.lsfileae.bind.DfhcommareaTypeBinding;
+import com.legstar.test.coxb.lsfileae.ComPersonal;
+import com.legstar.test.coxb.lsfileae.Dfhcommarea;
+import com.legstar.test.coxb.lsfileae.bind.DfhcommareaBinding;
 
 /**
  * Sample demonstrating how to use a COXB object to marshal java data to
@@ -42,9 +42,9 @@ public class MarshalLsfileaeSample {
 	 */
 	public static void main(String[] args) {
 		// Create a JAXB object and set its properties
-		DfhcommareaType jaxbObject = getJaxbObject();
+		Dfhcommarea jaxbObject = getJaxbObject();
 		// Create a COXB object wrapping the JAXB object
-		DfhcommareaTypeBinding coxbObject = new DfhcommareaTypeBinding(jaxbObject);
+		DfhcommareaBinding coxbObject = new DfhcommareaBinding(jaxbObject);
 		try {
 			// Create a buffer to receive the host data
 			byte[] hostBytes = new byte[coxbObject.calcByteLength()];
@@ -64,18 +64,18 @@ public class MarshalLsfileaeSample {
 	 * This method creates an instance of a JAXB object and sets its properties.
 	 * @return a JAXB object
 	 */
-	private static DfhcommareaType getJaxbObject() {
-		DfhcommareaType dfhcommarea = new DfhcommareaType();
-		dfhcommarea.setComNumber(100);
-		dfhcommarea.setComDate("100458");
-		dfhcommarea.setComAmount("00100.35");
-		dfhcommarea.setComComment("A VOIR");
-		ComPersonalType personal = new ComPersonalType();
+	private static Dfhcommarea getJaxbObject() {
+		Dfhcommarea Dfhcommarea = new Dfhcommarea();
+		Dfhcommarea.setComNumber(100);
+		Dfhcommarea.setComDate("100458");
+		Dfhcommarea.setComAmount("00100.35");
+		Dfhcommarea.setComComment("A VOIR");
+		ComPersonal personal = new ComPersonal();
 		personal.setComName("TOTO");
 		personal.setComAddress("LABAS STREET");
 		personal.setComPhone("88993314");
-		dfhcommarea.setComPersonal(personal);
-		return dfhcommarea;
+		Dfhcommarea.setComPersonal(personal);
+		return Dfhcommarea;
 	}
 
 }

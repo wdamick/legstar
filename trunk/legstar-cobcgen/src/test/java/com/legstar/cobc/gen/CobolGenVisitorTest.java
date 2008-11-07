@@ -89,12 +89,12 @@ public class CobolGenVisitorTest extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.lsfileae.ObjectFactory objectFactory = new com.legstar.test.coxb.lsfileae.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.lsfileae.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.lsfileae.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		dfhcommarea.setComNumber(100);
 		dfhcommarea.setComDate("100458");
 		dfhcommarea.setComAmount("00100.35");
 		dfhcommarea.setComComment("A VOIR");
-		com.legstar.test.coxb.lsfileae.ComPersonalType personal = objectFactory.createComPersonalType();
+		com.legstar.test.coxb.lsfileae.ComPersonal personal = objectFactory.createComPersonal();
 		personal.setComName("TOTO");
 		personal.setComAddress("LABAS STREET");
 		personal.setComPhone("88993314");
@@ -113,8 +113,8 @@ public class CobolGenVisitorTest extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.dplarcht.ObjectFactory objectFactory = new com.legstar.test.coxb.dplarcht.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.dplarcht.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
-		com.legstar.test.coxb.dplarcht.LsRequestType lsRequestType = objectFactory.createLsRequestType();
+		com.legstar.test.coxb.dplarcht.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
+		com.legstar.test.coxb.dplarcht.LsRequest lsRequestType = objectFactory.createLsRequest();
 		lsRequestType.setLsAllItems("*");
 		lsRequestType.setLsRequestType(0);
 

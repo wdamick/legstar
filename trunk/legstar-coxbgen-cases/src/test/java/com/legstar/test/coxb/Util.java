@@ -35,7 +35,7 @@ import com.legstar.util.JaxbUtil;
 public class Util {
 	
 	public static Object getJaxbObject(String schemaName) throws Exception {
-		return getJaxbObject(schemaName, "DfhcommareaType");
+		return getJaxbObject(schemaName, "Dfhcommarea");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -72,7 +72,7 @@ public class Util {
 	}
 	
 	public static Object marshal(String schemaName, Object jaxbObject, int byteLength) throws Exception {
-		return marshal(schemaName, "DfhcommareaType", jaxbObject, byteLength);
+		return marshal(schemaName, "Dfhcommarea", jaxbObject, byteLength);
 	}
 	
 	public static String marshal(String schemaName, String jaxbTypeName, Object jaxbObject, int byteLength) throws Exception {
@@ -93,7 +93,7 @@ public class Util {
 	}
 	
 	public static Object unmarshal(byte[] hostBytes, String schemaName) throws Exception {
-		return unmarshal(hostBytes, schemaName, "DfhcommareaType");
+		return unmarshal(hostBytes, schemaName, "Dfhcommarea");
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -110,13 +110,13 @@ public class Util {
 		Method accept = bind.getClass().getMethod("accept", CobolElementVisitor.class);
 		accept.invoke(bind, uv);
 		
-		Method getDfhcommareaType = bind.getClass().getMethod("get" + jaxbTypeName, (Class[]) null);
-		Object jaxbObject = getDfhcommareaType.invoke(bind);
+		Method getDfhcommarea = bind.getClass().getMethod("get" + jaxbTypeName, (Class[]) null);
+		Object jaxbObject = getDfhcommarea.invoke(bind);
 		return jaxbObject;
 	}
 
 	public static int getByteLength(String schemaName) throws Exception {
-		return getByteLength(schemaName, "DfhcommareaType");
+		return getByteLength(schemaName, "Dfhcommarea");
 	}
 	
 	@SuppressWarnings("unchecked")
