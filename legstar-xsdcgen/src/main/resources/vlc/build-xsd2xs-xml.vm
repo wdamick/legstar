@@ -35,11 +35,11 @@ XML Schema and WSDL to Xsd ant script Velocity Template.
         <mkdir dir="${antModel.targetDir}"/>
         <x2scgen
             inputXsdUri="${antModel.inputXsdUri}"
+            namespace="${antModel.namespace}"
+            jaxbPackageName="${antModel.jaxbPackageName}"
 #if(${antModel.jaxbTypeClassesSuffix})
             jaxbTypeClassesSuffix="${antModel.jaxbTypeClassesSuffix}"
 #end
-            namespace="${antModel.namespace}"
-            jaxbPackageName="${antModel.jaxbPackageName}"
             targetDir="${antModel.targetDir}"
             targetXsdFileName="${antModel.targetXsdFileName}"
         />

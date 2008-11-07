@@ -175,6 +175,7 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
 			XsdCobolAnnotator task = new XsdCobolAnnotator();
 			task.setInputXsdUri(tempXsdFile.toURI());
 			task.setJaxbPackageName(getJaxbPackageName());
+			task.setJaxbTypeClassesSuffix(getJaxbTypeClassesSuffix());
 			task.setTargetDir(getTargetDir());
 			task.setTargetXsdFileName(getTargetXsdFileName());
 			task.setRootElements(getRootElements());

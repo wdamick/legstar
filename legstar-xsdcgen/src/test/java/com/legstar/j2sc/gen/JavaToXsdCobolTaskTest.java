@@ -95,10 +95,30 @@ public class JavaToXsdCobolTaskTest extends TestCase {
 			assertTrue(result.contains("<xs:element name=\"jvmQueryReply\" type=\"jvmQueryReply\">"));
 			assertTrue(result.contains("<cb:cobolElement byteLength=\"32\" cobolName=\"country\" levelNumber=\"3\" picture=\"X(32)\" type=\"ALPHANUMERIC_ITEM\" usage=\"DISPLAY\"/>"));
 		} catch (BuildException e) {
-			assertEquals("java.lang.ClassNotFoundException: JVMQuery", e.getMessage());
+			fail(e.getMessage());
 		}
 	}
 	
+	public void testGenerationFromPojoWithSuffix() throws Exception {
+		final String targetFile = "JVMQueryReply.xsd";
+		JavaToXsdCobolTask task = new JavaToXsdCobolTask();
+		task.setTargetDir(new File(TARGET_SCHEMA_DIR));
+		task.setTargetXsdFileName(targetFile);
+		task.addRootClass("com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest");
+		task.addRootClass("com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply");
+		task.setNamespace("http://legstar.com");
+		task.setJaxbTypeClassesSuffix("TypeSuffix");
+		try {
+			task.execute();
+			String result = getSource(TARGET_SCHEMA_DIR, targetFile);
+			assertTrue(result.contains("<jaxb:nameXmlTransform>"));
+			assertTrue(result.contains("<jaxb:typeName suffix=\"TypeSuffix\"/>"));
+			assertTrue(result.contains("</jaxb:nameXmlTransform>"));
+		} catch (BuildException e) {
+			fail(e.getMessage());
+		}
+	}
+
 	public void testComplexTypeToJavaMapping() throws Exception {
 		final String targetFile = "JVMQueryReply.xsd";
 		JavaToXsdCobolTask task = new JavaToXsdCobolTask();
@@ -115,7 +135,7 @@ public class JavaToXsdCobolTaskTest extends TestCase {
 			assertTrue(complexTypeToJavaClassMap.size() == 1);
 			assertEquals("com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply", complexTypeToJavaClassMap.get("jvmQueryReply"));
 		} catch (BuildException e) {
-			assertEquals("java.lang.ClassNotFoundException: JVMQuery", e.getMessage());
+			fail(e.getMessage());
 		}
 	}
 
@@ -134,7 +154,7 @@ public class JavaToXsdCobolTaskTest extends TestCase {
 			assertTrue(result.contains("<cb:cobolComplexType javaClassName=\"com.legstar.xsdc.test.cases.cultureinfo.CultureInfoRequest\"/>"));
 			assertTrue(result.contains("<cb:cobolElement cobolName=\"cultureInfoParameters\" levelNumber=\"1\" type=\"GROUP_ITEM\"/>"));
 		} catch (BuildException e) {
-			assertEquals("java.lang.ClassNotFoundException: JVMQuery", e.getMessage());
+			fail(e.getMessage());
 		}
 	}
 	
