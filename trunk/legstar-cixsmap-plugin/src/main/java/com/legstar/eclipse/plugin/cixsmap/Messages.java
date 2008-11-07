@@ -30,6 +30,8 @@ public class Messages extends NLS {
 	
 	/** Mapping Editor name. */
 	public static String editor_title;
+	/** Mapping file name is invalid message. */
+	public static String invalid_mapping_file_msg;
 	/** Mapping file name extension is invalid message. */
 	public static String invalid_mapping_file_extension_msg;
 	/** Toolbar button tooltip.. */
