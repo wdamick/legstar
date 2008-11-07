@@ -37,17 +37,17 @@ public class TestCases {
 	
 	/** A case with different input and output commareas. */
 	public static CixsJaxwsService getLsfileal() {
-		return getCommareaService("lsfileal", "RequestParmsType", "ReplyDataType");
+		return getCommareaService("lsfileal", "RequestParms", "ReplyData");
 	}
 
 	/** A case with with multiple input and output containers. */
 	public static CixsJaxwsService getLsfileac() {
 		Map <String, String> inputContainers = new HashMap <String, String>();
-		inputContainers.put("QueryDataType", "QueryData");
-		inputContainers.put("QueryLimitType", "QueryLimit");
+		inputContainers.put("QueryData", "QueryData");
+		inputContainers.put("QueryLimit", "QueryLimit");
 		Map <String, String> outputContainers = new HashMap <String, String>();
-		outputContainers.put("ReplyDataType", "ReplyData");
-		outputContainers.put("ReplyStatusType", "ReplyStatus");
+		outputContainers.put("ReplyData", "ReplyData");
+		outputContainers.put("ReplyStatus", "ReplyStatus");
 		return getContainerService("lsfileac", inputContainers, outputContainers);
 	}
 	
@@ -55,13 +55,13 @@ public class TestCases {
 	public static CixsJaxwsService getLsfileax() {
 		CixsJaxwsService service = getNewService("lsfileax");
 		service.getCixsOperations().add(
-				getNewCommareaOperation("lsfileax", "lsfileae", "DfhcommareaType", "DfhcommareaType"));
+				getNewCommareaOperation("lsfileax", "lsfileae", "Dfhcommarea", "Dfhcommarea"));
 		Map <String, String> inputContainers = new HashMap <String, String>();
-		inputContainers.put("QueryDataType", "QueryData");
-		inputContainers.put("QueryLimitType", "QueryLimit");
+		inputContainers.put("QueryData", "QueryData");
+		inputContainers.put("QueryLimit", "QueryLimit");
 		Map <String, String> outputContainers = new HashMap <String, String>();
-		outputContainers.put("ReplyDataType", "ReplyData");
-		outputContainers.put("ReplyStatusType", "ReplyStatus");
+		outputContainers.put("ReplyData", "ReplyData");
+		outputContainers.put("ReplyStatus", "ReplyStatus");
 		service.getCixsOperations().add(getNewContainerOperation("lsfileax", "lsfileac", inputContainers, outputContainers));
 		return service;
 	}
@@ -69,7 +69,7 @@ public class TestCases {
 	/** A case where the operation has a different namespace/package than the service. */
 	public static CixsJaxwsService getLsfilean() {
 		CixsJaxwsService service = getNewService("lsfilean");
-		CixsOperation operation = getNewCommareaOperation("lsfilean", "lsfileae", "DfhcommareaType", "DfhcommareaType");
+		CixsOperation operation = getNewCommareaOperation("lsfilean", "lsfileae", "Dfhcommarea", "Dfhcommarea");
 		operation.setNamespace(NAMESPACE_PREFIX + "oper/" + "lsfilean");
 		operation.setPackageName(CIXS_PACKAGE_PREFIX + "oper." + "lsfilean");
 		service.getCixsOperations().add(operation);
@@ -79,7 +79,7 @@ public class TestCases {
 	/** A case where there is no operation package names. */
 	public static CixsJaxwsService getLsfileap() {
 		CixsJaxwsService service = getNewService("lsfileap");
-		CixsOperation operation = getNewCommareaOperation("lsfileap", "lsfileae", "DfhcommareaType", "DfhcommareaType");
+		CixsOperation operation = getNewCommareaOperation("lsfileap", "lsfileae", "Dfhcommarea", "Dfhcommarea");
 		operation.setPackageName(null);
 		service.setPackageName(null);
 		service.getCixsOperations().add(operation);
@@ -90,9 +90,9 @@ public class TestCases {
 	public static CixsJaxwsService getLsfileaq() {
 		CixsJaxwsService service = getNewService("lsfileaq");
 		Map <String, String> inputContainers = new HashMap <String, String>();
-		inputContainers.put("QueryDataType", "QueryData");
+		inputContainers.put("QueryData", "QueryData");
 		Map <String, String> outputContainers = new HashMap <String, String>();
-		outputContainers.put("ReplyDataType", "ReplyData");
+		outputContainers.put("ReplyData", "ReplyData");
 		service.getCixsOperations().add(getNewContainerOperation("lsfileaq", "lsfileac", inputContainers, outputContainers));
 		return service;
 	}
@@ -131,7 +131,7 @@ public class TestCases {
 	 *  */
 	public static CixsJaxwsService getCommareaService(
 			String name) {
-		return getCommareaService(name, "DfhcommareaType", "DfhcommareaType");
+		return getCommareaService(name, "Dfhcommarea", "Dfhcommarea");
 	}
 
 	/**

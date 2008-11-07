@@ -13,7 +13,7 @@ elementFormDefault="qualified">
  <jaxb:package  name="com.legstar.test.coxb.arrayssm"/>
  </jaxb:schemaBindings>
  </xs:appinfo></xs:annotation>
- <xs:complexType name="WsTsType">
+ <xs:complexType name="WsTs">
     <xs:sequence>
      <xs:element name="Filler21">
        <xs:annotation>
@@ -44,7 +44,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="WsTcType">
+ <xs:complexType name="WsTc">
     <xs:sequence>
      <xs:element name="Filler24">
        <xs:annotation>
@@ -75,7 +75,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="WsTc2Type">
+ <xs:complexType name="WsTc2">
     <xs:sequence>
      <xs:element name="Filler27">
        <xs:annotation>
@@ -106,7 +106,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="DfhcommareaType">
+ <xs:complexType name="Dfhcommarea">
     <xs:sequence>
      <xs:element name="TableSimple" minOccurs="2" maxOccurs="2">
        <xs:annotation>
@@ -120,14 +120,14 @@ elementFormDefault="qualified">
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
-     <xs:element name="TableComplex" minOccurs="3" maxOccurs="3" type="xsns:TableComplexType">
+     <xs:element name="TableComplex" minOccurs="3" maxOccurs="3" type="xsns:TableComplex">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='05' cobolName='TABLE-COMPLEX' type='GROUP_ITEM' minOccurs='3' maxOccurs='3' srceLine='33'/>
          </xs:appinfo>
        </xs:annotation>
      </xs:element>
-     <xs:element name="TableComplex2" type="xsns:TableComplex2Type">
+     <xs:element name="TableComplex2" type="xsns:TableComplex2">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='05' cobolName='TABLE-COMPLEX-2' type='GROUP_ITEM' srceLine='35'/>
@@ -149,7 +149,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="TableComplexType">
+ <xs:complexType name="TableComplex">
     <xs:sequence>
      <xs:element name="ElementComplex">
        <xs:annotation>
@@ -165,7 +165,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="TableComplex2Type">
+ <xs:complexType name="TableComplex2">
     <xs:sequence>
      <xs:element name="ElementComplex2" minOccurs="4" maxOccurs="4">
        <xs:annotation>

@@ -36,7 +36,7 @@ public class CoxbGenReflectVisitorTest extends TestCase {
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				JaxbUtil.loadClass("com.legstar.test.coxb.dplarcht.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.dplarcht.Dfhcommarea"));
 
 		CoxbGenModel coxbGenContext = new CoxbGenModel();
 		coxbGenContext.setCoxbSrcDir(new File(GEN_SRC_DIR));
@@ -47,8 +47,8 @@ public class CoxbGenReflectVisitorTest extends TestCase {
 		
 		visitor.visit(ce);
 		
-		/* Check DfhcommareaTypeBinding */
-		BufferedReader in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/DfhcommareaTypeBinding.java"));
+		/* Check DfhcommareaBinding */
+		BufferedReader in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/DfhcommareaBinding.java"));
 		String resStr = "";
 		String str = in.readLine();
 		while (str != null) {
@@ -57,10 +57,10 @@ public class CoxbGenReflectVisitorTest extends TestCase {
 			str = in.readLine();
 		}
 		in.close();
-		assertTrue(resStr.contains("lsRequest = new LsRequestTypeBinding(\"LsRequest\","));
+		assertTrue(resStr.contains("lsRequest = new LsRequestBinding(\"LsRequest\","));
 		assertTrue(resStr.contains("\"LsRequest\", this, null);"));
 		assertTrue(resStr.contains("lsRequest.setCobolName(\"LS-REQUEST\");"));
-		assertTrue(resStr.contains("lsReply = new LsReplyTypeBinding(\"LsReply\","));
+		assertTrue(resStr.contains("lsReply = new LsReplyBinding(\"LsReply\","));
 		assertTrue(resStr.contains("\"LsReply\", this, null);"));
 		assertTrue(resStr.contains("lsReply.setCobolName(\"LS-REPLY\");"));
 		
@@ -97,22 +97,22 @@ public class CoxbGenReflectVisitorTest extends TestCase {
 		in.close();
 		assertTrue(resStr.contains("setUnmarshalChoiceStrategyClassName("));
 		assertTrue(resStr.contains("\"com.legstar.coxb.cust.dplarcht.ChoiceSelector\");"));
-		assertTrue(resStr.contains("lsFilesData = new LsFilesDataTypeBinding(\"LsFilesData\","));
+		assertTrue(resStr.contains("lsFilesData = new LsFilesDataBinding(\"LsFilesData\","));
 		assertTrue(resStr.contains("\"LsFilesData\", getParentBinding(), null);"));
 		assertTrue(resStr.contains("lsFilesData.setCobolName(\"LS-FILES-DATA\");"));
 		assertTrue(resStr.contains("lsFilesData.setUnmarshalChoiceStrategyClassName("));
 		assertTrue(resStr.contains("\"com.legstar.coxb.cust.dplarcht.ChoiceSelector\");"));
-		assertTrue(resStr.contains("lsProgramsData = new LsProgramsDataTypeBinding(\"LsProgramsData\","));
+		assertTrue(resStr.contains("lsProgramsData = new LsProgramsDataBinding(\"LsProgramsData\","));
 		assertTrue(resStr.contains("\"LsProgramsData\", getParentBinding(), null);"));
 		assertTrue(resStr.contains("lsProgramsData.setCobolName(\"LS-PROGRAMS-DATA\");"));
 		assertTrue(resStr.contains("lsProgramsData.setRedefines(\"LS-FILES-DATA\");"));
-		assertTrue(resStr.contains("lsTransactionsData = new LsTransactionsDataTypeBinding(\"LsTransactionsData\","));
+		assertTrue(resStr.contains("lsTransactionsData = new LsTransactionsDataBinding(\"LsTransactionsData\","));
 		assertTrue(resStr.contains("\"LsTransactionsData\", getParentBinding(), null);"));
 		assertTrue(resStr.contains("lsTransactionsData.setCobolName(\"LS-TRANSACTIONS-DATA\");"));
 		assertTrue(resStr.contains("lsTransactionsData.setRedefines(\"LS-FILES-DATA\");"));
 		
 		/* Check LsFilesDataTypeBinding */
-		in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/LsFilesDataTypeBinding.java"));
+		in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/LsFilesDataBinding.java"));
 		resStr = "";
 		str = in.readLine();
 		while (str != null) {
@@ -135,7 +135,7 @@ public class CoxbGenReflectVisitorTest extends TestCase {
 		assertTrue(resStr.contains("lsFileEnablestatus.setByteLength(12);"));
 
 		/* Check LsItemsArrayTypeBinding */
-		in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/LsItemsArrayTypeBinding.java"));
+		in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/LsItemsArrayBinding.java"));
 		resStr = "";
 		str = in.readLine();
 		while (str != null) {
@@ -150,7 +150,7 @@ public class CoxbGenReflectVisitorTest extends TestCase {
 		assertTrue(resStr.contains("\"com.legstar.coxb.cust.dplarcht.ChoiceSelector\");"));
 
 		/* Check LsItemsArrayTypeWrapperBinding */
-		in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/LsItemsArrayTypeWrapperBinding.java"));
+		in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/LsItemsArrayWrapperBinding.java"));
 		resStr = "";
 		str = in.readLine();
 		while (str != null) {
@@ -162,10 +162,10 @@ public class CoxbGenReflectVisitorTest extends TestCase {
 		assertTrue(resStr.contains("setMinOccurs(1);"));
 		assertTrue(resStr.contains("setMaxOccurs(500);"));
 		assertTrue(resStr.contains("setDependingOn(\"LS-ITEMS-COUNT\");"));
-		assertTrue(resStr.contains("mValueObject.add((LsItemsArrayType) getComplexItemBinding()."));
-		assertTrue(resStr.contains("getObjectValue(LsItemsArrayType.class));"));
+		assertTrue(resStr.contains("mValueObject.add((LsItemsArray) getComplexItemBinding()."));
+		assertTrue(resStr.contains("getObjectValue(LsItemsArray.class));"));
 		/* Check LsItemsArrayTypeBinding */
-		in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/LsItemsArrayTypeBinding.java"));
+		in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/LsItemsArrayBinding.java"));
 		resStr = "";
 		str = in.readLine();
 		while (str != null) {
@@ -180,7 +180,7 @@ public class CoxbGenReflectVisitorTest extends TestCase {
 		assertTrue(resStr.contains("\"com.legstar.coxb.cust.dplarcht.ChoiceSelector\");"));
 
 		/* Check LsProgramsDataTypeBinding */
-		in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/LsProgramsDataTypeBinding.java"));
+		in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/LsProgramsDataBinding.java"));
 		resStr = "";
 		str = in.readLine();
 		while (str != null) {
@@ -197,7 +197,7 @@ public class CoxbGenReflectVisitorTest extends TestCase {
 		assertTrue(resStr.contains("lsProgramLength.setIsSigned(true);"));
 
 		/* Check LsReplyDataTypeBinding */
-		in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/LsReplyDataTypeBinding.java"));
+		in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/LsReplyDataBinding.java"));
 		resStr = "";
 		str = in.readLine();
 		while (str != null) {
@@ -212,17 +212,17 @@ public class CoxbGenReflectVisitorTest extends TestCase {
 		assertTrue(resStr.contains("lsItemsCount.setByteLength(4);"));
 		assertTrue(resStr.contains("lsItemsCount.setTotalDigits(9);"));
 		assertTrue(resStr.contains("lsItemsCount.setIsODOObject(true);"));
-		assertTrue(resStr.contains("lsItemsArrayWrapperItem = new LsItemsArrayTypeBinding(\"LsItemsArrayWrapperItem\","));
+		assertTrue(resStr.contains("lsItemsArrayWrapperItem = new LsItemsArrayBinding(\"LsItemsArrayWrapperItem\","));
 		assertTrue(resStr.contains("\"LsItemsArray\", this, null);"));
-		assertTrue(resStr.contains("lsItemsArrayWrapper = new LsItemsArrayTypeWrapperBinding(\"LsItemsArrayWrapper\","));
+		assertTrue(resStr.contains("lsItemsArrayWrapper = new LsItemsArrayWrapperBinding(\"LsItemsArrayWrapper\","));
 		assertTrue(resStr.contains("\"LsItemsArray\", this, _lsItemsArrayWrapperItem);"));
 		assertTrue(resStr.contains("lsItemsArrayWrapper.setCobolName(\"LS-ITEMS-ARRAY\");"));
 		assertTrue(resStr.contains("lsItemsArrayWrapper.setMinOccurs(1);"));
 		assertTrue(resStr.contains("lsItemsArrayWrapper.setMaxOccurs(500);"));
 		assertTrue(resStr.contains("lsItemsArrayWrapper.setDependingOn(\"LS-ITEMS-COUNT\");"));
 
-		/* Check LsReplyTypeBinding */
-		in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/LsReplyTypeBinding.java"));
+		/* Check LsReplyBinding */
+		in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/LsReplyBinding.java"));
 		resStr = "";
 		str = in.readLine();
 		while (str != null) {
@@ -231,17 +231,17 @@ public class CoxbGenReflectVisitorTest extends TestCase {
 			str = in.readLine();
 		}
 		in.close();
-		assertTrue(resStr.contains("lsReplyType = BF.createBinaryBinding(\"LsReplyType\","));
+		assertTrue(resStr.contains("_lsReplyType = BF.createBinaryBinding(\"LsReplyType\","));
 		assertTrue(resStr.contains("\"LsReplyType\", Integer.class, this);"));
-		assertTrue(resStr.contains("lsReplyType.setCobolName(\"LS-REPLY-TYPE\");"));
-		assertTrue(resStr.contains("lsReplyType.setByteLength(2);"));
-		assertTrue(resStr.contains("lsReplyType.setTotalDigits(4);"));
-		assertTrue(resStr.contains("lsReplyData = new LsReplyDataTypeBinding(\"LsReplyData\","));
+		assertTrue(resStr.contains("_lsReplyType.setCobolName(\"LS-REPLY-TYPE\");"));
+		assertTrue(resStr.contains("_lsReplyType.setByteLength(2);"));
+		assertTrue(resStr.contains("_lsReplyType.setTotalDigits(4);"));
+		assertTrue(resStr.contains("_lsReplyData = new LsReplyDataBinding(\"LsReplyData\","));
 		assertTrue(resStr.contains("\"LsReplyData\", this, null);"));
 		assertTrue(resStr.contains("lsReplyData.setCobolName(\"LS-REPLY-DATA\");"));
 
-		/* Check LsRequestTypeBinding */
-		in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/LsRequestTypeBinding.java"));
+		/* Check LsRequestBinding */
+		in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/LsRequestBinding.java"));
 		resStr = "";
 		str = in.readLine();
 		while (str != null) {
@@ -250,21 +250,21 @@ public class CoxbGenReflectVisitorTest extends TestCase {
 			str = in.readLine();
 		}
 		in.close();
-		assertTrue(resStr.contains("lsRequestType = BF.createBinaryBinding(\"LsRequestType\","));
+		assertTrue(resStr.contains("_lsRequestType = BF.createBinaryBinding(\"LsRequestType\","));
 		assertTrue(resStr.contains("\"LsRequestType\", Integer.class, this);"));
-		assertTrue(resStr.contains("lsRequestType.setCobolName(\"LS-REQUEST-TYPE\");"));
-		assertTrue(resStr.contains("lsRequestType.setByteLength(2);"));
-		assertTrue(resStr.contains("lsRequestType.setTotalDigits(4);"));
-		assertTrue(resStr.contains("lsRequestType.setIsCustomVariable(true);"));
+		assertTrue(resStr.contains("_lsRequestType.setCobolName(\"LS-REQUEST-TYPE\");"));
+		assertTrue(resStr.contains("_lsRequestType.setByteLength(2);"));
+		assertTrue(resStr.contains("_lsRequestType.setTotalDigits(4);"));
+		assertTrue(resStr.contains("_lsRequestType.setIsCustomVariable(true);"));
 		assertTrue(resStr.contains("lsAllItemsChoice = new LsAllItemsChoiceBinding(\"LsAllItemsChoice\", this);"));
 		assertTrue(resStr.contains("lsAllItemsChoice.setCobolName(\"LS-ALL-ITEMS\");"));
 		assertTrue(resStr.contains("lsAllItemsChoice.setByteLength(4);"));
-		assertTrue(resStr.contains("lsSearchCriteria = new LsSearchCriteriaTypeBinding(\"LsSearchCriteria\","));
+		assertTrue(resStr.contains("lsSearchCriteria = new LsSearchCriteriaBinding(\"LsSearchCriteria\","));
 		assertTrue(resStr.contains("\"LsSearchCriteria\", this, null);"));
 		assertTrue(resStr.contains("lsSearchCriteria.setCobolName(\"LS-SEARCH-CRITERIA\");"));
 
 		/* Check LsSearchCriteriaTypeBinding */
-		in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/LsSearchCriteriaTypeBinding.java"));
+		in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/LsSearchCriteriaBinding.java"));
 		resStr = "";
 		str = in.readLine();
 		while (str != null) {
@@ -284,7 +284,7 @@ public class CoxbGenReflectVisitorTest extends TestCase {
 		assertTrue(resStr.contains("lsStartwithLen.setTotalDigits(9);"));
 
 		/* Check LsTransactionsDataTypeBinding */
-		in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/LsTransactionsDataTypeBinding.java"));
+		in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/dplarcht/bind/LsTransactionsDataBinding.java"));
 		resStr = "";
 		str = in.readLine();
 		while (str != null) {

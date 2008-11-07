@@ -16,7 +16,7 @@ import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolUnmarshalChoiceStrategy;
 import com.legstar.coxb.CobolElementVisitor;
 import com.legstar.coxb.host.HostException;
-import com.legstar.test.coxb.redmulti.DfhcommareaType;
+import com.legstar.test.coxb.redmulti.Dfhcommarea;
 
 /** 
  * Skeleton implementation of a custom choice selection strategy. Modify this
@@ -31,9 +31,9 @@ public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
       final CobolElementVisitor visitor)
     throws HostException {
     
-		/* Get the current value of the cOutputType variable. */
-		DfhcommareaType jobj =
-			(DfhcommareaType) choice.getParentValueObject();
+		/* Get the current value of the cOutput variable. */
+		Dfhcommarea jobj =
+			(Dfhcommarea) choice.getParentValueObject();
 		
 		if (jobj.getCOutputType().compareTo("normal") == 0) {
 			return choice.getAlternativeByName("Filler35");
@@ -44,7 +44,7 @@ public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
 		}
 
 		/* None of the alternatives could be chosen. Raise an error.*/
-		throw (new HostException("Unrecognized COutputType value:" 
+		throw (new HostException("Unrecognized COutput value:" 
 				+ jobj.getCOutputType()));
   }
 

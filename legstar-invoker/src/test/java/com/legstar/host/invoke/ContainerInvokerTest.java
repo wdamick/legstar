@@ -16,12 +16,12 @@ import java.util.Map;
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.host.HostException;
 import com.legstar.messaging.LegStarAddress;
-import com.legstar.test.coxb.lsfileac.QueryDataType;
-import com.legstar.test.coxb.lsfileac.QueryLimitType;
-import com.legstar.test.coxb.lsfileac.bind.QueryDataTypeBinding;
-import com.legstar.test.coxb.lsfileac.bind.QueryLimitTypeBinding;
-import com.legstar.test.coxb.lsfileac.bind.ReplyDataTypeBinding;
-import com.legstar.test.coxb.lsfileac.bind.ReplyStatusTypeBinding;
+import com.legstar.test.coxb.lsfileac.QueryData;
+import com.legstar.test.coxb.lsfileac.QueryLimit;
+import com.legstar.test.coxb.lsfileac.bind.QueryDataBinding;
+import com.legstar.test.coxb.lsfileac.bind.QueryLimitBinding;
+import com.legstar.test.coxb.lsfileac.bind.ReplyDataBinding;
+import com.legstar.test.coxb.lsfileac.bind.ReplyStatusBinding;
 
 import junit.framework.TestCase;
 
@@ -56,22 +56,22 @@ public class ContainerInvokerTest extends TestCase {
 	          new com.legstar.test.coxb.lsfileac.ObjectFactory(); 
 	    
 	    /* There are 2 containers for request */
-	    QueryDataType queryData	= jaxbInFactory.createQueryDataType();
+	    QueryData queryData	= jaxbInFactory.createQueryData();
 	    queryData.setQueryName("S*");
 	    queryData.setQueryAddress("*");
 	    queryData.setQueryPhone("*");
 	    
-	    QueryLimitType queryLimit	= jaxbInFactory.createQueryLimitType();
+	    QueryLimit queryLimit	= jaxbInFactory.createQueryLimit();
 	    queryLimit.setMaxElapseTime(5000); /* 5 seconds */
 	    queryLimit.setMaxItemsRead(100);
 	    
 	    /* Decorate object trees for static binding */
-	    QueryDataTypeBinding queryDataBin = new QueryDataTypeBinding(queryData);
-	    QueryLimitTypeBinding queryLimitBin = new QueryLimitTypeBinding(queryLimit);
+	    QueryDataBinding queryDataBin = new QueryDataBinding(queryData);
+	    QueryLimitBinding queryLimitBin = new QueryLimitBinding(queryLimit);
 	    
 	    /* Prepare output objects */
-	    ReplyDataTypeBinding replyDataBin = new ReplyDataTypeBinding();
-	    ReplyStatusTypeBinding replyStatusBin = new ReplyStatusTypeBinding();
+	    ReplyDataBinding replyDataBin = new ReplyDataBinding();
+	    ReplyStatusBinding replyStatusBin = new ReplyStatusBinding();
 	    
 	    /* Map containers with corresponding object trees */
 	    Map < String, ICobolComplexBinding > inParts =
@@ -88,18 +88,18 @@ public class ContainerInvokerTest extends TestCase {
 	    invoker.invoke("test2ContainersIn2Out", inParts, outParts);
 	    
 	    /* Check */
-	    assertEquals(0, replyStatusBin.getReplyStatusType().getReplyType());
-	    assertEquals(44, replyStatusBin.getReplyStatusType().getTotalItemsRead());
-	    assertEquals("", replyStatusBin.getReplyStatusType().getReplyMessage().trim());
-	    assertEquals(0, replyStatusBin.getReplyStatusType().getReplyResp());
-	    assertEquals(0, replyStatusBin.getReplyStatusType().getReplyResp2());
-	    assertEquals(5, replyDataBin.getReplyDataType().getReplyItemscount());
+	    assertEquals(0, replyStatusBin.getReplyStatus().getReplyType());
+	    assertEquals(44, replyStatusBin.getReplyStatus().getTotalItemsRead());
+	    assertEquals("", replyStatusBin.getReplyStatus().getReplyMessage().trim());
+	    assertEquals(0, replyStatusBin.getReplyStatus().getReplyResp());
+	    assertEquals(0, replyStatusBin.getReplyStatus().getReplyResp2());
+	    assertEquals(5, replyDataBin.getReplyData().getReplyItemscount());
 	    
-	    assertEquals("S. D. BORMAN", replyDataBin.getReplyDataType().getReplyItem().get(0).getReplyPersonal().getReplyName());
-	    assertEquals("SUSAN MALAIKA", replyDataBin.getReplyDataType().getReplyItem().get(1).getReplyPersonal().getReplyName());
-	    assertEquals("SIR MICHAEL ROBERTS", replyDataBin.getReplyDataType().getReplyItem().get(2).getReplyPersonal().getReplyName());
-	    assertEquals("S. P. RUSSELL", replyDataBin.getReplyDataType().getReplyItem().get(3).getReplyPersonal().getReplyName());
-	    assertEquals("S.J. LAZENBY", replyDataBin.getReplyDataType().getReplyItem().get(4).getReplyPersonal().getReplyName());
+	    assertEquals("S. D. BORMAN", replyDataBin.getReplyData().getReplyItem().get(0).getReplyPersonal().getReplyName());
+	    assertEquals("SUSAN MALAIKA", replyDataBin.getReplyData().getReplyItem().get(1).getReplyPersonal().getReplyName());
+	    assertEquals("SIR MICHAEL ROBERTS", replyDataBin.getReplyData().getReplyItem().get(2).getReplyPersonal().getReplyName());
+	    assertEquals("S. P. RUSSELL", replyDataBin.getReplyData().getReplyItem().get(3).getReplyPersonal().getReplyName());
+	    assertEquals("S.J. LAZENBY", replyDataBin.getReplyData().getReplyItem().get(4).getReplyPersonal().getReplyName());
 	    
 	}
 
@@ -109,8 +109,8 @@ public class ContainerInvokerTest extends TestCase {
 		HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
 	    
 	    /* Prepare output objects */
-	    ReplyDataTypeBinding replyDataBin = new ReplyDataTypeBinding();
-	    ReplyStatusTypeBinding replyStatusBin = new ReplyStatusTypeBinding();
+	    ReplyDataBinding replyDataBin = new ReplyDataBinding();
+	    ReplyStatusBinding replyStatusBin = new ReplyStatusBinding();
 	    
 	    /* Map containers with corresponding object trees */
 	    Map < String, ICobolComplexBinding > inParts =
@@ -125,18 +125,18 @@ public class ContainerInvokerTest extends TestCase {
 	    invoker.invoke("test0ContainersIn2Out", inParts, outParts);
 	    
 	    /* Check */
-	    assertEquals(0, replyStatusBin.getReplyStatusType().getReplyType());
-	    assertEquals(44, replyStatusBin.getReplyStatusType().getTotalItemsRead());
-	    assertEquals("", replyStatusBin.getReplyStatusType().getReplyMessage().trim());
-	    assertEquals(0, replyStatusBin.getReplyStatusType().getReplyResp());
-	    assertEquals(0, replyStatusBin.getReplyStatusType().getReplyResp2());
-	    assertEquals(44, replyDataBin.getReplyDataType().getReplyItemscount());
+	    assertEquals(0, replyStatusBin.getReplyStatus().getReplyType());
+	    assertEquals(44, replyStatusBin.getReplyStatus().getTotalItemsRead());
+	    assertEquals("", replyStatusBin.getReplyStatus().getReplyMessage().trim());
+	    assertEquals(0, replyStatusBin.getReplyStatus().getReplyResp());
+	    assertEquals(0, replyStatusBin.getReplyStatus().getReplyResp2());
+	    assertEquals(44, replyDataBin.getReplyData().getReplyItemscount());
 	    
-	    assertEquals("S. D. BORMAN", replyDataBin.getReplyDataType().getReplyItem().get(0).getReplyPersonal().getReplyName());
-	    assertEquals("J. T. CZAYKOWSKI", replyDataBin.getReplyDataType().getReplyItem().get(1).getReplyPersonal().getReplyName());
-	    assertEquals("M. B. DOMBEY", replyDataBin.getReplyDataType().getReplyItem().get(2).getReplyPersonal().getReplyName());
-	    assertEquals("A. I. HICKSON", replyDataBin.getReplyDataType().getReplyItem().get(3).getReplyPersonal().getReplyName());
-	    assertEquals("ALAN TULIP", replyDataBin.getReplyDataType().getReplyItem().get(4).getReplyPersonal().getReplyName());
+	    assertEquals("S. D. BORMAN", replyDataBin.getReplyData().getReplyItem().get(0).getReplyPersonal().getReplyName());
+	    assertEquals("J. T. CZAYKOWSKI", replyDataBin.getReplyData().getReplyItem().get(1).getReplyPersonal().getReplyName());
+	    assertEquals("M. B. DOMBEY", replyDataBin.getReplyData().getReplyItem().get(2).getReplyPersonal().getReplyName());
+	    assertEquals("A. I. HICKSON", replyDataBin.getReplyData().getReplyItem().get(3).getReplyPersonal().getReplyName());
+	    assertEquals("ALAN TULIP", replyDataBin.getReplyData().getReplyItem().get(4).getReplyPersonal().getReplyName());
 	    
 	}
 	
@@ -149,22 +149,22 @@ public class ContainerInvokerTest extends TestCase {
 	          new com.legstar.test.coxb.lsfileac.ObjectFactory(); 
 	    
 	    /* There are 2 containers for request */
-	    QueryDataType queryData	= jaxbInFactory.createQueryDataType();
+	    QueryData queryData	= jaxbInFactory.createQueryData();
 	    queryData.setQueryName("Z*");
 	    queryData.setQueryAddress("*");
 	    queryData.setQueryPhone("*");
 	    
-	    QueryLimitType queryLimit	= jaxbInFactory.createQueryLimitType();
+	    QueryLimit queryLimit	= jaxbInFactory.createQueryLimit();
 	    queryLimit.setMaxElapseTime(5000); /* 5 seconds */
 	    queryLimit.setMaxItemsRead(100);
 	    
 	    /* Decorate object trees for static binding */
-	    QueryDataTypeBinding queryDataBin = new QueryDataTypeBinding(queryData);
-	    QueryLimitTypeBinding queryLimitBin = new QueryLimitTypeBinding(queryLimit);
+	    QueryDataBinding queryDataBin = new QueryDataBinding(queryData);
+	    QueryLimitBinding queryLimitBin = new QueryLimitBinding(queryLimit);
 	    
 	    /* Prepare output objects */
-	    ReplyDataTypeBinding replyDataBin = new ReplyDataTypeBinding();
-	    ReplyStatusTypeBinding replyStatusBin = new ReplyStatusTypeBinding();
+	    ReplyDataBinding replyDataBin = new ReplyDataBinding();
+	    ReplyStatusBinding replyStatusBin = new ReplyStatusBinding();
 	    
 	    /* Map containers with corresponding object trees */
 	    Map < String, ICobolComplexBinding > inParts =
@@ -181,13 +181,13 @@ public class ContainerInvokerTest extends TestCase {
 	    invoker.invoke("test2ContainersIn1Out", inParts, outParts);
 	    
 	    /* Check */
-	    assertEquals(0, replyStatusBin.getReplyStatusType().getReplyType());
-	    assertEquals(44, replyStatusBin.getReplyStatusType().getTotalItemsRead());
-	    assertEquals("NO CUSTOMER SATISFIES YOUR QUERY", replyStatusBin.getReplyStatusType().getReplyMessage().trim());
-	    assertEquals(0, replyStatusBin.getReplyStatusType().getReplyResp());
-	    assertEquals(0, replyStatusBin.getReplyStatusType().getReplyResp2());
+	    assertEquals(0, replyStatusBin.getReplyStatus().getReplyType());
+	    assertEquals(44, replyStatusBin.getReplyStatus().getTotalItemsRead());
+	    assertEquals("NO CUSTOMER SATISFIES YOUR QUERY", replyStatusBin.getReplyStatus().getReplyMessage().trim());
+	    assertEquals(0, replyStatusBin.getReplyStatus().getReplyResp());
+	    assertEquals(0, replyStatusBin.getReplyStatus().getReplyResp2());
 	    
-	    assertTrue(null == replyDataBin.getReplyDataType());
+	    assertTrue(null == replyDataBin.getReplyData());
 	    
 	}
 

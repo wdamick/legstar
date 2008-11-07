@@ -45,7 +45,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.lsfileae.ObjectFactory objectFactory = new com.legstar.test.coxb.lsfileae.ObjectFactory();
 		// Create an initial empty instance of an object
-		com.legstar.test.coxb.lsfileae.DfhcommareaType dfhcommarea = new com.legstar.test.coxb.lsfileae.DfhcommareaType();
+		com.legstar.test.coxb.lsfileae.Dfhcommarea dfhcommarea = new com.legstar.test.coxb.lsfileae.Dfhcommarea();
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -81,7 +81,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.fixarsim.ObjectFactory objectFactory = new com.legstar.test.coxb.fixarsim.ObjectFactory();
 		// Create an initial empty instance of an object
-		com.legstar.test.coxb.fixarsim.DfhcommareaType dfhcommarea = new com.legstar.test.coxb.fixarsim.DfhcommareaType();
+		com.legstar.test.coxb.fixarsim.Dfhcommarea dfhcommarea = new com.legstar.test.coxb.fixarsim.Dfhcommarea();
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -114,7 +114,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.fixarnum.ObjectFactory objectFactory = new com.legstar.test.coxb.fixarnum.ObjectFactory();
 		// Create an initial empty instance of an object
-		com.legstar.test.coxb.fixarnum.DfhcommareaType dfhcommarea = new com.legstar.test.coxb.fixarnum.DfhcommareaType();
+		com.legstar.test.coxb.fixarnum.Dfhcommarea dfhcommarea = new com.legstar.test.coxb.fixarnum.Dfhcommarea();
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -161,14 +161,14 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.fixarcom.ObjectFactory objectFactory = new com.legstar.test.coxb.fixarcom.ObjectFactory();
 		// Create an initial empty instance of an object
-		com.legstar.test.coxb.fixarcom.DfhcommareaType dfhcommarea = new com.legstar.test.coxb.fixarcom.DfhcommareaType();
+		com.legstar.test.coxb.fixarcom.Dfhcommarea dfhcommarea = new com.legstar.test.coxb.fixarcom.Dfhcommarea();
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
 		ccem.accept(uv);
 		
 		for(int i=0;i< 7;i++) {
-			com.legstar.test.coxb.fixarcom.CArrayType item = dfhcommarea.getCArray().get(i);
+			com.legstar.test.coxb.fixarcom.CArray item = dfhcommarea.getCArray().get(i);
 			assertEquals("ABJA" + Integer.toString(i),item.getCItem1());
 			assertEquals(Short.parseShort(Integer.toString(7 * i)),item.getCItem2());
 		}
@@ -195,7 +195,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.vararcom.ObjectFactory objectFactory = new com.legstar.test.coxb.vararcom.ObjectFactory();
 		// Create an initial empty instance of an object
-		com.legstar.test.coxb.vararcom.DfhcommareaType dfhcommarea = new com.legstar.test.coxb.vararcom.DfhcommareaType();
+		com.legstar.test.coxb.vararcom.Dfhcommarea dfhcommarea = new com.legstar.test.coxb.vararcom.Dfhcommarea();
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -225,7 +225,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.vararcom.ObjectFactory objectFactory = new com.legstar.test.coxb.vararcom.ObjectFactory();
 		// Create an initial empty instance of an object
-		com.legstar.test.coxb.vararcom.DfhcommareaType dfhcommarea = new com.legstar.test.coxb.vararcom.DfhcommareaType();
+		com.legstar.test.coxb.vararcom.Dfhcommarea dfhcommarea = new com.legstar.test.coxb.vararcom.Dfhcommarea();
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -233,7 +233,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		
 		assertEquals(1, dfhcommarea.getCItemsNumber());
 		for(int i=0;i< 1;i++) {
-			com.legstar.test.coxb.vararcom.CArrayType item = dfhcommarea.getCArray().get(i);
+			com.legstar.test.coxb.vararcom.CArray item = dfhcommarea.getCArray().get(i);
 			assertEquals("ABJAD",item.getCItem1());
 			assertEquals(Short.parseShort(Integer.toString(7 * i)),item.getCItem2());
 		}
@@ -260,7 +260,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.vararcom.ObjectFactory objectFactory = new com.legstar.test.coxb.vararcom.ObjectFactory();
 		// Create an initial empty instance of an object
-		com.legstar.test.coxb.vararcom.DfhcommareaType dfhcommarea = new com.legstar.test.coxb.vararcom.DfhcommareaType();
+		com.legstar.test.coxb.vararcom.Dfhcommarea dfhcommarea = new com.legstar.test.coxb.vararcom.Dfhcommarea();
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -268,7 +268,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		
 		assertEquals(3, dfhcommarea.getCItemsNumber());
 		for(int i=0;i< 3;i++) {
-			com.legstar.test.coxb.vararcom.CArrayType item = dfhcommarea.getCArray().get(i);
+			com.legstar.test.coxb.vararcom.CArray item = dfhcommarea.getCArray().get(i);
 			assertEquals("ABJAD",item.getCItem1());
 			assertEquals(Short.parseShort(Integer.toString(7 * i)),item.getCItem2());
 		}
@@ -292,7 +292,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.redsimpt.ObjectFactory objectFactory = new com.legstar.test.coxb.redsimpt.ObjectFactory();
 		// Create an initial empty instance of an object
-		com.legstar.test.coxb.redsimpt.DfhcommareaType dfhcommarea = new com.legstar.test.coxb.redsimpt.DfhcommareaType();
+		com.legstar.test.coxb.redsimpt.Dfhcommarea dfhcommarea = new com.legstar.test.coxb.redsimpt.Dfhcommarea();
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -321,7 +321,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.redsimpt.ObjectFactory objectFactory = new com.legstar.test.coxb.redsimpt.ObjectFactory();
 		// Create an initial empty instance of an object
-		com.legstar.test.coxb.redsimpt.DfhcommareaType dfhcommarea = new com.legstar.test.coxb.redsimpt.DfhcommareaType();
+		com.legstar.test.coxb.redsimpt.Dfhcommarea dfhcommarea = new com.legstar.test.coxb.redsimpt.Dfhcommarea();
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -350,7 +350,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.redbotha.ObjectFactory objectFactory = new com.legstar.test.coxb.redbotha.ObjectFactory();
 		// Create an initial empty instance of an object
-		com.legstar.test.coxb.redbotha.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.redbotha.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -379,7 +379,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.redinout.ObjectFactory objectFactory = new com.legstar.test.coxb.redinout.ObjectFactory();
 		// Create an initial empty instance of an object
-		com.legstar.test.coxb.redinout.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.redinout.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -391,10 +391,10 @@ public class UnmarshallerVisitorTest  extends TestCase {
 	}
 
 	/**
-	 * Unmarshal Typesmix.
+	 * Unmarshal smix.
 	 * @throws HostException if anything goes wrong
 	 */
-	public final void testTypesmix() throws HostException {
+	public final void testsmix() throws HostException {
 		// Create a cobol context 
 		CobolContext cobolContext = new CobolContext();
 		// Select a conversion strategy 
@@ -408,7 +408,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.typesmix.ObjectFactory objectFactory = new com.legstar.test.coxb.typesmix.ObjectFactory();
 		// Create an initial empty instance of an object
-		com.legstar.test.coxb.typesmix.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.typesmix.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -454,7 +454,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.binpkdus.ObjectFactory objectFactory = new com.legstar.test.coxb.binpkdus.ObjectFactory();
 		// Create an initial empty instance of an object
-		com.legstar.test.coxb.binpkdus.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.binpkdus.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -487,7 +487,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.dplarcht.ObjectFactory objectFactory = new com.legstar.test.coxb.dplarcht.ObjectFactory();
 		// Create an initial empty instance of an object
-		com.legstar.test.coxb.dplarcht.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.dplarcht.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 
 		
 		// Traverse the object structure, visiting each node with the visitor
@@ -520,7 +520,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.dplarcht.ObjectFactory objectFactory = new com.legstar.test.coxb.dplarcht.ObjectFactory();
 		// Create an initial empty instance of an object
-		com.legstar.test.coxb.dplarcht.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.dplarcht.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -554,7 +554,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.dplarcht.ObjectFactory objectFactory = new com.legstar.test.coxb.dplarcht.ObjectFactory();
 		// Create an initial empty instance of an object
-		com.legstar.test.coxb.dplarcht.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.dplarcht.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -586,7 +586,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.dplarcht.ObjectFactory objectFactory = new com.legstar.test.coxb.dplarcht.ObjectFactory();
 		// Create an initial empty instance of an object
-		com.legstar.test.coxb.dplarcht.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.dplarcht.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -621,7 +621,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.redmulti.ObjectFactory objectFactory = new com.legstar.test.coxb.redmulti.ObjectFactory();
 		// Create an initial empty instance of an object
-		com.legstar.test.coxb.redmulti.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.redmulti.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -649,7 +649,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.redmulti.ObjectFactory objectFactory = new com.legstar.test.coxb.redmulti.ObjectFactory();
 		// Create an initial empty instance of an object
-		com.legstar.test.coxb.redmulti.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.redmulti.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
@@ -679,13 +679,13 @@ public class UnmarshallerVisitorTest  extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.charsets.ObjectFactory objectFactory = new com.legstar.test.coxb.charsets.ObjectFactory();
 		// Create an initial empty instance of an object
-		com.legstar.test.coxb.charsets.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.charsets.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
 		ccem.accept(uv);
 		
-		assertEquals("com.legstar.test.coxb.charsets.DfhcommareaType", ccem.getValueObjectClassName());
+		assertEquals("com.legstar.test.coxb.charsets.Dfhcommarea", ccem.getValueObjectClassName());
 		assertEquals("com.legstar.test.coxb.charsets.ObjectFactory", ccem.getValueObjectsFactoryClassName());
 		assertEquals("ça c'est un problème", dfhcommarea.getComLocal());
 		assertEquals("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",HostData.toHexString(dfhcommarea.getComDbcs()));
@@ -693,7 +693,7 @@ public class UnmarshallerVisitorTest  extends TestCase {
 	}
 	
 	/**
-	 * Check that new annotation CobolComplexType is being read and result in an
+	 * Check that new annotation CobolComplex is being read and result in an
 	 * substitute java class name to the original jaxb class name. In the reflective
 	 * implementation of complex binding, the actual binding is still with the JAXB
 	 * object but the substitute should be detected.

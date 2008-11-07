@@ -39,7 +39,7 @@ public class UnmarshalLargeVolumeTest extends TestCase {
 		// Perform mashaling a number of times
 		for (int i = 0; i < ITERATIONS; i++) {
 			// Create and populate an instance of an object (JAXB annotated)
-			com.legstar.test.coxb.dplarcht.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+			com.legstar.test.coxb.dplarcht.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 			
 			// Traverse the object structure, visiting each node with the visitor
 			CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);

@@ -19,7 +19,7 @@ import com.legstar.coxb.host.HostException;
 
 import junit.framework.TestCase;
 import com.legstar.test.coxb.listssdo.ObjectFactory;
-import com.legstar.test.coxb.listssdo.DfhcommareaType;
+import com.legstar.test.coxb.listssdo.Dfhcommarea;
 import com.legstar.util.JaxbUtil;
 
 public class UnmarshalListssdoTest extends TestCase {
@@ -47,9 +47,9 @@ public class UnmarshalListssdoTest extends TestCase {
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory,
-				JaxbUtil.loadClass("com.legstar.test.coxb.listssdo.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.listssdo.Dfhcommarea"));
 		ccem.accept(uv);
-		DfhcommareaType dfhcommarea = (DfhcommareaType) ccem.getObjectValue(DfhcommareaType.class);
+		Dfhcommarea dfhcommarea = (Dfhcommarea) ccem.getObjectValue(Dfhcommarea.class);
 		
 		assertEquals(5, dfhcommarea.getListOdo().size());
 		assertEquals("ODO01", dfhcommarea.getListOdo().get(0));

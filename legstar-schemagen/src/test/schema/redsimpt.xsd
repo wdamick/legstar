@@ -13,7 +13,7 @@ elementFormDefault="qualified">
  <jaxb:package  name="com.legstar.test.coxb.redsimpt"/>
  </jaxb:schemaBindings>
  </xs:appinfo></xs:annotation>
- <xs:complexType name="DfhcommareaType">
+ <xs:complexType name="Dfhcommarea">
     <xs:sequence>
      <xs:choice>
      <xs:element name="CDefinition1">

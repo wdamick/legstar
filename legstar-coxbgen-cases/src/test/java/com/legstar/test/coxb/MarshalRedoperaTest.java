@@ -20,7 +20,7 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
-import com.legstar.test.coxb.redopera.DfhcommareaType;
+import com.legstar.test.coxb.redopera.Dfhcommarea;
 
 import junit.framework.TestCase;
 
@@ -31,24 +31,24 @@ public class MarshalRedoperaTest extends TestCase {
 	public void testRedoperaStringMethod() throws Exception {
 
 		// Create and populate an instance of an object (JAXB annotated)
-		DfhcommareaType dfhcommareaType = (DfhcommareaType) Util.getJaxbObject(SCHEMA_NAME);
+		Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
 
-		dfhcommareaType.setCFunction("stringMethod");
-		dfhcommareaType.setCData("");
+		Dfhcommarea.setCFunction("stringMethod");
+		Dfhcommarea.setCData("");
 
 		assertEquals("a2a399899587d485a38896844040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040",
-				Util.marshal(SCHEMA_NAME, dfhcommareaType, 218));
+				Util.marshal(SCHEMA_NAME, Dfhcommarea, 218));
 	}
 
 	public void testRedoperaIntMethod() throws Exception {
 
 		// Create and populate an instance of an object (JAXB annotated)
-		DfhcommareaType dfhcommareaType = (DfhcommareaType) Util.getJaxbObject(SCHEMA_NAME);
+		Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
 		
-		dfhcommareaType.setCFunction("intMethod");
-		dfhcommareaType.setCData("");
+		Dfhcommarea.setCFunction("intMethod");
+		Dfhcommarea.setCData("");
 
 		assertEquals("8995a3d485a38896844040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040",
-				Util.marshal(SCHEMA_NAME, dfhcommareaType, 218));
+				Util.marshal(SCHEMA_NAME, Dfhcommarea, 218));
 	}
 }

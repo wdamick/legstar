@@ -13,9 +13,9 @@ elementFormDefault="qualified">
  <jaxb:package  name="com.legstar.test.coxb.binpkdus"/>
  </jaxb:schemaBindings>
  </xs:appinfo></xs:annotation>
- <xs:complexType name="WsExpectedIncomingDataType">
+ <xs:complexType name="WsExpectedIncomingData">
     <xs:sequence>
-     <xs:element name="WsUnsignedPackedDecimal" type="xsns:WsUnsignedPackedDecimalType">
+     <xs:element name="WsUnsignedPackedDecimal" type="xsns:WsUnsignedPackedDecimal">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='05' cobolName='WS-UNSIGNED-PACKED-DECIMAL' type='GROUP_ITEM' srceLine='30'/>
@@ -24,16 +24,16 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="WsUnsignedPackedDecimalType">
+ <xs:complexType name="WsUnsignedPackedDecimal">
     <xs:sequence>
-     <xs:element name="WsCompat" type="xsns:WsCompatType">
+     <xs:element name="WsCompat" type="xsns:WsCompat">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='10' cobolName='WS-COMPAT' type='GROUP_ITEM' srceLine='31'/>
          </xs:appinfo>
        </xs:annotation>
      </xs:element>
-     <xs:element name="WsExtend" type="xsns:WsExtendType">
+     <xs:element name="WsExtend" type="xsns:WsExtend">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='10' cobolName='WS-EXTEND' type='GROUP_ITEM' srceLine='39'/>
@@ -42,7 +42,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="WsCompatType">
+ <xs:complexType name="WsCompat">
     <xs:sequence>
      <xs:element name="WsP9X1Null">
        <xs:annotation>
@@ -121,7 +121,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="WsExtendType">
+ <xs:complexType name="WsExtend">
     <xs:sequence>
      <xs:element name="WsP9X19">
        <xs:annotation>
@@ -155,7 +155,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="Filler45Type">
+ <xs:complexType name="Filler45">
     <xs:sequence>
      <xs:element name="WsPs9X18Dis1">
        <xs:annotation>
@@ -207,9 +207,9 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="DfhcommareaType">
+ <xs:complexType name="Dfhcommarea">
     <xs:sequence>
-     <xs:element name="LsUnsignedPackedDecimal" type="xsns:LsUnsignedPackedDecimalType">
+     <xs:element name="LsUnsignedPackedDecimal" type="xsns:LsUnsignedPackedDecimal">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='05' cobolName='LS-UNSIGNED-PACKED-DECIMAL' type='GROUP_ITEM' srceLine='56'/>
@@ -218,16 +218,16 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="LsUnsignedPackedDecimalType">
+ <xs:complexType name="LsUnsignedPackedDecimal">
     <xs:sequence>
-     <xs:element name="LsCompat" type="xsns:LsCompatType">
+     <xs:element name="LsCompat" type="xsns:LsCompat">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='10' cobolName='LS-COMPAT' type='GROUP_ITEM' srceLine='57'/>
          </xs:appinfo>
        </xs:annotation>
      </xs:element>
-     <xs:element name="LsExtend" type="xsns:LsExtendType">
+     <xs:element name="LsExtend" type="xsns:LsExtend">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='10' cobolName='LS-EXTEND' type='GROUP_ITEM' srceLine='63'/>
@@ -236,7 +236,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="LsCompatType">
+ <xs:complexType name="LsCompat">
     <xs:sequence>
      <xs:element name="LsP9X1Null">
        <xs:annotation>
@@ -305,7 +305,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="LsExtendType">
+ <xs:complexType name="LsExtend">
     <xs:sequence>
      <xs:element name="LsP9X19">
        <xs:annotation>

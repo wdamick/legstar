@@ -19,7 +19,7 @@ import com.legstar.coxb.host.HostException;
 
 import junit.framework.TestCase;
 import com.legstar.test.coxb.lsfileae.ObjectFactory;
-import com.legstar.test.coxb.lsfileae.DfhcommareaType;
+import com.legstar.test.coxb.lsfileae.Dfhcommarea;
 
 public class UnmarshalLsfileaeTest extends TestCase {
 	/**
@@ -46,9 +46,9 @@ public class UnmarshalLsfileaeTest extends TestCase {
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory,
-				DfhcommareaType.class);
+				Dfhcommarea.class);
 		ccem.accept(uv);
-		DfhcommareaType dfhcommarea = (DfhcommareaType) ccem.getObjectValue(DfhcommareaType.class);
+		Dfhcommarea dfhcommarea = (Dfhcommarea) ccem.getObjectValue(Dfhcommarea.class);
 		
 		assertEquals(100, dfhcommarea.getComNumber());
 		assertEquals("TOTO", dfhcommarea.getComPersonal().getComName().trim());

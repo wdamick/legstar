@@ -26,34 +26,34 @@ import com.legstar.test.coxb.binnatsi.*;
 
 public class POJOClientBinnatsiTest extends TestCase {
 
-	public void testTypesmix() throws BinnatsiFault {
+	public void testsmix() throws BinnatsiFault {
 		Binnatsi port = new BinnatsiImpl(); 
-		DfhcommareaType dfhcommarea = new DfhcommareaType();
-		LsUnsignedNativeType lsUnsignedNative = new LsUnsignedNativeType();
+		Dfhcommarea dfhcommarea = new Dfhcommarea();
+		LsUnsignedNative lsUnsignedNative = new LsUnsignedNative();
 		dfhcommarea.setLsUnsignedNative(lsUnsignedNative);
 		
-		LsHalfwordsType lsHalfworld = new LsHalfwordsType();
+		LsHalfwords lsHalfworld = new LsHalfwords();
 		lsUnsignedNative.setLsHalfwords(lsHalfworld);
 		lsHalfworld.setLsPs9X4High(Short.parseShort("1045"));
 		lsHalfworld.setLsPs9X4Low(Short.parseShort("-128"));
 		lsHalfworld.setLsPs9X4Max(Short.parseShort("32767"));
 		lsHalfworld.setLsPs9X4Min(Short.parseShort("-32768"));
 		
-		LsFullwordsType lsFullworld = new LsFullwordsType();
+		LsFullwords lsFullworld = new LsFullwords();
 		lsUnsignedNative.setLsFullwords(lsFullworld);
 		lsFullworld.setLsPs9X9High(Integer.parseInt("123456789"));
 		lsFullworld.setLsPs9X9Low(Integer.parseInt("-128"));
 		lsFullworld.setLsPs9X9Max(Integer.parseInt("2147483647"));
 		lsFullworld.setLsPs9X9Min(Integer.parseInt("-2147483648"));
 		
-		LsDoublewordsType lsDoubleworld = new LsDoublewordsType();
+		LsDoublewords lsDoubleworld = new LsDoublewords();
 		lsUnsignedNative.setLsDoublewords(lsDoubleworld);
 		lsDoubleworld.setLsPs9X18High(Long.parseLong("17179869183"));
 		lsDoubleworld.setLsPs9X18Low(Long.parseLong("-4294967294"));
 		lsDoubleworld.setLsPs9X18Max(Long.parseLong("9223372036854775807"));
 		lsDoubleworld.setLsPs9X18Min(Long.parseLong("-9223372036854775808"));
 		
-		DfhcommareaType resp = port.binnatsi(dfhcommarea, null);
+		Dfhcommarea resp = port.binnatsi(dfhcommarea, null);
 
 		assertEquals(1045, resp.getLsUnsignedNative().getLsHalfwords().getLsPs9X4High());
 		assertEquals(-128, resp.getLsUnsignedNative().getLsHalfwords().getLsPs9X4Low());

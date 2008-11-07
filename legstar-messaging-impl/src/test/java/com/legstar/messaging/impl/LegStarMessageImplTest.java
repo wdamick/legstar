@@ -14,8 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.legstar.coxb.ICobolComplexBinding;
-import com.legstar.test.coxb.lsfileae.DfhcommareaType;
-import com.legstar.test.coxb.lsfileae.bind.DfhcommareaTypeBinding;
+import com.legstar.test.coxb.lsfileae.Dfhcommarea;
+import com.legstar.test.coxb.lsfileae.bind.DfhcommareaBinding;
 
 import junit.framework.TestCase;
 
@@ -24,8 +24,8 @@ public class LegStarMessageImplTest extends TestCase {
 	public void testAddMessagePart() throws Exception {
 		LegStarMessageImpl legstarMessage = new LegStarMessageImpl();
 	    /* The request java object tree */
-	    DfhcommareaType jaxbObject	= CobolTransformerTest.getJaxbObject();
-	    DfhcommareaTypeBinding binding = new DfhcommareaTypeBinding(jaxbObject);
+	    Dfhcommarea jaxbObject	= CobolTransformerTest.getJaxbObject();
+	    DfhcommareaBinding binding = new DfhcommareaBinding(jaxbObject);
 	    legstarMessage.addMessagePart(binding, 0, "IBM01147", null);
 	    assertEquals(1, legstarMessage.getHeaderPart().getDataPartsNumber());
 	    assertEquals(8, legstarMessage.getHeaderPart().getPayloadSize());
@@ -36,8 +36,8 @@ public class LegStarMessageImplTest extends TestCase {
 	public void testAddMessagePartExtraSize() throws Exception {
 		LegStarMessageImpl legstarMessage = new LegStarMessageImpl();
 	    /* The request java object tree */
-	    DfhcommareaType jaxbObject	= CobolTransformerTest.getJaxbObject();
-	    DfhcommareaTypeBinding binding = new DfhcommareaTypeBinding(jaxbObject);
+	    Dfhcommarea jaxbObject	= CobolTransformerTest.getJaxbObject();
+	    DfhcommareaBinding binding = new DfhcommareaBinding(jaxbObject);
 	    legstarMessage.addMessagePart(binding, 94, "IBM01147", null);
 	    assertEquals(1, legstarMessage.getHeaderPart().getDataPartsNumber());
 	    assertEquals(8, legstarMessage.getHeaderPart().getPayloadSize());
@@ -48,56 +48,56 @@ public class LegStarMessageImplTest extends TestCase {
 	public void getBindingFromPart() throws Exception {
 		LegStarMessageImpl legstarMessage = new LegStarMessageImpl();
 	    /* The request java object tree */
-	    DfhcommareaType jaxbObject	= CobolTransformerTest.getJaxbObject();
-	    DfhcommareaTypeBinding binding = new DfhcommareaTypeBinding(jaxbObject);
+	    Dfhcommarea jaxbObject	= CobolTransformerTest.getJaxbObject();
+	    DfhcommareaBinding binding = new DfhcommareaBinding(jaxbObject);
 	    legstarMessage.addMessagePart(binding, 0, "IBM01147", null);
 	    
-	    DfhcommareaTypeBinding binding2 = new DfhcommareaTypeBinding();
+	    DfhcommareaBinding binding2 = new DfhcommareaBinding();
 	    legstarMessage.getBindingFromPart(binding2, "IBM01147", null);
 	    
-	    assertEquals(binding.getDfhcommareaType().getComNumber(),
-	    		binding2.getDfhcommareaType().getComNumber());
-	    assertEquals(binding.getDfhcommareaType().getComAmount(),
-	    		binding2.getDfhcommareaType().getComAmount());
-	    assertEquals(binding.getDfhcommareaType().getComComment(),
-	    		binding2.getDfhcommareaType().getComComment());
-	    assertEquals(binding.getDfhcommareaType().getComDate(),
-	    		binding2.getDfhcommareaType().getComDate());
-	    assertEquals(binding.getDfhcommareaType().getComPersonal().getComAddress(),
-	    		binding2.getDfhcommareaType().getComPersonal().getComAddress());
-	    assertEquals(binding.getDfhcommareaType().getComPersonal().getComName(),
-	    		binding2.getDfhcommareaType().getComPersonal().getComName());
-	    assertEquals(binding.getDfhcommareaType().getComPersonal().getComPhone(),
-	    		binding2.getDfhcommareaType().getComPersonal().getComPhone());
+	    assertEquals(binding.getDfhcommarea().getComNumber(),
+	    		binding2.getDfhcommarea().getComNumber());
+	    assertEquals(binding.getDfhcommarea().getComAmount(),
+	    		binding2.getDfhcommarea().getComAmount());
+	    assertEquals(binding.getDfhcommarea().getComComment(),
+	    		binding2.getDfhcommarea().getComComment());
+	    assertEquals(binding.getDfhcommarea().getComDate(),
+	    		binding2.getDfhcommarea().getComDate());
+	    assertEquals(binding.getDfhcommarea().getComPersonal().getComAddress(),
+	    		binding2.getDfhcommarea().getComPersonal().getComAddress());
+	    assertEquals(binding.getDfhcommarea().getComPersonal().getComName(),
+	    		binding2.getDfhcommarea().getComPersonal().getComName());
+	    assertEquals(binding.getDfhcommarea().getComPersonal().getComPhone(),
+	    		binding2.getDfhcommarea().getComPersonal().getComPhone());
 	}
 
 	public void testContainers() throws Exception {
 		LegStarMessageImpl legstarMessage = new LegStarMessageImpl();
 	    /* The request java object tree */
-	    DfhcommareaType jaxbObject	= CobolTransformerTest.getJaxbObject();
-	    DfhcommareaTypeBinding binding = new DfhcommareaTypeBinding(jaxbObject);
+	    Dfhcommarea jaxbObject	= CobolTransformerTest.getJaxbObject();
+	    DfhcommareaBinding binding = new DfhcommareaBinding(jaxbObject);
 	    legstarMessage.addMessagePart(binding, 0, "IBM01147", "CONTAINER-1");
-	    DfhcommareaType jaxbObject2	= CobolTransformerTest.getJaxbObject();
-	    DfhcommareaTypeBinding binding2 = new DfhcommareaTypeBinding(jaxbObject2);
+	    Dfhcommarea jaxbObject2	= CobolTransformerTest.getJaxbObject();
+	    DfhcommareaBinding binding2 = new DfhcommareaBinding(jaxbObject2);
 	    legstarMessage.addMessagePart(binding2, 0, "IBM01147", "CONTAINER-2");
 	    assertEquals(2, legstarMessage.getHeaderPart().getDataPartsNumber());
 	    
 	    Map < String, ICobolComplexBinding > bindingsMap =
 	    	new HashMap < String, ICobolComplexBinding >();
-	    DfhcommareaTypeBinding binding3 = new DfhcommareaTypeBinding();
-	    DfhcommareaTypeBinding binding4 = new DfhcommareaTypeBinding();
-	    DfhcommareaTypeBinding binding5 = new DfhcommareaTypeBinding();
+	    DfhcommareaBinding binding3 = new DfhcommareaBinding();
+	    DfhcommareaBinding binding4 = new DfhcommareaBinding();
+	    DfhcommareaBinding binding5 = new DfhcommareaBinding();
 	    bindingsMap.put("CONTAINER-1", binding3);
 	    bindingsMap.put("CONTAINER-2", binding4);
 	    bindingsMap.put("CONTAINER-3", binding5);
 	    
 	    legstarMessage.getBindingsFromParts(bindingsMap, "IBM01147");
 	    
-	    DfhcommareaTypeBinding binding6 = (DfhcommareaTypeBinding) bindingsMap.get("CONTAINER-1");
-	    assertEquals(100, binding6.getDfhcommareaType().getComNumber());
-	    DfhcommareaTypeBinding binding7 = (DfhcommareaTypeBinding) bindingsMap.get("CONTAINER-2");
-	    assertEquals(100, binding7.getDfhcommareaType().getComNumber());
-	    DfhcommareaTypeBinding binding8 = (DfhcommareaTypeBinding) bindingsMap.get("CONTAINER-3");
-	    assertEquals(null, binding8.getDfhcommareaType());
+	    DfhcommareaBinding binding6 = (DfhcommareaBinding) bindingsMap.get("CONTAINER-1");
+	    assertEquals(100, binding6.getDfhcommarea().getComNumber());
+	    DfhcommareaBinding binding7 = (DfhcommareaBinding) bindingsMap.get("CONTAINER-2");
+	    assertEquals(100, binding7.getDfhcommarea().getComNumber());
+	    DfhcommareaBinding binding8 = (DfhcommareaBinding) bindingsMap.get("CONTAINER-3");
+	    assertEquals(null, binding8.getDfhcommarea());
 	}
 }

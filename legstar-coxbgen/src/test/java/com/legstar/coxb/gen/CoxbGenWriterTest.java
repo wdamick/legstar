@@ -38,7 +38,7 @@ public class CoxbGenWriterTest extends TestCase {
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				JaxbUtil.loadClass("com.legstar.test.coxb.alltypes.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.alltypes.Dfhcommarea"));
 
 		CoxbGenModel coxbGenContext = new CoxbGenModel();
 		coxbGenContext.setCoxbSrcDir(new File(GEN_SRC_DIR));
@@ -49,7 +49,7 @@ public class CoxbGenWriterTest extends TestCase {
 
 		writer.write(ce);
 
-		BufferedReader in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/alltypes/bind/DfhcommareaTypeBinding.java"));
+		BufferedReader in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/alltypes/bind/DfhcommareaBinding.java"));
 		String resStr = "";
 		String str = in.readLine();
 		while (str != null) {
@@ -67,7 +67,7 @@ public class CoxbGenWriterTest extends TestCase {
 	
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				JaxbUtil.loadClass("com.legstar.test.coxb.redsimpt.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.redsimpt.Dfhcommarea"));
 		
 		ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList().get(0);
 
@@ -98,7 +98,7 @@ public class CoxbGenWriterTest extends TestCase {
 		
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				JaxbUtil.loadClass("com.legstar.test.coxb.arrayssm.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.arrayssm.Dfhcommarea"));
 		
 		ICobolArrayComplexBinding ca = (ICobolArrayComplexBinding) ce.getChildrenList().get(1);
 
@@ -111,7 +111,7 @@ public class CoxbGenWriterTest extends TestCase {
 
 		writer.write(ca);
 
-		BufferedReader in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/arrayssm/bind/TableComplexTypeWrapperBinding.java"));
+		BufferedReader in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/arrayssm/bind/TableComplexWrapperBinding.java"));
 		String resStr = "";
 		String str = in.readLine();
 		while (str != null) {
@@ -129,7 +129,7 @@ public class CoxbGenWriterTest extends TestCase {
 			
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
-				JaxbUtil.loadClass("com.legstar.test.coxb.redsimpt.DfhcommareaType"));
+				JaxbUtil.loadClass("com.legstar.test.coxb.redsimpt.Dfhcommarea"));
 		
 		ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList().get(0);
 

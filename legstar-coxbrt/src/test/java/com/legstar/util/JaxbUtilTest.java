@@ -22,9 +22,9 @@ public class JaxbUtilTest extends TestCase {
 	}
 
 	public void testGetJavaClassNameNoAnnotations() throws Exception {
-		assertEquals("com.legstar.test.coxb.dplarcht.DfhcommareaType",
+		assertEquals("com.legstar.test.coxb.dplarcht.Dfhcommarea",
 				JaxbUtil.getJavaClassName(
-				"com.legstar.test.coxb.dplarcht", "DfhcommareaType"));
+				"com.legstar.test.coxb.dplarcht", "Dfhcommarea"));
 		
 	}
 }

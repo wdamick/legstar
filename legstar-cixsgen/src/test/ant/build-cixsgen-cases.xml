@@ -25,9 +25,9 @@
 		<!-- Location of custom code classes   -->
 		<property name="cust.bin.dir" value="${basedir}/../legstar-coxbgen-cases/target/classes"/>
 		<!-- The input JAXB type name   -->
-	 	<property name="jaxb.root.name.in" value="DfhcommareaType" />
+	 	<property name="jaxb.root.name.in" value="Dfhcommarea" />
 		<!-- The output JAXB type name   -->
-	 	<property name="jaxb.root.name.out" value="DfhcommareaType" />
+	 	<property name="jaxb.root.name.out" value="Dfhcommarea" />
 		<!-- Location of LegStar binaries   -->
 		<property name="build.dir" value="${basedir}/target"/>
 		<!-- Location of generated resources   -->
@@ -153,8 +153,8 @@
 	
 	<target name="generateLsfilealService" depends="init">
 		<property name="special-service" value="lsfileal"/>
-		<property name="special-jaxb.root.name.in" value="RequestParmsType"/>
-		<property name="special-jaxb.root.name.out" value="ReplyDataType"/>
+		<property name="special-jaxb.root.name.in" value="RequestParms"/>
+		<property name="special-jaxb.root.name.out" value="ReplyData"/>
 		
 		<cixsgen targetSrcDir="${cixs.src.dir}"
 	             targetBinDir="${cixs.bin.dir}"
@@ -209,22 +209,22 @@
 					cicsProgramName="${service}"
 					cicsChannel="LSFILEAC-CHANNEL">
 					<input
-						jaxbType="QueryDataType"
+						jaxbType="QueryData"
 						jaxbPackageName="${jaxb.package.pfx}.${service}"
 						cicsContainer="QueryData"
 					/>
 					<input
-						jaxbType="QueryLimitType"
+						jaxbType="QueryLimit"
 						jaxbPackageName="${jaxb.package.pfx}.${service}"
 						cicsContainer="QueryLimit"
 					/>
 					<output
-						jaxbType="ReplyStatusType"
+						jaxbType="ReplyStatus"
 						jaxbPackageName="${jaxb.package.pfx}.${service}"
 						cicsContainer="ReplyStatus"
 					/>
 					<output
-						jaxbType="ReplyDataType"
+						jaxbType="ReplyData"
 						jaxbPackageName="${jaxb.package.pfx}.${service}"
 						cicsContainer="ReplyData"
 					/>

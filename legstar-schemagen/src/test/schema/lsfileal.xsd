@@ -13,7 +13,7 @@ elementFormDefault="qualified">
  <jaxb:package  name="com.legstar.test.coxb.lsfileal"/>
  </jaxb:schemaBindings>
  </xs:appinfo></xs:annotation>
- <xs:complexType name="RequestParmsType">
+ <xs:complexType name="RequestParms">
     <xs:sequence>
      <xs:element name="RequestName">
        <xs:annotation>
@@ -29,7 +29,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="ReplyDataType">
+ <xs:complexType name="ReplyData">
     <xs:sequence>
      <xs:element name="ReplyType">
        <xs:annotation>
@@ -45,14 +45,14 @@ elementFormDefault="qualified">
        </xs:simpleType>
      </xs:element>
      <xs:choice>
-     <xs:element name="ReplySuccessHeader" type="xsns:ReplySuccessHeaderType">
+     <xs:element name="ReplySuccessHeader" type="xsns:ReplySuccessHeader">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='05' cobolName='REPLY-SUCCESS-HEADER' type='GROUP_ITEM' isRedefined='true' unmarshalChoiceStrategyClassName='' srceLine='57'/>
          </xs:appinfo>
        </xs:annotation>
      </xs:element>
-     <xs:element name="ReplyErrorHeader" type="xsns:ReplyErrorHeaderType">
+     <xs:element name="ReplyErrorHeader" type="xsns:ReplyErrorHeader">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='05' cobolName='REPLY-ERROR-HEADER' type='GROUP_ITEM' redefines='REPLY-SUCCESS-HEADER' srceLine='61'/>
@@ -60,7 +60,7 @@ elementFormDefault="qualified">
        </xs:annotation>
      </xs:element>
      </xs:choice>
-     <xs:element name="Filler65" type="xsns:Filler65Type">
+     <xs:element name="Filler65" type="xsns:Filler65">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='05' cobolName='FILLER-65' type='GROUP_ITEM' srceLine='65'/>
@@ -69,7 +69,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="ReplySuccessHeaderType">
+ <xs:complexType name="ReplySuccessHeader">
     <xs:sequence>
      <xs:element name="SearchDuration">
        <xs:annotation>
@@ -110,7 +110,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="ReplyErrorHeaderType">
+ <xs:complexType name="ReplyErrorHeader">
     <xs:sequence>
      <xs:element name="ReplyResp">
        <xs:annotation>
@@ -152,7 +152,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="Filler65Type">
+ <xs:complexType name="Filler65">
     <xs:sequence>
      <xs:element name="ReplyItemscount">
        <xs:annotation>
@@ -167,7 +167,7 @@ elementFormDefault="qualified">
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
-     <xs:element name="ReplyItem" minOccurs="1" maxOccurs="100" type="xsns:ReplyItemType">
+     <xs:element name="ReplyItem" minOccurs="1" maxOccurs="100" type="xsns:ReplyItem">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='10' cobolName='REPLY-ITEM' type='GROUP_ITEM' minOccurs='1' maxOccurs='100' dependingOn='REPLY-ITEMSCOUNT' srceLine='68'/>
@@ -176,7 +176,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="ReplyItemType">
+ <xs:complexType name="ReplyItem">
     <xs:sequence>
      <xs:element name="ReplyNumber">
        <xs:annotation>
@@ -191,7 +191,7 @@ elementFormDefault="qualified">
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
-     <xs:element name="ReplyPersonal" type="xsns:ReplyPersonalType">
+     <xs:element name="ReplyPersonal" type="xsns:ReplyPersonal">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='15' cobolName='REPLY-PERSONAL' type='GROUP_ITEM' srceLine='70'/>
@@ -236,7 +236,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="ReplyPersonalType">
+ <xs:complexType name="ReplyPersonal">
     <xs:sequence>
      <xs:element name="ReplyName">
        <xs:annotation>

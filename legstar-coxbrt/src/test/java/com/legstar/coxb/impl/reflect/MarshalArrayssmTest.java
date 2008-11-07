@@ -22,9 +22,9 @@ import com.legstar.coxb.host.HostException;
 
 import junit.framework.TestCase;
 import com.legstar.test.coxb.arrayssm.ObjectFactory;
-import com.legstar.test.coxb.arrayssm.DfhcommareaType;
-import com.legstar.test.coxb.arrayssm.TableComplex2Type;
-import com.legstar.test.coxb.arrayssm.TableComplexType;
+import com.legstar.test.coxb.arrayssm.Dfhcommarea;
+import com.legstar.test.coxb.arrayssm.TableComplex2;
+import com.legstar.test.coxb.arrayssm.TableComplex;
 
 public class MarshalArrayssmTest extends TestCase {
 
@@ -50,23 +50,23 @@ public class MarshalArrayssmTest extends TestCase {
 	
 	private Object getArrayssm(ObjectFactory objectFactory) {
 		// Create and populate an instance of an object (JAXB annotated)
-		DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		List <String> tableSimple = new ArrayList <String>();
 		tableSimple.add("TS1");
 		tableSimple.add("TS2");
 		dfhcommarea.getTableSimple().addAll(tableSimple);
 		
-		TableComplexType tc1 = objectFactory.createTableComplexType();
+		TableComplex tc1 = objectFactory.createTableComplex();
 		tc1.setElementComplex("TCEC1");
 		dfhcommarea.getTableComplex().add(tc1);
-		TableComplexType tc2 = objectFactory.createTableComplexType();
+		TableComplex tc2 = objectFactory.createTableComplex();
 		tc2.setElementComplex("TCEC2");
 		dfhcommarea.getTableComplex().add(tc2);
-		TableComplexType tc3 = objectFactory.createTableComplexType();
+		TableComplex tc3 = objectFactory.createTableComplex();
 		tc3.setElementComplex("TCEC3");
 		dfhcommarea.getTableComplex().add(tc3);
 		
-		TableComplex2Type tcc = objectFactory.createTableComplex2Type();
+		TableComplex2 tcc = objectFactory.createTableComplex2();
 		tcc.getElementComplex2().add("TC2EC21");
 		tcc.getElementComplex2().add("TC2EC22");
 		tcc.getElementComplex2().add("TC2EC23");

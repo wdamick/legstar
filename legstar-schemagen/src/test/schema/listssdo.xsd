@@ -13,7 +13,7 @@ elementFormDefault="qualified">
  <jaxb:package  name="com.legstar.test.coxb.listssdo"/>
  </jaxb:schemaBindings>
  </xs:appinfo></xs:annotation>
- <xs:complexType name="DfhcommareaType">
+ <xs:complexType name="Dfhcommarea">
     <xs:sequence>
      <xs:element name="ListOdo" minOccurs="1" maxOccurs="100">
        <xs:annotation>

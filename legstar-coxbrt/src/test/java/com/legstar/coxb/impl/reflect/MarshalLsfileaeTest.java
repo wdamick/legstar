@@ -19,7 +19,7 @@ import com.legstar.coxb.host.HostException;
 
 import junit.framework.TestCase;
 import com.legstar.test.coxb.lsfileae.ObjectFactory;
-import com.legstar.test.coxb.lsfileae.DfhcommareaType;
+import com.legstar.test.coxb.lsfileae.Dfhcommarea;
 
 public class MarshalLsfileaeTest extends TestCase {
 
@@ -45,12 +45,12 @@ public class MarshalLsfileaeTest extends TestCase {
 
 	private Object getLsfileae(ObjectFactory objectFactory) {
 		// Create and populate an instance of an object (JAXB annotated)
-		DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		dfhcommarea.setComNumber(100);
 		dfhcommarea.setComDate("100458");
 		dfhcommarea.setComAmount("00100.35");
 		dfhcommarea.setComComment("A VOIR");
-		com.legstar.test.coxb.lsfileae.ComPersonalType personal = objectFactory.createComPersonalType();
+		com.legstar.test.coxb.lsfileae.ComPersonal personal = objectFactory.createComPersonal();
 		personal.setComName("TOTO");
 		personal.setComAddress("LABAS STREET");
 		personal.setComPhone("88993314");

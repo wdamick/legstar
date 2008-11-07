@@ -13,7 +13,7 @@ elementFormDefault="qualified">
  <jaxb:package  name="com.legstar.test.coxb.redbotha"/>
  </jaxb:schemaBindings>
  </xs:appinfo></xs:annotation>
- <xs:complexType name="DfhcommareaType">
+ <xs:complexType name="Dfhcommarea">
     <xs:sequence>
      <xs:choice>
      <xs:element name="CNumeric">
@@ -29,7 +29,7 @@ elementFormDefault="qualified">
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
-     <xs:element name="Filler22" type="xsns:Filler22Type">
+     <xs:element name="Filler22" type="xsns:Filler22">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='05' cobolName='FILLER-22' type='GROUP_ITEM' redefines='C-NUMERIC' srceLine='22'/>
@@ -39,7 +39,7 @@ elementFormDefault="qualified">
      </xs:choice>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="Filler22Type">
+ <xs:complexType name="Filler22">
     <xs:sequence>
      <xs:element name="CLeftByte">
        <xs:annotation>

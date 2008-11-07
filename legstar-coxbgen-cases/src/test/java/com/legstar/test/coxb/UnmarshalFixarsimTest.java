@@ -23,7 +23,7 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.host.HostData;
-import com.legstar.test.coxb.fixarsim.DfhcommareaType;
+import com.legstar.test.coxb.fixarsim.Dfhcommarea;
 
 import junit.framework.TestCase;
 
@@ -36,10 +36,10 @@ public class UnmarshalFixarsimTest extends TestCase {
 		//		              P R E M I D E U X I T R O I S             
 		String hexString   = "d7d9c5d4c9c4c5e4e7c9e3d9d6c9e2";
 		byte[] hostBytes = HostData.toByteArray(hexString);
-		DfhcommareaType dfhcommareaType = (DfhcommareaType) Util.unmarshal(hostBytes, "fixarsim");
+		Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "fixarsim");
 		
-		assertEquals("PREMI",dfhcommareaType.getCArray().get(0).trim());
-		assertEquals("DEUXI",dfhcommareaType.getCArray().get(1).trim());
-		assertEquals("TROIS",dfhcommareaType.getCArray().get(2).trim());
+		assertEquals("PREMI",Dfhcommarea.getCArray().get(0).trim());
+		assertEquals("DEUXI",Dfhcommarea.getCArray().get(1).trim());
+		assertEquals("TROIS",Dfhcommarea.getCArray().get(2).trim());
 	}
 }

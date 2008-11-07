@@ -16,7 +16,7 @@ import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolUnmarshalChoiceStrategy;
 import com.legstar.coxb.CobolElementVisitor;
 import com.legstar.coxb.host.HostException;
-import com.legstar.test.coxb.redopera.DfhcommareaType;
+import com.legstar.test.coxb.redopera.Dfhcommarea;
 
 /** 
  * Skeleton implementation of a custom choice selection strategy. Modify this
@@ -32,7 +32,7 @@ public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
     throws HostException {
     
 		/* Get the current value of the function variable. */
-		DfhcommareaType jobj = (DfhcommareaType) choice.getParentValueObject();
+		Dfhcommarea jobj = (Dfhcommarea) choice.getParentValueObject();
 		
 		if (jobj.getCFunction().trim().compareTo("stringMethod") == 0) {
 			return choice.getAlternativeByName("Filler25");

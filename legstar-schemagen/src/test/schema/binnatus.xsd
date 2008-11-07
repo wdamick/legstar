@@ -13,9 +13,9 @@ elementFormDefault="qualified">
  <jaxb:package  name="com.legstar.test.coxb.binnatus"/>
  </jaxb:schemaBindings>
  </xs:appinfo></xs:annotation>
- <xs:complexType name="WsExpectedIncomingDataType">
+ <xs:complexType name="WsExpectedIncomingData">
     <xs:sequence>
-     <xs:element name="WsUnsignedNative" type="xsns:WsUnsignedNativeType">
+     <xs:element name="WsUnsignedNative" type="xsns:WsUnsignedNative">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='05' cobolName='WS-UNSIGNED-NATIVE' type='GROUP_ITEM' srceLine='30'/>
@@ -24,23 +24,23 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="WsUnsignedNativeType">
+ <xs:complexType name="WsUnsignedNative">
     <xs:sequence>
-     <xs:element name="WsHalfwords" type="xsns:WsHalfwordsType">
+     <xs:element name="WsHalfwords" type="xsns:WsHalfwords">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='10' cobolName='WS-HALFWORDS' type='GROUP_ITEM' srceLine='31'/>
          </xs:appinfo>
        </xs:annotation>
      </xs:element>
-     <xs:element name="WsFullwords" type="xsns:WsFullwordsType">
+     <xs:element name="WsFullwords" type="xsns:WsFullwords">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='10' cobolName='WS-FULLWORDS' type='GROUP_ITEM' srceLine='36'/>
          </xs:appinfo>
        </xs:annotation>
      </xs:element>
-     <xs:element name="WsDoublewords" type="xsns:WsDoublewordsType">
+     <xs:element name="WsDoublewords" type="xsns:WsDoublewords">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='10' cobolName='WS-DOUBLEWORDS' type='GROUP_ITEM' srceLine='41'/>
@@ -49,7 +49,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="WsHalfwordsType">
+ <xs:complexType name="WsHalfwords">
     <xs:sequence>
      <xs:element name="WsP9X4Min">
        <xs:annotation>
@@ -105,7 +105,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="WsFullwordsType">
+ <xs:complexType name="WsFullwords">
     <xs:sequence>
      <xs:element name="WsP9X9Min">
        <xs:annotation>
@@ -161,7 +161,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="WsDoublewordsType">
+ <xs:complexType name="WsDoublewords">
     <xs:sequence>
      <xs:element name="WsP9X18Min">
        <xs:annotation>
@@ -190,7 +190,7 @@ elementFormDefault="qualified">
        </xs:simpleType>
      </xs:element>
      <xs:choice>
-     <xs:element name="WsP9X18HighB" type="xsns:WsP9X18HighBType">
+     <xs:element name="WsP9X18HighB" type="xsns:WsP9X18HighB">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='15' cobolName='WS-P9X18-HIGH-B' type='GROUP_ITEM' isRedefined='true' unmarshalChoiceStrategyClassName='' srceLine='44'/>
@@ -210,7 +210,7 @@ elementFormDefault="qualified">
      </xs:element>
      </xs:choice>
      <xs:choice>
-     <xs:element name="WsP9X18MaxB" type="xsns:WsP9X18MaxBType">
+     <xs:element name="WsP9X18MaxB" type="xsns:WsP9X18MaxB">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='15' cobolName='WS-P9X18-MAX-B' type='GROUP_ITEM' isRedefined='true' unmarshalChoiceStrategyClassName='' srceLine='49'/>
@@ -231,7 +231,7 @@ elementFormDefault="qualified">
      </xs:choice>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="WsP9X18HighBType">
+ <xs:complexType name="WsP9X18HighB">
     <xs:sequence>
      <xs:element name="Filler45">
        <xs:annotation>
@@ -261,7 +261,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="WsP9X18MaxBType">
+ <xs:complexType name="WsP9X18MaxB">
     <xs:sequence>
      <xs:element name="Filler50">
        <xs:annotation>
@@ -291,7 +291,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="Filler55Type">
+ <xs:complexType name="Filler55">
     <xs:sequence>
      <xs:element name="WsPs9X4Dis1">
        <xs:annotation>
@@ -367,9 +367,9 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="DfhcommareaType">
+ <xs:complexType name="Dfhcommarea">
     <xs:sequence>
-     <xs:element name="LsUnsignedNative" type="xsns:LsUnsignedNativeType">
+     <xs:element name="LsUnsignedNative" type="xsns:LsUnsignedNative">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='05' cobolName='LS-UNSIGNED-NATIVE' type='GROUP_ITEM' srceLine='68'/>
@@ -378,23 +378,23 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="LsUnsignedNativeType">
+ <xs:complexType name="LsUnsignedNative">
     <xs:sequence>
-     <xs:element name="LsHalfwords" type="xsns:LsHalfwordsType">
+     <xs:element name="LsHalfwords" type="xsns:LsHalfwords">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='10' cobolName='LS-HALFWORDS' type='GROUP_ITEM' srceLine='69'/>
          </xs:appinfo>
        </xs:annotation>
      </xs:element>
-     <xs:element name="LsFullwords" type="xsns:LsFullwordsType">
+     <xs:element name="LsFullwords" type="xsns:LsFullwords">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='10' cobolName='LS-FULLWORDS' type='GROUP_ITEM' srceLine='74'/>
          </xs:appinfo>
        </xs:annotation>
      </xs:element>
-     <xs:element name="LsDoublewords" type="xsns:LsDoublewordsType">
+     <xs:element name="LsDoublewords" type="xsns:LsDoublewords">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='10' cobolName='LS-DOUBLEWORDS' type='GROUP_ITEM' srceLine='79'/>
@@ -403,7 +403,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="LsHalfwordsType">
+ <xs:complexType name="LsHalfwords">
     <xs:sequence>
      <xs:element name="LsP9X4Min">
        <xs:annotation>
@@ -451,7 +451,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="LsFullwordsType">
+ <xs:complexType name="LsFullwords">
     <xs:sequence>
      <xs:element name="LsP9X9Min">
        <xs:annotation>
@@ -499,7 +499,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="LsDoublewordsType">
+ <xs:complexType name="LsDoublewords">
     <xs:sequence>
      <xs:element name="LsP9X18Min">
        <xs:annotation>

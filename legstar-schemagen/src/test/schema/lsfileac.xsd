@@ -13,7 +13,7 @@ elementFormDefault="qualified">
  <jaxb:package  name="com.legstar.test.coxb.lsfileac"/>
  </jaxb:schemaBindings>
  </xs:appinfo></xs:annotation>
- <xs:complexType name="WQueryDataType">
+ <xs:complexType name="WQueryData">
     <xs:sequence>
      <xs:element name="WQueryName">
        <xs:annotation>
@@ -59,7 +59,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="WQueryLimitType">
+ <xs:complexType name="WQueryLimit">
     <xs:sequence>
      <xs:element name="WMaxItemsRead">
        <xs:annotation>
@@ -93,7 +93,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="ReplyDataType">
+ <xs:complexType name="ReplyData">
     <xs:sequence>
      <xs:element name="ReplyItemscount">
        <xs:annotation>
@@ -108,7 +108,7 @@ elementFormDefault="qualified">
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
-     <xs:element name="ReplyItem" minOccurs="1" maxOccurs="100" type="xsns:ReplyItemType">
+     <xs:element name="ReplyItem" minOccurs="1" maxOccurs="100" type="xsns:ReplyItem">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='05' cobolName='REPLY-ITEM' type='GROUP_ITEM' minOccurs='1' maxOccurs='100' dependingOn='REPLY-ITEMSCOUNT' srceLine='66'/>
@@ -117,7 +117,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="ReplyItemType">
+ <xs:complexType name="ReplyItem">
     <xs:sequence>
      <xs:element name="ReplyNumber">
        <xs:annotation>
@@ -132,7 +132,7 @@ elementFormDefault="qualified">
          </xs:restriction>
        </xs:simpleType>
      </xs:element>
-     <xs:element name="ReplyPersonal" type="xsns:ReplyPersonalType">
+     <xs:element name="ReplyPersonal" type="xsns:ReplyPersonal">
        <xs:annotation>
          <xs:appinfo>
          <cb:cobolElement levelNumber='15' cobolName='REPLY-PERSONAL' type='GROUP_ITEM' srceLine='68'/>
@@ -177,7 +177,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="ReplyPersonalType">
+ <xs:complexType name="ReplyPersonal">
     <xs:sequence>
      <xs:element name="ReplyName">
        <xs:annotation>
@@ -217,7 +217,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="ReplyStatusType">
+ <xs:complexType name="ReplyStatus">
     <xs:sequence>
      <xs:element name="ReplyType">
        <xs:annotation>
@@ -297,7 +297,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="QueryDataType">
+ <xs:complexType name="QueryData">
     <xs:sequence>
      <xs:element name="QueryName">
        <xs:annotation>
@@ -337,7 +337,7 @@ elementFormDefault="qualified">
      </xs:element>
     </xs:sequence>
  </xs:complexType>
- <xs:complexType name="QueryLimitType">
+ <xs:complexType name="QueryLimit">
     <xs:sequence>
      <xs:element name="MaxItemsRead">
        <xs:annotation>

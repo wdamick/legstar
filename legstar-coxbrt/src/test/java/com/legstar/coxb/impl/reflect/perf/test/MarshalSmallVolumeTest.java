@@ -33,22 +33,22 @@ public class MarshalSmallVolumeTest extends TestCase {
 		// Create an instance of the JAXB object factory
 		com.legstar.test.coxb.dplarcht.ObjectFactory objectFactory = new com.legstar.test.coxb.dplarcht.ObjectFactory();
 		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.dplarcht.DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		com.legstar.test.coxb.dplarcht.Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		
-		com.legstar.test.coxb.dplarcht.LsRequestType lsRequestType = objectFactory.createLsRequestType();
-		dfhcommarea.setLsRequest(lsRequestType);
-		lsRequestType.setLsRequestType(1); // request programs
-		lsRequestType.setLsAllItems("*");  // no limit to number of items
-		com.legstar.test.coxb.dplarcht.LsSearchCriteriaType lsSearchCriteriaType = objectFactory.createLsSearchCriteriaType();
-		lsSearchCriteriaType.setLsStartwith("C");
-		lsSearchCriteriaType.setLsStartwithLen(1);
-		lsRequestType.setLsSearchCriteria(lsSearchCriteriaType);
+		com.legstar.test.coxb.dplarcht.LsRequest lsRequest = objectFactory.createLsRequest();
+		dfhcommarea.setLsRequest(lsRequest);
+		lsRequest.setLsRequestType(1); // request programs
+		lsRequest.setLsAllItems("*");  // no limit to number of items
+		com.legstar.test.coxb.dplarcht.LsSearchCriteria lsSearchCriteria = objectFactory.createLsSearchCriteria();
+		lsSearchCriteria.setLsStartwith("C");
+		lsSearchCriteria.setLsStartwithLen(1);
+		lsRequest.setLsSearchCriteria(lsSearchCriteria);
 		
-		com.legstar.test.coxb.dplarcht.LsReplyType lsReplyType = objectFactory.createLsReplyType();
-		dfhcommarea.setLsReply(lsReplyType);
-		com.legstar.test.coxb.dplarcht.LsReplyDataType lsReplyDataType = objectFactory.createLsReplyDataType();
-		lsReplyType.setLsReplyData(lsReplyDataType);
-		lsReplyDataType.setLsItemsCount(0);
+		com.legstar.test.coxb.dplarcht.LsReply lsReply = objectFactory.createLsReply();
+		dfhcommarea.setLsReply(lsReply);
+		com.legstar.test.coxb.dplarcht.LsReplyData lsReplyData = objectFactory.createLsReplyData();
+		lsReply.setLsReplyData(lsReplyData);
+		lsReplyData.setLsItemsCount(0);
 		
 		// Perform mashaling a number of times
 		for (int i = 0; i < ITERATIONS; i++) {

@@ -25,10 +25,10 @@ package com.legstar.test.coxb;
 
 import java.math.BigInteger;
 
-import com.legstar.test.coxb.binpkdus.LsCompatType;
-import com.legstar.test.coxb.binpkdus.LsExtendType;
-import com.legstar.test.coxb.binpkdus.LsUnsignedPackedDecimalType;
-import com.legstar.test.coxb.binpkdus.DfhcommareaType;
+import com.legstar.test.coxb.binpkdus.LsCompat;
+import com.legstar.test.coxb.binpkdus.LsExtend;
+import com.legstar.test.coxb.binpkdus.LsUnsignedPackedDecimal;
+import com.legstar.test.coxb.binpkdus.Dfhcommarea;
 
 import junit.framework.TestCase;
 
@@ -39,25 +39,25 @@ public class MarshalBinpkdusTest extends TestCase {
 	public void testBinpkdus() throws Exception {
 
 		// Create and populate an instance of an object (JAXB annotated)
-		DfhcommareaType dfhcommareaType = (DfhcommareaType) Util.getJaxbObject(SCHEMA_NAME);
+		Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
 		
-		LsCompatType lsCompatType = new LsCompatType();
-		lsCompatType.setLsP9X1(3);
-		lsCompatType.setLsP9X18(123456789012345678l);
-		lsCompatType.setLsP9X1Null(0);
-		lsCompatType.setLsP9X2(12);
-		lsCompatType.setLsP9X7(32769);
+		LsCompat lsCompat = new LsCompat();
+		lsCompat.setLsP9X1(3);
+		lsCompat.setLsP9X18(123456789012345678l);
+		lsCompat.setLsP9X1Null(0);
+		lsCompat.setLsP9X2(12);
+		lsCompat.setLsP9X7(32769);
 		
-		LsExtendType lsExtendType = new LsExtendType();
-		lsExtendType.setLsP9X19(new BigInteger("1234567890123456789"));
-		lsExtendType.setLsP9X31(new BigInteger("1234567890123456789012345678901"));
+		LsExtend lsExtend = new LsExtend();
+		lsExtend.setLsP9X19(new BigInteger("1234567890123456789"));
+		lsExtend.setLsP9X31(new BigInteger("1234567890123456789012345678901"));
 		
-		LsUnsignedPackedDecimalType lsUnsignedPackedDecimalType = new LsUnsignedPackedDecimalType();
-		lsUnsignedPackedDecimalType.setLsCompat(lsCompatType);
-		lsUnsignedPackedDecimalType.setLsExtend(lsExtendType);
-		dfhcommareaType.setLsUnsignedPackedDecimal(lsUnsignedPackedDecimalType);
+		LsUnsignedPackedDecimal lsUnsignedPackedDecimal = new LsUnsignedPackedDecimal();
+		lsUnsignedPackedDecimal.setLsCompat(lsCompat);
+		lsUnsignedPackedDecimal.setLsExtend(lsExtend);
+		Dfhcommarea.setLsUnsignedPackedDecimal(lsUnsignedPackedDecimal);
 		
 		assertEquals("0f3f012f0032769f0123456789012345678f1234567890123456789f1234567890123456789012345678901f000000000000000000000000",
-				Util.marshal(SCHEMA_NAME, dfhcommareaType, 56));
+				Util.marshal(SCHEMA_NAME, Dfhcommarea, 56));
 	}
 }

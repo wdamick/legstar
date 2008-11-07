@@ -19,7 +19,7 @@
 	 	<property name="xsd.dir" value="${basedir}/../legstar-schemagen/src/test/schema" />
 		<!-- The JAXB root object name. Binding is for a single complex
 		     element. (Assuming all schemas have same root name here)   -->
-	 	<property name="jaxb.root.name" value="DfhcommareaType" />
+	 	<property name="jaxb.root.name" value="Dfhcommarea" />
 		<!-- Location of LegStar binaries   -->
 		<property name="build.dir" value="${basedir}/target"/>
 			
@@ -78,32 +78,32 @@
 		</foreach>
 		<coxbgen 
 			XsdFile="${xsd.dir}/lsfileal.xsd"
-			JaxbRootObjectName="RequestParmsType"
+			JaxbRootObjectName="RequestParms"
 			targetDir="${coxb.src.dir}"
 		/>
 		<coxbgen 
 			XsdFile="${xsd.dir}/lsfileal.xsd"
-			JaxbRootObjectName="ReplyDataType"
+			JaxbRootObjectName="ReplyData"
 			targetDir="${coxb.src.dir}"
 			/>
 		<coxbgen 
 			XsdFile="${xsd.dir}/lsfileac.xsd"
-			JaxbRootObjectName="QueryDataType"
+			JaxbRootObjectName="QueryData"
 			targetDir="${coxb.src.dir}"
 			/>
 		<coxbgen 
 			XsdFile="${xsd.dir}/lsfileac.xsd"
-			JaxbRootObjectName="QueryLimitType"
+			JaxbRootObjectName="QueryLimit"
 			targetDir="${coxb.src.dir}"
 			/>
 		<coxbgen 
 			XsdFile="${xsd.dir}/lsfileac.xsd"
-			JaxbRootObjectName="ReplyStatusType"
+			JaxbRootObjectName="ReplyStatus"
 			targetDir="${coxb.src.dir}"
 			/>
 		<coxbgen 
 			XsdFile="${xsd.dir}/lsfileac.xsd"
-			JaxbRootObjectName="ReplyDataType"
+			JaxbRootObjectName="ReplyData"
 			targetDir="${coxb.src.dir}"
 			/>
         <coxbgen 

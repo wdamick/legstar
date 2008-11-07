@@ -22,7 +22,7 @@ import com.legstar.coxb.host.HostException;
 
 import junit.framework.TestCase;
 import com.legstar.test.coxb.arraysdo.ObjectFactory;
-import com.legstar.test.coxb.arraysdo.DfhcommareaType;
+import com.legstar.test.coxb.arraysdo.Dfhcommarea;
 
 public class MarshalArraysdoTest extends TestCase {
 
@@ -48,7 +48,7 @@ public class MarshalArraysdoTest extends TestCase {
 	
 	private Object getArraysdo(ObjectFactory objectFactory) {
 		// Create and populate an instance of an object (JAXB annotated)
-		DfhcommareaType dfhcommarea = objectFactory.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 		dfhcommarea.setTableSize(5);
 		List <String> tableOdo = new ArrayList <String>();
 		tableOdo.add("ODO01");

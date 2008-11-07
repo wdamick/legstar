@@ -23,7 +23,7 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.host.HostData;
-import com.legstar.test.coxb.lsfilead.DfhcommareaType;
+import com.legstar.test.coxb.lsfilead.Dfhcommarea;
 
 import junit.framework.TestCase;
 
@@ -37,14 +37,14 @@ public class UnmarshalLsfileadTest extends TestCase {
 		String hexString = "f0f0f0f1f0f0e3d6e3d640404040404040404040404040404040d3c1c2c1e240e2e3d9c5c5e34040404040404040f8f8f9f9f3f3f1f4f1f0f0f4f5f84040f0f0f1f0f04bf3f5c140e5d6c9d9404040";
 		byte[] hostBytes = HostData.toByteArray(hexString);
 
-		DfhcommareaType dfhcommareaType = (DfhcommareaType) Util.unmarshal(hostBytes, "lsfilead");
+		Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "lsfilead");
 		
-		assertEquals(100,dfhcommareaType.getComNumber());
-		assertEquals("TOTO",dfhcommareaType.getComName().trim());
-		assertEquals("LABAS STREET",dfhcommareaType.getComAddress().trim());
-		assertEquals("88993314",dfhcommareaType.getComPhone().trim());
-		assertEquals("100458",dfhcommareaType.getComDate().trim());
-		assertEquals("00100.35",dfhcommareaType.getComAmount().trim());
-		assertEquals("A VOIR",dfhcommareaType.getComComment().trim());
+		assertEquals(100,Dfhcommarea.getComNumber());
+		assertEquals("TOTO",Dfhcommarea.getComName().trim());
+		assertEquals("LABAS STREET",Dfhcommarea.getComAddress().trim());
+		assertEquals("88993314",Dfhcommarea.getComPhone().trim());
+		assertEquals("100458",Dfhcommarea.getComDate().trim());
+		assertEquals("00100.35",Dfhcommarea.getComAmount().trim());
+		assertEquals("A VOIR",Dfhcommarea.getComComment().trim());
 	}
 }
