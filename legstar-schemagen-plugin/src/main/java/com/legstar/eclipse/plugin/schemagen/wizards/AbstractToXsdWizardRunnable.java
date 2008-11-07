@@ -76,12 +76,12 @@ public abstract class AbstractToXsdWizardRunnable
 			final MainWizardPage mainPage)
 	throws InvocationTargetException {
 		super(antBuildModel,
-				mainPage.getTargetContainerText().getText(),
-				getAntScriptFileName(mainPage.getTargetFileText().getText())
+				mainPage.getTargetContainer(),
+				getAntScriptFileName(mainPage.getTargetXSDFileName())
 				);
-		mTargetXsdFileName = mainPage.getTargetFileText().getText();
+		mTargetXsdFileName = mainPage.getTargetXSDFileName();
 		mWizard = mainPage.getWizard();
-		mTargetContainer = mainPage.getTargetContainerText().getText();
+		mTargetContainer = mainPage.getTargetContainer();
 	}
 
 	/** {@inheritDoc} */

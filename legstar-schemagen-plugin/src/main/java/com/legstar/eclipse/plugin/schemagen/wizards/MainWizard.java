@@ -13,6 +13,7 @@ package com.legstar.eclipse.plugin.schemagen.wizards;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.osgi.util.NLS;
@@ -43,17 +44,23 @@ public class MainWizard extends AbstractWizard implements INewWizard {
     /** The generation from a set of Java classes page. */
     private JavaToXsdWizardPage mJavaToXsdWizardPage;
     
+    /** Set of preferences stored at the instance level. */
+    private IPreferenceStore mDefaultPreferences;
+
     /**
      * No arg constructor.
      */
     public MainWizard() {
         super();
         setNeedsProgressMonitor(true);
+        mDefaultPreferences = Activator.getDefault().getPreferenceStore();
     }
 
 	/** {@inheritDoc} */
     @Override
     public boolean performFinish() {
+    	mMainWizardPage.storeDefaultPreferences();
+
         try {
             IRunnableWithProgress op = null;
             switch(mMainWizardPage.getSelectedSource()) {
@@ -82,7 +89,7 @@ public class MainWizard extends AbstractWizard implements INewWizard {
             		Activator.PLUGIN_ID,
                     Messages.generation_dialog_failure_short_msg,
                     NLS.bind(Messages.generation_dialog_failure_long_msg,
-                    		mMainWizardPage.getTargetFileText().getText(),
+                    		mMainWizardPage.getTargetXSDFileName(),
                     		e.getTargetException().getMessage()));
             logCoreException(e.getTargetException(), Activator.PLUGIN_ID);
             return false;
@@ -137,4 +144,15 @@ public class MainWizard extends AbstractWizard implements INewWizard {
         return mJavaToXsdWizardPage;
     }
     
+    /** {@inheritDoc} */
+    public String getPluginId() {
+        return Activator.PLUGIN_ID;
+    }
+
+    /**
+     * @return the default scope preferences
+     */
+    public IPreferenceStore getDefaultPreferences() {
+        return mDefaultPreferences;
+    }
 }

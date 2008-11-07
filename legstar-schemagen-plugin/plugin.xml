@@ -22,6 +22,13 @@
             id="com.legstar.eclipse.plugin.slot1.schemagen.actionSet"
             label="LegStar Schemagen Action Set"
             visible="true">
+         <menu
+               id="com_legstar_eclipse_menu"
+               label="%legstar_menu_label">
+            <groupMarker name="slot1"/>
+            <groupMarker name="slot2"/>
+            <groupMarker name="slot3"/>
+         </menu>
          <action
                class="com.legstar.eclipse.plugin.schemagen.actions.SchemaGenAction"
                icon="%data_structure_mapping_icon"

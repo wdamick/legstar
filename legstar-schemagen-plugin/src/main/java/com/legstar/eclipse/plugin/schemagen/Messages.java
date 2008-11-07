@@ -146,6 +146,9 @@ public class Messages extends NLS {
 	/** JAXB types name suffix label.*/
 	public static String jaxb_classes_suffix_label;
 	
+    /** Menu action label.*/
+	public static String legstar_menu_label;
+
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
 	}

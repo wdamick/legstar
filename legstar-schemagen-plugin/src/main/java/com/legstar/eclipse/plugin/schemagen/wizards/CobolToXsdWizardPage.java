@@ -111,7 +111,7 @@ public class CobolToXsdWizardPage extends AbstractToXsdWizardPage {
 	/**
 	 * @return the Cobol Fragment Text
 	 */
-	public final Text getCobolFragmentText() {
-		return mCobolFragmentText;
+	public final String getCobolFragment() {
+		return mCobolFragmentText.getText();
 	}
 }
