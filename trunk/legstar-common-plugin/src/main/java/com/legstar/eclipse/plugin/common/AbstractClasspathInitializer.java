@@ -131,4 +131,19 @@ public abstract class AbstractClasspathInitializer
 	    }
 	}
 
+    /** {@inheritDoc}*/
+    public boolean canUpdateClasspathContainer(final IPath containerPath,
+            final IJavaProject project) {
+        return true;
+    }
+
+    /** {@inheritDoc}*/
+    public void requestClasspathContainerUpdate(final IPath containerPath,
+            final IJavaProject project,
+            final IClasspathContainer containerSuggestion)
+    throws CoreException {
+        JavaCore.setClasspathContainer(containerPath,
+                new IJavaProject[] { project },
+                new IClasspathContainer[] { containerSuggestion }, null);
+    }
 }
