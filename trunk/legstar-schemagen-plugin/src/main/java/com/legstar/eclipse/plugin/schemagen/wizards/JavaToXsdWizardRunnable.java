@@ -53,10 +53,11 @@ public class JavaToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
                 javaToXsdPage.getSelectedPathElementsLocations());
 
         model.setJaxbPackageName(
-                mainPage.getTargetJaxbPackageNameText().getText());
-        model.setNamespace(mainPage.getTargetNamespaceText().getText());
+                mainPage.getTargetJaxbPackageName());
+        model.setNamespace(mainPage.getTargetNamespace());
         model.setTargetDir(new File(getTargetXsdLocation()));
-        model.setTargetXsdFileName(mainPage.getTargetFileText().getText());
+        model.setTargetXsdFileName(mainPage.getTargetXSDFileName());
+        model.setJaxbTypeClassesSuffix(mainPage.getJaxbTypeClassesSuffix());
         return model;
     }
 
