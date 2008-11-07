@@ -81,7 +81,8 @@ public class COXBSchemaGenerator extends SourceToXsdCobolTask  {
 			generateASchema(mSourceCobolFilePath,
 					getTargetDir().getAbsolutePath() + File.separator
 					+ getTargetXsdFileName(),
-					getNamespace(), getJaxbPackageName());
+					getNamespace(), getJaxbPackageName(),
+					getJaxbTypeClassesSuffix());
 		} else {
 			generateSchemas(getTargetDir().getAbsolutePath());
 		}
@@ -94,12 +95,14 @@ public class COXBSchemaGenerator extends SourceToXsdCobolTask  {
 	 * @param xsdFile resulting XML schema file
 	 * @param namespace namespace to use as target for XSD
 	 * @param packageName the target package for generated JAXB classes
+	 * @param typeSuffix a suffix to append on all types created
 	 */
 	private void generateASchema(
 			final String cobolFile,
 			final String xsdFile,
 			final String namespace,
-			final String packageName) {
+			final String packageName,
+			final String typeSuffix) {
 
 		COB2XSDJNIWrapper.InVars inVars = mSchemagen.new InVars();
 		COB2XSDJNIWrapper.OutVars outVars = mSchemagen.new OutVars();
@@ -115,6 +118,7 @@ public class COXBSchemaGenerator extends SourceToXsdCobolTask  {
 
 		inVars.xsdOptions.xsnsNs = namespace;
 		inVars.xsdOptions.xsjaxbPackage = packageName;
+		inVars.xsdOptions.typeSuffix = typeSuffix;
 
 
 		int resp = mSchemagen.cob2xsd(inVars, outVars);
@@ -155,7 +159,8 @@ public class COXBSchemaGenerator extends SourceToXsdCobolTask  {
 				}
 				String packageName = getJaxbPackageName()
 				+ '.' + filename.toLowerCase(Locale.getDefault());
-				generateASchema(pathname, xsdName, namespace, packageName);
+				generateASchema(pathname, xsdName, namespace, packageName,
+						getJaxbTypeClassesSuffix());
 			}
 		}
 	}

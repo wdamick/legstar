@@ -36,6 +36,9 @@ Cobol to Xsd ant script Velocity Template.
         <c2scgen
             namespace="${antModel.namespace}"
             jaxbPackageName="${antModel.jaxbPackageName}"
+#if(${antModel.jaxbTypeClassesSuffix})
+            jaxbTypeClassesSuffix="${antModel.jaxbTypeClassesSuffix}"
+#end
             sourceCobolFilePath="${antModel.sourceCobolFilePath}"
             targetDir="${antModel.targetDir}"
             targetXsdFileName="${antModel.targetXsdFileName}"
