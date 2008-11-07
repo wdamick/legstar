@@ -29,6 +29,7 @@
         <c2scgen
             namespace="http://lsfileae.cases.test.schemagen.legstar.com/"
             jaxbPackageName="com.legstar.test.coxb.lsfileae"
+            jaxbTypeClassesSuffix="TypeSuffix"
             sourceCobolFilePath="src/main/resources/cobol/LSFILEAE.CBL"
             targetDir="src\test\gen\schema"
             targetXsdFileName="lsfileae.xsd"

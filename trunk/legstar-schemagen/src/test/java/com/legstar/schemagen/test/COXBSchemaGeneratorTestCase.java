@@ -20,19 +20,24 @@
  *******************************************************************************/
 package com.legstar.schemagen.test;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.FileSet;
 
 import junit.framework.TestCase;
+
 import com.legstar.schemagen.COXBSchemaGenerator;
 
 /**
  * Test the generator ANT task input handling.
  */
-public class CheckInputTestCase extends TestCase {
+public class COXBSchemaGeneratorTestCase extends TestCase {
 
 	/** COBOL source test cases directory. */
 	private static final String COB_DIR = "./src/test/cobol/local";
@@ -43,6 +48,9 @@ public class CheckInputTestCase extends TestCase {
 	/** The current ANT project. */
 	private Project mProject;
 	
+	/** Logger. */
+	private static final Log LOG =
+		LogFactory.getLog(COXBSchemaGeneratorTestCase.class);
 	
 	/** Make sure we have an output folder. */
 	protected void setUp() throws Exception {
@@ -244,4 +252,53 @@ public class CheckInputTestCase extends TestCase {
 			assertEquals("Line=5, Unrecognized symbol € in picture clause", e.getMessage());
 		}
 	}
+	
+	/** Test generation without a suffix.*/
+	public final void testGenerationWithoutSuffix() {
+		COXBSchemaGenerator gen = new COXBSchemaGenerator();
+		try {
+			gen.setSourceCobolFilePath(
+					(new File("src/main/zos/cobol/LSFILEAE.cbl")).getAbsolutePath());
+			gen.setTargetDir(new File(XSD_DIR));
+			gen.setTargetXsdFileName("/xsd.file");
+			gen.setNamespace("http://java.sun.com/j2se/1.3/");
+			gen.execute();
+			String result = getSource(XSD_DIR, "xsd.file");
+			assertTrue(result.contains("<xs:element name=\"ComPersonal\" type=\"xsns:ComPersonal\">"));
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	/** Test generation with a suffix.*/
+	public final void testGenerationWithSuffix() {
+		COXBSchemaGenerator gen = new COXBSchemaGenerator();
+		try {
+			gen.setSourceCobolFilePath(
+					(new File("src/main/zos/cobol/LSFILEAE.cbl")).getAbsolutePath());
+			gen.setTargetDir(new File(XSD_DIR));
+			gen.setTargetXsdFileName("/xsd.file");
+			gen.setNamespace("http://java.sun.com/j2se/1.3/");
+			gen.setJaxbTypeClassesSuffix("TypeSuffix");
+			gen.execute();
+			String result = getSource(XSD_DIR, "xsd.file");
+			assertTrue(result.contains("<xs:element name=\"ComPersonal\" type=\"xsns:ComPersonalTypeSuffix\">"));
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	private String getSource(String srcLocation, String srcName) throws Exception {
+        BufferedReader in = new BufferedReader(new FileReader(srcLocation + '/' + srcName));
+        String resStr = "";
+        String str = in.readLine();
+        while (str != null) {
+            LOG.debug(str);
+            resStr += str;
+            str = in.readLine();
+        }
+        in.close();
+        return resStr;
+    }
+
 }

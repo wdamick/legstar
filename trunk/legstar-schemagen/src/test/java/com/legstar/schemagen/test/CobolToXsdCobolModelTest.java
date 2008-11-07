@@ -28,6 +28,7 @@ public class CobolToXsdCobolModelTest extends TestCase {
 		model.setProductLocation("/Users/Fady/sandbox/legstar-version");
 		model.setSourceCobolFilePath("src/main/resources/cobol/LSFILEAE.CBL");
 		model.setJaxbPackageName("com.legstar.test.coxb.lsfileae");
+		model.setJaxbTypeClassesSuffix("TypeSuffix");
 		model.setNamespace("http://lsfileae.cases.test.schemagen.legstar.com/");
 		model.setTargetDir(new File("src/test/gen/schema"));
 		model.setTargetXsdFileName("lsfileae.xsd");
@@ -48,6 +49,7 @@ public class CobolToXsdCobolModelTest extends TestCase {
 		assertTrue(resStr.contains("<echo message=\"Generating annotated XML schema lsfileae.xsd\" />"));
 		assertTrue(resStr.contains("namespace=\"http://lsfileae.cases.test.schemagen.legstar.com/\""));
 		assertTrue(resStr.contains("jaxbPackageName=\"com.legstar.test.coxb.lsfileae\""));
+		assertTrue(resStr.contains("jaxbTypeClassesSuffix=\"TypeSuffix\""));
 		assertTrue(resStr.contains("sourceCobolFilePath=\"src/main/resources/cobol/LSFILEAE.CBL\""));
 		assertTrue(resStr.contains("targetDir=\"src\\test\\gen\\schema\""));
 		assertTrue(resStr.contains("targetXsdFileName=\"lsfileae.xsd\""));
