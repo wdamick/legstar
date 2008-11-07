@@ -193,7 +193,10 @@ public class StructuresTableComposite extends Composite {
 	        TableItem ti = new TableItem(mStructuresTable, SWT.NONE);
 	        ti.setText(structure.getAsStringArray());
 		}
-		mStructures.add(structure);
+		if (structure.getJaxbType() != null
+				&& structure.getJaxbType().length() > 0) {
+			mStructures.add(structure);
+		}
 		enableButtons();
 	}
 	
