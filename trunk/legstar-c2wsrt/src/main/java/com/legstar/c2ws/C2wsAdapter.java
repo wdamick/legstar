@@ -16,6 +16,16 @@ package com.legstar.c2ws;
  * ebcdic.
  */
 public interface C2wsAdapter {
+	
+	/**
+	 * Setup the adapter for a specific target web service.
+	 * @param wsd the target web service descriptor
+	 * @param hostCharset the a character set from charsets.jar
+	 * @throws C2wsConfigurationException if initialization fails
+	 */
+	void init(
+			final C2wsWSDescriptor wsd,
+			final String hostCharset) throws C2wsConfigurationException;
 
 	/**
 	 * Provides a correlation is so that traces can be related from end to
@@ -34,13 +44,10 @@ public interface C2wsAdapter {
 	/**
 	 * Invokes a target Web Service with a one host input byte buffer, one 
 	 * host output byte buffer and a synchronous exchange pattern.
-	 * @param wsd the web service descriptor
 	 * @param hostBytes the inbound request host data 
 	 * @return the outbound host reply data
 	 * @throws C2wsAdapterException in invoke fails
 	 */
-	byte[] invoke(
-			final C2wsWSDescriptor wsd,
-			final byte[] hostBytes) throws C2wsAdapterException;
+	byte[] invoke(final byte[] hostBytes) throws C2wsAdapterException;
 
 }
