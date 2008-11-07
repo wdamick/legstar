@@ -88,18 +88,33 @@ public class NewMappingFileWizardPage extends WizardNewFileCreationPage {
             return false;
         }
         
-        /* Make sure the file name has the correct extension */
-        if (getFileName() != null && getFileName().length() > 0) {
-        	IPath path = new Path(getFileName());
-        	String extension = path.getFileExtension();
-    		if (extension == null || !extension.equals(
-    				Messages.operations_mapping_file_suffix)) {
-    			setErrorMessage(NLS.bind(
-    					Messages.invalid_mapping_file_extension_msg,
-    					extension));
-                return false;
-    		}
+        /* There must be a mapping file name */
+        if (getFileName() == null || getFileName().length() == 0) {
+			setErrorMessage(NLS.bind(
+					Messages.invalid_mapping_file_msg,
+					getFileName()));
+            return false;
         }
+        
+        /* There must be more than the mere mapping file name extension */
+    	IPath path = new Path(getFileName());
+    	IPath noExtensionPath = path.removeFileExtension();
+    	if (noExtensionPath.isEmpty()) {
+			setErrorMessage(NLS.bind(
+					Messages.invalid_mapping_file_msg,
+					getFileName()));
+            return false;
+    	}
+        
+        /* Make sure the file name has the correct extension */
+    	String extension = path.getFileExtension();
+		if (extension == null || !extension.equals(
+				Messages.operations_mapping_file_suffix)) {
+			setErrorMessage(NLS.bind(
+					Messages.invalid_mapping_file_extension_msg,
+					extension, Messages.operations_mapping_file_suffix));
+            return false;
+		}
 
         /* Only Java projects are valid containers. */
         IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
