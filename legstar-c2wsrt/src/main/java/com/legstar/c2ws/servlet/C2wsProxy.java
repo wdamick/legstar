@@ -107,10 +107,6 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
 	/** Identifier for the adapter instance in the servlet context. */ 
 	private static final String ADAPTER_ID = "com.legstar.c2ws.servlet.adapter";
 
-	/** Identifier for the descriptor instance in the servlet context. */ 
-	private static final String DESCRIPTOR_ID =
-		"com.legstar.c2ws.servlet.descriptor";
-
 	/** This servlet proxy name. */
 	private static final String PROXY_NAME = "JvmqueryProxy";
 
@@ -177,7 +173,7 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
 				cxidLog.debug("Entered invoke with message " + requestMessage);
 			}
 			getAdapter().setCorrelationId(cxidLog.getCorrelationId());
-			byte[] responseBytes = getAdapter().invoke(getWSDescriptor(),
+			byte[] responseBytes = getAdapter().invoke(
 					requestMessage.getDataParts().get(0).getContent());
 			List < LegStarMessagePart > dataParts =
 				new ArrayList < LegStarMessagePart >();
@@ -225,10 +221,9 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
 			String adapterClassName = getInitParameter(
 					ADAPTER_CLASSNAME_KEY, DEFAULT_ADAPTER_CLASSNAME);
 			C2wsAdapter adapter = loadAdapter(adapterClassName);
-			adapter.setHostCharset(hostCharset);
+			adapter.init(wsDescriptor, hostCharset);
 			
-			/* Store descriptor and adapter in the servlet context */
-			setWSDescriptor(wsDescriptor);
+			/* Store adapter in the servlet context */
 			setAdapter(adapter);
 			
 		} catch (C2wsConfigurationException e) {
@@ -343,18 +338,4 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
 		getServletContext().setAttribute(ADAPTER_ID, adapter);
 	}
 
-	/**
-	 * @return the web service descriptor
-	 */
-	public final C2wsWSDescriptor getWSDescriptor() {
-		return (C2wsWSDescriptor) getServletContext().getAttribute(
-				DESCRIPTOR_ID);
-	}
-
-	/**
-	 * @param descriptor the web service descriptor to set
-	 */
-	public final void setWSDescriptor(final C2wsWSDescriptor descriptor) {
-		getServletContext().setAttribute(DESCRIPTOR_ID, descriptor);
-	}
 }
