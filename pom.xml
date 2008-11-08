@@ -250,6 +250,27 @@
                 </reportSets>
             </plugin>
 
+            <!-- Not used for now, all links to local SVN. The report is also too crowded
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changelog-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <id>dual-report</id>
+                        <configuration>
+                            <type>date</type>
+                            <dates>
+                                <date implementation="java.lang.String">2008-09-15</date>
+                                <date implementation="java.lang.String">2008-12-01</date>
+                            </dates>
+                        </configuration>
+                        <reports>
+                            <report>changelog</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            !-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-changes-plugin</artifactId>
@@ -261,7 +282,7 @@
                     </reportSet>
                 </reportSets>
             </plugin>
-        
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
