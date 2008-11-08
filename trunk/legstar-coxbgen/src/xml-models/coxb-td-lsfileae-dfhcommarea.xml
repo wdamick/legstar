@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<coxb-type name="DfhcommareaTypeBinding" type="complex" jaxb-type="DfhcommareaType" jaxb-package="com.legstar.test.coxb.lsfileae">
+<coxb-type name="DfhcommareaBinding" type="complex" jaxb-type="Dfhcommarea" jaxb-package="com.legstar.test.coxb.lsfileae">
 	<!-- Repeat for each property (order is important). -->
 	<coxb-property var-name="comNumber" binding-name="ComNumber" jaxb-name="ComNumber" type="simple" jaxb-type="long" binding-type="CZonedDecimalBinding" cobol-byteLength="6" cobol-totalDigits="6" cobol-fractionDigits="0" cobol-isSigned="false" cobol-isSignLeading="false" cobol-isSignSeparate="false"/>
 	<coxb-property var-name="comPersonal" binding-name="ComPersonal" jaxb-name="ComPersonal" type="complex" jaxb-type="ComPersonalType" binding-type="ComPersonalTypeBinding"/>
