@@ -33,7 +33,7 @@ public class CobolJAXBAnnotatorTest extends TestCase {
 
 	public void testSimpleAnnotation() {
 		genSource("alltypes");
-		String srce = getSource("alltypes", "DfhCommareaType" );
+		String srce = getSource("alltypes", "DfhCommarea" );
 		assertTrue(srce.contains("@CobolElement(cobolName = \"S-STRING\", type = CobolType.ALPHANUMERIC_ITEM, levelNumber = 5, byteLength = 4, picture = \"X(4)\", usage = \"DISPLAY\", srceLine = 24)"));
 		assertTrue(srce.contains("@CobolElement(cobolName = \"S-BINARY\", type = CobolType.OCTET_STREAM_ITEM, levelNumber = 5, byteLength = 4, picture = \"X(4)\", usage = \"DISPLAY\", srceLine = 25)"));
 		assertTrue(srce.contains("@CobolElement(cobolName = \"S-SHORT\", type = CobolType.BINARY_ITEM, levelNumber = 5, byteLength = 2, isSigned = true, totalDigits = 4, picture = \"S9(4)\", usage = \"BINARY\", srceLine = 26)"));
