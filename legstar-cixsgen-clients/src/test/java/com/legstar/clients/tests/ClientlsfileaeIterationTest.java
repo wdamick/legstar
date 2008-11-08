@@ -36,7 +36,7 @@ public class ClientlsfileaeIterationTest extends TestCase {
 		requestContext.put(BindingProvider.PASSWORD_PROPERTY, "tomcat");
 		
 		LsfileaeRequest req = wsOF.createLsfileaeRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
 		LsfileaeHostHeader reqHead = wsOF.createLsfileaeHostHeader();
@@ -48,7 +48,7 @@ public class ClientlsfileaeIterationTest extends TestCase {
 
 		for (int i = 0; i < ITERATIONS; i++) {
 			LsfileaeResponse resp = port.lsfileae(req, reqHead);
-			DfhcommareaType dfhcommareaResp = resp.getResponse();
+			Dfhcommarea dfhcommareaResp = resp.getResponse();
 
 			assertEquals("SURREY, ENGLAND",dfhcommareaResp.getComPersonal().getComAddress());
 			assertEquals("$0100.11",dfhcommareaResp.getComAmount());

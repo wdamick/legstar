@@ -23,15 +23,15 @@ public class ClientredinoutTest extends TestCase {
 		    new com.legstar.test.coxb.redinout.ObjectFactory();
 		RedinoutPort port = new RedinoutService().getRedinoutImplPort();
 		RedinoutRequest req = wsOF.createRedinoutRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
-		CParainType cParainType = obOF.createCParainType();
-		cParainType.setCSomeInput("FIFTEEN CHARACT");
-		dfhcommarea.setCParain(cParainType);
+		CParain cParain = obOF.createCParain();
+		cParain.setCSomeInput("FIFTEEN CHARACT");
+		dfhcommarea.setCParain(cParain);
 		
 		RedinoutResponse resp = port.redinout(req, null);
-		DfhcommareaType dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getResponse();
 		
 		assertEquals(14082006, dfhcommareaResp.getCParaout().getCSomeOutput());
 		assertEquals(null, dfhcommareaResp.getCParain());

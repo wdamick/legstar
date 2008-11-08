@@ -11,8 +11,14 @@
 package com.legstar.clients.tests;
 
 import junit.framework.TestCase;
-import com.legstar.test.cixs.typesmix.*;
-import com.legstar.test.coxb.typesmix.*;
+
+import com.legstar.test.cixs.typesmix.TypesmixFault;
+import com.legstar.test.cixs.typesmix.TypesmixPort;
+import com.legstar.test.cixs.typesmix.TypesmixRequest;
+import com.legstar.test.cixs.typesmix.TypesmixResponse;
+import com.legstar.test.cixs.typesmix.TypesmixService;
+import com.legstar.test.coxb.typesmix.Dfhcommarea;
+
 import java.math.BigDecimal;
 
 public class ClienttypesmixTest extends TestCase {
@@ -22,7 +28,7 @@ public class ClienttypesmixTest extends TestCase {
 		com.legstar.test.coxb.typesmix.ObjectFactory obOF = new com.legstar.test.coxb.typesmix.ObjectFactory();
 		TypesmixPort port = new TypesmixService().getTypesmixImplPort();
 		TypesmixRequest req = wsOF.createTypesmixRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		dfhcommarea.setCAlphabetic("ABCDE");
 		dfhcommarea.setCNational("ABCDE");
 //		byte[] cCDbcs = {0x0E,0x40,0x40,0x40,0x40,0x40,0x40, 0x0F};

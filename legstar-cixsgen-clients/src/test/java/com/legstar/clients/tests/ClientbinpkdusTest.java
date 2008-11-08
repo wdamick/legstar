@@ -24,27 +24,27 @@ public class ClientbinpkdusTest extends TestCase {
 		    new com.legstar.test.coxb.binpkdus.ObjectFactory();
 		BinpkdusPort port = new BinpkdusService().getBinpkdusImplPort();
 		BinpkdusRequest req = wsOF.createBinpkdusRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
-		LsCompatType lsCompatType = obOF.createLsCompatType();
-		lsCompatType.setLsP9X1(3);
-		lsCompatType.setLsP9X18(123456789012345678l);
-		lsCompatType.setLsP9X1Null(0);
-		lsCompatType.setLsP9X2(12);
-		lsCompatType.setLsP9X7(32769);
+		LsCompat lsCompat = obOF.createLsCompat();
+		lsCompat.setLsP9X1(3);
+		lsCompat.setLsP9X18(123456789012345678l);
+		lsCompat.setLsP9X1Null(0);
+		lsCompat.setLsP9X2(12);
+		lsCompat.setLsP9X7(32769);
 		
-		LsExtendType lsExtendType = obOF.createLsExtendType();
-		lsExtendType.setLsP9X19(new BigInteger("1234567890123456789"));
-		lsExtendType.setLsP9X31(new BigInteger("1234567890123456789012345678901"));
+		LsExtend lsExtend = obOF.createLsExtend();
+		lsExtend.setLsP9X19(new BigInteger("1234567890123456789"));
+		lsExtend.setLsP9X31(new BigInteger("1234567890123456789012345678901"));
 		
-		LsUnsignedPackedDecimalType lsUnsignedPackedDecimalType = obOF.createLsUnsignedPackedDecimalType();
-		lsUnsignedPackedDecimalType.setLsCompat(lsCompatType);
-		lsUnsignedPackedDecimalType.setLsExtend(lsExtendType);
-		dfhcommarea.setLsUnsignedPackedDecimal(lsUnsignedPackedDecimalType);
+		LsUnsignedPackedDecimal lsUnsignedPackedDecimal = obOF.createLsUnsignedPackedDecimal();
+		lsUnsignedPackedDecimal.setLsCompat(lsCompat);
+		lsUnsignedPackedDecimal.setLsExtend(lsExtend);
+		dfhcommarea.setLsUnsignedPackedDecimal(lsUnsignedPackedDecimal);
 		
 		BinpkdusResponse resp = port.binpkdus(req, null);
-		DfhcommareaType dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getResponse();
 		
 		assertEquals(3,dfhcommareaResp.getLsUnsignedPackedDecimal().getLsCompat().getLsP9X1());
 		assertEquals(123456789012345678l,dfhcommareaResp.getLsUnsignedPackedDecimal().getLsCompat().getLsP9X18());

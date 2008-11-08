@@ -23,18 +23,18 @@ public class ClientfixarcomTest extends TestCase {
 		    new com.legstar.test.coxb.fixarcom.ObjectFactory();
 		FixarcomPort port = new FixarcomService().getFixarcomImplPort();
 		FixarcomRequest req = wsOF.createFixarcomRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
 		for (int i = 0; i < 7; i++) {
-			CArrayType cArrayType = obOF.createCArrayType();
-			cArrayType.setCItem1("ABCDE");
-			cArrayType.setCItem2((new Integer(i)).shortValue());
-			dfhcommarea.getCArray().add(cArrayType);
+			CArray cArray = obOF.createCArray();
+			cArray.setCItem1("ABCDE");
+			cArray.setCItem2((new Integer(i)).shortValue());
+			dfhcommarea.getCArray().add(cArray);
 		}
 		
 		FixarcomResponse resp = port.fixarcom(req, null);
-		DfhcommareaType dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getResponse();
 		
 		for (int i = 0; i < 7; i++) {
 			assertEquals("FGHIJ",dfhcommareaResp.getCArray().get(i).getCItem1());

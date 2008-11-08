@@ -35,7 +35,7 @@ public class ClientlsfilealTest extends TestCase {
 //		requestContext.put(BindingProvider.PASSWORD_PROPERTY, "tomcat");
 		
 		LsfilealRequest req = wsOF.createLsfilealRequest();
-		RequestParmsType requestParms = obOF.createRequestParmsType();
+		RequestParms requestParms = obOF.createRequestParms();
 		req.setRequest(requestParms);
 		
 		requestParms.setRequestName("S*");
@@ -43,14 +43,14 @@ public class ClientlsfilealTest extends TestCase {
 		reqHead.setHostEndPoint("CICSTS23DirectHttp");
 
 		LsfilealResponse resp = port.lsfileal(req, reqHead);
-		ReplyDataType replyData = resp.getResponse();
+		ReplyData replyData = resp.getResponse();
 		
 		assertEquals(0, replyData.getReplyType());
 		assertEquals(null, replyData.getReplyErrorHeader());
 		assertEquals(45,replyData.getReplySuccessHeader().getTotalItemsRead());
 		assertTrue(replyData.getReplySuccessHeader().getSearchDuration().contains("00:00:"));
 		assertEquals(5, replyData.getFiller65().getReplyItemscount());
-		ReplyItemType replyItem = replyData.getFiller65().getReplyItem().get(0);
+		ReplyItem replyItem = replyData.getFiller65().getReplyItem().get(0);
 
 		assertEquals("SURREY, ENGLAND",replyItem.getReplyPersonal().getReplyAddress());
 		assertEquals("$0100.11",replyItem.getReplyAmount());

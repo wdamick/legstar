@@ -23,25 +23,25 @@ public class ClientvararcomTest extends TestCase {
 		    new com.legstar.test.coxb.vararcom.ObjectFactory();
 		VararcomPort port = new VararcomService().getVararcomImplPort();
 		VararcomRequest req = wsOF.createVararcomRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
 		dfhcommarea.setCItemsNumber(new Short("5"));
 		for (int i = 0; i < 5; i++) {
-			CArrayType cArrayType = obOF.createCArrayType();
-			cArrayType.setCItem1("ABCDE");
-			cArrayType.setCItem2( (new Integer(i + 1)).shortValue());
-			dfhcommarea.getCArray().add(cArrayType);
+			CArray cArray = obOF.createCArray();
+			cArray.setCItem1("ABCDE");
+			cArray.setCItem2( (new Integer(i + 1)).shortValue());
+			dfhcommarea.getCArray().add(cArray);
 		}
 		
 		VararcomResponse resp = port.vararcom(req, null);
-		DfhcommareaType dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getResponse();
 		
 		assertEquals(36, dfhcommareaResp.getCItemsNumber());
 		
 		for (int i = 0; i < 36; i++) {
-			assertEquals("FGHIJ", ((CArrayType) dfhcommareaResp.getCArray().get(i)).getCItem1());
-			assertEquals((new Integer((i + 1) * 5)).shortValue(), ((CArrayType) dfhcommareaResp.getCArray().get(i)).getCItem2());
+			assertEquals("FGHIJ", ((CArray) dfhcommareaResp.getCArray().get(i)).getCItem1());
+			assertEquals((new Integer((i + 1) * 5)).shortValue(), ((CArray) dfhcommareaResp.getCArray().get(i)).getCItem2());
 		}
 	}
 

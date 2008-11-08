@@ -34,13 +34,13 @@ public class ClientlsfileaeTest extends TestCase {
 		requestContext.put(BindingProvider.PASSWORD_PROPERTY, "tomcat");
 		
 		LsfileaeRequest req = wsOF.createLsfileaeRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
 		dfhcommarea.setComNumber(100);
 
 		LsfileaeResponse resp = port.lsfileae(req, null);
-		DfhcommareaType dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getResponse();
 
 		assertEquals("SURREY, ENGLAND",dfhcommareaResp.getComPersonal().getComAddress());
 		assertEquals("$0100.11",dfhcommareaResp.getComAmount());
@@ -71,13 +71,13 @@ public class ClientlsfileaeTest extends TestCase {
 		reqHead.setHostPassword("STREAM2");
 		
 		LsfileaeRequest req = wsOF.createLsfileaeRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
 		dfhcommarea.setComNumber(100);
 
 		LsfileaeResponse resp = port.lsfileae(req, reqHead);
-		DfhcommareaType dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getResponse();
 
 		assertEquals("SURREY, ENGLAND",dfhcommareaResp.getComPersonal().getComAddress());
 		assertEquals("$0100.11",dfhcommareaResp.getComAmount());
@@ -109,7 +109,7 @@ public class ClientlsfileaeTest extends TestCase {
 		reqHead.setHostEndPoint("CICSTS23DirectHttp");
 			
 		LsfileaeRequest req = wsOF.createLsfileaeRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
 		dfhcommarea.setComNumber(100);
@@ -143,7 +143,7 @@ public class ClientlsfileaeTest extends TestCase {
 		reqHead.setHostEndPoint("nonExistantMainframe");
 		
 		LsfileaeRequest req = wsOF.createLsfileaeRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
 		dfhcommarea.setComNumber(100);
@@ -178,14 +178,14 @@ public class ClientlsfileaeTest extends TestCase {
 		reqHead.setHostEndPoint("CICSTS23DirectHttp");
 		
 		LsfileaeRequest req = wsOF.createLsfileaeRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
 		dfhcommarea.setComNumber(100);
 
 		try {
 			LsfileaeResponse resp = port.lsfileae(req, reqHead);
-			DfhcommareaType dfhcommareaResp = resp.getResponse();
+			Dfhcommarea dfhcommareaResp = resp.getResponse();
 
 			assertEquals("SURREY, ENGLAND",dfhcommareaResp.getComPersonal().getComAddress());
 			assertEquals("$0100.11",dfhcommareaResp.getComAmount());
@@ -220,14 +220,14 @@ public class ClientlsfileaeTest extends TestCase {
 		reqHead.setHostEndPoint("CICSTS23DirectMQ");
 		
 		LsfileaeRequest req = wsOF.createLsfileaeRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
 		dfhcommarea.setComNumber(100);
 
 		try {
 			LsfileaeResponse resp = port.lsfileae(req, reqHead);
-			DfhcommareaType dfhcommareaResp = resp.getResponse();
+			Dfhcommarea dfhcommareaResp = resp.getResponse();
 
 			assertEquals("SURREY, ENGLAND",dfhcommareaResp.getComPersonal().getComAddress());
 			assertEquals("$0100.11",dfhcommareaResp.getComAmount());
