@@ -117,6 +117,18 @@ public class TestCases {
 		return service;
 	}
 	
+	public static CixsJaxwsService getMSNSearch() throws Exception {
+		CixsJaxwsService service = getNewService("MSNSearch");
+		service.addCixsOperation(getMSNSearchOperation());
+		service.setTargetNamespace("http://schemas.microsoft.com/MSNSearch/2005/09/fex");
+		service.setWsdlUrl("http://soap.search.msn.com/webservices.asmx?wsdl");
+		service.setWsdlServiceName("MSNSearchService");
+		service.setWsdlPortName("MSNSearchPort");
+		service.setServiceURI(service.getDefaultServiceURI());
+		return service;
+	}
+	
+
 	public static CixsOperation getCutureInfoOperation() {
 		return getNewCommareaOperation("cultureinfo", "cultureinfo", "GetInfo", "GetInfoResponse");
 	}
@@ -125,6 +137,9 @@ public class TestCases {
 		return getNewCommareaOperation("jvmquery", "jvmquery", "JvmQueryRequest", "JvmQueryReply");
 	}
 	
+	public static CixsOperation getMSNSearchOperation() {
+		return getNewCommareaOperation("MSNSearch", "MSNSearch", "Search", "SearchResponse");
+	}
 	/**
 	 * Helper function to setup a Service in case of a single, commarea-driven
 	 * operation with identical input and output layouts.
