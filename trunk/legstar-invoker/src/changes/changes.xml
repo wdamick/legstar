@@ -4,6 +4,8 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
+    <release version="1.2.2" date="2008-11-15" description="Support for ESB generation">
+    </release>
     <release version="1.2.1" date="2008-09-30" description="Code cleansing">
       <action dev="fady" type="update">
         Changed from wait/notify synchronization to Java 1.5 CountDownLatch.

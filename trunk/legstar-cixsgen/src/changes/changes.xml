@@ -4,8 +4,24 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
+    <release version="1.2.2" date="2008-11-15" description="Support for ESB generation">
+      <action dev="fady" type="update">
+        Changed the sample COBOL CICS client so that it is consistent with the ones generated for JBoss ESB.
+      </action>
+      <action dev="fady" type="update">
+        The war build template was assuming the service name is part of the web service implementation package name.
+        This is usually not true. This fixes the issue but assumes there is always a package name when,
+        in theory (never tested), one could generate an implementation without a package name.
+      </action>
+      <action dev="fady" type="update">
+        Certain templates were referencing the mainframe program properties file using the CixsOperation name where
+        it should be the lowercased program name.
+      </action>
+    </release>
+
     <release version="1.2.1" date="2008-09-30" description="Code cleansing">
     </release>
+
     <release version="1.2.0" date="2008-07-08" description="Velocity macros and Proxies generation">
       <action dev="fady" type="add">
         The Generator can now produce Web Service proxies for mainframe clients. These

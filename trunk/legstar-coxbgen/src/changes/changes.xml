@@ -4,7 +4,7 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
-    <release version="1.2.2" date="2008-12-01" description="Code fixes">
+    <release version="1.2.2" date="2008-11-15" description="Support for ESB generation">
       <action dev="fady" type="update">
         Fixed Bug 27: Generated member names might conflict with java reserved words.
         All member variables in generated binding classes are now prefixed with underscore.
@@ -18,6 +18,10 @@
 
         This is due to the fact that there is no mechanism to keep track of dynamic
         counters in static (ie generated) bindind classes.
+      </action>
+      <action dev="fady" type="update">
+        Changed code due to removal of "Type" as the default jaxbTypeClassesSuffix in XML schema generation.
+        JAXB test class names are not suffixed with "Type" anymore.
       </action>
     </release>
     <release version="1.2.1" date="2008-09-30" description="Code cleansing">
