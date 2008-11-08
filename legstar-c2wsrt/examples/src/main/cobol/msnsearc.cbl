@@ -7,6 +7,7 @@
       * --------                                                      *
       * Sample transaction calling a remote service using LegStar     *
       * c2wsrt C API.                                                 *
+      *                                                               *
       * This programs does a search using the MSN Live search engine. *
       * This search engine is available as a SOAP Web Service at:     *
       *    http://soap.search.msn.com/webservices.asmx?wsdl           *
@@ -39,8 +40,8 @@
       *---------------------------------------------------------------*
       * Address of c2ws service provider.
       *    
-       77  C2WS-SERVICE-URI            PIC X(51) VALUE
-           'http://localhost:8080/c2ws-MSNSearch/MSNSearchProxy'.
+       77  C2WS-SERVICE-URI            PIC X(53) VALUE
+           'http://192.168.0.2:8080/c2ws-MSNSearch/MSNSearchProxy'.
       *    
       * C2ws service credentials.
       *    
@@ -94,7 +95,6 @@
       *---------------------------------------------------------------*
        01  WS-RESP                     PIC S9(8) COMP VALUE ZERO.
        01  WS-RESP2                    PIC S9(8) COMP VALUE ZERO.
-       01  WS-RDISP                    PIC +9(8) VALUE ZERO.
 
       *---------------------------------------------------------------*
       *  Request parameters expected by target web service            *
@@ -231,31 +231,14 @@
       *****************************************************************
        PROCEDURE DIVISION.
 
-           IF TRACES-ON
-               DISPLAY
-                   'MSNSEARC STARTING ===============================' 
-           END-IF.
-           
-           PERFORM INITIALIZE-C2WS-API THRU
-               END-INITIALIZE-C2WS-API.  
-
-           PERFORM SET-REQUEST THRU
-               END-SET-REQUEST.
+           PERFORM PROLOG THRU
+               END-PROLOG.
 
            PERFORM INVOKE-SERVICE THRU
                END-INVOKE-SERVICE.
                
-           IF TRACES-ON
-               PERFORM PRINT-RESULTS THRU
-                   END-PRINT-RESULTS 
-           END-IF.
-               
-           IF TRACES-ON
-               DISPLAY
-                   'MSNSEARC STOPPING ===============================' 
-           END-IF.
-           EXEC CICS SEND CONTROL FREEKB END-EXEC. 
-           EXEC CICS RETURN END-EXEC.
+           PERFORM EPILOG THRU
+               END-EPILOG.
 
            GOBACK.
        
@@ -263,30 +246,48 @@
       *  Initialize the c2ws API. You can turn traces on and specify  *
       *  a trace identifier.                                          *
       *---------------------------------------------------------------*
-       INITIALIZE-C2WS-API.
-       
-           MOVE THIS-TRACE-ID TO TRACE-ID.
+       PROLOG.
+
+           DISPLAY
+               'MSNSEARC STARTING ==============================='. 
+      *
+      * Initialize c2ws API passing trace parameters
+      *    
+           MOVE THIS-TRACE-ID      TO TRACE-ID.
            
            CALL 'init' USING dfheiblk TRACE-PARMS
                        RETURNING WS-RESP.
            IF (WS-RESP NOT = OK-CODE)
                MOVE 'INITIALIZE-C2WS-API failed' TO ERROR-MESSAGE
-               DISPLAY ERROR-MESSAGE
-               EXEC CICS SEND TEXT FROM(ERROR-MESSAGE) FREEKB END-EXEC 
-               EXEC CICS RETURN END-EXEC
+               PERFORM ABORT-PROGRAM THRU
+                   END-ABORT-PROGRAM
            END-IF.
+
+      *
+      * Setup invoke parameters
+      *    
+           MOVE C2WS-SERVICE-URI   TO WS-URI.
+           MOVE C2WS-USERID        TO WS-USERID.
+           MOVE C2WS-PASSWORD      TO WS-PASSWORD.
+           MOVE C2WS-SERVICE-NAME  TO WS-SERVICE-NAME.
+
+           PERFORM SET-REQUEST THRU
+               END-SET-REQUEST.
+
+           SET WS-REQUEST-DATA     TO ADDRESS OF COM-REQUEST.
+           MOVE LENGTH OF COM-REQUEST TO WS-REQUEST-DATA-LEN.
            
-       END-INITIALIZE-C2WS-API.   EXIT.
+           DISPLAY 'PROLOG ENDED'.
+           
+       END-PROLOG.   EXIT.
       
       *---------------------------------------------------------------*
       *  Populate the request parameters                              *
       *---------------------------------------------------------------*
        SET-REQUEST.
-       
-           IF TRACES-ON
-               DISPLAY 'START SET-REQUEST' 
-           END-IF.
-           
+
+           DISPLAY 'SET-REQUEST STARTED'.
+
            MOVE ZERO TO Flags--C OF COM-REQUEST.
            MOVE ZERO TO SortBy--C OF COM-REQUEST.
            MOVE ZERO TO ResultFields--C OF COM-REQUEST.
@@ -306,46 +307,32 @@
            MOVE 1 TO R-Count OF COM-REQUEST(1).
            MOVE SPACES TO FileType OF COM-REQUEST(1).
            
-           IF TRACES-ON
-               DISPLAY 'SET-REQUEST ENDED' 
-           END-IF.
-           
+           DISPLAY 'SET-REQUEST ENDED'.
+
        END-SET-REQUEST.   EXIT.
        
       *---------------------------------------------------------------*
-      *  Invoke target web service                                    *
+      *  Invoke target service and analyze response                   *
       *---------------------------------------------------------------*
        INVOKE-SERVICE.
-           IF TRACES-ON
-               DISPLAY 'ABOUT TO RUN INVOKE-SERVICE' 
-           END-IF.
-      *
-      * Prepare invoke parameter set
-      *    
-           MOVE C2WS-SERVICE-URI   TO WS-URI.
-           MOVE C2WS-SERVICE-NAME  TO WS-SERVICE-NAME.
-           SET WS-REQUEST-DATA     TO ADDRESS OF COM-REQUEST.
-           MOVE LENGTH OF COM-REQUEST TO WS-REQUEST-DATA-LEN.
-           MOVE C2WS-USERID        TO WS-USERID.
-           MOVE C2WS-PASSWORD      TO WS-PASSWORD.
+
+           DISPLAY 'ABOUT TO INVOKE-SERVICE'.
       *
       * Invoke target web service
       *    
            CALL 'invoke' USING WS-INVOKE-PARMS
                          RETURNING WS-RESP.
            IF (WS-RESP NOT = OK-CODE)
-               COMPUTE WS-RDISP = WS-RESP
-               DISPLAY 'INVOKE-SERVICE failed. Return code=' WS-RDISP
-               DISPLAY ERROR-MESSAGE
-               EXEC CICS SEND TEXT FROM(ERROR-MESSAGE) FREEKB END-EXEC 
-               EXEC CICS RETURN END-EXEC
+               PERFORM ABORT-PROGRAM THRU
+                   END-ABORT-PROGRAM
            END-IF.
            
            SET ADDRESS OF COM-REPLY TO WS-REPLY-DATA.
 
-           IF TRACES-ON
-               DISPLAY 'INVOKE-SERVICE SUCCESS' 
-           END-IF.
+           PERFORM PRINT-RESULTS THRU
+               END-PRINT-RESULTS.
+
+           DISPLAY 'INVOKE-SERVICE SUCCESS'.
            
        END-INVOKE-SERVICE.   EXIT.
       
@@ -354,6 +341,12 @@
       *---------------------------------------------------------------*
        PRINT-RESULTS.
        
+           STRING 'INVOKE-SERVICE success. First hit is '
+                  DELIMITED BY SIZE
+                  Description OF COM-REPLY(1, 1)
+                  DELIMITED BY SIZE
+                  INTO ERROR-MESSAGE.
+           EXEC CICS SEND TEXT FROM(ERROR-MESSAGE) FREEKB END-EXEC.
            DISPLAY 'Response data length=' WS-REPLY-DATA-LEN.
 
            DISPLAY 'SourceResponse--C ='
@@ -363,13 +356,56 @@
            DISPLAY 'R-Title(1, 1)=' R-Title OF COM-REPLY(1, 1).
            DISPLAY 'Description(1, 1)='
                     Description OF COM-REPLY(1, 1).
-           STRING 'INVOKE-SERVICE success. First hit is '
-                  DELIMITED BY SIZE
-                  Description OF COM-REPLY(1, 1)
-                  DELIMITED BY SIZE
-                  INTO ERROR-MESSAGE.
-           EXEC CICS SEND TEXT FROM(ERROR-MESSAGE) FREEKB END-EXEC.
            
        END-PRINT-RESULTS.   EXIT.
        
+      *---------------------------------------------------------------*
+      *  Terminate program.                                           *
+      *---------------------------------------------------------------*
+       EPILOG.
+
+           PERFORM EXIT-PROGRAM THRU
+               END-EXIT-PROGRAM.
+           
+       END-EPILOG.   EXIT.
+
+      *---------------------------------------------------------------*
+      *  Free keyboard and return to CICS                             *
+      *---------------------------------------------------------------*
+       EXIT-PROGRAM.
+       
+           EXEC CICS SEND CONTROL FREEKB END-EXEC.
+           
+           DISPLAY 'MSNSEARC STOPPING ==============================='.
+           EXEC CICS RETURN END-EXEC.
+
+       END-EXIT-PROGRAM.   EXIT.
+
+      *---------------------------------------------------------------*
+      *  Something went wrong. Report error and exit.                 *
+      *---------------------------------------------------------------*
+       ABORT-PROGRAM.
+           
+           PERFORM DISPLAY-ERROR-MESSAGE THRU
+               END-DISPLAY-ERROR-MESSAGE.
+               
+           PERFORM EXIT-PROGRAM THRU
+               END-EXIT-PROGRAM.
+
+       END-ABORT-PROGRAM.   EXIT.
+
+      *---------------------------------------------------------------*
+      *  Display error messages                                       *
+      *---------------------------------------------------------------*
+       DISPLAY-ERROR-MESSAGE.
+
+           EXEC CICS SEND TEXT FROM(ERROR-MESSAGE) FREEKB END-EXEC. 
+           DISPLAY '************************************************'.
+           DISPLAY '* ', ERROR-MESSAGE.
+           DISPLAY '* COMPLETION CODE : ', WS-RESP.
+           DISPLAY '* REASON CODE     : ', WS-RESP2.
+           DISPLAY '************************************************'.
+
+       END-DISPLAY-ERROR-MESSAGE.   EXIT.
+
        END PROGRAM MSNSEARC.
