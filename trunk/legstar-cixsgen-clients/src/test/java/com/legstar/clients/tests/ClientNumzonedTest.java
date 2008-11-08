@@ -17,7 +17,7 @@ import com.legstar.test.cixs.numzoned.NumzonedPort;
 import com.legstar.test.cixs.numzoned.NumzonedRequest;
 import com.legstar.test.cixs.numzoned.NumzonedResponse;
 import com.legstar.test.cixs.numzoned.NumzonedService;
-import com.legstar.test.coxb.numzoned.DfhcommareaType;
+import com.legstar.test.coxb.numzoned.Dfhcommarea;
 
 public class ClientNumzonedTest extends TestCase {
 	
@@ -28,7 +28,7 @@ public class ClientNumzonedTest extends TestCase {
 		    new com.legstar.test.coxb.numzoned.ObjectFactory();
 		NumzonedPort port = new NumzonedService().getNumzonedImplPort();
 		NumzonedRequest req = wsOF.createNumzonedRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
 		dfhcommarea.setLU(6);
@@ -39,7 +39,7 @@ public class ClientNumzonedTest extends TestCase {
 		dfhcommarea.setLSSignST(Short.parseShort("-11"));
 
 		NumzonedResponse resp = port.numzoned(req, null);
-		DfhcommareaType dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getResponse();
 
 		assertEquals(2, dfhcommareaResp.getLU());
 		assertEquals(5, dfhcommareaResp.getLS());

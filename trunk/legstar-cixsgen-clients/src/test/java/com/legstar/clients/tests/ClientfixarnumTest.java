@@ -24,7 +24,7 @@ public class ClientfixarnumTest extends TestCase {
 		    new com.legstar.test.coxb.fixarnum.ObjectFactory();
 		FixarnumPort port = new FixarnumService().getFixarnumImplPort();
 		FixarnumRequest req = wsOF.createFixarnumRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
 		for (int i = 0; i < 3; i++) {
@@ -36,11 +36,11 @@ public class ClientfixarnumTest extends TestCase {
 		}
 
 		FixarnumResponse resp = port.fixarnum(req, null);
-		DfhcommareaType dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getResponse();
 		
 		for (int i = 0; i < 3; i++) {
 			assertEquals((new BigDecimal((i + 1) * 3.5)).setScale(2),dfhcommareaResp.getCArrayPd().get(i));
-			BigDecimal zd = new BigDecimal("7.300");
+			BigDecimal zd = new BigDecimal("7.3");
 			assertEquals((new BigDecimal((i + 1)).multiply(zd)),dfhcommareaResp.getCArrayZd().get(i));
 			assertEquals(new Integer(((i + 1) * 4)),dfhcommareaResp.getCArrayZi().get(i));
 			assertEquals(new Long((i + 1) * 457),dfhcommareaResp.getCArrayBi().get(i));

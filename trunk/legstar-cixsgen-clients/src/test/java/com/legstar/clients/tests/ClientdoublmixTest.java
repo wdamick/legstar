@@ -22,7 +22,7 @@ public class ClientdoublmixTest extends TestCase {
 		    new com.legstar.test.coxb.doublmix.ObjectFactory();
 		DoublmixPort port = new DoublmixService().getDoublmixImplPort();
 		DoublmixRequest req = wsOF.createDoublmixRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
 		dfhcommarea.setCDouble0(0d);
@@ -33,7 +33,7 @@ public class ClientdoublmixTest extends TestCase {
 		dfhcommarea.setCDouble798P20067Em16(798.20067E-16);
 		
 		DoublmixResponse resp = port.doublmix(req, null);
-		DfhcommareaType dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getResponse();
 		
 		assertEquals(0d,dfhcommareaResp.getCDouble0());
 		assertEquals(1d,dfhcommareaResp.getCDouble1());

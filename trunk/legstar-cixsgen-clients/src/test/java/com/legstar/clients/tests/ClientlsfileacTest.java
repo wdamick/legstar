@@ -38,12 +38,12 @@ public class ClientlsfileacTest extends TestCase {
 		reqHead.setHostPassword("STREAM2");
 		reqHead.setHostEndPoint("CICSTS31DirectHttp");
 		
-		QueryDataType qdt = obOF.createQueryDataType();
+		QueryData qdt = obOF.createQueryData();
 		qdt.setQueryAddress("*");
 		qdt.setQueryName("S*");
 		qdt.setQueryPhone("*");
 		
-		QueryLimitType qlt = obOF.createQueryLimitType();
+		QueryLimit qlt = obOF.createQueryLimit();
 		qlt.setMaxElapseTime(5000);
 		qlt.setMaxItemsRead(100);
 

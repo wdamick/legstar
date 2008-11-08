@@ -23,7 +23,7 @@ public class ClientfixarsimTest extends TestCase {
 		    new com.legstar.test.coxb.fixarsim.ObjectFactory();
 		FixarsimPort port = new FixarsimService().getFixarsimImplPort();
 		FixarsimRequest req = wsOF.createFixarsimRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
 		for (int i = 0; i < 3; i++) {
@@ -31,7 +31,7 @@ public class ClientfixarsimTest extends TestCase {
 		}
 
 		FixarsimResponse resp = port.fixarsim(req, null);
-		DfhcommareaType dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getResponse();
 
 		for (int i = 0; i < 3; i++) {
 			

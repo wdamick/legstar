@@ -23,7 +23,7 @@ public class ClientredoperaTest extends TestCase {
 		    new com.legstar.test.coxb.redopera.ObjectFactory();
 		RedoperaPort port = new RedoperaService().getRedoperaImplPort();
 		RedoperaRequest req = wsOF.createRedoperaRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
 		dfhcommarea.setCFunction("stringMethod");
@@ -32,7 +32,7 @@ public class ClientredoperaTest extends TestCase {
 		dfhcommarea.setCData("");
 		
 		RedoperaResponse resp = port.redopera(req, null);
-		DfhcommareaType dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getResponse();
 		
 		assertEquals("ABJADHAOUAZ", dfhcommareaResp.getFiller25().getCString());
 	}
@@ -44,7 +44,7 @@ public class ClientredoperaTest extends TestCase {
 		    new com.legstar.test.coxb.redopera.ObjectFactory();
 		RedoperaPort port = new RedoperaService().getRedoperaImplPort();
 		RedoperaRequest req = wsOF.createRedoperaRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
 		dfhcommarea.setCFunction("intMethod");
@@ -53,7 +53,7 @@ public class ClientredoperaTest extends TestCase {
 		dfhcommarea.setCData("");
 		
 		RedoperaResponse resp = port.redopera(req, null);
-		DfhcommareaType dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getResponse();
 		
 		assertEquals(null, dfhcommareaResp.getFiller25());
 		assertEquals(345, dfhcommareaResp.getFiller28().getCInteger());

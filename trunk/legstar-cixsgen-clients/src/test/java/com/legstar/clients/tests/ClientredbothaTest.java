@@ -23,16 +23,16 @@ public class ClientredbothaTest extends TestCase {
 		    new com.legstar.test.coxb.redbotha.ObjectFactory();
 		RedbothaPort port = new RedbothaService().getRedbothaImplPort();
 		RedbothaRequest req = wsOF.createRedbothaRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
-		Filler22Type filler22 = obOF.createFiller22Type();
+		Filler22 filler22 = obOF.createFiller22();
 		filler22.setCLeftByte("A");
 		filler22.setCRightByte("B");
 		dfhcommarea.setFiller22(filler22);
 		
 		RedbothaResponse resp = port.redbotha(req, null);
-		DfhcommareaType dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getResponse();
 		
 		/* The effect of the choice selector is to produce both alternatives */
 		assertEquals(49602, dfhcommareaResp.getCNumeric().intValue());
@@ -47,13 +47,13 @@ public class ClientredbothaTest extends TestCase {
 		    new com.legstar.test.coxb.redbotha.ObjectFactory();
 		RedbothaPort port = new RedbothaService().getRedbothaImplPort();
 		RedbothaRequest req = wsOF.createRedbothaRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
 		dfhcommarea.setCNumeric(55256);
 		
 		RedbothaResponse resp = port.redbotha(req, null);
-		DfhcommareaType dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getResponse();
 		
 		/* The effect of the choice selector is to produce both alternatives */
 		assertEquals(55256, dfhcommareaResp.getCNumeric().intValue());

@@ -23,36 +23,36 @@ public class ClientbinnatsiTest extends TestCase {
 		    new com.legstar.test.coxb.binnatsi.ObjectFactory();
 		BinnatsiPort port = new BinnatsiService().getBinnatsiImplPort();
 		BinnatsiRequest req = wsOF.createBinnatsiRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
-		LsUnsignedNativeType lsUnsignedNativeType = obOF.createLsUnsignedNativeType(); 
+		LsUnsignedNative lsUnsignedNative = obOF.createLsUnsignedNative(); 
 		
-		LsHalfwordsType lsHalfwordsType = obOF.createLsHalfwordsType();
-		lsHalfwordsType.setLsPs9X4High(new Short("1045"));
-		lsHalfwordsType.setLsPs9X4Low(new Short("-128"));
-		lsHalfwordsType.setLsPs9X4Max(new Short("32767"));
-		lsHalfwordsType.setLsPs9X4Min(new Short("-32768"));
+		LsHalfwords lsHalfwords = obOF.createLsHalfwords();
+		lsHalfwords.setLsPs9X4High(new Short("1045"));
+		lsHalfwords.setLsPs9X4Low(new Short("-128"));
+		lsHalfwords.setLsPs9X4Max(new Short("32767"));
+		lsHalfwords.setLsPs9X4Min(new Short("-32768"));
 		
-		LsFullwordsType lsFullwordsType = obOF.createLsFullwordsType();
-		lsFullwordsType.setLsPs9X9High(123456789);
-		lsFullwordsType.setLsPs9X9Low(-128);
-		lsFullwordsType.setLsPs9X9Max(2147483647);
-		lsFullwordsType.setLsPs9X9Min(-2147483648);
+		LsFullwords lsFullwords = obOF.createLsFullwords();
+		lsFullwords.setLsPs9X9High(123456789);
+		lsFullwords.setLsPs9X9Low(-128);
+		lsFullwords.setLsPs9X9Max(2147483647);
+		lsFullwords.setLsPs9X9Min(-2147483648);
 		
-		LsDoublewordsType lsDoublewordsType = obOF.createLsDoublewordsType();
-		lsDoublewordsType.setLsPs9X18High(17179869183l);
-		lsDoublewordsType.setLsPs9X18Low(-4294967294l);
-		lsDoublewordsType.setLsPs9X18Max(9223372036854775807l);
-		lsDoublewordsType.setLsPs9X18Min(-9223372036854775808l);
+		LsDoublewords lsDoublewords = obOF.createLsDoublewords();
+		lsDoublewords.setLsPs9X18High(17179869183l);
+		lsDoublewords.setLsPs9X18Low(-4294967294l);
+		lsDoublewords.setLsPs9X18Max(9223372036854775807l);
+		lsDoublewords.setLsPs9X18Min(-9223372036854775808l);
 		
-		lsUnsignedNativeType.setLsHalfwords(lsHalfwordsType);
-		lsUnsignedNativeType.setLsFullwords(lsFullwordsType);
-		lsUnsignedNativeType.setLsDoublewords(lsDoublewordsType);
+		lsUnsignedNative.setLsHalfwords(lsHalfwords);
+		lsUnsignedNative.setLsFullwords(lsFullwords);
+		lsUnsignedNative.setLsDoublewords(lsDoublewords);
 		
-		dfhcommarea.setLsUnsignedNative(lsUnsignedNativeType);
+		dfhcommarea.setLsUnsignedNative(lsUnsignedNative);
 		
 		BinnatsiResponse resp = port.binnatsi(req, null);
-		DfhcommareaType dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getResponse();
 		
 		assertEquals(1045, dfhcommareaResp.getLsUnsignedNative().getLsHalfwords().getLsPs9X4High());
 		assertEquals(-128, dfhcommareaResp.getLsUnsignedNative().getLsHalfwords().getLsPs9X4Low());

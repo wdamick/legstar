@@ -23,13 +23,13 @@ public class ClientlsfileadTest extends TestCase {
 		    new com.legstar.test.coxb.lsfilead.ObjectFactory();
 		LsfileadPort port = new LsfileadService().getLsfileadImplPort();
 		LsfileadRequest req = wsOF.createLsfileadRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
 		dfhcommarea.setComNumber(100);
 		
 		LsfileadResponse resp = port.lsfilead(req, null);
-		DfhcommareaType dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getResponse();
 		
 		assertEquals("SURREY, ENGLAND",dfhcommareaResp.getComAddress());
 		assertEquals("$0100.11",dfhcommareaResp.getComAmount());

@@ -30,20 +30,20 @@ public class ClientdplarchtTest extends TestCase {
 		
 	
 		DplarchtRequest req = wsOF.createDplarchtRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
-		LsRequestType lsRequestType = obOF.createLsRequestType();
-		lsRequestType.setLsRequestType(0);
-		lsRequestType.setLsAllItems("*");
+		LsRequest lsRequest = obOF.createLsRequest();
+		lsRequest.setLsRequestType(0);
+		lsRequest.setLsAllItems("*");
 		
-		dfhcommarea.setLsRequest(lsRequestType);
+		dfhcommarea.setLsRequest(lsRequest);
 
 		DplarchtHostHeader reqHead = wsOF.createDplarchtHostHeader();
 		reqHead.setHostEndPoint("CICSTS23DirectHttp");
 		
 		DplarchtResponse resp = port.dplarcht(req, reqHead);
-		DfhcommareaType dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getResponse();
 		
 		assertEquals(0,dfhcommareaResp.getLsReply().getLsReplyType());
 		assertEquals(5,dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsCount());
@@ -66,20 +66,20 @@ public class ClientdplarchtTest extends TestCase {
 		
 		
 		DplarchtRequest req = wsOF.createDplarchtRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
-		LsRequestType lsRequestType = obOF.createLsRequestType();
-		lsRequestType.setLsRequestType(1);
-		lsRequestType.setLsAllItems("*");
+		LsRequest lsRequest = obOF.createLsRequest();
+		lsRequest.setLsRequestType(1);
+		lsRequest.setLsAllItems("*");
 		
-		dfhcommarea.setLsRequest(lsRequestType);
+		dfhcommarea.setLsRequest(lsRequest);
 		
 		DplarchtHostHeader reqHead = wsOF.createDplarchtHostHeader();
 		reqHead.setHostEndPoint("CICSTS23DirectHttp");
 		
 		DplarchtResponse resp = port.dplarcht(req, reqHead);
-		DfhcommareaType dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getResponse();
 		
 		assertEquals(500,dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsCount());
 		assertEquals("LE370",dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramLanguage());

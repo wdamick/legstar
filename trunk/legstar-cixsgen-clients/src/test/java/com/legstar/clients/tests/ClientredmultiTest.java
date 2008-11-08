@@ -23,7 +23,7 @@ public class ClientredmultiTest extends TestCase {
 		    new com.legstar.test.coxb.redmulti.ObjectFactory();
 		RedmultiPort port = new RedmultiService().getRedmultiImplPort();
 		RedmultiRequest req = wsOF.createRedmultiRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
 		/* Because input structure is identical to output structure, we
@@ -31,7 +31,7 @@ public class ClientredmultiTest extends TestCase {
 		dfhcommarea.setCData("");
 		
 		RedmultiResponse resp = port.redmulti(req, null);
-		DfhcommareaType dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getResponse();
 		
 		if (dfhcommareaResp.getCOutputType().compareTo("normal") == 0) {
 			assertEquals("ABJADHAOUAZ",dfhcommareaResp.getFiller35().getCString());

@@ -23,13 +23,13 @@ public class ClientredsimptTest extends TestCase {
 		    new com.legstar.test.coxb.redsimpt.ObjectFactory();
 		RedsimptPort port = new RedsimptService().getRedsimptImplPort();
 		RedsimptRequest req = wsOF.createRedsimptRequest();
-		DfhcommareaType dfhcommarea = obOF.createDfhcommareaType();
+		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setRequest(dfhcommarea);
 		
 		dfhcommarea.setCDefinition1("012345678912345678");
 		
 		RedsimptResponse resp = port.redsimpt(req, null);
-		DfhcommareaType dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getResponse();
 		
 		/* The choice selector effect is to produce the numeric alternative
 		 * since the content is entirely digits.  */
