@@ -19,9 +19,9 @@
     <!-- CICS program name   -->
     <property name="cics.program.name" value="LSFILEAE" />
     <!-- The input JAXB type name   -->
-    <property name="jaxb.root.name.in" value="DfhcommareaType" />
+    <property name="jaxb.root.name.in" value="Dfhcommarea" />
     <!-- The output JAXB type name   -->
-    <property name="jaxb.root.name.out" value="DfhcommareaType" />
+    <property name="jaxb.root.name.out" value="Dfhcommarea" />
     <!-- JAXB classes package name prefix    -->
     <property name="jaxb.package.pfx" value="legstar.test"/>
     <!-- CIXS classes package name prefix    -->
