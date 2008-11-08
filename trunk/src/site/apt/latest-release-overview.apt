@@ -2,6 +2,23 @@
                              Latest release overview
  -------------------------------------------------------------------------------
 
+Version 1.2.2
+
+ This version is aimed at providing better support for other LegStar related 
+ projects {{{http://code.google.com/p/legstar-jbossesb/}see LegStar for JBoss ESB}}
+ as an example.
+ 
+ There has been several important fixes to the Eclipse plugins. Details are
+ available {{{modules/legstar-common-plugin/changes-report.html}here}}.
+ 
+ An important change is that generated JAXB class names are not suffixed with
+ "Type" anymore by default. You can still request a suffix to be appended to
+ names but you have to explicitly set a parameter for that now. This change 
+ was necessary because our JAXB classes were not compatible with the ones third
+ party tools might generate.
+ 
+ Details about all the changes are available {{{DetailedChanges} here}}.
+
 Version 1.2.1
 
  This version is a minor release, primarily aimed at simplifying intallation 
@@ -90,7 +107,7 @@ Version 1.2.0
 | Messaging                                | Messaging Protocol                          |
 *------------------------------------------+---------------------------------------------+
 
-* Detailed changes
+* {DetailedChanges}Detailed changes
 
   You will find details on changes affecting each important module at the following links:
   
@@ -122,3 +139,4 @@ Version 1.2.0
 
   {{{modules/legstar-csokrt/changes-report.html}Socket Transport}}
 
+  {{{modules/legstar-common-plugin/changes-report.html}Eclipse plugins}}
