@@ -22,8 +22,8 @@ CobolMarshalVisitor mv = new CobolMarshalVisitor(hostBytes, 0, cc);
 com.legstar.test.coxb.dplarcht.ObjectFactory objectFactory
     = new com.legstar.test.coxb.lsfileae.ObjectFactory();
 // Create and populate an instance of an object (JAXB annotated)
-com.legstar.test.coxb.lsfileae.DfhcommareaType dfhcommarea
-    = objectFactory.createDfhcommareaType();
+com.legstar.test.coxb.lsfileae.Dfhcommarea dfhcommarea
+    = objectFactory.createDfhcommarea();
 ... populate the dfhcommarea object ...
 // Traverse the object structure, visiting each node with the visitor
 CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
