@@ -9,7 +9,7 @@ Version 1.2.2
  as an example.
  
  There has been several important fixes to the Eclipse plugins. Details are
- available {{{modules/legstar-common-plugin/changes-report.html}here}}.
+ available {{{legstar-common-plugin/changes-report.html}here}}.
  
  An important change is that generated JAXB class names are not suffixed with
  "Type" anymore by default. You can still request a suffix to be appended to
@@ -111,32 +111,32 @@ Version 1.2.0
 
   You will find details on changes affecting each important module at the following links:
   
-  {{{modules/legstar-schemagen/changes-report.html}COBOL Structures Mapping Generator}}
+  {{{legstar-schemagen/changes-report.html}COBOL Structures Mapping Generator}}
 
-  {{{modules/legstar-xsdcgen/changes-report.html}Complex Types Mapping Generator}}
+  {{{legstar-xsdcgen/changes-report.html}Complex Types Mapping Generator}}
 
-  {{{modules/legstar-coxbgen/changes-report.html}COBOL Binding Generator}}
+  {{{legstar-coxbgen/changes-report.html}COBOL Binding Generator}}
 
-  {{{modules/legstar-cixsgen/changes-report.html}Web Service Generator}}
+  {{{legstar-cixsgen/changes-report.html}Web Service Generator}}
    
-  {{{modules/legstar-jaxbgen/changes-report.html}JAXB COBOL Annotator}}
+  {{{legstar-jaxbgen/changes-report.html}JAXB COBOL Annotator}}
 
-  {{{modules/legstar-cobcgen/changes-report.html}COBOL Structures Generator}}
+  {{{legstar-cobcgen/changes-report.html}COBOL Structures Generator}}
 
-  {{{modules/legstar-messaging/changes-report.html}Messaging Protocol}}
+  {{{legstar-messaging/changes-report.html}Messaging Protocol}}
 
-  {{{modules/legstar-coxbrt/changes-report.html}COBOL Binding Runtime}}
+  {{{legstar-coxbrt/changes-report.html}COBOL Binding Runtime}}
 
-  {{{modules/legstar-engine/changes-report.html}Connection Pooling Engine}}
+  {{{legstar-engine/changes-report.html}Connection Pooling Engine}}
 
-  {{{modules/legstar-invoker/changes-report.html}Mainframe Invoker Runtime}}
+  {{{legstar-invoker/changes-report.html}Mainframe Invoker Runtime}}
 
-  {{{modules/legstar-c2wsrt/changes-report.html}Mainframe to Web Service Runtime}}
+  {{{legstar-c2wsrt/changes-report.html}Mainframe to Web Service Runtime}}
 
-  {{{modules/legstar-chttprt/changes-report.html}HTTP Transport}}
+  {{{legstar-chttprt/changes-report.html}HTTP Transport}}
 
-  {{{modules/legstar-cmqrt/changes-report.html}Websphere MQ Transport}}
+  {{{legstar-cmqrt/changes-report.html}Websphere MQ Transport}}
 
-  {{{modules/legstar-csokrt/changes-report.html}Socket Transport}}
+  {{{legstar-csokrt/changes-report.html}Socket Transport}}
 
-  {{{modules/legstar-common-plugin/changes-report.html}Eclipse plugins}}
+  {{{legstar-common-plugin/changes-report.html}Eclipse plugins}}
