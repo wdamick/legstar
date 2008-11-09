@@ -5,7 +5,7 @@
       version="@LEGSTAR-PLUGIN-VERSION@"
       provider-name="LegSem">
 
-   <description url="http://www.legsem.com/legstar/modules/legstar-common-plugin">
+   <description url="http://www.legsem.com/legstar/legstar-common-plugin">
       Generates Web Services artifacts using Jaxws. Web Services can be adapters for
 mainframe programs or proxies giving mainframe programs access to target Web Services.
    </description>

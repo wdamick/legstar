@@ -5,7 +5,7 @@
       version="@LEGSTAR-PLUGIN-VERSION@"
       provider-name="LegSem">
 
-   <description url="http://www.legsem.com/legstar/modules/legstar-common-plugin">
+   <description url="http://www.legsem.com/legstar/legstar-common-plugin">
       Generates a special XML schema from Cobol source fragments (copybook
 or otherwise), Java classes or XML Schema. The generated XML schema has JAXB and COBOL annotations
 which effectively map mainframe data structures to XML schema.

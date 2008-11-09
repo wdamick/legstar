@@ -5,7 +5,7 @@
       version="@LEGSTAR-PLUGIN-VERSION@"
       provider-name="LegSem">
 
-   <description url="http://www.legsem.com/legstar/modules/legstar-common-plugin">
+   <description url="http://www.legsem.com/legstar/legstar-common-plugin">
       Provides an editor to map Mainframe programs to local operations. The mapping file generated can be later used to generate various integration artifacts.
    </description>
 
