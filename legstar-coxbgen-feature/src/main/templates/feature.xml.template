@@ -5,7 +5,7 @@
       version="@LEGSTAR-PLUGIN-VERSION@"
       provider-name="LegSem">
 
-   <description url="http://www.legsem.com/legstar/modules/legstar-common-plugin">
+   <description url="http://www.legsem.com/legstar/legstar-common-plugin">
       Generates JAXB classes and COBOL binding classes (for fast runtime mapping) from an XML schema. Cobol annotations are propagated from the XML schema to the JAXB classes.
    </description>
 
