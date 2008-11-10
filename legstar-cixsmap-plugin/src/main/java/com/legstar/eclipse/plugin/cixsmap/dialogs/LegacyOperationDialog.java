@@ -12,6 +12,7 @@ package com.legstar.eclipse.plugin.cixsmap.dialogs;
 
 import java.util.List;
 
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridLayout;
@@ -217,6 +218,13 @@ public class LegacyOperationDialog extends AbstractDialog {
 		if (cicsProgramName.length() == 0) {
 			errorDialog(Messages.operation_mapping_error_dialog_title,
 			        Messages.no_program_msg);
+			return false;
+		}
+		if (cicsProgramName.length() > HOSTPGM_LEN) {
+			errorDialog(Messages.operation_mapping_error_dialog_title,
+					NLS.bind(Messages.program_name_too_long_msg,
+							HOSTPGM_LEN)
+			        );
 			return false;
 		}
 		
