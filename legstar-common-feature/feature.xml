@@ -2,7 +2,7 @@
 <feature
       id="com.legstar.eclipse.feature.common"
       label="LegStar Common Feature"
-      version="1.2.2.SNAPSHOT"
+      version="1.2.2"
       provider-name="LegSem">
 
    <description url="http://www.legsem.com/legstar/legstar-common-plugin">
@@ -422,7 +422,7 @@ END OF TERMS AND CONDITIONS
          id="com.legstar.eclipse.plugin.common"
          download-size="0"
          install-size="0"
-         version="1.2.2.SNAPSHOT"
+         version="1.2.2"
          unpack="true"/>
 
 </feature>

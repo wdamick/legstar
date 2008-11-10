@@ -2,7 +2,7 @@
 <feature
       id="com.legstar.eclipse.feature.jaxwsgen"
       label="LegStar Web Service Generator"
-      version="1.2.2.SNAPSHOT"
+      version="1.2.2"
       provider-name="LegSem">
 
    <description url="http://www.legsem.com/legstar/legstar-common-plugin">
@@ -420,14 +420,14 @@ END OF TERMS AND CONDITIONS
    </url>
 
    <requires>
-      <import feature="com.legstar.eclipse.feature.common" version="1.2.2.SNAPSHOT"/>
+      <import feature="com.legstar.eclipse.feature.common" version="1.2.2"/>
    </requires>
 
    <plugin
          id="com.legstar.eclipse.plugin.jaxwsgen"
          download-size="0"
          install-size="0"
-         version="1.2.2.SNAPSHOT"
+         version="1.2.2"
          unpack="false"/>
 
 </feature>
