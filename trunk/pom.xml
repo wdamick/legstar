@@ -114,6 +114,7 @@
 
     </build>
   
+  <!--
     <modules>
         <module>legstar-c2wsrt</module>
         <module>legstar-chttprt</module>
@@ -154,7 +155,6 @@
         <module>legstar-schemagen-feature</module>
         <module>legstar-site</module>
     </modules>
-  <!--
     -->
   
     <distributionManagement>
