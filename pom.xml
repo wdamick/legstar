@@ -9,7 +9,7 @@
     <url>http://www.legsem.com/legstar</url>
     <properties>
         <legstarVersion>${project.version}</legstarVersion>
-        <legstarPluginVersion>1.2.2.SNAPSHOT</legstarPluginVersion>
+        <legstarPluginVersion>1.2.2</legstarPluginVersion>
     </properties>
 
     <scm>
