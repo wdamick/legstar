@@ -3,7 +3,7 @@
                                              -----
                                          Fady Moussallam
                                              -----
-                                          3 July 2008
+                                          10 November 2008
 
 Overview
 
@@ -17,55 +17,118 @@ Overview
   Check out the new {{{http://www.jboss.org/jbossesb/}JBoss ESB}} beta support
   {{{http://code.google.com/p/legstar-jbossesb/}here}}.
 
-Mapping legacy data structures to open world complex types
+{Mapping} COBOL data structures to Complex Types
 
-  Because COBOL is very often the legacy applications development language, LegStar focuses primarily on that
-  language (Although nothing prevents future support for PLI or others).
+  Because COBOL is very often the legacy applications development language, LegStar focuses primarily on this
+  language.
   
   Since most open-world languages, such as Java, have already been mapped to XML Schema, the approach we have
   taken in LegStar is to map COBOL to XML Schema and then let existing tools, such as,
   {{{http://www.jcp.org/en/jsr/detail?id=222}JAXB}} do the final mapping to the target language.
   
-  LegStar has introduced a {{{modules/legstar-schemagen/xml/legstarschemagen.xsd}COBOL binding language}}
+  LegStar has introduced a {{{legstar-schemagen/xml/legstarschemagen.xsd}COBOL binding language}}
   to describe how COBOL data items should map to XML Schema elements. That binding language is itself an
-  extension to XML Schema.
+  extension to XML Schema (Annotations).
   
-  The mapping process can start from an existing COBOL code fragment in which case you would use the
-  {{{modules/legstar-schemagen/index.html}COBOL Structures Mapping Generator}}, but you can also start from
-  XML Schema, a Web Service WSDL file or even a Java class using the
-  {{{modules/legstar-xsdcgen/index.html}Complex Types Mapping Generator}}.
+  LegStar provides design time tools to help with data structure mapping. Tools are available as ant tasks
+  or Eclipse plugins. The following diagram shows the ant file names and Eclipse plugin name as well as
+  the LegStar projects where you can find the corresponding code:
   
-Converting mainframe data streams to Java objects or XML
+[images/architecture-schemagen.png] Schema generation
+  
+  The mapping process can start from COBOL code fragments, XML Schema, Web Service WSDL or Java classes.
+  For more details see {{{legstar-schemagen/index.html}COBOL Structures Mapping Generator}},
+  and {{{legstar-xsdcgen/index.html}Complex Types Mapping Generator}}.
+  
+{Converting} mainframe data streams to Java objects or XML
 
-  LegStar offers {{{modules/legstar-coxbrt/}marshaling/unmarshaling capabilities}}. This
-  is built on top of the standard {{{http://www.jcp.org/en/jsr/detail?id=222}JAXB framework}}
+  To support conversion from mainframe data to Java and vice-versa, a design time tool called the
+  {{{legstar-coxbgen/}COBOL Binding Generator}} produces marshaling/unmarshaling Java classes. The
+  tool starts from a COBOL-annotated XML Schema such as the one produced by the {{{Mapping}Structure Mapping}} tools.
+  
+  This feature is built on top of the standard {{{http://www.jcp.org/en/jsr/detail?id=222}JAXB framework}}
   which provides Java to XML binding. As a result of this combination, LegStar can convert mainframe data
-  streams to Java objects and XML.
+  streams to/from Java objects and XML.
   
-  Conversions deal with the various COBOL numeric data types, code page conversions for character strings,
-  fixed or variable size arrays. It also offers unique capabilities to deal with the COBOL REDEFINE clause.
-  
-  Please note that conversions do not run on the mainframe itself therefore reducing the footprint
-  of the solution on the mainframe.
-  
-  These marshaling/unmarshaling capabilities can be used independently from the transport mechanisms also
-  provided by LegStar.
-  
-Adapting a mainframe program as a Web Service
+  Using the generated marshaling/unmarshaling Java classes, the {{{legstar-coxbrt/}COBOL Binding Runtime}}
+  handles:
 
-  LegStar provides a {{{modules/legstar-cixsgen/index.html}Web Service Generator}} which allows you to map
-  mainframe programs to Web Service operations. 
+  * The various COBOL numeric data types (Zoned decimals, packed decimals, binary, float, double)
+
+  * Code page conversions for character strings
+
+  * Fixed and variable size arrays
+
+  * It also offers unique capabilities to deal with the COBOL REDEFINE clause
+
+[]
   
-  Input complex types and output complex types are mapped to COBOL structures as seen previously.
+  Note that conversions do not run on the mainframe itself therefore reducing the mainframe footprint
+  of the solution.
   
-  This feature is an implementation of the standard {{{http://jcp.org/en/jsr/detail?id=224}JAXWS}}
-  Web Service API. 
+  The following diagram shows the ant file name, Eclipse plugin and projects for the COBOL Binding
+  Generator and the Runtime:
+
+[images/architecture-binding.png] Binding generation and runtime
   
-  The {{{modules/legstar-invoker/index.html}Mainframe Invoker Runtime}} provides the runtime RPC mechanism.
-  The invoker uses a binary {{{modules/legstar-messaging/index.html}Messaging protocol}} that optimizes
-  the payload size. This significantly reduces resource consumption on the mainframe.
+  2 sets of Java classes are produced by the COBOL Binding Generator. The first is actually a set
+  of JAXB classes with additional COBOL annotations and the second is used to improve runtime
+  conversion performances.
   
-  Here, the target legacy environment has primarily been IBM CICS, although nothing prevents the
+  As the diagram shows, the COBOL Binding Runtime can use either the JAXB classes via reflection or the
+  Binding classes. The second option is faster since it avoids the expensive reflection process.
+  
+  The Binding classes have either a reference to the JAXB classes or to the source Java classes.
+  In the case where Java classes were used for {{{Mapping}Structure Mapping}}, the Binding classes
+  directly marshal/unmarshal to and from these classes. Otherwise, when mapping used COBOL fragments
+  or XSD/WSDL, the JAXB classes are used as value objects by the COBOL Binding classes.
+  
+  The marshaling/unmarshaling capabilities can be used independently from the transport capabilities
+  described next.
+  
+Generating Web Service Adapters and Proxies
+
+  LegStar provides a {{{legstar-cixsgen/index.html}Web Service Generator}} which allows you to map
+  mainframe programs to Web Service operations in a bi-directional fashion.
+  
+  For LegStar a Web Service Adapter is a {{{http://jcp.org/en/jsr/detail?id=224}JAX-WS}} endpoint
+  that remotely executes a mainframe program. Mainframe programs are exposed as Web Services.
+
+  A LegStar Mainframe Proxy is a service that acts on behalf of mainframe programs to invoke
+  remote Web Services. Mainframe programs gain access to Web Services.
+  
+  More precisely, a Mainframe program maps to a Web Service operation. For an Adapter, invoking
+  the operation executes the mainframe program. For a Proxy, the Mainframe program calls the
+  proxy to invoke a target Web Service operation. Operations are expected to receive a
+  complex type as input and produce a complex type as output.
+
+  The activities involved in generating LegStar Adapters and Proxies are symmetrical and they
+  both start from Binding classes for input and output such as the one produced by the
+  {{{Converting}COBOL Binding Generator}} tool.
+  
+  The following diagram shows the ant file names, Eclipse plugins and projects for the Web Service
+  Generator and the various runtime modules:
+
+[images/architecture-jaxwsgen.png] Jaxws Adapters and Proxies generation
+  
+  The Operation Mapping Eclipse plugin helps with tying operations, mainframe programs and their
+  corresponding input and outputs. The same data can be passed as parameters to the ant scripts.
+  
+  Once operations are mapped, the generation of an Adapter or Proxy can take place. LegStar
+  generates all the artifacts that are needed to create and deploy Adapters and Proxies in
+  a J2EE container such as Tomcat or Jetty.
+  
+  Adapters are JAX-WS endpoints while Proxies are JAX-WS clients. Both use the
+  {{{legstar-coxbrt/}COBOL Binding Runtime}} to marshal/unmarshal the mainframe data
+  payloads.
+  
+* Runtime for Adapters  
+  
+  The {{{legstar-invoker/index.html}Mainframe Invoker Runtime}} provides the runtime
+  RPC mechanism. The invoker uses a binary {{{legstar-messaging/index.html}Messaging protocol}}
+  that optimizes the payload size. This significantly reduces resource consumption on the mainframe.
+  
+  The invoker target legacy environment has primarily been IBM CICS, although nothing prevents the
   architecture from being extended to other legacy environments in the future.
   
   LegStar fully supports the CICS channel/container mechanism in addition to the standard commarea.
@@ -73,60 +136,23 @@ Adapting a mainframe program as a Web Service
   
   In term of transport protocols to CICS, LegStar offers:
   
-  * {{{modules/legstar-csokrt/index.html}Socket Transport}}
+  * {{{legstar-csokrt/index.html}Socket Transport}}
   
-  * {{{modules/legstar-chttprt/index.html}HTTP Transport}}
+  * {{{legstar-chttprt/index.html}HTTP Transport}}
   
-  * {{{modules/legstar-cmqrt/index.html}WebSphere MQ Transport}}
+  * {{{legstar-cmqrt/index.html}WebSphere MQ Transport}}
   
-  
-Providing mainframe programs with outbound access to Web Services
-
-  The LegStar {{{modules/legstar-cixsgen/index.html}Web Service Generator}} also has the capability to
-  generate Proxy objects (actually Java servlets) based on target Web Services.
-  
-  Once deployed, these Proxy servlets listen for requests from the mainframe and access the
-  target Web Service on behalf of the mainframe client program.
-
-  The {{{modules/legstar-c2wsrt/index.html}Mainframe to Web Service Runtime}} provides the servlet-based
-  architecture needed to call the target Web Service.
-  
-  
-
 []
-
-Use cases
   
-  These are typical use cases for LegStar.
+* Runtime for Proxies
 
-* Expose a CICS program as a Web Service
-
-  <<Development steps:>>
-
-  To fully Web Service enable a CICS program which input and output are described
-  by COBOL fragments, you would follow these steps:
- 
-[images/legstar-dev-inbound.png] Development process
-
-  <<Runtime architecture:>>
-
-  From a runtime perspective, the architecture would be similar to this:
- 
-[images/legstar-run-inbound.png] Runtime process
+  Proxies are bundled as Servlets. Once deployed, these Proxy servlets listen for requests from
+  the mainframe and access the target Web Service on behalf of the mainframe client program.
   
-* Consume a Web Service from a CICS program
+  Mainframe programs invoke the Proxy over HTTP. The Web Service Generator produces sample
+  COBOL code for IBM CICS to show how to perform such a call.
 
-  <<Development steps:>>
-
-  To give a CICS program access to a remote Web Service, you would
-  follow these development steps:
- 
-[images/legstar-dev-outbound.png] Development process
-
-  <<Runtime architecture:>>
-
-  From a runtime perspective, the architecture would be similar to this:
- 
-[images/legstar-run-outbound.png] Runtime process
+  The {{{legstar-c2wsrt/index.html}Mainframe to Web Service Runtime}} provides the servlet-based
+  architecture needed to call the target Web Service using JAX-WS client API.
   
    

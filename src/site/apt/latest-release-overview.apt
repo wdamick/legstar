@@ -61,19 +61,19 @@ Version 1.2.0
   
   The best description of the new Eclipse plugins is the {{{pdf/legstar-presentation.pdf}presentation document}}.
   
-  Information on Eclipse plugins installation can be found {{{modules/legstar-common-plugin/index.html}here}}.
+  Information on Eclipse plugins installation can be found {{{legstar-common-plugin/index.html}here}}.
  
 * Java Mapping Generator
  
-   {{{modules/legstar-xsdcgen/index.html}Complex Types Mapping Generator}} now comes with a new ant task
+   {{{legstar-xsdcgen/index.html}Complex Types Mapping Generator}} now comes with a new ant task
    that takes a set of Java classes and generate a mapping XML Schema. This feature is built
    on Sun's {{{http://java.sun.com/webservices/docs/2.0/jaxb/schemagen.html}JAXB Schemagen}} utility.
 
 * Mainframe Proxies Generator
 
-   {{{modules/legstar-cixsgen}Web Service Generator}} now comes with a new ant task that creates Servlet proxies
+   {{{legstar-cixsgen}Web Service Generator}} now comes with a new ant task that creates Servlet proxies
    for target Web Services. This allows mainframe programs, using the
-   {{{modules/legstar-c2wsrt}Mainframe to Web Service Runtime}} to perform outbound calls to Web Services.
+   {{{legstar-c2wsrt}Mainframe to Web Service Runtime}} to perform outbound calls to Web Services.
    
    One sample provided calls the Live search SOAP API from a CICS program.
  
