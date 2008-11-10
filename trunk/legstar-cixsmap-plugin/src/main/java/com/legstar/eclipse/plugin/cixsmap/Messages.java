@@ -77,6 +77,8 @@ public class Messages extends NLS {
 	public static String no_operation_name_msg;
 	/** Missing program name message. */
 	public static String no_program_msg;
+	/** Program name is too long. */
+	public static String program_name_too_long_msg;
 	/** Missing channel message. */
 	public static String container_without_channel_msg;
 	/** Missing container message. */
