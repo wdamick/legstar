@@ -4,7 +4,7 @@
     <artifactId>Legstar</artifactId>
     <packaging>pom</packaging>
     <name>LegStar Open-Source Mainframe Integration</name>
-    <version>1.2.2-SNAPSHOT</version>
+    <version>1.2.2</version>
     <description>Open-Source Mainframe Integration</description>
     <url>http://www.legsem.com/legstar</url>
     <properties>
@@ -13,9 +13,9 @@
     </properties>
 
     <scm>
-        <connection>scm:svn:http://localhost/svn/trunk</connection>
-        <developerConnection>scm:svn:http://localhost/svn/trunk</developerConnection>
-        <url>http://localhost/svn/trunk</url>
+        <connection>scm:svn:http://localhost/svn/tags/Legstar-1.2.2</connection>
+        <developerConnection>scm:svn:http://localhost/svn/tags/Legstar-1.2.2</developerConnection>
+        <url>http://localhost/svn/tags/Legstar-1.2.2</url>
     </scm>
 
     <developers>
