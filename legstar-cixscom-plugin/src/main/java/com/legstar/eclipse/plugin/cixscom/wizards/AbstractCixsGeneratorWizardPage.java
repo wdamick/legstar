@@ -249,13 +249,40 @@ extends AbstractWizardPage {
 	 */
 	protected void initContents() {
 		mMappingModel = loadMappingModel(mMappingFile);
-		setServiceName(mMappingModel.getName());
-		initPackageName(mMappingModel.getName());
+		setServiceName(javaNormalize(mMappingModel.getName()));
+		initPackageName(getServiceName());
 		initJavaSrcAndBinDirs(mMappingFile.getProject());
 		/* Initialized after target bin dir because it depends on it*/
 		initCoxbDir();
 		initOtherArtifactsDirs(mMappingFile.getProject());
 		initExtendedWidgets(mMappingFile.getProject());
+	}
+	
+	/**
+	 * TODO Move this to common utility class.
+	 * The service name is used in various places as a Java identifier. This
+	 * creates a valid Java identifier from a proposed string.
+	 * 
+	 * @param str the input string
+	 * @return a a valid java identifier
+	 */
+	public static String javaNormalize(final String str)  {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < str.length(); i++) {
+			Character c = str.charAt(i);
+			if (i == 0) {
+				if (Character.isJavaIdentifierStart(c)) {
+					sb.append(c);
+				} else {
+					sb.append("C");
+				}
+			} else {
+				if (Character.isJavaIdentifierPart(c)) {
+					sb.append(c);
+				}
+			}
+		}
+		return sb.toString();
 	}
 
 	/**
@@ -266,6 +293,20 @@ extends AbstractWizardPage {
 		if (getServiceName().length() == 0) {
 			updateStatus(Messages.invalid_project_name_msg);
 			return;
+		}
+		for (int i = 0; i < getServiceName().length(); i++) {
+			Character c = getServiceName().charAt(i);
+			if (i == 0) {
+				if (!Character.isJavaIdentifierStart(c)) {
+					updateStatus(Messages.invalid_project_name_msg);
+					return;
+				}
+			} else {
+				if (!Character.isJavaIdentifierPart(c)) {
+					updateStatus(Messages.invalid_project_name_msg);
+					return;
+				}
+			}
 		}
 		if (!checkDirectory(getJaxbBinDir(),
 				NLS.bind(Messages.invalid_location_msg,
