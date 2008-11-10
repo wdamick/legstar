@@ -148,13 +148,13 @@
         <module>legstar-coxbgen-feature</module>
         <module>legstar-jaxwsgen-plugin</module>
         <module>legstar-jaxwsgen-feature</module>
-        <module>legstar-mulegen-plugin</module>
-        <module>legstar-mulegen-feature</module>
         <module>legstar-schemagen-plugin</module>
         <module>legstar-schemagen-feature</module>
         <module>legstar-site</module>
     </modules>
   <!--
+        <module>legstar-mulegen-plugin</module>
+        <module>legstar-mulegen-feature</module>
     -->
   
     <distributionManagement>
