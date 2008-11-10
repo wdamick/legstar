@@ -1,0 +1,83 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://jvmquery.cases.test.xsdc.legstar.com/" xmlns:cb="http://www.legsem.com/xml/ns/coxb" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" attributeFormDefault="unqualified" elementFormDefault="unqualified" xmlns:ns0="http://java.sun.com/xml/ns/jaxb" ns0:extensionBindingPrefixes="cb" targetNamespace="http://jvmquery.cases.test.xsdc.legstar.com/" xmlns:ns1="http://java.sun.com/xml/ns/jaxb" ns1:version="2.0">
+    <xs:annotation>
+        <xs:appinfo>
+            <jaxb:schemaBindings>
+                <jaxb:package name="com.legstar.test.coxb.jvmquery"/>
+            </jaxb:schemaBindings>
+        </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType name="jvmQueryRequest">
+        <xs:annotation>
+            <xs:appinfo>
+                <cb:cobolComplexType javaClassName="com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest"/>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="envVarNames" nillable="true" type="xs:string">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="envVarNames" levelNumber="3" maxOccurs="10" minOccurs="0" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="jvmQueryReply">
+        <xs:annotation>
+            <xs:appinfo>
+                <cb:cobolComplexType javaClassName="com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply"/>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element minOccurs="0" name="country" type="xs:string">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="country" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="currencySymbol" type="xs:string">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="currencySymbol" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="envVarValues" nillable="true" type="xs:string">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="envVarValues" levelNumber="3" maxOccurs="10" minOccurs="0" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="formattedDate" type="xs:string">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="formattedDate" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="language" type="xs:string">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement byteLength="32" cobolName="language" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="jvmQueryReply" type="jvmQueryReply">
+        <xs:annotation>
+            <xs:appinfo>
+                <cb:cobolElement cobolName="jvmQueryReply" levelNumber="1" type="GROUP_ITEM"/>
+            </xs:appinfo>
+        </xs:annotation>
+    </xs:element>
+    <xs:element name="jvmQueryRequest" type="jvmQueryRequest">
+        <xs:annotation>
+            <xs:appinfo>
+                <cb:cobolElement cobolName="jvmQueryRequest" levelNumber="1" type="GROUP_ITEM"/>
+            </xs:appinfo>
+        </xs:annotation>
+    </xs:element>
+</xs:schema>

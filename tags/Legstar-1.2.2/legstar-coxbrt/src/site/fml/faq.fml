@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<faqs title="Frequently Asked Questions">
+
+  <part id="general">
+    <title>General</title>
+   
+    <faq id="footer-company">
+      <question>
+       Is there a sample to showcase how Coxbrt should be used?
+      </question>
+      <answer>
+       No. The easiest thing to do is to use Jaxbgen to create JAXB annotated classes and
+       then use code similar to:
+       <source>
+// Select a conversion strategy 
+CobolSimpleConverters cc = new CobolSimpleConverters(new CobolContext());
+// Create a byte buffer to receive host data
+byte[] hostBytes = new byte[79];
+// Create a concrete visitor
+CobolMarshalVisitor mv = new CobolMarshalVisitor(hostBytes, 0, cc);
+// Create an instance of the JAXB object factory
+com.legstar.test.coxb.dplarcht.ObjectFactory objectFactory
+    = new com.legstar.test.coxb.lsfileae.ObjectFactory();
+// Create and populate an instance of an object (JAXB annotated)
+com.legstar.test.coxb.lsfileae.Dfhcommarea dfhcommarea
+    = objectFactory.createDfhcommarea();
+... populate the dfhcommarea object ...
+// Traverse the object structure, visiting each node with the visitor
+CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
+ccem.accept(mv);
+       </source>
+      </answer>
+    </faq>
+
+  <!--
+    <faq id="">
+      <question></question>
+      <answer>
+      </answer>
+    </faq>
+  -->
+  </part>
+</faqs>

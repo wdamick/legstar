@@ -1,0 +1,44 @@
+<component>
+
+    <fileSets>
+    
+        <fileSet>
+            <directory>${project.basedir}/../legstar-coxbgen/src/main/resources/ant</directory>
+            <outputDirectory>ant</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+        </fileSet>
+    
+        <fileSet>
+            <directory>${project.basedir}/../legstar-jaxbgen/src/main/resources/ant</directory>
+            <outputDirectory>ant</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+        </fileSet>
+    
+        <fileSet>
+            <directory>${project.basedir}/../legstar-jaxbgen/src/main/resources/xjb</directory>
+            <outputDirectory>xjb</outputDirectory>
+            <includes>
+                <include>*.xjb</include>
+            </includes>
+        </fileSet>
+        
+    </fileSets>
+  
+    <files>
+        <file>
+            <source>${project.basedir}/../legstar-coxbgen/NOTICE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>coxbgen-NOTICE</destName>
+        </file>
+        <file>
+           <source>${project.basedir}/../legstar-coxbgen/src/site/apt/release-notes.apt</source>
+           <outputDirectory>/</outputDirectory>
+           <destName>coxbgen-README</destName>
+        </file>
+    </files>
+
+</component>

@@ -1,0 +1,34 @@
+<component>
+
+    <fileSets>
+    
+        <!-- Sample configuration files for the engine -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-engine/src/site/resources/samples</directory>
+            <outputDirectory>/samples</outputDirectory>
+            <includes>
+                <include>**</include>
+            </includes>
+        </fileSet>
+    
+    </fileSets>
+  
+    <files>
+        <file>
+            <source>${project.basedir}/../legstar-engine/NOTICE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>engine-NOTICE</destName>
+        </file>
+        <file>
+           <source>${project.basedir}/../legstar-engine/src/site/apt/release-notes.apt</source>
+           <outputDirectory>/</outputDirectory>
+           <destName>engine-README</destName>
+        </file>
+        <!-- Include the servlet war file -->
+        <file>
+           <source>${project.basedir}/../legstar-engine/target/legstar-engine.war</source>
+           <outputDirectory>/war/</outputDirectory>
+        </file>
+    </files>
+  
+</component>

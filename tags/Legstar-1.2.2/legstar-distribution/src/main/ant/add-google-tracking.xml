@@ -1,0 +1,16 @@
+<!-- =================================================================================
+     Doxia eats up all attributes on an XHTML anchor. For that reason , it is not
+     possible to include Google tracking in the xdoc. This script needs to run
+     after the site is built but before it is deployed.
+ -->
+<project basedir="../../.." default="addGoogleTracking" name="add-google-tracking">
+    <target name="addGoogleTracking">
+        <echo message="Add Google Tracking"/>
+        <copy file="target/site/download.html" tofile="target/site/download-o.html" overwrite="true">
+            <filterset>
+              <filter token="GOOGLE-TRACKER" value="&quot; onclick=&quot;javascript: pageTracker._trackPageview('/downloads/legstar-distribution');"/>
+            </filterset>
+        </copy>
+        <move file="target/site/download-o.html" tofile="target/site/download.html" overwrite="true"/>
+    </target>
+</project>

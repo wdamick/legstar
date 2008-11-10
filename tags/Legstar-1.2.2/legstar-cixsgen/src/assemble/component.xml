@@ -1,0 +1,29 @@
+<component>
+
+    <fileSets>
+    
+        <!-- Ant scripts -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-cixsgen/src/main/resources/ant</directory>
+            <outputDirectory>ant</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+        </fileSet>
+    
+    </fileSets>
+  
+    <files>
+        <file>
+            <source>${project.basedir}/../legstar-cixsgen/NOTICE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>cixsgen-NOTICE</destName>
+        </file>
+        <file>
+           <source>${project.basedir}/../legstar-cixsgen/src/site/apt/release-notes.apt</source>
+           <outputDirectory>/</outputDirectory>
+           <destName>cixsgen-README</destName>
+        </file>
+    </files>
+    
+</component>

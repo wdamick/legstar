@@ -1,0 +1,25 @@
+ -----
+ Overview
+ -----
+ Fady Moussallam
+ -----
+ 01 July 2008
+ -----
+
+Messaging protocol overview
+
+  This project implements an abstract messaging framework for mainframe message
+  exchanges.
+  
+  The messaging framework is transport independent so that LegStar can evolve to
+  support more transports in the future.
+  
+  The framework uses a notion of "Address" similar in spirit to SOAP Addressing which
+  allows each request to be correctly routed.
+  
+  The message structure is multipart to support host programs with multiple input
+  structures and multiple output structures.
+  
+  Message headers support an open format based on JSON so that more sophisticated
+  message exchange protocols can be built in the future.
+ 

@@ -1,0 +1,28 @@
+<!-- =================================================================================
+     This script creates the common distribution for all LegStar modules.
+ -->
+<project basedir="../../.." default="deployToTomcat" name="deploy-to-tomcat">
+
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+    <property file="../legstar-dev.properties"/>   
+	<target name="init">
+		
+		<!-- Tomcat destination  -->
+        <property name="tomcat.lib" value="${tomcat.dir}\shared\lib" />
+
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Copy to Shared/lib
+	  -->
+	<target name="deployToTomcat" depends="init">
+		
+		<copy todir="${tomcat.lib}">
+			<fileset dir="${basedir}//target" includes="*.jar" excludes="*sources.jar"/>
+		</copy>
+
+	</target>
+	
+</project>

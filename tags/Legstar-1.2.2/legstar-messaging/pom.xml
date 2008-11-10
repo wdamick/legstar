@@ -1,0 +1,98 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>1.2.2</version>
+    </parent>
+    <version>1.2.2</version>
+    <artifactId>legstar-messaging</artifactId>
+    <name>LegStar Messaging Protocol</name>
+    <description>Mainframe message exchange protocol.</description>
+    <url>http://www.legsem.com/legstar</url>
+
+    <dependencies>
+  
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+        <!-- This is a commons-configuration dependency but it is
+             declared optional since 1.5 -->    
+        <dependency>
+            <groupId>commons-jxpath</groupId>
+            <artifactId>commons-jxpath</artifactId>
+        </dependency>
+      
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <scope>test</scope>
+        </dependency>
+    
+    </dependencies>
+
+    <build>
+        <plugins>
+        
+            <plugin>
+            
+                <artifactId>maven-antrun-plugin</artifactId>
+                
+                <executions>
+                
+                    <!-- This will deploy the jar file to a Tomcat dev instance.  -->
+                    <execution>
+                        <id>deploy-to-tomcat</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/deploy-to-tomcat.xml" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                            </goals>
+                    </execution>
+
+                   <!-- This will upload the zos sources.  -->
+                    <execution>
+                        <id>deploy-to-zos</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <tasks>
+                              <ant antfile="${basedir}/src/main/ant/deploy-to-zos.xml" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>commons-net</groupId>
+                        <artifactId>commons-net</artifactId>
+                        <version>1.4.1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>ant</groupId>
+                        <artifactId>ant-commons-net</artifactId>
+                        <version>1.6.5</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        
+        </plugins>
+    </build>
+    
+</project>

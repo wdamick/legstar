@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =================================================================================
+     This script creates all artifacts needed for a JAXWS endpoint using
+     COXB cobol binding to JAXB and CIXS connectivity.
+  -->
+<project basedir="..\..\.." default="compileAllServices" name="generate-service">
+
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+	<target name="init">
+
+		<!-- Target Tomcat location   -->
+        <property file="../legstar-dev.properties"/>   
+		<!-- Location of XML schemas  -->
+	 	<property name="xsd.dir" value="${basedir}/../legstar-schemagen/src/test/schema" />
+		<!-- Location of CIXS target source location   -->
+		<property name="cixs.src.dir" value="${basedir}/../legstar-cixsgen-cases/src/main/java"/>
+		<!-- Target location for generated CIXS binaries   -->
+		<property name="cixs.bin.dir" value="${basedir}/../legstar-cixsgen-cases/target/classes"/>
+		<!-- Location of JAXB and binding classes   -->
+		<property name="jaxb.bin.dir" value="${basedir}/../legstar-jaxbgen-cases/target/classes"/>
+		<!-- Location of COXB and binding classes   -->
+		<property name="coxb.bin.dir" value="${basedir}/../legstar-coxbgen-cases/target/classes"/>
+		<!-- Location of custom code classes   -->
+		<property name="cust.bin.dir" value="${basedir}/../legstar-coxbgen-cases/target/classes"/>
+		<!-- The input JAXB type name   -->
+	 	<property name="jaxb.root.name.in" value="Dfhcommarea" />
+		<!-- The output JAXB type name   -->
+	 	<property name="jaxb.root.name.out" value="Dfhcommarea" />
+		<!-- Location of LegStar binaries   -->
+		<property name="build.dir" value="${basedir}/target"/>
+		<!-- Location of generated resources   -->
+		<property name="res.dir" value="${basedir}/../legstar-cixsgen-cases/src/main/resources"/>
+		<!-- Generated Ant target script relative location   -->
+		<property name="ant.dir" value="ant"/>
+		<!-- Generated Web descriptors target relative location   -->
+		<property name="wdd.dir" value="WebContent/WEB-INF"/>
+		<!-- Generated Properties files target relative location   -->
+		<property name="prop.dir" value="${wdd.dir}/classes"/>
+		<!-- War files target location   -->
+		<property name="war.dir" value="${tomcat.dir}\webapps"/>
+		<!-- Package name prefix for JAXB classes   -->
+		<property name="jaxb.package.pfx" value="com.legstar.test.coxb"/>
+		<!-- Package name prefix for CIXS classes   -->
+		<property name="cixs.package.pfx" value="com.legstar.test.cixs"/>
+		<!-- Namespace prefix for CIXS WSDL   -->
+		<property name="cixs.namespace.pfx" value="http://cixs.test.legstar.com"/>
+				
+		<!-- Classpath setting -->
+		<property name="maven.repo" value="C:\Documents and Settings\Fady\.m2\repository"/>
+		<path id="classpath">
+	  		<!--Velocity -->
+	  		<pathelement location="${maven.repo}/org/apache/velocity/velocity/1.5/velocity-1.5.jar"/>
+	  		<!--CIXS runtime -->
+	        <fileset dir="${tomcat.dir}" includes="shared/lib/*.jar" />
+	  		<!--CIXS Generator classes -->
+	  		<pathelement location="${build.dir}/classes"/>
+	  		<pathelement location="${build.dir}/test-classes"/>
+		    <pathelement location="${basedir}/../legstar-codegen/target/classes"/>
+		    <pathelement location="${basedir}/../legstar-coxbgen/target/classes"/>
+		    <pathelement location="${basedir}/../legstar-cixsgen-model/target/classes"/>
+		    <pathelement location="${basedir}/../legstar-xsdcgen/target/classes"/>
+		    <pathelement location="${basedir}/../legstar-cobcgen/target/classes"/>
+	  		<!--JAXB generated classes and custom code  -->
+	  		<pathelement location="${jaxb.bin.dir}"/>
+	  		<!--COXB generated classes -->
+	  		<pathelement location="${coxb.bin.dir}"/>
+	  	</path>
+
+		<!-- Service Generator ant task -->
+		<taskdef name="cixsgen"
+			classname="com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator"
+			classpathref="classpath" 
+		/> 
+
+		<!-- Ant-Contrib tasks. Needed for "foreach ", regex, switch, ...
+		     (ant-contrib.jar must be in ant classpath) -->
+	    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+	    	<classpath>
+			    <pathelement location="C:\Program Files\Apache\antcontrib\ant-contrib-1.0b2-bin\ant-contrib\lib\ant-contrib.jar"/>
+	    	</classpath>
+	    </taskdef>
+		
+		<!-- Make sure we have target source directories -->
+		<mkdir dir="${cixs.src.dir}"/>
+		<mkdir dir="${cixs.bin.dir}"/>
+ 		
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Generate a service for each XML schema in a given folder
+	     excluding those who need a choice strategy
+	  -->
+	<target name="generateAllServices" depends="init">
+		<foreach target="generateService" param="xsd.file">
+			<path>
+				<fileset dir="${xsd.dir}" includes="*.xsd">
+					<exclude name="clegtstc.cbl.xsd"/>
+					<exclude name="lsfileal.xsd"/>
+					<exclude name="lsfileac.xsd"/>
+					<exclude name="enumvar.xsd"/>
+                    <exclude name="cultureinfo.xsd"/>
+                    <exclude name="jvmquery.xsd"/>
+                    <exclude name="MSNSearch.xsd"/>
+                    <exclude name="jvmquery-ws.xsd"/>
+				</fileset>
+			</path>
+		</foreach>
+		<antcall target="generateLsfilealService"/>
+		<antcall target="generateLsfileacService"/>
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- This step creates all the artifacts for a service.
+	     All parameters are derived from the XML schema file name  -->
+	
+	<target name="generateService" depends="init">
+		<basename property="service" file="${xsd.file}" suffix="xsd"/>
+		
+		<cixsgen targetSrcDir="${cixs.src.dir}"
+		         targetBinDir="${cixs.bin.dir}"
+		         targetWDDDir="${res.dir}/${service}/${wdd.dir}"
+			     targetPropDir="${res.dir}/${service}/${prop.dir}"
+			     targetAntDir="${res.dir}/${service}/${ant.dir}"
+		         targetWarDir="${war.dir}"
+		         jaxbBinDir="${jaxb.bin.dir}"
+	         	 coxbBinDir="${coxb.bin.dir}"
+	             custBinDir="${cust.bin.dir}"
+			>
+			<cixsJaxwsService name="${service}"
+				packageName="${cixs.package.pfx}.${service}"
+				targetNamespace="${cixs.namespace.pfx}/${service}">
+				<cixsOperation name="${service}"
+					cicsProgramName="${service}">
+					<input
+						jaxbType="${jaxb.root.name.in}"
+						jaxbPackageName="${jaxb.package.pfx}.${service}"
+					/>
+					<output
+						jaxbType="${jaxb.root.name.out}"
+						jaxbPackageName="${jaxb.package.pfx}.${service}"
+					/>
+				</cixsOperation>
+			</cixsJaxwsService>
+		</cixsgen>
+		
+  	</target>
+	
+	<!-- ===========================================================  -->
+	<!-- This step creates a Web Service for Lsfileal which happens
+	     to have a different input/output layout.   -->
+	
+	<target name="generateLsfilealService" depends="init">
+		<property name="special-service" value="lsfileal"/>
+		<property name="special-jaxb.root.name.in" value="RequestParms"/>
+		<property name="special-jaxb.root.name.out" value="ReplyData"/>
+		
+		<cixsgen targetSrcDir="${cixs.src.dir}"
+	             targetBinDir="${cixs.bin.dir}"
+		         targetWDDDir="${res.dir}/${special-service}/${wdd.dir}"
+			     targetPropDir="${res.dir}/${special-service}/${prop.dir}"
+			     targetAntDir="${res.dir}/${special-service}/${ant.dir}"
+		         targetWarDir="${war.dir}"
+		         jaxbBinDir="${jaxb.bin.dir}"
+	        	 coxbBinDir="${coxb.bin.dir}"
+	             custBinDir="${cust.bin.dir}"
+			>
+			<cixsJaxwsService name="${special-service}"
+				packageName="${cixs.package.pfx}.${special-service}"
+				targetNamespace="${cixs.namespace.pfx}/${special-service}">
+				<cixsOperation name="${special-service}"
+					cicsProgramName="${special-service}">
+					<input
+						jaxbType="${special-jaxb.root.name.in}"
+						jaxbPackageName="${jaxb.package.pfx}.${special-service}"
+					/>
+					<output
+						jaxbType="${special-jaxb.root.name.out}"
+						jaxbPackageName="${jaxb.package.pfx}.${special-service}"
+					/>
+				</cixsOperation>
+			</cixsJaxwsService>
+		</cixsgen>
+		
+  	</target>
+
+	<!-- ===========================================================  -->
+	<!-- This step creates a Web Service for Lsfileac which has
+	     multiple input and output structures.   -->
+	
+	<target name="generateLsfileacService" depends="init">
+		<property name="service" value="lsfileac"/>
+		
+		<cixsgen targetSrcDir="${cixs.src.dir}"
+			     targetBinDir="${cixs.bin.dir}"
+		         targetWDDDir="${res.dir}/${service}/${wdd.dir}"
+			     targetPropDir="${res.dir}/${service}/${prop.dir}"
+			     targetAntDir="${res.dir}/${service}/${ant.dir}"
+		         targetWarDir="${war.dir}"
+		         jaxbBinDir="${jaxb.bin.dir}"
+		       	 coxbBinDir="${coxb.bin.dir}"
+	             custBinDir="${cust.bin.dir}"
+			>
+			<cixsJaxwsService name="${service}"
+				packageName="${cixs.package.pfx}.${service}"
+				targetNamespace="${cixs.namespace.pfx}/${service}">
+				<cixsOperation name="${service}"
+					cicsProgramName="${service}"
+					cicsChannel="LSFILEAC-CHANNEL">
+					<input
+						jaxbType="QueryData"
+						jaxbPackageName="${jaxb.package.pfx}.${service}"
+						cicsContainer="QueryData"
+					/>
+					<input
+						jaxbType="QueryLimit"
+						jaxbPackageName="${jaxb.package.pfx}.${service}"
+						cicsContainer="QueryLimit"
+					/>
+					<output
+						jaxbType="ReplyStatus"
+						jaxbPackageName="${jaxb.package.pfx}.${service}"
+						cicsContainer="ReplyStatus"
+					/>
+					<output
+						jaxbType="ReplyData"
+						jaxbPackageName="${jaxb.package.pfx}.${service}"
+						cicsContainer="ReplyData"
+					/>
+				</cixsOperation>
+			</cixsJaxwsService>
+		</cixsgen>
+		
+  	</target>
+	
+	<!-- ===========================================================  -->
+	<!-- Compiles the JAXB generated classes
+	  -->
+	<target name="compileAllServices" depends="generateAllServices,generateLsfilealService,generateLsfileacService">
+		 <javac  target="1.5"
+    	         srcdir="${cixs.src.dir}"
+		 	     includes="**/*.java"
+	 	         excludes="**/gen/**"
+		         destdir="${cixs.bin.dir}"
+		 	     classpathref="classpath"
+		         fork="yes"
+		 />
+	</target>
+
+	
+</project>

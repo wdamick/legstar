@@ -1,0 +1,28 @@
+ -----
+ Overview
+ -----
+ Fady Moussallam
+ -----
+ 01 July 2008
+ -----
+
+Connection pooling engine overview
+
+  This runtime module provides connection pooling capabilities. With pooling, connections are
+  reused which saves processing time.
+  
+  Connections have a set of properties including the target host address but also a host
+  character set and a set of credentials. Two clients are allowed to reuse the same connection
+  if, and only if, they request the exact same set of connection properties.
+  
+  The Connection pooling engine is written in a transport independent fashion. The actual behavior is
+  driven by an XML configuration file. The configuration file is called "legstar-engine-config.xml"
+  by default. It is a combination of "legstar-pooling-config.xml" which contain the engine pooling
+  parameters and the "legstar-invoker-config.xml" which is shared with the {{{../legstar-invoker}
+  Mainframe Invoker Runtime}}.
+  
+  The Connection pooling engine is not a stand-alone application. It has to be started by an initiator.
+  A Servlet initiator is part of the delivery. The Servlet initiator starts when the servlet engine
+  starts and creates an instance of the Engine.
+  
+  Connection pooling engine is a singleton. It is assumed all clients will run in the same VM.  

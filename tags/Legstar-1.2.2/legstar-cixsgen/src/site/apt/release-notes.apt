@@ -1,0 +1,95 @@
+ -----
+ Release Notes
+ -----
+
+PREREQUISITES:
+
+ LegStar Web Service Generator is implemented as a set of Apache ant tasks
+(Apache Software Foundation (http://www.apache.org/).
+ 
+ Web Service Generator has been tested with ant 1.6.5. The binaries can be downloaded from 
+ http://ant.apache.org/.
+ 
+ There are 2 different usages for Web Service Generator:
+ 
+ * Generate adapters for mainframe programs. This creates JAXWS endpoint
+   implementations which rely on the {{{../legstar-invoker}Mainframe Invoker Runtime}}
+   which is included in this distribution.
+   
+ * Generate proxies for Web Services. This gives mainframe programs outbound access
+   to remote Web Services. This relies on the
+   {{{../legstar-c2wsrt}Mainframe to Web Service runtime}} which is included in this
+   distribution.
+   
+ []
+ 
+ The Sun's JAXWS runtime version 2.1.3 is shipped with LegStar. You can replace this
+ implementation with any JAXWS 2.1 compliant provider.
+ 
+ Web Service Generator requires JAXWS 2.1 and above.
+ 
+INSTALLING/UNINSTALLING:
+
+ [[1]] Unzip the binary distribution package into the directory of your choice,
+       referred to as <installDir> in the following steps.
+
+   The directory tree should look like this:
+   
++---------------------------------------+
+   <installDir>
+        |---->LICENSE
+        |---->cixsgen-NOTICE
+        |---->cixsgen-README
+        |----><ant>
+                |---->build-cixs2jws.xml
+                |---->build-jws2cixs.xml
+                |---->build-jws-client.xml
+        |----><lib>
+                |---->*.jar
+        |----><samples>
+                |---->*.xml
+                |---->*.properties
+        |----><src>
+                |---->*.java
+        |----><target>
+                |---->*.classes
+                
++---------------------------------------+
+   
+ [[2]] Steps 2 to 5 apply to Web Service adapters generation.
+       If you have Tomcat running, check that the <CATALINA_BASE> environment
+       variable points to the location where your webapps reside. 
+       From the installDir/ant folder, run command "ant -f build-jws2cixs.xml".
+       This should add a set of java files to the src/main/java folder. This 
+       also creates a WebContent and an ant folders under src/main.
+   
+ [[3]] From the installDir/src/main/ant/lsfileae folder, run command "ant".
+       This should deploy the sample JAXWS endpoint into your target Tomcat.
+       See the {{{faq.html}FAQ}} for common deployment issues.
+       
+ [[4]] Optionally, you can use build-jws-client.xml to generate a Web
+       service client using JAXWS.
+   
+ [[5]] In order to actually run the deployed Web Service, you need to select
+       a transport and put a customized version of the legstar-invoker.config.xml
+       configuration file in a location such as CATALINA_HOME/shared/classes.
+   
+ [[6]] Steps 6 to 8 apply to Mainframe proxies generation.
+       From the installDir/ant folder, run command "ant -f build-cixs2jws.xml".
+       This should generate a servlet descriptor in
+       src/main/WebContent/cultureinfo/WEB-INF.
+       This also creates a sample COBOL client program under src/main/cobol.
+
+ [[7]] From the installDir/src/main/ant/cultureinfo folder, run command "ant".
+       This should deploy the proxy servlet into your target Tomcat.
+
+ [[8]] Read {{{../legstar-c2wsrt}Mainframe to Web Service runtime}} documentation
+       for instruction on deploying the COBOL sample client and running the
+       outbound access.
+
+ [[9]] To uninstall, remove the installDir folder.
+
+DOCUMENTATION:
+
+ Documentation available at http://www.legsem.com/legstar/legstar-cixsgen
+

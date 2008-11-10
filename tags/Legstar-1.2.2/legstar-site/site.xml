@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description url="http://www.legsem.com/legstar/eclipse/update">
+      LegStar Eclipse plugins
+   </description>
+   <feature url="features/com.legstar.eclipse.feature.common_1.2.2.SNAPSHOT.jar" id="com.legstar.eclipse.feature.common" version="1.2.2.SNAPSHOT">
+      <category name="LegStar"/>
+   </feature>
+   <feature url="features/com.legstar.eclipse.feature.schemagen_1.2.2.SNAPSHOT.jar" id="com.legstar.eclipse.feature.schemagen" version="1.2.2.SNAPSHOT">
+      <category name="LegStar"/>
+   </feature>
+   <feature url="features/com.legstar.eclipse.feature.coxbgen_1.2.2.SNAPSHOT.jar" id="com.legstar.eclipse.feature.coxbgen" version="1.2.2.SNAPSHOT">
+      <category name="LegStar"/>
+   </feature>
+   <feature url="features/com.legstar.eclipse.feature.cixsmap_1.2.2.SNAPSHOT.jar" id="com.legstar.eclipse.feature.cixsmap" version="1.2.2.SNAPSHOT">
+      <category name="LegStar"/>
+   </feature>
+   <feature url="features/com.legstar.eclipse.feature.jaxwsgen_1.2.2.SNAPSHOT.jar" id="com.legstar.eclipse.feature.jaxwsgen" version="1.2.2.SNAPSHOT">
+      <category name="LegStar"/>
+   </feature>
+   <feature url="features/com.legstar.eclipse.feature.mulegen_1.2.2.SNAPSHOT.jar" id="com.legstar.eclipse.feature.mulegen" version="1.2.2.SNAPSHOT">
+      <category name="LegStar"/>
+   </feature>
+   <category-def name="LegStar" label="LegStar Eclipse plugins">
+      <description>
+         Features available as Eclipse plugins
+      </description>
+   </category-def>
+</site>

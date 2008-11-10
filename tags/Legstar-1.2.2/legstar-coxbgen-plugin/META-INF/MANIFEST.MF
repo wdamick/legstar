@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: LegsStar Binding Generator
+Bundle-SymbolicName: com.legstar.eclipse.plugin.coxbgen; singleton:=true
+Bundle-Version: 1.2.2.SNAPSHOT
+Bundle-Activator: com.legstar.eclipse.plugin.coxbgen.Activator
+Eclipse-LazyStart: true
+Bundle-Vendor: LegSem
+Bundle-Localization: src/main/resources/com/legstar/eclipse/plugin/coxbgen/messages
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.ui.ide,
+ org.eclipse.ant.core,
+ org.eclipse.jdt.core,
+ com.legstar.eclipse.plugin.common
+Bundle-ClassPath: .
+Export-Package: com.legstar.eclipse.plugin.coxbgen,
+ com.legstar.eclipse.plugin.coxbgen.popup.actions,
+ com.legstar.eclipse.plugin.coxbgen.wizards
+

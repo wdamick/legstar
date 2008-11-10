@@ -1,0 +1,32 @@
+<component>
+
+    <fileSets>
+        <!-- C/370 for CICS Server program -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-csokrt/src/main/zos</directory>
+            <outputDirectory>/zos</outputDirectory>
+            <includes>
+                <include>**</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+  
+    <files>
+        <file>
+            <source>${project.basedir}/../legstar-csokrt/NOTICE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>csokrt-NOTICE</destName>
+        </file>
+        <file>
+           <source>${project.basedir}/../legstar-csokrt/src/site/apt/release-notes.apt</source>
+           <outputDirectory>/</outputDirectory>
+           <destName>csokrt-README</destName>
+        </file>
+        <file>
+           <source>${project.basedir}/../legstar-csokrt/src/site/apt/LSSOKBIN-readme.apt</source>
+           <outputDirectory>/</outputDirectory>
+           <destName>LSSOKBIN-README</destName>
+        </file>
+    </files>
+  
+</component>

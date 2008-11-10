@@ -1,0 +1,40 @@
+<document>
+  <properties>
+    <title>Changes Mainframe to Web Service runtime</title>
+    <author email="fady@legsem.com">Fady Moussallam</author>
+  </properties>
+  <body>
+    <release version="1.2.2" date="2008-11-15" description="Support for ESB generation">
+      <action dev="fady" type="update">
+        Refactored the code so that it is closer to the one used for Jboss ESB
+        using JAX-WS Dispatch API.
+        Ultimately we should be able to reuse a lot of code between the 2 projects.
+      </action>
+    </release>
+    <release version="1.2.1" date="2008-09-30" description="Code cleansing">
+      <action dev="fady" type="update">
+        Removed instance variables which are bad practice in a Servlet.
+      </action>
+      <action dev="fady" type="update">
+        Documentation update to cross reference the new distribution-zos project.
+      </action>
+    </release>
+    <release version="1.2.0" date="2008-07-08" description="Refactoring">
+      <action dev="fady" type="update">
+        The central configuration where all new service proxies were to be added
+        in an XML file is gone. Proxies are now servlets with a web.xml that contains
+        all necessary parameters. See the sample provided in legstar-c2wsrt.war.
+        The URL known to mainframe programs is simply the proxy servlet URL.
+      </action>
+      <action dev="fady" type="add">
+        New sample COBOL program MSNSEARC shows how to call Microsoft search SOAP API.
+      </action>
+    </release>
+
+    <release version="1.1.0" date="2007-08-30" description="First version">
+      <action dev="fady" type="add">
+        First release of the mainframe to web service runtime.
+      </action>
+    </release>
+  </body>
+</document>
