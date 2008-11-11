@@ -14,7 +14,7 @@
       </action>
       <action dev="fady" type="update">
         Fixed Issue 22 : Operation mapping plugin: Clicking on add structure and returning without adding one result in this
-        invalid record: &lt;input coxbType="nullBinding" coxbPackageName="null.bind"/&gt;
+        invalid record: input coxbType="nullBinding" coxbPackageName="null.bind".
       </action>
       <action dev="fady" type="update">
         The Structures Mapping Generator takes an additional parameter to collect the JAXB Classes name prefix.
