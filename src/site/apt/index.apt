@@ -10,9 +10,10 @@ Overview
   LegStar is the first {{{http://www.opensource.org/docs/definition.php}open-source}} initiative in the domain of
   legacy application integration.
   
-  To get a general idea of LegStar, you can read the {{{./pdf/legstar-presentation.pdf}presentation document}}.
+  This page will give you a general idea of LegStar, if you need further details you can read the
+   {{{./pdf/legstar-presentation.pdf}presentation document}}.
     
-  To latest version is described {{{./latest-release-overview.html}here}}.
+  The latest version is described {{{./latest-release-overview.html}here}}.
   
   Check out the new {{{http://www.jboss.org/jbossesb/}JBoss ESB}} beta support
   {{{http://code.google.com/p/legstar-jbossesb/}here}}.
