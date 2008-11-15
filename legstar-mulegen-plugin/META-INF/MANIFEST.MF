@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Legstar Mule Plug-in
 Bundle-SymbolicName: com.legstar.eclipse.plugin.mulegen;singleton:=true
-Bundle-Version: 1.2.2.SNAPSHOT
+Bundle-Version: 1.2.2
 Bundle-Activator: com.legstar.eclipse.plugin.mulegen.Activator
 Bundle-Localization: src/main/resources/com/legstar/eclipse/plugin/mulegen/messages
 Bundle-Vendor: LegSem
