@@ -115,7 +115,7 @@ public class C2wsReflectAdapterTest extends TestCase {
 		List < ResultType > results = sourceResponses.get(0).getResults().getResult();
 		assertEquals(1, results.size());
 		assertEquals("Live Search", results.get(0).getTitle());
-		assertEquals("Find exactly what you are looking for - FAST! With Live Search.", results.get(0).getDescription());
+		assertTrue(results.get(0).getDescription().startsWith("Find exactly what you are looking for - FAST! With Live Search."));
 		assertTrue(results.get(0).getUrl().equals("http://www.live.com/")
 				|| results.get(0).getUrl().equals("http://search.live.com/"));
 	}
