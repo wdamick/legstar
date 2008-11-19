@@ -79,8 +79,8 @@ public class CobolGenSentenceTest extends TestCase {
 		s.addValue("'12345678901234567890123456789012345678901234567890123456789012345678901234567890'");
 		s.close();
 		assertEquals(7, s.getStartColumn());
-		assertEquals(29, s.getEndColumn());
+		assertEquals(30, s.getEndColumn());
 		assertEquals(2, s.getLinesCount());
-		assertEquals("       '1234567890123456789012345678901234567890123456789012345678901234\r\n      -    5678901234567890'.", s.toString());
+		assertEquals("       '1234567890123456789012345678901234567890123456789012345678901234\r\n      -    '5678901234567890'.", s.toString());
 	}
 }

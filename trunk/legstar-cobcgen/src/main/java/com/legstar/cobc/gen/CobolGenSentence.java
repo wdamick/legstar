@@ -60,6 +60,12 @@ public class CobolGenSentence {
 	/** Sentence delimiter character. */
 	private static final String SENTENCE_DELIM = ".";
 	
+	/** Delimiter for character strings. */
+	private static final char QUOTE = '\"';
+	
+	/** Delimiter for character strings. */
+	private static final char APOST = '\'';
+
 	/**
 	 * Creates a cobol sentence at a specified indentation factor.
 	 * @param indentFactor determines if this sentence is to be indented
@@ -124,11 +130,36 @@ public class CobolGenSentence {
 	/**
 	 * Contrary to other clauses, Values might extend on multiple lines and
 	 * have special handling for continuation characters.
+	 * The rules are the following:
+	 * <ul>
+	 * <li>values can extend to column 72 (inclusive)</li>
+	 * <li>continued lines start with a hyphen in column 7</li>
+	 * <li>if the value is a numeric (no delimiters), the continuation digits
+	 *   show up anywhere in section B</li>
+	 * <li>if the value is an alphanumeric then the continued characters must
+	 *   first start with QUOTE or APOST depending on the delimiter
+	 *   in section B</li>
+	 * </ul>
 	 * @param value the COBOL value that follows the VALUE clause, including
 	 *  starting and ending delimiters (QUOTE or APOST)
 	 */
 	public final void addValue(final String value) {
+		if (value == null || value.length() == 0) {
+			return;
+		}
+		
+		/* Determine the delimiter in case this is an alphanumeric. 
+		 * We check the last character because values can start with
+		 * X" G" or N" so the last character is easier to get. The
+		 * other reason is that this code is called recursively so
+		 * the only invariant part is the end of the string value.*/
+		char delimiter = value.charAt(value.length() - 1);
+		if (delimiter != QUOTE && delimiter != APOST) {
+			delimiter = 0;
+		}
+
 		String spacedValue = value;
+		
 		
 		/* New clause needs to be separated from the previous one */
 		if (needSpaceSeparator) {
@@ -138,7 +169,8 @@ public class CobolGenSentence {
 		if (spacedValue.length() > lineCapacity) {
 			addValue(spacedValue.substring(0, lineCapacity));
 			moveToNextLine(true);
-			addValue(spacedValue.substring(lineCapacity));
+			addValue(((delimiter != 0) ? delimiter : "")
+					+ spacedValue.substring(lineCapacity));
 		} else {
 			appendToken(spacedValue);
 		}
