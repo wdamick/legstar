@@ -3,64 +3,68 @@
  -->
 <project basedir="../../.." default="deployToZos" name="deploy-to-zos">
 
-	<!-- ===========================================================  -->
-	<!-- Setup environment
-	  -->
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
     <property file="../legstar-dev.properties"/>   
-	<target name="init">
-	</target>
 
-	<!-- ===========================================================  -->
-	<!-- Upload sources and JCL to distribution PDS
-	     Because extensions are not supported by MVS, we first copy
-	     files removing extensions to a temporary location
-	  -->
-	<target name="deployToZos" depends="init">
-		
-		<!-- C source files -->
-		<copy todir="target/zos/C370">
-			<fileset dir="${basedir}/src/main/zos/C370"/>
-			<globmapper from="*.c" to="*"/>
-		</copy>
-		
-		<ftp server="${zos.host}"
-			 remotedir="LEGSTAR.${zos.version}.C370"
-			 userid="${zos.userid}"
-			 password="${zos.password}"
-			 binary="no">
-			<fileset dir="target/zos/C370"/>
-		</ftp>
+    <!-- Import the ZOS version builder script... -->
+    <import file="${basedir}/../src/main/ant/prepare-zos-version.xml"/>
 
-		<!-- C header files -->
-		<copy todir="target/zos/H370">
-			<fileset dir="${basedir}/src/main/zos/C370"/>
-			<globmapper from="*.h" to="*"/>
-		</copy>
-		
-		<ftp server="${zos.host}"
-			 remotedir="LEGSTAR.${zos.version}.H370"
-			 userid="${zos.userid}"
-			 password="${zos.password}"
-			 binary="no">
-			<fileset dir="target/zos/H370"/>
-		</ftp>
+    <!-- ===========================================================  -->
+    <!-- Upload sources and JCL to distribution PDS
+    Because extensions are not supported by MVS, we first copy
+    files removing extensions to a temporary location
+    -->
+    <target name="deployToZos" depends="prepareZosVersion">
+    
+        <!-- Generate the MANIFEST with the correct version and dependency versions -->
+        <echo message="Uploading on z/OS for version=${legstarZosVersion}"/>
 
-		<!-- C compilation jcl -->
-		<copy todir="target/zos/CNTL">
-			<fileset dir="${basedir}/src/main/zos/JCL"/>
-		    <filterset>
-		      <filter token="VERSION" value="${zos.version}"/>
-		    </filterset>
-		</copy>
-
-		<ftp server="${zos.host}"
-			 remotedir="LEGSTAR.${zos.version}.CNTL"
-			 userid="${zos.userid}"
-			 password="${zos.password}"
-			 binary="no">
-			<fileset dir="target/zos/CNTL"/>
-		</ftp>
-
-	</target>
-	
+        <!-- C source files -->
+        <copy todir="target/zos/C370">
+            <fileset dir="${basedir}/src/main/zos/C370"/>
+            <globmapper from="*.c" to="*"/>
+        </copy>
+    
+        <ftp server="${legstarZosHost}"
+                remotedir="LEGSTAR.${legstarZosVersion}.C370"
+                userid="${legstarZosUserid}"
+                password="${legstarZosPassword}"
+                binary="no">
+            <fileset dir="target/zos/C370"/>
+        </ftp>
+    
+        <!-- C header files -->
+        <copy todir="target/zos/H370">
+            <fileset dir="${basedir}/src/main/zos/C370"/>
+            <globmapper from="*.h" to="*"/>
+        </copy>
+    
+        <ftp server="${legstarZosHost}"
+                remotedir="LEGSTAR.${legstarZosVersion}.H370"
+                userid="${legstarZosUserid}"
+                password="${legstarZosPassword}"
+                binary="no">
+            <fileset dir="target/zos/H370"/>
+        </ftp>
+    
+        <!-- C compilation jcl -->
+        <copy todir="target/zos/CNTL">
+            <fileset dir="${basedir}/src/main/zos/JCL"/>
+            <filterset>
+                <filter token="VERSION" value="${legstarZosVersion}"/>
+            </filterset>
+        </copy>
+    
+        <ftp server="${legstarZosHost}"
+                remotedir="LEGSTAR.${legstarZosVersion}.CNTL"
+                userid="${legstarZosUserid}"
+                password="${legstarZosPassword}"
+                binary="no">
+            <fileset dir="target/zos/CNTL"/>
+        </ftp>
+    
+    </target>
+  
 </project>

@@ -3,32 +3,33 @@
  -->
 <project basedir="../../.." default="downloadXmit" name="download-xmit">
 
-	<!-- ===========================================================  -->
-	<!-- Setup environment
-	  -->
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
     <property file="../legstar-dev.properties"/>   
-	<target name="init">
-	</target>
 
-	<!-- ===========================================================  -->
-	<!-- Dowload the files as binary
-	  -->
-	<target name="downloadXmit" depends="init">
-		
-		<ftp server="${zos.host}"
-			 action="get"
-			 userid="${zos.userid}"
-			 password="${zos.password}"
-			 binary="yes">
-			<fileset dir="src/main/resources">
-				<include name="LEGSTAR.${zos.version}.LOAD.XMIT"/>
-				<include name="LEGSTAR.${zos.version}.C370.XMIT"/>
-				<include name="LEGSTAR.${zos.version}.H370.XMIT"/>
-				<include name="LEGSTAR.${zos.version}.CNTL.XMIT"/>
-				<include name="LEGSTAR.${zos.version}.COBOL.XMIT"/>
-			</fileset>
-		</ftp>
+    <!-- Import the ZOS version builder script... -->
+    <import file="${basedir}/../src/main/ant/prepare-zos-version.xml"/>
 
-	</target>
-	
+    <!-- ===========================================================  -->
+    <!-- Dowload the files as binary
+    -->
+    <target name="downloadXmit" depends="prepareZosVersion">
+        
+        <ftp server="${legstarZosHost}"
+                action="get"
+                userid="${legstarZosUserid}"
+                password="${legstarZosPassword}"
+                binary="yes">
+            <fileset dir="src/main/resources">
+                <include name="LEGSTAR.${legstarZosVersion}.LOAD.XMIT"/>
+                <include name="LEGSTAR.${legstarZosVersion}.C370.XMIT"/>
+                <include name="LEGSTAR.${legstarZosVersion}.H370.XMIT"/>
+                <include name="LEGSTAR.${legstarZosVersion}.CNTL.XMIT"/>
+                <include name="LEGSTAR.${legstarZosVersion}.COBOL.XMIT"/>
+            </fileset>
+        </ftp>
+
+    </target>
+  
 </project>
