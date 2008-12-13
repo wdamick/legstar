@@ -12,9 +12,9 @@
     </properties>
 
     <scm>
-        <connection>scm:svn:http://localhost/svn/trunk</connection>
-        <developerConnection>scm:svn:http://localhost/svn/trunk</developerConnection>
-        <url>http://localhost/svn/trunk</url>
+        <connection>scm:svn:http://legstar.googlecode.com/svn/trunk/</connection>
+        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/trunk/</developerConnection>
+        <url>http://legstar.googlecode.com/svn/trunk/</url>
     </scm>
 
     <developers>
@@ -177,7 +177,7 @@
         <site>
             <id>local.website</id>
             <name>Local Website</name>
-            <url>file:///c:/Program Files/Apache Software Foundation/Apache2.2/htdocs/legstar/</url>
+            <url>file:///${legstar-dev-website-local-dir}</url>
         </site>
         <repository>
             <id>ftp-release-repository</id>
