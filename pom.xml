@@ -4,7 +4,7 @@
     <artifactId>Legstar</artifactId>
     <packaging>pom</packaging>
     <name>LegStar Open-Source Mainframe Integration</name>
-    <version>1.2.2</version>
+    <version>1.2.3-SNAPSHOT</version>
     <description>Open-Source Mainframe Integration</description>
     <url>http://www.legsem.com/legstar</url>
     <properties>
@@ -641,7 +641,7 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-common-plugin</artifactId>
-                <version>${legstarPluginVersion}</version>
+                <version>${legstarVersion}</version>
             </dependency>
       
         </dependencies>
