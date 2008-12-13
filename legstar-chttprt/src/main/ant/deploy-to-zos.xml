@@ -6,8 +6,6 @@
     <!-- ===========================================================  -->
     <!-- Setup environment
     -->
-    <property file="../legstar-dev.properties"/>   
-
     <!-- Import the ZOS version builder script... -->
     <import file="${basedir}/../src/main/ant/prepare-zos-version.xml"/>
 
