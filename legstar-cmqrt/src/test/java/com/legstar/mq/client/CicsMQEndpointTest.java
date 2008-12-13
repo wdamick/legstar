@@ -29,7 +29,7 @@ public class CicsMQEndpointTest extends TestCase {
 						Config.loadGeneralConfig(CONFIG_FILE), "TheMainframe");
 			CicsMQEndpoint cicsMQEndpoint = new CicsMQEndpoint(endpointConfig);
 			assertEquals("IBM01140", cicsMQEndpoint.getHostCharset());
-			assertEquals("192.168.0.110", cicsMQEndpoint.getHostIPAddress());
+			assertEquals("mainframe", cicsMQEndpoint.getHostIPAddress());
 			assertEquals(1414, cicsMQEndpoint.getHostIPPort());
 			assertEquals("STREAM2", cicsMQEndpoint.getHostPassword());
 			assertEquals("CSQ1", cicsMQEndpoint.getHostMQManager());

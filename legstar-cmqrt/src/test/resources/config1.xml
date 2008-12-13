@@ -2,7 +2,7 @@
 <config description="Default Configuration">
     <hostEndPoints>
     	<hostEndPoint name="TheMainframe">
-    		<hostIPAddress>192.168.0.110</hostIPAddress>
+    		<hostIPAddress>mainframe</hostIPAddress>
     		<hostCharset>IBM01140</hostCharset>
     		<hostTraceMode>true</hostTraceMode>
             <hostMQChannel>CLIENT.TO.CSQ1</hostMQChannel>

@@ -40,7 +40,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         store.setDefault(PreferenceConstants.SERVICE_URI,
         		"http://localhost:8083");
         store.setDefault(PreferenceConstants.HOST_URI,
-        		"http://192.168.0.110:4081");
+        		"http://mainframe:4081");
     }
 
     /**

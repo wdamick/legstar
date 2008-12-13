@@ -26,7 +26,7 @@ import java.net.InetSocketAddress;
 /** Low level tests to investigate delayed ack issue with TS 3.1. */
 public class CicsSocketJavaxFactory extends TestCase {
 	
-	private static final String HOST = "192.168.0.110";
+	private static final String HOST = "mainframe";
 	private static final int PORT = 4080;
 	private static final int CONNECT_TIMEOUT = 2000;
 	
@@ -119,7 +119,7 @@ public class CicsSocketJavaxFactory extends TestCase {
 		sb.append("CICSDataLength: 6" + "\r\n");
 		sb.append("Authorization: Basic UDM5MDpTVFJFQU0y" + "\r\n");
 		sb.append("User-Agent: Jakarta Commons-HttpClient/3.0.1" + "\r\n");
-		sb.append("Host: 192.168.0.110:4080" + "\r\n");
+		sb.append("Host: mainframe:4080" + "\r\n");
 		sb.append("Content-Length: 6" + "\r\n");
 		sb.append("Content-Type: binary/octet-stream" + "\r\n");
 		sb.append("\r\n\r\n");

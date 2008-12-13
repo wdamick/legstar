@@ -3,7 +3,7 @@
 	<hostEndPoints>
 		<hostEndPoint name="TheMainframe">
 			<hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
-			<hostIPAddress>192.168.0.110</hostIPAddress>
+			<hostIPAddress>mainframe</hostIPAddress>
 			<hostIPPort>3011</hostIPPort>
 			<hostCharset>IBM01140</hostCharset>
 			<hostUserID>P390</hostUserID>
@@ -13,7 +13,7 @@
 	   </hostEndPoint>
 		<hostEndPoint name="TheOtherMainframe">
 			<hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
-			<hostIPAddress>192.168.0.110</hostIPAddress>
+			<hostIPAddress>mainframe</hostIPAddress>
 			<hostIPPort>3011</hostIPPort>
 			<hostCharset>IBM01140</hostCharset>
 			<hostUserID>P390</hostUserID>
