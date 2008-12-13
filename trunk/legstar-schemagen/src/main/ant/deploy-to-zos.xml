@@ -3,50 +3,55 @@
  -->
 <project basedir="../../.." default="deployToZos" name="deploy-to-zos">
 
-	<!-- ===========================================================  -->
-	<!-- Setup environment
-	  -->
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
     <property file="../legstar-dev.properties"/>   
-	<target name="init">
-	</target>
 
-	<!-- ===========================================================  -->
-	<!-- Upload sources and JCL to distribution PDS
-	     Because extensions are not supported by MVS, we first copy
-	     files removing extensions to a temporary location
-	  -->
-	<target name="deployToZos" depends="init">
-		
-		<!-- cobol source files -->
-		<copy todir="target/zos/COBOL">
-			<fileset dir="${basedir}/src/main/zos/cobol"/>
-			<globmapper from="*.cbl" to="*"/>
-		</copy>
-		
-		<ftp server="${zos.host}"
-			 remotedir="LEGSTAR.${zos.version}.COBOL"
-			 userid="${zos.userid}"
-			 password="${zos.password}"
-			 binary="no">
-			<fileset dir="target/zos/COBOL"/>
-		</ftp>
+    <!-- Import the ZOS version builder script... -->
+    <import file="${basedir}/../src/main/ant/prepare-zos-version.xml"/>
 
-		<!-- Compilation jcl -->
-		<copy todir="target/zos/CNTL">
-			<fileset dir="${basedir}/src/main/zos/JCL"/>
-		    <filterset>
-		      <filter token="VERSION" value="${zos.version}"/>
-		    </filterset>
-		</copy>
+    <!-- ===========================================================  -->
+    <!-- Upload sources and JCL to distribution PDS
+       Because extensions are not supported by MVS, we first copy
+       files removing extensions to a temporary location
+    -->
 
-		<ftp server="${zos.host}"
-			 remotedir="LEGSTAR.${zos.version}.CNTL"
-			 userid="${zos.userid}"
-			 password="${zos.password}"
-			 binary="no">
-			<fileset dir="target/zos/CNTL"/>
-		</ftp>
+    <target name="deployToZos" depends="prepareZosVersion">
+    
+        <!-- Generate the MANIFEST with the correct version and dependency versions -->
+        <echo message="Uploading on z/OS for version=${legstarZosVersion}"/>
 
-	</target>
-	
+        <!-- cobol source files -->
+        <copy todir="target/zos/COBOL">
+            <fileset dir="${basedir}/src/main/zos/cobol"/>
+            <globmapper from="*.cbl" to="*"/>
+        </copy>
+    
+        <ftp server="${legstarZosHost}"
+                remotedir="LEGSTAR.${legstarZosVersion}.COBOL"
+                userid="${legstarZosUserid}"
+                password="${legstarZosPassword}"
+                binary="no">
+            <fileset dir="target/zos/COBOL"/>
+        </ftp>
+
+        <!-- Compilation jcl -->
+        <copy todir="target/zos/CNTL">
+            <fileset dir="${basedir}/src/main/zos/JCL"/>
+            <filterset>
+                <filter token="VERSION" value="${legstarZosVersion}"/>
+            </filterset>
+        </copy>
+
+        <ftp server="${legstarZosHost}"
+                remotedir="LEGSTAR.${legstarZosVersion}.CNTL"
+                userid="${legstarZosUserid}"
+                password="${legstarZosPassword}"
+                binary="no">
+            <fileset dir="target/zos/CNTL"/>
+        </ftp>
+
+  </target>
+  
 </project>
