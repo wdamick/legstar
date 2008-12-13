@@ -4,7 +4,10 @@
  -->
 <project basedir="../../.." default="mavenToPde" name="maven-to-pde">
 
-    <target name="mavenToPde">
+    <!-- Import the PDE version builder script... -->
+    <import file="${basedir}/../legstar-common-plugin/src/main/ant/prepare-pde-version.xml"/>
+
+    <target name="mavenToPde" depends="preparePdeVersion">
 
         <!-- Generate the feature.xml with the correct version and dependency versions -->
         <echo message="Generating feature.xml for version=${legstarVersion}"/>
