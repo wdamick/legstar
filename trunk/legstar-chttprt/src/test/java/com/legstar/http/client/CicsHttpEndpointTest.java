@@ -29,7 +29,7 @@ public class CicsHttpEndpointTest extends TestCase {
 						Config.loadGeneralConfig(CONFIG_FILE), "TheMainframe");
 			CicsHttpEndpoint cicsHttpEndpoint = new CicsHttpEndpoint(endpointConfig);
 			assertEquals("IBM01140", cicsHttpEndpoint.getHostCharset());
-			assertEquals("192.168.0.110", cicsHttpEndpoint.getHostIPAddress());
+			assertEquals("mainframe", cicsHttpEndpoint.getHostIPAddress());
 			assertEquals(3080, cicsHttpEndpoint.getHostIPPort());
 			assertEquals("STREAM2", cicsHttpEndpoint.getHostPassword());
 			assertEquals("/CICS/CWBA/LSWEBBIN", cicsHttpEndpoint.getHostURLPath());

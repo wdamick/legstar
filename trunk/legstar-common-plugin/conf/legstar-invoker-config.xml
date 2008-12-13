@@ -5,7 +5,7 @@
 
     <hostEndPoint name="CICSTS31DirectHttp">
       <hostConnectionfactoryClass>com.legstar.http.client.CicsHttpConnectionFactory</hostConnectionfactoryClass>
-      <hostIPAddress>192.168.0.110</hostIPAddress>
+      <hostIPAddress>mainframe</hostIPAddress>
       <hostIPPort>4080</hostIPPort>
       <hostCharset>IBM01140</hostCharset>
       <hostUserID>P390</hostUserID>
@@ -15,7 +15,7 @@
    </hostEndPoint>
     <hostEndPoint name="CICSTS31PooledHttp">
       <hostConnectionfactoryClass>com.legstar.http.client.CicsHttpConnectionFactory</hostConnectionfactoryClass>
-      <hostIPAddress>192.168.0.110</hostIPAddress>
+      <hostIPAddress>mainframe</hostIPAddress>
       <hostIPPort>4080</hostIPPort>
       <hostCharset>IBM01140</hostCharset>
       <hostUserID>P390</hostUserID>
@@ -30,7 +30,7 @@
    
     <hostEndPoint name="CICSTS23DirectHttp">
       <hostConnectionfactoryClass>com.legstar.http.client.CicsHttpConnectionFactory</hostConnectionfactoryClass>
-      <hostIPAddress>192.168.0.110</hostIPAddress>
+      <hostIPAddress>mainframe</hostIPAddress>
       <hostIPPort>3080</hostIPPort>
       <hostCharset>IBM01140</hostCharset>
       <hostUserID>P390</hostUserID>
@@ -40,7 +40,7 @@
    </hostEndPoint>
     <hostEndPoint name="CICSTS23PooledHttp">
       <hostConnectionfactoryClass>com.legstar.http.client.CicsHttpConnectionFactory</hostConnectionfactoryClass>
-      <hostIPAddress>192.168.0.110</hostIPAddress>
+      <hostIPAddress>mainframe</hostIPAddress>
       <hostIPPort>3080</hostIPPort>
       <hostCharset>IBM01140</hostCharset>
       <hostUserID>P390</hostUserID>
@@ -55,7 +55,7 @@
    
     <hostEndPoint name="CICSTS23DirectSocket">
       <hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
-      <hostIPAddress>192.168.0.110</hostIPAddress>
+      <hostIPAddress>mainframe</hostIPAddress>
       <hostIPPort>3011</hostIPPort>
       <hostCharset>IBM01140</hostCharset>
       <hostUserID>P390</hostUserID>
@@ -65,7 +65,7 @@
    </hostEndPoint>
     <hostEndPoint name="CICSTS23PooledSocket">
       <hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
-      <hostIPAddress>192.168.0.110</hostIPAddress>
+      <hostIPAddress>mainframe</hostIPAddress>
       <hostIPPort>3011</hostIPPort>
       <hostCharset>IBM01140</hostCharset>
       <hostUserID>P390</hostUserID>
@@ -80,7 +80,7 @@
    
     <hostEndPoint name="CICSTS23DirectMQ">
       <hostConnectionfactoryClass>com.legstar.mq.client.CicsMQConnectionFactory</hostConnectionfactoryClass>
-      <hostIPAddress>192.168.0.110</hostIPAddress>
+      <hostIPAddress>mainframe</hostIPAddress>
       <hostIPPort>1414</hostIPPort>
       <hostCharset>IBM01140</hostCharset>
       <hostUserID>P390</hostUserID>
@@ -94,7 +94,7 @@
    </hostEndPoint>
     <hostEndPoint name="CICSTS23PooledMQ">
       <hostConnectionfactoryClass>com.legstar.mq.client.CicsMQConnectionFactory</hostConnectionfactoryClass>
-      <hostIPAddress>192.168.0.110</hostIPAddress>
+      <hostIPAddress>mainframe</hostIPAddress>
       <hostIPPort>1414</hostIPPort>
       <hostCharset>IBM01140</hostCharset>
       <hostUserID>P390</hostUserID>

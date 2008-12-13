@@ -55,7 +55,7 @@ public class CicsHttpTest extends TestCase {
 	
 	public void testInstantiation() {
 		CicsHttp cicsHttp = new CicsHttp("testInstantiation", mHttpEndpoint, DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
-		assertEquals("192.168.0.110", cicsHttp.getHostConfig().getHost());
+		assertEquals("mainframe", cicsHttp.getHostConfig().getHost());
 		assertEquals(3080, cicsHttp.getHostConfig().getPort());
 		assertEquals(cicsHttp.getHostConfig().getHost(), cicsHttp.getCicsHttpEndpoint().getHostIPAddress());
 		assertEquals(cicsHttp.getHostConfig().getPort(), cicsHttp.getCicsHttpEndpoint().getHostIPPort());
@@ -66,7 +66,7 @@ public class CicsHttpTest extends TestCase {
 		try {
 			CicsHttp cicsHttp = new CicsHttp("testConnect", mHttpEndpoint, DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
 			cicsHttp.connect("TRUC");
-			AuthScope as = new AuthScope("192.168.0.110",
+			AuthScope as = new AuthScope("mainframe",
 					3080,
 					AuthScope.ANY_HOST);
 			assertEquals("P390:TRUC", cicsHttp.getHttpState().getCredentials(as).toString());

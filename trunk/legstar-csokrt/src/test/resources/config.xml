@@ -22,7 +22,7 @@
    </engine>
 	<hostEndPoints>
 		<hostEndPoint name="TheMainframe">
-			<hostIPAddress>192.168.0.110</hostIPAddress>
+			<hostIPAddress>mainframe</hostIPAddress>
 			<hostIPPort>3011</hostIPPort>
 			<hostCharset>IBM01140</hostCharset>
 			<hostUserID>P390</hostUserID>
@@ -30,7 +30,7 @@
 			<hostTraceMode>false</hostTraceMode>
 	   </hostEndPoint>
 		<hostEndPoint name="CICSTS31">
-			<hostIPAddress>192.168.0.110</hostIPAddress>
+			<hostIPAddress>mainframe</hostIPAddress>
 			<hostIPPort>4011</hostIPPort>
 			<hostCharset>IBM01140</hostCharset>
 			<hostUserID>P390</hostUserID>

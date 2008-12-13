@@ -6,7 +6,7 @@
 			<!-- Class implementing the HostConnectionFactory interface.  -->
 			<hostAccessStrategy>direct</hostAccessStrategy>
 			<hostConnectionfactoryClass>com.legstar.http.client.CicsHttpConnectionFactory</hostConnectionfactoryClass>
-			<hostIPAddress>192.168.0.110</hostIPAddress>
+			<hostIPAddress>mainframe</hostIPAddress>
 			<hostIPPort>3080</hostIPPort>
 			<hostCharset>IBM01140</hostCharset>
 			<hostUserID>P390</hostUserID>
