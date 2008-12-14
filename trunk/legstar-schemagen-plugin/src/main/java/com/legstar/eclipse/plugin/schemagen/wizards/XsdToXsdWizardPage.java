@@ -55,7 +55,7 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
 
     /** A control that is enabled when user can switch the target namespace. */
     private Button mSwitchNamespaceCheckBox;
-    
+
     /**
      * Constructs the wizard page.
      * @param initialSelection the workbench current selection
@@ -70,45 +70,45 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
     /** {@inheritDoc} */
     protected void createExtendedControls(final Composite container) {
         mXsdUrlCombo = createUrlComboGroup(
-        		container, Messages.url_type_label,
-        		new ModifyListener() {
+                container, Messages.url_type_label,
+                new ModifyListener() {
                     public void modifyText(final ModifyEvent e) {
                         dialogChanged();
                     }
                 },
-        		new URLSelectionAdapter());
-     	
+                new URLSelectionAdapter());
+
         mSwitchNamespaceCheckBox =
-        	createSwitchNamespaceAllowedCheckButton(container);
+            createSwitchNamespaceAllowedCheckButton(container);
         mXsdSourceText = createMultilineTextField(container, LAYOUT_COLUMNS);
         FontData defaultFont = new FontData("Courier New", 8, SWT.NORMAL);
         Font font = new Font(container.getDisplay(), defaultFont);
         mXsdSourceText.setFont(font);
     }
 
-	/**
-	 *Defines what happens when a URL is selected.
-	 */
-	private class URLSelectionAdapter implements IURLSelectionListener {
-	
-		/** {@inheritDoc} */
-		public void urlSelected(final String urlString) {
-	    	try {
-				mXmlDocumentHelper.load(getXsdUrl());
-				StringWriter writer = new StringWriter();
-				mXmlDocumentHelper.serialize(writer);
-				mXsdSourceText.setText(writer.toString());
-			} catch (XmlDocumentHelperException e1) {
-				errorDialog(getShell(),
-						Messages.xml_load_error_dialog_title,
-						Activator.PLUGIN_ID,
-						Messages.xml_load_failure_short_msg,
-						NLS.bind(Messages.xml_load_failure_long_msg,
-								urlString, e1.getMessage()));
-			}
-		}
-	}
-	
+    /**
+     *Defines what happens when a URL is selected.
+     */
+    private class URLSelectionAdapter implements IURLSelectionListener {
+
+        /** {@inheritDoc} */
+        public void urlSelected(final String urlString) {
+            try {
+                mXmlDocumentHelper.load(getXsdUrl());
+                StringWriter writer = new StringWriter();
+                mXmlDocumentHelper.serialize(writer);
+                mXsdSourceText.setText(writer.toString());
+            } catch (XmlDocumentHelperException e1) {
+                errorDialog(getShell(),
+                        Messages.xml_load_error_dialog_title,
+                        Activator.PLUGIN_ID,
+                        Messages.xml_load_failure_short_msg,
+                        NLS.bind(Messages.xml_load_failure_long_msg,
+                                urlString, e1.getMessage()));
+            }
+        }
+    }
+
     /**
      * Adds a check button that reflects its state in an associated boolean
      * variable.
@@ -132,7 +132,7 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
         button.setLayoutData(gridData);
         return button;
     }
-    
+
     /** {@inheritDoc} */
     protected void dialogChanged() {
         if (mXsdSourceText.getText().length() > 0) {
@@ -144,17 +144,17 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
 
     /** {@inheritDoc} */
     protected void initContents() {
-	   initUrlHistory();
+        initUrlHistory();
     }
 
-   /**
-    * Setup the initial history list attached to the URL combo box.
-    */
-   private void initUrlHistory() {
-	   for (String value : getUrlHistory().get()) {
-		   mXsdUrlCombo.add(value);
-	   }
-   }
+    /**
+     * Setup the initial history list attached to the URL combo box.
+     */
+    private void initUrlHistory() {
+        for (String value : getUrlHistory().get()) {
+            mXsdUrlCombo.add(value);
+        }
+    }
 
     /**
      * @return the Xml Schema or Wsdl source URI
@@ -162,7 +162,7 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
     public final String getXsdUrl() {
         return mXsdUrlCombo.getText();
     }
-    
+
     /**
      * @return the Xml Schema or Wsdl source Text
      */
@@ -178,7 +178,7 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
         return null;
     }
 
-   /**
+    /**
      * @return true if the input XSD/WSDL target namespace should be changed
      */
     public final boolean isSwitchNamespaceAllowed() {
@@ -190,7 +190,7 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
      *  should be changed
      */
     public final void setSwitchNamespaceAllowed(
-    		final boolean switchNamespaceAllowed) {
+            final boolean switchNamespaceAllowed) {
         mSwitchNamespaceAllowed = switchNamespaceAllowed;
     }
 
@@ -202,12 +202,12 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
     public final void setNewTargetNamespace(final String newTargetNamespace) {
         if (newTargetNamespace != null && newTargetNamespace.length() > 0) {
             mSwitchNamespaceCheckBox.setText(
-            		Messages.switch_namespace_to_button_label
-            		+ newTargetNamespace);
+                    Messages.switch_namespace_to_button_label
+                    + newTargetNamespace);
             mSwitchNamespaceCheckBox.setEnabled(true);
         } else {
             mSwitchNamespaceCheckBox.setText(
-            		Messages.switch_namespace_button_label);
+                    Messages.switch_namespace_button_label);
             mSwitchNamespaceCheckBox.setEnabled(false);
         }
     }

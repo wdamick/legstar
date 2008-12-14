@@ -18,23 +18,29 @@ import java.util.List;
  * as well as other JVM parameters.
  */
 public class JVMQueryReply {
-    private List <String> mEnvVarValues = new ArrayList <String>();
+    
+    /** A list of values for each requested environment variable. */
+    private List < String > mEnvVarValues = new ArrayList < String >();
+    /** Requested date formatted using the current Locale. */
     private String mFormattedDate;
+    /** Country from current Locale.*/
     private String mCountry;
+    /** language from current Locale. */
     private String mLanguage;
+    /** Currency symbol from current Locale.*/
     private String mCurrencySymbol;
 
     /**
      * @return the environment variable values to get
      */
-    public final List <String> getEnvVarValues() {
+    public final List < String > getEnvVarValues() {
         return mEnvVarValues;
     }
 
     /**
      * @param envVarValues the the environment variable values to set
      */
-    public final void setEnvVarValues(List<String> envVarValues) {
+    public final void setEnvVarValues(final List < String > envVarValues) {
         mEnvVarValues = envVarValues;
     }
 
@@ -48,7 +54,7 @@ public class JVMQueryReply {
     /**
      * @param formattedDate the Formatted Date to set
      */
-    public final void setFormattedDate(String formattedDate) {
+    public final void setFormattedDate(final String formattedDate) {
         mFormattedDate = formattedDate;
     }
 
@@ -62,7 +68,7 @@ public class JVMQueryReply {
     /**
      * @param country the country to set
      */
-    public final void setCountry(String country) {
+    public final void setCountry(final String country) {
         mCountry = country;
     }
 
@@ -76,7 +82,7 @@ public class JVMQueryReply {
     /**
      * @param mlanguage the language to set
      */
-    public final void setLanguage(String mlanguage) {
+    public final void setLanguage(final String mlanguage) {
         this.mLanguage = mlanguage;
     }
 
@@ -90,7 +96,7 @@ public class JVMQueryReply {
     /**
      * @param currencySymbol the Currency Symbol to set
      */
-    public final void setCurrencySymbol(String currencySymbol) {
+    public final void setCurrencySymbol(final String currencySymbol) {
         mCurrencySymbol = currencySymbol;
     }
 

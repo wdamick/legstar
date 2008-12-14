@@ -41,179 +41,179 @@ import com.legstar.coxb.host.HostException;
  *
  * @author Fady Moussallam
  * 
-*/
+ */
 public class CoxbGenReflectVisitor extends CobolElementVisitor {
 
-	/** Actual code generator. */
-	private CoxbGenWriter mWriter;
-	
-	/**
-	 * Constructor.
+    /** Actual code generator. */
+    private CoxbGenWriter mWriter;
+
+    /**
+     * Constructor.
      * 
-	 * @param coxbGenContext set of parameters
-	 * @throws HostException if directory provided is not accessible
-	 */
-	public CoxbGenReflectVisitor(
-			final CoxbGenModel coxbGenContext) throws HostException {
-		try {
-			mWriter = new CoxbGenWriter(coxbGenContext);
-		} catch (CodeGenException e) {
-			throw new HostException(e);
-		}
-	}
-	
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolComplexBinding ce)
-		throws HostException {
-		
-		/* Create an ordered list of properties in this complex element.
-		 * Since we are unmarshaling, bound objects do not pre-exist so
-		 * we need to create them. */
-		ce.createValueObject();
-		java.util.List < ICobolBinding > children =
-			ce.getChildrenList();
-		
-		/* Iteratively propagate the accept on complex element children.
-		 * The order in which children are processed is important. */
-		for (ICobolBinding child : children) {
-			child.accept(this);
-		}
-		
-		/* Now that all children have been processed, its time to generate
-		 * this element binding*/
-		try {
-			mWriter.write(ce);
-		} catch (CodeGenException e) {
-			throw new HostException(e);
-		}
-	}
-	
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolChoiceBinding ce)
-		throws HostException {
+     * @param coxbGenContext set of parameters
+     * @throws HostException if directory provided is not accessible
+     */
+    public CoxbGenReflectVisitor(
+            final CoxbGenModel coxbGenContext) throws HostException {
+        try {
+            mWriter = new CoxbGenWriter(coxbGenContext);
+        } catch (CodeGenException e) {
+            throw new HostException(e);
+        }
+    }
 
-		/* We want to reflect on all alternatives */
-		for (ICobolBinding alt : ce.getAlternativesList()) {
-			try {
-				alt.accept(this);
-			} catch (HostException he) {
-				continue;
-			}
-		}
-		/* Now that all alternatives have been processed, its time to generate
-		 * this element binding*/
-		try {
-			mWriter.write(ce);
-		} catch (CodeGenException e) {
-			throw new HostException(e);
-		}
-	}
-	
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolArrayComplexBinding ce)
-		throws HostException {
-		/* We reflect on only one item of the array */
-		ce.createValueObject();
-		ICobolBinding itemDesc = ce.getComplexItemBinding();
-		itemDesc.accept(this);
-		
-		/* Now that an item has been processed, its time to generate
-		 * this element binding*/
-		try {
-			mWriter.write(ce);
-		} catch (CodeGenException e) {
-			throw new HostException(e);
-		}
-	}
-	
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolStringBinding ce)
-		throws HostException {
-	}
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolArrayStringBinding ce)
-		throws HostException {
-	}
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolComplexBinding ce)
+    throws HostException {
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolNationalBinding ce)
-		throws HostException {
-	}
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolArrayNationalBinding ce)
-		throws HostException {
-	}
+        /* Create an ordered list of properties in this complex element.
+         * Since we are unmarshaling, bound objects do not pre-exist so
+         * we need to create them. */
+        ce.createValueObject();
+        java.util.List < ICobolBinding > children =
+            ce.getChildrenList();
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolZonedDecimalBinding ce)
-		throws HostException {
-	}
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolArrayZonedDecimalBinding ce)
-		throws HostException {
-	}
+        /* Iteratively propagate the accept on complex element children.
+         * The order in which children are processed is important. */
+        for (ICobolBinding child : children) {
+            child.accept(this);
+        }
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolPackedDecimalBinding ce)
-		throws HostException {
-	}
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolArrayPackedDecimalBinding ce)
-		throws HostException {
-	}
+        /* Now that all children have been processed, its time to generate
+         * this element binding*/
+        try {
+            mWriter.write(ce);
+        } catch (CodeGenException e) {
+            throw new HostException(e);
+        }
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolBinaryBinding ce)
-		throws HostException {
-	}
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolArrayBinaryBinding ce)
-		throws HostException {
-	}
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolChoiceBinding ce)
+    throws HostException {
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolFloatBinding ce)
-		throws HostException {
-	}
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolArrayFloatBinding ce)
-		throws HostException {
-	}
+        /* We want to reflect on all alternatives */
+        for (ICobolBinding alt : ce.getAlternativesList()) {
+            try {
+                alt.accept(this);
+            } catch (HostException he) {
+                continue;
+            }
+        }
+        /* Now that all alternatives have been processed, its time to generate
+         * this element binding*/
+        try {
+            mWriter.write(ce);
+        } catch (CodeGenException e) {
+            throw new HostException(e);
+        }
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolDoubleBinding ce)
-		throws HostException {
-	}
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolArrayDoubleBinding ce)
-		throws HostException {
-	}
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolOctetStreamBinding ce)
-		throws HostException {
-	}
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolArrayOctetStreamBinding ce)
-		throws HostException {
-	}
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolArrayComplexBinding ce)
+    throws HostException {
+        /* We reflect on only one item of the array */
+        ce.createValueObject();
+        ICobolBinding itemDesc = ce.getComplexItemBinding();
+        itemDesc.accept(this);
+
+        /* Now that an item has been processed, its time to generate
+         * this element binding*/
+        try {
+            mWriter.write(ce);
+        } catch (CodeGenException e) {
+            throw new HostException(e);
+        }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolStringBinding ce)
+    throws HostException {
+    }
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolArrayStringBinding ce)
+    throws HostException {
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolNationalBinding ce)
+    throws HostException {
+    }
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolArrayNationalBinding ce)
+    throws HostException {
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolZonedDecimalBinding ce)
+    throws HostException {
+    }
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolArrayZonedDecimalBinding ce)
+    throws HostException {
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolPackedDecimalBinding ce)
+    throws HostException {
+    }
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolArrayPackedDecimalBinding ce)
+    throws HostException {
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolBinaryBinding ce)
+    throws HostException {
+    }
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolArrayBinaryBinding ce)
+    throws HostException {
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolFloatBinding ce)
+    throws HostException {
+    }
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolArrayFloatBinding ce)
+    throws HostException {
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolDoubleBinding ce)
+    throws HostException {
+    }
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolArrayDoubleBinding ce)
+    throws HostException {
+    }
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolOctetStreamBinding ce)
+    throws HostException {
+    }
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolArrayOctetStreamBinding ce)
+    throws HostException {
+    }
 
 }

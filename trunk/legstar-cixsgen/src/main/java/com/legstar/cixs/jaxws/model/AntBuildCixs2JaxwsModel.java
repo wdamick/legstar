@@ -25,23 +25,23 @@ public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsModel {
     public static final String CIXS2JAXWS_GENERATOR_NAME =
         "Web Service proxy for Mainframe generator";
 
-	/** Target location for web deployment descriptors. */
-	private File mTargetWDDDir;
-	
+    /** Target location for web deployment descriptors. */
+    private File mTargetWDDDir;
+
     /** The deployment location for jaxws war files. */
     private File mTargetWarDir;
-    
+
     /** The target directory where COBOL files will be created. */
     private File mTargetCobolDir;
-    
-	/** This velocity template that creates an ant build which in turn
+
+    /** This velocity template that creates an ant build which in turn
      * generates the target web service proxy. */
     public static final String CIXS2JAXWS_VELOCITY_MACRO_NAME =
         "vlc/build-cixs2jws-xml.vm";
-    
+
     /**
      * Construct an empty model.
-    */
+     */
     public AntBuildCixs2JaxwsModel() {
         super(CIXS2JAXWS_GENERATOR_NAME, CIXS2JAXWS_VELOCITY_MACRO_NAME);
     }
@@ -61,48 +61,48 @@ public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsModel {
         setCixsService(cixsJaxwsService);
     }
 
-	/**
-	 * @return the Target location for web deployment descriptors
-	 */
-	public final File getTargetWDDDir() {
-		return mTargetWDDDir;
-	}
+    /**
+     * @return the Target location for web deployment descriptors
+     */
+    public final File getTargetWDDDir() {
+        return mTargetWDDDir;
+    }
 
-	/**
-	 * @param targetWDDDir the Target location for web deployment descriptors to
-	 *  set
-	 */
-	public final void setTargetWDDDir(final File targetWDDDir) {
-		mTargetWDDDir = targetWDDDir;
-	}
+    /**
+     * @param targetWDDDir the Target location for web deployment descriptors to
+     *  set
+     */
+    public final void setTargetWDDDir(final File targetWDDDir) {
+        mTargetWDDDir = targetWDDDir;
+    }
 
-	/**
-	 * @return the deployment location for jaxws war files
-	 */
-	public final File getTargetWarDir() {
-		return mTargetWarDir;
-	}
+    /**
+     * @return the deployment location for jaxws war files
+     */
+    public final File getTargetWarDir() {
+        return mTargetWarDir;
+    }
 
-	/**
-	 * @param targetWarDir the deployment location for jaxws war files to set
-	 */
-	public final void setTargetWarDir(final File targetWarDir) {
-		mTargetWarDir = targetWarDir;
-	}
+    /**
+     * @param targetWarDir the deployment location for jaxws war files to set
+     */
+    public final void setTargetWarDir(final File targetWarDir) {
+        mTargetWarDir = targetWarDir;
+    }
 
-	/**
-	 * @return the directory where COBOL files will be created
-	 */
-	public final File getTargetCobolDir() {
-		return mTargetCobolDir;
-	}
+    /**
+     * @return the directory where COBOL files will be created
+     */
+    public final File getTargetCobolDir() {
+        return mTargetCobolDir;
+    }
 
-	/**
-	 * @param targetCobolDir the directory where COBOL files will be created to
-	 *  set
-	 */
-	public final void setTargetCobolDir(final File targetCobolDir) {
-		mTargetCobolDir = targetCobolDir;
-	}
+    /**
+     * @param targetCobolDir the directory where COBOL files will be created to
+     *  set
+     */
+    public final void setTargetCobolDir(final File targetCobolDir) {
+        mTargetCobolDir = targetCobolDir;
+    }
 
 }

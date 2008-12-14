@@ -35,10 +35,10 @@ public abstract class AbstractCixsGenerator extends Task {
 
     /** Groups all parameters needed for generation. */
     private AbstractAntBuildCixsModel mModel;
-    
+
     /** Logger. */
     private static final Log LOG = LogFactory.getLog(
-    		AbstractCixsGenerator.class);
+            AbstractCixsGenerator.class);
 
     /**
      * Constructor.
@@ -47,7 +47,7 @@ public abstract class AbstractCixsGenerator extends Task {
     public AbstractCixsGenerator(final AbstractAntBuildCixsModel model) {
         mModel = model;
     }
-    
+
     /** @{inheritDoc}*/
     @Override
     public final void init() {
@@ -94,18 +94,18 @@ public abstract class AbstractCixsGenerator extends Task {
     private void checkInput() throws CodeGenMakeException {
         try {
             CodeGenUtil.checkDirectory(
-            		getJaxbBinDir(), false, "JaxbBinDir");
-            
-			if (getCixsService() == null) {
+                    getJaxbBinDir(), false, "JaxbBinDir");
+
+            if (getCixsService() == null) {
                 throw new CodeGenMakeException(
-            		"You must specify a service description");
-			}
-			String serviceName = getCixsService().getName();
+                "You must specify a service description");
+            }
+            String serviceName = getCixsService().getName();
             if (serviceName == null || serviceName.length() == 0) {
                 throw new CodeGenMakeException(
-                        "You must provide a service name");
+                "You must provide a service name");
             }
-            
+
             CodeGenUtil.checkCharset(getHostCharset());
         } catch (IllegalArgumentException e) {
             throw new CodeGenMakeException(e);
@@ -114,7 +114,7 @@ public abstract class AbstractCixsGenerator extends Task {
         /* Give subclasses a chance to perform extra validation.*/
         checkExtendedInput();
     }
-    
+
     /**
      * Prepare a set of common parameters used by most generation 
      * targets and then call subclass generation.
@@ -135,12 +135,12 @@ public abstract class AbstractCixsGenerator extends Task {
         parameters.put("jaxbBinDir", getJaxbBinDir());
         parameters.put("coxbBinDir", getCoxbBinDir());
         parameters.put("custBinDir", getCustBinDir());
-        
+
         /* Subclasses will implement the real generation.*/
         generate(parameters);
-    	
+
     }
-    
+
     /**
      * Allow more validations for descendants.
      * @throws CodeGenMakeException if validation fails
@@ -153,15 +153,15 @@ public abstract class AbstractCixsGenerator extends Task {
      * @throws CodeGenMakeException if generation fails
      */
     public abstract void generate(
-    		Map < String, Object > parameters) throws CodeGenMakeException;
+            Map < String, Object > parameters) throws CodeGenMakeException;
 
-    
+
     /**
      * @return this generator name
      */
     public abstract String getGeneratorName();
-    
-   /**
+
+    /**
      * Generate default values where they are missing in the model. This
      * will reduce the amount of code in the velocity templates.
      */
@@ -173,7 +173,7 @@ public abstract class AbstractCixsGenerator extends Task {
             }
         }
     }
-    
+
     /**
      * Create a file by applying a velocity template.
      * @param generatorName the generator name
@@ -352,5 +352,5 @@ public abstract class AbstractCixsGenerator extends Task {
     public final void setHostCharset(final String hostCharset) {
         mModel.setHostCharset(hostCharset);
     }
-    
+
 }

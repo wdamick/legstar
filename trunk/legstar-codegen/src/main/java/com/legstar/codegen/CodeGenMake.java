@@ -39,19 +39,19 @@ import org.xml.sax.SAXException;
 public class CodeGenMake extends Task {
 
     /** The name of the calling generator. */
-	private String mGeneratorName;
-	
-	/** The cixs make file name. */
+    private String mGeneratorName;
+
+    /** The cixs make file name. */
     private String mCodeGenMakeFileName;
-    
+
     /** Velocity templates are applied against a model. 
      * This is the model name. */
     private String mModelName;
-    
+
     /** Velocity templates are applied against a model. 
      * This is the model itself. */
     private Object mModel;
-    
+
     /** XML element representing a code generation target. */
     public static final String CODEGEN_TARGET_XML_E = "target";
 
@@ -63,20 +63,20 @@ public class CodeGenMake extends Task {
 
     /** XML element representing a code generation step with a template. */
     public static final String CODEGEN_STEP_XML_E = "step";
-    
+
     /** XML attribute representing a code generation template name. */
     public static final String CODEGEN_TEMPLATE_NAME_XML_A = "templateName";
 
     /** XML attribute representing a code generation target file. */
     public static final String CODEGEN_TEMPLATE_TARGET_FILE_XML_A = "targetFile";
-    
-    
+
+
     /** Logger. */
-	private static final Log LOG = LogFactory.getLog(CodeGenMake.class);
+    private static final Log LOG = LogFactory.getLog(CodeGenMake.class);
 
     /** @{inheritDoc}*/
     @Override
-   public final void init() {
+    public final void init() {
         try {
             LOG.info("Initializing Code generation make processor");
             CodeGenUtil.initVelocity();
@@ -84,7 +84,7 @@ public class CodeGenMake extends Task {
             throw new BuildException(e.getMessage());
         }
     }
-    
+
     /** @{inheritDoc}*/
     @Override
     public final void execute() {
@@ -122,14 +122,14 @@ public class CodeGenMake extends Task {
             throw new CodeGenMakeException("Missing model parameter");
         }
         File makeFile = new File(mCodeGenMakeFileName);
-        
+
         if (!makeFile.exists()) {
             throw new CodeGenMakeException("Code generation make file "
                     + makeFile + " does not exist");
         }
         return load(makeFile);
     }
-    
+
     /**
      * Process targets sequentially, invoking the velocity engine for each
      * target.
@@ -141,7 +141,7 @@ public class CodeGenMake extends Task {
                 CODEGEN_TARGET_XML_E);
         if (listOfElements == null || listOfElements.getLength() == 0) {
             throw (new CodeGenMakeException(
-                    "Empty or invalid code generation make file"));
+            "Empty or invalid code generation make file"));
         }
         Element targetElement = (Element) listOfElements.item(0);
         String targetName = targetElement.getAttribute(CODEGEN_TARGET_NAME_XML_A);
@@ -159,7 +159,7 @@ public class CodeGenMake extends Task {
         }
         listOfElements = targetElement.getElementsByTagName(
                 CODEGEN_STEP_XML_E);
-        
+
         if (LOG.isDebugEnabled()) {
             LOG.debug("Processing target");
             LOG.debug("Target name      = " + targetName);
@@ -183,14 +183,14 @@ public class CodeGenMake extends Task {
                         + CODEGEN_STEP_XML_E + " element");
             }
             CodeGenUtil.processTemplate(
-            		mGeneratorName,
-            		templateName,
-            		mModelName, mModel,
-            		getParameters(templateEl),
+                    mGeneratorName,
+                    templateName,
+                    mModelName, mModel,
+                    getParameters(templateEl),
                     CodeGenUtil.getFile(targetDir, templateTargetFileName));
         }
     }
-    
+
     /**
      * Template elements might have children. These are used to pass additional
      * parameters to the template generation process.
@@ -199,8 +199,8 @@ public class CodeGenMake extends Task {
      * @param templateEl the current template element
      * @return a Map of parameters/values
      */
-    private Map<String, Object> getParameters(final Element templateEl) {
-        Map<String, Object> parameters = new HashMap <String, Object>();
+    private Map < String, Object > getParameters(final Element templateEl) {
+        Map < String, Object > parameters = new HashMap < String, Object >();
         NodeList childs = templateEl.getChildNodes();
         for (int i = 0; i < childs.getLength(); i++) {
             if (childs.item(i) instanceof Element) {
@@ -213,7 +213,7 @@ public class CodeGenMake extends Task {
         }
         return parameters;
     }
-    
+
     /**
      * Loads code generation make file from a serialized XML.
      * @param makeFile the serialized file
@@ -237,14 +237,14 @@ public class CodeGenMake extends Task {
             throw (new CodeGenMakeException(e));
         }
     }
-    
+
     /**
      * @return the code generation Make File name
      */
     public final String getCodeGenMakeFileName() {
         return mCodeGenMakeFileName;
     }
-    
+
     /**
      * @param codeGenMakeFileName the code generation Make File name to set
      */
@@ -280,18 +280,18 @@ public class CodeGenMake extends Task {
         mModel = model;
     }
 
-	/**
-	 * @return the name of the calling generator
-	 */
-	public final String getGeneratorName() {
-		return mGeneratorName;
-	}
+    /**
+     * @return the name of the calling generator
+     */
+    public final String getGeneratorName() {
+        return mGeneratorName;
+    }
 
-	/**
-	 * @param generatorName the name of the calling generator to set
-	 */
-	public final void setGeneratorName(final String generatorName) {
-		mGeneratorName = generatorName;
-	}
+    /**
+     * @param generatorName the name of the calling generator to set
+     */
+    public final void setGeneratorName(final String generatorName) {
+        mGeneratorName = generatorName;
+    }
 
 }

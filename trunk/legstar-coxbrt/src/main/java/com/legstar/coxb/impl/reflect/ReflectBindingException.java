@@ -20,22 +20,22 @@ import com.legstar.coxb.host.HostException;
  * 
  */
 public class ReflectBindingException extends HostException {
-	
-	/** Default serial ID. */
-	private static final long serialVersionUID = -7101323396024630663L;
-	/** 
-	 * Constructor from an error message. 
-	 * @param message the text message 
-	 * */
-	public ReflectBindingException(final String message) {
-		super(message);
-	}
-	/** 
-	 * Constructor from an inner exception. 
-	 * @param e the inner exception 
-	 * */
-	public ReflectBindingException(final Exception e) {
-		super(e);
-	}
+
+    /** Default serial ID. */
+    private static final long serialVersionUID = -7101323396024630663L;
+    /** 
+     * Constructor from an error message. 
+     * @param message the text message 
+     * */
+    public ReflectBindingException(final String message) {
+        super(message);
+    }
+    /** 
+     * Constructor from an inner exception. 
+     * @param e the inner exception 
+     * */
+    public ReflectBindingException(final Exception e) {
+        super(e);
+    }
 
 }

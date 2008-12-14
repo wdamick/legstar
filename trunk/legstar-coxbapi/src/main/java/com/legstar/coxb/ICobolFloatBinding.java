@@ -20,34 +20,34 @@ import com.legstar.coxb.host.HostException;
  * 
  * @author Fady Moussallam
  * 
-*/
+ */
 public interface ICobolFloatBinding extends ICobolBinding {
-	
-	/**
-	 * Returns this element value.
-	 * @return Element value
-	 * @throws HostException if value cannot be retrieved
-	 */
-	Float getFloatValue() throws HostException;
 
-	/**
-	 * Sets the element value.
-	 * @param value Value to set
-	 * @throws HostException if value cannot be set
-	 */
-	void setFloatValue(Float value) throws HostException;
-	
-	/**
-	 * Returns this element value as a BigDecimal.
-	 * @return Element value
-	 * @throws HostException if value cannot be retrieved
-	 */
-	BigDecimal getBigDecimalValue() throws HostException;
+    /**
+     * Returns this element value.
+     * @return Element value
+     * @throws HostException if value cannot be retrieved
+     */
+    Float getFloatValue() throws HostException;
 
-	/**
-	 * Sets the element value.
-	 * @param value Value to set as a BigDecimal
-	 * @throws HostException if value cannot be set
-	 */
-	void setBigDecimalValue(BigDecimal value) throws HostException;
+    /**
+     * Sets the element value.
+     * @param value Value to set
+     * @throws HostException if value cannot be set
+     */
+    void setFloatValue(Float value) throws HostException;
+
+    /**
+     * Returns this element value as a BigDecimal.
+     * @return Element value
+     * @throws HostException if value cannot be retrieved
+     */
+    BigDecimal getBigDecimalValue() throws HostException;
+
+    /**
+     * Sets the element value.
+     * @param value Value to set as a BigDecimal
+     * @throws HostException if value cannot be set
+     */
+    void setBigDecimalValue(BigDecimal value) throws HostException;
 }

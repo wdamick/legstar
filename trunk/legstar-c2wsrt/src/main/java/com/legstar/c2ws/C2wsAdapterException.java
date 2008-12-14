@@ -17,28 +17,28 @@ import org.apache.commons.logging.LogFactory;
  * Error while processing host request.
  */
 public class C2wsAdapterException extends Exception {
-	
-	/** Default serial ID. */
-	private static final long serialVersionUID = -8040211198795124534L;
-	
-	/** Logger. */
-	private static final Log LOG =	LogFactory.getLog(
-			C2wsAdapterException.class);
-	/** 
-	 * Constructor from an error message. 
-	 * @param message the text message 
-	 * */
-	public C2wsAdapterException(final String message) {
-		super(message);
-		LOG.error(message);
-	}
-	/** 
-	 * Constructor from an inner exception. 
-	 * @param e the inner exception 
-	 * */
-	public C2wsAdapterException(final Exception e) {
-		super(e);
-		LOG.error(e);
-	}
+
+    /** Default serial ID. */
+    private static final long serialVersionUID = -8040211198795124534L;
+
+    /** Logger. */
+    private static final Log LOG = LogFactory.getLog(
+            C2wsAdapterException.class);
+    /** 
+     * Constructor from an error message. 
+     * @param message the text message 
+     * */
+    public C2wsAdapterException(final String message) {
+        super(message);
+        LOG.error(message);
+    }
+    /** 
+     * Constructor from an inner exception. 
+     * @param e the inner exception 
+     * */
+    public C2wsAdapterException(final Exception e) {
+        super(e);
+        LOG.error(e);
+    }
 
 }

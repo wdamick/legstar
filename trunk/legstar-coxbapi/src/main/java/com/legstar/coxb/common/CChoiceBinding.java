@@ -25,130 +25,128 @@ import com.legstar.coxb.host.HostException;
  *
  * @author Fady Moussallam
  * 
-*/
-public abstract class CChoiceBinding
-		extends CBinding
-		implements ICobolChoiceBinding {
+ */
+public abstract class CChoiceBinding extends CBinding implements ICobolChoiceBinding {
 
-	/** List of alternative elements, all redefining the same cobol field. */
-	private java.util.List < ICobolBinding > mAlternatives =
-		new java.util.ArrayList < ICobolBinding >();
-	
+    /** List of alternative elements, all redefining the same cobol field. */
+    private java.util.List < ICobolBinding > mAlternatives =
+        new java.util.ArrayList < ICobolBinding >();
+
     /** Instance of a class providing additional logic to select an alternative
      * within a choice element at marshaling (Java to Host) time. */
-	private ICobolMarshalChoiceStrategy mMarshalChoiceStrategy;
-    
+    private ICobolMarshalChoiceStrategy mMarshalChoiceStrategy;
+
     /** Instance of a class providing additional logic to select an alternative
      * within a choice element at unmarshaling (Host to Java) time. */
-	private ICobolUnmarshalChoiceStrategy mUnmarshalChoiceStrategy;
-    
-	/**
-	 * A choice element gets created when a redefined item is encountered.
-	 * 
-	 * @param bindingName the identifier for this binding
-	 * @param cobolAnnotations the cobol annotations for the first alternative
-	 * @param parentBinding a reference to the parent binding if any
-	 */
-	public CChoiceBinding(
-			final String bindingName,
-			final CobolElement cobolAnnotations,
-			final ICobolComplexBinding parentBinding) {
-		
-		super(bindingName, null, null, cobolAnnotations, parentBinding);
-	}
+    private ICobolUnmarshalChoiceStrategy mUnmarshalChoiceStrategy;
 
-	/** {@inheritDoc} */
-	public final void addAlternative(final ICobolBinding ce) {
-		mAlternatives.add(ce);
-	}
-	
-	/** {@inheritDoc} */
-	public final java.util.List < ICobolBinding > getAlternativesList() {
-		/* This version of a choice binding has no internal knowledge of
-		 * the alternatives. The list must be built using addAlternative.*/
-		return mAlternatives;
-	}
-	
-	/** {@inheritDoc} */
-	public final void accept(final CobolElementVisitor cev)
-		throws HostException {
-		cev.visit(this);
-	}
-	
-	/** {@inheritDoc} */
-	public final int calcByteLength() throws HostException {
-		
-		int byteLength = 0;
-		for (ICobolBinding alt : mAlternatives) {
-			int altByteLength = alt.calcByteLength();
-			if (altByteLength > byteLength) {
-				byteLength = altByteLength;
-			}
-		}
-		return byteLength;
-	}
+    /**
+     * A choice element gets created when a redefined item is encountered.
+     * 
+     * @param bindingName the identifier for this binding
+     * @param cobolAnnotations the cobol annotations for the first alternative
+     * @param parentBinding a reference to the parent binding if any
+     */
+    public CChoiceBinding(
+            final String bindingName,
+            final CobolElement cobolAnnotations,
+            final ICobolComplexBinding parentBinding) {
 
-	/** {@inheritDoc} */
-	public final ICobolBinding getAlternativeByName(
-			final String name) {
-		/* Select the alternative from the list of alternatives */
-		for (ICobolBinding alt : mAlternatives) {
-			if (alt.getBindingName().compareTo(name) == 0) {
-				return alt;
-			}
-		}
-		return null;
-	}
+        super(bindingName, null, null, cobolAnnotations, parentBinding);
+    }
 
-	/** {@inheritDoc} */
-	public final ICobolBinding getAlternativeByCobolName(
-			final String cobolName) {
-		/* Select the alternative from the list of alternatives */
-		for (ICobolBinding alt : mAlternatives) {
-			if (alt.getCobolName().compareTo(cobolName) == 0) {
-				return alt;
-			}
-		}
-		return null;
-	}
+    /** {@inheritDoc} */
+    public final void addAlternative(final ICobolBinding ce) {
+        mAlternatives.add(ce);
+    }
 
-	/** {@inheritDoc}  */
+    /** {@inheritDoc} */
+    public final java.util.List < ICobolBinding > getAlternativesList() {
+        /* This version of a choice binding has no internal knowledge of
+         * the alternatives. The list must be built using addAlternative.*/
+        return mAlternatives;
+    }
+
+    /** {@inheritDoc} */
+    public final void accept(final CobolElementVisitor cev)
+    throws HostException {
+        cev.visit(this);
+    }
+
+    /** {@inheritDoc} */
+    public final int calcByteLength() throws HostException {
+
+        int byteLength = 0;
+        for (ICobolBinding alt : mAlternatives) {
+            int altByteLength = alt.calcByteLength();
+            if (altByteLength > byteLength) {
+                byteLength = altByteLength;
+            }
+        }
+        return byteLength;
+    }
+
+    /** {@inheritDoc} */
+    public final ICobolBinding getAlternativeByName(
+            final String name) {
+        /* Select the alternative from the list of alternatives */
+        for (ICobolBinding alt : mAlternatives) {
+            if (alt.getBindingName().compareTo(name) == 0) {
+                return alt;
+            }
+        }
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public final ICobolBinding getAlternativeByCobolName(
+            final String cobolName) {
+        /* Select the alternative from the list of alternatives */
+        for (ICobolBinding alt : mAlternatives) {
+            if (alt.getCobolName().compareTo(cobolName) == 0) {
+                return alt;
+            }
+        }
+        return null;
+    }
+
+    /** {@inheritDoc}  */
     public final ICobolMarshalChoiceStrategy getMarshalChoiceStrategy()
-    		throws HostException {
-    	if (mMarshalChoiceStrategy == null) {
-	    	mMarshalChoiceStrategy = (ICobolMarshalChoiceStrategy)
-	    		loadStrategy(getMarshalChoiceStrategyClassName());
-    	}
-    	return mMarshalChoiceStrategy;
+    throws HostException {
+        if (mMarshalChoiceStrategy == null) {
+            mMarshalChoiceStrategy = (ICobolMarshalChoiceStrategy)
+            loadStrategy(getMarshalChoiceStrategyClassName());
+        }
+        return mMarshalChoiceStrategy;
     }
- 
-    /** {@inheritDoc} */
-	public final void setMarshalChoiceStrategy(
-				final ICobolMarshalChoiceStrategy strategy) {
-		mMarshalChoiceStrategy = strategy;
-	}
 
-	/** {@inheritDoc}  */
-    public final ICobolUnmarshalChoiceStrategy getUnmarshalChoiceStrategy()
-    		throws HostException {
-    	if (mUnmarshalChoiceStrategy == null) {
-	    	mUnmarshalChoiceStrategy = (ICobolUnmarshalChoiceStrategy)
-				loadStrategy(getUnmarshalChoiceStrategyClassName());
-    	}
-    	return mUnmarshalChoiceStrategy;
-    }
-    
     /** {@inheritDoc} */
-	public final void setUnmarshalChoiceStrategy(
-				final ICobolUnmarshalChoiceStrategy strategy) {
-		mUnmarshalChoiceStrategy = strategy;
-	}
+    public final void setMarshalChoiceStrategy(
+            final ICobolMarshalChoiceStrategy strategy) {
+        mMarshalChoiceStrategy = strategy;
+    }
+
+    /** {@inheritDoc}  */
+    public final ICobolUnmarshalChoiceStrategy getUnmarshalChoiceStrategy()
+    throws HostException {
+        if (mUnmarshalChoiceStrategy == null) {
+            mUnmarshalChoiceStrategy = (ICobolUnmarshalChoiceStrategy)
+            loadStrategy(getUnmarshalChoiceStrategyClassName());
+        }
+        return mUnmarshalChoiceStrategy;
+    }
+
+    /** {@inheritDoc} */
+    public final void setUnmarshalChoiceStrategy(
+            final ICobolUnmarshalChoiceStrategy strategy) {
+        mUnmarshalChoiceStrategy = strategy;
+    }
 
     /** {@inheritDoc}
      * @deprecated */
     public Object getParentJaxbObject() throws HostException {
-    	return getParentBinding().getObjectValue(
-				getParentBinding().getJaxbType());
+        return getParentBinding().getObjectValue(
+                getParentBinding().getJaxbType());
     }
 
     /**
@@ -158,45 +156,44 @@ public abstract class CChoiceBinding
      * @throws HostException if loading fails
      */
     private Object loadStrategy(
-    		final String strategyClassName) throws HostException {
-    	if (strategyClassName != null && strategyClassName.length() > 0) {
-			try {
-				Class < ? > clazz = getClass().getClassLoader().
-				loadClass(strategyClassName);
-				return (ICobolUnmarshalChoiceStrategy) clazz.newInstance();
-			} catch (ClassNotFoundException e) {
-				throw new HostException(e);
-			} catch (IllegalAccessException e) {
-				throw new HostException(e);
-			} catch (InstantiationException e) {
-				throw new HostException(e);
-			}
-    	} else {
-    		return null;
-    	}
+            final String strategyClassName) throws HostException {
+        if (strategyClassName != null && strategyClassName.length() > 0) {
+            try {
+                Class < ? > clazz = getClass().getClassLoader().
+                loadClass(strategyClassName);
+                return (ICobolUnmarshalChoiceStrategy) clazz.newInstance();
+            } catch (ClassNotFoundException e) {
+                throw new HostException(e);
+            } catch (IllegalAccessException e) {
+                throw new HostException(e);
+            } catch (InstantiationException e) {
+                throw new HostException(e);
+            }
+        } else {
+            return null;
+        }
     }
 
     /**
-	 * This method is meant to be overridden. If it is not, then we are dealing
-	 * with an previous version of a binding object which did not implement
-	 * this method. For backward compatibility, we route the call to the now
-	 * deprecated <code>setJaxbPropertyValue</code>
-	 * {@inheritDoc}
-	 */
-	@SuppressWarnings("deprecation")
-	public void setPropertyValue(final int index) throws HostException {
-		setJaxbPropertyValue(index);
-	}
- 
+     * This method is meant to be overridden. If it is not, then we are dealing
+     * with an previous version of a binding object which did not implement
+     * this method. For backward compatibility, we route the call to the now
+     * deprecated <code>setJaxbPropertyValue</code>
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("deprecation")
+    public void setPropertyValue(final int index) throws HostException {
+        setJaxbPropertyValue(index);
+    }
+
     /**
-	 * This method is meant to be overridden. If it is not, then we are dealing
-	 * with an previous version of a binding object which did not implement
-	 * this method. For backward compatibility, we route the call to the now
-	 * deprecated <code>getParentJaxbObject</code>
-	 * {@inheritDoc}
-	 */
-	@SuppressWarnings("deprecation")
-	public Object getParentValueObject() throws HostException {
-		return getParentJaxbObject();
-	}
+     * This method is meant to be overridden. If it is not, then we are dealing
+     * with an previous version of a binding object which did not implement
+     * this method. For backward compatibility, we route the call to the now
+     * deprecated <code>getParentJaxbObject</code>
+     * {@inheritDoc}
+     */
+    public Object getParentValueObject() throws HostException {
+        return getParentJaxbObject();
+    }
 }

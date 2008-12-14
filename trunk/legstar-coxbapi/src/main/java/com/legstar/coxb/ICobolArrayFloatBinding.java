@@ -20,32 +20,32 @@ import java.util.List;
  * 
  * @author Fady Moussallam
  * 
-*/
+ */
 public interface ICobolArrayFloatBinding extends ICobolArrayBinding {
-	
-	/**
-	 * @return Returns an ArrayList of Floats 
-	 * @throws HostException list cannot be created
-	 */
-	List < Float > getFloatList() throws HostException;
-	
-	/**
-	 * Sets a list of Floats.
-	 * @param iArray set array to set
-	 * @throws HostException list cannot be set
-	 */
-	void setFloatList(List < Float > iArray) throws HostException;
 
-	/**
-	 * @return Returns an ArrayList of BigDecimals 
-	 * @throws HostException list cannot be created
-	 */
-	List < BigDecimal > getBigDecimalList() throws HostException;
-	
-	/**
-	 * Sets a list of BigDecimals.
-	 * @param iArray set array to set
-	 * @throws HostException list cannot be set
-	 */
-	void setBigDecimalList(List < BigDecimal > iArray) throws HostException;
+    /**
+     * @return Returns an ArrayList of Floats 
+     * @throws HostException list cannot be created
+     */
+    List < Float > getFloatList() throws HostException;
+
+    /**
+     * Sets a list of Floats.
+     * @param iArray set array to set
+     * @throws HostException list cannot be set
+     */
+    void setFloatList(List < Float > iArray) throws HostException;
+
+    /**
+     * @return Returns an ArrayList of BigDecimals 
+     * @throws HostException list cannot be created
+     */
+    List < BigDecimal > getBigDecimalList() throws HostException;
+
+    /**
+     * Sets a list of BigDecimals.
+     * @param iArray set array to set
+     * @throws HostException list cannot be set
+     */
+    void setBigDecimalList(List < BigDecimal > iArray) throws HostException;
 }

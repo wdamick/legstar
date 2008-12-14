@@ -26,19 +26,25 @@ import javax.jws.WebService;
  */
 @WebService
 public class JVMQuery {
-    
-    public JVMQueryReply queryJvm(JVMQueryRequest request) throws JVMQueryException {
-        
+
+    /**
+     * This is the only method conforming to the Remote Facade Pattern.
+     * @param request the data object containing request parameters
+     * @return data object containing all reply parameters
+     * @throws JVMQueryException if method fails
+     */
+    public JVMQueryReply queryJvm(final JVMQueryRequest request) throws JVMQueryException {
+
         JVMQueryReply reply = new JVMQueryReply();
-        
-        List <String> envVarValues = new ArrayList <String>();
+
+        List < String > envVarValues = new ArrayList < String >();
         try {
-			for (String envVarName : request.getEnvVarNames()) {
-			    envVarValues.add(System.getenv(envVarName));
-			}
-		} catch (RuntimeException e) {
-			throw new JVMQueryException(e);
-		}
+            for (String envVarName : request.getEnvVarNames()) {
+                envVarValues.add(System.getenv(envVarName));
+            }
+        } catch (RuntimeException e) {
+            throw new JVMQueryException(e);
+        }
         reply.setEnvVarValues(envVarValues);
         Locale locale = Locale.getDefault();
         reply.setCountry(locale.getDisplayCountry());

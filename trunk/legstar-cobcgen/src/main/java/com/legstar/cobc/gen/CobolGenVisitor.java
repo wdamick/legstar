@@ -44,281 +44,281 @@ import com.legstar.coxb.ICobolBinding;
  * in these jaxb objects.
  */
 public class CobolGenVisitor extends CobolElementVisitor {
-	
-	/** This writer receives the generated source code. */
-	private BufferedWriter mWriter;
-	
-	/** First COBOL level. */
-	private int mFirstCobolLevel;
 
-	/** Current COBOL level. */
-	private int mCurrentCobolLevel;
+    /** This writer receives the generated source code. */
+    private BufferedWriter mWriter;
 
-	/** Children level will be parent level plus this increment. */
-	private int mCobolLevelIncrement;
-	
-	/** Used to build valid cobol names from java names. */
-	private CobolNameResolver mNameResolver;
-	
-	/**
-	 * Create a Cobol generator visitor.
-	 * @param firstCobolLevel the first COBOL level in the generated structure
-	 * @param cobolLevelIncrement Children level will be parent level plus this
-	 *  increment (must be greater than 0)
-	 * @param writer destination for the generated cobol source
-	 * @throws HostException if generator cannot be created
-	 */
-	public CobolGenVisitor(
-			final int firstCobolLevel,
-			final int cobolLevelIncrement,
-			final BufferedWriter writer) throws HostException {
-		mWriter = writer;
-		/* If the start cobol level is not 1, it must be a multiple of the
-		 * increment */
-		int startCobolLevel = 0;
-		if (firstCobolLevel == 1) {
-			startCobolLevel = 1;
-		} else {
-			int rest = firstCobolLevel % cobolLevelIncrement;
-			if (rest == 0) {
-				startCobolLevel = firstCobolLevel;
-			} else {
-				startCobolLevel = firstCobolLevel + cobolLevelIncrement - rest;
-			}
-		}
-		mFirstCobolLevel = startCobolLevel;
-		mCurrentCobolLevel = startCobolLevel;
-		mCobolLevelIncrement = cobolLevelIncrement;
-		try {
-			mNameResolver = new CobolNameResolver();
-		} catch (CobolNameResolverException e) {
-			throw new HostException(e);
-		}
-	}
+    /** First COBOL level. */
+    private int mFirstCobolLevel;
 
-	/**
-	 * Create a Cobol generator visitor.
-	 * @param writer destination for the generated cobol source
-	 * @throws HostException if generator cannot be created
-	 */
-	public CobolGenVisitor(
-			final BufferedWriter writer) throws HostException {
-		this(1, 1, writer);
-	}
+    /** Current COBOL level. */
+    private int mCurrentCobolLevel;
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(
-			final ICobolComplexBinding ce) throws HostException {
-		write(ce);
-		increaseCurrentCobolLevel();
-		for (ICobolBinding cb : ce.getChildrenList()) {
-			cb.accept(this);
-		}
-		decreaseCurrentCobolLevel();
-	}
-	
-	/**
-	 * It is customary in COBOL to start incrementing uniformly only after
-	 * level 1.
-	 */
-	private void increaseCurrentCobolLevel() {
-		if (mCurrentCobolLevel == 1 && mCobolLevelIncrement > 1) {
-			mCurrentCobolLevel = mCobolLevelIncrement;
-		} else {
-			mCurrentCobolLevel += mCobolLevelIncrement;
-		}
-	}
+    /** Children level will be parent level plus this increment. */
+    private int mCobolLevelIncrement;
 
-	/**
-	 * It is customary in COBOL to start incrementing uniformly only after
-	 * level 1.
-	 */
-	private void decreaseCurrentCobolLevel() {
-		mCurrentCobolLevel -= mCobolLevelIncrement;
-		if (mCurrentCobolLevel == 0) {
-			mCurrentCobolLevel = 1;
-		}
-	}
+    /** Used to build valid cobol names from java names. */
+    private CobolNameResolver mNameResolver;
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolChoiceBinding ce) throws HostException {
-		for (ICobolBinding cb : ce.getAlternativesList()) {
-			cb.accept(this);
-		}
-	}
+    /**
+     * Create a Cobol generator visitor.
+     * @param firstCobolLevel the first COBOL level in the generated structure
+     * @param cobolLevelIncrement Children level will be parent level plus this
+     *  increment (must be greater than 0)
+     * @param writer destination for the generated cobol source
+     * @throws HostException if generator cannot be created
+     */
+    public CobolGenVisitor(
+            final int firstCobolLevel,
+            final int cobolLevelIncrement,
+            final BufferedWriter writer) throws HostException {
+        mWriter = writer;
+        /* If the start cobol level is not 1, it must be a multiple of the
+         * increment */
+        int startCobolLevel = 0;
+        if (firstCobolLevel == 1) {
+            startCobolLevel = 1;
+        } else {
+            int rest = firstCobolLevel % cobolLevelIncrement;
+            if (rest == 0) {
+                startCobolLevel = firstCobolLevel;
+            } else {
+                startCobolLevel = firstCobolLevel + cobolLevelIncrement - rest;
+            }
+        }
+        mFirstCobolLevel = startCobolLevel;
+        mCurrentCobolLevel = startCobolLevel;
+        mCobolLevelIncrement = cobolLevelIncrement;
+        try {
+            mNameResolver = new CobolNameResolver();
+        } catch (CobolNameResolverException e) {
+            throw new HostException(e);
+        }
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(
-			final ICobolArrayComplexBinding ce) throws HostException {
-		ce.getComplexItemBinding().accept(this);
-	}
+    /**
+     * Create a Cobol generator visitor.
+     * @param writer destination for the generated cobol source
+     * @throws HostException if generator cannot be created
+     */
+    public CobolGenVisitor(
+            final BufferedWriter writer) throws HostException {
+        this(1, 1, writer);
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolStringBinding ce) throws HostException {
-		write(ce);
-	}
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(
+            final ICobolComplexBinding ce) throws HostException {
+        write(ce);
+        increaseCurrentCobolLevel();
+        for (ICobolBinding cb : ce.getChildrenList()) {
+            cb.accept(this);
+        }
+        decreaseCurrentCobolLevel();
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(
-			final ICobolArrayStringBinding ce) throws HostException {
-		write(ce);
-	}
+    /**
+     * It is customary in COBOL to start incrementing uniformly only after
+     * level 1.
+     */
+    private void increaseCurrentCobolLevel() {
+        if (mCurrentCobolLevel == 1 && mCobolLevelIncrement > 1) {
+            mCurrentCobolLevel = mCobolLevelIncrement;
+        } else {
+            mCurrentCobolLevel += mCobolLevelIncrement;
+        }
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(
-			final ICobolNationalBinding ce) throws HostException {
-		write(ce);
-	}
+    /**
+     * It is customary in COBOL to start incrementing uniformly only after
+     * level 1.
+     */
+    private void decreaseCurrentCobolLevel() {
+        mCurrentCobolLevel -= mCobolLevelIncrement;
+        if (mCurrentCobolLevel == 0) {
+            mCurrentCobolLevel = 1;
+        }
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(
-			final ICobolArrayNationalBinding ce) throws HostException {
-		write(ce);
-	}
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolChoiceBinding ce) throws HostException {
+        for (ICobolBinding cb : ce.getAlternativesList()) {
+            cb.accept(this);
+        }
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(
-			final ICobolZonedDecimalBinding ce) throws HostException {
-		write(ce);
-	}
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(
+            final ICobolArrayComplexBinding ce) throws HostException {
+        ce.getComplexItemBinding().accept(this);
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(
-			final ICobolArrayZonedDecimalBinding ce) throws HostException {
-		write(ce);
-	}
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolStringBinding ce) throws HostException {
+        write(ce);
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(
-			final ICobolPackedDecimalBinding ce) throws HostException {
-		write(ce);
-	}
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(
+            final ICobolArrayStringBinding ce) throws HostException {
+        write(ce);
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(
-			final ICobolArrayPackedDecimalBinding ce) throws HostException {
-		write(ce);
-	}
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(
+            final ICobolNationalBinding ce) throws HostException {
+        write(ce);
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolBinaryBinding ce) throws HostException {
-		write(ce);
-	}
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(
+            final ICobolArrayNationalBinding ce) throws HostException {
+        write(ce);
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(
-			final ICobolArrayBinaryBinding ce) throws HostException {
-		write(ce);
-	}
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(
+            final ICobolZonedDecimalBinding ce) throws HostException {
+        write(ce);
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolFloatBinding ce) throws HostException {
-		write(ce);
-	}
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(
+            final ICobolArrayZonedDecimalBinding ce) throws HostException {
+        write(ce);
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(
-			final ICobolArrayFloatBinding ce) throws HostException {
-		write(ce);
-	}
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(
+            final ICobolPackedDecimalBinding ce) throws HostException {
+        write(ce);
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(final ICobolDoubleBinding ce) throws HostException {
-		write(ce);
-	}
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(
+            final ICobolArrayPackedDecimalBinding ce) throws HostException {
+        write(ce);
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(
-			final ICobolArrayDoubleBinding ce) throws HostException {
-		write(ce);
-	}
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolBinaryBinding ce) throws HostException {
+        write(ce);
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(
-			final ICobolOctetStreamBinding ce) throws HostException {
-		write(ce);
-	}
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(
+            final ICobolArrayBinaryBinding ce) throws HostException {
+        write(ce);
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public final void visit(
-			final ICobolArrayOctetStreamBinding ce) throws HostException {
-		write(ce);
-	}
-	
-	/**
-	 * Adds a cobol sentence to the writer.
-	 * @param ce the cobol binding
-	 * @throws HostException if write fails
-	 */
-	private void write(final ICobolBinding ce) throws HostException {
-		try {
-			/* Because level numbers returned by xsdCobolAnnotator are
-			 * not reliable, we substitute our own here. */
-			ce.setLevelNumber(mCurrentCobolLevel);
-			
-			/* We also check that our cobol names are unique because
-			 * this is simpler to manipulate in Cobol. */
-			ce.setCobolName(mNameResolver.getUniqueName(ce.getCobolName()));
-			
-			mWriter.write(CobolGenFormatter.formatCobolClause(
-					ce, getIndentFactor(
-							mFirstCobolLevel,
-							mCurrentCobolLevel,
-							mCobolLevelIncrement)));
-			mWriter.newLine();
-		} catch (IOException e) {
-			throw new HostException(e);
-		} catch (CobolNameResolverException e) {
-			throw new HostException(e);
-		}
-	}
-	
-	/**
-	 * Calculates how many white space characters should be added to indent an
-	 * element in the data structure.
-	 * Data items starting at column 8 have an indent factor of 0.
-	 * @param firstCobolLevel the cobol level of the root element
-	 * @param currentCobolLevel the current element cobol level
-	 * @param cobolLevelIncrement the cobol level increment
-	 * @return the number of white space characters to prepend to data
-	 *  description.
-	 */
-	private int getIndentFactor(
-			final int firstCobolLevel,
-			final int currentCobolLevel,
-			final int cobolLevelIncrement) {
-		
-		if (firstCobolLevel == 1) {
-			return (currentCobolLevel / cobolLevelIncrement) - 1;
-		} else {
-			return currentCobolLevel / cobolLevelIncrement;
-		}
-	}
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolFloatBinding ce) throws HostException {
+        write(ce);
+    }
 
-	/**
-	 * @return the Cobol Name Resolver
-	 */
-	public final CobolNameResolver getNameResolver() {
-		return mNameResolver;
-	}
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(
+            final ICobolArrayFloatBinding ce) throws HostException {
+        write(ce);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolDoubleBinding ce) throws HostException {
+        write(ce);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(
+            final ICobolArrayDoubleBinding ce) throws HostException {
+        write(ce);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(
+            final ICobolOctetStreamBinding ce) throws HostException {
+        write(ce);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(
+            final ICobolArrayOctetStreamBinding ce) throws HostException {
+        write(ce);
+    }
+
+    /**
+     * Adds a cobol sentence to the writer.
+     * @param ce the cobol binding
+     * @throws HostException if write fails
+     */
+    private void write(final ICobolBinding ce) throws HostException {
+        try {
+            /* Because level numbers returned by xsdCobolAnnotator are
+             * not reliable, we substitute our own here. */
+            ce.setLevelNumber(mCurrentCobolLevel);
+
+            /* We also check that our cobol names are unique because
+             * this is simpler to manipulate in Cobol. */
+            ce.setCobolName(mNameResolver.getUniqueName(ce.getCobolName()));
+
+            mWriter.write(CobolGenFormatter.formatCobolClause(
+                    ce, getIndentFactor(
+                            mFirstCobolLevel,
+                            mCurrentCobolLevel,
+                            mCobolLevelIncrement)));
+            mWriter.newLine();
+        } catch (IOException e) {
+            throw new HostException(e);
+        } catch (CobolNameResolverException e) {
+            throw new HostException(e);
+        }
+    }
+
+    /**
+     * Calculates how many white space characters should be added to indent an
+     * element in the data structure.
+     * Data items starting at column 8 have an indent factor of 0.
+     * @param firstCobolLevel the cobol level of the root element
+     * @param currentCobolLevel the current element cobol level
+     * @param cobolLevelIncrement the cobol level increment
+     * @return the number of white space characters to prepend to data
+     *  description.
+     */
+    private int getIndentFactor(
+            final int firstCobolLevel,
+            final int currentCobolLevel,
+            final int cobolLevelIncrement) {
+
+        if (firstCobolLevel == 1) {
+            return (currentCobolLevel / cobolLevelIncrement) - 1;
+        } else {
+            return currentCobolLevel / cobolLevelIncrement;
+        }
+    }
+
+    /**
+     * @return the Cobol Name Resolver
+     */
+    public final CobolNameResolver getNameResolver() {
+        return mNameResolver;
+    }
 
 }

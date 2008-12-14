@@ -29,43 +29,43 @@ import com.legstar.messaging.LegStarMessagePart;
  */
 public class LegStarMessageImpl extends LegStarMessage {
 
-	/** Serial version ID.  */
-	private static final long serialVersionUID = -2901290130092178692L;
+    /** Serial version ID.  */
+    private static final long serialVersionUID = -2901290130092178692L;
 
 
-	/**
-	 * No-arg constructor.
-	 * @throws HeaderPartException if message cannot be built.
-	 */
-	public LegStarMessageImpl() throws HeaderPartException {
-		super();
-	}
-	
-	/**
-	 * Constructor for situations where the header set of parameters is
-	 * known in advance.
-	 * @param keyValues the set of key/value parameters to create a header from
-	 * @throws HeaderPartException if building header fails
-	 */
-	public LegStarMessageImpl(
-			final Map < String, Object > keyValues) throws HeaderPartException {
-		LegStarHeaderPart headerPart = new LegStarHeaderPart(keyValues, 0);
-		setHeaderPart(headerPart);
-		setDataParts(new ArrayList < LegStarMessagePart >());
-	}
-	
-	/**
-	 * Constructor for situations where a LegStar message exists and needs
-	 * to be adapted.
-	 * @param legStarMessage the original message
-	 * @throws HeaderPartException if fails to adapt
-	 */
-	public LegStarMessageImpl(
-			final LegStarMessage legStarMessage) throws HeaderPartException {
-		setHeaderPart(legStarMessage.getHeaderPart());
-		setDataParts(legStarMessage.getDataParts());
-	}
-	
+    /**
+     * No-arg constructor.
+     * @throws HeaderPartException if message cannot be built.
+     */
+    public LegStarMessageImpl() throws HeaderPartException {
+        super();
+    }
+
+    /**
+     * Constructor for situations where the header set of parameters is
+     * known in advance.
+     * @param keyValues the set of key/value parameters to create a header from
+     * @throws HeaderPartException if building header fails
+     */
+    public LegStarMessageImpl(
+            final Map < String, Object > keyValues) throws HeaderPartException {
+        LegStarHeaderPart headerPart = new LegStarHeaderPart(keyValues, 0);
+        setHeaderPart(headerPart);
+        setDataParts(new ArrayList < LegStarMessagePart >());
+    }
+
+    /**
+     * Constructor for situations where a LegStar message exists and needs
+     * to be adapted.
+     * @param legStarMessage the original message
+     * @throws HeaderPartException if fails to adapt
+     */
+    public LegStarMessageImpl(
+            final LegStarMessage legStarMessage) throws HeaderPartException {
+        setHeaderPart(legStarMessage.getHeaderPart());
+        setDataParts(legStarMessage.getDataParts());
+    }
+
     /**
      * Formats a message part by converting a java data object to a host
      * byte array and then wrapping that array in LegStar message part.
@@ -82,22 +82,22 @@ public class LegStarMessageImpl extends LegStarMessage {
             final int hostBytesSize,
             final String hostCharset,
             final String containerName) throws HostMessageFormatException {
-        
+
         try {
             int size = hostBytesSize;
-            
+
             /* If the host byte size was not passed by the caller, it
              * is calculated from the COBOL binding. */
             if (size == 0) {
                 size = binding.calcByteLength();
             }
-            
+
             /* Convert Java data object to a host byte array */
             byte[] hostBytes = new byte[size];
             int dataLength = CobolTransformer.marshal(
                     CobolTransformer.getCobolConverters(hostCharset),
                     binding, hostBytes);
-            
+
             /* Wrap the host byte array in message part */
             LegStarMessagePart part;
             if (containerName == null || containerName.length() == 0) {
@@ -110,15 +110,15 @@ public class LegStarMessageImpl extends LegStarMessage {
                 part.setPayloadSize(dataLength);
             }
             addDataPart(part);
-            
+
         } catch (HostMarshalException e) {
             throw new HostMessageFormatException(e);
         } catch (HostException e) {
             throw new HostMessageFormatException(e);
         }
-        
+
     }
-    
+
     /**
      * Populates a binding inner java data object from the content of
      * a LegStar message part.
@@ -129,34 +129,34 @@ public class LegStarMessageImpl extends LegStarMessage {
      * @throws HostMessageFormatException if data part cannot be processed
      */
     public void getBindingFromPart(
-    		final ICobolComplexBinding binding,
-    		final String hostCharset,
+            final ICobolComplexBinding binding,
+            final String hostCharset,
             final String containerName) throws HostMessageFormatException {
-        
-    	try {
-			/* If there are no data parts, we return with no java data object */
-			if (getDataParts().size() == 0) {
-				return;
-			}
-			LegStarMessagePart part;
-			if (containerName == null || containerName.length() == 0) {
-				/* When no container is specified, only the first data
-				 * part is processed. */
+
+        try {
+            /* If there are no data parts, we return with no java data object */
+            if (getDataParts().size() == 0) {
+                return;
+            }
+            LegStarMessagePart part;
+            if (containerName == null || containerName.length() == 0) {
+                /* When no container is specified, only the first data
+                 * part is processed. */
                 part = getDataParts().get(0);
-			} else {
-				part = lookupDataPart(containerName);
-			}
-			if (part == null) {
-				return; 
-			}
+            } else {
+                part = lookupDataPart(containerName);
+            }
+            if (part == null) {
+                return; 
+            }
             CobolTransformer.unmarshal(
                     CobolTransformer.getCobolConverters(hostCharset),
                     part.getContent(),
                     binding);
-		} catch (HostUnmarshalException e) {
+        } catch (HostUnmarshalException e) {
             throw new HostMessageFormatException(e);
-		}
-   	
+        }
+
     }
 
     /**
@@ -168,27 +168,27 @@ public class LegStarMessageImpl extends LegStarMessage {
      * @throws HostMessageFormatException if data parts cannot be processed
      */
     public void getBindingsFromParts(
-    		final Map < String, ICobolComplexBinding > bindingsMap,
-    		final String hostCharset) throws HostMessageFormatException {
-    	try {
-			for (LegStarMessagePart part : getDataParts()) {
-				ICobolComplexBinding binding = bindingsMap.get(part.getID());
-				if (binding == null) {
-					continue;
-				}
-				if (part.getContent() == null) {
-					continue;
-				}
-			    CobolTransformer.unmarshal(
-			            CobolTransformer.getCobolConverters(hostCharset),
-			            part.getContent(),
-			            binding);
-			}
-		} catch (HostUnmarshalException e) {
-			throw new HostMessageFormatException(e);
-		}
+            final Map < String, ICobolComplexBinding > bindingsMap,
+            final String hostCharset) throws HostMessageFormatException {
+        try {
+            for (LegStarMessagePart part : getDataParts()) {
+                ICobolComplexBinding binding = bindingsMap.get(part.getID());
+                if (binding == null) {
+                    continue;
+                }
+                if (part.getContent() == null) {
+                    continue;
+                }
+                CobolTransformer.unmarshal(
+                        CobolTransformer.getCobolConverters(hostCharset),
+                        part.getContent(),
+                        binding);
+            }
+        } catch (HostUnmarshalException e) {
+            throw new HostMessageFormatException(e);
+        }
     }
-    
-	
+
+
 
 }

@@ -16,9 +16,9 @@ package com.legstar.cobc.gen;
 public class CobolGenerationException extends Exception {
 
     /** Unique serial ID. */
-	private static final long serialVersionUID = -2435961612804076829L;
+    private static final long serialVersionUID = -2435961612804076829L;
 
-	/**
+    /**
      * Build Exception from message.
      * @param message exception description
      */
@@ -26,10 +26,10 @@ public class CobolGenerationException extends Exception {
         super(message);
     }
 
-  /**
-   * Build Exception from inner exception.
-   * @param e the inner exception
-   */
+    /**
+     * Build Exception from inner exception.
+     * @param e the inner exception
+     */
     public CobolGenerationException(final Exception e) {
         super(e);
     }

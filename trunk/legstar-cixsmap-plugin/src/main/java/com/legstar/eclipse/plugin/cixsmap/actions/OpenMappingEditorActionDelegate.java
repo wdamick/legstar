@@ -27,45 +27,45 @@ import com.legstar.eclipse.plugin.cixsmap.wizards.NewMappingFileWizard;
 public class OpenMappingEditorActionDelegate
 implements IWorkbenchWindowActionDelegate {
 
-	/** Top level window in the workbench. */
-	private IWorkbenchWindow mWindow;
-	
-	/** The current selection. */
-	private IStructuredSelection mSelection;
-	
-	/** {@inheritDoc} */
-	public void init(final IWorkbenchWindow window) {
-		mWindow = window;
-	}
+    /** Top level window in the workbench. */
+    private IWorkbenchWindow mWindow;
 
-	/** {@inheritDoc} */
-	public void run(final IAction action) {
-		if (mWindow == null) {
-			return;
-		}
-		if (mSelection == null) {
-			mSelection = new StructuredSelection();
-		}
-		NewMappingFileWizard wizard = new NewMappingFileWizard();
-		wizard.init(mWindow.getWorkbench(), mSelection);
-		WizardDialog dialog = new WizardDialog(mWindow.getShell(), wizard);
-		dialog.open();
-		
-	}
+    /** The current selection. */
+    private IStructuredSelection mSelection;
 
-	/** {@inheritDoc} */
-	public void selectionChanged(
-			final IAction action, final ISelection selection) {
-		if (selection instanceof IStructuredSelection) {
-			mSelection = (IStructuredSelection) selection;
-		} else {
-			mSelection = null;
-		}
-		
-	}
+    /** {@inheritDoc} */
+    public void init(final IWorkbenchWindow window) {
+        mWindow = window;
+    }
 
-	/** {@inheritDoc} */
-	public void dispose() {
-	}
+    /** {@inheritDoc} */
+    public void run(final IAction action) {
+        if (mWindow == null) {
+            return;
+        }
+        if (mSelection == null) {
+            mSelection = new StructuredSelection();
+        }
+        NewMappingFileWizard wizard = new NewMappingFileWizard();
+        wizard.init(mWindow.getWorkbench(), mSelection);
+        WizardDialog dialog = new WizardDialog(mWindow.getShell(), wizard);
+        dialog.open();
+
+    }
+
+    /** {@inheritDoc} */
+    public void selectionChanged(
+            final IAction action, final ISelection selection) {
+        if (selection instanceof IStructuredSelection) {
+            mSelection = (IStructuredSelection) selection;
+        } else {
+            mSelection = null;
+        }
+
+    }
+
+    /** {@inheritDoc} */
+    public void dispose() {
+    }
 
 }

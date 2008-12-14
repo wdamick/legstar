@@ -10,49 +10,57 @@
  ******************************************************************************/
 package com.legstar.xsdc.test.cases.cultureinfo;
 
+/**
+ * Another data object. Child of another.
+ *
+ */
 public class ServerCultureInfo {
-	private String mCultureCode;
-	private String mDisplayLanguage;
-	private String mDisplayCountry;
+    
+    /** The Locale culture code. */
+    private String mCultureCode;
+    /** The Locale display language. */
+    private String mDisplayLanguage;
+    /** The Locale display country. */
+    private String mDisplayCountry;
 
-	/**
-	 * @return the Culture Code
-	 */
-	public final String getCultureCode() {
-		return mCultureCode;
-	}
-	/**
-	 * @param culturecode the Culture Code to set
-	 */
-	public final void setCultureCode(String culturecode) {
-		mCultureCode = culturecode;
-	}
-	/**
-	 * @return the Display Country
-	 */
-	public final String getDisplayCountry() {
-		return mDisplayCountry;
-	}
+    /**
+     * @return the Culture Code
+     */
+    public final String getCultureCode() {
+        return mCultureCode;
+    }
+    /**
+     * @param culturecode the Culture Code to set
+     */
+    public final void setCultureCode(final String culturecode) {
+        mCultureCode = culturecode;
+    }
+    /**
+     * @return the Display Country
+     */
+    public final String getDisplayCountry() {
+        return mDisplayCountry;
+    }
 
-	/**
-	 * @param displayCountry the Display Country to set
-	 */
-	public final void setDisplayCountry(String displayCountry) {
-		mDisplayCountry = displayCountry;
-	}
+    /**
+     * @param displayCountry the Display Country to set
+     */
+    public final void setDisplayCountry(final String displayCountry) {
+        mDisplayCountry = displayCountry;
+    }
 
-	/**
-	 * @return the Display Language
-	 */
-	public final String getDisplayLanguage() {
-		return mDisplayLanguage;
-	}
+    /**
+     * @return the Display Language
+     */
+    public final String getDisplayLanguage() {
+        return mDisplayLanguage;
+    }
 
-	/**
-	 * @param displayLanguage the Display Language to set
-	 */
-	public final void setDisplayLanguage(String displayLanguage) {
-		mDisplayLanguage = displayLanguage;
-	}
+    /**
+     * @param displayLanguage the Display Language to set
+     */
+    public final void setDisplayLanguage(final String displayLanguage) {
+        mDisplayLanguage = displayLanguage;
+    }
 
 }

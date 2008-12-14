@@ -24,7 +24,7 @@ public class CobolToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
 
     /** Pattern for temporary files. */
     private static final String TEMP_PATTERN = "legstar-schemagen";
-    
+
     /** Suffix for temporary files. */
     private static final String TEMP_SUFFIX = ".temp";
 
@@ -38,7 +38,7 @@ public class CobolToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
     public CobolToXsdWizardRunnable(
             final MainWizardPage mainPage,
             final CobolToXsdWizardPage cobolToXsdPage)
-            throws InvocationTargetException {
+    throws InvocationTargetException {
         super(null, mainPage);
         setAntBuildModel(getModel(mainPage, cobolToXsdPage));
     }
@@ -53,18 +53,18 @@ public class CobolToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
     protected CobolToXsdCobolModel getModel(
             final MainWizardPage mainPage,
             final CobolToXsdWizardPage cobolToXsdPage)
-            throws InvocationTargetException {
+    throws InvocationTargetException {
 
-    	CobolToXsdCobolModel model = new CobolToXsdCobolModel();
+        CobolToXsdCobolModel model = new CobolToXsdCobolModel();
         model.setProductLocation(getPluginInstallLocation(
-        		com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
-        
+                com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
+
         /* Store the content of the text box in a temporary file */
         File cobolFile;
         try {
             cobolFile = File.createTempFile(TEMP_PATTERN, TEMP_SUFFIX);
             BufferedWriter writer = new BufferedWriter(
-            		new FileWriter(cobolFile));
+                    new FileWriter(cobolFile));
             writer.write(cobolToXsdPage.getCobolFragment());
             writer.close();
         } catch (IOException e) {
@@ -73,7 +73,7 @@ public class CobolToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
 
         /* Temporary file becomes input to generation process */
         model.setSourceCobolFilePath(cobolFile.getPath());
-         
+
         model.setJaxbPackageName(
                 mainPage.getTargetJaxbPackageName());
         model.setNamespace(mainPage.getTargetNamespace());

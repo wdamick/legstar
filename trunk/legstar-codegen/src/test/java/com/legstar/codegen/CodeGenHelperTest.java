@@ -12,12 +12,19 @@ package com.legstar.codegen;
 
 import junit.framework.TestCase;
 
+/**
+ * Generic test code.
+ *
+ */
 public class CodeGenHelperTest extends TestCase {
-	
-	public void testGetQualClassName() {
-		CodeGenHelper helper = new CodeGenHelper();
-		assertEquals("className", helper.getQualClassName(null, "className"));
-		assertEquals("package.className", helper.getQualClassName("package", "className"));
-	}
+
+    /**
+     * Get fully qualified class name.
+     */
+    public void testGetQualClassName() {
+        CodeGenHelper helper = new CodeGenHelper();
+        assertEquals("className", helper.getQualClassName(null, "className"));
+        assertEquals("package.className", helper.getQualClassName("package", "className"));
+    }
 
 }

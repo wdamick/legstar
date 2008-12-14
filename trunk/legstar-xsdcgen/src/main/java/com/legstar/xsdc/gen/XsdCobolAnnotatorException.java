@@ -17,23 +17,23 @@ package com.legstar.xsdc.gen;
  * 
  */
 public class XsdCobolAnnotatorException extends Exception {
-	
-	/** Default serial ID. */
-	private static final long serialVersionUID = 0L;
 
-	/** 
-	 * Constructor from an error message. 
-	 * @param message the text message 
-	 * */
-	public XsdCobolAnnotatorException(final String message) {
-		super(message);
-	}
-	/** 
-	 * Constructor from an inner exception. 
-	 * @param e the inner exception 
-	 * */
-	public XsdCobolAnnotatorException(final Exception e) {
-		super(e);
-	}
+    /** Default serial ID. */
+    private static final long serialVersionUID = 0L;
+
+    /** 
+     * Constructor from an error message. 
+     * @param message the text message 
+     * */
+    public XsdCobolAnnotatorException(final String message) {
+        super(message);
+    }
+    /** 
+     * Constructor from an inner exception. 
+     * @param e the inner exception 
+     * */
+    public XsdCobolAnnotatorException(final Exception e) {
+        super(e);
+    }
 
 }

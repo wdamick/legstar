@@ -16,26 +16,34 @@ import java.util.Locale;
 
 import junit.framework.TestCase;
 
+/**
+ * Test JVMQuery POJO.
+ *
+ */
 public class JVMQueryTest extends TestCase {
-	
-	public void testQuery() throws Exception {
-		Locale.setDefault(new Locale("jp", "JP"));
-		List <String> envVarNames = new ArrayList <String> ();
-		JVMQueryRequest request = new JVMQueryRequest();
-		request.setEnvVarNames(envVarNames);
-		JVMQuery query = new JVMQuery();
-		JVMQueryReply reply = query.queryJvm(request);
-		assertEquals("Japan", reply.getCountry());
-		assertEquals("jp", reply.getLanguage());
-		assertEquals("JPY", reply.getCurrencySymbol());
-		assertTrue(reply.getFormattedDate().length() > 0);
-		assertEquals(0, reply.getEnvVarValues().size());
-		
-		envVarNames.add("JAVA_HOME");
-		reply = query.queryJvm(request);
-		assertEquals(1, reply.getEnvVarValues().size());
-		assertTrue(reply.getEnvVarValues().get(0).contains("jre")
-				|| reply.getEnvVarValues().get(0).contains("jdk"));
-	}
+
+    /**
+     * Test with a japanese locale.
+     * @throws Exception if test fails
+     */
+    public void testQuery() throws Exception {
+        Locale.setDefault(new Locale("jp", "JP"));
+        List < String > envVarNames = new ArrayList < String >();
+        JVMQueryRequest request = new JVMQueryRequest();
+        request.setEnvVarNames(envVarNames);
+        JVMQuery query = new JVMQuery();
+        JVMQueryReply reply = query.queryJvm(request);
+        assertEquals("Japan", reply.getCountry());
+        assertEquals("jp", reply.getLanguage());
+        assertEquals("JPY", reply.getCurrencySymbol());
+        assertTrue(reply.getFormattedDate().length() > 0);
+        assertEquals(0, reply.getEnvVarValues().size());
+
+        envVarNames.add("JAVA_HOME");
+        reply = query.queryJvm(request);
+        assertEquals(1, reply.getEnvVarValues().size());
+        assertTrue(reply.getEnvVarValues().get(0).contains("jre")
+                || reply.getEnvVarValues().get(0).contains("jdk"));
+    }
 
 }

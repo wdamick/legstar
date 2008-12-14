@@ -24,7 +24,7 @@ public class XsdToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
 
     /** Pattern for temporary files. */
     private static final String TEMP_PATTERN = "legstar-schemagen";
-    
+
     /** Suffix for temporary files. */
     private static final String TEMP_SUFFIX = ".temp";
 
@@ -38,7 +38,7 @@ public class XsdToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
     public XsdToXsdWizardRunnable(
             final MainWizardPage mainPage,
             final XsdToXsdWizardPage xsdToXsdPage)
-            throws InvocationTargetException {
+    throws InvocationTargetException {
         super(null, mainPage);
         setAntBuildModel(getModel(mainPage, xsdToXsdPage));
     }
@@ -53,11 +53,11 @@ public class XsdToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
     protected XsdToXsdCobolModel getModel(
             final MainWizardPage mainPage,
             final XsdToXsdWizardPage xsdToXsdPage)
-            throws InvocationTargetException {
+    throws InvocationTargetException {
         XsdToXsdCobolModel model = new XsdToXsdCobolModel();
         model.setProductLocation(getPluginInstallLocation(
-        		com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
-        
+                com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
+
         /* Store the content of the text box in a temporary file */
         File xsdFile;
         try {
@@ -71,7 +71,7 @@ public class XsdToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
 
         /* Temporary file becomes input to generation process */
         model.setInputXsdUri(xsdFile.toURI());
-         
+
         model.setJaxbPackageName(
                 mainPage.getTargetJaxbPackageName());
         if (xsdToXsdPage.isSwitchNamespaceAllowed()) {

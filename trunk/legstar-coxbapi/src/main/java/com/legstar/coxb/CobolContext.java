@@ -19,57 +19,57 @@ import com.legstar.coxb.host.HostContext;
  *
  * @author Fady Moussallam
  * 
-*/
+ */
 public class CobolContext extends HostContext {
 
-	/** True if cobol option for extended arithmetics (31 digits) is set. */
-	private boolean mArithExtend = false;
-	
-	/** True if PIC N items are to be handled as DBCS items. */
-	private boolean mNsymbolDbcs = false;
-	
-	/**
-	 * This enumeration class represents how binary data is truncated depending
-	 * on the number of digits specified in the PICTURE clause.
-	 *
-	 */
-	public enum Trunc {
-		/** TRUNC(OPT) Leaves it up to the compiler to decide to truncate or
-		 *             not, based on performance considerations. */
-		OPT,
-		/** TRUNC(BIN) No truncation occurs, this is equivalent to COMP-5. */
-		BIN,
-		/** TRUNC(STD) Data truncated to the number of digits in the 
-		 *             PICTURE clause. */
-		STD 
-	}
+    /** True if cobol option for extended arithmetics (31 digits) is set. */
+    private boolean mArithExtend = false;
 
-	/**
-	 * @return Returns the arithExtend.
-	 */
-	public final boolean isArithExtend() {
-		return mArithExtend;
-	}
+    /** True if PIC N items are to be handled as DBCS items. */
+    private boolean mNsymbolDbcs = false;
 
-	/**
-	 * @param arithExtend The arithExtend to set.
-	 */
-	public final void setArithExtend(final boolean arithExtend) {
-		mArithExtend = arithExtend;
-	}
+    /**
+     * This enumeration class represents how binary data is truncated depending
+     * on the number of digits specified in the PICTURE clause.
+     *
+     */
+    public enum Trunc {
+        /** TRUNC(OPT) Leaves it up to the compiler to decide to truncate or
+         *             not, based on performance considerations. */
+        OPT,
+        /** TRUNC(BIN) No truncation occurs, this is equivalent to COMP-5. */
+        BIN,
+        /** TRUNC(STD) Data truncated to the number of digits in the 
+         *             PICTURE clause. */
+        STD 
+    }
 
-	/**
-	 * @return Returns the symbol Dbcs.
-	 */
-	public final boolean isSymbolDbcs() {
-		return mNsymbolDbcs;
-	}
+    /**
+     * @return Returns the arithExtend.
+     */
+    public final boolean isArithExtend() {
+        return mArithExtend;
+    }
 
-	/**
-	 * @param nsymbolDbcs The symbol Dbcs to set.
-	 */
-	public final void setSymbolDbcs(final boolean nsymbolDbcs) {
-		mNsymbolDbcs = nsymbolDbcs;
-	}
+    /**
+     * @param arithExtend The arithExtend to set.
+     */
+    public final void setArithExtend(final boolean arithExtend) {
+        mArithExtend = arithExtend;
+    }
+
+    /**
+     * @return Returns the symbol Dbcs.
+     */
+    public final boolean isSymbolDbcs() {
+        return mNsymbolDbcs;
+    }
+
+    /**
+     * @param nsymbolDbcs The symbol Dbcs to set.
+     */
+    public final void setSymbolDbcs(final boolean nsymbolDbcs) {
+        mNsymbolDbcs = nsymbolDbcs;
+    }
 
 }

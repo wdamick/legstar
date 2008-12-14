@@ -33,11 +33,12 @@ import org.eclipse.debug.core.ILaunchManager;
  * TODO This usage is not recommended so this must be a considered temporary
  * while waiting for Eclipse to provide a proper launch API.
  */
+@SuppressWarnings("restriction")
 public class AntLaunchHelper {
-    
+
     /** The ant build file. */
     IFile mAntFile = null;
-    
+
     /**
      * Create a launcher for a given ant sript file.
      * @param antFile the ant script file
@@ -53,21 +54,21 @@ public class AntLaunchHelper {
      * @return a launch configuration
      * @throws CoreException if launch fails
      */
-    @SuppressWarnings({ "unchecked", "restriction" })
-	public ILaunch execute(
-    		final IProgressMonitor monitor) throws CoreException {
-        
+    @SuppressWarnings({ "unchecked" })
+    public ILaunch execute(
+            final IProgressMonitor monitor) throws CoreException {
+
         List configs =
-        	AntLaunchShortcut.findExistingLaunchConfigurations(getAntFile());
+            AntLaunchShortcut.findExistingLaunchConfigurations(getAntFile());
         ILaunchConfigurationWorkingCopy launchCopy;
         if (configs.size() == 0) {
             ILaunchConfiguration config =
-            	AntLaunchShortcut.createDefaultLaunchConfiguration(
-            			getAntFile());
+                AntLaunchShortcut.createDefaultLaunchConfiguration(
+                        getAntFile());
             launchCopy = config.getWorkingCopy();
         } else {
             launchCopy =
-            	((ILaunchConfiguration) configs.get(0)).getWorkingCopy();
+                ((ILaunchConfiguration) configs.get(0)).getWorkingCopy();
         }
         return launchCopy.launch(ILaunchManager.RUN_MODE, monitor);
     }

@@ -10,13 +10,20 @@
  ******************************************************************************/
 package com.legstar.xsdc.test.cases.cultureinfo;
 
+/**
+ * Exception while executing the cultureinfo main method.
+ *
+ */
 public class CultureInfoException extends Exception {
 
-	/** serialVersionUID. */
-	private static final long serialVersionUID = 5200497911841705180L;
+    /** serialVersionUID. */
+    private static final long serialVersionUID = 5200497911841705180L;
 
-	public CultureInfoException(String string) {
-		super(string);
-	}
+    /**
+     * @param string the exception description
+     */
+    public CultureInfoException(final String string) {
+        super(string);
+    }
 
 }

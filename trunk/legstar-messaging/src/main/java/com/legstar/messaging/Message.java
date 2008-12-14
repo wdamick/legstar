@@ -14,29 +14,29 @@ import java.util.List;
 
 /** @deprecated */
 public class Message extends LegStarMessage {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 559969254269260584L;
 
-	/**
-	 * Creates an empty message.
-	 * @throws HeaderPartException if host encoding is wrong
-	 */
-	public Message() throws HeaderPartException {
-		super();
-	}
-	
-	/**
-	 * Construct a message from its message parts.
-	 * @param headerPart the header message part
-	 * @param dataParts the data message parts
-	 */
-	public Message(
-			final LegStarHeaderPart headerPart,
-			final List < LegStarMessagePart > dataParts) {
-		super(headerPart, dataParts);
-	}
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 559969254269260584L;
+
+    /**
+     * Creates an empty message.
+     * @throws HeaderPartException if host encoding is wrong
+     */
+    public Message() throws HeaderPartException {
+        super();
+    }
+
+    /**
+     * Construct a message from its message parts.
+     * @param headerPart the header message part
+     * @param dataParts the data message parts
+     */
+    public Message(
+            final LegStarHeaderPart headerPart,
+            final List < LegStarMessagePart > dataParts) {
+        super(headerPart, dataParts);
+    }
 
 }

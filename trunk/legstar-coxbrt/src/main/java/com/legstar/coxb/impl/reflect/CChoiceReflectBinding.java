@@ -27,113 +27,113 @@ import com.legstar.util.JaxbUtil;
  *
  * @author Fady Moussallam
  * 
-*/
+ */
 public class CChoiceReflectBinding extends CChoiceBinding {
 
-	/** Logger. */
-	private static final Log LOG =
-		LogFactory.getLog(CChoiceReflectBinding.class);
-	/**
-	 * A choice element gets created when a redefined item is encountered.
-	 * The constructor gets invoked with the redefined item characteristics.
-	 * 
-	 * @param bindingName the identifier for this binding
-	 * @param cobolAnnotations the cobol annotations for the first alternative
-	 * @param parentBinding a reference to the parent binding if any
-	 */
-	public CChoiceReflectBinding(
-			final String bindingName,
-			final CobolElement cobolAnnotations,
-			final ICobolComplexBinding parentBinding) {
-		
-		super(bindingName, cobolAnnotations, parentBinding);
-	}
+    /** Logger. */
+    private static final Log LOG =
+        LogFactory.getLog(CChoiceReflectBinding.class);
+    /**
+     * A choice element gets created when a redefined item is encountered.
+     * The constructor gets invoked with the redefined item characteristics.
+     * 
+     * @param bindingName the identifier for this binding
+     * @param cobolAnnotations the cobol annotations for the first alternative
+     * @param parentBinding a reference to the parent binding if any
+     */
+    public CChoiceReflectBinding(
+            final String bindingName,
+            final CobolElement cobolAnnotations,
+            final ICobolComplexBinding parentBinding) {
 
-	/** {@inheritDoc} */
-	public final void setAlternativesValues() throws HostException {
-		for (ICobolBinding alt : getAlternativesList()) {
-         	/* Choice children are a special case. They directly set 
-         	 * their parent object depending on the chosen choice
-         	 * strategy. */
-        	if (alt instanceof ICobolChoiceBinding) {
-        		continue;
-        	} else {
-	        	Object value = JaxbUtil.invokeGetProperty(
-	        			getParentJaxbObject(), alt.getJaxbName());
-	        	if (value != null) {
-	        		if (LOG.isDebugEnabled()) {
-	        			LOG.debug("Getting value from JAXB property "
-	        					+ alt.getJaxbName()
-	        					+ " value=" + value);
-	        		}
-	        		alt.setObjectValue(value);
-	        	}
-        	}
-		}
-	}
-	
+        super(bindingName, cobolAnnotations, parentBinding);
+    }
+
+    /** {@inheritDoc} */
+    public final void setAlternativesValues() throws HostException {
+        for (ICobolBinding alt : getAlternativesList()) {
+            /* Choice children are a special case. They directly set 
+             * their parent object depending on the chosen choice
+             * strategy. */
+            if (alt instanceof ICobolChoiceBinding) {
+                continue;
+            } else {
+                Object value = JaxbUtil.invokeGetProperty(
+                        getParentJaxbObject(), alt.getJaxbName());
+                if (value != null) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Getting value from JAXB property "
+                                + alt.getJaxbName()
+                                + " value=" + value);
+                    }
+                    alt.setObjectValue(value);
+                }
+            }
+        }
+    }
+
     /** {@inheritDoc} */
     public final void setJaxbPropertyValue(
-    		final int index) throws HostException {
-    	setPropertyValue(index);
+            final int index) throws HostException {
+        setPropertyValue(index);
     }
 
     /** {@inheritDoc} */
-	public final void setPropertyValue(
-			final int index) throws HostException {
+    public final void setPropertyValue(
+            final int index) throws HostException {
         /* Set the JAXB object property value from binding object */
-    	ICobolBinding alt = getAlternativesList().get(index);
+        ICobolBinding alt = getAlternativesList().get(index);
 
-    	/* Choice children are a special case. They directly set 
-     	 * their parent object depending on the chosen choice
-     	 * strategy. */
-    	if (alt instanceof ICobolChoiceBinding) {
-    		return;
-    	}
+        /* Choice children are a special case. They directly set 
+         * their parent object depending on the chosen choice
+         * strategy. */
+        if (alt instanceof ICobolChoiceBinding) {
+            return;
+        }
 
-		Object value = alt.getObjectValue(alt.getJaxbType());
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("Setting value of JAXB property "
-					+ alt.getJaxbName()
-					+ " value=" + value);
-		}
-		JaxbUtil.invokeSetProperty(getParentJaxbObject(), alt.getJaxbName(),
-				value, alt.getJaxbType());
-	}
-	
+        Object value = alt.getObjectValue(alt.getJaxbType());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Setting value of JAXB property "
+                    + alt.getJaxbName()
+                    + " value=" + value);
+        }
+        JaxbUtil.invokeSetProperty(getParentJaxbObject(), alt.getJaxbName(),
+                value, alt.getJaxbType());
+    }
+
     /** {@inheritDoc} */
     public final Object getParentJaxbObject() throws HostException {
-    	return getParentBinding().getObjectValue(
-				getParentBinding().getJaxbType());
+        return getParentBinding().getObjectValue(
+                getParentBinding().getJaxbType());
     }
- 
+
     /** {@inheritDoc} */
     public final Object getParentValueObject() throws HostException {
-    	return getParentJaxbObject();
+        return getParentJaxbObject();
     }
 
     /** {@inheritDoc} */
     public final Object getObjectValue(
-    		final Class < ? > type) throws HostException {
-		throw new HostException("Attempt to get value from choice binding "
-				+ getCobolName());
+            final Class < ? > type) throws HostException {
+        throw new HostException("Attempt to get value from choice binding "
+                + getCobolName());
     }
 
     /** {@inheritDoc} */
     public final void setObjectValue(final Object value) throws HostException {
-		throw new HostException("Attempt to set value for choice binding "
-				+ getCobolName());
+        throw new HostException("Attempt to set value for choice binding "
+                + getCobolName());
     }
-    
+
     /** {@inheritDoc} */
-	public final boolean isSet() {
-		/* A Choice is considered set if at least one of its alternatives
-		 * is set. */
-		for (ICobolBinding alt : getAlternativesList()) {
-			if (alt.isSet()) {
-				return true;
-			}
-		}
-		return false;
-	}
+    public final boolean isSet() {
+        /* A Choice is considered set if at least one of its alternatives
+         * is set. */
+        for (ICobolBinding alt : getAlternativesList()) {
+            if (alt.isSet()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

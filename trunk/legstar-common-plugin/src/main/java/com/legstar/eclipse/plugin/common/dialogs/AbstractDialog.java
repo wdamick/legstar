@@ -33,7 +33,7 @@ import com.legstar.eclipse.plugin.common.Activator;
  * Groups methods useful to all dialogs.
  */
 public abstract class AbstractDialog extends Dialog {
-    
+
     /** The current plugin ID. */
     private String mPluginID;
 
@@ -63,7 +63,7 @@ public abstract class AbstractDialog extends Dialog {
      * @return the new label
      */
     public static Label createLabel(
-    		final Composite area, final String text, final int span) {
+            final Composite area, final String text, final int span) {
         final Label label = new Label(area, SWT.NONE);
         label.setText(text);
         final GridData gridData = new GridData(GridData.VERTICAL_ALIGN_CENTER);
@@ -80,10 +80,10 @@ public abstract class AbstractDialog extends Dialog {
      * @return the new text field
      */
     public static Text createText(
-    		final Composite container, final String initText, final int width) {
+            final Composite container, final String initText, final int width) {
         return createText(container, initText, width, 1);
     }
-    
+
     /**
      * Create a text field that fills several grid columns.
      * @param container the parent container
@@ -93,10 +93,10 @@ public abstract class AbstractDialog extends Dialog {
      * @return the new text field
      */
     public static Text createText(
-    		final Composite container,
-    		final String initText,
-    		final int width,
-    		final int span) {
+            final Composite container,
+            final String initText,
+            final int width,
+            final int span) {
         final Text text = new Text(container, SWT.BORDER | SWT.SINGLE);
         final GridData gridData;
         if (width > -1) {
@@ -110,7 +110,7 @@ public abstract class AbstractDialog extends Dialog {
         if (initText != null) {
             text.setText(initText);
         }
-       return text;
+        return text;
     }
 
     /**
@@ -164,7 +164,7 @@ public abstract class AbstractDialog extends Dialog {
             final String title) {
         return createTableColumn(table, style, title, -1);
     }
-    
+
     /**
      * Create a Combo widget.
      * @param area parent composite
@@ -176,7 +176,7 @@ public abstract class AbstractDialog extends Dialog {
         combo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         return combo;
     }
-    
+
     /**
      * Create a List widget.
      * @param area parent composite
@@ -193,8 +193,8 @@ public abstract class AbstractDialog extends Dialog {
      * @return the new list widget
      */
     public static List createList(
-    		final Composite area,
-    		final int span) {
+            final Composite area,
+            final int span) {
         List list = new List(area, SWT.READ_ONLY | SWT.SINGLE
                 | SWT.BORDER | SWT.V_SCROLL);
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -210,7 +210,7 @@ public abstract class AbstractDialog extends Dialog {
     public final String getPluginID() {
         return mPluginID;
     }
-    
+
     /**
      * Pops an error message.
      * @param dialogTitle title to appear on error dialog
@@ -231,7 +231,7 @@ public abstract class AbstractDialog extends Dialog {
      * @throws CoreException the core exception
      */
     public void throwCoreException(final Exception e) throws CoreException {
-    	Activator.throwCoreException(e);
+        Activator.throwCoreException(e);
     }
 
     /**
@@ -240,6 +240,6 @@ public abstract class AbstractDialog extends Dialog {
      * @throws CoreException the core exception
      */
     public void throwCoreException(final String message) throws CoreException {
-    	Activator.throwCoreException(message);
+        Activator.throwCoreException(message);
     }
 }

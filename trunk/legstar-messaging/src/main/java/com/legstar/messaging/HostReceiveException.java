@@ -16,22 +16,22 @@ package com.legstar.messaging;
  */
 public class HostReceiveException extends Exception {
 
-	/** Serial ID. */
-	private static final long serialVersionUID = 1121727315697885462L;
+    /** Serial ID. */
+    private static final long serialVersionUID = 1121727315697885462L;
 
-	/** 
-	 * Constructor from an error message. 
-	 * @param message the text message 
-	 * */
-	public HostReceiveException(final String message) {
-		super(message);
-	}
+    /** 
+     * Constructor from an error message. 
+     * @param message the text message 
+     * */
+    public HostReceiveException(final String message) {
+        super(message);
+    }
 
-	/** 
-	 * Constructor from an inner exception. 
-	 * @param e the inner exception 
-	 * */
-	public HostReceiveException(final Exception e) {
-		super(e);
-	}
+    /** 
+     * Constructor from an inner exception. 
+     * @param e the inner exception 
+     * */
+    public HostReceiveException(final Exception e) {
+        super(e);
+    }
 }

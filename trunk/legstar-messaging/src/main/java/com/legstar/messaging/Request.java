@@ -12,24 +12,24 @@ package com.legstar.messaging;
 
 /** @deprecated */
 public class Request extends LegStarRequest {
-	
-	/** Creates an empty request. */
-	public Request() {
-		super();
-	}
-	
-	/**
-	 * Constructor for a new request.
-	 * @param id a unique ID for this request
-	 * @param address the host destination
-	 * @param requestMessage the input message
-	 */
-	public Request(
-			final String id,
-			final LegStarAddress address,
-			final LegStarMessage requestMessage) {
-		super(id, address, requestMessage);
-	}
+
+    /** Creates an empty request. */
+    public Request() {
+        super();
+    }
+
+    /**
+     * Constructor for a new request.
+     * @param id a unique ID for this request
+     * @param address the host destination
+     * @param requestMessage the input message
+     */
+    public Request(
+            final String id,
+            final LegStarAddress address,
+            final LegStarMessage requestMessage) {
+        super(id, address, requestMessage);
+    }
 
 
 }

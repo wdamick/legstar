@@ -15,22 +15,22 @@ package com.legstar.j2sc.gen;
  */
 public class JavaToXsdCobolException extends Exception {
 
-	/** Serial ID. */
-	private static final long serialVersionUID = -3700780876757624957L;
+    /** Serial ID. */
+    private static final long serialVersionUID = -3700780876757624957L;
 
-	/** 
-	 * Constructor from an error message. 
-	 * @param message the text message 
-	 * */
-	public JavaToXsdCobolException(final String message) {
-		super(message);
-	}
+    /** 
+     * Constructor from an error message. 
+     * @param message the text message 
+     * */
+    public JavaToXsdCobolException(final String message) {
+        super(message);
+    }
 
-	/** 
-	 * Constructor from an inner exception. 
-	 * @param e the inner exception 
-	 * */
-	public JavaToXsdCobolException(final Exception e) {
-		super(e);
-	}
+    /** 
+     * Constructor from an inner exception. 
+     * @param e the inner exception 
+     * */
+    public JavaToXsdCobolException(final Exception e) {
+        super(e);
+    }
 }

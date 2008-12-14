@@ -29,73 +29,73 @@ import com.legstar.eclipse.plugin.schemagen.wizards.MainWizard;
  * @see IWorkbenchWindowActionDelegate
  */
 public class SchemaGenAction implements IWorkbenchWindowActionDelegate {
-	
-	/** Top level window in the workbench. */
-	private IWorkbenchWindow mWindow;
-	
-	/** Helps track selection changes in the workbench. */
-	private IStructuredSelection mSelection;
-	
-	/**
-	 * The constructor.
-	 */
-	public SchemaGenAction() {
-	}
 
-	/**
-	 * The action has been activated. The argument of the
-	 * method represents the 'real' action sitting
-	 * in the workbench UI.
-	 * @see IWorkbenchWindowActionDelegate#run
+    /** Top level window in the workbench. */
+    private IWorkbenchWindow mWindow;
+
+    /** Helps track selection changes in the workbench. */
+    private IStructuredSelection mSelection;
+
+    /**
+     * The constructor.
+     */
+    public SchemaGenAction() {
+    }
+
+    /**
+     * The action has been activated. The argument of the
+     * method represents the 'real' action sitting
+     * in the workbench UI.
+     * @see IWorkbenchWindowActionDelegate#run
      * @param action the action proxy that handles the presentation portion of
      *   the action
-	 */
-	public final void run(
-			final IAction action) {
-		if (mWindow == null) {
-			return;
-		}
+     */
+    public final void run(
+            final IAction action) {
+        if (mWindow == null) {
+            return;
+        }
         MainWizard wizard = new MainWizard();
         wizard.init(PlatformUI.getWorkbench(), mSelection);
         WizardDialog dialog = new WizardDialog(mWindow.getShell(), wizard);
         dialog.open();
-	}
+    }
 
-	/**
-	 * Selection in the workbench has been changed. We 
-	 * can change the state of the 'real' action here
-	 * if we want, but this can only happen after 
-	 * the delegate has been created.
-	 * @see IWorkbenchWindowActionDelegate#selectionChanged
+    /**
+     * Selection in the workbench has been changed. We 
+     * can change the state of the 'real' action here
+     * if we want, but this can only happen after 
+     * the delegate has been created.
+     * @see IWorkbenchWindowActionDelegate#selectionChanged
      * @param action the action proxy that handles presentation portion of 
-     * 		the action
+     *  the action
      * @param selection the current selection, or <code>null</code> if there
-     * 		is no selection.
-	 */
-	public void selectionChanged(
-			final IAction action, final ISelection selection) {
-	    mSelection =
-	        selection instanceof IStructuredSelection
-	            ? (IStructuredSelection) selection
-	            : null;
-	}
+     *  is no selection.
+     */
+    public void selectionChanged(
+            final IAction action, final ISelection selection) {
+        mSelection =
+            selection instanceof IStructuredSelection
+            ? (IStructuredSelection) selection
+                    : null;
+    }
 
-	/**
-	 * We can use this method to dispose of any system
-	 * resources we previously allocated.
-	 * @see IWorkbenchWindowActionDelegate#dispose
-	 */
-	public void dispose() {
-	}
+    /**
+     * We can use this method to dispose of any system
+     * resources we previously allocated.
+     * @see IWorkbenchWindowActionDelegate#dispose
+     */
+    public void dispose() {
+    }
 
-	/**
-	 * We will cache window object in order to
-	 * be able to provide parent shell for the message dialog.
-	 * @see IWorkbenchWindowActionDelegate#init
+    /**
+     * We will cache window object in order to
+     * be able to provide parent shell for the message dialog.
+     * @see IWorkbenchWindowActionDelegate#init
      * @param window the window that provides the context for this delegate
-	 */
-	public final void init(
-			final IWorkbenchWindow window) {
-		mWindow = window;
-	}
+     */
+    public final void init(
+            final IWorkbenchWindow window) {
+        mWindow = window;
+    }
 }

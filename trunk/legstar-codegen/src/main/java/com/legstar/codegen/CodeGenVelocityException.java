@@ -16,9 +16,9 @@ package com.legstar.codegen;
 public class CodeGenVelocityException extends Exception {
 
     /** Unique serial ID. */
-	private static final long serialVersionUID = -2054414464524552977L;
+    private static final long serialVersionUID = -2054414464524552977L;
 
-	/**
+    /**
      * Build Exception from message.
      * @param message exception description
      */
@@ -26,10 +26,10 @@ public class CodeGenVelocityException extends Exception {
         super(message);
     }
 
-  /**
-   * Build Exception from inner exception.
-   * @param e the inner exception
-   */
+    /**
+     * Build Exception from inner exception.
+     * @param e the inner exception
+     */
     public CodeGenVelocityException(final Exception e) {
         super(e);
     }

@@ -29,107 +29,107 @@ import org.eclipse.jdt.core.JavaCore;
  * library containers.
  */
 public abstract class AbstractClasspathInitializer
-		extends ClasspathContainerInitializer {
+extends ClasspathContainerInitializer {
 
-	
-	/** Name of the container library. */
-	private String mLibraryName;
-	
-	/** Description of the container library. */
-	private String mLibraryDescription;
-	
-	/** The plugin that contains a lib folder with jars to populate the
-	 *  container library. */
-	private String mPluginId;
-	
-	
-	/**
-	 * Creates the initializer with the parameter set needed to create a
-	 * library container.
-	 * @param pluginId The plugin that contains a lib folder with jars to
-	 *  populate the container library
-	 * @param libraryName Name of the container library
-	 * @param libraryDescription Description of the container library
-	 */
-	public AbstractClasspathInitializer(
-			final String pluginId,
-			final String libraryName,
-			final String libraryDescription) {
-		mPluginId = pluginId;
-		mLibraryName = libraryName;
-		mLibraryDescription = libraryDescription;
-	}
-	
-	/** {@inheritDoc} */
-	public void initialize(
-			final IPath containerPath,
-			final IJavaProject project) throws CoreException {
 
-		JavaCore.setClasspathContainer(
-				new Path(mLibraryName), 
-				new IJavaProject[]{ project },
-				new IClasspathContainer[] {
-					new IClasspathContainer() {
-						public IClasspathEntry[] getClasspathEntries() {
-							return getLegStarClassPath(); 
-						}
-						public String getDescription() {
-							return mLibraryDescription;
-						}
-						public int getKind() {
-							return IClasspathContainer.K_SYSTEM;
-						}
-						public IPath getPath() {
-							return new Path(mLibraryName);
-						}
-					}			
-				}, 
-				null);
-		
-	}
+    /** Name of the container library. */
+    private String mLibraryName;
 
-	/**
-	 * Collects all jar files from installation folder and creates a set of
-	 * classpath entries.
-	 * In case classpath entries cannot be  created this logs an exception
-	 * but let it slip. User should still be able to setup the classpath
-	 * manually.
-	 * @return an array of classpath entries or null if none is built
-	 */
-	private IClasspathEntry[] getLegStarClassPath() {
-		try {
-			java.util.List < IClasspathEntry > pathEntries =
-				new ArrayList < IClasspathEntry >();
-			File libraryFolder = new File(
-					Activator.getPluginInstallLocation(mPluginId)
-						+ "/lib");
-			
-			/* Add all jar files to classpath */
-			File[] files = libraryFolder.listFiles(new JarFilter());
-			for (File file : files) {
-				pathEntries.add(
-						JavaCore.newLibraryEntry(
-								new Path(file.getAbsolutePath()),
-								null, null, false));
-			}
-			
-			return (IClasspathEntry[]) pathEntries.toArray(
-					new IClasspathEntry[pathEntries.size()]);
-		} catch (InvocationTargetException e) {
-			Activator.logCoreException(e.getTargetException(), mPluginId);
-			return null;
-		}
-	}
-	
-	/**
-	 * Used to limit search to jar files.
-	 */
-	private class JarFilter implements FilenameFilter {
-		/** {@inheritDoc} */
-	    public boolean accept(final File dir, final String name) {
-	        return (name.endsWith(".jar"));
-	    }
-	}
+    /** Description of the container library. */
+    private String mLibraryDescription;
+
+    /** The plugin that contains a lib folder with jars to populate the
+     *  container library. */
+    private String mPluginId;
+
+
+    /**
+     * Creates the initializer with the parameter set needed to create a
+     * library container.
+     * @param pluginId The plugin that contains a lib folder with jars to
+     *  populate the container library
+     * @param libraryName Name of the container library
+     * @param libraryDescription Description of the container library
+     */
+    public AbstractClasspathInitializer(
+            final String pluginId,
+            final String libraryName,
+            final String libraryDescription) {
+        mPluginId = pluginId;
+        mLibraryName = libraryName;
+        mLibraryDescription = libraryDescription;
+    }
+
+    /** {@inheritDoc} */
+    public void initialize(
+            final IPath containerPath,
+            final IJavaProject project) throws CoreException {
+
+        JavaCore.setClasspathContainer(
+                new Path(mLibraryName), 
+                new IJavaProject[]{ project },
+                new IClasspathContainer[] {
+                    new IClasspathContainer() {
+                        public IClasspathEntry[] getClasspathEntries() {
+                            return getLegStarClassPath(); 
+                        }
+                        public String getDescription() {
+                            return mLibraryDescription;
+                        }
+                        public int getKind() {
+                            return IClasspathContainer.K_SYSTEM;
+                        }
+                        public IPath getPath() {
+                            return new Path(mLibraryName);
+                        }
+                    }
+                }, 
+                null);
+
+    }
+
+    /**
+     * Collects all jar files from installation folder and creates a set of
+     * classpath entries.
+     * In case classpath entries cannot be  created this logs an exception
+     * but let it slip. User should still be able to setup the classpath
+     * manually.
+     * @return an array of classpath entries or null if none is built
+     */
+    private IClasspathEntry[] getLegStarClassPath() {
+        try {
+            java.util.List < IClasspathEntry > pathEntries =
+                new ArrayList < IClasspathEntry >();
+            File libraryFolder = new File(
+                    Activator.getPluginInstallLocation(mPluginId)
+                    + "/lib");
+
+            /* Add all jar files to classpath */
+            File[] files = libraryFolder.listFiles(new JarFilter());
+            for (File file : files) {
+                pathEntries.add(
+                        JavaCore.newLibraryEntry(
+                                new Path(file.getAbsolutePath()),
+                                null, null, false));
+            }
+
+            return (IClasspathEntry[]) pathEntries.toArray(
+                    new IClasspathEntry[pathEntries.size()]);
+        } catch (InvocationTargetException e) {
+            Activator.logCoreException(e.getTargetException(), mPluginId);
+            return null;
+        }
+    }
+
+    /**
+     * Used to limit search to jar files.
+     */
+    private class JarFilter implements FilenameFilter {
+        /** {@inheritDoc} */
+        public boolean accept(final File dir, final String name) {
+            return (name.endsWith(".jar"));
+        }
+    }
 
     /** {@inheritDoc}*/
     public boolean canUpdateClasspathContainer(final IPath containerPath,

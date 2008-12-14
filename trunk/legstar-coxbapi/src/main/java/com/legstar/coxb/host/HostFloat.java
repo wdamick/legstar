@@ -17,55 +17,55 @@ package com.legstar.coxb.host;
  * 
  */
 public class HostFloat {
-	/** 0 means positive and 1 negative. */
-	private int mSign = 0;
-	
-	/** The exponent value (not the excess). */
-	private int mExponent = 0;
-	
-	/** The mantissa value. */
-	private int mMantissa = 0;
+    /** 0 means positive and 1 negative. */
+    private int mSign = 0;
 
-	/**
-	 * @return Returns the exponent.
-	 */
-	public final int getExponent() {
-		return mExponent;
-	}
+    /** The exponent value (not the excess). */
+    private int mExponent = 0;
 
-	/**
-	 * @param exponent The exponent to set.
-	 */
-	public final void setExponent(final int exponent) {
-		mExponent = exponent;
-	}
+    /** The mantissa value. */
+    private int mMantissa = 0;
 
-	/**
-	 * @return Returns the mantissa.
-	 */
-	public final int getMantissa() {
-		return mMantissa;
-	}
+    /**
+     * @return Returns the exponent.
+     */
+    public final int getExponent() {
+        return mExponent;
+    }
 
-	/**
-	 * @param mantissa The mantissa to set.
-	 */
-	public final void setMantissa(final int mantissa) {
-		mMantissa = mantissa;
-	}
+    /**
+     * @param exponent The exponent to set.
+     */
+    public final void setExponent(final int exponent) {
+        mExponent = exponent;
+    }
 
-	/**
-	 * @return Returns the sign.
-	 */
-	public final int getSign() {
-		return mSign;
-	}
+    /**
+     * @return Returns the mantissa.
+     */
+    public final int getMantissa() {
+        return mMantissa;
+    }
 
-	/**
-	 * @param sign The sign to set.
-	 */
-	public final void setSign(final int sign) {
-		mSign = sign;
-	}
+    /**
+     * @param mantissa The mantissa to set.
+     */
+    public final void setMantissa(final int mantissa) {
+        mMantissa = mantissa;
+    }
+
+    /**
+     * @return Returns the sign.
+     */
+    public final int getSign() {
+        return mSign;
+    }
+
+    /**
+     * @param sign The sign to set.
+     */
+    public final void setSign(final int sign) {
+        mSign = sign;
+    }
 
 }

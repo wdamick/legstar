@@ -17,69 +17,69 @@ import org.eclipse.osgi.util.NLS;
  */
 public class Messages extends NLS {
 
-	/** All messages come from this property file.*/
-	private static final String BUNDLE_NAME =
-		"com.legstar.eclipse.plugin.coxbgen.messages";
-	
-	/** The wizards icon.*/
-	public static String binding_generator_icon;
-	/** The name filter to which this wizard is associated.*/
-	public static String filename_filter;
-	/** Right click on XML Schema files shows this menu item.*/
-	public static String popup_menu_label;
-	/** Action menu label.*/
-	public static String action_label;
-	
-	/** Wizard page title.*/
-	public static String wizard_page_title;
-	/** Wizard page description.*/
-	public static String wizard_page_description;
-	
-	/** No XSD file was selected.*/
-	public static String no_xsd_file_msg;
-	/** Generation error dialog boxes title.*/
-	public static String generate_error_dialog_title;
-	/** Generation error short message.*/
-	public static String generation_failure_short_msg;
-	/** Generation error long message.*/
-	public static String generation_failure_long_msg;
+    /** All messages come from this property file.*/
+    private static final String BUNDLE_NAME =
+        "com.legstar.eclipse.plugin.coxbgen.messages";
 
-	/** No root element selected error message. */
-	public static String no_root_elements_selected_msg;
-	/** Target source folder is not valid error message. */
-	public static String invalid_target_src_folder_msg;
-	/** Unable to setup classpath for the target java project. */
-	public static String classpath_setup_failure_msg;
-	
-	/** XML Schema group label. */
-	public static String xsd_group_label;
-	/** XML Schema file name label. */
-	public static String xsd_file_name_label;
-	/** JAXB package name label. */
-	public static String jaxb_package_name_label;
-	/** JAXB type name suffix label. */
-	public static String jaxb_type_name_suffix_label;
-	/** Available root element list label. */
-	public static String root_elements_list_label;
-	/** Target source folder label. */
-	public static String target_source_folder_label;
-	/** Target source folder selection dialog title. */
-	public static String target_source_folder_select_label;
-	/** Target classes folder label. */
-	public static String target_classes_folder_label;
-	
-	/** Was unable to initialize page. */
-	public static String page_initialization_failure_msg;
-	/** XML schema has no JAXB annotations. */
-	public static String no_annotations_xsd_file_msg;
-	/** XML schema belongs to an invalid project. */
-	public static String xsd_file_in_invalid_project_msg;
-	/** Generating task label. */
-	public static String ant_generating_task_label;
+    /** The wizards icon.*/
+    public static String binding_generator_icon;
+    /** The name filter to which this wizard is associated.*/
+    public static String filename_filter;
+    /** Right click on XML Schema files shows this menu item.*/
+    public static String popup_menu_label;
+    /** Action menu label.*/
+    public static String action_label;
+
+    /** Wizard page title.*/
+    public static String wizard_page_title;
+    /** Wizard page description.*/
+    public static String wizard_page_description;
+
+    /** No XSD file was selected.*/
+    public static String no_xsd_file_msg;
+    /** Generation error dialog boxes title.*/
+    public static String generate_error_dialog_title;
+    /** Generation error short message.*/
+    public static String generation_failure_short_msg;
+    /** Generation error long message.*/
+    public static String generation_failure_long_msg;
+
+    /** No root element selected error message. */
+    public static String no_root_elements_selected_msg;
+    /** Target source folder is not valid error message. */
+    public static String invalid_target_src_folder_msg;
+    /** Unable to setup classpath for the target java project. */
+    public static String classpath_setup_failure_msg;
+
+    /** XML Schema group label. */
+    public static String xsd_group_label;
+    /** XML Schema file name label. */
+    public static String xsd_file_name_label;
+    /** JAXB package name label. */
+    public static String jaxb_package_name_label;
+    /** JAXB type name suffix label. */
+    public static String jaxb_type_name_suffix_label;
+    /** Available root element list label. */
+    public static String root_elements_list_label;
+    /** Target source folder label. */
+    public static String target_source_folder_label;
+    /** Target source folder selection dialog title. */
+    public static String target_source_folder_select_label;
+    /** Target classes folder label. */
+    public static String target_classes_folder_label;
+
+    /** Was unable to initialize page. */
+    public static String page_initialization_failure_msg;
+    /** XML schema has no JAXB annotations. */
+    public static String no_annotations_xsd_file_msg;
+    /** XML schema belongs to an invalid project. */
+    public static String xsd_file_in_invalid_project_msg;
+    /** Generating task label. */
+    public static String ant_generating_task_label;
 
 
-	static {
-		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
-	}
+    static {
+        NLS.initializeMessages(BUNDLE_NAME, Messages.class);
+    }
 
 }

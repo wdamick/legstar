@@ -23,44 +23,44 @@ import com.legstar.coxb.host.HostException;
  */
 public abstract class CobolSimpleConverter {
 
-	/** Cobol compiler parameters. */
-	private CobolContext mCobolContext;
-	
-	/**
-	 * @param cobolContext the Cobol compiler parameters in effect
-	 */
-	public CobolSimpleConverter(final CobolContext cobolContext) {
-		mCobolContext = cobolContext;
-	}
+    /** Cobol compiler parameters. */
+    private CobolContext mCobolContext;
 
-	/**
-	 * @return Returns the CobolContext.
-	 */
-	public final CobolContext getCobolContext() {
-		return mCobolContext;
-	}
+    /**
+     * @param cobolContext the Cobol compiler parameters in effect
+     */
+    public CobolSimpleConverter(final CobolContext cobolContext) {
+        mCobolContext = cobolContext;
+    }
 
-	/**
-	 * @param cobolContext The CobolContext to set.
-	 */
-	public final void setCobolContext(final CobolContext cobolContext) {
-		mCobolContext = cobolContext;
-	}
-	
-	/**
-	 * Formats a meaningful error message to help track conversion errors.
-	 * @param ce the faulty binding element 
-	 * @param e the conversion exception
-	 * @throws HostException the resulting host exception
-	 */
-	public final void throwHostException(
-			final ICobolBinding ce, 
-			final CobolConversionException e)
-	        throws HostException {
-		throw (new HostException("ConversionException for element:"
-				+ ce.getBindingName()
-				+ " Cobol name:" + ce.getCobolName()
-				+ " Reason:" + e.getMessage()));
-		
-	}
+    /**
+     * @return Returns the CobolContext.
+     */
+    public final CobolContext getCobolContext() {
+        return mCobolContext;
+    }
+
+    /**
+     * @param cobolContext The CobolContext to set.
+     */
+    public final void setCobolContext(final CobolContext cobolContext) {
+        mCobolContext = cobolContext;
+    }
+
+    /**
+     * Formats a meaningful error message to help track conversion errors.
+     * @param ce the faulty binding element 
+     * @param e the conversion exception
+     * @throws HostException the resulting host exception
+     */
+    public final void throwHostException(
+            final ICobolBinding ce, 
+            final CobolConversionException e)
+    throws HostException {
+        throw (new HostException("ConversionException for element:"
+                + ce.getBindingName()
+                + " Cobol name:" + ce.getCobolName()
+                + " Reason:" + e.getMessage()));
+
+    }
 }

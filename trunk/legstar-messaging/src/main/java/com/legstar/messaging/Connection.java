@@ -13,5 +13,5 @@ package com.legstar.messaging;
 
 /** @deprecated */
 public interface Connection extends LegStarConnection {
-	
+
 }

@@ -29,7 +29,7 @@ import junit.framework.TestCase;
 public class CodeGenMakeTest extends TestCase {
 
     /** Logger. */
-	private static final Log LOG = LogFactory.getLog(CodeGenMakeTest.class);
+    private static final Log LOG = LogFactory.getLog(CodeGenMakeTest.class);
 
     /**
      * Check controls on input make file.
@@ -50,7 +50,7 @@ public class CodeGenMakeTest extends TestCase {
             assertEquals("Code generation make file tarass.boulba does not exist", e.getMessage());
         }
     }
-    
+
     /**
      * Check controls on input make file tag &lt;cixstarget&gt;.
      * @throws IOException if file cannot be read
@@ -73,7 +73,7 @@ public class CodeGenMakeTest extends TestCase {
             assertEquals("Empty or invalid code generation make file", e.getMessage());
         }
     }
-    
+
     /**
      * Check controls on input make file tag &lt;cixstarget name=""&gt;.
      * @throws IOException if file cannot be read

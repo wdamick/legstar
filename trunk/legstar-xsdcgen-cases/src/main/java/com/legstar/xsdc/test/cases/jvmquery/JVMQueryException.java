@@ -10,16 +10,26 @@
  ******************************************************************************/
 package com.legstar.xsdc.test.cases.jvmquery;
 
+/**
+ * Failure in the pojo unique method.
+ */
 public class JVMQueryException extends Exception {
 
-	/** serialVersionUID. */
-	private static final long serialVersionUID = 7635942844695876914L;
+    /** serialVersionUID. */
+    private static final long serialVersionUID = 7635942844695876914L;
 
-	public JVMQueryException(final String string) {
-		super(string);
-	}
-	public JVMQueryException(final Exception e) {
-		super(e);
-	}
+    /**
+     * @param string the exception message
+     */
+    public JVMQueryException(final String string) {
+        super(string);
+    }
+    
+    /**
+     * @param e the root exception
+     */
+    public JVMQueryException(final Exception e) {
+        super(e);
+    }
 
 }

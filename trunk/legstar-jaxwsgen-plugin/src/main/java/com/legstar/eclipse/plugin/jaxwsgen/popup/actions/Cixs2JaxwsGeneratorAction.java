@@ -15,7 +15,7 @@ import org.eclipse.core.runtime.CoreException;
 
 import com.legstar.eclipse.plugin.cixscom.popup.actions.AbstractGeneratorAction;
 import com.legstar.eclipse.plugin.jaxwsgen.wizards
-		.Cixs2JaxwsGeneratorWizardLauncher;
+.Cixs2JaxwsGeneratorWizardLauncher;
 
 /**
  * This action becomes available when a LegStar mapping file is selected.

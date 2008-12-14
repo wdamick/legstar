@@ -17,14 +17,14 @@ import com.legstar.coxb.host.HostException;
  *
  * @author Fady Moussallam
  * 
-*/
-public interface ICobolArrayBinding	extends ICobolBinding {
-
-	/**
-	 * Fixed size arrays return the maximum number of occurences while variable
-	 * size arrays dynamically compute their dimension.
-	 * @return the current number of items
-	 * @throws HostException if count cannot be computed
-	 */
-	int getCurrentOccurs() throws HostException;
+ */
+public interface ICobolArrayBinding extends ICobolBinding {
+    
+    /**
+     * Fixed size arrays return the maximum number of occurences while variable
+     * size arrays dynamically compute their dimension.
+     * @return the current number of items
+     * @throws HostException if count cannot be computed
+     */
+    int getCurrentOccurs() throws HostException;
 }

@@ -10,97 +10,107 @@
  ******************************************************************************/
 package com.legstar.xsdc.test.cases.cultureinfo;
 
+/**
+ * The reply data object.
+ *
+ */
 public class CultureInfoReply {
-	
-	private String mDisplayLanguage;
-	private String mDisplayCountry;
-	private String mFormattedDate;
-	private String mCurrencySymbol;
-	private String mFormattedDecimalNumber;
-	private ServerCultureInfo mServerCultureInfo;
 
-	/**
-	 * @return the Currency Symbol
-	 */
-	public final String getCurrencySymbol() {
-		return mCurrencySymbol;
-	}
+    /** The Locale display language. */
+    private String mDisplayLanguage;
+    /** The Locale display country. */
+    private String mDisplayCountry;
+    /** The formatted date. */
+    private String mFormattedDate;
+    /** The Locale currency symbol . */
+    private String mCurrencySymbol;
+    /** The formatted decimal number. */
+    private String mFormattedDecimalNumber;
+    /** The JVM culture info. */
+    private ServerCultureInfo mServerCultureInfo;
 
-	/**
-	 * @param currencySymbol the Currency Symbol to set
-	 */
-	public final void setCurrencySymbol(String currencySymbol) {
-		mCurrencySymbol = currencySymbol;
-	}
+    /**
+     * @return the Currency Symbol
+     */
+    public final String getCurrencySymbol() {
+        return mCurrencySymbol;
+    }
 
-	/**
-	 * @return the Formatted Date
-	 */
-	public final String getFormattedDate() {
-		return mFormattedDate;
-	}
+    /**
+     * @param currencySymbol the Currency Symbol to set
+     */
+    public final void setCurrencySymbol(final String currencySymbol) {
+        mCurrencySymbol = currencySymbol;
+    }
 
-	/**
-	 * @param formattedDate the Formatted Date to set
-	 */
-	public final void setFormattedDate(String formattedDate) {
-		mFormattedDate = formattedDate;
-	}
+    /**
+     * @return the Formatted Date
+     */
+    public final String getFormattedDate() {
+        return mFormattedDate;
+    }
 
-	/**
-	 * @return the Display Country
-	 */
-	public final String getDisplayCountry() {
-		return mDisplayCountry;
-	}
+    /**
+     * @param formattedDate the Formatted Date to set
+     */
+    public final void setFormattedDate(final String formattedDate) {
+        mFormattedDate = formattedDate;
+    }
 
-	/**
-	 * @param displayCountry the Display Country to set
-	 */
-	public final void setDisplayCountry(String displayCountry) {
-		mDisplayCountry = displayCountry;
-	}
+    /**
+     * @return the Display Country
+     */
+    public final String getDisplayCountry() {
+        return mDisplayCountry;
+    }
 
-	/**
-	 * @return the Display Language
-	 */
-	public final String getDisplayLanguage() {
-		return mDisplayLanguage;
-	}
+    /**
+     * @param displayCountry the Display Country to set
+     */
+    public final void setDisplayCountry(final String displayCountry) {
+        mDisplayCountry = displayCountry;
+    }
 
-	/**
-	 * @param displayLanguage the Display Language to set
-	 */
-	public final void setDisplayLanguage(String displayLanguage) {
-		mDisplayLanguage = displayLanguage;
-	}
+    /**
+     * @return the Display Language
+     */
+    public final String getDisplayLanguage() {
+        return mDisplayLanguage;
+    }
 
-	/**
-	 * @return the Formatted Decimal Number
-	 */
-	public final String getFormattedDecimalNumber() {
-		return mFormattedDecimalNumber;
-	}
+    /**
+     * @param displayLanguage the Display Language to set
+     */
+    public final void setDisplayLanguage(final String displayLanguage) {
+        mDisplayLanguage = displayLanguage;
+    }
 
-	/**
-	 * @param formattedDecimalNumber the Formatted Decimal Number to set
-	 */
-	public final void setFormattedDecimalNumber(String formattedDecimalNumber) {
-		mFormattedDecimalNumber = formattedDecimalNumber;
-	}
+    /**
+     * @return the Formatted Decimal Number
+     */
+    public final String getFormattedDecimalNumber() {
+        return mFormattedDecimalNumber;
+    }
 
-	/**
-	 * @return the Server Culture Info
-	 */
-	public final ServerCultureInfo getServerCultureInfo() {
-		return mServerCultureInfo;
-	}
+    /**
+     * @param formattedDecimalNumber the Formatted Decimal Number to set
+     */
+    public final void setFormattedDecimalNumber(final String formattedDecimalNumber) {
+        mFormattedDecimalNumber = formattedDecimalNumber;
+    }
 
-	/**
-	 * @param serverCultureInfo the Server Culture Info to set
-	 */
-	public final void setServerCultureInfo(ServerCultureInfo serverCultureInfo) {
-		mServerCultureInfo = serverCultureInfo;
-	}
+    /**
+     * @return the Server Culture Info
+     */
+    public final ServerCultureInfo getServerCultureInfo() {
+        return mServerCultureInfo;
+    }
+
+    /**
+     * @param serverCultureInfo the Server Culture Info to set
+     */
+    public final void setServerCultureInfo(final ServerCultureInfo serverCultureInfo) {
+        mServerCultureInfo = serverCultureInfo;
+    }
 
 }

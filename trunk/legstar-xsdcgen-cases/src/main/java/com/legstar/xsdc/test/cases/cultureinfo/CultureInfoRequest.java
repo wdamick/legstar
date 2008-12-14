@@ -14,34 +14,41 @@ import java.math.BigDecimal;
 
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * The request data object.
+ *
+ */
 @XmlType(name = "cultureInfoParameters")
 public class CultureInfoRequest {
-	
-	private BigDecimal mDecimalNumber;
-	private String mCultureCode;
-	/**
-	 * @return the Culture Code
-	 */
-	public final String getCultureCode() {
-		return mCultureCode;
-	}
-	/**
-	 * @param culturecode the Culture Code to set
-	 */
-	public final void setCultureCode(String culturecode) {
-		mCultureCode = culturecode;
-	}
-	/**
-	 * @return the DecimalNumber
-	 */
-	public final BigDecimal getDecimalNumber() {
-		return mDecimalNumber;
-	}
-	/**
-	 * @param DecimalNumber the DecimalNumber to set
-	 */
-	public final void setDecimalNumber(BigDecimal DecimalNumber) {
-		mDecimalNumber = DecimalNumber;
-	}
+
+    /** A decimal number to be formatted. */
+    private BigDecimal mDecimalNumber;
+    
+    /** The locale requested. */
+    private String mCultureCode;
+    /**
+     * @return the Culture Code
+     */
+    public final String getCultureCode() {
+        return mCultureCode;
+    }
+    /**
+     * @param culturecode the Culture Code to set
+     */
+    public final void setCultureCode(final String culturecode) {
+        mCultureCode = culturecode;
+    }
+    /**
+     * @return the DecimalNumber
+     */
+    public final BigDecimal getDecimalNumber() {
+        return mDecimalNumber;
+    }
+    /**
+     * @param decimalNumber the DecimalNumber to set
+     */
+    public final void setDecimalNumber(final BigDecimal decimalNumber) {
+        mDecimalNumber = decimalNumber;
+    }
 
 }

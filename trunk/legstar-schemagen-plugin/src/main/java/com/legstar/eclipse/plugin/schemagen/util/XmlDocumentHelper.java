@@ -34,29 +34,29 @@ import org.xml.sax.SAXException;
  * from WSDL so that all output is XML Schema whatever the source.
  */
 public class XmlDocumentHelper {
-	
-	/** Reusable parser. */
-	private DocumentBuilder mDocumentBuilder;
-	
-	/** The XML document. */
-	private Document mDocument;
-	
-	/**
-	 * Load the source as a DOM document.
-	 * @param sourceName the source name should be a valid URI
-	 * @throws XmlDocumentHelperException if load fails
-	 */
-	public void load(
-			final String sourceName) throws XmlDocumentHelperException {
-		lazyInit();
-		try {
-			mDocument = mDocumentBuilder.parse(sourceName);
-		} catch (SAXException e) {
-			throw new XmlDocumentHelperException(e);
-		} catch (IOException e) {
-			throw new XmlDocumentHelperException(e);
-		}
-	}
+
+    /** Reusable parser. */
+    private DocumentBuilder mDocumentBuilder;
+
+    /** The XML document. */
+    private Document mDocument;
+
+    /**
+     * Load the source as a DOM document.
+     * @param sourceName the source name should be a valid URI
+     * @throws XmlDocumentHelperException if load fails
+     */
+    public void load(
+            final String sourceName) throws XmlDocumentHelperException {
+        lazyInit();
+        try {
+            mDocument = mDocumentBuilder.parse(sourceName);
+        } catch (SAXException e) {
+            throw new XmlDocumentHelperException(e);
+        } catch (IOException e) {
+            throw new XmlDocumentHelperException(e);
+        }
+    }
 
     /**
      * Serialize the document with some indentation so that it is readable.
@@ -64,11 +64,11 @@ public class XmlDocumentHelper {
      * @throws XmlDocumentHelperException if serializing fails
      */
     public void serialize(
-    		final Writer out) throws XmlDocumentHelperException {
-        
-    	if (mDocument == null) {
-    		throw new XmlDocumentHelperException("No XML was loaded");
-    	}
+            final Writer out) throws XmlDocumentHelperException {
+
+        if (mDocument == null) {
+            throw new XmlDocumentHelperException("No XML was loaded");
+        }
         TransformerFactory tfactory = TransformerFactory.newInstance();
         Transformer serializer;
         try {
@@ -76,29 +76,29 @@ public class XmlDocumentHelper {
             //Setup indenting to "pretty print"
             serializer.setOutputProperty(OutputKeys.INDENT, "yes");
             serializer.setOutputProperty(
-            		"{http://xml.apache.org/xslt}indent-amount", "2");
-            
+                    "{http://xml.apache.org/xslt}indent-amount", "2");
+
             serializer.transform(
-            		new DOMSource(mDocument), new StreamResult(out));
+                    new DOMSource(mDocument), new StreamResult(out));
         } catch (TransformerException e) {
-			throw new XmlDocumentHelperException(e);
+            throw new XmlDocumentHelperException(e);
         }
     }
-    
+
     /**
      * On first call this creates an instance of the XML parser. This allows
      * loading to affect the first call only.
      * @throws XmlDocumentHelperException if oarser initialization fails
      */
     private void lazyInit() throws XmlDocumentHelperException {
-    	if (mDocumentBuilder == null) {
-			try {
-				DocumentBuilderFactory factory =
-					DocumentBuilderFactory.newInstance();
-				mDocumentBuilder = factory.newDocumentBuilder();
-			} catch (ParserConfigurationException e) {
-				throw new XmlDocumentHelperException(e);
-			}
-    	}
+        if (mDocumentBuilder == null) {
+            try {
+                DocumentBuilderFactory factory =
+                    DocumentBuilderFactory.newInstance();
+                mDocumentBuilder = factory.newDocumentBuilder();
+            } catch (ParserConfigurationException e) {
+                throw new XmlDocumentHelperException(e);
+            }
+        }
     }
 }

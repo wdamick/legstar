@@ -21,9 +21,9 @@ import org.eclipse.ui.PlatformUI;
  * Implementation of a generator launcher. It conforms to the 
  * <code>ICixsGeneratorWizardLauncher</code> interface which allows subclasses
  * to be dynamically discovered.
-  */
+ */
 public abstract class AbstractCixsGeneratorWizardLauncher
-	implements ICixsGeneratorWizardLauncher {
+implements ICixsGeneratorWizardLauncher {
 
     /**
      * {@inheritDoc}
@@ -36,11 +36,11 @@ public abstract class AbstractCixsGeneratorWizardLauncher
         dialog.create();
         dialog.open();
     }
-    
+
     /**
      * {@inheritDoc}
      */
     protected abstract IWizard getWizard(
-    		final IFile mappingFile) throws CoreException;
-    
+            final IFile mappingFile) throws CoreException;
+
 }

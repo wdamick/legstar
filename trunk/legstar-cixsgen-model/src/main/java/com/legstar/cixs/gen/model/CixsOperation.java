@@ -134,7 +134,7 @@ public class CixsOperation {
 
     /** Default suffix for multi-input response holder class names. */
     private static final String DEFAULT_RESPONSE_HOLDER_SUFFIX =
-    	"ResponseHolder";
+        "ResponseHolder";
 
     /**
      * @return the service operation name
@@ -397,7 +397,7 @@ public class CixsOperation {
      * @return a valid class name built from the operation name.
      */
     public final String getClassName() {
-    	return CodeGenUtil.classNormalize(getName());
+        return CodeGenUtil.classNormalize(getName());
     }
 
     /**
@@ -409,7 +409,7 @@ public class CixsOperation {
         }
         return mFaultType;
     }
-    
+
     /**
      * @param faultType the Class name for faults to set
      */
@@ -472,11 +472,11 @@ public class CixsOperation {
             if (hasChannel()) {
                 return getClassName() + DEFAULT_REQUEST_HOLDER_SUFFIX;
             } else {
-            	if (mInput.size() > 0) {
-            		return mInput.get(0).getJaxbType();
-            	} else {
-            		return null;
-            	}
+                if (mInput.size() > 0) {
+                    return mInput.get(0).getJaxbType();
+                } else {
+                    return null;
+                }
             }
         }
         return mRequestHolderType;
@@ -495,9 +495,9 @@ public class CixsOperation {
      * build a name using operation class name and a suffix.
      */
     public final String getRequestWrapperType() {
-    	if (mRequestWrapperType == null || mRequestWrapperType.length() == 0) {
-    		return getClassName() + DEFAULT_REQUEST_WRAPPER_SUFFIX;
-    	}
+        if (mRequestWrapperType == null || mRequestWrapperType.length() == 0) {
+            return getClassName() + DEFAULT_REQUEST_WRAPPER_SUFFIX;
+        }
         return mRequestWrapperType;
     }
 
@@ -518,11 +518,11 @@ public class CixsOperation {
             if (hasChannel()) {
                 return getClassName() + DEFAULT_RESPONSE_HOLDER_SUFFIX;
             } else {
-            	if (mOutput.size() > 0) {
-            		return mOutput.get(0).getJaxbType();
-            	} else {
-            		return null;
-            	}
+                if (mOutput.size() > 0) {
+                    return mOutput.get(0).getJaxbType();
+                } else {
+                    return null;
+                }
             }
         }
         return mResponseHolderType;
@@ -541,10 +541,10 @@ public class CixsOperation {
      * @return the Class name for response wrapper
      */
     public final String getResponseWrapperType() {
-    	if (mResponseWrapperType == null
-    			|| mResponseWrapperType.length() == 0) {
-    		return getClassName() + DEFAULT_RESPONSE_WRAPPER_SUFFIX;
-    	}
+        if (mResponseWrapperType == null
+                || mResponseWrapperType.length() == 0) {
+            return getClassName() + DEFAULT_RESPONSE_WRAPPER_SUFFIX;
+        }
         return mResponseWrapperType;
     }
 
@@ -555,11 +555,11 @@ public class CixsOperation {
             final String responseWrapperType) {
         mResponseWrapperType = responseWrapperType;
     }
-    
+
     /**
      * @return true if this operation uses Channel/Containers
      */
     public final boolean hasChannel() {
-    	return (mCicsChannel != null && mCicsChannel.length() > 0);
+        return (mCicsChannel != null && mCicsChannel.length() > 0);
     }
 }

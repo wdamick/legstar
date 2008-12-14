@@ -16,8 +16,7 @@ package com.legstar.coxb;
  *
  * @author Fady Moussallam
  * 
-*/
-public interface ICobolPackedDecimalBinding
-	     extends ICobolNumericBinding {
-  
+ */
+public interface ICobolPackedDecimalBinding extends ICobolNumericBinding {
+
 }

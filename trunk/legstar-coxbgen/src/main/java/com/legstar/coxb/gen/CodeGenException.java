@@ -16,9 +16,9 @@ package com.legstar.coxb.gen;
 public class CodeGenException extends Exception {
 
     /** Unique serial ID. */
-	private static final long serialVersionUID = 4933554196026963137L;
+    private static final long serialVersionUID = 4933554196026963137L;
 
-	/**
+    /**
      * Build Exception from message.
      * @param message exception description
      */
@@ -26,10 +26,10 @@ public class CodeGenException extends Exception {
         super(message);
     }
 
-  /**
-   * Build Exception from inner exception.
-   * @param e the inner exception
-   */
+    /**
+     * Build Exception from inner exception.
+     * @param e the inner exception
+     */
     public CodeGenException(final Exception e) {
         super(e);
     }

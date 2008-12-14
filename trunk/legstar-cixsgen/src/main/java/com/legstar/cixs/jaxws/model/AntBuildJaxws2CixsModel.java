@@ -27,22 +27,22 @@ public class AntBuildJaxws2CixsModel extends AbstractAntBuildCixsModel {
 
     /** The URI that the host exposes to consumers. */
     private String mHostURI;
-    
+
     /** The host URI is not mandatory at generation time so we
      * provide a placeholder. */
     private static final String DEFAULT_HOST_URI = "http://hosturi";
 
-	/** Target location for web deployment descriptors. */
-	private File mTargetWDDDir;
-	
+    /** Target location for web deployment descriptors. */
+    private File mTargetWDDDir;
+
     /** The deployment location for jaxws war files. */
     private File mTargetWarDir;
-    
-   /** This velocity template that creates an ant build which in turn
+
+    /** This velocity template that creates an ant build which in turn
      * generates the target web service. */
     public static final String JAXWS2CIXS_VELOCITY_MACRO_NAME =
         "vlc/build-jws2cixs-xml.vm";
-    
+
     /**
      * Construct the model.
      */
@@ -54,9 +54,9 @@ public class AntBuildJaxws2CixsModel extends AbstractAntBuildCixsModel {
      * @return the URI that the host exposes to consumers
      */
     public final String getHostURI() {
-    	if (mHostURI == null || mHostURI.length() == 0) {
-    		return DEFAULT_HOST_URI;
-    	}
+        if (mHostURI == null || mHostURI.length() == 0) {
+            return DEFAULT_HOST_URI;
+        }
         return mHostURI;
     }
 
@@ -83,33 +83,33 @@ public class AntBuildJaxws2CixsModel extends AbstractAntBuildCixsModel {
         setCixsService(cixsJaxwsService);
     }
 
-	/**
-	 * @return the Target location for web deployment descriptors
-	 */
-	public final File getTargetWDDDir() {
-		return mTargetWDDDir;
-	}
+    /**
+     * @return the Target location for web deployment descriptors
+     */
+    public final File getTargetWDDDir() {
+        return mTargetWDDDir;
+    }
 
-	/**
-	 * @param targetWDDDir the Target location for web deployment descriptors to
-	 *  set
-	 */
-	public final void setTargetWDDDir(final File targetWDDDir) {
-		mTargetWDDDir = targetWDDDir;
-	}
+    /**
+     * @param targetWDDDir the Target location for web deployment descriptors to
+     *  set
+     */
+    public final void setTargetWDDDir(final File targetWDDDir) {
+        mTargetWDDDir = targetWDDDir;
+    }
 
-	/**
-	 * @return the deployment location for jaxws war files
-	 */
-	public final File getTargetWarDir() {
-		return mTargetWarDir;
-	}
+    /**
+     * @return the deployment location for jaxws war files
+     */
+    public final File getTargetWarDir() {
+        return mTargetWarDir;
+    }
 
-	/**
-	 * @param targetWarDir the deployment location for jaxws war files to set
-	 */
-	public final void setTargetWarDir(final File targetWarDir) {
-		mTargetWarDir = targetWarDir;
-	}
+    /**
+     * @param targetWarDir the deployment location for jaxws war files to set
+     */
+    public final void setTargetWarDir(final File targetWarDir) {
+        mTargetWarDir = targetWarDir;
+    }
 
 }

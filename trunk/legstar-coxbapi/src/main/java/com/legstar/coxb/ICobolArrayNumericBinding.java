@@ -20,66 +20,66 @@ import java.util.List;
  * 
  * @author Fady Moussallam
  * 
-*/
+ */
 public interface ICobolArrayNumericBinding extends ICobolArrayBinding {
-	
-	/**
-	 * @return the numeric list as a List of Bytes
-	 */
-	List < Byte > getByteList();
 
-	/**
-	 * @param list the numeric list as a List of Bytes to set
-	 */
-	void setByteList(List < Byte > list);
+    /**
+     * @return the numeric list as a List of Bytes
+     */
+    List < Byte > getByteList();
 
-	/**
-	 * @return the numeric list as a List of Shorts
-	 */
-	List < Short > getShortList();
+    /**
+     * @param list the numeric list as a List of Bytes to set
+     */
+    void setByteList(List < Byte > list);
 
-	/**
-	 * @param list the numeric list as a List of Shorts to set
-	 */
-	void setShortList(List < Short > list);
+    /**
+     * @return the numeric list as a List of Shorts
+     */
+    List < Short > getShortList();
 
-	/**
-	 * @return the numeric list as a List of Integers
-	 */
-	List < Integer > getIntegerList();
+    /**
+     * @param list the numeric list as a List of Shorts to set
+     */
+    void setShortList(List < Short > list);
 
-	/**
-	 * @param list the numeric list as a List of Integers to set
-	 */
-	void setIntegerList(List < Integer > list);
+    /**
+     * @return the numeric list as a List of Integers
+     */
+    List < Integer > getIntegerList();
 
-	/**
-	 * @return the numeric list as a List of Longs
-	 */
-	List < Long > getLongList();
+    /**
+     * @param list the numeric list as a List of Integers to set
+     */
+    void setIntegerList(List < Integer > list);
 
-	/**
-	 * @param list the numeric list as a List of Longs to set
-	 */
-	void setLongList(List < Long > list);
+    /**
+     * @return the numeric list as a List of Longs
+     */
+    List < Long > getLongList();
 
-	/**
-	 * @return the numeric list as a List of BigDecimals
-	 */
-	List < BigDecimal > getBigDecimalList();
+    /**
+     * @param list the numeric list as a List of Longs to set
+     */
+    void setLongList(List < Long > list);
 
-	/**
-	 * @param list the numeric list as a List of BigDecimals to set
-	 */
-	void setBigDecimalList(List < BigDecimal > list);
+    /**
+     * @return the numeric list as a List of BigDecimals
+     */
+    List < BigDecimal > getBigDecimalList();
 
-	/**
-	 * @return the numeric list as a List of BigIntegers
-	 */
-	List < BigInteger > getBigIntegerList();
+    /**
+     * @param list the numeric list as a List of BigDecimals to set
+     */
+    void setBigDecimalList(List < BigDecimal > list);
 
-	/**
-	 * @param list the numeric list as a List of BigIntegers to set
-	 */
-	void setBigIntegerList(List < BigInteger > list);
+    /**
+     * @return the numeric list as a List of BigIntegers
+     */
+    List < BigInteger > getBigIntegerList();
+
+    /**
+     * @param list the numeric list as a List of BigIntegers to set
+     */
+    void setBigIntegerList(List < BigInteger > list);
 }

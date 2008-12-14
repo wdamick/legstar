@@ -29,255 +29,255 @@ import com.legstar.codegen.models.SourceToXsdCobolModel;
  */
 public abstract class SourceToXsdCobolTask extends Task {
 
-	/** Logger. */
-	private static final Log LOG =
-		LogFactory.getLog(SourceToXsdCobolTask.class);
-	
-	/** Groups all the data needed to generate an annotated XML schema. */
-	private SourceToXsdCobolModel mModel;
-	
-	/**
-	 * Checks that common properties set are valid.
-	 * @param xsdFileNameMandatory where an xsd file name is mandatory
-	 * @param namespaceMandatory where a target namespace is mandatory
-	 */
-	public void checkInput(
-			final boolean xsdFileNameMandatory,
-			final boolean namespaceMandatory) {
+    /** Logger. */
+    private static final Log LOG =
+        LogFactory.getLog(SourceToXsdCobolTask.class);
 
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("checkInput started");
-			LOG.debug("   Target Jaxb Package name = " + getJaxbPackageName());
-			LOG.debug("   Target namespace name    = " + getNamespace());
-			LOG.debug("   Target directory         = " + getTargetDir());
-			LOG.debug("   Target Xsd file name     = "
-					+ getTargetXsdFileName());
-		}
-		
-		if (getModel() == null) {
-			throw (new BuildException("You must specify a model"));
-		}
+    /** Groups all the data needed to generate an annotated XML schema. */
+    private SourceToXsdCobolModel mModel;
 
-		/* Check that we have a valid target directory.  */
-		if (getTargetDir() == null) {
-			throw (new BuildException(
-			"You must provide a target directory"));
-		}
-		if (!getTargetDir().exists()) {
-			throw (new BuildException(
-					"Directory " + getTargetDir() + " does not exist"));
-		}
-		if (!getTargetDir().isDirectory() || !getTargetDir().canWrite()) {
-			throw (new BuildException(
-					getTargetDir() + " is not a directory or is not writable"));
-		}
+    /**
+     * Checks that common properties set are valid.
+     * @param xsdFileNameMandatory where an xsd file name is mandatory
+     * @param namespaceMandatory where a target namespace is mandatory
+     */
+    public void checkInput(
+            final boolean xsdFileNameMandatory,
+            final boolean namespaceMandatory) {
 
-		/* Set a valid target annotated XSD file name */
-		if (xsdFileNameMandatory) {
-			if (getTargetXsdFileName() == null 
-					|| getTargetXsdFileName().length() == 0) {
-				throw (new BuildException(
-				"You must provide a target xsd file name"));
-			}
-			if (getTargetXsdFileName().contains(File.separator)
-					|| getTargetXsdFileName().contains("/")) {
-				throw (new BuildException(
-					"Xsd file name should not specify a path (use targetDir for path)"));
-			}
-		}
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("checkInput started");
+            LOG.debug("   Target Jaxb Package name = " + getJaxbPackageName());
+            LOG.debug("   Target namespace name    = " + getNamespace());
+            LOG.debug("   Target directory         = " + getTargetDir());
+            LOG.debug("   Target Xsd file name     = "
+                    + getTargetXsdFileName());
+        }
 
-		if (namespaceMandatory) {
-			if (getNamespace() == null || getNamespace().length() == 0) {
-				throw (new BuildException(
-				"You must specify an output XML schema namespace"));
-			}
-		}
-		
-		/* If we have a namespace but no jaxb package, construct a package
-		 * name from the namespace. */
-		if (getNamespace() != null && getNamespace().length() > 0) {
-			try {
-				URI nURI = new URI(getNamespace());
-				if (nURI.isOpaque()) {
-					throw (new BuildException(
-							"Namespace " + getNamespace()
-							+ " is not a hierarchical URI"));
-				}
-				if (getJaxbPackageName() == null 
-						|| getJaxbPackageName().length() == 0) {
-					setJaxbPackageName(packageFromURI(nURI));
-				}
-			} catch (URISyntaxException e) {
-				throw new BuildException(e);
-			}
-		}
+        if (getModel() == null) {
+            throw (new BuildException("You must specify a model"));
+        }
 
-		if (getJaxbPackageName() == null 
-				|| getJaxbPackageName().length() == 0) {
-			throw (new BuildException(
-					"No valid package name is provided or can be derived"
-					+ " from namespace"));
-		}
-	}
-	
-	/**
-	 * Converts a URI into a package name. We assume a hierarchical,
-	 * server-based URI with the following syntax:
-	 *        [scheme:][//host[:port]][path][?query][#fragment]
-	 * The package name is derived from host, path and fragment.
-	 * 
-	 * @param namespaceURI the input namespace URI
-	 * @return the result package name
-	 */
-	public static String packageFromURI(final URI namespaceURI) {
+        /* Check that we have a valid target directory.  */
+        if (getTargetDir() == null) {
+            throw (new BuildException(
+            "You must provide a target directory"));
+        }
+        if (!getTargetDir().exists()) {
+            throw (new BuildException(
+                    "Directory " + getTargetDir() + " does not exist"));
+        }
+        if (!getTargetDir().isDirectory() || !getTargetDir().canWrite()) {
+            throw (new BuildException(
+                    getTargetDir() + " is not a directory or is not writable"));
+        }
 
-		StringBuilder result = new StringBuilder();
-		URI nURI = namespaceURI.normalize();
-		boolean firstToken = true;
+        /* Set a valid target annotated XSD file name */
+        if (xsdFileNameMandatory) {
+            if (getTargetXsdFileName() == null 
+                    || getTargetXsdFileName().length() == 0) {
+                throw (new BuildException(
+                "You must provide a target xsd file name"));
+            }
+            if (getTargetXsdFileName().contains(File.separator)
+                    || getTargetXsdFileName().contains("/")) {
+                throw (new BuildException(
+                "Xsd file name should not specify a path (use targetDir for path)"));
+            }
+        }
 
-		/* First part of package name is built from host with tokens in
-		 * reverse order. */
-		if (nURI.getHost() != null && nURI.getHost().length() != 0) {
-			Vector < String > v = new Vector < String >();
-			StringTokenizer t = new StringTokenizer(nURI.getHost(), ".");
-			while (t.hasMoreTokens()) {
-				v.addElement(t.nextToken());
-			}
+        if (namespaceMandatory) {
+            if (getNamespace() == null || getNamespace().length() == 0) {
+                throw (new BuildException(
+                "You must specify an output XML schema namespace"));
+            }
+        }
 
-			for (int i = v.size(); i > 0; i--) {
-				if (!firstToken) {
-					result.append('.');
-				} else {
-					firstToken = false;
-				}
-				result.append(v.get(i - 1));
-			}
-		}
+        /* If we have a namespace but no jaxb package, construct a package
+         * name from the namespace. */
+        if (getNamespace() != null && getNamespace().length() > 0) {
+            try {
+                URI nURI = new URI(getNamespace());
+                if (nURI.isOpaque()) {
+                    throw (new BuildException(
+                            "Namespace " + getNamespace()
+                            + " is not a hierarchical URI"));
+                }
+                if (getJaxbPackageName() == null 
+                        || getJaxbPackageName().length() == 0) {
+                    setJaxbPackageName(packageFromURI(nURI));
+                }
+            } catch (URISyntaxException e) {
+                throw new BuildException(e);
+            }
+        }
 
-		/* Next part of package is built from the path tokens */
-		if (nURI.getPath() != null && nURI.getPath().length() != 0) {
-			Vector < String > v = new Vector < String >();
-			StringTokenizer t = new StringTokenizer(nURI.getPath(), "/");
-			while (t.hasMoreTokens()) {
-				v.addElement(t.nextToken());
-			}
+        if (getJaxbPackageName() == null 
+                || getJaxbPackageName().length() == 0) {
+            throw (new BuildException(
+                    "No valid package name is provided or can be derived"
+                    + " from namespace"));
+        }
+    }
 
-			for (int i = 0; i < v.size(); i++) {
-				String token = v.get(i);
-				/* ignore situations such as /./../ */
-				if (token.equals(".") || token.equals("..")) {
-					continue;
-				}
-				if (!firstToken) {
-					result.append('.');
-				} else {
-					firstToken = false;
-				}
-				result.append(v.get(i));
-			}
-		}
+    /**
+     * Converts a URI into a package name. We assume a hierarchical,
+     * server-based URI with the following syntax:
+     *        [scheme:][//host[:port]][path][?query][#fragment]
+     * The package name is derived from host, path and fragment.
+     * 
+     * @param namespaceURI the input namespace URI
+     * @return the result package name
+     */
+    public static String packageFromURI(final URI namespaceURI) {
 
-		/* Finally append any fragment */
-		if (nURI.getFragment() != null && nURI.getFragment().length() != 0) {
-			if (!firstToken) {
-				result.append('.');
-			} else {
-				firstToken = false;
-			}
-			result.append(nURI.getFragment());
-		}
+        StringBuilder result = new StringBuilder();
+        URI nURI = namespaceURI.normalize();
+        boolean firstToken = true;
 
-		/* By convention, namespaces are lowercase */
-		return result.toString().toLowerCase();
-	}
+        /* First part of package name is built from host with tokens in
+         * reverse order. */
+        if (nURI.getHost() != null && nURI.getHost().length() != 0) {
+            Vector < String > v = new Vector < String >();
+            StringTokenizer t = new StringTokenizer(nURI.getHost(), ".");
+            while (t.hasMoreTokens()) {
+                v.addElement(t.nextToken());
+            }
 
-	/**
-	 * @return the current target directory
-	 */
-	public final File getTargetDir() {
-		return getModel().getTargetDir();
-	}
+            for (int i = v.size(); i > 0; i--) {
+                if (!firstToken) {
+                    result.append('.');
+                } else {
+                    firstToken = false;
+                }
+                result.append(v.get(i - 1));
+            }
+        }
 
-	/**
-	 * @param targetDir the target directory to set
-	 */
-	public final void setTargetDir(final File targetDir) {
-		getModel().setTargetDir(targetDir);
-	}
+        /* Next part of package is built from the path tokens */
+        if (nURI.getPath() != null && nURI.getPath().length() != 0) {
+            Vector < String > v = new Vector < String >();
+            StringTokenizer t = new StringTokenizer(nURI.getPath(), "/");
+            while (t.hasMoreTokens()) {
+                v.addElement(t.nextToken());
+            }
 
-	/**
-	 * @return the target annotated XSD file name
-	 */
-	public final String getTargetXsdFileName() {
-		return getModel().getTargetXsdFileName();
-	}
+            for (int i = 0; i < v.size(); i++) {
+                String token = v.get(i);
+                /* ignore situations such as /./../ */
+                if (token.equals(".") || token.equals("..")) {
+                    continue;
+                }
+                if (!firstToken) {
+                    result.append('.');
+                } else {
+                    firstToken = false;
+                }
+                result.append(v.get(i));
+            }
+        }
 
-	/**
-	 * @param targetXsdFileName the target annotated XSD file name to set
-	 */
-	public final void setTargetXsdFileName(final String targetXsdFileName) {
-		getModel().setTargetXsdFileName(targetXsdFileName);
-	}
+        /* Finally append any fragment */
+        if (nURI.getFragment() != null && nURI.getFragment().length() != 0) {
+            if (!firstToken) {
+                result.append('.');
+            } else {
+                firstToken = false;
+            }
+            result.append(nURI.getFragment());
+        }
 
-	/**
-	 * @return the target schema namespace
-	 */
-	public final String getNamespace() {
-		return getModel().getNamespace();
-	}
+        /* By convention, namespaces are lowercase */
+        return result.toString().toLowerCase();
+    }
 
-	/**
-	 * @param namespace the target schema namespace to set
-	 */
-	public final void setNamespace(final String namespace) {
-		getModel().setNamespace(namespace);
-	}
+    /**
+     * @return the current target directory
+     */
+    public final File getTargetDir() {
+        return getModel().getTargetDir();
+    }
 
-	/**
-	 * Package name of target JAXB classes as it appears in the generated
-	 *  XSD annotations.
-	 * @return the mJaxbPackageName JAXB package name
-	 */
-	public final String getJaxbPackageName() {
-		return getModel().getJaxbPackageName();
-	}
+    /**
+     * @param targetDir the target directory to set
+     */
+    public final void setTargetDir(final File targetDir) {
+        getModel().setTargetDir(targetDir);
+    }
 
-	/**
-	 * Package name of target JAXB classes as it appears in the generated
-	 *  XSD annotations.
-	 * @param jaxbPackageName the JAXB package name to set
-	 */
-	public final void setJaxbPackageName(final String jaxbPackageName) {
-		getModel().setJaxbPackageName(jaxbPackageName);
-	}
+    /**
+     * @return the target annotated XSD file name
+     */
+    public final String getTargetXsdFileName() {
+        return getModel().getTargetXsdFileName();
+    }
 
-	/**
-	 * @return the Suffix to be added to JAXB classes names for XML schema types
-	 */
-	public final String getJaxbTypeClassesSuffix() {
-		return getModel().getJaxbTypeClassesSuffix();
-	}
+    /**
+     * @param targetXsdFileName the target annotated XSD file name to set
+     */
+    public final void setTargetXsdFileName(final String targetXsdFileName) {
+        getModel().setTargetXsdFileName(targetXsdFileName);
+    }
 
-	/**
-	 * @param jaxbTypeClassesSuffix the Suffix to be added to JAXB classes names
-	 *  for XML schema types
-	 */
-	public final void setJaxbTypeClassesSuffix(
-			final String jaxbTypeClassesSuffix) {
-		getModel().setJaxbTypeClassesSuffix(jaxbTypeClassesSuffix);
-	}
+    /**
+     * @return the target schema namespace
+     */
+    public final String getNamespace() {
+        return getModel().getNamespace();
+    }
 
-	/**
-	 * @return the generation model
-	 */
-	public SourceToXsdCobolModel getModel() {
-		return mModel;
-	}
+    /**
+     * @param namespace the target schema namespace to set
+     */
+    public final void setNamespace(final String namespace) {
+        getModel().setNamespace(namespace);
+    }
 
-	/**
-	 * @param model the generation model to set
-	 */
-	public void setModel(SourceToXsdCobolModel model) {
-		mModel = model;
-	}
+    /**
+     * Package name of target JAXB classes as it appears in the generated
+     *  XSD annotations.
+     * @return the mJaxbPackageName JAXB package name
+     */
+    public final String getJaxbPackageName() {
+        return getModel().getJaxbPackageName();
+    }
+
+    /**
+     * Package name of target JAXB classes as it appears in the generated
+     *  XSD annotations.
+     * @param jaxbPackageName the JAXB package name to set
+     */
+    public final void setJaxbPackageName(final String jaxbPackageName) {
+        getModel().setJaxbPackageName(jaxbPackageName);
+    }
+
+    /**
+     * @return the Suffix to be added to JAXB classes names for XML schema types
+     */
+    public final String getJaxbTypeClassesSuffix() {
+        return getModel().getJaxbTypeClassesSuffix();
+    }
+
+    /**
+     * @param jaxbTypeClassesSuffix the Suffix to be added to JAXB classes names
+     *  for XML schema types
+     */
+    public final void setJaxbTypeClassesSuffix(
+            final String jaxbTypeClassesSuffix) {
+        getModel().setJaxbTypeClassesSuffix(jaxbTypeClassesSuffix);
+    }
+
+    /**
+     * @return the generation model
+     */
+    public SourceToXsdCobolModel getModel() {
+        return mModel;
+    }
+
+    /**
+     * @param model the generation model to set
+     */
+    public void setModel(final SourceToXsdCobolModel model) {
+        mModel = model;
+    }
 }

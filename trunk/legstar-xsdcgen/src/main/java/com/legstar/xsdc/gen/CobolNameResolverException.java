@@ -14,22 +14,22 @@ package com.legstar.xsdc.gen;
  * Cobol name resolution exceptions.
  */
 public class CobolNameResolverException extends Exception {
-	
-	/** Default serial ID. */
-	private static final long serialVersionUID = 5089981853019789786L;
-	/** 
-	 * Constructor from an error message. 
-	 * @param message the text message 
-	 * */
-	public CobolNameResolverException(final String message) {
-		super(message);
-	}
-	/** 
-	 * Constructor from an inner exception. 
-	 * @param e the inner exception 
-	 * */
-	public CobolNameResolverException(final Exception e) {
-		super(e);
-	}
+
+    /** Default serial ID. */
+    private static final long serialVersionUID = 5089981853019789786L;
+    /** 
+     * Constructor from an error message. 
+     * @param message the text message 
+     * */
+    public CobolNameResolverException(final String message) {
+        super(message);
+    }
+    /** 
+     * Constructor from an inner exception. 
+     * @param e the inner exception 
+     * */
+    public CobolNameResolverException(final Exception e) {
+        super(e);
+    }
 
 }

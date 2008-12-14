@@ -33,85 +33,85 @@ import com.legstar.eclipse.plugin.schemagen.Messages;
  */
 public class CobolToXsdWizardPage extends AbstractToXsdWizardPage {
 
-	/** A COBOL fragment. */
-	private Text mCobolFragmentText;
+    /** A COBOL fragment. */
+    private Text mCobolFragmentText;
 
-	/** A simple ruler to help with COBOL instructions entry. */
-	private static final String COBOL_RULE_LABEL_LINE1 =
-		"0--------1---------2---------3---------4---------5---------6"
-		+ "---------7--    ";
+    /** A simple ruler to help with COBOL instructions entry. */
+    private static final String COBOL_RULE_LABEL_LINE1 =
+        "0--------1---------2---------3---------4---------5---------6"
+        + "---------7--    ";
 
-	/**
-	 * Constructs the wizard page.
-	 * @param initialSelection the workbench current selection
-	 */
-	public CobolToXsdWizardPage(final IStructuredSelection initialSelection) {
-		super(initialSelection,
-				"CobolToXsdWizardPage",
-				Messages.cobol_To_xsd_wizard_page_title,
-				Messages.cobol_To_xsd_wizard_page_description);
-	}
+    /**
+     * Constructs the wizard page.
+     * @param initialSelection the workbench current selection
+     */
+    public CobolToXsdWizardPage(final IStructuredSelection initialSelection) {
+        super(initialSelection,
+                "CobolToXsdWizardPage",
+                Messages.cobol_To_xsd_wizard_page_title,
+                Messages.cobol_To_xsd_wizard_page_description);
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	protected void createExtendedControls(final Composite container) {
-		createSelectCobolFragmentsLink(container);
-		Label lableLine1 = createLabel(
-				container, COBOL_RULE_LABEL_LINE1, LAYOUT_COLUMNS);
-		mCobolFragmentText = createMultilineTextField(
-				container, LAYOUT_COLUMNS);
-		FontData defaultFont = new FontData("Courier New", 8, SWT.NORMAL);
-		Font font = new Font(container.getDisplay(), defaultFont);
-		mCobolFragmentText.setFont(font);
-		lableLine1.setFont(font);
-		lableLine1.setBackground(
-				container.getDisplay().getSystemColor(SWT.COLOR_GRAY));
-	}
+    /** {@inheritDoc} */
+    @Override
+    protected void createExtendedControls(final Composite container) {
+        createSelectCobolFragmentsLink(container);
+        Label lableLine1 = createLabel(
+                container, COBOL_RULE_LABEL_LINE1, LAYOUT_COLUMNS);
+        mCobolFragmentText = createMultilineTextField(
+                container, LAYOUT_COLUMNS);
+        FontData defaultFont = new FontData("Courier New", 8, SWT.NORMAL);
+        Font font = new Font(container.getDisplay(), defaultFont);
+        mCobolFragmentText.setFont(font);
+        lableLine1.setFont(font);
+        lableLine1.setBackground(
+                container.getDisplay().getSystemColor(SWT.COLOR_GRAY));
+    }
 
-	/**
-	 * This link will popup the resource selection dialog.
-	 * @param container the parent container
-	 */
-	private void createSelectCobolFragmentsLink(final Composite container) {
-		createHyperlink(container,
-				Messages.select_cobol_fragments_fs_label,
-				PlatformUI.getWorkbench().getSharedImages().getImage(
-						ISharedImages.IMG_OBJ_FOLDER),
-						new HyperlinkAdapter() {
-			public void linkActivated(final HyperlinkEvent e) {
-				mCobolFragmentText.setText(selectSingleFileContent(
-						Messages.select_cobol_fragments_dialog_title));
-			}
-		});
-	}
+    /**
+     * This link will popup the resource selection dialog.
+     * @param container the parent container
+     */
+    private void createSelectCobolFragmentsLink(final Composite container) {
+        createHyperlink(container,
+                Messages.select_cobol_fragments_fs_label,
+                PlatformUI.getWorkbench().getSharedImages().getImage(
+                        ISharedImages.IMG_OBJ_FOLDER),
+                        new HyperlinkAdapter() {
+            public void linkActivated(final HyperlinkEvent e) {
+                mCobolFragmentText.setText(selectSingleFileContent(
+                        Messages.select_cobol_fragments_dialog_title));
+            }
+        });
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	protected void dialogChanged() {
-		if (mCobolFragmentText.getText().length() > 0) {
-			updateStatus(null);
-		} else {
-			updateStatus(Messages.no_cobol_fragment_selected_msg);
-		}
-	}
+    /** {@inheritDoc} */
+    @Override
+    protected void dialogChanged() {
+        if (mCobolFragmentText.getText().length() > 0) {
+            updateStatus(null);
+        } else {
+            updateStatus(Messages.no_cobol_fragment_selected_msg);
+        }
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	protected void initContents() {
-	}
+    /** {@inheritDoc} */
+    @Override
+    protected void initContents() {
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.jface.wizard.WizardPage#getNextPage()
-	 */
-	public IWizardPage getNextPage() {
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     * @see org.eclipse.jface.wizard.WizardPage#getNextPage()
+     */
+    public IWizardPage getNextPage() {
+        return null;
+    }
 
-	/**
-	 * @return the Cobol Fragment Text
-	 */
-	public final String getCobolFragment() {
-		return mCobolFragmentText.getText();
-	}
+    /**
+     * @return the Cobol Fragment Text
+     */
+    public final String getCobolFragment() {
+        return mCobolFragmentText.getText();
+    }
 }

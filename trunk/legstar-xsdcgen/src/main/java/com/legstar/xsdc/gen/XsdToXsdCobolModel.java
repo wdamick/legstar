@@ -20,42 +20,42 @@ import com.legstar.codegen.models.SourceToXsdCobolModel;
  * A model for XML Schema and WSDL to COBOL-annotated XML schema.
  */
 public class XsdToXsdCobolModel extends SourceToXsdCobolModel {
-	
-	/** A URI where the XSD is available. */
-	private URI mInputXsdUri;
-	
-	/** This generator name. */
-	public static final String X2S_GENERATOR_NAME =
-		"LegStar Xsd or Wsdl to Xsd generator";
 
-	/** This velocity template. */
-	public static final String X2S_VELOCITY_MACRO_NAME =
-		"vlc/build-xsd2xs-xml.vm";
-	
-	/**
-	 * Creates an ant build script file ready for XSD generation.
-	 * @param targetFile the script file that must be created
-	 * @throws CodeGenMakeException if generation fails
-	 */
-	public void generateBuild(
-			final File targetFile) throws CodeGenMakeException {
-		super.generateBuild(
-				X2S_GENERATOR_NAME, X2S_VELOCITY_MACRO_NAME, targetFile);
-	}
+    /** A URI where the XSD is available. */
+    private URI mInputXsdUri;
 
-	/**
-	 * @return the input XML schema uri
-	 */
-	public final URI getInputXsdUri() {
-		return mInputXsdUri;
-	}
+    /** This generator name. */
+    public static final String X2S_GENERATOR_NAME =
+        "LegStar Xsd or Wsdl to Xsd generator";
 
-	/**
-	 * @param xsdUri the input XML schema uri to set
-	 */
-	public final void setInputXsdUri(
-			final URI xsdUri) {
-		mInputXsdUri = xsdUri;
-	}
+    /** This velocity template. */
+    public static final String X2S_VELOCITY_MACRO_NAME =
+        "vlc/build-xsd2xs-xml.vm";
+
+    /**
+     * Creates an ant build script file ready for XSD generation.
+     * @param targetFile the script file that must be created
+     * @throws CodeGenMakeException if generation fails
+     */
+    public void generateBuild(
+            final File targetFile) throws CodeGenMakeException {
+        super.generateBuild(
+                X2S_GENERATOR_NAME, X2S_VELOCITY_MACRO_NAME, targetFile);
+    }
+
+    /**
+     * @return the input XML schema uri
+     */
+    public final URI getInputXsdUri() {
+        return mInputXsdUri;
+    }
+
+    /**
+     * @param xsdUri the input XML schema uri to set
+     */
+    public final void setInputXsdUri(
+            final URI xsdUri) {
+        mInputXsdUri = xsdUri;
+    }
 
 }

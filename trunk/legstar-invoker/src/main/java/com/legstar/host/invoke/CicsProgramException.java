@@ -15,22 +15,22 @@ package com.legstar.host.invoke;
  */
 public class CicsProgramException extends HostInvokerException {
 
-	/** Serial ID. */
-	private static final long serialVersionUID = 6751206958592325835L;
+    /** Serial ID. */
+    private static final long serialVersionUID = 6751206958592325835L;
 
-	/** 
-	 * Constructor from an error message. 
-	 * @param message the text message 
-	 * */
-	public CicsProgramException(final String message) {
-		super(message);
-	}
+    /** 
+     * Constructor from an error message. 
+     * @param message the text message 
+     * */
+    public CicsProgramException(final String message) {
+        super(message);
+    }
 
-	/** 
-	 * Constructor from an inner exception. 
-	 * @param e the inner exception 
-	 * */
-	public CicsProgramException(final Exception e) {
-		super(e);
-	}
+    /** 
+     * Constructor from an inner exception. 
+     * @param e the inner exception 
+     * */
+    public CicsProgramException(final Exception e) {
+        super(e);
+    }
 }

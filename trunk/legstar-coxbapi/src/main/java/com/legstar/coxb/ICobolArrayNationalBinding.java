@@ -20,27 +20,27 @@ import com.legstar.coxb.host.HostException;
  *
  * @author Fady Moussallam
  * 
-*/
+ */
 public interface ICobolArrayNationalBinding extends ICobolArrayBinding {
-	
-	
-	/**
-	 * @return Returns an ArrayList of Strings 
-	 * @throws HostException if list cannot be returned
-	 */
-	List < String > getStringList() throws HostException;
-	
-	/**
-	 * Set a string array element.
-	 * @param iArray set array to set
-	 * @throws HostException if list cannot be set
-	 */
-	void setStringList(List < String > iArray) throws HostException;
-	
-	/**
-	 * Corresponding cobol field must be right justified.
-	 * @return True if field is right justified
-	 */
-	boolean isJustifiedRight();
+
+
+    /**
+     * @return Returns an ArrayList of Strings 
+     * @throws HostException if list cannot be returned
+     */
+    List < String > getStringList() throws HostException;
+
+    /**
+     * Set a string array element.
+     * @param iArray set array to set
+     * @throws HostException if list cannot be set
+     */
+    void setStringList(List < String > iArray) throws HostException;
+
+    /**
+     * Corresponding cobol field must be right justified.
+     * @return True if field is right justified
+     */
+    boolean isJustifiedRight();
 
 }

@@ -19,30 +19,30 @@ import commonj.work.WorkListener;
 
 /**
  * Concrete factory to create units of work and listeners.
-  */
+ */
 public class InvokeWorkFactory implements WorkFactory {
 
-	/** (non-Javadoc).
-	 * @see com.legstar.host.server.WorkFactory#createWork(
-	 * com.legstar.messaging.Request, com.legstar.messaging.Connection)
-	 * {@inheritDoc}
-	 */
-	public final Work createWork(
-			final LegStarRequest request, final LegStarConnection connection) {
-		return new InvokeWork(request, connection);
-	}
+    /** (non-Javadoc).
+     * @see com.legstar.host.server.WorkFactory#createWork(
+     * com.legstar.messaging.Request, com.legstar.messaging.Connection)
+     * {@inheritDoc}
+     */
+    public final Work createWork(
+            final LegStarRequest request, final LegStarConnection connection) {
+        return new InvokeWork(request, connection);
+    }
 
-	/** (non-Javadoc).
-	 * @see com.legstar.host.server.WorkFactory#createWorkListener(
-	 * com.legstar.messaging.Request, com.legstar.messaging.Connection,
-	 *  com.legstar.pool.manager.ConnectionPoolInterface)
-	 * {@inheritDoc}
-	 */
-	public final WorkListener createWorkListener(
-			final LegStarRequest request,
-			final LegStarConnection connection,
-			final ConnectionPool pool) {
-		return new InvokeWorkListener(request, connection, pool);
-	}
+    /** (non-Javadoc).
+     * @see com.legstar.host.server.WorkFactory#createWorkListener(
+     * com.legstar.messaging.Request, com.legstar.messaging.Connection,
+     *  com.legstar.pool.manager.ConnectionPoolInterface)
+     * {@inheritDoc}
+     */
+    public final WorkListener createWorkListener(
+            final LegStarRequest request,
+            final LegStarConnection connection,
+            final ConnectionPool pool) {
+        return new InvokeWorkListener(request, connection, pool);
+    }
 
 }

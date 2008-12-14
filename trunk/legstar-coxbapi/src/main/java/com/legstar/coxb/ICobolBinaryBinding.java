@@ -17,7 +17,7 @@ package com.legstar.coxb;
  *
  * @author Fady Moussallam
  * 
-*/
+ */
 public interface ICobolBinaryBinding extends ICobolNumericBinding {
 
 }

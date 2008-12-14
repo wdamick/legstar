@@ -14,22 +14,22 @@ package com.legstar.messaging.impl;
  * Error formatting data for the host.
  */
 public class HostMarshalException extends Exception {
-	
-	/** Default serial ID. */
-	private static final long serialVersionUID = -1119229067501693999L;
-	/** 
-	 * Constructor from an error message. 
-	 * @param message the text message 
-	 * */
-	public HostMarshalException(final String message) {
-		super(message);
-	}
-	/** 
-	 * Constructor from an inner exception. 
-	 * @param e the inner exception 
-	 * */
-	public HostMarshalException(final Exception e) {
-		super(e);
-	}
+
+    /** Default serial ID. */
+    private static final long serialVersionUID = -1119229067501693999L;
+    /** 
+     * Constructor from an error message. 
+     * @param message the text message 
+     * */
+    public HostMarshalException(final String message) {
+        super(message);
+    }
+    /** 
+     * Constructor from an inner exception. 
+     * @param e the inner exception 
+     * */
+    public HostMarshalException(final Exception e) {
+        super(e);
+    }
 
 }

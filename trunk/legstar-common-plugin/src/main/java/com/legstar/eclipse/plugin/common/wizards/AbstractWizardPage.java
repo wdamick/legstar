@@ -66,17 +66,17 @@ public abstract class AbstractWizardPage extends WizardPage {
 
     /** The initial selection in the workspace. */
     private IStructuredSelection mInitialSelection = null;
-    
+
     /** The main grid layout column number. */
     public static final int LAYOUT_COLUMNS = 3;
 
     /** Manages the history of URLs entered across sessions. */
     private PreferenceUrlHistory mUrlHistory;
-    
+
     /** Storage key prefix for history of wsdl URLs. */
     public static final String URL_HISTORY_STORE_KEY_PFX = "historyUrl";
 
-	/**
+    /**
      * Construct a wizard page.
      * @param initialSelection the workbench current selection
      * @param pageName the name of this page
@@ -92,11 +92,11 @@ public abstract class AbstractWizardPage extends WizardPage {
         setTitle(title);
         setDescription(description);
         mInitialSelection = initialSelection;
-		ImageDescriptor image =
+        ImageDescriptor image =
             AbstractUIPlugin.
-                imageDescriptorFromPlugin(
-                		Activator.PLUGIN_ID,
-                		Activator.LOGO_IMG);
+            imageDescriptorFromPlugin(
+                    Activator.PLUGIN_ID,
+                    Activator.LOGO_IMG);
         setImageDescriptor(image);
     }
 
@@ -108,13 +108,13 @@ public abstract class AbstractWizardPage extends WizardPage {
         gridLayout.verticalSpacing = 9;
         container.setLayout(gridLayout);
         setControl(container);
-        
+
         createExtendedControls(container);
-        
+
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
         mUrlHistory = new PreferenceUrlHistory(
-        		store, URL_HISTORY_STORE_KEY_PFX);
-        
+                store, URL_HISTORY_STORE_KEY_PFX);
+
         initContents();
         dialogChanged();
     }
@@ -129,12 +129,12 @@ public abstract class AbstractWizardPage extends WizardPage {
      * @param container the parent container
      */
     protected abstract void createExtendedControls(final Composite container);
-    
+
     /**
      * Process new input from user. Validate all control contents.
      */
     protected abstract void dialogChanged();
-    
+
     /**
      * Adds a label that spans only one column.
      * @param container parent composite
@@ -142,7 +142,7 @@ public abstract class AbstractWizardPage extends WizardPage {
      * @return the new label
      */
     public static Label createLabel(
-    		final Composite container, final String text) {
+            final Composite container, final String text) {
         return createLabel(container, text, 1);
     }
 
@@ -154,7 +154,7 @@ public abstract class AbstractWizardPage extends WizardPage {
      * @return the new label
      */
     public static Label createLabel(
-    		final Composite container, final String text, final int span) {
+            final Composite container, final String text, final int span) {
         final Label label = new Label(container, SWT.NONE);
         final GridData gridData = new GridData();
         gridData.horizontalSpan = span;
@@ -171,7 +171,7 @@ public abstract class AbstractWizardPage extends WizardPage {
     public static Text createText(final Composite container) {
         return createText(container, 1);
     }
-    
+
     /**
      * Create a text field that fills a grid column.
      * @param container the parent container
@@ -186,29 +186,29 @@ public abstract class AbstractWizardPage extends WizardPage {
         return text;
     }
 
-	/**
-	 * Add a new button on a composite.
-	 * @param parent the parent composite
-	 * @param text text to appear on button
-	 * @return the newly created button
-	 */
-	public static Button createButton(
-			final Composite parent, final String text) {
-		Button button = new Button(parent, SWT.PUSH);
-		button.setText(text);
-		return button;
-	}
+    /**
+     * Add a new button on a composite.
+     * @param parent the parent composite
+     * @param text text to appear on button
+     * @return the newly created button
+     */
+    public static Button createButton(
+            final Composite parent, final String text) {
+        Button button = new Button(parent, SWT.PUSH);
+        button.setText(text);
+        return button;
+    }
 
-	/**
-	 * Create a group container spanning all columns.
-	 * @param container the parent container
-	 * @param text the group text
-	 * @return the new group
-	 */
-	protected static Group createGroup(
-			final Composite container, final String text) {
-		return createGroup(container, text, LAYOUT_COLUMNS);
-	}
+    /**
+     * Create a group container spanning all columns.
+     * @param container the parent container
+     * @param text the group text
+     * @return the new group
+     */
+    protected static Group createGroup(
+            final Composite container, final String text) {
+        return createGroup(container, text, LAYOUT_COLUMNS);
+    }
 
     /**
      * Create a Combo widget.
@@ -221,81 +221,81 @@ public abstract class AbstractWizardPage extends WizardPage {
         combo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         return combo;
     }
-    
-	/**
-	 * Create a container spanning all columns of parent container grid.
-	 * @param container the parent container
-	 * @param columns the number of columns this containers layout should have
-	 * @return the new container
-	 */
+
+    /**
+     * Create a container spanning all columns of parent container grid.
+     * @param container the parent container
+     * @param columns the number of columns this containers layout should have
+     * @return the new container
+     */
     public static Canvas createCanvas(
-			final Composite container, final int columns) {
-		final Canvas canvas = new Canvas(container, SWT.NONE);
-		final GridData groupGridData = new GridData(GridData.FILL_HORIZONTAL);
-		groupGridData.horizontalSpan = LAYOUT_COLUMNS;
-		canvas.setLayoutData(groupGridData);
-		canvas.setLayout(new GridLayout(columns, false));
-		return canvas;
-	}
+            final Composite container, final int columns) {
+        final Canvas canvas = new Canvas(container, SWT.NONE);
+        final GridData groupGridData = new GridData(GridData.FILL_HORIZONTAL);
+        groupGridData.horizontalSpan = LAYOUT_COLUMNS;
+        canvas.setLayoutData(groupGridData);
+        canvas.setLayout(new GridLayout(columns, false));
+        return canvas;
+    }
 
-	/**
-	 * Create a group container spanning all columns but with a potentially
-	 * different number of columns for its internal layout.
-	 * @param container the parent container
-	 * @param text the group text
-	 * @param columns the number of columns this groups layout should have
-	 * @return the new group
-	 */
+    /**
+     * Create a group container spanning all columns but with a potentially
+     * different number of columns for its internal layout.
+     * @param container the parent container
+     * @param text the group text
+     * @param columns the number of columns this groups layout should have
+     * @return the new group
+     */
     public static Group createGroup(
-			final Composite container, final String text, final int columns) {
-		final Group group = new Group(container, SWT.SHADOW_ETCHED_IN);
-		final GridData groupGridData = new GridData(GridData.FILL_HORIZONTAL);
-		groupGridData.horizontalSpan = LAYOUT_COLUMNS;
-		group.setLayoutData(groupGridData);
-		group.setLayout(new GridLayout(columns, false));
-		group.setText(text);
-		return group;
-	}
+            final Composite container, final String text, final int columns) {
+        final Group group = new Group(container, SWT.SHADOW_ETCHED_IN);
+        final GridData groupGridData = new GridData(GridData.FILL_HORIZONTAL);
+        groupGridData.horizontalSpan = LAYOUT_COLUMNS;
+        group.setLayoutData(groupGridData);
+        group.setLayout(new GridLayout(columns, false));
+        group.setText(text);
+        return group;
+    }
 
-	/**
-	 * This type of widget has a textbox and a browse button to lookup a folder
-	 * on the file system. The content is tied to a preference store element so
-	 * content can be saved and restored.
-	 * @param container the parent composite
-	 * @param preferenceName the preference store item
-	 * @param labelText the label's text appearing before the textbox
-	 * @return the composite
-	 */
+    /**
+     * This type of widget has a textbox and a browse button to lookup a folder
+     * on the file system. The content is tied to a preference store element so
+     * content can be saved and restored.
+     * @param container the parent composite
+     * @param preferenceName the preference store item
+     * @param labelText the label's text appearing before the textbox
+     * @return the composite
+     */
     public Text createDirectoryFieldEditor(
-			final Composite container,
-			final String preferenceName,
-			final String labelText) {
-		DirectoryFieldEditor editor = new DirectoryFieldEditor(preferenceName,
-				labelText, container);
-		return editor.getTextControl(container);
-	}
+            final Composite container,
+            final String preferenceName,
+            final String labelText) {
+        DirectoryFieldEditor editor = new DirectoryFieldEditor(preferenceName,
+                labelText, container);
+        return editor.getTextControl(container);
+    }
 
-	/**
-	 * This type of widget is a simple textbox preceded by a label.
-	 * The content can be initialized from a preference store.
-	 * @param container the parent composite
-	 * @param store a preference store
-	 * @param preferenceName the preference store item
-	 * @param labelText the label's text appearing before the textbox
-	 * @return the composite
-	 */
-	protected static Text createTextField(
-			final Composite container,
-			final IPreferenceStore store,
-			final String preferenceName,
-			final String labelText) {
-		createLabel(container, labelText);
-		Text text = createText(container);
-		if (preferenceName != null) {
-			text.setText(store.getDefaultString(preferenceName));
-		}
-		return text;
-	}
+    /**
+     * This type of widget is a simple textbox preceded by a label.
+     * The content can be initialized from a preference store.
+     * @param container the parent composite
+     * @param store a preference store
+     * @param preferenceName the preference store item
+     * @param labelText the label's text appearing before the textbox
+     * @return the composite
+     */
+    protected static Text createTextField(
+            final Composite container,
+            final IPreferenceStore store,
+            final String preferenceName,
+            final String labelText) {
+        createLabel(container, labelText);
+        Text text = createText(container);
+        if (preferenceName != null) {
+            text.setText(store.getDefaultString(preferenceName));
+        }
+        return text;
+    }
 
     /**
      * Create a browse button. It pops up a dialog to select a folder and
@@ -323,7 +323,7 @@ public abstract class AbstractWizardPage extends WizardPage {
         });
         return button;
     }
-    
+
     /**
      * Create a browse button. It pops up a dialog to select a folder and
      * sets an associated text field with the result.
@@ -346,7 +346,7 @@ public abstract class AbstractWizardPage extends WizardPage {
         });
         return button;
     }
-    
+
     /**
      * Create a browse button. It pops up a dialog to select files. It
      * then reads each file and store its content in a text area.
@@ -368,7 +368,7 @@ public abstract class AbstractWizardPage extends WizardPage {
         });
         return button;
     }
-    
+
     /**
      * Opens a file selection dialog and merges all selected files
      * contents into a single string. 
@@ -383,13 +383,13 @@ public abstract class AbstractWizardPage extends WizardPage {
                 sb.append(getContent(fileName));
             } catch (IOException e1) {
                 sb.append(
-                		NLS.bind(Messages.file_open_error_msg,
-                				fileName, e1.getMessage()));
+                        NLS.bind(Messages.file_open_error_msg,
+                                fileName, e1.getMessage()));
             }
         }
         return sb.toString();
     }
-    
+
     /**
      * Uses the standard file selection dialog to choose a set of files
      * from the file system.
@@ -434,7 +434,7 @@ public abstract class AbstractWizardPage extends WizardPage {
         in.close();
         return resStr.toString();
     }
-    
+
     /**
      * Create a Hyperlink Eclipse 3.0 style.
      * @param container the parent container
@@ -448,10 +448,10 @@ public abstract class AbstractWizardPage extends WizardPage {
             final String text,
             final Image image,
             final IHyperlinkListener listener) {
-    	return createHyperlink(
-    			container, text, image, LAYOUT_COLUMNS, listener);
+        return createHyperlink(
+                container, text, image, LAYOUT_COLUMNS, listener);
     }
-    
+
     /**
      * Create a Hyperlink Eclipse 3.0 style.
      * @param container the parent container
@@ -481,11 +481,11 @@ public abstract class AbstractWizardPage extends WizardPage {
     /**
      * Creates a Combo box and additional widgets. This group of widgets allow
      * users to enter a URL in various ways.
-	 * <ul>
-	 *  <li>Typing in the URL in a text box</li>
-	 *  <li>Selecting a previous URL from the combo box</li>
-	 *  <li>Browsing for a local file</li>
-	 * </ul>
+     * <ul>
+     *  <li>Typing in the URL in a text box</li>
+     *  <li>Selecting a previous URL from the combo box</li>
+     *  <li>Browsing for a local file</li>
+     * </ul>
      * @param container the parent container
      * @param urlType the type of URL this group is supposed to fetch. This is
      *  used for labels.
@@ -497,50 +497,50 @@ public abstract class AbstractWizardPage extends WizardPage {
      * @return the Combo box holding URLs
      */
     protected Combo createUrlComboGroup(
-    		final Composite container,
-    		final String urlType,
-    		final ModifyListener modifyListener,
-    		final IURLSelectionListener selectionListener) {
-    	
+            final Composite container,
+            final String urlType,
+            final ModifyListener modifyListener,
+            final IURLSelectionListener selectionListener) {
+
         createLabel(container, urlType + " URL");
-        
-    	final Combo urlCombo = createCombo(container);
-    	
+
+        final Combo urlCombo = createCombo(container);
+
         ImageHyperlink link = createHyperlink(
-        		container,
-        		NLS.bind(Messages.url_select_from_file_system_text, urlType),
-        		PlatformUI.getWorkbench().getSharedImages().getImage(
+                container,
+                NLS.bind(Messages.url_select_from_file_system_text, urlType),
+                PlatformUI.getWorkbench().getSharedImages().getImage(
                         ISharedImages.IMG_OBJ_FOLDER),
-                2,
-                new HyperlinkAdapter() {
-        			public void linkActivated(final HyperlinkEvent e) {
-        				urlCombo.setText(handleBrowseForFiles(
-        						NLS.bind(Messages.url_select_a_file_label,
-        								urlType)));
-        				selectionListener.urlSelected(urlCombo.getText());
-                    	getUrlHistory().add(urlCombo.getText());
-        			}
+                        2,
+                        new HyperlinkAdapter() {
+                    public void linkActivated(final HyperlinkEvent e) {
+                        urlCombo.setText(handleBrowseForFiles(
+                                NLS.bind(Messages.url_select_a_file_label,
+                                        urlType)));
+                        selectionListener.urlSelected(urlCombo.getText());
+                        getUrlHistory().add(urlCombo.getText());
+                    }
                 });
-        
+
         urlCombo.moveBelow(link);
         final GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
         gridData.horizontalSpan = 2;
         urlCombo.setLayoutData(gridData);
         urlCombo.addModifyListener(modifyListener);
-        
+
         Button getButton = createButton(container, Messages.go_button_label);
         getButton.addSelectionListener(
-        		new SelectionAdapter() {
-		            public void widgetSelected(final SelectionEvent e) {
-	       				selectionListener.urlSelected(urlCombo.getText());
-                    	getUrlHistory().add(urlCombo.getText());
-		            }
-        		});
+                new SelectionAdapter() {
+                    public void widgetSelected(final SelectionEvent e) {
+                        selectionListener.urlSelected(urlCombo.getText());
+                        getUrlHistory().add(urlCombo.getText());
+                    }
+                });
 
-    	return urlCombo;
+        return urlCombo;
     }
-    
-    
+
+
     /**
      * Uses the standard container selection dialog to choose the new value for
      * a container field.
@@ -558,76 +558,76 @@ public abstract class AbstractWizardPage extends WizardPage {
         }
         return null;
     }
-    
-	/**
-	 * Invalidate the dialog content if error message is not null and make sure
-	 * error message is displayed.
-	 * <p/>
-	 * The Finish button is enabled only on the valid last page.
-	 * @param errorMessage the text
-	 */
+
+    /**
+     * Invalidate the dialog content if error message is not null and make sure
+     * error message is displayed.
+     * <p/>
+     * The Finish button is enabled only on the valid last page.
+     * @param errorMessage the text
+     */
     protected void updateStatus(final String errorMessage) {
-    	if (getNextPage() == null) {
-			((AbstractWizard) getWizard()).setCanFinish(
-					(errorMessage == null) ? true : false);
-    	}
+        if (getNextPage() == null) {
+            ((AbstractWizard) getWizard()).setCanFinish(
+                    (errorMessage == null) ? true : false);
+        }
         setErrorMessage(errorMessage);
         setPageComplete(errorMessage == null);
     }
-    
-	/**
-	 * What we do here is that we search a project classpath for any occurrence
-	 * of a container library.
-	 * @param jproject the target java project
-	 * @param libraryName the name of the container library
-	 * @return true if the container library is already on the classpath
-	 */
-	public boolean lookupContainerLibrary(
-			final IJavaProject jproject,
-			final String libraryName) {
-		try {
-			IClasspathEntry[] cpe = jproject.getRawClasspath();
-			for (int i = 0; i < cpe.length; i++) {
-				if (cpe[i].getEntryKind()
-						== IClasspathEntry.CPE_CONTAINER) {
-					if (cpe[i].getPath().equals(new Path(libraryName))) {
-						return true;
-					}
-				}
-			}
-			return false;
-		} catch (JavaModelException e) {
-			return false;
-		}
-	}
 
-	/**
-	 * The target Java project needs a container library on its classpath.
-	 * This assumes a classpath initializer did define the library
-	 * container and all what is left to do is to update the project with yet
-	 * another classpath entry.
-	 * 
-	 * @param jproject the target java project
-	 * @param libraryName the name of the container library
-	 * @throws JavaModelException if seting up classpath fails
-	 */
-	public void setupContainerLibrary(
-			final IJavaProject jproject,
-			final String libraryName) throws JavaModelException {
-		IClasspathEntry varEntry = JavaCore.newContainerEntry(
-				new Path(libraryName),
-				false);
+    /**
+     * What we do here is that we search a project classpath for any occurrence
+     * of a container library.
+     * @param jproject the target java project
+     * @param libraryName the name of the container library
+     * @return true if the container library is already on the classpath
+     */
+    public boolean lookupContainerLibrary(
+            final IJavaProject jproject,
+            final String libraryName) {
+        try {
+            IClasspathEntry[] cpe = jproject.getRawClasspath();
+            for (int i = 0; i < cpe.length; i++) {
+                if (cpe[i].getEntryKind()
+                        == IClasspathEntry.CPE_CONTAINER) {
+                    if (cpe[i].getPath().equals(new Path(libraryName))) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        } catch (JavaModelException e) {
+            return false;
+        }
+    }
 
-		java.util.List < IClasspathEntry > sourceEntries =
-			new ArrayList < IClasspathEntry >();
-		for (IClasspathEntry entry : jproject.getRawClasspath()) {
-			sourceEntries.add(entry);
-		}
-		sourceEntries.add(varEntry);
-		IClasspathEntry[] entries = (IClasspathEntry[]) sourceEntries.toArray(
-				new IClasspathEntry[sourceEntries.size()]);
-		jproject.setRawClasspath(entries, null);
-	}
+    /**
+     * The target Java project needs a container library on its classpath.
+     * This assumes a classpath initializer did define the library
+     * container and all what is left to do is to update the project with yet
+     * another classpath entry.
+     * 
+     * @param jproject the target java project
+     * @param libraryName the name of the container library
+     * @throws JavaModelException if seting up classpath fails
+     */
+    public void setupContainerLibrary(
+            final IJavaProject jproject,
+            final String libraryName) throws JavaModelException {
+        IClasspathEntry varEntry = JavaCore.newContainerEntry(
+                new Path(libraryName),
+                false);
+
+        java.util.List < IClasspathEntry > sourceEntries =
+            new ArrayList < IClasspathEntry >();
+        for (IClasspathEntry entry : jproject.getRawClasspath()) {
+            sourceEntries.add(entry);
+        }
+        sourceEntries.add(varEntry);
+        IClasspathEntry[] entries = (IClasspathEntry[]) sourceEntries.toArray(
+                new IClasspathEntry[sourceEntries.size()]);
+        jproject.setRawClasspath(entries, null);
+    }
 
     /**
      * @return the initial selection when this page is entered
@@ -641,7 +641,7 @@ public abstract class AbstractWizardPage extends WizardPage {
      *  to set
      */
     public final void setInitialSelection(
-    		final IStructuredSelection initialSelection) {
+            final IStructuredSelection initialSelection) {
         mInitialSelection = initialSelection;
     }
 
@@ -659,10 +659,10 @@ public abstract class AbstractWizardPage extends WizardPage {
             final String pluginID,
             final String shortMessage,
             final String reason) {
-    	AbstractWizard.errorDialog(
-    			shell, dialogTitle, pluginID, shortMessage, reason);
+        AbstractWizard.errorDialog(
+                shell, dialogTitle, pluginID, shortMessage, reason);
     }
-    
+
     /**
      * Log exception.
      * @param innerException exception
@@ -671,7 +671,7 @@ public abstract class AbstractWizardPage extends WizardPage {
     public static void logCoreException(
             final Throwable innerException,
             final String pluginID) {
-    	AbstractWizard.logCoreException(innerException, pluginID);
+        AbstractWizard.logCoreException(innerException, pluginID);
     }
 
     /**
@@ -680,8 +680,8 @@ public abstract class AbstractWizardPage extends WizardPage {
      * @throws CoreException the core exception
      */
     public static void throwCoreException(
-    		final Exception e) throws CoreException {
-    	AbstractWizard.throwCoreException(e);
+            final Exception e) throws CoreException {
+        AbstractWizard.throwCoreException(e);
     }
 
     /**
@@ -690,22 +690,22 @@ public abstract class AbstractWizardPage extends WizardPage {
      * @throws CoreException the core exception
      */
     public static void throwCoreException(
-    		final String message) throws CoreException {
-    	AbstractWizard.throwCoreException(message);
+            final String message) throws CoreException {
+        AbstractWizard.throwCoreException(message);
     }
 
-	/**
-	 * @return the URL history manager 
-	 */
-	public final PreferenceUrlHistory getUrlHistory() {
-		return mUrlHistory;
-	}
+    /**
+     * @return the URL history manager 
+     */
+    public final PreferenceUrlHistory getUrlHistory() {
+        return mUrlHistory;
+    }
 
-	/**
-	 * @param urlHistory the URL history manager to set
-	 */
-	public final void setUrlHistory(
-			final PreferenceUrlHistory urlHistory) {
-		mUrlHistory = urlHistory;
-	}
+    /**
+     * @param urlHistory the URL history manager to set
+     */
+    public final void setUrlHistory(
+            final PreferenceUrlHistory urlHistory) {
+        mUrlHistory = urlHistory;
+    }
 }

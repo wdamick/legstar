@@ -32,75 +32,75 @@ import com.legstar.eclipse.plugin.coxbgen.wizards.CoxbGenWizard;
  */
 public class CoxbGenAction implements IObjectActionDelegate {
 
-	/** The current selection in the workspace. */
-	private ISelection mSelection;
-	
-	/**
-	 * Constructor for GenAction.
-	 */
-	public CoxbGenAction() {
-		super();
-	}
+    /** The current selection in the workspace. */
+    private ISelection mSelection;
 
-	/**
-	 * @see IObjectActionDelegate#setActivePart(IAction, IWorkbenchPart)
-	 * @param action
-	 *            the action proxy that handles presentation portion of the
-	 *            action; must not be <code>null</code>.
-	 * @param targetPart
-	 *            the new part target; must not be <code>null</code>.
-	 */
-	public void setActivePart(
-			final IAction action, final IWorkbenchPart targetPart) {
-	}
+    /**
+     * Constructor for GenAction.
+     */
+    public CoxbGenAction() {
+        super();
+    }
 
-	/**
-	 * @see IActionDelegate#run(IAction)
-	 * @param action
-	 *            the action proxy that handles presentation portion of the
-	 *            action; must not be <code>null</code>.
-	 */
-	public final void run(final IAction action) {
+    /**
+     * @see IObjectActionDelegate#setActivePart(IAction, IWorkbenchPart)
+     * @param action
+     *            the action proxy that handles presentation portion of the
+     *            action; must not be <code>null</code>.
+     * @param targetPart
+     *            the new part target; must not be <code>null</code>.
+     */
+    public void setActivePart(
+            final IAction action, final IWorkbenchPart targetPart) {
+    }
+
+    /**
+     * @see IActionDelegate#run(IAction)
+     * @param action
+     *            the action proxy that handles presentation portion of the
+     *            action; must not be <code>null</code>.
+     */
+    public final void run(final IAction action) {
         try {
-			/* Get us the selected file */
-			IFile file = null;
-			if (mSelection != null && !mSelection.isEmpty()
-					&& mSelection instanceof IStructuredSelection) {
-				IStructuredSelection ssel = (IStructuredSelection) mSelection;
-				if (ssel.size() > 1) {
-					return;
-				}
-				Object obj = ssel.getFirstElement();
-				if (obj instanceof IResource) {
-					if (obj instanceof IFile) {
-						file = (IFile) obj;
-					} else {
-	                	AbstractWizard.throwCoreException(
-	                			Messages.no_xsd_file_msg);
-					}
-				}
-			}
-			CoxbGenWizard wizard = new CoxbGenWizard(file);
-			Shell shell =
-				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-			WizardDialog dialog = new WizardDialog(shell, wizard);
-			dialog.create();
-			dialog.open();
+            /* Get us the selected file */
+            IFile file = null;
+            if (mSelection != null && !mSelection.isEmpty()
+                    && mSelection instanceof IStructuredSelection) {
+                IStructuredSelection ssel = (IStructuredSelection) mSelection;
+                if (ssel.size() > 1) {
+                    return;
+                }
+                Object obj = ssel.getFirstElement();
+                if (obj instanceof IResource) {
+                    if (obj instanceof IFile) {
+                        file = (IFile) obj;
+                    } else {
+                        AbstractWizard.throwCoreException(
+                                Messages.no_xsd_file_msg);
+                    }
+                }
+            }
+            CoxbGenWizard wizard = new CoxbGenWizard(file);
+            Shell shell =
+                PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+            WizardDialog dialog = new WizardDialog(shell, wizard);
+            dialog.create();
+            dialog.open();
         } catch (CoreException e) {
-        	AbstractWizard.logCoreException(e, Activator.PLUGIN_ID);
+            AbstractWizard.logCoreException(e, Activator.PLUGIN_ID);
         }
-	}
-	
-	/**
-	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
+    }
+
+    /**
+     * @see IActionDelegate#selectionChanged(IAction, ISelection)
      * @param action the action proxy that handles presentation portion of 
-     * 		the action
+     *  the action
      * @param selection the current selection, or <code>null</code> if there
-     * 		is no selection.
-	 */
-	public final void selectionChanged(
-			final IAction action, final ISelection selection) {
-		mSelection = selection;
-	}
+     *  is no selection.
+     */
+    public final void selectionChanged(
+            final IAction action, final ISelection selection) {
+        mSelection = selection;
+    }
 
 }

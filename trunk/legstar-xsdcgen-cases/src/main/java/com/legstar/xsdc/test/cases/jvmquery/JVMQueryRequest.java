@@ -16,22 +16,23 @@ import java.util.List;
 /**
  * Caller sends this type of request by passing a list of environment variable
  * names which values must be retrieved.
-  */
+ */
 public class JVMQueryRequest {
-    
-    private List <String> mEnvVarNames = new ArrayList <String>();
+
+    /** The list of environment variable names.*/
+    private List < String > mEnvVarNames = new ArrayList < String >();
 
     /**
      * @return the environment variable names to get
      */
-    public final List <String> getEnvVarNames() {
+    public final List < String > getEnvVarNames() {
         return mEnvVarNames;
     }
 
     /**
      * @param envVarNames the the environment variable names to set
      */
-    public final void setEnvVarNames(List<String> envVarNames) {
+    public final void setEnvVarNames(final List < String > envVarNames) {
         mEnvVarNames = envVarNames;
     }
 

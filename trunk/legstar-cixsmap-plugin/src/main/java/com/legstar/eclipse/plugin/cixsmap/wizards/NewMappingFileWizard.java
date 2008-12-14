@@ -51,8 +51,8 @@ public class NewMappingFileWizard extends AbstractWizard implements INewWizard {
 
     /** This wizard only has one page. */
     private NewMappingFileWizardPage mPage;
-    
-    /** Current worspace selection. */
+
+    /** Current workspace selection. */
     private IStructuredSelection mSelection;
 
     /**
@@ -83,7 +83,7 @@ public class NewMappingFileWizard extends AbstractWizard implements INewWizard {
         final String fileName = mPage.getFileName();
         IRunnableWithProgress op = new IRunnableWithProgress() {
             public void run(
-            		final IProgressMonitor monitor)
+                    final IProgressMonitor monitor)
             throws InvocationTargetException {
                 try {
                     doFinish(containerName, fileName, monitor);
@@ -101,8 +101,8 @@ public class NewMappingFileWizard extends AbstractWizard implements INewWizard {
         } catch (InvocationTargetException e) {
             Throwable realException = e.getTargetException();
             MessageDialog.openError(getShell(),
-            		Messages.generate_error_dialog_title,
-            		realException.getMessage());
+                    Messages.generate_error_dialog_title,
+                    realException.getMessage());
             return false;
         }
         return true;
@@ -116,7 +116,7 @@ public class NewMappingFileWizard extends AbstractWizard implements INewWizard {
      * @param fileName the mapping file name
      * @param monitor to follow progress
      * @throws CoreException if something goes wrong
-    */
+     */
 
     private void doFinish(
             final String containerName,
@@ -125,17 +125,17 @@ public class NewMappingFileWizard extends AbstractWizard implements INewWizard {
     throws CoreException {
         // create a sample file
         monitor.beginTask(NLS.bind(
-        		Messages.editor_creating_file_task_label, fileName), 2);
+                Messages.editor_creating_file_task_label, fileName), 2);
         IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
         IResource resource = root.findMember(new Path(containerName));
         if (!resource.exists() || !(resource instanceof IContainer)) {
             throwCoreException("Container \"" + containerName
-            		+ "\" does not exist.");
+                    + "\" does not exist.");
         }
         IContainer container = (IContainer) resource;
         final IFile file = container.getFile(new Path(fileName));
         final String name =
-        	new Path(fileName).removeFileExtension().toOSString();
+            new Path(fileName).removeFileExtension().toOSString();
         try {
             InputStream stream = openContentStream(name);
             if (file.exists()) {
@@ -145,11 +145,11 @@ public class NewMappingFileWizard extends AbstractWizard implements INewWizard {
             }
             stream.close();
         } catch (IOException e) {
-        	throwCoreException(e);
+            throwCoreException(e);
         }
         monitor.worked(1);
         monitor.setTaskName(NLS.bind(
-        		Messages.editor_opening_file_task_label, fileName));
+                Messages.editor_opening_file_task_label, fileName));
         getShell().getDisplay().asyncExec(new Runnable() {
             public void run() {
                 IWorkbenchPage page =
@@ -158,8 +158,8 @@ public class NewMappingFileWizard extends AbstractWizard implements INewWizard {
                 try {
                     IDE.openEditor(page, file, true);
                 } catch (PartInitException e) {
-                	logCoreException(e, Activator.PLUGIN_ID);
-               }
+                    logCoreException(e, Activator.PLUGIN_ID);
+                }
             }
         });
         monitor.worked(1);
@@ -183,7 +183,7 @@ public class NewMappingFileWizard extends AbstractWizard implements INewWizard {
      * {@inheritDoc}
      */
     public void init(
-    		final IWorkbench workbench, final IStructuredSelection selection) {
+            final IWorkbench workbench, final IStructuredSelection selection) {
         mSelection = selection;
     }
 }
