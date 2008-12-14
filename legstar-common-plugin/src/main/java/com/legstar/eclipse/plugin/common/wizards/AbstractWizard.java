@@ -27,8 +27,8 @@ public abstract class AbstractWizard extends Wizard {
 
     /** Unlocks the finish button. */
     private boolean mCanFinish = false;
-    
-	/**
+
+    /**
      * Pops an error message.
      * @param shell parent shell
      * @param dialogTitle the error dialog title
@@ -47,7 +47,7 @@ public abstract class AbstractWizard extends Wizard {
                 IStatus.ERROR, reason, null);         
         ErrorDialog.openError(shell, dialogTitle, shortMessage, status); 
     } 
- 
+
     /**
      * Logs an exception using IStatus.
      * @param innerException the exception to trace
@@ -56,17 +56,17 @@ public abstract class AbstractWizard extends Wizard {
     public static void logCoreException(
             final Throwable innerException,
             final String pluginID) {
-    	Activator.logCoreException(innerException, pluginID);
+        Activator.logCoreException(innerException, pluginID);
     }
-    
+
     /**
      * Create a formatted core exception.
      * @param e an exception
      * @throws CoreException the core exception
      */
     public static void throwCoreException(
-    		final Exception e) throws CoreException {
-    	Activator.throwCoreException(e);
+            final Exception e) throws CoreException {
+        Activator.throwCoreException(e);
     }
 
     /**
@@ -75,8 +75,8 @@ public abstract class AbstractWizard extends Wizard {
      * @throws CoreException the core exception
      */
     public static void throwCoreException(
-    		final String message) throws CoreException {
-    	Activator.throwCoreException(message);
+            final String message) throws CoreException {
+        Activator.throwCoreException(message);
     }
 
     /**
@@ -86,7 +86,7 @@ public abstract class AbstractWizard extends Wizard {
     public boolean canFinish() {
         return mCanFinish;
     }
-    
+
     /**
      * @param canFinish true if finish button should be available
      */

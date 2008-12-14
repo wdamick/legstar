@@ -21,91 +21,90 @@ import com.legstar.coxb.host.HostException;
  *
  * @author Fady Moussallam
  * 
-*/
-public interface ICobolNumericBinding
-	     extends ICobolBinding {
-	
-	/**
-	 * @return the current numeric value as a Byte
-	 * @throws HostException if this element cannot produce a numeric value
-	 */
-	Byte getByteValue() throws HostException;
-	
-	/**
-	 * Set the value associated with this element.
-	 * 
-	 * @param value the value as a Byte
-	 * @throws HostException if this setting value fails
-	 */
-	 void setByteValue(Byte value) throws HostException;
+ */
+public interface ICobolNumericBinding extends ICobolBinding {
 
-	/**
-	 * @return the current numeric value as a Short
-	 * @throws HostException if this element cannot produce a numeric value
-	 */
-	Short getShortValue() throws HostException;
-	
-	/**
-	 * Set the value associated with this element.
-	 * 
-	 * @param value the value as a Short
-	 * @throws HostException if this setting value fails
-	 */
-	 void setShortValue(Short value) throws HostException;
+    /**
+     * @return the current numeric value as a Byte
+     * @throws HostException if this element cannot produce a numeric value
+     */
+    Byte getByteValue() throws HostException;
 
-	/**
-	 * @return the current numeric value as an Integer
-	 * @throws HostException if this element cannot produce a numeric value
-	 */
-	Integer getIntegerValue() throws HostException;
-	
-	/**
-	 * Set the value associated with this element.
-	 * 
-	 * @param value the value as an Integer
-	 * @throws HostException if this setting value fails
-	 */
-	 void setIntegerValue(Integer value) throws HostException;
+    /**
+     * Set the value associated with this element.
+     * 
+     * @param value the value as a Byte
+     * @throws HostException if this setting value fails
+     */
+    void setByteValue(Byte value) throws HostException;
 
-	/**
-	 * @return the current numeric value as a Long
-	 * @throws HostException if this element cannot produce a numeric value
-	 */
-	Long getLongValue() throws HostException;
-	
-	/**
-	 * Set the value associated with this element.
-	 * 
-	 * @param value the value as a Long
-	 * @throws HostException if this setting value fails
-	 */
-	 void setLongValue(Long value) throws HostException;
+    /**
+     * @return the current numeric value as a Short
+     * @throws HostException if this element cannot produce a numeric value
+     */
+    Short getShortValue() throws HostException;
 
-	/**
-	 * @return the current numeric value as a BigDecimal
-	 * @throws HostException if this element cannot produce a numeric value
-	 */
-	BigDecimal getBigDecimalValue() throws HostException;
-  
-	/**
-	 * Set the value associated with this element.
-	 * 
-	 * @param value the value as a BigDecimal
-	 * @throws HostException if this setting value fails
-	 */
-	 void setBigDecimalValue(BigDecimal value) throws HostException;
+    /**
+     * Set the value associated with this element.
+     * 
+     * @param value the value as a Short
+     * @throws HostException if this setting value fails
+     */
+    void setShortValue(Short value) throws HostException;
 
-	 /**
-	 * @return the current numeric value as a BigInteger
-	 * @throws HostException if this element cannot produce a numeric value
-	 */
-	BigInteger getBigIntegerValue() throws HostException;
+    /**
+     * @return the current numeric value as an Integer
+     * @throws HostException if this element cannot produce a numeric value
+     */
+    Integer getIntegerValue() throws HostException;
 
-	/**
-	 * Set the value associated with this element.
-	 * 
-	 * @param value the value as a BigInteger
-	 * @throws HostException if this setting value fails
-	 */
-	 void setBigIntegerValue(BigInteger value) throws HostException;
+    /**
+     * Set the value associated with this element.
+     * 
+     * @param value the value as an Integer
+     * @throws HostException if this setting value fails
+     */
+    void setIntegerValue(Integer value) throws HostException;
+
+    /**
+     * @return the current numeric value as a Long
+     * @throws HostException if this element cannot produce a numeric value
+     */
+    Long getLongValue() throws HostException;
+
+    /**
+     * Set the value associated with this element.
+     * 
+     * @param value the value as a Long
+     * @throws HostException if this setting value fails
+     */
+    void setLongValue(Long value) throws HostException;
+
+    /**
+     * @return the current numeric value as a BigDecimal
+     * @throws HostException if this element cannot produce a numeric value
+     */
+    BigDecimal getBigDecimalValue() throws HostException;
+
+    /**
+     * Set the value associated with this element.
+     * 
+     * @param value the value as a BigDecimal
+     * @throws HostException if this setting value fails
+     */
+    void setBigDecimalValue(BigDecimal value) throws HostException;
+
+    /**
+     * @return the current numeric value as a BigInteger
+     * @throws HostException if this element cannot produce a numeric value
+     */
+    BigInteger getBigIntegerValue() throws HostException;
+
+    /**
+     * Set the value associated with this element.
+     * 
+     * @param value the value as a BigInteger
+     * @throws HostException if this setting value fails
+     */
+    void setBigIntegerValue(BigInteger value) throws HostException;
 }

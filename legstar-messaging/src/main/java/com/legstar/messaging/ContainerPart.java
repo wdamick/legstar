@@ -16,24 +16,24 @@ package com.legstar.messaging;
  */
 public class ContainerPart extends LegStarMessagePart {
 
-	/** Serial version ID. */
-	private static final long serialVersionUID = -2440806472909705571L;
+    /** Serial version ID. */
+    private static final long serialVersionUID = -2440806472909705571L;
 
-	/**
-	 * Create an empty container.
-	 * @param id name of the container
-	 */
-	public ContainerPart(final String id) {
-		super(id, null);
-	}
-	
-	/**
-	 * Create a container from a binary content.
-	 * @param id name of the container
-	 * @param content binary content
-	 */
-	public ContainerPart(final String id, final byte[] content) {
-		super(id, content);
-	}
+    /**
+     * Create an empty container.
+     * @param id name of the container
+     */
+    public ContainerPart(final String id) {
+        super(id, null);
+    }
+
+    /**
+     * Create a container from a binary content.
+     * @param id name of the container
+     * @param content binary content
+     */
+    public ContainerPart(final String id, final byte[] content) {
+        super(id, content);
+    }
 
 }

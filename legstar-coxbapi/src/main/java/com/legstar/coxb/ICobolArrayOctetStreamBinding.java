@@ -20,21 +20,21 @@ import com.legstar.coxb.host.HostException;
  *
  * @author Fady Moussallam
  * 
-*/
+ */
 public interface ICobolArrayOctetStreamBinding extends ICobolArrayBinding {
-	
-	
-	/**
-	 * @return Returns an ArrayList of byte arrays 
-	 * @throws HostException list cannot be created
-	 */
-	List < byte[] > getByteArrayList() throws HostException;
-	
-	/**
-	 * Sets a list of byte arrays.
-	 * @param iArray set array to set
-	 * @throws HostException list cannot be set
-	 */
-	void setByteArrayList(List < byte[] > iArray) throws HostException;
-	
+
+
+    /**
+     * @return Returns an ArrayList of byte arrays 
+     * @throws HostException list cannot be created
+     */
+    List < byte[] > getByteArrayList() throws HostException;
+
+    /**
+     * Sets a list of byte arrays.
+     * @param iArray set array to set
+     * @throws HostException list cannot be set
+     */
+    void setByteArrayList(List < byte[] > iArray) throws HostException;
+
 }

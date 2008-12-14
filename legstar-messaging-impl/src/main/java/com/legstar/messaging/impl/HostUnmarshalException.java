@@ -14,23 +14,23 @@ package com.legstar.messaging.impl;
  * Error interpreting data from host.
  */
 public class HostUnmarshalException extends Exception {
-	
-	/** Default serial ID. */
-	private static final long serialVersionUID = -2281686078163367622L;
-	
-	/** 
-	 * Constructor from an error message. 
-	 * @param message the text message 
-	 * */
-	public HostUnmarshalException(final String message) {
-		super(message);
-	}
-	/** 
-	 * Constructor from an inner exception. 
-	 * @param e the inner exception 
-	 * */
-	public HostUnmarshalException(final Exception e) {
-		super(e);
-	}
+
+    /** Default serial ID. */
+    private static final long serialVersionUID = -2281686078163367622L;
+
+    /** 
+     * Constructor from an error message. 
+     * @param message the text message 
+     * */
+    public HostUnmarshalException(final String message) {
+        super(message);
+    }
+    /** 
+     * Constructor from an inner exception. 
+     * @param e the inner exception 
+     * */
+    public HostUnmarshalException(final Exception e) {
+        super(e);
+    }
 
 }

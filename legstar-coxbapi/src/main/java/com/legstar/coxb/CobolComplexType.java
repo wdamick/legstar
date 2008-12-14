@@ -27,8 +27,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 
 public @interface CobolComplexType {
-	/** Initial Java class name from which an Xml Schema was derived leading
-	 * to this JAXB object. */
-	String javaClassName();
-	
+    /** Initial Java class name from which an Xml Schema was derived leading
+     * to this JAXB object. */
+    String javaClassName();
+
 }

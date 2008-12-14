@@ -13,7 +13,7 @@ package com.legstar.eclipse.plugin.jaxwsgen.preferences;
 /**
  * Constant definitions for plug-in preferences.
  */
-public class PreferenceConstants {
+public final class PreferenceConstants {
 
     /** J2ee folder where war files should be deployed. */
     public static final String J2EE_WAR_FOLDER =
@@ -34,5 +34,10 @@ public class PreferenceConstants {
     /** Folder where sample COBOL programs are generated. */
     public static final String COBOL_SAMPLE_FOLDER =
         "com.legstar.eclipse.plugin.jaxwsgen.cobolSampleFolder";
+    
+    /** Utility class. */
+    private PreferenceConstants() {
+        
+    }
 
 }

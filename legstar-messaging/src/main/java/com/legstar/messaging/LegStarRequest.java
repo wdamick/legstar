@@ -19,163 +19,163 @@ import java.util.concurrent.TimeUnit;
  * attaches reply data or an exception as appropriate.
  */
 public class LegStarRequest {
-	
-	/** A unique ID for this request. */
-	private String mID;
-	
-	/** The request message. */
-	private LegStarMessage mRequestMessage;
-	
-	/** The response message. */
-	private LegStarMessage mResponseMessage;
-	
-	/** If request processing failed, this will describe the failure. */
-	private Exception mException;
-	
-	/** Host destination for this request. */
-	private LegStarAddress mAddress;
-	
-	/** This allows users to attach unstructured data to a particular request.*/
-	private byte[] mAttachment;
-	
-	/** This is used to signal that this request is being processed. Multiple 
-	 * threads might be waiting for completion. */
-	private CountDownLatch mProcessingLatch = null;
-	
-	/** Creates an empty request. */
-	public LegStarRequest() {
-	}
-	
-	/**
-	 * Constructor for a new request.
-	 * @param id a unique ID for this request
-	 * @param address the host destination
-	 * @param requestMessage the input message
-	 */
-	public LegStarRequest(
-			final String id,
-			final LegStarAddress address,
-			final LegStarMessage requestMessage) {
-		mID = id;
-		mAddress = address;
-		mRequestMessage = requestMessage;
-	}
 
-	/**
-	 * @return the unique ID for this request
-	 */
-	public final String getID() {
-		return mID;
-	}
+    /** A unique ID for this request. */
+    private String mID;
 
-	/**
-	 * @param id the unique ID for this request to set
-	 */
-	public final void setID(final String id) {
-		mID = id;
-	}
+    /** The request message. */
+    private LegStarMessage mRequestMessage;
 
-	/**
-	 * @return the the input message
-	 */
-	public final LegStarMessage getRequestMessage() {
-		return mRequestMessage;
-	}
+    /** The response message. */
+    private LegStarMessage mResponseMessage;
 
-	/**
-	 * @param requestMessage the input message to set
-	 */
-	public final void setRequestMessage(final LegStarMessage requestMessage) {
-		mRequestMessage = requestMessage;
-	}
+    /** If request processing failed, this will describe the failure. */
+    private Exception mException;
 
-	/**
-	 * @return the reply message
-	 */
-	public final LegStarMessage getResponseMessage() {
-		return mResponseMessage;
-	}
+    /** Host destination for this request. */
+    private LegStarAddress mAddress;
 
-	/**
-	 * @param responseMessage the reply message to set
-	 */
-	public final void setResponseMessage(final LegStarMessage responseMessage) {
-		mResponseMessage = responseMessage;
-	}
+    /** This allows users to attach unstructured data to a particular request.*/
+    private byte[] mAttachment;
 
-	/**
-	 * @return the work exception
-	 */
-	public final Exception getException() {
-		return mException;
-	}
+    /** This is used to signal that this request is being processed. Multiple 
+     * threads might be waiting for completion. */
+    private CountDownLatch mProcessingLatch = null;
 
-	/**
-	 * @param requestException the work exception to set
-	 */
-	public final void setException(final Exception requestException) {
-		mException = requestException;
-	}
+    /** Creates an empty request. */
+    public LegStarRequest() {
+    }
 
-	/**
-	 * @return the host destination
-	 */
-	public final LegStarAddress getAddress() {
-		return mAddress;
-	}
+    /**
+     * Constructor for a new request.
+     * @param id a unique ID for this request
+     * @param address the host destination
+     * @param requestMessage the input message
+     */
+    public LegStarRequest(
+            final String id,
+            final LegStarAddress address,
+            final LegStarMessage requestMessage) {
+        mID = id;
+        mAddress = address;
+        mRequestMessage = requestMessage;
+    }
 
-	/**
-	 * @param address the host destination to set
-	 */
-	public final void setAddress(final LegStarAddress address) {
-		mAddress = address;
-	}
+    /**
+     * @return the unique ID for this request
+     */
+    public final String getID() {
+        return mID;
+    }
 
-	/**
-	 * @return the data attached to the request
-	 */
-	public final byte[] getAttachment() {
-		return mAttachment;
-	}
+    /**
+     * @param id the unique ID for this request to set
+     */
+    public final void setID(final String id) {
+        mID = id;
+    }
 
-	/**
-	 * @param attachment the data to attach to the request
-	 */
-	public final void setAttachment(final byte[] attachment) {
-		mAttachment = attachment;
-	}
-	
-	/**
-	 * Used to signal that this request is now being processed.
-	 */
-	public final void signalProcessingStart() {
-		mProcessingLatch = new CountDownLatch(1);
-	}
-	
-	/**
-	 * Used to signal that this request has been processed. It might have
-	 * failed though so checking for an exception is a good idea.
-	 */
-	public final void signalProcessingStop() {
-		mProcessingLatch.countDown();
-	}
-	
-	/**
-	 * Allows threads to wait for this request completion.
-	 * @param timeout how long to wait
-	 * @param unit the timeout unit
-	 * @return true if request was processed and false if the waiting time
-	 *  elapsed before the request was processed.
-	 * @throws InterruptedException if thread was interrupted
-	 */
-	public final boolean await(
-			final long timeout,
-			final TimeUnit unit) throws InterruptedException {
-		if (mProcessingLatch == null) {
-			return true;
-		} else {
-			return mProcessingLatch.await(timeout, unit);
-		}
-	}
+    /**
+     * @return the the input message
+     */
+    public final LegStarMessage getRequestMessage() {
+        return mRequestMessage;
+    }
+
+    /**
+     * @param requestMessage the input message to set
+     */
+    public final void setRequestMessage(final LegStarMessage requestMessage) {
+        mRequestMessage = requestMessage;
+    }
+
+    /**
+     * @return the reply message
+     */
+    public final LegStarMessage getResponseMessage() {
+        return mResponseMessage;
+    }
+
+    /**
+     * @param responseMessage the reply message to set
+     */
+    public final void setResponseMessage(final LegStarMessage responseMessage) {
+        mResponseMessage = responseMessage;
+    }
+
+    /**
+     * @return the work exception
+     */
+    public final Exception getException() {
+        return mException;
+    }
+
+    /**
+     * @param requestException the work exception to set
+     */
+    public final void setException(final Exception requestException) {
+        mException = requestException;
+    }
+
+    /**
+     * @return the host destination
+     */
+    public final LegStarAddress getAddress() {
+        return mAddress;
+    }
+
+    /**
+     * @param address the host destination to set
+     */
+    public final void setAddress(final LegStarAddress address) {
+        mAddress = address;
+    }
+
+    /**
+     * @return the data attached to the request
+     */
+    public final byte[] getAttachment() {
+        return mAttachment;
+    }
+
+    /**
+     * @param attachment the data to attach to the request
+     */
+    public final void setAttachment(final byte[] attachment) {
+        mAttachment = attachment;
+    }
+
+    /**
+     * Used to signal that this request is now being processed.
+     */
+    public final void signalProcessingStart() {
+        mProcessingLatch = new CountDownLatch(1);
+    }
+
+    /**
+     * Used to signal that this request has been processed. It might have
+     * failed though so checking for an exception is a good idea.
+     */
+    public final void signalProcessingStop() {
+        mProcessingLatch.countDown();
+    }
+
+    /**
+     * Allows threads to wait for this request completion.
+     * @param timeout how long to wait
+     * @param unit the timeout unit
+     * @return true if request was processed and false if the waiting time
+     *  elapsed before the request was processed.
+     * @throws InterruptedException if thread was interrupted
+     */
+    public final boolean await(
+            final long timeout,
+            final TimeUnit unit) throws InterruptedException {
+        if (mProcessingLatch == null) {
+            return true;
+        } else {
+            return mProcessingLatch.await(timeout, unit);
+        }
+    }
 
 }

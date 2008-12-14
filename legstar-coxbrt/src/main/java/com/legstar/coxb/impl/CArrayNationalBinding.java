@@ -20,26 +20,25 @@ import com.legstar.coxb.ICobolComplexBinding;
  *
  * @author Fady Moussallam
  * 
-*/
-public class CArrayNationalBinding	extends CArrayStringBinding
-	implements ICobolArrayNationalBinding {
-	
-	/**
-	 * Constructor for a cobol element to java binding.
-	 * 
-	 * @param bindingName the identifier for this binding
-	 * @param jaxbName the name of the bound java property
-	 * @param jaxbType the type of the bound java property
-	 * @param cobolAnnotations the cobol annotations for this element
-	 * @param parentBinding a reference to the parent binding if any
-	 */
-	public CArrayNationalBinding(
-			final String bindingName,
-			final String jaxbName,
-			final Class < ? > jaxbType,
-			final CobolElement cobolAnnotations,
-			final ICobolComplexBinding parentBinding) {
-		super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
-	}
-	
+ */
+public class CArrayNationalBinding extends CArrayStringBinding implements ICobolArrayNationalBinding {
+
+    /**
+     * Constructor for a cobol element to java binding.
+     * 
+     * @param bindingName the identifier for this binding
+     * @param jaxbName the name of the bound java property
+     * @param jaxbType the type of the bound java property
+     * @param cobolAnnotations the cobol annotations for this element
+     * @param parentBinding a reference to the parent binding if any
+     */
+    public CArrayNationalBinding(
+            final String bindingName,
+            final String jaxbName,
+            final Class < ? > jaxbType,
+            final CobolElement cobolAnnotations,
+            final ICobolComplexBinding parentBinding) {
+        super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
+    }
+
 }

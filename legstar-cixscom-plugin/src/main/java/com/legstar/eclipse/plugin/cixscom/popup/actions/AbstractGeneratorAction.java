@@ -58,44 +58,44 @@ public abstract class AbstractGeneratorAction implements IObjectActionDelegate {
      */
     public final void run(final IAction action) {
         try {
-	       /* Get us the selected file */
-	        IFile file = null;
-	        if (mSelection != null && !mSelection.isEmpty()
-	                && mSelection instanceof IStructuredSelection) {
-	            IStructuredSelection ssel = (IStructuredSelection) mSelection;
-	            if (ssel.size() > 1) {
-	                return;
-	            }
-	            Object obj = ssel.getFirstElement();
-	            if (obj instanceof IResource) {
-	                if (obj instanceof IFile) {
-	                    file = (IFile) obj;
-	                } else {
-	                	AbstractWizard.throwCoreException(
-	                			Messages.no_mapping_file_msg);
-	                }
-	            }
-	        }
+            /* Get us the selected file */
+            IFile file = null;
+            if (mSelection != null && !mSelection.isEmpty()
+                    && mSelection instanceof IStructuredSelection) {
+                IStructuredSelection ssel = (IStructuredSelection) mSelection;
+                if (ssel.size() > 1) {
+                    return;
+                }
+                Object obj = ssel.getFirstElement();
+                if (obj instanceof IResource) {
+                    if (obj instanceof IFile) {
+                        file = (IFile) obj;
+                    } else {
+                        AbstractWizard.throwCoreException(
+                                Messages.no_mapping_file_msg);
+                    }
+                }
+            }
             startWizard(file);
         } catch (CoreException e) {
-        	AbstractWizard.logCoreException(e, Activator.PLUGIN_ID);
+            AbstractWizard.logCoreException(e, Activator.PLUGIN_ID);
         }
     }
-    
+
     /**
      * Subclasses implement the wizard start method.
      * @param mappingFile the mapping file
      * @throws CoreException if wizard fails to start
      */
     public abstract void startWizard(
-    		final IFile mappingFile) throws CoreException;
+            final IFile mappingFile) throws CoreException;
 
     /**
      * @see IActionDelegate#selectionChanged(IAction, ISelection)
      * @param action the action proxy that handles presentation portion of 
-     * 		the action
+     *  the action
      * @param selection the current selection, or <code>null</code> if there
-     * 		is no selection.
+     *  is no selection.
      */
     public final void selectionChanged(
             final IAction action, final ISelection selection) {

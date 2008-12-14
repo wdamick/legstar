@@ -19,16 +19,16 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
 import com.legstar.eclipse.plugin.cixscom.wizards
-								.AbstractCixsGeneratorWizardLauncher;
+.AbstractCixsGeneratorWizardLauncher;
 import com.legstar.eclipse.plugin.cixscom.wizards.ICixsGeneratorWizardLauncher;
 import com.legstar.eclipse.plugin.jaxwsgen.Messages;
 
 /**
  * Implementation of a component generator which basically hands over
  * control to the Jaxws2Cixs wizard.
-  */
+ */
 public class Jaxws2CixsGeneratorWizardLauncher
-		extends AbstractCixsGeneratorWizardLauncher {
+extends AbstractCixsGeneratorWizardLauncher {
 
     /**
      * Get an instance of the wizard.
@@ -37,16 +37,16 @@ public class Jaxws2CixsGeneratorWizardLauncher
      * @throws CoreException if wizard cannot be instantiated
      */
     protected IWizard getWizard(
-    		final IFile mappingFile) throws CoreException {
-    	return new Jaxws2CixsGeneratorWizard(mappingFile);
-    	
+            final IFile mappingFile) throws CoreException {
+        return new Jaxws2CixsGeneratorWizard(mappingFile);
+
     }
 
-	/** {@inheritDoc} */
+    /** {@inheritDoc} */
     public String getName() {
-		return Messages.jaxws_to_cixs_wizard_page_title;
-	}
-    
+        return Messages.jaxws_to_cixs_wizard_page_title;
+    }
+
     /**
      * Register an OSGI component generation service that can be discovered
      * dynamically by other plugins (bundles).
@@ -59,6 +59,6 @@ public class Jaxws2CixsGeneratorWizardLauncher
                 ICixsGeneratorWizardLauncher.class.getName(),
                 new Jaxws2CixsGeneratorWizardLauncher(),
                 new Properties());
-        
+
     }
 }

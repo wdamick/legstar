@@ -18,13 +18,13 @@ import org.eclipse.jdt.core.IJavaProject;
  * create class name lists and associated class paths.
  */
 public class JavaClass {
-    
+
     /** The class name. */
-	public String className;
-	
+    public String className;
+
     /** The Eclipse java project. */
     public IJavaProject javaProject;
-    
+
     /**
      * Create a java class model.
      * @param name the class name
@@ -34,13 +34,13 @@ public class JavaClass {
         this.className = name;
         this.javaProject = location;
     }
-    
+
     /** {@inheritDoc} */
     public String toString() {
         return "Class name=" + className + ","
-        	+ " Java project=" + javaProject.getProject().getName();
+        + " Java project=" + javaProject.getProject().getName();
     }
-    
+
     /**
      * Compares another object of this class to this instance.
      * @param jClass the other object
@@ -48,35 +48,35 @@ public class JavaClass {
      */
     public int compare(final JavaClass jClass) {
         int projectCompare =
-        	this.javaProject.getProject().getName().compareToIgnoreCase(
-                jClass.javaProject.getProject().getName());
+            this.javaProject.getProject().getName().compareToIgnoreCase(
+                    jClass.javaProject.getProject().getName());
         if (projectCompare == 0) {
             return this.className.compareToIgnoreCase(jClass.className);
         }
         return projectCompare;
     }
-    
-    /** {@inheritDoc} */
-	@Override
-	public boolean equals(final Object obj) {
-		if (obj instanceof JavaClass) {
-			return compare(((JavaClass) obj)) == 0 ? true : false;
-		}
-		return false;
-	}
 
     /** {@inheritDoc} */
-	@Override
-	public int hashCode() {
-		return super.hashCode();
-	}
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj instanceof JavaClass) {
+            return compare(((JavaClass) obj)) == 0 ? true : false;
+        }
+        return false;
+    }
 
-	/**
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    /**
      * @return an instance of the referenced java class
      * @throws ClassNotFoundException if class cannot be found
      */
     public Class < ? > toClass() throws ClassNotFoundException {
         return Class.forName(className);
     }
-    
+
 }

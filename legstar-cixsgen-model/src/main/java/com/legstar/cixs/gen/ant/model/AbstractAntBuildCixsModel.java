@@ -22,40 +22,40 @@ import com.legstar.codegen.models.AbstractAntBuildModel;
  * This model is common to all generation types.
  */
 public class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
-    
+
     /** Describes the service being generated. */
     private AbstractCixsService mCixsService;
-    
+
     /** The target directory where source files will be created. */
     private File mTargetSrcDir;
-    
+
     /** The target directory where binary files will be created. */
     private File mTargetBinDir;
-    
+
     /** The target directory where ant files will be created. */
     private File mTargetAntDir;
-    
+
     /** The target directory where properties files will be created. */
     private File mTargetPropDir;
-    
+
     /** The location where JAXB compiled classes live. */
     private File mJaxbBinDir;
-    
+
     /** The location where COXB compiled classes live. */
     private File mCoxbBinDir;
-    
+
     /** The location where custom compiled classes live. */
     private File mCustBinDir;
-    
+
     /** The host character set. Default is US 37 + Euro sign. */
     private String mHostCharset = "IBM01140";
-    
+
     /** This generator's name. */
     private String mGeneratorName;
-    
+
     /** This velocity template. */
     private String mVlcTemplate;
-    
+
     /**
      * Construct the model with a generator name and velocity template.
      * @param generatorName to designate the generator
@@ -66,15 +66,15 @@ public class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
         mVlcTemplate = vlcTemplate;
         mGeneratorName = generatorName;
     }
-    
+
     /** {@inheritDoc} */
     public void generateBuild(
-    		final File scriptFile) throws CodeGenMakeException {
+            final File scriptFile) throws CodeGenMakeException {
         super.generateBuild(
                 mGeneratorName, mVlcTemplate, scriptFile);
     }
 
-   /**
+    /**
      * @return the target directory where source files will be created
      */
     public final File getTargetSrcDir() {
@@ -153,9 +153,9 @@ public class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
      * location as Jaxb classes.
      */
     public final File getCoxbBinDir() {
-    	if (mCoxbBinDir == null) {
-    		return getJaxbBinDir();
-    	}
+        if (mCoxbBinDir == null) {
+            return getJaxbBinDir();
+        }
         return mCoxbBinDir;
     }
 
@@ -171,9 +171,9 @@ public class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
      * location as Jaxb classes.
      */
     public final File getCustBinDir() {
-    	if (mCustBinDir == null) {
-    		return getJaxbBinDir();
-    	}
+        if (mCustBinDir == null) {
+            return getJaxbBinDir();
+        }
         return mCustBinDir;
     }
 

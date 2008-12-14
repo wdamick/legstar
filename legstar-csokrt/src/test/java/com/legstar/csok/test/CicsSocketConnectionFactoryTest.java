@@ -144,7 +144,6 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
 			CicsSocketConnectionFactory cf =
 			new CicsSocketConnectionFactory(endpointConfig);
 			LegStarAddress address = new LegStarAddress("TheMainframe");
-			@SuppressWarnings("unused")
 			CicsSocket conn = (CicsSocket) cf.createConnection("testCreateWithDefaultTimeouts", address);
 			assertEquals(1000, conn.getConnectTimeout());
 			assertEquals(5000, conn.getReceiveTimeout());
@@ -159,7 +158,6 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
 			CicsSocketConnectionFactory cf =
 			new CicsSocketConnectionFactory(endpointConfig);
 			LegStarAddress address = new LegStarAddress("TheMainframe");
-			@SuppressWarnings("unused")
 			CicsSocket conn = (CicsSocket) cf.createConnection("testCreateWithDefaultTimeouts", address);
 			assertEquals(2000, conn.getConnectTimeout());
 			assertEquals(7000, conn.getReceiveTimeout());

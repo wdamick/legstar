@@ -22,19 +22,19 @@ import java.util.Hashtable;
  *
  * @author Fady Moussallam
  * 
-*/
+ */
 public interface ICobolUnmarshalChoiceStrategy {
-	/**
-	 * Determines which alternative should be chosen.
-	 * @param choice the redefined element
-	 * @param variablesMap variables which values might help with the choice
-	 * @param visitor the current visitor
-	 * @return the alternative chosen
-	 * @throws HostException if error found while looking for alternatives
-	 */
-	ICobolBinding choose(
-			ICobolChoiceBinding choice,
-			Hashtable < String, Object > variablesMap,
-			CobolElementVisitor visitor) throws HostException;
+    /**
+     * Determines which alternative should be chosen.
+     * @param choice the redefined element
+     * @param variablesMap variables which values might help with the choice
+     * @param visitor the current visitor
+     * @return the alternative chosen
+     * @throws HostException if error found while looking for alternatives
+     */
+    ICobolBinding choose(
+            ICobolChoiceBinding choice,
+            Hashtable < String, Object > variablesMap,
+            CobolElementVisitor visitor) throws HostException;
 
 }

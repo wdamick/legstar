@@ -21,64 +21,64 @@ import org.osgi.framework.BundleContext;
  */
 public class Activator extends AbstractUIPlugin {
 
-	/** The plug-in ID. */
-	public static final String PLUGIN_ID = "com.legstar.eclipse.plugin.cixsmap";
+    /** The plug-in ID. */
+    public static final String PLUGIN_ID = "com.legstar.eclipse.plugin.cixsmap";
 
-	/** The shared instance. */
-	private static Activator mPlugin;
-	
-	/** Context returned by start is needed for registration services. */
-	private BundleContext mContext;
-	
-	/**
-	 * The constructor.
-	 */
-	public Activator() {
-	}
+    /** The shared instance. */
+    private static Activator mPlugin;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void start(final BundleContext context) throws Exception {
-		super.start(context);
-		mContext = context;
-		mPlugin = this;
-	}
+    /** Context returned by start is needed for registration services. */
+    private BundleContext mContext;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void stop(final BundleContext context) throws Exception {
-		mPlugin = null;
-		mContext = null;
-		super.stop(context);
-	}
+    /**
+     * The constructor.
+     */
+    public Activator() {
+    }
 
-	/**
-	 * Returns the shared instance.
-	 *
-	 * @return the shared instance
-	 */
-	public static Activator getDefault() {
-		return mPlugin;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void start(final BundleContext context) throws Exception {
+        super.start(context);
+        mContext = context;
+        mPlugin = this;
+    }
 
-	/**
-	 * Returns an image descriptor for the image file at the given
-	 * plug-in relative path.
-	 *
-	 * @param path the path
-	 * @return the image descriptor
-	 */
-	public static ImageDescriptor getImageDescriptor(final String path) {
-		return imageDescriptorFromPlugin(PLUGIN_ID, path);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void stop(final BundleContext context) throws Exception {
+        mPlugin = null;
+        mContext = null;
+        super.stop(context);
+    }
 
-	/**
-	 * @return the bundle context
-	 */
-	public final BundleContext getContext() {
-		return mContext;
-	}
-	
+    /**
+     * Returns the shared instance.
+     *
+     * @return the shared instance
+     */
+    public static Activator getDefault() {
+        return mPlugin;
+    }
+
+    /**
+     * Returns an image descriptor for the image file at the given
+     * plug-in relative path.
+     *
+     * @param path the path
+     * @return the image descriptor
+     */
+    public static ImageDescriptor getImageDescriptor(final String path) {
+        return imageDescriptorFromPlugin(PLUGIN_ID, path);
+    }
+
+    /**
+     * @return the bundle context
+     */
+    public final BundleContext getContext() {
+        return mContext;
+    }
+
 }

@@ -38,83 +38,83 @@ import com.legstar.eclipse.plugin.cixsmap.dialogs.LegacyStructureDialog;
  */
 public class NewMappingFileWizardPage extends WizardNewFileCreationPage {
 
-	/** Page name. */
-	private static final String PAGE_NAME =
-		"NewWSWizardPage";
-	
-	
-	 /**
-	 * Constructor for NewWSWizardPage.
-	 * 
-	 * @param selection current selection
-	 */
-	public NewMappingFileWizardPage(
-			final IStructuredSelection selection) {
-		super(PAGE_NAME, selection);
-		setTitle(Messages.new_file_wizard_page_title);
-		setDescription(Messages.new_file_wizard_description);
-		ImageDescriptor image =
-            AbstractUIPlugin.
-                imageDescriptorFromPlugin(
-                		com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID,
-                		com.legstar.eclipse.plugin.common.Activator.LOGO_IMG);
-        setImageDescriptor(image);
-	}
-	
-	/** {@inheritDoc} */
-	public void createControl(final Composite parent) {
-		super.createControl(parent);
-		setFileName('.' + Messages.operations_mapping_file_suffix);
-	}
+    /** Page name. */
+    private static final String PAGE_NAME =
+        "NewWSWizardPage";
 
-	
-	/**
-	 * Overriding this to prevent WizardNewFileCreationPage from displaying
-	 * the advanced button which was not tested enough and is somewhat
-	 * confusing for newcomers.
-	 * @param parent the parent container
-	 *  */
-	protected void createAdvancedControls(final Composite parent) {
+
+    /**
+     * Constructor for NewWSWizardPage.
+     * 
+     * @param selection current selection
+     */
+    public NewMappingFileWizardPage(
+            final IStructuredSelection selection) {
+        super(PAGE_NAME, selection);
+        setTitle(Messages.new_file_wizard_page_title);
+        setDescription(Messages.new_file_wizard_description);
+        ImageDescriptor image =
+            AbstractUIPlugin.
+            imageDescriptorFromPlugin(
+                    com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID,
+                    com.legstar.eclipse.plugin.common.Activator.LOGO_IMG);
+        setImageDescriptor(image);
+    }
+
+    /** {@inheritDoc} */
+    public void createControl(final Composite parent) {
+        super.createControl(parent);
+        setFileName('.' + Messages.operations_mapping_file_suffix);
+    }
+
+
+    /**
+     * Overriding this to prevent WizardNewFileCreationPage from displaying
+     * the advanced button which was not tested enough and is somewhat
+     * confusing for newcomers.
+     * @param parent the parent container
+     *  */
+    protected void createAdvancedControls(final Composite parent) {
         Preferences preferences =
-        	ResourcesPlugin.getPlugin().getPluginPreferences();
+            ResourcesPlugin.getPlugin().getPluginPreferences();
         preferences.setValue(ResourcesPlugin.PREF_DISABLE_LINKING, true);
         super.createAdvancedControls(parent);
-	}
-	
+    }
+
     /** {@inheritDoc} */
     protected boolean validatePage() {
         setCanFinish(false);
         if (!super.validatePage()) {
             return false;
         }
-        
+
         /* There must be a mapping file name */
         if (getFileName() == null || getFileName().length() == 0) {
-			setErrorMessage(NLS.bind(
-					Messages.invalid_mapping_file_msg,
-					getFileName()));
+            setErrorMessage(NLS.bind(
+                    Messages.invalid_mapping_file_msg,
+                    getFileName()));
             return false;
         }
-        
+
         /* There must be more than the mere mapping file name extension */
-    	IPath path = new Path(getFileName());
-    	IPath noExtensionPath = path.removeFileExtension();
-    	if (noExtensionPath.isEmpty()) {
-			setErrorMessage(NLS.bind(
-					Messages.invalid_mapping_file_msg,
-					getFileName()));
+        IPath path = new Path(getFileName());
+        IPath noExtensionPath = path.removeFileExtension();
+        if (noExtensionPath.isEmpty()) {
+            setErrorMessage(NLS.bind(
+                    Messages.invalid_mapping_file_msg,
+                    getFileName()));
             return false;
-    	}
-        
+        }
+
         /* Make sure the file name has the correct extension */
-    	String extension = path.getFileExtension();
-		if (extension == null || !extension.equals(
-				Messages.operations_mapping_file_suffix)) {
-			setErrorMessage(NLS.bind(
-					Messages.invalid_mapping_file_extension_msg,
-					extension, Messages.operations_mapping_file_suffix));
+        String extension = path.getFileExtension();
+        if (extension == null || !extension.equals(
+                Messages.operations_mapping_file_suffix)) {
+            setErrorMessage(NLS.bind(
+                    Messages.invalid_mapping_file_extension_msg,
+                    extension, Messages.operations_mapping_file_suffix));
             return false;
-		}
+        }
 
         /* Only Java projects are valid containers. */
         IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
@@ -130,7 +130,7 @@ public class NewMappingFileWizardPage extends WizardNewFileCreationPage {
                     for (int k = 0; k < pkgRoot.getChildren().length; k++) {
                         IJavaElement el = pkgRoot.getChildren()[k];
                         if (el.getPath().lastSegment().compareTo(
-                        		LegacyStructureDialog.BIND_FRAG) == 0) {
+                                LegacyStructureDialog.BIND_FRAG) == 0) {
                             setCanFinish(true);
                             return true;
                         }
@@ -138,46 +138,46 @@ public class NewMappingFileWizardPage extends WizardNewFileCreationPage {
                 }
             }
             setErrorMessage(NLS.bind(Messages.no_coxb_classes_in_project_msg,
-            				resource.getProject().getName()));
+                    resource.getProject().getName()));
             return false;
         } catch (JavaModelException e) {
             setErrorMessage(NLS.bind(Messages.invalid_java_project_msg,
-            		resource.getProject().getName(), e.getMessage()));
+                    resource.getProject().getName(), e.getMessage()));
             return false;
         }
-        
+
     }
 
     /**
-	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#getNewFileLabel()
+     * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#getNewFileLabel()
      * @return the label to display in the file name specification visual
      *     component group
      * {@inheritDoc}
-	 */
-	protected final String getNewFileLabel() {
-		return Messages.new_operations_mapping_file_name_label;
-	}
+     */
+    protected final String getNewFileLabel() {
+        return Messages.new_operations_mapping_file_name_label;
+    }
 
-	/**
-	 * @return the container name
-	 */
-	public final String getContainerName() {
-		return getContainerFullPath().toOSString();
-	}
+    /**
+     * @return the container name
+     */
+    public final String getContainerName() {
+        return getContainerFullPath().toOSString();
+    }
 
-	/**
-	 * @return the mapping file name
-	 */
-	public final String getMappingFileName() {
-		return getFileName();
-	}
-	
-	/**
-	 * Tells the wizard wether its ok to finish.
-	 * @param canFinish true or false
-	 */
-	private void setCanFinish(final boolean canFinish) {
-		((NewMappingFileWizard) getWizard()).setCanFinish(canFinish);
-	}
-	
+    /**
+     * @return the mapping file name
+     */
+    public final String getMappingFileName() {
+        return getFileName();
+    }
+
+    /**
+     * Tells the wizard wether its ok to finish.
+     * @param canFinish true or false
+     */
+    private void setCanFinish(final boolean canFinish) {
+        ((NewMappingFileWizard) getWizard()).setCanFinish(canFinish);
+    }
+
 }

@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Text;
 
 import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsActivator;
 import com.legstar.eclipse.plugin.cixscom.wizards
-		.AbstractCixsGeneratorWizardPage;
+.AbstractCixsGeneratorWizardPage;
 import com.legstar.eclipse.plugin.jaxwsgen.Activator;
 import com.legstar.eclipse.plugin.jaxwsgen.Messages;
 import com.legstar.eclipse.plugin.jaxwsgen.preferences.PreferenceConstants;
@@ -31,20 +31,20 @@ import com.legstar.eclipse.plugin.jaxwsgen.preferences.PreferenceConstants;
  * generation.
  */
 public class Jaxws2CixsGeneratorWizardPage
-        extends AbstractCixsGeneratorWizardPage {
+extends AbstractCixsGeneratorWizardPage {
 
     /** Page name. */
     private static final String PAGE_NAME = "Jaxws2CixsGeneratorWizardPage";
-    
+
     /** J2ee folder where web deployment files should be generated. */
     private Text mTargetWDDDirText = null;
-    
+
     /** J2ee folder where war files should be deployed. */
     private Text mTargetWarDirText = null;
-    
+
     /** Generated Web services target namespace. */
     private Text mTargetNamespaceText = null;
-    
+
     /**
      * Construct the page.
      * @param selection the current workbench selection
@@ -54,17 +54,17 @@ public class Jaxws2CixsGeneratorWizardPage
             final IStructuredSelection selection,
             final IFile mappingFile) {
         super(selection, PAGE_NAME,
-        		Messages.jaxws_to_cixs_wizard_page_title,
-        		Messages.jaxws_to_cixs_wizard_page_description,
-        		mappingFile);
+                Messages.jaxws_to_cixs_wizard_page_title,
+                Messages.jaxws_to_cixs_wizard_page_description,
+                mappingFile);
     }
 
     /** {@inheritDoc} */
     public void addWidgetsToCixsGroup(final Composite container) {
-    	mTargetNamespaceText = createTextField(container, getStore(),
+        mTargetNamespaceText = createTextField(container, getStore(),
                 "targetNamespace",
                 Messages.adapter_target_namespace_label + ':');
-    	mTargetNamespaceText.addModifyListener(new ModifyListener() {
+        mTargetNamespaceText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
@@ -104,38 +104,38 @@ public class Jaxws2CixsGeneratorWizardPage
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 
         setTargetWDDDir(getDefaultTargetDir(store,
-				PreferenceConstants.J2EE_WDD_FOLDER));
+                PreferenceConstants.J2EE_WDD_FOLDER));
 
         setTargetWarDir(store.getDefaultString(
-				PreferenceConstants.J2EE_WAR_FOLDER));
+                PreferenceConstants.J2EE_WAR_FOLDER));
         initPackageName(getServiceName());
     }
 
-	/**
-	 * Package name is built from a prefix stored in preferences and the
-	 * name of the target service.
-	 * @param serviceName the service name
-	 */
-	private void initPackageName(final String serviceName) {
+    /**
+     * Package name is built from a prefix stored in preferences and the
+     * name of the target service.
+     * @param serviceName the service name
+     */
+    private void initPackageName(final String serviceName) {
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		String prefix = store.getString(
-				PreferenceConstants.WS_TARGET_NAMESPACE_PREFIX);
-		if (prefix == null || prefix.length() == 0) {
-			setTargetNamespace(serviceName);
-		} else {
-			setTargetNamespace(prefix + '/' + serviceName);
-		}
-	}
+        String prefix = store.getString(
+                PreferenceConstants.WS_TARGET_NAMESPACE_PREFIX);
+        if (prefix == null || prefix.length() == 0) {
+            setTargetNamespace(serviceName);
+        } else {
+            setTargetNamespace(prefix + '/' + serviceName);
+        }
+    }
 
-	/** {@inheritDoc} */
+    /** {@inheritDoc} */
     public boolean validateExtendedWidgets() {
         if (!checkDirectory(getTargetWDDDir(),
-        		Messages.invalid_wdd_target_location_msg)) {
+                Messages.invalid_wdd_target_location_msg)) {
             return false;
         }
         if (getTargetNamespace().length() == 0) {
-			updateStatus(Messages.invalid_target_namespace_msg);
-			return false;
+            updateStatus(Messages.invalid_target_namespace_msg);
+            return false;
         }
 
         return true;
@@ -148,7 +148,7 @@ public class Jaxws2CixsGeneratorWizardPage
     public void setTargetWarDir(final String targetWarDir) {
         mTargetWarDirText.setText(targetWarDir);
     }
-    
+
     /**
      * @return J2ee folder where war files should be deployed
      */
@@ -163,7 +163,7 @@ public class Jaxws2CixsGeneratorWizardPage
     public void setTargetWDDDir(final String targetWDDDir) {
         mTargetWDDDirText.setText(targetWDDDir);
     }
-    
+
     /**
      * @return J2ee folder where web deployment files should be generated
      */
@@ -177,7 +177,7 @@ public class Jaxws2CixsGeneratorWizardPage
     public void setTargetNamespace(final String targetNamespace) {
         mTargetNamespaceText.setText(targetNamespace);
     }
-    
+
     /**
      * @return Generated Web services target namespace
      */

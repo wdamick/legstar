@@ -20,32 +20,32 @@ import java.util.List;
  * 
  * @author Fady Moussallam
  * 
-*/
+ */
 public interface ICobolArrayDoubleBinding extends ICobolArrayBinding {
-	
-	/**
-	 * @return Returns an ArrayList of Doubles 
-	 * @throws HostException list cannot be created
-	 */
-	List < Double > getDoubleList() throws HostException;
-	
-	/**
-	 * Sets a list of Doubles.
-	 * @param iArray set array to set
-	 * @throws HostException list cannot be set
-	 */
-	void setDoubleList(List < Double > iArray) throws HostException;
 
-	/**
-	 * @return Returns an ArrayList of BigDecimals 
-	 * @throws HostException list cannot be created
-	 */
-	List < BigDecimal > getBigDecimalList() throws HostException;
-	
-	/**
-	 * Sets a list of BigDecimals.
-	 * @param iArray set array to set
-	 * @throws HostException list cannot be set
-	 */
-	void setBigDecimalList(List < BigDecimal > iArray) throws HostException;
+    /**
+     * @return Returns an ArrayList of Doubles 
+     * @throws HostException list cannot be created
+     */
+    List < Double > getDoubleList() throws HostException;
+
+    /**
+     * Sets a list of Doubles.
+     * @param iArray set array to set
+     * @throws HostException list cannot be set
+     */
+    void setDoubleList(List < Double > iArray) throws HostException;
+
+    /**
+     * @return Returns an ArrayList of BigDecimals 
+     * @throws HostException list cannot be created
+     */
+    List < BigDecimal > getBigDecimalList() throws HostException;
+
+    /**
+     * Sets a list of BigDecimals.
+     * @param iArray set array to set
+     * @throws HostException list cannot be set
+     */
+    void setBigDecimalList(List < BigDecimal > iArray) throws HostException;
 }

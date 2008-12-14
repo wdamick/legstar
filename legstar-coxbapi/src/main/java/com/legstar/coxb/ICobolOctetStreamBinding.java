@@ -18,22 +18,22 @@ import com.legstar.coxb.host.HostException;
  * 
  * @author Fady Moussallam
  * 
-*/
+ */
 public interface ICobolOctetStreamBinding extends ICobolBinding {
-	
-	/**
-	 * Returns this element value.
-	 * @return Element value
-	 * @throws HostException if value cannot be retrieved
-	 */
-	byte[] getByteArrayValue() throws HostException;
-	
-	
-	/**
-	 * Sets the element value.
-	 * @param value Value to set
-	 * @throws HostException if value cannot be set
-	 */
-	void setByteArrayValue(byte[] value) throws HostException;
-	
+
+    /**
+     * Returns this element value.
+     * @return Element value
+     * @throws HostException if value cannot be retrieved
+     */
+    byte[] getByteArrayValue() throws HostException;
+
+
+    /**
+     * Sets the element value.
+     * @param value Value to set
+     * @throws HostException if value cannot be set
+     */
+    void setByteArrayValue(byte[] value) throws HostException;
+
 }

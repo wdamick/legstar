@@ -15,23 +15,23 @@ package com.legstar.util;
  * raise such an exception.
  */
 public class JAXBAnnotationException extends Exception {
-	
-	/** Default serial ID. */
-	private static final long serialVersionUID = 9147947946375560767L;
-	
-	/** 
-	 * Constructor from an error message. 
-	 * @param message the text message 
-	 * */
-	public JAXBAnnotationException(final String message) {
-		super(message);
-	}
-	/** 
-	 * Constructor from an inner exception. 
-	 * @param e the inner exception 
-	 * */
-	public JAXBAnnotationException(final Exception e) {
-		super(e);
-	}
+
+    /** Default serial ID. */
+    private static final long serialVersionUID = 9147947946375560767L;
+
+    /** 
+     * Constructor from an error message. 
+     * @param message the text message 
+     * */
+    public JAXBAnnotationException(final String message) {
+        super(message);
+    }
+    /** 
+     * Constructor from an inner exception. 
+     * @param e the inner exception 
+     * */
+    public JAXBAnnotationException(final Exception e) {
+        super(e);
+    }
 
 }

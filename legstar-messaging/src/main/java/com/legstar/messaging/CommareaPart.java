@@ -16,19 +16,19 @@ package com.legstar.messaging;
  */
 public class CommareaPart extends LegStarMessagePart {
 
-	/** Serial version ID. */
-	private static final long serialVersionUID = -6186410695573533903L;
-	
-	/** The header identifier (used as an eye catcher by the CICS
-	 *  counterpart).*/
-	public static final String COMMAREA_PART_ID = "LSOKCOMMAREA";
-	
-	/**
-	 * Create a commarea from a binary content.
-	 * @param content binary content
-	 */
-	public CommareaPart(final byte[] content) {
-		super(COMMAREA_PART_ID, content);
-	}
+    /** Serial version ID. */
+    private static final long serialVersionUID = -6186410695573533903L;
+
+    /** The header identifier (used as an eye catcher by the CICS
+     *  counterpart).*/
+    public static final String COMMAREA_PART_ID = "LSOKCOMMAREA";
+
+    /**
+     * Create a commarea from a binary content.
+     * @param content binary content
+     */
+    public CommareaPart(final byte[] content) {
+        super(COMMAREA_PART_ID, content);
+    }
 
 }

@@ -13,26 +13,26 @@ package com.legstar.messaging;
 
 /** @deprecated */
 public class MessagePart extends LegStarMessagePart {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5672052862054658459L;
 
-	/**
-	 * Create an empty message part.
-	 */
-	public MessagePart() {
-		super();
-	}
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 5672052862054658459L;
 
-	/**
-	 * Create a named message part from a content.
-	 * @param id the message part identifier
-	 * @param content a binary content
-	 */
-	public MessagePart(final String id, final byte[] content) {
-		super(id, content);
-	}
+    /**
+     * Create an empty message part.
+     */
+    public MessagePart() {
+        super();
+    }
+
+    /**
+     * Create a named message part from a content.
+     * @param id the message part identifier
+     * @param content a binary content
+     */
+    public MessagePart(final String id, final byte[] content) {
+        super(id, content);
+    }
 
 }

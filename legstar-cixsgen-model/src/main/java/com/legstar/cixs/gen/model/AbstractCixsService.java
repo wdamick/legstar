@@ -22,234 +22,234 @@ import com.legstar.codegen.CodeGenUtil;
  */
 public abstract class AbstractCixsService extends CixsMappingModel {
 
-	/** Default suffix for class implementation name. */
+    /** Default suffix for class implementation name. */
     private static final String DEFAULT_IMPL_SUFFIX = "Impl";
-    
-	/** Service package name. */
-	private String mPackageName;
 
-	/** Service interface class name. */
-	private String mInterfaceClassName;
-	
-	/** Service implementation class name. */
-	private String mImplementationClassName;
+    /** Service package name. */
+    private String mPackageName;
 
-	/** The URI that a client must use to reach the Web service. */
-	private String mServiceURI;
+    /** Service interface class name. */
+    private String mInterfaceClassName;
 
-	/** User ID to present Web service. */
-	private String mServiceUserId;
+    /** Service implementation class name. */
+    private String mImplementationClassName;
 
-	/** Password to present Web service. */
-	private String mServicePassword;
+    /** The URI that a client must use to reach the Web service. */
+    private String mServiceURI;
 
-	/** Web service WSDL service name. */
-	private String mWsdlServiceName;
+    /** User ID to present Web service. */
+    private String mServiceUserId;
 
-	/** Web service WSDL port type. */
-	private String mWsdlPortType;
-	
-	/** Web service WSDL port name. */
-	private String mWsdlPortName;
+    /** Password to present Web service. */
+    private String mServicePassword;
 
-	/** URL locating target Web service WSDL. */
-	private String mWsdlUrl;
+    /** Web service WSDL service name. */
+    private String mWsdlServiceName;
 
-	/** Web service target namespace. */
-	private String mTargetNamespace;
+    /** Web service WSDL port type. */
+    private String mWsdlPortType;
 
-	/** Will be appended to service name to form a port type name. */
-	private static final String WSDL_PORT_TYPE_SUFFIX = "Port";
-	
-	/** Will be appended to service name to form a port name. */
-	private static final String WSDL_PORT_NAME_SUFFIX = "Port";
-	
-	/** By default the web service name is built from component name and this
-	 * suffix.*/
-	private static final String WSDL_SERVICE_NAME_SUFFIX = "Service";
-	
-	/**
-	 * @return the Service package name
-	 */
-	public final String getPackageName() {
-		return mPackageName;
-	}
+    /** Web service WSDL port name. */
+    private String mWsdlPortName;
 
-	/**
-	 * @param packageName the Service package name to set
-	 */
-	public final void setPackageName(final String packageName) {
-		mPackageName = packageName;
-	}
+    /** URL locating target Web service WSDL. */
+    private String mWsdlUrl;
 
-	/**
-	 * @return the Service interface class name
-	 */
-	public final String getInterfaceClassName() {
-		if (mInterfaceClassName == null || mInterfaceClassName.length() == 0) {
-			return CodeGenUtil.classNormalize(getName());
-		}
-		return mInterfaceClassName;
-	}
+    /** Web service target namespace. */
+    private String mTargetNamespace;
 
-	/**
-	 * @param interfaceClassName the Service interface class name to set
-	 */
-	public final void setInterfaceClassName(final String interfaceClassName) {
-		mInterfaceClassName = interfaceClassName;
-	}
+    /** Will be appended to service name to form a port type name. */
+    private static final String WSDL_PORT_TYPE_SUFFIX = "Port";
 
-	/**
-	 * @return the Service implementation class name
-	 */
-	public final String getImplementationClassName() {
-		if (mImplementationClassName == null 
-				|| mImplementationClassName.length() == 0) {
-			if (getName() == null) {
-				return DEFAULT_IMPL_SUFFIX;
-			}
-			return CodeGenUtil.classNormalize(getName() + DEFAULT_IMPL_SUFFIX);
-		}
-		return mImplementationClassName;
-	}
+    /** Will be appended to service name to form a port name. */
+    private static final String WSDL_PORT_NAME_SUFFIX = "Port";
 
-	/**
-	 * @param implementationClassName the Service implementation class name to
-	 *  set
-	 */
-	public final void setImplementationClassName(
-			final String implementationClassName) {
-		mImplementationClassName = implementationClassName;
-	}
+    /** By default the web service name is built from component name and this
+     * suffix.*/
+    private static final String WSDL_SERVICE_NAME_SUFFIX = "Service";
 
-	/**
-	 * @return the URI that the host must use to reach the remote service
-	 */
-	public final String getServiceURI() {
-		return mServiceURI;
-	}
+    /**
+     * @return the Service package name
+     */
+    public final String getPackageName() {
+        return mPackageName;
+    }
 
-	/**
-	 * @param serviceURI the URI that the host must use to reach the remote
-	 *  service to set
-	 */
-	public final void setServiceURI(final String serviceURI) {
-		mServiceURI = serviceURI;
-	}
+    /**
+     * @param packageName the Service package name to set
+     */
+    public final void setPackageName(final String packageName) {
+        mPackageName = packageName;
+    }
 
-	/**
-	 * @return the User ID to present remote service. If no user ID was set,
-	 * this defaults to 8 space characters as a COBOL default.
-	 */
-	public final String getServiceUserId() {
-		if (mServiceUserId == null || mServiceUserId.length() == 0) {
-			return "        ";
-		}
-		return mServiceUserId;
-	}
+    /**
+     * @return the Service interface class name
+     */
+    public final String getInterfaceClassName() {
+        if (mInterfaceClassName == null || mInterfaceClassName.length() == 0) {
+            return CodeGenUtil.classNormalize(getName());
+        }
+        return mInterfaceClassName;
+    }
 
-	/**
-	 * @param serviceUserId the User ID to present remote service to set
-	 */
-	public final void setServiceUserId(final String serviceUserId) {
-		mServiceUserId = serviceUserId;
-	}
+    /**
+     * @param interfaceClassName the Service interface class name to set
+     */
+    public final void setInterfaceClassName(final String interfaceClassName) {
+        mInterfaceClassName = interfaceClassName;
+    }
 
-	/**
-	 * @return the Password to present remote service. If no password was set,
-	 * this defaults to 8 space characters as a COBOL default.
-	 */
-	public final String getServicePassword() {
-		if (mServicePassword == null || mServicePassword.length() == 0) {
-			return "        ";
-		}
-		return mServicePassword;
-	}
+    /**
+     * @return the Service implementation class name
+     */
+    public final String getImplementationClassName() {
+        if (mImplementationClassName == null 
+                || mImplementationClassName.length() == 0) {
+            if (getName() == null) {
+                return DEFAULT_IMPL_SUFFIX;
+            }
+            return CodeGenUtil.classNormalize(getName() + DEFAULT_IMPL_SUFFIX);
+        }
+        return mImplementationClassName;
+    }
 
-	/**
-	 * @param servicePassword the Password to present remote service to set
-	 */
-	public final void setServicePassword(final String servicePassword) {
-		mServicePassword = servicePassword;
-	}
+    /**
+     * @param implementationClassName the Service implementation class name to
+     *  set
+     */
+    public final void setImplementationClassName(
+            final String implementationClassName) {
+        mImplementationClassName = implementationClassName;
+    }
 
-	/**
-	 * @return the Web service target namespace
-	 */
-	public final String getTargetNamespace() {
-		return mTargetNamespace;
-	}
+    /**
+     * @return the URI that the host must use to reach the remote service
+     */
+    public final String getServiceURI() {
+        return mServiceURI;
+    }
 
-	/**
-	 * @param targetNamespace the Web service target namespace to set
-	 */
-	public final void setTargetNamespace(final String targetNamespace) {
-		mTargetNamespace = targetNamespace;
-	}
+    /**
+     * @param serviceURI the URI that the host must use to reach the remote
+     *  service to set
+     */
+    public final void setServiceURI(final String serviceURI) {
+        mServiceURI = serviceURI;
+    }
 
-	/**
-	 * @return the Web service WSDL service name
-	 */
-	public final String getWsdlServiceName() {
-		if (mWsdlServiceName == null || mWsdlServiceName.length() == 0) {
-			return getName() + WSDL_SERVICE_NAME_SUFFIX;
-		}
-		return mWsdlServiceName;
-	}
+    /**
+     * @return the User ID to present remote service. If no user ID was set,
+     * this defaults to 8 space characters as a COBOL default.
+     */
+    public final String getServiceUserId() {
+        if (mServiceUserId == null || mServiceUserId.length() == 0) {
+            return "        ";
+        }
+        return mServiceUserId;
+    }
 
-	/**
-	 * @param wsdlServiceName the Web service WSDL service name to set
-	 */
-	public final void setWsdlServiceName(final String wsdlServiceName) {
-		mWsdlServiceName = wsdlServiceName;
-	}
+    /**
+     * @param serviceUserId the User ID to present remote service to set
+     */
+    public final void setServiceUserId(final String serviceUserId) {
+        mServiceUserId = serviceUserId;
+    }
 
-	/**
-	 * @return the Web service WSDL port type
-	 */
-	public final String getWsdlPortType() {
-		if (mWsdlPortType == null || mWsdlPortType.length() == 0) {
-			return getName() + WSDL_PORT_TYPE_SUFFIX;
-		}
-		return mWsdlPortType;
-	}
+    /**
+     * @return the Password to present remote service. If no password was set,
+     * this defaults to 8 space characters as a COBOL default.
+     */
+    public final String getServicePassword() {
+        if (mServicePassword == null || mServicePassword.length() == 0) {
+            return "        ";
+        }
+        return mServicePassword;
+    }
 
-	/**
-	 * @param wsdlPortType the Web service WSDL port type to set
-	 */
-	public final void setWsdlPortType(final String wsdlPortType) {
-		mWsdlPortType = wsdlPortType;
-	}
+    /**
+     * @param servicePassword the Password to present remote service to set
+     */
+    public final void setServicePassword(final String servicePassword) {
+        mServicePassword = servicePassword;
+    }
 
-	/**
-	 * @return the Web service WSDL port name
-	 */
-	public final String getWsdlPortName() {
-		if (mWsdlPortName == null || mWsdlPortName.length() == 0) {
-			return getName() + WSDL_PORT_NAME_SUFFIX;
-		}
-		return mWsdlPortName;
-	}
+    /**
+     * @return the Web service target namespace
+     */
+    public final String getTargetNamespace() {
+        return mTargetNamespace;
+    }
 
-	/**
-	 * @param wsdlPortName the Web service WSDL port name to set
-	 */
-	public final void setWsdlPortName(final String wsdlPortName) {
-		mWsdlPortName = wsdlPortName;
-	}
+    /**
+     * @param targetNamespace the Web service target namespace to set
+     */
+    public final void setTargetNamespace(final String targetNamespace) {
+        mTargetNamespace = targetNamespace;
+    }
 
-	/**
-	 * @return the URL locating target Web service WSDL
-	 */
-	public final String getWsdlUrl() {
-		return mWsdlUrl;
-	}
+    /**
+     * @return the Web service WSDL service name
+     */
+    public final String getWsdlServiceName() {
+        if (mWsdlServiceName == null || mWsdlServiceName.length() == 0) {
+            return getName() + WSDL_SERVICE_NAME_SUFFIX;
+        }
+        return mWsdlServiceName;
+    }
 
-	/**
-	 * @param wsdlUrl the URL locating target Web service WSDL to set
-	 */
-	public final void setWsdlUrl(final String wsdlUrl) {
-		mWsdlUrl = wsdlUrl;
-	}
+    /**
+     * @param wsdlServiceName the Web service WSDL service name to set
+     */
+    public final void setWsdlServiceName(final String wsdlServiceName) {
+        mWsdlServiceName = wsdlServiceName;
+    }
+
+    /**
+     * @return the Web service WSDL port type
+     */
+    public final String getWsdlPortType() {
+        if (mWsdlPortType == null || mWsdlPortType.length() == 0) {
+            return getName() + WSDL_PORT_TYPE_SUFFIX;
+        }
+        return mWsdlPortType;
+    }
+
+    /**
+     * @param wsdlPortType the Web service WSDL port type to set
+     */
+    public final void setWsdlPortType(final String wsdlPortType) {
+        mWsdlPortType = wsdlPortType;
+    }
+
+    /**
+     * @return the Web service WSDL port name
+     */
+    public final String getWsdlPortName() {
+        if (mWsdlPortName == null || mWsdlPortName.length() == 0) {
+            return getName() + WSDL_PORT_NAME_SUFFIX;
+        }
+        return mWsdlPortName;
+    }
+
+    /**
+     * @param wsdlPortName the Web service WSDL port name to set
+     */
+    public final void setWsdlPortName(final String wsdlPortName) {
+        mWsdlPortName = wsdlPortName;
+    }
+
+    /**
+     * @return the URL locating target Web service WSDL
+     */
+    public final String getWsdlUrl() {
+        return mWsdlUrl;
+    }
+
+    /**
+     * @param wsdlUrl the URL locating target Web service WSDL to set
+     */
+    public final void setWsdlUrl(final String wsdlUrl) {
+        mWsdlUrl = wsdlUrl;
+    }
 
 }

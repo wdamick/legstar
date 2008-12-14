@@ -17,7 +17,7 @@ import org.eclipse.core.runtime.CoreException;
 
 import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsGeneratorWizard;
 import com.legstar.eclipse.plugin.cixscom.wizards.
-			AbstractCixsGeneratorWizardRunnable;
+AbstractCixsGeneratorWizardRunnable;
 import com.legstar.eclipse.plugin.jaxwsgen.Activator;
 
 /**
@@ -26,37 +26,37 @@ import com.legstar.eclipse.plugin.jaxwsgen.Activator;
  */
 public class Jaxws2CixsGeneratorWizard extends AbstractCixsGeneratorWizard {
 
-	/** The main page of controls. */
-	private Jaxws2CixsGeneratorWizardPage mJaxws2CixsGenPage;
+    /** The main page of controls. */
+    private Jaxws2CixsGeneratorWizardPage mJaxws2CixsGenPage;
 
-	/**
-	 * Constructor for Jaxws2CixsGeneratorWizard.
-	 * @param mappingFile an mapping file
-	 * @throws CoreException if initialization goes wrong 
-	 */
-	public Jaxws2CixsGeneratorWizard(
-	        final IFile mappingFile) throws CoreException {
-		super(mappingFile);
-	}
+    /**
+     * Constructor for Jaxws2CixsGeneratorWizard.
+     * @param mappingFile an mapping file
+     * @throws CoreException if initialization goes wrong 
+     */
+    public Jaxws2CixsGeneratorWizard(
+            final IFile mappingFile) throws CoreException {
+        super(mappingFile);
+    }
 
-	/**
-	 * Adding the page to the wizard.
-	 */
-	public final void addPages() {
-		mJaxws2CixsGenPage = new Jaxws2CixsGeneratorWizardPage(
-		        getInitialSelection(), getMappingFile());
-		addPage(mJaxws2CixsGenPage);
-	}
+    /**
+     * Adding the page to the wizard.
+     */
+    public final void addPages() {
+        mJaxws2CixsGenPage = new Jaxws2CixsGeneratorWizardPage(
+                getInitialSelection(), getMappingFile());
+        addPage(mJaxws2CixsGenPage);
+    }
 
     /** {@inheritDoc} */
-	public String getPluginId() {
+    public String getPluginId() {
         return Activator.PLUGIN_ID;
-	}
+    }
 
     /** {@inheritDoc} */
-	protected AbstractCixsGeneratorWizardRunnable getRunnable()
-			throws InvocationTargetException {
+    protected AbstractCixsGeneratorWizardRunnable getRunnable()
+    throws InvocationTargetException {
         return new Jaxws2CixsGeneratorWizardRunnable(mJaxws2CixsGenPage);
-	}
+    }
 
 }

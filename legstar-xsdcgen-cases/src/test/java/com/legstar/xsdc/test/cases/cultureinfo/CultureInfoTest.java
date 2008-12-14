@@ -15,72 +15,81 @@ import java.util.Locale;
 
 import junit.framework.TestCase;
 
+/**
+ * Test Cultureinfo POJO.
+ *
+ */
 public class CultureInfoTest extends TestCase {
-	
-	public void setUp() {
-		Locale.setDefault(new Locale("fr", "FR"));
-	}
-	
-	public void testEmptyRequest() {
-		CultureInfoImpl si = new CultureInfoImpl();
-		CultureInfoRequest request = new CultureInfoRequest();
-		try {
-			si.getInfo(request);
-			fail();
-		} catch (CultureInfoException e) {
-			assertEquals("You must provide a CultureInfo", e.getMessage());
-		}
-	}
 
-	public void testWrongCultureInfo() {
-		CultureInfoImpl si = new CultureInfoImpl();
-		CultureInfoRequest request = new CultureInfoRequest();
-		request.setCultureCode("marzipan");
-		try {
-			si.getInfo(request);
-			fail();
-		} catch (CultureInfoException e) {
-			assertEquals("CultureInfo marzipan does not conform to xx-yy format", e.getMessage());
-		}
-	}
+    /** Setup. */
+    public void setUp() {
+        Locale.setDefault(new Locale("fr", "FR"));
+    }
 
-	public void testFrench() {
-		CultureInfoImpl si = new CultureInfoImpl();
-		CultureInfoRequest request = new CultureInfoRequest();
-		request.setCultureCode("fr-FR");
-		request.setDecimalNumber(new BigDecimal("13125.56"));
-		try {
-			CultureInfoReply resp = si.getInfo(request);
-			assertEquals("France", resp.getDisplayCountry());
-			assertEquals("français", resp.getDisplayLanguage());
-			System.out.println(resp.getFormattedDate());
-			assertEquals("€", resp.getCurrencySymbol());
-			assertEquals("13 125,56", resp.getFormattedDecimalNumber());
-			assertEquals("fr-FR", resp.getServerCultureInfo().getCultureCode());
-			assertEquals("France", resp.getServerCultureInfo().getDisplayCountry());
-			assertEquals("français", resp.getServerCultureInfo().getDisplayLanguage());
-		} catch (CultureInfoException e) {
-			fail(e.getMessage());
-		}
-	}
+    /** Test empty request.*/
+    public void testEmptyRequest() {
+        CultureInfoImpl si = new CultureInfoImpl();
+        CultureInfoRequest request = new CultureInfoRequest();
+        try {
+            si.getInfo(request);
+            fail();
+        } catch (CultureInfoException e) {
+            assertEquals("You must provide a CultureInfo", e.getMessage());
+        }
+    }
 
-	public void testUS() {
-		CultureInfoImpl si = new CultureInfoImpl();
-		CultureInfoRequest request = new CultureInfoRequest();
-		request.setCultureCode("en-US");
-		request.setDecimalNumber(new BigDecimal("13125.56"));
-		try {
-			CultureInfoReply resp = si.getInfo(request);
-			assertEquals("Etats-Unis", resp.getDisplayCountry());
-			assertEquals("anglais", resp.getDisplayLanguage());
-			System.out.println(resp.getFormattedDate());
-			assertEquals("USD", resp.getCurrencySymbol());
-			assertEquals("13,125.56", resp.getFormattedDecimalNumber());
-			assertEquals("fr-FR", resp.getServerCultureInfo().getCultureCode());
-			assertEquals("France", resp.getServerCultureInfo().getDisplayCountry());
-			assertEquals("français", resp.getServerCultureInfo().getDisplayLanguage());
-		} catch (CultureInfoException e) {
-			fail(e.getMessage());
-		}
-	}
+    /** Test wrong culture info parameter. */
+    public void testWrongCultureInfo() {
+        CultureInfoImpl si = new CultureInfoImpl();
+        CultureInfoRequest request = new CultureInfoRequest();
+        request.setCultureCode("marzipan");
+        try {
+            si.getInfo(request);
+            fail();
+        } catch (CultureInfoException e) {
+            assertEquals("CultureInfo marzipan does not conform to xx-yy format", e.getMessage());
+        }
+    }
+
+    /** Test with french culture.*/
+    public void testFrench() {
+        CultureInfoImpl si = new CultureInfoImpl();
+        CultureInfoRequest request = new CultureInfoRequest();
+        request.setCultureCode("fr-FR");
+        request.setDecimalNumber(new BigDecimal("13125.56"));
+        try {
+            CultureInfoReply resp = si.getInfo(request);
+            assertEquals("France", resp.getDisplayCountry());
+            assertEquals("français", resp.getDisplayLanguage());
+            System.out.println(resp.getFormattedDate());
+            assertEquals("€", resp.getCurrencySymbol());
+            assertEquals("13 125,56", resp.getFormattedDecimalNumber());
+            assertEquals("fr-FR", resp.getServerCultureInfo().getCultureCode());
+            assertEquals("France", resp.getServerCultureInfo().getDisplayCountry());
+            assertEquals("français", resp.getServerCultureInfo().getDisplayLanguage());
+        } catch (CultureInfoException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    /** Test with US culture.*/
+    public void testUS() {
+        CultureInfoImpl si = new CultureInfoImpl();
+        CultureInfoRequest request = new CultureInfoRequest();
+        request.setCultureCode("en-US");
+        request.setDecimalNumber(new BigDecimal("13125.56"));
+        try {
+            CultureInfoReply resp = si.getInfo(request);
+            assertEquals("Etats-Unis", resp.getDisplayCountry());
+            assertEquals("anglais", resp.getDisplayLanguage());
+            System.out.println(resp.getFormattedDate());
+            assertEquals("USD", resp.getCurrencySymbol());
+            assertEquals("13,125.56", resp.getFormattedDecimalNumber());
+            assertEquals("fr-FR", resp.getServerCultureInfo().getCultureCode());
+            assertEquals("France", resp.getServerCultureInfo().getDisplayCountry());
+            assertEquals("français", resp.getServerCultureInfo().getDisplayLanguage());
+        } catch (CultureInfoException e) {
+            fail(e.getMessage());
+        }
+    }
 }

@@ -14,23 +14,23 @@ package com.legstar.c2ws;
  * Error with the target web services configurations.
  */
 public class C2wsConfigurationException extends Exception {
-	
-	/** Default serial ID. */
-	private static final long serialVersionUID = -5413324572101279802L;
 
-	/** 
-	 * Constructor from an error message. 
-	 * @param message the text message 
-	 * */
-	public C2wsConfigurationException(final String message) {
-		super(message);
-	}
-	/** 
-	 * Constructor from an inner exception. 
-	 * @param e the inner exception 
-	 * */
-	public C2wsConfigurationException(final Exception e) {
-		super(e);
-	}
+    /** Default serial ID. */
+    private static final long serialVersionUID = -5413324572101279802L;
+
+    /** 
+     * Constructor from an error message. 
+     * @param message the text message 
+     * */
+    public C2wsConfigurationException(final String message) {
+        super(message);
+    }
+    /** 
+     * Constructor from an inner exception. 
+     * @param e the inner exception 
+     * */
+    public C2wsConfigurationException(final Exception e) {
+        super(e);
+    }
 
 }

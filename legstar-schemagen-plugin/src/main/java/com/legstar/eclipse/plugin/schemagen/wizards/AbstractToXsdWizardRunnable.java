@@ -49,156 +49,156 @@ import com.legstar.eclipse.plugin.schemagen.Messages;
  * </ul>
  */
 public abstract class AbstractToXsdWizardRunnable
-		extends AbstractWizardRunnable {
+extends AbstractWizardRunnable {
 
-	/** The target xsd file name. */
-	private String mTargetXsdFileName;
+    /** The target xsd file name. */
+    private String mTargetXsdFileName;
 
-	/** The wizard submitting this runnable. */
-	private IWizard mWizard;
-	
-	/** Where the generated Xsd will go. */
-	private String mTargetContainer;
+    /** The wizard submitting this runnable. */
+    private IWizard mWizard;
 
-	/** Part of the ant script file name generated. Allows segregating
-	 * this ant file from the ones produced by other LegStar wizards. */
-	private static final String ANT_FILE_NAME_ID = "schemagen-";
+    /** Where the generated Xsd will go. */
+    private String mTargetContainer;
 
-	/**
-	 * Instantiate this runnable from UI items. It is important not to attempt
-	 * access to UI elements from the background thread.
-	 * @param antBuildModel the model object to be passed to velocity templates
-	 * @param mainPage the page holding targets
-	 * @throws InvocationTargetException if runnable cannot be instantiated
-	 */
-	public AbstractToXsdWizardRunnable(
-			final IAntBuildModel antBuildModel,
-			final MainWizardPage mainPage)
-	throws InvocationTargetException {
-		super(antBuildModel,
-				mainPage.getTargetContainer(),
-				getAntScriptFileName(mainPage.getTargetXSDFileName())
-				);
-		mTargetXsdFileName = mainPage.getTargetXSDFileName();
-		mWizard = mainPage.getWizard();
-		mTargetContainer = mainPage.getTargetContainer();
-	}
+    /** Part of the ant script file name generated. Allows segregating
+     * this ant file from the ones produced by other LegStar wizards. */
+    private static final String ANT_FILE_NAME_ID = "schemagen-";
 
-	/** {@inheritDoc} */
-	public void run(final IProgressMonitor monitor)
-	throws InvocationTargetException, InterruptedException {
-		int scale = 1;
-		/* 4 tasks because launcher counts as a hidden one*/
-		monitor.beginTask(Messages.ant_generating_task_label,
-				4 * scale);
-		try {
-			/* 1. Create the ant build */
-			createBuild(monitor, scale);
+    /**
+     * Instantiate this runnable from UI items. It is important not to attempt
+     * access to UI elements from the background thread.
+     * @param antBuildModel the model object to be passed to velocity templates
+     * @param mainPage the page holding targets
+     * @throws InvocationTargetException if runnable cannot be instantiated
+     */
+    public AbstractToXsdWizardRunnable(
+            final IAntBuildModel antBuildModel,
+            final MainWizardPage mainPage)
+    throws InvocationTargetException {
+        super(antBuildModel,
+                mainPage.getTargetContainer(),
+                getAntScriptFileName(mainPage.getTargetXSDFileName())
+        );
+        mTargetXsdFileName = mainPage.getTargetXSDFileName();
+        mWizard = mainPage.getWizard();
+        mTargetContainer = mainPage.getTargetContainer();
+    }
 
-			/* 2 & 3. Execute the generated build.*/
-			runBuild(monitor, scale);
+    /** {@inheritDoc} */
+    public void run(final IProgressMonitor monitor)
+    throws InvocationTargetException, InterruptedException {
+        int scale = 1;
+        /* 4 tasks because launcher counts as a hidden one*/
+        monitor.beginTask(Messages.ant_generating_task_label,
+                4 * scale);
+        try {
+            /* 1. Create the ant build */
+            createBuild(monitor, scale);
 
-			/* 4. Open an editor on the generated XML schema. */
-			editXsdFile(monitor, scale);
+            /* 2 & 3. Execute the generated build.*/
+            runBuild(monitor, scale);
 
-		} finally {
-			monitor.done();
-		}
-	}
+            /* 4. Open an editor on the generated XML schema. */
+            editXsdFile(monitor, scale);
 
-	/**
-	 * Make sure the project is refreshed as the files were created outside
-	 * the Eclipse API.
-	 * Request the workbench to open an editor on the newly created
-	 * Xsd file.
-	 * @param monitor the current monitor
-	 * @param scale the scale of progress
-	 * @throws InvocationTargetException execution fails
-	 */
-	protected void editXsdFile(
-			final IProgressMonitor monitor,
-			final int scale) throws InvocationTargetException {
-		monitor.setTaskName(Messages.editor_opening_task_label);
-		try {
-			((IContainer) getProject(mTargetContainer)).refreshLocal(
-					IResource.DEPTH_INFINITE,
-					new SubProgressMonitor(monitor, 1 * scale));
-			if (getXsdFile() == null) {
-				Throwable th = new AntLaunchException(
-						NLS.bind(Messages.ant_failure_console_msg,
-								getTargetXsdFileName()));
-				throw new InvocationTargetException(th);
-			}
-			Shell shell = mWizard.getContainer().getShell();
-			shell.getDisplay().asyncExec(new Runnable() {
-				public void run() {
-					IWorkbenchPage page =
-						PlatformUI.getWorkbench().
-						getActiveWorkbenchWindow().getActivePage();
-					try {
-						IDE.openEditor(page, getXsdFile(), true);
-					} catch (PartInitException e) {
-						AbstractWizard.logCoreException(e,
-								Activator.PLUGIN_ID);
-					}
-				}
-			});
-		} catch (CoreException e) {
-			throw new InvocationTargetException(e);
-		}
-	}
+        } finally {
+            monitor.done();
+        }
+    }
 
-	
-	/**
-	 * Create a valid location for the generated Xsd file. The target
-	 * container name is always expected to start with a project name
-	 * as the first segment of its path.
-	 * @return an existing location
-	 */
-	protected String getTargetXsdLocation() {
-		IPath projectPath = getProject(mTargetContainer).getLocation();
-		IPath xsdPath = projectPath.append(
-				(new Path(mTargetContainer)).removeFirstSegments(1));
-		mkDir(xsdPath);
-		return xsdPath.toOSString();
-	}
+    /**
+     * Make sure the project is refreshed as the files were created outside
+     * the Eclipse API.
+     * Request the workbench to open an editor on the newly created
+     * Xsd file.
+     * @param monitor the current monitor
+     * @param scale the scale of progress
+     * @throws InvocationTargetException execution fails
+     */
+    protected void editXsdFile(
+            final IProgressMonitor monitor,
+            final int scale) throws InvocationTargetException {
+        monitor.setTaskName(Messages.editor_opening_task_label);
+        try {
+            ((IContainer) getProject(mTargetContainer)).refreshLocal(
+                    IResource.DEPTH_INFINITE,
+                    new SubProgressMonitor(monitor, 1 * scale));
+            if (getXsdFile() == null) {
+                Throwable th = new AntLaunchException(
+                        NLS.bind(Messages.ant_failure_console_msg,
+                                getTargetXsdFileName()));
+                throw new InvocationTargetException(th);
+            }
+            Shell shell = mWizard.getContainer().getShell();
+            shell.getDisplay().asyncExec(new Runnable() {
+                public void run() {
+                    IWorkbenchPage page =
+                        PlatformUI.getWorkbench().
+                        getActiveWorkbenchWindow().getActivePage();
+                    try {
+                        IDE.openEditor(page, getXsdFile(), true);
+                    } catch (PartInitException e) {
+                        AbstractWizard.logCoreException(e,
+                                Activator.PLUGIN_ID);
+                    }
+                }
+            });
+        } catch (CoreException e) {
+            throw new InvocationTargetException(e);
+        }
+    }
 
-	/**
-	 * @return the generated Xsd file ready to be edited
-	 */
-	protected IFile getXsdFile() {
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		IPath projectPath = new Path(mTargetContainer);
-		IPath xsdPath = projectPath.append(getTargetXsdFileName());
-		IResource resource = root.findMember(xsdPath);
-		return (IFile) resource;
-	}
 
-	/**
-	 * @return the Xsd file as a file system object
-	 */
-	protected File getXsdFileFile() {
-		String folder = getTargetXsdLocation();
-		String xsdPath = folder + File.separator + getTargetXsdFileName();
-		return new File(xsdPath);
-	}
+    /**
+     * Create a valid location for the generated Xsd file. The target
+     * container name is always expected to start with a project name
+     * as the first segment of its path.
+     * @return an existing location
+     */
+    protected String getTargetXsdLocation() {
+        IPath projectPath = getProject(mTargetContainer).getLocation();
+        IPath xsdPath = projectPath.append(
+                (new Path(mTargetContainer)).removeFirstSegments(1));
+        mkDir(xsdPath);
+        return xsdPath.toOSString();
+    }
 
-	/**
-	 * @return the target Xsd file name (not a path)
-	 */
-	protected String getTargetXsdFileName() {
-		return mTargetXsdFileName;
-	}
+    /**
+     * @return the generated Xsd file ready to be edited
+     */
+    protected IFile getXsdFile() {
+        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+        IPath projectPath = new Path(mTargetContainer);
+        IPath xsdPath = projectPath.append(getTargetXsdFileName());
+        IResource resource = root.findMember(xsdPath);
+        return (IFile) resource;
+    }
 
-	/**
-	 * Generate a valid ant script file name.
-	 * @param xsdFileName the source xsd file name.
-	 * @return the ant script file name
-	 */
-	private static String getAntScriptFileName(final String xsdFileName) {
-		return AbstractAntBuildModel.ANT_FILE_PREFIX
-		+ ANT_FILE_NAME_ID
-		+ xsdFileName + '.'
-		+ AbstractAntBuildModel.ANT_FILE_SUFFIX;	
-	}
+    /**
+     * @return the Xsd file as a file system object
+     */
+    protected File getXsdFileFile() {
+        String folder = getTargetXsdLocation();
+        String xsdPath = folder + File.separator + getTargetXsdFileName();
+        return new File(xsdPath);
+    }
+
+    /**
+     * @return the target Xsd file name (not a path)
+     */
+    protected String getTargetXsdFileName() {
+        return mTargetXsdFileName;
+    }
+
+    /**
+     * Generate a valid ant script file name.
+     * @param xsdFileName the source xsd file name.
+     * @return the ant script file name
+     */
+    private static String getAntScriptFileName(final String xsdFileName) {
+        return AbstractAntBuildModel.ANT_FILE_PREFIX
+        + ANT_FILE_NAME_ID
+        + xsdFileName + '.'
+        + AbstractAntBuildModel.ANT_FILE_SUFFIX;
+    }
 }

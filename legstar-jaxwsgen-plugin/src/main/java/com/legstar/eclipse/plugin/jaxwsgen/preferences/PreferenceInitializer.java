@@ -33,16 +33,16 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
                 getDefaultJ2eeLocation() + "/webapps");
 
         store.setDefault(PreferenceConstants.J2EE_WDD_FOLDER,
-        		"WebContent/WEB-INF");
+        "WebContent/WEB-INF");
 
         store.setDefault(PreferenceConstants.WS_TARGET_NAMESPACE_PREFIX,
-				"http://test.legstar");
+        "http://test.legstar");
 
         store.setDefault(PreferenceConstants.PROXY_URI_TEMPLATE,
-        		CixsJaxwsService.DEFAULT_SERVER_URI_TEMPLATE);
+                CixsJaxwsService.DEFAULT_SERVER_URI_TEMPLATE);
 
         store.setDefault(PreferenceConstants.COBOL_SAMPLE_FOLDER,
-		"cobol");
+        "cobol");
     }
 
     /**
@@ -53,13 +53,13 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
     public String getDefaultJ2eeLocation() {
         String value = System.getenv("CATALINA_BASE");
         if (value == null) {
-        	value = System.getenv("CATALINA_HOME");
-        	if (value == null) {
-            	value = System.getenv("JETTY_HOME");
+            value = System.getenv("CATALINA_HOME");
+            if (value == null) {
+                value = System.getenv("JETTY_HOME");
                 if (value == null) {
                     return "";
                 }
-        	}
+            }
         }
         return value;
     }

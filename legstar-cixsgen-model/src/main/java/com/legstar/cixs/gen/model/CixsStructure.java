@@ -71,10 +71,10 @@ public class CixsStructure {
     /** Input or output jaxb field name XML attribute. */
     private static final String JAXB_FIELD_NAME_A = "jaxbFieldName";
 
-	/** Coxb binding type names usually use this prefix.*/
+    /** Coxb binding type names usually use this prefix.*/
     private static final String BINDING_TYPE_SUFFIX = "Binding";
 
-	/** Coxb binding types default package name suffix. */
+    /** Coxb binding types default package name suffix. */
     private static final String BINDING_PACKAGE_SUFFIX = ".bind";
 
     /**
@@ -109,9 +109,9 @@ public class CixsStructure {
      * @return the COXB binding type
      */
     public final String getCoxbType() {
-    	if (mCoxbType == null || mCoxbType.length() == 0) {
-    		return getJaxbType() + BINDING_TYPE_SUFFIX;
-    	}
+        if (mCoxbType == null || mCoxbType.length() == 0) {
+            return getJaxbType() + BINDING_TYPE_SUFFIX;
+        }
         return mCoxbType;
     }
 
@@ -126,9 +126,9 @@ public class CixsStructure {
      * @return the the COXB package of binding type
      */
     public final String getCoxbPackageName() {
-    	if (mCoxbPackageName == null || mCoxbPackageName.length() == 0) {
-    		return getJaxbPackageName() + BINDING_PACKAGE_SUFFIX;
-    	}
+        if (mCoxbPackageName == null || mCoxbPackageName.length() == 0) {
+            return getJaxbPackageName() + BINDING_PACKAGE_SUFFIX;
+        }
         return mCoxbPackageName;
     }
 
@@ -166,7 +166,7 @@ public class CixsStructure {
         serializeAttribute(result, getCoxbType(), CIXS_COXB_TYPE_XML_A);
         serializeAttribute(result, getCoxbPackageName(), CIXS_COXB_PKG_XML_A);
         serializeAttribute(result, getCobolRootDataItemName(),
-        		CIXS_COBOL_ROOT_NAME_XML_A);
+                CIXS_COBOL_ROOT_NAME_XML_A);
         serializeAttribute(result, getCicsContainer(),
                 CIXS_CICS_CONTAINER_XML_A);
         serializeAttribute(result, getJaxbPropertyName(),
@@ -211,7 +211,7 @@ public class CixsStructure {
         mCoxbPackageName = loadAttribute(structureElement,
                 CIXS_COXB_PKG_XML_A);
         mCobolRootDataItemName =  loadAttribute(structureElement,
-        		CIXS_COBOL_ROOT_NAME_XML_A);
+                CIXS_COBOL_ROOT_NAME_XML_A);
         mCicsContainer =  loadAttribute(structureElement,
                 CIXS_CICS_CONTAINER_XML_A);
         mJaxbPropertyName =  loadAttribute(structureElement,
@@ -220,7 +220,7 @@ public class CixsStructure {
                 JAXB_FIELD_NAME_A);
 
     }
-    
+
     /**
      * The DOM always returns a value for a getAttribute. 
      * The semantic used for velocity templates assumes null values
@@ -230,14 +230,14 @@ public class CixsStructure {
      * @return not null only if not empty
      */
     private String loadAttribute(
-    		final Element element, final String attributeName) {
-    	String value = element.getAttribute(attributeName);
-    	if (value.trim().length() == 0) {
-    		return null;
-    	} else {
-    		return value.trim();
-    	}
-    	
+            final Element element, final String attributeName) {
+        String value = element.getAttribute(attributeName);
+        if (value.trim().length() == 0) {
+            return null;
+        } else {
+            return value.trim();
+        }
+
     }
 
     /**
@@ -257,9 +257,9 @@ public class CixsStructure {
      * character
      */
     public final String getJaxbFieldName() {
-    	if (mJaxbFieldName == null || mJaxbFieldName.length() == 0) {
-        	return CodeGenUtil.fieldNameFromPropertyName(getJaxbPropertyName());
-    	}
+        if (mJaxbFieldName == null || mJaxbFieldName.length() == 0) {
+            return CodeGenUtil.fieldNameFromPropertyName(getJaxbPropertyName());
+        }
         return mJaxbFieldName;
     }
 
@@ -278,13 +278,13 @@ public class CixsStructure {
      */
     public final String getJaxbPropertyName() {
         if (mJaxbPropertyName == null || mJaxbPropertyName.length() == 0) {
-        	String propertyName =
-        		CodeGenUtil.propertyNameFromFieldName(mJaxbFieldName);
-        	if (propertyName == null || propertyName.length() == 0) {
-        		return CodeGenUtil.propertyNameFromJaxbType(mJaxbType);
-        	} else {
-        		return propertyName;
-        	}
+            String propertyName =
+                CodeGenUtil.propertyNameFromFieldName(mJaxbFieldName);
+            if (propertyName == null || propertyName.length() == 0) {
+                return CodeGenUtil.propertyNameFromJaxbType(mJaxbType);
+            } else {
+                return propertyName;
+            }
         }
         return mJaxbPropertyName;
     }
@@ -296,19 +296,19 @@ public class CixsStructure {
         mJaxbPropertyName = jaxbPropertyName;
     }
 
-	/**
-	 * @return the COBOL structure root data item name
-	 */
-	public final String getCobolRootDataItemName() {
-		return mCobolRootDataItemName;
-	}
+    /**
+     * @return the COBOL structure root data item name
+     */
+    public final String getCobolRootDataItemName() {
+        return mCobolRootDataItemName;
+    }
 
-	/**
-	 * @param cobolRootDataItemName the COBOL structure root data item name to
-	 *  set
-	 */
-	public final void setCobolRootDataItemName(
-			final String cobolRootDataItemName) {
-		mCobolRootDataItemName = cobolRootDataItemName;
-	}
+    /**
+     * @param cobolRootDataItemName the COBOL structure root data item name to
+     *  set
+     */
+    public final void setCobolRootDataItemName(
+            final String cobolRootDataItemName) {
+        mCobolRootDataItemName = cobolRootDataItemName;
+    }
 }

@@ -14,23 +14,23 @@ package com.legstar.c2ws;
  * Error sending data to host.
  */
 public class HostSendException extends Exception {
-	
-	/** Default serial ID. */
-	private static final long serialVersionUID = -3905814926033186462L;
 
-	/** 
-	 * Constructor from an error message. 
-	 * @param message the text message 
-	 * */
-	public HostSendException(final String message) {
-		super(message);
-	}
-	/** 
-	 * Constructor from an inner exception. 
-	 * @param e the inner exception 
-	 * */
-	public HostSendException(final Exception e) {
-		super(e);
-	}
+    /** Default serial ID. */
+    private static final long serialVersionUID = -3905814926033186462L;
+
+    /** 
+     * Constructor from an error message. 
+     * @param message the text message 
+     * */
+    public HostSendException(final String message) {
+        super(message);
+    }
+    /** 
+     * Constructor from an inner exception. 
+     * @param e the inner exception 
+     * */
+    public HostSendException(final Exception e) {
+        super(e);
+    }
 
 }

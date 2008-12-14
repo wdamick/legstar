@@ -18,30 +18,30 @@ import com.legstar.coxb.convert.CobolConverters;
  *
  * @author Fady Moussallam
  * 
-*/
+ */
 public class CobolSimpleConverters extends CobolConverters {
-	
-	/**
-	 * Constructs a simple converters set.
-	 * 
-	 * @param cobolContext current Cobol compiler parameters
-	 */
-	public CobolSimpleConverters(final CobolContext cobolContext) {
-		setCobolStringConverter(
-				new CobolStringSimpleConverter(cobolContext));
-		setCobolZonedDecimalConverter(
-				new CobolZonedDecimalSimpleConverter(cobolContext));
-		setCobolPackedDecimalConverter(
-				new CobolPackedDecimalSimpleConverter(cobolContext));
-		setCobolBinaryConverter(
-				new CobolBinarySimpleConverter(cobolContext));
-		setCobolFloatConverter(
-				new CobolFloatSimpleConverter(cobolContext));
-		setCobolDoubleConverter(
-				new CobolDoubleSimpleConverter(cobolContext));
-		setCobolOctetStreamConverter(
-				new CobolOctetStreamSimpleConverter(cobolContext));
-		setCobolNationalConverter(
-				new CobolNationalSimpleConverter(cobolContext));
-	}
+
+    /**
+     * Constructs a simple converters set.
+     * 
+     * @param cobolContext current Cobol compiler parameters
+     */
+    public CobolSimpleConverters(final CobolContext cobolContext) {
+        setCobolStringConverter(
+                new CobolStringSimpleConverter(cobolContext));
+        setCobolZonedDecimalConverter(
+                new CobolZonedDecimalSimpleConverter(cobolContext));
+        setCobolPackedDecimalConverter(
+                new CobolPackedDecimalSimpleConverter(cobolContext));
+        setCobolBinaryConverter(
+                new CobolBinarySimpleConverter(cobolContext));
+        setCobolFloatConverter(
+                new CobolFloatSimpleConverter(cobolContext));
+        setCobolDoubleConverter(
+                new CobolDoubleSimpleConverter(cobolContext));
+        setCobolOctetStreamConverter(
+                new CobolOctetStreamSimpleConverter(cobolContext));
+        setCobolNationalConverter(
+                new CobolNationalSimpleConverter(cobolContext));
+    }
 }

@@ -17,8 +17,7 @@ package com.legstar.coxb;
  *
  * @author Fady Moussallam
  * 
-*/
-public interface ICobolArrayZonedDecimalBinding
-	extends ICobolArrayNumericBinding {
+ */
+public interface ICobolArrayZonedDecimalBinding extends ICobolArrayNumericBinding {
 
 }

@@ -22,33 +22,33 @@ import com.legstar.coxb.host.HostException;
  *
  * @author Fady Moussallam
  * 
-*/
+ */
 public class CZonedDecimalBinding
-	extends CNumericBinding
-	implements ICobolZonedDecimalBinding {
-	
-	/**
-	 * Constructor for a cobol element to java binding.
-	 * 
-	 * @param name the identifier for this binding
-	 * @param jaxbName the name of the bound java property
-	 * @param jaxbType the type of the bound java property
-	 * @param cobolAnnotations the cobol annotations for this element
-	 * @param parentBinding a reference to the parent binding
-	 */
-	public CZonedDecimalBinding(
-			final String name,
-			final String jaxbName,
-			final Class < ? > jaxbType,
-			final CobolElement cobolAnnotations,
-			final ICobolComplexBinding parentBinding) {
-		super(name, jaxbName, jaxbType, cobolAnnotations, parentBinding);
-	}
+extends CNumericBinding
+implements ICobolZonedDecimalBinding {
 
-	/** {@inheritDoc} */
-	public final void accept(final CobolElementVisitor cev)
-		throws HostException {
-		cev.visit(this);
-	}
-	
+    /**
+     * Constructor for a cobol element to java binding.
+     * 
+     * @param name the identifier for this binding
+     * @param jaxbName the name of the bound java property
+     * @param jaxbType the type of the bound java property
+     * @param cobolAnnotations the cobol annotations for this element
+     * @param parentBinding a reference to the parent binding
+     */
+    public CZonedDecimalBinding(
+            final String name,
+            final String jaxbName,
+            final Class < ? > jaxbType,
+            final CobolElement cobolAnnotations,
+            final ICobolComplexBinding parentBinding) {
+        super(name, jaxbName, jaxbType, cobolAnnotations, parentBinding);
+    }
+
+    /** {@inheritDoc} */
+    public final void accept(final CobolElementVisitor cev)
+    throws HostException {
+        cev.visit(this);
+    }
+
 }

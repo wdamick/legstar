@@ -33,42 +33,42 @@ import com.legstar.eclipse.plugin.common.Messages;
  */
 
 public class LegStarPreferencePage extends FieldEditorPreferencePage
-		implements IWorkbenchPreferencePage {
+implements IWorkbenchPreferencePage {
 
-	/**
-	 * Constructs a preference page.
-	 */
-	public LegStarPreferencePage() {
-		super(GRID);
-		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription(Messages.preference_page_description);
-	}
+    /**
+     * Constructs a preference page.
+     */
+    public LegStarPreferencePage() {
+        super(GRID);
+        setPreferenceStore(Activator.getDefault().getPreferenceStore());
+        setDescription(Messages.preference_page_description);
+    }
 
-	/**
-	 * Creates the field editors. Field editors are abstractions of
-	 * the common GUI blocks needed to manipulate various types
-	 * of preferences. Each field editor knows how to save and
-	 * restore itself.
-	 */
-	public void createFieldEditors() {
+    /**
+     * Creates the field editors. Field editors are abstractions of
+     * the common GUI blocks needed to manipulate various types
+     * of preferences. Each field editor knows how to save and
+     * restore itself.
+     */
+    public void createFieldEditors() {
 
-		addField(new StringFieldEditor(
-				PreferenceConstants.ANT_SCRIPTS_FOLDER,
-				Messages.ant_scripts_folder_label + ':',
-				getFieldEditorParent()));
+        addField(new StringFieldEditor(
+                PreferenceConstants.ANT_SCRIPTS_FOLDER,
+                Messages.ant_scripts_folder_label + ':',
+                getFieldEditorParent()));
 
-		addField(new StringFieldEditor(
-				PreferenceConstants.HOST_CHARSET,
-				Messages.mainframe_charset_label + ':',
-				getFieldEditorParent()));
-	}
+        addField(new StringFieldEditor(
+                PreferenceConstants.HOST_CHARSET,
+                Messages.mainframe_charset_label + ':',
+                getFieldEditorParent()));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(
-	 * org.eclipse.ui.IWorkbench)
-	 */
-	public void init(final IWorkbench workbench) {
-	}
+    /**
+     * {@inheritDoc}
+     * @see org.eclipse.ui.IWorkbenchPreferencePage#init(
+     * org.eclipse.ui.IWorkbench)
+     */
+    public void init(final IWorkbench workbench) {
+    }
 
 }

@@ -22,47 +22,47 @@ import org.osgi.framework.BundleContext;
  * will not be available for discovery until it has been used once.
  */
 public abstract class AbstractCixsActivator extends AbstractUIPlugin
-		implements IStartup  {
-	
-	/** This plugin unique ID. */
-	private String mPluginId;
+implements IStartup  {
 
-	/**
-	 * The constructor.
-	 * @param pluginId the plugin unique ID.
-	 */
-	public AbstractCixsActivator(final String pluginId) {
-		mPluginId = pluginId;
-	}
+    /** This plugin unique ID. */
+    private String mPluginId;
 
-	/**
-	 * Subclasses are expected to override this method in order to
-	 * register their services.
-	 * {@inheritDoc}
-	 */
-	public void start(final BundleContext context) throws Exception {
-		super.start(context);
-	}
+    /**
+     * The constructor.
+     * @param pluginId the plugin unique ID.
+     */
+    public AbstractCixsActivator(final String pluginId) {
+        mPluginId = pluginId;
+    }
 
-	/**
-	 * Subclasses are expected to override this method in order to
-	 * unregister their services.
-	 * {@inheritDoc}
-	 */
-	public void stop(final BundleContext context) throws Exception {
-		super.stop(context);
-	}
+    /**
+     * Subclasses are expected to override this method in order to
+     * register their services.
+     * {@inheritDoc}
+     */
+    public void start(final BundleContext context) throws Exception {
+        super.start(context);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * Subclasses are expected to override this method in order to
+     * unregister their services.
+     * {@inheritDoc}
+     */
+    public void stop(final BundleContext context) throws Exception {
+        super.stop(context);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public void earlyStartup() {
     }
 
-	/**
-	 * @return the plugin unique ID
-	 */
-	public final String getPluginId() {
-		return mPluginId;
-	}
+    /**
+     * @return the plugin unique ID
+     */
+    public final String getPluginId() {
+        return mPluginId;
+    }
 }

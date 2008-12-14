@@ -19,7 +19,7 @@ import com.legstar.j2sc.gen.JavaToXsdCobolModel;
  */
 public class JavaToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
 
-     /**
+    /**
      * Instantiate this runnable from UI items. It is important not to attempt
      * access to UI elements from the background thread.
      * @param mainPage the page holding targets
@@ -29,7 +29,7 @@ public class JavaToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
     public JavaToXsdWizardRunnable(
             final MainWizardPage mainPage,
             final JavaToXsdWizardPage javaToXsdPage)
-            throws InvocationTargetException {
+    throws InvocationTargetException {
         super(null, mainPage);
         setAntBuildModel(getModel(mainPage, javaToXsdPage));
     }
@@ -44,10 +44,10 @@ public class JavaToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
     protected JavaToXsdCobolModel getModel(
             final MainWizardPage mainPage,
             final JavaToXsdWizardPage javaToXsdPage)
-            throws InvocationTargetException {
+    throws InvocationTargetException {
         JavaToXsdCobolModel model = new JavaToXsdCobolModel();
         model.setProductLocation(getPluginInstallLocation(
-        		com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
+                com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
         model.setClassNames(javaToXsdPage.getSelectedClassNames());
         model.setPathElementLocations(
                 javaToXsdPage.getSelectedPathElementsLocations());

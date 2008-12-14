@@ -10,18 +10,22 @@
  ******************************************************************************/
 package com.legstar.xsdc.test.cases.jvmquery;
 
+/**
+ * A simple helper class that creates instances of data objects.
+ *
+ */
 public class ObjectFactory {
     /**
-     * Create an instance of {@link JVMQueryRequest }
-     * 
+     * Create an instance of {@link JVMQueryRequest }.
+     * @return a request data object 
      */
     public JVMQueryRequest createJVMQueryRequest() {
         return new JVMQueryRequest();
     }
 
     /**
-     * Create an instance of {@link JVMQueryReply }
-     * 
+     * Create an instance of {@link JVMQueryReply }.
+     * @return a reply data object 
      */
     public JVMQueryReply createJVMQueryReply() {
         return new JVMQueryReply();

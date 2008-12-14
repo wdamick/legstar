@@ -17,8 +17,7 @@ package com.legstar.coxb;
  *
  * @author Fady Moussallam
  * 
-*/
-public interface ICobolArrayBinaryBinding
-	extends ICobolArrayNumericBinding {
+ */
+public interface ICobolArrayBinaryBinding extends ICobolArrayNumericBinding {
 
 }

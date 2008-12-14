@@ -8,7 +8,7 @@
  * Contributors:
  *     LegSem - initial API and implementation
  ******************************************************************************/
- package com.legstar.mq.client;
+package com.legstar.mq.client;
 
 import com.legstar.messaging.ConnectionException;
 
@@ -17,22 +17,22 @@ import com.legstar.messaging.ConnectionException;
  */
 public class CicsMQConnectionException extends ConnectionException {
 
-	/** Serial ID. */
-	private static final long serialVersionUID = 5435794123153633650L;
+    /** Serial ID. */
+    private static final long serialVersionUID = 5435794123153633650L;
 
-	/** 
-	 * Constructor from an error message. 
-	 * @param message the text message 
-	 * */
-	public CicsMQConnectionException(final String message) {
-		super(message);
-	}
+    /** 
+     * Constructor from an error message. 
+     * @param message the text message 
+     * */
+    public CicsMQConnectionException(final String message) {
+        super(message);
+    }
 
-	/** 
-	 * Constructor from an inner exception. 
-	 * @param e the inner exception 
-	 * */
-	public CicsMQConnectionException(final Exception e) {
-		super(e);
-	}
+    /** 
+     * Constructor from an inner exception. 
+     * @param e the inner exception 
+     * */
+    public CicsMQConnectionException(final Exception e) {
+        super(e);
+    }
 }

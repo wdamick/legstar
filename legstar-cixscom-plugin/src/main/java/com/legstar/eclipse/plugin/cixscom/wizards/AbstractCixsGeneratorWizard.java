@@ -27,74 +27,74 @@ import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
  */
 
 public abstract class AbstractCixsGeneratorWizard extends AbstractWizard {
-	
-	/** The current workbench selection. */
-	private IStructuredSelection mInitialSelection;
-	
-	/** The current mapping file. */
-	private IFile mMappingFile = null;
 
-	/**
-	 * Constructor for AbstractCixsGeneratorWizard.
-	 * @param mappingFile an mapping file
-	 * @throws CoreException if initialization goes wrong 
-	 */
-	public AbstractCixsGeneratorWizard(
-	        final IFile mappingFile) throws CoreException {
-		super();
+    /** The current workbench selection. */
+    private IStructuredSelection mInitialSelection;
+
+    /** The current mapping file. */
+    private IFile mMappingFile = null;
+
+    /**
+     * Constructor for AbstractCixsGeneratorWizard.
+     * @param mappingFile an mapping file
+     * @throws CoreException if initialization goes wrong 
+     */
+    public AbstractCixsGeneratorWizard(
+            final IFile mappingFile) throws CoreException {
+        super();
         setNeedsProgressMonitor(true);
         mMappingFile = mappingFile;
-	}
-	
+    }
+
     /**
      * @return the subclass plugin ID
      */
     public abstract String getPluginId();
-    
-	/**
-	 * This method is called when 'Finish' button is pressed in the wizard.
-	 * We will create an operation and run it using wizard as execution context.
-	 * @return true if processing went fine
-	 */
-	public final boolean performFinish() {
-		
-		try {
-			IRunnableWithProgress op = getRunnable();
-			getContainer().run(true, true, op);
-		} catch (InterruptedException e) {
-			return false;
-		} catch (InvocationTargetException e) {
+
+    /**
+     * This method is called when 'Finish' button is pressed in the wizard.
+     * We will create an operation and run it using wizard as execution context.
+     * @return true if processing went fine
+     */
+    public final boolean performFinish() {
+
+        try {
+            IRunnableWithProgress op = getRunnable();
+            getContainer().run(true, true, op);
+        } catch (InterruptedException e) {
+            return false;
+        } catch (InvocationTargetException e) {
             errorDialog(getShell(),
-            		Messages.generate_error_dialog_title,
-            		getPluginId(),
+                    Messages.generate_error_dialog_title,
+                    getPluginId(),
                     Messages.generation_failure_short_msg,
                     NLS.bind(Messages.generation_failure_long_msg,
-                    		mMappingFile.getName(), e.getTargetException()));
+                            mMappingFile.getName(), e.getTargetException()));
             logCoreException(e.getTargetException(), getPluginId());
             return false;
-		}
-		return true;
-	}
-	
-	/**
-	 * @return a background runnable task to generate ant scripts.
-	 * @throws InvocationTargetException if runnable cannot be created
-	 */
-	protected abstract AbstractCixsGeneratorWizardRunnable getRunnable()
-	    throws InvocationTargetException;
-	
-	/**
-	 * We will accept the selection in the workbench to see if
-	 * we can initialize from it.
-	 * Called by Eclipse to provide the wizard with information about the
-	 *  workbench.
-	 * {@inheritDoc}
-	 */
-	public final void init(
-			final IWorkbench workbench,
-			final IStructuredSelection selection) {
-		mInitialSelection = selection;
-	}
+        }
+        return true;
+    }
+
+    /**
+     * @return a background runnable task to generate ant scripts.
+     * @throws InvocationTargetException if runnable cannot be created
+     */
+    protected abstract AbstractCixsGeneratorWizardRunnable getRunnable()
+    throws InvocationTargetException;
+
+    /**
+     * We will accept the selection in the workbench to see if
+     * we can initialize from it.
+     * Called by Eclipse to provide the wizard with information about the
+     *  workbench.
+     * {@inheritDoc}
+     */
+    public final void init(
+            final IWorkbench workbench,
+            final IStructuredSelection selection) {
+        mInitialSelection = selection;
+    }
 
     /**
      * @return the Initial Selection
@@ -109,5 +109,5 @@ public abstract class AbstractCixsGeneratorWizard extends AbstractWizard {
     public final IFile getMappingFile() {
         return mMappingFile;
     }
-	
+
 }

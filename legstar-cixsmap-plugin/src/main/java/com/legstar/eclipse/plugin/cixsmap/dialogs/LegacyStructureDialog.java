@@ -108,7 +108,7 @@ public class LegacyStructureDialog extends AbstractDialog {
         mStructure = structure;
     }
 
-    /** {@inheritDoc}	 */
+    /** {@inheritDoc} */
     protected final Control createDialogArea(final Composite parent) {
         Composite composite = (Composite) super.createDialogArea(parent);
         try {
@@ -116,23 +116,23 @@ public class LegacyStructureDialog extends AbstractDialog {
             initialize(composite);
         } catch (CoreException e) {
             errorDialog(Messages.structure_mapping_error_dialog_title,
-            		NLS.bind(Messages.invalid_java_project_msg,
-            				mMappingFile.getProject().getName(),
-            				e.getMessage()));
+                    NLS.bind(Messages.invalid_java_project_msg,
+                            mMappingFile.getProject().getName(),
+                            e.getMessage()));
         } catch (CobolNameResolverException e) {
             errorDialog(Messages.structure_mapping_error_dialog_title,
-            		NLS.bind(Messages.setup_error_msg, e.getMessage()));
+                    NLS.bind(Messages.setup_error_msg, e.getMessage()));
         }
         return composite;
     }
-    
+
     /** {@inheritDoc}
      * We override this method because we want to perform validation
      * immediately when the dialog is created (the project might not contain
      * binding classes and therefore there will be no JAXB types to select)
      * Since validation might disable the OK button, we need to wait until
      * this button is created.   */
-   protected final Control createButtonBar(final Composite parent) {
+    protected final Control createButtonBar(final Composite parent) {
         Control control = super.createButtonBar(parent);
         dialogChanged();
         return control;
@@ -244,16 +244,16 @@ public class LegacyStructureDialog extends AbstractDialog {
         }
     }
 
-    /** {@inheritDoc}	 */
+    /** {@inheritDoc} */
     protected final void configureShell(final Shell newShell) {
         super.configureShell(newShell);
         newShell.setText(Messages.structure_mapping_dialog_title);
-		ImageDescriptor image =
+        ImageDescriptor image =
             AbstractUIPlugin.
-                imageDescriptorFromPlugin(
-                		Activator.PLUGIN_ID,
-                		Messages.operations_mapping_icon);
-		newShell.setImage(image.createImage());
+            imageDescriptorFromPlugin(
+                    Activator.PLUGIN_ID,
+                    Messages.operations_mapping_icon);
+        newShell.setImage(image.createImage());
     }
 
     /**
@@ -395,15 +395,15 @@ public class LegacyStructureDialog extends AbstractDialog {
         if (mJaxbPackageCombo.getItemCount() == 0 
                 || mJaxbPackageCombo.getSelectionIndex() == -1) {
             updateStatus(false,
-            		NLS.bind(Messages.no_coxb_classes_in_project_msg,
-            				mMappingFile.getProject().getName()));
+                    NLS.bind(Messages.no_coxb_classes_in_project_msg,
+                            mMappingFile.getProject().getName()));
             return;
         }
 
         /* The selected package must contain at least one JAXB type */
         if (mJaxbTypeList.getItemCount() == 0) {
             updateStatus(false,
-            Messages.no_coxb_classes_in_package_msg);
+                    Messages.no_coxb_classes_in_package_msg);
             return;
         }
 
@@ -424,16 +424,16 @@ public class LegacyStructureDialog extends AbstractDialog {
                 String validContent = mCobolNameResolver.getName(
                         mCobolRootDataItemNameText.getText());
                 if (!validContent.equals(
-                		mCobolRootDataItemNameText.getText())) {
+                        mCobolRootDataItemNameText.getText())) {
                     updateStatus(false,
-                    		Messages.invalid_structure_cobol_name_msg);
+                            Messages.invalid_structure_cobol_name_msg);
                     return;
-               }
+                }
             }
         } catch (CobolNameResolverException e) {
             updateStatus(false,
-            		NLS.bind(Messages.cobol_name_validation_failure_msg,
-            				e.getMessage()));
+                    NLS.bind(Messages.cobol_name_validation_failure_msg,
+                            e.getMessage()));
             return;
         }
         /* TODO check for CICS container maximum size (16) */

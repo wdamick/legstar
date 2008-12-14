@@ -19,38 +19,38 @@ package com.legstar.coxb.host;
  * 
  */
 public class HostContext {
-	
-	/** Default host charset is default US EBCDIC charset with Euro support. */
-	private static final String DEFAULT_CHARSET_NAME = "IBM01140";
-	
-	/** Current host character set. */
-	private String mhostCharsetName = getDefaultHostCharsetName();
-	
-	/**
-	 * @return Returns the current charsetName.
-	 */
-	public final String getHostCharsetName() {
-		return mhostCharsetName;
-	}
-	
-	/**
-	 * This will generate an UnsupportedCharsetException if user tries to
-	 * specify a charset that is not supported by the current JVM.
-	 * 
-	 * @param name
-	 *            The charsetName to set.
-	 */
-	public final void setHostCharsetName(final String name) {
-		// We create a charset to check the validity of the charsetName
-		mhostCharsetName = name;
-	}
-	
-	/**
-	 * Provides a default host character set.
-	 * @return the default character set
-	 */
-	public static String getDefaultHostCharsetName() {
-		return DEFAULT_CHARSET_NAME;
-	}
-	
+
+    /** Default host charset is default US EBCDIC charset with Euro support. */
+    private static final String DEFAULT_CHARSET_NAME = "IBM01140";
+
+    /** Current host character set. */
+    private String mhostCharsetName = getDefaultHostCharsetName();
+
+    /**
+     * @return Returns the current charsetName.
+     */
+    public final String getHostCharsetName() {
+        return mhostCharsetName;
+    }
+
+    /**
+     * This will generate an UnsupportedCharsetException if user tries to
+     * specify a charset that is not supported by the current JVM.
+     * 
+     * @param name
+     *            The charsetName to set.
+     */
+    public final void setHostCharsetName(final String name) {
+        // We create a charset to check the validity of the charsetName
+        mhostCharsetName = name;
+    }
+
+    /**
+     * Provides a default host character set.
+     * @return the default character set
+     */
+    public static String getDefaultHostCharsetName() {
+        return DEFAULT_CHARSET_NAME;
+    }
+
 }

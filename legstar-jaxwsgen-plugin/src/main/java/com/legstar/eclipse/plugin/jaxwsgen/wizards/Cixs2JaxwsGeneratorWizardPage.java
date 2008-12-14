@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Text;
 
 import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsActivator;
 import com.legstar.eclipse.plugin.cixscom.wizards
-		.AbstractCixsGeneratorWizardPage;
+.AbstractCixsGeneratorWizardPage;
 import com.legstar.eclipse.plugin.common.wizards.IURLSelectionListener;
 import com.legstar.eclipse.plugin.jaxwsgen.Activator;
 import com.legstar.eclipse.plugin.jaxwsgen.Messages;
@@ -36,32 +36,32 @@ import com.legstar.eclipse.plugin.jaxwsgen.preferences.PreferenceConstants;
  * generation.
  */
 public class Cixs2JaxwsGeneratorWizardPage
-        extends AbstractCixsGeneratorWizardPage {
+extends AbstractCixsGeneratorWizardPage {
 
     /** Page name. */
     private static final String PAGE_NAME = "Cixs2JaxwsGeneratorWizardPage";
-    
+
     /** URL locating target Web service WSDL. */
     private Combo mWsdlUrlCombo = null;
-    
+
     /** Target Web service WSDL service name. */
     private Text mWsdlServiceNameText = null;
-    
+
     /** Target Web service WSDL port name. */
     private Text mWsdlPortNameText = null;
-    
+
     /** Target Web services target namespace. */
     private Text mTargetNamespaceText = null;
-    
+
     /** Where generated COBOL source reside. */
     private Text mTargetCobolDirText = null;
 
     /** J2ee folder where web deployment files should be generated. */
     private Text mTargetWDDDirText = null;
-    
+
     /** J2ee folder where war files should be deployed. */
     private Text mTargetWarDirText = null;
-    
+
     /** Proxy service URI exposed to mainframe programs. */
     private Text mProxyURIText = null;
 
@@ -70,7 +70,7 @@ public class Cixs2JaxwsGeneratorWizardPage
 
     /** Proxy service URI exposed to mainframe programs. */
     private Text mProxyPasswordText = null;
-    
+
     /**
      * Construct the page.
      * @param selection the current workbench selection
@@ -80,24 +80,24 @@ public class Cixs2JaxwsGeneratorWizardPage
             final IStructuredSelection selection,
             final IFile mappingFile) {
         super(selection, PAGE_NAME,
-        		Messages.cixs_to_jaxws_wizard_page_title,
-        		Messages.cixs_to_jaxws_wizard_page_description,
-        		mappingFile);
+                Messages.cixs_to_jaxws_wizard_page_title,
+                Messages.cixs_to_jaxws_wizard_page_description,
+                mappingFile);
     }
 
     /** {@inheritDoc} */
     protected void addCixsGroup(final Composite container) {
         Group group = createGroup(container, Messages.wsdl_group_label, 3);
-        
+
         mWsdlUrlCombo = createUrlComboGroup(
-        		group, Messages.wsdl_url_label,
-        		new ModifyListener() {
+                group, Messages.wsdl_url_label,
+                new ModifyListener() {
                     public void modifyText(final ModifyEvent e) {
                         dialogChanged();
                     }
                 },
-        		new URLSelectionAdapter());
-        
+                new URLSelectionAdapter());
+
         mWsdlServiceNameText = createTextField(group, getStore(),
                 "wsdlServiceName", Messages.wsdl_service_name_label + ':');
         mWsdlServiceNameText.addModifyListener(new ModifyListener() {
@@ -118,35 +118,35 @@ public class Cixs2JaxwsGeneratorWizardPage
 
         mTargetNamespaceText = createTextField(group, getStore(),
                 "targetNamespace", Messages.wsdl_target_namespace_label + ':');
-    	mTargetNamespaceText.addModifyListener(new ModifyListener() {
+        mTargetNamespaceText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
         });
         createLabel(group, "");
-        
+
         super.addCixsGroup(container);
     }
-    
-	/**
-	 *Defines what happens when a URL is selected.
-	 */
-	private class URLSelectionAdapter implements IURLSelectionListener {
-	
-		/** {@inheritDoc} */
-		public void urlSelected(final String urlString) {
-        	WsdlPortSelectionDialog dlg =
+
+    /**
+     *Defines what happens when a URL is selected.
+     */
+    private class URLSelectionAdapter implements IURLSelectionListener {
+
+        /** {@inheritDoc} */
+        public void urlSelected(final String urlString) {
+            WsdlPortSelectionDialog dlg =
                 new WsdlPortSelectionDialog(
-                		getWsdlUrl(), getShell(),
-                		Activator.PLUGIN_ID);
+                        getWsdlUrl(), getShell(),
+                        Activator.PLUGIN_ID);
             if (Window.OK == dlg.open()) {
-            	setTargetNamespace(dlg.getTargetNamespace());
-            	setWsdlServiceName(dlg.getServiceName());
-            	setWsdlPortName(dlg.getPortName());
+                setTargetNamespace(dlg.getTargetNamespace());
+                setWsdlServiceName(dlg.getServiceName());
+                setWsdlPortName(dlg.getPortName());
             }
-		}
-	}
-	
+        }
+    }
+
     /** {@inheritDoc} */
     public void addWidgetsToCixsGroup(final Composite container) {
     }
@@ -209,71 +209,71 @@ public class Cixs2JaxwsGeneratorWizardPage
     public void initExtendedWidgets(final IProject project) {
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
         initWsdlUrl();
-        
+
         setTargetWDDDir(getDefaultTargetDir(store,
-				PreferenceConstants.J2EE_WDD_FOLDER));
-        
+                PreferenceConstants.J2EE_WDD_FOLDER));
+
         setTargetCobolDir(getDefaultTargetDir(store,
-				PreferenceConstants.COBOL_SAMPLE_FOLDER));
-        
+                PreferenceConstants.COBOL_SAMPLE_FOLDER));
+
         setTargetWarDir(store.getDefaultString(
-				PreferenceConstants.J2EE_WAR_FOLDER));
-        
+                PreferenceConstants.J2EE_WAR_FOLDER));
+
         initServiceURI(getServiceName());
     }
-    
+
     /**
      * Setup the initial history list attached to wsdl URL combo box.
      */
     private void initWsdlUrl() {
         for (String value : getUrlHistory().get()) {
-        	mWsdlUrlCombo.add(value);
+            mWsdlUrlCombo.add(value);
         }
     }
 
-	/**
-	 * The default service URI is built from a template. 
-	 * @param serviceName the service name
-	 */
-	private void initServiceURI(final String serviceName) {
+    /**
+     * The default service URI is built from a template. 
+     * @param serviceName the service name
+     */
+    private void initServiceURI(final String serviceName) {
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		String template = store.getString(
-				PreferenceConstants.PROXY_URI_TEMPLATE);
-		if (template != null && template.length() > 0) {
-			setProxyURI(template.replace("${service.name}", serviceName));
-		}
-	}
+        String template = store.getString(
+                PreferenceConstants.PROXY_URI_TEMPLATE);
+        if (template != null && template.length() > 0) {
+            setProxyURI(template.replace("${service.name}", serviceName));
+        }
+    }
 
-	/** {@inheritDoc} */
+    /** {@inheritDoc} */
     public boolean validateExtendedWidgets() {
         if (getWsdlUrl().length() == 0) {
-			updateStatus(Messages.invalid_wsdl_url_msg);
-			return false;
+            updateStatus(Messages.invalid_wsdl_url_msg);
+            return false;
         }
         if (getWsdlServiceName().length() == 0) {
-			updateStatus(Messages.invalid_wsdl_service_name_msg);
-			return false;
+            updateStatus(Messages.invalid_wsdl_service_name_msg);
+            return false;
         }
         if (getWsdlPortName().length() == 0) {
-			updateStatus(Messages.invalid_wsdl_port_name_msg);
-			return false;
+            updateStatus(Messages.invalid_wsdl_port_name_msg);
+            return false;
         }
         if (!checkDirectory(getTargetWDDDir(),
-        		Messages.invalid_wdd_target_location_msg)) {
-        	return false;
+                Messages.invalid_wdd_target_location_msg)) {
+            return false;
         }
         if (!checkDirectory(getTargetCobolDir(),
-        		Messages.invalid_cobol_target_location_msg)) {
-        	return false;
+                Messages.invalid_cobol_target_location_msg)) {
+            return false;
         }
         if (getTargetNamespace().length() == 0) {
-			updateStatus(Messages.invalid_target_namespace_msg);
-			return false;
+            updateStatus(Messages.invalid_target_namespace_msg);
+            return false;
         }
         if (getProxyURI().length() == 0) {
-        	if (getServiceName().length() > 0) {
-        		initServiceURI(getServiceName());
-        	}
+            if (getServiceName().length() > 0) {
+                initServiceURI(getServiceName());
+            }
         }
 
         return true;
@@ -286,7 +286,7 @@ public class Cixs2JaxwsGeneratorWizardPage
     public void setTargetWDDDir(final String targetWDDDir) {
         mTargetWDDDirText.setText(targetWDDDir);
     }
-    
+
     /**
      * @return J2ee folder where web deployment files should be generated
      */
@@ -300,7 +300,7 @@ public class Cixs2JaxwsGeneratorWizardPage
     public void setTargetNamespace(final String targetNamespace) {
         mTargetNamespaceText.setText(targetNamespace);
     }
-    
+
     /**
      * @return Generated Web services target namespace
      */
@@ -313,120 +313,120 @@ public class Cixs2JaxwsGeneratorWizardPage
         return Activator.getDefault();
     }
 
-	/**
-	 * @return the URL locating target Web service WSDL
-	 */
-	public final String getWsdlUrl() {
-		return mWsdlUrlCombo.getText();
-	}
+    /**
+     * @return the URL locating target Web service WSDL
+     */
+    public final String getWsdlUrl() {
+        return mWsdlUrlCombo.getText();
+    }
 
-	/**
-	 * @param wsdlUrl the URL locating target Web service WSDL to set
-	 */
-	public final void setWsdlUrl(final String wsdlUrl) {
-		mWsdlUrlCombo.setText(wsdlUrl);
-	}
+    /**
+     * @param wsdlUrl the URL locating target Web service WSDL to set
+     */
+    public final void setWsdlUrl(final String wsdlUrl) {
+        mWsdlUrlCombo.setText(wsdlUrl);
+    }
 
-	/**
-	 * @return the Target Web service WSDL service name
-	 */
-	public final String getWsdlServiceName() {
-		return mWsdlServiceNameText.getText();
-	}
+    /**
+     * @return the Target Web service WSDL service name
+     */
+    public final String getWsdlServiceName() {
+        return mWsdlServiceNameText.getText();
+    }
 
-	/**
-	 * @param wsdlServiceName the Target Web service WSDL service name to
-	 *  set
-	 */
-	public final void setWsdlServiceName(final String wsdlServiceName) {
-		mWsdlServiceNameText.setText(wsdlServiceName);
-	}
+    /**
+     * @param wsdlServiceName the Target Web service WSDL service name to
+     *  set
+     */
+    public final void setWsdlServiceName(final String wsdlServiceName) {
+        mWsdlServiceNameText.setText(wsdlServiceName);
+    }
 
-	/**
-	 * @return the Target Web service WSDL port name
-	 */
-	public final String getWsdlPortName() {
-		return mWsdlPortNameText.getText();
-	}
+    /**
+     * @return the Target Web service WSDL port name
+     */
+    public final String getWsdlPortName() {
+        return mWsdlPortNameText.getText();
+    }
 
-	/**
-	 * @param wsdlPortName the Target Web service WSDL port name to set
-	 */
-	public final void setWsdlPortName(final String wsdlPortName) {
-		mWsdlPortNameText.setText(wsdlPortName);
-	}
+    /**
+     * @param wsdlPortName the Target Web service WSDL port name to set
+     */
+    public final void setWsdlPortName(final String wsdlPortName) {
+        mWsdlPortNameText.setText(wsdlPortName);
+    }
 
-	/**
-	 * @return where generated COBOL source reside
-	 */
-	public final String getTargetCobolDir() {
-		return mTargetCobolDirText.getText();
-	}
+    /**
+     * @return where generated COBOL source reside
+     */
+    public final String getTargetCobolDir() {
+        return mTargetCobolDirText.getText();
+    }
 
-	/**
-	 * @param targetCobolDir where generated COBOL source reside to set
-	 */
-	public final void setTargetCobolDir(final String targetCobolDir) {
-		mTargetCobolDirText.setText(targetCobolDir);
-	}
+    /**
+     * @param targetCobolDir where generated COBOL source reside to set
+     */
+    public final void setTargetCobolDir(final String targetCobolDir) {
+        mTargetCobolDirText.setText(targetCobolDir);
+    }
 
-	/**
-	 * @return the J2ee folder where war files should be deployed
-	 */
-	public final String getTargetWarDir() {
-		return mTargetWarDirText.getText();
-	}
+    /**
+     * @return the J2ee folder where war files should be deployed
+     */
+    public final String getTargetWarDir() {
+        return mTargetWarDirText.getText();
+    }
 
-	/**
-	 * @param targetWarDir J2ee folder where war files should be deployed
-	 */
-	public final void setTargetWarDir(final String targetWarDir) {
-		mTargetWarDirText.setText(targetWarDir);
-	}
+    /**
+     * @param targetWarDir J2ee folder where war files should be deployed
+     */
+    public final void setTargetWarDir(final String targetWarDir) {
+        mTargetWarDirText.setText(targetWarDir);
+    }
 
-	/**
-	 * @return the Proxy service URI exposed to mainframe programs
-	 */
-	public final String getProxyURI() {
-		return mProxyURIText.getText();
-	}
+    /**
+     * @return the Proxy service URI exposed to mainframe programs
+     */
+    public final String getProxyURI() {
+        return mProxyURIText.getText();
+    }
 
-	/**
-	 * @param proxyURI the Proxy service URI exposed to mainframe programs
-	 *  to set
-	 */
-	public final void setProxyURI(final String proxyURI) {
-		mProxyURIText.setText(proxyURI);
-	}
+    /**
+     * @param proxyURI the Proxy service URI exposed to mainframe programs
+     *  to set
+     */
+    public final void setProxyURI(final String proxyURI) {
+        mProxyURIText.setText(proxyURI);
+    }
 
-	/**
-	 * @return the Proxy service user ID
-	 */
-	public final String getProxyUserId() {
-		return mProxyUserIdText.getText();
-	}
+    /**
+     * @return the Proxy service user ID
+     */
+    public final String getProxyUserId() {
+        return mProxyUserIdText.getText();
+    }
 
-	/**
-	 * @param proxyUserId the Proxy service user ID to set
-	 */
-	public final void setProxyUserId(final String proxyUserId) {
-		mProxyUserIdText.setText(proxyUserId);
-	}
+    /**
+     * @param proxyUserId the Proxy service user ID to set
+     */
+    public final void setProxyUserId(final String proxyUserId) {
+        mProxyUserIdText.setText(proxyUserId);
+    }
 
-	/**
-	 * @return the Proxy service URI exposed to mainframe programs
-	 */
-	public final String getProxyPassword() {
-		return mProxyPasswordText.getText();
-	}
+    /**
+     * @return the Proxy service URI exposed to mainframe programs
+     */
+    public final String getProxyPassword() {
+        return mProxyPasswordText.getText();
+    }
 
-	/**
-	 * @param proxyPassword the Proxy service URI exposed to mainframe
-	 *  programs to set
-	 */
-	public final void setProxyPassword(final String proxyPassword) {
-		mProxyPasswordText.setText(proxyPassword);
-	}
+    /**
+     * @param proxyPassword the Proxy service URI exposed to mainframe
+     *  programs to set
+     */
+    public final void setProxyPassword(final String proxyPassword) {
+        mProxyPasswordText.setText(proxyPassword);
+    }
 
 
 }

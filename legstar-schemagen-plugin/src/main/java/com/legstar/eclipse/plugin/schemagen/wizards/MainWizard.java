@@ -28,13 +28,13 @@ import com.legstar.eclipse.plugin.schemagen.Messages;
  * The main wizard orchestrates the various wizard pages.
  */
 public class MainWizard extends AbstractWizard implements INewWizard {
-    
+
     /** The workbench selection upon entry in wizard. */
-	private IStructuredSelection mInitialSelection;
-	
-	/** The first page of the wizard, common to all targets. */
+    private IStructuredSelection mInitialSelection;
+
+    /** The first page of the wizard, common to all targets. */
     private MainWizardPage mMainWizardPage;
-    
+
     /** The generation from a COBOL fragment page. */
     private CobolToXsdWizardPage mCobolToXsdWizardPage;
 
@@ -43,7 +43,7 @@ public class MainWizard extends AbstractWizard implements INewWizard {
 
     /** The generation from a set of Java classes page. */
     private JavaToXsdWizardPage mJavaToXsdWizardPage;
-    
+
     /** Set of preferences stored at the instance level. */
     private IPreferenceStore mDefaultPreferences;
 
@@ -56,10 +56,10 @@ public class MainWizard extends AbstractWizard implements INewWizard {
         mDefaultPreferences = Activator.getDefault().getPreferenceStore();
     }
 
-	/** {@inheritDoc} */
+    /** {@inheritDoc} */
     @Override
     public boolean performFinish() {
-    	mMainWizardPage.storeDefaultPreferences();
+        mMainWizardPage.storeDefaultPreferences();
 
         try {
             IRunnableWithProgress op = null;
@@ -85,18 +85,18 @@ public class MainWizard extends AbstractWizard implements INewWizard {
             return false;
         } catch (InvocationTargetException e) {
             errorDialog(getShell(),
-            		Messages.generation_error_dialog_title,
-            		Activator.PLUGIN_ID,
+                    Messages.generation_error_dialog_title,
+                    Activator.PLUGIN_ID,
                     Messages.generation_dialog_failure_short_msg,
                     NLS.bind(Messages.generation_dialog_failure_long_msg,
-                    		mMainWizardPage.getTargetXSDFileName(),
-                    		e.getTargetException().getMessage()));
+                            mMainWizardPage.getTargetXSDFileName(),
+                            e.getTargetException().getMessage()));
             logCoreException(e.getTargetException(), Activator.PLUGIN_ID);
             return false;
         }
         return true;
     }
-    
+
     /**
      * We will accept the selection in the workbench to see if
      * we can initialize from it.
@@ -104,10 +104,10 @@ public class MainWizard extends AbstractWizard implements INewWizard {
      * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
      */
     public void init(
-    		final IWorkbench workbench, final IStructuredSelection selection) {
+            final IWorkbench workbench, final IStructuredSelection selection) {
         mInitialSelection = selection;
     }
-    
+
     /**
      * Adding pages to the wizard.
      * @see org.eclipse.jface.wizard.Wizard#addPages()
@@ -122,7 +122,7 @@ public class MainWizard extends AbstractWizard implements INewWizard {
         mJavaToXsdWizardPage = new JavaToXsdWizardPage(mInitialSelection);
         addPage(mJavaToXsdWizardPage);
     }
-    
+
     /**
      * @return the Cobol To Xsd Wizard Page
      */
@@ -136,14 +136,14 @@ public class MainWizard extends AbstractWizard implements INewWizard {
     public final IWizardPage getXsdToXsdWizardPage() {
         return mXsdToXsdWizardPage;
     }
-    
+
     /**
      * @return the Java To Xsd Wizard Page
      */
     public final IWizardPage getJavaToXsdWizardPage() {
         return mJavaToXsdWizardPage;
     }
-    
+
     /** {@inheritDoc} */
     public String getPluginId() {
         return Activator.PLUGIN_ID;
