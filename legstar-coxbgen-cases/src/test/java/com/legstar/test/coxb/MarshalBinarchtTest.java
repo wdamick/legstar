@@ -31,37 +31,37 @@ import com.legstar.test.coxb.binarcht.Dfhcommarea;
 import junit.framework.TestCase;
 
 public class MarshalBinarchtTest extends TestCase {
-	
-	private final static String SCHEMA_NAME = "binarcht";
 
-	public void testBinarcht() throws Exception {
+    private final static String SCHEMA_NAME = "binarcht";
 
-		// Create and populate an instance of an object (JAXB annotated)
-		Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-		LsSignedNative lsSignedNative = new LsSignedNative();
-		lsSignedNative.setLsPs9X18Max(12345678901234567l);
-		lsSignedNative.setLsPs9X18Min(-12345678901234567l);
-		lsSignedNative.setLsPs9X4Max(new Short("32767"));
-		lsSignedNative.setLsPs9X4Min(new Short("-32768"));
-		lsSignedNative.setLsPs9X9Max(2147483647);
-		lsSignedNative.setLsPs9X9Min(-123456789);
-		
-		Dfhcommarea.setLsSignedNative(lsSignedNative);
-		
-		LsUnsignedNative lsUnsignedNative = new LsUnsignedNative();
-		lsUnsignedNative.setLsP9X18Max(new BigInteger("18446744073709551615"));
-		lsUnsignedNative.setLsP9X18Min(new BigInteger("0"));
-		lsUnsignedNative.setLsP9X4Max(65535);
-		lsUnsignedNative.setLsP9X4Min(0);
-		lsUnsignedNative.setLsP9X9Max(4294967295l);
-		lsUnsignedNative.setLsP9X9Min(0);
+    public void testBinarcht() throws Exception {
 
-		Dfhcommarea.setLsUnsignedNative(lsUnsignedNative);
+        // Create and populate an instance of an object (JAXB annotated)
+        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        LsSignedNative lsSignedNative = new LsSignedNative();
+        lsSignedNative.setLsPs9X18Max(12345678901234567l);
+        lsSignedNative.setLsPs9X18Min(-12345678901234567l);
+        lsSignedNative.setLsPs9X4Max(new Short("32767"));
+        lsSignedNative.setLsPs9X4Min(new Short("-32768"));
+        lsSignedNative.setLsPs9X9Max(2147483647);
+        lsSignedNative.setLsPs9X9Min(-123456789);
 
-		//		      <--><--><------><------><--------------><--------------><--><--><------><------><--------------><-------------->
-		//		      1 2 1 2 1 2 3 4 1 2 3 4 1 2 3 4 5 6 7 8 1 2 3 4 5 6 7 8 1 2 1 2 1 2 3 4 1 2 3 4 1 2 3 4 5 6 7 8 1 2 3 4 5 6 7 8 
-		//		         06553       042949672                1844674407370955-3273276-123456721474836-1234567890123451234567890123456         
-		assertEquals("0000ffff00000000ffffffff0000000000000000ffffffffffffffff80007ffff8a432eb7fffffffffd423aba294b479002bdc545d6b4b87",
-				Util.marshal(SCHEMA_NAME, Dfhcommarea, 56));
-	}
+        Dfhcommarea.setLsSignedNative(lsSignedNative);
+
+        LsUnsignedNative lsUnsignedNative = new LsUnsignedNative();
+        lsUnsignedNative.setLsP9X18Max(new BigInteger("18446744073709551615"));
+        lsUnsignedNative.setLsP9X18Min(new BigInteger("0"));
+        lsUnsignedNative.setLsP9X4Max(65535);
+        lsUnsignedNative.setLsP9X4Min(0);
+        lsUnsignedNative.setLsP9X9Max(4294967295l);
+        lsUnsignedNative.setLsP9X9Min(0);
+
+        Dfhcommarea.setLsUnsignedNative(lsUnsignedNative);
+
+        //		      <--><--><------><------><--------------><--------------><--><--><------><------><--------------><-------------->
+        //		      1 2 1 2 1 2 3 4 1 2 3 4 1 2 3 4 5 6 7 8 1 2 3 4 5 6 7 8 1 2 1 2 1 2 3 4 1 2 3 4 1 2 3 4 5 6 7 8 1 2 3 4 5 6 7 8 
+        //		         06553       042949672                1844674407370955-3273276-123456721474836-1234567890123451234567890123456         
+        assertEquals("0000ffff00000000ffffffff0000000000000000ffffffffffffffff80007ffff8a432eb7fffffffffd423aba294b479002bdc545d6b4b87",
+                Util.marshal(SCHEMA_NAME, Dfhcommarea, 56));
+    }
 }

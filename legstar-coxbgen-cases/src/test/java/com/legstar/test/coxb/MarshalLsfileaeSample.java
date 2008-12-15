@@ -36,46 +36,46 @@ import com.legstar.test.coxb.lsfileae.bind.DfhcommareaBinding;
  */
 public class MarshalLsfileaeSample {
 
-	/**
-	 * The main function does not take any argument.
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// Create a JAXB object and set its properties
-		Dfhcommarea jaxbObject = getJaxbObject();
-		// Create a COXB object wrapping the JAXB object
-		DfhcommareaBinding coxbObject = new DfhcommareaBinding(jaxbObject);
-		try {
-			// Create a buffer to receive the host data
-			byte[] hostBytes = new byte[coxbObject.calcByteLength()];
-			// Create a marshaler using the default cobol conversion parameters
-			CobolMarshalVisitor mv = new CobolMarshalVisitor(hostBytes, 0, new CobolSimpleConverters(new CobolContext()));
-			// Marshal the java data to a z/os buffer
-			coxbObject.accept(mv);
-			// Print the result
-			System.out.println("z/os data=" + HostData.toHexString(hostBytes));
-			
-		} catch (HostException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * This method creates an instance of a JAXB object and sets its properties.
-	 * @return a JAXB object
-	 */
-	private static Dfhcommarea getJaxbObject() {
-		Dfhcommarea Dfhcommarea = new Dfhcommarea();
-		Dfhcommarea.setComNumber(100);
-		Dfhcommarea.setComDate("100458");
-		Dfhcommarea.setComAmount("00100.35");
-		Dfhcommarea.setComComment("A VOIR");
-		ComPersonal personal = new ComPersonal();
-		personal.setComName("TOTO");
-		personal.setComAddress("LABAS STREET");
-		personal.setComPhone("88993314");
-		Dfhcommarea.setComPersonal(personal);
-		return Dfhcommarea;
-	}
+    /**
+     * The main function does not take any argument.
+     * @param args
+     */
+    public static void main(String[] args) {
+        // Create a JAXB object and set its properties
+        Dfhcommarea jaxbObject = getJaxbObject();
+        // Create a COXB object wrapping the JAXB object
+        DfhcommareaBinding coxbObject = new DfhcommareaBinding(jaxbObject);
+        try {
+            // Create a buffer to receive the host data
+            byte[] hostBytes = new byte[coxbObject.calcByteLength()];
+            // Create a marshaler using the default cobol conversion parameters
+            CobolMarshalVisitor mv = new CobolMarshalVisitor(hostBytes, 0, new CobolSimpleConverters(new CobolContext()));
+            // Marshal the java data to a z/os buffer
+            coxbObject.accept(mv);
+            // Print the result
+            System.out.println("z/os data=" + HostData.toHexString(hostBytes));
+
+        } catch (HostException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method creates an instance of a JAXB object and sets its properties.
+     * @return a JAXB object
+     */
+    private static Dfhcommarea getJaxbObject() {
+        Dfhcommarea Dfhcommarea = new Dfhcommarea();
+        Dfhcommarea.setComNumber(100);
+        Dfhcommarea.setComDate("100458");
+        Dfhcommarea.setComAmount("00100.35");
+        Dfhcommarea.setComComment("A VOIR");
+        ComPersonal personal = new ComPersonal();
+        personal.setComName("TOTO");
+        personal.setComAddress("LABAS STREET");
+        personal.setComPhone("88993314");
+        Dfhcommarea.setComPersonal(personal);
+        return Dfhcommarea;
+    }
 
 }

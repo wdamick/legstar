@@ -34,30 +34,30 @@ import junit.framework.TestCase;
 
 public class MarshalBinpkdusTest extends TestCase {
 
-	private final static String SCHEMA_NAME = "binpkdus";
+    private final static String SCHEMA_NAME = "binpkdus";
 
-	public void testBinpkdus() throws Exception {
+    public void testBinpkdus() throws Exception {
 
-		// Create and populate an instance of an object (JAXB annotated)
-		Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-		
-		LsCompat lsCompat = new LsCompat();
-		lsCompat.setLsP9X1(3);
-		lsCompat.setLsP9X18(123456789012345678l);
-		lsCompat.setLsP9X1Null(0);
-		lsCompat.setLsP9X2(12);
-		lsCompat.setLsP9X7(32769);
-		
-		LsExtend lsExtend = new LsExtend();
-		lsExtend.setLsP9X19(new BigInteger("1234567890123456789"));
-		lsExtend.setLsP9X31(new BigInteger("1234567890123456789012345678901"));
-		
-		LsUnsignedPackedDecimal lsUnsignedPackedDecimal = new LsUnsignedPackedDecimal();
-		lsUnsignedPackedDecimal.setLsCompat(lsCompat);
-		lsUnsignedPackedDecimal.setLsExtend(lsExtend);
-		Dfhcommarea.setLsUnsignedPackedDecimal(lsUnsignedPackedDecimal);
-		
-		assertEquals("0f3f012f0032769f0123456789012345678f1234567890123456789f1234567890123456789012345678901f000000000000000000000000",
-				Util.marshal(SCHEMA_NAME, Dfhcommarea, 56));
-	}
+        // Create and populate an instance of an object (JAXB annotated)
+        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+
+        LsCompat lsCompat = new LsCompat();
+        lsCompat.setLsP9X1(3);
+        lsCompat.setLsP9X18(123456789012345678l);
+        lsCompat.setLsP9X1Null(0);
+        lsCompat.setLsP9X2(12);
+        lsCompat.setLsP9X7(32769);
+
+        LsExtend lsExtend = new LsExtend();
+        lsExtend.setLsP9X19(new BigInteger("1234567890123456789"));
+        lsExtend.setLsP9X31(new BigInteger("1234567890123456789012345678901"));
+
+        LsUnsignedPackedDecimal lsUnsignedPackedDecimal = new LsUnsignedPackedDecimal();
+        lsUnsignedPackedDecimal.setLsCompat(lsCompat);
+        lsUnsignedPackedDecimal.setLsExtend(lsExtend);
+        Dfhcommarea.setLsUnsignedPackedDecimal(lsUnsignedPackedDecimal);
+
+        assertEquals("0f3f012f0032769f0123456789012345678f1234567890123456789f1234567890123456789012345678901f000000000000000000000000",
+                Util.marshal(SCHEMA_NAME, Dfhcommarea, 56));
+    }
 }

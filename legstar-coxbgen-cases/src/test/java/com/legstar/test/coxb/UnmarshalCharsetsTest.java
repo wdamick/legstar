@@ -34,26 +34,26 @@ import junit.framework.TestCase;
 
 public class UnmarshalCharsetsTest extends TestCase {
 
-	public void testTypesmix() throws HostException {
+    public void testTypesmix() throws HostException {
 
-		// Create a cobol context 
-		CobolContext cobolContext = new CobolContext();
-		cobolContext.setHostCharsetName("IBM01147");
-		// Select a conversion strategy 
-		CobolSimpleConverters cc = new CobolSimpleConverters(cobolContext);
-		String hexString = "e08140837d85a2a340a495409799968293d094854040404040404040404040400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e9006c00e9006d0065006e00740061006900720065002000e00020007200e90073006f00750064007200650020002000200020002000200020002000200020";
-		byte[] hostBytes = HostData.toByteArray(hexString);
+        // Create a cobol context 
+        CobolContext cobolContext = new CobolContext();
+        cobolContext.setHostCharsetName("IBM01147");
+        // Select a conversion strategy 
+        CobolSimpleConverters cc = new CobolSimpleConverters(cobolContext);
+        String hexString = "e08140837d85a2a340a495409799968293d094854040404040404040404040400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e9006c00e9006d0065006e00740061006900720065002000e00020007200e90073006f00750064007200650020002000200020002000200020002000200020";
+        byte[] hostBytes = HostData.toByteArray(hexString);
 
-		// Create a concrete visitor
-		CobolUnmarshalVisitor uv = new CobolUnmarshalVisitor(hostBytes, 0, cc);
-		
-		// Traverse the object structure, visiting each node with the visitor
-		DfhcommareaBinding ccem = new DfhcommareaBinding();
-		ccem.accept(uv);
-		Dfhcommarea Dfhcommarea = ccem.getDfhcommarea();
-		
-		assertEquals("ça c'est un problème",Dfhcommarea.getComLocal());
-		assertEquals("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",HostData.toHexString(Dfhcommarea.getComDbcs()));
-		assertEquals("élémentaire à résoudre          ",Dfhcommarea.getComNational());
-	}
+        // Create a concrete visitor
+        CobolUnmarshalVisitor uv = new CobolUnmarshalVisitor(hostBytes, 0, cc);
+
+        // Traverse the object structure, visiting each node with the visitor
+        DfhcommareaBinding ccem = new DfhcommareaBinding();
+        ccem.accept(uv);
+        Dfhcommarea Dfhcommarea = ccem.getDfhcommarea();
+
+        assertEquals("ça c'est un problème",Dfhcommarea.getComLocal());
+        assertEquals("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",HostData.toHexString(Dfhcommarea.getComDbcs()));
+        assertEquals("élémentaire à résoudre          ",Dfhcommarea.getComNational());
+    }
 }

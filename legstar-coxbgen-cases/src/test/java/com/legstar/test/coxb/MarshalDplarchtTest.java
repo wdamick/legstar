@@ -27,19 +27,19 @@ import junit.framework.TestCase;
 
 public class MarshalDplarchtTest extends TestCase {
 
-	private final static String SCHEMA_NAME = "dplarcht";
+    private final static String SCHEMA_NAME = "dplarcht";
 
-	public void testDplarcht() throws Exception {
+    public void testDplarcht() throws Exception {
 
-		// Create and populate an instance of an object (JAXB annotated)
-		Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-		LsRequest lsRequest = new LsRequest();
-		lsRequest.setLsRequestType(0);
-		lsRequest.setLsAllItems("*");
+        // Create and populate an instance of an object (JAXB annotated)
+        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        LsRequest lsRequest = new LsRequest();
+        lsRequest.setLsRequestType(0);
+        lsRequest.setLsAllItems("*");
 
-		Dfhcommarea.setLsRequest(lsRequest);
+        Dfhcommarea.setLsRequest(lsRequest);
 
-		assertEquals("00005c4040404040404040404040000000000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-				Util.marshal(SCHEMA_NAME, Dfhcommarea, 88));
-	}
+        assertEquals("00005c4040404040404040404040000000000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                Util.marshal(SCHEMA_NAME, Dfhcommarea, 88));
+    }
 }

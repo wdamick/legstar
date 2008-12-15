@@ -116,9 +116,9 @@ public class VelocityTemplatesTest extends TestCase {
 		assertTrue(resStr.contains("aDouble.setObjectValue(mValueObject.getADouble());"));
 
 		assertTrue(resStr.contains("mValueObject.setSString((String) bindingValue);"));
+        assertTrue(resStr.contains("List < Double > listADouble = cast(bindingValue);"));
 		assertTrue(resStr.contains("mValueObject.getADouble().clear();"));
-		assertTrue(resStr.contains("mValueObject.getADouble().addAll("));
-		assertTrue(resStr.contains("(List < Double >) bindingValue);"));
+		assertTrue(resStr.contains("mValueObject.getADouble().addAll(listADouble);"));
 	}
 
 	public void testGenArrayssm() throws Exception {
@@ -173,9 +173,9 @@ public class VelocityTemplatesTest extends TestCase {
 		assertTrue(resStr.contains("tableComplexWrapper = new TableComplexWrapperBinding(\"TableComplexWrapper\","));
 		assertTrue(resStr.contains("\"TableComplex\", this, _tableComplexWrapperItem);"));
 
+        assertTrue(resStr.contains("List < TableComplex > listTableComplexWrapper = cast(bindingValue);"));
 		assertTrue(resStr.contains("mValueObject.getTableComplex().clear();"));
-		assertTrue(resStr.contains("mValueObject.getTableComplex().addAll("));
-		assertTrue(resStr.contains("(List < TableComplex >) bindingValue);"));
+		assertTrue(resStr.contains("mValueObject.getTableComplex().addAll(listTableComplexWrapper);"));
 	}
 
 	public void testGenArrayssmWrapper() throws Exception {
@@ -284,9 +284,9 @@ public class VelocityTemplatesTest extends TestCase {
 		assertTrue(resStr.contains("((List < ? >) mValueObject.getTableOdo()).size());"));
 
 		assertTrue(resStr.contains("mValueObject.setTableSize((Integer) bindingValue);"));
+        assertTrue(resStr.contains("List < String > listTableOdo = cast(bindingValue);"));
 		assertTrue(resStr.contains("mValueObject.getTableOdo().clear();"));
-		assertTrue(resStr.contains("mValueObject.getTableOdo().addAll("));
-		assertTrue(resStr.contains("(List < String >) bindingValue);"));
+		assertTrue(resStr.contains("mValueObject.getTableOdo().addAll(listTableOdo);"));
 	}
 
 	public void testGenRedsimpt() throws Exception {

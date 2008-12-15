@@ -29,36 +29,36 @@ import junit.framework.TestCase;
 
 public class MarshalLargeVolumeTest extends TestCase {
 
-	private static int ITERATIONS = 100;
-	
-	public void testMarshal() throws HostException {
-		byte[] hostBytes = new byte[32025];
-		
-		// Select a conversion strategy 
-		CobolSimpleConverters cc = new CobolSimpleConverters(new CobolContext());
-		// Create a concrete visitor
-		CobolMarshalVisitor mv = new CobolMarshalVisitor(hostBytes, 0, cc);
-		
-		// Create an instance of the JAXB object factory
-		com.legstar.test.coxb.dplarcht.ObjectFactory objectFactory = new com.legstar.test.coxb.dplarcht.ObjectFactory();
-		// Create and populate an instance of an object (JAXB annotated)
-		com.legstar.test.coxb.dplarcht.Dfhcommarea Dfhcommarea = objectFactory.createDfhcommarea();
-		
-		com.legstar.test.coxb.dplarcht.LsRequest lsRequest = objectFactory.createLsRequest();
-		Dfhcommarea.setLsRequest(lsRequest);
-		lsRequest.setLsRequestType(0); // request files
-		lsRequest.setLsAllItems("*");  // no limit to number of items
-		com.legstar.test.coxb.dplarcht.LsSearchCriteria lsSearchCriteria = objectFactory.createLsSearchCriteria();
-		lsSearchCriteria.setLsStartwith("C");
-		lsSearchCriteria.setLsStartwithLen(1);
-		lsRequest.setLsSearchCriteria(lsSearchCriteria);
-		
-		com.legstar.test.coxb.dplarcht.LsReply lsReply = objectFactory.createLsReply();
-		Dfhcommarea.setLsReply(lsReply);
-		com.legstar.test.coxb.dplarcht.LsReplyData lsReplyData = objectFactory.createLsReplyData();
-		lsReply.setLsReplyData(lsReplyData);
-		lsReplyData.setLsItemsCount(500);
-        
+    private static int ITERATIONS = 100;
+
+    public void testMarshal() throws HostException {
+        byte[] hostBytes = new byte[32025];
+
+        // Select a conversion strategy 
+        CobolSimpleConverters cc = new CobolSimpleConverters(new CobolContext());
+        // Create a concrete visitor
+        CobolMarshalVisitor mv = new CobolMarshalVisitor(hostBytes, 0, cc);
+
+        // Create an instance of the JAXB object factory
+        com.legstar.test.coxb.dplarcht.ObjectFactory objectFactory = new com.legstar.test.coxb.dplarcht.ObjectFactory();
+        // Create and populate an instance of an object (JAXB annotated)
+        com.legstar.test.coxb.dplarcht.Dfhcommarea Dfhcommarea = objectFactory.createDfhcommarea();
+
+        com.legstar.test.coxb.dplarcht.LsRequest lsRequest = objectFactory.createLsRequest();
+        Dfhcommarea.setLsRequest(lsRequest);
+        lsRequest.setLsRequestType(0); // request files
+        lsRequest.setLsAllItems("*");  // no limit to number of items
+        com.legstar.test.coxb.dplarcht.LsSearchCriteria lsSearchCriteria = objectFactory.createLsSearchCriteria();
+        lsSearchCriteria.setLsStartwith("C");
+        lsSearchCriteria.setLsStartwithLen(1);
+        lsRequest.setLsSearchCriteria(lsSearchCriteria);
+
+        com.legstar.test.coxb.dplarcht.LsReply lsReply = objectFactory.createLsReply();
+        Dfhcommarea.setLsReply(lsReply);
+        com.legstar.test.coxb.dplarcht.LsReplyData lsReplyData = objectFactory.createLsReplyData();
+        lsReply.setLsReplyData(lsReplyData);
+        lsReplyData.setLsItemsCount(500);
+
         for (int i=0; i < 500; i++) {
             com.legstar.test.coxb.dplarcht.LsItemsArray ia = objectFactory.createLsItemsArray();
             com.legstar.test.coxb.dplarcht.LsFilesData dt = objectFactory.createLsFilesData();
@@ -68,17 +68,17 @@ public class MarshalLargeVolumeTest extends TestCase {
             ia.setLsFilesData(dt);
             lsReplyData.getLsItemsArray().add(ia);
         }
-        
- 		
-		// Perform mashaling a number of times
-		for (int i = 0; i < ITERATIONS; i++) {
+
+
+        // Perform mashaling a number of times
+        for (int i = 0; i < ITERATIONS; i++) {
             // Traverse the object structure, visiting each node with the visitor
             com.legstar.test.coxb.dplarcht.bind.DfhcommareaBinding ccem = new com.legstar.test.coxb.dplarcht.bind.DfhcommareaBinding(Dfhcommarea );
-            
-			mv.setOffset(0);
-			ccem.accept(mv);
-		}
-        
+
+            mv.setOffset(0);
+            ccem.accept(mv);
+        }
+
         assertEquals(32025, mv.getOffset());
-	}
+    }
 }
