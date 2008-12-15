@@ -18,10 +18,10 @@ Slightly modified version of Sun Checks for Eclipse that better matches the defa
         <module name="JavadocStyle"/>
         <module name="ConstantName"/>
         <module name="LocalFinalVariableName"/>
-        <module name="LocalVariableName">
+        <module name="LocalVariableName"/>
+        <module name="MemberName">
             <property name="format" value="^[a-z_][a-zA-Z0-9]*$"/>
         </module>
-        <module name="MemberName"/>
         <module name="MethodName"/>
         <module name="PackageName"/>
         <module name="ParameterName"/>
