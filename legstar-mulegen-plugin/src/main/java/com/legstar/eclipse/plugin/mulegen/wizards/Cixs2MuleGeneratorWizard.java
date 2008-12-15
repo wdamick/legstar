@@ -16,7 +16,7 @@ import org.eclipse.core.runtime.CoreException;
 
 import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsGeneratorWizard;
 import com.legstar.eclipse.plugin.cixscom.wizards
-		.AbstractCixsGeneratorWizardRunnable;
+.AbstractCixsGeneratorWizardRunnable;
 import com.legstar.eclipse.plugin.mulegen.Activator;
 
 /**
@@ -25,28 +25,28 @@ import com.legstar.eclipse.plugin.mulegen.Activator;
  */
 
 public class Cixs2MuleGeneratorWizard extends AbstractCixsGeneratorWizard {
-	
-	/** The main page of controls. */
-	private Cixs2MuleGeneratorWizardPage mCixs2MuleGenPage;
-	
-	/**
-	 * Constructor for Cixs2MuleGeneratorWizard.
-	 * @param mappingFile an mapping file
-	 * @throws CoreException if initialization goes wrong 
-	 */
-	public Cixs2MuleGeneratorWizard(
-	        final IFile mappingFile) throws CoreException {
-		super(mappingFile);
-	}
-	
-	/**
-	 * Adding the page to the wizard.
-	 */
-	public final void addPages() {
-		mCixs2MuleGenPage = new Cixs2MuleGeneratorWizardPage(
-		        getInitialSelection(), getMappingFile());
-		addPage(mCixs2MuleGenPage);
-	}
+
+    /** The main page of controls. */
+    private Cixs2MuleGeneratorWizardPage mCixs2MuleGenPage;
+
+    /**
+     * Constructor for Cixs2MuleGeneratorWizard.
+     * @param mappingFile an mapping file
+     * @throws CoreException if initialization goes wrong 
+     */
+    public Cixs2MuleGeneratorWizard(
+            final IFile mappingFile) throws CoreException {
+        super(mappingFile);
+    }
+
+    /**
+     * Adding the page to the wizard.
+     */
+    public final void addPages() {
+        mCixs2MuleGenPage = new Cixs2MuleGeneratorWizardPage(
+                getInitialSelection(), getMappingFile());
+        addPage(mCixs2MuleGenPage);
+    }
 
     /** {@inheritDoc} */
     public String getPluginId() {
@@ -55,7 +55,7 @@ public class Cixs2MuleGeneratorWizard extends AbstractCixsGeneratorWizard {
 
     /** {@inheritDoc} */
     protected AbstractCixsGeneratorWizardRunnable getRunnable()
-            throws InvocationTargetException {
+    throws InvocationTargetException {
         return new Cixs2MuleGeneratorWizardRunnable(mCixs2MuleGenPage);
     }
 

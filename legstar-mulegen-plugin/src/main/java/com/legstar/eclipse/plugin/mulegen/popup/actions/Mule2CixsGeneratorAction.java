@@ -15,7 +15,7 @@ import org.eclipse.core.runtime.CoreException;
 
 import com.legstar.eclipse.plugin.cixscom.popup.actions.AbstractGeneratorAction;
 import com.legstar.eclipse.plugin.mulegen.wizards
-		.Mule2CixsGeneratorWizardLauncher;
+.Mule2CixsGeneratorWizardLauncher;
 
 /**
  * This action becomes available when a LegStar mapping file is selected.

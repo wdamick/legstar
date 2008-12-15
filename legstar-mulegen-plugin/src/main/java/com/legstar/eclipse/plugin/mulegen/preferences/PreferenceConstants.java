@@ -13,12 +13,12 @@ package com.legstar.eclipse.plugin.mulegen.preferences;
 /**
  * Constant definitions for plug-in preferences.
  */
-public class PreferenceConstants {
+public final class PreferenceConstants {
 
     /** Where Mule is installed. */
     public static final String MULE_INSTALL_FOLDER =
         "muleInstallFolder";
-    
+
     /** Mule folder where user jar files should be deployed. */
     public static final String MULE_USER_JAR_FOLDER =
         "com.legstar.eclipse.plugin.mulegen.UserJarFolder";
@@ -38,4 +38,9 @@ public class PreferenceConstants {
     /** Folder where configuration files should be generated. */
     public static final String TARGET_MULE_CONFIG_FOLDER =
         "com.legstar.eclipse.plugin.mulegen.CixsConfigFolder";
+
+    /** Utility class. */
+    private PreferenceConstants() {
+        
+    }
 }

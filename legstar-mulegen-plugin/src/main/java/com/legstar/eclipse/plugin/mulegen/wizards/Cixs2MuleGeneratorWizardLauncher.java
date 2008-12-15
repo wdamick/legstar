@@ -19,16 +19,16 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
 import com.legstar.eclipse.plugin.cixscom.wizards
-		.AbstractCixsGeneratorWizardLauncher;
+.AbstractCixsGeneratorWizardLauncher;
 import com.legstar.eclipse.plugin.cixscom.wizards.ICixsGeneratorWizardLauncher;
 import com.legstar.eclipse.plugin.mulegen.Messages;
 
 /**
  * Implementation of a component generator which basically hands over
  * control to the Mule wizard.
-  */
+ */
 public class Cixs2MuleGeneratorWizardLauncher
-        extends AbstractCixsGeneratorWizardLauncher {
+extends AbstractCixsGeneratorWizardLauncher {
 
     /**
      * Get an instance of the wizard.
@@ -37,7 +37,7 @@ public class Cixs2MuleGeneratorWizardLauncher
      * @throws CoreException if wizard cannot be instantiated
      */
     protected IWizard getWizard(
-    		final IFile mappingFile) throws CoreException {
+            final IFile mappingFile) throws CoreException {
         return new Cixs2MuleGeneratorWizard(mappingFile);
     }
 

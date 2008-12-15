@@ -34,24 +34,24 @@ import com.legstar.eclipse.plugin.mulegen.Activator;
  */
 
 public class MuleCixsPreferencePage extends FieldEditorPreferencePage
-		implements IWorkbenchPreferencePage {
+implements IWorkbenchPreferencePage {
 
-	/**
-	 * Constructs a preference page.
-	 */
-	public MuleCixsPreferencePage() {
-		super(GRID);
-		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription(Messages.preference_page_description);
-	}
+    /**
+     * Constructs a preference page.
+     */
+    public MuleCixsPreferencePage() {
+        super(GRID);
+        setPreferenceStore(Activator.getDefault().getPreferenceStore());
+        setDescription(Messages.preference_page_description);
+    }
 
-	/**
-	 * Creates the field editors. Field editors are abstractions of
-	 * the common GUI blocks needed to manipulate various types
-	 * of preferences. Each field editor knows how to save and
-	 * restore itself.
-	 */
-	public void createFieldEditors() {
+    /**
+     * Creates the field editors. Field editors are abstractions of
+     * the common GUI blocks needed to manipulate various types
+     * of preferences. Each field editor knows how to save and
+     * restore itself.
+     */
+    public void createFieldEditors() {
 
         addField(new DirectoryFieldEditor(
                 PreferenceConstants.MULE_INSTALL_FOLDER,
@@ -62,7 +62,7 @@ public class MuleCixsPreferencePage extends FieldEditorPreferencePage
                 PreferenceConstants.MULE_USER_JAR_FOLDER,
                 Messages.preference_user_jar_location_label + ':',
                 getFieldEditorParent()));
- 
+
         addField(new StringFieldEditor(
                 PreferenceConstants.TARGET_MULE_CONFIG_FOLDER,
                 Messages.preference_mule_config_folder_label + ':',
@@ -82,14 +82,14 @@ public class MuleCixsPreferencePage extends FieldEditorPreferencePage
                 PreferenceConstants.SERVICE_URI,
                 Messages.preference_proxy_uri_label + ':',
                 getFieldEditorParent()));
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(
-	 * org.eclipse.ui.IWorkbench)
-	 */
-	public void init(final IWorkbench workbench) {
-	}
+    /**
+     * {@inheritDoc}
+     * @see org.eclipse.ui.IWorkbenchPreferencePage#init(
+     * org.eclipse.ui.IWorkbench)
+     */
+    public void init(final IWorkbench workbench) {
+    }
 
 }
