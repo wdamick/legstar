@@ -41,8 +41,8 @@
 		 	debug="true"
 		 	verbose="true"
 		 	keep="true"
-		    sourcedestdir="src/test/java"
-		 	destdir="target/test-classes"
+		    sourcedestdir="src/main/java"
+		 	destdir="target/classes"
 		 	xnocompile="true"
 		 	wsdl="http://localhost:8080/cixs-${service-name}/${service-name}?wsdl">
 		 </wsimport>
