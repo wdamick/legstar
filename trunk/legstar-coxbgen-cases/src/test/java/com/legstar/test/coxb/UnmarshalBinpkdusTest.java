@@ -31,18 +31,18 @@ import junit.framework.TestCase;
 
 public class UnmarshalBinpkdusTest extends TestCase {
 
-	public void testBinpkdus() throws Exception {
+    public void testBinpkdus() throws Exception {
 
-		String hexString   = "0f3f012f0032769f0123456789012345678f1234567890123456789f1234567890123456789012345678901f000000000000000000000000";
-		byte[] hostBytes = HostData.toByteArray(hexString);
-		Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "binpkdus");
-		
-		assertEquals(3,Dfhcommarea.getLsUnsignedPackedDecimal().getLsCompat().getLsP9X1());
-		assertEquals(123456789012345678l,Dfhcommarea.getLsUnsignedPackedDecimal().getLsCompat().getLsP9X18());
-		assertEquals(0,Dfhcommarea.getLsUnsignedPackedDecimal().getLsCompat().getLsP9X1Null());
-		assertEquals(12,Dfhcommarea.getLsUnsignedPackedDecimal().getLsCompat().getLsP9X2());
-		assertEquals(32769,Dfhcommarea.getLsUnsignedPackedDecimal().getLsCompat().getLsP9X7());
-		assertEquals(new BigInteger("1234567890123456789"),Dfhcommarea.getLsUnsignedPackedDecimal().getLsExtend().getLsP9X19());
-		assertEquals(new BigInteger("1234567890123456789012345678901"),Dfhcommarea.getLsUnsignedPackedDecimal().getLsExtend().getLsP9X31());
-	}
+        String hexString   = "0f3f012f0032769f0123456789012345678f1234567890123456789f1234567890123456789012345678901f000000000000000000000000";
+        byte[] hostBytes = HostData.toByteArray(hexString);
+        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "binpkdus");
+
+        assertEquals(3,Dfhcommarea.getLsUnsignedPackedDecimal().getLsCompat().getLsP9X1());
+        assertEquals(123456789012345678l,Dfhcommarea.getLsUnsignedPackedDecimal().getLsCompat().getLsP9X18());
+        assertEquals(0,Dfhcommarea.getLsUnsignedPackedDecimal().getLsCompat().getLsP9X1Null());
+        assertEquals(12,Dfhcommarea.getLsUnsignedPackedDecimal().getLsCompat().getLsP9X2());
+        assertEquals(32769,Dfhcommarea.getLsUnsignedPackedDecimal().getLsCompat().getLsP9X7());
+        assertEquals(new BigInteger("1234567890123456789"),Dfhcommarea.getLsUnsignedPackedDecimal().getLsExtend().getLsP9X19());
+        assertEquals(new BigInteger("1234567890123456789012345678901"),Dfhcommarea.getLsUnsignedPackedDecimal().getLsExtend().getLsP9X31());
+    }
 }

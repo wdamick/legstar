@@ -27,28 +27,28 @@ import junit.framework.TestCase;
 
 public class MarshalRedbothaTest extends TestCase {
 
-	private final static String SCHEMA_NAME = "redbotha";
-	
-	public void testRedbotha() throws Exception {
+    private final static String SCHEMA_NAME = "redbotha";
 
-		// Create and populate an instance of an object (JAXB annotated)
-		Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-		Dfhcommarea.setCNumeric(5);
+    public void testRedbotha() throws Exception {
 
-		assertEquals("0005",
-				Util.marshal(SCHEMA_NAME, Dfhcommarea, 2));
-	}
+        // Create and populate an instance of an object (JAXB annotated)
+        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        Dfhcommarea.setCNumeric(5);
 
-	public void testRedbothaSecondChoice() throws Exception {
+        assertEquals("0005",
+                Util.marshal(SCHEMA_NAME, Dfhcommarea, 2));
+    }
 
-		// Create and populate an instance of an object (JAXB annotated)
-		Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-		Filler22 filler22 = new Filler22();
-		filler22.setCLeftByte("A");
-		filler22.setCRightByte("B");
-		Dfhcommarea.setFiller22(filler22);
+    public void testRedbothaSecondChoice() throws Exception {
 
-		assertEquals("c1c2",
-				Util.marshal(SCHEMA_NAME, Dfhcommarea, 2));
-	}
+        // Create and populate an instance of an object (JAXB annotated)
+        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        Filler22 filler22 = new Filler22();
+        filler22.setCLeftByte("A");
+        filler22.setCRightByte("B");
+        Dfhcommarea.setFiller22(filler22);
+
+        assertEquals("c1c2",
+                Util.marshal(SCHEMA_NAME, Dfhcommarea, 2));
+    }
 }

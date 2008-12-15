@@ -26,23 +26,23 @@ import junit.framework.TestCase;
 
 public class MarshalNumzonedTest extends TestCase {
 
-	private final static String SCHEMA_NAME = "numzoned";
-	
-	public void testLsfileae() throws Exception {
+    private final static String SCHEMA_NAME = "numzoned";
 
-		// Create and populate an instance of an object (JAXB annotated)
-		Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-		Dfhcommarea.setLU(6);
-		Dfhcommarea.setLS(Short.parseShort("-5"));
-		Dfhcommarea.setLSSignL(Short.parseShort("-78"));
-		Dfhcommarea.setLSSignT(Short.parseShort("1"));
-		Dfhcommarea.setLSSignSL(Short.parseShort("9"));
-		Dfhcommarea.setLSSignST(Short.parseShort("-11"));
+    public void testLsfileae() throws Exception {
 
-		//		      <><--><----><--><--><---->
-		//		      1 1 2 1 2 3 1 2 1 2 1 2 3  
-		//		      6   -5 -7 8   +1 + 9 1 1 - 
-		assertEquals("f6f0d5d0f7f8f0c14ef9f1f160",
-				Util.marshal(SCHEMA_NAME, Dfhcommarea, 13));
-	}
+        // Create and populate an instance of an object (JAXB annotated)
+        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        Dfhcommarea.setLU(6);
+        Dfhcommarea.setLS(Short.parseShort("-5"));
+        Dfhcommarea.setLSSignL(Short.parseShort("-78"));
+        Dfhcommarea.setLSSignT(Short.parseShort("1"));
+        Dfhcommarea.setLSSignSL(Short.parseShort("9"));
+        Dfhcommarea.setLSSignST(Short.parseShort("-11"));
+
+        //		      <><--><----><--><--><---->
+        //		      1 1 2 1 2 3 1 2 1 2 1 2 3  
+        //		      6   -5 -7 8   +1 + 9 1 1 - 
+        assertEquals("f6f0d5d0f7f8f0c14ef9f1f160",
+                Util.marshal(SCHEMA_NAME, Dfhcommarea, 13));
+    }
 }

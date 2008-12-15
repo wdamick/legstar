@@ -31,26 +31,26 @@ import junit.framework.TestCase;
 
 public class MarshalAlltypesTest extends TestCase {
 
-	public void testAlltypes() throws Exception {
+    public void testAlltypes() throws Exception {
 
-		// Create and populate an instance of an object (JAXB annotated)
-		Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject("alltypes");
-		
-		Dfhcommarea.setSString("ABCD");
+        // Create and populate an instance of an object (JAXB annotated)
+        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject("alltypes");
+
+        Dfhcommarea.setSString("ABCD");
         byte[] cBinary = {0x01,0x02};
-		Dfhcommarea.setSBinary(cBinary);
-		Dfhcommarea.setSShort((short)-932);
-		Dfhcommarea.setSUshort(15);
-		Dfhcommarea.setSInt(78906);
-		Dfhcommarea.setSUint(452);
-		Dfhcommarea.setSLong(-4532456);
-		Dfhcommarea.setSUlong(7800056);
-		Dfhcommarea.setSXlong(new BigInteger("87554907654321"));
-		Dfhcommarea.setSUxlong(new BigInteger("564678008321"));
-		Dfhcommarea.setSDec(new BigDecimal("75.45"));
-		Dfhcommarea.setSFloat(.3450065677999998E+06f);
-		Dfhcommarea.setSDouble(.7982006699999985E-13d);
-        
+        Dfhcommarea.setSBinary(cBinary);
+        Dfhcommarea.setSShort((short)-932);
+        Dfhcommarea.setSUshort(15);
+        Dfhcommarea.setSInt(78906);
+        Dfhcommarea.setSUint(452);
+        Dfhcommarea.setSLong(-4532456);
+        Dfhcommarea.setSUlong(7800056);
+        Dfhcommarea.setSXlong(new BigInteger("87554907654321"));
+        Dfhcommarea.setSUxlong(new BigInteger("564678008321"));
+        Dfhcommarea.setSDec(new BigDecimal("75.45"));
+        Dfhcommarea.setSFloat(.3450065677999998E+06f);
+        Dfhcommarea.setSDouble(.7982006699999985E-13d);
+
         for (int i = 0; i < 2; i++) {
             Dfhcommarea.getAString().add("ABCD");
             Dfhcommarea.getABinary().add("  ");
@@ -67,7 +67,7 @@ public class MarshalAlltypesTest extends TestCase {
             Dfhcommarea.getADouble().add(.7982006699999985E-13d);
         }
 
-		assertEquals("c1c2c3c401020000fc5c000f0001343a000001c40000000000004532456d0000000000007800056f0000000000000000087554907654321c0000000000000000000564678008321f000007545f45543ae9361677a4590fab60c1c2c3c4c1c2c3c44040404040404040fc5cfc5c000f000f0001343a0001343a000001c4000001c40000000000004532456d0000000000004532456d0000000000007800056f0000000000007800056f0000000000000000087554907654321c0000000000000000087554907654321c0000000000000000000564678008321f0000000000000000000564678008321f000007545f000007545f45543ae945543ae9361677a4590fab60361677a4590fab60",
-				Util.marshal("alltypes", Dfhcommarea, 267));
-	}
+        assertEquals("c1c2c3c401020000fc5c000f0001343a000001c40000000000004532456d0000000000007800056f0000000000000000087554907654321c0000000000000000000564678008321f000007545f45543ae9361677a4590fab60c1c2c3c4c1c2c3c44040404040404040fc5cfc5c000f000f0001343a0001343a000001c4000001c40000000000004532456d0000000000004532456d0000000000007800056f0000000000007800056f0000000000000000087554907654321c0000000000000000087554907654321c0000000000000000000564678008321f0000000000000000000564678008321f000007545f000007545f45543ae945543ae9361677a4590fab60361677a4590fab60",
+                Util.marshal("alltypes", Dfhcommarea, 267));
+    }
 }

@@ -204,14 +204,13 @@ public class $binding-class-name
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     public final void setPropertyValue(final int index) throws HostException {
  
         ICobolBinding child = getChildrenList().get(index);
         
-    	/* Children that are not bound to a value object are ignored.
-    	 * This includes Choices and dynamically generated counters
-    	 * for instance.  */
+       /* Children that are not bound to a value object are ignored.
+        * This includes Choices and dynamically generated counters
+        * for instance.  */
         if (!child.isBound()) {
             return;
         }
@@ -226,9 +225,9 @@ public class $binding-class-name
 #set ($childObjectType = $coxbHelper.getBoundTypeName($child))
             bindingValue = child.getObjectValue(${childObjectType}.class);
 #if(${coxbHelper.isArray($child)})
+            List < $childObjectType > list${child.bindingName} = cast(bindingValue);
             mValueObject.${coxbHelper.getterMethodName($child)}().clear();
-            mValueObject.${coxbHelper.getterMethodName($child)}().addAll(
-                (List < $childObjectType >) bindingValue);
+            mValueObject.${coxbHelper.getterMethodName($child)}().addAll(list${child.bindingName});
 #else
             mValueObject.${coxbHelper.setterMethodName($child)}(($childObjectType) bindingValue);
 #end

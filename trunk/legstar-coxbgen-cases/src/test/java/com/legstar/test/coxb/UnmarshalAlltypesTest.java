@@ -32,12 +32,12 @@ import com.legstar.test.coxb.alltypes.Dfhcommarea;
 
 public class UnmarshalAlltypesTest extends TestCase {
 
-	public void testAlltypes() throws Exception {
+    public void testAlltypes() throws Exception {
 
-		String hexString   = "c1c2c3c401020000fc5c000f0001343a000001c40000000000004532456d0000000000007800056f0000000000000000087554907654321c0000000000000000000564678008321f000007545f45543ae9361677a4590fab60c1c2c3c4c1c2c3c44040404040404040fc5cfc5c000f000f0001343a0001343a000001c4000001c40000000000004532456d0000000000004532456d0000000000007800056f0000000000007800056f0000000000000000087554907654321c0000000000000000087554907654321c0000000000000000000564678008321f0000000000000000000564678008321f000007545f000007545f45543ae945543ae9361677a4590fab60361677a4590fab60";
-		byte[] hostBytes = HostData.toByteArray(hexString);
-		Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "alltypes");
-		
+        String hexString   = "c1c2c3c401020000fc5c000f0001343a000001c40000000000004532456d0000000000007800056f0000000000000000087554907654321c0000000000000000000564678008321f000007545f45543ae9361677a4590fab60c1c2c3c4c1c2c3c44040404040404040fc5cfc5c000f000f0001343a0001343a000001c4000001c40000000000004532456d0000000000004532456d0000000000007800056f0000000000007800056f0000000000000000087554907654321c0000000000000000087554907654321c0000000000000000000564678008321f0000000000000000000564678008321f000007545f000007545f45543ae945543ae9361677a4590fab60361677a4590fab60";
+        byte[] hostBytes = HostData.toByteArray(hexString);
+        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "alltypes");
+
         assertEquals("ABCD", Dfhcommarea.getSString());
         byte[] cBinary = {0x01,0x02,0x00,0x00};
         assertEquals(HostData.toHexString(cBinary), HostData.toHexString(Dfhcommarea.getSBinary()));
@@ -52,7 +52,7 @@ public class UnmarshalAlltypesTest extends TestCase {
         assertEquals(new BigDecimal("75.45"),Dfhcommarea.getSDec());
         assertEquals(.3450065677999998E+06f,Dfhcommarea.getSFloat());
         assertEquals(.7982006699999985E-13d,Dfhcommarea.getSDouble());
-        
+
         for (int i = 0; i < 2; i++) {
             assertEquals("ABCD", Dfhcommarea.getAString().get(i));
             assertEquals("", Dfhcommarea.getABinary().get(i));
@@ -69,5 +69,5 @@ public class UnmarshalAlltypesTest extends TestCase {
             assertEquals(.7982006699999985E-13d,Dfhcommarea.getADouble().get(i));
         }
 
-	}
+    }
 }

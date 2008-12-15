@@ -555,4 +555,16 @@ public abstract class CBinding implements ICobolBinding {
         mParentBinding = parentBinding;
     }
 
+    /**
+     * This utility method is used to suppress the need for @SuppressWarnings
+     * when we cast objects to List < ? >.
+     * @param <T> the list type
+     * @param x the object to cast
+     * @return a list object
+     */
+    @SuppressWarnings("unchecked")
+    public static < T > T cast(final Object x) {
+        return (T) x;
+    }
+
 }

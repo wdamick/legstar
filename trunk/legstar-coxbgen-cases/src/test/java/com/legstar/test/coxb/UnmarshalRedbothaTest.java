@@ -29,14 +29,14 @@ import junit.framework.TestCase;
 
 public class UnmarshalRedbothaTest extends TestCase {
 
-	public void testRedbothaBothChoice() throws Exception {
+    public void testRedbothaBothChoice() throws Exception {
 
-		String hexString   = "c1c2";
-		byte[] hostBytes = HostData.toByteArray(hexString);
-		Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redbotha");
+        String hexString   = "c1c2";
+        byte[] hostBytes = HostData.toByteArray(hexString);
+        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redbotha");
 
-		assertEquals(49602,Dfhcommarea.getCNumeric().intValue());
-		assertEquals("A",Dfhcommarea.getFiller22().getCLeftByte());
-		assertEquals("B",Dfhcommarea.getFiller22().getCRightByte());
-	}
+        assertEquals(49602,Dfhcommarea.getCNumeric().intValue());
+        assertEquals("A",Dfhcommarea.getFiller22().getCLeftByte());
+        assertEquals("B",Dfhcommarea.getFiller22().getCRightByte());
+    }
 }
