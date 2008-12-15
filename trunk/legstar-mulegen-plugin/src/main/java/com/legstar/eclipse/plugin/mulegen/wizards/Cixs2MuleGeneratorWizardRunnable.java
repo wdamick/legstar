@@ -19,7 +19,7 @@ import org.mule.providers.legstar.model.CixsMuleComponent;
 import com.legstar.cixs.gen.ant.model.AbstractAntBuildCixsModel;
 import com.legstar.cixs.gen.model.AbstractCixsService;
 import com.legstar.eclipse.plugin.cixscom.wizards
-		.AbstractCixsGeneratorWizardPage;
+.AbstractCixsGeneratorWizardPage;
 
 /**
  * Background task that performs the actual artifacts generation. The process
@@ -30,25 +30,25 @@ import com.legstar.eclipse.plugin.cixscom.wizards
  * </ul>
  */
 public class Cixs2MuleGeneratorWizardRunnable
-		extends AbstractCixsMuleGeneratorWizardRunnable {
-	
-	/** Part of the ant script file name generated. Allows segregating
-	 * this ant file from the ones produced by other LegStar wizards. */
-	private static final String ANT_FILE_NAME_ID = "mule-c2m-";
+extends AbstractCixsMuleGeneratorWizardRunnable {
 
-	/**
-	 * Constructs the backend generation task. 
-	 * The ant script will be generated under the folder from
-	 * preferences.
-	 * TODO allow user to select the ant script location
-	 * @param cixs2MuleGenWizardPage the main wizard page
-	 * @throws InvocationTargetException if construction fails
-	 */
-	public Cixs2MuleGeneratorWizardRunnable(
-			final Cixs2MuleGeneratorWizardPage cixs2MuleGenWizardPage)
-			throws InvocationTargetException {
-		super(cixs2MuleGenWizardPage, ANT_FILE_NAME_ID);
-	}
+    /** Part of the ant script file name generated. Allows segregating
+     * this ant file from the ones produced by other LegStar wizards. */
+    private static final String ANT_FILE_NAME_ID = "mule-c2m-";
+
+    /**
+     * Constructs the backend generation task. 
+     * The ant script will be generated under the folder from
+     * preferences.
+     * TODO allow user to select the ant script location
+     * @param cixs2MuleGenWizardPage the main wizard page
+     * @throws InvocationTargetException if construction fails
+     */
+    public Cixs2MuleGeneratorWizardRunnable(
+            final Cixs2MuleGeneratorWizardPage cixs2MuleGenWizardPage)
+    throws InvocationTargetException {
+        super(cixs2MuleGenWizardPage, ANT_FILE_NAME_ID);
+    }
 
     /**
      * Create a model ready to be passed to velocity for ant script generation.
@@ -58,7 +58,7 @@ public class Cixs2MuleGeneratorWizardRunnable
      */
     protected AbstractAntBuildCixsModel getGenerationModel(
             final AbstractCixsGeneratorWizardPage cixsGenWizardPage)
-            throws InvocationTargetException {
+    throws InvocationTargetException {
         AntBuildCixs2MuleModel genModel = new AntBuildCixs2MuleModel();
         Cixs2MuleGeneratorWizardPage page =
             (Cixs2MuleGeneratorWizardPage) cixsGenWizardPage;
@@ -70,10 +70,10 @@ public class Cixs2MuleGeneratorWizardRunnable
         genModel.setTargetCobolDir(new File(page.getTargetCobolDir()));
         genModel.setTargetJarDir(new File(page.getTargetJarDir()));
         genModel.setTargetMuleConfigDir(
-        		new File(page.getTargetMuleConfigDir()));
-      return genModel;
+                new File(page.getTargetMuleConfigDir()));
+        return genModel;
     }
-	
+
     /** {@inheritDoc} */
     public AbstractCixsService createCixsService() {
         return new CixsMuleComponent();

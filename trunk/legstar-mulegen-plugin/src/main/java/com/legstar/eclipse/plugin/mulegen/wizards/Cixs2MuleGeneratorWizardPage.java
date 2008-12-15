@@ -44,7 +44,7 @@ import com.legstar.eclipse.plugin.mulegen.preferences.PreferenceConstants;
  *
  */
 public class Cixs2MuleGeneratorWizardPage
-        extends AbstractCixsMuleGeneratorWizardPage {
+extends AbstractCixsMuleGeneratorWizardPage {
 
     /** Page name. */
     private static final String PAGE_NAME = "Cixs2MuleGeneratorWizardPage";
@@ -66,16 +66,16 @@ public class Cixs2MuleGeneratorWizardPage
     protected Cixs2MuleGeneratorWizardPage(
             final IStructuredSelection selection, final IFile mappingFile) {
         super(PAGE_NAME,
-        		Messages.cixs_to_mule_wizard_page_title,
-        		Messages.cixs_to_mule_wizard_page_description,
-        		selection,
-        		mappingFile);
+                Messages.cixs_to_mule_wizard_page_title,
+                Messages.cixs_to_mule_wizard_page_description,
+                selection,
+                mappingFile);
     }
 
     /** {@inheritDoc} */
     protected void addCixsGroup(final Composite container) {
         Group group = createGroup(container, Messages.umo_group_label, 3);
-        
+
         createLabel(group, Messages.umo_class_name_label + ':');
         mMuleUMOImplementationText = createText(group);
         mMuleUMOImplementationText.addModifyListener(new ModifyListener() {
@@ -84,7 +84,7 @@ public class Cixs2MuleGeneratorWizardPage
             }
         });
         Button browseButton = createButton(group,
-        		com.legstar.eclipse.plugin.common.Messages.browse_button_label);
+                com.legstar.eclipse.plugin.common.Messages.browse_button_label);
         browseButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(final SelectionEvent e) {
                 try {
@@ -98,16 +98,16 @@ public class Cixs2MuleGeneratorWizardPage
                         Object[] results = dialog.getResult();
                         if (results != null && results.length > 0) {
                             setMuleUMOImplementation(((IType) results[0])
-                            		.getFullyQualifiedName());
+                                    .getFullyQualifiedName());
                         }
                     }
                 } catch (JavaModelException e1) {
                     AbstractWizard.errorDialog(getShell(),
-                    		Messages.class_selection_error_dialog_title,
-                    		Activator.PLUGIN_ID,
+                            Messages.class_selection_error_dialog_title,
+                            Activator.PLUGIN_ID,
                             Messages.class_selection_error_short_msg,
-        					NLS.bind(Messages.class_selection_error_long_msg,
-        							e1.getMessage()));
+                            NLS.bind(Messages.class_selection_error_long_msg,
+                                    e1.getMessage()));
                     AbstractWizard.logCoreException(e1, Activator.PLUGIN_ID);
                 }
             }
@@ -132,7 +132,7 @@ public class Cixs2MuleGeneratorWizardPage
     public void addWidgetsToDeploymentGroup(final Composite container) {
         super.addWidgetsToDeploymentGroup(container);
         createLabel(container,
-        		Messages.proxy_uri_label + ':');
+                Messages.proxy_uri_label + ':');
         mServiceURIText = createText(container); 
         mServiceURIText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
@@ -147,8 +147,8 @@ public class Cixs2MuleGeneratorWizardPage
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 
         setTargetCobolDir(getDefaultTargetDir(store,
-				PreferenceConstants.COBOL_SAMPLE_FOLDER));
-        
+                PreferenceConstants.COBOL_SAMPLE_FOLDER));
+
         setServiceURI(store.getString(
                 PreferenceConstants.SERVICE_URI));
     }
@@ -187,11 +187,11 @@ public class Cixs2MuleGeneratorWizardPage
      * @param muleUMOImplementation the mule UMO implementation to set
      */
     public final void setMuleUMOImplementation(
-    		final String muleUMOImplementation) {
+            final String muleUMOImplementation) {
         mMuleUMOImplementationText.setText(muleUMOImplementation);
     }
 
-   /**
+    /**
      * @param targetCobolDirLocation Where generated Cobol files reside
      */
     public void setTargetCobolDir(final String targetCobolDirLocation) {

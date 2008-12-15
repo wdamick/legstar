@@ -31,8 +31,8 @@
               <include name="build.properties.template"/>
             </fileset>
             <filterset>
-              <filter token="LEGSTAR-PLUGIN-VERSION" value="${legstarPluginVersion}"/>
-              <filter token="LEGSTAR-VERSION" value="${legstarVersion}"/>
+                <filter token="MULE-VERSION" value="${muleVersion}"/>
+                <filter token="LEGSTAR-MULE-VERSION" value="${legstarMuleVersion}"/>
             </filterset>
             <globmapper from="*.template" to="*"/>
         </copy>

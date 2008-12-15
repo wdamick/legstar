@@ -26,9 +26,9 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.mule.providers.legstar.model.AbstractAntBuildCixsMuleModel;
 
 import com.legstar.eclipse.plugin.cixscom.wizards
-		.AbstractCixsGeneratorWizardPage;
+.AbstractCixsGeneratorWizardPage;
 import com.legstar.eclipse.plugin.cixscom.wizards
-		.AbstractCixsGeneratorWizardRunnable;
+.AbstractCixsGeneratorWizardRunnable;
 import com.legstar.eclipse.plugin.mulegen.Activator;
 import com.legstar.eclipse.plugin.mulegen.ClasspathInitializer;
 
@@ -41,19 +41,19 @@ import com.legstar.eclipse.plugin.mulegen.ClasspathInitializer;
  * </ul>
  */
 public abstract class AbstractCixsMuleGeneratorWizardRunnable
-		extends AbstractCixsGeneratorWizardRunnable {
+extends AbstractCixsGeneratorWizardRunnable {
 
-	/**
-	 * Constructs the backend generation task. 
-	 * @param cixsGenWizardPage the main wizard page
+    /**
+     * Constructs the backend generation task. 
+     * @param cixsGenWizardPage the main wizard page
      * @param antFileNameId a prefix to append before file name.
-	 * @throws InvocationTargetException if construction fails
-	 */
-	public AbstractCixsMuleGeneratorWizardRunnable(
-			final AbstractCixsGeneratorWizardPage cixsGenWizardPage,
-			final String antFileNameId) throws InvocationTargetException {
-		super(cixsGenWizardPage, antFileNameId);
-	}
+     * @throws InvocationTargetException if construction fails
+     */
+    public AbstractCixsMuleGeneratorWizardRunnable(
+            final AbstractCixsGeneratorWizardPage cixsGenWizardPage,
+            final String antFileNameId) throws InvocationTargetException {
+        super(cixsGenWizardPage, antFileNameId);
+    }
 
     /**
      * Contribute specific mule generator properties to the ant model.
@@ -65,19 +65,19 @@ public abstract class AbstractCixsMuleGeneratorWizardRunnable
             final AbstractCixsGeneratorWizardPage cixsGenWizardPage,
             final AbstractAntBuildCixsMuleModel genModel)
     throws InvocationTargetException {
-        
+
         genModel.setMulegenProductLocation(getPluginInstallLocation(
-        		Activator.PLUGIN_ID));
+                Activator.PLUGIN_ID));
         super.setModel(cixsGenWizardPage, genModel);
         List < String > classPathElements = new ArrayList < String >();
         for (String classPathElement 
-        		: getClassPathElements(cixsGenWizardPage)) {
-        	classPathElements.add(classPathElement);
+                : getClassPathElements(cixsGenWizardPage)) {
+            classPathElements.add(classPathElement);
         }
-    	genModel.getCixsMuleComponent().setMuleStartupPathElements(
-    			classPathElements);
+        genModel.getCixsMuleComponent().setMuleStartupPathElements(
+                classPathElements);
     }
-    
+
     /**
      * Creates a list of physical locations on the file system for the
      * target Eclipse project classpath elements.
@@ -92,46 +92,46 @@ public abstract class AbstractCixsMuleGeneratorWizardRunnable
      * @throws InvocationTargetException if list cannot be built
      */
     private Set < String > getClassPathElements(
-    		final AbstractCixsGeneratorWizardPage cixsGenWizardPage)
-    		throws InvocationTargetException {
-		Set < String > cpeSet = new HashSet < String >();
-		IJavaProject javaProject = cixsGenWizardPage.getTargetJavaProject();
-		try {
-			IPath rootPath =
-				javaProject.getProject().getLocation().removeLastSegments(1);
-			for (IClasspathEntry cpe : javaProject.getRawClasspath()) {
-				if (cpe.getEntryKind()
-						== IClasspathEntry.CPE_SOURCE) {
-					if (cpe.getOutputLocation() == null) {
-						cpeSet.add(rootPath.append(
-								javaProject.getOutputLocation()).toOSString());
-					} else {
-						cpeSet.add(rootPath.append(
-								cpe.getOutputLocation()).toOSString());
-					}
-				}
-				if (cpe.getEntryKind()
-						== IClasspathEntry.CPE_LIBRARY) {
-					cpeSet.add(cpe.getPath().toOSString());
-				}
-				if (cpe.getEntryKind()
-						== IClasspathEntry.CPE_CONTAINER
-						&& cpe.getPath().equals(
-								new Path(ClasspathInitializer.LIBRARY_NAME))) {
-					IClasspathContainer classpathContainer =
-						JavaCore.getClasspathContainer(cpe.getPath(),
-								javaProject);
-					for (IClasspathEntry cpel
-							: classpathContainer.getClasspathEntries()) {
-						cpeSet.add(cpel.getPath().toOSString());
-					}
-				}
-			}
-		} catch (JavaModelException e) {
-			throw new InvocationTargetException(e);
-		}
-		return cpeSet;
-	}
+            final AbstractCixsGeneratorWizardPage cixsGenWizardPage)
+            throws InvocationTargetException {
+        Set < String > cpeSet = new HashSet < String >();
+        IJavaProject javaProject = cixsGenWizardPage.getTargetJavaProject();
+        try {
+            IPath rootPath =
+                javaProject.getProject().getLocation().removeLastSegments(1);
+            for (IClasspathEntry cpe : javaProject.getRawClasspath()) {
+                if (cpe.getEntryKind()
+                        == IClasspathEntry.CPE_SOURCE) {
+                    if (cpe.getOutputLocation() == null) {
+                        cpeSet.add(rootPath.append(
+                                javaProject.getOutputLocation()).toOSString());
+                    } else {
+                        cpeSet.add(rootPath.append(
+                                cpe.getOutputLocation()).toOSString());
+                    }
+                }
+                if (cpe.getEntryKind()
+                        == IClasspathEntry.CPE_LIBRARY) {
+                    cpeSet.add(cpe.getPath().toOSString());
+                }
+                if (cpe.getEntryKind()
+                        == IClasspathEntry.CPE_CONTAINER
+                        && cpe.getPath().equals(
+                                new Path(ClasspathInitializer.LIBRARY_NAME))) {
+                    IClasspathContainer classpathContainer =
+                        JavaCore.getClasspathContainer(cpe.getPath(),
+                                javaProject);
+                    for (IClasspathEntry cpel
+                            : classpathContainer.getClasspathEntries()) {
+                        cpeSet.add(cpel.getPath().toOSString());
+                    }
+                }
+            }
+        } catch (JavaModelException e) {
+            throw new InvocationTargetException(e);
+        }
+        return cpeSet;
+    }
 
 
 }

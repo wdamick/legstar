@@ -16,9 +16,9 @@ import org.osgi.framework.ServiceRegistration;
 
 import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsActivator;
 import com.legstar.eclipse.plugin.mulegen.wizards
-		.Cixs2MuleGeneratorWizardLauncher;
+.Cixs2MuleGeneratorWizardLauncher;
 import com.legstar.eclipse.plugin.mulegen.wizards
-		.Mule2CixsGeneratorWizardLauncher;
+.Mule2CixsGeneratorWizardLauncher;
 
 /**
  * This generator plugin register itself for dynamic discovery.
@@ -26,13 +26,13 @@ import com.legstar.eclipse.plugin.mulegen.wizards
  */
 public class Activator extends AbstractCixsActivator {
 
-	/** The plug-in ID. */
-	public static final String PLUGIN_ID =
-	    "com.legstar.eclipse.plugin.mulegen";
+    /** The plug-in ID. */
+    public static final String PLUGIN_ID =
+        "com.legstar.eclipse.plugin.mulegen";
 
-	/** The shared instance. */
-	private static Activator mPlugin;
-	
+    /** The shared instance. */
+    private static Activator mPlugin;
+
     /** The result of registering a Mule2Cixs generator service. */
     private ServiceRegistration mMule2CixsGeneratorService;
 
@@ -42,55 +42,55 @@ public class Activator extends AbstractCixsActivator {
     /**
      * The constructor.
      */
-	public Activator() {
+    public Activator() {
         super(PLUGIN_ID);
-	}
+    }
 
     /**
      * {@inheritDoc}
      */
-	public void start(final BundleContext context) throws Exception {
-		super.start(context);
-		mPlugin = this;
-		mMule2CixsGeneratorService = 
-		    Mule2CixsGeneratorWizardLauncher.register(context);
-		mCixs2MuleGeneratorService =
-		    Cixs2MuleGeneratorWizardLauncher.register(context);
-	}
+    public void start(final BundleContext context) throws Exception {
+        super.start(context);
+        mPlugin = this;
+        mMule2CixsGeneratorService = 
+            Mule2CixsGeneratorWizardLauncher.register(context);
+        mCixs2MuleGeneratorService =
+            Cixs2MuleGeneratorWizardLauncher.register(context);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(
-	 * org.osgi.framework.BundleContext)
-	 */
-	public void stop(final BundleContext context) throws Exception {
+    /**
+     * {@inheritDoc}
+     * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(
+     * org.osgi.framework.BundleContext)
+     */
+    public void stop(final BundleContext context) throws Exception {
         if (mMule2CixsGeneratorService != null) {
             mMule2CixsGeneratorService.unregister();
         }
         if (mCixs2MuleGeneratorService != null) {
             mCixs2MuleGeneratorService.unregister();
         }
-		mPlugin = null;
-		super.stop(context);
-	}
+        mPlugin = null;
+        super.stop(context);
+    }
 
-	/**
-	 * Returns the shared instance.
-	 * @return the shared instance
-	 */
-	public static Activator getDefault() {
-		return mPlugin;
-	}
+    /**
+     * Returns the shared instance.
+     * @return the shared instance
+     */
+    public static Activator getDefault() {
+        return mPlugin;
+    }
 
-	/**
-	 * Returns an image descriptor for the image file at the given
-	 * plug-in relative path.
-	 *
-	 * @param path the path
-	 * @return the image descriptor
-	 */
-	public static ImageDescriptor getImageDescriptor(final String path) {
-		return imageDescriptorFromPlugin(PLUGIN_ID, path);
-	}
+    /**
+     * Returns an image descriptor for the image file at the given
+     * plug-in relative path.
+     *
+     * @param path the path
+     * @return the image descriptor
+     */
+    public static ImageDescriptor getImageDescriptor(final String path) {
+        return imageDescriptorFromPlugin(PLUGIN_ID, path);
+    }
 
 }

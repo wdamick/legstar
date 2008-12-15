@@ -30,15 +30,15 @@ import com.legstar.eclipse.plugin.mulegen.preferences.PreferenceConstants;
  *
  */
 public class Mule2CixsGeneratorWizardPage
-        extends AbstractCixsMuleGeneratorWizardPage {
+extends AbstractCixsMuleGeneratorWizardPage {
 
     /** Page name. */
     private static final String PAGE_NAME = "Mule2CixsGeneratorWizardPage";
-    
+
     /** The Mainframe URI exposed to Mule clients. */
     private Text mHostURIText = null;
 
-   /**
+    /**
      * Construct the page.
      * @param selection the current workbench selection
      * @param mappingFile the mapping file
@@ -46,15 +46,15 @@ public class Mule2CixsGeneratorWizardPage
     protected Mule2CixsGeneratorWizardPage(
             final IStructuredSelection selection, final IFile mappingFile) {
         super(PAGE_NAME,
-        		Messages.mule_to_cixs_wizard_page_title,
-        		Messages.mule_to_cixs_wizard_page_description,
-        		selection, mappingFile);
+                Messages.mule_to_cixs_wizard_page_title,
+                Messages.mule_to_cixs_wizard_page_description,
+                selection, mappingFile);
     }
 
     /** {@inheritDoc} */
     public void addWidgetsToDeploymentGroup(final Composite container) {
         super.addWidgetsToDeploymentGroup(container);
-        
+
         createLabel(container, Messages.mainframe_uri_label + ':');
         mHostURIText = createText(container); 
         mHostURIText.addModifyListener(new ModifyListener() {

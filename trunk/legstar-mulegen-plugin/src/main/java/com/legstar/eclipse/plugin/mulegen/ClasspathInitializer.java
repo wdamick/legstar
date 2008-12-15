@@ -19,19 +19,19 @@ import com.legstar.eclipse.plugin.common.AbstractClasspathInitializer;
  */
 public class ClasspathInitializer extends AbstractClasspathInitializer {
 
-	/** The library container identifier for LegStar. */
-	public static final String LIBRARY_NAME =
-		"com.legstar.eclipse.mule.LIBRARY";
-	
-	/** The library container description. */
-	public static final String LIBRARY_DESCRIPTION =
-		"LegStar Mule library container";
-	
-	/**
-	 * Pass all parameters needed to the parent class.
-	 */
-	public ClasspathInitializer() {
-		super(Activator.PLUGIN_ID, LIBRARY_NAME, LIBRARY_DESCRIPTION);
-	}
+    /** The library container identifier for LegStar. */
+    public static final String LIBRARY_NAME =
+        "com.legstar.eclipse.mule.LIBRARY";
+
+    /** The library container description. */
+    public static final String LIBRARY_DESCRIPTION =
+        "LegStar Mule library container";
+
+    /**
+     * Pass all parameters needed to the parent class.
+     */
+    public ClasspathInitializer() {
+        super(Activator.PLUGIN_ID, LIBRARY_NAME, LIBRARY_DESCRIPTION);
+    }
 
 }

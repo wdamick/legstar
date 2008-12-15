@@ -19,16 +19,16 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
 import com.legstar.eclipse.plugin.cixscom.wizards
-		.AbstractCixsGeneratorWizardLauncher;
+.AbstractCixsGeneratorWizardLauncher;
 import com.legstar.eclipse.plugin.cixscom.wizards.ICixsGeneratorWizardLauncher;
 import com.legstar.eclipse.plugin.mulegen.Messages;
 
 /**
  * Implementation of a component generator which basically hands over
  * control to the Mule wizard.
-  */
+ */
 public class Mule2CixsGeneratorWizardLauncher
-        extends AbstractCixsGeneratorWizardLauncher {
+extends AbstractCixsGeneratorWizardLauncher {
 
     /** {@inheritDoc} */
     public String getName() {
@@ -52,7 +52,7 @@ public class Mule2CixsGeneratorWizardLauncher
                 ICixsGeneratorWizardLauncher.class.getName(),
                 new Mule2CixsGeneratorWizardLauncher(),
                 new Properties());
-        
+
     }
 
 }
