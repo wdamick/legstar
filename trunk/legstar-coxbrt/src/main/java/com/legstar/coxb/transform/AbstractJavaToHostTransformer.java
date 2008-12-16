@@ -10,8 +10,38 @@ import com.legstar.coxb.visitor.CobolMarshalVisitor;
 
 /**
  * Generic methods to transform java value object to host data.
- * TODO describe API
- *
+ * <p/>
+ * Implementing classes should inherit from AbstractJavaToHostTransformer and implement
+ * the getBinding method.
+ * <p/>
+ * This is sample code with dynamic binding:
+ * <pre>
+ * public final class JavaToHostLsfileaeTransformer extends AbstractJavaToHostTransformer {
+ *      public ICobolComplexBinding getBinding() throws BindingException {
+ *          try {
+ *              CComplexReflectBinding binding = new CComplexReflectBinding(
+ *                      new com.legstar.test.coxb.lsfileae.ObjectFactory(),
+ *                      com.legstar.test.coxb.lsfileae.Dfhcommarea.class);
+ *              return binding;
+ *          } catch (ReflectBindingException e) {
+ *              throw new BindingException(e);
+ *          }
+ *      }
+ *  }
+ * </pre>
+ * <p/>
+ * This is sample code with static binding:
+ * <pre>
+ * public final class JavaToHostLsfileaeTransformer extends AbstractJavaToHostTransformer {
+ *      public ICobolComplexBinding getBinding() throws BindingException {
+ *          try {
+ *              return new com.legstar.test.coxb.lsfileae.DfhcommareaBinding();
+ *          } catch (ReflectBindingException e) {
+ *              throw new BindingException(e);
+ *          }
+ *      }
+ *  }
+ * </pre>
  */
 public abstract class AbstractJavaToHostTransformer extends AbstractTransformer {
 
