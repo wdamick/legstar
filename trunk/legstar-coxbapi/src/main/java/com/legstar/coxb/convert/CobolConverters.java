@@ -10,14 +10,17 @@
  ******************************************************************************/
 package com.legstar.coxb.convert;
 
+import com.legstar.coxb.CobolContext;
+
 /**
  * 
  * This class holds references to a set of converters for a given strategy.
+ * @deprecated
  *
  * @author Fady Moussallam
  * 
  */
-public class CobolConverters {
+public class CobolConverters implements ICobolConverters {
     /** Cobol to Java String conversion strategy. */
     private ICobolStringConverter mCobolStringConverter;
 
@@ -41,6 +44,10 @@ public class CobolConverters {
 
     /** Cobol to Java National conversion strategy. */
     private ICobolNationalConverter mCobolNationalConverter;
+    
+    /** Cobol compiler parameters. */
+    private CobolContext mCobolContext;
+
 
     /**
      * @return Returns the cobolBinaryConverter.
@@ -161,6 +168,20 @@ public class CobolConverters {
     public final void setCobolNationalConverter(
             final ICobolNationalConverter cobolNationalConverter) {
         mCobolNationalConverter = cobolNationalConverter;
+    }
+
+    /**
+     * @return Returns the CobolContext.
+     */
+    public final CobolContext getCobolContext() {
+        return mCobolContext;
+    }
+
+    /**
+     * @param cobolContext The CobolContext to set.
+     */
+    public final void setCobolContext(final CobolContext cobolContext) {
+        mCobolContext = cobolContext;
     }
 
 }
