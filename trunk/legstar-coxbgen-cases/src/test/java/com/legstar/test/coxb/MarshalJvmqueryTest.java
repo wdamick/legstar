@@ -61,6 +61,7 @@ public class MarshalJvmqueryTest extends TestCase {
         jvmQueryReply.getEnvVarValues().add("C:\\Program Files\\Java\\jdk1.6.0_10");
 
         ICobolComplexBinding binding = new JvmQueryReplyBinding(jvmQueryReply);
+        assertEquals("class com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply", binding.getJaxbType().toString());
 
         /* Convert Java data object to a host byte array */
         byte[] hostBytes = new byte[binding.calcByteLength()];
