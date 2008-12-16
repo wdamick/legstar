@@ -11,7 +11,7 @@
 package com.legstar.coxb;
 import java.util.Hashtable;
 
-import com.legstar.coxb.convert.CobolConverters;
+import com.legstar.coxb.convert.ICobolConverters;
 import com.legstar.coxb.host.HostException;
 
 /**
@@ -30,7 +30,7 @@ public abstract class CobolElementVisitor {
     private int mOffset;
 
     /** The set of converters to use for cobol elements. */
-    private CobolConverters mCobolConverters;
+    private ICobolConverters mCobolConverters;
 
     /** Children elements marked as custom variables. */
     private Hashtable < String, Object > mVariablesMap;
@@ -51,7 +51,7 @@ public abstract class CobolElementVisitor {
      */
     public CobolElementVisitor(final byte[] hostBytes,
             final int offset,
-            final CobolConverters cobolConverters) {
+            final ICobolConverters cobolConverters) {
         mHostBytes = hostBytes;
         mOffset = offset;
         mCobolConverters = cobolConverters;
@@ -205,7 +205,7 @@ public abstract class CobolElementVisitor {
     /**
      * @return Returns the CobolConverters.
      */
-    public final CobolConverters getCobolConverters() {
+    public final ICobolConverters getCobolConverters() {
         return mCobolConverters;
     }
 
@@ -213,7 +213,7 @@ public abstract class CobolElementVisitor {
      * @param cobolConverters The CobolConverters to set.
      */
     public final void setCobolConverters(
-            final CobolConverters cobolConverters) {
+            final ICobolConverters cobolConverters) {
         mCobolConverters = cobolConverters;
     }
 

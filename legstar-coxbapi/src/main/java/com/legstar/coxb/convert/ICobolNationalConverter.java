@@ -24,7 +24,7 @@ import com.legstar.coxb.host.HostException;
  * @author Fady Moussallam
  * 
  */
-public interface ICobolNationalConverter {
+public interface ICobolNationalConverter extends ICobolConverter {
     /**
      * Converts an element java value to a host representation stored in host
      * buffer.
