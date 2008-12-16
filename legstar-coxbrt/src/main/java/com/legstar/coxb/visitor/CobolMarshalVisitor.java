@@ -12,7 +12,7 @@ package com.legstar.coxb.visitor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.legstar.coxb.convert.CobolConverters;
+import com.legstar.coxb.convert.ICobolConverters;
 import com.legstar.coxb.CobolElementVisitor;
 import com.legstar.coxb.ICobolArrayBinaryBinding;
 import com.legstar.coxb.ICobolArrayComplexBinding;
@@ -55,7 +55,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
      */
     public CobolMarshalVisitor(final byte[] hostBytes,
             final int offset,
-            final CobolConverters cobolConverters) {
+            final ICobolConverters cobolConverters) {
         super(hostBytes, offset, cobolConverters);
     }
 
