@@ -10,191 +10,135 @@
  ******************************************************************************/
 package com.legstar.host.invoke;
 
+import com.legstar.coxb.host.HostData;
 import com.legstar.host.invoke.HostInvokerException;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.test.coxb.lsfileae.Dfhcommarea;
 import com.legstar.test.coxb.lsfileae.bind.DfhcommareaBinding;
 
-import junit.framework.TestCase;
-
-public class CommareaInvokerTest extends TestCase {
+/**
+ * Test CommareaInvoker.
+ */
+public class CommareaInvokerTest extends AbstractTestInvokers {
 	
-	private static final String CONFIG_FILE = "config0.xml";
-	private static final String HOST_USERID = "P390";
-	private static final String HOST_PASSWORD = "STREAM2";
-
-	public void testValidInvokeCommarea()  {
+	/** Test a successful access to LSFIELAE. */
+    public void testValidInvokeCommarea()  {
 		try {
 			LegStarAddress address = new LegStarAddress("TheMainframe");
 			address.setHostUserID(HOST_USERID);
 			address.setHostPassword(HOST_PASSWORD);
 			HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "lsfileae.properties");
-		    /* The JAXB input factory. */
-		    com.legstar.test.coxb.lsfileae.ObjectFactory jaxbInFactory =
-		          new com.legstar.test.coxb.lsfileae.ObjectFactory(); 
+			DfhcommareaBinding ccbout = invokeLsfileaeWithBinding(invoker);
+		    checkLsfileaeJavaReply(ccbout.getDfhcommarea());
+		    byte[] responseBytes = invokeLsfileae(invoker);
+	        assertEquals(LSFILEAE_BYTES_REPLY, HostData.toHexString(responseBytes));
 		    
-		    /* The request java object tree */
-		    Dfhcommarea request	= jaxbInFactory.createDfhcommarea();
-		    request.setComNumber(100L);
-		    
-		    /* Decorate object tree for static binding */
-		    DfhcommareaBinding ccbin = new DfhcommareaBinding(request);
-		    
-		    /* Prepare output object */
-		    DfhcommareaBinding ccbout =
-		          new DfhcommareaBinding();
-		    
-		    /* call */
-		    invoker.invoke("MyNewRequest", ccbin, ccbout);
-		    
-		    /* Check */
-		    assertEquals(100, ccbout.getDfhcommarea().getComNumber());
-		    assertEquals("$0100.11", ccbout.getDfhcommarea().getComAmount());
-		    assertEquals("*********", ccbout.getDfhcommarea().getComComment());
-		    assertEquals("26 11 81", ccbout.getDfhcommarea().getComDate());
-		    assertEquals("SURREY, ENGLAND", ccbout.getDfhcommarea().getComPersonal().getComAddress());
-		    assertEquals("S. D. BORMAN", ccbout.getDfhcommarea().getComPersonal().getComName());
-		    assertEquals("32156778", ccbout.getDfhcommarea().getComPersonal().getComPhone());
 		} catch (HostInvokerException e) {
 			fail("testValidInvoke failed " + e);
 		}
 	}
 	
-	public void testWrongProgInvokeCommarea() {
+	/** Test failure when program properties are wrong.*/
+    public void testWrongProgInvokeCommarea() {
 		try {
 			LegStarAddress address = new LegStarAddress("TheMainframe");
 			address.setHostUserID(HOST_USERID);
 			address.setHostPassword(HOST_PASSWORD);
 			HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "wrongprog.properties");
-		    /* The JAXB input factory. */
-		    com.legstar.test.coxb.lsfileae.ObjectFactory jaxbInFactory =
-		          new com.legstar.test.coxb.lsfileae.ObjectFactory(); 
-		    
-		    /* The request java object tree */
-		    Dfhcommarea request	= jaxbInFactory.createDfhcommarea();
-		    request.setComNumber(100L);
-		    
-		    /* Decorate object tree for static binding */
-		    DfhcommareaBinding ccbin = new DfhcommareaBinding(request);
-		    
-		    /* Prepare output object */
-		    DfhcommareaBinding ccbout =
-		          new DfhcommareaBinding();
-		    
-		    /* call */
-		    invoker.invoke("MyNewRequest", ccbin, ccbout);
+			invokeLsfileae(invoker);
 			fail("testWrongProgInvokeCommarea failed ");
-		    /* Check */
+
 		} catch (HostInvokerException e) {
 			assertTrue(e.getMessage().contains("com.legstar.host.access.HostAccessStrategyException: com.legstar.messaging.RequestException: CICS command=LINK COMMAREA failed, resp=PGMIDERR, resp2=") );
 		}
 	}
 	
-	public void testEmptyAddress() {
+	/** When passed an empty address, the parameters should come from the base configuration */
+    public void testEmptyAddressWithBinding() {
 		try {
 			HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, null, "lsfileae.properties");
-		    /* The JAXB input factory. */
-		    com.legstar.test.coxb.lsfileae.ObjectFactory jaxbInFactory =
-		          new com.legstar.test.coxb.lsfileae.ObjectFactory(); 
-		    
-		    /* The request java object tree */
-		    Dfhcommarea request	= jaxbInFactory.createDfhcommarea();
-		    request.setComNumber(100L);
-		    
-		    /* Decorate object tree for static binding */
-		    DfhcommareaBinding ccbin = new DfhcommareaBinding(request);
-		    
-		    /* Prepare output object */
-		    DfhcommareaBinding ccbout =
-		          new DfhcommareaBinding();
-		    
-		    /* call */
-		    invoker.invoke("MyNewRequest", ccbin, ccbout);
-		    
-		    /* Check */
-		    assertEquals(100, ccbout.getDfhcommarea().getComNumber());
-		    assertEquals("$0100.11", ccbout.getDfhcommarea().getComAmount());
-		    assertEquals("*********", ccbout.getDfhcommarea().getComComment());
-		    assertEquals("26 11 81", ccbout.getDfhcommarea().getComDate());
-		    assertEquals("SURREY, ENGLAND", ccbout.getDfhcommarea().getComPersonal().getComAddress());
-		    assertEquals("S. D. BORMAN", ccbout.getDfhcommarea().getComPersonal().getComName());
-		    assertEquals("32156778", ccbout.getDfhcommarea().getComPersonal().getComPhone());
+            DfhcommareaBinding ccbout = invokeLsfileaeWithBinding(invoker);
+            checkLsfileaeJavaReply(ccbout.getDfhcommarea());
+            byte[] responseBytes = invokeLsfileae(invoker);
+            assertEquals(LSFILEAE_BYTES_REPLY, HostData.toHexString(responseBytes));
+            
 		} catch (HostInvokerException e) {
 			fail("testEmptyAddress failed " + e);
 		}
 	}
 
-	public void testPartiallyEmptyAddress() {
+	/** When address is partially filled, the rest should come from the base configuration. */
+    public void testPartiallyEmptyAddress() {
 		try {
 			LegStarAddress address = new LegStarAddress("");
 			address.setHostUserID("IBMUSER");
 			address.setHostPassword(HOST_PASSWORD);
 			HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "lsfileae.properties");
-		    /* The JAXB input factory. */
-		    com.legstar.test.coxb.lsfileae.ObjectFactory jaxbInFactory =
-		          new com.legstar.test.coxb.lsfileae.ObjectFactory(); 
-		    
-		    /* The request java object tree */
-		    Dfhcommarea request	= jaxbInFactory.createDfhcommarea();
-		    request.setComNumber(100L);
-		    
-		    /* Decorate object tree for static binding */
-		    DfhcommareaBinding ccbin = new DfhcommareaBinding(request);
-		    
-		    /* Prepare output object */
-		    DfhcommareaBinding ccbout =
-		          new DfhcommareaBinding();
-		    
-		    /* call */
-		    invoker.invoke("MyNewRequest", ccbin, ccbout);
-		    
-		    /* Check */
-		    assertEquals(100, ccbout.getDfhcommarea().getComNumber());
-		    assertEquals("$0100.11", ccbout.getDfhcommarea().getComAmount());
-		    assertEquals("*********", ccbout.getDfhcommarea().getComComment());
-		    assertEquals("26 11 81", ccbout.getDfhcommarea().getComDate());
-		    assertEquals("SURREY, ENGLAND", ccbout.getDfhcommarea().getComPersonal().getComAddress());
-		    assertEquals("S. D. BORMAN", ccbout.getDfhcommarea().getComPersonal().getComName());
-		    assertEquals("32156778", ccbout.getDfhcommarea().getComPersonal().getComPhone());
+            DfhcommareaBinding ccbout = invokeLsfileaeWithBinding(invoker);
+            checkLsfileaeJavaReply(ccbout.getDfhcommarea());
+            byte[] responseBytes = invokeLsfileae(invoker);
+            assertEquals(LSFILEAE_BYTES_REPLY, HostData.toHexString(responseBytes));
+            
 		} catch (HostInvokerException e) {
 			fail("testPartiallyEmptyAddress failed " + e);
 		}
 	}
-	public void testValidInvokeCommareaOverHttp() {
+	
+    /** The base configuration uses HTTP connectivity. */
+    public void testValidInvokeCommareaOverHttp() {
 		try {
 			LegStarAddress address = new LegStarAddress("TheMainframe");
 			address.setHostUserID(HOST_USERID);
 			address.setHostPassword(HOST_PASSWORD);
 			HostInvoker invoker = HostInvokerFactory.createHostInvoker("config4.xml", address, "lsfileae.properties");
-		    /* The JAXB input factory. */
-		    com.legstar.test.coxb.lsfileae.ObjectFactory jaxbInFactory =
-		          new com.legstar.test.coxb.lsfileae.ObjectFactory(); 
-		    
-		    /* The request java object tree */
-		    Dfhcommarea request	= jaxbInFactory.createDfhcommarea();
-		    request.setComNumber(100L);
-		    
-		    /* Decorate object tree for static binding */
-		    DfhcommareaBinding ccbin = new DfhcommareaBinding(request);
-		    
-		    /* Prepare output object */
-		    DfhcommareaBinding ccbout =
-		          new DfhcommareaBinding();
-		    
-		    /* call */
-		    invoker.invoke("MyNewRequest", ccbin, ccbout);
-		    
-		    /* Check */
-		    assertEquals(100, ccbout.getDfhcommarea().getComNumber());
-		    assertEquals("$0100.11", ccbout.getDfhcommarea().getComAmount());
-		    assertEquals("*********", ccbout.getDfhcommarea().getComComment());
-		    assertEquals("26 11 81", ccbout.getDfhcommarea().getComDate());
-		    assertEquals("SURREY, ENGLAND", ccbout.getDfhcommarea().getComPersonal().getComAddress());
-		    assertEquals("S. D. BORMAN", ccbout.getDfhcommarea().getComPersonal().getComName());
-		    assertEquals("32156778", ccbout.getDfhcommarea().getComPersonal().getComPhone());
+            DfhcommareaBinding ccbout = invokeLsfileaeWithBinding(invoker);
+            checkLsfileaeJavaReply(ccbout.getDfhcommarea());
+            byte[] responseBytes = invokeLsfileae(invoker);
+            assertEquals(LSFILEAE_BYTES_REPLY, HostData.toHexString(responseBytes));
+            
 		} catch (HostInvokerException e) {
 			fail("testValidInvokeCommareaOverHttp failed " + e);
 		}
 	}
 	
+	/** 
+	 * This tests invoke using the old style "all inclusive" way where binding is
+	 * done by the invoket (actually handed over to LegStarMessageImpl).
+	 * @param invoker the current invoker
+	 * @throws HostInvokerException if invoke fails
+	 *  */
+	@SuppressWarnings("deprecation")
+    private DfhcommareaBinding invokeLsfileaeWithBinding(final HostInvoker invoker) throws HostInvokerException {
+        /* The JAXB input factory. */
+        com.legstar.test.coxb.lsfileae.ObjectFactory jaxbInFactory =
+              new com.legstar.test.coxb.lsfileae.ObjectFactory(); 
+        
+        /* The request java object tree */
+        Dfhcommarea request = jaxbInFactory.createDfhcommarea();
+        request.setComNumber(100L);
+        
+        /* Decorate object tree for static binding */
+        DfhcommareaBinding ccbin = new DfhcommareaBinding(request);
+        
+        /* Prepare output object */
+        DfhcommareaBinding ccbout =
+              new DfhcommareaBinding();
+        
+        /* call */
+        invoker.invoke("MyNewRequest", ccbin, ccbout);
+        
+        return ccbout;
+	}
+	
+    /** 
+     * This tests invoke using the new style "raw mainframe" way where binding is
+     * done by the caller.
+     * @param invoker the current invoker
+     * @throws HostInvokerException if invoke fails
+     *  */
+    private byte[] invokeLsfileae(final HostInvoker invoker) throws HostInvokerException {
+        
+        /* call */
+        return invoker.invoke("MyNewRequest", HostData.toByteArray(LSFILEAE_BYTES_REQUEST));
+    }
 }
