@@ -14,6 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.legstar.coxb.ICobolComplexBinding;
+import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.test.coxb.lsfileac.QueryData;
@@ -23,32 +24,42 @@ import com.legstar.test.coxb.lsfileac.bind.QueryLimitBinding;
 import com.legstar.test.coxb.lsfileac.bind.ReplyDataBinding;
 import com.legstar.test.coxb.lsfileac.bind.ReplyStatusBinding;
 
-import junit.framework.TestCase;
+/**
+ * Test ContainerInvoker.
+ */
+public class ContainerInvokerTest extends AbstractTestInvokers {
 
-public class ContainerInvokerTest extends TestCase {
-
-	private static final String CONFIG_FILE = "config0.xml";
-
-	public void testContainerInvoker() throws HostInvokerException {
+	/** Check that the factory correctly returns a containerInvoker. */
+    public void testContainerInvoker() throws HostInvokerException {
 		LegStarAddress address = new LegStarAddress("CICSTS31");
 		HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
 		assertTrue(invoker instanceof com.legstar.host.invoke.ContainerInvoker);
 	}
 
-	public void testInvokeStringICobolComplexBindingICobolComplexBinding() {
+	/** The container invoker should not accept a call to invoke without non-map parameters. */
+    public void testInvokeWrongMethod() {
 		try {
-			LegStarAddress address = new LegStarAddress("CICSTS31");
-			HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
+	        LegStarAddress address = new LegStarAddress("CICSTS31");
+	        HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
 			ICobolComplexBinding ccbin = null;
 			ICobolComplexBinding ccbout = null;
-			invoker.invoke("testInvokeStringICobolComplexBindingICobolComplexBinding", ccbin, ccbout);
+			invoker.invoke("testInvokeWrongMethod", ccbin, ccbout);
 			fail("Method should not be supported");
 		} catch (HostInvokerException e) {
 			assertEquals("Unsupported method for CICS containers", e.getMessage());
 		}
+        try {
+            LegStarAddress address = new LegStarAddress("CICSTS31");
+            HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
+            invoker.invoke("testInvokeWrongMethod", new byte[0]);
+            fail("Method should not be supported");
+        } catch (HostInvokerException e) {
+            assertEquals("Unsupported method for CICS containers", e.getMessage());
+        }
 	}
 
-	public void test2ContainersIn2Out() throws HostInvokerException, HostException {
+	/** Test with 2 input containers and 2 output containers (old style). */
+    public void test2ContainersIn2OutWithBinding() throws HostInvokerException, HostException {
 		LegStarAddress address = new LegStarAddress("CICSTS31");
 		HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
 	    /* The JAXB input factory. */
@@ -103,8 +114,34 @@ public class ContainerInvokerTest extends TestCase {
 	    
 	}
 
-	/* Without any input containers, the host program returns the entire content */
-	public void test0ContainersIn2Out() throws HostInvokerException, HostException {
+    /** Test with 2 input containers and 2 output containers (new style). */
+    public void test2ContainersIn2Out() throws HostInvokerException, HostException {
+        LegStarAddress address = new LegStarAddress("CICSTS31");
+        HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
+        
+        /* Get raw mainframe bytes */
+        byte[] queryDataBin = HostData.toByteArray(LSFILEAC_QUERYDATA_BYTES);
+        byte[] queryLimitBin = HostData.toByteArray(LSFILEAC_QUERYLIMIT_BYTES);
+        
+        /* Map containers with corresponding byte arrays */
+        Map < String, byte[] > inParts =
+            new LinkedHashMap < String, byte[] >(); 
+        inParts.put("QueryData", queryDataBin);
+        inParts.put("QueryLimit", queryLimitBin);
+        
+        /* call */
+        Map < String, byte[] > outParts = invoker.invoke("test2ContainersIn2Out", inParts);
+        
+        /* Check */
+        assertTrue(outParts != null);
+        assertEquals(2, outParts.size());
+        assertEquals(LSFILEAC_QUERYREPLY_BYTES, HostData.toHexString(outParts.get("ReplyData")));
+        assertEquals(LSFILEAC_REPLYSTATUS_BYTES, HostData.toHexString(outParts.get("ReplyStatus")));
+        
+    }
+
+    /** Without any input containers, the host program returns the entire content (old style) */
+	public void test0ContainersIn2OutWithBinding() throws HostInvokerException, HostException {
 		LegStarAddress address = new LegStarAddress("CICSTS31");
 		HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
 	    
@@ -140,8 +177,28 @@ public class ContainerInvokerTest extends TestCase {
 	    
 	}
 	
-	/* When nothing is selected on the host, there is no data container back */
-	public void test2ContainersIn1Out() throws HostInvokerException, HostException {
+    /** Without any input containers, the host program returns the entire content (new style) */
+    public void test0ContainersIn2Out() throws HostInvokerException, HostException {
+        LegStarAddress address = new LegStarAddress("CICSTS31");
+        HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
+        
+        /* Map containers with corresponding byte arrays */
+        Map < String, byte[] > inParts =
+            new LinkedHashMap < String, byte[] >(); 
+        
+        /* call */
+        Map < String, byte[] > outParts = invoker.invoke("test2ContainersIn2Out", inParts);
+        
+        /* Check */
+        assertTrue(outParts != null);
+        assertEquals(2, outParts.size());
+        assertEquals(3481, outParts.get("ReplyData").length);
+        assertEquals(LSFILEAC_REPLYSTATUS_BYTES, HostData.toHexString(outParts.get("ReplyStatus")));
+        
+    }
+
+	/** When nothing is selected on the host, there is no data container back (old style) */
+	public void test2ContainersIn1OutWithBinding() throws HostInvokerException, HostException {
 		LegStarAddress address = new LegStarAddress("CICSTS31");
 		HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
 	    /* The JAXB input factory. */
@@ -190,5 +247,31 @@ public class ContainerInvokerTest extends TestCase {
 	    assertTrue(null == replyDataBin.getReplyData());
 	    
 	}
+
+    /** When nothing is selected on the host, there is no data container back (new style) */
+    public void test2ContainersIn1Out() throws HostInvokerException, HostException {
+        LegStarAddress address = new LegStarAddress("CICSTS31");
+        HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
+        
+        /* Get raw mainframe bytes */
+        byte[] queryDataBin = HostData.toByteArray(LSFILEAC_QUERYDATA_BYTES.replace("e2", "e9"));
+        byte[] queryLimitBin = HostData.toByteArray(LSFILEAC_QUERYLIMIT_BYTES);
+        
+        /* Map containers with corresponding byte arrays */
+        Map < String, byte[] > inParts =
+            new LinkedHashMap < String, byte[] >(); 
+        inParts.put("QueryData", queryDataBin);
+        inParts.put("QueryLimit", queryLimitBin);
+        
+        /* call */
+        Map < String, byte[] > outParts = invoker.invoke("test2ContainersIn2Out", inParts);
+        
+        /* Check */
+        assertTrue(outParts != null);
+        assertEquals(2, outParts.size());
+        assertEquals(null, outParts.get("ReplyData"));
+        assertEquals(LSFILEAC_REPLYSTATUS_NOMATCH_BYTES, HostData.toHexString(outParts.get("ReplyStatus")));
+        
+    }
 
 }
