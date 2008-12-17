@@ -39,7 +39,7 @@ import com.legstar.c2ws.C2wsWSDescriptor;
 import com.legstar.c2ws.util.C2wsLog;
 import com.legstar.c2ws.util.C2wsUtil;
 import com.legstar.coxb.CobolContext;
-import com.legstar.coxb.convert.CobolConverters;
+import com.legstar.coxb.convert.ICobolConverters;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.host.HostException;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
@@ -64,7 +64,7 @@ public class C2wsReflectAdapter implements C2wsAdapter {
     private C2wsLog mLog = new C2wsLog(LOG);
 
     /** A set of cobol converters. */
-    private CobolConverters mCc;
+    private ICobolConverters mCc;
 
     /** The target web service descriptor. */
     private C2wsWSDescriptor mC2wsWSDescriptor;
@@ -456,7 +456,7 @@ public class C2wsReflectAdapter implements C2wsAdapter {
     /**
      * @return the current set of converters
      */
-    public CobolConverters getCobolConverters() {
+    public ICobolConverters getCobolConverters() {
         return mCc;
     }
 
