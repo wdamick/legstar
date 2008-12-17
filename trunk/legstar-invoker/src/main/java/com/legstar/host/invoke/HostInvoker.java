@@ -20,6 +20,7 @@ import com.legstar.coxb.ICobolComplexBinding;
 public interface HostInvoker {
 
     /**
+     * @deprecated
      * Invoke a host function using one input and one output structure.
      * @param requestID an identifier for this request (used for tracing)
      * @param ccbin the input object tree
@@ -32,6 +33,7 @@ public interface HostInvoker {
             ICobolComplexBinding ccbout) throws HostInvokerException;
 
     /**
+     * @deprecated
      * Invoke a host function with multiple input and multiple output parts.
      * @param requestID an identifier for this request (used for tracing)
      * @param inParts a set of input object trees
@@ -43,5 +45,36 @@ public interface HostInvoker {
             Map < String, ICobolComplexBinding > inParts,
             Map < String, ICobolComplexBinding > outParts)
     throws HostInvokerException;
+    
+    /**
+     * Invoke a host function using one input and one output raw mainframe
+     * data buffers.
+     * <p/>
+     * Caller is in charge of transforming mainframe data to whatever format
+     * he needs.
+     * @param requestID an identifier for this request (used for tracing)
+     * @param requestBytes the request mainframe data byte array
+     * @return the reply mainframe data bytes
+     * @throws HostInvokerException if invoke fails
+     */
+    byte[] invoke(
+            String requestID,
+            byte[] requestBytes) throws HostInvokerException;
 
+    /**
+     * Invoke a host function with multiple input and multiple parts.
+     * <p/>
+     * Parts are named and associated with a raw mainframe data buffer.
+     * <p/>
+     * Caller is in charge of transforming mainframe data to whatever format
+     * he needs.
+     * @param requestID an identifier for this request (used for tracing)
+     * @param requestParts a map of mainframe data byte arrays
+     * @return a map of mainframe data byte arrays
+     * @throws HostInvokerException if invoke fails
+     */
+    Map < String, byte[] > invoke(
+            String requestID,
+            Map < String, byte[] > requestParts)
+    throws HostInvokerException;
 }

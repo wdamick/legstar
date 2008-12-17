@@ -12,16 +12,14 @@ package com.legstar.host.invoke;
 
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.host.access.HostAccessStrategy;
-import com.legstar.host.access.HostAccessStrategyException;
+import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.HostMessageFormatException;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.HeaderPartException;
-import com.legstar.messaging.LegStarRequest;
+import com.legstar.messaging.LegStarHeaderPart;
+import com.legstar.messaging.LegStarMessage;
 import com.legstar.messaging.impl.LegStarMessageImpl;
 
 
@@ -32,19 +30,7 @@ import com.legstar.messaging.impl.LegStarMessageImpl;
  * access parameters. The actual transport used is abstracted by dynamically
  * loading a host accessor based on a factory name from the XML configuration.
  */
-public class CommareaInvoker implements HostInvoker {
-
-    /** Logger. */
-    private static final Log LOG = LogFactory.getLog(CommareaInvoker.class);
-
-    /** Direct or Pooled host access strategy. */
-    private HostAccessStrategy mHostAccessStrategy;
-
-    /** Host endpoint targeted. */
-    private LegStarAddress mAddress;
-
-    /** Host program attributes. */
-    private CicsProgram mCicsProgram;
+public class CommareaInvoker extends AbstractInvoker {
 
     /**
      * Commarea Invoker calls a CICS Commarea-driven program. A commarea is a
@@ -59,12 +45,11 @@ public class CommareaInvoker implements HostInvoker {
             final HostAccessStrategy hostAccessStrategy,
             final LegStarAddress completeAddress,
             final CicsProgram hostProgram) throws HostInvokerException {
-        mHostAccessStrategy = hostAccessStrategy;
-        mAddress = completeAddress;
-        mCicsProgram = hostProgram;
+        super(hostAccessStrategy, completeAddress, hostProgram);
     }
 
     /**
+     * @deprecated
      * Invoke a commarea-driven program.
      * @param requestID an identifier for this request (used for tracing)
      * @param ccbin the input binding
@@ -76,41 +61,24 @@ public class CommareaInvoker implements HostInvoker {
             final ICobolComplexBinding ccbin,
             final ICobolComplexBinding ccbout) throws HostInvokerException {
 
-        long start = System.currentTimeMillis();
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Invoke Commarea started");
-        }
-
         try {
             /* Construct a LegStar message, passing the host program
              *  attributes */
             LegStarMessageImpl requestMessage =
-                new LegStarMessageImpl(mCicsProgram.getProgramAttrMap());
+                new LegStarMessageImpl(getProgramAttr().getProgramAttrMap());
 
             /* A new message part is built from the input binding */
             requestMessage.addMessagePart(
-                    ccbin, mCicsProgram.getLength(), mAddress.getHostCharset(),
+                    ccbin, getProgramAttr().getLength(), getAddress().getHostCharset(),
                     null);
 
-            /* Create a request instance and call the host program */
-            LegStarRequest request = new LegStarRequest(
-                    requestID, mAddress, requestMessage);
-            try {
-                mHostAccessStrategy.invoke(request);
-            } catch (HostAccessStrategyException e) {
-                throw new HostInvokerException(e);
-            }
-
-            /* The request might have failed */
-            if (request.getException() != null) {
-                throw new HostInvokerException(request.getException());
-            }
+            LegStarMessage responseMessage = invoke(requestID, requestMessage);
 
             /* Unwrap the response and convert to a java data object */
-            LegStarMessageImpl responseMessage =
-                new LegStarMessageImpl(request.getResponseMessage());
-            responseMessage.getBindingFromPart(
-                    ccbout, mAddress.getHostCharset(), null);
+            LegStarMessageImpl responseMessageImpl =
+                new LegStarMessageImpl(responseMessage);
+            responseMessageImpl.getBindingFromPart(
+                    ccbout, getAddress().getHostCharset(), null);
 
         } catch (HeaderPartException e) {
             throw new HostInvokerException(e);
@@ -118,14 +86,10 @@ public class CommareaInvoker implements HostInvoker {
             throw new HostInvokerException(e);
         }
 
-        if (LOG.isDebugEnabled()) {
-            long end = System.currentTimeMillis();
-            LOG.debug("Invoke Commarea ended. elapse: "
-                    + Long.toString(end - start) + " ms");
-        }
     }
 
     /**
+     * @deprecated
      * This method is invalid for Commarea-driven programs. In a future
      * version it will be supported to allow for a commarea to be mapped 
      * to multiple Cobol structures.
@@ -143,25 +107,38 @@ public class CommareaInvoker implements HostInvoker {
         "Unsupported method for CICS commarea");
     }
 
-    /**
-     * @return the hpst address
-     */
-    public final LegStarAddress getAddress() {
-        return mAddress;
+    /** {@inheritDoc} */
+    public byte[] invoke(final String requestID, final byte[] requestBytes) throws HostInvokerException {
+        try {
+            LegStarMessage requestMessage = new LegStarMessage();
+            requestMessage.setHeaderPart(new LegStarHeaderPart(getProgramAttr().getProgramAttrMap(), 0));
+            requestMessage.addDataPart(new CommareaPart(requestBytes));
+
+            LegStarMessage responseMessage = invoke(requestID, requestMessage);
+
+            if (responseMessage == null) {
+                return null;
+            }
+            if (responseMessage.getDataParts().size() == 0) {
+                return new byte[0];
+            }
+            if (responseMessage.getDataParts().size() > 1) {
+                throw new HostInvokerException("Unexpected number of parts "
+                        + responseMessage.getDataParts().size()
+                        + " in the host response");
+            }
+            return responseMessage.getDataParts().get(0).getContent();
+            
+        } catch (HeaderPartException e) {
+            throw new HostInvokerException(e);
+        }
     }
 
-    /**
-     * @return the host access strategy
-     */
-    public final HostAccessStrategy getHostAccessStrategy() {
-        return mHostAccessStrategy;
-    }
-
-    /**
-     * @return the programme attributes
-     */
-    public final CicsProgram getProgramAttr() {
-        return mCicsProgram;
+    /** {@inheritDoc} */
+    public Map < String, byte[] > invoke(final String requestID,
+            final Map < String, byte[] > requestParts) throws HostInvokerException {
+        throw new HostInvokerException(
+        "Unsupported method for CICS commarea");
     }
 
 }
