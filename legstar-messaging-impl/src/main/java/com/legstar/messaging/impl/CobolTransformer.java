@@ -18,11 +18,22 @@ import com.legstar.coxb.visitor.CobolUnmarshalVisitor;
 import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.convert.CobolConverters;
+import com.legstar.coxb.convert.ICobolBinaryConverter;
+import com.legstar.coxb.convert.ICobolDoubleConverter;
+import com.legstar.coxb.convert.ICobolFloatConverter;
+import com.legstar.coxb.convert.ICobolNationalConverter;
+import com.legstar.coxb.convert.ICobolOctetStreamConverter;
+import com.legstar.coxb.convert.ICobolPackedDecimalConverter;
+import com.legstar.coxb.convert.ICobolStringConverter;
+import com.legstar.coxb.convert.ICobolZonedDecimalConverter;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.host.HostException;
 
 /**
  * Provide Cobol marshaling/unmarshaling static methods.
+ * @deprecated
+ * <p/>
+ * This class has been replaced by com.legstar.coxb.transform.AbstractTransformer.
  */
 public final class CobolTransformer {
 
@@ -133,6 +144,159 @@ public final class CobolTransformer {
         cobolContext.setHostCharsetName(hostCharset);
 
         /* Select a conversion strategy */ 
-        return new CobolSimpleConverters(cobolContext);
+        return new CobolConvertersImpl(cobolContext);
+    }
+    
+    /**
+     * This is for backward compatibility. CobolSimpleConverters no longer
+     * extends CobolConverters which is deprecated.
+     *
+     */
+    public static class CobolConvertersImpl extends CobolConverters {
+        
+        /** Wrapped CobolSimpleConverters. */
+        private CobolSimpleConverters mCobolSimpleConverters;
+        
+        /**
+         * Create an instance.
+         * @param cobolContext the current COBOL parameters
+         */
+        public CobolConvertersImpl(final CobolContext cobolContext) {
+            mCobolSimpleConverters = new CobolSimpleConverters(cobolContext);
+        }
+        /**
+         * @return Returns the cobolBinaryConverter.
+         */
+        public final ICobolBinaryConverter getCobolBinaryConverter() {
+            return mCobolSimpleConverters.getCobolBinaryConverter();
+        }
+
+        /**
+         * @param cobolBinaryConverter The cobolBinaryConverter to set.
+         */
+        public final void setCobolBinaryConverter(
+                final ICobolBinaryConverter cobolBinaryConverter) {
+            mCobolSimpleConverters.setCobolBinaryConverter(cobolBinaryConverter);
+        }
+
+        /**
+         * @return Returns the cobolDoubleConverter.
+         */
+        public final ICobolDoubleConverter getCobolDoubleConverter() {
+            return mCobolSimpleConverters.getCobolDoubleConverter();
+        }
+
+        /**
+         * @param cobolDoubleConverter The cobolDoubleConverter to set.
+         */
+        public final void setCobolDoubleConverter(
+                final ICobolDoubleConverter cobolDoubleConverter) {
+            mCobolSimpleConverters.setCobolDoubleConverter(cobolDoubleConverter);
+        }
+
+        /**
+         * @return Returns the cobolFloatConverter.
+         */
+        public final ICobolFloatConverter getCobolFloatConverter() {
+            return mCobolSimpleConverters.getCobolFloatConverter();
+        }
+
+        /**
+         * @param cobolFloatConverter The cobolFloatConverter to set.
+         */
+        public final void setCobolFloatConverter(
+                final ICobolFloatConverter cobolFloatConverter) {
+            mCobolSimpleConverters.setCobolFloatConverter(cobolFloatConverter);
+        }
+
+        /**
+         * @return Returns the cobolOctetStreamConverter.
+         */
+        public final ICobolOctetStreamConverter getCobolOctetStreamConverter() {
+            return mCobolSimpleConverters.getCobolOctetStreamConverter();
+        }
+
+        /**
+         * @param cobolOctetStreamConverter The cobolOctetStreamConverter to set.
+         */
+        public final void setCobolOctetStreamConverter(
+                final ICobolOctetStreamConverter cobolOctetStreamConverter) {
+            mCobolSimpleConverters.setCobolOctetStreamConverter(cobolOctetStreamConverter);
+        }
+
+        /**
+         * @return Returns the cobolPackedDecimalConverter.
+         */
+        public final ICobolPackedDecimalConverter getCobolPackedDecimalConverter() {
+            return mCobolSimpleConverters.getCobolPackedDecimalConverter();
+        }
+
+        /**
+         * @param cobolPackedDecimalConverter The cobolPackedDecimalConverter
+         * to set.
+         */
+        public final void setCobolPackedDecimalConverter(
+                final ICobolPackedDecimalConverter cobolPackedDecimalConverter) {
+            mCobolSimpleConverters.setCobolPackedDecimalConverter(cobolPackedDecimalConverter);
+        }
+
+        /**
+         * @return Returns the cobolStringConverter.
+         */
+        public final ICobolStringConverter getCobolStringConverter() {
+            return mCobolSimpleConverters.getCobolStringConverter();
+        }
+
+        /**
+         * @param cobolStringConverter The cobolStringConverter to set.
+         */
+        public final void setCobolStringConverter(
+                final ICobolStringConverter cobolStringConverter) {
+            mCobolSimpleConverters.setCobolStringConverter(cobolStringConverter);
+        }
+
+        /**
+         * @return Returns the cobolZonedDecimalConverter.
+         */
+        public final ICobolZonedDecimalConverter getCobolZonedDecimalConverter() {
+            return mCobolSimpleConverters.getCobolZonedDecimalConverter();
+        }
+
+        /**
+         * @param cobolZonedDecimalConverter The cobolZonedDecimalConverter to set.
+         */
+        public final void setCobolZonedDecimalConverter(
+                final ICobolZonedDecimalConverter cobolZonedDecimalConverter) {
+            mCobolSimpleConverters.setCobolZonedDecimalConverter(cobolZonedDecimalConverter);
+        }
+
+        /**
+         * @return Returns the cobolNationalConverter.
+         */
+        public final ICobolNationalConverter getCobolNationalConverter() {
+            return mCobolSimpleConverters.getCobolNationalConverter();
+        }
+
+        /**
+         * @param cobolNationalConverter The cobolNationalConverter to set.
+         */
+        public final void setCobolNationalConverter(
+                final ICobolNationalConverter cobolNationalConverter) {
+            mCobolSimpleConverters.setCobolNationalConverter(cobolNationalConverter);
+        }
+
+        /**
+         * @return Returns the CobolContext.
+         */
+        public final CobolContext getCobolContext() {
+            return mCobolSimpleConverters.getCobolContext();
+        }
+
+        /**
+         * @param cobolContext The CobolContext to set.
+         */
+        public final void setCobolContext(final CobolContext cobolContext) {
+            mCobolSimpleConverters.setCobolContext(cobolContext);
+        }
     }
 }
