@@ -52,14 +52,14 @@ public class CobolConverters implements ICobolConverters {
     /**
      * @return Returns the cobolBinaryConverter.
      */
-    public final ICobolBinaryConverter getCobolBinaryConverter() {
+    public ICobolBinaryConverter getCobolBinaryConverter() {
         return mCobolBinaryConverter;
     }
 
     /**
      * @param cobolBinaryConverter The cobolBinaryConverter to set.
      */
-    public final void setCobolBinaryConverter(
+    public void setCobolBinaryConverter(
             final ICobolBinaryConverter cobolBinaryConverter) {
         mCobolBinaryConverter = cobolBinaryConverter;
     }
@@ -67,14 +67,14 @@ public class CobolConverters implements ICobolConverters {
     /**
      * @return Returns the cobolDoubleConverter.
      */
-    public final ICobolDoubleConverter getCobolDoubleConverter() {
+    public ICobolDoubleConverter getCobolDoubleConverter() {
         return mCobolDoubleConverter;
     }
 
     /**
      * @param cobolDoubleConverter The cobolDoubleConverter to set.
      */
-    public final void setCobolDoubleConverter(
+    public void setCobolDoubleConverter(
             final ICobolDoubleConverter cobolDoubleConverter) {
         mCobolDoubleConverter = cobolDoubleConverter;
     }
@@ -82,14 +82,14 @@ public class CobolConverters implements ICobolConverters {
     /**
      * @return Returns the cobolFloatConverter.
      */
-    public final ICobolFloatConverter getCobolFloatConverter() {
+    public ICobolFloatConverter getCobolFloatConverter() {
         return mCobolFloatConverter;
     }
 
     /**
      * @param cobolFloatConverter The cobolFloatConverter to set.
      */
-    public final void setCobolFloatConverter(
+    public void setCobolFloatConverter(
             final ICobolFloatConverter cobolFloatConverter) {
         mCobolFloatConverter = cobolFloatConverter;
     }
@@ -97,14 +97,14 @@ public class CobolConverters implements ICobolConverters {
     /**
      * @return Returns the cobolOctetStreamConverter.
      */
-    public final ICobolOctetStreamConverter getCobolOctetStreamConverter() {
+    public ICobolOctetStreamConverter getCobolOctetStreamConverter() {
         return mCobolOctetStreamConverter;
     }
 
     /**
      * @param cobolOctetStreamConverter The cobolOctetStreamConverter to set.
      */
-    public final void setCobolOctetStreamConverter(
+    public void setCobolOctetStreamConverter(
             final ICobolOctetStreamConverter cobolOctetStreamConverter) {
         mCobolOctetStreamConverter = cobolOctetStreamConverter;
     }
@@ -112,7 +112,7 @@ public class CobolConverters implements ICobolConverters {
     /**
      * @return Returns the cobolPackedDecimalConverter.
      */
-    public final ICobolPackedDecimalConverter getCobolPackedDecimalConverter() {
+    public ICobolPackedDecimalConverter getCobolPackedDecimalConverter() {
         return mCobolPackedDecimalConverter;
     }
 
@@ -120,7 +120,7 @@ public class CobolConverters implements ICobolConverters {
      * @param cobolPackedDecimalConverter The cobolPackedDecimalConverter
      * to set.
      */
-    public final void setCobolPackedDecimalConverter(
+    public void setCobolPackedDecimalConverter(
             final ICobolPackedDecimalConverter cobolPackedDecimalConverter) {
         mCobolPackedDecimalConverter = cobolPackedDecimalConverter;
     }
@@ -128,14 +128,14 @@ public class CobolConverters implements ICobolConverters {
     /**
      * @return Returns the cobolStringConverter.
      */
-    public final ICobolStringConverter getCobolStringConverter() {
+    public ICobolStringConverter getCobolStringConverter() {
         return mCobolStringConverter;
     }
 
     /**
      * @param cobolStringConverter The cobolStringConverter to set.
      */
-    public final void setCobolStringConverter(
+    public void setCobolStringConverter(
             final ICobolStringConverter cobolStringConverter) {
         mCobolStringConverter = cobolStringConverter;
     }
@@ -143,14 +143,14 @@ public class CobolConverters implements ICobolConverters {
     /**
      * @return Returns the cobolZonedDecimalConverter.
      */
-    public final ICobolZonedDecimalConverter getCobolZonedDecimalConverter() {
+    public ICobolZonedDecimalConverter getCobolZonedDecimalConverter() {
         return mCobolZonedDecimalConverter;
     }
 
     /**
      * @param cobolZonedDecimalConverter The cobolZonedDecimalConverter to set.
      */
-    public final void setCobolZonedDecimalConverter(
+    public void setCobolZonedDecimalConverter(
             final ICobolZonedDecimalConverter cobolZonedDecimalConverter) {
         mCobolZonedDecimalConverter = cobolZonedDecimalConverter;
     }
@@ -158,14 +158,14 @@ public class CobolConverters implements ICobolConverters {
     /**
      * @return Returns the cobolNationalConverter.
      */
-    public final ICobolNationalConverter getCobolNationalConverter() {
+    public ICobolNationalConverter getCobolNationalConverter() {
         return mCobolNationalConverter;
     }
 
     /**
      * @param cobolNationalConverter The cobolNationalConverter to set.
      */
-    public final void setCobolNationalConverter(
+    public void setCobolNationalConverter(
             final ICobolNationalConverter cobolNationalConverter) {
         mCobolNationalConverter = cobolNationalConverter;
     }
@@ -173,14 +173,14 @@ public class CobolConverters implements ICobolConverters {
     /**
      * @return Returns the CobolContext.
      */
-    public final CobolContext getCobolContext() {
+    public CobolContext getCobolContext() {
         return mCobolContext;
     }
 
     /**
      * @param cobolContext The CobolContext to set.
      */
-    public final void setCobolContext(final CobolContext cobolContext) {
+    public void setCobolContext(final CobolContext cobolContext) {
         mCobolContext = cobolContext;
     }
 
