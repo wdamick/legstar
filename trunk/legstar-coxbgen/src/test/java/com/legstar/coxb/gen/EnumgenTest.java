@@ -11,7 +11,7 @@
 package com.legstar.coxb.gen;
 
 import com.legstar.codegen.CodeGenUtil;
-import com.legstar.coxb.gen.CoxbBindingGenerator;
+
 
 /**
  * Test handling of enumeration types.

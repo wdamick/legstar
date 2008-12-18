@@ -10,6 +10,7 @@
  ******************************************************************************/
 package com.legstar.coxb.gen;
 
+import com.legstar.codegen.CodeGenUtil;
 import com.legstar.coxb.ICobolArrayComplexBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
@@ -20,6 +21,12 @@ import com.legstar.util.JaxbUtil;
  *
  */
 public class CoxbGenWriterTest extends AbstractTestTemplate {
+
+    /** @{inheritDoc}*/
+    public void setUp() {
+        super.setUp();
+        CodeGenUtil.checkDirectory(GEN_SRC_DIR, true);
+    }
 
     /**
      * A complex type case.
@@ -149,13 +156,16 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
 
         CoxbGenWriter writer = new CoxbGenWriter(coxbGenContext);
         writer.writeHostToJavaTransformer(ce);
-        String resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/lsfileae/bind/DfhcommareaHostToJavaTransformer.java");
+        String resStr = getSource(GEN_SRC_DIR,
+                "/com/legstar/test/coxb/lsfileae/bind/DfhcommareaHostToJavaTransformer.java");
 
-        assertTrue(resStr.contains("DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();"));
+        assertTrue(resStr.contains("DfhcommareaHostToJavaTransformer transformer ="
+                + " new DfhcommareaHostToJavaTransformer();"));
         assertTrue(resStr.contains("Dfhcommarea javaValue = (Dfhcommarea) transformer.transform(hostByteArray);"));
-        assertTrue(resStr.contains("public class DfhcommareaHostToJavaTransformer extends AbstractHostToJavaTransformer {"));
+        assertTrue(resStr.contains("public class DfhcommareaHostToJavaTransformer"
+                + " extends AbstractHostToJavaTransformer {"));
         assertTrue(resStr.contains("public DfhcommareaHostToJavaTransformer() {"));
-        assertTrue(resStr.contains("public DfhcommareaHostToJavaTransformer(CobolContext cobolContext) {"));
+        assertTrue(resStr.contains("public DfhcommareaHostToJavaTransformer(final CobolContext cobolContext) {"));
         assertTrue(resStr.contains("public DfhcommareaHostToJavaTransformer(final String hostCharset) {"));
         assertTrue(resStr.contains("return new DfhcommareaBinding();"));
     }
@@ -180,13 +190,16 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
 
         CoxbGenWriter writer = new CoxbGenWriter(coxbGenContext);
         writer.writeJavaToHostTransformer(ce);
-        String resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/lsfileae/bind/DfhcommareaJavaToHostTransformer.java");
+        String resStr = getSource(GEN_SRC_DIR,
+                "/com/legstar/test/coxb/lsfileae/bind/DfhcommareaJavaToHostTransformer.java");
 
-        assertTrue(resStr.contains("DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();"));
+        assertTrue(resStr.contains("DfhcommareaJavaToHostTransformer transformer"
+                + " = new DfhcommareaJavaToHostTransformer();"));
         assertTrue(resStr.contains("byte[] hostByteArray = (Dfhcommarea) transformer.transform(javaValue);"));
-        assertTrue(resStr.contains("public class DfhcommareaJavaToHostTransformer extends AbstractJavaToHostTransformer {"));
+        assertTrue(resStr.contains("public class DfhcommareaJavaToHostTransformer extends"
+                + " AbstractJavaToHostTransformer {"));
         assertTrue(resStr.contains("public DfhcommareaJavaToHostTransformer() {"));
-        assertTrue(resStr.contains("public DfhcommareaJavaToHostTransformer(CobolContext cobolContext) {"));
+        assertTrue(resStr.contains("public DfhcommareaJavaToHostTransformer(final CobolContext cobolContext) {"));
         assertTrue(resStr.contains("public DfhcommareaJavaToHostTransformer(final String hostCharset) {"));
         assertTrue(resStr.contains("return new DfhcommareaBinding();"));
     }

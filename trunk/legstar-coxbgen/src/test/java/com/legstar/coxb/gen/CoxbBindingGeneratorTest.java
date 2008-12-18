@@ -11,7 +11,7 @@
 package com.legstar.coxb.gen;
 
 import java.io.File;
-import com.legstar.coxb.gen.CoxbBindingGenerator;
+
 
 /**
  * Test the binding generator.
@@ -69,15 +69,21 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
         }
     }
 
-    /** Generate binding for Alltypes. */
-    public void testGenAlltypes() throws Exception  {
+    /**
+     * Generate binding for Alltypes.
+     * @throws Exception if generation fails
+     */
+   public void testGenAlltypes() throws Exception  {
         genSource("alltypes", "Dfhcommarea");
         String srce = getSource(GEN_SRC_DIR, getBindingSrcFilename("alltypes", "Dfhcommarea"));
         assertTrue(srce.contains("sString = BF.createStringBinding(\"SString\","));
         assertTrue(srce.contains("\"SString\", String.class, this);"));
     }
 
-    /** Generate binding for Dplarcht. */
+    /**
+     * Generate binding for Dplarcht.
+     * @throws Exception if generation fails
+     */
     public void testGenDplarcht() throws Exception   {
         genSource("dplarcht", "Dfhcommarea");
         String srce = getSource(GEN_SRC_DIR, getBindingSrcFilename("dplarcht", "Dfhcommarea"));
@@ -87,7 +93,10 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
         assertTrue(srce.contains("\"LsReply\", this, null);"));
     }
 
-    /** Generate binding for Redsimpt. */
+    /**
+     * Generate binding for Redsimpt.
+     * @throws Exception if generation fails
+     */
     public void testGenRedsimpt() throws Exception   {
         File custFile = new File(getGetCustFilename("redsimpt"));
         custFile.delete();
@@ -97,10 +106,14 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
         assertTrue(srce.contains("cDefinition1Choice.setUnmarshalChoiceStrategyClassName("));
         assertTrue(srce.contains("\"com.legstar.coxb.cust.redsimpt.ChoiceSelector\");"));
         String custSrce = getSource(GEN_SRC_DIR, getGetCustFilename("redsimpt"));
-        assertTrue(custSrce.contains("Dfhcommarea valueObject = (Dfhcommarea) choice.getObjectValue(Dfhcommarea.class);"));
+        assertTrue(custSrce.contains(
+                "Dfhcommarea valueObject = (Dfhcommarea) choice.getObjectValue(Dfhcommarea.class);"));
     }
 
-    /** Generate binding for Arrayssm. */
+    /**
+     * Generate binding for Arrayssm.
+     * @throws Exception if generation fails
+     */
     public void testGenArrayssm() throws Exception   {
         genSource("arrayssm", "Dfhcommarea");
         String srce = getSource(GEN_SRC_DIR, getBindingSrcFilename("arrayssm", "Dfhcommarea"));
@@ -110,19 +123,27 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
         assertTrue(srce.contains("\"TableComplex\", this, _tableComplexWrapperItem);"));
     }
 
-    /** Generate binding for Lsfileae. */
+    /**
+     * Generate binding for Lsfileae.
+     * @throws Exception if generation fails
+     */
     public void testGenLsfileae() throws Exception   {
         genSource("lsfileae", "Dfhcommarea");
         String srce = getSource(GEN_SRC_DIR, getBindingSrcFilename("lsfileae", "Dfhcommarea"));
         assertTrue(srce.contains("comNumber = BF.createZonedDecimalBinding(\"ComNumber\","));
         assertTrue(srce.contains("\"ComNumber\", Long.class, this);"));
         srce = getSource(GEN_SRC_DIR, getSrcFilename("lsfileae", "DfhcommareaHostToJavaTransformer"));
-        assertTrue(srce.contains("public class DfhcommareaHostToJavaTransformer extends AbstractHostToJavaTransformer {"));
+        assertTrue(srce.contains(
+                "public class DfhcommareaHostToJavaTransformer extends AbstractHostToJavaTransformer {"));
         srce = getSource(GEN_SRC_DIR, getSrcFilename("lsfileae", "DfhcommareaJavaToHostTransformer"));
-        assertTrue(srce.contains("public class DfhcommareaJavaToHostTransformer extends AbstractJavaToHostTransformer {"));
+        assertTrue(srce.contains(
+                "public class DfhcommareaJavaToHostTransformer extends AbstractJavaToHostTransformer {"));
     }
 
-    /** Generate binding for Arraysdo. */
+    /**
+     * Generate binding for Arraysdo.
+     * @throws Exception if generation fails
+     */
     public void testGenArraysdo() throws Exception   {
         genSource("arraysdo", "Dfhcommarea");
         String srce = getSource(GEN_SRC_DIR, getBindingSrcFilename("arraysdo", "Dfhcommarea"));
@@ -135,7 +156,10 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
         assertTrue(srce.contains("tableOdo.setDependingOn(\"TABLE-SIZE\");"));
     }
 
-    /** Generate binding for Listssdo. */
+    /**
+     * Generate binding for Listssdo.
+     * @throws Exception if generation fails
+     */
     public void testGenListssdo() throws Exception   {
         genSource("listssdo", "Dfhcommarea");
         String srce = getSource(GEN_SRC_DIR, getBindingSrcFilename("listssdo", "Dfhcommarea"));
@@ -149,7 +173,10 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
         assertTrue(srce.contains("\"ListOdo\", String.class, this);"));
     }
 
-    /** Generate binding for MSNSearch SearchRequestType. */
+    /**
+     * Generate binding for MSNSearch SearchRequestType.
+     * @throws Exception if generation fails
+     */
     public void testMSNSearchSearchRequestType() throws Exception   {
         genSource("MSNSearch", "SearchRequestType");
         String srce = getSource(GEN_SRC_DIR, getBindingSrcFilename("MSNSearch", "SearchRequestType"));
@@ -163,7 +190,10 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
         assertTrue(srce.contains("\"SafeSearch\", SafeSearchOptionsType.class, this);"));
     }
 
-    /** Generate binding for MSNSearch SearchResponseType. */
+    /**
+     * Generate binding for MSNSearch SearchResponseType.
+     * @throws Exception if generation fails
+     */
     public void testMSNSearchSearchResponseType() throws Exception   {
         genSource("MSNSearch", "SearchResponse");
         String srce = getSource(GEN_SRC_DIR, getBindingSrcFilename("MSNSearch", "SourceResponseType"));
@@ -175,7 +205,10 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
         assertTrue(srce.contains("\"Results\", this, null);"));
     }
 
-    /** Check that we can provide multiple class names at once. */
+    /**
+     * Check that we can provide multiple class names at once.
+     * @throws Exception if generation fails
+     */
     public void testMultipleJaxbRootClassNames() throws Exception {
         CoxbBindingGenerator gen = new CoxbBindingGenerator();
         gen.setJaxbBinDir(JAXB_BIN_DIR);
@@ -190,8 +223,12 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
         assertTrue(src2.contains("currencySymbol = BF.createStringBinding(\"CurrencySymbol\","));
     }
 
-    /** Generates COXB classes */
-    private void genSource(String schemaName, String rootName) {
+    /**
+     * Generates COXB classes.
+     * @param schemaName the originating XSD name
+     * @param rootName JAXB root class name
+     */
+    private void genSource(final String schemaName, final String rootName) {
         CoxbBindingGenerator gen = new CoxbBindingGenerator();
         gen.setJaxbBinDir(JAXB_BIN_DIR);
         gen.setJaxbPackageName(JAXB_PKG_PFX + '.' + schemaName);
@@ -200,15 +237,29 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
         gen.execute();
     }
 
-    private String getBindingSrcFilename(String schemaName, String className) {
+    /**
+     * @param schemaName the originating XSD name
+     * @param className the bound class name
+     * @return the qualified Binding class file name
+     */
+    private String getBindingSrcFilename(final String schemaName, final String className) {
         return GEN_SRC_SUBDIR + '/' + schemaName + "/bind/" + className + "Binding.java";
     }
 
-    private String getSrcFilename(String schemaName, String className) {
+    /**
+     * @param schemaName the originating XSD name
+     * @param className the bound class name
+     * @return the qualified class file name
+     */
+    private String getSrcFilename(final String schemaName, final String className) {
         return GEN_SRC_SUBDIR + '/' + schemaName + "/bind/" + className + ".java";
     }
 
-    private String getGetCustFilename(String schemaName) {
+    /**
+     * @param schemaName the originating XSD name
+     * @return the qualified custom class file name
+     */
+    private String getGetCustFilename(final String schemaName) {
         return GEN_CUST_SUBDIR + '/' + schemaName + "/ChoiceSelector.java";
     }
 

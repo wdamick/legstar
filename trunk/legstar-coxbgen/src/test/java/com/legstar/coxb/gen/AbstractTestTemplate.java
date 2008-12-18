@@ -23,7 +23,6 @@ import org.apache.commons.logging.LogFactory;
 
 import com.legstar.codegen.CodeGenHelper;
 import com.legstar.codegen.CodeGenUtil;
-import com.legstar.coxb.gen.CoxbHelper;
 
 import junit.framework.TestCase;
 
