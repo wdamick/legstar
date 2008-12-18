@@ -26,35 +26,90 @@ import com.legstar.test.coxb.redmulti.Filler38;
 
 import junit.framework.TestCase;
 
+/**
+ * Marshal redmulti.
+ *
+ */
 public class MarshalRedmultiTest extends TestCase {
 
-    private final static String SCHEMA_NAME = "redmulti";
+    /** The annotated XSD file name. */
+    private static final String SCHEMA_NAME = "redmulti";
 
-    public void testRedmultiNormal() throws Exception{
+    /**
+     * Marshal host data and test java data object result.
+     * @throws Exception if marshaling fails
+     */
+    public void testRedmultiNormal() throws Exception {
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
 
-        Dfhcommarea.setCOutputType("normal");
+        dfhcommarea.setCOutputType("normal");
         Filler35 filler35 = new Filler35();
         filler35.setCString("ABJADHAOUAZ");
-        Dfhcommarea.setFiller35(filler35);
+        dfhcommarea.setFiller35(filler35);
 
-        assertEquals("959699948193c1c2d1c1c4c8c1d6e4c1e9404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040",
-                Util.marshal(SCHEMA_NAME, Dfhcommarea, 206));
+        assertEquals("959699948193"
+        + "c1c2d1c1c4c8c1d6e4c1"
+        + "e9404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040",
+                Util.marshal(SCHEMA_NAME, dfhcommarea, 206));
     }
 
-    public void testRedmultiError() throws Exception{
+    /**
+     * Marshal host data and test java data object result.
+     * Alternative choice.
+     * @throws Exception if marshaling fails
+     */
+    public void testRedmultiError() throws Exception {
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
 
-        Dfhcommarea.setCOutputType("error");
+        dfhcommarea.setCOutputType("error");
         Filler38 filler38 = new Filler38();
         filler38.setCErrorNum(75);
         filler38.setCErrorDescription("ABOMINABLE");
-        Dfhcommarea.setFiller38(filler38);
+        dfhcommarea.setFiller38(filler38);
 
-        assertEquals("859999969940f0f0f7f5c1c2d6d4c9d5c1c2d3c5404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040",
-                Util.marshal(SCHEMA_NAME, Dfhcommarea, 206));
+        assertEquals("859999969940"
+        + "f0f0f7f5"
+        + "c1c2d6d4c9d5"
+        + "c1c2d3c5404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040",
+                Util.marshal(SCHEMA_NAME, dfhcommarea, 206));
     }
 
 }

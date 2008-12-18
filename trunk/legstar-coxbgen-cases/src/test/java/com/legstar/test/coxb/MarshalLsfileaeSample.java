@@ -34,13 +34,21 @@ import com.legstar.test.coxb.lsfileae.bind.DfhcommareaBinding;
  * z/os data.
  *
  */
-public class MarshalLsfileaeSample {
+public final class MarshalLsfileaeSample {
 
+    /** Utility class. */
+    private MarshalLsfileaeSample() {
+        
+    }
     /**
      * The main function does not take any argument.
      * @param args
      */
-    public static void main(String[] args) {
+    /**
+     * Marshal host data and test java data object result.
+     * @param args not used
+     */
+    public static void main(final String[] args) {
         // Create a JAXB object and set its properties
         Dfhcommarea jaxbObject = getJaxbObject();
         // Create a COXB object wrapping the JAXB object
@@ -49,7 +57,8 @@ public class MarshalLsfileaeSample {
             // Create a buffer to receive the host data
             byte[] hostBytes = new byte[coxbObject.calcByteLength()];
             // Create a marshaler using the default cobol conversion parameters
-            CobolMarshalVisitor mv = new CobolMarshalVisitor(hostBytes, 0, new CobolSimpleConverters(new CobolContext()));
+            CobolMarshalVisitor mv = new CobolMarshalVisitor(
+                    hostBytes, 0, new CobolSimpleConverters(new CobolContext()));
             // Marshal the java data to a z/os buffer
             coxbObject.accept(mv);
             // Print the result
@@ -65,17 +74,17 @@ public class MarshalLsfileaeSample {
      * @return a JAXB object
      */
     private static Dfhcommarea getJaxbObject() {
-        Dfhcommarea Dfhcommarea = new Dfhcommarea();
-        Dfhcommarea.setComNumber(100);
-        Dfhcommarea.setComDate("100458");
-        Dfhcommarea.setComAmount("00100.35");
-        Dfhcommarea.setComComment("A VOIR");
+        Dfhcommarea dfhcommarea = new Dfhcommarea();
+        dfhcommarea.setComNumber(100);
+        dfhcommarea.setComDate("100458");
+        dfhcommarea.setComAmount("00100.35");
+        dfhcommarea.setComComment("A VOIR");
         ComPersonal personal = new ComPersonal();
         personal.setComName("TOTO");
         personal.setComAddress("LABAS STREET");
         personal.setComPhone("88993314");
-        Dfhcommarea.setComPersonal(personal);
-        return Dfhcommarea;
+        dfhcommarea.setComPersonal(personal);
+        return dfhcommarea;
     }
 
 }

@@ -27,25 +27,60 @@ import com.legstar.test.coxb.redmulti.Dfhcommarea;
 
 import junit.framework.TestCase;
 
+/**
+ * Unmarshal redmulti.
+ *
+ */
 public class UnmarshalRedmultiTest extends TestCase {
 
+    /**
+     * Unmarshal java data object and test host data result.
+     * @throws Exception if marshaling fails
+     */
     public void testRedmultiNormal() throws Exception {
-        String hexString = "959699948193c1c2d1c1c4c8c1d6e4c1e9404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040";
+        String hexString = "959699948193"
+        + "c1c2d1c1c4c8c1d6e4c1e9404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040";
         byte[] hostBytes = HostData.toByteArray(hexString);
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redmulti");
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redmulti");
 
-        assertEquals("normal",Dfhcommarea.getCOutputType());
-        assertEquals("ABJADHAOUAZ",Dfhcommarea.getFiller35().getCString());
+        assertEquals("normal", dfhcommarea.getCOutputType());
+        assertEquals("ABJADHAOUAZ", dfhcommarea.getFiller35().getCString());
     }
 
+    /**
+     * Unmarshal java data object and test host data result.
+     * Alternative choice.
+     * @throws Exception if marshaling fails
+     */
     public void testRedmultiError() throws Exception {
-        String hexString = "859999969940f0f0f7f5c1c2d6d4c9d5c1c2d3c5404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040";
+        String hexString = "859999969940"
+        + "f0f0f7f5"
+        + "c1c2d6d4c9d5c1c2d3c5404040404040404040"
+        + "40404040404040404040404040404040404040"
+        + "40404040404040404040404040404040404040"
+        + "40404040404040404040404040404040404040"
+        + "40404040404040404040404040404040404040"
+        + "40404040404040404040404040404040404040"
+        + "40404040404040404040404040404040404040"
+        + "40404040404040404040404040404040404040"
+        + "40404040404040404040404040404040404040"
+        + "40404040404040404040404040404040404040"
+        + "404040404040";
         byte[] hostBytes = HostData.toByteArray(hexString);
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redmulti");
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redmulti");
 
-        assertEquals("error",Dfhcommarea.getCOutputType());
-        assertEquals(75, Dfhcommarea.getFiller38().getCErrorNum());
-        assertEquals("ABOMINABLE",Dfhcommarea.getFiller38().getCErrorDescription());
+        assertEquals("error", dfhcommarea.getCOutputType());
+        assertEquals(75, dfhcommarea.getFiller38().getCErrorNum());
+        assertEquals("ABOMINABLE", dfhcommarea.getFiller38().getCErrorDescription());
     }
 
 }

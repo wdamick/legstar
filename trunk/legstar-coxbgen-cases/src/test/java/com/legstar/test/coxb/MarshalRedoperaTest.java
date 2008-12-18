@@ -24,31 +24,85 @@ import com.legstar.test.coxb.redopera.Dfhcommarea;
 
 import junit.framework.TestCase;
 
+/**
+ * Marshal redopera.
+ *
+ */
 public class MarshalRedoperaTest extends TestCase {
 
-    private final static String SCHEMA_NAME = "redopera";
+    /** The annotated XSD file name. */
+    private static final String SCHEMA_NAME = "redopera";
 
+    /**
+     * Marshal host data and test java data object result.
+     * @throws Exception if marshaling fails
+     */
     public void testRedoperaStringMethod() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
 
-        Dfhcommarea.setCFunction("stringMethod");
-        Dfhcommarea.setCData("");
+        dfhcommarea.setCFunction("stringMethod");
+        dfhcommarea.setCData("");
 
-        assertEquals("a2a399899587d485a38896844040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040",
-                Util.marshal(SCHEMA_NAME, Dfhcommarea, 218));
+        assertEquals("a2a399899587d485a3889684404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040",
+                Util.marshal(SCHEMA_NAME, dfhcommarea, 218));
     }
 
+    /**
+     * Marshal host data and test java data object result.
+     * Alternative choice.
+     * @throws Exception if marshaling fails
+     */
     public void testRedoperaIntMethod() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
 
-        Dfhcommarea.setCFunction("intMethod");
-        Dfhcommarea.setCData("");
+        dfhcommarea.setCFunction("intMethod");
+        dfhcommarea.setCData("");
 
-        assertEquals("8995a3d485a38896844040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040",
-                Util.marshal(SCHEMA_NAME, Dfhcommarea, 218));
+        assertEquals("8995a3d485a3889684404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040",
+                Util.marshal(SCHEMA_NAME, dfhcommarea, 218));
     }
 }

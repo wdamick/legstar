@@ -24,25 +24,34 @@ import com.legstar.test.coxb.numzoned.Dfhcommarea;
 
 import junit.framework.TestCase;
 
+/**
+ * Marshal numzoned.
+ *
+ */
 public class MarshalNumzonedTest extends TestCase {
 
-    private final static String SCHEMA_NAME = "numzoned";
+    /** The annotated XSD file name. */
+    private static final String SCHEMA_NAME = "numzoned";
 
+    /**
+     * Marshal host data and test java data object result.
+     * @throws Exception if marshaling fails
+     */
     public void testLsfileae() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-        Dfhcommarea.setLU(6);
-        Dfhcommarea.setLS(Short.parseShort("-5"));
-        Dfhcommarea.setLSSignL(Short.parseShort("-78"));
-        Dfhcommarea.setLSSignT(Short.parseShort("1"));
-        Dfhcommarea.setLSSignSL(Short.parseShort("9"));
-        Dfhcommarea.setLSSignST(Short.parseShort("-11"));
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        dfhcommarea.setLU(6);
+        dfhcommarea.setLS(Short.parseShort("-5"));
+        dfhcommarea.setLSSignL(Short.parseShort("-78"));
+        dfhcommarea.setLSSignT(Short.parseShort("1"));
+        dfhcommarea.setLSSignSL(Short.parseShort("9"));
+        dfhcommarea.setLSSignST(Short.parseShort("-11"));
 
-        //		      <><--><----><--><--><---->
-        //		      1 1 2 1 2 3 1 2 1 2 1 2 3  
-        //		      6   -5 -7 8   +1 + 9 1 1 - 
+        /*            <><--><----><--><--><----> */
+        /*            1 1 2 1 2 3 1 2 1 2 1 2 3   */
+        /*             6   -5 -7 8   +1 + 9 1 1 -  */
         assertEquals("f6f0d5d0f7f8f0c14ef9f1f160",
-                Util.marshal(SCHEMA_NAME, Dfhcommarea, 13));
+                Util.marshal(SCHEMA_NAME, dfhcommarea, 13));
     }
 }

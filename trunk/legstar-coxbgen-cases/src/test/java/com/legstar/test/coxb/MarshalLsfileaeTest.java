@@ -25,28 +25,40 @@ import com.legstar.test.coxb.lsfileae.ComPersonal;
 
 import junit.framework.TestCase;
 
+/**
+ * Marshal lsfileae.
+ *
+ */
 public class MarshalLsfileaeTest extends TestCase {
 
-    private final static String SCHEMA_NAME = "lsfileae";
+    /** The annotated XSD file name. */
+    private static final String SCHEMA_NAME = "lsfileae";
 
+    /**
+     * Marshal host data and test java data object result.
+     * @throws Exception if marshaling fails
+     */
     public void testLsfileae() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-        Dfhcommarea.setComNumber(100l);
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        dfhcommarea.setComNumber(100L);
         ComPersonal comPersonal = new ComPersonal();
         comPersonal.setComName("TOTO");
         comPersonal.setComAddress("LABAS STREET");
         comPersonal.setComPhone("88993314");
-        Dfhcommarea.setComPersonal(comPersonal);
-        Dfhcommarea.setComDate("100458");
-        Dfhcommarea.setComAmount("00100.35");
-        Dfhcommarea.setComComment("A VOIR");
+        dfhcommarea.setComPersonal(comPersonal);
+        dfhcommarea.setComDate("100458");
+        dfhcommarea.setComAmount("00100.35");
+        dfhcommarea.setComComment("A VOIR");
 
-        //		              <----------><--------------------------------------><--------------------------------------><--------------><--------------><--------------><---------------->
-        //		              1 2 3 4 5 6 1 2 3 4 5 6 7 8 9 10111213141516171819201 2 3 4 5 6 7 8 9 10111213141516171819201 2 3 4 5 6 7 8 1 2 3 4 5 6 7 8 1 2 3 4 5 6 7 8 1 2 3 4 5 6 7 8 9
-        //		              0 0 0 1 0 0 T O T O                                 L A B A S   S T R E E T                 8 8 9 9 3 3 1 4 1 0 0 4 5 8 0 0 1 0 0 . 3 5 A   V O I R
-        assertEquals("f0f0f0f1f0f0e3d6e3d640404040404040404040404040404040d3c1c2c1e240e2e3d9c5c5e34040404040404040f8f8f9f9f3f3f1f4f1f0f0f4f5f84040f0f0f1f0f04bf3f5c140e5d6c9d9404040",
-                Util.marshal(SCHEMA_NAME, Dfhcommarea, 79));
+        assertEquals("f0f0f0f1f0f0"
+        + "e3d6e3d640404040404040404040404040404040"
+        + "d3c1c2c1e240e2e3d9c5c5e34040404040404040"
+        + "f8f8f9f9f3f3f1f4"
+        + "f1f0f0f4f5f84040"
+        + "f0f0f1f0f04bf3f5"
+        + "c140e5d6c9d9404040",
+                Util.marshal(SCHEMA_NAME, dfhcommarea, 79));
     }
 }

@@ -32,21 +32,30 @@ import com.legstar.test.coxb.binpkdus.Dfhcommarea;
 
 import junit.framework.TestCase;
 
+/**
+ * Marshal binpkdus.
+ *
+ */
 public class MarshalBinpkdusTest extends TestCase {
 
-    private final static String SCHEMA_NAME = "binpkdus";
+    /** The annotated XSD file name. */
+    private static final String SCHEMA_NAME = "binpkdus";
 
+    /**
+     * Marshal host data and test java data object result.
+     * @throws Exception if marshaling fails
+     */
     public void testBinpkdus() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
 
         LsCompat lsCompat = new LsCompat();
-        lsCompat.setLsP9X1(3);
-        lsCompat.setLsP9X18(123456789012345678l);
         lsCompat.setLsP9X1Null(0);
+        lsCompat.setLsP9X1(3);
         lsCompat.setLsP9X2(12);
         lsCompat.setLsP9X7(32769);
+        lsCompat.setLsP9X18(123456789012345678L);
 
         LsExtend lsExtend = new LsExtend();
         lsExtend.setLsP9X19(new BigInteger("1234567890123456789"));
@@ -55,9 +64,16 @@ public class MarshalBinpkdusTest extends TestCase {
         LsUnsignedPackedDecimal lsUnsignedPackedDecimal = new LsUnsignedPackedDecimal();
         lsUnsignedPackedDecimal.setLsCompat(lsCompat);
         lsUnsignedPackedDecimal.setLsExtend(lsExtend);
-        Dfhcommarea.setLsUnsignedPackedDecimal(lsUnsignedPackedDecimal);
+        dfhcommarea.setLsUnsignedPackedDecimal(lsUnsignedPackedDecimal);
 
-        assertEquals("0f3f012f0032769f0123456789012345678f1234567890123456789f1234567890123456789012345678901f000000000000000000000000",
-                Util.marshal(SCHEMA_NAME, Dfhcommarea, 56));
+        assertEquals("0f"
+        + "3f"
+        + "012f"
+        + "0032769f"
+        + "0123456789012345678f"
+        + "1234567890123456789f"
+        + "1234567890123456789012345678901f"
+        + "000000000000000000000000",
+                Util.marshal(SCHEMA_NAME, dfhcommarea, 56));
     }
 }

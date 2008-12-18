@@ -31,6 +31,10 @@ import com.legstar.test.coxb.ws.jvmquery.bind.QueryJvmResponseBinding;
 
 import junit.framework.TestCase;
 
+/**
+ * Marshal jvmquery web service.
+ *
+ */
 public class MarshalJvmqueryWsTest extends TestCase {
 
     /** Expected raw mainframe response sample. */
@@ -50,6 +54,10 @@ public class MarshalJvmqueryWsTest extends TestCase {
         /* - - - - */
         + "40404040";
 
+    /**
+     * Marshal host data and test java data object result.
+     * @throws Exception if marshaling fails
+     */
     public void testJvmqueryWs() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
@@ -58,7 +66,8 @@ public class MarshalJvmqueryWsTest extends TestCase {
         jvmQueryReply.setCurrencySymbol("€");
         jvmQueryReply.setFormattedDate("vendredi-10-octobre-2008-14h-28");
         jvmQueryReply.setLanguage("français");
-        jvmQueryReply.getEnvVarValues().add("D:\\Legsem\\Legstar\\jboss\\mlittle\\product\\build\\jbossesb-server-4.4.GA");
+        jvmQueryReply.getEnvVarValues().add(
+                "D:\\Legsem\\Legstar\\jboss\\mlittle\\product\\build\\jbossesb-server-4.4.GA");
         jvmQueryReply.getEnvVarValues().add("C:\\Program Files\\Java\\jdk1.6.0_10");
 
         QueryJvmResponse queryJvmResponse = new QueryJvmResponse();

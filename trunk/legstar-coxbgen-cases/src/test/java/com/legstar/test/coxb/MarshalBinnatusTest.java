@@ -33,14 +33,23 @@ import com.legstar.test.coxb.binnatus.Dfhcommarea;
 
 import junit.framework.TestCase;
 
+/**
+ * Marshal binnatus.
+ *
+ */
 public class MarshalBinnatusTest extends TestCase {
 
-    private final static String SCHEMA_NAME = "binnatus";
+    /** The annotated XSD file name. */
+    private static final String SCHEMA_NAME = "binnatus";
 
+    /**
+     * Marshal host data and test java data object result.
+     * @throws Exception if marshaling fails
+     */
     public void testBinnatus() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
 
         LsUnsignedNative lsUnsignedNative = new LsUnsignedNative(); 
 
@@ -51,9 +60,9 @@ public class MarshalBinnatusTest extends TestCase {
         lsHalfwords.setLsP9X4Min(0);
 
         LsFullwords lsFullwords = new LsFullwords();
-        lsFullwords.setLsP9X9High(2147483649l);
+        lsFullwords.setLsP9X9High(2147483649L);
         lsFullwords.setLsP9X9Low(65534);
-        lsFullwords.setLsP9X9Max(4294967295l);
+        lsFullwords.setLsP9X9Max(4294967295L);
         lsFullwords.setLsP9X9Min(0);
 
         LsDoublewords lsDoublewords = new LsDoublewords();
@@ -66,9 +75,20 @@ public class MarshalBinnatusTest extends TestCase {
         lsUnsignedNative.setLsFullwords(lsFullwords);
         lsUnsignedNative.setLsDoublewords(lsDoublewords);
 
-        Dfhcommarea.setLsUnsignedNative(lsUnsignedNative);
+        dfhcommarea.setLsUnsignedNative(lsUnsignedNative);
 
-        assertEquals("0000007f8001ffff000000000000fffe80000001ffffffff000000000000000000000000fffffffefffffffefffffffeffffffffffffffff",
-                Util.marshal(SCHEMA_NAME, Dfhcommarea, 56));
+        assertEquals("0000"
+        + "007f"
+        + "8001"
+        + "ffff"
+        + "00000000"
+        + "0000fffe"
+        + "80000001"
+        + "ffffffff"
+        + "0000000000000000"
+        + "00000000fffffffe"
+        + "fffffffefffffffe"
+        + "ffffffffffffffff",
+                Util.marshal(SCHEMA_NAME, dfhcommarea, 56));
     }
 }

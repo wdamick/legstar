@@ -26,22 +26,31 @@ import com.legstar.test.coxb.doublmix.Dfhcommarea;
 
 import junit.framework.TestCase;
 
+/**
+ * Marshal doublmix.
+ *
+ */
 public class MarshalDoublmixTest extends TestCase {
 
-    private final static String SCHEMA_NAME = "doublmix";
+    /** The annotated XSD file name. */
+    private static final String SCHEMA_NAME = "doublmix";
 
+    /**
+     * Marshal host data and test java data object result.
+     * @throws Exception if marshaling fails
+     */
     public void testDoublmix() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-        Dfhcommarea.setCDouble0(0d);
-        Dfhcommarea.setCDouble1(1d);
-        Dfhcommarea.setCDouble1234(1234d);
-        Dfhcommarea.setCDouble345006P5678(345006.5678d);
-        Dfhcommarea.setCDouble3P40282347Ep38(3.40282347E+38);
-        Dfhcommarea.setCDouble798P20067Em16(798.20067E-16);
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        dfhcommarea.setCDouble0(0d);
+        dfhcommarea.setCDouble1(1d);
+        dfhcommarea.setCDouble1234(1234d);
+        dfhcommarea.setCDouble345006P5678(345006.5678d);
+        dfhcommarea.setCDouble3P40282347Ep38(3.40282347E+38);
+        dfhcommarea.setCDouble798P20067Em16(798.20067E-16);
 
         assertEquals("434d2000000000000000000000000000411000000000000045543ae915b573e0361677a4590fab6060ffffff048ff9e0",
-                Util.marshal(SCHEMA_NAME, Dfhcommarea, 48));
+                Util.marshal(SCHEMA_NAME, dfhcommarea, 48));
     }
 }

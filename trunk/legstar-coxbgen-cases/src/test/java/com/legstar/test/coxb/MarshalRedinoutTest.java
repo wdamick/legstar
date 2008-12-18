@@ -25,21 +25,30 @@ import com.legstar.test.coxb.redinout.CParain;
 
 import junit.framework.TestCase;
 
+/**
+ * Marshal redinout.
+ *
+ */
 public class MarshalRedinoutTest extends TestCase {
 
-    private final static String SCHEMA_NAME = "redinout";
+    /** The annotated XSD file name. */
+    private static final String SCHEMA_NAME = "redinout";
 
-    public void testRedinout() throws Exception{
+    /**
+     * Marshal host data and test java data object result.
+     * @throws Exception if marshaling fails
+     */
+    public void testRedinout() throws Exception {
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
 
-        Dfhcommarea.setCNumeric(35);
+        dfhcommarea.setCNumeric(35);
         CParain parain = new CParain();
         parain.setCSomeInput("ABCDEABCDEABCDE");
-        Dfhcommarea.setCParain(parain);
+        dfhcommarea.setCParain(parain);
 
         assertEquals("0023c1c2c3c4c5c1c2c3c4c5c1c2c3c4c5",
-                Util.marshal(SCHEMA_NAME, Dfhcommarea, 17));
+                Util.marshal(SCHEMA_NAME, dfhcommarea, 17));
     }
 
 }

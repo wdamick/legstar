@@ -39,6 +39,31 @@ import junit.framework.TestCase;
  *
  */
 public class ChoiceStrategyTest extends TestCase {
+    
+    /**
+     * A typical content for DPLARCHT commarea.
+     *              1 
+     *         *                
+     *                  1 
+     *             0
+     *                1
+     *         P R O G R A M 1
+     *         C                       
+     *         A S M                       
+     *         1750
+     *                1 */
+    public static final String DPLARCHT_BYTES = "0001"
+        + "5c404040"
+        + "c340404040404040"
+        + "000000001f"
+        + "0000"
+        + "00000001"
+        + "d7d9d6c7d9c1d4f1"
+        + "c34040404040404040404040"
+        + "c1e2d4404040404040404040"
+        + "000006d6"
+        + "00000001"
+        + "404040404040404040404040404040404040404040404040"; 
 
     /**
      * This test fakes a situation where marshalling will use a user written
@@ -91,20 +116,20 @@ public class ChoiceStrategyTest extends TestCase {
         mv.setOffset(0);
         ccem.accept(mv);
 
-        //            <--><------><-------------><---------><--><------><--------------><----------------------><----------------------><------><------><---------------------------------------------->
-        //               1C       *                        1   0       1P R O G R A M 1 C                       A S M                       1750       1
-        assertEquals("00015c404040c340404040404040000000001f000000000001d7d9d6c7d9c1d4f1c34040404040404040404040c1e2d4404040404040404040000006d600000001404040404040404040404040404040404040404040404040", HostData.toHexString(hostBytes));
+        assertEquals(DPLARCHT_BYTES, HostData.toHexString(hostBytes));
     }
 
+    /**
+     * Unmarshal Dplarcht.
+     * @throws HostException if unmarshaling fails
+     */
     public void testDplarchtUnmarshalStatic() throws HostException {
 
         // Create a cobol context 
         CobolContext cobolContext = new CobolContext();
         // Select a conversion strategy 
         CobolSimpleConverters cc = new CobolSimpleConverters(cobolContext);
-        //                    <--><------><-------------><---------><--><------><--------------><----------------------><----------------------><------><------><---------------------------------------------->
-        //                    1C       *                        1   0       1P R O G R A M 1 C                       A S M                       1750       1
-        String hexString   = "00015c404040c340404040404040000000001f000000000001d7d9d6c7d9c1d4f1c34040404040404040404040c1e2d4404040404040404040000006d600000001404040404040404040404040404040404040404040404040";
+        String hexString   = DPLARCHT_BYTES;
         byte[] hostBytes = HostData.toByteArray(hexString);
 
         CobolUnmarshalVisitor uv = new CobolUnmarshalVisitor(hostBytes, 0, cc);
@@ -112,21 +137,15 @@ public class ChoiceStrategyTest extends TestCase {
         // Traverse the object structure, visiting each node with the visitor
         DfhcommareaBinding ccem = new DfhcommareaBinding();
         ccem.accept(uv);
-        Dfhcommarea Dfhcommarea = ccem.getDfhcommarea();
-
-        assertEquals(1,Dfhcommarea.getLsReply().getLsReplyData().getLsItemsCount());
-        assertEquals("ASM",Dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramLanguage());
-        assertEquals(1750,Dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramLength());
-        assertEquals("PROGRAM1",Dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramName());
-        assertEquals("C",Dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramType());
-        assertEquals(1,Dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramUsecount());
-        assertEquals("",Dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getFiller113());
-        assertEquals(null,Dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsFilesData());
-        assertEquals(null,Dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsTransactionsData());
+        Dfhcommarea dfhcommarea = ccem.getDfhcommarea();
+        checkDplarcht(dfhcommarea);
     }
 
-    /* This test fakes a situation where marshalling will use a user written
-     *  choice selector in order to determine which alternative to use. */
+    /**
+     *  This test fakes a situation where marshalling will use a user written
+     *  choice selector in order to determine which alternative to use.
+     * @throws HostException if test fails
+     *   */
     public void testDplarchtMarshalDynamic() throws HostException {
 
         byte[] hostBytes = new byte[89];
@@ -138,10 +157,10 @@ public class ChoiceStrategyTest extends TestCase {
         // Create an instance of the JAXB object factory
         ObjectFactory objectFactory = new ObjectFactory();
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea Dfhcommarea = objectFactory.createDfhcommarea();
+        Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 
         com.legstar.test.coxb.dplarcht.LsRequest lsRequest = objectFactory.createLsRequest();
-        Dfhcommarea.setLsRequest(lsRequest);
+        dfhcommarea.setLsRequest(lsRequest);
         lsRequest.setLsRequestType(1); // request programs
         lsRequest.setLsAllItems("*");  // no limit to number of items
         com.legstar.test.coxb.dplarcht.LsSearchCriteria lsSearchCriteria = objectFactory.createLsSearchCriteria();
@@ -150,7 +169,7 @@ public class ChoiceStrategyTest extends TestCase {
         lsRequest.setLsSearchCriteria(lsSearchCriteria);
 
         com.legstar.test.coxb.dplarcht.LsReply lsReply = objectFactory.createLsReply();
-        Dfhcommarea.setLsReply(lsReply);
+        dfhcommarea.setLsReply(lsReply);
         com.legstar.test.coxb.dplarcht.LsReplyData lsReplyData = objectFactory.createLsReplyData();
         lsReply.setLsReplyData(lsReplyData);
 
@@ -168,25 +187,25 @@ public class ChoiceStrategyTest extends TestCase {
         lsReplyData.getLsItemsArray().add(ia);
 
         // Traverse the object structure, visiting each node with the visitor
-        CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, Dfhcommarea);
+        CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
 
         mv.setOffset(0);
         ccem.accept(mv);
 
-        //            <--><------><-------------><---------><--><------><--------------><----------------------><----------------------><------><------><---------------------------------------------->
-        //               1C       *                        1   0       1P R O G R A M 1 C                       A S M                       1750       1
-        assertEquals("00015c404040c340404040404040000000001f000000000001d7d9d6c7d9c1d4f1c34040404040404040404040c1e2d4404040404040404040000006d600000001404040404040404040404040404040404040404040404040", HostData.toHexString(hostBytes));
+        assertEquals(DPLARCHT_BYTES, HostData.toHexString(hostBytes));
     }
 
+    /**
+     * Unmarshal using dynamic binding (reflexion on JAXB classes).
+     * @throws HostException if unmarshal fails
+     */
     public void testDplarchtUnmarshalDynamic() throws HostException {
 
         // Create a cobol context 
         CobolContext cobolContext = new CobolContext();
         // Select a conversion strategy 
         CobolSimpleConverters cc = new CobolSimpleConverters(cobolContext);
-        //                    <--><------><-------------><---------><--><------><--------------><----------------------><----------------------><------><------><---------------------------------------------->
-        //                    1C       *                        1   0       1P R O G R A M 1 C                       A S M                       1750       1
-        String hexString   = "00015c404040c340404040404040000000001f000000000001d7d9d6c7d9c1d4f1c34040404040404040404040c1e2d4404040404040404040000006d600000001404040404040404040404040404040404040404040404040";
+        String hexString   = DPLARCHT_BYTES;
         byte[] hostBytes = HostData.toByteArray(hexString);
 
         CobolUnmarshalVisitor uv = new CobolUnmarshalVisitor(hostBytes, 0, cc);
@@ -194,20 +213,35 @@ public class ChoiceStrategyTest extends TestCase {
         // Create an instance of the JAXB object factory
         ObjectFactory objectFactory = new ObjectFactory();
         // Create an initial empty instance of an object
-        Dfhcommarea Dfhcommarea = objectFactory.createDfhcommarea();
+        Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
 
         // Traverse the object structure, visiting each node with the visitor
-        CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, Dfhcommarea);
+        CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory, dfhcommarea);
         ccem.accept(uv);
-
-        assertEquals(1,Dfhcommarea.getLsReply().getLsReplyData().getLsItemsCount());
-        assertEquals("ASM",Dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramLanguage());
-        assertEquals(1750,Dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramLength());
-        assertEquals("PROGRAM1",Dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramName());
-        assertEquals("C",Dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramType());
-        assertEquals(1,Dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramUsecount());
-        assertEquals("",Dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getFiller113());
-        assertEquals(null,Dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsFilesData());
-        assertEquals(null,Dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsTransactionsData());
+        checkDplarcht(dfhcommarea);
+    }
+    
+    /**
+     * Check values from Dplarcht data object.
+     * @param dfhcommarea the Dplarcht data object
+     */
+    private void checkDplarcht(final Dfhcommarea dfhcommarea) {
+        assertEquals(1, dfhcommarea.getLsReply().getLsReplyData().getLsItemsCount());
+        assertEquals("ASM", dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray()
+                .get(0).getLsProgramsData().getLsProgramLanguage());
+        assertEquals(1750, dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray()
+                .get(0).getLsProgramsData().getLsProgramLength());
+        assertEquals("PROGRAM1", dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray()
+                .get(0).getLsProgramsData().getLsProgramName());
+        assertEquals("C", dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray()
+                .get(0).getLsProgramsData().getLsProgramType());
+        assertEquals(1, dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray()
+                .get(0).getLsProgramsData().getLsProgramUsecount());
+        assertEquals("", dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray()
+                .get(0).getLsProgramsData().getFiller113());
+        assertEquals(null, dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray()
+                .get(0).getLsFilesData());
+        assertEquals(null, dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray()
+                .get(0).getLsTransactionsData());
     }
 }

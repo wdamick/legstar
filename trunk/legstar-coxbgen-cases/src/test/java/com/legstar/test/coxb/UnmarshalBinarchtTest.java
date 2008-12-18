@@ -29,30 +29,58 @@ import com.legstar.test.coxb.binarcht.Dfhcommarea;
 
 import junit.framework.TestCase;
 
+/**
+ * Unmarshal binarcht.
+ *
+ */
 public class UnmarshalBinarchtTest extends TestCase {
 
+    /**
+     * Unmarshal java data object and test host data result.
+     * @throws Exception if marshaling fails
+     */
     public void testBinarcht() throws Exception {
 
-        //		              <--><--><------><------><--------------><--------------><--><--><------><------><--------------><-------------->
-        //		              1 2 1 2 1 2 3 4 1 2 3 4 1 2 3 4 5 6 7 8 1 2 3 4 5 6 7 8 1 2 1 2 1 2 3 4 1 2 3 4 1 2 3 4 5 6 7 8 1 2 3 4 5 6 7 8 
-        //		                 06553       042949672                1844674407370955-3273276-123456721474836-1234567890123451234567890123456         
-        String hexString   = "0000ffff00000000ffffffff0000000000000000ffffffffffffffff80007ffff8a432eb7fffffffffd423aba294b479002bdc545d6b4b87";
+        String hexString   = "0000"
+            + "ffff"
+            + "00000000"
+            + "ffffffff"
+            + "0000000000000000"
+            + "ffffffffffffffff"
+            + "8000"
+            + "7fff"
+            + "f8a432eb"
+            + "7fffffff"
+            + "ffd423aba294b479"
+            + "002bdc545d6b4b87";
         byte[] hostBytes = HostData.toByteArray(hexString);
 
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "binarcht");
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "binarcht");
 
-        assertEquals(12345678901234567l, Dfhcommarea.getLsSignedNative().getLsPs9X18Max());
-        assertEquals(-12345678901234567l, Dfhcommarea.getLsSignedNative().getLsPs9X18Min());
-        assertEquals(32767, Dfhcommarea.getLsSignedNative().getLsPs9X4Max());
-        assertEquals(-32768, Dfhcommarea.getLsSignedNative().getLsPs9X4Min());
-        assertEquals(2147483647, Dfhcommarea.getLsSignedNative().getLsPs9X9Max());
-        assertEquals(-123456789, Dfhcommarea.getLsSignedNative().getLsPs9X9Min());
+        assertEquals(12345678901234567L,
+                dfhcommarea.getLsSignedNative().getLsPs9X18Max());
+        assertEquals(-12345678901234567L,
+                dfhcommarea.getLsSignedNative().getLsPs9X18Min());
+        assertEquals(32767,
+                dfhcommarea.getLsSignedNative().getLsPs9X4Max());
+        assertEquals(-32768,
+                dfhcommarea.getLsSignedNative().getLsPs9X4Min());
+        assertEquals(2147483647,
+                dfhcommarea.getLsSignedNative().getLsPs9X9Max());
+        assertEquals(-123456789,
+                dfhcommarea.getLsSignedNative().getLsPs9X9Min());
 
-        assertEquals(65535, Dfhcommarea.getLsUnsignedNative().getLsP9X4Max());
-        assertEquals(0, Dfhcommarea.getLsUnsignedNative().getLsP9X4Min());
-        assertEquals(4294967295l, Dfhcommarea.getLsUnsignedNative().getLsP9X9Max());
-        assertEquals(0l, Dfhcommarea.getLsUnsignedNative().getLsP9X9Min());
-        assertEquals(new BigInteger("18446744073709551615"), Dfhcommarea.getLsUnsignedNative().getLsP9X18Max());
-        assertEquals(new BigInteger("0"), Dfhcommarea.getLsUnsignedNative().getLsP9X18Min());
+        assertEquals(65535,
+                dfhcommarea.getLsUnsignedNative().getLsP9X4Max());
+        assertEquals(0,
+                dfhcommarea.getLsUnsignedNative().getLsP9X4Min());
+        assertEquals(4294967295L,
+                dfhcommarea.getLsUnsignedNative().getLsP9X9Max());
+        assertEquals(0L,
+                dfhcommarea.getLsUnsignedNative().getLsP9X9Min());
+        assertEquals(new BigInteger("18446744073709551615"),
+                dfhcommarea.getLsUnsignedNative().getLsP9X18Max());
+        assertEquals(new BigInteger("0"),
+                dfhcommarea.getLsUnsignedNative().getLsP9X18Min());
     }
 }

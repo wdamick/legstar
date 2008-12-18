@@ -25,30 +25,60 @@ import com.legstar.test.coxb.redopera.Dfhcommarea;
 
 import junit.framework.TestCase;
 
+/**
+ * Unmarshal redopera.
+ *
+ */
 public class UnmarshalRedoperaTest extends TestCase {
 
+    /**
+     * Unmarshal java data object and test host data result.
+     * @throws Exception if marshaling fails
+     */
     public void testRedoperaStringMethod() throws Exception {
 
-        //		           <------------------------------------>
-        //		            1 2 3 4 5 6 7 8 9 101112131415161718
-        //		            s t r i n g M e t h o d             A B J A D H A O U A Z    
-        String hexString = "a2a399899587d485a3889684404040404040c1c2d1c1c4c8c1d6e4c1e9404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040";
+        String hexString = 
+          "a2a399899587d485a3889684404040404040"
+        + "c1c2d1c1c4c8c1d6e4c1e9404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040";
         byte[] hostBytes = HostData.toByteArray(hexString);
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redopera");
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redopera");
 
-        assertEquals("ABJADHAOUAZ", Dfhcommarea.getFiller25().getCString());
+        assertEquals("ABJADHAOUAZ", dfhcommarea.getFiller25().getCString());
     }
 
+    /**
+     * Unmarshal java data object and test host data result.
+     * alternative choice.
+     * @throws Exception if marshaling fails
+     */
     public void testRedoperaIntMethod() throws Exception {
 
-        //		           <------------------------------------>
-        //		            1 2 3 4 5 6 7 8 9 101112131415161718
-        //		            i n t M e t h o d                   0 0 0 0 0 3 4 5    
-        String hexString = "8995a3d485a3889684404040404040404040f0f0f0f0f0f3f4f5404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040";
+        String hexString =
+          "8995a3d485a3889684404040404040404040"
+        + "f0f0f0f0f0f3f4f5"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040"
+        + "404040404040404040404040";
         byte[] hostBytes = HostData.toByteArray(hexString);
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redopera");
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redopera");
 
-        assertEquals(null, Dfhcommarea.getFiller25());
-        assertEquals(345, Dfhcommarea.getFiller28().getCInteger());
+        assertEquals(null, dfhcommarea.getFiller25());
+        assertEquals(345, dfhcommarea.getFiller28().getCInteger());
     }
 }
