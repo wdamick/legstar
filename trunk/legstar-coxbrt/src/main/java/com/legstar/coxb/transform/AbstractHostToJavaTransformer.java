@@ -34,11 +34,7 @@ import com.legstar.coxb.visitor.CobolUnmarshalVisitor;
  * <pre>
  * public final class HostToJavaLsfileaeTransformer extends AbstractHostToJavaTransformer {
  *      public ICobolComplexBinding getBinding() throws BindingException {
- *          try {
- *              return new com.legstar.test.coxb.lsfileae.DfhcommareaBinding();
- *          } catch (ReflectBindingException e) {
- *              throw new BindingException(e);
- *          }
+ *          return new com.legstar.test.coxb.lsfileae.DfhcommareaBinding();
  *      }
  *  }
  * </pre>
