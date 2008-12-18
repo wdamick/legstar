@@ -102,11 +102,20 @@ public class CoxbBindingGenerator extends Task {
                 /* Bind the root object to a COXB type */
                 CComplexReflectBinding ce = new CComplexReflectBinding(
                         jaxbObjectFactory, jaxbRootObject);
+                /* Visit COXB type and all subtypes recursively */
                 ce.accept(visitor);
+                
+                /* For root objects, generate transformer classes */
+                visitor.getWriter().writeHostToJavaTransformer(ce);
+                visitor.getWriter().writeJavaToHostTransformer(ce);
+                
             } catch (HostException e) {
-                e.printStackTrace();
+                LOG.error(CoxbGenWriter.BINDING_GENERATOR_NAME + " failure ", e);
                 throw (new BuildException(
                         "HostException " + e.getMessage()));
+            } catch (CodeGenException e) {
+                LOG.error(CoxbGenWriter.BINDING_GENERATOR_NAME + " failure ", e);
+                throw new BuildException(e);
             }
         }
 

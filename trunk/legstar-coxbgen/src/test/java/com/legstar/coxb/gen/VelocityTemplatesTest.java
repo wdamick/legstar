@@ -18,6 +18,10 @@ import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.util.JaxbUtil;
 
 
+/**
+ * Test the individual velocity templates.
+ *
+ */
 public class VelocityTemplatesTest extends AbstractTestTemplate {
 
 	/** This generator name. */
@@ -30,6 +34,10 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         CodeGenUtil.checkDirectory(GEN_SRC_DIR, true);
     }
     
+	/**
+	 * A complex type case.
+	 * @throws Exception if generation fails
+	 */
 	public void testGenAllTypes() throws Exception {
 
 		com.legstar.test.coxb.alltypes.ObjectFactory objectFactory
@@ -89,6 +97,10 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
 		assertTrue(resStr.contains("mValueObject.getADouble().addAll(listADouble);"));
 	}
 
+    /**
+     * A complex array type case.
+     * @throws Exception if generation fails
+     */
 	public void testGenArrayssm() throws Exception {
 
 		com.legstar.test.coxb.arrayssm.ObjectFactory objectFactory
@@ -138,6 +150,10 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
 		assertTrue(resStr.contains("mValueObject.getTableComplex().addAll(listTableComplexWrapper);"));
 	}
 
+    /**
+     * A complex array wrapper type case.
+     * @throws Exception if generation fails
+     */
 	public void testGenArrayssmWrapper() throws Exception {
 
 		com.legstar.test.coxb.arrayssm.ObjectFactory objectFactory
@@ -181,6 +197,10 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
 		assertTrue(resStr.contains("return (List < TableComplex >) getObjectValue(TableComplex.class);"));
 	}
 
+    /**
+     * A complex type containing a variable size array case.
+     * @throws Exception if generation fails
+     */
 	public void testGenArraysdo() throws Exception {
 
 		com.legstar.test.coxb.arraysdo.ObjectFactory objectFactory
@@ -233,6 +253,10 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
 		assertTrue(resStr.contains("mValueObject.getTableOdo().addAll(listTableOdo);"));
 	}
 
+    /**
+     * A complex type containing a redefine case.
+     * @throws Exception if generation fails
+     */
 	public void testGenRedsimpt() throws Exception {
 
 		com.legstar.test.coxb.redsimpt.ObjectFactory objectFactory
@@ -265,6 +289,10 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
 		assertTrue(resStr.contains("\"com.legstar.coxb.cust.redsimpt.ChoiceSelector\");"));
 	}
 
+    /**
+     * A choice type case.
+     * @throws Exception if generation fails
+     */
 	public void testGenRedsimptChoice() throws Exception {
 
 		com.legstar.test.coxb.redsimpt.ObjectFactory objectFactory
@@ -330,6 +358,10 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
 		assertTrue(resStr.contains("return (Dfhcommarea) getParentValueObject();"));
 	}
 
+    /**
+     * A choice strategy type case.
+     * @throws Exception if generation fails
+     */
 	public void testGenRedsimptChoiceStrategy() throws Exception {
 
 		com.legstar.test.coxb.redsimpt.ObjectFactory objectFactory
@@ -363,6 +395,10 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
 		assertTrue(resStr.contains("return choice.getAlternativeByName(\"CDefinition2\");"));
 	}
 
+    /**
+     * A binding to a POJO case.
+     * @throws Exception if generation fails
+     */
 	public void testGenJvmQueryReply() throws Exception {
 
 		com.legstar.test.coxb.jvmquery.ObjectFactory objectFactory
@@ -420,4 +456,78 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
 		assertTrue(resStr.contains("mValueObject = (JVMQueryReply) bindingValue;"));
 		assertTrue(resStr.contains("public final JVMQueryReply getJVMQueryReply() {"));
 	}
+
+	/**
+     * Generate a host to java transformer case.
+     * @throws Exception if generation fails
+     */
+    public void testGenHostToJavaTransformer() throws Exception {
+
+        com.legstar.test.coxb.lsfileae.ObjectFactory objectFactory
+        = new com.legstar.test.coxb.lsfileae.ObjectFactory();
+
+        CComplexReflectBinding ce = new CComplexReflectBinding(
+                objectFactory,
+                JaxbUtil.loadClass("com.legstar.test.coxb.lsfileae.Dfhcommarea"));
+
+        CoxbGenModel coxbContext = new CoxbGenModel();
+        coxbContext.setJaxbPackageName("com.legstar.test.coxb.lsfileae");
+        coxbContext.setCoxbPackageName("com.legstar.test.coxb.lsfileae.bind");
+        
+        getParameters().put("coxbContext", coxbContext);
+        getParameters().put("binding-class-name", "DfhcommareaBinding");
+
+        CodeGenUtil.processTemplate(
+                BINDING_GENERATOR_NAME,
+                "vlc/coxb-bind-host-to-java-transformer.vm",
+                "binding", ce,
+                getParameters(),
+                CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
+
+        String resStr = getSource(GEN_SRC_DIR, "/test.txt");
+        assertTrue(resStr.contains("DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();"));
+        assertTrue(resStr.contains("Dfhcommarea javaValue = (Dfhcommarea) transformer.transform(hostByteArray);"));
+        assertTrue(resStr.contains("public class DfhcommareaHostToJavaTransformer extends AbstractHostToJavaTransformer {"));
+        assertTrue(resStr.contains("public DfhcommareaHostToJavaTransformer() {"));
+        assertTrue(resStr.contains("public DfhcommareaHostToJavaTransformer(CobolContext cobolContext) {"));
+        assertTrue(resStr.contains("public DfhcommareaHostToJavaTransformer(final String hostCharset) {"));
+        assertTrue(resStr.contains("return new DfhcommareaBinding();"));
+    }
+
+    /**
+     * Generate a java to host transformer case.
+     * @throws Exception if generation fails
+     */
+    public void testGenJavaToHostTransformer() throws Exception {
+
+        com.legstar.test.coxb.lsfileae.ObjectFactory objectFactory
+        = new com.legstar.test.coxb.lsfileae.ObjectFactory();
+
+        CComplexReflectBinding ce = new CComplexReflectBinding(
+                objectFactory,
+                JaxbUtil.loadClass("com.legstar.test.coxb.lsfileae.Dfhcommarea"));
+
+        CoxbGenModel coxbContext = new CoxbGenModel();
+        coxbContext.setJaxbPackageName("com.legstar.test.coxb.lsfileae");
+        coxbContext.setCoxbPackageName("com.legstar.test.coxb.lsfileae.bind");
+        
+        getParameters().put("coxbContext", coxbContext);
+        getParameters().put("binding-class-name", "DfhcommareaBinding");
+
+        CodeGenUtil.processTemplate(
+                BINDING_GENERATOR_NAME,
+                "vlc/coxb-bind-java-to-host-transformer.vm",
+                "binding", ce,
+                getParameters(),
+                CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
+
+        String resStr = getSource(GEN_SRC_DIR, "/test.txt");
+        assertTrue(resStr.contains("DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();"));
+        assertTrue(resStr.contains("byte[] hostByteArray = (Dfhcommarea) transformer.transform(javaValue);"));
+        assertTrue(resStr.contains("public class DfhcommareaJavaToHostTransformer extends AbstractJavaToHostTransformer {"));
+        assertTrue(resStr.contains("public DfhcommareaJavaToHostTransformer() {"));
+        assertTrue(resStr.contains("public DfhcommareaJavaToHostTransformer(CobolContext cobolContext) {"));
+        assertTrue(resStr.contains("public DfhcommareaJavaToHostTransformer(final String hostCharset) {"));
+        assertTrue(resStr.contains("return new DfhcommareaBinding();"));
+    }
 }

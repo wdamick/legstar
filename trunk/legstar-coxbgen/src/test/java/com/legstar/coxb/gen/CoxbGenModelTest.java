@@ -10,27 +10,28 @@
  ******************************************************************************/
 package com.legstar.coxb.gen;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import com.legstar.codegen.CodeGenUtil;
 
-import junit.framework.TestCase;
+/**
+ * Test the generation model.
+ *
+ */
+public class CoxbGenModelTest extends AbstractTestTemplate {
 
-public class CoxbGenModelTest extends TestCase {
-
-	/** Logger. */
-	private static final Log LOG = LogFactory.getLog(CoxbGenModelTest.class);
-
-	/** Code will be generated here. */
-	private static final String GEN_SRC_DIR = "src/test/gen/ant";
-
+    /** @{inheritDoc}*/
+    public void setUp() {
+        super.setUp();
+        CodeGenUtil.checkDirectory(GEN_ANT_DIR, true);
+    }
+    
+	/**
+	 * Generate an ant script capable of producing the binding artifacts.
+	 * @throws Exception if ant cannot be generated
+	 */
 	public void testBuildCoxb() throws Exception {
 
 		CoxbGenModel model = new CoxbGenModel();
@@ -49,17 +50,9 @@ public class CoxbGenModelTest extends TestCase {
 		model.setJaxbRootClassNames(jaxbRootClassNames);
 		model.setProbeFile(new File("probe.file.tmp"));
 
-		model.generateBuild(CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
+		model.generateBuild(CodeGenUtil.getFile(GEN_ANT_DIR, "build.xml"));
+        String resStr = getSource(GEN_ANT_DIR, "build.xml");
 		
-		BufferedReader in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/test.txt"));
-		String resStr = "";
-		String str = in.readLine();
-		while (str != null) {
-			LOG.debug(str);
-			resStr += str;
-			str = in.readLine();
-		}
-		in.close();
 		assertTrue(resStr.contains("<project basedir=\"/Users/Fady/sandbox/legstar-1.2.0\" default=\"signalSuccess\" name=\"generate-COXB-classes\">"));
 		assertTrue(resStr.contains("<dirset dir=\"jaxb\\bin\"/>"));
 		assertTrue(resStr.contains("<mkdir dir=\"jaxb\\bin\"/>"));
