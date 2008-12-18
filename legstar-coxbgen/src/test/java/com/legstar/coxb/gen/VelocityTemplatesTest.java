@@ -8,56 +8,32 @@
  * Contributors:
  *     LegSem - initial API and implementation
  ******************************************************************************/
-package com.legstar.coxb.gen.vm;
+package com.legstar.coxb.gen;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import com.legstar.codegen.CodeGenHelper;
 import com.legstar.codegen.CodeGenUtil;
 import com.legstar.coxb.ICobolArrayComplexBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.gen.CoxbGenModel;
-import com.legstar.coxb.gen.CoxbHelper;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.util.JaxbUtil;
 
-import junit.framework.TestCase;
 
-public class VelocityTemplatesTest extends TestCase {
+public class VelocityTemplatesTest extends AbstractTestTemplate {
 
 	/** This generator name. */
 	private static final String BINDING_GENERATOR_NAME =
 		"LegStar Binding generator";
 
-	/** Parameters expected by the vlc templates.*/
-	private Map < String, Object > mParameters;
-
-	/** Logger. */
-	private static final Log LOG = LogFactory.getLog(VelocityTemplatesTest.class);
-
-	/** Code will be generated here. */
-	private static final String GEN_SRC_DIR = "src/test/gen/java";
-
-	public void setUp() throws Exception {
-		CodeGenUtil.initVelocity();
-		CodeGenUtil.checkDirectory(GEN_SRC_DIR, true);
-		CoxbHelper coxbHelper = new CoxbHelper();
-		CodeGenHelper helper = new CodeGenHelper();
-		mParameters = new HashMap < String, Object >();
-		mParameters.put("helper", helper);
-		mParameters.put("coxbHelper", coxbHelper);
-	}
-
+    /** @{inheritDoc}*/
+    public void setUp() {
+        super.setUp();
+        CodeGenUtil.checkDirectory(GEN_SRC_DIR, true);
+    }
+    
 	public void testGenAllTypes() throws Exception {
 
-		com.legstar.test.coxb.lsfilead.ObjectFactory objectFactory
-		= new com.legstar.test.coxb.lsfilead.ObjectFactory();
+		com.legstar.test.coxb.alltypes.ObjectFactory objectFactory
+		= new com.legstar.test.coxb.alltypes.ObjectFactory();
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
@@ -66,25 +42,17 @@ public class VelocityTemplatesTest extends TestCase {
 		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.alltypes");
 		coxbContext.setCoxbPackageName("com.legstar.test.coxb.alltypes.bind");
-		mParameters.put("coxbContext", coxbContext);
-		mParameters.put("binding-class-name", "DfhcommareaBinding");
+		getParameters().put("coxbContext", coxbContext);
+		getParameters().put("binding-class-name", "DfhcommareaBinding");
 
 		CodeGenUtil.processTemplate(
 				BINDING_GENERATOR_NAME,
 				"vlc/coxb-bind-complex.vm",
 				"binding", ce,
-				mParameters,
+				getParameters(),
 				CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
-		BufferedReader in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/test.txt"));
-		String resStr = "";
-		String str = in.readLine();
-		while (str != null) {
-			LOG.debug(str);
-			resStr += str;
-			str = in.readLine();
-		}
-		in.close();
+		String resStr = getSource(GEN_SRC_DIR, "/test.txt");
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolStringBinding;"));
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolArrayStringBinding;"));
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolBinaryBinding;"));
@@ -133,25 +101,17 @@ public class VelocityTemplatesTest extends TestCase {
 		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.arrayssm");
 		coxbContext.setCoxbPackageName("com.legstar.test.coxb.arrayssm.bind");
-		mParameters.put("coxbContext", coxbContext);
-		mParameters.put("binding-class-name", "DfhcommareaBinding");
+		getParameters().put("coxbContext", coxbContext);
+		getParameters().put("binding-class-name", "DfhcommareaBinding");
 
 		CodeGenUtil.processTemplate(
 				BINDING_GENERATOR_NAME,
 				"vlc/coxb-bind-complex.vm",
 				"binding", ce,
-				mParameters,
+				getParameters(),
 				CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
-		BufferedReader in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/test.txt"));
-		String resStr = "";
-		String str = in.readLine();
-		while (str != null) {
-			LOG.debug(str);
-			resStr += str;
-			str = in.readLine();
-		}
-		in.close();
+        String resStr = getSource(GEN_SRC_DIR, "/test.txt");
 		assertTrue(resStr.contains("import java.util.List;"));
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolArrayComplexBinding;"));
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolArrayStringBinding;"));
@@ -192,25 +152,17 @@ public class VelocityTemplatesTest extends TestCase {
 		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.arrayssm");
 		coxbContext.setCoxbPackageName("com.legstar.test.coxb.arrayssm.bind");
-		mParameters.put("coxbContext", coxbContext);
-		mParameters.put("binding-class-name", "TableComplexWrapperBinding");
+		getParameters().put("coxbContext", coxbContext);
+		getParameters().put("binding-class-name", "TableComplexWrapperBinding");
 
 		CodeGenUtil.processTemplate(
 				BINDING_GENERATOR_NAME,
 				"vlc/coxb-bind-complex-array.vm",
 				"binding", ca,
-				mParameters,
+				getParameters(),
 				CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
-		BufferedReader in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/test.txt"));
-		String resStr = "";
-		String str = in.readLine();
-		while (str != null) {
-			LOG.debug(str);
-			resStr += str;
-			str = in.readLine();
-		}
-		in.close();
+        String resStr = getSource(GEN_SRC_DIR, "/test.txt");
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolComplexBinding;"));
 		assertTrue(resStr.contains("import java.util.List;"));
 		assertTrue(resStr.contains("import java.util.ArrayList;"));
@@ -241,25 +193,17 @@ public class VelocityTemplatesTest extends TestCase {
 		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.arraysdo");
 		coxbContext.setCoxbPackageName("com.legstar.test.coxb.arraysdo.bind");
-		mParameters.put("coxbContext", coxbContext);
-		mParameters.put("binding-class-name", "DfhcommareaBinding");
+		getParameters().put("coxbContext", coxbContext);
+		getParameters().put("binding-class-name", "DfhcommareaBinding");
 
 		CodeGenUtil.processTemplate(
 				BINDING_GENERATOR_NAME,
 				"vlc/coxb-bind-complex.vm",
 				"binding", ce,
-				mParameters,
+				getParameters(),
 				CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
-		BufferedReader in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/test.txt"));
-		String resStr = "";
-		String str = in.readLine();
-		while (str != null) {
-			LOG.debug(str);
-			resStr += str;
-			str = in.readLine();
-		}
-		in.close();
+        String resStr = getSource(GEN_SRC_DIR, "/test.txt");
 		assertTrue(resStr.contains("import java.util.List;"));
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolArrayStringBinding;"));
 
@@ -301,25 +245,17 @@ public class VelocityTemplatesTest extends TestCase {
 		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.redsimpt");
 		coxbContext.setCoxbPackageName("com.legstar.test.coxb.redsimpt.bind");
-		mParameters.put("coxbContext", coxbContext);
-		mParameters.put("binding-class-name", "DfhcommareaBinding");
+		getParameters().put("coxbContext", coxbContext);
+		getParameters().put("binding-class-name", "DfhcommareaBinding");
 
 		CodeGenUtil.processTemplate(
 				BINDING_GENERATOR_NAME,
 				"vlc/coxb-bind-complex.vm",
 				"binding", ce,
-				mParameters,
+				getParameters(),
 				CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
-		BufferedReader in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/test.txt"));
-		String resStr = "";
-		String str = in.readLine();
-		while (str != null) {
-			LOG.debug(str);
-			resStr += str;
-			str = in.readLine();
-		}
-		in.close();
+        String resStr = getSource(GEN_SRC_DIR, "/test.txt");
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolChoiceBinding;"));
 		assertTrue(resStr.contains("public ICobolChoiceBinding _cDefinition1Choice;"));
 		assertTrue(resStr.contains("cDefinition1Choice = new CDefinition1ChoiceBinding(\"CDefinition1Choice\", this);"));
@@ -343,26 +279,18 @@ public class VelocityTemplatesTest extends TestCase {
 		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.redsimpt");
 		coxbContext.setCoxbPackageName("com.legstar.test.coxb.redsimpt.bind");
-		mParameters.put("coxbContext", coxbContext);
-		mParameters.put("binding-class-name", "CDefinition1ChoiceBinding");
+		getParameters().put("coxbContext", coxbContext);
+		getParameters().put("binding-class-name", "CDefinition1ChoiceBinding");
 
 
 		CodeGenUtil.processTemplate(
 				BINDING_GENERATOR_NAME,
 				"vlc/coxb-bind-choice.vm",
 				"binding", cc,
-				mParameters,
+				getParameters(),
 				CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
-		BufferedReader in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/test.txt"));
-		String resStr = "";
-		String str = in.readLine();
-		while (str != null) {
-			LOG.debug(str);
-			resStr += str;
-			str = in.readLine();
-		}
-		in.close();
+        String resStr = getSource(GEN_SRC_DIR, "/test.txt");
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolComplexBinding;"));
 		assertTrue(resStr.contains("import com.legstar.coxb.common.CChoiceBinding;"));
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolZonedDecimalBinding;"));
@@ -416,26 +344,18 @@ public class VelocityTemplatesTest extends TestCase {
 		CoxbGenModel coxbContext = new CoxbGenModel();
 		coxbContext.setJaxbPackageName("com.legstar.test.coxb.redsimpt");
 		coxbContext.setCoxbPackageName("com.legstar.test.coxb.redsimpt.bind");
-		mParameters.put("coxbContext", coxbContext);
-		mParameters.put("choice-strategy-type", "Unmarshal");
-		mParameters.put("choice-strategy-qualified-class-name", "com.legstar.coxb.cust.redsimpt.ChoiceSelector");
+		getParameters().put("coxbContext", coxbContext);
+		getParameters().put("choice-strategy-type", "Unmarshal");
+		getParameters().put("choice-strategy-qualified-class-name", "com.legstar.coxb.cust.redsimpt.ChoiceSelector");
 
 		CodeGenUtil.processTemplate(
 				BINDING_GENERATOR_NAME,
 				"vlc/coxb-bind-choice-strategy.vm",
 				"binding", cc,
-				mParameters,
+				getParameters(),
 				CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
-		BufferedReader in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/test.txt"));
-		String resStr = "";
-		String str = in.readLine();
-		while (str != null) {
-			LOG.debug(str);
-			resStr += str;
-			str = in.readLine();
-		}
-		in.close();
+        String resStr = getSource(GEN_SRC_DIR, "/test.txt");
 		assertTrue(resStr.contains("package com.legstar.coxb.cust.redsimpt;"));
 		assertTrue(resStr.contains("public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {"));
 		assertTrue(resStr.contains("Dfhcommarea valueObject = (Dfhcommarea) choice.getObjectValue(Dfhcommarea.class);"));
@@ -458,25 +378,17 @@ public class VelocityTemplatesTest extends TestCase {
 		coxbContext.setAlternativePackageName("com.legstar.xsdc.test.cases.jvmquery");
 		coxbContext.setAlternativeFactoryName("ObjectFactory");
 		
-		mParameters.put("coxbContext", coxbContext);
-		mParameters.put("binding-class-name", "JvmQueryReplyBinding");
+		getParameters().put("coxbContext", coxbContext);
+		getParameters().put("binding-class-name", "JvmQueryReplyBinding");
 
 		CodeGenUtil.processTemplate(
 				BINDING_GENERATOR_NAME,
 				"vlc/coxb-bind-complex.vm",
 				"binding", ce,
-				mParameters,
+				getParameters(),
 				CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
-		BufferedReader in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/test.txt"));
-		String resStr = "";
-		String str = in.readLine();
-		while (str != null) {
-			LOG.debug(str);
-			resStr += str;
-			str = in.readLine();
-		}
-		in.close();
+        String resStr = getSource(GEN_SRC_DIR, "/test.txt");
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolBinding;"));
 		assertTrue(resStr.contains("import com.legstar.coxb.common.CComplexBinding;"));
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolBinaryBinding;"));
