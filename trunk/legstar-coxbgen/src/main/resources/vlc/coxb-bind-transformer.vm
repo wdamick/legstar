@@ -1,0 +1,31 @@
+    /**
+     * An implementation of the abstract class under test.
+     *
+     */
+    public final class HostToJavaLsfileaeTransformer extends AbstractHostToJavaTransformer {
+
+        
+        public HostToJavaLsfileaeTransformer() {
+            super();
+        }
+        
+        public HostToJavaLsfileaeTransformer(CobolContext cobolContext) {
+            super(cobolContext);
+        }
+
+        public HostToJavaLsfileaeTransformer(final String hostCharset) {
+            super(hostCharset);
+        }
+        
+        @Override
+        public ICobolComplexBinding getBinding() throws BindingException {
+            try {
+                CComplexReflectBinding ccem = new CComplexReflectBinding(
+                        new com.legstar.test.coxb.lsfileae.ObjectFactory(), Dfhcommarea.class);
+                return ccem;
+            } catch (ReflectBindingException e) {
+                throw new BindingException(e);
+            }
+        }
+        
+    }
