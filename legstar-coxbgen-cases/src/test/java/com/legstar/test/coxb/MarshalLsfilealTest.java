@@ -29,10 +29,19 @@ import com.legstar.test.coxb.lsfileal.ReplyErrorHeader;
 
 import junit.framework.TestCase;
 
+/**
+ * Marshal lsfileal.
+ *
+ */
 public class MarshalLsfilealTest extends TestCase {
 
-    private final static String SCHEMA_NAME = "lsfileal";
+    /** The annotated XSD file name. */
+    private static final String SCHEMA_NAME = "lsfileal";
 
+    /**
+     * Marshal host data and test java data object result.
+     * @throws Exception if marshaling fails
+     */
     public void testLsfileal() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
@@ -72,10 +81,46 @@ public class MarshalLsfilealTest extends TestCase {
         replyFiller65.setReplyItemscount(2);
         replyData.setFiller65(replyFiller65);
 
-        assertEquals("0000f0f07af0f57af2f2000000044f404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040000000002ff0f0f0f2f0f3c2d6d9c9e2404040404040404040404040404040d1d6c9d5e5c9d3d3c54040404040404040404040f0f1f2f5f4f6f8f9f2f3f0f4f5f940405bf2f5f04bf1f240e8c5d540c140d7c1e2f0f0f0f2f0f4c3c8d9c9e2e3c9c1d54040404040404040404040d5d6c7c5d5e34040404040404040404040404040f2f4f9f6f5f8f4f7f2f3f4f5f8f940405bf0f4f54bf7f840e2c940e8c5d540c140",
+        assertEquals("0000"
+        + "f0f07af0f57af2f2"
+        + "000000044f"
+        + "4040404040404040404040"
+        + "4040404040404040404040"
+        + "4040404040404040404040"
+        + "4040404040404040404040"
+        + "4040404040404040404040"
+        + "4040404040404040404040"
+        + "4040404040404040404040"
+        + "4040404040404040404040"
+        + "4040404040404040404040"
+        + "4040404040404040404040"
+        + "4040404040404040404040"
+        + "4040"
+        + "000000002f"
+
+        + "f0f0f0f2f0f3"
+        + "c2d6d9c9e2404040404040404040404040404040"
+        + "d1d6c9d5e5c9d3d3c54040404040404040404040"
+        + "f0f1f2f5f4f6f8f9"
+        + "f2f3f0f4f5f94040"
+        + "5bf2f5f04bf1f240"
+        + "e8c5d540c140d7c1e2"
+
+        + "f0f0f0f2f0f4"
+        + "c3c8d9c9e2e3c9c1d54040404040404040404040"
+        + "d5d6c7c5d5e34040404040404040404040404040"
+        + "f2f4f9f6f5f8f4f7"
+        + "f2f3f4f5f8f94040"
+        + "5bf0f4f54bf7f840"
+        + "e2c940e8c5d540c140",
                 Util.marshal(SCHEMA_NAME, "ReplyData", replyData, 301));
     }
 
+    /**
+     * Marshal host data and test java data object result.
+     * Error case.
+     * @throws Exception if marshaling fails
+     */
     public void testLsfilealError() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
@@ -93,7 +138,23 @@ public class MarshalLsfilealTest extends TestCase {
 
         replyData.setFiller65(replyFiller65);
 
-        assertEquals("00010000001300000050c6c9d3c540c3d3d6e2c5c4404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040000000000f",
+        assertEquals("0001"
+        + "00000013"
+        + "00000050"
+        + "c6c9d3c540c3d3d6e2c5"
+        + "c4404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "40404040404040404040"
+        + "4040404040404040"
+        + "000000000f",
                 Util.marshal(SCHEMA_NAME, "ReplyData", replyData, 143));
     }
 }

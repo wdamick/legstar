@@ -25,30 +25,44 @@ import com.legstar.test.coxb.redbotha.Dfhcommarea;
 
 import junit.framework.TestCase;
 
+/**
+ * Marshal redbotha.
+ *
+ */
 public class MarshalRedbothaTest extends TestCase {
 
-    private final static String SCHEMA_NAME = "redbotha";
+    /** The annotated XSD file name. */
+    private static final String SCHEMA_NAME = "redbotha";
 
+    /**
+     * Marshal host data and test java data object result.
+     * @throws Exception if marshaling fails
+     */
     public void testRedbotha() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-        Dfhcommarea.setCNumeric(5);
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        dfhcommarea.setCNumeric(5);
 
         assertEquals("0005",
-                Util.marshal(SCHEMA_NAME, Dfhcommarea, 2));
+                Util.marshal(SCHEMA_NAME, dfhcommarea, 2));
     }
 
+    /**
+     * Marshal host data and test java data object result.
+     * Alternative choice.
+     * @throws Exception if marshaling fails
+     */
     public void testRedbothaSecondChoice() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
         Filler22 filler22 = new Filler22();
         filler22.setCLeftByte("A");
         filler22.setCRightByte("B");
-        Dfhcommarea.setFiller22(filler22);
+        dfhcommarea.setFiller22(filler22);
 
         assertEquals("c1c2",
-                Util.marshal(SCHEMA_NAME, Dfhcommarea, 2));
+                Util.marshal(SCHEMA_NAME, dfhcommarea, 2));
     }
 }

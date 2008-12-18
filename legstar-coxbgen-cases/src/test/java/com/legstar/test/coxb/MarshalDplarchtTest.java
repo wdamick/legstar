@@ -25,21 +25,41 @@ import com.legstar.test.coxb.dplarcht.LsRequest;
 
 import junit.framework.TestCase;
 
+/**
+ * Marshal dplarcht.
+ *
+ */
 public class MarshalDplarchtTest extends TestCase {
 
-    private final static String SCHEMA_NAME = "dplarcht";
+    /** The annotated XSD file name. */
+    private static final String SCHEMA_NAME = "dplarcht";
 
+    /**
+     * Marshal host data and test java data object result.
+     * @throws Exception if marshaling fails
+     */
     public void testDplarcht() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
         LsRequest lsRequest = new LsRequest();
         lsRequest.setLsRequestType(0);
         lsRequest.setLsAllItems("*");
 
-        Dfhcommarea.setLsRequest(lsRequest);
+        dfhcommarea.setLsRequest(lsRequest);
 
-        assertEquals("00005c4040404040404040404040000000000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-                Util.marshal(SCHEMA_NAME, Dfhcommarea, 88));
+        assertEquals("0000"
+        + "5c404040"
+        + "4040404040404040"
+        + "000000000f"
+        + "0000"
+        + "00000000"
+        + "00000000000000000000"
+        + "00000000000000000000"
+        + "00000000000000000000"
+        + "00000000000000000000"
+        + "00000000000000000000"
+        + "00000000000000000000000000",
+                Util.marshal(SCHEMA_NAME, dfhcommarea, 88));
     }
 }

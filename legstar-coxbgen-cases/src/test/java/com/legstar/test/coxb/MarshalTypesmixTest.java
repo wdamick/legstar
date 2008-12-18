@@ -26,39 +26,60 @@ import com.legstar.test.coxb.typesmix.Dfhcommarea;
 
 import junit.framework.TestCase;
 
+/**
+ * Marshal typesmix.
+ *
+ */
 public class MarshalTypesmixTest extends TestCase {
 
-    private final static String SCHEMA_NAME = "typesmix";
+    /** The annotated XSD file name. */
+    private static final String SCHEMA_NAME = "typesmix";
 
+    /**
+     * Marshal host data and test java data object result.
+     * @throws Exception if marshaling fails
+     */
     public void testTypesmix() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
 
-        Dfhcommarea.setCAlphabetic("ABCDE");
-        Dfhcommarea.setCNational("ABCDE");
-        byte[] cCDbcs = {0x0E,0x40,0x40,0x40,0x40,0x40,0x40, 0x0F};
-        Dfhcommarea.setCDbcs(cCDbcs);
-        Dfhcommarea.setCAlphanumericEdited("");
-        Dfhcommarea.setCAlphanumeric("");
-        byte[] cOctetString = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
-        Dfhcommarea.setCOctetString(cOctetString);
-        Dfhcommarea.setCPackedDecimal(new BigDecimal(0));
-        Dfhcommarea.setCNumericEdited1("0");
-        Dfhcommarea.setCNumericEdited2("0");
-        Dfhcommarea.setCNumericEdited3("0");
-        Dfhcommarea.setCNumericEdited4("0");
-        Dfhcommarea.setCExternalFloating("+00.00E+00");
-        byte[] cIndex = {0x00,0x00,0x00,0x00};
-        Dfhcommarea.setCIndex(cIndex);
-        byte[] cPointer = {0x00,0x00,0x00,0x00};
-        Dfhcommarea.setCPointer(cPointer);
-        byte[] cProcPointer = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
-        Dfhcommarea.setCProcPointer(cProcPointer);
-        byte[] cFuncPointer = {0x00,0x00,0x00,0x00};
-        Dfhcommarea.setCFuncPointer(cFuncPointer);
+        dfhcommarea.setCAlphabetic("ABCDE");
+        dfhcommarea.setCNational("ABCDE");
+        byte[] cCDbcs = {0x0E, 0x40, 0x40, 0x40, 0x40, 0x40, 0x40, 0x0F};
+        dfhcommarea.setCDbcs(cCDbcs);
+        dfhcommarea.setCAlphanumericEdited("");
+        dfhcommarea.setCAlphanumeric("");
+        byte[] cOctetString = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+        dfhcommarea.setCOctetString(cOctetString);
+        dfhcommarea.setCPackedDecimal(new BigDecimal(0));
+        dfhcommarea.setCNumericEdited1("0");
+        dfhcommarea.setCNumericEdited2("0");
+        dfhcommarea.setCNumericEdited3("0");
+        dfhcommarea.setCNumericEdited4("0");
+        dfhcommarea.setCExternalFloating("+00.00E+00");
+        byte[] cIndex = {0x00, 0x00, 0x00, 0x00};
+        dfhcommarea.setCIndex(cIndex);
+        byte[] cPointer = {0x00, 0x00, 0x00, 0x00};
+        dfhcommarea.setCPointer(cPointer);
+        byte[] cProcPointer = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+        dfhcommarea.setCProcPointer(cProcPointer);
+        byte[] cFuncPointer = {0x00, 0x00, 0x00, 0x00};
+        dfhcommarea.setCFuncPointer(cFuncPointer);
 
-        assertEquals("c1c2c3c4c50041004200430044004500200020002000200e4040404040400f404040404040404040404040404040404040404040000000000000000000000000000000000000000000000000000000000cf0f0f0f0f0f0f0f0f0f0f0f0f0c0f040404040404040f0404040404040404040404040404040f0404040404040404040f04040404040404040404000000000000000000000000000000000000000004ef0f04bf0f0c54ef0f0000000000000",
-                Util.marshal(SCHEMA_NAME, Dfhcommarea, 176));
+        assertEquals("c1c2c3c4c5"
+        + "004100420043004400450020002000200020"
+        + "0e4040404040400f"
+        + "4040404040404040404040404040"
+        + "40404040404040"
+        + "0000000000000000"
+        + "00000000000000000000000000000000000000000c"
+        + "f0f0f0f0f0f0f0f0f0f0f0f0f0c0f0"
+        + "40404040404040f0404040404040404040404040404040f0"
+        + "404040404040404040f040404040404040404040"
+        + "00000000000000000000000000000000000000004ef0f04bf0f0c54ef0f0"
+        + "00000000"
+        + "0000",
+                Util.marshal(SCHEMA_NAME, dfhcommarea, 176));
     }
 }

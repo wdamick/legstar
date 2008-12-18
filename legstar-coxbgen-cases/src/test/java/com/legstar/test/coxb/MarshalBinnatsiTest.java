@@ -28,14 +28,23 @@ import com.legstar.test.coxb.binnatsi.Dfhcommarea;
 
 import junit.framework.TestCase;
 
+/**
+ * Marshal binnatsi.
+ *
+ */
 public class MarshalBinnatsiTest extends TestCase {
 
-    private final static String SCHEMA_NAME = "binnatsi";
+    /** The annotated XSD file name. */
+    private static final String SCHEMA_NAME = "binnatsi";
 
+    /**
+     * Marshal host data and test java data object result.
+     * @throws Exception if marshaling fails
+     */
     public void testBinnatsi() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
 
         LsUnsignedNative lsUnsignedNative = new LsUnsignedNative(); 
 
@@ -52,18 +61,29 @@ public class MarshalBinnatsiTest extends TestCase {
         lsFullwords.setLsPs9X9Min(-2147483648);
 
         LsDoublewords lsDoublewords = new LsDoublewords();
-        lsDoublewords.setLsPs9X18High(17179869183l);
-        lsDoublewords.setLsPs9X18Low(-4294967294l);
-        lsDoublewords.setLsPs9X18Max(9223372036854775807l);
-        lsDoublewords.setLsPs9X18Min(-9223372036854775808l);
+        lsDoublewords.setLsPs9X18High(17179869183L);
+        lsDoublewords.setLsPs9X18Low(-4294967294L);
+        lsDoublewords.setLsPs9X18Max(9223372036854775807L);
+        lsDoublewords.setLsPs9X18Min(-9223372036854775808L);
 
         lsUnsignedNative.setLsHalfwords(lsHalfwords);
         lsUnsignedNative.setLsFullwords(lsFullwords);
         lsUnsignedNative.setLsDoublewords(lsDoublewords);
 
-        Dfhcommarea.setLsUnsignedNative(lsUnsignedNative);
+        dfhcommarea.setLsUnsignedNative(lsUnsignedNative);
 
-        assertEquals("8000ff8004157fff80000000ffffff80075bcd157fffffff8000000000000000ffffffff0000000200000003ffffffff7fffffffffffffff",
-                Util.marshal(SCHEMA_NAME, Dfhcommarea, 56));
+        assertEquals("8000"
+        + "ff80"
+        + "0415"
+        + "7fff"
+        + "80000000"
+        + "ffffff80"
+        + "075bcd15"
+        + "7fffffff"
+        + "8000000000000000"
+        + "ffffffff00000002"
+        + "00000003ffffffff"
+        + "7fffffffffffffff",
+                Util.marshal(SCHEMA_NAME, dfhcommarea, 56));
     }
 }

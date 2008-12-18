@@ -26,22 +26,33 @@ import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.visitor.CobolUnmarshalVisitor;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.host.HostData;
-import com.legstar.coxb.host.HostException;
 import com.legstar.test.coxb.charsets.bind.DfhcommareaBinding;
 import com.legstar.test.coxb.charsets.Dfhcommarea;
 
 import junit.framework.TestCase;
 
+/**
+ * Unmarshal charsets.
+ *
+ */
 public class UnmarshalCharsetsTest extends TestCase {
 
-    public void testTypesmix() throws HostException {
+    /**
+     * Unmarshal java data object and test host data result.
+     * @throws Exception if marshaling fails
+     */
+    public void testTypesmix() throws Exception {
 
         // Create a cobol context 
         CobolContext cobolContext = new CobolContext();
         cobolContext.setHostCharsetName("IBM01147");
         // Select a conversion strategy 
         CobolSimpleConverters cc = new CobolSimpleConverters(cobolContext);
-        String hexString = "e08140837d85a2a340a495409799968293d094854040404040404040404040400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e9006c00e9006d0065006e00740061006900720065002000e00020007200e90073006f00750064007200650020002000200020002000200020002000200020";
+        String hexString = "e08140837d85a2a340a495409799968293d09485404040404040404040404040"
+        + "000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        + "0000000000000000000000000000000000000000000000000"
+        + "e9006c00e9006d0065006e00740061006900720065002000e00020007200e90073006f007500640072"
+        + "00650020002000200020002000200020002000200020";
         byte[] hostBytes = HostData.toByteArray(hexString);
 
         // Create a concrete visitor
@@ -50,10 +61,12 @@ public class UnmarshalCharsetsTest extends TestCase {
         // Traverse the object structure, visiting each node with the visitor
         DfhcommareaBinding ccem = new DfhcommareaBinding();
         ccem.accept(uv);
-        Dfhcommarea Dfhcommarea = ccem.getDfhcommarea();
+        Dfhcommarea dfhcommarea = ccem.getDfhcommarea();
 
-        assertEquals("ça c'est un problème",Dfhcommarea.getComLocal());
-        assertEquals("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",HostData.toHexString(Dfhcommarea.getComDbcs()));
-        assertEquals("élémentaire à résoudre          ",Dfhcommarea.getComNational());
+        assertEquals("ça c'est un problème", dfhcommarea.getComLocal());
+        assertEquals("00000000000000000000000000000000000000000000000000"
+        + "0000000000000000000000000000000000000000000000000000000000000"
+        + "00000000000000000", HostData.toHexString(dfhcommarea.getComDbcs()));
+        assertEquals("élémentaire à résoudre          ", dfhcommarea.getComNational());
     }
 }

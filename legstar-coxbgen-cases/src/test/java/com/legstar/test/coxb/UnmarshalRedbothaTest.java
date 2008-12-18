@@ -27,16 +27,24 @@ import com.legstar.test.coxb.redbotha.Dfhcommarea;
 
 import junit.framework.TestCase;
 
+/**
+ * Unmarshal redbotha.
+ *
+ */
 public class UnmarshalRedbothaTest extends TestCase {
 
+    /**
+     * Unmarshal java data object and test host data result.
+     * @throws Exception if marshaling fails
+     */
     public void testRedbothaBothChoice() throws Exception {
 
         String hexString   = "c1c2";
         byte[] hostBytes = HostData.toByteArray(hexString);
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redbotha");
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redbotha");
 
-        assertEquals(49602,Dfhcommarea.getCNumeric().intValue());
-        assertEquals("A",Dfhcommarea.getFiller22().getCLeftByte());
-        assertEquals("B",Dfhcommarea.getFiller22().getCRightByte());
+        assertEquals(49602, dfhcommarea.getCNumeric().intValue());
+        assertEquals("A", dfhcommarea.getFiller22().getCLeftByte());
+        assertEquals("B", dfhcommarea.getFiller22().getCRightByte());
     }
 }

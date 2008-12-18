@@ -27,22 +27,27 @@ import com.legstar.test.coxb.numzoned.Dfhcommarea;
 
 import junit.framework.TestCase;
 
+/**
+ * Unmarshal numzoned.
+ *
+ */
 public class UnmarshalNumzonedTest extends TestCase {
 
+    /**
+     * Unmarshal java data object and test host data result.
+     * @throws Exception if marshaling fails
+     */
     public void testNumzoned() throws Exception {
 
-        //		            <><--><----><--><--><---->
-        //		            1 1 2 1 2 3 1 2 1 2 1 2 3  
-        //		            6   -5 -7 8   +1 + 9 1 1 - 
         String hexString = "f6f0d5d0f7f8f0c14ef9f1f160";
         byte[] hostBytes = HostData.toByteArray(hexString);
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "numzoned");
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "numzoned");
 
-        assertEquals(6, Dfhcommarea.getLU());
-        assertEquals(-5, Dfhcommarea.getLS());
-        assertEquals(-78, Dfhcommarea.getLSSignL());
-        assertEquals(1, Dfhcommarea.getLSSignT());
-        assertEquals(9, Dfhcommarea.getLSSignSL());
-        assertEquals(-11, Dfhcommarea.getLSSignST());
+        assertEquals(6, dfhcommarea.getLU());
+        assertEquals(-5, dfhcommarea.getLS());
+        assertEquals(-78, dfhcommarea.getLSSignL());
+        assertEquals(1, dfhcommarea.getLSSignT());
+        assertEquals(9, dfhcommarea.getLSSignSL());
+        assertEquals(-11, dfhcommarea.getLSSignST());
     }
 }

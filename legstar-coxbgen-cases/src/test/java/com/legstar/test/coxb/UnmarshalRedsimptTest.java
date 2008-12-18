@@ -27,29 +27,36 @@ import com.legstar.test.coxb.redsimpt.Dfhcommarea;
 
 import junit.framework.TestCase;
 
+/**
+ * Unmarshal redsimpt.
+ *
+ */
 public class UnmarshalRedsimptTest extends TestCase {
 
+    /**
+     * Unmarshal java data object and test host data result.
+     * @throws Exception if marshaling fails
+     */
     public void testRedsimpt() throws Exception {
 
-        //		           <------------------------------------>
-        //		            1 2 3 4 5 6 7 8 9 101112131415161718
-        //		            A B C D E F G H I J K L M N O       
         String hexString = "c1c2c3c4c5c6c7c8c9d1d2d3d4d5d6404040";
         byte[] hostBytes = HostData.toByteArray(hexString);
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redsimpt");
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redsimpt");
 
-        assertEquals("ABCDEFGHIJKLMNO",Dfhcommarea.getCDefinition1());
+        assertEquals("ABCDEFGHIJKLMNO", dfhcommarea.getCDefinition1());
     }
 
+    /**
+     * Unmarshal java data object and test host data result.
+     * Alternative choice.
+     * @throws Exception if marshaling fails
+     */
     public void testRedsimptSecondChoice() throws Exception {
 
-        //		           <------------------------------------>
-        //		            1 2 3 4 5 6 7 8 9 101112131415161718
-        //		            0 0 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5       
         String hexString = "f0f0f0f1f2f3f4f5f6f7f8f9f0f1f2f3f4f5";
         byte[] hostBytes = HostData.toByteArray(hexString);
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redsimpt");
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redsimpt");
 
-        assertEquals(123456789012345l,Dfhcommarea.getCDefinition2().longValue());
+        assertEquals(123456789012345L, dfhcommarea.getCDefinition2().longValue());
     }
 }

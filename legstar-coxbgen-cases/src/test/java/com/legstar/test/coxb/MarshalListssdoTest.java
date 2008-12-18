@@ -27,27 +27,38 @@ import com.legstar.test.coxb.listssdo.Dfhcommarea;
 
 import junit.framework.TestCase;
 
+/**
+ * Marshal listssdo.
+ *
+ */
 public class MarshalListssdoTest extends TestCase {
 
-    private final static String SCHEMA_NAME = "listssdo";
+    /** The annotated XSD file name. */
+    private static final String SCHEMA_NAME = "listssdo";
 
+    /**
+     * Marshal host data and test java data object result.
+     * @throws Exception if marshaling fails
+     */
     public void testListssdo() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
 
-        List <String> listOdo = new ArrayList <String>();
+        List < String > listOdo = new ArrayList < String >();
         listOdo.add("ODO01");
         listOdo.add("ODO02");
         listOdo.add("ODO03");
         listOdo.add("ODO04");
         listOdo.add("ODO05");
-        Dfhcommarea.getListOdo().addAll(listOdo);
+        dfhcommarea.getListOdo().addAll(listOdo);
 
-        //		      <------><------------------------------------------------>
-        //		      1 2 3 4 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
-        //		      0 0 O 5 O D O 0 1 O D O 0 2 O D O 0 3 O D O 0 4 O D O 0 5 
-        assertEquals("00000005d6c4d6f0f1d6c4d6f0f2d6c4d6f0f3d6c4d6f0f4d6c4d6f0f5",
-                Util.marshal(SCHEMA_NAME, Dfhcommarea, 29));
+        assertEquals("00000005"
+        + "d6c4d6f0f1"
+        + "d6c4d6f0f2"
+        + "d6c4d6f0f3"
+        + "d6c4d6f0f4"
+        + "d6c4d6f0f5",
+                Util.marshal(SCHEMA_NAME, dfhcommarea, 29));
     }
 }

@@ -24,22 +24,28 @@ import com.legstar.test.coxb.fixarsim.Dfhcommarea;
 
 import junit.framework.TestCase;
 
+/**
+ * Marshal fixarsim.
+ *
+ */
 public class MarshalFixarsimTest extends TestCase {
 
-    private final static String SCHEMA_NAME = "fixarsim";
+    /** The annotated XSD file name. */
+    private static final String SCHEMA_NAME = "fixarsim";
 
+    /**
+     * Marshal host data and test java data object result.
+     * @throws Exception if marshaling fails
+     */
     public void testFixarsim() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea Dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-        Dfhcommarea.getCArray().add("PREMI");
-        Dfhcommarea.getCArray().add("DEUXI");
-        Dfhcommarea.getCArray().add("TROIS");
+        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
+        dfhcommarea.getCArray().add("PREMI");
+        dfhcommarea.getCArray().add("DEUXI");
+        dfhcommarea.getCArray().add("TROIS");
 
-        //		      <---------------------------->
-        //		      1 2 3 4 5 6 7 8 9 101112131415
-        //		      P R E M I D E U X I T R O I S             
-        assertEquals("d7d9c5d4c9c4c5e4e7c9e3d9d6c9e2",
-                Util.marshal(SCHEMA_NAME, Dfhcommarea, 15));
+         assertEquals("d7d9c5d4c9c4c5e4e7c9e3d9d6c9e2",
+                Util.marshal(SCHEMA_NAME, dfhcommarea, 15));
     }
 }
