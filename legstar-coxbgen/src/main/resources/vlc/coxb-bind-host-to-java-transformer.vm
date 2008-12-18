@@ -1,5 +1,12 @@
 ## Determine the value Object type
 #set ($valueObjectType = $coxbHelper.getBoundTypeName($binding))
+package ${coxbContext.getCoxbPackageName()};
+
+import com.legstar.coxb.CobolContext;
+import com.legstar.coxb.ICobolComplexBinding;
+import com.legstar.coxb.transform.AbstractHostToJavaTransformer;
+import com.legstar.coxb.impl.BindingException;
+
 /**
  * Transforms mainframe data to a ${valueObjectType} data object.
  * <p/>
@@ -23,15 +30,15 @@ public class ${valueObjectType}HostToJavaTransformer extends AbstractHostToJavaT
     /**
      * Create a Host to Java transformer using a specific host character set while
      * other COBOL parameters are set by default.
-     * @param hostCharset the host character set
+     * @param cobolContext the COBOL parameters set.
      */
-    public ${valueObjectType}HostToJavaTransformer(CobolContext cobolContext) {
+    public ${valueObjectType}HostToJavaTransformer(final CobolContext cobolContext) {
         super(cobolContext);
     }
 
     /**
      * Create a Host to Java transformer using a specific COBOL parameters set.
-     * @param cobolContext the COBOL parameters set.
+     * @param hostCharset the host character set
      */
     public ${valueObjectType}HostToJavaTransformer(final String hostCharset) {
         super(hostCharset);

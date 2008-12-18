@@ -13,10 +13,15 @@ package com.legstar.coxb.gen;
 import java.io.File;
 
 import junit.framework.TestCase;
-import com.legstar.coxb.gen.CoxbBindingGenerator;
 
+
+/**
+ * Test extraction of package name from annotated XSD.
+ *
+ */
 public class GetPackageNameTest extends TestCase {
 
+    /** Test a non existing file.     */
     public void testInvalidFile() {
 
         try {
@@ -28,6 +33,7 @@ public class GetPackageNameTest extends TestCase {
 
     }
 
+    /** Test a non XML file.     */
     public void testNotXML() {
 
         try {
@@ -39,7 +45,8 @@ public class GetPackageNameTest extends TestCase {
 
     }
 
-    public void testNoJAXBAnnotations() {
+    /** Test an XML file with no JAXB annotation.     */
+   public void testNoJAXBAnnotations() {
 
         try {
             CoxbBindingGenerator.getPackageName(new File("src/test/resources/XSDWithoutAnnotations.xsd"));
@@ -50,7 +57,8 @@ public class GetPackageNameTest extends TestCase {
 
     }
 
-    public void testWithJAXBAnnotations() {
+   /** Test a valid XML file with JAXB annotation.     */
+   public void testWithJAXBAnnotations() {
 
         try {
             String pkg = CoxbBindingGenerator.getPackageName(new File("src/test/resources/ALLTYPES.xsd"));

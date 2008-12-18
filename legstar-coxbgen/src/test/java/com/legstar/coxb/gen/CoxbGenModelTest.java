@@ -36,7 +36,7 @@ public class CoxbGenModelTest extends AbstractTestTemplate {
 
         CoxbGenModel model = new CoxbGenModel();
 
-        List < String > jaxbRootClassNames = new ArrayList < String > ();
+        List < String > jaxbRootClassNames = new ArrayList < String >();
         jaxbRootClassNames.add("class1");
         jaxbRootClassNames.add("class2");
 
@@ -53,12 +53,14 @@ public class CoxbGenModelTest extends AbstractTestTemplate {
         model.generateBuild(CodeGenUtil.getFile(GEN_ANT_DIR, "build.xml"));
         String resStr = getSource(GEN_ANT_DIR, "build.xml");
 
-        assertTrue(resStr.contains("<project basedir=\"/Users/Fady/sandbox/legstar-1.2.0\" default=\"signalSuccess\" name=\"generate-COXB-classes\">"));
+        assertTrue(resStr.contains("<project basedir=\"/Users/Fady/sandbox/legstar-1.2.0\" default=\"signalSuccess\""
+                + " name=\"generate-COXB-classes\">"));
         assertTrue(resStr.contains("<dirset dir=\"jaxb\\bin\"/>"));
         assertTrue(resStr.contains("<mkdir dir=\"jaxb\\bin\"/>"));
         assertTrue(resStr.contains("<mkdir dir=\"jaxb\\src\"/>"));
         assertTrue(resStr.contains("<echo message=\"Generating JAXB classes for myXsd.xsd\" />"));
-        assertTrue(resStr.contains("<xjc schema=\"myXsd.xsd\" destdir=\"jaxb\\src\" extension=\"true\" removeOldOutput=\"yes\">"));
+        assertTrue(resStr.contains("<xjc schema=\"myXsd.xsd\" destdir=\"jaxb\\src\" extension=\"true\""
+                + " removeOldOutput=\"yes\">"));
         assertTrue(resStr.contains("<arg value=\"\\Users\\Fady\\sandbox\\legstar-1.2.0\\xjb\" />"));
         assertTrue(resStr.contains("<javac srcdir=\"jaxb\\src\""));
         assertTrue(resStr.contains("destdir=\"jaxb\\bin\""));

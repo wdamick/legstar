@@ -13,7 +13,6 @@ package com.legstar.coxb.gen;
 import com.legstar.codegen.CodeGenUtil;
 import com.legstar.coxb.ICobolArrayComplexBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
-import com.legstar.coxb.gen.CoxbGenModel;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.util.JaxbUtil;
 
@@ -186,7 +185,8 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("public class TableComplexWrapperBinding"));
         assertTrue(resStr.contains("extends CArrayComplexBinding {"));
         assertTrue(resStr.contains("private List < TableComplex > mValueObject;"));
-        assertTrue(resStr.contains("super(bindingName, fieldName, TableComplex.class, null, parentBinding, complexItemBinding);"));
+        assertTrue(resStr.contains("super(bindingName, fieldName, TableComplex.class, null,"
+                + " parentBinding, complexItemBinding);"));
         assertTrue(resStr.contains("setMinOccurs(3);"));
         assertTrue(resStr.contains("setMaxOccurs(3);"));
         assertTrue(resStr.contains("mValueObject = new ArrayList < TableComplex >();"));
@@ -282,7 +282,8 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         String resStr = getSource(GEN_SRC_DIR, "/test.txt");
         assertTrue(resStr.contains("import com.legstar.coxb.ICobolChoiceBinding;"));
         assertTrue(resStr.contains("public ICobolChoiceBinding _cDefinition1Choice;"));
-        assertTrue(resStr.contains("cDefinition1Choice = new CDefinition1ChoiceBinding(\"CDefinition1Choice\", this);"));
+        assertTrue(resStr.contains("cDefinition1Choice = new CDefinition1ChoiceBinding("
+                + "\"CDefinition1Choice\", this);"));
         assertTrue(resStr.contains("cDefinition1Choice.setCobolName(\"C-DEFINITION-1\");"));
         assertTrue(resStr.contains("cDefinition1Choice.setByteLength(18);"));
         assertTrue(resStr.contains("cDefinition1Choice.setUnmarshalChoiceStrategyClassName("));
@@ -390,7 +391,8 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         String resStr = getSource(GEN_SRC_DIR, "/test.txt");
         assertTrue(resStr.contains("package com.legstar.coxb.cust.redsimpt;"));
         assertTrue(resStr.contains("public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {"));
-        assertTrue(resStr.contains("Dfhcommarea valueObject = (Dfhcommarea) choice.getObjectValue(Dfhcommarea.class);"));
+        assertTrue(resStr.contains("Dfhcommarea valueObject = (Dfhcommarea)"
+                + " choice.getObjectValue(Dfhcommarea.class);"));
         assertTrue(resStr.contains("return choice.getAlternativeByName(\"CDefinition1\");"));
         assertTrue(resStr.contains("return choice.getAlternativeByName(\"CDefinition2\");"));
     }
@@ -485,11 +487,13 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
                 CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
         String resStr = getSource(GEN_SRC_DIR, "/test.txt");
-        assertTrue(resStr.contains("DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();"));
+        assertTrue(resStr.contains("DfhcommareaHostToJavaTransformer transformer"
+                + " = new DfhcommareaHostToJavaTransformer();"));
         assertTrue(resStr.contains("Dfhcommarea javaValue = (Dfhcommarea) transformer.transform(hostByteArray);"));
-        assertTrue(resStr.contains("public class DfhcommareaHostToJavaTransformer extends AbstractHostToJavaTransformer {"));
+        assertTrue(resStr.contains("public class DfhcommareaHostToJavaTransformer extends"
+                + " AbstractHostToJavaTransformer {"));
         assertTrue(resStr.contains("public DfhcommareaHostToJavaTransformer() {"));
-        assertTrue(resStr.contains("public DfhcommareaHostToJavaTransformer(CobolContext cobolContext) {"));
+        assertTrue(resStr.contains("public DfhcommareaHostToJavaTransformer(final CobolContext cobolContext) {"));
         assertTrue(resStr.contains("public DfhcommareaHostToJavaTransformer(final String hostCharset) {"));
         assertTrue(resStr.contains("return new DfhcommareaBinding();"));
     }
@@ -522,11 +526,13 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
                 CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
         String resStr = getSource(GEN_SRC_DIR, "/test.txt");
-        assertTrue(resStr.contains("DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();"));
+        assertTrue(resStr.contains("DfhcommareaJavaToHostTransformer transformer"
+                + " = new DfhcommareaJavaToHostTransformer();"));
         assertTrue(resStr.contains("byte[] hostByteArray = (Dfhcommarea) transformer.transform(javaValue);"));
-        assertTrue(resStr.contains("public class DfhcommareaJavaToHostTransformer extends AbstractJavaToHostTransformer {"));
+        assertTrue(resStr.contains("public class DfhcommareaJavaToHostTransformer extends"
+                + " AbstractJavaToHostTransformer {"));
         assertTrue(resStr.contains("public DfhcommareaJavaToHostTransformer() {"));
-        assertTrue(resStr.contains("public DfhcommareaJavaToHostTransformer(CobolContext cobolContext) {"));
+        assertTrue(resStr.contains("public DfhcommareaJavaToHostTransformer(final CobolContext cobolContext) {"));
         assertTrue(resStr.contains("public DfhcommareaJavaToHostTransformer(final String hostCharset) {"));
         assertTrue(resStr.contains("return new DfhcommareaBinding();"));
     }

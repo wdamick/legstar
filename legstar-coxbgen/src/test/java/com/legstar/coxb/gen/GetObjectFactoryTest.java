@@ -13,8 +13,12 @@ package com.legstar.coxb.gen;
 import java.io.File;
 
 import junit.framework.TestCase;
-import com.legstar.coxb.gen.CoxbBindingGenerator;
 
+
+/**
+ * Test extraction of JAXB object factory knowing the package name.
+ *
+ */
 public class GetObjectFactoryTest extends TestCase {
 
     /** Generated JAXB classes binaries. */
@@ -28,7 +32,8 @@ public class GetObjectFactoryTest extends TestCase {
                     new File("gen-bin"));
             fail("Invalid location test failed " + of.getClass().getName());
         } catch (Exception e) {
-            assertEquals("ClassNotFoundException com.legstar.truc.coxb.alltypes.ObjectFactory in gen-bin", e.getMessage());
+            assertEquals("ClassNotFoundException com.legstar.truc.coxb.alltypes.ObjectFactory in gen-bin",
+                    e.getMessage());
         }
     }
 
@@ -40,11 +45,12 @@ public class GetObjectFactoryTest extends TestCase {
                     new File(JAXB_DIR));
             fail("Invalid package test failed");
         } catch (Exception e) {
-            assertEquals("ClassNotFoundException com.legstar.test.truc.ALLTYPES.ObjectFactory in ..\\legstar-jaxbgen-cases\\target\\classes", e.getMessage());
+            assertEquals("ClassNotFoundException com.legstar.test.truc.ALLTYPES.ObjectFactory in"
+                    + " ..\\legstar-jaxbgen-cases\\target\\classes", e.getMessage());
         }
     }
 
-    /** Should succed since both package and location are correct*/
+    /** Should succeed since both package and location are correct. */
     public void testGetObjectFactory() {
         Object of = CoxbBindingGenerator.getObjectFactory(
                 "com.legstar.test.coxb.alltypes",
