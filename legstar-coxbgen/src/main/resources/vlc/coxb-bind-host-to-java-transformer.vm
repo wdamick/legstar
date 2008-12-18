@@ -1,0 +1,49 @@
+## Determine the value Object type
+#set ($valueObjectType = $coxbHelper.getBoundTypeName($binding))
+/**
+ * Transforms mainframe data to a ${valueObjectType} data object.
+ * <p/>
+ * This is a typical use of this class:
+ * <pre>
+ *  ${valueObjectType}HostToJavaTransformer transformer = new ${valueObjectType}HostToJavaTransformer();
+ *  ${valueObjectType} javaValue = (${valueObjectType}) transformer.transform(hostByteArray);
+ * </pre>
+ *
+ */
+public class ${valueObjectType}HostToJavaTransformer extends AbstractHostToJavaTransformer {
+
+    
+    /**
+     * Create a Host to Java transformer using default COBOL parameters.
+     */
+    public ${valueObjectType}HostToJavaTransformer() {
+        super();
+    }
+    
+    /**
+     * Create a Host to Java transformer using a specific host character set while
+     * other COBOL parameters are set by default.
+     * @param hostCharset the host character set
+     */
+    public ${valueObjectType}HostToJavaTransformer(CobolContext cobolContext) {
+        super(cobolContext);
+    }
+
+    /**
+     * Create a Host to Java transformer using a specific COBOL parameters set.
+     * @param cobolContext the COBOL parameters set.
+     */
+    public ${valueObjectType}HostToJavaTransformer(final String hostCharset) {
+        super(hostCharset);
+    }
+    
+    /**
+     * Binding is statically produced by {@link com.legstar.coxb.gen.CoxbBindingGenerator}.
+     * @return the binding corresponding to the host structure type.
+     * @throws BindingException if binding cannot be returned
+     */
+    public ICobolComplexBinding getBinding() throws BindingException {
+        return new ${binding-class-name}();
+    }
+    
+}

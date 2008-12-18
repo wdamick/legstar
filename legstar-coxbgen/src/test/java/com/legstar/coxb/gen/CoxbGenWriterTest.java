@@ -10,57 +10,46 @@
  ******************************************************************************/
 package com.legstar.coxb.gen;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import com.legstar.coxb.ICobolArrayComplexBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.util.JaxbUtil;
 
-import junit.framework.TestCase;
+/**
+ * Test the code generation writer.
+ *
+ */
+public class CoxbGenWriterTest extends AbstractTestTemplate {
 
-public class CoxbGenWriterTest extends TestCase {
-
-	/** Code will be generated here. */
-	private static final String GEN_SRC_DIR = "src/test/gen/java";
-
-	/** Logger. */
-	private static final Log LOG = LogFactory.getLog(CoxbGenWriterTest.class);
-
+    /**
+     * A complex type case.
+     * @throws Exception if generation fails
+     */
 	public void testGenAlltypes() throws Exception {
-		com.legstar.test.coxb.lsfilead.ObjectFactory objectFactory
-		= new com.legstar.test.coxb.lsfilead.ObjectFactory();
+		com.legstar.test.coxb.alltypes.ObjectFactory objectFactory
+		= new com.legstar.test.coxb.alltypes.ObjectFactory();
 
 		CComplexReflectBinding ce = new CComplexReflectBinding(
 				objectFactory,
 				JaxbUtil.loadClass("com.legstar.test.coxb.alltypes.Dfhcommarea"));
 
 		CoxbGenModel coxbGenContext = new CoxbGenModel();
-		coxbGenContext.setCoxbSrcDir(new File(GEN_SRC_DIR));
+		coxbGenContext.setCoxbSrcDir(GEN_SRC_DIR);
 		coxbGenContext.setJaxbPackageName("com.legstar.test.coxb.alltypes");
 		coxbGenContext.setCoxbPackageName("com.legstar.test.coxb.alltypes.bind");
 		
 		CoxbGenWriter writer = new CoxbGenWriter(coxbGenContext);
 
 		writer.write(ce);
+        String resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/alltypes/bind/DfhcommareaBinding.java");
 
-		BufferedReader in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/alltypes/bind/DfhcommareaBinding.java"));
-		String resStr = "";
-		String str = in.readLine();
-		while (str != null) {
-			LOG.debug(str);
-			resStr += str;
-			str = in.readLine();
-		}
-		in.close();
 		assertTrue(resStr.contains("import com.legstar.coxb.ICobolStringBinding;"));
 	}
 
+    /**
+     * A complex type containing a redefine case.
+     * @throws Exception if generation fails
+     */
 	public void testGenRedsimpt() throws Exception {
 		com.legstar.test.coxb.redsimpt.ObjectFactory objectFactory
 		= new com.legstar.test.coxb.redsimpt.ObjectFactory();
@@ -72,26 +61,22 @@ public class CoxbGenWriterTest extends TestCase {
 		ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList().get(0);
 
 		CoxbGenModel coxbGenContext = new CoxbGenModel();
-		coxbGenContext.setCoxbSrcDir(new File(GEN_SRC_DIR));
+		coxbGenContext.setCoxbSrcDir(GEN_SRC_DIR);
 		coxbGenContext.setJaxbPackageName("com.legstar.test.coxb.redsimpt");
 		coxbGenContext.setCoxbPackageName("com.legstar.test.coxb.redsimpt.bind");
 		
 		CoxbGenWriter writer = new CoxbGenWriter(coxbGenContext);
 
 		writer.write(cc);
+        String resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/redsimpt/bind/CDefinition1ChoiceBinding.java");
 
-		BufferedReader in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/redsimpt/bind/CDefinition1ChoiceBinding.java"));
-		String resStr = "";
-		String str = in.readLine();
-		while (str != null) {
-			LOG.debug(str);
-			resStr += str;
-			str = in.readLine();
-		}
-		in.close();
         assertTrue(resStr.contains("import com.legstar.coxb.ICobolComplexBinding;"));
 	}
 
+    /**
+     * A complex array type case.
+     * @throws Exception if generation fails
+     */
 	public void testGenArrayssm() throws Exception {
 		com.legstar.test.coxb.arrayssm.ObjectFactory objectFactory
 			= new com.legstar.test.coxb.arrayssm.ObjectFactory();
@@ -103,26 +88,22 @@ public class CoxbGenWriterTest extends TestCase {
 		ICobolArrayComplexBinding ca = (ICobolArrayComplexBinding) ce.getChildrenList().get(1);
 
 		CoxbGenModel coxbGenContext = new CoxbGenModel();
-		coxbGenContext.setCoxbSrcDir(new File(GEN_SRC_DIR));
+		coxbGenContext.setCoxbSrcDir(GEN_SRC_DIR);
 		coxbGenContext.setJaxbPackageName("com.legstar.test.coxb.arrayssm");
 		coxbGenContext.setCoxbPackageName("com.legstar.test.coxb.arrayssm.bind");
 		
 		CoxbGenWriter writer = new CoxbGenWriter(coxbGenContext);
 
 		writer.write(ca);
+        String resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/arrayssm/bind/TableComplexWrapperBinding.java");
 
-		BufferedReader in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/test/coxb/arrayssm/bind/TableComplexWrapperBinding.java"));
-		String resStr = "";
-		String str = in.readLine();
-		while (str != null) {
-			LOG.debug(str);
-			resStr += str;
-			str = in.readLine();
-		}
-		in.close();
         assertTrue(resStr.contains("import com.legstar.coxb.common.CArrayComplexBinding;"));
 	}
 
+    /**
+     * A choice strategy type case.
+     * @throws Exception if generation fails
+     */
 	public void testGenChoiceStrategy() throws Exception {
 		com.legstar.test.coxb.redsimpt.ObjectFactory objectFactory
 			= new com.legstar.test.coxb.redsimpt.ObjectFactory();
@@ -134,25 +115,79 @@ public class CoxbGenWriterTest extends TestCase {
 		ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList().get(0);
 
 		CoxbGenModel coxbGenContext = new CoxbGenModel();
-		coxbGenContext.setCoxbSrcDir(new File(GEN_SRC_DIR));
+		coxbGenContext.setCoxbSrcDir(GEN_SRC_DIR);
 		coxbGenContext.setJaxbPackageName("com.legstar.test.coxb.redsimpt");
 		coxbGenContext.setCoxbPackageName("com.legstar.test.coxb.redsimpt.bind");
 		
 		CoxbGenWriter writer = new CoxbGenWriter(coxbGenContext);
 
 		/* Do it twice to check the backup mechanism */
-		writer.write(cc, "Unmarshal", "com.legstar.coxb.cust.redsimpt.ChoiceSelector");
-		writer.write(cc, "Unmarshal", "com.legstar.coxb.cust.redsimpt.ChoiceSelector");
+		writer.writeChoiceStrategy(cc, "Unmarshal", "com.legstar.coxb.cust.redsimpt.ChoiceSelector");
+		writer.writeChoiceStrategy(cc, "Unmarshal", "com.legstar.coxb.cust.redsimpt.ChoiceSelector");
 
-		BufferedReader in = new BufferedReader(new FileReader(GEN_SRC_DIR + "/com/legstar/coxb/cust/redsimpt/ChoiceSelector.java.new"));
-		String resStr = "";
-		String str = in.readLine();
-		while (str != null) {
-			LOG.debug(str);
-			resStr += str;
-			str = in.readLine();
-		}
-		in.close();
+        String resStr = getSource(GEN_SRC_DIR, "/com/legstar/coxb/cust/redsimpt/ChoiceSelector.java.new");
         assertTrue(resStr.contains("public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {"));
 	}
+ 
+	/**
+     * Generate a host to java transformer case.
+     * @throws Exception if generation fails
+     */
+    public void testGenHostToJavaTransformer() throws Exception {
+
+        com.legstar.test.coxb.lsfileae.ObjectFactory objectFactory
+        = new com.legstar.test.coxb.lsfileae.ObjectFactory();
+
+        CComplexReflectBinding ce = new CComplexReflectBinding(
+                objectFactory,
+                JaxbUtil.loadClass("com.legstar.test.coxb.lsfileae.Dfhcommarea"));
+
+        CoxbGenModel coxbGenContext = new CoxbGenModel();
+        coxbGenContext.setCoxbSrcDir(GEN_SRC_DIR);
+        coxbGenContext.setJaxbPackageName("com.legstar.test.coxb.lsfileae");
+        coxbGenContext.setCoxbPackageName("com.legstar.test.coxb.lsfileae.bind");
+        
+        CoxbGenWriter writer = new CoxbGenWriter(coxbGenContext);
+        writer.writeHostToJavaTransformer(ce);
+        String resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/lsfileae/bind/DfhcommareaHostToJavaTransformer.java");
+
+        assertTrue(resStr.contains("DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();"));
+        assertTrue(resStr.contains("Dfhcommarea javaValue = (Dfhcommarea) transformer.transform(hostByteArray);"));
+        assertTrue(resStr.contains("public class DfhcommareaHostToJavaTransformer extends AbstractHostToJavaTransformer {"));
+        assertTrue(resStr.contains("public DfhcommareaHostToJavaTransformer() {"));
+        assertTrue(resStr.contains("public DfhcommareaHostToJavaTransformer(CobolContext cobolContext) {"));
+        assertTrue(resStr.contains("public DfhcommareaHostToJavaTransformer(final String hostCharset) {"));
+        assertTrue(resStr.contains("return new DfhcommareaBinding();"));
+    }
+
+    /**
+     * Generate a java to host transformer case.
+     * @throws Exception if generation fails
+     */
+    public void testGenJavaToHostTransformer() throws Exception {
+
+        com.legstar.test.coxb.lsfileae.ObjectFactory objectFactory
+        = new com.legstar.test.coxb.lsfileae.ObjectFactory();
+
+        CComplexReflectBinding ce = new CComplexReflectBinding(
+                objectFactory,
+                JaxbUtil.loadClass("com.legstar.test.coxb.lsfileae.Dfhcommarea"));
+
+        CoxbGenModel coxbGenContext = new CoxbGenModel();
+        coxbGenContext.setCoxbSrcDir(GEN_SRC_DIR);
+        coxbGenContext.setJaxbPackageName("com.legstar.test.coxb.lsfileae");
+        coxbGenContext.setCoxbPackageName("com.legstar.test.coxb.lsfileae.bind");
+
+        CoxbGenWriter writer = new CoxbGenWriter(coxbGenContext);
+        writer.writeJavaToHostTransformer(ce);
+        String resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/lsfileae/bind/DfhcommareaJavaToHostTransformer.java");
+
+        assertTrue(resStr.contains("DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();"));
+        assertTrue(resStr.contains("byte[] hostByteArray = (Dfhcommarea) transformer.transform(javaValue);"));
+        assertTrue(resStr.contains("public class DfhcommareaJavaToHostTransformer extends AbstractJavaToHostTransformer {"));
+        assertTrue(resStr.contains("public DfhcommareaJavaToHostTransformer() {"));
+        assertTrue(resStr.contains("public DfhcommareaJavaToHostTransformer(CobolContext cobolContext) {"));
+        assertTrue(resStr.contains("public DfhcommareaJavaToHostTransformer(final String hostCharset) {"));
+        assertTrue(resStr.contains("return new DfhcommareaBinding();"));
+    }
 }

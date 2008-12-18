@@ -15,10 +15,19 @@ import com.legstar.util.JaxbUtil;
 
 import junit.framework.TestCase;
 
+/**
+ * Test the CoxbHelper.
+ *
+ */
 public class CoxbHelperTest extends TestCase {
 	
-	private CoxbHelper mCoxbHelper = new CoxbHelper();
+	/** Cocb helper instance. */
+    private CoxbHelper mCoxbHelper = new CoxbHelper();
 	
+	/**
+	 * Get the bound type from a binding class.
+	 * @throws Exception if bound type cannot be extracted
+	 */
 	public void testGetBoundTypeName() throws Exception {
 		com.legstar.test.coxb.lsfilead.ObjectFactory objectFactory
 		= new com.legstar.test.coxb.lsfilead.ObjectFactory();

@@ -48,6 +48,20 @@ public class CoxbGenReflectVisitor extends CobolElementVisitor {
     private CoxbGenWriter mWriter;
 
     /**
+     * @return the actual code generator
+     */
+    public CoxbGenWriter getWriter() {
+        return mWriter;
+    }
+
+    /**
+     * @param writer the actual code generator to set
+     */
+    public void setWriter(final CoxbGenWriter writer) {
+        mWriter = writer;
+    }
+
+    /**
      * Constructor.
      * 
      * @param coxbGenContext set of parameters

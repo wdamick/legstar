@@ -44,6 +44,14 @@ public class CoxbGenWriter {
     public static final String COMPLEX_ARRAY_VLC_TEMPLATE =
         "vlc/coxb-bind-complex-array.vm";
 
+    /** Velocity template for host to java tranformer. */
+    public static final String HOST_TO_JAVA_XFORMER_VLC_TEMPLATE =
+        "vlc/coxb-bind-host-to-java-transformer.vm";
+
+    /** Velocity template for java to host tranformer. */
+    public static final String JAVA_TO_HOST_XFORMER_VLC_TEMPLATE =
+        "vlc/coxb-bind-java-to-host-transformer.vm";
+
     /** A set of methods to simplify the velocity templates. */
     private CodeGenHelper mHelper;
 
@@ -54,7 +62,7 @@ public class CoxbGenWriter {
     private CoxbGenModel mCoxbGenContext;
 
     /** This generator name. */
-    private static final String BINDING_GENERATOR_NAME =
+    public static final String BINDING_GENERATOR_NAME =
         "LegStar Binding generator";
 
     /**
@@ -84,24 +92,19 @@ public class CoxbGenWriter {
      */
     public final void write(
             final ICobolComplexBinding ce) throws CodeGenException {
-        try {
-            Map < String, Object > parameters = createParameters(ce);
+        writeGeneric(ce, COMPLEX_VLC_TEMPLATE,
+                mCoxbHelper.getCoxbTypeName(ce) + ".java");
+    }
 
-            String dir = mCoxbGenContext.getCoxbSrcDir().getAbsolutePath() + '/'
-            + CodeGenUtil.relativeLocation(
-                    mCoxbGenContext.getCoxbPackageName());
-            CodeGenUtil.checkDirectory(dir, true);
-
-            CodeGenUtil.processTemplate(
-                    BINDING_GENERATOR_NAME,
-                    COMPLEX_VLC_TEMPLATE,
-                    "binding", ce,
-                    parameters,
-                    CodeGenUtil.getFile(dir,
-                            mCoxbHelper.getCoxbTypeName(ce) + ".java"));
-        } catch (CodeGenMakeException e) {
-            throw new CodeGenException(e);
-        }
+    /**
+     * Produces a binding class for a complex array element.
+     * @param ce the binding element
+     * @throws CodeGenException if generation fails
+     */
+    public final void write(
+            final ICobolArrayComplexBinding ce) throws CodeGenException {
+        writeGeneric(ce, COMPLEX_ARRAY_VLC_TEMPLATE,
+                mCoxbHelper.getCoxbTypeName(ce) + ".java");
     }
 
     /**
@@ -112,6 +115,57 @@ public class CoxbGenWriter {
      */
     public final void write(
             final ICobolChoiceBinding ce) throws CodeGenException {
+
+        writeGeneric(ce, CHOICE_VLC_TEMPLATE,
+                mCoxbHelper.getCoxbTypeName(ce) + ".java");
+
+        if (ce.getMarshalChoiceStrategyClassName() != null
+                && ce.getMarshalChoiceStrategyClassName().length() > 0) {
+            writeChoiceStrategy(ce, "Marshal",
+                    ce.getMarshalChoiceStrategyClassName());
+
+        }
+        if (ce.getUnmarshalChoiceStrategyClassName() != null
+                && ce.getUnmarshalChoiceStrategyClassName().length() > 0) {
+            writeChoiceStrategy(ce, "Unmarshal",
+                    ce.getUnmarshalChoiceStrategyClassName());
+
+        }
+    }
+
+    /**
+     * Produces a host to java transformer class for a complex element.
+     * @param ce the binding element
+     * @throws CodeGenException if generation fails
+     */
+    public final void writeHostToJavaTransformer(
+            final ICobolComplexBinding ce) throws CodeGenException {
+        writeGeneric(ce, HOST_TO_JAVA_XFORMER_VLC_TEMPLATE,
+                mCoxbHelper.getBoundTypeName(ce) + "HostToJavaTransformer.java");
+    }
+
+    /**
+     * Produces a java to host transformer class for a complex element.
+     * @param ce the binding element
+     * @throws CodeGenException if generation fails
+     */
+    public final void writeJavaToHostTransformer(
+            final ICobolComplexBinding ce) throws CodeGenException {
+        writeGeneric(ce, JAVA_TO_HOST_XFORMER_VLC_TEMPLATE,
+                mCoxbHelper.getBoundTypeName(ce) + "JavaToHostTransformer.java");
+    }
+
+    /**
+     * Applies a velocity template to a binding class producing a file.
+     * @param ce the binding element
+     * @param template the velocity template
+     * @param fileName the generated file name
+     * @throws CodeGenException if generation fails
+     */
+    private void writeGeneric(
+            final ICobolBinding ce,
+            final String template,
+            final String fileName) throws CodeGenException {
         try {
             Map < String, Object > parameters = createParameters(ce);
 
@@ -122,24 +176,10 @@ public class CoxbGenWriter {
 
             CodeGenUtil.processTemplate(
                     BINDING_GENERATOR_NAME,
-                    CHOICE_VLC_TEMPLATE,
+                    template,
                     "binding", ce,
                     parameters,
-                    CodeGenUtil.getFile(dir,
-                            mCoxbHelper.getCoxbTypeName(ce) + ".java"));
-
-            if (ce.getMarshalChoiceStrategyClassName() != null
-                    && ce.getMarshalChoiceStrategyClassName().length() > 0) {
-                write(ce, "Marshal",
-                        ce.getMarshalChoiceStrategyClassName());
-
-            }
-            if (ce.getUnmarshalChoiceStrategyClassName() != null
-                    && ce.getUnmarshalChoiceStrategyClassName().length() > 0) {
-                write(ce, "Unmarshal",
-                        ce.getUnmarshalChoiceStrategyClassName());
-
-            }
+                    CodeGenUtil.getFile(dir, fileName));
         } catch (CodeGenMakeException e) {
             throw new CodeGenException(e);
         }
@@ -154,7 +194,7 @@ public class CoxbGenWriter {
      * @param strategyClassName a fully qualified class name for the strategy
      * @throws CodeGenException if generation fails
      */
-    public final void write(
+    public final void writeChoiceStrategy(
             final ICobolChoiceBinding ce,
             final String strategyType,
             final String strategyClassName) throws CodeGenException {
@@ -185,33 +225,6 @@ public class CoxbGenWriter {
                     parameters,
                     targetFile);
 
-        } catch (CodeGenMakeException e) {
-            throw new CodeGenException(e);
-        }
-    }
-
-    /**
-     * Produces a binding class for a complex array element.
-     * @param ce the binding element
-     * @throws CodeGenException if generation fails
-     */
-    public final void write(
-            final ICobolArrayComplexBinding ce) throws CodeGenException {
-        try {
-            Map < String, Object > parameters = createParameters(ce);
-
-            String dir = mCoxbGenContext.getCoxbSrcDir().getAbsolutePath() + '/'
-            + CodeGenUtil.relativeLocation(
-                    mCoxbGenContext.getCoxbPackageName());
-            CodeGenUtil.checkDirectory(dir, true);
-
-            CodeGenUtil.processTemplate(
-                    BINDING_GENERATOR_NAME,
-                    COMPLEX_ARRAY_VLC_TEMPLATE,
-                    "binding", ce,
-                    parameters,
-                    CodeGenUtil.getFile(dir,
-                            mCoxbHelper.getCoxbTypeName(ce) + ".java"));
         } catch (CodeGenMakeException e) {
             throw new CodeGenException(e);
         }
