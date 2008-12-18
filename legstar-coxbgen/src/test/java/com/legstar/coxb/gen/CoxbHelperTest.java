@@ -20,24 +20,24 @@ import junit.framework.TestCase;
  *
  */
 public class CoxbHelperTest extends TestCase {
-	
-	/** Cocb helper instance. */
+
+    /** Cocb helper instance. */
     private CoxbHelper mCoxbHelper = new CoxbHelper();
-	
-	/**
-	 * Get the bound type from a binding class.
-	 * @throws Exception if bound type cannot be extracted
-	 */
-	public void testGetBoundTypeName() throws Exception {
-		com.legstar.test.coxb.lsfilead.ObjectFactory objectFactory
-		= new com.legstar.test.coxb.lsfilead.ObjectFactory();
 
-		CComplexReflectBinding binding = new CComplexReflectBinding(
-				objectFactory,
-				JaxbUtil.loadClass("com.legstar.test.coxb.alltypes.Dfhcommarea"));
-		
-		assertEquals("Dfhcommarea", mCoxbHelper.getBoundTypeName(binding));
+    /**
+     * Get the bound type from a binding class.
+     * @throws Exception if bound type cannot be extracted
+     */
+    public void testGetBoundTypeName() throws Exception {
+        com.legstar.test.coxb.lsfilead.ObjectFactory objectFactory
+        = new com.legstar.test.coxb.lsfilead.ObjectFactory();
 
-	}
+        CComplexReflectBinding binding = new CComplexReflectBinding(
+                objectFactory,
+                JaxbUtil.loadClass("com.legstar.test.coxb.alltypes.Dfhcommarea"));
+
+        assertEquals("Dfhcommarea", mCoxbHelper.getBoundTypeName(binding));
+
+    }
 
 }
