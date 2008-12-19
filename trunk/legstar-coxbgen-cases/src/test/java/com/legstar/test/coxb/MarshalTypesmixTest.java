@@ -20,8 +20,8 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
-import java.math.BigDecimal;
 
+import com.legstar.coxb.test.TypesmixCases;
 import com.legstar.test.coxb.typesmix.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -42,44 +42,8 @@ public class MarshalTypesmixTest extends TestCase {
     public void testTypesmix() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-
-        dfhcommarea.setCAlphabetic("ABCDE");
-        dfhcommarea.setCNational("ABCDE");
-        byte[] cCDbcs = {0x0E, 0x40, 0x40, 0x40, 0x40, 0x40, 0x40, 0x0F};
-        dfhcommarea.setCDbcs(cCDbcs);
-        dfhcommarea.setCAlphanumericEdited("");
-        dfhcommarea.setCAlphanumeric("");
-        byte[] cOctetString = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-        dfhcommarea.setCOctetString(cOctetString);
-        dfhcommarea.setCPackedDecimal(new BigDecimal(0));
-        dfhcommarea.setCNumericEdited1("0");
-        dfhcommarea.setCNumericEdited2("0");
-        dfhcommarea.setCNumericEdited3("0");
-        dfhcommarea.setCNumericEdited4("0");
-        dfhcommarea.setCExternalFloating("+00.00E+00");
-        byte[] cIndex = {0x00, 0x00, 0x00, 0x00};
-        dfhcommarea.setCIndex(cIndex);
-        byte[] cPointer = {0x00, 0x00, 0x00, 0x00};
-        dfhcommarea.setCPointer(cPointer);
-        byte[] cProcPointer = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-        dfhcommarea.setCProcPointer(cProcPointer);
-        byte[] cFuncPointer = {0x00, 0x00, 0x00, 0x00};
-        dfhcommarea.setCFuncPointer(cFuncPointer);
-
-        assertEquals("c1c2c3c4c5"
-        + "004100420043004400450020002000200020"
-        + "0e4040404040400f"
-        + "4040404040404040404040404040"
-        + "40404040404040"
-        + "0000000000000000"
-        + "00000000000000000000000000000000000000000c"
-        + "f0f0f0f0f0f0f0f0f0f0f0f0f0c0f0"
-        + "40404040404040f0404040404040404040404040404040f0"
-        + "404040404040404040f040404040404040404040"
-        + "00000000000000000000000000000000000000004ef0f04bf0f0c54ef0f0"
-        + "00000000"
-        + "0000",
+        Dfhcommarea dfhcommarea = TypesmixCases.getJavaObject();
+        assertEquals(TypesmixCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 176));
     }
 }

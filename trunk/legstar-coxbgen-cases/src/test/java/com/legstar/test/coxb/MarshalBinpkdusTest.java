@@ -20,14 +20,7 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
-
-
-
-import java.math.BigInteger;
-
-import com.legstar.test.coxb.binpkdus.LsCompat;
-import com.legstar.test.coxb.binpkdus.LsExtend;
-import com.legstar.test.coxb.binpkdus.LsUnsignedPackedDecimal;
+import com.legstar.coxb.test.BinpkdusCases;
 import com.legstar.test.coxb.binpkdus.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -48,32 +41,8 @@ public class MarshalBinpkdusTest extends TestCase {
     public void testBinpkdus() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-
-        LsCompat lsCompat = new LsCompat();
-        lsCompat.setLsP9X1Null(0);
-        lsCompat.setLsP9X1(3);
-        lsCompat.setLsP9X2(12);
-        lsCompat.setLsP9X7(32769);
-        lsCompat.setLsP9X18(123456789012345678L);
-
-        LsExtend lsExtend = new LsExtend();
-        lsExtend.setLsP9X19(new BigInteger("1234567890123456789"));
-        lsExtend.setLsP9X31(new BigInteger("1234567890123456789012345678901"));
-
-        LsUnsignedPackedDecimal lsUnsignedPackedDecimal = new LsUnsignedPackedDecimal();
-        lsUnsignedPackedDecimal.setLsCompat(lsCompat);
-        lsUnsignedPackedDecimal.setLsExtend(lsExtend);
-        dfhcommarea.setLsUnsignedPackedDecimal(lsUnsignedPackedDecimal);
-
-        assertEquals("0f"
-        + "3f"
-        + "012f"
-        + "0032769f"
-        + "0123456789012345678f"
-        + "1234567890123456789f"
-        + "1234567890123456789012345678901f"
-        + "000000000000000000000000",
+        Dfhcommarea dfhcommarea = BinpkdusCases.getJavaObject();
+        assertEquals(BinpkdusCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 56));
     }
 }

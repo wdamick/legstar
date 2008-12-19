@@ -21,6 +21,7 @@
 package com.legstar.test.coxb;
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.test.VararcomCases;
 import com.legstar.test.coxb.vararcom.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -51,25 +52,9 @@ public class UnmarshalVararcomTest extends TestCase {
      */
     public void testVararcomSize10() throws Exception {
 
-        String hexString   = "000a"
-        + "c1c2d1c1c40000"
-        + "c1c2d1c1c40007"
-        + "c1c2d1c1c4000e"
-        + "c1c2d1c1c40015"
-        + "c1c2d1c1c4001c"
-        + "c1c2d1c1c40023"
-        + "c1c2d1c1c4002a"
-        + "c1c2d1c1c40031"
-        + "c1c2d1c1c40038"
-        + "c1c2d1c1c4003f";
+        String hexString   = VararcomCases.getHostBytesHexSome();
         byte[] hostBytes = HostData.toByteArray(hexString);
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "vararcom");
-
-        assertEquals(10, dfhcommarea.getCItemsNumber());
-        for (int i = 0; i < 10; i++) {
-            com.legstar.test.coxb.vararcom.CArray item = dfhcommarea.getCArray().get(i);
-            assertEquals("ABJAD", item.getCItem1());
-            assertEquals(Short.parseShort(Integer.toString(7 * i)), item.getCItem2());
-        }
+        VararcomCases.checkJavaObjectSome(dfhcommarea);
     }
 }

@@ -20,6 +20,7 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.test.NumzonedCases;
 import com.legstar.test.coxb.numzoned.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -40,18 +41,8 @@ public class MarshalNumzonedTest extends TestCase {
     public void testLsfileae() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-        dfhcommarea.setLU(6);
-        dfhcommarea.setLS(Short.parseShort("-5"));
-        dfhcommarea.setLSSignL(Short.parseShort("-78"));
-        dfhcommarea.setLSSignT(Short.parseShort("1"));
-        dfhcommarea.setLSSignSL(Short.parseShort("9"));
-        dfhcommarea.setLSSignST(Short.parseShort("-11"));
-
-        /*            <><--><----><--><--><----> */
-        /*            1 1 2 1 2 3 1 2 1 2 1 2 3   */
-        /*             6   -5 -7 8   +1 + 9 1 1 -  */
-        assertEquals("f6f0d5d0f7f8f0c14ef9f1f160",
+        Dfhcommarea dfhcommarea = NumzonedCases.getJavaObject();
+        assertEquals(NumzonedCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 13));
     }
 }

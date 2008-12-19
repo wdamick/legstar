@@ -20,15 +20,7 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
-
-
-
-import java.math.BigInteger;
-
-import com.legstar.test.coxb.binnatus.LsUnsignedNative;
-import com.legstar.test.coxb.binnatus.LsDoublewords;
-import com.legstar.test.coxb.binnatus.LsFullwords;
-import com.legstar.test.coxb.binnatus.LsHalfwords;
+import com.legstar.coxb.test.BinnatusCases;
 import com.legstar.test.coxb.binnatus.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -49,46 +41,8 @@ public class MarshalBinnatusTest extends TestCase {
     public void testBinnatus() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-
-        LsUnsignedNative lsUnsignedNative = new LsUnsignedNative(); 
-
-        LsHalfwords lsHalfwords = new LsHalfwords();
-        lsHalfwords.setLsP9X4High(32769);
-        lsHalfwords.setLsP9X4Low(127);
-        lsHalfwords.setLsP9X4Max(65535);
-        lsHalfwords.setLsP9X4Min(0);
-
-        LsFullwords lsFullwords = new LsFullwords();
-        lsFullwords.setLsP9X9High(2147483649L);
-        lsFullwords.setLsP9X9Low(65534);
-        lsFullwords.setLsP9X9Max(4294967295L);
-        lsFullwords.setLsP9X9Min(0);
-
-        LsDoublewords lsDoublewords = new LsDoublewords();
-        lsDoublewords.setLsP9X18High(new BigInteger("18446744069414584318"));
-        lsDoublewords.setLsP9X18Low(new BigInteger("4294967294"));
-        lsDoublewords.setLsP9X18Max(new BigInteger("18446744073709551615"));
-        lsDoublewords.setLsP9X18Min(new BigInteger("0"));
-
-        lsUnsignedNative.setLsHalfwords(lsHalfwords);
-        lsUnsignedNative.setLsFullwords(lsFullwords);
-        lsUnsignedNative.setLsDoublewords(lsDoublewords);
-
-        dfhcommarea.setLsUnsignedNative(lsUnsignedNative);
-
-        assertEquals("0000"
-        + "007f"
-        + "8001"
-        + "ffff"
-        + "00000000"
-        + "0000fffe"
-        + "80000001"
-        + "ffffffff"
-        + "0000000000000000"
-        + "00000000fffffffe"
-        + "fffffffefffffffe"
-        + "ffffffffffffffff",
+        Dfhcommarea dfhcommarea = BinnatusCases.getJavaObject();
+        assertEquals(BinnatusCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 56));
     }
 }

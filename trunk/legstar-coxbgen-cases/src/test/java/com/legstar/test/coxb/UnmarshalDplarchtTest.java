@@ -23,6 +23,7 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.test.DplarchtCases;
 import com.legstar.test.coxb.dplarcht.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -39,38 +40,9 @@ public class UnmarshalDplarchtTest extends TestCase {
      */
     public void testDplarcht() throws Exception {
 
-        String hexString   = "0001"
-        + "5C404040"
-        + "4040404040404040"
-        + "000000000F"
-        + "0000"
-        + "00000001"
-        + "C2C9D5C1D9C3C8E3"
-        + "D7D9D6C7D9C1D44040404040"
-        + "D5D6E3C4C5C6C9D5C5C44040"
-        + "000016A0"
-        + "00000002"
-        + "000000000000000000000000000000000000000000000000"
-        + "C2C9D5D5C1E3E2";
+        String hexString   = DplarchtCases.getHostBytesHex1Program();
         byte[] hostBytes = HostData.toByteArray(hexString);
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "dplarcht");
-
-        assertEquals(1, dfhcommarea.getLsReply().getLsReplyData().getLsItemsCount());
-        assertEquals("NOTDEFINED", dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray()
-                .get(0).getLsProgramsData().getLsProgramLanguage());
-        assertEquals(5792, dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray()
-                .get(0).getLsProgramsData().getLsProgramLength());
-        assertEquals("BINARCHT", dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray()
-                .get(0).getLsProgramsData().getLsProgramName());
-        assertEquals("PROGRAM", dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray()
-                .get(0).getLsProgramsData().getLsProgramType());
-        assertEquals(2, dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray()
-                .get(0).getLsProgramsData().getLsProgramUsecount());
-        assertEquals("", dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray()
-                .get(0).getLsProgramsData().getFiller113());
-        assertEquals(null, dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray()
-                .get(0).getLsFilesData());
-        assertEquals(null, dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray()
-                .get(0).getLsTransactionsData());
+        DplarchtCases.checkJavaObject1Program(dfhcommarea);
     }
 }

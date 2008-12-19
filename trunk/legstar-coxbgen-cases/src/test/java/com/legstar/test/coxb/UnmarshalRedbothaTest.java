@@ -23,6 +23,7 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.test.RedbothaCases;
 import com.legstar.test.coxb.redbotha.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -39,12 +40,9 @@ public class UnmarshalRedbothaTest extends TestCase {
      */
     public void testRedbothaBothChoice() throws Exception {
 
-        String hexString   = "c1c2";
+        String hexString   = RedbothaCases.getHostBytesHexSecondChoice();
         byte[] hostBytes = HostData.toByteArray(hexString);
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redbotha");
-
-        assertEquals(49602, dfhcommarea.getCNumeric().intValue());
-        assertEquals("A", dfhcommarea.getFiller22().getCLeftByte());
-        assertEquals("B", dfhcommarea.getFiller22().getCRightByte());
+        RedbothaCases.checkJavaObjectSecondChoice(dfhcommarea);
     }
 }

@@ -23,6 +23,7 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.test.NumzonedCases;
 import com.legstar.test.coxb.numzoned.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -39,15 +40,9 @@ public class UnmarshalNumzonedTest extends TestCase {
      */
     public void testNumzoned() throws Exception {
 
-        String hexString = "f6f0d5d0f7f8f0c14ef9f1f160";
+        String hexString = NumzonedCases.getHostBytesHex();
         byte[] hostBytes = HostData.toByteArray(hexString);
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "numzoned");
-
-        assertEquals(6, dfhcommarea.getLU());
-        assertEquals(-5, dfhcommarea.getLS());
-        assertEquals(-78, dfhcommarea.getLSSignL());
-        assertEquals(1, dfhcommarea.getLSSignT());
-        assertEquals(9, dfhcommarea.getLSSignSL());
-        assertEquals(-11, dfhcommarea.getLSSignST());
+        NumzonedCases.checkJavaObject(dfhcommarea);
     }
 }

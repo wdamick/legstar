@@ -20,6 +20,7 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.test.LsfileadCases;
 import com.legstar.test.coxb.lsfilead.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -40,22 +41,8 @@ public class MarshalLsfileadTest extends TestCase {
     public void testLsfilead() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-        dfhcommarea.setComNumber(100L);
-        dfhcommarea.setComName("TOTO");
-        dfhcommarea.setComAddress("LABAS STREET");
-        dfhcommarea.setComPhone("88993314");
-        dfhcommarea.setComDate("100458");
-        dfhcommarea.setComAmount("00100.35");
-        dfhcommarea.setComComment("A VOIR");
-
-        assertEquals("f0f0f0f1f0f0"
-        + "e3d6e3d640404040404040404040404040404040"
-        + "d3c1c2c1e240e2e3d9c5c5e34040404040404040"
-        + "f8f8f9f9f3f3f1f4"
-        + "f1f0f0f4f5f84040"
-        + "f0f0f1f0f04bf3f5"
-        + "c140e5d6c9d9404040",
+        Dfhcommarea dfhcommarea = LsfileadCases.getJavaObject();
+        assertEquals(LsfileadCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 79));
     }
 }

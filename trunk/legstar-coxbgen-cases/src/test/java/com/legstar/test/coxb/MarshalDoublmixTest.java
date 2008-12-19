@@ -22,6 +22,7 @@ package com.legstar.test.coxb;
 
 
 
+import com.legstar.coxb.test.DoublmixCases;
 import com.legstar.test.coxb.doublmix.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -42,15 +43,8 @@ public class MarshalDoublmixTest extends TestCase {
     public void testDoublmix() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-        dfhcommarea.setCDouble0(0d);
-        dfhcommarea.setCDouble1(1d);
-        dfhcommarea.setCDouble1234(1234d);
-        dfhcommarea.setCDouble345006P5678(345006.5678d);
-        dfhcommarea.setCDouble3P40282347Ep38(3.40282347E+38);
-        dfhcommarea.setCDouble798P20067Em16(798.20067E-16);
-
-        assertEquals("434d2000000000000000000000000000411000000000000045543ae915b573e0361677a4590fab6060ffffff048ff9e0",
+        Dfhcommarea dfhcommarea = DoublmixCases.getJavaObject();
+        assertEquals(DoublmixCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 48));
     }
 }

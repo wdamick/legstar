@@ -23,9 +23,10 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.CobolContext;
-import com.legstar.coxb.visitor.CobolUnmarshalVisitor;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.impl.visitor.CobolUnmarshalVisitor;
+import com.legstar.coxb.test.CharsetsCases;
 import com.legstar.test.coxb.charsets.bind.DfhcommareaBinding;
 import com.legstar.test.coxb.charsets.Dfhcommarea;
 
@@ -48,11 +49,7 @@ public class UnmarshalCharsetsTest extends TestCase {
         cobolContext.setHostCharsetName("IBM01147");
         // Select a conversion strategy 
         CobolSimpleConverters cc = new CobolSimpleConverters(cobolContext);
-        String hexString = "e08140837d85a2a340a495409799968293d09485404040404040404040404040"
-        + "000000000000000000000000000000000000000000000000000000000000000000000000000000000"
-        + "0000000000000000000000000000000000000000000000000"
-        + "e9006c00e9006d0065006e00740061006900720065002000e00020007200e90073006f007500640072"
-        + "00650020002000200020002000200020002000200020";
+        String hexString = CharsetsCases.getHostBytesHex();
         byte[] hostBytes = HostData.toByteArray(hexString);
 
         // Create a concrete visitor
@@ -62,11 +59,6 @@ public class UnmarshalCharsetsTest extends TestCase {
         DfhcommareaBinding ccem = new DfhcommareaBinding();
         ccem.accept(uv);
         Dfhcommarea dfhcommarea = ccem.getDfhcommarea();
-
-        assertEquals("ça c'est un problème", dfhcommarea.getComLocal());
-        assertEquals("00000000000000000000000000000000000000000000000000"
-        + "0000000000000000000000000000000000000000000000000000000000000"
-        + "00000000000000000", HostData.toHexString(dfhcommarea.getComDbcs()));
-        assertEquals("élémentaire à résoudre          ", dfhcommarea.getComNational());
+        CharsetsCases.checkJavaObject(dfhcommarea);
     }
 }

@@ -20,11 +20,8 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
-
-
-import java.math.BigInteger;
-
 import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.test.BinnatusCases;
 import com.legstar.test.coxb.binnatus.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -41,46 +38,9 @@ public class UnmarshalBinnatusTest extends TestCase {
      */
     public void testBinnatus() throws Exception {
 
-        String hexString   = "0000"
-            + "007f"
-            + "8001"
-            + "ffff"
-            + "00000000"
-            + "0000fffe"
-            + "80000001"
-            + "ffffffff"
-            + "0000000000000000"
-            + "00000000fffffffe"
-            + "fffffffefffffffe"
-            + "ffffffffffffffff";
+        String hexString   = BinnatusCases.getHostBytesHex();
         byte[] hostBytes = HostData.toByteArray(hexString);
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "binnatus");
-
-        assertEquals(32769,
-                dfhcommarea.getLsUnsignedNative().getLsHalfwords().getLsP9X4High());
-        assertEquals(127,
-                dfhcommarea.getLsUnsignedNative().getLsHalfwords().getLsP9X4Low());
-        assertEquals(65535,
-                dfhcommarea.getLsUnsignedNative().getLsHalfwords().getLsP9X4Max());
-        assertEquals(0,
-                dfhcommarea.getLsUnsignedNative().getLsHalfwords().getLsP9X4Min());
-
-        assertEquals(2147483649L,
-                dfhcommarea.getLsUnsignedNative().getLsFullwords().getLsP9X9High());
-        assertEquals(65534,
-                dfhcommarea.getLsUnsignedNative().getLsFullwords().getLsP9X9Low());
-        assertEquals(4294967295L,
-                dfhcommarea.getLsUnsignedNative().getLsFullwords().getLsP9X9Max());
-        assertEquals(0,
-                dfhcommarea.getLsUnsignedNative().getLsFullwords().getLsP9X9Min());
-
-        assertEquals(new BigInteger("18446744069414584318"),
-                dfhcommarea.getLsUnsignedNative().getLsDoublewords().getLsP9X18High());
-        assertEquals(new BigInteger("4294967294"),
-                dfhcommarea.getLsUnsignedNative().getLsDoublewords().getLsP9X18Low());
-        assertEquals(new BigInteger("18446744073709551615"),
-                dfhcommarea.getLsUnsignedNative().getLsDoublewords().getLsP9X18Max());
-        assertEquals(new BigInteger("0"),
-                dfhcommarea.getLsUnsignedNative().getLsDoublewords().getLsP9X18Min());
-    }
+        BinnatusCases.checkJavaObject(dfhcommarea);
+   }
 }

@@ -20,6 +20,7 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.test.RedoperaCases;
 import com.legstar.test.coxb.redopera.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -40,32 +41,8 @@ public class MarshalRedoperaTest extends TestCase {
     public void testRedoperaStringMethod() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-
-        dfhcommarea.setCFunction("stringMethod");
-        dfhcommarea.setCData("");
-
-        assertEquals("a2a399899587d485a3889684404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040",
+        Dfhcommarea dfhcommarea = RedoperaCases.getJavaObject();
+        assertEquals(RedoperaCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 218));
     }
 
@@ -77,32 +54,8 @@ public class MarshalRedoperaTest extends TestCase {
     public void testRedoperaIntMethod() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-
-        dfhcommarea.setCFunction("intMethod");
-        dfhcommarea.setCData("");
-
-        assertEquals("8995a3d485a3889684404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040",
+        Dfhcommarea dfhcommarea = RedoperaCases.getJavaObjectIntMethod();
+        assertEquals(RedoperaCases.getHostBytesHexIntMethod(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 218));
     }
 }

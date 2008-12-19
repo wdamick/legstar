@@ -23,6 +23,7 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.test.LsfileaeCases;
 import com.legstar.test.coxb.lsfileae.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -39,22 +40,9 @@ public class UnmarshalLsfileaeTest extends TestCase {
      */
     public void testLsfileae() throws Exception {
 
-        String hexString = "f0f0f0f1f0f0"
-            + "e3d6e3d640404040404040404040404040404040"
-            + "d3c1c2c1e240e2e3d9c5c5e34040404040404040"
-            + "f8f8f9f9f3f3f1f4"
-            + "f1f0f0f4f5f84040"
-            + "f0f0f1f0f04bf3f5"
-            + "c140e5d6c9d9404040";
+        String hexString = LsfileaeCases.getHostBytesHex();
         byte[] hostBytes = HostData.toByteArray(hexString);
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "lsfileae");
-
-        assertEquals(100, dfhcommarea.getComNumber());
-        assertEquals("TOTO", dfhcommarea.getComPersonal().getComName().trim());
-        assertEquals("LABAS STREET", dfhcommarea.getComPersonal().getComAddress().trim());
-        assertEquals("88993314", dfhcommarea.getComPersonal().getComPhone().trim());
-        assertEquals("100458", dfhcommarea.getComDate().trim());
-        assertEquals("00100.35", dfhcommarea.getComAmount().trim());
-        assertEquals("A VOIR", dfhcommarea.getComComment().trim());
+        LsfileaeCases.checkJavaObject(dfhcommarea);
     }
 }

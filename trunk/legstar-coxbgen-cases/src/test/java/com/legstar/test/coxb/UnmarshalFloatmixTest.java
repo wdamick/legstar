@@ -23,6 +23,7 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.test.FloatmixCases;
 import com.legstar.test.coxb.floatmix.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -39,16 +40,9 @@ public class UnmarshalFloatmixTest extends TestCase {
      */
     public void testFloatmix() throws Exception {
 
-        String hexString   =
-            "434d2000000000004110000045543ae9361677a460ffffff000000000000000000000000000000000000000000000000";
+        String hexString   =  FloatmixCases.getHostBytesHex();
         byte[] hostBytes = HostData.toByteArray(hexString);
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "floatmix");
-
-        assertEquals(0f, dfhcommarea.getCFloat0());
-        assertEquals(1f, dfhcommarea.getCFloat1());
-        assertEquals(1234f, dfhcommarea.getCFloat1234());
-        assertEquals(345006.56779999996f, dfhcommarea.getCFloat345006P5678());
-        assertEquals(3.40282347E+38f, dfhcommarea.getCFloat3P40282347Ep38());
-        assertEquals(7.982005E-14f, dfhcommarea.getCFloat798P20067Em16());
+        FloatmixCases.checkJavaObject(dfhcommarea);
     }
 }

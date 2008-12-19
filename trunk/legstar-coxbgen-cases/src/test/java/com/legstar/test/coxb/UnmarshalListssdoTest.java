@@ -23,6 +23,7 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.test.ListssdoCases;
 import com.legstar.test.coxb.listssdo.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -39,21 +40,10 @@ public class UnmarshalListssdoTest extends TestCase {
      */
     public void testListssdo() throws Exception {
 
-        String hexString   = "00000005"
-            + "d6c4d6f0f1"
-            + "d6c4d6f0f2"
-            + "d6c4d6f0f3"
-            + "d6c4d6f0f4"
-            + "d6c4d6f0f5";
+        String hexString   = ListssdoCases.getHostBytesHex();
         byte[] hostBytes = HostData.toByteArray(hexString);
 
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "listssdo");
-
-        assertEquals(5, dfhcommarea.getListOdo().size());
-        assertEquals("ODO01", dfhcommarea.getListOdo().get(0));
-        assertEquals("ODO02", dfhcommarea.getListOdo().get(1));
-        assertEquals("ODO03", dfhcommarea.getListOdo().get(2));
-        assertEquals("ODO04", dfhcommarea.getListOdo().get(3));
-        assertEquals("ODO05", dfhcommarea.getListOdo().get(4));
+        ListssdoCases.checkJavaObject(dfhcommarea);
     }
 }

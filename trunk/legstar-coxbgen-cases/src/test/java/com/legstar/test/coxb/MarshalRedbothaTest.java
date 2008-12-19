@@ -20,7 +20,7 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
-import com.legstar.test.coxb.redbotha.Filler22;
+import com.legstar.coxb.test.RedbothaCases;
 import com.legstar.test.coxb.redbotha.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -41,10 +41,8 @@ public class MarshalRedbothaTest extends TestCase {
     public void testRedbotha() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-        dfhcommarea.setCNumeric(5);
-
-        assertEquals("0005",
+        Dfhcommarea dfhcommarea = RedbothaCases.getJavaObject();
+        assertEquals(RedbothaCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 2));
     }
 
@@ -56,13 +54,8 @@ public class MarshalRedbothaTest extends TestCase {
     public void testRedbothaSecondChoice() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-        Filler22 filler22 = new Filler22();
-        filler22.setCLeftByte("A");
-        filler22.setCRightByte("B");
-        dfhcommarea.setFiller22(filler22);
-
-        assertEquals("c1c2",
+        Dfhcommarea dfhcommarea = RedbothaCases.getJavaObjectSecondChoice();
+        assertEquals(RedbothaCases.getHostBytesHexSecondChoice(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 2));
     }
 }

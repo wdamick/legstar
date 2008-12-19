@@ -20,6 +20,7 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.test.FixarsimCases;
 import com.legstar.test.coxb.fixarsim.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -40,12 +41,8 @@ public class MarshalFixarsimTest extends TestCase {
     public void testFixarsim() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-        dfhcommarea.getCArray().add("PREMI");
-        dfhcommarea.getCArray().add("DEUXI");
-        dfhcommarea.getCArray().add("TROIS");
-
-         assertEquals("d7d9c5d4c9c4c5e4e7c9e3d9d6c9e2",
+        Dfhcommarea dfhcommarea = FixarsimCases.getJavaObject();
+         assertEquals(FixarsimCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 15));
     }
 }
