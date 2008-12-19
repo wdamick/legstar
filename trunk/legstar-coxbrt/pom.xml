@@ -35,6 +35,13 @@
         </dependency>
         
         <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-tests</artifactId>
+            <version>${pom.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <scope>test</scope>

@@ -8,7 +8,7 @@
  * Contributors:
  *     LegSem - initial API and implementation
  ******************************************************************************/
-package com.legstar.coxb.visitor;
+package com.legstar.coxb.impl.visitor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -43,18 +43,17 @@ import com.legstar.coxb.host.HostException;
  * @author Fady Moussallam
  * 
  */
-public class CobolUnmarshalVisitor extends CobolElementVisitor {
+public class CobolMarshalVisitor extends CobolElementVisitor {
 
     /** Logger. */
-    private static final Log LOG =
-        LogFactory.getLog(CobolUnmarshalVisitor.class);
+    private static final Log LOG = LogFactory.getLog(CobolMarshalVisitor.class);
 
     /** Visitor constructor.
      * @param hostBytes host buffer used by visitor
      * @param offset offset in host buffer
      * @param cobolConverters set of converters to use for cobol elements
      */
-    public CobolUnmarshalVisitor(final byte[] hostBytes,
+    public CobolMarshalVisitor(final byte[] hostBytes,
             final int offset,
             final ICobolConverters cobolConverters) {
         super(hostBytes, offset, cobolConverters);
@@ -66,22 +65,40 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     throws HostException {
 
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Unmarshaling started for complex binding "
+            LOG.debug("Marshaling started for complex binding "
                     + ce.getBindingName());
         }
-        /* Ask complex binding to create an empty bound value object ready for
-         * unmarshaling. */
-        ce.createValueObject();
 
-        /* Iteratively propagate the accept on complex element children.
-         * The order in which children are processed is important. */
-        int index = 0;
+        /* Ask complex binding to synchronize its children with the jaxb
+         * bound object. */
+        ce.setChildrenValues();
+
+        /* If this complex element contains dynamic counters, their value
+         * will typically not have been set by the previous setChildrenValues.
+         * This is because they are not bound to a jaxb property. Their value
+         * will be determined later when associated lists or arrays will be
+         * marshalled. So here, we save the initial offset. */
+        int startOffset = getOffset();
+
+        /* Marshal all children (note that counters, if any,  will have zero
+         * values) */
         for (ICobolBinding child : ce.getChildrenList()) {
             child.accept(this);
-            ce.setPropertyValue(index++);
         }
+
+        /* Now the counters values should be known, so we can re-marshal
+         * those values at the start of the structure offset. */
+        if (ce.getDynamicCountersCount() > 0) {
+            int endOffset = getOffset();
+            setOffset(startOffset);
+            for (int i = 0; i < ce.getDynamicCountersCount(); i++) {
+                ce.getChildrenList().get(i).accept(this);
+            }
+            setOffset(endOffset);
+        }
+
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Unmarshaling successful for complex binding "
+            LOG.debug("Marshaling successful for complex binding "
                     + ce.getBindingName());
         }
     }
@@ -92,69 +109,64 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     throws HostException {
 
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Unmarshaling started for choice binding "
+            LOG.debug("Marshaling started for choice binding "
                     + ce.getBindingName());
         }
+        /* Ask choice binding to synchronize its alternatives state with the
+         * jaxb bound object. */
+        ce.setAlternativesValues();
+
         /* In a choice situation, only one alternative should be accepted when
          * this element is visited. The logic to determine which alternative 
          * should be selected is customizable via the
-         * ICobolUnmarshalChoiceStrategy interface.  If no direct selection of
-         * an alternative is available, the default behavior is to select the
-         * first alternative that is accepted without error and moved the
-         * offset. */
+         * ICobolMarshalChoiceStrategy  interface.  If no direct selection of an
+         * alternative is available, the default behavior is to select the first
+         * alternative that is accepted without error and moved the offset. */
         boolean bAlternativeFound = false;
 
         /* If an external selector is provided, try it first */
-        if (ce.getUnmarshalChoiceStrategy() != null) {
+        if (ce.getMarshalChoiceStrategy() != null) {
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Calling Unmarshal choice strategy  "
-                        + ce.getUnmarshalChoiceStrategyClassName());
+                LOG.debug("Calling Marshal choice strategy  "
+                        + ce.getMarshalChoiceStrategyClassName());
             }
             ICobolBinding alt =
-                ce.getUnmarshalChoiceStrategy().choose(
+                ce.getMarshalChoiceStrategy().choose(
                         ce, getVariablesMap(), this);
             /* If selector was successful, use the selected alternative */
             if (alt != null) {
                 alt.accept(this);
                 bAlternativeFound = true;
-                /* Ask choice binding to set bound object value from 
-                 * unmarshaled data. */
-                ce.setPropertyValue(
-                        ce.getAlternativesList().indexOf(alt));
             }
         }
 
         /* Default behavior if direct selection was not possible */
         if (!bAlternativeFound) {
             for (ICobolBinding alt : ce.getAlternativesList()) {
-                /* Save the visitor offset context */
-                int savedOffset = getOffset();
-                try {
+                /* Only consider alternatives with bound values
+                 * (They have been explicitly set)) */
+                if (alt.isSet()) {
+                    /* Save the visitor offset context */
+                    int savedOffset = getOffset();
                     alt.accept(this);
-                    /* When unmarshaling, a non present alternative is expected
-                     * to result in an exception. Otherwise, we consider we
-                     * found a valid alternative, just get out of the loop. */
-                    bAlternativeFound = true;
-                    /* Ask choice binding to set bound object value from 
-                     * unmarshaled data. */
-                    ce.setPropertyValue(
-                            ce.getAlternativesList().indexOf(alt));
-                    break;
-                } catch (HostException he) {
-                    setOffset(savedOffset);
+                    /* If offset was succesfully incremented, we consider  we 
+                     * found a valid alternative, just get out of the loop.*/
+                    if (savedOffset < getOffset()) {
+                        bAlternativeFound = true;
+                        break;
+                    }
                 }
             }
         }
 
-        /* If none of the alternatives worked, raise an exception */
+        /* If none of the alternatives moved the offset, raise an exception */
         if (!bAlternativeFound) {
             throw new HostException(
                     "No alternative found for choice element "
                     + ce.getBindingName());
         }
-
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Unmarshaling successful for choice binding "
+            LOG.debug("Marshaling successful for choice binding "
                     + ce.getBindingName());
         }
     }
@@ -165,24 +177,19 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     throws HostException {
 
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Unmarshaling started for array of complex bindings "
+            LOG.debug("Marshaling started for array of complex bindings "
                     + ce.getBindingName());
         }
-        /* Ask complex array binding to initialize bound array so that it is
-         * ready for unmarshaling. */
-        ce.createValueObject();
-
         /* Visit each item of the array in turn */
-        for (int i = 0; i < ce.getCurrentOccurs(); i++) {
+        for (int i = 0; i < ce.getObjectList().size(); i++) {
+            ce.setItemValue(i);
             ICobolBinding itemDesc = ce.getComplexItemBinding();
             itemDesc.accept(this);
-            ce.addPropertyValue(i);
         }
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Unmarshaling successful for array of complex bindings "
+            LOG.debug("Marshaling successful for array of complex bindings "
                     + ce.getBindingName());
         }
-
     }
 
     /** {@inheritDoc} */
@@ -191,7 +198,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolStringConverter().
-                fromHost(ce, getHostBytes(), getOffset()));
+                toHost(ce, getHostBytes(), getOffset()));
 
         if (ce.isCustomVariable()) {
             storeCustomVariable(ce);
@@ -203,8 +210,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolStringConverter().
-                fromHost(ce, getHostBytes(), getOffset(),
-                        ce.getCurrentOccurs()));
+                toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
     }
 
     /** {@inheritDoc} */
@@ -213,7 +219,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolNationalConverter().
-                fromHost(ce, getHostBytes(), getOffset()));
+                toHost(ce, getHostBytes(), getOffset()));
 
         if (ce.isCustomVariable()) {
             storeCustomVariable(ce);
@@ -225,8 +231,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolNationalConverter().
-                fromHost(ce, getHostBytes(), getOffset(),
-                        ce.getCurrentOccurs()));
+                toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
     }
 
     /** {@inheritDoc} */
@@ -235,11 +240,12 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolZonedDecimalConverter().
-                fromHost(ce, getHostBytes(), getOffset()));
+                toHost(ce, getHostBytes(), getOffset()));
 
         if (ce.isCustomVariable()) {
             storeCustomVariable(ce);
         }
+
     }
     /** {@inheritDoc} */
     @Override
@@ -247,8 +253,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolZonedDecimalConverter().
-                fromHost(ce, getHostBytes(), getOffset(),
-                        ce.getCurrentOccurs()));
+                toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
     }
 
     /** {@inheritDoc} */
@@ -257,7 +262,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolPackedDecimalConverter().
-                fromHost(ce, getHostBytes(), getOffset()));
+                toHost(ce, getHostBytes(), getOffset()));
 
         if (ce.isCustomVariable()) {
             storeCustomVariable(ce);
@@ -270,8 +275,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolPackedDecimalConverter().
-                fromHost(ce, getHostBytes(), getOffset(),
-                        ce.getCurrentOccurs()));
+                toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
     }
 
     /** {@inheritDoc} */
@@ -280,11 +284,12 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolBinaryConverter().
-                fromHost(ce, getHostBytes(), getOffset()));
+                toHost(ce, getHostBytes(), getOffset()));
 
         if (ce.isCustomVariable()) {
             storeCustomVariable(ce);
         }
+
     }
     /** {@inheritDoc} */
     @Override
@@ -292,8 +297,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolBinaryConverter().
-                fromHost(ce, getHostBytes(), getOffset(),
-                        ce.getCurrentOccurs()));
+                toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
     }
 
     /** {@inheritDoc} */
@@ -302,11 +306,12 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolFloatConverter().
-                fromHost(ce, getHostBytes(), getOffset()));
+                toHost(ce, getHostBytes(), getOffset()));
 
         if (ce.isCustomVariable()) {
             storeCustomVariable(ce);
         }
+
     }
     /** {@inheritDoc} */
     @Override
@@ -314,17 +319,17 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolFloatConverter().
-                fromHost(ce, getHostBytes(), getOffset(),
-                        ce.getCurrentOccurs()));
+                toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
     }
 
     /** {@inheritDoc} */
     @Override
     public final void visit(final ICobolDoubleBinding ce)
     throws HostException {
+
         setOffset(getCobolConverters().
                 getCobolDoubleConverter().
-                fromHost(ce, getHostBytes(), getOffset()));
+                toHost(ce, getHostBytes(), getOffset()));
 
         if (ce.isCustomVariable()) {
             storeCustomVariable(ce);
@@ -336,8 +341,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolDoubleConverter().
-                fromHost(ce, getHostBytes(), getOffset(),
-                        ce.getCurrentOccurs()));
+                toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
     }
     /** {@inheritDoc} */
     @Override
@@ -345,7 +349,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolOctetStreamConverter().
-                fromHost(ce, getHostBytes(), getOffset()));
+                toHost(ce, getHostBytes(), getOffset()));
 
         if (ce.isCustomVariable()) {
             storeCustomVariable(ce);
@@ -357,7 +361,6 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolOctetStreamConverter().
-                fromHost(ce, getHostBytes(), getOffset(),
-                        ce.getCurrentOccurs()));
+                toHost(ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
     }
 }

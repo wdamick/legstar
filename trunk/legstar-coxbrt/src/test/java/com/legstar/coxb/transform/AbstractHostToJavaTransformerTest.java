@@ -1,9 +1,9 @@
 package com.legstar.coxb.transform;
 
+import com.legstar.coxb.CobolBindingException;
 import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.host.HostData;
-import com.legstar.coxb.impl.BindingException;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.coxb.impl.reflect.ReflectBindingException;
 import com.legstar.test.coxb.lsfileae.Dfhcommarea;
@@ -87,13 +87,13 @@ public class AbstractHostToJavaTransformerTest extends TestCase {
         }
         
         @Override
-        public ICobolComplexBinding getBinding() throws BindingException {
+        public ICobolComplexBinding getBinding() throws CobolBindingException {
             try {
                 CComplexReflectBinding ccem = new CComplexReflectBinding(
                         new com.legstar.test.coxb.lsfileae.ObjectFactory(), Dfhcommarea.class);
                 return ccem;
             } catch (ReflectBindingException e) {
-                throw new BindingException(e);
+                throw new CobolBindingException(e);
             }
         }
         

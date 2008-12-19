@@ -15,7 +15,7 @@ import java.math.BigInteger;
 import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
-import com.legstar.coxb.visitor.CobolMarshalVisitor;
+import com.legstar.coxb.impl.visitor.CobolMarshalVisitor;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
 
