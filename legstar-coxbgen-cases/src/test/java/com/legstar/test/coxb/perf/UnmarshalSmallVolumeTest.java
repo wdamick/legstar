@@ -20,41 +20,37 @@
  *******************************************************************************/
 package com.legstar.test.coxb.perf;
 
-import com.legstar.coxb.CobolContext;
-import com.legstar.coxb.visitor.CobolUnmarshalVisitor;
-import com.legstar.coxb.convert.simple.CobolSimpleConverters;
-import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
 
-import junit.framework.TestCase;
+/**
+ * Test unmarshaling a small size workload. 
+ *
+ */
+public class UnmarshalSmallVolumeTest extends AbstractUnmarshalVolume {
 
-public class UnmarshalSmallVolumeTest extends TestCase {
 
-    private static int ITERATIONS = 100;
+    /** DPLARCHT header for 0 items.*/
+    private static final String DPLARCHT_BYTES_HEADER  =
+          "0000"
+        + "5c404040"
+        + "c340404040404040"
+        + "000000001f"
+        + "0000"
+        + "00000000";
+    
+    /**
+     * Create the test case.
+     */
+    public UnmarshalSmallVolumeTest() {
+        super(100, DPLARCHT_BYTES_HEADER, 0, 100L);
+    }
 
+    /**
+     * Run the test case.
+     * @throws HostException if test fails
+     */
     public void testUnmarshal() throws HostException {
-        String hexString   = "00015c404040c340404040404040000000001f000000000000";
-        byte[] hostBytes = HostData.toByteArray(hexString);
-
-
-        // Select a conversion strategy 
-        CobolSimpleConverters cc = new CobolSimpleConverters(new CobolContext());
-        // Create a concrete visitor
-        CobolUnmarshalVisitor mv = new CobolUnmarshalVisitor(hostBytes, 0, cc);
-
-        // Create an instance of the JAXB object factory
-        com.legstar.test.coxb.dplarcht.ObjectFactory objectFactory = new com.legstar.test.coxb.dplarcht.ObjectFactory();
-
-        // Perform mashaling a number of times
-        for (int i = 0; i < ITERATIONS; i++) {
-            // Create and populate an instance of an object (JAXB annotated)
-            com.legstar.test.coxb.dplarcht.Dfhcommarea Dfhcommarea = objectFactory.createDfhcommarea();
-
-            // Traverse the object structure, visiting each node with the visitor
-            com.legstar.test.coxb.dplarcht.bind.DfhcommareaBinding ccem = new com.legstar.test.coxb.dplarcht.bind.DfhcommareaBinding(Dfhcommarea);
-            mv.setOffset(0);
-            ccem.accept(mv);
-        }
-        assertEquals(25, mv.getOffset());
+        unmarshal();
     }
 }
+
