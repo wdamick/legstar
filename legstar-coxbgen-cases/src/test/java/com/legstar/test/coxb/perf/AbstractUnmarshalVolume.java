@@ -21,10 +21,10 @@
 package com.legstar.test.coxb.perf;
 
 import com.legstar.coxb.CobolContext;
-import com.legstar.coxb.visitor.CobolUnmarshalVisitor;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
+import com.legstar.coxb.impl.visitor.CobolUnmarshalVisitor;
 import com.legstar.test.coxb.dplarcht.ObjectFactory;
 import com.legstar.test.coxb.dplarcht.Dfhcommarea;
 import com.legstar.test.coxb.dplarcht.bind.DfhcommareaBinding;

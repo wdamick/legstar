@@ -20,8 +20,8 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.test.RedinoutCases;
 import com.legstar.test.coxb.redinout.Dfhcommarea;
-import com.legstar.test.coxb.redinout.CParain;
 
 import junit.framework.TestCase;
 
@@ -40,14 +40,8 @@ public class MarshalRedinoutTest extends TestCase {
      */
     public void testRedinout() throws Exception {
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-
-        dfhcommarea.setCNumeric(35);
-        CParain parain = new CParain();
-        parain.setCSomeInput("ABCDEABCDEABCDE");
-        dfhcommarea.setCParain(parain);
-
-        assertEquals("0023c1c2c3c4c5c1c2c3c4c5c1c2c3c4c5",
+        Dfhcommarea dfhcommarea = RedinoutCases.getJavaObject();
+        assertEquals(RedinoutCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 17));
     }
 

@@ -23,6 +23,7 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.test.RedmultiCases;
 import com.legstar.test.coxb.redmulti.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -38,22 +39,10 @@ public class UnmarshalRedmultiTest extends TestCase {
      * @throws Exception if marshaling fails
      */
     public void testRedmultiNormal() throws Exception {
-        String hexString = "959699948193"
-        + "c1c2d1c1c4c8c1d6e4c1e9404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040";
+        String hexString = RedmultiCases.getHostBytesHex();
         byte[] hostBytes = HostData.toByteArray(hexString);
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redmulti");
-
-        assertEquals("normal", dfhcommarea.getCOutputType());
-        assertEquals("ABJADHAOUAZ", dfhcommarea.getFiller35().getCString());
+        RedmultiCases.checkJavaObject(dfhcommarea);
     }
 
     /**
@@ -62,25 +51,10 @@ public class UnmarshalRedmultiTest extends TestCase {
      * @throws Exception if marshaling fails
      */
     public void testRedmultiError() throws Exception {
-        String hexString = "859999969940"
-        + "f0f0f7f5"
-        + "c1c2d6d4c9d5c1c2d3c5404040404040404040"
-        + "40404040404040404040404040404040404040"
-        + "40404040404040404040404040404040404040"
-        + "40404040404040404040404040404040404040"
-        + "40404040404040404040404040404040404040"
-        + "40404040404040404040404040404040404040"
-        + "40404040404040404040404040404040404040"
-        + "40404040404040404040404040404040404040"
-        + "40404040404040404040404040404040404040"
-        + "40404040404040404040404040404040404040"
-        + "404040404040";
+        String hexString = RedmultiCases.getHostBytesHexError();
         byte[] hostBytes = HostData.toByteArray(hexString);
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redmulti");
-
-        assertEquals("error", dfhcommarea.getCOutputType());
-        assertEquals(75, dfhcommarea.getFiller38().getCErrorNum());
-        assertEquals("ABOMINABLE", dfhcommarea.getFiller38().getCErrorDescription());
+        RedmultiCases.checkJavaObjectError(dfhcommarea);
     }
 
 }

@@ -20,9 +20,7 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.legstar.coxb.test.ListssdoCases;
 import com.legstar.test.coxb.listssdo.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -43,22 +41,8 @@ public class MarshalListssdoTest extends TestCase {
     public void testListssdo() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-
-        List < String > listOdo = new ArrayList < String >();
-        listOdo.add("ODO01");
-        listOdo.add("ODO02");
-        listOdo.add("ODO03");
-        listOdo.add("ODO04");
-        listOdo.add("ODO05");
-        dfhcommarea.getListOdo().addAll(listOdo);
-
-        assertEquals("00000005"
-        + "d6c4d6f0f1"
-        + "d6c4d6f0f2"
-        + "d6c4d6f0f3"
-        + "d6c4d6f0f4"
-        + "d6c4d6f0f5",
+        Dfhcommarea dfhcommarea = ListssdoCases.getJavaObject();
+        assertEquals(ListssdoCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 29));
     }
 }

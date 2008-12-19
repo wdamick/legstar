@@ -20,8 +20,8 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.test.DplarchtCases;
 import com.legstar.test.coxb.dplarcht.Dfhcommarea;
-import com.legstar.test.coxb.dplarcht.LsRequest;
 
 import junit.framework.TestCase;
 
@@ -41,25 +41,8 @@ public class MarshalDplarchtTest extends TestCase {
     public void testDplarcht() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-        LsRequest lsRequest = new LsRequest();
-        lsRequest.setLsRequestType(0);
-        lsRequest.setLsAllItems("*");
-
-        dfhcommarea.setLsRequest(lsRequest);
-
-        assertEquals("0000"
-        + "5c404040"
-        + "4040404040404040"
-        + "000000000f"
-        + "0000"
-        + "00000000"
-        + "00000000000000000000"
-        + "00000000000000000000"
-        + "00000000000000000000"
-        + "00000000000000000000"
-        + "00000000000000000000"
-        + "00000000000000000000000000",
+        Dfhcommarea dfhcommarea = DplarchtCases.getJavaObject();
+        assertEquals(DplarchtCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 88));
     }
 }

@@ -23,6 +23,7 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.test.LsfilealCases;
 import com.legstar.test.coxb.lsfileal.ReplyData;
 
 import junit.framework.TestCase;
@@ -39,62 +40,10 @@ public class UnmarshalLsfilealTest extends TestCase {
      */
     public void testLsfileal() throws Exception {
 
-        String hexString = "0000"
-            + "f0f07af0f57af2f2"
-            + "000000044f"
-            + "4040404040404040404040"
-            + "4040404040404040404040"
-            + "4040404040404040404040"
-            + "4040404040404040404040"
-            + "4040404040404040404040"
-            + "4040404040404040404040"
-            + "4040404040404040404040"
-            + "4040404040404040404040"
-            + "4040404040404040404040"
-            + "4040404040404040404040"
-            + "4040404040404040404040"
-            + "4040"
-            + "000000002f"
-
-            + "f0f0f0f2f0f3"
-            + "c2d6d9c9e2404040404040404040404040404040"
-            + "d1d6c9d5e5c9d3d3c54040404040404040404040"
-            + "f0f1f2f5f4f6f8f9"
-            + "f2f3f0f4f5f94040"
-            + "5bf2f5f04bf1f240"
-            + "e8c5d540c140d7c1e2"
-
-            + "f0f0f0f2f0f4"
-            + "c3c8d9c9e2e3c9c1d54040404040404040404040"
-            + "d5d6c7c5d5e34040404040404040404040404040"
-            + "f2f4f9f6f5f8f4f7"
-            + "f2f3f4f5f8f94040"
-            + "5bf0f4f54bf7f840"
-            + "e2c940e8c5d540c140";
+        String hexString = LsfilealCases.getHostBytesHex();
         byte[] hostBytes = HostData.toByteArray(hexString);
         ReplyData replyData = (ReplyData) Util.unmarshal(hostBytes, "lsfileal", "ReplyData");
-
-        assertEquals(0, replyData.getReplyType());
-        assertEquals(null, replyData.getReplyErrorHeader());
-        assertEquals("00:05:22", replyData.getReplySuccessHeader().getSearchDuration());
-        assertEquals(44, replyData.getReplySuccessHeader().getTotalItemsRead());
-        assertEquals(2, replyData.getFiller65().getReplyItemscount());
-
-        assertEquals(203, replyData.getFiller65().getReplyItem().get(0).getReplyNumber());
-        assertEquals("$250.12", replyData.getFiller65().getReplyItem().get(0).getReplyAmount());
-        assertEquals("YEN A PAS", replyData.getFiller65().getReplyItem().get(0).getReplyComment());
-        assertEquals("230459", replyData.getFiller65().getReplyItem().get(0).getReplyDate());
-        assertEquals("JOINVILLE", replyData.getFiller65().getReplyItem().get(0).getReplyPersonal().getReplyAddress());
-        assertEquals("BORIS", replyData.getFiller65().getReplyItem().get(0).getReplyPersonal().getReplyName());
-        assertEquals("01254689", replyData.getFiller65().getReplyItem().get(0).getReplyPersonal().getReplyPhone());
-
-        assertEquals(204, replyData.getFiller65().getReplyItem().get(1).getReplyNumber());
-        assertEquals("$045.78", replyData.getFiller65().getReplyItem().get(1).getReplyAmount());
-        assertEquals("SI YEN A", replyData.getFiller65().getReplyItem().get(1).getReplyComment());
-        assertEquals("234589", replyData.getFiller65().getReplyItem().get(1).getReplyDate());
-        assertEquals("NOGENT", replyData.getFiller65().getReplyItem().get(1).getReplyPersonal().getReplyAddress());
-        assertEquals("CHRISTIAN", replyData.getFiller65().getReplyItem().get(1).getReplyPersonal().getReplyName());
-        assertEquals("24965847", replyData.getFiller65().getReplyItem().get(1).getReplyPersonal().getReplyPhone());
+        LsfilealCases.checkJavaObject(replyData);
     }
 
     /**
@@ -104,31 +53,9 @@ public class UnmarshalLsfilealTest extends TestCase {
      */
     public void testLsfilealWithError() throws Exception {
 
-        String hexString = "0001"
-            + "00000013"
-            + "00000050"
-            + "c6c9d3c540c3d3d6e2c5"
-            + "c4404040404040404040"
-            + "40404040404040404040"
-            + "40404040404040404040"
-            + "40404040404040404040"
-            + "40404040404040404040"
-            + "40404040404040404040"
-            + "40404040404040404040"
-            + "40404040404040404040"
-            + "40404040404040404040"
-            + "40404040404040404040"
-            + "40404040404040404040"
-            + "4040404040404040"
-            + "000000000f";
+        String hexString = LsfilealCases.getHostBytesHexError();
         byte[] hostBytes = HostData.toByteArray(hexString);
         ReplyData replyData = (ReplyData) Util.unmarshal(hostBytes, "lsfileal", "ReplyData");
-
-        assertEquals(1, replyData.getReplyType());
-        assertEquals(null, replyData.getReplySuccessHeader());
-        assertEquals(19, replyData.getReplyErrorHeader().getReplyResp());
-        assertEquals(80, replyData.getReplyErrorHeader().getReplyResp2());
-        assertEquals("FILE CLOSED", replyData.getReplyErrorHeader().getReplyMessage().trim());
-        assertEquals(0, replyData.getFiller65().getReplyItemscount());
+        LsfilealCases.checkJavaObjectHexError(replyData);
     }
 }

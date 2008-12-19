@@ -23,6 +23,7 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.test.RedsimptCases;
 import com.legstar.test.coxb.redsimpt.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -39,11 +40,10 @@ public class UnmarshalRedsimptTest extends TestCase {
      */
     public void testRedsimpt() throws Exception {
 
-        String hexString = "c1c2c3c4c5c6c7c8c9d1d2d3d4d5d6404040";
+        String hexString = RedsimptCases.getHostBytesHex();
         byte[] hostBytes = HostData.toByteArray(hexString);
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redsimpt");
-
-        assertEquals("ABCDEFGHIJKLMNO", dfhcommarea.getCDefinition1());
+        RedsimptCases.checkJavaObject(dfhcommarea);
     }
 
     /**
@@ -53,10 +53,9 @@ public class UnmarshalRedsimptTest extends TestCase {
      */
     public void testRedsimptSecondChoice() throws Exception {
 
-        String hexString = "f0f0f0f1f2f3f4f5f6f7f8f9f0f1f2f3f4f5";
+        String hexString = RedsimptCases.getHostBytesHexSecondChoice();
         byte[] hostBytes = HostData.toByteArray(hexString);
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redsimpt");
-
-        assertEquals(123456789012345L, dfhcommarea.getCDefinition2().longValue());
+        RedsimptCases.checkJavaObjectSecondChoice(dfhcommarea);
     }
 }

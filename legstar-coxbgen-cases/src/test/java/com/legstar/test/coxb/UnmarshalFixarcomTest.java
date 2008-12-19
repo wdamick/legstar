@@ -23,6 +23,7 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.test.FixarcomCases;
 
 import junit.framework.TestCase;
 import com.legstar.test.coxb.fixarcom.Dfhcommarea;
@@ -39,20 +40,9 @@ public class UnmarshalFixarcomTest extends TestCase {
      */
     public void testFixarcom() throws Exception {
 
-        String hexString   = "c1c2d1c1f00000"
-            + "c1c2d1c1f10007"
-            + "c1c2d1c1f2000e"
-            + "c1c2d1c1f30015"
-            + "c1c2d1c1f4001c"
-            + "c1c2d1c1f50023"
-            + "c1c2d1c1f6002a";
+        String hexString   = FixarcomCases.getHostBytesHex();
         byte[] hostBytes = HostData.toByteArray(hexString);
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "fixarcom");
-
-        for (int i = 0; i < 7; i++) {
-            com.legstar.test.coxb.fixarcom.CArray item = dfhcommarea.getCArray().get(i);
-            assertEquals("ABJA" + Integer.toString(i), item.getCItem1());
-            assertEquals(Short.parseShort(Integer.toString(7 * i)), item.getCItem2());
-        }
+        FixarcomCases.checkJavaObject(dfhcommarea);
     }
 }

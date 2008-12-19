@@ -20,8 +20,8 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.test.VararcomCases;
 import com.legstar.test.coxb.vararcom.Dfhcommarea;
-import com.legstar.test.coxb.vararcom.CArray;
 
 import junit.framework.TestCase;
 
@@ -42,10 +42,8 @@ public class MarshalVararcomTest extends TestCase {
     public void testVararcomEmpty() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-        dfhcommarea.setCItemsNumber(Short.parseShort("0"));
-
-        assertEquals("0000",
+        Dfhcommarea dfhcommarea = VararcomCases.getJavaObjectEmpty();
+        assertEquals(VararcomCases.getHostBytesHexEmpty(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 2));
     }
 
@@ -57,26 +55,8 @@ public class MarshalVararcomTest extends TestCase {
     public void testVararcomSome() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-        dfhcommarea.setCItemsNumber(Short.parseShort("10"));
-        for (int i = 0; i < 10; i++) {
-            CArray item = new CArray();
-            item.setCItem1("ABJAD");
-            item.setCItem2(Short.parseShort(Integer.toString(7 * i)));
-            dfhcommarea.getCArray().add(item);
-        }
-
-        assertEquals("000a"
-        + "c1c2d1c1c40000"
-        + "c1c2d1c1c40007"
-        + "c1c2d1c1c4000e"
-        + "c1c2d1c1c40015"
-        + "c1c2d1c1c4001c"
-        + "c1c2d1c1c40023"
-        + "c1c2d1c1c4002a"
-        + "c1c2d1c1c40031"
-        + "c1c2d1c1c40038"
-        + "c1c2d1c1c4003f",
+        Dfhcommarea dfhcommarea = VararcomCases.getJavaObjectSome();
+        assertEquals(VararcomCases.getHostBytesHexSome(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 72));
     }
 
@@ -88,25 +68,12 @@ public class MarshalVararcomTest extends TestCase {
     public void testVararcom() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-        dfhcommarea.setCItemsNumber(Short.parseShort("250"));
-        for (int i = 0; i < 250; i++) {
-            CArray item = new CArray();
-            item.setCItem1("ABJAD");
-            item.setCItem2(Short.parseShort(Integer.toString(7 * i)));
-            dfhcommarea.getCArray().add(item);
-        }
+        Dfhcommarea dfhcommarea = VararcomCases.getJavaObjectFull();
 
         String result = Util.marshal(SCHEMA_NAME, dfhcommarea, 1752);
-        assertEquals("00fa"
-                + "c1c2d1c1c40000"
-                + "c1c2d1c1c40007"
-                + "c1c2d1c1c4000e"
-                + "c1c2d1c1c40015", result.substring(0, 60));
-
-        assertEquals("c1c2d1c1c406ba"
-                + "c1c2d1c1c406c1"
-                + "c1c2d1c1c406c8"
-                + "c1c2d1c1c406cf", result.substring(3448, 3504));
+        assertEquals(VararcomCases.getHostBytesHexFull().substring(0, 60),
+                result.substring(0, 60));
+        assertEquals(VararcomCases.getHostBytesHexFull().substring(3448, 3504),
+                result.substring(3448, 3504));
     }
 }

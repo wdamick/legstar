@@ -19,12 +19,8 @@
  *  
  *******************************************************************************/
 package com.legstar.test.coxb;
-
-
-
-import java.math.BigInteger;
-
 import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.test.BinpkdusCases;
 import com.legstar.test.coxb.binpkdus.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -41,30 +37,9 @@ public class UnmarshalBinpkdusTest extends TestCase {
      */
     public void testBinpkdus() throws Exception {
 
-        String hexString   = "0f"
-            + "3f"
-            + "012f"
-            + "0032769f"
-            + "0123456789012345678f"
-            + "1234567890123456789f"
-            + "1234567890123456789012345678901f"
-            + "000000000000000000000000";
+        String hexString   = BinpkdusCases.getHostBytesHex();
         byte[] hostBytes = HostData.toByteArray(hexString);
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "binpkdus");
-
-        assertEquals(3,
-                dfhcommarea.getLsUnsignedPackedDecimal().getLsCompat().getLsP9X1());
-        assertEquals(123456789012345678L,
-                dfhcommarea.getLsUnsignedPackedDecimal().getLsCompat().getLsP9X18());
-        assertEquals(0,
-                dfhcommarea.getLsUnsignedPackedDecimal().getLsCompat().getLsP9X1Null());
-        assertEquals(12,
-                dfhcommarea.getLsUnsignedPackedDecimal().getLsCompat().getLsP9X2());
-        assertEquals(32769,
-                dfhcommarea.getLsUnsignedPackedDecimal().getLsCompat().getLsP9X7());
-        assertEquals(new BigInteger("1234567890123456789"),
-                dfhcommarea.getLsUnsignedPackedDecimal().getLsExtend().getLsP9X19());
-        assertEquals(new BigInteger("1234567890123456789012345678901"),
-                dfhcommarea.getLsUnsignedPackedDecimal().getLsExtend().getLsP9X31());
+        BinpkdusCases.checkJavaObject(dfhcommarea);
     }
 }

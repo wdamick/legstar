@@ -20,7 +20,7 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
-import com.legstar.test.coxb.fixarcom.CArray;
+import com.legstar.coxb.test.FixarcomCases;
 import com.legstar.test.coxb.fixarcom.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -41,22 +41,8 @@ public class MarshalFixarcomTest extends TestCase {
     public void testFixarcom() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-
-        for (int i = 0; i < 7; i++) {
-            CArray cArray = new CArray();
-            cArray.setCItem1("ABJA" + Integer.toString(i));
-            cArray.setCItem2(Short.parseShort(Integer.toString(7 * i)));
-            dfhcommarea.getCArray().add(cArray);
-        }
-
-        assertEquals("c1c2d1c1f00000"
-        + "c1c2d1c1f10007"
-        + "c1c2d1c1f2000e"
-        + "c1c2d1c1f30015"
-        + "c1c2d1c1f4001c"
-        + "c1c2d1c1f50023"
-        + "c1c2d1c1f6002a",
+        Dfhcommarea dfhcommarea = FixarcomCases.getJavaObject();
+        assertEquals(FixarcomCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 49));
     }
 }

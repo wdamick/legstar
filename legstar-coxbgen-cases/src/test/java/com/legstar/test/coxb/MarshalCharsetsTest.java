@@ -23,13 +23,13 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.CobolContext;
-import com.legstar.coxb.visitor.CobolMarshalVisitor;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
-import com.legstar.test.coxb.charsets.ObjectFactory;
 import com.legstar.test.coxb.charsets.Dfhcommarea;
 import com.legstar.test.coxb.charsets.bind.DfhcommareaBinding;
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.impl.visitor.CobolMarshalVisitor;
+import com.legstar.coxb.test.CharsetsCases;
 
 import junit.framework.TestCase;
 
@@ -54,22 +54,12 @@ public class MarshalCharsetsTest extends TestCase {
         byte[] hostBytes = new byte[160];
         CobolMarshalVisitor mv = new CobolMarshalVisitor(hostBytes, 0, cc);
 
-        // Create an instance of the JAXB object factory
-        ObjectFactory objectFactory = new ObjectFactory();
-        // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = objectFactory.createDfhcommarea();
-
-        dfhcommarea.setComLocal("ça c'est un problème");
-        dfhcommarea.setComNational("élémentaire à résoudre");
+        Dfhcommarea dfhcommarea = CharsetsCases.getJavaObject();
 
         // Traverse the object structure, visiting each node with the visitor
         DfhcommareaBinding ccem = new DfhcommareaBinding(dfhcommarea);
         ccem.accept(mv);
-        assertEquals("e08140837d85a2a340a495409799968293d09485404040404040404040404040"
-        + "000000000000000000000000000000000000000000000000000000000000000000000000000"
-        + "0000000000000000000000000000000000000000000000000000000"
-        + "e9006c00e9006d0065006e00740061006900720065002000e00020007200e90073006f0075006400720065"
-        + "0020002000200020002000200020002000200020",
+        assertEquals(CharsetsCases.getHostBytesHex(),
                 HostData.toHexString(mv.getHostBytes()));
     }
 }

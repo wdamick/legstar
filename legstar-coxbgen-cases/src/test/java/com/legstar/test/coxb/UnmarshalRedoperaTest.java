@@ -21,6 +21,7 @@
 package com.legstar.test.coxb;
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.test.RedoperaCases;
 import com.legstar.test.coxb.redopera.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -37,22 +38,10 @@ public class UnmarshalRedoperaTest extends TestCase {
      */
     public void testRedoperaStringMethod() throws Exception {
 
-        String hexString = 
-          "a2a399899587d485a3889684404040404040"
-        + "c1c2d1c1c4c8c1d6e4c1e9404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040";
+        String hexString = RedoperaCases.getHostBytesHex();
         byte[] hostBytes = HostData.toByteArray(hexString);
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redopera");
-
-        assertEquals("ABJADHAOUAZ", dfhcommarea.getFiller25().getCString());
+        RedoperaCases.checkJavaObject(dfhcommarea);
     }
 
     /**
@@ -62,23 +51,9 @@ public class UnmarshalRedoperaTest extends TestCase {
      */
     public void testRedoperaIntMethod() throws Exception {
 
-        String hexString =
-          "8995a3d485a3889684404040404040404040"
-        + "f0f0f0f0f0f3f4f5"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040"
-        + "404040404040404040404040";
+        String hexString = RedoperaCases.getHostBytesHexIntMethod();
         byte[] hostBytes = HostData.toByteArray(hexString);
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redopera");
-
-        assertEquals(null, dfhcommarea.getFiller25());
-        assertEquals(345, dfhcommarea.getFiller28().getCInteger());
+        RedoperaCases.checkJavaObjectIntMethod(dfhcommarea);
     }
 }

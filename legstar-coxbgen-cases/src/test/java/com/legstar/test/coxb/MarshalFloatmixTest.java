@@ -20,6 +20,7 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.test.FloatmixCases;
 import com.legstar.test.coxb.floatmix.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -40,16 +41,8 @@ public class MarshalFloatmixTest extends TestCase {
     public void testFloatmix() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-
-        dfhcommarea.setCFloat0(0f);
-        dfhcommarea.setCFloat1(1f);
-        dfhcommarea.setCFloat1234(1234f);
-        dfhcommarea.setCFloat345006P5678(345006.5678f);
-        dfhcommarea.setCFloat3P40282347Ep38(3.40282347E+38f);
-        dfhcommarea.setCFloat798P20067Em16(798.20067E-16f);
-
-        assertEquals("434d2000000000004110000045543ae9361677a460ffffff000000000000000000000000000000000000000000000000",
+        Dfhcommarea dfhcommarea = FloatmixCases.getJavaObject();
+        assertEquals(FloatmixCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 48));
     }
 }

@@ -22,9 +22,7 @@ package com.legstar.test.coxb;
 
 
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
+import com.legstar.coxb.test.FixarnumCases;
 import com.legstar.test.coxb.fixarnum.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -45,38 +43,8 @@ public class MarshalFixarnumTest extends TestCase {
     public void testFixarnum() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-
-        dfhcommarea.getCArrayPd().add(new BigDecimal("16534.23"));
-        dfhcommarea.getCArrayPd().add(new BigDecimal("1.5"));
-        dfhcommarea.getCArrayPd().add(new BigDecimal("184"));
-
-        dfhcommarea.getCArrayZd().add(new BigDecimal("534.236"));
-        dfhcommarea.getCArrayZd().add(new BigDecimal("45.007"));
-        dfhcommarea.getCArrayZd().add(new BigDecimal("1.95"));
-
-        dfhcommarea.getCArrayZi().add(new Integer("9998"));
-        dfhcommarea.getCArrayZi().add(new Integer("0"));
-        dfhcommarea.getCArrayZi().add(new Integer("178"));
-
-        dfhcommarea.getCArrayBi().add(new Long("999899998"));
-        dfhcommarea.getCArrayBi().add(new Long("676767"));
-        dfhcommarea.getCArrayBi().add(new Long("36789013"));
-
-        dfhcommarea.getCArrayNi().add(new BigInteger("123456789012345678"));
-        dfhcommarea.getCArrayNi().add(new BigInteger("6767679998"));
-        dfhcommarea.getCArrayNi().add(new BigInteger("36789184"));
-
-        assertEquals("1653423f"
-        + "0000150f"
-        + "0018400f"
-        + "f5f3f4f2f3f6"
-        + "f0f4f5f0f0f7"
-        + "f0f0f1f9f5f0"
-        + "f9f9f9f8"
-        + "f0f0f0f0"
-        + "f0f1f7f8"
-        + "3b99435e000a539f02315b1501b69b4ba630f34e00000001936299fe0000000002315bc0",
+        Dfhcommarea dfhcommarea = FixarnumCases.getJavaObject();
+        assertEquals(FixarnumCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 78));
     }
 }

@@ -20,9 +20,8 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.test.RedmultiCases;
 import com.legstar.test.coxb.redmulti.Dfhcommarea;
-import com.legstar.test.coxb.redmulti.Filler35;
-import com.legstar.test.coxb.redmulti.Filler38;
 
 import junit.framework.TestCase;
 
@@ -41,34 +40,8 @@ public class MarshalRedmultiTest extends TestCase {
      */
     public void testRedmultiNormal() throws Exception {
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-
-        dfhcommarea.setCOutputType("normal");
-        Filler35 filler35 = new Filler35();
-        filler35.setCString("ABJADHAOUAZ");
-        dfhcommarea.setFiller35(filler35);
-
-        assertEquals("959699948193"
-        + "c1c2d1c1c4c8c1d6e4c1"
-        + "e9404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040",
+        Dfhcommarea dfhcommarea = RedmultiCases.getJavaObject();
+        assertEquals(RedmultiCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 206));
     }
 
@@ -79,36 +52,8 @@ public class MarshalRedmultiTest extends TestCase {
      */
     public void testRedmultiError() throws Exception {
         // Create and populate an instance of an object (JAXB annotated)
-        Dfhcommarea dfhcommarea = (Dfhcommarea) Util.getJaxbObject(SCHEMA_NAME);
-
-        dfhcommarea.setCOutputType("error");
-        Filler38 filler38 = new Filler38();
-        filler38.setCErrorNum(75);
-        filler38.setCErrorDescription("ABOMINABLE");
-        dfhcommarea.setFiller38(filler38);
-
-        assertEquals("859999969940"
-        + "f0f0f7f5"
-        + "c1c2d6d4c9d5"
-        + "c1c2d3c5404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040"
-        + "40404040404040404040",
+        Dfhcommarea dfhcommarea = RedmultiCases.getJavaObjectError();
+        assertEquals(RedmultiCases.getHostBytesHexError(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 206));
     }
 

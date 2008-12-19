@@ -23,6 +23,7 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.test.RedinoutCases;
 import com.legstar.test.coxb.redinout.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -39,13 +40,10 @@ public class UnmarshalRedinoutTest extends TestCase {
      */
     public void testRedinout() throws Exception {
 
-        String hexString   = "0023f1f2f3f4f5f6f7f8c1c2c3c4c5c1c2c3c4c5c1c2c3c4c5d5c2";
+        String hexString   = RedinoutCases.getHostBytesHexSecondChoice();
         byte[] hostBytes = HostData.toByteArray(hexString);
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redinout");
-
-        assertEquals(35, dfhcommarea.getCNumeric());
-        assertEquals(12345678, dfhcommarea.getCParaout().getCSomeOutput());
-        assertEquals(null, dfhcommarea.getCParain());
+        RedinoutCases.checkJavaObjectSecondChoice(dfhcommarea);
     }
 
 }
