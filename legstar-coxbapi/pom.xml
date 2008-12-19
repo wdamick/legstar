@@ -11,6 +11,21 @@
     <description>Cobol binding Application Programming Interface.</description>
     <url>http://www.legsem.com/legstar</url>
 
+    <dependencies>
+    
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <scope>test</scope>
+        </dependency>
+    
+    </dependencies>
+
     <build>
         <plugins>
       
