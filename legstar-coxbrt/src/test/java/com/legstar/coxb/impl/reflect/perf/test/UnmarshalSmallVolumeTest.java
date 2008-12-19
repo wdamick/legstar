@@ -13,7 +13,7 @@ package com.legstar.coxb.impl.reflect.perf.test;
 import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
-import com.legstar.coxb.visitor.CobolUnmarshalVisitor;
+import com.legstar.coxb.impl.visitor.CobolUnmarshalVisitor;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
 
