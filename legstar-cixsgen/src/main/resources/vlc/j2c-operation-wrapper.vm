@@ -37,23 +37,23 @@ public class ${wrapperType} {
                 required = true)
     private ${fieldType} ${fieldName};
 
-	/**
-	 * Get the inner JAXB-bound object.
-	 * 
-	 * @return JAXB-bound object
-	 */
-	public final ${fieldType} get${propertyName}() {
-		return ${fieldName};
-	}
+    /**
+    * Get the inner JAXB-bound object.
+    * 
+    * @return JAXB-bound object
+    */
+    public final ${fieldType} get${propertyName}() {
+        return ${fieldName};
+    }
 
-	/**
-	 * Set the inner JAXB-bound object.
-	 * 
-	 * @param value JAXB-bound object
-	 */
-	public final void set${propertyName}(
-	    final ${fieldType} value) {
-		${fieldName} = value;
-	}
+  /**
+   * Set the inner JAXB-bound object.
+   * 
+   * @param value JAXB-bound object
+   */
+    public final void set${propertyName}(
+            final ${fieldType} value) {
+        ${fieldName} = value;
+    }
 
 }

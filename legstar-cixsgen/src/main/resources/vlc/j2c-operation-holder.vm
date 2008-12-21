@@ -68,7 +68,7 @@ public class ${holderType} {
      * @param value JAXB-bound object
      */
     public final void set${cixsStructure.jaxbPropertyName}(
-      final ${cixsStructure.jaxbType} value) {
+            final ${cixsStructure.jaxbType} value) {
         ${cixsStructure.jaxbFieldName} = value;
     }
 #end
