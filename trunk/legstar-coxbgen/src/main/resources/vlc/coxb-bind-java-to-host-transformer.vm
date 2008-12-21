@@ -5,7 +5,7 @@ package ${coxbContext.getCoxbPackageName()};
 import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.transform.AbstractJavaToHostTransformer;
-import com.legstar.coxb.impl.BindingException;
+import com.legstar.coxb.CobolBindingException;
 
 /**
  * Transforms a ${valueObjectType} data object to mainframe data.
@@ -47,9 +47,9 @@ public class ${valueObjectType}JavaToHostTransformer extends AbstractJavaToHostT
     /**
      * Binding is statically produced by {@link com.legstar.coxb.gen.CoxbBindingGenerator}.
      * @return the binding corresponding to the host structure type.
-     * @throws BindingException if binding cannot be returned
+     * @throws CobolBindingException if binding cannot be returned
      */
-    public ICobolComplexBinding getBinding() throws BindingException {
+    public ICobolComplexBinding getBinding() throws CobolBindingException {
         return new ${binding-class-name}();
     }
     
