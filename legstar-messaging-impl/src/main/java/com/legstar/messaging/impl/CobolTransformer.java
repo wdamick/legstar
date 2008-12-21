@@ -13,8 +13,6 @@ package com.legstar.messaging.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.legstar.coxb.visitor.CobolMarshalVisitor;
-import com.legstar.coxb.visitor.CobolUnmarshalVisitor;
 import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.convert.CobolConverters;
@@ -28,6 +26,8 @@ import com.legstar.coxb.convert.ICobolStringConverter;
 import com.legstar.coxb.convert.ICobolZonedDecimalConverter;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.host.HostException;
+import com.legstar.coxb.impl.visitor.CobolMarshalVisitor;
+import com.legstar.coxb.impl.visitor.CobolUnmarshalVisitor;
 
 /**
  * Provide Cobol marshaling/unmarshaling static methods.
