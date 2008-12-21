@@ -20,7 +20,6 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
-import com.legstar.coxb.test.VararcomCases;
 import com.legstar.test.coxb.vararcom.Dfhcommarea;
 
 import junit.framework.TestCase;

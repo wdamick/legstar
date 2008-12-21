@@ -20,7 +20,6 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
-import com.legstar.coxb.test.NumzonedCases;
 import com.legstar.test.coxb.numzoned.Dfhcommarea;
 
 import junit.framework.TestCase;

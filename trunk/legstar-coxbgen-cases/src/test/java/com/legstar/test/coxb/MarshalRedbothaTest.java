@@ -20,7 +20,6 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
-import com.legstar.coxb.test.RedbothaCases;
 import com.legstar.test.coxb.redbotha.Dfhcommarea;
 
 import junit.framework.TestCase;

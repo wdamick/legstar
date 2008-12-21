@@ -22,7 +22,6 @@ package com.legstar.test.coxb;
 
 
 
-import com.legstar.coxb.test.FixarnumCases;
 import com.legstar.test.coxb.fixarnum.Dfhcommarea;
 
 import junit.framework.TestCase;

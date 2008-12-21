@@ -23,7 +23,6 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.host.HostData;
-import com.legstar.coxb.test.FixarsimCases;
 import com.legstar.test.coxb.fixarsim.Dfhcommarea;
 
 import junit.framework.TestCase;

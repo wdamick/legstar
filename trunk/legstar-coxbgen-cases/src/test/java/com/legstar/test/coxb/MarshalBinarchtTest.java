@@ -20,7 +20,6 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
-import com.legstar.coxb.test.BinarchtCases;
 import com.legstar.test.coxb.binarcht.Dfhcommarea;
 
 import junit.framework.TestCase;
