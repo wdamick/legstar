@@ -20,9 +20,9 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 import com.legstar.coxb.host.HostData;
-import com.legstar.coxb.test.AlltypesCases;
 
 import junit.framework.TestCase;
+
 import com.legstar.test.coxb.alltypes.Dfhcommarea;
 
 /**

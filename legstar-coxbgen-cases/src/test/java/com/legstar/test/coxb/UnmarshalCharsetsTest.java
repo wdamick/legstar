@@ -26,7 +26,6 @@ import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.impl.visitor.CobolUnmarshalVisitor;
-import com.legstar.coxb.test.CharsetsCases;
 import com.legstar.test.coxb.charsets.bind.DfhcommareaBinding;
 import com.legstar.test.coxb.charsets.Dfhcommarea;
 

@@ -20,7 +20,6 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
-import com.legstar.coxb.test.LsfilealCases;
 import com.legstar.test.coxb.lsfileal.ReplyData;
 
 import junit.framework.TestCase;

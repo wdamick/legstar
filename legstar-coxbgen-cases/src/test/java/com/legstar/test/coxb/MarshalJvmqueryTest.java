@@ -25,8 +25,8 @@ import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.impl.visitor.CobolMarshalVisitor;
-import com.legstar.coxb.test.JvmqueryCases;
 import com.legstar.test.coxb.jvmquery.bind.JvmQueryReplyBinding;
+import com.legstar.xsdc.test.cases.JvmqueryCases;
 import com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply;
 
 import junit.framework.TestCase;

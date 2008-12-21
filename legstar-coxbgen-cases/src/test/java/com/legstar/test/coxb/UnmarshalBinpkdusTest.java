@@ -20,7 +20,6 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 import com.legstar.coxb.host.HostData;
-import com.legstar.coxb.test.BinpkdusCases;
 import com.legstar.test.coxb.binpkdus.Dfhcommarea;
 
 import junit.framework.TestCase;

@@ -21,7 +21,6 @@
 package com.legstar.test.coxb;
 
 import com.legstar.coxb.host.HostData;
-import com.legstar.coxb.test.BinnatusCases;
 import com.legstar.test.coxb.binnatus.Dfhcommarea;
 
 import junit.framework.TestCase;

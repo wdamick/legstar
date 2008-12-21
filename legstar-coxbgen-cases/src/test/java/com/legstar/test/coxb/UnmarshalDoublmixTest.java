@@ -23,7 +23,6 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.host.HostData;
-import com.legstar.coxb.test.DoublmixCases;
 
 import junit.framework.TestCase;
 import com.legstar.test.coxb.doublmix.Dfhcommarea;

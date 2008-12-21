@@ -29,7 +29,6 @@ import com.legstar.test.coxb.charsets.bind.DfhcommareaBinding;
 
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.impl.visitor.CobolMarshalVisitor;
-import com.legstar.coxb.test.CharsetsCases;
 
 import junit.framework.TestCase;
 
