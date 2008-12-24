@@ -70,23 +70,27 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer 
     
     /**
      * Transforms host data to java with a specific host character set.
+     * @param <T> the bound object type
      * @param hostData a byte array containing host data
      * @param hostCharset the host character set
      * @return a Java value object
      * @throws HostTransformException if transformation fails
      */
-    public Object transform(final byte[] hostData, final String hostCharset) throws HostTransformException {
+    @SuppressWarnings("unchecked")
+    public < T > T  transform(final byte[] hostData, final String hostCharset) throws HostTransformException {
         getCobolConverters().getCobolContext().setHostCharsetName(hostCharset);
-        return transform(hostData);
+        return (T) transform(hostData);
     }
     
     /**
      * Transforms host data to java.
+     * @param <T> the bound object type
      * @param hostData a byte array containing host data
      * @return a Java value object
      * @throws HostTransformException if transformation fails
      */
-    public Object transform(final byte[] hostData) throws HostTransformException {
+    @SuppressWarnings("unchecked")
+    public < T > T transform(final byte[] hostData) throws HostTransformException {
 
         long start = System.currentTimeMillis();
         if (LOG.isDebugEnabled()) {
@@ -115,7 +119,7 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer 
                         + Long.toString(end - start) + " ms");
             }
             
-            return binding.getObjectValue(binding.getJaxbType());
+            return (T) binding.getObjectValue((Class < T >) binding.getJaxbType());
             
         } catch (HostException he) {
             throw new HostTransformException(he);
