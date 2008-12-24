@@ -24,6 +24,7 @@ package com.legstar.test.coxb;
 
 import com.legstar.coxb.host.HostData;
 import com.legstar.test.coxb.redbotha.Dfhcommarea;
+import com.legstar.test.coxb.redbotha.bind.DfhcommareaHostToJavaTransformer;
 
 import junit.framework.TestCase;
 
@@ -34,7 +35,7 @@ import junit.framework.TestCase;
 public class UnmarshalRedbothaTest extends TestCase {
 
     /**
-     * Unmarshal java data object and test host data result.
+     * Unmarshal host data and test java data object result.
      * @throws Exception if marshaling fails
      */
     public void testRedbothaBothChoice() throws Exception {
@@ -42,6 +43,17 @@ public class UnmarshalRedbothaTest extends TestCase {
         String hexString   = RedbothaCases.getHostBytesHexSecondChoice();
         byte[] hostBytes = HostData.toByteArray(hexString);
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redbotha");
+        RedbothaCases.checkJavaObjectSecondChoice(dfhcommarea);
+    }
+    /**
+     * Transform host data and test java data object result.
+     * @throws Exception if transforming fails
+     */
+    public void testHostToJavaTransformerSecondChoice() throws Exception {
+
+        DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();
+        Dfhcommarea dfhcommarea = transformer.transform(
+                HostData.toByteArray(RedbothaCases.getHostBytesHexSecondChoice()));
         RedbothaCases.checkJavaObjectSecondChoice(dfhcommarea);
     }
 }

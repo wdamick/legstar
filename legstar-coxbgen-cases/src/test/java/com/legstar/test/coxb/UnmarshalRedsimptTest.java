@@ -24,6 +24,7 @@ package com.legstar.test.coxb;
 
 import com.legstar.coxb.host.HostData;
 import com.legstar.test.coxb.redsimpt.Dfhcommarea;
+import com.legstar.test.coxb.redsimpt.bind.DfhcommareaHostToJavaTransformer;
 
 import junit.framework.TestCase;
 
@@ -34,7 +35,7 @@ import junit.framework.TestCase;
 public class UnmarshalRedsimptTest extends TestCase {
 
     /**
-     * Unmarshal java data object and test host data result.
+     * Unmarshal host data and test java data object result.
      * @throws Exception if marshaling fails
      */
     public void testRedsimpt() throws Exception {
@@ -46,7 +47,17 @@ public class UnmarshalRedsimptTest extends TestCase {
     }
 
     /**
-     * Unmarshal java data object and test host data result.
+     * Transform host data and test java data object result.
+     * @throws Exception if transforming fails
+     */
+    public void testHostToJavaTransformer() throws Exception {
+
+        DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();
+        Dfhcommarea dfhcommarea = transformer.transform(HostData.toByteArray(RedsimptCases.getHostBytesHex()));
+        RedsimptCases.checkJavaObject(dfhcommarea);
+    }
+    /**
+     * Unmarshal host data and test java data object result.
      * Alternative choice.
      * @throws Exception if marshaling fails
      */
@@ -55,6 +66,17 @@ public class UnmarshalRedsimptTest extends TestCase {
         String hexString = RedsimptCases.getHostBytesHexSecondChoice();
         byte[] hostBytes = HostData.toByteArray(hexString);
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "redsimpt");
+        RedsimptCases.checkJavaObjectSecondChoice(dfhcommarea);
+    }
+    /**
+     * Transform host data and test java data object result.
+     * @throws Exception if transforming fails
+     */
+    public void testHostToJavaTransformerSecondChoice() throws Exception {
+
+        DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();
+        Dfhcommarea dfhcommarea = transformer.transform(
+                HostData.toByteArray(RedsimptCases.getHostBytesHexSecondChoice()));
         RedsimptCases.checkJavaObjectSecondChoice(dfhcommarea);
     }
 }

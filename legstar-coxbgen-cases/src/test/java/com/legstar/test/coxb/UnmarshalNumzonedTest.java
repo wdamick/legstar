@@ -24,6 +24,7 @@ package com.legstar.test.coxb;
 
 import com.legstar.coxb.host.HostData;
 import com.legstar.test.coxb.numzoned.Dfhcommarea;
+import com.legstar.test.coxb.numzoned.bind.DfhcommareaHostToJavaTransformer;
 
 import junit.framework.TestCase;
 
@@ -34,7 +35,7 @@ import junit.framework.TestCase;
 public class UnmarshalNumzonedTest extends TestCase {
 
     /**
-     * Unmarshal java data object and test host data result.
+     * Unmarshal host data and test java data object result.
      * @throws Exception if marshaling fails
      */
     public void testNumzoned() throws Exception {
@@ -42,6 +43,17 @@ public class UnmarshalNumzonedTest extends TestCase {
         String hexString = NumzonedCases.getHostBytesHex();
         byte[] hostBytes = HostData.toByteArray(hexString);
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "numzoned");
+        NumzonedCases.checkJavaObject(dfhcommarea);
+    }
+    /**
+     * Transform host data and test java data object result.
+     * @throws Exception if transforming fails
+     */
+    public void testHostToJavaTransformer() throws Exception {
+
+        DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();
+        Dfhcommarea dfhcommarea = transformer.transform(
+                HostData.toByteArray(NumzonedCases.getHostBytesHex()));
         NumzonedCases.checkJavaObject(dfhcommarea);
     }
 }

@@ -20,6 +20,8 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.host.HostData;
+import com.legstar.test.coxb.redopera.bind.DfhcommareaJavaToHostTransformer;
 import com.legstar.test.coxb.redopera.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -34,7 +36,7 @@ public class MarshalRedoperaTest extends TestCase {
     private static final String SCHEMA_NAME = "redopera";
 
     /**
-     * Marshal host data and test java data object result.
+     * Marshal java data object and test host data result.
      * @throws Exception if marshaling fails
      */
     public void testRedoperaStringMethod() throws Exception {
@@ -46,7 +48,17 @@ public class MarshalRedoperaTest extends TestCase {
     }
 
     /**
-     * Marshal host data and test java data object result.
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformerStringMethod() throws Exception {
+
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        assertEquals(RedoperaCases.getHostBytesHex(),
+                HostData.toHexString(transformer.transform(RedoperaCases.getJavaObject())));
+    }
+    /**
+     * Marshal java data object and test host data result.
      * Alternative choice.
      * @throws Exception if marshaling fails
      */
@@ -56,5 +68,15 @@ public class MarshalRedoperaTest extends TestCase {
         Dfhcommarea dfhcommarea = RedoperaCases.getJavaObjectIntMethod();
         assertEquals(RedoperaCases.getHostBytesHexIntMethod(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 218));
+    }
+    /**
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformerIntMethod() throws Exception {
+
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        assertEquals(RedoperaCases.getHostBytesHexIntMethod(),
+                HostData.toHexString(transformer.transform(RedoperaCases.getJavaObjectIntMethod())));
     }
 }

@@ -21,6 +21,8 @@
 package com.legstar.test.coxb;
 
 
+import com.legstar.coxb.host.HostData;
+import com.legstar.test.coxb.typesmix.bind.DfhcommareaJavaToHostTransformer;
 import com.legstar.test.coxb.typesmix.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -35,7 +37,7 @@ public class MarshalTypesmixTest extends TestCase {
     private static final String SCHEMA_NAME = "typesmix";
 
     /**
-     * Marshal host data and test java data object result.
+     * Marshal java data object and test host data result.
      * @throws Exception if marshaling fails
      */
     public void testTypesmix() throws Exception {
@@ -44,5 +46,15 @@ public class MarshalTypesmixTest extends TestCase {
         Dfhcommarea dfhcommarea = TypesmixCases.getJavaObject();
         assertEquals(TypesmixCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 176));
+    }
+    /**
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformer() throws Exception {
+
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        assertEquals(TypesmixCases.getHostBytesHex(),
+                HostData.toHexString(transformer.transform(TypesmixCases.getJavaObject())));
     }
 }

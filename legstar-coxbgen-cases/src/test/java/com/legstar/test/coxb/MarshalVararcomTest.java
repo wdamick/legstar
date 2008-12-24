@@ -20,6 +20,8 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.host.HostData;
+import com.legstar.test.coxb.vararcom.bind.DfhcommareaJavaToHostTransformer;
 import com.legstar.test.coxb.vararcom.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -34,7 +36,7 @@ public class MarshalVararcomTest extends TestCase {
     private static final String SCHEMA_NAME = "vararcom";
 
     /**
-     * Marshal host data and test java data object result.
+     * Marshal java data object and test host data result.
      * Empty case.
      * @throws Exception if marshaling fails
      */
@@ -47,7 +49,18 @@ public class MarshalVararcomTest extends TestCase {
     }
 
     /**
-     * Marshal host data and test java data object result.
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformerEmpty() throws Exception {
+
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        assertEquals(VararcomCases.getHostBytesHexEmpty(),
+                HostData.toHexString(transformer.transform(VararcomCases.getJavaObjectEmpty())));
+    }
+
+    /**
+     * Marshal java data object and test host data result.
      * Partially filled case.
      * @throws Exception if marshaling fails
      */
@@ -60,11 +73,22 @@ public class MarshalVararcomTest extends TestCase {
     }
 
     /**
-     * Marshal host data and test java data object result.
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformerSome() throws Exception {
+
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        assertEquals(VararcomCases.getHostBytesHexSome(),
+                HostData.toHexString(transformer.transform(VararcomCases.getJavaObjectSome())));
+    }
+
+    /**
+     * Marshal java data object and test host data result.
      * Completely filled case.
      * @throws Exception if marshaling fails
      */
-    public void testVararcom() throws Exception {
+    public void testVararcomFull() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
         Dfhcommarea dfhcommarea = VararcomCases.getJavaObjectFull();
@@ -75,4 +99,16 @@ public class MarshalVararcomTest extends TestCase {
         assertEquals(VararcomCases.getHostBytesHexFull().substring(3448, 3504),
                 result.substring(3448, 3504));
     }
+
+    /**
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformerFull() throws Exception {
+
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        assertEquals(VararcomCases.getHostBytesHexFull(),
+                HostData.toHexString(transformer.transform(VararcomCases.getJavaObjectFull())));
+    }
+
 }

@@ -20,6 +20,8 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.host.HostData;
+import com.legstar.test.coxb.floatmix.bind.DfhcommareaJavaToHostTransformer;
 import com.legstar.test.coxb.floatmix.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -34,7 +36,7 @@ public class MarshalFloatmixTest extends TestCase {
     private static final String SCHEMA_NAME = "floatmix";
 
     /**
-     * Marshal host data and test java data object result.
+     * Marshal java data object and test host data result.
      * @throws Exception if marshaling fails
      */
     public void testFloatmix() throws Exception {
@@ -42,6 +44,16 @@ public class MarshalFloatmixTest extends TestCase {
         // Create and populate an instance of an object (JAXB annotated)
         Dfhcommarea dfhcommarea = FloatmixCases.getJavaObject();
         assertEquals(FloatmixCases.getHostBytesHex(),
-                Util.marshal(SCHEMA_NAME, dfhcommarea, 48));
+                Util.marshal(SCHEMA_NAME, dfhcommarea, FloatmixCases.getHostBytesHex().length() / 2));
+    }
+    /**
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformer() throws Exception {
+
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        assertEquals(FloatmixCases.getHostBytesHex(),
+                HostData.toHexString(transformer.transform(FloatmixCases.getJavaObject())));
     }
 }

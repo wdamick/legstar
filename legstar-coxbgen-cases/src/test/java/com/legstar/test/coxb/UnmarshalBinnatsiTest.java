@@ -23,6 +23,7 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.test.coxb.binnatsi.bind.DfhcommareaHostToJavaTransformer;
 import com.legstar.test.coxb.binnatsi.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -34,7 +35,7 @@ import junit.framework.TestCase;
 public class UnmarshalBinnatsiTest extends TestCase {
 
     /**
-     * Unmarshal java data object and test host data result.
+     * Unmarshal host data and test java data object result.
      * @throws Exception if marshaling fails
      */
     public void testBinnatsi() throws Exception {
@@ -43,6 +44,16 @@ public class UnmarshalBinnatsiTest extends TestCase {
         byte[] hostBytes = HostData.toByteArray(hexString);
 
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "binnatsi");
+        BinnatsiCases.checkJavaObject(dfhcommarea);
+    }
+    /**
+     * Transform host data and test java data object result.
+     * @throws Exception if transforming fails
+     */
+    public void testHostToJavaTransformer() throws Exception {
+
+        DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();
+        Dfhcommarea dfhcommarea = transformer.transform(HostData.toByteArray(BinnatsiCases.getHostBytesHex()));
         BinnatsiCases.checkJavaObject(dfhcommarea);
     }
 }

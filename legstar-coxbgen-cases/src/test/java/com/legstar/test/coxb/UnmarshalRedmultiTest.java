@@ -24,6 +24,7 @@ package com.legstar.test.coxb;
 
 import com.legstar.coxb.host.HostData;
 import com.legstar.test.coxb.redmulti.Dfhcommarea;
+import com.legstar.test.coxb.redmulti.bind.DfhcommareaHostToJavaTransformer;
 
 import junit.framework.TestCase;
 
@@ -34,7 +35,7 @@ import junit.framework.TestCase;
 public class UnmarshalRedmultiTest extends TestCase {
 
     /**
-     * Unmarshal java data object and test host data result.
+     * Unmarshal host data and test java data object result.
      * @throws Exception if marshaling fails
      */
     public void testRedmultiNormal() throws Exception {
@@ -45,7 +46,17 @@ public class UnmarshalRedmultiTest extends TestCase {
     }
 
     /**
-     * Unmarshal java data object and test host data result.
+     * Transform host data and test java data object result.
+     * @throws Exception if transforming fails
+     */
+    public void testHostToJavaTransformerNormal() throws Exception {
+
+        DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();
+        Dfhcommarea dfhcommarea = transformer.transform(HostData.toByteArray(RedmultiCases.getHostBytesHex()));
+        RedmultiCases.checkJavaObject(dfhcommarea);
+    }
+    /**
+     * Unmarshal host data and test java data object result.
      * Alternative choice.
      * @throws Exception if marshaling fails
      */
@@ -56,4 +67,14 @@ public class UnmarshalRedmultiTest extends TestCase {
         RedmultiCases.checkJavaObjectError(dfhcommarea);
     }
 
+    /**
+     * Transform host data and test java data object result.
+     * @throws Exception if transforming fails
+     */
+    public void testHostToJavaTransformerError() throws Exception {
+
+        DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();
+        Dfhcommarea dfhcommarea = transformer.transform(HostData.toByteArray(RedmultiCases.getHostBytesHexError()));
+        RedmultiCases.checkJavaObjectError(dfhcommarea);
+    }
 }

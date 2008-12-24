@@ -20,6 +20,8 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.host.HostData;
+import com.legstar.test.coxb.fixarsim.bind.DfhcommareaJavaToHostTransformer;
 import com.legstar.test.coxb.fixarsim.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -34,7 +36,7 @@ public class MarshalFixarsimTest extends TestCase {
     private static final String SCHEMA_NAME = "fixarsim";
 
     /**
-     * Marshal host data and test java data object result.
+     * Marshal java data object and test host data result.
      * @throws Exception if marshaling fails
      */
     public void testFixarsim() throws Exception {
@@ -43,5 +45,15 @@ public class MarshalFixarsimTest extends TestCase {
         Dfhcommarea dfhcommarea = FixarsimCases.getJavaObject();
          assertEquals(FixarsimCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 15));
+    }
+    /**
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformer() throws Exception {
+
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        assertEquals(FixarsimCases.getHostBytesHex(),
+                HostData.toHexString(transformer.transform(FixarsimCases.getJavaObject())));
     }
 }

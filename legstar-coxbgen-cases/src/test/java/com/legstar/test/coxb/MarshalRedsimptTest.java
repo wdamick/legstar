@@ -20,6 +20,8 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.host.HostData;
+import com.legstar.test.coxb.redsimpt.bind.DfhcommareaJavaToHostTransformer;
 import com.legstar.test.coxb.redsimpt.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -34,7 +36,7 @@ public class MarshalRedsimptTest extends TestCase {
     private static final String SCHEMA_NAME = "redsimpt";
 
     /**
-     * Marshal host data and test java data object result.
+     * Marshal java data object and test host data result.
      * @throws Exception if marshaling fails
      */
     public void testRedsimpt() throws Exception {
@@ -46,7 +48,17 @@ public class MarshalRedsimptTest extends TestCase {
     }
 
     /**
-     * Marshal host data and test java data object result.
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformer() throws Exception {
+
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        assertEquals(RedsimptCases.getHostBytesHex(),
+                HostData.toHexString(transformer.transform(RedsimptCases.getJavaObject())));
+    }
+    /**
+     * Marshal java data object and test host data result.
      * Alternative choice.
      * @throws Exception if marshaling fails
      */
@@ -56,5 +68,15 @@ public class MarshalRedsimptTest extends TestCase {
         Dfhcommarea dfhcommarea = RedsimptCases.getJavaObjectSecondChoice();
         assertEquals(RedsimptCases.getHostBytesHexSecondChoice(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 18));
+    }
+    /**
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformerSecondChoice() throws Exception {
+
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        assertEquals(RedsimptCases.getHostBytesHexSecondChoice(),
+                HostData.toHexString(transformer.transform(RedsimptCases.getJavaObjectSecondChoice())));
     }
 }

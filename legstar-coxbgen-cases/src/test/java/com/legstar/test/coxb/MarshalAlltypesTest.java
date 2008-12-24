@@ -22,7 +22,9 @@ package com.legstar.test.coxb;
 
 
 
+import com.legstar.coxb.host.HostData;
 import com.legstar.test.coxb.alltypes.Dfhcommarea;
+import com.legstar.test.coxb.alltypes.bind.DfhcommareaJavaToHostTransformer;
 
 import junit.framework.TestCase;
 
@@ -33,7 +35,7 @@ import junit.framework.TestCase;
 public class MarshalAlltypesTest extends TestCase {
 
     /**
-     * Marshal host data and test java data object result.
+     * Marshal java data object and test host data result.
      * @throws Exception if marshaling fails
      */
     public void testAlltypes() throws Exception {
@@ -41,5 +43,16 @@ public class MarshalAlltypesTest extends TestCase {
         Dfhcommarea dfhcommarea = AlltypesCases.getJavaObject();
         assertEquals(AlltypesCases.getHostBytesHex(),
                 Util.marshal("alltypes", dfhcommarea, 267));
+    }
+
+    /**
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformer() throws Exception {
+
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        assertEquals(AlltypesCases.getHostBytesHex(),
+                HostData.toHexString(transformer.transform(AlltypesCases.getJavaObject())));
     }
 }

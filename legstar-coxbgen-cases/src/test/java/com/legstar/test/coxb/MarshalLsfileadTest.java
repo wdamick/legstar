@@ -20,6 +20,8 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.host.HostData;
+import com.legstar.test.coxb.lsfilead.bind.DfhcommareaJavaToHostTransformer;
 import com.legstar.test.coxb.lsfilead.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -34,7 +36,7 @@ public class MarshalLsfileadTest extends TestCase {
     private static final String SCHEMA_NAME = "lsfilead";
 
     /**
-     * Marshal host data and test java data object result.
+     * Marshal java data object and test host data result.
      * @throws Exception if marshaling fails
      */
     public void testLsfilead() throws Exception {
@@ -43,5 +45,15 @@ public class MarshalLsfileadTest extends TestCase {
         Dfhcommarea dfhcommarea = LsfileadCases.getJavaObject();
         assertEquals(LsfileadCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 79));
+    }
+    /**
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformer() throws Exception {
+
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        assertEquals(LsfileadCases.getHostBytesHex(),
+                HostData.toHexString(transformer.transform(LsfileadCases.getJavaObject())));
     }
 }
