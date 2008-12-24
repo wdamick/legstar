@@ -47,6 +47,6 @@ public final class FloatmixCases extends TestCase {
      */
     public static String getHostBytesHex() { 
 
-        return "434d2000000000004110000045543ae9361677a460ffffff000000000000000000000000000000000000000000000000";
+        return "434d2000000000004110000045543ae9361677a460ffffff";
     }
 }

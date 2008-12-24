@@ -2,6 +2,10 @@ package com.legstar.test.coxb;
 
 import junit.framework.TestCase;
 
+import com.legstar.test.coxb.dplarcht.LsItemsArray;
+import com.legstar.test.coxb.dplarcht.LsProgramsData;
+import com.legstar.test.coxb.dplarcht.LsReply;
+import com.legstar.test.coxb.dplarcht.LsReplyData;
 import com.legstar.test.coxb.dplarcht.LsRequest;
 import com.legstar.test.coxb.dplarcht.ObjectFactory;
 import com.legstar.test.coxb.dplarcht.Dfhcommarea;
@@ -58,6 +62,36 @@ public final class DplarchtCases extends TestCase {
     }
  
     /**
+     * @return an instance of a valued java object.
+     */
+    public static Dfhcommarea getJavaObject1Program() {
+        ObjectFactory of = new ObjectFactory();
+        Dfhcommarea dfhcommarea = of.createDfhcommarea();
+        LsRequest lsRequest = new LsRequest();
+        lsRequest.setLsRequestType(1);
+        lsRequest.setLsAllItems("*");
+        LsReply lsReply = of.createLsReply();
+        LsReplyData lsReplyData = of.createLsReplyData();
+        LsProgramsData lsProgramsData = of.createLsProgramsData();
+        lsProgramsData.setLsProgramLanguage("NOTDEFINED");
+        lsProgramsData.setLsProgramLength(5792);
+        lsProgramsData.setLsProgramName("BINARCHT");
+        lsProgramsData.setLsProgramType("PROGRAM");
+        lsProgramsData.setLsProgramUsecount(2);
+        LsItemsArray lsItemsArray = of.createLsItemsArray();
+        lsItemsArray.setLsProgramsData(lsProgramsData);
+        lsReplyData.setLsItemsCount(1);
+        lsReplyData.getLsItemsArray().add(lsItemsArray);
+        
+        lsReply.setLsReplyType(0);
+        lsReply.setLsReplyData(lsReplyData);
+
+        dfhcommarea.setLsRequest(lsRequest);
+        dfhcommarea.setLsReply(lsReply);
+        return dfhcommarea;
+    }
+
+    /**
      * @return a hexadecimal representation of host data.
      */
     public static String getHostBytesHex1Program() { 
@@ -73,8 +107,7 @@ public final class DplarchtCases extends TestCase {
         + "D5D6E3C4C5C6C9D5C5C44040"
         + "000016A0"
         + "00000002"
-        + "000000000000000000000000000000000000000000000000"
-        + "C2C9D5D5C1E3E2";
+        + "404040404040404040404040404040404040404040404040";
     }
 
     /**
