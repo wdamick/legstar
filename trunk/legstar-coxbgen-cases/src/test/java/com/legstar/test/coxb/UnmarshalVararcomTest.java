@@ -21,6 +21,7 @@
 package com.legstar.test.coxb;
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.test.coxb.vararcom.bind.DfhcommareaHostToJavaTransformer;
 import com.legstar.test.coxb.vararcom.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -32,7 +33,7 @@ import junit.framework.TestCase;
 public class UnmarshalVararcomTest extends TestCase {
 
     /**
-     * Unmarshal java data object and test host data result.
+     * Unmarshal host data and test java data object result.
      * @throws Exception if marshaling fails
      */
     public void testVararcom() throws Exception {
@@ -45,7 +46,18 @@ public class UnmarshalVararcomTest extends TestCase {
     }
 
     /**
-     * Unmarshal java data object and test host data result.
+     * Transform host data and test java data object result.
+     * Empty case.
+     * @throws Exception if transforming fails
+     */
+    public void testHostToJavaTransformerEmpty() throws Exception {
+
+        DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();
+        Dfhcommarea dfhcommarea = transformer.transform(HostData.toByteArray(VararcomCases.getHostBytesHexEmpty()));
+        VararcomCases.checkJavaObjectEmpty(dfhcommarea);
+    }
+    /**
+     * Unmarshal host data and test java data object result.
      * Size 10 case.
      * @throws Exception if marshaling fails
      */
@@ -55,5 +67,29 @@ public class UnmarshalVararcomTest extends TestCase {
         byte[] hostBytes = HostData.toByteArray(hexString);
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "vararcom");
         VararcomCases.checkJavaObjectSome(dfhcommarea);
+    }
+
+    /**
+     * Transform host data and test java data object result.
+     * 10 items.
+     * @throws Exception if transforming fails
+     */
+    public void testHostToJavaTransformerSome() throws Exception {
+
+        DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();
+        Dfhcommarea dfhcommarea = transformer.transform(HostData.toByteArray(VararcomCases.getHostBytesHexSome()));
+        VararcomCases.checkJavaObjectSome(dfhcommarea);
+    }
+
+    /**
+     * Transform host data and test java data object result.
+     * 250 items.
+     * @throws Exception if transforming fails
+     */
+    public void testHostToJavaTransformerFull() throws Exception {
+
+        DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();
+        Dfhcommarea dfhcommarea = transformer.transform(HostData.toByteArray(VararcomCases.getHostBytesHexFull()));
+        VararcomCases.checkJavaObjectFull(dfhcommarea);
     }
 }

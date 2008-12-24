@@ -20,6 +20,8 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.host.HostData;
+import com.legstar.test.coxb.dplarcht.bind.DfhcommareaJavaToHostTransformer;
 import com.legstar.test.coxb.dplarcht.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -34,7 +36,7 @@ public class MarshalDplarchtTest extends TestCase {
     private static final String SCHEMA_NAME = "dplarcht";
 
     /**
-     * Marshal host data and test java data object result.
+     * Marshal java data object and test host data result.
      * @throws Exception if marshaling fails
      */
     public void testDplarcht() throws Exception {
@@ -42,6 +44,16 @@ public class MarshalDplarchtTest extends TestCase {
         // Create and populate an instance of an object (JAXB annotated)
         Dfhcommarea dfhcommarea = DplarchtCases.getJavaObject();
         assertEquals(DplarchtCases.getHostBytesHex(),
-                Util.marshal(SCHEMA_NAME, dfhcommarea, 88));
+                Util.marshal(SCHEMA_NAME, dfhcommarea, DplarchtCases.getHostBytesHex().length() / 2));
+    }
+    /**
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformer() throws Exception {
+
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        assertEquals(DplarchtCases.getHostBytesHex1Program().toLowerCase(),
+                HostData.toHexString(transformer.transform(DplarchtCases.getJavaObject1Program())));
     }
 }

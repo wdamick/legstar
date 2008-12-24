@@ -23,6 +23,7 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.test.coxb.lsfileae.bind.DfhcommareaHostToJavaTransformer;
 import com.legstar.test.coxb.lsfileae.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -34,7 +35,7 @@ import junit.framework.TestCase;
 public class UnmarshalLsfileaeTest extends TestCase {
 
     /**
-     * Unmarshal java data object and test host data result.
+     * Unmarshal host data and test java data object result.
      * @throws Exception if marshaling fails
      */
     public void testLsfileae() throws Exception {
@@ -42,6 +43,16 @@ public class UnmarshalLsfileaeTest extends TestCase {
         String hexString = LsfileaeCases.getHostBytesHex();
         byte[] hostBytes = HostData.toByteArray(hexString);
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "lsfileae");
+        LsfileaeCases.checkJavaObject(dfhcommarea);
+    }
+    /**
+     * Transform host data and test java data object result.
+     * @throws Exception if transforming fails
+     */
+    public void testHostToJavaTransformer() throws Exception {
+
+        DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();
+        Dfhcommarea dfhcommarea = transformer.transform(HostData.toByteArray(LsfileaeCases.getHostBytesHex()));
         LsfileaeCases.checkJavaObject(dfhcommarea);
     }
 }

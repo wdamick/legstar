@@ -24,6 +24,7 @@ package com.legstar.test.coxb;
 
 import com.legstar.coxb.host.HostData;
 import com.legstar.test.coxb.lsfileal.ReplyData;
+import com.legstar.test.coxb.lsfileal.bind.ReplyDataHostToJavaTransformer;
 
 import junit.framework.TestCase;
 
@@ -34,7 +35,7 @@ import junit.framework.TestCase;
 public class UnmarshalLsfilealTest extends TestCase {
 
     /**
-     * Unmarshal java data object and test host data result.
+     * Unmarshal host data and test java data object result.
      * @throws Exception if marshaling fails
      */
     public void testLsfileal() throws Exception {
@@ -46,7 +47,19 @@ public class UnmarshalLsfilealTest extends TestCase {
     }
 
     /**
-     * Unmarshal java data object and test host data result.
+     * Transform host data and test java data object result.
+     * @throws Exception if transforming fails
+     */
+    public void testHostToJavaTransformer() throws Exception {
+
+        ReplyDataHostToJavaTransformer transformer = new ReplyDataHostToJavaTransformer();
+        ReplyData replyData = transformer.transform(
+                HostData.toByteArray(LsfilealCases.getHostBytesHex()));
+        LsfilealCases.checkJavaObject(replyData);
+    }
+
+    /**
+     * Unmarshal host data and test java data object result.
      * Error case.
      * @throws Exception if marshaling fails
      */
@@ -55,6 +68,17 @@ public class UnmarshalLsfilealTest extends TestCase {
         String hexString = LsfilealCases.getHostBytesHexError();
         byte[] hostBytes = HostData.toByteArray(hexString);
         ReplyData replyData = (ReplyData) Util.unmarshal(hostBytes, "lsfileal", "ReplyData");
+        LsfilealCases.checkJavaObjectHexError(replyData);
+    }
+    /**
+     * Transform host data and test java data object result.
+     * @throws Exception if transforming fails
+     */
+    public void testHostToJavaTransformerWithError() throws Exception {
+
+        ReplyDataHostToJavaTransformer transformer = new ReplyDataHostToJavaTransformer();
+        ReplyData replyData = transformer.transform(
+                HostData.toByteArray(LsfilealCases.getHostBytesHexError()));
         LsfilealCases.checkJavaObjectHexError(replyData);
     }
 }

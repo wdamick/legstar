@@ -20,6 +20,8 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.host.HostData;
+import com.legstar.test.coxb.binarcht.bind.DfhcommareaJavaToHostTransformer;
 import com.legstar.test.coxb.binarcht.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -34,7 +36,7 @@ public class MarshalBinarchtTest extends TestCase {
     private static final String SCHEMA_NAME = "binarcht";
 
     /**
-     * Marshal host data and test java data object result.
+     * Marshal java data object and test host data result.
      * @throws Exception if marshaling fails
      */
     public void testBinarcht() throws Exception {
@@ -44,5 +46,15 @@ public class MarshalBinarchtTest extends TestCase {
 
         assertEquals(BinarchtCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 56));
+    }
+    /**
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformer() throws Exception {
+
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        assertEquals(BinarchtCases.getHostBytesHex(),
+                HostData.toHexString(transformer.transform(BinarchtCases.getJavaObject())));
     }
 }

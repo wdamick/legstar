@@ -20,6 +20,8 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.host.HostData;
+import com.legstar.test.coxb.redbotha.bind.DfhcommareaJavaToHostTransformer;
 import com.legstar.test.coxb.redbotha.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -34,7 +36,7 @@ public class MarshalRedbothaTest extends TestCase {
     private static final String SCHEMA_NAME = "redbotha";
 
     /**
-     * Marshal host data and test java data object result.
+     * Marshal java data object and test host data result.
      * @throws Exception if marshaling fails
      */
     public void testRedbotha() throws Exception {
@@ -46,7 +48,17 @@ public class MarshalRedbothaTest extends TestCase {
     }
 
     /**
-     * Marshal host data and test java data object result.
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformer() throws Exception {
+
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        assertEquals(RedbothaCases.getHostBytesHex(),
+                HostData.toHexString(transformer.transform(RedbothaCases.getJavaObject())));
+    }
+    /**
+     * Marshal java data object and test host data result.
      * Alternative choice.
      * @throws Exception if marshaling fails
      */
@@ -56,5 +68,15 @@ public class MarshalRedbothaTest extends TestCase {
         Dfhcommarea dfhcommarea = RedbothaCases.getJavaObjectSecondChoice();
         assertEquals(RedbothaCases.getHostBytesHexSecondChoice(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 2));
+    }
+    /**
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformerSecondChoice() throws Exception {
+
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        assertEquals(RedbothaCases.getHostBytesHexSecondChoice(),
+                HostData.toHexString(transformer.transform(RedbothaCases.getJavaObjectSecondChoice())));
     }
 }

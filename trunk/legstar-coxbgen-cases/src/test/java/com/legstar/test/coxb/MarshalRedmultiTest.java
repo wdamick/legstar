@@ -20,6 +20,8 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.host.HostData;
+import com.legstar.test.coxb.redmulti.bind.DfhcommareaJavaToHostTransformer;
 import com.legstar.test.coxb.redmulti.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -34,7 +36,7 @@ public class MarshalRedmultiTest extends TestCase {
     private static final String SCHEMA_NAME = "redmulti";
 
     /**
-     * Marshal host data and test java data object result.
+     * Marshal java data object and test host data result.
      * @throws Exception if marshaling fails
      */
     public void testRedmultiNormal() throws Exception {
@@ -45,7 +47,17 @@ public class MarshalRedmultiTest extends TestCase {
     }
 
     /**
-     * Marshal host data and test java data object result.
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformerNormal() throws Exception {
+
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        assertEquals(RedmultiCases.getHostBytesHex(),
+                HostData.toHexString(transformer.transform(RedmultiCases.getJavaObject())));
+    }
+    /**
+     * Marshal java data object and test host data result.
      * Alternative choice.
      * @throws Exception if marshaling fails
      */
@@ -56,4 +68,14 @@ public class MarshalRedmultiTest extends TestCase {
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 206));
     }
 
+    /**
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformerError() throws Exception {
+
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        assertEquals(RedmultiCases.getHostBytesHexError(),
+                HostData.toHexString(transformer.transform(RedmultiCases.getJavaObjectError())));
+    }
 }

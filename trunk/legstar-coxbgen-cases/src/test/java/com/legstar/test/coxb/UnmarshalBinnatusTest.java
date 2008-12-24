@@ -21,6 +21,7 @@
 package com.legstar.test.coxb;
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.test.coxb.binnatus.bind.DfhcommareaHostToJavaTransformer;
 import com.legstar.test.coxb.binnatus.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -32,7 +33,7 @@ import junit.framework.TestCase;
 public class UnmarshalBinnatusTest extends TestCase {
 
     /**
-     * Unmarshal java data object and test host data result.
+     * Unmarshal host data and test java data object result.
      * @throws Exception if marshaling fails
      */
     public void testBinnatus() throws Exception {
@@ -42,4 +43,14 @@ public class UnmarshalBinnatusTest extends TestCase {
         Dfhcommarea dfhcommarea = (Dfhcommarea) Util.unmarshal(hostBytes, "binnatus");
         BinnatusCases.checkJavaObject(dfhcommarea);
    }
+    /**
+     * Transform host data and test java data object result.
+     * @throws Exception if transforming fails
+     */
+    public void testHostToJavaTransformer() throws Exception {
+
+        DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();
+        Dfhcommarea dfhcommarea = transformer.transform(HostData.toByteArray(BinnatusCases.getHostBytesHex()));
+        BinnatusCases.checkJavaObject(dfhcommarea);
+    }
 }

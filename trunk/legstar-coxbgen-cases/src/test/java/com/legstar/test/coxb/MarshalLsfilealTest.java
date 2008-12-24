@@ -20,6 +20,8 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.host.HostData;
+import com.legstar.test.coxb.lsfileal.bind.ReplyDataJavaToHostTransformer;
 import com.legstar.test.coxb.lsfileal.ReplyData;
 
 import junit.framework.TestCase;
@@ -34,7 +36,7 @@ public class MarshalLsfilealTest extends TestCase {
     private static final String SCHEMA_NAME = "lsfileal";
 
     /**
-     * Marshal host data and test java data object result.
+     * Marshal java data object and test host data result.
      * @throws Exception if marshaling fails
      */
     public void testLsfileal() throws Exception {
@@ -46,7 +48,17 @@ public class MarshalLsfilealTest extends TestCase {
     }
 
     /**
-     * Marshal host data and test java data object result.
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformer() throws Exception {
+
+        ReplyDataJavaToHostTransformer transformer = new ReplyDataJavaToHostTransformer();
+        assertEquals(LsfilealCases.getHostBytesHex(),
+                HostData.toHexString(transformer.transform(LsfilealCases.getJavaObject())));
+    }
+    /**
+     * Marshal java data object and test host data result.
      * Error case.
      * @throws Exception if marshaling fails
      */
@@ -56,5 +68,15 @@ public class MarshalLsfilealTest extends TestCase {
         ReplyData replyData = LsfilealCases.getJavaObjectError();
         assertEquals(LsfilealCases.getHostBytesHexError(),
                 Util.marshal(SCHEMA_NAME, "ReplyData", replyData, 143));
+    }
+    /**
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformerError() throws Exception {
+
+        ReplyDataJavaToHostTransformer transformer = new ReplyDataJavaToHostTransformer();
+        assertEquals(LsfilealCases.getHostBytesHexError(),
+                HostData.toHexString(transformer.transform(LsfilealCases.getJavaObjectError())));
     }
 }

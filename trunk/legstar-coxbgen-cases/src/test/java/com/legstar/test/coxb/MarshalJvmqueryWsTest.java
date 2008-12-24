@@ -25,6 +25,7 @@ import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.impl.visitor.CobolMarshalVisitor;
+import com.legstar.test.coxb.ws.jvmquery.bind.QueryJvmResponseJavaToHostTransformer;
 import com.legstar.test.coxb.ws.jvmquery.QueryJvmResponse;
 import com.legstar.test.coxb.ws.jvmquery.bind.QueryJvmResponseBinding;
 
@@ -37,7 +38,7 @@ import junit.framework.TestCase;
 public class MarshalJvmqueryWsTest extends TestCase {
 
     /**
-     * Marshal host data and test java data object result.
+     * Marshal java data object and test host data result.
      * @throws Exception if marshaling fails
      */
     public void testJvmqueryWs() throws Exception {
@@ -59,5 +60,17 @@ public class MarshalJvmqueryWsTest extends TestCase {
         assertEquals(JvmqueryWsCases.QUERYJVMRESPONSE_HOST_BYTES.substring(0, 131),
                 HostData.toHexString(hostBytes).substring(0, 131));
 
+    }
+
+    /**
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformer() throws Exception {
+
+        QueryJvmResponseJavaToHostTransformer transformer = new QueryJvmResponseJavaToHostTransformer();
+        String result = HostData.toHexString(transformer.transform(JvmqueryWsCases.getJavaObject()));
+        assertEquals(JvmqueryWsCases.getHostBytesHex().substring(0, 131),
+                result.substring(0, 131));
     }
 }

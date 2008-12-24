@@ -20,6 +20,8 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.host.HostData;
+import com.legstar.test.coxb.binpkdus.bind.DfhcommareaJavaToHostTransformer;
 import com.legstar.test.coxb.binpkdus.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -34,7 +36,7 @@ public class MarshalBinpkdusTest extends TestCase {
     private static final String SCHEMA_NAME = "binpkdus";
 
     /**
-     * Marshal host data and test java data object result.
+     * Marshal java data object and test host data result.
      * @throws Exception if marshaling fails
      */
     public void testBinpkdus() throws Exception {
@@ -42,6 +44,16 @@ public class MarshalBinpkdusTest extends TestCase {
         // Create and populate an instance of an object (JAXB annotated)
         Dfhcommarea dfhcommarea = BinpkdusCases.getJavaObject();
         assertEquals(BinpkdusCases.getHostBytesHex(),
-                Util.marshal(SCHEMA_NAME, dfhcommarea, 56));
+                Util.marshal(SCHEMA_NAME, dfhcommarea, BinpkdusCases.getHostBytesHex().length() / 2));
+    }
+    /**
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformer() throws Exception {
+
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        assertEquals(BinpkdusCases.getHostBytesHex(),
+                HostData.toHexString(transformer.transform(BinpkdusCases.getJavaObject())));
     }
 }

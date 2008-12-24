@@ -20,6 +20,8 @@
  *******************************************************************************/
 package com.legstar.test.coxb;
 
+import com.legstar.coxb.host.HostData;
+import com.legstar.test.coxb.numzoned.bind.DfhcommareaJavaToHostTransformer;
 import com.legstar.test.coxb.numzoned.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -34,7 +36,7 @@ public class MarshalNumzonedTest extends TestCase {
     private static final String SCHEMA_NAME = "numzoned";
 
     /**
-     * Marshal host data and test java data object result.
+     * Marshal java data object and test host data result.
      * @throws Exception if marshaling fails
      */
     public void testLsfileae() throws Exception {
@@ -43,5 +45,15 @@ public class MarshalNumzonedTest extends TestCase {
         Dfhcommarea dfhcommarea = NumzonedCases.getJavaObject();
         assertEquals(NumzonedCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 13));
+    }
+    /**
+     * Transform java data object and test host data result.
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformer() throws Exception {
+
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        assertEquals(NumzonedCases.getHostBytesHex(),
+                HostData.toHexString(transformer.transform(NumzonedCases.getJavaObject())));
     }
 }

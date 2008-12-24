@@ -26,6 +26,7 @@ import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.impl.visitor.CobolUnmarshalVisitor;
+import com.legstar.test.coxb.charsets.bind.DfhcommareaHostToJavaTransformer;
 import com.legstar.test.coxb.charsets.bind.DfhcommareaBinding;
 import com.legstar.test.coxb.charsets.Dfhcommarea;
 
@@ -38,7 +39,7 @@ import junit.framework.TestCase;
 public class UnmarshalCharsetsTest extends TestCase {
 
     /**
-     * Unmarshal java data object and test host data result.
+     * Unmarshal host data and test java data object result.
      * @throws Exception if marshaling fails
      */
     public void testTypesmix() throws Exception {
@@ -58,6 +59,16 @@ public class UnmarshalCharsetsTest extends TestCase {
         DfhcommareaBinding ccem = new DfhcommareaBinding();
         ccem.accept(uv);
         Dfhcommarea dfhcommarea = ccem.getDfhcommarea();
+        CharsetsCases.checkJavaObject(dfhcommarea);
+    }
+    /**
+     * Transform host data and test java data object result.
+     * @throws Exception if transforming fails
+     */
+    public void testHostToJavaTransformer() throws Exception {
+
+        DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer("IBM01147");
+        Dfhcommarea dfhcommarea = transformer.transform(HostData.toByteArray(CharsetsCases.getHostBytesHex()));
         CharsetsCases.checkJavaObject(dfhcommarea);
     }
 }
