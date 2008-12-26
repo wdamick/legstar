@@ -36,31 +36,25 @@
     <build>
         <plugins>
 
+            <!-- skip unit test run, tests to be executed during integration-test -->
             <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
                 <executions>
-                
-                    <!-- This will generate all JAXB test cases for other projects to use.  -->
                     <execution>
-                        <id>prepare-sources</id>
-                        <phase>generate-sources</phase>
-                        <configuration>
-                            <tasks>
-                                <ant antfile="${basedir}/src/main/ant/build-jaxbgen-cases.xml"/>
-                            </tasks>
-                        </configuration>
+                        <id>surefire-it</id>
+                        <phase>integration-test</phase>
                         <goals>
-                            <goal>run</goal>
+                            <goal>test</goal>
                         </goals>
+                        <configuration>
+                            <skip>false</skip>
+                        </configuration>
                     </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.legsem.legstar</groupId>
-                        <artifactId>legstar-jaxbgen</artifactId>
-                        <version>${pom.version}</version>
-                    </dependency> 
-                </dependencies>
             </plugin>
         
         </plugins>
