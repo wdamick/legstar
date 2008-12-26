@@ -31,12 +31,7 @@
         </dependency>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-coxbgen</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
+            <artifactId>legstar-coxbrt</artifactId>
             <scope>test</scope>
         </dependency>
     
