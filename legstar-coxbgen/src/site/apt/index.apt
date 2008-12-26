@@ -19,7 +19,7 @@ COBOL Binding Generator (Coxbgen) overview
   not different from regular JAXB Classes apart from additional Java annotations providing mapping meta-data
   between Java types and COBOL types.
   
-  Coxbgen also produces runtime binding classes which provide fast conversion of COBOL z/os data streams
+  Coxbgen also produces runtime binding classes which provide fast conversion of COBOL mainframe data streams
   to Java instances and vice-versa. These binding classes do not use reflection at runtime which provides
   substantial performance gains.
   
