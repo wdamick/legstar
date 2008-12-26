@@ -3,7 +3,7 @@
  -----
  Fady Moussallam
  -----
- 01 August 2007
+ 26 Decembre 2008
  -----
 
 COBOL Binding Application Programming Interface (Coxbapi) overview
@@ -22,4 +22,11 @@ COBOL Binding Application Programming Interface (Coxbapi) overview
   structure. It implements the visitor pattern by providing a generic "accept" method. This is important
   since most users of this API are likely to need navigating those structures.
 
+Transformation API
+
+  Transformations are a high level API meant to simplify the task of turning a mainframe payload into java and vice versa.
+  
+  The transformation classes ({{{apidocs/com/legstar/coxb/transform/AbstractHostToJavaTransformer.html}AbstractHostToJavaTransformer}}
+  and {{{apidocs/com/legstar/coxb/transform/AbstractJavaToHostTransformer.html}AbstractJavaToHostTransformer}}) are abstract classes
+  from which you can derive your own implementations. See the javadoc for further information on how to achieve this.
   
