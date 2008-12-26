@@ -45,30 +45,4 @@
          -->
     </dependencies>
     
-    <build>
-        <plugins>
-
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                
-                    <!-- This will generate all JAXB test cases for other projects to use.  -->
-                    <execution>
-                        <id>prepare-integration-tests</id>
-                        <phase>pre-integration-test</phase>
-                        <configuration>
-                            <tasks>
-                                <ant antfile="${basedir}/src/test/ant/build-jaxbgen-cases.xml" target="compileAllJAXB" />
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        
-        </plugins>
-    </build>
-    
 </project>
