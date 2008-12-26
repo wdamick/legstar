@@ -21,7 +21,10 @@
 package com.legstar.test.coxb;
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.transform.HostTransformException;
+import com.legstar.test.coxb.lsfileae.ComPersonal;
 import com.legstar.test.coxb.lsfileae.Dfhcommarea;
+import com.legstar.test.coxb.lsfileae.ObjectFactory;
 import com.legstar.test.coxb.lsfileae.bind.DfhcommareaJavaToHostTransformer;
 
 import junit.framework.TestCase;
@@ -55,5 +58,36 @@ public class MarshalLsfileaeTest extends TestCase {
         DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
         assertEquals(LsfileaeCases.getHostBytesHex(),
                 HostData.toHexString(transformer.transform(LsfileaeCases.getJavaObject())));
+    }
+
+    /**
+     * Test the sample code shown in documentation.
+     * @throws HostTransformException if transforming fails
+     */
+    public void testHostToJavaTransformerDoc() throws HostTransformException {
+
+        assertEquals(LsfileaeCases.getHostBytesHex(),
+                HostData.toHexString(javaToHostTransform()));
+    }
+
+    /**
+     * Creates a java data object and returns the host data result.
+     * @return a byte array holding the mainframe payload
+     * @throws HostTransformException if transforming fails
+     */
+    public byte[] javaToHostTransform() throws HostTransformException {
+        ObjectFactory of = new ObjectFactory();
+        Dfhcommarea dfhcommarea = of.createDfhcommarea();
+        dfhcommarea.setComNumber(100L);
+        ComPersonal comPersonal = of.createComPersonal();
+        comPersonal.setComName("TOTO");
+        comPersonal.setComAddress("LABAS STREET");
+        comPersonal.setComPhone("88993314");
+        dfhcommarea.setComPersonal(comPersonal);
+        dfhcommarea.setComDate("100458");
+        dfhcommarea.setComAmount("00100.35");
+        dfhcommarea.setComComment("A VOIR");
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        return transformer.transform(dfhcommarea);
     }
 }

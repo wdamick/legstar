@@ -23,6 +23,7 @@ package com.legstar.test.coxb;
 
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.transform.HostTransformException;
 import com.legstar.test.coxb.lsfileae.bind.DfhcommareaHostToJavaTransformer;
 import com.legstar.test.coxb.lsfileae.Dfhcommarea;
 
@@ -47,12 +48,38 @@ public class UnmarshalLsfileaeTest extends TestCase {
     }
     /**
      * Transform host data and test java data object result.
-     * @throws Exception if transforming fails
+     * @throws HostTransformException if transforming fails
      */
-    public void testHostToJavaTransformer() throws Exception {
+    public void testHostToJavaTransformer() throws HostTransformException {
 
         DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();
         Dfhcommarea dfhcommarea = transformer.transform(HostData.toByteArray(LsfileaeCases.getHostBytesHex()));
         LsfileaeCases.checkJavaObject(dfhcommarea);
+    }
+    
+    /**
+     * Test the sample code shown in documentation.
+     * @throws HostTransformException if transforming fails
+     */
+    public void testHostToJavaTransformerDoc() throws HostTransformException {
+
+        hostToJavaTransform(HostData.toByteArray(LsfileaeCases.getHostBytesHex()));
+    }
+    /**
+     * Transform host data and test java data object result.
+     * @param hostBytes a byte array holding the mainframe payload
+     * @throws HostTransformException if transforming fails
+     */
+    public void hostToJavaTransform(final byte[] hostBytes) throws HostTransformException {
+
+        DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();
+        Dfhcommarea dfhcommarea = transformer.transform(hostBytes);
+        System.out.println(dfhcommarea.getComNumber());
+        System.out.println(dfhcommarea.getComPersonal().getComName());
+        System.out.println(dfhcommarea.getComPersonal().getComAddress());
+        System.out.println(dfhcommarea.getComPersonal().getComPhone());
+        System.out.println(dfhcommarea.getComDate());
+        System.out.println(dfhcommarea.getComAmount());
+        System.out.println(dfhcommarea.getComComment());
     }
 }
