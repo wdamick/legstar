@@ -21,10 +21,10 @@
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
         </dependency>
-            <dependency>
-                <groupId>javax.xml.bind</groupId>
-                <artifactId>jsr173_api</artifactId>
-            </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jsr173_api</artifactId>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -33,4 +33,37 @@
     
     </dependencies>
   
+    <build>
+        <plugins>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                
+                    <!-- This will generate all JAXB test cases for other projects to use.  -->
+                    <execution>
+                        <id>prepare-sources</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/build-jaxbgen-cases.xml"/>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.legsem.legstar</groupId>
+                        <artifactId>legstar-jaxbgen</artifactId>
+                        <version>${pom.version}</version>
+                    </dependency> 
+                </dependencies>
+            </plugin>
+        
+        </plugins>
+    </build>
+
 </project>
