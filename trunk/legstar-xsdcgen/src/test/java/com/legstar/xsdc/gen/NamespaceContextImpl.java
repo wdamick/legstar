@@ -16,31 +16,45 @@ import java.util.Map;
 
 import javax.xml.namespace.NamespaceContext;
 
-/** Helper class needed by XsdCobolAnnotatorTest */
-public class NamespaceContextImpl implements NamespaceContext{
-	
-	private Map < String, String > mNamespaceMap = new HashMap < String, String >();
-	
-	public NamespaceContextImpl(){}
-	
-	public String getPrefix(String uri){
-		for (String prefix : mNamespaceMap.keySet()) {
-			if (mNamespaceMap.get(prefix).compareTo(uri) == 0) {
-				return prefix;
-			}
-		}
-		 return null;
-	}
-	 
-	 public void addNamespace(String prefix, String uri){
-		mNamespaceMap.put(prefix, uri);
-	 }
-	 
-	 public Iterator < String > getPrefixes(String uri){
-		 return mNamespaceMap.keySet().iterator();
-	 }
-	 
-	 public String getNamespaceURI(String prefix){
-		 return mNamespaceMap.get(prefix);
-	 }
+/** 
+ * Helper class needed by XsdCobolAnnotatorTest.
+ *  */
+public class NamespaceContextImpl implements NamespaceContext {
+
+    /**
+     * A namespace map.
+     */
+    private Map < String, String > mNamespaceMap = new HashMap < String, String >();
+
+    /** An empty constructor. */
+    public NamespaceContextImpl() { };
+
+    /** {@inheritDoc} */
+    public String getPrefix(final String uri) {
+        for (String prefix : mNamespaceMap.keySet()) {
+            if (mNamespaceMap.get(prefix).compareTo(uri) == 0) {
+                return prefix;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Add a namespace.
+     * @param prefix namespace prefix
+     * @param uri namespace URI
+     */
+    public void addNamespace(final String prefix, final String uri) {
+        mNamespaceMap.put(prefix, uri);
+    }
+
+    /** {@inheritDoc} */
+    public Iterator < String > getPrefixes(final String uri) {
+        return mNamespaceMap.keySet().iterator();
+    }
+
+    /** {@inheritDoc} */
+    public String getNamespaceURI(final String prefix) {
+        return mNamespaceMap.get(prefix);
+    }
 }
