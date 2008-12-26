@@ -26,12 +26,12 @@
         
         <dependency>
             <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-coxbrt</artifactId>
+            <artifactId>legstar-coxbapi</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-jaxbgen</artifactId>
+            <artifactId>legstar-coxbrt</artifactId>
         </dependency>
         
         <dependency>
@@ -41,17 +41,10 @@
         </dependency>
     
         <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-schemagen</artifactId>
-            <scope>test</scope>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <scope>test</scope>
-        </dependency>
-        
     </dependencies>
   
     <build>
