@@ -42,7 +42,7 @@ public class UnmarshalLargeVolumeTest extends AbstractUnmarshalVolume {
      * Create the test case.
      */
     public UnmarshalLargeVolumeTest() {
-        super(100, DPLARCHT_BYTES_HEADER, 500, 500L);
+        super(100, DPLARCHT_BYTES_HEADER, 500, 1000L);
     }
 
     /**
