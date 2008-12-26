@@ -15,6 +15,11 @@
 
         <dependency>
             <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-codegen</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-coxbapi</artifactId>
         </dependency>
 
@@ -34,8 +39,18 @@
         </dependency>
 
         <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jsr173_api</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-xjc</artifactId>
+            <artifactId>jaxb-impl</artifactId>
         </dependency>
 
         <dependency>
@@ -44,24 +59,21 @@
         </dependency>
 
         <!--  xsdcgen does not depend of wsdl4j yet. But since some
-              plugins (which are not Maven managed) now depend on
+              Eclipse plugins (which are not Maven managed) now depend on
               wsdl4j, it is convenient to add it here. -->
         <dependency>
             <groupId>wsdl4j</groupId>
             <artifactId>wsdl4j</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-codegen</artifactId>
-        </dependency>
-        
+        <!--  test cases will attempt to dynamically load xsdcgen-cases
+              classe.  -->
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-xsdcgen-cases</artifactId>
             <scope>test</scope>
-        </dependency> 
-
+        </dependency>
+        
     </dependencies>
 
     <build>

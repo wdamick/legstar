@@ -24,6 +24,7 @@ import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -207,6 +208,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         }
         checkInputXsd();
         XmlSchema schema = getSchema();
+
         checkAllParameters(schema);
 
         annotateSchema(schema);
@@ -230,7 +232,14 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         } catch (XsdCobolAnnotatorException e) {
             throw (new BuildException(e));
         }
-        schema.write(out);
+        
+        /* Make sure the generated schema has an XML declaration */
+        schema.setInputEncoding("UTF-8");
+        Map < String, String > options = new HashMap < String, String >();
+        options.put(OutputKeys.OMIT_XML_DECLARATION, "no");
+        options.put(OutputKeys.STANDALONE, "yes");
+        options.put(OutputKeys.INDENT, "yes");
+        schema.write(out, options);
         if (LOG.isDebugEnabled()) {
             LOG.debug("XML Schema Cobol annotation ended");
         }
