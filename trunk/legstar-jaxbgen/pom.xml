@@ -34,15 +34,36 @@
             <artifactId>ant</artifactId>
             <scope>test</scope>
         </dependency>
-  
-        <!-- This ensures that xsdcgen was given a chance to generate schemas
-             that serve as input for the jaxbgen-cases generation
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-xsdcgen</artifactId>
-            <scope>test</scope>
-        </dependency> 
-         -->
     </dependencies>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                
+                    <!-- This will generate all JAXB test cases for other projects to use.  -->
+                    <execution>
+                        <id>prepare-sources</id>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <path id="classpath">
+                                    <path refid="maven.compile.classpath"/>
+                                    <path refid="maven.plugin.classpath"/>
+                                </path>
+                                <ant antfile="${basedir}/src/test/ant/build-jaxbgen-cases.xml" inheritRefs="true"/>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        
+        </plugins>
+    </build>
     
 </project>
