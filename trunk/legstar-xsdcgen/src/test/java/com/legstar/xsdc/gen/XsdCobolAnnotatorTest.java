@@ -158,6 +158,7 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         try {
             getXsdCobolAnnotator().execute();
             String result = getSource(GEN_DIR, "noRootElementschema.xsd");
+            //assertTrue(result.contains("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"));
             assertTrue(result.contains("<xs:element name=\"jvmQueryReplyElement\" type=\"tns:jvmQueryReply\">"));
             assertTrue(result.contains("<cb:cobolElement"
                     + " cobolName=\"jvmQueryReplyElement\""

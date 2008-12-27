@@ -236,9 +236,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         /* Make sure the generated schema has an XML declaration */
         schema.setInputEncoding("UTF-8");
         Map < String, String > options = new HashMap < String, String >();
-        options.put(OutputKeys.OMIT_XML_DECLARATION, "no");
-        options.put(OutputKeys.STANDALONE, "yes");
         options.put(OutputKeys.INDENT, "yes");
+        options.put(OutputKeys.OMIT_XML_DECLARATION, "no");
         schema.write(out, options);
         if (LOG.isDebugEnabled()) {
             LOG.debug("XML Schema Cobol annotation ended");
