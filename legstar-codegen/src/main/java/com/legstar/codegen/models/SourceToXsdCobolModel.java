@@ -65,9 +65,13 @@ public abstract class SourceToXsdCobolModel extends AbstractAntBuildModel {
      * @param namespace the The target schema namespace to set
      */
     public final void setNamespace(final String namespace) {
-        /* Keep namespacelowercase so we can derive package names
-         * from it if necessary. */
-        mNamespace = namespace.toLowerCase();
+        if (namespace != null) {
+            /* Keep namespacelowercase so we can derive package names
+             * from it if necessary. */
+            mNamespace = namespace.toLowerCase();
+        } else {
+            mNamespace = null;
+        }
     }
 
     /**
