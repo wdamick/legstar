@@ -84,4 +84,5 @@ public class CobolNameResolverTest extends TestCase {
         assertEquals("T12345678901234567890123456789", cnr.getUniqueName("T12345678901234567890123456789"));
         assertEquals("T12345678901234567890123456710", cnr.getUniqueName("T12345678901234567890123456780"));
     }
+    
 }

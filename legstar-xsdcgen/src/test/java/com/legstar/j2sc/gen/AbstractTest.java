@@ -6,6 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import junit.framework.TestCase;
 
 /**
@@ -22,6 +25,9 @@ public abstract class AbstractTest extends TestCase {
     /** An instance of the Java to XSD generator. */
     private JavaToXsdCobolTask mJavaToXsdCobolTask;
     
+    /** Logger. */
+    private static final Log LOG = LogFactory.getLog(AbstractTest.class);
+
     /**
      * @return the the Java to XSD generator
      */
@@ -48,6 +54,7 @@ public abstract class AbstractTest extends TestCase {
         StringBuffer res = new StringBuffer();
         String str = in.readLine();
         while (str != null) {
+            LOG.debug(str);
             res.append(str);
             str = in.readLine();
         }
