@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/xml/ns/coxb" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:tns="http://cultureinfo.cases.test.xsdc.legstar.com/" attributeFormDefault="unqualified" elementFormDefault="unqualified" xmlns:ns0="http://java.sun.com/xml/ns/jaxb" ns0:extensionBindingPrefixes="cb" targetNamespace="http://cultureinfo.cases.test.xsdc.legstar.com/" xmlns:ns1="http://java.sun.com/xml/ns/jaxb" ns1:version="2.0">
     <xs:annotation>
         <xs:appinfo>
