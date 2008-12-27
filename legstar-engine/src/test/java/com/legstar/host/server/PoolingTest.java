@@ -20,7 +20,6 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.logging.Log; 
 import org.apache.commons.logging.LogFactory; 
-import com.legstar.host.server.Engine;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.LegStarHeaderPart;
@@ -39,256 +38,339 @@ import commonj.work.WorkManager;
 
 import junit.framework.TestCase;
 
+/**
+ * Test the pooling engine.
+ *
+ */
 public class PoolingTest extends TestCase {
-	
-	private static final String HOST_USERID = "P390";
-	private static final String HOST_PASSWORD = "STREAM2";
-	private static final int CLIENT_THREADS = 10;
 
-	/** Logger. */
-	private static final Log mLog = LogFactory.getLog(PoolingTest.class);
-	
-	public void testStartStopEngine() throws Exception {
-		HierarchicalConfiguration config = Util.getCombinedConfiguration();
-		EngineHandler engHandler = new EngineHandler(config);
-		engHandler.init();
-		Thread.sleep(1000L);
-		engHandler.stop();
-		Thread.sleep(1000L);
-	}
-	
-	public void testScheduleWork() throws Exception {
-		HierarchicalConfiguration config = Util.getCombinedConfiguration();
-		ExecutorService executor = Executors.newFixedThreadPool(CLIENT_THREADS);
-		WorkManager wm = new WorkManagerImpl(executor);
-		EngineHandler engHandler = new EngineHandler(config);
-		engHandler.init();
-		
-		LegStarAddress address = new LegStarAddress("TheMainframe");
-		address.setHostUserID(HOST_USERID);
-		address.setHostPassword(HOST_PASSWORD);
-		
-		LegStarRequest request = new LegStarRequest("Request01", address, getRequestMessage());
-		Client client = new Client(engHandler.getEngine(), "Client01", request);
-		wm.schedule(client, new ClientListener());
-		
-		Thread.sleep(5000L);
-		engHandler.stop();
-		executor.shutdownNow();
+    /** Mainframe user ID. */
+    private static final String HOST_USERID = "P390";
+    
+    /** Mainframe password. */
+    private static final String HOST_PASSWORD = "STREAM2";
+    
+    /** Number of client threads. */
+    private static final int CLIENT_THREADS = 10;
 
-		assertEquals("f0f0f0f1f0f0e24b40c44b40c2d6d9d4c1d54040404040404040e2e4d9d9c5e86b40c5d5c7d3c1d5c44040404040f3f2f1f5f6f7f7f8f2f640f1f140f8f15bf0f1f0f04bf1f15c5c5c5c5c5c5c5c5c",
-				Util.toHexString(request.getResponseMessage().getDataParts().get(0).getContent()));
-		
-	}
+    /** Logger. */
+    private static final Log LOG = LogFactory.getLog(PoolingTest.class);
 
-	public void testScheduleWorkInvalidAddress() throws Exception {
-		HierarchicalConfiguration config = Util.getCombinedConfiguration();
-		ExecutorService executor = Executors.newFixedThreadPool(CLIENT_THREADS);
-		WorkManager wm = new WorkManagerImpl(executor);
-		EngineHandler engHandler = new EngineHandler(config);
-		engHandler.init();
-		
-		LegStarAddress address = new LegStarAddress("TheIsNoSuchMainframe");
-		address.setHostUserID(HOST_USERID);
-		address.setHostPassword(HOST_PASSWORD);
-		
-		LegStarRequest request = new LegStarRequest("Request01", address, getRequestMessage());
-		Client client = new Client(engHandler.getEngine(), "Client01", request);
-		wm.schedule(client, new ClientListener());
-		
-		Thread.sleep(5000L);
-		engHandler.stop();
-		executor.shutdownNow();
-		assertTrue(request.getException().getMessage().contains("com.legstar.pool.manager.ConnectionPoolException: org.apache.commons.configuration.ConfigurationException: The requested endpoint:TheIsNoSuchMainframe is not defined."));
-		
-	}
+    /**
+     * Try start/stop.
+     * @throws Exception if failure
+     */
+    public void testStartStopEngine() throws Exception {
+        HierarchicalConfiguration config = Util.getCombinedConfiguration();
+        EngineHandler engHandler = new EngineHandler(config);
+        engHandler.init();
+        Thread.sleep(1000L);
+        engHandler.stop();
+        Thread.sleep(1000L);
+    }
 
-	public void testScheduleFailingWork() throws Exception {
-		HierarchicalConfiguration config = Util.getCombinedConfiguration();
-		EngineHandler engHandler = new EngineHandler(config);
-		engHandler.init();
-		
-		HashMap < String, Object > map = new HashMap < String, Object >();
-		map.put(Constants.CICS_PROGRAM_NAME_KEY, "TARATATA");
-		map.put(Constants.CICS_LENGTH_KEY, "79");
-		map.put(Constants.CICS_DATALEN_KEY, "6");
-		List <LegStarMessagePart> inputParts = new ArrayList <LegStarMessagePart>();
-		LegStarMessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
-		inputParts.add(inCommarea);
-		LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
-		LegStarMessage requestMessage = new LegStarMessage(dp, inputParts);
+    /**
+     * Schedule some basic work.
+     * @throws Exception if failure
+     */
+    public void testScheduleWork() throws Exception {
+        HierarchicalConfiguration config = Util.getCombinedConfiguration();
+        ExecutorService executor = Executors.newFixedThreadPool(CLIENT_THREADS);
+        WorkManager wm = new WorkManagerImpl(executor);
+        EngineHandler engHandler = new EngineHandler(config);
+        engHandler.init();
 
-		LegStarAddress address = new LegStarAddress("TheMainframe");
-		address.setHostUserID(HOST_USERID);
-		address.setHostPassword(HOST_PASSWORD);
-		
-		LegStarRequest request = new LegStarRequest("testScheduleWork", address, requestMessage);
-		synchronized (request) {
-			engHandler.getEngine().addRequest(request);
-			request.await(3000L, TimeUnit.MILLISECONDS);
-		}
-		assertTrue(request.getException().getMessage().contains("CICS command=LINK COMMAREA failed, resp=PGMIDERR, resp2=") );
-		assertEquals(null, request.getResponseMessage());
-		
-		Thread.sleep(1000L);
-		engHandler.stop();
-	}
+        LegStarAddress address = new LegStarAddress("TheMainframe");
+        address.setHostUserID(HOST_USERID);
+        address.setHostPassword(HOST_PASSWORD);
 
-	public void testScheduleMultipleWork() throws Exception {
-		HierarchicalConfiguration config = Util.getCombinedConfiguration();
-		ExecutorService executor = Executors.newFixedThreadPool(CLIENT_THREADS);
-		WorkManager wm = new WorkManagerImpl(executor);
-		EngineHandler engHandler = new EngineHandler(config);
-		engHandler.init();
-		
-		LegStarAddress address = new LegStarAddress("TheMainframe");
-		address.setHostUserID(HOST_USERID);
-		address.setHostPassword(HOST_PASSWORD);
-		
-		Client[] clients = new Client[3];
-		for (int i = 0; i < clients.length; i++) {
-			LegStarRequest request = new LegStarRequest("Request01", address, getRequestMessage());
-			clients[i] = new Client(engHandler.getEngine(), "Client" + Integer.toString(i), request);
-			wm.schedule(clients[i], new ClientListener());
-			Thread.sleep(20L);
-		}
-		
-		/* Time is needed to process these requests */
-		Thread.sleep(10000L);
-		engHandler.stop();
-		executor.shutdownNow();
-		
-		for (int i = 0; i < clients.length; i++) {
-			assertEquals("f0f0f0f1f0f0e24b40c44b40c2d6d9d4c1d54040404040404040e2e4d9d9c5e86b40c5d5c7d3c1d5c44040404040f3f2f1f5f6f7f7f8f2f640f1f140f8f15bf0f1f0f04bf1f15c5c5c5c5c5c5c5c5c",
-					Util.toHexString(clients[i].getRequest().getResponseMessage().getDataParts().get(0).getContent()));
-		}
-	}
-	
-	public void testScheduleMultiplePools() throws Exception {
-		HierarchicalConfiguration config = Util.getCombinedConfiguration();
-		ExecutorService executor = Executors.newFixedThreadPool(CLIENT_THREADS);
-		WorkManager wm = new WorkManagerImpl(executor);
-		EngineHandler engHandler = new EngineHandler(config);
-		engHandler.init();
+        LegStarRequest request = new LegStarRequest("Request01", address, getLsfileaeRequestMessage());
+        Client client = new Client(engHandler.getEngine(), "Client01", request);
+        wm.schedule(client, new ClientListener());
 
-		LegStarAddress address1 = new LegStarAddress("TheMainframe");
-		address1.setHostUserID(HOST_USERID);
-		address1.setHostPassword(HOST_PASSWORD);
-		
-		LegStarAddress address2 = new LegStarAddress("TheMainframe");
-		address2.setHostUserID("IBMUSER");
-		address2.setHostPassword(HOST_PASSWORD);
-		
-		Client[] clients = new Client[3];
-		for (int i = 0; i < clients.length; i++) {
-			LegStarAddress address = ((i % 2) == 0)? address1 : address2;
-			LegStarRequest request = new LegStarRequest("Request01", address, getRequestMessage());
-			clients[i] = new Client(engHandler.getEngine(), "Client" + new Integer(i).toString(), request);
-			wm.schedule(clients[i], new ClientListener());
-		}
-		
-		/* Time is needed to process these requests */
-		Thread.sleep(10000L);
-		engHandler.stop();
-		executor.shutdownNow();
-		
-		for (int i = 0; i < clients.length; i++) {
-			assertEquals("f0f0f0f1f0f0e24b40c44b40c2d6d9d4c1d54040404040404040e2e4d9d9c5e86b40c5d5c7d3c1d5c44040404040f3f2f1f5f6f7f7f8f2f640f1f140f8f15bf0f1f0f04bf1f15c5c5c5c5c5c5c5c5c",
-					Util.toHexString(clients[i].getRequest().getResponseMessage().getDataParts().get(0).getContent()));
-		}
-	}
-	
-	private LegStarMessage getRequestMessage() throws HeaderPartException {
-		HashMap < String, Object > map = new HashMap < String, Object >();
-		map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
-		map.put(Constants.CICS_LENGTH_KEY, "79");
-		map.put(Constants.CICS_DATALEN_KEY, "6");
-		List <LegStarMessagePart> inputParts = new ArrayList <LegStarMessagePart>();
-		LegStarMessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
-		inputParts.add(inCommarea);
-		LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
-		return new LegStarMessage(dp, inputParts);
-	}
-	
-	private class Client implements Work {
-		
-		private Engine mEngine;
-		private String mClientID;
-		private LegStarRequest mRequest;
-		
-		public Client(Engine engine, String ID, LegStarRequest request) {
-			mEngine = engine;
-			mClientID = ID;
-			mRequest = request;
-		}
+        Thread.sleep(5000L);
+        engHandler.stop();
+        executor.shutdownNow();
 
-		public void run() {
-			mLog.debug("Dispatching Request:" + mClientID);
-			synchronized (mRequest) {
-				try {
-					mEngine.addRequest(mRequest);
-					mRequest.await(3000L, TimeUnit.MILLISECONDS);
-					if (mRequest.getException() != null) {
-						throw mRequest.getException();
-					} else {
-						if (mRequest.getResponseMessage() == null) {
-							mLog.error("Timed out waiting for a reply on Request:" + mClientID);
-						}
-					}
-				} catch (InterruptedException e) {
-					mLog.error("InterruptedException for Request:" + mClientID + " " + e.getMessage());
-					mRequest.setException(e);
-					e.printStackTrace();
-				} catch (RequestException e) {
-					mLog.error("RequestException for Request:" + mClientID + " " + e.getMessage());
-					mRequest.setException(e);
-					e.printStackTrace();
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-			}
-		}
-		
-		public LegStarRequest getRequest() {
-			return mRequest;
-		}
-		
-		public boolean isDaemon() {
-			return false;
-		}
+        assertEquals(getLsfileaeHostBytesHex(),
+                Util.toHexString(request.getResponseMessage().getDataParts().get(0).getContent()));
 
-		public void release() {
-			
-		}
-	
-	}
-	private class ClientListener implements WorkListener {
-		
-		
-		/** The work manager has accepted the request. */
-		public void workAccepted(WorkEvent arg0) {
-			mLog.debug("Client Work accepted.");
-		}
+    }
 
-		/** The Engine completed its work. */
-		public void workCompleted(WorkEvent arg0) {
-			if (arg0.getException() != null) {
-				mLog.fatal("Client crashed", arg0.getException());
-			}
-			mLog.debug("Client stopped.");
-		}
+    /**
+     * Address a request to an invalid address.
+     * @throws Exception if test fails
+     */
+    public void testScheduleWorkInvalidAddress() throws Exception {
+        HierarchicalConfiguration config = Util.getCombinedConfiguration();
+        ExecutorService executor = Executors.newFixedThreadPool(CLIENT_THREADS);
+        WorkManager wm = new WorkManagerImpl(executor);
+        EngineHandler engHandler = new EngineHandler(config);
+        engHandler.init();
 
-		/** Manager rejected that work. */
-		public void workRejected(WorkEvent arg0) {
-			mLog.debug("Client work rejected.");
-		}
+        LegStarAddress address = new LegStarAddress("ThereIsNoSuchMainframe");
+        address.setHostUserID(HOST_USERID);
+        address.setHostPassword(HOST_PASSWORD);
 
-		/** Work unit has started. */
-		public void workStarted(WorkEvent arg0) {
-			mLog.debug("Client started.");
-		}
-			
-	}
+        LegStarRequest request = new LegStarRequest("Request01", address, getLsfileaeRequestMessage());
+        Client client = new Client(engHandler.getEngine(), "Client01", request);
+        wm.schedule(client, new ClientListener());
 
+        Thread.sleep(5000L);
+        engHandler.stop();
+        executor.shutdownNow();
+        assertTrue(request.getException().getMessage().contains("com.legstar.pool.manager.ConnectionPoolException:"
+        + " org.apache.commons.configuration.ConfigurationException:"
+        + " The requested endpoint:ThereIsNoSuchMainframe is not defined."));
+
+    }
+
+    /**
+     * Schedule some work that is guaranteed to fail.
+     * @throws Exception if test fails
+     */
+    public void testScheduleFailingWork() throws Exception {
+        HierarchicalConfiguration config = Util.getCombinedConfiguration();
+        EngineHandler engHandler = new EngineHandler(config);
+        engHandler.init();
+
+        HashMap < String, Object > map = new HashMap < String, Object >();
+        map.put(Constants.CICS_PROGRAM_NAME_KEY, "TARATATA");
+        map.put(Constants.CICS_LENGTH_KEY, "79");
+        map.put(Constants.CICS_DATALEN_KEY, "6");
+        List < LegStarMessagePart > inputParts = new ArrayList < LegStarMessagePart >();
+        LegStarMessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
+        inputParts.add(inCommarea);
+        LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
+        LegStarMessage requestMessage = new LegStarMessage(dp, inputParts);
+
+        LegStarAddress address = new LegStarAddress("TheMainframe");
+        address.setHostUserID(HOST_USERID);
+        address.setHostPassword(HOST_PASSWORD);
+
+        LegStarRequest request = new LegStarRequest("testScheduleWork", address, requestMessage);
+        synchronized (request) {
+            engHandler.getEngine().addRequest(request);
+            request.await(3000L, TimeUnit.MILLISECONDS);
+        }
+        assertTrue(request.getException().getMessage().contains(
+                "CICS command=LINK COMMAREA failed, resp=PGMIDERR, resp2="));
+        assertEquals(null, request.getResponseMessage());
+
+        Thread.sleep(1000L);
+        engHandler.stop();
+    }
+
+    /**
+     * Schedule multiple simultaneous work units.
+     * @throws Exception if test fails
+     */
+    public void testScheduleMultipleWork() throws Exception {
+        HierarchicalConfiguration config = Util.getCombinedConfiguration();
+        ExecutorService executor = Executors.newFixedThreadPool(CLIENT_THREADS);
+        WorkManager wm = new WorkManagerImpl(executor);
+        EngineHandler engHandler = new EngineHandler(config);
+        engHandler.init();
+
+        LegStarAddress address = new LegStarAddress("TheMainframe");
+        address.setHostUserID(HOST_USERID);
+        address.setHostPassword(HOST_PASSWORD);
+
+        Client[] clients = new Client[3];
+        for (int i = 0; i < clients.length; i++) {
+            LegStarRequest request = new LegStarRequest("Request01", address, getLsfileaeRequestMessage());
+            clients[i] = new Client(engHandler.getEngine(), "Client" + Integer.toString(i), request);
+            wm.schedule(clients[i], new ClientListener());
+            Thread.sleep(20L);
+        }
+
+        /* Time is needed to process these requests */
+        Thread.sleep(10000L);
+        engHandler.stop();
+        executor.shutdownNow();
+
+        for (int i = 0; i < clients.length; i++) {
+            assertEquals(getLsfileaeHostBytesHex(),
+                    Util.toHexString(clients[i].getRequest().getResponseMessage().getDataParts().get(0).getContent()));
+        }
+    }
+
+    /**
+     * Test work dispatched in more than one pool.
+     * @throws Exception if test fails
+     */
+    public void testScheduleMultiplePools() throws Exception {
+        HierarchicalConfiguration config = Util.getCombinedConfiguration();
+        ExecutorService executor = Executors.newFixedThreadPool(CLIENT_THREADS);
+        WorkManager wm = new WorkManagerImpl(executor);
+        EngineHandler engHandler = new EngineHandler(config);
+        engHandler.init();
+
+        LegStarAddress address1 = new LegStarAddress("TheMainframe");
+        address1.setHostUserID(HOST_USERID);
+        address1.setHostPassword(HOST_PASSWORD);
+
+        LegStarAddress address2 = new LegStarAddress("TheMainframe");
+        address2.setHostUserID("IBMUSER");
+        address2.setHostPassword(HOST_PASSWORD);
+
+        Client[] clients = new Client[3];
+        for (int i = 0; i < clients.length; i++) {
+            LegStarAddress address = ((i % 2) == 0) ? address1 : address2;
+            LegStarRequest request = new LegStarRequest("Request01", address, getLsfileaeRequestMessage());
+            clients[i] = new Client(engHandler.getEngine(), "Client" + new Integer(i).toString(), request);
+            wm.schedule(clients[i], new ClientListener());
+        }
+
+        /* Time is needed to process these requests */
+        Thread.sleep(10000L);
+        engHandler.stop();
+        executor.shutdownNow();
+
+        for (int i = 0; i < clients.length; i++) {
+            assertEquals(getLsfileaeHostBytesHex(),
+                    Util.toHexString(clients[i].getRequest().getResponseMessage().getDataParts().get(0).getContent()));
+        }
+    }
+
+    /**
+     * @return a formatted LegStarMessage requesting execution of LSFILEAE.
+     * @throws HeaderPartException if formatting fails
+     */
+    private LegStarMessage getLsfileaeRequestMessage() throws HeaderPartException {
+        HashMap < String, Object > map = new HashMap < String, Object >();
+        map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
+        map.put(Constants.CICS_LENGTH_KEY, "79");
+        map.put(Constants.CICS_DATALEN_KEY, "6");
+        List < LegStarMessagePart > inputParts = new ArrayList < LegStarMessagePart >();
+        LegStarMessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
+        inputParts.add(inCommarea);
+        LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
+        return new LegStarMessage(dp, inputParts);
+    }
+
+    /**
+     * @return a hexadecimal representation of host data.
+     */
+    public static String getLsfileaeHostBytesHex() { 
+
+        return "f0f0f0f1f0f0"
+        + "e24b40c44b40c2d6d9d4c1d54040404040404040"
+        + "e2e4d9d9c5e86b40c5d5c7d3c1d5c44040404040"
+        + "f3f2f1f5f6f7f7f8"
+        + "f2f640f1f140f8f1"
+        + "5bf0f1f0f04bf1f1"
+        + "5c5c5c5c5c5c5c5c5c";
+    }
+
+    /**
+     * A Client unit of work class.
+     *
+     */
+    private class Client implements Work {
+
+        /** Reference to pooling engine. */
+        private Engine mEngine;
+        
+        /** Client unique ID. */
+        private String mClientID;
+        
+        /** The request being processed. */
+        private LegStarRequest mRequest;
+
+        /**
+         * Constructor.
+         * @param engine the scheduling engine
+         * @param clientID the client ID
+         * @param request the request
+         */
+        public Client(final Engine engine, final String clientID, final LegStarRequest request) {
+            mEngine = engine;
+            mClientID = clientID;
+            mRequest = request;
+        }
+
+        /** {@inheritDoc} */
+        public void run() {
+            LOG.debug("Dispatching Request:" + mClientID);
+            synchronized (mRequest) {
+                try {
+                    mEngine.addRequest(mRequest);
+                    mRequest.await(3000L, TimeUnit.MILLISECONDS);
+                    if (mRequest.getException() != null) {
+                        throw mRequest.getException();
+                    } else {
+                        if (mRequest.getResponseMessage() == null) {
+                            LOG.error("Timed out waiting for a reply on Request:" + mClientID);
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    LOG.error("InterruptedException for Request:" + mClientID + " " + e.getMessage());
+                    mRequest.setException(e);
+                    e.printStackTrace();
+                } catch (RequestException e) {
+                    LOG.error("RequestException for Request:" + mClientID + " " + e.getMessage());
+                    mRequest.setException(e);
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        /**
+         * @return the request
+         */
+        public LegStarRequest getRequest() {
+            return mRequest;
+        }
+
+        /**  {@inheritDoc} */
+        public boolean isDaemon() {
+            return false;
+        }
+
+        /**  {@inheritDoc} */
+        public void release() {
+
+        }
+
+    }
+
+    /**
+     * Client listening class.
+     *
+     */
+    private class ClientListener implements WorkListener {
+
+
+        /** The work manager has accepted the request.
+         * @param arg0 work event*/
+        public void workAccepted(final WorkEvent arg0) {
+            LOG.debug("Client Work accepted.");
+        }
+
+        /** The Engine completed its work.
+         * @param arg0 work event */
+        public void workCompleted(final WorkEvent arg0) {
+            if (arg0.getException() != null) {
+                LOG.fatal("Client crashed", arg0.getException());
+            }
+            LOG.debug("Client stopped.");
+        }
+
+        /** Manager rejected that work.
+         * @param arg0 work event */
+        public void workRejected(final WorkEvent arg0) {
+            LOG.debug("Client work rejected.");
+        }
+
+        /** Work unit has started.
+         * @param arg0 work event */
+        public void workStarted(final WorkEvent arg0) {
+            LOG.debug("Client started.");
+        }
+
+    }
 
 }
