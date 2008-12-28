@@ -18,7 +18,7 @@ import java.io.UnsupportedEncodingException;
  */
 public final class HostCodec {
 
-    /** Host code page used for header contents. */
+    /** Host code page used for header contents. EBCDIC Latin 1/Open Systems. */
     public static final String HEADER_CODE_PAGE = "IBM1047";
 
     /** Private constructor for utility class Codec. */
