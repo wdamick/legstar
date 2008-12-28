@@ -19,6 +19,7 @@ import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.xpath.XPathExpressionEngine;
 
+import com.legstar.coxb.util.Utils;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.ConnectionFactory;
 
@@ -68,6 +69,22 @@ public final class Config {
                     + " is not defined.");
         }
         return (HierarchicalConfiguration) endpoints.get(0);
+    }
+
+    /**
+     * Get the configuration sub-hierarchy for the endpoint
+     * specified in the client request.
+     * @param configFileName the configuration file name
+     * @param endpointName the requested endpoint
+     * @return the configuration sub hierarchy
+     * @throws ConfigurationException if failed to load configuration
+     */
+    public static HierarchicalConfiguration loadEndpointConfiguration(
+            final String configFileName,
+            final String endpointName) throws ConfigurationException {
+
+        HierarchicalConfiguration generalConfig = loadGeneralConfig(configFileName);
+        return loadEndpointConfiguration(generalConfig, endpointName);
     }
 
     /**
@@ -139,7 +156,7 @@ public final class Config {
         /* Instantiate the factory */
         ConnectionFactory cFactory = null;
         try {
-            Class < ? > factoryClazz = loadClass(factoryClass);
+            Class < ? > factoryClazz = Utils.loadClass(factoryClass);
             Constructor constructor
             = factoryClazz.getConstructor(HierarchicalConfiguration.class);
             cFactory = (ConnectionFactory) constructor.newInstance(
@@ -160,35 +177,6 @@ public final class Config {
             throw new ConfigurationException(e);
         }
         return cFactory;
-    }
-
-    /**
-     * NOTE: This code is already in com.legstar.util.JaxbUtil but we dont want
-     * a dependecy on the coxb runtime here.
-     * TODO: find a better way to share this code
-     * Rather than using the Class.forName mechanism, this uses
-     * Thread.getContextClassLoader instead. In a Servlet context such as
-     * Tomcat, this allows JAXB classes for instance to be loaded from the
-     * web application (webapp) location while this code might have been
-     * loaded from shared/lib.
-     * If Thread.getContextClassLoader fails to locate the class then we
-     * give a last chance to Class.forName.
-     * @param className the class name to load
-     * @return the class
-     * @throws ClassNotFoundException if class is not accessible from this
-     * thread loader
-     */
-    public static Class < ? > loadClass(
-            final String className) throws ClassNotFoundException {
-        Class < ? > clazz = null;
-        Thread thread = Thread.currentThread();
-        ClassLoader classLoader = thread.getContextClassLoader();
-        try {
-            clazz = classLoader.loadClass(className);
-        } catch (ClassNotFoundException e) {
-            clazz = Class.forName(className);
-        }
-        return clazz;
     }
 
 }

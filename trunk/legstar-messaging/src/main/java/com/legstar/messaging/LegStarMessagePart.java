@@ -20,7 +20,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 import com.legstar.codec.HostCodec;
-import com.legstar.util.Util;
+import com.legstar.coxb.host.HostData;
 
 /**
  * MessageParts are generic named, binary containers used to send
@@ -255,7 +255,7 @@ public class LegStarMessagePart implements Serializable {
         sb.append("{this=").append(Integer.toHexString(
                 System.identityHashCode(this)));
         sb.append(", id=").append(getID());
-        sb.append(", content=[").append(Util.toHexString(getContent(), 10));
+        sb.append(", content=[").append(HostData.toHexString(getContent(), 10));
         sb.append("]}");
         return sb.toString();                        
     }
