@@ -7,6 +7,7 @@ import org.apache.commons.configuration.HierarchicalConfiguration;
 import com.legstar.config.Config;
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.host.HostData;
+import com.legstar.host.AbstractTester;
 import com.legstar.host.access.DirectHostAccessStrategy;
 import com.legstar.host.access.HostAccessStrategy;
 import com.legstar.messaging.CommareaPart;
@@ -14,26 +15,31 @@ import com.legstar.messaging.HeaderPartException;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.LegStarHeaderPart;
 import com.legstar.messaging.LegStarMessage;
+import com.legstar.test.coxb.LsfileaeCases;
 
 /**
  * Test the generic Invoker.
  */
-public class AbstractInvokerTest extends AbstractTestInvokers {
+public class AbstractInvokerTest extends AbstractTester {
     
     
+    /**
+     * Test invoke through abstract invoker.
+     * @throws Exception if invoke fails
+     */
     public void testInvoke() throws Exception {
         LegStarAddress address = new LegStarAddress("TheMainframe");
         HierarchicalConfiguration generalConfig = Config.loadGeneralConfig(CONFIG_FILE);
         HierarchicalConfiguration endpointConfig = Config.loadAddressConfiguration(
                 generalConfig, address);
-        HostAccessStrategy hostAccessStrategy = new DirectHostAccessStrategy(endpointConfig);;
+        HostAccessStrategy hostAccessStrategy = new DirectHostAccessStrategy(endpointConfig);
         CicsProgram hostProgram = new CicsProgram("lsfileae.properties");
 
         AbstractInvokerImpl invoker = new AbstractInvokerImpl(hostAccessStrategy, address, hostProgram);
-        byte[] responseBytes = invoker.invoke("lsfileae", HostData.toByteArray(LSFILEAE_BYTES_REQUEST));
+        byte[] responseBytes = invoker.invoke("lsfileae",
+                HostData.toByteArray(LsfileaeCases.getHostBytesHexRequest100()));
         assertTrue(responseBytes !=  null);
-        assertEquals(LSFILEAE_BYTES_REPLY, HostData.toHexString(responseBytes));
-        
+        assertEquals(LsfileaeCases.getHostBytesHexReply100(), HostData.toHexString(responseBytes));
     }
     
     /**
@@ -42,23 +48,33 @@ public class AbstractInvokerTest extends AbstractTestInvokers {
      */
     public final class AbstractInvokerImpl extends AbstractInvoker {
 
-        public AbstractInvokerImpl(HostAccessStrategy hostAccessStrategy,
-                LegStarAddress completeAddress, CicsProgram hostProgram)
+        /**
+         * Constructor.
+         * @param hostAccessStrategy the host access strategy
+         * @param completeAddress the completed address
+         * @param hostProgram the host program
+         * @throws HostInvokerException if construction fails
+         */
+        public AbstractInvokerImpl(final HostAccessStrategy hostAccessStrategy,
+                final LegStarAddress completeAddress, final CicsProgram hostProgram)
                 throws HostInvokerException {
             super(hostAccessStrategy, completeAddress, hostProgram);
         }
 
-        public void invoke(String requestID, ICobolComplexBinding ccbin,
-                ICobolComplexBinding ccbout) throws HostInvokerException {
+        /** {@inheritDoc} */
+        public void invoke(final String requestID, final ICobolComplexBinding ccbin,
+                final ICobolComplexBinding ccbout) throws HostInvokerException {
         }
 
-        public void invoke(String requestID,
-                Map<String, ICobolComplexBinding> inParts,
-                Map<String, ICobolComplexBinding> outParts)
+        /** {@inheritDoc} */
+        public void invoke(final String requestID,
+                final Map < String, ICobolComplexBinding > inParts,
+                final Map < String, ICobolComplexBinding > outParts)
                 throws HostInvokerException {
         }
 
-        public byte[] invoke(String requestID, byte[] requestBytes)
+        /** {@inheritDoc} */
+        public byte[] invoke(final String requestID, final byte[] requestBytes)
                 throws HostInvokerException {
             try {
                 LegStarMessage requestMessage = new LegStarMessage();
@@ -84,8 +100,9 @@ public class AbstractInvokerTest extends AbstractTestInvokers {
             }
         }
 
-        public Map<String, byte[]> invoke(String requestID,
-                Map<String, byte[]> requestParts) throws HostInvokerException {
+        /** {@inheritDoc} */
+        public Map < String, byte[] > invoke(final String requestID,
+                final Map < String, byte[] > requestParts) throws HostInvokerException {
             return null;
         }
         
