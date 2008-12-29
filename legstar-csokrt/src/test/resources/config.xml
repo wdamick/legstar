@@ -21,7 +21,7 @@
 		<maxRequests>20</maxRequests>
    </engine>
 	<hostEndPoints>
-		<hostEndPoint name="TheMainframe">
+		<hostEndPoint name="CICSTS23">
 			<hostIPAddress>mainframe</hostIPAddress>
 			<hostIPPort>3011</hostIPPort>
 			<hostCharset>IBM01140</hostCharset>
