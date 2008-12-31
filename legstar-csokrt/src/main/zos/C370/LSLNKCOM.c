@@ -398,6 +398,7 @@ int formatResponsePart(
            pRequestMessage->pParts->size.as_int;
     pResponseMessage->pParts->content =
            pRequestMessage->pParts->content;
+    adjustPartSize(pResponseMessage->pParts);
     
     /* In order to avoid having 2 pointers on the same memory location
      * which would complicate freeing memory, we disconnect the 
@@ -409,6 +410,29 @@ int formatResponsePart(
        traceMessage(MODULE_NAME, "Return from formatResponsePart");
     }
 }
+/*====================================================================*/
+/*  Detect the last non null character in a message part content and  */
+/*  adjust the size of the message part content to prevent sending    */
+/*  back trailing binary zeroes.                                      */
+/*====================================================================*/
+int adjustPartSize(MessagePart* pPart) {
+    int i = 0;
+    int lastNonNull = -1;
+    for (i = 0; i < pPart->size.as_int; i++) {
+        if (pPart->content[i] != '\0') {
+            lastNonNull = i;
+        }
+    }
+    if (g_pTraceParms->traceMode == TRUE_CODE) {
+       sprintf(g_traceMessage,
+        "Response content size reduced from %d to %d",
+        pPart->size.as_int,
+        lastNonNull + 1);
+        traceMessage(MODULE_NAME, g_traceMessage);
+    }
+    pPart->size.as_int = lastNonNull + 1;
+}
+
 /*====================================================================*/
 /*  When done with COMMAREA-driven program this routine explicitly    */
 /*  releases memory allocated for COMMAREAS. This is necessary because*/
