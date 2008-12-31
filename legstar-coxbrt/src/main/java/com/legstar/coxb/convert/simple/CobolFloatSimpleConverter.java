@@ -222,11 +222,11 @@ implements ICobolFloatConverter {
 
         int lastOffset = offset + cobolByteLength;
 
-        /* Check that we are still within the host source range */
+        /* Check that we are still within the host source range.
+         * If not, consider the host optimized its payload by truncating
+         * trailing nulls in which case, we just need to initialize and return. */
         if (lastOffset > hostSource.length) {
-            throw (new CobolConversionException(
-                    "Attempt to read past end of host source buffer",
-                    new HostData(hostSource), offset, cobolByteLength));
+            return new Float(0);
         }
 
         /* Create a host float representation from the bytes we have */

@@ -35,6 +35,18 @@ public class DoubleTest extends TestCase {
 		assertEquals("1234.0", javaDouble.toString());
 	}
 
+    /**
+     * Case where we are past the offset. Not enough data sent from the mainframe.
+     * @throws HostException if test fails
+     */
+    public void testFromHostPastOffset () throws HostException{
+        // Create a host buffer
+        byte[] hostSource = {0x36, 0x16};
+    
+        Double javaDouble = CobolDoubleSimpleConverter.fromHostSingle(8, hostSource, 0);
+        assertEquals("0.0", javaDouble.toString());
+    }
+
 	public void testToHost0 () throws HostException{
 		// Create a host buffer
 		byte[] hostBytes = new byte[8];

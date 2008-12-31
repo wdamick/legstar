@@ -364,4 +364,28 @@ public class ZonedDecimalTest extends TestCase {
     	}
 	}
 
+    /**
+     * Case where there is not enough data left in the host buffer. The code should consider
+     * that trailing nulls were omitted by the host.
+     * @throws HostException if test fails
+     */
+    public void testToHostPartialData () throws HostException{
+        // Create a host buffer with 6 bytes when 8 are necessary
+        byte[] hostBytes = HostData.toByteArray("f4f5f9f8f760");
+    
+        BigDecimal javaDecimal = CobolZonedDecimalSimpleConverter.fromHostSingle(8, 8, 2, false, false, true, hostBytes, 0, "IBM01147");
+        assertEquals("0.00",  javaDecimal.toString());
+    }
+
+    /**
+     * Same as above but this time we are already past the offset.
+     * @throws HostException if test fails
+     */
+    public void testToHostPartialDataPastOffset () throws HostException{
+        // Create a host buffer with 6 bytes when 8 are necessary
+        byte[] hostBytes = HostData.toByteArray("45679000675f");
+    
+        BigDecimal javaDecimal = CobolZonedDecimalSimpleConverter.fromHostSingle(8, 8, 2, false, false, true, hostBytes, 6, "IBM01147");
+        assertEquals("0.00",  javaDecimal.toString());
+    }
 }

@@ -237,20 +237,26 @@ implements ICobolStringConverter {
     throws CobolConversionException {
 
         String javaString = null;
+        int javaStringLength = cobolByteLength;
 
-        /* Check that we are still within the host source range */
+        /* Check that we are still within the host source range.
+         * If not, consider the host optimized its payload by truncating
+         * trailing nulls in which case, we just need to process the
+         * characters returned if any. */
         int lastOffset = offset + cobolByteLength;
         if (lastOffset > hostSource.length) {
-            throw (new CobolConversionException(
-                    "Attempt to read past end of host source buffer",
-                    new HostData(hostSource), offset, cobolByteLength));
+            if (offset >= hostSource.length) {
+                return javaString;
+            } else {
+                javaStringLength = hostSource.length - offset;
+            }
         }
 
         /* The Java String is obtained by translating from the host code page
          * to the local code page. */
         try {
             javaString = new String(
-                    hostSource, offset, cobolByteLength,
+                    hostSource, offset, javaStringLength,
                     hostCharsetName);
             /* Some low-value characters may have slipped into the resulting
              * string. */

@@ -38,4 +38,40 @@ public class OctetStreamTest extends TestCase {
 		assertEquals(hostSource[3], javaBytes[3]);
 	}
 
+    /**
+     * Case where the host truncated that data so there are not enough bytes. Code
+     * should pad with null bytes.
+     * @throws HostException if test fails
+     */
+    public void testFromHostPartialData () throws HostException{
+        // Create a host buffer
+        byte[] hostSource = {-0x3F, -0x3E, -0x3D, -0x3C};
+    
+        byte[] javaBytes = CobolOctetStreamSimpleConverter.fromHostSingle(8, hostSource, 0);
+        assertEquals(8, javaBytes.length);
+        assertEquals(hostSource[0], javaBytes[0]);
+        assertEquals(hostSource[1], javaBytes[1]);
+        assertEquals(hostSource[2], javaBytes[2]);
+        assertEquals(hostSource[3], javaBytes[3]);
+        assertEquals(0x00, javaBytes[4]);
+        assertEquals(0x00, javaBytes[5]);
+        assertEquals(0x00, javaBytes[6]);
+        assertEquals(0x00, javaBytes[7]);
+    }
+
+    /**
+     * Same as above but we are already beyond the offset.
+     * @throws HostException if test fails
+     */
+    public void testFromHostPartialDataPastOffset () throws HostException{
+        // Create a host buffer
+        byte[] hostSource = {-0x3F, -0x3E, -0x3D, -0x3C};
+    
+        byte[] javaBytes = CobolOctetStreamSimpleConverter.fromHostSingle(4, hostSource, 4);
+        assertEquals(4, javaBytes.length);
+        assertEquals(0x00, javaBytes[0]);
+        assertEquals(0x00, javaBytes[1]);
+        assertEquals(0x00, javaBytes[2]);
+        assertEquals(0x00, javaBytes[3]);
+    }
 }

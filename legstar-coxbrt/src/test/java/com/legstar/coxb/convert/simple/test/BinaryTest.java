@@ -65,19 +65,33 @@ public class BinaryTest extends TestCase {
     		assertEquals("Attempt to write past end of host source buffer. Host data at offset 0=0x0000",he.getMessage());
     	}
 	}
-	public void testToHostReadOverflow () throws HostException{
-    	try {
-    		// Create a host buffer
-			byte[] hostBytes = HostData.toByteArray("fffe1df8");
-       	
-			BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(8, true, 8, 2, hostBytes, 0);
-    		fail("overflow not detected" + javaDecimal.toString());
-    	}  	catch (HostException he) {
-    		assertEquals("Attempt to read past end of host source buffer. Host data at offset 0=0xfffe1df8",he.getMessage());
-    	}
+	
+	/**
+	 * Case where there is not enough data left in the host buffer. The code should consider
+	 * that trailing nulls were omitted by the host.
+	 * @throws HostException if test fails
+	 */
+	public void testToHostPartialData () throws HostException{
+		// Create a host buffer with 4 bytes when 8 are necessary
+		byte[] hostBytes = HostData.toByteArray("fffe1df8");
+   	
+		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(8, true, 8, 2, hostBytes, 0);
+		assertEquals("-5299989643264.00",  javaDecimal.toString());
 	}
 
-	public void testToHostJavaTooLarge () throws HostException{
+    /**
+     * Same as above but this time we are already past the offset.
+     * @throws HostException if test fails
+     */
+    public void testToHostPartialDataPastOffset () throws HostException{
+        // Create a host buffer with 4 bytes when 8 are necessary
+        byte[] hostBytes = HostData.toByteArray("fffe1df8");
+    
+        BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(8, true, 8, 2, hostBytes, 5);
+        assertEquals("0.00",  javaDecimal.toString());
+    }
+
+    public void testToHostJavaTooLarge () throws HostException{
     	try {
 			// Create a host buffer
 			byte[] hostBytes = new byte[4];

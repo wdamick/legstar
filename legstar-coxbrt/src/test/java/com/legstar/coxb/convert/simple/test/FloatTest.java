@@ -103,7 +103,19 @@ public class FloatTest extends TestCase {
 		assertEquals("7.982005E-14", javaFloat.toString());
 	}
 
-	public void testToHost3p40282347ep38 () throws HostException{
+    /**
+     * Case where we are past the offset. Not enough data sent from the mainframe.
+     * @throws HostException if test fails
+     */
+    public void testFromHostPastOffset () throws HostException{
+        // Create a host buffer
+        byte[] hostSource = {0x36, 0x16};
+    
+        Float javaFloat = CobolFloatSimpleConverter.fromHostSingle(4, hostSource, 0);
+        assertEquals("0.0", javaFloat.toString());
+    }
+
+    public void testToHost3p40282347ep38 () throws HostException{
 		// Create a host buffer
 		byte[] hostBytes = new byte[4];
    	

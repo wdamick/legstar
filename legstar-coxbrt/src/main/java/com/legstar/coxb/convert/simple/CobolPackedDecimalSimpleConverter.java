@@ -295,11 +295,13 @@ implements ICobolPackedDecimalConverter {
 
         int lastOffset = offset + cobolByteLength;
 
-        /* Check that we are still within the host source range */
+        /* Check that we are still within the host source range.
+         * If not, consider the host optimized its payload by truncating
+         * trailing nulls in which case, we just need to initialize and return.
+         * TODO: This situation should not happen as packed decimals cannot
+         * end with a binary zero (the last byte always holds a sign half byte) */
         if (lastOffset > hostSource.length) {
-            throw (new CobolConversionException(
-                    "Attempt to read past end of host source buffer",
-                    new HostData(hostSource), offset, cobolByteLength));
+            return new BigDecimal(0).setScale(fractionDigits);
         }
         if (lastOffset < 1) {
             throw (new CobolConversionException(
