@@ -19,6 +19,9 @@
  *  
  *******************************************************************************/
 package com.legstar.test.coxb;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 import com.legstar.coxb.host.HostData;
 
 import junit.framework.TestCase;
@@ -53,5 +56,38 @@ public class UnmarshalAlltypesTest extends TestCase {
         DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();
         Dfhcommarea dfhcommarea = transformer.transform(HostData.toByteArray(AlltypesCases.getHostBytesHex()));
         AlltypesCases.checkJavaObject(dfhcommarea);
+    }
+    
+    /**
+     * Check what happens if the host sends only partial data.
+     * @throws Exception if trest fails
+     */
+    public void testHostToJavaTransformerFromPartialData() throws Exception {
+        DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();
+        Dfhcommarea dfhcommarea = transformer.transform(
+                HostData.toByteArray(AlltypesCases.getHostBytesHex().substring(0, 40)));
+        assertEquals("ABCD", dfhcommarea.getSString());
+        byte[] cBinary = {0x01, 0x02, 0x00, 0x00};
+        assertEquals(HostData.toHexString(cBinary), HostData.toHexString(dfhcommarea.getSBinary()));
+        assertEquals((short) -932, dfhcommarea.getSShort());
+        assertEquals(15, dfhcommarea.getSUshort());
+        assertEquals(78906, dfhcommarea.getSInt());
+        assertEquals(452, dfhcommarea.getSUint());
+        /* From here on, the mainframe did not supply enough data so
+         * everything gets initialized. */
+        assertEquals(0, dfhcommarea.getSLong());
+        assertEquals(0, dfhcommarea.getSUlong());
+        assertEquals(new BigInteger("0"), dfhcommarea.getSXlong());
+        assertEquals(new BigInteger("0"), dfhcommarea.getSUxlong());
+        assertEquals(new BigDecimal("0.00"), dfhcommarea.getSDec());
+        assertEquals(0.0f, dfhcommarea.getSFloat());
+        assertEquals(0.0d, dfhcommarea.getSDouble());
+        assertEquals(2, dfhcommarea.getAString().size());
+        assertTrue(null == dfhcommarea.getAString().get(0));
+        assertTrue(null == dfhcommarea.getAString().get(1));
+        assertEquals(2, dfhcommarea.getAShort().size());
+        assertEquals(0, (int) dfhcommarea.getAShort().get(0));
+        assertEquals(0, (int) dfhcommarea.getAShort().get(1));
+
     }
 }
