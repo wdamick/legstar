@@ -96,7 +96,7 @@ public abstract class AbstractTester extends TestCase {
         try {
             LegStarMessage requestMessage = new LegStarMessage();
             requestMessage.getHeaderPart().setKeyValues(map);
-            return new LegStarRequest("Request01", getAddress(), requestMessage);
+            return new LegStarRequest(getName(), getAddress(), requestMessage);
         } catch (HeaderPartException e) {
             throw new RequestException(e);
         }
