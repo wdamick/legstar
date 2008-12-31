@@ -54,7 +54,7 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
             HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(CONFIG_FILE, ENDPOINT_NAME);
             CicsSocketConnectionFactory cf =
                 new CicsSocketConnectionFactory(endpointConfig);
-            LegStarAddress address = new LegStarAddress("TheMainframe");
+            LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
             CicsSocket conn = (CicsSocket) cf.createConnection("testCreateNoUserNoPasswordNoCharset", address);
             assertEquals("testCreateNoUserNoPasswordNoCharset", conn.getConnectionID());
             assertEquals("IBM01140", conn.getCicsSocketEndpoint().getHostCharset());
@@ -73,7 +73,7 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
             HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(CONFIG_FILE, ENDPOINT_NAME);
             CicsSocketConnectionFactory cf =
                 new CicsSocketConnectionFactory(endpointConfig);
-            LegStarAddress address = new LegStarAddress("TheMainframe");
+            LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
             address.setHostCharset("IBMTRUC0");
             address.setHostUserID("RANTANPLAN");
             address.setHostPassword("BIDULE");
@@ -96,7 +96,7 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
             HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration("config0.xml", ENDPOINT_NAME);
             CicsSocketConnectionFactory cf =
                 new CicsSocketConnectionFactory(endpointConfig);
-            LegStarAddress address = new LegStarAddress("TheMainframe");
+            LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
             cf.createConnection("testCreateNoUserNoPasswordNoCharset", address);
             fail("testCreateFromEmpyConfig failed ");
         } catch (Exception e) {
@@ -112,7 +112,7 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
             HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration("config0.xml", ENDPOINT_NAME);
             CicsSocketConnectionFactory cf =
                 new CicsSocketConnectionFactory(endpointConfig);
-            LegStarAddress address = new LegStarAddress("TheMainframe");
+            LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
             address.setHostCharset("IBMTRUC0");
             cf.createConnection("testCreateNoUserNoPasswordNoCharset", address);
             fail("testCreateFromEmpyConfig failed ");
@@ -129,7 +129,7 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
             HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration("config1.xml", ENDPOINT_NAME);
             CicsSocketConnectionFactory cf =
                 new CicsSocketConnectionFactory(endpointConfig);
-            LegStarAddress address = new LegStarAddress("TheMainframe");
+            LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
             address.setHostCharset("IBMTRUC0");
             address.setHostUserID("RANTANPLAN");
             cf.createConnection("testCreateNoUserNoPasswordNoCharset", address);
@@ -147,7 +147,7 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
             HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration("config2.xml", ENDPOINT_NAME);
             CicsSocketConnectionFactory cf =
                 new CicsSocketConnectionFactory(endpointConfig);
-            LegStarAddress address = new LegStarAddress("TheMainframe");
+            LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
             address.setHostCharset("IBMTRUC0");
             address.setHostUserID("RANTANPLAN");
             cf.createConnection("testCreateNoUserNoPasswordNoCharset", address);
@@ -165,7 +165,7 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
             HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(CONFIG_FILE, ENDPOINT_NAME);
             CicsSocketConnectionFactory cf =
                 new CicsSocketConnectionFactory(endpointConfig);
-            LegStarAddress address = new LegStarAddress("TheMainframe");
+            LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
             CicsSocket conn = (CicsSocket) cf.createConnection("testCreateWithDefaultTimeouts", address);
             assertEquals(1000, conn.getConnectTimeout());
             assertEquals(5000, conn.getReceiveTimeout());
@@ -182,7 +182,7 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
             HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration("config3.xml", ENDPOINT_NAME);
             CicsSocketConnectionFactory cf =
                 new CicsSocketConnectionFactory(endpointConfig);
-            LegStarAddress address = new LegStarAddress("TheMainframe");
+            LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
             CicsSocket conn = (CicsSocket) cf.createConnection("testCreateWithDefaultTimeouts", address);
             assertEquals(2000, conn.getConnectTimeout());
             assertEquals(7000, conn.getReceiveTimeout());
