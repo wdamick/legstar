@@ -119,6 +119,19 @@ public final class VararcomCases extends TestCase {
             assertEquals(Short.parseShort(Integer.toString(7 * i)), item.getCItem2());
         }
     }
+
+    /**
+     * Check that content is actually returned by vararcom.
+     * @param dfhcommarea the java object to check
+     */
+    public static void checkJavaObjectVararcom(final Dfhcommarea dfhcommarea) {
+        assertEquals(36, dfhcommarea.getCItemsNumber());
+        for (int i = 0; i < 36; i++) {
+            com.legstar.test.coxb.vararcom.CArray item = dfhcommarea.getCArray().get(i);
+            assertEquals("FGHIJ", item.getCItem1());
+            assertEquals(Short.parseShort(Integer.toString(5 * (i + 1))), item.getCItem2());
+        }
+    }
     /**
      * @return a hexadecimal representation of host data.
      */
