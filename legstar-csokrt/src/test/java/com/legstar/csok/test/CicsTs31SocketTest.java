@@ -24,10 +24,7 @@ import com.legstar.test.coxb.LsfileaeCases;
 import com.legstar.test.coxb.T1volumeCases;
 
 /** 
- * Test for TS 3.1 features.
- * Check on CICS that traces are produced 
- * IBM1047 is necessary because brackets needs to be encoded with the same
- * code page as program LSLNKBIN compile unit.
+ * Test the Socket transport against CICS TS 3.1.
  */
 public class CicsTs31SocketTest extends AbstractTester {
 
