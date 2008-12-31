@@ -14,6 +14,7 @@ import com.legstar.coxb.host.HostData;
 import com.legstar.host.AbstractTester;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.test.coxb.LsfileaeCases;
+import com.legstar.test.coxb.VararcomCases;
 import com.legstar.test.coxb.lsfileae.Dfhcommarea;
 import com.legstar.test.coxb.lsfileae.bind.DfhcommareaBinding;
 
@@ -22,7 +23,7 @@ import com.legstar.test.coxb.lsfileae.bind.DfhcommareaBinding;
  */
 public class CommareaInvokerTest extends AbstractTester {
 
-    /** Test a successful access to LSFIELAE. */
+    /** Test a successful access to LSFILEAE. */
     public void testValidInvokeCommarea()  {
         try {
             LegStarAddress address = new LegStarAddress("TheMainframe");
@@ -105,6 +106,27 @@ public class CommareaInvokerTest extends AbstractTester {
 
         } catch (HostInvokerException e) {
             fail("testValidInvokeCommareaOverHttp failed " + e);
+        }
+    }
+
+    /** Test a successful access to VARARCOM. */
+    public void testInvokeVararcom()  {
+        try {
+            LegStarAddress address = new LegStarAddress("TheMainframe");
+            address.setHostUserID(HOST_USERID);
+            address.setHostPassword(HOST_PASSWORD);
+            HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "vararcom.properties");
+            com.legstar.test.coxb.vararcom.Dfhcommarea dfhcommarea = VararcomCases.getJavaObjectEmpty();
+            com.legstar.test.coxb.vararcom.bind.DfhcommareaBinding ccbin =
+                new com.legstar.test.coxb.vararcom.bind.DfhcommareaBinding(dfhcommarea);
+            com.legstar.test.coxb.vararcom.bind.DfhcommareaBinding ccbout =
+                new com.legstar.test.coxb.vararcom.bind.DfhcommareaBinding();
+            /* call */
+            invoker.invoke("MyNewRequest", ccbin, ccbout);
+            VararcomCases.checkJavaObjectVararcom(ccbout.getDfhcommarea());
+
+        } catch (HostInvokerException e) {
+            fail("testValidInvoke failed " + e);
         }
     }
 
