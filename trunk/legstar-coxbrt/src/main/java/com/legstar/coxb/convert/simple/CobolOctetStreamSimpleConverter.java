@@ -182,19 +182,28 @@ implements ICobolOctetStreamConverter {
             final byte[] hostSource,
             final int offset) throws CobolConversionException {
 
-        /* Check that we are still within the host source range */
+        /* Check that we are still within the host source range.
+         * If not, consider the host optimized its payload by truncating
+         * trailing nulls in which case, we just need to recover the
+         * partial data returned and then fill with nulls. */
         int lastOffset = offset + cobolByteLength;
+        int fill = 0;
         if (lastOffset > hostSource.length) {
-            throw (new CobolConversionException(
-                    "Attempt to read past end of host source buffer",
-                    new HostData(hostSource), offset, cobolByteLength));
+            if (offset >= hostSource.length) {
+                fill = cobolByteLength;
+            } else {
+                fill = hostSource.length - offset;
+            }
         }
 
         /* The Java byte array is the exact byte by byte copy of the host octet
          * stream. */
         byte[] javaBytes = new byte[cobolByteLength];
-        for (int i = 0; i < cobolByteLength; i++) {
+        for (int i = 0; i < cobolByteLength - fill; i++) {
             javaBytes[i] = hostSource[offset + i];
+        }
+        for (int i = cobolByteLength - fill; i < cobolByteLength; i++) {
+            javaBytes[i] = 0x00;
         }
 
         return javaBytes;

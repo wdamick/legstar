@@ -256,15 +256,6 @@ implements ICobolBinaryConverter {
             final byte[] hostSource,
             final int offset) throws CobolConversionException {
 
-        int lastOffset = offset + cobolByteLength;
-
-        /* Check that we are still within the host source range */
-        if (lastOffset > hostSource.length) {
-            throw (new CobolConversionException(
-                    "Attempt to read past end of host source buffer",
-                    new HostData(hostSource), offset, cobolByteLength));
-        }
-
         /* Construct a byte array with same byte ordering. The only difference
          * is that java might need an extra byte with zero value to represent
          * a positive integer */
@@ -280,7 +271,11 @@ implements ICobolBinaryConverter {
 
         for (int i = (offset + cobolByteLength); i > offset; i--) {
             if (j > 0) {
-                javaBytes[j - 1] = hostSource[i - 1];
+                if (i > hostSource.length) {
+                    javaBytes[j - 1] = 0x00;
+                } else {
+                    javaBytes[j - 1] = hostSource[i - 1];
+                }
                 j--;
             } else {
                 /* Java binaries are always signed when Cobol ones might be
