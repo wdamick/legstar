@@ -124,7 +124,7 @@ public class LegStarMessagePart implements Serializable {
             new ByteArrayInputStream(headerBytes);
         if (getPayloadSize() > 0) {
             ByteArrayInputStream contentStream =
-                new ByteArrayInputStream(mContent);
+                new ByteArrayInputStream(mContent, 0, getPayloadSize());
             return new SequenceInputStream(headerStream, contentStream);
         } else {
             return headerStream;

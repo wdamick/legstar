@@ -50,6 +50,14 @@ public class LegStarMessagePartTest extends TestCase {
         /*     r e s p = P G M I D E R R ,   r e s p 2 = 3*/
           + "409985a2977ed7c7d4c9c4c5d9d96b409985a297f27ef3";
 
+    /** An simple message part.*/
+    public static final String PART_SAMPLE =
+        /*C O N T A I N E R               (Message part ID)*/
+        "c3d6d5e3c1c9d5c5d940404040404040"
+        /*        4                       (Message part content length)*/
+        + "00000004"
+        /*  1 2 3 4 */
+        + "01020304";
     /**
      * Create a header message part and test how it serializes into host format.
      * @throws IOException if test fails
@@ -73,6 +81,28 @@ public class LegStarMessagePartTest extends TestCase {
         } catch (HeaderPartException e) {
             fail("testHostSerializeHeaderPart failed " + e);
         }
+    }
+
+    /**
+     * Create a message part with a content size that is larger then the actual payload size.
+     * This situation happens with variable size arrays where the content size is large enough
+     * to hold the maximum size array while we want to send only the available items.
+     * Fixes issue 27
+     * @throws IOException if test fails
+     */
+    public final void testHostStreamPayloadLtContentSize() throws IOException {
+        byte[] content = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06 };
+        LegStarMessagePart part = new LegStarMessagePart("CONTAINER", content);
+        assertEquals(6, part.getPayloadSize());
+        part.setPayloadSize(4);
+        InputStream hostStream = part.sendToHost();
+        byte[] serializedContent = new byte[part.getPayloadSize() + 20];
+        int rc;
+        int pos = 0;
+        while ((rc = hostStream.read(serializedContent, pos, serializedContent.length - pos)) > 0) {
+            pos += rc;
+        }
+        assertEquals(PART_SAMPLE, HostData.toHexString(serializedContent));
     }
 
     /**
