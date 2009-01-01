@@ -30,19 +30,17 @@
              05 WECH-REQUEST-ROWS                         PIC 9(3).
              05 WECH-DYNAMIC-RESPONSE-ROWS                PIC 9(3).
              05 WECH-ERROR-ROWS                           PIC 9(3).
-             05 WECH-ADDITIONAL-PAGE-KEYS                 PIC X(128).
+             05 WECH-ADDITIONAL-PAGE-KEYS                 PIC X(1).
              05 I-STATIC-DATA OCCURS 0 TO 1 TIMES       
                DEPENDING ON WECH-REQUEST-ROWS.            
                 10 LKUP-INFO OCCURS 2 TIMES.
                   15 LKUP-ID                              PIC X(18).
                   15 LKUP-TYP-CD                          PIC X(05).
-                  15 LKUP-NM                              PIC X(50).
              05 O-DYNAMIC-DATA OCCURS 0 TO 363 TIMES                    
                DEPENDING ON WECH-DYNAMIC-RESPONSE-ROWS.             
                 10 LKUP-INFO OCCURS 2 TIMES.
                   15 LKUP-ID-CT                           PIC X(18).
                   15 LKUP-TYP-CD-CT                       PIC X(05).
-                  15 LKUP-NM-CT                           PIC X(50).
              05 WELLPOINT-EAI-EBS-ERROR-ROW OCCURS 0 TO 99 TIMES
                DEPENDING ON WECH-ERROR-ROWS.                        
                 10 WEER-EXCEPTION-UUID                    PIC X(32).
