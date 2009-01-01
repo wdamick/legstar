@@ -30,6 +30,14 @@
             <artifactId>jaxb-impl</artifactId>
         </dependency>
         <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-codegen</artifactId>
+        </dependency>
+        <dependency>
             <groupId>ant</groupId>
             <artifactId>ant</artifactId>
             <scope>test</scope>
