@@ -32,6 +32,7 @@ import org.apache.tools.ant.types.FileSet;
 
 import junit.framework.TestCase;
 
+import com.legstar.codegen.CodeGenUtil;
 import com.legstar.schemagen.COXBSchemaGenerator;
 
 /**
@@ -39,257 +40,311 @@ import com.legstar.schemagen.COXBSchemaGenerator;
  */
 public class COXBSchemaGeneratorTestCase extends TestCase {
 
-	/** COBOL source test cases directory. */
-	private static final String COB_DIR = "./src/test/cobol/local";
-	
-	/** XML schema target directory. */
-	private static final String XSD_DIR = "./target/schema/local";
-	
-	/** The current ANT project. */
-	private Project mProject;
-	
-	/** Logger. */
-	private static final Log LOG =
-		LogFactory.getLog(COXBSchemaGeneratorTestCase.class);
-	
-	/** Make sure we have an output folder. */
-	protected void setUp() throws Exception {
-		java.io.File td = new java.io.File(XSD_DIR);
-		td.mkdirs();
-		mProject = new Project();
-	}
-	
-	/** Cobol file not provided. */
-	public final void testNoCobolFile() {
+    /** COBOL source test cases directory. */
+    private static final File COB_DIR = new File("src/test/cobol/local");
 
-		COXBSchemaGenerator gen = new COXBSchemaGenerator();
-		try {
-			gen.setTargetDir(new File(XSD_DIR));
-			gen.setNamespace("http://legstar.test/schemagen");
-			gen.execute();
-			fail("Check cobol file failed");
-		} catch (Exception e) {
-			assertEquals("You must specify a cobol file name or a path",
-					e.getMessage());
-		}
+    /** Ant scripts files will be generated here. */
+    private static final File GEN_XSD_DIR = new File("target/src/gen/schema/local");
 
-	}
+    /** COBOL sources used as samples throughout LegStar. */
+    private static final File COB_SAMPLES_DIR =  new File("src/test/cobol");
 
-	/** XML schema file not provided. */
-	public final void testNoXSDFile() {
+    /** XSD used as samples throughout LegStar. We use a temporary location here
+     * because the actual XSD files usually need manual editing. We don't want
+     * to lose these changes. */
+    private static final File GEN_XSD_SAMPLES_DIR = new File("target/src/gen/schema");
 
-		COXBSchemaGenerator gen = new COXBSchemaGenerator();
-		try {
-			gen.setTargetDir(new File(XSD_DIR));
-			gen.setNamespace("http://legstar.test/schemagen");
-			gen.setSourceCobolFilePath("cob.file");
-			gen.execute();
-			fail("Check xsd file failed");
-		} catch (Exception e) {
-			assertEquals("You must specify an output XML schema file name",
-					e.getMessage());
-		}
+    /** This is where the reference samples (manually updated) are kept. */
+    private static final File XSD_SAMPLES_DIR = new File("src/test/schema");
 
-	}
+    /** Target namespace for generated XSDs.*/
+    private static final String NAMESPACE = "http://legstar.com/test/coxb";
 
-	/** Target namespace not provided. */
-	public final void testNoNamespace() {
+    /** The current ANT project. */
+    private Project mProject;
 
-		COXBSchemaGenerator gen = new COXBSchemaGenerator();
-		try {
-			gen.setSourceCobolFilePath("cob.file");
-			gen.setTargetDir(new File(XSD_DIR));
-			gen.setTargetXsdFileName("xsd.file");
-			gen.execute();
-			fail("Check no namespace failed");
-		} catch (Exception e) {
-			assertEquals("You must specify an output XML schema namespace",
-					e.getMessage());
-		}
+    /** Logger. */
+    private static final Log LOG =
+        LogFactory.getLog(COXBSchemaGeneratorTestCase.class);
 
-	}
+    /** Make sure we have an output folder.
+     * @throws Exception if output folder cannot be created */
+    protected void setUp() throws Exception {
+        CodeGenUtil.checkDirectory(GEN_XSD_DIR, true);
+        mProject = new Project();
+    }
 
-	/** Invalid target namespace. */
-	public final void testInvalidURI() {
+    /** Cobol file not provided. */
+    public final void testNoCobolFile() {
 
-		COXBSchemaGenerator gen = new COXBSchemaGenerator();
-		try {
-			gen.setTargetDir(new File(XSD_DIR));
-			gen.setSourceCobolFilePath("cob.file");
-			gen.setTargetXsdFileName("xsd.file");
-			gen.setNamespace("^");
-			gen.execute();
-			fail("Check invalid namespace failed");
-		} catch (Exception e) {
-			assertEquals("java.net.URISyntaxException: Illegal character in path at index 0: ^", e.getMessage());
-		}
+        COXBSchemaGenerator gen = new COXBSchemaGenerator();
+        try {
+            gen.setTargetDir(GEN_XSD_DIR);
+            gen.setNamespace(NAMESPACE);
+            gen.execute();
+            fail("Check cobol file failed");
+        } catch (Exception e) {
+            assertEquals("You must specify a cobol file name or a path",
+                    e.getMessage());
+        }
 
-	}
+    }
 
-	/** Invalid target namespace. */
-	public final void testOpaqueURI() {
+    /** XML schema file not provided. */
+    public final void testNoXSDFile() {
 
-		COXBSchemaGenerator gen = new COXBSchemaGenerator();
-		try {
-			gen.setTargetDir(new File(XSD_DIR));
-			gen.setSourceCobolFilePath("cob.file");
-			gen.setTargetXsdFileName("xsd.file");
-			gen.setNamespace("mailto:java-net@java.sun.com");
-			gen.execute();
-			fail("Check opaque namespace failed");
-		} catch (Exception e) {
-			assertEquals(
-					"Namespace mailto:java-net@java.sun.com is not a"
-					 + " hierarchical URI", e.getMessage());
-		}
+        COXBSchemaGenerator gen = new COXBSchemaGenerator();
+        try {
+            gen.setTargetDir(GEN_XSD_DIR);
+            gen.setNamespace(NAMESPACE);
+            gen.setSourceCobolFilePath("cob.file");
+            gen.execute();
+            fail("Check xsd file failed");
+        } catch (Exception e) {
+            assertEquals("You must specify an output XML schema file name",
+                    e.getMessage());
+        }
 
-	}
+    }
 
-	/** Invalid cobol file. */
-	public final void testInvalidCobolFile() {
-		
-		COXBSchemaGenerator gen = new COXBSchemaGenerator();
-		try {
-			gen.setTargetDir(new File(XSD_DIR));
-			gen.setSourceCobolFilePath("cob.file");
-			gen.setTargetXsdFileName("xsd.file");
-			gen.setNamespace("http://java.sun.com/j2se/1.3/");
-			gen.execute();
-			fail("Invalid cobol file test failed");
-		} catch (Exception e) {
-			assertEquals("Invalid input file cob.file", e.getMessage());
-		}
-		
-	}
-	/** Package name derived from namespace. */
-	public final void testDerivedPackageName() {
-		
-		COXBSchemaGenerator gen = new COXBSchemaGenerator();
-		try {
-			gen.setSourceCobolFilePath(COB_DIR + "/simplest.cob");
-			gen.setTargetDir(new File(XSD_DIR));
-			gen.setTargetXsdFileName("/xsd.file");
-			gen.setNamespace("http://java.sun.com/j2se/1.3/");
-			gen.execute();
-			assertEquals("com.sun.java.j2se.1.3", gen.getJaxbPackageName());
-		} catch (Exception e) {
-			fail("Check derived package name failed " + e.getMessage());
-		}
-	}
-	
-	/** A path should be accepted as an alternative to a single cobol file.*/
-	public final void testPathAccepted() {
-		COXBSchemaGenerator gen = new COXBSchemaGenerator();
-		try {
-			Path pa = new Path(mProject);
-			FileSet fs = new FileSet();
-			fs.setDir(new File(COB_DIR));
-			fs.setExcludes("**/currencySign.cob");
-			pa.addFileset(fs);
-			gen.addPath(pa);
-			gen.setTargetDir(new File(XSD_DIR));
-			gen.setNamespace("http://java.sun.com/j2se/1.3/");
-			gen.execute();
-			assertEquals("com.sun.java.j2se.1.3", gen.getJaxbPackageName());
-		} catch (Exception e) {
-			fail("Path instead of file failed " + e.getMessage());
-		}
-	}
+    /** Target namespace not provided. */
+    public final void testNoNamespace() {
 
-	/** User should not specify both a file and a path.*/
-	public final void testPathAnfFile() {
-		COXBSchemaGenerator gen = new COXBSchemaGenerator();
-		try {
-			Path pa = new Path(mProject);
-			FileSet fs = new FileSet();
-			fs.setDir(new File(COB_DIR));
-			pa.addFileset(fs);
-			gen.setSourceCobolFilePath(COB_DIR + "/simplest.cob");
-			gen.addPath(pa);
-			gen.setTargetDir(new File(XSD_DIR));
-			gen.setTargetXsdFileName("/xsd.file");
-			gen.setNamespace("http://java.sun.com/j2se/1.3/");
-			gen.execute();
-			fail("Path and file failed " );
-		} catch (Exception e) {
-			assertEquals("You must specify either a cobol file name or a path (but not both)", e.getMessage());
-		}
-	}
+        COXBSchemaGenerator gen = new COXBSchemaGenerator();
+        try {
+            gen.setSourceCobolFilePath("cob.file");
+            gen.setTargetDir(GEN_XSD_DIR);
+            gen.setTargetXsdFileName("xsd.file");
+            gen.execute();
+            fail("Check no namespace failed");
+        } catch (Exception e) {
+            assertEquals("You must specify an output XML schema namespace",
+                    e.getMessage());
+        }
 
-	/** User should not specify a folder for XSDs when path option is used.*/
-	public final void testFolder4XSD() {
-		COXBSchemaGenerator gen = new COXBSchemaGenerator();
-		try {
-			Path pa = new Path(mProject);
-			FileSet fs = new FileSet();
-			fs.setDir(new File(COB_DIR));
-			pa.addFileset(fs);
-			gen.addPath(pa);
-			gen.setTargetDir(new File(XSD_DIR));
-			gen.setTargetXsdFileName("/xsd.file");
-			gen.setNamespace("http://java.sun.com/j2se/1.3/");
-			gen.execute();
-			fail("Path and file failed " );
-		} catch (Exception e) {
-			assertEquals("You should not specify an XML schema file name when a path is provided", e.getMessage());
-		}
-	}
-	
-	@SuppressWarnings("deprecation")
-	public void testOldSetXsdFile() {
-		COXBSchemaGenerator gen = new COXBSchemaGenerator();
-		try {
-			Path pa = new Path(mProject);
-			FileSet fs = new FileSet();
-			fs.setDir(new File("./src/test/cobol"));
-			fs.setExcludes("local/**");
-			pa.addFileset(fs);
-			gen.addPath(pa);
-			gen.setXSDFile("./target/schema");
-			gen.setNamespace("http://java.sun.com/j2se/1.3/");
-			gen.execute();
-		} catch (Exception e) {
-			assertEquals("Line=5, Unrecognized symbol € in picture clause", e.getMessage());
-		}
-	}
-	
-	/** Test generation without a suffix.*/
-	public final void testGenerationWithoutSuffix() {
-		COXBSchemaGenerator gen = new COXBSchemaGenerator();
-		try {
-			gen.setSourceCobolFilePath(
-					(new File("src/main/zos/cobol/LSFILEAE.cbl")).getAbsolutePath());
-			gen.setTargetDir(new File(XSD_DIR));
-			gen.setTargetXsdFileName("/xsd.file");
-			gen.setNamespace("http://java.sun.com/j2se/1.3/");
-			gen.execute();
-			String result = getSource(XSD_DIR, "xsd.file");
-			assertTrue(result.contains("<xs:element name=\"ComPersonal\" type=\"xsns:ComPersonal\">"));
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-	}
+    }
 
-	/** Test generation with a suffix.*/
-	public final void testGenerationWithSuffix() {
-		COXBSchemaGenerator gen = new COXBSchemaGenerator();
-		try {
-			gen.setSourceCobolFilePath(
-					(new File("src/main/zos/cobol/LSFILEAE.cbl")).getAbsolutePath());
-			gen.setTargetDir(new File(XSD_DIR));
-			gen.setTargetXsdFileName("/xsd.file");
-			gen.setNamespace("http://java.sun.com/j2se/1.3/");
-			gen.setJaxbTypeClassesSuffix("TypeSuffix");
-			gen.execute();
-			String result = getSource(XSD_DIR, "xsd.file");
-			assertTrue(result.contains("<xs:element name=\"ComPersonal\" type=\"xsns:ComPersonalTypeSuffix\">"));
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-	}
+    /** Invalid target namespace. */
+    public final void testInvalidURI() {
 
-	private String getSource(String srcLocation, String srcName) throws Exception {
-        BufferedReader in = new BufferedReader(new FileReader(srcLocation + '/' + srcName));
+        COXBSchemaGenerator gen = new COXBSchemaGenerator();
+        try {
+            gen.setTargetDir(GEN_XSD_DIR);
+            gen.setSourceCobolFilePath("cob.file");
+            gen.setTargetXsdFileName("xsd.file");
+            gen.setNamespace("^");
+            gen.execute();
+            fail("Check invalid namespace failed");
+        } catch (Exception e) {
+            assertEquals("java.net.URISyntaxException: Illegal character in path at index 0: ^", e.getMessage());
+        }
+
+    }
+
+    /** Invalid target namespace. */
+    public final void testOpaqueURI() {
+
+        COXBSchemaGenerator gen = new COXBSchemaGenerator();
+        try {
+            gen.setTargetDir(GEN_XSD_DIR);
+            gen.setSourceCobolFilePath("cob.file");
+            gen.setTargetXsdFileName("xsd.file");
+            gen.setNamespace("mailto:java-net@java.sun.com");
+            gen.execute();
+            fail("Check opaque namespace failed");
+        } catch (Exception e) {
+            assertEquals(
+                    "Namespace mailto:java-net@java.sun.com is not a"
+                    + " hierarchical URI", e.getMessage());
+        }
+
+    }
+
+    /** Invalid cobol file. */
+    public final void testInvalidCobolFile() {
+
+        COXBSchemaGenerator gen = new COXBSchemaGenerator();
+        try {
+            gen.setTargetDir(GEN_XSD_DIR);
+            gen.setSourceCobolFilePath("cob.file");
+            gen.setTargetXsdFileName("xsd.file");
+            gen.setNamespace(NAMESPACE);
+            gen.execute();
+            fail("Invalid cobol file test failed");
+        } catch (Exception e) {
+            assertEquals("Invalid input file cob.file", e.getMessage());
+        }
+
+    }
+    /** Package name derived from namespace. */
+    public final void testDerivedPackageName() {
+
+        COXBSchemaGenerator gen = new COXBSchemaGenerator();
+        try {
+            gen.setSourceCobolFilePath(COB_DIR + "/simplest.cob");
+            gen.setTargetDir(GEN_XSD_DIR);
+            gen.setTargetXsdFileName("/xsd.file");
+            gen.setNamespace(NAMESPACE);
+            gen.execute();
+            assertEquals("com.legstar.test.coxb", gen.getJaxbPackageName());
+        } catch (Exception e) {
+            fail("Check derived package name failed " + e.getMessage());
+        }
+    }
+
+    /** A path should be accepted as an alternative to a single cobol file.*/
+    public final void testPathAccepted() {
+        COXBSchemaGenerator gen = new COXBSchemaGenerator();
+        try {
+            Path pa = new Path(mProject);
+            FileSet fs = new FileSet();
+            fs.setDir(COB_DIR);
+            fs.setExcludes("**/currencySign.cob");
+            pa.addFileset(fs);
+            gen.addPath(pa);
+            gen.setTargetDir(GEN_XSD_DIR);
+            gen.setNamespace(NAMESPACE);
+            gen.execute();
+            assertEquals("com.legstar.test.coxb", gen.getJaxbPackageName());
+        } catch (Exception e) {
+            fail("Path instead of file failed " + e.getMessage());
+        }
+    }
+
+    /** User should not specify both a file and a path.*/
+    public final void testPathAnfFile() {
+        COXBSchemaGenerator gen = new COXBSchemaGenerator();
+        try {
+            Path pa = new Path(mProject);
+            FileSet fs = new FileSet();
+            fs.setDir(COB_DIR);
+            pa.addFileset(fs);
+            gen.setSourceCobolFilePath(COB_DIR + "/simplest.cob");
+            gen.addPath(pa);
+            gen.setTargetDir(GEN_XSD_DIR);
+            gen.setTargetXsdFileName("/xsd.file");
+            gen.setNamespace(NAMESPACE);
+            gen.execute();
+            fail("Path and file failed ");
+        } catch (Exception e) {
+            assertEquals("You must specify either a cobol file name or a path (but not both)", e.getMessage());
+        }
+    }
+
+    /** User should not specify a folder for XSDs when path option is used.*/
+    public final void testFolder4XSD() {
+        COXBSchemaGenerator gen = new COXBSchemaGenerator();
+        try {
+            Path pa = new Path(mProject);
+            FileSet fs = new FileSet();
+            fs.setDir(COB_DIR);
+            pa.addFileset(fs);
+            gen.addPath(pa);
+            gen.setTargetDir(GEN_XSD_DIR);
+            gen.setTargetXsdFileName("/xsd.file");
+            gen.setNamespace(NAMESPACE);
+            gen.execute();
+            fail("Path and file failed ");
+        } catch (Exception e) {
+            assertEquals("You should not specify an XML schema file name when a path is provided", e.getMessage());
+        }
+    }
+
+    /** Test generation without a suffix.*/
+    public final void testGenerationWithoutSuffix() {
+        COXBSchemaGenerator gen = new COXBSchemaGenerator();
+        try {
+            gen.setSourceCobolFilePath(
+                    (new File("src/main/zos/cobol/LSFILEAE.cbl")).getAbsolutePath());
+            gen.setTargetDir(GEN_XSD_DIR);
+            gen.setTargetXsdFileName("/xsd.file");
+            gen.setNamespace(NAMESPACE);
+            gen.execute();
+            String result = getSource(GEN_XSD_DIR, "xsd.file");
+            assertTrue(result.contains("<xs:element name=\"ComPersonal\" type=\"xsns:ComPersonal\">"));
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    /** Test generation with a suffix.*/
+    public final void testGenerationWithSuffix() {
+        COXBSchemaGenerator gen = new COXBSchemaGenerator();
+        try {
+            gen.setSourceCobolFilePath(
+                    (new File("src/main/zos/cobol/LSFILEAE.cbl")).getAbsolutePath());
+            gen.setTargetDir(GEN_XSD_DIR);
+            gen.setTargetXsdFileName("/xsd.file");
+            gen.setNamespace(NAMESPACE);
+            gen.setJaxbTypeClassesSuffix("TypeSuffix");
+            gen.execute();
+            String result = getSource(GEN_XSD_DIR, "xsd.file");
+            assertTrue(result.contains("<xs:element name=\"ComPersonal\" type=\"xsns:ComPersonalTypeSuffix\">"));
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    /**
+     * Generate all sample XSDs and check that the generated XSD is identical to the
+     * sample XSDs which are considered references.
+     * @throws Exception if tests fail
+     */
+    public void testGenerateAllSampleXsdFiles() throws Exception {
+        COXBSchemaGenerator gen = new COXBSchemaGenerator();
+        Path pa = new Path(mProject);
+        FileSet fs = new FileSet();
+        fs.setDir(COB_SAMPLES_DIR);
+        fs.setExcludes("local/**");
+        pa.addFileset(fs);
+        gen.addPath(pa);
+        gen.setTargetDir(GEN_XSD_SAMPLES_DIR);
+        gen.setNamespace(NAMESPACE);
+        gen.execute();
+        
+        /* Only check those that are not manually updated. */
+        checkReferenceXsd("arraysdo.xsd");
+        checkReferenceXsd("arrayssm.xsd");
+        checkReferenceXsd("binarcht.xsd");
+        checkReferenceXsd("binnatsi.xsd");
+        checkReferenceXsd("binpkdus.xsd");
+        checkReferenceXsd("charsets.xsd");
+        checkReferenceXsd("doublmix.xsd");
+        checkReferenceXsd("fixarcom.xsd");
+        checkReferenceXsd("fixarnum.xsd");
+        checkReferenceXsd("fixarsim.xsd");
+        checkReferenceXsd("floatmix.xsd");
+        checkReferenceXsd("lsfileac.xsd");
+        checkReferenceXsd("lsfilead.xsd");
+        checkReferenceXsd("lsfileae.xsd");
+        checkReferenceXsd("lsfileal.xsd");
+        checkReferenceXsd("numzoned.xsd");
+        checkReferenceXsd("osarrays.xsd");
+        checkReferenceXsd("varar021.xsd");
+        checkReferenceXsd("vararcom.xsd");
+        
+    }
+    
+    /**
+     * Compares a generated XSD with the reference.
+     * @param xsdName the XSD to check
+     * @throws Exception if reading fails
+     */
+    private void checkReferenceXsd(final String xsdName) throws Exception {
+        String xsdGenerated = getSource(GEN_XSD_SAMPLES_DIR, xsdName);
+        String xsdReference = getSource(XSD_SAMPLES_DIR, xsdName);
+        assertEquals(xsdReference, xsdGenerated);
+    }
+
+    /**
+     * Read a file into a String.
+     * @param dir folder name
+     * @param srcName file name
+     * @return a string
+     * @throws Exception if read fails
+     */
+    private String getSource(final File dir, final String srcName) throws Exception {
+        BufferedReader in = new BufferedReader(new FileReader(new File(dir, srcName)));
         String resStr = "";
         String str = in.readLine();
         while (str != null) {

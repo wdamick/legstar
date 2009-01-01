@@ -1,0 +1,221 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+targetNamespace="http://legstar.com/test/coxb/varar021"
+xmlns="http://legstar.com/test/coxb/varar021"
+xmlns:xsns="http://legstar.com/test/coxb/varar021"
+xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+jaxb:version="2.0"
+jaxb:extensionBindingPrefixes="cb"
+elementFormDefault="qualified">
+ <xs:annotation><xs:appinfo>
+ <jaxb:schemaBindings>
+ <jaxb:package  name="com.legstar.test.coxb.varar021"/>
+ </jaxb:schemaBindings>
+ </xs:appinfo></xs:annotation>
+ <xs:complexType name="SearchGrplst">
+    <xs:sequence>
+     <xs:element name="Payload" type="xsns:Payload">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='03' cobolName='PAYLOAD' type='GROUP_ITEM' srceLine='29'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="Payload">
+    <xs:sequence>
+     <xs:element name="WechRequestRows">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WECH-REQUEST-ROWS' type='ZONED_DECIMAL_ITEM' picture='9(3)' usage='DISPLAY' byteLength='3' signed='false' totalDigits='3' isODOObject='true' srceLine='30'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedShort">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='999'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WechDynamicResponseRows">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WECH-DYNAMIC-RESPONSE-ROWS' type='ZONED_DECIMAL_ITEM' picture='9(3)' usage='DISPLAY' byteLength='3' signed='false' totalDigits='3' isODOObject='true' srceLine='31'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedShort">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='999'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WechErrorRows">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WECH-ERROR-ROWS' type='ZONED_DECIMAL_ITEM' picture='9(3)' usage='DISPLAY' byteLength='3' signed='false' totalDigits='3' isODOObject='true' srceLine='32'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedShort">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='999'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WechAdditionalPageKeys">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WECH-ADDITIONAL-PAGE-KEYS' type='ALPHANUMERIC_ITEM' picture='X(128)' usage='DISPLAY' byteLength='128' srceLine='33'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='128'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="IStaticData" minOccurs="0" maxOccurs="1" type="xsns:IStaticData">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='I-STATIC-DATA' type='GROUP_ITEM' minOccurs='0' maxOccurs='1' dependingOn='WECH-REQUEST-ROWS' srceLine='35'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+     <xs:element name="ODynamicData" minOccurs="0" maxOccurs="363" type="xsns:ODynamicData">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='O-DYNAMIC-DATA' type='GROUP_ITEM' minOccurs='0' maxOccurs='363' dependingOn='WECH-DYNAMIC-RESPONSE-ROWS' srceLine='41'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+     <xs:element name="WellpointEaiEbsErrorRow" minOccurs="0" maxOccurs="99" type="xsns:WellpointEaiEbsErrorRow">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WELLPOINT-EAI-EBS-ERROR-ROW' type='GROUP_ITEM' minOccurs='0' maxOccurs='99' dependingOn='WECH-ERROR-ROWS' srceLine='47'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="IStaticData">
+    <xs:sequence>
+     <xs:element name="LkupInfo" minOccurs="2" maxOccurs="2" type="xsns:LkupInfo36">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='10' cobolName='LKUP-INFO' type='GROUP_ITEM' minOccurs='2' maxOccurs='2' srceLine='36'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="LkupInfo36">
+    <xs:sequence>
+     <xs:element name="LkupId">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='15' cobolName='LKUP-ID' type='ALPHANUMERIC_ITEM' picture='X(18)' usage='DISPLAY' byteLength='18' srceLine='37'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='18'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="LkupTypCd">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='15' cobolName='LKUP-TYP-CD' type='ALPHANUMERIC_ITEM' picture='X(05)' usage='DISPLAY' byteLength='5' srceLine='38'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='5'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="LkupNm">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='15' cobolName='LKUP-NM' type='ALPHANUMERIC_ITEM' picture='X(50)' usage='DISPLAY' byteLength='50' srceLine='39'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='50'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="ODynamicData">
+    <xs:sequence>
+     <xs:element name="LkupInfo" minOccurs="2" maxOccurs="2" type="xsns:LkupInfo42">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='10' cobolName='LKUP-INFO' type='GROUP_ITEM' minOccurs='2' maxOccurs='2' srceLine='42'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="LkupInfo42">
+    <xs:sequence>
+     <xs:element name="LkupIdCt">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='15' cobolName='LKUP-ID-CT' type='ALPHANUMERIC_ITEM' picture='X(18)' usage='DISPLAY' byteLength='18' srceLine='43'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='18'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="LkupTypCdCt">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='15' cobolName='LKUP-TYP-CD-CT' type='ALPHANUMERIC_ITEM' picture='X(05)' usage='DISPLAY' byteLength='5' srceLine='44'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='5'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="LkupNmCt">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='15' cobolName='LKUP-NM-CT' type='ALPHANUMERIC_ITEM' picture='X(50)' usage='DISPLAY' byteLength='50' srceLine='45'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='50'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="WellpointEaiEbsErrorRow">
+    <xs:sequence>
+     <xs:element name="WeerExceptionUuid">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='10' cobolName='WEER-EXCEPTION-UUID' type='ALPHANUMERIC_ITEM' picture='X(32)' usage='DISPLAY' byteLength='32' srceLine='48'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='32'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+</xs:schema>

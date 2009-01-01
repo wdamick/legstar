@@ -19,9 +19,9 @@
 		<!-- Target directory for generated XML schema file   -->
 	 	<property name="xsd.dir" value="${basedir}/schema" />
 		<!-- Target namespace for XML schema   -->
-	 	<property name="jaxb.namespace" value="http://test.legstar/${cobol.name}" />
+	 	<property name="jaxb.namespace" value="http://legstar.com/test/coxb/${cobol.name}" />
 		<!-- Target package for generated jaxb classes   -->
-	 	<property name="jaxb.package" value="legstar.test.${cobol.name}" />
+	 	<property name="jaxb.package" value="com.legstar.test.coxb.${cobol.name}" />
 			
 		<!-- Schema generator ant task  -->
 		<taskdef name="schemagen" classname="com.legstar.schemagen.COXBSchemaGenerator">

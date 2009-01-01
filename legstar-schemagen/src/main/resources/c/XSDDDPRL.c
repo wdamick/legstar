@@ -84,7 +84,8 @@ int       XSD_produceComplexElement(COBOL_DATA_DESCRIPTION* dds,
                               char* xsName);
 int       XSD_produceAnnotations(COBOL_DATA_DESCRIPTION* dds,
                              char* indent);
-int       XSD_startComplexType (char* indent,
+int       XSD_startComplexType (COBOL_DATA_DESCRIPTION* dds,
+								char* indent,
                                 char* xsName);
 int       XSD_closeComplexType(char* indent,
                               char* xsName);
@@ -106,6 +107,8 @@ int       XSD_processOctetStream  (COBOL_DATA_DESCRIPTION* dds,
                               char* indent);
 int       XSD_processValue   (COBOL_DATA_DESCRIPTION* dds,
                               char* indent);
+int       XSD_nameConflict(STREE_NODE* srcNode,
+						       COBOL_DATA_DESCRIPTION* dds);
 
 /*====================================================================*/
 /* This is the main XSD producing routing fo a given structure tree   */
@@ -317,7 +320,8 @@ int XSD_ProduceElement(STREE_NODE* node)
     int rc = 0;
     int openingChoice = FALSE;
     
-    if (debug_trace) printf("XSD_ProduceElement\n");
+    if (debug_trace) printf("XSD_ProduceElement %s\n",
+		node->dds.cobolName);
 
     /* Indent to enhance readability of the XSD */
     indFactor = (node->dds.levelNumber == 01 ||
@@ -375,10 +379,11 @@ int XSD_ProduceComplexType(STREE_NODE* node)
     char xsName[MAX_DATANAME_LEN];
     int indFactor = 0;
     
-    if (debug_trace) printf("XSD_ProduceComplexType\n");
+    if (debug_trace) printf("XSD_ProduceComplexType %s\n",
+		node->dds.cobolName);
 
     /* Make sure this node has children otherwise it should be
-       treated as a complex type.                                     */
+       treated as a simple type.                                     */
     if (!node->firstChild)
         return 0;
 
@@ -396,7 +401,7 @@ int XSD_ProduceComplexType(STREE_NODE* node)
         XSD_formatName(node->dds.cobolName, xsName);
 
         /* Create complex type opening tag  */
-        XSD_startComplexType(indent, xsName);
+        XSD_startComplexType(&node->dds, indent, xsName);
 
         /* First pass: produce direct children elements */
         currentNode = node->firstChild;
@@ -414,7 +419,10 @@ int XSD_ProduceComplexType(STREE_NODE* node)
     currentNode = node->firstChild;
     while(currentNode)
     {
-        XSD_ProduceComplexType(currentNode);
+		if (currentNode->firstChild)
+		{
+			XSD_ProduceComplexType(currentNode);
+		}
         currentNode = currentNode->firstSibling;
     }
     return 0;
@@ -439,15 +447,26 @@ int XSD_closeComplexType(char* indent,
 /*====================================================================*/
 /* Start a complex type of type Record                                */
 /*====================================================================*/
-int XSD_startComplexType(char* indent,
-                    char* xsName)
+int XSD_startComplexType(COBOL_DATA_DESCRIPTION* dds,
+						 char* indent, char* xsName)
 {
     if (debug_trace) printf("XSD_startComplexType\n");
 
-    fprintf(output_file,
-        "%s<%s:complexType name=\"%s%s\">\n",
-        indent,xsd_options->xs_prefix,xsName,
-        xsd_options->type_suffix);
+    /* If there is another complex type with the same name, we need
+	   to disambiguate the type name. We append the source line number
+	   to the type name for that effect.*/
+	if (TRUE == XSD_nameConflict(STreeRoot, dds))
+	{
+		fprintf(output_file,
+			"%s<%s:complexType name=\"%s%d%s\">\n",
+			indent,xsd_options->xs_prefix,xsName,dds->srceLine,
+			xsd_options->type_suffix);
+	} else {
+		fprintf(output_file,
+			"%s<%s:complexType name=\"%s%s\">\n",
+			indent,xsd_options->xs_prefix,xsName,
+			xsd_options->type_suffix);
+	}
     fprintf(output_file,"%s   <%s:sequence>\n",
         indent,xsd_options->xs_prefix);
 
@@ -461,7 +480,8 @@ int XSD_produceSimpleElement(COBOL_DATA_DESCRIPTION* dds,
                              char* indent,
                              char* xsName)
 {
-    if (debug_trace) printf("XSD_produceSimpleElement\n");
+    if (debug_trace) printf("XSD_produceSimpleElement %s\n",
+		dds->cobolName);
 
     /* <xsd_options->xs_prefix:element name= */
     fprintf(output_file,
@@ -538,7 +558,8 @@ int XSD_produceComplexElement(COBOL_DATA_DESCRIPTION* dds,
                              char* indent,
                              char* xsName)
 {
-    if (debug_trace) printf("XSD_produceComplexElement\n");
+    if (debug_trace) printf("XSD_produceComplexElement %s\n",
+		dds->cobolName);
 
     /* <xsd_options->xs_prefix:element name= */
     fprintf(output_file,
@@ -551,8 +572,18 @@ int XSD_produceComplexElement(COBOL_DATA_DESCRIPTION* dds,
         " minOccurs=\"%d\" maxOccurs=\"%d\"",
           dds->minOccurs, dds->maxOccurs);
     
-    fprintf(output_file," type=\"%s:%s%s\">\n",
-        xsd_options->xsns_prefix,xsName,xsd_options->type_suffix);
+    /* If there is another complex type with the same name, we need
+	   to disambiguate the type name. We append the source line number
+	   to the type name for that effect.*/
+	if (TRUE == XSD_nameConflict(STreeRoot, dds))
+	{
+		fprintf(output_file," type=\"%s:%s%d%s\">\n",
+			xsd_options->xsns_prefix,
+			xsName,dds->srceLine,xsd_options->type_suffix);
+	} else {
+		fprintf(output_file," type=\"%s:%s%s\">\n",
+			xsd_options->xsns_prefix,xsName,xsd_options->type_suffix);
+	}
 
     /* Add annotations to preserve Cobol unique attributes */
     if (cobolAnnotate == TRUE )
@@ -1021,3 +1052,33 @@ void  getDefaultXsdOptions(XSD_PRODUCTION_OPTIONS* xsdOptions)
     xsdOptions->xsd_header_footer = XSD_HEADER_FOOTER;
     return;
 }
+
+/*====================================================================*/
+/* Search for name conflicts. If a COBOL identifier occurs more than  */
+/* once in the source this method returns TRUE.                       */
+/*====================================================================*/
+int XSD_nameConflict(STREE_NODE* srcNode, COBOL_DATA_DESCRIPTION* dds)
+{
+    STREE_NODE* currentNode;
+
+	/* Different source lines but same COBOL name is a conflict */
+	if ((srcNode->dds.srceLine != dds->srceLine)
+		&& (0 == strcmp(srcNode->dds.cobolName, dds->cobolName)))
+	{
+		return TRUE;
+	}
+	
+	currentNode = srcNode->firstChild;
+    while(currentNode)
+    {
+		/* Only deal with complex types */
+		if (currentNode->firstChild
+			&& TRUE == XSD_nameConflict(currentNode, dds))
+		{
+			return TRUE;
+		}
+        currentNode = currentNode->firstSibling;
+    }
+	return FALSE;
+}
+

@@ -54,21 +54,24 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
 
-                    <!-- This will generate all XML schema test cases as soon as
-                    compilation has taken place.  -->
+                    <!-- This will generate all XML schema test cases, ready for integration test. -->
                     <execution>
                         <id>build-test-schema</id>
-                        <phase>generate-test-sources</phase>
+                        <phase>pre-integration-test</phase>
                         <configuration>
                             <tasks>
-                                <ant antfile="${basedir}/src/test/ant/build-test-schema.xml" />
+                                <path id="classpath">
+                                    <path refid="maven.compile.classpath"/>
+                                    <path refid="maven.plugin.classpath"/>
+                                </path>
+                                <ant antfile="${basedir}/src/test/ant/build-test-schema.xml" inheritRefs="yes"/>
                             </tasks>
                         </configuration>
                         <goals>
                             <goal>run</goal>
                         </goals>
                     </execution>
-
+                      
                     <!-- This will compile all C sources. -->
                     <execution>
                         <id>build-c</id>

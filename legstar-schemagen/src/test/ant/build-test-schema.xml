@@ -9,29 +9,15 @@
 	  -->
 	<target name="init">
 		
-		<property name="maven.repo" value="C:\Documents and Settings\Fady\.m2\repository"/>
 		<!-- Target location for generated XML schemas   -->
-		<property name="gen.schema.dir" value="${basedir}/target/schema"/>
+		<property name="gen.schema.dir" value="${basedir}/target/src/gen/schema"/>
 		<!-- Make sure we have a target XSD directory -->
 		<mkdir dir="${gen.schema.dir}"/>
 		<!-- Target namespace prefix for XML schema   -->
 	 	<property name="namespace.pfx" value="http://legstar.com/test/coxb" />
 		<!-- Set properties that might be overriden by legstar.properties   -->
 	 	<property name="cobol.dir" value="${basedir}/src/test/cobol" />
-		<!-- Location of LegStar binaries   -->
-		<property name="build.dir" value="${basedir}/target"/>
 
-		<!-- Classpath setting  -->
-		<path id="classpath">
-			<dirset dir="${build.dir}">
-				<include name="**/classes"/>
-			</dirset>
-	  		<!--LegStar Code generation location -->
-		    <pathelement location="${basedir}/../legstar-codegen/target/classes"/>
-	  		<!--WS logging binaries -->
-		    <pathelement location="${maven.repo}\commons-logging\commons-logging-api\1.0.4\commons-logging-api-1.0.4.jar"/>
- 	    </path>
-		
 		<!-- Schema generator ant task  -->
 		<taskdef name="schemagen"
 			classname="com.legstar.schemagen.COXBSchemaGenerator" 

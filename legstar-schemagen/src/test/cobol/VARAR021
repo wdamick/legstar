@@ -1,0 +1,70 @@
+       PROCESS XOPTS(APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. VARAR021.
+      *****************************************************************
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * SIMULATES 2 BUG SITUATIONS IDENTIFIED BY VDURBHA.             *
+      * 1. SUB-STRUCTURE LKUP-INFO APPEARS TWICE WITH DIFFERENT       *
+      *    LAYOUT.                                                    *
+      * 2. AN ARRAY IS DEFINED AS OCCURS 0 TO 1 TIMES.                *
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+       DATA DIVISION.
+      *****************************************************************
+      *        W O R K I N G    S T O R A G E    S E C T I O N        *
+      *****************************************************************
+       WORKING-STORAGE SECTION.
+       
+       01  W-I     PIC S9(8) COMP.
+
+      *****************************************************************
+      *            L I N K A G E       S E C T I O N                  *
+      *****************************************************************
+       LINKAGE SECTION.
+       01  SEARCH-GRPLST.
+           03  PAYLOAD.                       
+             05 WECH-REQUEST-ROWS                         PIC 9(3).
+             05 WECH-DYNAMIC-RESPONSE-ROWS                PIC 9(3).
+             05 WECH-ERROR-ROWS                           PIC 9(3).
+             05 WECH-ADDITIONAL-PAGE-KEYS                 PIC X(128).
+             05 I-STATIC-DATA OCCURS 0 TO 1 TIMES       
+               DEPENDING ON WECH-REQUEST-ROWS.            
+                10 LKUP-INFO OCCURS 2 TIMES.
+                  15 LKUP-ID                              PIC X(18).
+                  15 LKUP-TYP-CD                          PIC X(05).
+                  15 LKUP-NM                              PIC X(50).
+             05 O-DYNAMIC-DATA OCCURS 0 TO 363 TIMES                    
+               DEPENDING ON WECH-DYNAMIC-RESPONSE-ROWS.             
+                10 LKUP-INFO OCCURS 2 TIMES.
+                  15 LKUP-ID-CT                           PIC X(18).
+                  15 LKUP-TYP-CD-CT                       PIC X(05).
+                  15 LKUP-NM-CT                           PIC X(50).
+             05 WELLPOINT-EAI-EBS-ERROR-ROW OCCURS 0 TO 99 TIMES
+               DEPENDING ON WECH-ERROR-ROWS.                        
+                10 WEER-EXCEPTION-UUID                    PIC X(32).
+
+      *****************************************************************
+      *    P R O C E D U R E  D I V I S I O N   S E C T I O N         *
+      *****************************************************************
+       PROCEDURE DIVISION.
+
+           SET ADDRESS OF SEARCH-GRPLST TO ADDRESS OF DFHCOMMAREA.
+           DISPLAY 'WECH-REQUEST-ROWS=' WECH-REQUEST-ROWS.
+           DISPLAY 'WECH-ADDITIONAL-PAGE-KEYS='
+               WECH-ADDITIONAL-PAGE-KEYS.
+           PERFORM VARYING W-I FROM 1 BY 1
+                   UNTIL W-I > WECH-REQUEST-ROWS
+               DISPLAY 'WECH-REQUEST-ROW No ' W-I
+               DISPLAY 'LKUP-ID(1)=' LKUP-ID(W-I, 1)
+               DISPLAY 'LKUP-ID(2)=' LKUP-ID(W-I, 2)
+           END-PERFORM.
+
+           EXEC CICS RETURN END-EXEC.
+
+           GOBACK.
+
+       END PROGRAM VARAR021.
