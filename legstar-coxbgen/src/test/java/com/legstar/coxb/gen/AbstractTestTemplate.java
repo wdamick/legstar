@@ -44,7 +44,7 @@ public class AbstractTestTemplate extends TestCase {
     /** Configuration files will be generated here. */
     public static final File GEN_CONF_DIR = new File("target/src/gen/conf");
     
-    /** Web descriptors files will be generated here. */
+    /** Ant scripts files will be generated here. */
     public static final File GEN_ANT_DIR = new File("target/src/gen/ant");
     
     /** Properties files will be generated here. */

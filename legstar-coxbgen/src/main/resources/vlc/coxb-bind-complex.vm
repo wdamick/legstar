@@ -198,6 +198,13 @@ public class $binding-class-name
          * associated counter is updated */
         setCounterValue(${coxbHelper.getFieldName($child)}.getDependingOn(),
                 ((List < ? >) mValueObject.${coxbHelper.getterMethodName($child)}()).size());
+#else
+#if(${coxbHelper.isOptional($child)})
+        /* If object exist make sure associated counter is 1 */
+        if (null != mValueObject.${coxbHelper.getterMethodName($child)}()) {
+            setCounterValue(${coxbHelper.getFieldName($child)}.getDependingOn(), 1);
+        }
+#end
 #end
 #end
 #end ##foreach

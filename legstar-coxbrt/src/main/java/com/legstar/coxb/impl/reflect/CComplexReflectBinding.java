@@ -413,7 +413,8 @@ public class CComplexReflectBinding extends CComplexBinding {
             final CobolElement cobolAnnotations)
     throws ReflectBindingException {
 
-        if (cobolAnnotations.maxOccurs() > 0) { 
+        /* JAXB considers a member to be an array only if maxOccurs > 1*/
+        if (cobolAnnotations.maxOccurs() > 1) { 
             /* A single complex binding is used for all items */ 
             ICobolComplexBinding item = new CComplexReflectBinding(
                     jaxbName, jaxbName, jaxbType, cobolAnnotations,

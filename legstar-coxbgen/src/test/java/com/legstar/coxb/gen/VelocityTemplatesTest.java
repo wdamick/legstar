@@ -536,4 +536,75 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("public DfhcommareaJavaToHostTransformer(final String hostCharset) {"));
         assertTrue(resStr.contains("return new DfhcommareaBinding();"));
     }
+
+    /**
+     * An complex type containing a member with OCCURS 0 TO 1.
+     * @throws Exception if generation fails
+     */
+    public void testVarar021Types() throws Exception {
+
+        com.legstar.test.coxb.varar021.ObjectFactory objectFactory
+        = new com.legstar.test.coxb.varar021.ObjectFactory();
+
+        CComplexReflectBinding ce = new CComplexReflectBinding(
+                objectFactory,
+                JaxbUtil.loadClass("com.legstar.test.coxb.varar021.Payload"));
+
+        CoxbGenModel coxbContext = new CoxbGenModel();
+        coxbContext.setJaxbPackageName("com.legstar.test.coxb.varar021");
+        coxbContext.setCoxbPackageName("com.legstar.test.coxb.varar021.bind");
+        getParameters().put("coxbContext", coxbContext);
+        getParameters().put("binding-class-name", "PayloadBinding");
+
+        CodeGenUtil.processTemplate(
+                BINDING_GENERATOR_NAME,
+                "vlc/coxb-bind-complex.vm",
+                "binding", ce,
+                getParameters(),
+                CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
+
+        String resStr = getSource(GEN_SRC_DIR, "/test.txt");
+        assertTrue(resStr.contains("package com.legstar.test.coxb.varar021.bind;"));
+        assertTrue(resStr.contains("import com.legstar.coxb.ICobolBinding;"));
+        assertTrue(resStr.contains("import com.legstar.coxb.common.CComplexBinding;"));
+        assertTrue(resStr.contains("import com.legstar.coxb.ICobolZonedDecimalBinding;"));
+        assertTrue(resStr.contains("import com.legstar.coxb.CobolBindingFactory;"));
+        assertTrue(resStr.contains("import com.legstar.coxb.ICobolBindingFactory;"));
+        assertTrue(resStr.contains("import com.legstar.coxb.ICobolStringBinding;"));
+        assertTrue(resStr.contains("import com.legstar.coxb.ICobolComplexBinding;"));
+        assertTrue(resStr.contains("import com.legstar.test.coxb.varar021.IStaticData;"));
+        assertTrue(resStr.contains("import java.util.List;"));
+        assertTrue(resStr.contains("import com.legstar.coxb.ICobolArrayComplexBinding;"));
+        assertTrue(resStr.contains("import com.legstar.test.coxb.varar021.ODynamicData;"));
+        assertTrue(resStr.contains("import com.legstar.test.coxb.varar021.WellpointEaiEbsErrorRow;"));
+        assertTrue(resStr.contains("import com.legstar.coxb.host.HostException;"));
+        assertTrue(resStr.contains("import com.legstar.test.coxb.varar021.Payload;"));
+        assertTrue(resStr.contains("import com.legstar.test.coxb.varar021.ObjectFactory;"));
+
+        
+        assertTrue(resStr.contains("public ICobolZonedDecimalBinding _wechRequestRows;"));
+        assertTrue(resStr.contains("public ICobolZonedDecimalBinding _wechDynamicResponseRows;"));
+        assertTrue(resStr.contains("public ICobolZonedDecimalBinding _wechErrorRows;"));
+        assertTrue(resStr.contains("public ICobolStringBinding _wechAdditionalPageKeys;"));
+        assertTrue(resStr.contains("public ICobolComplexBinding _iStaticData;"));
+        assertTrue(resStr.contains("public ICobolArrayComplexBinding _oDynamicDataWrapper;"));
+        assertTrue(resStr.contains("public ICobolComplexBinding _oDynamicDataWrapperItem;"));
+        assertTrue(resStr.contains("public ICobolArrayComplexBinding _wellpointEaiEbsErrorRowWrapper;"));
+        assertTrue(resStr.contains("public ICobolComplexBinding _wellpointEaiEbsErrorRowWrapperItem;"));
+        assertTrue(resStr.contains("_iStaticData = new IStaticDataBinding(\"IStaticData\","));
+        assertTrue(resStr.contains("\"IStaticData\", this, null);"));
+        assertTrue(resStr.contains("_iStaticData.setCobolName(\"I-STATIC-DATA\");"));
+        assertTrue(resStr.contains("_iStaticData.setMaxOccurs(1);"));
+        assertTrue(resStr.contains("_iStaticData.setDependingOn(\"WECH-REQUEST-ROWS\");"));
+        assertTrue(resStr.contains("_oDynamicDataWrapper.setCobolName(\"O-DYNAMIC-DATA\");"));
+        assertTrue(resStr.contains("_oDynamicDataWrapper.setMaxOccurs(363);"));
+        assertTrue(resStr.contains("_oDynamicDataWrapper.setDependingOn(\"WECH-DYNAMIC-RESPONSE-ROWS\");"));
+
+        assertTrue(resStr.contains("getChildrenList().add(_iStaticData);"));
+        assertTrue(resStr.contains("getChildrenList().add(_oDynamicDataWrapper);"));
+        assertTrue(resStr.contains("_iStaticData.setObjectValue(mValueObject.getIStaticData());"));
+        assertTrue(resStr.contains("if (null != mValueObject.getIStaticData()) {"));
+        assertTrue(resStr.contains("setCounterValue(_iStaticData.getDependingOn(), 1);"));
+        assertTrue(resStr.contains(" _oDynamicDataWrapper.setObjectValue(mValueObject.getODynamicData());"));
+    }
 }
