@@ -293,6 +293,22 @@ public class CoxbHelper {
     }
 
     /**
+     * Evaluates if element is an array.
+     * @param binding the element
+     * @return true if its an array
+     */
+    public final boolean isArray(final ICobolBinding binding) {
+        if (getGenericType(binding).equals("complexArray")) {
+            return true;
+        }
+        /* JAXB considers a member to be an array only if maxOccurs > 1*/
+        if (binding.getMaxOccurs() > 1) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Evaluates if element is a variable size array.
      * @param binding a bound element
      * @return true if variable size array
@@ -303,18 +319,17 @@ public class CoxbHelper {
     }
 
     /**
-     * Evaluates if element is an array.
-     * @param binding the element
-     * @return true if its an array
+     * Evaluates if element is optional.
+     * <p/>
+     * COBOL data items declared with OCCURS 0 TO 1 DEPENDING ON are not
+     * arrays from a JAXB standpoint. We call them optional elements.
+     * @param binding a bound element
+     * @return true if element is optional. i.e. its existence depends on
+     *  a counter value being 1.
      */
-    public final boolean isArray(final ICobolBinding binding) {
-        if (getGenericType(binding).equals("complexArray")) {
-            return true;
-        }
-        if (binding.getMaxOccurs() > 0) {
-            return true;
-        }
-        return false;
+    public final boolean isOptional(final ICobolBinding binding) {
+        return (binding.getDependingOn() != null
+                && binding.getDependingOn().length() > 0);
     }
 
     /**
