@@ -158,11 +158,11 @@
         <module>legstar-csokrt</module>
         <module>legstar-engine</module>
         <module>legstar-invoker</module>
-        <module>legstar-c2wsrt</module>
+        <module>legstar-cobcgen</module>
         <module>legstar-cixsgen</module>
         <module>legstar-cixsgen-cases</module>
         <module>legstar-cixsgen-model</module>
-        <module>legstar-cobcgen</module>
+        <module>legstar-c2wsrt</module>
         <module>legstar-distribution</module>
         <module>legstar-distribution-zos</module>
         <module>legstar-common-plugin</module>
@@ -474,6 +474,11 @@
                 <artifactId>commons-lang</artifactId>
                 <version>2.4</version>
             </dependency>
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>3.2.1</version>
+            </dependency>
             <!-- This is a commons-configuration dependency but it is
                  declared optional since 1.5. Brings all sorts of unwanted
                  dependencies such as Xalan/Xerces, older versions of the
@@ -585,6 +590,11 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-cixsgen-model</artifactId>
+                <version>${legstarVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-cixsgen-model-cases</artifactId>
                 <version>${legstarVersion}</version>
             </dependency>
             <dependency>
