@@ -13,39 +13,47 @@ package com.legstar.cixs.jaxws.gen.vm;
 import java.io.File;
 
 import com.legstar.cixs.gen.AbstractTestTemplate;
-import com.legstar.cixs.gen.TestCases;
+import com.legstar.cixs.gen.Samples;
 import com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
 import com.legstar.codegen.CodeGenUtil;
 
+/**
+ * Test the generation of a JAX-WS endpoint interface for an adapter.
+ *
+ */
 public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
-	
-	private static final String CIXS_JAXWS_GENERATOR_NAME =
-		"LegStar Jaxws service Generator";
-	
-	public void testCommonPackage() throws Exception {
-		
-		CixsJaxwsService model = TestCases.getLsfileae();
-        String resStr = genSource(model,
-        		CIXS_JAXWS_GENERATOR_NAME,
-        		"vlc/j2c-service-common-package.vm",
-        		GEN_SRC_DIR,
-        		"test.txt");
-        assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileae;"));
-	}
-	
-	public void testInterfaceCommareainEqCommareaout() throws Exception {
-		
-		CixsJaxwsService model = TestCases.getLsfileae();
 
-		File componentClassFilesDir = CodeGenUtil.classFilesLocation(
-				GEN_SRC_DIR, model.getPackageName(), true);
-		Jaxws2CixsGenerator.generateInterface(
-				model, getParameters(), componentClassFilesDir);
+    /**
+     * Generate the package name.
+     * @throws Exception if test fails
+     */
+    public void testCommonPackage() throws Exception {
+
+        CixsJaxwsService model = Samples.getLsfileae();
+        String resStr = genSource(model,
+                Jaxws2CixsGenerator.JAXWS_TO_CIXS_GENERATOR_NAME,
+                "vlc/j2c-service-common-package.vm",
+                GEN_SRC_DIR, "test.txt");
+        assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileae;"));
+    }
+
+    /**
+     * Case of a commarea driven target program.
+     * @throws Exception if test fails
+     */
+    public void testInterfaceCommareainEqCommareaout() throws Exception {
+
+        CixsJaxwsService model = Samples.getLsfileae();
+
+        File componentClassFilesDir = CodeGenUtil.classFilesLocation(
+                GEN_SRC_DIR, model.getPackageName(), true);
+        Jaxws2CixsGenerator.generateInterface(
+                model, getParameters(), componentClassFilesDir);
         String resStr = getSource(
-        		componentClassFilesDir,
-        		model.getInterfaceClassName() + ".java");
-        
+                componentClassFilesDir,
+                model.getInterfaceClassName() + ".java");
+
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileae;"));
         assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileae.Dfhcommarea;"));
         assertTrue(resStr.contains("@WebService(name = \"lsfileaePort\","));
@@ -63,21 +71,25 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("@WebParam(name = \"HostHeader\", header = true, partName = \"HostHeader\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileae\")"));
         assertTrue(resStr.contains("LsfileaeHostHeader hostHeader)"));
-        assertTrue(resStr.contains("throws LsfileaeFault;"));
-	}
-	
-	public void testInterfaceCommareainNeqCommareaout() throws Exception {
-		
-		CixsJaxwsService model = TestCases.getLsfileal();
-    	
-		File componentClassFilesDir = CodeGenUtil.classFilesLocation(
-				GEN_SRC_DIR, model.getPackageName(), true);
-		Jaxws2CixsGenerator.generateInterface(
-				model, getParameters(), componentClassFilesDir);
+        assertTrue(resStr.contains("throws LsfileaeException;"));
+    }
+
+    /**
+     * Case of a commarea driven target program with input layout different from output layout.
+     * @throws Exception if test fails
+     */
+    public void testInterfaceCommareainNeqCommareaout() throws Exception {
+
+        CixsJaxwsService model = Samples.getLsfileal();
+
+        File componentClassFilesDir = CodeGenUtil.classFilesLocation(
+                GEN_SRC_DIR, model.getPackageName(), true);
+        Jaxws2CixsGenerator.generateInterface(
+                model, getParameters(), componentClassFilesDir);
         String resStr = getSource(
-        		componentClassFilesDir,
-        		model.getInterfaceClassName() + ".java");
-		
+                componentClassFilesDir,
+                model.getInterfaceClassName() + ".java");
+
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileal;"));
         assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileal.RequestParms;"));
         assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileal.ReplyData;"));
@@ -97,20 +109,24 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("@WebParam(name = \"HostHeader\", header = true, partName = \"HostHeader\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileal\")"));
         assertTrue(resStr.contains("LsfilealHostHeader hostHeader)"));
-        assertTrue(resStr.contains("throws LsfilealFault;"));
-	}
-	
-	public void testInterfaceContainer() throws Exception {
-		
-		CixsJaxwsService model = TestCases.getLsfileac();
-    	
-		File componentClassFilesDir = CodeGenUtil.classFilesLocation(
-				GEN_SRC_DIR, model.getPackageName(), true);
-		Jaxws2CixsGenerator.generateInterface(
-				model, getParameters(), componentClassFilesDir);
+        assertTrue(resStr.contains("throws LsfilealException;"));
+    }
+
+    /**
+     * Case of a container driven target program.
+     * @throws Exception if test fails
+     */
+    public void testInterfaceContainer() throws Exception {
+
+        CixsJaxwsService model = Samples.getLsfileac();
+
+        File componentClassFilesDir = CodeGenUtil.classFilesLocation(
+                GEN_SRC_DIR, model.getPackageName(), true);
+        Jaxws2CixsGenerator.generateInterface(
+                model, getParameters(), componentClassFilesDir);
         String resStr = getSource(
-        		componentClassFilesDir,
-        		model.getInterfaceClassName() + ".java");
+                componentClassFilesDir,
+                model.getInterfaceClassName() + ".java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileac;"));
         assertTrue(resStr.contains("@WebService(name = \"lsfileacPort\","));
@@ -129,20 +145,24 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("@WebParam(name = \"HostHeader\", header = true, partName = \"HostHeader\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileac\")"));
         assertTrue(resStr.contains("LsfileacHostHeader hostHeader)"));
-        assertTrue(resStr.contains("throws LsfileacFault;"));
-	}
+        assertTrue(resStr.contains("throws LsfileacException;"));
+    }
 
-	public void testInterfaceMultiOperation() throws Exception {
-		
-		CixsJaxwsService model = TestCases.getLsfileax();
-    	
-		File componentClassFilesDir = CodeGenUtil.classFilesLocation(
-				GEN_SRC_DIR, model.getPackageName(), true);
-		Jaxws2CixsGenerator.generateInterface(
-				model, getParameters(), componentClassFilesDir);
+    /**
+     * Case of a a multiple method service.
+     * @throws Exception if test fails
+     */
+    public void testInterfaceMultiOperation() throws Exception {
+
+        CixsJaxwsService model = Samples.getLsfileax();
+
+        File componentClassFilesDir = CodeGenUtil.classFilesLocation(
+                GEN_SRC_DIR, model.getPackageName(), true);
+        Jaxws2CixsGenerator.generateInterface(
+                model, getParameters(), componentClassFilesDir);
         String resStr = getSource(
-        		componentClassFilesDir,
-        		model.getInterfaceClassName() + ".java");
+                componentClassFilesDir,
+                model.getInterfaceClassName() + ".java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileax;"));
         assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileae.Dfhcommarea;"));
@@ -162,8 +182,8 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("@WebParam(name = \"HostHeader\", header = true, partName = \"HostHeader\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileax\")"));
         assertTrue(resStr.contains("LsfileaxHostHeader hostHeader)"));
-        assertTrue(resStr.contains("throws LsfileaeFault;"));
-        
+        assertTrue(resStr.contains("throws LsfileaeException;"));
+
         assertTrue(resStr.contains("@RequestWrapper(localName = \"LsfileacRequest\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileax\","));
         assertTrue(resStr.contains("className = \"com.legstar.test.cixs.lsfileax.LsfileacRequest\")"));
@@ -177,20 +197,24 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("@WebParam(name = \"HostHeader\", header = true, partName = \"HostHeader\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileax\")"));
         assertTrue(resStr.contains("LsfileaxHostHeader hostHeader)"));
-        assertTrue(resStr.contains("throws LsfileacFault;"));
-	}
+        assertTrue(resStr.contains("throws LsfileacException;"));
+    }
 
-	public void testInterfaceOperationWithDifferentNamespace() throws Exception {
-		
-		CixsJaxwsService model = TestCases.getLsfilean();
-    	
-		File componentClassFilesDir = CodeGenUtil.classFilesLocation(
-				GEN_SRC_DIR, model.getPackageName(), true);
-		Jaxws2CixsGenerator.generateInterface(
-				model, getParameters(), componentClassFilesDir);
+    /**
+     * Case where operation has a different namespace/package than the service.
+     * @throws Exception if test fails
+     */
+    public void testInterfaceOperationWithDifferentNamespace() throws Exception {
+
+        CixsJaxwsService model = Samples.getLsfilean();
+
+        File componentClassFilesDir = CodeGenUtil.classFilesLocation(
+                GEN_SRC_DIR, model.getPackageName(), true);
+        Jaxws2CixsGenerator.generateInterface(
+                model, getParameters(), componentClassFilesDir);
         String resStr = getSource(
-        		componentClassFilesDir,
-        		model.getInterfaceClassName() + ".java");
+                componentClassFilesDir,
+                model.getInterfaceClassName() + ".java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfilean;"));
         assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileae.Dfhcommarea;"));
@@ -210,20 +234,25 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("@WebParam(name = \"HostHeader\", header = true, partName = \"HostHeader\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/oper/lsfilean\")"));
         assertTrue(resStr.contains("LsfileanHostHeader hostHeader)"));
-        assertTrue(resStr.contains("throws LsfileaeFault;"));
-	}
-	
-	public void testInterfaceOperationWithNoPackage() throws Exception {
-		
-		CixsJaxwsService model = TestCases.getLsfileap();
-    	
-		File componentClassFilesDir = CodeGenUtil.classFilesLocation(
-				GEN_SRC_DIR, model.getPackageName(), true);
-		Jaxws2CixsGenerator.generateInterface(
-				model, getParameters(), componentClassFilesDir);
+        assertTrue(resStr.contains("throws LsfileaeException;"));
+    }
+
+    /**
+     * Case where where there is no operation package names (not even one inherited
+     * from the service).
+     * @throws Exception if test fails
+     */
+    public void testInterfaceOperationWithNoPackage() throws Exception {
+
+        CixsJaxwsService model = Samples.getLsfileap();
+
+        File componentClassFilesDir = CodeGenUtil.classFilesLocation(
+                GEN_SRC_DIR, model.getPackageName(), true);
+        Jaxws2CixsGenerator.generateInterface(
+                model, getParameters(), componentClassFilesDir);
         String resStr = getSource(
-        		componentClassFilesDir,
-        		model.getInterfaceClassName() + ".java");
+                componentClassFilesDir,
+                model.getInterfaceClassName() + ".java");
 
         assertFalse(resStr.contains("package com.legstar.test.cixs.lsfileap;"));
         assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileae.Dfhcommarea;"));
@@ -243,7 +272,7 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("@WebParam(name = \"HostHeader\", header = true, partName = \"HostHeader\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileap\")"));
         assertTrue(resStr.contains("LsfileapHostHeader hostHeader)"));
-        assertTrue(resStr.contains("throws LsfileaeFault;"));
-	}
-	
+        assertTrue(resStr.contains("throws LsfileaeException;"));
+    }
+
 }

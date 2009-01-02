@@ -13,25 +13,33 @@ package com.legstar.cixs.jaxws.gen.vm;
 import java.io.File;
 
 import com.legstar.cixs.gen.AbstractTestTemplate;
-import com.legstar.cixs.gen.TestCases;
+import com.legstar.cixs.gen.Samples;
 import com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
 import com.legstar.codegen.CodeGenUtil;
 
 
+/**
+ * Test the generation of a JAX-WS endpoint implementation for an adapter.
+ *
+ */
 public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
-	
-	public void testImplementationCommareainEqCommareaout() throws Exception {
-		
-		CixsJaxwsService model = TestCases.getLsfileae();
-    	
-		File componentClassFilesDir = CodeGenUtil.classFilesLocation(
-				GEN_SRC_DIR, model.getPackageName(), true);
-		Jaxws2CixsGenerator.generateImplementation(
-				model, getParameters(), componentClassFilesDir);
+
+    /**
+     * Case of a commarea driven target program.
+     * @throws Exception if test fails
+     */
+    public void testImplementationCommareainEqCommareaout() throws Exception {
+
+        CixsJaxwsService model = Samples.getLsfileae();
+
+        File componentClassFilesDir = CodeGenUtil.classFilesLocation(
+                GEN_SRC_DIR, model.getPackageName(), true);
+        Jaxws2CixsGenerator.generateImplementation(
+                model, getParameters(), componentClassFilesDir);
         String resStr = getSource(
-        		componentClassFilesDir,
-        		model.getImplementationClassName() + ".java");
+                componentClassFilesDir,
+                model.getImplementationClassName() + ".java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileae;"));
         assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileae.Dfhcommarea;"));
@@ -45,7 +53,7 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("public final Dfhcommarea lsfileae("));
         assertTrue(resStr.contains("final Dfhcommarea request,"));
         assertTrue(resStr.contains("final LsfileaeHostHeader hostHeader)"));
-        assertTrue(resStr.contains("throws LsfileaeFault {"));
+        assertTrue(resStr.contains("throws LsfileaeException {"));
         assertTrue(resStr.contains("Dfhcommarea reply = null;"));
         assertTrue(resStr.contains("String requestID = \"lsfileae\";"));
         assertTrue(resStr.contains("mConfigFileName, getAddress(hostHeader), LSFILEAE_PROP_FILE);"));
@@ -56,28 +64,32 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("inputDfhcommareaBinding,"));
         assertTrue(resStr.contains("outputDfhcommareaBinding);"));
         assertTrue(resStr.contains("reply = outputDfhcommareaBinding.getDfhcommarea();"));
-        assertTrue(resStr.contains("* @throws LsfileaeFault the fault exception"));
-        assertTrue(resStr.contains("private void reportLsfileaeFault("));
-        assertTrue(resStr.contains("final String text) throws LsfileaeFault {"));
+        assertTrue(resStr.contains("* @throws LsfileaeException the fault exception"));
+        assertTrue(resStr.contains("private void reportLsfileaeException("));
+        assertTrue(resStr.contains("final String text) throws LsfileaeException {"));
         assertTrue(resStr.contains("LsfileaeFaultInfo faultInfo = new LsfileaeFaultInfo();"));
         assertTrue(resStr.contains("+ \"lsfileae\""));
         assertTrue(resStr.contains("+ \"com.legstar.test.cixs.lsfileae\");"));
-        assertTrue(resStr.contains("throw (new LsfileaeFault(text + ' '"));
+        assertTrue(resStr.contains("throw (new LsfileaeException(text + ' '"));
         assertTrue(resStr.contains("private LegStarAddress getAddress("));
         assertTrue(resStr.contains("final LsfileaeHostHeader hostHeader) {"));
-	}
-	
-	public void testInterfaceCommareainNeqCommareaout() throws Exception {
-		
-		CixsJaxwsService model = TestCases.getLsfileal();
-    	
-		File componentClassFilesDir = CodeGenUtil.classFilesLocation(
-				GEN_SRC_DIR, model.getPackageName(), true);
-		Jaxws2CixsGenerator.generateImplementation(
-				model, getParameters(), componentClassFilesDir);
+    }
+
+    /**
+     * Case of a commarea driven target program with input layout different from output layout.
+     * @throws Exception if test fails
+     */
+    public void testInterfaceCommareainNeqCommareaout() throws Exception {
+
+        CixsJaxwsService model = Samples.getLsfileal();
+
+        File componentClassFilesDir = CodeGenUtil.classFilesLocation(
+                GEN_SRC_DIR, model.getPackageName(), true);
+        Jaxws2CixsGenerator.generateImplementation(
+                model, getParameters(), componentClassFilesDir);
         String resStr = getSource(
-        		componentClassFilesDir,
-        		model.getImplementationClassName() + ".java");
+                componentClassFilesDir,
+                model.getImplementationClassName() + ".java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileal;"));
         assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileal.RequestParms;"));
@@ -93,7 +105,7 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("public final ReplyData lsfileal("));
         assertTrue(resStr.contains("final RequestParms request,"));
         assertTrue(resStr.contains("final LsfilealHostHeader hostHeader)"));
-        assertTrue(resStr.contains("throws LsfilealFault {"));
+        assertTrue(resStr.contains("throws LsfilealException {"));
         assertTrue(resStr.contains("ReplyData reply = null;"));
         assertTrue(resStr.contains("String requestID = \"lsfileal\";"));
         assertTrue(resStr.contains("mConfigFileName, getAddress(hostHeader), LSFILEAL_PROP_FILE);"));
@@ -104,28 +116,32 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("inputRequestParmsBinding,"));
         assertTrue(resStr.contains("outputReplyDataBinding);"));
         assertTrue(resStr.contains("reply = outputReplyDataBinding.getReplyData();"));
-        assertTrue(resStr.contains("* @throws LsfilealFault the fault exception"));
-        assertTrue(resStr.contains("private void reportLsfilealFault("));
-        assertTrue(resStr.contains("final String text) throws LsfilealFault {"));
+        assertTrue(resStr.contains("* @throws LsfilealException the fault exception"));
+        assertTrue(resStr.contains("private void reportLsfilealException("));
+        assertTrue(resStr.contains("final String text) throws LsfilealException {"));
         assertTrue(resStr.contains("LsfilealFaultInfo faultInfo = new LsfilealFaultInfo();"));
         assertTrue(resStr.contains("+ \"lsfileal\""));
         assertTrue(resStr.contains("+ \"com.legstar.test.cixs.lsfileal\");"));
-        assertTrue(resStr.contains("throw (new LsfilealFault(text + ' '"));
+        assertTrue(resStr.contains("throw (new LsfilealException(text + ' '"));
         assertTrue(resStr.contains("private LegStarAddress getAddress("));
         assertTrue(resStr.contains("final LsfilealHostHeader hostHeader) {"));
-	}
-	
-	public void testImplementationContainer() throws Exception {
-		
-		CixsJaxwsService model = TestCases.getLsfileac();
-    	
-		File componentClassFilesDir = CodeGenUtil.classFilesLocation(
-				GEN_SRC_DIR, model.getPackageName(), true);
-		Jaxws2CixsGenerator.generateImplementation(
-				model, getParameters(), componentClassFilesDir);
+    }
+
+    /**
+     * Case of a container driven target program.
+     * @throws Exception if test fails
+     */
+    public void testImplementationContainer() throws Exception {
+
+        CixsJaxwsService model = Samples.getLsfileac();
+
+        File componentClassFilesDir = CodeGenUtil.classFilesLocation(
+                GEN_SRC_DIR, model.getPackageName(), true);
+        Jaxws2CixsGenerator.generateImplementation(
+                model, getParameters(), componentClassFilesDir);
         String resStr = getSource(
-        		componentClassFilesDir,
-        		model.getImplementationClassName() + ".java");
+                componentClassFilesDir,
+                model.getImplementationClassName() + ".java");
 
         assertTrue(resStr.contains("import java.util.LinkedHashMap;"));
         assertTrue(resStr.contains("import java.util.Map;"));
@@ -154,6 +170,6 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("reply = new LsfileacResponseHolder();"));
         assertTrue(resStr.contains("reply.setReplyData(outputReplyDataBinding.getReplyData());"));
         assertTrue(resStr.contains("reply.setReplyStatus(outputReplyStatusBinding.getReplyStatus());"));
-	}
-	
+    }
+
 }
