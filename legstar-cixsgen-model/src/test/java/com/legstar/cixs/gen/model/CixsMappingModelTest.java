@@ -12,89 +12,122 @@ package com.legstar.cixs.gen.model;
 
 import java.util.ArrayList;
 
-import com.legstar.cixs.gen.model.CixsOperation;
-import com.legstar.cixs.gen.model.CixsStructure;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import junit.framework.TestCase;
 
+/**
+ * Test the CixsMappingModel class.
+ *
+ */
 public class CixsMappingModelTest extends TestCase {
-    
-    private final static String COXB_PACKAGE_PREFIX = "com.legstar.test.coxb.";
-   
-    public void testSerialize() throws Exception {
+
+    /**
+     * The usual binding package prefix.
+     */
+    private static final String COXB_PACKAGE_PREFIX = "com.legstar.test.coxb.";
+
+    /** Logger. */
+    private static final Log LOG = LogFactory.getLog(CixsMappingModelTest.class);
+
+
+    /** A sample serialized model.*/
+    private static final String SERIALIZED_MODEL =
+        "<cixsMapping name=\"myName\" packageName=\"com.legstar.my.package\">"
+        + "<cixsOperation name=\"lsfileal\" cicsProgramName=\"LSFILEAL\"> "
+        + "<input jaxbType=\"RequestParmsType\" jaxbPackageName=\"com.legstar.test.coxb.lsfileal\" />"
+        + "<output jaxbType=\"ReplyDataType\" jaxbPackageName=\"com.legstar.test.coxb.lsfileal\" />"
+        + "</cixsOperation>"
+        + "</cixsMapping>";
+
+    /** A sample serialized compatible model.*/
+    private static final String SERIALIZED_COMPATIBLE_MODEL =
+        "<cixsJaxwsService name=\"myName\" packageName=\"com.legstar.my.package\">"
+        + "<cixsOperation name=\"lsfileal\" cicsProgramName=\"LSFILEAL\"> "
+        + "<input jaxbType=\"RequestParmsType\" jaxbPackageName=\"com.legstar.test.coxb.lsfileal\" />"
+        + "<output jaxbType=\"ReplyDataType\" jaxbPackageName=\"com.legstar.test.coxb.lsfileal\" />"
+        + "</cixsOperation>"
+        + "</cixsJaxwsService>";
+
+
+    /**
+     * Serialize the mapping.
+     * @throws CixsModelException if CixsModel cannot be built.
+     */
+    public void testSerialize() throws CixsModelException {
         CixsMappingModel model = new CixsMappingModel();
         model.setName("myName");
         model.addCixsOperation(getNewCommareaOperation("lsfileal", "RequestParmsType", "ReplyDataType"));
-        
+
         String result = model.serialize();
-        System.out.println(result);
+        LOG.debug(result);
         assertTrue(result.contains("<cixsMapping name=\"myName\">"));
         assertTrue(result.contains("<cixsOperation name=\"lsfileal\" cicsProgramName=\"LSFILEAL\" "));
-        assertTrue(result.contains("<input jaxbType=\"RequestParmsType\" jaxbPackageName=\"com.legstar.test.coxb.lsfileal\" "));
-        assertTrue(result.contains("<output jaxbType=\"ReplyDataType\" jaxbPackageName=\"com.legstar.test.coxb.lsfileal\" "));
-    }
-    
-    public void testLoad() throws Exception {
-        CixsMappingModel model = new CixsMappingModel();
-        model.load(getSerialized());
-        assertEquals("myName", model.getName());
-        assertEquals("lsfileal", model.getCixsOperations().get(0).getName());
-        assertEquals("LSFILEAL", model.getCixsOperations().get(0).getCicsProgramName());
-        assertEquals("RequestParmsType", model.getCixsOperations().get(0).getInput().get(0).getJaxbType());
-        assertEquals("com.legstar.test.coxb.lsfileal", model.getCixsOperations().get(0).getInput().get(0).getJaxbPackageName());
-    }
-    
-    public void testLoadCompat() throws Exception {
-        CixsMappingModel model = new CixsMappingModel();
-        model.load(getSerializedCompat());
-        assertEquals("myName", model.getName());
-        assertEquals("lsfileal", model.getCixsOperations().get(0).getName());
-        assertEquals("LSFILEAL", model.getCixsOperations().get(0).getCicsProgramName());
-        assertEquals("RequestParmsType", model.getCixsOperations().get(0).getInput().get(0).getJaxbType());
-        assertEquals("com.legstar.test.coxb.lsfileal", model.getCixsOperations().get(0).getInput().get(0).getJaxbPackageName());
+        assertTrue(result.contains("<input jaxbType=\"RequestParmsType\""
+                + " jaxbPackageName=\"com.legstar.test.coxb.lsfileal\" "));
+        assertTrue(result.contains("<output jaxbType=\"ReplyDataType\""
+                + " jaxbPackageName=\"com.legstar.test.coxb.lsfileal\" "));
     }
 
-    private static CixsOperation getNewCommareaOperation(String name, String inputJaxbType, String outputJaxbType) {
+    /**
+     * Restore a serialized model.
+     * @throws CixsModelException if load fails
+     */
+    public void testLoad() throws CixsModelException {
+        CixsMappingModel model = new CixsMappingModel();
+        model.load(SERIALIZED_MODEL);
+        assertEquals("myName", model.getName());
+        assertEquals("lsfileal", model.getCixsOperations().get(0).getName());
+        assertEquals("LSFILEAL", model.getCixsOperations().get(0).getCicsProgramName());
+        assertEquals("RequestParmsType",
+                model.getCixsOperations().get(0).getInput().get(0).getJaxbType());
+        assertEquals("com.legstar.test.coxb.lsfileal",
+                model.getCixsOperations().get(0).getInput().get(0).getJaxbPackageName());
+    }
+
+    /**
+     * Test that the wrapper element does not matter. Only the content.
+     * @throws CixsModelException if load fails
+     */
+    public void testLoadCompat() throws CixsModelException {
+        CixsMappingModel model = new CixsMappingModel();
+        model.load(SERIALIZED_COMPATIBLE_MODEL);
+        assertEquals("myName", model.getName());
+        assertEquals("lsfileal", model.getCixsOperations().get(0).getName());
+        assertEquals("LSFILEAL", model.getCixsOperations().get(0).getCicsProgramName());
+        assertEquals("RequestParmsType",
+                model.getCixsOperations().get(0).getInput().get(0).getJaxbType());
+        assertEquals("com.legstar.test.coxb.lsfileal",
+                model.getCixsOperations().get(0).getInput().get(0).getJaxbPackageName());
+    }
+
+    /**
+     * Built a CixsOperation.
+     * @param name operation name
+     * @param inputJaxbType input JAXB type
+     * @param outputJaxbType output JAXB type
+     * @return a CixsOperation
+     */
+    private static CixsOperation getNewCommareaOperation(
+            final String name, final String inputJaxbType, final String outputJaxbType) {
         CixsOperation operation = new CixsOperation();
         operation.setInput(new ArrayList < CixsStructure >());
         operation.setOutput(new ArrayList < CixsStructure >());
         CixsStructure inStruct = new CixsStructure();
         CixsStructure outStruct = new CixsStructure();
-        
+
         operation.setName(name);
         operation.setCicsProgramName(name.toUpperCase());
         inStruct.setJaxbType(inputJaxbType);
         inStruct.setJaxbPackageName(COXB_PACKAGE_PREFIX + name);
         outStruct.setJaxbType(outputJaxbType);
         outStruct.setJaxbPackageName(inStruct.getJaxbPackageName());
-        
+
         operation.getInput().add(inStruct);
         operation.getOutput().add(outStruct);
-        
+
         return operation;
     }
-    
-    private String getSerialized() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("<cixsMapping name=\"myName\" packageName=\"com.legstar.my.package\">");
-        sb.append("<cixsOperation name=\"lsfileal\" cicsProgramName=\"LSFILEAL\"> ");
-        sb.append("<input jaxbType=\"RequestParmsType\" jaxbPackageName=\"com.legstar.test.coxb.lsfileal\" />");
-        sb.append("<output jaxbType=\"ReplyDataType\" jaxbPackageName=\"com.legstar.test.coxb.lsfileal\" />");
-        sb.append("</cixsOperation>");
-        sb.append("</cixsMapping>");
-        return sb.toString();
-        
-    }
 
-    private String getSerializedCompat() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("<cixsJaxwsService name=\"myName\" packageName=\"com.legstar.my.package\">");
-        sb.append("<cixsOperation name=\"lsfileal\" cicsProgramName=\"LSFILEAL\"> ");
-        sb.append("<input jaxbType=\"RequestParmsType\" jaxbPackageName=\"com.legstar.test.coxb.lsfileal\" />");
-        sb.append("<output jaxbType=\"ReplyDataType\" jaxbPackageName=\"com.legstar.test.coxb.lsfileal\" />");
-        sb.append("</cixsOperation>");
-        sb.append("</cixsJaxwsService>");
-        return sb.toString();
-        
-    }
 }
