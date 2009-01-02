@@ -64,7 +64,7 @@
                                     <path refid="maven.compile.classpath"/>
                                     <path refid="maven.plugin.classpath"/>
                                 </path>
-                                <ant antfile="${basedir}/src/test/ant/build-test-schema.xml" inheritRefs="yes"/>
+                                <ant antfile="${basedir}/src/test/ant/build-test-schema.xml" inheritRefs="true"/>
                             </tasks>
                         </configuration>
                         <goals>
