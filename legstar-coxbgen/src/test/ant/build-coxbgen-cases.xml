@@ -56,12 +56,8 @@
 
 		<!-- Ant-Contrib tasks. Needed for "foreach ", regex, switch, ...
 		     (ant-contrib.jar must be in ant classpath) -->
-	    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
-	    	<classpath>
-			    <pathelement location="C:\Program Files\Apache\antcontrib\ant-contrib-1.0b2-bin\ant-contrib\lib\ant-contrib.jar"/>
-	    	</classpath>
-	    </taskdef>
-		
+		<taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+			
 	</target>
 
 	<!-- ===========================================================  -->
