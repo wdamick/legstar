@@ -17,7 +17,17 @@
             <groupId>ant</groupId>
             <artifactId>ant</artifactId>
         </dependency>
-    
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-codegen</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-cixsgen-model</artifactId>
@@ -28,50 +38,29 @@
             <artifactId>legstar-coxbgen</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-xsdcgen</artifactId>
-        </dependency>
-
          <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-cobcgen</artifactId>
         </dependency>
         
         <dependency>
-            <groupId>javax.xml.ws</groupId>
-            <artifactId>jaxws-api</artifactId>
-        </dependency>
-
-        <!-- Although not stricly a runtime dependency this will make
-        sure the invoker and c2wsrt are part of the delivery. -->
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-invoker</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-c2wsrt</artifactId>
-        </dependency>
-        <!-- We also ship jaxws-rt because otherwise the user is left
-             guessing which version he needs to get from Sun. -->
-        <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-rt</artifactId>
-        </dependency>
-    
-        <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-coxbgen-cases</artifactId>
             <scope>test</scope>
         </dependency>
-    
+
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-jaxbgen-cases</artifactId>
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-cixsgen-model-cases</artifactId>
+            <scope>test</scope>
+        </dependency>
+    
     </dependencies>
  
     <build>
@@ -104,10 +93,13 @@
                 <executions>
                     <execution>
                         <id>build-test-service</id>
-                        <phase>integration-test</phase>
+                        <phase>pre-integration-test</phase>
                         <configuration>
                             <tasks>
-                                <ant antfile="${basedir}/src/test/ant/build-cixsgen-cases.xml" />
+                                <path id="maven.classpath">
+                                    <path refid="maven.test.classpath"/>
+                                </path>
+                                <ant antfile="${basedir}/src/test/ant/build-cixsgen-cases.xml" inheritRefs="true"/>
                             </tasks>
                         </configuration>
                         <goals>
