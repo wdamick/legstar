@@ -76,7 +76,9 @@ public abstract class AbstractJavaToHostTransformer extends AbstractTransformer 
      * @throws HostTransformException if transformation fails
      */
     public byte[] transform(final Object valueObject, final String hostCharset) throws HostTransformException {
-        getCobolConverters().getCobolContext().setHostCharsetName(hostCharset);
+        if (hostCharset != null && hostCharset.length() > 0) {
+            getCobolConverters().getCobolContext().setHostCharsetName(hostCharset);
+        }
         return transform(valueObject);
     }
 
