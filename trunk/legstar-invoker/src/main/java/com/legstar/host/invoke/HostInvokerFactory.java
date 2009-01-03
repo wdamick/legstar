@@ -71,7 +71,7 @@ public final class HostInvokerFactory {
         }
 
         /* Create a complete address by merging requested address attributes
-         * with the endpoint configuration ones. For isntance if requested
+         * with the endpoint configuration ones. For instance if requested
          * address does not specify credentials, we will pick up the default
          * credentials from the configuration. */
         LegStarAddress completeAddress =

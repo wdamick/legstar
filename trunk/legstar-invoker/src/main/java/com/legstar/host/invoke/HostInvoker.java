@@ -13,6 +13,8 @@ package com.legstar.host.invoke;
 import java.util.Map;
 
 import com.legstar.coxb.ICobolComplexBinding;
+import com.legstar.host.access.HostAccessStrategy;
+import com.legstar.messaging.LegStarAddress;
 
 /**
  * Abstract class to invoke host functions.
@@ -77,4 +79,19 @@ public interface HostInvoker {
             String requestID,
             Map < String, byte[] > requestParts)
     throws HostInvokerException;
+
+    /**
+     * @return the host address this invoker is targeting
+     */
+    LegStarAddress getAddress();
+
+    /**
+     * @return the host access strategy this invoker is using
+     */
+    HostAccessStrategy getHostAccessStrategy();
+
+    /**
+     * @return the attributes of the target host program
+     */
+    CicsProgram getProgramAttr();
 }
