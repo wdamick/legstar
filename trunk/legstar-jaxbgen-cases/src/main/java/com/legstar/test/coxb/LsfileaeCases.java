@@ -63,6 +63,15 @@ public final class LsfileaeCases extends TestCase {
     }
 
     /**
+     * @return an instance of a valued java object.
+     */
+    public static Dfhcommarea getJavaObjectRequest100() {
+        ObjectFactory of = new ObjectFactory();
+        Dfhcommarea dfhcommarea = of.createDfhcommarea();
+        dfhcommarea.setComNumber(100L);
+        return dfhcommarea;
+    }
+    /**
      * @return a hexadecimal representation of host data.
      */
     public static String getHostBytesHexRequest100() { 
