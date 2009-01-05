@@ -52,6 +52,10 @@ public class CoxbGenWriter {
     public static final String JAVA_TO_HOST_XFORMER_VLC_TEMPLATE =
         "vlc/coxb-bind-java-to-host-transformer.vm";
 
+    /** Velocity template for tranformer provider. */
+    public static final String XFORMER_PROVIDER_VLC_TEMPLATE =
+        "vlc/coxb-bind-transformer-provider.vm";
+
     /** A set of methods to simplify the velocity templates. */
     private CodeGenHelper mHelper;
 
@@ -153,6 +157,17 @@ public class CoxbGenWriter {
             final ICobolComplexBinding ce) throws CodeGenException {
         writeGeneric(ce, JAVA_TO_HOST_XFORMER_VLC_TEMPLATE,
                 mCoxbHelper.getBoundTypeName(ce) + "JavaToHostTransformer.java");
+    }
+
+    /**
+     * Produces a transformer provider class for a complex element.
+     * @param ce the binding element
+     * @throws CodeGenException if generation fails
+     */
+    public final void writeTransformerProvider(
+            final ICobolComplexBinding ce) throws CodeGenException {
+        writeGeneric(ce, XFORMER_PROVIDER_VLC_TEMPLATE,
+                mCoxbHelper.getBoundTypeName(ce) + "TransformerProvider.java");
     }
 
     /**

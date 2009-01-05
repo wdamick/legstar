@@ -1,0 +1,21 @@
+## Determine the value Object type
+#set ($valueObjectType = $coxbHelper.getBoundTypeName($binding))
+package ${coxbContext.getCoxbPackageName()};
+
+import com.legstar.coxb.transform.AbstractTransformerProvider;
+
+/**
+ * Transformer provider for ${valueObjectType} java data object.
+ *
+ */
+public class ${valueObjectType}TransformerProvider extends AbstractTransformerProvider {
+
+    /**
+     * Create a set of directional transformers.
+     */
+    public ${valueObjectType}TransformerProvider() {
+        super(new ${valueObjectType}JavaToHostTransformer(),
+                new ${valueObjectType}HostToJavaTransformer());
+    }
+
+}
