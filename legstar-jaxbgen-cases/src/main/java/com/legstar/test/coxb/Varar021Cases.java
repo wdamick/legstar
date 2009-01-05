@@ -178,4 +178,45 @@ public final class Varar021Cases extends TestCase {
         assertEquals("AN ERROR", searchGrplst.getPayload().getWellpointEaiEbsErrorRow().get(0).getWeerExceptionUuid());
     }
 
+    /**
+     * Check that data object contains an error report following a request that
+     * contained an invalid I-STATIC-DATA structure.
+     * @param searchGrplst the java object to check
+     */
+    public static void checkJavaObjectError(final SearchGrplst searchGrplst) {
+        assertEquals(1, searchGrplst.getPayload().getWechRequestRows());
+        assertEquals(0, searchGrplst.getPayload().getWechDynamicResponseRows());
+        assertEquals(1, searchGrplst.getPayload().getWechErrorRows());
+        assertEquals("", searchGrplst.getPayload().getWechAdditionalPageKeys());
+        assertEquals("", searchGrplst.getPayload().getIStaticData().getLkupInfo().get(0).getLkupId());
+        assertEquals("ALPHA", searchGrplst.getPayload().getIStaticData().getLkupInfo().get(0).getLkupTypCd());
+        assertEquals("", searchGrplst.getPayload().getIStaticData().getLkupInfo().get(1).getLkupId());
+        assertEquals("", searchGrplst.getPayload().getIStaticData().getLkupInfo().get(1).getLkupTypCd());
+        assertEquals(0, searchGrplst.getPayload().getODynamicData().size());
+        assertEquals(1, searchGrplst.getPayload().getWellpointEaiEbsErrorRow().size());
+        assertEquals("LKUP-TYP-CD(1, 1) not numeric", searchGrplst.getPayload().getWellpointEaiEbsErrorRow().get(0).getWeerExceptionUuid());
+    }
+
+    /**
+     * Check that data object contains 10 O-DYNAMIC-DATA data structures.
+     * @param searchGrplst the java object to check
+     */
+    public static void checkJavaObject10Items(final SearchGrplst searchGrplst) {
+        assertEquals(1, searchGrplst.getPayload().getWechRequestRows());
+        assertEquals(10, searchGrplst.getPayload().getWechDynamicResponseRows());
+        assertEquals(0, searchGrplst.getPayload().getWechErrorRows());
+        assertEquals("", searchGrplst.getPayload().getWechAdditionalPageKeys());
+        assertEquals("", searchGrplst.getPayload().getIStaticData().getLkupInfo().get(0).getLkupId());
+        assertEquals("00010", searchGrplst.getPayload().getIStaticData().getLkupInfo().get(0).getLkupTypCd());
+        assertEquals("", searchGrplst.getPayload().getIStaticData().getLkupInfo().get(1).getLkupId());
+        assertEquals("", searchGrplst.getPayload().getIStaticData().getLkupInfo().get(1).getLkupTypCd());
+        assertEquals(10, searchGrplst.getPayload().getODynamicData().size());
+        for (int i = 0; i < searchGrplst.getPayload().getODynamicData().size(); i++) {
+            LkupInfo41 lkupInfo41 = searchGrplst.getPayload().getODynamicData().get(i).getLkupInfo().get(0);
+            assertEquals("", lkupInfo41.getLkupIdCt());
+            assertEquals("00010", lkupInfo41.getLkupTypCdCt());
+            
+        }
+        
+    }
 }
