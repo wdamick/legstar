@@ -9,6 +9,7 @@ import com.legstar.test.coxb.lsfileal.ReplyErrorHeader;
 import com.legstar.test.coxb.lsfileal.ReplyItem;
 import com.legstar.test.coxb.lsfileal.ReplyPersonal;
 import com.legstar.test.coxb.lsfileal.ReplySuccessHeader;
+import com.legstar.test.coxb.lsfileal.RequestParms;
 
 /**
  * Provides data samples for testing throughout LegStar.  
@@ -184,5 +185,58 @@ public final class LsfilealCases extends TestCase {
         assertEquals(80, replyData.getReplyErrorHeader().getReplyResp2());
         assertEquals("FILE CLOSED", replyData.getReplyErrorHeader().getReplyMessage().trim());
         assertEquals(0, replyData.getFiller65().getReplyItemscount());
+    }
+
+    /**
+     * @return an instance of a valued java object.
+     */
+    public static RequestParms getJavaObjectRequestSStar() {
+        ObjectFactory of = new ObjectFactory();
+        RequestParms requestParms = of.createRequestParms();
+        requestParms.setRequestName("S*");
+        return requestParms;
+    }
+    /**
+     * Check that data object contains the expected values.
+     * @param replyData the java object to check
+     */
+    public static void checkJavaObjectReeplySStar(final ReplyData replyData) {
+        assertEquals(0, replyData.getReplyType());
+        assertEquals(null, replyData.getReplyErrorHeader());
+        assertEquals("00:00:00", replyData.getReplySuccessHeader().getSearchDuration());
+        assertEquals(45, replyData.getReplySuccessHeader().getTotalItemsRead());
+        assertEquals(5, replyData.getFiller65().getReplyItemscount());
+
+        assertEquals(100, replyData.getFiller65().getReplyItem().get(0).getReplyNumber());
+        assertEquals("$0100.11", replyData.getFiller65().getReplyItem().get(0).getReplyAmount());
+        assertEquals("*********", replyData.getFiller65().getReplyItem().get(0).getReplyComment());
+        assertEquals("26 11 81", replyData.getFiller65().getReplyItem().get(0).getReplyDate());
+        assertEquals("SURREY, ENGLAND", replyData.getFiller65().getReplyItem().get(0).getReplyPersonal().getReplyAddress());
+        assertEquals("S. D. BORMAN", replyData.getFiller65().getReplyItem().get(0).getReplyPersonal().getReplyName());
+        assertEquals("32156778", replyData.getFiller65().getReplyItem().get(0).getReplyPersonal().getReplyPhone());
+
+        assertEquals(762, replyData.getFiller65().getReplyItem().get(1).getReplyNumber());
+        assertEquals("$0000.00", replyData.getFiller65().getReplyItem().get(1).getReplyAmount());
+        assertEquals("*********", replyData.getFiller65().getReplyItem().get(1).getReplyComment());
+        assertEquals("01 06 74", replyData.getFiller65().getReplyItem().get(1).getReplyDate());
+        assertEquals("SAN JOSE,CALIFORNIA", replyData.getFiller65().getReplyItem().get(1).getReplyPersonal().getReplyAddress());
+        assertEquals("SUSAN MALAIKA", replyData.getFiller65().getReplyItem().get(1).getReplyPersonal().getReplyName());
+        assertEquals("22312121", replyData.getFiller65().getReplyItem().get(1).getReplyPersonal().getReplyPhone());
+
+        assertEquals(6016, replyData.getFiller65().getReplyItem().get(2).getReplyNumber());
+        assertEquals("$0009.88", replyData.getFiller65().getReplyItem().get(2).getReplyAmount());
+        assertEquals("*********", replyData.getFiller65().getReplyItem().get(2).getReplyComment());
+        assertEquals("21 05 74", replyData.getFiller65().getReplyItem().get(2).getReplyDate());
+        assertEquals("NEW DELHI, INDIA", replyData.getFiller65().getReplyItem().get(2).getReplyPersonal().getReplyAddress());
+        assertEquals("SIR MICHAEL ROBERTS", replyData.getFiller65().getReplyItem().get(2).getReplyPersonal().getReplyName());
+        assertEquals("70331211", replyData.getFiller65().getReplyItem().get(2).getReplyPersonal().getReplyPhone());
+
+        assertEquals(200000, replyData.getFiller65().getReplyItem().get(3).getReplyNumber());
+        assertEquals("$0020.00", replyData.getFiller65().getReplyItem().get(3).getReplyAmount());
+        assertEquals("*********", replyData.getFiller65().getReplyItem().get(3).getReplyComment());
+        assertEquals("26 11 81", replyData.getFiller65().getReplyItem().get(3).getReplyDate());
+        assertEquals("GLASGOW,  SCOTLAND", replyData.getFiller65().getReplyItem().get(3).getReplyPersonal().getReplyAddress());
+        assertEquals("S. P. RUSSELL", replyData.getFiller65().getReplyItem().get(3).getReplyPersonal().getReplyName());
+        assertEquals("63738290", replyData.getFiller65().getReplyItem().get(3).getReplyPersonal().getReplyPhone());
     }
 }
