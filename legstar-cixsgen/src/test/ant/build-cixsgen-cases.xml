@@ -40,6 +40,8 @@
 		<property name="cixs.package.pfx" value="com.legstar.test.cixs"/>
 		<!-- Namespace prefix for CIXS WSDL   -->
 		<property name="cixs.namespace.pfx" value="http://cixs.test.legstar.com"/>
+		<!-- Location of test resources   -->
+		<property name="test.res.dir" value="${basedir}/../legstar-cixsgen-cases/src/test/resources"/>
 				
 		<!-- Service Generator ant task -->
 		<taskdef name="cixsgen"
@@ -81,7 +83,9 @@
 		</foreach>
 		<antcall target="generateLsfilealService"/>
 		<antcall target="generateLsfileacService"/>
+		<antcall target="generateLsfileaxService"/>
 		<antcall target="generateVarar021Service"/>
+		<antcall target="copyPropertiesForTesting"/>
 	</target>
 
 	<!-- ===========================================================  -->
@@ -204,6 +208,65 @@
   	</target>
 	
 	<!-- ===========================================================  -->
+	<!-- This step creates a Web Service for Lsfileax which happens
+	     to have 2 operations.   -->
+	
+	<target name="generateLsfileaxService">
+		
+		<cixsgen targetSrcDir="${cixs.src.dir}"
+	             targetBinDir="${cixs.bin.dir}"
+		         targetWDDDir="${res.dir}/lsfileax/${wdd.dir}"
+			     targetPropDir="${res.dir}/lsfileax/${prop.dir}"
+			     targetAntDir="${res.dir}/lsfileax/${ant.dir}"
+		         targetWarDir="${war.dir}"
+		         jaxbBinDir="${jaxb.bin.dir}"
+	        	 coxbBinDir="${coxb.bin.dir}"
+	             custBinDir="${cust.bin.dir}"
+			>
+			<cixsJaxwsService name="lsfileax"
+				packageName="${cixs.package.pfx}.lsfileax"
+				targetNamespace="${cixs.namespace.pfx}/lsfileax">
+				<cixsOperation name="lsfileae"
+					cicsProgramName="LSFILEAE">
+					<input
+						jaxbType="Dfhcommarea"
+						jaxbPackageName="${jaxb.package.pfx}.lsfileae"
+					/>
+					<output
+						jaxbType="Dfhcommarea"
+						jaxbPackageName="${jaxb.package.pfx}.lsfileae"
+					/>
+				</cixsOperation>
+				<cixsOperation name="lsfileac"
+					cicsProgramName="lsfileac"
+					cicsChannel="LSFILEAC-CHANNEL">
+					<input
+						jaxbType="QueryData"
+						jaxbPackageName="${jaxb.package.pfx}.lsfileac"
+						cicsContainer="QueryData"
+					/>
+					<input
+						jaxbType="QueryLimit"
+						jaxbPackageName="${jaxb.package.pfx}.lsfileac"
+						cicsContainer="QueryLimit"
+					/>
+					<output
+						jaxbType="ReplyStatus"
+						jaxbPackageName="${jaxb.package.pfx}.lsfileac"
+						cicsContainer="ReplyStatus"
+					/>
+					<output
+						jaxbType="ReplyData"
+						jaxbPackageName="${jaxb.package.pfx}.lsfileac"
+						cicsContainer="ReplyData"
+					/>
+				</cixsOperation>
+			</cixsJaxwsService>
+		</cixsgen>
+		
+  	</target>
+
+	<!-- ===========================================================  -->
 	<!-- This step creates a Web Service for varar021 a case with
 	     variable size input and outputs.   -->
 	
@@ -236,6 +299,19 @@
 			</cixsJaxwsService>
 		</cixsgen>
 		
+  	</target>
+
+	<!-- ===========================================================  -->
+	<!-- This step propagates the properties files which are located
+	     in a folder that is convenient for distribution:
+	      src/main/resources/${service}/WebContent/WEB-INF/classes
+	     to a location where they can be used for direct testing
+	     (without deployment):  src/test/resources.   -->
+	
+	<target name="copyPropertiesForTesting">
+		<copy todir="${test.res.dir}" flatten="true">
+			<fileset dir="${res.dir}" includes="**/*.properties"/>
+		</copy>
   	</target>
 
 </project>

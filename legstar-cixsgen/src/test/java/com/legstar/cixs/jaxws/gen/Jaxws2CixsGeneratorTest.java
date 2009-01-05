@@ -288,7 +288,8 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("public interface " + className + " {"));
 
         resStr = getSource(GEN_SRC_DIR + relativeLoc + "/"  + className + "Impl.java");
-        assertTrue(resStr.contains("public class "  + className + "Impl implements " + className + " {"));
+        assertTrue(resStr.contains("public class "  + className
+                + "Impl extends AbstractServiceAdapter implements " + className + " {"));
 
         resStr = getSource(GEN_SRC_DIR + relativeLoc + "/" + className + "HostHeader.java");
         assertTrue(resStr.contains("public class " + className + "HostHeader {"));
@@ -326,6 +327,10 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
 
         resStr = getSource(GEN_SRC_DIR + relativeLoc + "/" + className + "FaultInfo.java");
         assertTrue(resStr.contains("public class " + className + "FaultInfo {"));
+
+        resStr = getSource(GEN_SRC_DIR + relativeLoc + "/" + className + "OperationInvoker.java");
+        assertTrue(resStr.contains("public class " + className
+                + "OperationInvoker extends AbstractOperationInvoker {"));
 
     }
 
