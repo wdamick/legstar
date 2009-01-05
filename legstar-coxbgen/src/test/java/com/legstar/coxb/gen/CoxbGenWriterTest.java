@@ -208,7 +208,7 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
      * Generate a transformer provider case.
      * @throws Exception if generation fails
      */
-    public void testGenTransformerProvider() throws Exception {
+    public void testGenTransformers() throws Exception {
 
         com.legstar.test.coxb.lsfileae.ObjectFactory objectFactory
         = new com.legstar.test.coxb.lsfileae.ObjectFactory();
@@ -223,15 +223,15 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
         coxbGenContext.setCoxbPackageName("com.legstar.test.coxb.lsfileae.bind");
 
         CoxbGenWriter writer = new CoxbGenWriter(coxbGenContext);
-        writer.writeTransformerProvider(ce);
+        writer.writeTransformers(ce);
         String resStr = getSource(GEN_SRC_DIR,
-                "/com/legstar/test/coxb/lsfileae/bind/DfhcommareaTransformerProvider.java");
+                "/com/legstar/test/coxb/lsfileae/bind/DfhcommareaTransformers.java");
 
         assertTrue(resStr.contains("package com.legstar.test.coxb.lsfileae.bind;"));
         assertTrue(resStr.contains("* Transformer provider for Dfhcommarea java data object."));
         assertTrue(resStr.contains(
-            "public class DfhcommareaTransformerProvider extends AbstractTransformerProvider {"));
-        assertTrue(resStr.contains("public DfhcommareaTransformerProvider() {"));
+            "public class DfhcommareaTransformers extends AbstractTransformers {"));
+        assertTrue(resStr.contains("public DfhcommareaTransformers() {"));
         assertTrue(resStr.contains("super(new DfhcommareaJavaToHostTransformer(),"));
         assertTrue(resStr.contains("new DfhcommareaHostToJavaTransformer());"));
     }
