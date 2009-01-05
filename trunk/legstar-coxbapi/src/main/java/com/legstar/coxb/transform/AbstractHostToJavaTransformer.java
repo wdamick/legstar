@@ -39,7 +39,7 @@ import com.legstar.coxb.host.HostException;
  *  }
  * </pre>
  */
-public abstract class AbstractHostToJavaTransformer extends AbstractTransformer {
+public abstract class AbstractHostToJavaTransformer extends AbstractTransformer implements IHostToJavaTransformer {
     
     /** Logger. */
     private static final Log LOG = LogFactory.getLog(AbstractHostToJavaTransformer.class);
@@ -69,7 +69,7 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer 
     }
     
     /**
-     * Transforms host data to java with a specific host character set.
+     * Transforms host data to java data object with a specific host character set.
      * @param <T> the bound object type
      * @param hostData a byte array containing host data
      * @param hostCharset the host character set
@@ -85,7 +85,7 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer 
     }
     
     /**
-     * Transforms host data to java.
+     * Transforms host data to java data object.
      * @param <T> the bound object type
      * @param hostData a byte array containing host data
      * @return a Java value object

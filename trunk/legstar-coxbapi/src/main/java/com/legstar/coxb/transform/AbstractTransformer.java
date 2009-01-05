@@ -14,7 +14,7 @@ import com.legstar.coxb.convert.ICobolConvertersFactory;
  * Implementing classes typically provide the binding class and inherit the
  * transformation capabilities.
  */
-public abstract class AbstractTransformer {
+public abstract class AbstractTransformer implements IHostTransformer {
 
     /** The current set of COBOL converters.*/
     private ICobolConverters mCobolConverters;
