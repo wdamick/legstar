@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Map.Entry;
 
 import com.legstar.config.Constants;
 
@@ -356,5 +357,44 @@ public class CicsProgram {
     public final void setOutContainers(
             final Map < String, Integer > outContainers) {
         mOutContainers = outContainers;
+    }
+    
+    /** {@inheritDoc} */
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("CicsProgram=[");
+        sb.append(Constants.CICS_PROGRAM_NAME_KEY + "=" + getName());
+        sb.append("," + Constants.CICS_LENGTH_KEY + "=" + getLength());
+        sb.append("," + Constants.CICS_DATALEN_KEY + "=" + getDataLength());
+        sb.append("," + Constants.CICS_SYSID_KEY + "=" + getSysID());
+        sb.append("," + Constants.CICS_SYNCONRET_KEY + "=" + getSyncOnReturn());
+        sb.append("," + Constants.CICS_TRANSID_KEY + "=" + getTransID());
+        sb.append("," + Constants.CICS_CHANNEL_KEY + "=" + getChannel());
+        if (getChannel() != null && getChannel().length() > 0) {
+            sb.append("," + Constants.CICS_IN_CONTAINERS_KEY + "=[");
+            boolean first = true;
+            for (Entry < String, Integer > entry : getInContainers().entrySet()) {
+                if (!first) {
+                    sb.append(",");
+                } else {
+                    first = false;
+                }
+                sb.append(entry.getKey());
+            }
+            sb.append("]");
+            sb.append("," + Constants.CICS_OUT_CONTAINERS_KEY + "=[");
+            first = true;
+            for (Entry < String, Integer > entry : getOutContainers().entrySet()) {
+                if (!first) {
+                    sb.append(",");
+                } else {
+                    first = false;
+                }
+                sb.append(entry.getKey());
+            }
+            sb.append("]");
+        }
+        sb.append("]");
+        return sb.toString();
     }
 }
