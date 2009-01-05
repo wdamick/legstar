@@ -203,4 +203,36 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("public DfhcommareaJavaToHostTransformer(final String hostCharset) {"));
         assertTrue(resStr.contains("return new DfhcommareaBinding();"));
     }
+
+    /**
+     * Generate a transformer provider case.
+     * @throws Exception if generation fails
+     */
+    public void testGenTransformerProvider() throws Exception {
+
+        com.legstar.test.coxb.lsfileae.ObjectFactory objectFactory
+        = new com.legstar.test.coxb.lsfileae.ObjectFactory();
+
+        CComplexReflectBinding ce = new CComplexReflectBinding(
+                objectFactory,
+                JaxbUtil.loadClass("com.legstar.test.coxb.lsfileae.Dfhcommarea"));
+
+        CoxbGenModel coxbGenContext = new CoxbGenModel();
+        coxbGenContext.setCoxbSrcDir(GEN_SRC_DIR);
+        coxbGenContext.setJaxbPackageName("com.legstar.test.coxb.lsfileae");
+        coxbGenContext.setCoxbPackageName("com.legstar.test.coxb.lsfileae.bind");
+
+        CoxbGenWriter writer = new CoxbGenWriter(coxbGenContext);
+        writer.writeTransformerProvider(ce);
+        String resStr = getSource(GEN_SRC_DIR,
+                "/com/legstar/test/coxb/lsfileae/bind/DfhcommareaTransformerProvider.java");
+
+        assertTrue(resStr.contains("package com.legstar.test.coxb.lsfileae.bind;"));
+        assertTrue(resStr.contains("* Transformer provider for Dfhcommarea java data object."));
+        assertTrue(resStr.contains(
+            "public class DfhcommareaTransformerProvider extends AbstractTransformerProvider {"));
+        assertTrue(resStr.contains("public DfhcommareaTransformerProvider() {"));
+        assertTrue(resStr.contains("super(new DfhcommareaJavaToHostTransformer(),"));
+        assertTrue(resStr.contains("new DfhcommareaHostToJavaTransformer());"));
+    }
 }

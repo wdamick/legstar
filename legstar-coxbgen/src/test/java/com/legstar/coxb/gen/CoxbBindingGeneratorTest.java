@@ -138,6 +138,9 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
         srce = getSource(GEN_SRC_DIR, getSrcFilename("lsfileae", "DfhcommareaJavaToHostTransformer"));
         assertTrue(srce.contains(
                 "public class DfhcommareaJavaToHostTransformer extends AbstractJavaToHostTransformer {"));
+        srce = getSource(GEN_SRC_DIR, getSrcFilename("lsfileae", "DfhcommareaTransformerProvider"));
+        assertTrue(srce.contains(
+                "public class DfhcommareaTransformerProvider extends AbstractTransformerProvider {"));
     }
 
     /**

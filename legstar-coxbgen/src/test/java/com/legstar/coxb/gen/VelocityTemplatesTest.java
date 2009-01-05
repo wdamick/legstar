@@ -607,4 +607,42 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("setCounterValue(_iStaticData.getDependingOn(), 1);"));
         assertTrue(resStr.contains(" _oDynamicDataWrapper.setObjectValue(mValueObject.getODynamicData());"));
     }
+
+    /**
+     * Generate a java to host transformer provider case.
+     * @throws Exception if generation fails
+     */
+    public void testGenTransformerProvider() throws Exception {
+
+        com.legstar.test.coxb.lsfileae.ObjectFactory objectFactory
+        = new com.legstar.test.coxb.lsfileae.ObjectFactory();
+
+        CComplexReflectBinding ce = new CComplexReflectBinding(
+                objectFactory,
+                JaxbUtil.loadClass("com.legstar.test.coxb.lsfileae.Dfhcommarea"));
+
+        CoxbGenModel coxbContext = new CoxbGenModel();
+        coxbContext.setJaxbPackageName("com.legstar.test.coxb.lsfileae");
+        coxbContext.setCoxbPackageName("com.legstar.test.coxb.lsfileae.bind");
+
+        getParameters().put("coxbContext", coxbContext);
+        getParameters().put("binding-class-name", "DfhcommareaBinding");
+
+        CodeGenUtil.processTemplate(
+                BINDING_GENERATOR_NAME,
+                "vlc/coxb-bind-transformer-provider.vm",
+                "binding", ce,
+                getParameters(),
+                CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
+
+        String resStr = getSource(GEN_SRC_DIR, "/test.txt");
+        assertTrue(resStr.contains("package com.legstar.test.coxb.lsfileae.bind;"));
+        assertTrue(resStr.contains("* Transformer provider for Dfhcommarea java data object."));
+        assertTrue(resStr.contains(
+                "public class DfhcommareaTransformerProvider extends AbstractTransformerProvider {"));
+        assertTrue(resStr.contains("public DfhcommareaTransformerProvider() {"));
+        assertTrue(resStr.contains("super(new DfhcommareaJavaToHostTransformer(),"));
+        assertTrue(resStr.contains("new DfhcommareaHostToJavaTransformer());"));
+    }
+
 }
