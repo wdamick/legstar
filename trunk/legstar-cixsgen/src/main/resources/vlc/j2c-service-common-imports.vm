@@ -3,56 +3,29 @@
 ##These are the directives and macros shared by the Jaxws component
 ##generation artifacts.
 ##@author Fady
-##@version 0.1
+##@version 1.2.3
 ##/////////////////////////////////////////////////////////////////////
 ## ==================================================================
-## Operations with containers have special import needs
+## Create a list of unique objects
 ##
-#set($maps = false)
-#foreach ($cixsOperation in $model.cixsOperations)
-#if(${cixsOperation.cicsChannel})
-#set ($maps = true)
-#end
-#end
-##
-## ==================================================================
-## Operations might have a package name that is different from the
-## component. In this case we need to import these packages.
-## TODO: Check for same operation package name occurring more than once
-##
-#foreach ($cixsOperation in $model.cixsOperations)
-#if($cixsOperation.packageName && $cixsOperation.packageName != $model.packageName)
-import ${cixsOperation.packageName}.*;
-#end
-#end
-##
-## ==================================================================
-## Create a list of unique import names
-##
-#macro(addType)
-#if (!$importTypes.contains($newType))
-#set($ret = $importTypes.add($newType))
+#macro(addUnique $list $object)
+#if (!$list.contains($object))
+#set($ret = $list.add($object))
 #end
 #end
 ## ==================================================================
 ## Operations with single input or output need an import of the jaxb
 ## type as well as the binding type. But the same type should not be
-## imported twice. This loop makes sure we have a single import per
-## jaxb type.
+## imported twice. This macro makes sure we have a single import per
+## jaxb and coxb type.
 ##
-#set($importTypes = [])
-#foreach ($cixsOperation in $model.cixsOperations)
+#macro(getImportTypes $cixsStructures)
+#foreach ($cixsStructure in $cixsStructures)
 #if($cixsOperation.hasChannel() == false)
-#if($cixsOperation.getInput().size() > 0)
-#set($cixsStructure = ${cixsOperation.getInput().get(0)})
 #set($newType = ${helper.getQualClassName(${cixsStructure.jaxbPackageName}, ${cixsStructure.jaxbType})})
-#addType()
+#addUnique($importTypes $newType)
 #end
-#if($cixsOperation.getOutput().size() > 0)
-#set($cixsStructure = ${cixsOperation.getOutput().get(0)})
-#set($newType = ${helper.getQualClassName(${cixsStructure.jaxbPackageName}, ${cixsStructure.jaxbType})})
-#addType()
+#addUnique($jaxbTypes ${cixsStructure.jaxbType})
 #end
 #end
-#end
-##
+## ==================================================================

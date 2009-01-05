@@ -60,6 +60,10 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
     public static final String SERVICE_WEB_XML_VLC_TEMPLATE =
         "vlc/j2c-service-web-xml.vm";
 
+    /** Velocity template for package html. */
+    public static final String SERVICE_PACKAGE_HTML_VLC_TEMPLATE =
+        "vlc/j2c-package-html.vm";
+
     /** Velocity template for fault. */
     public static final String OPERATION_FAULT_VLC_TEMPLATE =
         "vlc/j2c-operation-fault.vm";
@@ -79,6 +83,10 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
     /** Velocity template for wrapper. */
     public static final String OPERATION_WRAPPER_VLC_TEMPLATE =
         "vlc/j2c-operation-wrapper.vm";
+
+    /** Velocity template for operation invokers. */
+    public static final String OPERATION_INVOKER_VLC_TEMPLATE =
+        "vlc/j2c-operation-invoker.vm";
 
     /** The service model name is it appears in templates. */
     private static final String SERVICE_MODEL_NAME = "model";
@@ -195,9 +203,14 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
                     operation, parameters, operationClassFilesDir);
             generateProgramProperties(
                     operation, parameters, operationPropertiesFilesDir);
+            generateOperationInvoker(
+                    operation, parameters, operationClassFilesDir);
 
         }
-    }
+
+        generatePackageHtml(
+                getCixsJaxwsService(), parameters, serviceClassFilesDir);
+   }
 
     /**
      * Create the Jaxws Interface class file.
@@ -220,6 +233,26 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
                 service.getInterfaceClassName() + ".java");
     }
 
+    /**
+     * Create a package level doc.
+     * @param service the Jaxws service description
+     * @param parameters miscellaneous help parameters
+     * @param serviceClassFilesDir where to store the generated file
+     * @throws CodeGenMakeException if generation fails
+     */
+    public static void generatePackageHtml(
+            final CixsJaxwsService service,
+            final Map < String, Object > parameters,
+            final File serviceClassFilesDir)
+    throws CodeGenMakeException {
+        generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
+                SERVICE_PACKAGE_HTML_VLC_TEMPLATE,
+                SERVICE_MODEL_NAME,
+                service,
+                parameters,
+                serviceClassFilesDir,
+                "package.html");
+    }
     /**
      * Create the Jaxws Implementation class file.
      * @param service the Jaxws service description
@@ -467,6 +500,14 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
                 parameters,
                 operationClassFilesDir,
                 wrapperType + ".java");
+        
+        /* Remove local parameters from the parameters list so that
+         * they don't interfere with a subsequent generation.*/
+        parameters.remove("propertyName");
+        parameters.remove("fieldName");
+        parameters.remove("wrapperType");
+        parameters.remove("importType");
+        parameters.remove("fieldType");
     }
 
     /**
@@ -507,6 +548,27 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
                     operationClassFilesDir,
                     operation.getResponseHolderType() + ".java");
         }
+    }
+
+    /**
+     * Create an operation invoker class.
+     * @param operation the cixs operation
+     * @param parameters miscellaneous help parameters
+     * @param operationClassFilesDir where to store the generated file
+     * @throws CodeGenMakeException if generation fails
+     */
+    public static void generateOperationInvoker(
+            final CixsOperation operation,
+            final Map < String, Object > parameters,
+            final File operationClassFilesDir)
+    throws CodeGenMakeException {
+        generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
+                OPERATION_INVOKER_VLC_TEMPLATE,
+                "cixsOperation",
+                operation,
+                parameters,
+                operationClassFilesDir,
+                operation.getClassName() + "OperationInvoker.java");
     }
 
     /**

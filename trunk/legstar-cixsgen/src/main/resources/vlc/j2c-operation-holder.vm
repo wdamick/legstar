@@ -41,7 +41,7 @@ import ${helper.getQualClassName(${cixsStructure.jaxbPackageName}, ${cixsStructu
     "${cixsStructure.jaxbFieldName}"#if($pos < $last),
 #end
 #end
-})
+ })
 public class ${holderType} {
 
 #foreach($cixsStructure in $cixsStructures)
