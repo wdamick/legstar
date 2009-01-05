@@ -89,7 +89,7 @@ ${structHelper.getCobolValueCode("'${model.name}'", 1)}
       *  Request parameters expected by target web service            *
       *---------------------------------------------------------------*
        01 COM-REQUEST.
-${structHelper.getInputStructuresCode($cixsOperation, 5, 5)}
+${structHelper.getInputStructuresCode($cixsOperation, 2, 1)}
        
       *****************************************************************
       *            L I N K A G E       S E C T I O N                  *
@@ -100,7 +100,7 @@ ${structHelper.getInputStructuresCode($cixsOperation, 5, 5)}
       *  Reply parameters as returned by target web service           *
       *---------------------------------------------------------------*
        01 COM-REPLY.
-${structHelper.getOutputStructuresCode($cixsOperation, 5, 5)}
+${structHelper.getOutputStructuresCode($cixsOperation, 2, 1)}
                
       *****************************************************************
       *    P R O C E D U R E  D I V I S I O N   S E C T I O N         *

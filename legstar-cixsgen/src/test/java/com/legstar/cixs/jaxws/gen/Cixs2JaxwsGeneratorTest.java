@@ -213,10 +213,10 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("'alice'"));
         assertTrue(resStr.contains("'inwonderland'"));
         assertTrue(resStr.contains("'cultureinfo'."));
-        assertTrue(resStr.contains("05 GetInfo."));
-        assertTrue(resStr.contains("15 cultureCode PIC X(32)."));
-        assertTrue(resStr.contains("05 GetInfoResponse."));
-        assertTrue(resStr.contains("15 currencySymbol PIC X(32)."));
-        assertTrue(resStr.contains("20 cultureCode PIC X(32)."));
+        assertTrue(resStr.contains("02 GetInfo."));
+        assertTrue(resStr.contains("04 cultureCode PIC X(32)."));
+        assertTrue(resStr.contains("02 GetInfoResponse."));
+        assertTrue(resStr.contains("04 currencySymbol PIC X(32)."));
+        assertTrue(resStr.contains("05 cultureCode PIC X(32)."));
     }
 }
