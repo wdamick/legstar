@@ -1,3 +1,4 @@
+package com.legstar.test.cixs;
 /*******************************************************************************
  *  LegStar legacy Web-enablement .
  *  Copyright (C) 2007 LegSem
@@ -20,12 +21,27 @@
  *******************************************************************************/
 
 
+import com.legstar.test.cixs.binnatsi.Binnatsi;
+import com.legstar.test.cixs.binnatsi.BinnatsiFault;
+import com.legstar.test.cixs.binnatsi.BinnatsiImpl;
+import com.legstar.test.coxb.binnatsi.Dfhcommarea;
+import com.legstar.test.coxb.binnatsi.LsDoublewords;
+import com.legstar.test.coxb.binnatsi.LsFullwords;
+import com.legstar.test.coxb.binnatsi.LsHalfwords;
+import com.legstar.test.coxb.binnatsi.LsUnsignedNative;
+
 import junit.framework.TestCase;
-import com.legstar.test.cixs.binnatsi.*;
-import com.legstar.test.coxb.binnatsi.*;
 
-public class POJOClientBinnatsiTest extends TestCase {
+/**
+ * Test BINNATSI adapter.
+ *
+ */
+public class BinnatsiTest extends TestCase {
 
+    /**
+     * Try a mix of types.
+     * @throws BinnatsiFault if something goes wrong.
+     */
     public void testsmix() throws BinnatsiFault {
         Binnatsi port = new BinnatsiImpl(); 
         Dfhcommarea dfhcommarea = new Dfhcommarea();
