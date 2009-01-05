@@ -164,10 +164,10 @@ public class CoxbGenWriter {
      * @param ce the binding element
      * @throws CodeGenException if generation fails
      */
-    public final void writeTransformerProvider(
+    public final void writeTransformers(
             final ICobolComplexBinding ce) throws CodeGenException {
         writeGeneric(ce, XFORMER_PROVIDER_VLC_TEMPLATE,
-                mCoxbHelper.getBoundTypeName(ce) + "TransformerProvider.java");
+                mCoxbHelper.getBoundTypeName(ce) + "Transformers.java");
     }
 
     /**
