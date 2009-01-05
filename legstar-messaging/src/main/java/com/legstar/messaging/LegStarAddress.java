@@ -219,12 +219,18 @@ public class LegStarAddress {
      * @return formatted address report
      */
     public final String getReport() {
-        String report = "Address:"
-            + "  " + Constants.ENDPOINT_NAME_KEY + "=" + mEndPointName + ","
-            + "  " + Constants.HOST_CHARSET_KEY + "=" + mHostCharset + ","
-            + "  " + Constants.HOST_USERID_KEY + "=" + mHostUserID + ","
-            + "  " + Constants.HOST_TRACEMODE_KEY + "=" + mHostTraceMode;
+        String report = "Address=["
+            + Constants.ENDPOINT_NAME_KEY + "=" + mEndPointName
+            + "," + Constants.HOST_CHARSET_KEY + "=" + mHostCharset
+            + "," + Constants.HOST_USERID_KEY + "=" + mHostUserID
+            + "," + Constants.HOST_TRACEMODE_KEY + "=" + mHostTraceMode
+            + "]";
         return report;
+    }
+    
+    /** {@inheritDoc} */
+    public final String toString() {
+        return getReport();
     }
 
 
