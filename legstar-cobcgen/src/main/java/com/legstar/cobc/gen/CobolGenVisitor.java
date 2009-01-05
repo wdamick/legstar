@@ -111,34 +111,11 @@ public class CobolGenVisitor extends CobolElementVisitor {
     public final void visit(
             final ICobolComplexBinding ce) throws HostException {
         write(ce);
-        increaseCurrentCobolLevel();
+        mCurrentCobolLevel += mCobolLevelIncrement;
         for (ICobolBinding cb : ce.getChildrenList()) {
             cb.accept(this);
         }
-        decreaseCurrentCobolLevel();
-    }
-
-    /**
-     * It is customary in COBOL to start incrementing uniformly only after
-     * level 1.
-     */
-    private void increaseCurrentCobolLevel() {
-        if (mCurrentCobolLevel == 1 && mCobolLevelIncrement > 1) {
-            mCurrentCobolLevel = mCobolLevelIncrement;
-        } else {
-            mCurrentCobolLevel += mCobolLevelIncrement;
-        }
-    }
-
-    /**
-     * It is customary in COBOL to start incrementing uniformly only after
-     * level 1.
-     */
-    private void decreaseCurrentCobolLevel() {
         mCurrentCobolLevel -= mCobolLevelIncrement;
-        if (mCurrentCobolLevel == 0) {
-            mCurrentCobolLevel = 1;
-        }
     }
 
     /** {@inheritDoc} */
@@ -295,7 +272,11 @@ public class CobolGenVisitor extends CobolElementVisitor {
     /**
      * Calculates how many white space characters should be added to indent an
      * element in the data structure.
-     * Data items starting at column 8 have an indent factor of 0.
+     * <p/>
+     * Data items with indent factor of 0 start at column 8.
+     * Data items with indent factor of 1 start at column 12 and so forth.
+     * <p/>
+     * Only data items with COBOL level 1 start at column 8.
      * @param firstCobolLevel the cobol level of the root element
      * @param currentCobolLevel the current element cobol level
      * @param cobolLevelIncrement the cobol level increment
@@ -306,11 +287,11 @@ public class CobolGenVisitor extends CobolElementVisitor {
             final int firstCobolLevel,
             final int currentCobolLevel,
             final int cobolLevelIncrement) {
-
+        int factor = (currentCobolLevel  - firstCobolLevel) / cobolLevelIncrement;
         if (firstCobolLevel == 1) {
-            return (currentCobolLevel / cobolLevelIncrement) - 1;
+            return factor;
         } else {
-            return currentCobolLevel / cobolLevelIncrement;
+            return ++factor;
         }
     }
 
