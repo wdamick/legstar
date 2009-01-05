@@ -86,18 +86,13 @@ public class CixsMappingModel {
     }
 
     /**
-     * Operations are actually a set of uniquely named operations.
+     * Operations should actually a set of uniquely named operations.
+     * Ant seems to call this method with uninitialized objects though,
+     * therefore there is no point in checking for name conflicts here.
      * @param operation the operation to add
-     * @throws CixsModelException if operation is a duplicate
      */
     public final void addCixsOperation(
-            final CixsOperation operation) throws CixsModelException {
-        /* Check that this operation is not already part of the set */
-        if (mCixsOperations.contains(operation)) {
-            throw new CixsModelException(
-            "This service already contains this operation");
-        }
-
+            final CixsOperation operation) {
         mCixsOperations.add(operation);
     }
 
