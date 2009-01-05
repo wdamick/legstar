@@ -110,4 +110,17 @@ public abstract class AbstractInvoker implements HostInvoker {
     public final CicsProgram getProgramAttr() {
         return mCicsProgram;
     }
+    
+    /** {@inheritDoc} */
+    public final String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("HostInvoker=[");
+        if (getAddress() != null) {
+            sb.append(getAddress().toString() + ",");
+        }
+        sb.append("HostAccessStrategy=" + getHostAccessStrategy().getClass().getName());
+        sb.append("," +  getProgramAttr().toString());
+        sb.append("]");
+        return sb.toString();
+    }
 }
