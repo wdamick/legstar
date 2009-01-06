@@ -8,7 +8,7 @@ import com.legstar.test.cixs.varar021.Varar021HostHeader;
 import com.legstar.test.cixs.varar021.Varar021Impl;
 import com.legstar.test.coxb.Varar021Cases;
 import com.legstar.test.coxb.varar021.IStaticData;
-import com.legstar.test.coxb.varar021.LkupInfo36;
+import com.legstar.test.coxb.varar021.LkupInfo39;
 import com.legstar.test.coxb.varar021.Payload;
 import com.legstar.test.coxb.varar021.SearchGrplst;
 
@@ -40,8 +40,8 @@ public class Varar021Test extends TestCase {
         SearchGrplst request = new SearchGrplst();
         Payload payload = new Payload();
         IStaticData iStaticData = new IStaticData();
-        iStaticData.getLkupInfo().add(new LkupInfo36());
-        iStaticData.getLkupInfo().add(new LkupInfo36());
+        iStaticData.getLkupInfo().add(new LkupInfo39());
+        iStaticData.getLkupInfo().add(new LkupInfo39());
         iStaticData.getLkupInfo().get(0).setLkupTypCd("ALPHA");
         payload.setIStaticData(iStaticData);
         request.setPayload(payload);
@@ -59,8 +59,8 @@ public class Varar021Test extends TestCase {
         SearchGrplst request = new SearchGrplst();
         Payload payload = new Payload();
         IStaticData iStaticData = new IStaticData();
-        iStaticData.getLkupInfo().add(new LkupInfo36());
-        iStaticData.getLkupInfo().add(new LkupInfo36());
+        iStaticData.getLkupInfo().add(new LkupInfo39());
+        iStaticData.getLkupInfo().add(new LkupInfo39());
         iStaticData.getLkupInfo().get(0).setLkupTypCd("00010");
         payload.setIStaticData(iStaticData);
         request.setPayload(payload);
