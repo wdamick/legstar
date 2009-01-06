@@ -1,8 +1,8 @@
 package com.legstar.test.coxb;
 
 import com.legstar.test.coxb.varar021.IStaticData;
-import com.legstar.test.coxb.varar021.LkupInfo36;
-import com.legstar.test.coxb.varar021.LkupInfo41;
+import com.legstar.test.coxb.varar021.LkupInfo39;
+import com.legstar.test.coxb.varar021.LkupInfo44;
 import com.legstar.test.coxb.varar021.ODynamicData;
 import com.legstar.test.coxb.varar021.ObjectFactory;
 import com.legstar.test.coxb.varar021.Payload;
@@ -66,14 +66,14 @@ public final class Varar021Cases extends TestCase {
         searchGrplst.setPayload(payload);
         /* No need to set counters they will automatically be updated */
         ODynamicData oDynamicData = of.createODynamicData();
-        LkupInfo41 lkupInfo41_1 = of.createLkupInfo41();
-        lkupInfo41_1.setLkupIdCt("ABCDEFGHIJKLMNOPQR");
-        lkupInfo41_1.setLkupTypCdCt("12345");
-        oDynamicData.getLkupInfo().add(lkupInfo41_1);
-        LkupInfo41 lkupInfo41_2 = of.createLkupInfo41();
-        lkupInfo41_2.setLkupIdCt("123456789012345678");
-        lkupInfo41_2.setLkupTypCdCt("ABCDE");
-        oDynamicData.getLkupInfo().add(lkupInfo41_2);
+        LkupInfo44 lkupInfo44_1 = of.createLkupInfo44();
+        lkupInfo44_1.setLkupIdCt("ABCDEFGHIJKLMNOPQR");
+        lkupInfo44_1.setLkupTypCdCt("12345");
+        oDynamicData.getLkupInfo().add(lkupInfo44_1);
+        LkupInfo44 lkupInfo44_2 = of.createLkupInfo44();
+        lkupInfo44_2.setLkupIdCt("123456789012345678");
+        lkupInfo44_2.setLkupTypCdCt("ABCDE");
+        oDynamicData.getLkupInfo().add(lkupInfo44_2);
         payload.getODynamicData().add(oDynamicData);
         WellpointEaiEbsErrorRow wellpointEaiEbsErrorRow = of.createWellpointEaiEbsErrorRow();
         wellpointEaiEbsErrorRow.setWeerExceptionUuid("AN ERROR");
@@ -123,14 +123,14 @@ public final class Varar021Cases extends TestCase {
         ObjectFactory of = new ObjectFactory();
         SearchGrplst searchGrplst = getJavaObjectNoIStaticData();
         IStaticData iStaticData = of.createIStaticData();
-        LkupInfo36 lkupInfo36_1 = of.createLkupInfo36();
-        lkupInfo36_1.setLkupId("RQPONMLKJIHGFEDCBA");
-        lkupInfo36_1.setLkupTypCd("54321");
-        iStaticData.getLkupInfo().add(lkupInfo36_1);
-        LkupInfo36 lkupInfo36_2 = of.createLkupInfo36();
-        lkupInfo36_2.setLkupId("876543210987654321");
-        lkupInfo36_2.setLkupTypCd("EDCBA");
-        iStaticData.getLkupInfo().add(lkupInfo36_2);
+        LkupInfo39 lkupInfo39_1 = of.createLkupInfo39();
+        lkupInfo39_1.setLkupId("RQPONMLKJIHGFEDCBA");
+        lkupInfo39_1.setLkupTypCd("54321");
+        iStaticData.getLkupInfo().add(lkupInfo39_1);
+        LkupInfo39 lkupInfo39_2 = of.createLkupInfo39();
+        lkupInfo39_2.setLkupId("876543210987654321");
+        lkupInfo39_2.setLkupTypCd("EDCBA");
+        iStaticData.getLkupInfo().add(lkupInfo39_2);
         searchGrplst.getPayload().setIStaticData(iStaticData);
         searchGrplst.getPayload().setWechRequestRows(1);
         return searchGrplst;
@@ -212,9 +212,9 @@ public final class Varar021Cases extends TestCase {
         assertEquals("", searchGrplst.getPayload().getIStaticData().getLkupInfo().get(1).getLkupTypCd());
         assertEquals(10, searchGrplst.getPayload().getODynamicData().size());
         for (int i = 0; i < searchGrplst.getPayload().getODynamicData().size(); i++) {
-            LkupInfo41 lkupInfo41 = searchGrplst.getPayload().getODynamicData().get(i).getLkupInfo().get(0);
-            assertEquals("", lkupInfo41.getLkupIdCt());
-            assertEquals("00010", lkupInfo41.getLkupTypCdCt());
+            LkupInfo44 lkupInfo44 = searchGrplst.getPayload().getODynamicData().get(i).getLkupInfo().get(0);
+            assertEquals("", lkupInfo44.getLkupIdCt());
+            assertEquals("00010", lkupInfo44.getLkupTypCdCt());
             
         }
         
