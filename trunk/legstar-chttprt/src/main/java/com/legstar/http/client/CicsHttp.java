@@ -50,8 +50,16 @@ import com.legstar.messaging.RequestException;
  */
 public class CicsHttp implements LegStarConnection  {
 
-    /** Mime type of HTTP content. */
-    private static final String BINARY_CONTENT_TYPE = "binary/octet-stream";
+    /**
+     * Starting from now it will be the preferred content type. 
+     * This is an extract from RFC2046:
+     * The "application" media type is to be used for discrete data which do
+     * not fit in any of the other categories, and particularly for data to
+     * be processed by some type of application program.  This is
+     * information which must be processed by an application before it is
+     * viewable or usable by a user.
+     */
+    private static final String APPLICATION_CONTENT_TYPE = "application/octet-stream";
 
     /** HTTP Header to request traces on host. */
     public static final String REQUEST_TRACE_MODE_HHDR = "CICSTraceMode";
@@ -375,7 +383,7 @@ public class CicsHttp implements LegStarConnection  {
             postMethod.setRequestEntity(
                     new InputStreamRequestEntity(
                             request.getRequestMessage().sendToHost(),
-                            BINARY_CONTENT_TYPE));
+                            APPLICATION_CONTENT_TYPE));
         } catch (UnsupportedEncodingException e) {
             throw new RequestException(e);
         }

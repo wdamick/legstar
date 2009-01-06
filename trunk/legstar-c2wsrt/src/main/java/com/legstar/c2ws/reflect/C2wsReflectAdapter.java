@@ -43,11 +43,11 @@ import com.legstar.coxb.convert.ICobolConverters;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.host.HostException;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
+import com.legstar.coxb.impl.visitor.CobolMarshalVisitor;
+import com.legstar.coxb.impl.visitor.CobolUnmarshalVisitor;
 import com.legstar.util.JAXBAnnotationException;
 import com.legstar.util.JAXBElementDescriptor;
 import com.legstar.util.NameUtil;
-import com.legstar.coxb.visitor.CobolMarshalVisitor;
-import com.legstar.coxb.visitor.CobolUnmarshalVisitor;
 
 /**
  * This class uses a combination of jaxws and jaxb to formulate a SOAP

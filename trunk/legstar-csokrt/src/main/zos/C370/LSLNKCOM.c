@@ -26,6 +26,8 @@
 /*   Language   - IBM C/370                                           */
 /*   System     - Tested on CICS TS 3.1                               */
 /*   History    - 23 Feb 2007  - Original Implementation              */
+/*                06 Jan 2009  - Truncate trailing low values from    */
+/*                               the reply payload.                   */
 /*   Notes      - This sub-program (DLL) implements the capability to */
 /*                invoke a CICS program passing data via COMMAREA.    */
 /*                This module supports a single input and single      */

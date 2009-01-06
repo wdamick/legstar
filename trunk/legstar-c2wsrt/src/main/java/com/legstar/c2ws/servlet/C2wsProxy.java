@@ -54,8 +54,13 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
     /** The serial ID. */
     static final long serialVersionUID = 1L;
 
-    /** The only content-type supported by this class. */
+    /** The old content-type supported by this class. */
     private static final String BINARY_CONTENT_TYPE = "binary/octet-stream";
+
+    /** This content type is more easily understood by regular web servers.
+     * Starting from now it will be the preferred content type. Even if we 
+     * continue to support binary/octet-stream. */
+    private static final String APPLICATION_CONTENT_TYPE = "application/octet-stream";
 
     /** The special http header for correlation ids. */
     private static final String CORRELATION_ID_HDR = "Correlation-id";
@@ -129,8 +134,7 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
         }
 
         /* Make sure this is a Mainframe LegStar request. */
-        if (request.getContentType().compareToIgnoreCase(
-                BINARY_CONTENT_TYPE) != 0) {
+        if (!isSupportedContentType(request)) {
             throw new ServletException("Content type "
                     + request.getContentType()
                     + " is not supported by " + PROXY_NAME);
@@ -140,7 +144,7 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
             LegStarMessage requestMessage = new LegStarMessage();
             requestMessage.recvFromHost(request.getInputStream());
             LegStarMessage responseMessage = invoke(cxidLog, requestMessage);
-            response.setContentType(BINARY_CONTENT_TYPE);
+            response.setContentType(request.getContentType());
             pipe(responseMessage.sendToHost(), response.getOutputStream());
         } catch (HeaderPartException e) {
             throw (new ServletException(e));
@@ -157,6 +161,20 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
         }
     } 
 
+    /**
+     * Check that the client is sending a content type that we understand.
+     * @param request the http request
+     * @return true if the request has supported encoding
+     */
+    private boolean isSupportedContentType(final HttpServletRequest request) {
+        if (request.getContentType().trim().compareToIgnoreCase(
+                BINARY_CONTENT_TYPE) == 0
+                || request.getContentType().trim().compareToIgnoreCase(
+                        APPLICATION_CONTENT_TYPE) == 0) {
+            return true;
+        }
+        return false;
+    }
     /**
      * Invoke a target Web Service, using its descriptor and then emitting
      * a SOAP request. This is for a one input/one output exchange pattern.

@@ -142,7 +142,7 @@ public class CicsSocketJavaxFactory extends TestCase {
         sb.append("User-Agent: Jakarta Commons-HttpClient/3.0.1" + "\r\n");
         sb.append("Host: mainframe:4080" + "\r\n");
         sb.append("Content-Length: 6" + "\r\n");
-        sb.append("Content-Type: binary/octet-stream" + "\r\n");
+        sb.append("Content-Type: application/octet-stream" + "\r\n");
         sb.append("\r\n\r\n");
         sb.append("נננסננ");
         return sb.toString().getBytes();

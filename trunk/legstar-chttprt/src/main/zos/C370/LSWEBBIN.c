@@ -25,6 +25,7 @@
 /*   System     - Tested on CICS TS 2.3                               */
 /*   History    - 01 Jan 2006  - Original Implementation              */
 /*                04 May 2006  - Support for multiple parts           */
+/*                06 Jan 2009  - Accept all octet-stream MIME types   */
 /*   Notes      - This program provides HTTP clients with the         */
 /*                capability to invoke a CICS program passing         */
 /*                data as a binary Http body.                         */
@@ -73,8 +74,9 @@
                                     HTTP content length header        */
 #define CONTENT_TYPE_HHDR "Content-Type" /* Definition of the
                                     HTTP content type header          */
-#define CONTENT_TYPE_BINARY         "binary" /* Part of binary content
-                                    types. ex: binary/octet-stream    */
+#define CONTENT_TYPE_BINARY     "octet-stream" /* We accept these types:
+                                    - application/octet-stream
+                                    - binary/octet-stream             */
 #define REQUEST_TRACE_MODE_HHDR "CICSTraceMode" /* HTTP header for
                                     requested host trace mode (yes/no)*/
 #define REQUEST_ID_HHDR "CICSRequestID" /* HTTP header for request

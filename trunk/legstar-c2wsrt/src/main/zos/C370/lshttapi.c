@@ -28,6 +28,7 @@
 /*  Language   - IBM C/370                                            */
 /*  System     - Tested on CICS TS 2.3                                */
 /*  History    - 08 Jul 2007  - Original Implementation               */
+/*             - 06 Jan 2009  - Changed content type                  */
 /*  Notes      - This API provides the caller with a high level       */
 /*               interface to the legstar RPC protocol over HTTP.     */
 /*               It is expected that on the other end of the line,    */
@@ -46,6 +47,8 @@
 #define MAX_JSON_STR_LEN 256  /* Maximum size of JSON string          */ 
 #define MAX_URL_STR_LEN 512   /* Maximum size of a URL string         */ 
 #define MAX_SERVICE_NAME_LEN 32   /* Maximum size of service name     */ 
+#define OLD_CONTENT_TYPE  "binary/octet-stream" /* Obsolete Mime type */
+#define CONTENT_TYPE  "application/octet-stream" /* Mime type used    */
 
 /*--------------------------------------------------------------------*/
 /*  Headers included                                                  */
@@ -162,7 +165,7 @@ int invoke(InvokeParms * parms) {
         return ERROR_CODE;
     }
     
-    strcpy(http_request.content_type, "binary/octet-stream");
+    strcpy(http_request.content_type, CONTENT_TYPE);
     
     /* Post request to server */
     rc = http_invoke("POST", parms->url, &http_request, &http_reply,
@@ -171,6 +174,16 @@ int invoke(InvokeParms * parms) {
         sprintf(g_traceMessage,
                 "HTTP invoke failed. %s",  
                 g_pTraceParms->formattedErrorMessage);
+        logError(MODULE_NAME, g_traceMessage);
+        return rc;
+    }
+
+    /*  Make sure we understand the content of this reply.     */
+    if (strcmp(CONTENT_TYPE, http_reply.content_type) != 0
+        && strcmp(OLD_CONTENT_TYPE, http_reply.content_type) != 0 ) {
+        sprintf(g_traceMessage,
+                "Unsupported content type. %s",  
+                http_reply.content_type);
         logError(MODULE_NAME, g_traceMessage);
         return rc;
     }
