@@ -58,7 +58,7 @@
                    <!-- This will upload the zos sources.  -->
                     <execution>
                         <id>deploy-to-zos</id>
-                        <phase>package</phase>
+                        <phase>generate-test-resources</phase>
                         <configuration>
                             <tasks>
                                 <ant antfile="${basedir}/src/main/ant/deploy-to-zos.xml" >

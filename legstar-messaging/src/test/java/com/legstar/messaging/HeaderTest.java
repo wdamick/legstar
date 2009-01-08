@@ -123,7 +123,7 @@ public class HeaderTest extends TestCase {
     public final void testHeaderConstructorFromJsonString() {
         try {
             LegStarHeaderPart headerPart = new LegStarHeaderPart(5, "{\"CICSProgramName\":\"LSFILEAE\"}");
-            assertEquals("LSOKHEAD", headerPart.getID());
+            assertEquals("LSOKHEAD", headerPart.getPartID());
             assertEquals(5, headerPart.getDataPartsNumber());
             assertEquals(58, headerPart.getHostSize());
             assertEquals(30, headerPart.getJsonStringLen());

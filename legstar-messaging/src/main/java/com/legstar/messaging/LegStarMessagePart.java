@@ -10,10 +10,6 @@
  ******************************************************************************/
 package com.legstar.messaging;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.SequenceInputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
@@ -32,7 +28,7 @@ public class LegStarMessagePart implements Serializable {
     private static final long serialVersionUID = -2361247952255347371L;
 
     /** The message part identifier. */
-    private String mID;
+    private String mPartID;
 
     /** The message content. */
     private byte[] mContent;
@@ -55,14 +51,16 @@ public class LegStarMessagePart implements Serializable {
     /** The error identifier that the host will send back.*/
     private static final String ERROR_ID = "LSOKERR0";
 
-    /** Error messages sent back from host maximum size.*/
-    private static final int MAX_ERROR_MSG_LEN = 266;
-
+    /** This upper limit to part length is necessary to protect against totally
+     * corrupt data coming from the host that might otherwise result in huge
+     * memory allocations.*/
+    private static final int MAX_CONTENT_LEN = 16777216;
+    
     /**
      * Create an empty message part.
      */
     public LegStarMessagePart() {
-        mID = null;
+        mPartID = null;
     }
 
     /**
@@ -71,7 +69,7 @@ public class LegStarMessagePart implements Serializable {
      * @param content a binary content
      */
     public LegStarMessagePart(final String id, final byte[] content) {
-        mID = id;
+        mPartID = id;
         mContent = content;
     }
 
@@ -92,154 +90,189 @@ public class LegStarMessagePart implements Serializable {
     /**
      * @return the message part identifier
      */
-    public final String getID() {
-        return mID;
+    public final String getPartID() {
+        return mPartID;
     }
 
     /**
-     * @param id the message part identifier to set
+     * If this is a typed message part (such as a header part),
+     * check that the ID received match the expected one. Otherwise
+     * set the current part ID with the one received.
+     * @param partID the part ID received
+     * @throws HostMessageFormatException if the part ID received does not match
+     *  the expected part ID
      */
-    public final void setID(final String id) {
-        mID = id;
-    }
+    public void setPartID(
+            final String partID) throws HostMessageFormatException {
 
-    /**
-     * Provides an input stream to serialize this message part for
-     * transmission to host.
-     * @return an input stream
-     * @throws UnsupportedEncodingException if conversion fails
-     */
-    public final InputStream sendToHost() throws UnsupportedEncodingException {
-        byte[] headerBytes =
-            new byte[MSG_PART_ID_LEN + CONTENT_LEN_LEN];
-        int pos = 0;
-        HostCodec.toHostBytes(mID, headerBytes, pos,
-                MSG_PART_ID_LEN, HostCodec.HEADER_CODE_PAGE);
-        pos += MSG_PART_ID_LEN;
-        ByteBuffer bb = ByteBuffer.allocate(4);
-        bb.putInt(getPayloadSize());
-        bb.flip();
-        bb.get(headerBytes, pos, CONTENT_LEN_LEN);
-        ByteArrayInputStream headerStream =
-            new ByteArrayInputStream(headerBytes);
-        if (getPayloadSize() > 0) {
-            ByteArrayInputStream contentStream =
-                new ByteArrayInputStream(mContent, 0, getPayloadSize());
-            return new SequenceInputStream(headerStream, contentStream);
+        if (getPartID() == null) {
+            if (partID.length() > MSG_PART_ID_LEN) {
+                throw new HostMessageFormatException(
+                        "Invalid message part ID " + partID);
+            }
+            mPartID = partID;
         } else {
-            return headerStream;
+            if (!getPartID().equals(partID)) {
+                throw new HostMessageFormatException(
+                        "Invalid message part ID. Expected " + getPartID()
+                        + ", received " + partID);
+            }
         }
     }
-
-    /**
-     * Recreates the message part header and content from a host byte stream.
-     * @param hostStream the host byte stream
-     * @throws HostReceiveException if creation fails
-     */
-    public final void recvFromHost(final InputStream hostStream)
-    throws HostReceiveException {
-
-        try {
-            /* First get the message part ID */
-            String messageId = recvMsgPartID(hostStream);
-            /* If this is a typed message part (such as a header part),
-             * check that the ID received match the expected one */
-            if (mID != null) {
-                if (!mID.equals(messageId.trim())) {
-                    throw new HostReceiveException(
-                            "Invalid message header. Expected " + mID
-                            + ", received " + messageId);
-                }
-            }
-            mID = messageId;
-
-            /* Next is the message part content length */
-            byte[] clBytes = new byte[CONTENT_LEN_LEN];
-            int br = hostStream.read(clBytes);
-            if (br != CONTENT_LEN_LEN) {
-                throw new HostReceiveException(
-                "Invalid message part. No content length");
-            }
-            ByteBuffer bb = ByteBuffer.allocate(4);
-            bb.put(clBytes, 0, CONTENT_LEN_LEN);
-            bb.flip();
-            int contentLen = bb.getInt();
-            if (contentLen < 0) {
-                throw new HostReceiveException(
-                "Invalid message part content length");
-            }
-
-            /* Now recover the content */
-            if (contentLen == 0) {
-                mContent = null;
-            } else {
-                mContent = new byte[contentLen];
-                int recvd = 0;
-                try {
-                    while (recvd < contentLen) {
-                        recvd += hostStream.read(
-                                mContent, recvd, contentLen - recvd);
-                    }
-                } catch (IOException e) {
-                    throw (new HostReceiveException(e));
-                }
-            }
-        } catch (UnsupportedEncodingException e) {
-            throw new HostReceiveException(e);
-        } catch (IOException e) {
-            throw new HostReceiveException(e);
-        }
-    }
-
-    /**
-     * Everything coming back from the host must start with a message part ID.
-     * This method recovers that ID and checks that it is not an error reply.
-     * @param hostStream the host byte stream
-     * @return the message part ID
-     * @throws HostReceiveException if creation fails
-     */
-    private String recvMsgPartID(final InputStream hostStream)
-    throws HostReceiveException {
-
-        String id;
-        try {
-            byte[] idBytes = new byte[MSG_PART_ID_LEN];
-            int br = hostStream.read(idBytes);
-            if (br < MSG_PART_ID_LEN) {
-                throw new HostReceiveException(
-                "Invalid message part. No ID");
-            }
-            id = new String(idBytes, 0, MSG_PART_ID_LEN,
-                    HostCodec.HEADER_CODE_PAGE).trim();
-
-            /* Check if this is an error reply rather than a valid message
-             * part. In case of an error, recover the text of the error
-             * message to use as the exception description.            */
-            if (ERROR_ID.compareTo(id.substring(0, ERROR_ID.length())) == 0) {
-                byte[] errorTextBytes = new byte[MAX_ERROR_MSG_LEN];
-                br = hostStream.read(errorTextBytes);
-                String errorText = new String(errorTextBytes, 0, br,
-                        HostCodec.HEADER_CODE_PAGE).trim();
-                /* The first 7 characters or the error message text were
-                 * actually read as part of the message part ID. This is
-                 * because message part IDs are 16 char long when error
-                 * identifiers are 8 characters followed by space.     */
-                errorText = id.substring(ERROR_ID.length() + 1,
-                        MSG_PART_ID_LEN) + errorText;
-                throw new HostReceiveException(errorText);
-            }
-        } catch (IOException e) {
-            throw new HostReceiveException(e);
-        }
-
-        return id;
-    }
-
+    
     /**
      * @return the size in bytes of this message part host serialization
      */
     public final int getHostSize() {
         return (MSG_PART_ID_LEN + CONTENT_LEN_LEN + getPayloadSize());
+    }
+
+    /**
+     * This form returns the message part content serialized in a new byte array.
+     * @return a byte array with complete message part serialized ready for transmission
+     * @throws HostMessageFormatException if message have format issues
+     */
+    public final byte[] toByteArray() throws HostMessageFormatException {
+        byte[] payload = new byte[getHostSize()];
+        toByteArray(payload, 0);
+        return payload;
+    }
+
+    /**
+     * This forms contributes this message part to a byte array.
+     * @param dest the destination byte array being populated
+     * @param destPos the position to start from in destination byte array
+     * @return the new position in the byte array
+     * @throws HostMessageFormatException if message have format issues
+     */
+    public final int toByteArray(
+            final byte[] dest, final int destPos) throws HostMessageFormatException {
+        /* Make sure there is room for us */
+        if ((dest.length - destPos) < getHostSize()) {
+            throw (new HostMessageFormatException("Destination byte array too small"));
+        }
+        try {
+            int pos = destPos;
+            HostCodec.toHostBytes(mPartID, dest, pos,
+                    MSG_PART_ID_LEN, HostCodec.HEADER_CODE_PAGE);
+            pos += MSG_PART_ID_LEN;
+            ByteBuffer bb = ByteBuffer.allocate(4);
+            bb.putInt(getPayloadSize());
+            bb.flip();
+            bb.get(dest, pos, CONTENT_LEN_LEN);
+            pos += CONTENT_LEN_LEN;
+            System.arraycopy(getContent(), 0, dest, pos, getPayloadSize());
+            return pos + getPayloadSize();
+            
+        } catch (UnsupportedEncodingException e) {
+            throw new HostMessageFormatException(e);
+        }
+    }
+    
+    /**
+     * Deserialize this message part from a byte array originating from a host.
+     * @param src the byte array of host data
+     * @param srcPos where to start deserializing in the byte array
+     * @return the new position in the byte array after this message part was deserialized
+     * @throws HostMessageFormatException if deserialization fails
+     */
+    public final int fromByteArray(
+            final byte[] src, final int srcPos) throws HostMessageFormatException {
+        try {
+            /* At a minimum, there should be enough bytes for an error ID */
+            if ((src.length - srcPos) < ERROR_ID.length()) {
+                throw new HostMessageFormatException("Invalid message part");
+            }
+            /* Is this an error report rather than a message part? */
+            String errorId = new String(src, srcPos, ERROR_ID.length(),
+                    HostCodec.HEADER_CODE_PAGE).trim();
+            if (errorId.equals(ERROR_ID)) {
+                throw getHostException(src, srcPos);
+            }
+            /* Now we must have at least a part ID followed by a part length */
+            if ((src.length - srcPos) < (MSG_PART_ID_LEN + CONTENT_LEN_LEN)) {
+                throw new HostMessageFormatException("Invalid message part. No ID");
+            }
+            /* It is now safe to get a part constituents */
+            int pos = srcPos;
+            String partId = new String(src, pos, MSG_PART_ID_LEN,
+                    HostCodec.HEADER_CODE_PAGE).trim();
+            setPartID(partId);
+            pos += MSG_PART_ID_LEN;
+            int contentLen = getContentLength(src, pos);
+            pos += CONTENT_LEN_LEN;
+            return setContent(src, pos, contentLen);
+            
+        } catch (UnsupportedEncodingException e) {
+            throw new HostMessageFormatException(e);
+        }
+    }
+    
+    /**
+     * Create an exception using an error text returned from the host.
+     * <p/>
+     * Error reports are formatted like so:
+     * <pre>
+     * LSOKERR0 some text
+     * </pre>
+     * @param src the byte array originating from host
+     * @param srcPos the start position in the byte array pointing to LSOKERR0 eye catcher
+     * @return an exception which message contains the translated error text from the host
+     */
+    public HostMessageFormatException getHostException(
+            final byte[] src, final int srcPos) {
+        try {
+            int pos = srcPos + ERROR_ID.length() + 1;
+            String errorText = new String(src, pos, src.length - pos,
+                    HostCodec.HEADER_CODE_PAGE).trim();
+            return new HostMessageFormatException(errorText);
+        } catch (UnsupportedEncodingException e) {
+            return new HostMessageFormatException(e);
+        }
+    }
+    
+    /**
+     * Get the content length from a location in a byte array originating from
+     * the host.
+     * @param src the byte array
+     * @param srcPos the current position in the byte array
+     * @return the content length extracted from the byte array
+     * @throws HostMessageFormatException if content length is invalid (negative)
+     */
+    public int getContentLength(
+            final byte[] src, final int srcPos) throws HostMessageFormatException {
+        ByteBuffer bb = ByteBuffer.allocate(CONTENT_LEN_LEN);
+        bb.put(src, srcPos, CONTENT_LEN_LEN);
+        bb.flip();
+        int contentLen = bb.getInt();
+        if (contentLen < 0 || contentLen > MAX_CONTENT_LEN) {
+            throw new HostMessageFormatException(
+            "Invalid message part content length " + contentLen);
+        }
+        return contentLen;
+    }
+
+    /**
+     * Get the content from a location in a byte array originating from
+     * the host.
+     * @param src the byte array
+     * @param srcPos the current position in the byte array
+     * @param contentLen the content length extracted from the byte array
+     * @return the new position in the byte array
+     * @throws HostMessageFormatException if content is invalid
+     */
+    public int setContent(
+            final byte[] src,
+            final int srcPos,
+            final int contentLen) throws HostMessageFormatException {
+        if (contentLen == 0) {
+            setContent(null);
+        } else {
+            byte[] content = new byte[contentLen];
+            System.arraycopy(src, srcPos, content, 0, contentLen);
+            setContent(content);
+        }
+        return srcPos + contentLen; 
     }
 
     /**
@@ -254,7 +287,7 @@ public class LegStarMessagePart implements Serializable {
         sb.append(this.getClass().getSimpleName());
         sb.append("{this=").append(Integer.toHexString(
                 System.identityHashCode(this)));
-        sb.append(", id=").append(getID());
+        sb.append(", id=").append(getPartID());
         sb.append(", content=[").append(HostData.toHexString(getContent(), 10));
         sb.append("]}");
         return sb.toString();                        
@@ -273,7 +306,7 @@ public class LegStarMessagePart implements Serializable {
             return false;
         }
         LegStarMessagePart msgPart = (LegStarMessagePart) obj;
-        if (!msgPart.getID().equals(getID())) {
+        if (!msgPart.getPartID().equals(getPartID())) {
             return false;
         }
         if (!Arrays.equals(msgPart.getContent(), getContent())) {
@@ -287,7 +320,7 @@ public class LegStarMessagePart implements Serializable {
      * {@inheritDoc}
      */
     public final int hashCode() {
-        return getID().hashCode() + Arrays.hashCode(getContent());
+        return getPartID().hashCode() + Arrays.hashCode(getContent());
     }
 
     /**
@@ -319,5 +352,25 @@ public class LegStarMessagePart implements Serializable {
         mPayloadSizeSet = true;
     }
 
-
+    /**
+     * Checks if a payload originating from a mainframe starts with a 
+     * LegStarMessagePart for a given part ID.
+     * @param payload the payload to check
+     * @param partID the part ID we are looking for
+     * @return true if the payload starts with a LegStarMessagePart for the given part ID
+     * @throws UnsupportedEncodingException if unable to read payload data
+     */
+    public static boolean isLegStarMessagePart(
+            final byte[] payload, final String partID) throws UnsupportedEncodingException {
+        if (payload == null || payload.length < MSG_PART_ID_LEN) {
+            return false;
+        }
+        String id = new String(payload, 0, MSG_PART_ID_LEN,
+                HostCodec.HEADER_CODE_PAGE).trim();
+        if (id.trim().equals(partID)) {
+            return true;
+        }
+        return false;
+    }
+    
 }
