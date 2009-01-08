@@ -30,7 +30,7 @@ public class LegStarMessageImplTest extends TestCase {
 	    assertEquals(1, legstarMessage.getHeaderPart().getDataPartsNumber());
 	    assertEquals(8, legstarMessage.getHeaderPart().getPayloadSize());
 	    assertEquals(79, legstarMessage.getDataParts().get(0).getPayloadSize());
-	    assertEquals("LSOKCOMMAREA", legstarMessage.getDataParts().get(0).getID());
+	    assertEquals("LSOKCOMMAREA", legstarMessage.getDataParts().get(0).getPartID());
 	}
 
 	public void testAddMessagePartExtraSize() throws Exception {
@@ -42,7 +42,7 @@ public class LegStarMessageImplTest extends TestCase {
 	    assertEquals(1, legstarMessage.getHeaderPart().getDataPartsNumber());
 	    assertEquals(8, legstarMessage.getHeaderPart().getPayloadSize());
 	    assertEquals(79, legstarMessage.getDataParts().get(0).getPayloadSize());
-	    assertEquals("LSOKCOMMAREA", legstarMessage.getDataParts().get(0).getID());
+	    assertEquals("LSOKCOMMAREA", legstarMessage.getDataParts().get(0).getPartID());
 	}
 
 	public void getBindingFromPart() throws Exception {

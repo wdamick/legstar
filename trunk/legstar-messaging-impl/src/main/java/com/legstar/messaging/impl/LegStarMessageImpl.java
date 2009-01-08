@@ -172,7 +172,7 @@ public class LegStarMessageImpl extends LegStarMessage {
             final String hostCharset) throws HostMessageFormatException {
         try {
             for (LegStarMessagePart part : getDataParts()) {
-                ICobolComplexBinding binding = bindingsMap.get(part.getID());
+                ICobolComplexBinding binding = bindingsMap.get(part.getPartID());
                 if (binding == null) {
                     continue;
                 }
