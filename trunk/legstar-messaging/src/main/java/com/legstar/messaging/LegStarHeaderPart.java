@@ -255,4 +255,15 @@ public class LegStarHeaderPart extends LegStarMessagePart {
         return sb.toString();                        
     }
 
+    /**
+     * Checks if a payload originating from a mainframe starts with a 
+     * LegStarHeader.
+     * @param payload the payload to check
+     * @return true if the payload starts with a LegStarHeader
+     * @throws UnsupportedEncodingException if unable to read payload data
+     */
+    public static boolean isLegStarHeader(
+            final byte[] payload) throws UnsupportedEncodingException {
+        return isLegStarMessagePart(payload, HEADER_PART_ID);
+    }
 }

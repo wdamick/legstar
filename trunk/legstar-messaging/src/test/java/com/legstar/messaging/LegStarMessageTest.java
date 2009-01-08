@@ -64,6 +64,42 @@ public class LegStarMessageTest extends TestCase {
         + "\"CICSProgramName\":\"LSFILEAC\"}";
 
 
+    /** A messsage with one part.*/
+    public static final String SINGLEPART_MESSAGE =
+        /*L S O K H E A D                 (Message part ID)*/
+        "d3e2d6d2c8c5c1c44040404040404040"
+        /*       48                       (Message part content length)*/
+        + "00000030"
+        /*        1                       (Header part number of parts)*/
+        + "00000001"
+        /*       40                       (Header part JSON string length)*/
+        + "00000028"
+        /* { " C I C S D a t a L e n g t h " : " 6 " , " C I C S L e n g t h " : " 7 9 " }  */
+        + "c07fc3c9c3e2c481a381d3859587a3887f7a7ff67f6b7fc3c9c3e2d3859587a3887f7a7ff7f97fd0"
+        /*  C O N T A I N E R             (Message part ID)*/
+        + "c3d6d5e3c1c9d5c5d940404040404040"
+        /*        4                       (Message part content length)*/
+        + "00000004"
+        /*  1 2 3 4 */
+        + "01020304";
+    
+    /** A single pazrt message with default (empty) header. */
+    public static final String SINGLEPART_MINIMAL_MESSAGE =
+        /*L S O K H E A D                 (Message part ID)*/
+        "d3e2d6d2c8c5c1c44040404040404040"
+        /*        8                       (Message part content length)*/
+        + "00000008"
+        /*        1                       (Header part number of parts)*/
+        + "00000001"
+        /*        0                       (Header part JSON string length)*/
+        + "00000000"
+        /*  C O N T A I N E R             (Message part ID)*/
+        + "d3e2d6d2c3d6d4d4c1d9c5c140404040"
+        /*        4                       (Message part content length)*/
+        + "00000004"
+        /*  1 2 3 4 */
+        + "01020304";
+
     /**
      * Create a multipart message and test that it serializes correctly.
      * @throws IOException if test fails
@@ -93,6 +129,8 @@ public class LegStarMessageTest extends TestCase {
             }
             assertEquals(MULTIPART_MESSAGE, HostData.toHexString(headerBytes));
         } catch (HeaderPartException e) {
+            fail("testHostSerializeHeaderPart failed " + e);
+        } catch (HostMessageFormatException e) {
             fail("testHostSerializeHeaderPart failed " + e);
         }
     }
@@ -127,9 +165,9 @@ public class LegStarMessageTest extends TestCase {
     /**
      * Try to receive a multipart message.
      * @throws HeaderPartException if header is invalid
-     * @throws HostReceiveException if receive fails
+     * @throws HostMessageFormatException if receive fails
      */
-    public final void testRecvFromHost() throws HeaderPartException, HostReceiveException {
+    public final void testRecvFromHost() throws HeaderPartException, HostMessageFormatException {
         byte[] hostBytes = HostData.toByteArray(MULTIPART_MESSAGE);
         ByteArrayInputStream hostStream = new ByteArrayInputStream(hostBytes);
         LegStarMessage message = new LegStarMessage();
@@ -137,8 +175,8 @@ public class LegStarMessageTest extends TestCase {
         assertEquals(111, message.getHeaderPart().getJsonStringLen());
         assertEquals(MULTIPART_MESSAGE_JSON, message.getHeaderPart().getJsonString());
         assertEquals(2, message.getHeaderPart().getDataPartsNumber());
-        assertEquals("ReplyData", message.getDataParts().get(0).getID());
-        assertEquals("ReplyStatus", message.getDataParts().get(1).getID());
+        assertEquals("ReplyData", message.getDataParts().get(0).getPartID());
+        assertEquals("ReplyStatus", message.getDataParts().get(1).getPartID());
         assertEquals("F1F2F3F4", HostData.toHexString(message.getDataParts().get(0).getContent()).toUpperCase());
         assertEquals("F5F6", HostData.toHexString(message.getDataParts().get(1).getContent()).toUpperCase());
     }
@@ -146,9 +184,9 @@ public class LegStarMessageTest extends TestCase {
     /**
      * Empty messages (no parts) are acceptable.
      * @throws HeaderPartException if header is invalid
-     * @throws HostReceiveException if receive fails
+     * @throws HostMessageFormatException if receive fails
      */
-    public final void testRecvEmptyMessageFromHost() throws HeaderPartException, HostReceiveException {
+    public final void testRecvEmptyMessageFromHost() throws HeaderPartException, HostMessageFormatException {
         byte[] hostBytes = HostData.toByteArray(
                 "d3e2d6d2c8c5c1c44040404040404040"
                 + "00000000"
@@ -195,5 +233,98 @@ public class LegStarMessageTest extends TestCase {
         message3.recvFromHost(new ByteArrayInputStream(hostBytes2));
         assertFalse(message3.equals(message));
 
+    }
+
+    /**
+     * Create a multipart message and test that it serializes correctly.
+     * @throws IOException if test fails
+     */
+    public final void testToByteArray() throws IOException {
+        try {
+            List < LegStarMessagePart > inputParts = new ArrayList < LegStarMessagePart >();
+            LegStarMessagePart inQueryData = new ContainerPart(
+                    "ReplyData", HostData.toByteArray("F1F2F3F4"));
+            inputParts.add(inQueryData);
+            LegStarMessagePart inQueryLimit = new ContainerPart(
+                    "ReplyStatus", HostData.toByteArray("F5F6"));
+            inputParts.add(inQueryLimit);
+            HashMap < String, Object > map = new HashMap < String, Object >();
+            map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAC");
+            map.put(Constants.CICS_CHANNEL_KEY, "LSFILEAC-CHANNEL");
+            String[] outContainers = {"ReplyData", "ReplyStatus"};
+            map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
+            LegStarHeaderPart headerPart = new LegStarHeaderPart(map, inputParts.size());
+            LegStarMessage requestMessage = new LegStarMessage(headerPart, inputParts);
+            assertEquals(MULTIPART_MESSAGE, HostData.toHexString(requestMessage.toByteArray()));
+        } catch (HeaderPartException e) {
+            fail("testHostSerializeHeaderPart failed " + e);
+        } catch (HostMessageFormatException e) {
+            fail("testHostSerializeHeaderPart failed " + e);
+        }
+    }
+    
+    /**
+     * Check convenience methods to quickly get content from single part messages.
+     */
+    public void testGetContentFromHostBytes() {
+        try {
+            LegStarMessage.getContentFromHostBytes(HostData.toByteArray(MULTIPART_MESSAGE));
+        } catch (HostMessageFormatException e) {
+            assertEquals("Multi-part messages not supported", e.getMessage());
+        }
+        try {
+            byte[] content = LegStarMessage.getContentFromHostBytes(
+                    HostData.toByteArray(SINGLEPART_MESSAGE));
+            assertEquals("01020304", HostData.toHexString(content));
+        } catch (HostMessageFormatException e) {
+            fail("testgetContentFromHostBytes failed " + e);
+        }
+    }
+
+    /**
+     * Check convenience methods to quickly single part messages from content.
+     */
+    public void testGetHostBytesFromContent() {
+        try {
+            byte[] payload = LegStarMessage.getHostBytesFromContent(
+                    HostData.toByteArray("01020304"));
+            assertEquals(SINGLEPART_MINIMAL_MESSAGE, HostData.toHexString(payload));
+        } catch (HostMessageFormatException e) {
+            fail("testGetHostBytesFromContent failed " + e);
+        }
+    }
+    
+    /**
+     * Test FromByteArray.
+     */
+    public void testFromByteArray() {
+        try {
+            LegStarMessage legStarMessage = new LegStarMessage();
+            legStarMessage.fromByteArray(HostData.toByteArray(SINGLEPART_MINIMAL_MESSAGE), 0);
+            assertEquals(1, legStarMessage.getHeaderPart().getDataPartsNumber());
+            assertEquals(1, legStarMessage.getDataParts().size());
+            assertEquals("LSOKCOMMAREA", legStarMessage.getDataParts().get(0).getPartID());
+            assertEquals("01020304", HostData.toHexString(legStarMessage.getDataParts().get(0).getContent()));
+        } catch (HeaderPartException e) {
+            fail("testFromByteArray failed " + e);
+        } catch (HostMessageFormatException e) {
+            fail("testFromByteArray failed " + e);
+        }
+        
+        try {
+            LegStarMessage legStarMessage = new LegStarMessage();
+            legStarMessage.fromByteArray(HostData.toByteArray(MULTIPART_MESSAGE), 0);
+            assertEquals(2, legStarMessage.getHeaderPart().getDataPartsNumber());
+            assertEquals(2, legStarMessage.getDataParts().size());
+            assertEquals("ReplyData", legStarMessage.getDataParts().get(0).getPartID());
+            assertEquals("f1f2f3f4", HostData.toHexString(legStarMessage.getDataParts().get(0).getContent()));
+            assertEquals("ReplyStatus", legStarMessage.getDataParts().get(1).getPartID());
+            assertEquals("f5f6", HostData.toHexString(legStarMessage.getDataParts().get(1).getContent()));
+        } catch (HeaderPartException e) {
+            fail("testFromByteArray failed " + e);
+        } catch (HostMessageFormatException e) {
+            fail("testFromByteArray failed " + e);
+        }
+        
     }
 }

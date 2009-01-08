@@ -10,12 +10,7 @@
  ******************************************************************************/
 package com.legstar.messaging;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-
-import com.legstar.config.Constants;
+import java.io.UnsupportedEncodingException;
 import com.legstar.coxb.host.HostData;
 
 import junit.framework.TestCase;
@@ -58,65 +53,24 @@ public class LegStarMessagePartTest extends TestCase {
         + "00000004"
         /*  1 2 3 4 */
         + "01020304";
-    /**
-     * Create a header message part and test how it serializes into host format.
-     * @throws IOException if test fails
-     */
-    public final void testHostStreamHeaderPart() throws IOException {
-        try {
-            HashMap < String, Object > map = new HashMap < String, Object >();
-            map.put(Constants.CICS_LENGTH_KEY, "79");
-            map.put(Constants.CICS_DATALEN_KEY, "6");
-            LegStarHeaderPart headerPart = new LegStarHeaderPart(map, 5);
-            assertEquals("LSOKHEAD", headerPart.getID());
-            assertEquals(5, headerPart.getDataPartsNumber());
-            InputStream hostStream = headerPart.sendToHost();
-            byte[] headerBytes = new byte[68];
-            int rc;
-            int pos = 0;
-            while ((rc = hostStream.read(headerBytes, pos, headerBytes.length - pos)) > 0) {
-                pos += rc;
-            }
-            assertEquals(LSOKHEAD_SAMPLE, HostData.toHexString(headerBytes));
-        } catch (HeaderPartException e) {
-            fail("testHostSerializeHeaderPart failed " + e);
-        }
-    }
 
     /**
      * Create a message part with a content size that is larger then the actual payload size.
      * This situation happens with variable size arrays where the content size is large enough
      * to hold the maximum size array while we want to send only the available items.
      * Fixes issue 27
-     * @throws IOException if test fails
      */
-    public final void testHostStreamPayloadLtContentSize() throws IOException {
-        byte[] content = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06 };
-        LegStarMessagePart part = new LegStarMessagePart("CONTAINER", content);
-        assertEquals(6, part.getPayloadSize());
-        part.setPayloadSize(4);
-        InputStream hostStream = part.sendToHost();
-        byte[] serializedContent = new byte[part.getPayloadSize() + 20];
-        int rc;
-        int pos = 0;
-        while ((rc = hostStream.read(serializedContent, pos, serializedContent.length - pos)) > 0) {
-            pos += rc;
+    public final void testHostPayloadLtContentSize() {
+        try {
+            byte[] content = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06 };
+            LegStarMessagePart part = new LegStarMessagePart("CONTAINER", content);
+            assertEquals(6, part.getPayloadSize());
+            part.setPayloadSize(4);
+            byte[] serializedContent = part.toByteArray();
+            assertEquals(PART_SAMPLE, HostData.toHexString(serializedContent));
+        } catch (HostMessageFormatException e) {
+            fail("testHostStreamPayloadLtContentSize failed " + e);
         }
-        assertEquals(PART_SAMPLE, HostData.toHexString(serializedContent));
-    }
-
-    /**
-     * Test receiving a message part from the host.
-     * @throws HostReceiveException if test fails
-     */
-    public final void testrecvFromHost() throws HostReceiveException {
-        byte[] hostBytes = HostData.toByteArray(LSOKHEAD_SAMPLE);
-        ByteArrayInputStream hostStream = new ByteArrayInputStream(hostBytes);
-        LegStarMessagePart part = new LegStarMessagePart();
-        part.recvFromHost(hostStream);
-        assertEquals("LSOKHEAD", part.getID());
-        assertEquals(48, part.getContent().length);
-        assertEquals(LSOKHEAD_SAMPLE.substring(40), HostData.toHexString(part.getContent()));
     }
 
     /**
@@ -125,12 +79,11 @@ public class LegStarMessagePartTest extends TestCase {
      */
     public final void testrecvFromHostTooSmall() {
         byte[] hostBytes = HostData.toByteArray("d3e2d6d2c8c5c1c44040404040");
-        ByteArrayInputStream hostStream = new ByteArrayInputStream(hostBytes);
         LegStarMessagePart part = new LegStarMessagePart();
         try {
-            part.recvFromHost(hostStream);
+            part.fromByteArray(hostBytes, 0);
             fail("failed testrecvFromHostTooSmall");
-        } catch (HostReceiveException e) {
+        } catch (HostMessageFormatException e) {
             assertEquals("Invalid message part. No ID", e.getMessage());
         }
     }
@@ -146,30 +99,32 @@ public class LegStarMessagePartTest extends TestCase {
                 + "F0000030"
                 + "00000005"
                 + "00000000");
-        ByteArrayInputStream hostStream = new ByteArrayInputStream(hostBytes);
         LegStarMessagePart part = new LegStarMessagePart();
         try {
-            part.recvFromHost(hostStream);
+            part.fromByteArray(hostBytes, 0);
             fail("failed testrecvFromHostTooSmall");
-        } catch (HostReceiveException e) {
-            assertEquals("Invalid message part content length", e.getMessage());
+        } catch (HostMessageFormatException e) {
+            assertEquals("Invalid message part content length -268435408",
+                    e.getMessage());
         }
     }
 
     /**
      * It is acceptable that there is no content for a message part.
-     * @throws HostReceiveException if test fails
      */
-    public final void testrecvFromHostNoContent() throws HostReceiveException {
-        byte[] hostBytes = HostData.toByteArray(
-                "d3e2d6d2c8c5c1c44040404040404040"
-                /* This is 0 bytes content*/
-                + "00000000");
-        ByteArrayInputStream hostStream = new ByteArrayInputStream(hostBytes);
-        LegStarMessagePart part = new LegStarMessagePart();
-        part.recvFromHost(hostStream);
-        assertEquals("LSOKHEAD", part.getID());
-        assertTrue(null == part.getContent());
+    public final void testrecvFromHostNoContent() {
+        try {
+            byte[] hostBytes = HostData.toByteArray(
+                    "d3e2d6d2c8c5c1c44040404040404040"
+                    /* This is 0 bytes content*/
+                    + "00000000");
+            LegStarMessagePart part = new LegStarMessagePart();
+            part.fromByteArray(hostBytes, 0);
+            assertEquals("LSOKHEAD", part.getPartID());
+            assertTrue(null == part.getContent());
+        } catch (HostMessageFormatException e) {
+            fail(e.getMessage());
+        }
     }
 
     /**
@@ -178,12 +133,11 @@ public class LegStarMessagePartTest extends TestCase {
      */
     public final void testrecvErrorMessageFromHost() {
         byte[] hostBytes = HostData.toByteArray(LSOKERR0_SAMPLE);
-        ByteArrayInputStream hostStream = new ByteArrayInputStream(hostBytes);
         LegStarMessagePart part = new LegStarMessagePart();
         try {
-            part.recvFromHost(hostStream);
+            part.fromByteArray(hostBytes, 0);
             fail();
-        } catch (HostReceiveException e) {
+        } catch (HostMessageFormatException e) {
             assertEquals("CICS command=LINK COMMAREA failed, resp=PGMIDERR, resp2=3", e.getMessage());
         }
     }
@@ -195,14 +149,181 @@ public class LegStarMessagePartTest extends TestCase {
         byte[] hostBytes = HostData.toByteArray(
                 /*M S O K H E A D       (invalid eye catcher)          */
                 "d4e2d6d2c8c5c1c4404040404040404000000000");
-        ByteArrayInputStream hostStream = new ByteArrayInputStream(hostBytes);
         try {
             LegStarHeaderPart part = new LegStarHeaderPart();
-            part.recvFromHost(hostStream);
+            part.fromByteArray(hostBytes, 0);
             fail();
-        } catch (HostReceiveException e) {
-            assertEquals("Invalid message header. Expected LSOKHEAD, received MSOKHEAD", e.getMessage());
+        } catch (HostMessageFormatException e) {
+            assertEquals("Invalid message part ID. Expected LSOKHEAD, received MSOKHEAD",
+                    e.getMessage());
         } catch (HeaderPartException e) {
+            fail(e.getMessage());
+        }
+    }
+    
+    /**
+     * Test if arbitrary payload can be identified as LegStarMessage.
+     */
+    public final void testHeaderRecognition() {
+        try {
+            assertFalse(LegStarHeaderPart.isLegStarHeader(
+                    null));
+            assertFalse(LegStarHeaderPart.isLegStarHeader(
+                    HostData.toByteArray(LSOKHEAD_SAMPLE.substring(0, 30))));
+            assertFalse(LegStarHeaderPart.isLegStarHeader(
+                    HostData.toByteArray(PART_SAMPLE)));
+            assertTrue(LegStarHeaderPart.isLegStarHeader(
+                    HostData.toByteArray(LSOKHEAD_SAMPLE)));
+        } catch (UnsupportedEncodingException e) {
+            fail(e.getMessage());
+        }
+        
+    }
+    /**
+     * Test serializing part in a byte array.
+     */
+    public final void testToByteArray() {
+        try {
+            byte[] content = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06 };
+            LegStarMessagePart part = new LegStarMessagePart("CONTAINER", content);
+            part.setPayloadSize(4);
+                         /*C O N T A I N E R                     4 1 2 3 4*/
+            assertEquals("c3d6d5e3c1c9d5c5d9404040404040400000000401020304",
+                    HostData.toHexString(part.toByteArray()));
+            part.setPayloadSize(0);
+                         /*C O N T A I N E R                     0*/
+            assertEquals("c3d6d5e3c1c9d5c5d94040404040404000000000",
+                    HostData.toHexString(part.toByteArray()));
+        } catch (HostMessageFormatException e) {
+            fail(e.getMessage());
+        }
+    }
+    
+    
+    /**
+     * Test GetContent.
+     */
+    public final void testSetContent() {
+        try {
+            byte[] content = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06 };
+            LegStarMessagePart part = new LegStarMessagePart();
+            int pos = part.setContent(content, 0, 0);
+            assertTrue(part.getContent() == null);
+            assertEquals(0, pos);
+            pos = part.setContent(content, 1, 3);
+            assertEquals("020304", HostData.toHexString(part.getContent()));
+            assertEquals(4, pos);
+        } catch (HostMessageFormatException e) {
+            fail(e.getMessage());
+        }
+    }
+    
+    /**
+     * Test GetContentLength.
+     */
+    public final void testGetContentLength() {
+        try {
+            LegStarMessagePart part = new LegStarMessagePart();
+            assertEquals(0, part.getContentLength(HostData.toByteArray("00000000"), 0));
+            assertEquals(16777216, part.getContentLength(HostData.toByteArray("01000000"), 0));
+        } catch (HostMessageFormatException e) {
+            fail(e.getMessage());
+        }
+        try {
+            LegStarMessagePart part = new LegStarMessagePart();
+            part.getContentLength(HostData.toByteArray("01000001"), 0);
+        } catch (HostMessageFormatException e) {
+            assertEquals("Invalid message part content length 16777217", e.getMessage());
+        }
+    }
+    
+    /**
+     * Test SetPartID.
+     */
+    public void testSetPartID() {
+        try {
+            LegStarMessagePart part = new LegStarMessagePart();
+            part.setPartID("A VERY VERY VERY LONG PART ID");
+        } catch (HostMessageFormatException e) {
+            assertEquals("Invalid message part ID A VERY VERY VERY LONG PART ID",
+                    e.getMessage());
+        }
+        try {
+            LegStarMessagePart part = new LegStarMessagePart();
+            part.setPartID("NORMAL PART ID");
+            assertEquals("NORMAL PART ID", part.getPartID());
+        } catch (HostMessageFormatException e) {
+            fail(e.getMessage());
+        }
+        try {
+            LegStarMessagePart part = new LegStarMessagePart();
+            part.setPartID("LSOKHEAD");
+            part.setPartID("SOMETHINGELSE");
+        } catch (HostMessageFormatException e) {
+            assertEquals("Invalid message part ID. Expected LSOKHEAD, received SOMETHINGELSE",
+                    e.getMessage());
+        }
+        
+    }
+    
+    /**
+     * Test GetHostException.
+     */
+    public void testGetHostException() {
+        LegStarMessagePart part = new LegStarMessagePart();
+        HostMessageFormatException e = part.getHostException(
+                HostData.toByteArray(LSOKERR0_SAMPLE), 0);
+        assertEquals("CICS command=LINK COMMAREA failed, resp=PGMIDERR, resp2=3",
+                e.getMessage());
+    }
+    
+    /**
+     * Test FromByteArray.
+     */
+    public void testFromByteArray() {
+        try {
+            LegStarMessagePart part = new LegStarMessagePart();
+            part.fromByteArray(new byte[0], 0);
+        } catch (HostMessageFormatException e) {
+            assertEquals("Invalid message part",
+                    e.getMessage());
+        }
+        try {
+            LegStarMessagePart part = new LegStarMessagePart();
+            part.fromByteArray(HostData.toByteArray(LSOKERR0_SAMPLE), 0);
+        } catch (HostMessageFormatException e) {
+            assertEquals("CICS command=LINK COMMAREA failed, resp=PGMIDERR, resp2=3",
+                    e.getMessage());
+        }
+        try {
+            LegStarMessagePart part = new LegStarMessagePart();
+            part.fromByteArray(new byte[10], 0);
+        } catch (HostMessageFormatException e) {
+            assertEquals("Invalid message part. No ID",
+                    e.getMessage());
+        }
+        try {
+            LegStarMessagePart part = new LegStarMessagePart();
+            part.fromByteArray(HostData.toByteArray(PART_SAMPLE), 0);
+            assertEquals("CONTAINER", part.getPartID());
+            assertEquals(4, part.getContent().length);
+            assertEquals(4, part.getPayloadSize());
+            assertEquals("01020304", HostData.toHexString(part.getContent()));
+        } catch (HostMessageFormatException e) {
+            fail(e.getMessage());
+        }
+        try {
+            LegStarMessagePart part = new LegStarMessagePart();
+            part.fromByteArray(HostData.toByteArray(LSOKHEAD_SAMPLE), 0);
+            assertEquals("LSOKHEAD", part.getPartID());
+            assertEquals(48, part.getContent().length);
+            assertEquals(48, part.getPayloadSize());
+            assertEquals(
+                    "00000005"
+                    + "00000028"
+                    + "c07fc3c9c3e2c481a381d3859587a3887f7a7ff67f6b7fc3c9c3e2d3859587a3887f7a7ff7f97fd0",
+                    HostData.toHexString(part.getContent()));
+        } catch (HostMessageFormatException e) {
             fail(e.getMessage());
         }
     }
