@@ -47,7 +47,17 @@
         </dependency>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-c2wsrt</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-csokrt</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-tests</artifactId>
             <scope>test</scope>
         </dependency>
     

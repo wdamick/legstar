@@ -130,22 +130,22 @@ public class Varar021Test extends TestCase {
         SearchGrplst request = new SearchGrplst();
         /* First make sure we get a default host character set*/
         port.varar021(request, null);
-        assertEquals("IBM01140", port.getVarar021OperationInvoker().getHostInvoker().getAddress().getHostCharset());
-        HostInvoker invokerInstance = port.getVarar021OperationInvoker().getHostInvoker();
+        assertEquals("IBM01140", port.getVarar021ProgramInvoker().getHostInvoker().getAddress().getHostCharset());
+        HostInvoker invokerInstance = port.getVarar021ProgramInvoker().getHostInvoker();
         IJavaToHostTransformer javaToHostInstance =
-            port.getVarar021OperationInvoker().getSearchGrplstTransformers().getJavaToHost();
+            port.getVarar021ProgramInvoker().getSearchGrplstTransformers().getJavaToHost();
         IHostToJavaTransformer hostToJavaInstance =
-            port.getVarar021OperationInvoker().getSearchGrplstTransformers().getHostToJava();
+            port.getVarar021ProgramInvoker().getSearchGrplstTransformers().getHostToJava();
 
         /* If we call the operation a second time without changing the character set,
          * we should reuse the same instance of invoker and transformers. */
         port.varar021(request, null);
-        assertEquals("IBM01140", port.getVarar021OperationInvoker().getHostInvoker().getAddress().getHostCharset());
-        assertEquals(invokerInstance, port.getVarar021OperationInvoker().getHostInvoker());
+        assertEquals("IBM01140", port.getVarar021ProgramInvoker().getHostInvoker().getAddress().getHostCharset());
+        assertEquals(invokerInstance, port.getVarar021ProgramInvoker().getHostInvoker());
         assertEquals(javaToHostInstance,
-                port.getVarar021OperationInvoker().getSearchGrplstTransformers().getJavaToHost());
+                port.getVarar021ProgramInvoker().getSearchGrplstTransformers().getJavaToHost());
         assertEquals(hostToJavaInstance,
-                port.getVarar021OperationInvoker().getSearchGrplstTransformers().getHostToJava());
+                port.getVarar021ProgramInvoker().getSearchGrplstTransformers().getHostToJava());
         
         /* Now try with a new host character set. The host invoker should be different since the address
          * has changed (the host character set is part of the address). The transformers should be
@@ -153,12 +153,12 @@ public class Varar021Test extends TestCase {
         Varar021HostHeader hostHeader = new Varar021HostHeader();
         hostHeader.setHostCharset("IBM01147");
         port.varar021(request, hostHeader);
-        assertEquals("IBM01147", port.getVarar021OperationInvoker().getHostInvoker().getAddress().getHostCharset());
-        assertNotSame(invokerInstance, port.getVarar021OperationInvoker().getHostInvoker());
+        assertEquals("IBM01147", port.getVarar021ProgramInvoker().getHostInvoker().getAddress().getHostCharset());
+        assertNotSame(invokerInstance, port.getVarar021ProgramInvoker().getHostInvoker());
         assertEquals(javaToHostInstance,
-                port.getVarar021OperationInvoker().getSearchGrplstTransformers().getJavaToHost());
+                port.getVarar021ProgramInvoker().getSearchGrplstTransformers().getJavaToHost());
         assertEquals(hostToJavaInstance,
-                port.getVarar021OperationInvoker().getSearchGrplstTransformers().getHostToJava());
+                port.getVarar021ProgramInvoker().getSearchGrplstTransformers().getHostToJava());
 
     }
 }
