@@ -11,7 +11,7 @@ package com.legstar.coxb.transform;
  * creates the directional transformers, java to host and host to java.
  *
  */
-public abstract class AbstractTransformers {
+public abstract class AbstractTransformers implements IHostTransformers {
 
     /** Transformer that turns a java data object into host data. */
     private IJavaToHostTransformer mJavaToHost;
@@ -37,6 +37,7 @@ public abstract class AbstractTransformers {
         mJavaToHost = javaToHost;
         mHostToJava = hostToJava;
     }
+ 
     /**
      * @return the transformer that turns a java data object into host data
      */

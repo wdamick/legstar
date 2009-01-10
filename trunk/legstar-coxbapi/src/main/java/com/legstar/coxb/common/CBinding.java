@@ -563,8 +563,7 @@ public abstract class CBinding implements ICobolBinding {
      * @return a list object
      */
     @SuppressWarnings("unchecked")
-    public static < T > T cast(final Object x) {
+    public < T > T cast(final Object x) {
         return (T) x;
     }
-
 }
