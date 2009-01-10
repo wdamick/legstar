@@ -53,8 +53,8 @@ public class CoxbGenWriter {
         "vlc/coxb-bind-java-to-host-transformer.vm";
 
     /** Velocity template for tranformer provider. */
-    public static final String XFORMER_PROVIDER_VLC_TEMPLATE =
-        "vlc/coxb-bind-transformer-provider.vm";
+    public static final String HOST_XFORMERS_VLC_TEMPLATE =
+        "vlc/coxb-bind-transformers.vm";
 
     /** A set of methods to simplify the velocity templates. */
     private CodeGenHelper mHelper;
@@ -166,7 +166,7 @@ public class CoxbGenWriter {
      */
     public final void writeTransformers(
             final ICobolComplexBinding ce) throws CodeGenException {
-        writeGeneric(ce, XFORMER_PROVIDER_VLC_TEMPLATE,
+        writeGeneric(ce, HOST_XFORMERS_VLC_TEMPLATE,
                 mCoxbHelper.getBoundTypeName(ce) + "Transformers.java");
     }
 
