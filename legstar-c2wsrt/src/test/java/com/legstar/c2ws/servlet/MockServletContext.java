@@ -17,133 +17,160 @@ import javax.servlet.ServletException;
  */
 public class MockServletContext implements ServletContext {
 
-	private final Hashtable < String , Object >  mAttributes = new Hashtable < String, Object > ();
+    /** Inner set of attributes.*/
+    private final Hashtable < String , Object >  mAttributes
+        = new Hashtable < String, Object >();
 
-	public Object getAttribute(String name) {
-		return mAttributes.get(name);
-	}
+    /** {@inheritDoc} */
+    public Object getAttribute(final String name) {
+        return mAttributes.get(name);
+    }
 
-	public Enumeration < ? > getAttributeNames() {
-		return mAttributes.keys();
-	}
+    /** {@inheritDoc} */
+    public Enumeration < ? > getAttributeNames() {
+        return mAttributes.keys();
+    }
 
-	public ServletContext getContext(String uripath) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public ServletContext getContext(final String uripath) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public String getInitParameter(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public String getInitParameter(final String name) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public Enumeration < ? > getInitParameterNames() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public Enumeration < ? > getInitParameterNames() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public int getMajorVersion() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    /** {@inheritDoc} */
+    public int getMajorVersion() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
-	public String getMimeType(String file) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public String getMimeType(final String file) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public int getMinorVersion() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    /** {@inheritDoc} */
+    public int getMinorVersion() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
-	public RequestDispatcher getNamedDispatcher(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public RequestDispatcher getNamedDispatcher(final String name) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public String getRealPath(String path) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public String getRealPath(final String path) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public RequestDispatcher getRequestDispatcher(String path) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public RequestDispatcher getRequestDispatcher(final String path) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public URL getResource(String path) throws MalformedURLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public URL getResource(final String path) throws MalformedURLException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public InputStream getResourceAsStream(String path) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public InputStream getResourceAsStream(final String path) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public Set < ? > getResourcePaths(String arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public Set < ? > getResourcePaths(final String arg0) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public String getServerInfo() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public String getServerInfo() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public Servlet getServlet(String name) throws ServletException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public Servlet getServlet(final String name) throws ServletException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public String getServletContextName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public String getServletContextName() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public Enumeration < ? > getServletNames() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public Enumeration < ? > getServletNames() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public Enumeration < ? > getServlets() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /** {@inheritDoc} */
+    public Enumeration < ? > getServlets() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public void log(String msg) {
-		// TODO Auto-generated method stub
-		
-	}
+    /** {@inheritDoc} */
+    public void log(final String msg) {
+        // TODO Auto-generated method stub
 
-	public void log(Exception exception, String msg) {
-		// TODO Auto-generated method stub
-		
-	}
+    }
 
-	public void log(String message, Throwable throwable) {
-		// TODO Auto-generated method stub
-		
-	}
+    /** {@inheritDoc} */
+    public void log(final Exception exception, final String msg) {
+        // TODO Auto-generated method stub
 
-	public void removeAttribute(String name) {
-		// TODO Auto-generated method stub
-		
-	}
+    }
 
-	public void setAttribute(String name, Object value) {
+    /** {@inheritDoc} */
+    public void log(final String message, final Throwable throwable) {
+        // TODO Auto-generated method stub
+
+    }
+
+    /** {@inheritDoc} */
+    public void removeAttribute(final String name) {
+        // TODO Auto-generated method stub
+
+    }
+
+    /** {@inheritDoc} */
+    public void setAttribute(final String name, final Object value) {
         if (value != null) {
-        	mAttributes.put(name, value);
+            mAttributes.put(name, value);
         } else {
-        	mAttributes.remove(name);
+            mAttributes.remove(name);
         }
-	}
-	
-	public String getContextPath() {
-		return null;
-	}
-	
-	
+    }
+
+    /** {@inheritDoc} */
+    public String getContextPath() {
+        return null;
+    }
+
+
 
 }
