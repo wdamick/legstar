@@ -27,7 +27,7 @@ public class ${valueObjectType}Transformers extends AbstractTransformers {
      * @return a byte array with host data
      * @throws HostTransformException if transformation fails
      */
-    public byte[] toHost(final ${valueObjectType} valueObject, final String hostCharset)
+    public byte[] toHost(final Object valueObject, final String hostCharset)
             throws HostTransformException {
         return getJavaToHost().transform(valueObject, hostCharset);
     }
@@ -38,7 +38,7 @@ public class ${valueObjectType}Transformers extends AbstractTransformers {
      * @return a byte array with host data
      * @throws HostTransformException if transformation fails
      */
-    public byte[] toHost(final ${valueObjectType} valueObject)
+    public byte[] toHost(final Object valueObject)
             throws HostTransformException {
         return getJavaToHost().transform(valueObject);
     }
@@ -52,7 +52,7 @@ public class ${valueObjectType}Transformers extends AbstractTransformers {
      */
     public ${valueObjectType} toJava(final byte[] hostData, final String hostCharset)
             throws HostTransformException {
-        return (${valueObjectType}) getHostToJava().transform(hostData, hostCharset);
+        return getHostToJava().transform(hostData, hostCharset);
     }
 
     /**
