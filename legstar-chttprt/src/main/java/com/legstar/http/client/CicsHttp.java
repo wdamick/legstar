@@ -12,7 +12,6 @@ package com.legstar.http.client;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.Header;
@@ -31,6 +30,7 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.legstar.messaging.HostMessageFormatException;
 import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.HeaderPartException;
@@ -384,7 +384,7 @@ public class CicsHttp implements LegStarConnection  {
                     new InputStreamRequestEntity(
                             request.getRequestMessage().sendToHost(),
                             APPLICATION_CONTENT_TYPE));
-        } catch (UnsupportedEncodingException e) {
+        } catch (HostMessageFormatException e) {
             throw new RequestException(e);
         }
 
@@ -412,6 +412,8 @@ public class CicsHttp implements LegStarConnection  {
             reponseMessage = new LegStarMessage();
             reponseMessage.recvFromHost(respStream);
         } catch (HeaderPartException e) {
+            throw new HostReceiveException(e);
+        } catch (HostMessageFormatException e) {
             throw new HostReceiveException(e);
         }
 

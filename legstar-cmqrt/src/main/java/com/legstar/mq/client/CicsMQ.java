@@ -10,9 +10,7 @@
  ******************************************************************************/
 package com.legstar.mq.client;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Hashtable;
 
@@ -29,6 +27,7 @@ import com.ibm.mq.MQQueueManager;
 import com.legstar.codec.HostCodec;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.HeaderPartException;
+import com.legstar.messaging.HostMessageFormatException;
 import com.legstar.messaging.HostReceiveException;
 import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.LegStarMessage;
@@ -351,8 +350,9 @@ public class CicsMQ implements LegStarConnection  {
             + MQC.MQPMO_FAIL_IF_QUIESCING;
             gmo.waitInterval = mReceiveTimeout;
             mResponseQueue.get(mqMessage, gmo);
-            InputStream respStream = q2pipe(mqMessage);
-            request.setResponseMessage(createResponseMessage(respStream));
+            byte[] hostBytes = new byte[mqMessage.getDataLength()];
+            mqMessage.readFully(hostBytes);
+            request.setResponseMessage(createResponseMessage(hostBytes));
 
         } catch (MQException e) {
             throw new RequestException(e);
@@ -401,9 +401,9 @@ public class CicsMQ implements LegStarConnection  {
             mqMessage.userId = mCicsMQEndpoint.getHostUserID();
 
             /* Finally create the mq message content */
-            pipe2q(request.getRequestMessage().sendToHost(), mqMessage);
+            mqMessage.write(request.getRequestMessage().toByteArray());
 
-        } catch (UnsupportedEncodingException e) {
+        } catch (HostMessageFormatException e) {
             throw new RequestException(e);
         } catch (IOException e) {
             throw new RequestException(e);
@@ -416,22 +416,24 @@ public class CicsMQ implements LegStarConnection  {
      * Creates a response message from the MQ reply back.
      * The MQ payload should contain serailization of a header part 
      * followed by any number of data parts.
-     * @param respStream the MQ response data
+     * @param hostBytes the MQ response data
      * @return a response message
      * @throws HostReceiveException if response cannot be mapped to a message
      */
     private LegStarMessage createResponseMessage(
-            final InputStream respStream) throws HostReceiveException {
+            final byte[] hostBytes) throws HostReceiveException {
 
         if (LOG.isDebugEnabled()) {
-            LOG.debug("enter createResponseMessage(respStream)");
+            LOG.debug("enter createResponseMessage(hostBytes)");
         }
 
         LegStarMessage reponseMessage;
         try {
             reponseMessage = new LegStarMessage();
-            reponseMessage.recvFromHost(respStream);
+            reponseMessage.fromByteArray(hostBytes, 0);
         } catch (HeaderPartException e) {
+            throw new HostReceiveException(e);
+        } catch (HostMessageFormatException e) {
             throw new HostReceiveException(e);
         }
 
@@ -439,37 +441,6 @@ public class CicsMQ implements LegStarConnection  {
             LOG.debug("response message received");
         }
         return reponseMessage;
-    }
-
-    /**
-     * Simple piping using an intermediary buffer.
-     * @param in the input stream
-     * @param mqMessage the mq message
-     * @throws IOException if piping fails
-     */
-    private void pipe2q(
-            final InputStream in,
-            final MQMessage mqMessage) throws IOException {
-        byte[] buffer = new byte[1024];
-        int r;
-        while ((r = in.read(buffer)) > 0) {
-            mqMessage.write(buffer, 0, r);
-        }
-    }
-
-    /**
-     * Since there does not seem to be a stream interface to mq
-     * messages we have to create the stream here.
-     * @param mqMessage the MQ message
-     * @return a byte stream
-     * @throws IOException if piping fails
-     */
-    private InputStream q2pipe(
-            final MQMessage mqMessage) throws IOException {
-        byte[] buffer = new byte[mqMessage.getDataLength()];
-        mqMessage.readFully(buffer);
-        ByteArrayInputStream stream = new ByteArrayInputStream(buffer);
-        return stream;
     }
 
     /** No-op for HTTP transport.
