@@ -44,6 +44,11 @@
         </dependency>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbgen-cases</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-xsdcgen-cases</artifactId>
             <scope>test</scope>
         </dependency>
@@ -53,8 +58,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
             <scope>test</scope>
         </dependency>
     
@@ -98,7 +103,7 @@
                         </goals>
                     </execution>
                 
-                  <!-- This will upload the zos sources.  -->
+                  <!-- This will upload the zos sources. -->
                     <execution>
                         <id>deploy-to-zos</id>
                         <phase>generate-test-resources</phase>
@@ -116,7 +121,7 @@
                             <goal>run</goal>
                         </goals>
                     </execution>
-
+  
                 </executions>
                 
             </plugin>

@@ -8,28 +8,35 @@
  * Contributors:
  *     LegSem - initial API and implementation
  ******************************************************************************/
-package com.legstar.c2ws;
+package com.legstar.proxy.invoke;
 
 /**
- * Error interpreting data from host.
+ * Error with the target web services configurations.
  */
-public class HostUnmarshalException extends Exception {
+public class ProxyConfigurationException extends Exception {
 
     /** Default serial ID. */
-    private static final long serialVersionUID = -2281686078163367622L;
+    private static final long serialVersionUID = -5413324572101279802L;
 
     /** 
      * Constructor from an error message. 
      * @param message the text message 
      * */
-    public HostUnmarshalException(final String message) {
+    public ProxyConfigurationException(final String message) {
         super(message);
     }
     /** 
      * Constructor from an inner exception. 
      * @param e the inner exception 
      * */
-    public HostUnmarshalException(final Exception e) {
+    public ProxyConfigurationException(final Exception e) {
+        super(e);
+    }
+    /** 
+     * Constructor from an inner exception. 
+     * @param e the inner exception 
+     * */
+    public ProxyConfigurationException(final Throwable e) {
         super(e);
     }
 
