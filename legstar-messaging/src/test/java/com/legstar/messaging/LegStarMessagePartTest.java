@@ -10,6 +10,7 @@
  ******************************************************************************/
 package com.legstar.messaging;
 
+import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import com.legstar.coxb.host.HostData;
 
@@ -315,6 +316,62 @@ public class LegStarMessagePartTest extends TestCase {
         try {
             LegStarMessagePart part = new LegStarMessagePart();
             part.fromByteArray(HostData.toByteArray(LSOKHEAD_SAMPLE), 0);
+            assertEquals("LSOKHEAD", part.getPartID());
+            assertEquals(48, part.getContent().length);
+            assertEquals(48, part.getPayloadSize());
+            assertEquals(
+                    "00000005"
+                    + "00000028"
+                    + "c07fc3c9c3e2c481a381d3859587a3887f7a7ff67f6b7fc3c9c3e2d3859587a3887f7a7ff7f97fd0",
+                    HostData.toHexString(part.getContent()));
+        } catch (HostMessageFormatException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    /**
+     * Test FromStream.
+     */
+    public void testFromStream() {
+        try {
+            LegStarMessagePart part = new LegStarMessagePart();
+            ByteArrayInputStream stream = new ByteArrayInputStream(new byte[0]);
+            part.fromStream(stream);
+        } catch (HostMessageFormatException e) {
+            assertEquals("Invalid message part",
+                    e.getMessage());
+        }
+        try {
+            LegStarMessagePart part = new LegStarMessagePart();
+            ByteArrayInputStream stream = new ByteArrayInputStream(HostData.toByteArray(LSOKERR0_SAMPLE));
+            part.fromStream(stream);
+        } catch (HostMessageFormatException e) {
+            assertEquals("CICS command=LINK COMMAREA failed, resp=PGMIDERR, resp2=3",
+                    e.getMessage());
+        }
+        try {
+            LegStarMessagePart part = new LegStarMessagePart();
+            ByteArrayInputStream stream = new ByteArrayInputStream(new byte[10]);
+            part.fromStream(stream);
+        } catch (HostMessageFormatException e) {
+            assertEquals("Invalid message part. No ID",
+                    e.getMessage());
+        }
+        try {
+            LegStarMessagePart part = new LegStarMessagePart();
+            ByteArrayInputStream stream = new ByteArrayInputStream(HostData.toByteArray(PART_SAMPLE));
+            part.fromStream(stream);
+            assertEquals("CONTAINER", part.getPartID());
+            assertEquals(4, part.getContent().length);
+            assertEquals(4, part.getPayloadSize());
+            assertEquals("01020304", HostData.toHexString(part.getContent()));
+        } catch (HostMessageFormatException e) {
+            fail(e.getMessage());
+        }
+        try {
+            LegStarMessagePart part = new LegStarMessagePart();
+            ByteArrayInputStream stream = new ByteArrayInputStream(HostData.toByteArray(LSOKHEAD_SAMPLE));
+            part.fromStream(stream);
             assertEquals("LSOKHEAD", part.getPartID());
             assertEquals(48, part.getContent().length);
             assertEquals(48, part.getPayloadSize());
