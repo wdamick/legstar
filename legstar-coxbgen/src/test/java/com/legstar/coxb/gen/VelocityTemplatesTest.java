@@ -630,7 +630,7 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
 
         CodeGenUtil.processTemplate(
                 BINDING_GENERATOR_NAME,
-                "vlc/coxb-bind-transformer-provider.vm",
+                CoxbGenWriter.HOST_XFORMERS_VLC_TEMPLATE,
                 "binding", ce,
                 getParameters(),
                 CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
@@ -644,8 +644,8 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("public DfhcommareaTransformers() {"));
         assertTrue(resStr.contains("super(new DfhcommareaJavaToHostTransformer(),"));
         assertTrue(resStr.contains("new DfhcommareaHostToJavaTransformer());"));
-        assertTrue(resStr.contains("public byte[] toHost(final Dfhcommarea valueObject, final String hostCharset)"));
-        assertTrue(resStr.contains("public byte[] toHost(final Dfhcommarea valueObject)"));
+        assertTrue(resStr.contains("public byte[] toHost(final Object valueObject, final String hostCharset)"));
+        assertTrue(resStr.contains("public byte[] toHost(final Object valueObject)"));
         assertTrue(resStr.contains("public Dfhcommarea toJava(final byte[] hostData, final String hostCharset)"));
         assertTrue(resStr.contains("public Dfhcommarea toJava(final byte[] hostData)"));
     }
@@ -674,7 +674,7 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
 
         CodeGenUtil.processTemplate(
                 BINDING_GENERATOR_NAME,
-                "vlc/coxb-bind-transformer-provider.vm",
+                CoxbGenWriter.HOST_XFORMERS_VLC_TEMPLATE,
                 "binding", ce,
                 getParameters(),
                 CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
@@ -688,8 +688,8 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("public JVMQueryReplyTransformers() {"));
         assertTrue(resStr.contains("super(new JVMQueryReplyJavaToHostTransformer(),"));
         assertTrue(resStr.contains("new JVMQueryReplyHostToJavaTransformer());"));
-        assertTrue(resStr.contains("public byte[] toHost(final JVMQueryReply valueObject, final String hostCharset)"));
-        assertTrue(resStr.contains("public byte[] toHost(final JVMQueryReply valueObject)"));
+        assertTrue(resStr.contains("public byte[] toHost(final Object valueObject, final String hostCharset)"));
+        assertTrue(resStr.contains("public byte[] toHost(final Object valueObject)"));
         assertTrue(resStr.contains("public JVMQueryReply toJava(final byte[] hostData, final String hostCharset)"));
         assertTrue(resStr.contains("public JVMQueryReply toJava(final byte[] hostData)"));
     }
