@@ -58,11 +58,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-tests</artifactId>
             <scope>test</scope>
         </dependency>
-    
     </dependencies>
 
     <build>

@@ -707,6 +707,11 @@
                 <artifactId>legstar-common-plugin</artifactId>
                 <version>${legstarVersion}</version>
             </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-tests</artifactId>
+                <version>${legstarVersion}</version>
+            </dependency>
       
         </dependencies>
 
