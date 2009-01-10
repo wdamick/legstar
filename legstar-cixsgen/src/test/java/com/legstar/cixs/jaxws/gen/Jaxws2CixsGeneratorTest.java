@@ -328,9 +328,9 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
         resStr = getSource(GEN_SRC_DIR + relativeLoc + "/" + className + "FaultInfo.java");
         assertTrue(resStr.contains("public class " + className + "FaultInfo {"));
 
-        resStr = getSource(GEN_SRC_DIR + relativeLoc + "/" + className + "OperationInvoker.java");
+        resStr = getSource(GEN_SRC_DIR + relativeLoc + "/" + className + "ProgramInvoker.java");
         assertTrue(resStr.contains("public class " + className
-                + "OperationInvoker extends AbstractOperationInvoker {"));
+                + "ProgramInvoker extends AbstractProgramInvoker {"));
 
     }
 
