@@ -11,8 +11,6 @@
 package com.legstar.messaging;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -71,21 +69,12 @@ public class LegStarMessage implements Serializable {
      * @throws HostMessageFormatException if creation fails
      */
     public final void recvFromHost(
-            final InputStream hostStream) throws HostMessageFormatException {
-        try {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream(1024);
-            byte[] bytes = new byte[512];
-    
-            int readBytes;
-            while ((readBytes = hostStream.read(bytes)) > 0) {
-                outputStream.write(bytes, 0, readBytes);
-            }
-            byte[] hostBytes = outputStream.toByteArray();
-            
-            outputStream.close();
-            fromByteArray(hostBytes, 0);
-        } catch (IOException e) {
-            throw new HostMessageFormatException(e);
+        final InputStream hostStream) throws HostMessageFormatException {
+        getHeaderPart().fromStream(hostStream);
+        for (int i = 0; i < getHeaderPart().getDataPartsNumber(); i++) {
+            LegStarMessagePart part = new LegStarMessagePart();
+            part.fromStream(hostStream);
+            getDataParts().add(part);
         }
     }
 

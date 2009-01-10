@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.legstar.messaging;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
@@ -161,7 +163,9 @@ public class LegStarMessagePart implements Serializable {
             bb.flip();
             bb.get(dest, pos, CONTENT_LEN_LEN);
             pos += CONTENT_LEN_LEN;
-            System.arraycopy(getContent(), 0, dest, pos, getPayloadSize());
+            if (getContent() != null) {
+                System.arraycopy(getContent(), 0, dest, pos, getPayloadSize());
+            }
             return pos + getPayloadSize();
             
         } catch (UnsupportedEncodingException e) {
@@ -209,6 +213,45 @@ public class LegStarMessagePart implements Serializable {
     }
     
     /**
+     * Deserialize this message part from a stream originating from a host.
+     * @param stream the stream of host data
+     * @throws HostMessageFormatException if deserialization fails
+     */
+    public final void fromStream(
+            final InputStream stream) throws HostMessageFormatException {
+        try {
+            byte[] partIDBytes = new byte[MSG_PART_ID_LEN];
+            /* Start by looking for an error marker (note that it is shorter than part ID) */
+            int readBytes = stream.read(partIDBytes, 0, ERROR_ID.length());
+            if (readBytes < ERROR_ID.length()) {
+                throw new HostMessageFormatException("Invalid message part");
+            }
+            /* Is this an error report rather than a message part? */
+            String errorId = new String(partIDBytes, 0, ERROR_ID.length(),
+                    HostCodec.HEADER_CODE_PAGE).trim();
+            if (errorId.equals(ERROR_ID)) {
+                throw getHostException(stream);
+            }
+            /* Now we must have at least a part ID so read it completely */
+            readBytes += stream.read(partIDBytes, ERROR_ID.length(),
+                    MSG_PART_ID_LEN - ERROR_ID.length());
+            if (readBytes < MSG_PART_ID_LEN) {
+                throw new HostMessageFormatException("Invalid message part. No ID");
+            }
+            /* It is now safe to get a part constituents */
+            String partId = new String(partIDBytes, 0, MSG_PART_ID_LEN,
+                    HostCodec.HEADER_CODE_PAGE).trim();
+            setPartID(partId);
+            int contentLen = getContentLength(stream);
+            setContent(stream, contentLen);
+            
+        } catch (IOException e) {
+            throw new HostMessageFormatException(e);
+        }
+        
+    }
+
+    /**
      * Create an exception using an error text returned from the host.
      * <p/>
      * Error reports are formatted like so:
@@ -227,6 +270,32 @@ public class LegStarMessagePart implements Serializable {
                     HostCodec.HEADER_CODE_PAGE).trim();
             return new HostMessageFormatException(errorText);
         } catch (UnsupportedEncodingException e) {
+            return new HostMessageFormatException(e);
+        }
+    }
+    
+    /**
+     * Create an exception using an error text returned from the host.
+     * <p/>
+     * Error reports are formatted like so:
+     * <pre>
+     * LSOKERR0 some text
+     * </pre>
+     * @param stream the stream of host data
+     * @return an exception which message contains the translated error text from the host
+     */
+    public HostMessageFormatException getHostException(
+            final InputStream stream) {
+        try {
+            /* Consider the message to be available */
+            byte[] msgBytes = new byte[stream.available()];
+            stream.read(msgBytes);
+            String errorText = new String(msgBytes, 0, msgBytes.length,
+                    HostCodec.HEADER_CODE_PAGE).trim();
+            return new HostMessageFormatException(errorText);
+        } catch (UnsupportedEncodingException e) {
+            return new HostMessageFormatException(e);
+        } catch (IOException e) {
             return new HostMessageFormatException(e);
         }
     }
@@ -253,6 +322,35 @@ public class LegStarMessagePart implements Serializable {
     }
 
     /**
+     * Get the content length from a location in a stream originating from
+     * the host.
+     * @param stream the stream of host data
+     * @return the content length extracted from the byte array
+     * @throws HostMessageFormatException if content length is invalid (negative)
+     */
+    public int getContentLength(
+            final InputStream stream) throws HostMessageFormatException {
+        try {
+            byte[] clBytes = new byte[CONTENT_LEN_LEN];
+            int readBytes = stream.read(clBytes);
+            if (readBytes < CONTENT_LEN_LEN) {
+                throw new HostMessageFormatException(
+                        "Invalid message part content length ");
+            }
+            ByteBuffer bb = ByteBuffer.allocate(CONTENT_LEN_LEN);
+            bb.put(clBytes, 0, CONTENT_LEN_LEN);
+            bb.flip();
+            int contentLen = bb.getInt();
+            if (contentLen < 0 || contentLen > MAX_CONTENT_LEN) {
+                throw new HostMessageFormatException(
+                "Invalid message part content length " + contentLen);
+            }
+            return contentLen;
+        } catch (IOException e) {
+            throw new HostMessageFormatException(e);
+        }
+    }
+    /**
      * Get the content from a location in a byte array originating from
      * the host.
      * @param src the byte array
@@ -275,6 +373,33 @@ public class LegStarMessagePart implements Serializable {
         return srcPos + contentLen; 
     }
 
+    /**
+     * Get the content from a location in a stream originating from
+     * the host.
+     * This can be a large piece of data so expect chunking.
+     * @param stream the stream of host data
+     * @param contentLen the content length extracted from the byte array
+     * @throws HostMessageFormatException if content is invalid
+     */
+    public void setContent(
+            final InputStream stream,
+            final int contentLen) throws HostMessageFormatException {
+        try {
+            if (contentLen == 0) {
+                setContent(null);
+            } else {
+                byte[] content = new byte[contentLen];
+                int readBytes = 0;
+                while (readBytes < contentLen) {
+                    readBytes += stream.read(
+                            content, readBytes, contentLen - readBytes);
+                }
+                setContent(content);
+            }
+        } catch (IOException e) {
+            throw new HostMessageFormatException(e);
+        }
+    }
     /**
      * Available to class inheriting from this one in case they need a
      * generic print capability.
