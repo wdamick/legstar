@@ -76,7 +76,7 @@ public class CicsTs31SocketTest extends AbstractTester {
             getConnection().sendRequest(request);
             getConnection().recvResponse(request);
             assertEquals("RESPONSE-CTN",
-                    request.getResponseMessage().getDataParts().get(0).getID());
+                    request.getResponseMessage().getDataParts().get(0).getPartID());
             assertEquals(LsfileaeCases.getHostBytesHexReply100(),
                     HostData.toHexString(request.getResponseMessage().getDataParts().get(0).getContent()));
             getConnection().commitUOW();
@@ -105,12 +105,12 @@ public class CicsTs31SocketTest extends AbstractTester {
             getConnection().recvResponse(request);
             /* Get the status container first */
             assertEquals("ReplyStatus",
-                    request.getResponseMessage().getDataParts().get(1).getID());
+                    request.getResponseMessage().getDataParts().get(1).getPartID());
             assertEquals(LsfileacCases.getHostBytesHexReplyStatus(),
                     HostData.toHexString(request.getResponseMessage().getDataParts().get(1).getContent()));
             /* Then get the data container */
             assertEquals("ReplyData",
-                    request.getResponseMessage().getDataParts().get(0).getID());
+                    request.getResponseMessage().getDataParts().get(0).getPartID());
             assertEquals(LsfileacCases.getHostBytesHexReplyData(),
                     HostData.toHexString(request.getResponseMessage().getDataParts().get(0).getContent()));
             getConnection().commitUOW();
@@ -140,12 +140,12 @@ public class CicsTs31SocketTest extends AbstractTester {
             getConnection().recvResponse(request);
             /* Get the status container first */
             assertEquals("ReplyStatus",
-                    request.getResponseMessage().getDataParts().get(1).getID());
+                    request.getResponseMessage().getDataParts().get(1).getPartID());
             assertEquals(LsfileacCases.getHostBytesHexReplyStatus(),
                     HostData.toHexString(request.getResponseMessage().getDataParts().get(1).getContent()));
             /* Then get the data container */
             assertEquals("ReplyBibi",
-                    request.getResponseMessage().getDataParts().get(0).getID());
+                    request.getResponseMessage().getDataParts().get(0).getPartID());
             assertTrue(null == request.getResponseMessage().getDataParts().get(0).getContent());
             getConnection().commitUOW();
         } catch (RequestException e) {
@@ -171,12 +171,12 @@ public class CicsTs31SocketTest extends AbstractTester {
             getConnection().recvResponse(request);
             /* Get the status container first */
             assertEquals("ReplyStatus",
-                    request.getResponseMessage().getDataParts().get(1).getID());
+                    request.getResponseMessage().getDataParts().get(1).getPartID());
             assertEquals(LsfileacCases.getHostBytesHexReplyStatus(),
                     HostData.toHexString(request.getResponseMessage().getDataParts().get(1).getContent()));
             /* Then get the data container */
             assertEquals("ReplyData",
-                    request.getResponseMessage().getDataParts().get(0).getID());
+                    request.getResponseMessage().getDataParts().get(0).getPartID());
             assertEquals(LsfileacCases.getHostBytesHexReplyData(),
                     HostData.toHexString(request.getResponseMessage().getDataParts().get(0).getContent()));
             getConnection().commitUOW();
@@ -202,7 +202,7 @@ public class CicsTs31SocketTest extends AbstractTester {
             getConnection().sendRequest(request);
             getConnection().recvResponse(request);
             assertEquals("RESPONSE-CTN",
-                    request.getResponseMessage().getDataParts().get(0).getID());
+                    request.getResponseMessage().getDataParts().get(0).getPartID());
             T1volumeCases.checkByteArray(request.getResponseMessage().getDataParts().get(0).getContent());
             getConnection().commitUOW();
         } catch (RequestException e) {
@@ -229,7 +229,7 @@ public class CicsTs31SocketTest extends AbstractTester {
                 getConnection().sendRequest(request);
                 getConnection().recvResponse(request);
                 assertEquals("RESPONSE-CTN",
-                        request.getResponseMessage().getDataParts().get(0).getID());
+                        request.getResponseMessage().getDataParts().get(0).getPartID());
                 T1volumeCases.checkByteArray(request.getResponseMessage().getDataParts().get(0).getContent());
                 getConnection().commitUOW();
             }

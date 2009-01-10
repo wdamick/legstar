@@ -23,10 +23,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory; 
 
 import com.legstar.codec.HostCodec;
+import com.legstar.messaging.HostMessageFormatException;
 import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.HeaderPartException;
-import com.legstar.messaging.HostReceiveException;
 import com.legstar.messaging.LegStarMessage;
 import com.legstar.messaging.LegStarRequest;
 import com.legstar.messaging.RequestException;
@@ -330,6 +330,8 @@ public class CicsSocket implements LegStarConnection {
             outputBuffer.flush();
         } catch (IOException e) {
             throw (new RequestException(e));
+        } catch (HostMessageFormatException e) {
+            throw (new RequestException(e));
         }
 
         if (LOG.isDebugEnabled()) {
@@ -374,7 +376,7 @@ public class CicsSocket implements LegStarConnection {
             throw (new RequestException(e));
         } catch (HeaderPartException e) {
             throw (new RequestException(e));
-        } catch (HostReceiveException e) {
+        } catch (HostMessageFormatException e) {
             throw (new RequestException(e));
         }
         if (LOG.isDebugEnabled()) {
