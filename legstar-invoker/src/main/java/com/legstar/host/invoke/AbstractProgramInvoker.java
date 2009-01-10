@@ -3,12 +3,14 @@ package com.legstar.host.invoke;
 import com.legstar.messaging.LegStarAddress;
 
 /**
- * Generic code shared by all operation invoker implementations.
+ * Generic code shared by all program invoker implementations. Such invokers
+ * have the capability to invoke a mainframe program.
  * <p/>
- * Typically Adapters will derive their operations from this class.
+ * Typically Adapters will implement such an invoker for each operation that
+ * maps to a mainframe program.
  *
  */
-public class AbstractOperationInvoker {
+public class AbstractProgramInvoker {
 
     /** The operation name.*/
     private String mOperationName;
@@ -28,7 +30,7 @@ public class AbstractOperationInvoker {
      * @param operationName operation name
      * @param programProperties host program properties
      */
-    public AbstractOperationInvoker(
+    public AbstractProgramInvoker(
             final String configFileName,
             final String operationName,
             final String programProperties) {

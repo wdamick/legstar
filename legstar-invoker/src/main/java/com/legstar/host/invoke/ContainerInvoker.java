@@ -135,7 +135,7 @@ public class ContainerInvoker extends AbstractInvoker {
             }
             Map < String, byte[] > response = new HashMap < String, byte[] >();
             for (LegStarMessagePart part : responseMessage.getDataParts()) {
-                response.put(part.getID(), part.getContent());
+                response.put(part.getPartID(), part.getContent());
             }
             return response;
             
