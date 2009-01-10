@@ -1,4 +1,4 @@
-package com.legstar.c2ws.client;
+package com.legstar.test.client;
 
 import java.io.IOException;
 import java.net.InetAddress;

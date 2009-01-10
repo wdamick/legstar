@@ -3,10 +3,10 @@ package com.legstar.proxy.invoke;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.legstar.c2ws.client.ProxyClientException;
-import com.legstar.c2ws.client.ProxyClientHttp;
 import com.legstar.coxb.host.HostData;
 import com.legstar.proxy.invoke.jaxws.CultureinfoJaxwsCases;
+import com.legstar.test.client.ProxyClientException;
+import com.legstar.test.client.ProxyClientHttp;
 import com.legstar.test.coxb.CultureinfoCases;
 
 import junit.framework.TestCase;

@@ -1,4 +1,4 @@
-package com.legstar.c2ws.client;
+package com.legstar.test.client;
 
 /**
  * The Proxy Host simulator was unable to run the target Proxy service.
