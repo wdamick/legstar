@@ -14,11 +14,11 @@
 #getImportTypes(${cixsOperation.getOutput()})
 ##
 ## if operations are in a different package than the service, we
-## need to import the Operation invokers as well
+## need to import the Program invokers as well
 ##
 #if($cixsOperation.packageName && $cixsOperation.packageName != $model.packageName)
-#set($operationInvokerType = ${cixsOperation.className} + "OperationInvoker")
-#set($newType = ${helper.getQualClassName(${cixsOperation.packageName}, $operationInvokerType)})
+#set($programInvokerType = ${cixsOperation.className} + "ProgramInvoker")
+#set($newType = ${helper.getQualClassName(${cixsOperation.packageName}, $programInvokerType)})
 #addUnique($importTypes $newType)
 #end
 #end
@@ -50,14 +50,14 @@ public class ${model.implementationClassName} extends AbstractServiceAdapter imp
 
 #foreach ($cixsOperation in $model.cixsOperations)
     /** Invoker implementation for operation ${cixsOperation.name}. */
-    private ${cixsOperation.className}OperationInvoker m${cixsOperation.className}OperationInvoker;
+    private ${cixsOperation.className}ProgramInvoker m${cixsOperation.className}ProgramInvoker;
 
 #end
     /** Contructor creates a set of operation invokers. */
     public ${model.implementationClassName}() {
         super(SERVICE_ADAPTER_NAME);
 #foreach ($cixsOperation in $model.cixsOperations)
-        m${cixsOperation.className}OperationInvoker = new ${cixsOperation.className}OperationInvoker(getConfigFileName());
+        m${cixsOperation.className}ProgramInvoker = new ${cixsOperation.className}ProgramInvoker(getConfigFileName());
 #end
     }
     
@@ -68,7 +68,7 @@ public class ${model.implementationClassName} extends AbstractServiceAdapter imp
                final ${model.headerClassName} hostHeader)
                throws ${cixsOperation.faultType} {
     
-        return get${cixsOperation.className}OperationInvoker().${cixsOperation.name}(
+        return get${cixsOperation.className}ProgramInvoker().${cixsOperation.name}(
                 getAddress(hostHeader), getRequestID(hostHeader), request);
     }
 #end
@@ -109,16 +109,16 @@ public class ${model.implementationClassName} extends AbstractServiceAdapter imp
     /**
      * @return the invoker implementation for operation ${cixsOperation.name}
      */
-    public ${cixsOperation.className}OperationInvoker get${cixsOperation.className}OperationInvoker() {
-        return m${cixsOperation.className}OperationInvoker;
+    public ${cixsOperation.className}ProgramInvoker get${cixsOperation.className}ProgramInvoker() {
+        return m${cixsOperation.className}ProgramInvoker;
     }
 
     /**
-     * @param operationInvoker the invoker implementation for operation ${cixsOperation.name} to set
+     * @param programInvoker the invoker implementation for operation ${cixsOperation.name} to set
      */
-    public void set${cixsOperation.className}OperationInvoker(
-            final ${cixsOperation.className}OperationInvoker operationInvoker) {
-        m${cixsOperation.className}OperationInvoker = operationInvoker;
+    public void set${cixsOperation.className}ProgramInvoker(
+            final ${cixsOperation.className}ProgramInvoker programInvoker) {
+        m${cixsOperation.className}ProgramInvoker = programInvoker;
     }
     
 #end

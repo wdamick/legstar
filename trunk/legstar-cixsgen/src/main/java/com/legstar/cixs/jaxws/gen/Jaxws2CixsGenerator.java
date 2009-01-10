@@ -77,16 +77,16 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
         "vlc/j2c-operation-holder.vm";
 
     /** Velocity template for program. */
-    public static final String OPERATION_PROGRAM_VLC_TEMPLATE =
-        "vlc/j2c-operation-program.vm";
+    public static final String OPERATION_PROGRAM_PROPERTIES_VLC_TEMPLATE =
+        "vlc/j2c-operation-program-properties.vm";
 
     /** Velocity template for wrapper. */
     public static final String OPERATION_WRAPPER_VLC_TEMPLATE =
         "vlc/j2c-operation-wrapper.vm";
 
     /** Velocity template for operation invokers. */
-    public static final String OPERATION_INVOKER_VLC_TEMPLATE =
-        "vlc/j2c-operation-invoker.vm";
+    public static final String OPERATION_PROGRAM_INVOKER_VLC_TEMPLATE =
+        "vlc/j2c-operation-program-invoker.vm";
 
     /** The service model name is it appears in templates. */
     private static final String SERVICE_MODEL_NAME = "model";
@@ -203,7 +203,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
                     operation, parameters, operationClassFilesDir);
             generateProgramProperties(
                     operation, parameters, operationPropertiesFilesDir);
-            generateOperationInvoker(
+            generateProgramInvoker(
                     operation, parameters, operationClassFilesDir);
 
         }
@@ -371,7 +371,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
             final File servicePropertiesDir)
     throws CodeGenMakeException {
         generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
-                OPERATION_PROGRAM_VLC_TEMPLATE,
+                OPERATION_PROGRAM_PROPERTIES_VLC_TEMPLATE,
                 "cixsOperation",
                 operation,
                 parameters,
@@ -551,24 +551,24 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
     }
 
     /**
-     * Create an operation invoker class.
+     * Create a program invoker class.
      * @param operation the cixs operation
      * @param parameters miscellaneous help parameters
      * @param operationClassFilesDir where to store the generated file
      * @throws CodeGenMakeException if generation fails
      */
-    public static void generateOperationInvoker(
+    public static void generateProgramInvoker(
             final CixsOperation operation,
             final Map < String, Object > parameters,
             final File operationClassFilesDir)
     throws CodeGenMakeException {
         generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
-                OPERATION_INVOKER_VLC_TEMPLATE,
+                OPERATION_PROGRAM_INVOKER_VLC_TEMPLATE,
                 "cixsOperation",
                 operation,
                 parameters,
                 operationClassFilesDir,
-                operation.getClassName() + "OperationInvoker.java");
+                operation.getClassName() + "ProgramInvoker.java");
     }
 
     /**

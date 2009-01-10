@@ -12,7 +12,7 @@ import com.legstar.codegen.CodeGenUtil;
 /**
  * Test the generation of a an operation invoker class for Adapters.
  */
-public class OperationInvokerVelocityTemplatesTest extends AbstractTestTemplate {
+public class ProgramInvokerVelocityTemplatesTest extends AbstractTestTemplate {
 
     /**
      * Case of a commarea driven target program.
@@ -25,24 +25,25 @@ public class OperationInvokerVelocityTemplatesTest extends AbstractTestTemplate 
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
-        Jaxws2CixsGenerator.generateOperationInvoker(
+        Jaxws2CixsGenerator.generateProgramInvoker(
                 operation, getParameters(), operationClassFilesDir);
         String resStr = getSource(
                 operationClassFilesDir,
-                operation.getClassName() + "OperationInvoker.java");
+                operation.getClassName() + "ProgramInvoker.java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileae;"));
         assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileae.Dfhcommarea;"));
         assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileae.bind.DfhcommareaTransformers;"));
-        assertTrue(resStr.contains("* Implementation of the lsfileae adapter operation."));
-        assertTrue(resStr.contains("public class LsfileaeOperationInvoker extends AbstractOperationInvoker {"));
+        assertTrue(resStr.contains("* Implements an invoker for program LSFILEAE."));
+        assertTrue(resStr.contains("* This host program maps to operation lsfileae."));
+        assertTrue(resStr.contains("public class LsfileaeProgramInvoker extends AbstractProgramInvoker {"));
         assertTrue(resStr.contains("/** Host transformers for Dfhcommarea java data object. */"));
         assertTrue(resStr.contains("private DfhcommareaTransformers mDfhcommareaTransformers;"));
         assertTrue(resStr.contains("/** Operation name for lsfileae. */"));
         assertTrue(resStr.contains("private static final String  OPERATION_NAME = \"lsfileae\";"));
         assertTrue(resStr.contains("/** Properties for operation lsfileae. */"));
         assertTrue(resStr.contains("private static final String  PROGRAM_PROPERTIES = \"lsfileae.properties\";"));
-        assertTrue(resStr.contains("public LsfileaeOperationInvoker(final String configFileName) {"));
+        assertTrue(resStr.contains("public LsfileaeProgramInvoker(final String configFileName) {"));
         assertTrue(resStr.contains("mDfhcommareaTransformers = new DfhcommareaTransformers();"));
         assertTrue(resStr.contains("* Invoke the LSFILEAE host program."));
         assertTrue(resStr.contains("* @throws LsfileaeException if invoke fails"));
@@ -78,11 +79,11 @@ public class OperationInvokerVelocityTemplatesTest extends AbstractTestTemplate 
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
-        Jaxws2CixsGenerator.generateOperationInvoker(
+        Jaxws2CixsGenerator.generateProgramInvoker(
                 operation, getParameters(), operationClassFilesDir);
         String resStr = getSource(
                 operationClassFilesDir,
-                operation.getClassName() + "OperationInvoker.java");
+                operation.getClassName() + "ProgramInvoker.java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileal;"));
         assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileal.RequestParms;"));
@@ -95,7 +96,7 @@ public class OperationInvokerVelocityTemplatesTest extends AbstractTestTemplate 
         assertTrue(resStr.contains("private static final String  OPERATION_NAME = \"lsfileal\";"));
         assertTrue(resStr.contains("/** Properties for operation lsfileal. */"));
         assertTrue(resStr.contains("private static final String  PROGRAM_PROPERTIES = \"lsfileal.properties\";"));
-        assertTrue(resStr.contains("public LsfilealOperationInvoker(final String configFileName) {"));
+        assertTrue(resStr.contains("public LsfilealProgramInvoker(final String configFileName) {"));
         assertTrue(resStr.contains("mRequestParmsTransformers = new RequestParmsTransformers();"));
         assertTrue(resStr.contains("mReplyDataTransformers = new ReplyDataTransformers();"));
         assertTrue(resStr.contains("* Invoke the LSFILEAL host program."));
@@ -139,11 +140,11 @@ public class OperationInvokerVelocityTemplatesTest extends AbstractTestTemplate 
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
-        Jaxws2CixsGenerator.generateOperationInvoker(
+        Jaxws2CixsGenerator.generateProgramInvoker(
                 operation, getParameters(), operationClassFilesDir);
         String resStr = getSource(
                 operationClassFilesDir,
-                operation.getClassName() + "OperationInvoker.java");
+                operation.getClassName() + "ProgramInvoker.java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileac;"));
         assertTrue(resStr.contains("import java.util.LinkedHashMap;"));
@@ -154,7 +155,7 @@ public class OperationInvokerVelocityTemplatesTest extends AbstractTestTemplate 
         assertTrue(resStr.contains("private ReplyStatusTransformers mReplyStatusTransformers;"));
         assertTrue(resStr.contains("/** Properties for operation lsfileac. */"));
         assertTrue(resStr.contains("private static final String  PROGRAM_PROPERTIES = \"lsfileac.properties\";"));
-        assertTrue(resStr.contains("public LsfileacOperationInvoker(final String configFileName) {"));
+        assertTrue(resStr.contains("public LsfileacProgramInvoker(final String configFileName) {"));
         assertTrue(resStr.contains("mQueryDataTransformers = new QueryDataTransformers();"));
         assertTrue(resStr.contains("mQueryLimitTransformers = new QueryLimitTransformers();"));
         assertTrue(resStr.contains("mReplyDataTransformers = new ReplyDataTransformers();"));
@@ -200,11 +201,11 @@ public class OperationInvokerVelocityTemplatesTest extends AbstractTestTemplate 
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
-        Jaxws2CixsGenerator.generateOperationInvoker(
+        Jaxws2CixsGenerator.generateProgramInvoker(
                 operation, getParameters(), operationClassFilesDir);
         String resStr = getSource(
                 operationClassFilesDir,
-                operation.getClassName() + "OperationInvoker.java");
+                operation.getClassName() + "ProgramInvoker.java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.oper.lsfilean;"));
     }
@@ -220,11 +221,11 @@ public class OperationInvokerVelocityTemplatesTest extends AbstractTestTemplate 
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
-        Jaxws2CixsGenerator.generateOperationInvoker(
+        Jaxws2CixsGenerator.generateProgramInvoker(
                 operation, getParameters(), operationClassFilesDir);
         String resStr = getSource(
                 operationClassFilesDir,
-                operation.getClassName() + "OperationInvoker.java");
+                operation.getClassName() + "ProgramInvoker.java");
 
         assertFalse(resStr.contains("package "));
     }
