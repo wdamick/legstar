@@ -158,11 +158,11 @@
         <module>legstar-csokrt</module>
         <module>legstar-engine</module>
         <module>legstar-invoker</module>
+        <module>legstar-c2wsrt</module>
         <module>legstar-cobcgen</module>
+        <module>legstar-cixsgen-model</module>
         <module>legstar-cixsgen</module>
         <module>legstar-cixsgen-cases</module>
-        <module>legstar-cixsgen-model</module>
-        <module>legstar-c2wsrt</module>
         <module>legstar-distribution</module>
         <module>legstar-distribution-zos</module>
         <module>legstar-common-plugin</module>
