@@ -66,14 +66,14 @@ public final class Varar021Cases extends TestCase {
         searchGrplst.setPayload(payload);
         /* No need to set counters they will automatically be updated */
         ODynamicData oDynamicData = of.createODynamicData();
-        LkupInfo44 lkupInfo44_1 = of.createLkupInfo44();
-        lkupInfo44_1.setLkupIdCt("ABCDEFGHIJKLMNOPQR");
-        lkupInfo44_1.setLkupTypCdCt("12345");
-        oDynamicData.getLkupInfo().add(lkupInfo44_1);
-        LkupInfo44 lkupInfo44_2 = of.createLkupInfo44();
-        lkupInfo44_2.setLkupIdCt("123456789012345678");
-        lkupInfo44_2.setLkupTypCdCt("ABCDE");
-        oDynamicData.getLkupInfo().add(lkupInfo44_2);
+        LkupInfo44 lkupInfo44n1 = of.createLkupInfo44();
+        lkupInfo44n1.setLkupIdCt("ABCDEFGHIJKLMNOPQR");
+        lkupInfo44n1.setLkupTypCdCt("12345");
+        oDynamicData.getLkupInfo().add(lkupInfo44n1);
+        LkupInfo44 lkupInfo44n2 = of.createLkupInfo44();
+        lkupInfo44n2.setLkupIdCt("123456789012345678");
+        lkupInfo44n2.setLkupTypCdCt("ABCDE");
+        oDynamicData.getLkupInfo().add(lkupInfo44n2);
         payload.getODynamicData().add(oDynamicData);
         WellpointEaiEbsErrorRow wellpointEaiEbsErrorRow = of.createWellpointEaiEbsErrorRow();
         wellpointEaiEbsErrorRow.setWeerExceptionUuid("AN ERROR");
@@ -108,9 +108,11 @@ public final class Varar021Cases extends TestCase {
         assertEquals("", searchGrplst.getPayload().getWechAdditionalPageKeys());
         assertTrue(null == searchGrplst.getPayload().getIStaticData());
         assertEquals(1, searchGrplst.getPayload().getODynamicData().size());
-        assertEquals("ABCDEFGHIJKLMNOPQR", searchGrplst.getPayload().getODynamicData().get(0).getLkupInfo().get(0).getLkupIdCt());
+        assertEquals("ABCDEFGHIJKLMNOPQR",
+                searchGrplst.getPayload().getODynamicData().get(0).getLkupInfo().get(0).getLkupIdCt());
         assertEquals("12345", searchGrplst.getPayload().getODynamicData().get(0).getLkupInfo().get(0).getLkupTypCdCt());
-        assertEquals("123456789012345678", searchGrplst.getPayload().getODynamicData().get(0).getLkupInfo().get(1).getLkupIdCt());
+        assertEquals("123456789012345678",
+                searchGrplst.getPayload().getODynamicData().get(0).getLkupInfo().get(1).getLkupIdCt());
         assertEquals("ABCDE", searchGrplst.getPayload().getODynamicData().get(0).getLkupInfo().get(1).getLkupTypCdCt());
         assertEquals(1, searchGrplst.getPayload().getWellpointEaiEbsErrorRow().size());
         assertEquals("AN ERROR", searchGrplst.getPayload().getWellpointEaiEbsErrorRow().get(0).getWeerExceptionUuid());
@@ -123,14 +125,14 @@ public final class Varar021Cases extends TestCase {
         ObjectFactory of = new ObjectFactory();
         SearchGrplst searchGrplst = getJavaObjectNoIStaticData();
         IStaticData iStaticData = of.createIStaticData();
-        LkupInfo39 lkupInfo39_1 = of.createLkupInfo39();
-        lkupInfo39_1.setLkupId("RQPONMLKJIHGFEDCBA");
-        lkupInfo39_1.setLkupTypCd("54321");
-        iStaticData.getLkupInfo().add(lkupInfo39_1);
-        LkupInfo39 lkupInfo39_2 = of.createLkupInfo39();
-        lkupInfo39_2.setLkupId("876543210987654321");
-        lkupInfo39_2.setLkupTypCd("EDCBA");
-        iStaticData.getLkupInfo().add(lkupInfo39_2);
+        LkupInfo39 lkupInfo39n1 = of.createLkupInfo39();
+        lkupInfo39n1.setLkupId("RQPONMLKJIHGFEDCBA");
+        lkupInfo39n1.setLkupTypCd("54321");
+        iStaticData.getLkupInfo().add(lkupInfo39n1);
+        LkupInfo39 lkupInfo39n2 = of.createLkupInfo39();
+        lkupInfo39n2.setLkupId("876543210987654321");
+        lkupInfo39n2.setLkupTypCd("EDCBA");
+        iStaticData.getLkupInfo().add(lkupInfo39n2);
         searchGrplst.getPayload().setIStaticData(iStaticData);
         searchGrplst.getPayload().setWechRequestRows(1);
         return searchGrplst;
@@ -170,9 +172,11 @@ public final class Varar021Cases extends TestCase {
         assertEquals("876543210987654321", searchGrplst.getPayload().getIStaticData().getLkupInfo().get(1).getLkupId());
         assertEquals("EDCBA", searchGrplst.getPayload().getIStaticData().getLkupInfo().get(1).getLkupTypCd());
         assertEquals(1, searchGrplst.getPayload().getODynamicData().size());
-        assertEquals("ABCDEFGHIJKLMNOPQR", searchGrplst.getPayload().getODynamicData().get(0).getLkupInfo().get(0).getLkupIdCt());
+        assertEquals("ABCDEFGHIJKLMNOPQR",
+                searchGrplst.getPayload().getODynamicData().get(0).getLkupInfo().get(0).getLkupIdCt());
         assertEquals("12345", searchGrplst.getPayload().getODynamicData().get(0).getLkupInfo().get(0).getLkupTypCdCt());
-        assertEquals("123456789012345678", searchGrplst.getPayload().getODynamicData().get(0).getLkupInfo().get(1).getLkupIdCt());
+        assertEquals("123456789012345678",
+                searchGrplst.getPayload().getODynamicData().get(0).getLkupInfo().get(1).getLkupIdCt());
         assertEquals("ABCDE", searchGrplst.getPayload().getODynamicData().get(0).getLkupInfo().get(1).getLkupTypCdCt());
         assertEquals(1, searchGrplst.getPayload().getWellpointEaiEbsErrorRow().size());
         assertEquals("AN ERROR", searchGrplst.getPayload().getWellpointEaiEbsErrorRow().get(0).getWeerExceptionUuid());
@@ -194,7 +198,8 @@ public final class Varar021Cases extends TestCase {
         assertEquals("", searchGrplst.getPayload().getIStaticData().getLkupInfo().get(1).getLkupTypCd());
         assertEquals(0, searchGrplst.getPayload().getODynamicData().size());
         assertEquals(1, searchGrplst.getPayload().getWellpointEaiEbsErrorRow().size());
-        assertEquals("LKUP-TYP-CD(1, 1) not numeric", searchGrplst.getPayload().getWellpointEaiEbsErrorRow().get(0).getWeerExceptionUuid());
+        assertEquals("LKUP-TYP-CD(1, 1) not numeric",
+                searchGrplst.getPayload().getWellpointEaiEbsErrorRow().get(0).getWeerExceptionUuid());
     }
 
     /**

@@ -148,7 +148,7 @@ public final class LsfileacCases extends TestCase {
     /** 
      * Check the values returned from LSFILEAC after they were transformed to Java.
      * Filtered with "S*"
-     * @param replyStatus the java data object
+     * @param replyData the java data object
      */
     public static void checkJavaObjectReplyData(final ReplyData replyData) {
         assertEquals("S. D. BORMAN",
@@ -166,7 +166,7 @@ public final class LsfileacCases extends TestCase {
     /** 
      * Check the values returned from LSFILEAC after they were transformed to Java.
      * No filter.
-     * @param replyStatus the java data object
+     * @param replyData the java data object
      */
     public static void checkJavaObjectReplyDataFull(final ReplyData replyData) {
         assertEquals("S. D. BORMAN",

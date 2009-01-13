@@ -87,7 +87,7 @@ public final class CultureinfoCases extends TestCase {
     /**
      * @return a java object
      */
-    public static CultureInfoReply getJavaObjectResponseFr() throws Exception {
+    public static CultureInfoReply getJavaObjectResponseFr() {
         CultureInfoReply response = new CultureInfoReply();
         response.setCurrencySymbol("€");
         response.setDisplayCountry("France");
