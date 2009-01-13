@@ -22,23 +22,20 @@ public abstract class AbstractTest extends TestCase {
     /** Target location for generated schemas. */
     public static final File GEN_DIR = new File("target/src/gen");
     
-    /** An instance of the Xsd to COBOL annaotator. */
-    private XsdCobolAnnotator mXsdCobolAnnotator;
-    
     /** Logger. */
     private static final Log LOG = LogFactory.getLog(AbstractTest.class);
     /**
-     * @return the Xsd to Cobol Annotator
+     * @return a new Xsd to Cobol Annotator
      */
-    public XsdCobolAnnotator getXsdCobolAnnotator() {
-        return mXsdCobolAnnotator;
+    public XsdCobolAnnotator createXsdCobolAnnotator() {
+        XsdCobolAnnotator xsdCobolAnnotator = new XsdCobolAnnotator();
+        xsdCobolAnnotator.setTargetDir(GEN_DIR);
+        return xsdCobolAnnotator;
     }
 
     /** {@inheritDoc} */
     public void setUp() {
-        mXsdCobolAnnotator = new XsdCobolAnnotator();
         GEN_DIR.mkdirs();
-        mXsdCobolAnnotator.setTargetDir(GEN_DIR);
     }
 
     /**
