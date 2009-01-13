@@ -15,6 +15,8 @@ import java.io.File;
 import com.legstar.cixs.gen.AbstractTestTemplate;
 import com.legstar.cixs.gen.Samples;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
+import com.legstar.cixs.jaxws.model.ProxyTargetType;
+import com.legstar.codegen.CodeGenUtil;
 
 /**
  * Test Cixs2JaxwsGenerator.
@@ -96,19 +98,36 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
             generator.setTargetWarDir(GEN_WAR_DIR);
             generator.execute();
         } catch (Exception e) {
-            assertEquals("You must specify a valid URI",
+            assertEquals("Missing target Web service WSDL URL",
                     e.getCause().getMessage());
         }
         try {
-            cixsJaxwsService.setServiceURI(
-                    cixsJaxwsService.getDefaultServiceURI());
+            generator.getWebServiceTargetParameters().setWsdlUrl(
+                    "http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl");
             generator.execute();
         } catch (Exception e) {
-            assertEquals("You must specify a target Web Service WSDL URL",
+            assertEquals("Missing target Web service namespace",
                     e.getCause().getMessage());
         }
         try {
-            cixsJaxwsService.setWsdlUrl("http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl");
+            generator.getWebServiceTargetParameters().setWsdlTargetNamespace(
+                    "http://cultureinfo.cases.test.xsdc.legstar.com/");
+            generator.execute();
+        } catch (Exception e) {
+            assertEquals("Missing target Web service name",
+                    e.getCause().getMessage());
+        }
+        try {
+            generator.getWebServiceTargetParameters().setWsdlServiceName(
+                    "cultureinfoService");
+            generator.execute();
+        } catch (Exception e) {
+            assertEquals("Missing target Web service port name",
+                    e.getCause().getMessage());
+        }
+        try {
+            generator.getWebServiceTargetParameters().setWsdlPortName(
+                    "cultureinfoPort");
             generator.execute();
         } catch (Exception e) {
             fail(e.getCause().getMessage());
@@ -117,20 +136,40 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
     }
 
     /**
-     * Test a straight generation.
+     * Test a straight generation with web service target.
      * @throws Exception if generation fails
      */
-    public void testGenerate() throws Exception {
+    public void testGenerateWebService() throws Exception {
         CixsJaxwsService cixsJaxwsService = Samples.getCultureInfo();
         initJaxwsService(cixsJaxwsService);
+        mGenerator.setProxyTargetType(ProxyTargetType.WEBSERVICE.toString());
+        mGenerator.setWebServiceTargetParameters(
+                Samples.getCultureinfoWebServiceParameters());
         mGenerator.execute();
         checkAntBuild(cixsJaxwsService.getName());
-        checkWebDescriptor(cixsJaxwsService.getName());
+        checkWebServiceWebDescriptor(cixsJaxwsService.getName());
         checkCobolClient(cixsJaxwsService.getName(),
                 cixsJaxwsService.getCixsOperations().get(0).getCicsProgramName());
 
     }
 
+    /**
+     * Test a straight generation with pojo target.
+     * @throws Exception if generation fails
+     */
+    public void testGeneratePojo() throws Exception {
+        CixsJaxwsService cixsJaxwsService = Samples.getJvmquery();
+        initJaxwsService(cixsJaxwsService);
+        mGenerator.setProxyTargetType(ProxyTargetType.POJO.toString());
+        mGenerator.setPojoTargetParameters(
+                Samples.getJvmqueryPojoParameters());
+        mGenerator.execute();
+        checkAntBuild(cixsJaxwsService.getName());
+        checkPojoWebDescriptor(cixsJaxwsService.getName());
+        checkCobolClient(cixsJaxwsService.getName(),
+                cixsJaxwsService.getCixsOperations().get(0).getCicsProgramName());
+
+    }
     /**
      * Initialize generator for a given service.
      * @param cixsJaxwsService the service descriptor
@@ -147,6 +186,7 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
         mGenerator.setHostCharset("IBM01147");
         cixsJaxwsService.setServiceUserId("alice");
         cixsJaxwsService.setServicePassword("inwonderland");
+
     }
 
     /**
@@ -160,39 +200,47 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
                 GEN_ANT_DIR, service + '/' + "build.xml");
         assertTrue(resStr.replace('\\', '/').contains(
                 "<war warfile=\"${env.CATALINA_BASE}/webapp/c2ws-" + service + ".war\""));
-        assertTrue(resStr.replace('\\', '/').contains("webxml=\"target/src/gen/webapp/cultureinfo/web.xml\""));
+        assertTrue(resStr.replace('\\', '/').contains("webxml=\"target/src/gen/webapp/" + service + "/web.xml\""));
         assertTrue(resStr.replace('\\', '/').contains("<classes dir=\"target/classes\">"));
-        assertTrue(resStr.replace('\\', '/').contains("<include name=\"com/legstar/test/coxb/cultureinfo/*.class\"/>"));
+        assertTrue(resStr.replace('\\', '/').contains(
+                "<include name=\"com/legstar/test/coxb/" + service + "/*.class\"/>"));
 
     }
 
     /**
-     * Check the generated web descriptor.
+     * Check the generated web descriptor for a web service target.
      * @param service service name
      * @throws Exception if unable to read result
      */
-    private void checkWebDescriptor(final String service) throws Exception {
+    private void checkWebServiceWebDescriptor(final String service) throws Exception {
         String resStr;
         resStr = getSource(
                 GEN_WDD_DIR, service + '/' + "web.xml");
         assertTrue(resStr.contains(
-        "<display-name>cultureinfoProxy</display-name>"));
+        "<display-name>" + service + "Proxy</display-name>"));
         assertTrue(resStr.contains(
-        "<param-value>http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl</param-value>"));
+        "<param-value>http://localhost:8080/jaxws-" + service + "/getinfo?wsdl</param-value>"));
         assertTrue(resStr.contains(
-        "<param-value>http://cultureinfo.cases.test.xsdc.legstar.com/</param-value>"));
+        "<param-value>IBM01147</param-value>"));
+    }
+
+    /**
+     * Check the generated web descriptor for a pojo target.
+     * @param service service name
+     * @throws Exception if unable to read result
+     */
+    private void checkPojoWebDescriptor(final String service) throws Exception {
+        String resStr;
+        resStr = getSource(
+                GEN_WDD_DIR, service + '/' + "web.xml");
         assertTrue(resStr.contains(
-        "<param-value>CultureInfoImplPort</param-value>"));
+        "<display-name>" + service + "Proxy</display-name>"));
         assertTrue(resStr.contains(
-        "<param-value>CultureInfoImplService</param-value>"));
+        "<param-value>com.legstar.proxy.invoke.pojo.PojoInvoker</param-value>"));
         assertTrue(resStr.contains(
-        "<param-value>GetInfo</param-value>"));
+        "<param-name>pojoClassName</param-name>"));
         assertTrue(resStr.contains(
-        "<param-value>com.legstar.test.coxb.cultureinfo</param-value>"));
-        assertTrue(resStr.contains(
-        "<param-value>GetInfoResponse</param-value>"));
-        assertTrue(resStr.contains(
-        "<param-value>com.legstar.test.coxb.cultureinfo</param-value>"));
+        "<param-name>pojoMethodName</param-name>"));
         assertTrue(resStr.contains(
         "<param-value>IBM01147</param-value>"));
     }
@@ -207,16 +255,10 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
         String resStr;
         resStr = getSource(
                 GEN_COBOL_DIR, service + '/' + cicsProgramName + ".cbl");
-        assertTrue(resStr.contains("PROGRAM-ID. CULTUREI."));
-        assertTrue(resStr.contains("77  C2WS-SERVICE-URI            PIC X(55) VALUE"));
-        assertTrue(resStr.contains("'http://localhost:8080/c2ws-cultureinfo/cultureinfoProxy'"));
-        assertTrue(resStr.contains("'alice'"));
-        assertTrue(resStr.contains("'inwonderland'"));
-        assertTrue(resStr.contains("'cultureinfo'."));
-        assertTrue(resStr.contains("02 GetInfo."));
-        assertTrue(resStr.contains("04 cultureCode PIC X(32)."));
-        assertTrue(resStr.contains("02 GetInfoResponse."));
-        assertTrue(resStr.contains("04 currencySymbol PIC X(32)."));
-        assertTrue(resStr.contains("05 cultureCode PIC X(32)."));
+        String url = "http://" + CodeGenUtil.getLocalIPAddress() + ":8080/c2ws-" + service + "/" + service + "Proxy";
+
+        assertTrue(resStr.contains("       PROGRAM-ID. " + cicsProgramName + "."));
+        assertTrue(resStr.contains("77  W00-SERVICE-URI               PIC X(" + url.length() + ") VALUE"));
+        assertTrue(resStr.contains("'" + url + "'."));
     }
 }

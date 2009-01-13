@@ -93,7 +93,7 @@
                 <executions>
                     <execution>
                         <id>build-test-service</id>
-                        <phase>pre-integration-test</phase>
+                        <phase>package</phase>
                         <configuration>
                             <tasks>
                                 <path id="maven.classpath">

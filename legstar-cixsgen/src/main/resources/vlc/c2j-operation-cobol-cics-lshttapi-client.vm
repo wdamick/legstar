@@ -6,7 +6,7 @@
       * OVERVIEW                                                      *
       * --------                                                      *
       * Sample transaction calling a remote service using LegStar     *
-      * c2wsrt C API.                                                 *
+      * HTTP client C API (LSHTTAPI).                                 *
       * The HTTP body contains a formatted LegStarMessage.            *
       * It is expected that the receiver will use LegStar COBOL       *
       * binding to convert payload to a Java object.                  *
@@ -25,65 +25,66 @@
        WORKING-STORAGE SECTION.
        
       *---------------------------------------------------------------*
-      *  C2WS API parameters                                          *
+      *  Constants                                                    *
       *---------------------------------------------------------------*
-      * Address of c2ws service provider.
+      * Address of service provider.
       *    
-       77  C2WS-SERVICE-URI            PIC X(${model.serviceURI.length()}) VALUE
+       77  W00-SERVICE-URI               PIC X(${model.serviceURI.length()}) VALUE
 ${structHelper.getCobolValueCode("'${model.serviceURI}'", 1)}
       *    
-      * C2ws service credentials.
+      * Service credentials.
       *    
-       77  C2WS-USERID                 PIC X(${model.serviceUserId.length()}) VALUE
+       77  W00-USERID                    PIC X(${model.serviceUserId.length()}) VALUE
 ${structHelper.getCobolValueCode("'${model.serviceUserId}'", 1)}
-       77  C2WS-PASSWORD               PIC X(${model.servicePassword.length()}) VALUE
+       77  W00-PASSWORD                  PIC X(${model.servicePassword.length()}) VALUE
 ${structHelper.getCobolValueCode("'${model.servicePassword}'", 1)}
       *    
       * Service requested.
       *    
-       77  C2WS-SERVICE-NAME           PIC X(${model.name.length()}) VALUE
+       77  W00-SERVICE-NAME              PIC X(${model.name.length()}) VALUE
 ${structHelper.getCobolValueCode("'${model.name}'", 1)}
            
       *---------------------------------------------------------------*
-      *  Constants                                                    *
+      *  CICS API parameters                                          *
       *---------------------------------------------------------------*
-       77  OK-CODE                     PIC S9(8) BINARY VALUE 0.
-       77  ERROR-CODE                  PIC S9(8) BINARY VALUE -1.
-       77  THIS-TRACE-ID               PIC X(13) VALUE '${cixsOperation.cicsProgramName}'.
- 
+       01  W03-RESP                      PIC S9(9) BINARY VALUE 0.
+           88  OK-CODE            VALUE 0.
+           88  ERROR-CODE         VALUE -1.
+       01  W03-RESP2                     PIC S9(9) BINARY VALUE 0.
+
       *---------------------------------------------------------------*
-      * Structure shared with c2ws C API.                             *
+      * LSHTTAPI API parameters                                       *
       * C Structures are aligned on natural storage boundaries so we  *
       * need to specify SYNCHRONIZED.                                 *
       * The last character of each string is reserved to hold a       *
       * C string delimiter.                                           *
       *---------------------------------------------------------------*
-       01  TRACE-PARMS SYNCHRONIZED.
-           05 TRACE-ID                 PIC X(17) VALUE SPACES.
-           05 TRACE-MODE               PIC S9(8) BINARY VALUE 1.
+       01  LAPI-TRACE-PARMS SYNCHRONIZED.
+           05 LAPI-TRACE-ID              PIC X(17) VALUE SPACES.
+           05 LAPI-TRACE-MODE            PIC S9(8) BINARY VALUE 1.
               88 TRACES-OFF       VALUE 0.
               88 TRACES-ON        VALUE 1.
-           05 ERROR-MESSAGE            PIC X(266) VALUE SPACES.
+           05 LAPI-ERROR-MESSAGE         PIC X(266) VALUE SPACES.
 
-       01  WS-INVOKE-PARMS SYNCHRONIZED.
-           05  WS-URI                  PIC X(513) VALUE SPACES.
-           05  WS-SERVICE-NAME         PIC X(33) VALUE SPACES.
-           05  WS-REQUEST-DATA         POINTER VALUE NULL.
-           05  WS-REQUEST-DATA-LEN     PIC S9(8) BINARY VALUE ZERO.
-           05  WS-REPLY-DATA           POINTER VALUE NULL.
-           05  WS-REPLY-DATA-LEN       PIC S9(8) BINARY VALUE ZERO.
-           05  WS-OPTIONS.
-               10  WS-CONNECT-TIMEOUT  PIC 9(9) BINARY VALUE 3.
-               10  WS-RECV-TIMEOUT     PIC 9(9) BINARY VALUE 10.
-               10  WS-PROXY-URI        PIC X(513) VALUE SPACES.
-               10  WS-USERID           PIC X(33) VALUE SPACES.
-               10  WS-PASSWORD         PIC X(33) VALUE SPACES.
+       01  LAPI-INVOKE-PARMS SYNCHRONIZED.
+           05  LAPI-URI                  PIC X(513) VALUE SPACES.
+           05  LAPI-SERVICE-NAME         PIC X(33) VALUE SPACES.
+           05  LAPI-REQUEST-DATA         POINTER VALUE NULL.
+           05  LAPI-REQUEST-DATA-LEN     PIC S9(8) BINARY VALUE ZERO.
+           05  LAPI-REPLY-DATA           POINTER VALUE NULL.
+           05  LAPI-REPLY-DATA-LEN       PIC S9(8) BINARY VALUE ZERO.
+           05  LAPI-OPTIONS.
+               10  LAPI-CONNECT-TIMEOUT  PIC 9(9) BINARY VALUE 3.
+               10  LAPI-RECV-TIMEOUT     PIC 9(9) BINARY VALUE 10.
+               10  LAPI-PROXY-URI        PIC X(513) VALUE SPACES.
+               10  LAPI-USERID           PIC X(33) VALUE SPACES.
+               10  LAPI-PASSWORD         PIC X(33) VALUE SPACES.
            
       *---------------------------------------------------------------*
       *  Work variables                                               *
       *---------------------------------------------------------------*
-       01  WS-RESP                     PIC S9(8) COMP VALUE ZERO.
-       01  WS-RESP2                    PIC S9(8) COMP VALUE ZERO.
+       01  ERROR-MESSAGE          PIC X(78) VALUE SPACES.
+           88 NO-ERROR-MESSAGE VALUE SPACES.
 
       *---------------------------------------------------------------*
       *  Request parameters expected by target web service            *
@@ -129,12 +130,12 @@ ${structHelper.getOutputStructuresCode($cixsOperation, 2, 1)}
       *
       * Initialize c2ws API passing trace parameters
       *    
-           MOVE THIS-TRACE-ID      TO TRACE-ID.
+           MOVE '${cixsOperation.cicsProgramName}' TO LAPI-TRACE-ID.
            
-           CALL 'init' USING dfheiblk TRACE-PARMS
-                       RETURNING WS-RESP.
-           IF (WS-RESP NOT = OK-CODE)
-               MOVE 'INITIALIZE-C2WS-API failed' TO ERROR-MESSAGE
+           CALL 'init' USING dfheiblk LAPI-TRACE-PARMS
+                       RETURNING W03-RESP.
+           IF (NOT OK-CODE)
+               MOVE 'INITIALIZE-LSHTTAPI failed' TO ERROR-MESSAGE
                PERFORM ABORT-PROGRAM THRU
                    END-ABORT-PROGRAM
            END-IF.
@@ -142,16 +143,16 @@ ${structHelper.getOutputStructuresCode($cixsOperation, 2, 1)}
       *
       * Setup invoke parameters
       *    
-           MOVE C2WS-SERVICE-URI   TO WS-URI.
-           MOVE C2WS-USERID        TO WS-USERID.
-           MOVE C2WS-PASSWORD      TO WS-PASSWORD.
-           MOVE C2WS-SERVICE-NAME  TO WS-SERVICE-NAME.
+           MOVE W00-SERVICE-URI   TO LAPI-URI.
+           MOVE W00-USERID        TO LAPI-USERID.
+           MOVE W00-PASSWORD      TO LAPI-PASSWORD.
+           MOVE W00-SERVICE-NAME  TO LAPI-SERVICE-NAME.
 
            PERFORM SET-REQUEST THRU
                END-SET-REQUEST.
 
-           SET WS-REQUEST-DATA     TO ADDRESS OF COM-REQUEST.
-           MOVE LENGTH OF COM-REQUEST TO WS-REQUEST-DATA-LEN.
+           SET LAPI-REQUEST-DATA     TO ADDRESS OF COM-REQUEST.
+           MOVE LENGTH OF COM-REQUEST TO LAPI-REQUEST-DATA-LEN.
            
            DISPLAY 'PROLOG ENDED'.
            
@@ -179,14 +180,15 @@ ${structHelper.getOutputStructuresCode($cixsOperation, 2, 1)}
       *
       * Invoke target web service
       *    
-           CALL 'invoke' USING WS-INVOKE-PARMS
-                         RETURNING WS-RESP.
-           IF (WS-RESP NOT = OK-CODE)
+           CALL 'invoke' USING LAPI-INVOKE-PARMS
+                         RETURNING W03-RESP.
+           IF (NOT OK-CODE)
+               MOVE LAPI-ERROR-MESSAGE TO ERROR-MESSAGE
                PERFORM ABORT-PROGRAM THRU
                    END-ABORT-PROGRAM
            END-IF.
            
-           SET ADDRESS OF COM-REPLY TO WS-REPLY-DATA.
+           SET ADDRESS OF COM-REPLY TO LAPI-REPLY-DATA.
 
            PERFORM PRINT-RESULTS THRU
                END-PRINT-RESULTS.
@@ -247,8 +249,8 @@ ${structHelper.getOutputStructuresCode($cixsOperation, 2, 1)}
            EXEC CICS SEND TEXT FROM(ERROR-MESSAGE) FREEKB END-EXEC. 
            DISPLAY '************************************************'.
            DISPLAY '* ', ERROR-MESSAGE.
-           DISPLAY '* COMPLETION CODE : ', WS-RESP.
-           DISPLAY '* REASON CODE     : ', WS-RESP2.
+           DISPLAY '* COMPLETION CODE : ', W03-RESP.
+           DISPLAY '* REASON CODE     : ', W03-RESP2.
            DISPLAY '************************************************'.
 
        END-DISPLAY-ERROR-MESSAGE.   EXIT.

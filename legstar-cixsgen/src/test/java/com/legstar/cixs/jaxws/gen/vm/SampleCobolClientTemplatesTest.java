@@ -5,6 +5,7 @@ import com.legstar.cixs.gen.Samples;
 import com.legstar.cixs.jaxws.gen.Cixs2JaxwsGenerator;
 import com.legstar.cixs.jaxws.gen.StructuresGenerator;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
+import com.legstar.codegen.CodeGenUtil;
 
 
 /**
@@ -24,19 +25,19 @@ public class SampleCobolClientTemplatesTest extends AbstractTestTemplate {
         getParameters().put("structHelper", new StructuresGenerator());
         String resStr = genSource(model,
                 Cixs2JaxwsGenerator.CIXS_TO_JAXWS_GENERATOR_NAME,
-                Cixs2JaxwsGenerator.OPERATION_COBOL_CICS_CLIENT_VLC_TEMPLATE,
+                Cixs2JaxwsGenerator.OPERATION_COBOL_CICS_LSHTTAPI_CLIENT_VLC_TEMPLATE,
                 GEN_COBOL_DIR,
                 model.getCixsOperations().get(0).getCicsProgramName() + ".cbl");
+        String url = "http://" + CodeGenUtil.getLocalIPAddress() + ":8080/c2ws-jvmqueryWs/jvmqueryWsProxy";
 
         assertTrue(resStr.contains("       PROGRAM-ID. JVMQUERY."));
-        assertTrue(resStr.contains("       77  THIS-TRACE-ID               PIC X(13) VALUE 'JVMQUERY'."));
-        assertTrue(resStr.contains("77  C2WS-SERVICE-URI            PIC X(53) VALUE"));
-        assertTrue(resStr.contains("http://localhost:8080/c2ws-jvmqueryWs/jvmqueryWsProxy'."));
-        assertTrue(resStr.contains("77  C2WS-USERID                 PIC X(5) VALUE"));
+        assertTrue(resStr.contains("77  W00-SERVICE-URI               PIC X(" + url.length() + ") VALUE"));
+        assertTrue(resStr.contains("'" + url + "'."));
+        assertTrue(resStr.contains("77  W00-USERID                    PIC X(5) VALUE"));
         assertTrue(resStr.contains("'alice'."));
-        assertTrue(resStr.contains("77  C2WS-PASSWORD               PIC X(12) VALUE"));
+        assertTrue(resStr.contains("77  W00-PASSWORD                  PIC X(12) VALUE"));
         assertTrue(resStr.contains("'inwonderland'."));
-        assertTrue(resStr.contains("77  C2WS-SERVICE-NAME           PIC X(10) VALUE"));
+        assertTrue(resStr.contains("77  W00-SERVICE-NAME              PIC X(10) VALUE"));
         assertTrue(resStr.contains("'jvmqueryWs'."));
         assertTrue(resStr.contains("           02 QueryJvm."));
         assertTrue(resStr.contains("               03 envVarNames--C PIC 9(9) BINARY."));
@@ -52,8 +53,9 @@ public class SampleCobolClientTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("                       envVarValues--C."));
         assertTrue(resStr.contains("                   04 formattedDate PIC X(32)."));
         assertTrue(resStr.contains("                   04 language PIC X(32)."));
+        assertTrue(resStr.contains("77  W00-SERVICE-NAME              PIC X(10) VALUE"));
         assertTrue(resStr.contains("'JVMQUERY STARTING ==============================='"));
-        assertTrue(resStr.contains("'JVMQUERY STOPPING ==============================='"));
+        assertTrue(resStr.contains("MOVE 'JVMQUERY' TO LAPI-TRACE-ID."));
     }
 
     /**
@@ -67,19 +69,20 @@ public class SampleCobolClientTemplatesTest extends AbstractTestTemplate {
         getParameters().put("structHelper", new StructuresGenerator());
         String resStr = genSource(model,
                 Cixs2JaxwsGenerator.CIXS_TO_JAXWS_GENERATOR_NAME,
-                Cixs2JaxwsGenerator.OPERATION_COBOL_CICS_CLIENT_VLC_TEMPLATE,
+                Cixs2JaxwsGenerator.OPERATION_COBOL_CICS_LSHTTAPI_CLIENT_VLC_TEMPLATE,
                 GEN_COBOL_DIR,
                 model.getCixsOperations().get(0).getCicsProgramName() + ".cbl");
 
+        String url = "http://" + CodeGenUtil.getLocalIPAddress() + ":8080/c2ws-cultureinfo/cultureinfoProxy";
+
         assertTrue(resStr.contains("       PROGRAM-ID. CULTUREI."));
-        assertTrue(resStr.contains("       77  THIS-TRACE-ID               PIC X(13) VALUE 'CULTUREI'."));
-        assertTrue(resStr.contains("77  C2WS-SERVICE-URI            PIC X(55) VALUE"));
-        assertTrue(resStr.contains("http://localhost:8080/c2ws-cultureinfo/cultureinfoProxy'."));
-        assertTrue(resStr.contains("77  C2WS-USERID                 PIC X(8) VALUE"));
+        assertTrue(resStr.contains("77  W00-SERVICE-URI               PIC X(" + url.length() + ") VALUE"));
+        assertTrue(resStr.contains("'" + url + "'."));
+        assertTrue(resStr.contains("77  W00-USERID                    PIC X(8) VALUE"));
         assertTrue(resStr.contains("'        '."));
-        assertTrue(resStr.contains("77  C2WS-PASSWORD               PIC X(8) VALUE"));
+        assertTrue(resStr.contains("77  W00-PASSWORD                  PIC X(8) VALUE"));
         assertTrue(resStr.contains("'        '."));
-        assertTrue(resStr.contains("77  C2WS-SERVICE-NAME           PIC X(11) VALUE"));
+        assertTrue(resStr.contains("77  W00-SERVICE-NAME              PIC X(11) VALUE"));
         assertTrue(resStr.contains("'cultureinfo'."));
         assertTrue(resStr.contains("           02 GetInfo."));
         assertTrue(resStr.contains("               03 arg0."));
@@ -111,19 +114,20 @@ public class SampleCobolClientTemplatesTest extends AbstractTestTemplate {
         getParameters().put("structHelper", new StructuresGenerator());
         String resStr = genSource(model,
                 Cixs2JaxwsGenerator.CIXS_TO_JAXWS_GENERATOR_NAME,
-                Cixs2JaxwsGenerator.OPERATION_COBOL_CICS_CLIENT_VLC_TEMPLATE,
+                Cixs2JaxwsGenerator.OPERATION_COBOL_CICS_LSHTTAPI_CLIENT_VLC_TEMPLATE,
                 GEN_COBOL_DIR,
                 model.getCixsOperations().get(0).getCicsProgramName() + ".cbl");
 
+        String url = "http://" + CodeGenUtil.getLocalIPAddress() + ":8080/c2ws-MSNSearch/MSNSearchProxy";
+
         assertTrue(resStr.contains("       PROGRAM-ID. MSNSEARC."));
-        assertTrue(resStr.contains("       77  THIS-TRACE-ID               PIC X(13) VALUE 'MSNSEARC'."));
-        assertTrue(resStr.contains("77  C2WS-SERVICE-URI            PIC X(51) VALUE"));
-        assertTrue(resStr.contains("http://localhost:8080/c2ws-MSNSearch/MSNSearchProxy'."));
-        assertTrue(resStr.contains("77  C2WS-USERID                 PIC X(8) VALUE"));
+        assertTrue(resStr.contains("77  W00-SERVICE-URI               PIC X(" + url.length() + ") VALUE"));
+        assertTrue(resStr.contains("'" + url + "'."));
+        assertTrue(resStr.contains("77  W00-USERID                    PIC X(8) VALUE"));
         assertTrue(resStr.contains("'        '."));
-        assertTrue(resStr.contains("77  C2WS-PASSWORD               PIC X(8) VALUE"));
+        assertTrue(resStr.contains("77  W00-PASSWORD                  PIC X(8) VALUE"));
         assertTrue(resStr.contains("'        '."));
-        assertTrue(resStr.contains("77  C2WS-SERVICE-NAME           PIC X(9) VALUE"));
+        assertTrue(resStr.contains("77  W00-SERVICE-NAME              PIC X(9) VALUE"));
         assertTrue(resStr.contains("'MSNSearch'."));
         assertTrue(resStr.contains("           02 R-Search."));
         assertTrue(resStr.contains("               03 Flags--C PIC 9(9) BINARY."));
@@ -158,5 +162,77 @@ public class SampleCobolClientTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("                                   DEPENDING ON R-string--C."));
         assertTrue(resStr.contains("'MSNSEARC STARTING ==============================='"));
         assertTrue(resStr.contains("'MSNSEARC STOPPING ==============================='"));
+    }
+    /**
+     * Generate the DFHWBCLI sample COBOL client and test it.
+     * @throws Exception if generation fails
+     */
+    public void testCobolCicsDfhwbcliClientGeneration() throws Exception {
+
+        CixsJaxwsService model = Samples.getJvmqueryWs();
+        getParameters().put("cixsOperation", model.getCixsOperations().get(0));
+        getParameters().put("structHelper", new StructuresGenerator());
+        String resStr = genSource(model,
+                Cixs2JaxwsGenerator.CIXS_TO_JAXWS_GENERATOR_NAME,
+                Cixs2JaxwsGenerator.OPERATION_COBOL_CICS_DFHWBCLI_CLIENT_VLC_TEMPLATE,
+                GEN_COBOL_DIR,
+                model.getCixsOperations().get(0).getCicsProgramName() + ".cbl");
+
+        String url = "http://" + CodeGenUtil.getLocalIPAddress() + ":8080/c2ws-jvmqueryWs/jvmqueryWsProxy";
+
+        assertTrue(resStr.contains("       PROGRAM-ID. JVMQUERY."));
+        assertTrue(resStr.contains("77  W00-SERVICE-URI               PIC X(" + url.length() + ") VALUE"));
+        assertTrue(resStr.contains("'" + url + "'."));
+        assertTrue(resStr.contains("'" + url + "'."));
+        assertTrue(resStr.contains("           02 QueryJvm."));
+        assertTrue(resStr.contains("               03 envVarNames--C PIC 9(9) BINARY."));
+        assertTrue(resStr.contains("                   04 envVarNames PIC X(32) OCCURS 0 TO 10 DEPENDING ON"));
+        assertTrue(resStr.contains("                   envVarNames--C."));
+        assertTrue(resStr.contains("           02 QueryJvmResponse."));
+        assertTrue(resStr.contains("               03 envVarValues--C PIC 9(9) BINARY."));
+        assertTrue(resStr.contains("                   04 country PIC X(32)."));
+        assertTrue(resStr.contains("                   04 currencySymbol PIC X(32)."));
+        assertTrue(resStr.contains("                   04 envVarValues PIC X(32) OCCURS 0 TO 10 DEPENDING ON"));
+        assertTrue(resStr.contains("                       envVarValues--C."));
+        assertTrue(resStr.contains("                   04 formattedDate PIC X(32)."));
+        assertTrue(resStr.contains("                   04 language PIC X(32)."));
+        assertTrue(resStr.contains("'JVMQUERY STARTING ==============================='"));
+        assertTrue(resStr.contains("'JVMQUERY STOPPING ==============================='"));
+    }
+
+    /**
+     * Generate the WEB API sample COBOL client and test it.
+     * @throws Exception if generation fails
+     */
+    public void testCobolCicsWebapiClientGeneration() throws Exception {
+
+        CixsJaxwsService model = Samples.getJvmqueryWs();
+        getParameters().put("cixsOperation", model.getCixsOperations().get(0));
+        getParameters().put("structHelper", new StructuresGenerator());
+        String resStr = genSource(model,
+                Cixs2JaxwsGenerator.CIXS_TO_JAXWS_GENERATOR_NAME,
+                Cixs2JaxwsGenerator.OPERATION_COBOL_CICS_WEBAPI_CLIENT_VLC_TEMPLATE,
+                GEN_COBOL_DIR,
+                model.getCixsOperations().get(0).getCicsProgramName() + ".cbl");
+
+        String url = "http://" + CodeGenUtil.getLocalIPAddress() + ":8080/c2ws-jvmqueryWs/jvmqueryWsProxy";
+
+        assertTrue(resStr.contains("       PROGRAM-ID. JVMQUERY."));
+        assertTrue(resStr.contains("77  W00-SERVICE-URI               PIC X(" + url.length() + ") VALUE"));
+        assertTrue(resStr.contains("'" + url + "'."));
+        assertTrue(resStr.contains("           02 QueryJvm."));
+        assertTrue(resStr.contains("               03 envVarNames--C PIC 9(9) BINARY."));
+        assertTrue(resStr.contains("                   04 envVarNames PIC X(32) OCCURS 0 TO 10 DEPENDING ON"));
+        assertTrue(resStr.contains("                   envVarNames--C."));
+        assertTrue(resStr.contains("           02 QueryJvmResponse."));
+        assertTrue(resStr.contains("               03 envVarValues--C PIC 9(9) BINARY."));
+        assertTrue(resStr.contains("                   04 country PIC X(32)."));
+        assertTrue(resStr.contains("                   04 currencySymbol PIC X(32)."));
+        assertTrue(resStr.contains("                   04 envVarValues PIC X(32) OCCURS 0 TO 10 DEPENDING ON"));
+        assertTrue(resStr.contains("                       envVarValues--C."));
+        assertTrue(resStr.contains("                   04 formattedDate PIC X(32)."));
+        assertTrue(resStr.contains("                   04 language PIC X(32)."));
+        assertTrue(resStr.contains("'JVMQUERY STARTING ==============================='"));
+        assertTrue(resStr.contains("'JVMQUERY STOPPING ==============================='"));
     }
 }

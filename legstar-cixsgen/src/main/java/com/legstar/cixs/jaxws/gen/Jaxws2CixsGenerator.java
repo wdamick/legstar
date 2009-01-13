@@ -20,6 +20,7 @@ import com.legstar.cixs.gen.model.CixsOperation;
 import com.legstar.cixs.gen.model.CixsStructure;
 import com.legstar.cixs.jaxws.model.AntBuildJaxws2CixsModel;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
+import com.legstar.cixs.jaxws.model.WebServiceParameters;
 import com.legstar.codegen.CodeGenMakeException;
 import com.legstar.codegen.CodeGenUtil;
 
@@ -91,6 +92,13 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
     /** The service model name is it appears in templates. */
     private static final String SERVICE_MODEL_NAME = "model";
 
+    /** Will be appended to service name to form a port name. */
+    public static final String WSDL_PORT_NAME_SUFFIX = "Port";
+
+    /** By default the web service name is built from component name and this
+     * suffix.*/
+    public static final String WSDL_SERVICE_NAME_SUFFIX = "Service";
+
     /**
      * Constructor.
      */
@@ -125,7 +133,6 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
                 throw (new IllegalArgumentException(
                 "TargetWarDir: No directory name was specified"));
             }
-            CodeGenUtil.checkHttpURI(getHostURI());
         } catch (IllegalArgumentException e) {
             throw new CodeGenMakeException(e);
         }
@@ -136,6 +143,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
      * will reduce the amount of code in the velocity templates.
      */
     protected void completeModel() {
+        completeWebServiceParameters();
         for (CixsOperation operation : getCixsService().getCixsOperations()) {
             if (operation.getNamespace() == null 
                     || operation.getNamespace().length() == 0) {
@@ -149,6 +157,33 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
             }
         }
     }
+    
+    /**
+     * Provide default values to expose this adapter as a Web Service.
+     */
+    protected void completeWebServiceParameters() {
+        if (getWebServiceParameters().getWsdlUrl() ==  null
+                || getWebServiceParameters().getWsdlUrl().length() == 0) {
+            getWebServiceParameters().setWsdlUrl(
+                    getCixsService().getDefaultServiceURI());
+        }
+        if (getWebServiceParameters().getWsdlServiceName() ==  null
+                || getWebServiceParameters().getWsdlServiceName().length() == 0) {
+            getWebServiceParameters().setWsdlServiceName(
+                    getCixsService().getName() + WSDL_SERVICE_NAME_SUFFIX);
+        }
+        if (getWebServiceParameters().getWsdlPortName() ==  null
+                || getWebServiceParameters().getWsdlPortName().length() == 0) {
+            getWebServiceParameters().setWsdlPortName(
+                    getCixsService().getName() + WSDL_PORT_NAME_SUFFIX);
+        }
+        if (getWebServiceParameters().getWsdlTargetNamespace() ==  null
+                || getWebServiceParameters().getWsdlTargetNamespace().length() == 0) {
+            getWebServiceParameters().setWsdlTargetNamespace(
+                    getCixsService().getTargetNamespace());
+        }
+        
+    }
     /**
      * Create all artifacts for a Jaxws Web Service.
      * @param parameters a predefined set of parameters useful for generation
@@ -161,7 +196,9 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
         parameters.put("targetWarDir", getTargetWarDir());
         parameters.put("targetWDDDir", getTargetWDDDir());
         parameters.put("hostCharset", getHostCharset());
-        parameters.put("hostURI", getHostURI());
+        
+        /* Contribute the web service parameters */
+        getWebServiceParameters().add(parameters);
 
         /* Determine target files locations */
         File serviceClassFilesDir = CodeGenUtil.classFilesLocation(
@@ -573,31 +610,17 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
 
     /**
      * {@inheritDoc}
-     * @see com.legstar.cixs.gen.ant.AbstractCixsGenerator#getModel()
+     * @see com.legstar.cixs.gen.ant.AbstractCixsGenerator#getAntModel()
      */
-    public AntBuildJaxws2CixsModel getModel() {
-        return (AntBuildJaxws2CixsModel) super.getModel();
-    }
-
-    /**
-     * @return the URI that the host exposes to consumers
-     */
-    public final String getHostURI() {
-        return getModel().getHostURI();
-    }
-
-    /**
-     * @param hostURI the URI that the host exposes to consumers to set
-     */
-    public final void setHostURI(final String hostURI) {
-        getModel().setHostURI(hostURI);
+    public AntBuildJaxws2CixsModel getAntModel() {
+        return (AntBuildJaxws2CixsModel) super.getAntModel();
     }
 
     /**
      * @return the Target location for web deployment descriptors
      */
     public final File getTargetWDDDir() {
-        return getModel().getTargetWDDDir();
+        return getAntModel().getTargetWDDDir();
     }
 
     /**
@@ -605,21 +628,21 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
      *  set
      */
     public final void setTargetWDDDir(final File targetWDDDir) {
-        getModel().setTargetWDDDir(targetWDDDir);
+        getAntModel().setTargetWDDDir(targetWDDDir);
     }
 
     /**
      * @return the deployment location for jaxws war files
      */
     public final File getTargetWarDir() {
-        return getModel().getTargetWarDir();
+        return getAntModel().getTargetWarDir();
     }
 
     /**
      * @param targetWarDir the deployment location for jaxws war files to set
      */
     public final void setTargetWarDir(final File targetWarDir) {
-        getModel().setTargetWarDir(targetWarDir);
+        getAntModel().setTargetWarDir(targetWarDir);
     }
 
     /**
@@ -657,7 +680,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
      * @return the Service binaries
      */
     public final File getCixsBinDir() {
-        return getModel().getTargetBinDir();
+        return getAntModel().getTargetBinDir();
     }
 
     /**
@@ -665,7 +688,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
      * @param targetBinDir the Service binaries to set
      */
     public final void setCixsBinDir(final File targetBinDir) {
-        getModel().setTargetBinDir(targetBinDir);
+        getAntModel().setTargetBinDir(targetBinDir);
     }
 
     /** {@inheritDoc}*/
@@ -673,4 +696,27 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
     public String getGeneratorName() {
         return JAXWS_TO_CIXS_GENERATOR_NAME;
     }
+    /**
+     * @return the set of parameters needed to expose a Web Service
+     */
+    public WebServiceParameters getWebServiceParameters() {
+        return getAntModel().getWebServiceParameters();
+    }
+
+    /**
+     * @param webServiceParameters the set of parameters needed to expose a Web Service to set
+     */
+    public void setWebServiceParameters(
+            final WebServiceParameters webServiceParameters) {
+        getAntModel().setWebServiceParameters(webServiceParameters);
+    }
+
+    /**
+     * @param webServiceParameters the set of parameters needed to expose a Web Service to set
+     */
+    public void addWebServiceParameters(
+            final WebServiceParameters webServiceParameters) {
+        getAntModel().setWebServiceParameters(webServiceParameters);
+    }
+
 }

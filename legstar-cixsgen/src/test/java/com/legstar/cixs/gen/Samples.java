@@ -12,8 +12,11 @@ package com.legstar.cixs.gen;
 
 import com.legstar.cixs.gen.model.CixsOperation;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
+import com.legstar.cixs.jaxws.model.PojoParameters;
+import com.legstar.cixs.jaxws.model.WebServiceParameters;
 import com.legstar.codegen.CodeGenUtil;
 import com.legstar.test.cixs.CultureinfoOperationCases;
+import com.legstar.test.cixs.JvmqueryOperationCases;
 import com.legstar.test.cixs.JvmqueryWsOperationCases;
 import com.legstar.test.cixs.LsfileacOperationCases;
 import com.legstar.test.cixs.LsfileaeOperationCases;
@@ -141,12 +144,23 @@ public final class Samples {
                 JvmqueryWsOperationCases.getOperation(
                         service.getName(), service.getPackageName(), service.getTargetNamespace()));
         service.setTargetNamespace("http://jvmquery.cases.test.xsdc.legstar.com/");
-        service.setWsdlUrl("http://localhost:8080/jaxws-jvmquery/queryJvm?wsdl");
-        service.setWsdlServiceName("JvmqueryImplService");
-        service.setWsdlPortName("JvmqueryImplPort");
         service.setServiceURI(service.getDefaultServiceURI());
         service.setServiceUserId("alice");
         service.setServicePassword("inwonderland");
+        return service;
+    }
+
+    /**
+     * Case of a POJO exposed to mainframe.
+     * @return a service with a single operation mapping Jvmquery queryJvm method
+     *  */
+    public static CixsJaxwsService getJvmquery() {
+        CixsJaxwsService service = getNewService("jvmquery");
+        service.getCixsOperations().add(
+                JvmqueryOperationCases.getOperation(
+                        service.getName(), service.getPackageName(), service.getTargetNamespace()));
+        service.setTargetNamespace("http://jvmquery.cases.test.xsdc.legstar.com/");
+        service.setServiceURI(service.getDefaultServiceURI());
         return service;
     }
 
@@ -160,9 +174,6 @@ public final class Samples {
                 CultureinfoOperationCases.getOperation(
                         service.getName(), service.getPackageName(), service.getTargetNamespace()));
         service.setTargetNamespace("http://cultureinfo.cases.test.xsdc.legstar.com/");
-        service.setWsdlUrl("http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl");
-        service.setWsdlServiceName("CultureInfoImplService");
-        service.setWsdlPortName("CultureInfoImplPort");
         service.setServiceURI(service.getDefaultServiceURI());
         return service;
     }
@@ -177,9 +188,6 @@ public final class Samples {
                 MSNSearchOperationCases.getOperation(
                         service.getName(), service.getPackageName(), service.getTargetNamespace()));
         service.setTargetNamespace("http://schemas.microsoft.com/MSNSearch/2005/09/fex");
-        service.setWsdlUrl("http://soap.search.msn.com/webservices.asmx?wsdl");
-        service.setWsdlServiceName("MSNSearchService");
-        service.setWsdlPortName("MSNSearchPort");
         service.setServiceURI(service.getDefaultServiceURI());
         return service;
     }
@@ -200,5 +208,28 @@ public final class Samples {
         model.setTargetNamespace(NAMESPACE_PREFIX + serviceName);
         return model;
     }
+    
+    /**
+     * @return target web service parameters for cultureinfo
+     */
+    public static WebServiceParameters getCultureinfoWebServiceParameters() {
+        WebServiceParameters webServiceParameters = new WebServiceParameters();
+        webServiceParameters.setWsdlUrl("http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl");
+        webServiceParameters.setWsdlTargetNamespace("http://cultureinfo.cases.test.xsdc.legstar.com/");
+        webServiceParameters.setWsdlServiceName("CultureInfoImplService");
+        webServiceParameters.setWsdlPortName("CultureInfoImplPort");
+        return webServiceParameters;
+        
+    }
 
+    /**
+     * @return target pojo parameters for jvmquery
+     */
+    public static PojoParameters getJvmqueryPojoParameters() {
+        PojoParameters pojoParameters = new PojoParameters();
+        pojoParameters.setClassName("com.legstar.xsdc.test.cases.jvmquery.JVMQuery");
+        pojoParameters.setMethodName("queryJvm");
+        return pojoParameters;
+        
+    }
 }
