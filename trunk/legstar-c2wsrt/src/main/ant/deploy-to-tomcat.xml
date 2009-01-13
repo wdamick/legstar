@@ -11,18 +11,16 @@
 		
 		<!-- Tomcat destination  -->
 	 	<property name="tomcat.lib" value="${tomcat.dir}\shared\lib" />
-	 	<property name="tomcat.webapps" value="${tomcat.dir}\webapps" />
 
 	</target>
 
 	<!-- ===========================================================  -->
-	<!-- The war files contain the samples cultureinfoProxy and MSNSearchProxy
+	<!-- The c2ws proxy is bundled in a jar that goes to shared/lib.
+	     Generated proxies will come with a web.xml that references
+	     the servlet class from that lib.
 	  -->
 	<target name="deployToTomcat" depends="init">
 		
-		<copy todir="${tomcat.webapps}">
-			<fileset dir="${basedir}/target" includes="*.war"/>
-		</copy>
 		<copy todir="${tomcat.lib}">
 			<fileset dir="${basedir}//target" includes="*.jar" excludes="*sources.jar"/>
 		</copy>
