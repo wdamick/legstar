@@ -118,7 +118,7 @@ public class ProxyClientHttp {
     }
 
     /**
-     * Assuming the local machine is running JBoss ESB.
+     * Assuming the local machine is running Server.
      * @return the local machine IP address
      */
     private String getLocalIPAddress() {
