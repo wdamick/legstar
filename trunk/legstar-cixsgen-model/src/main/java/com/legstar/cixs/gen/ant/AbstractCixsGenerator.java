@@ -34,7 +34,7 @@ import com.legstar.coxb.gen.CoxbHelper;
 public abstract class AbstractCixsGenerator extends Task {
 
     /** Groups all parameters needed for generation. */
-    private AbstractAntBuildCixsModel mModel;
+    private AbstractAntBuildCixsModel mAntModel;
 
     /** Logger. */
     private static final Log LOG = LogFactory.getLog(
@@ -42,17 +42,17 @@ public abstract class AbstractCixsGenerator extends Task {
 
     /**
      * Constructor.
-     * @param model an instance of a generation model
+     * @param antModel an instance of a generation model
      */
-    public AbstractCixsGenerator(final AbstractAntBuildCixsModel model) {
-        mModel = model;
+    public AbstractCixsGenerator(final AbstractAntBuildCixsModel antModel) {
+        mAntModel = antModel;
     }
 
     /** @{inheritDoc}*/
     @Override
     public final void init() {
         LOG.info("Initializing velocity engine for "
-                + mModel.getGeneratorName());
+                + mAntModel.getGeneratorName());
         try {
             CodeGenUtil.initVelocity();
         } catch (Exception e) {
@@ -209,7 +209,7 @@ public abstract class AbstractCixsGenerator extends Task {
      * @return the service description 
      */
     public final AbstractCixsService getCixsService() {
-        return mModel.getCixsService();
+        return mAntModel.getCixsService();
     }
 
     /**
@@ -217,7 +217,7 @@ public abstract class AbstractCixsGenerator extends Task {
      */
     public final void setCixsService(
             final AbstractCixsService cixsService) {
-        mModel.setCixsService(cixsService);
+        mAntModel.setCixsService(cixsService);
     }
 
     /**
@@ -239,118 +239,118 @@ public abstract class AbstractCixsGenerator extends Task {
      * @return the target source directory
      */
     public final File getTargetSrcDir() {
-        return mModel.getTargetSrcDir();
+        return mAntModel.getTargetSrcDir();
     }
 
     /**
      * @param targetSrcDir the target source directory to set
      */
     public final void setTargetSrcDir(final File targetSrcDir) {
-        mModel.setTargetSrcDir(targetSrcDir);
+        mAntModel.setTargetSrcDir(targetSrcDir);
     }
     /**
      * @return custom binaries location
      */
     public final File getCustBinDir() {
-        return mModel.getCustBinDir();
+        return mAntModel.getCustBinDir();
     }
 
     /**
      * @param custBinDir the custom binaries location to set
      */
     public final void setCustBinDir(final File custBinDir) {
-        mModel.setCustBinDir(custBinDir);
+        mAntModel.setCustBinDir(custBinDir);
     }
 
     /**
      * @return the target properties files location
      */
     public final File getTargetPropDir() {
-        return mModel.getTargetPropDir();
+        return mAntModel.getTargetPropDir();
     }
 
     /**
      * @param targetPropDir the target properties files location to set
      */
     public final void setTargetPropDir(final File targetPropDir) {
-        mModel.setTargetPropDir(targetPropDir);
+        mAntModel.setTargetPropDir(targetPropDir);
     }
 
     /**
      * @return the Service binaries
      */
     public final File getTargetBinDir() {
-        return mModel.getTargetBinDir();
+        return mAntModel.getTargetBinDir();
     }
 
     /**
      * @param targetBinDir the Service binaries to set
      */
     public final void setTargetBinDir(final File targetBinDir) {
-        mModel.setTargetBinDir(targetBinDir);
+        mAntModel.setTargetBinDir(targetBinDir);
     }
 
     /**
      * @return the jaxb binaries location
      */
     public final File getJaxbBinDir() {
-        return mModel.getJaxbBinDir();
+        return mAntModel.getJaxbBinDir();
     }
 
     /**
      * @param jaxbBinDir the jaxb binaries location to set
      */
     public final void setJaxbBinDir(final File jaxbBinDir) {
-        mModel.setJaxbBinDir(jaxbBinDir);
+        mAntModel.setJaxbBinDir(jaxbBinDir);
     }
 
     /**
      * @return the coxb binaries location
      */
     public final File getCoxbBinDir() {
-        return mModel.getCoxbBinDir();
+        return mAntModel.getCoxbBinDir();
     }
 
     /**
      * @param coxbBinDir the coxb binaries location to set
      */
     public final void setCoxbBinDir(final File coxbBinDir) {
-        mModel.setCoxbBinDir(coxbBinDir);
+        mAntModel.setCoxbBinDir(coxbBinDir);
     }
 
     /**
      * @return the location for ant deployment script
      */
     public final File getTargetAntDir() {
-        return mModel.getTargetAntDir();
+        return mAntModel.getTargetAntDir();
     }
 
     /**
      * @param targetAntDir the location for ant deployment script to set
      */
     public final void setTargetAntDir(final File targetAntDir) {
-        mModel.setTargetAntDir(targetAntDir);
+        mAntModel.setTargetAntDir(targetAntDir);
     }
 
     /**
      * @return the model representing all generation parameters
      */
-    public AbstractAntBuildCixsModel getModel() {
-        return mModel;
+    public AbstractAntBuildCixsModel getAntModel() {
+        return mAntModel;
     }
 
     /**
      * @return the host character set
      */
     public final String getHostCharset() {
-        return mModel.getHostCharset();
+        return mAntModel.getHostCharset();
     }
 
     /**
      * @param hostCharset the host character set to set
      */
     public final void setHostCharset(final String hostCharset) {
-        mModel.setHostCharset(hostCharset);
+        mAntModel.setHostCharset(hostCharset);
     }
 
 }

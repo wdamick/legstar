@@ -43,30 +43,8 @@ public abstract class AbstractCixsService extends CixsMappingModel {
     /** Password to present Web service. */
     private String mServicePassword;
 
-    /** Web service WSDL service name. */
-    private String mWsdlServiceName;
-
-    /** Web service WSDL port type. */
-    private String mWsdlPortType;
-
-    /** Web service WSDL port name. */
-    private String mWsdlPortName;
-
-    /** URL locating target Web service WSDL. */
-    private String mWsdlUrl;
-
-    /** Web service target namespace. */
+    /** Service namespace. */
     private String mTargetNamespace;
-
-    /** Will be appended to service name to form a port type name. */
-    private static final String WSDL_PORT_TYPE_SUFFIX = "Port";
-
-    /** Will be appended to service name to form a port name. */
-    private static final String WSDL_PORT_NAME_SUFFIX = "Port";
-
-    /** By default the web service name is built from component name and this
-     * suffix.*/
-    private static final String WSDL_SERVICE_NAME_SUFFIX = "Service";
 
     /**
      * @return the Service package name
@@ -126,9 +104,18 @@ public abstract class AbstractCixsService extends CixsMappingModel {
      * @return the URI that the host must use to reach the remote service
      */
     public final String getServiceURI() {
+        if (mServiceURI == null || mServiceURI.length() == 0) {
+            mServiceURI = getDefaultServiceURI();
+        }
         return mServiceURI;
     }
 
+    /**
+     * @return a goode default URI that the host could use to reach
+     *  the generated service proxy
+     */
+    public abstract String getDefaultServiceURI();
+    
     /**
      * @param serviceURI the URI that the host must use to reach the remote
      *  service to set
@@ -174,82 +161,17 @@ public abstract class AbstractCixsService extends CixsMappingModel {
     }
 
     /**
-     * @return the Web service target namespace
+     * @return the Service target namespace
      */
     public final String getTargetNamespace() {
         return mTargetNamespace;
     }
 
     /**
-     * @param targetNamespace the Web service target namespace to set
+     * @param targetNamespace the Service namespace to set
      */
     public final void setTargetNamespace(final String targetNamespace) {
         mTargetNamespace = targetNamespace;
-    }
-
-    /**
-     * @return the Web service WSDL service name
-     */
-    public final String getWsdlServiceName() {
-        if (mWsdlServiceName == null || mWsdlServiceName.length() == 0) {
-            return getName() + WSDL_SERVICE_NAME_SUFFIX;
-        }
-        return mWsdlServiceName;
-    }
-
-    /**
-     * @param wsdlServiceName the Web service WSDL service name to set
-     */
-    public final void setWsdlServiceName(final String wsdlServiceName) {
-        mWsdlServiceName = wsdlServiceName;
-    }
-
-    /**
-     * @return the Web service WSDL port type
-     */
-    public final String getWsdlPortType() {
-        if (mWsdlPortType == null || mWsdlPortType.length() == 0) {
-            return getName() + WSDL_PORT_TYPE_SUFFIX;
-        }
-        return mWsdlPortType;
-    }
-
-    /**
-     * @param wsdlPortType the Web service WSDL port type to set
-     */
-    public final void setWsdlPortType(final String wsdlPortType) {
-        mWsdlPortType = wsdlPortType;
-    }
-
-    /**
-     * @return the Web service WSDL port name
-     */
-    public final String getWsdlPortName() {
-        if (mWsdlPortName == null || mWsdlPortName.length() == 0) {
-            return getName() + WSDL_PORT_NAME_SUFFIX;
-        }
-        return mWsdlPortName;
-    }
-
-    /**
-     * @param wsdlPortName the Web service WSDL port name to set
-     */
-    public final void setWsdlPortName(final String wsdlPortName) {
-        mWsdlPortName = wsdlPortName;
-    }
-
-    /**
-     * @return the URL locating target Web service WSDL
-     */
-    public final String getWsdlUrl() {
-        return mWsdlUrl;
-    }
-
-    /**
-     * @param wsdlUrl the URL locating target Web service WSDL to set
-     */
-    public final void setWsdlUrl(final String wsdlUrl) {
-        mWsdlUrl = wsdlUrl;
     }
 
 }
