@@ -38,9 +38,8 @@ public class InitiatorServlet extends HttpServlet {
     /** Config file name init param key. */
     public static final String CONFIG_PARAM = "engine.config";
 
-    /** Identifier for the adapter instance in the servlet context. */ 
-    private static final String ENGINE_HANDLER_ID =
-        "com.legstar.c2ws.servlet.engineHandler";
+    /** Actual server instance.*/
+    private EngineHandler mServerHandler;
 
     /** Logger. */
     private static final Log LOG =
@@ -73,11 +72,9 @@ public class InitiatorServlet extends HttpServlet {
                 + " configuration file.");
 
         try {
-            EngineHandler serverHandler = new EngineHandler(
+            mServerHandler = new EngineHandler(
                     loadConfigFile(configFileName));
-            serverHandler.init();
-            config.getServletContext().setAttribute(
-                    ENGINE_HANDLER_ID, serverHandler);
+            mServerHandler.init();
         } catch (ConfigurationException e) {
             LOG.error("Failed to initialize.", e);
             throw new ServletException(e);
@@ -91,7 +88,6 @@ public class InitiatorServlet extends HttpServlet {
      * Destruction of the servlet.
      */
     public final void destroy() {
-        super.destroy(); 
         getEngineHandler().stop();
         setEngineHandler(null);
         LOG.info("Servlet destroyed");
@@ -123,15 +119,14 @@ public class InitiatorServlet extends HttpServlet {
      * @return the engine handler
      */
     public final EngineHandler getEngineHandler() {
-        return (EngineHandler) getServletContext().getAttribute(
-                ENGINE_HANDLER_ID);
+        return mServerHandler;
     }
 
     /**
      * @param engineHandler the engine handler to set
      */
     public final void setEngineHandler(final EngineHandler engineHandler) {
-        getServletContext().setAttribute(ENGINE_HANDLER_ID, engineHandler);
+        mServerHandler = engineHandler;
     }
 
 }
