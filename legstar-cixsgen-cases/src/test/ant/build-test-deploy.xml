@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- =================================================================================
      This script iteratively runs the war deployment scripts for generated
-     JAXWS endpoints.
+     JAXWS adapters and proxies.
   -->
 <project basedir="../../.." default="deployAllServices" name="build">
 

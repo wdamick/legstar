@@ -65,25 +65,86 @@
 
     <build>
         <plugins>
+            <!-- skip unit test run, tests to be executed during integration-test -->
             <plugin>
-              <artifactId>maven-antrun-plugin</artifactId>
-              
-              <!-- This will deploy all Web Services to Tomcat.  -->
-              <executions>
-                <execution>
-                  <id>deploy-test-service</id>
-                  <phase>integration-test</phase>
-                  <configuration>
-                    <tasks>
-                        <ant antfile="${basedir}/src/test/ant/build-test-deploy.xml" />
-                    </tasks>
-                  </configuration>
-                  <goals>
-                    <goal>run</goal>
-                  </goals>
-                </execution>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>surefire-it</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <skip>false</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
                 
-              </executions>
+                <executions>
+
+                    <!-- This will deploy all Web Services to a new instance of Tomcat. -->
+                    <execution>
+                        <id>deploy-test-services</id>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/../legstar-tests/src/test/ant/build-tomcat-stop.xml">
+                                    <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
+                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
+                                </ant>
+                                <ant antfile="${basedir}/src/test/ant/build-test-deploy.xml" />
+                                <ant antfile="${basedir}/../legstar-tests/src/test/ant/build-tomcat-start.xml">
+                                    <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
+                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                
+                    <!-- This insert predefined COBOL code into generated samples.  -->
+                    <execution>
+                        <id>update-cobol-samples</id>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/test/ant/build-cobol-src.xml" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- Stop Tomcat.  -->
+                    <execution>
+                        <id>cleanup</id>
+                        <phase>post-integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/../legstar-tests/src/test/ant/build-tomcat-stop.xml">
+                                    <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
+                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                </executions>
             </plugin>
         </plugins>
     </build>
