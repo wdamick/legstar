@@ -47,6 +47,7 @@ public class AntBuildJaxws2CixsModelTest extends AbstractTestTemplate {
         antModel.setTargetWarDir(GEN_WAR_DIR);
         antModel.setTargetWDDDir(GEN_WDD_DIR);
         antModel.setHostCharset("IBM01147");
+        antModel.setWebServiceParameters(getDefaultWebServiceParameters(cixsJaxwsService));
 
         antModel.generateBuild(CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
         String resStr = getSource(GEN_SRC_DIR, "test.txt");
@@ -75,6 +76,13 @@ public class AntBuildJaxws2CixsModelTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("jaxbPackageName=\"com.legstar.test.coxb.lsfileae\""));
         assertTrue(resStr.replace('\\', '/').contains("<mkdir dir=\"target/src/gen/target/classes\"/>"));
         assertTrue(resStr.replace('\\', '/').contains("<javac srcdir=\"target/src/gen/java\""));
+
+        assertTrue(resStr.contains("<webServiceParameters"));
+        assertTrue(resStr.contains("wsdlUrl=\"http://" + CodeGenUtil.getLocalIPAddress()
+                + ":8080/c2ws-lsfileae/lsfileaeProxy\""));
+        assertTrue(resStr.contains("wsdlTargetNamespace=\"http://cixs.test.legstar.com/lsfileae\""));
+        assertTrue(resStr.contains("wsdlServiceName=\"lsfileaeService\""));
+        assertTrue(resStr.contains("wsdlPortName=\"lsfileaePort\""));
     }
 
 }

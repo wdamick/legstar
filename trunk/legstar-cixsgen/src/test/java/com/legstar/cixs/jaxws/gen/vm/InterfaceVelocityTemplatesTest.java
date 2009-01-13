@@ -45,6 +45,7 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
     public void testInterfaceCommareainEqCommareaout() throws Exception {
 
         CixsJaxwsService model = Samples.getLsfileae();
+        addWebServiceParameters(model, getParameters());
 
         File componentClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, model.getPackageName(), true);
@@ -81,6 +82,7 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
     public void testInterfaceCommareainNeqCommareaout() throws Exception {
 
         CixsJaxwsService model = Samples.getLsfileal();
+        addWebServiceParameters(model, getParameters());
 
         File componentClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, model.getPackageName(), true);
@@ -119,6 +121,7 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
     public void testInterfaceContainer() throws Exception {
 
         CixsJaxwsService model = Samples.getLsfileac();
+        addWebServiceParameters(model, getParameters());
 
         File componentClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, model.getPackageName(), true);
@@ -155,6 +158,7 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
     public void testInterfaceMultiOperation() throws Exception {
 
         CixsJaxwsService model = Samples.getLsfileax();
+        addWebServiceParameters(model, getParameters());
 
         File componentClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, model.getPackageName(), true);
@@ -207,6 +211,7 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
     public void testInterfaceOperationWithDifferentNamespace() throws Exception {
 
         CixsJaxwsService model = Samples.getLsfilean();
+        addWebServiceParameters(model, getParameters());
 
         File componentClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, model.getPackageName(), true);
@@ -245,6 +250,7 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
     public void testInterfaceOperationWithNoPackage() throws Exception {
 
         CixsJaxwsService model = Samples.getLsfileap();
+        addWebServiceParameters(model, getParameters());
 
         File componentClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, model.getPackageName(), true);

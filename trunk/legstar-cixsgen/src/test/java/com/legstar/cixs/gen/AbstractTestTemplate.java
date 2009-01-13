@@ -20,7 +20,9 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
+import com.legstar.cixs.jaxws.model.WebServiceParameters;
 import com.legstar.codegen.CodeGenHelper;
 import com.legstar.codegen.CodeGenUtil;
 import com.legstar.coxb.gen.CoxbHelper;
@@ -187,6 +189,38 @@ public class AbstractTestTemplate extends TestCase {
                 file.delete();
             }
         }
+    }
+    
+    /**
+     * Get Web Service default parameters.
+     * @param service the service
+     * @return the default set of parameters
+     */
+    public WebServiceParameters getDefaultWebServiceParameters(
+            final CixsJaxwsService service) {
+        WebServiceParameters webServiceParameters = new WebServiceParameters();
+        webServiceParameters.setWsdlUrl(service.getDefaultServiceURI());
+        webServiceParameters.setWsdlPortName(service.getName()
+                + Jaxws2CixsGenerator.WSDL_PORT_NAME_SUFFIX);
+        webServiceParameters.setWsdlServiceName(service.getName()
+                + Jaxws2CixsGenerator.WSDL_SERVICE_NAME_SUFFIX);
+        webServiceParameters.setWsdlTargetNamespace(service.getTargetNamespace());
+        return webServiceParameters;
+        
+    }
+
+    /**
+     * Add Web Service default parameters.
+     * @param service the service
+     * @param parameters the set of parameters
+     */
+    public void addWebServiceParameters(
+            final CixsJaxwsService service,
+            final Map < String, Object > parameters) {
+        WebServiceParameters webServiceParameters =
+            getDefaultWebServiceParameters(service);
+        webServiceParameters.add(parameters);
+        
     }
 
 }

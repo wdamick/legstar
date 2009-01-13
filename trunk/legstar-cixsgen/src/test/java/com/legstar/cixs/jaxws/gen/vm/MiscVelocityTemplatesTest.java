@@ -34,6 +34,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
     public void testHostHeader() throws Exception {
 
         CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
+        addWebServiceParameters(jaxwsComponent, getParameters());
 
         File componentClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, jaxwsComponent.getPackageName(), true);
@@ -280,6 +281,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
     public void testSunJaxwsXml() throws Exception {
 
         CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
+        addWebServiceParameters(jaxwsComponent, getParameters());
 
         File componentWebFilesDir =
             new File(GEN_WDD_DIR, jaxwsComponent.getName());
@@ -300,6 +302,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
     public void testWebXml() throws Exception {
 
         CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
+        addWebServiceParameters(jaxwsComponent, getParameters());
 
         File componentWebFilesDir = 
             new File(GEN_WDD_DIR, jaxwsComponent.getName());

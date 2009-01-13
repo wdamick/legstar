@@ -11,15 +11,18 @@
 package com.legstar.cixs.jaxws.gen;
 
 import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import com.legstar.cixs.gen.ant.AbstractCixsGenerator;
 import com.legstar.cixs.gen.model.CixsOperation;
 import com.legstar.cixs.jaxws.model.AntBuildCixs2JaxwsModel;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
+import com.legstar.cixs.jaxws.model.CobolHttpClientType;
+import com.legstar.cixs.jaxws.model.PojoParameters;
+import com.legstar.cixs.jaxws.model.ProxyTargetType;
+import com.legstar.cixs.jaxws.model.WebServiceParameters;
 import com.legstar.codegen.CodeGenMakeException;
 import com.legstar.codegen.CodeGenUtil;
 
@@ -45,9 +48,17 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
     public static final String SERVICE_WEB_XML_VLC_TEMPLATE =
         "vlc/c2j-service-web-xml.vm";
 
-    /** Velocity template for COBOL client generation. */
-    public static final String OPERATION_COBOL_CICS_CLIENT_VLC_TEMPLATE =
-        "vlc/c2j-operation-cobol-cics-client.vm";
+    /** Velocity template for COBOL client using LSHTTAPI generation. */
+    public static final String OPERATION_COBOL_CICS_LSHTTAPI_CLIENT_VLC_TEMPLATE =
+        "vlc/c2j-operation-cobol-cics-lshttapi-client.vm";
+
+    /** Velocity template for COBOL client using WEBAPI generation. */
+    public static final String OPERATION_COBOL_CICS_WEBAPI_CLIENT_VLC_TEMPLATE =
+        "vlc/c2j-operation-cobol-cics-webapi-client.vm";
+
+    /** Velocity template for COBOL client using DFHWBCLI generation. */
+    public static final String OPERATION_COBOL_CICS_DFHWBCLI_CLIENT_VLC_TEMPLATE =
+        "vlc/c2j-operation-cobol-cics-dfhwbcli-client.vm";
 
     /** The service model name is it appears in templates. */
     public static final String SERVICE_MODEL_NAME = "model";
@@ -79,13 +90,18 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
             String serviceURI = getCixsJaxwsService().getServiceURI();
             CodeGenUtil.checkHttpURI(serviceURI);
 
-            /* Check that we have a target Web Service WSDL URL */
-            String wsdlUrl = getCixsJaxwsService().getWsdlUrl();
-            if (wsdlUrl == null || wsdlUrl.length() == 0) {
-                throw new CodeGenMakeException(
-                "You must specify a target Web Service WSDL URL");
+            /* Check parameters needed depending on target type */
+            switch(getProxyTargetTypeInternal()) {
+            case POJO:
+                getPojoTargetParameters().check();
+                break;
+            case WEBSERVICE:
+                getWebServiceTargetParameters().check();
+                break;
+            default:
+                throw (new CodeGenMakeException("Missing ProxyTargetType parameter"));
             }
-            new URI(wsdlUrl);
+            
 
             /* Check that we have CICS program names mapped to operations */
             for (CixsOperation operation : getCixsOperations()) {
@@ -96,8 +112,6 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
                 }
             }
         } catch (IllegalArgumentException e) {
-            throw new CodeGenMakeException(e);
-        } catch (URISyntaxException e) {
             throw new CodeGenMakeException(e);
         }
     }
@@ -110,6 +124,20 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
         parameters.put("targetWDDDir", getTargetWDDDir());
         parameters.put("hostCharset", getHostCharset());
         parameters.put("structHelper", new StructuresGenerator());
+
+        /* Contribute the target type parameters */
+        switch(getProxyTargetTypeInternal()) {
+        case POJO:
+            getPojoTargetParameters().add(parameters);
+            parameters.put("proxyTargetType", "pojo");
+            break;
+        case WEBSERVICE:
+            parameters.put("proxyTargetType", "webservice");
+            getWebServiceTargetParameters().add(parameters);
+            break;
+        default:
+            throw (new CodeGenMakeException("Missing ProxyTargetType parameter"));
+        }
 
         /* Determine target files locations */
         File serviceWebFilesDir = getTargetWDDDir();
@@ -128,7 +156,7 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
             parameters.put("cixsOperation", operation);
             generateCobolCicsClient(
                     getCixsJaxwsService(), operation, parameters,
-                    serviceCobolCicsClientDir);
+                    serviceCobolCicsClientDir, getSampleCobolHttpClientTypeInternal());
         }
 
     }
@@ -181,16 +209,29 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
      * @param operation the operation for which a program is to be generated
      * @param parameters the set of parameters to pass to template engine
      * @param cobolFilesDir location where COBOL code should be generated
+     * @param cobolHttpClientType the type of COBOL http client sample to generate
      * @throws CodeGenMakeException if generation fails
      */
     public static void generateCobolCicsClient(
             final CixsJaxwsService service,
             final CixsOperation operation,
             final Map < String, Object > parameters,
-            final File cobolFilesDir)
+            final File cobolFilesDir,
+            final CobolHttpClientType cobolHttpClientType)
     throws CodeGenMakeException {
+        String template;
+        switch(cobolHttpClientType) {
+        case DFHWBCLI:
+            template = OPERATION_COBOL_CICS_DFHWBCLI_CLIENT_VLC_TEMPLATE;
+            break;
+        case WEBAPI:
+            template = OPERATION_COBOL_CICS_WEBAPI_CLIENT_VLC_TEMPLATE;
+            break;
+        default:
+            template = OPERATION_COBOL_CICS_LSHTTAPI_CLIENT_VLC_TEMPLATE;
+        }
         generateFile(CIXS_TO_JAXWS_GENERATOR_NAME,
-                OPERATION_COBOL_CICS_CLIENT_VLC_TEMPLATE,
+                template,
                 SERVICE_MODEL_NAME,
                 service,
                 parameters,
@@ -202,7 +243,7 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
      * @return the Target location for web deployment descriptors
      */
     public final File getTargetWDDDir() {
-        return getModel().getTargetWDDDir();
+        return getAntModel().getTargetWDDDir();
     }
 
     /**
@@ -210,28 +251,28 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
      *  set
      */
     public final void setTargetWDDDir(final File targetWDDDir) {
-        getModel().setTargetWDDDir(targetWDDDir);
+        getAntModel().setTargetWDDDir(targetWDDDir);
     }
 
     /**
      * @return the deployment location for jaxws war files
      */
     public final File getTargetWarDir() {
-        return getModel().getTargetWarDir();
+        return getAntModel().getTargetWarDir();
     }
 
     /**
      * @param targetWarDir the deployment location for jaxws war files to set
      */
     public final void setTargetWarDir(final File targetWarDir) {
-        getModel().setTargetWarDir(targetWarDir);
+        getAntModel().setTargetWarDir(targetWarDir);
     }
 
     /**
      * @return the directory where COBOL files will be created
      */
     public final File getTargetCobolDir() {
-        return getModel().getTargetCobolDir();
+        return getAntModel().getTargetCobolDir();
     }
 
     /**
@@ -239,7 +280,7 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
      *  to set
      */
     public final void setTargetCobolDir(final File targetCobolDir) {
-        getModel().setTargetCobolDir(targetCobolDir);
+        getAntModel().setTargetCobolDir(targetCobolDir);
     }
 
     /**
@@ -274,10 +315,10 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
 
     /**
      * {@inheritDoc}
-     * @see com.legstar.cixs.gen.ant.AbstractCixsGenerator#getModel()
+     * @see com.legstar.cixs.gen.ant.AbstractCixsGenerator#getAntModel()
      */
-    public AntBuildCixs2JaxwsModel getModel() {
-        return (AntBuildCixs2JaxwsModel) super.getModel();
+    public AntBuildCixs2JaxwsModel getAntModel() {
+        return (AntBuildCixs2JaxwsModel) super.getAntModel();
     }
 
     /**
@@ -291,6 +332,114 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
     /** {@inheritDoc}*/
     public String getGeneratorName() {
         return CIXS_TO_JAXWS_GENERATOR_NAME;
+    }
+
+    /**
+     * When ant 1.7.0 will become widespread, we will be able to expose
+     * this method directly (support for enum JDK 1.5).
+     * @return the Http Cobol Client Type in use.
+     */
+    protected CobolHttpClientType getSampleCobolHttpClientTypeInternal() {
+        return getAntModel().getSampleCobolHttpClientType();
+    }
+
+    /**
+     * @return the Http Cobol Client Type in use.
+     */
+    public String getSampleCobolHttpClientType() {
+        return getSampleCobolHttpClientTypeInternal().toString();
+    }
+
+    /**
+     * When ant 1.7.0 will become widespread, we will be able to expose
+     * this method directly (support for enum JDK 1.5).
+     * @param sampleCobolHttpClientType the Http Cobol Client Type in use.
+     */
+    private void setSampleCobolHttpClientTypeInternal(
+            final CobolHttpClientType sampleCobolHttpClientType) {
+        getAntModel().setSampleCobolHttpClientType(sampleCobolHttpClientType);
+    }
+
+    /**
+     * @param sampleCobolHttpClientType the Http Cobol Client Type in use.
+     */
+    public void setSampleCobolHttpClientType(final String sampleCobolHttpClientType) {
+        CobolHttpClientType value = CobolHttpClientType.valueOf(
+                    sampleCobolHttpClientType.toUpperCase(Locale.getDefault()));
+        setSampleCobolHttpClientTypeInternal(value);
+    }
+    /**
+     * @return the type of target that the generated proxy service will invoke
+     */
+    protected ProxyTargetType getProxyTargetTypeInternal() {
+        return getAntModel().getProxyTargetType();
+    }
+
+    /**
+     * @param proxyTargetType the type of target that the generated proxy service will invoke
+     */
+    protected void setProxyTargetTypeInternal(final ProxyTargetType proxyTargetType) {
+        getAntModel().setProxyTargetType(proxyTargetType);
+    }
+
+    /**
+     * @return the type of target that the generated proxy service will invoke
+     */
+    public String getProxyTargetType() {
+        return getProxyTargetTypeInternal().toString();
+    }
+
+    /**
+     * @param proxyTargetType the type of target that the generated proxy service will invoke
+     */
+    public void setProxyTargetType(final String proxyTargetType) {
+        setProxyTargetTypeInternal(ProxyTargetType.valueOf(proxyTargetType));
+    }
+
+    /**
+     * @return the set of parameters needed to invoke a POJO
+     */
+    public PojoParameters getPojoTargetParameters() {
+        return getAntModel().getPojoTargetParameters();
+    }
+
+    /**
+     * @param pojoTargetParameters the set of parameters needed to invoke a POJO to set
+     */
+    public void setPojoTargetParameters(
+            final PojoParameters pojoTargetParameters) {
+        getAntModel().setPojoTargetParameters(pojoTargetParameters);
+    }
+
+    /**
+     * @param pojoTargetParameters the set of parameters needed to invoke a POJO to set
+     */
+    public void addPojoTargetParameters(
+            final PojoParameters pojoTargetParameters) {
+        getAntModel().setPojoTargetParameters(pojoTargetParameters);
+    }
+
+    /**
+     * @return the set of parameters needed to invoke a Web Service
+     */
+    public WebServiceParameters getWebServiceTargetParameters() {
+        return getAntModel().getWebServiceTargetParameters();
+    }
+
+    /**
+     * @param webServiceTargetParameters the set of parameters needed to invoke a Web Service to set
+     */
+    public void setWebServiceTargetParameters(
+            final WebServiceParameters webServiceTargetParameters) {
+        getAntModel().setWebServiceTargetParameters(webServiceTargetParameters);
+    }
+
+    /**
+     * @param webServiceTargetParameters the set of parameters needed to invoke a Web Service to set
+     */
+    public void addWebServiceTargetParameters(
+            final WebServiceParameters webServiceTargetParameters) {
+        getAntModel().setWebServiceTargetParameters(webServiceTargetParameters);
     }
 
 }

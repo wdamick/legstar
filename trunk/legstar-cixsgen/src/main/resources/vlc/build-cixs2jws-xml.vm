@@ -44,12 +44,10 @@
             coxbBinDir="${antModel.coxbBinDir}"
             custBinDir="${antModel.custBinDir}"
             hostCharset="${antModel.hostCharset}"
+            proxyTargetType="${antModel.proxyTargetType}"
+            sampleCobolHttpClientType="${antModel.sampleCobolHttpClientType}"
         >
             <cixsJaxwsService name="${antModel.cixsJaxwsService.name}"
-                wsdlUrl="${antModel.cixsJaxwsService.wsdlUrl}"
-                wsdlPortName="${antModel.cixsJaxwsService.wsdlPortName}"
-                wsdlServiceName="${antModel.cixsJaxwsService.wsdlServiceName}"
-                targetNamespace="${antModel.cixsJaxwsService.targetNamespace}"
                 serviceURI="${antModel.cixsJaxwsService.serviceURI}"
             >
 #foreach ($cixsOperation in $antModel.cixsJaxwsService.cixsOperations)
@@ -71,6 +69,22 @@
                 </cixsOperation>
 #end
             </cixsJaxwsService>
+#if(${antModel.proxyTargetType.toString().equalsIgnoreCase("pojo")})
+            <!-- Target POJO parameters -->
+            <pojoTargetParameters
+                className="${antModel.pojoTargetParameters.className}"
+                methodName="${antModel.pojoTargetParameters.methodName}"
+            />
+#end
+#if(${antModel.proxyTargetType.toString().equalsIgnoreCase("webservice")})
+            <!-- Target Web Service parameters -->
+            <webServiceTargetParameters
+                wsdlUrl="${antModel.webServiceTargetParameters.wsdlUrl}"
+                wsdlTargetNamespace="${antModel.webServiceTargetParameters.wsdlTargetNamespace}"
+                wsdlServiceName="${antModel.webServiceTargetParameters.wsdlServiceName}"
+                wsdlPortName="${antModel.webServiceTargetParameters.wsdlPortName}"
+            />
+#end
         </cixs2jaxwsgen>
     
     </target>

@@ -15,17 +15,18 @@
 #end
 #end
 ## ==================================================================
-## Create a list of unique jaxb package names
+## Create lists of unique jaxb and coxb package names
 ## ==================================================================
 #set($jaxbPackages = [])
+#set($coxbPackages = [])
 #foreach ($cixsOperation in $model.cixsOperations)
 #foreach ($cixsStructure in $cixsOperation.getInput())
-#set($newPackage = ${cixsStructure.jaxbPackageName})
-#addPackage($jaxbPackages, $newPackage)
+#addPackage($jaxbPackages, ${cixsStructure.jaxbPackageName})
+#addPackage($coxbPackages, ${cixsStructure.coxbPackageName})
 #end
 #foreach ($cixsStructure in $cixsOperation.getOutput())
-#set($newPackage = ${cixsStructure.jaxbPackageName})
-#addPackage($jaxbPackages, $newPackage)
+#addPackage($jaxbPackages, ${cixsStructure.jaxbPackageName})
+#addPackage($coxbPackages, ${cixsStructure.coxbPackageName})
 #end
 #end
 <?xml version="1.0" encoding="UTF-8"?>
@@ -42,6 +43,11 @@
 #foreach ($jaxbPackage in $jaxbPackages)
          <classes dir="${jaxbBinDir}">
             <include name="${jaxbPackage.replace(".","/")}/*.class"/>
+         </classes>
+#end
+#foreach ($coxbPackage in $coxbPackages)
+         <classes dir="${coxbBinDir}">
+            <include name="${coxbPackage.replace(".","/")}/*.class"/>
          </classes>
 #end
       </war>

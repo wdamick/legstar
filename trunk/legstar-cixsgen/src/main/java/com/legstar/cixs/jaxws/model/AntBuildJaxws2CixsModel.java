@@ -25,12 +25,8 @@ public class AntBuildJaxws2CixsModel extends AbstractAntBuildCixsModel {
     public static final String JAXWS2CIXS_GENERATOR_NAME =
         "Jaxws adapter Web Service generator";
 
-    /** The URI that the host exposes to consumers. */
-    private String mHostURI;
-
-    /** The host URI is not mandatory at generation time so we
-     * provide a placeholder. */
-    private static final String DEFAULT_HOST_URI = "http://hosturi";
+    /** Adapter is exposed as a Web Service using these parameters. */
+    private WebServiceParameters mWebServiceParameters;
 
     /** Target location for web deployment descriptors. */
     private File mTargetWDDDir;
@@ -48,23 +44,7 @@ public class AntBuildJaxws2CixsModel extends AbstractAntBuildCixsModel {
      */
     public AntBuildJaxws2CixsModel() {
         super(JAXWS2CIXS_GENERATOR_NAME, JAXWS2CIXS_VELOCITY_MACRO_NAME);
-    }
-
-    /**
-     * @return the URI that the host exposes to consumers
-     */
-    public final String getHostURI() {
-        if (mHostURI == null || mHostURI.length() == 0) {
-            return DEFAULT_HOST_URI;
-        }
-        return mHostURI;
-    }
-
-    /**
-     * @param hostURI the URI that the host exposes to consumers to set
-     */
-    public final void setHostURI(final String hostURI) {
-        mHostURI = hostURI;
+        mWebServiceParameters = new WebServiceParameters();
     }
 
     /**
@@ -112,4 +92,18 @@ public class AntBuildJaxws2CixsModel extends AbstractAntBuildCixsModel {
         mTargetWarDir = targetWarDir;
     }
 
+    /**
+     * @return the set of parameters needed to expose a Web Service
+     */
+    public WebServiceParameters getWebServiceParameters() {
+        return mWebServiceParameters;
+    }
+
+    /**
+     * @param webServiceParameters the set of parameters needed to expose a Web Service to set
+     */
+    public void setWebServiceParameters(
+            final WebServiceParameters webServiceParameters) {
+        mWebServiceParameters = webServiceParameters;
+    }
 }

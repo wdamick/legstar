@@ -16,6 +16,8 @@ import com.legstar.cixs.gen.AbstractTestTemplate;
 import com.legstar.cixs.gen.Samples;
 import com.legstar.cixs.jaxws.model.AntBuildCixs2JaxwsModel;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
+import com.legstar.cixs.jaxws.model.CobolHttpClientType;
+import com.legstar.cixs.jaxws.model.ProxyTargetType;
 import com.legstar.codegen.CodeGenUtil;
 
 /**
@@ -45,6 +47,10 @@ public class AntBuildCixs2JaxwsModelTest extends AbstractTestTemplate {
         antModel.setTargetWDDDir(GEN_WDD_DIR);
         antModel.setTargetCobolDir(GEN_COBOL_DIR);
         antModel.setHostCharset("IBM01147");
+        antModel.setSampleCobolHttpClientType(CobolHttpClientType.WEBAPI);
+        
+        antModel.setProxyTargetType(ProxyTargetType.WEBSERVICE);
+        antModel.setWebServiceTargetParameters(Samples.getCultureinfoWebServiceParameters());
 
         antModel.generateBuild(CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
         String resStr = getSource(GEN_SRC_DIR, "test.txt");
@@ -63,19 +69,24 @@ public class AntBuildCixs2JaxwsModelTest extends AbstractTestTemplate {
         assertTrue(resStr.replace('\\', '/').contains("coxbBinDir=\"target/src/gen/target/classes\""));
         assertTrue(resStr.replace('\\', '/').contains("custBinDir=\"target/src/gen/target/classes\""));
         assertTrue(resStr.contains("hostCharset=\"IBM01147\""));
+        assertTrue(resStr.contains("proxyTargetType=\"WEBSERVICE\""));
+        assertTrue(resStr.contains("sampleCobolHttpClientType=\"WEBAPI\""));
 
         assertTrue(resStr.contains("<cixsJaxwsService name=\"cultureinfo\""));
-        assertTrue(resStr.contains("wsdlUrl=\"http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl\""));
-        assertTrue(resStr.contains("wsdlPortName=\"CultureInfoImplPort\""));
-        assertTrue(resStr.contains("wsdlServiceName=\"CultureInfoImplService\""));
-        assertTrue(resStr.contains("targetNamespace=\"http://cultureinfo.cases.test.xsdc.legstar.com/\""));
-        assertTrue(resStr.contains("serviceURI=\"http://localhost:8080/c2ws-cultureinfo/cultureinfoProxy\""));
+        assertTrue(resStr.contains("serviceURI=\"http://" + CodeGenUtil.getLocalIPAddress()
+                + ":8080/c2ws-cultureinfo/cultureinfoProxy\""));
         assertTrue(resStr.contains("<cixsOperation name=\"getInfo\""));
         assertTrue(resStr.contains("cicsProgramName=\"CULTUREI\""));
         assertTrue(resStr.contains("jaxbType=\"GetInfo\""));
         assertTrue(resStr.contains("jaxbPackageName=\"com.legstar.test.coxb.cultureinfo\""));
         assertTrue(resStr.contains("jaxbType=\"GetInfoResponse\""));
         assertTrue(resStr.contains("jaxbPackageName=\"com.legstar.test.coxb.cultureinfo\""));
+
+        assertTrue(resStr.contains("<webServiceTargetParameters"));
+        assertTrue(resStr.contains("http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl"));
+        assertTrue(resStr.contains("wsdlTargetNamespace=\"http://cultureinfo.cases.test.xsdc.legstar.com/\""));
+        assertTrue(resStr.contains("wsdlServiceName=\"CultureInfoImplService\""));
+        assertTrue(resStr.contains("wsdlPortName=\"CultureInfoImplPort\""));
     }
 
 }

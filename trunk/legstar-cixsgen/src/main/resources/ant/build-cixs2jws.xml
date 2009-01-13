@@ -20,17 +20,16 @@
         <!-- Service URI where generated proxy will be listening for Mainframe calls   -->
         <property name="serviceURI" value="http://localhost:8080/c2ws-${service}/${service}Proxy" />
         
-        <!-- Target Web Service WSDL URL   -->
-        <property name="wsdl.url" value="http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl"/>
-        <!-- Target Web Service WSDL service name   -->
-        <property name="wsdl.service.name" value="CultureInfoImplService"/>
-        <!-- Target Web Service WSDL port name   -->
-        <property name="wsdl.port.name" value="CultureInfoImplPort"/>
-        <!-- Target Web Service target namespace   -->
-        <property name="target.namespace" value="http://cultureinfo.cases.test.xsdc.legstar.com/"/>
-        
-        
-        <!-- The input JAXB type name   -->
+        <!-- Target type to be consumed by mainframe program: POJO or WEBSERVICE.
+             Depending on your choice you need to set target specific parameters in
+             corresponding elements pojoTargetParameters or webServiceTargetParameters
+             below.   -->
+        <property name="proxy.target.type" value="WEBSERVICE" />
+
+    	<!-- Type of sample COBOL client code to generate (DFHWBCLI, WEBAPI, LSHTTAPI)   -->
+        <property name="sample.cobol.http.client.type" value="DFHWBCLI" />
+
+    	<!-- The input JAXB type name   -->
         <property name="jaxb.root.name.in" value="GetInfo" />
         <!-- The input JAXB package name  -->
         <property name="jaxb.package.name.in" value="com.legstar.test.coxb.cultureinfo"/>
@@ -92,12 +91,10 @@
             coxbBinDir="${coxb.bin.dir}"
             custBinDir="${cust.bin.dir}"
             hostCharset="${host.charset}"
+            proxyTargetType="${proxy.target.type}"
+            sampleCobolHttpClientType="${sample.cobol.http.client.type}"
         >
             <cixsJaxwsService name="${service}"
-                wsdlUrl="${wsdl.url}"
-                wsdlPortName="${wsdl.port.name}"
-                wsdlServiceName="${wsdl.service.name}"
-                targetNamespace="${target.namespace}"
                 serviceURI="${serviceURI}"
             >
                 <cixsOperation name="${service}"
@@ -113,6 +110,20 @@
                     />
                 </cixsOperation>
             </cixsJaxwsService>
+            <!-- Target Web Service parameters (needed if proxyTargetType="WEBSERVICE") -->
+            <webServiceTargetParameters
+                wsdlUrl="http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl"
+                wsdlTargetNamespace="http://cultureinfo.cases.test.xsdc.legstar.com/"
+                wsdlServiceName="CultureInfoImplService"
+                wsdlPortName="CultureInfoImplPort"
+            />
+             
+            <!-- Target POJO parameters (needed if proxyTargetType="POJO")
+            <pojoTargetParameters
+                className="com.legstar.xsdc.test.cases.jvmquery.JVMQuery"
+                methodName="queryJvm"
+            />
+            -->
         </cixs2jaxwsgen>
     
     </target>

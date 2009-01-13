@@ -25,6 +25,15 @@ public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsModel {
     public static final String CIXS2JAXWS_GENERATOR_NAME =
         "Web Service proxy for Mainframe generator";
 
+    /** The type of target that the generated proxy service will invoke. */
+    private ProxyTargetType mProxyTargetType = ProxyTargetType.WEBSERVICE;
+
+    /** Set of parameters needed to invoke a POJO. */
+    private PojoParameters mPojoTargetParameters;
+
+    /** Set of parameters needed to invoke a Web Service. */
+    private WebServiceParameters mWebServiceTargetParameters;
+
     /** Target location for web deployment descriptors. */
     private File mTargetWDDDir;
 
@@ -34,6 +43,9 @@ public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsModel {
     /** The target directory where COBOL files will be created. */
     private File mTargetCobolDir;
 
+    /** The type of Http sample Cobol client to generate. */
+    private CobolHttpClientType mSampleCobolHttpClientType = CobolHttpClientType.DFHWBCLI;
+    
     /** This velocity template that creates an ant build which in turn
      * generates the target web service proxy. */
     public static final String CIXS2JAXWS_VELOCITY_MACRO_NAME =
@@ -44,6 +56,8 @@ public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsModel {
      */
     public AntBuildCixs2JaxwsModel() {
         super(CIXS2JAXWS_GENERATOR_NAME, CIXS2JAXWS_VELOCITY_MACRO_NAME);
+        mPojoTargetParameters = new PojoParameters();
+        mWebServiceTargetParameters = new WebServiceParameters();
     }
 
     /**
@@ -103,6 +117,65 @@ public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsModel {
      */
     public final void setTargetCobolDir(final File targetCobolDir) {
         mTargetCobolDir = targetCobolDir;
+    }
+
+    /**
+     * @return The type of Http sample Cobol client to generate
+     */
+    public CobolHttpClientType getSampleCobolHttpClientType() {
+        return mSampleCobolHttpClientType;
+    }
+
+    /**
+     * @param sampleCobolHttpClientType The type of Http sample Cobol client to generate
+     */
+    public void setSampleCobolHttpClientType(
+            final CobolHttpClientType sampleCobolHttpClientType) {
+        mSampleCobolHttpClientType = sampleCobolHttpClientType;
+    }
+
+    /**
+     * @return the type of target that the generated proxy service will invoke
+     */
+    public ProxyTargetType getProxyTargetType() {
+        return mProxyTargetType;
+    }
+
+    /**
+     * @param proxyTargetType the type of target that the generated proxy service will invoke
+     */
+    public void setProxyTargetType(final ProxyTargetType proxyTargetType) {
+        mProxyTargetType = proxyTargetType;
+    }
+
+    /**
+     * @return the set of parameters needed to invoke a POJO
+     */
+    public PojoParameters getPojoTargetParameters() {
+        return mPojoTargetParameters;
+    }
+
+    /**
+     * @param pojoTargetParameters the set of parameters needed to invoke a POJO to set
+     */
+    public void setPojoTargetParameters(
+            final PojoParameters pojoTargetParameters) {
+        mPojoTargetParameters = pojoTargetParameters;
+    }
+
+    /**
+     * @return the set of parameters needed to invoke a Web Service
+     */
+    public WebServiceParameters getWebServiceTargetParameters() {
+        return mWebServiceTargetParameters;
+    }
+
+    /**
+     * @param webServiceTargetParameters the set of parameters needed to invoke a Web Service to set
+     */
+    public void setWebServiceTargetParameters(
+            final WebServiceParameters webServiceTargetParameters) {
+        mWebServiceTargetParameters = webServiceTargetParameters;
     }
 
 }

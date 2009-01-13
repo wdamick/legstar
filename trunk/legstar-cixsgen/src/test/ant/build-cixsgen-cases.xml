@@ -95,6 +95,8 @@
         <antcall target="generateVarar021Service"/>
         <antcall target="copyPropertiesForTesting"/>
         <antcall target="generateCultureinfoProxy"/>
+        <antcall target="generateMSNSearchProxy"/>
+        <antcall target="generateJvmqueryProxy"/>
     </target>
 
     <!-- ===========================================================  -->
@@ -318,7 +320,7 @@
         <cixs2jaxwsgen
             targetAntDir="${res.dir}/cultureinfo/${ant.dir}"
             targetWDDDir="${res.dir}/cultureinfo/${wdd.dir}"
-            targetWarDir="${res.dir}/cultureinfo/${ant.dir}"
+            targetWarDir="${war.dir}"
             targetCobolDir="${res.dir}/cultureinfo/${cobol.dir}"
             jaxbBinDir="${jaxb.bin.dir}"
             coxbBinDir="${coxb.bin.dir}"
@@ -326,11 +328,6 @@
             hostCharset="${host.charset}"
         >
             <cixsJaxwsService name="cultureinfo"
-                wsdlUrl="http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl"
-                wsdlPortName="CultureInfoImplPort"
-                wsdlServiceName="CultureInfoImplService"
-                targetNamespace="http://cultureinfo.cases.test.xsdc.legstar.com/"
-                serviceURI="http://localhost:8080/c2ws-cultureinfo/cultureinfoProxy"
             >
                 <cixsOperation name="cultureinfo"
                     cicsProgramName="CULTUREI"
@@ -345,6 +342,91 @@
                     />
                 </cixsOperation>
             </cixsJaxwsService>
+            <webServiceTargetParameters
+                wsdlUrl="http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl"
+                wsdlTargetNamespace="http://cultureinfo.cases.test.xsdc.legstar.com/"
+                wsdlServiceName="CultureInfoImplService"
+                wsdlPortName="CultureInfoImplPort"
+            />
+        </cixs2jaxwsgen>
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- This step creates all the artifacts for proxy to
+         MSNSearch web service.  -->
+    
+    <target name="generateMSNSearchProxy">
+    
+        <cixs2jaxwsgen
+            targetAntDir="${res.dir}/MSNSearch/${ant.dir}"
+            targetWDDDir="${res.dir}/MSNSearch/${wdd.dir}"
+            targetWarDir="${war.dir}"
+            targetCobolDir="${res.dir}/MSNSearch/${cobol.dir}"
+            jaxbBinDir="${jaxb.bin.dir}"
+            coxbBinDir="${coxb.bin.dir}"
+            custBinDir="${cust.bin.dir}"
+            hostCharset="${host.charset}"
+        >
+            <cixsJaxwsService name="MSNSearch"
+            >
+                <cixsOperation name="search"
+                    cicsProgramName="MSNSEARC"
+                >
+                    <input
+                        jaxbType="Search"
+                        jaxbPackageName="com.legstar.test.coxb.MSNSearch"
+                    />
+                    <output
+                        jaxbType="SearchResponse"
+                        jaxbPackageName="com.legstar.test.coxb.MSNSearch"
+                    />
+                </cixsOperation>
+            </cixsJaxwsService>
+            <webServiceTargetParameters
+                wsdlUrl="http://soap.search.msn.com/webservices.asmx?wsdl"
+                wsdlTargetNamespace="http://schemas.microsoft.com/MSNSearch/2005/09/fex"
+                wsdlServiceName="MSNSearchService"
+                wsdlPortName="MSNSearchPort"
+            />
+        </cixs2jaxwsgen>
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- This step creates all the artifacts for proxy to
+         Jvmquery POJO.  -->
+    
+    <target name="generateJvmqueryProxy">
+    
+        <cixs2jaxwsgen
+            targetAntDir="${res.dir}/Jvmquery/${ant.dir}"
+            targetWDDDir="${res.dir}/Jvmquery/${wdd.dir}"
+            targetWarDir="${war.dir}"
+            targetCobolDir="${res.dir}/Jvmquery/${cobol.dir}"
+            jaxbBinDir="${jaxb.bin.dir}"
+            coxbBinDir="${coxb.bin.dir}"
+            custBinDir="${cust.bin.dir}"
+            hostCharset="${host.charset}"
+            proxyTargetType="POJO"
+        >
+            <cixsJaxwsService name="Jvmquery"
+            >
+                <cixsOperation name="jvmquery"
+                    cicsProgramName="JVMQUERY"
+                >
+                    <input
+                        jaxbType="JvmQueryRequest"
+                        jaxbPackageName="com.legstar.test.coxb.jvmquery"
+                    />
+                    <output
+                        jaxbType="JvmQueryReply"
+                        jaxbPackageName="com.legstar.test.coxb.jvmquery"
+                    />
+                </cixsOperation>
+            </cixsJaxwsService>
+            <pojoTargetParameters
+                className="com.legstar.xsdc.test.cases.jvmquery.JVMQuery"
+                methodName="queryJvm"
+            />
         </cixs2jaxwsgen>
     </target>
 
