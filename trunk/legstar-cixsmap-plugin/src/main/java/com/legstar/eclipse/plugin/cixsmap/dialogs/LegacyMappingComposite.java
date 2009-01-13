@@ -29,7 +29,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
 import com.legstar.cixs.gen.model.CixsMappingModel;
-import com.legstar.cixs.gen.model.CixsModelException;
 import com.legstar.cixs.gen.model.CixsOperation;
 import com.legstar.eclipse.plugin.cixsmap.Activator;
 import com.legstar.eclipse.plugin.cixsmap.Messages;
@@ -264,15 +263,7 @@ public class LegacyMappingComposite extends Composite {
             new LegacyOperationDialog(
                     Activator.PLUGIN_ID, getShell(), mMappingFile, operation);
         if (Window.OK == dlg.open()) {
-            try {
-                mMappingModel.addCixsOperation(operation);
-            } catch (CixsModelException e) {
-                MessageDialog.openError(
-                        null,
-                        Messages.operation_mapping_error_dialog_title,
-                        e.getMessage());
-                return;
-            }
+            mMappingModel.addCixsOperation(operation);
             TableItem ti = new TableItem(mOperationsTable, SWT.NONE);
             ti.setText(operation.getAsStringArray());
             ti.setImage(mTableImage);
