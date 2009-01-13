@@ -90,7 +90,7 @@
                         </goals>
                     </execution>
                 
-                  <!-- This will upload the zos sources.
+                  <!-- This will upload the zos sources. --> 
                     <execution>
                         <id>deploy-to-zos</id>
                         <phase>generate-test-resources</phase>
@@ -108,7 +108,7 @@
                             <goal>run</goal>
                         </goals>
                     </execution>
- -->  
+ 
                 </executions>
                 
             </plugin>
