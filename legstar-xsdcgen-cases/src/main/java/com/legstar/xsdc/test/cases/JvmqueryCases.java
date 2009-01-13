@@ -3,6 +3,7 @@ package com.legstar.xsdc.test.cases;
 import junit.framework.TestCase;
 
 import com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply;
+import com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest;
 
 /**
  * Provides data samples for testing throughout LegStar.  
@@ -34,30 +35,56 @@ public final class JvmqueryCases extends TestCase {
     /**
      * @return an instance of a valued java object.
      */
-    public static JVMQueryReply getJavaObject() {
+    public static JVMQueryReply getJavaObjectReplyFrance() {
         JVMQueryReply jvmQueryReply = new JVMQueryReply();
         jvmQueryReply.setCountry("France");
         jvmQueryReply.setCurrencySymbol("€");
         jvmQueryReply.setFormattedDate("vendredi-10-octobre-2008-14h-28");
         jvmQueryReply.setLanguage("français");
         jvmQueryReply.getEnvVarValues().add(
-                "D:\\Legsem\\Legstar\\jboss\\mlittle\\product\\build\\jbossesb-server-4.4.GA");
-        jvmQueryReply.getEnvVarValues().add("C:\\Program Files\\Java\\jdk1.6.0_10");
+                System.getenv("JAVA_HOME"));
+        jvmQueryReply.getEnvVarValues().add(
+                System.getenv("LEGSTAR_HOME"));
         return jvmQueryReply;
     }
 
     /**
      * Check that data object contains the expected values.
+     * This assumes the Locale is France
      * @param jvmQueryReply the java object to check
      */
-    public static void checkJavaObject(final JVMQueryReply jvmQueryReply) {
-        
+    public static void checkJavaObjectReplyFrance(final JVMQueryReply jvmQueryReply) {
+        assertEquals("France", jvmQueryReply.getCountry());
+        assertEquals("€", jvmQueryReply.getCurrencySymbol());
+        assertEquals("français", jvmQueryReply.getLanguage());
+        assertTrue(System.getenv("JAVA_HOME").startsWith(jvmQueryReply.getEnvVarValues().get(0)));
+        assertTrue(System.getenv("LEGSTAR_HOME").startsWith(jvmQueryReply.getEnvVarValues().get(1)));
     }
+
     /**
      * @return a hexadecimal representation of host data.
      */
-    public static String getHostBytesHex() { 
+    public static String getHostBytesHexReplyFrance() { 
 
         return JVMQUERYREPLY_HOST_BYTES;
+    }
+    /**
+     * @return an instance of a valued java object.
+     */
+    public static JVMQueryRequest getJavaObjectRequest() {
+        JVMQueryRequest jvmQueryRequest = new JVMQueryRequest();
+        jvmQueryRequest.getEnvVarNames().add("JAVA_HOME");
+        jvmQueryRequest.getEnvVarNames().add("LEGSTAR_HOME");
+        return jvmQueryRequest;
+    }
+    
+    /**
+     * @return a hexadecimal representation of host data.
+     */
+    public static String getHostBytesHexRequest() {
+        return
+        "00000002"
+        + "d1c1e5c16dc8d6d4c54040404040404040404040404040404040404040404040"
+        + "d3c5c7e2e3c1d96dc8d6d4c54040404040404040404040404040404040404040";
     }
 }
