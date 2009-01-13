@@ -17,13 +17,13 @@ import com.legstar.coxb.CobolBindingException;
  * </pre>
  *
  */
-public class ${valueObjectType}JavaToHostTransformer extends AbstractJavaToHostTransformer {
+public class ${binding.jaxbName}JavaToHostTransformer extends AbstractJavaToHostTransformer {
 
     
     /**
      * Create a Java to Host transformer using default COBOL parameters.
      */
-    public ${valueObjectType}JavaToHostTransformer() {
+    public ${binding.jaxbName}JavaToHostTransformer() {
         super();
     }
     
@@ -32,7 +32,7 @@ public class ${valueObjectType}JavaToHostTransformer extends AbstractJavaToHostT
      * other COBOL parameters are set by default.
      * @param cobolContext the COBOL parameters set.
      */
-    public ${valueObjectType}JavaToHostTransformer(final CobolContext cobolContext) {
+    public ${binding.jaxbName}JavaToHostTransformer(final CobolContext cobolContext) {
         super(cobolContext);
     }
 
@@ -40,7 +40,7 @@ public class ${valueObjectType}JavaToHostTransformer extends AbstractJavaToHostT
      * Create a Java to Host transformer using a specific COBOL parameters set.
      * @param hostCharset the host character set
      */
-    public ${valueObjectType}JavaToHostTransformer(final String hostCharset) {
+    public ${binding.jaxbName}JavaToHostTransformer(final String hostCharset) {
         super(hostCharset);
     }
     
