@@ -2,7 +2,6 @@ package com.legstar.proxy.invoke.jaxws;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -21,7 +20,7 @@ import javax.xml.ws.soap.SOAPFaultException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.legstar.proxy.invoke.IProxyInvoker;
+import com.legstar.proxy.invoke.AbstractProxyInvoker;
 import com.legstar.proxy.invoke.ProxyInvokerException;
 import com.legstar.proxy.invoke.ReflectOperationProxy;
 import com.legstar.util.JAXBAnnotationException;
@@ -40,7 +39,7 @@ import com.legstar.util.NameUtil;
  * </ul> 
  *
  */
-public class WebServiceInvoker implements IProxyInvoker {
+public class WebServiceInvoker extends AbstractProxyInvoker {
 
     /* ====================================================================== */
     /* = Constants section                                                  = */
@@ -105,11 +104,6 @@ public class WebServiceInvoker implements IProxyInvoker {
      * and reused each time this action is processed. */
     private Dispatch < Object > mDispatcher;
 
-    /**
-     * Current set of configuration parameters.
-     */
-    private Map < String, String > mConfig;
-
     /** Logger. */
     private static final Log LOG = LogFactory.getLog(WebServiceInvoker.class);
 
@@ -125,11 +119,14 @@ public class WebServiceInvoker implements IProxyInvoker {
      *  <li>responseJaxbType: JAXB response type</li>
      *  <li>responseJaxbPackageName: JAXB response package name</li>
      * </ul>
-     * @param config parameters setup in jboss-esb.xml
+     * @param config configuration parameters
      * @throws WebServiceInvokerException if configuration is wrong 
      */
     public WebServiceInvoker(
             final Map < String, String > config) throws WebServiceInvokerException {
+        
+        super(config);
+        
         mWsdlUrl = config.get(WSDL_URL_PROPERTY);
         if (mWsdlUrl == null || mWsdlUrl.length() == 0) {
             throw new WebServiceInvokerException("You must specify a wsdl URL using the "
@@ -184,7 +181,7 @@ public class WebServiceInvoker implements IProxyInvoker {
         }
 
         if (LOG.isDebugEnabled()) {
-            LOG.debug("WebServiceInvokerAction setup configuration:");
+            LOG.debug("WebServiceInvoker setup configuration:");
             LOG.debug("Wsdl Url=" + getWsdlUrl());
             LOG.debug("Wsdl service name=" + getWsdlServiceName());
             LOG.debug("Wsdl target namespace=" + getWsdlTargetNamespace());
@@ -192,8 +189,6 @@ public class WebServiceInvoker implements IProxyInvoker {
             LOG.debug("Request element=[" + getRequestElementDescriptor().toString() + "]");
             LOG.debug("Response element=[" + getResponseElementDescriptor().toString() + "]");
         }
-        mConfig = new HashMap < String, String >();
-        mConfig.putAll(config);
     }
 
     /** {@inheritDoc} */
@@ -429,39 +424,6 @@ public class WebServiceInvoker implements IProxyInvoker {
      */
     public final String getWsdlUrl() {
         return mWsdlUrl;
-    }
-
-    /** {@inheritDoc} */
-    public Map < String, String > getConfig() {
-        return mConfig;
-    }
-
-    /**
-     * These are the conditions applied:
-     * <ul>
-     * <li>If no configuration exists yet this will return false.</li>
-     * <li>If the new configuration is null, returns false.</li>
-     * <li>All keys from current configuration must yield the same value from
-     * both existing configuration and new one for this to return true.</li>
-     * <li>Both old and new config must have the same number of keys for
-     * this to return true.</li>
-     * </ul>
-     * @param newConfig a proposed new configuration
-     * @return if new configuration is identical to the one already used
-     */
-    public boolean isSameConfig(final Map < String, String > newConfig) {
-        if (getConfig() == null || newConfig == null) {
-            return false;
-        }
-        for (String key : getConfig().keySet()) {
-            if (!getConfig().get(key).equals(newConfig.get(key))) {
-                return false;
-            }
-        }
-        if (getConfig().keySet().size() != newConfig.keySet().size()) {
-            return false;
-        }
-        return true;
     }
 
 }

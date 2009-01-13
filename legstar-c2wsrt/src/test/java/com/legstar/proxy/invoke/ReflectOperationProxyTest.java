@@ -5,7 +5,8 @@ import java.util.Map;
 
 import com.legstar.coxb.host.HostData;
 import com.legstar.proxy.invoke.jaxws.CultureinfoJaxwsCases;
-import com.legstar.test.coxb.CultureinfoCases;
+import com.legstar.proxy.invoke.jaxws.MSNSearchJaxwsCases;
+import com.legstar.test.coxb.MSNSearchCases;
 
 import junit.framework.TestCase;
 
@@ -45,12 +46,11 @@ public class ReflectOperationProxyTest extends TestCase {
     public void testInvoke() {
         try {
             ReflectOperationProxy operationProxy =
-                new ReflectOperationProxy(CultureinfoJaxwsCases.getReflectConfig());
+                new ReflectOperationProxy(MSNSearchJaxwsCases.getDirectConfig());
             byte[] replyBytes = operationProxy.invoke(
-                    CultureinfoJaxwsCases.getReflectConfig(),
-                    getName(),
-                    HostData.toByteArray(CultureinfoCases.getHostBytesHexRequestFr()));
-            CultureinfoCases.checkHostBytesReplyFr(replyBytes);
+                    MSNSearchJaxwsCases.getDirectConfig(), getName(),
+                    HostData.toByteArray(MSNSearchCases.getHostBytesHexRequest()));
+            MSNSearchJaxwsCases.checkHostBytesResponse(replyBytes);
         } catch (ProxyConfigurationException e) {
             fail(e.getMessage());
         } catch (ProxyInvokerException e) {

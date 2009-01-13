@@ -2,7 +2,7 @@
 
     <fileSets>
 
-        <!-- C/370 for CICS sample program -->
+        <!-- C/370 for CICS HTTP API source code -->
         <fileSet>
             <directory>${project.basedir}/../legstar-c2wsrt/src/main/zos</directory>
             <outputDirectory>/zos</outputDirectory>
@@ -11,15 +11,6 @@
             </includes>
         </fileSet>
         
-        <!-- Sample files -->
-        <fileSet>
-            <directory>${project.basedir}/../legstar-c2wsrt/examples/src/main</directory>
-            <outputDirectory>/samples</outputDirectory>
-            <includes>
-                <include>**</include>
-            </includes>
-        </fileSet>
-    
     </fileSets>
 
     <files>
@@ -37,15 +28,6 @@
             <source>${project.basedir}/../legstar-c2wsrt/src/site/apt/LSHTTAPI-readme.apt</source>
             <outputDirectory>/</outputDirectory>
             <destName>LSHTTAPI-README</destName>
-        </file>
-        
-        <file>
-            <source>${project.basedir}/../legstar-c2wsrt/target/c2ws-cultureinfo.war</source>
-            <outputDirectory>/samples/war/</outputDirectory>
-        </file>
-        <file>
-            <source>${project.basedir}/../legstar-c2wsrt/target/c2ws-MSNSearch.war</source>
-            <outputDirectory>/samples/war/</outputDirectory>
         </file>
         
     </files>

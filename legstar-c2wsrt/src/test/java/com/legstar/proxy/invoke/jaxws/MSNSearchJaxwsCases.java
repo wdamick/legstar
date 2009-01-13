@@ -3,9 +3,13 @@ package com.legstar.proxy.invoke.jaxws;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.legstar.coxb.transform.HostTransformException;
 import com.legstar.proxy.invoke.DirectOperationProxy;
 import com.legstar.proxy.invoke.IProxyInvoker;
 import com.legstar.proxy.invoke.ReflectOperationProxy;
+import com.legstar.test.coxb.MSNSearchCases;
+import com.legstar.test.coxb.MSNSearch.SearchResponse;
+import com.legstar.test.coxb.MSNSearch.bind.SearchResponseHostToJavaTransformer;
 
 import junit.framework.TestCase;
 
@@ -63,4 +67,18 @@ public class MSNSearchJaxwsCases extends TestCase {
         "com.legstar.test.coxb.MSNSearch");
         return config;
     }
+    /**
+     * Check the response.
+     * @param replyBytes the host bytes returned
+     */
+    public static void checkHostBytesResponse(final byte[] replyBytes) {
+        try {
+            SearchResponseHostToJavaTransformer transformer = new SearchResponseHostToJavaTransformer();
+            SearchResponse searchResponse = transformer.transform(replyBytes);
+            MSNSearchCases.checkJavaObjectResponse(searchResponse);
+        } catch (HostTransformException e) {
+            fail(e.getMessage());
+        }
+    }
+
 }
