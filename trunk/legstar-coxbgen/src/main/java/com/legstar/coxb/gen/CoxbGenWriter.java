@@ -145,7 +145,7 @@ public class CoxbGenWriter {
     public final void writeHostToJavaTransformer(
             final ICobolComplexBinding ce) throws CodeGenException {
         writeGeneric(ce, HOST_TO_JAVA_XFORMER_VLC_TEMPLATE,
-                mCoxbHelper.getBoundTypeName(ce) + "HostToJavaTransformer.java");
+                ce.getJaxbName() + "HostToJavaTransformer.java");
     }
 
     /**
@@ -156,7 +156,7 @@ public class CoxbGenWriter {
     public final void writeJavaToHostTransformer(
             final ICobolComplexBinding ce) throws CodeGenException {
         writeGeneric(ce, JAVA_TO_HOST_XFORMER_VLC_TEMPLATE,
-                mCoxbHelper.getBoundTypeName(ce) + "JavaToHostTransformer.java");
+                ce.getJaxbName() + "JavaToHostTransformer.java");
     }
 
     /**
@@ -167,7 +167,7 @@ public class CoxbGenWriter {
     public final void writeTransformers(
             final ICobolComplexBinding ce) throws CodeGenException {
         writeGeneric(ce, HOST_XFORMERS_VLC_TEMPLATE,
-                mCoxbHelper.getBoundTypeName(ce) + "Transformers.java");
+                ce.getJaxbName() + "Transformers.java");
     }
 
     /**

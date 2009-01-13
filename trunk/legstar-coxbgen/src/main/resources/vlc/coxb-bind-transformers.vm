@@ -10,14 +10,14 @@ import ${binding.getValueObjectClassName()};
  * Transformer provider for ${valueObjectType} java data object.
  *
  */
-public class ${valueObjectType}Transformers extends AbstractTransformers {
+public class ${binding.jaxbName}Transformers extends AbstractTransformers {
 
     /**
      * Create a set of directional transformers.
      */
-    public ${valueObjectType}Transformers() {
-        super(new ${valueObjectType}JavaToHostTransformer(),
-                new ${valueObjectType}HostToJavaTransformer());
+    public ${binding.jaxbName}Transformers() {
+        super(new ${binding.jaxbName}JavaToHostTransformer(),
+                new ${binding.jaxbName}HostToJavaTransformer());
     }
 
     /**

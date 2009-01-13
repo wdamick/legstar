@@ -13,8 +13,6 @@ package com.legstar.coxb.gen;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -128,28 +126,6 @@ public class AbstractTestTemplate extends TestCase {
                 file.delete();
             }
         }
-    }
-
-    /**
-     * Assuming the local machine is running JBoss ESB.
-     * @return the local machine IP address
-     */
-    public String getLocalIPAddress() {
-        try {
-            InetAddress addr = InetAddress.getLocalHost();
-            byte[] ipAddr = addr.getAddress();
-            String ipAddrStr = "";
-            for (int i = 0; i < ipAddr.length; i++) {
-                if (i > 0) {
-                    ipAddrStr += ".";
-                }
-                ipAddrStr += ipAddr[i] & 0xFF;
-            }
-            return ipAddrStr;
-        } catch (UnknownHostException e) {
-            return "";
-        }
-
     }
 
 }

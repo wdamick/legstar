@@ -684,10 +684,10 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("import com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply;"));
         assertTrue(resStr.contains("* Transformer provider for JVMQueryReply java data object."));
         assertTrue(resStr.contains(
-                "public class JVMQueryReplyTransformers extends AbstractTransformers {"));
-        assertTrue(resStr.contains("public JVMQueryReplyTransformers() {"));
-        assertTrue(resStr.contains("super(new JVMQueryReplyJavaToHostTransformer(),"));
-        assertTrue(resStr.contains("new JVMQueryReplyHostToJavaTransformer());"));
+                "public class JvmQueryReplyTransformers extends AbstractTransformers {"));
+        assertTrue(resStr.contains("public JvmQueryReplyTransformers() {"));
+        assertTrue(resStr.contains("super(new JvmQueryReplyJavaToHostTransformer(),"));
+        assertTrue(resStr.contains("new JvmQueryReplyHostToJavaTransformer());"));
         assertTrue(resStr.contains("public byte[] toHost(final Object valueObject, final String hostCharset)"));
         assertTrue(resStr.contains("public byte[] toHost(final Object valueObject)"));
         assertTrue(resStr.contains("public JVMQueryReply toJava(final byte[] hostData, final String hostCharset)"));
