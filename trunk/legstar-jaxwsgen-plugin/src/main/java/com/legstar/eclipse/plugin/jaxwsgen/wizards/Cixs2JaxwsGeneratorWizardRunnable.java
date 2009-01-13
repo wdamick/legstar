@@ -64,13 +64,13 @@ extends AbstractCixsGeneratorWizardRunnable {
         Cixs2JaxwsGeneratorWizardPage page =
             (Cixs2JaxwsGeneratorWizardPage) cixsGenWizardPage;
         setModel(page, genModel);
-        genModel.getCixsJaxwsService().setWsdlUrl(
+        genModel.getWebServiceTargetParameters().setWsdlUrl(
                 page.getWsdlUrl());
-        genModel.getCixsJaxwsService().setWsdlServiceName(
+        genModel.getWebServiceTargetParameters().setWsdlServiceName(
                 page.getWsdlServiceName());
-        genModel.getCixsJaxwsService().setWsdlPortName(
+        genModel.getWebServiceTargetParameters().setWsdlPortName(
                 page.getWsdlPortName());
-        genModel.getCixsJaxwsService().setTargetNamespace(
+        genModel.getWebServiceTargetParameters().setWsdlTargetNamespace(
                 page.getTargetNamespace());
         genModel.setTargetCobolDir(new File(page.getTargetCobolDir()));
         genModel.setTargetWarDir(new File(page.getTargetWarDir()));
