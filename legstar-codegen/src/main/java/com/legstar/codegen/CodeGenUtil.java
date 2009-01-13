@@ -15,8 +15,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -492,5 +494,27 @@ public final class CodeGenUtil {
             }
         }
         return propertyName;
+    }
+
+    /**
+     * Retrieve the IP address of the generation machine .
+     * @return the local machine IP address
+     */
+    public static String getLocalIPAddress() {
+        try {
+            InetAddress addr = InetAddress.getLocalHost();
+            byte[] ipAddr = addr.getAddress();
+            String ipAddrStr = "";
+            for (int i = 0; i < ipAddr.length; i++) {
+                if (i > 0) {
+                    ipAddrStr += ".";
+                }
+                ipAddrStr += ipAddr[i] & 0xFF;
+            }
+            return ipAddrStr;
+        } catch (UnknownHostException e) {
+            return "";
+        }
+
     }
 }
