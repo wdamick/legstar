@@ -67,17 +67,19 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
     public void testInvalidInputXsdFile() throws Exception {
         /* No xsd File */
         try {
-            getXsdCobolAnnotator().setJaxbPackageName(JAXB_PACKAGE_NAME);
-            getXsdCobolAnnotator().execute();
+            XsdCobolAnnotator xsdCobolAnnotator = createXsdCobolAnnotator();
+            xsdCobolAnnotator.setJaxbPackageName(JAXB_PACKAGE_NAME);
+            xsdCobolAnnotator.execute();
             fail("testInvalidInputXsdFile");
         } catch (BuildException e) {
             assertEquals("Invalid input XML schema", e.getMessage());
         }
 
-        /* Non existant xsd File */
-        getXsdCobolAnnotator().setInputXsdFile(new File("nonexistant.xsd"));
         try {
-            getXsdCobolAnnotator().execute();
+            /* Non existant xsd File */
+            XsdCobolAnnotator xsdCobolAnnotator = createXsdCobolAnnotator();
+            xsdCobolAnnotator.setInputXsdFile(new File("nonexistant.xsd"));
+            xsdCobolAnnotator.execute();
             fail("testInvalidInputXsdFile");
         } catch (BuildException e) {
             assertEquals("Invalid input XML schema", e.getMessage());
@@ -90,22 +92,21 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
      * @throws Exception Any exception encountered
      */
     public void testTargetXsdFileName() throws Exception {
-        getXsdCobolAnnotator().setInputXsdUri(getSchemaFileURI("SimpleContentRestriction.xsd"));
-        getXsdCobolAnnotator().setJaxbPackageName(JAXB_PACKAGE_NAME);
         try {
-            getXsdCobolAnnotator().execute();
-            assertEquals("SimpleContentRestriction.xsd", getXsdCobolAnnotator().getTargetXsdFileName());
+            XsdCobolAnnotator xsdCobolAnnotator = createXsdCobolAnnotator();
+            xsdCobolAnnotator.setInputXsdUri(getSchemaFileURI("SimpleContentRestriction.xsd"));
+            xsdCobolAnnotator.setJaxbPackageName(JAXB_PACKAGE_NAME);
+            xsdCobolAnnotator.execute();
+            assertEquals("SimpleContentRestriction.xsd", xsdCobolAnnotator.getTargetXsdFileName());
         } catch (BuildException e) {
             fail(e.getMessage());
         }
-        /* Maven builds might fail if Tomcat was not given enough time to reload
-         * the war */
-        Thread.sleep(10000);
-        getXsdCobolAnnotator().setInputXsdUri(new URI("http://megamouss:8080/jaxws-cultureinfo/getinfo?xsd=1"));
-        getXsdCobolAnnotator().setTargetXsdFileName(null);
         try {
-            getXsdCobolAnnotator().execute();
-            assertEquals("getinfo.xsd", getXsdCobolAnnotator().getTargetXsdFileName());
+            XsdCobolAnnotator xsdCobolAnnotator = createXsdCobolAnnotator();
+            xsdCobolAnnotator.setInputXsdUri(new URI("http://soap.search.msn.com/webservices.asmx?wsdl"));
+            xsdCobolAnnotator.setTargetXsdFileName(null);
+            xsdCobolAnnotator.execute();
+            assertEquals("webservices.asmx.xsd", xsdCobolAnnotator.getTargetXsdFileName());
         } catch (BuildException e) {
             fail(e.getMessage());
         }
@@ -117,10 +118,11 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
      * @throws Exception Any exception encountered
      */
     public void testCobolNamespaceAdded() throws Exception {
-        getXsdCobolAnnotator().setInputXsdUri(getSchemaFileURI("SimpleContentRestriction.xsd"));
-        getXsdCobolAnnotator().setJaxbPackageName(JAXB_PACKAGE_NAME);
+        XsdCobolAnnotator xsdCobolAnnotator = createXsdCobolAnnotator();
+        xsdCobolAnnotator.setInputXsdUri(getSchemaFileURI("SimpleContentRestriction.xsd"));
+        xsdCobolAnnotator.setJaxbPackageName(JAXB_PACKAGE_NAME);
         try {
-            getXsdCobolAnnotator().execute();
+            xsdCobolAnnotator.execute();
             DocumentBuilderFactory docFac = DocumentBuilderFactory.newInstance();
             docFac.setNamespaceAware(true);
             DocumentBuilder builder = docFac.newDocumentBuilder();
@@ -149,14 +151,15 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
      * @throws Exception Any exception encountered
      */
     public void testAddRootElements() throws Exception {
-        getXsdCobolAnnotator().setInputXsdUri(getSchemaFileURI("noRootElementschema.xsd"));
-        getXsdCobolAnnotator().setJaxbPackageName(JAXB_PACKAGE_NAME);
+        XsdCobolAnnotator xsdCobolAnnotator = createXsdCobolAnnotator();
+        xsdCobolAnnotator.setInputXsdUri(getSchemaFileURI("noRootElementschema.xsd"));
+        xsdCobolAnnotator.setJaxbPackageName(JAXB_PACKAGE_NAME);
         Map < QName, QName > rootElements = new HashMap < QName, QName >();
         rootElements.put(new QName("http://legsem.test", "jvmQueryReply"), 
                 new QName("http://legsem.test", "jvmQueryReplyElement"));
-        getXsdCobolAnnotator().setRootElements(rootElements);
+        xsdCobolAnnotator.setRootElements(rootElements);
         try {
-            getXsdCobolAnnotator().execute();
+            xsdCobolAnnotator.execute();
             String result = getSource(GEN_DIR, "noRootElementschema.xsd");
             //assertTrue(result.contains("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"));
             assertTrue(result.contains("<xs:element name=\"jvmQueryReplyElement\" type=\"tns:jvmQueryReply\">"));
@@ -180,14 +183,15 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
      * @throws Exception Any exception encountered
      */
     public void testMappingToJavaClassNames() throws Exception {
-        getXsdCobolAnnotator().setInputXsdUri(getSchemaFileURI("complexAndsimpleTypesSchema.xsd"));
-        getXsdCobolAnnotator().setJaxbPackageName(JAXB_PACKAGE_NAME);
+        XsdCobolAnnotator xsdCobolAnnotator = createXsdCobolAnnotator();
+        xsdCobolAnnotator.setInputXsdUri(getSchemaFileURI("complexAndsimpleTypesSchema.xsd"));
+        xsdCobolAnnotator.setJaxbPackageName(JAXB_PACKAGE_NAME);
         Map < String, String > complexTypeToJavaClassMap = new HashMap < String, String >();
         complexTypeToJavaClassMap.put("jvmQueryReply", "com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply");
         complexTypeToJavaClassMap.put("jvmQueryRequest", "com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest");
-        getXsdCobolAnnotator().setComplexTypeToJavaClassMap(complexTypeToJavaClassMap);
+        xsdCobolAnnotator.setComplexTypeToJavaClassMap(complexTypeToJavaClassMap);
         try {
-            getXsdCobolAnnotator().execute();
+            xsdCobolAnnotator.execute();
             String result = getSource(GEN_DIR, "complexAndsimpleTypesSchema.xsd");
             assertTrue(result.contains("<xs:element"
                     + " minOccurs=\"0\""
@@ -212,10 +216,11 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
      * @throws Exception Any exception encountered
      */
     public void testSimpleAttributesInsertion() throws Exception {
-        getXsdCobolAnnotator().setInputXsdUri(getSchemaFileURI("singleSimpleElement.xsd"));
-        getXsdCobolAnnotator().setJaxbPackageName(JAXB_PACKAGE_NAME);
+        XsdCobolAnnotator xsdCobolAnnotator = createXsdCobolAnnotator();
+        xsdCobolAnnotator.setInputXsdUri(getSchemaFileURI("singleSimpleElement.xsd"));
+        xsdCobolAnnotator.setJaxbPackageName(JAXB_PACKAGE_NAME);
         try {
-            getXsdCobolAnnotator().execute();
+            xsdCobolAnnotator.execute();
             String result = getSource(GEN_DIR, "singleSimpleElement.xsd");
             assertTrue(result.contains("<cb:cobolElement"));
             assertTrue(result.contains("cobolName=\"CreditCardNumber\""));
@@ -231,11 +236,12 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
      * @throws Exception Any exception encountered
      */
     public void testNamespaceReplacement() throws Exception {
-        getXsdCobolAnnotator().setInputXsdUri(getSchemaFileURI("complexAndSimpleTypesSchema.xsd"));
-        getXsdCobolAnnotator().setJaxbPackageName(JAXB_PACKAGE_NAME);
-        getXsdCobolAnnotator().setNamespace("http://a/new/namespace");
+        XsdCobolAnnotator xsdCobolAnnotator = createXsdCobolAnnotator();
+        xsdCobolAnnotator.setInputXsdUri(getSchemaFileURI("complexAndSimpleTypesSchema.xsd"));
+        xsdCobolAnnotator.setJaxbPackageName(JAXB_PACKAGE_NAME);
+        xsdCobolAnnotator.setNamespace("http://a/new/namespace");
         try {
-            getXsdCobolAnnotator().execute();
+            xsdCobolAnnotator.execute();
             String result = getSource(GEN_DIR, "complexAndSimpleTypesSchema.xsd");
             assertTrue(result.contains("targetNamespace=\"http://a/new/namespace\""));
             assertTrue(result.contains("xmlns:tns=\"http://a/new/namespace\""));
@@ -587,14 +593,15 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
     private Document getDocument(final String xsdFileName, final String jaxbTypeClassesSuffix) {
         Document doc = null;
         try {
-            getXsdCobolAnnotator().setInputXsdUri(getSchemaFileURI(xsdFileName));
-            getXsdCobolAnnotator().setJaxbPackageName(JAXB_PACKAGE_NAME);
-            getXsdCobolAnnotator().setJaxbTypeClassesSuffix(jaxbTypeClassesSuffix);
-            getXsdCobolAnnotator().execute();
+            XsdCobolAnnotator xsdCobolAnnotator = createXsdCobolAnnotator();
+            xsdCobolAnnotator.setInputXsdUri(getSchemaFileURI(xsdFileName));
+            xsdCobolAnnotator.setJaxbPackageName(JAXB_PACKAGE_NAME);
+            xsdCobolAnnotator.setJaxbTypeClassesSuffix(jaxbTypeClassesSuffix);
+            xsdCobolAnnotator.execute();
             DocumentBuilderFactory docFac = DocumentBuilderFactory.newInstance();
             docFac.setNamespaceAware(true);
             DocumentBuilder builder = docFac.newDocumentBuilder();
-            doc = builder.parse(new File(GEN_DIR, getXsdCobolAnnotator().getTargetXsdFileName()));
+            doc = builder.parse(new File(GEN_DIR, xsdCobolAnnotator.getTargetXsdFileName()));
         } catch (ParserConfigurationException e) {
             fail(e.getMessage());
         } catch (SAXException e) {
