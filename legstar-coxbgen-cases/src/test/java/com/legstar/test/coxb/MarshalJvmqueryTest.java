@@ -25,7 +25,8 @@ import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.impl.visitor.CobolMarshalVisitor;
-import com.legstar.test.coxb.jvmquery.bind.JVMQueryReplyJavaToHostTransformer;
+import com.legstar.test.coxb.jvmquery.bind.JvmQueryReplyJavaToHostTransformer;
+import com.legstar.test.coxb.jvmquery.bind.JvmQueryRequestJavaToHostTransformer;
 import com.legstar.test.coxb.jvmquery.bind.JvmQueryReplyBinding;
 import com.legstar.xsdc.test.cases.JvmqueryCases;
 import com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply;
@@ -45,7 +46,7 @@ public class MarshalJvmqueryTest extends TestCase {
     public void testJvmquery() throws Exception {
 
         // Create and populate an instance of an object (JAXB annotated)
-        JVMQueryReply jvmQueryReply = JvmqueryCases.getJavaObject();
+        JVMQueryReply jvmQueryReply = JvmqueryCases.getJavaObjectReplyFrance();
 
         ICobolComplexBinding binding = new JvmQueryReplyBinding(jvmQueryReply);
         assertEquals("class com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply", binding.getJaxbType().toString());
@@ -60,7 +61,7 @@ public class MarshalJvmqueryTest extends TestCase {
 
         /* check */
         assertEquals(196,  mv.getOffset());
-        assertEquals(JvmqueryCases.getHostBytesHex().substring(0, 131),
+        assertEquals(JvmqueryCases.getHostBytesHexReplyFrance().substring(0, 131),
                 HostData.toHexString(hostBytes).substring(0, 131));
 
     }
@@ -71,9 +72,14 @@ public class MarshalJvmqueryTest extends TestCase {
      */
     public void testJavaToHostTransformer() throws Exception {
 
-        JVMQueryReplyJavaToHostTransformer transformer = new JVMQueryReplyJavaToHostTransformer();
-        String result = HostData.toHexString(transformer.transform(JvmqueryCases.getJavaObject()));
-        assertEquals(JvmqueryCases.getHostBytesHex().substring(0, 131),
+        JvmQueryReplyJavaToHostTransformer transformer = new JvmQueryReplyJavaToHostTransformer();
+        String result = HostData.toHexString(transformer.transform(JvmqueryCases.getJavaObjectReplyFrance()));
+        assertEquals(JvmqueryCases.getHostBytesHexReplyFrance().substring(0, 131),
                 result.substring(0, 131));
+        
+        JvmQueryRequestJavaToHostTransformer transformer2 = new JvmQueryRequestJavaToHostTransformer();
+        result = HostData.toHexString(transformer2.transform(JvmqueryCases.getJavaObjectRequest()));
+        assertEquals(JvmqueryCases.getHostBytesHexRequest(), result);
+        
     }
 }
