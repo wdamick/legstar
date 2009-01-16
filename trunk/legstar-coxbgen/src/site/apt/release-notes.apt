@@ -16,6 +16,10 @@ PREREQUISITES:
  included with the COBOL Binding Runtime but can be replaced with user provided
  implementations if necessary.
  
+ JAXB implementation must be at least 2.1.3 compliant. If your JRE is oldest
+ than 1.6.4, the JAXB version included in the JRE is too old.
+
+ 
  In order to use the COBOL Binding Generator, JAXB annotated classes must first
  be generated as described in {{{../legstar-jaxbgen}JAXB COBOL Annotator}}.
  The JAXB Generator is included with the COBOL Binding Generator.
