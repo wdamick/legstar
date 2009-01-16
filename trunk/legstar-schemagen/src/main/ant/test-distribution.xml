@@ -1,7 +1,8 @@
 <!-- =================================================================================
-     This script builds the sample that is delivered with the assemblies.
+     This script tests the distribution file. It unzips the distro to a temporary
+     location and runs the quickstarts.
  -->
-<project basedir="../../.." default="buildSample" name="build-sample">
+<project basedir="../../.." default="testDistro" name="build-sample">
 
 	<!-- ===========================================================  -->
 	<!-- Setup environment
@@ -9,8 +10,8 @@
 	<target name="init">
         <xmlproperty file="${basedir}/pom.xml"/>
 		
-		<!-- Sample project location  -->
-	 	<property name="sample.project" value="${basedir}/../legstar-samples" />
+		<!-- Temporary location  -->
+	 	<property name="test.dir" value="target/test-distro" />
 		<!-- Distribution name  -->
         <property name="dist.name" value="${project.artifactId}-${project.version}" />
 		<!-- Distribution zip file  -->
@@ -19,27 +20,25 @@
 	 	<property name="dist.dir" value="${basedir}/target" />
 		<!-- Distribution zip file   -->
 	 	<property name="zip.file" value="${dist.dir}/${dist.zip}" />
-		<!-- Sample final destination   -->
-	 	<property name="sample.dest" value="${sample.project}/schema" />
+		<!-- Distribution sample location   -->
+	 	<property name="sample.dir" value="${test.dir}/${dist.name}/samples/quickstarts/adapter_lsfileae" />
 		
 	</target>
 
 	<!-- ===========================================================  -->
-	<!-- Build the sample
+	<!-- Build the sample and check that a schema was generated
 	  -->
-	<target name="buildSample" depends="init">
-		<mkdir dir="${sample.dest}"/> 
-		<unzip src="${zip.file}" dest="${sample.project}"/>
+	<target name="testDistro" depends="init">
+		<unzip src="${zip.file}" dest="${test.dir}"/>
 		<exec executable="cmd">
 		    <arg value="/c"/>
 		    <arg value="ant.bat"/>
 		    <arg value="-f"/>
-		    <arg value="${sample.project}/${dist.name}/ant/build-cob2xs.xml"/>
+		    <arg value="${sample.dir}/build-cob2xs.xml"/>
 		</exec>
-		<copy todir="${sample.dest}">
-			<fileset dir="${sample.project}/${dist.name}/schema"/>
-		</copy>
-        <delete dir="${sample.project}/${dist.name}" includeEmptyDirs="true" quiet="true"/>
+		<loadfile property="message" srcFile="${sample.dir}/schema/lsfileae.xsd"/>
+		<echo message="${message}"/>
+
 	</target>
 	
 </project>

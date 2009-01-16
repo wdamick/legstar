@@ -24,8 +24,9 @@
 
         <!-- cobol source files -->
         <copy todir="target/zos/COBOL">
-            <fileset dir="${basedir}/src/main/zos/cobol"/>
-            <globmapper from="*.cbl" to="*"/>
+            <fileset dir="${basedir}/src/test/cobol">
+            	<include name="LSFILEAE"/>
+            </fileset>
         </copy>
     
         <ftp server="${legstarZosHost}"

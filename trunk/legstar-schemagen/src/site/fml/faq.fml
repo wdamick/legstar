@@ -6,7 +6,18 @@
    
     <faq id="footer-company">
       <question>
-       Does Schemagen resolves COPY statements?
+       Why am I getting UnsatisfiedLinkError?
+      </question>
+      <answer>
+       Most likely the LegStar distribution bin folder is not on your system path.
+       The COBOL parser is written in C and the libraries need to be accessible.
+       You need to set your LD_LIBRARY_PATH (PATH on Windows) environment variable
+       so that it contains $LEGSTAR_HOME/bin (%LEGSTAR_HOME%/bin on Windows).
+      </answer>
+    </faq>
+    <faq id="footer-company">
+      <question>
+       Does Schemagen resolve COPY statements?
       </question>
       <answer>
        No. If the COBOL source file refers to an external source file using a COPY clause, 

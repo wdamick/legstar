@@ -255,7 +255,7 @@ public class COXBSchemaGeneratorTestCase extends TestCase {
         COXBSchemaGenerator gen = new COXBSchemaGenerator();
         try {
             gen.setSourceCobolFilePath(
-                    (new File("src/main/zos/cobol/LSFILEAE.cbl")).getAbsolutePath());
+                    (new File("src/test/cobol/LSFILEAE")).getAbsolutePath());
             gen.setTargetDir(GEN_XSD_DIR);
             gen.setTargetXsdFileName("/xsd.file");
             gen.setNamespace(NAMESPACE);
@@ -272,7 +272,7 @@ public class COXBSchemaGeneratorTestCase extends TestCase {
         COXBSchemaGenerator gen = new COXBSchemaGenerator();
         try {
             gen.setSourceCobolFilePath(
-                    (new File("src/main/zos/cobol/LSFILEAE.cbl")).getAbsolutePath());
+                    (new File("src/test/cobol/LSFILEAE")).getAbsolutePath());
             gen.setTargetDir(GEN_XSD_DIR);
             gen.setTargetXsdFileName("/xsd.file");
             gen.setNamespace(NAMESPACE);
