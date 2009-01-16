@@ -23,7 +23,7 @@
         <!-- ant scripts  -->
         <fileSet>
             <directory>${project.basedir}/../legstar-schemagen/src/main/resources/ant</directory>
-            <outputDirectory>ant</outputDirectory>
+            <outputDirectory>samples/quickstarts/adapter_lsfileae</outputDirectory>
             <includes>
                 <include>*.xml</include>
             </includes>
@@ -34,21 +34,11 @@
     <files>
         <!-- Cobol sample. The name is lowercased to ease build-cob2xs.xml  -->
         <file>
-            <source>${project.basedir}/../legstar-schemagen/src/main/zos/cobol/LSFILEAE.cbl</source>
-            <outputDirectory>cobol</outputDirectory>
+            <source>${project.basedir}/../legstar-schemagen/src/test/cobol/LSFILEAE</source>
+            <outputDirectory>samples/quickstarts/adapter_lsfileae/cobol</outputDirectory>
             <destName>lsfileae.cbl</destName>
          </file>
         
-        <file>
-            <source>${project.basedir}/../legstar-schemagen/NOTICE</source>
-            <outputDirectory>/</outputDirectory>
-            <destName>schemagen-NOTICE</destName>
-        </file>
-        <file>
-           <source>${project.basedir}/../legstar-schemagen/src/site/apt/release-notes.apt</source>
-           <outputDirectory>/</outputDirectory>
-           <destName>schemagen-README</destName>
-        </file>
     </files>
 
 </component>

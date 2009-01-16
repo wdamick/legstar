@@ -14,7 +14,7 @@
  		<table border="1">
 			<tr><th>Module</th><th>Format</th><th>Link</th></tr>
 			<tr><td>COBOL Structures Mapping Generator</td>
-            <td>zip file</td><td><a href="../maven/repo/com/legsem/legstar/legstar-schemagen/1.2.3-SNAPSHOT/legstar-schemagen-1.2.3-SNAPSHOT-bin.zip">legstar-schemagen-1.2.3-SNAPSHOT-bin.zip</a></td></tr>
+            <td>zip file</td><td><a href="../maven/repo/com/legsem/legstar/legstar-schemagen/@LEGSTAR-VERSION@/legstar-schemagen-@LEGSTAR-VERSION@-bin.zip">legstar-schemagen-@LEGSTAR-VERSION@-bin.zip</a></td></tr>
 		</table>
 
     </section>

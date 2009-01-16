@@ -1,9 +1,9 @@
 <!-- =================================================================================
      This script generates an XML schema from a cobol source file. Since this
      script uses JNI and native libraries, you want to make sure that the
-     distribution bin directory is in the PATH.
+     distribution bin directory is on the system path.
  -->
-<project basedir=".." default="generateXMLSchema" name="generate-xml-schema">
+<project basedir="." default="generateXMLSchema" name="generate-xml-schema">
 
 	<!-- ===========================================================  -->
 	<!-- Setup environment
@@ -26,7 +26,7 @@
 		<!-- Schema generator ant task  -->
 		<taskdef name="schemagen" classname="com.legstar.schemagen.COXBSchemaGenerator">
 			<classpath>
-		       <fileset dir="${basedir}" includes="lib/*.jar"/>
+		       <fileset dir="${basedir}/../../.." includes="lib/*.jar"/>
 		    </classpath>
 		</taskdef> 
 		
