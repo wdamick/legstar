@@ -14,13 +14,13 @@ import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.coxb.impl.visitor.CobolUnmarshalVisitor;
+import com.legstar.coxb.util.Utils;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
 
 import junit.framework.TestCase;
 import com.legstar.test.coxb.redsimpt.ObjectFactory;
 import com.legstar.test.coxb.redsimpt.Dfhcommarea;
-import com.legstar.util.JaxbUtil;
 
 public class UnmarshalRedsimptTest extends TestCase {
 	/**
@@ -41,7 +41,7 @@ public class UnmarshalRedsimptTest extends TestCase {
 		byte[] hostBytes = HostData.toByteArray("f0f1f2f3f4f5f6f7f8c1f1f2f3f4f5f6f7f8");
 		CobolUnmarshalVisitor uv = new CobolUnmarshalVisitor(hostBytes, 0, cc);
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory,
-				JaxbUtil.loadClass("com.legstar.test.coxb.redsimpt.Dfhcommarea"));
+		        Utils.loadClass("com.legstar.test.coxb.redsimpt.Dfhcommarea"));
 		ccem.accept(uv);
 		Dfhcommarea dfhcommarea = (Dfhcommarea) ccem.getObjectValue(Dfhcommarea.class);
 		assertEquals("012345678A12345678", dfhcommarea.getCDefinition1());

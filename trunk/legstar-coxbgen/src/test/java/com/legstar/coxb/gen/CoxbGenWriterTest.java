@@ -14,7 +14,7 @@ import com.legstar.codegen.CodeGenUtil;
 import com.legstar.coxb.ICobolArrayComplexBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
-import com.legstar.util.JaxbUtil;
+import com.legstar.coxb.util.Utils;
 
 /**
  * Test the code generation writer.
@@ -38,7 +38,7 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
 
         CComplexReflectBinding ce = new CComplexReflectBinding(
                 objectFactory,
-                JaxbUtil.loadClass("com.legstar.test.coxb.alltypes.Dfhcommarea"));
+                Utils.loadClass("com.legstar.test.coxb.alltypes.Dfhcommarea"));
 
         CoxbGenModel coxbGenContext = new CoxbGenModel();
         coxbGenContext.setCoxbSrcDir(GEN_SRC_DIR);
@@ -63,7 +63,7 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
 
         CComplexReflectBinding ce = new CComplexReflectBinding(
                 objectFactory,
-                JaxbUtil.loadClass("com.legstar.test.coxb.redsimpt.Dfhcommarea"));
+                Utils.loadClass("com.legstar.test.coxb.redsimpt.Dfhcommarea"));
 
         ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList().get(0);
 
@@ -90,7 +90,7 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
 
         CComplexReflectBinding ce = new CComplexReflectBinding(
                 objectFactory,
-                JaxbUtil.loadClass("com.legstar.test.coxb.arrayssm.Dfhcommarea"));
+                Utils.loadClass("com.legstar.test.coxb.arrayssm.Dfhcommarea"));
 
         ICobolArrayComplexBinding ca = (ICobolArrayComplexBinding) ce.getChildrenList().get(1);
 
@@ -117,7 +117,7 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
 
         CComplexReflectBinding ce = new CComplexReflectBinding(
                 objectFactory,
-                JaxbUtil.loadClass("com.legstar.test.coxb.redsimpt.Dfhcommarea"));
+                Utils.loadClass("com.legstar.test.coxb.redsimpt.Dfhcommarea"));
 
         ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList().get(0);
 
@@ -147,7 +147,7 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
 
         CComplexReflectBinding ce = new CComplexReflectBinding(
                 objectFactory,
-                JaxbUtil.loadClass("com.legstar.test.coxb.lsfileae.Dfhcommarea"));
+                Utils.loadClass("com.legstar.test.coxb.lsfileae.Dfhcommarea"));
 
         CoxbGenModel coxbGenContext = new CoxbGenModel();
         coxbGenContext.setCoxbSrcDir(GEN_SRC_DIR);
@@ -181,7 +181,7 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
 
         CComplexReflectBinding ce = new CComplexReflectBinding(
                 objectFactory,
-                JaxbUtil.loadClass("com.legstar.test.coxb.lsfileae.Dfhcommarea"));
+                Utils.loadClass("com.legstar.test.coxb.lsfileae.Dfhcommarea"));
 
         CoxbGenModel coxbGenContext = new CoxbGenModel();
         coxbGenContext.setCoxbSrcDir(GEN_SRC_DIR);
@@ -215,7 +215,7 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
 
         CComplexReflectBinding ce = new CComplexReflectBinding(
                 objectFactory,
-                JaxbUtil.loadClass("com.legstar.test.coxb.lsfileae.Dfhcommarea"));
+                Utils.loadClass("com.legstar.test.coxb.lsfileae.Dfhcommarea"));
 
         CoxbGenModel coxbGenContext = new CoxbGenModel();
         coxbGenContext.setCoxbSrcDir(GEN_SRC_DIR);

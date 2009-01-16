@@ -36,6 +36,7 @@ import com.legstar.coxb.impl.CArrayFloatBinding;
 import com.legstar.coxb.impl.CDoubleBinding;
 import com.legstar.coxb.impl.CArrayDoubleBinding;
 import com.legstar.coxb.impl.RedefinesMap;
+import com.legstar.coxb.util.Utils;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -285,7 +286,7 @@ public class CComplexReflectBinding extends CComplexBinding {
             jaxbTypeName = jaxbTypeName.substring(
                     jaxbTypeName.indexOf("<") + 1, jaxbTypeName.length() - 1);
             try {
-                javaClass = JaxbUtil.loadClass(jaxbTypeName);
+                javaClass = Utils.loadClass(jaxbTypeName);
             } catch (ClassNotFoundException e) {
                 throw new ReflectBindingException(e);
             }

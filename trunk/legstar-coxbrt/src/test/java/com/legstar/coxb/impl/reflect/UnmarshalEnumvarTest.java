@@ -14,6 +14,7 @@ import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.coxb.impl.visitor.CobolUnmarshalVisitor;
+import com.legstar.coxb.util.Utils;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
 
@@ -21,7 +22,6 @@ import junit.framework.TestCase;
 import com.legstar.test.coxb.enumvar.ObjectFactory;
 import com.legstar.test.coxb.enumvar.SearchRequestType;
 import com.legstar.test.coxb.enumvar.SafeSearchOptionsType; // Enum
-import com.legstar.util.JaxbUtil;
 
 public class UnmarshalEnumvarTest extends TestCase {
 	/**
@@ -48,7 +48,7 @@ public class UnmarshalEnumvarTest extends TestCase {
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory,
-				JaxbUtil.loadClass("com.legstar.test.coxb.enumvar.SearchRequestType"));
+		        Utils.loadClass("com.legstar.test.coxb.enumvar.SearchRequestType"));
 		ccem.accept(uv);
 		SearchRequestType searchRequest = (SearchRequestType) ccem.getObjectValue(SearchRequestType.class);
 		

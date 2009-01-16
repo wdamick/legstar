@@ -16,7 +16,7 @@ import java.util.Map;
 
 import org.apache.tools.ant.BuildException;
 
-import com.legstar.util.JaxbUtil;
+import com.legstar.coxb.util.Utils;
 
 /**
  * Test Java To Xsd Generator.
@@ -143,7 +143,7 @@ public class JavaToXsdCobolTaskTest extends AbstractTest {
     public void testComplexTypeToJavaMapping() throws Exception {
         final String targetFile = "JVMQueryReply.xsd";
         getJavaToXsdCobolTask().setNamespace("http://legstar.com");
-        Class < ? >[] classes = {JaxbUtil.loadClass("com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply")};
+        Class < ? >[] classes = {Utils.loadClass("com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply")};
         Map < String, String > complexTypeToJavaClassMap = new HashMap < String, String >();
 
         try {

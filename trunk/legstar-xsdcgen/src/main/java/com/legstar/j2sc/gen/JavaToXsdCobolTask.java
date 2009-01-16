@@ -34,8 +34,7 @@ import org.apache.tools.ant.BuildException;
 import org.xml.sax.SAXParseException;
 
 import com.legstar.codegen.tasks.SourceToXsdCobolTask;
-import com.legstar.util.JaxbUtil;
-import com.legstar.util.NameUtil;
+import com.legstar.coxb.util.Utils;
 import com.legstar.xsdc.gen.XsdCobolAnnotator;
 import com.sun.istack.NotNull;
 import com.sun.xml.bind.api.CompositeStructure;
@@ -130,7 +129,7 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
             mClassTypes = new ArrayList < Class < ? > >();
             for (RootClass className : mRootClassNames) {
                 String qualClassName = className.getName();
-                mClassTypes.add(JaxbUtil.loadClass(qualClassName));
+                mClassTypes.add(Utils.loadClass(qualClassName));
             }
         } catch (ClassNotFoundException e) {
             throw (new BuildException(e));
@@ -324,7 +323,7 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
                 /* Since the developer did not specify an XmlType, the standard
                  * jaxb naming will apply and the default namespace will be
                  * used. */
-                String jaxbName = NameUtil.toVariableName(
+                String jaxbName = Utils.toVariableName(
                         clazz.getSimpleName());
                 rootElements.put(new QName(getNamespace(), jaxbName),
                         new QName(getNamespace(), jaxbName + mElementSuffix));
@@ -333,7 +332,7 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
                  * use the default jaxb naming. */
                 String typeName = xmlType.name();
                 if (typeName .equals("##default")) {
-                    typeName = NameUtil.toVariableName(
+                    typeName = Utils.toVariableName(
                             clazz.getSimpleName());
                 }
                 String namespace = xmlType.namespace();
