@@ -3,32 +3,40 @@
  -----
  Fady Moussallam
  -----
- 01 August 2008
+ 14 Janvier 2009
  -----
 
-Mainframe to Web Service runtime (C2wsrt) overview
+Mainframe Proxy runtime (C2wsrt) overview
 
-  The LegStar C2wsrt project provides a servlet-based architecture that acts as a gateway for
-  mainframe systems, such as CICS, need to invoke remote Web Services.
+  The LegStar C2wsrt project provides a servlet-based runtime for proxies. A proxy is a service
+  that acts as an intermediary when mainframe programs need to consume Web Services or pure
+  Java objects (POJO).
   
-  For each target Web Service that needs to be exposed to Mainframe programs, there needs to
-  be a a proxy servlet that uses the C2wsrt runtime. Such proxy servlets are typically
-  generated using the {{{../legstar-cixsgen}Web Service Generator}}.   
+  For each target Web Service or POJO that needs to be exposed to Mainframe programs, there needs
+  to be a a proxy servlet that uses the C2wsrt runtime. Such proxy servlets are typically
+  generated using the {{{../legstar-cixsgen}Service Generator}}.   
 
-  Mainframe requests arrive as HTTP POST request on a servlet engine such as Tomcat. The content
-  of the HTTP POST request is binary and contains the EBCDIC request data sent from the host.
-  This means the host does not deal with XML or code page conversions.
+  Mainframe requests arrive as HTTP POST requests on a servlet engine such as Tomcat. The content
+  of the HTTP POST request is binary and contains the EBCDIC request data sent from the mainframe.
+  This means the mainframe does not deal with XML or code page conversions.
 
   C2wsrt extracts the raw EBCDIC data from the HTTP POST payload and uses the
-   {{{../legstar-coxbrt}COBOL Binding Runtime}} to marshal/unmarshal host data into XML.
+   {{{../legstar-coxbrt}COBOL Binding Runtime}} to marshal/unmarshal mainframe data into Java
+  or XML.
    
-  Once the request is expressed in XML, C2wsrt uses the standard 
-  {{{http://jcp.org/en/jsr/detail?id=224}JAXWS API}} to actually call the target Web Service.
-
-  Once an XML reply is received from the target web service, c2wsrt marshals the XML into a
-  host buffer and sends it back to the host program.
+  In the case of a target Web Service, once the request is expressed in XML, C2wsrt uses the
+  standard {{{http://jcp.org/en/jsr/detail?id=224}JAX-WS API}} to actually call the target Web
+  Service. Once an XML reply is received from the target web service, c2wsrt marshals the XML into
+  a mainframe buffer and sends it back to the mainframe program.
   
-  C2wsrt comes with a Mainframe library, written in C, that programs written in languages such as
-  COBOL can use to call the proxy servlet. The C library is found in the zos/C370 folder and
+  For target POJOs, C2wsrt converts the mainframe payload to Java and calls the target method
+  passing the Java object as argument. The method returns another Java object that C2wsrt converts
+  back to mainframe format and sends back in the HTTP reply body.
+  
+  Mainframe programs need an HTTP API to call the servlet. You can use the standard CICS APIs
+  for instance (DFHWBCLI or EXEC CICS WEB).  C2wsrt also comes with its own HTTP API if you
+  need one. The C library for the LegStar HTTP API (LSHTTAPI)is located in the zos/C370 folder.
+  
+  There are 2 quikstarts sample projects that
   COBOL sample client programs are in the zos/cobol folder.
   
