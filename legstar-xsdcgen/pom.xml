@@ -24,11 +24,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-coxbrt</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
         </dependency>

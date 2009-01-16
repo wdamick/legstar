@@ -30,7 +30,7 @@ import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.impl.visitor.CobolMarshalVisitor;
 import com.legstar.coxb.impl.visitor.CobolUnmarshalVisitor;
-import com.legstar.util.JaxbUtil;
+import com.legstar.coxb.util.Utils;
 
 /**
  * A helper class for testing cases.
@@ -64,7 +64,7 @@ public final class Util {
             final String jaxbTypeName) throws Exception {
         // Create a JAXB object factory
         String ofClassName = "com.legstar.test.coxb." + schemaName + ".ObjectFactory";
-        Class < ? > ofClass = JaxbUtil.loadClass(ofClassName);
+        Class < ? > ofClass = Utils.loadClass(ofClassName);
         Object of = ofClass.newInstance();
 
         // Create a JAXB object
@@ -98,13 +98,13 @@ public final class Util {
             final Object jaxbObject) throws Exception {
         // Create a complex binding
         String bindClassName = "com.legstar.test.coxb." + schemaName + ".bind." + jaxbTypeName + "Binding";
-        Class < ? > bindClass = JaxbUtil.loadClass(bindClassName);
+        Class < ? > bindClass = Utils.loadClass(bindClassName);
         Constructor < ? > constructor;
         if (jaxbObject == null) {
             constructor = bindClass.getConstructor();
             return constructor.newInstance();
         } else {
-            constructor = bindClass.getConstructor(JaxbUtil.loadClass(
+            constructor = bindClass.getConstructor(Utils.loadClass(
                     "com.legstar.test.coxb." + schemaName + "." + jaxbTypeName));
             return constructor.newInstance(jaxbObject);
         }

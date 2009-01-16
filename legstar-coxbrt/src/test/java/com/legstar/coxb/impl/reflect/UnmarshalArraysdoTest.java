@@ -14,13 +14,13 @@ import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.coxb.impl.visitor.CobolUnmarshalVisitor;
+import com.legstar.coxb.util.Utils;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
 
 import junit.framework.TestCase;
 import com.legstar.test.coxb.arraysdo.ObjectFactory;
 import com.legstar.test.coxb.arraysdo.Dfhcommarea;
-import com.legstar.util.JaxbUtil;
 
 public class UnmarshalArraysdoTest extends TestCase {
 	/**
@@ -47,7 +47,7 @@ public class UnmarshalArraysdoTest extends TestCase {
 
 		// Traverse the object structure, visiting each node with the visitor
 		CComplexReflectBinding ccem = new CComplexReflectBinding(objectFactory,
-				JaxbUtil.loadClass("com.legstar.test.coxb.arraysdo.Dfhcommarea"));
+		        Utils.loadClass("com.legstar.test.coxb.arraysdo.Dfhcommarea"));
 		ccem.accept(uv);
 		Dfhcommarea dfhcommarea = (Dfhcommarea) ccem.getObjectValue(Dfhcommarea.class);
 		

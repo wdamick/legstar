@@ -13,6 +13,8 @@ package com.legstar.util;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import com.legstar.coxb.util.Utils;
+
 /**
  * This immutable class holds the parameters that describe the relationship
  * between an XML element and a corresponding JAXB object. This same information
@@ -113,7 +115,7 @@ public class JAXBElementDescriptor {
     public final Object createObjectFactory()
     throws JAXBAnnotationException {
         try {
-            Class < ? > ofClass = JaxbUtil.loadClass(getJaxbPackageName()
+            Class < ? > ofClass = Utils.loadClass(getJaxbPackageName()
                     + ".ObjectFactory");
             return ofClass.newInstance();
         } catch (ClassNotFoundException e) {
@@ -133,7 +135,7 @@ public class JAXBElementDescriptor {
     public Class < ? > loadJaxbClass() throws ClassNotFoundException {
         String className = JaxbUtil.getClassName(getJaxbPackageName(),
                 getJaxbType());
-        return JaxbUtil.loadClass(className);
+        return Utils.loadClass(className);
     }
 
     /**
