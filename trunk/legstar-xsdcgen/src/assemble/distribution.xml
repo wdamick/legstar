@@ -15,6 +15,16 @@
             <outputDirectory>/</outputDirectory>
             <destName>LICENSE</destName>
         </file>
+        <file>
+            <source>${project.basedir}/../legstar-xsdcgen/NOTICE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>NOTICE</destName>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-xsdcgen/src/site/apt/release-notes.apt</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>README</destName>
+        </file>
     </files>
 
     <dependencySets>

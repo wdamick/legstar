@@ -1,7 +1,7 @@
 <!-- =================================================================================
      This script generates a Mapping XML Schema from an XML Schema or WSDL.
   -->
-<project basedir=".." default="annotateXSD" name="annotate-XSD">
+<project basedir="." default="annotateXSD" name="annotate-XSD">
 
   <!-- ===========================================================  -->
   <!-- Setup environment
@@ -13,16 +13,16 @@
     <!-- URI for input XML schema or WSDL  -->
     <property name="in.uri" value="http://localhost:8080/jaxws-cultureinfo/getinfo?xsd=1" />
     <!-- Target location for generated XML schema   -->
-    <property name="schema.dir" value="schema" />
+    <property name="xsd.dir" value="schema" />
     <!-- Name of generated XSD file  -->
-    <property name="gen.file.name" value="${schema.name}.xsd" />
+    <property name="xsd.filename" value="${schema.name}.xsd" />
     <!-- Target package for generated JAXB classes   -->
     <property name="jaxb.package.name" value="com.legstar.test.coxb.${schema.name}" />
       
     <!-- Classpath setting -->
     <path id="classpath">
-        <fileset dir="${basedir}" includes="lib/*.jar" />
-      </path>
+        <fileset dir="${basedir}/../../.." includes="lib/*.jar" />
+    </path>
 
     <!-- XSD/WSDL Mapping Generator ant task -->
     <taskdef name="xsdcgen"
@@ -36,14 +36,14 @@
     -->
   <target name="annotateXSD" depends="init">
     <echo message="Generating annotated schema for ${in.uri}" />
-    <mkdir dir="${schema.dir}"/>
+    <mkdir dir="${xsd.dir}"/>
     <xsdcgen 
       inputXsdUri="${in.uri}"
-      targetDir="${schema.dir}"
-      targetXsdFileName="${gen.file.name}"
+      targetDir="${xsd.dir}"
+      targetXsdFileName="${xsd.filename}"
       jaxbPackageName="${jaxb.package.name}"  
     />
-    <echo message="XML Schema successfully generated ${schema.dir}/${gen.file.name}" />
+    <echo message="XML Schema successfully generated ${xsd.dir}/${xsd.filename}" />
   </target>
 
 </project>
