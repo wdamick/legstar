@@ -1,38 +1,32 @@
 <component>
 
+    <files>
+        <!-- sample generation ant scripts  -->
+        <file>
+            <source>${project.basedir}/../legstar-xsdcgen-cases/src/main/resources/ant/build-war-cultureinfo.xml</source>
+            <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo</outputDirectory>
+            <destName>build-war.xml</destName>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-xsdcgen-cases/src/main/resources/ant/build-pojo-jvmquery.xml</source>
+            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery</outputDirectory>
+            <destName>build-pojo.xml</destName>
+        </file>
+
+        <!-- reference ant scripts  -->
+        <file>
+            <source>${project.basedir}/../legstar-xsdcgen/src/main/resources/ant/build-xsd2xs.xml</source>
+            <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo</outputDirectory>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-xsdcgen/src/main/resources/ant/build-java2xs.xml</source>
+            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery</outputDirectory>
+        </file>
+    </files>
+
     <fileSets>
     
-        <!-- ant scripts  -->
-        <fileSet>
-            <directory>${project.basedir}/../legstar-xsdcgen-cases/src/main/resources/ant</directory>
-            <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo</outputDirectory>
-            <includes>
-                <include>build-war-cultureinfo.xml</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>${project.basedir}/../legstar-xsdcgen/src/main/resources/ant</directory>
-            <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo</outputDirectory>
-            <includes>
-                <include>build-xsd2xs.xml</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>${project.basedir}/../legstar-xsdcgen-cases/src/main/resources/ant</directory>
-            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery</outputDirectory>
-            <includes>
-                <include>build-pojo-jvmquery.xml</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>${project.basedir}/../legstar-xsdcgen/src/main/resources/ant</directory>
-            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery</outputDirectory>
-            <includes>
-                <include>build-java2xs.xml</include>
-            </includes>
-        </fileSet>
-    
-        <!-- sample java classes for web service  -->
+        <!-- sample java classes and XML for web service  -->
         <fileSet>
             <directory>${project.basedir}/../legstar-xsdcgen-cases/src/main/java</directory>
             <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo/src</outputDirectory>
@@ -41,14 +35,14 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>${project.basedir}/../legstar-xsdcgen-cases/src/main/webapp</directory>
-            <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo/webapp</outputDirectory>
+            <directory>${project.basedir}/../legstar-xsdcgen-cases/src/main/webapp/WEB-INF/cultureinfo</directory>
+            <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo/webapp/WEB-INF</outputDirectory>
             <includes>
-                <include>**/cultureinfo/*.*</include>
+                <include>*.xml</include>
             </includes>
         </fileSet>
 
-        <!-- sample java classes for web service  -->
+        <!-- sample java classes for pojo  -->
         <fileSet>
             <directory>${project.basedir}/../legstar-xsdcgen-cases/src/main/java</directory>
             <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery/src</outputDirectory>

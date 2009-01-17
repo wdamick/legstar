@@ -35,9 +35,9 @@
     -->
   <target name="testDistro" depends="init">
     <unzip src="${zip.file}" dest="${test.dir}"/>
-    <ant antfile="build-war-cultureinfo.xml" dir="${sample1.dir}"/>
+    <ant antfile="build-war.xml" dir="${sample1.dir}"/>
     <ant antfile="build-xsd2xs.xml" dir="${sample1.dir}"/>
-    <ant antfile="build-pojo-jvmquery.xml" dir="${sample2.dir}"/>
+    <ant antfile="build-pojo.xml" dir="${sample2.dir}"/>
     <ant antfile="build-java2xs.xml" dir="${sample2.dir}"/>
     <copy todir="${sample.schema}">
         <fileset dir="${sample1.dir}/schema"/>
