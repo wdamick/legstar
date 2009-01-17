@@ -11,7 +11,7 @@
 	<target name="init">
 		
 		<!-- Path to the source XML schema file   -->
-	 	<property name="xsd.file" value="schema/lsfileae.xsd" />
+	 	<property name="xsd.file" value="schema/@XSD-FILE-NAME@" />
 		<!-- Location of external bindings files   -->
 	 	<property name="bindings.dir" value="${basedir}/../../../xjb" />
 		<!-- Location for generated JAXB classes   -->
