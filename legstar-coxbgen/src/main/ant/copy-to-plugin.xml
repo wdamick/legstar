@@ -5,28 +5,27 @@
  -->
 <project basedir="../../.." default="copyToPlugin">
 
-	<!-- ===========================================================  -->
-	<!-- Setup environment
-	  -->
-	<target name="init">
-		
-	    <property file="${basedir}/../legstar-dev.properties"/>   
-		<!-- Source directory for jaxbgen xjb files -->
-	 	<property name="jaxbgen-xjb.dir" value="${basedir}/../legstar-jaxbgen/src/main/resources/xjb" />
-		<!-- Target directories  -->
-	 	<property name="common-plugin-dest.dir" value="${basedir}/../legstar-common-plugin/lib" />
-		
-	</target>
-
-	<!-- ===========================================================  -->
-	<!-- Copy files
-	  -->
-	<target name="copyToPlugin" depends="init">
-		<copy todir="${common-plugin-dest.dir}">
-			<fileset dir="${jaxbgen-xjb.dir}">
-				<include name="*.xjb"/>
-			</fileset>
-		</copy>
-	</target>
-	
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
+    <target name="init">
+    
+        <!-- Source directory for jaxbgen xjb files -->
+        <property name="jaxbgen-xjb.dir" value="${basedir}/../legstar-jaxbgen/src/main/resources/xjb" />
+        <!-- Target directories  -->
+        <property name="common-plugin-dest.dir" value="${basedir}/../legstar-common-plugin/lib" />
+    
+    </target>
+    
+    <!-- ===========================================================  -->
+    <!-- Copy files
+    -->
+    <target name="copyToPlugin" depends="init">
+        <copy todir="${common-plugin-dest.dir}">
+            <fileset dir="${jaxbgen-xjb.dir}">
+                <include name="*.xjb"/>
+            </fileset>
+        </copy>
+    </target>
+  
 </project>

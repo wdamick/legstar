@@ -3,28 +3,29 @@
  -----
  Fady Moussallam
  -----
- 26 Decembre 2008
+ 26 December 2008
  -----
 
 COBOL Binding Generator (Coxbgen) overview
 
   LegStar Coxbgen is a Java source code generator based on Data mapping XML Schemas such as the ones
-  produced by {{{../legstar-schemagen}COBOL Structures Mapping Generator}}.
+  produced by {{{../legstar-schemagen}COBOL Structures Mapping Generator}} or
+  {{{../legstar-xsdcgen}Complex Types Mapping Generator}}.
 
   Coxbgen includes an XML Schema to Java binding utility built with Sun's JAXB (More precisely as a
-  JAXB XJC plugin). This capability, although bundled with Coxbgen, has its own project called
-   {{{../legstar-jaxbgen}JAXB COBOL Annotator}} or Jaxbgen.
-   
-  Jaxbgen produces {{{https://jaxb.dev.java.net/}JAXB Classes}} with COBOL annotations. These classes are
-  not different from regular JAXB Classes apart from additional Java annotations providing mapping meta-data
-  between Java types and COBOL types.
+  JAXB XJC plugin). Coxbgen produces {{{https://jaxb.dev.java.net/}JAXB Classes}} with COBOL annotations.
+  These classes are not different from regular JAXB Classes apart from additional Java annotations
+  providing mapping meta-data between Java types and COBOL types.
+  
+  An important class is {{{../legstar-coxbapi/apidocs/com/legstar/coxb/CobolElement.html}CobolElement}}
+  which is a java annotation that represent the mapping between a Java property and a Cobol data element. 
   
   Coxbgen also produces runtime binding classes which provide fast conversion of COBOL mainframe data streams
   to Java instances and vice-versa. These binding classes do not use reflection at runtime which provides
   substantial performance gains.
   
-  Coxbgen generated classes use the {{{../legstar-coxbapi}COBOL Binding API}}. This API shields the 
-  generated code from underlying implementation.
+  At runtime, Coxbgen provides low-level conversions for simple types such as strings, Cobol packed decimals,
+  Cobol zoned decimals, simple arrays, etc.
   
   For answers to common questions about LegStar Coxbgen, see the {{{faq.html} FAQ}}.
 
@@ -37,7 +38,7 @@ Using Tranformers produced by COBOL Binding Generator
   but this is automatically done for you under the hood).
   
   This is sample code showing how you would use a generated mainframe to java transformer assuming you
-  just generated a transformer class called com.legstar.test.coxb.lsfileae.DfhcommareaHostToJavaTransformer.
+  just generated a transformer class called com.legstar.test.coxb.lsfileae.DfhcommareaTransformers.
   
 +---------------------------------------
     /**
@@ -47,8 +48,8 @@ Using Tranformers produced by COBOL Binding Generator
      */
     public void hostToJavaTransform(final byte[] hostBytes) throws HostTransformException {
 
-        DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();
-        Dfhcommarea dfhcommarea = transformer.transform(hostBytes);
+        DfhcommareaTransformers transformers = new DfhcommareaTransformers();
+        Dfhcommarea dfhcommarea = transformers.toJava(hostBytes);
         System.out.println(dfhcommarea.getComNumber());
         System.out.println(dfhcommarea.getComPersonal().getComName());
         System.out.println(dfhcommarea.getComPersonal().getComAddress());
@@ -80,17 +81,17 @@ Using Tranformers produced by COBOL Binding Generator
         dfhcommarea.setComDate("100458");
         dfhcommarea.setComAmount("00100.35");
         dfhcommarea.setComComment("A VOIR");
-        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
-        return transformer.transform(dfhcommarea);
+        DfhcommareaTransformers transformers = new DfhcommareaTransformers();
+        return transformers.toHost(dfhcommarea);
     }
 +---------------------------------------
   
-  Generated transformers use the default IBM01140 US EBCDIC character set for conversions. You
-  can easily change this. For instance, this will create a transformer using French character
-  set:
+  Generated transformers use the default IBM01140 US EBCDIC character set for conversions. 
+  Methods toHost and toJava also accept a character set name as a second parameter if you
+  need to use a different one (just make sure your JRE charsets.jar supports your
+  character set).
   
-+---------------------------------------
-        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer("IBM01147");
-+---------------------------------------
   
+
+
 

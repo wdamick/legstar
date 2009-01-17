@@ -10,21 +10,19 @@ PREREQUISITES:
  Coxbgen has been tested with ant 1.6.5. The binaries can be downloaded from 
  http://ant.apache.org/.
  
- Generated classes use the {{{../legstar-coxbapi}COBOL Binding API}}. The 
- {{{../legstar-coxbrt}COBOL Binding Runtime}} provides an implementation of the
- actual COBOl to java conversion mechanisms. The COBOL Binding Runtime is
- included with the COBOL Binding Runtime but can be replaced with user provided
- implementations if necessary.
- 
- JAXB implementation must be at least 2.1.3 compliant. If your JRE is oldest
- than 1.6.4, the JAXB version included in the JRE is too old.
+ JRE 1.5+ and ANT 1.6.5+ are both prerequisites for LegStar.
+ Make sure JAVA_HOME and ANT_HOME environment variables are set and that
+ $JAVA_HOME/bin (%JAVA_HOME%/bin on Windows) and $ANT_HOME/bin (%ANT_HOME%/bin on Windows)
+ are both in your system path.
 
- 
- In order to use the COBOL Binding Generator, JAXB annotated classes must first
- be generated as described in {{{../legstar-jaxbgen}JAXB COBOL Annotator}}.
- The JAXB Generator is included with the COBOL Binding Generator.
- 
+ Coxbgen relies on {{{https://jaxb.dev.java.net/}Sun's JAXB}}. The JAXB implementation
+ must be at least 2.1 compliant. Such an implementation is part of the LegStar distribution.
+
 INSTALLING/UNINSTALLING:
+
+ These instructions apply if you are installing from the coxbgen standalone
+ distribution. If you are installling the complete LegStar distribution please
+ refer to {{{../legstar-distribution/release-notes.html}legstar distribution}}.
 
  [[1]] Unzip the binary distribution package into the directory of your choice,
        referred to as <installDir> in the following steps.
@@ -34,37 +32,82 @@ INSTALLING/UNINSTALLING:
 +---------------------------------------+
    <installDir>
         |---->LICENSE
-        |---->coxbgen-NOTICE
-        |---->coxbgen-README
-        |----><ant>
-                |---->build-coxb.xml
-                |---->build-jaxb.xml
+        |---->NOTICE
+        |---->README
+        |----><samples>
+                |----><quickstarts>
+                           |----><adapter_lsfileae>
+                                       |---->build-jaxb.xml
+                                       |---->build-coxb.xml
+                                       |----><schema>
+                                                |---->lsfileae.xsd
+                           |----><proxy_pojo_jvmquery>
+                                       |---->build-jaxb.xml
+                                       |---->build-coxb-jvmqueryrequest.xml
+                                       |---->build-coxb-jvmqueryreply.xml
+                                       |----><src>
+                                               |---->**/*.java
+                                       |----><schema>
+                                                |---->jvmquery.xsd
+                           |----><proxy_ws_cultureinfo>
+                                       |---->build-jaxb.xml
+                                       |---->build-coxb-getinfo.xml
+                                       |---->build-coxb-getinforesponse.xml
+                                       |----><schema>
+                                                |---->jvmquery.xsd
         |----><lib>
                 |---->*.jar
-        |----><schema>
-                |---->*.xsd
         |----><xjb>
                 |---->*.xjb
                 
 +---------------------------------------+
    
- [[2]] From the installDir/ant folder, run command "ant -f build-jaxb.xml".
+ [[2]] In order to generate binding classes for the lsfileae adapter, run
+       command "ant -f build-jaxb.xml" from the
+       samples/quickstarts/adapter_lsfileae folder and check the result.
+       This should create a src folder containing generated JAXB classes
+       from the sample XML Schema in the schema folder.
        
-       This should create a src/main/java folder containing generated JAXB classes
-       from the sample XML Schema in the schema folder. Sources are also compiled
-       with binaries stored under target/classes.
+       The JAXB classes are identical to the classes generated using Sun's
+       XJC utility apart from addition Java 5 annotations holding COBOL
+       meta-data.
        
- [[3]] From the installDir/ant folder, run command "ant -f build-coxb.xml".  
-       This should create binding classes by reflecting on the JAXB classes  
-       generated at step 2.
+       From the samples/quickstarts/adapter_lsfileae folder again, run command
+       "ant -f build-coxb.xml". This should create binding classes by
+       reflecting on the JAXB classes generated at the previous step.
        
-       By default build-coxb.xml generates binding classes for the Dfhcommarea
-       class produced by build-jaxb.xml on sample lsfileae.xsd.
+       The binding classes provide a high performance alternative to
+       reflecting on the JAXB classes at runtime. They are used by
+       higher level LegStar modules.
     
- [[4]] Follow instructions in build-jaxb.xml and build-coxb.xml to generate
+ [[3]] In order to generate binding classes for the jvmquery proxy, run
+       command "ant -f build-jaxb.xml" from the
+       samples/quickstarts/proxy_pojo_jvmquery folder and check the result.
+       
+       From the samples/quickstarts/proxy_pojo_jvmquery folder again, run
+       command "ant -f build-coxb-jvmqueryrequest.xml". This creates
+       binding classes for the JvmQueryRequest JAXB root class.
+    
+       From the samples/quickstarts/proxy_pojo_jvmquery folder again, run
+       command "ant -f build-coxb-jvmqueryreply.xml". This creates
+       binding classes for the JvmQueryReply JAXB root class.
+    
+ [[4]] In order to generate binding classes for the cultureinfo proxy, run
+       command "ant -f build-jaxb.xml" from the
+       samples/quickstarts/proxy_pojo_cultureinfo folder and check the result.
+       
+       From the samples/quickstarts/proxy_pojo_cultureinfo folder again, run
+       command "ant -f build-coxb-getinfo.xml". This creates
+       binding classes for the GetInfo JAXB root class.
+    
+       From the samples/quickstarts/proxy_pojo_cultureinfo folder again, run
+       command "ant -f build-coxb-getinforesponse.xml". This creates
+       binding classes for the GetInfoResponse JAXB root class.
+    
+ [[5]] Follow instructions in build-jaxb.xml and build-coxb*.xml to generate
        binding classes from your own annotated XML schemas.
    
- [[5]] To uninstall, remove the installDir folder.
+ [[6]] To uninstall, remove the installDir folder.
 
 DOCUMENTATION:
 

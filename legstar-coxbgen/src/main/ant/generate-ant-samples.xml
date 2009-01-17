@@ -1,0 +1,57 @@
+<!-- =================================================================================
+     This script generates ant scripts for the samples (quickstarts).
+ -->
+<project basedir="../../.." default="generateAntSamples">
+
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
+    <target name="init">
+    
+        <!-- Source of coxbgen templates -->
+        <property name="coxbgen.ant.template.dir" value="${basedir}/../legstar-coxbgen/src/main/templates" />
+        <!-- Source of jaxbgen templates -->
+        <property name="jaxbgen.ant.template.dir" value="${basedir}/../legstar-jaxbgen/src/main/templates" />
+        <!-- Target directories  -->
+        <property name="ant.dir" value="target/ant" />
+    
+    </target>
+    
+    <!-- ===========================================================  -->
+    <!-- Copy files using filtering.This will create ant scripts 
+         ready for quickstarts.
+    -->
+    <target name="generateAntSamples" depends="init">
+        <copy file="${jaxbgen.ant.template.dir}/build-jaxb.xml.template" tofile="${ant.dir}/lsfileae/build-jaxb.xml">
+            <filterset><filter token="XSD-FILE-NAME" value="lsfileae.xsd"/></filterset>
+        </copy>
+        <copy file="${jaxbgen.ant.template.dir}/build-jaxb.xml.template" tofile="${ant.dir}/jvmquery/build-jaxb.xml">
+            <filterset><filter token="XSD-FILE-NAME" value="jvmquery.xsd"/></filterset>
+        </copy>
+        <copy file="${jaxbgen.ant.template.dir}/build-jaxb.xml.template" tofile="${ant.dir}/cultureinfo/build-jaxb.xml">
+            <filterset><filter token="XSD-FILE-NAME" value="cultureinfo.xsd"/></filterset>
+        </copy>
+
+        <copy file="${coxbgen.ant.template.dir}/build-coxb.xml.template" tofile="${ant.dir}/lsfileae/build-coxb.xml">
+            <filterset><filter token="XSD-FILE-NAME" value="lsfileae.xsd"/></filterset>
+            <filterset><filter token="JAXB-ROOT-NAME" value="Dfhcommarea"/></filterset>
+        </copy>
+        <copy file="${coxbgen.ant.template.dir}/build-coxb.xml.template" tofile="${ant.dir}/jvmquery/build-coxb-jvmqueryrequest.xml">
+            <filterset><filter token="XSD-FILE-NAME" value="jvmquery.xsd"/></filterset>
+            <filterset><filter token="JAXB-ROOT-NAME" value="JvmQueryRequest"/></filterset>
+        </copy>
+        <copy file="${coxbgen.ant.template.dir}/build-coxb.xml.template" tofile="${ant.dir}/jvmquery/build-coxb-jvmqueryreply.xml">
+            <filterset><filter token="XSD-FILE-NAME" value="jvmquery.xsd"/></filterset>
+            <filterset><filter token="JAXB-ROOT-NAME" value="JvmQueryReply"/></filterset>
+        </copy>
+        <copy file="${coxbgen.ant.template.dir}/build-coxb.xml.template" tofile="${ant.dir}/cultureinfo/build-coxb-getinfo.xml">
+            <filterset><filter token="XSD-FILE-NAME" value="cultureinfo.xsd"/></filterset>
+            <filterset><filter token="JAXB-ROOT-NAME" value="GetInfo"/></filterset>
+        </copy>
+        <copy file="${coxbgen.ant.template.dir}/build-coxb.xml.template" tofile="${ant.dir}/cultureinfo/build-coxb-getinforesponse.xml">
+            <filterset><filter token="XSD-FILE-NAME" value="cultureinfo.xsd"/></filterset>
+            <filterset><filter token="JAXB-ROOT-NAME" value="GetInfoResponse"/></filterset>
+        </copy>
+    </target>
+  
+</project>
