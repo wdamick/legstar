@@ -25,6 +25,7 @@ package com.legstar.test.coxb;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.transform.HostTransformException;
 import com.legstar.test.coxb.lsfileae.bind.DfhcommareaHostToJavaTransformer;
+import com.legstar.test.coxb.lsfileae.bind.DfhcommareaTransformers;
 import com.legstar.test.coxb.lsfileae.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -72,8 +73,8 @@ public class UnmarshalLsfileaeTest extends TestCase {
      */
     public void hostToJavaTransform(final byte[] hostBytes) throws HostTransformException {
 
-        DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();
-        Dfhcommarea dfhcommarea = transformer.transform(hostBytes);
+        DfhcommareaTransformers transformers = new DfhcommareaTransformers();
+        Dfhcommarea dfhcommarea = transformers.toJava(hostBytes);
         System.out.println(dfhcommarea.getComNumber());
         System.out.println(dfhcommarea.getComPersonal().getComName());
         System.out.println(dfhcommarea.getComPersonal().getComAddress());

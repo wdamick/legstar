@@ -26,6 +26,7 @@ import com.legstar.test.coxb.lsfileae.ComPersonal;
 import com.legstar.test.coxb.lsfileae.Dfhcommarea;
 import com.legstar.test.coxb.lsfileae.ObjectFactory;
 import com.legstar.test.coxb.lsfileae.bind.DfhcommareaJavaToHostTransformer;
+import com.legstar.test.coxb.lsfileae.bind.DfhcommareaTransformers;
 
 import junit.framework.TestCase;
 
@@ -87,7 +88,7 @@ public class MarshalLsfileaeTest extends TestCase {
         dfhcommarea.setComDate("100458");
         dfhcommarea.setComAmount("00100.35");
         dfhcommarea.setComComment("A VOIR");
-        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
-        return transformer.transform(dfhcommarea);
+        DfhcommareaTransformers transformers = new DfhcommareaTransformers();
+        return transformers.toHost(dfhcommarea);
     }
 }
