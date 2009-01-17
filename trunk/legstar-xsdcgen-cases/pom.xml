@@ -18,6 +18,14 @@
             <artifactId>jsr181-api</artifactId>
         </dependency>
         <dependency>
+            <groupId>javax.jws</groupId>
+            <artifactId>jsr181-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-tools</artifactId>
+        </dependency>
+        <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
         </dependency>
@@ -41,8 +49,12 @@
                         <phase>package</phase>
                         <configuration>
                             <tasks>
-                                <ant antfile="${basedir}/src/main/ant/build-ws.xml">
-                                    <property name="wsname" value="cultureinfo" />
+                                <path id="maven.classpath">
+                                    <path refid="maven.compile.classpath"/>
+                                    <path refid="maven.plugin.classpath"/>
+                                </path>
+                                <ant antfile="${basedir}/src/main/ant/build-ws-cultureinfo.xml" inheritRefs="true">
+                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
                                 </ant>
                             </tasks>
                         </configuration>
