@@ -27,7 +27,7 @@ Complex Types Mapping Generator (xsdcgen) overview
  
 Customizing a mapping XML Schema
 
-  Although Xsdcgen does his best at generating meaningful default values for COBOL data items, you will
+  Although Xsdcgen does its best at generating meaningful default values for COBOL data items, you will
   often need to modify what was generated for efficiency.
   
   The {{{xref/com/legstar/xsdc/gen/XsdCobolTypeMap.html}XsdCobolTypeMap}} gives the type by type mapping.
