@@ -15,7 +15,7 @@
  		<table border="1">
 			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
 			<tr><td>COBOL Binding Generator</td><td>Java</td>
-            <td><a href="../maven/repo/com/legsem/legstar/legstar-coxbgen/1.2.3-SNAPSHOT/legstar-coxbgen-1.2.3-SNAPSHOT-bin.zip">legstar-coxbgen-1.2.3-SNAPSHOT-bin.zip</a></td></tr>
+            <td><a href="../maven/repo/com/legsem/legstar/legstar-coxbgen/@LEGSTAR-VERSION@/legstar-coxbgen-@LEGSTAR-VERSION@-bin.zip">legstar-coxbgen-@LEGSTAR-VERSION@-bin.zip</a></td></tr>
 		</table>
 
     </section>

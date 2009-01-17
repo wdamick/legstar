@@ -11,14 +11,14 @@
 	<target name="init">
 		
 		<!-- Path to the source XML schema file   -->
-	 	<property name="xsd.file" value="schema/lsfileae.xsd" />
+	 	<property name="xsd.file" value="schema/@XSD-FILE-NAME@" />
 		<!-- Location for generated classes   -->
 	 	<property name="jaxb.src.dir" value="src" />
 		<!-- Location for generated JAXB binaries   -->
 	 	<property name="jaxb.bin.dir" value="bin" />
 		<!-- The JAXB root object name. Binding is for a single complex
 		     element.   -->
-	 	<property name="jaxb.root.name" value="Dfhcommarea" />
+	 	<property name="jaxb.root.name" value="@JAXB-ROOT-NAME@" />
 			
 		<!-- Classpath setting -->
 		<path id="classpath">
