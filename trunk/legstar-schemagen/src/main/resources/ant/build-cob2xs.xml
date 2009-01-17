@@ -45,6 +45,7 @@
 			targetXsdFileName="${xsd.filename}"
 			namespace="${jaxb.namespace}"
 			jaxbPackageName="${jaxb.package}"/>
+	    <echo message="XML Schema successfully generated ${xsd.dir}/${xsd.filename}" />
 	</target>
 	
 </project>

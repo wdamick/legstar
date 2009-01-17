@@ -27,6 +27,9 @@
 
 	<!-- ===========================================================  -->
 	<!-- Build the sample and check that a schema was generated
+	     Submitting ant via OS command is necessary because native DLLs
+	     are already loaded by maven so we cannot use ant ant task.
+	     FIXME: This is OS specific
 	  -->
 	<target name="testDistro" depends="init">
 		<unzip src="${zip.file}" dest="${test.dir}"/>
