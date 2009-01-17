@@ -1,7 +1,9 @@
 <!-- =================================================================================
      This script generates a Mapping XML Schema from a set of Java classes.
+     It is assumed the Java classes binaries available from the bin folder
+     otherwise modify the classpath to include your binaries.
   -->
-<project basedir=".." default="generateXSD" name="generate-XSD">
+<project basedir="." default="generateXSD" name="generate-XSD">
 
   <!-- ===========================================================  -->
   <!-- Setup environment
@@ -16,14 +18,14 @@
     <!-- Target namespace for generated XML schema   -->
     <property name="namespace" value="http://jvmquery.cases.test.xsdc.legstar.com/" />
     <!-- Target location for generated XML schema   -->
-    <property name="schema.dir" value="schema" />
+    <property name="xsd.dir" value="schema" />
     <!-- Name of generated XSD file  -->
-    <property name="gen.file.name" value="jvmquery.xsd" />
+    <property name="xsd.filename" value="jvmquery.xsd" />
       
     <!-- Classpath setting -->
     <path id="classpath">
-        <fileset dir="${basedir}" includes="lib/*.jar" />
-    	<pathelement location="${basedir}/target/classes"/>
+        <fileset dir="${basedir}/../../.." includes="lib/*.jar" />
+    	<pathelement location="${basedir}/bin"/>
     </path>
 
     <!-- Java Mapping Generator ant task -->
@@ -39,13 +41,13 @@
        could be annotated with JSR 181 XmlRootElement.
     -->
   <target name="generateXSD" depends="init">
-    <echo message="Generating annotated ${gen.file.name}" />
-    <mkdir dir="${schema.dir}"/>
+    <echo message="Generating annotated ${xsd.filename}" />
+    <mkdir dir="${xsd.dir}"/>
     <j2scgen 
       namespace="${namespace}"
       jaxbPackageName="${jaxb.package.name}"
-      targetDir="${schema.dir}"
-      targetXsdFileName="${gen.file.name}"
+      targetDir="${xsd.dir}"
+      targetXsdFileName="${xsd.filename}"
     >
     	<rootClass name="${request.class.name}"/>
     	<rootClass name="${reply.class.name}"/>

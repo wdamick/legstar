@@ -4,52 +4,59 @@
     
         <!-- ant scripts  -->
         <fileSet>
-            <directory>${project.basedir}/../legstar-xsdcgen/src/main/resources/ant</directory>
-            <outputDirectory>ant</outputDirectory>
+            <directory>${project.basedir}/../legstar-xsdcgen-cases/src/main/resources/ant</directory>
+            <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo</outputDirectory>
             <includes>
-                <include>*.xml</include>
+                <include>build-war-cultureinfo.xml</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/../legstar-xsdcgen/src/main/resources/ant</directory>
+            <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo</outputDirectory>
+            <includes>
+                <include>build-xsd2xs.xml</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/../legstar-xsdcgen-cases/src/main/resources/ant</directory>
+            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery</outputDirectory>
+            <includes>
+                <include>build-pojo-jvmquery.xml</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/../legstar-xsdcgen/src/main/resources/ant</directory>
+            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery</outputDirectory>
+            <includes>
+                <include>build-java2xs.xml</include>
             </includes>
         </fileSet>
     
-        <!-- sample web service  -->
-        <fileSet>
-            <directory>${project.basedir}/../legstar-xsdcgen-cases/target/war</directory>
-            <outputDirectory>war</outputDirectory>
-            <includes>
-                <include>*.war</include>
-            </includes>
-        </fileSet>
-        
-        <!-- sample java classes  -->
+        <!-- sample java classes for web service  -->
         <fileSet>
             <directory>${project.basedir}/../legstar-xsdcgen-cases/src/main/java</directory>
-            <outputDirectory>src</outputDirectory>
+            <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo/src</outputDirectory>
             <includes>
-                <include>**/cases/**/*.java</include>
+                <include>**/cultureinfo/*.*</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/../legstar-xsdcgen-cases/src/main/webapp</directory>
+            <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo/webapp</outputDirectory>
+            <includes>
+                <include>**/cultureinfo/*.*</include>
             </includes>
         </fileSet>
 
+        <!-- sample java classes for web service  -->
         <fileSet>
-            <directory>${project.basedir}/../legstar-xsdcgen-cases/target/classes</directory>
-            <outputDirectory>target/classes</outputDirectory>
+            <directory>${project.basedir}/../legstar-xsdcgen-cases/src/main/java</directory>
+            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery/src</outputDirectory>
             <includes>
-                <include>**/cases/**/*.class</include>
+                <include>**/jvmquery/*.*</include>
             </includes>
         </fileSet>
     
     </fileSets>
   
-    <files>
-        <file>
-            <source>${project.basedir}/../legstar-xsdcgen/NOTICE</source>
-            <outputDirectory>/</outputDirectory>
-            <destName>xsdcgen-NOTICE</destName>
-        </file>
-        <file>
-            <source>${project.basedir}/../legstar-xsdcgen/src/site/apt/release-notes.apt</source>
-            <outputDirectory>/</outputDirectory>
-            <destName>xsdcgen-README</destName>
-        </file>
-    </files>
-
 </component>

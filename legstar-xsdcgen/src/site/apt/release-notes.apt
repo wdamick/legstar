@@ -10,7 +10,16 @@ PREREQUISITES:
  Xsdcgen has been tested with ant 1.6.5. The binaries can be downloaded
  from http://ant.apache.org/.
  
+ JRE 1.5+ and ANT 1.6.5+ are both prerequisites for LegStar.
+ Make sure JAVA_HOME and ANT_HOME environment variables are set and that
+ $JAVA_HOME/bin (%JAVA_HOME%/bin on Windows) and $ANT_HOME/bin (%ANT_HOME%/bin on Windows)
+ are both in your system path.
+ 
 INSTALLING/UNINSTALLING:
+
+ These instructions apply if you are installing from the xsdcgen standalone
+ distribution. If you are installling the complete LegStar distribution please
+ refer to {{{../legstar-distribution/release-notes.html}legstar distribution}}.
 
  [[1]] Unzip the binary distribution package into the directory of your choice,
        referred to as <installDir> in the following steps.
@@ -20,19 +29,22 @@ INSTALLING/UNINSTALLING:
 +---------------------------------------+
    <installDir>
         |---->LICENSE
-        |---->xsdcgen-NOTICE
-        |---->xsdcgen-README
-        |----><ant>
-                |---->build-java2xs.xml
-                |---->build-xsd2xs.xml
-        |----><bin>
-                |---->**/*.class
+        |---->NOTICE
+        |---->README
+        |----><samples>
+                |----><quickstarts>
+                           |----><proxy_ws_cultureinfo>
+                                       |---->build-ws.xml
+                                       |---->build-xsd2xs.xml
+                                       |----><src>
+                                               |---->**/*.java
+                           |----><proxy_pojo_jvmquery>
+                                       |---->build-pojo.xml
+                                       |---->build-java2xs.xml
+                                       |----><src>
+                                               |---->**/*.java
         |----><lib>
                 |---->*.jar
-        |----><src>
-                |---->**/*.java
-        |----><war>
-                |---->*.war
                 
 +---------------------------------------+
    

@@ -48,6 +48,13 @@
             <artifactId>jaxb-impl</artifactId>
         </dependency>
 
+        <!-- Samples distributed with xsdcgen use the JAX-WS apt task
+             found here. -->
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-tools</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>ant</groupId>
             <artifactId>ant</artifactId>
@@ -74,8 +81,7 @@
     <build>
         <plugins>
             
-            <!-- Assembly generation plugin. Put the result in the source site
-                so that it gets uploaded with the site.  -->
+            <!-- Assembly generation plugin.  -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
@@ -114,7 +120,7 @@
                                     <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
                                     <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
                                 </ant>
-                                <ant antfile="${basedir}/src/main/ant/build-sample.xml" />
+                                <ant antfile="${basedir}/src/main/ant/test-distribution.xml" />
                             </tasks>
                         </configuration>
                         <goals>

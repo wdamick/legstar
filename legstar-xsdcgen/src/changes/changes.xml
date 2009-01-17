@@ -4,6 +4,12 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
+    <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
+      <action dev="fady" type="update">
+        Fixed Issue 4: There is now XML declaration specifying a UTF-8 encoding on generated mapping XML Schemas.
+        There is also a standalone attribute that is generated depending on the input XML Schema options.
+      </action>
+    </release>
     <release version="1.2.2" date="2008-11-15" description="Support for ESB generation">
       <action dev="fady" type="update">
         The XSD and Java Schema generators default value for the jaxbTypeClassesSuffix parameter
