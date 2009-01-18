@@ -3,33 +3,62 @@
  -----
  Fady Moussallam
  -----
- 30 July 2007
+ 18 January 2009
  -----
 
-Mainframe Invoker Runtime overview
+Mainframe Invoker overview
 
   The LegStar Invoker provides a general purpose remote call mechanism to mainframe programs
   from Java clients.
   
-  The Invoker receives input structures as JAXB object trees and produces output JAXB object
-  trees. The Invoker has the capability to call single input/single output programs such as
+  The Invoker deals with raw mainframe data. Upper level modules are in charge of converting
+  that data to java and vice versa. Of course they can use
+  {{{../legstar-coxbgen}COBOL binding}} module for that purpose.
+  
+  The Invoker has the capability to call single input/single output programs such as
   CICS commarea-driven programs but it can also call multiple input/multiple output programs
   such as CICS container-driven programs.
   
-  Invoker uses the {{{../legstar-coxbrt}COBOL Binding Runtime}} classes to marshal/unmarshal
-  mainframe data streams.
+  At runtime, the invoker must be configured to use one of the available transports (Sockets,
+  HTTP, etc.).
   
-  Mainframe programs to call are described by properties files such as the lsfileae.properties
-  sample file provided. Such a properties file is expected to be available from the classpath.
+Messaging
+
+  When the invoker sends a request to the mainframe, it wraps the raw data in a message
+  structure. The LegStar messaging framework is transport independent so that LegStar
+  can evolve to support more transports in the future.
   
-  The Invoker expects a configuration file as well as a target address to run the mainframe
-  program on. A configuration file is an XML file. The Invoker looks for host endpoint
-  definitions similar to the one found in the legstar-invoker-config.xml sample provided.
+  The framework uses a notion of "Address" similar in spirit to SOAP Addressing which
+  allows each request to be correctly routed. The Address identifies the target mainframe.
+  
+  The message structure is multipart to support host programs with multiple input
+  structures and multiple output structures.
+  
+  Message headers support an open format based on JSON so that more sophisticated
+  message exchange protocols can be built in the future.
+  
+  On the mainframe side, the data needs to be unwrapped and extracted from the message
+  received. This {{{../legstar-messaging/LSMSGLIB-readme.html}C/370 program}}, part of
+  the {{{../legstar-distribution-zos}LegStar distribution for z/OS}}, performs such
+  unwrapping.
+
+Configuration
+
+  The Invoker expects a configuration file such as the 
+  {{{samples/legstar-invoker-config.xml}legstar-invoker-config.xml}} sample provided.
+  A configuration file is an XML file with one endpoint per target mainframe.
+  Read the comments in the sample to help you setup your own configuration.
   
   The Address received by the invoker specifies which host enpoint to use. If the Address
   is empty, the first endpoint definition is used. The Address can also override host
   credentials.
   
+  Mainframe programs to call are described by properties files such as the
+   {{{samples/lsfileae.properties}lsfileae.properties}} sample file provided. Such a
+  properties file is expected to be available from the classpath.
+  
+Pooling connections
+
   Two host access strategies are provided: direct and pooled. With a direct access strategy, 
   there are no intermediate engines, clients connect to the host directly. With the pooled
   access strategy, an {{{../legstar-engine}Connection Pooling Engine}} manages a pool of

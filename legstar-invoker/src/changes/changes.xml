@@ -4,6 +4,16 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
+    <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
+      <action dev="fady" type="update">
+        Deprecated the invoke methods that took java objects. These created dependencies
+        on COBOL binding that are not useful. The Invoker now works at the raw mainframe
+        data level and is independent of the language binding layer.
+      </action>
+      <action dev="fady" type="update">
+        Fixed issue 27: Adapters always send the largest payload for variable size input structures.
+      </action>
+    </release>
     <release version="1.2.2" date="2008-11-15" description="Support for ESB generation">
     </release>
     <release version="1.2.1" date="2008-09-30" description="Code cleansing">
