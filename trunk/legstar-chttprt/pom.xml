@@ -87,7 +87,7 @@
                         <phase>generate-test-resources</phase>
                         <configuration>
                             <tasks>
-                                <ant antfile="${basedir}/src/main/ant/deploy-to-zos.xml" >
+                                <ant antfile="${basedir}/../src/main/ant/deploy-to-zos.xml" >
                                     <property name="legstarVersion" value="${legstarVersion}" />
                                     <property name="legstarZosHost" value="${legstar-dev-zos-host}" />
                                     <property name="legstarZosUserid" value="${legstar-dev-zos-userid}" />
