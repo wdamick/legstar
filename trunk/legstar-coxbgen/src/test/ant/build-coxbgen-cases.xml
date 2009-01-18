@@ -23,32 +23,6 @@
 		<!-- Location of LegStar binaries   -->
 		<property name="build.dir" value="${basedir}/target"/>
 			
-		<!-- Classpath setting -->
-		<property name="maven.repo" value="C:\Documents and Settings\Fady\.m2\repository"/>
-		<path id="classpath">
-			<!-- JAXB-related Classpath  -->
-		    <pathelement location="${maven.repo}\javax\xml\bind\jaxb-api\2.1\jaxb-api-2.1.jar"/>
-		    <pathelement location="${maven.repo}\javax\xml\bind\jsr173_api\1.0\jsr173_api-1.0.jar"/>
-	  		<!--WS logging binaries -->
-		    <pathelement location="${maven.repo}\commons-logging\commons-logging-api\1.0.4\commons-logging-api-1.0.4.jar"/>
-			<!-- Velocity engine location  -->
-		    <pathelement location="${maven.repo}/org/apache/velocity/velocity/1.5/velocity-1.5.jar"/>
-		    <pathelement location="${maven.repo}/commons-collections/commons-collections/3.2/commons-collections-3.2.jar"/>
-		    <pathelement location="${maven.repo}/commons-lang/commons-lang/2.3/commons-lang-2.3.jar"/>
-	  		<!--LegStar General binding classes location -->
-    		<pathelement location="${basedir}/../legstar-coxbapi/target/classes"/>
-	  		<!--LegStar Code generation location -->
-		    <pathelement location="${basedir}/../legstar-codegen/target/classes"/>
-	  		<!--LegStar COXB runtime location -->
-		    <pathelement location="${basedir}/../legstar-coxbrt/target/classes"/>
-	  		<!--JAXB generated classes -->
-	  		<pathelement location="${basedir}/../legstar-jaxbgen-cases/target/classes"/>
-	  		<!-- XSDC test cases (JVMQuery) -->
-	  		<pathelement location="${basedir}/../legstar-xsdcgen-cases/target/classes"/>
-	  		<!--COXB Generator classes -->
-	  		<pathelement location="${build.dir}/classes"/>
-	  	</path>
-
 		<!-- Generator ant task -->
 		<taskdef name="coxbgen"
 			classname="com.legstar.coxb.gen.CoxbBindingGenerator"
@@ -67,7 +41,7 @@
 	  -->
 	<target name="generateAllCOXB" depends="init">
 		<mkdir dir="${coxb.bin.dir}"/>
-		<foreach target="generateCOXB" param="xsd.file">
+		<foreach target="generateCOXB" param="xsd.file" inheritrefs="true">
 			<path>
 				<fileset dir="${xsd.dir}" includes="*.xsd" excludes="clegtstc.cbl.xsd lsfileal.xsd lsfileac.xsd enumvar.xsd MSNSearch.xsd cultureinfo.xsd jvmquery.xsd jvmquery-ws.xsd varar021.xsd"/>
 			</path>
