@@ -4,9 +4,31 @@
     <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
+    <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
+      <action dev="fady" type="update">
+        Fixed Issue 28: COBOL Binding class does not compile for arrays with OCCURS 0 TO 1.
+        Binding generator, and more generally visitors, do not consider maxOccurs=1 as arrays anymore,
+        even if minOccurs=0. The case OCCURS 0 TO 1 DEPENDING ON is now managed as an optional element
+        (not an array). The counter element in DEPENDING ON will be set to 1 if object exist and
+        conversely, host data is assumed to contain bytes for that element if the associated counter is 1.
+      </action>
+      <action dev="fady" type="update">
+        Fixed Issue 29: When mainframe sends partial data, converters now make their best effort
+        to consume the partial data received and fill the rest with default values rather then
+        raising an exception.
+      </action>
+      <action dev="fady" type="update">
+        Introduced Transformers which are a cleaner, higher level, API than CComplexBinding.
+        This will make it easier for users using COBOL binding directly without the Service
+        integration modules.
+      </action>
+      <action dev="fady" type="update">
+        Fixed Issue 9: Some @SuppressWarning("unchecked") were not necessary.
+      </action>
+    </release>
     <release version="1.2.2" date="2008-11-15" description="Support for ESB generation">
       <action dev="fady" type="update">
-        Fixed Bug 27: Generated member names might conflict with java reserved words.
+        Fixed Issue 27: Generated member names might conflict with java reserved words.
         All member variables in generated binding classes are now prefixed with underscore.
       </action>
       <action dev="fady" type="update">
