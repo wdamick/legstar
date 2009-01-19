@@ -2,6 +2,15 @@
 
     <fileSets>
 
+        <!-- C/370 for CICS Server program -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-invoker/src/main/zos</directory>
+            <outputDirectory>/zos</outputDirectory>
+            <includes>
+                <include>**</include>
+            </includes>
+        </fileSet>
+
         <!-- The sample invoker configuration files -->
         <fileSet>
             <directory>${project.basedir}/../legstar-invoker/src/site/resources/samples</directory>
@@ -14,4 +23,21 @@
 
     </fileSets>
     
+    <files>
+        <file>
+           <source>${project.basedir}/../legstar-invoker/src/site/apt/LSLNKBIN-readme.apt</source>
+           <outputDirectory>/zos/docs</outputDirectory>
+           <destName>LSLNKBIN-README</destName>
+        </file>
+        <file>
+           <source>${project.basedir}/../legstar-invoker/src/site/apt/LSLNKCOM-readme.apt</source>
+           <outputDirectory>/zos/docs</outputDirectory>
+           <destName>LSLNKCOM-README</destName>
+        </file>
+        <file>
+           <source>${project.basedir}/../legstar-invoker/src/site/apt/LSLNKCTN-readme.apt</source>
+           <outputDirectory>/zos/docs</outputDirectory>
+           <destName>LSLNKCTN-README</destName>
+        </file>
+    </files>
 </component>

@@ -4,13 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.HierarchicalConfiguration;
-
-import com.legstar.config.Config;
 import com.legstar.config.Constants;
 import com.legstar.coxb.host.HostData;
-import com.legstar.csok.client.CicsSocketEndpoint;
 import com.legstar.host.access.HostAccessStrategyException;
 import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.HeaderPartException;
@@ -49,7 +44,7 @@ public class AbstractTester extends TestCase {
     public LegStarRequest createLsfileaeRequest() throws HostAccessStrategyException {
         try {
             LegStarAddress address = new LegStarAddress("TheMainframe");
-            LegStarRequest request = new LegStarRequest("Request01", address, getLsfileaeRequestMessage());
+            LegStarRequest request = new LegStarRequest("Lsfileae100", address, getLsfileaeRequestMessage());
             return request;
         } catch (HeaderPartException e) {
             throw new HostAccessStrategyException(e);
@@ -104,17 +99,4 @@ public class AbstractTester extends TestCase {
         return new LegStarMessage(dp, inputParts);
     }
 
-    /**
-     * Get an endpoint from the configuration file.
-     * @param endpointName the endpoint name
-     * @return an endpoint
-     * @throws ConfigurationException if configuration is wrong
-     */
-    public static CicsSocketEndpoint getEndpoint(
-            final String endpointName) throws ConfigurationException {
-        HierarchicalConfiguration sub = Config.loadEndpointConfiguration(CONFIG_FILE, endpointName);
-        CicsSocketEndpoint cicsSocketEndpoint = new CicsSocketEndpoint(sub);
-        return cicsSocketEndpoint;
-
-    }
 }

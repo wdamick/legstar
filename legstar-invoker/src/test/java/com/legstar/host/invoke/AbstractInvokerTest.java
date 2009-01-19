@@ -36,7 +36,7 @@ public class AbstractInvokerTest extends AbstractTester {
         CicsProgram hostProgram = new CicsProgram("lsfileae.properties");
 
         AbstractInvokerImpl invoker = new AbstractInvokerImpl(hostAccessStrategy, address, hostProgram);
-        byte[] responseBytes = invoker.invoke("lsfileae",
+        byte[] responseBytes = invoker.invoke("Lsfileae100",
                 HostData.toByteArray(LsfileaeCases.getHostBytesHexRequest100()));
         assertTrue(responseBytes !=  null);
         assertEquals(LsfileaeCases.getHostBytesHexReply100(), HostData.toHexString(responseBytes));
