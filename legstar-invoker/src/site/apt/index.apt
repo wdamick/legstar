@@ -38,9 +38,17 @@ Messaging
   message exchange protocols can be built in the future.
   
   On the mainframe side, the data needs to be unwrapped and extracted from the message
-  received. This {{{../legstar-messaging/LSMSGLIB-readme.html}C/370 program}}, part of
-  the {{{../legstar-distribution-zos}LegStar distribution for z/OS}}, performs such
-  unwrapping.
+  received. This {{{../legstar-messaging/LSMSGLIB-readme.html}C/370 program}} performs
+  such unwrapping.
+  
+  The following mainframe side C/370 programs perform the actual call to the target
+  program:
+
+ * {{{LSLNKBIN-readme.html}LSLNKBIN CICS LINK library}}
+
+ * {{{LSLNKCOM-readme.html}LSLNKCOM CICS COMMAREA LINK library}}
+
+ * {{{LSLNKCTN-readme.html}LSLNKCTN CICS CONTAINERS LINK library}}
 
 Configuration
 
