@@ -30,8 +30,8 @@ CICS Messaging library LSMSGLIB
 
   If you decide to compile the sources,  You will need a C/370 compiler.
   Since LSMSGLIB is also a CICS program you can use the CICS procedure called
-  DFHYITDL to perform the translation and compilation (see C370CMSG and
-  C370CLOG for samples).
+  DFHYITDL to perform the translation and compilation (see C370CMSG sample
+  JCL).
 
 * Limitations:
 
