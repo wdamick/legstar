@@ -96,7 +96,7 @@ public class ContainerInvokerTest extends AbstractTester {
         outParts.put("ReplyStatus", replyStatusBin);
 
         /* call */
-        invoker.invoke("test2ContainersIn2Out", inParts, outParts);
+        invoker.invoke("Lsfileac", inParts, outParts);
 
         /* Check */
         LsfileacCases.checkJavaObjectReplyStatus(replyStatusBin.getReplyStatus());
@@ -123,67 +123,13 @@ public class ContainerInvokerTest extends AbstractTester {
         inParts.put("QueryLimit", queryLimitBin);
 
         /* call */
-        Map < String, byte[] > outParts = invoker.invoke("test2ContainersIn2Out", inParts);
+        Map < String, byte[] > outParts = invoker.invoke("Lsfileac", inParts);
 
         /* Check */
         assertTrue(outParts != null);
         assertEquals(2, outParts.size());
         assertEquals(LsfileacCases.getHostBytesHexReplyData(),
                 HostData.toHexString(outParts.get("ReplyData")));
-        assertEquals(LsfileacCases.getHostBytesHexReplyStatus(),
-                HostData.toHexString(outParts.get("ReplyStatus")));
-
-    }
-
-    /** 
-     * Without any input containers, the host program returns the entire content (old style).
-     * @throws HostInvokerException if invoke fails
-     * @throws HostException if host data is invalid
-     */
-    public void test0ContainersIn2OutWithBinding() throws HostInvokerException, HostException {
-        LegStarAddress address = new LegStarAddress("CICSTS31");
-        HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
-
-        /* Prepare output objects */
-        ReplyDataBinding replyDataBin = new ReplyDataBinding();
-        ReplyStatusBinding replyStatusBin = new ReplyStatusBinding();
-
-        /* Map containers with corresponding object trees */
-        Map < String, ICobolComplexBinding > inParts =
-            new LinkedHashMap < String, ICobolComplexBinding >(); 
-
-        Map < String, ICobolComplexBinding > outParts =
-            new LinkedHashMap < String, ICobolComplexBinding >(); 
-        outParts.put("ReplyData", replyDataBin);
-        outParts.put("ReplyStatus", replyStatusBin);
-
-        /* call */
-        invoker.invoke("test0ContainersIn2Out", inParts, outParts);
-
-        /* Check */
-        LsfileacCases.checkJavaObjectReplyStatus(replyStatusBin.getReplyStatus());
-        LsfileacCases.checkJavaObjectReplyDataFull(replyDataBin.getReplyData());
-    }
-
-    /** 
-     * Without any input containers, the host program returns the entire content (new style).
-     * @throws HostInvokerException if invoke fails
-     * @throws HostException if host data is invalid
-     */
-    public void test0ContainersIn2Out() throws HostInvokerException, HostException {
-        LegStarAddress address = new LegStarAddress("CICSTS31");
-        HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
-
-        /* Map containers with corresponding byte arrays */
-        Map < String, byte[] > inParts = new LinkedHashMap < String, byte[] >(); 
-
-        /* call */
-        Map < String, byte[] > outParts = invoker.invoke("test2ContainersIn2Out", inParts);
-
-        /* Check */
-        assertTrue(outParts != null);
-        assertEquals(2, outParts.size());
-        assertEquals(3481, outParts.get("ReplyData").length);
         assertEquals(LsfileacCases.getHostBytesHexReplyStatus(),
                 HostData.toHexString(outParts.get("ReplyStatus")));
 
@@ -222,7 +168,7 @@ public class ContainerInvokerTest extends AbstractTester {
         outParts.put("ReplyStatus", replyStatusBin);
 
         /* call */
-        invoker.invoke("test2ContainersIn1Out", inParts, outParts);
+        invoker.invoke("LsfileacEmpty", inParts, outParts);
 
         /* Check */
         LsfileacCases.checkJavaObjectReplyStatusNoMatch(replyStatusBin.getReplyStatus());
@@ -249,7 +195,7 @@ public class ContainerInvokerTest extends AbstractTester {
         inParts.put("QueryLimit", queryLimitBin);
 
         /* call */
-        Map < String, byte[] > outParts = invoker.invoke("test2ContainersIn2Out", inParts);
+        Map < String, byte[] > outParts = invoker.invoke("LsfileacEmpty", inParts);
 
         /* Check */
         assertTrue(outParts != null);

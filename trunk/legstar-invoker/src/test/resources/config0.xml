@@ -27,7 +27,7 @@
 	<hostEndPoints>
 		<hostEndPoint name="TheMainframe">
 			<!-- Class implementing the HostConnectionFactory interface.  -->
-			<hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
+			<hostConnectionfactoryClass>com.legstar.host.MockConnectionFactory</hostConnectionfactoryClass>
 			<hostIPAddress>mainframe</hostIPAddress>
 			<hostIPPort>3011</hostIPPort>
 			<hostCharset>IBM01140</hostCharset>
@@ -38,7 +38,7 @@
 	   </hostEndPoint>
 		<hostEndPoint name="CICSTS31">
 			<!-- Class implementing the HostConnectionFactory interface.  -->
-			<hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
+			<hostConnectionfactoryClass>com.legstar.host.MockConnectionFactory</hostConnectionfactoryClass>
 			<hostIPAddress>mainframe</hostIPAddress>
 			<hostIPPort>4011</hostIPPort>
 			<hostCharset>IBM01140</hostCharset>

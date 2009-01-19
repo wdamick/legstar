@@ -32,7 +32,7 @@ public class CommareaInvokerTest extends AbstractTester {
             HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "lsfileae.properties");
             DfhcommareaBinding ccbout = invokeLsfileaeWithBinding(invoker);
             LsfileaeCases.checkJavaObjectReply100(ccbout.getDfhcommarea());
-            byte[] responseBytes = invokeLsfileae(invoker);
+            byte[] responseBytes = invokeLsfileae("Lsfileae100", invoker);
             assertEquals(LsfileaeCases.getHostBytesHexReply100(),
                     HostData.toHexString(responseBytes));
 
@@ -48,7 +48,7 @@ public class CommareaInvokerTest extends AbstractTester {
             address.setHostUserID(HOST_USERID);
             address.setHostPassword(HOST_PASSWORD);
             HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "wrongprog.properties");
-            invokeLsfileae(invoker);
+            invokeLsfileae("WrongProgram", invoker);
             fail("testWrongProgInvokeCommarea failed ");
 
         } catch (HostInvokerException e) {
@@ -64,7 +64,7 @@ public class CommareaInvokerTest extends AbstractTester {
             HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, null, "lsfileae.properties");
             DfhcommareaBinding ccbout = invokeLsfileaeWithBinding(invoker);
             LsfileaeCases.checkJavaObjectReply100(ccbout.getDfhcommarea());
-            byte[] responseBytes = invokeLsfileae(invoker);
+            byte[] responseBytes = invokeLsfileae("Lsfileae100", invoker);
             assertEquals(LsfileaeCases.getHostBytesHexReply100(),
                     HostData.toHexString(responseBytes));
 
@@ -82,7 +82,7 @@ public class CommareaInvokerTest extends AbstractTester {
             HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "lsfileae.properties");
             DfhcommareaBinding ccbout = invokeLsfileaeWithBinding(invoker);
             LsfileaeCases.checkJavaObjectReply100(ccbout.getDfhcommarea());
-            byte[] responseBytes = invokeLsfileae(invoker);
+            byte[] responseBytes = invokeLsfileae("Lsfileae100", invoker);
             assertEquals(LsfileaeCases.getHostBytesHexReply100(),
                     HostData.toHexString(responseBytes));
 
@@ -100,7 +100,7 @@ public class CommareaInvokerTest extends AbstractTester {
             HostInvoker invoker = HostInvokerFactory.createHostInvoker("config4.xml", address, "lsfileae.properties");
             DfhcommareaBinding ccbout = invokeLsfileaeWithBinding(invoker);
             LsfileaeCases.checkJavaObjectReply100(ccbout.getDfhcommarea());
-            byte[] responseBytes = invokeLsfileae(invoker);
+            byte[] responseBytes = invokeLsfileae("Lsfileae100", invoker);
             assertEquals(LsfileaeCases.getHostBytesHexReply100(),
                     HostData.toHexString(responseBytes));
 
@@ -122,7 +122,7 @@ public class CommareaInvokerTest extends AbstractTester {
             com.legstar.test.coxb.vararcom.bind.DfhcommareaBinding ccbout =
                 new com.legstar.test.coxb.vararcom.bind.DfhcommareaBinding();
             /* call */
-            invoker.invoke("MyNewRequest", ccbin, ccbout);
+            invoker.invoke("Vararcom", ccbin, ccbout);
             VararcomCases.checkJavaObjectVararcom(ccbout.getDfhcommarea());
 
         } catch (HostInvokerException e) {
@@ -154,7 +154,7 @@ public class CommareaInvokerTest extends AbstractTester {
             new DfhcommareaBinding();
 
         /* call */
-        invoker.invoke("MyNewRequest", ccbin, ccbout);
+        invoker.invoke("Lsfileae100", ccbin, ccbout);
 
         return ccbout;
     }
@@ -162,12 +162,13 @@ public class CommareaInvokerTest extends AbstractTester {
     /** 
      * This tests invoke using the new style "raw mainframe" way where binding is
      * done by the caller.
+     * @param an identifier for this request
      * @param invoker the current invoker
      * @return host response
      * @throws HostInvokerException if invoke fails
      *  */
-    private byte[] invokeLsfileae(final HostInvoker invoker) throws HostInvokerException {
-        return invoker.invoke("MyNewRequest",
+    private byte[] invokeLsfileae(final String requestID, final HostInvoker invoker) throws HostInvokerException {
+        return invoker.invoke(requestID,
                 HostData.toByteArray(LsfileaeCases.getHostBytesHexRequest100()));
     }
 }
