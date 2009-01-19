@@ -162,7 +162,7 @@ public class CommareaInvokerTest extends AbstractTester {
     /** 
      * This tests invoke using the new style "raw mainframe" way where binding is
      * done by the caller.
-     * @param an identifier for this request
+     * @param requestID an identifier for this request
      * @param invoker the current invoker
      * @return host response
      * @throws HostInvokerException if invoke fails
