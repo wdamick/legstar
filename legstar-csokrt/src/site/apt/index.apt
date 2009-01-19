@@ -3,37 +3,20 @@
  -----
  Fady Moussallam
  -----
- 16 April 2007
+ 19 January 2009
  -----
 
 Socket Transport (Csokrt) overview
 
   The Socket Transport provides connectivity with CICS Sockets.
   
-  To select this transport, there needs to be a valid endpoint definition in the active
-  configuration file. See {{{../legstar-invoker}Mainframe Invoker Runtime}} for more info on
-  the configuration file location.
+  CICS Sockets are a standard feature of CICS. It comes with an Enhanced Socket Listener
+  that Csokrt leverages.
   
-  The hostConnectionFactory element in the configuration file must be:
+  Csokrt provides a {{{LSSOKBIN-readme.html}C/370 program}} that the IBM Enhanced
+  Socket Listener calls and that ultimately links to the target CICS program.
   
-+-------------------------------+
-	<hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
-+-------------------------------+
-  
-  The relevant endpoint elements for the Socket Transport in the configuration file are:
-  
-*-----------------+-----------+--------------------------------------------------------------------+
-| hostIPAddress   | Mandatory |CICS TCPIP address                                                  |
-*-----------------+--------------------------------------------------------------------------------+
-| hostIPPort      | Mandatory | CICS Sockets listening TCPIP port                                  |
-*-----------------+--------------------------------------------------------------------------------+
-| hostCharset     | Optional  |A valid character set such as IBM01140                              |
-*-----------------+--------------------------------------------------------------------------------+
-| hostUserID      | Optional  | A CICS user ID                                                     |
-*-----------------+--------------------------------------------------------------------------------+
-| hostPassword    | Optional  | A CICS password                                                    |
-*-----------------+--------------------------------------------------------------------------------+
- 
-  Parameters marked as optional must be provided as part of the request Address if they 
-  are not provided in the configuration file.
-  
+  Csokrt is one of the transports that plug into the {{{../legstar-invoker}Mainframe Invoker Runtime}}.
+  Along with the Mainframe Invoker, it allows a Java client to execute a CICS program
+  synchronously over pure TCPIP.
+

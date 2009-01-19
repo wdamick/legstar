@@ -720,7 +720,7 @@ public class CicsSocket implements LegStarConnection {
     }
 
     /** (non-Javadoc).
-     * @see com.legstar.messaging.Connection#setConnectTimeout(int)
+     * @see com.legstar.messaging.LegStarConnection#setConnectTimeout(int)
      * {@inheritDoc}
      */
     public final void setConnectTimeout(final long timeout) {
@@ -728,7 +728,7 @@ public class CicsSocket implements LegStarConnection {
     }
 
     /** (non-Javadoc).
-     * @see com.legstar.messaging.Connection#setReceiveTimeout(int)
+     * @see com.legstar.messaging.LegStarConnection#setReceiveTimeout(int)
      * {@inheritDoc}
      */
     public final void setReceiveTimeout(final long timeout) {
