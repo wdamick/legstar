@@ -185,6 +185,33 @@ public class CicsTs31SocketTest extends AbstractTester {
         }
     }
 
+    /** 
+     * Without any input containers, the host program returns the entire content (new style).
+     */
+    public void test0ContainersIn2Out() {
+        try {
+            HashMap < String, Object > map = new HashMap < String, Object >();
+            map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAC");
+            map.put(Constants.CICS_CHANNEL_KEY, "LSFILEAC-CHANNEL");
+            String[] outContainers = {"ReplyData", "ReplyStatus"};
+            map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
+            
+            LegStarRequest request = getRequest(map);
+            getConnection().sendRequest(request);
+            getConnection().recvResponse(request);
+
+            /* Check */
+            assertTrue(request.getResponseMessage() != null);
+            assertEquals(2, request.getResponseMessage().getDataParts().size());
+            assertEquals(3481, request.getResponseMessage().getDataParts().get(0).getContent().length);
+            assertEquals(LsfileacCases.getHostBytesHexReplyStatus(),
+                    HostData.toHexString(request.getResponseMessage().getDataParts().get(1).getContent()));
+        } catch (RequestException e) {
+            fail("test0ContainersIn2Out failed=" + e);
+        }
+
+    }
+
     /**
      * Test with a large container.
      */

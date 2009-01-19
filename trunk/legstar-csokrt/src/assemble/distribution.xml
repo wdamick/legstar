@@ -8,6 +8,7 @@
 
     <componentDescriptors>
         <componentDescriptor>../legstar-messaging/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-invoker/src/assemble/component.xml</componentDescriptor>
         <componentDescriptor>src/assemble/component.xml</componentDescriptor>
     </componentDescriptors>
   
@@ -16,6 +17,16 @@
             <source>${project.basedir}/../legstar-distribution/LICENSE</source>
             <outputDirectory>/</outputDirectory>
             <destName>LICENSE</destName>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-csokrt/NOTICE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>NOTICE</destName>
+        </file>
+        <file>
+           <source>${project.basedir}/../legstar-csokrt/src/site/apt/release-notes.apt</source>
+           <outputDirectory>/</outputDirectory>
+           <destName>README</destName>
         </file>
     </files>
 
