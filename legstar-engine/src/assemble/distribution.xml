@@ -7,7 +7,6 @@
  
     <componentDescriptors>
         <componentDescriptor>src/assemble/component.xml</componentDescriptor>
-        <componentDescriptor>../legstar-invoker/src/assemble/component.xml</componentDescriptor>
     </componentDescriptors>
   
     <files>
