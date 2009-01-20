@@ -1,14 +1,16 @@
-package com.legstar.host.invoke;
+package com.legstar.host.invoke.sample;
 
 import java.util.Arrays;
 
+import com.legstar.host.invoke.HostInvoker;
+import com.legstar.host.invoke.HostInvokerFactory;
 import com.legstar.messaging.LegStarAddress;
 
 /**
  * A sample program using Mainframe Invoker to invoke a CICS program.
  *
  */
-public class InvokeSample {
+public class AdapterInvokerSample {
     
     /** A valid invoker configuration file. */
     public static final String CONFIG_FILE = "legstar-invoker-config.xml";
@@ -22,7 +24,7 @@ public class InvokeSample {
      * @throws Exception if something goes wrong
      */
     public static void main(final String[] args) throws Exception {
-        InvokeSample invoker = new InvokeSample();
+        AdapterInvokerSample invoker = new AdapterInvokerSample();
         invoker.invoke();
     }
     
