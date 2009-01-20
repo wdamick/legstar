@@ -18,15 +18,6 @@ CICS to Web Service API LSHTTAPI
  or chttprt. This means that data flowing between CICS and the proxy is
  raw EBCDIC relieving CICS from code page conversions and XML processing.
  
- Two sample Cobol programs, LSC2WSSA and MSNSEARC, are part of the distribution
- and should help understand how the API operates. Sample COBCWSSA and COBCMSNS
- JCL are provided to compile the samples.
- LSC2WSSA calls the cultureinfo sample Web Service that is part of the
- distribution (samples/war/jaxws-cultureinfo.war). A working proxy is also part
- of the delivery (samples/war/c2ws-cultureinfo.war).
- MSNSEARC calls the Microsoft Live SOAP search API, a sample working proxy is
- part of the delivery (samples/war/c2ws-MSNSearch.war).
-
 * Prerequisites:
 
  You will need CICS TS 2.3 and above (Although it is believed the
@@ -40,9 +31,6 @@ CICS to Web Service API LSHTTAPI
    
  LSHTTLIB uses CICS Sockets. Please refer to z/os Communication Server 
  documentation on how to setup IP CICS Sockets in the target CICS region.
- 
- LSHTTAPI also depends on the LSCOMLOG sub-program which is described in
- {{{../legstar-csokrt}Socket Transport}}.
  
  When writing your client program you will need data descriptions of the
  input and output structures produced by the target web service.
@@ -76,15 +64,14 @@ CICS to Web Service API LSHTTAPI
 * How to use:
 
  The first step is to create and deploy a web service proxy in a servlet engine.
- The {{{../legstar-cixsgen}Web Service Generator}} module helps you
+ The {{{../legstar-cixsgen}Service Generator}} module helps you
  generate such a proxy.
 
  Once LSHTTAPI and LSHTTLIB have been compiled in a library available to your
  CICS region in the RPL list, you might need to define LSHTTLIB using RDO
  (unless programs get autoinstalled).
 
- Then you can write a client application using using LSHTTAPI. Use the
- LSC2WSSA sample cobol program as a guide.
+ Then you can write a client application using using LSHTTAPI.
  
  There are 2 structures that form the parameters passed to the API. Because
  these structures are shared with a C/370 program, all fields must be
