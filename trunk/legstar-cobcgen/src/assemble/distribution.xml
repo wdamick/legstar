@@ -11,30 +11,46 @@
 
     <fileSets>
     
-        <!-- The sample Binding classes -->
+        <!-- sample java classes for pojo  -->
         <fileSet>
-            <directory>${project.basedir}/../legstar-samples/src</directory>
-            <outputDirectory>src</outputDirectory>
+            <directory>${project.basedir}/../legstar-xsdcgen-cases/src/main/java</directory>
+            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery/src</outputDirectory>
             <includes>
-                <include>**/cultureinfo/**/*.java</include>
+                <include>**/jvmquery/*.*</include>
             </includes>
         </fileSet>
-
         <fileSet>
-            <directory>${project.basedir}/../legstar-samples/target</directory>
-            <outputDirectory>target</outputDirectory>
+            <directory>${project.basedir}/../legstar-jaxbgen-cases/src/main/java</directory>
+            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery/src</outputDirectory>
             <includes>
-                <include>**/cultureinfo/**/*.class</include>
+                <include>**/jvmquery/*.*</include>
             </includes>
         </fileSet>
-
+    
     </fileSets>
-
+  
     <files>
+        <!-- sample generation ant scripts  -->
+        <file>
+            <source>${project.basedir}/../legstar-xsdcgen-cases/src/main/resources/ant/build-pojo-jvmquery.xml</source>
+            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery</outputDirectory>
+            <destName>build-pojo.xml</destName>
+        </file>
+
         <file>
             <source>${project.basedir}/../legstar-distribution/LICENSE</source>
             <outputDirectory>/</outputDirectory>
             <destName>LICENSE</destName>
+        <file>
+            <source>${project.basedir}/../legstar-cobcgen/NOTICE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>NOTICE</destName>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-cobcgen/src/site/apt/release-notes.apt</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>README</destName>
+        </file>
         </file>
     </files>
 

@@ -3,7 +3,7 @@
  -----
  Fady Moussallam
  -----
- 26 July 2007
+ 20 January 2009
  -----
 
 COBOL Structures Generator (cobcgen) overview
@@ -12,15 +12,16 @@ COBOL Structures Generator (cobcgen) overview
   used as regular cobol copybooks in a cobol program.
   
   The cobol data descriptions are derived from JAXB annotated classes such as the ones
-  produced by {{{../legstar-jaxbgen}JAXB COBOL Annotator}}.
+  produced by {{{../legstar-coxbgen}COBOL Binding Generator}}.
   
   The cobol data description have the same morphology as the JAXB class properties. This
   means that order and depth are driven by the JAXB annotated properties.
   
-  Cobcgen is typically used when host programs need to consume remote web services. In this
-  use-case, Cobcgen will generate the cobol copybooks needed to describe the web service
-  request and response parameters.
+  Cobcgen is typically used when host programs need to consume remote web services or
+  pure java objects (POJOs). In this use-case, Cobcgen will generate the cobol copybooks
+  needed to describe the request and response parameters.
   
   Cobcgen is an ant task which takes as input a set of annotated JAXB classes.
  
+  For instructions on how to install follow {{{release-notes.html}this link}}.
   
