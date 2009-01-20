@@ -11,8 +11,14 @@
 
     <files>
         <file>
-            <source>${project.basedir}/../legstar-xsdcgen-cases/target/war/jaxws-cultureinfo.war</source>
-            <outputDirectory>/samples/war/</outputDirectory>
+            <source>${project.basedir}/../legstar-c2wsrt/NOTICE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>NOTICE</destName>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-c2wsrt/src/site/apt/release-notes.apt</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>README</destName>
         </file>
         <file>
             <source>${project.basedir}/../legstar-distribution/LICENSE</source>

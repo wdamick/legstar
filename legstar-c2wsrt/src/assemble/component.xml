@@ -15,18 +15,8 @@
 
     <files>
         <file>
-            <source>${project.basedir}/../legstar-c2wsrt/NOTICE</source>
-            <outputDirectory>/</outputDirectory>
-            <destName>c2wsrt-NOTICE</destName>
-        </file>
-        <file>
-            <source>${project.basedir}/../legstar-c2wsrt/src/site/apt/release-notes.apt</source>
-            <outputDirectory>/</outputDirectory>
-            <destName>c2wsrt-README</destName>
-        </file>
-        <file>
             <source>${project.basedir}/../legstar-c2wsrt/src/site/apt/LSHTTAPI-readme.apt</source>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory>/zos/docs</outputDirectory>
             <destName>LSHTTAPI-README</destName>
         </file>
         
