@@ -20,6 +20,8 @@
         <property name="dist.dir" value="${basedir}/target" />
         <!-- Distribution zip file   -->
         <property name="zip.file" value="${dist.dir}/${dist.zip}" />
+        <!-- Distribution sample location   -->
+        <property name="sample.dir" value="${test.dir}/${dist.name}/samples/quickstarts/proxy_pojo_jvmquery" />
     
     </target>
 
@@ -28,6 +30,8 @@
     -->
     <target name="testDistro" depends="init">
         <unzip src="${zip.file}" dest="${test.dir}"/>
+        <ant antfile="build-pojo.xml" dir="${sample.dir}"/>
+        <ant antfile="build-cobc.xml" dir="${sample.dir}"/>
     </target>
   
 </project>

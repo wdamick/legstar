@@ -4,7 +4,7 @@
      Cobol annotations within a JAXB class. Such Cobol-annotated JAXB classes are
      produced by legstar-jaxbgen.
   -->
-<project basedir=".." default="generateCobol" name="generate-Cobol">
+<project basedir="." default="generateCobol" name="generate-Cobol">
 
     <!-- ===========================================================  -->
     <!-- Setup environment
@@ -12,11 +12,11 @@
     <target name="init">
     
         <!-- JAXB package name   -->
-        <property name="jaxb.package.name" value="com.legstar.test.coxb.cultureinfo" />
+        <property name="jaxb.package.name" value="com.legstar.test.coxb.jvmquery" />
         <!-- Location for generated JAXB binaries   -->
-        <property name="jaxb.bin.dir" value="target/classes" />
+        <property name="jaxb.bin.dir" value="bin" />
         <!-- JAXB type name   -->
-        <property name="jaxb.type.name" value="CultureInfoReply" />
+        <property name="jaxb.type.name" value="JvmQueryReply" />
         <!-- Cobol root data item name   -->
         <property name="cobol.root.name" value="CI-REPLY" />
         <!-- Target location for generated Cobol   -->
@@ -26,7 +26,7 @@
       
         <!-- Classpath setting -->
         <path id="classpath">
-            <fileset dir="${basedir}" includes="lib/*.jar" />
+            <fileset dir="${basedir}/../../.." includes="lib/*.jar" />
             <!--JAXB generated classes (needed for reflection) -->
             <dirset dir="${jaxb.bin.dir}"/>
         </path>

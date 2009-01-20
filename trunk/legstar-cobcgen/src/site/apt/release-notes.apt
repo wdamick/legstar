@@ -22,22 +22,31 @@ INSTALLING/UNINSTALLING:
         |---->LICENSE
         |---->NOTICE
         |---->README
-        |----><ant>
-                |---->build-cobc.xml
         |----><lib>
                 |---->*.jar
-        |----><src>
-                |---->**.java
-        |----><target>
-                |---->**.class
+        |----><samples>
+                 |----><quickstarts>
+                            |----><proxy_pojo_jvmquery>
+                                        |---->build-cobc.xml
+                                        |---->build-pojo.xml
+                                                |----><src>
+                                                        |---->**.java
                 
 +---------------------------------------+
    
- [[2]] From the installDir/ant folder, run command "ant -f build-cobc.xml".
-       This should create a cobol folder with a generated Cobol source.
-       This generated Cobol source holds the data description corresponding
-       to a JAXB Cobol-annotated object such as those produced by
-       {{{../legstar-jaxbgen}JAXB COBOL Annotator}}.
+ [[2]] In order to run the sample proxy for a POJO you need to run
+       the build-pojo.xml first. This will compile the target POJO.
+       This step is needed because build-cobc.xml works on the target
+       java classes.
+       
+       From the samples/quickstarts/proxy_pojo_jvmquery folder, run
+       command "ant -f build-pojo.xml" and check the result.
+       
+       You can now run command "ant -f build-cobc.xml" which generates
+       a COBOL copybook named cireply.cbl in the cobol folder.
+       
+       Each java type, from the jvmquery source, map to an COBOL
+       data item.
    
  [[3]] Follow instructions in build-cobc.xml to generate Cobol descriptions
        from your own annotated JAXB classes.
