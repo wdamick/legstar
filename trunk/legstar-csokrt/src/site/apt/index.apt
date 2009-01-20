@@ -19,4 +19,6 @@ Socket Transport (Csokrt) overview
   Csokrt is one of the transports that plug into the {{{../legstar-invoker}Mainframe Invoker Runtime}}.
   Along with the Mainframe Invoker, it allows a Java client to execute a CICS program
   synchronously over pure TCPIP.
+  
+  For instructions on how to install and configure this transport follow {{{release-notes.html}this link}}.
 
