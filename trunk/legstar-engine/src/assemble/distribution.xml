@@ -16,6 +16,16 @@
             <outputDirectory>/</outputDirectory>
             <destName>LICENSE</destName>
         </file>
+        <file>
+            <source>${project.basedir}/../legstar-engine/NOTICE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>NOTICE</destName>
+        </file>
+        <file>
+           <source>${project.basedir}/../legstar-engine/src/site/apt/release-notes.apt</source>
+           <outputDirectory>/</outputDirectory>
+           <destName>README</destName>
+        </file>
     </files>
 
     <dependencySets>

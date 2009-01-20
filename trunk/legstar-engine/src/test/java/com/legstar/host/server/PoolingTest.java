@@ -29,6 +29,7 @@ import com.legstar.messaging.LegStarMessagePart;
 import com.legstar.messaging.LegStarRequest;
 import com.legstar.config.Constants;
 import com.legstar.messaging.RequestException;
+import com.legstar.test.coxb.LsfileaeCases;
 import com.legstar.work.manager.WorkManagerImpl;
 
 import commonj.work.Work;
@@ -92,7 +93,7 @@ public class PoolingTest extends TestCase {
         engHandler.stop();
         executor.shutdownNow();
 
-        assertEquals(getLsfileaeHostBytesHex(),
+        assertEquals(LsfileaeCases.getHostBytesHexReply100(),
                 Util.toHexString(request.getResponseMessage().getDataParts().get(0).getContent()));
 
     }
@@ -148,7 +149,7 @@ public class PoolingTest extends TestCase {
         address.setHostUserID(HOST_USERID);
         address.setHostPassword(HOST_PASSWORD);
 
-        LegStarRequest request = new LegStarRequest("testScheduleWork", address, requestMessage);
+        LegStarRequest request = new LegStarRequest("testScheduleFailingWork", address, requestMessage);
         synchronized (request) {
             engHandler.getEngine().addRequest(request);
             request.await(3000L, TimeUnit.MILLISECONDS);
@@ -190,7 +191,7 @@ public class PoolingTest extends TestCase {
         executor.shutdownNow();
 
         for (int i = 0; i < clients.length; i++) {
-            assertEquals(getLsfileaeHostBytesHex(),
+            assertEquals(LsfileaeCases.getHostBytesHexReply100(),
                     Util.toHexString(clients[i].getRequest().getResponseMessage().getDataParts().get(0).getContent()));
         }
     }
@@ -228,7 +229,7 @@ public class PoolingTest extends TestCase {
         executor.shutdownNow();
 
         for (int i = 0; i < clients.length; i++) {
-            assertEquals(getLsfileaeHostBytesHex(),
+            assertEquals(LsfileaeCases.getHostBytesHexReply100(),
                     Util.toHexString(clients[i].getRequest().getResponseMessage().getDataParts().get(0).getContent()));
         }
     }
@@ -247,20 +248,6 @@ public class PoolingTest extends TestCase {
         inputParts.add(inCommarea);
         LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
         return new LegStarMessage(dp, inputParts);
-    }
-
-    /**
-     * @return a hexadecimal representation of host data.
-     */
-    public static String getLsfileaeHostBytesHex() { 
-
-        return "f0f0f0f1f0f0"
-        + "e24b40c44b40c2d6d9d4c1d54040404040404040"
-        + "e2e4d9d9c5e86b40c5d5c7d3c1d5c44040404040"
-        + "f3f2f1f5f6f7f7f8"
-        + "f2f640f1f140f8f1"
-        + "5bf0f1f0f04bf1f1"
-        + "5c5c5c5c5c5c5c5c5c";
     }
 
     /**
