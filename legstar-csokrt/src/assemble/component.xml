@@ -10,14 +10,22 @@
             </includes>
         </fileSet>
 
-        <!-- Invoker sample source code -->
+        <!-- Invoker sample source code and ant script -->
         <fileSet>
             <directory>${project.basedir}/../legstar-invoker/src/main/java</directory>
             <outputDirectory>/samples/quickstarts/csokrt/src</outputDirectory>
             <includes>
-                <include>**/InvokeSample.java</include>
+                <include>**/AdapterInvokerSample.java</include>
             </includes>
         </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/../legstar-invoker/src/main/ant</directory>
+            <outputDirectory>/samples/quickstarts/csokrt</outputDirectory>
+            <includes>
+                <include>build.xml</include>
+            </includes>
+        </fileSet>
+ 
  
         <!-- The sample target program properties file -->
         <fileSet>

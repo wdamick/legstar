@@ -24,7 +24,7 @@
     <target name="runtest" depends="compile" 
             description="execute a remote program">
         <echo>Runs Invoker Test</echo>
-        <java fork="yes" classname="com.legstar.host.invoke.InvokeSample" failonerror="true">
+        <java fork="yes" classname="com.legstar.host.invoke.sample.AdapterInvokerSample" failonerror="true">
         <classpath refid="classpath"/>
         </java>
     </target>
