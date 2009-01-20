@@ -53,7 +53,7 @@ public class CicsHttpConnectionFactory  implements ConnectionFactory {
 
     /** (non-Javadoc).
      * @see com.legstar.messaging.ConnectionFactory#createConnection(
-     * java.lang.String, com.legstar.messaging.Address)
+     * java.lang.String, com.legstar.messaging.LegStarAddress)
      * {@inheritDoc}
      */
     public final LegStarConnection createConnection(

@@ -16,38 +16,11 @@ HTTP Transport (Chttprt) overview
   HTTP/HTTPS server. Chttprt provides a {{{LSWEBBIN-readme.html}C/370 program}} that behaves
   as a CGI and ultimately links to the target CICS program.
   
-  Chttprt does not use any of the CICS Web Service capabilities, just the HTTP transport.
-  
-Configuration
-
-  To select this transport, there needs to be a valid endpoint definition in the active
-  LegStar invoker configuration file. See {{{../legstar-invoker}Mainframe Invoker Runtime}} for more info on
-  the configuration file.
-  
-  The hostConnectionFactory element in the configuration file must be:
-  
-+-------------------------------+
-	<hostConnectionfactoryClass>com.legstar.http.client.CicsHttpConnectionFactory</hostConnectionfactoryClass>
-+-------------------------------+
-  
-  The relevant endpoint elements for the HTTP Transport in the configuration file are:
-  
-*-----------------+-----------+--------------------------------------------------------------------------------+
-| hostIPAddress   | Mandatory | CICS TCPIP address                                                             |
-*-----------------+-----------+--------------------------------------------------------------------------------+
-| hostIPPort      | Mandatory | CICS Web Support listening TCPIP port                                          |
-*-----------------+-----------+--------------------------------------------------------------------------------+
-| hostURLPath     | Mandatory | A path to the LegStar LSWEBBIN program such as /CICS/CWBA/LSWEBBIN or a URIMAP |
-*-----------------+-----------+--------------------------------------------------------------------------------+
-| hostCharset     | Optional  | A valid character set such as IBM01140                                         |
-*-----------------+-----------+--------------------------------------------------------------------------------+
-| hostUserID      | Optional  | A CICS user ID                                                                 |
-*-----------------+-----------+--------------------------------------------------------------------------------+
-| hostPassword    | Optional  | A CICS password                                                                |
-*-----------------+-----------+--------------------------------------------------------------------------------+
-  
-  Parameters marked as optional must be provided as part of the request Address if they 
-  are not provided in the configuration file.
-  
-  LegStar uses an optimized binary content which reduces the HTTP payload to a minimum and 
+  Chttprt does not use any of the CICS Web Service capabilities, just the HTTP transport. It
+  uses an optimized binary content which reduces the HTTP payload to a minimum and 
   avoids any character set translations on the host.
+  
+  On the java side, Chttprt is based upon {{{http://jakarta.apache.org/commons/httpclient/}Apache HTTPClient}}.
+  
+  For instructions on how to install and configure this transport follow {{{release-notes.html}this link}}.
+  

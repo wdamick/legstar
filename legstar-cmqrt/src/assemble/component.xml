@@ -11,22 +11,39 @@
             </includes>
         </fileSet>
 
+        <!-- Invoker sample source code -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-invoker/src/main/java</directory>
+            <outputDirectory>/samples/quickstarts/cmqrt/src</outputDirectory>
+            <includes>
+                <include>**/InvokeSample.java</include>
+            </includes>
+        </fileSet>
+ 
+        <!-- The sample target program properties file -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-invoker/src/site/resources/samples</directory>
+            <outputDirectory>/samples/quickstarts/cmqrt</outputDirectory>
+            <includes>
+                <include>*.properties</include>
+            </includes>
+        </fileSet>
+
+        <!-- The sample socket configuration file -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-cmqrt/src/site/resources/samples</directory>
+            <outputDirectory>/samples/quickstarts/cmqrt</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+        </fileSet>
+
     </fileSets>
     
     <files>
         <file>
-            <source>${project.basedir}/../legstar-cmqrt/NOTICE</source>
-            <outputDirectory>/</outputDirectory>
-            <destName>cmqrt-NOTICE</destName>
-        </file>
-        <file>
-            <source>${project.basedir}/../legstar-cmqrt/src/site/apt/release-notes.apt</source>
-            <outputDirectory>/</outputDirectory>
-            <destName>cmqrt-README</destName>
-        </file>
-        <file>
             <source>${project.basedir}/../legstar-cmqrt/src/site/apt/LSMQHBIN-readme.apt</source>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory>/zos/docs</outputDirectory>
             <destName>LSMQHBIN-README</destName>
         </file>
     </files>

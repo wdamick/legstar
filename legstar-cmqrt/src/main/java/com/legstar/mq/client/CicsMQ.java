@@ -473,7 +473,7 @@ public class CicsMQ implements LegStarConnection  {
     }
 
     /** (non-Javadoc).
-     * @see com.legstar.messaging.Connection#getConnectTimeout()
+     * @see com.legstar.messaging.LegStarConnection#getConnectTimeout()
      * {@inheritDoc}
      */
     public final long getConnectTimeout() {
@@ -481,7 +481,7 @@ public class CicsMQ implements LegStarConnection  {
     }
 
     /** (non-Javadoc).
-     * @see com.legstar.messaging.Connection#setConnectTimeout(int)
+     * @see com.legstar.messaging.LegStarConnection#setConnectTimeout(long)
      * {@inheritDoc}
      */
     public final void setConnectTimeout(final long timeout) {
@@ -489,7 +489,7 @@ public class CicsMQ implements LegStarConnection  {
     }
 
     /** (non-Javadoc).
-     * @see com.legstar.messaging.Connection#getReceiveTimeout()
+     * @see com.legstar.messaging.LegStarConnection#getReceiveTimeout()
      * {@inheritDoc}
      */
     public final long getReceiveTimeout() {
@@ -497,7 +497,7 @@ public class CicsMQ implements LegStarConnection  {
     }
 
     /** (non-Javadoc).
-     * @see com.legstar.messaging.Connection#setReceiveTimeout(int)
+     * @see com.legstar.messaging.LegStarConnection#setReceiveTimeout(long)
      * {@inheritDoc}
      */
     public final void setReceiveTimeout(final long timeout) {

@@ -3,47 +3,32 @@
  -----
  Fady Moussallam
  -----
- 13 August 2007
+18 January 2009
  -----
 
 WebSphere MQ Transport (Cmqrt) overview
 
-  The MQ Transport provides connectivity with IBM WebSphere MQ for z/OS.
+  The MQ Transport provides connectivity with IBM WebSphere MQ for z/OS. It is used along with the
+  {{{../legstar-invoker}Mainframe Invoker}} to allow java clients to run CICS programs over
+  WMQ.
   
-  To select this transport, there needs to be a valid endpoint definition in the active
-  configuration file. See {{{../legstar-invoker}Mainframe Invoker Runtime}} for more info on
-  the configuration file location.
+  Cmqrt relies on the CICS MQ Adapter (CKTI) which is a standard feature of WebSphere MQ for z/OS.
+  When requests arrive from the java client in an MQ queue, the standard MQ triggering mechanism 
+  starts a CICS transaction associated with the {{{LSMQHBIN-readme.html}LSMQHBIN C/370 program}} that
+  ultimately links to the target CICS program.
   
-  The hostConnectionFactory element in the configuration file must be:
+  Cmqrt does not use any of the higher level WebSphere MQ features (such as MQ-CICS bridge) because
+  all conversions are done on the java side. When content reaches z/OS, it is already EBCDIC, ready to
+  be consumed by the target CICS program. Cmqrt uses an optimized binary content which reduces the
+  MQ payload to a minimum and avoids any character set translations on the host.
   
-+-------------------------------+
-	<hostConnectionfactoryClass>com.legstar.mq.client.CicsMQConnectionFactory</hostConnectionfactoryClass>
-+-------------------------------+
+  Cmqrt also provides an alternative {{{LSMQCBIN-readme.html}LSMQCBIN C/370 program}}, which is
+  a flood prevention system. This can be used in situations where incoming requests need to be
+  regulated.
   
-  The relevant endpoint elements for the MQ Transport in the configuration file are:
+  On the java side, Cmqrt uses the standard {{{http://www-306.ibm.com/software/integration/wmq/}
+  IBM WebSphere MQ client library}}.
   
-*----------------------+-----------+--------------------------------------------------------------------------------+
-| hostIPAddress        | Mandatory | CICS TCPIP address                                                             |
-*----------------------+-----------+--------------------------------------------------------------------------------+
-| hostIPPort           | Optional  | CICS MQ listening TCPIP port   (Usually 1414)                                  |
-*----------------------+-----------+--------------------------------------------------------------------------------+
-| hostCharset          | Optional  | A valid character set such as IBM01140                                         |
-*----------------------+-----------+--------------------------------------------------------------------------------+
-| hostUserID           | Optional  | A host user ID                                                                 |
-*----------------------+-----------+--------------------------------------------------------------------------------+
-| hostPassword         | Optional  | A host password                                                                |
-*----------------------+-----------+--------------------------------------------------------------------------------+
-| hostMQManager        | Mandatory | The name of the host MQ Manager (exemple CSQ1)                                 |
-*----------------------+-----------+--------------------------------------------------------------------------------+
-| hostMQChannel        | Mandatory | An MQ channel setup to the host MQ system  (exemple CLIENT.TO.FRAME)           |
-*----------------------+-----------+--------------------------------------------------------------------------------+
-| hostMQRequestQueue   | Mandatory | An MQ queue to receive execution requests. See sample MQDEFJCL for definition. |
-*----------------------+-----------+--------------------------------------------------------------------------------+
-| hostMQResponseQueue  | Mandatory | An MQ queue to receive execution replies.                                      |
-*----------------------+-----------+--------------------------------------------------------------------------------+
+  For instructions on how to install and configure this transport follow {{{release-notes.html}this link}}.
   
-  Parameters marked as optional can be provided as part of the request Address if they 
-  are not provided in the configuration file.
   
-  LegStar uses an optimized binary content which reduces the MQ payload to a minimum and 
-  avoids any character set translations on the host.
