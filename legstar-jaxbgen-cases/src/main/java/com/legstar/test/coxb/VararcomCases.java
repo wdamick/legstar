@@ -132,6 +132,22 @@ public final class VararcomCases extends TestCase {
             assertEquals(Short.parseShort(Integer.toString(5 * (i + 1))), item.getCItem2());
         }
     }
+
+    /**
+     * @return a hexadecimal representation of host data.
+     */
+    public static String getHostBytesHex36() {
+        
+        StringBuilder sb = new StringBuilder("0024");
+        for (int i = 0; i < 36; i++) {
+            StringBuilder sbl = new StringBuilder();
+            Formatter formatter = new Formatter(sbl, Locale.US);
+            formatter.format("%04x", 5 * (i + 1));
+            sb.append("c6c7c8c9d1" + sbl.toString());
+        }
+
+        return sb.toString();
+    }
     /**
      * @return a hexadecimal representation of host data.
      */
