@@ -18,29 +18,6 @@ CICS MQ Controller LSMQCBIN
  The program limits the number of simultaneous handlers though in order
  to prevent flooding. The limit is set at the handler TRANCLASS level.
  
-* Prerequisites:
-
- LSMQHBIN must have been installed and tested successfully before
- LSMQCBIN can actually be used.
- 
-* Installation:
-
- LSMQCBIN can be installed from source or using the common distribution of all
- ZOS modules available {{{../legstar-distribution-zos/index.html}here}}.
-  
- If you decide to compile the sources,  You will need a C/370 compiler.
- Since LSMQCBIN is also a CICS program you can use the CICS procedure called
- DFHYITDL to perform the translation and compilation (see C370CMQC for a
- sample).
- 
- LSMQCBIN actually uses a library called LSMQLLIB that you need to
- compile first (see C370CMQL for a sample JCL).
- 
- If you did not use the RDO JCL that comes with the ZOS common distribution
- You need to create a TRANCLASS for the handler transaction (usually LEGQ) and
- set an appropriate MAXACTIVE limit. LSMQCBIN will not start more than
- MAXACTIVE simultaneous handlers.
- 
 * Limitations:
 
   - LSMQCBIN issues an EXEC CICS INQUIRE command which is a system programming
@@ -57,13 +34,5 @@ CICS MQ Controller LSMQCBIN
 
   - WebSphere MQ for z/os 5.3
 
-* How to use:
 
- Once LSMQCBIN is compiled in a library available to your CICS
- region in the RPL list, you might need to define it, as well as
- LSMQLLIB, using RDO (unless programs get autoinstalled).
-
- Associate the LSMQCBIN program with a CICS transaction (say LEGR) and
- replace the LEGQ transaction by LEGR as the triggered CICS transaction
- associated with your trigger process.
  

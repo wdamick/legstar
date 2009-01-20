@@ -11,22 +11,39 @@
             </includes>
         </fileSet>
 
+        <!-- Invoker sample source code -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-invoker/src/main/java</directory>
+            <outputDirectory>/samples/quickstarts/chttprt/src</outputDirectory>
+            <includes>
+                <include>**/InvokeSample.java</include>
+            </includes>
+        </fileSet>
+ 
+        <!-- The sample target program properties file -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-invoker/src/site/resources/samples</directory>
+            <outputDirectory>/samples/quickstarts/chttprt</outputDirectory>
+            <includes>
+                <include>*.properties</include>
+            </includes>
+        </fileSet>
+
+        <!-- The sample socket configuration file -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-chttprt/src/site/resources/samples</directory>
+            <outputDirectory>/samples/quickstarts/chttprt</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+        </fileSet>
+
     </fileSets>
     
     <files>
         <file>
-            <source>${project.basedir}/../legstar-chttprt/NOTICE</source>
-            <outputDirectory>/</outputDirectory>
-            <destName>chttprt-NOTICE</destName>
-        </file>
-        <file>
-            <source>${project.basedir}/../legstar-chttprt/src/site/apt/release-notes.apt</source>
-            <outputDirectory>/</outputDirectory>
-            <destName>chttprt-README</destName>
-        </file>
-        <file>
             <source>${project.basedir}/../legstar-chttprt/src/site/apt/LSWEBBIN-readme.apt</source>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory>/zos/docs</outputDirectory>
             <destName>LSWEBBIN-README</destName>
         </file>
     </files>

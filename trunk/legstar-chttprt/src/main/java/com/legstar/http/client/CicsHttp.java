@@ -495,7 +495,7 @@ public class CicsHttp implements LegStarConnection  {
     }
 
     /** (non-Javadoc).
-     * @see com.legstar.messaging.LegStarConnection#setConnectTimeout(int)
+     * @see com.legstar.messaging.LegStarConnection#setConnectTimeout(long)
      * {@inheritDoc}
      */
     public final void setConnectTimeout(final long timeout) {
@@ -513,7 +513,7 @@ public class CicsHttp implements LegStarConnection  {
     }
 
     /** (non-Javadoc).
-     * @see com.legstar.messaging.LegStarConnection#setReceiveTimeout(int)
+     * @see com.legstar.messaging.LegStarConnection#setReceiveTimeout(long)
      * {@inheritDoc}
      */
     public final void setReceiveTimeout(final long timeout) {
