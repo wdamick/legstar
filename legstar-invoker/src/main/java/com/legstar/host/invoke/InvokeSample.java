@@ -22,8 +22,8 @@ public class InvokeSample {
      * @throws Exception if something goes wrong
      */
     public static void main(final String[] args) throws Exception {
-        InvokeSample cicsSocketSample = new InvokeSample();
-        cicsSocketSample.testInvoke();
+        InvokeSample invoker = new InvokeSample();
+        invoker.invoke();
     }
     
     /**
@@ -39,7 +39,7 @@ public class InvokeSample {
      * </ul>
      * @throws Exception if something goes wrong
      */
-    public void testInvoke() throws Exception {
+    public void invoke() throws Exception {
         LegStarAddress address = new LegStarAddress("TheMainframe");
         HostInvoker invoker = HostInvokerFactory.createHostInvoker(
                 CONFIG_FILE, address, PROGRAM_PROPERTIES);
