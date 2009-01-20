@@ -3,13 +3,18 @@
   -->
 <project basedir="." default="compile">
 
-	<target name="compile">
-	     <mkdir dir="bin"/>
-		 <javac  target="1.5"
-    	         srcdir="src"
-		         destdir="bin"
-		         fork="yes"
-		 />
-	</target>
+    <path id="classpath">
+        <fileset dir="${basedir}/../../.." includes="lib/*.jar" />
+    </path>
+
+    <target name="compile">
+        <mkdir dir="bin"/>
+        <javac  target="1.5"
+            srcdir="src"
+            destdir="bin"
+            fork="yes"
+            classpathref="classpath"
+        />
+    </target>
 
 </project>
