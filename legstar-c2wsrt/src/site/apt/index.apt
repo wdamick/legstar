@@ -35,6 +35,6 @@ Mainframe Proxy runtime (C2wsrt) overview
   
   Mainframe programs need an HTTP API to call the servlet. You can use the standard CICS APIs
   for instance (DFHWBCLI or EXEC CICS WEB).  C2wsrt also comes with its own HTTP API if you
-  need one. The C library for the LegStar HTTP API (LSHTTAPI)is located in the zos/C370 folder.
+  need one. The C library for the LegStar HTTP API (LSHTTAPI) is located in the zos/C370 folder.
   
   For instructions on how to install and configure this transport follow {{{release-notes.html}this link}}.
