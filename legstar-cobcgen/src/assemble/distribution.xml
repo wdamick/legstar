@@ -25,6 +25,9 @@
             <includes>
                 <include>**/jvmquery/*.*</include>
             </includes>
+            <excludes>
+                <exclude>**/ws/jvmquery/*.*</exclude>
+            </excludes>
         </fileSet>
     
     </fileSets>
@@ -41,6 +44,7 @@
             <source>${project.basedir}/../legstar-distribution/LICENSE</source>
             <outputDirectory>/</outputDirectory>
             <destName>LICENSE</destName>
+        </file>
         <file>
             <source>${project.basedir}/../legstar-cobcgen/NOTICE</source>
             <outputDirectory>/</outputDirectory>
@@ -50,7 +54,6 @@
             <source>${project.basedir}/../legstar-cobcgen/src/site/apt/release-notes.apt</source>
             <outputDirectory>/</outputDirectory>
             <destName>README</destName>
-        </file>
         </file>
     </files>
 
