@@ -8,7 +8,8 @@ PREREQUISITES:
  which case, you will need a Servlet engine such as Tomcat or Jetty.
  
  It is assumed you already successfully used LegStar using direct host access
- strategy (without a pooling engine).
+ strategy (without a pooling engine). It is also assumed, at least one LegStar
+ transport is installed in your J2EE container.
  
  The Servlet initiator is targeted at the Servlet 2.3 API. It has been tested
  with Tomcat 5.5 and 6.0.
@@ -16,12 +17,6 @@ PREREQUISITES:
  The Engine uses the "Timer and Work Manager for Application Servers"
  API from BEA/IBM (TWM). The Engine provides a default implementation of this API
  but you should be able to substitute the one provided by your application server.
- 
- The Engine also uses the {{{http://jakarta.apache.org/commons/logging/}Apache Commons logging}}
- and {{{http://jakarta.apache.org/commons/configuration/}Apache commons configuration}}.
- 
- The Engine is used to pool abstract connections as defined in {{{../legstar-messaging}
- Messaging Protocol}}. It has no additional dependencies on LegStar.
  
 INSTALLING/UNINSTALLING:
 
@@ -36,12 +31,14 @@ INSTALLING/UNINSTALLING:
 +---------------------------------------+
    <installDir>
         |---->LICENSE
-        |---->engine-NOTICE
-        |---->engine-README
+        |---->NOTICE
+        |---->README
         |----><lib>
                 |---->*.jar
         |----><samples>
-                |---->*.xml
+                 |----><quickstarts>
+                          |----><pooling>
+                                    |---->*.xml
         |----><war>
                 |---->*.war
                 
