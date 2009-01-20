@@ -17,32 +17,38 @@
             <groupId>commons-configuration</groupId>
             <artifactId>commons-configuration</artifactId>
         </dependency>
+
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
         </dependency>
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
         </dependency>
+
         <dependency>
             <groupId>commonj</groupId>
             <artifactId>commonj-twm</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbapi</artifactId>
+        </dependency>
+    
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-messaging</artifactId>
         </dependency>
         
-        <!-- Testing will dynamically load the socket transport
-             therefore it needs to be on the classpath even
-             if it is not required to compile test classes. -->
         <dependency>
             <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-csokrt</artifactId>
+            <artifactId>legstar-jaxbgen-cases</artifactId>
             <scope>test</scope>
         </dependency>
-    
+        
     </dependencies>
     
     <build>
@@ -100,6 +106,22 @@
                         </goals>
                     </execution>
                 
+                    <!-- Generate site files that needs automatic update. -->
+                    <execution>
+                        <id>build-site</id>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/../legstar-distribution/src/main/ant/gen-download-xml.xml">
+                                    <property name="legstarVersion" value="${legstarVersion}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
                 </executions>
             </plugin>
         
