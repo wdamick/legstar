@@ -1,31 +1,12 @@
 <component>
 
-    <fileSets>
-    
-        <!-- Ant scripts -->
-        <fileSet>
-            <directory>${project.basedir}/../legstar-cobcgen/src/main/resources/ant</directory>
-            <outputDirectory>ant</outputDirectory>
-            <includes>
-                <include>*.xml</include>
-            </includes>
-        </fileSet>
-    
-    </fileSets>
-  
     <files>
 
+        <!-- reference ant scripts  -->
         <file>
-            <source>${project.basedir}/../legstar-cobcgen/NOTICE</source>
-            <outputDirectory>/</outputDirectory>
-            <destName>cobcgen-NOTICE</destName>
+            <source>${project.basedir}/../legstar-cobcgen/src/main/resources/ant/build-cobc.xml</source>
+            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery</outputDirectory>
         </file>
-        <file>
-            <source>${project.basedir}/../legstar-cobcgen/src/site/apt/release-notes.apt</source>
-            <outputDirectory>/</outputDirectory>
-            <destName>cobcgen-README</destName>
-        </file>
-
     </files>
 
 </component>

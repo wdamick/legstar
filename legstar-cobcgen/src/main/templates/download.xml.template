@@ -15,7 +15,7 @@
  		<table border="1">
 			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
 			<tr><td>COBOL Structures Generator</td><td>Java</td>
-            <td><a href="../maven/repo/com/legsem/legstar/legstar-cobcgen/1.2.2/legstar-cobcgen-1.2.2-bin.zip">legstar-cobcgen-1.2.2-bin.zip</a></td></tr>
+            <td><a href="../maven/repo/com/legsem/legstar/legstar-cobcgen/@LEGSTAR-VERSION@/legstar-cobcgen-@LEGSTAR-VERSION@-bin.zip">legstar-cobcgen-@LEGSTAR-VERSION@-bin.zip</a></td></tr>
 		</table>
 
     </section>
