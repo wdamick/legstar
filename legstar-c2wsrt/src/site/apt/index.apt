@@ -3,7 +3,7 @@
  -----
  Fady Moussallam
  -----
- 14 Janvier 2009
+ 14 January 2009
  -----
 
 Mainframe Proxy runtime (C2wsrt) overview
@@ -37,6 +37,4 @@ Mainframe Proxy runtime (C2wsrt) overview
   for instance (DFHWBCLI or EXEC CICS WEB).  C2wsrt also comes with its own HTTP API if you
   need one. The C library for the LegStar HTTP API (LSHTTAPI)is located in the zos/C370 folder.
   
-  There are 2 quikstarts sample projects that
-  COBOL sample client programs are in the zos/cobol folder.
-  
+  For instructions on how to install and configure this transport follow {{{release-notes.html}this link}}.
