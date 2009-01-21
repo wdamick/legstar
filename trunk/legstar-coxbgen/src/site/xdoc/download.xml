@@ -1,6 +1,5 @@
 <document>
   <properties>
-    <author email="admin@legsem.com">Fady Moussallam</author>
     <title>Download</title>
   </properties>
   <!-- Optional HEAD element, which is copied as is into the XHTML <head> element -->
@@ -9,12 +8,12 @@
   </head>
   <body>
     <!-- The body of the document contains a number of sections -->
-    <section name="Download COBOL Binding Generator">
+    <section name="Download LegStar COBOL Binding Generator">
 
       <!-- Within sections, any XHTML can be used -->
- 		<table border="1">
+		<table border="1">
 			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
-			<tr><td>COBOL Binding Generator</td><td>Java</td>
+			<tr><td>LegStar COBOL Binding Generator</td><td>Java</td>
             <td><a href="../maven/repo/com/legsem/legstar/legstar-coxbgen/1.2.3-SNAPSHOT/legstar-coxbgen-1.2.3-SNAPSHOT-bin.zip">legstar-coxbgen-1.2.3-SNAPSHOT-bin.zip</a></td></tr>
 		</table>
 
