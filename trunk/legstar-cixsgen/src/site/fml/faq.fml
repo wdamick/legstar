@@ -7,11 +7,11 @@
     <faq id="footer-company">
       <question>
        Why am I getting a "java.lang.ClassNotFoundException: com.sun.xml.ws.transport.http.servlet.WSServletContextListener" 
-       when starting Tomcat after I deployed my JAXWS endpoint?
+       when starting Tomcat after I deployed my JAX-WS endpoint?
       </question>
       <answer>
-       You probably did not install a JAXWS runtime in Tomcat. In order to do so, you must download a JAXWS 2.1
-       implementation such as <a href="https://jax-ws.dev.java.net/ri-download.html">Sun's JAXWS RI</a> and copy the jar files
+       You probably did not install a JAX-WS runtime in Tomcat. In order to do so, you must download a JAX-WS 2.1
+       implementation such as <a href="https://jax-ws.dev.java.net/ri-download.html">Sun's JAX-WS RI</a> and copy the jar files
        into a common location such as shared/lib under Tomcat.
       </answer>
     </faq>
@@ -19,7 +19,7 @@
      <faq id="footer-company">
       <question>
        Why am I getting a "java.lang.NoClassDefFoundError: com/legstar/host/invoke/HostInvokeException" 
-       when starting Tomcat after I deployed my JAXWS endpoint?
+       when starting Tomcat after I deployed my JAX-WS endpoint?
       </question>
       <answer>
        The default war file created by the ant script does not include the LegStar binaries. To fix this 
@@ -31,7 +31,7 @@
      <faq id="footer-company">
       <question>
        Why am I getting a "org.apache.commons.configuration.ConfigurationException: Cannot locate configuration source
-       legstar-invoker-config.xml" when starting running my JAXWS endpoint?
+       legstar-invoker-config.xml" when starting running my JAX-WS endpoint?
       </question>
       <answer>
        The endpoint implementation is looking for a configuration file which name is specified in the web.xml
@@ -43,7 +43,7 @@
     
      <faq id="footer-company">
       <question>
-       I have successfully deployed the sample JAXWS endpoint. How do I test it?
+       I have successfully deployed the sample JAX-WS endpoint. How do I test it?
       </question>
       <answer>
        You can direct your browser to a URL such as "http://localhost:8080/cixs-lsfileae/lsfileae?wsdl",
