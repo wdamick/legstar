@@ -4,16 +4,10 @@
 
 PREREQUISITES:
 
- LegStar Complex Types Mapping Generator is implemented as a set of
- Apache ant task (Apache Software Foundation (http://www.apache.org/).
- 
- Xsdcgen has been tested with ant 1.6.5. The binaries can be downloaded
- from http://ant.apache.org/.
- 
- JRE 1.5+ and ANT 1.6.5+ are both prerequisites for LegStar.
+ Java 1.5+ and ANT 1.6.5+ are both prerequisites for LegStar.
  Make sure JAVA_HOME and ANT_HOME environment variables are set and that
- $JAVA_HOME/bin (%JAVA_HOME%/bin on Windows) and $ANT_HOME/bin (%ANT_HOME%/bin on Windows)
- are both in your system path.
+ $JAVA_HOME/bin (%JAVA_HOME%/bin on Windows) and $ANT_HOME/bin (%ANT_HOME%/bin
+ on Windows) are both in your system path.
  
  A further requirement of xsdcgen is that JAVA_HOME points to a JDK not a JRE.
  This is because the sample web service provided needs the apt task that is
@@ -48,15 +42,20 @@ INSTALLING/UNINSTALLING:
                                        |----><src>
                                                |---->**/*.java
                                        |----><webapp>
-                                               |----><WEB-INF>
-                                                        |---->web.xml
-                                                        |---->sun-jaxws.xml
+                                           |----><jaxws-cultureinfo>
+                                                   |----><WEB-INF>
+                                                            |---->web.xml
+                                                            |---->sun-jaxws.xml
         |----><lib>
                 |---->*.jar
                 
 +---------------------------------------+
    
- [[2]] In order to run the sample proxy for a POJO you need to run
+ [[2]] To uninstall, remove the installDir folder.
+
+RUNNING THE SAMPLES:
+
+ [[1]] In order to run the sample proxy for a POJO you need to run
        the build-pojo.xml first. This will compile the target POJO.
        This step is needed because build-java2xs.xml works on the target
        java classes.
@@ -71,7 +70,7 @@ INSTALLING/UNINSTALLING:
        complex type. Each XML schema element has special Cobol annotations
        with default attributes, such as maximum character string sizes.
    
- [[3]] In order to run the sample proxy for a Web Service, you need to run
+ [[2]] In order to run the sample proxy for a Web Service, you need to run
        the build-war.xml first. This will generate a target Web service,
        ready for deployment into a J2EE container such as Tomcat.
        
@@ -97,11 +96,9 @@ INSTALLING/UNINSTALLING:
        special Cobol annotations with default attributes, such as maximum
        character string sizes.
        
- [[4]] Follow instructions in build-xsd2xs.xml and build-java2xs.xml to generate
+ [[3]] Follow instructions in build-xsd2xs.xml and build-java2xs.xml to generate
        annotated schemas from your own XML schemas, WSDL and Java classes.
    
- [[5]] To uninstall, remove the installDir folder.
-
 DOCUMENTATION:
 
  Documentation available at http://www.legsem.com/legstar/legstar-xsdcgen
