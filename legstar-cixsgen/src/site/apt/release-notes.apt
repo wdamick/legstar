@@ -122,7 +122,7 @@ RUNNING THE SAMPLES:
  [[3]] From the samples/quickstarts/adapter_lsfileae folder, run command
        "ant -f build-jws2cixs.xml". This should add a set of java files to the
        src folder, these implement a JAX-WS endpoint. This also creates a 
-       WebContent and an ant folders.
+       webapp and an ant folders.
    
  [[4]] From the samples/quickstarts/adapter_lsfileae/ant folder, run command
        "ant". This should generate a war file in the war folder, ready
@@ -137,20 +137,19 @@ RUNNING THE SAMPLES:
        service client using JAX-WS.
    
  [[6]] In order to actually run the deployed Web Service, you need to select
-       a transport and put a customized version of the legstar-invoker.config.xml
+       a transport and put a customized version of the legstar-invoker-config.xml
        configuration file in a location such as CATALINA_HOME/shared/classes.
        
        There are sample invoker configuration files for each of the transports
        supported in:
        
-       * samples/quickstarts/chttprt HTTP transport
+       * samples/quickstarts/chttprt for HTTP transport
 
-       * samples/quickstarts/cmqrt WebSphere MQ transport
+       * samples/quickstarts/cmqrt for WebSphere MQ transport
 
-       * samples/quickstarts/csokrt Socket transport
+       * samples/quickstarts/csokrt for Socket transport
        
        []
-       
    
 * Service Proxy
 
@@ -189,8 +188,8 @@ RUNNING THE SAMPLES:
     
  [[3]] From the samples/quickstarts/proxy_pojo_jvmquery folder, run command
        "ant -f build-cixs2jws.xml". This should generate a web.xml file
-       in the WebContent/WEB-INF folder, an ant script in the ant folder and
-       a sample COBOL program in the cobol folder.
+       in the webapp/cixs-jvmquery/WEB-INF folder, an ant script in the ant
+       folder and a sample COBOL program in the cobol folder.
    
  [[4]] From the samples/quickstarts/proxy_pojo_jvmquery/ant folder, run command
        "ant". This should generate a war file in the war folder, ready
@@ -252,8 +251,8 @@ RUNNING THE SAMPLES:
 
  [[3]] From the samples/quickstarts/proxy_pojo_cultureinfo folder, run command
        "ant -f build-cixs2jws.xml". This should generate a web.xml file
-       in the WebContent/WEB-INF folder, an ant script in the ant folder and
-       a sample COBOL program in the cobol folder.
+       in the webapp/cixs-cultureinfo/WEB-INF folder, an ant script in the ant
+       folder and a sample COBOL program in the cobol folder.
    
  [[4]] From the samples/quickstarts/proxy_pojo_cultureinfo/ant folder, run
        command "ant". This should generate a war file in the war folder, ready

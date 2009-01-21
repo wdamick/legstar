@@ -10,7 +10,7 @@ Service Generator (Cixsgen) overview
 
  Service Generator is a development time tool that Service-enable mainframe programs.
  
- The generation features are available as a set of ant tasks or as a set of {{{../legstar-common-plugin}Eclipse plugins}}).
+ The generation features are available as a set of ant tasks or as a set of {{{../legstar-common-plugin}Eclipse plugins}}.
  
  Cixsgen comes with 2 primary features:
  
@@ -30,8 +30,8 @@ Service Generator (Cixsgen) overview
  Cixsgen produces various Java and XML artifacts that you can deploy in J2EE containers such as
  Tomcat or Jetty. In the case of Proxies, it also generate a sample COBOL program.
  
- At runtime, generated artifacts for Adapters will use {{{../legstar-invoker}Adapter Runtime}}) and
- generated artifacts for Proxies will use {{{../legstar-c2wsrt}Proxy Runtime}}).
+ At runtime, generated artifacts for Adapters will use {{{../legstar-invoker}Mainframe Adapter Runtime}}) and
+ generated artifacts for Proxies will use {{{../legstar-c2wsrt}Mainframe Proxy Runtime}}.
  
  For instructions on how to install and use this generator follow {{{release-notes.html}this link}}.
  
