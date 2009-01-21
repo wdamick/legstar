@@ -6,7 +6,7 @@
      Prerequisite: COBOL binding classes should have been generated
      using Coxbgen prior to using this script.
   -->
-<project basedir=".." default="compileService" name="generate-service">
+<project basedir="." default="compileService" name="generate-service">
 
   <!-- ===========================================================  -->
   <!-- Setup environment
@@ -15,49 +15,47 @@
 
     <property environment="env"/>
     <!-- Service name   -->
-    <property name="service" value="lsfileae" />
+    <property name="service" value="@SERVICE-NAME@" />
     <!-- CICS program name   -->
-    <property name="cics.program.name" value="LSFILEAE" />
+    <property name="cics.program.name" value="@PROGRAM-NAME@" />
     <!-- The input JAXB type name   -->
-    <property name="jaxb.root.name.in" value="Dfhcommarea" />
+    <property name="jaxb.root.name.in" value="@JAXB-ROOT-NAME@" />
     <!-- The output JAXB type name   -->
-    <property name="jaxb.root.name.out" value="Dfhcommarea" />
+    <property name="jaxb.root.name.out" value="@JAXB-ROOT-NAME@" />
     <!-- JAXB classes package name prefix    -->
-    <property name="jaxb.package.pfx" value="legstar.test"/>
+    <property name="jaxb.package.pfx" value="com.legstar.test.coxb"/>
     <!-- CIXS classes package name prefix    -->
-    <property name="cixs.package.pfx" value="legstar.test.ws"/>
+    <property name="cixs.package.pfx" value="com.legstar.test.cixs"/>
     <!-- CIXS WSDL Namespace prefix    -->
-    <property name="cixs.namespace.pfx" value="http://test.legstar/ws"/>
+    <property name="cixs.namespace.pfx" value="http://cixs.test.legstar.com"/>
 
     <!-- CIXS Sources target location   -->
-    <property name="src.dir" value="${basedir}/src/main/java"/>
+    <property name="src.dir" value="src"/>
     <!-- CIXS binaries target location  -->
-    <property name="bin.dir" value="${basedir}/target/classes"/>
+    <property name="bin.dir" value="bin"/>
     <!-- Ant scripts target location   -->
-    <property name="ant.dir" value="${basedir}/src/main/ant/${service}"/>
+    <property name="ant.dir" value="ant"/>
     <!-- Web descriptors target location   -->
-    <property name="wdd.dir" value="${basedir}/src/main/WebContent/${service}/WEB-INF"/>
+    <property name="wdd.dir" value="webapp/cixs-${service}/WEB-INF"/>
     <!-- Properties files target location   -->
     <property name="prop.dir" value="${wdd.dir}/classes"/>
 
     <!-- Location of JAXB classes   -->
-    <property name="jaxb.bin.dir" value="${basedir}/target/classes"/>
+    <property name="jaxb.bin.dir" value="bin"/>
     <!-- Location of COXB binding classes   -->
-    <property name="coxb.bin.dir" value="${basedir}/target/classes"/>
+    <property name="coxb.bin.dir" value="bin"/>
     <!-- Location of custom code classes   -->
-    <property name="cust.bin.dir" value="${basedir}/target/classes"/>
+    <property name="cust.bin.dir" value="bin"/>
     
     <!-- War files target location   -->
-    <condition property="war.dir" value="${env.CATALINA_BASE}/webapps" else="${env.CATALINA_HOME}/webapps">
-        <isset property="env.CATALINA_BASE"/> 
-    </condition>
+    <property name="war.dir" value="war"/>
     
     <!-- Classpath setting -->
     <path id="classpath">
         <pathelement location="${jaxb.bin.dir}"/>
         <pathelement location="${coxb.bin.dir}"/>
         <pathelement location="${cust.bin.dir}"/>
-        <fileset dir="${basedir}" includes="lib/*.jar" />
+        <fileset dir="${basedir}/../../.." includes="lib/*.jar" />
     </path>
 
     <!-- Web Service Adapter Generator ant task -->
@@ -104,14 +102,14 @@
             </cixsOperation>
         </cixsJaxwsService>
         <!-- Generated adapter is exposed as a Web Service with default parameters.
-             You can customize these parameters using this element:
+             You can customize these parameters using this element: -->
         <webServiceParameters
-            wsdlUrl="http://localhost:8080/jaxws-lsfileae/lsfileae?wsdl"
-            wsdlTargetNamespace="http://cixs.test.legstar.com/lsfileae"
-            wsdlServiceName="lsfileaeService"
-            wsdlPortName="lsfileaePort"
+            wsdlUrl="http://localhost:8080/jaxws-${service}/${service}?wsdl"
+            wsdlTargetNamespace="http://cixs.test.legstar.com/${service}"
+            wsdlServiceName="${service}Service"
+            wsdlPortName="${service}Port"
         />
-        -->
+        
     </jaxws2cixsgen>
     
   </target>

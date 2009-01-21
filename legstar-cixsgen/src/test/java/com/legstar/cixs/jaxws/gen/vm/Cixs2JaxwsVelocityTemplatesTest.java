@@ -120,7 +120,7 @@ public class Cixs2JaxwsVelocityTemplatesTest extends AbstractTestTemplate {
         getParameters().put("jaxbBinDir", "target/classes");
         getParameters().put("coxbBinDir", "target/classes");
             getParameters().put("targetWarDir", "/Servers/TOMDev/webapps");
-        getParameters().put("targetWDDDir", "/Legsem/Legstar/Dev/WebContent/WEB-INF");
+        getParameters().put("targetWDDDir", "/Legsem/Legstar/Dev/webapp/WEB-INF");
 
         CixsJaxwsService model = Samples.getCultureInfo();
         String resStr = genSource(model,
@@ -131,7 +131,7 @@ public class Cixs2JaxwsVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("<property name=\"service\" value=\"cultureinfo\"/>"));
         assertTrue(resStr.contains("<delete file=\"/Servers/TOMDev/webapps/c2ws-cultureinfo.war\""));
         assertTrue(resStr.contains("<war warfile=\"/Servers/TOMDev/webapps/c2ws-cultureinfo.war\""));
-        assertTrue(resStr.contains("webxml=\"/Legsem/Legstar/Dev/WebContent/WEB-INF/web.xml\">"));
+        assertTrue(resStr.contains("webxml=\"/Legsem/Legstar/Dev/webapp/WEB-INF/web.xml\">"));
         assertTrue(resStr.contains("<classes dir=\"target/classes\">"));
         assertTrue(resStr.contains("<include name=\"com/legstar/test/coxb/cultureinfo/*.class\"/>"));
     }

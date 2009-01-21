@@ -328,12 +328,12 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
         CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
 
         getParameters().put("targetWarDir", "/Servers/TOMDev/webapps");
-        getParameters().put("targetWDDDir", "/Legsem/Legstar/Dev/WebContent/WEB-INF");
+        getParameters().put("targetWDDDir", "/Legsem/Legstar/Dev/webapp/WEB-INF");
         getParameters().put("jaxbBinDir", "/legstar-jaxbgen-cases/target/classes");
         getParameters().put("coxbBinDir", "/legstar-coxbgen-cases/target/classes");
         getParameters().put("targetBinDir", "/legstar-cixsgen-cases/target/classes");
         getParameters().put("custBinDir", "/legstar-cixsgen-cust-cases/target/classes");
-        getParameters().put("targetPropDir", "/Legsem/Legstar/Dev/WebContent/WEB-INF/classes");
+        getParameters().put("targetPropDir", "/Legsem/Legstar/Dev/webapp/WEB-INF/classes");
 
         File componentAntFilesDir =
             new File(GEN_ANT_DIR, jaxwsComponent.getName());
@@ -347,8 +347,8 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("<delete file=\"/Servers/TOMDev/webapps/cixs-lsfileae.war\""
                 + " includeEmptyDirs=\"true\""));
         assertTrue(resStr.contains("<war warfile=\"/Servers/TOMDev/webapps/cixs-lsfileae.war\""));
-        assertTrue(resStr.contains("webxml=\"/Legsem/Legstar/Dev/WebContent/WEB-INF/web.xml\">"));
-        assertTrue(resStr.contains("<webinf dir=\"/Legsem/Legstar/Dev/WebContent/WEB-INF\""));
+        assertTrue(resStr.contains("webxml=\"/Legsem/Legstar/Dev/webapp/WEB-INF/web.xml\">"));
+        assertTrue(resStr.contains("<webinf dir=\"/Legsem/Legstar/Dev/webapp/WEB-INF\""));
         assertTrue(resStr.contains("<classes dir=\"/legstar-jaxbgen-cases/target/classes\">"));
         assertTrue(resStr.contains("<include name=\"com/legstar/test/coxb/lsfileae/*.class\"/>"));
         assertTrue(resStr.contains("<classes dir=\"/legstar-coxbgen-cases/target/classes\">"));
