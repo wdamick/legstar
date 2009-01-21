@@ -44,9 +44,9 @@ INSTALLING/UNINSTALLING:
                            |----><adapter_lsfileae>
                                        |---->build-*.xml
                                        |----><cobol>
-                                                |---->*.cbl
+                                                |---->lsfileae.cbl
                                        |----><schema>
-                                                |---->*.xsd
+                                                |---->lsfileae.xsd
                                        |----><src>
                                                |---->**/*.java
                            |----><chttprt>
@@ -60,14 +60,18 @@ INSTALLING/UNINSTALLING:
                                        |---->legstar-pooling-config.xml
                            |----><proxy_pojo_jvmquery>
                                        |---->build-*.xml
+                                       |----><jcl>
+                                               |---->COBCJVMQ
                                        |----><schema>
-                                                |---->*.xsd
+                                                |---->jvmquery.xsd
                                        |----><src>
                                                |---->**/*.java
                            |----><proxy_ws_cultureinfo>
                                        |---->build-*.xml
+                                       |----><jcl>
+                                               |---->COBCCULT
                                        |----><schema>
-                                                |---->*.xsd
+                                                |---->cultureinfo.xsd
                                        |----><src>
                                                |---->**/*.java
                                        |----><webapp>
@@ -200,9 +204,10 @@ RUNNING THE SAMPLES:
        missing instructions or just run "ant -f build-jvmquery-cobol-src.xml"
        that automatically does that.
        
-       Edit the JVMQUERY.cbl source and set the W00-SERVICE-URI so that
+       Edit the JVMQUERY.cbl source and check the W00-SERVICE-URI, make sure
        it points to the machine where you deployed the proxy. You can now
-       upload that program to z/OS, compile and run it.
+       upload that program to z/OS, compile and run it. A sample compilation
+       jcl is in the jcl folder.
  
 ** Service Proxy to a Web Service
 
@@ -262,9 +267,10 @@ RUNNING THE SAMPLES:
        missing instructions or just run "ant -f build-cultureinfo-cobol-src.xml"
        that automatically does that.
        
-       Edit the CULTUREI.cbl source and set the W00-SERVICE-URI so that
+       Edit the CULTUREI.cbl source and check the W00-SERVICE-URI, make sure
        it points to the machine where you deployed the proxy. You can now
-       upload that program to z/OS, compile and run it.
+       upload that program to z/OS, compile and run it. A sample compilation
+       jcl is in the jcl folder.
  
 
 DOCUMENTATION:
