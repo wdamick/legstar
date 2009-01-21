@@ -65,13 +65,15 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                 
-                    <!-- This will copy over custom choice cases to coxbgen-cases.  -->
+                    <!-- This will deploy the jar file to a Tomcat dev instance.  -->
                     <execution>
-                        <id>prepare-integration-tests</id>
-                        <phase>pre-integration-test</phase>
+                        <id>deploy-to-tomcat</id>
+                        <phase>package</phase>
                         <configuration>
                             <tasks>
-                                <ant antfile="${basedir}/src/test/ant/build-coxbgen-cases.xml" />
+                                <ant antfile="${basedir}/../src/main/ant/deploy-to-tomcat.xml">
+                                    <property name="legstar-dev-tomcat-base" value="${legstar-dev-tomcat-base}" />
+                                </ant>
                             </tasks>
                         </configuration>
                         <goals>
@@ -79,13 +81,13 @@
                         </goals>
                     </execution>
 
+                    <!-- This will copy over custom choice cases to coxbgen-cases.  -->
                     <execution>
-                        <!-- This will deploy the jar file to a Tomcat dev instance.  -->
-                        <id>deploy-to-tomcat</id>
-                        <phase>install</phase>
+                        <id>prepare-integration-tests</id>
+                        <phase>pre-integration-test</phase>
                         <configuration>
                             <tasks>
-                                <ant antfile="${basedir}/src/main/ant/deploy-to-tomcat.xml" />
+                                <ant antfile="${basedir}/src/test/ant/build-coxbgen-cases.xml" />
                             </tasks>
                         </configuration>
                         <goals>
