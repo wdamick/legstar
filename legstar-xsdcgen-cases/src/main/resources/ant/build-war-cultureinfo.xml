@@ -12,9 +12,9 @@
         <property environment="env"/>
         <property name="verbose" value="true"/>
         <property name="src" value="src"/>
-        <property name="gen.src" value="gen-src"/>
+        <property name="gen.src" value="src"/>
         <property name="gen.bin" value="bin"/>
-        <property name="src.war" value="webapp/WEB-INF"/>
+        <property name="src.war" value="webapp/jaxws-cultureinfo/WEB-INF"/>
         <property name="gen.war" value="war"/>
         
         <path id="jaxws.classpath">
