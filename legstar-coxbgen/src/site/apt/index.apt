@@ -27,70 +27,10 @@ COBOL Binding Generator (Coxbgen) overview
   At runtime, Coxbgen provides low-level conversions for simple types such as strings, Cobol packed decimals,
   Cobol zoned decimals, simple arrays, etc.
   
+  For instructions on how to install and use this generator follow {{{release-notes.html}this link}}.
+ 
   For answers to common questions about LegStar Coxbgen, see the {{{faq.html} FAQ}}.
 
-Using Tranformers produced by COBOL Binding Generator
-
-  Once you generate binding classes using the COBOL Binding Generator, you get a set of transformer classes
-  that you can easily use to turn  mainframe payloads to java data objects.
-  
-  This is useful if you are not planning on using LegStar transports (LegStar transports also use transformers
-  but this is automatically done for you under the hood).
-  
-  This is sample code showing how you would use a generated mainframe to java transformer assuming you
-  just generated a transformer class called com.legstar.test.coxb.lsfileae.DfhcommareaTransformers.
-  
-+---------------------------------------
-    /**
-     * Transform host data and test java data object result.
-     * @param hostBytes a byte array holding the mainframe payload
-     * @throws HostTransformException if transforming fails
-     */
-    public void hostToJavaTransform(final byte[] hostBytes) throws HostTransformException {
-
-        DfhcommareaTransformers transformers = new DfhcommareaTransformers();
-        Dfhcommarea dfhcommarea = transformers.toJava(hostBytes);
-        System.out.println(dfhcommarea.getComNumber());
-        System.out.println(dfhcommarea.getComPersonal().getComName());
-        System.out.println(dfhcommarea.getComPersonal().getComAddress());
-        System.out.println(dfhcommarea.getComPersonal().getComPhone());
-        System.out.println(dfhcommarea.getComDate());
-        System.out.println(dfhcommarea.getComAmount());
-        System.out.println(dfhcommarea.getComComment());
-    }
-+---------------------------------------
-
-  Conversely, you would produce a byte array with mainframe data from a java data object
-  with code similar to this:
-  
-+---------------------------------------
-    /**
-     * Creates a java data object and returns the host data result.
-     * @return a byte array holding the mainframe payload
-     * @throws HostTransformException if transforming fails
-     */
-    public byte[] javaToHostTransform() throws HostTransformException {
-        ObjectFactory of = new ObjectFactory();
-        Dfhcommarea dfhcommarea = of.createDfhcommarea();
-        dfhcommarea.setComNumber(100L);
-        ComPersonal comPersonal = of.createComPersonal();
-        comPersonal.setComName("TOTO");
-        comPersonal.setComAddress("LABAS STREET");
-        comPersonal.setComPhone("88993314");
-        dfhcommarea.setComPersonal(comPersonal);
-        dfhcommarea.setComDate("100458");
-        dfhcommarea.setComAmount("00100.35");
-        dfhcommarea.setComComment("A VOIR");
-        DfhcommareaTransformers transformers = new DfhcommareaTransformers();
-        return transformers.toHost(dfhcommarea);
-    }
-+---------------------------------------
-  
-  Generated transformers use the default IBM01140 US EBCDIC character set for conversions. 
-  Methods toHost and toJava also accept a character set name as a second parameter if you
-  need to use a different one (just make sure your JRE charsets.jar supports your
-  character set).
-  
   
 
 

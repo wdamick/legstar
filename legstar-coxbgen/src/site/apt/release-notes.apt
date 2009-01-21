@@ -4,19 +4,14 @@
 
 PREREQUISITES:
 
- LegStar COBOL Binding Generator is implemented as an Apache ant task (Apache
- Software Foundation (http://www.apache.org/).
- 
- Coxbgen has been tested with ant 1.6.5. The binaries can be downloaded from 
- http://ant.apache.org/.
- 
- JRE 1.5+ and ANT 1.6.5+ are both prerequisites for LegStar.
+ Java 1.5+ and ANT 1.6.5+ are both prerequisites for LegStar.
  Make sure JAVA_HOME and ANT_HOME environment variables are set and that
- $JAVA_HOME/bin (%JAVA_HOME%/bin on Windows) and $ANT_HOME/bin (%ANT_HOME%/bin on Windows)
- are both in your system path.
+ $JAVA_HOME/bin (%JAVA_HOME%/bin on Windows) and $ANT_HOME/bin (%ANT_HOME%/bin
+ on Windows) are both in your system path.
 
- Coxbgen relies on {{{https://jaxb.dev.java.net/}Sun's JAXB}}. The JAXB implementation
- must be at least 2.1 compliant. Such an implementation is part of the LegStar distribution.
+ Coxbgen relies on {{{https://jaxb.dev.java.net/}Sun's JAXB}}. The JAXB
+ implementation must be at least 2.1 compliant. Such an implementation is part
+ of the LegStar distribution.
 
 INSTALLING/UNINSTALLING:
 
@@ -62,7 +57,11 @@ INSTALLING/UNINSTALLING:
                 
 +---------------------------------------+
    
- [[2]] In order to generate binding classes for the lsfileae adapter, run
+ [[2]] To uninstall, remove the installDir folder.
+
+RUNNING THE SAMPLES:
+
+ [[1]] In order to generate binding classes for the lsfileae adapter, run
        command "ant -f build-jaxb.xml" from the
        samples/quickstarts/adapter_lsfileae folder and check the result.
        This should create a src folder containing generated JAXB classes
@@ -80,7 +79,7 @@ INSTALLING/UNINSTALLING:
        reflecting on the JAXB classes at runtime. They are used by
        higher level LegStar modules.
     
- [[3]] In order to generate binding classes for the jvmquery proxy, run
+ [[2]] In order to generate binding classes for the jvmquery proxy, run
        command "ant -f build-jaxb.xml" from the
        samples/quickstarts/proxy_pojo_jvmquery folder and check the result.
        
@@ -92,7 +91,7 @@ INSTALLING/UNINSTALLING:
        command "ant -f build-coxb-jvmqueryreply.xml". This creates
        binding classes for the JvmQueryReply JAXB root class.
     
- [[4]] In order to generate binding classes for the cultureinfo proxy, run
+ [[3]] In order to generate binding classes for the cultureinfo proxy, run
        command "ant -f build-jaxb.xml" from the
        samples/quickstarts/proxy_pojo_cultureinfo folder and check the result.
        
@@ -104,11 +103,76 @@ INSTALLING/UNINSTALLING:
        command "ant -f build-coxb-getinforesponse.xml". This creates
        binding classes for the GetInfoResponse JAXB root class.
     
- [[5]] Follow instructions in build-jaxb.xml and build-coxb*.xml to generate
+ [[4]] Follow instructions in build-jaxb.xml and build-coxb*.xml to generate
        binding classes from your own annotated XML schemas.
    
- [[6]] To uninstall, remove the installDir folder.
+USING TRANFORMERS
 
+  Once you generate binding classes using the COBOL Binding Generator, you get
+  a set of transformer classes that you can easily use to turn mainframe
+  payloads to java data objects.
+  
+  This is useful if you are not planning on using LegStar transports (LegStar
+  transports also use transformers but this is automatically done for you under
+  the hood).
+  
+  This is sample code showing how you would use a generated mainframe to java
+  transformer assuming you just generated a transformer class called
+  com.legstar.test.coxb.lsfileae.DfhcommareaTransformers.
+  
++---------------------------------------
+    /**
+     * Transform host data and test java data object result.
+     * @param hostBytes a byte array holding the mainframe payload
+     * @throws HostTransformException if transforming fails
+     */
+    public void hostToJavaTransform(final byte[] hostBytes) throws HostTransformException {
+
+        DfhcommareaTransformers transformers = new DfhcommareaTransformers();
+        Dfhcommarea dfhcommarea = transformers.toJava(hostBytes);
+        System.out.println(dfhcommarea.getComNumber());
+        System.out.println(dfhcommarea.getComPersonal().getComName());
+        System.out.println(dfhcommarea.getComPersonal().getComAddress());
+        System.out.println(dfhcommarea.getComPersonal().getComPhone());
+        System.out.println(dfhcommarea.getComDate());
+        System.out.println(dfhcommarea.getComAmount());
+        System.out.println(dfhcommarea.getComComment());
+    }
++---------------------------------------
+
+  Conversely, you would produce a byte array with mainframe data from a java data object
+  with code similar to this:
+  
++---------------------------------------
+    /**
+     * Creates a java data object and returns the host data result.
+     * @return a byte array holding the mainframe payload
+     * @throws HostTransformException if transforming fails
+     */
+    public byte[] javaToHostTransform() throws HostTransformException {
+        ObjectFactory of = new ObjectFactory();
+        Dfhcommarea dfhcommarea = of.createDfhcommarea();
+        dfhcommarea.setComNumber(100L);
+        ComPersonal comPersonal = of.createComPersonal();
+        comPersonal.setComName("TOTO");
+        comPersonal.setComAddress("LABAS STREET");
+        comPersonal.setComPhone("88993314");
+        dfhcommarea.setComPersonal(comPersonal);
+        dfhcommarea.setComDate("100458");
+        dfhcommarea.setComAmount("00100.35");
+        dfhcommarea.setComComment("A VOIR");
+        DfhcommareaTransformers transformers = new DfhcommareaTransformers();
+        return transformers.toHost(dfhcommarea);
+    }
++---------------------------------------
+  
+  Generated transformers use the default IBM01140 US EBCDIC character set for
+  conversions.
+  
+  Methods toHost and toJava also accept a character set name as a second
+  parameter if you need to use a different one (just make sure your JRE
+  charsets.jar supports your character set).
+  
 DOCUMENTATION:
 
  Documentation available at http://www.legsem.com/legstar/legstar-coxbgen
