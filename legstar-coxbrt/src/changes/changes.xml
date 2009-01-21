@@ -1,9 +1,23 @@
 <document>
   <properties>
     <title>COBOL Binding Runtime</title>
-    <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
+    <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
+      <action dev="fady" type="update">
+        Added support for Transformers and the new associated API.
+      </action>
+      <action dev="fady" type="update">
+        Fixed Issue 29: When mainframe sends partial data, converters should  produce default values or use the partial data 
+        when it is available.
+      </action>
+      <action dev="fady" type="update">
+        Fixing Issue 28:  COBOL Binding class does not compile for arrays with OCCURS 0 TO 1.
+        The case OCCURS 0 TO 1 DEPENDING ON is now managed as an optional element (not an array).
+        The counter element in DEPENDING ON will be set to 1 if object exist and conversely,
+        host data is assumed to contain bytes for that element if the associated counter is 1.
+      </action>
+    </release>
     <release version="1.2.2" date="2008-12-01" description="Support for ESB generation">
       <action dev="fady" type="update">
         Fixed Bug 30: String padding character now depends on target host character set rather than being hardcoded as 0x40.

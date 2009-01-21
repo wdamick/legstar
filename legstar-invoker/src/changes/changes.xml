@@ -1,7 +1,6 @@
 <document>
   <properties>
-    <title>Mainframe Invoker Runtime</title>
-    <author email="fady@legsem.com">Fady Moussallam</author>
+    <title>Mainframe Adapter Runtime</title>
   </properties>
   <body>
     <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">

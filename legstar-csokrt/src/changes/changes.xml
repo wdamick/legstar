@@ -1,7 +1,6 @@
 <document>
   <properties>
     <title>Changes Socket Transport</title>
-    <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
     <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
