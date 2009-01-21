@@ -11,6 +11,11 @@
         <legstarVersion>${project.version}</legstarVersion>
     </properties>
 
+    <issueManagement>
+        <system>Google Code Issue Tracking</system>
+        <url>http://code.google.com/p/legstar/issues</url>
+    </issueManagement>
+
     <scm>
         <connection>scm:svn:http://legstar.googlecode.com/svn/trunk/</connection>
         <developerConnection>scm:svn:https://legstar.googlecode.com/svn/trunk/</developerConnection>
@@ -21,7 +26,7 @@
         <developer>
             <id>fady</id>
             <name>Fady Moussallam</name>
-            <email>fady@legsem.com</email>
+            <email>fady@NOSPAMlegsem.com</email>
             <organization>Legsem.com</organization>
             <roles>
                 <role>Project Manager</role>
@@ -153,11 +158,11 @@
         <module>legstar-coxbgen-cases</module>
         <module>legstar-messaging</module>
         <module>legstar-messaging-impl</module>
+        <module>legstar-invoker</module>
         <module>legstar-chttprt</module>
         <module>legstar-cmqrt</module>
         <module>legstar-csokrt</module>
         <module>legstar-engine</module>
-        <module>legstar-invoker</module>
         <module>legstar-c2wsrt</module>
         <module>legstar-cobcgen</module>
         <module>legstar-cixsgen-model</module>
@@ -569,7 +574,6 @@
                 <groupId>com.ibm</groupId>
                 <artifactId>mq</artifactId>
                 <version>6.0.2</version>
-                <scope>provided</scope>
             </dependency>
 
             <!-- Sun J2EE connector API -->    
