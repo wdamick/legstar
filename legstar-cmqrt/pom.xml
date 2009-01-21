@@ -78,6 +78,22 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                 
+                    <!-- This will deploy the jar file to a Tomcat dev instance.  -->
+                    <execution>
+                        <id>deploy-to-tomcat</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/../src/main/ant/deploy-to-tomcat.xml">
+                                    <property name="legstar-dev-tomcat-base" value="${legstar-dev-tomcat-base}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
                     <!-- This will check that the distribution file is valid. -->
                     <execution>
                         <id>prepare-integration-tests</id>
@@ -111,20 +127,6 @@
                         </goals>
                     </execution>
 
-                    <!-- This will deploy the jar file to a Tomcat dev instance.  -->
-                    <execution>
-                        <id>deploy-to-tomcat</id>
-                        <phase>package</phase>
-                        <configuration>
-                            <tasks>
-                                <ant antfile="${basedir}/src/main/ant/deploy-to-tomcat.xml" />
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                
                     <!-- Generate site files that needs automatic update. -->
                     <execution>
                         <id>build-site</id>
