@@ -47,12 +47,14 @@
                         <phase>package</phase>
                         <configuration>
                             <tasks>
-                                <ant antfile="${basedir}/src/main/ant/deploy-to-tomcat.xml" />
+                                <ant antfile="${basedir}/../src/main/ant/deploy-to-tomcat.xml">
+                                    <property name="legstar-dev-tomcat-base" value="${legstar-dev-tomcat-base}" />
+                                </ant>
                             </tasks>
                         </configuration>
                         <goals>
                             <goal>run</goal>
-                            </goals>
+                        </goals>
                     </execution>
 
                    <!-- This will upload the zos sources.  -->
