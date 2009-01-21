@@ -76,13 +76,15 @@
         
                 <executions>
                 
-                  <!-- This will deploy the war file to a Tomcat dev instance.  -->
+                    <!-- This will deploy the jar file to a Tomcat dev instance.  -->
                     <execution>
                         <id>deploy-to-tomcat</id>
                         <phase>package</phase>
                         <configuration>
                             <tasks>
-                              <ant antfile="${basedir}/src/main/ant/deploy-to-tomcat.xml" />
+                                <ant antfile="${basedir}/../src/main/ant/deploy-to-tomcat.xml">
+                                    <property name="legstar-dev-tomcat-base" value="${legstar-dev-tomcat-base}" />
+                                </ant>
                             </tasks>
                         </configuration>
                         <goals>
