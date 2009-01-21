@@ -9,11 +9,10 @@ PREREQUISITES:
   
  LegStar C2wsrt uses JAX-WS as client SOAP stack to invoke target Web Services.
  C2wsrt should work with any JAX-WS 2.1 compliant implementation. The Sun's JAX-WS
- runtime version 2.1.3 is shipped with LegStar.
+ reference implementation is shipped with LegStar.
  
- LegStar C2wsrt uses classes produced by the 
- {{{../legstar-coxbgen}COBOL Binding Generator}} for marshaling/unmarshaling
- mainframe data. 
+ LegStar C2wsrt uses classes produced by the {{{../legstar-coxbgen}COBOL
+ Binding Generator}} for marshaling/unmarshaling mainframe data. 
   
  On the host side, you can use CICS default HTTP APIs which are EXEC CICS WEB
  for CICS TS 3.1+ and DFHWBCLI for older versions. Alternatively, C2wsrt comes
@@ -23,7 +22,7 @@ PREREQUISITES:
  The LegStar CICS programs are written in C370 and require Language
  Environment (LE).
 
- JRE 1.5+ and ANT 1.6.5+ are both prerequisites for LegStar.
+ Java 1.5+ and ANT 1.6.5+ are both prerequisites for LegStar.
  Make sure JAVA_HOME and ANT_HOME environment variables are set and that
  $JAVA_HOME/bin (%JAVA_HOME%/bin on Windows) and $ANT_HOME/bin (%ANT_HOME%/bin on Windows)
  are both in your system path.
