@@ -1,6 +1,6 @@
 <document>
   <properties>
-    <title>Changes Web Service Generator</title>
+    <title>Changes Service Generator</title>
   </properties>
   <body>
     <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">

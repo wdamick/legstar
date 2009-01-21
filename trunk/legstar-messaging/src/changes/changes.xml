@@ -1,9 +1,16 @@
 <document>
   <properties>
     <title>Messaging protocol</title>
-    <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
+    <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
+      <action dev="fady" type="update">
+        Fixed issue 27: Adapters always send the largest payload for variable size input structures.
+      </action>
+      <action dev="fady" type="update">
+        Added methods to handle byte arrays as alternative to streams.
+      </action>
+    </release>
     <release version="1.2.2" date="2008-11-15" description="Support for ESB generation">
       <action dev="fady" type="update">
         Added a corruption check on receiving data from the mainframe plus a test case.
