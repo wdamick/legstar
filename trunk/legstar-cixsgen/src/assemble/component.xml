@@ -39,6 +39,23 @@
             </includes>
         </fileSet>
     
+        <!-- Sample JCL for samples -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-cixsgen/src/main/zos/JCL</directory>
+            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery/jcl</outputDirectory>
+            <includes>
+                <include>COBCJVMQ</include>
+            </includes>
+        </fileSet>
+        <!-- Sample JCL for samples -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-cixsgen/src/main/zos/JCL</directory>
+            <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo/jcl</outputDirectory>
+            <includes>
+                <include>COBCCULT</include>
+            </includes>
+        </fileSet>
+
     </fileSets>
   
     <files>

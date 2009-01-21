@@ -17,8 +17,6 @@
         <property environment="env"/>
         <!-- Service name   -->
         <property name="service" value="@SERVICE-NAME@" />
-        <!-- Service URI where generated proxy will be listening for Mainframe calls   -->
-        <property name="serviceURI" value="http://localhost:8080/c2ws-${service}/${service}Proxy" />
         
         <!-- Target type to be consumed by mainframe program: POJO or WEBSERVICE.
              Depending on your choice you need to set target specific parameters in
@@ -93,7 +91,6 @@
             sampleCobolHttpClientType="${sample.cobol.http.client.type}"
         >
             <cixsJaxwsService name="${service}"
-                serviceURI="${serviceURI}"
             >
                 <cixsOperation name="${service}"
                     cicsProgramName="${cics.program.name}"
