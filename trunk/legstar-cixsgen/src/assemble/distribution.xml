@@ -8,7 +8,17 @@
   
     <componentDescriptors>
         <componentDescriptor>src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-messaging/src/assemble/component.xml</componentDescriptor>
         <componentDescriptor>../legstar-invoker/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-c2wsrt/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-chttprt/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-cmqrt/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-cobcgen/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-coxbgen/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-csokrt/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-engine/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-schemagen/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-xsdcgen/src/assemble/component.xml</componentDescriptor>
     </componentDescriptors>
     
     <files>
@@ -17,26 +27,18 @@
             <outputDirectory>/</outputDirectory>
             <destName>LICENSE</destName>
         </file>
+        <file>
+            <source>${project.basedir}/../legstar-cixsgen/NOTICE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>NOTICE</destName>
+        </file>
+        <file>
+           <source>${project.basedir}/../legstar-cixsgen/src/site/apt/release-notes.apt</source>
+           <outputDirectory>/</outputDirectory>
+           <destName>README</destName>
+        </file>
     </files>
 
-    <fileSets>
-        <!-- The sample Binding classes -->
-        <fileSet>
-            <directory>${project.basedir}/../legstar-samples/src</directory>
-            <outputDirectory>src</outputDirectory>
-            <includes>
-                <include>**</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>${project.basedir}/../legstar-samples/target</directory>
-            <outputDirectory>target</outputDirectory>
-            <includes>
-                <include>**</include>
-            </includes>
-        </fileSet>
-    </fileSets>
-    
     <dependencySets>
         <dependencySet>
             <outputDirectory>/lib/</outputDirectory>

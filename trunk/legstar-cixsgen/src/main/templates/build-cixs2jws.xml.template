@@ -7,7 +7,7 @@
      using Coxbgen prior to using this script.
      Refer to http://www.legsem.com/legstar for info on generating binding classes.
   -->
-<project basedir=".." default="generateCixs2Jaxws" name="generate-cixs2jaxws">
+<project basedir="." default="generateCixs2Jaxws" name="generate-cixs2jaxws">
 
     <!-- ===========================================================  -->
     <!-- Setup environment
@@ -16,7 +16,7 @@
     
         <property environment="env"/>
         <!-- Service name   -->
-        <property name="service" value="cultureinfo" />
+        <property name="service" value="@SERVICE-NAME@" />
         <!-- Service URI where generated proxy will be listening for Mainframe calls   -->
         <property name="serviceURI" value="http://localhost:8080/c2ws-${service}/${service}Proxy" />
         
@@ -24,39 +24,37 @@
              Depending on your choice you need to set target specific parameters in
              corresponding elements pojoTargetParameters or webServiceTargetParameters
              below.   -->
-        <property name="proxy.target.type" value="WEBSERVICE" />
+        <property name="proxy.target.type" value="@PROXY-TARGET-TYPE@" />
 
-    	<!-- Type of sample COBOL client code to generate (DFHWBCLI, WEBAPI, LSHTTAPI)   -->
+        <!-- Type of sample COBOL client code to generate (DFHWBCLI, WEBAPI, LSHTTAPI)   -->
         <property name="sample.cobol.http.client.type" value="DFHWBCLI" />
 
-    	<!-- The input JAXB type name   -->
-        <property name="jaxb.root.name.in" value="GetInfo" />
+        <!-- The input JAXB type name   -->
+        <property name="jaxb.root.name.in" value="@JAXB-ROOT-NAME-IN@" />
         <!-- The input JAXB package name  -->
-        <property name="jaxb.package.name.in" value="com.legstar.test.coxb.cultureinfo"/>
+        <property name="jaxb.package.name.in" value="com.legstar.test.coxb.${service}"/>
         <!-- The output JAXB type name   -->
-        <property name="jaxb.root.name.out" value="GetInfoResponse" />
+        <property name="jaxb.root.name.out" value="@JAXB-ROOT-NAME-OUT@" />
         <!-- The output JAXB package name  -->
-        <property name="jaxb.package.name.out" value="com.legstar.test.coxb.cultureinfo"/>
+        <property name="jaxb.package.name.out" value="com.legstar.test.coxb.${service}"/>
         
         <!-- Location of JAXB classes   -->
-        <property name="jaxb.bin.dir" value="${basedir}/target/classes"/>
+        <property name="jaxb.bin.dir" value="bin"/>
         <!-- Location of COXB binding classes   -->
-        <property name="coxb.bin.dir" value="${basedir}/target/classes"/>
+        <property name="coxb.bin.dir" value="bin"/>
         <!-- Location of custom code classes   -->
-        <property name="cust.bin.dir" value="${basedir}/target/classes"/>
+        <property name="cust.bin.dir" value="bin"/>
     
         <!-- Generated Ant scripts target location   -->
-        <property name="ant.dir" value="${basedir}/src/main/ant/${service}"/>
+        <property name="ant.dir" value="ant"/>
         <!-- Generated Web descriptors target location   -->
-        <property name="wdd.dir" value="${basedir}/src/main/WebContent/${service}/WEB-INF"/>
+        <property name="wdd.dir" value="webapp/cixs-${service}/WEB-INF"/>
         <!-- Generated COBOL CICS program target location   -->
-        <property name="cobol.dir" value="${basedir}/src/main/cobol"/>
+        <property name="cobol.dir" value="cobol"/>
         <!-- Generated sample COBOL CICS program name   -->
-        <property name="cics.program.name" value="CULTUREI" />
+        <property name="cics.program.name" value="@PROGRAM-NAME@" />
         <!-- War files target location   -->
-        <condition property="war.dir" value="${env.CATALINA_BASE}/webapps" else="${env.CATALINA_HOME}/webapps">
-            <isset property="env.CATALINA_BASE"/> 
-        </condition>
+        <property name="war.dir" value="war"/>
     
         <!-- Mainframe character set   -->
         <property name="host.charset" value="IBM01140" />
@@ -66,7 +64,7 @@
             <pathelement location="${jaxb.bin.dir}"/>
             <pathelement location="${coxb.bin.dir}"/>
             <pathelement location="${cust.bin.dir}"/>
-            <fileset dir="${basedir}" includes="lib/*.jar" />
+            <fileset dir="${basedir}/../../.." includes="lib/*.jar" />
         </path>
         
         <!-- Mainframe Proxy Generator ant task -->
@@ -110,20 +108,8 @@
                     />
                 </cixsOperation>
             </cixsJaxwsService>
-            <!-- Target Web Service parameters (needed if proxyTargetType="WEBSERVICE") -->
-            <webServiceTargetParameters
-                wsdlUrl="http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl"
-                wsdlTargetNamespace="http://cultureinfo.cases.test.xsdc.legstar.com/"
-                wsdlServiceName="CultureInfoImplService"
-                wsdlPortName="CultureInfoImplPort"
-            />
-             
-            <!-- Target POJO parameters (needed if proxyTargetType="POJO")
-            <pojoTargetParameters
-                className="com.legstar.xsdc.test.cases.jvmquery.JVMQuery"
-                methodName="queryJvm"
-            />
-            -->
+            @TARGET-PARAMETERS@
+            
         </cixs2jaxwsgen>
     
     </target>

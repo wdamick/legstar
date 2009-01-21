@@ -28,7 +28,7 @@
         <!-- Generated Ant target script relative location   -->
         <property name="ant.dir" value="ant"/>
         <!-- Generated Web descriptors target relative location   -->
-        <property name="wdd.dir" value="WebContent/WEB-INF"/>
+        <property name="wdd.dir" value="webapp/WEB-INF"/>
         <!-- Generated Properties files target relative location   -->
         <property name="prop.dir" value="${wdd.dir}/classes"/>
         <!-- War files target location   -->
@@ -433,7 +433,7 @@
     <!-- ===========================================================  -->
     <!-- This step propagates the properties files which are located
         in a folder that is convenient for distribution:
-        src/main/resources/${service}/WebContent/WEB-INF/classes
+        src/main/resources/${service}/webapp/WEB-INF/classes
         to a location where they can be used for direct testing
         (without deployment):  src/test/resources.   -->
   

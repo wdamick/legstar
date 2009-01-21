@@ -4,25 +4,135 @@
     
         <!-- Ant scripts -->
         <fileSet>
-            <directory>${project.basedir}/../legstar-cixsgen/src/main/resources/ant</directory>
-            <outputDirectory>ant</outputDirectory>
+            <directory>${project.basedir}/../legstar-cixsgen/target/ant/lsfileae</directory>
+            <outputDirectory>samples/quickstarts/adapter_lsfileae</outputDirectory>
             <includes>
                 <include>*.xml</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/../legstar-cixsgen/target/ant/cultureinfo</directory>
+            <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/../legstar-cixsgen/src/main/resources/ant</directory>
+            <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo</outputDirectory>
+            <includes>
+                <include>build-cultureinfo-cobol-src.xml</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/../legstar-cixsgen/target/ant/jvmquery</directory>
+            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/../legstar-cixsgen/src/main/resources/ant</directory>
+            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery</outputDirectory>
+            <includes>
+                <include>build-jvmquery-cobol-src.xml</include>
             </includes>
         </fileSet>
     
     </fileSets>
   
     <files>
+        
+        <!-- Imbedded distributions -->
         <file>
-            <source>${project.basedir}/../legstar-cixsgen/NOTICE</source>
-            <outputDirectory>/</outputDirectory>
-            <destName>cixsgen-NOTICE</destName>
+            <source>${project.basedir}/../legstar-c2wsrt/NOTICE</source>
+            <outputDirectory>/docs/notices</outputDirectory>
+            <destName>C2WSRT-NOTICE</destName>
         </file>
         <file>
-           <source>${project.basedir}/../legstar-cixsgen/src/site/apt/release-notes.apt</source>
-           <outputDirectory>/</outputDirectory>
-           <destName>cixsgen-README</destName>
+           <source>${project.basedir}/../legstar-c2wsrt/src/site/apt/release-notes.apt</source>
+           <outputDirectory>/docs</outputDirectory>
+           <destName>C2WSRT-README</destName>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-chttprt/NOTICE</source>
+            <outputDirectory>/docs/notices</outputDirectory>
+            <destName>CHTTPRT-NOTICE</destName>
+        </file>
+        <file>
+           <source>${project.basedir}/../legstar-chttprt/src/site/apt/release-notes.apt</source>
+           <outputDirectory>/docs</outputDirectory>
+           <destName>CHTTPRT-README</destName>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-cmqrt/NOTICE</source>
+            <outputDirectory>/docs/notices</outputDirectory>
+            <destName>CMQRT-NOTICE</destName>
+        </file>
+        <file>
+           <source>${project.basedir}/../legstar-cmqrt/src/site/apt/release-notes.apt</source>
+           <outputDirectory>/docs</outputDirectory>
+           <destName>CMQRT-README</destName>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-cobcgen/NOTICE</source>
+            <outputDirectory>/docs/notices</outputDirectory>
+            <destName>COBCGEN-NOTICE</destName>
+        </file>
+        <file>
+           <source>${project.basedir}/../legstar-cobcgen/src/site/apt/release-notes.apt</source>
+           <outputDirectory>/docs</outputDirectory>
+           <destName>COBCGEN-README</destName>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-coxbgen/NOTICE</source>
+            <outputDirectory>/docs/notices</outputDirectory>
+            <destName>COXBGEN-NOTICE</destName>
+        </file>
+        <file>
+           <source>${project.basedir}/../legstar-coxbgen/src/site/apt/release-notes.apt</source>
+           <outputDirectory>/docs</outputDirectory>
+           <destName>COXBGEN-README</destName>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-csokrt/NOTICE</source>
+            <outputDirectory>/docs/notices</outputDirectory>
+            <destName>CSOKRT-NOTICE</destName>
+        </file>
+        <file>
+           <source>${project.basedir}/../legstar-csokrt/src/site/apt/release-notes.apt</source>
+           <outputDirectory>/docs</outputDirectory>
+           <destName>CSOKRT-README</destName>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-engine/NOTICE</source>
+            <outputDirectory>/docs/notices</outputDirectory>
+            <destName>ENGINE-NOTICE</destName>
+        </file>
+        <file>
+           <source>${project.basedir}/../legstar-engine/src/site/apt/release-notes.apt</source>
+           <outputDirectory>/docs</outputDirectory>
+           <destName>ENGINE-README</destName>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-schemagen/NOTICE</source>
+            <outputDirectory>/docs/notices</outputDirectory>
+            <destName>SCHEMAGEN-NOTICE</destName>
+        </file>
+        <file>
+           <source>${project.basedir}/../legstar-schemagen/src/site/apt/release-notes.apt</source>
+           <outputDirectory>/docs</outputDirectory>
+           <destName>SCHEMAGEN-README</destName>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-xsdcgen/NOTICE</source>
+            <outputDirectory>/docs/notices</outputDirectory>
+            <destName>XSDCGEN-NOTICE</destName>
+        </file>
+        <file>
+           <source>${project.basedir}/../legstar-xsdcgen/src/site/apt/release-notes.apt</source>
+           <outputDirectory>/docs</outputDirectory>
+           <destName>XSDCGEN-README</destName>
         </file>
     </files>
     

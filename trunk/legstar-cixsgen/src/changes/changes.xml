@@ -1,9 +1,24 @@
 <document>
   <properties>
     <title>Changes Web Service Generator</title>
-    <author email="fady@legsem.com">Fady Moussallam</author>
   </properties>
   <body>
+    <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
+      <action dev="fady" type="update">
+        Reimplemented the JAX-WS endpoint implementation using the new Transformer API.
+      </action>
+      <action dev="fady" type="update">
+        Fixed Issue 3: The generated COBOL samples now have a start level of 2
+        and incrementation of 1 for their data description items.
+        This should allow handling deep structures (up to 24 levels actually).
+      </action>
+      <action dev="fady" type="update">
+        Fixed Issue 8: Cixsgen now supports target POJO for proxies (in addition to Web Services).
+      </action>
+      <action dev="fady" type="update">
+        Fixed Issue 6: Supports multiple COBOL sample HTTP clients (LSHTTAPI, DFHWBCLI, WEBAPI).
+      </action>
+    </release>
     <release version="1.2.2" date="2008-11-15" description="Support for ESB generation">
       <action dev="fady" type="update">
         Changed the sample COBOL CICS client so that it is consistent with the ones generated for JBoss ESB.
