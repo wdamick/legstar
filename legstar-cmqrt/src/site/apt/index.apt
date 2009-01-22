@@ -9,7 +9,7 @@
 WebSphere MQ Transport (Cmqrt) overview
 
   The MQ Transport provides connectivity with IBM WebSphere MQ for z/OS. It is used along with the
-  {{{../legstar-invoker}Mainframe Invoker}} to allow java clients to run CICS programs over
+  {{{../legstar-invoker}Mainframe Adapter Runtime}} to allow java clients to run CICS programs over
   WMQ.
   
   Cmqrt relies on the CICS MQ Adapter (CKTI) which is a standard feature of WebSphere MQ for z/OS.

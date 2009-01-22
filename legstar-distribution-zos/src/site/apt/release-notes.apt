@@ -17,7 +17,7 @@ PREREQUISITES:
  
  * {{{../legstar-cmqrt/LSMQHBIN-readme.html}MQ transport Trigger Handler}}
   
- * {{{../legstar-c2wsrt/LSHTTAPI-readme.html}Mainframe to Web Service API}} 
+ * {{{../legstar-c2wsrt/LSHTTAPI-readme.html}Mainframe Proxy API}} 
  
  []
 

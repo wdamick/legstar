@@ -54,11 +54,9 @@
     </menu>
 
     <menu name="Runtime Modules">
-      <item name="COBOL Binding" href="legstar-coxbrt/index.html"/>
-      <item name="Mainframe Invoker" href="legstar-invoker/index.html"/>
-      <item name="Mainframe to Web Service" href="legstar-c2wsrt/index.html"/>
+      <item name="Mainframe Adapter Runtime" href="legstar-invoker/index.html"/>
+      <item name="Mainframe Proxy Runtime" href="legstar-c2wsrt/index.html"/>
       <item name="Connection Pooling Engine" href="legstar-engine/index.html"/>
-      <item name="Messaging Protocol" href="legstar-messaging/index.html"/>
     </menu>
     
     <menu name="Transport Modules">

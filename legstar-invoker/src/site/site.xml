@@ -2,7 +2,7 @@
 <project>
   <body>
 
-    <menu name="Mainframe Invoker Runtime">
+    <menu name="Mainframe Adapter Runtime">
       <item name="Introduction" href="index.html"/>
       <item name="FAQ" href="faq.html" />
     </menu>

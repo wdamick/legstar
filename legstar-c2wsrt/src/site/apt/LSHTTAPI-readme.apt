@@ -2,18 +2,18 @@
  CICS API over HTTP
  -----
 
-CICS to Web Service API LSHTTAPI
+CICS to Proxy API LSHTTAPI
 
 * Overview:
 
- This C/370 sub-program can be used to invoke a remote Web Service from 
- a CICS program.
+ This C/370 sub-program can be used to invoke a remote Web Service or POJO
+ from a CICS program.
  
- Provided that a LegStar c2wsrt proxy has been installed in a
- servlet engine, the API uses HTTP connectivity to the servlet which will
- in turn call the target Web Service.
+ Provided that a LegStar Proxy has been installed in an HTTP server, the
+ API uses HTTP connectivity to the proxy which will
+ in turn call a target Web Service, POJO, etc....
  
- The messaging protocol used between the API and the c2wsrt proxy is
+ The messaging protocol used between the API and the proxy is
  identical to the one used for inbound calls to CICS programs by csokrt
  or chttprt. This means that data flowing between CICS and the proxy is
  raw EBCDIC relieving CICS from code page conversions and XML processing.
@@ -26,8 +26,8 @@ CICS to Web Service API LSHTTAPI
  The API itself uses an HTTP library, called LSHTTLIB, also written in C/370.
  LSHTTLIB is a simple HTTP 1.0 library with support for basic authentication
  whose focus is on performance rather than functionality. Please note that
- this library connects CICS programs to the c2wsrt proxies, not to the target
- web service.
+ this library connects CICS programs to the proxies, not to the target
+ web service or POJO.
    
  LSHTTLIB uses CICS Sockets. Please refer to z/os Communication Server 
  documentation on how to setup IP CICS Sockets in the target CICS region.
@@ -63,8 +63,8 @@ CICS to Web Service API LSHTTAPI
 
 * How to use:
 
- The first step is to create and deploy a web service proxy in a servlet engine.
- The {{{../legstar-cixsgen}Service Generator}} module helps you
+ The first step is to create and deploy a proxy in an HTTP engine.
+ The {{{../legstar-cixsgen}Mainframe Service Generator}} module helps you
  generate such a proxy.
 
  Once LSHTTAPI and LSHTTLIB have been compiled in a library available to your

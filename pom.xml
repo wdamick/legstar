@@ -168,6 +168,7 @@
         <module>legstar-cixsgen-model</module>
         <module>legstar-cixsgen</module>
         <module>legstar-cixsgen-cases</module>
+        <module>legstar-cixsgen-clients</module>
         <module>legstar-distribution</module>
         <module>legstar-distribution-zos</module>
         <module>legstar-common-plugin</module>

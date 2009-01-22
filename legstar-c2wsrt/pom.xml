@@ -7,8 +7,8 @@
     </parent>
     <version>1.2.3-SNAPSHOT</version>
     <artifactId>legstar-c2wsrt</artifactId>
-    <name>LegStar Mainframe Proxy runtime</name>
-    <description>Mainframe to Web Service proxy.</description>
+    <name>LegStar Mainframe Proxy Runtime</name>
+    <description>Mainframe Proxy Runtime.</description>
     <url>http://www.legsem.com/legstar</url>
 
     <dependencies>

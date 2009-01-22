@@ -5,8 +5,11 @@
   <body>
     <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
       <action dev="fady" type="update">
+        Invoker Runtime is renamed Mainframe Adapter Runtime.
+      </action>
+      <action dev="fady" type="update">
         Deprecated the invoke methods that took java objects. These created dependencies
-        on COBOL binding that are not useful. The Invoker now works at the raw mainframe
+        on COBOL binding that are not useful. The Adapter Runtime now works at the raw mainframe
         data level and is independent of the language binding layer.
       </action>
       <action dev="fady" type="update">

@@ -6,16 +6,16 @@
  18 January 2009
  -----
 
-Mainframe Invoker overview
+Mainframe Adapter Runtime overview
 
-  The LegStar Invoker provides a general purpose remote call mechanism to mainframe programs
+  The LegStar Mainframe Adapter Runtime provides a general purpose remote call mechanism to mainframe programs
   from Java clients.
   
-  The Invoker deals with raw mainframe data. Upper level modules are in charge of converting
+  The Adapter Runtime deals with raw mainframe data. Upper level modules are in charge of converting
   that data to java and vice versa. Of course they can use
   {{{../legstar-coxbgen}COBOL binding}} module for that purpose.
   
-  The Invoker has the capability to call single input/single output programs such as
+  The Adapter Runtime has the capability to call single input/single output programs such as
   CICS commarea-driven programs but it can also call multiple input/multiple output programs
   such as CICS container-driven programs.
   
@@ -52,7 +52,7 @@ Messaging
 
 Configuration
 
-  The Invoker expects a configuration file such as the 
+  The Adapter Runtime expects a configuration file such as the 
   {{{samples/legstar-invoker-config.xml}legstar-invoker-config.xml}} sample provided.
   A configuration file is an XML file with one endpoint per target mainframe.
   Read the comments in the sample to help you setup your own configuration.
@@ -90,5 +90,5 @@ Pooling connections
   
   Pooling allows host connections to be reused. For details, refer to {{{../legstar-engine}Connection Pooling Engine}}.
   
-  For answers to common questions about LegStar Invoker, see the {{{faq.html}FAQ}}.
+  For answers to common questions about LegStar Adapter Runtime, see the {{{faq.html}FAQ}}.
   
