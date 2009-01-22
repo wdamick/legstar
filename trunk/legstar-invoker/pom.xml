@@ -7,7 +7,7 @@
     </parent>
     <version>1.2.3-SNAPSHOT</version>
     <artifactId>legstar-invoker</artifactId>
-    <name>LegStar Mainframe Invoker Runtime</name>
+    <name>LegStar Mainframe Adapter Runtime</name>
     <description>Provide remote procedure call to mainframe programs.</description>
     <url>http://www.legsem.com/legstar</url>
 

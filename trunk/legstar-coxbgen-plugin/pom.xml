@@ -9,8 +9,8 @@
     <version>1.2.3-SNAPSHOT</version>
     <artifactId>legstar-coxbgen-plugin</artifactId>
     <packaging>jar</packaging>
-    <name>LegStar COBOL binding Generator Eclipse plugin</name>
-    <description>COBOL binding Generator Eclipse plugin.</description>
+    <name>LegStar COBOL Binding Generator Eclipse plugin</name>
+    <description>COBOL Binding Generator Eclipse plugin.</description>
     <url>http://www.legsem.com/legstar</url>
 
     <dependencies>

@@ -11,11 +11,18 @@
     <section name="Download @PRODUCT-NAME@">
 
       <!-- Within sections, any XHTML can be used -->
-		<table border="1">
-			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
-			<tr><td>@PRODUCT-NAME@</td><td>Java</td>
-            <td><a href="../maven/repo/com/legsem/legstar/@PRODUCT-ID@/@LEGSTAR-VERSION@/@PRODUCT-ID@-@LEGSTAR-VERSION@-bin.zip">@PRODUCT-ID@-@LEGSTAR-VERSION@-bin.zip</a></td></tr>
-		</table>
+    <table border="1">
+      <tr><th>Module</th><th>Platform</th><th>Link</th></tr>
+      <tr>
+        <td>@PRODUCT-NAME@</td>
+        <td>Java</td>
+        <td>
+            <div onclick="javascript: pageTracker._trackPageview('/downloads/legstar-distribution');">
+            <a href="../maven/repo/com/legsem/legstar/@PRODUCT-ID@/@LEGSTAR-VERSION@/@PRODUCT-ID@-@LEGSTAR-VERSION@-bin.zip">@PRODUCT-ID@-@LEGSTAR-VERSION@-bin.zip</a>
+            </div>
+        </td>
+      </tr>
+    </table>
 
     </section>
 

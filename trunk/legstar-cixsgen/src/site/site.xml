@@ -2,7 +2,7 @@
 <project>
   <body>
 
-    <menu name="Web Service Generator">
+    <menu name="Mainframe Service Generator">
       <item name="Introduction" href="index.html"/>
       <item name="Download" href="download.html"/>
       <item name="Release Notes" href="release-notes.html" />

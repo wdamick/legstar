@@ -2,6 +2,24 @@
                              Latest release overview
  -------------------------------------------------------------------------------
 
+Version 1.2.3
+
+ The major new feature is support for POJO as targets for Proxy Services.
+ The Service Generator accepts a POJO classname and method as alternative
+ to Web Service WSDL. At runtime, it is assumed the target POJO is in the
+ classpath of the Proxy Runtime.
+ 
+ As a consequence, the Mainframe to Web Service Runtime (legstar-c2wsrt) has
+ been renamed "Mainframe Proxy Runtime" since it is no longer restricted to
+ target Web Services.
+ 
+ Another important change concerning Proxies is that Mainframe clients no
+ longer need to use the LegStar HTTP client libraries. You can now use the
+ standard CICS HTTP APIs for instance. This means that you no longer need
+ to install anything on the z/OS side if you use Proxies only.
+   
+ Details about all the changes are available {{{DetailedChanges} here}}.
+ 
 Version 1.2.2
 
  This version is aimed at providing better support for other LegStar related 
@@ -81,10 +99,10 @@ Version 1.2.0
 
    Because the purpose of several generators has changed, it was necessary to adapt the naming.
    The choice of very short names in previous versions has also proven ambiguous.
-   This table gives the correspondence between names used in version 1.1.0 and names in version 1.2.0:
+   This table gives the correspondence between names used in version 1.1.0 and names in version 1.2.3:
 
 *------------------------------------------+---------------------------------------------+
-|      <<Name in version 1.1.0>>           |     <<Name in version 1.2.0>>               |
+|      <<Name in version 1.1.0>>           |     <<Name in version 1.2.3>>               |
 *------------------------------------------+---------------------------------------------+
 | XML Schema Generator                     | COBOL Structures Mapping Generator          |
 *------------------------------------------+---------------------------------------------+
@@ -94,15 +112,15 @@ Version 1.2.0
 *------------------------------------------+---------------------------------------------+
 | JAXB Generator                           | JAXB COBOL Annotator                        |
 *------------------------------------------+---------------------------------------------+
-| Service Generator                        | Web Service Generator                       |
+| Service Generator                        | Mainframe Service Generator                 |
 *------------------------------------------+---------------------------------------------+
 | Cobol Generator                          | COBOL Structures Generator                  |
 *------------------------------------------+---------------------------------------------+
-| Host to Web Service Runtime              | Mainframe to Web Service Runtime            |
+| Host to Web Service Runtime              | Mainframe Proxy Runtime                     |
 *------------------------------------------+---------------------------------------------+
 | Pooling engine                           | Connection Pooling Engine                   |
 *------------------------------------------+---------------------------------------------+
-| Invoker                                  | Mainframe Invoker Runtime                   |
+| Invoker                                  | Mainframe Adapter Runtime                   |
 *------------------------------------------+---------------------------------------------+
 | Messaging                                | Messaging Protocol                          |
 *------------------------------------------+---------------------------------------------+
@@ -117,21 +135,15 @@ Version 1.2.0
 
   {{{legstar-coxbgen/changes-report.html}COBOL Binding Generator}}
 
-  {{{legstar-cixsgen/changes-report.html}Web Service Generator}}
+  {{{legstar-cixsgen/changes-report.html}Mainframe Service Generator}}
    
-  {{{legstar-jaxbgen/changes-report.html}JAXB COBOL Annotator}}
-
   {{{legstar-cobcgen/changes-report.html}COBOL Structures Generator}}
-
-  {{{legstar-messaging/changes-report.html}Messaging Protocol}}
-
-  {{{legstar-coxbrt/changes-report.html}COBOL Binding Runtime}}
 
   {{{legstar-engine/changes-report.html}Connection Pooling Engine}}
 
-  {{{legstar-invoker/changes-report.html}Mainframe Invoker Runtime}}
+  {{{legstar-invoker/changes-report.html}Mainframe Adapter Runtime}}
 
-  {{{legstar-c2wsrt/changes-report.html}Mainframe to Web Service Runtime}}
+  {{{legstar-c2wsrt/changes-report.html}Mainframe Proxy Runtime}}
 
   {{{legstar-chttprt/changes-report.html}HTTP Transport}}
 

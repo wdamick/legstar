@@ -33,7 +33,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
                 getDefaultJ2eeLocation() + "/webapps");
 
         store.setDefault(PreferenceConstants.J2EE_WDD_FOLDER,
-        "WebContent/WEB-INF");
+        "webapp/WEB-INF");
 
         store.setDefault(PreferenceConstants.WS_TARGET_NAMESPACE_PREFIX,
         "http://test.legstar");

@@ -22,7 +22,7 @@ Connection pooling engine overview
   is an example of such a file. It is a combination of {{{samples/legstar-pooling-config.xml}legstar-pooling-config.xml}}
   that actually drives the pooling mechanism and the
   {{{../legstar-invoker/samples/legstar-invoker-config.xml}legstar-invoker-config.xml}}
-  which is shared with the {{{../legstar-invoker}Mainframe Invoker Runtime}}.
+  which is shared with the {{{../legstar-invoker}Mainframe Adapter Runtime}}.
   
   The Connection pooling engine is not a stand-alone application. It has to be started by an initiator.
   A Servlet initiator is part of the delivery. The Servlet initiator starts when the servlet engine
