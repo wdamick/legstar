@@ -15,43 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-c2wsrt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-chttprt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-cixsgen</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-cmqrt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-cobcgen</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-coxbgen</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-csokrt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-engine</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-xsdcgen</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-schemagen</artifactId>
         </dependency>
     </dependencies>
 
@@ -67,7 +31,7 @@
                 <configuration>
                     <finalName>legstar-${project.version}</finalName>
                     <descriptors>
-                        <descriptor>src/assemble/distribution.xml</descriptor>
+                        <descriptor>../legstar-cixsgen/src/assemble/distribution.xml</descriptor>
                     </descriptors>
                 </configuration>
                 <executions>
@@ -81,27 +45,6 @@
                 </executions>
             </plugin>
         
-            <!-- Running ANT complementary tasks.  -->
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                
-                    <execution>
-                        <id>add-google-tracking</id>
-                        <phase>post-site</phase>
-                        <configuration>
-                            <tasks>
-                                <ant antfile="${basedir}/src/main/ant/add-google-tracking.xml" />
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-
-                </executions>
-            </plugin>
-
         </plugins>
     </build>
     
