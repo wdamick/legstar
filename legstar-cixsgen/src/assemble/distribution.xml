@@ -7,7 +7,7 @@
     </formats>
   
     <componentDescriptors>
-        <componentDescriptor>src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-cixsgen/src/assemble/component.xml</componentDescriptor>
         <componentDescriptor>../legstar-messaging/src/assemble/component.xml</componentDescriptor>
         <componentDescriptor>../legstar-invoker/src/assemble/component.xml</componentDescriptor>
         <componentDescriptor>../legstar-c2wsrt/src/assemble/component.xml</componentDescriptor>

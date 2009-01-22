@@ -9,8 +9,6 @@
     -->
     <target name="init">
 
-        <!-- Target Tomcat location   -->
-        <property file="../legstar-dev.properties"/>   
         <!-- Location of XML schemas  -->
         <property name="xsd.dir" value="${basedir}/../legstar-schemagen/src/test/schema" />
         <!-- Location of CIXS target source location   -->
@@ -32,7 +30,7 @@
         <!-- Generated Properties files target relative location   -->
         <property name="prop.dir" value="${wdd.dir}/classes"/>
         <!-- War files target location   -->
-        <property name="war.dir" value="${tomcat.dir}\webapps"/>
+        <property name="war.dir" value="${tomcat.base}\webapps"/>
         <!-- Generated Cobol sample relative location   -->
         <property name="cobol.dir" value="cobol"/>
         <!-- Host character set (for proxies)   -->

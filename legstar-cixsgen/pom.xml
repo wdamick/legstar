@@ -149,7 +149,9 @@
                                 <path id="maven.classpath">
                                     <path refid="maven.test.classpath"/>
                                 </path>
-                                <ant antfile="${basedir}/src/test/ant/build-cixsgen-cases.xml" inheritRefs="true"/>
+                                <ant antfile="${basedir}/src/test/ant/build-cixsgen-cases.xml" inheritRefs="true">
+                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
+                                </ant>
                             </tasks>
                         </configuration>
                         <goals>
