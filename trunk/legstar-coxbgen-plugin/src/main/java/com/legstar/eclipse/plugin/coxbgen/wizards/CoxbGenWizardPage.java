@@ -52,11 +52,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.legstar.coxb.util.Utils;
 import com.legstar.eclipse.plugin.common.ClasspathInitializer;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizardPage;
 import com.legstar.eclipse.plugin.coxbgen.Activator;
 import com.legstar.eclipse.plugin.coxbgen.Messages;
-import com.legstar.util.NameUtil;
 
 /**
  * This basic version of the generation UI will display some of the parameters
@@ -170,7 +170,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
     /**
      * Initialize all fields.
      */
-    protected void initContents() {
+    public void initContents() {
         try {
             mXsdFileLabel.setText(mXsdFile.getName());
             initRootElements(mXsdFile);
@@ -305,7 +305,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
      */
     private void loadXmlSchemaComplexType(
             final IFile xsdFile, final XmlSchemaComplexType xsdComplexType) {
-        String normalizedName = NameUtil.toClassName(xsdComplexType.getName());
+        String normalizedName = Utils.toClassName(xsdComplexType.getName());
         if (getJaxbTypeNameSuffix() != null) {
             normalizedName += getJaxbTypeNameSuffix();
         }
@@ -325,7 +325,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
             final IFile xsdFile, final XmlSchemaElement xsdElement) {
         XmlSchemaType xsdType = xsdElement.getSchemaType();
         if (xsdType.getName() == null) {
-            String normalizedName = NameUtil.toClassName(xsdElement.getName());
+            String normalizedName = Utils.toClassName(xsdElement.getName());
             mJaxbRootClassNamesList.add(normalizedName);
         }
     }
@@ -361,7 +361,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
     /**
      * Perform validation on data entered so far.
      */
-    protected void dialogChanged() {
+    public void dialogChanged() {
 
         /* Validate the source directory as a Java project source folder */
         if (!isJavaSrcDir(getSrcDirRelativePathName())) {
