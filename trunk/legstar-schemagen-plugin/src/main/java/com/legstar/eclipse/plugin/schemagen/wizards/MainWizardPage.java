@@ -220,7 +220,7 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
     }
 
     /** {@inheritDoc} */
-    protected void initContents() {
+    public void initContents() {
     }
 
     /**
@@ -384,7 +384,7 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
 
     /** {@inheritDoc} */
     @Override
-    protected void dialogChanged() {
+    public void dialogChanged() {
 
         IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 

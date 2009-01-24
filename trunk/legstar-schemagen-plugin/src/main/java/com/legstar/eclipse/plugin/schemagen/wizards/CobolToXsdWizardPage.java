@@ -54,7 +54,7 @@ public class CobolToXsdWizardPage extends AbstractToXsdWizardPage {
 
     /** {@inheritDoc} */
     @Override
-    protected void createExtendedControls(final Composite container) {
+    public void createExtendedControls(final Composite container) {
         createSelectCobolFragmentsLink(container);
         Label lableLine1 = createLabel(
                 container, COBOL_RULE_LABEL_LINE1, LAYOUT_COLUMNS);
@@ -87,7 +87,7 @@ public class CobolToXsdWizardPage extends AbstractToXsdWizardPage {
 
     /** {@inheritDoc} */
     @Override
-    protected void dialogChanged() {
+    public void dialogChanged() {
         if (mCobolFragmentText.getText().length() > 0) {
             updateStatus(null);
         } else {
@@ -97,7 +97,7 @@ public class CobolToXsdWizardPage extends AbstractToXsdWizardPage {
 
     /** {@inheritDoc} */
     @Override
-    protected void initContents() {
+    public void initContents() {
     }
 
     /**

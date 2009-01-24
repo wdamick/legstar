@@ -89,7 +89,7 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
 
     /** {@inheritDoc} */
     @Override
-    protected void createExtendedControls(final Composite container) {
+    public void createExtendedControls(final Composite container) {
         createSelectJavaClassesLink(container);
         createJavaClassesTableViewer(container);
     }
@@ -439,7 +439,7 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
     }
 
     /** {@inheritDoc} */
-    protected void dialogChanged() {
+    public void dialogChanged() {
         if (mJavaClassesTableViewer.getTable().getItemCount() > 0) {
             updateStatus(null);
         } else {
@@ -449,7 +449,7 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
     }
 
     /** {@inheritDoc} */
-    protected void initContents() {
+    public void initContents() {
     }
 
     /** 
