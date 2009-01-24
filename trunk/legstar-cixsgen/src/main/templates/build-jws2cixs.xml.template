@@ -104,7 +104,6 @@
         <!-- Generated adapter is exposed as a Web Service with default parameters.
              You can customize these parameters using this element: -->
         <webServiceParameters
-            wsdlUrl="http://localhost:8080/jaxws-${service}/${service}?wsdl"
             wsdlTargetNamespace="http://cixs.test.legstar.com/${service}"
             wsdlServiceName="${service}Service"
             wsdlPortName="${service}Port"

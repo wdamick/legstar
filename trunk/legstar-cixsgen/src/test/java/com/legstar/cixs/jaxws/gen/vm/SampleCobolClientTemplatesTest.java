@@ -5,6 +5,7 @@ import com.legstar.cixs.gen.Samples;
 import com.legstar.cixs.jaxws.gen.Cixs2JaxwsGenerator;
 import com.legstar.cixs.jaxws.gen.StructuresGenerator;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
+import com.legstar.cixs.jaxws.model.HttpTransportParameters;
 import com.legstar.codegen.CodeGenUtil;
 
 
@@ -23,6 +24,11 @@ public class SampleCobolClientTemplatesTest extends AbstractTestTemplate {
         CixsJaxwsService model = Samples.getJvmqueryWs();
         getParameters().put("cixsOperation", model.getCixsOperations().get(0));
         getParameters().put("structHelper", new StructuresGenerator());
+        HttpTransportParameters httpTransportParameters = getDefaultHttpParameters(model);
+        httpTransportParameters.setUserId("alice");
+        httpTransportParameters.setPassword("inwonderland");
+        httpTransportParameters.add(getParameters());
+        
         String resStr = genSource(model,
                 Cixs2JaxwsGenerator.CIXS_TO_JAXWS_GENERATOR_NAME,
                 Cixs2JaxwsGenerator.OPERATION_COBOL_CICS_LSHTTAPI_CLIENT_VLC_TEMPLATE,
@@ -67,6 +73,8 @@ public class SampleCobolClientTemplatesTest extends AbstractTestTemplate {
         CixsJaxwsService model = Samples.getCultureInfo();
         getParameters().put("cixsOperation", model.getCixsOperations().get(0));
         getParameters().put("structHelper", new StructuresGenerator());
+        addHttpTransportParameters(model, getParameters());
+
         String resStr = genSource(model,
                 Cixs2JaxwsGenerator.CIXS_TO_JAXWS_GENERATOR_NAME,
                 Cixs2JaxwsGenerator.OPERATION_COBOL_CICS_LSHTTAPI_CLIENT_VLC_TEMPLATE,
@@ -78,10 +86,8 @@ public class SampleCobolClientTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("       PROGRAM-ID. CULTUREI."));
         assertTrue(resStr.contains("77  W00-SERVICE-URI               PIC X(" + url.length() + ") VALUE"));
         assertTrue(resStr.contains("'" + url + "'."));
-        assertTrue(resStr.contains("77  W00-USERID                    PIC X(8) VALUE"));
-        assertTrue(resStr.contains("'        '."));
-        assertTrue(resStr.contains("77  W00-PASSWORD                  PIC X(8) VALUE"));
-        assertTrue(resStr.contains("'        '."));
+        assertTrue(resStr.contains("77  W00-USERID                    PIC X(8) VALUE SPACES."));
+        assertTrue(resStr.contains("77  W00-PASSWORD                  PIC X(8) VALUE SPACES."));
         assertTrue(resStr.contains("77  W00-SERVICE-NAME              PIC X(11) VALUE"));
         assertTrue(resStr.contains("'cultureinfo'."));
         assertTrue(resStr.contains("           02 GetInfo."));
@@ -112,6 +118,8 @@ public class SampleCobolClientTemplatesTest extends AbstractTestTemplate {
         CixsJaxwsService model = Samples.getMSNSearch();
         getParameters().put("cixsOperation", model.getCixsOperations().get(0));
         getParameters().put("structHelper", new StructuresGenerator());
+        addHttpTransportParameters(model, getParameters());
+
         String resStr = genSource(model,
                 Cixs2JaxwsGenerator.CIXS_TO_JAXWS_GENERATOR_NAME,
                 Cixs2JaxwsGenerator.OPERATION_COBOL_CICS_LSHTTAPI_CLIENT_VLC_TEMPLATE,
@@ -123,10 +131,8 @@ public class SampleCobolClientTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("       PROGRAM-ID. MSNSEARC."));
         assertTrue(resStr.contains("77  W00-SERVICE-URI               PIC X(" + url.length() + ") VALUE"));
         assertTrue(resStr.contains("'" + url + "'."));
-        assertTrue(resStr.contains("77  W00-USERID                    PIC X(8) VALUE"));
-        assertTrue(resStr.contains("'        '."));
-        assertTrue(resStr.contains("77  W00-PASSWORD                  PIC X(8) VALUE"));
-        assertTrue(resStr.contains("'        '."));
+        assertTrue(resStr.contains("77  W00-USERID                    PIC X(8) VALUE SPACES."));
+        assertTrue(resStr.contains("77  W00-PASSWORD                  PIC X(8) VALUE SPACES."));
         assertTrue(resStr.contains("77  W00-SERVICE-NAME              PIC X(9) VALUE"));
         assertTrue(resStr.contains("'MSNSearch'."));
         assertTrue(resStr.contains("           02 R-Search."));
@@ -172,6 +178,8 @@ public class SampleCobolClientTemplatesTest extends AbstractTestTemplate {
         CixsJaxwsService model = Samples.getJvmqueryWs();
         getParameters().put("cixsOperation", model.getCixsOperations().get(0));
         getParameters().put("structHelper", new StructuresGenerator());
+        addHttpTransportParameters(model, getParameters());
+
         String resStr = genSource(model,
                 Cixs2JaxwsGenerator.CIXS_TO_JAXWS_GENERATOR_NAME,
                 Cixs2JaxwsGenerator.OPERATION_COBOL_CICS_DFHWBCLI_CLIENT_VLC_TEMPLATE,
@@ -209,6 +217,8 @@ public class SampleCobolClientTemplatesTest extends AbstractTestTemplate {
         CixsJaxwsService model = Samples.getJvmqueryWs();
         getParameters().put("cixsOperation", model.getCixsOperations().get(0));
         getParameters().put("structHelper", new StructuresGenerator());
+        addHttpTransportParameters(model, getParameters());
+
         String resStr = genSource(model,
                 Cixs2JaxwsGenerator.CIXS_TO_JAXWS_GENERATOR_NAME,
                 Cixs2JaxwsGenerator.OPERATION_COBOL_CICS_WEBAPI_CLIENT_VLC_TEMPLATE,
@@ -235,4 +245,5 @@ public class SampleCobolClientTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("'JVMQUERY STARTING ==============================='"));
         assertTrue(resStr.contains("'JVMQUERY STOPPING ==============================='"));
     }
+    
 }

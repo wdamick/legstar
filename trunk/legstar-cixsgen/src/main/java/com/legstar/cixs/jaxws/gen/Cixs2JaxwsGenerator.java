@@ -20,6 +20,7 @@ import com.legstar.cixs.gen.model.CixsOperation;
 import com.legstar.cixs.jaxws.model.AntBuildCixs2JaxwsModel;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
 import com.legstar.cixs.jaxws.model.CobolHttpClientType;
+import com.legstar.cixs.jaxws.model.HttpTransportParameters;
 import com.legstar.cixs.jaxws.model.PojoParameters;
 import com.legstar.cixs.jaxws.model.ProxyTargetType;
 import com.legstar.cixs.jaxws.model.WebServiceParameters;
@@ -63,6 +64,11 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
     /** The service model name is it appears in templates. */
     public static final String SERVICE_MODEL_NAME = "model";
 
+    /** Default pattern for server PATH. Must be kept in sync with
+     * various velocity templates. */
+    public static final String DEFAULT_SERVER_PATH_TEMPLATE =
+        "/c2ws-${service.name}/${service.name}Proxy";
+
     /**
      * Constructor.
      */
@@ -86,10 +92,6 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
                 "TargetWarDir: No directory name was specified"));
             }
 
-            /* Check that we have a URI to expose to mainframe programs */
-            String serviceURI = getCixsJaxwsService().getServiceURI();
-            CodeGenUtil.checkHttpURI(serviceURI);
-
             /* Check parameters needed depending on target type */
             switch(getProxyTargetTypeInternal()) {
             case POJO:
@@ -111,6 +113,15 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
                     "Operation must specify a CICS program name");
                 }
             }
+
+            /* Check that we have a URI to expose to mainframe programs */
+            /* Set a sensible path using the service name. */
+            if (getHttpTransportParameters().getPath() == null
+                    || getHttpTransportParameters().getPath().length() == 0) {
+                getHttpTransportParameters().setPath(getDefaultServicePath());
+            }
+            getHttpTransportParameters().check();
+
         } catch (IllegalArgumentException e) {
             throw new CodeGenMakeException(e);
         }
@@ -138,6 +149,9 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
         default:
             throw (new CodeGenMakeException("Missing ProxyTargetType parameter"));
         }
+        
+        /* Contribute http parameters */
+        getHttpTransportParameters().add(parameters);
 
         /* Determine target files locations */
         File serviceWebFilesDir = getTargetWDDDir();
@@ -219,6 +233,7 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
             final File cobolFilesDir,
             final CobolHttpClientType cobolHttpClientType)
     throws CodeGenMakeException {
+        
         String template;
         switch(cobolHttpClientType) {
         case DFHWBCLI:
@@ -287,7 +302,7 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
      * @return the service description
      */
     public final CixsJaxwsService getCixsJaxwsService() {
-        return (CixsJaxwsService) getCixsService();
+        return getAntModel().getCixsJaxwsService();
     }
 
     /**
@@ -295,14 +310,14 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
      */
     public final void setCixsJaxwsService(
             final CixsJaxwsService cixsJaxwsService) {
-        setCixsService(cixsJaxwsService);
+        getAntModel().setCixsJaxwsService(cixsJaxwsService);
     }
 
     /**
      * @param cixsJaxwsService the Jaxws service to set
      */
     public final void add(final CixsJaxwsService cixsJaxwsService) {
-        setCixsService(cixsJaxwsService);
+        getAntModel().setCixsJaxwsService(cixsJaxwsService);
     }
 
     /**
@@ -310,7 +325,7 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
      */
     public final void addCixsJaxwsService(
             final CixsJaxwsService cixsJaxwsService) {
-        setCixsService(cixsJaxwsService);
+        getAntModel().setCixsJaxwsService(cixsJaxwsService);
     }
 
     /**
@@ -442,4 +457,37 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
         getAntModel().setWebServiceTargetParameters(webServiceTargetParameters);
     }
 
+    /**
+     * @return the set of parameters needed to access the proxy over HTTP
+     */
+    public HttpTransportParameters getHttpTransportParameters() {
+        return getAntModel().getHttpTransportParameters();
+    }
+
+    /**
+     * @param httpTransportParameters the set of parameters needed to access the proxy over HTTP
+     */
+    public void setHttpTransportParameters(
+            final HttpTransportParameters httpTransportParameters) {
+        getAntModel().setHttpTransportParameters(httpTransportParameters);
+    }
+
+    /**
+     * @param httpTransportParameters the set of parameters needed to access the proxy over HTTP to set
+     */
+    public void addHttpTransportParameters(
+            final HttpTransportParameters httpTransportParameters) {
+        getAntModel().setHttpTransportParameters(httpTransportParameters);
+    }
+
+    /**
+     * @return a good default path that the host could use to reach
+     *  the generated service proxy
+     */
+    public final String getDefaultServicePath() {
+        
+        return DEFAULT_SERVER_PATH_TEMPLATE.replace(
+                "${service.name}", getCixsJaxwsService().getName());
+    }
+ 
 }

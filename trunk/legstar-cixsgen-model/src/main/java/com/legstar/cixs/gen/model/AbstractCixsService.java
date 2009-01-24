@@ -34,15 +34,6 @@ public abstract class AbstractCixsService extends CixsMappingModel {
     /** Service implementation class name. */
     private String mImplementationClassName;
 
-    /** The URI that a client must use to reach the Web service. */
-    private String mServiceURI;
-
-    /** User ID to present Web service. */
-    private String mServiceUserId;
-
-    /** Password to present Web service. */
-    private String mServicePassword;
-
     /** Service namespace. */
     private String mTargetNamespace;
 
@@ -98,66 +89,6 @@ public abstract class AbstractCixsService extends CixsMappingModel {
     public final void setImplementationClassName(
             final String implementationClassName) {
         mImplementationClassName = implementationClassName;
-    }
-
-    /**
-     * @return the URI that the host must use to reach the remote service
-     */
-    public final String getServiceURI() {
-        if (mServiceURI == null || mServiceURI.length() == 0) {
-            mServiceURI = getDefaultServiceURI();
-        }
-        return mServiceURI;
-    }
-
-    /**
-     * @return a goode default URI that the host could use to reach
-     *  the generated service proxy
-     */
-    public abstract String getDefaultServiceURI();
-    
-    /**
-     * @param serviceURI the URI that the host must use to reach the remote
-     *  service to set
-     */
-    public final void setServiceURI(final String serviceURI) {
-        mServiceURI = serviceURI;
-    }
-
-    /**
-     * @return the User ID to present remote service. If no user ID was set,
-     * this defaults to 8 space characters as a COBOL default.
-     */
-    public final String getServiceUserId() {
-        if (mServiceUserId == null || mServiceUserId.length() == 0) {
-            return "        ";
-        }
-        return mServiceUserId;
-    }
-
-    /**
-     * @param serviceUserId the User ID to present remote service to set
-     */
-    public final void setServiceUserId(final String serviceUserId) {
-        mServiceUserId = serviceUserId;
-    }
-
-    /**
-     * @return the Password to present remote service. If no password was set,
-     * this defaults to 8 space characters as a COBOL default.
-     */
-    public final String getServicePassword() {
-        if (mServicePassword == null || mServicePassword.length() == 0) {
-            return "        ";
-        }
-        return mServicePassword;
-    }
-
-    /**
-     * @param servicePassword the Password to present remote service to set
-     */
-    public final void setServicePassword(final String servicePassword) {
-        mServicePassword = servicePassword;
     }
 
     /**

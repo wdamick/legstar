@@ -144,9 +144,6 @@ public final class Samples {
                 JvmqueryWsOperationCases.getOperation(
                         service.getName(), service.getPackageName(), service.getTargetNamespace()));
         service.setTargetNamespace("http://jvmquery.cases.test.xsdc.legstar.com/");
-        service.setServiceURI(service.getDefaultServiceURI());
-        service.setServiceUserId("alice");
-        service.setServicePassword("inwonderland");
         return service;
     }
 
@@ -160,7 +157,6 @@ public final class Samples {
                 JvmqueryOperationCases.getOperation(
                         service.getName(), service.getPackageName(), service.getTargetNamespace()));
         service.setTargetNamespace("http://jvmquery.cases.test.xsdc.legstar.com/");
-        service.setServiceURI(service.getDefaultServiceURI());
         return service;
     }
 
@@ -174,7 +170,6 @@ public final class Samples {
                 CultureinfoOperationCases.getOperation(
                         service.getName(), service.getPackageName(), service.getTargetNamespace()));
         service.setTargetNamespace("http://cultureinfo.cases.test.xsdc.legstar.com/");
-        service.setServiceURI(service.getDefaultServiceURI());
         return service;
     }
 
@@ -188,7 +183,6 @@ public final class Samples {
                 MSNSearchOperationCases.getOperation(
                         service.getName(), service.getPackageName(), service.getTargetNamespace()));
         service.setTargetNamespace("http://schemas.microsoft.com/MSNSearch/2005/09/fex");
-        service.setServiceURI(service.getDefaultServiceURI());
         return service;
     }
 

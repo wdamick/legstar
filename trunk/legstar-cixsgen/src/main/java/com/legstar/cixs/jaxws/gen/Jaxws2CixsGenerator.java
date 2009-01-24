@@ -162,11 +162,6 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
      * Provide default values to expose this adapter as a Web Service.
      */
     protected void completeWebServiceParameters() {
-        if (getWebServiceParameters().getWsdlUrl() ==  null
-                || getWebServiceParameters().getWsdlUrl().length() == 0) {
-            getWebServiceParameters().setWsdlUrl(
-                    getCixsService().getDefaultServiceURI());
-        }
         if (getWebServiceParameters().getWsdlServiceName() ==  null
                 || getWebServiceParameters().getWsdlServiceName().length() == 0) {
             getWebServiceParameters().setWsdlServiceName(

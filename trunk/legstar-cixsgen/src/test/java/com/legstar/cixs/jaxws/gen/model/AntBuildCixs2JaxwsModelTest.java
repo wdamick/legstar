@@ -51,6 +51,7 @@ public class AntBuildCixs2JaxwsModelTest extends AbstractTestTemplate {
         
         antModel.setProxyTargetType(ProxyTargetType.WEBSERVICE);
         antModel.setWebServiceTargetParameters(Samples.getCultureinfoWebServiceParameters());
+        antModel.setHttpTransportParameters(getDefaultHttpParameters(cixsJaxwsService));
 
         antModel.generateBuild(CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
         String resStr = getSource(GEN_SRC_DIR, "test.txt");
@@ -73,8 +74,7 @@ public class AntBuildCixs2JaxwsModelTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("sampleCobolHttpClientType=\"WEBAPI\""));
 
         assertTrue(resStr.contains("<cixsJaxwsService name=\"cultureinfo\""));
-        assertTrue(resStr.contains("serviceURI=\"http://" + CodeGenUtil.getLocalIPAddress()
-                + ":8080/c2ws-cultureinfo/cultureinfoProxy\""));
+
         assertTrue(resStr.contains("<cixsOperation name=\"getInfo\""));
         assertTrue(resStr.contains("cicsProgramName=\"CULTUREI\""));
         assertTrue(resStr.contains("jaxbType=\"GetInfo\""));
@@ -87,6 +87,15 @@ public class AntBuildCixs2JaxwsModelTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("wsdlTargetNamespace=\"http://cultureinfo.cases.test.xsdc.legstar.com/\""));
         assertTrue(resStr.contains("wsdlServiceName=\"CultureInfoImplService\""));
         assertTrue(resStr.contains("wsdlPortName=\"CultureInfoImplPort\""));
+
+        assertTrue(resStr.contains("<httpTransportParameters"));
+        assertTrue(resStr.contains("scheme=\"http\""));
+        assertTrue(resStr.contains("host=\"192.168.0.4\""));
+        assertTrue(resStr.contains("port=\"8080\""));
+        assertTrue(resStr.contains("path=\"/c2ws-cultureinfo/cultureinfoProxy\""));
+        assertTrue(resStr.contains("userId=\"\""));
+        assertTrue(resStr.contains("password=\"\""));
+
     }
 
 }

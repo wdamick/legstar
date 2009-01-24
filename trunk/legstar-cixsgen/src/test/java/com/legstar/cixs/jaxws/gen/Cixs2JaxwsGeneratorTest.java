@@ -130,6 +130,20 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
                     "cultureinfoPort");
             generator.execute();
         } catch (Exception e) {
+            assertEquals("You must specify an HTTP path",
+                    e.getCause().getMessage());
+        }
+        try {
+            generator.getHttpTransportParameters().setPath("trabzon");
+            generator.execute();
+        } catch (Exception e) {
+            assertEquals("The HTTP path must start with the / character",
+                    e.getCause().getMessage());
+        }
+        try {
+            generator.getHttpTransportParameters().setPath("/trabzon");
+            generator.execute();
+        } catch (Exception e) {
             fail(e.getCause().getMessage());
         }
 
@@ -184,8 +198,8 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
                 new File(GEN_COBOL_DIR, cixsJaxwsService.getName()));
         mGenerator.setTargetWarDir(GEN_WAR_DIR);
         mGenerator.setHostCharset("IBM01147");
-        cixsJaxwsService.setServiceUserId("alice");
-        cixsJaxwsService.setServicePassword("inwonderland");
+        mGenerator.getHttpTransportParameters().setUserId("alice");
+        mGenerator.getHttpTransportParameters().setPassword("inwonderland");
 
     }
 

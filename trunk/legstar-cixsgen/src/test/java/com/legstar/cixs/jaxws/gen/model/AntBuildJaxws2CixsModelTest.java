@@ -78,8 +78,6 @@ public class AntBuildJaxws2CixsModelTest extends AbstractTestTemplate {
         assertTrue(resStr.replace('\\', '/').contains("<javac srcdir=\"target/src/gen/java\""));
 
         assertTrue(resStr.contains("<webServiceParameters"));
-        assertTrue(resStr.contains("wsdlUrl=\"http://" + CodeGenUtil.getLocalIPAddress()
-                + ":8080/c2ws-lsfileae/lsfileaeProxy\""));
         assertTrue(resStr.contains("wsdlTargetNamespace=\"http://cixs.test.legstar.com/lsfileae\""));
         assertTrue(resStr.contains("wsdlServiceName=\"lsfileaeService\""));
         assertTrue(resStr.contains("wsdlPortName=\"lsfileaePort\""));

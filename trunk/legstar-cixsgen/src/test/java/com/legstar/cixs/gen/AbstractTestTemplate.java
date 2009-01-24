@@ -20,8 +20,10 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.legstar.cixs.jaxws.gen.Cixs2JaxwsGenerator;
 import com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
+import com.legstar.cixs.jaxws.model.HttpTransportParameters;
 import com.legstar.cixs.jaxws.model.WebServiceParameters;
 import com.legstar.codegen.CodeGenHelper;
 import com.legstar.codegen.CodeGenUtil;
@@ -199,7 +201,6 @@ public class AbstractTestTemplate extends TestCase {
     public WebServiceParameters getDefaultWebServiceParameters(
             final CixsJaxwsService service) {
         WebServiceParameters webServiceParameters = new WebServiceParameters();
-        webServiceParameters.setWsdlUrl(service.getDefaultServiceURI());
         webServiceParameters.setWsdlPortName(service.getName()
                 + Jaxws2CixsGenerator.WSDL_PORT_NAME_SUFFIX);
         webServiceParameters.setWsdlServiceName(service.getName()
@@ -220,6 +221,33 @@ public class AbstractTestTemplate extends TestCase {
         WebServiceParameters webServiceParameters =
             getDefaultWebServiceParameters(service);
         webServiceParameters.add(parameters);
+        
+    }
+
+    /**
+     * Produce a set of http parameters.
+     * @param model the service
+     * @return a default set of http parameters
+     */
+    public HttpTransportParameters getDefaultHttpParameters(final CixsJaxwsService model) {
+        HttpTransportParameters httpTransportParameters = new HttpTransportParameters();
+        httpTransportParameters.setPath(
+                Cixs2JaxwsGenerator.DEFAULT_SERVER_PATH_TEMPLATE.replace(
+                        "${service.name}", model.getName()));
+        return httpTransportParameters;
+    }
+ 
+    /**
+     * Add Web Service default parameters.
+     * @param service the service
+     * @param parameters the set of parameters
+     */
+    public void addHttpTransportParameters(
+            final CixsJaxwsService service,
+            final Map < String, Object > parameters) {
+        HttpTransportParameters httpTransportParameters =
+            getDefaultHttpParameters(service);
+        httpTransportParameters.add(parameters);
         
     }
 
