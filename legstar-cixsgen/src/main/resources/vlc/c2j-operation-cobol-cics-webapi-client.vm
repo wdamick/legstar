@@ -27,8 +27,8 @@
       *---------------------------------------------------------------*
       *  Constants                                                    *
       *---------------------------------------------------------------*
-       77  W00-SERVICE-URI               PIC X(${model.serviceURI.length()}) VALUE
-${structHelper.getCobolValueCode("'${model.serviceURI}'", 1)}
+       77  W00-SERVICE-URI               PIC X(${httpURL.length()}) VALUE
+${structHelper.getCobolValueCode("'${httpURL}'", 1)}
 
       *---------------------------------------------------------------*
       *  CICS API parameters                                          *
@@ -223,7 +223,7 @@ ${structHelper.getOutputStructuresCode($cixsOperation, 2, 1)}
 
            DISPLAY 'ABOUT TO INVOKE-SERVICE'.
 
-           MOVE 'binary/octet-stream' TO WAPI-MEDIATYPE.
+           MOVE 'application/octet-stream' TO WAPI-MEDIATYPE.
            COMPUTE WAPI-STATUSLEN = LENGTH OF WAPI-STATUSTEXT.
 
            EXEC CICS WEB CONVERSE

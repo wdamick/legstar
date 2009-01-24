@@ -79,7 +79,6 @@
             </cixsJaxwsService>
             <!-- Exposed Web Service parameters -->
             <webServiceParameters
-                wsdlUrl="${antModel.webServiceParameters.wsdlUrl}"
                 wsdlTargetNamespace="${antModel.webServiceParameters.wsdlTargetNamespace}"
                 wsdlServiceName="${antModel.webServiceParameters.wsdlServiceName}"
                 wsdlPortName="${antModel.webServiceParameters.wsdlPortName}"

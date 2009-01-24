@@ -27,8 +27,8 @@
       *---------------------------------------------------------------*
       *  Constants                                                    *
       *---------------------------------------------------------------*
-       77  W00-SERVICE-URI               PIC X(${model.serviceURI.length()}) VALUE
-${structHelper.getCobolValueCode("'${model.serviceURI}'", 1)}
+       77  W00-SERVICE-URI               PIC X(${httpURL.length()}) VALUE
+${structHelper.getCobolValueCode("'${httpURL}'", 1)}
 
       *---------------------------------------------------------------*
       *  CICS API parameters                                          *
@@ -138,7 +138,7 @@ ${structHelper.getOutputStructuresCode($cixsOperation, 2, 1)}
            SET WBCLI-REQUEST-BODY-PTR TO ADDRESS OF COM-REQUEST.
            COMPUTE WBCLI-REQUEST-BODY-LEN =
                LENGTH OF COM-REQUEST.
-           MOVE 'binary/octet-stream' TO WBCLI-MEDIATYPE.
+           MOVE 'application/octet-stream' TO WBCLI-MEDIATYPE.
 
            DISPLAY 'PROLOG ENDED'.
            

@@ -15,7 +15,7 @@ import java.io.File;
 import com.legstar.cixs.gen.ant.model.AbstractAntBuildCixsModel;
 
 /**
- * This model groups parameters needed to generate artifacts for an inbound
+ * This model groups parameters needed to generate artifacts for a proxy
  * mainframe operation. One such artifacts is a CICS COBOL source that showcases
  * how a remote service can be called from CICS.
  */
@@ -43,8 +43,11 @@ public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsModel {
     /** The target directory where COBOL files will be created. */
     private File mTargetCobolDir;
 
-    /** The type of Http sample Cobol client to generate. */
+    /** The type of HTTP sample Cobol client to generate. */
     private CobolHttpClientType mSampleCobolHttpClientType = CobolHttpClientType.DFHWBCLI;
+    
+    /** HTTP parameters used by cobol client to reach the proxy over HTTP.     */
+    private HttpTransportParameters mHttpTransportParameters;
     
     /** This velocity template that creates an ant build which in turn
      * generates the target web service proxy. */
@@ -58,6 +61,7 @@ public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsModel {
         super(CIXS2JAXWS_GENERATOR_NAME, CIXS2JAXWS_VELOCITY_MACRO_NAME);
         mPojoTargetParameters = new PojoParameters();
         mWebServiceTargetParameters = new WebServiceParameters();
+        mHttpTransportParameters = new HttpTransportParameters();
     }
 
     /**
@@ -176,6 +180,21 @@ public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsModel {
     public void setWebServiceTargetParameters(
             final WebServiceParameters webServiceTargetParameters) {
         mWebServiceTargetParameters = webServiceTargetParameters;
+    }
+
+    /**
+     * @return the parameters used by cobol client to reach the proxy over HTTP
+     */
+    public HttpTransportParameters getHttpTransportParameters() {
+        return mHttpTransportParameters;
+    }
+
+    /**
+     * @param httpTransportParameters the parameters used by cobol client to reach the proxy over HTTP to set
+     */
+    public void setHttpTransportParameters(
+            final HttpTransportParameters httpTransportParameters) {
+        mHttpTransportParameters = httpTransportParameters;
     }
 
 }

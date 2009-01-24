@@ -29,15 +29,23 @@
       *---------------------------------------------------------------*
       * Address of service provider.
       *    
-       77  W00-SERVICE-URI               PIC X(${model.serviceURI.length()}) VALUE
-${structHelper.getCobolValueCode("'${model.serviceURI}'", 1)}
+       77  W00-SERVICE-URI               PIC X(${httpURL.length()}) VALUE
+${structHelper.getCobolValueCode("'${httpURL}'", 1)}
       *    
       * Service credentials.
       *    
-       77  W00-USERID                    PIC X(${model.serviceUserId.length()}) VALUE
-${structHelper.getCobolValueCode("'${model.serviceUserId}'", 1)}
-       77  W00-PASSWORD                  PIC X(${model.servicePassword.length()}) VALUE
-${structHelper.getCobolValueCode("'${model.servicePassword}'", 1)}
+#if(${httpUserId.length()} == 0)
+       77  W00-USERID                    PIC X(8) VALUE SPACES.
+#else
+       77  W00-USERID                    PIC X(${httpUserId.length()}) VALUE
+${structHelper.getCobolValueCode("'${httpUserId}'", 1)}
+#end
+#if(${httpPassword.length()} == 0)
+       77  W00-PASSWORD                  PIC X(8) VALUE SPACES.
+#else
+       77  W00-PASSWORD                  PIC X(${httpPassword.length()}) VALUE
+${structHelper.getCobolValueCode("'${httpPassword}'", 1)}
+#end
       *    
       * Service requested.
       *    

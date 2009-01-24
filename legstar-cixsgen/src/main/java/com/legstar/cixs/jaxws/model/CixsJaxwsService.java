@@ -11,7 +11,6 @@
 package com.legstar.cixs.jaxws.model;
 
 import com.legstar.cixs.gen.model.AbstractCixsService;
-import com.legstar.codegen.CodeGenUtil;
 
 /**
  * This class adds to <code>AbstractCixsService</code> those properties that
@@ -24,11 +23,6 @@ public class CixsJaxwsService extends AbstractCixsService {
 
     /** Service host header class name. */
     private String mHeaderClassName;
-
-    /** Default pattern for server URI. Must be kept in sync with
-     * various velocity templates. */
-    public static final String DEFAULT_SERVER_URI_TEMPLATE =
-        "http://${server}:8080/c2ws-${service.name}/${service.name}Proxy";
 
     /** Will be appended to implementation class name to form a host header
      *  class name. */
@@ -51,14 +45,4 @@ public class CixsJaxwsService extends AbstractCixsService {
         mHeaderClassName = headerClassName;
     }
 
-    /**
-     * @return a goode default URI that the host could use to reach
-     *  the generated service proxy
-     */
-    public final String getDefaultServiceURI() {
-        return DEFAULT_SERVER_URI_TEMPLATE.replace(
-                "${service.name}", getName()).replace(
-                        "${server}", CodeGenUtil.getLocalIPAddress());
-    }
- 
 }
