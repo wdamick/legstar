@@ -16,6 +16,9 @@
         <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
             <classpath refid="maven.classpath"/>
         </taskdef>
+        
+        <mkdir dir="${basedir}/../legstar-cixsgen-clients/target/classes"/>
+        
     </target>
 
     <!-- Generate JAXWS client artifacts for each CIXWS generated Web Service.        -->
