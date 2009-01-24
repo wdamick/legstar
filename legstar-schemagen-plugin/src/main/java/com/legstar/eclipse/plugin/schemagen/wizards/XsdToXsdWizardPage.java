@@ -68,7 +68,7 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
     }
 
     /** {@inheritDoc} */
-    protected void createExtendedControls(final Composite container) {
+    public void createExtendedControls(final Composite container) {
         mXsdUrlCombo = createUrlComboGroup(
                 container, Messages.url_type_label,
                 new ModifyListener() {
@@ -134,7 +134,7 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
     }
 
     /** {@inheritDoc} */
-    protected void dialogChanged() {
+    public void dialogChanged() {
         if (mXsdSourceText.getText().length() > 0) {
             updateStatus(null);
         } else {
@@ -143,7 +143,7 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
     }
 
     /** {@inheritDoc} */
-    protected void initContents() {
+    public void initContents() {
         initUrlHistory();
     }
 
