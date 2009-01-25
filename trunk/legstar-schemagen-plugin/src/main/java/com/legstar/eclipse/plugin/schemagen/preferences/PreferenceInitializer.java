@@ -29,7 +29,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 
         store.setDefault(PreferenceConstants.XSD_NAMESPACE_PREFIX,
-        "http://test.legstar");
+        "http://coxb.test.legstar.com");
         store.setDefault(PreferenceConstants.JAXB_PACKAGE_NAME_PREFIX,
         "com.legstar.test.coxb");
     }
