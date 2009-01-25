@@ -16,18 +16,15 @@ public class LsfilealOperationCases extends AbstractOperationCases {
     /**
      * @param serviceName the service name
      * @param operationPackageName the operation classes package name
-     * @param operationNamespace the operation namespace
      * @return an operation corresponding to a Web Service operation.
      */
     public static CixsOperation getOperation(
             final String serviceName,
-            final String operationPackageName,
-            final String operationNamespace) {
+            final String operationPackageName) {
         CixsOperation cixsOperation = new CixsOperation();
         cixsOperation.setName("lsfileal");
         cixsOperation.setCicsProgramName("LSFILEAL");
         cixsOperation.setPackageName(operationPackageName);
-        cixsOperation.setNamespace(operationNamespace);
         cixsOperation.setFaultType("LsfilealException");
 
         List < CixsStructure > inStructures = new ArrayList < CixsStructure >();
