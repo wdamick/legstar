@@ -83,7 +83,7 @@ public abstract class AbstractWizardPage extends WizardPage {
      * @param title the title that should appear on this page
      * @param description the text that should describe the purpose of this page
      */
-    protected AbstractWizardPage(
+    public AbstractWizardPage(
             final IStructuredSelection initialSelection,
             final String pageName,
             final String title,
@@ -92,6 +92,9 @@ public abstract class AbstractWizardPage extends WizardPage {
         setTitle(title);
         setDescription(description);
         mInitialSelection = initialSelection;
+        mUrlHistory = new PreferenceUrlHistory(
+                Activator.getDefault().getPreferenceStore(),
+                URL_HISTORY_STORE_KEY_PFX);
         ImageDescriptor image =
             AbstractUIPlugin.
             imageDescriptorFromPlugin(
@@ -111,10 +114,6 @@ public abstract class AbstractWizardPage extends WizardPage {
 
         createExtendedControls(container);
 
-        IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-        mUrlHistory = new PreferenceUrlHistory(
-                store, URL_HISTORY_STORE_KEY_PFX);
-
         initContents();
         dialogChanged();
     }
@@ -122,18 +121,18 @@ public abstract class AbstractWizardPage extends WizardPage {
     /**
      * Set the initial values for controls on this page.
      */
-    protected abstract void initContents();
+    public abstract void initContents();
 
     /**
      * Add the controls that are specific to this wizard page.
      * @param container the parent container
      */
-    protected abstract void createExtendedControls(final Composite container);
+    public abstract void createExtendedControls(final Composite container);
 
     /**
      * Process new input from user. Validate all control contents.
      */
-    protected abstract void dialogChanged();
+    public abstract void dialogChanged();
 
     /**
      * Adds a label that spans only one column.
@@ -205,7 +204,7 @@ public abstract class AbstractWizardPage extends WizardPage {
      * @param text the group text
      * @return the new group
      */
-    protected static Group createGroup(
+    public static Group createGroup(
             final Composite container, final String text) {
         return createGroup(container, text, LAYOUT_COLUMNS);
     }
@@ -284,7 +283,7 @@ public abstract class AbstractWizardPage extends WizardPage {
      * @param labelText the label's text appearing before the textbox
      * @return the composite
      */
-    protected static Text createTextField(
+    public static Text createTextField(
             final Composite container,
             final IPreferenceStore store,
             final String preferenceName,
@@ -305,7 +304,7 @@ public abstract class AbstractWizardPage extends WizardPage {
      * @param result Text field to update on return from dialog
      * @return a new button
      */
-    protected Button createBrowseForContainerButton(
+    public Button createBrowseForContainerButton(
             final Composite container,
             final String dialogTitle,
             final Text result) {
@@ -332,7 +331,7 @@ public abstract class AbstractWizardPage extends WizardPage {
      * @param result Text field to update on return from dialog
      * @return a new button
      */
-    protected Button createBrowseForFolderButton(
+    public Button createBrowseForFolderButton(
             final Composite container,
             final String dialogTitle,
             final Text result) {
@@ -355,7 +354,7 @@ public abstract class AbstractWizardPage extends WizardPage {
      * @param result Text field to update on return from dialog
      * @return a new button
      */
-    protected Button createBrowseForFileContentButton(
+    public Button createBrowseForFileContentButton(
             final Composite container,
             final String dialogTitle,
             final Text result) {
@@ -375,7 +374,7 @@ public abstract class AbstractWizardPage extends WizardPage {
      * @param dialogTitle title that browse dialog should display
      * @return a cumulative content of all files selected
      */
-    protected String selectSingleFileContent(final String dialogTitle) {
+    public String selectSingleFileContent(final String dialogTitle) {
         String fileName = handleBrowseForFiles(dialogTitle);
         StringBuilder sb = new StringBuilder();
         if (fileName != null) {
@@ -396,7 +395,7 @@ public abstract class AbstractWizardPage extends WizardPage {
      * @param dialogTitle what the title should say
      * @return an array of selected file names or null
      */
-    protected String handleBrowseForFiles(final String dialogTitle) {
+    public String handleBrowseForFiles(final String dialogTitle) {
         FileDialog dialog = new FileDialog(
                 getShell(), SWT.OPEN);
         dialog.setText(dialogTitle);
@@ -409,7 +408,7 @@ public abstract class AbstractWizardPage extends WizardPage {
      * @param dialogTitle what the title should say
      * @return an array of selected file names or null
      */
-    protected String handleBrowseForDirectory(final String dialogTitle) {
+    public String handleBrowseForDirectory(final String dialogTitle) {
         DirectoryDialog dialog = new DirectoryDialog(
                 getShell(), SWT.OPEN);
         dialog.setText(dialogTitle);
@@ -422,7 +421,7 @@ public abstract class AbstractWizardPage extends WizardPage {
      * @return a string with the file content
      * @throws IOException if fails to read file
      */
-    protected static String getContent(
+    public static String getContent(
             final String fileName) throws IOException {
         BufferedReader in = new BufferedReader(new FileReader(fileName));
         StringBuilder resStr = new StringBuilder();
@@ -443,7 +442,7 @@ public abstract class AbstractWizardPage extends WizardPage {
      * @param listener what to do when link is clicked
      * @return the new hyperlink
      */
-    protected ImageHyperlink createHyperlink(
+    public ImageHyperlink createHyperlink(
             final Composite container,
             final String text,
             final Image image,
@@ -461,7 +460,7 @@ public abstract class AbstractWizardPage extends WizardPage {
      * @param listener what to do when link is clicked
      * @return the new hyperlink
      */
-    protected ImageHyperlink createHyperlink(
+    public ImageHyperlink createHyperlink(
             final Composite container,
             final String text,
             final Image image,
@@ -496,7 +495,7 @@ public abstract class AbstractWizardPage extends WizardPage {
      *  the file system.
      * @return the Combo box holding URLs
      */
-    protected Combo createUrlComboGroup(
+    public Combo createUrlComboGroup(
             final Composite container,
             final String urlType,
             final ModifyListener modifyListener,
@@ -514,11 +513,14 @@ public abstract class AbstractWizardPage extends WizardPage {
                         2,
                         new HyperlinkAdapter() {
                     public void linkActivated(final HyperlinkEvent e) {
-                        urlCombo.setText(handleBrowseForFiles(
+                        String fileName = handleBrowseForFiles(
                                 NLS.bind(Messages.url_select_a_file_label,
-                                        urlType)));
-                        selectionListener.urlSelected(urlCombo.getText());
-                        getUrlHistory().add(urlCombo.getText());
+                                        urlType));
+                        if (fileName != null && fileName.length() > 0) {
+                            urlCombo.setText(fileName);
+                            selectionListener.urlSelected(urlCombo.getText());
+                            getUrlHistory().add(urlCombo.getText());
+                        }
                     }
                 });
 
@@ -566,7 +568,7 @@ public abstract class AbstractWizardPage extends WizardPage {
      * The Finish button is enabled only on the valid last page.
      * @param errorMessage the text
      */
-    protected void updateStatus(final String errorMessage) {
+    public void updateStatus(final String errorMessage) {
         if (getNextPage() == null) {
             ((AbstractWizard) getWizard()).setCanFinish(
                     (errorMessage == null) ? true : false);

@@ -68,15 +68,6 @@
             <scope>provided</scope>
         </dependency>
         
-        <!-- This is to prevent Log4j from being part of the
-             dependency set. Otherwise, it would end up in the lib
-             folder. We don't want to force users to use it. -->
-         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <scope>test</scope>
-        </dependency>
-    
     </dependencies>
 
     <build>
@@ -121,6 +112,7 @@
                           <overWriteSnapshots>false</overWriteSnapshots>
                           <overWriteIfNewer>true</overWriteIfNewer>
                           <excludeScope>provided</excludeScope>
+                          <excludeGroupIds>junit,log4j</excludeGroupIds>
                        </configuration>
                     </execution>
                 </executions>
