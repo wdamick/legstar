@@ -34,9 +34,6 @@ public class CixsOperation {
     /** Operation-related classes package name. */
     private String mPackageName;
 
-    /** Operation related WSDL elements namespace. */
-    private String mNamespace;
-
     /** Class name for request wrapper. */
     private String mRequestWrapperType;
 
@@ -80,10 +77,6 @@ public class CixsOperation {
     /** Operation-related classes package name. */
     public static final String CIXS_OP_PACKAGE_XML_A
     = "packageName";
-
-    /** Operation-related XML elements namespace. */
-    public static final String CIXS_OP_NAMESPACE_XML_A
-    = "namespace";
 
     /** Request wrapper class name. */
     public static final String CIXS_OP_REQ_WRAPPER_XML_A
@@ -245,10 +238,6 @@ public class CixsOperation {
             result.append(" " + CIXS_OP_FAULT_INFO_XML_A + "=" + '\"'
                     + getFaultInfoType() + '\"');
         }
-        if (getNamespace() != null && getNamespace().length() > 0) {
-            result.append(" " + CIXS_OP_NAMESPACE_XML_A + "=" + '\"'
-                    + getNamespace() + '\"');
-        }
         if (getPackageName() != null && getPackageName().length() > 0) {
             result.append(" " + CIXS_OP_PACKAGE_XML_A + "=" + '\"'
                     + getPackageName() + '\"');
@@ -307,8 +296,6 @@ public class CixsOperation {
                 CIXS_CICS_CHANNEL_XML_A);
         mPackageName =  operationElement.getAttribute(
                 CIXS_OP_PACKAGE_XML_A);
-        mNamespace =  operationElement.getAttribute(
-                CIXS_OP_NAMESPACE_XML_A);
         mRequestWrapperType =  operationElement.getAttribute(
                 CIXS_OP_REQ_WRAPPER_XML_A);
         mResponseWrapperType =  operationElement.getAttribute(
@@ -432,20 +419,6 @@ public class CixsOperation {
      */
     public final void setFaultInfoType(final String faultInfoType) {
         mFaultInfoType = faultInfoType;
-    }
-
-    /**
-     * @return the operation-related WSDL elements namespace
-     */
-    public final String getNamespace() {
-        return mNamespace;
-    }
-
-    /**
-     * @param namespace the operation-related WSDL elements namespace to set
-     */
-    public final void setNamespace(final String namespace) {
-        mNamespace = namespace;
     }
 
     /**

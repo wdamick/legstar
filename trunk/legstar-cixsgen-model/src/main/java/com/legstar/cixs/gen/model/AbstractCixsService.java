@@ -34,9 +34,6 @@ public abstract class AbstractCixsService extends CixsMappingModel {
     /** Service implementation class name. */
     private String mImplementationClassName;
 
-    /** Service namespace. */
-    private String mTargetNamespace;
-
     /**
      * @return the Service package name
      */
@@ -89,20 +86,6 @@ public abstract class AbstractCixsService extends CixsMappingModel {
     public final void setImplementationClassName(
             final String implementationClassName) {
         mImplementationClassName = implementationClassName;
-    }
-
-    /**
-     * @return the Service target namespace
-     */
-    public final String getTargetNamespace() {
-        return mTargetNamespace;
-    }
-
-    /**
-     * @param targetNamespace the Service namespace to set
-     */
-    public final void setTargetNamespace(final String targetNamespace) {
-        mTargetNamespace = targetNamespace;
     }
 
 }
