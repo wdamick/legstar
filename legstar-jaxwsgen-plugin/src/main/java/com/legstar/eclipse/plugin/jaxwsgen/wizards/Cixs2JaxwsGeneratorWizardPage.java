@@ -12,23 +12,23 @@ package com.legstar.eclipse.plugin.jaxwsgen.wizards;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.window.Window;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 
+import com.legstar.cixs.jaxws.model.ProxyTargetType;
 import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsActivator;
-import com.legstar.eclipse.plugin.cixscom.wizards
-.AbstractCixsGeneratorWizardPage;
-import com.legstar.eclipse.plugin.common.wizards.IURLSelectionListener;
+import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsGeneratorWizardPage;
+import com.legstar.eclipse.plugin.cixscom.wizards.CixsProxyPojoTargetGroup;
+import com.legstar.eclipse.plugin.cixscom.wizards.CixsProxyWebServiceTargetGroup;
 import com.legstar.eclipse.plugin.jaxwsgen.Activator;
 import com.legstar.eclipse.plugin.jaxwsgen.Messages;
-import com.legstar.eclipse.plugin.jaxwsgen.dialogs.WsdlPortSelectionDialog;
 import com.legstar.eclipse.plugin.jaxwsgen.preferences.PreferenceConstants;
 
 /**
@@ -41,18 +41,18 @@ extends AbstractCixsGeneratorWizardPage {
     /** Page name. */
     private static final String PAGE_NAME = "Cixs2JaxwsGeneratorWizardPage";
 
-    /** URL locating target Web service WSDL. */
-    private Combo mWsdlUrlCombo = null;
+    /** Settings for target selection group. */
+    private Group mTargetGroup = null;
 
-    /** Target Web service WSDL service name. */
-    private Text mWsdlServiceNameText = null;
+    /** Settings for deployment parameters group. */
+    private Composite mDeploymentGroup = null;
 
-    /** Target Web service WSDL port name. */
-    private Text mWsdlPortNameText = null;
-
-    /** Target Web services target namespace. */
-    private Text mTargetNamespaceText = null;
-
+    /** The POJO target controls group. */
+    private CixsProxyPojoTargetGroup mPojoTargetGroup;
+    
+    /** The Web Service target controls group. */
+    private CixsProxyWebServiceTargetGroup mWebServiceTargetGroup;
+    
     /** Where generated COBOL source reside. */
     private Text mTargetCobolDirText = null;
 
@@ -62,14 +62,8 @@ extends AbstractCixsGeneratorWizardPage {
     /** J2ee folder where war files should be deployed. */
     private Text mTargetWarDirText = null;
 
-    /** Proxy service URI exposed to mainframe programs. */
-    private Text mProxyURIText = null;
-
-    /** Proxy service user ID. */
-    private Text mProxyUserIdText = null;
-
-    /** Proxy service URI exposed to mainframe programs. */
-    private Text mProxyPasswordText = null;
+    /** HTTP Proxy client parameters. */
+    private Cixs2JaxwsProxyDeployHttpGroup mCixsProxyDeployHttpGroup;
 
     /**
      * Construct the page.
@@ -87,64 +81,22 @@ extends AbstractCixsGeneratorWizardPage {
 
     /** {@inheritDoc} */
     protected void addCixsGroup(final Composite container) {
-        Group group = createGroup(container, Messages.wsdl_group_label, 3);
+        
+        mTargetGroup = createGroup(container, Messages.target_selection_group_label, 3);
+        createLabel(mTargetGroup, Messages.target_selection_label + ':');
+        Composite composite = new Composite(mTargetGroup, SWT.NULL);
+        composite.setLayout(new RowLayout());
+        
+        mWebServiceTargetGroup = new CixsProxyWebServiceTargetGroup(this);
+        mPojoTargetGroup = new CixsProxyPojoTargetGroup(this);
 
-        mWsdlUrlCombo = createUrlComboGroup(
-                group, Messages.wsdl_url_label,
-                new ModifyListener() {
-                    public void modifyText(final ModifyEvent e) {
-                        dialogChanged();
-                    }
-                },
-                new URLSelectionAdapter());
+        mWebServiceTargetGroup.createButton(composite);
+        mPojoTargetGroup.createButton(composite);
 
-        mWsdlServiceNameText = createTextField(group, getStore(),
-                "wsdlServiceName", Messages.wsdl_service_name_label + ':');
-        mWsdlServiceNameText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
-        createLabel(group, "");
-
-        mWsdlPortNameText = createTextField(group, getStore(),
-                "wsdlPorteName", Messages.wsdl_port_name_label + ':');
-        mWsdlPortNameText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
-        createLabel(group, "");
-
-        mTargetNamespaceText = createTextField(group, getStore(),
-                "targetNamespace", Messages.wsdl_target_namespace_label + ':');
-        mTargetNamespaceText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
-        createLabel(group, "");
+        mWebServiceTargetGroup.createControls(mTargetGroup);
+        mPojoTargetGroup.createControls(mTargetGroup);
 
         super.addCixsGroup(container);
-    }
-
-    /**
-     *Defines what happens when a URL is selected.
-     */
-    private class URLSelectionAdapter implements IURLSelectionListener {
-
-        /** {@inheritDoc} */
-        public void urlSelected(final String urlString) {
-            WsdlPortSelectionDialog dlg =
-                new WsdlPortSelectionDialog(
-                        getWsdlUrl(), getShell(),
-                        Activator.PLUGIN_ID);
-            if (Window.OK == dlg.open()) {
-                setTargetNamespace(dlg.getTargetNamespace());
-                setWsdlServiceName(dlg.getServiceName());
-                setWsdlPortName(dlg.getPortName());
-            }
-        }
     }
 
     /** {@inheritDoc} */
@@ -153,20 +105,13 @@ extends AbstractCixsGeneratorWizardPage {
 
     /** {@inheritDoc} */
     public void addWidgetsToTargetGroup(final Composite container) {
+
         mTargetWDDDirText = createDirectoryFieldEditor(container,
                 "targetWDDDir", Messages.wdd_target_location_label + ':');
-        mTargetWDDDirText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
+
         mTargetCobolDirText = createDirectoryFieldEditor(container,
                 "targetCobolDir", Messages.cobol_target_location_label + ':');
-        mTargetCobolDirText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
+
     }
 
     /** {@inheritDoc} */
@@ -175,89 +120,99 @@ extends AbstractCixsGeneratorWizardPage {
 
     /** {@inheritDoc} */
     public void addWidgetsToDeploymentGroup(final Composite container) {
-        createLabel(container, Messages.proxy_uri_label + ':');
-        mProxyURIText = createText(container); 
-        mProxyURIText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
-        createLabel(container, Messages.proxy_user_id_label + ':');
-        mProxyUserIdText = createText(container); 
-        mProxyUserIdText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
-        createLabel(container, Messages.proxy_password_label + ':');
-        mProxyPasswordText = createText(container); 
-        mProxyPasswordText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
+        mDeploymentGroup = container;
+        
         mTargetWarDirText = createTextField(container, getStore(),
                 "targetJarDir", Messages.war_deployment_location_label + ':');
+ 
+        createLabel(container, Messages.sample_configuration_transport_label + ":");
+        Composite composite = new Composite(container, SWT.NULL);
+        composite.setLayout(new RowLayout());
+
+        mCixsProxyDeployHttpGroup = new Cixs2JaxwsProxyDeployHttpGroup(this);
+        /* Buttons go to the newly created rowdata composite */
+        mCixsProxyDeployHttpGroup.createButton(composite);
+        
+        /* The group goes to the deployment container*/
+        mCixsProxyDeployHttpGroup.createControls(container);
+    }
+
+    /** {@inheritDoc} */
+    public void initExtendedWidgets(final IProject project) {
+        
+        setTargetWDDDir(getDefaultTargetDir(getStore(),
+                PreferenceConstants.DEFAULT_J2EE_WDD_FOLDER));
+        setTargetCobolDir(getDefaultTargetDir(getStore(),
+                PreferenceConstants.COBOL_SAMPLE_FOLDER));
+        setTargetWarDir(getStore().getDefaultString(
+                PreferenceConstants.DEFAULT_J2EE_WAR_FOLDER));
+ 
+        getWebServiceTargetGroup().initControls();
+        getPojoTargetGroup().initControls();
+        getCixsProxyDeployHttpGroup().initControls();
+        
+        /* Make sure one of the target group is visible */
+        if (!getWebServiceTargetGroup().getButton().getSelection()
+            && !getPojoTargetGroup().getButton().getSelection()) {
+            getWebServiceTargetGroup().getButton().setSelection(true);
+        }
+        
+        /* HTTP transport deployment is the only available one */
+        if (!getCixsProxyDeployHttpGroup().getButton().getSelection()) {
+            getCixsProxyDeployHttpGroup().getButton().setSelection(true);
+        }
+    }
+    
+    /** {@inheritDoc} */
+    public void createExtendedListeners() {
+
+        /* Everything initialized, start listening on modification events */
+        mTargetWDDDirText.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent e) {
+                dialogChanged();
+            }
+        });
+        mTargetCobolDirText.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent e) {
+                dialogChanged();
+            }
+        });
+
         mTargetWarDirText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
         });
-    }
 
-    /** {@inheritDoc} */
-    public void initExtendedWidgets(final IProject project) {
-        IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-        initWsdlUrl();
-
-        setTargetWDDDir(getDefaultTargetDir(store,
-                PreferenceConstants.J2EE_WDD_FOLDER));
-
-        setTargetCobolDir(getDefaultTargetDir(store,
-                PreferenceConstants.COBOL_SAMPLE_FOLDER));
-
-        setTargetWarDir(store.getDefaultString(
-                PreferenceConstants.J2EE_WAR_FOLDER));
-
-        initServiceURI(getServiceName());
-    }
-
-    /**
-     * Setup the initial history list attached to wsdl URL combo box.
-     */
-    private void initWsdlUrl() {
-        for (String value : getUrlHistory().get()) {
-            mWsdlUrlCombo.add(value);
-        }
-    }
-
-    /**
-     * The default service URI is built from a template. 
-     * @param serviceName the service name
-     */
-    private void initServiceURI(final String serviceName) {
-        IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-        String template = store.getString(
-                PreferenceConstants.PROXY_URI_TEMPLATE);
-        if (template != null && template.length() > 0) {
-            setProxyURI(template.replace("${service.name}", serviceName));
-        }
+        getWebServiceTargetGroup().createListeners();
+        getPojoTargetGroup().createListeners();
+        getCixsProxyDeployHttpGroup().createListeners();
+        
     }
 
     /** {@inheritDoc} */
     public boolean validateExtendedWidgets() {
-        if (getWsdlUrl().length() == 0) {
-            updateStatus(Messages.invalid_wsdl_url_msg);
+        
+        getWebServiceTargetGroup().setVisibility();
+        getPojoTargetGroup().setVisibility();
+        getCixsProxyDeployHttpGroup().setVisibility();
+        getShell().layout(new Control[] {mTargetGroup, mDeploymentGroup});
+        
+        if (getProxyTargetType() == ProxyTargetType.POJO
+                && !getPojoTargetGroup().validateControls()) {
             return false;
         }
-        if (getWsdlServiceName().length() == 0) {
-            updateStatus(Messages.invalid_wsdl_service_name_msg);
+
+        if (getProxyTargetType() == ProxyTargetType.WEBSERVICE
+                && !getWebServiceTargetGroup().validateControls()) {
             return false;
         }
-        if (getWsdlPortName().length() == 0) {
-            updateStatus(Messages.invalid_wsdl_port_name_msg);
+        
+        if (getCixsProxyDeployHttpGroup().getSelection()
+                && !getCixsProxyDeployHttpGroup().validateControls()) {
             return false;
         }
+
         if (!checkDirectory(getTargetWDDDir(),
                 Messages.invalid_wdd_target_location_msg)) {
             return false;
@@ -266,17 +221,30 @@ extends AbstractCixsGeneratorWizardPage {
                 Messages.invalid_cobol_target_location_msg)) {
             return false;
         }
-        if (getTargetNamespace().length() == 0) {
-            updateStatus(Messages.invalid_target_namespace_msg);
-            return false;
-        }
-        if (getProxyURI().length() == 0) {
-            if (getServiceName().length() > 0) {
-                initServiceURI(getServiceName());
-            }
-        }
 
         return true;
+    }
+
+    /**
+     * Store the selected values in the project scoped preference store.
+     */
+    public void storeExtendedProjectPreferences() {
+        getPojoTargetGroup().storeProjectPreferences();
+        getWebServiceTargetGroup().storeProjectPreferences();
+        getCixsProxyDeployHttpGroup().storeProjectPreferences();
+    }
+    
+    /**
+     * @return the selected target type
+     */
+    public final ProxyTargetType getProxyTargetType() {
+        if (getPojoTargetGroup().getSelection()) {
+            return ProxyTargetType.POJO;
+        }
+        if (getWebServiceTargetGroup().getSelection()) {
+            return ProxyTargetType.WEBSERVICE;
+        }
+        return ProxyTargetType.POJO;
     }
 
     /**
@@ -294,66 +262,9 @@ extends AbstractCixsGeneratorWizardPage {
         return mTargetWDDDirText.getText();
     }
 
-    /**
-     * @param targetNamespace Generated Web services target namespace
-     */
-    public void setTargetNamespace(final String targetNamespace) {
-        mTargetNamespaceText.setText(targetNamespace);
-    }
-
-    /**
-     * @return Generated Web services target namespace
-     */
-    public String getTargetNamespace() {
-        return mTargetNamespaceText.getText();
-    }
-
     /** {@inheritDoc} */
     public AbstractCixsActivator getActivator() {
         return Activator.getDefault();
-    }
-
-    /**
-     * @return the URL locating target Web service WSDL
-     */
-    public final String getWsdlUrl() {
-        return mWsdlUrlCombo.getText();
-    }
-
-    /**
-     * @param wsdlUrl the URL locating target Web service WSDL to set
-     */
-    public final void setWsdlUrl(final String wsdlUrl) {
-        mWsdlUrlCombo.setText(wsdlUrl);
-    }
-
-    /**
-     * @return the Target Web service WSDL service name
-     */
-    public final String getWsdlServiceName() {
-        return mWsdlServiceNameText.getText();
-    }
-
-    /**
-     * @param wsdlServiceName the Target Web service WSDL service name to
-     *  set
-     */
-    public final void setWsdlServiceName(final String wsdlServiceName) {
-        mWsdlServiceNameText.setText(wsdlServiceName);
-    }
-
-    /**
-     * @return the Target Web service WSDL port name
-     */
-    public final String getWsdlPortName() {
-        return mWsdlPortNameText.getText();
-    }
-
-    /**
-     * @param wsdlPortName the Target Web service WSDL port name to set
-     */
-    public final void setWsdlPortName(final String wsdlPortName) {
-        mWsdlPortNameText.setText(wsdlPortName);
     }
 
     /**
@@ -385,47 +296,47 @@ extends AbstractCixsGeneratorWizardPage {
     }
 
     /**
-     * @return the Proxy service URI exposed to mainframe programs
+     * @return the POJO target controls group
      */
-    public final String getProxyURI() {
-        return mProxyURIText.getText();
+    public CixsProxyPojoTargetGroup getPojoTargetGroup() {
+        return mPojoTargetGroup;
     }
 
     /**
-     * @param proxyURI the Proxy service URI exposed to mainframe programs
-     *  to set
+     * @param pojoTargetGroup the POJO target controls group to set
      */
-    public final void setProxyURI(final String proxyURI) {
-        mProxyURIText.setText(proxyURI);
+    public void setPojoTargetGroup(final CixsProxyPojoTargetGroup pojoTargetGroup) {
+        mPojoTargetGroup = pojoTargetGroup;
     }
 
     /**
-     * @return the Proxy service user ID
+     * @return the Web Service target controls group
      */
-    public final String getProxyUserId() {
-        return mProxyUserIdText.getText();
+    public CixsProxyWebServiceTargetGroup getWebServiceTargetGroup() {
+        return mWebServiceTargetGroup;
     }
 
     /**
-     * @param proxyUserId the Proxy service user ID to set
+     * @param webServiceTargetGroup the Web Service target controls group to set
      */
-    public final void setProxyUserId(final String proxyUserId) {
-        mProxyUserIdText.setText(proxyUserId);
+    public void setWebServiceTargetGroup(
+            final CixsProxyWebServiceTargetGroup webServiceTargetGroup) {
+        mWebServiceTargetGroup = webServiceTargetGroup;
     }
 
     /**
-     * @return the Proxy service URI exposed to mainframe programs
+     * @return the HTTP Proxy client parameters
      */
-    public final String getProxyPassword() {
-        return mProxyPasswordText.getText();
+    public Cixs2JaxwsProxyDeployHttpGroup getCixsProxyDeployHttpGroup() {
+        return mCixsProxyDeployHttpGroup;
     }
 
     /**
-     * @param proxyPassword the Proxy service URI exposed to mainframe
-     *  programs to set
+     * @param cixsProxyDeployHttpGroup the HTTP Proxy client parameters to set
      */
-    public final void setProxyPassword(final String proxyPassword) {
-        mProxyPasswordText.setText(proxyPassword);
+    public void setCixsProxyDeployHttpGroup(
+            final Cixs2JaxwsProxyDeployHttpGroup cixsProxyDeployHttpGroup) {
+        mCixsProxyDeployHttpGroup = cixsProxyDeployHttpGroup;
     }
 
 
