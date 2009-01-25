@@ -53,6 +53,7 @@ bin.includes = plugin.xml,\
                lib/jaxb-api-2.1.jar,\
                lib/jsr173_api-1.0.jar,\
                lib/jaxws-api-2.1.jar,\
+               lib/jaxws-tools-2.1.3.jar,\
                lib/jsr181-api-1.0-MR1.jar,\
                lib/jsr250-api-1.0.jar,\
                conf/,\
@@ -81,4 +82,5 @@ bin.includes = plugin.xml,\
                lib/sjsxp-1.0.jar,\
                lib/stax-api-1.0.jar,\
                lib/stax-ex-1.2.jar,\
-               lib/streambuffer-0.7.jar
+               lib/streambuffer-0.7.jar,\
+               lib/mq-6.0.2.jar
