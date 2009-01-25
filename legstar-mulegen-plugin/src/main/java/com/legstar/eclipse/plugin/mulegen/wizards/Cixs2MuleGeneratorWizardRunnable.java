@@ -66,7 +66,8 @@ extends AbstractCixsMuleGeneratorWizardRunnable {
         genModel.setMuleHome(page.getMuleHome());
         genModel.getCixsMuleComponent().setImplementationClassName(
                 page.getMuleUMOImplementation());
-        genModel.getCixsMuleComponent().setServiceURI(page.getServiceURI());
+        /** FIXME*/
+        //genModel.getCixsMuleComponent().setServiceURI(page.getServiceURI());
         genModel.setTargetCobolDir(new File(page.getTargetCobolDir()));
         genModel.setTargetJarDir(new File(page.getTargetJarDir()));
         genModel.setTargetMuleConfigDir(

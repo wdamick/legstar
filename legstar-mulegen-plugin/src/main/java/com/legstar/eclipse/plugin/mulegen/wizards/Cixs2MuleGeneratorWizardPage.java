@@ -142,6 +142,18 @@ extends AbstractCixsMuleGeneratorWizardPage {
     }
 
     /** {@inheritDoc} */
+    public void createExtendedListeners() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /** {@inheritDoc} */
+    public void storeExtendedProjectPreferences() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /** {@inheritDoc} */
     public void initExtendedWidgets(final IProject project) {
         super.initExtendedWidgets(project);
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
