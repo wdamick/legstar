@@ -53,7 +53,7 @@ implements IWorkbenchPreferencePage {
     public void createFieldEditors() {
 
         addField(new StringFieldEditor(
-                PreferenceConstants.CIXS_PACKAGE_NAME_PREFIX,
+                PreferenceConstants.DEFAULT_CIXS_PACKAGE_NAME_PREFIX,
                 Messages.cixs_package_name_prefix_label + ':',
                 getFieldEditorParent()));
 
