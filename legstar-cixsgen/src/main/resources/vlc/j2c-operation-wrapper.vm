@@ -25,7 +25,7 @@ import ${importType};
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "${wrapperType}",
-         namespace = "${cixsOperation.namespace}",
+         namespace = "${wsdlTargetNamespace}",
          propOrder = {
     "${fieldName}"
 })
@@ -33,7 +33,7 @@ public class ${wrapperType} {
     
     /** Inner JAXB-bound object. */
     @XmlElement(name = "${propertyName}",
-                namespace = "${cixsOperation.namespace}",
+                namespace = "${wsdlTargetNamespace}",
                 required = true)
     private ${fieldType} ${fieldName};
 

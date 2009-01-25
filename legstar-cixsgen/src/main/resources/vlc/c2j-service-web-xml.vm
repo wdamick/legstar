@@ -59,7 +59,7 @@
         <init-param>
             <description>Target Web service WSDL namespace</description>
             <param-name>wsdlTargetNamespace</param-name>
-            <param-value>${model.targetNamespace}</param-value>
+            <param-value>${wsdlTargetNamespace}</param-value>
         </init-param>
         <init-param>
             <description>Target Web service WSDL port name</description>

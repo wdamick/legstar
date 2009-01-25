@@ -39,8 +39,6 @@
         <property name="jaxb.package.pfx" value="com.legstar.test.coxb"/>
         <!-- Package name prefix for CIXS classes   -->
         <property name="cixs.package.pfx" value="com.legstar.test.cixs"/>
-        <!-- Namespace prefix for CIXS WSDL   -->
-        <property name="cixs.namespace.pfx" value="http://cixs.test.legstar.com"/>
         <!-- Location of test resources   -->
         <property name="test.res.dir" value="${basedir}/../legstar-cixsgen-cases/src/test/resources"/>
         
@@ -116,7 +114,7 @@
             >
             <cixsJaxwsService name="${service}"
                 packageName="${cixs.package.pfx}.${service}"
-                targetNamespace="${cixs.namespace.pfx}/${service}">
+        	>
                 <cixsOperation name="${service}"
                     cicsProgramName="${service}">
                     <input
@@ -150,7 +148,7 @@
             >
             <cixsJaxwsService name="lsfileal"
                 packageName="${cixs.package.pfx}.lsfileal"
-                targetNamespace="${cixs.namespace.pfx}/lsfileal">
+        	>
                 <cixsOperation name="lsfileal"
                     cicsProgramName="lsfileal">
                     <input
@@ -185,7 +183,7 @@
             >
             <cixsJaxwsService name="lsfileac"
                 packageName="${cixs.package.pfx}.lsfileac"
-                targetNamespace="${cixs.namespace.pfx}/lsfileac">
+        	>
                 <cixsOperation name="lsfileac"
                     cicsProgramName="lsfileac"
                     cicsChannel="LSFILEAC-CHANNEL">
@@ -233,8 +231,8 @@
             >
             <cixsJaxwsService name="lsfileax"
                 packageName="${cixs.package.pfx}.lsfileax"
-                targetNamespace="${cixs.namespace.pfx}/lsfileax">
-                <cixsOperation name="lsfileae"
+        	>
+               <cixsOperation name="lsfileae"
                     cicsProgramName="LSFILEAE">
                     <input
                         jaxbType="Dfhcommarea"
@@ -292,7 +290,7 @@
             >
             <cixsJaxwsService name="varar021"
                 packageName="${cixs.package.pfx}.varar021"
-                targetNamespace="${cixs.namespace.pfx}/varar021">
+        	>
                 <cixsOperation name="varar021"
                     cicsProgramName="VARAR021">
                     <input

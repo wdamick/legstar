@@ -174,7 +174,7 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
     }
 
     /**
-     * Case where the operation has a different namespace/package than the service.
+     * Case where the operation has a different package than the service.
      * @throws Exception if test fails
      */
     public void testLsfilean() throws Exception {

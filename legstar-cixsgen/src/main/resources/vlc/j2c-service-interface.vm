@@ -47,19 +47,19 @@ public interface ${model.interfaceClassName} {
      */
     @WebMethod
     @WebResult(name = "Response",
-        targetNamespace = "${cixsOperation.namespace}")
+        targetNamespace = "${wsdlTargetNamespace}")
     @RequestWrapper(localName = "${cixsOperation.requestWrapperType}",
-        targetNamespace = "${cixsOperation.namespace}",
+        targetNamespace = "${wsdlTargetNamespace}",
         className = "${helper.getQualClassName(${cixsOperation.packageName}, ${cixsOperation.requestWrapperType})}")
     @ResponseWrapper(localName = "${cixsOperation.responseWrapperType}",
-        targetNamespace = "${cixsOperation.namespace}",
+        targetNamespace = "${wsdlTargetNamespace}",
         className = "${helper.getQualClassName(${cixsOperation.packageName}, ${cixsOperation.responseWrapperType})}")
     $cixsOperation.responseHolderType ${cixsOperation.name}(
         @WebParam(name = "Request",
-               targetNamespace = "${cixsOperation.namespace}")
+               targetNamespace = "${wsdlTargetNamespace}")
             $cixsOperation.requestHolderType request,
         @WebParam(name = "HostHeader", header = true, partName = "HostHeader",
-                targetNamespace = "${cixsOperation.namespace}")
+                targetNamespace = "${wsdlTargetNamespace}")
             ${model.headerClassName} hostHeader)
         throws ${cixsOperation.faultType};
         

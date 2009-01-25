@@ -16,7 +16,7 @@ import javax.xml.ws.WebFault;
  * Generated on $formattedDate
  */
 @WebFault(name = "${cixsOperation.faultInfoType}",
-          targetNamespace = "${cixsOperation.namespace}")
+          targetNamespace = "${wsdlTargetNamespace}")
 public class ${cixsOperation.faultType}
     extends Exception {
 

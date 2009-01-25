@@ -32,7 +32,7 @@ import ${helper.getQualClassName(${cixsStructure.jaxbPackageName}, ${cixsStructu
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "${holderType}",
-         namespace = "${cixsOperation.namespace}",
+         namespace = "${wsdlTargetNamespace}",
          propOrder = {
 #set($last = ${cixsStructures.size()})
 #set($pos = 0)
@@ -47,7 +47,7 @@ public class ${holderType} {
 #foreach($cixsStructure in $cixsStructures)
     /** Inner ${cixsStructure.jaxbType} JAXB-bound object. */
     @XmlElement(name = "${cixsStructure.jaxbFieldName}",
-                namespace = "${cixsOperation.namespace}",
+                namespace = "${wsdlTargetNamespace}",
                 required = true)
     private ${cixsStructure.jaxbType} ${cixsStructure.jaxbFieldName};
 #end
