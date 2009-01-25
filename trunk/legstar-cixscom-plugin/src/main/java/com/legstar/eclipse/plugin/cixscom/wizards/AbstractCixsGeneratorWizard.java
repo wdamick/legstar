@@ -16,7 +16,10 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.IWorkbench;
 import java.lang.reflect.InvocationTargetException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.IScopeContext;
 
 import com.legstar.eclipse.plugin.cixscom.Messages;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
@@ -34,6 +37,9 @@ public abstract class AbstractCixsGeneratorWizard extends AbstractWizard {
     /** The current mapping file. */
     private IFile mMappingFile = null;
 
+    /** Set of preferences stored at the project level. */
+    private IEclipsePreferences mProjectPreferences;
+
     /**
      * Constructor for AbstractCixsGeneratorWizard.
      * @param mappingFile an mapping file
@@ -44,6 +50,8 @@ public abstract class AbstractCixsGeneratorWizard extends AbstractWizard {
         super();
         setNeedsProgressMonitor(true);
         mMappingFile = mappingFile;
+        IScopeContext context = new ProjectScope(getMappingFile().getProject());
+        mProjectPreferences = context.getNode(getPluginId());
     }
 
     /**
@@ -110,4 +118,10 @@ public abstract class AbstractCixsGeneratorWizard extends AbstractWizard {
         return mMappingFile;
     }
 
+    /**
+     * @return the project scope preferences
+     */
+    public IEclipsePreferences getProjectPreferences() {
+        return mProjectPreferences;
+    }
 }

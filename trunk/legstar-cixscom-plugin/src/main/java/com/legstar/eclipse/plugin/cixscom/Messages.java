@@ -93,6 +93,77 @@ public class Messages extends NLS {
     /** Generating ant script task label.*/
     public static String ant_generation_task_label;
 
+    /** Target pojo group label.*/
+    public static String target_pojo_group_label;
+    /** Target pojo class name label.*/
+    public static String target_pojo_class_name_label;
+    /** Class selection dialog title.*/
+    public static String class_selection_error_dialog_title;
+    /** Class selection short error message.*/
+    public static String class_selection_error_short_msg;
+    /** Class selection long error message.*/
+    public static String class_selection_error_long_msg;
+    /** Target pojo method name label.*/
+    public static String target_pojo_method_name_label;
+    /** Invalid pojo class name message.*/
+    public static String invalid_target_pojo_class_name_msg;
+    /** Invalid pojo method name message.*/
+    public static String invalid_target_pojo_method_name_msg;
+
+    /** Target Web service group label.*/
+    public static String target_web_service_group_label;
+    /** Target Web service Wsdl URL label.*/
+    public static String target_web_service_wsdl_url_label;
+    /** Target Web service Wsdl service name label.*/
+    public static String target_web_service_wsdl_service_name_label;
+    /** Target Web service Wsdl port name label.*/
+    public static String target_web_service_wsdl_port_name_label;
+    /** Target Web service Wsdl target namespace label.*/
+    public static String target_web_service_wsdl_target_namespace_label;
+    /** Invalid wsdl url message.*/
+    public static String invalid_wsdl_url_msg;
+    /** Invalid wsdl service name message.*/
+    public static String invalid_wsdl_service_name_msg;
+    /** Invalid wsdl port name message.*/
+    public static String invalid_wsdl_port_name_msg;
+    /** Invalid wsdl namespace message.*/
+    public static String invalid_target_namespace_msg;
+
+    /** Port selection dialog title.*/
+    public static String wsdl_port_selection_dialog_title;
+    /** Port selection error dialog title.*/
+    public static String wsdl_port_selection_error_dialog_title;
+    /** Wsdl access error message.*/
+    public static String wsdl_access_error_msg;
+    /** Target namespace label.*/
+    public static String target_namespace_label;
+    /** Services list label.*/
+    public static String services_list_label;
+    /** Ports list label.*/
+    public static String ports_list_label;
+
+    /** Settings for HTTP group label.*/
+    public static String http_transport_group_label;
+    /** Host address on which HTTP server listens to mainframe clients label.*/
+    public static String http_host_label;
+    /** Port on which HTTP listens to mainframe clients label.*/
+    public static String http_port_label;
+    /** Path on which HTTP listens to mainframe clients label.*/
+    public static String http_path_label;
+    /** User id for basic authentication.*/
+    public static String http_userid_label;
+    /** Password for basic authentication.*/
+    public static String http_password_label;
+    /** Choice of sample Cobol Http client label.*/
+    public static String sample_cobol_http_client_type_label;
+
+    /** Invalid port number.*/
+    public static String invalid_http_port_number_msg;
+    /** Invalid host.*/
+    public static String invalid_http_host_msg;
+    /** Invalid path.*/
+    public static String invalid_http_path_msg;
+
     static {
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);
     }

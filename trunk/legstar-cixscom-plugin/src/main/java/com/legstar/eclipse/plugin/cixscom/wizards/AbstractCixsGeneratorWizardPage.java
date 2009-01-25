@@ -17,6 +17,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
@@ -34,6 +35,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
+import org.osgi.service.prefs.BackingStoreException;
 
 import com.legstar.cixs.gen.model.CixsMappingModel;
 import com.legstar.cixs.gen.model.CixsModelException;
@@ -104,6 +106,7 @@ extends AbstractWizardPage {
             final IFile mappingFile) {
         super(selection, pageName, pageTitle, pageDesc);
         mMappingFile = mappingFile;
+        mMappingModel = loadMappingModel(mMappingFile);
     }
 
     /** {@inheritDoc} */
@@ -130,13 +133,10 @@ extends AbstractWizardPage {
                 Messages.generation_project_label, 2);
         createLabel(group, Messages.generation_project_name_label + ':');
         mServiceNameText = createText(group);
-        mServiceNameText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
+
         createLabel(group, Messages.generation_java_package_label + ':');
         mJavaClassesPackageNameText = createText(group);
+
         addWidgetsToCixsGroup(group);
     }
 
@@ -154,30 +154,17 @@ extends AbstractWizardPage {
                 Messages.structures_binding_classes_label,
                 LAYOUT_COLUMNS);
         Canvas canvas2 = createCanvas(canvas, LAYOUT_COLUMNS);
+
         mJaxbBinDirText = createDirectoryFieldEditor(canvas2,
                 "com.legstar.eclipse.plugin.cixscom.jaxbBinDir",
                 Messages.jaxb_classes_location_label + ':');
-        mJaxbBinDirText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
         mCoxbBinDirText = createDirectoryFieldEditor(canvas2,
                 "com.legstar.eclipse.plugin.cixscom.coxbBinDir",
                 Messages.coxb_classes_location_label + ':');
-        mCoxbBinDirText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
         mCustBinDirText = createDirectoryFieldEditor(canvas2,
                 "com.legstar.eclipse.plugin.cixscom.custBinDir",
                 Messages.cust_classes_location_label + ':');
-        mCustBinDirText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
+
         addWidgetsToCoxbGroup(canvas2);
     }
 
@@ -190,38 +177,20 @@ extends AbstractWizardPage {
                 tabFolder, Messages.generation_target_locations,
                 LAYOUT_COLUMNS);
         Canvas canvas2 = createCanvas(canvas, LAYOUT_COLUMNS);
+
         mTargetSrcDirText = createDirectoryFieldEditor(canvas2,
                 "com.legstar.eclipse.plugin.cixscom.targetSrcDir",
                 Messages.java_sources_target_location + ':');
-        mTargetSrcDirText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
         mTargetBinDirText = createDirectoryFieldEditor(canvas2,
                 "com.legstar.eclipse.plugin.cixscom.targetBinDir",
                 Messages.java_classes_target_location + ':');
-        mTargetBinDirText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
         mTargetAntDirText = createDirectoryFieldEditor(canvas2,
                 "com.legstar.eclipse.plugin.cixscom.targetAntDir",
                 Messages.ant_scripts_target_location + ':');
-        mTargetAntDirText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
         mTargetPropDirText = createDirectoryFieldEditor(canvas2,
                 "com.legstar.eclipse.plugin.cixscom.targetPropDir",
                 Messages.properties_files_target_location + ':');
-        mTargetPropDirText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
+
         addWidgetsToTargetGroup(canvas2);
     }
 
@@ -232,30 +201,132 @@ extends AbstractWizardPage {
     private void addDeploymentGroup(final TabFolder tabFolder) {
         Canvas canvas = createCanvasInFolder(
                 tabFolder, Messages.deployment_group_label, 2);
+
         mHostCharsetText = createTextField(canvas, getCommonStore(),
                 com.legstar.eclipse.plugin.common.preferences
                 .PreferenceConstants.HOST_CHARSET,
                 Messages.mainframe_charset_label + ':');
-        mHostCharsetText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
+
         addWidgetsToDeploymentGroup(canvas);
     }
 
     /**
      * Initialize all fields.
      */
-    protected void initContents() {
-        mMappingModel = loadMappingModel(mMappingFile);
-        setServiceName(javaNormalize(mMappingModel.getName()));
-        initPackageName(getServiceName());
-        initJavaSrcAndBinDirs(mMappingFile.getProject());
+    public void initContents() {
+        setServiceName(getDefaultServiceName());
+        setJavaClassesPackageName(getDefaultJavaClassesPackageName());
+        initJavaSrcAndBinDirs(getMappingFile().getProject());
         /* Initialized after target bin dir because it depends on it*/
         initCoxbDir();
-        initOtherArtifactsDirs(mMappingFile.getProject());
-        initExtendedWidgets(mMappingFile.getProject());
+        initOtherArtifactsDirs(getMappingFile().getProject());
+        initExtendedWidgets(getMappingFile().getProject());
+        
+        createListeners();
+    }
+    
+    /**
+     * Creation of listeners on controls is separated from control creation.
+     * This allows listeners to be created after all fields have been initialized
+     * and avoid triggering dialogChanged on initialization.
+     */
+    public void createListeners() {
+        
+        mServiceNameText.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent e) {
+                dialogChanged();
+            }
+        });
+        mJavaClassesPackageNameText.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent e) {
+                dialogChanged();
+            }
+        });
+        mJaxbBinDirText.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent e) {
+                dialogChanged();
+            }
+        });
+        mCoxbBinDirText.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent e) {
+                dialogChanged();
+            }
+        });
+        mCustBinDirText.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent e) {
+                dialogChanged();
+            }
+        });
+        mTargetSrcDirText.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent e) {
+                dialogChanged();
+            }
+        });
+        mTargetBinDirText.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent e) {
+                dialogChanged();
+            }
+        });
+        mTargetAntDirText.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent e) {
+                dialogChanged();
+            }
+        });
+        mTargetPropDirText.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent e) {
+                dialogChanged();
+            }
+        });
+        mHostCharsetText.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent e) {
+                dialogChanged();
+            }
+        });
+        createExtendedListeners();
+    }
+
+    /**
+     * Creation of listeners on controls is separated from control creation.
+     * This allows listeners to be created after all fields have been initialized
+     * and avoid triggering dialogChanged on initialization.
+     */
+    public abstract void createExtendedListeners();
+    
+    /**
+     * On first usage of a mapping file, the default service name will simply be
+     * the mapping name as it appear in the mapping file
+     * <pre>
+     *  &lt;cixsMapping name="thisname"&gt;
+     * </pre>
+     * Then, whatever value is entered for the project name is stored in the
+     * project preference store and proposed as the service name.
+     * @return the default service name
+     */
+    protected String getDefaultServiceName() {
+        return getProjectPreferences().get(PreferenceConstants.LAST_CIXS_PROJECT_NAME,
+                javaNormalize(getMappingModel().getName()));
+        
+    }
+
+    /**
+     * On first usage of a mapping file, the default package name is built using
+     * default prefix preferences on the service name.
+     * Then, whatever value is entered for the package name is stored in the
+     * project preference store and proposed as the package name.
+     * @return the default package name
+     */
+    protected String getDefaultJavaClassesPackageName() {
+        String prefix = getCixscomStore().getString(
+                PreferenceConstants.DEFAULT_CIXS_PACKAGE_NAME_PREFIX);
+        String defaultPackageName;
+        if (prefix == null || prefix.length() == 0) {
+            defaultPackageName = getServiceName().toLowerCase();
+        } else {
+            defaultPackageName = prefix + '.' + getServiceName().toLowerCase();
+        }
+        return getProjectPreferences().get(PreferenceConstants.LAST_CIXS_PACKAGE_NAME,
+                defaultPackageName);
+        
     }
 
     /**
@@ -288,7 +359,7 @@ extends AbstractWizardPage {
     /**
      * Perform validation on data entered so far.
      */
-    protected void dialogChanged() {
+    public void dialogChanged() {
 
         if (getServiceName().length() == 0) {
             updateStatus(Messages.invalid_project_name_msg);
@@ -361,9 +432,34 @@ extends AbstractWizardPage {
         }
 
         updateStatus(null);
+        storeProjectPreferences();
 
     }
 
+    /**
+     * Store the selected values in the project scoped preference store.
+     */
+    private void storeProjectPreferences() {
+        getProjectPreferences().put(
+                PreferenceConstants.LAST_CIXS_PROJECT_NAME, getServiceName());
+        getProjectPreferences().put(
+                PreferenceConstants.LAST_CIXS_PACKAGE_NAME, getJavaClassesPackageName());
+
+        storeExtendedProjectPreferences();
+
+        try {
+            getProjectPreferences().flush();
+        } catch (BackingStoreException e) {
+            AbstractWizard.logCoreException(e,
+                    getActivator().getPluginId());
+        }
+    }
+
+    /**
+     * Store the downstream classes selected values in the project scoped preference store.
+     */
+    public abstract void storeExtendedProjectPreferences();
+    
     /**
      * Entry point for derived classes to add more widgets on the main group.
      * @param container the parent container
@@ -465,21 +561,6 @@ extends AbstractWizardPage {
          * project root. */
         setTargetSrcDir(project.getLocation().toOSString());
         setTargetBinDir(project.getLocation().toOSString());
-    }
-
-    /**
-     * Package name is built from a prefix stored in preferences and the
-     * name of the target service.
-     * @param serviceName the service name
-     */
-    private void initPackageName(final String serviceName) {
-        String prefix = getCixscomStore().getString(
-                PreferenceConstants.CIXS_PACKAGE_NAME_PREFIX);
-        if (prefix == null || prefix.length() == 0) {
-            setJavaClassesPackageName(serviceName.toLowerCase());
-        } else {
-            setJavaClassesPackageName(prefix + '.' + serviceName.toLowerCase());
-        }
     }
 
     /**
@@ -772,4 +853,11 @@ extends AbstractWizardPage {
         return getActivator().getPluginId();
     }
 
+    /**
+     * @return the project scope preferences
+     */
+    public IEclipsePreferences getProjectPreferences() {
+        return ((AbstractCixsGeneratorWizard) getWizard()).getProjectPreferences();
+    }
+ 
 }

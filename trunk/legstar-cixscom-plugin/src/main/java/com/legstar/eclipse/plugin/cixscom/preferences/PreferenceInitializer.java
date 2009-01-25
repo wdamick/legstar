@@ -28,7 +28,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
     public void initializeDefaultPreferences() {
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 
-        store.setDefault(PreferenceConstants.CIXS_PACKAGE_NAME_PREFIX,
+        store.setDefault(PreferenceConstants.DEFAULT_CIXS_PACKAGE_NAME_PREFIX,
                 "com.legstar.test.cixs");
         store.setDefault(PreferenceConstants.CIXS_TARGET_PROP_FOLDER, "prop");
     }
