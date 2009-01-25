@@ -17,10 +17,9 @@ import com.legstar.cixs.gen.ant.model.AbstractAntBuildCixsModel;
 import com.legstar.cixs.gen.model.AbstractCixsService;
 import com.legstar.cixs.jaxws.model.AntBuildCixs2JaxwsModel;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
-import com.legstar.eclipse.plugin.cixscom.wizards
-.AbstractCixsGeneratorWizardPage;
-import com.legstar.eclipse.plugin.cixscom.wizards
-.AbstractCixsGeneratorWizardRunnable;
+import com.legstar.cixs.jaxws.model.ProxyTargetType;
+import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsGeneratorWizardPage;
+import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsGeneratorWizardRunnable;
 
 /**
  * Background task that performs the actual artifacts generation. The process
@@ -64,25 +63,26 @@ extends AbstractCixsGeneratorWizardRunnable {
         Cixs2JaxwsGeneratorWizardPage page =
             (Cixs2JaxwsGeneratorWizardPage) cixsGenWizardPage;
         setModel(page, genModel);
-        genModel.getWebServiceTargetParameters().setWsdlUrl(
-                page.getWsdlUrl());
-        genModel.getWebServiceTargetParameters().setWsdlServiceName(
-                page.getWsdlServiceName());
-        genModel.getWebServiceTargetParameters().setWsdlPortName(
-                page.getWsdlPortName());
-        genModel.getWebServiceTargetParameters().setWsdlTargetNamespace(
-                page.getTargetNamespace());
+        
         genModel.setTargetCobolDir(new File(page.getTargetCobolDir()));
         genModel.setTargetWarDir(new File(page.getTargetWarDir()));
         genModel.setTargetWDDDir(new File(page.getTargetWDDDir()));
-        genModel.getCixsJaxwsService().setServiceURI(
-                page.getProxyURI());
-        genModel.getCixsJaxwsService().setServiceURI(
-                page.getProxyURI());
-        genModel.getCixsJaxwsService().setServiceUserId(
-                page.getProxyUserId());
-        genModel.getCixsJaxwsService().setServicePassword(
-                page.getProxyPassword());
+        
+        genModel.setProxyTargetType(page.getProxyTargetType());
+
+        if (genModel.getProxyTargetType() == ProxyTargetType.WEBSERVICE) {
+            genModel.setWebServiceTargetParameters(
+                    page.getWebServiceTargetGroup().getWebServiceTargetParameters());
+        } else if (genModel.getProxyTargetType() == ProxyTargetType.POJO) {
+            genModel.setPojoTargetParameters(
+                    page.getPojoTargetGroup().getPojoTargetParameters());
+        }
+        
+        genModel.setHttpTransportParameters(
+                page.getCixsProxyDeployHttpGroup().getHttpTransportParameters());
+        genModel.setSampleCobolHttpClientType(
+                page.getCixsProxyDeployHttpGroup().getSampleCobolHttpClientType());
+        
         return genModel;
     }
 

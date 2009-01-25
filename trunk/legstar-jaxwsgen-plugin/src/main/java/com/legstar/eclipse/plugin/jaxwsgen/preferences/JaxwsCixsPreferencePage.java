@@ -55,28 +55,54 @@ implements IWorkbenchPreferencePage {
     public void createFieldEditors() {
 
         addField(new DirectoryFieldEditor(
-                PreferenceConstants.J2EE_WAR_FOLDER,
+                PreferenceConstants.DEFAULT_J2EE_WAR_FOLDER,
                 Messages.preference_war_location_label + ':',
                 getFieldEditorParent()));
 
         addField(new StringFieldEditor(
-                PreferenceConstants.J2EE_WDD_FOLDER,
+                PreferenceConstants.DEFAULT_J2EE_WDD_FOLDER,
                 Messages.preference_wdd_folder_label + ':',
-                getFieldEditorParent()));
-
-        addField(new StringFieldEditor(
-                PreferenceConstants.WS_TARGET_NAMESPACE_PREFIX,
-                Messages.preference_ws_namespace_label + ':',
-                getFieldEditorParent()));
-
-        addField(new StringFieldEditor(
-                PreferenceConstants.PROXY_URI_TEMPLATE,
-                Messages.preference_proxy_uri_template_label + ':',
                 getFieldEditorParent()));
 
         addField(new StringFieldEditor(
                 PreferenceConstants.COBOL_SAMPLE_FOLDER,
                 Messages.preference_cobol_folder_label + ':',
+                getFieldEditorParent()));
+
+        addField(new StringFieldEditor(
+                PreferenceConstants.ADAPTER_WSDL_TARGET_NAMESPACE_PREFIX,
+                Messages.preference_wsdl_target_namespace_prefix_label + ':',
+                getFieldEditorParent()));
+
+        addField(new StringFieldEditor(
+                PreferenceConstants.ADAPTER_WSDL_SERVICE_NAME_SUFFIX,
+                Messages.preference_wsdl_service_name_suffix_label + ':',
+                getFieldEditorParent()));
+
+        addField(new StringFieldEditor(
+                PreferenceConstants.ADAPTER_WSDL_PORT_NAME_SUFFIX,
+                Messages.preference_wsdl_port_name_suffix_label + ':',
+                getFieldEditorParent()));
+
+        /* For now, the only scheme supported by clients is http */
+//        addField(new StringFieldEditor(
+//                PreferenceConstants.PROXY_HTTP_SCHEME,
+//                Messages.preference_proxy_http_scheme_label + ':',
+//                getFieldEditorParent()));
+
+        addField(new StringFieldEditor(
+                PreferenceConstants.PROXY_DEFAULT_HTTP_HOST,
+                Messages.preference_proxy_http_host_label + ':',
+                getFieldEditorParent()));
+
+        addField(new StringFieldEditor(
+                PreferenceConstants.PROXY_DEFAULT_HTTP_PORT,
+                Messages.preference_proxy_http_port_label + ':',
+                getFieldEditorParent()));
+
+        addField(new StringFieldEditor(
+                PreferenceConstants.PROXY_HTTP_PATH_TEMPLATE,
+                Messages.preference_proxy_http_path_template_label + ':',
                 getFieldEditorParent()));
 
     }

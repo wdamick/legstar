@@ -13,7 +13,9 @@ package com.legstar.eclipse.plugin.jaxwsgen.preferences;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 
-import com.legstar.cixs.jaxws.model.CixsJaxwsService;
+import com.legstar.cixs.jaxws.gen.Cixs2JaxwsGenerator;
+import com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator;
+import com.legstar.codegen.CodeGenUtil;
 import com.legstar.eclipse.plugin.jaxwsgen.Activator;
 
 /**
@@ -29,20 +31,29 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
     public void initializeDefaultPreferences() {
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 
-        store.setDefault(PreferenceConstants.J2EE_WAR_FOLDER,
+        store.setDefault(PreferenceConstants.DEFAULT_J2EE_WAR_FOLDER,
                 getDefaultJ2eeLocation() + "/webapps");
 
-        store.setDefault(PreferenceConstants.J2EE_WDD_FOLDER,
-        "webapp/WEB-INF");
+        store.setDefault(PreferenceConstants.DEFAULT_J2EE_WDD_FOLDER, "webapp/WEB-INF");
 
-        store.setDefault(PreferenceConstants.WS_TARGET_NAMESPACE_PREFIX,
-        "http://test.legstar");
+        store.setDefault(PreferenceConstants.ADAPTER_WSDL_TARGET_NAMESPACE_PREFIX,
+                Jaxws2CixsGenerator.DEFAULT_WSDL_TARGET_NAMESPACE_PREFIX);
+        store.setDefault(PreferenceConstants.ADAPTER_WSDL_SERVICE_NAME_SUFFIX,
+                Jaxws2CixsGenerator.DEFAULT_WSDL_SERVICE_NAME_SUFFIX);
+        store.setDefault(PreferenceConstants.ADAPTER_WSDL_PORT_NAME_SUFFIX,
+                Jaxws2CixsGenerator.DEFAULT_WSDL_PORT_NAME_SUFFIX);
 
-        store.setDefault(PreferenceConstants.PROXY_URI_TEMPLATE,
-                CixsJaxwsService.DEFAULT_SERVER_URI_TEMPLATE);
+        store.setDefault(PreferenceConstants.PROXY_DEFAULT_HTTP_SCHEME, "http");
+
+        store.setDefault(PreferenceConstants.PROXY_DEFAULT_HTTP_HOST, CodeGenUtil.getLocalIPAddress());
+
+        store.setDefault(PreferenceConstants.PROXY_DEFAULT_HTTP_PORT, 8080);
+
+        store.setDefault(PreferenceConstants.PROXY_HTTP_PATH_TEMPLATE,
+                Cixs2JaxwsGenerator.DEFAULT_SERVER_PATH_TEMPLATE);
 
         store.setDefault(PreferenceConstants.COBOL_SAMPLE_FOLDER,
-        "cobol");
+                "cobol");
     }
 
     /**

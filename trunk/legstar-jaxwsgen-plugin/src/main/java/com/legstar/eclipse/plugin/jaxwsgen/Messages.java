@@ -56,12 +56,22 @@ public class Messages extends NLS {
     public static String preference_war_location_label;
     /** Web descriptor folder preference label.*/
     public static String preference_wdd_folder_label;
-    /** Target namespace preference label.*/
-    public static String preference_ws_namespace_label;
+    /** Target namespace prefix preference label.*/
+    public static String preference_wsdl_target_namespace_prefix_label;
+    /** Web service name suffix preference label.*/
+    public static String preference_wsdl_service_name_suffix_label;
+    /** Port name preference suffix preference label.*/
+    public static String preference_wsdl_port_name_suffix_label;
     /** Cobol samples folder preference label.*/
     public static String preference_cobol_folder_label;
-    /** Proxy URI template preference label.*/
-    public static String preference_proxy_uri_template_label;
+    /** Proxy http scheme template preference label.*/
+    public static String preference_proxy_http_scheme_label;
+    /** Proxy http host template preference label.*/
+    public static String preference_proxy_http_host_label;
+    /** Proxy http port template preference label.*/
+    public static String preference_proxy_http_port_label;
+    /** Proxy http path template preference label.*/
+    public static String preference_proxy_http_path_template_label;
 
     /** Cixs to jaxws generator name.*/
     public static String cixs_to_jaxws_wizard_page_title;
@@ -103,15 +113,27 @@ public class Messages extends NLS {
     /** Invalid cobol samples location message.*/
     public static String invalid_cobol_target_location_msg;
     /** Invalid wsdl namespace message.*/
-    public static String invalid_target_namespace_msg;
+    public static String invalid_wsdl_target_namespace_msg;
 
 
     /** Jaxws to cixs generator name.*/
     public static String jaxws_to_cixs_wizard_page_title;
     /** Jaxws to cixs generator description.*/
     public static String jaxws_to_cixs_wizard_page_description;
-    /** Adapter  Web Service target namespace.*/
-    public static String adapter_target_namespace_label;
+    /** Adapter Web Service target namespace.*/
+    public static String adapter_wsdl_target_namespace_label;
+    /** Adapter Web Service name.*/
+    public static String adapter_wsdl_service_name_label;
+    /** Adapter Web Service port name.*/
+    public static String adapter_wsdl_port_name_label;
+
+    /** Target selection group label. */
+    public static String target_selection_group_label;
+    /** Target selection label. */
+    public static String target_selection_label;
+
+    /** Sample configuration transport.*/
+    public static String sample_configuration_transport_label;
 
     static {
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);

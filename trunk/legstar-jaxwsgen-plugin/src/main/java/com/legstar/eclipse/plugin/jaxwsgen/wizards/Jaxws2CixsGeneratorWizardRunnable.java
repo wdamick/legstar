@@ -64,8 +64,14 @@ extends AbstractCixsGeneratorWizardRunnable {
         Jaxws2CixsGeneratorWizardPage page =
             (Jaxws2CixsGeneratorWizardPage) cixsGenWizardPage;
         setModel(page, genModel);
-        genModel.getCixsJaxwsService().setTargetNamespace(
-                page.getTargetNamespace());
+        
+        genModel.getWebServiceParameters().setWsdlTargetNamespace(
+                page.getWsdlTargetNamespace());
+        genModel.getWebServiceParameters().setWsdlServiceName(
+                page.getWsdlServiceName());
+        genModel.getWebServiceParameters().setWsdlPortName(
+                page.getWsdlPortName());
+        
         genModel.setTargetWarDir(new File(page.getTargetWarDir()));
         genModel.setTargetWDDDir(new File(page.getTargetWDDDir()));
         return genModel;
