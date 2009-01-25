@@ -3,21 +3,22 @@
  -----
  Fady Moussallam
  -----
- 10 September 2008
+ 22 January 2009
  -----
 
-Distribution for ZOS overview
+Distribution for z/OS overview
 
-  For a general introduction to LegStar, click {{{../index.html}here}}.
-
-  The main {{{../legstar-distribution/index.html}LegStar distribution}} contains all the
-  ZOS modules as source code. It also contains models for compilation JCL.
+  This is a distribution of all LegStar z/OS modules in TSO XMIT format.
   
-  It might be tricky to figure out in what precise order these compilation jobs should
-  run though and there is also no JCL for CICS RDO definitions.
+  Although the main {{{../legstar-distribution/index.html}LegStar distribution}} contains all the
+  z/OS modules as source code and sample compilation JCL, it might be tricky to figure out in what
+  precise order these compilation jobs should run. In addition, the main distribution does not
+  include JCL for CICS RDO definitions.
   
-  As a convenience, this project groups all ZOS modules both in executable and source
-  format in a set of TSO XMIT files. This way, you can install the executables directly.
-  Furthermore a JCL with RDO definitions is provided.
+  As a convenience, this project groups all z/OS modules both in executable and source
+  format in a set of TSO XMIT files. This way, you can install the executables directly without
+  any compilation. Furthermore a JCL with RDO definitions is provided.
+  
+  For instructions on how to install this distribution follow {{{release-notes.html}this link}}.
   
   

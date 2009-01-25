@@ -4,22 +4,15 @@
 
 PREREQUISITES:
 
- The prerequisites for this global zos distribution is the union of the individual
- modules included.
+ LegStar mainframe programs are mostly written in C/370, therefore
+ Language Environment (LE) is mandatory.
  
- You will find details at these addresses:
+ Some COBOL sample programs are part of the delivery. They were
+ compiled using Enterprise COBOL for z/OS  3.3.0.
  
- * {{{../legstar-csokrt/LSSOKBIN-readme.html}Socket transport server}} 
-
- * {{{../legstar-chttprt/LSWEBBIN-readme.html}HTTP transport server}} 
-
- * {{{../legstar-cmqrt/LSMQCBIN-readme.html}MQ transport Trigger Controller}} 
- 
- * {{{../legstar-cmqrt/LSMQHBIN-readme.html}MQ transport Trigger Handler}}
-  
- * {{{../legstar-c2wsrt/LSHTTAPI-readme.html}Mainframe Proxy API}} 
- 
- []
+ All CICS programs are translated with CICS 6.3.0 COMMAND LANGUAGE TRANSLATOR
+ apart from the module which supports CICS CONTAINERS which was translated
+ using CICS 6.4.0 COMMAND LANGUAGE TRANSLATOR.
 
 INSTALLING/UNINSTALLING:
 
@@ -38,20 +31,27 @@ INSTALLING/UNINSTALLING:
                 
 +---------------------------------------+
    
- [[2]] Upload the XMIT files into sequential files on zos:
-       It is very important that:
+ [[2]] Upload the XMIT files into sequential files on z/OS:
+ 
+ It is very important that:
        
-       * You use a BINARY transfer type
+ * You use a BINARY transfer type
 
-       * Use RECFM=FB LRECL=80 PS files as targets
+ * Use RECFM=FB LRECL=80 PS files as targets
        
-       []
-       With FTP, you can use command such as QUOTE SITE RECFM=FB LRECL=80 BLKSIZE=27920
-       to force new uploaded files to have an acceptable format for the TSO XMIT/RECEIVE
-       protocol.
+ []
+ 
+ With FTP, you can use command such as:
 
- [[3]] Under TSO, you can now RECEIVE the XMIT files into their target PDSs using a JCL
-       such as:
++---------------------------------------+
+   QUOTE SITE RECFM=FB LRECL=80 BLKSIZE=27920
++---------------------------------------+
+
+ to force new uploaded files to have an acceptable format for the TSO
+ XMIT/RECEIVE protocol.
+
+ [[3]] Under TSO, you can now RECEIVE the XMIT files into their target
+  PDSs using a JCL such as:
  
 +---------------------------------------+
 //P390XMIT   JOB  (ACCT#),'USERID',
@@ -78,11 +78,11 @@ INSTALLING/UNINSTALLING:
        
  [[4]] Finally in the target CICS region:
        
-       * Add hlq.LEGSTAR.version.LOAD to the RPL list
+ * Add hlq.LEGSTAR.version.LOAD to the RPL list
 
-       * Customize and run CSD updates from hlq.LEGSTAR.version.CNTL(CICSCSDU)
+ * Customize and run CSD updates from hlq.LEGSTAR.version.CNTL(CICSCSDU)
 
-       []
+ []
        
 
 DOCUMENTATION:
