@@ -16,18 +16,15 @@ public class LsfileacOperationCases extends AbstractOperationCases {
     /**
      * @param serviceName the service name
      * @param operationPackageName the operation classes package name
-     * @param operationNamespace the operation namespace
      * @return an operation corresponding to a Web Service operation.
      */
     public static CixsOperation getOperation(
             final String serviceName,
-            final String operationPackageName,
-            final String operationNamespace) {
+            final String operationPackageName) {
         CixsOperation cixsOperation = new CixsOperation();
         cixsOperation.setName("lsfileac");
         cixsOperation.setCicsProgramName("LSFILEAC");
         cixsOperation.setPackageName(operationPackageName);
-        cixsOperation.setNamespace(operationNamespace);
         cixsOperation.setCicsChannel("LSFILEAC-CHANNEL");
         cixsOperation.setFaultType("LsfileacException");
 
