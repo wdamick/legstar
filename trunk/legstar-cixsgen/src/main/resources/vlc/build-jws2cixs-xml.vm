@@ -47,7 +47,6 @@
         >
             <cixsJaxwsService name="${antModel.cixsJaxwsService.name}"
                 packageName="${antModel.cixsJaxwsService.packageName}"
-                targetNamespace="${antModel.cixsJaxwsService.targetNamespace}"
             >
 #foreach ($cixsOperation in $antModel.cixsJaxwsService.cixsOperations)
                 <cixsOperation name="${cixsOperation.name}"

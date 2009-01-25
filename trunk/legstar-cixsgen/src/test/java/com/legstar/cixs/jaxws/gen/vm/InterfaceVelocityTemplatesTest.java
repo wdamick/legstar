@@ -205,10 +205,10 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
     }
 
     /**
-     * Case where operation has a different namespace/package than the service.
+     * Case where operation has a different package than the service.
      * @throws Exception if test fails
      */
-    public void testInterfaceOperationWithDifferentNamespace() throws Exception {
+    public void testInterfaceOperationWithDifferentPackage() throws Exception {
 
         CixsJaxwsService model = Samples.getLsfilean();
         addWebServiceParameters(model, getParameters());
@@ -226,18 +226,13 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("@WebService(name = \"lsfileanPort\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfilean\")"));
         assertTrue(resStr.contains("public interface Lsfilean {"));
-        assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/oper/lsfilean\")"));
         assertTrue(resStr.contains("@RequestWrapper(localName = \"LsfileaeRequest\","));
-        assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/oper/lsfilean\","));
         assertTrue(resStr.contains("className = \"com.legstar.test.cixs.oper.lsfilean.LsfileaeRequest\")"));
         assertTrue(resStr.contains("@ResponseWrapper(localName = \"LsfileaeResponse\","));
-        assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/oper/lsfilean\","));
         assertTrue(resStr.contains("className = \"com.legstar.test.cixs.oper.lsfilean.LsfileaeResponse\")"));
         assertTrue(resStr.contains("Dfhcommarea lsfileae("));
         assertTrue(resStr.contains("@WebParam(name = \"Request\","));
-        assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/oper/lsfilean\")"));
         assertTrue(resStr.contains("@WebParam(name = \"HostHeader\", header = true, partName = \"HostHeader\","));
-        assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/oper/lsfilean\")"));
         assertTrue(resStr.contains("LsfileanHostHeader hostHeader)"));
         assertTrue(resStr.contains("throws LsfileaeException;"));
     }

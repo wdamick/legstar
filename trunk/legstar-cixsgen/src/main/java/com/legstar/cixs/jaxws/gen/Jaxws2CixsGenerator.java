@@ -93,11 +93,15 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
     private static final String SERVICE_MODEL_NAME = "model";
 
     /** Will be appended to service name to form a port name. */
-    public static final String WSDL_PORT_NAME_SUFFIX = "Port";
+    public static final String DEFAULT_WSDL_PORT_NAME_SUFFIX = "Port";
 
     /** By default the web service name is built from component name and this
      * suffix.*/
-    public static final String WSDL_SERVICE_NAME_SUFFIX = "Service";
+    public static final String DEFAULT_WSDL_SERVICE_NAME_SUFFIX = "Service";
+
+    /** By default the web service namespace is built from component name and this
+     * prefix.*/
+    public static final String DEFAULT_WSDL_TARGET_NAMESPACE_PREFIX = "http://cixs.test.legstar.com";
 
     /**
      * Constructor.
@@ -145,11 +149,6 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
     protected void completeModel() {
         completeWebServiceParameters();
         for (CixsOperation operation : getCixsService().getCixsOperations()) {
-            if (operation.getNamespace() == null 
-                    || operation.getNamespace().length() == 0) {
-                operation.setNamespace(
-                        getCixsJaxwsService().getTargetNamespace());
-            }
             if (operation.getPackageName() == null 
                     || operation.getPackageName().length() == 0) {
                 operation.setPackageName(
@@ -165,17 +164,18 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
         if (getWebServiceParameters().getWsdlServiceName() ==  null
                 || getWebServiceParameters().getWsdlServiceName().length() == 0) {
             getWebServiceParameters().setWsdlServiceName(
-                    getCixsService().getName() + WSDL_SERVICE_NAME_SUFFIX);
+                    getCixsService().getName() + DEFAULT_WSDL_SERVICE_NAME_SUFFIX);
         }
         if (getWebServiceParameters().getWsdlPortName() ==  null
                 || getWebServiceParameters().getWsdlPortName().length() == 0) {
             getWebServiceParameters().setWsdlPortName(
-                    getCixsService().getName() + WSDL_PORT_NAME_SUFFIX);
+                    getCixsService().getName() + DEFAULT_WSDL_PORT_NAME_SUFFIX);
         }
         if (getWebServiceParameters().getWsdlTargetNamespace() ==  null
                 || getWebServiceParameters().getWsdlTargetNamespace().length() == 0) {
             getWebServiceParameters().setWsdlTargetNamespace(
-                    getCixsService().getTargetNamespace());
+                    DEFAULT_WSDL_TARGET_NAMESPACE_PREFIX 
+                    + '/' + getCixsService().getName());
         }
         
     }

@@ -69,7 +69,6 @@ public class AntBuildJaxws2CixsModelTest extends AbstractTestTemplate {
 
         assertTrue(resStr.contains("<cixsJaxwsService name=\"lsfileae\""));
         assertTrue(resStr.contains("packageName=\"com.legstar.test.cixs.lsfileae\""));
-        assertTrue(resStr.contains("targetNamespace=\"http://cixs.test.legstar.com/lsfileae\""));
         assertTrue(resStr.contains("<cixsOperation name=\"lsfileae\""));
         assertTrue(resStr.contains("cicsProgramName=\"LSFILEAE\""));
         assertTrue(resStr.contains("jaxbType=\"Dfhcommarea\""));

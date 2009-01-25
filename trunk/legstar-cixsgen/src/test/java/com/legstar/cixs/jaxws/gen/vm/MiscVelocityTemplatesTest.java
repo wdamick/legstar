@@ -58,6 +58,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
 
         CixsJaxwsService jaxwsComponent = Samples.getLsfileac();
         CixsOperation operation = jaxwsComponent.getCixsOperations().get(0);
+        addWebServiceParameters(jaxwsComponent, getParameters());
 
         getParameters().put("propertyName", "Request");
 
@@ -109,6 +110,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
         getParameters().put("importType", structure.getJaxbPackageName()
                 + '.' + structure.getJaxbType());
         getParameters().put("fieldType", structure.getJaxbType());
+        addWebServiceParameters(jaxwsComponent, getParameters());
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
@@ -143,6 +145,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
         CixsOperation operation = jaxwsComponent.getCixsOperations().get(0);
 
         getParameters().put("propertyName", "Request");
+        addWebServiceParameters(jaxwsComponent, getParameters());
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
@@ -176,6 +179,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
 
         CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
         CixsOperation operation = jaxwsComponent.getCixsOperations().get(0);
+        addWebServiceParameters(jaxwsComponent, getParameters());
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
@@ -205,6 +209,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
 
         CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
         CixsOperation operation = jaxwsComponent.getCixsOperations().get(0);
+        addWebServiceParameters(jaxwsComponent, getParameters());
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);

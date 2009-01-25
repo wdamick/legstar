@@ -31,9 +31,6 @@ public final class Samples {
     /** Service classes package name prefix.*/
     private static final String CIXS_PACKAGE_PREFIX = "com.legstar.test.cixs.";
 
-    /** Service namespace prefix.*/
-    private static final String NAMESPACE_PREFIX = "http://cixs.test.legstar.com/";
-
     /** Utility class.*/
     private Samples() {
         
@@ -46,7 +43,7 @@ public final class Samples {
         CixsJaxwsService service = getNewService("lsfileae");
         service.getCixsOperations().add(
                 LsfileaeOperationCases.getOperation(
-                        service.getName(), service.getPackageName(), service.getTargetNamespace()));
+                        service.getName(), service.getPackageName()));
         return service;
     }
 
@@ -58,7 +55,7 @@ public final class Samples {
         CixsJaxwsService service = getNewService("lsfileal");
         service.getCixsOperations().add(
                 LsfilealOperationCases.getOperation(
-                        service.getName(), service.getPackageName(), service.getTargetNamespace()));
+                        service.getName(), service.getPackageName()));
         return service;
     }
 
@@ -70,7 +67,7 @@ public final class Samples {
         CixsJaxwsService service = getNewService("lsfileac");
         service.getCixsOperations().add(
                 LsfileacOperationCases.getOperation(
-                        service.getName(), service.getPackageName(), service.getTargetNamespace()));
+                        service.getName(), service.getPackageName()));
         return service;
     }
 
@@ -83,15 +80,15 @@ public final class Samples {
         CixsJaxwsService service = getNewService("lsfileax");
         service.getCixsOperations().add(
                 LsfileaeOperationCases.getOperation(
-                        service.getName(), service.getPackageName(), service.getTargetNamespace()));
+                        service.getName(), service.getPackageName()));
         service.getCixsOperations().add(
                 LsfileacOperationCases.getOperation(
-                        service.getName(), service.getPackageName(), service.getTargetNamespace()));
+                        service.getName(), service.getPackageName()));
         return service;
     }
 
     /**
-     * Case where the operation has a different namespace/package than the service.
+     * Case where the operation has a different package than the service.
      * @return a service with a single operation mapping LSFILEAE
      *  */
     public static CixsJaxwsService getLsfilean() {
@@ -99,8 +96,7 @@ public final class Samples {
         CixsOperation operation = 
             LsfileaeOperationCases.getOperation(
                     service.getName(),
-                    CIXS_PACKAGE_PREFIX + "oper." + "lsfilean",
-                    NAMESPACE_PREFIX + "oper/" + "lsfilean");
+                    CIXS_PACKAGE_PREFIX + "oper." + "lsfilean");
         service.getCixsOperations().add(operation);
         return service;
     }
@@ -113,7 +109,7 @@ public final class Samples {
     public static CixsJaxwsService getLsfileap() {
         CixsJaxwsService service = getNewService("lsfileap");
         CixsOperation operation = LsfileaeOperationCases.getOperation(
-                    service.getName(), null, service.getTargetNamespace());
+                    service.getName(), null);
         service.setPackageName(null);
         service.getCixsOperations().add(operation);
         return service;
@@ -127,7 +123,7 @@ public final class Samples {
     public static CixsJaxwsService getLsfileaq() {
         CixsJaxwsService service = getNewService("lsfileaq");
         CixsOperation operation = LsfileacOperationCases.getOperation(
-                service.getName(), service.getPackageName(), service.getTargetNamespace());
+                service.getName(), service.getPackageName());
         operation.getInput().remove(1);
         operation.getOutput().remove(1);
         service.getCixsOperations().add(operation);
@@ -142,8 +138,7 @@ public final class Samples {
         CixsJaxwsService service = getNewService("jvmqueryWs");
         service.getCixsOperations().add(
                 JvmqueryWsOperationCases.getOperation(
-                        service.getName(), service.getPackageName(), service.getTargetNamespace()));
-        service.setTargetNamespace("http://jvmquery.cases.test.xsdc.legstar.com/");
+                        service.getName(), service.getPackageName()));
         return service;
     }
 
@@ -155,8 +150,7 @@ public final class Samples {
         CixsJaxwsService service = getNewService("jvmquery");
         service.getCixsOperations().add(
                 JvmqueryOperationCases.getOperation(
-                        service.getName(), service.getPackageName(), service.getTargetNamespace()));
-        service.setTargetNamespace("http://jvmquery.cases.test.xsdc.legstar.com/");
+                        service.getName(), service.getPackageName()));
         return service;
     }
 
@@ -168,8 +162,7 @@ public final class Samples {
         CixsJaxwsService service = getNewService("cultureinfo");
         service.getCixsOperations().add(
                 CultureinfoOperationCases.getOperation(
-                        service.getName(), service.getPackageName(), service.getTargetNamespace()));
-        service.setTargetNamespace("http://cultureinfo.cases.test.xsdc.legstar.com/");
+                        service.getName(), service.getPackageName()));
         return service;
     }
 
@@ -181,8 +174,7 @@ public final class Samples {
         CixsJaxwsService service = getNewService("MSNSearch");
         service.getCixsOperations().add(
                 MSNSearchOperationCases.getOperation(
-                        service.getName(), service.getPackageName(), service.getTargetNamespace()));
-        service.setTargetNamespace("http://schemas.microsoft.com/MSNSearch/2005/09/fex");
+                        service.getName(), service.getPackageName()));
         return service;
     }
 
@@ -199,7 +191,6 @@ public final class Samples {
         model.setInterfaceClassName(
                 CodeGenUtil.classNormalize(serviceName));
         model.setName(serviceName);
-        model.setTargetNamespace(NAMESPACE_PREFIX + serviceName);
         return model;
     }
     

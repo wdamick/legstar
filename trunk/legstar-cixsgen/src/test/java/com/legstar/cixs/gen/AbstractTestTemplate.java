@@ -202,10 +202,12 @@ public class AbstractTestTemplate extends TestCase {
             final CixsJaxwsService service) {
         WebServiceParameters webServiceParameters = new WebServiceParameters();
         webServiceParameters.setWsdlPortName(service.getName()
-                + Jaxws2CixsGenerator.WSDL_PORT_NAME_SUFFIX);
+                + Jaxws2CixsGenerator.DEFAULT_WSDL_PORT_NAME_SUFFIX);
         webServiceParameters.setWsdlServiceName(service.getName()
-                + Jaxws2CixsGenerator.WSDL_SERVICE_NAME_SUFFIX);
-        webServiceParameters.setWsdlTargetNamespace(service.getTargetNamespace());
+                + Jaxws2CixsGenerator.DEFAULT_WSDL_SERVICE_NAME_SUFFIX);
+        webServiceParameters.setWsdlTargetNamespace(
+                Jaxws2CixsGenerator.DEFAULT_WSDL_TARGET_NAMESPACE_PREFIX
+                + '/' + service.getName());
         return webServiceParameters;
         
     }
