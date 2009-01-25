@@ -187,8 +187,18 @@ public abstract class SourceToXsdCobolTask extends Task {
             result.append(nURI.getFragment());
         }
 
-        /* By convention, namespaces are lowercase */
-        return result.toString().toLowerCase();
+        /* By convention, namespaces are lowercase and should not contain invalid Java identifiers */
+        String s = result.toString().toLowerCase();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            Character c = s.charAt(i);
+            if (Character.isJavaIdentifierPart(c) || c.equals('.')) {
+                sb.append(c);
+            } else {
+                sb.append("_");
+            }
+        }
+        return sb.toString();
     }
 
     /**
