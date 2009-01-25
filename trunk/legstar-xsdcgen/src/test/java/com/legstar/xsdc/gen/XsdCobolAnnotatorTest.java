@@ -113,6 +113,88 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
     }
 
     /**
+     * Case where the XSD file has an &lt;xsd:import.
+     *
+     * @throws Exception Any exception encountered
+     */
+    public void testWsdlWithImport() throws Exception {
+        try {
+            XsdCobolAnnotator xsdCobolAnnotator = createXsdCobolAnnotator();
+            xsdCobolAnnotator.setInputXsdUri(new URI("http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl"));
+            xsdCobolAnnotator.setTargetXsdFileName(null);
+            xsdCobolAnnotator.execute();
+            String result = getSource(GEN_DIR, "getinfo.xsd");
+            assertTrue(result.contains("<xsd:schema"));
+            assertTrue(result.contains("xmlns:tns=\"http://cultureinfo.cases.test.xsdc.legstar.com/\""));
+            assertTrue(result.contains("targetNamespace=\"http://cultureinfo.cases.test.xsdc.legstar.com/\""));
+            assertTrue(result.contains("<jaxb:package name=\"com.legstar.xsdc.test.cases.cultureinfo\"/>"));
+            assertTrue(result.contains(
+                    "<xsd:element name=\"CultureInfoException\" type=\"tns:CultureInfoException\">"));
+            assertTrue(result.contains(
+                    "<cb:cobolElement cobolName=\"CultureInfoException\" levelNumber=\"1\" type=\"GROUP_ITEM\"/>"));
+                } catch (BuildException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    /**
+     * Start from WSDL MSNSEARCH.
+     *
+     * @throws Exception Any exception encountered
+     */
+    public void testWsdlMsnsearch() throws Exception {
+        try {
+            XsdCobolAnnotator xsdCobolAnnotator = createXsdCobolAnnotator();
+            xsdCobolAnnotator.setInputXsdUri(new URI("http://soap.search.msn.com/webservices.asmx?wsdl"));
+            xsdCobolAnnotator.setTargetXsdFileName(null);
+            xsdCobolAnnotator.execute();
+            String result = getSource(GEN_DIR, "webservices.asmx.xsd");
+            assertTrue(result.contains("<xsd:schema"));
+            assertTrue(result.contains("xmlns:tns=\"http://schemas.microsoft.com/MSNSearch/2005/09/fex\""));
+            assertTrue(result.contains("targetNamespace=\"http://schemas.microsoft.com/MSNSearch/2005/09/fex\""));
+            assertTrue(result.contains("<jaxb:package name=\"com.microsoft.schemas.msnsearch.2005.09.fex\"/>"));
+            assertTrue(result.contains(
+                    "<xsd:element name=\"Latitude\" type=\"xsd:double\">"));
+            assertTrue(result.contains(
+                    "<cb:cobolElement byteLength=\"8\""
+                    + " cobolName=\"Latitude\""
+                    + " levelNumber=\"15\""
+                    + " type=\"DOUBLE_FLOAT_ITEM\""
+                    + " usage=\"COMP-2\"/>"));
+                } catch (BuildException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    /**
+     * Start from WSDL AMAZON.
+     *
+     * @throws Exception Any exception encountered
+     */
+    public void testWsdlAmazon() throws Exception {
+        try {
+            XsdCobolAnnotator xsdCobolAnnotator = createXsdCobolAnnotator();
+            xsdCobolAnnotator.setInputXsdUri(new URI(
+                    "http://webservices.amazon.com/AWSECommerceService/AWSECommerceService.wsdl"));
+            xsdCobolAnnotator.setTargetXsdFileName("amazon.xsd");
+            xsdCobolAnnotator.execute();
+            String result = getSource(GEN_DIR, "amazon.xsd");
+            assertTrue(result.contains("<xs:schema"));
+            assertTrue(result.contains("xmlns:tns=\"http://webservices.amazon.com/AWSECommerceService/2009-01-06\""));
+            assertTrue(result.contains(
+                    "targetNamespace=\"http://webservices.amazon.com/AWSECommerceService/2009-01-06\""));
+            assertTrue(result.contains(
+                    "<jaxb:package name=\"com.amazon.webservices.awsecommerceservice.2009_01_06\"/>"));
+            assertTrue(result.contains(
+                    "<xs:element name=\"Bin\">"));
+            assertTrue(result.contains(
+                    "<cb:cobolElement cobolName=\"Bin\" levelNumber=\"1\" type=\"GROUP_ITEM\"/>"));
+                } catch (BuildException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    /**
      * Cobol namespace should be added at the schema level.
      *
      * @throws Exception Any exception encountered

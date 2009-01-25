@@ -37,6 +37,7 @@ import org.apache.ws.commons.schema.XmlSchemaCollection;
 import org.apache.ws.commons.schema.XmlSchemaComplexType;
 import org.apache.ws.commons.schema.XmlSchemaElement;
 import org.apache.ws.commons.schema.XmlSchemaFractionDigitsFacet;
+import org.apache.ws.commons.schema.XmlSchemaImport;
 import org.apache.ws.commons.schema.XmlSchemaLengthFacet;
 import org.apache.ws.commons.schema.XmlSchemaObject;
 import org.apache.ws.commons.schema.XmlSchemaObjectCollection;
@@ -45,6 +46,7 @@ import org.apache.ws.commons.schema.XmlSchemaSequence;
 import org.apache.ws.commons.schema.XmlSchemaSimpleType;
 import org.apache.ws.commons.schema.XmlSchemaSimpleTypeList;
 import org.apache.ws.commons.schema.XmlSchemaSimpleTypeRestriction;
+import org.apache.ws.commons.schema.XmlSchemaSimpleTypeUnion;
 import org.apache.ws.commons.schema.XmlSchemaTotalDigitsFacet;
 import org.apache.ws.commons.schema.XmlSchemaType;
 import org.apache.ws.commons.schema.constants.Constants;
@@ -363,6 +365,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
      * Loads the input XML Schema either from an XSD file or a WSDL file.
      * @return a ws-commons XmlSchema instance. 
      */
+    @SuppressWarnings("unchecked")
     private XmlSchema getSchema() {
 
         if (LOG.isDebugEnabled()) {
@@ -395,31 +398,56 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                         + getInputXsdUri().toString()
                         + " will be processed");
             }
-            Node schemaNode = nodes.item(0);
-
-            /* In case this is a wsdl file, we store the namespace
+            
+            /* Translate that DOM schema node into an XmlSchema*/
+            schema = schemaCol.read((Element) nodes.item(0));
+            
+            /* If this schema contains an include/import, then these includes are what we need.
+             * The previous schema element was a mere container.
+             * Potentially, there might be more than one include/import but we restrict ourselves
+             * to the first one here.
+             * TODO add support for multiple imports */
+            XmlSchemaObjectCollection includes = schema.getIncludes();
+            for (Iterator includedItems = includes.getIterator(); includedItems.hasNext();) {
+                Object include = includedItems.next();
+                if (include instanceof XmlSchemaImport) {
+                    schema = ((XmlSchemaImport) include).getSchema();
+                    break;
+                }
+            }
+            
+            /* In case this is a wsdl file, we store certain namespace
              * attributes of the root at the schema node level so that
-             * the schema node is complete from an XmlSchema standpoint. */
+             * the schema node is complete from an XmlSchema standpoint.
+             * We filter out all WSDL related namespaces. */
             if (root.getLocalName().compareTo("definitions") == 0
                     && root.getNamespaceURI().compareTo(WSDL_NS) == 0) {
-
+            
+                NamespaceMap prefixmap = new NamespaceMap();
+                NamespacePrefixList npl = schema.getNamespaceContext();
+                for (int i = 0; i < npl.getDeclaredPrefixes().length; i++) {
+                    prefixmap.add(npl.getDeclaredPrefixes()[i], npl.getNamespaceURI(
+                            npl.getDeclaredPrefixes()[i]));
+                }
                 for (int i = 0; i < root.getAttributes().getLength(); i++) {
                     Attr attribute = (Attr) root.getAttributes().item(i);
-                    String namespaceUri = attribute.getNamespaceURI();
+                    String namespaceURI = attribute.getNamespaceURI();
                     String value = attribute.getValue();
-                    if (namespaceUri != null
-                            && namespaceUri.compareTo(NS_NS) == 0
+                    String name = attribute.getName();
+                    if (name.equals("targetNamespace")
+                            &&  schema.getTargetNamespace() == null) {
+                        schema.setTargetNamespace(value);
+                    } else if (namespaceURI != null
+                            && namespaceURI.compareTo(NS_NS) == 0
                             && value.compareTo(SOAP_NS) != 0
                             && value.compareTo(WSDL_NS) != 0
                             && value.compareTo(ADDRESSING_NS) != 0) {
-                        /* Omit soap and wsdl namespaces which are not useful
-                         * at an XML schema level. */
-                        ((Element) schemaNode).setAttributeNodeNS(
-                                (Attr) attribute.cloneNode(true));
+                        prefixmap.add(attribute.getLocalName(), value);
                     }
                 }
+                schema.setNamespaceContext(prefixmap);
             }
-            schema = schemaCol.read((Element) schemaNode);
+            
         } catch (FileNotFoundException e) {
             throw (new BuildException(e));
         } catch (SAXException e) {
@@ -1323,11 +1351,18 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                 } else {
                     return getPrimitiveType(schema, restriction.getBaseType());
                 }
+                
             } else if (type.getContent() instanceof XmlSchemaSimpleTypeList) {
                 /* If this is a list, look for items type. */
                 XmlSchemaSimpleTypeList listType =
                     (XmlSchemaSimpleTypeList) type.getContent();
                 return getPrimitiveType(schema, listType.getItemType());
+                
+            } else if (type.getContent() instanceof XmlSchemaSimpleTypeUnion) {
+                LOG.warn(type.getName() + " is a union. Processing first type in the union.");
+                XmlSchemaSimpleTypeUnion simpleUnion = (XmlSchemaSimpleTypeUnion) type.getContent();
+                return getPrimitiveType(schema,
+                        (XmlSchemaSimpleType) simpleUnion.getBaseTypes().getItem(0));
             }
         }
         throw new XsdCobolAnnotatorException(
