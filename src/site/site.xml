@@ -35,7 +35,8 @@
     <menu name="LegStar">
       <item name="Introduction" href="index.html"/>
       <item name="Presentation (pdf)" href="pdf/legstar-presentation.pdf"/>
-      <item name="Distribution" href="legstar-distribution/index.html"/>
+      <item name="Download" href="legstar-distribution/download.html"/>
+      <item name="Distribution for z/OS" href="legstar-distribution-zos/index.html"/>
       <item name="Forum" href="phpBB3"/>
       <item name="JavaDocs" href="apidocs/index.html"/>
       <item name="Copyright" href="copyright.html" />
@@ -45,24 +46,21 @@
       <item name="COBOL Structures Mapping" href="legstar-schemagen/index.html"/>
       <item name="Complex Types Mapping" href="legstar-xsdcgen/index.html"/>
       <item name="COBOL Binding" href="legstar-coxbgen/index.html"/>
-      <item name="Web Service" href="legstar-cixsgen/index.html"/>
+      <item name="Mainframe Services" href="legstar-cixsgen/index.html"/>
       <item name="COBOL Structures" href="legstar-cobcgen/index.html"/>
-    </menu>
-
-    <menu name="Eclipse Modules">
-      <item name="Eclipse plugins" href="legstar-common-plugin/index.html"/>
     </menu>
 
     <menu name="Runtime Modules">
       <item name="Mainframe Adapter Runtime" href="legstar-invoker/index.html"/>
       <item name="Mainframe Proxy Runtime" href="legstar-c2wsrt/index.html"/>
+      <item name="Socket Transport" href="legstar-csokrt/index.html"/>
+      <item name="HTTP Transport" href="legstar-chttprt/index.html"/>
+      <item name="WebSphere MQ Transport" href="legstar-cmqrt/index.html"/>
       <item name="Connection Pooling Engine" href="legstar-engine/index.html"/>
     </menu>
-    
-    <menu name="Transport Modules">
-      <item name="Socket transport" href="legstar-csokrt/index.html"/>
-      <item name="HTTP transport" href="legstar-chttprt/index.html"/>
-      <item name="WebSphere MQ transport" href="legstar-chttprt/index.html"/>
+
+    <menu name="Eclipse Modules">
+      <item name="Eclipse Plugins" href="legstar-common-plugin/index.html"/>
     </menu>
 
     ${reports}
