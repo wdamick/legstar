@@ -100,4 +100,16 @@ extends AbstractCixsMuleGeneratorWizardPage {
         return mHostURIText.getText();
     }
 
+    /** {@inheritDoc} */
+    public void createExtendedListeners() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /** {@inheritDoc} */
+    public void storeExtendedProjectPreferences() {
+        // TODO Auto-generated method stub
+        
+    }
+
 }
