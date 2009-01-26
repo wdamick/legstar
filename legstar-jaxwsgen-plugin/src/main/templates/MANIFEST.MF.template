@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: LegStar Jaxws Plug-in
+Bundle-Name: LegStar Mainframe Service Generator Plug-in
 Bundle-SymbolicName: com.legstar.eclipse.plugin.jaxwsgen;singleton:=true
 Bundle-Version: @LEGSTAR-PLUGIN-VERSION@
 Bundle-Activator: com.legstar.eclipse.plugin.jaxwsgen.Activator
