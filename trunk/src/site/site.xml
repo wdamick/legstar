@@ -35,8 +35,7 @@
     <menu name="LegStar">
       <item name="Introduction" href="index.html"/>
       <item name="Presentation (pdf)" href="pdf/legstar-presentation.pdf"/>
-      <item name="Download" href="legstar-distribution/download.html"/>
-      <item name="Distribution for z/OS" href="legstar-distribution-zos/index.html"/>
+      <item name="Download" href="legstar-distribution/index.html"/>
       <item name="Forum" href="phpBB3"/>
       <item name="JavaDocs" href="apidocs/index.html"/>
       <item name="Copyright" href="copyright.html" />
@@ -45,9 +44,9 @@
     <menu name="Development Generators">
       <item name="COBOL Structures Mapping" href="legstar-schemagen/index.html"/>
       <item name="Complex Types Mapping" href="legstar-xsdcgen/index.html"/>
-      <item name="COBOL Binding" href="legstar-coxbgen/index.html"/>
-      <item name="Mainframe Services" href="legstar-cixsgen/index.html"/>
-      <item name="COBOL Structures" href="legstar-cobcgen/index.html"/>
+      <item name="COBOL Binding Generator" href="legstar-coxbgen/index.html"/>
+      <item name="Mainframe Service Generator" href="legstar-cixsgen/index.html"/>
+      <item name="COBOL Structures Generator" href="legstar-cobcgen/index.html"/>
     </menu>
 
     <menu name="Runtime Modules">
