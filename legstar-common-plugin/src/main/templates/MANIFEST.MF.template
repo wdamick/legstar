@@ -17,7 +17,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.forms,
  org.eclipse.ui.ide,
  org.eclipse.jdt.core
-Bundle-ActivationPolicy: lazy
+Eclipse-LazyStart: true
 Eclipse-BuddyPolicy: registered
 Bundle-ClassPath: .,
  lib/commons-collections-3.2.1.jar,

@@ -95,6 +95,7 @@ public abstract class AbstractWizardPage extends WizardPage {
         mUrlHistory = new PreferenceUrlHistory(
                 Activator.getDefault().getPreferenceStore(),
                 URL_HISTORY_STORE_KEY_PFX);
+
         ImageDescriptor image =
             AbstractUIPlugin.
             imageDescriptorFromPlugin(
