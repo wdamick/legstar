@@ -11,11 +11,18 @@
     <section name="Download LegStar COBOL Binding Generator">
 
       <!-- Within sections, any XHTML can be used -->
-		<table border="1">
-			<tr><th>Module</th><th>Platform</th><th>Link</th></tr>
-			<tr><td>LegStar COBOL Binding Generator</td><td>Java</td>
-            <td><a href="../maven/repo/com/legsem/legstar/legstar-coxbgen/1.2.3-SNAPSHOT/legstar-coxbgen-1.2.3-SNAPSHOT-bin.zip">legstar-coxbgen-1.2.3-SNAPSHOT-bin.zip</a></td></tr>
-		</table>
+    <table border="1">
+      <tr><th>Module</th><th>Platform</th><th>Link</th></tr>
+      <tr>
+        <td>LegStar COBOL Binding Generator</td>
+        <td>Java</td>
+        <td>
+            <div onclick="javascript: pageTracker._trackPageview('/downloads/legstar-distribution');">
+            <a href="../maven/repo/com/legsem/legstar/legstar-coxbgen/1.2.3-SNAPSHOT/legstar-coxbgen-1.2.3-SNAPSHOT-bin.zip">legstar-coxbgen-1.2.3-SNAPSHOT-bin.zip</a>
+            </div>
+        </td>
+      </tr>
+    </table>
 
     </section>
 
