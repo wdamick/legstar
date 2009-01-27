@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+  <body>
+
+    <menu name="Distribution">
+      <item name="Installation instructions" href="../legstar-cixsgen/release-notes.html" />
+      <item name="Eclipse plugins" href="../legstar-common-plugin"/>
+      <item name="Distribution for z/OS" href="../legstar-distribution-zos"/>
+    </menu>
+  </body>
+</project>
