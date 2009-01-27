@@ -3,11 +3,11 @@ body {
 }
 body, td, select, input, li{
   font-family: Verdana, Helvetica, Arial, sans-serif;
-  font-size: 13px;
+  font-size: small;
 }
 code{
   font-family: Courier, monospace;
-  font-size: 13px;
+  font-size: small;
 }
 a {
   text-decoration: none;
