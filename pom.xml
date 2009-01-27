@@ -163,6 +163,7 @@
     </build>
   
     <modules>
+        <module>legstar-tests</module>
         <module>legstar-codegen</module>
         <module>legstar-schemagen</module>
         <module>legstar-coxbapi</module>
