@@ -1,0 +1,180 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>1.2.3</version>
+    </parent>
+    <version>1.2.3</version>
+    <artifactId>legstar-schemagen</artifactId>
+    <name>LegStar COBOL Structures Mapping Generator</name>
+    <description>Generates mapping XML Schema from COBOL structures</description>
+    <url>http://www.legsem.com/legstar</url>
+    
+    <dependencies>
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-codegen</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+      
+            <!-- Assembly generation plugin. Put the result in the source site
+            so that it gets uploaded with the site.  -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assemble/distribution.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- append to the packaging phase. -->
+                        <goals>
+                            <goal>attached</goal> <!-- goals == mojos -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+
+                    <!-- This will compile all C sources. -->
+                    <execution>
+                        <id>build-c</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/build-c.xml" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                   <!-- This will upload the zos sources.  -->
+                    <execution>
+                        <id>deploy-to-zos</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/deploy-to-zos.xml">
+                                    <property name="legstarVersion" value="${legstarVersion}" />
+                                    <property name="legstarZosHost" value="${legstar-dev-zos-host}" />
+                                    <property name="legstarZosUserid" value="${legstar-dev-zos-userid}" />
+                                    <property name="legstarZosPassword" value="${legstar-dev-zos-password}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- This will generate all XML schema test cases, ready for integration test. -->
+                    <execution>
+                        <id>build-test-schema</id>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <path id="classpath">
+                                    <path refid="maven.compile.classpath" />
+                                    <path refid="maven.plugin.classpath" />
+                                </path>
+                                <ant antfile="${basedir}/src/test/ant/build-test-schema.xml" inheritRefs="true" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                      
+                    <!-- This will check that the distribution file is valid. -->
+                    <execution>
+                        <id>build-sample</id>
+                        <phase>integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/test-distribution.xml" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- Generate site files that needs automatic update. -->
+                    <execution>
+                        <id>build-site</id>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/../src/main/ant/gen-download-xml.xml">
+                                    <property name="productID" value="${pom.artifactId}" />
+                                    <property name="productName" value="${pom.name}" />
+                                    <property name="legstarVersion" value="${legstarVersion}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                </executions>
+            </plugin>
+ 
+      </plugins>
+    </build>
+    
+    <!-- Disable some reports which cause maven deploy site-deploy to fail because site-deploy
+         attempts to run schemagen a second time resulting in native dll load errors. -->
+    <reporting>
+        <plugins>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <reportSets>
+                  <reportSet />
+                </reportSets>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jdepend-maven-plugin</artifactId>
+                <reportSets>
+                  <reportSet />
+                </reportSets>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <reportSets>
+                  <reportSet />
+                </reportSets>
+            </plugin>
+
+        </plugins>
+    
+    </reporting>
+
+    
+  </project>

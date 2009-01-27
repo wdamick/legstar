@@ -1,0 +1,37 @@
+ -----
+ Overview
+ -----
+ Fady Moussallam
+ -----
+ 26 December 2008
+ -----
+
+COBOL Binding Generator (Coxbgen) overview
+
+  LegStar Coxbgen is a Java source code generator based on Data mapping XML Schemas such as the ones
+  produced by {{{../legstar-schemagen}COBOL Structures Mapping Generator}} or
+  {{{../legstar-xsdcgen}Complex Types Mapping Generator}}.
+
+  Coxbgen includes an XML Schema to Java binding utility built with Sun's JAXB (More precisely as a
+  JAXB XJC plugin). Coxbgen produces {{{https://jaxb.dev.java.net/}JAXB Classes}} with COBOL annotations.
+  These classes are not different from regular JAXB Classes apart from additional Java annotations
+  providing mapping meta-data between Java types and COBOL types.
+  
+  An important class is {{{../legstar-coxbapi/apidocs/com/legstar/coxb/CobolElement.html}CobolElement}}
+  which is a java annotation that represent the mapping between a Java property and a Cobol data element. 
+  
+  Coxbgen also produces runtime binding classes which provide fast conversion of COBOL mainframe data streams
+  to Java instances and vice-versa. These binding classes do not use reflection at runtime which provides
+  substantial performance gains.
+  
+  At runtime, Coxbgen provides low-level conversions for simple types such as strings, Cobol packed decimals,
+  Cobol zoned decimals, simple arrays, etc.
+  
+  For instructions on how to install and use this generator follow {{{release-notes.html}this link}}.
+ 
+  For answers to common questions about LegStar Coxbgen, see the {{{faq.html} FAQ}}.
+
+  
+
+
+

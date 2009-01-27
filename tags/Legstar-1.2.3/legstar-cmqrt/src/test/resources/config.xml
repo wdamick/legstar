@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config description="Default Configuration">
+    <hostEndPoints>
+    	<hostEndPoint name="CICSTS23">
+    		<hostIPAddress>mainframe</hostIPAddress>
+    		<hostIPPort>1414</hostIPPort>
+    		<hostCharset>IBM01140</hostCharset>
+    		<hostUserID>P390</hostUserID>
+    		<hostPassword>STREAM2</hostPassword>
+    		<hostTraceMode>true</hostTraceMode>
+    		<hostMQManager>CSQ1</hostMQManager>
+            <hostMQChannel>CLIENT.TO.CSQ1</hostMQChannel>
+            <hostMQRequestQueue>CICSA.REQUEST.QUEUE</hostMQRequestQueue>
+            <hostMQResponseQueue>CICSA.REPLY.QUEUE</hostMQResponseQueue>
+       </hostEndPoint>
+    </hostEndPoints>
+</config>
+   

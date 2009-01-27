@@ -1,0 +1,37 @@
+<!-- =================================================================================
+     This script downloads xmit files reday for distribution from zos.
+ -->
+<project basedir="../../.." default="downloadXmit" name="download-xmit">
+
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
+    <!-- Import the ZOS version builder script... -->
+    <import file="${basedir}/../src/main/ant/prepare-zos-version.xml"/>
+
+    <!-- ===========================================================  -->
+    <!-- Dowload the files as binary
+    -->
+    <target name="downloadXmit" depends="prepareZosVersion">
+        
+        <delete>
+            <fileset dir="src/main/resources" includes="*.XMIT"/>
+        </delete>
+
+        <ftp server="${legstarZosHost}"
+                action="get"
+                userid="${legstarZosUserid}"
+                password="${legstarZosPassword}"
+                binary="yes">
+            <fileset dir="src/main/resources">
+                <include name="LEGSTAR.${legstarZosVersion}.LOAD.XMIT"/>
+                <include name="LEGSTAR.${legstarZosVersion}.C370.XMIT"/>
+                <include name="LEGSTAR.${legstarZosVersion}.H370.XMIT"/>
+                <include name="LEGSTAR.${legstarZosVersion}.CNTL.XMIT"/>
+                <include name="LEGSTAR.${legstarZosVersion}.COBOL.XMIT"/>
+            </fileset>
+        </ftp>
+
+    </target>
+  
+</project>

@@ -1,0 +1,48 @@
+body {
+	background: #fff url(../images/legstar-logo-2008.png) no-repeat top left; 
+}
+
+h1 {
+	margin-top:20px;
+	color: #808080;
+	text-align: center;
+}
+
+#appPanel {
+	width:640px;
+}
+
+#uploadPanel {
+	border:1px solid #1F3E75;
+	background:#F2F2F2;
+	margin:10px 0px;
+	width:100%;
+}
+
+#uploadForm {
+	margin:5px 5px;
+}
+
+#cobolFile {
+	width:500px;
+}
+
+#cobeditPanel {
+	margin:10px 0px;
+	width:640px;
+}
+
+#cobeditArea {
+	width:100%;
+}
+
+#cobolFileLabel {
+	font-weight: bold;
+	font-size: 93%;
+	padding: 0pt 10px;
+}
+
+.actionButton {
+	width:100px;
+	margin:10px 0px;
+}

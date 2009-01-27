@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config description="Default Configuration">
+	<hostEndPoints>
+		<hostEndPoint name="CICSTS23">
+			<hostIPAddress>mainframe</hostIPAddress>
+			<hostIPPort>3080</hostIPPort>
+			<hostCharset>IBM01140</hostCharset>
+			<hostUserID>P390</hostUserID>
+			<hostPassword>STREAM2</hostPassword>
+			<hostTraceMode>false</hostTraceMode>
+			<hostURLPath>/CICS/CWBA/LSWEBBIN</hostURLPath>
+	   </hostEndPoint>
+  </hostEndPoints>
+	<hostEndPoints>
+		<hostEndPoint name="CICSTS31">
+			<hostIPAddress>mainframe</hostIPAddress>
+			<hostIPPort>4080</hostIPPort>
+			<hostCharset>IBM01140</hostCharset>
+			<hostUserID>P390</hostUserID>
+			<hostPassword>STREAM2</hostPassword>
+			<hostTraceMode>false</hostTraceMode>
+			<hostURLPath>/CICS/CWBA/LSWEBBIN</hostURLPath>
+	   </hostEndPoint>
+  </hostEndPoints>
+</config>
+   

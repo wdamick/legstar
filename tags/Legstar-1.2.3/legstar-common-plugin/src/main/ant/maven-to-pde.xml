@@ -1,0 +1,45 @@
+<!-- =================================================================================
+     This script is responsible for generating PDE resources based on
+     Maven properties (versions, etc.).
+ -->
+<project basedir="../../.." default="mavenToPde" name="maven-to-pde">
+
+    <!-- Import the PDE version builder script... -->
+    <import file="${basedir}/../legstar-common-plugin/src/main/ant/prepare-pde-version.xml"/>
+
+    <target name="mavenToPde" depends="preparePdeVersion">
+
+        <!-- Generate the MANIFEST with the correct version and dependency versions -->
+        <echo message="Generating MANIFEST.MF for version=${legstarVersion}"/>
+        <copy todir="${basedir}/META-INF" overwrite="true">
+            <fileset dir="${basedir}/src/main/templates">
+                <include name="MANIFEST.MF.template"/>
+            </fileset>
+            <filterset>
+                <filter token="LEGSTAR-PLUGIN-VERSION" value="${legstarPluginVersion}"/>
+                <filter token="LEGSTAR-VERSION" value="${legstarVersion}"/>
+            </filterset>
+            <globmapper from="*.template" to="*"/>
+        </copy>
+  
+        <!-- Generate the build.properties with the correct version and dependency versions -->
+        <echo message="Generating build.properties for version=${legstarVersion}"/>
+        <copy todir="${basedir}" overwrite="true">
+            <fileset dir="${basedir}/src/main/templates">
+              <include name="build.properties.template"/>
+            </fileset>
+            <filterset>
+              <filter token="LEGSTAR-PLUGIN-VERSION" value="${legstarPluginVersion}"/>
+              <filter token="LEGSTAR-VERSION" value="${legstarVersion}"/>
+            </filterset>
+            <globmapper from="*.template" to="*"/>
+        </copy>
+        
+        <!-- Clean the lib folder -->
+        <echo message="Cleaning lib folder ${basedir}/lib"/>
+        <delete>
+            <fileset dir="${basedir}/lib" includes="*.jar"/>
+        </delete>
+
+  </target>
+</project>

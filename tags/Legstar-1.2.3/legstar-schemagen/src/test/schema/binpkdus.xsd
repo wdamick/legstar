@@ -1,0 +1,338 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+targetNamespace="http://legstar.com/test/coxb/binpkdus"
+xmlns="http://legstar.com/test/coxb/binpkdus"
+xmlns:xsns="http://legstar.com/test/coxb/binpkdus"
+xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+jaxb:version="2.0"
+jaxb:extensionBindingPrefixes="cb"
+elementFormDefault="qualified">
+ <xs:annotation><xs:appinfo>
+ <jaxb:schemaBindings>
+ <jaxb:package  name="com.legstar.test.coxb.binpkdus"/>
+ </jaxb:schemaBindings>
+ </xs:appinfo></xs:annotation>
+ <xs:complexType name="WsExpectedIncomingData">
+    <xs:sequence>
+     <xs:element name="WsUnsignedPackedDecimal" type="xsns:WsUnsignedPackedDecimal">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-UNSIGNED-PACKED-DECIMAL' type='GROUP_ITEM' srceLine='30'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="WsUnsignedPackedDecimal">
+    <xs:sequence>
+     <xs:element name="WsCompat" type="xsns:WsCompat">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='10' cobolName='WS-COMPAT' type='GROUP_ITEM' srceLine='31'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+     <xs:element name="WsExtend" type="xsns:WsExtend">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='10' cobolName='WS-EXTEND' type='GROUP_ITEM' srceLine='39'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="WsCompat">
+    <xs:sequence>
+     <xs:element name="WsP9X1Null">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='15' cobolName='WS-P9X1-NULL' type='PACKED_DECIMAL_ITEM' picture='9(1)' usage='PACKED-DECIMAL' byteLength='1' signed='false' totalDigits='1' srceLine='32'>
+         <cb:value>0</cb:value>
+         </cb:cobolElement>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedShort">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='9'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsP9X1">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='15' cobolName='WS-P9X1' type='PACKED_DECIMAL_ITEM' picture='9(1)' usage='PACKED-DECIMAL' byteLength='1' signed='false' totalDigits='1' srceLine='33'>
+         <cb:value>3</cb:value>
+         </cb:cobolElement>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedShort">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='9'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsP9X2">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='15' cobolName='WS-P9X2' type='PACKED_DECIMAL_ITEM' picture='9(2)' usage='PACKED-DECIMAL' byteLength='2' signed='false' totalDigits='2' srceLine='34'>
+         <cb:value>12</cb:value>
+         </cb:cobolElement>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedShort">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='99'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsP9X7">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='15' cobolName='WS-P9X7' type='PACKED_DECIMAL_ITEM' picture='9(7)' usage='PACKED-DECIMAL' byteLength='4' signed='false' totalDigits='7' srceLine='36'>
+         <cb:value>32769</cb:value>
+         </cb:cobolElement>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedInt">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='9999999'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsP9X18">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='15' cobolName='WS-P9X18' type='PACKED_DECIMAL_ITEM' picture='9(18)' usage='PACKED-DECIMAL' byteLength='10' signed='false' totalDigits='18' srceLine='38'>
+         <cb:value>123456789012345678</cb:value>
+         </cb:cobolElement>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedLong">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='999999999999999999'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="WsExtend">
+    <xs:sequence>
+     <xs:element name="WsP9X19">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='15' cobolName='WS-P9X19' type='PACKED_DECIMAL_ITEM' picture='9(19)' usage='PACKED-DECIMAL' byteLength='10' signed='false' totalDigits='19' srceLine='41'>
+         <cb:value>1234567890123456789</cb:value>
+         </cb:cobolElement>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedLong">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='9999999999999999999'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsP9X31">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='15' cobolName='WS-P9X31' type='PACKED_DECIMAL_ITEM' picture='9(31)' usage='PACKED-DECIMAL' byteLength='16' signed='false' totalDigits='31' srceLine='43'>
+         <cb:value>1234567890123456789012345678901</cb:value>
+         </cb:cobolElement>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:integer">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='9999999999999999999999999999999'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="Filler45">
+    <xs:sequence>
+     <xs:element name="WsPs9X18Dis1">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-PS9X18-DIS-1' type='NUMERIC_EDITED_ITEM' picture='+9(18)' usage='DISPLAY' byteLength='19' signed='true' totalDigits='18' srceLine='46'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:pattern value='[\+\-\d]\d{18}'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsPs9X18Dis2">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-PS9X18-DIS-2' type='NUMERIC_EDITED_ITEM' picture='+9(18)' usage='DISPLAY' byteLength='19' signed='true' totalDigits='18' srceLine='47'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:pattern value='[\+\-\d]\d{18}'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsPs9X31Dis1">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-PS9X31-DIS-1' type='NUMERIC_EDITED_ITEM' picture='+9(31)' usage='DISPLAY' byteLength='32' signed='true' totalDigits='31' srceLine='48'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:pattern value='[\+\-\d]\d{31}'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsPs9X31Dis2">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-PS9X31-DIS-2' type='NUMERIC_EDITED_ITEM' picture='+9(31)' usage='DISPLAY' byteLength='32' signed='true' totalDigits='31' srceLine='49'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:pattern value='[\+\-\d]\d{31}'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="Dfhcommarea">
+    <xs:sequence>
+     <xs:element name="LsUnsignedPackedDecimal" type="xsns:LsUnsignedPackedDecimal">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='LS-UNSIGNED-PACKED-DECIMAL' type='GROUP_ITEM' srceLine='56'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="LsUnsignedPackedDecimal">
+    <xs:sequence>
+     <xs:element name="LsCompat" type="xsns:LsCompat">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='10' cobolName='LS-COMPAT' type='GROUP_ITEM' srceLine='57'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+     <xs:element name="LsExtend" type="xsns:LsExtend">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='10' cobolName='LS-EXTEND' type='GROUP_ITEM' srceLine='63'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="LsCompat">
+    <xs:sequence>
+     <xs:element name="LsP9X1Null">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='15' cobolName='LS-P9X1-NULL' type='PACKED_DECIMAL_ITEM' picture='9(1)' usage='PACKED-DECIMAL' byteLength='1' signed='false' totalDigits='1' srceLine='58'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedShort">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='9'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="LsP9X1">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='15' cobolName='LS-P9X1' type='PACKED_DECIMAL_ITEM' picture='9(1)' usage='PACKED-DECIMAL' byteLength='1' signed='false' totalDigits='1' srceLine='59'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedShort">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='9'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="LsP9X2">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='15' cobolName='LS-P9X2' type='PACKED_DECIMAL_ITEM' picture='9(2)' usage='PACKED-DECIMAL' byteLength='2' signed='false' totalDigits='2' srceLine='60'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedShort">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='99'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="LsP9X7">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='15' cobolName='LS-P9X7' type='PACKED_DECIMAL_ITEM' picture='9(7)' usage='PACKED-DECIMAL' byteLength='4' signed='false' totalDigits='7' srceLine='61'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedInt">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='9999999'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="LsP9X18">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='15' cobolName='LS-P9X18' type='PACKED_DECIMAL_ITEM' picture='9(18)' usage='PACKED-DECIMAL' byteLength='10' signed='false' totalDigits='18' srceLine='62'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedLong">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='999999999999999999'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="LsExtend">
+    <xs:sequence>
+     <xs:element name="LsP9X19">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='15' cobolName='LS-P9X19' type='PACKED_DECIMAL_ITEM' picture='9(19)' usage='PACKED-DECIMAL' byteLength='10' signed='false' totalDigits='19' srceLine='64'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedLong">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='9999999999999999999'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="LsP9X31">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='15' cobolName='LS-P9X31' type='PACKED_DECIMAL_ITEM' picture='9(31)' usage='PACKED-DECIMAL' byteLength='16' signed='false' totalDigits='31' srceLine='65'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:integer">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='9999999999999999999999999999999'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+</xs:schema>

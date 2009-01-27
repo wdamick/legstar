@@ -1,0 +1,41 @@
+<?xml version="1.0" standalone="yes"?>
+<!-- =================================================================================
+     Iterates thru cobol sources and creates an XML schema for each.
+     -->
+<project basedir="../../.." default="generateAllSchemas">
+	
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+	<target name="init">
+		
+		<!-- Target location for generated XML schemas   -->
+		<property name="gen.schema.dir" value="${basedir}/target/src/gen/schema"/>
+		<!-- Make sure we have a target XSD directory -->
+		<mkdir dir="${gen.schema.dir}"/>
+		<!-- Target namespace prefix for XML schema   -->
+	 	<property name="namespace.pfx" value="http://legstar.com/test/coxb" />
+		<!-- Set properties that might be overriden by legstar.properties   -->
+	 	<property name="cobol.dir" value="${basedir}/src/test/cobol" />
+
+		<!-- Schema generator ant task  -->
+		<taskdef name="schemagen"
+			classname="com.legstar.schemagen.COXBSchemaGenerator" 
+			classpathref="classpath"/>
+		
+	</target>
+	
+	<!-- ===========================================================  -->
+	<!-- Generate a schema for each cobol source from a directory
+	  -->
+	<target name="generateAllSchemas" depends="init">
+		 <schemagen targetDir="${gen.schema.dir}/"
+		 	namespace="${namespace.pfx}/"
+		 	jaxbPackageName="">
+	        <path>
+	            <fileset dir="${cobol.dir}" excludes="local/**"/>
+	        </path>
+		 </schemagen>	
+	</target>
+
+</project>

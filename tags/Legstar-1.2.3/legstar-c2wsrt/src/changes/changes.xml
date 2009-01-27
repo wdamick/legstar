@@ -1,0 +1,61 @@
+<document>
+  <properties>
+    <title>Changes Mainframe Proxy Runtime</title>
+  </properties>
+  <body>
+    <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
+      <action dev="fady" type="update">
+        Changing name of this module from "Mainframe to Web Service runtime" to "Mainframe Proxy Runtime".
+      </action>
+      <action dev="fady" type="update">
+        Fixed Issue 10: Switch HTTP transports from binary/octet-stream to application/octet-stream.
+        Servers still support binary/octet-stream for backward compatibility.
+      </action>
+      <action dev="fady" type="update">
+        Refactoring using the new Transformers API.
+      </action>
+      <action dev="fady" type="update">
+        Fixed Issue 12: make code reusable by other modules (Mule and JBoss ESB).
+      </action>
+      <action dev="fady" type="update">
+        Fixed Issue 6:Give c2wsrt clients access using raw binary rather than LegStarMessage.
+      </action>
+      <action dev="fady" type="update">
+        Fixed Issue 8: Support Binding to POJO instead of Web Service in c2wsrt.
+        A set of interfaces now abstracts the actual proxy invoker.
+      </action>
+    </release>
+    <release version="1.2.2" date="2008-11-15" description="Support for ESB generation">
+      <action dev="fady" type="update">
+        Refactored the code so that it is closer to the one used for Jboss ESB
+        using JAX-WS Dispatch API.
+        Ultimately we should be able to reuse a lot of code between the 2 projects.
+      </action>
+    </release>
+    <release version="1.2.1" date="2008-09-30" description="Code cleansing">
+      <action dev="fady" type="update">
+        Removed instance variables which are bad practice in a Servlet.
+      </action>
+      <action dev="fady" type="update">
+        Documentation update to cross reference the new distribution-zos project.
+      </action>
+    </release>
+    <release version="1.2.0" date="2008-07-08" description="Refactoring">
+      <action dev="fady" type="update">
+        The central configuration where all new service proxies were to be added
+        in an XML file is gone. Proxies are now servlets with a web.xml that contains
+        all necessary parameters. See the sample provided in legstar-c2wsrt.war.
+        The URL known to mainframe programs is simply the proxy servlet URL.
+      </action>
+      <action dev="fady" type="add">
+        New sample COBOL program MSNSEARC shows how to call Microsoft search SOAP API.
+      </action>
+    </release>
+
+    <release version="1.1.0" date="2007-08-30" description="First version">
+      <action dev="fady" type="add">
+        First release of the mainframe to web service runtime.
+      </action>
+    </release>
+  </body>
+</document>
