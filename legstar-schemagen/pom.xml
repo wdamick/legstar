@@ -4,9 +4,9 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.2.3-SNAPSHOT</version>
+        <version>1.2.3</version>
     </parent>
-    <version>1.2.3-SNAPSHOT</version>
+    <version>1.2.3</version>
     <artifactId>legstar-schemagen</artifactId>
     <name>LegStar COBOL Structures Mapping Generator</name>
     <description>Generates mapping XML Schema from COBOL structures</description>
@@ -74,7 +74,7 @@
                         <phase>generate-resources</phase>
                         <configuration>
                             <tasks>
-                                <ant antfile="${basedir}/src/main/ant/deploy-to-zos.xml" >
+                                <ant antfile="${basedir}/src/main/ant/deploy-to-zos.xml">
                                     <property name="legstarVersion" value="${legstarVersion}" />
                                     <property name="legstarZosHost" value="${legstar-dev-zos-host}" />
                                     <property name="legstarZosUserid" value="${legstar-dev-zos-userid}" />
@@ -94,10 +94,10 @@
                         <configuration>
                             <tasks>
                                 <path id="classpath">
-                                    <path refid="maven.compile.classpath"/>
-                                    <path refid="maven.plugin.classpath"/>
+                                    <path refid="maven.compile.classpath" />
+                                    <path refid="maven.plugin.classpath" />
                                 </path>
-                                <ant antfile="${basedir}/src/test/ant/build-test-schema.xml" inheritRefs="true"/>
+                                <ant antfile="${basedir}/src/test/ant/build-test-schema.xml" inheritRefs="true" />
                             </tasks>
                         </configuration>
                         <goals>

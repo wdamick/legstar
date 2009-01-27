@@ -3,9 +3,9 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.2.3-SNAPSHOT</version>
+        <version>1.2.3</version>
     </parent>
-    <version>1.2.3-SNAPSHOT</version>
+    <version>1.2.3</version>
     <artifactId>legstar-csokrt</artifactId>
     <name>LegStar Socket Transport for CICS</name>
     <description>Socket-based connectivity to CICS.</description>
@@ -105,7 +105,7 @@
                         <phase>generate-test-resources</phase>
                         <configuration>
                             <tasks>
-                                <ant antfile="${basedir}/../src/main/ant/deploy-to-zos.xml" >
+                                <ant antfile="${basedir}/../src/main/ant/deploy-to-zos.xml">
                                     <property name="legstarVersion" value="${legstarVersion}" />
                                     <property name="legstarZosHost" value="${legstar-dev-zos-host}" />
                                     <property name="legstarZosUserid" value="${legstar-dev-zos-userid}" />
