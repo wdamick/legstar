@@ -6,9 +6,13 @@
 
   <display-name>LegStar Host Access Engine</display-name>
   <description>
-    LegStar host access manager engine.
+    LegStar connection pooling engine.
   </description>
 
+  <listener>
+  	<listener-class>com.legstar.host.servlet.ContextListener</listener-class>
+  </listener>
+  
   <servlet>
     <description>Startup Servlet for Host Access Engine</description>
     <display-name>LegStar Host Access Servlet</display-name>
@@ -30,4 +34,5 @@
     <servlet-name>InitiatorServlet</servlet-name>
     <url-pattern>/InitiatorServlet</url-pattern>
   </servlet-mapping>
+  
 </web-app>
