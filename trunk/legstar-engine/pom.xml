@@ -3,9 +3,9 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.2.3-SNAPSHOT</version>
+        <version>1.2.3</version>
     </parent>
-    <version>1.2.3-SNAPSHOT</version>
+    <version>1.2.3</version>
     <artifactId>legstar-engine</artifactId>
     <name>LegStar Connection pooling engine</name>
     <description>Mainframe connection pooling engine.</description>

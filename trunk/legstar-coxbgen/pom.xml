@@ -4,9 +4,9 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.2.3-SNAPSHOT</version>
+        <version>1.2.3</version>
     </parent>
-    <version>1.2.3-SNAPSHOT</version>
+    <version>1.2.3</version>
     <artifactId>legstar-coxbgen</artifactId>
     <name>LegStar COBOL Binding Generator</name>
     <description>Generates JAXB classes with COBOL annotations as well as runtime classes.</description>
@@ -107,10 +107,10 @@
                         <configuration>
                             <tasks>
                                 <path id="classpath">
-                                    <path refid="maven.compile.classpath"/>
-                                    <path refid="maven.test.classpath"/>
+                                    <path refid="maven.compile.classpath" />
+                                    <path refid="maven.test.classpath" />
                                 </path>
-                                <ant antfile="${basedir}/src/test/ant/build-coxbgen-cases.xml" inheritRefs="true"/>
+                                <ant antfile="${basedir}/src/test/ant/build-coxbgen-cases.xml" inheritRefs="true" />
                             </tasks>
                         </configuration>
                         <goals>
