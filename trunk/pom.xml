@@ -345,6 +345,14 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
+                <configuration>
+                    <instrumentation>
+                        <!-- Instrumenting performance tests is useless for test coverage analysis -->
+                        <excludes>
+                            <exclude>**/perf/**/*.class</exclude>
+                        </excludes>
+                    </instrumentation>
+                </configuration>
             </plugin>
 
             <plugin>
