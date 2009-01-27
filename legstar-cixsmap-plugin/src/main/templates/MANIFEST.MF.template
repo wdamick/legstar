@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: LegStar Legacy Mapping
+Bundle-Name: LegStar Operations Mapping Editor
 Bundle-SymbolicName: com.legstar.eclipse.plugin.cixsmap; singleton:=true
 Bundle-Version: @LEGSTAR-PLUGIN-VERSION@
 Bundle-Activator: com.legstar.eclipse.plugin.cixsmap.Activator
