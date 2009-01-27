@@ -15,7 +15,7 @@
         Refactoring using the new Transformers API.
       </action>
       <action dev="fady" type="update">
-        Fixed Issue 12: make code reusable by other modules (Mule & JBoss ESB).
+        Fixed Issue 12: make code reusable by other modules (Mule and JBoss ESB).
       </action>
       <action dev="fady" type="update">
         Fixed Issue 6:Give c2wsrt clients access using raw binary rather than LegStarMessage.
