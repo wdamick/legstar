@@ -15,11 +15,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -57,17 +59,13 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
     private static final String CORRELATION_ID_HDR = "Correlation-id";
 
     /** Flood prevention for large data.   */
-    private static final int MAX_TRACES_BYTES  = 500;   
+    private static final int MAX_TRACES_BYTES  = 500;
     
-    /**
-     * Configuration parameters collected at initialization time.
-     */
-    private Map < String, String > mProxyConfig;
-
-    /**
-     * Generic proxy service which will invoke the remote process.
-     */
-    private ServiceProxy mServiceProxy;
+    /** Used to store configuration parameters in the application scope.*/
+    private static final String PROXY_CONFIG_KEY = "com.legstar.c2ws.servlet.ProxyConfig";
+    
+    /** A service proxy key to store a proxy to service a session.*/
+    private static final String SERVICE_PROXY_KEY = "com.legstar.c2ws.servlet.ServiceProxy";
 
     /** Logger. */
     private static final Log LOG =  LogFactory.getLog(C2wsProxy.class);
@@ -81,17 +79,12 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Initializing ");
         }
-        mProxyConfig = new HashMap < String, String >();
+        Map < String, String > proxyConfig = new HashMap < String, String >();
         Enumeration < String > en = getServletConfig().getInitParameterNames();
         while (en.hasMoreElements()) {
-            setInitParameter(en.nextElement(), null);
+            setInitParameter(proxyConfig, en.nextElement(), null);
         }
-
-        try {
-            mServiceProxy = new ServiceProxy(mProxyConfig);
-        } catch (ProxyConfigurationException e) {
-            throw new ServletException(e);
-        }
+        setProxyConfig(proxyConfig);
     }
 
     /** {@inheritDoc} */
@@ -117,22 +110,31 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
         }
 
         try {
+            /* Get all the bytes from the request in a byte array */
             int requestBytesLen = request.getContentLength();     
-            byte[] requestBytes = new byte[requestBytesLen];        
-            request.getInputStream().read(requestBytes, 0, requestBytesLen);
+            byte[] requestBytes = new byte[requestBytesLen]; 
+            InputStream in = request.getInputStream();
+            int offset = 0;
+            int n;
+            do {
+                n = in.read(requestBytes, offset, requestBytesLen - offset);
+            } while (n != -1);
             
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Request data from host:");
                 traceData(requestID, requestBytes);
             }
 
-            byte[] replyBytes = getServiceProxy().invoke(
+            /* Call the proxy getting a byte array back */
+            byte[] replyBytes = getServiceProxy(request).invoke(
                     getProxyConfig(), requestID, requestBytes);
             
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Reply data to host:");
                 traceData(requestID, replyBytes);
             }
+
+            /* Push the reply byte array into the http response */
             response.setContentType(request.getContentType());
             response.getOutputStream().write(replyBytes);
             
@@ -169,11 +171,14 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
      * Locate an initialization parameter from the servlet configuration.
      * If the parameter is not found, a default value is used. The parameter
      * is then copied over to the in memory configuration.
+     * @param proxyConfig the proxy configuration
      * @param parameterName the parameter name
      * @param defaultValue the default value if not found
      */
     private void setInitParameter(
-            final String parameterName, final String defaultValue) {
+            final Map < String, String > proxyConfig,
+            final String parameterName,
+            final String defaultValue) {
         String value = getServletConfig().getInitParameter(parameterName);
         if (value == null || value.length() == 0) {
             value = defaultValue;
@@ -187,35 +192,49 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
                         + " Using value: " + value);
             }
         }
-        getProxyConfig().put(parameterName.replace("c2ws.", ""), value);
+        proxyConfig.put(parameterName.replace("c2ws.", ""), value);
     }
 
     /**
-     * @return the in memory set of configuration parameters
+     * @return the application scope set of configuration parameters
      */
+    @SuppressWarnings("unchecked")
     public Map < String, String > getProxyConfig() {
-        return mProxyConfig;
+        return (Map < String, String >) getServletContext().getAttribute(PROXY_CONFIG_KEY);
     }
-
+    
     /**
-     * @param proxyConfig the in memory set of configuration parameters to set
+     * @param proxyConfig the application scope set of configuration parameters to set
      */
     public void setProxyConfig(final Map < String, String > proxyConfig) {
-        mProxyConfig = proxyConfig;
+        getServletContext().setAttribute(PROXY_CONFIG_KEY, proxyConfig);
     }
 
     /**
+     * This makes an attempt at cashing the service proxy in the servlet session.
+     * just create a new proxy if cannot be retrieved from cache.
+     * @param request the current http request
      * @return the proxy service which will invoke the remote process
+     * @throws ServletException if a service proxy cannot be retrieved or created
      */
-    public ServiceProxy getServiceProxy() {
-        return mServiceProxy;
-    }
-
-    /**
-     * @param serviceProxy the proxy service which will invoke the remote process to set
-     */
-    public void setServiceProxy(final ServiceProxy serviceProxy) {
-        mServiceProxy = serviceProxy;
+    public ServiceProxy getServiceProxy(final HttpServletRequest request) throws ServletException {
+        ServiceProxy serviceProxy = null;
+        HttpSession session = request.getSession(true);
+        if (session != null) {
+            serviceProxy = (ServiceProxy) session.getAttribute(SERVICE_PROXY_KEY);
+            if (serviceProxy != null) {
+                return serviceProxy;
+            }
+        }
+        try {
+            serviceProxy = new ServiceProxy(getProxyConfig());
+            if (session != null) {
+                session.setAttribute(SERVICE_PROXY_KEY, serviceProxy);
+            }
+            return serviceProxy;
+        } catch (ProxyConfigurationException e) {
+            throw new ServletException(e);
+        }
     }
 
     /**
