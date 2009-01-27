@@ -120,9 +120,9 @@ Generating Mainframe Adapter and Proxy Services
   generates all the artifacts that are needed to create and deploy Mainframe Adapters and Proxies in
   a J2EE container such as Tomcat or Jetty.
   
-  Mainframe Adapters are JAX-WS endpoints while Mainframe Proxies are JAX-WS clients. Both use the
-  {{{legstar-coxbrt/}COBOL Binding Runtime}} to marshal/unmarshal the mainframe data
-  payloads.
+  Mainframe Adapters are JAX-WS endpoints while Mainframe Proxies are JAX-WS clients when they need to
+  invoke a Web Service. Both use the {{{legstar-coxbrt/}COBOL Binding Runtime}} to marshal/unmarshal
+  the mainframe data payloads.
   
 * Mainframe Adapter Runtime 
   
