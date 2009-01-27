@@ -12,6 +12,7 @@ package com.legstar.c2ws.servlet;
 
 import javax.servlet.ServletException;
 
+import com.legstar.proxy.invoke.ReflectOperationProxy;
 import com.legstar.proxy.invoke.jaxws.MSNSearchJaxwsCases;
 
 import junit.framework.TestCase;
@@ -31,8 +32,8 @@ public class C2wsProxyTest extends TestCase {
             servletConfig.addInitParameters(MSNSearchJaxwsCases.getReflectConfig());
             C2wsProxy c2wsProxy = new C2wsProxy();
             c2wsProxy.init(servletConfig);
-            assertEquals("com.legstar.proxy.invoke.ReflectOperationProxy",
-                    c2wsProxy.getServiceProxy().getOperationProxy().getClass().getName());
+            assertEquals("Search", c2wsProxy.getProxyConfig().get(
+                    ReflectOperationProxy.REQUEST_JAXB_TYPE_PROPERTY));
         } catch (ServletException e) {
             fail(e.getMessage());
         }

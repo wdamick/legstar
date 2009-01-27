@@ -66,7 +66,7 @@ public class ServiceProxy {
         } else {
             mConfig = config;
         }
-        mOperationProxy = getOperationProxy(config);
+        mOperationProxy = getOperationProxy(mConfig);
     }
 
     /**
