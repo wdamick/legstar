@@ -8,7 +8,7 @@
     <description>Open-Source Mainframe Integration</description>
     <url>http://www.legsem.com/legstar</url>
     <properties>
-        <legstarVersion>${project.version}</legstarVersion>
+        <legstarVersion>${version}</legstarVersion>
     </properties>
 
     <issueManagement>
