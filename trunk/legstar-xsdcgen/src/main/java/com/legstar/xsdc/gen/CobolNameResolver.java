@@ -13,6 +13,7 @@ package com.legstar.xsdc.gen;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
 
 /**
@@ -115,7 +116,7 @@ public class CobolNameResolver {
         }
 
         /* Check if this is a reserved word and get a substitution */
-        String subst = mRWS.getProperty(cobolName.toUpperCase());
+        String subst = mRWS.getProperty(cobolName.toUpperCase(Locale.getDefault()));
         if (subst != null) {
             if (subst.length() == 0) {
                 cobolName = RESERVED_PREFIX + cobolName;
@@ -191,15 +192,16 @@ public class CobolNameResolver {
      * @return a unique name with the context of this resolver
      */
     private String makeUnique(final String name) {
-        Integer sfx = 0;
+        int sfx = 0;
         String s = name;
         while (mUsedNames.contains(s)) {
-            if ((name + sfx.toString()).length() > MAX_COBOLNAME_LEN) {
+            String suffix = Integer.toString(sfx);
+            if ((name + suffix).length() > MAX_COBOLNAME_LEN) {
                 s = name.substring(
-                        0, MAX_COBOLNAME_LEN - sfx.toString().length())
-                        + sfx.toString();
+                        0, MAX_COBOLNAME_LEN - suffix.length())
+                        + suffix;
             } else {
-                s = name + sfx.toString();
+                s = name + suffix;
             }
             sfx++;
         }
