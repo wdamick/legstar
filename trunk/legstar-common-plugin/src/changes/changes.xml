@@ -4,6 +4,16 @@
   </properties>
   <body>
     <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
+      <action dev="fady" type="update">
+        Started a fundamental move toward storing context in the PreferenceStore using the new IPreferenceStore mechanism.
+        This allow context to be stored at the project level and fixes Issue 11.
+      </action>
+      <action dev="fady" type="update">
+        The plugins now support the POJO target for Proxies as alternatives to Web Service targets.
+      </action>
+      <action dev="fady" type="update">
+        Created a set of reusable classes at the cixscom level in order to share them with JBoss ESB and Mule.
+      </action>
     </release>
     <release version="1.2.2" date="2008-11-15" description="Support for ESB generation">
       <action dev="fady" type="update">
