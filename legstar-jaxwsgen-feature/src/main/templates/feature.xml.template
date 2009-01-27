@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="com.legstar.eclipse.feature.jaxwsgen"
-      label="LegStar Web Service Generator"
+      label="LegStar Mainframe Service Generator"
       version="@LEGSTAR-PLUGIN-VERSION@"
       provider-name="LegSem">
 
