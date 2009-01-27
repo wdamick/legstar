@@ -183,6 +183,7 @@
         <module>legstar-c2wsrt</module>
         <module>legstar-cobcgen</module>
         <module>legstar-cixsgen-model</module>
+        <module>legstar-cixsgen-model-cases</module>
         <module>legstar-cixsgen</module>
         <module>legstar-cixsgen-cases</module>
         <module>legstar-cixsgen-clients</module>
