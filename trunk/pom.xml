@@ -22,6 +22,23 @@
         <url>http://legstar.googlecode.com/svn/trunk/</url>
     </scm>
 
+    <mailingLists>
+        <mailingList>
+            <name>LegStar users mailing list</name>
+            <subscribe>http://groups.google.com/group/legstar-user/subscribe</subscribe>
+            <unsubscribe>http://groups.google.com/group/legstar-user/subscribe</unsubscribe>
+            <post>legstar-user@googlegroups.com</post>
+            <archive>http://groups.google.com/group/legstar-user/topics</archive>
+        </mailingList>
+        <mailingList>
+            <name>LegStar dev mailing list</name>
+            <subscribe>http://groups.google.com/group/legstar-dev/subscribe</subscribe>
+            <unsubscribe>http://groups.google.com/group/legstar-dev/subscribe</unsubscribe>
+            <post>legstar-dev@googlegroups.com</post>
+            <archive>http://groups.google.com/group/legstar-dev/topics</archive>
+        </mailingList>
+    </mailingLists>
+
     <developers>
         <developer>
             <id>fady</id>
@@ -257,10 +274,12 @@
                         <reports>
                             <report>index</report>
                             <report>summary</report>
-                            <report>dependencies</report>
                             <report>project-team</report>
+                            <report>scm</report>
+                            <report>issue-tracking</report>
+                            <report>mailing-list</report>
+                            <report>dependencies</report>
                             <report>license</report>
-                            <report>copyright</report>
                         </reports>
                     </reportSet>
                 </reportSets>
@@ -270,7 +289,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <aggregate>true</aggregate>
-                    <excludePackageNames>com.legstar.test.*:com.legstar.xsdc.test.*</excludePackageNames>
+                    <excludePackageNames>com.legstar.test.*:com.legstar.xsdc.test.*:com.legstar.coxb.cust.*</excludePackageNames>
                 </configuration>
                 <reportSets>
                     <reportSet>
@@ -356,6 +375,7 @@
                         <link>http://java.sun.com/j2se/1.4.2/docs/api</link>
                         <link>http://java.sun.com/j2se/1.5.0/docs/api</link>
                     </links>
+                    <excludePackageNames>com.legstar.coxb.cust.*</excludePackageNames>
                 </configuration>
                 <reportSets>
                     <reportSet>
