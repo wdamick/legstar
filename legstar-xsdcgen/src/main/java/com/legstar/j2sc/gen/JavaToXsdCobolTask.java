@@ -274,11 +274,11 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
         }
 
     }
-
+    
     /**
      * Implementation of JAXB output resolver.
      */
-    public class MySchemaOutputResolver extends SchemaOutputResolver {
+    public static class MySchemaOutputResolver extends SchemaOutputResolver {
         /** The schema file. */
         private File mSchemaFile;
 
@@ -400,7 +400,7 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
     /**
      * Represent a simple inner element for the ant task.
      */
-    public class RootClass {
+    public static class RootClass {
 
         /** Name of the inner class. */
         private String mName;
