@@ -12,6 +12,7 @@ package com.legstar.host.servlet;
 
 
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
@@ -38,12 +39,12 @@ public class InitiatorServlet extends HttpServlet {
     /** Config file name init param key. */
     public static final String CONFIG_PARAM = "engine.config";
 
-    /** Actual server instance.*/
-    private EngineHandler mServerHandler;
+    /** Identifier for the adapter instance in the servlet context. */ 
+    public static final String ENGINE_HANDLER_ID =
+        "com.legstar.c2ws.servlet.engineHandler";
 
     /** Logger. */
-    private static final Log LOG =
-        LogFactory.getLog(InitiatorServlet.class);
+    private static final Log LOG = LogFactory.getLog(InitiatorServlet.class);
 
     /**
      * Servlet constructor.
@@ -72,9 +73,12 @@ public class InitiatorServlet extends HttpServlet {
                 + " configuration file.");
 
         try {
-            mServerHandler = new EngineHandler(
+            EngineHandler serverHandler = new EngineHandler(
                     loadConfigFile(configFileName));
-            mServerHandler.init();
+            serverHandler.init();
+            ServletContext servletContext = config.getServletContext();
+            servletContext.setAttribute(ENGINE_HANDLER_ID, serverHandler);
+            
         } catch (ConfigurationException e) {
             LOG.error("Failed to initialize.", e);
             throw new ServletException(e);
@@ -83,16 +87,6 @@ public class InitiatorServlet extends HttpServlet {
             throw new ServletException(e);
         }
     }
-
-    /**
-     * Destruction of the servlet.
-     */
-    public final void destroy() {
-        getEngineHandler().stop();
-        setEngineHandler(null);
-        LOG.info("Servlet destroyed");
-    }
-
 
     /**
      * Use the Apache configuration API to retrieve the configuration file.
@@ -113,20 +107,6 @@ public class InitiatorServlet extends HttpServlet {
         config.setExpressionEngine(new XPathExpressionEngine());
         LOG.debug("Load success for " + configFileName);
         return config; 
-    }
-
-    /**
-     * @return the engine handler
-     */
-    public final EngineHandler getEngineHandler() {
-        return mServerHandler;
-    }
-
-    /**
-     * @param engineHandler the engine handler to set
-     */
-    public final void setEngineHandler(final EngineHandler engineHandler) {
-        mServerHandler = engineHandler;
     }
 
 }
