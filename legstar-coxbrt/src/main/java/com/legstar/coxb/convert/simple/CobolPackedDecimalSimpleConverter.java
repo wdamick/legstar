@@ -216,7 +216,7 @@ implements ICobolPackedDecimalConverter {
         int iTarget = offset;   /* points to current byte in host data */
         boolean flip = false;   /* indicates when it is time to add a byte
          * to host data */
-        int bByte = 0;          /* represents de byte value to be appended
+        int bByte = 0;          /* represents the byte value to be appended
          * to host data */
 
         /* If the number of digits is even, we need to add a leading 0 value

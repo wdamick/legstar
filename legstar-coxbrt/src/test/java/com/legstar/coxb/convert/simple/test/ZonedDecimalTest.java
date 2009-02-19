@@ -110,7 +110,16 @@ public class ZonedDecimalTest extends TestCase {
 		assertEquals("f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0", HostData.toHexString(hostBytes));
 	}
 
-	public void testToHostMZero () throws HostException{
+    public void testToHostNull () throws HostException{
+        // Create a host buffer
+        byte[] hostBytes = new byte[17];
+    
+        BigDecimal javaDecimal = null;
+        assertEquals(17, CobolZonedDecimalSimpleConverter.toHostSingle(javaDecimal, 17, 17, 0, false, false, false, hostBytes, 0, "IBM01147"));
+        assertEquals("f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0", HostData.toHexString(hostBytes));
+    }
+
+    public void testToHostMZero () throws HostException{
 		// Create a host buffer
 		byte[] hostBytes = new byte[9];
    	
@@ -300,7 +309,7 @@ public class ZonedDecimalTest extends TestCase {
 		byte[] hostBytes = HostData.toByteArray("f1f2f3f4f5f6f7f8f9f0");
    	
 		BigDecimal javaDecimal = CobolZonedDecimalSimpleConverter.fromHostSingle(10, 10, 3, false, false, true, hostBytes, 0, "IBM01147");
-		assertEquals("1234567.89", javaDecimal.toString());
+		assertEquals("1234567.890", javaDecimal.toString());
 	}
 
 	public void testFromHostPadding () throws HostException{
@@ -324,7 +333,7 @@ public class ZonedDecimalTest extends TestCase {
 		byte[] hostBytes = HostData.toByteArray("60f4f5f9f8f7f5f4f0");
    	
 		BigDecimal javaDecimal = CobolZonedDecimalSimpleConverter.fromHostSingle(9, 8, 6, true, true, true, hostBytes, 0, "IBM01147");
-		assertEquals("-45.98754", javaDecimal.toString());
+		assertEquals("-45.987540", javaDecimal.toString());
 	}
 
 	public void testFromSignLead () throws HostException{
@@ -332,7 +341,7 @@ public class ZonedDecimalTest extends TestCase {
 		byte[] hostBytes = HostData.toByteArray("d4f5f9f8f7f5f4f0");
    	
 		BigDecimal javaDecimal = CobolZonedDecimalSimpleConverter.fromHostSingle(8, 8, 6, true, false, true, hostBytes, 0, "IBM01147");
-		assertEquals("-45.98754", javaDecimal.toString());
+		assertEquals("-45.987540", javaDecimal.toString());
 	}
 
 	public void testFromSignSepTrail () throws HostException{
@@ -340,7 +349,7 @@ public class ZonedDecimalTest extends TestCase {
 		byte[] hostBytes = HostData.toByteArray("f4f5f9f8f7f5f4f060");
    	
 		BigDecimal javaDecimal = CobolZonedDecimalSimpleConverter.fromHostSingle(9, 8, 6, true, true, false, hostBytes, 0, "IBM01147");
-		assertEquals("-45.98754", javaDecimal.toString());
+		assertEquals("-45.987540", javaDecimal.toString());
 	}
 
 	public void testFromSignTrail () throws HostException{
@@ -348,7 +357,7 @@ public class ZonedDecimalTest extends TestCase {
 		byte[] hostBytes = HostData.toByteArray("f4f5f9f8f7f5f4d0");
    	
 		BigDecimal javaDecimal = CobolZonedDecimalSimpleConverter.fromHostSingle(8, 8, 6, true, false, false, hostBytes, 0, "IBM01147");
-		assertEquals("-45.98754", javaDecimal.toString());
+		assertEquals("-45.987540", javaDecimal.toString());
 	}
 	public void testFromHostInvalid () throws HostException{
     	try {
