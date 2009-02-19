@@ -67,7 +67,7 @@ public final class FixarnumCases extends TestCase {
 
         assertEquals("534.236", dfhcommarea.getCArrayZd().get(0).toString());
         assertEquals("45.007", dfhcommarea.getCArrayZd().get(1).toString());
-        assertEquals("1.95", dfhcommarea.getCArrayZd().get(2).toString());
+        assertEquals("1.950", dfhcommarea.getCArrayZd().get(2).toString());
 
         assertEquals("9998", dfhcommarea.getCArrayZi().get(0).toString());
         assertEquals("0", dfhcommarea.getCArrayZi().get(1).toString());

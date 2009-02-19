@@ -12,7 +12,7 @@ package com.legstar.coxb.convert.simple;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -288,6 +288,9 @@ implements ICobolZonedDecimalConverter {
      * <p/>
      * If the numeric is signed but sign is not separate (ie is imbedded),
      * removes all signs from the resulting string.
+     * <p/>
+     * If the java decimal has more precision than the target COBOL field,
+     * additional digits are lost (no rounding is done).
      * @param javaDecimal java decimal to convert
      * @param totalDigits Cobol element total number of digits
      * @param fractionDigits Cobol element number of fractional digits
@@ -304,37 +307,46 @@ implements ICobolZonedDecimalConverter {
             final boolean isSignSeparate,
             final boolean isSignLeading) {
 
-        /* If the Java decimal has a different scale than target cobol 
-         * field, adjust scale */
-        BigDecimal workDecimal = javaDecimal.setScale(
-                fractionDigits, BigDecimal.ROUND_DOWN);
+        /* Get the unscaled value of the bigdecimal to convert. The decimal point
+         * is virtual in zoned decimals. */
+        BigInteger workInteger;
+        if (javaDecimal == null) {
+            workInteger = BigInteger.ZERO;
+        } else {
+            workInteger = javaDecimal.movePointRight(fractionDigits).toBigInteger();
+        }
+        
+        String absString = workInteger.abs().toString();
 
-        /* Virtualize the decimal separator */
-        if (fractionDigits > 0) {
-            workDecimal = workDecimal.multiply(
-                    new BigDecimal(java.lang.Math.pow(10, fractionDigits)));
+        /* Pad with leading zeros */
+        if (absString.length() < totalDigits) {
+            absString = DIGIT_PATTERN.substring(0, totalDigits - absString.length())
+            + absString;
         }
 
-        /* Build a formatter and make sure no signs will show up if
-         * the sign is to be imbedded. */
-        String pattern = DIGIT_PATTERN.substring(0, totalDigits);
+        /* Add sign character when explicitly separate */
         if (isSigned) {
             if (isSignSeparate) {
                 if (isSignLeading) {
-                    pattern = '+' + pattern + ";-" + pattern;
+                    if (workInteger.signum() == -1) {
+                        return '-' + absString;
+                    } else {
+                        return '+' + absString;
+                    }
                 } else {
-                    pattern = pattern + '+' + ";" + pattern + '-';
+                    if (workInteger.signum() == -1) {
+                        return absString + '-';
+                    } else {
+                        return absString + '+';
+                    }
                 }
             } else {
-                if (workDecimal.signum() == -1) {
-                    workDecimal = workDecimal.abs();
-                }
+                /* Leave it up to the caller to imbed the sign */
+                return absString;
             }
+        } else {
+            return absString;
         }
-        DecimalFormat formatter = new DecimalFormat(pattern);
-
-        /* Format the string representation of this numeric */
-        return formatter.format(workDecimal);
 
     }
 
@@ -469,8 +481,11 @@ implements ICobolZonedDecimalConverter {
                     + " decimal byte",
                     new HostData(hostSource), offset, cobolByteLength));
         }
-        return result.divide(
-                new BigDecimal(java.lang.Math.pow(10, fractionDigits)));
+        if (fractionDigits == 0) {
+            return result;
+        } else {
+            return result.movePointLeft(fractionDigits);
+        }
     }
 
 }

@@ -60,6 +60,16 @@ public class PackedDecimalTest extends TestCase {
 		assertEquals(9, CobolPackedDecimalSimpleConverter.toHostSingle(javaDecimal, 9, 17, 2, true, hostBytes, 0));
 		assertEquals("00000000000000000c", HostData.toHexString(hostBytes));
 	}
+
+	public void testToHostNull () throws HostException{
+        // Create a host buffer
+        byte[] hostBytes = new byte[9];
+    
+        BigDecimal javaDecimal = null;
+        assertEquals(9, CobolPackedDecimalSimpleConverter.toHostSingle(javaDecimal, 9, 17, 2, true, hostBytes, 0));
+        assertEquals("00000000000000000c", HostData.toHexString(hostBytes));
+    }
+
 	public void testFromHostZero () throws HostException{
 		// Create a host buffer with host input
 		byte[] hostBytes = HostData.toByteArray("00000000000000000c");
