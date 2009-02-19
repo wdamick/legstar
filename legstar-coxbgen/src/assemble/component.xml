@@ -51,14 +51,6 @@
             </includes>
         </fileSet>
         
-        <!-- sample java classes for pojo  -->
-        <fileSet>
-            <directory>${project.basedir}/../legstar-xsdcgen-cases/src/main/java</directory>
-            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery/src</outputDirectory>
-            <includes>
-                <include>**/jvmquery/*.*</include>
-            </includes>
-        </fileSet>
     </fileSets>
   
 </component>

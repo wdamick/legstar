@@ -55,7 +55,7 @@ public class ProxyClientHttp {
             }
             PostMethod postMethod = new PostMethod(mURLString);
             ByteArrayRequestEntity requestEntity = new ByteArrayRequestEntity(
-                    toByteArray(mainframeRequestData), "binary/octet-stream");
+                    toByteArray(mainframeRequestData), "application/octet-stream");
             postMethod.setRequestEntity(requestEntity);
             if (200 != mHttpClient.executeMethod(postMethod)) {
                throw new ProxyClientException(postMethod.getStatusText()); 

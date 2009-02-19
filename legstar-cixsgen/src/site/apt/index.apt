@@ -30,7 +30,7 @@ Mainframe Service Generator (Cixsgen) overview
  Cixsgen produces various Java and XML artifacts that you can deploy in J2EE containers such as
  Tomcat or Jetty. In the case of Proxies, it also generate a sample COBOL program.
  
- At runtime, generated artifacts for Adapters will use {{{../legstar-invoker}Mainframe Adapter Runtime}}) and
+ At runtime, generated artifacts for Adapters will use {{{../legstar-invoker}Mainframe Adapter Runtime}} and
  generated artifacts for Proxies will use {{{../legstar-c2wsrt}Mainframe Proxy Runtime}}.
  
  For instructions on how to install and use this generator follow {{{release-notes.html}this link}}.

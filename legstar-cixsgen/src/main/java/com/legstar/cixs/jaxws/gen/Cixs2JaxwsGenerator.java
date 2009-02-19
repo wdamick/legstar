@@ -16,6 +16,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import com.legstar.cixs.gen.ant.AbstractCixsGenerator;
+import com.legstar.cixs.gen.model.AbstractCixsService;
 import com.legstar.cixs.gen.model.CixsOperation;
 import com.legstar.cixs.jaxws.model.AntBuildCixs2JaxwsModel;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
@@ -227,7 +228,7 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
      * @throws CodeGenMakeException if generation fails
      */
     public static void generateCobolCicsClient(
-            final CixsJaxwsService service,
+            final AbstractCixsService service,
             final CixsOperation operation,
             final Map < String, Object > parameters,
             final File cobolFilesDir,
