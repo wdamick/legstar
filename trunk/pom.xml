@@ -8,7 +8,7 @@
     <description>Open-Source Mainframe Integration</description>
     <url>http://www.legsem.com/legstar</url>
     <properties>
-        <legstarVersion>1.2.3</legstarVersion>
+        <legstarVersion>1.2.4-SNAPSHOT</legstarVersion>
     </properties>
 
     <issueManagement>
@@ -427,7 +427,7 @@
             <dependency>
                 <groupId>org.apache.ws.commons.schema</groupId>
                 <artifactId>XmlSchema</artifactId>
-                <version>1.4.3</version>
+                <version>1.4</version>
             </dependency>
 
             <!-- IBM's WSDL4J to be replaced with Woden when it supports WSDL 1.1 -->    

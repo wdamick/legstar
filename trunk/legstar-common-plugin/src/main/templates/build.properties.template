@@ -33,7 +33,7 @@ bin.includes = plugin.xml,\
                lib/legstar-coxbrt-@LEGSTAR-VERSION@.jar,\
                lib/legstar-schemagen-@LEGSTAR-VERSION@.jar,\
                lib/legstar-xsdcgen-@LEGSTAR-VERSION@.jar,\
-               lib/XmlSchema-1.4.3.jar,\
+               lib/XmlSchema-1.4.jar,\
                lib/legstar-coxbgen-@LEGSTAR-VERSION@.jar,\
                lib/legstar-jaxbgen-@LEGSTAR-VERSION@.jar,\
                lib/legstar-cixsgen-model-@LEGSTAR-VERSION@.jar,\
@@ -73,7 +73,6 @@ bin.includes = plugin.xml,\
                lib/legstar-csokrt-@LEGSTAR-VERSION@.jar,\
                lib/legstar-engine-@LEGSTAR-VERSION@.jar,\
                lib/legstar-messaging-impl-@LEGSTAR-VERSION@.jar,\
-               lib/logkit-2.0.jar,\
                lib/mimepull-1.1.jar,\
                lib/oro-2.0.8.jar,\
                lib/resolver-20050927.jar,\

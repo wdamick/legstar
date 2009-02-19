@@ -37,6 +37,7 @@
         
         <!-- Clean the lib folder -->
         <echo message="Cleaning lib folder ${basedir}/lib"/>
+        <mkdir dir="${basedir}/lib"/> 
         <delete>
             <fileset dir="${basedir}/lib" includes="*.jar"/>
         </delete>

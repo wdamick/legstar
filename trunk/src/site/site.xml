@@ -27,16 +27,16 @@
     <links>
       <item name="LegStar" href="http://www.legsem.com/legstar" />
       <item name="Mail" href="mailto:admin@legsem.com" />
-      <item name="Forum" href="phpBB3" />
+      <item name="Mailing list" href="http://groups.google.com/group/legstar-user" />
       <item name="JAXB RI" href="https://jaxb.dev.java.net/" />
       <item name="JAXWS RI" href="https://jax-ws.dev.java.net/"/>
     </links>
 
     <menu name="LegStar">
       <item name="Introduction" href="index.html"/>
-      <item name="Presentation (pdf)" href="pdf/legstar-presentation.pdf"/>
       <item name="Download" href="legstar-distribution/index.html"/>
-      <item name="Forum" href="phpBB3"/>
+      <item name="Presentation (pdf)" href="pdf/legstar-presentation.pdf"/>
+      <item name="Mailing list" href="http://groups.google.com/group/legstar-user"/>
       <item name="JavaDocs" href="apidocs/index.html"/>
       <item name="Copyright" href="copyright.html" />
     </menu>
