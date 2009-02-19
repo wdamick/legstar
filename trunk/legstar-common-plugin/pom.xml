@@ -65,6 +65,7 @@
             <groupId>org.eclipse.ui</groupId>
             <artifactId>org.eclipse.ui.ide</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.eclipse.ui</groupId>
             <artifactId>org.eclipse.ui.workbench</artifactId>
