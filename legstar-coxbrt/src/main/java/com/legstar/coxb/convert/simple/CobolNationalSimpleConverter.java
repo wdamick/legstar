@@ -36,7 +36,7 @@ implements ICobolNationalConverter {
     private static final byte[] SPACE_UTF_16 = {0x00, 0x20}; 
 
     /** Encoding used for national items. */
-    private static final String NATIONAL_CHARSET = "UTF-16";
+    private static final String NATIONAL_CHARSET = "UTF-16BE";
 
     /**
      * @param cobolContext the Cobol compiler parameters in effect
@@ -187,13 +187,7 @@ implements ICobolNationalConverter {
         }
 
         int iSource = 0;
-        /* z/OS UTF-16 is not expecting a BOM so we ignore it */
         int hsl = hostSource.length;
-        if (hsl > 1 && hostSource[0] == -2 && hostSource[1] == -1) {
-            iSource += 2;
-            hsl -= 2;
-        }
-
         /* The target host element might be larger than the converted java
          * String and might have to be right or left justified. The padding
          * code point is 0x0020 (space character). */

@@ -21,87 +21,87 @@ import junit.framework.TestCase;
  * invokable from ant. */
 public class ByteLengthTest extends TestCase {
 
-	public StringBuffer outContent;
+    public StringBuffer outContent;
 
 
-	public void testLsfileae() throws HostException {
-		assertEquals("79",JaxbUtil.byteLength("com.legstar.test.coxb.lsfileae","Dfhcommarea"));
-	}
-	
-	public void testFixarsim() throws HostException {
+    public void testLsfileae() throws HostException {
+        assertEquals("79",JaxbUtil.byteLength("com.legstar.test.coxb.lsfileae","Dfhcommarea"));
+    }
 
-		assertEquals("15", JaxbUtil.byteLength("com.legstar.test.coxb.fixarsim","Dfhcommarea"));
-	}
+    public void testFixarsim() throws HostException {
 
-	public void testFixarnum() throws HostException {
+        assertEquals("15", JaxbUtil.byteLength("com.legstar.test.coxb.fixarsim","Dfhcommarea"));
+    }
 
-		assertEquals("78", JaxbUtil.byteLength("com.legstar.test.coxb.fixarnum","Dfhcommarea"));
-	}
+    public void testFixarnum() throws HostException {
 
-	public void testFixarcom() throws HostException {
+        assertEquals("78", JaxbUtil.byteLength("com.legstar.test.coxb.fixarnum","Dfhcommarea"));
+    }
 
-		assertEquals("49", JaxbUtil.byteLength("com.legstar.test.coxb.fixarcom","Dfhcommarea"));
-	}
+    public void testFixarcom() throws HostException {
 
-	public void testVararcom() throws HostException {
+        assertEquals("49", JaxbUtil.byteLength("com.legstar.test.coxb.fixarcom","Dfhcommarea"));
+    }
 
-		assertEquals("1752", JaxbUtil.byteLength("com.legstar.test.coxb.vararcom","Dfhcommarea"));
-	}
+    public void testVararcom() throws HostException {
 
-	public void testBinnatsi() throws HostException {
+        assertEquals("1752", JaxbUtil.byteLength("com.legstar.test.coxb.vararcom","Dfhcommarea"));
+    }
 
-		assertEquals("56", JaxbUtil.byteLength("com.legstar.test.coxb.binnatsi","Dfhcommarea"));
-	}
+    public void testBinnatsi() throws HostException {
 
-	public void testBinnatus() throws HostException {
+        assertEquals("56", JaxbUtil.byteLength("com.legstar.test.coxb.binnatsi","Dfhcommarea"));
+    }
 
-		assertEquals("56", JaxbUtil.byteLength("com.legstar.test.coxb.binnatus","Dfhcommarea"));
-	}
+    public void testBinnatus() throws HostException {
 
-	public void testBinnpkdus() throws HostException {
+        assertEquals("56", JaxbUtil.byteLength("com.legstar.test.coxb.binnatus","Dfhcommarea"));
+    }
 
-		assertEquals("44", JaxbUtil.byteLength("com.legstar.test.coxb.binpkdus","Dfhcommarea"));
-	}
+    public void testBinnpkdus() throws HostException {
 
-	public void testDplarcht() throws HostException {
+        assertEquals("44", JaxbUtil.byteLength("com.legstar.test.coxb.binpkdus","Dfhcommarea"));
+    }
 
-		assertEquals("32025", JaxbUtil.byteLength("com.legstar.test.coxb.dplarcht","Dfhcommarea"));
-	}
-	
+    public void testDplarcht() throws HostException {
 
-	public void testLsfilead() throws HostException {
+        assertEquals("32025", JaxbUtil.byteLength("com.legstar.test.coxb.dplarcht","Dfhcommarea"));
+    }
 
-		assertEquals("79", JaxbUtil.byteLength("com.legstar.test.coxb.lsfilead","Dfhcommarea"));
-	}
-	
-	public void testRedbotha() throws HostException {
 
-		assertEquals("2", JaxbUtil.byteLength("com.legstar.test.coxb.redbotha","Dfhcommarea"));
-	}
-	
-	public void testRedinout() throws HostException {
+    public void testLsfilead() throws HostException {
 
-		assertEquals("502", JaxbUtil.byteLength("com.legstar.test.coxb.redinout","Dfhcommarea"));
-	}
-	
-	public void testRedmulti() throws HostException {
+        assertEquals("79", JaxbUtil.byteLength("com.legstar.test.coxb.lsfilead","Dfhcommarea"));
+    }
 
-		assertEquals("206", JaxbUtil.byteLength("com.legstar.test.coxb.redmulti","Dfhcommarea"));
-	}
-	
-	public void testRedopera() throws HostException {
+    public void testRedbotha() throws HostException {
 
-		assertEquals("218", JaxbUtil.byteLength("com.legstar.test.coxb.redopera","Dfhcommarea"));
-	}
-	
-	public void testRedsimpt() throws HostException {
+        assertEquals("2", JaxbUtil.byteLength("com.legstar.test.coxb.redbotha","Dfhcommarea"));
+    }
 
-		assertEquals("18", JaxbUtil.byteLength("com.legstar.test.coxb.redsimpt","Dfhcommarea"));
-	}
-	
-	public void testsmix() throws HostException {
+    public void testRedinout() throws HostException {
 
-		assertEquals("176", JaxbUtil.byteLength("com.legstar.test.coxb.typesmix","Dfhcommarea"));
-	}
+        assertEquals("502", JaxbUtil.byteLength("com.legstar.test.coxb.redinout","Dfhcommarea"));
+    }
+
+    public void testRedmulti() throws HostException {
+
+        assertEquals("206", JaxbUtil.byteLength("com.legstar.test.coxb.redmulti","Dfhcommarea"));
+    }
+
+    public void testRedopera() throws HostException {
+
+        assertEquals("218", JaxbUtil.byteLength("com.legstar.test.coxb.redopera","Dfhcommarea"));
+    }
+
+    public void testRedsimpt() throws HostException {
+
+        assertEquals("18", JaxbUtil.byteLength("com.legstar.test.coxb.redsimpt","Dfhcommarea"));
+    }
+
+    public void testsmix() throws HostException {
+
+        assertEquals("176", JaxbUtil.byteLength("com.legstar.test.coxb.typesmix","Dfhcommarea"));
+    }
 }
 
