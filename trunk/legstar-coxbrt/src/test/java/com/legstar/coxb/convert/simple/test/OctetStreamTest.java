@@ -16,27 +16,31 @@ import com.legstar.coxb.host.HostException;
 
 import junit.framework.TestCase;
 
+/**
+ * Test the COBOL PIC X TYPE without conversion.
+ *
+ */
 public class OctetStreamTest extends TestCase {
-	
-	public void testToHostSimple () throws HostException{
-		// Create a host buffer
-		byte[] hostBytes = new byte[4];
-   	
-    	byte[] javaBytes = {0x0c, 0x15, -0x17, 0x00};
-		assertEquals(4, CobolOctetStreamSimpleConverter.toHostSingle(javaBytes,4, hostBytes, 0));
-		assertEquals("0c15e900", HostData.toHexString(hostBytes));
-	}
 
-	public void testFromHostSimple () throws HostException{
-		// Create a host buffer
-		byte[] hostSource = {-0x3F, -0x3E, -0x3D, -0x3C};
-   	
-    	byte[] javaBytes = CobolOctetStreamSimpleConverter.fromHostSingle(4, hostSource, 0);
-		assertEquals(hostSource[0], javaBytes[0]);
-		assertEquals(hostSource[1], javaBytes[1]);
-		assertEquals(hostSource[2], javaBytes[2]);
-		assertEquals(hostSource[3], javaBytes[3]);
-	}
+    public void testToHostSimple () throws HostException{
+        // Create a host buffer
+        byte[] hostBytes = new byte[4];
+
+        byte[] javaBytes = {0x0c, 0x15, -0x17, 0x00};
+        assertEquals(4, CobolOctetStreamSimpleConverter.toHostSingle(javaBytes,4, hostBytes, 0));
+        assertEquals("0c15e900", HostData.toHexString(hostBytes));
+    }
+
+    public void testFromHostSimple () throws HostException{
+        // Create a host buffer
+        byte[] hostSource = {-0x3F, -0x3E, -0x3D, -0x3C};
+
+        byte[] javaBytes = CobolOctetStreamSimpleConverter.fromHostSingle(4, hostSource, 0);
+        assertEquals(hostSource[0], javaBytes[0]);
+        assertEquals(hostSource[1], javaBytes[1]);
+        assertEquals(hostSource[2], javaBytes[2]);
+        assertEquals(hostSource[3], javaBytes[3]);
+    }
 
     /**
      * Case where the host truncated that data so there are not enough bytes. Code
@@ -46,7 +50,7 @@ public class OctetStreamTest extends TestCase {
     public void testFromHostPartialData () throws HostException{
         // Create a host buffer
         byte[] hostSource = {-0x3F, -0x3E, -0x3D, -0x3C};
-    
+
         byte[] javaBytes = CobolOctetStreamSimpleConverter.fromHostSingle(8, hostSource, 0);
         assertEquals(8, javaBytes.length);
         assertEquals(hostSource[0], javaBytes[0]);
@@ -66,7 +70,7 @@ public class OctetStreamTest extends TestCase {
     public void testFromHostPartialDataPastOffset () throws HostException{
         // Create a host buffer
         byte[] hostSource = {-0x3F, -0x3E, -0x3D, -0x3C};
-    
+
         byte[] javaBytes = CobolOctetStreamSimpleConverter.fromHostSingle(4, hostSource, 4);
         assertEquals(4, javaBytes.length);
         assertEquals(0x00, javaBytes[0]);

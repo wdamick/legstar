@@ -1,14 +1,10 @@
-package com.legstar.coxb.convert.simple.perf.test;
+package com.legstar.coxb.convert.simple;
 
 import java.math.BigDecimal;
 
 import junit.framework.TestCase;
 
 import com.legstar.coxb.convert.CobolConversionException;
-import com.legstar.coxb.convert.simple.CobolBinarySimpleConverter;
-import com.legstar.coxb.convert.simple.CobolPackedDecimalSimpleConverter;
-import com.legstar.coxb.convert.simple.CobolStringSimpleConverter;
-import com.legstar.coxb.convert.simple.CobolZonedDecimalSimpleConverter;
 import com.legstar.coxb.host.HostData;
 
 /**
@@ -140,7 +136,8 @@ public class MeteringTest extends TestCase {
         try {
             byte[] hostBytes = new byte[ZONED_DECIMAL_HOST_BYTES.length];
             CobolZonedDecimalSimpleConverter.toHostSingle(
-                    DECIMAL_JAVA, ZONED_DECIMAL_HOST_BYTES.length, 17, 2, true, false, false, hostBytes, 0, STRING_FRENCH_CHARSET);
+                    DECIMAL_JAVA, ZONED_DECIMAL_HOST_BYTES.length,
+                    17, 2, true, false, false, hostBytes, 0, STRING_FRENCH_CHARSET);
             assertEquals(ZONED_DECIMAL_HOST_BYTES[0], hostBytes[0]);
             assertEquals(ZONED_DECIMAL_HOST_BYTES[ZONED_DECIMAL_HOST_BYTES.length - 1],
                     hostBytes[ZONED_DECIMAL_HOST_BYTES.length - 1]);

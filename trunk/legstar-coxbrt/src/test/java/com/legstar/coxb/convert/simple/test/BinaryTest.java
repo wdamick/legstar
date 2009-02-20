@@ -10,6 +10,7 @@
  ******************************************************************************/
 package com.legstar.coxb.convert.simple.test;
 
+import com.legstar.coxb.convert.CobolConversionException;
 import com.legstar.coxb.convert.simple.CobolBinarySimpleConverter;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
@@ -17,625 +18,583 @@ import com.legstar.coxb.host.HostException;
 import java.math.BigDecimal;
 import junit.framework.TestCase;
 
+/**
+ * Test the COBOL BINARY TYPE.
+ *
+ */
 public class BinaryTest extends TestCase {
 
-	public void testToHost1234p00 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[4];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("1234.00");
-		assertEquals(4, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 4, false, hostBytes, 0));
-		assertEquals("0001e208", HostData.toHexString(hostBytes));
-	}
+    /**
+     * Generic conversion from java BigDecimal to COBOL.
+     * @param byteLength the COBOL receiving field size 
+     * @param signed true if signed
+     * @param inputValue the input value as a string
+     * @param expectedValue the expected value as a hex string
+     */
+    public static void toHost(
+            final int byteLength,
+            final boolean signed,
+            final String inputValue,
+            final String expectedValue) {
+        try {
+            byte[] hostBytes = new byte[byteLength];
+            BigDecimal javaDecimal = new BigDecimal(inputValue);
+            assertEquals(byteLength, CobolBinarySimpleConverter.toHostSingle(
+                    javaDecimal, byteLength, signed, hostBytes, 0));
+            assertEquals(expectedValue, HostData.toHexString(hostBytes));
+        } catch (CobolConversionException e) {
+            fail(e.getMessage());
+        }
+    }
 
-	public void testFromHost1234p00 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("0001e208");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(4, false, 8, 2, hostBytes, 0);
-		assertEquals("1234.00", javaDecimal.toString());
-	}
+    /**
+     * Generic conversion from COBOL to java BigDecimal.
+     * @param byteLength the COBOL receiving field size 
+     * @param signed true if signed
+     * @param totalDigits total number of digits
+     * @param fractionDigits number of fraction digits
+     * @param inputValue the input value as a hex string
+     * @param expectedValue the expected value as a string
+     */
+    public static void fromHost(
+            final int byteLength,
+            final boolean signed,
+            final int totalDigits,
+            final int fractionDigits,
+            final String inputValue,
+            final String expectedValue) {
+        try {
+            byte[] hostBytes = HostData.toByteArray(inputValue);
+            BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(
+                    byteLength, signed, totalDigits, fractionDigits, hostBytes, 0);
+            assertEquals(expectedValue, javaDecimal.toString());
+        } catch (CobolConversionException e) {
+            fail(e.getMessage());
+        }
+    }
 
-	public void testToHostM1234p00 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[4];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("-1234.00");
-		assertEquals(4, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 4, true, hostBytes, 0));
-		assertEquals("fffe1df8", HostData.toHexString(hostBytes));
-	}
+    /**
+     * 9(6)V99 COMP.
+     */
+    public void testToHost1234p00() {
+        toHost(4, false, "1234.00", "0001e208");
+    }
 
-	public void testFromHostM1234p00 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("fffe1df8");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(4, true, 8, 2, hostBytes, 0);
-		assertEquals("-1234.00", javaDecimal.toString());
-	}
+    /**
+     * 9(6)V99 COMP.
+     */
+    public void testFromHost1234p00() {
+        fromHost(4, false, 8, 2, "0001e208", "1234.00");
+    }
 
-	public void testToHostWriteOverflow () throws HostException {
-    	try {
-			// Create a host buffer that is clearly too small
-			byte[] hostBytes = new byte[2];
-	   	
-	    	BigDecimal javaDecimal = new BigDecimal("123456789012");
-	    	CobolBinarySimpleConverter.toHostSingle(javaDecimal, 4, false, hostBytes, 0);
-    		fail("overflow not detected");
-    	}	catch (HostException he) {
-    		assertEquals("Attempt to write past end of host source buffer. Host data at offset 0=0x0000",he.getMessage());
-    	}
-	}
-	
-	/**
-	 * Case where there is not enough data left in the host buffer. The code should consider
-	 * that trailing nulls were omitted by the host.
-	 * @throws HostException if test fails
-	 */
-	public void testToHostPartialData () throws HostException{
-		// Create a host buffer with 4 bytes when 8 are necessary
-		byte[] hostBytes = HostData.toByteArray("fffe1df8");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(8, true, 8, 2, hostBytes, 0);
-		assertEquals("-5299989643264.00",  javaDecimal.toString());
-	}
+    /**
+     * S9(6)V99 COMP.
+     */
+    public void testToHostM1234p00() {
+        toHost(4, true, "-1234.00", "fffe1df8");
+    }
+
+    /**
+     * S9(6)V99 COMP.
+     */
+    public void testFromHostM1234p00() {
+        fromHost(4, true, 8, 2, "fffe1df8", "-1234.00");
+    }
+
+    /**
+     * Case where the receiving buffer is too small.
+     */
+    public void testToHostWriteOverflow() {
+        try {
+            byte[] hostBytes = new byte[2];
+            BigDecimal javaDecimal = new BigDecimal("123456789012");
+            CobolBinarySimpleConverter.toHostSingle(javaDecimal, 4, false, hostBytes, 0);
+            fail("overflow not detected");
+        } catch (HostException he) {
+            assertEquals("Attempt to write past end of host source buffer. Host data at offset 0=0x0000",
+                    he.getMessage());
+        }
+    }
+
+    /**
+     * Case where there is not enough data left in the host buffer. The code should consider
+     * that trailing nulls were omitted by the host.
+     */
+    public void testToHostPartialData() {
+        fromHost(8, true, 8, 2, "fffe1df8", "-5299989643264.00");
+    }
 
     /**
      * Same as above but this time we are already past the offset.
-     * @throws HostException if test fails
      */
-    public void testToHostPartialDataPastOffset () throws HostException{
-        // Create a host buffer with 4 bytes when 8 are necessary
-        byte[] hostBytes = HostData.toByteArray("fffe1df8");
-    
-        BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(8, true, 8, 2, hostBytes, 5);
-        assertEquals("0.00",  javaDecimal.toString());
+    public void testToHostPartialDataPastOffset() {
+        try {
+            // Create a host buffer with 4 bytes when 8 are necessary
+            byte[] hostBytes = HostData.toByteArray("fffe1df8");
+
+            BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(
+                    8, true, 8, 2, hostBytes, 5);
+            assertEquals("0.00",  javaDecimal.toString());
+        } catch (CobolConversionException e) {
+            fail(e.getMessage());
+        }
     }
 
-    public void testToHostJavaTooLarge () throws HostException{
-    	try {
-			// Create a host buffer
-			byte[] hostBytes = new byte[4];
-	   	
-	    	BigDecimal javaDecimal = new BigDecimal("4294967296");
-	    	CobolBinarySimpleConverter.toHostSingle(javaDecimal, 4, false, hostBytes, 0);
-    		fail("overflow not detected");
-    	}   	catch (HostException he) {
-    		assertEquals("Java binary too large for Cobol element. Host data at offset 0=0x00000000",he.getMessage());
-    	}
-	}
+    /**
+     * Case where the java bigdecimal holds a value that is too big for the COBOL field.
+     */
+    public void testToHostJavaTooLarge() {
+        try {
+            byte[] hostBytes = new byte[4];
 
-	public void testToHostJavaMax () throws HostException{
-		// Create a host buffer
-		byte[] hostBytes = new byte[4];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("4294967295");
-		assertEquals(4, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 4, false, hostBytes, 0));
-		assertEquals("ffffffff", HostData.toHexString(hostBytes));
-	}
+            BigDecimal javaDecimal = new BigDecimal("4294967296");
+            CobolBinarySimpleConverter.toHostSingle(javaDecimal, 4, false, hostBytes, 0);
+            fail("overflow not detected");
+        } catch (HostException he) {
+            assertEquals("Java binary too large for Cobol element. Host data at offset 0=0x00000000",
+                    he.getMessage());
+        }
+    }
 
-	public void testToHostJavaMaxM1 () throws HostException{
-		// Create a host buffer
-		byte[] hostBytes = new byte[4];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("4294967294");
-		assertEquals(4, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 4, false, hostBytes, 0));
-		assertEquals("fffffffe", HostData.toHexString(hostBytes));
-	}
+    /**
+     * Largest COBOL value.
+     */
+    public void testToHostJavaMax() {
+        toHost(4, false, "4294967295", "ffffffff");
+    }
 
-	public void testToHostJavaFill () throws HostException{
-		// Create a host buffer
-		byte[] hostBytes = new byte[4];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("7");
-		assertEquals(4, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 4, false, hostBytes, 0));
-		assertEquals("00000007", HostData.toHexString(hostBytes));
-	}
-	
-	public void testToHostZero () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[2];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("0");
-		assertEquals(2, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 2, false, hostBytes, 0));
-		assertEquals("0000", HostData.toHexString(hostBytes));
-	}
+    /**
+     * Largest COBOL value minus 1.
+     */
+    public void testToHostJavaMaxM1() {
+        toHost(4, false, "4294967294", "fffffffe");
+    }
 
-	public void testFromZero () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("0000");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(2, false, 4, 0, hostBytes, 0);
-		assertEquals("0", javaDecimal.toString());
-	}
-	
-	public void testToHost74 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[2];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("74");
-		assertEquals(2, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 2, false, hostBytes, 0));
-		assertEquals("004a", HostData.toHexString(hostBytes));
-	}
+    /**
+     * Test padding with 0.
+     */
+    public void testToHostJavaFill() {
+        toHost(4, false, "7", "00000007");
+    }
 
-	public void testFrom74 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("004a");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(2, false, 4, 0, hostBytes, 0);
-		assertEquals("74", javaDecimal.toString());
-	}
+    /**
+     * Zero value.
+     */
+    public void testToHostZero() {
+        toHost(2, false, "0", "0000");
+    }
 
-	public void testToHost127 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[2];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("127");
-		assertEquals(2, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 2, false, hostBytes, 0));
-		assertEquals("007f", HostData.toHexString(hostBytes));
-	}
+    /**
+     * Zero value.
+     */
+    public void testFromZero() {
+        fromHost(2, false, 4, 0, "0000", "0");
+    }
 
-	public void testFrom127 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("007f");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(2, false, 4, 0, hostBytes, 0);
-		assertEquals("127", javaDecimal.toString());
-	}
+    /**
+     * 9(4) COMP small value.
+     */
+    public void testToHost74() {
+        toHost(2, false, "74", "004a");
+    }
 
-	public void testToHost32769 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[2];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("32769");
-		assertEquals(2, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 2, false, hostBytes, 0));
-		assertEquals("8001", HostData.toHexString(hostBytes));
-	}
+    /**
+     * 9(4) COMP small value.
+     */
+    public void testFrom74() {
+        fromHost(2, false, 4, 0, "004a", "74");
+    }
 
-	public void testFrom32769 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("8001");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(2, false, 4, 0, hostBytes, 0);
-		assertEquals("32769", javaDecimal.toString());
-	}
+    /**
+     * 9(4) COMP medium value.
+     */
+    public void testToHost127() {
+        toHost(2, false, "127", "007f");
+    }
 
-	public void testToHost65535 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[2];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("65535");
-		assertEquals(2, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 2, false, hostBytes, 0));
-		assertEquals("ffff", HostData.toHexString(hostBytes));
-	}
+    /**
+     * 9(4) COMP medium value.
+     */
+    public void testFrom127() {
+        fromHost(2, false, 4, 0, "007f", "127");
+    }
 
-	public void testFrom65535 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("ffff");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(2, false, 4, 0, hostBytes, 0);
-		assertEquals("65535", javaDecimal.toString());
-	}
-	public void testToHostM32768 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[2];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("-32768");
-		assertEquals(2, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 2, true, hostBytes, 0));
-		assertEquals("8000", HostData.toHexString(hostBytes));
-	}
+    /**
+     * 9(4) COMP large value.
+     */
+    public void testToHost32769() {
+        toHost(2, false, "32769", "8001");
+    }
 
-	public void testFromM32768 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("8000");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(2, true, 4, 0, hostBytes, 0);
-		assertEquals("-32768", javaDecimal.toString());
-	}
-	public void testToHostM128 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[2];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("-128");
-		assertEquals(2, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 2, true, hostBytes, 0));
-		assertEquals("ff80", HostData.toHexString(hostBytes));
-	}
+    /**
+     * 9(4) COMP large value.
+     */
+    public void testFrom32769() {
+        fromHost(2, false, 4, 0, "8001", "32769");
+    }
 
-	public void testFromM128 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("ff80");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(2, true, 4, 0, hostBytes, 0);
-		assertEquals("-128", javaDecimal.toString());
-	}
-	public void testToHostM75 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[2];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("-75");
-		assertEquals(2, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 2, true, hostBytes, 0));
-		assertEquals("ffb5", HostData.toHexString(hostBytes));
-	}
+    /**
+     * 9(4) COMP-5 large value.
+     */
+    public void testToHost65535() {
+        toHost(2, false, "65535", "ffff");
+    }
 
-	public void testFromM75 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("ffb5");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(2, true, 4, 0, hostBytes, 0);
-		assertEquals("-75", javaDecimal.toString());
-	}
+    /**
+     * 9(4) COMP-5 large value.
+     */
+    public void testFrom65535() {
+        fromHost(2, false, 4, 0, "ffff", "65535");
+    }
 
-	public void testToHost1045 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[2];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("1045");
-		assertEquals(2, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 2, false, hostBytes, 0));
-		assertEquals("0415", HostData.toHexString(hostBytes));
-	}
+    /**
+     * S9(4) COMP large value.
+     */
+    public void testToHostM32768() {
+        toHost(2, true, "-32768", "8000"); 
+    }
 
-	public void testFrom1045 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("0415");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(2, false, 4, 0, hostBytes, 0);
-		assertEquals("1045", javaDecimal.toString());
-	}
+    /**
+     * S9(4) COMP large value.
+     */
+    public void testFromM32768() {
+        fromHost(2, true, 4, 0, "8000", "-32768");
+    }
 
-	public void testToHost32767 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[2];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("32767");
-		assertEquals(2, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 2, true, hostBytes, 0));
-		assertEquals("7fff", HostData.toHexString(hostBytes));
-	}
+    /**
+     * S9(4) COMP medium value.
+     */
+    public void testToHostM128() {
+        toHost(2, true, "-128", "ff80");
+    }
 
-	public void testFrom32767 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("7fff");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(2, true, 4, 0, hostBytes, 0);
-		assertEquals("32767", javaDecimal.toString());
-	}
+    /**
+     * S9(4) COMP medium value.
+     */
+    public void testFromM128() {
+        fromHost(2, true, 4, 0, "ff80", "-128");
+    }
 
-	public void testToHost4BytesZero () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[4];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("0");
-		assertEquals(4, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 4, false, hostBytes, 0));
-		assertEquals("00000000", HostData.toHexString(hostBytes));
-	}
+    /**
+     * S9(4) COMP small value.
+     */
+    public void testToHostM75() {
+        toHost(2, true, "-75", "ffb5");
+    }
 
-	public void testFrom4BytesZero () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("00000000");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(4, false, 8, 0, hostBytes, 0);
-		assertEquals("0", javaDecimal.toString());
-	}
+    /**
+     * S9(4) COMP small value.
+     */
+    public void testFromM75() {
+        fromHost(2, true, 4, 0, "ffb5", "-75");
+    }
 
-	public void testToHost4Bytes74 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[4];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("74");
-		assertEquals(4, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 4, false, hostBytes, 0));
-		assertEquals("0000004a", HostData.toHexString(hostBytes));
-	}
+    /**
+     * 9(4) COMP medium value.
+     */
+    public void testToHost1045() {
+        toHost(2, false, "1045", "0415");
+    }
 
-	public void testFrom4Bytes74 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("0000004a");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(4, false, 8, 0, hostBytes, 0);
-		assertEquals("74", javaDecimal.toString());
-	}
+    /**
+     * 9(4) COMP medium value.
+     */
+    public void testFrom1045() {
+        fromHost(2, false, 4, 0, "0415", "1045");
+    }
 
-	public void testToHost4Bytes65534 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[4];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("65534");
-		assertEquals(4, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 4, false, hostBytes, 0));
-		assertEquals("0000fffe", HostData.toHexString(hostBytes));
-	}
+    /**
+     * 9(4) COMP largest value minus 1.
+     */
+    public void testToHost32767() {
+        toHost(2, true, "32767", "7fff");
+    }
 
-	public void testFrom4Bytes65534 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("0000fffe");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(4, false, 8, 0, hostBytes, 0);
-		assertEquals("65534", javaDecimal.toString());
-	}
+    /**
+     * 9(4) COMP largest value minus 1.
+     */
+    public void testFrom32767() {
+        fromHost(2, true, 4, 0, "7fff", "32767");
+    }
 
-	public void testToHost4Bytes2147483649 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[4];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("2147483649");
-		assertEquals(4, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 4, false, hostBytes, 0));
-		assertEquals("80000001", HostData.toHexString(hostBytes));
-	}
+    /**
+     * 9(8) COMP zero value.
+     */
+    public void testToHost4BytesZero() {
+        toHost(4, false, "0", "00000000");
+    }
 
-	public void testFrom4Bytes2147483649 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("80000001");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(4, false, 8, 0, hostBytes, 0);
-		assertEquals("2147483649", javaDecimal.toString());
-	}
-	
-	public void testToHost4Bytes4294967295 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[4];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("4294967295");
-		assertEquals(4, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 4, false, hostBytes, 0));
-		assertEquals("ffffffff", HostData.toHexString(hostBytes));
-	}
+    /**
+     * 9(8) COMP zero value.
+     */
+    public void testFrom4BytesZero() {
+        fromHost(4, false, 8, 0, "00000000", "0");
+    }
 
-	public void testFrom4Bytes4294967295 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("ffffffff");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(4, false, 8, 0, hostBytes, 0);
-		assertEquals("4294967295", javaDecimal.toString());
-	}
+    /**
+     * 9(8) COMP small value.
+     */
+    public void testToHost4Bytes74() {
+        toHost(4, false, "74", "0000004a");
+    }
 
-	public void testToHost4BytesM2147483648 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[4];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("-2147483648");
-		assertEquals(4, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 4, true, hostBytes, 0));
-		assertEquals("80000000", HostData.toHexString(hostBytes));
-	}
+    /**
+     * 9(8) COMP small value.
+     */
+    public void testFrom4Bytes74() {
+        fromHost(4, false, 8, 0, "0000004a", "74");
+    }
 
-	public void testFrom4BytesM2147483648 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("80000000");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(4, true, 8, 0, hostBytes, 0);
-		assertEquals("-2147483648", javaDecimal.toString());
-	}
+    /**
+     * 9(8) COMP medium value.
+     */
+    public void testToHost4Bytes65534() {
+        toHost(4, false, "65534", "0000fffe");
+    }
 
-	public void testToHost4BytesM75 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[4];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("-75");
-		assertEquals(4, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 4, true, hostBytes, 0));
-		assertEquals("ffffffb5", HostData.toHexString(hostBytes));
-	}
+    /**
+     * 9(8) COMP medium value.
+     */
+    public void testFrom4Bytes65534() {
+        fromHost(4, false, 8, 0, "0000fffe", "65534");
+    }
 
-	public void testFrom4BytesM75 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("ffffffb5");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(4, true, 8, 0, hostBytes, 0);
-		assertEquals("-75", javaDecimal.toString());
-	}
+    /**
+     * 9(8) COMP large value.
+     */
+    public void testToHost4Bytes2147483649() {
+        toHost(4, false, "2147483649", "80000001");
+    }
 
-	public void testToHost4BytesM128 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[4];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("-128");
-		assertEquals(4, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 4, true, hostBytes, 0));
-		assertEquals("ffffff80", HostData.toHexString(hostBytes));
-	}
+    /**
+     * 9(8) COMP large value.
+     */
+    public void testFrom4Bytes2147483649() {
+        fromHost(4, false, 8, 0, "80000001", "2147483649");
+    }
 
-	public void testFrom4BytesM128 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("ffffff80");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(4, true, 8, 0, hostBytes, 0);
-		assertEquals("-128", javaDecimal.toString());
-	}
+    /**
+     * 9(8) COMP largest value.
+     */
+    public void testToHost4Bytes4294967295() {
+        toHost(4, false, "4294967295", "ffffffff");
+    }
 
-	public void testToHost4Bytes123456789 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[4];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("123456789");
-		assertEquals(4, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 4, true, hostBytes, 0));
-		assertEquals("075bcd15", HostData.toHexString(hostBytes));
-	}
+    /**
+     * 9(8) COMP largest value.
+     */
+    public void testFrom4Bytes4294967295() {
+        fromHost(4, false, 8, 0, "ffffffff", "4294967295");
+    }
 
-	public void testFrom4Bytes123456789 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("075bcd15");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(4, true, 8, 0, hostBytes, 0);
-		assertEquals("123456789", javaDecimal.toString());
-	}
+    /**
+     * S9(8) COMP largest negative value.
+     */
+    public void testToHost4BytesM2147483648() {
+        toHost(4, true, "-2147483648", "80000000");
+    }
 
-	public void testToHost4Bytes2147483647 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[4];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("2147483647");
-		assertEquals(4, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 4, true, hostBytes, 0));
-		assertEquals("7fffffff", HostData.toHexString(hostBytes));
-	}
+    /**
+     * S9(8) COMP largest negative value.
+     */
+    public void testFrom4BytesM2147483648() {
+        fromHost(4, true, 8, 0, "80000000", "-2147483648");
+    }
 
-	public void testFrom4Bytes2147483647 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("7fffffff");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(4, true, 8, 0, hostBytes, 0);
-		assertEquals("2147483647", javaDecimal.toString());
-	}
+    /**
+     * S9(8) COMP small negative value.
+     */
+    public void testToHost4BytesM75() {
+        toHost(4, true, "-75", "ffffffb5");
+    }
 
-	public void testToHost8BytesZero () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[8];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("0");
-		assertEquals(8, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 8, false, hostBytes, 0));
-		assertEquals("0000000000000000", HostData.toHexString(hostBytes));
-	}
+    /**
+     * S9(8) COMP small negative value.
+     */
+    public void testFrom4BytesM75() {
+        fromHost(4, true, 8, 0, "ffffffb5", "-75");
+    }
 
-	public void testFrom8BytesZero () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("0000000000000000");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(8, false, 18, 0, hostBytes, 0);
-		assertEquals("0", javaDecimal.toString());
-	}
+    /**
+     * S9(8) COMP small negative value.
+     */
+    public void testToHost4BytesM128() {
+        toHost(4, true, "-128", "ffffff80");
+    }
 
-	public void testToHost8Bytes74 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[8];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("74");
-		assertEquals(8, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 8, false, hostBytes, 0));
-		assertEquals("000000000000004a", HostData.toHexString(hostBytes));
-	}
+    /**
+     * S9(8) COMP small negative value.
+     */
+    public void testFrom4BytesM128() {
+        fromHost(4, true, 8, 0, "ffffff80", "-128");
+    }
 
-	public void testFrom8Bytes74 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("000000000000004a");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(8, false, 18, 0, hostBytes, 0);
-		assertEquals("74", javaDecimal.toString());
-	}
+    /**
+     * S9(8) COMP average positive value.
+     */
+    public void testToHost4Bytes123456789() {
+        toHost(4, true, "123456789", "075bcd15");
+    }
 
-	public void testToHost8Bytes4294967294 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[8];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("4294967294");
-		assertEquals(8, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 8, false, hostBytes, 0));
-		assertEquals("00000000fffffffe", HostData.toHexString(hostBytes));
-	}
+    /**
+     * S9(8) COMP average positive value.
+     */
+    public void testFrom4Bytes123456789() {
+        fromHost(4, true, 8, 0, "075bcd15", "123456789");
+    }
 
-	public void testFrom8Bytes4294967294 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("00000000fffffffe");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(8, false, 18, 0, hostBytes, 0);
-		assertEquals("4294967294", javaDecimal.toString());
-	}
+    /**
+     * S9(8) COMP large positive value.
+     */
+    public void testToHost4Bytes2147483647() {
+        toHost(4, true, "2147483647", "7fffffff");
+    }
 
-	public void testToHost8Bytes18446744069414584318 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[8];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("18446744069414584318");
-		assertEquals(8, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 8, false, hostBytes, 0));
-		assertEquals("fffffffefffffffe", HostData.toHexString(hostBytes));
-	}
+    /**
+     * S9(8) COMP large positive value.
+     */
+    public void testFrom4Bytes2147483647() {
+        fromHost(4, true, 8, 0, "7fffffff", "2147483647");
+    }
 
-	public void testFrom8Bytes18446744069414584318 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("fffffffefffffffe");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(8, false, 18, 0, hostBytes, 0);
-		assertEquals("18446744069414584318", javaDecimal.toString());
-	}
+    /**
+     * S9(8) COMP zero value.
+     */
+    public void testToHost8BytesZero() {
+        toHost(8, false, "0", "0000000000000000");
+    }
 
-	public void testToHost8Bytes18446744073709551615 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[8];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("18446744073709551615");
-		assertEquals(8, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 8, false, hostBytes, 0));
-		assertEquals("ffffffffffffffff", HostData.toHexString(hostBytes));
-	}
+    /**
+     * S9(8) COMP zero value.
+     */
+    public void testFrom8BytesZero() {
+        fromHost(8, false, 18, 0, "0000000000000000", "0");
+    }
 
-	public void testFrom8Bytes18446744073709551615 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("ffffffffffffffff");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(8, false, 18, 0, hostBytes, 0);
-		assertEquals("18446744073709551615", javaDecimal.toString());
-	}
-	
-	public void testToHost8BytesM9223372036854775808 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[8];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("-9223372036854775808");
-		assertEquals(8, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 8, true, hostBytes, 0));
-		assertEquals("8000000000000000", HostData.toHexString(hostBytes));
-	}
+    /**
+     * 9(18) COMP small value.
+     */
+    public void testToHost8Bytes74() {
+        toHost(8, false, "74", "000000000000004a");
+    }
 
-	public void testFrom8BytesM9223372036854775808 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("8000000000000000");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(8, true, 18, 0, hostBytes, 0);
-		assertEquals("-9223372036854775808", javaDecimal.toString());
-	}
+    /**
+     * 9(18) COMP small value.
+     */
+    public void testFrom8Bytes74() {
+        fromHost(8, false, 18, 0, "000000000000004a", "74");
+    }
 
-	public void testToHost8BytesM75 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[8];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("-75");
-		assertEquals(8, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 8, true, hostBytes, 0));
-		assertEquals("ffffffffffffffb5", HostData.toHexString(hostBytes));
-	}
+    /**
+     * 9(18) COMP average value.
+     */
+    public void testToHost8Bytes4294967294() {
+        toHost(8, false, "4294967294", "00000000fffffffe");
+    }
 
-	public void testFrom8BytesM75 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("ffffffffffffffb5");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(8, true, 18, 0, hostBytes, 0);
-		assertEquals("-75", javaDecimal.toString());
-	}
+    /**
+     * 9(18) COMP average value.
+     */
+    public void testFrom8Bytes4294967294() {
+        fromHost(8, false, 18, 0, "00000000fffffffe", "4294967294");
+    }
 
-	public void testToHost8BytesM4294967294 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[8];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("-4294967294");
-		assertEquals(8, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 8, true, hostBytes, 0));
-		assertEquals("ffffffff00000002", HostData.toHexString(hostBytes));
-	}
+    /**
+     * 9(18) COMP large value.
+     */
+    public void testToHost8Bytes18446744069414584318() {
+        toHost(8, false, "18446744069414584318", "fffffffefffffffe");
+    }
 
-	public void testFrom8BytesM4294967294 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("ffffffff00000002");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(8, true, 18, 0, hostBytes, 0);
-		assertEquals("-4294967294", javaDecimal.toString());
-	}
-	
-	public void testToHost8Bytes17179869183 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[8];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("17179869183");
-		assertEquals(8, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 8, true, hostBytes, 0));
-		assertEquals("00000003ffffffff", HostData.toHexString(hostBytes));
-	}
+    /**
+     * 9(18) COMP large value.
+     */
+    public void testFrom8Bytes18446744069414584318() {
+        fromHost(8, false, 18, 0, "fffffffefffffffe", "18446744069414584318");
+    }
 
-	public void testFrom8Bytes17179869183 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("00000003ffffffff");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(8, true, 18, 0, hostBytes, 0);
-		assertEquals("17179869183", javaDecimal.toString());
-	}
+    /**
+     * 9(18) COMP largest value.
+     */
+    public void testToHost8Bytes18446744073709551615() {
+        toHost(8, false, "18446744073709551615", "ffffffffffffffff");
+    }
 
-	public void testToHost8Bytes9223372036854775807 () throws HostException{
-		// Create a host buffer to receive output
-		byte[] hostBytes = new byte[8];
-   	
-    	BigDecimal javaDecimal = new BigDecimal("9223372036854775807");
-		assertEquals(8, CobolBinarySimpleConverter.toHostSingle(javaDecimal, 8, true, hostBytes, 0));
-		assertEquals("7fffffffffffffff", HostData.toHexString(hostBytes));
-	}
+    /**
+     * 9(18) COMP largest value.
+     */
+    public void testFrom8Bytes18446744073709551615() {
+        fromHost(8, false, 18, 0, "ffffffffffffffff", "18446744073709551615");
+    }
 
-	public void testFrom8Bytes9223372036854775807 () throws HostException{
-		// Create a host buffer with host input
-		byte[] hostBytes = HostData.toByteArray("7fffffffffffffff");
-   	
-		BigDecimal javaDecimal = CobolBinarySimpleConverter.fromHostSingle(8, true, 18, 0, hostBytes, 0);
-		assertEquals("9223372036854775807", javaDecimal.toString());
-	}
+    /**
+     * S9(18) COMP largest negative value.
+     */
+    public void testToHost8BytesM9223372036854775808() {
+        toHost(8, true, "-9223372036854775808", "8000000000000000");
+    }
+
+    /**
+     * S9(18) COMP largest negative value.
+     */
+    public void testFrom8BytesM9223372036854775808() {
+        fromHost(8, true, 18, 0, "8000000000000000", "-9223372036854775808");
+    }
+
+    /**
+     * S9(18) COMP small negative value.
+     */
+    public void testToHost8BytesM75() {
+        toHost(8, true, "-75", "ffffffffffffffb5");
+    }
+
+    /**
+     * S9(18) COMP small negative value.
+     */
+    public void testFrom8BytesM75() {
+        fromHost(8, true, 18, 0, "ffffffffffffffb5", "-75");
+    }
+
+    /**
+     * S9(18) COMP average negative value.
+     */
+    public void testToHost8BytesM4294967294() {
+        toHost(8, true, "-4294967294", "ffffffff00000002");
+    }
+
+    /**
+     * S9(18) COMP average negative value.
+     */
+    public void testFrom8BytesM4294967294() {
+        fromHost(8, true, 18, 0, "ffffffff00000002", "-4294967294");
+    }
+
+    /**
+     * S9(18) COMP average positive value.
+     */
+    public void testToHost8Bytes17179869183() {
+        toHost(8, true, "17179869183", "00000003ffffffff");
+    }
+
+    /**
+     * S9(18) COMP average positive value.
+     */
+    public void testFrom8Bytes17179869183() {
+        fromHost(8, true, 18, 0, "00000003ffffffff", "17179869183");
+    }
+
+    /**
+     * S9(18) COMP largest positive value.
+     */
+    public void testToHost8Bytes9223372036854775807() {
+        toHost(8, true, "9223372036854775807", "7fffffffffffffff");
+    }
+
+    /**
+     * S9(18) COMP largest positive value.
+     */
+    public void testFrom8Bytes9223372036854775807() {
+        fromHost(8, true, 18, 0, "7fffffffffffffff", "9223372036854775807");
+    }
 
 }

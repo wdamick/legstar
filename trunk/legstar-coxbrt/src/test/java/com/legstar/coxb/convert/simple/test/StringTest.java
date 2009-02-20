@@ -18,6 +18,10 @@ import com.legstar.coxb.host.HostException;
 
 import junit.framework.TestCase;
 
+/**
+ * Test the COBOL PIC X TYPE with conversion.
+ *
+ */
 public class StringTest extends TestCase {
 
     public void testToHostUnsupportedCharset (){
