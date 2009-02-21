@@ -8,10 +8,9 @@
  * Contributors:
  *     LegSem - initial API and implementation
  ******************************************************************************/
-package com.legstar.coxb.convert.simple.test;
+package com.legstar.coxb.convert.simple;
 
 import com.legstar.coxb.convert.CobolConversionException;
-import com.legstar.coxb.convert.simple.CobolBinarySimpleConverter;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
 

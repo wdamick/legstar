@@ -39,6 +39,16 @@
     <build>
         <plugins>
       
+            <!-- In this project, files with non US characters are UTF-8 encoded -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                    <encoding>utf8</encoding>
+                </configuration>
+            </plugin>
+
             <!-- Tell the compile step that there are additional test source
             folders to take into account.  -->
             <plugin>

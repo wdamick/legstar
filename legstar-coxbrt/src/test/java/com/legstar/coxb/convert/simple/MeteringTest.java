@@ -23,7 +23,7 @@ public class MeteringTest extends TestCase {
 
     /** The java string. */
     private static final String STRING_JAVA =
-        "ça c'est un problème élémentaire à résoudre";
+        "Ã§a c'est un problÃ¨me Ã©lÃ©mentaire Ã  rÃ©soudre";
 
     /** The packed decimal encoding of a decimal.*/
     private static final byte[] PACKED_DECIMAL_HOST_BYTES =
