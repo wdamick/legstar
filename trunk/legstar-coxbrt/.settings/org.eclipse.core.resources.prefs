@@ -1,3 +1,7 @@
-#Fri Feb 20 07:39:03 CET 2009
+#Sat Feb 21 09:38:32 CET 2009
 eclipse.preferences.version=1
 encoding//src/test/java/com/legstar/coxb/convert/simple/CharsetsTest.java=UTF-8
+encoding//src/test/java/com/legstar/coxb/convert/simple/MeteringTest.java=UTF-8
+encoding//src/test/java/com/legstar/coxb/convert/simple/StringTest.java=UTF-8
+encoding//src/test/java/com/legstar/coxb/transform/AbstractHostToJavaTransformerTest.java=UTF-8
+encoding//src/test/java/com/legstar/coxb/transform/AbstractJavaToHostTransformerTest.java=UTF-8

@@ -1,0 +1,54 @@
+package com.legstar.coxb.transform;
+
+import com.legstar.coxb.CobolBindingException;
+import com.legstar.coxb.CobolContext;
+import com.legstar.coxb.ICobolComplexBinding;
+import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
+import com.legstar.coxb.impl.reflect.ReflectBindingException;
+
+/**
+ * An implementation of the abstract class under test.
+ * This uses reflection binding.
+ *
+ */
+public final class JavaToHostLsfileaeTransformer extends AbstractJavaToHostTransformer {
+
+
+    /**
+     * No-Arg constructor.
+     */
+    public JavaToHostLsfileaeTransformer() {
+        super();
+    }
+
+    /**
+     * Create a Java to Host transformer using a specific COBOL parameters set.
+     * @param cobolContext the COBOL parameters set.
+     */
+    public JavaToHostLsfileaeTransformer(final CobolContext cobolContext) {
+        super(cobolContext);
+    }
+
+    /**
+     * Create a Java to Host transformer using a specific host character set while
+     * other COBOL parameters are set by default.
+     * @param hostCharset the host character set
+     */
+    public JavaToHostLsfileaeTransformer(final String hostCharset) {
+        super(hostCharset);
+    }
+
+    /** {@inheritDoc} */
+    public ICobolComplexBinding getBinding() throws CobolBindingException {
+        try {
+            CComplexReflectBinding ccem = new CComplexReflectBinding(
+                    new com.legstar.test.coxb.lsfileae.ObjectFactory(),
+                    com.legstar.test.coxb.lsfileae.Dfhcommarea.class);
+            return ccem;
+        } catch (ReflectBindingException e) {
+            throw new CobolBindingException(e);
+        }
+    }
+
+}
+
