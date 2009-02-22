@@ -14,6 +14,9 @@ public class AbstractTestTransformers extends TestCase {
     /** A character set to use for string conversions. */
     public static final String STRING_FRENCH_CHARSET = "IBM01147";
     
+    /** A character set to use for string conversions. */
+    public static final String STRING_US_CHARSET = "IBM01140";
+    
     /** A raw zos serialization with french encoded char. */
     public static final String RAW_LSFILEAE_DATA_IBM01147 =
        /* 0 0 0 1 0 0 T O T O                                 L A B A S ç S T R E E T                */

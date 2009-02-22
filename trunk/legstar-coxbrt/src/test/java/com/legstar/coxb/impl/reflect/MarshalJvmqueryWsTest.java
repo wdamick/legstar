@@ -8,21 +8,24 @@
  * Contributors:
  *     LegSem - initial API and implementation
  ******************************************************************************/
-package com.legstar.coxb.impl.reflect.complex.test;
+package com.legstar.coxb.impl.reflect;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import com.legstar.test.coxb.JvmqueryWsCases;
 
-public class AllTests {
+/**
+ * Test JvmqueryWs.
+ *
+ */
+public class MarshalJvmqueryWsTest extends AbstractTestMarshal {
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite(
-				"Test for com.legstar.coxb.reflect.test");
-		//$JUnit-BEGIN$
-		suite.addTestSuite(MarshallerVisitorTest.class);
-		suite.addTestSuite(UnmarshallerVisitorTest.class);
-		//$JUnit-END$
-		return suite;
-	}
+    /**
+     * Convert and check result.
+     */
+    public void testJvmqueryWs() {
+        convertAndCheck(
+                JvmqueryWsCases.getFactory(),
+                JvmqueryWsCases.getJavaObject(),
+                JvmqueryWsCases.getHostBytesHex());
+    }
 
 }

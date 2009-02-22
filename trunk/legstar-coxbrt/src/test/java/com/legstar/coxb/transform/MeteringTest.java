@@ -1,6 +1,7 @@
 package com.legstar.coxb.transform;
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.test.coxb.LsfileaeCases;
 import com.legstar.test.coxb.lsfileae.Dfhcommarea;
 
 
@@ -12,7 +13,7 @@ public class MeteringTest extends AbstractTestTransformers {
     
     /** A byte array holding raw mainframe data. */
     private static final byte[] LSFILEAE_HOST_BYTES =
-        HostData.toByteArray(RAW_LSFILEAE_DATA_IBM01147);
+        HostData.toByteArray(LsfileaeCases.getHostBytesHex());
     
     /**
      * LSFILEAE from Java to Host.
@@ -21,8 +22,8 @@ public class MeteringTest extends AbstractTestTransformers {
         try {
             LsfileaeTransformers transformers = new LsfileaeTransformers();
             Dfhcommarea dfhcommarea = (Dfhcommarea) transformers.toJava(
-                    LSFILEAE_HOST_BYTES, STRING_FRENCH_CHARSET);
-            checkLsfileaeIBM01147(dfhcommarea);
+                    LSFILEAE_HOST_BYTES, STRING_US_CHARSET);
+            LsfileaeCases.checkJavaObject(dfhcommarea);
         } catch (HostTransformException e) {
             fail(e.getMessage());
         }
@@ -35,8 +36,8 @@ public class MeteringTest extends AbstractTestTransformers {
         try {
             LsfileaeTransformers transformers = new LsfileaeTransformers();
             byte[] hostBytes = transformers.toHost(
-                    getLsfileaeObject(), STRING_FRENCH_CHARSET);
-            assertEquals(RAW_LSFILEAE_DATA_IBM01147, HostData.toHexString(hostBytes));
+                    LsfileaeCases.getJavaObject(), STRING_US_CHARSET);
+            assertEquals(LsfileaeCases.getHostBytesHex(), HostData.toHexString(hostBytes));
         } catch (HostTransformException e) {
             fail(e.getMessage());
         }

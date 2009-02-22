@@ -10,23 +10,24 @@
  ******************************************************************************/
 package com.legstar.coxb.impl.reflect;
 
-import com.legstar.test.coxb.EnumvarCases;
-import com.legstar.test.coxb.enumvar.SearchRequestType;
+import com.legstar.test.coxb.JvmqueryWsCases;
+import com.legstar.test.coxb.ws.jvmquery.QueryJvmResponse;
 
 /**
- * Test ENUMVAR.
+ * Test JVMQUERY.
  *
  */
-public class UnmarshalEnumvarTest extends AbstractTestUnmarshal {
+public class UnmarshalJvmqueryWsTest extends AbstractTestUnmarshal {
+
     /**
-     * Unmarshal Enumvar.
+     * Unmarshal JvmqueryWs.
      */
-    public final void testEnumvar() {
-        SearchRequestType searchRequest = (SearchRequestType) convert(
-                EnumvarCases.getFactory(),
-                EnumvarCases.getHostBytesHex(),
-                EnumvarCases.getJavaObject());
-        EnumvarCases.checkJavaObject(searchRequest);
+    public final void testJvmqueryWs() {
+        QueryJvmResponse queryJvmResponse = (QueryJvmResponse) convert(
+                JvmqueryWsCases.getFactory(),
+                JvmqueryWsCases.getHostBytesHex(),
+                JvmqueryWsCases.getJavaObject());
+        JvmqueryWsCases.checkJavaObject(queryJvmResponse);
     }
 
 }
