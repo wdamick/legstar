@@ -10,23 +10,24 @@
  ******************************************************************************/
 package com.legstar.coxb.impl.reflect;
 
-import com.legstar.test.coxb.EnumvarCases;
-import com.legstar.test.coxb.enumvar.SearchRequestType;
+import com.legstar.test.coxb.BinpkdusCases;
+import com.legstar.test.coxb.binpkdus.Dfhcommarea;
 
 /**
- * Test ENUMVAR.
+ * Test BINPKDUS.
  *
  */
-public class UnmarshalEnumvarTest extends AbstractTestUnmarshal {
+public class UnmarshalBinpkdusTest extends AbstractTestUnmarshal {
+
     /**
-     * Unmarshal Enumvar.
+     * Unmarshal Binpkdus.
      */
-    public final void testEnumvar() {
-        SearchRequestType searchRequest = (SearchRequestType) convert(
-                EnumvarCases.getFactory(),
-                EnumvarCases.getHostBytesHex(),
-                EnumvarCases.getJavaObject());
-        EnumvarCases.checkJavaObject(searchRequest);
+    public final void testBinpkdus() {
+        Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
+                BinpkdusCases.getFactory(),
+                BinpkdusCases.getHostBytesHex(),
+                BinpkdusCases.getJavaObject());
+        BinpkdusCases.checkJavaObject(dfhcommarea);
     }
 
 }

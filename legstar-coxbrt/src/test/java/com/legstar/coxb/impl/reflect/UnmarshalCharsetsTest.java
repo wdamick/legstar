@@ -10,23 +10,26 @@
  ******************************************************************************/
 package com.legstar.coxb.impl.reflect;
 
-import com.legstar.test.coxb.EnumvarCases;
-import com.legstar.test.coxb.enumvar.SearchRequestType;
+import com.legstar.test.coxb.CharsetsCases;
+import com.legstar.test.coxb.charsets.Dfhcommarea;
 
 /**
- * Test ENUMVAR.
+ * Test CHARSETS.
  *
  */
-public class UnmarshalEnumvarTest extends AbstractTestUnmarshal {
+public class UnmarshalCharsetsTest extends AbstractTestUnmarshal {
+
     /**
-     * Unmarshal Enumvar.
+     * Unmarshal Charsets.
      */
-    public final void testEnumvar() {
-        SearchRequestType searchRequest = (SearchRequestType) convert(
-                EnumvarCases.getFactory(),
-                EnumvarCases.getHostBytesHex(),
-                EnumvarCases.getJavaObject());
-        EnumvarCases.checkJavaObject(searchRequest);
+    public final void testCharsets() {
+        getConverters().getCobolContext().setHostCharsetName("IBM01147");
+        
+        Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
+                CharsetsCases.getFactory(),
+                CharsetsCases.getHostBytesHex(),
+                CharsetsCases.getJavaObject());
+        CharsetsCases.checkJavaObject(dfhcommarea);
     }
 
 }

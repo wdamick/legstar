@@ -10,23 +10,22 @@
  ******************************************************************************/
 package com.legstar.coxb.impl.reflect;
 
-import com.legstar.test.coxb.EnumvarCases;
-import com.legstar.test.coxb.enumvar.SearchRequestType;
+import com.legstar.test.coxb.FixarcomCases;
 
 /**
- * Test ENUMVAR.
+ * Test Fixarcom.
  *
  */
-public class UnmarshalEnumvarTest extends AbstractTestUnmarshal {
+public class MarshalFixarcomTest extends AbstractTestMarshal {
+
     /**
-     * Unmarshal Enumvar.
+     * Convert and check result.
      */
-    public final void testEnumvar() {
-        SearchRequestType searchRequest = (SearchRequestType) convert(
-                EnumvarCases.getFactory(),
-                EnumvarCases.getHostBytesHex(),
-                EnumvarCases.getJavaObject());
-        EnumvarCases.checkJavaObject(searchRequest);
+    public void testFixarcom() {
+        convertAndCheck(
+                FixarcomCases.getFactory(),
+                FixarcomCases.getJavaObject(),
+                FixarcomCases.getHostBytesHex());
     }
 
 }

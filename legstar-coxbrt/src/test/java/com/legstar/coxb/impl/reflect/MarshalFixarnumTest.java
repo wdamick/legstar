@@ -10,21 +10,33 @@
  ******************************************************************************/
 package com.legstar.coxb.impl.reflect;
 
-import com.legstar.test.coxb.ListssdoCases;
+import com.legstar.test.coxb.FixarnumCases;
+import com.legstar.test.coxb.fixarnum.Dfhcommarea;
 
 /**
- * Test LISTSSDO.
+ * Test Fixarnum.
  *
  */
-public class MarshalListssdoTest extends AbstractTestMarshal {
+public class MarshalFixarnumTest extends AbstractTestMarshal {
 
     /**
      * Convert and check result.
      */
-    public void testListssdo() {
+    public void testFixarnum() {
         convertAndCheck(
-                ListssdoCases.getFactory(),
-                ListssdoCases.getJavaObject(),
-                ListssdoCases.getHostBytesHex());
+                FixarnumCases.getFactory(),
+                FixarnumCases.getJavaObject(),
+                FixarnumCases.getHostBytesHex());
+    }
+
+    /**
+     * Test with empty java object.
+     * Convert and check result.
+     */
+    public void testFixarsimEmpty() {
+        convertAndCheck(
+                FixarnumCases.getFactory(),
+                new Dfhcommarea(),
+                FixarnumCases.getHostBytesHexEmpty());
     }
 }

@@ -10,31 +10,31 @@
  ******************************************************************************/
 package com.legstar.coxb.impl.reflect;
 
-import com.legstar.test.coxb.RedsimptCases;
+import com.legstar.test.coxb.RedinoutCases;
 
 /**
- * Test REDSIMPT.
+ * Test Redinout.
  *
  */
-public class MarshalRedsimptTest extends AbstractTestMarshal {
+public class MarshalRedinoutTest extends AbstractTestMarshal {
 
     /**
      * Convert and check result for first alternative.
      */
-    public void testRedsimptFirstAlternative() {
+    public void testRedinoutFirstAlternative() {
         convertAndCheck(
-                RedsimptCases.getFactory(),
-                RedsimptCases.getJavaObject(),
-                RedsimptCases.getHostBytesHex());
+                RedinoutCases.getFactory(),
+                RedinoutCases.getJavaObject(),
+                RedinoutCases.getHostBytesHex());
     }
 
     /**
      * Convert and check result for second alternative.
      */
-    public void testRedsimptSecondAlternative() {
+    public void testRedinoutSecondAlternative() {
         convertAndCheck(
-                RedsimptCases.getFactory(),
-                RedsimptCases.getJavaObjectSecondChoice(),
-                RedsimptCases.getHostBytesHexSecondChoice());
+                RedinoutCases.getFactory(),
+                RedinoutCases.getJavaObjectSecondChoice(),
+                RedinoutCases.getHostBytesHexSecondChoice());
     }
 }

@@ -10,23 +10,24 @@
  ******************************************************************************/
 package com.legstar.coxb.impl.reflect;
 
-import com.legstar.test.coxb.EnumvarCases;
-import com.legstar.test.coxb.enumvar.SearchRequestType;
+import com.legstar.test.coxb.FixarnumCases;
+import com.legstar.test.coxb.fixarnum.Dfhcommarea;
 
 /**
- * Test ENUMVAR.
+ * Test LSFILEAE.
  *
  */
-public class UnmarshalEnumvarTest extends AbstractTestUnmarshal {
+public class UnmarshalFixarnumTest extends AbstractTestUnmarshal {
+
     /**
-     * Unmarshal Enumvar.
+     * Unmarshal FIXARNUM.
      */
-    public final void testEnumvar() {
-        SearchRequestType searchRequest = (SearchRequestType) convert(
-                EnumvarCases.getFactory(),
-                EnumvarCases.getHostBytesHex(),
-                EnumvarCases.getJavaObject());
-        EnumvarCases.checkJavaObject(searchRequest);
+    public final void testFixarnum() {
+        Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
+                FixarnumCases.getFactory(),
+                FixarnumCases.getHostBytesHex(),
+                FixarnumCases.getJavaObject());
+        FixarnumCases.checkJavaObject(dfhcommarea);
     }
 
 }

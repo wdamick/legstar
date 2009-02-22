@@ -10,56 +10,22 @@
  ******************************************************************************/
 package com.legstar.coxb.impl.reflect;
 
-import com.legstar.coxb.CobolContext;
-import com.legstar.coxb.convert.simple.CobolSimpleConverters;
-import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
-import com.legstar.coxb.impl.visitor.CobolMarshalVisitor;
-import com.legstar.coxb.transform.HostTransformException;
-import com.legstar.coxb.host.HostData;
-import com.legstar.coxb.host.HostException;
-
-import junit.framework.TestCase;
-
 import com.legstar.test.coxb.LsfileaeCases;
-import com.legstar.test.coxb.lsfileae.ObjectFactory;
 
 /**
  * Test LSFILEAE.
  *
  */
-public class MarshalLsfileaeTest extends TestCase {
+public class MarshalLsfileaeTest extends AbstractTestMarshal {
 
     /**
-     * Test Marshaling.
-     * @throws HostException if marshaling fails
+     * Convert and check result.
      */
-    public void testLsfileae() throws HostException{
-        CobolContext cobolContext = new CobolContext();
-        CobolSimpleConverters cc = new CobolSimpleConverters(cobolContext);
-        byte[] hostBytes = new byte[LsfileaeCases.getHostBytesHex().length() / 2];
-        CobolMarshalVisitor mv = new CobolMarshalVisitor(hostBytes, 0, cc);
-        ObjectFactory objectFactory = new ObjectFactory();
-        CComplexReflectBinding ccem = new CComplexReflectBinding(
-                objectFactory, LsfileaeCases.getJavaObject());
-        ccem.accept(mv);
-        assertEquals(LsfileaeCases.getHostBytesHex(),HostData.toHexString(hostBytes));
+    public void testLsfileae() {
+        convertAndCheck(
+                LsfileaeCases.getFactory(),
+                LsfileaeCases.getJavaObject(),
+                LsfileaeCases.getHostBytesHex());
     }
 
-    /**
-     * Test Transforming.
-     */
-    public void testTransformLsfileae() {
-        try {
-            ReflectJavaToHostTransformer transformer =
-                new ReflectJavaToHostTransformer(
-                        "com.legstar.test.coxb.lsfileae", "Dfhcommarea");
-            byte[] hostBytes = transformer.transform(LsfileaeCases.getJavaObject());
-            assertEquals(LsfileaeCases.getHostBytesHex(),
-                    HostData.toHexString(hostBytes));
-        } catch (ReflectBindingException e) {
-            fail(e.getMessage());
-        } catch (HostTransformException e) {
-            fail(e.getMessage());
-        }
-    }
 }
