@@ -24,16 +24,16 @@ import com.legstar.coxb.host.HostException;
  */
 public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
 
-	/** {@inheritDoc} */
+    /** {@inheritDoc} */
     public final ICobolBinding choose(
-        final ICobolChoiceBinding choice,
-        final Hashtable < String, Object > variablesMap,
-        final CobolElementVisitor visitor) throws HostException {
-    
+            final ICobolChoiceBinding choice,
+            final Hashtable < String, Object > variablesMap,
+            final CobolElementVisitor visitor) throws HostException {
+
         /* Get the parent JAXB object which properties might help select the
          * right alternative. */
         //TableRedefType jaxbo = (TableRedefType) choice.getValue();
-    
+
         /* Replace following code with actual logic. */
         int index = 0;
         switch (index) {
@@ -47,8 +47,8 @@ public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
         default:
             /* Null will let the default choice strategy apply. */
             return null;
+        }
     }
-  }
 
 }
-  
+

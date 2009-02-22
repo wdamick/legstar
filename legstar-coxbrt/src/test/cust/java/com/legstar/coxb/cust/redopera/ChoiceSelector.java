@@ -24,28 +24,28 @@ import com.legstar.test.coxb.redopera.Dfhcommarea;
  */
 public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
 
-	/** {@inheritDoc} */
-  public final ICobolBinding choose(
-      final ICobolChoiceBinding choice,
-      final Hashtable < String, Object > variablesMap,
-      final CobolElementVisitor visitor)
+    /** {@inheritDoc} */
+    public final ICobolBinding choose(
+            final ICobolChoiceBinding choice,
+            final Hashtable < String, Object > variablesMap,
+            final CobolElementVisitor visitor)
     throws HostException {
-    
-		/* Get the current value of the function variable. */
-		Dfhcommarea jobj = (Dfhcommarea) choice.getParentValueObject();
-		
-		if (jobj.getCFunction().trim().compareTo("stringMethod") == 0) {
-			return choice.getAlternativeByName("Filler25");
-		}
 
-		if (jobj.getCFunction().trim().compareTo("intMethod") == 0) {
-			return choice.getAlternativeByName("Filler28");
-		}
+        /* Get the current value of the function variable. */
+        Dfhcommarea jobj = (Dfhcommarea) choice.getParentValueObject();
 
-		/* None of the alternatives could be chosen. Raise an error.*/
-		throw (new HostException("Unrecognized CFunction value:" 
-				+ jobj.getCFunction()));
-  }
+        if (jobj.getCFunction().trim().compareTo("stringMethod") == 0) {
+            return choice.getAlternativeByName("Filler25");
+        }
+
+        if (jobj.getCFunction().trim().compareTo("intMethod") == 0) {
+            return choice.getAlternativeByName("Filler28");
+        }
+
+        /* None of the alternatives could be chosen. Raise an error.*/
+        throw (new HostException("Unrecognized CFunction value:" 
+                + jobj.getCFunction()));
+    }
 
 }
-  
+

@@ -23,37 +23,37 @@ import com.legstar.coxb.host.HostException;
  */
 public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
 
-	/** {@inheritDoc} */
+    /** {@inheritDoc} */
     public final ICobolBinding choose(
-        final ICobolChoiceBinding choice,
-        final Hashtable < String, Object > variablesMap,
-        final CobolElementVisitor visitor) throws HostException {
-    
-		/* Because the java class hierarchy is complex, we use a mechanism that
-		 * allows elements annotated as customVariable to have their value
-		 * stored in a simple hashtable for quick access. In this case, the
-		 * element marked as customVariable is numeric.
-		 * */
-	    Integer value =
-			(Integer) variablesMap.get("LsRequestType");
-		if (value == null) {
-			throw (new HostException("Custom variable LsRequestType not set."));
-		}
-		
-		switch (value) {
-		case 0:
-			return choice.getAlternativeByName("LsFilesData");
-		case 1:
-			return choice.getAlternativeByName("LsProgramsData");
-		case 2:
-			return choice.getAlternativeByName("LsTransactionsData");
-		default:
-			/* None of the alternatives could be chosen, return null to let the
-			 * default behavior take over.*/
-			return null;
-		}
-		
+            final ICobolChoiceBinding choice,
+            final Hashtable < String, Object > variablesMap,
+            final CobolElementVisitor visitor) throws HostException {
+
+        /* Because the java class hierarchy is complex, we use a mechanism that
+         * allows elements annotated as customVariable to have their value
+         * stored in a simple hashtable for quick access. In this case, the
+         * element marked as customVariable is numeric.
+         * */
+        Integer value =
+            (Integer) variablesMap.get("LsRequestType");
+        if (value == null) {
+            throw (new HostException("Custom variable LsRequestType not set."));
+        }
+
+        switch (value) {
+        case 0:
+            return choice.getAlternativeByName("LsFilesData");
+        case 1:
+            return choice.getAlternativeByName("LsProgramsData");
+        case 2:
+            return choice.getAlternativeByName("LsTransactionsData");
+        default:
+            /* None of the alternatives could be chosen, return null to let the
+             * default behavior take over.*/
+            return null;
+        }
+
     }
 
 }
-  
+
