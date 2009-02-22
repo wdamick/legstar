@@ -9,7 +9,7 @@ import com.legstar.test.coxb.lsfileae.Dfhcommarea;
  * This class is useful for performance testing with JMeter.
  *
  */
-public class MeteringTest extends AbstractTestTransformers {
+public class LsfileaeMeteringTest extends AbstractTestTransformers {
     
     /** A byte array holding raw mainframe data. */
     private static final byte[] LSFILEAE_HOST_BYTES =
