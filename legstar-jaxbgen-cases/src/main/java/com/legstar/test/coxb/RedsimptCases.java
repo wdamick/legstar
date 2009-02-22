@@ -77,4 +77,11 @@ public final class RedsimptCases extends TestCase {
     public static void checkJavaObjectSecondChoice(final Dfhcommarea dfhcommarea) {
         assertEquals(123456789012345L, dfhcommarea.getCDefinition2().longValue());
     }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
 }

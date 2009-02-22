@@ -110,4 +110,12 @@ public final class BinarchtCases extends TestCase {
         + "ffd423aba294b479"
         + "002bdc545d6b4b87";
     }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
+
 }

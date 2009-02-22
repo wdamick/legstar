@@ -118,4 +118,12 @@ public final class BinnatusCases extends TestCase {
         + "fffffffefffffffe"
         + "ffffffffffffffff";
     }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
+
 }

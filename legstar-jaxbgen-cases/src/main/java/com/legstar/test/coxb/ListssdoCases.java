@@ -69,4 +69,11 @@ public final class ListssdoCases extends TestCase {
         + "d6c4d6f0f4"
         + "d6c4d6f0f5";
     }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
 }

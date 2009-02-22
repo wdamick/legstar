@@ -107,15 +107,15 @@ public final class DplarchtCases extends TestCase {
     public static String getHostBytesHex1Program() { 
 
         return "0001"
-        + "5C404040"
+        + "5c404040"
         + "4040404040404040"
-        + "000000000F"
+        + "000000000f"
         + "0000"
         + "00000001"
-        + "C2C9D5C1D9C3C8E3"
-        + "D7D9D6C7D9C1D44040404040"
-        + "D5D6E3C4C5C6C9D5C5C44040"
-        + "000016A0"
+        + "c2c9d5c1d9c3c8e3"
+        + "d7d9d6c7d9c1d44040404040"
+        + "d5d6e3c4c5c6c9d5c5c44040"
+        + "000016a0"
         + "00000002"
         + "404040404040404040404040404040404040404040404040";
     }
@@ -213,5 +213,12 @@ public final class DplarchtCases extends TestCase {
                 .get(0).getLsProgramsData());
         assertEquals(null, dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray()
                 .get(0).getLsTransactionsData());
+    }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
     }
 }

@@ -59,4 +59,11 @@ public final class FloatmixCases extends TestCase {
 
         return "434d2000000000004110000045543ae9361677a460ffffff";
     }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
 }

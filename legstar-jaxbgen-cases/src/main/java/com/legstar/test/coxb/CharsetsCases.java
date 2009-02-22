@@ -61,4 +61,12 @@ public final class CharsetsCases extends TestCase {
         + "e9006c00e9006d0065006e00740061006900720065002000e00020007200e90073006f0075006400720065"
         + "0020002000200020002000200020002000200020";
     }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
+
 }

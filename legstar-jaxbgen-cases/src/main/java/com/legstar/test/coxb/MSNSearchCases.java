@@ -215,4 +215,11 @@ public final class MSNSearchCases extends TestCase {
         assertTrue(result.get(0).getUrl().length() > 0);
         */
     }
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
+
 }

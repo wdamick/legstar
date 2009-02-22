@@ -246,4 +246,10 @@ public final class LsfileacCases extends TestCase {
         assertEquals(0, replyStatus.getReplyResp2());
     }
 
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
 }
