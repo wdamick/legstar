@@ -67,4 +67,11 @@ public final class LsfileadCases extends TestCase {
         + "f0f0f1f0f04bf3f5"
         + "c140e5d6c9d9404040";
     }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
 }

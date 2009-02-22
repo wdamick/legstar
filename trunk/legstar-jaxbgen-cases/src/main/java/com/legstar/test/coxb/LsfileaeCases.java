@@ -127,4 +127,10 @@ public final class LsfileaeCases extends TestCase {
         assertEquals("32156778", dfhcommarea.getComPersonal().getComPhone());
     }
 
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
 }

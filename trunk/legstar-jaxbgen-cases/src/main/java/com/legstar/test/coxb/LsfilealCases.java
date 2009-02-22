@@ -254,4 +254,11 @@ public final class LsfilealCases extends TestCase {
         assertEquals("S. P. RUSSELL", replyData.getFiller65().getReplyItem().get(3).getReplyPersonal().getReplyName());
         assertEquals("63738290", replyData.getFiller65().getReplyItem().get(3).getReplyPersonal().getReplyPhone());
     }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
 }

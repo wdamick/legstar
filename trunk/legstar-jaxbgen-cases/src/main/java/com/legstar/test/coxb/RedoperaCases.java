@@ -105,4 +105,11 @@ public final class RedoperaCases extends TestCase {
         + "4040404040404040404040404040404040404040"
         + "404040404040404040404040";
     }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
 }

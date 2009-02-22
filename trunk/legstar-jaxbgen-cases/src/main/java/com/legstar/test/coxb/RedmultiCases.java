@@ -128,4 +128,11 @@ public final class RedmultiCases extends TestCase {
         + "40404040404040404040"
         + "40404040404040404040";
     }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
 }

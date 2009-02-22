@@ -53,4 +53,12 @@ public final class FixarsimCases extends TestCase {
 
         return "d7d9c5d4c9c4c5e4e7c9e3d9d6c9e2";
     }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
+
 }

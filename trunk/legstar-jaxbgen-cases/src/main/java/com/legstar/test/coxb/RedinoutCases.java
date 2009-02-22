@@ -49,6 +49,16 @@ public final class RedinoutCases extends TestCase {
     }
 
     /**
+     * Check that data object contains the expected values.
+     * @param dfhcommarea the java object to check
+     */
+    public static void checkJavaObject(final Dfhcommarea dfhcommarea) {
+        assertEquals(35, dfhcommarea.getCNumeric());
+        assertEquals("ABCDEABCDEABCDE", dfhcommarea.getCParain().getCSomeInput());
+        assertEquals(null, dfhcommarea.getCParaout());
+    }
+
+    /**
      * @return an instance of a valued java object.
      */
     public static Dfhcommarea getJavaObjectSecondChoice() {
@@ -76,5 +86,12 @@ public final class RedinoutCases extends TestCase {
     public static String getHostBytesHexSecondChoice() { 
 
         return "0023f1f2f3f4f5f6f7f84040404040404040404040404040404040";
+    }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
     }
 }

@@ -234,4 +234,10 @@ public final class Varar021Cases extends TestCase {
         }
         
     }
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
 }

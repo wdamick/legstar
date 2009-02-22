@@ -12,6 +12,7 @@ package com.legstar.test.coxb;
 
 import junit.framework.TestCase;
 
+import com.legstar.test.coxb.ws.jvmquery.ObjectFactory;
 import com.legstar.test.coxb.ws.jvmquery.JvmQueryReply;
 import com.legstar.test.coxb.ws.jvmquery.QueryJvmResponse;
 
@@ -50,11 +51,11 @@ public final class JvmqueryWsCases extends TestCase {
         JvmQueryReply jvmQueryReply = new JvmQueryReply();
         jvmQueryReply.setCountry("France");
         jvmQueryReply.setCurrencySymbol("€");
-        jvmQueryReply.setFormattedDate("vendredi-10-octobre-2008-14h-28");
+        jvmQueryReply.setFormattedDate("vendredi 10 octobre 2008 14 h 28");
         jvmQueryReply.setLanguage("français");
         jvmQueryReply.getEnvVarValues().add(
                 "D:\\Legsem\\Legstar\\jboss\\mlittle\\product\\build\\jbossesb-server-4.4.GA");
-        jvmQueryReply.getEnvVarValues().add("C:\\Program Files\\Java\\jdk1.6.0_10");
+        jvmQueryReply.getEnvVarValues().add("C:\\Program Files\\Java\\jdk1.6.0");
 
         QueryJvmResponse queryJvmResponse = new QueryJvmResponse();
         queryJvmResponse.setReturn(jvmQueryReply);
@@ -79,4 +80,12 @@ public final class JvmqueryWsCases extends TestCase {
 
         return QUERYJVMRESPONSE_HOST_BYTES;
     }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
+
 }

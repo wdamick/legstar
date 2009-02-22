@@ -59,4 +59,11 @@ public final class NumzonedCases extends TestCase {
 
         return "f6f0d5d0f7f8f0c14ef9f1f160";
     }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
 }

@@ -45,6 +45,13 @@ public final class RedbothaCases extends TestCase {
     }
 
     /**
+     * Check that data object contains the expected values.
+     * @param dfhcommarea the java object to check
+     */
+    public static void checkJavaObject(final Dfhcommarea dfhcommarea) {
+        assertEquals(5, dfhcommarea.getCNumeric().intValue());
+    }
+    /**
      * @return an instance of a valued java object.
      */
     public static Dfhcommarea getJavaObjectSecondChoice() {
@@ -73,5 +80,12 @@ public final class RedbothaCases extends TestCase {
     public static String getHostBytesHexSecondChoice() { 
 
         return "c1c2";
+    }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
     }
 }

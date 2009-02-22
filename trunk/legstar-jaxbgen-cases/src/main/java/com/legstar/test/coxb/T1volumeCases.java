@@ -11,6 +11,7 @@
 package com.legstar.test.coxb;
 
 import com.legstar.coxb.host.HostData;
+import com.legstar.test.coxb.fixarsim.ObjectFactory;
 
 import junit.framework.TestCase;
 
@@ -48,5 +49,12 @@ public class T1volumeCases extends TestCase {
         System.arraycopy(byteArray, size - 16, endEC, 0, 16);
         assertEquals("d7c1d9d47e4d7dd5d6c4e8d5c1d46bd3", HostData.toHexString(startEC));
         assertEquals("d7c7d47ec9c7e8c3d9c3e3d36bd9c5c7", HostData.toHexString(endEC));
+    }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
     }
 }

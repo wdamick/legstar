@@ -173,4 +173,11 @@ public final class VararcomCases extends TestCase {
 
         return sb.toString();
     }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
 }

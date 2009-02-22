@@ -89,4 +89,12 @@ public final class BinpkdusCases extends TestCase {
         + "1234567890123456789f"
         + "1234567890123456789012345678901f";
     }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
+
 }

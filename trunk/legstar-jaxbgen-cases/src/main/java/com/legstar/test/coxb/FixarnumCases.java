@@ -115,4 +115,12 @@ public final class FixarnumCases extends TestCase {
         + "f0f0f0f0"
         + "000000000000000000000000000000000000000000000000000000000000000000000000";
     }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
+
 }

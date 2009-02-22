@@ -65,4 +65,11 @@ public final class FixarcomCases extends TestCase {
         + "c1c2d1c1f50023"
         + "c1c2d1c1f6002a";
     }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
 }

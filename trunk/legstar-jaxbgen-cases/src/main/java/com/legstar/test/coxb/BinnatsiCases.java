@@ -117,4 +117,12 @@ public final class BinnatsiCases extends TestCase {
         + "00000003ffffffff"
         + "7fffffffffffffff";
     }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
+
 }

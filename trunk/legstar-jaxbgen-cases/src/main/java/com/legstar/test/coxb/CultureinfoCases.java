@@ -111,4 +111,12 @@ public final class CultureinfoCases extends TestCase {
         response.setServerCultureInfo(sci);
         return response;
     }
+
+    /**
+     * @return a JAXB object factory for this type of object
+     */
+    public static Object getFactory() {
+        return new ObjectFactory();
+    }
+
 }
