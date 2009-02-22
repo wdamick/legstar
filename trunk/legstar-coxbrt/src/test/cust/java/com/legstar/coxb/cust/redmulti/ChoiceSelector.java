@@ -24,29 +24,29 @@ import com.legstar.test.coxb.redmulti.Dfhcommarea;
  */
 public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
 
-	/** {@inheritDoc} */
-  public final ICobolBinding choose(
-      final ICobolChoiceBinding choice,
-      final Hashtable < String, Object > variablesMap,
-      final CobolElementVisitor visitor)
+    /** {@inheritDoc} */
+    public final ICobolBinding choose(
+            final ICobolChoiceBinding choice,
+            final Hashtable < String, Object > variablesMap,
+            final CobolElementVisitor visitor)
     throws HostException {
-    
-		/* Get the current value of the cOutput variable. */
-		Dfhcommarea jobj =
-			(Dfhcommarea) choice.getParentValueObject();
-		
-		if (jobj.getCOutputType().compareTo("normal") == 0) {
-			return choice.getAlternativeByName("Filler35");
-		}
 
-		if (jobj.getCOutputType().compareTo("error") == 0) {
-			return choice.getAlternativeByName("Filler38");
-		}
+        /* Get the current value of the cOutput variable. */
+        Dfhcommarea jobj =
+            (Dfhcommarea) choice.getParentValueObject();
 
-		/* None of the alternatives could be chosen. Raise an error.*/
-		throw (new HostException("Unrecognized COutput value:" 
-				+ jobj.getCOutputType()));
-  }
+        if (jobj.getCOutputType().compareTo("normal") == 0) {
+            return choice.getAlternativeByName("Filler35");
+        }
+
+        if (jobj.getCOutputType().compareTo("error") == 0) {
+            return choice.getAlternativeByName("Filler38");
+        }
+
+        /* None of the alternatives could be chosen. Raise an error.*/
+        throw (new HostException("Unrecognized COutput value:" 
+                + jobj.getCOutputType()));
+    }
 
 }
-  
+

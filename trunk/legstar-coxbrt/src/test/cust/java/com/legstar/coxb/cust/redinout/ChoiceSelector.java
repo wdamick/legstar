@@ -23,17 +23,17 @@ import com.legstar.coxb.host.HostException;
  */
 public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
 
-	/** {@inheritDoc} */
-  public final ICobolBinding choose(
-      final ICobolChoiceBinding choice,
-      final Hashtable < String, Object > variablesMap,
-      final CobolElementVisitor visitor)
+    /** {@inheritDoc} */
+    public final ICobolBinding choose(
+            final ICobolChoiceBinding choice,
+            final Hashtable < String, Object > variablesMap,
+            final CobolElementVisitor visitor)
     throws HostException {
-    
-		
-		/* When unmarshalling, the paraout alternative must always be chosen. */
-		return choice.getAlternativeByName("CParaout");
-  }
+
+
+        /* When unmarshalling, the paraout alternative must always be chosen. */
+        return choice.getAlternativeByName("CParaout");
+    }
 
 }
-  
+

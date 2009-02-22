@@ -10,21 +10,40 @@
  ******************************************************************************/
 package com.legstar.util;
 
+import com.legstar.coxb.host.HostException;
+
 import junit.framework.TestCase;
 
+/**
+ * Test the general purpose JAXB utility methods.
+ */
 public class JaxbUtilTest extends TestCase {
-	
-	public void testGetJavaClassNameAnnotations() throws Exception {
-		assertEquals("com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply",
-				JaxbUtil.getJavaClassName(
-				"com.legstar.test.coxb.jvmquery", "JvmQueryReply"));
-		
-	}
 
-	public void testGetJavaClassNameNoAnnotations() throws Exception {
-		assertEquals("com.legstar.test.coxb.dplarcht.Dfhcommarea",
-				JaxbUtil.getJavaClassName(
-				"com.legstar.test.coxb.dplarcht", "Dfhcommarea"));
-		
-	}
+    /**
+     * Test extraction of the target POJO class name from annotations.
+     */
+    public void testGetJavaClassNameAnnotations() {
+        try {
+            assertEquals("com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply",
+                    JaxbUtil.getJavaClassName(
+                            "com.legstar.test.coxb.jvmquery", "JvmQueryReply"));
+        } catch (HostException e) {
+            fail(e.getMessage());
+        }
+
+    }
+
+    /**
+     * Case where there is no target POJO annotation.
+     */
+    public void testGetJavaClassNameNoAnnotations() {
+        try {
+            assertEquals("com.legstar.test.coxb.dplarcht.Dfhcommarea",
+                    JaxbUtil.getJavaClassName(
+                            "com.legstar.test.coxb.dplarcht", "Dfhcommarea"));
+        } catch (HostException e) {
+            fail(e.getMessage());
+        }
+
+    }
 }

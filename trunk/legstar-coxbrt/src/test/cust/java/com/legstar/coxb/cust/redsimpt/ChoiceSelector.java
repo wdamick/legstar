@@ -24,44 +24,44 @@ import com.legstar.coxb.host.HostException;
  */
 public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
 
-	/** List of digit characters. */
-	private static byte[] hostChars =
-		HostData.toByteArray("F0F1F2F3F4F5F6F7F8F9");
+    /** List of digit characters. */
+    private static byte[] hostChars =
+        HostData.toByteArray("F0F1F2F3F4F5F6F7F8F9");
 
-	/** {@inheritDoc} */
-	public final ICobolBinding choose(
-			final ICobolChoiceBinding choice,
-			final Hashtable < String, Object > variablesMap,
-			final CobolElementVisitor visitor)
-	throws HostException {
+    /** {@inheritDoc} */
+    public final ICobolBinding choose(
+            final ICobolChoiceBinding choice,
+            final Hashtable < String, Object > variablesMap,
+            final CobolElementVisitor visitor)
+    throws HostException {
 
-		/* Examine the nature of the host data. If any character is not a digit,
-		 * select the string alternative.
-		 * In this special case, both alternatives have the same size, so we can
-		 * safely use calcByteLength to determine that size.  */
-		boolean digits = false;
-		for (int i = 0; i < choice.calcByteLength(); i++) {
-			digits = false;
-			for (int j = 0; j < hostChars.length; j++) {
-				if (visitor.getHostBytes()[visitor.getOffset() + i]
-				                           == hostChars[j]) {
-					digits = true;
-					break;
-				}
-			}
-			if (!digits) {
-				break;
-			}
-		}
+        /* Examine the nature of the host data. If any character is not a digit,
+         * select the string alternative.
+         * In this special case, both alternatives have the same size, so we can
+         * safely use calcByteLength to determine that size.  */
+        boolean digits = false;
+        for (int i = 0; i < choice.calcByteLength(); i++) {
+            digits = false;
+            for (int j = 0; j < hostChars.length; j++) {
+                if (visitor.getHostBytes()[visitor.getOffset() + i]
+                                           == hostChars[j]) {
+                    digits = true;
+                    break;
+                }
+            }
+            if (!digits) {
+                break;
+            }
+        }
 
-		/* If all characters are digits, we can safely select the numeric
-		 * choice. Otherwise select the alphabetic alternative. */
-		if (digits) {
-			return choice.getAlternativeByName("CDefinition2");
-		} else {
-			return choice.getAlternativeByName("CDefinition1");
-		}
-	}
+        /* If all characters are digits, we can safely select the numeric
+         * choice. Otherwise select the alphabetic alternative. */
+        if (digits) {
+            return choice.getAlternativeByName("CDefinition2");
+        } else {
+            return choice.getAlternativeByName("CDefinition1");
+        }
+    }
 
 }
 

@@ -23,25 +23,25 @@ import com.legstar.coxb.host.HostException;
  */
 public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
 
-	/** {@inheritDoc} */
-  public final ICobolBinding choose(
-      final ICobolChoiceBinding choice,
-      final Hashtable < String, Object > variablesMap,
-      final CobolElementVisitor visitor)
+    /** {@inheritDoc} */
+    public final ICobolBinding choose(
+            final ICobolChoiceBinding choice,
+            final Hashtable < String, Object > variablesMap,
+            final CobolElementVisitor visitor)
     throws HostException {
-    
-		/* Save the current offset in the visitor */
-		int saveOffset = visitor.getOffset();
-		
-		/* Force visitor to visit the second alternative (the default
-		 * code will process the first one) and update the JAXB object*/
-		choice.getAlternativesList().get(1).accept(visitor);
-		choice.setPropertyValue(1);
-		
-		/* Now restore offset and pretend no alternative was processed.*/
-		visitor.setOffset(saveOffset);
-		return null;
-  }
+
+        /* Save the current offset in the visitor */
+        int saveOffset = visitor.getOffset();
+
+        /* Force visitor to visit the second alternative (the default
+         * code will process the first one) and update the JAXB object*/
+        choice.getAlternativesList().get(1).accept(visitor);
+        choice.setPropertyValue(1);
+
+        /* Now restore offset and pretend no alternative was processed.*/
+        visitor.setOffset(saveOffset);
+        return null;
+    }
 
 }
-  
+
