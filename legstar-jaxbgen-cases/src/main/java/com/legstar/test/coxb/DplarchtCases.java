@@ -12,6 +12,7 @@ package com.legstar.test.coxb;
 
 import junit.framework.TestCase;
 
+import com.legstar.test.coxb.dplarcht.LsFilesData;
 import com.legstar.test.coxb.dplarcht.LsItemsArray;
 import com.legstar.test.coxb.dplarcht.LsProgramsData;
 import com.legstar.test.coxb.dplarcht.LsReply;
@@ -214,7 +215,78 @@ public final class DplarchtCases extends TestCase {
         assertEquals(null, dfhcommarea.getLsReply().getLsReplyData().getLsItemsArray()
                 .get(0).getLsTransactionsData());
     }
+    
+    /**
+     * Simulates a host buffer with the requested number of files.
+     * @param files how many files to simulate
+     * @return a hexadecimal representation of host data
+     */
+    public static String getHostBytesHexFiles(final int files) {
+        StringBuilder sb = new StringBuilder();
+        String strFiles = Integer.toHexString(files);
+        sb.append("0000"
+                + "5c404040"
+                + "4040404040404040"
+                + "000000000f"
+                + "0000"
+                + "00000000".substring(0, 8 - strFiles.length()) + strFiles);
+        for (int i = 0; i < files; i++) {
+            sb.append("c1c2c3c4c1c2c3c4"
+                    + "c4404040404040404040"
+                    + "c4404040404040404040"
+                    + "c4404040404040404040"
+                    + "c4404040404040404040"
+                    + "40404040"
+                    + "c1c1c1c1c2c2c2c2c3c3c3c3");
+        }
+        return sb.toString();
+    }
 
+    /**
+     * Simulates a jav object with the requested number of files.
+     * @param files number of files to simulate  
+     * @return an instance of a valued java object.
+     */
+    public static Dfhcommarea getJavaObjectFiles(final int files) {
+        ObjectFactory of = new ObjectFactory();
+        Dfhcommarea dfhcommarea = of.createDfhcommarea();
+        LsRequest lsRequest = of.createLsRequest();
+        dfhcommarea.setLsRequest(lsRequest);
+        lsRequest.setLsRequestType(0);
+        lsRequest.setLsAllItems("*");
+        com.legstar.test.coxb.dplarcht.LsSearchCriteria lsSearchCriteria = of.createLsSearchCriteria();
+        lsSearchCriteria.setLsStartwith("");
+        lsSearchCriteria.setLsStartwithLen(0);
+        lsRequest.setLsSearchCriteria(lsSearchCriteria);
+        
+        com.legstar.test.coxb.dplarcht.LsReply lsReply = of.createLsReply();
+        dfhcommarea.setLsReply(lsReply);
+        com.legstar.test.coxb.dplarcht.LsReplyData lsReplyData = of.createLsReplyData();
+        lsReply.setLsReplyData(lsReplyData);
+        lsReplyData.setLsItemsCount(files);
+        
+        for (int i = 0; i < files; i++) {
+            LsItemsArray ia = of.createLsItemsArray();
+            LsFilesData dt = of.createLsFilesData();
+            dt.setLsFileName("ABCDABCD");
+            dt.setLsFileEnablestatus("AAAABBBBCCCC");
+            ia.setLsFilesData(dt);
+            lsReplyData.getLsItemsArray().add(ia);
+        }
+        return dfhcommarea;
+    }
+    
+    /**
+     * Check that data object contains the expected values.
+     * This is used for volume testing where we avoid to compare the entire payload
+     * which would impact CPU.
+     * @param files number of files to simulate  
+     * @param dfhcommarea the java object to check
+     */
+    public static void checkJavaObjectFiles(final int files, final Dfhcommarea dfhcommarea) {
+        assertEquals(files, dfhcommarea.getLsReply().getLsReplyData().getLsItemsCount());
+    }
+    
     /**
      * @return a JAXB object factory for this type of object
      */
