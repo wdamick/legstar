@@ -18,7 +18,7 @@ public class LsfileaeMeteringTest extends AbstractTestTransformers {
     /**
      * LSFILEAE from Java to Host.
      */
-    public void testJavaToHostLsfileae() {
+    public void testJavaToHost() {
         try {
             LsfileaeTransformers transformers = new LsfileaeTransformers();
             Dfhcommarea dfhcommarea = (Dfhcommarea) transformers.toJava(
@@ -32,7 +32,7 @@ public class LsfileaeMeteringTest extends AbstractTestTransformers {
     /**
      * LSFILEAE from Host to Java.
      */
-    public void testHostToJavaLsfileae() {
+    public void testHostToJava() {
         try {
             LsfileaeTransformers transformers = new LsfileaeTransformers();
             byte[] hostBytes = transformers.toHost(

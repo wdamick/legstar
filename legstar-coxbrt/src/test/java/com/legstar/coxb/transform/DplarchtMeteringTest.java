@@ -28,7 +28,7 @@ public class DplarchtMeteringTest extends AbstractTestTransformers {
     /**
      * DPLARCHT from Java to Host Small payload.
      */
-    public void testJavaToHostDplarchtSmallVolume() {
+    public void testJavaToHostSmallVolume() {
         try {
             DplarchtTransformers transformers = new DplarchtTransformers();
             Dfhcommarea dfhcommarea = (Dfhcommarea) transformers.toJava(
@@ -42,7 +42,7 @@ public class DplarchtMeteringTest extends AbstractTestTransformers {
     /**
      * DPLARCHT from Java to Host Medium payload.
      */
-    public void testJavaToHostDplarchtMediumVolume() {
+    public void testJavaToHostMediumVolume() {
         try {
             DplarchtTransformers transformers = new DplarchtTransformers();
             Dfhcommarea dfhcommarea = (Dfhcommarea) transformers.toJava(
@@ -56,7 +56,7 @@ public class DplarchtMeteringTest extends AbstractTestTransformers {
     /**
      * DPLARCHT from Java to Host Large volume.
      */
-    public void testJavaToHostDplarchtLargeVolume() {
+    public void testJavaToHostLargeVolume() {
         try {
             DplarchtTransformers transformers = new DplarchtTransformers();
             Dfhcommarea dfhcommarea = (Dfhcommarea) transformers.toJava(
@@ -71,7 +71,7 @@ public class DplarchtMeteringTest extends AbstractTestTransformers {
     /**
      * DPLARCHT from Host to Java Small payload.
      */
-    public void testHostToJavaDplarchtSmallVolume() {
+    public void testHostToJavaSmallVolume() {
         try {
             DplarchtTransformers transformers = new DplarchtTransformers();
             byte[] hostBytes = transformers.toHost(
@@ -85,7 +85,7 @@ public class DplarchtMeteringTest extends AbstractTestTransformers {
     /**
      * DPLARCHT from Host to Java Medium payload.
      */
-    public void testHostToJavaDplarchtMediumVolume() {
+    public void testHostToJavaMediumVolume() {
         try {
             DplarchtTransformers transformers = new DplarchtTransformers();
             byte[] hostBytes = transformers.toHost(
@@ -99,7 +99,7 @@ public class DplarchtMeteringTest extends AbstractTestTransformers {
     /**
      * DPLARCHT from Host to Java Large payload.
      */
-    public void testHostToJavaDplarchtLargeVolume() {
+    public void testHostToJavaLargeVolume() {
         try {
             DplarchtTransformers transformers = new DplarchtTransformers();
             byte[] hostBytes = transformers.toHost(
