@@ -2,7 +2,7 @@
 
 = Introduction =
 
-There are several performance aspects of interest in LegStar. Here we axamine the bahavior of the COBOL binding conversions at the data type (or individual field) level.
+There are several performance aspects of interest in LegStar. Here we examine the behavior of the COBOL binding conversions at the data type (or individual field) level.
 
 At the finest level, COBOL binding performs elemental conversions from COBOL data types to Java types. So we first focus on these data types conversions as they will affect all higher level features.
 
