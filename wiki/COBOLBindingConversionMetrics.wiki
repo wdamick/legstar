@@ -6,9 +6,11 @@ There are several performance aspects of interest in LegStar. Here we axamine th
 
 At the finest level, COBOL binding performs elemental conversions from COBOL data types to Java types. So we first focus on these data types conversions as they will affect all higher level features.
 
-The metrics are focused on CPU as this is likely to be the most important resource from a performance perspective. It would be useful to complement this with a memory type of analysis though (as objects are being created and destroyed as part of the conversion/transformation process).
+The metrics are focused on CPU as this is likely to be the most important resource from a performance perspective. 
 
 = Measurement procedure =
+
+We used LegStar release 1.2.3.
 
 We bundled JUnit test cases for each of the functions we wanted to measure:
 
@@ -22,13 +24,17 @@ We bundled JUnit test cases for each of the functions we wanted to measure:
 || BigDecimalToZonedDecimal || Java BigDecimal to PIC S9(15)V99 || 
 || BigDecimalToBinary || Java BigDecimal to PIC S9(8) COMP ||
 
-We used [http://jakarta.apache.org/jmeter/ Apache JMeter] to load test each one of these JUnit methods. Each test was run 100000 times with a 1000 warmup iterations.
+You can find the JUnit source code [http://code.google.com/p/legstar/source/browse/trunk/legstar-coxbrt/src/test/java/com/legstar/coxb/convert/simple/MeteringTest.java here].
+
+We used [http://jakarta.apache.org/jmeter/ Apache JMeter] to load test each one of these JUnit methods. Each test was run 100000 times with 1000 warmup iterations.
+
+The JMeter configuration files can be found [http://code.google.com/p/legstar/source/browse/#svn/trunk/legstar-coxbrt/src/test/resources/jmeter/convert/simple here].
 
 The target machine is an Intel centrino dual core 2.00 Ghz running JRE 1.6.0_10.
 
 We measured the throughput which is the number of elementary conversions we could perform in a second.
 
-The results should not be interpreted as absolute values. Typically we were running JMeter in GUI mode and performing JUnit assertion on each execution which tends to use CPU cycles and reduce throughput. The results are valid when you compare individual tests to each other.
+The results should not be interpreted as absolute values. Typically we were running JMeter in GUI mode and performing JUnit assertion on each execution which tends to use CPU cycles and reduce throughput. The results are valid when you compare individual tests to each other though.
 
 = Results =
 
@@ -41,3 +47,9 @@ The results should not be interpreted as absolute values. Typically we were runn
 || BigDecimalToBinary	|| 27754  ||
 || BigDecimalToZonedDecimal	|| 18011  ||
 || BigDecimalToPackedDecimal	|| 26539  ||
+
+= Conclusion =
+
+Zoned decimals lag behind the other types. This is a consequence of supporting conversion of zoned decimals for ASCII character sets.
+
+It would be useful to complement this with a memory type of analysis (as objects are being created and destroyed as part of the conversion/transformation process).
