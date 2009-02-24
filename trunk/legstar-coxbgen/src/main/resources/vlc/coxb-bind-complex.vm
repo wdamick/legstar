@@ -46,6 +46,9 @@ public class $binding-class-name
      * and doesn't need to be recreated. */
     private boolean mUnusedValueObject = false;
     
+    /** Maximum host bytes size for this complex object. */
+    private static final int BYTE_LENGTH = ${binding.calcByteLength()};
+    
 #foreach ($child in $binding.childrenList)
 #set ($childObjectType = $coxbHelper.getBoundTypeName($child))
 #if($child.isBound())
@@ -129,6 +132,7 @@ public class $binding-class-name
             mUnusedValueObject = true;
         }
         initChildren();
+        setByteLength(BYTE_LENGTH);
     }
 
     /** Creates a binding property for each child. */
