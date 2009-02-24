@@ -76,6 +76,7 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
    public void testGenAlltypes() throws Exception  {
         genSource("alltypes", "Dfhcommarea");
         String srce = getSource(GEN_SRC_DIR, getBindingSrcFilename("alltypes", "Dfhcommarea"));
+        assertTrue(srce.contains("private static final int BYTE_LENGTH = 267;"));
         assertTrue(srce.contains("sString = BF.createStringBinding(\"SString\","));
         assertTrue(srce.contains("\"SString\", String.class, this);"));
     }
@@ -87,6 +88,7 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
     public void testGenDplarcht() throws Exception   {
         genSource("dplarcht", "Dfhcommarea");
         String srce = getSource(GEN_SRC_DIR, getBindingSrcFilename("dplarcht", "Dfhcommarea"));
+        assertTrue(srce.contains("private static final int BYTE_LENGTH = 32025;"));
         assertTrue(srce.contains("lsRequest = new LsRequestBinding(\"LsRequest\","));
         assertTrue(srce.contains("\"LsRequest\", this, null);"));
         assertTrue(srce.contains("lsReply = new LsReplyBinding(\"LsReply\","));
@@ -102,6 +104,7 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
         custFile.delete();
         genSource("redsimpt", "Dfhcommarea");
         String srce = getSource(GEN_SRC_DIR, getBindingSrcFilename("redsimpt", "Dfhcommarea"));
+        assertTrue(srce.contains("private static final int BYTE_LENGTH = 18;"));
         assertTrue(srce.contains("cDefinition1Choice = new CDefinition1ChoiceBinding(\"CDefinition1Choice\", this);"));
         assertTrue(srce.contains("cDefinition1Choice.setUnmarshalChoiceStrategyClassName("));
         assertTrue(srce.contains("\"com.legstar.coxb.cust.redsimpt.ChoiceSelector\");"));
@@ -117,6 +120,7 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
     public void testGenArrayssm() throws Exception   {
         genSource("arrayssm", "Dfhcommarea");
         String srce = getSource(GEN_SRC_DIR, getBindingSrcFilename("arrayssm", "Dfhcommarea"));
+        assertTrue(srce.contains("private static final int BYTE_LENGTH = 54;"));
         assertTrue(srce.contains("tableComplexWrapperItem = new TableComplexBinding(\"TableComplexWrapperItem\","));
         assertTrue(srce.contains("\"TableComplex\", this, null);"));
         assertTrue(srce.contains("tableComplexWrapper = new TableComplexWrapperBinding(\"TableComplexWrapper\","));
@@ -130,7 +134,8 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
     public void testGenLsfileae() throws Exception   {
         genSource("lsfileae", "Dfhcommarea");
         String srce = getSource(GEN_SRC_DIR, getBindingSrcFilename("lsfileae", "Dfhcommarea"));
-        assertTrue(srce.contains("comNumber = BF.createZonedDecimalBinding(\"ComNumber\","));
+        assertTrue(srce.contains("private static final int BYTE_LENGTH = 79;"));
+       assertTrue(srce.contains("comNumber = BF.createZonedDecimalBinding(\"ComNumber\","));
         assertTrue(srce.contains("\"ComNumber\", Long.class, this);"));
         srce = getSource(GEN_SRC_DIR, getSrcFilename("lsfileae", "DfhcommareaHostToJavaTransformer"));
         assertTrue(srce.contains(
@@ -150,6 +155,7 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
     public void testGenArraysdo() throws Exception   {
         genSource("arraysdo", "Dfhcommarea");
         String srce = getSource(GEN_SRC_DIR, getBindingSrcFilename("arraysdo", "Dfhcommarea"));
+        assertTrue(srce.contains("private static final int BYTE_LENGTH = 502;"));
         assertTrue(srce.contains("tableOdo = BF.createArrayStringBinding(\"TableOdo\","));
         assertTrue(srce.contains("\"TableOdo\", String.class, this);"));
         assertTrue(srce.contains("tableOdo.setByteLength(5);"));
@@ -166,6 +172,7 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
     public void testGenListssdo() throws Exception   {
         genSource("listssdo", "Dfhcommarea");
         String srce = getSource(GEN_SRC_DIR, getBindingSrcFilename("listssdo", "Dfhcommarea"));
+        assertTrue(srce.contains("private static final int BYTE_LENGTH = 504;"));
         assertTrue(srce.contains("listOdoCounter = BF.createBinaryBinding(\"ListOdoCounter\","));
         assertTrue(srce.contains("this);"));
         assertTrue(srce.contains("listOdoCounter.setByteLength(4);"));
@@ -183,6 +190,7 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
     public void testMSNSearchSearchRequestType() throws Exception   {
         genSource("MSNSearch", "SearchRequestType");
         String srce = getSource(GEN_SRC_DIR, getBindingSrcFilename("MSNSearch", "SearchRequestType"));
+        assertTrue(srce.contains("private static final int BYTE_LENGTH = 10916;"));
         assertTrue(srce.contains("flagsCounter = BF.createBinaryBinding(\"FlagsCounter\","));
         assertTrue(srce.contains("this);"));
         assertTrue(srce.contains("flagsCounter.setByteLength(4);"));
@@ -200,6 +208,7 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
     public void testMSNSearchSearchResponseType() throws Exception   {
         genSource("MSNSearch", "SearchResponse");
         String srce = getSource(GEN_SRC_DIR, getBindingSrcFilename("MSNSearch", "SourceResponseType"));
+        assertTrue(srce.contains("private static final int BYTE_LENGTH = 18192;"));
         assertTrue(srce.contains("source = BF.createStringBinding(\"Source\","));
         assertTrue(srce.contains("\"Source\", SourceTypeType.class, this);"));
         assertTrue(srce.contains("source.setByteLength(32);"));
