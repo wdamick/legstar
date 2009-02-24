@@ -110,12 +110,12 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer 
         }
 
         try {
-            /* Unmarshal the raw host data into a java object tree */
+            /* Reuse binding if possible get a new one otherwise */
             CobolElementVisitor unmarshaler = getCobolBindingVisitorsFactory().createUnmarshalVisitor(
                     hostData, 0, getCobolConverters());
 
             /* Request a binding from concrete class */
-            ICobolComplexBinding binding = getBinding();
+            ICobolComplexBinding binding = getCachedBinding();
             
             /* Traverse the object structure, visiting each node with the visitor */
             binding.accept(unmarshaler);
