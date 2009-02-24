@@ -106,8 +106,8 @@ public abstract class AbstractJavaToHostTransformer extends AbstractTransformer 
         }
 
         try {
-            /* Request a binding from concrete class and attach the value object */
-            ICobolComplexBinding binding = getBinding();
+            /* Reuse binding if possible get a new one otherwise */
+            ICobolComplexBinding binding = getCachedBinding();
             binding.setObjectValue(valueObject);
 
             /* Allocate a byte array large enough to accommodate the largest object. */

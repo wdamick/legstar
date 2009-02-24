@@ -31,14 +31,9 @@ public abstract class AbstractTransformer implements IHostTransformer {
     
     /** Factory that provides concrete implementations of marshalers/unmarshalers. */
     private ICobolBindingVisitorsFactory mCobolBindingVisitorsFactory;
-
-    /**
-     * @return the binding corresponding to the host structure type.
-     * Such a binding can either be statically produced by {@link com.legstar.coxb.gen.CoxbBindingGenerator},
-     * or dynamically built by {@link com.legstar.coxb.impl.reflect.CComplexBinding}.
-     * @throws CobolBindingException if binding cannot be returned
-     */
-    public abstract ICobolComplexBinding getBinding() throws CobolBindingException;
+    
+    /** Caching the binding allows reuse and better performances. */
+    private ICobolComplexBinding mCachedBinding;
 
     /**
      * Create a transformer using default COBOL parameters.
@@ -114,6 +109,18 @@ public abstract class AbstractTransformer implements IHostTransformer {
     public void setCobolBindingVisitorsFactory(
             final ICobolBindingVisitorsFactory cobolBindingVisitorsFactory) {
         mCobolBindingVisitorsFactory = cobolBindingVisitorsFactory;
+    }
+
+    /**
+     * @return the cached binding if one is available otherwise will request a 
+     *  new one from a descendant.
+     * @throws CobolBindingException if binding cannot be built
+     */
+    public ICobolComplexBinding getCachedBinding() throws CobolBindingException {
+        if (mCachedBinding == null) {
+            mCachedBinding = getBinding();
+        }
+        return mCachedBinding;
     }
 
 }

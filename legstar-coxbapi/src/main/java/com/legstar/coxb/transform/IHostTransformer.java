@@ -10,8 +10,10 @@
  ******************************************************************************/
 package com.legstar.coxb.transform;
 
+import com.legstar.coxb.CobolBindingException;
 import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.ICobolBindingVisitorsFactory;
+import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.convert.ICobolConverters;
 
 /**
@@ -55,4 +57,13 @@ public interface IHostTransformer {
      */
     void setCobolBindingVisitorsFactory(
             final ICobolBindingVisitorsFactory cobolBindingVisitorsFactory);
+
+    /**
+     * @return the binding corresponding to the host structure type.
+     * Such a binding can either be statically produced by {@link com.legstar.coxb.gen.CoxbBindingGenerator},
+     * or dynamically built by {@link com.legstar.coxb.impl.reflect.CComplexBinding}.
+     * @throws CobolBindingException if binding cannot be returned
+     */
+    ICobolComplexBinding getBinding() throws CobolBindingException;
+
 }
