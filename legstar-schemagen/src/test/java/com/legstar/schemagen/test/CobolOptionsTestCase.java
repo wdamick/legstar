@@ -19,7 +19,7 @@ import junit.framework.TestCase;
  * This test cases class verifies that cobol options are having the expected 
  * effect on XML schema generation.
  */
-public class CobolOptionsCases extends TestCase {
+public class CobolOptionsTestCase extends TestCase {
 
     /** XML schema generator. */
     private COB2XSDJNIWrapper mXsdGenerator;
@@ -59,7 +59,7 @@ public class CobolOptionsCases extends TestCase {
     /** Quick simple pass.
      * @throws Exception if anything goes wrong */
     public final void testDefault() throws Exception {
-        mInVars.inFile = COB_DIR + "/simplest.cob";
+        mInVars.inFile = COB_DIR + "/simplest.cbl";
         int resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
         assertEquals(mOutVars.message, 0, resp);
     }
@@ -83,7 +83,7 @@ public class CobolOptionsCases extends TestCase {
      * @throws Exception if anything goes wrong  */
     public final void testDefaultCobolOptions() throws Exception {
         int resp;
-        mInVars.inFile = COB_DIR + "/simplest.cob";
+        mInVars.inFile = COB_DIR + "/simplest.cbl";
         /* Make sure, a debug line gets selected */
         mInVars.cobolOptions = null;
         resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
@@ -95,7 +95,7 @@ public class CobolOptionsCases extends TestCase {
      * @throws Exception if anything goes wrong */
     public final void testDebugLinesTrue() throws Exception {
         int resp;
-        mInVars.inFile = COB_DIR + "/debugLines.cob";
+        mInVars.inFile = COB_DIR + "/debugLines.cbl";
         /* Make sure, a debug line gets selected */
         mInVars.cobolOptions.includeDebugLines = true;
         resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
@@ -109,7 +109,7 @@ public class CobolOptionsCases extends TestCase {
      * @throws Exception if anything goes wrong */
     public final void testDebugLinesFalse() throws Exception {
         int resp;
-        mInVars.inFile = COB_DIR + "/debugLines.cob";
+        mInVars.inFile = COB_DIR + "/debugLines.cbl";
         /* Make sure, a debug line is ignored */
         mInVars.cobolOptions.includeDebugLines = false;
         resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
@@ -121,7 +121,7 @@ public class CobolOptionsCases extends TestCase {
      * @throws Exception if anything goes wrong */
     public final void testCurrencySign() throws Exception {
         int resp;
-        mInVars.inFile = COB_DIR + "/currencySign.cob";
+        mInVars.inFile = COB_DIR + "/currencySign.cbl";
         /* Set compiler options to selected currency sign */
         mInVars.cobolOptions.currencySign = "€";
 
@@ -133,7 +133,7 @@ public class CobolOptionsCases extends TestCase {
      * @throws Exception if anything goes wrong */
     public final void testWrongCurrencySign() throws Exception {
         int resp;
-        mInVars.inFile = COB_DIR + "/currencySign.cob";
+        mInVars.inFile = COB_DIR + "/currencySign.cbl";
         /* Set compiler options to selected currency sign */
         mInVars.cobolOptions.currencySign = "$";
         resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
@@ -146,7 +146,7 @@ public class CobolOptionsCases extends TestCase {
      * @throws Exception if anything goes wrong */
     public final void testTruncBinOn() throws Exception {
         int resp;
-        mInVars.inFile = COB_DIR + "/truncBin.cob";
+        mInVars.inFile = COB_DIR + "/truncBin.cbl";
         mInVars.cobolOptions.truncBin = true;
 
         resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
@@ -160,7 +160,7 @@ public class CobolOptionsCases extends TestCase {
      * @throws Exception if anything goes wrong */
     public final void testTruncBinOff() throws Exception {
         int resp;
-        mInVars.inFile = COB_DIR + "/truncBin.cob";
+        mInVars.inFile = COB_DIR + "/truncBin.cbl";
         mInVars.cobolOptions.truncBin = false;
 
         resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
@@ -175,7 +175,7 @@ public class CobolOptionsCases extends TestCase {
      * @throws Exception if anything goes wrong */
     public final void testDecimalPointIsComma() throws Exception {
         int resp;
-        mInVars.inFile = COB_DIR + "/decimalPointComma.cob";
+        mInVars.inFile = COB_DIR + "/decimalPointComma.cbl";
         mInVars.cobolOptions.decimalPointIsComma = true;
 
         resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
@@ -190,7 +190,7 @@ public class CobolOptionsCases extends TestCase {
      * @throws Exception if anything goes wrong */
     public final void testDecimalPointIsPoint() throws Exception {
         int resp;
-        mInVars.inFile = COB_DIR + "/decimalPointComma.cob";
+        mInVars.inFile = COB_DIR + "/decimalPointComma.cbl";
         mInVars.cobolOptions.decimalPointIsComma = false;
 
         resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
@@ -203,7 +203,7 @@ public class CobolOptionsCases extends TestCase {
      * @throws Exception if anything goes wrong */
     public final void testNSymbolDBCS() throws Exception {
         int resp;
-        mInVars.inFile = COB_DIR + "/nsymbolDbcs.cob";
+        mInVars.inFile = COB_DIR + "/nsymbolDbcs.cbl";
         mInVars.cobolOptions.nsymbolDbcs = true;
 
         resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
@@ -218,7 +218,7 @@ public class CobolOptionsCases extends TestCase {
      * @throws Exception if anything goes wrong */
     public final void testNSymbolNATIONAL() throws Exception {
         int resp;
-        mInVars.inFile = COB_DIR + "/nsymbolDbcs.cob";
+        mInVars.inFile = COB_DIR + "/nsymbolDbcs.cbl";
         mInVars.cobolOptions.nsymbolDbcs = false;
 
         resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
@@ -233,12 +233,12 @@ public class CobolOptionsCases extends TestCase {
      * @throws Exception if anything goes wrong */
     public final void testQuoteTrue() throws Exception {
         int resp;
-        mInVars.inFile = COB_DIR + "/valueQuotes.cob";
+        mInVars.inFile = COB_DIR + "/valueQuotes.cbl";
         mInVars.cobolOptions.quote = true;
 
         resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
         assertEquals(mOutVars.message, 0, resp);
-        if (-1 == readXSD().indexOf("<cb:value>&quote;</cb:value>")) {
+        if (-1 == readXSD().indexOf("<cb:value>&quot;</cb:value>")) {
             fail(readXSD());
         }
     }
@@ -247,7 +247,7 @@ public class CobolOptionsCases extends TestCase {
      * @throws Exception if anything goes wrong */
     public final void testQuoteFalse() throws Exception {
         int resp;
-        mInVars.inFile = COB_DIR + "/valueQuotes.cob";
+        mInVars.inFile = COB_DIR + "/valueQuotes.cbl";
         mInVars.cobolOptions.quote = false;
 
         resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
@@ -255,7 +255,7 @@ public class CobolOptionsCases extends TestCase {
             System.out.println(readXSD());
         }
         assertEquals(mOutVars.message, 0, resp);
-        if (-1 == readXSD().indexOf("<cb:value>&apost;</cb:value>")) {
+        if (-1 == readXSD().indexOf("<cb:value>&apos;</cb:value>")) {
             fail(readXSD());
         }
     }

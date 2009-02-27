@@ -171,7 +171,7 @@ public class COXBSchemaGeneratorTestCase extends TestCase {
 
         COXBSchemaGenerator gen = new COXBSchemaGenerator();
         try {
-            gen.setSourceCobolFilePath(COB_DIR + "/simplest.cob");
+            gen.setSourceCobolFilePath(COB_DIR + "/simplest.cbl");
             gen.setTargetDir(GEN_XSD_DIR);
             gen.setTargetXsdFileName("/xsd.file");
             gen.setNamespace(NAMESPACE);
@@ -189,7 +189,7 @@ public class COXBSchemaGeneratorTestCase extends TestCase {
             Path pa = new Path(mProject);
             FileSet fs = new FileSet();
             fs.setDir(COB_DIR);
-            fs.setExcludes("**/currencySign.cob");
+            fs.setExcludes("**/currencySign.cbl");
             pa.addFileset(fs);
             gen.addPath(pa);
             gen.setTargetDir(GEN_XSD_DIR);
@@ -209,7 +209,7 @@ public class COXBSchemaGeneratorTestCase extends TestCase {
             FileSet fs = new FileSet();
             fs.setDir(COB_DIR);
             pa.addFileset(fs);
-            gen.setSourceCobolFilePath(COB_DIR + "/simplest.cob");
+            gen.setSourceCobolFilePath(COB_DIR + "/simplest.cbl");
             gen.addPath(pa);
             gen.setTargetDir(GEN_XSD_DIR);
             gen.setTargetXsdFileName("/xsd.file");
@@ -270,6 +270,31 @@ public class COXBSchemaGeneratorTestCase extends TestCase {
             gen.execute();
             String result = getSource(GEN_XSD_DIR, "xsd.file");
             assertTrue(result.contains("<xs:element name=\"ComPersonal\" type=\"xsns:ComPersonalTypeSuffix\">"));
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+    
+    /**
+     * Values have had some issues so this is a specific test for these.
+     */
+    public void testValues() {
+        try {
+            COXBSchemaGenerator gen = new COXBSchemaGenerator();
+            gen.setRootName("rootName");
+            gen.setSourceCobolFilePath(COB_DIR + "/valuesmix.cbl");
+            gen.setTargetDir(GEN_XSD_DIR);
+            gen.setTargetXsdFileName("/valuesmix.xsd");
+            gen.setNamespace(NAMESPACE);
+            gen.execute();
+            String result = getSource(GEN_XSD_DIR, "valuesmix.xsd");
+            assertTrue(result.contains("<cb:value>0</cb:value>"));
+            assertTrue(result.contains("<cb:value>     </cb:value>"));
+            assertTrue(result.contains("<cb:value>0xFFFFFFFFFF</cb:value>"));
+            assertTrue(result.contains("<cb:value>0x0000000000</cb:value>"));
+            assertTrue(result.contains("<cb:value>&apos;</cb:value>"));
+            assertTrue(result.contains("<cb:value>ABCDE</cb:value>"));
+            assertTrue(result.contains("<cb:value>-345</cb:value>"));
         } catch (Exception e) {
             fail(e.getMessage());
         }

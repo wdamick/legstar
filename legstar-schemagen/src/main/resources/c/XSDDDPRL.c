@@ -109,6 +109,8 @@ int       XSD_processValue   (COBOL_DATA_DESCRIPTION* dds,
                               char* indent);
 int       XSD_nameConflict(STREE_NODE* srcNode,
 						       COBOL_DATA_DESCRIPTION* dds);
+int       XSD_resolveFigurative(char* inStr,
+								COBOL_DATA_DESCRIPTION* dds);
 
 /*====================================================================*/
 /* This is the main XSD producing routing fo a given structure tree   */
@@ -759,6 +761,8 @@ int XSD_processValue(COBOL_DATA_DESCRIPTION* dds, char* indent)
 
     if (debug_trace) printf("XSD_processValue\n");
 
+	XSD_resolveFigurative(dds->value, dds);
+
     XSD_entityEncode(dds->value, dest);
 
     fprintf(output_file, "%s    <%s:value>%s</%s:value>\n",
@@ -1017,8 +1021,8 @@ int XSD_entityEncode(char* source, char* dest)
         case '&':memcpy(dest+l,"&amp;",5);l+=5;break;
         case '<':memcpy(dest+l,"&lt;",4);l+=4;break;
         case '>':memcpy(dest+l,"&gt;",4);l+=4;break;
-        case '\'':memcpy(dest+l,"&apost;",7);l+=7;break;
-        case '\"':memcpy(dest+l,"&quote;",7);l+=7;break;
+        case '\'':memcpy(dest+l,"&apos;",6);l+=6;break;
+        case '\"':memcpy(dest+l,"&quot;",6);l+=6;break;
         default:memcpy(dest+l,source+i,1);l+=1;break;
         }
     }
@@ -1082,3 +1086,76 @@ int XSD_nameConflict(STREE_NODE* srcNode, COBOL_DATA_DESCRIPTION* dds)
 	return FALSE;
 }
 
+/*====================================================================*/
+/* Figurative constants are reserved words that name and refer to     */
+/* specific constant values. Since consumers are unlikely to          */
+/* understand them, we replace them with their actual value.          */
+/*====================================================================*/
+int XSD_resolveFigurative(char* inStr, COBOL_DATA_DESCRIPTION* dds)
+{
+    int i = 0;
+    if ((strcmp(inStr, "ZERO") == 0) ||
+        (strcmp(inStr, "ZEROS") == 0) ||
+        (strcmp(inStr, "ZEROES") == 0) ||
+        (strcmp(inStr, "zero") == 0) ||
+        (strcmp(inStr, "zeros") == 0) ||
+        (strcmp(inStr, "zeroes") == 0))
+        strcpy(dds->value,"0");
+    else
+    /* Space is used to fill the data element */
+    if ((strcmp(inStr, "SPACE") == 0) ||
+        (strcmp(inStr, "SPACES") == 0) ||
+        (strcmp(inStr, "space") == 0) ||
+        (strcmp(inStr, "spaces") == 0))
+    {
+        memset(dds->value,' ',dds->byteLength);
+        memset(dds->value+dds->byteLength, '\0',1);
+    }
+    else
+    /* This is a proposed representation for HIGH-VALUE */
+    if ((strcmp(inStr, "HIGH-VALUE") == 0) ||
+        (strcmp(inStr, "HIGH-VALUES") == 0) ||
+        (strcmp(inStr, "high-value") == 0) ||
+        (strcmp(inStr, "high-values") == 0))
+    {
+        strcpy(dds->value,"0x");
+        for (i = 0; i < (int)dds->byteLength; i++)
+            strcat(dds->value,"FF");
+    }
+    else
+    if ((strcmp(inStr, "LOW-VALUE") == 0) ||
+        (strcmp(inStr, "LOW-VALUES") == 0) ||
+        (strcmp(inStr, "low-value") == 0) ||
+        (strcmp(inStr, "low-values") == 0))
+    {
+        strcpy(dds->value,"0x");
+        for (i = 0; i < (int)dds->byteLength; i++)
+            strcat(dds->value,"00");
+    }
+    else
+    /* Quote translates to an XML entity.*/
+    if ((strcmp(inStr, "QUOTE") == 0) ||
+        (strcmp(inStr, "QUOTES") == 0) ||
+        (strcmp(inStr, "quote") == 0) ||
+        (strcmp(inStr, "quotes") == 0))
+    {
+        strcpy(dds->value,"\"");
+    }
+    if (strcmp(inStr, "APOST") == 0)
+    {
+        strcpy(dds->value,"\'");
+    }
+    else
+    /* Treat nulls like low-values  */
+    if ((strcmp(inStr, "NULL") == 0) ||
+        (strcmp(inStr, "NULLS") == 0) ||
+        (strcmp(inStr, "null") == 0) ||
+        (strcmp(inStr, "nulls") == 0))
+    {
+        strcpy(dds->value,"0x");
+        for (i = 0; i < (int)dds->byteLength; i++)
+            strcat(dds->value,"00");
+    }
+
+    return 0;
+}

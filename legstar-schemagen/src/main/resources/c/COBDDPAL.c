@@ -194,8 +194,6 @@ int             setPicture         (COBOL_DATA_DESCRIPTION* dds);
 
 int             setValue           (COBOL_DATA_DESCRIPTION* dds);
 
-int             resolveFigurative  (char* inStr, char* outStr);
-
 int             setOccurs          (COBOL_DATA_DESCRIPTION* dds);
 
 int             setDepending       (COBOL_DATA_DESCRIPTION* dds);
@@ -835,7 +833,21 @@ int setValue(COBOL_DATA_DESCRIPTION* dds)
                 return 8;
             }
         }
-        return resolveFigurative(current_tok, dds->value);
+		/* Quote has a different meaning depending on the compiler 
+		   options. Here we explicit the content. */
+		if ((strcmp(current_tok, "QUOTE") == 0) ||
+			(strcmp(current_tok, "QUOTES") == 0) ||
+			(strcmp(current_tok, "quote") == 0) ||
+			(strcmp(current_tok, "quotes") == 0))
+		{
+			if (cobol_options->quote == TRUE)
+				strcpy(dds->value, "QUOTE");
+			else
+				strcpy(dds->value,"APOST");
+		} else {
+			strcpy(dds->value, current_tok);
+		}
+
     }
 
     return 0;
@@ -1340,86 +1352,6 @@ int extractLiteral(char* inStr, char delim , int* bTokenComplete)
     }
 
     return newpos;
-}
-
-/*====================================================================*/
-/* Figurative constants are reserved words that name and refer to     */
-/* specific constant values. Since consumers are unlikely to          */
-/* understand them, we replace them with their actual value.          */
-/*====================================================================*/
-int resolveFigurative(char* inStr, char* outStr)
-{
-    int i = 0;
-    if ((strcmp(inStr, "ZERO") == 0) ||
-        (strcmp(inStr, "ZEROS") == 0) ||
-        (strcmp(inStr, "ZEROES") == 0) ||
-        (strcmp(inStr, "zero") == 0) ||
-        (strcmp(inStr, "zeros") == 0) ||
-        (strcmp(inStr, "zeroes") == 0))
-        strcpy(outStr,"0");
-    else
-    /* Space is used to fill the data element */
-    if ((strcmp(inStr, "SPACE") == 0) ||
-        (strcmp(inStr, "SPACES") == 0) ||
-        (strcmp(inStr, "space") == 0) ||
-        (strcmp(inStr, "spaces") == 0))
-    {
-        memset(outStr,' ',strlen(inStr));
-        memset(outStr+strlen(inStr), '\0',1);
-    }
-    else
-    /* This is a proposed representation for HIGH-VALUE */
-    if ((strcmp(inStr, "HIGH-VALUE") == 0) ||
-        (strcmp(inStr, "HIGH-VALUES") == 0) ||
-        (strcmp(inStr, "high-value") == 0) ||
-        (strcmp(inStr, "high-values") == 0))
-    {
-        strcpy(outStr,"X'");
-        for (i = 0; i < (int)strlen(inStr); i++)
-            strcat(outStr,"FF");
-        strcpy(outStr,"'");
-    }
-    else
-    if ((strcmp(inStr, "LOW-VALUE") == 0) ||
-        (strcmp(inStr, "LOW-VALUES") == 0) ||
-        (strcmp(inStr, "low-value") == 0) ||
-        (strcmp(inStr, "low-values") == 0))
-    {
-        strcpy(outStr,"X'");
-        for (i = 0; i < (int)strlen(inStr); i++)
-            strcat(outStr,"00");
-        strcpy(outStr,"'");
-    }
-    else
-    /* Quote has a different meaning depending on the compiler 
-       options */
-    if ((strcmp(inStr, "QUOTE") == 0) ||
-        (strcmp(inStr, "QUOTES") == 0) ||
-        (strcmp(inStr, "quote") == 0) ||
-        (strcmp(inStr, "quotes") == 0))
-    {
-        if (cobol_options->quote == TRUE)
-            strcpy(outStr,"\"");
-        else
-            strcpy(outStr,"\'");
-    }
-    else
-    /* Treat nulls like low-values  */
-    if ((strcmp(inStr, "NULL") == 0) ||
-        (strcmp(inStr, "NULLS") == 0) ||
-        (strcmp(inStr, "null") == 0) ||
-        (strcmp(inStr, "nulls") == 0))
-    {
-        strcpy(outStr,"X'");
-        for (i = 0; i < (int)strlen(inStr); i++)
-            strcat(outStr,"00");
-        strcpy(outStr,"'");
-    }
-    else
-    /* No figurative constants detected  */
-        strcpy(outStr, inStr);
-
-    return 0;
 }
 
 /*====================================================================*/
