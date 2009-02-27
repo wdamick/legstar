@@ -7,16 +7,17 @@
 	<property name="jar.file" value="${jar.dir}/legstar-coxbrt-jmeter.jar"/>
 	
     <target name="deploy2jmeter">
-    	<delete file="${jar.file}"/>
+    	<delete>
+			<fileset dir="${jar.dir}" includes="*.jar"/>
+    	</delete>
 		<jar destfile="${jar.file}">
 			<fileset dir="target/test-classes" includes="**/*.class"/>
+			<!--
 			<fileset dir="target/classes" includes="**/*.class"/>
+			-->
 		</jar>
-    	<delete>
-			<fileset dir="${jar.dir}" includes="legstar-coxbapi*.jar"/>
-			<fileset dir="${jar.dir}" includes="legstar-jaxbgen-cases*.jar"/>
-    	</delete>
     	<copy todir="${jar.dir}">
+			<fileset dir="../legstar-coxbrt/target" includes="*.jar" excludes="*sources.jar"/>
 			<fileset dir="../legstar-coxbapi/target" includes="*.jar" excludes="*sources.jar"/>
 			<fileset dir="../legstar-jaxbgen-cases/target" includes="*.jar" excludes="*sources.jar"/>
     	</copy>
