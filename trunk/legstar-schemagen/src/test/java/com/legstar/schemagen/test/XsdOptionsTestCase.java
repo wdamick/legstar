@@ -59,7 +59,7 @@ public class XsdOptionsTestCase extends TestCase {
     /** Quick simple pass.
      * @throws Exception if anything goes wrong */
     public final void testDefault() throws Exception {
-        mInVars.inFile = COB_DIR + "/simplest.cob";
+        mInVars.inFile = COB_DIR + "/simplest.cbl";
         int resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
         assertEquals(0, resp);
         assertEquals("", mOutVars.message);
@@ -68,7 +68,7 @@ public class XsdOptionsTestCase extends TestCase {
     /** Minus sign replaced with pound.
      * @throws Exception if anything goes wrong   */
     public final void testReplaceMinus() throws Exception {
-        mInVars.inFile = COB_DIR + "/minusSign.cob";
+        mInVars.inFile = COB_DIR + "/minusSign.cbl";
         mInVars.xsdOptions.removeMinus = false;
         mInVars.xsdOptions.replaceMinus = true;
         mInVars.xsdOptions.replaceMinusChar = "#";
@@ -86,7 +86,7 @@ public class XsdOptionsTestCase extends TestCase {
     /** Minus sign removed (takes precedence over replacement).
      * @throws Exception if anything goes wrong*/
     public final void testRemoveMinus() throws Exception {
-        mInVars.inFile = COB_DIR + "/minusSign.cob";
+        mInVars.inFile = COB_DIR + "/minusSign.cbl";
         mInVars.xsdOptions.removeMinus = true;
         int resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
         if (mInVars.debugMode) {
@@ -102,7 +102,7 @@ public class XsdOptionsTestCase extends TestCase {
     /** Upper case to lower case.
      * @throws Exception if anything goes wrong*/
     public final void testUpperToLowerTrue() throws Exception {
-        mInVars.inFile = COB_DIR + "/minusSign.cob";
+        mInVars.inFile = COB_DIR + "/minusSign.cbl";
         mInVars.xsdOptions.removeMinus = true;
         mInVars.xsdOptions.uppercaseToLower = true;
         mInVars.xsdOptions.firstcharUpper = false;
@@ -120,7 +120,7 @@ public class XsdOptionsTestCase extends TestCase {
     /** Upper case stay uppercase.
      * @throws Exception if anything goes wrong*/
     public final void testUpperToLowerFalse() throws Exception {
-        mInVars.inFile = COB_DIR + "/minusSign.cob";
+        mInVars.inFile = COB_DIR + "/minusSign.cbl";
         mInVars.xsdOptions.removeMinus = true;
         mInVars.xsdOptions.uppercaseToLower = false;
         mInVars.xsdOptions.firstcharUpper = false;
@@ -138,7 +138,7 @@ public class XsdOptionsTestCase extends TestCase {
     /** Upper case to lower case.
      * @throws Exception if anything goes wrong*/
     public final void testFirstCharUpperFalse() throws Exception {
-        mInVars.inFile = COB_DIR + "/minusSign.cob";
+        mInVars.inFile = COB_DIR + "/minusSign.cbl";
         mInVars.xsdOptions.removeMinus = true;
         mInVars.xsdOptions.replaceMinus = false;
         mInVars.xsdOptions.uppercaseToLower = true;
@@ -157,7 +157,7 @@ public class XsdOptionsTestCase extends TestCase {
     /** First char starting a word break should be uppercased.
      * @throws Exception if anything goes wrong*/
     public final void testFirstCharUpperTrue() throws Exception {
-        mInVars.inFile = COB_DIR + "/minusSign.cob";
+        mInVars.inFile = COB_DIR + "/minusSign.cbl";
         mInVars.xsdOptions.removeMinus = true;
         mInVars.xsdOptions.replaceMinus = false;
         mInVars.xsdOptions.uppercaseToLower = true;
@@ -176,7 +176,7 @@ public class XsdOptionsTestCase extends TestCase {
     /** Word break at digit sequence.
      * @throws Exception if anything goes wrong */
     public final void testNameWithNumerics() throws Exception {
-        mInVars.inFile = COB_DIR + "/minusSign.cob";
+        mInVars.inFile = COB_DIR + "/minusSign.cbl";
         mInVars.xsdOptions.removeMinus = true;
         mInVars.xsdOptions.replaceMinus = false;
         mInVars.xsdOptions.uppercaseToLower = true;
@@ -195,7 +195,7 @@ public class XsdOptionsTestCase extends TestCase {
     /** Complex type names should be suffixed.
      * @throws Exception if anything goes wrong */
     public final void testTypeSuffix() throws Exception {
-        mInVars.inFile = COB_DIR + "/minusSign.cob";
+        mInVars.inFile = COB_DIR + "/minusSign.cbl";
         mInVars.inRootName = "TheRoot";
         mInVars.xsdOptions.typeSuffix = "Zeta";
         mInVars.xsdOptions.uppercaseToLower = false;
@@ -213,7 +213,7 @@ public class XsdOptionsTestCase extends TestCase {
     /** Complex type names should not be suffixed.
      * @throws Exception if anything goes wrong */
     public final void testTypeNoSuffix() throws Exception {
-        mInVars.inFile = COB_DIR + "/minusSign.cob";
+        mInVars.inFile = COB_DIR + "/minusSign.cbl";
         mInVars.inRootName = "TheRoot";
         mInVars.xsdOptions.typeSuffix = null;
         mInVars.xsdOptions.uppercaseToLower = false;
@@ -231,7 +231,7 @@ public class XsdOptionsTestCase extends TestCase {
     /** Prevent cobol annotations from being inserted.
      * @throws Exception if anything goes wrong */
     public final void testNoCobolAnnotation() throws Exception {
-        mInVars.inFile = COB_DIR + "/minusSign.cob";
+        mInVars.inFile = COB_DIR + "/minusSign.cbl";
         mInVars.xsdOptions.xscbPrefix = null;
         int resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
         if (mInVars.debugMode) {
@@ -245,7 +245,7 @@ public class XsdOptionsTestCase extends TestCase {
     /** Check that we can change the XML namespace prefix.
      * @throws Exception if anything goes wrong */
     public final void testXMLNamespacePrefix() throws Exception {
-        mInVars.inFile = COB_DIR + "/simplest.cob";
+        mInVars.inFile = COB_DIR + "/simplest.cbl";
         mInVars.xsdOptions.xsPrefix = "toz";
         int resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
         if (mInVars.debugMode) {
@@ -261,7 +261,7 @@ public class XsdOptionsTestCase extends TestCase {
     /** Check that we can change the XML namespace.
      * @throws Exception if anything goes wrong  */
     public final void testXMLNamespace() throws Exception {
-        mInVars.inFile = COB_DIR + "/simplest.cob";
+        mInVars.inFile = COB_DIR + "/simplest.cbl";
         mInVars.xsdOptions.xsNs = "http://www.w3.org/2003/XMLSchema";
         int resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
         if (mInVars.debugMode) {
@@ -278,7 +278,7 @@ public class XsdOptionsTestCase extends TestCase {
     /** Check that we can change the target namespace prefix.
      * @throws Exception if anything goes wrong */
     public final void testTargetNamespacePrefix() throws Exception {
-        mInVars.inFile = COB_DIR + "/simplest.cob";
+        mInVars.inFile = COB_DIR + "/simplest.cbl";
         mInVars.xsdOptions.xsnsPrefix = "toz1";
         int resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
         if (mInVars.debugMode) {
@@ -295,7 +295,7 @@ public class XsdOptionsTestCase extends TestCase {
     /** Check that we can change the target namespace.
      * @throws Exception if anything goes wrong  */
     public final void testTargetNamespace() throws Exception {
-        mInVars.inFile = COB_DIR + "/simplest.cob";
+        mInVars.inFile = COB_DIR + "/simplest.cbl";
         mInVars.xsdOptions.xsnsNs = "http://tempureeauxpoix/schemagen";
         int resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
         if (mInVars.debugMode) {
@@ -313,7 +313,7 @@ public class XsdOptionsTestCase extends TestCase {
      *  generated.
      * @throws Exception if anything goes wrong */
     public final void testCobolAnnotationNamespace() throws Exception {
-        mInVars.inFile = COB_DIR + "/minusSign.cob";
+        mInVars.inFile = COB_DIR + "/minusSign.cbl";
         mInVars.xsdOptions.xscbPrefix = "cb";
         mInVars.xsdOptions.xscbNs = null;
         int resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
@@ -324,7 +324,7 @@ public class XsdOptionsTestCase extends TestCase {
     /** Verify if cobol annotations gets inserted in generated schema.
      * @throws Exception if anything goes wrong */
     public final void testCobolAnnotation() throws Exception {
-        mInVars.inFile = COB_DIR + "/minusSign.cob";
+        mInVars.inFile = COB_DIR + "/minusSign.cbl";
         mInVars.xsdOptions.xscbPrefix = "cb";
         mInVars.xsdOptions.xscbNs = "http://www.legsem.com/xml/ns/coxb";
         int resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
@@ -343,7 +343,7 @@ public class XsdOptionsTestCase extends TestCase {
      *  is not provided.
      * @throws Exception if anything goes wrong */
     public final void testCobolAnnotationNotInserted() throws Exception {
-        mInVars.inFile = COB_DIR + "/minusSign.cob";
+        mInVars.inFile = COB_DIR + "/minusSign.cbl";
         mInVars.xsdOptions.xscbPrefix = null;
         int resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
         if (mInVars.debugMode) {
@@ -361,7 +361,7 @@ public class XsdOptionsTestCase extends TestCase {
      *  is not provided.
      * @throws Exception if anything goes wrong */
     public final void testJaxbAnnotationNotInserted() throws Exception {
-        mInVars.inFile = COB_DIR + "/minusSign.cob";
+        mInVars.inFile = COB_DIR + "/minusSign.cbl";
         mInVars.xsdOptions.xsjaxbPrefix = null;
         int resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
         if (mInVars.debugMode) {
@@ -378,7 +378,7 @@ public class XsdOptionsTestCase extends TestCase {
      *  annotations must be generated.
      * @throws Exception if anything goes wrong */
     public final void testJaxbAnnotationNamespace() throws Exception {
-        mInVars.inFile = COB_DIR + "/minusSign.cob";
+        mInVars.inFile = COB_DIR + "/minusSign.cbl";
         mInVars.xsdOptions.xsjaxbPrefix = "jaxb";
         mInVars.xsdOptions.xsjaxbNs = null;
         int resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
@@ -401,7 +401,7 @@ public class XsdOptionsTestCase extends TestCase {
     /** Verify if jaxb annotations gets inserted in generated schema.
      * @throws Exception if anything goes wrong */
     public final void testJaxbAnnotation() throws Exception {
-        mInVars.inFile = COB_DIR + "/minusSign.cob";
+        mInVars.inFile = COB_DIR + "/minusSign.cbl";
         mInVars.xsdOptions.xsjaxbPrefix = "jaxb";
         mInVars.xsdOptions.xsjaxbVersion = "2.0";
         mInVars.xsdOptions.xsjaxbNs = "http://java.sun.com/xml/ns/jaxb";

@@ -71,7 +71,7 @@
                    <!-- This will upload the zos sources.  -->
                     <execution>
                         <id>deploy-to-zos</id>
-                        <phase>generate-resources</phase>
+                        <phase>install</phase>
                         <configuration>
                             <tasks>
                                 <ant antfile="${basedir}/src/main/ant/deploy-to-zos.xml">
@@ -140,6 +140,18 @@
                 </executions>
             </plugin>
  
+            <!-- Override the system path in order to use the newly compiled C parser -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <forkMode>once</forkMode>
+                    <environmentVariables>
+                        <Path>${basedir}/target/bin;${env.Path}</Path>
+                    </environmentVariables>
+                </configuration>
+            </plugin>
+
       </plugins>
     </build>
     
