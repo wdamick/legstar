@@ -27,7 +27,7 @@
       </ThreadGroup>
       <hashTree>
         <JUnitSampler guiclass="JUnitTestSamplerGui" testclass="JUnitSampler" testname="To Java String" enabled="true">
-          <stringProp name="junitSampler.classname">com.legstar.coxb.convert.simple.perf.test.MeteringTest</stringProp>
+          <stringProp name="junitSampler.classname">com.legstar.coxb.convert.simple.MeteringTest</stringProp>
           <stringProp name="junitsampler.constructorstring"></stringProp>
           <stringProp name="junitsampler.pkg.filter"></stringProp>
           <stringProp name="junitsampler.success">Test successful</stringProp>
