@@ -45,4 +45,8 @@ http://legstar.googlecode.com/svn/wiki/dplarcht-transformations-metrics.png
 
 = Conclusion =
 
+In the most complex case with 1506 data items and 32025 bytes of host data, it was still possible to reach about 400 TPS. This is in conditions that are not particularly favorable (Transformers are not reused, JMeter in GUI mode and JUnit assertions performed on each transformation).
+
+The java to host transformations are consistently faster. There is no certainty as to why this is the case. It would be interesting to investigate.
+
 DPLARCHT is a 5 levels deep structure which is probably average. The number of levels has an impact on performances because each level is a complex binding with a significant overhead. Shallow structures perform better than deep structures but this would probably deserve further study.
