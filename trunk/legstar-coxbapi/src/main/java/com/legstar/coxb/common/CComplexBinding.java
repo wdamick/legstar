@@ -14,6 +14,7 @@ import com.legstar.coxb.CobolElement;
 import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.CobolElementVisitor;
+import com.legstar.coxb.ICobolNumericBinding;
 import com.legstar.coxb.host.HostException;
 
 /**
@@ -118,11 +119,11 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
      * @param counter the counter to add to children list
      */
     public final void storeCounter(
-            final ICobolBinding counter) {
+            final ICobolNumericBinding counter) {
         if (getParentBinding() == null) {
             /* If there is already a child, use the same cobol level number
              * for the inserted counter, otherwise it might have a lower level
-             * than the next child which would create an unwanted hierachy */
+             * than the next child which would create an unwanted hierarchy */
             if (getChildrenList().size() > 0) {
                 counter.setLevelNumber(
                         getChildrenList().get(0).getLevelNumber());
@@ -155,6 +156,23 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
         /* We don't own this counter, see if ancestors know of it */
         if (getParentBinding() != null) {
             getParentBinding().setCounterValue(cobolName, count);
+        } else {
+            throw new HostException("Cannot locate counter " + cobolName);
+        }
+    }
+
+    /** {@inheritDoc} */
+    public final ICobolNumericBinding getCounter(
+            final String cobolName) throws HostException {
+        /* Look for a counter with the corresponding cobol name */
+        for (ICobolBinding child : getChildrenList()) {
+            if (child.getCobolName().compareTo(cobolName) == 0) {
+                return (ICobolNumericBinding) child;
+            }
+        }
+        /* We don't own this counter, see if ancestors know of it */
+        if (getParentBinding() != null) {
+            return getParentBinding().getCounter(cobolName);
         } else {
             throw new HostException("Cannot locate counter " + cobolName);
         }
