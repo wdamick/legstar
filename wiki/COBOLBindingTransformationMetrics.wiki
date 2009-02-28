@@ -1,4 +1,4 @@
-#summary Basic CPU metrics for LegStar COBOL transformations.
+#summary CPU metrics for LegStar COBOL transformations.
 
 = Introduction =
 
@@ -20,11 +20,11 @@ The DEPENDING ON array is also a convenient way to play on the COBOL data length
 
 The JUnit test case available [http://code.google.com/p/legstar/source/browse/trunk/legstar-coxbgen-cases/src/test/java/com/legstar/test/coxb/perf/DplarchtMeteringTest.java here] takes a parameter that gives the variable array size (0 to 500).
 
-The testHostToJava method turns mainframe data to a java objects and testJavaToHost method does the reverse.
+The testHostToJava method turns mainframe data to a java object and testJavaToHost method does the reverse.
 
-There is no attempt to reuse the Transformers. Each test execution re-creates the Transformers which is not what will usually happen. This entails a significant overhead as creating Transformers will also recreate all bindings.
+There is no attempt to reuse the Transformers. Each test execution re-creates the Transformers which is not optimal as creating Transformers will also recreate all bindings (one for each data item).
 
-We ran the tests for 5 different number of items for the variable size array: 100, 200, 300, 400 and 500. This is the relationship between this number of items and the number of elementary data items processed and the mainframe data size:
+We ran the tests for 5 different number of items for the variable size array: 100, 200, 300, 400 and 500. This is the relationship between this number of array items, the number of elementary data items processed and the mainframe data size:
 
 || *Array items* || *Data items* || *Payload (bytes)* ||
 || 100  || 306  || 6425  ||
