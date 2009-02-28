@@ -103,7 +103,7 @@ public interface ICobolComplexBinding extends ICobolBinding {
      * propagated up to parent.
      * @param counter the counter to add to children list
      */
-    void storeCounter(final ICobolBinding counter);
+    void storeCounter(final ICobolNumericBinding counter);
 
     /**
      * Set the value of a specific counter either in us or in one of our
@@ -113,6 +113,14 @@ public interface ICobolComplexBinding extends ICobolBinding {
      * @throws HostException if counter cannot be updated
      */
     void setCounterValue(String cobolName, int count) throws HostException;
+
+    /**
+     * Get a specific counter either from us or one of our ancestors.
+     * @param cobolName cobol name of the counter
+     * @return the counter binding element
+     * @throws HostException if counter cannot be queried
+     */
+    ICobolNumericBinding getCounter(String cobolName) throws HostException;
 
     /**
      * Get the value of a specific counter either from us or one of our

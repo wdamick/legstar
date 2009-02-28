@@ -21,7 +21,7 @@ import com.legstar.coxb.host.HostException;
 public interface ICobolArrayBinding extends ICobolBinding {
     
     /**
-     * Fixed size arrays return the maximum number of occurences while variable
+     * Fixed size arrays return the maximum number of occurrences while variable
      * size arrays dynamically compute their dimension.
      * @return the current number of items
      * @throws HostException if count cannot be computed

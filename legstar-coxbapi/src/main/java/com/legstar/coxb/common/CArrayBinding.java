@@ -13,6 +13,7 @@ package com.legstar.coxb.common;
 import com.legstar.coxb.CobolElement;
 import com.legstar.coxb.ICobolArrayBinding;
 import com.legstar.coxb.ICobolComplexBinding;
+import com.legstar.coxb.ICobolNumericBinding;
 import com.legstar.coxb.host.HostException;
 
 /**
@@ -21,7 +22,10 @@ import com.legstar.coxb.host.HostException;
  */
 public abstract class CArrayBinding extends CBinding
 implements ICobolArrayBinding {
-
+    
+    /** A reference to a counter for variable size arrays. */
+    private ICobolNumericBinding mCounter;
+    
     /**
      * Constructor for a cobol element to java binding.
      * 
@@ -40,16 +44,41 @@ implements ICobolArrayBinding {
         super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
     }
 
-    /** {@inheritDoc} */
+    /** 
+     * {@inheritDoc}
+     */
     public final int getCurrentOccurs() throws HostException {
         /* If this is a variable size array, ask ancestors for the current
          * value of the counter we depend on. */
-        if (getMinOccurs() < getMaxOccurs() 
-                && getDependingOn() != null
-                && getDependingOn().length() > 0) {
-            return getParentBinding().getCounterValue(getDependingOn());
+        if (isVariableSize()) {
+            return getCounter().getBigIntegerValue().intValue();
         }
         return this.getMaxOccurs();
+    }
+
+    /**
+     * This test cannot be done at construction time because the depending on
+     * property can be added later.
+     * @return true if this is a variable size array
+     */
+    public boolean isVariableSize() {
+        return (getMinOccurs() < getMaxOccurs() 
+                && getDependingOn() != null
+                && getDependingOn().length() > 0) ? true : false;
+    }
+
+    /**
+     * The first time around, this will seek the counter from the parent binding.
+     * This is an expensive operation so we cache the result to speed up next
+     * referrals.
+     * @return the counter
+     * @throws HostException if something goes wrong
+     */
+    private ICobolNumericBinding getCounter() throws HostException {
+        if (mCounter == null) {
+            mCounter = getParentBinding().getCounter(getDependingOn());
+        }
+        return mCounter;
     }
 
 
