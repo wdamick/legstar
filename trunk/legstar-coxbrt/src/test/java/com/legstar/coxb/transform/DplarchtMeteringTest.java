@@ -1,5 +1,7 @@
 package com.legstar.coxb.transform;
 
+import junit.framework.TestCase;
+
 import com.legstar.coxb.host.HostData;
 import com.legstar.test.coxb.DplarchtCases;
 import com.legstar.test.coxb.dplarcht.Dfhcommarea;
@@ -11,102 +13,73 @@ import com.legstar.test.coxb.dplarcht.Dfhcommarea;
  * a variable size array.
  *
  */
-public class DplarchtMeteringTest extends AbstractTestTransformers {
+public class DplarchtMeteringTest extends TestCase {
     
-    /** A byte array holding raw mainframe data. Small volume. */
-    private static final byte[] DPLARCHT_HOST_BYTES_SMALL_VOLUME =
-        HostData.toByteArray(DplarchtCases.getHostBytesHexFiles(0));
+    /** Number of files in variable size array. */
+    private int mFiles;
     
-    /** A byte array holding raw mainframe data. Medium volume. */
-    private static final byte[] DPLARCHT_HOST_BYTES_MEDIUM_VOLUME =
-        HostData.toByteArray(DplarchtCases.getHostBytesHexFiles(100));
-    
-    /** A byte array holding raw mainframe data. Large volume. */
-    private static final byte[] DPLARCHT_HOST_BYTES_LARGE_VOLUME =
-        HostData.toByteArray(DplarchtCases.getHostBytesHexFiles(500));
+    /** Host data for the given number of files. */
+    private byte[] mHostBytes;
     
     /**
-     * DPLARCHT from Java to Host Small payload.
+     * By default, considers empty variable size array.
      */
-    public void testJavaToHostSmallVolume() {
+    public DplarchtMeteringTest() {
+        this("0");
+    }
+    
+    /**
+     * @param label JMeter passes a label that we use as a parameter for this test 
+     */
+    public DplarchtMeteringTest(final String label) {
+        super(label);
+        try {
+            mFiles = Integer.parseInt(label);
+        } catch (NumberFormatException e) {
+            mFiles = 0;
+        }
+        mHostBytes = HostData.toByteArray(DplarchtCases.getHostBytesHexFiles(mFiles));
+    }
+    
+    /**
+     * DPLARCHT from Host to Java.
+     */
+    public void testHostToJava() {
         try {
             DplarchtTransformers transformers = new DplarchtTransformers();
             Dfhcommarea dfhcommarea = (Dfhcommarea) transformers.toJava(
-                    DPLARCHT_HOST_BYTES_SMALL_VOLUME, STRING_US_CHARSET);
-            DplarchtCases.checkJavaObjectFiles(0, dfhcommarea);
+                    getHostBytes());
+            DplarchtCases.checkJavaObjectFiles(getFiles(), dfhcommarea);
         } catch (HostTransformException e) {
             fail(e.getMessage());
         }
     }
 
     /**
-     * DPLARCHT from Java to Host Medium payload.
+     * DPLARCHT from Java to Host.
      */
-    public void testJavaToHostMediumVolume() {
-        try {
-            DplarchtTransformers transformers = new DplarchtTransformers();
-            Dfhcommarea dfhcommarea = (Dfhcommarea) transformers.toJava(
-                    DPLARCHT_HOST_BYTES_MEDIUM_VOLUME, STRING_US_CHARSET);
-            DplarchtCases.checkJavaObjectFiles(100, dfhcommarea);
-        } catch (HostTransformException e) {
-            fail(e.getMessage());
-        }
-    }
-
-    /**
-     * DPLARCHT from Java to Host Large volume.
-     */
-    public void testJavaToHostLargeVolume() {
-        try {
-            DplarchtTransformers transformers = new DplarchtTransformers();
-            Dfhcommarea dfhcommarea = (Dfhcommarea) transformers.toJava(
-                    DPLARCHT_HOST_BYTES_LARGE_VOLUME, STRING_US_CHARSET);
-            DplarchtCases.checkJavaObjectFiles(500, dfhcommarea);
-        } catch (HostTransformException e) {
-            fail(e.getMessage());
-        }
-    }
-
-
-    /**
-     * DPLARCHT from Host to Java Small payload.
-     */
-    public void testHostToJavaSmallVolume() {
+    public void testJavaToHost() {
         try {
             DplarchtTransformers transformers = new DplarchtTransformers();
             byte[] hostBytes = transformers.toHost(
-                    DplarchtCases.getJavaObjectFiles(0), STRING_US_CHARSET);
-            assertEquals(25, hostBytes.length);
+                    DplarchtCases.getJavaObjectFiles(getFiles()));
+            assertEquals(getHostBytes().length, hostBytes.length);
         } catch (HostTransformException e) {
             fail(e.getMessage());
         }
     }
 
     /**
-     * DPLARCHT from Host to Java Medium payload.
+     * @return the number of files in variable size array
      */
-    public void testHostToJavaMediumVolume() {
-        try {
-            DplarchtTransformers transformers = new DplarchtTransformers();
-            byte[] hostBytes = transformers.toHost(
-                    DplarchtCases.getJavaObjectFiles(100), STRING_US_CHARSET);
-            assertEquals(6425, hostBytes.length);
-        } catch (HostTransformException e) {
-            fail(e.getMessage());
-        }
+    public int getFiles() {
+        return mFiles;
     }
 
     /**
-     * DPLARCHT from Host to Java Large payload.
+     * @return the host data for the given number of files
      */
-    public void testHostToJavaLargeVolume() {
-        try {
-            DplarchtTransformers transformers = new DplarchtTransformers();
-            byte[] hostBytes = transformers.toHost(
-                    DplarchtCases.getJavaObjectFiles(500), STRING_US_CHARSET);
-            assertEquals(32025, hostBytes.length);
-        } catch (HostTransformException e) {
-            fail(e.getMessage());
-        }
+    public byte[] getHostBytes() {
+        return mHostBytes;
     }
 }

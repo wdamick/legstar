@@ -16,6 +16,7 @@ import com.legstar.util.JaxbUtil;
 import com.legstar.coxb.CobolComplexType;
 import com.legstar.coxb.CobolElement;
 import com.legstar.coxb.ICobolArrayComplexBinding;
+import com.legstar.coxb.ICobolBinaryBinding;
 import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolComplexBinding;
@@ -727,7 +728,7 @@ public class CComplexReflectBinding extends CComplexBinding {
     private void createDynamicCounter(
             final ICobolBinding cobolElement) throws ReflectBindingException {
 
-        ICobolBinding counter = createDynamicCounterBinding(cobolElement);
+        ICobolBinaryBinding counter = createDynamicCounterBinding(cobolElement);
         storeCounter(counter);
 
         /* Now inform the variable size array that it has a depending on
@@ -759,7 +760,7 @@ public class CComplexReflectBinding extends CComplexBinding {
      * @return the counter binding
      * @throws ReflectBindingException if cobol description cannot be created
      */
-    private ICobolBinding createDynamicCounterBinding(
+    private ICobolBinaryBinding createDynamicCounterBinding(
             final ICobolBinding listBinding)
     throws ReflectBindingException {
         if (LOG.isDebugEnabled()) {
