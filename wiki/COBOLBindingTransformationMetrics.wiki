@@ -41,7 +41,7 @@ Target machine and quantities measured are identical to [COBOLBindingConversionM
 
 = Results =
 
-http://code.google.com/p/legstar/wiki/dplarcht-transformations-metrics.png
+http://legstar.googlecode.com/svn/wiki/dplarcht-transformations-metrics.png
 
 = Conclusion =
 
