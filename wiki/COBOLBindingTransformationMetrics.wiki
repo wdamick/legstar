@@ -1,0 +1,48 @@
+#summary Basic CPU metrics for LegStar COBOL transformations.
+
+= Introduction =
+
+In [COBOLBindingConversionMetrics.wiki] we presented performance metrics for elementary data item conversions with LegStar 1.2.3.
+
+Here we perform the same type of measurement but applied to complex structures transformation from mainframe format to java and vice-versa.
+
+= Use case =
+
+We use the [http://code.google.com/p/legstar/source/browse/tags/Legstar-1.2.3/legstar-schemagen/src/test/cobol/DPLARCHT DPLARCHT] COBOL program commarea as it presents an interesting mix of COBOL REDEFINES and ARRAYS DEPENDING ON.
+
+REDEFINES cases add complexity as it is necessary to chose between alternatives at runtime.
+
+ARRAYS DEPENDING ON add complexity because it is necessary to dynamically track the array size.
+
+The DEPENDING ON array is also a convenient way to play on the COBOL data length and check how the number of elementary data items influences the overall performance. 
+
+= Measurement procedure =
+
+The JUnit test case available [http://code.google.com/p/legstar/source/browse/trunk/legstar-coxbgen-cases/src/test/java/com/legstar/test/coxb/perf/DplarchtMeteringTest.java here] takes a parameter that gives the variable array size (0 to 500).
+
+The testHostToJava method turns mainframe data to a java objects and testJavaToHost method does the reverse.
+
+There is no attempt to reuse the Transformers. Each test execution re-creates the Transformers which is not what will usually happen. This entails a significant overhead as creating Transformers will also recreate all bindings.
+
+We ran the tests for 5 different number of items for the variable size array: 100, 200, 300, 400 and 500. This is the relationship between this number of items and the number of elementary data items processed and the mainframe data size:
+
+|| *Array items* || *Data items* || *Payload (bytes)* ||
+|| 100  || 306  || 6425  ||
+|| 200  || 606  || 12825  ||
+|| 300  || 906  || 19225  ||
+|| 400  || 1206 || 25625  ||
+|| 500  || 1506 || 32025  ||
+
+We used [http://jakarta.apache.org/jmeter/ Apache JMeter] to load test each one of these JUnit methods. Each test was run 100000 times with 1000 warmup iterations.
+
+The JMeter configuration files can be found [http://code.google.com/p/legstar/source/browse/trunk/legstar-coxbgen-cases/src/test/#test/resources/jmeter/transform here].
+
+Target machine and quantities measured are identical to [COBOLBindingConversionMetrics.wiki].
+
+= Results =
+
+[dplarcht-transformations-metrics.png]
+
+= Conclusion =
+
+DPLARCHT is a 5 levels deep structure which is probably average. The number of levels has an impact on performances because each level is a complex binding with a significant overhead. Shallow structures perform better than deep structures but this would probably deserve further study.
