@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://jvmquery.cases.test.xsdc.legstar.com/" xmlns:cb="http://www.legsem.com/xml/ns/coxb" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" attributeFormDefault="unqualified" elementFormDefault="unqualified" xmlns:ns0="http://java.sun.com/xml/ns/jaxb" ns0:extensionBindingPrefixes="cb" targetNamespace="http://jvmquery.cases.test.xsdc.legstar.com/" xmlns:ns1="http://java.sun.com/xml/ns/jaxb" ns1:version="2.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://jvmquery.cases.test.xsdc.legstar.com/" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" attributeFormDefault="unqualified" elementFormDefault="unqualified" xmlns:ns0="http://java.sun.com/xml/ns/jaxb" ns0:extensionBindingPrefixes="cb" targetNamespace="http://jvmquery.cases.test.xsdc.legstar.com/" xmlns:ns1="http://java.sun.com/xml/ns/jaxb" ns1:version="2.0">
     <xs:annotation>
         <xs:appinfo>
             <jaxb:schemaBindings>

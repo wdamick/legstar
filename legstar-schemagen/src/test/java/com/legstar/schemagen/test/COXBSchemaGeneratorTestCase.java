@@ -322,6 +322,7 @@ public class COXBSchemaGeneratorTestCase extends TestCase {
         checkReferenceXsd("arrayssm.xsd");
         checkReferenceXsd("binarcht.xsd");
         checkReferenceXsd("binnatsi.xsd");
+        checkReferenceXsd("binnatus.xsd");
         checkReferenceXsd("binpkdus.xsd");
         checkReferenceXsd("charsets.xsd");
         checkReferenceXsd("doublmix.xsd");

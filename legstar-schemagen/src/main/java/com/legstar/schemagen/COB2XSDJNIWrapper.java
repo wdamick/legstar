@@ -116,7 +116,7 @@ public class COB2XSDJNIWrapper {
         public String xscbPrefix = "cb"; 
 
         /** The Cobol appinfo schema namespace.   */
-        public String xscbNs = "http://www.legsem.com/xml/ns/coxb"; 
+        public String xscbNs = "http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"; 
 
         /** Jaxb namespace prefix .                   */
         public String xsjaxbPrefix = "jaxb"; 

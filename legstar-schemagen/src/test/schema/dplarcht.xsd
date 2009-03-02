@@ -3,7 +3,7 @@
 targetNamespace="http://legstar.com/test/coxb/dplarcht"
 xmlns="http://legstar.com/test/coxb/dplarcht"
 xmlns:xsns="http://legstar.com/test/coxb/dplarcht"
-xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
 xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
 jaxb:version="2.0"
 jaxb:extensionBindingPrefixes="cb"
@@ -18,8 +18,8 @@ elementFormDefault="qualified">
      <xs:element name="WsFileStart">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-FILE-START' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' byteLength='8' srceLine='54'>
-         <cb:value>      </cb:value>
+         <cb:cobolElement levelNumber='05' cobolName='WS-FILE-START' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' srceLine='54'>
+         <cb:value>        </cb:value>
          </cb:cobolElement>
          </xs:appinfo>
        </xs:annotation>
@@ -32,8 +32,8 @@ elementFormDefault="qualified">
      <xs:element name="WsFileName">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-FILE-NAME' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' byteLength='8' srceLine='55'>
-         <cb:value>      </cb:value>
+         <cb:cobolElement levelNumber='05' cobolName='WS-FILE-NAME' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' srceLine='55'>
+         <cb:value>        </cb:value>
          </cb:cobolElement>
          </xs:appinfo>
        </xs:annotation>
@@ -46,8 +46,8 @@ elementFormDefault="qualified">
      <xs:element name="WsFileDsname">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-FILE-DSNAME' type='ALPHANUMERIC_ITEM' picture='X(44)' usage='DISPLAY' byteLength='44' srceLine='56'>
-         <cb:value>      </cb:value>
+         <cb:cobolElement levelNumber='05' cobolName='WS-FILE-DSNAME' type='ALPHANUMERIC_ITEM' picture='X(44)' usage='DISPLAY' srceLine='56'>
+         <cb:value>                                            </cb:value>
          </cb:cobolElement>
          </xs:appinfo>
        </xs:annotation>
@@ -60,7 +60,7 @@ elementFormDefault="qualified">
      <xs:element name="WsFileEnablestatus">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-FILE-ENABLESTATUS' type='BINARY_ITEM' picture='9(8)' usage='BINARY' byteLength='4' signed='false' totalDigits='8' srceLine='57'>
+         <cb:cobolElement levelNumber='05' cobolName='WS-FILE-ENABLESTATUS' type='BINARY_ITEM' picture='9(8)' usage='BINARY' signed='false' totalDigits='8' srceLine='57'>
          <cb:value>0</cb:value>
          </cb:cobolElement>
          </xs:appinfo>
@@ -79,8 +79,8 @@ elementFormDefault="qualified">
      <xs:element name="WsProgramStart">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-PROGRAM-START' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' byteLength='8' srceLine='60'>
-         <cb:value>      </cb:value>
+         <cb:cobolElement levelNumber='05' cobolName='WS-PROGRAM-START' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' srceLine='60'>
+         <cb:value>        </cb:value>
          </cb:cobolElement>
          </xs:appinfo>
        </xs:annotation>
@@ -93,8 +93,8 @@ elementFormDefault="qualified">
      <xs:element name="WsProgramName">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-PROGRAM-NAME' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' byteLength='8' srceLine='61'>
-         <cb:value>      </cb:value>
+         <cb:cobolElement levelNumber='05' cobolName='WS-PROGRAM-NAME' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' srceLine='61'>
+         <cb:value>        </cb:value>
          </cb:cobolElement>
          </xs:appinfo>
        </xs:annotation>
@@ -107,7 +107,7 @@ elementFormDefault="qualified">
      <xs:element name="WsProgramType">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-PROGRAM-TYPE' type='BINARY_ITEM' picture='9(8)' usage='BINARY' byteLength='4' signed='false' totalDigits='8' srceLine='62'>
+         <cb:cobolElement levelNumber='05' cobolName='WS-PROGRAM-TYPE' type='BINARY_ITEM' picture='9(8)' usage='BINARY' signed='false' totalDigits='8' srceLine='62'>
          <cb:value>0</cb:value>
          </cb:cobolElement>
          </xs:appinfo>
@@ -122,7 +122,7 @@ elementFormDefault="qualified">
      <xs:element name="WsProgramLanguage">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-PROGRAM-LANGUAGE' type='BINARY_ITEM' picture='9(8)' usage='BINARY' byteLength='4' signed='false' totalDigits='8' srceLine='63'>
+         <cb:cobolElement levelNumber='05' cobolName='WS-PROGRAM-LANGUAGE' type='BINARY_ITEM' picture='9(8)' usage='BINARY' signed='false' totalDigits='8' srceLine='63'>
          <cb:value>0</cb:value>
          </cb:cobolElement>
          </xs:appinfo>
@@ -137,7 +137,7 @@ elementFormDefault="qualified">
      <xs:element name="WsProgramLength">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-PROGRAM-LENGTH' type='BINARY_ITEM' picture='S9(9)' usage='BINARY' byteLength='4' signed='true' totalDigits='9' srceLine='64'/>
+         <cb:cobolElement levelNumber='05' cobolName='WS-PROGRAM-LENGTH' type='BINARY_ITEM' picture='S9(9)' usage='BINARY' signed='true' totalDigits='9' srceLine='64'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -150,7 +150,7 @@ elementFormDefault="qualified">
      <xs:element name="WsProgramUsecount">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-PROGRAM-USECOUNT' type='BINARY_ITEM' picture='S9(9)' usage='BINARY' byteLength='4' signed='true' totalDigits='9' srceLine='65'/>
+         <cb:cobolElement levelNumber='05' cobolName='WS-PROGRAM-USECOUNT' type='BINARY_ITEM' picture='S9(9)' usage='BINARY' signed='true' totalDigits='9' srceLine='65'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -167,8 +167,8 @@ elementFormDefault="qualified">
      <xs:element name="WsTransactionStart">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-TRANSACTION-START' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' byteLength='8' srceLine='68'>
-         <cb:value>      </cb:value>
+         <cb:cobolElement levelNumber='05' cobolName='WS-TRANSACTION-START' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' srceLine='68'>
+         <cb:value>        </cb:value>
          </cb:cobolElement>
          </xs:appinfo>
        </xs:annotation>
@@ -181,8 +181,8 @@ elementFormDefault="qualified">
      <xs:element name="WsTransactionName">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-TRANSACTION-NAME' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' byteLength='8' srceLine='69'>
-         <cb:value>      </cb:value>
+         <cb:cobolElement levelNumber='05' cobolName='WS-TRANSACTION-NAME' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' srceLine='69'>
+         <cb:value>        </cb:value>
          </cb:cobolElement>
          </xs:appinfo>
        </xs:annotation>
@@ -195,8 +195,8 @@ elementFormDefault="qualified">
      <xs:element name="WsTransactionProgram">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-TRANSACTION-PROGRAM' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' byteLength='8' srceLine='70'>
-         <cb:value>      </cb:value>
+         <cb:cobolElement levelNumber='05' cobolName='WS-TRANSACTION-PROGRAM' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' srceLine='70'>
+         <cb:value>        </cb:value>
          </cb:cobolElement>
          </xs:appinfo>
        </xs:annotation>
@@ -209,7 +209,7 @@ elementFormDefault="qualified">
      <xs:element name="WsTransactionStatus">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-TRANSACTION-STATUS' type='BINARY_ITEM' picture='9(8)' usage='BINARY' byteLength='4' signed='false' totalDigits='8' srceLine='71'>
+         <cb:cobolElement levelNumber='05' cobolName='WS-TRANSACTION-STATUS' type='BINARY_ITEM' picture='9(8)' usage='BINARY' signed='false' totalDigits='8' srceLine='71'>
          <cb:value>0</cb:value>
          </cb:cobolElement>
          </xs:appinfo>
@@ -246,7 +246,7 @@ elementFormDefault="qualified">
      <xs:element name="LsRequestType">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='10' cobolName='LS-REQUEST-TYPE' type='BINARY_ITEM' picture='9(4)' usage='BINARY' byteLength='2' signed='false' totalDigits='4' srceLine='82' customVariable='true'/>
+         <cb:cobolElement levelNumber='10' cobolName='LS-REQUEST-TYPE' type='BINARY_ITEM' picture='9(4)' usage='BINARY' signed='false' totalDigits='4' customVariable="true" srceLine='82'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -260,7 +260,7 @@ elementFormDefault="qualified">
      <xs:element name="LsAllItems">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='10' cobolName='LS-ALL-ITEMS' type='ALPHANUMERIC_ITEM' picture='X(4)' usage='DISPLAY' byteLength='4' isRedefined='true' unmarshalChoiceStrategyClassName='' srceLine='86'/>
+         <cb:cobolElement levelNumber='10' cobolName='LS-ALL-ITEMS' type='ALPHANUMERIC_ITEM' picture='X(4)' usage='DISPLAY' isRedefined='true' unmarshalChoiceStrategyClassName='' srceLine='86'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -272,7 +272,7 @@ elementFormDefault="qualified">
      <xs:element name="LsMaxItems">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='10' cobolName='LS-MAX-ITEMS' type='ZONED_DECIMAL_ITEM' picture='9(4)' usage='DISPLAY' byteLength='4' signed='false' totalDigits='4' redefines='LS-ALL-ITEMS' srceLine='88'/>
+         <cb:cobolElement levelNumber='10' cobolName='LS-MAX-ITEMS' type='ZONED_DECIMAL_ITEM' picture='9(4)' usage='DISPLAY' signed='false' totalDigits='4' redefines='LS-ALL-ITEMS' srceLine='88'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -297,7 +297,7 @@ elementFormDefault="qualified">
      <xs:element name="LsStartwith">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='LS-STARTWITH' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' byteLength='8' srceLine='90'/>
+         <cb:cobolElement levelNumber='15' cobolName='LS-STARTWITH' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' srceLine='90'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -309,7 +309,7 @@ elementFormDefault="qualified">
      <xs:element name="LsStartwithLen">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='LS-STARTWITH-LEN' type='PACKED_DECIMAL_ITEM' picture='9(9)' usage='PACKED-DECIMAL' byteLength='5' signed='false' totalDigits='9' srceLine='91'/>
+         <cb:cobolElement levelNumber='15' cobolName='LS-STARTWITH-LEN' type='PACKED_DECIMAL_ITEM' picture='9(9)' usage='PACKED-DECIMAL' signed='false' totalDigits='9' srceLine='91'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -326,7 +326,7 @@ elementFormDefault="qualified">
      <xs:element name="LsReplyType">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='10' cobolName='LS-REPLY-TYPE' type='BINARY_ITEM' picture='9(4)' usage='BINARY' byteLength='2' signed='false' totalDigits='4' srceLine='94'/>
+         <cb:cobolElement levelNumber='10' cobolName='LS-REPLY-TYPE' type='BINARY_ITEM' picture='9(4)' usage='BINARY' signed='false' totalDigits='4' srceLine='94'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -350,7 +350,7 @@ elementFormDefault="qualified">
      <xs:element name="LsItemsCount">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='LS-ITEMS-COUNT' type='NATIVE_BINARY_ITEM' picture='9(9)' usage='COMP-5' byteLength='4' signed='false' totalDigits='9' isODOObject='true' srceLine='99'/>
+         <cb:cobolElement levelNumber='15' cobolName='LS-ITEMS-COUNT' type='NATIVE_BINARY_ITEM' picture='9(9)' usage='COMP-5' signed='false' totalDigits='9' isODOObject='true' srceLine='99'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -399,7 +399,7 @@ elementFormDefault="qualified">
      <xs:element name="LsFileName">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='25' cobolName='LS-FILE-NAME' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' byteLength='8' srceLine='103'/>
+         <cb:cobolElement levelNumber='25' cobolName='LS-FILE-NAME' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' srceLine='103'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -411,7 +411,7 @@ elementFormDefault="qualified">
      <xs:element name="LsFileDsname">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='25' cobolName='LS-FILE-DSNAME' type='ALPHANUMERIC_ITEM' picture='X(44)' usage='DISPLAY' byteLength='44' srceLine='104'/>
+         <cb:cobolElement levelNumber='25' cobolName='LS-FILE-DSNAME' type='ALPHANUMERIC_ITEM' picture='X(44)' usage='DISPLAY' srceLine='104'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -423,7 +423,7 @@ elementFormDefault="qualified">
      <xs:element name="LsFileEnablestatus">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='25' cobolName='LS-FILE-ENABLESTATUS' type='ALPHANUMERIC_ITEM' picture='X(12)' usage='DISPLAY' byteLength='12' srceLine='105'/>
+         <cb:cobolElement levelNumber='25' cobolName='LS-FILE-ENABLESTATUS' type='ALPHANUMERIC_ITEM' picture='X(12)' usage='DISPLAY' srceLine='105'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -439,7 +439,7 @@ elementFormDefault="qualified">
      <xs:element name="LsProgramName">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='25' cobolName='LS-PROGRAM-NAME' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' byteLength='8' srceLine='108'/>
+         <cb:cobolElement levelNumber='25' cobolName='LS-PROGRAM-NAME' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' srceLine='108'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -451,7 +451,7 @@ elementFormDefault="qualified">
      <xs:element name="LsProgramType">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='25' cobolName='LS-PROGRAM-TYPE' type='ALPHANUMERIC_ITEM' picture='X(12)' usage='DISPLAY' byteLength='12' srceLine='109'/>
+         <cb:cobolElement levelNumber='25' cobolName='LS-PROGRAM-TYPE' type='ALPHANUMERIC_ITEM' picture='X(12)' usage='DISPLAY' srceLine='109'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -463,7 +463,7 @@ elementFormDefault="qualified">
      <xs:element name="LsProgramLanguage">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='25' cobolName='LS-PROGRAM-LANGUAGE' type='ALPHANUMERIC_ITEM' picture='X(12)' usage='DISPLAY' byteLength='12' srceLine='110'/>
+         <cb:cobolElement levelNumber='25' cobolName='LS-PROGRAM-LANGUAGE' type='ALPHANUMERIC_ITEM' picture='X(12)' usage='DISPLAY' srceLine='110'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -475,7 +475,7 @@ elementFormDefault="qualified">
      <xs:element name="LsProgramLength">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='25' cobolName='LS-PROGRAM-LENGTH' type='BINARY_ITEM' picture='S9(9)' usage='BINARY' byteLength='4' signed='true' totalDigits='9' srceLine='111'/>
+         <cb:cobolElement levelNumber='25' cobolName='LS-PROGRAM-LENGTH' type='BINARY_ITEM' picture='S9(9)' usage='BINARY' signed='true' totalDigits='9' srceLine='111'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -488,7 +488,7 @@ elementFormDefault="qualified">
      <xs:element name="LsProgramUsecount">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='25' cobolName='LS-PROGRAM-USECOUNT' type='BINARY_ITEM' picture='S9(9)' usage='BINARY' byteLength='4' signed='true' totalDigits='9' srceLine='112'/>
+         <cb:cobolElement levelNumber='25' cobolName='LS-PROGRAM-USECOUNT' type='BINARY_ITEM' picture='S9(9)' usage='BINARY' signed='true' totalDigits='9' srceLine='112'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -501,7 +501,7 @@ elementFormDefault="qualified">
      <xs:element name="Filler113">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='25' cobolName='FILLER-113' type='ALPHANUMERIC_ITEM' picture='X(24)' usage='DISPLAY' byteLength='24' srceLine='113'/>
+         <cb:cobolElement levelNumber='25' cobolName='FILLER-113' type='ALPHANUMERIC_ITEM' picture='X(24)' usage='DISPLAY' srceLine='113'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -517,7 +517,7 @@ elementFormDefault="qualified">
      <xs:element name="LsTransactionName">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='25' cobolName='LS-TRANSACTION-NAME' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' byteLength='8' srceLine='116'/>
+         <cb:cobolElement levelNumber='25' cobolName='LS-TRANSACTION-NAME' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' srceLine='116'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -529,7 +529,7 @@ elementFormDefault="qualified">
      <xs:element name="LsTransactionProgram">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='25' cobolName='LS-TRANSACTION-PROGRAM' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' byteLength='8' srceLine='117'/>
+         <cb:cobolElement levelNumber='25' cobolName='LS-TRANSACTION-PROGRAM' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' srceLine='117'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -541,7 +541,7 @@ elementFormDefault="qualified">
      <xs:element name="LsTransactionStatus">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='25' cobolName='LS-TRANSACTION-STATUS' type='ALPHANUMERIC_ITEM' picture='X(12)' usage='DISPLAY' byteLength='12' srceLine='118'/>
+         <cb:cobolElement levelNumber='25' cobolName='LS-TRANSACTION-STATUS' type='ALPHANUMERIC_ITEM' picture='X(12)' usage='DISPLAY' srceLine='118'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -553,7 +553,7 @@ elementFormDefault="qualified">
      <xs:element name="Filler119">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='25' cobolName='FILLER-119' type='ALPHANUMERIC_ITEM' picture='X(36)' usage='DISPLAY' byteLength='36' srceLine='119'/>
+         <cb:cobolElement levelNumber='25' cobolName='FILLER-119' type='ALPHANUMERIC_ITEM' picture='X(36)' usage='DISPLAY' srceLine='119'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>

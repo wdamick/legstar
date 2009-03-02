@@ -3,7 +3,7 @@
 targetNamespace="http://legstar.com/test/coxb/redsimpt"
 xmlns="http://legstar.com/test/coxb/redsimpt"
 xmlns:xsns="http://legstar.com/test/coxb/redsimpt"
-xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
 xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
 jaxb:version="2.0"
 jaxb:extensionBindingPrefixes="cb"
@@ -19,7 +19,7 @@ elementFormDefault="qualified">
      <xs:element name="CDefinition1">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='C-DEFINITION-1' type='ALPHANUMERIC_ITEM' picture='X(18)' usage='DISPLAY' byteLength='18' isRedefined='true' unmarshalChoiceStrategyClassName='com.legstar.coxb.cust.redsimpt.ChoiceSelector' srceLine='21'/>
+         <cb:cobolElement levelNumber='05' cobolName='C-DEFINITION-1' type='ALPHANUMERIC_ITEM' picture='X(18)' usage='DISPLAY' isRedefined='true' unmarshalChoiceStrategyClassName='com.legstar.coxb.cust.redsimpt.ChoiceSelector' srceLine='21'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -31,7 +31,7 @@ elementFormDefault="qualified">
      <xs:element name="CDefinition2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='C-DEFINITION-2' type='ZONED_DECIMAL_ITEM' picture='9(18)' usage='DISPLAY' byteLength='18' signed='false' totalDigits='18' redefines='C-DEFINITION-1' srceLine='22'/>
+         <cb:cobolElement levelNumber='05' cobolName='C-DEFINITION-2' type='ZONED_DECIMAL_ITEM' picture='9(18)' usage='DISPLAY' signed='false' totalDigits='18' redefines='C-DEFINITION-1' srceLine='22'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>

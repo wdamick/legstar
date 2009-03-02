@@ -326,7 +326,7 @@ public class XsdOptionsTestCase extends TestCase {
     public final void testCobolAnnotation() throws Exception {
         mInVars.inFile = COB_DIR + "/minusSign.cbl";
         mInVars.xsdOptions.xscbPrefix = "cb";
-        mInVars.xsdOptions.xscbNs = "http://www.legsem.com/xml/ns/coxb";
+        mInVars.xsdOptions.xscbNs = "http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd";
         int resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
         if (mInVars.debugMode) {
             System.out.println(readXSD());

@@ -3,7 +3,7 @@
 targetNamespace="http://legstar.com/test/coxb/arrayssm"
 xmlns="http://legstar.com/test/coxb/arrayssm"
 xmlns:xsns="http://legstar.com/test/coxb/arrayssm"
-xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
 xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
 jaxb:version="2.0"
 jaxb:extensionBindingPrefixes="cb"
@@ -18,7 +18,7 @@ elementFormDefault="qualified">
      <xs:element name="Filler21">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='FILLER-21' type='ALPHANUMERIC_ITEM' picture='X(2)' usage='DISPLAY' byteLength='2' srceLine='21'>
+         <cb:cobolElement levelNumber='05' cobolName='FILLER-21' type='ALPHANUMERIC_ITEM' picture='X(2)' usage='DISPLAY' srceLine='21'>
          <cb:value>TS</cb:value>
          </cb:cobolElement>
          </xs:appinfo>
@@ -32,7 +32,7 @@ elementFormDefault="qualified">
      <xs:element name="WsTsA">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-TS-A' type='ZONED_DECIMAL_ITEM' picture='9(1)' usage='DISPLAY' byteLength='1' signed='false' totalDigits='1' srceLine='22'/>
+         <cb:cobolElement levelNumber='05' cobolName='WS-TS-A' type='ZONED_DECIMAL_ITEM' picture='9(1)' usage='DISPLAY' signed='false' totalDigits='1' srceLine='22'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -49,7 +49,7 @@ elementFormDefault="qualified">
      <xs:element name="Filler24">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='FILLER-24' type='ALPHANUMERIC_ITEM' picture='X(4)' usage='DISPLAY' byteLength='4' srceLine='24'>
+         <cb:cobolElement levelNumber='05' cobolName='FILLER-24' type='ALPHANUMERIC_ITEM' picture='X(4)' usage='DISPLAY' srceLine='24'>
          <cb:value>TCEC</cb:value>
          </cb:cobolElement>
          </xs:appinfo>
@@ -63,7 +63,7 @@ elementFormDefault="qualified">
      <xs:element name="WsTcA">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-TC-A' type='ZONED_DECIMAL_ITEM' picture='9(1)' usage='DISPLAY' byteLength='1' signed='false' totalDigits='1' srceLine='25'/>
+         <cb:cobolElement levelNumber='05' cobolName='WS-TC-A' type='ZONED_DECIMAL_ITEM' picture='9(1)' usage='DISPLAY' signed='false' totalDigits='1' srceLine='25'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -80,7 +80,7 @@ elementFormDefault="qualified">
      <xs:element name="Filler27">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='FILLER-27' type='ALPHANUMERIC_ITEM' picture='X(6)' usage='DISPLAY' byteLength='6' srceLine='27'>
+         <cb:cobolElement levelNumber='05' cobolName='FILLER-27' type='ALPHANUMERIC_ITEM' picture='X(6)' usage='DISPLAY' srceLine='27'>
          <cb:value>TC2EC2</cb:value>
          </cb:cobolElement>
          </xs:appinfo>
@@ -94,7 +94,7 @@ elementFormDefault="qualified">
      <xs:element name="WsTc2A">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-TC2-A' type='ZONED_DECIMAL_ITEM' picture='9(1)' usage='DISPLAY' byteLength='1' signed='false' totalDigits='1' srceLine='28'/>
+         <cb:cobolElement levelNumber='05' cobolName='WS-TC2-A' type='ZONED_DECIMAL_ITEM' picture='9(1)' usage='DISPLAY' signed='false' totalDigits='1' srceLine='28'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -111,7 +111,7 @@ elementFormDefault="qualified">
      <xs:element name="TableSimple" minOccurs="2" maxOccurs="2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='TABLE-SIMPLE' type='ALPHANUMERIC_ITEM' picture='X(3)' usage='DISPLAY' byteLength='3' minOccurs='2' maxOccurs='2' srceLine='32'/>
+         <cb:cobolElement levelNumber='05' cobolName='TABLE-SIMPLE' type='ALPHANUMERIC_ITEM' picture='X(3)' usage='DISPLAY' minOccurs='2' maxOccurs='2' srceLine='32'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -137,7 +137,7 @@ elementFormDefault="qualified">
      <xs:element name="TableSimpleNumeric" minOccurs="5" maxOccurs="5">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='TABLE-SIMPLE-NUMERIC' type='ZONED_DECIMAL_ITEM' picture='9' usage='DISPLAY' byteLength='1' signed='false' totalDigits='1' minOccurs='5' maxOccurs='5' srceLine='37'/>
+         <cb:cobolElement levelNumber='05' cobolName='TABLE-SIMPLE-NUMERIC' type='ZONED_DECIMAL_ITEM' picture='9' usage='DISPLAY' signed='false' totalDigits='1' minOccurs='5' maxOccurs='5' srceLine='37'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -154,7 +154,7 @@ elementFormDefault="qualified">
      <xs:element name="ElementComplex">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='10' cobolName='ELEMENT-COMPLEX' type='ALPHANUMERIC_ITEM' picture='X(5)' usage='DISPLAY' byteLength='5' srceLine='34'/>
+         <cb:cobolElement levelNumber='10' cobolName='ELEMENT-COMPLEX' type='ALPHANUMERIC_ITEM' picture='X(5)' usage='DISPLAY' srceLine='34'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -170,7 +170,7 @@ elementFormDefault="qualified">
      <xs:element name="ElementComplex2" minOccurs="4" maxOccurs="4">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='10' cobolName='ELEMENT-COMPLEX-2' type='ALPHANUMERIC_ITEM' picture='X(7)' usage='DISPLAY' byteLength='7' minOccurs='4' maxOccurs='4' srceLine='36'/>
+         <cb:cobolElement levelNumber='10' cobolName='ELEMENT-COMPLEX-2' type='ALPHANUMERIC_ITEM' picture='X(7)' usage='DISPLAY' minOccurs='4' maxOccurs='4' srceLine='36'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>

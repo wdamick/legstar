@@ -3,7 +3,7 @@
 targetNamespace="http://legstar.com/test/coxb/osarrays"
 xmlns="http://legstar.com/test/coxb/osarrays"
 xmlns:xsns="http://legstar.com/test/coxb/osarrays"
-xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
 xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
 jaxb:version="2.0"
 jaxb:extensionBindingPrefixes="cb"
@@ -18,7 +18,7 @@ elementFormDefault="qualified">
      <xs:element name="SString">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='S-STRING' type='ALPHANUMERIC_ITEM' picture='X(4)' usage='DISPLAY' byteLength='4' srceLine='24'/>
+         <cb:cobolElement levelNumber='05' cobolName='S-STRING' type='ALPHANUMERIC_ITEM' picture='X(4)' usage='DISPLAY' srceLine='24'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -30,7 +30,7 @@ elementFormDefault="qualified">
      <xs:element name="SBinary">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='S-BINARY' type='ALPHANUMERIC_ITEM' picture='X(4)' usage='DISPLAY' byteLength='4' srceLine='25'/>
+         <cb:cobolElement levelNumber='05' cobolName='S-BINARY' type='ALPHANUMERIC_ITEM' picture='X(4)' usage='DISPLAY' srceLine='25'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -42,7 +42,7 @@ elementFormDefault="qualified">
      <xs:element name="AString" minOccurs="2" maxOccurs="2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='A-STRING' type='ALPHANUMERIC_ITEM' picture='X(4)' usage='DISPLAY' byteLength='4' minOccurs='2' maxOccurs='2' srceLine='27'/>
+         <cb:cobolElement levelNumber='05' cobolName='A-STRING' type='ALPHANUMERIC_ITEM' picture='X(4)' usage='DISPLAY' minOccurs='2' maxOccurs='2' srceLine='27'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -54,7 +54,7 @@ elementFormDefault="qualified">
      <xs:element name="ABinary" minOccurs="2" maxOccurs="2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='A-BINARY' type='ALPHANUMERIC_ITEM' picture='X(4)' usage='DISPLAY' byteLength='4' minOccurs='2' maxOccurs='2' srceLine='28'/>
+         <cb:cobolElement levelNumber='05' cobolName='A-BINARY' type='ALPHANUMERIC_ITEM' picture='X(4)' usage='DISPLAY' minOccurs='2' maxOccurs='2' srceLine='28'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>

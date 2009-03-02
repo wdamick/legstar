@@ -10,6 +10,7 @@
     <target name="init">
         <xmlproperty file="${basedir}/pom.xml"/>
         
+        <property environment="env"/>
         <!-- Temporary location  -->
         <property name="test.dir" value="target/test-distro" />
         <!-- Distribution name  -->
@@ -35,6 +36,7 @@
 
         <unzip src="${zip.file}" dest="${test.dir}"/>
         <exec executable="cmd">
+            <env key="Path" value="${test.dir}/${dist.name}/bin;${env.Path}"/>
             <arg value="/c"/>
             <arg value="ant.bat"/>
             <arg value="-f"/>

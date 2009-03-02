@@ -691,8 +691,6 @@ int XSD_produceAnnotations(COBOL_DATA_DESCRIPTION* dds,
             fprintf(output_file, " picture='%s'",dds->picture);
         if (strlen(dds->usage) > 0)
             fprintf(output_file, " usage='%s'",dds->usage);
-        if (0 < dds->byteLength)
-            fprintf(output_file, " byteLength='%d'",dds->byteLength);
 
         if (TRUE == dds->justifiedRight)
             fprintf(output_file, " justifiedRight='%s'","true");
