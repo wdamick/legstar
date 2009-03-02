@@ -249,7 +249,6 @@ public class CobolJAXBAnnotator extends Plugin {
         ce.param("type", CobolType.valueOf(cobolType));
 
         setNumericParm(c.element, CobolMarkup.LEVEL_NUMBER, ce);
-        setNumericParm(c.element, CobolMarkup.BYTE_LENGTH, ce);
         setBooleanParm(c.element, CobolMarkup.IS_JUSTIFIED_RIGHT, ce);
         setBooleanParm(c.element, CobolMarkup.IS_SIGNED, ce);
         setBooleanParm(c.element, CobolMarkup.IS_SIGN_LEADING, ce);
