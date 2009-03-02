@@ -122,7 +122,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     private static final String NS_NS = "http://www.w3.org/2000/xmlns/";
 
     /** Cobol annotations namespace. */
-    private static final String COBOL_NS = "http://www.legsem.com/xml/ns/coxb";
+    private static final String COBOL_NS = "http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd";
 
     /** Cobol annotations default prefix. */
     private static final String COBOL_PFX = "cb";
@@ -1010,7 +1010,6 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         elc.setAttribute(CobolMarkup.PICTURE, "X("
                 + Integer.toString(byteLength) + ")");
         elc.setAttribute(CobolMarkup.USAGE, "DISPLAY");
-        elc.setAttribute(CobolMarkup.BYTE_LENGTH, Integer.toString(byteLength));
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("setAlphaNumericAttributes ended for type = "
@@ -1019,8 +1018,6 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                     + elc.getAttribute(CobolMarkup.PICTURE));
             LOG.debug("   Cobol usage          = "
                     + elc.getAttribute(CobolMarkup.USAGE));
-            LOG.debug("   Cobol byteLength     = "
-                    + elc.getAttribute(CobolMarkup.BYTE_LENGTH));
         }
     }
 
@@ -1051,7 +1048,6 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         elc.setAttribute(CobolMarkup.PICTURE, "X("
                 + Integer.toString(byteLength) + ")");
         elc.setAttribute(CobolMarkup.USAGE, "DISPLAY");
-        elc.setAttribute(CobolMarkup.BYTE_LENGTH, Integer.toString(byteLength));
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("setOctetStreamAttributes ended for type = "
@@ -1060,8 +1056,6 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                     + elc.getAttribute(CobolMarkup.PICTURE));
             LOG.debug("   Cobol usage          = "
                     + elc.getAttribute(CobolMarkup.USAGE));
-            LOG.debug("   Cobol byteLength     = "
-                    + elc.getAttribute(CobolMarkup.BYTE_LENGTH));
         }
     }
 
@@ -1111,19 +1105,6 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             elc.setAttribute(CobolMarkup.USAGE, "BINARY");
         }
 
-        /* Determine the byte length of the corresponding Cobol data item */
-        int byteLength;
-        if (totalDigits < 5) {
-            byteLength = 2;
-        } else if (totalDigits < 10) {
-            byteLength = 4;
-        } else if (totalDigits < 19) {
-            byteLength = 8;
-        } else {
-            throw new XsdCobolAnnotatorException(
-            "Cobol does not support numerics with more than 18 digits");
-        }
-
         /* Determine if this is an unsigned numeric */
         boolean signed = true;
         if (primitiveType.getLocalPart().equals("boolean")
@@ -1141,7 +1122,6 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                 + Integer.toString(totalDigits) + ")");
         elc.setAttribute(CobolMarkup.TOTAL_DIGITS,
                 Integer.toString(totalDigits));
-        elc.setAttribute(CobolMarkup.BYTE_LENGTH, Integer.toString(byteLength));
         elc.setAttribute(CobolMarkup.IS_SIGNED, Boolean.toString(signed));
 
         if (LOG.isDebugEnabled()) {
@@ -1151,8 +1131,6 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                     + elc.getAttribute(CobolMarkup.PICTURE));
             LOG.debug("   Cobol usage          = "
                     + elc.getAttribute(CobolMarkup.USAGE));
-            LOG.debug("   Cobol byteLength     = "
-                    + elc.getAttribute(CobolMarkup.BYTE_LENGTH));
             LOG.debug("   Cobol totalDigits    = "
                     + elc.getAttribute(CobolMarkup.TOTAL_DIGITS));
             LOG.debug("   Cobol isSigned       = "
@@ -1192,10 +1170,6 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             "default.dec.frac.digits");
         }
 
-        /* Determine the byte length of the corresponding Cobol data item */
-        Double dbl =  Math.floor((totalDigits / 2) + 1);
-        int byteLength =  dbl.intValue();
-
         /* Consider decimals as always signed */
         boolean signed = true;
 
@@ -1209,7 +1183,6 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         elc.setAttribute(CobolMarkup.FRACTION_DIGITS,
                 Integer.toString(fractionDigits));
         elc.setAttribute(CobolMarkup.USAGE, "COMP-3");
-        elc.setAttribute(CobolMarkup.BYTE_LENGTH, Integer.toString(byteLength));
         elc.setAttribute(CobolMarkup.IS_SIGNED, Boolean.toString(signed));
 
         if (LOG.isDebugEnabled()) {
@@ -1219,8 +1192,6 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                     + elc.getAttribute(CobolMarkup.PICTURE));
             LOG.debug("   Cobol usage          = "
                     + elc.getAttribute(CobolMarkup.USAGE));
-            LOG.debug("   Cobol byteLength     = "
-                    + elc.getAttribute(CobolMarkup.BYTE_LENGTH));
             LOG.debug("   Cobol totalDigits    = "
                     + elc.getAttribute(CobolMarkup.TOTAL_DIGITS));
             LOG.debug("   Cobol fractionDigits = "
@@ -1244,20 +1215,14 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             LOG.debug("setSingleFloatAttributes started for type = "
                     + primitiveType.getLocalPart());
         }
-        /* Determine the byte length of the corresponding Cobol data item */
-        int byteLength =  XsdcUtil.getIntOption(mOptions,
-        "single.float.byte.len");
 
         elc.setAttribute(CobolMarkup.USAGE, "COMP-1");
-        elc.setAttribute(CobolMarkup.BYTE_LENGTH, Integer.toString(byteLength));
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("setSingleFloatAttributes ended for type = "
                     + primitiveType.getLocalPart());
             LOG.debug("   Cobol usage          = "
                     + elc.getAttribute(CobolMarkup.USAGE));
-            LOG.debug("   Cobol byteLength     = "
-                    + elc.getAttribute(CobolMarkup.BYTE_LENGTH));
         }
     }
 
@@ -1275,20 +1240,14 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             LOG.debug("setDoubleFloatAttributes started for type = "
                     + primitiveType.getLocalPart());
         }
-        /* Determine the byte length of the corresponding Cobol data item */
-        int byteLength =  XsdcUtil.getIntOption(mOptions,
-        "double.float.byte.len");
 
         elc.setAttribute(CobolMarkup.USAGE, "COMP-2");
-        elc.setAttribute(CobolMarkup.BYTE_LENGTH, Integer.toString(byteLength));
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("setDoubleFloatAttributes ended for type = "
                     + primitiveType.getLocalPart());
             LOG.debug("   Cobol usage          = "
                     + elc.getAttribute(CobolMarkup.USAGE));
-            LOG.debug("   Cobol byteLength     = "
-                    + elc.getAttribute(CobolMarkup.BYTE_LENGTH));
         }
     }
 

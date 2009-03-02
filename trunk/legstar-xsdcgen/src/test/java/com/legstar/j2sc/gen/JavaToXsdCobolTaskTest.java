@@ -91,7 +91,6 @@ public class JavaToXsdCobolTaskTest extends AbstractTest {
                     + " name=\"jvmQueryRequest\""
                     + " type=\"jvmQueryRequest\">"));
             assertTrue(result.contains("cb:cobolElement"
-                    + " byteLength=\"32\""
                     + " cobolName=\"envVarNames\""
                     + " levelNumber=\"3\""
                     + " maxOccurs=\"10\""
@@ -103,7 +102,6 @@ public class JavaToXsdCobolTaskTest extends AbstractTest {
                     + " name=\"jvmQueryReply\""
                     + " type=\"jvmQueryReply\">"));
             assertTrue(result.contains("<cb:cobolElement"
-                    + " byteLength=\"32\""
                     + " cobolName=\"country\""
                     + " levelNumber=\"3\""
                     + " picture=\"X(32)\""
@@ -201,7 +199,6 @@ public class JavaToXsdCobolTaskTest extends AbstractTest {
             assertTrue(result.contains("targetNamespace=\"http://legstar.com\""));
             assertTrue(result.contains("<xs:complexType name=\"cultureInfoReply\">"));
             assertTrue(result.contains("<cb:cobolElement"
-                    + " byteLength=\"32\""
                     + " cobolName=\"currencySymbol\""
                     + " levelNumber=\"3\""
                     + " picture=\"X(32)\""
@@ -213,7 +210,6 @@ public class JavaToXsdCobolTaskTest extends AbstractTest {
                     + " type=\"tns:serverCultureInfo\">"));
             assertTrue(result.contains("<xs:complexType name=\"serverCultureInfo\">"));
             assertTrue(result.contains("<cb:cobolElement"
-                    + " byteLength=\"32\""
                     + " cobolName=\"cultureCode\""
                     + " levelNumber=\"5\""
                     + " picture=\"X(32)\""
