@@ -72,7 +72,7 @@ implements ICobolArrayComplexBinding {
     }
 
     /** {@inheritDoc} */
-    public final int getItemByteLength() {
+    public final int calcItemByteLength() {
         return getComplexItemBinding().getByteLength();
     }
 

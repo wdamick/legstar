@@ -35,4 +35,16 @@ public interface ICobolArrayBinding extends ICobolBinding {
      */
     int getItemByteLength();
 
+    /**
+     * Set the individual item host byte size.
+     * @param itemByteLength Cobol array individual item length in bytes.
+     */
+    void setItemByteLength(int itemByteLength);
+
+    /**
+     * The method calculates the exact host byte length for one
+     * individual item of this Cobol binding.
+     * @return the host byte length of an individual item of this binding
+     */
+    int calcItemByteLength();
 }

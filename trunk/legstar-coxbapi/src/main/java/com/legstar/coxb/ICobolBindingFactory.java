@@ -94,6 +94,30 @@ public interface ICobolBindingFactory {
      * @param parentBinding a reference to the parent binding (null if none)
      * @return a concrete binding implementation
      */
+    ICobolDbcsBinding createDbcsBinding(
+            final String bindingName,
+            final ICobolComplexBinding parentBinding);
+
+    /**
+     * Create a cobol binding with a bound jaxb object.
+     * @param bindingName the identifier for this binding
+     * @param jaxbName the name of the bound java property
+     * @param jaxbType the type of the bound java property
+     * @param parentBinding a reference to the parent binding (null if none)
+     * @return a concrete binding implementation
+     */
+    ICobolDbcsBinding createDbcsBinding(
+            final String bindingName,
+            final String jaxbName,
+            final Class < ? > jaxbType,
+            final ICobolComplexBinding parentBinding);
+
+    /**
+     * Create a cobol binding without a bound jaxb object.
+     * @param bindingName the identifier for this binding
+     * @param parentBinding a reference to the parent binding (null if none)
+     * @return a concrete binding implementation
+     */
     ICobolZonedDecimalBinding createZonedDecimalBinding(
             final String bindingName,
             final ICobolComplexBinding parentBinding);
@@ -275,6 +299,30 @@ public interface ICobolBindingFactory {
      * @return a concrete binding implementation
      */
     ICobolArrayNationalBinding createArrayNationalBinding(
+            final String bindingName,
+            final String jaxbName,
+            final Class < ? > jaxbType,
+            final ICobolComplexBinding parentBinding);
+
+    /**
+     * Create a cobol binding without a bound jaxb object.
+     * @param bindingName the identifier for this binding
+     * @param parentBinding a reference to the parent binding (null if none)
+     * @return a concrete binding implementation
+     */
+    ICobolArrayDbcsBinding createArrayDbcsBinding(
+            final String bindingName,
+            final ICobolComplexBinding parentBinding);
+
+    /**
+     * Create a cobol binding with a bound jaxb object.
+     * @param bindingName the identifier for this binding
+     * @param jaxbName the name of the bound java property
+     * @param jaxbType the type of the bound java property
+     * @param parentBinding a reference to the parent binding (null if none)
+     * @return a concrete binding implementation
+     */
+    ICobolArrayDbcsBinding createArrayDbcsBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,

@@ -17,7 +17,7 @@ package com.legstar.coxb;
 public final class CobolMarkup {
 
     /** Namespace for cobol annotations. */
-    public static final String NS = "http://www.legsem.com/xml/ns/coxb";
+    public static final String NS = "http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd";
     /** Cobol annotation for elements. */
     public static final  String ELEMENT = "cobolElement";
     /* XSD annotation tags mapped to java cobol annotations */
@@ -33,8 +33,6 @@ public final class CobolMarkup {
     public static final  String USAGE = "usage";
     /** Cobol value clause. */
     public static final  String VALUE = "value";
-    /** Cobol variable size in bytes. */
-    public static final  String BYTE_LENGTH = "byteLength";
     /** Cobol right or left justification. */
     public static final  String IS_JUSTIFIED_RIGHT = "justifiedRight";
     /** Cobol numeric sign indicator. */
