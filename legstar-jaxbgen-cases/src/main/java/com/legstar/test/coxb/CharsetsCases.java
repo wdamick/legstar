@@ -12,12 +12,13 @@ package com.legstar.test.coxb;
 
 import junit.framework.TestCase;
 
-import com.legstar.coxb.host.HostData;
 import com.legstar.test.coxb.charsets.ObjectFactory;
 import com.legstar.test.coxb.charsets.Dfhcommarea;
 
 /**
- * Provides data samples for testing throughout LegStar.  
+ * Provides data samples for testing throughout LegStar.
+ * This is meant to be used with the french character set IMB01147.
+ * That character set is not DBCS. 
  */
 public final class CharsetsCases extends TestCase {
 
@@ -45,9 +46,7 @@ public final class CharsetsCases extends TestCase {
      */
     public static void checkJavaObject(final Dfhcommarea dfhcommarea) {
         assertEquals("ça c'est un problème", dfhcommarea.getComLocal());
-        assertEquals("00000000000000000000000000000000000000000000000000"
-        + "0000000000000000000000000000000000000000000000000000000000000"
-        + "00000000000000000", HostData.toHexString(dfhcommarea.getComDbcs()));
+        assertEquals("", dfhcommarea.getComDbcs());
         assertEquals("élémentaire à résoudre          ", dfhcommarea.getComNational());
     }
     /**
@@ -56,9 +55,9 @@ public final class CharsetsCases extends TestCase {
     public static String getHostBytesHex() { 
 
         return "e08140837d85a2a340a495409799968293d09485404040404040404040404040"
-        + "000000000000000000000000000000000000000000000000000000000000000000000000000"
-        + "0000000000000000000000000000000000000000000000000000000"
-        + "e9006c00e9006d0065006e00740061006900720065002000e00020007200e90073006f0075006400720065"
+        + "4040404040404040404040404040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040404040404040404040404040"
+        + "00e9006c00e9006d0065006e00740061006900720065002000e00020007200e90073006f0075006400720065"
         + "0020002000200020002000200020002000200020";
     }
 
