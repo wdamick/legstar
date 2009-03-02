@@ -13,6 +13,7 @@ package com.legstar.coxb.gen;
 import com.legstar.coxb.CobolElementVisitor;
 import com.legstar.coxb.ICobolArrayBinaryBinding;
 import com.legstar.coxb.ICobolArrayComplexBinding;
+import com.legstar.coxb.ICobolArrayDbcsBinding;
 import com.legstar.coxb.ICobolArrayDoubleBinding;
 import com.legstar.coxb.ICobolArrayFloatBinding;
 import com.legstar.coxb.ICobolArrayOctetStreamBinding;
@@ -24,6 +25,7 @@ import com.legstar.coxb.ICobolBinaryBinding;
 import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolComplexBinding;
+import com.legstar.coxb.ICobolDbcsBinding;
 import com.legstar.coxb.ICobolDoubleBinding;
 import com.legstar.coxb.ICobolFloatBinding;
 import com.legstar.coxb.ICobolOctetStreamBinding;
@@ -162,6 +164,17 @@ public class CoxbGenReflectVisitor extends CobolElementVisitor {
     /** {@inheritDoc} */
     @Override
     public final void visit(final ICobolArrayNationalBinding ce)
+    throws HostException {
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolDbcsBinding ce)
+    throws HostException {
+    }
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolArrayDbcsBinding ce)
     throws HostException {
     }
 

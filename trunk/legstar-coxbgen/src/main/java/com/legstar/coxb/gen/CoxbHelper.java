@@ -15,6 +15,7 @@ import java.util.Locale;
 import com.legstar.codegen.CodeGenHelper;
 import com.legstar.coxb.ICobolArrayBinaryBinding;
 import com.legstar.coxb.ICobolArrayComplexBinding;
+import com.legstar.coxb.ICobolArrayDbcsBinding;
 import com.legstar.coxb.ICobolArrayDoubleBinding;
 import com.legstar.coxb.ICobolArrayFloatBinding;
 import com.legstar.coxb.ICobolArrayNationalBinding;
@@ -26,6 +27,7 @@ import com.legstar.coxb.ICobolBinaryBinding;
 import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolComplexBinding;
+import com.legstar.coxb.ICobolDbcsBinding;
 import com.legstar.coxb.ICobolDoubleBinding;
 import com.legstar.coxb.ICobolFloatBinding;
 import com.legstar.coxb.ICobolNationalBinding;
@@ -97,6 +99,15 @@ public class CoxbHelper {
         }
         if (binding instanceof ICobolArrayNationalBinding) {
             return "ICobolArrayNationalBinding";
+        }
+        if (binding instanceof ICobolZonedDecimalBinding) {
+            return "ICobolZonedDecimalBinding";
+        }
+        if (binding instanceof ICobolDbcsBinding) {
+            return "ICobolDbcsBinding";
+        }
+        if (binding instanceof ICobolArrayDbcsBinding) {
+            return "ICobolArrayDbcsBinding";
         }
         if (binding instanceof ICobolZonedDecimalBinding) {
             return "ICobolZonedDecimalBinding";

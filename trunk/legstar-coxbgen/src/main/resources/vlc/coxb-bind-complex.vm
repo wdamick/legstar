@@ -47,7 +47,7 @@ public class $binding-class-name
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = ${binding.calcByteLength()};
+    private static final int BYTE_LENGTH = ${binding.getByteLength()};
     
 #foreach ($child in $binding.childrenList)
 #set ($childObjectType = $coxbHelper.getBoundTypeName($child))

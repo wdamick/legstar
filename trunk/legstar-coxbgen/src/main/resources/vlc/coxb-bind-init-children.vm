@@ -34,6 +34,9 @@ Initializes children Velocity Template.
 #if(${child.getByteLength()} > 0)
         ${coxbHelper.getFieldName($child)}.setByteLength(${child.getByteLength()});
 #end
+#if($coxbHelper.isArray($child))
+        ${coxbHelper.getFieldName($child)}.setItemByteLength(${child.getItemByteLength()});
+#end
 #if(${child.isJustifiedRight()} == true)
         ${coxbHelper.getFieldName($child)}.setIsJustifiedRight(${child.isJustifiedRight()});
 #end

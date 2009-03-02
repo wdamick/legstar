@@ -158,7 +158,7 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
         assertTrue(srce.contains("private static final int BYTE_LENGTH = 502;"));
         assertTrue(srce.contains("tableOdo = BF.createArrayStringBinding(\"TableOdo\","));
         assertTrue(srce.contains("\"TableOdo\", String.class, this);"));
-        assertTrue(srce.contains("tableOdo.setByteLength(5);"));
+        assertTrue(srce.contains("tableOdo.setByteLength(500);"));
         assertTrue(srce.contains("tableOdo.setCobolName(\"TABLE-ODO\");"));
         assertTrue(srce.contains("tableOdo.setMinOccurs(1);"));
         assertTrue(srce.contains("tableOdo.setMaxOccurs(100);"));
