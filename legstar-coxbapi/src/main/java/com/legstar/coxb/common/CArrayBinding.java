@@ -26,6 +26,9 @@ implements ICobolArrayBinding {
     /** A reference to a counter for variable size arrays. */
     private ICobolNumericBinding mCounter;
     
+    /** Array individual item length in bytes (unknown by default). */
+    private int mItemByteLength = 0;
+
     /**
      * Constructor for a cobol element to java binding.
      * 
@@ -84,6 +87,23 @@ implements ICobolArrayBinding {
             mCounter = getParentBinding().getCounter(getDependingOn());
         }
         return mCounter;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public final int getItemByteLength() {
+        if (mItemByteLength == 0) {
+            mItemByteLength = calcItemByteLength();
+        }
+        return mItemByteLength;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public final void setItemByteLength(final int itemByteLength) {
+        mItemByteLength = itemByteLength;
     }
 
 

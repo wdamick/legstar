@@ -29,12 +29,15 @@ public @interface CobolElement {
     /** Cobol element type. */
     CobolType type() default CobolType.ALPHANUMERIC_ITEM;
 
-    /** Cobol element length in bytes. */
-    int byteLength() default 0;
-
     /** String justification. */
     boolean isJustifiedRight() default false;
 
+    /** 
+     * @deprecated
+     * Cobol element length in bytes.
+     */
+    int byteLength() default 0;
+    
     /** Numerics total number of digits (including fractional). */
     int totalDigits() default 0;
 
