@@ -36,8 +36,7 @@ public final class TypesmixCases extends TestCase {
         Dfhcommarea dfhcommarea = of.createDfhcommarea();
         dfhcommarea.setCAlphabetic("ABCDE");
         dfhcommarea.setCNational("ABCDE");
-        byte[] cCDbcs = {0x0E, 0x40, 0x40, 0x40, 0x40, 0x40, 0x40, 0x0F};
-        dfhcommarea.setCDbcs(cCDbcs);
+        dfhcommarea.setCDbcs("");
         dfhcommarea.setCAlphanumericEdited("");
         dfhcommarea.setCAlphanumeric("");
         byte[] cOctetString = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
@@ -66,7 +65,7 @@ public final class TypesmixCases extends TestCase {
     public static void checkJavaObject(final Dfhcommarea dfhcommarea) {
         assertEquals("ABCDE", dfhcommarea.getCAlphabetic());
         assertEquals("ABCDE    ", dfhcommarea.getCNational());
-        assertEquals("0e4040404040400f", HostData.toHexString(dfhcommarea.getCDbcs()));
+        assertEquals("", dfhcommarea.getCDbcs());
         assertEquals("", dfhcommarea.getCAlphanumericEdited());
         assertEquals("", dfhcommarea.getCAlphanumeric());
         byte[] cOctetString = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
@@ -93,7 +92,7 @@ public final class TypesmixCases extends TestCase {
 
         return "c1c2c3c4c5"
         + "004100420043004400450020002000200020"
-        + "0e4040404040400f"
+        + "4040404040404040"
         + "4040404040404040404040404040"
         + "40404040404040"
         + "0000000000000000"
