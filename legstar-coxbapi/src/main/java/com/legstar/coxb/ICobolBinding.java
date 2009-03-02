@@ -53,9 +53,8 @@ public interface ICobolBinding extends ICobolElement {
      * The method calculates the exact host byte length for this
      * Cobol binding.
      * @return the host byte length of this binding
-     * @throws HostException if byte length cannot be computed
      */
-    int calcByteLength() throws HostException;
+    int calcByteLength();
 
     /**
      * Sets the binding internal value. This method is used when

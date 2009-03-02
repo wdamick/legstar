@@ -14,6 +14,7 @@ import com.legstar.coxb.CobolElement;
 import com.legstar.coxb.CobolType;
 import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolComplexBinding;
+import com.legstar.coxb.util.PictureUtil;
 
 /**
  * This class is a superclass of all other element types implementing
@@ -43,7 +44,7 @@ public abstract class CBinding implements ICobolBinding {
     /** Cobol element type. */
     private CobolType mCobolType = CobolType.ALPHANUMERIC_ITEM;
 
-    /** Cobol element length in bytes. */
+    /** Cobol element length in bytes (unknown by default). */
     private int mByteLength = 0;
 
     /** String justification. */
@@ -132,7 +133,6 @@ public abstract class CBinding implements ICobolBinding {
         }
         setCobolName(cobolAnnotations.cobolName());
         setCobolType(cobolAnnotations.type());
-        setByteLength(cobolAnnotations.byteLength());
         setIsJustifiedRight(cobolAnnotations.isJustifiedRight());
         setTotalDigits(cobolAnnotations.totalDigits());
         setFractionDigits(cobolAnnotations.fractionDigits());
@@ -151,10 +151,11 @@ public abstract class CBinding implements ICobolBinding {
         setMarshalChoiceStrategyClassName(
                 cobolAnnotations.marshalChoiceStrategyClassName());
         setLevelNumber(cobolAnnotations.levelNumber());
-        setPicture(cobolAnnotations.picture());
+        setPicture(PictureUtil.preparePicture(cobolAnnotations.picture()));
         setUsage(cobolAnnotations.usage());
         setDefaultValue(cobolAnnotations.value());
         setSrceLine(cobolAnnotations.srceLine());
+
     }
 
     /**
@@ -186,9 +187,15 @@ public abstract class CBinding implements ICobolBinding {
     }
 
     /**
+     * The host byte length calculation is not performed at construction time.
+     * This is because some information such as children of complex elements
+     * or dimension of arrays might not be known at construction time.
      * @return the Cobol element length in bytes
      */
     public final int getByteLength() {
+        if (mByteLength == 0) {
+            mByteLength = calcByteLength();
+        }
         return mByteLength;
     }
 

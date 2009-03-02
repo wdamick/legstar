@@ -26,7 +26,7 @@ import com.legstar.coxb.host.HostException;
 public abstract class CArrayComplexBinding extends CArrayBinding
 implements ICobolArrayComplexBinding {
 
-    /** Reference to the complex binding representing each occurence of this 
+    /** Reference to the complex binding representing each occurrence of this 
      * array. */
     private ICobolComplexBinding mComplexItemBinding;
 
@@ -72,8 +72,8 @@ implements ICobolArrayComplexBinding {
     }
 
     /** {@inheritDoc} */
-    public final int calcByteLength() throws HostException {
-        return getMaxOccurs() * mComplexItemBinding.calcByteLength();
+    public final int getItemByteLength() {
+        return getComplexItemBinding().getByteLength();
     }
 
     /**

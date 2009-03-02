@@ -113,4 +113,14 @@ public interface ICobolConverters {
      */
     void setCobolNationalConverter(final ICobolNationalConverter cobolNationalConverter);
 
+    /**
+     * @return Returns the cobolDbcsConverter.
+     */
+    ICobolDbcsConverter getCobolDbcsConverter();
+
+    /**
+     * @param cobolDbcsConverter The cobolDbcsConverter to set.
+     */
+    void setCobolDbcsConverter(final ICobolDbcsConverter cobolDbcsConverter);
+
 }

@@ -74,11 +74,11 @@ public abstract class CChoiceBinding extends CBinding implements ICobolChoiceBin
     }
 
     /** {@inheritDoc} */
-    public final int calcByteLength() throws HostException {
+    public final int calcByteLength() {
 
         int byteLength = 0;
         for (ICobolBinding alt : mAlternatives) {
-            int altByteLength = alt.calcByteLength();
+            int altByteLength = alt.getByteLength();
             if (altByteLength > byteLength) {
                 byteLength = altByteLength;
             }

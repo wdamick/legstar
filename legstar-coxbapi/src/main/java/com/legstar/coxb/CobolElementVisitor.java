@@ -113,6 +113,21 @@ public abstract class CobolElementVisitor {
     throws HostException;
 
     /**
+     * Visit method of visitor pattern for single Dbcs. 
+     * @param ce Dbcs element descriptor
+     * @throws HostException error while visiting
+     */
+    public abstract void visit(ICobolDbcsBinding ce)
+    throws HostException;
+    /**
+     * Visit method of visitor pattern for Dbcs arrays. 
+     * @param ce Dbcs array element descriptor
+     * @throws HostException error while visiting
+     */
+    public abstract void visit(ICobolArrayDbcsBinding ce)
+    throws HostException;
+
+    /**
      * Visit method of visitor pattern for single zoned decimals. 
      * @param ce Zoned decimal element descriptor
      * @throws HostException error while visiting

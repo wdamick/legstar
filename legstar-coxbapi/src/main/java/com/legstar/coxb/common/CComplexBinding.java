@@ -75,25 +75,13 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
         cev.visit(this);
     }
 
-    /**
-     * The Cobol annotation from JAXB will not have an accurate byte length
-     * for a complex object. This method does the calculation.
-     * <p/>
-     * This is an expensive method since it needs to iterate through all children.
-     * As an optimization we go through the children only if the calculation was
-     * not done yet (byteLength == 0).
-     * @return the host byte length of this complex object
-     * @throws HostException if byte length cannot be computed
-     */
-    public final int calcByteLength() throws HostException {
-        if (getByteLength() == 0) {
-            int byteLength = 0;
-            for (ICobolBinding child : mChildren) {
-                byteLength += child.calcByteLength();
-            }
-            setByteLength(byteLength);
+    /** {@inheritDoc} */
+    public final int calcByteLength() {
+        int byteLength = 0;
+        for (ICobolBinding child : mChildren) {
+            byteLength += child.getByteLength();
         }
-        return getByteLength();
+        return byteLength;
     }
 
     /** {@inheritDoc} */
