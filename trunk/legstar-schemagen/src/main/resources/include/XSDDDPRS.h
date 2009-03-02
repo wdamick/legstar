@@ -35,8 +35,8 @@
 #define XSJAXB_PREFIX "jaxb"    /* Jaxb namespace prefix             */
 #define XSJAXB_NS "http://java.sun.com/xml/ns/jaxb" /* Jaxb namespace*/ 
 #define XSJAXB_VERSION "2.0"    /* Jaxb version                      */
-#define XSJAXB_PACKAGE "com.toz.cobol"   /* Jaxb package name used
-                                   for generated classes             */
+#define XSJAXB_PACKAGE "com.legstar.test.coxb" /* Jaxb package name 
+                                   used for generated classes        */
 #define XSD_HEADER_FOOTER 1     /* Add schema definitions            */
 
 /*-------------------------------------------------------------------*/
