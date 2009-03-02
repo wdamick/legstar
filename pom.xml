@@ -184,7 +184,6 @@
         <module>legstar-coxbgen</module>
         <module>legstar-coxbgen-cases</module>
         <module>legstar-messaging</module>
-        <module>legstar-messaging-impl</module>
         <module>legstar-invoker</module>
         <module>legstar-chttprt</module>
         <module>legstar-cmqrt</module>
@@ -807,11 +806,6 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-messaging</artifactId>
-                <version>${legstarVersion}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.legsem.legstar</groupId>
-                <artifactId>legstar-messaging-impl</artifactId>
                 <version>${legstarVersion}</version>
             </dependency>
             <dependency>
