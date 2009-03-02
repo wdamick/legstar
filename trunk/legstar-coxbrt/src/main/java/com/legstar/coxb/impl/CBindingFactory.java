@@ -11,6 +11,7 @@
 package com.legstar.coxb.impl;
 
 import com.legstar.coxb.ICobolArrayBinaryBinding;
+import com.legstar.coxb.ICobolArrayDbcsBinding;
 import com.legstar.coxb.ICobolArrayDoubleBinding;
 import com.legstar.coxb.ICobolArrayFloatBinding;
 import com.legstar.coxb.ICobolArrayNationalBinding;
@@ -21,6 +22,7 @@ import com.legstar.coxb.ICobolArrayZonedDecimalBinding;
 import com.legstar.coxb.ICobolBinaryBinding;
 import com.legstar.coxb.ICobolBindingFactory;
 import com.legstar.coxb.ICobolComplexBinding;
+import com.legstar.coxb.ICobolDbcsBinding;
 import com.legstar.coxb.ICobolDoubleBinding;
 import com.legstar.coxb.ICobolFloatBinding;
 import com.legstar.coxb.ICobolNationalBinding;
@@ -104,6 +106,24 @@ public class CBindingFactory implements ICobolBindingFactory {
             final Class < ? > jaxbType,
             final ICobolComplexBinding parentBinding) {
         return new CArrayNationalBinding(
+                bindingName, jaxbName, jaxbType, null, parentBinding);
+    }
+
+    /** {@inheritDoc} */
+    public final ICobolArrayDbcsBinding createArrayDbcsBinding(
+            final String bindingName,
+            final ICobolComplexBinding parentBinding) {
+        return new CArrayDbcsBinding(
+                bindingName, null, null, null, parentBinding);
+    }
+
+    /** {@inheritDoc} */
+    public final ICobolArrayDbcsBinding createArrayDbcsBinding(
+            final String bindingName,
+            final String jaxbName,
+            final Class < ? > jaxbType,
+            final ICobolComplexBinding parentBinding) {
+        return new CArrayDbcsBinding(
                 bindingName, jaxbName, jaxbType, null, parentBinding);
     }
 
@@ -251,6 +271,24 @@ public class CBindingFactory implements ICobolBindingFactory {
             final Class < ? > jaxbType,
             final ICobolComplexBinding parentBinding) {
         return new CNationalBinding(
+                bindingName, jaxbName, jaxbType, null, parentBinding);
+    }
+
+    /** {@inheritDoc} */
+    public final ICobolDbcsBinding createDbcsBinding(
+            final String bindingName,
+            final ICobolComplexBinding parentBinding) {
+        return new CDbcsBinding(
+                bindingName, null, null, null, parentBinding);
+    }
+
+    /** {@inheritDoc} */
+    public final ICobolDbcsBinding createDbcsBinding(
+            final String bindingName,
+            final String jaxbName,
+            final Class < ? > jaxbType,
+            final ICobolComplexBinding parentBinding) {
+        return new CDbcsBinding(
                 bindingName, jaxbName, jaxbType, null, parentBinding);
     }
 

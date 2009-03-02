@@ -50,7 +50,7 @@ public class CArrayPackedDecimalBinding extends AbstractArrayNumericBinding impl
     }
 
     /** {@inheritDoc} */
-    public final int getItemByteLength() {
+    public final int calcItemByteLength() {
         return CPackedDecimalBinding.calcPackedDecimalByteLength(getTotalDigits());
     }
 

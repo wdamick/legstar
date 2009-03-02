@@ -51,7 +51,7 @@ implements ICobolArrayZonedDecimalBinding {
     }
 
     /** {@inheritDoc} */
-    public final int getItemByteLength() {
+    public final int calcItemByteLength() {
         return CZonedDecimalBinding.calcZonedDecimalByteLength(
                 getTotalDigits(), isSignSeparate());
     }

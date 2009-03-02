@@ -51,7 +51,7 @@ implements ICobolArrayBinaryBinding {
     }
 
     /** {@inheritDoc} */
-    public final int getItemByteLength() {
+    public final int calcItemByteLength() {
         return CBinaryBinding.calcBinaryByteLength(getTotalDigits());
     }
 }

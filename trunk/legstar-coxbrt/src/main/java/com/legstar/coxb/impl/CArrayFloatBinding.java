@@ -58,7 +58,7 @@ public class CArrayFloatBinding extends CArrayBinding implements ICobolArrayFloa
     }
 
     /** {@inheritDoc} */
-    public final int getItemByteLength() {
+    public final int calcItemByteLength() {
         return CFloatBinding.calcFloatByteLength();
     }
 
