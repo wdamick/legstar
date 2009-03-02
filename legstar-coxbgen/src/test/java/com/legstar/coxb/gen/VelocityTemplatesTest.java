@@ -81,7 +81,8 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("sShort.setByteLength(2);"));
         assertTrue(resStr.contains("sShort.setCobolName(\"S-SHORT\");"));
         assertTrue(resStr.contains("sShort.setIsSigned(true);"));
-        assertTrue(resStr.contains("aBinary.setByteLength(4);"));
+        assertTrue(resStr.contains("aBinary.setByteLength(8);"));
+        assertTrue(resStr.contains("aBinary.setItemByteLength(4);"));
         assertTrue(resStr.contains("aBinary.setCobolName(\"A-BINARY\");"));
         assertTrue(resStr.contains("aBinary.setMinOccurs(2);"));
         assertTrue(resStr.contains("sString.setObjectValue(mValueObject.getSString());"));
@@ -135,7 +136,8 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("public ICobolArrayZonedDecimalBinding _tableSimpleNumeric;"));
 
         assertTrue(resStr.contains("tableSimple = BF.createArrayStringBinding(\"TableSimple\","));
-        assertTrue(resStr.contains("tableSimple.setByteLength(3);"));
+        assertTrue(resStr.contains("tableSimple.setByteLength(6);"));
+        assertTrue(resStr.contains("tableSimple.setItemByteLength(3);"));
         assertTrue(resStr.contains("tableSimple.setCobolName(\"TABLE-SIMPLE\");"));
         assertTrue(resStr.contains("tableSimple.setMinOccurs(2);"));
         assertTrue(resStr.contains("tableSimple.setMaxOccurs(2);"));
@@ -143,10 +145,14 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("\"TableComplex\", this, null);"));
         assertTrue(resStr.contains("tableComplexWrapper = new TableComplexWrapperBinding(\"TableComplexWrapper\","));
         assertTrue(resStr.contains("\"TableComplex\", this, _tableComplexWrapperItem);"));
+        assertTrue(resStr.contains("tableComplexWrapper.setByteLength(15);"));
+        assertTrue(resStr.contains("tableComplexWrapper.setItemByteLength(5);"));
 
         assertTrue(resStr.contains("List < TableComplex > listTableComplexWrapper = cast(bindingValue);"));
         assertTrue(resStr.contains("mValueObject.getTableComplex().clear();"));
         assertTrue(resStr.contains("mValueObject.getTableComplex().addAll(listTableComplexWrapper);"));
+        assertTrue(resStr.contains("tableSimpleNumeric.setByteLength(5);"));
+        assertTrue(resStr.contains("tableSimpleNumeric.setItemByteLength(1);"));
     }
 
     /**
@@ -239,7 +245,7 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("tableOdo = BF.createArrayStringBinding(\"TableOdo\","));
         assertTrue(resStr.contains("\"TableOdo\", String.class, this);"));
         assertTrue(resStr.contains("tableOdo.setCobolName(\"TABLE-ODO\");"));
-        assertTrue(resStr.contains("tableOdo.setByteLength(5);"));
+        assertTrue(resStr.contains("tableOdo.setByteLength(500);"));
         assertTrue(resStr.contains("tableOdo.setMinOccurs(1);"));
         assertTrue(resStr.contains("tableOdo.setMaxOccurs(100);"));
         assertTrue(resStr.contains("tableOdo.setDependingOn(\"TABLE-SIZE\");"));
