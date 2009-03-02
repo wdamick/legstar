@@ -40,7 +40,7 @@ import org.xml.sax.SAXException;
 public class XsdCobolAnnotatorTest extends AbstractTest {
 
     /** Cobol annotations namespace. */
-    private static final String COBOL_NS = "http://www.legsem.com/xml/ns/coxb";
+    private static final String COBOL_NS = "http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd";
     
     /** Cobol annotations default prefix. */
     private static final String COBOL_PFX = "cb";
@@ -156,7 +156,7 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
             assertTrue(result.contains(
                     "<xsd:element name=\"Latitude\" type=\"xsd:double\">"));
             assertTrue(result.contains(
-                    "<cb:cobolElement byteLength=\"8\""
+                    "<cb:cobolElement"
                     + " cobolName=\"Latitude\""
                     + " levelNumber=\"15\""
                     + " type=\"DOUBLE_FLOAT_ITEM\""
@@ -180,11 +180,11 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
             xsdCobolAnnotator.execute();
             String result = getSource(GEN_DIR, "amazon.xsd");
             assertTrue(result.contains("<xs:schema"));
-            assertTrue(result.contains("xmlns:tns=\"http://webservices.amazon.com/AWSECommerceService/2009-01-06\""));
+            assertTrue(result.contains("xmlns:tns=\"http://webservices.amazon.com/AWSECommerceService/200"));
             assertTrue(result.contains(
-                    "targetNamespace=\"http://webservices.amazon.com/AWSECommerceService/2009-01-06\""));
+                    "targetNamespace=\"http://webservices.amazon.com/AWSECommerceService/200"));
             assertTrue(result.contains(
-                    "<jaxb:package name=\"com.amazon.webservices.awsecommerceservice.2009_01_06\"/>"));
+                    "<jaxb:package name=\"com.amazon.webservices.awsecommerceservice.200"));
             assertTrue(result.contains(
                     "<xs:element name=\"Bin\">"));
             assertTrue(result.contains(
@@ -222,7 +222,7 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
             Node attr = attrMap.getNamedItem("xmlns:cb");
             assertEquals("cb", attr.getLocalName()); 
             assertEquals("xmlns:cb", attr.getNodeName());
-            assertEquals("http://www.legsem.com/xml/ns/coxb", attr.getTextContent());
+            assertEquals(COBOL_NS, attr.getTextContent());
         } catch (BuildException e) {
             fail(e.getMessage());
         }
@@ -249,7 +249,7 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
                     + " cobolName=\"jvmQueryReplyElement\""
                     + " levelNumber=\"1\" type=\"GROUP_ITEM\"/>"));
             assertTrue(result.contains("<cb:cobolElement"
-                    + " byteLength=\"32\" cobolName=\"country\""
+                    + " cobolName=\"country\""
                     + " levelNumber=\"3\""
                     + " picture=\"X(32)\""
                     + " type=\"ALPHANUMERIC_ITEM\""
@@ -327,7 +327,7 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
             String result = getSource(GEN_DIR, "complexAndSimpleTypesSchema.xsd");
             assertTrue(result.contains("targetNamespace=\"http://a/new/namespace\""));
             assertTrue(result.contains("xmlns:tns=\"http://a/new/namespace\""));
-            assertTrue(result.contains("xmlns:cb=\"http://www.legsem.com/xml/ns/coxb\""));
+            assertTrue(result.contains("xmlns:cb=\"" + COBOL_NS + "\""));
             assertTrue(result.contains("xmlns:jaxb=\"http://java.sun.com/xml/ns/jaxb\""));
             assertTrue(result.contains("<xs:element minOccurs=\"0\" name=\"reply\" type=\"tns:jvmQueryReply\">"));
             assertTrue(result.contains("<xs:element"
@@ -351,13 +351,11 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         assertEquals("ALPHANUMERIC_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("X(32)", attrMap.getNamedItem("picture").getTextContent());
         assertEquals("DISPLAY", attrMap.getNamedItem("usage").getTextContent());
-        assertEquals("32", attrMap.getNamedItem("byteLength").getTextContent());
 
         attrMap = getAttributesFromCobolAnnotation("//xs:element[@name = 'PrimitiveBoolean']", doc);
         assertEquals("BINARY_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("9(1)", attrMap.getNamedItem("picture").getTextContent());
         assertEquals("COMP-5", attrMap.getNamedItem("usage").getTextContent());
-        assertEquals("2", attrMap.getNamedItem("byteLength").getTextContent());
         assertEquals("false", attrMap.getNamedItem("signed").getTextContent());
         assertEquals("1", attrMap.getNamedItem("totalDigits").getTextContent());
 
@@ -365,7 +363,6 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         assertEquals("BINARY_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("9(9)", attrMap.getNamedItem("picture").getTextContent());
         assertEquals("COMP-5", attrMap.getNamedItem("usage").getTextContent());
-        assertEquals("4", attrMap.getNamedItem("byteLength").getTextContent());
         assertEquals("false", attrMap.getNamedItem("signed").getTextContent());
         assertEquals("9", attrMap.getNamedItem("totalDigits").getTextContent());
 
@@ -373,7 +370,6 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         assertEquals("BINARY_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("9(9)", attrMap.getNamedItem("picture").getTextContent());
         assertEquals("COMP-5", attrMap.getNamedItem("usage").getTextContent());
-        assertEquals("4", attrMap.getNamedItem("byteLength").getTextContent());
         assertEquals("true", attrMap.getNamedItem("signed").getTextContent());
         assertEquals("9", attrMap.getNamedItem("totalDigits").getTextContent());
 
@@ -381,7 +377,6 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         assertEquals("BINARY_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("9(9)", attrMap.getNamedItem("picture").getTextContent());
         assertEquals("COMP-5", attrMap.getNamedItem("usage").getTextContent());
-        assertEquals("4", attrMap.getNamedItem("byteLength").getTextContent());
         assertEquals("false", attrMap.getNamedItem("signed").getTextContent());
         assertEquals("9", attrMap.getNamedItem("totalDigits").getTextContent());
 
@@ -389,7 +384,6 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         assertEquals("BINARY_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("9(9)", attrMap.getNamedItem("picture").getTextContent());
         assertEquals("COMP-5", attrMap.getNamedItem("usage").getTextContent());
-        assertEquals("4", attrMap.getNamedItem("byteLength").getTextContent());
         assertEquals("true", attrMap.getNamedItem("signed").getTextContent());
         assertEquals("9", attrMap.getNamedItem("totalDigits").getTextContent());
 
@@ -397,7 +391,6 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         assertEquals("BINARY_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("9(4)", attrMap.getNamedItem("picture").getTextContent());
         assertEquals("COMP-5", attrMap.getNamedItem("usage").getTextContent());
-        assertEquals("2", attrMap.getNamedItem("byteLength").getTextContent());
         assertEquals("false", attrMap.getNamedItem("signed").getTextContent());
         assertEquals("4", attrMap.getNamedItem("totalDigits").getTextContent());
 
@@ -405,7 +398,6 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         assertEquals("BINARY_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("9(18)", attrMap.getNamedItem("picture").getTextContent());
         assertEquals("COMP-5", attrMap.getNamedItem("usage").getTextContent());
-        assertEquals("8", attrMap.getNamedItem("byteLength").getTextContent());
         assertEquals("false", attrMap.getNamedItem("signed").getTextContent());
         assertEquals("18", attrMap.getNamedItem("totalDigits").getTextContent());
 
@@ -413,7 +405,6 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         assertEquals("BINARY_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("9(9)", attrMap.getNamedItem("picture").getTextContent());
         assertEquals("COMP-5", attrMap.getNamedItem("usage").getTextContent());
-        assertEquals("4", attrMap.getNamedItem("byteLength").getTextContent());
         assertEquals("false", attrMap.getNamedItem("signed").getTextContent());
         assertEquals("9", attrMap.getNamedItem("totalDigits").getTextContent());
 
@@ -421,7 +412,6 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         assertEquals("BINARY_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("9(18)", attrMap.getNamedItem("picture").getTextContent());
         assertEquals("COMP-5", attrMap.getNamedItem("usage").getTextContent());
-        assertEquals("8", attrMap.getNamedItem("byteLength").getTextContent());
         assertEquals("true", attrMap.getNamedItem("signed").getTextContent());
         assertEquals("18", attrMap.getNamedItem("totalDigits").getTextContent());
 
@@ -429,7 +419,6 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         assertEquals("BINARY_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("9(4)", attrMap.getNamedItem("picture").getTextContent());
         assertEquals("COMP-5", attrMap.getNamedItem("usage").getTextContent());
-        assertEquals("2", attrMap.getNamedItem("byteLength").getTextContent());
         assertEquals("true", attrMap.getNamedItem("signed").getTextContent());
         assertEquals("4", attrMap.getNamedItem("totalDigits").getTextContent());
 
@@ -437,7 +426,6 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         assertEquals("BINARY_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("9(9)", attrMap.getNamedItem("picture").getTextContent());
         assertEquals("COMP-5", attrMap.getNamedItem("usage").getTextContent());
-        assertEquals("4", attrMap.getNamedItem("byteLength").getTextContent());
         assertEquals("true", attrMap.getNamedItem("signed").getTextContent());
         assertEquals("9", attrMap.getNamedItem("totalDigits").getTextContent());
 
@@ -446,7 +434,6 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         assertEquals("BINARY_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("9(9)", attrMap.getNamedItem("picture").getTextContent());
         assertEquals("COMP-5", attrMap.getNamedItem("usage").getTextContent());
-        assertEquals("4", attrMap.getNamedItem("byteLength").getTextContent());
         assertEquals("true", attrMap.getNamedItem("signed").getTextContent());
         assertEquals("9", attrMap.getNamedItem("totalDigits").getTextContent());
 
@@ -454,7 +441,6 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         assertEquals("PACKED_DECIMAL_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("9(7)V9(2)", attrMap.getNamedItem("picture").getTextContent());
         assertEquals("COMP-3", attrMap.getNamedItem("usage").getTextContent());
-        assertEquals("5", attrMap.getNamedItem("byteLength").getTextContent());
         assertEquals("true", attrMap.getNamedItem("signed").getTextContent());
         assertEquals("9", attrMap.getNamedItem("totalDigits").getTextContent());
         assertEquals("2", attrMap.getNamedItem("fractionDigits").getTextContent());
@@ -462,18 +448,15 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         attrMap = getAttributesFromCobolAnnotation("//xs:element[@name = 'PrimitiveFloat']", doc);
         assertEquals("SINGLE_FLOAT_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("COMP-1", attrMap.getNamedItem("usage").getTextContent());
-        assertEquals("4", attrMap.getNamedItem("byteLength").getTextContent());
 
         attrMap = getAttributesFromCobolAnnotation("//xs:element[@name = 'PrimitiveDouble']", doc);
         assertEquals("DOUBLE_FLOAT_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("COMP-2", attrMap.getNamedItem("usage").getTextContent());
-        assertEquals("8", attrMap.getNamedItem("byteLength").getTextContent());
 
         attrMap = getAttributesFromCobolAnnotation("//xs:element[@name = 'PrimitiveHexBin']", doc);
         assertEquals("OCTET_STREAM_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("X(32)", attrMap.getNamedItem("picture").getTextContent());
         assertEquals("DISPLAY", attrMap.getNamedItem("usage").getTextContent());
-        assertEquals("32", attrMap.getNamedItem("byteLength").getTextContent());
 
     }
 
@@ -504,7 +487,6 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         attrMap = getAttributesFromCobolAnnotation("//xs:element[@name = 'myZipCode']", doc);
         assertEquals("ALPHANUMERIC_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("X(5)", attrMap.getNamedItem("picture").getTextContent());
-        assertEquals("5", attrMap.getNamedItem("byteLength").getTextContent());
 
         attrMap = getAttributesFromCobolAnnotation("//xs:element[@name = 'myWhiteSpace']", doc);
         assertEquals("ALPHANUMERIC_ITEM", attrMap.getNamedItem("type").getTextContent());
@@ -527,7 +509,6 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         assertEquals("PACKED_DECIMAL_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("9(7)V9(2)", attrMap.getNamedItem("picture").getTextContent());
         assertEquals("COMP-3", attrMap.getNamedItem("usage").getTextContent());
-        assertEquals("5", attrMap.getNamedItem("byteLength").getTextContent());
         assertEquals("true", attrMap.getNamedItem("signed").getTextContent());
         assertEquals("9", attrMap.getNamedItem("totalDigits").getTextContent());
         assertEquals("2", attrMap.getNamedItem("fractionDigits").getTextContent());
@@ -536,7 +517,6 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         assertEquals("PACKED_DECIMAL_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("9(6)V9(3)", attrMap.getNamedItem("picture").getTextContent());
         assertEquals("COMP-3", attrMap.getNamedItem("usage").getTextContent());
-        assertEquals("5", attrMap.getNamedItem("byteLength").getTextContent());
         assertEquals("true", attrMap.getNamedItem("signed").getTextContent());
         assertEquals("9", attrMap.getNamedItem("totalDigits").getTextContent());
         assertEquals("3", attrMap.getNamedItem("fractionDigits").getTextContent());
@@ -545,7 +525,6 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         assertEquals("PACKED_DECIMAL_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("9(2)V9(1)", attrMap.getNamedItem("picture").getTextContent());
         assertEquals("COMP-3", attrMap.getNamedItem("usage").getTextContent());
-        assertEquals("2", attrMap.getNamedItem("byteLength").getTextContent());
         assertEquals("true", attrMap.getNamedItem("signed").getTextContent());
         assertEquals("3", attrMap.getNamedItem("totalDigits").getTextContent());
         assertEquals("1", attrMap.getNamedItem("fractionDigits").getTextContent());
@@ -563,7 +542,6 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         attrMap = getAttributesFromCobolAnnotation("//xs:element[@name = 'myZipCode']", doc);
         assertEquals("ALPHANUMERIC_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("X(5)", attrMap.getNamedItem("picture").getTextContent());
-        assertEquals("5", attrMap.getNamedItem("byteLength").getTextContent());
     }
 
     /**
@@ -647,7 +625,6 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         attrMap = getAttributesFromCobolAnnotation("//xs:element[@name = 'Flags']", doc);
         assertEquals("ALPHANUMERIC_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("X(32)", attrMap.getNamedItem("picture").getTextContent());
-        assertEquals("32", attrMap.getNamedItem("byteLength").getTextContent());
         assertEquals("10", attrMap.getNamedItem("maxOccurs").getTextContent());
     }
 
@@ -662,7 +639,6 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
         attrMap = getAttributesFromCobolAnnotation("//xs:element[@name = 'Flags']", doc);
         assertEquals("ALPHANUMERIC_ITEM", attrMap.getNamedItem("type").getTextContent());
         assertEquals("X(32)", attrMap.getNamedItem("picture").getTextContent());
-        assertEquals("32", attrMap.getNamedItem("byteLength").getTextContent());
         assertEquals("10", attrMap.getNamedItem("maxOccurs").getTextContent());
     }
 
