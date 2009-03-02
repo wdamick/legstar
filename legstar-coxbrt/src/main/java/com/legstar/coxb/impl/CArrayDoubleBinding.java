@@ -59,7 +59,7 @@ implements ICobolArrayDoubleBinding {
     }
 
     /** {@inheritDoc} */
-    public final int getItemByteLength() {
+    public final int calcItemByteLength() {
         return CDoubleBinding.calcDoubleByteLength();
     }
 

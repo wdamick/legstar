@@ -12,7 +12,7 @@ package com.legstar.coxb.impl;
 
 import com.legstar.coxb.CobolElement;
 import com.legstar.coxb.CobolElementVisitor;
-import com.legstar.coxb.ICobolArrayNationalBinding;
+import com.legstar.coxb.ICobolArrayDbcsBinding;
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.host.HostException;
 
@@ -23,7 +23,7 @@ import com.legstar.coxb.host.HostException;
  * @author Fady Moussallam
  * 
  */
-public class CArrayDbcsBinding extends AbstractArrayAlphaNumericBinding implements ICobolArrayNationalBinding {
+public class CArrayDbcsBinding extends AbstractArrayAlphaNumericBinding implements ICobolArrayDbcsBinding {
 
     /**
      * Constructor for a cobol element to java binding.
@@ -50,7 +50,7 @@ public class CArrayDbcsBinding extends AbstractArrayAlphaNumericBinding implemen
     }
 
     /** {@inheritDoc} */
-    public final int getItemByteLength() {
+    public final int calcItemByteLength() {
         return CDbcsBinding.calcDbcsByteLength(getPicture());
     }
 

@@ -51,7 +51,7 @@ implements ICobolArrayStringBinding {
     }
 
     /** {@inheritDoc} */
-    public final int getItemByteLength() {
+    public final int calcItemByteLength() {
         return CStringBinding.calcStringByteLength(getPicture(), getCobolType());
     }
 }

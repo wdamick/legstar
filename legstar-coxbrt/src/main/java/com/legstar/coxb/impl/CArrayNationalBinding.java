@@ -50,7 +50,7 @@ public class CArrayNationalBinding extends AbstractArrayAlphaNumericBinding impl
     }
 
     /** {@inheritDoc} */
-    public final int getItemByteLength() {
+    public final int calcItemByteLength() {
         return CNationalBinding.calcNationalByteLength(getPicture());
     }
 
