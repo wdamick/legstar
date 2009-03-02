@@ -920,7 +920,7 @@ int XSD_processDecimal(COBOL_DATA_DESCRIPTION* dds, char* indent)
 int XSD_processNumericEdited(COBOL_DATA_DESCRIPTION* dds, char* indent)
 {
     char regex[MAX_REGEX_LEN];
-    if (debug_trace) printf("ASN_processNumericEdited\n");
+    if (debug_trace) printf("XSD_processNumericEdited\n");
 
     /* Transform picture into a regular expression */
     if (0 != Picture2Regex(debug_trace,
