@@ -3,7 +3,7 @@
 targetNamespace="http://legstar.com/test/coxb/binpkdus"
 xmlns="http://legstar.com/test/coxb/binpkdus"
 xmlns:xsns="http://legstar.com/test/coxb/binpkdus"
-xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
 xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
 jaxb:version="2.0"
 jaxb:extensionBindingPrefixes="cb"
@@ -47,7 +47,7 @@ elementFormDefault="qualified">
      <xs:element name="WsP9X1Null">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='WS-P9X1-NULL' type='PACKED_DECIMAL_ITEM' picture='9(1)' usage='PACKED-DECIMAL' byteLength='1' signed='false' totalDigits='1' srceLine='32'>
+         <cb:cobolElement levelNumber='15' cobolName='WS-P9X1-NULL' type='PACKED_DECIMAL_ITEM' picture='9(1)' usage='PACKED-DECIMAL' signed='false' totalDigits='1' srceLine='32'>
          <cb:value>0</cb:value>
          </cb:cobolElement>
          </xs:appinfo>
@@ -62,7 +62,7 @@ elementFormDefault="qualified">
      <xs:element name="WsP9X1">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='WS-P9X1' type='PACKED_DECIMAL_ITEM' picture='9(1)' usage='PACKED-DECIMAL' byteLength='1' signed='false' totalDigits='1' srceLine='33'>
+         <cb:cobolElement levelNumber='15' cobolName='WS-P9X1' type='PACKED_DECIMAL_ITEM' picture='9(1)' usage='PACKED-DECIMAL' signed='false' totalDigits='1' srceLine='33'>
          <cb:value>3</cb:value>
          </cb:cobolElement>
          </xs:appinfo>
@@ -77,7 +77,7 @@ elementFormDefault="qualified">
      <xs:element name="WsP9X2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='WS-P9X2' type='PACKED_DECIMAL_ITEM' picture='9(2)' usage='PACKED-DECIMAL' byteLength='2' signed='false' totalDigits='2' srceLine='34'>
+         <cb:cobolElement levelNumber='15' cobolName='WS-P9X2' type='PACKED_DECIMAL_ITEM' picture='9(2)' usage='PACKED-DECIMAL' signed='false' totalDigits='2' srceLine='34'>
          <cb:value>12</cb:value>
          </cb:cobolElement>
          </xs:appinfo>
@@ -92,7 +92,7 @@ elementFormDefault="qualified">
      <xs:element name="WsP9X7">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='WS-P9X7' type='PACKED_DECIMAL_ITEM' picture='9(7)' usage='PACKED-DECIMAL' byteLength='4' signed='false' totalDigits='7' srceLine='36'>
+         <cb:cobolElement levelNumber='15' cobolName='WS-P9X7' type='PACKED_DECIMAL_ITEM' picture='9(7)' usage='PACKED-DECIMAL' signed='false' totalDigits='7' srceLine='36'>
          <cb:value>32769</cb:value>
          </cb:cobolElement>
          </xs:appinfo>
@@ -107,7 +107,7 @@ elementFormDefault="qualified">
      <xs:element name="WsP9X18">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='WS-P9X18' type='PACKED_DECIMAL_ITEM' picture='9(18)' usage='PACKED-DECIMAL' byteLength='10' signed='false' totalDigits='18' srceLine='38'>
+         <cb:cobolElement levelNumber='15' cobolName='WS-P9X18' type='PACKED_DECIMAL_ITEM' picture='9(18)' usage='PACKED-DECIMAL' signed='false' totalDigits='18' srceLine='38'>
          <cb:value>123456789012345678</cb:value>
          </cb:cobolElement>
          </xs:appinfo>
@@ -126,7 +126,7 @@ elementFormDefault="qualified">
      <xs:element name="WsP9X19">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='WS-P9X19' type='PACKED_DECIMAL_ITEM' picture='9(19)' usage='PACKED-DECIMAL' byteLength='10' signed='false' totalDigits='19' srceLine='41'>
+         <cb:cobolElement levelNumber='15' cobolName='WS-P9X19' type='PACKED_DECIMAL_ITEM' picture='9(19)' usage='PACKED-DECIMAL' signed='false' totalDigits='19' srceLine='41'>
          <cb:value>1234567890123456789</cb:value>
          </cb:cobolElement>
          </xs:appinfo>
@@ -141,7 +141,7 @@ elementFormDefault="qualified">
      <xs:element name="WsP9X31">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='WS-P9X31' type='PACKED_DECIMAL_ITEM' picture='9(31)' usage='PACKED-DECIMAL' byteLength='16' signed='false' totalDigits='31' srceLine='43'>
+         <cb:cobolElement levelNumber='15' cobolName='WS-P9X31' type='PACKED_DECIMAL_ITEM' picture='9(31)' usage='PACKED-DECIMAL' signed='false' totalDigits='31' srceLine='43'>
          <cb:value>1234567890123456789012345678901</cb:value>
          </cb:cobolElement>
          </xs:appinfo>
@@ -160,7 +160,7 @@ elementFormDefault="qualified">
      <xs:element name="WsPs9X18Dis1">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-PS9X18-DIS-1' type='NUMERIC_EDITED_ITEM' picture='+9(18)' usage='DISPLAY' byteLength='19' signed='true' totalDigits='18' srceLine='46'/>
+         <cb:cobolElement levelNumber='05' cobolName='WS-PS9X18-DIS-1' type='NUMERIC_EDITED_ITEM' picture='+9(18)' usage='DISPLAY' signed='true' totalDigits='18' srceLine='46'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -172,7 +172,7 @@ elementFormDefault="qualified">
      <xs:element name="WsPs9X18Dis2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-PS9X18-DIS-2' type='NUMERIC_EDITED_ITEM' picture='+9(18)' usage='DISPLAY' byteLength='19' signed='true' totalDigits='18' srceLine='47'/>
+         <cb:cobolElement levelNumber='05' cobolName='WS-PS9X18-DIS-2' type='NUMERIC_EDITED_ITEM' picture='+9(18)' usage='DISPLAY' signed='true' totalDigits='18' srceLine='47'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -184,7 +184,7 @@ elementFormDefault="qualified">
      <xs:element name="WsPs9X31Dis1">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-PS9X31-DIS-1' type='NUMERIC_EDITED_ITEM' picture='+9(31)' usage='DISPLAY' byteLength='32' signed='true' totalDigits='31' srceLine='48'/>
+         <cb:cobolElement levelNumber='05' cobolName='WS-PS9X31-DIS-1' type='NUMERIC_EDITED_ITEM' picture='+9(31)' usage='DISPLAY' signed='true' totalDigits='31' srceLine='48'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -196,7 +196,7 @@ elementFormDefault="qualified">
      <xs:element name="WsPs9X31Dis2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-PS9X31-DIS-2' type='NUMERIC_EDITED_ITEM' picture='+9(31)' usage='DISPLAY' byteLength='32' signed='true' totalDigits='31' srceLine='49'/>
+         <cb:cobolElement levelNumber='05' cobolName='WS-PS9X31-DIS-2' type='NUMERIC_EDITED_ITEM' picture='+9(31)' usage='DISPLAY' signed='true' totalDigits='31' srceLine='49'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -241,7 +241,7 @@ elementFormDefault="qualified">
      <xs:element name="LsP9X1Null">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='LS-P9X1-NULL' type='PACKED_DECIMAL_ITEM' picture='9(1)' usage='PACKED-DECIMAL' byteLength='1' signed='false' totalDigits='1' srceLine='58'/>
+         <cb:cobolElement levelNumber='15' cobolName='LS-P9X1-NULL' type='PACKED_DECIMAL_ITEM' picture='9(1)' usage='PACKED-DECIMAL' signed='false' totalDigits='1' srceLine='58'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -254,7 +254,7 @@ elementFormDefault="qualified">
      <xs:element name="LsP9X1">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='LS-P9X1' type='PACKED_DECIMAL_ITEM' picture='9(1)' usage='PACKED-DECIMAL' byteLength='1' signed='false' totalDigits='1' srceLine='59'/>
+         <cb:cobolElement levelNumber='15' cobolName='LS-P9X1' type='PACKED_DECIMAL_ITEM' picture='9(1)' usage='PACKED-DECIMAL' signed='false' totalDigits='1' srceLine='59'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -267,7 +267,7 @@ elementFormDefault="qualified">
      <xs:element name="LsP9X2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='LS-P9X2' type='PACKED_DECIMAL_ITEM' picture='9(2)' usage='PACKED-DECIMAL' byteLength='2' signed='false' totalDigits='2' srceLine='60'/>
+         <cb:cobolElement levelNumber='15' cobolName='LS-P9X2' type='PACKED_DECIMAL_ITEM' picture='9(2)' usage='PACKED-DECIMAL' signed='false' totalDigits='2' srceLine='60'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -280,7 +280,7 @@ elementFormDefault="qualified">
      <xs:element name="LsP9X7">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='LS-P9X7' type='PACKED_DECIMAL_ITEM' picture='9(7)' usage='PACKED-DECIMAL' byteLength='4' signed='false' totalDigits='7' srceLine='61'/>
+         <cb:cobolElement levelNumber='15' cobolName='LS-P9X7' type='PACKED_DECIMAL_ITEM' picture='9(7)' usage='PACKED-DECIMAL' signed='false' totalDigits='7' srceLine='61'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -293,7 +293,7 @@ elementFormDefault="qualified">
      <xs:element name="LsP9X18">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='LS-P9X18' type='PACKED_DECIMAL_ITEM' picture='9(18)' usage='PACKED-DECIMAL' byteLength='10' signed='false' totalDigits='18' srceLine='62'/>
+         <cb:cobolElement levelNumber='15' cobolName='LS-P9X18' type='PACKED_DECIMAL_ITEM' picture='9(18)' usage='PACKED-DECIMAL' signed='false' totalDigits='18' srceLine='62'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -310,7 +310,7 @@ elementFormDefault="qualified">
      <xs:element name="LsP9X19">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='LS-P9X19' type='PACKED_DECIMAL_ITEM' picture='9(19)' usage='PACKED-DECIMAL' byteLength='10' signed='false' totalDigits='19' srceLine='64'/>
+         <cb:cobolElement levelNumber='15' cobolName='LS-P9X19' type='PACKED_DECIMAL_ITEM' picture='9(19)' usage='PACKED-DECIMAL' signed='false' totalDigits='19' srceLine='64'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -323,7 +323,7 @@ elementFormDefault="qualified">
      <xs:element name="LsP9X31">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='LS-P9X31' type='PACKED_DECIMAL_ITEM' picture='9(31)' usage='PACKED-DECIMAL' byteLength='16' signed='false' totalDigits='31' srceLine='65'/>
+         <cb:cobolElement levelNumber='15' cobolName='LS-P9X31' type='PACKED_DECIMAL_ITEM' picture='9(31)' usage='PACKED-DECIMAL' signed='false' totalDigits='31' srceLine='65'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>

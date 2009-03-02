@@ -87,27 +87,9 @@
                         </goals>
                     </execution>
 
-                    <!-- This will generate all XML schema test cases, ready for integration test. -->
-                    <execution>
-                        <id>build-test-schema</id>
-                        <phase>pre-integration-test</phase>
-                        <configuration>
-                            <tasks>
-                                <path id="classpath">
-                                    <path refid="maven.compile.classpath" />
-                                    <path refid="maven.plugin.classpath" />
-                                </path>
-                                <ant antfile="${basedir}/src/test/ant/build-test-schema.xml" inheritRefs="true" />
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                      
                     <!-- This will check that the distribution file is valid. -->
                     <execution>
-                        <id>build-sample</id>
+                        <id>test-distribution</id>
                         <phase>integration-test</phase>
                         <configuration>
                             <tasks>

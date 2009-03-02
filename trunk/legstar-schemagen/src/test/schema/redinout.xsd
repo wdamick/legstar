@@ -3,7 +3,7 @@
 targetNamespace="http://legstar.com/test/coxb/redinout"
 xmlns="http://legstar.com/test/coxb/redinout"
 xmlns:xsns="http://legstar.com/test/coxb/redinout"
-xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
 xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
 jaxb:version="2.0"
 jaxb:extensionBindingPrefixes="cb"
@@ -18,7 +18,7 @@ elementFormDefault="qualified">
      <xs:element name="CNumeric">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='C-NUMERIC' type='BINARY_ITEM' picture='9(4)' usage='BINARY' byteLength='2' signed='false' totalDigits='4' srceLine='21'/>
+         <cb:cobolElement levelNumber='05' cobolName='C-NUMERIC' type='BINARY_ITEM' picture='9(4)' usage='BINARY' signed='false' totalDigits='4' srceLine='21'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -32,7 +32,7 @@ elementFormDefault="qualified">
      <xs:element name="CBuffer">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='C-BUFFER' type='ALPHANUMERIC_ITEM' picture='X(500)' usage='DISPLAY' byteLength='500' isRedefined='true' unmarshalChoiceStrategyClassName='com.legstar.coxb.cust.redinout.ChoiceSelector' srceLine='22'/>
+         <cb:cobolElement levelNumber='05' cobolName='C-BUFFER' type='ALPHANUMERIC_ITEM' picture='X(500)' usage='DISPLAY' isRedefined='true' unmarshalChoiceStrategyClassName='com.legstar.coxb.cust.redinout.ChoiceSelector' srceLine='22'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -63,7 +63,7 @@ elementFormDefault="qualified">
      <xs:element name="CSomeInput">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='10' cobolName='C-SOME-INPUT' type='ALPHANUMERIC_ITEM' picture='X(15)' usage='DISPLAY' byteLength='15' srceLine='24'/>
+         <cb:cobolElement levelNumber='10' cobolName='C-SOME-INPUT' type='ALPHANUMERIC_ITEM' picture='X(15)' usage='DISPLAY' srceLine='24'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -79,7 +79,7 @@ elementFormDefault="qualified">
      <xs:element name="CSomeOutput">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='10' cobolName='C-SOME-OUTPUT' type='ZONED_DECIMAL_ITEM' picture='9(8)' usage='DISPLAY' byteLength='8' signed='false' totalDigits='8' srceLine='26'/>
+         <cb:cobolElement levelNumber='10' cobolName='C-SOME-OUTPUT' type='ZONED_DECIMAL_ITEM' picture='9(8)' usage='DISPLAY' signed='false' totalDigits='8' srceLine='26'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -92,7 +92,7 @@ elementFormDefault="qualified">
      <xs:element name="Filler27">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='10' cobolName='FILLER-27' type='ALPHANUMERIC_ITEM' picture='X(17)' usage='DISPLAY' byteLength='17' srceLine='27'/>
+         <cb:cobolElement levelNumber='10' cobolName='FILLER-27' type='ALPHANUMERIC_ITEM' picture='X(17)' usage='DISPLAY' srceLine='27'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>

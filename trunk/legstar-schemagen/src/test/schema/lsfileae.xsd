@@ -3,7 +3,7 @@
 targetNamespace="http://legstar.com/test/coxb/lsfileae"
 xmlns="http://legstar.com/test/coxb/lsfileae"
 xmlns:xsns="http://legstar.com/test/coxb/lsfileae"
-xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
 xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
 jaxb:version="2.0"
 jaxb:extensionBindingPrefixes="cb"
@@ -18,7 +18,7 @@ elementFormDefault="qualified">
      <xs:element name="ComNumber">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='COM-NUMBER' type='ZONED_DECIMAL_ITEM' picture='9(6)' usage='DISPLAY' byteLength='6' signed='false' totalDigits='6' srceLine='32'/>
+         <cb:cobolElement levelNumber='05' cobolName='COM-NUMBER' type='ZONED_DECIMAL_ITEM' picture='9(6)' usage='DISPLAY' signed='false' totalDigits='6' srceLine='32'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -38,7 +38,7 @@ elementFormDefault="qualified">
      <xs:element name="ComDate">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='COM-DATE' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' byteLength='8' srceLine='37'/>
+         <cb:cobolElement levelNumber='05' cobolName='COM-DATE' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' srceLine='37'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -50,7 +50,7 @@ elementFormDefault="qualified">
      <xs:element name="ComAmount">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='COM-AMOUNT' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' byteLength='8' srceLine='38'/>
+         <cb:cobolElement levelNumber='05' cobolName='COM-AMOUNT' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' srceLine='38'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -62,7 +62,7 @@ elementFormDefault="qualified">
      <xs:element name="ComComment">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='COM-COMMENT' type='ALPHANUMERIC_ITEM' picture='X(9)' usage='DISPLAY' byteLength='9' srceLine='39'/>
+         <cb:cobolElement levelNumber='05' cobolName='COM-COMMENT' type='ALPHANUMERIC_ITEM' picture='X(9)' usage='DISPLAY' srceLine='39'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -78,7 +78,7 @@ elementFormDefault="qualified">
      <xs:element name="ComName">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='10' cobolName='COM-NAME' type='ALPHANUMERIC_ITEM' picture='X(20)' usage='DISPLAY' byteLength='20' srceLine='34'/>
+         <cb:cobolElement levelNumber='10' cobolName='COM-NAME' type='ALPHANUMERIC_ITEM' picture='X(20)' usage='DISPLAY' srceLine='34'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -90,7 +90,7 @@ elementFormDefault="qualified">
      <xs:element name="ComAddress">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='10' cobolName='COM-ADDRESS' type='ALPHANUMERIC_ITEM' picture='X(20)' usage='DISPLAY' byteLength='20' srceLine='35'/>
+         <cb:cobolElement levelNumber='10' cobolName='COM-ADDRESS' type='ALPHANUMERIC_ITEM' picture='X(20)' usage='DISPLAY' srceLine='35'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -102,7 +102,7 @@ elementFormDefault="qualified">
      <xs:element name="ComPhone">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='10' cobolName='COM-PHONE' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' byteLength='8' srceLine='36'/>
+         <cb:cobolElement levelNumber='10' cobolName='COM-PHONE' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' srceLine='36'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>

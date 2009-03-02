@@ -3,7 +3,7 @@
 targetNamespace="http://legstar.com/test/coxb/redbotha"
 xmlns="http://legstar.com/test/coxb/redbotha"
 xmlns:xsns="http://legstar.com/test/coxb/redbotha"
-xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
 xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
 jaxb:version="2.0"
 jaxb:extensionBindingPrefixes="cb"
@@ -19,7 +19,7 @@ elementFormDefault="qualified">
      <xs:element name="CNumeric">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='C-NUMERIC' type='BINARY_ITEM' picture='9(4)' usage='BINARY' byteLength='2' signed='false' totalDigits='4' isRedefined='true' unmarshalChoiceStrategyClassName='com.legstar.coxb.cust.redbotha.ChoiceSelector' srceLine='21'/>
+         <cb:cobolElement levelNumber='05' cobolName='C-NUMERIC' type='BINARY_ITEM' picture='9(4)' usage='BINARY' signed='false' totalDigits='4' isRedefined='true' unmarshalChoiceStrategyClassName='com.legstar.coxb.cust.redbotha.ChoiceSelector' srceLine='21'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -44,7 +44,7 @@ elementFormDefault="qualified">
      <xs:element name="CLeftByte">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='10' cobolName='C-LEFT-BYTE' type='ALPHANUMERIC_ITEM' picture='X' usage='DISPLAY' byteLength='1' srceLine='23'/>
+         <cb:cobolElement levelNumber='10' cobolName='C-LEFT-BYTE' type='ALPHANUMERIC_ITEM' picture='X' usage='DISPLAY' srceLine='23'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -56,7 +56,7 @@ elementFormDefault="qualified">
      <xs:element name="CRightByte">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='10' cobolName='C-RIGHT-BYTE' type='ALPHANUMERIC_ITEM' picture='X' usage='DISPLAY' byteLength='1' srceLine='24'/>
+         <cb:cobolElement levelNumber='10' cobolName='C-RIGHT-BYTE' type='ALPHANUMERIC_ITEM' picture='X' usage='DISPLAY' srceLine='24'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>

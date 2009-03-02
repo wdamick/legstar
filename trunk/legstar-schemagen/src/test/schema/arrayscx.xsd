@@ -3,7 +3,7 @@
 targetNamespace="http://legstar.com/test/coxb/arrayscx"
 xmlns="http://legstar.com/test/coxb/arrayscx"
 xmlns:xsns="http://legstar.com/test/coxb/arrayscx"
-xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
 xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
 jaxb:version="2.0"
 jaxb:extensionBindingPrefixes="cb"
@@ -18,7 +18,7 @@ elementFormDefault="qualified">
      <xs:element name="WsItemA" minOccurs="3" maxOccurs="3">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WS-ITEM-A' type='ZONED_DECIMAL_ITEM' picture='9' usage='DISPLAY' byteLength='1' signed='false' totalDigits='1' minOccurs='3' maxOccurs='3' srceLine='24'/>
+         <cb:cobolElement levelNumber='05' cobolName='WS-ITEM-A' type='ZONED_DECIMAL_ITEM' picture='9' usage='DISPLAY' signed='false' totalDigits='1' minOccurs='3' maxOccurs='3' srceLine='24'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -75,7 +75,7 @@ elementFormDefault="qualified">
      <xs:element name="ElementThree" minOccurs="2" maxOccurs="2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='20' cobolName='ELEMENT-THREE' type='ALPHANUMERIC_ITEM' picture='X(3)' usage='DISPLAY' byteLength='3' minOccurs='2' maxOccurs='2' srceLine='32'/>
+         <cb:cobolElement levelNumber='20' cobolName='ELEMENT-THREE' type='ALPHANUMERIC_ITEM' picture='X(3)' usage='DISPLAY' minOccurs='2' maxOccurs='2' srceLine='32'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -92,7 +92,7 @@ elementFormDefault="qualified">
      <xs:element name="ElementRedef1">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='10' cobolName='ELEMENT-REDEF-1' type='ALPHANUMERIC_ITEM' picture='X(3)' usage='DISPLAY' byteLength='3' isRedefined='true' unmarshalChoiceStrategyClassName='com.legstar.coxb.cust.arrayscx.ChoiceSelector' srceLine='34'/>
+         <cb:cobolElement levelNumber='10' cobolName='ELEMENT-REDEF-1' type='ALPHANUMERIC_ITEM' picture='X(3)' usage='DISPLAY' isRedefined='true' unmarshalChoiceStrategyClassName='com.legstar.coxb.cust.arrayscx.ChoiceSelector' srceLine='34'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -104,7 +104,7 @@ elementFormDefault="qualified">
      <xs:element name="ElementRedef2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='10' cobolName='ELEMENT-REDEF-2' type='ZONED_DECIMAL_ITEM' picture='9(3)' usage='DISPLAY' byteLength='3' signed='false' totalDigits='3' redefines='ELEMENT-REDEF-1' srceLine='35'/>
+         <cb:cobolElement levelNumber='10' cobolName='ELEMENT-REDEF-2' type='ZONED_DECIMAL_ITEM' picture='9(3)' usage='DISPLAY' signed='false' totalDigits='3' redefines='ELEMENT-REDEF-1' srceLine='35'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>

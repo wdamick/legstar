@@ -3,7 +3,7 @@
 targetNamespace="http://legstar.com/test/coxb/alltypes"
 xmlns="http://legstar.com/test/coxb/alltypes"
 xmlns:xsns="http://legstar.com/test/coxb/alltypes"
-xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
 xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
 jaxb:version="2.0"
 jaxb:extensionBindingPrefixes="cb"
@@ -18,7 +18,7 @@ elementFormDefault="qualified">
      <xs:element name="SString">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='S-STRING' type='ALPHANUMERIC_ITEM' picture='X(4)' usage='DISPLAY' byteLength='4' srceLine='24'/>
+         <cb:cobolElement levelNumber='05' cobolName='S-STRING' type='ALPHANUMERIC_ITEM' picture='X(4)' usage='DISPLAY' srceLine='24'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -30,7 +30,7 @@ elementFormDefault="qualified">
      <xs:element name="SBinary">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='S-BINARY' type='OCTET_STREAM_ITEM' picture='X(4)' usage='DISPLAY' byteLength='4' srceLine='25'/>
+         <cb:cobolElement levelNumber='05' cobolName='S-BINARY' type='OCTET_STREAM_ITEM' picture='X(4)' usage='DISPLAY' srceLine='25'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -42,7 +42,7 @@ elementFormDefault="qualified">
      <xs:element name="SShort">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='S-SHORT' type='BINARY_ITEM' picture='S9(4)' usage='BINARY' byteLength='2' signed='true' totalDigits='4' srceLine='26'/>
+         <cb:cobolElement levelNumber='05' cobolName='S-SHORT' type='BINARY_ITEM' picture='S9(4)' usage='BINARY' signed='true' totalDigits='4' srceLine='26'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -55,7 +55,7 @@ elementFormDefault="qualified">
      <xs:element name="SUshort">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='S-USHORT' type='BINARY_ITEM' picture='9(4)' usage='BINARY' byteLength='2' signed='false' totalDigits='4' srceLine='27'/>
+         <cb:cobolElement levelNumber='05' cobolName='S-USHORT' type='BINARY_ITEM' picture='9(4)' usage='BINARY' signed='false' totalDigits='4' srceLine='27'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -68,7 +68,7 @@ elementFormDefault="qualified">
      <xs:element name="SInt">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='S-INT' type='BINARY_ITEM' picture='S9(9)' usage='BINARY' byteLength='4' signed='true' totalDigits='9' srceLine='28'/>
+         <cb:cobolElement levelNumber='05' cobolName='S-INT' type='BINARY_ITEM' picture='S9(9)' usage='BINARY' signed='true' totalDigits='9' srceLine='28'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -81,7 +81,7 @@ elementFormDefault="qualified">
      <xs:element name="SUint">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='S-UINT' type='BINARY_ITEM' picture='9(9)' usage='BINARY' byteLength='4' signed='false' totalDigits='9' srceLine='29'/>
+         <cb:cobolElement levelNumber='05' cobolName='S-UINT' type='BINARY_ITEM' picture='9(9)' usage='BINARY' signed='false' totalDigits='9' srceLine='29'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -94,7 +94,7 @@ elementFormDefault="qualified">
      <xs:element name="SLong">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='S-LONG' type='PACKED_DECIMAL_ITEM' picture='S9(18)' usage='PACKED-DECIMAL' byteLength='10' signed='true' totalDigits='18' srceLine='30'/>
+         <cb:cobolElement levelNumber='05' cobolName='S-LONG' type='PACKED_DECIMAL_ITEM' picture='S9(18)' usage='PACKED-DECIMAL' signed='true' totalDigits='18' srceLine='30'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -107,7 +107,7 @@ elementFormDefault="qualified">
      <xs:element name="SUlong">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='S-ULONG' type='PACKED_DECIMAL_ITEM' picture='9(18)' usage='PACKED-DECIMAL' byteLength='10' signed='false' totalDigits='18' srceLine='31'/>
+         <cb:cobolElement levelNumber='05' cobolName='S-ULONG' type='PACKED_DECIMAL_ITEM' picture='9(18)' usage='PACKED-DECIMAL' signed='false' totalDigits='18' srceLine='31'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -120,7 +120,7 @@ elementFormDefault="qualified">
      <xs:element name="SXlong">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='S-XLONG' type='PACKED_DECIMAL_ITEM' picture='S9(31)' usage='PACKED-DECIMAL' byteLength='16' signed='true' totalDigits='31' srceLine='32'/>
+         <cb:cobolElement levelNumber='05' cobolName='S-XLONG' type='PACKED_DECIMAL_ITEM' picture='S9(31)' usage='PACKED-DECIMAL' signed='true' totalDigits='31' srceLine='32'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -133,7 +133,7 @@ elementFormDefault="qualified">
      <xs:element name="SUxlong">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='S-UXLONG' type='PACKED_DECIMAL_ITEM' picture='9(31)' usage='PACKED-DECIMAL' byteLength='16' signed='false' totalDigits='31' srceLine='33'/>
+         <cb:cobolElement levelNumber='05' cobolName='S-UXLONG' type='PACKED_DECIMAL_ITEM' picture='9(31)' usage='PACKED-DECIMAL' signed='false' totalDigits='31' srceLine='33'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -146,7 +146,7 @@ elementFormDefault="qualified">
      <xs:element name="SDec">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='S-DEC' type='PACKED_DECIMAL_ITEM' picture='9(7)V99' usage='PACKED-DECIMAL' byteLength='5' signed='false' totalDigits='9' fractionDigits='2' srceLine='34'/>
+         <cb:cobolElement levelNumber='05' cobolName='S-DEC' type='PACKED_DECIMAL_ITEM' picture='9(7)V99' usage='PACKED-DECIMAL' signed='false' totalDigits='9' fractionDigits='2' srceLine='34'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -161,7 +161,7 @@ elementFormDefault="qualified">
      <xs:element name="SFloat">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='S-FLOAT' type='SINGLE_FLOAT_ITEM' usage='COMP-1' byteLength='4' srceLine='35'/>
+         <cb:cobolElement levelNumber='05' cobolName='S-FLOAT' type='SINGLE_FLOAT_ITEM' usage='COMP-1' srceLine='35'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -172,7 +172,7 @@ elementFormDefault="qualified">
      <xs:element name="SDouble">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='S-DOUBLE' type='DOUBLE_FLOAT_ITEM' usage='COMP-2' byteLength='8' srceLine='36'/>
+         <cb:cobolElement levelNumber='05' cobolName='S-DOUBLE' type='DOUBLE_FLOAT_ITEM' usage='COMP-2' srceLine='36'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -183,7 +183,7 @@ elementFormDefault="qualified">
      <xs:element name="AString" minOccurs="2" maxOccurs="2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='A-STRING' type='ALPHANUMERIC_ITEM' picture='X(4)' usage='DISPLAY' byteLength='4' minOccurs='2' maxOccurs='2' srceLine='38'/>
+         <cb:cobolElement levelNumber='05' cobolName='A-STRING' type='ALPHANUMERIC_ITEM' picture='X(4)' usage='DISPLAY' minOccurs='2' maxOccurs='2' srceLine='38'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -195,7 +195,7 @@ elementFormDefault="qualified">
      <xs:element name="ABinary" minOccurs="2" maxOccurs="2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='A-BINARY' type='ALPHANUMERIC_ITEM' picture='X(4)' usage='DISPLAY' byteLength='4' minOccurs='2' maxOccurs='2' srceLine='39'/>
+         <cb:cobolElement levelNumber='05' cobolName='A-BINARY' type='ALPHANUMERIC_ITEM' picture='X(4)' usage='DISPLAY' minOccurs='2' maxOccurs='2' srceLine='39'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -207,7 +207,7 @@ elementFormDefault="qualified">
      <xs:element name="AShort" minOccurs="2" maxOccurs="2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='A-SHORT' type='BINARY_ITEM' picture='S9(4)' usage='BINARY' byteLength='2' signed='true' totalDigits='4' minOccurs='2' maxOccurs='2' srceLine='40'/>
+         <cb:cobolElement levelNumber='05' cobolName='A-SHORT' type='BINARY_ITEM' picture='S9(4)' usage='BINARY' signed='true' totalDigits='4' minOccurs='2' maxOccurs='2' srceLine='40'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -220,7 +220,7 @@ elementFormDefault="qualified">
      <xs:element name="AUshort" minOccurs="2" maxOccurs="2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='A-USHORT' type='BINARY_ITEM' picture='9(4)' usage='BINARY' byteLength='2' signed='false' totalDigits='4' minOccurs='2' maxOccurs='2' srceLine='41'/>
+         <cb:cobolElement levelNumber='05' cobolName='A-USHORT' type='BINARY_ITEM' picture='9(4)' usage='BINARY' signed='false' totalDigits='4' minOccurs='2' maxOccurs='2' srceLine='41'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -233,7 +233,7 @@ elementFormDefault="qualified">
      <xs:element name="AInt" minOccurs="2" maxOccurs="2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='A-INT' type='BINARY_ITEM' picture='S9(9)' usage='BINARY' byteLength='4' signed='true' totalDigits='9' minOccurs='2' maxOccurs='2' srceLine='42'/>
+         <cb:cobolElement levelNumber='05' cobolName='A-INT' type='BINARY_ITEM' picture='S9(9)' usage='BINARY' signed='true' totalDigits='9' minOccurs='2' maxOccurs='2' srceLine='42'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -246,7 +246,7 @@ elementFormDefault="qualified">
      <xs:element name="AUint" minOccurs="2" maxOccurs="2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='A-UINT' type='BINARY_ITEM' picture='9(9)' usage='BINARY' byteLength='4' signed='false' totalDigits='9' minOccurs='2' maxOccurs='2' srceLine='43'/>
+         <cb:cobolElement levelNumber='05' cobolName='A-UINT' type='BINARY_ITEM' picture='9(9)' usage='BINARY' signed='false' totalDigits='9' minOccurs='2' maxOccurs='2' srceLine='43'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -259,7 +259,7 @@ elementFormDefault="qualified">
      <xs:element name="ALong" minOccurs="2" maxOccurs="2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='A-LONG' type='PACKED_DECIMAL_ITEM' picture='S9(18)' usage='PACKED-DECIMAL' byteLength='10' signed='true' totalDigits='18' minOccurs='2' maxOccurs='2' srceLine='44'/>
+         <cb:cobolElement levelNumber='05' cobolName='A-LONG' type='PACKED_DECIMAL_ITEM' picture='S9(18)' usage='PACKED-DECIMAL' signed='true' totalDigits='18' minOccurs='2' maxOccurs='2' srceLine='44'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -272,7 +272,7 @@ elementFormDefault="qualified">
      <xs:element name="AUlong" minOccurs="2" maxOccurs="2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='A-ULONG' type='PACKED_DECIMAL_ITEM' picture='9(18)' usage='PACKED-DECIMAL' byteLength='10' signed='false' totalDigits='18' minOccurs='2' maxOccurs='2' srceLine='45'/>
+         <cb:cobolElement levelNumber='05' cobolName='A-ULONG' type='PACKED_DECIMAL_ITEM' picture='9(18)' usage='PACKED-DECIMAL' signed='false' totalDigits='18' minOccurs='2' maxOccurs='2' srceLine='45'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -285,7 +285,7 @@ elementFormDefault="qualified">
      <xs:element name="AXlong" minOccurs="2" maxOccurs="2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='A-XLONG' type='PACKED_DECIMAL_ITEM' picture='S9(31)' usage='PACKED-DECIMAL' byteLength='16' signed='true' totalDigits='31' minOccurs='2' maxOccurs='2' srceLine='46'/>
+         <cb:cobolElement levelNumber='05' cobolName='A-XLONG' type='PACKED_DECIMAL_ITEM' picture='S9(31)' usage='PACKED-DECIMAL' signed='true' totalDigits='31' minOccurs='2' maxOccurs='2' srceLine='46'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -298,7 +298,7 @@ elementFormDefault="qualified">
      <xs:element name="AUxlong" minOccurs="2" maxOccurs="2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='A-UXLONG' type='PACKED_DECIMAL_ITEM' picture='9(31)' usage='PACKED-DECIMAL' byteLength='16' signed='false' totalDigits='31' minOccurs='2' maxOccurs='2' srceLine='47'/>
+         <cb:cobolElement levelNumber='05' cobolName='A-UXLONG' type='PACKED_DECIMAL_ITEM' picture='9(31)' usage='PACKED-DECIMAL' signed='false' totalDigits='31' minOccurs='2' maxOccurs='2' srceLine='47'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -311,7 +311,7 @@ elementFormDefault="qualified">
      <xs:element name="ADec" minOccurs="2" maxOccurs="2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='A-DEC' type='PACKED_DECIMAL_ITEM' picture='9(7)V99' usage='PACKED-DECIMAL' byteLength='5' signed='false' totalDigits='9' fractionDigits='2' minOccurs='2' maxOccurs='2' srceLine='48'/>
+         <cb:cobolElement levelNumber='05' cobolName='A-DEC' type='PACKED_DECIMAL_ITEM' picture='9(7)V99' usage='PACKED-DECIMAL' signed='false' totalDigits='9' fractionDigits='2' minOccurs='2' maxOccurs='2' srceLine='48'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -326,7 +326,7 @@ elementFormDefault="qualified">
      <xs:element name="AFloat" minOccurs="2" maxOccurs="2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='A-FLOAT' type='SINGLE_FLOAT_ITEM' usage='COMP-1' byteLength='4' minOccurs='2' maxOccurs='2' srceLine='49'/>
+         <cb:cobolElement levelNumber='05' cobolName='A-FLOAT' type='SINGLE_FLOAT_ITEM' usage='COMP-1' minOccurs='2' maxOccurs='2' srceLine='49'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -337,7 +337,7 @@ elementFormDefault="qualified">
      <xs:element name="ADouble" minOccurs="2" maxOccurs="2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='A-DOUBLE' type='DOUBLE_FLOAT_ITEM' usage='COMP-2' byteLength='8' minOccurs='2' maxOccurs='2' srceLine='50'/>
+         <cb:cobolElement levelNumber='05' cobolName='A-DOUBLE' type='DOUBLE_FLOAT_ITEM' usage='COMP-2' minOccurs='2' maxOccurs='2' srceLine='50'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>

@@ -3,7 +3,7 @@
 targetNamespace="http://legstar.com/test/coxb/listssdo"
 xmlns="http://legstar.com/test/coxb/listssdo"
 xmlns:xsns="http://legstar.com/test/coxb/listssdo"
-xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
 xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
 jaxb:version="2.0"
 jaxb:extensionBindingPrefixes="cb"

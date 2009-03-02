@@ -3,7 +3,7 @@
 targetNamespace="http://legstar.com/test/coxb/charsets"
 xmlns="http://legstar.com/test/coxb/charsets"
 xmlns:xsns="http://legstar.com/test/coxb/charsets"
-xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
 xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
 jaxb:version="2.0"
 jaxb:extensionBindingPrefixes="cb"
@@ -18,7 +18,7 @@ elementFormDefault="qualified">
      <xs:element name="ComLocal">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='COM-LOCAL' type='ALPHANUMERIC_ITEM' picture='X(32)' usage='DISPLAY' byteLength='32' srceLine='43'/>
+         <cb:cobolElement levelNumber='05' cobolName='COM-LOCAL' type='ALPHANUMERIC_ITEM' picture='X(32)' usage='DISPLAY' srceLine='43'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -30,7 +30,7 @@ elementFormDefault="qualified">
      <xs:element name="ComDbcs">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='COM-DBCS' type='DBCS_ITEM' picture='G(32)' usage='DISPLAY-1' byteLength='64' srceLine='44'/>
+         <cb:cobolElement levelNumber='05' cobolName='COM-DBCS' type='DBCS_ITEM' picture='G(32)' usage='DISPLAY-1' srceLine='44'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -42,7 +42,7 @@ elementFormDefault="qualified">
      <xs:element name="ComNational">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='COM-NATIONAL' type='NATIONAL_ITEM' picture='N(32)' usage='NATIONAL' byteLength='64' srceLine='45'/>
+         <cb:cobolElement levelNumber='05' cobolName='COM-NATIONAL' type='NATIONAL_ITEM' picture='N(32)' usage='NATIONAL' srceLine='45'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>

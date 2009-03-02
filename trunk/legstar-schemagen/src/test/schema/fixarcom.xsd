@@ -3,7 +3,7 @@
 targetNamespace="http://legstar.com/test/coxb/fixarcom"
 xmlns="http://legstar.com/test/coxb/fixarcom"
 xmlns:xsns="http://legstar.com/test/coxb/fixarcom"
-xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
 xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
 jaxb:version="2.0"
 jaxb:extensionBindingPrefixes="cb"
@@ -29,7 +29,7 @@ elementFormDefault="qualified">
      <xs:element name="CItem1">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='10' cobolName='C-ITEM-1' type='ALPHANUMERIC_ITEM' picture='X(5)' usage='DISPLAY' byteLength='5' srceLine='24'/>
+         <cb:cobolElement levelNumber='10' cobolName='C-ITEM-1' type='ALPHANUMERIC_ITEM' picture='X(5)' usage='DISPLAY' srceLine='24'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -41,7 +41,7 @@ elementFormDefault="qualified">
      <xs:element name="CItem2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='10' cobolName='C-ITEM-2' type='BINARY_ITEM' picture='S9(4)' usage='BINARY' byteLength='2' signed='true' totalDigits='4' srceLine='25'/>
+         <cb:cobolElement levelNumber='10' cobolName='C-ITEM-2' type='BINARY_ITEM' picture='S9(4)' usage='BINARY' signed='true' totalDigits='4' srceLine='25'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>

@@ -3,7 +3,7 @@
 targetNamespace="http://legstar.com/test/coxb/fixarnum"
 xmlns="http://legstar.com/test/coxb/fixarnum"
 xmlns:xsns="http://legstar.com/test/coxb/fixarnum"
-xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
 xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
 jaxb:version="2.0"
 jaxb:extensionBindingPrefixes="cb"
@@ -18,7 +18,7 @@ elementFormDefault="qualified">
      <xs:element name="CArrayPd" minOccurs="3" maxOccurs="3">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='C-ARRAY-PD' type='PACKED_DECIMAL_ITEM' picture='9(5)V99' usage='PACKED-DECIMAL' byteLength='4' signed='false' totalDigits='7' fractionDigits='2' minOccurs='3' maxOccurs='3' srceLine='23'/>
+         <cb:cobolElement levelNumber='05' cobolName='C-ARRAY-PD' type='PACKED_DECIMAL_ITEM' picture='9(5)V99' usage='PACKED-DECIMAL' signed='false' totalDigits='7' fractionDigits='2' minOccurs='3' maxOccurs='3' srceLine='23'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -33,7 +33,7 @@ elementFormDefault="qualified">
      <xs:element name="CArrayZd" minOccurs="3" maxOccurs="3">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='C-ARRAY-ZD' type='ZONED_DECIMAL_ITEM' picture='9(3)V999' usage='DISPLAY' byteLength='6' signed='false' totalDigits='6' fractionDigits='3' minOccurs='3' maxOccurs='3' srceLine='24'/>
+         <cb:cobolElement levelNumber='05' cobolName='C-ARRAY-ZD' type='ZONED_DECIMAL_ITEM' picture='9(3)V999' usage='DISPLAY' signed='false' totalDigits='6' fractionDigits='3' minOccurs='3' maxOccurs='3' srceLine='24'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -48,7 +48,7 @@ elementFormDefault="qualified">
      <xs:element name="CArrayZi" minOccurs="3" maxOccurs="3">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='C-ARRAY-ZI' type='ZONED_DECIMAL_ITEM' picture='9(4)' usage='DISPLAY' byteLength='4' signed='false' totalDigits='4' minOccurs='3' maxOccurs='3' srceLine='25'/>
+         <cb:cobolElement levelNumber='05' cobolName='C-ARRAY-ZI' type='ZONED_DECIMAL_ITEM' picture='9(4)' usage='DISPLAY' signed='false' totalDigits='4' minOccurs='3' maxOccurs='3' srceLine='25'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -61,7 +61,7 @@ elementFormDefault="qualified">
      <xs:element name="CArrayBi" minOccurs="3" maxOccurs="3">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='C-ARRAY-BI' type='BINARY_ITEM' picture='9(9)' usage='BINARY' byteLength='4' signed='false' totalDigits='9' minOccurs='3' maxOccurs='3' srceLine='26'/>
+         <cb:cobolElement levelNumber='05' cobolName='C-ARRAY-BI' type='BINARY_ITEM' picture='9(9)' usage='BINARY' signed='false' totalDigits='9' minOccurs='3' maxOccurs='3' srceLine='26'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -74,7 +74,7 @@ elementFormDefault="qualified">
      <xs:element name="CArrayNi" minOccurs="3" maxOccurs="3">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='C-ARRAY-NI' type='NATIVE_BINARY_ITEM' picture='9(18)' usage='COMP-5' byteLength='8' signed='false' totalDigits='18' minOccurs='3' maxOccurs='3' srceLine='27'/>
+         <cb:cobolElement levelNumber='05' cobolName='C-ARRAY-NI' type='NATIVE_BINARY_ITEM' picture='9(18)' usage='COMP-5' signed='false' totalDigits='18' minOccurs='3' maxOccurs='3' srceLine='27'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>

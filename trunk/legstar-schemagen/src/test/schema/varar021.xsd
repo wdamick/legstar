@@ -3,7 +3,7 @@
 targetNamespace="http://legstar.com/test/coxb/varar021"
 xmlns="http://legstar.com/test/coxb/varar021"
 xmlns:xsns="http://legstar.com/test/coxb/varar021"
-xmlns:cb="http://www.legsem.com/xml/ns/coxb"
+xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
 xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
 jaxb:version="2.0"
 jaxb:extensionBindingPrefixes="cb"
@@ -19,7 +19,7 @@ elementFormDefault="qualified">
      <xs:element name="WAlpha">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='W-ALPHA' type='ALPHANUMERIC_ITEM' picture='X(05)' usage='DISPLAY' byteLength='5' isRedefined='true' unmarshalChoiceStrategyClassName='' srceLine='24'/>
+         <cb:cobolElement levelNumber='05' cobolName='W-ALPHA' type='ALPHANUMERIC_ITEM' picture='X(05)' usage='DISPLAY' isRedefined='true' unmarshalChoiceStrategyClassName='' srceLine='24'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -31,7 +31,7 @@ elementFormDefault="qualified">
      <xs:element name="WNum">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='W-NUM' type='ZONED_DECIMAL_ITEM' picture='9(05)' usage='DISPLAY' byteLength='5' signed='false' totalDigits='5' redefines='W-ALPHA' srceLine='25'/>
+         <cb:cobolElement levelNumber='05' cobolName='W-NUM' type='ZONED_DECIMAL_ITEM' picture='9(05)' usage='DISPLAY' signed='false' totalDigits='5' redefines='W-ALPHA' srceLine='25'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -60,7 +60,7 @@ elementFormDefault="qualified">
      <xs:element name="WechRequestRows">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WECH-REQUEST-ROWS' type='ZONED_DECIMAL_ITEM' picture='9(3)' usage='DISPLAY' byteLength='3' signed='false' totalDigits='3' isODOObject='true' srceLine='33'/>
+         <cb:cobolElement levelNumber='05' cobolName='WECH-REQUEST-ROWS' type='ZONED_DECIMAL_ITEM' picture='9(3)' usage='DISPLAY' signed='false' totalDigits='3' isODOObject='true' srceLine='33'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -73,7 +73,7 @@ elementFormDefault="qualified">
      <xs:element name="WechDynamicResponseRows">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WECH-DYNAMIC-RESPONSE-ROWS' type='ZONED_DECIMAL_ITEM' picture='9(3)' usage='DISPLAY' byteLength='3' signed='false' totalDigits='3' isODOObject='true' srceLine='34'/>
+         <cb:cobolElement levelNumber='05' cobolName='WECH-DYNAMIC-RESPONSE-ROWS' type='ZONED_DECIMAL_ITEM' picture='9(3)' usage='DISPLAY' signed='false' totalDigits='3' isODOObject='true' srceLine='34'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -86,7 +86,7 @@ elementFormDefault="qualified">
      <xs:element name="WechErrorRows">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WECH-ERROR-ROWS' type='ZONED_DECIMAL_ITEM' picture='9(3)' usage='DISPLAY' byteLength='3' signed='false' totalDigits='3' isODOObject='true' srceLine='35'/>
+         <cb:cobolElement levelNumber='05' cobolName='WECH-ERROR-ROWS' type='ZONED_DECIMAL_ITEM' picture='9(3)' usage='DISPLAY' signed='false' totalDigits='3' isODOObject='true' srceLine='35'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -99,7 +99,7 @@ elementFormDefault="qualified">
      <xs:element name="WechAdditionalPageKeys">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='WECH-ADDITIONAL-PAGE-KEYS' type='ALPHANUMERIC_ITEM' picture='X(1)' usage='DISPLAY' byteLength='1' srceLine='36'/>
+         <cb:cobolElement levelNumber='05' cobolName='WECH-ADDITIONAL-PAGE-KEYS' type='ALPHANUMERIC_ITEM' picture='X(1)' usage='DISPLAY' srceLine='36'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -147,7 +147,7 @@ elementFormDefault="qualified">
      <xs:element name="LkupId">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='LKUP-ID' type='ALPHANUMERIC_ITEM' picture='X(18)' usage='DISPLAY' byteLength='18' srceLine='40'/>
+         <cb:cobolElement levelNumber='15' cobolName='LKUP-ID' type='ALPHANUMERIC_ITEM' picture='X(18)' usage='DISPLAY' srceLine='40'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -159,7 +159,7 @@ elementFormDefault="qualified">
      <xs:element name="LkupTypCd">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='LKUP-TYP-CD' type='ALPHANUMERIC_ITEM' picture='X(05)' usage='DISPLAY' byteLength='5' srceLine='41'/>
+         <cb:cobolElement levelNumber='15' cobolName='LKUP-TYP-CD' type='ALPHANUMERIC_ITEM' picture='X(05)' usage='DISPLAY' srceLine='41'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -186,7 +186,7 @@ elementFormDefault="qualified">
      <xs:element name="LkupIdCt">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='LKUP-ID-CT' type='ALPHANUMERIC_ITEM' picture='X(18)' usage='DISPLAY' byteLength='18' srceLine='45'/>
+         <cb:cobolElement levelNumber='15' cobolName='LKUP-ID-CT' type='ALPHANUMERIC_ITEM' picture='X(18)' usage='DISPLAY' srceLine='45'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -198,7 +198,7 @@ elementFormDefault="qualified">
      <xs:element name="LkupTypCdCt">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='LKUP-TYP-CD-CT' type='ALPHANUMERIC_ITEM' picture='X(05)' usage='DISPLAY' byteLength='5' srceLine='46'/>
+         <cb:cobolElement levelNumber='15' cobolName='LKUP-TYP-CD-CT' type='ALPHANUMERIC_ITEM' picture='X(05)' usage='DISPLAY' srceLine='46'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -214,7 +214,7 @@ elementFormDefault="qualified">
      <xs:element name="WeerExceptionUuid">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='10' cobolName='WEER-EXCEPTION-UUID' type='ALPHANUMERIC_ITEM' picture='X(32)' usage='DISPLAY' byteLength='32' srceLine='49'/>
+         <cb:cobolElement levelNumber='10' cobolName='WEER-EXCEPTION-UUID' type='ALPHANUMERIC_ITEM' picture='X(32)' usage='DISPLAY' srceLine='49'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
