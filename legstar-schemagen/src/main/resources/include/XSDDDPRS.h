@@ -30,8 +30,9 @@
 #define XSNS_NS "http://tempuri/schemagen" /* The output schema 
                                    namespace  */ 
 #define XSCB_PREFIX "cb"        /* Xml schema Cobol appinfo          */
-#define XSCB_NS "http://www.legsem.com/xml/ns/coxb" /* The Cobol 
-                                    appinfo schema namespace  */ 
+#define XSCB_NS_1 "http://www.legsem.com/legstar/xml/"
+#define XSCB_NS_2 "cobol-binding-1.0.1.xsd"
+#define XSCB_NS XSCB_NS_1 XSCB_NS_2 /* Cobol binding schema namespace*/ 
 #define XSJAXB_PREFIX "jaxb"    /* Jaxb namespace prefix             */
 #define XSJAXB_NS "http://java.sun.com/xml/ns/jaxb" /* Jaxb namespace*/ 
 #define XSJAXB_VERSION "2.0"    /* Jaxb version                      */
