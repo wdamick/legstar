@@ -27,4 +27,12 @@ public interface ICobolArrayBinding extends ICobolBinding {
      * @throws HostException if count cannot be computed
      */
     int getCurrentOccurs() throws HostException;
+    
+    /**
+     * In COBOL, arrays are collections of items with a fixed size.
+     * This method returns an individual item host byte size.
+     * @return Cobol array individual item length in bytes.
+     */
+    int getItemByteLength();
+
 }

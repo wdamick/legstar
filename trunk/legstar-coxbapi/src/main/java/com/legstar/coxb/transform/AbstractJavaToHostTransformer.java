@@ -111,7 +111,7 @@ public abstract class AbstractJavaToHostTransformer extends AbstractTransformer 
             binding.setObjectValue(valueObject);
 
             /* Allocate a byte array large enough to accommodate the largest object. */
-            int size = binding.calcByteLength();
+            int size = binding.getByteLength();
             byte[] hostData = new byte[size];
 
             /* create the outbound buffer by marshalling the java object tree */

@@ -56,6 +56,11 @@ implements ICobolArrayBinding {
         return this.getMaxOccurs();
     }
 
+    /** {@inheritDoc} */
+    public final int calcByteLength() {
+        return getMaxOccurs() * getItemByteLength();
+    }
+
     /**
      * This test cannot be done at construction time because the depending on
      * property can be added later.
