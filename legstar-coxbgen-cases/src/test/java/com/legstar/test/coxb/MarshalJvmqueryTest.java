@@ -42,7 +42,7 @@ public class MarshalJvmqueryTest extends TestCase {
         assertEquals("class com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply", binding.getJaxbType().toString());
 
         /* Convert Java data object to a host byte array */
-        byte[] hostBytes = new byte[binding.calcByteLength()];
+        byte[] hostBytes = new byte[binding.getByteLength()];
         CobolContext cobolContext = new CobolContext();
         CobolSimpleConverters cc = new CobolSimpleConverters(cobolContext);
         CobolMarshalVisitor mv =
