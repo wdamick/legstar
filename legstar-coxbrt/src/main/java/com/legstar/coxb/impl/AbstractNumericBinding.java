@@ -15,16 +15,14 @@ import java.math.BigInteger;
 
 import com.legstar.coxb.CobolElement;
 import com.legstar.coxb.ICobolComplexBinding;
-import com.legstar.coxb.ICobolNumericBinding;
 import com.legstar.coxb.common.CBinding;
 import com.legstar.coxb.host.HostException;
 
 /**
- * A generic binding for numeric elements. All numeric values are
+ * A generic binding for numeric bindings. All numeric values are
  * stored in a BigDecimal.
  */
-public abstract class CNumericBinding extends CBinding
-implements ICobolNumericBinding {
+public abstract class AbstractNumericBinding extends CBinding {
 
     /** The current value for this element. */
     private BigDecimal mValue = null;
@@ -38,7 +36,7 @@ implements ICobolNumericBinding {
      * @param cobolAnnotations the cobol annotations for this element
      * @param parentBinding a reference to the parent binding
      */
-    public CNumericBinding(
+    public AbstractNumericBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,
@@ -112,11 +110,6 @@ implements ICobolNumericBinding {
     /** {@inheritDoc} */
     public final BigInteger getBigIntegerValue() throws HostException {
         return mValue.toBigInteger();
-    }
-
-    /** {@inheritDoc} */
-    public final int calcByteLength() throws HostException {
-        return getByteLength();
     }
 
     /** {@inheritDoc} */

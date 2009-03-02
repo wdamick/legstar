@@ -24,7 +24,7 @@ import com.legstar.coxb.host.HostException;
  * 
  */
 public class CBinaryBinding
-extends CNumericBinding
+extends AbstractNumericBinding
 implements ICobolBinaryBinding {
 
     /**
@@ -49,5 +49,27 @@ implements ICobolBinaryBinding {
     public final void accept(final CobolElementVisitor cev)
     throws HostException {
         cev.visit(this);
+    }
+    /** {@inheritDoc} */
+    public final int calcByteLength() {
+        return calcBinaryByteLength(getTotalDigits());
+    }
+
+    /**
+     * Calculates the host byte length for a COMP.
+     * PIC S9(1) to S9(4) occupies 2 bytes (short).
+     * PIC S9(5) to S9(9) occupies 4 bytes (integer).
+     * PIC S9(10) to S9(18) occupies 8 bytes (long).
+     * @param totalDigits the number of digits (including fraction digits)
+     * @return the host byte length for a COMP
+     */
+    public static int calcBinaryByteLength(final int totalDigits) {
+        if (totalDigits < 5) {
+            return 2;
+        } else if (totalDigits < 10) {
+            return 4;
+        } else {
+            return 8;
+        }
     }
 }

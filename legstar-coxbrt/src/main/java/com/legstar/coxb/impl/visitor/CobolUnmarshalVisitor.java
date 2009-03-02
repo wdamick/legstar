@@ -16,6 +16,7 @@ import com.legstar.coxb.convert.ICobolConverters;
 import com.legstar.coxb.CobolElementVisitor;
 import com.legstar.coxb.ICobolArrayBinaryBinding;
 import com.legstar.coxb.ICobolArrayComplexBinding;
+import com.legstar.coxb.ICobolArrayDbcsBinding;
 import com.legstar.coxb.ICobolArrayDoubleBinding;
 import com.legstar.coxb.ICobolArrayFloatBinding;
 import com.legstar.coxb.ICobolArrayNationalBinding;
@@ -27,6 +28,7 @@ import com.legstar.coxb.ICobolBinaryBinding;
 import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolComplexBinding;
+import com.legstar.coxb.ICobolDbcsBinding;
 import com.legstar.coxb.ICobolDoubleBinding;
 import com.legstar.coxb.ICobolFloatBinding;
 import com.legstar.coxb.ICobolNationalBinding;
@@ -238,6 +240,32 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolNationalConverter().
+                fromHost(ce, getHostBytes(), getOffset(),
+                        ce.getCurrentOccurs()));
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolDbcsBinding ce)
+    throws HostException {
+        /* Object must have associated bytes in the incoming host payload */
+        if (!exists(ce)) {
+            return;
+        }
+        setOffset(getCobolConverters().
+                getCobolDbcsConverter().
+                fromHost(ce, getHostBytes(), getOffset()));
+
+        if (ce.isCustomVariable()) {
+            storeCustomVariable(ce);
+        }
+    }
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(final ICobolArrayDbcsBinding ce)
+    throws HostException {
+        setOffset(getCobolConverters().
+                getCobolDbcsConverter().
                 fromHost(ce, getHostBytes(), getOffset(),
                         ce.getCurrentOccurs()));
     }

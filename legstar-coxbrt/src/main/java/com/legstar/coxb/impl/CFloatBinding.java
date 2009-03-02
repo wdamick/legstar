@@ -32,6 +32,9 @@ implements ICobolFloatBinding {
     /** The current value for this element. */
     private Float mValue = null;
 
+    /** Floats have a fixed host byte length. */
+    public static final int BYTE_LENGTH = 4;
+    
     /**
      * Constructor for a cobol element to java binding.
      * 
@@ -78,8 +81,16 @@ implements ICobolFloatBinding {
     }
 
     /** {@inheritDoc} */
-    public final int calcByteLength() throws HostException {
-        return getByteLength();
+    public final int calcByteLength() {
+        return calcFloatByteLength();
+    }
+
+    /**
+     * Calculates the host byte length for a COMP-1.
+     * @return the host byte length for a COMP-1
+     */
+    public static int calcFloatByteLength() {
+        return BYTE_LENGTH;
     }
 
     /** {@inheritDoc} */

@@ -73,7 +73,7 @@ implements ICobolStringConverter {
             for (String javaSource : ce.getStringList()) {
                 newOffset = toHostSingle(javaSource,
                         getCobolContext().getHostCharsetName(),
-                        ce.getByteLength(),
+                        ce.getItemByteLength(),
                         ce.isJustifiedRight(),
                         hostTarget,
                         newOffset);
@@ -83,7 +83,7 @@ implements ICobolStringConverter {
             i < currentOccurs; i++) {
                 newOffset = toHostSingle("",
                         getCobolContext().getHostCharsetName(),
-                        ce.getByteLength(),
+                        ce.getItemByteLength(),
                         ce.isJustifiedRight(),
                         hostTarget,
                         newOffset);
@@ -128,11 +128,11 @@ implements ICobolStringConverter {
             for (int i = 0; i < currentOccurs; i++) {
                 String javaString = fromHostSingle(
                         getCobolContext().getHostCharsetName(),
-                        ce.getByteLength(),
+                        ce.getItemByteLength(),
                         hostSource,
                         newOffset);
                 lArray.add(javaString);
-                newOffset += ce.getByteLength();
+                newOffset += ce.getItemByteLength();
             }
             ce.setStringList(lArray);
         } catch (CobolConversionException e) {

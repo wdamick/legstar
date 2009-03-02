@@ -11,8 +11,10 @@
 package com.legstar.coxb.impl;
 
 import com.legstar.coxb.CobolElement;
+import com.legstar.coxb.CobolElementVisitor;
 import com.legstar.coxb.ICobolArrayNationalBinding;
 import com.legstar.coxb.ICobolComplexBinding;
+import com.legstar.coxb.host.HostException;
 
 /**
  * This class implements the behavior of an array of national cobol elements
@@ -21,7 +23,7 @@ import com.legstar.coxb.ICobolComplexBinding;
  * @author Fady Moussallam
  * 
  */
-public class CArrayNationalBinding extends CArrayStringBinding implements ICobolArrayNationalBinding {
+public class CArrayNationalBinding extends AbstractArrayAlphaNumericBinding implements ICobolArrayNationalBinding {
 
     /**
      * Constructor for a cobol element to java binding.
@@ -39,6 +41,17 @@ public class CArrayNationalBinding extends CArrayStringBinding implements ICobol
             final CobolElement cobolAnnotations,
             final ICobolComplexBinding parentBinding) {
         super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
+    }
+
+    /** {@inheritDoc} */
+    public final void accept(final CobolElementVisitor cev)
+    throws HostException {
+        cev.visit(this);
+    }
+
+    /** {@inheritDoc} */
+    public final int getItemByteLength() {
+        return CNationalBinding.calcNationalByteLength(getPicture());
     }
 
 }

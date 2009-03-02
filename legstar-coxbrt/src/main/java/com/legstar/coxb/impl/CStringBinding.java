@@ -10,25 +10,28 @@
  ******************************************************************************/
 package com.legstar.coxb.impl;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import com.legstar.coxb.CobolElement;
+import com.legstar.coxb.CobolType;
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.ICobolStringBinding;
 import com.legstar.coxb.CobolElementVisitor;
-import com.legstar.coxb.common.CBinding;
 import com.legstar.coxb.host.HostException;
+import com.legstar.coxb.util.PictureUtil;
 
 /**
  * This class implements the behavior of a string cobol element bound to
  * a JAXB String property.
+ * Numerous COBOL data types map to a String, namely:
+ * - Alphabetic PIC A(n)
+ * - Alphanumeric PIC X(n)
+ * - Alphanumeric edited PIC X/A
+ * - External floating point
+ * - Numeric edited
  *
  * @author Fady Moussallam
  * 
  */
-public class CStringBinding
-extends CBinding
+public class CStringBinding extends AbstractAlphaNumericBinding
 implements ICobolStringBinding {
 
     /**
@@ -49,9 +52,6 @@ implements ICobolStringBinding {
         super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
     }
 
-    /** The current value for this element. */
-    private String mValue = null;
-
     /** {@inheritDoc} */
     public final void accept(final CobolElementVisitor cev)
     throws HostException {
@@ -59,80 +59,48 @@ implements ICobolStringBinding {
     }
 
     /** {@inheritDoc} */
-    public final String getStringValue() throws HostException {
-        return mValue;
+    public final int calcByteLength() {
+        return calcStringByteLength(getPicture(), getCobolType());
     }
 
-    /** {@inheritDoc} */
-    public final void setStringValue(final String value) throws HostException {
-        mValue = value;
-    }
-
-    /** {@inheritDoc} */
-    public final int calcByteLength() throws HostException {
-        return getByteLength();
-    }
-
-    /** {@inheritDoc} */
-    public final Object getObjectValue(
-            final Class < ? > type) throws HostException {
-        if (type.equals(String.class)) {
-            return mValue;
-        } else if (type.isEnum()) {
-            /* If result is request to be an enum, return instance corresponding
-             * to this value */
-            try {
-                Method fromValue = type.getMethod("fromValue", String.class);
-                return fromValue.invoke(null, mValue.trim());
-            } catch (SecurityException e) {
-                throw new HostException(e);
-            } catch (IllegalArgumentException e) {
-                throw new HostException(e);
-            } catch (IllegalAccessException e) {
-                throw new HostException(e);
-            } catch (NoSuchMethodException e) {
-                throw new HostException(e);
-            } catch (InvocationTargetException e) {
-                throw new HostException(e);
+    /**
+     * Calculates the host byte length for a variety of COBOL data types.
+     * @param picture the picture clause
+     * @param cobolType the original COBOL data type
+     * @return the host byte length
+     */
+    public static int calcStringByteLength(
+            final String picture, final CobolType cobolType) {
+        switch (cobolType) {
+        case ALPHABETIC_ITEM:
+            return PictureUtil.getSymbolsNumber(
+                    new char[] {'A'}, picture);
+        case ALPHANUMERIC_ITEM:
+            return PictureUtil.getSymbolsNumber(
+                    new char[] {'A', 'X', '9'}, picture);
+        case ALPHANUMERIC_EDITED_ITEM:
+            return PictureUtil.getSymbolsNumber(
+                    new char[] {'A', 'X', '9', 'B', '0', '/'}, picture);
+        case EXTERNAL_FLOATING_ITEM:
+            return PictureUtil.getSymbolsNumber(
+                    new char[] {'+', '-', '9', '.', 'E'}, picture);
+        case NUMERIC_EDITED_ITEM:
+            /* TODO the currency sign should not be hardcoded */
+            int count = PictureUtil.getSymbolsNumber(
+                    new char[] {'B', 'Z', '9', '0', ',', '.', '-', '+', '/', '*', '$'},
+                    picture);
+            /* In addition, there might be a CR or DB */
+            if (picture.indexOf("CR") > -1) {
+                count += 2;
             }
-
-        } else {
-            throw new HostException("Attempt to get binding " + getBindingName()
-                    + " as an incompatible type " + type);
-        }
-    }
-
-    /** {@inheritDoc} */
-    public final void setObjectValue(final Object value) throws HostException {
-        if (value == null) {
-            mValue = null;
-            return;
-        }
-        if (value instanceof String) {
-            mValue = (String) value;
-        } else if (value instanceof Enum) {
-            try {
-                Method valueMethod = value.getClass().getMethod("value");
-                mValue = (String) valueMethod.invoke(value);
-            } catch (SecurityException e) {
-                throw new HostException(e);
-            } catch (IllegalArgumentException e) {
-                throw new HostException(e);
-            } catch (IllegalAccessException e) {
-                throw new HostException(e);
-            } catch (NoSuchMethodException e) {
-                throw new HostException(e);
-            } catch (InvocationTargetException e) {
-                throw new HostException(e);
+            if (picture.indexOf("DB") > -1) {
+                count += 2;
             }
-        } else {
-            throw new HostException("Attempt to set binding " + getBindingName()
-                    + " from an incompatible value " + value);
+            return count;
+        default:
+            return PictureUtil.getSymbolsNumber(
+                    new char[] {'X'}, picture);
         }
     }
 
-    /** {@inheritDoc} */
-    public final boolean isSet() {
-        return (mValue != null);
-    }
 }

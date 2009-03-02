@@ -8,11 +8,10 @@
  * Contributors:
  *     LegSem - initial API and implementation
  ******************************************************************************/
-package com.legstar.coxb.convert.simple;
+package com.legstar.util;
 
 
 import com.legstar.coxb.host.HostException;
-import com.legstar.util.JaxbUtil;
 
 
 import junit.framework.TestCase;

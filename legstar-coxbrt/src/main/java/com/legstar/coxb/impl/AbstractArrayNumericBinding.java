@@ -13,7 +13,6 @@ package com.legstar.coxb.impl;
 import com.legstar.coxb.CobolElement;
 import com.legstar.coxb.common.CArrayBinding;
 import com.legstar.coxb.host.HostException;
-import com.legstar.coxb.ICobolArrayNumericBinding;
 import com.legstar.coxb.ICobolComplexBinding;
 
 import java.util.ArrayList;
@@ -22,14 +21,10 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
- * This class partially implements the behavior of an array numeric cobol
- * elements bound to a JAXB numeric property.
- *
- * @author Fady Moussallam
+ * Generic class for numeric arrays bindings.
  * 
  */
-public abstract class CArrayNumericBinding extends CArrayBinding
-implements ICobolArrayNumericBinding {
+public abstract class AbstractArrayNumericBinding extends CArrayBinding {
 
     /** The current list for this array. */
     private List < BigDecimal > mList = null;
@@ -43,18 +38,13 @@ implements ICobolArrayNumericBinding {
      * @param cobolAnnotations the cobol annotations for this element
      * @param parentBinding a reference to the parent binding if any
      */
-    public CArrayNumericBinding(
+    public AbstractArrayNumericBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,
             final CobolElement cobolAnnotations,
             final ICobolComplexBinding parentBinding) {
         super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
-    }
-
-    /** {@inheritDoc} */
-    public final int calcByteLength() throws HostException {
-        return getMaxOccurs() * getByteLength();
     }
 
     /**

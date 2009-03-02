@@ -59,8 +59,8 @@ implements ICobolArrayDoubleBinding {
     }
 
     /** {@inheritDoc} */
-    public final int calcByteLength() throws HostException {
-        return getMaxOccurs() * getByteLength();
+    public final int getItemByteLength() {
+        return CDoubleBinding.calcDoubleByteLength();
     }
 
     /**

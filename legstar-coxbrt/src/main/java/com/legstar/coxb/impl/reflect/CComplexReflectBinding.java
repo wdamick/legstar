@@ -20,6 +20,8 @@ import com.legstar.coxb.ICobolBinaryBinding;
 import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolComplexBinding;
+import com.legstar.coxb.impl.CArrayDbcsBinding;
+import com.legstar.coxb.impl.CDbcsBinding;
 import com.legstar.coxb.impl.CStringBinding;
 import com.legstar.coxb.impl.CArrayStringBinding;
 import com.legstar.coxb.impl.CArrayNationalBinding;
@@ -347,6 +349,9 @@ public class CComplexReflectBinding extends CComplexBinding {
             cobolElement = createZonedDecimalBinding(jaxbName, jaxbType, cobolAnnotations);
             break;
         case DBCS_ITEM:
+            cobolElement = createDbcsBinding(
+                    jaxbName, jaxbType, cobolAnnotations);
+            break;
         case OCTET_STREAM_ITEM:
         case INDEX_ITEM:
         case POINTER_ITEM:
@@ -593,6 +598,30 @@ public class CComplexReflectBinding extends CComplexBinding {
                     jaxbName, jaxbName, jaxbType, cobolAnnotations, this);
         } else {
             return new CNationalBinding(
+                    jaxbName, jaxbName, jaxbType, cobolAnnotations, this);
+        }
+    }
+
+    /**
+     * Create a Dbcs binding type.
+     * 
+     * @param jaxbName the java property name
+     * @param jaxbType the java property type
+     * @param cobolAnnotations the cobol annotations for this element
+     * @return the new cobol element description
+     * @throws ReflectBindingException if cobol description cannot be created
+     */
+    private ICobolBinding createDbcsBinding(
+            final String jaxbName,
+            final Class < ? > jaxbType,
+            final CobolElement cobolAnnotations)
+    throws ReflectBindingException {
+
+        if (cobolAnnotations.maxOccurs() > 0) { 
+            return new CArrayDbcsBinding(
+                    jaxbName, jaxbName, jaxbType, cobolAnnotations, this);
+        } else {
+            return new CDbcsBinding(
                     jaxbName, jaxbName, jaxbType, cobolAnnotations, this);
         }
     }

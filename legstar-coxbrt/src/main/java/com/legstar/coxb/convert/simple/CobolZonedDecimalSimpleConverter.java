@@ -97,7 +97,7 @@ implements ICobolZonedDecimalConverter {
         try {
             for (BigDecimal javaSource : ce.getBigDecimalList()) {
                 newOffset = toHostSingle(javaSource,
-                        ce.getByteLength(),
+                        ce.getItemByteLength(),
                         ce.getTotalDigits(),
                         ce.getFractionDigits(),
                         ce.isSigned(),
@@ -111,7 +111,7 @@ implements ICobolZonedDecimalConverter {
             for (int i = ce.getBigDecimalList().size();
             i < currentOccurs; i++) {
                 newOffset = toHostSingle(BigDecimal.ZERO,
-                        ce.getByteLength(),
+                        ce.getItemByteLength(),
                         ce.getTotalDigits(),
                         ce.getFractionDigits(),
                         ce.isSignSeparate(),
@@ -163,7 +163,7 @@ implements ICobolZonedDecimalConverter {
         int newOffset = offset;
         try {
             for (int i = 0; i < currentOccurs; i++) {
-                BigDecimal javaDecimal = fromHostSingle(ce.getByteLength(),
+                BigDecimal javaDecimal = fromHostSingle(ce.getItemByteLength(),
                         ce.getTotalDigits(),
                         ce.getFractionDigits(),
                         ce.isSigned(),
@@ -173,7 +173,7 @@ implements ICobolZonedDecimalConverter {
                         newOffset,
                         getCobolContext().getHostCharsetName());
                 lArray.add(javaDecimal);
-                newOffset += ce.getByteLength();
+                newOffset += ce.getItemByteLength();
             }
             ce.setBigDecimalList(lArray);
         } catch (CobolConversionException e) {

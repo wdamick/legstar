@@ -29,6 +29,9 @@ public class CDoubleBinding extends CBinding implements ICobolDoubleBinding {
 
     /** The current value for this element. */
     private Double mValue = null;
+    
+    /** Doubles have a fixed host byte length. */
+    public static final int BYTE_LENGTH = 8;
 
     /**
      * Constructor for a cobol element to java binding.
@@ -76,8 +79,16 @@ public class CDoubleBinding extends CBinding implements ICobolDoubleBinding {
     }
 
     /** {@inheritDoc} */
-    public final int calcByteLength() throws HostException {
-        return getByteLength();
+    public final int calcByteLength() {
+        return calcDoubleByteLength();
+    }
+    
+    /**
+     * Calculates the host byte length for a COMP-2.
+     * @return the host byte length for a COMP-2
+     */
+    public static int calcDoubleByteLength() {
+        return BYTE_LENGTH;
     }
 
     /** {@inheritDoc} */

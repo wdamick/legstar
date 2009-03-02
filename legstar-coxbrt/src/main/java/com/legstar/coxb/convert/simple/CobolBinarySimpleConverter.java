@@ -70,7 +70,7 @@ implements ICobolBinaryConverter {
         try {
             for (BigDecimal javaSource : ce.getBigDecimalList()) {
                 newOffset = toHostSingle(javaSource,
-                        ce.getByteLength(),
+                        ce.getItemByteLength(),
                         ce.isSigned(),
                         hostTarget,
                         newOffset);
@@ -79,7 +79,7 @@ implements ICobolBinaryConverter {
             for (int i = ce.getBigDecimalList().size();
             i < currentOccurs; i++) {
                 newOffset = toHostSingle(BigDecimal.ZERO,
-                        ce.getByteLength(),
+                        ce.getItemByteLength(),
                         ce.isSigned(),
                         hostTarget,
                         newOffset);
@@ -123,14 +123,14 @@ implements ICobolBinaryConverter {
         int newOffset = offset;
         try {
             for (int i = 0; i < currentOccurs; i++) {
-                BigDecimal javaDecimal = fromHostSingle(ce.getByteLength(),
+                BigDecimal javaDecimal = fromHostSingle(ce.getItemByteLength(),
                         ce.isSigned(),
                         ce.getTotalDigits(),
                         ce.getFractionDigits(),
                         hostSource,
                         newOffset);
                 lArray.add(javaDecimal);
-                newOffset += ce.getByteLength();
+                newOffset += ce.getItemByteLength();
             }
             ce.setBigDecimalList(lArray);
 

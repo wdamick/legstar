@@ -11,20 +11,19 @@
 package com.legstar.coxb.impl;
 
 import com.legstar.coxb.CobolElement;
-import com.legstar.coxb.ICobolArrayBinaryBinding;
-import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.CobolElementVisitor;
+import com.legstar.coxb.ICobolArrayNationalBinding;
+import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.host.HostException;
 
 /**
- * This class implements the behavior of an array of binary numeric cobol
- * elements bound to a JAXB BigDecimal property.
+ * This class implements the behavior of an array of DBCS cobol elements
+ * bound to a JAXB String property.
  *
  * @author Fady Moussallam
  * 
  */
-public class CArrayBinaryBinding extends AbstractArrayNumericBinding
-implements ICobolArrayBinaryBinding {
+public class CArrayDbcsBinding extends AbstractArrayAlphaNumericBinding implements ICobolArrayNationalBinding {
 
     /**
      * Constructor for a cobol element to java binding.
@@ -35,7 +34,7 @@ implements ICobolArrayBinaryBinding {
      * @param cobolAnnotations the cobol annotations for this element
      * @param parentBinding a reference to the parent binding if any
      */
-    public CArrayBinaryBinding(
+    public CArrayDbcsBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,
@@ -52,6 +51,7 @@ implements ICobolArrayBinaryBinding {
 
     /** {@inheritDoc} */
     public final int getItemByteLength() {
-        return CBinaryBinding.calcBinaryByteLength(getTotalDigits());
+        return CDbcsBinding.calcDbcsByteLength(getPicture());
     }
+
 }

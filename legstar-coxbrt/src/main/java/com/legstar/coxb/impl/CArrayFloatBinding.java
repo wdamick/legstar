@@ -58,8 +58,8 @@ public class CArrayFloatBinding extends CArrayBinding implements ICobolArrayFloa
     }
 
     /** {@inheritDoc} */
-    public final int calcByteLength() throws HostException {
-        return getMaxOccurs() * getByteLength();
+    public final int getItemByteLength() {
+        return CFloatBinding.calcFloatByteLength();
     }
 
     /**

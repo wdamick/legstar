@@ -67,7 +67,7 @@ implements ICobolOctetStreamConverter {
         try {
             for (byte[] javaSource : ce.getByteArrayList()) {
                 newOffset = toHostSingle(javaSource,
-                        ce.getByteLength(),
+                        ce.getItemByteLength(),
                         hostTarget,
                         newOffset);
             }
@@ -75,7 +75,7 @@ implements ICobolOctetStreamConverter {
             for (int i = ce.getByteArrayList().size();
             i < currentOccurs; i++) {
                 newOffset = toHostSingle(new byte[] { 0 },
-                        ce.getByteLength(),
+                        ce.getItemByteLength(),
                         hostTarget,
                         newOffset);
             }
@@ -115,11 +115,11 @@ implements ICobolOctetStreamConverter {
         int newOffset = offset;
         try {
             for (int i = 0; i < currentOccurs; i++) {
-                byte[] javaBytes = fromHostSingle(ce.getByteLength(),
+                byte[] javaBytes = fromHostSingle(ce.getItemByteLength(),
                         hostSource,
                         newOffset);
                 lArray.add(javaBytes);
-                newOffset += ce.getByteLength();
+                newOffset += ce.getItemByteLength();
             }
             ce.setByteArrayList(lArray);
         } catch (CobolConversionException e) {

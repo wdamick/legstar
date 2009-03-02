@@ -15,45 +15,47 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.legstar.coxb.CobolContext;
-import com.legstar.coxb.ICobolArrayNationalBinding;
-import com.legstar.coxb.ICobolNationalBinding;
-import com.legstar.coxb.convert.ICobolNationalConverter;
+import com.legstar.coxb.ICobolArrayDbcsBinding;
+import com.legstar.coxb.ICobolDbcsBinding;
+import com.legstar.coxb.convert.ICobolDbcsConverter;
 import com.legstar.coxb.convert.CobolConversionException;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
 
 /**
  * This is a concrete implementation of marshal/unmarshal operations of java 
- * strings to cobol national strings.
+ * strings to cobol DBCS (PIC G DISPLAY-1) character strings.
  *
  * @author Fady Moussallam
  * 
  */
-public class CobolNationalSimpleConverter extends CobolSimpleConverter
-implements ICobolNationalConverter {
+public class CobolDbcsSimpleConverter extends CobolSimpleConverter
+implements ICobolDbcsConverter {
 
-    /** UTF-16 code point for space character. */
-    private static final byte[] SPACE_UTF_16 = {0x00, 0x20}; 
+    /** Character used on mainframes to start a DBCS sequence.*/
+    public static final char SHIFT_IN = 0x0e;
 
-    /** Encoding used for national items. */
-    private static final String NATIONAL_CHARSET = "UTF-16BE";
+    /** Character used on mainframes to stop a DBCS sequence.*/
+    public static final char SHIFT_OUT = 0x0f;
 
     /**
      * @param cobolContext the Cobol compiler parameters in effect
      */
-    public CobolNationalSimpleConverter(final CobolContext cobolContext) {
+    public CobolDbcsSimpleConverter(
+            final CobolContext cobolContext) {
         super(cobolContext);
     }
 
     /** {@inheritDoc} */
     public final int toHost(
-            final ICobolNationalBinding ce,
+            final ICobolDbcsBinding ce,
             final byte[] hostTarget,
             final int offset)
     throws HostException {
         int newOffset = 0;
         try {
             newOffset = toHostSingle(ce.getStringValue(),
+                    getCobolContext().getHostCharsetName(),
                     ce.getByteLength(),
                     ce.isJustifiedRight(),
                     hostTarget,
@@ -66,7 +68,7 @@ implements ICobolNationalConverter {
 
     /** {@inheritDoc} */
     public final int toHost(
-            final ICobolArrayNationalBinding ce,
+            final ICobolArrayDbcsBinding ce,
             final byte[] hostTarget,
             final int offset,
             final int currentOccurs)
@@ -75,6 +77,7 @@ implements ICobolNationalConverter {
         try {
             for (String javaSource : ce.getStringList()) {
                 newOffset = toHostSingle(javaSource,
+                        getCobolContext().getHostCharsetName(),
                         ce.getItemByteLength(),
                         ce.isJustifiedRight(),
                         hostTarget,
@@ -84,6 +87,7 @@ implements ICobolNationalConverter {
             for (int i = ce.getStringList().size();
             i < currentOccurs; i++) {
                 newOffset = toHostSingle("",
+                        getCobolContext().getHostCharsetName(),
                         ce.getItemByteLength(),
                         ce.isJustifiedRight(),
                         hostTarget,
@@ -97,13 +101,14 @@ implements ICobolNationalConverter {
 
     /** {@inheritDoc} */
     public final int fromHost(
-            final ICobolNationalBinding ce,
+            final ICobolDbcsBinding ce,
             final byte[] hostSource,
             final int offset)
     throws HostException {
         int newOffset = offset;
         try {
             String javaString = fromHostSingle(
+                    getCobolContext().getHostCharsetName(),
                     ce.getByteLength(),
                     hostSource,
                     newOffset);
@@ -117,7 +122,7 @@ implements ICobolNationalConverter {
 
     /** {@inheritDoc} */
     public final int fromHost(
-            final ICobolArrayNationalBinding ce,
+            final ICobolArrayDbcsBinding ce,
             final byte[] hostSource,
             final int offset,
             final int currentOccurs)
@@ -127,6 +132,7 @@ implements ICobolNationalConverter {
         try {
             for (int i = 0; i < currentOccurs; i++) {
                 String javaString = fromHostSingle(
+                        getCobolContext().getHostCharsetName(),
                         ce.getItemByteLength(),
                         hostSource,
                         newOffset);
@@ -141,9 +147,11 @@ implements ICobolNationalConverter {
     }
 
     /**
-     *  Converts a Java String to a host national element.
+     *  Converts a Java String to a host character stream within the host
+     *  character set.
      * 
      * @param javaString java string to convert
+     * @param hostCharsetName host character set
      * @param cobolByteLength host byte length
      * @param isJustifiedRight is Cobol data right justified
      * @param hostTarget target host buffer
@@ -153,6 +161,7 @@ implements ICobolNationalConverter {
      */
     public static final int toHostSingle(
             final String javaString,
+            final String hostCharsetName,
             final int cobolByteLength,
             final boolean isJustifiedRight,
             final byte[] hostTarget,
@@ -176,55 +185,62 @@ implements ICobolNationalConverter {
         try {
             if (javaString == null) {
                 hostSource =
-                    "".getBytes(NATIONAL_CHARSET);
+                    "".getBytes(hostCharsetName);
             } else {
                 hostSource =
-                    javaString.getBytes(NATIONAL_CHARSET);
+                    javaString.getBytes(hostCharsetName);
             }
+            
+            /* The target host element might be larger than the converted java
+             * String and might have to be right or left justified. The padding
+             * character is a space character. */
+            int iSource = 0;
+            int iTarget = offset;
+            int iLength = hostSource.length;
+            
+            if (iLength > 0) {
+
+                /* The java conversion always adds shift-in/shift-out delimiters
+                 * which are not needed for pure DBCS fields. */
+                if (hostSource[0] == SHIFT_IN) {
+                    iSource++;
+                }
+                if (hostSource[hostSource.length - 1] == SHIFT_OUT) {
+                    iLength--;
+                }
+            }
+
+            /* Pad with initial spaces if necessary */
+            if (isJustifiedRight) {
+                iTarget += pad(hostTarget,
+                        iTarget, (lastOffset - iLength),
+                        hostCharsetName);
+            }
+
+            /* Continue on with source content */
+            while (iSource < iLength && iTarget < lastOffset) {
+                hostTarget[iTarget] = hostSource[iSource];
+                iSource++;
+                iTarget++;
+            }
+
+            /* Pad with final spaces if necessary */
+            if (!isJustifiedRight) {
+                iTarget += pad(hostTarget,
+                        iTarget, lastOffset,
+                        hostCharsetName);
+            }
+            return lastOffset;
         } catch (UnsupportedEncodingException uee) {
             throw new CobolConversionException(
                     "UnsupportedEncodingException:" + uee.getMessage());
         }
 
-        int iSource = 0;
-        int hsl = hostSource.length;
-        /* The target host element might be larger than the converted java
-         * String and might have to be right or left justified. The padding
-         * code point is 0x0020 (space character). */
-        int iTarget = offset;
-        boolean flip = true;
-
-        /* Pad with initial spaces if necessary */
-        if (isJustifiedRight) {
-            while (iTarget < (lastOffset - hsl)) {
-                hostTarget[iTarget] = SPACE_UTF_16[(flip) ? 0 : 1];
-                iTarget++;
-                flip = !flip;
-            }
-        }
-
-        /* Continue on with source content */
-        while (iSource < hostSource.length && iTarget < lastOffset) {
-            hostTarget[iTarget] = hostSource[iSource];
-            iSource++;
-            iTarget++;
-        }
-
-        /* Pad with final spaces if necessary */
-        flip = true;
-        if (!isJustifiedRight) {
-            while (iTarget < lastOffset) {
-                hostTarget[iTarget] = SPACE_UTF_16[(flip) ? 0 : 1];
-                iTarget++;
-                flip = !flip;
-            }
-        }
-
-        return lastOffset;
     }
 
-    /** Converts a host national string into a Java string.
+    /** Converts a host character string into a Java string.
      * 
+     * @param hostCharsetName host character set
      * @param cobolByteLength host byte length
      * @param hostSource source host buffer
      * @param offset offset in source host buffer
@@ -232,6 +248,7 @@ implements ICobolNationalConverter {
      * @throws CobolConversionException if conversion fails
      */
     public static final String fromHostSingle(
+            final String hostCharsetName,
             final int cobolByteLength,
             final byte[] hostSource,
             final int offset)
@@ -252,13 +269,21 @@ implements ICobolNationalConverter {
                 javaStringLength = hostSource.length - offset;
             }
         }
+        
+        /* The host is not expected to wrap string with shift-in/shift-out
+         * while java expects that. We need to append those. */
+        byte[] shiftHostSource = new byte[javaStringLength + 2];
+        shiftHostSource[0] = SHIFT_IN;
+        System.arraycopy(hostSource, offset, shiftHostSource, 1, javaStringLength);
+        shiftHostSource[shiftHostSource.length - 1] = SHIFT_OUT;
+        javaStringLength += 2;
 
         /* The Java String is obtained by translating from the host code page
          * to the local code page. */
         try {
             javaString = new String(
-                    hostSource, offset, javaStringLength,
-                    NATIONAL_CHARSET);
+                    shiftHostSource, 0, javaStringLength,
+                    hostCharsetName);
             /* Some low-value characters may have slipped into the resulting
              * string. */
             if (javaString.indexOf("\0") != -1) {
@@ -269,6 +294,46 @@ implements ICobolNationalConverter {
                     "UnsupportedEncodingException:" + uee.getMessage());
         }
 
-        return javaString;
+        return javaString.trim();
+    }
+
+    /**
+     * Determines the padding character depending on the target character set.
+     * @param hostCharsetName host character set
+     * @return the padding character
+     * @throws UnsupportedEncodingException if padding character cannot be
+     *  translated
+     */
+    private static byte getPadChar(
+            final String hostCharsetName) throws UnsupportedEncodingException {
+        return " ".getBytes(hostCharsetName)[0];
+    }
+
+    /**
+     * Pads a byte array with the padding character corresponding to the target
+     * host character set.
+     * <p/>
+     * Padding begins at the specified beginIndex and extends to the character
+     *  at index endIndex - 1
+     * @param bytes the byte array to pad
+     * @param beginIndex what index to start from
+     * @param endIndex index of first character that is not to be padded
+     * @param hostCharsetName host character set
+     * @return the number of padding characters used
+     * @throws UnsupportedEncodingException if padding character cannot be
+     *  translated
+     */
+    public static int pad(
+            final byte[] bytes,
+            final int beginIndex,
+            final int endIndex,
+            final String hostCharsetName) throws UnsupportedEncodingException {
+        byte padChar = getPadChar(hostCharsetName);
+        int j = 0;
+        for (int i = beginIndex; i < endIndex; i++) {
+            bytes[i] = padChar;
+            j++;
+        }
+        return j;
     }
 }

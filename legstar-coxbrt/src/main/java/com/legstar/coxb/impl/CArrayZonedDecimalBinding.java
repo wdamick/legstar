@@ -23,7 +23,7 @@ import com.legstar.coxb.host.HostException;
  * @author Fady Moussallam
  * 
  */
-public class CArrayZonedDecimalBinding extends CArrayNumericBinding
+public class CArrayZonedDecimalBinding extends AbstractArrayNumericBinding
 implements ICobolArrayZonedDecimalBinding {
 
     /**
@@ -50,4 +50,9 @@ implements ICobolArrayZonedDecimalBinding {
         cev.visit(this);
     }
 
+    /** {@inheritDoc} */
+    public final int getItemByteLength() {
+        return CZonedDecimalBinding.calcZonedDecimalByteLength(
+                getTotalDigits(), isSignSeparate());
+    }
 }
