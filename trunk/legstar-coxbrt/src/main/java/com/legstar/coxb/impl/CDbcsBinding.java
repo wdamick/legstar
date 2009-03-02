@@ -11,20 +11,21 @@
 package com.legstar.coxb.impl;
 
 import com.legstar.coxb.CobolElement;
-import com.legstar.coxb.ICobolArrayBinaryBinding;
 import com.legstar.coxb.ICobolComplexBinding;
+import com.legstar.coxb.ICobolDbcsBinding;
 import com.legstar.coxb.CobolElementVisitor;
 import com.legstar.coxb.host.HostException;
+import com.legstar.coxb.util.PictureUtil;
 
 /**
- * This class implements the behavior of an array of binary numeric cobol
- * elements bound to a JAXB BigDecimal property.
+ * This class implements the behavior of a PIC G DISPLAY-1 cobol element bound to
+ * a JAXB String property.
  *
  * @author Fady Moussallam
  * 
  */
-public class CArrayBinaryBinding extends AbstractArrayNumericBinding
-implements ICobolArrayBinaryBinding {
+public class CDbcsBinding extends AbstractAlphaNumericBinding
+implements ICobolDbcsBinding {
 
     /**
      * Constructor for a cobol element to java binding.
@@ -33,9 +34,9 @@ implements ICobolArrayBinaryBinding {
      * @param jaxbName the name of the bound java property
      * @param jaxbType the type of the bound java property
      * @param cobolAnnotations the cobol annotations for this element
-     * @param parentBinding a reference to the parent binding if any
+     * @param parentBinding a reference to the parent binding
      */
-    public CArrayBinaryBinding(
+    public CDbcsBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,
@@ -51,7 +52,17 @@ implements ICobolArrayBinaryBinding {
     }
 
     /** {@inheritDoc} */
-    public final int getItemByteLength() {
-        return CBinaryBinding.calcBinaryByteLength(getTotalDigits());
+    public final int calcByteLength() {
+        return calcDbcsByteLength(getPicture());
     }
+
+    /**
+     * Calculates the host byte length for a PIC G(n).
+     * @param picture the picture clause
+     * @return the host byte length for a PIC G(n)
+     */
+    public static int calcDbcsByteLength(final String picture) {
+        return 2 * PictureUtil.getSymbolsNumber('G', picture);
+    }
+
 }

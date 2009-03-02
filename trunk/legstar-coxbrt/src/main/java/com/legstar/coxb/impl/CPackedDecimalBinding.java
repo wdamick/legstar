@@ -24,7 +24,7 @@ import com.legstar.coxb.host.HostException;
  * 
  */
 public class CPackedDecimalBinding
-extends CNumericBinding
+extends AbstractNumericBinding
 implements ICobolPackedDecimalBinding {
 
     /**
@@ -49,5 +49,21 @@ implements ICobolPackedDecimalBinding {
     public final void accept(final CobolElementVisitor cev)
     throws HostException {
         cev.visit(this);
+    }
+
+    /** {@inheritDoc} */
+    public final int calcByteLength() {
+        return calcPackedDecimalByteLength(getTotalDigits());
+    }
+
+    /**
+     * Calculates the host byte length for a COMP-3.
+     * Every couple of digits is encoded in one byte. The sign is encoded
+     * in the last half byte.
+     * @param totalDigits the number of digits (including fraction digits)
+     * @return the host byte length for a COMP-3
+     */
+    public static int calcPackedDecimalByteLength(final int totalDigits) {
+        return (totalDigits / 2) + 1;
     }
 }

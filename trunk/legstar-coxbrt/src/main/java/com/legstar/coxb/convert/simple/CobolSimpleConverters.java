@@ -13,6 +13,7 @@ package com.legstar.coxb.convert.simple;
 import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.convert.ICobolBinaryConverter;
 import com.legstar.coxb.convert.ICobolConverters;
+import com.legstar.coxb.convert.ICobolDbcsConverter;
 import com.legstar.coxb.convert.ICobolDoubleConverter;
 import com.legstar.coxb.convert.ICobolFloatConverter;
 import com.legstar.coxb.convert.ICobolNationalConverter;
@@ -53,6 +54,9 @@ public class CobolSimpleConverters implements ICobolConverters {
     /** Cobol to Java National conversion strategy. */
     private ICobolNationalConverter mCobolNationalConverter;
     
+    /** Cobol to Java DBCS conversion strategy. */
+    private ICobolDbcsConverter mCobolDbcsConverter;
+    
     /** Cobol compiler parameters. */
     private CobolContext mCobolContext;
 
@@ -79,6 +83,8 @@ public class CobolSimpleConverters implements ICobolConverters {
                 new CobolOctetStreamSimpleConverter(cobolContext));
         setCobolNationalConverter(
                 new CobolNationalSimpleConverter(cobolContext));
+        setCobolDbcsConverter(
+                new CobolDbcsSimpleConverter(cobolContext));
     }
 
     /**
@@ -200,6 +206,21 @@ public class CobolSimpleConverters implements ICobolConverters {
     public final void setCobolNationalConverter(
             final ICobolNationalConverter cobolNationalConverter) {
         mCobolNationalConverter = cobolNationalConverter;
+    }
+
+    /**
+     * @return Returns the cobolDbcsConverter.
+     */
+    public final ICobolDbcsConverter getCobolDbcsConverter() {
+        return mCobolDbcsConverter;
+    }
+
+    /**
+     * @param cobolDbcsConverter The cobolDbcsConverter to set.
+     */
+    public final void setCobolDbcsConverter(
+            final ICobolDbcsConverter cobolDbcsConverter) {
+        mCobolDbcsConverter = cobolDbcsConverter;
     }
 
     /**

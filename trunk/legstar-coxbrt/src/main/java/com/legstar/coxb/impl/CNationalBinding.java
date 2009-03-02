@@ -14,8 +14,8 @@ import com.legstar.coxb.CobolElement;
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.ICobolNationalBinding;
 import com.legstar.coxb.CobolElementVisitor;
-import com.legstar.coxb.common.CBinding;
 import com.legstar.coxb.host.HostException;
+import com.legstar.coxb.util.PictureUtil;
 
 /**
  * This class implements the behavior of a national cobol element bound to
@@ -24,11 +24,8 @@ import com.legstar.coxb.host.HostException;
  * @author Fady Moussallam
  * 
  */
-public class CNationalBinding extends CBinding
+public class CNationalBinding extends AbstractAlphaNumericBinding
 implements ICobolNationalBinding {
-
-    /** The current value for this element. */
-    private String mValue = null;
 
     /**
      * Constructor for a cobol element to java binding.
@@ -55,47 +52,17 @@ implements ICobolNationalBinding {
     }
 
     /** {@inheritDoc} */
-    public final String getStringValue() throws HostException {
-        return mValue;
+    public final int calcByteLength() {
+        return calcNationalByteLength(getPicture());
     }
 
-    /** {@inheritDoc} */
-    public final void setStringValue(final String value) throws HostException {
-        mValue = value;
+    /**
+     * Calculates the host byte length for a PIC N(n).
+     * @param picture the picture clause
+     * @return the host byte length for a PIC N(n)
+     */
+    public static int calcNationalByteLength(final String picture) {
+        return 2 * PictureUtil.getSymbolsNumber('N', picture);
     }
 
-    /** {@inheritDoc} */
-    public final int calcByteLength() throws HostException {
-        return getByteLength();
-    }
-
-    /** {@inheritDoc} */
-    public final Object getObjectValue(
-            final Class < ? > type) throws HostException {
-        if (type.equals(String.class)) {
-            return mValue;
-        } else {
-            throw new HostException("Attempt to get binding " + getBindingName()
-                    + " as an incompatible type " + type);
-        }
-    }
-
-    /** {@inheritDoc} */
-    public final void setObjectValue(final Object value) throws HostException {
-        if (value == null) {
-            mValue = null;
-            return;
-        }
-        if (value instanceof String) {
-            mValue = (String) value;
-        } else {
-            throw new HostException("Attempt to set binding " + getBindingName()
-                    + " from an incompatible value " + value);
-        }
-    }
-
-    /** {@inheritDoc} */
-    public final boolean isSet() {
-        return (mValue != null);
-    }
 }

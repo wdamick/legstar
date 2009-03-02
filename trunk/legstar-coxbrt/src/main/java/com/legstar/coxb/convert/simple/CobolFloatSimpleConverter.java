@@ -113,11 +113,11 @@ implements ICobolFloatConverter {
         int newOffset = offset;
         try {
             for (int i = 0; i < currentOccurs; i++) {
-                Float javaFloat = fromHostSingle(ce.getByteLength(),
+                Float javaFloat = fromHostSingle(ce.getItemByteLength(),
                         hostSource,
                         newOffset);
                 lArray.add(javaFloat);
-                newOffset += ce.getByteLength();
+                newOffset += ce.getItemByteLength();
             }
             ce.setFloatList(lArray);
         } catch (CobolConversionException e) {

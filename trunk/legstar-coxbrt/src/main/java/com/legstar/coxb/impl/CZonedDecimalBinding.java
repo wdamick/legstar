@@ -24,7 +24,7 @@ import com.legstar.coxb.host.HostException;
  * 
  */
 public class CZonedDecimalBinding
-extends CNumericBinding
+extends AbstractNumericBinding
 implements ICobolZonedDecimalBinding {
 
     /**
@@ -51,4 +51,22 @@ implements ICobolZonedDecimalBinding {
         cev.visit(this);
     }
 
+    /** {@inheritDoc} */
+    public final int calcByteLength() {
+        return calcZonedDecimalByteLength(getTotalDigits(), isSignSeparate());
+    }
+
+    /**
+     * Calculates the host byte length for a S9(n)V(m) DISPLAY.
+     * Every digit is encoded in one byte. Decimal sign is virtual and does
+     * not occupy a byte. The sign shares the last digit byte unless it is
+     * separate.
+     * @param totalDigits the number of digits (including fraction digits)
+     * @param isSignSeparate true if sign is separate
+     * @return the host byte length for a zoned decimal
+     */
+    public static int calcZonedDecimalByteLength(
+            final int totalDigits, final boolean isSignSeparate) {
+        return (isSignSeparate) ? totalDigits + 1 : totalDigits;
+    }
 }

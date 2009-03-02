@@ -10,30 +10,22 @@
  ******************************************************************************/
 package com.legstar.coxb.impl;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import com.legstar.coxb.CobolElement;
-import com.legstar.coxb.CobolUsage;
 import com.legstar.coxb.ICobolComplexBinding;
-import com.legstar.coxb.ICobolOctetStreamBinding;
-import com.legstar.coxb.CobolElementVisitor;
 import com.legstar.coxb.common.CBinding;
 import com.legstar.coxb.host.HostException;
-import com.legstar.coxb.util.PictureUtil;
 
 /**
- * This class implements the behavior of a binary cobol element bound to
- * a JAXB byte array property.
- * COBOL elements could be PIC X which were explicitly changed to OCTET_STREAM_ITEM
- * or COBOL special types such as INDEX or POINTERS that we would not be able to
- * map to anything meaningful in Java.
- *
- * @author Fady Moussallam
- * 
+ * A generic binding for alphanumeric bindings. All alphanumeric values are
+ * stored in a String.
  */
-public class COctetStreamBinding extends CBinding
-implements ICobolOctetStreamBinding {
+public abstract class AbstractAlphaNumericBinding extends CBinding {
 
     /** The current value for this element. */
-    private byte[] mValue =  null;
+    private String mValue = null;
 
     /**
      * Constructor for a cobol element to java binding.
@@ -44,7 +36,7 @@ implements ICobolOctetStreamBinding {
      * @param cobolAnnotations the cobol annotations for this element
      * @param parentBinding a reference to the parent binding
      */
-    public COctetStreamBinding(
+    public AbstractAlphaNumericBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,
@@ -54,52 +46,38 @@ implements ICobolOctetStreamBinding {
     }
 
     /** {@inheritDoc} */
-    public final void accept(final CobolElementVisitor cev)
-    throws HostException {
-        cev.visit(this);
-    }
-
-    /** {@inheritDoc} */
-    public final byte[] getByteArrayValue() throws HostException {
+    public final String getStringValue() throws HostException {
         return mValue;
     }
 
     /** {@inheritDoc} */
-    public final void setByteArrayValue(final byte[] value)
-    throws HostException {
+    public final void setStringValue(final String value) throws HostException {
         mValue = value;
-    }
-
-    /** {@inheritDoc} */
-    public final int calcByteLength() {
-        return calcOctetStreamByteLength(getPicture(), getUsage());
-    }
-
-    /**
-     * Calculates the host byte length for a PIC X(n).
-     * @param picture the picture clause
-     * @param usage the usage clause
-     * @return the host byte length for a PIC X(n)
-     */
-    public static int calcOctetStreamByteLength(
-            final String picture, final String usage) {
-        if (usage.equals(CobolUsage.INDEX)) {
-            return 4;
-        } else if (usage.equals(CobolUsage.POINTER)) {
-            return 4;
-        } else if (usage.equals(CobolUsage.PROCEDURE_POINTER)) {
-            return 8;
-        } else if (usage.equals(CobolUsage.FUNCTION_POINTER)) {
-            return 4;
-        }
-        return PictureUtil.getSymbolsNumber('X', picture);
     }
 
     /** {@inheritDoc} */
     public final Object getObjectValue(
             final Class < ? > type) throws HostException {
-        if (type.equals(byte[].class)) {
+        if (type.equals(String.class)) {
             return mValue;
+        } else if (type.isEnum()) {
+            /* If result is request to be an enum, return instance corresponding
+             * to this value */
+            try {
+                Method fromValue = type.getMethod("fromValue", String.class);
+                return fromValue.invoke(null, mValue.trim());
+            } catch (SecurityException e) {
+                throw new HostException(e);
+            } catch (IllegalArgumentException e) {
+                throw new HostException(e);
+            } catch (IllegalAccessException e) {
+                throw new HostException(e);
+            } catch (NoSuchMethodException e) {
+                throw new HostException(e);
+            } catch (InvocationTargetException e) {
+                throw new HostException(e);
+            }
+
         } else {
             throw new HostException("Attempt to get binding " + getBindingName()
                     + " as an incompatible type " + type);
@@ -112,8 +90,23 @@ implements ICobolOctetStreamBinding {
             mValue = null;
             return;
         }
-        if (value instanceof byte[]) {
-            mValue = (byte[]) value;
+        if (value instanceof String) {
+            mValue = (String) value;
+        } else if (value instanceof Enum) {
+            try {
+                Method valueMethod = value.getClass().getMethod("value");
+                mValue = (String) valueMethod.invoke(value);
+            } catch (SecurityException e) {
+                throw new HostException(e);
+            } catch (IllegalArgumentException e) {
+                throw new HostException(e);
+            } catch (IllegalAccessException e) {
+                throw new HostException(e);
+            } catch (NoSuchMethodException e) {
+                throw new HostException(e);
+            } catch (InvocationTargetException e) {
+                throw new HostException(e);
+            }
         } else {
             throw new HostException("Attempt to set binding " + getBindingName()
                     + " from an incompatible value " + value);

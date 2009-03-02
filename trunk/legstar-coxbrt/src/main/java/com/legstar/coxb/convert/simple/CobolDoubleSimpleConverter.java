@@ -113,11 +113,11 @@ implements ICobolDoubleConverter {
         int newOffset = offset;
         try {
             for (int i = 0; i < currentOccurs; i++) {
-                Double javaDouble = fromHostSingle(ce.getByteLength(),
+                Double javaDouble = fromHostSingle(ce.getItemByteLength(),
                         hostSource,
                         newOffset);
                 lArray.add(javaDouble);
-                newOffset += ce.getByteLength();
+                newOffset += ce.getItemByteLength();
             }
             ce.setDoubleList(lArray);
         } catch (CobolConversionException e) {

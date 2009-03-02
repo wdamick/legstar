@@ -1,8 +1,9 @@
 package com.legstar.coxb.impl.reflect;
 
-import com.legstar.coxb.host.HostException;
 import com.legstar.test.coxb.ArraysdoCases;
 import com.legstar.test.coxb.DplarchtCases;
+import com.legstar.test.coxb.FixarnumCases;
+import com.legstar.test.coxb.LsfileaeCases;
 
 import junit.framework.TestCase;
 
@@ -18,12 +19,8 @@ public class CalcByteLengthTest extends TestCase {
         try {
             CComplexReflectBinding ccem = new CComplexReflectBinding(
                     DplarchtCases.getFactory(), DplarchtCases.getJavaObject().getClass());
-            assertEquals(0, ccem.getByteLength());
-            assertEquals(32025, ccem.calcByteLength());
             assertEquals(32025, ccem.getByteLength());
         } catch (ReflectBindingException e) {
-            fail(e.getMessage());
-        } catch (HostException e) {
             fail(e.getMessage());
         }
     }
@@ -35,12 +32,34 @@ public class CalcByteLengthTest extends TestCase {
         try {
             CComplexReflectBinding ccem = new CComplexReflectBinding(
                     ArraysdoCases.getFactory(), ArraysdoCases.getJavaObject().getClass());
-            assertEquals(0, ccem.getByteLength());
-            assertEquals(502, ccem.calcByteLength());
             assertEquals(502, ccem.getByteLength());
         } catch (ReflectBindingException e) {
             fail(e.getMessage());
-        } catch (HostException e) {
+        }
+    }
+
+    /**
+     * Fixarnum has a various array types.
+     */
+    public void testFixarnum() {
+        try {
+            CComplexReflectBinding ccem = new CComplexReflectBinding(
+                    FixarnumCases.getFactory(), FixarnumCases.getJavaObject().getClass());
+            assertEquals(78, ccem.getByteLength());
+        } catch (ReflectBindingException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    /**
+     * Lsfileae case.
+     */
+    public void testLsfileae() {
+        try {
+            CComplexReflectBinding ccem = new CComplexReflectBinding(
+                    LsfileaeCases.getFactory(), LsfileaeCases.getJavaObject().getClass());
+            assertEquals(79, ccem.getByteLength());
+        } catch (ReflectBindingException e) {
             fail(e.getMessage());
         }
     }

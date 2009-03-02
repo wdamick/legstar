@@ -23,7 +23,7 @@ import com.legstar.coxb.host.HostException;
  * @author Fady Moussallam
  * 
  */
-public class CArrayPackedDecimalBinding extends CArrayNumericBinding implements ICobolArrayPackedDecimalBinding {
+public class CArrayPackedDecimalBinding extends AbstractArrayNumericBinding implements ICobolArrayPackedDecimalBinding {
 
     /**
      * Constructor for a cobol element to java binding.
@@ -48,4 +48,10 @@ public class CArrayPackedDecimalBinding extends CArrayNumericBinding implements 
     throws HostException {
         cev.visit(this);
     }
+
+    /** {@inheritDoc} */
+    public final int getItemByteLength() {
+        return CPackedDecimalBinding.calcPackedDecimalByteLength(getTotalDigits());
+    }
+
 }
