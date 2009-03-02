@@ -17,7 +17,7 @@
             <xs:element maxOccurs="unbounded" minOccurs="0" name="envVarNames" nillable="true" type="xs:string">
                 <xs:annotation>
                     <xs:appinfo>
-                        <cb:cobolElement byteLength="32" cobolName="envVarNames" levelNumber="3" maxOccurs="10" minOccurs="0" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement cobolName="envVarNames" levelNumber="3" maxOccurs="10" minOccurs="0" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
@@ -33,35 +33,35 @@
             <xs:element minOccurs="0" name="country" type="xs:string">
                 <xs:annotation>
                     <xs:appinfo>
-                        <cb:cobolElement byteLength="32" cobolName="country" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement cobolName="country" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
             <xs:element minOccurs="0" name="currencySymbol" type="xs:string">
                 <xs:annotation>
                     <xs:appinfo>
-                        <cb:cobolElement byteLength="32" cobolName="currencySymbol" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement cobolName="currencySymbol" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="envVarValues" nillable="true" type="xs:string">
                 <xs:annotation>
                     <xs:appinfo>
-                        <cb:cobolElement byteLength="32" cobolName="envVarValues" levelNumber="3" maxOccurs="10" minOccurs="0" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement cobolName="envVarValues" levelNumber="3" maxOccurs="10" minOccurs="0" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
             <xs:element minOccurs="0" name="formattedDate" type="xs:string">
                 <xs:annotation>
                     <xs:appinfo>
-                        <cb:cobolElement byteLength="32" cobolName="formattedDate" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement cobolName="formattedDate" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
             <xs:element minOccurs="0" name="language" type="xs:string">
                 <xs:annotation>
                     <xs:appinfo>
-                        <cb:cobolElement byteLength="32" cobolName="language" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement cobolName="language" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>

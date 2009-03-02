@@ -44,14 +44,14 @@
             <xs:element minOccurs="0" name="cultureCode" type="xs:string">
                 <xs:annotation>
                     <xs:appinfo>
-                        <cb:cobolElement byteLength="32" cobolName="cultureCode" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement cobolName="cultureCode" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
             <xs:element minOccurs="0" name="decimalNumber" type="xs:decimal">
                 <xs:annotation>
                     <xs:appinfo>
-                        <cb:cobolElement byteLength="5" cobolName="decimalNumber" fractionDigits="2" levelNumber="5" picture="9(7)V9(2)" signed="true" totalDigits="9" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
+                        <cb:cobolElement cobolName="decimalNumber" fractionDigits="2" levelNumber="5" picture="9(7)V9(2)" signed="true" totalDigits="9" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
@@ -73,35 +73,35 @@
             <xs:element minOccurs="0" name="currencySymbol" type="xs:string">
                 <xs:annotation>
                     <xs:appinfo>
-                        <cb:cobolElement byteLength="32" cobolName="currencySymbol" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement cobolName="currencySymbol" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
             <xs:element minOccurs="0" name="displayCountry" type="xs:string">
                 <xs:annotation>
                     <xs:appinfo>
-                        <cb:cobolElement byteLength="32" cobolName="displayCountry" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement cobolName="displayCountry" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
             <xs:element minOccurs="0" name="displayLanguage" type="xs:string">
                 <xs:annotation>
                     <xs:appinfo>
-                        <cb:cobolElement byteLength="32" cobolName="displayLanguage" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement cobolName="displayLanguage" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
             <xs:element minOccurs="0" name="formattedDate" type="xs:string">
                 <xs:annotation>
                     <xs:appinfo>
-                        <cb:cobolElement byteLength="32" cobolName="formattedDate" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement cobolName="formattedDate" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
             <xs:element minOccurs="0" name="formattedDecimalNumber" type="xs:string">
                 <xs:annotation>
                     <xs:appinfo>
-                        <cb:cobolElement byteLength="32" cobolName="formattedDecimalNumber" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement cobolName="formattedDecimalNumber" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
@@ -119,21 +119,21 @@
             <xs:element minOccurs="0" name="cultureCode" type="xs:string">
                 <xs:annotation>
                     <xs:appinfo>
-                        <cb:cobolElement byteLength="32" cobolName="cultureCode" levelNumber="7" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement cobolName="cultureCode" levelNumber="7" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
             <xs:element minOccurs="0" name="displayCountry" type="xs:string">
                 <xs:annotation>
                     <xs:appinfo>
-                        <cb:cobolElement byteLength="32" cobolName="displayCountry" levelNumber="7" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement cobolName="displayCountry" levelNumber="7" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
             <xs:element minOccurs="0" name="displayLanguage" type="xs:string">
                 <xs:annotation>
                     <xs:appinfo>
-                        <cb:cobolElement byteLength="32" cobolName="displayLanguage" levelNumber="7" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement cobolName="displayLanguage" levelNumber="7" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
@@ -144,7 +144,7 @@
             <xs:element minOccurs="0" name="message" type="xs:string">
                 <xs:annotation>
                     <xs:appinfo>
-                        <cb:cobolElement byteLength="32" cobolName="R-message" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement cobolName="R-message" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
