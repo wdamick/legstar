@@ -532,6 +532,8 @@ int XSD_produceSimpleElement(COBOL_DATA_DESCRIPTION* dds,
             XSD_processNational(dds, indent);
             break;
         case dbcs_item:
+            XSD_processDbcs(dds, indent);
+            break;
         case octet_stream_item:
         case index_item:
         case pointer_item:
@@ -792,6 +794,20 @@ int XSD_processString(COBOL_DATA_DESCRIPTION* dds, char* indent)
 int XSD_processNational(COBOL_DATA_DESCRIPTION* dds, char* indent)
 {
     if (debug_trace) printf("XSD_processNational\n");
+
+    fprintf(output_file, "\"%s:string\">\n",xsd_options->xs_prefix);
+    fprintf(output_file,
+        "%s    <%s:length value='%d'/>\n",
+            indent, xsd_options->xs_prefix,dds->byteLength / 2);
+    return 0;
+}
+
+/*====================================================================*/
+/* Dbcs sympleType                                                    */
+/*====================================================================*/
+int XSD_processDbcs(COBOL_DATA_DESCRIPTION* dds, char* indent)
+{
+    if (debug_trace) printf("XSD_processDbcs\n");
 
     fprintf(output_file, "\"%s:string\">\n",xsd_options->xs_prefix);
     fprintf(output_file,
