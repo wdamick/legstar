@@ -208,6 +208,6 @@ public final class Util {
             final String schemaName,
             final String jaxbTypeName) throws Exception {
         Object bind = getBindingObject(schemaName, jaxbTypeName);
-        return ((ICobolBinding) bind).calcByteLength();
+        return ((ICobolBinding) bind).getByteLength();
     }
 }

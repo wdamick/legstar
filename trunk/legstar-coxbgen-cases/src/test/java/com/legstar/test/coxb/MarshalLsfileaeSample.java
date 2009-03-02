@@ -45,7 +45,7 @@ public final class MarshalLsfileaeSample {
         DfhcommareaBinding coxbObject = new DfhcommareaBinding(jaxbObject);
         try {
             // Create a buffer to receive the host data
-            byte[] hostBytes = new byte[coxbObject.calcByteLength()];
+            byte[] hostBytes = new byte[coxbObject.getByteLength()];
             // Create a marshaler using the default cobol conversion parameters
             CobolMarshalVisitor mv = new CobolMarshalVisitor(
                     hostBytes, 0, new CobolSimpleConverters(new CobolContext()));

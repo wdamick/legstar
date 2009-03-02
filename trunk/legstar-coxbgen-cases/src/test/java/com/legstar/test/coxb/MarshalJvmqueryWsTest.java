@@ -38,7 +38,7 @@ public class MarshalJvmqueryWsTest extends TestCase {
         ICobolComplexBinding binding = new QueryJvmResponseBinding(queryJvmResponse);
 
         /* Convert Java data object to a host byte array */
-        byte[] hostBytes = new byte[binding.calcByteLength()];
+        byte[] hostBytes = new byte[binding.getByteLength()];
         CobolContext cobolContext = new CobolContext();
         CobolSimpleConverters cc = new CobolSimpleConverters(cobolContext);
         CobolMarshalVisitor mv =
