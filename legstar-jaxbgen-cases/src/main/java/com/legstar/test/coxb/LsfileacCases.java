@@ -134,7 +134,7 @@ public final class LsfileacCases extends TestCase {
         return
         "0000"
         + "f0f07af0f07af0f0"
-        + "000000044f"
+        + "000000043f"
         + "00000000"
         + "00000000"
         + "4040404040404040404040404040404040404040404040404040404040404040"
@@ -149,7 +149,7 @@ public final class LsfileacCases extends TestCase {
      */
     public static void checkJavaObjectReplyStatus(final ReplyStatus replyStatus) {
         assertEquals(0, replyStatus.getReplyType());
-        assertEquals(44, replyStatus.getTotalItemsRead());
+        assertEquals(43, replyStatus.getTotalItemsRead());
         assertEquals("", replyStatus.getReplyMessage().trim());
         assertEquals(0, replyStatus.getReplyResp());
         assertEquals(0, replyStatus.getReplyResp2());
@@ -225,7 +225,7 @@ public final class LsfileacCases extends TestCase {
         return
         "0000"
         + "f0f07af0f07af0f0"
-        + "000000044f"
+        + "000000043f"
         + "00000000"
         + "00000000"
         + "d5d640c3e4e2e3d6d4c5d940e2c1e3c9e2c6c9c5e240e8d6e4d940d8e4c5d9e8"
@@ -240,7 +240,7 @@ public final class LsfileacCases extends TestCase {
      */
     public static void checkJavaObjectReplyStatusNoMatch(final ReplyStatus replyStatus) {
         assertEquals(0, replyStatus.getReplyType());
-        assertEquals(44, replyStatus.getTotalItemsRead());
+        assertEquals(43, replyStatus.getTotalItemsRead());
         assertEquals("NO CUSTOMER SATISFIES YOUR QUERY", replyStatus.getReplyMessage().trim());
         assertEquals(0, replyStatus.getReplyResp());
         assertEquals(0, replyStatus.getReplyResp2());
