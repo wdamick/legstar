@@ -11,6 +11,7 @@
 package com.legstar.cobc.gen;
 
 import com.legstar.coxb.impl.CArrayStringBinding;
+import com.legstar.coxb.impl.CDbcsBinding;
 import com.legstar.coxb.impl.CStringBinding;
 import com.legstar.coxb.impl.CZonedDecimalBinding;
 
@@ -37,6 +38,22 @@ public class CobolGenFormatterTest extends TestCase {
         /*            000000000111111111122222222223333333333444444444455555555556666666666777*/
         /*            123456789012345678901234567890123456789012345678901234567890123456789012*/
         assertEquals("           05 A-STRING PIC X(8) JUST VALUE \"BIG\".",
+                CobolGenFormatter.formatCobolClause(cb, 1));
+    }
+
+    /**
+     * Test elementary dbcs string.
+     */
+    public void testElementaryDbcsStringItem() {
+        CDbcsBinding cb = new CDbcsBinding("astring", null, null, null, null);
+        cb.setLevelNumber(5);
+        cb.setCobolName("A-STRING");
+        cb.setUsage("DISPLAY-1");
+        cb.setPicture("G(8)");
+
+        /*            000000000111111111122222222223333333333444444444455555555556666666666777*/
+        /*            123456789012345678901234567890123456789012345678901234567890123456789012*/
+        assertEquals("           05 A-STRING PIC G(8) DISPLAY-1.",
                 CobolGenFormatter.formatCobolClause(cb, 1));
     }
 
