@@ -13,18 +13,11 @@ package com.legstar.host.invoke;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
 import com.legstar.host.AbstractTester;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.test.coxb.LsfileacCases;
-import com.legstar.test.coxb.lsfileac.QueryData;
-import com.legstar.test.coxb.lsfileac.QueryLimit;
-import com.legstar.test.coxb.lsfileac.bind.QueryDataBinding;
-import com.legstar.test.coxb.lsfileac.bind.QueryLimitBinding;
-import com.legstar.test.coxb.lsfileac.bind.ReplyDataBinding;
-import com.legstar.test.coxb.lsfileac.bind.ReplyStatusBinding;
 
 /**
  * Test ContainerInvoker.
@@ -37,7 +30,8 @@ public class ContainerInvokerTest extends AbstractTester {
      */
     public void testContainerInvoker() throws HostInvokerException {
         LegStarAddress address = new LegStarAddress("CICSTS31");
-        HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
+        HostInvoker invoker = HostInvokerFactory.createHostInvoker(
+                CONFIG_FILE, address, "container1.properties");
         assertTrue(invoker instanceof com.legstar.host.invoke.ContainerInvoker);
     }
 
@@ -45,63 +39,13 @@ public class ContainerInvokerTest extends AbstractTester {
     public void testInvokeWrongMethod() {
         try {
             LegStarAddress address = new LegStarAddress("CICSTS31");
-            HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
-            ICobolComplexBinding ccbin = null;
-            ICobolComplexBinding ccbout = null;
-            invoker.invoke("testInvokeWrongMethod", ccbin, ccbout);
+            HostInvoker invoker = HostInvokerFactory.createHostInvoker(
+                    CONFIG_FILE, address, "container1.properties");
+            invoker.invoke(getName(), new byte[0]);
             fail("Method should not be supported");
         } catch (HostInvokerException e) {
             assertEquals("Unsupported method for CICS containers", e.getMessage());
         }
-        try {
-            LegStarAddress address = new LegStarAddress("CICSTS31");
-            HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
-            invoker.invoke("testInvokeWrongMethod", new byte[0]);
-            fail("Method should not be supported");
-        } catch (HostInvokerException e) {
-            assertEquals("Unsupported method for CICS containers", e.getMessage());
-        }
-    }
-
-    /** 
-     * Test with 2 input containers and 2 output containers (old style). 
-     * @throws HostInvokerException if invoke fails
-     * @throws HostException if host data is invalid
-     */
-    public void test2ContainersIn2OutWithBinding() throws HostInvokerException, HostException {
-        LegStarAddress address = new LegStarAddress("CICSTS31");
-        HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
-
-        /* There are 2 containers for request */
-        QueryData queryData = LsfileacCases.getJavaObjectQueryData();
-        QueryLimit queryLimit = LsfileacCases.getJavaObjectQueryLimit();
-
-        /* Decorate object trees for static binding */
-        QueryDataBinding queryDataBin = new QueryDataBinding(queryData);
-        QueryLimitBinding queryLimitBin = new QueryLimitBinding(queryLimit);
-
-        /* Prepare output objects */
-        ReplyDataBinding replyDataBin = new ReplyDataBinding();
-        ReplyStatusBinding replyStatusBin = new ReplyStatusBinding();
-
-        /* Map containers with corresponding object trees */
-        Map < String, ICobolComplexBinding > inParts =
-            new LinkedHashMap < String, ICobolComplexBinding >(); 
-        inParts.put("QueryData", queryDataBin);
-        inParts.put("QueryLimit", queryLimitBin);
-
-        Map < String, ICobolComplexBinding > outParts =
-            new LinkedHashMap < String, ICobolComplexBinding >(); 
-        outParts.put("ReplyData", replyDataBin);
-        outParts.put("ReplyStatus", replyStatusBin);
-
-        /* call */
-        invoker.invoke("Lsfileac", inParts, outParts);
-
-        /* Check */
-        LsfileacCases.checkJavaObjectReplyStatus(replyStatusBin.getReplyStatus());
-        LsfileacCases.checkJavaObjectReplyData(replyDataBin.getReplyData());
-
     }
 
     /** 
@@ -123,7 +67,7 @@ public class ContainerInvokerTest extends AbstractTester {
         inParts.put("QueryLimit", queryLimitBin);
 
         /* call */
-        Map < String, byte[] > outParts = invoker.invoke("Lsfileac", inParts);
+        Map < String, byte[] > outParts = invoker.invoke(getName(), inParts);
 
         /* Check */
         assertTrue(outParts != null);
@@ -132,47 +76,6 @@ public class ContainerInvokerTest extends AbstractTester {
                 HostData.toHexString(outParts.get("ReplyData")));
         assertEquals(LsfileacCases.getHostBytesHexReplyStatus(),
                 HostData.toHexString(outParts.get("ReplyStatus")));
-
-    }
-
-    /** 
-     * When nothing is selected on the host, there is no data container back (old style).
-     * @throws HostInvokerException if invoke fails
-     * @throws HostException if host data is invalid
-     */
-    public void test2ContainersIn1OutWithBinding() throws HostInvokerException, HostException {
-        LegStarAddress address = new LegStarAddress("CICSTS31");
-        HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
-
-        /* There are 2 containers for request */
-        QueryData queryData = LsfileacCases.getJavaObjectQueryDataNoMatch();
-        QueryLimit queryLimit = LsfileacCases.getJavaObjectQueryLimit();
-
-        /* Decorate object trees for static binding */
-        QueryDataBinding queryDataBin = new QueryDataBinding(queryData);
-        QueryLimitBinding queryLimitBin = new QueryLimitBinding(queryLimit);
-
-        /* Prepare output objects */
-        ReplyDataBinding replyDataBin = new ReplyDataBinding();
-        ReplyStatusBinding replyStatusBin = new ReplyStatusBinding();
-
-        /* Map containers with corresponding object trees */
-        Map < String, ICobolComplexBinding > inParts =
-            new LinkedHashMap < String, ICobolComplexBinding >(); 
-        inParts.put("QueryData", queryDataBin);
-        inParts.put("QueryLimit", queryLimitBin);
-
-        Map < String, ICobolComplexBinding > outParts =
-            new LinkedHashMap < String, ICobolComplexBinding >(); 
-        outParts.put("ReplyData", replyDataBin);
-        outParts.put("ReplyStatus", replyStatusBin);
-
-        /* call */
-        invoker.invoke("LsfileacEmpty", inParts, outParts);
-
-        /* Check */
-        LsfileacCases.checkJavaObjectReplyStatusNoMatch(replyStatusBin.getReplyStatus());
-        assertTrue(null == replyDataBin.getReplyData());
 
     }
 
@@ -195,7 +98,7 @@ public class ContainerInvokerTest extends AbstractTester {
         inParts.put("QueryLimit", queryLimitBin);
 
         /* call */
-        Map < String, byte[] > outParts = invoker.invoke("LsfileacEmpty", inParts);
+        Map < String, byte[] > outParts = invoker.invoke(getName(), inParts);
 
         /* Check */
         assertTrue(outParts != null);

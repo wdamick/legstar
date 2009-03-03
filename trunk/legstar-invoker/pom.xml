@@ -30,11 +30,6 @@
     
         <dependency>
             <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-messaging-impl</artifactId>
-        </dependency>
-        
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-coxbapi</artifactId>
         </dependency>
     
@@ -55,6 +50,18 @@
             <scope>test</scope>
         </dependency>
         
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-cmockrt</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbrt</artifactId>
+            <scope>test</scope>
+        </dependency>
+    
+
     </dependencies>
 
     <build>
