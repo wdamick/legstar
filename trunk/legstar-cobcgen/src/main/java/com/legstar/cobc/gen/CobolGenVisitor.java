@@ -16,6 +16,7 @@ import java.io.IOException;
 import com.legstar.coxb.CobolElementVisitor;
 import com.legstar.coxb.ICobolArrayBinaryBinding;
 import com.legstar.coxb.ICobolArrayComplexBinding;
+import com.legstar.coxb.ICobolArrayDbcsBinding;
 import com.legstar.coxb.ICobolArrayDoubleBinding;
 import com.legstar.coxb.ICobolArrayFloatBinding;
 import com.legstar.coxb.ICobolArrayNationalBinding;
@@ -26,6 +27,7 @@ import com.legstar.coxb.ICobolArrayZonedDecimalBinding;
 import com.legstar.coxb.ICobolBinaryBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolComplexBinding;
+import com.legstar.coxb.ICobolDbcsBinding;
 import com.legstar.coxb.ICobolDoubleBinding;
 import com.legstar.coxb.ICobolFloatBinding;
 import com.legstar.coxb.ICobolNationalBinding;
@@ -157,6 +159,20 @@ public class CobolGenVisitor extends CobolElementVisitor {
     @Override
     public final void visit(
             final ICobolArrayNationalBinding ce) throws HostException {
+        write(ce);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(
+            final ICobolDbcsBinding ce) throws HostException {
+        write(ce);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void visit(
+            final ICobolArrayDbcsBinding ce) throws HostException {
         write(ce);
     }
 
