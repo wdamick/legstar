@@ -12,7 +12,6 @@ package com.legstar.host.invoke;
 
 import java.util.Map;
 
-import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.host.access.HostAccessStrategy;
 import com.legstar.messaging.LegStarAddress;
 
@@ -21,33 +20,6 @@ import com.legstar.messaging.LegStarAddress;
  */
 public interface HostInvoker {
 
-    /**
-     * @deprecated
-     * Invoke a host function using one input and one output structure.
-     * @param requestID an identifier for this request (used for tracing)
-     * @param ccbin the input object tree
-     * @param ccbout the output object tree
-     * @throws HostInvokerException if invoke fails
-     */
-    void invoke(
-            String requestID,
-            ICobolComplexBinding ccbin,
-            ICobolComplexBinding ccbout) throws HostInvokerException;
-
-    /**
-     * @deprecated
-     * Invoke a host function with multiple input and multiple output parts.
-     * @param requestID an identifier for this request (used for tracing)
-     * @param inParts a set of input object trees
-     * @param outParts a set of output object trees
-     * @throws HostInvokerException if invoke fails
-     */
-    void invoke(
-            String requestID,
-            Map < String, ICobolComplexBinding > inParts,
-            Map < String, ICobolComplexBinding > outParts)
-    throws HostInvokerException;
-    
     /**
      * Invoke a host function using one input and one output raw mainframe
      * data buffers.

@@ -33,7 +33,8 @@ public class PooledHostAccessStrategyTest extends AbstractTester {
      */
     public void testConstructor() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(CONFIG_FILE, "TheMainframe");
+            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(
+                    CONFIG_FILE, "TheMainframe");
             PooledHostAccessStrategy pha = new PooledHostAccessStrategy(endpointConfig);
             assertTrue(pha != null);
             assertEquals(2000, pha.getInvokeTimeout());
@@ -47,7 +48,8 @@ public class PooledHostAccessStrategyTest extends AbstractTester {
      */
     public void testConstructorWithNoConfiguredTimeout() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration("config1.xml", "TheMainframe");
+            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(
+                    "config1.xml", "TheMainframe");
             PooledHostAccessStrategy pha = new PooledHostAccessStrategy(endpointConfig);
             assertTrue(pha != null);
             assertEquals(3000, pha.getInvokeTimeout());
@@ -61,7 +63,8 @@ public class PooledHostAccessStrategyTest extends AbstractTester {
      */
     public void testInvokeWithNoEngine() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(CONFIG_FILE, "TheMainframe");
+            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(
+                    CONFIG_FILE, "TheMainframe");
             PooledHostAccessStrategy pha = new PooledHostAccessStrategy(endpointConfig);
             LegStarRequest request = createLsfileaeRequest();
             pha.invoke(request);
@@ -111,7 +114,8 @@ public class PooledHostAccessStrategyTest extends AbstractTester {
             engHandler = new EngineHandler(config);
             engHandler.init();
 
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(CONFIG_FILE, "TheMainframe");
+            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(
+                    CONFIG_FILE, "TheMainframe");
             PooledHostAccessStrategy pha = new PooledHostAccessStrategy(endpointConfig);
             LegStarRequest request = createT1sleeptRequest();
             pha.invoke(request);

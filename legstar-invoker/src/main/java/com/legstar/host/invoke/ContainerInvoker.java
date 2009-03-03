@@ -14,16 +14,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.host.access.HostAccessStrategy;
 import com.legstar.messaging.ContainerPart;
-import com.legstar.messaging.HostMessageFormatException;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.HeaderPartException;
 import com.legstar.messaging.LegStarHeaderPart;
 import com.legstar.messaging.LegStarMessage;
 import com.legstar.messaging.LegStarMessagePart;
-import com.legstar.messaging.impl.LegStarMessageImpl;
 
 /**
  * A ContainerInvoker builds a request object for a target CHANNEL-driven CICS
@@ -47,67 +44,6 @@ public class ContainerInvoker extends AbstractInvoker {
             final LegStarAddress completeAddress,
             final CicsProgram hostProgram) throws HostInvokerException {
         super(hostAccessStrategy, completeAddress, hostProgram);
-    }
-
-    /**
-     * @deprecated
-     * This method is invalid for Containers because the signature does not
-     * provide container names which are mandatory.
-     * @param requestID an identifier for this request (used for tracing)
-     * @param ccbin the input object tree
-     * @param ccbout the output object tree
-     * @throws HostInvokerException if invoke fails
-     */
-    public final void invoke(
-            final String requestID,
-            final ICobolComplexBinding ccbin,
-            final ICobolComplexBinding ccbout) throws HostInvokerException {
-        throw new HostInvokerException(
-        "Unsupported method for CICS containers");
-    }
-
-    /**
-     * @deprecated
-     * Invoke a container-driven program.
-     * @param requestID an identifier for this request (used for tracing)
-     * @param inParts a set of input object trees with target containers
-     * @param outParts a set of output object trees with source containers
-     * @throws HostInvokerException if invoke fails
-     */
-    public final void invoke(
-            final String requestID,
-            final Map < String, ICobolComplexBinding > inParts,
-            final Map < String, ICobolComplexBinding > outParts)
-    throws HostInvokerException {
-        try {
-            LegStarMessageImpl requestMessage = new LegStarMessageImpl(
-                    getProgramAttr().getProgramAttrMap());
-            
-            /* A new message part is built from the input bindings */
-            Iterator < Map.Entry < String, ICobolComplexBinding >>  iterator = inParts.entrySet().iterator();
-            while (iterator.hasNext()) {
-                Map.Entry < String, ICobolComplexBinding > entry = iterator.next();
-                requestMessage.addMessagePart(
-                        entry.getValue(),
-                        getProgramAttr().getInContainers().get(entry.getKey()),
-                        getAddress().getHostCharset(),
-                        entry.getKey());
-            }
-            
-            LegStarMessage responseMessage = invoke(requestID, requestMessage);
-            
-            LegStarMessageImpl responseMessageImpl =
-                new LegStarMessageImpl(responseMessage);
-
-            responseMessageImpl.getBindingsFromParts(
-                    outParts, getAddress().getHostCharset());
-
-        } catch (HeaderPartException e) {
-            throw new HostInvokerException(e);
-        } catch (HostMessageFormatException e) {
-            throw new HostInvokerException(e);
-        }
-
     }
 
     /** {@inheritDoc} */

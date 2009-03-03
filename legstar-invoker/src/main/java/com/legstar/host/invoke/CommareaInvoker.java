@@ -15,12 +15,10 @@ import java.util.Map;
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.host.access.HostAccessStrategy;
 import com.legstar.messaging.CommareaPart;
-import com.legstar.messaging.HostMessageFormatException;
-import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.HeaderPartException;
+import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.LegStarHeaderPart;
 import com.legstar.messaging.LegStarMessage;
-import com.legstar.messaging.impl.LegStarMessageImpl;
 
 
 /**
@@ -46,46 +44,6 @@ public class CommareaInvoker extends AbstractInvoker {
             final LegStarAddress completeAddress,
             final CicsProgram hostProgram) throws HostInvokerException {
         super(hostAccessStrategy, completeAddress, hostProgram);
-    }
-
-    /**
-     * @deprecated
-     * Invoke a commarea-driven program.
-     * @param requestID an identifier for this request (used for tracing)
-     * @param ccbin the input binding
-     * @param ccbout the output binding
-     * @throws HostInvokerException if invoke fails
-     */
-    public final void invoke(
-            final String requestID,
-            final ICobolComplexBinding ccbin,
-            final ICobolComplexBinding ccbout) throws HostInvokerException {
-
-        try {
-            /* Construct a LegStar message, passing the host program
-             *  attributes */
-            LegStarMessageImpl requestMessage =
-                new LegStarMessageImpl(getProgramAttr().getProgramAttrMap());
-
-            /* A new message part is built from the input binding */
-            requestMessage.addMessagePart(
-                    ccbin, getProgramAttr().getLength(), getAddress().getHostCharset(),
-                    null);
-
-            LegStarMessage responseMessage = invoke(requestID, requestMessage);
-
-            /* Unwrap the response and convert to a java data object */
-            LegStarMessageImpl responseMessageImpl =
-                new LegStarMessageImpl(responseMessage);
-            responseMessageImpl.getBindingFromPart(
-                    ccbout, getAddress().getHostCharset(), null);
-
-        } catch (HeaderPartException e) {
-            throw new HostInvokerException(e);
-        } catch (HostMessageFormatException e) {
-            throw new HostInvokerException(e);
-        }
-
     }
 
     /**
