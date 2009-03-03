@@ -184,6 +184,7 @@
         <module>legstar-coxbgen</module>
         <module>legstar-coxbgen-cases</module>
         <module>legstar-messaging</module>
+        <module>legstar-cmockrt</module>
         <module>legstar-invoker</module>
         <module>legstar-chttprt</module>
         <module>legstar-cmqrt</module>
@@ -636,6 +637,13 @@
                 <version>3.8.1</version>
             </dependency>
 
+            <!-- Json library. -->    
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>jsonjava</artifactId>
+                <version>1.0</version>
+            </dependency>
+
             <!-- Eclipse dependencies. -->
             <dependency>
                 <groupId>org.eclipse.platform</groupId>
@@ -911,6 +919,11 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-tests</artifactId>
+                <version>${legstarVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-cmockrt</artifactId>
                 <version>${legstarVersion}</version>
             </dependency>
       
