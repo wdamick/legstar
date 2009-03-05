@@ -203,7 +203,7 @@ public class CicsTs31SocketTest extends AbstractTester {
             /* Check */
             assertTrue(request.getResponseMessage() != null);
             assertEquals(2, request.getResponseMessage().getDataParts().size());
-            assertEquals(3481, request.getResponseMessage().getDataParts().get(0).getContent().length);
+            assertEquals(3402, request.getResponseMessage().getDataParts().get(0).getContent().length);
             assertEquals(LsfileacCases.getHostBytesHexReplyStatus(),
                     HostData.toHexString(request.getResponseMessage().getDataParts().get(1).getContent()));
         } catch (RequestException e) {
