@@ -28,7 +28,7 @@ implements ICobolArrayBinding {
     
     /** Array individual item length in bytes (unknown by default). */
     private int mItemByteLength = 0;
-
+    
     /**
      * Constructor for a cobol element to java binding.
      * 
@@ -90,11 +90,38 @@ implements ICobolArrayBinding {
     }
 
     /**
+     * Pre version 1.2.4 generated simple arrays did not support the ItemByteLength
+     * attribute. Their ByteLength attribute was actually the ItemByteLength instead
+     * of being the size of the entire array. We need to continue supporting this old
+     * model. Hence the size adjustment here.
+     * @return the Cobol element length in bytes
+     */
+    public int getByteLength() {
+        if (isGeneratedBinding()) {
+            if (!(this instanceof CArrayComplexBinding)) {
+                if (mItemByteLength == 0) {
+                    /* Binding was generated before 1.2.4. Adjust lengths.*/
+                    int itemByteLength = super.getByteLength();
+                    setItemByteLength(itemByteLength);
+                    setByteLength(itemByteLength * getMaxOccurs());
+                }
+            }
+        }
+        return super.getByteLength();
+    }
+
+    /**
      * {@inheritDoc}
      */
     public final int getItemByteLength() {
         if (mItemByteLength == 0) {
-            mItemByteLength = calcItemByteLength();
+            if (isGeneratedBinding() && !(this instanceof CArrayComplexBinding)) {
+                /* Binding was generated before 1.2.4. Adjust lengths.*/
+                mItemByteLength = super.getByteLength();
+                setByteLength(mItemByteLength * getMaxOccurs());
+            } else {
+                mItemByteLength = calcItemByteLength();
+            }
         }
         return mItemByteLength;
     }

@@ -110,7 +110,14 @@ public abstract class CBinding implements ICobolBinding {
     private int mSrceLine = 1;
 
     /**
+     * Bindings can be dynamically built or generated. Generated bindings are
+     * faster but they lack some metadata such as picture or usage.
+     */
+    private boolean mGeneratedBinding = false;
+
+    /**
      * Constructor for a cobol element to java binding.
+     * Dynamic bindings are built from cobol annotations.
      * 
      * @param name the identifier for this binding
      * @param jaxbName the name of the bound java property
@@ -129,6 +136,7 @@ public abstract class CBinding implements ICobolBinding {
         setJaxbType(jaxbType);
         setParentBinding(parentBinding);
         if (cobolAnnotations == null) {
+            mGeneratedBinding = true;
             return;
         }
         setCobolName(cobolAnnotations.cobolName());
@@ -192,7 +200,7 @@ public abstract class CBinding implements ICobolBinding {
      * or dimension of arrays might not be known at construction time.
      * @return the Cobol element length in bytes
      */
-    public final int getByteLength() {
+    public int getByteLength() {
         if (mByteLength == 0) {
             mByteLength = calcByteLength();
         }
@@ -202,7 +210,7 @@ public abstract class CBinding implements ICobolBinding {
     /**
      * @param byteLength the Cobol element length in bytes to set
      */
-    public final void setByteLength(final int byteLength) {
+    public void setByteLength(final int byteLength) {
         mByteLength = byteLength;
     }
 
@@ -572,5 +580,12 @@ public abstract class CBinding implements ICobolBinding {
     @SuppressWarnings("unchecked")
     public < T > T cast(final Object x) {
         return (T) x;
+    }
+
+    /**
+     * @return true if this is a generated binding
+     */
+    public boolean isGeneratedBinding() {
+        return mGeneratedBinding;
     }
 }

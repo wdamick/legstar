@@ -106,6 +106,15 @@ public interface ICobolComplexBinding extends ICobolBinding {
     void storeCounter(final ICobolNumericBinding counter);
 
     /**
+     * @deprecated
+     * This is kept for backward compatibility but should not be used.
+     * Use {@link storeCounter(final ICobolNumericBinding counter)} instead which
+     * is strongly typed (counters must be numeric).
+     * @param counter the counter to add to children list
+     */
+    void storeCounter(final ICobolBinding counter);
+
+    /**
      * Set the value of a specific counter either in us or in one of our
      * ancestors.
      * @param cobolName cobol name of the counter

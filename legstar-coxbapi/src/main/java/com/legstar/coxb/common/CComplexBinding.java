@@ -75,7 +75,9 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
         cev.visit(this);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public final int calcByteLength() {
         int byteLength = 0;
         for (ICobolBinding child : mChildren) {
@@ -121,6 +123,11 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
         } else {
             getParentBinding().storeCounter(counter);
         }
+    }
+    
+    /** {@inheritDoc} */
+    public final void storeCounter(final ICobolBinding counter) {
+        storeCounter((ICobolNumericBinding) counter); 
     }
 
     /**
