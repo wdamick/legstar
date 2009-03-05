@@ -40,7 +40,7 @@ public class ClientfixarnumTest extends TestCase {
 		
 		for (int i = 0; i < 3; i++) {
 			assertEquals((new BigDecimal((i + 1) * 3.5)).setScale(2),dfhcommareaResp.getCArrayPd().get(i));
-			BigDecimal zd = new BigDecimal("7.3");
+			BigDecimal zd = new BigDecimal("7.300");
 			assertEquals((new BigDecimal((i + 1)).multiply(zd)),dfhcommareaResp.getCArrayZd().get(i));
 			assertEquals(new Integer(((i + 1) * 4)),dfhcommareaResp.getCArrayZi().get(i));
 			assertEquals(new Long((i + 1) * 457),dfhcommareaResp.getCArrayBi().get(i));

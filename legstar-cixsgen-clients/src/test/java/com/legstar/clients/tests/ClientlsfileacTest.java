@@ -57,7 +57,7 @@ public class ClientlsfileacTest extends TestCase {
 		try {
 			LsfileacResponse resp = port.lsfileac(req, reqHead);
 			LsfileacResponseHolder respHolder = resp.getResponse();
-			assertEquals(44, respHolder.getReplyStatus().getTotalItemsRead());
+			assertEquals(43, respHolder.getReplyStatus().getTotalItemsRead());
 			assertEquals("", respHolder.getReplyStatus().getReplyMessage().trim());
 			assertEquals(0, respHolder.getReplyStatus().getReplyResp());
 			assertEquals(0, respHolder.getReplyStatus().getReplyResp2());
