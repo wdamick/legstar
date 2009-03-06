@@ -74,14 +74,14 @@
              15 REPLY-COMMENT     PIC X(9).
 
        01 REPLY-STATUS.
-          05 REPLY-TYPE           PIC 9(4) COMP.
+          05 REPLY-TYPE           PIC 9(4) COMP VALUE 0.
              88 REPLY-SUCCESS     VALUE 0.
              88 REPLY-ERROR       VALUE 1.
-          05 SEARCH-DURATION      PIC X(8).
-          05 TOTAL-ITEMS-READ     PIC 9(8) COMP-3.
-          05 REPLY-RESP           PIC S9(8) COMP.
-          05 REPLY-RESP2          PIC S9(8) COMP.
-          05 REPLY-MESSAGE        PIC X(128).
+          05 SEARCH-DURATION      PIC X(8) VALUE LOW-VALUES.
+          05 TOTAL-ITEMS-READ     PIC 9(8) COMP-3 VALUE ZEROES.
+          05 REPLY-RESP           PIC S9(8) COMP VALUE ZERO.
+          05 REPLY-RESP2          PIC S9(8) COMP VALUE ZERO.
+          05 REPLY-MESSAGE        PIC X(128) VALUE SPACES.
           
       *****************************************************************
       *            L I N K A G E       S E C T I O N                  *

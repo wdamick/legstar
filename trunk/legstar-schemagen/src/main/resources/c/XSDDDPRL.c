@@ -1116,14 +1116,15 @@ int XSD_resolveFigurative(char* inStr, COBOL_DATA_DESCRIPTION* dds)
         (strcmp(inStr, "zeroes") == 0))
         strcpy(dds->value,"0");
     else
-    /* Space is used to fill the data element */
+    /* Space is used to fill the data element. Since space filled fields
+	   are frequent in COBOL and maybe quite large we elect not to store
+	   the space characters.*/
     if ((strcmp(inStr, "SPACE") == 0) ||
         (strcmp(inStr, "SPACES") == 0) ||
         (strcmp(inStr, "space") == 0) ||
         (strcmp(inStr, "spaces") == 0))
     {
-        memset(dds->value,' ',dds->byteLength);
-        memset(dds->value+dds->byteLength, '\0',1);
+        memset(dds->value,'\0',1);
     }
     else
     /* This is a proposed representation for HIGH-VALUE */

@@ -289,7 +289,7 @@ public class COXBSchemaGeneratorTestCase extends TestCase {
             gen.execute();
             String result = getSource(GEN_XSD_DIR, "valuesmix.xsd");
             assertTrue(result.contains("<cb:value>0</cb:value>"));
-            assertTrue(result.contains("<cb:value>     </cb:value>"));
+            assertTrue(result.contains("<cb:value></cb:value>"));
             assertTrue(result.contains("<cb:value>0xFFFFFFFFFF</cb:value>"));
             assertTrue(result.contains("<cb:value>0x0000000000</cb:value>"));
             assertTrue(result.contains("<cb:value>&apos;</cb:value>"));
