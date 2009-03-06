@@ -54,9 +54,7 @@ elementFormDefault="qualified">
      <xs:element name="WsPs9X4Min">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='WS-PS9X4-MIN' type='NATIVE_BINARY_ITEM' picture='S9(4)' usage='COMP-5' signed='true' totalDigits='4' srceLine='32'>
-         <cb:value>-32768</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='15' cobolName='WS-PS9X4-MIN' type='NATIVE_BINARY_ITEM' picture='S9(4)' usage='COMP-5' signed='true' totalDigits='4' value='-32768' srceLine='32'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -67,9 +65,7 @@ elementFormDefault="qualified">
      <xs:element name="WsPs9X4Low">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='WS-PS9X4-LOW' type='NATIVE_BINARY_ITEM' picture='S9(4)' usage='COMP-5' signed='true' totalDigits='4' srceLine='33'>
-         <cb:value>-128</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='15' cobolName='WS-PS9X4-LOW' type='NATIVE_BINARY_ITEM' picture='S9(4)' usage='COMP-5' signed='true' totalDigits='4' value='-128' srceLine='33'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -80,9 +76,7 @@ elementFormDefault="qualified">
      <xs:element name="WsPs9X4High">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='WS-PS9X4-HIGH' type='NATIVE_BINARY_ITEM' picture='S9(4)' usage='COMP-5' signed='true' totalDigits='4' srceLine='34'>
-         <cb:value>+1045</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='15' cobolName='WS-PS9X4-HIGH' type='NATIVE_BINARY_ITEM' picture='S9(4)' usage='COMP-5' signed='true' totalDigits='4' value='+1045' srceLine='34'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -93,9 +87,7 @@ elementFormDefault="qualified">
      <xs:element name="WsPs9X4Max">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='WS-PS9X4-MAX' type='NATIVE_BINARY_ITEM' picture='S9(4)' usage='COMP-5' signed='true' totalDigits='4' srceLine='35'>
-         <cb:value>+32767</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='15' cobolName='WS-PS9X4-MAX' type='NATIVE_BINARY_ITEM' picture='S9(4)' usage='COMP-5' signed='true' totalDigits='4' value='+32767' srceLine='35'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -110,9 +102,7 @@ elementFormDefault="qualified">
      <xs:element name="WsPs9X9Min">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='WS-PS9X9-MIN' type='NATIVE_BINARY_ITEM' picture='S9(9)' usage='COMP-5' signed='true' totalDigits='9' srceLine='37'>
-         <cb:value>-2147483648</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='15' cobolName='WS-PS9X9-MIN' type='NATIVE_BINARY_ITEM' picture='S9(9)' usage='COMP-5' signed='true' totalDigits='9' value='-2147483648' srceLine='37'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -123,9 +113,7 @@ elementFormDefault="qualified">
      <xs:element name="WsPs9X9Low">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='WS-PS9X9-LOW' type='NATIVE_BINARY_ITEM' picture='S9(9)' usage='COMP-5' signed='true' totalDigits='9' srceLine='38'>
-         <cb:value>-128</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='15' cobolName='WS-PS9X9-LOW' type='NATIVE_BINARY_ITEM' picture='S9(9)' usage='COMP-5' signed='true' totalDigits='9' value='-128' srceLine='38'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -136,9 +124,7 @@ elementFormDefault="qualified">
      <xs:element name="WsPs9X9High">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='WS-PS9X9-HIGH' type='NATIVE_BINARY_ITEM' picture='S9(9)' usage='COMP-5' signed='true' totalDigits='9' srceLine='39'>
-         <cb:value>+123456789</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='15' cobolName='WS-PS9X9-HIGH' type='NATIVE_BINARY_ITEM' picture='S9(9)' usage='COMP-5' signed='true' totalDigits='9' value='+123456789' srceLine='39'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -149,9 +135,7 @@ elementFormDefault="qualified">
      <xs:element name="WsPs9X9Max">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='WS-PS9X9-MAX' type='NATIVE_BINARY_ITEM' picture='S9(9)' usage='COMP-5' signed='true' totalDigits='9' srceLine='40'>
-         <cb:value>+2147483647</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='15' cobolName='WS-PS9X9-MAX' type='NATIVE_BINARY_ITEM' picture='S9(9)' usage='COMP-5' signed='true' totalDigits='9' value='+2147483647' srceLine='40'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -186,9 +170,7 @@ elementFormDefault="qualified">
      <xs:element name="WsPs9X18Low">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='15' cobolName='WS-PS9X18-LOW' type='NATIVE_BINARY_ITEM' picture='S9(18)' usage='COMP-5' signed='true' totalDigits='18' srceLine='47'>
-         <cb:value>-4294967294</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='15' cobolName='WS-PS9X18-LOW' type='NATIVE_BINARY_ITEM' picture='S9(18)' usage='COMP-5' signed='true' totalDigits='18' value='-4294967294' srceLine='47'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -243,9 +225,7 @@ elementFormDefault="qualified">
      <xs:element name="Filler43">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='20' cobolName='FILLER-43' type='NATIVE_BINARY_ITEM' picture='S9(9)' usage='COMP-5' signed='true' totalDigits='9' srceLine='43'>
-         <cb:value>-2147483648</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='20' cobolName='FILLER-43' type='NATIVE_BINARY_ITEM' picture='S9(9)' usage='COMP-5' signed='true' totalDigits='9' value='-2147483648' srceLine='43'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -256,9 +236,7 @@ elementFormDefault="qualified">
      <xs:element name="Filler44">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='20' cobolName='FILLER-44' type='NATIVE_BINARY_ITEM' picture='9(9)' usage='COMP-5' signed='false' totalDigits='9' srceLine='44'>
-         <cb:value>0</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='20' cobolName='FILLER-44' type='NATIVE_BINARY_ITEM' picture='9(9)' usage='COMP-5' signed='false' totalDigits='9' value='0' srceLine='44'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -273,9 +251,7 @@ elementFormDefault="qualified">
      <xs:element name="Filler49">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='20' cobolName='FILLER-49' type='NATIVE_BINARY_ITEM' picture='9(9)' usage='COMP-5' signed='false' totalDigits='9' srceLine='49'>
-         <cb:value>3</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='20' cobolName='FILLER-49' type='NATIVE_BINARY_ITEM' picture='9(9)' usage='COMP-5' signed='false' totalDigits='9' value='3' srceLine='49'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -286,9 +262,7 @@ elementFormDefault="qualified">
      <xs:element name="Filler50">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='20' cobolName='FILLER-50' type='NATIVE_BINARY_ITEM' picture='9(9)' usage='COMP-5' signed='false' totalDigits='9' srceLine='50'>
-         <cb:value>4294967295</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='20' cobolName='FILLER-50' type='NATIVE_BINARY_ITEM' picture='9(9)' usage='COMP-5' signed='false' totalDigits='9' value='4294967295' srceLine='50'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -303,9 +277,7 @@ elementFormDefault="qualified">
      <xs:element name="Filler54">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='20' cobolName='FILLER-54' type='NATIVE_BINARY_ITEM' picture='9(9)' usage='COMP-5' signed='false' totalDigits='9' srceLine='54'>
-         <cb:value>2147483647</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='20' cobolName='FILLER-54' type='NATIVE_BINARY_ITEM' picture='9(9)' usage='COMP-5' signed='false' totalDigits='9' value='2147483647' srceLine='54'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -316,9 +288,7 @@ elementFormDefault="qualified">
      <xs:element name="Filler55">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='20' cobolName='FILLER-55' type='NATIVE_BINARY_ITEM' picture='9(9)' usage='COMP-5' signed='false' totalDigits='9' srceLine='55'>
-         <cb:value>4294967295</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='20' cobolName='FILLER-55' type='NATIVE_BINARY_ITEM' picture='9(9)' usage='COMP-5' signed='false' totalDigits='9' value='4294967295' srceLine='55'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>

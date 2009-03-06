@@ -18,9 +18,7 @@ elementFormDefault="qualified">
      <xs:element name="Filler21">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='FILLER-21' type='ALPHANUMERIC_ITEM' picture='X(3)' usage='DISPLAY' srceLine='21'>
-         <cb:value>ODO</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='05' cobolName='FILLER-21' type='ALPHANUMERIC_ITEM' picture='X(3)' usage='DISPLAY' value='ODO' srceLine='21'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>

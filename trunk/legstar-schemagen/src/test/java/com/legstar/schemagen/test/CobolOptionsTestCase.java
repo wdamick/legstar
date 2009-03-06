@@ -238,7 +238,7 @@ public class CobolOptionsTestCase extends TestCase {
 
         resp = mXsdGenerator.cob2xsd(mInVars, mOutVars);
         assertEquals(mOutVars.message, 0, resp);
-        if (-1 == readXSD().indexOf("<cb:value>&quot;</cb:value>")) {
+        if (-1 == readXSD().indexOf("value='&quot;'")) {
             fail(readXSD());
         }
     }
@@ -255,7 +255,7 @@ public class CobolOptionsTestCase extends TestCase {
             System.out.println(readXSD());
         }
         assertEquals(mOutVars.message, 0, resp);
-        if (-1 == readXSD().indexOf("<cb:value>&apos;</cb:value>")) {
+        if (-1 == readXSD().indexOf("value='&apos;'")) {
             fail(readXSD());
         }
     }
