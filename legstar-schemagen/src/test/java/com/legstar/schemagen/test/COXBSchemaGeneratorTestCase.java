@@ -288,13 +288,13 @@ public class COXBSchemaGeneratorTestCase extends TestCase {
             gen.setNamespace(NAMESPACE);
             gen.execute();
             String result = getSource(GEN_XSD_DIR, "valuesmix.xsd");
-            assertTrue(result.contains("<cb:value>0</cb:value>"));
-            assertTrue(result.contains("<cb:value></cb:value>"));
-            assertTrue(result.contains("<cb:value>0xFFFFFFFFFF</cb:value>"));
-            assertTrue(result.contains("<cb:value>0x0000000000</cb:value>"));
-            assertTrue(result.contains("<cb:value>&apos;</cb:value>"));
-            assertTrue(result.contains("<cb:value>ABCDE</cb:value>"));
-            assertTrue(result.contains("<cb:value>-345</cb:value>"));
+            assertTrue(result.contains("value='0'"));
+            assertTrue(result.contains("value=''"));
+            assertTrue(result.contains("value='0xFFFFFFFFFF'"));
+            assertTrue(result.contains("value='0x0000000000'"));
+            assertTrue(result.contains("value='&apos;'"));
+            assertTrue(result.contains("value='ABCDE'"));
+            assertTrue(result.contains("value='-345'"));
         } catch (Exception e) {
             fail(e.getMessage());
         }

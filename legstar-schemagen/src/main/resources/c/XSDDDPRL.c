@@ -726,20 +726,13 @@ int XSD_produceAnnotations(COBOL_DATA_DESCRIPTION* dds,
         fprintf(output_file, " isRedefined='%s'","true");
         fprintf(output_file, " unmarshalChoiceStrategyClassName='%s'","");
 	}
+    if (0 < strlen(dds->value)) {
+        XSD_processValue(dds, indent);
+    }
     if (0 < dds->srceLine)
         fprintf(output_file, " srceLine='%d'",dds->srceLine);
 
-
-    /* Values are inserted as element values rather than attributes  */
-    if (strlen(dds->value) > 0) {
-        fprintf(output_file, ">\n");
-        XSD_processValue(dds, indent);
-        fprintf(output_file, "%s    </%s:cobolElement>\n",
-            indent,xsd_options->xscb_prefix);
-    }
-    else {
-        fprintf(output_file, "/>\n");
-    }
+    fprintf(output_file, "/>\n");
 
 
     fprintf(output_file, "%s    </%s:appinfo>\n",
@@ -765,9 +758,7 @@ int XSD_processValue(COBOL_DATA_DESCRIPTION* dds, char* indent)
 
     XSD_entityEncode(dds->value, dest);
 
-    fprintf(output_file, "%s    <%s:value>%s</%s:value>\n",
-            indent, xsd_options->xscb_prefix, dest,
-            xsd_options->xscb_prefix);
+    fprintf(output_file, " value='%s'",dest);
 
 return 0;
 }

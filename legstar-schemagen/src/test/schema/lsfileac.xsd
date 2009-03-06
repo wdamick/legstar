@@ -18,9 +18,7 @@ elementFormDefault="qualified">
      <xs:element name="WQueryName">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='W-QUERY-NAME' type='ALPHANUMERIC_ITEM' picture='X(20)' usage='DISPLAY' srceLine='32'>
-         <cb:value>*</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='05' cobolName='W-QUERY-NAME' type='ALPHANUMERIC_ITEM' picture='X(20)' usage='DISPLAY' value='*' srceLine='32'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -32,9 +30,7 @@ elementFormDefault="qualified">
      <xs:element name="WQueryAddress">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='W-QUERY-ADDRESS' type='ALPHANUMERIC_ITEM' picture='X(20)' usage='DISPLAY' srceLine='33'>
-         <cb:value>*</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='05' cobolName='W-QUERY-ADDRESS' type='ALPHANUMERIC_ITEM' picture='X(20)' usage='DISPLAY' value='*' srceLine='33'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -46,9 +42,7 @@ elementFormDefault="qualified">
      <xs:element name="WQueryPhone">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='W-QUERY-PHONE' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' srceLine='34'>
-         <cb:value>*</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='05' cobolName='W-QUERY-PHONE' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' value='*' srceLine='34'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -64,9 +58,7 @@ elementFormDefault="qualified">
      <xs:element name="WMaxItemsRead">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='W-MAX-ITEMS-READ' type='PACKED_DECIMAL_ITEM' picture='9(8)' usage='PACKED-DECIMAL' signed='false' totalDigits='8' srceLine='37'>
-         <cb:value>200</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='05' cobolName='W-MAX-ITEMS-READ' type='PACKED_DECIMAL_ITEM' picture='9(8)' usage='PACKED-DECIMAL' signed='false' totalDigits='8' value='200' srceLine='37'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -79,9 +71,7 @@ elementFormDefault="qualified">
      <xs:element name="WMaxElapseTime">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='W-MAX-ELAPSE-TIME' type='PACKED_DECIMAL_ITEM' picture='9(8)' usage='PACKED-DECIMAL' signed='false' totalDigits='8' srceLine='38'>
-         <cb:value>10000</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='05' cobolName='W-MAX-ELAPSE-TIME' type='PACKED_DECIMAL_ITEM' picture='9(8)' usage='PACKED-DECIMAL' signed='false' totalDigits='8' value='10000' srceLine='38'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -222,9 +212,7 @@ elementFormDefault="qualified">
      <xs:element name="ReplyType">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='REPLY-TYPE' type='BINARY_ITEM' picture='9(4)' usage='BINARY' signed='false' totalDigits='4' srceLine='77'>
-         <cb:value>0</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='05' cobolName='REPLY-TYPE' type='BINARY_ITEM' picture='9(4)' usage='BINARY' signed='false' totalDigits='4' value='0' srceLine='77'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -237,9 +225,7 @@ elementFormDefault="qualified">
      <xs:element name="SearchDuration">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='SEARCH-DURATION' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' srceLine='80'>
-         <cb:value>0x0000000000000000</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='05' cobolName='SEARCH-DURATION' type='ALPHANUMERIC_ITEM' picture='X(8)' usage='DISPLAY' value='0x0000000000000000' srceLine='80'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -251,9 +237,7 @@ elementFormDefault="qualified">
      <xs:element name="TotalItemsRead">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='TOTAL-ITEMS-READ' type='PACKED_DECIMAL_ITEM' picture='9(8)' usage='PACKED-DECIMAL' signed='false' totalDigits='8' srceLine='81'>
-         <cb:value>0</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='05' cobolName='TOTAL-ITEMS-READ' type='PACKED_DECIMAL_ITEM' picture='9(8)' usage='PACKED-DECIMAL' signed='false' totalDigits='8' value='0' srceLine='81'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -266,9 +250,7 @@ elementFormDefault="qualified">
      <xs:element name="ReplyResp">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='REPLY-RESP' type='BINARY_ITEM' picture='S9(8)' usage='BINARY' signed='true' totalDigits='8' srceLine='82'>
-         <cb:value>0</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='05' cobolName='REPLY-RESP' type='BINARY_ITEM' picture='S9(8)' usage='BINARY' signed='true' totalDigits='8' value='0' srceLine='82'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -281,9 +263,7 @@ elementFormDefault="qualified">
      <xs:element name="ReplyResp2">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='REPLY-RESP2' type='BINARY_ITEM' picture='S9(8)' usage='BINARY' signed='true' totalDigits='8' srceLine='83'>
-         <cb:value>0</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='05' cobolName='REPLY-RESP2' type='BINARY_ITEM' picture='S9(8)' usage='BINARY' signed='true' totalDigits='8' value='0' srceLine='83'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -296,9 +276,7 @@ elementFormDefault="qualified">
      <xs:element name="ReplyMessage">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='REPLY-MESSAGE' type='ALPHANUMERIC_ITEM' picture='X(128)' usage='DISPLAY' srceLine='84'>
-         <cb:value></cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='05' cobolName='REPLY-MESSAGE' type='ALPHANUMERIC_ITEM' picture='X(128)' usage='DISPLAY' value='' srceLine='84'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>

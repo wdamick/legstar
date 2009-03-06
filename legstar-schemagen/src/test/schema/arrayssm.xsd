@@ -18,9 +18,7 @@ elementFormDefault="qualified">
      <xs:element name="Filler21">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='FILLER-21' type='ALPHANUMERIC_ITEM' picture='X(2)' usage='DISPLAY' srceLine='21'>
-         <cb:value>TS</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='05' cobolName='FILLER-21' type='ALPHANUMERIC_ITEM' picture='X(2)' usage='DISPLAY' value='TS' srceLine='21'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -49,9 +47,7 @@ elementFormDefault="qualified">
      <xs:element name="Filler24">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='FILLER-24' type='ALPHANUMERIC_ITEM' picture='X(4)' usage='DISPLAY' srceLine='24'>
-         <cb:value>TCEC</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='05' cobolName='FILLER-24' type='ALPHANUMERIC_ITEM' picture='X(4)' usage='DISPLAY' value='TCEC' srceLine='24'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
@@ -80,9 +76,7 @@ elementFormDefault="qualified">
      <xs:element name="Filler27">
        <xs:annotation>
          <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='FILLER-27' type='ALPHANUMERIC_ITEM' picture='X(6)' usage='DISPLAY' srceLine='27'>
-         <cb:value>TC2EC2</cb:value>
-         </cb:cobolElement>
+         <cb:cobolElement levelNumber='05' cobolName='FILLER-27' type='ALPHANUMERIC_ITEM' picture='X(6)' usage='DISPLAY' value='TC2EC2' srceLine='27'/>
          </xs:appinfo>
        </xs:annotation>
        <xs:simpleType>
