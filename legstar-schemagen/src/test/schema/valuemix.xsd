@@ -1,0 +1,241 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+targetNamespace="http://legstar.com/test/coxb/valuemix"
+xmlns="http://legstar.com/test/coxb/valuemix"
+xmlns:xsns="http://legstar.com/test/coxb/valuemix"
+xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
+xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+jaxb:version="2.0"
+jaxb:extensionBindingPrefixes="cb"
+elementFormDefault="qualified">
+ <xs:annotation><xs:appinfo>
+ <jaxb:schemaBindings>
+ <jaxb:package  name="com.legstar.test.coxb.valuemix"/>
+ </jaxb:schemaBindings>
+ </xs:appinfo></xs:annotation>
+ <xs:complexType name="Dfhcommarea">
+    <xs:sequence>
+     <xs:element name="WsZero">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-ZERO' type='ZONED_DECIMAL_ITEM' picture='9(05)' usage='DISPLAY' signed='false' totalDigits='5' value='0' srceLine='8'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedInt">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='99999'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsZeros">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-ZEROS' type='ZONED_DECIMAL_ITEM' picture='9(05)' usage='DISPLAY' signed='false' totalDigits='5' value='0' srceLine='9'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedInt">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='99999'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsZeroes">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-ZEROES' type='ZONED_DECIMAL_ITEM' picture='9(05)' usage='DISPLAY' signed='false' totalDigits='5' value='0' srceLine='10'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedInt">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='99999'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsSpace">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-SPACE' type='ALPHANUMERIC_ITEM' picture='X(05)' usage='DISPLAY' value='' srceLine='11'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='5'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsSpaces">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-SPACES' type='ALPHANUMERIC_ITEM' picture='X(05)' usage='DISPLAY' value='' srceLine='12'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='5'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsHighValue">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-HIGH-VALUE' type='ALPHANUMERIC_ITEM' picture='X(05)' usage='DISPLAY' value='0xFFFFFFFFFF' srceLine='13'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='5'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsHighValues">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-HIGH-VALUES' type='ALPHANUMERIC_ITEM' picture='X(05)' usage='DISPLAY' value='0xFFFFFFFFFF' srceLine='14'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='5'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsLowValue">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-LOW-VALUE' type='ALPHANUMERIC_ITEM' picture='X(05)' usage='DISPLAY' value='0x0000000000' srceLine='15'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='5'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsLowValues">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-LOW-VALUES' type='ALPHANUMERIC_ITEM' picture='X(05)' usage='DISPLAY' value='0x0000000000' srceLine='16'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='5'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsQuote">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-QUOTE' type='ALPHANUMERIC_ITEM' picture='X(05)' usage='DISPLAY' value='&apos;' srceLine='17'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='5'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsQuotes">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-QUOTES' type='ALPHANUMERIC_ITEM' picture='X(05)' usage='DISPLAY' value='&apos;' srceLine='18'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='5'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsNull">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-NULL' type='ALPHANUMERIC_ITEM' picture='X(05)' usage='DISPLAY' value='0x0000000000' srceLine='19'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='5'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsNulls">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-NULLS' type='ALPHANUMERIC_ITEM' picture='X(05)' usage='DISPLAY' value='0x0000000000' srceLine='20'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='5'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsString">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-STRING' type='ALPHANUMERIC_ITEM' picture='X(05)' usage='DISPLAY' value='ABCDE' srceLine='21'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='5'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsNumeric">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-NUMERIC' type='ZONED_DECIMAL_ITEM' picture='S9(05)' usage='DISPLAY' signed='true' totalDigits='5' value='-345' srceLine='22'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:int">
+         <xs:minInclusive value='-99999'/>
+         <xs:maxInclusive value='99999'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsPackedDecimal">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-PACKED-DECIMAL' type='PACKED_DECIMAL_ITEM' picture='S9(15)V99' usage='PACKED-DECIMAL' signed='true' totalDigits='17' fractionDigits='2' value='-245.56' srceLine='23'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:decimal">
+         <xs:totalDigits value='17'/>
+         <xs:fractionDigits value='2'/>
+         <xs:minInclusive value='-999999999999999.99'/>
+         <xs:maxInclusive value='999999999999999.99'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsSingleFloat">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-SINGLE-FLOAT' type='SINGLE_FLOAT_ITEM' usage='COMP-1' value='+0.6E08' srceLine='24'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:float">
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="WsDoubleFloat">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-DOUBLE-FLOAT' type='DOUBLE_FLOAT_ITEM' usage='COMP-2' value='-1.8E-56' srceLine='25'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:double">
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+</xs:schema>

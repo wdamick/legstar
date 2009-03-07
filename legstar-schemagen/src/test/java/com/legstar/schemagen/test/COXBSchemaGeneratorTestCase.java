@@ -281,13 +281,12 @@ public class COXBSchemaGeneratorTestCase extends TestCase {
     public void testValues() {
         try {
             COXBSchemaGenerator gen = new COXBSchemaGenerator();
-            gen.setRootName("rootName");
-            gen.setSourceCobolFilePath(COB_DIR + "/valuesmix.cbl");
+            gen.setSourceCobolFilePath(COB_SAMPLES_DIR + "/VALUEMIX");
             gen.setTargetDir(GEN_XSD_DIR);
-            gen.setTargetXsdFileName("/valuesmix.xsd");
+            gen.setTargetXsdFileName("/valuemix.xsd");
             gen.setNamespace(NAMESPACE);
             gen.execute();
-            String result = getSource(GEN_XSD_DIR, "valuesmix.xsd");
+            String result = getSource(GEN_XSD_DIR, "valuemix.xsd");
             assertTrue(result.contains("value='0'"));
             assertTrue(result.contains("value=''"));
             assertTrue(result.contains("value='0xFFFFFFFFFF'"));
