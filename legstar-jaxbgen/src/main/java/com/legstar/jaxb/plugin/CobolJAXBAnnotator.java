@@ -234,11 +234,10 @@ public class CobolJAXBAnnotator extends Plugin {
      */
     private void setDefaultValue(
             final JCodeModel codeModel, final JFieldVar jf, final Element e) {
-        String value = e.getAttribute(CobolMarkup.VALUE);
-        if (value == null) {
+        if (!e.hasAttribute(CobolMarkup.VALUE)) {
             return;
         }
-        value = value.trim();
+        String value = e.getAttribute(CobolMarkup.VALUE).trim();
         String type = jf.type().binaryName();
         if (type.equals("java.lang.String")) {
             if (value.startsWith("0x")) {
@@ -251,6 +250,7 @@ public class CobolJAXBAnnotator extends Plugin {
             if (value.length() == 0) {
                 return;
             }
+            /* Java does not like leading plus sign */
             if (value.startsWith("+")) {
                 value = value.substring(1);
             }
