@@ -22,8 +22,11 @@ import com.sun.tools.xjc.model.CPluginCustomization;
 import com.sun.tools.xjc.model.CElementInfo;
 import com.sun.tools.xjc.model.CElement;
 import com.sun.tools.xjc.model.CReferencePropertyInfo;
+import com.sun.codemodel.JCodeModel;
+import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JAnnotationUse;
+
 import java.util.List;
 import java.util.Collections;
 import java.util.Locale;
@@ -194,6 +197,8 @@ public class CobolJAXBAnnotator extends Plugin {
                 JAnnotationUse ce = jf.annotate(CobolElement.class);
 
                 mapAnnotations(c, ce);
+                
+                setDefaultValue(model.getCodeModel(), jf, c.element);
 
                 /* HexBinary items are missing a JAXB annotation that
                  * we inject here */
@@ -211,6 +216,60 @@ public class CobolJAXBAnnotator extends Plugin {
         System.out.println("Duration=" + (end - start) + " ms");
 
         return true;
+    }
+    
+    /**
+     * Attempts to set a default value for the java field based on the 
+     * COBOL default value.
+     * <p/>
+     * Will not attempt to initialize arrays or complex types.
+     * <p/>
+     * Strings which COBOL peer defaults to low values or high values are initialized
+     * with an empty string.
+     * <p/>
+     * Leading plus signs are removed from numerics, they cause NumberFormatException.
+     * @param codeModel the code model
+     * @param jf the java field
+     * @param e the XML node holding COBOL annotations
+     */
+    private void setDefaultValue(
+            final JCodeModel codeModel, final JFieldVar jf, final Element e) {
+        String value = e.getAttribute(CobolMarkup.VALUE);
+        if (value == null) {
+            return;
+        }
+        value = value.trim();
+        String type = jf.type().binaryName();
+        if (type.equals("java.lang.String")) {
+            if (value.startsWith("0x")) {
+                jf.init(JExpr.lit(""));
+            } else {
+                jf.init(JExpr.lit(value));
+            }
+        } else {
+            /* Assume a numeric from now on */
+            if (value.length() == 0) {
+                return;
+            }
+            if (value.startsWith("+")) {
+                value = value.substring(1);
+            }
+            if (type.equals("java.math.BigDecimal")) {
+                jf.init(JExpr.direct("new BigDecimal(\"" + value + "\")"));
+            } else if (type.equals("int")) {
+                jf.init(JExpr.lit(Integer.parseInt(value)));
+            } else if (type.equals("long")) {
+                jf.init(JExpr.lit(Long.parseLong(value)));
+            } else if (type.equals("float")) {
+                jf.init(JExpr.lit(Float.parseFloat(value)));
+            } else if (type.equals("double")) {
+                jf.init(JExpr.lit(Double.parseDouble(value)));
+            }
+        }
+        
+        
+        
+        
     }
 
     /**
