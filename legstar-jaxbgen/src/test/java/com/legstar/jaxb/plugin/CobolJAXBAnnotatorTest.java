@@ -198,6 +198,32 @@ public class CobolJAXBAnnotatorTest extends TestCase {
     }
 
     /**
+     * Test default value case.
+     */
+    public void testDefaultValues() {
+        genSource("valuemix");
+        String srce = getSource("valuemix", "Dfhcommarea");
+        assertTrue(srce.contains("protected long wsZero = 0L;"));
+        assertTrue(srce.contains("protected long wsZeros = 0L;"));
+        assertTrue(srce.contains("protected long wsZeroes = 0L;"));
+        assertTrue(srce.contains("protected String wsSpace = \"\";"));
+        assertTrue(srce.contains("protected String wsSpaces = \"\";"));
+        assertTrue(srce.contains("protected String wsHighValue = \"\";"));
+        assertTrue(srce.contains("protected String wsHighValues = \"\";"));
+        assertTrue(srce.contains("protected String wsLowValue = \"\";"));
+        assertTrue(srce.contains("protected String wsLowValues = \"\";"));
+        assertTrue(srce.contains("protected String wsQuote = \"\\'\";"));
+        assertTrue(srce.contains("protected String wsQuotes = \"\\'\";"));
+        assertTrue(srce.contains("protected String wsNull = \"\";"));
+        assertTrue(srce.contains("protected String wsNulls = \"\";"));
+        assertTrue(srce.contains("protected String wsString = \"ABCDE\";"));
+        assertTrue(srce.contains("protected int wsNumeric = -345;"));
+        assertTrue(srce.contains("protected BigDecimal wsPackedDecimal = (new BigDecimal(\"-245.56\"));"));
+        assertTrue(srce.contains("protected float wsSingleFloat = 6.0E7F;"));
+        assertTrue(srce.contains("protected double wsDoubleFloat = -1.8E-56D;"));
+    }
+
+    /**
      * Generates JAXB classes with Cobol annotations.
      * @param schemaName the schema used to generate
      */
