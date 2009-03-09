@@ -214,7 +214,7 @@ public final class LsfilealCases extends TestCase {
         assertEquals(0, replyData.getReplyType());
         assertEquals(null, replyData.getReplyErrorHeader());
         assertEquals("00:00:00", replyData.getReplySuccessHeader().getSearchDuration());
-        assertEquals(45, replyData.getReplySuccessHeader().getTotalItemsRead());
+        assertEquals(43, replyData.getReplySuccessHeader().getTotalItemsRead());
         assertEquals(5, replyData.getFiller65().getReplyItemscount());
 
         assertEquals(100, replyData.getFiller65().getReplyItem().get(0).getReplyNumber());
