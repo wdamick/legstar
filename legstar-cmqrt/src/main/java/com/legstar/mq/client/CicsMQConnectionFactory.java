@@ -17,6 +17,7 @@ import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.ConnectionFactory;
+import com.legstar.mq.client.CicsMQEndpoint.HostMQBridgeType;
 
 /**
  * A concrete connection factory for CICS MQ connections.
@@ -60,16 +61,20 @@ public class CicsMQConnectionFactory  implements ConnectionFactory {
             final String connectionID,
             final LegStarAddress address) throws ConnectionException {
 
-        CicsMQ connection = new CicsMQ(
-                connectionID,
-                createEndPoint(address, mEndpointConfig),
-                mEndpointConfig.getInt(
-                        CONNECT_TIMEOUT_CFG, DEFAULT_CONNECT_TIMEOUT_MSEC),
-                        mEndpointConfig.getInt(
-                                RECEIVE_TIMEOUT_CFG, DEFAULT_READ_TIMEOUT_MSEC));
-
-
-        return connection;
+        CicsMQEndpoint cixsMQEndpoint = createEndPoint(address, mEndpointConfig);
+        if (cixsMQEndpoint.getHostMQBridgeType() == HostMQBridgeType.LSMSG) {
+            CicsMQLsmsg connection = new CicsMQLsmsg(
+                    connectionID,
+                    cixsMQEndpoint,
+                    getEndpointConfig().getInt(
+                            CONNECT_TIMEOUT_CFG, DEFAULT_CONNECT_TIMEOUT_MSEC),
+                            mEndpointConfig.getInt(
+                                    RECEIVE_TIMEOUT_CFG, DEFAULT_READ_TIMEOUT_MSEC));
+    
+    
+            return connection;
+        }
+        throw new ConnectionException("Unknown mainframe MQ bridge type");
     }
 
     /**
@@ -143,6 +148,13 @@ public class CicsMQConnectionFactory  implements ConnectionFactory {
 
 
         return cicsMQEndpoint;
+    }
+
+    /**
+     * @return the Configuration for an endpoint
+     */
+    public HierarchicalConfiguration getEndpointConfig() {
+        return mEndpointConfig;
     }
 
 

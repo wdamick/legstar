@@ -10,8 +10,6 @@
  ******************************************************************************/
 package com.legstar.mq.client;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Hashtable;
 
 import org.apache.commons.logging.Log;
@@ -24,10 +22,8 @@ import com.ibm.mq.MQMessage;
 import com.ibm.mq.MQPutMessageOptions;
 import com.ibm.mq.MQQueue;
 import com.ibm.mq.MQQueueManager;
-import com.legstar.codec.HostCodec;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.HeaderPartException;
-import com.legstar.messaging.HostMessageFormatException;
 import com.legstar.messaging.HostReceiveException;
 import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.LegStarMessage;
@@ -35,12 +31,12 @@ import com.legstar.messaging.LegStarRequest;
 import com.legstar.messaging.RequestException;
 
 /**
- * Client side CICS MQ connectivity. This class provides the core
- * methods to connect to CICS over MQ, send requests, receive 
+ * Client side MQ connectivity. This class provides the common
+ * methods to connect to a mainframe over MQ, send requests, receive 
  * results, etc...
  *
  */
-public class CicsMQ implements LegStarConnection  {
+public abstract class AbstractCicsMQ implements LegStarConnection  {
 
     /** An identifier for this connection. */
     private String mConnectionID;
@@ -63,14 +59,8 @@ public class CicsMQ implements LegStarConnection  {
     /** Maximum time (milliseconds) to wait for host reply. */
     private int mReceiveTimeout;
 
-    /** This host character set is used for the protocol elements
-     * which are checked by the LegStar host programs. Because these
-     * target host programs are compiled with a fixed charset, it
-     * might be different from the actual user data character set. */
-    private String mHostProtocolCharset;
-
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(CicsMQ.class);
+    private static final Log LOG = LogFactory.getLog(AbstractCicsMQ.class);
 
     /**
      * A CicsMQ instance exists for a target MQ Manager, a given MQ Request
@@ -85,7 +75,7 @@ public class CicsMQ implements LegStarConnection  {
      * @param receiveTimeout Maximum time (milliseconds) to wait for host reply
      * @throws CicsMQConnectionException if instanciation fails
      */
-    public CicsMQ(
+    public AbstractCicsMQ(
             final String connectionID,
             final CicsMQEndpoint cicsMQEndpoint,
             final int connectionTimeout,
@@ -94,7 +84,6 @@ public class CicsMQ implements LegStarConnection  {
         mConnectTimeout = connectionTimeout;
         mReceiveTimeout = receiveTimeout;
         setCicsMQEndpoint(cicsMQEndpoint);
-        mHostProtocolCharset = HostCodec.HEADER_CODE_PAGE;
     }
 
     /**
@@ -299,6 +288,11 @@ public class CicsMQ implements LegStarConnection  {
         }
 
         MQMessage mqMessage = createMQRequestMessage(request);
+        /* Reply to queue name is where we expect the reply. We expect it to
+         * be managed by the same mq manager as the request queue. */
+        mqMessage.replyToQueueName = getCicsMQEndpoint().getHostMQResponseQueue();
+        mqMessage.replyToQueueManagerName = getCicsMQEndpoint().getHostMQManager();
+
         try {
             MQPutMessageOptions pmo = new MQPutMessageOptions();
             pmo.options = MQC.MQPMO_NO_SYNCPOINT
@@ -339,26 +333,20 @@ public class CicsMQ implements LegStarConnection  {
 
         MQMessage mqMessage = new MQMessage();
         try {
-            mqMessage.messageId = MQC.MQMI_NONE;
             /* The reply is correlated to the request by means of the
              * MQ message ID that was generated when we sent the
              * request. That ID was attached to the request object. */
             mqMessage.correlationId = request.getAttachment();
             MQGetMessageOptions gmo = new MQGetMessageOptions();
+            gmo.matchOptions = MQC.MQMO_MATCH_CORREL_ID;
             gmo.options =  MQC.MQPMO_NO_SYNCPOINT
             + MQC.MQGMO_WAIT
             + MQC.MQPMO_FAIL_IF_QUIESCING;
             gmo.waitInterval = mReceiveTimeout;
             mResponseQueue.get(mqMessage, gmo);
-            byte[] hostBytes = new byte[mqMessage.getDataLength()];
-            mqMessage.readFully(hostBytes);
-            request.setResponseMessage(createResponseMessage(hostBytes));
+            request.setResponseMessage(createResponseMessage(mqMessage));
 
         } catch (MQException e) {
-            throw new RequestException(e);
-        } catch (UnsupportedEncodingException e) {
-            throw new RequestException(e);
-        } catch (IOException e) {
             throw new RequestException(e);
         } catch (HostReceiveException e) {
             throw new RequestException(e);
@@ -378,71 +366,20 @@ public class CicsMQ implements LegStarConnection  {
      * @return the MQ message
      * @throws RequestException if formatting of mq message fails
      */
-    private MQMessage createMQRequestMessage(
-            final LegStarRequest request) throws RequestException {
-        MQMessage mqMessage = new MQMessage();
-
-        /* Reply to queue name is where we expect the reply. We expect it to
-         * be managed by the same mq manager as the request queue. */
-        mqMessage.replyToQueueName = mCicsMQEndpoint.getHostMQResponseQueue();
-        mqMessage.replyToQueueManagerName = mCicsMQEndpoint.getHostMQManager();
-
-        try {
-            /* Use the request ID to identify the mq message and also to be 
-             * used as a correlation ID */
-            mqMessage.messageId =
-                request.getID().getBytes(mHostProtocolCharset);
-            mqMessage.correlationId = mqMessage.messageId;
-
-            /* Use the 5 first characters of the application identity data to
-             * specify if host traces are requested */
-            mqMessage.applicationIdData = Boolean.toString(
-                    request.getAddress().isHostTraceMode());
-            mqMessage.userId = mCicsMQEndpoint.getHostUserID();
-
-            /* Finally create the mq message content */
-            mqMessage.write(request.getRequestMessage().toByteArray());
-
-        } catch (HostMessageFormatException e) {
-            throw new RequestException(e);
-        } catch (IOException e) {
-            throw new RequestException(e);
-        }
-
-        return mqMessage;
-    }
+    public abstract MQMessage createMQRequestMessage(
+            final LegStarRequest request) throws RequestException;
 
     /**
      * Creates a response message from the MQ reply back.
      * The MQ payload should contain serailization of a header part 
      * followed by any number of data parts.
-     * @param hostBytes the MQ response data
+     * @param mqMessage the MQ response message
      * @return a response message
      * @throws HostReceiveException if response cannot be mapped to a message
      */
-    private LegStarMessage createResponseMessage(
-            final byte[] hostBytes) throws HostReceiveException {
-
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("enter createResponseMessage(hostBytes)");
-        }
-
-        LegStarMessage reponseMessage;
-        try {
-            reponseMessage = new LegStarMessage();
-            reponseMessage.fromByteArray(hostBytes, 0);
-        } catch (HeaderPartException e) {
-            throw new HostReceiveException(e);
-        } catch (HostMessageFormatException e) {
-            throw new HostReceiveException(e);
-        }
-
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("response message received");
-        }
-        return reponseMessage;
-    }
-
+    public abstract LegStarMessage createResponseMessage(
+            final MQMessage mqMessage) throws HostReceiveException;
+    
     /** No-op for HTTP transport.
      * {@inheritDoc} */
     public void commitUOW() throws RequestException {

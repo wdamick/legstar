@@ -14,6 +14,7 @@ import java.rmi.server.UID;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -59,18 +60,8 @@ public abstract class AbstractTester extends TestCase {
     /** Address of target host. */
     private LegStarAddress mAddress;
 
-    /** A socket connection to a mainframe. */
-    private CicsMQ mConnection;
-    
     /** Logger. */
     private static final Log LOG = LogFactory.getLog(AbstractTester.class);
-   /**
-     * @return the host connection
-     */
-    public CicsMQ getConnection() {
-        return mConnection;
-    }
-
     /**
      * @return the Address of target host
      */
@@ -91,22 +82,14 @@ public abstract class AbstractTester extends TestCase {
      * @throws Exception if setup fails
      */
     public void setUp(final String endpointName) throws Exception {
-        mEndpoint = new CicsMQEndpoint(
-                Config.loadEndpointConfiguration(CONFIG_FILE, endpointName));
+        HierarchicalConfiguration endpointConfig =
+            Config.loadEndpointConfiguration(CONFIG_FILE, endpointName);
+        mEndpoint = new CicsMQEndpoint(endpointConfig);
         if (LOG.isDebugEnabled()) {
             mEndpoint.setHostTraceMode(true);
         }
 
-        mAddress = new LegStarAddress(endpointName);
-        mConnection = new CicsMQ(getName(), getEndpoint(), DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
-        mConnection.setConnectTimeout(2000);
-        mConnection.connect(HOST_USERID);
-    }
-
-    /** {@inheritDoc} */
-    public void tearDown() throws Exception {
-        super.tearDown();
-        mConnection.close();
+        mAddress = new LegStarAddress(endpointConfig);
     }
 
     /**
@@ -210,4 +193,20 @@ public abstract class AbstractTester extends TestCase {
         return request;
     }
 
+    /**
+     * A request with a large payload.
+     * @return a request ready for execution
+     * @throws RequestException if request cannot be built
+     */
+    public LegStarRequest createLargeRequestB() throws RequestException {
+        HashMap < String, Object > map = new HashMap < String, Object >();
+        map.put(Constants.CICS_PROGRAM_NAME_KEY, "T1VOLUMB");
+        map.put(Constants.CICS_LENGTH_KEY, "32759");
+        map.put(Constants.CICS_DATALEN_KEY, "32759");
+
+        LegStarRequest request = getRequest(map);
+        request.getRequestMessage().addDataPart(
+                new CommareaPart(T1volumeCases.getHostBytes(32759)));
+        return request;
+    }
 }

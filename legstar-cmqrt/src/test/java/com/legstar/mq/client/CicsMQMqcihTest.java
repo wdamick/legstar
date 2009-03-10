@@ -22,11 +22,26 @@ import com.legstar.test.coxb.T1volumeCases;
  * This is also used as the test bench for the mainframe WMQ programs.
  *
  */
-public class CicsMQTest extends AbstractTester {
+public class CicsMQMqcihTest extends AbstractTester {
 
+    /** A socket connection to a mainframe. */
+    private CicsMQMqcih mConnection;
+    
     /** {@inheritDoc} */
     public void setUp() throws Exception {
-        super.setUp("CICSTS23");
+        super.setUp("CICSTS23-MQCIH");
+        mConnection = new CicsMQMqcih(
+                getName(), getEndpoint(),
+                DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
+        mConnection.setConnectTimeout(2000);
+        mConnection.connect(HOST_USERID);
+
+    }
+
+    /** {@inheritDoc} */
+    public void tearDown() throws Exception {
+        super.tearDown();
+        mConnection.close();
     }
 
     /**
@@ -34,7 +49,7 @@ public class CicsMQTest extends AbstractTester {
      */
     public void testInstantiation() {
         try {
-            CicsMQ cicsMQ = new CicsMQ("testInstantiation", getEndpoint(),
+            CicsMQMqcih cicsMQ = new CicsMQMqcih("testInstantiation", getEndpoint(),
                     DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
             assertFalse(cicsMQ == null);
         } catch (CicsMQConnectionException e) {
@@ -47,7 +62,7 @@ public class CicsMQTest extends AbstractTester {
      */
     public void testConnectClose() {
         try {
-            CicsMQ cicsMQ = new CicsMQ("testInstantiation", getEndpoint(),
+            CicsMQMqcih cicsMQ = new CicsMQMqcih("testInstantiation", getEndpoint(),
                     DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
             cicsMQ.connect("tiramisu");
             cicsMQ.close();
@@ -64,7 +79,7 @@ public class CicsMQTest extends AbstractTester {
     public void testConnectWrongHost() {
         try {
             getEndpoint().setHostIPAddress(" ");
-            CicsMQ cicsMQ = new CicsMQ("testInstantiation", getEndpoint(),
+            CicsMQMqcih cicsMQ = new CicsMQMqcih("testInstantiation", getEndpoint(),
                     DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
             cicsMQ.connect("tiramisu");
             fail("testConnectFailure");
@@ -79,7 +94,7 @@ public class CicsMQTest extends AbstractTester {
     public void testConnectWrongPort() {
         try {
             getEndpoint().setHostIPPort(1517);
-            CicsMQ cicsMQ = new CicsMQ("testInstantiation", getEndpoint(),
+            CicsMQMqcih cicsMQ = new CicsMQMqcih("testInstantiation", getEndpoint(),
                     DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
             cicsMQ.connect("tiramisu");
             fail("testConnectFailure");
@@ -93,7 +108,7 @@ public class CicsMQTest extends AbstractTester {
      */
     public void testConnectReuse() {
         try {
-            CicsMQ cicsMQ = new CicsMQ("testInstantiation", getEndpoint(),
+            CicsMQMqcih cicsMQ = new CicsMQMqcih("testInstantiation", getEndpoint(),
                     DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
             cicsMQ.connectReuse("tiramisu");
             /* We should have a valid MQ Manager */
@@ -137,7 +152,7 @@ public class CicsMQTest extends AbstractTester {
             getConnection().recvResponse(request);
             fail("testSendRequest failed ");
         } catch (RequestException e) {
-            assertTrue(e.getMessage().contains("CICS command=LINK COMMAREA failed, resp=PGMIDERR"));
+            assertTrue(e.getMessage().contains("CSQC751E Unable to LINK to program TARATOZ0, EIBRESP=27 EIBRESP2=3"));
         }
     }
 
@@ -162,7 +177,7 @@ public class CicsMQTest extends AbstractTester {
      */
     public void testLargeRequest() {
         try {
-            LegStarRequest request = createLargeRequest();
+            LegStarRequest request = createLargeRequestB();
             getConnection().sendRequest(request);
             getConnection().recvResponse(request);
             T1volumeCases.checkByteArray(request.getResponseMessage().getDataParts().get(0).getContent());
@@ -246,6 +261,13 @@ public class CicsMQTest extends AbstractTester {
         } catch (RequestException e) {
             fail(e.getMessage());
         }
+    }
+
+    /**
+     * @return the host connection
+     */
+    public AbstractCicsMQ getConnection() {
+        return mConnection;
     }
 
 }
