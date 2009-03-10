@@ -68,7 +68,9 @@ import com.legstar.coxb.CobolMarkup;
  * This Ant Task maps XML schema elements with Cobol data types. The result is
  * a new XML Schema with special annotations that can be used to map XML to
  * legacy data.
- *
+ *<p/>
+ * TODO Examine processing of Default and Fixed attributes which are not handled
+ * at the moment.
  */
 public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 
