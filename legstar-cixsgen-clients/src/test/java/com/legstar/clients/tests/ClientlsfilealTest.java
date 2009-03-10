@@ -47,7 +47,7 @@ public class ClientlsfilealTest extends TestCase {
 		
 		assertEquals(0, replyData.getReplyType());
 		assertEquals(null, replyData.getReplyErrorHeader());
-		assertEquals(45,replyData.getReplySuccessHeader().getTotalItemsRead());
+		assertEquals(43, replyData.getReplySuccessHeader().getTotalItemsRead());
 		assertTrue(replyData.getReplySuccessHeader().getSearchDuration().contains("00:00:"));
 		assertEquals(5, replyData.getFiller65().getReplyItemscount());
 		ReplyItem replyItem = replyData.getFiller65().getReplyItem().get(0);
