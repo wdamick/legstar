@@ -20,7 +20,7 @@ import com.legstar.messaging.LegStarAddress;
  * maps to a mainframe program.
  *
  */
-public class AbstractProgramInvoker {
+public abstract class AbstractProgramInvoker {
 
     /** The operation name.*/
     private String mOperationName;
