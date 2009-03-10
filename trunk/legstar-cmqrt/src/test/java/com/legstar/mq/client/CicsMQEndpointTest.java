@@ -27,14 +27,17 @@ public class CicsMQEndpointTest extends TestCase {
     private static final String CONFIG_FILE = "config.xml";
 
     /** An endpoint defined in the configuration file.*/
-    private static final String ENDPOINT_NAME = "CICSTS23";
+    private static final String LSMSG_ENDPOINT_NAME = "CICSTS23-LSMSG";
 
+    /** An endpoint defined in the configuration file.*/
+    private static final String MQCIH_ENDPOINT_NAME = "CICSTS23-MQCIH";
     /**
      * Instantiate from full configuration.
      */
     public void testInstantiation() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(CONFIG_FILE, ENDPOINT_NAME);
+            HierarchicalConfiguration endpointConfig =
+                Config.loadEndpointConfiguration(CONFIG_FILE, LSMSG_ENDPOINT_NAME);
             CicsMQEndpoint cicsMQEndpoint = new CicsMQEndpoint(endpointConfig);
             assertEquals("IBM01140", cicsMQEndpoint.getHostCharset());
             assertEquals("mainframe", cicsMQEndpoint.getHostIPAddress());
@@ -45,9 +48,10 @@ public class CicsMQEndpointTest extends TestCase {
             assertEquals("CICSA.REQUEST.QUEUE", cicsMQEndpoint.getHostMQRequestQueue());
             assertEquals("CICSA.REPLY.QUEUE", cicsMQEndpoint.getHostMQResponseQueue());
             assertEquals("P390", cicsMQEndpoint.getHostUserID());
+            assertEquals("LSMSG", cicsMQEndpoint.getHostMQBridgeType().toString());
             System.out.println(cicsMQEndpoint.getReport());
         } catch (ConfigurationException e) {
-            fail("testInstantiation failed " + e);
+            fail(e.getMessage());
         }
 
     }
@@ -57,15 +61,41 @@ public class CicsMQEndpointTest extends TestCase {
      */
     public void testInstantiation2() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration("config1.xml", ENDPOINT_NAME);
+            HierarchicalConfiguration endpointConfig =
+                Config.loadEndpointConfiguration("config1.xml", LSMSG_ENDPOINT_NAME);
             CicsMQEndpoint cicsMQEndpoint = new CicsMQEndpoint(endpointConfig);
             assertEquals(1414, cicsMQEndpoint.getHostIPPort());
             assertEquals("CSQ1", cicsMQEndpoint.getHostMQManager());
+            assertEquals("LSMSG", cicsMQEndpoint.getHostMQBridgeType().toString());
             System.out.println(cicsMQEndpoint.getReport());
         } catch (ConfigurationException e) {
-            fail("testInstanciation failed " + e);
+            fail(e.getMessage());
         }
 
     }
 
+    /**
+     * Instantiate with IBM MQCIH.
+     */
+    public void testInstantiationMqcih() {
+        try {
+            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(
+                    CONFIG_FILE, MQCIH_ENDPOINT_NAME);
+            CicsMQEndpoint cicsMQEndpoint = new CicsMQEndpoint(endpointConfig);
+            assertEquals("IBM01140", cicsMQEndpoint.getHostCharset());
+            assertEquals("mainframe", cicsMQEndpoint.getHostIPAddress());
+            assertEquals(1414, cicsMQEndpoint.getHostIPPort());
+            assertEquals("STREAM2", cicsMQEndpoint.getHostPassword());
+            assertEquals("CSQ1", cicsMQEndpoint.getHostMQManager());
+            assertEquals("CLIENT.TO.CSQ1", cicsMQEndpoint.getHostMQChannel());
+            assertEquals("SYSTEM.CICS.BRIDGE.QUEUE", cicsMQEndpoint.getHostMQRequestQueue());
+            assertEquals("CICSA.REPLY.QUEUE", cicsMQEndpoint.getHostMQResponseQueue());
+            assertEquals("P390", cicsMQEndpoint.getHostUserID());
+            assertEquals("MQCIH", cicsMQEndpoint.getHostMQBridgeType().toString());
+            System.out.println(cicsMQEndpoint.getReport());
+        } catch (ConfigurationException e) {
+            fail(e.getMessage());
+        }
+
+    }
 }

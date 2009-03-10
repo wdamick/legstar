@@ -47,6 +47,9 @@ public class CicsMQEndpoint {
 
     /** Host trace mode. */
     private boolean mHostTraceMode;
+    
+    /** Host MQ Bridge implementation. */
+    private HostMQBridgeType mHostMQBridgeType = HostMQBridgeType.LSMSG;
 
     /** Default MQ Manager. */
     private static final String DEFAULT_MQ_MANAGER = "CSQ1";
@@ -84,6 +87,8 @@ public class CicsMQEndpoint {
     /** Configuration XPath location for MQ Reply queue. */
     private static final String HOST_MQ_RESPONSE_Q_CFG = "hostMQResponseQueue";
 
+    /** Configuration XPath location for host MQ bridge type. */
+    private static final String HOST_MQ_BRIDGE_TYPE = "hostMQBridgeType";
 
     /**
      * No-argument constructor.
@@ -110,6 +115,9 @@ public class CicsMQEndpoint {
         mHostMQRequestQueue = config.getString(HOST_MQ_REQUEST_Q_CFG);
         mHostMQResponseQueue = config.getString(HOST_MQ_RESPONSE_Q_CFG);
         mHostTraceMode = config.getBoolean(HOST_TRACE_CFG, false);
+        mHostMQBridgeType = HostMQBridgeType.valueOf(
+                config.getString(HOST_MQ_BRIDGE_TYPE,
+                        HostMQBridgeType.LSMSG.toString()));
     }
 
     /**
@@ -126,6 +134,7 @@ public class CicsMQEndpoint {
             + "  " + HOST_MQ_RESPONSE_Q_CFG + "=" + mHostMQResponseQueue + ","
             + "  " + HOST_CHARSET_CFG + "=" + mHostCharset + ","
             + "  " + HOST_USERID_CFG + "=" + mHostUserID + ","
+            + "  " + HOST_MQ_BRIDGE_TYPE + "=" + mHostMQBridgeType + ","
             + "  " + HOST_TRACE_CFG + "=" + mHostTraceMode;
         return report;
     }
@@ -270,4 +279,28 @@ public class CicsMQEndpoint {
         mHostMQRequestQueue = hostMQRequestQueue;
     }
 
+    /**
+     * Types of mainframe MQ Bridge implementations supported.
+     */
+    public enum HostMQBridgeType {
+        /** Uses LegStar messaging (expects mainframe to process LegStar messages). */
+        LSMSG, 
+        /** Uses IBM CICS MQ Bridge. */
+        MQCIH       
+
+    }
+
+    /**
+     * @return the Host MQ Bridge implementation
+     */
+    public HostMQBridgeType getHostMQBridgeType() {
+        return mHostMQBridgeType;
+    }
+
+    /**
+     * @param hostMQBridgeType the Host MQ Bridge implementation to set
+     */
+    public void setHostMQBridgeType(final HostMQBridgeType hostMQBridgeType) {
+        mHostMQBridgeType = hostMQBridgeType;
+    }
 }
