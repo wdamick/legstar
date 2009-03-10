@@ -88,12 +88,27 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer 
      */
     @SuppressWarnings("unchecked")
     public < T > T  transform(final byte[] hostData, final String hostCharset) throws HostTransformException {
+        return (T) transform(hostData, 0, hostCharset);
+    }
+    
+    /**
+     * Transforms host data to java data object with a specific host character set.
+     * @param <T> the bound object type
+     * @param hostData a byte array containing host data
+     * @param offset index of first byte to process in hostData 
+     * @param hostCharset the host character set
+     * @return a Java value object
+     * @throws HostTransformException if transformation fails
+     */
+    @SuppressWarnings("unchecked")
+    public < T > T  transform(
+            final byte[] hostData, final int offset, final String hostCharset) throws HostTransformException {
         if (hostCharset != null && hostCharset.length() > 0) {
             getCobolConverters().getCobolContext().setHostCharsetName(hostCharset);
         }
-        return (T) transform(hostData);
+        return (T) transform(hostData, offset);
     }
-    
+
     /**
      * Transforms host data to java data object.
      * @param <T> the bound object type
@@ -103,6 +118,19 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer 
      */
     @SuppressWarnings("unchecked")
     public < T > T transform(final byte[] hostData) throws HostTransformException {
+        return (T) transform(hostData, 0);
+    }
+
+    /**
+     * Transforms host data to java data object.
+     * @param <T> the bound object type
+     * @param hostData a byte array containing host data
+     * @param offset index of first byte to process in hostData 
+     * @return a Java value object
+     * @throws HostTransformException if transformation fails
+     */
+    @SuppressWarnings("unchecked")
+    public < T > T transform(final byte[] hostData, final int offset) throws HostTransformException {
 
         long start = System.currentTimeMillis();
         if (LOG.isDebugEnabled()) {
@@ -112,7 +140,7 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer 
         try {
             /* Reuse binding if possible get a new one otherwise */
             CobolElementVisitor unmarshaler = getCobolBindingVisitorsFactory().createUnmarshalVisitor(
-                    hostData, 0, getCobolConverters());
+                    hostData, offset, getCobolConverters());
 
             /* Request a binding from concrete class */
             ICobolComplexBinding binding = getCachedBinding();
