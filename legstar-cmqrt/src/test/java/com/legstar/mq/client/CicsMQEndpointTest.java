@@ -88,8 +88,8 @@ public class CicsMQEndpointTest extends TestCase {
             assertEquals("STREAM2", cicsMQEndpoint.getHostPassword());
             assertEquals("CSQ1", cicsMQEndpoint.getHostMQManager());
             assertEquals("CLIENT.TO.CSQ1", cicsMQEndpoint.getHostMQChannel());
-            assertEquals("SYSTEM.CICS.BRIDGE.QUEUE", cicsMQEndpoint.getHostMQRequestQueue());
-            assertEquals("CICSA.REPLY.QUEUE", cicsMQEndpoint.getHostMQResponseQueue());
+            assertEquals("CICS01.BRIDGE.REQUEST.QUEUE", cicsMQEndpoint.getHostMQRequestQueue());
+            assertEquals("CICS01.BRIDGE.REPLY.QUEUE", cicsMQEndpoint.getHostMQResponseQueue());
             assertEquals("P390", cicsMQEndpoint.getHostUserID());
             assertEquals("MQCIH", cicsMQEndpoint.getHostMQBridgeType().toString());
             System.out.println(cicsMQEndpoint.getReport());

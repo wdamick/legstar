@@ -57,10 +57,10 @@
             <hostMQChannel>CLIENT.TO.CSQ1</hostMQChannel>
             
             <!--  An MQ queue to receive execution requests.  -->
-            <hostMQRequestQueue>CICSA.REQUEST.QUEUE</hostMQRequestQueue>
+            <hostMQRequestQueue>CICS01.BRIDGE.REQUEST.QUEUE</hostMQRequestQueue>
             
             <!--  An MQ queue to receive execution replies.  -->
-            <hostMQResponseQueue>CICSA.REPLY.QUEUE</hostMQResponseQueue>
+            <hostMQResponseQueue>CICS01.BRIDGE.REPLY.QUEUE</hostMQResponseQueue>
             
             <!--  Specify MQCIH in order to use CICS MQ Bridge, LSMSG otherwise.  -->
             <hostMQBridgeType>MQCIH</hostMQBridgeType>
