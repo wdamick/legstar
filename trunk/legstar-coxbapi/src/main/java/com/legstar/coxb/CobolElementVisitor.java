@@ -11,6 +11,9 @@
 package com.legstar.coxb;
 import java.util.Hashtable;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.legstar.coxb.convert.ICobolConverters;
 import com.legstar.coxb.host.HostException;
 
@@ -34,6 +37,9 @@ public abstract class CobolElementVisitor {
 
     /** Children elements marked as custom variables. */
     private Hashtable < String, Object > mVariablesMap;
+
+    /** Logger. */
+    private static final Log LOG = LogFactory.getLog(CobolElementVisitor.class);
 
     /** No-arg constructor.
      */
@@ -289,4 +295,28 @@ public abstract class CobolElementVisitor {
 
     }
 
+    /**
+     * If existence depends on a a counter, check counter value first. If the
+     * associated counter is zero, then the object does not exist (should not
+     * be visited as it has no bytes in the host payload or no java value object).
+     * @param ce the binding object
+     * @return true if object exists (has associated bytes in the incoming host payload or
+     *  a non-null outbound java object value).
+     * @throws HostException if existence test fails
+     */
+    public boolean exists(final ICobolBinding ce) throws HostException {
+        /*  */
+        if (ce.getDependingOn() != null && ce.getDependingOn().length() > 0) {
+            if (ce.getParentBinding().getCounterValue(ce.getDependingOn()) == 0) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Visiting aborted for binding "
+                            + ce.getBindingName() + ", it depends on "
+                            + ce.getDependingOn() + " which is zero");
+                }
+                return false;
+            }
+        }
+        return true;
+
+    }
 }

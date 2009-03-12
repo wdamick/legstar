@@ -71,6 +71,11 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
                     + ce.getBindingName());
         }
 
+        /* Object might be optional. Check if it should be visited. */
+        if (!exists(ce)) {
+            return;
+        }
+
         /* Ask complex binding to synchronize its children with the jaxb
          * bound object. */
         ce.setChildrenValues();
@@ -183,7 +188,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
                     + ce.getBindingName());
         }
         /* Visit each item of the array in turn */
-        for (int i = 0; i < ce.getObjectList().size(); i++) {
+        for (int i = 0; i < ce.getCurrentOccurs(); i++) {
             ce.setItemValue(i);
             ICobolBinding itemDesc = ce.getComplexItemBinding();
             itemDesc.accept(this);
@@ -198,6 +203,10 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
     @Override
     public final void visit(final ICobolStringBinding ce)
     throws HostException {
+        /* Object might be optional. Check if it should be visited. */
+        if (!exists(ce)) {
+            return;
+        }
         setOffset(getCobolConverters().
                 getCobolStringConverter().
                 toHost(ce, getHostBytes(), getOffset()));
@@ -219,6 +228,10 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
     @Override
     public final void visit(final ICobolNationalBinding ce)
     throws HostException {
+        /* Object might be optional. Check if it should be visited. */
+        if (!exists(ce)) {
+            return;
+        }
         setOffset(getCobolConverters().
                 getCobolNationalConverter().
                 toHost(ce, getHostBytes(), getOffset()));
@@ -240,6 +253,10 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
     @Override
     public final void visit(final ICobolDbcsBinding ce)
     throws HostException {
+        /* Object might be optional. Check if it should be visited. */
+        if (!exists(ce)) {
+            return;
+        }
         setOffset(getCobolConverters().
                 getCobolDbcsConverter().
                 toHost(ce, getHostBytes(), getOffset()));
@@ -261,6 +278,10 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
     @Override
     public final void visit(final ICobolZonedDecimalBinding ce)
     throws HostException {
+        /* Object might be optional. Check if it should be visited. */
+        if (!exists(ce)) {
+            return;
+        }
         setOffset(getCobolConverters().
                 getCobolZonedDecimalConverter().
                 toHost(ce, getHostBytes(), getOffset()));
@@ -283,6 +304,10 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
     @Override
     public final void visit(final ICobolPackedDecimalBinding ce)
     throws HostException {
+        /* Object might be optional. Check if it should be visited. */
+        if (!exists(ce)) {
+            return;
+        }
         setOffset(getCobolConverters().
                 getCobolPackedDecimalConverter().
                 toHost(ce, getHostBytes(), getOffset()));
@@ -305,6 +330,10 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
     @Override
     public final void visit(final ICobolBinaryBinding ce)
     throws HostException {
+        /* Object might be optional. Check if it should be visited. */
+        if (!exists(ce)) {
+            return;
+        }
         setOffset(getCobolConverters().
                 getCobolBinaryConverter().
                 toHost(ce, getHostBytes(), getOffset()));
@@ -327,6 +356,10 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
     @Override
     public final void visit(final ICobolFloatBinding ce)
     throws HostException {
+        /* Object might be optional. Check if it should be visited. */
+        if (!exists(ce)) {
+            return;
+        }
         setOffset(getCobolConverters().
                 getCobolFloatConverter().
                 toHost(ce, getHostBytes(), getOffset()));
@@ -349,7 +382,10 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
     @Override
     public final void visit(final ICobolDoubleBinding ce)
     throws HostException {
-
+        /* Object might be optional. Check if it should be visited. */
+        if (!exists(ce)) {
+            return;
+        }
         setOffset(getCobolConverters().
                 getCobolDoubleConverter().
                 toHost(ce, getHostBytes(), getOffset()));
@@ -370,6 +406,10 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
     @Override
     public final void visit(final ICobolOctetStreamBinding ce)
     throws HostException {
+        /* Object might be optional. Check if it should be visited. */
+        if (!exists(ce)) {
+            return;
+        }
         setOffset(getCobolConverters().
                 getCobolOctetStreamConverter().
                 toHost(ce, getHostBytes(), getOffset()));
