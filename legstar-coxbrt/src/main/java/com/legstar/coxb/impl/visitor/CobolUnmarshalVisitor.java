@@ -71,7 +71,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
             LOG.debug("Unmarshaling started for complex binding "
                     + ce.getBindingName());
         }
-        /* Object must have associated bytes in the incoming host payload */
+        /* Object might be optional. Check if it should be visited. */
         if (!exists(ce)) {
             return;
         }
@@ -196,7 +196,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     @Override
     public final void visit(final ICobolStringBinding ce)
     throws HostException {
-        /* Object must have associated bytes in the incoming host payload */
+        /* Object might be optional. Check if it should be visited. */
         if (!exists(ce)) {
             return;
         }
@@ -222,7 +222,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     @Override
     public final void visit(final ICobolNationalBinding ce)
     throws HostException {
-        /* Object must have associated bytes in the incoming host payload */
+        /* Object might be optional. Check if it should be visited. */
         if (!exists(ce)) {
             return;
         }
@@ -248,7 +248,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     @Override
     public final void visit(final ICobolDbcsBinding ce)
     throws HostException {
-        /* Object must have associated bytes in the incoming host payload */
+        /* Object might be optional. Check if it should be visited. */
         if (!exists(ce)) {
             return;
         }
@@ -274,7 +274,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     @Override
     public final void visit(final ICobolZonedDecimalBinding ce)
     throws HostException {
-        /* Object must have associated bytes in the incoming host payload */
+        /* Object might be optional. Check if it should be visited. */
         if (!exists(ce)) {
             return;
         }
@@ -300,7 +300,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     @Override
     public final void visit(final ICobolPackedDecimalBinding ce)
     throws HostException {
-        /* Object must have associated bytes in the incoming host payload */
+        /* Object might be optional. Check if it should be visited. */
         if (!exists(ce)) {
             return;
         }
@@ -327,7 +327,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     @Override
     public final void visit(final ICobolBinaryBinding ce)
     throws HostException {
-        /* Object must have associated bytes in the incoming host payload */
+        /* Object might be optional. Check if it should be visited. */
         if (!exists(ce)) {
             return;
         }
@@ -353,7 +353,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     @Override
     public final void visit(final ICobolFloatBinding ce)
     throws HostException {
-        /* Object must have associated bytes in the incoming host payload */
+        /* Object might be optional. Check if it should be visited. */
         if (!exists(ce)) {
             return;
         }
@@ -379,7 +379,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     @Override
     public final void visit(final ICobolDoubleBinding ce)
     throws HostException {
-        /* Object must have associated bytes in the incoming host payload */
+        /* Object might be optional. Check if it should be visited. */
         if (!exists(ce)) {
             return;
         }
@@ -404,7 +404,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     @Override
     public final void visit(final ICobolOctetStreamBinding ce)
     throws HostException {
-        /* Object must have associated bytes in the incoming host payload */
+        /* Object might be optional. Check if it should be visited. */
         if (!exists(ce)) {
             return;
         }
@@ -426,27 +426,4 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
                         ce.getCurrentOccurs()));
     }
     
-    /**
-     * If existence depends on a a counter, check counter value first. If the
-     * associated counter is zero, then the object does not exist (should not
-     * be unmarshaled as it has no bytes in the host payload).
-     * @param ce the binding object
-     * @return true if object exists (has associated bytes in the incoming host payload).
-     * @throws HostException if existence test fails
-     */
-    private boolean exists(final ICobolBinding ce) throws HostException {
-        /*  */
-        if (ce.getDependingOn() != null && ce.getDependingOn().length() > 0) {
-            if (ce.getParentBinding().getCounterValue(ce.getDependingOn()) == 0) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Unmarshaling aborted for binding "
-                            + ce.getBindingName() + ", it depends on "
-                            + ce.getDependingOn() + " which is zero");
-                }
-                return false;
-            }
-        }
-        return true;
-
-    }
 }
