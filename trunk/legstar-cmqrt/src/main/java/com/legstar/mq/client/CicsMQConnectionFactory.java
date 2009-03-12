@@ -61,11 +61,22 @@ public class CicsMQConnectionFactory  implements ConnectionFactory {
             final String connectionID,
             final LegStarAddress address) throws ConnectionException {
 
-        CicsMQEndpoint cixsMQEndpoint = createEndPoint(address, mEndpointConfig);
-        if (cixsMQEndpoint.getHostMQBridgeType() == HostMQBridgeType.LSMSG) {
+        CicsMQEndpoint cicsMQEndpoint = createEndPoint(address, mEndpointConfig);
+        if (cicsMQEndpoint.getHostMQBridgeType() == HostMQBridgeType.LSMSG) {
             CicsMQLsmsg connection = new CicsMQLsmsg(
                     connectionID,
-                    cixsMQEndpoint,
+                    cicsMQEndpoint,
+                    getEndpointConfig().getInt(
+                            CONNECT_TIMEOUT_CFG, DEFAULT_CONNECT_TIMEOUT_MSEC),
+                            mEndpointConfig.getInt(
+                                    RECEIVE_TIMEOUT_CFG, DEFAULT_READ_TIMEOUT_MSEC));
+    
+    
+            return connection;
+        } else if (cicsMQEndpoint.getHostMQBridgeType() == HostMQBridgeType.MQCIH) {
+            CicsMQMqcih connection = new CicsMQMqcih(
+                    connectionID,
+                    cicsMQEndpoint,
                     getEndpointConfig().getInt(
                             CONNECT_TIMEOUT_CFG, DEFAULT_CONNECT_TIMEOUT_MSEC),
                             mEndpointConfig.getInt(
@@ -74,7 +85,8 @@ public class CicsMQConnectionFactory  implements ConnectionFactory {
     
             return connection;
         }
-        throw new ConnectionException("Unknown mainframe MQ bridge type");
+        throw new ConnectionException("Unknown mainframe MQ bridge type: "
+                + cicsMQEndpoint.getHostMQBridgeType());
     }
 
     /**

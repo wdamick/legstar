@@ -22,8 +22,8 @@
     		<hostTraceMode>true</hostTraceMode>
     		<hostMQManager>CSQ1</hostMQManager>
             <hostMQChannel>CLIENT.TO.CSQ1</hostMQChannel>
-            <hostMQRequestQueue>SYSTEM.CICS.BRIDGE.QUEUE</hostMQRequestQueue>
-            <hostMQResponseQueue>CICSA.REPLY.QUEUE</hostMQResponseQueue>
+            <hostMQRequestQueue>CICS01.BRIDGE.REQUEST.QUEUE</hostMQRequestQueue>
+            <hostMQResponseQueue>CICS01.BRIDGE.REPLY.QUEUE</hostMQResponseQueue>
             <hostMQBridgeType>MQCIH</hostMQBridgeType>
        </hostEndPoint>
     </hostEndPoints>
