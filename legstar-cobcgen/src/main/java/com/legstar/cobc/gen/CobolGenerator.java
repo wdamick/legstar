@@ -208,7 +208,7 @@ public class CobolGenerator extends Task  {
             JAXBElementDescriptor elementDescriptor = new JAXBElementDescriptor(
                     jaxbPackageName, jaxbType);
             Object objectFactory = elementDescriptor.createObjectFactory();
-            Class < ? > clazz = elementDescriptor.loadJaxbClass();
+            Class < ? > clazz = elementDescriptor.getJaxbClass();
             CComplexReflectBinding ccem = new CComplexReflectBinding(
                     objectFactory, clazz);
             String cobolRootName = cobolRootDataItemName;
@@ -229,8 +229,6 @@ public class CobolGenerator extends Task  {
         } catch (HostException e) {
             throw new CobolGenerationException(e);
         } catch (IOException e) {
-            throw new CobolGenerationException(e);
-        } catch (ClassNotFoundException e) {
             throw new CobolGenerationException(e);
         } catch (CobolNameResolverException e) {
             throw new CobolGenerationException(e);
