@@ -17,7 +17,7 @@ import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.convert.ICobolConverters;
 
 /**
- * Transformers convert complex objects to/from raw mainframe byte arrays described
+ * Transformers convert complex types to/from raw mainframe byte arrays described
  * by COBOL structures.
  */
 public interface IHostTransformer {

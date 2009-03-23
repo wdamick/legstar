@@ -10,48 +10,53 @@
  ******************************************************************************/
 package com.legstar.coxb.transform;
 
+import java.io.Writer;
+
+import javax.xml.transform.Source;
+
 
 /**
- * Classes implementing this interface group transformers for a given
- * complex type.
+ * Alternative to {@link IHostTransformers} which works on XML rather than java object.
+ * <p/>
+ * Classes implementing this interface can transform XML to mainframe data streams and vice versa.
  *
  */
-public interface IHostTransformers {
+public interface IHostXmlTransformers {
 
     /**
-     * Transforms java data object to host data with a specific host character set.
-     * @param valueObject a java value object
+     * Transforms XML source to host data with a specific host character set.
+     * @param source the XML Source to unmarshal XML data from (such as SAXSource, DOMSource, and StreamSource)
      * @param hostCharset the host character set
      * @return a byte array with host data
      * @throws HostTransformException if transformation fails
      */
     byte[] toHost(
-            final Object valueObject, final String hostCharset) throws HostTransformException;
+            final Source source, final String hostCharset) throws HostTransformException;
 
     /**
-     * Transforms java data object to host data.
-     * @param valueObject a java value object
+     * Transforms XML source to host data.
+     * @param source the XML Source to unmarshal XML data from (such as SAXSource, DOMSource, and StreamSource)
      * @return a byte array with host data
      * @throws HostTransformException if transformation fails
      */
-    byte[] toHost(final Object valueObject) throws HostTransformException;
+    byte[] toHost(final Source source) throws HostTransformException;
 
     /**
-     * Transforms host data to java data object with a specific host character set.
+     * Transforms host data to XML using a specific host character set.
      * @param hostData a byte array containing host data
+     * @param writer XML will be sent to this writer.
      * @param hostCharset the host character set
-     * @return a Java value object
      * @throws HostTransformException if transformation fails
      */
-    Object toJava(final byte[] hostData, final String hostCharset)
+    void toXml(final byte[] hostData, final Writer writer, final String hostCharset)
             throws HostTransformException;
 
     /**
-     * Transforms host data to java data object.
+     * Transforms host data to XML.
      * @param hostData a byte array containing host data
-     * @return a Java value object
+     * @param writer XML will be sent to this writer.
      * @throws HostTransformException if transformation fails
      */
-    Object toJava(final byte[] hostData) throws HostTransformException;
+    void toXml(final byte[] hostData, final Writer writer) throws HostTransformException;
 
 }
