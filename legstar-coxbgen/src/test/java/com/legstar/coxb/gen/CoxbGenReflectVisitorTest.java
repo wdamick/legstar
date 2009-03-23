@@ -41,7 +41,24 @@ public class CoxbGenReflectVisitorTest extends AbstractTestTemplate {
 
         visitor.visit(ce);
 
-        /* Check DfhcommareaBinding */
+        checkDfhcommareaBinding();
+        checkLsAllItemsChoiceBinding();
+        checkLsFilesDataChoiceBinding();
+        checkLsFilesDataTypeBinding();
+        checkLsItemsArrayTypeBinding();
+        checkLsItemsArrayTypeWrapperBinding();
+        checkLsProgramsDataTypeBinding();
+        checkLsReplyDataTypeBinding();
+        checkLsReplyBinding();
+        checkLsRequestBinding();
+        checkLsSearchCriteriaTypeBinding();
+        checkLsTransactionsDataTypeBinding();
+    }
+
+    /**
+     * check binding.
+     */
+    public void checkDfhcommareaBinding() {
         String resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/DfhcommareaBinding.java");
         assertTrue(resStr.contains("lsRequest = new LsRequestBinding(\"LsRequest\","));
         assertTrue(resStr.contains("\"LsRequest\", this, null);"));
@@ -50,8 +67,13 @@ public class CoxbGenReflectVisitorTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("\"LsReply\", this, null);"));
         assertTrue(resStr.contains("lsReply.setCobolName(\"LS-REPLY\");"));
 
-        /* Check LsAllItemsChoiceBinding */
-        resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsAllItemsChoiceBinding.java");
+    }
+
+    /**
+     * check binding.
+     */
+    public void checkLsAllItemsChoiceBinding() {
+        String resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsAllItemsChoiceBinding.java");
         assertTrue(resStr.contains("lsAllItems = BF.createStringBinding(\"LsAllItems\","));
         assertTrue(resStr.contains("\"LsAllItems\", String.class, getParentBinding());"));
         assertTrue(resStr.contains("lsAllItems.setCobolName(\"LS-ALL-ITEMS\");"));
@@ -63,8 +85,13 @@ public class CoxbGenReflectVisitorTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("lsMaxItems.setTotalDigits(4);"));
         assertTrue(resStr.contains("lsMaxItems.setRedefines(\"LS-ALL-ITEMS\");"));
 
-        /* Check LsFilesDataChoiceBinding */
-        resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsFilesDataChoiceBinding.java");
+    }
+
+    /**
+     * check binding.
+     */
+    public void checkLsFilesDataChoiceBinding() {
+        String resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsFilesDataChoiceBinding.java");
         assertTrue(resStr.contains("setUnmarshalChoiceStrategyClassName("));
         assertTrue(resStr.contains("\"com.legstar.coxb.cust.dplarcht.ChoiceSelector\");"));
         assertTrue(resStr.contains("lsFilesData = new LsFilesDataBinding(\"LsFilesData\","));
@@ -81,8 +108,13 @@ public class CoxbGenReflectVisitorTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("lsTransactionsData.setCobolName(\"LS-TRANSACTIONS-DATA\");"));
         assertTrue(resStr.contains("lsTransactionsData.setRedefines(\"LS-FILES-DATA\");"));
 
-        /* Check LsFilesDataTypeBinding */
-        resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsFilesDataBinding.java");
+    }
+
+    /**
+     * check binding.
+     */
+    public void checkLsFilesDataTypeBinding() {
+        String resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsFilesDataBinding.java");
         assertTrue(resStr.contains("lsFileName = BF.createStringBinding(\"LsFileName\","));
         assertTrue(resStr.contains("\"LsFileName\", String.class, this);"));
         assertTrue(resStr.contains("lsFileName.setCobolName(\"LS-FILE-NAME\");"));
@@ -96,30 +128,38 @@ public class CoxbGenReflectVisitorTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("lsFileEnablestatus.setCobolName(\"LS-FILE-ENABLESTATUS\");"));
         assertTrue(resStr.contains("lsFileEnablestatus.setByteLength(12);"));
 
-        /* Check LsItemsArrayTypeBinding */
-        resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsItemsArrayBinding.java");
+    }
+
+    /**
+     * check binding.
+     */
+    public void checkLsItemsArrayTypeBinding() {
+        String resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsItemsArrayBinding.java");
         assertTrue(resStr.contains("lsFilesDataChoice = new LsFilesDataChoiceBinding(\"LsFilesDataChoice\", this);"));
         assertTrue(resStr.contains("lsFilesDataChoice.setCobolName(\"LS-FILES-DATA\");"));
         assertTrue(resStr.contains("lsFilesDataChoice.setUnmarshalChoiceStrategyClassName("));
         assertTrue(resStr.contains("\"com.legstar.coxb.cust.dplarcht.ChoiceSelector\");"));
 
-        /* Check LsItemsArrayTypeWrapperBinding */
-        resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsItemsArrayWrapperBinding.java");
+    }
+
+    /**
+     * check binding.
+     */
+    public void checkLsItemsArrayTypeWrapperBinding() {
+        String resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsItemsArrayWrapperBinding.java");
         assertTrue(resStr.contains("setMinOccurs(1);"));
         assertTrue(resStr.contains("setMaxOccurs(500);"));
         assertTrue(resStr.contains("setDependingOn(\"LS-ITEMS-COUNT\");"));
         assertTrue(resStr.contains("mValueObject.add((LsItemsArray) getComplexItemBinding()."));
         assertTrue(resStr.contains("getObjectValue(LsItemsArray.class));"));
 
-        /* Check LsItemsArrayTypeBinding */
-        resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsItemsArrayBinding.java");
-        assertTrue(resStr.contains("lsFilesDataChoice = new LsFilesDataChoiceBinding(\"LsFilesDataChoice\", this);"));
-        assertTrue(resStr.contains("lsFilesDataChoice.setCobolName(\"LS-FILES-DATA\");"));
-        assertTrue(resStr.contains("lsFilesDataChoice.setUnmarshalChoiceStrategyClassName("));
-        assertTrue(resStr.contains("\"com.legstar.coxb.cust.dplarcht.ChoiceSelector\");"));
+    }
 
-        /* Check LsProgramsDataTypeBinding */
-        resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsProgramsDataBinding.java");
+    /**
+     * check binding.
+     */
+    public void checkLsProgramsDataTypeBinding() {
+        String resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsProgramsDataBinding.java");
         assertTrue(resStr.contains("lsProgramLength = BF.createBinaryBinding(\"LsProgramLength\","));
         assertTrue(resStr.contains("\"LsProgramLength\", Integer.class, this);"));
         assertTrue(resStr.contains("lsProgramLength.setCobolName(\"LS-PROGRAM-LENGTH\");"));
@@ -127,8 +167,13 @@ public class CoxbGenReflectVisitorTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("lsProgramLength.setTotalDigits(9);"));
         assertTrue(resStr.contains("lsProgramLength.setIsSigned(true);"));
 
-        /* Check LsReplyDataTypeBinding */
-        resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsReplyDataBinding.java");
+    }
+
+    /**
+     * check binding.
+     */
+    public void checkLsReplyDataTypeBinding() {
+        String resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsReplyDataBinding.java");
         assertTrue(resStr.contains("lsItemsCount = BF.createBinaryBinding(\"LsItemsCount\","));
         assertTrue(resStr.contains("\"LsItemsCount\", Long.class, this);"));
         assertTrue(resStr.contains("lsItemsCount.setCobolName(\"LS-ITEMS-COUNT\");"));
@@ -144,8 +189,13 @@ public class CoxbGenReflectVisitorTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("lsItemsArrayWrapper.setMaxOccurs(500);"));
         assertTrue(resStr.contains("lsItemsArrayWrapper.setDependingOn(\"LS-ITEMS-COUNT\");"));
 
-        /* Check LsReplyBinding */
-        resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsReplyBinding.java");
+    }
+
+    /**
+     * check binding.
+     */
+    public void checkLsReplyBinding() {
+        String resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsReplyBinding.java");
         assertTrue(resStr.contains("_lsReplyType = BF.createBinaryBinding(\"LsReplyType\","));
         assertTrue(resStr.contains("\"LsReplyType\", Integer.class, this);"));
         assertTrue(resStr.contains("_lsReplyType.setCobolName(\"LS-REPLY-TYPE\");"));
@@ -155,8 +205,13 @@ public class CoxbGenReflectVisitorTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("\"LsReplyData\", this, null);"));
         assertTrue(resStr.contains("lsReplyData.setCobolName(\"LS-REPLY-DATA\");"));
 
-        /* Check LsRequestBinding */
-        resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsRequestBinding.java");
+    }
+
+    /**
+     * check binding.
+     */
+    public void checkLsRequestBinding() {
+        String resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsRequestBinding.java");
         assertTrue(resStr.contains("_lsRequestType = BF.createBinaryBinding(\"LsRequestType\","));
         assertTrue(resStr.contains("\"LsRequestType\", Integer.class, this);"));
         assertTrue(resStr.contains("_lsRequestType.setCobolName(\"LS-REQUEST-TYPE\");"));
@@ -170,8 +225,13 @@ public class CoxbGenReflectVisitorTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("\"LsSearchCriteria\", this, null);"));
         assertTrue(resStr.contains("lsSearchCriteria.setCobolName(\"LS-SEARCH-CRITERIA\");"));
 
-        /* Check LsSearchCriteriaTypeBinding */
-        resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsSearchCriteriaBinding.java");
+    }
+
+    /**
+     * check binding.
+     */
+    public void checkLsSearchCriteriaTypeBinding() {
+        String resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsSearchCriteriaBinding.java");
         assertTrue(resStr.contains("lsStartwith = BF.createStringBinding(\"LsStartwith\","));
         assertTrue(resStr.contains("\"LsStartwith\", String.class, this);"));
         assertTrue(resStr.contains("lsStartwith.setCobolName(\"LS-STARTWITH\");"));
@@ -182,8 +242,13 @@ public class CoxbGenReflectVisitorTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("lsStartwithLen.setByteLength(5);"));
         assertTrue(resStr.contains("lsStartwithLen.setTotalDigits(9);"));
 
-        /* Check LsTransactionsDataTypeBinding */
-        resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsTransactionsDataBinding.java");
+    }
+
+    /**
+     * check binding.
+     */
+    public void checkLsTransactionsDataTypeBinding() {
+        String resStr = getSource(GEN_SRC_DIR, "/com/legstar/test/coxb/dplarcht/bind/LsTransactionsDataBinding.java");
         assertTrue(resStr.contains("lsTransactionName = BF.createStringBinding(\"LsTransactionName\","));
         assertTrue(resStr.contains("\"LsTransactionName\", String.class, this);"));
         assertTrue(resStr.contains("lsTransactionName.setCobolName(\"LS-TRANSACTION-NAME\");"));
