@@ -25,6 +25,11 @@ import com.legstar.util.JAXBElementDescriptor;
 public class ReflectHostToJavaTransformer extends AbstractHostToJavaTransformer {
     
     /**
+     * The JAXB element descriptor.
+     */
+    private JAXBElementDescriptor mJaxbElementDescriptor;
+    
+    /**
      * The JAXB type factory to use for the JAXB object type.
      */
     private Object mObjectFactory;
@@ -45,13 +50,10 @@ public class ReflectHostToJavaTransformer extends AbstractHostToJavaTransformer 
             final String jaxbPackageName,
             final String jaxbType) throws ReflectBindingException {
         try {
-            JAXBElementDescriptor jaxbElementDescriptor =
-                new JAXBElementDescriptor(jaxbPackageName, jaxbType);
-            mObjectFactory = jaxbElementDescriptor.createObjectFactory();
-            mJaxbClass = jaxbElementDescriptor.loadJaxbClass();
+            mJaxbElementDescriptor = new JAXBElementDescriptor(jaxbPackageName, jaxbType);
+            mObjectFactory = mJaxbElementDescriptor.createObjectFactory();
+            mJaxbClass = mJaxbElementDescriptor.getJaxbClass();
         } catch (JAXBAnnotationException e) {
-            throw new ReflectBindingException(e);
-        } catch (ClassNotFoundException e) {
             throw new ReflectBindingException(e);
         }
     }
@@ -79,6 +81,13 @@ public class ReflectHostToJavaTransformer extends AbstractHostToJavaTransformer 
      */
     public Class < ? > getJaxbClass() {
         return mJaxbClass;
+    }
+
+    /**
+     * @return the JAXB element descriptor
+     */
+    public JAXBElementDescriptor getJaxbElementDescriptor() {
+        return mJaxbElementDescriptor;
     }
 
 }
