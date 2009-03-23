@@ -51,28 +51,28 @@ public abstract class AbstractXmlTransformers implements IHostXmlTransformers {
     /**
      * @return the transformer that turns a XML into host data
      */
-    IXmlToHostTransformer getXmlToHost() {
+    public IXmlToHostTransformer getXmlToHost() {
         return mXmlToHost;
     }
 
     /**
      * @param xmlToHost the transformer that turns an XML into host data to set
      */
-    void setXmlToHost(final IXmlToHostTransformer xmlToHost) {
+    public void setXmlToHost(final IXmlToHostTransformer xmlToHost) {
         mXmlToHost = xmlToHost;
     }
 
     /**
      * @return the transformer that turns host data into an XML
      */
-    IHostToXmlTransformer getHostToXml() {
+    public IHostToXmlTransformer getHostToXml() {
         return mHostToXml;
     }
 
     /**
      * @param hostToXml the transformer that turns host data into an XML to set
      */
-    void setHostToXml(final IHostToXmlTransformer hostToXml) {
+    public void setHostToXml(final IHostToXmlTransformer hostToXml) {
         mHostToXml = hostToXml;
     }
 
