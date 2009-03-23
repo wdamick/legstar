@@ -251,8 +251,6 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
                 return ((JAXBElement < ? >) oResponse).getValue();
             }
 
-        } catch (JAXBAnnotationException e) {
-            throw new WebServiceInvokerException(e);
         } catch (SOAPFaultException e) {
             throw new WebServiceInvokerException(getFaultReasonText(e));
         }
