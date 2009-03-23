@@ -45,6 +45,36 @@ public final class LsfileaeCases extends TestCase {
     }
 
     /**
+     * @return an XML serialization of the object
+     */
+    public static String getXml() {
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+        + "<Dfhcommarea xmlns=\"http://legstar.com/test/coxb/lsfileae\">"
+        + "<ComNumber>100</ComNumber>"
+        + "<ComPersonal>"
+        + "<ComName>TOTO</ComName>"
+        + "<ComAddress>LABAS STREET</ComAddress>"
+        + "<ComPhone>88993314</ComPhone>"
+        + "</ComPersonal>"
+        + "<ComDate>100458</ComDate>"
+        + "<ComAmount>00100.35</ComAmount>"
+        + "<ComComment>A VOIR</ComComment>"
+        + "</Dfhcommarea>";
+    }
+
+    /**
+     * @return an XML serialization of an inner object
+     */
+    public static String getComPersonalXml() {
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+        + "<ComPersonal xmlns=\"http://legstar.com/test/coxb/lsfileae\">"
+        + "<ComName>TOTO</ComName>"
+        + "<ComAddress>LABAS STREET</ComAddress>"
+        + "<ComPhone>88993314</ComPhone>"
+        + "</ComPersonal>";
+    }
+ 
+    /**
      * Check that data object contains the expected values.
      * @param dfhcommarea the java object to check
      */
