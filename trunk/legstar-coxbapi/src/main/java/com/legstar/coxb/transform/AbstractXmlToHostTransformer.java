@@ -10,11 +10,15 @@
  ******************************************************************************/
 package com.legstar.coxb.transform;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.Source;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.legstar.coxb.CobolBindingException;
 import com.legstar.coxb.util.XmlUtil;
 
 /**
@@ -24,16 +28,33 @@ public abstract class AbstractXmlToHostTransformer implements IXmlToHostTransfor
 
     /** Logger. */
     private static final Log LOG = LogFactory.getLog(AbstractXmlToHostTransformer.class);
-    
+
     /** A Java object to Host transformer. */
     private IJavaToHostTransformer mJavaToHostTransformer;
+
+    /** JAXB Context. */
+    private JAXBContext mJaxbContext = null;
+
+    /** JAXB Unmarshaller (XML to Object). */
+    private Unmarshaller mXmlUnmarshaller = null;
 
     /**
      * Create an XML to Host transformer using a Java to Host transformer.
      * @param javaToHostTransformer the java to host transformer
+     * @throws HostTransformException if transformer cannot be created
      */
-    public AbstractXmlToHostTransformer(final IJavaToHostTransformer javaToHostTransformer) {
-        mJavaToHostTransformer = javaToHostTransformer;
+    public AbstractXmlToHostTransformer(
+            final IJavaToHostTransformer javaToHostTransformer) throws HostTransformException {
+        try {
+            mJavaToHostTransformer = javaToHostTransformer;
+            mJaxbContext = JAXBContext.newInstance(
+                    mJavaToHostTransformer.getBinding().getJaxbType());
+            mXmlUnmarshaller = mJaxbContext.createUnmarshaller();
+        } catch (JAXBException e) {
+            throw new HostTransformException(e);
+        } catch (CobolBindingException e) {
+            throw new HostTransformException(e);
+        }
     }
 
     /**
@@ -60,14 +81,23 @@ public abstract class AbstractXmlToHostTransformer implements IXmlToHostTransfor
     public byte[] transform(final Source source) throws HostTransformException {
         return transform(source, null);
     }
-    
+
     /**
      * Unmarshal an XML to get the JAXB value object.
      * @param source the XML Source to unmarshal XML data from (such as SAXSource, DOMSource, and StreamSource)
      * @return a JAXB value object
      * @throws HostTransformException if transformation fails
      */
-    public abstract Object getObjectFromXml(final Source source) throws HostTransformException;
+    public Object getObjectFromXml(final Source source) throws HostTransformException {
+        try {
+            return getXmlUnmarshaller().unmarshal(source,
+                    getJavaToHostTransformer().getBinding().getJaxbType()).getValue();
+        } catch (JAXBException e) {
+            throw new HostTransformException(e);
+        } catch (CobolBindingException e) {
+            throw new HostTransformException(e);
+        }
+    }
 
     /**
      * @return the Java to Host transformer
@@ -76,4 +106,10 @@ public abstract class AbstractXmlToHostTransformer implements IXmlToHostTransfor
         return mJavaToHostTransformer;
     }
 
- }
+    /**
+     * @return the JAXB Unmarshaller (Object to XML)
+     */
+    public Unmarshaller getXmlUnmarshaller() {
+        return mXmlUnmarshaller;
+    }
+}

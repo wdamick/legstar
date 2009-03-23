@@ -13,11 +13,17 @@ package com.legstar.coxb.transform;
 import java.io.StringReader;
 import java.io.Writer;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.legstar.coxb.CobolBindingException;
 import com.legstar.coxb.util.XmlUtil;
 
 /**
@@ -31,12 +37,29 @@ public abstract class AbstractHostToXmlTransformer implements IHostToXmlTransfor
     /** A Host to Java object transformer. */
     private IHostToJavaTransformer mHostToJavaTransformer;
 
+    /** JAXB Context. */
+    private JAXBContext mJaxbContext = null;
+
+    /** JAXB Marshaller (Object to XML). */
+    private Marshaller mXmlMarshaller = null;
+
     /**
      * Create an Host to XML transformer using a Host to Java transformer.
      * @param hostToJavaTransformer the host to java transformer
+     * @throws HostTransformException if transformer cannot be created
      */
-    public AbstractHostToXmlTransformer(final IHostToJavaTransformer hostToJavaTransformer) {
-        mHostToJavaTransformer = hostToJavaTransformer;
+    public AbstractHostToXmlTransformer(
+            final IHostToJavaTransformer hostToJavaTransformer) throws HostTransformException {
+        try {
+            mHostToJavaTransformer = hostToJavaTransformer;
+            mJaxbContext = JAXBContext.newInstance(
+                    mHostToJavaTransformer.getBinding().getJaxbType());
+            mXmlMarshaller = mJaxbContext.createMarshaller();
+        } catch (JAXBException e) {
+            throw new HostTransformException(e);
+        } catch (CobolBindingException e) {
+            throw new HostTransformException(e);
+        }
     }
 
     /**
@@ -102,14 +125,54 @@ public abstract class AbstractHostToXmlTransformer implements IHostToXmlTransfor
         transform(hostData, offset, writer, null);
     }
 
-    /**
+    /** 
      * Marshal JAXB value object  to get the XML.
+     * <p/>
+     * Root elements can be marshalled directly while non-root elements must
+     * be encapsulated in a JAXBElement before they can be marshalled.
      * @param valueObject the JAXB value object
      * @param writer XML will be sent to this writer.
      * @throws HostTransformException if transformation fails
+     *   */
+    @SuppressWarnings("unchecked")
+    public void getXmlFromObject(
+            final Object valueObject, final Writer writer) throws HostTransformException {
+        try {
+            if (isXmlRootElement()) {
+                getXmlMarshaller().marshal(valueObject, writer);
+            } else {
+                QName qName = new QName(
+                        getNamespace(),
+                        getElementName());
+                JAXBElement < ? > jaxbElement = new JAXBElement(qName,
+                            getHostToJavaTransformer().getBinding().getJaxbType(),
+                            valueObject);
+                getXmlMarshaller().marshal(jaxbElement, writer);
+            }
+        } catch (JAXBException e) {
+            throw new HostTransformException(e);
+        } catch (CobolBindingException e) {
+            throw new HostTransformException(e);
+        }
+    }
+    
+    /**
+     * @return true if the JAXB element is marked as XmlRootElement which
+     * means it does not need to be encapsulated in a JAXBElement.
      */
-    public abstract void getXmlFromObject(
-            final Object valueObject, final Writer writer) throws HostTransformException;
+    public abstract boolean isXmlRootElement();
+    
+    /**
+     * @return the XML Schema namespace
+     */
+    public abstract String getNamespace();
+
+    /**
+     * @return the element name is given either by the XmlRootElement
+     * annotation or the XmlType annotation.
+     */
+    public abstract String getElementName();
+    
 
     /**
      * @return the Host to Java transformer
@@ -118,4 +181,18 @@ public abstract class AbstractHostToXmlTransformer implements IHostToXmlTransfor
         return mHostToJavaTransformer;
     }
 
- }
+    /**
+     * @return the JAXB Marshaller (Object to XML)
+     */
+    public JAXBContext getJAXBContext() {
+        return mJaxbContext;
+    }
+
+    /**
+     * @return the JAXB Marshaller (Object to XML)
+     */
+    public Marshaller getXmlMarshaller() {
+        return mXmlMarshaller;
+    }
+    
+}
