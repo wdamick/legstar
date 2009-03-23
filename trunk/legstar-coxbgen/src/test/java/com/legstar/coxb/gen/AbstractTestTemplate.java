@@ -12,7 +12,9 @@ package com.legstar.coxb.gen;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -79,21 +81,27 @@ public class AbstractTestTemplate extends TestCase {
      * @param srcDir the location of the source artifact
      * @param srcName the source artifact name
      * @return a string containing the generated source
-     * @throws Exception if something goes wrong
      */
     public String getSource(
-            final File srcDir, final String srcName) throws Exception {
-        BufferedReader in = new BufferedReader(
-                new FileReader(new File(srcDir, srcName)));
-        String resStr = "";
-        String str = in.readLine();
-        while (str != null) {
-            LOG.debug(str);
-            resStr += str;
-            str = in.readLine();
+            final File srcDir, final String srcName) {
+        try {
+            BufferedReader in = new BufferedReader(
+                    new FileReader(new File(srcDir, srcName)));
+            String resStr = "";
+            String str = in.readLine();
+            while (str != null) {
+                LOG.debug(str);
+                resStr += str;
+                str = in.readLine();
+            }
+            in.close();
+            return resStr;
+        } catch (FileNotFoundException e) {
+            fail(e.getMessage());
+        } catch (IOException e) {
+            fail(e.getMessage());
         }
-        in.close();
-        return resStr;
+        return null;
     }
 
 

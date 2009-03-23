@@ -73,7 +73,7 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
      * Generate binding for Alltypes.
      * @throws Exception if generation fails
      */
-   public void testGenAlltypes() throws Exception  {
+    public void testGenAlltypes() throws Exception  {
         genSource("alltypes", "Dfhcommarea");
         String srce = getSource(GEN_SRC_DIR, getBindingSrcFilename("alltypes", "Dfhcommarea"));
         assertTrue(srce.contains("private static final int BYTE_LENGTH = 267;"));
@@ -110,7 +110,7 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
         assertTrue(srce.contains("\"com.legstar.coxb.cust.redsimpt.ChoiceSelector\");"));
         String custSrce = getSource(GEN_SRC_DIR, getGetCustFilename("redsimpt"));
         assertTrue(custSrce.contains(
-                "Dfhcommarea valueObject = (Dfhcommarea) choice.getObjectValue(Dfhcommarea.class);"));
+        "Dfhcommarea valueObject = (Dfhcommarea) choice.getObjectValue(Dfhcommarea.class);"));
     }
 
     /**
@@ -135,17 +135,32 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
         genSource("lsfileae", "Dfhcommarea");
         String srce = getSource(GEN_SRC_DIR, getBindingSrcFilename("lsfileae", "Dfhcommarea"));
         assertTrue(srce.contains("private static final int BYTE_LENGTH = 79;"));
-       assertTrue(srce.contains("comNumber = BF.createZonedDecimalBinding(\"ComNumber\","));
+        assertTrue(srce.contains("comNumber = BF.createZonedDecimalBinding(\"ComNumber\","));
         assertTrue(srce.contains("\"ComNumber\", Long.class, this);"));
+
         srce = getSource(GEN_SRC_DIR, getSrcFilename("lsfileae", "DfhcommareaHostToJavaTransformer"));
         assertTrue(srce.contains(
-                "public class DfhcommareaHostToJavaTransformer extends AbstractHostToJavaTransformer {"));
+        "public class DfhcommareaHostToJavaTransformer extends AbstractHostToJavaTransformer {"));
+
         srce = getSource(GEN_SRC_DIR, getSrcFilename("lsfileae", "DfhcommareaJavaToHostTransformer"));
         assertTrue(srce.contains(
-                "public class DfhcommareaJavaToHostTransformer extends AbstractJavaToHostTransformer {"));
+        "public class DfhcommareaJavaToHostTransformer extends AbstractJavaToHostTransformer {"));
+
         srce = getSource(GEN_SRC_DIR, getSrcFilename("lsfileae", "DfhcommareaTransformers"));
         assertTrue(srce.contains(
-                "public class DfhcommareaTransformers extends AbstractTransformers {"));
+        "public class DfhcommareaTransformers extends AbstractTransformers {"));
+
+        srce = getSource(GEN_SRC_DIR, getSrcFilename("lsfileae", "DfhcommareaHostToXmlTransformer"));
+        assertTrue(srce.contains(
+        "public class DfhcommareaHostToXmlTransformer extends AbstractHostToXmlTransformer {"));
+
+        srce = getSource(GEN_SRC_DIR, getSrcFilename("lsfileae", "DfhcommareaXmlToHostTransformer"));
+        assertTrue(srce.contains(
+        "public class DfhcommareaXmlToHostTransformer extends AbstractXmlToHostTransformer {"));
+
+        srce = getSource(GEN_SRC_DIR, getSrcFilename("lsfileae", "DfhcommareaXmlTransformers"));
+        assertTrue(srce.contains(
+        "public class DfhcommareaXmlTransformers extends AbstractXmlTransformers {"));
     }
 
     /**

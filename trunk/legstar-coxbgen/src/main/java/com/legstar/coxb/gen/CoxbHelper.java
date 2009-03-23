@@ -36,6 +36,8 @@ import com.legstar.coxb.ICobolPackedDecimalBinding;
 import com.legstar.coxb.ICobolStringBinding;
 import com.legstar.coxb.ICobolZonedDecimalBinding;
 import com.legstar.coxb.host.HostException;
+import com.legstar.util.JAXBAnnotationException;
+import com.legstar.util.JAXBElementDescriptor;
 import com.legstar.util.JaxbUtil;
 
 /**
@@ -374,5 +376,87 @@ public class CoxbHelper {
             final String jaxbTypeName) throws HostException {
         return JaxbUtil.getJavaClassName(jaxbPackage, jaxbTypeName);
     }
+    
+    /**
+     * Retrieves the XML element name associated with a JAXB element.
+     * 
+     * @param binding a bound element
+     * @return the XML element name
+     * @throws HostException if retrieving XML element name fails
+     */
+    public final String getXmlElementName(final ICobolBinding binding) throws HostException {
+        try {
+            JAXBElementDescriptor descriptor =
+                new JAXBElementDescriptor(
+                        getJaxbPackageName(binding),
+                        getJaxbTypeName(binding));
+            return descriptor.getElementName();
+        } catch (JAXBAnnotationException e) {
+            throw new HostException(e);
+        }
+    }
+    
+    /**
+     * Retrieves the XML namespace associated with a JAXB element.
+     * 
+     * @param binding a bound element
+     * @return the XML namespace
+     * @throws HostException if retrieving XML element name fails
+     */
+    public final String getXmlNamespace(final ICobolBinding binding) throws HostException {
+        try {
+            JAXBElementDescriptor descriptor =
+                new JAXBElementDescriptor(
+                        getJaxbPackageName(binding),
+                        getJaxbTypeName(binding));
+            return descriptor.getNamespace();
+        } catch (JAXBAnnotationException e) {
+            throw new HostException(e);
+        }
+    }
 
+    /**
+     * Retrieves the status of the XML element (root or not).
+     * 
+     * @param binding a bound element
+     * @return true if element is an XML root element
+     * @throws HostException if retrieving XML element name fails
+     */
+    public final boolean isXmlRootElement(final ICobolBinding binding) throws HostException {
+        try {
+            JAXBElementDescriptor descriptor =
+                new JAXBElementDescriptor(
+                        getJaxbPackageName(binding),
+                        getJaxbTypeName(binding));
+            return descriptor.isXmlRootElement();
+        } catch (JAXBAnnotationException e) {
+            throw new HostException(e);
+        }
+    }
+
+    /**
+     * Retrieves the JAXB type name of a JAXB bound object. 
+     * @param binding a bound element
+     * @return the JAXB type name of a JAXB bound object, null if the bound object
+     *  is not JAXB.
+     */
+    public final String getJaxbTypeName(final ICobolBinding binding) {
+        if (binding.getJaxbType() == null) {
+            return null;
+        }
+        return binding.getJaxbType().getSimpleName();
+    }
+
+    /**
+     * Retrieves the JAXB package name of a JAXB bound object. 
+     * @param binding a bound element
+     * @return the JAXB package name of a JAXB bound object, null if the bound object
+     *  is not JAXB.
+     */
+    public final String getJaxbPackageName(final ICobolBinding binding) {
+        if (binding.getJaxbType() == null) {
+            return null;
+        }
+        return binding.getJaxbType().getPackage().getName();
+    }
 }

@@ -109,6 +109,9 @@ public class CoxbBindingGenerator extends Task {
                 visitor.getWriter().writeHostToJavaTransformer(ce);
                 visitor.getWriter().writeJavaToHostTransformer(ce);
                 visitor.getWriter().writeTransformers(ce);
+                visitor.getWriter().writeHostToXmlTransformer(ce);
+                visitor.getWriter().writeXmlToHostTransformer(ce);
+                visitor.getWriter().writeXmlTransformers(ce);
                 
             } catch (HostException e) {
                 LOG.error(CoxbGenWriter.BINDING_GENERATOR_NAME + " failure ", e);

@@ -195,7 +195,7 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
 
         assertTrue(resStr.contains("DfhcommareaJavaToHostTransformer transformer"
                 + " = new DfhcommareaJavaToHostTransformer();"));
-        assertTrue(resStr.contains("byte[] hostByteArray = (Dfhcommarea) transformer.transform(javaValue);"));
+        assertTrue(resStr.contains("byte[] hostByteArray = transformer.transform(javaValue);"));
         assertTrue(resStr.contains("public class DfhcommareaJavaToHostTransformer extends"
                 + " AbstractJavaToHostTransformer {"));
         assertTrue(resStr.contains("public DfhcommareaJavaToHostTransformer() {"));

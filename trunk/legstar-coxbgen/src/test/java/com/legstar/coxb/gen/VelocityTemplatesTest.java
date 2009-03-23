@@ -10,10 +10,12 @@
  ******************************************************************************/
 package com.legstar.coxb.gen;
 
+import com.legstar.codegen.CodeGenMakeException;
 import com.legstar.codegen.CodeGenUtil;
 import com.legstar.coxb.ICobolArrayComplexBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
+import com.legstar.coxb.impl.reflect.ReflectBindingException;
 import com.legstar.coxb.util.Utils;
 
 
@@ -534,7 +536,7 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         String resStr = getSource(GEN_SRC_DIR, "/test.txt");
         assertTrue(resStr.contains("DfhcommareaJavaToHostTransformer transformer"
                 + " = new DfhcommareaJavaToHostTransformer();"));
-        assertTrue(resStr.contains("byte[] hostByteArray = (Dfhcommarea) transformer.transform(javaValue);"));
+        assertTrue(resStr.contains("byte[] hostByteArray = transformer.transform(javaValue);"));
         assertTrue(resStr.contains("public class DfhcommareaJavaToHostTransformer extends"
                 + " AbstractJavaToHostTransformer {"));
         assertTrue(resStr.contains("public DfhcommareaJavaToHostTransformer() {"));
@@ -698,5 +700,149 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("public byte[] toHost(final Object valueObject)"));
         assertTrue(resStr.contains("public JVMQueryReply toJava(final byte[] hostData, final String hostCharset)"));
         assertTrue(resStr.contains("public JVMQueryReply toJava(final byte[] hostData)"));
+    }
+    
+    /**
+     * Test the host to XML template.
+     */
+    public void testHostToXmlTransformer() {
+        try {
+            com.legstar.test.coxb.alltypes.ObjectFactory objectFactory
+            = new com.legstar.test.coxb.alltypes.ObjectFactory();
+
+            CComplexReflectBinding ce = new CComplexReflectBinding(
+                    objectFactory,
+                    Utils.loadClass("com.legstar.test.coxb.alltypes.Dfhcommarea"));
+
+            CoxbGenModel coxbContext = new CoxbGenModel();
+            coxbContext.setJaxbPackageName("com.legstar.test.coxb.alltypes");
+            coxbContext.setCoxbPackageName("com.legstar.test.coxb.alltypes.bind");
+            getParameters().put("coxbContext", coxbContext);
+            getParameters().put("binding-class-name", "DfhcommareaBinding");
+
+            CodeGenUtil.processTemplate(
+                    BINDING_GENERATOR_NAME,
+                    CoxbGenWriter.HOST_TO_XML_XFORMER_VLC_TEMPLATE,
+                    "binding", ce,
+                    getParameters(),
+                    CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
+
+            String resStr = getSource(GEN_SRC_DIR, "/test.txt");
+            assertTrue(resStr.contains(
+                    "public class DfhcommareaHostToXmlTransformer extends AbstractHostToXmlTransformer {"));
+            assertTrue(resStr.contains("public DfhcommareaHostToXmlTransformer() throws HostTransformException {"));
+            assertTrue(resStr.contains("super(new DfhcommareaHostToJavaTransformer());"));
+            assertTrue(resStr.contains("public DfhcommareaHostToXmlTransformer("));
+            assertTrue(resStr.contains("final CobolContext cobolContext) throws HostTransformException {"));
+            assertTrue(resStr.contains("super(new DfhcommareaHostToJavaTransformer(cobolContext));"));
+            assertTrue(resStr.contains("final String hostCharset) throws HostTransformException {"));
+            assertTrue(resStr.contains("super(new DfhcommareaHostToJavaTransformer(hostCharset));"));
+            assertTrue(resStr.contains("return \"Dfhcommarea\";"));
+            assertTrue(resStr.contains("return \"http://legstar.com/test/coxb/alltypes\";"));
+            assertTrue(resStr.contains("return false;"));
+        } catch (ReflectBindingException e) {
+            fail(e.getMessage());
+        } catch (ClassNotFoundException e) {
+            fail(e.getMessage());
+        } catch (CodeGenMakeException e) {
+            fail(e.getMessage());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+    /**
+     * Test the XML to host template.
+     */
+    public void testXmlToHostTransformer() {
+        try {
+            com.legstar.test.coxb.alltypes.ObjectFactory objectFactory
+            = new com.legstar.test.coxb.alltypes.ObjectFactory();
+
+            CComplexReflectBinding ce = new CComplexReflectBinding(
+                    objectFactory,
+                    Utils.loadClass("com.legstar.test.coxb.alltypes.Dfhcommarea"));
+
+            CoxbGenModel coxbContext = new CoxbGenModel();
+            coxbContext.setJaxbPackageName("com.legstar.test.coxb.alltypes");
+            coxbContext.setCoxbPackageName("com.legstar.test.coxb.alltypes.bind");
+            getParameters().put("coxbContext", coxbContext);
+            getParameters().put("binding-class-name", "DfhcommareaBinding");
+
+            CodeGenUtil.processTemplate(
+                    BINDING_GENERATOR_NAME,
+                    CoxbGenWriter.XML_TO_HOST_XFORMER_VLC_TEMPLATE,
+                    "binding", ce,
+                    getParameters(),
+                    CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
+
+            String resStr = getSource(GEN_SRC_DIR, "/test.txt");
+            assertTrue(resStr.contains(
+                    "public class DfhcommareaXmlToHostTransformer extends AbstractXmlToHostTransformer {"));
+            assertTrue(resStr.contains("public DfhcommareaXmlToHostTransformer() throws HostTransformException {"));
+            assertTrue(resStr.contains("super(new DfhcommareaJavaToHostTransformer());"));
+            assertTrue(resStr.contains("public DfhcommareaXmlToHostTransformer("));
+            assertTrue(resStr.contains("final CobolContext cobolContext) throws HostTransformException {"));
+            assertTrue(resStr.contains("super(new DfhcommareaJavaToHostTransformer(cobolContext));"));
+            assertTrue(resStr.contains("final String hostCharset) throws HostTransformException {"));
+            assertTrue(resStr.contains("super(new DfhcommareaJavaToHostTransformer(hostCharset));"));
+        } catch (ReflectBindingException e) {
+            fail(e.getMessage());
+        } catch (ClassNotFoundException e) {
+            fail(e.getMessage());
+        } catch (CodeGenMakeException e) {
+            fail(e.getMessage());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+    /**
+     * Test the XML transformers template.
+     */
+    public void testXmlTransformers() {
+        try {
+            com.legstar.test.coxb.alltypes.ObjectFactory objectFactory
+            = new com.legstar.test.coxb.alltypes.ObjectFactory();
+
+            CComplexReflectBinding ce = new CComplexReflectBinding(
+                    objectFactory,
+                    Utils.loadClass("com.legstar.test.coxb.alltypes.Dfhcommarea"));
+
+            CoxbGenModel coxbContext = new CoxbGenModel();
+            coxbContext.setJaxbPackageName("com.legstar.test.coxb.alltypes");
+            coxbContext.setCoxbPackageName("com.legstar.test.coxb.alltypes.bind");
+            getParameters().put("coxbContext", coxbContext);
+            getParameters().put("binding-class-name", "DfhcommareaBinding");
+
+            CodeGenUtil.processTemplate(
+                    BINDING_GENERATOR_NAME,
+                    CoxbGenWriter.HOST_XML_XFORMERS_VLC_TEMPLATE,
+                    "binding", ce,
+                    getParameters(),
+                    CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
+
+            String resStr = getSource(GEN_SRC_DIR, "/test.txt");
+            assertTrue(resStr.contains(
+                    "public class DfhcommareaXmlTransformers extends AbstractXmlTransformers {"));
+            assertTrue(resStr.contains("public DfhcommareaXmlTransformers() throws HostTransformException {"));
+            assertTrue(resStr.contains("super(new DfhcommareaXmlToHostTransformer(),"));
+            assertTrue(resStr.contains("new DfhcommareaHostToXmlTransformer());"));
+            assertTrue(resStr.contains("public byte[] toHost(final Source source, final String hostCharset)"));
+            assertTrue(resStr.contains("return getXmlToHost().transform(source, hostCharset);"));
+            assertTrue(resStr.contains("public byte[] toHost(final Source source)"));
+            assertTrue(resStr.contains("return getXmlToHost().transform(source);"));
+            assertTrue(resStr.contains(
+                    "public void toXml(final byte[] hostData, final Writer writer, final String hostCharset)"));
+            assertTrue(resStr.contains("getHostToXml().transform(hostData, writer, hostCharset);"));
+            assertTrue(resStr.contains("public void toXml(final byte[] hostData, final Writer writer)"));
+            assertTrue(resStr.contains("getHostToXml().transform(hostData, writer);"));
+        } catch (ReflectBindingException e) {
+            fail(e.getMessage());
+        } catch (ClassNotFoundException e) {
+            fail(e.getMessage());
+        } catch (CodeGenMakeException e) {
+            fail(e.getMessage());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
 }

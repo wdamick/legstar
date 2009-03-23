@@ -44,17 +44,29 @@ public class CoxbGenWriter {
     public static final String COMPLEX_ARRAY_VLC_TEMPLATE =
         "vlc/coxb-bind-complex-array.vm";
 
-    /** Velocity template for host to java tranformer. */
+    /** Velocity template for host to java transformer. */
     public static final String HOST_TO_JAVA_XFORMER_VLC_TEMPLATE =
         "vlc/coxb-bind-host-to-java-transformer.vm";
 
-    /** Velocity template for java to host tranformer. */
+    /** Velocity template for java to host transformer. */
     public static final String JAVA_TO_HOST_XFORMER_VLC_TEMPLATE =
         "vlc/coxb-bind-java-to-host-transformer.vm";
 
-    /** Velocity template for tranformer provider. */
+    /** Velocity template for transformer provider. */
     public static final String HOST_XFORMERS_VLC_TEMPLATE =
         "vlc/coxb-bind-transformers.vm";
+
+    /** Velocity template for host to XML transformer. */
+    public static final String HOST_TO_XML_XFORMER_VLC_TEMPLATE =
+        "vlc/coxb-bind-host-to-xml-transformer.vm";
+
+    /** Velocity template for xml to host transformer. */
+    public static final String XML_TO_HOST_XFORMER_VLC_TEMPLATE =
+        "vlc/coxb-bind-xml-to-host-transformer.vm";
+
+    /** Velocity template for xml transformer provider. */
+    public static final String HOST_XML_XFORMERS_VLC_TEMPLATE =
+        "vlc/coxb-bind-xml-transformers.vm";
 
     /** A set of methods to simplify the velocity templates. */
     private CodeGenHelper mHelper;
@@ -168,6 +180,39 @@ public class CoxbGenWriter {
             final ICobolComplexBinding ce) throws CodeGenException {
         writeGeneric(ce, HOST_XFORMERS_VLC_TEMPLATE,
                 ce.getJaxbName() + "Transformers.java");
+    }
+
+    /**
+     * Produces a host to XML transformer class for a complex element.
+     * @param ce the binding element
+     * @throws CodeGenException if generation fails
+     */
+    public final void writeHostToXmlTransformer(
+            final ICobolComplexBinding ce) throws CodeGenException {
+        writeGeneric(ce, HOST_TO_XML_XFORMER_VLC_TEMPLATE,
+                ce.getJaxbName() + "HostToXmlTransformer.java");
+    }
+
+    /**
+     * Produces an XML to host transformer class for a complex element.
+     * @param ce the binding element
+     * @throws CodeGenException if generation fails
+     */
+    public final void writeXmlToHostTransformer(
+            final ICobolComplexBinding ce) throws CodeGenException {
+        writeGeneric(ce, XML_TO_HOST_XFORMER_VLC_TEMPLATE,
+                ce.getJaxbName() + "XmlToHostTransformer.java");
+    }
+
+    /**
+     * Produces an XML transformer provider class for a complex element.
+     * @param ce the binding element
+     * @throws CodeGenException if generation fails
+     */
+    public final void writeXmlTransformers(
+            final ICobolComplexBinding ce) throws CodeGenException {
+        writeGeneric(ce, HOST_XML_XFORMERS_VLC_TEMPLATE,
+                ce.getJaxbName() + "XmlTransformers.java");
     }
 
     /**
