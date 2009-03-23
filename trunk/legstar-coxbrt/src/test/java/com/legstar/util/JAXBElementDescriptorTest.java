@@ -27,7 +27,10 @@ public class JAXBElementDescriptorTest extends TestCase {
             JAXBElementDescriptor elementDescriptor = new JAXBElementDescriptor(
                     "com.legstar.test.coxb.cultureinfo", "GetInfo");
             assertEquals("JAXB package=com.legstar.test.coxb.cultureinfo,"
-                    + " JAXB type=GetInfo, XML element=getInfo, is XmlRootElement=false",
+                    + " JAXB type=GetInfo,"
+                    + " XML namespace=http://cultureinfo.cases.test.xsdc.legstar.com/,"
+                    + " XML element=getInfo,"
+                    + " is XmlRootElement=false",
                     elementDescriptor.toString());
         } catch (JAXBAnnotationException e) {
             fail(e.getMessage());
@@ -43,7 +46,10 @@ public class JAXBElementDescriptorTest extends TestCase {
             JAXBElementDescriptor elementDescriptor = new JAXBElementDescriptor(
                     "com.legstar.test.coxb.MSNSearch", "Search");
             assertEquals("JAXB package=com.legstar.test.coxb.MSNSearch,"
-                    + " JAXB type=Search, XML element=Search, is XmlRootElement=true",
+                    + " JAXB type=Search,"
+                    + " XML namespace=http://schemas.microsoft.com/MSNSearch/2005/09/fex,"
+                    + " XML element=Search,"
+                    + " is XmlRootElement=true",
                     elementDescriptor.toString());
         } catch (JAXBAnnotationException e) {
             fail(e.getMessage());

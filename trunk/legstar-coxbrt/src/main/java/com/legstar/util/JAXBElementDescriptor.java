@@ -11,6 +11,7 @@
 package com.legstar.util;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchema;
 import javax.xml.bind.annotation.XmlType;
 
 import com.legstar.coxb.util.Utils;
@@ -29,8 +30,14 @@ public class JAXBElementDescriptor {
     /** The JAXB type name. */
     private String mJaxbType;
 
+    /** The JAXB class. */
+    private Class < ? > mJaxbClass;
+
     /** Element name extracted from XmlRootElement or XmlType annotation. */
     private String mElementName;
+
+    /** The XML Schema namespace. */
+    private String mNamespace;
 
     /** Inferred from the presence of an XmlRootElement annotation on the JAXB
      *  type. */
@@ -48,11 +55,17 @@ public class JAXBElementDescriptor {
     public JAXBElementDescriptor(
             final String jaxbPackageName, final String jaxbType)
     throws JAXBAnnotationException {
-        mJaxbPackageName = jaxbPackageName;
-        mJaxbType = jaxbType;
-        mElementName = extractElementName();
-        mIsXmlRootElement = extractIsXmlRootElement();
-        mObjectFactory = createObjectFactory();
+        try {
+            mJaxbPackageName = jaxbPackageName;
+            mJaxbType = jaxbType;
+            mJaxbClass = loadJaxbClass();
+            mElementName = extractElementName();
+            mNamespace = extractNamespace();
+            mIsXmlRootElement = extractIsXmlRootElement();
+            mObjectFactory = createObjectFactory();
+        } catch (ClassNotFoundException e) {
+            throw new JAXBAnnotationException(e);
+        }
     }
 
     /**
@@ -62,26 +75,37 @@ public class JAXBElementDescriptor {
      * from JAXB annotations
      */
     private String extractElementName() throws JAXBAnnotationException {
+        XmlRootElement xmlRootElement =
+            getJaxbClass().getAnnotation(XmlRootElement.class);
+        if (xmlRootElement != null) {
+            String name = xmlRootElement.name();
+            if (name != null && !name.equals("##default")) {
+                return name;
+            }
+        }
+        XmlType xmlType = getJaxbClass().getAnnotation(XmlType.class);
+        if (xmlType != null) {
+            String name = xmlType.name();
+            if (name != null && !name.equals("##default")) {
+                return name;
+            }
+        }
+        throw new JAXBAnnotationException("Object " + getJaxbType()
+                + " in package " + getJaxbPackageName()
+                + " does not have an XmlRootElement or XmlType annotation");
+    }
+
+    /**
+     * Extract the XML Schema namespace associated with the JAXB package.
+     * @return the XML Schema namespace
+     * @throws JAXBAnnotationException if package-info class is not found
+     */
+    private String extractNamespace() throws JAXBAnnotationException {
         try {
-            Class < ? > clazz = loadJaxbClass();
-            XmlRootElement xmlRootElement =
-                clazz.getAnnotation(XmlRootElement.class);
-            if (xmlRootElement != null) {
-                String name = xmlRootElement.name();
-                if (name != null && !name.equals("##default")) {
-                    return name;
-                }
-            }
-            XmlType xmlType = clazz.getAnnotation(XmlType.class);
-            if (xmlType != null) {
-                String name = xmlType.name();
-                if (name != null && !name.equals("##default")) {
-                    return name;
-                }
-            }
-            throw new JAXBAnnotationException("Object " + getJaxbType()
-                    + " in package " + getJaxbPackageName()
-                    + " does not have an XmlRootElement or XmlType annotation");
+            Class < ? > packageInfoClass = Utils.loadClass(getJaxbPackageName()
+                    + ".package-info");
+            XmlSchema xmlSchema = packageInfoClass.getAnnotation(XmlSchema.class);
+            return xmlSchema.namespace();
         } catch (ClassNotFoundException e) {
             throw new JAXBAnnotationException(e);
         }
@@ -93,17 +117,12 @@ public class JAXBElementDescriptor {
      * @throws JAXBAnnotationException if class is not found
      */
     private boolean extractIsXmlRootElement() throws JAXBAnnotationException {
-        try {
-            Class < ? > clazz = loadJaxbClass();
-            XmlRootElement xmlRootElement =
-                clazz.getAnnotation(XmlRootElement.class);
-            if (xmlRootElement != null) {
-                return true;
-            }
-            return false;
-        } catch (ClassNotFoundException e) {
-            throw new JAXBAnnotationException(e);
+        XmlRootElement xmlRootElement =
+            getJaxbClass().getAnnotation(XmlRootElement.class);
+        if (xmlRootElement != null) {
+            return true;
         }
+        return false;
     }
 
     /**
@@ -132,7 +151,7 @@ public class JAXBElementDescriptor {
      * @throws ClassNotFoundException if jaxb class cannot be found from
      * the current thread loader
      */
-    public Class < ? > loadJaxbClass() throws ClassNotFoundException {
+    private Class < ? > loadJaxbClass() throws ClassNotFoundException {
         String className = JaxbUtil.getClassName(getJaxbPackageName(),
                 getJaxbType());
         return Utils.loadClass(className);
@@ -183,10 +202,13 @@ public class JAXBElementDescriptor {
     public final String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("JAXB package=");
-        sb.append(mJaxbPackageName);
+        sb.append(getJaxbPackageName());
         sb.append(", ");
         sb.append("JAXB type=");
-        sb.append(mJaxbType);
+        sb.append(getJaxbType());
+        sb.append(", ");
+        sb.append("XML namespace=");
+        sb.append(getNamespace());
         sb.append(", ");
         sb.append("XML element=");
         try {
@@ -202,6 +224,20 @@ public class JAXBElementDescriptor {
             sb.append(e.getMessage());
         }
         return sb.toString();
+    }
+
+    /**
+     * @return the XML Schema namespace
+     */
+    public String getNamespace() {
+        return mNamespace;
+    }
+
+    /**
+     * @return the The JAXB class
+     */
+    public Class < ? > getJaxbClass() {
+        return mJaxbClass;
     }
 
 }
