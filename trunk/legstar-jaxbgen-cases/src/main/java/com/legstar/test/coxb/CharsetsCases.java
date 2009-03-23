@@ -41,6 +41,29 @@ public final class CharsetsCases extends TestCase {
     }
 
     /**
+     * @return an XML serialization of the object
+     */
+    public static String getXml() {
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+        + "<Dfhcommarea xmlns=\"http://legstar.com/test/coxb/charsets\">"
+        + "<ComLocal>ça c'est un problème</ComLocal>"
+        + "<ComDbcs></ComDbcs>"
+        + "<ComNational>élémentaire à résoudre          </ComNational>"
+        + "</Dfhcommarea>";
+    }
+
+    /**
+     * @return an XML serialization of the object
+     */
+    public static String getXmlIBM01140() {
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+        + "<Dfhcommarea xmlns=\"http://legstar.com/test/coxb/charsets\">"
+        + "<ComLocal>\\a c'est un probl}me</ComLocal>"
+        + "<ComDbcs></ComDbcs>"
+        + "<ComNational>élémentaire à résoudre          </ComNational>"
+        + "</Dfhcommarea>";
+    }
+    /**
      * Check that data object contains the expected values.
      * @param dfhcommarea the java object to check
      */
@@ -61,6 +84,17 @@ public final class CharsetsCases extends TestCase {
         + "0020002000200020002000200020002000200020";
     }
 
+    /**
+     * @return a hexadecimal representation of host data with a US character set.
+     */
+    public static String getHostBytesHexIBM01140() { 
+
+        return "488140837d85a2a340a495409799968293549485404040404040404040404040"
+        + "4040404040404040404040404040404040404040404040404040404040404040"
+        + "4040404040404040404040404040404040404040404040404040404040404040"
+        + "00e9006c00e9006d0065006e00740061006900720065002000e00020007200e90073006f0075006400720065"
+        + "0020002000200020002000200020002000200020";
+    }
     /**
      * @return a JAXB object factory for this type of object
      */

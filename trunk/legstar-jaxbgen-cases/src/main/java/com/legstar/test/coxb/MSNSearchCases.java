@@ -66,6 +66,37 @@ public final class MSNSearchCases extends TestCase {
     }
 
     /**
+     * @return an XML serialization of the object
+     */
+    public static String getXml() {
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+        + "<Search xmlns=\"http://schemas.microsoft.com/MSNSearch/2005/09/fex\">"
+        + "<Request>"
+        + "<AppID>5588C3ACE949315B3ECAADDA908611BDF5D8D5AA</AppID>"
+        + "<Query>LegStar</Query>"
+        + "<CultureInfo>en-US</CultureInfo>"
+        + "<SafeSearch>Moderate</SafeSearch>"
+        + "<Flags></Flags>"
+        + "<Location>"
+        + "<Latitude>0.0</Latitude>"
+        + "<Longitude>0.0</Longitude>"
+        + "<Radius>0.0</Radius>"
+        + "</Location>"
+        + "<Requests>"
+        + "<SourceRequest>"
+        + "<Source>Web</Source>"
+        + "<Offset>0</Offset>"
+        + "<Count>1</Count>"
+        + "<FileType></FileType>"
+        + "<SortBy></SortBy>"
+        + "<ResultFields></ResultFields>"
+        + "<SearchTagFilters/>"
+        + "</SourceRequest>"
+        + "</Requests>"
+        + "</Request>"
+        + "</Search>";
+    }
+    /**
      * @return an instance of a valued java object.
      */
     public static SearchResponse getJaxbObjectResponse() {
