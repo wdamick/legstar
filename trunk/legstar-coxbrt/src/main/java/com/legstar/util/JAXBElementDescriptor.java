@@ -28,7 +28,7 @@ public class JAXBElementDescriptor {
     private String mJaxbPackageName;
 
     /** The JAXB type name. */
-    private String mJaxbType;
+    private String mJaxbTypeName;
 
     /** The JAXB class. */
     private Class < ? > mJaxbClass;
@@ -49,15 +49,15 @@ public class JAXBElementDescriptor {
     /**
      * Create the element descriptor.
      * @param jaxbPackageName the JAXB package name
-     * @param jaxbType the JAXB type name
+     * @param jaxbTypeName the JAXB type name
      * @throws JAXBAnnotationException if JAXB annotations are incomplete 
      */
     public JAXBElementDescriptor(
-            final String jaxbPackageName, final String jaxbType)
+            final String jaxbPackageName, final String jaxbTypeName)
     throws JAXBAnnotationException {
         try {
             mJaxbPackageName = jaxbPackageName;
-            mJaxbType = jaxbType;
+            mJaxbTypeName = jaxbTypeName;
             mJaxbClass = loadJaxbClass();
             mElementName = extractElementName();
             mNamespace = extractNamespace();
@@ -90,7 +90,7 @@ public class JAXBElementDescriptor {
                 return name;
             }
         }
-        throw new JAXBAnnotationException("Object " + getJaxbType()
+        throw new JAXBAnnotationException("Object " + getJaxbTypeName()
                 + " in package " + getJaxbPackageName()
                 + " does not have an XmlRootElement or XmlType annotation");
     }
@@ -153,7 +153,7 @@ public class JAXBElementDescriptor {
      */
     private Class < ? > loadJaxbClass() throws ClassNotFoundException {
         String className = JaxbUtil.getClassName(getJaxbPackageName(),
-                getJaxbType());
+                getJaxbTypeName());
         return Utils.loadClass(className);
     }
 
@@ -167,26 +167,24 @@ public class JAXBElementDescriptor {
     /**
      * @return the JAXB class name
      */
-    public final String getJaxbType() {
-        return mJaxbType;
+    public final String getJaxbTypeName() {
+        return mJaxbTypeName;
     }
 
     /**
      * @return the element name is given either by the XmlRootElement
      * annotation or the XmlType annotation.
-     * @throws JAXBAnnotationException if element name cannot be retrieved
      * from JAXB annotations
      */
-    public final String getElementName() throws JAXBAnnotationException {
+    public final String getElementName() {
         return mElementName;
     }
 
     /**
      * @return true if the JAXB element is marked as XmlRootElement which
      * means it does not need to be encapsulated in a JAXBElement.
-     * @throws JAXBAnnotationException if class is not found
      */
-    public final boolean isXmlRootElement() throws JAXBAnnotationException {
+    public final boolean isXmlRootElement() {
         return mIsXmlRootElement;
     }
 
@@ -205,24 +203,16 @@ public class JAXBElementDescriptor {
         sb.append(getJaxbPackageName());
         sb.append(", ");
         sb.append("JAXB type=");
-        sb.append(getJaxbType());
+        sb.append(getJaxbTypeName());
         sb.append(", ");
         sb.append("XML namespace=");
         sb.append(getNamespace());
         sb.append(", ");
         sb.append("XML element=");
-        try {
-            sb.append(getElementName());
-        } catch (JAXBAnnotationException e) {
-            sb.append(e.getMessage());
-        }
+        sb.append(getElementName());
         sb.append(", ");
         sb.append("is XmlRootElement=");
-        try {
-            sb.append(isXmlRootElement());
-        } catch (JAXBAnnotationException e) {
-            sb.append(e.getMessage());
-        }
+        sb.append(isXmlRootElement());
         return sb.toString();
     }
 

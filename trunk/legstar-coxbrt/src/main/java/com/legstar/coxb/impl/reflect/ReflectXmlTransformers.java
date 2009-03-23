@@ -31,10 +31,11 @@ public class ReflectXmlTransformers extends AbstractXmlTransformers {
      * @throws ReflectBindingException 
      * @throws ReflectBindingException if JAXB type has no annotations or cannot be 
      *  located from the classpath
+     * @throws HostTransformException if transformer cannot be created
      */
     public ReflectXmlTransformers(
             final String jaxbPackageName,
-            final String jaxbType) throws ReflectBindingException {
+            final String jaxbType) throws ReflectBindingException, HostTransformException {
         super(new ReflectXmlToHostTransformer(jaxbPackageName, jaxbType),
                 new ReflectHostToXmlTransformer(jaxbPackageName, jaxbType));
     }

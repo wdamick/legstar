@@ -10,14 +10,8 @@
  ******************************************************************************/
 package com.legstar.coxb.impl.reflect;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.Source;
-
 import com.legstar.coxb.transform.AbstractXmlToHostTransformer;
 import com.legstar.coxb.transform.HostTransformException;
-import com.legstar.util.JAXBElementDescriptor;
 
 /**
  * This implementation of an XML to host transformer dynamically binds to
@@ -27,54 +21,18 @@ import com.legstar.util.JAXBElementDescriptor;
  */
 public class ReflectXmlToHostTransformer extends AbstractXmlToHostTransformer {
 
-    /** JAXB Context. */
-    private JAXBContext mJaxbContext = null;
-
-    /** JAXB Unmarshaller (XML to Object). */
-    private Unmarshaller mXmlUnmarshaller = null;
-
     /**
      * Construct a transformer for a particular JAXB type.
      * @param jaxbPackageName the JAXB type package name
      * @param jaxbType the JAXB type
      * @throws ReflectBindingException if JAXB type has no annotations or cannot be 
      *  located from the classpath
+     * @throws HostTransformException if transformer cannot be created
      */
     public ReflectXmlToHostTransformer(
             final String jaxbPackageName,
-            final String jaxbType) throws ReflectBindingException {
+            final String jaxbType) throws ReflectBindingException, HostTransformException {
         super(new ReflectJavaToHostTransformer(jaxbPackageName, jaxbType));
-        try {
-            mJaxbContext = JAXBContext.newInstance(
-                    getJaxbElementDescriptor().getJaxbClass());
-            mXmlUnmarshaller = mJaxbContext.createUnmarshaller();
-        } catch (JAXBException e) {
-            throw new ReflectBindingException(e);
-        }
     }
 
-    /** {@inheritDoc} */
-    public Object getObjectFromXml(final Source source) throws HostTransformException {
-        try {
-            return getXmlUnmarshaller().unmarshal(
-                    source, getJaxbElementDescriptor().getJaxbClass()).getValue();
-        } catch (JAXBException e) {
-            throw new HostTransformException(e);
-        }
-    }
-
-
-    /**
-     * @return the Host to Java transformer using reflection
-     */
-    public JAXBElementDescriptor getJaxbElementDescriptor() {
-        return ((ReflectJavaToHostTransformer) getJavaToHostTransformer()).getJaxbElementDescriptor();
-    }
-
-    /**
-     * @return the JAXB Unmarshaller (Object to XML)
-     */
-    public Unmarshaller getXmlUnmarshaller() {
-        return mXmlUnmarshaller;
-    }
 }
