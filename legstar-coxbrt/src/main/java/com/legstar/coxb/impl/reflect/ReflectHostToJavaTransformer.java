@@ -35,11 +35,6 @@ public class ReflectHostToJavaTransformer extends AbstractHostToJavaTransformer 
     private Object mObjectFactory;
 
     /**
-     * The JAXB type class.
-     */
-    private Class < ? > mJaxbClass;
-
-    /**
      * Construct a transformer for a particular JAXB type.
      * @param jaxbPackageName the JAXB type package name
      * @param jaxbType the JAXB type
@@ -52,7 +47,6 @@ public class ReflectHostToJavaTransformer extends AbstractHostToJavaTransformer 
         try {
             mJaxbElementDescriptor = new JAXBElementDescriptor(jaxbPackageName, jaxbType);
             mObjectFactory = mJaxbElementDescriptor.createObjectFactory();
-            mJaxbClass = mJaxbElementDescriptor.getJaxbClass();
         } catch (JAXBAnnotationException e) {
             throw new ReflectBindingException(e);
         }
@@ -80,7 +74,7 @@ public class ReflectHostToJavaTransformer extends AbstractHostToJavaTransformer 
      * @return the JAXB type class
      */
     public Class < ? > getJaxbClass() {
-        return mJaxbClass;
+        return getJaxbElementDescriptor().getJaxbClass();
     }
 
     /**
