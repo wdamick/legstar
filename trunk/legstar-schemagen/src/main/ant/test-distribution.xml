@@ -37,7 +37,7 @@
         <unzip src="${zip.file}" dest="${test.dir}"/>
         <echo message=">>>> ${test.dir}/${dist.name}/bin;${env.Path};${env.PATH}"/>
         <exec executable="cmd">
-            <env key="Path" value="${test.dir}/${dist.name}/bin;${env.Path}"/>
+            <env key="Path" value="${test.dir}/${dist.name}/bin;${env.Path};${env.PATH}"/>
             <arg value="/c"/>
             <arg value="ant.bat"/>
             <arg value="-f"/>
