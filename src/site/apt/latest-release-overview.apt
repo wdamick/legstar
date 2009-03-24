@@ -2,6 +2,29 @@
                              Latest release overview
  -------------------------------------------------------------------------------
 
+Version 1.2.4
+
+ The MQ Transport for Adapters now supports the IBM CICS MQ Bridge. With this
+ option, there is no need to install LegStar on the mainframe. There is an
+ additional parameter in legstar-invoker-config.xml to support this option.
+ When enabled, legstar sends an MQCIH header to the CICS MQ Bridge in addition
+ to the raw data expected by the CICS DPL program.
+ 
+ The binding generator now produces XML to Host transformers in addition to
+ java to Host transformers. With these, it becomes very simple to process
+ XML as an alternative to java value objects.
+ 
+ COBOL PIC G, DISPLAY-1 data items are now fully supported. They map to Strings
+ and legstar removes the shift-in/shift-out characters which are not needed in
+ this case.
+ 
+ The XML Schema that describes the COBOL binding annotations has been changed.
+ It is now located at http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd.
+ The byteLength attribute has been removed and values are now attributes rather
+ than elements.
+
+ Details about all the changes are available {{{DetailedChanges} here}}.
+
 Version 1.2.3
 
  The major new feature is support for POJO as targets for Proxy Services.
