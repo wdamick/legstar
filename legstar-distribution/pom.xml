@@ -3,9 +3,9 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.2.4</version>
+        <version>1.2.5-SNAPSHOT</version>
     </parent>
-    <version>1.2.4</version>
+    <version>1.2.5-SNAPSHOT</version>
     <artifactId>legstar-distribution</artifactId>
     <name>LegStar Distribution</name>
     <packaging>pom</packaging>
