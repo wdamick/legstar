@@ -3,6 +3,11 @@
     <title>Changes Service Generator</title>
   </properties>
   <body>
+    <release version="1.2.4" date="2009-03-30" description="Performance release">
+      <action dev="fady" type="update">
+        Changed some velocity templates so that they can be reused for other targets (ESBs...).
+      </action>
+    </release>
     <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
       <action dev="fady" type="update">
         Reimplemented the JAX-WS endpoint implementation using the new Transformer API.

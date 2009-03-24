@@ -3,6 +3,18 @@
     <title>COBOL Binding Runtime</title>
   </properties>
   <body>
+    <release version="1.2.4" date="2009-03-30" description="Performance release">
+      <action dev="fady" type="update">
+        Fixed issue 44: Marshaler should initialize all items of a fixed sized complex array when the bound value object is
+        empty of partially filled.
+      </action>
+      <action dev="fady" type="update">
+        Added XML to Host transformers based on reflection.
+      </action>
+      <action dev="fady" type="update">
+        Removed byteLength from the expected java annotations. The calculation is done at generation time.
+      </action>
+    </release>
     <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
       <action dev="fady" type="update">
         Added support for Transformers and the new associated API.

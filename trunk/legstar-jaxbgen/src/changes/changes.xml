@@ -3,6 +3,14 @@
     <title>JAXB COBOL Annotator</title>
   </properties>
   <body>
+    <release version="1.2.4" date="2009-03-30" description="Performance release">
+      <action dev="fady" type="update">
+        Fixed issue 41: COBOL VALUE is now used to initialize the corresponding JAXB field. The value annotation is now an attribute (not an element anymore).
+      </action>
+      <action dev="fady" type="update">
+        The byteLength annotation has been removed (it was confusing and had to be kept in sync with COBOL PIC clause manually).
+      </action>
+    </release>
     <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
       <action dev="fady" type="update">
         Minor changes in maven site handling. Jaxbgen is now only visible through Coxbgen.

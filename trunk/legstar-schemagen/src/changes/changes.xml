@@ -3,6 +3,18 @@
     <title>COBOL Structures Mapping Generator</title>
   </properties>
   <body>
+    <release version="1.2.4" date="2009-03-30" description="Performance release">
+      <action dev="fady" type="update">
+        The COBOL binding XML schema namespace has been changed to reflect modifications in handling of byteLength and value attributes.
+        The new namespace is http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd and it exists at this location.
+      </action>
+      <action dev="fady" type="update">
+        Pure DBCS fields (PIC G, DISPLAY-1) are now supported properly. They map to Strings (not byte[] anymore).
+      </action>
+      <action dev="fady" type="update">
+        Fields with VALUE SPACES are no longer initialized with an actual string of spaces.
+      </action>
+    </release>
     <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
       <action dev="fady" type="update">
         Fixed issue 26: When 2 complex types from the same COBOL fragment have name conflicts,

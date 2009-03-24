@@ -3,6 +3,8 @@
     <title>Changes Socket Transport</title>
   </properties>
   <body>
+    <release version="1.2.4" date="2009-03-30" description="Performance release">
+    </release>
     <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
       <action dev="fady" type="update">
         Added sample to showcase usage of the invoker and provide sample configuration.

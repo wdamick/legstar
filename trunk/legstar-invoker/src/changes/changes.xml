@@ -3,6 +3,11 @@
     <title>Mainframe Adapter Runtime</title>
   </properties>
   <body>
+    <release version="1.2.4" date="2009-03-30" description="Performance release">
+      <action dev="fady" type="update">
+        Project legstar-messaging-impl has been removed.
+      </action>
+    </release>
     <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
       <action dev="fady" type="update">
         Invoker Runtime is renamed Mainframe Adapter Runtime.
