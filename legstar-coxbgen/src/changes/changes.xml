@@ -3,6 +3,18 @@
     <title>COBOL Binding Generator</title>
   </properties>
   <body>
+    <release version="1.2.4" date="2009-03-30" description="Performance release">
+      <action dev="fady" type="update">
+        Fixed Issue 45: Generate XML to Host and Host to XML transformers in addition to the Java to Host and
+        host to Java ones.
+      </action>
+      <action dev="fady" type="update">
+        Evaluation of maximum host byte length is now done at generation time for all types.
+      </action>
+      <action dev="fady" type="update">
+        Added support for DBCS PIC G, DISPLAY-1.
+      </action>
+    </release>
     <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
       <action dev="fady" type="update">
         Fixed Issue 28: COBOL Binding class does not compile for arrays with OCCURS 0 TO 1.

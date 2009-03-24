@@ -3,6 +3,12 @@
     <title>Complex Types Mapping Generator</title>
   </properties>
   <body>
+    <release version="1.2.4" date="2009-03-30" description="Performance release">
+      <action dev="fady" type="update">
+        Changed the cobol binding XML Schema namespace from "http://www.legsem.com/xml/ns/coxb" to "http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd".
+        The new XML Schema also removed byteLength from elementary items attributes (see Issue 37).
+      </action>
+    </release>
     <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
       <action dev="fady" type="update">
         Fixed Issue 4: There is now XML declaration specifying a UTF-8 encoding on generated mapping XML Schemas.

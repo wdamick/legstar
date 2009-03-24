@@ -3,6 +3,11 @@
     <title>Changes COBOL Structures Generator</title>
   </properties>
   <body>
+    <release version="1.2.4" date="2009-03-30" description="Performance release">
+      <action dev="fady" type="update">
+        Added support for PIC G, DISPLAY-1 types.
+      </action>
+    </release>
     <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
       <action dev="fady" type="update">
         Fixed an identation issue where the third level was sometimes too indented.
