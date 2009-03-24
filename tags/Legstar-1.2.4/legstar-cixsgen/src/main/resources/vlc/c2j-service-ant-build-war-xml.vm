@@ -1,0 +1,55 @@
+##/////////////////////////////////////////////////////////////////////
+##Jaxws Component ANT Build and deploy Template.
+##@author Fady
+##@version 0.1
+##/////////////////////////////////////////////////////////////////////
+##
+#set($warFile = "${targetWarDir}/c2ws-${model.name}.war")
+#set($wddFile = "${targetWDDDir}/web.xml")
+## ==================================================================
+## Macro will help make sure we process packages only once
+## ==================================================================
+#macro(addPackage $list, $newPackage)
+#if (!$list.contains($newPackage))
+#set($ret = $list.add($newPackage))
+#end
+#end
+## ==================================================================
+## Create lists of unique jaxb and coxb package names
+## ==================================================================
+#set($jaxbPackages = [])
+#set($coxbPackages = [])
+#foreach ($cixsOperation in $model.cixsOperations)
+#foreach ($cixsStructure in $cixsOperation.getInput())
+#addPackage($jaxbPackages, ${cixsStructure.jaxbPackageName})
+#addPackage($coxbPackages, ${cixsStructure.coxbPackageName})
+#end
+#foreach ($cixsStructure in $cixsOperation.getOutput())
+#addPackage($jaxbPackages, ${cixsStructure.jaxbPackageName})
+#addPackage($coxbPackages, ${cixsStructure.coxbPackageName})
+#end
+#end
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir=".." default="create-war" name="build-war">
+   <property environment="env"/>
+   <property name="service" value="${model.name}"/>
+   <target name="clean">
+      <delete file="${warFile}" includeEmptyDirs="true"
+              quiet="true"/>
+   </target>
+   <target name="create-war" depends="clean">
+      <war warfile="${warFile}"
+           webxml="${wddFile}">
+#foreach ($jaxbPackage in $jaxbPackages)
+         <classes dir="${jaxbBinDir}">
+            <include name="${jaxbPackage.replace(".","/")}/*.class"/>
+         </classes>
+#end
+#foreach ($coxbPackage in $coxbPackages)
+         <classes dir="${coxbBinDir}">
+            <include name="${coxbPackage.replace(".","/")}/*.class"/>
+         </classes>
+#end
+      </war>
+   </target>
+</project>

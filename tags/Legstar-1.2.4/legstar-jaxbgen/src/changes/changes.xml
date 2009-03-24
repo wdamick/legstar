@@ -1,0 +1,51 @@
+<document>
+  <properties>
+    <title>JAXB COBOL Annotator</title>
+  </properties>
+  <body>
+    <release version="1.2.4" date="2009-03-30" description="Performance release">
+      <action dev="fady" type="update">
+        Fixed issue 41: COBOL VALUE is now used to initialize the corresponding JAXB field. The value annotation is now an attribute (not an element anymore).
+      </action>
+      <action dev="fady" type="update">
+        The byteLength annotation has been removed (it was confusing and had to be kept in sync with COBOL PIC clause manually).
+      </action>
+    </release>
+    <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
+      <action dev="fady" type="update">
+        Minor changes in maven site handling. Jaxbgen is now only visible through Coxbgen.
+      </action>
+    </release>
+    <release version="1.2.2" date="2008-11-15" description="Support for ESB generation">
+      <action dev="fady" type="update">
+        Changed code due to removal of "Type" as the default jaxbTypeClassesSuffix in XML schema generation.
+        JAXB test class names are not suffixed with "Type" anymore.
+      </action>
+    </release>
+    <release version="1.2.1" date="2008-09-30" description="Code cleansing">
+    </release>
+    <release version="1.2.0" date="2008-07-08" description="POJO support">
+      <action dev="fady" type="update">
+        The JAXB Cobol Annotator propagates the cobolComplexType annotation at the class level.
+        This annotation keeps track of an associated POJO.
+      </action>
+      <action dev="fady" type="update">
+        The JAXB Cobol Annotator now takes an external bindings file in order for all
+        generated JAXB implementation classes to be serializable.
+        This actually conflicts with XML Schemas generated with the previous version
+        of schemagen. JAXB does not accept a globalbindings element both inside the Schema
+        and within the external binding file. The globalbinding element needs to be removed
+        manually from older XML schemas.
+      </action>
+    </release>
+
+    <release version="1.1.0" date="2007-08-30" description="No major change">
+    </release>
+
+    <release version="0.0.1" date="2006-12-31" description="First release">
+      <action dev="fady" type="add">
+        First version of the JAXB COBOL Annotator.
+      </action>
+    </release>
+  </body>
+</document>

@@ -1,0 +1,93 @@
+<document>
+  <properties>
+    <title>COBOL Binding Generator</title>
+  </properties>
+  <body>
+    <release version="1.2.4" date="2009-03-30" description="Performance release">
+      <action dev="fady" type="update">
+        Fixed Issue 45: Generate XML to Host and Host to XML transformers in addition to the Java to Host and
+        host to Java ones.
+      </action>
+      <action dev="fady" type="update">
+        Evaluation of maximum host byte length is now done at generation time for all types.
+      </action>
+      <action dev="fady" type="update">
+        Added support for DBCS PIC G, DISPLAY-1.
+      </action>
+    </release>
+    <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
+      <action dev="fady" type="update">
+        Fixed Issue 28: COBOL Binding class does not compile for arrays with OCCURS 0 TO 1.
+        Binding generator, and more generally visitors, do not consider maxOccurs=1 as arrays anymore,
+        even if minOccurs=0. The case OCCURS 0 TO 1 DEPENDING ON is now managed as an optional element
+        (not an array). The counter element in DEPENDING ON will be set to 1 if object exist and
+        conversely, host data is assumed to contain bytes for that element if the associated counter is 1.
+      </action>
+      <action dev="fady" type="update">
+        Fixed Issue 29: When mainframe sends partial data, converters now make their best effort
+        to consume the partial data received and fill the rest with default values rather then
+        raising an exception.
+      </action>
+      <action dev="fady" type="update">
+        Introduced Transformers which are a cleaner, higher level, API than CComplexBinding.
+        This will make it easier for users using COBOL binding directly without the Service
+        integration modules.
+      </action>
+      <action dev="fady" type="update">
+        Fixed Issue 9: Some @SuppressWarning("unchecked") were not necessary.
+      </action>
+    </release>
+    <release version="1.2.2" date="2008-11-15" description="Support for ESB generation">
+      <action dev="fady" type="update">
+        Fixed Issue 27: Generated member names might conflict with java reserved words.
+        All member variables in generated binding classes are now prefixed with underscore.
+      </action>
+      <action dev="fady" type="update">
+        Fixed Bug 29: Generated bindind objects have the following issue:
+
+        In a hierarchy where a variable size array is a member of a child, the
+        corresponding dynamic counter in the parent or higher (root actually) complex
+        type is not re-marshalled after children were marshalled.
+
+        This is due to the fact that there is no mechanism to keep track of dynamic
+        counters in static (ie generated) bindind classes.
+      </action>
+      <action dev="fady" type="update">
+        Changed code due to removal of "Type" as the default jaxbTypeClassesSuffix in XML schema generation.
+        JAXB test class names are not suffixed with "Type" anymore.
+      </action>
+    </release>
+    <release version="1.2.1" date="2008-09-30" description="Code cleansing">
+    </release>
+    <release version="1.2.0" date="2008-07-08" description="Velocity macros">
+      <action dev="fady" type="update">
+        You can now provide multiple Jaxb root class names for a single execution
+        of the binding generator.
+      </action>
+      <action dev="fady" type="update">
+        The binding generator now accepts to bind to a Java class that is different from
+        the JAXB class. In such a case, the JAXB class is only used at generation time.
+        At generation time the Java class to bind with, is extracted from a special
+        annotation called CobolComplexType.
+      </action>
+      <action dev="fady" type="update">
+        The XSLT based generation has been replaced by Velocity macros. The code is
+        easier to maintain and performances are better.
+      </action>
+    </release>
+
+    <release version="1.1.0" date="2007-08-30" description="XSL and API refactoring">
+      <action dev="fady" type="update">
+        The generation XSL has been simplified and the generated classes now use
+        the new Cobol binding API so that generated classes do not directly depend
+        on a particular binding impementation.
+      </action>
+    </release>
+
+    <release version="0.0.1" date="2006-12-31" description="First release">
+      <action dev="fady" type="add">
+        First version of the COBOL Binding Generator.
+      </action>
+    </release>
+  </body>
+</document>

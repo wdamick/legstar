@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<faqs title="Frequently Asked Questions">
+
+  <part id="general">
+    <title>General</title>
+   
+    <faq id="footer-company">
+      <question>
+       Why am I getting a "java.lang.ClassNotFoundException: com.sun.xml.ws.transport.http.servlet.WSServletContextListener" 
+       when starting Tomcat after I deployed my JAX-WS endpoint?
+      </question>
+      <answer>
+       You probably did not install a JAX-WS runtime in Tomcat. In order to do so, you must download a JAX-WS 2.1
+       implementation such as <a href="https://jax-ws.dev.java.net/ri-download.html">Sun's JAX-WS RI</a> and copy the jar files
+       into a common location such as shared/lib under Tomcat.
+      </answer>
+    </faq>
+
+     <faq id="footer-company">
+      <question>
+       Why am I getting a "java.lang.NoClassDefFoundError: com/legstar/host/invoke/HostInvokeException" 
+       when starting Tomcat after I deployed my JAX-WS endpoint?
+      </question>
+      <answer>
+       The default war file created by the ant script does not include the LegStar binaries. To fix this 
+       issue, copy all legstar-*.jar files from the installDir/lib folder into a common location such as
+       shared/lib under Tomcat.
+      </answer>
+    </faq>
+    
+     <faq id="footer-company">
+      <question>
+       Why am I getting a "org.apache.commons.configuration.ConfigurationException: Cannot locate configuration source
+       legstar-invoker-config.xml" when starting running my JAX-WS endpoint?
+      </question>
+      <answer>
+       The endpoint implementation is looking for a configuration file which name is specified in the web.xml
+       deployment file. By default this file is named legstar-invoker-config.xml. There is a sample of such a 
+       file in the samples folder of the distribution. You need to customize this file and make a copy in the
+       shared/classes folder under Tomcat. 
+      </answer>
+    </faq>
+    
+     <faq id="footer-company">
+      <question>
+       I have successfully deployed the sample JAX-WS endpoint. How do I test it?
+      </question>
+      <answer>
+       You can direct your browser to a URL such as "http://localhost:8080/cixs-lsfileae/lsfileae?wsdl",
+       assuming your Server runs locally and is listening on port 8080.
+      </answer>
+    </faq>
+
+    <faq id="footer-company">
+      <question>
+       Why am I getting a "java.lang.LinkageError: JAXB 2.0 API is being loaded from the bootstrap classloader, but this RI (...) needs 2.1 API.?
+      </question>
+      <answer>
+       This issue is discussed <a href="http://www.legsem.com/legstar/phpBB3/viewtopic.php?f=2&amp;t=4">here.</a>
+      </answer>
+    </faq>
+    
+  <!--
+    <faq id="">
+      <question></question>
+      <answer>
+      </answer>
+    </faq>
+  -->
+  </part>
+</faqs>

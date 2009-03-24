@@ -1,0 +1,158 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>1.2.4</version>
+    </parent>
+    <version>1.2.4</version>
+    <artifactId>legstar-cixsgen-cases</artifactId>
+    <name>LegStar Mainframe Service Generator test classes</name>
+    <description>Test cases used by various LegStar projects</description>
+    <url>http://www.legsem.com/legstar</url>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-invoker</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-messaging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbapi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-jaxbgen-cases</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbgen-cases</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.jws</groupId>
+            <artifactId>jsr181-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-c2wsrt</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-csokrt</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-tests</artifactId>
+            <scope>test</scope>
+        </dependency>
+    
+  </dependencies>
+
+    <build>
+        <plugins>
+            <!-- skip unit test run, tests to be executed during integration-test -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>surefire-it</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <skip>false</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                
+                <executions>
+
+                    <!-- This will deploy all Web Services to a new instance of Tomcat. -->
+                    <execution>
+                        <id>deploy-test-services</id>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <tasks>
+                               <path id="maven.classpath">
+                                    <path refid="maven.test.classpath" />
+                                </path>
+                                <ant antfile="${basedir}/../legstar-tests/src/test/ant/build-tomcat-stop.xml">
+                                    <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
+                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
+                                </ant>
+                                <ant antfile="${basedir}/src/test/ant/build-test-deploy.xml" />
+                                <ant antfile="${basedir}/../legstar-tests/src/test/ant/build-tomcat-start.xml">
+                                    <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
+                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
+                                </ant>
+                                <ant antfile="${basedir}/src/test/ant/build-test-clients.xml" inheritRefs="true">
+                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                
+                    <!-- This insert predefined COBOL code into generated samples.  -->
+                    <execution>
+                        <id>update-cobol-samples</id>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/test/ant/build-cobol-src.xml" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- Stop Tomcat.  -->
+                    <execution>
+                        <id>cleanup</id>
+                        <phase>post-integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/../legstar-tests/src/test/ant/build-tomcat-stop.xml">
+                                    <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
+                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+  
+</project>

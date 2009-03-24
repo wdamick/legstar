@@ -1,0 +1,35 @@
+<assembly>
+    <id></id>
+    
+    <formats>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <fileSets>
+
+        <fileSet>
+            <directory>src/main/resources</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>**</include>
+            </includes>
+        </fileSet>
+        
+    </fileSets>
+
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>/</outputDirectory>
+            <unpack>false</unpack>
+            <scope>runtime</scope>
+            <includes>
+                <include>com.legsem.legstar:${pom.artifactId}:*</include>
+                <include>org.json:jsonjava:*</include>
+                <include>com.legsem.legstar:legstar-jaxbgen-cases:*</include>
+                <include>com.legsem.legstar:legstar-coxbgen-cases:*</include>
+            </includes>
+        </dependencySet>
+    </dependencySets>
+  
+</assembly>

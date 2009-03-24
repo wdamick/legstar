@@ -1,0 +1,63 @@
+<!-- =================================================================================
+     This script generates a Cobol-annotated XML Schema from a set of Java classes.
+  -->
+<project basedir="${antModel.productLocation}" default="signalSuccess" name="generate-XSD">
+#**
+Java to Xsd ant script Velocity Template.
+@author Fady
+@version 1.2
+*#
+## ==================================================================
+## Generates an ant script for Java to Xsd generation
+##
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
+    <target name="init">
+    
+        <!-- Classpath setting -->
+        <path id="classpath">
+            <fileset dir="${basedir}" includes="lib/*.jar" />
+#foreach ($pathElementLocation in $antModel.pathElementLocations)
+            <pathelement location="${pathElementLocation}"/>
+#end
+        </path>
+        
+        <!-- Java to COBOL Structures Generator ant task -->
+        <taskdef name="j2scgen"
+            classname="com.legstar.j2sc.gen.JavaToXsdCobolTask"
+            classpathref="classpath"/>
+        
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- Generate a Cobol-annotated XML Schema. Here we explicitly
+    specify the root class names. As an alternative, the POJO
+    could be annotated with JSR 181 XmlRootElement.
+    -->
+    <target name="generateXSD" depends="init">
+        <echo message="Generating annotated XML schema ${antModel.targetXsdFileName}" />
+        <mkdir dir="${antModel.targetDir}"/>
+        <j2scgen 
+            namespace="${antModel.namespace}"
+            jaxbPackageName="${antModel.jaxbPackageName}"
+#if(${antModel.jaxbTypeClassesSuffix})
+            jaxbTypeClassesSuffix="${antModel.jaxbTypeClassesSuffix}"
+#end
+            targetDir="${antModel.targetDir}"
+            targetXsdFileName="${antModel.targetXsdFileName}"
+        >
+#foreach ($className in $antModel.classNames)
+            <rootClass name="${className}"/>
+#end
+        </j2scgen>
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- Delete the probe file to signal success
+    -->
+    <target name="signalSuccess" depends="generateXSD">
+        <delete file="${antModel.probeFile}" quiet="true"/>
+    </target>
+    
+</project>

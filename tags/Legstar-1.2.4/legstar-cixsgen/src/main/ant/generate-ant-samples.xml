@@ -1,0 +1,70 @@
+<!-- =================================================================================
+     This script generates ant scripts for the samples (quickstarts).
+ -->
+<project basedir="../../.." default="generateAntSamples">
+
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
+    <target name="init">
+    
+        <!-- Source of cixsgen templates -->
+        <property name="cixsgen.ant.template.dir" value="${basedir}/../legstar-cixsgen/src/main/templates" />
+        <!-- Target directories  -->
+        <property name="ant.dir" value="target/ant" />
+    
+    </target>
+    
+    <!-- ===========================================================  -->
+    <!-- Copy files using filtering. This will create ant scripts 
+         ready for quickstarts.
+    -->
+    <target name="generateAntSamples" depends="init">
+        <copy file="${cixsgen.ant.template.dir}/build-jws2cixs.xml.template" tofile="${ant.dir}/lsfileae/build-jws2cixs.xml">
+            <filterset><filter token="SERVICE-NAME" value="lsfileae"/></filterset>
+            <filterset><filter token="PROGRAM-NAME" value="LSFILEAE"/></filterset>
+            <filterset><filter token="JAXB-ROOT-NAME" value="Dfhcommarea"/></filterset>
+        </copy>
+        <copy file="${cixsgen.ant.template.dir}/build-jws-client.xml.template" tofile="${ant.dir}/lsfileae/build-jws-client.xml">
+            <filterset><filter token="SERVICE-NAME" value="lsfileae"/></filterset>
+        </copy>
+
+        <copy file="${cixsgen.ant.template.dir}/build-cixs2jws.xml.template" tofile="${ant.dir}/cultureinfo/build-cixs2jws.xml">
+            <filterset><filter token="SERVICE-NAME" value="cultureinfo"/></filterset>
+            <filterset><filter token="PROXY-TARGET-TYPE" value="WEBSERVICE"/></filterset>
+            <filterset><filter token="PROGRAM-NAME" value="CULTUREI"/></filterset>
+            <filterset><filter token="JAXB-ROOT-NAME-IN" value="GetInfo"/></filterset>
+            <filterset><filter token="JAXB-ROOT-NAME-OUT" value="GetInfoResponse"/></filterset>
+        </copy>
+
+        <replace file="${ant.dir}/cultureinfo/build-cixs2jws.xml">
+            <replacetoken><![CDATA[@TARGET-PARAMETERS@]]></replacetoken>
+            <replacevalue><![CDATA[<!-- Target Web Service parameters (needed if proxyTargetType="WEBSERVICE") -->
+            <webServiceTargetParameters
+                    wsdlUrl="http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl"
+                    wsdlTargetNamespace="http://cultureinfo.cases.test.xsdc.legstar.com/"
+                    wsdlServiceName="CultureInfoImplService"
+                    wsdlPortName="CultureInfoImplPort"
+                />]]></replacevalue>
+        </replace>
+
+        <copy file="${cixsgen.ant.template.dir}/build-cixs2jws.xml.template" tofile="${ant.dir}/jvmquery/build-cixs2jws.xml">
+            <filterset><filter token="SERVICE-NAME" value="jvmquery"/></filterset>
+            <filterset><filter token="PROXY-TARGET-TYPE" value="POJO"/></filterset>
+            <filterset><filter token="PROGRAM-NAME" value="JVMQUERY"/></filterset>
+            <filterset><filter token="JAXB-ROOT-NAME-IN" value="JvmQueryRequest"/></filterset>
+            <filterset><filter token="JAXB-ROOT-NAME-OUT" value="JvmQueryReply"/></filterset>
+        </copy>
+
+        <replace file="${ant.dir}/jvmquery/build-cixs2jws.xml">
+            <replacetoken><![CDATA[@TARGET-PARAMETERS@]]></replacetoken>
+            <replacevalue><![CDATA[<!-- Target POJO parameters (needed if proxyTargetType="POJO") -->
+            <pojoTargetParameters
+                className="com.legstar.xsdc.test.cases.jvmquery.JVMQuery"
+                methodName="queryJvm"
+            />]]></replacevalue>
+        </replace>
+
+    </target>
+  
+</project>

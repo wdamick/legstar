@@ -1,0 +1,52 @@
+<document>
+  <properties>
+    <title>Mainframe Adapter Runtime</title>
+  </properties>
+  <body>
+    <release version="1.2.4" date="2009-03-30" description="Performance release">
+      <action dev="fady" type="update">
+        Project legstar-messaging-impl has been removed.
+      </action>
+    </release>
+    <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
+      <action dev="fady" type="update">
+        Invoker Runtime is renamed Mainframe Adapter Runtime.
+      </action>
+      <action dev="fady" type="update">
+        Deprecated the invoke methods that took java objects. These created dependencies
+        on COBOL binding that are not useful. The Adapter Runtime now works at the raw mainframe
+        data level and is independent of the language binding layer.
+      </action>
+      <action dev="fady" type="update">
+        Fixed issue 27: Adapters always send the largest payload for variable size input structures.
+      </action>
+    </release>
+    <release version="1.2.2" date="2008-11-15" description="Support for ESB generation">
+    </release>
+    <release version="1.2.1" date="2008-09-30" description="Code cleansing">
+      <action dev="fady" type="update">
+        Changed from wait/notify synchronization to Java 1.5 CountDownLatch.
+      </action>
+    </release>
+    <release version="1.2.0" date="2008-07-08" description="Messaging refactoring">
+      <action dev="fady" type="update">
+        The invoker uses the new messaging implementation code introduced in 1.2.0.
+      </action>
+    </release>
+    <release version="1.1.0" date="2007-08-30" description="Containers support">
+      <action dev="fady" type="update">
+        The invoker now supports multiple input/multiple output. This is needed for
+        CICS containers full support.
+      </action>
+      <action dev="fady" type="update">
+        The configuration file is now called "legstar-invoker-config.xml" by default.
+      </action>
+    </release>
+
+    <release version="1.0.1" date="2007-05-15" description="First release">
+      <action dev="fady" type="add">
+        First version of the Mainframe Invoker Runtime.
+      </action>
+    </release>
+  </body>
+</document>

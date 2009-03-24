@@ -1,0 +1,94 @@
+ -----
+ Overview
+ -----
+ Fady Moussallam
+ -----
+ 18 January 2009
+ -----
+
+Mainframe Adapter Runtime overview
+
+  The LegStar Mainframe Adapter Runtime provides a general purpose remote call mechanism to mainframe programs
+  from Java clients.
+  
+  The Adapter Runtime deals with raw mainframe data. Upper level modules are in charge of converting
+  that data to java and vice versa. Of course they can use
+  {{{../legstar-coxbgen}COBOL binding}} module for that purpose.
+  
+  The Adapter Runtime has the capability to call single input/single output programs such as
+  CICS commarea-driven programs but it can also call multiple input/multiple output programs
+  such as CICS container-driven programs.
+  
+  At runtime, the invoker must be configured to use one of the available transports (Sockets,
+  HTTP, etc.).
+  
+Messaging
+
+  When the invoker sends a request to the mainframe, it wraps the raw data in a message
+  structure. The LegStar messaging framework is transport independent so that LegStar
+  can evolve to support more transports in the future.
+  
+  The framework uses a notion of "Address" similar in spirit to SOAP Addressing which
+  allows each request to be correctly routed. The Address identifies the target mainframe.
+  
+  The message structure is multipart to support host programs with multiple input
+  structures and multiple output structures.
+  
+  Message headers support an open format based on JSON so that more sophisticated
+  message exchange protocols can be built in the future.
+  
+  On the mainframe side, the data needs to be unwrapped and extracted from the message
+  received. This {{{../legstar-messaging/LSMSGLIB-readme.html}C/370 program}} performs
+  such unwrapping.
+  
+  The following mainframe side C/370 programs perform the actual call to the target
+  program:
+
+ * {{{LSLNKBIN-readme.html}LSLNKBIN CICS LINK library}}
+
+ * {{{LSLNKCOM-readme.html}LSLNKCOM CICS COMMAREA LINK library}}
+
+ * {{{LSLNKCTN-readme.html}LSLNKCTN CICS CONTAINERS LINK library}}
+
+Configuration
+
+  The Adapter Runtime expects a configuration file such as the 
+  {{{samples/legstar-invoker-config.xml}legstar-invoker-config.xml}} sample provided.
+  A configuration file is an XML file with one endpoint per target mainframe.
+  Read the comments in the sample to help you setup your own configuration.
+  
+  The Address received by the invoker specifies which host enpoint to use. If the Address
+  is empty, the first endpoint definition is used. The Address can also override host
+  credentials.
+  
+  Mainframe programs to call are described by properties files such as the
+   {{{samples/lsfileae.properties}lsfileae.properties}} sample file provided. Such a
+  properties file is expected to be available from the classpath.
+  
+Pooling connections
+
+  Two host access strategies are provided: direct and pooled. With a direct access strategy, 
+  there are no intermediate engines, clients connect to the host directly. With the pooled
+  access strategy, an {{{../legstar-engine}Connection Pooling Engine}} manages a pool of
+  connections.
+  
+  The strategy chosen is configurable at the host endpoint level in the configuration file.
+  
+  To select a direct access strategy you would add the following element:
+
++-------------------------------+
+		<hostAccessStrategy>direct</hostAccessStrategy>
++-------------------------------+
+  
+  For a pooled access strategy, the element would be:
+
++-------------------------------+
+		<hostAccessStrategy>pooled</hostAccessStrategy>
++-------------------------------+
+   
+  The host access strategy is independent from the underlying transport.
+  
+  Pooling allows host connections to be reused. For details, refer to {{{../legstar-engine}Connection Pooling Engine}}.
+  
+  For answers to common questions about LegStar Adapter Runtime, see the {{{faq.html}FAQ}}.
+  

@@ -1,0 +1,51 @@
+<document>
+    <properties>
+        <title>Download</title>
+    </properties>
+    <!-- Optional HEAD element, which is copied as is into the XHTML <head> element -->
+    <head>
+        <meta http-equiv="Cache-Control" Content="no-cache"/> 
+    </head>
+    <body>
+        <div onclick="javascript: pageTracker._trackPageview('/downloads/legstar-distribution');">
+            <!-- The body of the document contains a number of sections -->
+            <section name="Download LegStar 1.2.3">
+            
+                <!-- Within sections, any XHTML can be used -->
+                <table border="1">
+                    <tr><th>Version</th><th>Platform</th><th>Binaries</th><th>Sources</th></tr>
+                    <tr><td>1.2.3 (January 2009)</td><td>Java (some native Win32/Linux DLLs)</td>
+                    <td><a href="../maven/repo/com/legsem/legstar/legstar-distribution/1.2.3/legstar-distribution-1.2.3-bin.zip">legstar-distribution-1.2.3-bin.zip</a></td>
+                    <td><a href="../maven/repo/com/legsem/legstar/Legstar/1.2.3/Legstar-1.2.3-sources.jar">Legstar-1.2.3-sources.jar</a></td></tr>
+                    <tr><td>1.2.3 (January 2009)</td><td>z/OS CICS</td>
+                    <td><a href="../maven/repo/com/legsem/legstar/legstar-distribution-zos/1.2.3/legstar-distribution-zos-1.2.3-bin.zip">legstar-distribution-zos-1.2.3-bin.zip</a></td>
+                    <td>included</td></tr>
+                </table>
+            
+            </section>
+            <section name="Download LegStar older versions">
+            
+                <table border="1">
+                    <tr><th>Version</th><th>Platform</th><th>Binaries</th><th>Sources</th></tr>
+                    <tr><td>1.2.2 (November 2008)</td><td>Java (some native Win32/Linux DLLs)</td>
+                    <td><a href="../maven/repo/com/legsem/legstar/legstar-distribution/1.2.2/legstar-distribution-1.2.2-bin.zip">legstar-distribution-1.2.2-bin.zip</a></td>
+                    <td><a href="../maven/repo/com/legsem/legstar/Legstar/1.2.2/Legstar-1.2.2-sources.jar">Legstar-1.2.2-sources.jar</a></td></tr>
+                    <tr><td>1.2.1 (September 2008)</td><td>Java (some native Win32/Linux DLLs)</td>
+                    <td><a href="../maven/repo/com/legsem/legstar/legstar-distribution/1.2.1/legstar-distribution-1.2.1-bin.zip">legstar-distribution-1.2.1-bin.zip</a></td>
+                    <td><a href="../maven/repo/com/legsem/legstar/Legstar/1.2.1/Legstar-1.2.1-sources.jar">Legstar-1.2.1-sources.jar</a></td></tr>
+                    <tr><td>1.2.0 (July 2008)</td><td>Java (some native Win32/Linux DLLs)</td>
+                    <td><a href="../maven/repo/com/legsem/legstar/legstar-distribution/1.2.0/legstar-distribution-1.2.0-bin.zip">legstar-distribution-1.2.0-bin.zip</a></td>
+                    <td><a href="../maven/repo/com/legsem/legstar/Legstar/1.2.0/legstar-1.2.0-sources.jar">legstar-1.2.0-sources.jar</a></td></tr>
+                    <tr><td>1.1.0 (September 2007)</td><td>Java (some native Win32/Linux DLLs)</td>
+                    <td><a href="../maven/repo/com/legsem/legstar/legstar-distribution/1.1.0/legstar-distribution-1.1.0-bin.zip">legstar-distribution-1.1.0-bin.zip</a></td>
+                    <td><a href="../maven/repo/com/legsem/legstar/Legstar/1.1.0/legstar-1.1.0-sources.jar">legstar-1.1.0-sources.jar</a></td></tr>
+                    <tr><td>1.0.1 (April 2007)</td><td>Java (some native Win32 DLLs)</td>
+                    <td><a href="../maven/repo/com/legsem/legstar/legstar-distribution/1.0.1/legstar-distribution-1.0.1-win32.zip">legstar-distribution-1.0.1-win32.zip</a></td>
+                    <td><a href="../maven/repo/com/legsem/legstar/Legstar/1.0.1/legstar-distribution-1.0.1-sources.jar">legstar-distribution-1.0.1-sources.jar</a></td></tr>
+                </table>
+            
+            </section>
+        </div>
+    </body>
+
+</document>

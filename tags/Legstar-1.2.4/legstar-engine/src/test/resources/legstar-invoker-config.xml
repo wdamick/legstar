@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<hostEndPoints>
+		<hostEndPoint name="TheMainframe">
+			<hostConnectionfactoryClass>com.legstar.pool.manager.MockConnectionFactory</hostConnectionfactoryClass>
+			<hostIPAddress>mainframe</hostIPAddress>
+			<hostIPPort>3011</hostIPPort>
+			<hostCharset>IBM01140</hostCharset>
+			<hostUserID>P390</hostUserID>
+			<hostPassword>STREAM2</hostPassword>
+			<hostTraceMode>true</hostTraceMode>
+			<hostAccessStrategy>direct</hostAccessStrategy>
+	   </hostEndPoint>
+		<hostEndPoint name="TheOtherMainframe">
+			<hostConnectionfactoryClass>com.legstar.pool.manager.MockConnectionFactory</hostConnectionfactoryClass>
+			<hostIPAddress>mainframe</hostIPAddress>
+			<hostIPPort>3011</hostIPPort>
+			<hostCharset>IBM01140</hostCharset>
+			<hostUserID>P390</hostUserID>
+			<hostPassword>STREAM2</hostPassword>
+			<hostTraceMode>false</hostTraceMode>
+			<hostAccessStrategy>pooled</hostAccessStrategy>
+			<hostConnectionPoolSize>2</hostConnectionPoolSize>
+			<pooledInvokeTimeout>2000</pooledInvokeTimeout>
+	   </hostEndPoint>
+  </hostEndPoints>
+</configuration>
+   
