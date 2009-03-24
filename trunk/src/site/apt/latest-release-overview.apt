@@ -19,7 +19,7 @@ Version 1.2.4
  this case.
  
  The XML Schema that describes the COBOL binding annotations has been changed.
- It is now located at http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd.
+ It is now located at {{http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd}}.
  The byteLength attribute has been removed and values are now attributes rather
  than elements.
 
