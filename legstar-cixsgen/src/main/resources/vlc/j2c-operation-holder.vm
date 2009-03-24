@@ -6,6 +6,7 @@
 #if(${cixsOperation.packageName})
 package ${cixsOperation.packageName};
 #end
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -42,7 +43,11 @@ import ${helper.getQualClassName(${cixsStructure.jaxbPackageName}, ${cixsStructu
 #end
 #end
  })
-public class ${holderType} {
+public class ${holderType}
+    implements Serializable {
+
+    /** Serial version ID. */
+    private static final long serialVersionUID = 1L;
 
 #foreach($cixsStructure in $cixsStructures)
     /** Inner ${cixsStructure.jaxbType} JAXB-bound object. */

@@ -89,87 +89,63 @@ public class ${cixsOperation.className}ProgramInvoker extends AbstractProgramInv
      * @param requestID a unique identifier for this request
      * @param request the request java data object 
      * @return the reply java data object
-     * @throws ${cixsOperation.faultType} if invoke fails
+     * @throws HostInvokerException if host invoker cannot be created or configured
+     * @throws HostTransformException if transformation fails
      */
     public final $cixsOperation.responseHolderType ${cixsOperation.name}(
             final LegStarAddress address,
             final String requestID,
             final $cixsOperation.requestHolderType request)
-    throws ${cixsOperation.faultType} {
+    throws HostInvokerException, HostTransformException {
 
-        try {
-
-            HostInvoker hostInvoker = getHostInvoker(address);
-            String hostCharset = hostInvoker.getAddress().getHostCharset();
+        HostInvoker hostInvoker = getHostInvoker(address);
+        String hostCharset = hostInvoker.getAddress().getHostCharset();
 
 #if($cixsOperation.hasChannel())
 ## ------------------------------------------------------------------
 ## Container driven program
 ##
 ## ------------------------------------------------------------------
-            Map < String, byte[] > requestParts =
-                new LinkedHashMap < String, byte[] >(); 
+        Map < String, byte[] > requestParts =
+            new LinkedHashMap < String, byte[] >(); 
 #foreach ($cixsStructure in $cixsOperation.getInput())
-            requestParts.put("${cixsStructure.cicsContainer}",
-                 get${cixsStructure.jaxbType}Transformers().toHost(
-                    request.get${cixsStructure.jaxbPropertyName}(), hostCharset));
+        requestParts.put("${cixsStructure.cicsContainer}",
+             get${cixsStructure.jaxbType}Transformers().toHost(
+                request.get${cixsStructure.jaxbPropertyName}(), hostCharset));
 #end
 
-            Map < String, byte[] > replyParts =
-                hostInvoker.invoke(requestID, requestParts);
-            
-            $cixsOperation.responseHolderType reply = new ${cixsOperation.responseHolderType}();
+        Map < String, byte[] > replyParts =
+            hostInvoker.invoke(requestID, requestParts);
+        
+        $cixsOperation.responseHolderType reply = new ${cixsOperation.responseHolderType}();
 #foreach ($cixsStructure in $cixsOperation.getOutput())
-            reply.set${cixsStructure.jaxbPropertyName}(
-                get${cixsStructure.jaxbType}Transformers().toJava(
-                    replyParts.get("${cixsStructure.cicsContainer}"), hostCharset));
+        reply.set${cixsStructure.jaxbPropertyName}(
+            get${cixsStructure.jaxbType}Transformers().toJava(
+                replyParts.get("${cixsStructure.cicsContainer}"), hostCharset));
 #end
-            return reply;
+        return reply;
 #else
 ## ------------------------------------------------------------------
 ## Commarea driven program
 ##
 #if (${cixsOperation.getInput().size()} > 0)
-            byte[] requestBytes =
-                get${cixsOperation.getInput().get(0).jaxbType}Transformers().toHost(request, hostCharset);
+        byte[] requestBytes =
+            get${cixsOperation.getInput().get(0).jaxbType}Transformers().toHost(request, hostCharset);
 
-            byte[] replyBytes = hostInvoker.invoke(requestID, requestBytes);
+        byte[] replyBytes = hostInvoker.invoke(requestID, requestBytes);
 
 #else
-            byte[] replyBytes = hostInvoker.invoke(requestID, null);
+        byte[] replyBytes = hostInvoker.invoke(requestID, null);
 
 #end
 #if (${cixsOperation.getOutput().size()} > 0)
-            return get${cixsOperation.getOutput().get(0).jaxbType}Transformers().toJava(replyBytes, hostCharset);
+        return get${cixsOperation.getOutput().get(0).jaxbType}Transformers().toJava(replyBytes, hostCharset);
 #else
-            return null;
+        return null;
 #end
 #end
 ## ------------------------------------------------------------------
 
-        } catch (HostTransformException e) {
-            throw get${cixsOperation.faultType}(e, "Failed to transform data:");
-        } catch (HostInvokerException e) {
-            throw get${cixsOperation.faultType}(e, "Failed to invoke host program:");
-        }
-
-    }
-
-    /**
-     * Formats a fault element to notify client of an exception.
-     *
-     * @param e the exception which occurred
-     * @param text short message describing the context
-     * @return the fault exception
-     */
-    public ${cixsOperation.faultType} get${cixsOperation.faultType}(
-            final Exception e, final String text) {
-
-        ${cixsOperation.faultInfoType} faultInfo = new ${cixsOperation.faultInfoType}();
-        faultInfo.setMessage(e.getMessage());
-        faultInfo.setDetail(toString());
-        return new ${cixsOperation.faultType}(text + ' ' 
-                + faultInfo.getMessage(), faultInfo);
     }
 
 #foreach($jaxbType in $jaxbTypes)

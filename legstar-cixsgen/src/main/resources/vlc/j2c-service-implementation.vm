@@ -27,7 +27,9 @@
 import java.rmi.server.UID;
 import javax.jws.WebService;
 
+import com.legstar.coxb.transform.HostTransformException;
 import com.legstar.host.invoke.AbstractServiceAdapter;
+import com.legstar.host.invoke.HostInvokerException;
 import com.legstar.messaging.LegStarAddress;
 #foreach($importType in $importTypes)
 import ${importType};
@@ -68,9 +70,33 @@ public class ${model.implementationClassName} extends AbstractServiceAdapter imp
                final ${model.headerClassName} hostHeader)
                throws ${cixsOperation.faultType} {
     
-        return get${cixsOperation.className}ProgramInvoker().${cixsOperation.name}(
-                getAddress(hostHeader), getRequestID(hostHeader), request);
+        try {
+            return get${cixsOperation.className}ProgramInvoker().${cixsOperation.name}(
+                    getAddress(hostHeader), getRequestID(hostHeader), request);
+        } catch (HostInvokerException e) {
+            throw get${cixsOperation.faultType}(e, "Failed to invoke host program:");
+        } catch (HostTransformException e) {
+            throw get${cixsOperation.faultType}(e, "Failed to transform data:");
+        }
     }
+
+    /**
+     * Formats a fault element to notify client of an exception.
+     *
+     * @param e the exception which occurred
+     * @param text short message describing the context
+     * @return the fault exception
+     */
+    public ${cixsOperation.faultType} get${cixsOperation.faultType}(
+            final Exception e, final String text) {
+
+        ${cixsOperation.faultInfoType} faultInfo = new ${cixsOperation.faultInfoType}();
+        faultInfo.setMessage(e.getMessage());
+        faultInfo.setDetail(get${cixsOperation.className}ProgramInvoker().toString());
+        return new ${cixsOperation.faultType}(text + ' ' 
+                + faultInfo.getMessage(), faultInfo);
+    }
+
 #end
         
     /**

@@ -57,6 +57,16 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("final LsfileaeHostHeader hostHeader)"));
         assertTrue(resStr.contains("throws LsfileaeException {"));
         assertTrue(resStr.contains("return getLsfileaeProgramInvoker().lsfileae("));
+        assertTrue(resStr.contains("throw getLsfileaeException(e, \"Failed to invoke host program:\");"));
+        assertTrue(resStr.contains("throw getLsfileaeException(e, \"Failed to transform data:\");"));
+
+        assertTrue(resStr.contains("public LsfileaeException getLsfileaeException("));
+        assertTrue(resStr.contains("LsfileaeFaultInfo faultInfo = new LsfileaeFaultInfo();"));
+        assertTrue(resStr.contains("faultInfo.setMessage(e.getMessage());"));
+        assertTrue(resStr.contains("faultInfo.setDetail(getLsfileaeProgramInvoker().toString());"));
+        assertTrue(resStr.contains("return new LsfileaeException(text + ' '"));
+        assertTrue(resStr.contains("+ faultInfo.getMessage(), faultInfo);"));
+        
         assertTrue(resStr.contains("final LsfileaeHostHeader hostHeader) {"));
         assertTrue(resStr.contains("public String getRequestID(final LsfileaeHostHeader hostHeader) {"));
         assertTrue(resStr.contains("* @return the invoker implementation for operation lsfileae"));

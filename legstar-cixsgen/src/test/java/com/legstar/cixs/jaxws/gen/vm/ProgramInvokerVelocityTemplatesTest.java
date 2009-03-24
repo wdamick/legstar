@@ -56,18 +56,13 @@ public class ProgramInvokerVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("public LsfileaeProgramInvoker(final String configFileName) {"));
         assertTrue(resStr.contains("mDfhcommareaTransformers = new DfhcommareaTransformers();"));
         assertTrue(resStr.contains("* Invoke the LSFILEAE host program."));
-        assertTrue(resStr.contains("* @throws LsfileaeException if invoke fails"));
+        assertTrue(resStr.contains("* @throws HostInvokerException if host invoker cannot be created or configured"));
         assertTrue(resStr.contains("public final Dfhcommarea lsfileae("));
         assertTrue(resStr.contains("final Dfhcommarea request)"));
-        assertTrue(resStr.contains("throws LsfileaeException {"));
+        assertTrue(resStr.contains("throws HostInvokerException, HostTransformException {"));
         assertTrue(resStr.contains("getDfhcommareaTransformers().toHost(request, hostCharset);"));
         assertTrue(resStr.contains("byte[] replyBytes = hostInvoker.invoke(requestID, requestBytes);"));
         assertTrue(resStr.contains("return getDfhcommareaTransformers().toJava(replyBytes, hostCharset);"));
-        assertTrue(resStr.contains("throw getLsfileaeException(e, \"Failed to transform data:\");"));
-        assertTrue(resStr.contains("throw getLsfileaeException(e, \"Failed to invoke host program:\");"));
-        assertTrue(resStr.contains("public LsfileaeException getLsfileaeException("));
-        assertTrue(resStr.contains("LsfileaeFaultInfo faultInfo = new LsfileaeFaultInfo();"));
-        assertTrue(resStr.contains("return new LsfileaeException(text + ' '"));
         
         assertTrue(resStr.contains("* @return the host transformers for Dfhcommarea"));
         assertTrue(resStr.contains("public DfhcommareaTransformers getDfhcommareaTransformers() {"));
@@ -110,18 +105,11 @@ public class ProgramInvokerVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("mRequestParmsTransformers = new RequestParmsTransformers();"));
         assertTrue(resStr.contains("mReplyDataTransformers = new ReplyDataTransformers();"));
         assertTrue(resStr.contains("* Invoke the LSFILEAL host program."));
-        assertTrue(resStr.contains("* @throws LsfilealException if invoke fails"));
         assertTrue(resStr.contains("public final ReplyData lsfileal("));
         assertTrue(resStr.contains("final RequestParms request)"));
-        assertTrue(resStr.contains("throws LsfilealException {"));
         assertTrue(resStr.contains("getRequestParmsTransformers().toHost(request, hostCharset);"));
         assertTrue(resStr.contains("byte[] replyBytes = hostInvoker.invoke(requestID, requestBytes);"));
         assertTrue(resStr.contains("return getReplyDataTransformers().toJava(replyBytes, hostCharset);"));
-        assertTrue(resStr.contains("throw getLsfilealException(e, \"Failed to transform data:\");"));
-        assertTrue(resStr.contains("throw getLsfilealException(e, \"Failed to invoke host program:\");"));
-        assertTrue(resStr.contains("public LsfilealException getLsfilealException("));
-        assertTrue(resStr.contains("LsfilealFaultInfo faultInfo = new LsfilealFaultInfo();"));
-        assertTrue(resStr.contains("return new LsfilealException(text + ' '"));
         
         assertTrue(resStr.contains("* @return the host transformers for RequestParms"));
         assertTrue(resStr.contains("public RequestParmsTransformers getRequestParmsTransformers() {"));
@@ -172,10 +160,8 @@ public class ProgramInvokerVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("mReplyStatusTransformers = new ReplyStatusTransformers();"));
         assertTrue(resStr.contains("mReplyDataTransformers = new ReplyDataTransformers();"));
         assertTrue(resStr.contains("* Invoke the LSFILEAC host program."));
-        assertTrue(resStr.contains("* @throws LsfileacException if invoke fails"));
         assertTrue(resStr.contains("public final LsfileacResponseHolder lsfileac("));
         assertTrue(resStr.contains("final LsfileacRequestHolder request)"));
-        assertTrue(resStr.contains("throws LsfileacException {"));
         
         assertTrue(resStr.contains("Map < String, byte[] > requestParts ="));
         assertTrue(resStr.contains("new LinkedHashMap < String, byte[] >();"));

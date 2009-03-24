@@ -77,7 +77,8 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("namespace = \"http://cixs.test.legstar.com/lsfileac\","));
         assertTrue(resStr.contains("\"queryLimit\","));
         assertTrue(resStr.contains("\"queryData\""));
-        assertTrue(resStr.contains("public class LsfileacRequestHolder {"));
+        assertTrue(resStr.contains("public class LsfileacRequestHolder"));
+        assertTrue(resStr.contains("implements Serializable {"));
         assertTrue(resStr.contains("@XmlElement(name = \"queryLimit\","));
         assertTrue(resStr.contains("private QueryLimit queryLimit;"));
         assertTrue(resStr.contains("@XmlElement(name = \"queryData\","));
@@ -160,7 +161,8 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("@XmlType(name = \"LsfileacRequestHolder\","));
         assertTrue(resStr.contains("namespace = \"http://cixs.test.legstar.com/lsfileaq\","));
         assertTrue(resStr.contains("\"queryData\""));
-        assertTrue(resStr.contains("public class LsfileacRequestHolder {"));
+        assertTrue(resStr.contains("public class LsfileacRequestHolder"));
+        assertTrue(resStr.contains("implements Serializable {"));
         assertTrue(resStr.contains("@XmlElement(name = \"queryData\","));
         assertTrue(resStr.contains("private QueryData queryData;"));
         assertTrue(resStr.contains("public final QueryData getQueryData() {"));
