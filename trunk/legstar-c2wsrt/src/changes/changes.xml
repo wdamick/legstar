@@ -3,6 +3,8 @@
     <title>Changes Mainframe Proxy Runtime</title>
   </properties>
   <body>
+    <release version="1.2.4" date="2009-03-30" description="Performance release">
+    </release>
     <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
       <action dev="fady" type="update">
         Changing name of this module from "Mainframe to Web Service runtime" to "Mainframe Proxy Runtime".
