@@ -350,7 +350,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
             final String className,
             final String propertyName) throws IOException {
         String resStr = getSource(GEN_SRC_DIR + relativeLoc + "/" + className + propertyName + "Holder.java");
-        assertTrue(resStr.contains("public class " + className + propertyName + "Holder {"));
+        assertTrue(resStr.contains("public class " + className + propertyName + "Holder"));
     }
 
     /**
