@@ -173,6 +173,53 @@ USING TRANFORMERS
   parameter if you need to use a different one (just make sure your JRE
   charsets.jar supports your character set).
   
+  In addition to Host/Java transformers, there are also Host/XML transformers.
+  
+  This is sample code to turn host data to XML:
+  
++---------------------------------------
+    /**
+     * Transform host data and test XML result.
+     * @param hostBytes a byte array holding the mainframe payload
+     * @throws HostTransformException if transforming fails
+     */
+    public void hostToXmlTransform(final byte[] hostBytes) throws HostTransformException {
+
+        DfhcommareaXmlTransformers transformers = new DfhcommareaXmlTransformers();
+        StringWriter writer = new StringWriter();
+        transformers.toXml(hostBytes, writer);
+        System.out.println(writer.toString());
+    }
++---------------------------------------
+  
+  This is code to turn XML into host data:
+  
++---------------------------------------
+    /**
+     * Turns an XML into host data.
+     * @return a byte array holding the mainframe payload
+     * @throws HostTransformException if transforming fails
+     */
+    public byte[] xmlToHostTransform() throws HostTransformException {
+        StringReader reader = new StringReader(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+                + "<Dfhcommarea xmlns=\"http://legstar.com/test/coxb/lsfileae\">"
+                + "<ComNumber>100</ComNumber>"
+                + "<ComPersonal>"
+                + "<ComName>TOTO</ComName>"
+                + "<ComAddress>LABAS STREET</ComAddress>"
+                + "<ComPhone>88993314</ComPhone>"
+                + "</ComPersonal>"
+                + "<ComDate>100458</ComDate>"
+                + "<ComAmount>00100.35</ComAmount>"
+                + "<ComComment>A VOIR</ComComment>"
+                + "</Dfhcommarea>");
+        DfhcommareaXmlTransformers transformers = new DfhcommareaXmlTransformers();
+        return transformers.toHost(new StreamSource(reader));
+    }
++---------------------------------------
+
+  
 DOCUMENTATION:
 
  Documentation available at http://www.legsem.com/legstar/legstar-coxbgen

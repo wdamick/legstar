@@ -13,7 +13,12 @@ PREREQUISITES:
  Adapter (CKTI). The CICS MQ Adapter must be installed in the target
  CICS region (Try transaction CKQC to check).
  
- Before Cmqrt can be used, the mainframe side C370 programs must be installed.
+ If you decide to use IBM CICS MQ Bridge instead of LegStar on the mainframe
+ side, you need to make sure that it is also installed in the target CICS
+ region (the CICS group CSQCKB must be installed).
+ 
+ If you decide to use LegStar on the mainframe side instead of CICS MQ Bridge,
+ the LegStar mainframe side C370 programs must be installed.
  The easiest way to do that is to use the common distribution of all
  LegStar z/OS modules, available {{{../legstar-distribution-zos/index.html}here}}.
 
@@ -80,6 +85,8 @@ INSTALLING/UNINSTALLING:
    
  [[2]] Install the mainframe C370 programs.
  
+ This is needed only if you are not using CICS MQ Bridge.
+ 
  We encourage you to use the common distribution of all LegStar z/OS modules.
  Instructions on how to install are available
  {{{../legstar-distribution-zos/release-notes.html}here}}.
@@ -96,6 +103,10 @@ INSTALLING/UNINSTALLING:
 CONFIGURING AND RUNNING THE SAMPLE:
 
  [[1]]  Setup Queues and Triggers:
+ 
+ This section describeds Queues and Triggers needed when you use LegStar on
+ the mainframe. In you use CICS MQ Bridge instead, please refer to the IBM
+ documentation.
  
  Use the sample MQDEFJCL as a guide to creating the various MQ resources that
  are necessary to connect from client to host over MQ. Pay close attention
@@ -153,6 +164,8 @@ CONFIGURING AND RUNNING THE SAMPLE:
 | hostMQRequestQueue   | Mandatory | An MQ queue to receive execution requests. See sample MQDEFJCL for definition. |
 *----------------------+-----------+--------------------------------------------------------------------------------+
 | hostMQResponseQueue  | Mandatory | An MQ queue to receive execution replies.                                      |
+*----------------------+-----------+--------------------------------------------------------------------------------+
+| hostMQBridgeType     | Mandatory | Specify MQCIH to use IBM CICS MQ Bridge, LSMSG otherwise.                      |
 *----------------------+-----------+--------------------------------------------------------------------------------+
   
  Parameters marked as optional can be provided as part of the request Address if they 

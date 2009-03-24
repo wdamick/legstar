@@ -12,10 +12,13 @@ package com.legstar.test.coxb;
 
 
 
+import java.io.StringWriter;
+
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.transform.HostTransformException;
 import com.legstar.test.coxb.lsfileae.bind.DfhcommareaHostToJavaTransformer;
 import com.legstar.test.coxb.lsfileae.bind.DfhcommareaTransformers;
+import com.legstar.test.coxb.lsfileae.bind.DfhcommareaXmlTransformers;
 import com.legstar.test.coxb.lsfileae.Dfhcommarea;
 
 import junit.framework.TestCase;
@@ -55,6 +58,7 @@ public class UnmarshalLsfileaeTest extends TestCase {
     public void testHostToJavaTransformerDoc() throws HostTransformException {
 
         hostToJavaTransform(HostData.toByteArray(LsfileaeCases.getHostBytesHex()));
+        hostToXmlTransform(HostData.toByteArray(LsfileaeCases.getHostBytesHex()));
     }
     /**
      * Transform host data and test java data object result.
@@ -72,5 +76,18 @@ public class UnmarshalLsfileaeTest extends TestCase {
         System.out.println(dfhcommarea.getComDate());
         System.out.println(dfhcommarea.getComAmount());
         System.out.println(dfhcommarea.getComComment());
+    }
+
+    /**
+     * Transform host data and test XML result.
+     * @param hostBytes a byte array holding the mainframe payload
+     * @throws HostTransformException if transforming fails
+     */
+    public void hostToXmlTransform(final byte[] hostBytes) throws HostTransformException {
+
+        DfhcommareaXmlTransformers transformers = new DfhcommareaXmlTransformers();
+        StringWriter writer = new StringWriter();
+        transformers.toXml(hostBytes, writer);
+        System.out.println(writer.toString());
     }
 }

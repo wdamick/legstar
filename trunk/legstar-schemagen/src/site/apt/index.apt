@@ -50,7 +50,7 @@ COBOL Structures Mapping Generator (Schemagen) overview
     * <Occurs Depending On> COBOL sentences relate an array with another element giving the actual size
  
   
-  See the {{{xml/legstarschemagen.xsd}COBOL binding language XML Schema}} page for more information on the
+  See the {{{../xml/cobol-binding-1.0.1.xsd}COBOL binding language XML Schema}} page for more information on the
   COBOL binding language used by Schemagen.
 
   For answers to common questions about LegStar Schemagen, see the {{{faq.html}FAQ}}.

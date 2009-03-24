@@ -3,7 +3,7 @@
                                              -----
                                          Fady Moussallam
                                              -----
-                                          22 January 2009
+                                          24 March 2009
 
 Overview
 
@@ -15,8 +15,15 @@ Overview
     
   The latest version is described {{{./latest-release-overview.html}here}}.
   
-  Check out the new {{{http://www.jboss.org/jbossesb/}JBoss ESB}} beta support
-  {{{http://code.google.com/p/legstar-jbossesb/}here}}.
+  We are proud to announce the first official release of {{{http://code.google.com/p/legstar-jbossesb/}LegStar for JBoss ESB}},
+  a new deployment option for LegStar. JBoss ESB is a leading open source ESB. LegStar for JBoss ESB provides a deployment
+  alternative to J2EE servers, such as Tomcat or Jetty. With JBoss ESB, mainframe integration services can interact with a
+  wealth of other services and benefit from more connectivity options.
+
+  Check out the new article {{{http://www.infoq.com/articles/legacy-integration}Mainframe integration with JBoss ESB and LegStar on InfoQ}}.
+  
+  Check out the new {{{http://www.mulesource.org/display/MULE/Home}MuleSource}} beta support
+  {{{http://www.mulesource.org/display/LEGSTAR/Home}here}}.
 
 {Mapping} COBOL data structures to Complex Types
 
@@ -27,7 +34,7 @@ Overview
   taken in LegStar is to map COBOL to XML Schema and then let existing tools, such as,
   {{{http://www.jcp.org/en/jsr/detail?id=222}JAXB}} do the final mapping to the target language.
   
-  LegStar has introduced a {{{legstar-schemagen/xml/legstarschemagen.xsd}COBOL binding language}}
+  LegStar has introduced a {{{xml/cobol-binding-1.0.1.xsd}COBOL binding language}}
   to describe how COBOL data items should map to XML Schema elements. That binding language is itself an
   extension to XML Schema (Annotations).
   

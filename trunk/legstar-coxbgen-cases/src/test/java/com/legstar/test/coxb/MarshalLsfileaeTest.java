@@ -10,6 +10,10 @@
  ******************************************************************************/
 package com.legstar.test.coxb;
 
+import java.io.StringReader;
+
+import javax.xml.transform.stream.StreamSource;
+
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.transform.HostTransformException;
 import com.legstar.test.coxb.lsfileae.ComPersonal;
@@ -17,6 +21,7 @@ import com.legstar.test.coxb.lsfileae.Dfhcommarea;
 import com.legstar.test.coxb.lsfileae.ObjectFactory;
 import com.legstar.test.coxb.lsfileae.bind.DfhcommareaJavaToHostTransformer;
 import com.legstar.test.coxb.lsfileae.bind.DfhcommareaTransformers;
+import com.legstar.test.coxb.lsfileae.bind.DfhcommareaXmlTransformers;
 
 import junit.framework.TestCase;
 
@@ -55,10 +60,20 @@ public class MarshalLsfileaeTest extends TestCase {
      * Test the sample code shown in documentation.
      * @throws HostTransformException if transforming fails
      */
-    public void testHostToJavaTransformerDoc() throws HostTransformException {
+    public void testJavaToHostTransformerDoc() throws HostTransformException {
 
         assertEquals(LsfileaeCases.getHostBytesHex(),
                 HostData.toHexString(javaToHostTransform()));
+    }
+
+    /**
+     * Test the sample code shown in documentation.
+     * @throws HostTransformException if transforming fails
+     */
+    public void testXmlToHostTransformerDoc() throws HostTransformException {
+
+        assertEquals(LsfileaeCases.getHostBytesHex(),
+                HostData.toHexString(xmlToHostTransform()));
     }
 
     /**
@@ -80,5 +95,28 @@ public class MarshalLsfileaeTest extends TestCase {
         dfhcommarea.setComComment("A VOIR");
         DfhcommareaTransformers transformers = new DfhcommareaTransformers();
         return transformers.toHost(dfhcommarea);
+    }
+
+    /**
+     * Turns an XML into host data.
+     * @return a byte array holding the mainframe payload
+     * @throws HostTransformException if transforming fails
+     */
+    public byte[] xmlToHostTransform() throws HostTransformException {
+        StringReader reader = new StringReader(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+                + "<Dfhcommarea xmlns=\"http://legstar.com/test/coxb/lsfileae\">"
+                + "<ComNumber>100</ComNumber>"
+                + "<ComPersonal>"
+                + "<ComName>TOTO</ComName>"
+                + "<ComAddress>LABAS STREET</ComAddress>"
+                + "<ComPhone>88993314</ComPhone>"
+                + "</ComPersonal>"
+                + "<ComDate>100458</ComDate>"
+                + "<ComAmount>00100.35</ComAmount>"
+                + "<ComComment>A VOIR</ComComment>"
+                + "</Dfhcommarea>");
+        DfhcommareaXmlTransformers transformers = new DfhcommareaXmlTransformers();
+        return transformers.toHost(new StreamSource(reader));
     }
 }
