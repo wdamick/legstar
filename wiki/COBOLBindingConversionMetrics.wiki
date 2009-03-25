@@ -10,7 +10,7 @@ The metrics are focused on CPU as this is likely to be the most important resour
 
 = Measurement procedure =
 
-We used LegStar release 1.2.3.
+We used LegStar release 1.2.3 and 1.2.4.
 
 We bundled JUnit test cases for each of the functions we wanted to measure:
 
@@ -38,18 +38,18 @@ The results should not be interpreted as absolute values. Typically we were runn
 
 = Results =
 
-|| *Test name*          || * Conversions per second* ||
-|| AlphanumericToString	|| 25490  ||
-|| BinaryToBigDecimal	|| 27593  ||
-|| ZonedDecimalToBigDecimal	|| 16268  ||
-|| PackedDecimalToBigDecimal	|| 24342  ||
-|| StringToAlphanumeric	|| 23501  ||
-|| BigDecimalToBinary	|| 27754  ||
-|| BigDecimalToZonedDecimal	|| 18011  ||
-|| BigDecimalToPackedDecimal	|| 26539  ||
+|| *Test name*          || * Conversions per second (release 1.2.3)* || * Conversions per second (release 1.2.4)* || * variation * ||
+|| AlphanumericToString	|| 25490  || 26014  || +2% ||
+|| BinaryToBigDecimal	|| 27593  || 27352  || -1% ||
+|| ZonedDecimalToBigDecimal	|| 16268  || 24925  || +53% ||
+|| PackedDecimalToBigDecimal	|| 24342  || 24166  || -1% ||
+|| StringToAlphanumeric	|| 23501  || 22202  || -6% ||
+|| BigDecimalToBinary	|| 27754  || 26490  || -5% ||
+|| BigDecimalToZonedDecimal	|| 18011  || 21030  || 17% ||
+|| BigDecimalToPackedDecimal	|| 26539  || 26021  || -2% ||
 
 = Conclusion =
 
-Zoned decimals lag behind the other types. This is a consequence of supporting conversion of zoned decimals for ASCII character sets.
+Release 1.2.4 has considerably improved handling of zoned decimals over release 1.2.3.
 
 It would be useful to complement this with a memory type of analysis (as objects are being created and destroyed as part of the conversion/transformation process).
