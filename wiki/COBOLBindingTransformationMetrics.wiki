@@ -2,9 +2,9 @@
 
 = Introduction =
 
-In [COBOLBindingConversionMetrics] we presented performance metrics for elementary data item conversions with LegStar 1.2.3.
+In [COBOLBindingConversionMetrics] we presented performance metrics for elementary data item conversions with LegStar release 1.2.3 and 1.2.4.
 
-Here we perform the same type of measurement but applied to complex structures transformation from mainframe format to java and vice-versa.
+Here we perform the same type of measurement but applied to complex structures transformations from mainframe format to java and vice-versa.
 
 = Use case =
 
@@ -41,7 +41,13 @@ Target machine and quantities measured are identical to [COBOLBindingConversionM
 
 = Results =
 
-http://legstar.googlecode.com/svn/wiki/dplarcht-transformations-metrics.png
+== Release 1.2.3 ==
+
+http://legstar.googlecode.com/svn/wiki/dplarcht-transformations-metrics-1.2.3.png
+
+== Release 1.2.4 ==
+
+http://legstar.googlecode.com/svn/wiki/dplarcht-transformations-metrics-1.2.4.png
 
 = Conclusion =
 
