@@ -150,5 +150,13 @@ public class ByteLengthTest extends TestCase {
     public void testsmix() throws HostException {
         assertEquals("176", JaxbUtil.byteLength("com.legstar.test.coxb.typesmix", "Dfhcommarea"));
     }
+
+    /**
+     * FLOATMIX case.
+     * @throws HostException if calculation fails
+     */
+    public void testFloatmix() throws HostException {
+        assertEquals("24", JaxbUtil.byteLength("com.legstar.test.coxb.floatmix", "Dfhcommarea"));
+    }
 }
 

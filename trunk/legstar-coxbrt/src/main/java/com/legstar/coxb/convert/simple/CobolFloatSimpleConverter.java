@@ -189,10 +189,19 @@ implements ICobolFloatConverter {
         hF.setSign(jF.getSign());
 
         /* The java exponent is a binary offset while the host exponent is an
-         * hexadecimal offset.*/
-        hF.setExponent(jF.getExponent() / 4 + 1);
-        hF.setMantissa(jF.getMantissa()
-                >> ((hF.getExponent() * 4) - jF.getExponent() - 1));
+         * hexadecimal offset. This means host exponent values are multiple
+         * or 4. If the java exponent is not a multiple of 4 we then need 
+         * to shift the mantissa which might result in loss of precision. */
+        int r = jF.getExponent() % 4;
+        int mantissaShift = 0; 
+        if (r <= 0) {
+            mantissaShift = -1 * r;
+        } else {
+            mantissaShift = 4 - r;
+        }
+
+        hF.setExponent((jF.getExponent() + mantissaShift) / 4);
+        hF.setMantissa(jF.getMantissa() >> mantissaShift);
 
         /* Now assemble the host float 4 bytes */
         int hostIntBits = createHostFloat(hF);
@@ -241,8 +250,10 @@ implements ICobolFloatConverter {
         HostFloat jF = new HostFloat();
         jF.setSign(hF.getSign());
 
-        /* Host exponent is hexadecimal based while java is binary based */
-        if (hF.getExponent() != 0) {
+        /* Host exponent is hexadecimal based while java is binary based.
+         * There is also an additional shift for non-zero values due to
+         * the 1-plus" normalized java specs.  */
+        if (hF.getMantissa() != 0) {
             jF.setExponent((4 * hF.getExponent()) - 1);
         }
 
@@ -278,13 +289,16 @@ implements ICobolFloatConverter {
 
         /* Bits 30-23 (8 bits) represents the exponent offset by 127, this
          * number is called excess so you get the exponent as
-         * E= excess - 127 */
+         * E= excess - 127. This is a binary exponent ( 2 pow(E)).
+         * Furthermore, the "1-plus" normalized representation has the decimal
+         * point after the implicit initial 1. Here we elect to store the
+         * exponent for decimal point before that initial 1.*/
         int excess = (javaIntBits & 0x7f800000) >>> 23;
-        jF.setExponent((excess - 127));
+        jF.setExponent(excess - 127 + 1);
 
         /* Bits 22-0 (23 bits) represents the getMantissa() in a form called
          * "1-plus" normalized. This means that the real getMantissa() is
-         * actually * 1.b(23)b(22)...b(0) where the intiial "1" is implicit.
+         * actually * 1.b(23)b(22)...b(0) where the initial "1" is implicit.
          * This code will explicitly add 1 in front of the getMantissa(). */
         int orMask = 1 << 23;
         jF.setMantissa(javaIntBits & 0x007fffff | orMask);

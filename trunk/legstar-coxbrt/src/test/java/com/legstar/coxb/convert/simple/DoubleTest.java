@@ -121,55 +121,127 @@ public class DoubleTest extends TestCase {
      * COMP-2 no exponent value.
      */
     public void testToHost345006p5678() {
-        toHost(8, "+345006.5678d", "45543ae915b573e0");
+        toHost(8, "+345006.5678d", "45543ae915b573e8");
     }
 
     /**
      * COMP-2  no exponent value.
      */
     public void testFromHost345006p5678() {
-        fromHost(8, "45543ae915b573e0", "345006.56779999984");
+        fromHost(8, "45543ae915b573eb", "345006.56779999996");
     }
 
     /**
      * COMP-2  exponent value.
      */
     public void testToHost798p20067em16() {
-        toHost(8, "+798.20067e-16d", "361677a4590fab60");
+        toHost(8, "+798.20067e-16d", "361677a4590fab68");
     }
 
     /**
      * COMP-2  exponent value.
      */
     public void testFromHost798p20067em16() {
-        fromHost(8, "361677a4590fab60", "7.982006699999985E-14");
+        fromHost(8, "361677a4590fab68", "7.982006699999995E-14");
     }
 
     /**
      * COMP-2  large exponent value.
      */
     public void testToHost3p40282347ep38() {
-        toHost(8, "3.40282347e+38d", "60ffffff048ff9e0");
+        toHost(8, "3.40282347e+38d", "60ffffff048ff9e8");
     }
 
     /**
      * COMP-2  large exponent value.
      */
     public void testFromHost3p40282347ep38() {
-        fromHost(8, "60ffffff048ff9e0", "3.4028234699999995E38");
+        fromHost(8, "60ffffff048ff9e8", "3.40282347E38");
     }
 
     /**
      * COMP-2 negative value.
      */
     public void testToHostm5p670078Em14() {
-        toHost(8, "-5.670078E-14d", "b60ff5b8c70649e0");
+        toHost(8, "-5.670078E-14d", "b5ff5b8c70649ed0");
     }
 
     /**
      * COMP-2 negative value.
      */
     public void testFromHostm5p670078Em14() {
-        fromHost(8, "b5ff5b8c70649ed1", "-5.670078E-14");
+        fromHost(8, "b5ff5b8c70649ed0", "-5.670078E-14");
+    }
+
+    /**
+     * COMP-2 Amit cases.
+     */
+    public void testAmitPrecisionLost1() {
+        toHost(8, "0.5160421914381665d", "40841b574f9545d0");
+        fromHost(8, "40841b574f9545cd", "0.5160421914381664");
+    }
+    
+    /**
+     * COMP-2 Amit cases.
+     */
+    public void testAmitPrecisionLost2() {
+        toHost(8, "0.3767408804881589d", "4060721720c34c90");
+        fromHost(8, "4060721720c34c90", "0.3767408804881589");
+    }
+    /**
+     * COMP-2 Amit cases.
+     */
+    public void testAmitPrecisionLost3() {
+        toHost(8, "0.5748594107197614d", "409329fc80d6d648");
+        fromHost(8, "409329fc80d6d646", "0.5748594107197613");
+    }
+    /**
+     * COMP-2 Amit cases.
+     */
+    public void testAmitPrecisionLost4() {
+        toHost(8, "0.6001057816958459d", "4099a08852863040");
+        fromHost(8, "4099a0885286303d", "0.6001057816958458");
+    }
+    /**
+     * COMP-2 Amit cases.
+     */
+    public void testAmitPrecisionLost5() {
+        toHost(8, "0.7850369597199326d", "40c8f82ea425fc38");
+        fromHost(8, "40c8f82ea425fc39", "0.7850369597199326");
+    }
+    /**
+     * COMP-2 Amit cases.
+     */
+    public void testAmitPrecisionLost6() {
+        toHost(8, "0.2998016949252067d", "404cbfcdcafd37c0");
+        fromHost(8, "404cbfcdcafd37c0", "0.2998016949252067");
+    }
+    /**
+     * COMP-2 Amit cases.
+     */
+    public void testAmitPrecisionLost7() {
+        toHost(8, "0.7788391667528523d", "40c76200ee0c21d0");
+        fromHost(8, "40c76200ee0c21d3", "0.7788391667528523");
+    }
+    /**
+     * COMP-2 Amit cases.
+     */
+    public void testAmitPrecisionLost8() {
+        toHost(8, "0.8158852356638823d", "40d0dddad4773358");
+        fromHost(8, "40d0dddad477335a", "0.8158852356638823");
+    }
+    /**
+     * COMP-2 Amit cases.
+     */
+    public void testAmitPrecisionLost9() {
+        toHost(8, "0.4364272923152456d", "406fb9b2f3936868");
+        fromHost(8, "406fb9b2f393686a", "0.4364272923152456");
+    }
+    /**
+     * COMP-2 Amit cases.
+     */
+    public void testAmitPrecisionLost10() {
+        toHost(8, "0.6062248297052384d", "409b318ce99b6f60");
+        fromHost(8, "409b318ce99b6f61", "0.6062248297052384");
     }
 }
