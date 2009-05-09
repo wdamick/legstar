@@ -152,4 +152,87 @@ public class FloatTest extends TestCase {
     public void testFromHost3p40282347ep38() {
         fromHost(4, "60ffffff", "3.4028235E38");
     }
+
+    /**
+     * COMP-1 Tomkins Lost precision that can be explained (both ways).
+     */
+    public void testTompkins() {
+        toHost(4, "25431.1234f", "4463571f");
+        fromHost(4, "4463571f", "25431.121");
+    }
+
+    /**
+     * COMP-1 Amit cases.
+     */
+    public void testAmitTotallyOff() {
+        toHost(4, "0.070859075f", "401223d2");
+        fromHost(4, "401223d2", "0.070859075");
+    }
+
+    /**
+     * COMP-1 Amit cases.
+     */
+    public void testAmitPrecisionLost1() {
+        toHost(4, "0.2050727f", "40347fa5");
+        fromHost(4, "40347fa5", "0.2050727");
+    }
+    
+    /**
+     * COMP-1 Amit cases.
+     */
+    public void testAmitPrecisionLost2() {
+        toHost(4, "0.21563375f", "403733c6");
+        fromHost(4, "403733c6", "0.21563375");
+    }
+    
+    /**
+     * COMP-1 Amit cases.
+     */
+    public void testAmitPrecisionLost3() {
+        toHost(4, "0.86346835f", "40dd0c43");
+        fromHost(4, "40dd0c43", "0.86346835");
+    }
+
+    /**
+     * COMP-1 Amit cases.
+     */
+    public void testAmitPrecisionLost4() {
+        toHost(4, "0.31136322f", "404fb580");
+        fromHost(4, "404fb580", "0.31136322");
+    }
+    /**
+     * COMP-1 Amit cases.
+     */
+    public void testAmitPrecisionLost5() {
+        toHost(4, "0.63990897f", "40a3d113");
+        fromHost(4, "40a3d113", "0.63990897");
+    }
+    /**
+     * COMP-1 Amit cases.
+     */
+    public void testAmitPrecisionLost6() {
+        toHost(4, "0.7430732f", "40be3a0c");
+        fromHost(4, "40be3a0c", "0.7430732");
+    }
+    /**
+     * COMP-1 Amit cases.
+     */
+    public void testAmitPrecisionLost7() {
+        toHost(4, "0.8783575f", "40e0dc0a");
+        fromHost(4, "40e0dc0a", "0.8783575");
+    }
+    /**
+     * COMP-1 Amit cases.
+     */
+    public void testAmitPrecisionLost8() {
+        toHost(4, "0.03406465f", "3f8b8760");
+        fromHost(4, "3f8b8760", "0.03406465");
+    }
+    /**
+     * COMP-1 Amit cases.
+     */
+    public void testAmitPrecisionLost9() {
+        toHost(4, "0.99642426f", "40ff15a9");
+        fromHost(4, "40ff15a9", "0.99642426");
+    }
 }

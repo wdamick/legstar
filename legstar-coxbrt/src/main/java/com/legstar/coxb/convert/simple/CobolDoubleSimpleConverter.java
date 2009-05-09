@@ -189,15 +189,25 @@ implements ICobolDoubleConverter {
         hF.setSign(jF.getSign());
 
         /* The java exponent is a binary offset while the host exponent is an
-         * hexadecimal offset.*/
-        hF.setExponent(jF.getExponent() / 4 + 1);
-        hF.setMantissa(jF.getMantissa()
-                >> ((hF.getExponent() * 4) - jF.getExponent()));
+         * hexadecimal offset. This means host exponent values are multiple
+         * or 4. If the java exponent is not a multiple of 4 we then need 
+         * to shift the mantissa which might result in loss of precision. */
+        int r = jF.getExponent() % 4;
+        int mantissaShift = 0; 
+        if (r <= 0) {
+            mantissaShift = -1 * r;
+        } else {
+            mantissaShift = 4 - r;
+        }
 
-        /* The host double mantissa is stored on 56 bits while java is on 52
-         * bits so we need to padd the java mantissa with an additional 4 bits
+        hF.setExponent((jF.getExponent() + mantissaShift) / 4);
+        hF.setMantissa(jF.getMantissa() >> mantissaShift);
+
+        /* The host double mantissa is stored on 56 bits while java is on 53
+         * (52 + 1 plus).
+         * bits so we need to padd the java mantissa with an additional 3 bits
          * to the right */
-        hF.setMantissa(hF.getMantissa() << 4);
+        hF.setMantissa(hF.getMantissa() << 3);
 
         /* Now assemble the host double 8 bytes */
         long hostLongBits = createHostDouble(hF);
@@ -246,12 +256,15 @@ implements ICobolDoubleConverter {
         HostDouble jF = new HostDouble();
         jF.setSign(hF.getSign());
 
-        /* Host exponent is hexadecimal based while java is binary based */
-        if (hF.getExponent() != 0) {
+        /* Host exponent is hexadecimal based while java is binary based.
+         * There is also an additional shift for non-zero values due to
+         * the 1-plus" normalized java specs.  */
+        if (hF.getMantissa() != 0) {
             jF.setExponent((4 * hF.getExponent()) - 1);
         }
 
-        /* The normalized java mantissa is 53 bits while the host is 56 */
+        /* The java mantissa is 53 bits while the host is 56. This
+         * means there is a systematic loss of precision. */
         jF.setMantissa(hF.getMantissa() >>> 3);
 
         /* In java the 53th bit needs to be one */
@@ -287,9 +300,11 @@ implements ICobolDoubleConverter {
 
         /* Bits 62-52  (11 bits) represents the exponent offset by 1023, this
          * number is called excess so you get the exponent as E= excess - 1023
-         */
+         * Furthermore, the "1-plus" normalized representation has the decimal
+         * point after the implicit initial 1. Here we elect to store the
+         * exponent for decimal point before that initial 1.*/
         int excess = (int) ((javaLongBits >> 52) & 0x7ffL);
-        jF.setExponent((excess - 1023));
+        jF.setExponent(excess - 1023 + 1);
 
         /* Bits 51-0 (52 bits) represents the mantissa in a form called
          * "1-plus" normalized. This means that the real mantissa is actually
