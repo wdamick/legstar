@@ -451,22 +451,7 @@ int readRequestQueue() {
         return rc;
     }
     
-    g_CodedCharSetId = msgDesc.CodedCharSetId;
-    trimcpy(g_CorrelId, msgDesc.CorrelId,
-         MQ_CORREL_ID_LENGTH);
-    trimcpy(g_MsgId, msgDesc.MsgId,
-         MQ_MSG_ID_LENGTH);
-    trimcpy(g_ReplyToQ, msgDesc.ReplyToQ,
-         MQ_Q_NAME_LENGTH);
-    trimcpy(g_ReplyToQMgr, msgDesc.ReplyToQMgr,
-         MQ_Q_MGR_NAME_LENGTH);
-    trimcpy(g_UserIdentifier, msgDesc.UserIdentifier,
-         MQ_USER_ID_LENGTH);
-    trimcpy(g_ApplIdentityData, msgDesc.ApplIdentityData,
-         MQ_APPL_IDENTITY_DATA_LENGTH);
-    trimcpy(g_Format, msgDesc.Format,
-         MQ_FORMAT_LENGTH);
-    g_BackoutCount = msgDesc.BackoutCount;
+    storeMessageDescriptor(&msgDesc);
 
     /* Check if request is asking for traces */
     if (strncasecmp(g_ApplIdentityData, "true", 4) == 0) {
@@ -533,9 +518,14 @@ int writeResponseQueue() {
     memset( msgDesc.ReplyToQMgr, ' ', sizeof( msgDesc.ReplyToQMgr ) );
     memcpy( msgDesc.MsgId, MQMI_NONE, sizeof( msgDesc.MsgId ) );
 
-    /* Upon reply, we correlate the response to the unique request
-     * message ID. */
-    memcpy( msgDesc.CorrelId, g_MsgId, MQ_CORREL_ID_LENGTH);
+    /* Upon reply, if the request had a correlation ID, we propagate
+     * it back. If there was no correlation ID, we propagate the 
+     * request message ID. */
+    if (strncmp(g_CorrelId, MQCI_NONE, MQ_CORREL_ID_LENGTH) == 0) {
+        memcpy( msgDesc.CorrelId, g_MsgId, MQ_CORREL_ID_LENGTH );
+    } else {
+        memcpy( msgDesc.CorrelId, g_CorrelId, MQ_CORREL_ID_LENGTH );
+    }
 
     rc = writeQueue(g_ResponseQueue, g_RequestQueue.HObj, msgDesc,
                     g_pWorkBuffer, g_DataLen);
@@ -545,6 +535,7 @@ int writeResponseQueue() {
 
     if (g_traceParms.traceMode == TRUE_CODE) {
         traceMessage(MODULE_NAME, "MQ Message written");
+        storeMessageDescriptor(&msgDesc);
         traceMQMessageDescriptor();
         traceMQMessageContent();
     }
@@ -667,6 +658,7 @@ int saveErrorRequest() {
  
     if (g_traceParms.traceMode == TRUE_CODE) {
         traceMessage(MODULE_NAME, "Error request saved");
+        storeMessageDescriptor(&msgDesc);
         traceMQMessageDescriptor();
         traceMQMessageContent();
     }
@@ -712,6 +704,37 @@ int Commit() {
        return ERROR_CODE;
     }
     return OK_CODE;
+}
+
+/*====================================================================*/
+/* Store message descriptor attributes in global traceable variables  */
+/*====================================================================*/
+int storeMessageDescriptor(MQMD* pMsgDesc) {
+
+    memset(g_CorrelId, 0, sizeof(g_CorrelId));
+    memset(g_MsgId, 0, sizeof(g_MsgId));
+    memset(g_ReplyToQ, 0, sizeof(g_ReplyToQ));
+    memset(g_ReplyToQMgr, 0, sizeof(g_ReplyToQMgr));
+    memset(g_UserIdentifier, 0, sizeof(g_UserIdentifier));
+    memset(g_ApplIdentityData, 0, sizeof(g_ApplIdentityData));
+    memset(g_Format, 0, sizeof(g_Format));
+
+    g_CodedCharSetId = pMsgDesc->CodedCharSetId;
+    trimcpy(g_CorrelId, pMsgDesc->CorrelId,
+         MQ_CORREL_ID_LENGTH);
+    trimcpy(g_MsgId, pMsgDesc->MsgId,
+         MQ_MSG_ID_LENGTH);
+    trimcpy(g_ReplyToQ, pMsgDesc->ReplyToQ,
+         MQ_Q_NAME_LENGTH);
+    trimcpy(g_ReplyToQMgr, pMsgDesc->ReplyToQMgr,
+         MQ_Q_MGR_NAME_LENGTH);
+    trimcpy(g_UserIdentifier, pMsgDesc->UserIdentifier,
+         MQ_USER_ID_LENGTH);
+    trimcpy(g_ApplIdentityData, pMsgDesc->ApplIdentityData,
+         MQ_APPL_IDENTITY_DATA_LENGTH);
+    trimcpy(g_Format, pMsgDesc->Format,
+         MQ_FORMAT_LENGTH);
+    g_BackoutCount = pMsgDesc->BackoutCount;
 }
 
 /*====================================================================*/
