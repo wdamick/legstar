@@ -15,8 +15,8 @@ import java.io.IOException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.ibm.mq.MQC;
 import com.ibm.mq.MQMessage;
-import com.legstar.codec.HostCodec;
 import com.legstar.messaging.HeaderPartException;
 import com.legstar.messaging.HostMessageFormatException;
 import com.legstar.messaging.HostReceiveException;
@@ -68,13 +68,16 @@ public class CicsMQLsmsg extends AbstractCicsMQ  {
         MQMessage mqMessage = new MQMessage();
 
         try {
-            /* The correlation Id is used by LSMQHBIN as the trace ID */
-            mqMessage.correlationId = request.getID().getBytes(HostCodec.HEADER_CODE_PAGE);
+            /* Send no correlation ID. LegStar will correlate on Message ID. */
+            mqMessage.correlationId = MQC.MQCI_NONE;
 
-            /* Use the 5 first characters of the application identity data to
-             * specify if host traces are requested */
-            mqMessage.applicationIdData = Boolean.toString(
-                    request.getAddress().isHostTraceMode());
+            /* In trace mode, use 16 characters from the application identity data
+             * to pass a trace ID that is readable on the mainframe. */
+            if (request.getAddress().isHostTraceMode()) {
+                mqMessage.applicationIdData = "true " + request.getID();
+            } else {
+                mqMessage.applicationIdData = "false";
+            }
             mqMessage.userId = getCicsMQEndpoint().getHostUserID();
 
             /* Finally create the mq message content */
