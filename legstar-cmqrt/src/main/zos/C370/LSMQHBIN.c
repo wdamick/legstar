@@ -456,11 +456,11 @@ int readRequestQueue() {
     /* Check if request is asking for traces */
     if (strncasecmp(g_ApplIdentityData, "true", 4) == 0) {
         g_traceParms.traceMode = TRUE_CODE;
+        /* Starting from here, we use the next 16 characters of the mq
+         * application identity data as the trace ID. */
+        strncpy(g_traceParms.CxID, g_ApplIdentityData + 5, 16);
     }
 
-    /* Starting from here, we use the first 16 characters of the mq
-     * correlation ID as the trace ID. */
-    strncpy(g_traceParms.CxID, g_CorrelId, MAX_CXID_LEN);
     
     if (g_traceParms.traceMode == TRUE_CODE) {
         traceMQMessageDescriptor();
@@ -755,8 +755,8 @@ int traceMQMessageDescriptor() {
     traceMessage(MODULE_NAME, "----------------------");
     traceParameter("Format", g_Format, 1);
     traceParameter("CodedCharSetId", g_CodedCharSetId, 0);
-    traceParameter("MsgId", g_MsgId, 1);
-    traceParameter("CorrelId", g_CorrelId, 1);
+    traceMQID("MsgId", g_MsgId);
+    traceMQID("CorrelId", g_CorrelId);
     traceParameter("ReplyToQ", g_ReplyToQ, 1);
     traceParameter("ReplyToQMgr", g_ReplyToQMgr, 1);
     traceParameter("UserIdentifier", g_UserIdentifier, 1);
@@ -778,6 +778,21 @@ int traceMQMessageContent() {
     traceData(MODULE_NAME, g_pWorkBuffer, g_DataLen);
     traceMessage(MODULE_NAME,
         "-----------------------------------------------");
+}
+
+/*====================================================================*/
+/* Message IDs and Correlation IDs are 24 bytes arrays                */
+/*====================================================================*/
+int traceMQID(char* idLabel, char* id) {
+    char idHex[49];
+    int i;
+    char dumpChar[3];
+    memset(idHex, 0, sizeof(idHex));
+    for (i = 0; i < 24; i++) {
+        sprintf(dumpChar,"%.2X",id[i] & 0xff);
+        strcat(idHex, dumpChar);
+    }
+    traceParameter(idLabel, idHex, 1);
 }
 
 
