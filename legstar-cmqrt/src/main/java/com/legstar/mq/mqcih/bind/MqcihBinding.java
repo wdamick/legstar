@@ -115,8 +115,7 @@ public class MqcihBinding
     public ICobolBinaryBinding _mqcihReserved4;
             
     /** Logger. */
-    private static final Log LOG
-        = LogFactory.getLog(MqcihBinding.class);
+    private final Log _log = LogFactory.getLog(getClass());
 
     /** Binding factory. */
     private static final ICobolBindingFactory BF
@@ -174,8 +173,8 @@ public class MqcihBinding
 
     /** Creates a binding property for each child. */
     private void initChildren() {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Initializing started");
+        if (_log.isDebugEnabled()) {
+            _log.debug("Initializing started");
         }
         /* Create binding children instances */
 
@@ -412,8 +411,8 @@ public class MqcihBinding
         getChildrenList().add(_mqcihInputitem);
         getChildrenList().add(_mqcihReserved4);
  
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Initializing successful");
+        if (_log.isDebugEnabled()) {
+            _log.debug("Initializing successful");
         }
     }
     
@@ -437,267 +436,267 @@ public class MqcihBinding
             createValueObject();
         }
         /* Get Value object property _mqcihStrucid */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihStrucid"
                     + " value=" + mValueObject.getMqcihStrucid());
         }
         _mqcihStrucid.setObjectValue(mValueObject.getMqcihStrucid());
         /* Get Value object property _mqcihVersion */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihVersion"
                     + " value=" + mValueObject.getMqcihVersion());
         }
         _mqcihVersion.setObjectValue(mValueObject.getMqcihVersion());
         /* Get Value object property _mqcihStruclength */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihStruclength"
                     + " value=" + mValueObject.getMqcihStruclength());
         }
         _mqcihStruclength.setObjectValue(mValueObject.getMqcihStruclength());
         /* Get Value object property _mqcihEncoding */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihEncoding"
                     + " value=" + mValueObject.getMqcihEncoding());
         }
         _mqcihEncoding.setObjectValue(mValueObject.getMqcihEncoding());
         /* Get Value object property _mqcihCodedcharsetid */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihCodedcharsetid"
                     + " value=" + mValueObject.getMqcihCodedcharsetid());
         }
         _mqcihCodedcharsetid.setObjectValue(mValueObject.getMqcihCodedcharsetid());
         /* Get Value object property _mqcihFormat */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihFormat"
                     + " value=" + mValueObject.getMqcihFormat());
         }
         _mqcihFormat.setObjectValue(mValueObject.getMqcihFormat());
         /* Get Value object property _mqcihFlags */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihFlags"
                     + " value=" + mValueObject.getMqcihFlags());
         }
         _mqcihFlags.setObjectValue(mValueObject.getMqcihFlags());
         /* Get Value object property _mqcihReturncode */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihReturncode"
                     + " value=" + mValueObject.getMqcihReturncode());
         }
         _mqcihReturncode.setObjectValue(mValueObject.getMqcihReturncode());
         /* Get Value object property _mqcihCompcode */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihCompcode"
                     + " value=" + mValueObject.getMqcihCompcode());
         }
         _mqcihCompcode.setObjectValue(mValueObject.getMqcihCompcode());
         /* Get Value object property _mqcihReason */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihReason"
                     + " value=" + mValueObject.getMqcihReason());
         }
         _mqcihReason.setObjectValue(mValueObject.getMqcihReason());
         /* Get Value object property _mqcihUowcontrol */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihUowcontrol"
                     + " value=" + mValueObject.getMqcihUowcontrol());
         }
         _mqcihUowcontrol.setObjectValue(mValueObject.getMqcihUowcontrol());
         /* Get Value object property _mqcihGetwaitinterval */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihGetwaitinterval"
                     + " value=" + mValueObject.getMqcihGetwaitinterval());
         }
         _mqcihGetwaitinterval.setObjectValue(mValueObject.getMqcihGetwaitinterval());
         /* Get Value object property _mqcihLinktype */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihLinktype"
                     + " value=" + mValueObject.getMqcihLinktype());
         }
         _mqcihLinktype.setObjectValue(mValueObject.getMqcihLinktype());
         /* Get Value object property _mqcihOutputdatalength */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihOutputdatalength"
                     + " value=" + mValueObject.getMqcihOutputdatalength());
         }
         _mqcihOutputdatalength.setObjectValue(mValueObject.getMqcihOutputdatalength());
         /* Get Value object property _mqcihFacilitykeeptime */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihFacilitykeeptime"
                     + " value=" + mValueObject.getMqcihFacilitykeeptime());
         }
         _mqcihFacilitykeeptime.setObjectValue(mValueObject.getMqcihFacilitykeeptime());
         /* Get Value object property _mqcihAdsdescriptor */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihAdsdescriptor"
                     + " value=" + mValueObject.getMqcihAdsdescriptor());
         }
         _mqcihAdsdescriptor.setObjectValue(mValueObject.getMqcihAdsdescriptor());
         /* Get Value object property _mqcihConversationaltask */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihConversationaltask"
                     + " value=" + mValueObject.getMqcihConversationaltask());
         }
         _mqcihConversationaltask.setObjectValue(mValueObject.getMqcihConversationaltask());
         /* Get Value object property _mqcihTaskendstatus */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihTaskendstatus"
                     + " value=" + mValueObject.getMqcihTaskendstatus());
         }
         _mqcihTaskendstatus.setObjectValue(mValueObject.getMqcihTaskendstatus());
         /* Get Value object property _mqcihFacility */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihFacility"
                     + " value=" + mValueObject.getMqcihFacility());
         }
         _mqcihFacility.setObjectValue(mValueObject.getMqcihFacility());
         /* Get Value object property _mqcihFunction */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihFunction"
                     + " value=" + mValueObject.getMqcihFunction());
         }
         _mqcihFunction.setObjectValue(mValueObject.getMqcihFunction());
         /* Get Value object property _mqcihAbendcode */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihAbendcode"
                     + " value=" + mValueObject.getMqcihAbendcode());
         }
         _mqcihAbendcode.setObjectValue(mValueObject.getMqcihAbendcode());
         /* Get Value object property _mqcihAuthenticator */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihAuthenticator"
                     + " value=" + mValueObject.getMqcihAuthenticator());
         }
         _mqcihAuthenticator.setObjectValue(mValueObject.getMqcihAuthenticator());
         /* Get Value object property _mqcihReserved1 */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihReserved1"
                     + " value=" + mValueObject.getMqcihReserved1());
         }
         _mqcihReserved1.setObjectValue(mValueObject.getMqcihReserved1());
         /* Get Value object property _mqcihReplytoformat */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihReplytoformat"
                     + " value=" + mValueObject.getMqcihReplytoformat());
         }
         _mqcihReplytoformat.setObjectValue(mValueObject.getMqcihReplytoformat());
         /* Get Value object property _mqcihRemotesysid */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihRemotesysid"
                     + " value=" + mValueObject.getMqcihRemotesysid());
         }
         _mqcihRemotesysid.setObjectValue(mValueObject.getMqcihRemotesysid());
         /* Get Value object property _mqcihRemotetransid */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihRemotetransid"
                     + " value=" + mValueObject.getMqcihRemotetransid());
         }
         _mqcihRemotetransid.setObjectValue(mValueObject.getMqcihRemotetransid());
         /* Get Value object property _mqcihTransactionid */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihTransactionid"
                     + " value=" + mValueObject.getMqcihTransactionid());
         }
         _mqcihTransactionid.setObjectValue(mValueObject.getMqcihTransactionid());
         /* Get Value object property _mqcihFacilitylike */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihFacilitylike"
                     + " value=" + mValueObject.getMqcihFacilitylike());
         }
         _mqcihFacilitylike.setObjectValue(mValueObject.getMqcihFacilitylike());
         /* Get Value object property _mqcihAttentionid */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihAttentionid"
                     + " value=" + mValueObject.getMqcihAttentionid());
         }
         _mqcihAttentionid.setObjectValue(mValueObject.getMqcihAttentionid());
         /* Get Value object property _mqcihStartcode */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihStartcode"
                     + " value=" + mValueObject.getMqcihStartcode());
         }
         _mqcihStartcode.setObjectValue(mValueObject.getMqcihStartcode());
         /* Get Value object property _mqcihCancelcode */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihCancelcode"
                     + " value=" + mValueObject.getMqcihCancelcode());
         }
         _mqcihCancelcode.setObjectValue(mValueObject.getMqcihCancelcode());
         /* Get Value object property _mqcihNexttransactionid */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihNexttransactionid"
                     + " value=" + mValueObject.getMqcihNexttransactionid());
         }
         _mqcihNexttransactionid.setObjectValue(mValueObject.getMqcihNexttransactionid());
         /* Get Value object property _mqcihReserved2 */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihReserved2"
                     + " value=" + mValueObject.getMqcihReserved2());
         }
         _mqcihReserved2.setObjectValue(mValueObject.getMqcihReserved2());
         /* Get Value object property _mqcihReserved3 */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihReserved3"
                     + " value=" + mValueObject.getMqcihReserved3());
         }
         _mqcihReserved3.setObjectValue(mValueObject.getMqcihReserved3());
         /* Get Value object property _mqcihCursorposition */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihCursorposition"
                     + " value=" + mValueObject.getMqcihCursorposition());
         }
         _mqcihCursorposition.setObjectValue(mValueObject.getMqcihCursorposition());
         /* Get Value object property _mqcihErroroffset */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihErroroffset"
                     + " value=" + mValueObject.getMqcihErroroffset());
         }
         _mqcihErroroffset.setObjectValue(mValueObject.getMqcihErroroffset());
         /* Get Value object property _mqcihInputitem */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihInputitem"
                     + " value=" + mValueObject.getMqcihInputitem());
         }
         _mqcihInputitem.setObjectValue(mValueObject.getMqcihInputitem());
         /* Get Value object property _mqcihReserved4 */
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Getting value from Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
                     + "_mqcihReserved4"
                     + " value=" + mValueObject.getMqcihReserved4());
         }
@@ -874,8 +873,8 @@ public class MqcihBinding
          default:
             break;
         }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Setting value of Value object property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Setting value of Value object property "
                     + child.getJaxbName()
                     + " value=" + bindingValue);
         }

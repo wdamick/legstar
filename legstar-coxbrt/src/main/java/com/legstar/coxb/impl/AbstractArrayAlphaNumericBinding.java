@@ -48,20 +48,20 @@ public abstract class AbstractArrayAlphaNumericBinding extends CArrayBinding {
     /**
      * @return the List of items
      */
-    public final List < String > getStringList() {
+    public List < String > getStringList() {
         return mList;
     }
 
     /**
      * @param list the items List to set
      */
-    public final void setStringList(
+    public void setStringList(
             final List < String > list) {
         mList = list;
     }
 
     /** {@inheritDoc} */
-    public final Object getObjectValue(
+    public Object getObjectValue(
             final Class < ? > type) throws HostException {
         if (type.equals(String.class)) {
             return mList;
@@ -73,7 +73,7 @@ public abstract class AbstractArrayAlphaNumericBinding extends CArrayBinding {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public final void setObjectValue(final Object value) throws HostException {
+    public void setObjectValue(final Object value) throws HostException {
         if (value == null) {
             mList = null;
             return;
@@ -96,7 +96,7 @@ public abstract class AbstractArrayAlphaNumericBinding extends CArrayBinding {
     }
 
     /** {@inheritDoc} */
-    public final boolean isSet() {
+    public boolean isSet() {
         return (mList != null);
     }
 }

@@ -50,7 +50,7 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
     /**
      * @return the internal List as Bytes
      */
-    public final List < Byte > getByteList() {
+    public List < Byte > getByteList() {
         List < Byte > list = new ArrayList < Byte >();
         for (BigDecimal value : mList) {
             list.add(value.byteValue());
@@ -61,7 +61,7 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
     /**
      * @param list the internal List of Bytes to set
      */
-    public final void setByteList(
+    public void setByteList(
             final List < Byte > list) {
         mList = new ArrayList < BigDecimal >();
         for (Byte value : list) {
@@ -72,7 +72,7 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
     /**
      * @return the internal List as Shorts
      */
-    public final List < Short > getShortList() {
+    public List < Short > getShortList() {
         List < Short > list = new ArrayList < Short >();
         for (BigDecimal value : mList) {
             list.add(value.shortValue());
@@ -83,7 +83,7 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
     /**
      * @param list the internal List of Shorts to set
      */
-    public final void setShortList(
+    public void setShortList(
             final List < Short > list) {
         mList = new ArrayList < BigDecimal >();
         for (Short value : list) {
@@ -94,7 +94,7 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
     /**
      * @return the internal List as Integers
      */
-    public final List < Integer > getIntegerList() {
+    public List < Integer > getIntegerList() {
         List < Integer > list = new ArrayList < Integer >();
         for (BigDecimal value : mList) {
             list.add(value.intValue());
@@ -105,7 +105,7 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
     /**
      * @param list the internal List of Integers to set
      */
-    public final void setIntegerList(
+    public void setIntegerList(
             final List < Integer > list) {
         mList = new ArrayList < BigDecimal >();
         for (Integer value : list) {
@@ -116,7 +116,7 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
     /**
      * @return the internal List as Longs
      */
-    public final List < Long > getLongList() {
+    public List < Long > getLongList() {
         List < Long > list = new ArrayList < Long >();
         for (BigDecimal value : mList) {
             list.add(value.longValue());
@@ -127,7 +127,7 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
     /**
      * @param list the internal List of Longs to set
      */
-    public final void setLongList(
+    public void setLongList(
             final List < Long > list) {
         mList = new ArrayList < BigDecimal >();
         for (Long value : list) {
@@ -138,14 +138,14 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
     /**
      * @return the internal List of BigDecimals
      */
-    public final List < BigDecimal > getBigDecimalList() {
+    public List < BigDecimal > getBigDecimalList() {
         return mList;
     }
 
     /**
      * @param list the internal List of BigDecimals to set
      */
-    public final void setBigDecimalList(
+    public void setBigDecimalList(
             final List < BigDecimal > list) {
         mList = list;
     }
@@ -153,7 +153,7 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
     /**
      * @return the internal List as BigIntegers
      */
-    public final List < BigInteger > getBigIntegerList() {
+    public List < BigInteger > getBigIntegerList() {
         List < BigInteger > list = new ArrayList < BigInteger >();
         for (BigDecimal value : mList) {
             list.add(value.toBigInteger());
@@ -164,7 +164,7 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
     /**
      * @param list the internal List of BigIntegers to set
      */
-    public final void setBigIntegerList(
+    public void setBigIntegerList(
             final List < BigInteger > list) {
         mList = new ArrayList < BigDecimal >();
         for (BigInteger value : list) {
@@ -173,7 +173,7 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
     }
 
     /** {@inheritDoc} */
-    public final Object getObjectValue(
+    public Object getObjectValue(
             final Class < ? > type) throws HostException {
         if (type.equals(BigDecimal.class)) {
             return mList;
@@ -195,7 +195,7 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public final void setObjectValue(final Object value) throws HostException {
+    public void setObjectValue(final Object value) throws HostException {
         if (value == null) {
             mList = null;
             return;
@@ -233,7 +233,7 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
     }
 
     /** {@inheritDoc} */
-    public final boolean isSet() {
+    public boolean isSet() {
         return (mList != null);
     }
 }

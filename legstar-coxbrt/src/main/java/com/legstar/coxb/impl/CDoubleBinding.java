@@ -52,34 +52,34 @@ public class CDoubleBinding extends CBinding implements ICobolDoubleBinding {
     }
 
     /** {@inheritDoc} */
-    public final void accept(final CobolElementVisitor cev)
+    public void accept(final CobolElementVisitor cev)
     throws HostException {
         cev.visit(this);
     }
 
     /** {@inheritDoc} */
-    public final Double getDoubleValue() throws HostException {
+    public Double getDoubleValue() throws HostException {
         return mValue;
     }
 
     /** {@inheritDoc} */
-    public final void setDoubleValue(final Double value) throws HostException {
+    public void setDoubleValue(final Double value) throws HostException {
         mValue = value;
     }
 
     /** {@inheritDoc} */
-    public final BigDecimal getBigDecimalValue() throws HostException {
+    public BigDecimal getBigDecimalValue() throws HostException {
         return new BigDecimal(mValue);
     }
 
     /** {@inheritDoc} */
-    public final void setBigDecimalValue(
+    public void setBigDecimalValue(
             final BigDecimal value) throws HostException {
         mValue = value.doubleValue();
     }
 
     /** {@inheritDoc} */
-    public final int calcByteLength() {
+    public int calcByteLength() {
         return calcDoubleByteLength();
     }
     
@@ -92,7 +92,7 @@ public class CDoubleBinding extends CBinding implements ICobolDoubleBinding {
     }
 
     /** {@inheritDoc} */
-    public final Object getObjectValue(
+    public Object getObjectValue(
             final Class < ? > type) throws HostException {
         if (type.equals(Double.class) || type.equals(double.class)) {
             return mValue;
@@ -105,7 +105,7 @@ public class CDoubleBinding extends CBinding implements ICobolDoubleBinding {
     }
 
     /** {@inheritDoc} */
-    public final void setObjectValue(final Object value) throws HostException {
+    public void setObjectValue(final Object value) throws HostException {
         if (value == null) {
             mValue = null;
             return;
@@ -121,7 +121,7 @@ public class CDoubleBinding extends CBinding implements ICobolDoubleBinding {
     }
 
     /** {@inheritDoc} */
-    public final boolean isSet() {
+    public boolean isSet() {
         return (mValue != null);
     }
 }

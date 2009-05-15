@@ -29,7 +29,7 @@ public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
         HostData.toByteArray("F0F1F2F3F4F5F6F7F8F9");
 
     /** {@inheritDoc} */
-    public final ICobolBinding choose(
+    public ICobolBinding choose(
             final ICobolChoiceBinding choice,
             final Hashtable < String, Object > variablesMap,
             final CobolElementVisitor visitor)

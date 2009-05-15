@@ -48,7 +48,7 @@ implements ICobolZonedDecimalConverter {
     }
 
     /** {@inheritDoc} */
-    public final int toHost(
+    public int toHost(
             final ICobolZonedDecimalBinding ce,
             final byte[] hostTarget,
             final int offset) throws HostException {
@@ -70,7 +70,7 @@ implements ICobolZonedDecimalConverter {
     }
 
     /** {@inheritDoc} */
-    public final int toHost(
+    public int toHost(
             final ICobolArrayZonedDecimalBinding ce,
             final byte[] hostTarget,
             final int offset,
@@ -109,7 +109,7 @@ implements ICobolZonedDecimalConverter {
     }
 
     /** {@inheritDoc} */
-    public final int fromHost(
+    public int fromHost(
             final ICobolZonedDecimalBinding ce,
             final byte[] hostSource,
             final int offset)
@@ -133,7 +133,7 @@ implements ICobolZonedDecimalConverter {
     }
 
     /** {@inheritDoc} */
-    public final int fromHost(
+    public int fromHost(
             final ICobolArrayZonedDecimalBinding ce,
             final byte[] hostSource,
             final int offset,

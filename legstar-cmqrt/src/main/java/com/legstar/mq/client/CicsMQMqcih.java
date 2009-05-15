@@ -58,7 +58,7 @@ public class CicsMQMqcih extends AbstractCicsMQ  {
     private static final int MQCUOWC_ONLY = 273;
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(CicsMQMqcih.class);
+    private final Log _log = LogFactory.getLog(CicsMQMqcih.class);
 
     /**
      * Construct an instance of an MQ connection to the mainframe.
@@ -158,8 +158,8 @@ public class CicsMQMqcih extends AbstractCicsMQ  {
     public LegStarMessage createResponseMessage(
             final MQMessage mqMessage) throws HostReceiveException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("enter createResponseMessage(mqMessage)");
+        if (_log.isDebugEnabled()) {
+            _log.debug("enter createResponseMessage(mqMessage)");
         }
 
         /* Check that reply has an MQCIH header */
@@ -199,8 +199,8 @@ public class CicsMQMqcih extends AbstractCicsMQ  {
             /* Stuff it into a LegStar message */
             LegStarMessage reponseMessage = new LegStarMessage();
             reponseMessage.addDataPart(new CommareaPart(replyCommarea));
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("response message received");
+            if (_log.isDebugEnabled()) {
+                _log.debug("response message received");
             }
             return reponseMessage;
 

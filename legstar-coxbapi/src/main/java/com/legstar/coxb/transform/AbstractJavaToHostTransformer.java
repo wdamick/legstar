@@ -26,7 +26,7 @@ import com.legstar.coxb.host.HostException;
  * <p/>
  * This is sample code with dynamic binding:
  * <pre>
- * public final class JavaToHostLsfileaeTransformer extends AbstractJavaToHostTransformer {
+ * public class JavaToHostLsfileaeTransformer extends AbstractJavaToHostTransformer {
  *      public ICobolComplexBinding getBinding() throws BindingException {
  *          try {
  *              CComplexReflectBinding binding = new CComplexReflectBinding(
@@ -42,7 +42,7 @@ import com.legstar.coxb.host.HostException;
  * <p/>
  * This is sample code with static binding:
  * <pre>
- * public final class JavaToHostLsfileaeTransformer extends AbstractJavaToHostTransformer {
+ * public class JavaToHostLsfileaeTransformer extends AbstractJavaToHostTransformer {
  *      public ICobolComplexBinding getBinding() throws BindingException {
  *          return new com.legstar.test.coxb.lsfileae.DfhcommareaBinding();
  *      }
@@ -52,7 +52,7 @@ import com.legstar.coxb.host.HostException;
 public abstract class AbstractJavaToHostTransformer extends AbstractTransformer implements IJavaToHostTransformer {
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(AbstractJavaToHostTransformer.class);
+    private final Log _log = LogFactory.getLog(AbstractJavaToHostTransformer.class);
 
     /**
      * Create a Java to Host transformer using default COBOL parameters.
@@ -101,8 +101,8 @@ public abstract class AbstractJavaToHostTransformer extends AbstractTransformer 
     public byte[] transform(final Object valueObject) throws HostTransformException {
 
         long start = System.currentTimeMillis();
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Java to Host transformation started");
+        if (_log.isDebugEnabled()) {
+            _log.debug("Java to Host transformation started");
         }
 
         try {
@@ -134,9 +134,9 @@ public abstract class AbstractJavaToHostTransformer extends AbstractTransformer 
                 adjustedHostData = hostData;
             }
 
-            if (LOG.isDebugEnabled()) {
+            if (_log.isDebugEnabled()) {
                 long end = System.currentTimeMillis();
-                LOG.debug("Java to Host transformation ended. Processed: "
+                _log.debug("Java to Host transformation ended. Processed: "
                         + Integer.toString(bytesMarshalled) + " bytes "
                         + "elapse:"
                         + Long.toString(end - start) + " ms");

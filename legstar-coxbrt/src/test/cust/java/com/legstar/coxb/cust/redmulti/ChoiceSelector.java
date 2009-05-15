@@ -25,7 +25,7 @@ import com.legstar.test.coxb.redmulti.Dfhcommarea;
 public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
 
     /** {@inheritDoc} */
-    public final ICobolBinding choose(
+    public ICobolBinding choose(
             final ICobolChoiceBinding choice,
             final Hashtable < String, Object > variablesMap,
             final CobolElementVisitor visitor)

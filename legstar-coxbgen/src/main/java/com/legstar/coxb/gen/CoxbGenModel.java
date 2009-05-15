@@ -80,35 +80,35 @@ public class CoxbGenModel extends AbstractAntBuildModel {
         "vlc/build-coxb-xml.vm";
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(CoxbGenModel.class);
+    private final Log _log = LogFactory.getLog(CoxbGenModel.class);
 
     /**
      * Provides a complete trace of parameters values.
      */
     public final void traceContext() {
-        LOG.debug("   JAXB classes sources location     ="
+        _log.debug("   JAXB classes sources location     ="
                 + " " + getJaxbSrcDir());
-        LOG.debug("   JAXB classes binaries location    ="
+        _log.debug("   JAXB classes binaries location    ="
                 + " " + getJaxbBinDir());
-        LOG.debug("   JAXB Package name                 ="
+        _log.debug("   JAXB Package name                 ="
                 + " " + getJaxbPackageName());
         if (getJaxbRootClassNames() != null) {
             for (String jaxbRootClassName : getJaxbRootClassNames()) {
-                LOG.debug("   JAXB root class name              ="
+                _log.debug("   JAXB root class name              ="
                         + " " + jaxbRootClassName);
             }
         }
-        LOG.debug("   COBOL annotated XML schema file   ="
+        _log.debug("   COBOL annotated XML schema file   ="
                 + " " + getXsdFile());
-        LOG.debug("   Binding classes source location   ="
+        _log.debug("   Binding classes source location   ="
                 + " " + getCoxbSrcDir());
-        LOG.debug("   Binding classes binaries location ="
+        _log.debug("   Binding classes binaries location ="
                 + " " + getCoxbBinDir());
-        LOG.debug("   Binding classes Package name      ="
+        _log.debug("   Binding classes Package name      ="
                 + " " + getCoxbPackageName());
-        LOG.debug("   Alternative package name          ="
+        _log.debug("   Alternative package name          ="
                 + " " + getAlternativePackageName());
-        LOG.debug("   Alternative factory name          ="
+        _log.debug("   Alternative factory name          ="
                 + " " + getAlternativeFactoryName());
     }
 

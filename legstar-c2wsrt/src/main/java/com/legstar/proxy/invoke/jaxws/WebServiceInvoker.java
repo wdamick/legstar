@@ -115,7 +115,7 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
     private Dispatch < Object > mDispatcher;
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(WebServiceInvoker.class);
+    private final Log _log = LogFactory.getLog(getClass());
 
     /**
      * Standard constructor. The configuration parameters supported are:
@@ -190,27 +190,27 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
             throw new WebServiceInvokerException(e);
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("WebServiceInvoker setup configuration:");
-            LOG.debug("Wsdl Url=" + getWsdlUrl());
-            LOG.debug("Wsdl service name=" + getWsdlServiceName());
-            LOG.debug("Wsdl target namespace=" + getWsdlTargetNamespace());
-            LOG.debug("Wsdl port=" + getWsdlPortName());
-            LOG.debug("Request element=[" + getRequestElementDescriptor().toString() + "]");
-            LOG.debug("Response element=[" + getResponseElementDescriptor().toString() + "]");
+        if (_log.isDebugEnabled()) {
+            _log.debug("WebServiceInvoker setup configuration:");
+            _log.debug("Wsdl Url=" + getWsdlUrl());
+            _log.debug("Wsdl service name=" + getWsdlServiceName());
+            _log.debug("Wsdl target namespace=" + getWsdlTargetNamespace());
+            _log.debug("Wsdl port=" + getWsdlPortName());
+            _log.debug("Request element=[" + getRequestElementDescriptor().toString() + "]");
+            _log.debug("Response element=[" + getResponseElementDescriptor().toString() + "]");
         }
     }
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public < T > T invoke(final String requestID, final Object oRequest) throws ProxyInvokerException {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("About to call invokeDispatch for service="
+        if (_log.isDebugEnabled()) {
+            _log.debug("About to call invokeDispatch for service="
                     + getWsdlServiceName() + " request ID=" + requestID);
         }
         Object replyObject = invokeDispatch(oRequest);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Returned from invokeDispatch for service="
+        if (_log.isDebugEnabled()) {
+            _log.debug("Returned from invokeDispatch for service="
                     + getWsdlServiceName() + " request ID=" + requestID);
         }
         return (T) replyObject;
@@ -242,8 +242,8 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
                         oRequest);
                 oResponse = getDispatcher().invoke(jeRequest);
             }
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("invokeDispatch returned " + oResponse);
+            if (_log.isDebugEnabled()) {
+                _log.debug("invokeDispatch returned " + oResponse);
             }
             if (getResponseElementDescriptor().isXmlRootElement()) {
                 return oResponse;
@@ -263,20 +263,20 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
      */
     @SuppressWarnings("unchecked")
     public String getFaultReasonText(final SOAPFaultException e) {
-        if (LOG.isDebugEnabled()) {
+        if (_log.isDebugEnabled()) {
             SOAPFault fault = e.getFault();
             if (fault != null) {
                 QName code = fault.getFaultCodeAsQName();
                 String string = fault.getFaultString();
                 String actor = fault.getFaultActor();
-                LOG.debug("SOAP fault contains: ");
-                LOG.debug("  Fault code = " + code.toString());
-                LOG.debug("  Local name = " + code.getLocalPart());
-                LOG.debug("  Namespace prefix = "
+                _log.debug("SOAP fault contains: ");
+                _log.debug("  Fault code = " + code.toString());
+                _log.debug("  Local name = " + code.getLocalPart());
+                _log.debug("  Namespace prefix = "
                         + code.getPrefix() + ", bound to " + code.getNamespaceURI());
-                LOG.debug("  Fault string = " + string);
+                _log.debug("  Fault string = " + string);
                 if (actor != null) {
-                    LOG.debug("  Fault actor = " + actor);
+                    _log.debug("  Fault actor = " + actor);
                 }
                 Detail detail = fault.getDetail();
                 if (detail != null) {
@@ -284,11 +284,11 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
                     while (entries.hasNext()) {
                         DetailEntry newEntry = (DetailEntry) entries.next();
                         String value = newEntry.getValue();
-                        LOG.debug("  Detail entry = " + value);
+                        _log.debug("  Detail entry = " + value);
                     }
                 } 
             } else {
-                LOG.debug(e);
+                _log.debug(e);
             }
         }
         SOAPFault fault = e.getFault();
@@ -329,8 +329,8 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
             mDispatcher = service.createDispatch(
                     portQname, getJaxbContext(), Service.Mode.PAYLOAD);
 
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("New javax.xml.ws.Dispatch created for " + getWsdlServiceName());
+            if (_log.isDebugEnabled()) {
+                _log.debug("New javax.xml.ws.Dispatch created for " + getWsdlServiceName());
             }
         }
         return mDispatcher;

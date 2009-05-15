@@ -30,7 +30,7 @@ public class CobolToXsdCobolModelTest extends TestCase {
 
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(CobolToXsdCobolModelTest.class);
+    private final Log _log = LogFactory.getLog(CobolToXsdCobolModelTest.class);
 
     /** Ant scripts files will be generated here. */
     public static final File GEN_ANT_DIR = new File("target/src/gen/ant");
@@ -63,7 +63,7 @@ public class CobolToXsdCobolModelTest extends TestCase {
         String resStr = "";
         String str = in.readLine();
         while (str != null) {
-            LOG.debug(str);
+            _log.debug(str);
             resStr += str;
             str = in.readLine();
         }

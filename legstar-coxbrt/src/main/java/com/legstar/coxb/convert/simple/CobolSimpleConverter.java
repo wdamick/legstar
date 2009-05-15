@@ -36,14 +36,14 @@ public abstract class CobolSimpleConverter {
     /**
      * @return Returns the CobolContext.
      */
-    public final CobolContext getCobolContext() {
+    public CobolContext getCobolContext() {
         return mCobolContext;
     }
 
     /**
      * @param cobolContext The CobolContext to set.
      */
-    public final void setCobolContext(final CobolContext cobolContext) {
+    public void setCobolContext(final CobolContext cobolContext) {
         mCobolContext = cobolContext;
     }
 
@@ -53,7 +53,7 @@ public abstract class CobolSimpleConverter {
      * @param e the conversion exception
      * @throws HostException the resulting host exception
      */
-    public final void throwHostException(
+    public void throwHostException(
             final ICobolBinding ce, 
             final CobolConversionException e)
     throws HostException {

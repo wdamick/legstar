@@ -36,7 +36,7 @@ public abstract class AbstractTest extends TestCase {
     private JavaToXsdCobolTask mJavaToXsdCobolTask;
     
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(AbstractTest.class);
+    private final Log _log = LogFactory.getLog(AbstractTest.class);
 
     /**
      * @return the the Java to XSD generator
@@ -64,7 +64,7 @@ public abstract class AbstractTest extends TestCase {
         StringBuffer res = new StringBuffer();
         String str = in.readLine();
         while (str != null) {
-            LOG.debug(str);
+            _log.debug(str);
             res.append(str);
             str = in.readLine();
         }

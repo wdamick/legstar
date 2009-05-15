@@ -11,7 +11,7 @@ import com.legstar.coxb.impl.reflect.ReflectBindingException;
  * This uses reflection binding.
  *
  */
-public final class JavaToHostDplarchtTransformer extends AbstractJavaToHostTransformer {
+public class JavaToHostDplarchtTransformer extends AbstractJavaToHostTransformer {
 
 
     /**

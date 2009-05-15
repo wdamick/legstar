@@ -38,7 +38,7 @@ public class MockFILEA {
     private Map < Long,  Dfhcommarea > mCustomersList;
     
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(MockFILEA.class);
+    private final Log _log = LogFactory.getLog(MockFILEA.class);
 
     /**
      * At construction time, we load a text file data content into a map of objects.
@@ -50,7 +50,7 @@ public class MockFILEA {
         BufferedReader in = new BufferedReader(new InputStreamReader(is));
         String record = null;
         while ((record = in.readLine()) != null) {
-            LOG.debug(record);
+            _log.debug(record);
             Dfhcommarea dfhcommarea = splitRecord(record);
             if (dfhcommarea != null) {
                 mCustomersList.put(new Long(dfhcommarea.getComNumber()), dfhcommarea);

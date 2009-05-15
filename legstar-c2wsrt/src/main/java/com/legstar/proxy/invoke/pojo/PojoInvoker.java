@@ -63,7 +63,7 @@ public class PojoInvoker extends AbstractProxyInvoker {
     private Method mPojoMethod;
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(PojoInvoker.class);
+    private final Log _log = LogFactory.getLog(PojoInvoker.class);
 
     /**
      * Standard constructor. The configuration parameters supported are:
@@ -108,18 +108,18 @@ public class PojoInvoker extends AbstractProxyInvoker {
             throw new PojoInvokerException(e);
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("PojoInvoker setup configuration:");
-            LOG.debug("POJO class name=" + getPojoClassName());
-            LOG.debug("POJO method name=" + getPojoMethodName());
+        if (_log.isDebugEnabled()) {
+            _log.debug("PojoInvoker setup configuration:");
+            _log.debug("POJO class name=" + getPojoClassName());
+            _log.debug("POJO method name=" + getPojoMethodName());
         }
     }
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public < T > T invoke(final String requestID, final Object oRequest) throws ProxyInvokerException {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("About to call method " + getPojoMethodName() + " for POJO="
+        if (_log.isDebugEnabled()) {
+            _log.debug("About to call method " + getPojoMethodName() + " for POJO="
                     + getPojoClassName() + " request ID=" + requestID);
         }
         Object replyObject;
@@ -135,8 +135,8 @@ public class PojoInvoker extends AbstractProxyInvoker {
         } catch (InvocationTargetException e) {
             throw new ProxyInvokerException(e);
         }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Returned from method " + getPojoMethodName() + " for POJO="
+        if (_log.isDebugEnabled()) {
+            _log.debug("Returned from method " + getPojoMethodName() + " for POJO="
                     + getPojoClassName() + " request ID=" + requestID);
         }
         return (T) replyObject;

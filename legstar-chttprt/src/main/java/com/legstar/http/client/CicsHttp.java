@@ -98,7 +98,7 @@ public class CicsHttp implements LegStarConnection  {
     private int mReceiveTimeout;
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(CicsHttp.class);
+    private final Log _log = LogFactory.getLog(CicsHttp.class);
 
     /**
      * A CicsHttp instance exists for a target CICS region, a given CICS URL
@@ -135,8 +135,8 @@ public class CicsHttp implements LegStarConnection  {
     public final void connect(
             final String cicsPassword) throws ConnectionException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Connection:" + mConnectionID
+        if (_log.isDebugEnabled()) {
+            _log.debug("Connection:" + mConnectionID
                     + " Setup connection. Host:" 
                     + mCicsHttpEndpoint.getReport());
         }
@@ -146,8 +146,8 @@ public class CicsHttp implements LegStarConnection  {
         /* There must be a new post method on each request*/
         mPostMethod = null;
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Connection:" + mConnectionID + " Connection setup.");
+        if (_log.isDebugEnabled()) {
+            _log.debug("Connection:" + mConnectionID + " Connection setup.");
         }
     }
 
@@ -174,9 +174,9 @@ public class CicsHttp implements LegStarConnection  {
     public final void sendRequest(
             final LegStarRequest request) throws RequestException {
 
-        if (LOG.isDebugEnabled()) {
+        if (_log.isDebugEnabled()) {
             try {
-                LOG.debug("Sending Request:" + request.getID()
+                _log.debug("Sending Request:" + request.getID()
                         + " on Connection:" + mConnectionID
                         + " "
                         + request.getRequestMessage().getHeaderPart().
@@ -204,8 +204,8 @@ public class CicsHttp implements LegStarConnection  {
             throw new RequestException(e);
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Request:" + request.getID()
+        if (_log.isDebugEnabled()) {
+            _log.debug("Request:" + request.getID()
                     + " on Connection:" + mConnectionID
                     + " message request sent.");
         }
@@ -222,8 +222,8 @@ public class CicsHttp implements LegStarConnection  {
     public final void recvResponse(
             final LegStarRequest request) throws RequestException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Receiving response for Request:" + request.getID()
+        if (_log.isDebugEnabled()) {
+            _log.debug("Receiving response for Request:" + request.getID()
                     + " on Connection:" + mConnectionID
                     + '.');
         }
@@ -254,8 +254,8 @@ public class CicsHttp implements LegStarConnection  {
             mPostMethod.releaseConnection();
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Request:" + request.getID()
+        if (_log.isDebugEnabled()) {
+            _log.debug("Request:" + request.getID()
                     + " on Connection:" + mConnectionID
                     + " response received.");
         }
@@ -278,8 +278,8 @@ public class CicsHttp implements LegStarConnection  {
      */
     private HttpClient createHttpClient() {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("enter createHttpClient()");
+        if (_log.isDebugEnabled()) {
+            _log.debug("enter createHttpClient()");
         }
         HttpClientParams params = new HttpClientParams();
 
@@ -322,8 +322,8 @@ public class CicsHttp implements LegStarConnection  {
      */
     private HttpState createHttpState(final String cicsPassword) {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("enter createHttpState(cicsPassword)");
+        if (_log.isDebugEnabled()) {
+            _log.debug("enter createHttpState(cicsPassword)");
         }
 
         HttpState httpState = new HttpState();
@@ -364,8 +364,8 @@ public class CicsHttp implements LegStarConnection  {
     public final PostMethod createPostMethod(
             final LegStarRequest request) throws RequestException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("enter createPostMethod(request)");
+        if (_log.isDebugEnabled()) {
+            _log.debug("enter createPostMethod(request)");
         }
 
         PostMethod postMethod = new PostMethod();
@@ -403,8 +403,8 @@ public class CicsHttp implements LegStarConnection  {
     private LegStarMessage createResponseMessage(
             final InputStream respStream) throws HostReceiveException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("enter createResponseMessage(respStream)");
+        if (_log.isDebugEnabled()) {
+            _log.debug("enter createResponseMessage(respStream)");
         }
 
         LegStarMessage reponseMessage;
@@ -417,8 +417,8 @@ public class CicsHttp implements LegStarConnection  {
             throw new HostReceiveException(e);
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("response message received");
+        if (_log.isDebugEnabled()) {
+            _log.debug("response message received");
         }
         return reponseMessage;
     }
@@ -430,8 +430,8 @@ public class CicsHttp implements LegStarConnection  {
      */
     private void throwErrorResponse() throws RequestException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("enter throwErrorResponse()");
+        if (_log.isDebugEnabled()) {
+            _log.debug("enter throwErrorResponse()");
         }
 
         StringBuilder errorMessage = new StringBuilder();

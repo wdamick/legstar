@@ -44,7 +44,7 @@ public class InitiatorServlet extends HttpServlet {
         "com.legstar.c2ws.servlet.engineHandler";
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(InitiatorServlet.class);
+    private final Log _log = LogFactory.getLog(InitiatorServlet.class);
 
     /**
      * Servlet constructor.
@@ -69,7 +69,7 @@ public class InitiatorServlet extends HttpServlet {
                     + " parameter.");
         }
 
-        LOG.info("Initializing with " + configFileName
+        _log.info("Initializing with " + configFileName
                 + " configuration file.");
 
         try {
@@ -80,10 +80,10 @@ public class InitiatorServlet extends HttpServlet {
             servletContext.setAttribute(ENGINE_HANDLER_ID, serverHandler);
             
         } catch (ConfigurationException e) {
-            LOG.error("Failed to initialize.", e);
+            _log.error("Failed to initialize.", e);
             throw new ServletException(e);
         } catch (EngineStartupException e) {
-            LOG.error("Failed to start engine.", e);
+            _log.error("Failed to start engine.", e);
             throw new ServletException(e);
         }
     }
@@ -98,14 +98,14 @@ public class InitiatorServlet extends HttpServlet {
      */
     private HierarchicalConfiguration loadConfigFile(
             final String configFileName) throws ConfigurationException {
-        LOG.debug("Attempting to load " + configFileName);
+        _log.debug("Attempting to load " + configFileName);
         DefaultConfigurationBuilder dcb = new DefaultConfigurationBuilder();
         dcb.setFileName(configFileName);
         CombinedConfiguration config = (CombinedConfiguration)
         dcb.getConfiguration(true).getConfiguration(
                 DefaultConfigurationBuilder.ADDITIONAL_NAME);
         config.setExpressionEngine(new XPathExpressionEngine());
-        LOG.debug("Load success for " + configFileName);
+        _log.debug("Load success for " + configFileName);
         return config; 
     }
 

@@ -66,27 +66,27 @@ implements ICobolArrayComplexBinding {
     }
 
     /** {@inheritDoc} */
-    public final void accept(final CobolElementVisitor cev)
+    public void accept(final CobolElementVisitor cev)
     throws HostException {
         cev.visit(this);
     }
 
     /** {@inheritDoc} */
-    public final int calcItemByteLength() {
+    public int calcItemByteLength() {
         return getComplexItemBinding().getByteLength();
     }
 
     /**
      * @return the Complex Binding describing an item
      */
-    public final ICobolComplexBinding getComplexItemBinding() {
+    public ICobolComplexBinding getComplexItemBinding() {
         return mComplexItemBinding;
     }
 
     /**
      * @param complexItemBinding the item Complex Binding to set
      */
-    public final void setComplexItemBinding(
+    public void setComplexItemBinding(
             final ICobolComplexBinding complexItemBinding) {
         mComplexItemBinding = complexItemBinding;
     }
@@ -129,14 +129,14 @@ implements ICobolArrayComplexBinding {
     /**
      * {@inheritDoc}
      */
-    public final String getValueObjectClassName() {
+    public String getValueObjectClassName() {
         return mValueObjectClassName;
     }
 
     /**
      * {@inheritDoc}
      */
-    public final void setValueObjectClassName(
+    public void setValueObjectClassName(
             final String valueObjectClassName) {
         mValueObjectClassName = valueObjectClassName;
     }
@@ -144,14 +144,14 @@ implements ICobolArrayComplexBinding {
     /**
      * {@inheritDoc}
      */
-    public final String getValueObjectsFactoryClassName() {
+    public String getValueObjectsFactoryClassName() {
         return mValueObjectsFactoryClassName;
     }
 
     /**
      * {@inheritDoc}
      */
-    public final void setValueObjectsFactoryClassName(
+    public void setValueObjectsFactoryClassName(
             final String valueObjectsFactoryClassName) {
         mValueObjectsFactoryClassName = valueObjectsFactoryClassName;
     }

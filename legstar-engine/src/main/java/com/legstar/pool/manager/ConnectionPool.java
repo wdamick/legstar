@@ -38,7 +38,7 @@ import com.legstar.messaging.ConnectionFactory;
 public class ConnectionPool {
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(ConnectionPool.class);
+    private final Log _log = LogFactory.getLog(ConnectionPool.class);
 
     /** The connection factory is dynamically loaded. */
     private ConnectionFactory mConnectionFactory;
@@ -85,8 +85,8 @@ public class ConnectionPool {
             throw new ConnectionPoolException(e);
         }
         mShuttingDown = false;
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Pool created for:" + address.getReport());
+        if (_log.isDebugEnabled()) {
+            _log.debug("Pool created for:" + address.getReport());
         }
     }
 
@@ -133,7 +133,7 @@ public class ConnectionPool {
                 /* If we fail to return the connection to the pool that should 
                  * not prevent further processing but the pool capacity is 
                  * actually reduced by one. We should warn the administrator. */
-                LOG.warn("Connection could not be recycled.");
+                _log.warn("Connection could not be recycled.");
             }
         } else {
             throw new ConnectionPoolException("Pool is shutting down.");
@@ -152,9 +152,9 @@ public class ConnectionPool {
             return;
         }
         if (mConnections.size() == 0) {
-            LOG.warn("Some requests might be waiting for connections.");
+            _log.warn("Some requests might be waiting for connections.");
         } else {
-            LOG.warn("There are "
+            _log.warn("There are "
                     + (mConnections.remainingCapacity() - mConnections.size())
                     + " connections in use.");
         }

@@ -22,7 +22,7 @@ public class UnmarshalJvmqueryWsTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal JvmqueryWs.
      */
-    public final void testJvmqueryWs() {
+    public void testJvmqueryWs() {
         QueryJvmResponse queryJvmResponse = (QueryJvmResponse) convert(
                 JvmqueryWsCases.getFactory(),
                 JvmqueryWsCases.getHostBytesHex(),

@@ -38,7 +38,7 @@ import com.legstar.coxb.ICobolZonedDecimalBinding;
 public class CBindingFactory implements ICobolBindingFactory {
 
     /** {@inheritDoc} */
-    public final ICobolArrayBinaryBinding createArrayBinaryBinding(
+    public ICobolArrayBinaryBinding createArrayBinaryBinding(
             final String bindingName,
             final ICobolComplexBinding parentBinding) {
         return new CArrayBinaryBinding(
@@ -46,7 +46,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolArrayBinaryBinding createArrayBinaryBinding(
+    public ICobolArrayBinaryBinding createArrayBinaryBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,
@@ -56,7 +56,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolArrayDoubleBinding createArrayDoubleBinding(
+    public ICobolArrayDoubleBinding createArrayDoubleBinding(
             final String bindingName,
             final ICobolComplexBinding parentBinding) {
         return new CArrayDoubleBinding(
@@ -64,7 +64,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolArrayDoubleBinding createArrayDoubleBinding(
+    public ICobolArrayDoubleBinding createArrayDoubleBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,
@@ -74,7 +74,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolArrayFloatBinding createArrayFloatBinding(
+    public ICobolArrayFloatBinding createArrayFloatBinding(
             final String bindingName,
             final ICobolComplexBinding parentBinding) {
         return new CArrayFloatBinding(
@@ -82,7 +82,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolArrayFloatBinding createArrayFloatBinding(
+    public ICobolArrayFloatBinding createArrayFloatBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,
@@ -92,7 +92,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolArrayNationalBinding createArrayNationalBinding(
+    public ICobolArrayNationalBinding createArrayNationalBinding(
             final String bindingName,
             final ICobolComplexBinding parentBinding) {
         return new CArrayNationalBinding(
@@ -100,7 +100,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolArrayNationalBinding createArrayNationalBinding(
+    public ICobolArrayNationalBinding createArrayNationalBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,
@@ -110,7 +110,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolArrayDbcsBinding createArrayDbcsBinding(
+    public ICobolArrayDbcsBinding createArrayDbcsBinding(
             final String bindingName,
             final ICobolComplexBinding parentBinding) {
         return new CArrayDbcsBinding(
@@ -118,7 +118,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolArrayDbcsBinding createArrayDbcsBinding(
+    public ICobolArrayDbcsBinding createArrayDbcsBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,
@@ -128,7 +128,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolArrayOctetStreamBinding createArrayOctetStreamBinding(
+    public ICobolArrayOctetStreamBinding createArrayOctetStreamBinding(
             final String bindingName,
             final ICobolComplexBinding parentBinding) {
         return new CArrayOctetStreamBinding(
@@ -136,7 +136,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolArrayOctetStreamBinding
+    public ICobolArrayOctetStreamBinding
     createArrayOctetStreamBinding(
             final String bindingName,
             final String jaxbName,
@@ -147,7 +147,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolArrayPackedDecimalBinding
+    public ICobolArrayPackedDecimalBinding
     createArrayPackedDecimalBinding(
             final String bindingName,
             final ICobolComplexBinding parentBinding) {
@@ -156,7 +156,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolArrayPackedDecimalBinding
+    public ICobolArrayPackedDecimalBinding
     createArrayPackedDecimalBinding(
             final String bindingName,
             final String jaxbName,
@@ -167,7 +167,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolArrayStringBinding createArrayStringBinding(
+    public ICobolArrayStringBinding createArrayStringBinding(
             final String bindingName,
             final ICobolComplexBinding parentBinding) {
         return new CArrayStringBinding(
@@ -175,7 +175,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolArrayStringBinding createArrayStringBinding(
+    public ICobolArrayStringBinding createArrayStringBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,
@@ -185,7 +185,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolArrayZonedDecimalBinding createArrayZonedDecimalBinding(
+    public ICobolArrayZonedDecimalBinding createArrayZonedDecimalBinding(
             final String bindingName,
             final ICobolComplexBinding parentBinding) {
         return new CArrayZonedDecimalBinding(
@@ -193,7 +193,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolArrayZonedDecimalBinding createArrayZonedDecimalBinding(
+    public ICobolArrayZonedDecimalBinding createArrayZonedDecimalBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,
@@ -203,7 +203,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolBinaryBinding createBinaryBinding(
+    public ICobolBinaryBinding createBinaryBinding(
             final String bindingName,
             final ICobolComplexBinding parentBinding) {
         return new CBinaryBinding(
@@ -211,7 +211,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolBinaryBinding createBinaryBinding(
+    public ICobolBinaryBinding createBinaryBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,
@@ -221,7 +221,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolDoubleBinding createDoubleBinding(
+    public ICobolDoubleBinding createDoubleBinding(
             final String bindingName,
             final ICobolComplexBinding parentBinding) {
         return new CDoubleBinding(
@@ -229,7 +229,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolDoubleBinding createDoubleBinding(
+    public ICobolDoubleBinding createDoubleBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,
@@ -239,7 +239,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolFloatBinding createFloatBinding(
+    public ICobolFloatBinding createFloatBinding(
             final String bindingName,
             final ICobolComplexBinding parentBinding) {
         return new CFloatBinding(
@@ -247,7 +247,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolFloatBinding createFloatBinding(
+    public ICobolFloatBinding createFloatBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,
@@ -257,7 +257,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolNationalBinding createNationalBinding(
+    public ICobolNationalBinding createNationalBinding(
             final String bindingName,
             final ICobolComplexBinding parentBinding) {
         return new CNationalBinding(
@@ -265,7 +265,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolNationalBinding createNationalBinding(
+    public ICobolNationalBinding createNationalBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,
@@ -275,7 +275,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolDbcsBinding createDbcsBinding(
+    public ICobolDbcsBinding createDbcsBinding(
             final String bindingName,
             final ICobolComplexBinding parentBinding) {
         return new CDbcsBinding(
@@ -283,7 +283,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolDbcsBinding createDbcsBinding(
+    public ICobolDbcsBinding createDbcsBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,
@@ -293,7 +293,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolOctetStreamBinding createOctetStreamBinding(
+    public ICobolOctetStreamBinding createOctetStreamBinding(
             final String bindingName,
             final ICobolComplexBinding parentBinding) {
         return new COctetStreamBinding(
@@ -301,7 +301,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolOctetStreamBinding createOctetStreamBinding(
+    public ICobolOctetStreamBinding createOctetStreamBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,
@@ -311,7 +311,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolPackedDecimalBinding createPackedDecimalBinding(
+    public ICobolPackedDecimalBinding createPackedDecimalBinding(
             final String bindingName,
             final ICobolComplexBinding parentBinding) {
         return new CPackedDecimalBinding(
@@ -319,7 +319,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolPackedDecimalBinding createPackedDecimalBinding(
+    public ICobolPackedDecimalBinding createPackedDecimalBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,
@@ -329,7 +329,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolStringBinding createStringBinding(
+    public ICobolStringBinding createStringBinding(
             final String bindingName,
             final ICobolComplexBinding parentBinding) {
         return new CStringBinding(
@@ -337,7 +337,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolStringBinding createStringBinding(
+    public ICobolStringBinding createStringBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,
@@ -347,7 +347,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolZonedDecimalBinding createZonedDecimalBinding(
+    public ICobolZonedDecimalBinding createZonedDecimalBinding(
             final String bindingName,
             final ICobolComplexBinding parentBinding) {
         return new CZonedDecimalBinding(
@@ -355,7 +355,7 @@ public class CBindingFactory implements ICobolBindingFactory {
     }
 
     /** {@inheritDoc} */
-    public final ICobolZonedDecimalBinding createZonedDecimalBinding(
+    public ICobolZonedDecimalBinding createZonedDecimalBinding(
             final String bindingName,
             final String jaxbName,
             final Class < ? > jaxbType,

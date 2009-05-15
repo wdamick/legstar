@@ -131,7 +131,7 @@ public class JAXBElementDescriptor {
      * @throws JAXBAnnotationException if object factory cannot be
      *  instantiated
      */
-    public final Object createObjectFactory()
+    public Object createObjectFactory()
     throws JAXBAnnotationException {
         try {
             Class < ? > ofClass = Utils.loadClass(getJaxbPackageName()
@@ -160,14 +160,14 @@ public class JAXBElementDescriptor {
     /**
      * @return the JAXB package name
      */
-    public final String getJaxbPackageName() {
+    public String getJaxbPackageName() {
         return mJaxbPackageName;
     }
 
     /**
      * @return the JAXB class name
      */
-    public final String getJaxbTypeName() {
+    public String getJaxbTypeName() {
         return mJaxbTypeName;
     }
 
@@ -176,7 +176,7 @@ public class JAXBElementDescriptor {
      * annotation or the XmlType annotation.
      * from JAXB annotations
      */
-    public final String getElementName() {
+    public String getElementName() {
         return mElementName;
     }
 
@@ -184,7 +184,7 @@ public class JAXBElementDescriptor {
      * @return true if the JAXB element is marked as XmlRootElement which
      * means it does not need to be encapsulated in a JAXBElement.
      */
-    public final boolean isXmlRootElement() {
+    public boolean isXmlRootElement() {
         return mIsXmlRootElement;
     }
 
@@ -192,12 +192,12 @@ public class JAXBElementDescriptor {
      * Returns the JAXB package Object factory.
      * @return the object factory
      */
-    public final Object getObjectFactory() {
+    public Object getObjectFactory() {
         return mObjectFactory;
     }
 
     /** {@inheritDoc} */
-    public final String toString() {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("JAXB package=");
         sb.append(getJaxbPackageName());

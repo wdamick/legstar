@@ -29,7 +29,7 @@ public class CixsMappingModelTest extends TestCase {
     private static final String COXB_PACKAGE_PREFIX = "com.legstar.test.coxb.";
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(CixsMappingModelTest.class);
+    private final Log _log = LogFactory.getLog(CixsMappingModelTest.class);
 
 
     /** A sample serialized model.*/
@@ -61,7 +61,7 @@ public class CixsMappingModelTest extends TestCase {
         model.addCixsOperation(getNewCommareaOperation("lsfileal", "RequestParmsType", "ReplyDataType"));
 
         String result = model.serialize();
-        LOG.debug(result);
+        _log.debug(result);
         assertTrue(result.contains("<cixsMapping name=\"myName\">"));
         assertTrue(result.contains("<cixsOperation name=\"lsfileal\" cicsProgramName=\"LSFILEAL\" "));
         assertTrue(result.contains("<input jaxbType=\"RequestParmsType\""

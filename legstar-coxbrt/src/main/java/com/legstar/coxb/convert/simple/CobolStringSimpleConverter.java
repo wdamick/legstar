@@ -42,7 +42,7 @@ implements ICobolStringConverter {
     }
 
     /** {@inheritDoc} */
-    public final int toHost(
+    public int toHost(
             final ICobolStringBinding ce,
             final byte[] hostTarget,
             final int offset)
@@ -62,7 +62,7 @@ implements ICobolStringConverter {
     }
 
     /** {@inheritDoc} */
-    public final int toHost(
+    public int toHost(
             final ICobolArrayStringBinding ce,
             final byte[] hostTarget,
             final int offset,
@@ -95,7 +95,7 @@ implements ICobolStringConverter {
     }
 
     /** {@inheritDoc} */
-    public final int fromHost(
+    public int fromHost(
             final ICobolStringBinding ce,
             final byte[] hostSource,
             final int offset)
@@ -116,7 +116,7 @@ implements ICobolStringConverter {
     }
 
     /** {@inheritDoc} */
-    public final int fromHost(
+    public int fromHost(
             final ICobolArrayStringBinding ce,
             final byte[] hostSource,
             final int offset,

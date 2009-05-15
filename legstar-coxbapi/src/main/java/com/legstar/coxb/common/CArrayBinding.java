@@ -50,7 +50,7 @@ implements ICobolArrayBinding {
     /** 
      * {@inheritDoc}
      */
-    public final int getCurrentOccurs() throws HostException {
+    public int getCurrentOccurs() throws HostException {
         /* If this is a variable size array, ask ancestors for the current
          * value of the counter we depend on. */
         if (isVariableSize()) {
@@ -60,7 +60,7 @@ implements ICobolArrayBinding {
     }
 
     /** {@inheritDoc} */
-    public final int calcByteLength() {
+    public int calcByteLength() {
         return getMaxOccurs() * getItemByteLength();
     }
 
@@ -113,7 +113,7 @@ implements ICobolArrayBinding {
     /**
      * {@inheritDoc}
      */
-    public final int getItemByteLength() {
+    public int getItemByteLength() {
         if (mItemByteLength == 0) {
             if (isGeneratedBinding() && !(this instanceof CArrayComplexBinding)) {
                 /* Binding was generated before 1.2.4. Adjust lengths.*/
@@ -129,7 +129,7 @@ implements ICobolArrayBinding {
     /**
      * {@inheritDoc}
      */
-    public final void setItemByteLength(final int itemByteLength) {
+    public void setItemByteLength(final int itemByteLength) {
         mItemByteLength = itemByteLength;
     }
 

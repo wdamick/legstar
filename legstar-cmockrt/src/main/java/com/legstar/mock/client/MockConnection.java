@@ -29,7 +29,7 @@ import com.legstar.messaging.RequestException;
 public class MockConnection implements LegStarConnection {
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(MockConnection.class);
+    private final Log _log = LogFactory.getLog(MockConnection.class);
 
     /** {@inheritDoc} */
     public void close() throws RequestException {
@@ -84,8 +84,8 @@ public class MockConnection implements LegStarConnection {
         try {
             String jsonString = request.getRequestMessage().getHeaderPart().getJsonString();
 
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Mocking program execution: " + jsonString);
+            if (_log.isDebugEnabled()) {
+                _log.debug("Mocking program execution: " + jsonString);
             }
             /* Get the request header json string. we need the target program ID*/
             JSONObject jsonObj = new JSONObject(jsonString);

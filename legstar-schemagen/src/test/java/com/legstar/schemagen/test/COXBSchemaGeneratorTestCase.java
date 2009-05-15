@@ -54,8 +54,7 @@ public class COXBSchemaGeneratorTestCase extends TestCase {
     private Project mProject;
 
     /** Logger. */
-    private static final Log LOG =
-        LogFactory.getLog(COXBSchemaGeneratorTestCase.class);
+    private final Log _log = LogFactory.getLog(getClass());
 
     /** Make sure we have an output folder.
      * @throws Exception if output folder cannot be created */
@@ -363,7 +362,7 @@ public class COXBSchemaGeneratorTestCase extends TestCase {
         String resStr = "";
         String str = in.readLine();
         while (str != null) {
-            LOG.debug(str);
+            _log.debug(str);
             resStr += str;
             str = in.readLine();
         }

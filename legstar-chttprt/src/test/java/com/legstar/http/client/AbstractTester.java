@@ -61,7 +61,7 @@ public abstract class AbstractTester extends TestCase {
     private CicsHttp mConnection;
     
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(AbstractTester.class);
+    private final Log _log = LogFactory.getLog(AbstractTester.class);
    /**
      * @return the host connection
      */
@@ -91,7 +91,7 @@ public abstract class AbstractTester extends TestCase {
     public void setUp(final String endpointName) throws Exception {
         mEndpoint = new CicsHttpEndpoint(
                 Config.loadEndpointConfiguration(CONFIG_FILE, endpointName));
-        if (LOG.isDebugEnabled()) {
+        if (_log.isDebugEnabled()) {
             mEndpoint.setHostTraceMode(true);
         }
 

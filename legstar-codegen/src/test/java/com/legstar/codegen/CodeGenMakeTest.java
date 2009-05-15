@@ -29,7 +29,7 @@ import junit.framework.TestCase;
 public class CodeGenMakeTest extends TestCase {
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(CodeGenMakeTest.class);
+    private final Log _log = LogFactory.getLog(CodeGenMakeTest.class);
 
     /**
      * Check controls on input make file.
@@ -175,7 +175,7 @@ public class CodeGenMakeTest extends TestCase {
         String resStr = "";
         String str = in.readLine();
         while (str != null) {
-            LOG.debug(str);
+            _log.debug(str);
             resStr += str;
             str = in.readLine();
         }

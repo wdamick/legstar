@@ -21,7 +21,7 @@ public class UnmarshalArrayssmTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal Arrayssm.
      */
-    public final void testArrayssm() {
+    public void testArrayssm() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 ArrayssmCases.getFactory(),
                 ArrayssmCases.getHostBytesHex(),

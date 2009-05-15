@@ -22,7 +22,7 @@ public class UnmarshalFixarsimTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal FIXARSIM.
      */
-    public final void testFixarsim() {
+    public void testFixarsim() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 FixarsimCases.getFactory(),
                 FixarsimCases.getHostBytesHex(),

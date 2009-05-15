@@ -21,7 +21,7 @@ public class UnmarshalDplarchtTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal Dplarcht first alternative.
      */
-    public final void testDplarchtFilesChoice() {
+    public void testDplarchtFilesChoice() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 DplarchtCases.getFactory(),
                 DplarchtCases.getHostBytesHex1File(),
@@ -32,7 +32,7 @@ public class UnmarshalDplarchtTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal Dplarcht second alternative.
      */
-    public final void testDplarchtTransactionChoice() {
+    public void testDplarchtTransactionChoice() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 DplarchtCases.getFactory(),
                 DplarchtCases.getHostBytesHex1Transaction(),
@@ -43,7 +43,7 @@ public class UnmarshalDplarchtTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal Dplarcht third alternative.
      */
-    public final void testDplarchtProgramChoice() {
+    public void testDplarchtProgramChoice() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 DplarchtCases.getFactory(),
                 DplarchtCases.getHostBytesHex1Program(),

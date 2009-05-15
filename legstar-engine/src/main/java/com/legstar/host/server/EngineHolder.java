@@ -63,7 +63,7 @@ public final class EngineHolder {
     /** Logger. */
     private static final Log LOG = LogFactory.getLog(EngineHolder.class);
 
-    /** An Engine Holder cannot be instanciated. */
+    /** An Engine Holder cannot be instantiated. */
     private EngineHolder() {
     }
 

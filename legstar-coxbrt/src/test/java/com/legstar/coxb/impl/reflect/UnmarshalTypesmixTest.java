@@ -22,7 +22,7 @@ public class UnmarshalTypesmixTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal Typesmix.
      */
-    public final void testTypesmix() {
+    public void testTypesmix() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 TypesmixCases.getFactory(),
                 TypesmixCases.getHostBytesHex(),

@@ -53,27 +53,27 @@ implements ICobolArrayDoubleBinding {
     }
 
     /** {@inheritDoc} */
-    public final void accept(final CobolElementVisitor cev)
+    public void accept(final CobolElementVisitor cev)
     throws HostException {
         cev.visit(this);
     }
 
     /** {@inheritDoc} */
-    public final int calcItemByteLength() {
+    public int calcItemByteLength() {
         return CDoubleBinding.calcDoubleByteLength();
     }
 
     /**
      * @return the List of items
      */
-    public final List < Double > getDoubleList() {
+    public List < Double > getDoubleList() {
         return mList;
     }
 
     /**
      * @param list the items List to set
      */
-    public final void setDoubleList(
+    public void setDoubleList(
             final List < Double > list) {
         mList = list;
     }
@@ -81,7 +81,7 @@ implements ICobolArrayDoubleBinding {
     /**
      * @return the internal List as BigDecimals
      */
-    public final List < BigDecimal > getBigDecimalList() {
+    public List < BigDecimal > getBigDecimalList() {
         List < BigDecimal > list = new ArrayList < BigDecimal >();
         for (Double value : mList) {
             list.add(new BigDecimal(value));
@@ -92,7 +92,7 @@ implements ICobolArrayDoubleBinding {
     /**
      * @param list the internal List of BigDecimals to set
      */
-    public final void setBigDecimalList(
+    public void setBigDecimalList(
             final List < BigDecimal > list) {
         mList = new ArrayList < Double >();
         for (BigDecimal value : list) {
@@ -101,7 +101,7 @@ implements ICobolArrayDoubleBinding {
     }
 
     /** {@inheritDoc} */
-    public final Object getObjectValue(
+    public Object getObjectValue(
             final Class < ? > type) throws HostException {
         if (type.equals(Double.class)) {
             return mList;
@@ -115,7 +115,7 @@ implements ICobolArrayDoubleBinding {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public final void setObjectValue(final Object value) throws HostException {
+    public void setObjectValue(final Object value) throws HostException {
         if (value == null) {
             mList = null;
             return;
@@ -141,7 +141,7 @@ implements ICobolArrayDoubleBinding {
     }
 
     /** {@inheritDoc} */
-    public final boolean isSet() {
+    public boolean isSet() {
         return (mList != null);
     }
 }

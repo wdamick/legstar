@@ -32,7 +32,7 @@ import com.legstar.coxb.util.XmlUtil;
 public abstract class AbstractHostToXmlTransformer implements IHostToXmlTransformer {
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(AbstractHostToXmlTransformer.class);
+    private final Log _log = LogFactory.getLog(AbstractHostToXmlTransformer.class);
     
     /** A Host to Java object transformer. */
     private IHostToJavaTransformer mHostToJavaTransformer;
@@ -75,14 +75,14 @@ public abstract class AbstractHostToXmlTransformer implements IHostToXmlTransfor
             final int offset,
             final Writer writer,
             final String hostCharset) throws HostTransformException {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Transforming host data to XML:");
+        if (_log.isDebugEnabled()) {
+            _log.debug("Transforming host data to XML:");
         }
         Object valueObject = getHostToJavaTransformer().transform(hostData, offset, hostCharset);
         getXmlFromObject(valueObject, writer);
-        if (LOG.isDebugEnabled()) {
+        if (_log.isDebugEnabled()) {
             StringReader reader = new StringReader(writer.toString());
-            LOG.debug(XmlUtil.prettyPrint(new StreamSource(reader)));
+            _log.debug(XmlUtil.prettyPrint(new StreamSource(reader)));
         }
     }
 

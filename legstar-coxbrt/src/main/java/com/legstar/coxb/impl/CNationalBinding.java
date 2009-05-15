@@ -46,13 +46,13 @@ implements ICobolNationalBinding {
     }
 
     /** {@inheritDoc} */
-    public final void accept(final CobolElementVisitor cev)
+    public void accept(final CobolElementVisitor cev)
     throws HostException {
         cev.visit(this);
     }
 
     /** {@inheritDoc} */
-    public final int calcByteLength() {
+    public int calcByteLength() {
         return calcNationalByteLength(getPicture());
     }
 

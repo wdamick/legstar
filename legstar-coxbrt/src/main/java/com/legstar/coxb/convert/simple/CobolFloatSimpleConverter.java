@@ -40,7 +40,7 @@ implements ICobolFloatConverter {
     }
 
     /** {@inheritDoc} */
-    public final int toHost(
+    public int toHost(
             final ICobolFloatBinding ce,
             final byte[] hostTarget,
             final int offset)
@@ -57,7 +57,7 @@ implements ICobolFloatConverter {
     }
 
     /** {@inheritDoc} */
-    public final int toHost(
+    public int toHost(
             final ICobolArrayFloatBinding ce,
             final byte[] hostTarget,
             final int offset,
@@ -84,7 +84,7 @@ implements ICobolFloatConverter {
     }
 
     /** {@inheritDoc} */
-    public final int fromHost(
+    public int fromHost(
             final ICobolFloatBinding ce,
             final byte[] hostSource,
             final int offset)
@@ -103,7 +103,7 @@ implements ICobolFloatConverter {
     }
 
     /** {@inheritDoc} */
-    public final int fromHost(
+    public int fromHost(
             final ICobolArrayFloatBinding ce,
             final byte[] hostSource,
             final int offset,

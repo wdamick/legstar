@@ -36,7 +36,7 @@ public class RedefinesMap {
      * @param redefines The cobol element name that is redefined
      * @return the cobol description of the choice element
      */
-    public final synchronized ICobolChoiceBinding getChoiceElement(final String redefines) {
+    public synchronized ICobolChoiceBinding getChoiceElement(final String redefines) {
 
         ICobolChoiceBinding value = getRedefinesMap().get(redefines);
         return value;
@@ -49,7 +49,7 @@ public class RedefinesMap {
      * @param redefines cobol variable redefining an element
      * @param ce the cobol description of the redefined element
      */
-    public final synchronized void updateChoiceElement(
+    public synchronized void updateChoiceElement(
             final String redefines,
             final ICobolChoiceBinding ce) {
 
@@ -61,7 +61,7 @@ public class RedefinesMap {
      * 
      * @param redefines cobol variable redefining an element
      */
-    public final synchronized void removeChoiceElement(final String redefines) {
+    public synchronized void removeChoiceElement(final String redefines) {
 
         getRedefinesMap().remove(redefines);
     }
@@ -71,7 +71,7 @@ public class RedefinesMap {
      * 
      * @return the redefines map
      */
-    public final Hashtable < String, ICobolChoiceBinding > getRedefinesMap() {
+    public Hashtable < String, ICobolChoiceBinding > getRedefinesMap() {
 
         Hashtable < String, ICobolChoiceBinding > result = mapHolder.get();
         if (result == null) {

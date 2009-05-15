@@ -57,8 +57,7 @@ import com.sun.xml.bind.v2.schemagen.XmlSchemaGenerator;
 public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
 
     /** Logger. */
-    private static final Log LOG =
-        LogFactory.getLog(JavaToXsdCobolTask.class);
+    private final Log _log = LogFactory.getLog(getClass());
 
     /** List of input classes. Only top level classes are needed since
      * schemagen will reflect on these classes and recursively process
@@ -81,8 +80,8 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
      *  The ant execute method. Generates a new annotated schema.
      */
     public final void execute() {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Java to Cobol annotated XML Schema generator started");
+        if (_log.isDebugEnabled()) {
+            _log.debug("Java to Cobol annotated XML Schema generator started");
         }
         checkInput();
         try {
@@ -100,14 +99,14 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
         /* Both xsd file name and namespace are mandatory */
         super.checkInput(true, true);
 
-        if (LOG.isDebugEnabled()) {
+        if (_log.isDebugEnabled()) {
             if (mRootClassNames != null) {
                 for (RootClass className : mRootClassNames) {
-                    LOG.debug("   Class name           = "
+                    _log.debug("   Class name           = "
                             + className.getName());
                 }
             }
-            LOG.debug("   Elements name suffix     = " + mElementSuffix);
+            _log.debug("   Elements name suffix     = " + mElementSuffix);
         }
 
         /* There must be at least one class name. */
@@ -135,8 +134,8 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
             throw (new BuildException(e));
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("checkInput ended");
+        if (_log.isDebugEnabled()) {
+            _log.debug("checkInput ended");
         }
     }
 

@@ -25,7 +25,7 @@ public class UnmarshalRedinoutTest extends AbstractTestUnmarshal {
      * This test fails because the custom choice selector insist on
      * paraout being the only alternative when unmarshaling.
      */
-    public final void testRedinoutFirstAlternative() {
+    public void testRedinoutFirstAlternative() {
         try {
             Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                     RedinoutCases.getFactory(),
@@ -42,7 +42,7 @@ public class UnmarshalRedinoutTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal Redinout second alternative.
      */
-    public final void testRedinoutSecondAlternative() {
+    public void testRedinoutSecondAlternative() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 RedinoutCases.getFactory(),
                 RedinoutCases.getHostBytesHexSecondChoice(),

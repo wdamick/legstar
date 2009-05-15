@@ -55,7 +55,7 @@ public class PoolingTest extends TestCase {
     private static final int CLIENT_THREADS = 10;
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(PoolingTest.class);
+    private final Log _log = LogFactory.getLog(PoolingTest.class);
 
     /**
      * Try start/stop.
@@ -279,7 +279,7 @@ public class PoolingTest extends TestCase {
 
         /** {@inheritDoc} */
         public void run() {
-            LOG.debug("Dispatching Request:" + mClientID);
+            _log.debug("Dispatching Request:" + mClientID);
             synchronized (mRequest) {
                 try {
                     mEngine.addRequest(mRequest);
@@ -288,15 +288,15 @@ public class PoolingTest extends TestCase {
                         throw mRequest.getException();
                     } else {
                         if (mRequest.getResponseMessage() == null) {
-                            LOG.error("Timed out waiting for a reply on Request:" + mClientID);
+                            _log.error("Timed out waiting for a reply on Request:" + mClientID);
                         }
                     }
                 } catch (InterruptedException e) {
-                    LOG.error("InterruptedException for Request:" + mClientID + " " + e.getMessage());
+                    _log.error("InterruptedException for Request:" + mClientID + " " + e.getMessage());
                     mRequest.setException(e);
                     e.printStackTrace();
                 } catch (RequestException e) {
-                    LOG.error("RequestException for Request:" + mClientID + " " + e.getMessage());
+                    _log.error("RequestException for Request:" + mClientID + " " + e.getMessage());
                     mRequest.setException(e);
                     e.printStackTrace();
                 } catch (Exception e) {
@@ -334,28 +334,28 @@ public class PoolingTest extends TestCase {
         /** The work manager has accepted the request.
          * @param arg0 work event*/
         public void workAccepted(final WorkEvent arg0) {
-            LOG.debug("Client Work accepted.");
+            _log.debug("Client Work accepted.");
         }
 
         /** The Engine completed its work.
          * @param arg0 work event */
         public void workCompleted(final WorkEvent arg0) {
             if (arg0.getException() != null) {
-                LOG.fatal("Client crashed", arg0.getException());
+                _log.fatal("Client crashed", arg0.getException());
             }
-            LOG.debug("Client stopped.");
+            _log.debug("Client stopped.");
         }
 
         /** Manager rejected that work.
          * @param arg0 work event */
         public void workRejected(final WorkEvent arg0) {
-            LOG.debug("Client work rejected.");
+            _log.debug("Client work rejected.");
         }
 
         /** Work unit has started.
          * @param arg0 work event */
         public void workStarted(final WorkEvent arg0) {
-            LOG.debug("Client started.");
+            _log.debug("Client started.");
         }
 
     }

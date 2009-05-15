@@ -36,7 +36,7 @@ public class WorkManagerImpl implements WorkManager {
     private ExecutorService mExecutor;
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(WorkManagerImpl.class);
+    private final Log _log = LogFactory.getLog(WorkManagerImpl.class);
 
     /**
      * Creates a work manager from an executor.
@@ -69,7 +69,7 @@ public class WorkManagerImpl implements WorkManager {
             final WorkListener workListener) throws WorkRejectedException {
         WorkItemImpl workItem = new WorkItemImpl(
                 UUID.randomUUID().toString(), work);
-        LOG.debug("Scheduling new work item " + workItem.getId());
+        _log.debug("Scheduling new work item " + workItem.getId());
         try {
             mExecutor.execute(new DecoratingWork(workItem, work, workListener));
             workAccepted(workItem, workListener);
@@ -116,7 +116,7 @@ public class WorkManagerImpl implements WorkManager {
             final WorkItemImpl workItem,
             final WorkListener workListener) {
         synchronized (workItem) {
-            LOG.debug("Work item " + workItem.getId() + " accepted");
+            _log.debug("Work item " + workItem.getId() + " accepted");
             workItem.setStatus(WorkEvent.WORK_ACCEPTED);
             if (workListener != null) {
                 WorkEvent event = new WorkEventImpl(workItem);
@@ -134,7 +134,7 @@ public class WorkManagerImpl implements WorkManager {
             final WorkItemImpl workItem,
             final WorkListener workListener) {
         synchronized (workItem) {
-            LOG.debug("Work item " + workItem.getId() + " rejected");
+            _log.debug("Work item " + workItem.getId() + " rejected");
             workItem.setStatus(WorkEvent.WORK_REJECTED);
             if (workListener != null) {
                 workListener.workRejected(new WorkEventImpl(workItem));
@@ -151,7 +151,7 @@ public class WorkManagerImpl implements WorkManager {
             final WorkItemImpl workItem,
             final DecoratingWork decoratingWork) {
         synchronized (workItem) {
-            LOG.debug("Work item " + workItem.getId() + " started");
+            _log.debug("Work item " + workItem.getId() + " started");
             workItem.setStatus(WorkEvent.WORK_STARTED);
             WorkListener workListener = decoratingWork.getWorkListener();
             if (workListener != null) {
@@ -182,11 +182,11 @@ public class WorkManagerImpl implements WorkManager {
             final DecoratingWork decoratingWork,
             final WorkException exception) {
         synchronized (workItem) {
-            LOG.debug("Work item " + workItem.getId() + " completed");
+            _log.debug("Work item " + workItem.getId() + " completed");
             workItem.setStatus(WorkEvent.WORK_COMPLETED);
             workItem.setResult(decoratingWork.getDecoratedWork());
             workItem.setException(exception);
-            LOG.debug("Work item " + workItem.getId()
+            _log.debug("Work item " + workItem.getId()
                     + " updated with results");
             WorkListener workListener = decoratingWork.getWorkListener();
             if (workListener != null) {
@@ -235,7 +235,7 @@ public class WorkManagerImpl implements WorkManager {
                 mDecoratedWork.run();
                 workCompleted(mWorkItem, this);
             } catch (Throwable th) {
-                LOG.error("Work item: " + mWorkItem.getId() + " failed", th);
+                _log.error("Work item: " + mWorkItem.getId() + " failed", th);
                 workCompleted(mWorkItem, this,
                         new WorkException(th.getMessage(), th));
             }

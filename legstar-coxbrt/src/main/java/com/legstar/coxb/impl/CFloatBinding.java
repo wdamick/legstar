@@ -54,34 +54,34 @@ implements ICobolFloatBinding {
     }
 
     /** {@inheritDoc} */
-    public final void accept(final CobolElementVisitor cev)
+    public void accept(final CobolElementVisitor cev)
     throws HostException {
         cev.visit(this);
     }
 
     /** {@inheritDoc} */
-    public final Float getFloatValue() throws HostException {
+    public Float getFloatValue() throws HostException {
         return mValue;
     }
 
     /** {@inheritDoc} */
-    public final void setFloatValue(final Float value) throws HostException {
+    public void setFloatValue(final Float value) throws HostException {
         mValue = value;
     }
 
     /** {@inheritDoc} */
-    public final BigDecimal getBigDecimalValue() throws HostException {
+    public BigDecimal getBigDecimalValue() throws HostException {
         return new BigDecimal(mValue);
     }
 
     /** {@inheritDoc} */
-    public final void setBigDecimalValue(
+    public void setBigDecimalValue(
             final BigDecimal value) throws HostException {
         mValue = value.floatValue();
     }
 
     /** {@inheritDoc} */
-    public final int calcByteLength() {
+    public int calcByteLength() {
         return calcFloatByteLength();
     }
 
@@ -94,7 +94,7 @@ implements ICobolFloatBinding {
     }
 
     /** {@inheritDoc} */
-    public final Object getObjectValue(
+    public Object getObjectValue(
             final Class < ? > type) throws HostException {
         if (type.equals(Float.class) || type.equals(float.class)) {
             return mValue;
@@ -107,7 +107,7 @@ implements ICobolFloatBinding {
     }
 
     /** {@inheritDoc} */
-    public final void setObjectValue(final Object value) throws HostException {
+    public void setObjectValue(final Object value) throws HostException {
         if (value == null) {
             mValue = null;
             return;
@@ -123,7 +123,7 @@ implements ICobolFloatBinding {
     }
 
     /** {@inheritDoc} */
-    public final boolean isSet() {
+    public boolean isSet() {
         return (mValue != null);
     }
 }

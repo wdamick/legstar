@@ -90,7 +90,7 @@ public class AntBuildCixs2JaxwsModelTest extends AbstractTestTemplate {
 
         assertTrue(resStr.contains("<httpTransportParameters"));
         assertTrue(resStr.contains("scheme=\"http\""));
-        assertTrue(resStr.contains("host=\"192.168.0.4\""));
+        assertTrue(resStr.contains("host=\"" + CodeGenUtil.getLocalIPAddress() + "\""));
         assertTrue(resStr.contains("port=\"8080\""));
         assertTrue(resStr.contains("path=\"/c2ws-cultureinfo/cultureinfoProxy\""));
         assertTrue(resStr.contains("userId=\"\""));

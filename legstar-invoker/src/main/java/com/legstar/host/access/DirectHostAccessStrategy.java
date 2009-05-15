@@ -30,8 +30,7 @@ import com.legstar.config.Config;
 public class DirectHostAccessStrategy implements HostAccessStrategy {
 
     /** Logger. */
-    private static final Log LOG =
-        LogFactory.getLog(DirectHostAccessStrategy.class);
+    private final Log _log = LogFactory.getLog(getClass());
 
     /** The connection factory is dynamically loaded. */
     private ConnectionFactory mConnectionFactory;
@@ -62,8 +61,8 @@ public class DirectHostAccessStrategy implements HostAccessStrategy {
             final LegStarRequest request) throws HostAccessStrategyException {
 
         long startTime = System.currentTimeMillis();
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Direct invoke for Request:" + request.getID());
+        if (_log.isDebugEnabled()) {
+            _log.debug("Direct invoke for Request:" + request.getID());
         }
         try {
             LegStarConnection connection = mConnectionFactory.createConnection(
@@ -79,9 +78,9 @@ public class DirectHostAccessStrategy implements HostAccessStrategy {
             request.setException(new RequestException(e));
             throw new HostAccessStrategyException(e);
         }
-        if (LOG.isDebugEnabled()) {
+        if (_log.isDebugEnabled()) {
             long endTime = System.currentTimeMillis();
-            LOG.debug("Direct invoke for Request:" + request.getID()
+            _log.debug("Direct invoke for Request:" + request.getID()
                     + " ended. elapse: "
                     + Long.toString(endTime - startTime) + " ms");
         }

@@ -35,7 +35,7 @@ import com.legstar.messaging.RequestException;
 public class CicsMQLsmsg extends AbstractCicsMQ  {
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(CicsMQLsmsg.class);
+    private final Log _log = LogFactory.getLog(CicsMQLsmsg.class);
 
     /**
      * Construct an instance of an MQ connection to the mainframe.
@@ -103,8 +103,8 @@ public class CicsMQLsmsg extends AbstractCicsMQ  {
     public LegStarMessage createResponseMessage(
             final MQMessage mqMessage) throws HostReceiveException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("enter createResponseMessage(hostBytes)");
+        if (_log.isDebugEnabled()) {
+            _log.debug("enter createResponseMessage(hostBytes)");
         }
 
         try {
@@ -113,8 +113,8 @@ public class CicsMQLsmsg extends AbstractCicsMQ  {
             LegStarMessage reponseMessage;
             reponseMessage = new LegStarMessage();
             reponseMessage.fromByteArray(hostBytes, 0);
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("response message received");
+            if (_log.isDebugEnabled()) {
+                _log.debug("response message received");
             }
             return reponseMessage;
         } catch (HeaderPartException e) {

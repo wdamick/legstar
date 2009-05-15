@@ -42,8 +42,7 @@ public class CobolJAXBAnnotatorTest extends TestCase {
     private static final String GEN_SRC_SUBDIR = "com/legstar/test/coxb";
 
     /** Logger. */
-    private static final Log LOG =
-        LogFactory.getLog(CobolJAXBAnnotatorTest.class);
+    private final Log _log = LogFactory.getLog(getClass());
 
     /** Make sure we have an output folder.
      * @throws Exception if output folder cannot be created */
@@ -262,7 +261,7 @@ public class CobolJAXBAnnotatorTest extends TestCase {
             StringBuffer resStr = new StringBuffer();
             String str = in.readLine();
             while (str != null) {
-                LOG.debug(str);
+                _log.debug(str);
                 resStr.append(str);
                 str = in.readLine();
             }

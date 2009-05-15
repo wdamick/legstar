@@ -115,7 +115,7 @@ public class HostException extends Exception {
      * @see java.lang.Throwable#getMessage()
      * @return String describes the exception
      */
-    public final String getMessage() {
+    public String getMessage() {
         if (mHostFieldMessage != null) {
             return mHostFieldMessage;
         } else {
@@ -127,7 +127,7 @@ public class HostException extends Exception {
      * @see java.lang.Object#toString()
      * @return String describes the exception
      */
-    public final String toString() {
+    public String toString() {
         return getMessage();
     }
 

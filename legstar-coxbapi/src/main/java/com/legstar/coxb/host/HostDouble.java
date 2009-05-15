@@ -29,42 +29,42 @@ public class HostDouble {
     /**
      * @return Returns the exponent.
      */
-    public final int getExponent() {
+    public int getExponent() {
         return mExponent;
     }
 
     /**
      * @param exponent The exponent to set.
      */
-    public final void setExponent(final int exponent) {
+    public void setExponent(final int exponent) {
         mExponent = exponent;
     }
 
     /**
      * @return Returns the mantissa.
      */
-    public final long getMantissa() {
+    public long getMantissa() {
         return mMantissa;
     }
 
     /**
      * @param mantissa The mantissa to set.
      */
-    public final void setMantissa(final long mantissa) {
+    public void setMantissa(final long mantissa) {
         mMantissa = mantissa;
     }
 
     /**
      * @return Returns the sign.
      */
-    public final int getSign() {
+    public int getSign() {
         return mSign;
     }
 
     /**
      * @param sign The sign to set.
      */
-    public final void setSign(final int sign) {
+    public void setSign(final int sign) {
         mSign = sign;
     }
 

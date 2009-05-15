@@ -40,7 +40,7 @@ implements ICobolPackedDecimalConverter {
     }
 
     /** {@inheritDoc} */
-    public final int toHost(
+    public int toHost(
             final ICobolPackedDecimalBinding ce,
             final byte[] hostTarget,
             final int offset)
@@ -61,7 +61,7 @@ implements ICobolPackedDecimalConverter {
     }
 
     /** {@inheritDoc} */
-    public final int toHost(
+    public int toHost(
             final ICobolArrayPackedDecimalBinding ce,
             final byte[] hostTarget,
             final int offset,
@@ -96,7 +96,7 @@ implements ICobolPackedDecimalConverter {
     }
 
     /** {@inheritDoc} */
-    public final int fromHost(
+    public int fromHost(
             final ICobolPackedDecimalBinding ce,
             final byte[] hostSource,
             final int offset)
@@ -117,7 +117,7 @@ implements ICobolPackedDecimalConverter {
     }
 
     /** {@inheritDoc} */
-    public final int fromHost(
+    public int fromHost(
             final ICobolArrayPackedDecimalBinding ce,
             final byte[] hostSource,
             final int offset,

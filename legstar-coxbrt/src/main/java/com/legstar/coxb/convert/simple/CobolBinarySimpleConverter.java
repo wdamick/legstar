@@ -41,7 +41,7 @@ implements ICobolBinaryConverter {
     }
 
     /** {@inheritDoc} */
-    public final int toHost(
+    public int toHost(
             final ICobolBinaryBinding ce,
             final byte[] hostTarget,
             final int offset)
@@ -60,7 +60,7 @@ implements ICobolBinaryConverter {
     }
 
     /** {@inheritDoc} */
-    public final int toHost(
+    public int toHost(
             final ICobolArrayBinaryBinding ce,
             final byte[] hostTarget,
             final int offset,
@@ -91,7 +91,7 @@ implements ICobolBinaryConverter {
     }
 
     /** {@inheritDoc} */
-    public final int fromHost(
+    public int fromHost(
             final ICobolBinaryBinding ce,
             final byte[] hostSource,
             final int offset)
@@ -113,7 +113,7 @@ implements ICobolBinaryConverter {
     }
 
     /** {@inheritDoc} */
-    public final int fromHost(
+    public int fromHost(
             final ICobolArrayBinaryBinding ce,
             final byte[] hostSource,
             final int offset,

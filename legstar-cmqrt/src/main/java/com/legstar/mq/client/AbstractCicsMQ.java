@@ -61,7 +61,7 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
     private int mReceiveTimeout;
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(AbstractCicsMQ.class);
+    private final Log _log = LogFactory.getLog(AbstractCicsMQ.class);
 
     /**
      * A CicsMQ instance exists for a target MQ Manager, a given MQ Request
@@ -96,8 +96,8 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
     public final void connect(
             final String mqPassword) throws ConnectionException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Connection:" + mConnectionID
+        if (_log.isDebugEnabled()) {
+            _log.debug("Connection:" + mConnectionID
                     + " Attempting connection. Host:" 
                     + mCicsMQEndpoint.getReport());
         }
@@ -113,8 +113,8 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
         mRequestQueue = getRequestQueue(mMQManager);
         mResponseQueue = getResponseQueue(mMQManager);
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Connection:" + mConnectionID + " Connected.");
+        if (_log.isDebugEnabled()) {
+            _log.debug("Connection:" + mConnectionID + " Connected.");
         }
     }
 
@@ -127,8 +127,8 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
     private MQQueueManager createMQManager(
             final String mqPassword) throws CicsMQConnectionException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("enter createMQManager()");
+        if (_log.isDebugEnabled()) {
+            _log.debug("enter createMQManager()");
         }
         /*
          * Let the MQ API understand that we are a client only. Without this
@@ -165,8 +165,8 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
     private MQQueue getRequestQueue(
             final MQQueueManager mqManager) throws CicsMQConnectionException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("enter getRequestQueue()");
+        if (_log.isDebugEnabled()) {
+            _log.debug("enter getRequestQueue()");
         }
 
         /* We are passing identity context data for tracing purposes */
@@ -191,8 +191,8 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
     private MQQueue getResponseQueue(
             final MQQueueManager mqManager) throws CicsMQConnectionException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("enter getResponseQueue()");
+        if (_log.isDebugEnabled()) {
+            _log.debug("enter getResponseQueue()");
         }
 
         int openOptions = MQC.MQOO_INPUT_SHARED
@@ -244,21 +244,21 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
      * */
     public final void connectReuse(
             final String mqPassword) throws ConnectionException {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Connection:" + mConnectionID + " Attempting reuse.");
+        if (_log.isDebugEnabled()) {
+            _log.debug("Connection:" + mConnectionID + " Attempting reuse.");
         }
 
         if (mMQManager != null
                 && mRequestQueue != null && mResponseQueue != null) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Connection:" + mConnectionID
+            if (_log.isDebugEnabled()) {
+                _log.debug("Connection:" + mConnectionID
                         + " Connection will be reused.");
             }
             return;
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Connection:" + mConnectionID
+        if (_log.isDebugEnabled()) {
+            _log.debug("Connection:" + mConnectionID
                     + " Connection not reusable.");
         }
         /* Socket is not reusable, fallback to standard connect. */
@@ -275,9 +275,9 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
     public final void sendRequest(
             final LegStarRequest request) throws RequestException {
 
-        if (LOG.isDebugEnabled()) {
+        if (_log.isDebugEnabled()) {
             try {
-                LOG.debug("Sending Request:" + request.getID()
+                _log.debug("Sending Request:" + request.getID()
                         + " on Connection:" + mConnectionID
                         + " "
                         + request.getRequestMessage().getHeaderPart().
@@ -307,8 +307,8 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
             throw new RequestException(e);
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Request:" + request.getID()
+        if (_log.isDebugEnabled()) {
+            _log.debug("Request:" + request.getID()
                     + " on Connection:" + mConnectionID
                     + " message request sent. Message ID:"
                     + HostData.toHexString(mqMessage.messageId));
@@ -326,8 +326,8 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
     public final void recvResponse(
             final LegStarRequest request) throws RequestException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Receiving response for Request:" + request.getID()
+        if (_log.isDebugEnabled()) {
+            _log.debug("Receiving response for Request:" + request.getID()
                     + " on Connection:" + mConnectionID
                     + '.');
         }
@@ -353,8 +353,8 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
             throw new RequestException(e);
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Request:" + request.getID()
+        if (_log.isDebugEnabled()) {
+            _log.debug("Request:" + request.getID()
                     + " on Connection:" + mConnectionID
                     + " response received.");
         }

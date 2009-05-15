@@ -44,13 +44,13 @@ public class CArrayPackedDecimalBinding extends AbstractArrayNumericBinding impl
     }
 
     /** {@inheritDoc} */
-    public final void accept(final CobolElementVisitor cev)
+    public void accept(final CobolElementVisitor cev)
     throws HostException {
         cev.visit(this);
     }
 
     /** {@inheritDoc} */
-    public final int calcItemByteLength() {
+    public int calcItemByteLength() {
         return CPackedDecimalBinding.calcPackedDecimalByteLength(getTotalDigits());
     }
 

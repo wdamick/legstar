@@ -26,7 +26,7 @@ import com.legstar.coxb.host.HostException;
  * <p/>
  * This is sample code with dynamic binding:
  * <pre>
- * public final class HostToJavaLsfileaeTransformer extends AbstractHostToJavaTransformer {
+ * public class HostToJavaLsfileaeTransformer extends AbstractHostToJavaTransformer {
  *      public ICobolComplexBinding getBinding() throws BindingException {
  *          try {
  *              CComplexReflectBinding binding = new CComplexReflectBinding(
@@ -42,7 +42,7 @@ import com.legstar.coxb.host.HostException;
  * <p/>
  * This is sample code with static binding:
  * <pre>
- * public final class HostToJavaLsfileaeTransformer extends AbstractHostToJavaTransformer {
+ * public class HostToJavaLsfileaeTransformer extends AbstractHostToJavaTransformer {
  *      public ICobolComplexBinding getBinding() throws BindingException {
  *          return new com.legstar.test.coxb.lsfileae.DfhcommareaBinding();
  *      }
@@ -52,7 +52,7 @@ import com.legstar.coxb.host.HostException;
 public abstract class AbstractHostToJavaTransformer extends AbstractTransformer implements IHostToJavaTransformer {
     
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(AbstractHostToJavaTransformer.class);
+    private final Log _log = LogFactory.getLog(AbstractHostToJavaTransformer.class);
 
     /**
      * Create a Host to Java transformer using default COBOL parameters.
@@ -133,8 +133,8 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer 
     public < T > T transform(final byte[] hostData, final int offset) throws HostTransformException {
 
         long start = System.currentTimeMillis();
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Host to Java transformation started");
+        if (_log.isDebugEnabled()) {
+            _log.debug("Host to Java transformation started");
         }
 
         try {
@@ -151,9 +151,9 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer 
             /* Get the actual bytes unmarshalled */
             int bytesUnmarshalled = unmarshaler.getOffset();
 
-            if (LOG.isDebugEnabled()) {
+            if (_log.isDebugEnabled()) {
                 long end = System.currentTimeMillis();
-                LOG.debug("Host to Java transformation ended Processed: "
+                _log.debug("Host to Java transformation ended Processed: "
                         + Integer.toString(bytesUnmarshalled) + " bytes "
                         + "elapse:"
                         + Long.toString(end - start) + " ms");

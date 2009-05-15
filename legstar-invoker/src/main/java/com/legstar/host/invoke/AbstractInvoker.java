@@ -41,7 +41,7 @@ public abstract class AbstractInvoker implements HostInvoker {
     private CicsProgram mCicsProgram;
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(AbstractInvoker.class);
+    private final Log _log = LogFactory.getLog(AbstractInvoker.class);
 
     /**
      * All invokers share this constructor.
@@ -73,8 +73,8 @@ public abstract class AbstractInvoker implements HostInvoker {
             final LegStarMessage requestMessage) throws HostInvokerException {
         
         long start = System.currentTimeMillis();
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Invoke mainframe started");
+        if (_log.isDebugEnabled()) {
+            _log.debug("Invoke mainframe started");
         }
         
         /* Create a request instance and call the host program */
@@ -91,9 +91,9 @@ public abstract class AbstractInvoker implements HostInvoker {
             throw new HostInvokerException(request.getException());
         }
 
-        if (LOG.isDebugEnabled()) {
+        if (_log.isDebugEnabled()) {
             long end = System.currentTimeMillis();
-            LOG.debug("Invoke mainframe ended. elapse: "
+            _log.debug("Invoke mainframe ended. elapse: "
                     + Long.toString(end - start) + " ms");
         }
 

@@ -30,8 +30,7 @@ import com.legstar.codegen.models.SourceToXsdCobolModel;
 public abstract class SourceToXsdCobolTask extends Task {
 
     /** Logger. */
-    private static final Log LOG =
-        LogFactory.getLog(SourceToXsdCobolTask.class);
+    private final Log _log = LogFactory.getLog(getClass());
 
     /** Groups all the data needed to generate an annotated XML schema. */
     private SourceToXsdCobolModel mModel;
@@ -45,12 +44,12 @@ public abstract class SourceToXsdCobolTask extends Task {
             final boolean xsdFileNameMandatory,
             final boolean namespaceMandatory) {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("checkInput started");
-            LOG.debug("   Target Jaxb Package name = " + getJaxbPackageName());
-            LOG.debug("   Target namespace name    = " + getNamespace());
-            LOG.debug("   Target directory         = " + getTargetDir());
-            LOG.debug("   Target Xsd file name     = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("checkInput started");
+            _log.debug("   Target Jaxb Package name = " + getJaxbPackageName());
+            _log.debug("   Target namespace name    = " + getNamespace());
+            _log.debug("   Target directory         = " + getTargetDir());
+            _log.debug("   Target Xsd file name     = "
                     + getTargetXsdFileName());
         }
 

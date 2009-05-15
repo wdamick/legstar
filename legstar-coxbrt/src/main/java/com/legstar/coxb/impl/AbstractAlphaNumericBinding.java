@@ -46,17 +46,17 @@ public abstract class AbstractAlphaNumericBinding extends CBinding {
     }
 
     /** {@inheritDoc} */
-    public final String getStringValue() throws HostException {
+    public String getStringValue() throws HostException {
         return mValue;
     }
 
     /** {@inheritDoc} */
-    public final void setStringValue(final String value) throws HostException {
+    public void setStringValue(final String value) throws HostException {
         mValue = value;
     }
 
     /** {@inheritDoc} */
-    public final Object getObjectValue(
+    public Object getObjectValue(
             final Class < ? > type) throws HostException {
         if (type.equals(String.class)) {
             return mValue;
@@ -85,7 +85,7 @@ public abstract class AbstractAlphaNumericBinding extends CBinding {
     }
 
     /** {@inheritDoc} */
-    public final void setObjectValue(final Object value) throws HostException {
+    public void setObjectValue(final Object value) throws HostException {
         if (value == null) {
             mValue = null;
             return;
@@ -114,7 +114,7 @@ public abstract class AbstractAlphaNumericBinding extends CBinding {
     }
 
     /** {@inheritDoc} */
-    public final boolean isSet() {
+    public boolean isSet() {
         return (mValue != null);
     }
 }

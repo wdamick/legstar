@@ -12,7 +12,7 @@ import com.legstar.test.coxb.lsfileae.Dfhcommarea;
  * This uses reflection binding.
  *
  */
-public final class HostToJavaLsfileaeTransformer extends AbstractHostToJavaTransformer {
+public class HostToJavaLsfileaeTransformer extends AbstractHostToJavaTransformer {
 
 
     /**

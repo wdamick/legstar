@@ -21,7 +21,7 @@ public class UnmarshalArraysdoTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal Arraysdo.
      */
-    public final void testArraysdo() {
+    public void testArraysdo() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 ArraysdoCases.getFactory(),
                 ArraysdoCases.getHostBytesHex(),

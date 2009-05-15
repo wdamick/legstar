@@ -52,27 +52,27 @@ public class CArrayFloatBinding extends CArrayBinding implements ICobolArrayFloa
     }
 
     /** {@inheritDoc} */
-    public final void accept(final CobolElementVisitor cev)
+    public void accept(final CobolElementVisitor cev)
     throws HostException {
         cev.visit(this);
     }
 
     /** {@inheritDoc} */
-    public final int calcItemByteLength() {
+    public int calcItemByteLength() {
         return CFloatBinding.calcFloatByteLength();
     }
 
     /**
      * @return the List of items
      */
-    public final List < Float > getFloatList() {
+    public List < Float > getFloatList() {
         return mList;
     }
 
     /**
      * @param list the items List to set
      */
-    public final void setFloatList(
+    public void setFloatList(
             final List < Float > list) {
         mList = list;
     }
@@ -80,7 +80,7 @@ public class CArrayFloatBinding extends CArrayBinding implements ICobolArrayFloa
     /**
      * @return the internal List as BigDecimals
      */
-    public final List < BigDecimal > getBigDecimalList() {
+    public List < BigDecimal > getBigDecimalList() {
         List < BigDecimal > list = new ArrayList < BigDecimal >();
         for (Float value : mList) {
             list.add(new BigDecimal(value));
@@ -91,7 +91,7 @@ public class CArrayFloatBinding extends CArrayBinding implements ICobolArrayFloa
     /**
      * @param list the internal List of BigDecimals to set
      */
-    public final void setBigDecimalList(
+    public void setBigDecimalList(
             final List < BigDecimal > list) {
         mList = new ArrayList < Float >();
         for (BigDecimal value : list) {
@@ -100,7 +100,7 @@ public class CArrayFloatBinding extends CArrayBinding implements ICobolArrayFloa
     }
 
     /** {@inheritDoc} */
-    public final Object getObjectValue(
+    public Object getObjectValue(
             final Class < ? > type) throws HostException {
         if (type.equals(Float.class)) {
             return mList;
@@ -114,7 +114,7 @@ public class CArrayFloatBinding extends CArrayBinding implements ICobolArrayFloa
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public final void setObjectValue(final Object value) throws HostException {
+    public void setObjectValue(final Object value) throws HostException {
         if (value == null) {
             mList = null;
             return;
@@ -140,7 +140,7 @@ public class CArrayFloatBinding extends CArrayBinding implements ICobolArrayFloa
     }
 
     /** {@inheritDoc} */
-    public final boolean isSet() {
+    public boolean isSet() {
         return (mList != null);
     }
 

@@ -21,7 +21,7 @@ public class UnmarshalRedmultiTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal Redmulti first alternative.
      */
-    public final void testRedmultiNormal() {
+    public void testRedmultiNormal() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 RedmultiCases.getFactory(),
                 RedmultiCases.getHostBytesHex(),
@@ -32,7 +32,7 @@ public class UnmarshalRedmultiTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal Redmulti second alternative.
      */
-    public final void testRedmultiError() {
+    public void testRedmultiError() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 RedmultiCases.getFactory(),
                 RedmultiCases.getHostBytesHexError(),
