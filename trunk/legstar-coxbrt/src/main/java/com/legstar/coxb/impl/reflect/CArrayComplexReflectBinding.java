@@ -76,17 +76,17 @@ public class CArrayComplexReflectBinding extends CArrayComplexBinding {
 
     /** {@inheritDoc}
      * @deprecated */
-    public final void createJaxbObject() throws HostException {
+    public void createJaxbObject() throws HostException {
         createValueObject();
     }
 
     /** {@inheritDoc} */
-    public final void createValueObject() throws HostException {
+    public void createValueObject() throws HostException {
         mJaxbObject = new ArrayList < Object >();
     }
 
     /** {@inheritDoc} */
-    public final void setItemValue(
+    public void setItemValue(
             final int index) throws HostException {
         /* Make sure there is an associated JAXB object*/
         if (mJaxbObject == null) {
@@ -103,13 +103,13 @@ public class CArrayComplexReflectBinding extends CArrayComplexBinding {
 
     /** {@inheritDoc}
      * @deprecated */
-    public final void addJaxbPropertyValue(
+    public void addJaxbPropertyValue(
             final int index) throws HostException {
         addPropertyValue(index);
     }
 
     /** {@inheritDoc} */
-    public final void addPropertyValue(
+    public void addPropertyValue(
             final int index) throws HostException {
         /* Make sure there is an associated JAXB object*/
         if (mJaxbObject == null) {
@@ -122,14 +122,14 @@ public class CArrayComplexReflectBinding extends CArrayComplexBinding {
     /**
      * @return Returns the JAXB Object Factory.
      */
-    public final Object getObjectFactory() {
+    public Object getObjectFactory() {
         return mJaxbObjectFactory;
     }
 
     /**
      * @return the List of items
      */
-    public final List < ? > getObjectList() {
+    public List < ? > getObjectList() {
         return mJaxbObject;
     }
 
@@ -137,12 +137,12 @@ public class CArrayComplexReflectBinding extends CArrayComplexBinding {
      * @param list the items List to set
      */
     @SuppressWarnings("unchecked")
-    public final void setObjectList(final List list) {
+    public void setObjectList(final List list) {
         mJaxbObject = list;
     }
 
     /** {@inheritDoc} */
-    public final Object getObjectValue(
+    public Object getObjectValue(
             final Class < ? > type) throws HostException {
         if (type.equals(getJaxbType())) {
             return mJaxbObject;
@@ -154,7 +154,7 @@ public class CArrayComplexReflectBinding extends CArrayComplexBinding {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public final void setObjectValue(final Object value) throws HostException {
+    public void setObjectValue(final Object value) throws HostException {
         if (value == null) {
             mJaxbObject = null;
             return;
@@ -177,7 +177,7 @@ public class CArrayComplexReflectBinding extends CArrayComplexBinding {
     }
 
     /** {@inheritDoc} */
-    public final boolean isSet() {
+    public boolean isSet() {
         return (mJaxbObject != null);
     }
 }

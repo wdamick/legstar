@@ -29,7 +29,7 @@ import commonj.work.Work;
 public class InvokeWork implements Work {
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(InvokeWork.class);
+    private final Log _log = LogFactory.getLog(InvokeWork.class);
 
     /** A connection object to the host. */
     private LegStarConnection mConnection;
@@ -72,9 +72,9 @@ public class InvokeWork implements Work {
      */
     public final void run() {
         long startTime = System.currentTimeMillis();
-        LOG.debug("Unit of Work started for Request:" + mRequest.getID());
+        _log.debug("Unit of Work started for Request:" + mRequest.getID());
         try {
-            LOG.debug("Connecting to host for Request:" + mRequest.getID()
+            _log.debug("Connecting to host for Request:" + mRequest.getID()
                     + " on Connection:" + mConnection.getConnectionID());
             mConnection.connectReuse(mRequest.getAddress().getHostPassword());
             mConnection.sendRequest(mRequest);
@@ -88,7 +88,7 @@ public class InvokeWork implements Work {
             throw new RuntimeException(e);
         }
         long endTime = System.currentTimeMillis();
-        LOG.debug("Request:" + mRequest.getID()
+        _log.debug("Request:" + mRequest.getID()
                 + " on Connection:" + mConnection.getConnectionID()
                 + " serviced in " + (endTime - startTime) + " msecs");
     }

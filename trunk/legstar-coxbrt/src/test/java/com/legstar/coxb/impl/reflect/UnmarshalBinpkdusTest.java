@@ -22,7 +22,7 @@ public class UnmarshalBinpkdusTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal Binpkdus.
      */
-    public final void testBinpkdus() {
+    public void testBinpkdus() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 BinpkdusCases.getFactory(),
                 BinpkdusCases.getHostBytesHex(),

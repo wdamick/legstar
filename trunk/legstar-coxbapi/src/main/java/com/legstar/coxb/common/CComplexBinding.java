@@ -70,7 +70,7 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
     }
 
     /** {@inheritDoc} */
-    public final void accept(final CobolElementVisitor cev)
+    public void accept(final CobolElementVisitor cev)
     throws HostException {
         cev.visit(this);
     }
@@ -78,7 +78,7 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
     /**
      * {@inheritDoc}
      */
-    public final int calcByteLength() {
+    public int calcByteLength() {
         int byteLength = 0;
         for (ICobolBinding child : mChildren) {
             byteLength += child.getByteLength();
@@ -87,14 +87,14 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
     }
 
     /** {@inheritDoc} */
-    public final java.util.List < ICobolBinding > getChildrenList() {
+    public java.util.List < ICobolBinding > getChildrenList() {
         return mChildren;
     }
 
     /**
      * @param children the children list to set
      */
-    public final void setChildrenList(
+    public void setChildrenList(
             final java.util.List < ICobolBinding > children) {
         mChildren = children;
     }
@@ -108,7 +108,7 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
      * propagated up to parent.
      * @param counter the counter to add to children list
      */
-    public final void storeCounter(
+    public void storeCounter(
             final ICobolNumericBinding counter) {
         if (getParentBinding() == null) {
             /* If there is already a child, use the same cobol level number
@@ -126,7 +126,7 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
     }
     
     /** {@inheritDoc} */
-    public final void storeCounter(final ICobolBinding counter) {
+    public void storeCounter(final ICobolBinding counter) {
         storeCounter((ICobolNumericBinding) counter); 
     }
 
@@ -138,7 +138,7 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
      * @param count the array or list size
      * @throws HostException if counter cannot be updated
      */
-    public final void setCounterValue(
+    public void setCounterValue(
             final String cobolName,
             final int count) throws HostException {
         /* Look for a counter with the corresponding cobol name */
@@ -157,7 +157,7 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
     }
 
     /** {@inheritDoc} */
-    public final ICobolNumericBinding getCounter(
+    public ICobolNumericBinding getCounter(
             final String cobolName) throws HostException {
         /* Look for a counter with the corresponding cobol name */
         for (ICobolBinding child : getChildrenList()) {
@@ -174,7 +174,7 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
     }
 
     /** {@inheritDoc} */
-    public final int getCounterValue(
+    public int getCounterValue(
             final String cobolName) throws HostException {
         /* Look for a counter with the corresponding cobol name */
         for (ICobolBinding child : getChildrenList()) {
@@ -193,7 +193,7 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
     /**
      * @return the number of dynamic counters this complex element is handling
      */
-    public final int getDynamicCountersCount() {
+    public int getDynamicCountersCount() {
         return mDynamicCountersCount;
     }
 
@@ -235,14 +235,14 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
     /**
      * {@inheritDoc}
      */
-    public final String getValueObjectClassName() {
+    public String getValueObjectClassName() {
         return mValueObjectClassName;
     }
 
     /**
      * {@inheritDoc}
      */
-    public final void setValueObjectClassName(
+    public void setValueObjectClassName(
             final String valueObjectClassName) {
         mValueObjectClassName = valueObjectClassName;
     }
@@ -250,14 +250,14 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
     /**
      * {@inheritDoc}
      */
-    public final String getValueObjectsFactoryClassName() {
+    public String getValueObjectsFactoryClassName() {
         return mValueObjectsFactoryClassName;
     }
 
     /**
      * {@inheritDoc}
      */
-    public final void setValueObjectsFactoryClassName(
+    public void setValueObjectsFactoryClassName(
             final String valueObjectsFactoryClassName) {
         mValueObjectsFactoryClassName = valueObjectsFactoryClassName;
     }

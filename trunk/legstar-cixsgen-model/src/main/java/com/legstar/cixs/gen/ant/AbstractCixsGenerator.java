@@ -37,8 +37,7 @@ public abstract class AbstractCixsGenerator extends Task {
     private AbstractAntBuildCixsModel mAntModel;
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(
-            AbstractCixsGenerator.class);
+    private final Log _log = LogFactory.getLog(getClass());
 
     /**
      * Constructor.
@@ -51,7 +50,7 @@ public abstract class AbstractCixsGenerator extends Task {
     /** @{inheritDoc}*/
     @Override
     public final void init() {
-        LOG.info("Initializing velocity engine for "
+        _log.info("Initializing velocity engine for "
                 + mAntModel.getGeneratorName());
         try {
             CodeGenUtil.initVelocity();
@@ -67,7 +66,7 @@ public abstract class AbstractCixsGenerator extends Task {
      * */
     @Override
     public final void execute() {
-        LOG.info("Generating artifacts for "
+        _log.info("Generating artifacts for "
                 + ((getCixsService() == null) ? "null"
                         : getCixsService().getName()));
         long start = System.currentTimeMillis();
@@ -78,13 +77,13 @@ public abstract class AbstractCixsGenerator extends Task {
             generate();
 
         } catch (CodeGenMakeException e) {
-            LOG.error("Generator " + getGeneratorName() + " failure ", e);
+            _log.error("Generator " + getGeneratorName() + " failure ", e);
             throw new BuildException(e);
         }
 
         long end = System.currentTimeMillis();
-        LOG.info("Generation success for " + getCixsService().getName());
-        LOG.info("Duration = " + (end - start) + " ms");
+        _log.info("Generation success for " + getCixsService().getName());
+        _log.info("Duration = " + (end - start) + " ms");
     }
 
     /**
@@ -196,7 +195,6 @@ public abstract class AbstractCixsGenerator extends Task {
     throws CodeGenMakeException {
 
         File targetFile = CodeGenUtil.getFile(dir, fileName);
-        LOG.info("Generating " + targetFile.getAbsolutePath());
         CodeGenUtil.processTemplate(
                 generatorName,
                 templateName,

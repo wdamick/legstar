@@ -52,7 +52,7 @@ public class Engine implements Work {
     private static final int CONNECT_TAKE_MSEC = 1000;
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(Engine.class);
+    private final Log _log = LogFactory.getLog(Engine.class);
 
     /**
      * Create the Engine for a maximum number of requests waiting to
@@ -73,7 +73,7 @@ public class Engine implements Work {
         mWorkManager = workManager;
         mPoolManager = poolManager;
         mWorkFactory = workFactory;
-        LOG.debug("Created engine instance:" + this);
+        _log.debug("Created engine instance:" + this);
     }
 
     /**
@@ -83,20 +83,20 @@ public class Engine implements Work {
     public final void run() {
 
         while (!mShuttingDown) {
-            LOG.debug("Waiting for requests");
+            _log.debug("Waiting for requests");
             LegStarRequest request;
             try {
                 request = mRequests.take();
                 if (!mShuttingDown) {
                     scheduleWork(request);
-                    LOG.debug("Scheduled Request:" + request.getID());
+                    _log.debug("Scheduled Request:" + request.getID());
                 } else {
-                    LOG.info("Engine stopped.");
+                    _log.info("Engine stopped.");
                 }
             } catch (InterruptedException e) {
-                LOG.error("Failed to submit request", e);
+                _log.error("Failed to submit request", e);
             } catch (WorkException e) {
-                LOG.error("Failed to submit request", e);
+                _log.error("Failed to submit request", e);
             }
         }
     }
@@ -144,7 +144,7 @@ public class Engine implements Work {
              * and notify the client. In order to keep shutdown simple,
              * we simply log an error. Client will timeout waiting for
              * a reply. */
-            LOG.error("Request received while engine is shutting down.");
+            _log.error("Request received while engine is shutting down.");
         }
     }
 
@@ -156,12 +156,12 @@ public class Engine implements Work {
      *  */
     public final void shutDown() {
         mShuttingDown = true;
-        LOG.info("Attempting to shutdown...");
+        _log.info("Attempting to shutdown...");
         if (mRequests.size() == 0) {
             /* Empty request to get the engine to process shutdown */
             mRequests.add(new LegStarRequest());
         } else {
-            LOG.warn("Shutdown requested. "
+            _log.warn("Shutdown requested. "
                     + mRequests.size() + " requests are pending.");
         }
     }

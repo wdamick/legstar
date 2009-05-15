@@ -12,7 +12,7 @@ import com.legstar.test.coxb.dplarcht.Dfhcommarea;
  * This uses reflection binding.
  *
  */
-public final class HostToJavaDplarchtTransformer extends AbstractHostToJavaTransformer {
+public class HostToJavaDplarchtTransformer extends AbstractHostToJavaTransformer {
 
 
     /**

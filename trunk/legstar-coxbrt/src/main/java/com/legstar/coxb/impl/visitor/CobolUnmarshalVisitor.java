@@ -48,8 +48,7 @@ import com.legstar.coxb.host.HostException;
 public class CobolUnmarshalVisitor extends CobolElementVisitor {
 
     /** Logger. */
-    private static final Log LOG =
-        LogFactory.getLog(CobolUnmarshalVisitor.class);
+    private final Log _log = LogFactory.getLog(getClass());
 
     /** Visitor constructor.
      * @param hostBytes host buffer used by visitor
@@ -64,11 +63,11 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 
     /** {@inheritDoc} */
     @Override
-    public final void visit(final ICobolComplexBinding ce)
+    public void visit(final ICobolComplexBinding ce)
     throws HostException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Unmarshaling started for complex binding "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Unmarshaling started for complex binding "
                     + ce.getBindingName());
         }
         /* Object might be optional. Check if it should be visited. */
@@ -87,19 +86,19 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
             child.accept(this);
             ce.setPropertyValue(index++);
         }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Unmarshaling successful for complex binding "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Unmarshaling successful for complex binding "
                     + ce.getBindingName());
         }
     }
 
     /** {@inheritDoc} */
     @Override
-    public final void visit(final ICobolChoiceBinding ce)
+    public void visit(final ICobolChoiceBinding ce)
     throws HostException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Unmarshaling started for choice binding "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Unmarshaling started for choice binding "
                     + ce.getBindingName());
         }
         /* In a choice situation, only one alternative should be accepted when
@@ -113,8 +112,8 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 
         /* If an external selector is provided, try it first */
         if (ce.getUnmarshalChoiceStrategy() != null) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Calling Unmarshal choice strategy  "
+            if (_log.isDebugEnabled()) {
+                _log.debug("Calling Unmarshal choice strategy  "
                         + ce.getUnmarshalChoiceStrategyClassName());
             }
             ICobolBinding alt =
@@ -160,19 +159,19 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
                     + ce.getBindingName());
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Unmarshaling successful for choice binding "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Unmarshaling successful for choice binding "
                     + ce.getBindingName());
         }
     }
 
     /** {@inheritDoc} */
     @Override
-    public final void visit(final ICobolArrayComplexBinding ce)
+    public void visit(final ICobolArrayComplexBinding ce)
     throws HostException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Unmarshaling started for array of complex bindings "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Unmarshaling started for array of complex bindings "
                     + ce.getBindingName());
         }
         /* Ask complex array binding to initialize bound array so that it is
@@ -185,8 +184,8 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
             itemDesc.accept(this);
             ce.addPropertyValue(i);
         }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Unmarshaling successful for array of complex bindings "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Unmarshaling successful for array of complex bindings "
                     + ce.getBindingName());
         }
 
@@ -194,7 +193,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 
     /** {@inheritDoc} */
     @Override
-    public final void visit(final ICobolStringBinding ce)
+    public void visit(final ICobolStringBinding ce)
     throws HostException {
         /* Object might be optional. Check if it should be visited. */
         if (!exists(ce)) {
@@ -210,7 +209,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     }
     /** {@inheritDoc} */
     @Override
-    public final void visit(final ICobolArrayStringBinding ce)
+    public void visit(final ICobolArrayStringBinding ce)
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolStringConverter().
@@ -220,7 +219,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 
     /** {@inheritDoc} */
     @Override
-    public final void visit(final ICobolNationalBinding ce)
+    public void visit(final ICobolNationalBinding ce)
     throws HostException {
         /* Object might be optional. Check if it should be visited. */
         if (!exists(ce)) {
@@ -236,7 +235,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     }
     /** {@inheritDoc} */
     @Override
-    public final void visit(final ICobolArrayNationalBinding ce)
+    public void visit(final ICobolArrayNationalBinding ce)
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolNationalConverter().
@@ -246,7 +245,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 
     /** {@inheritDoc} */
     @Override
-    public final void visit(final ICobolDbcsBinding ce)
+    public void visit(final ICobolDbcsBinding ce)
     throws HostException {
         /* Object might be optional. Check if it should be visited. */
         if (!exists(ce)) {
@@ -262,7 +261,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     }
     /** {@inheritDoc} */
     @Override
-    public final void visit(final ICobolArrayDbcsBinding ce)
+    public void visit(final ICobolArrayDbcsBinding ce)
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolDbcsConverter().
@@ -272,7 +271,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 
     /** {@inheritDoc} */
     @Override
-    public final void visit(final ICobolZonedDecimalBinding ce)
+    public void visit(final ICobolZonedDecimalBinding ce)
     throws HostException {
         /* Object might be optional. Check if it should be visited. */
         if (!exists(ce)) {
@@ -288,7 +287,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     }
     /** {@inheritDoc} */
     @Override
-    public final void visit(final ICobolArrayZonedDecimalBinding ce)
+    public void visit(final ICobolArrayZonedDecimalBinding ce)
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolZonedDecimalConverter().
@@ -298,7 +297,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 
     /** {@inheritDoc} */
     @Override
-    public final void visit(final ICobolPackedDecimalBinding ce)
+    public void visit(final ICobolPackedDecimalBinding ce)
     throws HostException {
         /* Object might be optional. Check if it should be visited. */
         if (!exists(ce)) {
@@ -315,7 +314,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     }
     /** {@inheritDoc} */
     @Override
-    public final void visit(final ICobolArrayPackedDecimalBinding ce)
+    public void visit(final ICobolArrayPackedDecimalBinding ce)
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolPackedDecimalConverter().
@@ -325,7 +324,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 
     /** {@inheritDoc} */
     @Override
-    public final void visit(final ICobolBinaryBinding ce)
+    public void visit(final ICobolBinaryBinding ce)
     throws HostException {
         /* Object might be optional. Check if it should be visited. */
         if (!exists(ce)) {
@@ -341,7 +340,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     }
     /** {@inheritDoc} */
     @Override
-    public final void visit(final ICobolArrayBinaryBinding ce)
+    public void visit(final ICobolArrayBinaryBinding ce)
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolBinaryConverter().
@@ -351,7 +350,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 
     /** {@inheritDoc} */
     @Override
-    public final void visit(final ICobolFloatBinding ce)
+    public void visit(final ICobolFloatBinding ce)
     throws HostException {
         /* Object might be optional. Check if it should be visited. */
         if (!exists(ce)) {
@@ -367,7 +366,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     }
     /** {@inheritDoc} */
     @Override
-    public final void visit(final ICobolArrayFloatBinding ce)
+    public void visit(final ICobolArrayFloatBinding ce)
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolFloatConverter().
@@ -377,7 +376,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 
     /** {@inheritDoc} */
     @Override
-    public final void visit(final ICobolDoubleBinding ce)
+    public void visit(final ICobolDoubleBinding ce)
     throws HostException {
         /* Object might be optional. Check if it should be visited. */
         if (!exists(ce)) {
@@ -393,7 +392,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     }
     /** {@inheritDoc} */
     @Override
-    public final void visit(final ICobolArrayDoubleBinding ce)
+    public void visit(final ICobolArrayDoubleBinding ce)
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolDoubleConverter().
@@ -402,7 +401,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     }
     /** {@inheritDoc} */
     @Override
-    public final void visit(final ICobolOctetStreamBinding ce)
+    public void visit(final ICobolOctetStreamBinding ce)
     throws HostException {
         /* Object might be optional. Check if it should be visited. */
         if (!exists(ce)) {
@@ -418,7 +417,7 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     }
     /** {@inheritDoc} */
     @Override
-    public final void visit(final ICobolArrayOctetStreamBinding ce)
+    public void visit(final ICobolArrayOctetStreamBinding ce)
     throws HostException {
         setOffset(getCobolConverters().
                 getCobolOctetStreamConverter().

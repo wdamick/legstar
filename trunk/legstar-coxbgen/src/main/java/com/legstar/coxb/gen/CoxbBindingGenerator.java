@@ -69,8 +69,7 @@ public class CoxbBindingGenerator extends Task {
     private List < JaxbRootClass > mJaxbRootClasses;
 
     /** Logger. */
-    private static final Log LOG =
-        LogFactory.getLog(CoxbBindingGenerator.class);
+    private final Log _log = LogFactory.getLog(getClass());
 
     /**
      *  The ant method. Generates COXB binding code.
@@ -114,11 +113,11 @@ public class CoxbBindingGenerator extends Task {
                 visitor.getWriter().writeXmlTransformers(ce);
                 
             } catch (HostException e) {
-                LOG.error(CoxbGenWriter.BINDING_GENERATOR_NAME + " failure ", e);
+                _log.error(CoxbGenWriter.BINDING_GENERATOR_NAME + " failure ", e);
                 throw (new BuildException(
                         "HostException " + e.getMessage()));
             } catch (CodeGenException e) {
-                LOG.error(CoxbGenWriter.BINDING_GENERATOR_NAME + " failure ", e);
+                _log.error(CoxbGenWriter.BINDING_GENERATOR_NAME + " failure ", e);
                 throw new BuildException(e);
             }
         }
@@ -130,8 +129,8 @@ public class CoxbBindingGenerator extends Task {
      */
     private void checkInput() {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("checkInput started");
+        if (_log.isDebugEnabled()) {
+            _log.debug("checkInput started");
             mCoxbGenModel.traceContext();
         }
 

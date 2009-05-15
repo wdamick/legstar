@@ -29,7 +29,7 @@ public class HostContext {
     /**
      * @return Returns the current charsetName.
      */
-    public final String getHostCharsetName() {
+    public String getHostCharsetName() {
         return mhostCharsetName;
     }
 
@@ -40,7 +40,7 @@ public class HostContext {
      * @param name
      *            The charsetName to set.
      */
-    public final void setHostCharsetName(final String name) {
+    public void setHostCharsetName(final String name) {
         // We create a charset to check the validity of the charsetName
         mhostCharsetName = name;
     }

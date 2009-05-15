@@ -44,7 +44,7 @@ public class HostData {
      * 
      * @return a string with hexadecimal representation of the field content
      */
-    public final String toHexString() {
+    public String toHexString() {
         return toHexString(mhostData);
     }
 
@@ -172,14 +172,14 @@ public class HostData {
     /**
      * @return Returns the hostData.
      */
-    public final byte[] getHostData() {
+    public byte[] getHostData() {
         return mhostData;
     }
 
     /**
      * @return Returns the hostData length.
      */
-    public final int length() {
+    public int length() {
         return mhostData.length;
     }
 

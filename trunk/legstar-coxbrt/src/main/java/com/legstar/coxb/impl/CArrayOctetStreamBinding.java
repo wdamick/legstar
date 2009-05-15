@@ -52,18 +52,18 @@ implements ICobolArrayOctetStreamBinding {
     }
 
     /** {@inheritDoc} */
-    public final void accept(final CobolElementVisitor cev)
+    public void accept(final CobolElementVisitor cev)
     throws HostException {
         cev.visit(this);
     }
 
     /** {@inheritDoc} */
-    public final int calcItemByteLength() {
+    public int calcItemByteLength() {
         return COctetStreamBinding.calcOctetStreamByteLength(getPicture(), getUsage());
     }
 
     /** {@inheritDoc} */
-    public final List < byte[] > getValue() throws HostException {
+    public List < byte[] > getValue() throws HostException {
 
         if (mList == null) {
             /* If this element is involved in a redefinition, null means
@@ -79,14 +79,14 @@ implements ICobolArrayOctetStreamBinding {
     }
 
     /** {@inheritDoc} */
-    public final void setValue(
+    public void setValue(
             final List < byte[] > list) throws HostException {
         mList = list;
     }
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public final void setValue(final Object value) throws HostException {
+    public void setValue(final Object value) throws HostException {
         if (value == null) {
             mList = null;
             return;
@@ -102,20 +102,20 @@ implements ICobolArrayOctetStreamBinding {
     /**
      * @return the List of items
      */
-    public final List < byte[] > getByteArrayList() {
+    public List < byte[] > getByteArrayList() {
         return mList;
     }
 
     /**
      * @param list the items List to set
      */
-    public final void setByteArrayList(
+    public void setByteArrayList(
             final List < byte[] > list) {
         mList = list;
     }
 
     /** {@inheritDoc} */
-    public final Object getObjectValue(
+    public Object getObjectValue(
             final Class < ? > type) throws HostException {
         if (type.equals(byte[].class)) {
             return mList;
@@ -127,7 +127,7 @@ implements ICobolArrayOctetStreamBinding {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public final void setObjectValue(final Object value) throws HostException {
+    public void setObjectValue(final Object value) throws HostException {
         if (value == null) {
             mList = null;
             return;
@@ -150,7 +150,7 @@ implements ICobolArrayOctetStreamBinding {
     }
 
     /** {@inheritDoc} */
-    public final boolean isSet() {
+    public boolean isSet() {
         return (mList != null);
     }
 }

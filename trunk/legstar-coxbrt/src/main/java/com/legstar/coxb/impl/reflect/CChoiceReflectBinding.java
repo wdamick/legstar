@@ -31,8 +31,8 @@ import com.legstar.util.JaxbUtil;
 public class CChoiceReflectBinding extends CChoiceBinding {
 
     /** Logger. */
-    private static final Log LOG =
-        LogFactory.getLog(CChoiceReflectBinding.class);
+    private final Log _log = LogFactory.getLog(getClass());
+
     /**
      * A choice element gets created when a redefined item is encountered.
      * The constructor gets invoked with the redefined item characteristics.
@@ -50,7 +50,7 @@ public class CChoiceReflectBinding extends CChoiceBinding {
     }
 
     /** {@inheritDoc} */
-    public final void setAlternativesValues() throws HostException {
+    public void setAlternativesValues() throws HostException {
         for (ICobolBinding alt : getAlternativesList()) {
             /* Choice children are a special case. They directly set 
              * their parent object depending on the chosen choice
@@ -61,8 +61,8 @@ public class CChoiceReflectBinding extends CChoiceBinding {
                 Object value = JaxbUtil.invokeGetProperty(
                         getParentJaxbObject(), alt.getJaxbName());
                 if (value != null) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Getting value from JAXB property "
+                    if (_log.isDebugEnabled()) {
+                        _log.debug("Getting value from JAXB property "
                                 + alt.getJaxbName()
                                 + " value=" + value);
                     }
@@ -73,13 +73,13 @@ public class CChoiceReflectBinding extends CChoiceBinding {
     }
 
     /** {@inheritDoc} */
-    public final void setJaxbPropertyValue(
+    public void setJaxbPropertyValue(
             final int index) throws HostException {
         setPropertyValue(index);
     }
 
     /** {@inheritDoc} */
-    public final void setPropertyValue(
+    public void setPropertyValue(
             final int index) throws HostException {
         /* Set the JAXB object property value from binding object */
         ICobolBinding alt = getAlternativesList().get(index);
@@ -92,8 +92,8 @@ public class CChoiceReflectBinding extends CChoiceBinding {
         }
 
         Object value = alt.getObjectValue(alt.getJaxbType());
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Setting value of JAXB property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Setting value of JAXB property "
                     + alt.getJaxbName()
                     + " value=" + value);
         }
@@ -102,31 +102,31 @@ public class CChoiceReflectBinding extends CChoiceBinding {
     }
 
     /** {@inheritDoc} */
-    public final Object getParentJaxbObject() throws HostException {
+    public Object getParentJaxbObject() throws HostException {
         return getParentBinding().getObjectValue(
                 getParentBinding().getJaxbType());
     }
 
     /** {@inheritDoc} */
-    public final Object getParentValueObject() throws HostException {
+    public Object getParentValueObject() throws HostException {
         return getParentJaxbObject();
     }
 
     /** {@inheritDoc} */
-    public final Object getObjectValue(
+    public Object getObjectValue(
             final Class < ? > type) throws HostException {
         throw new HostException("Attempt to get value from choice binding "
                 + getCobolName());
     }
 
     /** {@inheritDoc} */
-    public final void setObjectValue(final Object value) throws HostException {
+    public void setObjectValue(final Object value) throws HostException {
         throw new HostException("Attempt to set value for choice binding "
                 + getCobolName());
     }
 
     /** {@inheritDoc} */
-    public final boolean isSet() {
+    public boolean isSet() {
         /* A Choice is considered set if at least one of its alternatives
          * is set. */
         for (ICobolBinding alt : getAlternativesList()) {

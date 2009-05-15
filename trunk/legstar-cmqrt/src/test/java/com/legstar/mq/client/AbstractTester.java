@@ -61,7 +61,7 @@ public abstract class AbstractTester extends TestCase {
     private LegStarAddress mAddress;
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(AbstractTester.class);
+    private final Log _log = LogFactory.getLog(AbstractTester.class);
     /**
      * @return the Address of target host
      */
@@ -85,7 +85,7 @@ public abstract class AbstractTester extends TestCase {
         HierarchicalConfiguration endpointConfig =
             Config.loadEndpointConfiguration(CONFIG_FILE, endpointName);
         mEndpoint = new CicsMQEndpoint(endpointConfig);
-        if (LOG.isDebugEnabled()) {
+        if (_log.isDebugEnabled()) {
             mEndpoint.setHostTraceMode(true);
         }
 

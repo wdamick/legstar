@@ -54,24 +54,24 @@ implements ICobolOctetStreamBinding {
     }
 
     /** {@inheritDoc} */
-    public final void accept(final CobolElementVisitor cev)
+    public void accept(final CobolElementVisitor cev)
     throws HostException {
         cev.visit(this);
     }
 
     /** {@inheritDoc} */
-    public final byte[] getByteArrayValue() throws HostException {
+    public byte[] getByteArrayValue() throws HostException {
         return mValue;
     }
 
     /** {@inheritDoc} */
-    public final void setByteArrayValue(final byte[] value)
+    public void setByteArrayValue(final byte[] value)
     throws HostException {
         mValue = value;
     }
 
     /** {@inheritDoc} */
-    public final int calcByteLength() {
+    public int calcByteLength() {
         return calcOctetStreamByteLength(getPicture(), getUsage());
     }
 
@@ -96,7 +96,7 @@ implements ICobolOctetStreamBinding {
     }
 
     /** {@inheritDoc} */
-    public final Object getObjectValue(
+    public Object getObjectValue(
             final Class < ? > type) throws HostException {
         if (type.equals(byte[].class)) {
             return mValue;
@@ -107,7 +107,7 @@ implements ICobolOctetStreamBinding {
     }
 
     /** {@inheritDoc} */
-    public final void setObjectValue(final Object value) throws HostException {
+    public void setObjectValue(final Object value) throws HostException {
         if (value == null) {
             mValue = null;
             return;
@@ -121,7 +121,7 @@ implements ICobolOctetStreamBinding {
     }
 
     /** {@inheritDoc} */
-    public final boolean isSet() {
+    public boolean isSet() {
         return (mValue != null);
     }
 }

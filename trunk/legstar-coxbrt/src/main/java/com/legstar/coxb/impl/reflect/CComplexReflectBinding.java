@@ -80,8 +80,7 @@ public class CComplexReflectBinding extends CComplexBinding {
     private static final String COUNTER_COBOL_SUFFIX = "--C";
 
     /** Logger. */
-    private static final Log LOG
-    = LogFactory.getLog(CComplexReflectBinding.class);
+    private final Log _log = LogFactory.getLog(getClass());
 
     /**
      * Constructor for a root Complex element with a bound JAXB object.
@@ -157,16 +156,16 @@ public class CComplexReflectBinding extends CComplexBinding {
             final Class jaxbType,
             final Object jaxbObjectFactory) throws ReflectBindingException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Initializing Complex binding for " + jaxbType);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Initializing Complex binding for " + jaxbType);
         }
         XmlType xmlType = (XmlType) jaxbType.getAnnotation(XmlType.class);
         if (xmlType == null) {
             throw new ReflectBindingException(
                     "No jaxb annotations found in " + jaxbType);
         }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Found JAXB annotations: " + xmlType.toString());
+        if (_log.isDebugEnabled()) {
+            _log.debug("Found JAXB annotations: " + xmlType.toString());
         }
 
         /* Assume we are bound to a JAXB object */
@@ -188,8 +187,8 @@ public class CComplexReflectBinding extends CComplexBinding {
 
         initChildren(jaxbType, xmlType);
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(
+        if (_log.isDebugEnabled()) {
+            _log.debug(
                     "Complex binding sucessfully initialized for: " + jaxbType);
         }
     }
@@ -200,12 +199,12 @@ public class CComplexReflectBinding extends CComplexBinding {
      * @param xmlType the JAXB annotations
      * @throws ReflectBindingException if children bindings fail
      *  */
-    public final void initChildren(
+    public void initChildren(
             final Class < ? > jaxbType,
             final XmlType xmlType) throws ReflectBindingException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Initializing children of: " + jaxbType.getSimpleName());
+        if (_log.isDebugEnabled()) {
+            _log.debug("Initializing children of: " + jaxbType.getSimpleName());
         }
         /* Map of choice elements for redefined elements */
         RedefinesMap redefinesMap = new RedefinesMap();
@@ -232,10 +231,10 @@ public class CComplexReflectBinding extends CComplexBinding {
                         + hostField.getName());
             }
 
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Processing Cobol annotations for: "
+            if (_log.isDebugEnabled()) {
+                _log.debug("Processing Cobol annotations for: "
                         + cobolAnnotations.cobolName());
-                LOG.debug("Cobol annotations: " + cobolAnnotations);
+                _log.debug("Cobol annotations: " + cobolAnnotations);
             }
 
             /* Get the xml annotations for that field. This is necessary because
@@ -267,8 +266,8 @@ public class CComplexReflectBinding extends CComplexBinding {
             }
 
         }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Children sucessfully initialized for: "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Children sucessfully initialized for: "
                     + jaxbType.getSimpleName());
         }
     }
@@ -317,8 +316,8 @@ public class CComplexReflectBinding extends CComplexBinding {
             final RedefinesMap redefinesMap)
     throws ReflectBindingException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Binding cobol element "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Binding cobol element "
                     + cobolAnnotations.cobolName()
                     + '(' + cobolAnnotations.type() + ')'
                     + " to java property " + jaxbName
@@ -399,8 +398,8 @@ public class CComplexReflectBinding extends CComplexBinding {
                     cobolAnnotations, cobolElement, redefinesMap);
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Binding created " + cobolElement.getBindingName());
+        if (_log.isDebugEnabled()) {
+            _log.debug("Binding created " + cobolElement.getBindingName());
         }
         return cobolElement;
     }
@@ -455,12 +454,12 @@ public class CComplexReflectBinding extends CComplexBinding {
             final RedefinesMap redefinesMap)
     throws ReflectBindingException {
 
-        if (LOG.isDebugEnabled()) {
+        if (_log.isDebugEnabled()) {
             if (cobolAnnotations.isRedefined()) {
-                LOG.debug("Creating Choice binding for redefined Cobol element "
+                _log.debug("Creating Choice binding for redefined Cobol element "
                         + cobolAnnotations.cobolName());
             } else {
-                LOG.debug("Adding " + cobolAnnotations.cobolName()
+                _log.debug("Adding " + cobolAnnotations.cobolName()
                         + " to Choice binding for Cobol element "
                         + cobolAnnotations.redefines());
             }
@@ -481,8 +480,8 @@ public class CComplexReflectBinding extends CComplexBinding {
             redefinesMap.updateChoiceElement(
                     cobolAnnotations.cobolName(), choice);
 
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Choice binding created");
+            if (_log.isDebugEnabled()) {
+                _log.debug("Choice binding created");
             }
             /* Return the choice as the current element for caller */
             return choice;
@@ -521,8 +520,8 @@ public class CComplexReflectBinding extends CComplexBinding {
          * choice element */
         choice.addAlternative(cobolElement);
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Choice binding updated");
+        if (_log.isDebugEnabled()) {
+            _log.debug("Choice binding updated");
         }
         /* Since choice element is already part of parent children,
          * return null to avoid adding it twice */
@@ -773,8 +772,8 @@ public class CComplexReflectBinding extends CComplexBinding {
             getComplexItemBinding().setDependingOn(counter.getCobolName());
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Created depending on relationship for "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Created depending on relationship for "
                     + cobolElement.getBindingName()
                     + " with " + counter.getCobolName());
         }
@@ -792,8 +791,8 @@ public class CComplexReflectBinding extends CComplexBinding {
     private ICobolBinaryBinding createDynamicCounterBinding(
             final ICobolBinding listBinding)
     throws ReflectBindingException {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Creating a dynamic counter for "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Creating a dynamic counter for "
                     + listBinding.getBindingName());
         }
         CBinaryBinding counter = new CBinaryBinding(
@@ -827,12 +826,12 @@ public class CComplexReflectBinding extends CComplexBinding {
     }
 
     /** {@inheritDoc} */
-    public final void createJaxbObject() throws HostException {
+    public void createJaxbObject() throws HostException {
         createValueObject();
     }
 
     /** {@inheritDoc} */
-    public final void createValueObject() throws HostException {
+    public void createValueObject() throws HostException {
         /* Since this complex binding has a constructor that takes a
          * value object, we might already have a value object that
          * was not used yet. */
@@ -845,7 +844,7 @@ public class CComplexReflectBinding extends CComplexBinding {
     }
 
     /** {@inheritDoc} */
-    public final void setChildrenValues() throws HostException {
+    public void setChildrenValues() throws HostException {
 
         /* Make sure there is an associated JAXB object*/
         if (mJaxbObject == null) {
@@ -862,8 +861,8 @@ public class CComplexReflectBinding extends CComplexBinding {
             } else {
                 Object value = JaxbUtil.invokeGetProperty(mJaxbObject,
                         child.getJaxbName());
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Getting value from JAXB property "
+                if (_log.isDebugEnabled()) {
+                    _log.debug("Getting value from JAXB property "
                             + child.getJaxbName()
                             + " value=" + value);
                 }
@@ -881,14 +880,14 @@ public class CComplexReflectBinding extends CComplexBinding {
     }
 
     /** {@inheritDoc} */
-    public final void setJaxbPropertyValue(
+    public void setJaxbPropertyValue(
             final int index) throws HostException {
         setPropertyValue(index);
     }
 
 
     /** {@inheritDoc} */
-    public final void setPropertyValue(
+    public void setPropertyValue(
             final int index) throws HostException {
 
         ICobolBinding child = getChildrenList().get(index);
@@ -901,8 +900,8 @@ public class CComplexReflectBinding extends CComplexBinding {
         }
 
         Object value = child.getObjectValue(child.getJaxbType());
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Setting value of JAXB property "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Setting value of JAXB property "
                     + child.getJaxbName()
                     + " value=" + value);
         }
@@ -912,7 +911,7 @@ public class CComplexReflectBinding extends CComplexBinding {
     }
 
     /** {@inheritDoc} */
-    public final Object getObjectValue(
+    public Object getObjectValue(
             final Class < ? > type) throws HostException {
         if (type.equals(getJaxbType())) {
             return mJaxbObject;
@@ -923,7 +922,7 @@ public class CComplexReflectBinding extends CComplexBinding {
     }
 
     /** {@inheritDoc} */
-    public final void setObjectValue(final Object value) throws HostException {
+    public void setObjectValue(final Object value) throws HostException {
         if (value == null) {
             mJaxbObject = null;
             return;
@@ -939,19 +938,19 @@ public class CComplexReflectBinding extends CComplexBinding {
     /**
      * @return the java object factory for value objects creation
      */
-    public final Object getObjectFactory() {
+    public Object getObjectFactory() {
         return mJaxbObjectFactory;
     }
 
     /**
      * @param objectFactory the java object factory for value objects creation 
      */
-    public final void setObjectFactory(final Object objectFactory) {
+    public void setObjectFactory(final Object objectFactory) {
         mJaxbObjectFactory = objectFactory;
     }
 
     /** {@inheritDoc} */
-    public final boolean isSet() {
+    public boolean isSet() {
         return (mJaxbObject != null);
     }
 

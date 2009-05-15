@@ -24,7 +24,7 @@ import org.apache.tools.ant.BuildException;
 public class CobolGeneratorTest extends AbstractTester {
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(CobolGeneratorTest.class);
+    private final Log _log = LogFactory.getLog(CobolGeneratorTest.class);
     /**
      * Test instantiation.
      */
@@ -176,7 +176,7 @@ public class CobolGeneratorTest extends AbstractTester {
                     "COM-LSFILEAE",
                     5,
                     5);
-            LOG.debug(code);
+            _log.debug(code);
             assertEquals(
                     /* 123456789012345678901234567890123456789012345678901234567890123456789012*/
                       "           05 COM-LSFILEAE." + "\r\n"
@@ -195,7 +195,7 @@ public class CobolGeneratorTest extends AbstractTester {
                     "COM-LSFILEAE",
                     1,
                     1);
-            LOG.debug(code);
+            _log.debug(code);
             assertEquals(
                     /* 123456789012345678901234567890123456789012345678901234567890123456789012*/
                       "       01 COM-LSFILEAE." + "\r\n"
@@ -214,7 +214,7 @@ public class CobolGeneratorTest extends AbstractTester {
                     "COM-LSFILEAE",
                     2,
                     1);
-            LOG.debug(code);
+            _log.debug(code);
             assertEquals(
                     /* 123456789012345678901234567890123456789012345678901234567890123456789012*/
                       "           02 COM-LSFILEAE." + "\r\n"
@@ -232,7 +232,7 @@ public class CobolGeneratorTest extends AbstractTester {
                     "COM-LSFILEAE",
                     1,
                     2);
-            LOG.debug(code);
+            _log.debug(code);
             assertEquals(
                     /* 123456789012345678901234567890123456789012345678901234567890123456789012*/
                       "       01 COM-LSFILEAE." + "\r\n"

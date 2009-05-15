@@ -169,28 +169,28 @@ public abstract class CBinding implements ICobolBinding {
     /**
      * @return the Cobol element name
      */
-    public final String getCobolName() {
+    public String getCobolName() {
         return mCobolName;
     }
 
     /**
      * @param cobolName the Cobol element name to set
      */
-    public final void setCobolName(final String cobolName) {
+    public void setCobolName(final String cobolName) {
         mCobolName = cobolName;
     }
 
     /**
      * @return the Cobol element type
      */
-    public final CobolType getCobolType() {
+    public CobolType getCobolType() {
         return mCobolType;
     }
 
     /**
      * @param type the Cobol element type to set
      */
-    public final void setCobolType(final CobolType type) {
+    public void setCobolType(final CobolType type) {
         mCobolType = type;
     }
 
@@ -217,14 +217,14 @@ public abstract class CBinding implements ICobolBinding {
     /**
      * @return true if String is right justified
      */
-    public final boolean isJustifiedRight() {
+    public boolean isJustifiedRight() {
         return mIsJustifiedRight;
     }
 
     /**
      * @param isJustifiedRight true if String is right justified
      */
-    public final void setIsJustifiedRight(
+    public void setIsJustifiedRight(
             final boolean isJustifiedRight) {
         mIsJustifiedRight = isJustifiedRight;
     }
@@ -232,168 +232,168 @@ public abstract class CBinding implements ICobolBinding {
     /**
      * @return the total number of digits
      */
-    public final int getTotalDigits() {
+    public int getTotalDigits() {
         return mTotalDigits;
     }
 
     /**
      * @param totalDigits the total number of digits to set
      */
-    public final void setTotalDigits(final int totalDigits) {
+    public void setTotalDigits(final int totalDigits) {
         mTotalDigits = totalDigits;
     }
 
     /**
      * @return the fractional number of digits
      */
-    public final int getFractionDigits() {
+    public int getFractionDigits() {
         return mFractionDigits;
     }
 
     /**
      * @param fractionDigits the fractional number of digits to set
      */
-    public final void setFractionDigits(final int fractionDigits) {
+    public void setFractionDigits(final int fractionDigits) {
         mFractionDigits = fractionDigits;
     }
 
     /**
      * @return true if signed
      */
-    public final boolean isSigned() {
+    public boolean isSigned() {
         return mIsSigned;
     }
 
     /**
      * @param isSigned true if signed
      */
-    public final void setIsSigned(final boolean isSigned) {
+    public void setIsSigned(final boolean isSigned) {
         mIsSigned = isSigned;
     }
 
     /**
      * @return true if sign in leading byte
      */
-    public final boolean isSignLeading() {
+    public boolean isSignLeading() {
         return mIsSignLeading;
     }
 
     /**
      * @param isSignLeading true if sign in leading byte
      */
-    public final void setIsSignLeading(final boolean isSignLeading) {
+    public void setIsSignLeading(final boolean isSignLeading) {
         mIsSignLeading = isSignLeading;
     }
 
     /**
      * @return true if sign occupies a separate byte
      */
-    public final boolean isSignSeparate() {
+    public boolean isSignSeparate() {
         return mIsSignSeparate;
     }
 
     /**
      * @param isSignSeparate true if sign occupies a separate byte
      */
-    public final void setIsSignSeparate(final boolean isSignSeparate) {
+    public void setIsSignSeparate(final boolean isSignSeparate) {
         mIsSignSeparate = isSignSeparate;
     }
 
     /**
      * @return the minimum number of occurences
      */
-    public final int getMinOccurs() {
+    public int getMinOccurs() {
         return mMinOccurs;
     }
 
     /**
      * @param minOccurs the minimum number of occurences to set
      */
-    public final void setMinOccurs(final int minOccurs) {
+    public void setMinOccurs(final int minOccurs) {
         mMinOccurs = minOccurs;
     }
 
     /**
      * @return the maximum number of occurences
      */
-    public final int getMaxOccurs() {
+    public int getMaxOccurs() {
         return mMaxOccurs;
     }
 
     /**
      * @param maxOccurs the maximum number of occurences to set
      */
-    public final void setMaxOccurs(final int maxOccurs) {
+    public void setMaxOccurs(final int maxOccurs) {
         mMaxOccurs = maxOccurs;
     }
 
     /**
      * @return the Cobol element giving array actual size
      */
-    public final String getDependingOn() {
+    public String getDependingOn() {
         return mDependingOn;
     }
 
     /**
      * @param dependingOn the Cobol element giving array actual size to set
      */
-    public final void setDependingOn(final String dependingOn) {
+    public void setDependingOn(final String dependingOn) {
         mDependingOn = dependingOn;
     }
 
     /**
      * @return true if array is variable size
      */
-    public final boolean isODOObject() {
+    public boolean isODOObject() {
         return mIsODOObject;
     }
 
     /**
      * @param isODOObject true if array is variable size
      */
-    public final void setIsODOObject(final boolean isODOObject) {
+    public void setIsODOObject(final boolean isODOObject) {
         mIsODOObject = isODOObject;
     }
 
     /**
      * @return the Cobol element sharing same memory location
      */
-    public final String getRedefines() {
+    public String getRedefines() {
         return mRedefines;
     }
 
     /**
      * @param redefines Cobol element sharing same memory location to set
      */
-    public final void setRedefines(final String redefines) {
+    public void setRedefines(final String redefines) {
         mRedefines = redefines;
     }
 
     /**
      * @return true if redefined by at least one other element
      */
-    public final boolean isRedefined() {
+    public boolean isRedefined() {
         return mIsRedefined;
     }
 
     /**
      * @param isRedefined true if redefined by at least one other element
      */
-    public final void setIsRedefined(final boolean isRedefined) {
+    public void setIsRedefined(final boolean isRedefined) {
         mIsRedefined = isRedefined;
     }
 
     /**
      * @return true if element is used in custom code
      */
-    public final boolean isCustomVariable() {
+    public boolean isCustomVariable() {
         return mIsCustomVariable;
     }
 
     /**
      * @param isCustomVariable true if element is used in custom code
      */
-    public final void setIsCustomVariable(
+    public void setIsCustomVariable(
             final boolean isCustomVariable) {
         mIsCustomVariable = isCustomVariable;
     }
@@ -402,7 +402,7 @@ public abstract class CBinding implements ICobolBinding {
      * @return the name of a class providing additional logic to select an
      * alternative within a choice element at unmarshaling (Host to Java) time.
      */
-    public final String getUnmarshalChoiceStrategyClassName() {
+    public String getUnmarshalChoiceStrategyClassName() {
         return mUnmarshalChoiceStrategyClassName;
     }
 
@@ -411,7 +411,7 @@ public abstract class CBinding implements ICobolBinding {
      * additional logic to select an alternative within a choice element at
      * unmarshaling (Host to Java) time.
      */
-    public final void setUnmarshalChoiceStrategyClassName(
+    public void setUnmarshalChoiceStrategyClassName(
             final String unmarshalChoiceStrategyClassName) {
         mUnmarshalChoiceStrategyClassName = unmarshalChoiceStrategyClassName;
     }
@@ -420,7 +420,7 @@ public abstract class CBinding implements ICobolBinding {
      * @return the name of a class providing additional logic to select an
      * alternative within a choice element at marshaling (Java to Host) time.
      */
-    public final String getMarshalChoiceStrategyClassName() {
+    public String getMarshalChoiceStrategyClassName() {
         return mMarshalChoiceStrategyClassName;
     }
 
@@ -429,7 +429,7 @@ public abstract class CBinding implements ICobolBinding {
      * additional logic to select an alternative within a choice element at
      * marshaling (Java to Host) time.
      */
-    public final void setMarshalChoiceStrategyClassName(
+    public void setMarshalChoiceStrategyClassName(
             final String marshalChoiceStrategyClassName) {
         mMarshalChoiceStrategyClassName = marshalChoiceStrategyClassName;
     }
@@ -437,98 +437,98 @@ public abstract class CBinding implements ICobolBinding {
     /**
      * @return the Java property name bound to this cobol element
      */
-    public final String getJaxbName() {
+    public String getJaxbName() {
         return mJaxbName;
     }
 
     /**
      * @param jaxbName the Java property name bound to this cobol element to set
      */
-    public final void setJaxbName(final String jaxbName) {
+    public void setJaxbName(final String jaxbName) {
         mJaxbName = jaxbName;
     }
 
     /**
      * @return the Java property type bound to this cobol element
      */
-    public final Class < ? > getJaxbType() {
+    public Class < ? > getJaxbType() {
         return mJaxbType;
     }
 
     /**
      * @param jaxbType the Java property type bound to this cobol element to set
      */
-    public final void setJaxbType(final Class < ? > jaxbType) {
+    public void setJaxbType(final Class < ? > jaxbType) {
         mJaxbType = jaxbType;
     }
 
     /**
      * @return the Level in the hierarchy
      */
-    public final int getLevelNumber() {
+    public int getLevelNumber() {
         return mLevelNumber;
     }
 
     /**
      * @param levelNumber the Level in the hierarchy to set
      */
-    public final void setLevelNumber(final int levelNumber) {
+    public void setLevelNumber(final int levelNumber) {
         mLevelNumber = levelNumber;
     }
 
     /**
      * @return the Cobol picture clause
      */
-    public final String getPicture() {
+    public String getPicture() {
         return mPicture;
     }
 
     /**
      * @param picture the Cobol picture clause to set
      */
-    public final void setPicture(final String picture) {
+    public void setPicture(final String picture) {
         mPicture = picture;
     }
 
     /**
      * @return the Cobol default value
      */
-    public final String getDefaultValue() {
+    public String getDefaultValue() {
         return mDefaultValue;
     }
 
     /**
      * @return the Cobol usage
      */
-    public final String getUsage() {
+    public String getUsage() {
         return mUsage;
     }
 
     /**
      * @param usage the Cobol usage to set
      */
-    public final void setUsage(final String usage) {
+    public void setUsage(final String usage) {
         mUsage = usage;
     }
 
     /**
      * @param defaultValue the Cobol default value to set
      */
-    public final void setDefaultValue(final String defaultValue) {
+    public void setDefaultValue(final String defaultValue) {
         mDefaultValue = defaultValue;
     }
 
     /**
      * @return the Line number in the original source file 
      */
-    public final int getSrceLine() {
+    public int getSrceLine() {
         return mSrceLine;
     }
 
     /**
      * @param srceLine the Line number in the original source file  to set
      */
-    public final void setSrceLine(final int srceLine) {
+    public void setSrceLine(final int srceLine) {
         mSrceLine = srceLine;
     }
 
@@ -537,35 +537,35 @@ public abstract class CBinding implements ICobolBinding {
      * @return true if element is bound to a jaxb property which name and type
      * are known
      */
-    public final boolean isBound() {
+    public boolean isBound() {
         return (mJaxbName != null && mJaxbType != null);
     }
 
     /**
      * @return the name of this binding element
      */
-    public final String getBindingName() {
+    public String getBindingName() {
         return mBindingName;
     }
 
     /**
      * @param bindingName the binding element name to set
      */
-    public final void setBindingName(final String bindingName) {
+    public void setBindingName(final String bindingName) {
         mBindingName = bindingName;
     }
 
     /**
      * @return the parent binding
      */
-    public final ICobolComplexBinding getParentBinding() {
+    public ICobolComplexBinding getParentBinding() {
         return mParentBinding;
     }
 
     /**
      * @param parentBinding the parent binding to set
      */
-    public final void setParentBinding(
+    public void setParentBinding(
             final ICobolComplexBinding parentBinding) {
         mParentBinding = parentBinding;
     }

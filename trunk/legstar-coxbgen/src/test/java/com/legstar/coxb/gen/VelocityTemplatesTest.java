@@ -201,7 +201,7 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("mValueObject.add((TableComplex) getComplexItemBinding()."));
         assertTrue(resStr.contains("getObjectValue(TableComplex.class));"));
 
-        assertTrue(resStr.contains("public final List < TableComplex > getTableComplex() throws HostException {"));
+        assertTrue(resStr.contains("public List < TableComplex > getTableComplex() throws HostException {"));
         assertTrue(resStr.contains("return (List < TableComplex >) getObjectValue(TableComplex.class);"));
     }
 
@@ -362,7 +362,7 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("getDfhcommarea().setCDefinition2("));
         assertTrue(resStr.contains("(Long) bindingValue);"));
 
-        assertTrue(resStr.contains("public final Dfhcommarea getDfhcommarea() throws HostException {"));
+        assertTrue(resStr.contains("public Dfhcommarea getDfhcommarea() throws HostException {"));
         assertTrue(resStr.contains("return ((DfhcommareaBinding) getParentBinding()).getDfhcommarea();"));
         assertTrue(resStr.contains("return (Dfhcommarea) getParentValueObject();"));
     }
@@ -464,7 +464,7 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("if (type.equals(JVMQueryReply.class)) {"));
         assertTrue(resStr.contains("if (bindingValue.getClass().equals(JVMQueryReply.class)) {"));
         assertTrue(resStr.contains("mValueObject = (JVMQueryReply) bindingValue;"));
-        assertTrue(resStr.contains("public final JVMQueryReply getJVMQueryReply() {"));
+        assertTrue(resStr.contains("public JVMQueryReply getJVMQueryReply() {"));
     }
 
     /**

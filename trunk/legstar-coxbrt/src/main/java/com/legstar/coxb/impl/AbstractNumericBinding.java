@@ -47,73 +47,73 @@ public abstract class AbstractNumericBinding extends CBinding {
 
 
     /** {@inheritDoc} */
-    public final void setByteValue(
+    public void setByteValue(
             final Byte value) throws HostException {
         mValue = new BigDecimal(value);
     }
 
     /** {@inheritDoc} */
-    public final Byte getByteValue() throws HostException {
+    public Byte getByteValue() throws HostException {
         return mValue.byteValue();
     }
 
     /** {@inheritDoc} */
-    public final void setShortValue(
+    public void setShortValue(
             final Short value) throws HostException {
         mValue = new BigDecimal(value);
     }
 
     /** {@inheritDoc} */
-    public final Short getShortValue() throws HostException {
+    public Short getShortValue() throws HostException {
         return mValue.shortValue();
     }
 
     /** {@inheritDoc} */
-    public final void setIntegerValue(
+    public void setIntegerValue(
             final Integer value) throws HostException {
         mValue = new BigDecimal(value);
     }
 
     /** {@inheritDoc} */
-    public final Integer getIntegerValue() throws HostException {
+    public Integer getIntegerValue() throws HostException {
         return mValue.intValue();
     }
 
     /** {@inheritDoc} */
-    public final void setLongValue(
+    public void setLongValue(
             final Long value) throws HostException {
         mValue = new BigDecimal(value);
     }
 
     /** {@inheritDoc} */
-    public final Long getLongValue() throws HostException {
+    public Long getLongValue() throws HostException {
         return mValue.longValue();
     }
 
     /** {@inheritDoc} */
-    public final void setBigDecimalValue(
+    public void setBigDecimalValue(
             final BigDecimal value) throws HostException {
         mValue = value;
     }
 
     /** {@inheritDoc} */
-    public final BigDecimal getBigDecimalValue() throws HostException {
+    public BigDecimal getBigDecimalValue() throws HostException {
         return mValue;
     }
 
     /** {@inheritDoc} */
-    public final void setBigIntegerValue(
+    public void setBigIntegerValue(
             final BigInteger value) throws HostException {
         mValue = new BigDecimal(value);
     }
 
     /** {@inheritDoc} */
-    public final BigInteger getBigIntegerValue() throws HostException {
+    public BigInteger getBigIntegerValue() throws HostException {
         return mValue.toBigInteger();
     }
 
     /** {@inheritDoc} */
-    public final Object getObjectValue(
+    public Object getObjectValue(
             final Class < ? > type) throws HostException {
         if (type.equals(BigDecimal.class)) {
             return mValue;
@@ -134,7 +134,7 @@ public abstract class AbstractNumericBinding extends CBinding {
     }
 
     /** {@inheritDoc} */
-    public final void setObjectValue(final Object value) throws HostException {
+    public void setObjectValue(final Object value) throws HostException {
         if (value == null) {
             mValue = null;
             return;
@@ -158,7 +158,7 @@ public abstract class AbstractNumericBinding extends CBinding {
     }
 
     /** {@inheritDoc} */
-    public final boolean isSet() {
+    public boolean isSet() {
         return (mValue != null);
     }
 }

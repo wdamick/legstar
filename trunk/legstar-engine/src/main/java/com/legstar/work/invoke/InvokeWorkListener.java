@@ -37,8 +37,7 @@ public class InvokeWorkListener implements WorkListener {
     private LegStarRequest mRequest;
 
     /** Logger. */
-    private static final Log LOG =
-        LogFactory.getLog(InvokeWorkListener.class);
+    private final Log _log = LogFactory.getLog(getClass());
 
     /**
      * Constructor for a given connection.
@@ -60,7 +59,7 @@ public class InvokeWorkListener implements WorkListener {
      * @param workEvent the work event
      * */
     public final void workAccepted(final WorkEvent workEvent) {
-        LOG.debug("Work accepted for Request:" + mRequest.getID()
+        _log.debug("Work accepted for Request:" + mRequest.getID()
                 + " on Connection:" + mConnection.getConnectionID());
     }
 
@@ -79,11 +78,11 @@ public class InvokeWorkListener implements WorkListener {
                 mRequest.setException(e);
             }
             if (workEvent.getException() != null) {
-                LOG.debug("Work failed for Request:" + mRequest.getID()
+                _log.debug("Work failed for Request:" + mRequest.getID()
                         + " on Connection:" + mConnection.getConnectionID(),
                         workEvent.getException());
             } else {
-                LOG.debug("Work completed for Request:" + mRequest.getID()
+                _log.debug("Work completed for Request:" + mRequest.getID()
                         + " on Connection:" + mConnection.getConnectionID());
             }
             mRequest.signalProcessingStop();
@@ -104,7 +103,7 @@ public class InvokeWorkListener implements WorkListener {
                 mRequest.setException(e);
             }
             mRequest.signalProcessingStop();
-            LOG.debug("Work rejected for Request:" + mRequest.getID()
+            _log.debug("Work rejected for Request:" + mRequest.getID()
                     + " on Connection:" + mConnection.getConnectionID());
         }
     }
@@ -114,7 +113,7 @@ public class InvokeWorkListener implements WorkListener {
      * @param workEvent the work event
      *  */
     public final void workStarted(final WorkEvent workEvent) {
-        LOG.debug("Work started for Request:" + mRequest.getID()
+        _log.debug("Work started for Request:" + mRequest.getID()
                 + " on Connection:" + mConnection.getConnectionID());
     }
 

@@ -33,7 +33,7 @@ public abstract class AbstractTest extends TestCase {
     public static final File GEN_DIR = new File("target/src/gen");
     
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(AbstractTest.class);
+    private final Log _log = LogFactory.getLog(AbstractTest.class);
     /**
      * @return a new Xsd to Cobol Annotator
      */
@@ -60,7 +60,7 @@ public abstract class AbstractTest extends TestCase {
         StringBuffer res = new StringBuffer();
         String str = in.readLine();
         while (str != null) {
-            LOG.debug(str);
+            _log.debug(str);
             res.append(str);
             str = in.readLine();
         }

@@ -32,7 +32,7 @@ public abstract class AbstractTester extends TestCase {
     public static final File GEN_DIR = new File("target/src/gen");
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(AbstractTester.class);
+    private final Log _log = LogFactory.getLog(AbstractTester.class);
     
     /** {@inheritDoc} */
     public void setUp() {
@@ -72,7 +72,7 @@ public abstract class AbstractTester extends TestCase {
         String resStr = "";
         String str = in.readLine();
         while (str != null) {
-            LOG.debug(str);
+            _log.debug(str);
             resStr += str;
             str = in.readLine();
         }

@@ -45,13 +45,13 @@ implements ICobolArrayStringBinding {
     }
 
     /** {@inheritDoc} */
-    public final void accept(final CobolElementVisitor cev)
+    public void accept(final CobolElementVisitor cev)
     throws HostException {
         cev.visit(this);
     }
 
     /** {@inheritDoc} */
-    public final int calcItemByteLength() {
+    public int calcItemByteLength() {
         return CStringBinding.calcStringByteLength(getPicture(), getCobolType());
     }
 }

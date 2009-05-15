@@ -32,7 +32,7 @@ public class EnumCases extends TestCase {
     private static final File GEN_SRC_DIR = new File("target/src/gen/java");
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(EnumCases.class);
+    private final Log _log = LogFactory.getLog(EnumCases.class);
 
     /**
      * Check Get Set methods on enumerations.
@@ -50,7 +50,7 @@ public class EnumCases extends TestCase {
         Class < ? > clazzSafeSearchOptionsType = cl.loadClass("com.legstar.test.coxb.enumvar.SafeSearchOptionsType");
         Field[] fields = clazzSafeSearchOptionsType.getDeclaredFields();
         for (Field field : fields) {
-            LOG.debug(field.getName());
+            _log.debug(field.getName());
         }
 
         /* Create a new enum type with a value */

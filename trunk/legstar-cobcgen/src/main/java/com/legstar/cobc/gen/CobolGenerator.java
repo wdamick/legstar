@@ -38,7 +38,7 @@ import com.legstar.xsdc.gen.CobolNameResolverException;
 public class CobolGenerator extends Task  {
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(CobolGenerator.class);
+    private final Log _log = LogFactory.getLog(CobolGenerator.class);
 
     /* ====================================================================== */
     /* = Properties section                                                 = */
@@ -76,8 +76,8 @@ public class CobolGenerator extends Task  {
      *  The ant execute method. Generates a new Cobol data description source.
      */
     public final void execute() {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Cobol source generation started");
+        if (_log.isDebugEnabled()) {
+            _log.debug("Cobol source generation started");
         }
         checkInput();
         String outPath = mTargetDir.getPath() + File.separator
@@ -102,12 +102,12 @@ public class CobolGenerator extends Task  {
                 try {
                     writer.close();
                 } catch (IOException e) {
-                    LOG.error(e);
+                    _log.error(e);
                 }
             }
         }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Cobol source generation ended");
+        if (_log.isDebugEnabled()) {
+            _log.debug("Cobol source generation ended");
         }
     }
 
@@ -116,15 +116,15 @@ public class CobolGenerator extends Task  {
      */
     private void checkInput() {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("checkInput started");
-            LOG.debug("   Source JAXB package    = " + mJaxbPackageName);
-            LOG.debug("   Source JAXB type name  = " + mJaxbTypeName);
-            LOG.debug("   Root data item name    = " + mCobolRootDataItemName);
-            LOG.debug("   First data item level  = " + mFirstCobolLevel);
-            LOG.debug("   Level increment        = " + mCobolLevelIncrement);
-            LOG.debug("   Target directory       = " + mTargetDir);
-            LOG.debug("   Target Cobol file name = " + mTargetCobolFileName);
+        if (_log.isDebugEnabled()) {
+            _log.debug("checkInput started");
+            _log.debug("   Source JAXB package    = " + mJaxbPackageName);
+            _log.debug("   Source JAXB type name  = " + mJaxbTypeName);
+            _log.debug("   Root data item name    = " + mCobolRootDataItemName);
+            _log.debug("   First data item level  = " + mFirstCobolLevel);
+            _log.debug("   Level increment        = " + mCobolLevelIncrement);
+            _log.debug("   Target directory       = " + mTargetDir);
+            _log.debug("   Target Cobol file name = " + mTargetCobolFileName);
         }
         /* Check that we have a valid JAXB type name.  */
         if (mJaxbTypeName == null || mJaxbTypeName.length() == 0) {
@@ -178,8 +178,8 @@ public class CobolGenerator extends Task  {
             mTargetCobolFileName = mJaxbTypeName + ".cbl";
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("checkInput ended");
+        if (_log.isDebugEnabled()) {
+            _log.debug("checkInput ended");
         }
     }
 

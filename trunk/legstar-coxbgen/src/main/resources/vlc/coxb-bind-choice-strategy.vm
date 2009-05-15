@@ -27,7 +27,7 @@ import ${binding.getParentBinding().getValueObjectClassName()};
 public class ${helper.getClassName(${choice-strategy-qualified-class-name})} implements ICobol${choice-strategy-type}ChoiceStrategy {
 
     /** {@inheritDoc} */
-    public final ICobolBinding choose(
+    public ICobolBinding choose(
         final ICobolChoiceBinding choice,
         final Hashtable < String, Object > variablesMap,
         final CobolElementVisitor visitor) throws HostException {

@@ -31,10 +31,9 @@ public class COXBSchemaGenerator extends SourceToXsdCobolTask  {
 
 
     /** Logger. */
-    private static final Log LOG =
-        LogFactory.getLog(COXBSchemaGenerator.class);
-    /** Extension used when XML schema name is built. */
+    private final Log _log = LogFactory.getLog(getClass());
 
+    /** Extension used when XML schema name is built. */
     private static final String XSD_EXT = ".xsd";
 
     /** True will produce extra traces. */
@@ -162,11 +161,11 @@ public class COXBSchemaGenerator extends SourceToXsdCobolTask  {
 
         super.checkInput(false, true);
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("   Cobol file path     = " + mSourceCobolFilePath);
+        if (_log.isDebugEnabled()) {
+            _log.debug("   Cobol file path     = " + mSourceCobolFilePath);
             if (!mCobolPaths.isEmpty()) {
                 for (Path path : mCobolPaths) {
-                    LOG.debug("   Cobol path           = "
+                    _log.debug("   Cobol path           = "
                             + path);
                 }
             }
@@ -201,8 +200,8 @@ public class COXBSchemaGenerator extends SourceToXsdCobolTask  {
             }
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("checkInput ended");
+        if (_log.isDebugEnabled()) {
+            _log.debug("checkInput ended");
         }
     }
 

@@ -278,7 +278,7 @@ public class CicsSocketTest extends AbstractTester {
     /** 
      * Case where the commarea should not be reallocated (data sent is large enough to
      * hold the reply).
-     * Check the CICS log.
+     * Check the CICS _log.
      */
     public void testNoReallocateContent() {
         try {

@@ -22,7 +22,7 @@ public class UnmarshalCharsetsTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal Charsets.
      */
-    public final void testCharsets() {
+    public void testCharsets() {
         getConverters().getCobolContext().setHostCharsetName("IBM01147");
         
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(

@@ -21,7 +21,7 @@ public class UnmarshalNumzonedTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal Numzoned.
      */
-    public final void testNumzoned() {
+    public void testNumzoned() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 NumzonedCases.getFactory(),
                 NumzonedCases.getHostBytesHex(),

@@ -18,9 +18,6 @@
    <feature url="features/com.legstar.eclipse.feature.jaxwsgen_@LEGSTAR-PLUGIN-VERSION@.jar" id="com.legstar.eclipse.feature.jaxwsgen" version="@LEGSTAR-PLUGIN-VERSION@">
       <category name="LegStar"/>
    </feature>
-   <feature url="features/com.legstar.eclipse.feature.mulegen_@LEGSTAR-PLUGIN-VERSION@.jar" id="com.legstar.eclipse.feature.mulegen" version="@LEGSTAR-PLUGIN-VERSION@">
-      <category name="LegStar"/>
-   </feature>
    <category-def name="LegStar" label="LegStar Eclipse plugins">
       <description>
          Features available as Eclipse plugins

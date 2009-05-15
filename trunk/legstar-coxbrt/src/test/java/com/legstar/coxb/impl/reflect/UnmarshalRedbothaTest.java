@@ -21,7 +21,7 @@ public class UnmarshalRedbothaTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal Redbotha first alternative.
      */
-    public final void testRedbothaFirstAlternative() {
+    public void testRedbothaFirstAlternative() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 RedbothaCases.getFactory(),
                 RedbothaCases.getHostBytesHex(),
@@ -32,7 +32,7 @@ public class UnmarshalRedbothaTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal Redbotha second alternative.
      */
-    public final void testRedbothaSecondAlternative() {
+    public void testRedbothaSecondAlternative() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 RedbothaCases.getFactory(),
                 RedbothaCases.getHostBytesHexSecondChoice(),

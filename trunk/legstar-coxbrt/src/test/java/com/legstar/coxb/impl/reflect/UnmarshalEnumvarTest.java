@@ -21,7 +21,7 @@ public class UnmarshalEnumvarTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal Enumvar.
      */
-    public final void testEnumvar() {
+    public void testEnumvar() {
         SearchRequestType searchRequest = (SearchRequestType) convert(
                 EnumvarCases.getFactory(),
                 EnumvarCases.getHostBytesHex(),

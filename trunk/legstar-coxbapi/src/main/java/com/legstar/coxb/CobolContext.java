@@ -47,28 +47,28 @@ public class CobolContext extends HostContext {
     /**
      * @return Returns the arithExtend.
      */
-    public final boolean isArithExtend() {
+    public boolean isArithExtend() {
         return mArithExtend;
     }
 
     /**
      * @param arithExtend The arithExtend to set.
      */
-    public final void setArithExtend(final boolean arithExtend) {
+    public void setArithExtend(final boolean arithExtend) {
         mArithExtend = arithExtend;
     }
 
     /**
      * @return Returns the symbol Dbcs.
      */
-    public final boolean isSymbolDbcs() {
+    public boolean isSymbolDbcs() {
         return mNsymbolDbcs;
     }
 
     /**
      * @param nsymbolDbcs The symbol Dbcs to set.
      */
-    public final void setSymbolDbcs(final boolean nsymbolDbcs) {
+    public void setSymbolDbcs(final boolean nsymbolDbcs) {
         mNsymbolDbcs = nsymbolDbcs;
     }
 

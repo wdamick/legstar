@@ -17,7 +17,7 @@ import com.legstar.host.server.EngineHandler;
 public final class ContextListener implements ServletContextListener  {
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(ContextListener.class);
+    private final Log _log = LogFactory.getLog(ContextListener.class);
 
     /** {@inheritDoc}*/
     public void contextDestroyed(final ServletContextEvent event) {
@@ -25,12 +25,12 @@ public final class ContextListener implements ServletContextListener  {
         EngineHandler engineHandler = (EngineHandler) context.getAttribute(
                 InitiatorServlet.ENGINE_HANDLER_ID);
         engineHandler.stop();
-        LOG.info("LegStar engine context destroyed");
+        _log.info("LegStar engine context destroyed");
     }
 
     /** {@inheritDoc}*/
     public void contextInitialized(final ServletContextEvent arg0) {
-        LOG.info("LegStar engine context initialized");
+        _log.info("LegStar engine context initialized");
     }
     
 }

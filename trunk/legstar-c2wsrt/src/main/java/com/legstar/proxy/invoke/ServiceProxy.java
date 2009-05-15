@@ -42,7 +42,7 @@ public class ServiceProxy {
         "com.legstar.proxy.invoke.ReflectOperationProxy";
 
     /** Logger. */
-    private static final Log LOG =  LogFactory.getLog(ServiceProxy.class);
+    private final Log _log = LogFactory.getLog(ServiceProxy.class);
     
     /**
      * Current set of configuration parameters. These are setup at construction
@@ -128,8 +128,8 @@ public class ServiceProxy {
             final byte[] requestBytes) throws ProxyInvokerException {
 
         try {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Servicing proxy request " + requestID);
+            if (_log.isDebugEnabled()) {
+                _log.debug("Servicing proxy request " + requestID);
             }
             /* Add request time parameters. */
             if (config != null) {

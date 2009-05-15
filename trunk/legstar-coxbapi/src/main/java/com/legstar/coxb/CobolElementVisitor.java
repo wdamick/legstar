@@ -39,7 +39,7 @@ public abstract class CobolElementVisitor {
     private Hashtable < String, Object > mVariablesMap;
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(CobolElementVisitor.class);
+    private final Log _log = LogFactory.getLog(CobolElementVisitor.class);
 
     /** No-arg constructor.
      */
@@ -226,14 +226,14 @@ public abstract class CobolElementVisitor {
     /**
      * @return Returns the CobolConverters.
      */
-    public final ICobolConverters getCobolConverters() {
+    public ICobolConverters getCobolConverters() {
         return mCobolConverters;
     }
 
     /**
      * @param cobolConverters The CobolConverters to set.
      */
-    public final void setCobolConverters(
+    public void setCobolConverters(
             final ICobolConverters cobolConverters) {
         mCobolConverters = cobolConverters;
     }
@@ -241,42 +241,42 @@ public abstract class CobolElementVisitor {
     /**
      * @return Returns the mHostBytes.
      */
-    public final byte[] getHostBytes() {
+    public byte[] getHostBytes() {
         return mHostBytes;
     }
 
     /**
      * @param hostBytes The mHostBytes to set.
      */
-    public final void setHostBytes(final byte[] hostBytes) {
+    public void setHostBytes(final byte[] hostBytes) {
         mHostBytes = hostBytes;
     }
 
     /**
      * @return Returns the mOffset.
      */
-    public final int getOffset() {
+    public int getOffset() {
         return mOffset;
     }
 
     /**
      * @param offset The mOffset to set.
      */
-    public final void setOffset(final int offset) {
+    public void setOffset(final int offset) {
         mOffset = offset;
     }
 
     /**
      * @return the current variables map.
      */
-    public final Hashtable < String, Object > getVariablesMap() {
+    public Hashtable < String, Object > getVariablesMap() {
         return mVariablesMap;
     }
 
     /**
      * @param variablesMap the variables map to set
      */
-    public final void setVariablesMap(
+    public void setVariablesMap(
             final Hashtable < String, Object > variablesMap) {
         mVariablesMap = variablesMap;
     }
@@ -287,7 +287,7 @@ public abstract class CobolElementVisitor {
      * @param binding the current binding
      * @throws HostException if value cannot be stored
      */
-    public final void storeCustomVariable(
+    public void storeCustomVariable(
             final ICobolBinding binding) throws HostException {
         getVariablesMap().put(
                 binding.getBindingName(),
@@ -308,8 +308,8 @@ public abstract class CobolElementVisitor {
         /*  */
         if (ce.getDependingOn() != null && ce.getDependingOn().length() > 0) {
             if (ce.getParentBinding().getCounterValue(ce.getDependingOn()) == 0) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Visiting aborted for binding "
+                if (_log.isDebugEnabled()) {
+                    _log.debug("Visiting aborted for binding "
                             + ce.getBindingName() + ", it depends on "
                             + ce.getDependingOn() + " which is zero");
                 }

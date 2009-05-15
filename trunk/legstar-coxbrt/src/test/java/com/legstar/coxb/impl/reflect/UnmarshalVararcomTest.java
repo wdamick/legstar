@@ -23,7 +23,7 @@ public class UnmarshalVararcomTest extends AbstractTestUnmarshal {
      * Case of empty java object.
      * Unmarshal FIXARCOM.
      */
-    public final void testVararcomEmpty() {
+    public void testVararcomEmpty() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 VararcomCases.getFactory(),
                 VararcomCases.getHostBytesHexEmpty(),
@@ -35,7 +35,7 @@ public class UnmarshalVararcomTest extends AbstractTestUnmarshal {
      * Case of java object with some data.
      * Unmarshal FIXARCOM.
      */
-    public final void testVararcomSome() {
+    public void testVararcomSome() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 VararcomCases.getFactory(),
                 VararcomCases.getHostBytesHexSome(),
@@ -47,7 +47,7 @@ public class UnmarshalVararcomTest extends AbstractTestUnmarshal {
      * Case of java object full of items.
      * Unmarshal FIXARCOM.
      */
-    public final void testVararcomFull() {
+    public void testVararcomFull() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 VararcomCases.getFactory(),
                 VararcomCases.getHostBytesHexFull(),

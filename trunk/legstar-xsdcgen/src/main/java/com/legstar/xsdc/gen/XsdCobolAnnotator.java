@@ -75,8 +75,7 @@ import com.legstar.coxb.CobolMarkup;
 public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 
     /** Logger. */
-    private static final Log LOG =
-        LogFactory.getLog(XsdCobolAnnotator.class);
+    private final Log _log = LogFactory.getLog(getClass());
 
     /* ====================================================================== */
     /* = Properties section                                                 = */
@@ -207,8 +206,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
      *  The ant execute method. Generates a new annotated schema.
      */
     public final void execute() {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("XML Schema Cobol annotation started");
+        if (_log.isDebugEnabled()) {
+            _log.debug("XML Schema Cobol annotation started");
         }
         checkInputXsd();
         XmlSchema schema = getSchema();
@@ -243,8 +242,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         options.put(OutputKeys.INDENT, "yes");
         options.put(OutputKeys.OMIT_XML_DECLARATION, "no");
         schema.write(out, options);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("XML Schema Cobol annotation ended");
+        if (_log.isDebugEnabled()) {
+            _log.debug("XML Schema Cobol annotation ended");
         }
     }
 
@@ -286,11 +285,11 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
      */
     private void checkInputXsd() {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("   Source Xsd URI      = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("   Source Xsd URI      = "
                     + ((getInputXsdUri() == null) ? null
                             : getInputXsdUri().toString()));
-            LOG.debug("   Source Xsd file      = "
+            _log.debug("   Source Xsd file      = "
                     + ((mInputXsdFile == null) ? null
                             : mInputXsdFile.getAbsolutePath()));
         }
@@ -370,8 +369,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     @SuppressWarnings("unchecked")
     private XmlSchema getSchema() {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("getSchema started");
+        if (_log.isDebugEnabled()) {
+            _log.debug("getSchema started");
         }
         /* Load the input schema */
         XmlSchemaCollection schemaCol = new XmlSchemaCollection();
@@ -396,7 +395,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                         + " does not contain an XML schema");
             }
             if (nodes.getLength() > 1) {
-                LOG.warn("Only the first XML schema in "
+                _log.warn("Only the first XML schema in "
                         + getInputXsdUri().toString()
                         + " will be processed");
             }
@@ -458,8 +457,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             throw (new BuildException(e));
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("getSchema ended. Target namespace = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("getSchema ended. Target namespace = "
                     + schema.getTargetNamespace());
         }
         return schema;
@@ -525,8 +524,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
      */
     @SuppressWarnings("unchecked")
     private void annotateSchema(final XmlSchema schema) {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("AnnotateSchema started");
+        if (_log.isDebugEnabled()) {
+            _log.debug("AnnotateSchema started");
         }
         /* Add the JAXB and COXB namespaces to the target schema */
         NamespaceMap prefixmap = new NamespaceMap();
@@ -564,8 +563,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         /* Annotate the schema element with JAXB extension parameters */
         schema.setAnnotation(createSchemaAnnotations(doc));
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("AnnotateSchema ended");
+        if (_log.isDebugEnabled()) {
+            _log.debug("AnnotateSchema ended");
         }
 
     }
@@ -658,8 +657,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         if (obj.getRefName() != null) {
             return;
         }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("annotate started for element = " + obj.getName());
+        if (_log.isDebugEnabled()) {
+            _log.debug("annotate started for element = " + obj.getName());
         }
 
         /* Create a DOM document to hold annotation notes */
@@ -676,8 +675,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             switchNamespace(schema, obj);
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("annotate ended for element = " + obj.getName());
+        if (_log.isDebugEnabled()) {
+            _log.debug("annotate ended for element = " + obj.getName());
         }
     }
 
@@ -694,8 +693,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     public final void annotateComplexType(
             final XmlSchema schema,
             final XmlSchemaComplexType obj) throws XsdCobolAnnotatorException {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("annotate started for complex type = " + obj.getName());
+        if (_log.isDebugEnabled()) {
+            _log.debug("annotate started for complex type = " + obj.getName());
         }
 
         /* If this complex type maps to a java class name, add this
@@ -704,8 +703,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             String javaClassName =
                 mComplexTypeToJavaClassMap.get(obj.getName());
             if (javaClassName != null) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("   java class name = " + javaClassName);
+                if (_log.isDebugEnabled()) {
+                    _log.debug("   java class name = " + javaClassName);
                 }
                 /* Create a DOM document to hold annotation notes */
                 Document doc = mDb.newDocument();
@@ -719,8 +718,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             }
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("annotate ended for complex type = " + obj.getName());
+        if (_log.isDebugEnabled()) {
+            _log.debug("annotate ended for complex type = " + obj.getName());
         }
     }
 
@@ -756,24 +755,24 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             final Element elc,
             final int level) throws XsdCobolAnnotatorException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setAttributes started for element  = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("setAttributes started for element  = "
                     + obj.getName());
-            LOG.debug("   XmlSchemaElement QName          = "
+            _log.debug("   XmlSchemaElement QName          = "
                     + obj.getQName());
-            LOG.debug("   XmlSchemaElement SchemaType     = "
+            _log.debug("   XmlSchemaElement SchemaType     = "
                     + obj.getSchemaType());
-            LOG.debug("   XmlSchemaElement SchemaTypeName = "
+            _log.debug("   XmlSchemaElement SchemaTypeName = "
                     + obj.getSchemaTypeName());
-            LOG.debug("   XmlSchemaElement MaxOccurs      = "
+            _log.debug("   XmlSchemaElement MaxOccurs      = "
                     + obj.getMaxOccurs());
-            LOG.debug("   XmlSchemaElement MinOccurs      = "
+            _log.debug("   XmlSchemaElement MinOccurs      = "
                     + obj.getMinOccurs());
-            LOG.debug("   XmlSchemaElement RefName        = "
+            _log.debug("   XmlSchemaElement RefName        = "
                     + obj.getRefName());
-            LOG.debug("   XmlSchemaElement DefaultValue   = "
+            _log.debug("   XmlSchemaElement DefaultValue   = "
                     + obj.getDefaultValue());
-            LOG.debug("   XmlSchemaElement FixedValue     = "
+            _log.debug("   XmlSchemaElement FixedValue     = "
                     + obj.getFixedValue());
         }
 
@@ -781,10 +780,10 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         elc.setAttribute(CobolMarkup.LEVEL_NUMBER, Integer.toString(level));
         elc.setAttribute(CobolMarkup.COBOL_NAME, getCobolName(obj.getName()));
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("   Cobol level          = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("   Cobol level          = "
                     + level);
-            LOG.debug("   Cobol name           = "
+            _log.debug("   Cobol name           = "
                     + elc.getAttribute(CobolMarkup.COBOL_NAME));
         }
         /* The semantic for maxOccurs is different for Cobol annotations than
@@ -800,7 +799,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                 String defaultMaxOccurs = XsdcUtil.getStringOption(mOptions,
                 "default.max.occurs");
                 elc.setAttribute(CobolMarkup.MAX_OCCURS, defaultMaxOccurs);
-                LOG.warn("Max occurs for element " + obj.getName()
+                _log.warn("Max occurs for element " + obj.getName()
                         + " has been set to default value " + defaultMaxOccurs);
             } else {
                 elc.setAttribute(CobolMarkup.MAX_OCCURS,
@@ -810,10 +809,10 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             elc.setAttribute(CobolMarkup.MIN_OCCURS,
                     Long.toString(obj.getMinOccurs()));
 
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("   Cobol minOccurs      = "
+            if (_log.isDebugEnabled()) {
+                _log.debug("   Cobol minOccurs      = "
                         + elc.getAttribute(CobolMarkup.MIN_OCCURS));
-                LOG.debug("   Cobol maxOccurs      = "
+                _log.debug("   Cobol maxOccurs      = "
                         + elc.getAttribute(CobolMarkup.MAX_OCCURS));
             }
         }
@@ -827,8 +826,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                     schema, (XmlSchemaComplexType) obj.getSchemaType(), elc,
                     level);
         }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setAttributes ended for element = " + obj.getName());
+        if (_log.isDebugEnabled()) {
+            _log.debug("setAttributes ended for element = " + obj.getName());
         }
     }
 
@@ -844,16 +843,16 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             final XmlSchemaSimpleType type,
             final Element elc) throws XsdCobolAnnotatorException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setSimpleTypeAttributes started for type = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("setSimpleTypeAttributes started for type = "
                     + type.getName());
-            LOG.debug("   XmlSchemaType QName                   = "
+            _log.debug("   XmlSchemaType QName                   = "
                     + type.getQName());
-            LOG.debug("   XmlSchemaType BaseSchemaType          = "
+            _log.debug("   XmlSchemaType BaseSchemaType          = "
                     + type.getBaseSchemaType());
-            LOG.debug("   XmlSchemaType DataType                = "
+            _log.debug("   XmlSchemaType DataType                = "
                     + type.getDataType());
-            LOG.debug("   XmlSchemaType DeriveBy                = "
+            _log.debug("   XmlSchemaType DeriveBy                = "
                     + type.getDeriveBy());
         }
         /* Somewhere in this simple type hierarchy there must be a primitive
@@ -867,8 +866,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                     "Unsupported XML Schema type " + type.getQName());
         }
         elc.setAttribute(CobolMarkup.TYPE, cobolType.name());
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("   Cobol type           = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("   Cobol type           = "
                     + elc.getAttribute(CobolMarkup.TYPE));
         }
 
@@ -879,10 +878,10 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             elc.setAttribute(CobolMarkup.MIN_OCCURS, "1");
             elc.setAttribute(CobolMarkup.MAX_OCCURS,
                     XsdcUtil.getStringOption(mOptions, "default.max.occurs"));
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("   Cobol minOccurs      = "
+            if (_log.isDebugEnabled()) {
+                _log.debug("   Cobol minOccurs      = "
                         + elc.getAttribute(CobolMarkup.MIN_OCCURS));
-                LOG.debug("   Cobol maxOccurs      = "
+                _log.debug("   Cobol maxOccurs      = "
                         + elc.getAttribute(CobolMarkup.MAX_OCCURS));
             }
         }
@@ -915,8 +914,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             throw new XsdCobolAnnotatorException(
             "Cobol type inferred is invalid");
         }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setSimpleTypeAttributes ended for type = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("setSimpleTypeAttributes ended for type = "
                     + type.getName());
         }
     }
@@ -936,16 +935,16 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             final Element elc,
             final int level) throws XsdCobolAnnotatorException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setComplexTypeAttributes started for type = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("setComplexTypeAttributes started for type = "
                     + type.getName());
-            LOG.debug("   XmlSchemaType QName                    = "
+            _log.debug("   XmlSchemaType QName                    = "
                     + type.getQName());
         }
 
         elc.setAttribute(CobolMarkup.TYPE, CobolType.GROUP_ITEM.name());
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("   Cobol type           = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("   Cobol type           = "
                     + elc.getAttribute(CobolMarkup.TYPE));
         }
 
@@ -955,7 +954,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 
             if (sequenceObj.getMaxOccurs() > 1) {
                 /* TODO find a way to handle occuring sequences */
-                LOG.warn("Complex type " + type.getName()
+                _log.warn("Complex type " + type.getName()
                         + " contains a multi-occurence sequence that is ignored");
             }
             XmlSchemaObjectCollection items = sequenceObj.getItems();
@@ -968,11 +967,11 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             }
         } else {
             /* TODO process other particle types of interest */
-            LOG.warn("Complex type " + type.getName()
+            _log.warn("Complex type " + type.getName()
                     + " does not contain a sequence");
         }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setComplexTypeAttributes ended for type = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("setComplexTypeAttributes ended for type = "
                     + type.getName());
         }
     }
@@ -990,8 +989,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             final XsdFacets facets,
             final Element elc) throws XsdCobolAnnotatorException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setAlphaNumericAttributes started for type = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("setAlphaNumericAttributes started for type = "
                     + primitiveType.getLocalPart());
         }
 
@@ -1001,7 +1000,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         if (byteLength < 0) {
             byteLength = XsdcUtil.getIntOption(mOptions,
             "default.alphanumeric.len");
-            LOG.warn("Byte length for element "
+            _log.warn("Byte length for element "
                     + elc.getAttribute(CobolMarkup.COBOL_NAME)
                     + " has been set to default value " + byteLength);
         }
@@ -1013,12 +1012,12 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                 + Integer.toString(byteLength) + ")");
         elc.setAttribute(CobolMarkup.USAGE, "DISPLAY");
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setAlphaNumericAttributes ended for type = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("setAlphaNumericAttributes ended for type = "
                     + primitiveType.getLocalPart());
-            LOG.debug("   Cobol picture        = "
+            _log.debug("   Cobol picture        = "
                     + elc.getAttribute(CobolMarkup.PICTURE));
-            LOG.debug("   Cobol usage          = "
+            _log.debug("   Cobol usage          = "
                     + elc.getAttribute(CobolMarkup.USAGE));
         }
     }
@@ -1035,8 +1034,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             final XsdFacets facets,
             final Element elc) throws XsdCobolAnnotatorException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setOctetStreamAttributes started for type = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("setOctetStreamAttributes started for type = "
                     + primitiveType.getLocalPart());
         }
         /* If a byte length cannot be inferred from a facet in the XML schema*
@@ -1051,12 +1050,12 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                 + Integer.toString(byteLength) + ")");
         elc.setAttribute(CobolMarkup.USAGE, "DISPLAY");
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setOctetStreamAttributes ended for type = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("setOctetStreamAttributes ended for type = "
                     + primitiveType.getLocalPart());
-            LOG.debug("   Cobol picture        = "
+            _log.debug("   Cobol picture        = "
                     + elc.getAttribute(CobolMarkup.PICTURE));
-            LOG.debug("   Cobol usage          = "
+            _log.debug("   Cobol usage          = "
                     + elc.getAttribute(CobolMarkup.USAGE));
         }
     }
@@ -1074,8 +1073,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             final XsdFacets facets,
             final Element elc) throws XsdCobolAnnotatorException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setBinaryAttributes started for type = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("setBinaryAttributes started for type = "
                     + primitiveType.getLocalPart());
         }
         /* If total digits are not specified in the XML schema, infer a suitable
@@ -1126,16 +1125,16 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                 Integer.toString(totalDigits));
         elc.setAttribute(CobolMarkup.IS_SIGNED, Boolean.toString(signed));
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setBinaryAttributes ended for type = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("setBinaryAttributes ended for type = "
                     + primitiveType.getLocalPart());
-            LOG.debug("   Cobol picture        = "
+            _log.debug("   Cobol picture        = "
                     + elc.getAttribute(CobolMarkup.PICTURE));
-            LOG.debug("   Cobol usage          = "
+            _log.debug("   Cobol usage          = "
                     + elc.getAttribute(CobolMarkup.USAGE));
-            LOG.debug("   Cobol totalDigits    = "
+            _log.debug("   Cobol totalDigits    = "
                     + elc.getAttribute(CobolMarkup.TOTAL_DIGITS));
-            LOG.debug("   Cobol isSigned       = "
+            _log.debug("   Cobol isSigned       = "
                     + elc.getAttribute(CobolMarkup.IS_SIGNED));
         }
     }
@@ -1154,8 +1153,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             final XsdFacets facets,
             final Element elc) throws XsdCobolAnnotatorException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setDecimalAttributes started for type = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("setDecimalAttributes started for type = "
                     + primitiveType.getLocalPart());
         }
 
@@ -1187,18 +1186,18 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         elc.setAttribute(CobolMarkup.USAGE, "COMP-3");
         elc.setAttribute(CobolMarkup.IS_SIGNED, Boolean.toString(signed));
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setDecimalAttributes ended for type = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("setDecimalAttributes ended for type = "
                     + primitiveType.getLocalPart());
-            LOG.debug("   Cobol picture        = "
+            _log.debug("   Cobol picture        = "
                     + elc.getAttribute(CobolMarkup.PICTURE));
-            LOG.debug("   Cobol usage          = "
+            _log.debug("   Cobol usage          = "
                     + elc.getAttribute(CobolMarkup.USAGE));
-            LOG.debug("   Cobol totalDigits    = "
+            _log.debug("   Cobol totalDigits    = "
                     + elc.getAttribute(CobolMarkup.TOTAL_DIGITS));
-            LOG.debug("   Cobol fractionDigits = "
+            _log.debug("   Cobol fractionDigits = "
                     + elc.getAttribute(CobolMarkup.FRACTION_DIGITS));
-            LOG.debug("   Cobol isSigned       = "
+            _log.debug("   Cobol isSigned       = "
                     + elc.getAttribute(CobolMarkup.IS_SIGNED));
         }
     }
@@ -1213,17 +1212,17 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             final QName primitiveType,
             final Element elc) throws XsdCobolAnnotatorException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setSingleFloatAttributes started for type = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("setSingleFloatAttributes started for type = "
                     + primitiveType.getLocalPart());
         }
 
         elc.setAttribute(CobolMarkup.USAGE, "COMP-1");
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setSingleFloatAttributes ended for type = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("setSingleFloatAttributes ended for type = "
                     + primitiveType.getLocalPart());
-            LOG.debug("   Cobol usage          = "
+            _log.debug("   Cobol usage          = "
                     + elc.getAttribute(CobolMarkup.USAGE));
         }
     }
@@ -1238,17 +1237,17 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             final QName primitiveType,
             final Element elc) throws XsdCobolAnnotatorException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setDoubleFloatAttributes started for type = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("setDoubleFloatAttributes started for type = "
                     + primitiveType.getLocalPart());
         }
 
         elc.setAttribute(CobolMarkup.USAGE, "COMP-2");
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setDoubleFloatAttributes ended for type = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("setDoubleFloatAttributes ended for type = "
                     + primitiveType.getLocalPart());
-            LOG.debug("   Cobol usage          = "
+            _log.debug("   Cobol usage          = "
                     + elc.getAttribute(CobolMarkup.USAGE));
         }
     }
@@ -1265,16 +1264,16 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             final XmlSchema schema,
             final XmlSchemaSimpleType type) throws XsdCobolAnnotatorException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("getPrimitiveType started for type = " + type.getName());
+        if (_log.isDebugEnabled()) {
+            _log.debug("getPrimitiveType started for type = " + type.getName());
         }
 
         QName typeName = type.getQName();
         if (typeName != null && XSD_NS.equals(typeName.getNamespaceURI())) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("getPrimitiveType ended for type = "
+            if (_log.isDebugEnabled()) {
+                _log.debug("getPrimitiveType ended for type = "
                         + type.getName());
-                LOG.debug("   PrimitiveType = " + typeName);
+                _log.debug("   PrimitiveType = " + typeName);
             }
             return typeName;
         }
@@ -1289,10 +1288,10 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                     typeName = restriction.getBaseTypeName();
                     if (typeName != null) {
                         if (XSD_NS.equals(typeName.getNamespaceURI())) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("getPrimitiveType ended for type = "
+                            if (_log.isDebugEnabled()) {
+                                _log.debug("getPrimitiveType ended for type = "
                                         + type.getName());
-                                LOG.debug("   PrimitiveType = " + typeName);
+                                _log.debug("   PrimitiveType = " + typeName);
                             }
                             return typeName;
                         }
@@ -1320,7 +1319,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                 return getPrimitiveType(schema, listType.getItemType());
                 
             } else if (type.getContent() instanceof XmlSchemaSimpleTypeUnion) {
-                LOG.warn(type.getName() + " is a union. Processing first type in the union.");
+                _log.warn(type.getName() + " is a union. Processing first type in the union.");
                 XmlSchemaSimpleTypeUnion simpleUnion = (XmlSchemaSimpleTypeUnion) type.getContent();
                 return getPrimitiveType(schema,
                         (XmlSchemaSimpleType) simpleUnion.getBaseTypes().getItem(0));
@@ -1349,8 +1348,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         if (type.getContent() == null) {
             return;
         }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("getFacets started for type = " + type.getName());
+        if (_log.isDebugEnabled()) {
+            _log.debug("getFacets started for type = " + type.getName());
         }
 
         if (type.getContent() instanceof XmlSchemaSimpleTypeRestriction) {
@@ -1414,13 +1413,13 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             }
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("getFacets ended for type = " + type.getName());
-            LOG.debug("   Length facet         = " + facets.getLength());
-            LOG.debug("   TotalDigits facet    = " + facets.getTotalDigits());
-            LOG.debug("   FractionDigits facet = "
+        if (_log.isDebugEnabled()) {
+            _log.debug("getFacets ended for type = " + type.getName());
+            _log.debug("   Length facet         = " + facets.getLength());
+            _log.debug("   TotalDigits facet    = " + facets.getTotalDigits());
+            _log.debug("   FractionDigits facet = "
                     + facets.getFractionDigits());
-            LOG.debug("   Pattern facet        = " + facets.getPattern());
+            _log.debug("   Pattern facet        = " + facets.getPattern());
         }
     }
 

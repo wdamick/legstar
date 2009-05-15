@@ -72,13 +72,13 @@ public class CodeGenMake extends Task {
 
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(CodeGenMake.class);
+    private final Log _log = LogFactory.getLog(CodeGenMake.class);
 
     /** @{inheritDoc}*/
     @Override
     public final void init() {
         try {
-            LOG.info("Initializing Code generation make processor");
+            _log.info("Initializing Code generation make processor");
             CodeGenUtil.initVelocity();
         } catch (Exception e) {
             throw new BuildException(e.getMessage());
@@ -90,20 +90,20 @@ public class CodeGenMake extends Task {
     public final void execute() {
         long start = System.currentTimeMillis();
         try {
-            LOG.debug("Start make processor");
+            _log.debug("Start make processor");
             Document doc = getInput();
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Make file name   = " + mCodeGenMakeFileName);
-                LOG.debug("Model name       = " + mModelName);
+            if (_log.isDebugEnabled()) {
+                _log.debug("Make file name   = " + mCodeGenMakeFileName);
+                _log.debug("Model name       = " + mModelName);
             }
             processTargets(doc);
         } catch (CodeGenMakeException e) {
-            LOG.error("Make processor failure", e);
+            _log.error("Make processor failure", e);
             throw new BuildException(e.getMessage());
         }
         long end = System.currentTimeMillis();
-        LOG.info("Make processing success for " + mCodeGenMakeFileName);
-        LOG.info("Duration = " + (end - start) + " ms");
+        _log.info("Make processing success for " + mCodeGenMakeFileName);
+        _log.info("Duration = " + (end - start) + " ms");
     }
 
     /**
@@ -160,10 +160,10 @@ public class CodeGenMake extends Task {
         listOfElements = targetElement.getElementsByTagName(
                 CODEGEN_STEP_XML_E);
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Processing target");
-            LOG.debug("Target name      = " + targetName);
-            LOG.debug("Target directory = " + targetDir);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Processing target");
+            _log.debug("Target name      = " + targetName);
+            _log.debug("Target directory = " + targetDir);
         }
         for (int i = 0; i < listOfElements.getLength(); i++) {
             Element templateEl = (Element) listOfElements.item(i);

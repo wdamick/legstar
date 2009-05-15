@@ -56,25 +56,25 @@ public abstract class CChoiceBinding extends CBinding implements ICobolChoiceBin
     }
 
     /** {@inheritDoc} */
-    public final void addAlternative(final ICobolBinding ce) {
+    public void addAlternative(final ICobolBinding ce) {
         mAlternatives.add(ce);
     }
 
     /** {@inheritDoc} */
-    public final java.util.List < ICobolBinding > getAlternativesList() {
+    public java.util.List < ICobolBinding > getAlternativesList() {
         /* This version of a choice binding has no internal knowledge of
          * the alternatives. The list must be built using addAlternative.*/
         return mAlternatives;
     }
 
     /** {@inheritDoc} */
-    public final void accept(final CobolElementVisitor cev)
+    public void accept(final CobolElementVisitor cev)
     throws HostException {
         cev.visit(this);
     }
 
     /** {@inheritDoc} */
-    public final int calcByteLength() {
+    public int calcByteLength() {
 
         int byteLength = 0;
         for (ICobolBinding alt : mAlternatives) {
@@ -87,7 +87,7 @@ public abstract class CChoiceBinding extends CBinding implements ICobolChoiceBin
     }
 
     /** {@inheritDoc} */
-    public final ICobolBinding getAlternativeByName(
+    public ICobolBinding getAlternativeByName(
             final String name) {
         /* Select the alternative from the list of alternatives */
         for (ICobolBinding alt : mAlternatives) {
@@ -99,7 +99,7 @@ public abstract class CChoiceBinding extends CBinding implements ICobolChoiceBin
     }
 
     /** {@inheritDoc} */
-    public final ICobolBinding getAlternativeByCobolName(
+    public ICobolBinding getAlternativeByCobolName(
             final String cobolName) {
         /* Select the alternative from the list of alternatives */
         for (ICobolBinding alt : mAlternatives) {
@@ -111,7 +111,7 @@ public abstract class CChoiceBinding extends CBinding implements ICobolChoiceBin
     }
 
     /** {@inheritDoc}  */
-    public final ICobolMarshalChoiceStrategy getMarshalChoiceStrategy()
+    public ICobolMarshalChoiceStrategy getMarshalChoiceStrategy()
     throws HostException {
         if (mMarshalChoiceStrategy == null) {
             mMarshalChoiceStrategy = (ICobolMarshalChoiceStrategy)
@@ -121,13 +121,13 @@ public abstract class CChoiceBinding extends CBinding implements ICobolChoiceBin
     }
 
     /** {@inheritDoc} */
-    public final void setMarshalChoiceStrategy(
+    public void setMarshalChoiceStrategy(
             final ICobolMarshalChoiceStrategy strategy) {
         mMarshalChoiceStrategy = strategy;
     }
 
     /** {@inheritDoc}  */
-    public final ICobolUnmarshalChoiceStrategy getUnmarshalChoiceStrategy()
+    public ICobolUnmarshalChoiceStrategy getUnmarshalChoiceStrategy()
     throws HostException {
         if (mUnmarshalChoiceStrategy == null) {
             mUnmarshalChoiceStrategy = (ICobolUnmarshalChoiceStrategy)
@@ -137,7 +137,7 @@ public abstract class CChoiceBinding extends CBinding implements ICobolChoiceBin
     }
 
     /** {@inheritDoc} */
-    public final void setUnmarshalChoiceStrategy(
+    public void setUnmarshalChoiceStrategy(
             final ICobolUnmarshalChoiceStrategy strategy) {
         mUnmarshalChoiceStrategy = strategy;
     }

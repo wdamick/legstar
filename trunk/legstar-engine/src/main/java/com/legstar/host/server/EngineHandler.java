@@ -24,7 +24,7 @@ public class EngineHandler {
     private HierarchicalConfiguration mConfig;
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(EngineHandler.class);
+    private final Log _log = LogFactory.getLog(EngineHandler.class);
 
     /**
      * Construct from an XML configuration.
@@ -39,7 +39,7 @@ public class EngineHandler {
      * @throws EngineStartupException if engine wouldn't start
      */
     public final void init() throws EngineStartupException {
-        LOG.info("Initializing Engine.");
+        _log.info("Initializing Engine.");
         try {
             EngineHolder.preInit(mConfig);
         } catch (EngineConfigurationException e) {

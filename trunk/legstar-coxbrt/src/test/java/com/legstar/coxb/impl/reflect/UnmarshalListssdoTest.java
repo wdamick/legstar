@@ -21,7 +21,7 @@ public class UnmarshalListssdoTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal Listssdo.
      */
-    public final void testListssdo() {
+    public void testListssdo() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 ListssdoCases.getFactory(),
                 ListssdoCases.getHostBytesHex(),

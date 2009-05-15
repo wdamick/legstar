@@ -27,8 +27,7 @@ import com.legstar.messaging.LegStarRequest;
 public class PooledHostAccessStrategy implements HostAccessStrategy {
 
     /** Logger. */
-    private static final Log LOG =
-        LogFactory.getLog(PooledHostAccessStrategy.class);
+    private final Log _log = LogFactory.getLog(getClass());
 
     /** Time out (in milliseconds) for invoke. */
     private static final long DEFAULT_INVOKE_TIMEOUT_MSEC = 3000L;
@@ -62,8 +61,8 @@ public class PooledHostAccessStrategy implements HostAccessStrategy {
             final LegStarRequest request) throws HostAccessStrategyException {
 
         long startTime = System.currentTimeMillis();
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Pooled invoke for Request:" + request.getID());
+        if (_log.isDebugEnabled()) {
+            _log.debug("Pooled invoke for Request:" + request.getID());
         }
         synchronized (request) {
             try {
@@ -85,9 +84,9 @@ public class PooledHostAccessStrategy implements HostAccessStrategy {
                 throw new HostAccessStrategyException(e);
             }
         }
-        if (LOG.isDebugEnabled()) {
+        if (_log.isDebugEnabled()) {
             long endTime = System.currentTimeMillis();
-            LOG.debug("Pooled invoke for Request:" + request.getID()
+            _log.debug("Pooled invoke for Request:" + request.getID()
                     + " ended. elapse: "
                     + Long.toString(endTime - startTime) + " ms");
         }

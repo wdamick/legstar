@@ -21,7 +21,7 @@ public class UnmarshalRedsimptTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal Redsimpt first alternative.
      */
-    public final void testRedsimptFirstAlternative() {
+    public void testRedsimptFirstAlternative() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 RedsimptCases.getFactory(),
                 RedsimptCases.getHostBytesHex(),
@@ -32,7 +32,7 @@ public class UnmarshalRedsimptTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal Redsimpt second alternative.
      */
-    public final void testRedsimptSecondAlternative() {
+    public void testRedsimptSecondAlternative() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 RedsimptCases.getFactory(),
                 RedsimptCases.getHostBytesHexSecondChoice(),

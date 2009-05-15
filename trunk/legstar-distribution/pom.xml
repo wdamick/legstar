@@ -45,6 +45,27 @@
                 </executions>
             </plugin>
         
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+      
+                <executions>
+                    <!-- The release notes are identical to legstar-cixsgen. -->
+                    <execution>
+                        <id>build-site</id>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <tasks>
+                                <copy file="../legstar-cixsgen/src/site/apt/release-notes.apt" todir="src/site/apt"/>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
     

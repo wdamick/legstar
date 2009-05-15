@@ -22,7 +22,7 @@ public class UnmarshalLsfileaeTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal Lsfileae.
      */
-    public final void testLsfileae() {
+    public void testLsfileae() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 LsfileaeCases.getFactory(),
                 LsfileaeCases.getHostBytesHex(),

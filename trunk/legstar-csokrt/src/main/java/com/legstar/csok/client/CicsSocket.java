@@ -128,7 +128,7 @@ public class CicsSocket implements LegStarConnection {
     private int mReceiveTimeout;
 
     /** Logger. */
-    private static final Log LOG = LogFactory.getLog(CicsSocket.class);
+    private final Log _log = LogFactory.getLog(CicsSocket.class);
 
     /**
      * A CICS Socket exists for a target CICS region, a given CICS Socket
@@ -165,8 +165,8 @@ public class CicsSocket implements LegStarConnection {
     public final void connect(
             final String cicsPassword) throws ConnectionException {
         String password;
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Connection:" + mConnectionID
+        if (_log.isDebugEnabled()) {
+            _log.debug("Connection:" + mConnectionID
                     + " Attempting connection. Host:" 
                     + mCicsSocketEndpoint.getReport());
         }
@@ -212,8 +212,8 @@ public class CicsSocket implements LegStarConnection {
         } catch (RequestException e) {
             throw (new ConnectionException(e));
         }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Connection:" + mConnectionID + " Connected.");
+        if (_log.isDebugEnabled()) {
+            _log.debug("Connection:" + mConnectionID + " Connected.");
         }
     }
 
@@ -229,21 +229,21 @@ public class CicsSocket implements LegStarConnection {
     public final void connectReuse(
             final String cicsPassword) throws ConnectionException {
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Connection:" + mConnectionID + " Attempting reuse.");
+        if (_log.isDebugEnabled()) {
+            _log.debug("Connection:" + mConnectionID + " Attempting reuse.");
         }
         /* If socket is reusable just return. */
         if (mClientSocket != null
                 && mClientSocket.isConnected() && isServerAlive()) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Connection:" + mConnectionID
+            if (_log.isDebugEnabled()) {
+                _log.debug("Connection:" + mConnectionID
                         + " Socket will be reused.");
             }
             return;
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Connection:" + mConnectionID + " Socket not reusable.");
+        if (_log.isDebugEnabled()) {
+            _log.debug("Connection:" + mConnectionID + " Socket not reusable.");
         }
         /* Socket is not reusable, fallback to standard connect. */
         connect(cicsPassword);
@@ -284,8 +284,8 @@ public class CicsSocket implements LegStarConnection {
         } catch (IOException e) {
             throw (new RequestException(e));
         }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Connection:" + mConnectionID
+        if (_log.isDebugEnabled()) {
+            _log.debug("Connection:" + mConnectionID
                     + " Connection Ack received."
                     + ackString);
         }
@@ -300,9 +300,9 @@ public class CicsSocket implements LegStarConnection {
      */
     public final void sendRequest(
             final LegStarRequest request) throws RequestException {
-        if (LOG.isDebugEnabled()) {
+        if (_log.isDebugEnabled()) {
             try {
-                LOG.debug("Sending Request:" + request.getID()
+                _log.debug("Sending Request:" + request.getID()
                         + " on Connection:" + mConnectionID
                         + " "
                         + request.getRequestMessage().getHeaderPart().
@@ -334,8 +334,8 @@ public class CicsSocket implements LegStarConnection {
             throw (new RequestException(e));
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Request:" + request.getID()
+        if (_log.isDebugEnabled()) {
+            _log.debug("Request:" + request.getID()
                     + " on Connection:" + mConnectionID
                     + " message request sent.");
         }
@@ -351,8 +351,8 @@ public class CicsSocket implements LegStarConnection {
      */
     public final void recvResponse(
             final LegStarRequest request) throws RequestException {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Receiving response for Request:" + request.getID()
+        if (_log.isDebugEnabled()) {
+            _log.debug("Receiving response for Request:" + request.getID()
                     + " on Connection:" + mConnectionID
                     + '.');
         }
@@ -379,8 +379,8 @@ public class CicsSocket implements LegStarConnection {
         } catch (HostMessageFormatException e) {
             throw (new RequestException(e));
         }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Request:" + request.getID()
+        if (_log.isDebugEnabled()) {
+            _log.debug("Request:" + request.getID()
                     + " on Connection:" + mConnectionID
                     + " response received.");
         }
@@ -433,8 +433,8 @@ public class CicsSocket implements LegStarConnection {
      * @throws RequestException if a failure is detected
      */
     public final void close() throws RequestException {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Connection:" + mConnectionID
+        if (_log.isDebugEnabled()) {
+            _log.debug("Connection:" + mConnectionID
                     + " Attempting to close.");
         }
         if (mClientSocket == null) {
@@ -448,8 +448,8 @@ public class CicsSocket implements LegStarConnection {
             }
         }
         mClientSocket = null;
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Connection:" + mConnectionID + " Closed.");
+        if (_log.isDebugEnabled()) {
+            _log.debug("Connection:" + mConnectionID + " Closed.");
         }
     }
 
@@ -484,8 +484,8 @@ public class CicsSocket implements LegStarConnection {
      */
     private void processUOW(
             final String command) throws RequestException {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Connection:" + mConnectionID + " Attempting to "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Connection:" + mConnectionID + " Attempting to "
                     + command + " unit of work.");
         }
         try {
@@ -495,8 +495,8 @@ public class CicsSocket implements LegStarConnection {
         } catch (IOException e) {
             throw (new RequestException(e));
         }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Connection:" + mConnectionID + " "
+        if (_log.isDebugEnabled()) {
+            _log.debug("Connection:" + mConnectionID + " "
                     + command + " success.");
         }
     }
@@ -506,8 +506,8 @@ public class CicsSocket implements LegStarConnection {
      * @return true if server transaction is alive
      */
     private boolean isServerAlive() {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Connection:" + mConnectionID
+        if (_log.isDebugEnabled()) {
+            _log.debug("Connection:" + mConnectionID
                     + " Attempting to probe server.");
         }
         try {
@@ -541,8 +541,8 @@ public class CicsSocket implements LegStarConnection {
         } catch (IOException e) {
             throw (new RequestException(e));
         }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Connection:" + mConnectionID + " Ack received.");
+        if (_log.isDebugEnabled()) {
+            _log.debug("Connection:" + mConnectionID + " Ack received.");
         }
     }
 

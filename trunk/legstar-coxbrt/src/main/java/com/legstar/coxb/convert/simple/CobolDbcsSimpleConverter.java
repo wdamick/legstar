@@ -47,7 +47,7 @@ implements ICobolDbcsConverter {
     }
 
     /** {@inheritDoc} */
-    public final int toHost(
+    public int toHost(
             final ICobolDbcsBinding ce,
             final byte[] hostTarget,
             final int offset)
@@ -67,7 +67,7 @@ implements ICobolDbcsConverter {
     }
 
     /** {@inheritDoc} */
-    public final int toHost(
+    public int toHost(
             final ICobolArrayDbcsBinding ce,
             final byte[] hostTarget,
             final int offset,
@@ -100,7 +100,7 @@ implements ICobolDbcsConverter {
     }
 
     /** {@inheritDoc} */
-    public final int fromHost(
+    public int fromHost(
             final ICobolDbcsBinding ce,
             final byte[] hostSource,
             final int offset)
@@ -121,7 +121,7 @@ implements ICobolDbcsConverter {
     }
 
     /** {@inheritDoc} */
-    public final int fromHost(
+    public int fromHost(
             final ICobolArrayDbcsBinding ce,
             final byte[] hostSource,
             final int offset,

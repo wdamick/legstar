@@ -39,7 +39,7 @@ implements ICobolOctetStreamConverter {
     }
 
     /** {@inheritDoc} */
-    public final int toHost(
+    public int toHost(
             final ICobolOctetStreamBinding ce,
             final byte[] hostTarget,
             final int offset)
@@ -57,7 +57,7 @@ implements ICobolOctetStreamConverter {
     }
 
     /** {@inheritDoc} */
-    public final int toHost(
+    public int toHost(
             final ICobolArrayOctetStreamBinding ce,
             final byte[] hostTarget,
             final int offset,
@@ -86,7 +86,7 @@ implements ICobolOctetStreamConverter {
     }
 
     /** {@inheritDoc} */
-    public final int fromHost(
+    public int fromHost(
             final ICobolOctetStreamBinding ce,
             final byte[] hostSource,
             final int offset)
@@ -105,7 +105,7 @@ implements ICobolOctetStreamConverter {
     }
 
     /** {@inheritDoc} */
-    public final int fromHost(
+    public int fromHost(
             final ICobolArrayOctetStreamBinding ce,
             final byte[] hostSource,
             final int offset,

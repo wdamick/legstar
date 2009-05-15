@@ -22,7 +22,7 @@ public class UnmarshalFixarnumTest extends AbstractTestUnmarshal {
     /**
      * Unmarshal FIXARNUM.
      */
-    public final void testFixarnum() {
+    public void testFixarnum() {
         Dfhcommarea dfhcommarea = (Dfhcommarea) convert(
                 FixarnumCases.getFactory(),
                 FixarnumCases.getHostBytesHex(),
