@@ -42,7 +42,7 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
     /** An identifier for this connection. */
     private String mConnectionID;
 
-    /** Host CICS Http endpoint. */
+    /** Host CICS WMQ endpoint. */
     private CicsMQEndpoint mCicsMQEndpoint;
 
     /** The target MQ Manager. */
@@ -61,7 +61,7 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
     private int mReceiveTimeout;
 
     /** Logger. */
-    private final Log _log = LogFactory.getLog(AbstractCicsMQ.class);
+    private final Log _log = LogFactory.getLog(getClass());
 
     /**
      * A CicsMQ instance exists for a target MQ Manager, a given MQ Request
@@ -308,9 +308,9 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
         }
 
         if (_log.isDebugEnabled()) {
-            _log.debug("Request:" + request.getID()
+            _log.debug("Sent Request:" + request.getID()
                     + " on Connection:" + mConnectionID
-                    + " message request sent. Message ID:"
+                    + ". Message ID:"
                     + HostData.toHexString(mqMessage.messageId));
         }
     }
@@ -329,7 +329,8 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
         if (_log.isDebugEnabled()) {
             _log.debug("Receiving response for Request:" + request.getID()
                     + " on Connection:" + mConnectionID
-                    + '.');
+                    + ". Correlation ID:"
+                        + HostData.toHexString(request.getAttachment()));
         }
 
         MQMessage mqMessage = new MQMessage();
@@ -347,17 +348,19 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
             mResponseQueue.get(mqMessage, gmo);
             request.setResponseMessage(createResponseMessage(mqMessage));
 
+            if (_log.isDebugEnabled()) {
+                _log.debug("Received response for Request:" + request.getID()
+                        + " on Connection:" + mConnectionID
+                        + ". Correlation ID:"
+                        + HostData.toHexString(mqMessage.correlationId));
+            }
+
         } catch (MQException e) {
             throw new RequestException(e);
         } catch (HostReceiveException e) {
             throw new RequestException(e);
         }
 
-        if (_log.isDebugEnabled()) {
-            _log.debug("Request:" + request.getID()
-                    + " on Connection:" + mConnectionID
-                    + " response received.");
-        }
     }
 
     /**
@@ -381,17 +384,17 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
     public abstract LegStarMessage createResponseMessage(
             final MQMessage mqMessage) throws HostReceiveException;
     
-    /** No-op for HTTP transport.
+    /** No-op for WMQ transport.
      * {@inheritDoc} */
     public void commitUOW() throws RequestException {
     }
 
-    /** No-op for HTTP transport.
+    /** No-op for WMQ transport.
      * {@inheritDoc} */
     public void keepUOW() throws RequestException {
     }
 
-    /** No-op for HTTP transport.
+    /** No-op for WMQ transport.
      * {@inheritDoc} */
     public void rollbackUOW() throws RequestException {
     }
@@ -443,14 +446,14 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
     }
 
     /**
-     * @return the CICS Http endpoint
+     * @return the CICS WMQ endpoint
      */
     public final CicsMQEndpoint getCicsMQEndpoint() {
         return mCicsMQEndpoint;
     }
 
     /**
-     * Creates an MQ Host configuration based on the HTTP parameters
+     * Creates an MQ Host configuration based on the WMQ parameters
      * received.
      * @param cicsMQEndpoint the MQ endpoint to set
      */

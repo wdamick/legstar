@@ -26,6 +26,33 @@
             <hostMQResponseQueue>CICS01.BRIDGE.REPLY.QUEUE</hostMQResponseQueue>
             <hostMQBridgeType>MQCIH</hostMQBridgeType>
        </hostEndPoint>
+    	<hostEndPoint name="CICSTS23-LSMSG-POOLED">
+            <hostConnectionfactoryClass>com.legstar.mq.client.CicsMQConnectionFactory</hostConnectionfactoryClass>
+    		<hostIPAddress>mainframe</hostIPAddress>
+    		<hostIPPort>1414</hostIPPort>
+    		<hostCharset>IBM01140</hostCharset>
+    		<hostUserID>P390</hostUserID>
+    		<hostPassword>STREAM2</hostPassword>
+    		<hostTraceMode>true</hostTraceMode>
+    		<hostMQManager>CSQ1</hostMQManager>
+            <hostMQChannel>CLIENT.TO.CSQ1</hostMQChannel>
+            <hostMQRequestQueue>CICSA.REQUEST.QUEUE</hostMQRequestQueue>
+            <hostMQResponseQueue>CICSA.REPLY.QUEUE</hostMQResponseQueue>
+       </hostEndPoint>
+    	<hostEndPoint name="CICSTS23-MQCIH-POOLED">
+            <hostConnectionfactoryClass>com.legstar.mq.client.CicsMQConnectionFactory</hostConnectionfactoryClass>
+    		<hostIPAddress>mainframe</hostIPAddress>
+    		<hostIPPort>1414</hostIPPort>
+    		<hostCharset>IBM01140</hostCharset>
+    		<hostUserID>P390</hostUserID>
+    		<hostPassword>STREAM2</hostPassword>
+    		<hostTraceMode>true</hostTraceMode>
+    		<hostMQManager>CSQ1</hostMQManager>
+            <hostMQChannel>CLIENT.TO.CSQ1</hostMQChannel>
+            <hostMQRequestQueue>CICS01.BRIDGE.REQUEST.QUEUE</hostMQRequestQueue>
+            <hostMQResponseQueue>CICS01.BRIDGE.REPLY.QUEUE</hostMQResponseQueue>
+            <hostMQBridgeType>MQCIH</hostMQBridgeType>
+       </hostEndPoint>
     </hostEndPoints>
 </config>
    

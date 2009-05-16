@@ -255,17 +255,20 @@ int processRequest() {
          }
     
     }
+
+    if (g_OutstandingRequests > 0) {
     
-    /* Start a new handler to process this request. */
-    EXEC CICS START
-         TRANSID     (g_HandlerTransID)
-         FROM        (g_triggerMsg)
-         LENGTH      (g_triggerMsgLen)
-         RESP        (g_cicsResp) RESP2(g_cicsResp2);                  
-                                           
-    if (g_cicsResp != DFHRESP(NORMAL)) {
-        logCicsError(MODULE_NAME, "START",g_cicsResp,g_cicsResp2);
-        return ERROR_CODE;
+        /* Start a new handler to process this request. */
+        EXEC CICS START
+            TRANSID     (g_HandlerTransID)
+            FROM        (g_triggerMsg)
+            LENGTH      (g_triggerMsgLen)
+            RESP        (g_cicsResp) RESP2(g_cicsResp2);                  
+                                             
+        if (g_cicsResp != DFHRESP(NORMAL)) {
+            logCicsError(MODULE_NAME, "START",g_cicsResp,g_cicsResp2);
+            return ERROR_CODE;
+        }
     }
     
     /* Give some time for actual work to occur */

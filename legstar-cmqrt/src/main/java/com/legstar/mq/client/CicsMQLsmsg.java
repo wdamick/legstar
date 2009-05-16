@@ -12,9 +12,6 @@ package com.legstar.mq.client;
 
 import java.io.IOException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import com.ibm.mq.MQC;
 import com.ibm.mq.MQMessage;
 import com.legstar.messaging.HeaderPartException;
@@ -34,8 +31,6 @@ import com.legstar.messaging.RequestException;
  */
 public class CicsMQLsmsg extends AbstractCicsMQ  {
 
-    /** Logger. */
-    private final Log _log = LogFactory.getLog(CicsMQLsmsg.class);
 
     /**
      * Construct an instance of an MQ connection to the mainframe.
@@ -103,19 +98,12 @@ public class CicsMQLsmsg extends AbstractCicsMQ  {
     public LegStarMessage createResponseMessage(
             final MQMessage mqMessage) throws HostReceiveException {
 
-        if (_log.isDebugEnabled()) {
-            _log.debug("enter createResponseMessage(hostBytes)");
-        }
-
         try {
             byte[] hostBytes = new byte[mqMessage.getDataLength()];
             mqMessage.readFully(hostBytes);
             LegStarMessage reponseMessage;
             reponseMessage = new LegStarMessage();
             reponseMessage.fromByteArray(hostBytes, 0);
-            if (_log.isDebugEnabled()) {
-                _log.debug("response message received");
-            }
             return reponseMessage;
         } catch (HeaderPartException e) {
             throw new HostReceiveException(e);
