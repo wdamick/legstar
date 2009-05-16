@@ -212,6 +212,9 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
      * @throws RequestException if a failure is detected
      */
     public final void close() throws RequestException {
+        if (_log.isDebugEnabled()) {
+            _log.debug("Connection:" + mConnectionID + " closing.");
+        }
         if (mRequestQueue != null && mRequestQueue.isOpen()) {
             try {
                 mRequestQueue.close();
@@ -233,6 +236,9 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
                 throw new RequestException(e);
             }
         }
+        mRequestQueue = null;
+        mResponseQueue = null;
+        mMQManager = null;
     }
 
     /**
