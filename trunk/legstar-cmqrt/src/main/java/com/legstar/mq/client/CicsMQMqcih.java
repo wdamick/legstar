@@ -12,13 +12,12 @@ package com.legstar.mq.client;
 
 import java.io.IOException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.ibm.mq.MQC;
 import com.ibm.mq.MQMessage;
+import com.legstar.codec.HostCodec;
 import com.legstar.config.Constants;
 import com.legstar.coxb.transform.HostTransformException;
 import com.legstar.messaging.CommareaPart;
@@ -56,9 +55,6 @@ public class CicsMQMqcih extends AbstractCicsMQ  {
     /** Means that the DPL interaction is the only one with the UOW..
      * TODO revise when we implement single phase commit */
     private static final int MQCUOWC_ONLY = 273;
-
-    /** Logger. */
-    private final Log _log = LogFactory.getLog(CicsMQMqcih.class);
 
     /**
      * Construct an instance of an MQ connection to the mainframe.
@@ -130,7 +126,7 @@ public class CicsMQMqcih extends AbstractCicsMQ  {
             /* Finally create the mq message content: MQCIH + PROGRAM + COMMAREA */
             mqMessage.write(getMqcihTransformers().toHost(
                     getMqcih(outputdatalength, hostPassword), hostCharset));
-            mqMessage.write(programName.getBytes(hostCharset));
+            mqMessage.write(programName.getBytes(HostCodec.HEADER_CODE_PAGE));
             mqMessage.write(request.getRequestMessage().getDataParts().get(0).getContent());
 
             return mqMessage;
@@ -157,10 +153,6 @@ public class CicsMQMqcih extends AbstractCicsMQ  {
      */
     public LegStarMessage createResponseMessage(
             final MQMessage mqMessage) throws HostReceiveException {
-
-        if (_log.isDebugEnabled()) {
-            _log.debug("enter createResponseMessage(mqMessage)");
-        }
 
         /* Check that reply has an MQCIH header */
         if (!mqMessage.format.equals(MQC.MQFMT_CICS)) {
@@ -199,9 +191,7 @@ public class CicsMQMqcih extends AbstractCicsMQ  {
             /* Stuff it into a LegStar message */
             LegStarMessage reponseMessage = new LegStarMessage();
             reponseMessage.addDataPart(new CommareaPart(replyCommarea));
-            if (_log.isDebugEnabled()) {
-                _log.debug("response message received");
-            }
+
             return reponseMessage;
 
         } catch (HeaderPartException e) {
@@ -248,14 +238,16 @@ public class CicsMQMqcih extends AbstractCicsMQ  {
      * @return the MQ CCSID
      */
     private int getCCSID(final String hostCharset) {
-        if (hostCharset.equals("IBM-Thai")) {
-            return 838;
-        }
-        if (hostCharset.startsWith("IBM")) {
-            return Integer.parseInt(hostCharset.substring(3));
-        }
-        if (hostCharset.startsWith("x-IBM")) {
-            return Integer.parseInt(hostCharset.substring(5));
+        if (hostCharset != null) {
+            if (hostCharset.equals("IBM-Thai")) {
+                return 838;
+            }
+            if (hostCharset.startsWith("IBM")) {
+                return Integer.parseInt(hostCharset.substring(3));
+            }
+            if (hostCharset.startsWith("x-IBM")) {
+                return Integer.parseInt(hostCharset.substring(5));
+            }
         }
         return 500;
     }

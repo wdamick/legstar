@@ -54,7 +54,7 @@ public abstract class AbstractTester extends TestCase {
      *  (waiting for host reply). */
     public static final int DEFAULT_READ_TIMEOUT_MSEC = 5000;
 
-    /** A Http endpoint. */
+    /** An endpoint. */
     private CicsMQEndpoint mEndpoint;
     
     /** Address of target host. */
@@ -95,10 +95,13 @@ public abstract class AbstractTester extends TestCase {
     /**
      * Create a request with a header built from a properties map.
      * @param map properties map for header creation
+     * @param address the destination
      * @return a legstar request
      * @throws RequestException if unable to create request
      */
-    public LegStarRequest getRequest(final Map < String, Object > map) throws RequestException {
+    public static LegStarRequest getRequest(
+            final Map < String, Object > map,
+            final LegStarAddress address) throws RequestException {
         try {
             LegStarMessage requestMessage = new LegStarMessage();
             requestMessage.getHeaderPart().setKeyValues(map);
@@ -107,7 +110,7 @@ public abstract class AbstractTester extends TestCase {
             String uid = new UID().toString();
             String[] comps = uid.split(":");
             String requestID = comps[1] + comps[2];
-           return new LegStarRequest(requestID, getAddress(), requestMessage);
+           return new LegStarRequest(requestID, address, requestMessage);
         } catch (HeaderPartException e) {
             throw new RequestException(e);
         }
@@ -115,16 +118,18 @@ public abstract class AbstractTester extends TestCase {
 
     /**
      * Create a request for LSFILEAE customer 100.
+     * @param address the destination
      * @return a request ready for execution
      * @throws RequestException if request cannot be built
      */
-    public LegStarRequest getLsfileaeRequest100() throws RequestException {
+    public static LegStarRequest getLsfileaeRequest100(
+            final LegStarAddress address) throws RequestException {
         HashMap < String, Object > map = new HashMap < String, Object >();
         map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
         map.put(Constants.CICS_LENGTH_KEY, "79");
         map.put(Constants.CICS_DATALEN_KEY, "6");
         
-        LegStarRequest request = getRequest(map);
+        LegStarRequest request = getRequest(map, address);
         request.getRequestMessage().addDataPart(new CommareaPart(
                 HostData.toByteArray(LsfileaeCases.getHostBytesHexRequest100())));
         return request;
@@ -132,44 +137,50 @@ public abstract class AbstractTester extends TestCase {
     }
     /**
      * A request that is guaranteed to exceed 2 seconds.
+     * @param address the destination
      * @return a request ready for execution
      * @throws RequestException if request cannot be built
      */
-    public LegStarRequest createLongRequest() throws RequestException {
-        return createLongRequest("f0f0f0f0f0f0f0f3");
+    public static LegStarRequest createLongRequest(
+            final LegStarAddress address) throws RequestException {
+        return createLongRequest(address, "f0f0f0f0f0f0f0f3");
     }
 
     /**
      * A request that will wait depending on the parameter passed.
+     * @param address the destination
      * @param hostByteHex wait time as a hex string of a display numeric
      * @return a request ready for execution
      * @throws RequestException if request cannot be built
      */
-    public LegStarRequest createLongRequest(final String hostByteHex) throws RequestException {
+    public static LegStarRequest createLongRequest(
+            final LegStarAddress address, final String hostByteHex) throws RequestException {
 
         HashMap < String, Object> map = new HashMap < String, Object>();
         map.put(Constants.CICS_PROGRAM_NAME_KEY, "T1SLEEPT");
         map.put(Constants.CICS_LENGTH_KEY, "39");
         map.put(Constants.CICS_DATALEN_KEY, "8");
         
-        LegStarRequest request = getRequest(map);
+        LegStarRequest request = getRequest(map, address);
         request.getRequestMessage().addDataPart(new CommareaPart(
                 HostData.toByteArray(hostByteHex)));
         return request;
     }
     /**
      * A request that is guaranteed to fail (target program does not exist).
+     * @param address the destination
      * @return a request ready for execution
      * @throws RequestException if request cannot be built
      */
-    public LegStarRequest createInvalidRequest() throws RequestException {
+    public static LegStarRequest createInvalidRequest(
+            final LegStarAddress address) throws RequestException {
 
         HashMap < String, Object> map = new HashMap < String, Object>();
         map.put(Constants.CICS_PROGRAM_NAME_KEY, "TARATOZ");
         map.put(Constants.CICS_LENGTH_KEY, "79");
         map.put(Constants.CICS_DATALEN_KEY, "6");
         
-        LegStarRequest request = getRequest(map);
+        LegStarRequest request = getRequest(map, address);
         request.getRequestMessage().addDataPart(new CommareaPart(
                 HostData.toByteArray("F0F0F0F1F0F0")));
         return request;
@@ -178,16 +189,18 @@ public abstract class AbstractTester extends TestCase {
     
     /**
      * A request with a large payload.
+     * @param address the destination
      * @return a request ready for execution
      * @throws RequestException if request cannot be built
      */
-    public LegStarRequest createLargeRequest() throws RequestException {
+    public static LegStarRequest createLargeRequest(
+            final LegStarAddress address) throws RequestException {
         HashMap < String, Object > map = new HashMap < String, Object >();
         map.put(Constants.CICS_PROGRAM_NAME_KEY, "T1VOLUME");
         map.put(Constants.CICS_LENGTH_KEY, "32767");
         map.put(Constants.CICS_DATALEN_KEY, "32767");
 
-        LegStarRequest request = getRequest(map);
+        LegStarRequest request = getRequest(map, address);
         request.getRequestMessage().addDataPart(
                 new CommareaPart(T1volumeCases.getHostBytes(32767)));
         return request;
@@ -195,16 +208,18 @@ public abstract class AbstractTester extends TestCase {
 
     /**
      * A request with a large payload.
+     * @param address the destination
      * @return a request ready for execution
      * @throws RequestException if request cannot be built
      */
-    public LegStarRequest createLargeRequestB() throws RequestException {
+    public static LegStarRequest createLargeRequestB(
+            final LegStarAddress address) throws RequestException {
         HashMap < String, Object > map = new HashMap < String, Object >();
         map.put(Constants.CICS_PROGRAM_NAME_KEY, "T1VOLUMB");
         map.put(Constants.CICS_LENGTH_KEY, "32759");
         map.put(Constants.CICS_DATALEN_KEY, "32759");
 
-        LegStarRequest request = getRequest(map);
+        LegStarRequest request = getRequest(map, address);
         request.getRequestMessage().addDataPart(
                 new CommareaPart(T1volumeCases.getHostBytes(32759)));
         return request;

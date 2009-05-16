@@ -130,7 +130,7 @@ public class CicsMQLsmsgTest extends AbstractTester {
      */
     public void testSendRequest() {
         try {
-            LegStarRequest request = getLsfileaeRequest100();
+            LegStarRequest request = getLsfileaeRequest100(getAddress());
             request.getAddress().setHostTraceMode(true);
             getConnection().sendRequest(request);
             getConnection().recvResponse(request);
@@ -147,7 +147,7 @@ public class CicsMQLsmsgTest extends AbstractTester {
      */
     public void testSendRequestWithInvalidProg() {
         try {
-            LegStarRequest request = createInvalidRequest();
+            LegStarRequest request = createInvalidRequest(getAddress());
             getConnection().sendRequest(request);
             getConnection().recvResponse(request);
             fail("testSendRequest failed ");
@@ -161,7 +161,7 @@ public class CicsMQLsmsgTest extends AbstractTester {
      */
     public void testLongRequest() {
         try {
-            LegStarRequest request = createLongRequest();
+            LegStarRequest request = createLongRequest(getAddress());
             getConnection().sendRequest(request);
             getConnection().recvResponse(request);
             assertEquals(1, request.getResponseMessage().getHeaderPart().getDataPartsNumber());
@@ -177,7 +177,7 @@ public class CicsMQLsmsgTest extends AbstractTester {
      */
     public void testLargeRequest() {
         try {
-            LegStarRequest request = createLargeRequest();
+            LegStarRequest request = createLargeRequest(getAddress());
             getConnection().sendRequest(request);
             getConnection().recvResponse(request);
             T1volumeCases.checkByteArray(request.getResponseMessage().getDataParts().get(0).getContent());
@@ -194,8 +194,8 @@ public class CicsMQLsmsgTest extends AbstractTester {
      */
     public void testLongRequestSequence() {
         try {
-            LegStarRequest request1 = createLongRequest();
-            LegStarRequest request2 = createLongRequest("f0f0f0f0f0f0f0f2");
+            LegStarRequest request1 = createLongRequest(getAddress());
+            LegStarRequest request2 = createLongRequest(getAddress(), "f0f0f0f0f0f0f0f2");
 
             getConnection().sendRequest(request1);
             getConnection().sendRequest(request2);
@@ -223,16 +223,16 @@ public class CicsMQLsmsgTest extends AbstractTester {
     public void testHighLoad() {
         try {
 
-            LegStarRequest request1 = createLongRequest("f0f0f0f0f0f0f0f4");
+            LegStarRequest request1 = createLongRequest(getAddress(), "f0f0f0f0f0f0f0f4");
             getConnection().sendRequest(request1);
 
-            LegStarRequest request2 = createLongRequest("f0f0f0f0f0f0f0f3");
+            LegStarRequest request2 = createLongRequest(getAddress(), "f0f0f0f0f0f0f0f3");
             getConnection().sendRequest(request2);
 
-            LegStarRequest request3 = createLongRequest("f0f0f0f0f0f0f0f2");
+            LegStarRequest request3 = createLongRequest(getAddress(), "f0f0f0f0f0f0f0f2");
             getConnection().sendRequest(request3);
 
-            LegStarRequest request4 = createLongRequest("f0f0f0f0f0f0f0f1");
+            LegStarRequest request4 = createLongRequest(getAddress(), "f0f0f0f0f0f0f0f1");
             getConnection().sendRequest(request4);
 
             getConnection().recvResponse(request1);
