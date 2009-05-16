@@ -59,8 +59,10 @@ public class InvokeWorkListener implements WorkListener {
      * @param workEvent the work event
      * */
     public final void workAccepted(final WorkEvent workEvent) {
-        _log.debug("Work accepted for Request:" + mRequest.getID()
-                + " on Connection:" + mConnection.getConnectionID());
+        if (_log.isDebugEnabled()) {
+            _log.debug("Work accepted for Request:" + mRequest.getID()
+                    + " on Connection:" + mConnection.getConnectionID());
+        }
     }
 
     /**
@@ -77,13 +79,15 @@ public class InvokeWorkListener implements WorkListener {
             } catch (ConnectionPoolException e) {
                 mRequest.setException(e);
             }
-            if (workEvent.getException() != null) {
-                _log.debug("Work failed for Request:" + mRequest.getID()
-                        + " on Connection:" + mConnection.getConnectionID(),
-                        workEvent.getException());
-            } else {
-                _log.debug("Work completed for Request:" + mRequest.getID()
-                        + " on Connection:" + mConnection.getConnectionID());
+            if (_log.isDebugEnabled()) {
+                if (workEvent.getException() != null) {
+                    _log.debug("Work failed for Request:" + mRequest.getID()
+                            + " on Connection:" + mConnection.getConnectionID(),
+                            workEvent.getException());
+                } else {
+                    _log.debug("Work completed for Request:" + mRequest.getID()
+                            + " on Connection:" + mConnection.getConnectionID());
+                }
             }
             mRequest.signalProcessingStop();
         }
@@ -102,9 +106,11 @@ public class InvokeWorkListener implements WorkListener {
             } catch (ConnectionPoolException e) {
                 mRequest.setException(e);
             }
+            if (_log.isDebugEnabled()) {
+                _log.debug("Work rejected for Request:" + mRequest.getID()
+                        + " on Connection:" + mConnection.getConnectionID());
+            }
             mRequest.signalProcessingStop();
-            _log.debug("Work rejected for Request:" + mRequest.getID()
-                    + " on Connection:" + mConnection.getConnectionID());
         }
     }
 
@@ -113,8 +119,10 @@ public class InvokeWorkListener implements WorkListener {
      * @param workEvent the work event
      *  */
     public final void workStarted(final WorkEvent workEvent) {
-        _log.debug("Work started for Request:" + mRequest.getID()
-                + " on Connection:" + mConnection.getConnectionID());
+        if (_log.isDebugEnabled()) {
+            _log.debug("Work started for Request:" + mRequest.getID()
+                    + " on Connection:" + mConnection.getConnectionID());
+        }
     }
 
 }

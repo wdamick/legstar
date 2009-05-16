@@ -23,6 +23,7 @@ import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.ConnectionFactory;
+import com.legstar.messaging.RequestException;
 
 /**
  * Implements a pool of available host connections. The objective is to
@@ -85,9 +86,7 @@ public class ConnectionPool {
             throw new ConnectionPoolException(e);
         }
         mShuttingDown = false;
-        if (_log.isDebugEnabled()) {
-            _log.debug("Pool created for:" + address.getReport());
-        }
+        _log.info("Pool of size " + poolSize + ", created for:" + address.getReport());
     }
 
     /**
@@ -147,16 +146,23 @@ public class ConnectionPool {
      * method.
      */
     public final void shutDown() {
+        _log.info("Shutting down Pool " + getAddress().getEndPointName());
         mShuttingDown = true;
-        if (mConnections.remainingCapacity() == 0) {
-            return;
+        if (mConnections.remainingCapacity() > 0) {
+            if (mConnections.size() == 0) {
+                _log.warn("Some requests might be waiting for connections.");
+            } else {
+                _log.warn("There are "
+                        + (mConnections.remainingCapacity() - mConnections.size())
+                        + " connections in use.");
+            }
         }
-        if (mConnections.size() == 0) {
-            _log.warn("Some requests might be waiting for connections.");
-        } else {
-            _log.warn("There are "
-                    + (mConnections.remainingCapacity() - mConnections.size())
-                    + " connections in use.");
+        for (LegStarConnection connection : getConnections()) {
+            try {
+                connection.close();
+            } catch (RequestException e) {
+                _log.warn("Unable to close a connection " + e.toString());
+            }
         }
     }
 
