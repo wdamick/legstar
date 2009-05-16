@@ -16,6 +16,8 @@ import java.util.Map;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.legstar.config.Config;
 import com.legstar.messaging.LegStarAddress;
@@ -36,11 +38,14 @@ public class ConnectionPoolManager {
     /** Configuration key giving the host connections pool size per endpoint.*/
     private static final String CONN_POOL_SIZE_CFG = "hostConnectionPoolSize";
 
-    /** If no pool size found in configurqtion, use this default. */
+    /** If no pool size found in configuration, use this default. */
     private static final int DEFAULT_POOL_SIZE = 5;
 
     /** The map of active pools in the system. */
-    private Map < LegStarAddress, ConnectionPool > mPools;
+    private final Map < LegStarAddress, ConnectionPool > mPools;
+
+    /** Logger. */
+    private final Log _log = LogFactory.getLog(getClass());
 
     /**
      * Create a new pool manager.
@@ -50,6 +55,7 @@ public class ConnectionPoolManager {
             final HierarchicalConfiguration generalConfig) {
         mGeneralConfig = generalConfig;
         mPools = new HashMap < LegStarAddress, ConnectionPool >();
+        _log.info("Pool Manager created.");
     }
 
     /**
@@ -62,6 +68,9 @@ public class ConnectionPoolManager {
     public final ConnectionPool getPool(
             final LegStarAddress address,
             final boolean createIfNotFound) throws ConnectionPoolException {
+        if (_log.isDebugEnabled()) {
+            _log.debug("Retrieving pool for endpoint " + address.getEndPointName());
+        }
         ConnectionPool  pool = mPools.get(address);
         if (pool == null && createIfNotFound) {
             pool = createConnectionPool(address);
@@ -80,6 +89,9 @@ public class ConnectionPoolManager {
     private ConnectionPool createConnectionPool(
             final LegStarAddress address) throws ConnectionPoolException  {
         try {
+            if (_log.isDebugEnabled()) {
+                _log.debug("Creating new pool for endpoint " + address.getEndPointName());
+            }
             HierarchicalConfiguration endpointConfig =
                 Config.loadAddressConfiguration(mGeneralConfig, address);
             ConnectionFactory connectionFactory =
@@ -98,6 +110,7 @@ public class ConnectionPoolManager {
      * Propagate shutdown on every managed pool.
      */
     public final void shutDown() {
+        _log.info("Shutting down Pool Manager");
         Iterator < Map.Entry < LegStarAddress, ConnectionPool > > entries =
             mPools.entrySet().iterator();
         while (entries.hasNext()) {
@@ -110,14 +123,6 @@ public class ConnectionPoolManager {
      */
     public final Map < LegStarAddress, ConnectionPool > getPools() {
         return mPools;
-    }
-
-    /**
-     * @param pools the active pools map to set
-     */
-    public final void setPools(
-            final Map < LegStarAddress, ConnectionPool > pools) {
-        mPools = pools;
     }
 
 }
