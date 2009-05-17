@@ -29,7 +29,25 @@
 			<hostPassword>STREAM2</hostPassword>
 			<hostTraceMode>false</hostTraceMode>
 	   </hostEndPoint>
+		<hostEndPoint name="CICSTS23-POOLED">
+            <hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
+			<hostIPAddress>mainframe</hostIPAddress>
+			<hostIPPort>3011</hostIPPort>
+			<hostCharset>IBM01140</hostCharset>
+			<hostUserID>P390</hostUserID>
+			<hostPassword>STREAM2</hostPassword>
+			<hostTraceMode>false</hostTraceMode>
+	   </hostEndPoint>
 		<hostEndPoint name="CICSTS31">
+			<hostIPAddress>mainframe</hostIPAddress>
+			<hostIPPort>4011</hostIPPort>
+			<hostCharset>IBM01140</hostCharset>
+			<hostUserID>P390</hostUserID>
+			<hostPassword>STREAM2</hostPassword>
+			<hostTraceMode>false</hostTraceMode>
+	   </hostEndPoint>
+		<hostEndPoint name="CICSTS31-POOLED">
+            <hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
 			<hostIPAddress>mainframe</hostIPAddress>
 			<hostIPPort>4011</hostIPPort>
 			<hostCharset>IBM01140</hostCharset>

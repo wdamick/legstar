@@ -22,7 +22,7 @@ import com.legstar.coxb.host.HostData;
  * Test the reusability of a connection.
  *
  */
-public class ConnectionReuseTest extends AbstractTester {
+public class ConnectionReuseTest extends AbstractSocketConnectionTester {
 
     /** {@inheritDoc} */
     public void setUp() throws Exception {
@@ -48,7 +48,7 @@ public class ConnectionReuseTest extends AbstractTester {
         map.put(Constants.CICS_LENGTH_KEY, "79");
         map.put(Constants.CICS_DATALEN_KEY, "6");
         
-        LegStarRequest request = getRequest(map);
+        LegStarRequest request = getRequest(map, getAddress());
         request.getRequestMessage().addDataPart(new CommareaPart(
                 HostData.toByteArray(LsfileaeCases.getHostBytesHexRequest100())));
         getConnection().sendRequest(request);

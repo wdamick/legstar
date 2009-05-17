@@ -26,7 +26,7 @@ import com.legstar.test.coxb.T1volumeCases;
  * Get a sense of performances in various scenario.
  *
  */
-public class VolumeTest extends AbstractTester {
+public class VolumeTest extends AbstractSocketConnectionTester {
 
     /** Maximum number of iterations. */
     private static final int MAX_ITERATIONS = 5;
@@ -47,7 +47,7 @@ public class VolumeTest extends AbstractTester {
             map.put(Constants.CICS_LENGTH_KEY, "39");
             map.put(Constants.CICS_DATALEN_KEY, "8");
             
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(new CommareaPart(HostData.toByteArray("f0f0f0f0f0f0f0f3")));
             
             for (int i = 0; i < MAX_ITERATIONS; i++) {
@@ -78,7 +78,7 @@ public class VolumeTest extends AbstractTester {
             map.put(Constants.CICS_LENGTH_KEY, "79");
             map.put(Constants.CICS_DATALEN_KEY, "6");
             
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(new CommareaPart(
                     HostData.toByteArray(LsfileaeCases.getHostBytesHexRequest100())));
             for (int i = 0; i < MAX_ITERATIONS; i++) {
@@ -106,7 +106,7 @@ public class VolumeTest extends AbstractTester {
             map.put(Constants.CICS_LENGTH_KEY, "79");
             map.put(Constants.CICS_DATALEN_KEY, "6");
             
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(new CommareaPart(
                     HostData.toByteArray(LsfileaeCases.getHostBytesHexRequest100())));
             for (int i = 0; i < MAX_ITERATIONS; i++) {
@@ -137,7 +137,7 @@ public class VolumeTest extends AbstractTester {
             map.put(Constants.CICS_LENGTH_KEY, "32767");
             map.put(Constants.CICS_DATALEN_KEY, "32767");
 
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(
                     new CommareaPart(T1volumeCases.getHostBytes(32767)));
             for (int i = 0; i < MAX_ITERATIONS; i++) {
