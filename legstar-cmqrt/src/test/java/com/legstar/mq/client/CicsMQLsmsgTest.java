@@ -22,7 +22,7 @@ import com.legstar.test.coxb.T1volumeCases;
  * This is also used as the test bench for the mainframe WMQ programs.
  *
  */
-public class CicsMQLsmsgTest extends AbstractTester {
+public class CicsMQLsmsgTest extends AbstractMQConnectionTester {
 
     /** A socket connection to a mainframe. */
     private CicsMQLsmsg mConnection;
@@ -117,7 +117,7 @@ public class CicsMQLsmsgTest extends AbstractTester {
             cicsMQ.connectReuse("tiramisu");
             assertTrue(cicsMQ.getRequestQueue().isOpen());
             cicsMQ.close();
-            assertFalse(cicsMQ.getRequestQueue().isOpen());
+            assertTrue(cicsMQ.getRequestQueue() == null);
         } catch (ConnectionException e) {
             fail(e.getMessage());
         } catch (RequestException e) {
