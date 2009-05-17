@@ -17,6 +17,7 @@
     	<copy todir="${jar.dir}">
 			<fileset dir="target/test-distro/${project.artifactId}-${project.version}/lib" includes="*.jar" excludes="*sources.jar"/>
 			<fileset dir="../legstar-jaxbgen-cases/target" includes="*.jar" excludes="*sources.jar"/>
+			<fileset dir="../legstar-tests/target" includes="*.jar" excludes="*sources.jar"/>
     	</copy>
     </target>
 </project>
