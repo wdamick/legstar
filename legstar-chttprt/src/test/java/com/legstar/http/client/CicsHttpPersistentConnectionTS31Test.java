@@ -20,7 +20,7 @@ import com.legstar.test.coxb.LsfileaeCases;
  * Test behavior of multiple requests over same connection.
  *
  */
-public class CicsHttpPersistentConnectionTS31Test extends AbstractTester {
+public class CicsHttpPersistentConnectionTS31Test extends AbstractHttpConnectionTester {
 
     /** {@inheritDoc} */
     protected void setUp() throws Exception {
@@ -33,7 +33,7 @@ public class CicsHttpPersistentConnectionTS31Test extends AbstractTester {
      */
     public void testSend2RequestsTs31() {
         try {
-            LegStarRequest request = getLsfileaeRequest100();
+            LegStarRequest request = getLsfileaeRequest100(getAddress());
             getConnection().sendRequest(request);
             getConnection().recvResponse(request);
             assertEquals(1, request.getResponseMessage().getHeaderPart().getDataPartsNumber());

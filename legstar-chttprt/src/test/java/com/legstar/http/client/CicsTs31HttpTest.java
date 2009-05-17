@@ -27,7 +27,7 @@ import com.legstar.test.coxb.T1volumeCases;
  * Test the Http transport against CICS TS 3.1.
  *
  */
-public class CicsTs31HttpTest extends AbstractTester {
+public class CicsTs31HttpTest extends AbstractHttpConnectionTester {
 
     /** This is for the memory stress test. */
     private static final int MAX_ITERATIONS = 100;
@@ -42,7 +42,7 @@ public class CicsTs31HttpTest extends AbstractTester {
      */
     public void testCommareaProgram() {
         try {
-            LegStarRequest request = getLsfileaeRequest100();
+            LegStarRequest request = getLsfileaeRequest100(getAddress());
             getConnection().sendRequest(request);
             getConnection().recvResponse(request);
             assertEquals(LsfileaeCases.getHostBytesHexReply100(),
@@ -64,7 +64,7 @@ public class CicsTs31HttpTest extends AbstractTester {
             String[] outContainers = {"RESPONSE-CTN"};
             map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
 
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(
                     new ContainerPart("REQUEST-CTN", HostData.toByteArray(LsfileaeCases.getHostBytesHexRequest100())));
             getConnection().sendRequest(request);
@@ -90,7 +90,7 @@ public class CicsTs31HttpTest extends AbstractTester {
             String[] outContainers = {"ReplyData", "ReplyStatus"};
             map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
             
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(new ContainerPart("QueryData",
                     HostData.toByteArray(LsfileacCases.getHostBytesHexQueryData())));
             request.getRequestMessage().addDataPart(new ContainerPart("QueryLimit",
@@ -125,7 +125,7 @@ public class CicsTs31HttpTest extends AbstractTester {
             String[] outContainers = {"ReplyBibi", "ReplyStatus"};
             map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
 
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(new ContainerPart("QueryData",
                     HostData.toByteArray(LsfileacCases.getHostBytesHexQueryData())));
             request.getRequestMessage().addDataPart(new ContainerPart("QueryLimit",
@@ -158,7 +158,7 @@ public class CicsTs31HttpTest extends AbstractTester {
             String[] outContainers = {"ReplyData", "ReplyStatus"};
             map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
             
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(new ContainerPart("QueryData",
                     HostData.toByteArray(LsfileacCases.getHostBytesHexQueryData())));
             getConnection().sendRequest(request);
@@ -191,7 +191,7 @@ public class CicsTs31HttpTest extends AbstractTester {
             String[] outContainers = {"RESPONSE-CTN"};
             map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
             
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(
                     new ContainerPart("REQUEST-CTN", T1volumeCases.getHostBytes(65536)));
             getConnection().sendRequest(request);
@@ -219,7 +219,7 @@ public class CicsTs31HttpTest extends AbstractTester {
             
             LegStarMessagePart part = new ContainerPart("REQUEST-CTN", T1volumeCases.getHostBytes(65536));
             for (int i = 0; i < MAX_ITERATIONS; i++) {
-                LegStarRequest request = getRequest(map);
+                LegStarRequest request = getRequest(map, getAddress());
                 request.getRequestMessage().addDataPart(part);
                 getConnection().sendRequest(request);
                 getConnection().recvResponse(request);

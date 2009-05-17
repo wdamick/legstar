@@ -27,7 +27,7 @@ import com.legstar.test.coxb.LsfileaeCases;
  * This is also used as the test bench for the mainframe Http programs.
  *
  */
-public class CicsHttpTest extends AbstractTester {
+public class CicsHttpTest extends AbstractHttpConnectionTester {
 
     /** {@inheritDoc} */
     public void setUp() throws Exception {
@@ -69,13 +69,13 @@ public class CicsHttpTest extends AbstractTester {
      */
     public void testPostMethodCreation() {
         try {
-            LegStarRequest request = getLsfileaeRequest100();
+            LegStarRequest request = getLsfileaeRequest100(getAddress());
             PostMethod postMethod = getConnection().createPostMethod(request);
             assertEquals("POST", postMethod.getName());
             assertEquals("CICSTraceMode: false",
                     postMethod.getRequestHeader(CicsHttp.REQUEST_TRACE_MODE_HHDR).toString().trim());
-            assertEquals("CICSRequestID: testPostMethodCreation",
-                    postMethod.getRequestHeader(CicsHttp.REQUEST_ID_HHDR).toString().trim());
+            assertTrue(postMethod.getRequestHeader(
+                    CicsHttp.REQUEST_ID_HHDR).toString().contains("CICSRequestID: "));
             assertEquals("/CICS/CWBA/LSWEBBIN",
                     postMethod.getPath());
 
@@ -91,7 +91,7 @@ public class CicsHttpTest extends AbstractTester {
         try {
             CicsHttp cicsHttp = new CicsHttp("testSendRequestOutOfSync", getEndpoint(),
                     DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
-            cicsHttp.sendRequest(getLsfileaeRequest100());
+            cicsHttp.sendRequest(getLsfileaeRequest100(getAddress()));
             fail("testPostMethodCreation failed ");
         } catch (RequestException e) {
             assertEquals("No prior connect. Missing host credentials.", e.getMessage());
@@ -110,7 +110,7 @@ public class CicsHttpTest extends AbstractTester {
             cicsHttp.setCicsHttpEndpoint(endPoint);
             cicsHttp.setConnectTimeout(1500);
             cicsHttp.connect("zaratoustra");
-            cicsHttp.sendRequest(getLsfileaeRequest100());
+            cicsHttp.sendRequest(getLsfileaeRequest100(getAddress()));
             fail("testPostMethodCreation failed ");
 
         } catch (ConnectionException e) {
@@ -133,7 +133,7 @@ public class CicsHttpTest extends AbstractTester {
             cicsHttp.setCicsHttpEndpoint(endPoint);
             cicsHttp.setConnectTimeout(1500);
             cicsHttp.connect("zaratoustra");
-            cicsHttp.sendRequest(getLsfileaeRequest100());
+            cicsHttp.sendRequest(getLsfileaeRequest100(getAddress()));
             fail("testPostMethodCreation failed ");
 
         } catch (ConnectionException e) {
@@ -155,7 +155,7 @@ public class CicsHttpTest extends AbstractTester {
             cicsHttp.setCicsHttpEndpoint(endPoint);
             cicsHttp.setConnectTimeout(1500);
             cicsHttp.connect("zaratoustra");
-            LegStarRequest request = getLsfileaeRequest100();
+            LegStarRequest request = getLsfileaeRequest100(getAddress());
             cicsHttp.sendRequest(request);
             cicsHttp.recvResponse(request);
             fail("testPostMethodCreation failed ");
@@ -174,7 +174,7 @@ public class CicsHttpTest extends AbstractTester {
      */
     public void testSendRequest() {
         try {
-            LegStarRequest request = getLsfileaeRequest100();
+            LegStarRequest request = getLsfileaeRequest100(getAddress());
             request.getAddress().setHostTraceMode(true);
             getConnection().sendRequest(request);
             getConnection().recvResponse(request);
@@ -199,7 +199,7 @@ public class CicsHttpTest extends AbstractTester {
                     endpointConfig), DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
 
             cicsHttp.connect(null);
-            LegStarRequest request = getLsfileaeRequest100();
+            LegStarRequest request = getLsfileaeRequest100(getAddress());
             cicsHttp.sendRequest(request);
             cicsHttp.recvResponse(request);
             assertEquals(1, request.getResponseMessage().getHeaderPart().getDataPartsNumber());
@@ -220,7 +220,7 @@ public class CicsHttpTest extends AbstractTester {
     public void testReceiveTimeout() {
         try {
             getConnection().setReceiveTimeout(2000);
-            LegStarRequest request = createLongRequest(); // Will not respond within 2 secs
+            LegStarRequest request = createLongRequest(getAddress()); // Will not respond within 2 secs
             getConnection().sendRequest(request);
             getConnection().recvResponse(request);
             fail("testReceiveTimeout failed ");
@@ -236,12 +236,12 @@ public class CicsHttpTest extends AbstractTester {
     public void testReceiveTimeoutReuseHttpClient() {
         try {
             getConnection().setReceiveTimeout(2000);
-            LegStarRequest request = createLongRequest(); // Will not respond within 2 secs
+            LegStarRequest request = createLongRequest(getAddress()); // Will not respond within 2 secs
             try {
                 getConnection().sendRequest(request);
                 getConnection().recvResponse(request);
             } catch (RequestException e) {
-                LegStarRequest request2 = getLsfileaeRequest100();
+                LegStarRequest request2 = getLsfileaeRequest100(getAddress());
                 getConnection().sendRequest(request2);
                 getConnection().recvResponse(request2);
                 assertEquals(1, request2.getResponseMessage().getHeaderPart().getDataPartsNumber());
@@ -258,7 +258,7 @@ public class CicsHttpTest extends AbstractTester {
      */
     public void testSendRequestWithInvalidProg() {
         try {
-            LegStarRequest request = createInvalidRequest();
+            LegStarRequest request = createInvalidRequest(getAddress());
             getConnection().sendRequest(request);
             getConnection().recvResponse(request);
             fail("testSendRequest failed ");
