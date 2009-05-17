@@ -21,6 +21,23 @@
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-messaging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-engine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-jaxbgen-cases</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>provided</scope>
+        </dependency>
     
         
     </dependencies>
