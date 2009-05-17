@@ -10,36 +10,23 @@
  ******************************************************************************/
 package com.legstar.csok.test;
 
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.legstar.config.Config;
 import com.legstar.csok.client.CicsSocket;
 import com.legstar.csok.client.CicsSocketEndpoint;
-import com.legstar.messaging.HeaderPartException;
 import com.legstar.messaging.LegStarAddress;
-import com.legstar.messaging.LegStarMessage;
-import com.legstar.messaging.LegStarRequest;
-import com.legstar.messaging.RequestException;
-
-import junit.framework.TestCase;
+import com.legstar.test.client.AbstractConnectionTester;
 
 /**
  * Generic test helper class.
  *
  */
-public abstract class AbstractTester extends TestCase {
+public abstract class AbstractSocketConnectionTester extends AbstractConnectionTester {
 
-    /** Mainframe character set. */
-    public static final String HOST_CHARSET = "IBM01140";
-    
     /** Configuration file.*/
     public static final String CONFIG_FILE = "config.xml";
-    
-    /** Host user ID. */
-    public static final String HOST_USERID = "STREAM2";
     
     /** A Socket endpoint. */
     private CicsSocketEndpoint mEndpoint;
@@ -49,15 +36,9 @@ public abstract class AbstractTester extends TestCase {
 
     /** A socket connection to a mainframe. */
     private CicsSocket mConnection;
-    
+
     /** Logger. */
-    private final Log _log = LogFactory.getLog(AbstractTester.class);
-   /**
-     * @return the host connection
-     */
-    public CicsSocket getConnection() {
-        return mConnection;
-    }
+    private final Log _log = LogFactory.getLog(getClass());
 
     /**
      * @return the Address of target host
@@ -71,6 +52,13 @@ public abstract class AbstractTester extends TestCase {
      */
     public CicsSocketEndpoint getEndpoint() {
         return mEndpoint;
+    }
+
+    /**
+     * @return the host connection
+     */
+    public CicsSocket getConnection() {
+        return mConnection;
     }
 
     /**
@@ -94,22 +82,6 @@ public abstract class AbstractTester extends TestCase {
     public void tearDown() throws Exception {
         super.tearDown();
         mConnection.close();
-    }
-
-    /**
-     * Create a request with a header built from a properties map.
-     * @param map properties map for header creation
-     * @return a legstar request
-     * @throws RequestException if unable to create request
-     */
-    public LegStarRequest getRequest(final Map < String, Object > map) throws RequestException {
-        try {
-            LegStarMessage requestMessage = new LegStarMessage();
-            requestMessage.getHeaderPart().setKeyValues(map);
-            return new LegStarRequest(getName(), getAddress(), requestMessage);
-        } catch (HeaderPartException e) {
-            throw new RequestException(e);
-        }
     }
 
 }

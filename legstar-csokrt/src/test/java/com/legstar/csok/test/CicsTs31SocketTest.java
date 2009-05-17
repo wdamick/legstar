@@ -26,7 +26,7 @@ import com.legstar.test.coxb.T1volumeCases;
 /** 
  * Test the Socket transport against CICS TS 3.1.
  */
-public class CicsTs31SocketTest extends AbstractTester {
+public class CicsTs31SocketTest extends AbstractSocketConnectionTester {
 
     /** This is for the memory stress test. */
     private static final int MAX_ITERATIONS = 100;
@@ -46,7 +46,7 @@ public class CicsTs31SocketTest extends AbstractTester {
             map.put(Constants.CICS_LENGTH_KEY, "79");
             map.put(Constants.CICS_DATALEN_KEY, "6");
             
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(new CommareaPart(
                     HostData.toByteArray(LsfileaeCases.getHostBytesHexRequest100())));
             getConnection().sendRequest(request);
@@ -70,7 +70,7 @@ public class CicsTs31SocketTest extends AbstractTester {
             String[] outContainers = {"RESPONSE-CTN"};
             map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
 
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(
                     new ContainerPart("REQUEST-CTN", HostData.toByteArray(LsfileaeCases.getHostBytesHexRequest100())));
             getConnection().sendRequest(request);
@@ -96,7 +96,7 @@ public class CicsTs31SocketTest extends AbstractTester {
             String[] outContainers = {"ReplyData", "ReplyStatus"};
             map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
             
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(new ContainerPart("QueryData",
                     HostData.toByteArray(LsfileacCases.getHostBytesHexQueryData())));
             request.getRequestMessage().addDataPart(new ContainerPart("QueryLimit",
@@ -131,7 +131,7 @@ public class CicsTs31SocketTest extends AbstractTester {
             String[] outContainers = {"ReplyBibi", "ReplyStatus"};
             map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
 
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(new ContainerPart("QueryData",
                     HostData.toByteArray(LsfileacCases.getHostBytesHexQueryData())));
             request.getRequestMessage().addDataPart(new ContainerPart("QueryLimit",
@@ -164,7 +164,7 @@ public class CicsTs31SocketTest extends AbstractTester {
             String[] outContainers = {"ReplyData", "ReplyStatus"};
             map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
             
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(new ContainerPart("QueryData",
                     HostData.toByteArray(LsfileacCases.getHostBytesHexQueryData())));
             getConnection().sendRequest(request);
@@ -196,7 +196,7 @@ public class CicsTs31SocketTest extends AbstractTester {
             String[] outContainers = {"ReplyData", "ReplyStatus"};
             map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
             
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             getConnection().sendRequest(request);
             getConnection().recvResponse(request);
 
@@ -223,7 +223,7 @@ public class CicsTs31SocketTest extends AbstractTester {
             String[] outContainers = {"RESPONSE-CTN"};
             map.put(Constants.CICS_OUT_CONTAINERS_KEY, outContainers);
             
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(
                     new ContainerPart("REQUEST-CTN", T1volumeCases.getHostBytes(65536)));
             getConnection().sendRequest(request);
@@ -251,7 +251,7 @@ public class CicsTs31SocketTest extends AbstractTester {
             
             LegStarMessagePart part = new ContainerPart("REQUEST-CTN", T1volumeCases.getHostBytes(65536));
             for (int i = 0; i < MAX_ITERATIONS; i++) {
-                LegStarRequest request = getRequest(map);
+                LegStarRequest request = getRequest(map, getAddress());
                 request.getRequestMessage().addDataPart(part);
                 getConnection().sendRequest(request);
                 getConnection().recvResponse(request);

@@ -27,7 +27,7 @@ import com.legstar.coxb.host.HostData;
  * This is also used as the test bench for the mainframe Socket programs.
  *
  */
-public class CicsSocketTest extends AbstractTester {
+public class CicsTs23SocketTest extends AbstractSocketConnectionTester {
     
     /** {@inheritDoc} */
     public void setUp() throws Exception {
@@ -109,7 +109,7 @@ public class CicsSocketTest extends AbstractTester {
             map.put(Constants.CICS_LENGTH_KEY, "79");
             map.put(Constants.CICS_DATALEN_KEY, "6");
 
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(new CommareaPart(null));
             getConnection().sendRequest(request);
             
@@ -127,7 +127,7 @@ public class CicsSocketTest extends AbstractTester {
             map.put(Constants.CICS_LENGTH_KEY, "79");
             map.put(Constants.CICS_DATALEN_KEY, "6");
 
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(new CommareaPart(HostData.toByteArray("F3F4F5")));
             request.getRequestMessage().addDataPart(new CommareaPart(HostData.toByteArray("F0F0F0F1F0F0")));
             getConnection().sendRequest(request);
@@ -145,7 +145,7 @@ public class CicsSocketTest extends AbstractTester {
             map.put(Constants.CICS_LENGTH_KEY, "79");
             map.put(Constants.CICS_DATALEN_KEY, "6");
 
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             for (int i = 0; i < 11; i++) {
                 request.getRequestMessage().addDataPart(new CommareaPart(null));
             }
@@ -170,7 +170,7 @@ public class CicsSocketTest extends AbstractTester {
             map.put(Constants.CICS_SYNCONRET_KEY, "1");
             map.put(Constants.CICS_TRANSID_KEY, "MIRO");
 
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(new CommareaPart(null));
             getConnection().sendRequest(request);
             getConnection().recvResponse(request);
@@ -193,7 +193,7 @@ public class CicsSocketTest extends AbstractTester {
             map.put(Constants.CICS_SYNCONRET_KEY, "1");
             map.put(Constants.CICS_TRANSID_KEY, "MIRO");
             
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             getConnection().sendRequest(request);
             getConnection().recvResponse(request);
             fail("testMissingProgramName failed=");
@@ -215,7 +215,7 @@ public class CicsSocketTest extends AbstractTester {
             map.put(Constants.CICS_SYNCONRET_KEY, "1");
             map.put(Constants.CICS_TRANSID_KEY, "MIRO");
 
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(new CommareaPart(null));
             request.getRequestMessage().addDataPart(new CommareaPart(null));
             getConnection().sendRequest(request);
@@ -239,7 +239,7 @@ public class CicsSocketTest extends AbstractTester {
             map.put(Constants.CICS_SYNCONRET_KEY, "1");
             map.put(Constants.CICS_TRANSID_KEY, "MIRO");
 
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(new CommareaPart(null));
             getConnection().sendRequest(request);
             getConnection().recvResponse(request);
@@ -262,7 +262,7 @@ public class CicsSocketTest extends AbstractTester {
             map.put(Constants.CICS_SYNCONRET_KEY, "1");
             map.put(Constants.CICS_TRANSID_KEY, "CSMI");
 
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(new CommareaPart(
                     HostData.toByteArray(LsfileaeCases.getHostBytesHexRequest100())));
             getConnection().sendRequest(request);
@@ -287,7 +287,7 @@ public class CicsSocketTest extends AbstractTester {
             map.put(Constants.CICS_LENGTH_KEY, "79");
             map.put(Constants.CICS_DATALEN_KEY, "3");
 
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(new CommareaPart(
                     HostData.toByteArray(LsfileaeCases.getHostBytesHexReply100())));
             getConnection().sendRequest(request);
@@ -310,7 +310,7 @@ public class CicsSocketTest extends AbstractTester {
             map.put(Constants.CICS_LENGTH_KEY, "79");
             map.put(Constants.CICS_DATALEN_KEY, "6");
 
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(new CommareaPart(
                     HostData.toByteArray(LsfileaeCases.getHostBytesHexRequest100())));
             getConnection().sendRequest(request);
@@ -336,7 +336,7 @@ public class CicsSocketTest extends AbstractTester {
             map.put(Constants.CICS_LENGTH_KEY, "4");
             map.put(Constants.CICS_DATALEN_KEY, "4");
 
-            LegStarRequest request = getRequest(map);
+            LegStarRequest request = getRequest(map, getAddress());
             request.getRequestMessage().addDataPart(new CommareaPart(HostData.toByteArray("C1E2D9C1")));
             getConnection().sendRequest(request);
             getConnection().recvResponse(request);
