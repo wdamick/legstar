@@ -64,26 +64,26 @@ public class PooledHostAccessStrategy implements HostAccessStrategy {
         if (_log.isDebugEnabled()) {
             _log.debug("Pooled invoke for Request:" + request.getID());
         }
-        synchronized (request) {
-            try {
-                EngineHolder.getEngine().addRequest(request);
-                request.await(mInvokeTimeout, TimeUnit.MILLISECONDS);
-                if (request.getException() != null) {
+
+        try {
+            EngineHolder.getEngine().addRequest(request);
+            request.await(mInvokeTimeout, TimeUnit.MILLISECONDS);
+            if (request.getException() != null) {
+                throw new HostAccessStrategyException(
+                        request.getException());
+            } else {
+                if (request.getResponseMessage() == null) {
                     throw new HostAccessStrategyException(
-                            request.getException());
-                } else {
-                    if (request.getResponseMessage() == null) {
-                        throw new HostAccessStrategyException(
-                                "Timed out waiting for a response for Request:"
-                                + request.getID());
-                    }
+                            "Timed out waiting for a response for Request:"
+                            + request.getID());
                 }
-            } catch (InterruptedException e) {
-                throw new HostAccessStrategyException(e);
-            } catch (EngineNotStartedException e) {
-                throw new HostAccessStrategyException(e);
             }
+        } catch (InterruptedException e) {
+            throw new HostAccessStrategyException(e);
+        } catch (EngineNotStartedException e) {
+            throw new HostAccessStrategyException(e);
         }
+
         if (_log.isDebugEnabled()) {
             long endTime = System.currentTimeMillis();
             _log.debug("Pooled invoke for Request:" + request.getID()
