@@ -10,6 +10,12 @@
  ******************************************************************************/
 package com.legstar.coxb.transform;
 
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.legstar.coxb.CobolBindingException;
 import com.legstar.coxb.CobolBindingVisitorsFactory;
 import com.legstar.coxb.CobolContext;
@@ -32,8 +38,13 @@ public abstract class AbstractTransformer implements IHostTransformer {
     /** Factory that provides concrete implementations of marshalers/unmarshalers. */
     private ICobolBindingVisitorsFactory mCobolBindingVisitorsFactory;
     
-    /** Caching the binding allows reuse and better performances. */
-    private ICobolComplexBinding mCachedBinding;
+    /** Caching the binding allows reuse and better performances.
+     * Multiple threads might be using this transformer concurrently so we
+     * keep a binding per thread. */
+    private ConcurrentMap < Long, ICobolComplexBinding > _cobolComplexBindingCache;
+
+    /** Logger. */
+    private final Log _log = LogFactory.getLog(getClass());
 
     /**
      * Create a transformer using default COBOL parameters.
@@ -61,6 +72,8 @@ public abstract class AbstractTransformer implements IHostTransformer {
         mCobolConverters = factory.createCobolConverters();
         mCobolBindingVisitorsFactory = CobolBindingVisitorsFactory.createCobolBindingVisitorsFactory();
         setCobolContext(cobolContext);
+        _cobolComplexBindingCache =
+            new ConcurrentHashMap < Long, ICobolComplexBinding >();
     }
 
     /**
@@ -117,10 +130,20 @@ public abstract class AbstractTransformer implements IHostTransformer {
      * @throws CobolBindingException if binding cannot be built
      */
     public ICobolComplexBinding getCachedBinding() throws CobolBindingException {
-        if (mCachedBinding == null) {
-            mCachedBinding = getBinding();
+        /* Get a cached transformer for the current thread */
+        Long id = Long.valueOf(Thread.currentThread().getId());
+        ICobolComplexBinding binding = _cobolComplexBindingCache.get(id);
+        if (binding == null) {
+            if (_log.isDebugEnabled()) {
+                _log.debug("Creating new binding for thread: " + id + " object: " + this);
+            }
+            ICobolComplexBinding newBinding = getBinding();
+            binding = _cobolComplexBindingCache.putIfAbsent(id, newBinding);
+            if (binding == null) {
+                binding = newBinding;
+            }
         }
-        return mCachedBinding;
+        return binding;
     }
 
 }
