@@ -28,7 +28,7 @@
       <hashTree>
         <JUnitSampler guiclass="JUnitTestSamplerGui" testclass="JUnitSampler" testname="JUnit Request" enabled="true">
           <stringProp name="junitSampler.classname">com.legstar.test.coxb.perf.DplarchtMeteringTest</stringProp>
-          <stringProp name="junitsampler.constructorstring">200</stringProp>
+          <stringProp name="junitsampler.constructorstring">100</stringProp>
           <stringProp name="junitsampler.pkg.filter"></stringProp>
           <stringProp name="junitsampler.success">Test successful</stringProp>
           <stringProp name="junitsampler.success.code">1000</stringProp>
