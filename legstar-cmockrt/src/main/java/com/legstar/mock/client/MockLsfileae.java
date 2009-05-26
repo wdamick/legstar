@@ -15,13 +15,10 @@ import java.io.IOException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.legstar.coxb.transform.HostTransformException;
 import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.HeaderPartException;
 import com.legstar.messaging.LegStarMessage;
 import com.legstar.messaging.RequestException;
-import com.legstar.test.coxb.lsfileae.Dfhcommarea;
-import com.legstar.test.coxb.lsfileae.bind.DfhcommareaTransformers;
 
 /**
  * Mocks the behavior of the LSFILEAE program.
@@ -49,18 +46,12 @@ public final class MockLsfileae {
             LOG.debug("Building response for program LSFILEAE");
         }
         try {
-            DfhcommareaTransformers transformers = new DfhcommareaTransformers();
-            Dfhcommarea dfhcommareaRequest =  transformers.toJava(
+            byte[] dfhcommareaResponse = new MockFILEA().getCustomer(
                     requestMessage.getDataParts().get(0).getContent());
-            Dfhcommarea dfhcommareaResponse = new MockFILEA().getCustomer(
-                    dfhcommareaRequest.getComNumber());
             LegStarMessage replyMessage = new LegStarMessage();
-            replyMessage.addDataPart(new CommareaPart(
-                    transformers.toHost(dfhcommareaResponse)));
+            replyMessage.addDataPart(new CommareaPart(dfhcommareaResponse));
             return replyMessage;
         } catch (HeaderPartException e) {
-            throw new RequestException(e);
-        } catch (HostTransformException e) {
             throw new RequestException(e);
         } catch (IOException e) {
             throw new RequestException(e);

@@ -13,8 +13,6 @@ package com.legstar.mock.client;
 import java.io.IOException;
 import java.util.List;
 
-import com.legstar.test.coxb.lsfileae.Dfhcommarea;
-
 import junit.framework.TestCase;
 
 /**
@@ -29,7 +27,7 @@ public class MockFILEAETest extends TestCase {
     public void testLoadTextFile() {
         try {
             MockFILEA mockFILEAE = new MockFILEA();
-            List < Dfhcommarea > list = mockFILEAE.getCustomers("S*", 100);
+            List < byte[] > list = mockFILEAE.getCustomers("S*", 100);
             assertEquals(5, list.size());
             list = mockFILEAE.getCustomers("*", 100);
             assertEquals(43, list.size());

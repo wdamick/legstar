@@ -11,28 +11,22 @@
 package com.legstar.mock.client;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.legstar.coxb.transform.HostTransformException;
+import com.legstar.coxb.CobolContext;
+import com.legstar.coxb.convert.CobolConversionException;
+import com.legstar.coxb.convert.simple.CobolBinarySimpleConverter;
+import com.legstar.coxb.convert.simple.CobolPackedDecimalSimpleConverter;
+import com.legstar.coxb.convert.simple.CobolStringSimpleConverter;
 import com.legstar.messaging.ContainerPart;
 import com.legstar.messaging.HeaderPartException;
 import com.legstar.messaging.LegStarMessage;
 import com.legstar.messaging.LegStarMessagePart;
 import com.legstar.messaging.RequestException;
-import com.legstar.test.coxb.lsfileae.Dfhcommarea;
-import com.legstar.test.coxb.lsfileac.QueryData;
-import com.legstar.test.coxb.lsfileac.bind.QueryDataTransformers;
-import com.legstar.test.coxb.lsfileac.bind.ReplyDataTransformers;
-import com.legstar.test.coxb.lsfileac.bind.ReplyStatusTransformers;
-import com.legstar.test.coxb.lsfileac.QueryLimit;
-import com.legstar.test.coxb.lsfileac.bind.QueryLimitTransformers;
-import com.legstar.test.coxb.lsfileac.ReplyItem;
-import com.legstar.test.coxb.lsfileac.ReplyPersonal;
-import com.legstar.test.coxb.lsfileac.ReplyStatus;
-import com.legstar.test.coxb.lsfileac.ReplyData;
 
 /**
  * Mocks the behavior of the LSFILEAE program.
@@ -60,71 +54,118 @@ public final class MockLsfileac {
             LOG.debug("Building response for program LSFILEAC");
         }
         try {
-            QueryDataTransformers queryDataTransformers = new QueryDataTransformers();
-            QueryLimitTransformers queryLimitTransformers = new QueryLimitTransformers();
-            QueryData queryData = null;
-            QueryLimit queryLimit = null;
+            byte[] queryData = null;
+            byte[] queryLimit = null;
             for (LegStarMessagePart part : requestMessage.getDataParts()) {
                 if (part.getPartID().equals("QueryData")) {
-                    queryData = queryDataTransformers.toJava(part.getContent());
+                    queryData = part.getContent();
                 }
                 if (part.getPartID().equals("QueryLimit")) {
-                    queryLimit = queryLimitTransformers.toJava(part.getContent());
+                    queryLimit = part.getContent();
                 }
             }
             MockFILEA mockFILEA = new MockFILEA();
-            String namePattern = (queryData == null) ? "*" : queryData.getQueryName();
-            long maxItems = (queryLimit == null)
-                    ?  mockFILEA.getCustomersList().size()
-                    : queryLimit.getMaxItemsRead();
-            List < Dfhcommarea > customers = mockFILEA.getCustomers(namePattern, maxItems);
-            
-            ReplyStatus replyStatus = new ReplyStatus();
-            replyStatus.setTotalItemsRead(mockFILEA.getCustomersList().size());
-            replyStatus.setSearchDuration("00:00:00");
-            replyStatus.setReplyType(0);
-            if (customers.size() > 0) {
-                replyStatus.setReplyMessage("");
+            String namePattern = (queryData == null) ? "*" : getQueryName(queryData);
+            List < byte[] > customers;
+            if (queryLimit == null) {
+                customers = mockFILEA.getCustomers(namePattern);
             } else {
-                replyStatus.setReplyMessage("NO CUSTOMER SATISFIES YOUR QUERY");
-            }
-            replyStatus.setReplyResp(0);
-            replyStatus.setReplyResp2(0);
-            
-            ReplyData replyData = null;
-            if (customers.size() > 0) {
-                replyData = new ReplyData();
-                replyData.setReplyItemscount(customers.size());
-                for (Dfhcommarea dfhcommarea : customers) {
-                    ReplyItem replyItem = new ReplyItem();
-                    replyItem.setReplyNumber(dfhcommarea.getComNumber());
-                    ReplyPersonal replyPersonal = new ReplyPersonal();
-                    replyPersonal.setReplyName(dfhcommarea.getComPersonal().getComName());
-                    replyPersonal.setReplyAddress(dfhcommarea.getComPersonal().getComAddress());
-                    replyPersonal.setReplyPhone(dfhcommarea.getComPersonal().getComPhone());
-                    replyItem.setReplyPersonal(replyPersonal);
-                    replyItem.setReplyDate(dfhcommarea.getComDate());
-                    replyItem.setReplyAmount(dfhcommarea.getComAmount());
-                    replyItem.setReplyComment(dfhcommarea.getComComment());
-                    replyData.getReplyItem().add(replyItem);
-                }
+                customers = mockFILEA.getCustomers(namePattern, getMaxItems(queryLimit));
             }
             
-            ReplyStatusTransformers replyStatusTransformers = new ReplyStatusTransformers();
+            int offset = 0;
+            String hostCharsetName = CobolContext.getDefaultHostCharsetName();
+            byte[] hostReplyStatus = new byte[151];
+
+            /* reply type */
+            CobolBinarySimpleConverter.toHostSingle(
+                    BigDecimal.ZERO, 2, false, hostReplyStatus, offset);
+            offset += 2;
+
+            /* search duration */
+            CobolStringSimpleConverter.toHostSingle(
+                    "00:00:00",
+                    hostCharsetName, 8, false, hostReplyStatus, offset);
+            offset += 8;
+
+            /* total items */
+            CobolPackedDecimalSimpleConverter.toHostSingle(
+                    new BigDecimal(mockFILEA.getCustomersNumber()),
+                    5, 8, 0, false, hostReplyStatus, offset);
+            offset += 5;
+
+            /* resp */
+            CobolBinarySimpleConverter.toHostSingle(
+                    BigDecimal.ZERO, 4, true, hostReplyStatus, offset);
+            offset += 4;
+
+            /* resp2 */
+            CobolBinarySimpleConverter.toHostSingle(
+                    BigDecimal.ZERO, 4, true, hostReplyStatus, offset);
+            offset += 4;
+
+            /* reply message */
+            CobolStringSimpleConverter.toHostSingle(
+                    (customers.size() > 0) ? "" : "NO CUSTOMER SATISFIES YOUR QUERY",
+                    hostCharsetName, 128, false, hostReplyStatus, offset);
+            offset += 128;
+            
+            offset = 0;
+            byte[] hostReplyData = new byte[5 + 79 * customers.size()];
+            /* items number */
+            CobolPackedDecimalSimpleConverter.toHostSingle(
+                    new BigDecimal(customers.size()),
+                    5, 8, 0, false, hostReplyData, offset);
+            offset += 5;
+
+            /* items */
+            for (byte[] customer : customers) {
+                System.arraycopy(customer, 0, hostReplyData, offset, 79);
+                offset += 79;
+            }
+
             LegStarMessage replyMessage = new LegStarMessage();
-            replyMessage.addDataPart(new ContainerPart("ReplyStatus",
-                    replyStatusTransformers.toHost(replyStatus)));
-            ReplyDataTransformers replyDataTransformers = new ReplyDataTransformers();
-            replyMessage.addDataPart(new ContainerPart("ReplyData",
-                    (replyData == null) ? null : replyDataTransformers.toHost(replyData)));
+            replyMessage.addDataPart(new ContainerPart("ReplyStatus", hostReplyStatus));
+            replyMessage.addDataPart(new ContainerPart("ReplyData", hostReplyData));
             return replyMessage;
+
         } catch (HeaderPartException e) {
             throw new RequestException(e);
-        } catch (HostTransformException e) {
+        } catch (CobolConversionException e) {
             throw new RequestException(e);
         } catch (IOException e) {
             throw new RequestException(e);
         }
     }
     
+    /**
+     * Get the request name pattern from a host byte array.
+     * @param hostData the host byte array
+     * @return the request name pattern
+     */
+    private static String getQueryName(final byte[] hostData) {
+        try {
+            return CobolStringSimpleConverter.fromHostSingle(
+                    CobolContext.getDefaultHostCharsetName(), 20, hostData, 0);
+        } catch (CobolConversionException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Get the max number of items from a host byte array.
+     * @param hostData the host byte array
+     * @return the max number of items
+     */
+    private static long getMaxItems(final byte[] hostData) {
+        try {
+            BigDecimal bigD = CobolPackedDecimalSimpleConverter.fromHostSingle(
+                    5, 8, 0, hostData, 0);
+            return bigD.longValue();
+        } catch (CobolConversionException e) {
+            e.printStackTrace();
+            return 0L;
+        }
+    }
 }

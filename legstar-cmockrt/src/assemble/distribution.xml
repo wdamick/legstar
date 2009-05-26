@@ -16,6 +16,14 @@
             </includes>
         </fileSet>
         
+        <fileSet>
+            <directory>src/test/resources</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>legstar-invoker-config.xml</include>
+            </includes>
+        </fileSet>
+
     </fileSets>
 
     <dependencySets>
@@ -26,8 +34,6 @@
             <includes>
                 <include>com.legsem.legstar:${pom.artifactId}:*</include>
                 <include>org.json:jsonjava:*</include>
-                <include>com.legsem.legstar:legstar-jaxbgen-cases:*</include>
-                <include>com.legsem.legstar:legstar-coxbgen-cases:*</include>
             </includes>
         </dependencySet>
     </dependencySets>
