@@ -53,18 +53,19 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <!-- Test cases for JAXB binding -->    
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-jaxbgen-cases</artifactId>
-            <scope>compile</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-coxbgen-cases</artifactId>
-            <scope>compile</scope>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -90,6 +91,29 @@
                             <goal>attached</goal> <!-- goals == mojos -->
                         </goals>
                     </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                
+                    <!-- This will deploy the jar file to a Tomcat dev instance.  -->
+                    <execution>
+                        <id>deploy-to-tomcat</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/../src/main/ant/deploy-to-tomcat.xml">
+                                    <property name="legstar-dev-tomcat-base" value="${legstar-dev-tomcat-base}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
                 </executions>
             </plugin>
 

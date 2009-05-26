@@ -10,6 +10,9 @@
  ******************************************************************************/
 package com.legstar.mock.client;
 
+import java.util.Formatter;
+import java.util.Locale;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -18,7 +21,6 @@ import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.HeaderPartException;
 import com.legstar.messaging.LegStarMessage;
 import com.legstar.messaging.RequestException;
-import com.legstar.test.coxb.VararcomCases;
 
 /**
  * Mocks the behavior of the VARARCOM program.
@@ -48,11 +50,26 @@ public final class MockVararcom {
         try {
             LegStarMessage replyMessage = new LegStarMessage();
             replyMessage.addDataPart(new CommareaPart(
-                    HostData.toByteArray(VararcomCases.getHostBytesHex36())));
+                    HostData.toByteArray(getHostBytesHex36())));
             return replyMessage;
         } catch (HeaderPartException e) {
             throw new RequestException(e);
         }
     }
     
+    /**
+     * @return a hexadecimal representation of host data.
+     */
+    public static String getHostBytesHex36() {
+        
+        StringBuilder sb = new StringBuilder("0024");
+        for (int i = 0; i < 36; i++) {
+            StringBuilder sbl = new StringBuilder();
+            Formatter formatter = new Formatter(sbl, Locale.US);
+            formatter.format("%04x", 5 * (i + 1));
+            sb.append("c6c7c8c9d1" + sbl.toString());
+        }
+
+        return sb.toString();
+    }
 }

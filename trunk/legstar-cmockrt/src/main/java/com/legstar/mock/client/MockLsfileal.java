@@ -11,25 +11,21 @@
 package com.legstar.mock.client;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.legstar.coxb.transform.HostTransformException;
+import com.legstar.coxb.CobolContext;
+import com.legstar.coxb.convert.CobolConversionException;
+import com.legstar.coxb.convert.simple.CobolBinarySimpleConverter;
+import com.legstar.coxb.convert.simple.CobolPackedDecimalSimpleConverter;
+import com.legstar.coxb.convert.simple.CobolStringSimpleConverter;
 import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.HeaderPartException;
 import com.legstar.messaging.LegStarMessage;
 import com.legstar.messaging.RequestException;
-import com.legstar.test.coxb.lsfileae.Dfhcommarea;
-import com.legstar.test.coxb.lsfileal.RequestParms;
-import com.legstar.test.coxb.lsfileal.bind.RequestParmsTransformers;
-import com.legstar.test.coxb.lsfileal.bind.ReplyDataTransformers;
-import com.legstar.test.coxb.lsfileal.Filler65;
-import com.legstar.test.coxb.lsfileal.ReplyItem;
-import com.legstar.test.coxb.lsfileal.ReplyPersonal;
-import com.legstar.test.coxb.lsfileal.ReplyData;
-import com.legstar.test.coxb.lsfileal.ReplySuccessHeader;
 
 /**
  * Mocks the behavior of the LSFILEAE program.
@@ -57,48 +53,72 @@ public final class MockLsfileal {
             LOG.debug("Building response for program LSFILEAL");
         }
         try {
-            RequestParmsTransformers requestParmsTransformers = new RequestParmsTransformers();
-            RequestParms requestParms = requestParmsTransformers.toJava(
-                    requestMessage.getDataParts().get(0).getContent());
+            byte[] hostRequest = requestMessage.getDataParts().get(0).getContent();
             
             MockFILEA mockFILEA = new MockFILEA();
-            String namePattern = requestParms.getRequestName();
-            List < Dfhcommarea > customers = mockFILEA.getCustomers(
-                    namePattern, mockFILEA.getCustomersList().size());
+            String namePattern = getRequestName(hostRequest);
+            List < byte[] > customers = mockFILEA.getCustomers(namePattern);
             
-            ReplyData replyData = new ReplyData();
-            ReplySuccessHeader replySuccessHeader = new ReplySuccessHeader();
-            replySuccessHeader.setSearchDuration("00:00:00");
-            replySuccessHeader.setTotalItemsRead(mockFILEA.getCustomersList().size());
-            replyData.setReplySuccessHeader(replySuccessHeader);
-            Filler65 replyFiller65 = new Filler65();
-            for (Dfhcommarea dfhcommarea : customers) {
-                ReplyItem replyItem = new ReplyItem();
-                replyItem.setReplyNumber(dfhcommarea.getComNumber());
-                ReplyPersonal replyPersonal = new ReplyPersonal();
-                replyPersonal.setReplyName(dfhcommarea.getComPersonal().getComName());
-                replyPersonal.setReplyAddress(dfhcommarea.getComPersonal().getComAddress());
-                replyPersonal.setReplyPhone(dfhcommarea.getComPersonal().getComPhone());
-                replyItem.setReplyPersonal(replyPersonal);
-                replyItem.setReplyDate(dfhcommarea.getComDate());
-                replyItem.setReplyAmount(dfhcommarea.getComAmount());
-                replyItem.setReplyComment(dfhcommarea.getComComment());
-                replyFiller65.getReplyItem().add(replyItem);
+            int offset = 0;
+            String hostCharsetName = CobolContext.getDefaultHostCharsetName();
+            byte[] hostReply = new byte[143 +  79 * customers.size()];
+            
+            /* reply type */
+            CobolBinarySimpleConverter.toHostSingle(
+                    BigDecimal.ZERO, 2, false, hostReply, offset);
+            offset += 2;
+
+            /* search duration */
+            CobolStringSimpleConverter.toHostSingle(
+                    "00:00:00",
+                    hostCharsetName, 8, false, hostReply, offset);
+            offset += 8;
+            
+            /* total items */
+            CobolPackedDecimalSimpleConverter.toHostSingle(
+                    new BigDecimal(mockFILEA.getCustomersNumber()),
+                    5, 8, 0, false, hostReply, offset);
+            offset += 5;
+
+            /* filler */
+            offset += 123;
+
+            /* items number */
+            CobolPackedDecimalSimpleConverter.toHostSingle(
+                    new BigDecimal(customers.size()),
+                    5, 8, 0, false, hostReply, offset);
+            offset += 5;
+            
+            /* items */
+            for (byte[] customer : customers) {
+                System.arraycopy(customer, 0, hostReply, offset, 79);
+                offset += 79;
             }
-            replyFiller65.setReplyItemscount(customers.size());
-            replyData.setFiller65(replyFiller65);
-            
-            ReplyDataTransformers replyDataTransformers = new ReplyDataTransformers();
+
             LegStarMessage replyMessage = new LegStarMessage();
-            replyMessage.addDataPart(new CommareaPart(
-                    replyDataTransformers.toHost(replyData)));
+            replyMessage.addDataPart(new CommareaPart(hostReply));
             return replyMessage;
         } catch (HeaderPartException e) {
             throw new RequestException(e);
-        } catch (HostTransformException e) {
+        } catch (CobolConversionException e) {
             throw new RequestException(e);
         } catch (IOException e) {
             throw new RequestException(e);
+        }
+    }
+    
+    /**
+     * Get the request name pattern from a host byte array.
+     * @param hostData the host byte array
+     * @return the request name pattern
+     */
+    private static String getRequestName(final byte[] hostData) {
+        try {
+            return CobolStringSimpleConverter.fromHostSingle(
+                    CobolContext.getDefaultHostCharsetName(), 20, hostData, 0);
+        } catch (CobolConversionException e) {
+            e.printStackTrace();
+            return null;
         }
     }
     
