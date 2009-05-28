@@ -23,7 +23,8 @@ public final class XmlUtil {
     }
     
     /**
-     * Pretty print an XML.
+     * Pretty print an XML. Use with caution as this drains the source if it is
+     * a StreamSource.
      * @param source the XML source
      * @return a String with readable XML
      */
