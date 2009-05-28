@@ -13,6 +13,11 @@ package com.legstar.cixs.jaxws.model;
 import java.io.File;
 
 import com.legstar.cixs.gen.ant.model.AbstractAntBuildCixsModel;
+import com.legstar.cixs.gen.model.options.CobolHttpClientType;
+import com.legstar.cixs.gen.model.options.HttpTransportParameters;
+import com.legstar.cixs.gen.model.options.PojoParameters;
+import com.legstar.cixs.gen.model.options.ProxyTargetType;
+import com.legstar.cixs.gen.model.options.WebServiceParameters;
 
 /**
  * This model groups parameters needed to generate artifacts for a proxy

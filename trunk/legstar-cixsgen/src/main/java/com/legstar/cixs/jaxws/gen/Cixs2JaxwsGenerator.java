@@ -18,13 +18,14 @@ import java.util.Map;
 import com.legstar.cixs.gen.ant.AbstractCixsGenerator;
 import com.legstar.cixs.gen.model.AbstractCixsService;
 import com.legstar.cixs.gen.model.CixsOperation;
+import com.legstar.cixs.gen.model.options.CobolHttpClientType;
+import com.legstar.cixs.gen.model.options.HttpTransportParameters;
+import com.legstar.cixs.gen.model.options.PojoParameters;
+import com.legstar.cixs.gen.model.options.ProxyTargetType;
+import com.legstar.cixs.gen.model.options.TransportType;
+import com.legstar.cixs.gen.model.options.WebServiceParameters;
 import com.legstar.cixs.jaxws.model.AntBuildCixs2JaxwsModel;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
-import com.legstar.cixs.jaxws.model.CobolHttpClientType;
-import com.legstar.cixs.jaxws.model.HttpTransportParameters;
-import com.legstar.cixs.jaxws.model.PojoParameters;
-import com.legstar.cixs.jaxws.model.ProxyTargetType;
-import com.legstar.cixs.jaxws.model.WebServiceParameters;
 import com.legstar.codegen.CodeGenMakeException;
 import com.legstar.codegen.CodeGenUtil;
 
@@ -61,6 +62,10 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
     /** Velocity template for COBOL client using DFHWBCLI generation. */
     public static final String OPERATION_COBOL_CICS_DFHWBCLI_CLIENT_VLC_TEMPLATE =
         "vlc/c2j-operation-cobol-cics-dfhwbcli-client.vm";
+
+    /** Velocity template for COBOL client using WMQ generation. */
+    public static final String OPERATION_COBOL_CICS_WMQ_CLIENT_VLC_TEMPLATE =
+        "vlc/c2j-operation-cobol-cics-wmq-client.vm";
 
     /** The service model name is it appears in templates. */
     public static final String SERVICE_MODEL_NAME = "model";
@@ -171,7 +176,9 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
             parameters.put("cixsOperation", operation);
             generateCobolCicsClient(
                     getCixsJaxwsService(), operation, parameters,
-                    serviceCobolCicsClientDir, getSampleCobolHttpClientTypeInternal());
+                    serviceCobolCicsClientDir,
+                    TransportType.HTTP,
+                    getSampleCobolHttpClientTypeInternal());
         }
 
     }
@@ -224,6 +231,7 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
      * @param operation the operation for which a program is to be generated
      * @param parameters the set of parameters to pass to template engine
      * @param cobolFilesDir location where COBOL code should be generated
+     * @param transportType wire protocol to use between cobol client and proxy
      * @param cobolHttpClientType the type of COBOL http client sample to generate
      * @throws CodeGenMakeException if generation fails
      */
@@ -232,20 +240,31 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
             final CixsOperation operation,
             final Map < String, Object > parameters,
             final File cobolFilesDir,
+            final TransportType transportType,
             final CobolHttpClientType cobolHttpClientType)
     throws CodeGenMakeException {
         
         String template;
-        switch(cobolHttpClientType) {
-        case DFHWBCLI:
-            template = OPERATION_COBOL_CICS_DFHWBCLI_CLIENT_VLC_TEMPLATE;
+        switch(transportType) {
+        case HTTP:
+            switch(cobolHttpClientType) {
+            case DFHWBCLI:
+                template = OPERATION_COBOL_CICS_DFHWBCLI_CLIENT_VLC_TEMPLATE;
+                break;
+            case WEBAPI:
+                template = OPERATION_COBOL_CICS_WEBAPI_CLIENT_VLC_TEMPLATE;
+                break;
+            default:
+                template = OPERATION_COBOL_CICS_LSHTTAPI_CLIENT_VLC_TEMPLATE;
+            }
             break;
-        case WEBAPI:
-            template = OPERATION_COBOL_CICS_WEBAPI_CLIENT_VLC_TEMPLATE;
+        case WMQ:
+            template = OPERATION_COBOL_CICS_WMQ_CLIENT_VLC_TEMPLATE;
             break;
         default:
-            template = OPERATION_COBOL_CICS_LSHTTAPI_CLIENT_VLC_TEMPLATE;
+            throw new CodeGenMakeException("Transport " + transportType + " not supported");    
         }
+
         generateFile(CIXS_TO_JAXWS_GENERATOR_NAME,
                 template,
                 SERVICE_MODEL_NAME,
@@ -253,6 +272,7 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
                 parameters,
                 cobolFilesDir,
                 operation.getCicsProgramName() + ".cbl");
+        
     }
 
     /**

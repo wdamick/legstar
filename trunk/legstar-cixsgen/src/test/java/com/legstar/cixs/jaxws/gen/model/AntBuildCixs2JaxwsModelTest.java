@@ -14,10 +14,10 @@ import java.io.File;
 
 import com.legstar.cixs.gen.AbstractTestTemplate;
 import com.legstar.cixs.gen.Samples;
+import com.legstar.cixs.gen.model.options.CobolHttpClientType;
+import com.legstar.cixs.gen.model.options.ProxyTargetType;
 import com.legstar.cixs.jaxws.model.AntBuildCixs2JaxwsModel;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
-import com.legstar.cixs.jaxws.model.CobolHttpClientType;
-import com.legstar.cixs.jaxws.model.ProxyTargetType;
 import com.legstar.codegen.CodeGenUtil;
 
 /**

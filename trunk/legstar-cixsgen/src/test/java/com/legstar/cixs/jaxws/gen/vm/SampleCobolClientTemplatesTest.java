@@ -12,10 +12,10 @@ package com.legstar.cixs.jaxws.gen.vm;
 
 import com.legstar.cixs.gen.AbstractTestTemplate;
 import com.legstar.cixs.gen.Samples;
+import com.legstar.cixs.gen.model.options.HttpTransportParameters;
 import com.legstar.cixs.jaxws.gen.Cixs2JaxwsGenerator;
 import com.legstar.cixs.jaxws.gen.StructuresGenerator;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
-import com.legstar.cixs.jaxws.model.HttpTransportParameters;
 import com.legstar.codegen.CodeGenUtil;
 
 
@@ -256,4 +256,42 @@ public class SampleCobolClientTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("'JVMQUERY STOPPING ==============================='"));
     }
     
+    /**
+     * Generate the WMQ sample COBOL client and test it.
+     * @throws Exception if generation fails
+     */
+    public void testCobolCicsWmqClientGeneration() throws Exception {
+
+        CixsJaxwsService model = Samples.getJvmqueryWs();
+        getParameters().put("cixsOperation", model.getCixsOperations().get(0));
+        getParameters().put("structHelper", new StructuresGenerator());
+        addWmqTransportParameters(model, getParameters());
+
+        String resStr = genSource(model,
+                Cixs2JaxwsGenerator.CIXS_TO_JAXWS_GENERATOR_NAME,
+                Cixs2JaxwsGenerator.OPERATION_COBOL_CICS_WMQ_CLIENT_VLC_TEMPLATE,
+                GEN_COBOL_DIR,
+                model.getCixsOperations().get(0).getCicsProgramName() + ".cbl");
+
+        assertTrue(resStr.contains("       PROGRAM-ID. JVMQUERY."));
+        assertTrue(resStr.contains("           'CSQ1'."));
+        assertTrue(resStr.contains("           'REQUEST.QUEUE'."));
+        assertTrue(resStr.contains("           'REPLY.QUEUE'."));
+        assertTrue(resStr.contains("           'ERROR.QUEUE'."));
+        assertTrue(resStr.contains("           02 QueryJvm."));
+        assertTrue(resStr.contains("               03 envVarNames--C PIC 9(9) BINARY."));
+        assertTrue(resStr.contains("                   04 envVarNames PIC X(32) OCCURS 0 TO 10 DEPENDING ON"));
+        assertTrue(resStr.contains("                   envVarNames--C."));
+        assertTrue(resStr.contains("           02 QueryJvmResponse."));
+        assertTrue(resStr.contains("               03 envVarValues--C PIC 9(9) BINARY."));
+        assertTrue(resStr.contains("                   04 country PIC X(32)."));
+        assertTrue(resStr.contains("                   04 currencySymbol PIC X(32)."));
+        assertTrue(resStr.contains("                   04 envVarValues PIC X(32) OCCURS 0 TO 10 DEPENDING ON"));
+        assertTrue(resStr.contains("                       envVarValues--C."));
+        assertTrue(resStr.contains("                   04 formattedDate PIC X(32)."));
+        assertTrue(resStr.contains("                   04 language PIC X(32)."));
+        assertTrue(resStr.contains("'JVMQUERY STARTING ==============================='"));
+        assertTrue(resStr.contains("'JVMQUERY STOPPING ==============================='"));
+        assertTrue(resStr.contains("'JVMQUERY STOPPING ==============================='"));
+    }
 }

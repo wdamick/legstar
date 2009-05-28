@@ -13,6 +13,7 @@ package com.legstar.cixs.jaxws.model;
 import java.io.File;
 
 import com.legstar.cixs.gen.ant.model.AbstractAntBuildCixsModel;
+import com.legstar.cixs.gen.model.options.WebServiceParameters;
 
 /**
  * This is a model for Jaxws to Cixs component generation. The generated 
