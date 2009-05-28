@@ -62,11 +62,6 @@
             <artifactId>legstar-jaxbgen-cases</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-coxbgen-cases</artifactId>
-            <scope>test</scope>
-        </dependency>
 
     </dependencies>
   
