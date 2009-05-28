@@ -107,12 +107,8 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
 
     /** This is a JAXB Context that can be used to marshal/unmarshal the
      * JAXB annotated classes that form the request and reply for this
-     * web service. */
+     * web service. Thread safe in RI. */
     private JAXBContext mJaxbContext;
-
-    /** Instance of jaxws dynamic client invoker. This instance is lazily created once
-     * and reused each time this action is processed. */
-    private Dispatch < Object > mDispatcher;
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
@@ -312,28 +308,27 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
     /**
      * Gets or creates a JAXWS dispatcher.
      * <p/>
-     * If no dispatcher has been created yet, creates a Dispatch instance for use with JAXB
-     * generated objects.
-     * @return the instance of jaxws dynamic client invoker. 
+     * Caching attempts have failed. There is a weird java.io.IOException: "Bogus chunk size"
+     * when we try to reuse a dynamic dispatcher so we create one for each request.
+     * TODO This is a CPU hotspot
+     * @return an instance of jaxws dynamic client invoker. 
      * @throws WebServiceInvokerException if attempt to instantiate dispatcher fails
      */
     public Dispatch < Object > getDispatcher() throws WebServiceInvokerException {
-        if (mDispatcher == null) {
-            QName serviceQname = new QName(
-                    getWsdlTargetNamespace(), getWsdlServiceName());
-            QName portQname = new QName(
-                    getWsdlTargetNamespace(), getWsdlPortName());
-            Service service = Service.create(serviceQname);
-            service.addPort(portQname, SOAPBinding.SOAP11HTTP_BINDING,
-                    getWsdlUrl());
-            mDispatcher = service.createDispatch(
-                    portQname, getJaxbContext(), Service.Mode.PAYLOAD);
+        QName serviceQname = new QName(
+                getWsdlTargetNamespace(), getWsdlServiceName());
+        QName portQname = new QName(
+                getWsdlTargetNamespace(), getWsdlPortName());
+        Service service = Service.create(serviceQname);
+        service.addPort(portQname, SOAPBinding.SOAP11HTTP_BINDING,
+                getWsdlUrl());
+        Dispatch < Object > dispatcher = service.createDispatch(
+                portQname, getJaxbContext(), Service.Mode.PAYLOAD);
 
-            if (_log.isDebugEnabled()) {
-                _log.debug("New javax.xml.ws.Dispatch created for " + getWsdlServiceName());
-            }
+        if (_log.isDebugEnabled()) {
+            _log.debug("New javax.xml.ws.Dispatch created for " + getWsdlServiceName());
         }
-        return mDispatcher;
+        return dispatcher;
     }
 
     /**

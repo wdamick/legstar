@@ -42,7 +42,7 @@ public class ServiceProxy {
         "com.legstar.proxy.invoke.ReflectOperationProxy";
 
     /** Logger. */
-    private final Log _log = LogFactory.getLog(ServiceProxy.class);
+    private final Log _log = LogFactory.getLog(getClass());
     
     /**
      * Current set of configuration parameters. These are setup at construction
@@ -131,10 +131,6 @@ public class ServiceProxy {
             if (_log.isDebugEnabled()) {
                 _log.debug("Servicing proxy request " + requestID);
             }
-            /* Add request time parameters. */
-            if (config != null) {
-                mConfig.putAll(config);
-            }
 
             /* Detect if client is using LegStar messaging. */
             boolean legstarMessaging = false;
@@ -164,17 +160,23 @@ public class ServiceProxy {
     }
 
     /**
+     * Same method using default configuration.
+     * @param requestID a unique identifier for the request
+     * @param requestBytes the mainframe request data
+     * @return reply data ready for transmission to mainframe
+     * @throws ProxyInvokerException if invoke fails
+     */
+    public byte[] invoke(
+            final String requestID,
+            final byte[] requestBytes) throws ProxyInvokerException {
+        return invoke(getConfig(), requestID, requestBytes);
+    }
+
+    /**
      * @return the current set of configuration parameters
      */
     public Map < String, String > getConfig() {
         return mConfig;
-    }
-
-    /**
-     * @param config the current set of configuration parameters to set
-     */
-    public void setConfig(final Map < String, String > config) {
-        mConfig = config;
     }
 
     /**

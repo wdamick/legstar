@@ -21,7 +21,6 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -61,11 +60,8 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
     /** Flood prevention for large data.   */
     private static final int MAX_TRACES_BYTES  = 500;
     
-    /** Used to store configuration parameters in the application scope.*/
-    private static final String PROXY_CONFIG_KEY = "com.legstar.c2ws.servlet.ProxyConfig";
-    
-    /** A service proxy key to store a proxy to service a session.*/
-    private static final String SERVICE_PROXY_KEY = "com.legstar.c2ws.servlet.ServiceProxy";
+    /** Multi threaded version of the service proxy.*/
+    private ServiceProxy _serviceProxy;
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
@@ -84,7 +80,11 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
         while (en.hasMoreElements()) {
             setInitParameter(proxyConfig, en.nextElement(), null);
         }
-        setProxyConfig(proxyConfig);
+        try {
+            _serviceProxy = new ServiceProxy(proxyConfig);
+        } catch (ProxyConfigurationException e) {
+            throw new ServletException(e);
+        }
     }
 
     /** {@inheritDoc} */
@@ -126,8 +126,7 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
             }
 
             /* Call the proxy getting a byte array back */
-            byte[] replyBytes = getServiceProxy(request).invoke(
-                    getProxyConfig(), requestID, requestBytes);
+            byte[] replyBytes = getServiceProxy().invoke(requestID, requestBytes);
             
             if (_log.isDebugEnabled()) {
                 _log.debug("Reply data to host:");
@@ -196,48 +195,6 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
     }
 
     /**
-     * @return the application scope set of configuration parameters
-     */
-    @SuppressWarnings("unchecked")
-    public Map < String, String > getProxyConfig() {
-        return (Map < String, String >) getServletContext().getAttribute(PROXY_CONFIG_KEY);
-    }
-    
-    /**
-     * @param proxyConfig the application scope set of configuration parameters to set
-     */
-    public void setProxyConfig(final Map < String, String > proxyConfig) {
-        getServletContext().setAttribute(PROXY_CONFIG_KEY, proxyConfig);
-    }
-
-    /**
-     * This makes an attempt at cashing the service proxy in the servlet session.
-     * just create a new proxy if cannot be retrieved from cache.
-     * @param request the current http request
-     * @return the proxy service which will invoke the remote process
-     * @throws ServletException if a service proxy cannot be retrieved or created
-     */
-    public ServiceProxy getServiceProxy(final HttpServletRequest request) throws ServletException {
-        ServiceProxy serviceProxy = null;
-        HttpSession session = request.getSession(true);
-        if (session != null) {
-            serviceProxy = (ServiceProxy) session.getAttribute(SERVICE_PROXY_KEY);
-            if (serviceProxy != null) {
-                return serviceProxy;
-            }
-        }
-        try {
-            serviceProxy = new ServiceProxy(getProxyConfig());
-            if (session != null) {
-                session.setAttribute(SERVICE_PROXY_KEY, serviceProxy);
-            }
-            return serviceProxy;
-        } catch (ProxyConfigurationException e) {
-            throw new ServletException(e);
-        }
-    }
-
-    /**
      * Produce a dump-like report of a data buffer content.
      * @param requestID a correlation id
      * @param data the raw data to trace
@@ -284,5 +241,12 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
                     MAX_TRACES_BYTES));
             log.debug(dumpLine);
         }
+    }
+    
+    /**
+     * @return the service associated service proxy
+     */
+    public ServiceProxy getServiceProxy() {
+        return _serviceProxy;
     }
 }
