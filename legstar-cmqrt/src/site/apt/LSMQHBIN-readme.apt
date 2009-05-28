@@ -78,15 +78,19 @@ CICS MQ handler LSMQHBIN
 | messageId               | Mandatory | A unique message identifier. Will be propagated  |
 |                         |           | back as a correlationId in the reply.            |
 *-------------------------+-----------+--------------------------------------------------+
-| correlationId           | Mandatory | Will be  used as a trace ID on the host          |
-|                         |           | (should be EBCDIC)                               |
+| correlationId           | Optional  | If you send a non null correlation ID it will be |
+|                         |           | returned as the correlation ID. Otherwise, the   |
+|                         |           | message ID will be returned as correlation ID.   |
 *-------------------------+-----------+--------------------------------------------------+
 Standard MQ message descriptor fields
 
  In addition, these optional context headers can be specified:
 
 *-------------------+-----------+----------------------------------------------+
-| applicationIdData | Optional  | Turns traces on in CICS if value is 'true'.  |
+| applicationIdData | Optional  | Characters 1 to 5:                           +
+|                   |           |  Turns traces on in CICS if value is 'true'. |
+|                   |           | Characters 6 to 22:                          +
+|                   |           |  The trace ID to prefix log traces.          |
 *-------------------+-----------+----------------------------------------------+
 | userId            | Optional  | Informational, propagated on replies.        |
 *-------------------+-----------+----------------------------------------------+

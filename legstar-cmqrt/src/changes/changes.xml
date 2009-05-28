@@ -3,6 +3,24 @@
     <title>Changes Websphere MQ Transport</title>
   </properties>
   <body>
+    <release version="1.2.5" date="2009-05-30" description="Fixes release">
+      <action dev="fady" type="update">
+        Added load test cases and JMeter plans.
+      </action>
+      <action dev="fady" type="update">
+        Fixed issue 50: Remove systematic final attributes on methods.
+      </action>
+      <action dev="fady" type="update">
+        Fixed issue 51: Remove static attribute on commons logging logger.
+      </action>
+      <action dev="fady" type="update">
+        Changed correlation ID management. We now correlate on messageID so that it is consistent between LegStar messaging and CICS MQ Bridge.
+        The zOS mq module still has the capability to correlate of correlation ID though for backward compatibility.
+      </action>
+      <action dev="fady" type="update">
+        Fixed issue a minor issue with close which was not nullifying queues and queue managers.
+      </action>
+    </release>
     <release version="1.2.4" date="2009-03-30" description="Performance release">
       <action dev="fady" type="update">
         Added support for IBM MQ Bridge. A new configuration option results in legstar sending an MQCIH header
