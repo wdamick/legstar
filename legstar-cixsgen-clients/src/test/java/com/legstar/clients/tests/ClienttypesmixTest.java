@@ -31,9 +31,7 @@ public class ClienttypesmixTest extends TestCase {
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		dfhcommarea.setCAlphabetic("ABCDE");
 		dfhcommarea.setCNational("ABCDE");
-//		byte[] cCDbcs = {0x0E,0x40,0x40,0x40,0x40,0x40,0x40, 0x0F};
-		byte[] cCDbcs = {0x40,0x40,0x40,0x40,0x40,0x40,0x40,0x40};
-		dfhcommarea.setCDbcs(cCDbcs);
+		dfhcommarea.setCDbcs("");
 		dfhcommarea.setCAlphanumericEdited("HAHAHAH");
 		dfhcommarea.setCAlphanumeric("A9973");
 		byte[] cOctetString = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
@@ -61,7 +59,7 @@ public class ClienttypesmixTest extends TestCase {
 		req.setRequest(dfhcommarea);
 		TypesmixResponse resp = port.typesmix(req, null);
 		assertEquals("FGHIJ", resp.getResponse().getCAlphabetic());
-		assertEquals("4040404040404040", toHexString( resp.getResponse().getCDbcs()));
+		assertEquals("", resp.getResponse().getCDbcs());
 		assertEquals("AAXXX/T500   /", resp.getResponse().getCAlphanumericEdited());
 		assertEquals("ALPHA12", resp.getResponse().getCAlphanumeric());
 		assertEquals("0102030440404040", toHexString( resp.getResponse().getCOctetString()));
