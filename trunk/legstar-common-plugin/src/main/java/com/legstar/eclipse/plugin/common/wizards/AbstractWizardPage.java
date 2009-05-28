@@ -290,7 +290,7 @@ public abstract class AbstractWizardPage extends WizardPage {
         createLabel(container, labelText);
         Text text = createText(container);
         if (preferenceName != null) {
-            text.setText(store.getDefaultString(preferenceName));
+            text.setText(store.getString(preferenceName));
         }
         return text;
     }
