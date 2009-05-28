@@ -10,6 +10,13 @@
  ******************************************************************************/
 package com.legstar.host.invoke;
 
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.legstar.messaging.LegStarAddress;
 
 /**
@@ -28,11 +35,16 @@ public abstract class AbstractProgramInvoker {
     /** Host program properties for operation. */
     private String  mProgramProperties;
     
-    /** The host invoker. */
-    private HostInvoker mInvoker;
+    /** Each target address needs its own host invoker. There is a serious
+     * performance hit each time we create a host invoker so we use this
+     * cache to improve that. */
+    private ConcurrentMap < LegStarAddress, HostInvoker > _hostInvokersCache;
 
     /** The invoker configuration file name. */
     private String mConfigFileName;
+
+    /** Logger. */
+    private final Log _log = LogFactory.getLog(getClass());
 
     /**
      * Operation invoker constructor.
@@ -47,14 +59,17 @@ public abstract class AbstractProgramInvoker {
         mConfigFileName = configFileName;
         mOperationName = operationName;
         mProgramProperties = programProperties;
+        _hostInvokersCache = new ConcurrentHashMap < LegStarAddress, HostInvoker >();
     }
 
     /** {@inheritDoc} */
     public String toString() {
         StringBuffer details = new StringBuffer();
         details.append("Operation=" + getOperationName());
-        if (getHostInvoker() != null) {
-            details.append("," + getHostInvoker().toString());
+        details.append(", Program properties=" + getProgramProperties());
+        details.append(", Config file name=" + getConfigFileName());
+        for (Entry < LegStarAddress, HostInvoker > entry : _hostInvokersCache.entrySet()) {
+            details.append(", " + entry.getValue().toString());
         }
         return details.toString();
     }
@@ -62,23 +77,29 @@ public abstract class AbstractProgramInvoker {
     /**
      * Creates a new host invoker either because there is none yet or because something
      * in the request supersedes the previous address parameters.
-     * @param address the target host address
+     * @param address the target host address (potentially null, meaning the default
+     * configuration endpoint is to be used).
      * @return a host invoker
      * @throws HostInvokerException if invoker cannot be created
      */
     public HostInvoker getHostInvoker(final LegStarAddress address) throws HostInvokerException {
-        if (mInvoker == null || !mInvoker.getAddress().equals(address)) {
-            mInvoker = HostInvokerFactory.createHostInvoker(
-                    getConfigFileName(), address, getProgramProperties());
+        /* Concurrent hash map does not like null value as a key so key with empty
+         * address instead of null. */
+        LegStarAddress keyAddress = (address == null) ? new LegStarAddress((String) null) : address;
+        HostInvoker hostInvoker = _hostInvokersCache.get(keyAddress);
+        if (hostInvoker == null) {
+            if (_log.isDebugEnabled()) {
+                _log.debug("Creating new host invoker for keyAddress: " + keyAddress);
+            }
+            HostInvoker newHostInvoker = HostInvokerFactory.createHostInvoker(
+                    getConfigFileName(), keyAddress, getProgramProperties());
+            hostInvoker = _hostInvokersCache.putIfAbsent(keyAddress, newHostInvoker);
+            if (hostInvoker == null) {
+                hostInvoker = newHostInvoker;
+            }
+            
         }
-        return mInvoker;
-    }
-
-    /**
-     * @return the current host invoker
-     */
-    public HostInvoker getHostInvoker() {
-        return mInvoker;
+        return hostInvoker;
     }
 
     /**
