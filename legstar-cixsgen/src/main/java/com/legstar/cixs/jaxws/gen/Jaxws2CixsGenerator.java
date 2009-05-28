@@ -18,9 +18,9 @@ import java.util.Map;
 import com.legstar.cixs.gen.ant.AbstractCixsGenerator;
 import com.legstar.cixs.gen.model.CixsOperation;
 import com.legstar.cixs.gen.model.CixsStructure;
+import com.legstar.cixs.gen.model.options.WebServiceParameters;
 import com.legstar.cixs.jaxws.model.AntBuildJaxws2CixsModel;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
-import com.legstar.cixs.jaxws.model.WebServiceParameters;
 import com.legstar.codegen.CodeGenMakeException;
 import com.legstar.codegen.CodeGenUtil;
 

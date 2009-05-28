@@ -11,9 +11,9 @@
 package com.legstar.cixs.gen;
 
 import com.legstar.cixs.gen.model.CixsOperation;
+import com.legstar.cixs.gen.model.options.PojoParameters;
+import com.legstar.cixs.gen.model.options.WebServiceParameters;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
-import com.legstar.cixs.jaxws.model.PojoParameters;
-import com.legstar.cixs.jaxws.model.WebServiceParameters;
 import com.legstar.codegen.CodeGenUtil;
 import com.legstar.test.cixs.CultureinfoOperationCases;
 import com.legstar.test.cixs.JvmqueryOperationCases;

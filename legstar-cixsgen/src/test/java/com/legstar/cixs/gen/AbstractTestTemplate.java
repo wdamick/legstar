@@ -20,11 +20,12 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.legstar.cixs.gen.model.options.HttpTransportParameters;
+import com.legstar.cixs.gen.model.options.WebServiceParameters;
+import com.legstar.cixs.gen.model.options.WmqTransportParameters;
 import com.legstar.cixs.jaxws.gen.Cixs2JaxwsGenerator;
 import com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
-import com.legstar.cixs.jaxws.model.HttpTransportParameters;
-import com.legstar.cixs.jaxws.model.WebServiceParameters;
 import com.legstar.codegen.CodeGenHelper;
 import com.legstar.codegen.CodeGenUtil;
 import com.legstar.coxb.gen.CoxbHelper;
@@ -250,6 +251,35 @@ public class AbstractTestTemplate extends TestCase {
         HttpTransportParameters httpTransportParameters =
             getDefaultHttpParameters(service);
         httpTransportParameters.add(parameters);
+        
+    }
+
+    /**
+     * Produce a set of WMQ parameters.
+     * @param model the service
+     * @return a default set of WMQ parameters
+     */
+    public WmqTransportParameters getDefaultWmqParameters(final CixsJaxwsService model) {
+        WmqTransportParameters wmqTransportParameters = new WmqTransportParameters();
+        wmqTransportParameters.setConnectionFactory("MyQCF");
+        wmqTransportParameters.setZosQueueManager("CSQ1");
+        wmqTransportParameters.setRequestQueue("REQUEST.QUEUE");
+        wmqTransportParameters.setReplyQueue("REPLY.QUEUE");
+        wmqTransportParameters.setErrorQueue("ERROR.QUEUE");
+        return wmqTransportParameters;
+    }
+ 
+    /**
+     * Add Web Service default parameters.
+     * @param service the service
+     * @param parameters the set of parameters
+     */
+    public void addWmqTransportParameters(
+            final CixsJaxwsService service,
+            final Map < String, Object > parameters) {
+        WmqTransportParameters wmqTransportParameters =
+            getDefaultWmqParameters(service);
+        wmqTransportParameters.add(parameters);
         
     }
 
