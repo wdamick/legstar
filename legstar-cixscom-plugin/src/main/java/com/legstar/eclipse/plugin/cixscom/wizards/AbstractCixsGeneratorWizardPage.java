@@ -119,8 +119,8 @@ extends AbstractWizardPage {
         groupGridData.horizontalSpan = LAYOUT_COLUMNS;
         tabFolder.setLayoutData(groupGridData);
 
-        addTargetGroup(tabFolder);
         addDeploymentGroup(tabFolder);
+        addTargetGroup(tabFolder);
         addCoxbGroup(tabFolder);
     }
 

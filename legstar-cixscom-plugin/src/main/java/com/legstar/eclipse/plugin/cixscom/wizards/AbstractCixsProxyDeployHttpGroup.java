@@ -20,8 +20,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
-import com.legstar.cixs.jaxws.model.CobolHttpClientType;
-import com.legstar.cixs.jaxws.model.HttpTransportParameters;
+import com.legstar.cixs.gen.model.options.CobolHttpClientType;
+import com.legstar.cixs.gen.model.options.HttpTransportParameters;
 import com.legstar.eclipse.plugin.cixscom.Messages;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizardPage;
 

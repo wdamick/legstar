@@ -82,4 +82,3 @@ bin.includes = plugin.xml,\
                lib/velocity-1.6.1.jar,\
                lib/wsdl4j-1.6.2.jar,\
                lib/XmlSchema-1.4.jar
-               

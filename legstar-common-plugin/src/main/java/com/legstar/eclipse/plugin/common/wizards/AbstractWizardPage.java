@@ -55,6 +55,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import com.legstar.eclipse.plugin.common.Activator;
 import com.legstar.eclipse.plugin.common.Messages;
+import com.legstar.eclipse.plugin.common.preferences.PreferenceConstants;
 import com.legstar.eclipse.plugin.common.preferences.PreferenceUrlHistory;
 
 
@@ -72,9 +73,6 @@ public abstract class AbstractWizardPage extends WizardPage {
 
     /** Manages the history of URLs entered across sessions. */
     private PreferenceUrlHistory mUrlHistory;
-
-    /** Storage key prefix for history of wsdl URLs. */
-    public static final String URL_HISTORY_STORE_KEY_PFX = "historyUrl";
 
     /**
      * Construct a wizard page.
@@ -94,7 +92,7 @@ public abstract class AbstractWizardPage extends WizardPage {
         mInitialSelection = initialSelection;
         mUrlHistory = new PreferenceUrlHistory(
                 Activator.getDefault().getPreferenceStore(),
-                URL_HISTORY_STORE_KEY_PFX);
+                PreferenceConstants.URL_HISTORY_STORE_KEY_PFX);
 
         ImageDescriptor image =
             AbstractUIPlugin.

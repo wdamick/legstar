@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
-import com.legstar.cixs.jaxws.model.WebServiceParameters;
+import com.legstar.cixs.gen.model.options.WebServiceParameters;
 import com.legstar.eclipse.plugin.cixscom.Activator;
 import com.legstar.eclipse.plugin.cixscom.Messages;
 import com.legstar.eclipse.plugin.cixscom.dialogs.WsdlPortSelectionDialog;

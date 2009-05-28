@@ -17,7 +17,7 @@ import com.legstar.cixs.gen.ant.model.AbstractAntBuildCixsModel;
 import com.legstar.cixs.gen.model.AbstractCixsService;
 import com.legstar.cixs.jaxws.model.AntBuildCixs2JaxwsModel;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
-import com.legstar.cixs.jaxws.model.ProxyTargetType;
+import com.legstar.cixs.gen.model.options.ProxyTargetType;
 import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsGeneratorWizardPage;
 import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsGeneratorWizardRunnable;
 

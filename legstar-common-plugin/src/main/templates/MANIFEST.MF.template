@@ -77,6 +77,7 @@ Bundle-ClassPath: .,
  lib/XmlSchema-1.4.jar
 Export-Package: com.legstar.cixs.gen.ant.model,
  com.legstar.cixs.gen.model,
+ com.legstar.cixs.gen.model.options,
  com.legstar.cixs.jaxws.model,
  com.legstar.cixs.jaxws.gen,
  com.legstar.codegen,
