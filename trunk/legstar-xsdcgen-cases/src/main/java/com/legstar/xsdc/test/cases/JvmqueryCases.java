@@ -70,6 +70,18 @@ public final class JvmqueryCases extends TestCase {
         assertTrue(System.getenv("JAVA_HOME").startsWith(jvmQueryReply.getEnvVarValues().get(0)));
         assertTrue(System.getenv("LEGSTAR_HOME").startsWith(jvmQueryReply.getEnvVarValues().get(1)));
     }
+    
+    /**
+     * Check that reply in host data format is correct.
+     * @param hostBytesHex hexadecimal representation of the host data
+     */
+    public static void checkHostBytesHexReplyFrance(final String hostBytesHex) {
+        assertEquals(JVMQUERYREPLY_HOST_BYTES.length(), hostBytesHex.length());
+        assertEquals(JVMQUERYREPLY_HOST_BYTES.substring(0, 8), hostBytesHex.substring(0, 8));
+        assertEquals(JVMQUERYREPLY_HOST_BYTES.substring(8, 40), hostBytesHex.substring(8, 40));
+        assertEquals(JVMQUERYREPLY_HOST_BYTES.substring(40, 72), hostBytesHex.substring(40, 72));
+        
+    }
 
     /**
      * @return a hexadecimal representation of host data.
