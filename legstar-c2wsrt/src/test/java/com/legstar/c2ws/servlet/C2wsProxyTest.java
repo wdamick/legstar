@@ -32,7 +32,7 @@ public class C2wsProxyTest extends TestCase {
             servletConfig.addInitParameters(MSNSearchJaxwsCases.getReflectConfig());
             C2wsProxy c2wsProxy = new C2wsProxy();
             c2wsProxy.init(servletConfig);
-            assertEquals("Search", c2wsProxy.getProxyConfig().get(
+            assertEquals("Search", c2wsProxy.getServiceProxy().getConfig().get(
                     ReflectOperationProxy.REQUEST_JAXB_TYPE_PROPERTY));
         } catch (ServletException e) {
             fail(e.getMessage());
