@@ -11,33 +11,24 @@
 package com.legstar.test.cixs;
 
 import com.legstar.coxb.host.HostData;
-import com.legstar.test.client.ProxyClientException;
-import com.legstar.test.client.ProxyClientHttp;
 import com.legstar.test.coxb.CultureinfoCases;
-
-import junit.framework.TestCase;
 
 /**
  * Test the generated cultureinfo proxy.
  *
  */
-public class CultureinfoTest extends TestCase {
-
-    /** When deployed, the proxy will be there. */
-    public static final String CULTUREINFO_PROXY_URL =
-        "http://${host}:8080/c2ws-cultureinfo/cultureinfoProxy";
+public class CultureinfoTest extends AbstractHttpClientTester {
 
     /**
      * Assuming the servlet has been deployed. Test remotely.
      */
     public void testProxyInvokeRemote() {
         try {
-            ProxyClientHttp client = new ProxyClientHttp(CULTUREINFO_PROXY_URL);
-            String response = client.invoke(
-                    CultureinfoCases.getHostBytesHexRequestFr(),
-                    CultureinfoCases.getHostBytesHexReplyFr().length() / 2);
-            CultureinfoCases.checkHostBytesReplyFr(HostData.toByteArray(response));
-        } catch (ProxyClientException e) {
+            byte[] bytesReply = postBytes(
+                    "http://megamouss:8080/c2ws-cultureinfo/cultureinfoProxy",
+                    HostData.toByteArray(CultureinfoCases.getHostBytesHexRequestFr()));
+            CultureinfoCases.checkHostBytesReplyFr(bytesReply);
+        } catch (Exception e) {
             fail(e.getMessage());
         }
 

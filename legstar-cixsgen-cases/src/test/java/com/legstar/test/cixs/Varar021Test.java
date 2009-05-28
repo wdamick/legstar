@@ -10,9 +10,6 @@
  ******************************************************************************/
 package com.legstar.test.cixs;
 
-import com.legstar.coxb.transform.IHostToJavaTransformer;
-import com.legstar.coxb.transform.IJavaToHostTransformer;
-import com.legstar.host.invoke.HostInvoker;
 import com.legstar.test.cixs.varar021.Varar021Fault;
 import com.legstar.test.cixs.varar021.Varar021HostHeader;
 import com.legstar.test.cixs.varar021.Varar021Impl;
@@ -101,7 +98,9 @@ public class Varar021Test extends TestCase {
             assertTrue(e.getFaultInfo().getMessage().contains(
                     "SEE06908 The USERID is not known to the external security manager."));
             assertEquals("Operation=varar021,"
-                    + "HostInvoker=[Address=[hostEndPoint=CICSTS31,"
+                    + " Program properties=varar021.properties,"
+                    + " Config file name=legstar-invoker-config.xml,"
+                    + " HostInvoker=[Address=[hostEndPoint=CICSTS31,"
                     + "hostCharset=IBM01140,"
                     + "hostUserID=WRONG,"
                     + "hostTraceMode=true],"
@@ -131,44 +130,4 @@ public class Varar021Test extends TestCase {
         assertEquals("benicio", port.getRequestID(hostHeader));
     }
 
-    /**
-     * Client should be able to provide its own host character set.
-     * @throws Varar021Fault if test fails
-     */
-    public void testVarar021OverrideHostCharset() throws Varar021Fault {
-        Varar021Impl port = new Varar021Impl();
-        SearchGrplst request = new SearchGrplst();
-        /* First make sure we get a default host character set*/
-        port.varar021(request, null);
-        assertEquals("IBM01140", port.getVarar021ProgramInvoker().getHostInvoker().getAddress().getHostCharset());
-        HostInvoker invokerInstance = port.getVarar021ProgramInvoker().getHostInvoker();
-        IJavaToHostTransformer javaToHostInstance =
-            port.getVarar021ProgramInvoker().getSearchGrplstTransformers().getJavaToHost();
-        IHostToJavaTransformer hostToJavaInstance =
-            port.getVarar021ProgramInvoker().getSearchGrplstTransformers().getHostToJava();
-
-        /* If we call the operation a second time without changing the character set,
-         * we should reuse the same instance of invoker and transformers. */
-        port.varar021(request, null);
-        assertEquals("IBM01140", port.getVarar021ProgramInvoker().getHostInvoker().getAddress().getHostCharset());
-        assertEquals(invokerInstance, port.getVarar021ProgramInvoker().getHostInvoker());
-        assertEquals(javaToHostInstance,
-                port.getVarar021ProgramInvoker().getSearchGrplstTransformers().getJavaToHost());
-        assertEquals(hostToJavaInstance,
-                port.getVarar021ProgramInvoker().getSearchGrplstTransformers().getHostToJava());
-        
-        /* Now try with a new host character set. The host invoker should be different since the address
-         * has changed (the host character set is part of the address). The transformers should be
-         * the same as they can adapt to a new host character set. */
-        Varar021HostHeader hostHeader = new Varar021HostHeader();
-        hostHeader.setHostCharset("IBM01147");
-        port.varar021(request, hostHeader);
-        assertEquals("IBM01147", port.getVarar021ProgramInvoker().getHostInvoker().getAddress().getHostCharset());
-        assertNotSame(invokerInstance, port.getVarar021ProgramInvoker().getHostInvoker());
-        assertEquals(javaToHostInstance,
-                port.getVarar021ProgramInvoker().getSearchGrplstTransformers().getJavaToHost());
-        assertEquals(hostToJavaInstance,
-                port.getVarar021ProgramInvoker().getSearchGrplstTransformers().getHostToJava());
-
-    }
 }
