@@ -19,7 +19,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.legstar.coxb.CobolBindingException;
-import com.legstar.coxb.util.XmlUtil;
 
 /**
  * Generic methods to transform XML to host data.
@@ -67,7 +66,6 @@ public abstract class AbstractXmlToHostTransformer implements IXmlToHostTransfor
     public byte[] transform(final Source source, final String hostCharset) throws HostTransformException {
         if (_log.isDebugEnabled()) {
             _log.debug("Transforming XML to host data:");
-            _log.debug(XmlUtil.prettyPrint(source));
         }
         return getJavaToHostTransformer().transform(getObjectFromXml(source), hostCharset);
     }

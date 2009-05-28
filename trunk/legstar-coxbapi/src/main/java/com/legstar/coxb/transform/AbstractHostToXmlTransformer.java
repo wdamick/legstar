@@ -10,7 +10,6 @@
  ******************************************************************************/
 package com.legstar.coxb.transform;
 
-import java.io.StringReader;
 import java.io.Writer;
 
 import javax.xml.bind.JAXBContext;
@@ -18,13 +17,11 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
-import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.legstar.coxb.CobolBindingException;
-import com.legstar.coxb.util.XmlUtil;
 
 /**
  * Generic methods to transform host data to XML.
@@ -80,10 +77,6 @@ public abstract class AbstractHostToXmlTransformer implements IHostToXmlTransfor
         }
         Object valueObject = getHostToJavaTransformer().transform(hostData, offset, hostCharset);
         getXmlFromObject(valueObject, writer);
-        if (_log.isDebugEnabled()) {
-            StringReader reader = new StringReader(writer.toString());
-            _log.debug(XmlUtil.prettyPrint(new StreamSource(reader)));
-        }
     }
 
     /**
