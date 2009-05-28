@@ -111,17 +111,20 @@ public final class MockLsfileac {
             offset += 128;
             
             offset = 0;
-            byte[] hostReplyData = new byte[5 + 79 * customers.size()];
-            /* items number */
-            CobolPackedDecimalSimpleConverter.toHostSingle(
-                    new BigDecimal(customers.size()),
-                    5, 8, 0, false, hostReplyData, offset);
-            offset += 5;
-
-            /* items */
-            for (byte[] customer : customers) {
-                System.arraycopy(customer, 0, hostReplyData, offset, 79);
-                offset += 79;
+            byte[] hostReplyData = null;
+            if (customers.size() > 0) {
+                hostReplyData = new byte[5 + 79 * customers.size()];
+                /* items number */
+                CobolPackedDecimalSimpleConverter.toHostSingle(
+                        new BigDecimal(customers.size()),
+                        5, 8, 0, false, hostReplyData, offset);
+                offset += 5;
+    
+                /* items */
+                for (byte[] customer : customers) {
+                    System.arraycopy(customer, 0, hostReplyData, offset, 79);
+                    offset += 79;
+                }
             }
 
             LegStarMessage replyMessage = new LegStarMessage();
