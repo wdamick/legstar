@@ -23,9 +23,18 @@ public final class PreferenceConstants {
     public static final String JAXB_PACKAGE_NAME_PREFIX =
         "com.legstar.eclipse.plugin.schemagen.jaxbPackageNamePrefix";
 
-    /** The last URL that was queried. */
-    public static final String LAST_URL_KEY = "lastUrl";
-    
+    /** Last eclipse container used. */
+    public static final String LAST_TARGET_CONTAINER =
+        "com.legstar.eclipse.plugin.schemagen.last.targetcontainer";
+
+    /** Last target XSD file name used. */
+    public static final String LAST_TARGET_XSD_FILE_NAME =
+        "com.legstar.eclipse.plugin.schemagen.last.targetxsdfilename";
+
+    /** Last JAXB type suffix used. */
+    public static final String LAST_JAXB_TYPE_SUFFIX =
+        "com.legstar.eclipse.plugin.schemagen.last.jaxbtypesuffix";
+
     /** Utility class.*/
     private PreferenceConstants() {
         
