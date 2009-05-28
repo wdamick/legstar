@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 
-import com.legstar.cixs.jaxws.model.ProxyTargetType;
+import com.legstar.cixs.gen.model.options.ProxyTargetType;
 import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsActivator;
 import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsGeneratorWizardPage;
 import com.legstar.eclipse.plugin.cixscom.wizards.CixsProxyPojoTargetGroup;

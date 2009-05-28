@@ -23,6 +23,9 @@ public final class PreferenceConstants {
     public static final String HOST_CHARSET =
         "com.legstar.eclipse.plugin.common.hostCharset";
 
+    /** Storage key prefix for history of wsdl URLs. */
+    public static final String URL_HISTORY_STORE_KEY_PFX = "com.legstar.eclipse.plugin.common.historyUrl";
+
     /** Utility class. */
     private PreferenceConstants() {
         

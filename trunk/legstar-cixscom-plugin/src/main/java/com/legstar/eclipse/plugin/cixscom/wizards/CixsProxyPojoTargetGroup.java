@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SelectionDialog;
 
-import com.legstar.cixs.jaxws.model.PojoParameters;
+import com.legstar.cixs.gen.model.options.PojoParameters;
 import com.legstar.eclipse.plugin.cixscom.Activator;
 import com.legstar.eclipse.plugin.cixscom.Messages;
 import com.legstar.eclipse.plugin.cixscom.preferences.PreferenceConstants;
