@@ -108,26 +108,61 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
 
         createLabel(groupTarget, Messages.container_label);
         mTargetContainerText = createText(groupTarget);
-        initTargetContainer();
-        mTargetContainerText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
+
         createBrowseForContainerButton(
                 groupTarget, Messages.container_selection_label,
                 mTargetContainerText);
 
         createLabel(groupTarget, Messages.xsd_file_name_label);
         mTargetXSDFileNameText = createText(groupTarget);
+        mTargetXSDFileNameText.setFocus();
+
+        createOverwriteAllowedCheckButton(groupTarget,
+                Messages.overwrite_button_label);
+
+        createLabel(groupTarget, Messages.namespace_label);
+        mTargetNamespaceText = createText(groupTarget, 2);
+
+        createLabel(groupTarget, Messages.jaxb_package_name_label);
+        mTargetJaxbPackageNameText = createText(groupTarget, 2);
+
+        createLabel(groupTarget, Messages.jaxb_classes_suffix_label);
+        mJaxbTypeClassesSuffixText = createText(groupTarget, 2);
+    }
+
+    /** {@inheritDoc} */
+    public void initContents() {
+        initTargetContainer();
         String lastTargetXSDFileName =
-            getDefaultPreferences().getString("TargetXSDFileName");
+            getDefaultPreferences().getString(
+                    PreferenceConstants.LAST_TARGET_XSD_FILE_NAME + '.' + getTargetContainer());
         if (lastTargetXSDFileName.length() > 0) {
             mTargetXSDFileNameText.setText(lastTargetXSDFileName);
         } else {
             mTargetXSDFileNameText.setText(".xsd");
         }
-        mTargetXSDFileNameText.setFocus();
+        mXsdNamespacePrefix = getSetText(mTargetNamespaceText, '/',
+                PreferenceConstants.XSD_NAMESPACE_PREFIX);
+        mXsdNamespaceUserChanged = false;
+        mJaxbPackageNamePrefix = getSetText(mTargetJaxbPackageNameText, '.',
+                PreferenceConstants.JAXB_PACKAGE_NAME_PREFIX);
+        mJaxbPackageNameUserChanged = false;
+        mJaxbTypeClassesSuffixText.setText(getDefaultPreferences().getString(
+                PreferenceConstants.LAST_JAXB_TYPE_SUFFIX + '.' + getTargetContainer()));
+        
+        
+        createListeners();
+    }
+
+    /**
+     * Makes sure we start listening on widget changes only after they are initialized.
+     */
+    public void createListeners() {
+        mTargetContainerText.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent e) {
+                dialogChanged();
+            }
+        });
         mTargetXSDFileNameText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
@@ -138,14 +173,6 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
                 autoFill();
             }
         });
-        createOverwriteAllowedCheckButton(groupTarget,
-                Messages.overwrite_button_label);
-
-        createLabel(groupTarget, Messages.namespace_label);
-        mTargetNamespaceText = createText(groupTarget, 2);
-        mXsdNamespacePrefix = getSetText(mTargetNamespaceText, '/',
-                PreferenceConstants.XSD_NAMESPACE_PREFIX);
-        mXsdNamespaceUserChanged = false;
         mTargetNamespaceText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
@@ -157,12 +184,6 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
                         mTargetNamespaceText, '/', false);
             }
         });
-
-        createLabel(groupTarget, Messages.jaxb_package_name_label);
-        mTargetJaxbPackageNameText = createText(groupTarget, 2);
-        mJaxbPackageNamePrefix = getSetText(mTargetJaxbPackageNameText, '.',
-                PreferenceConstants.JAXB_PACKAGE_NAME_PREFIX);
-        mJaxbPackageNameUserChanged = false;
         mTargetJaxbPackageNameText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
@@ -174,17 +195,13 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
                         mTargetJaxbPackageNameText, '.', true);
             }
         });
-        createLabel(groupTarget, Messages.jaxb_classes_suffix_label);
-        mJaxbTypeClassesSuffixText = createText(groupTarget, 2);
-        mJaxbTypeClassesSuffixText.setText(getDefaultPreferences().getString(
-        "JaxbTypeClassesSuffix"));
         mJaxbTypeClassesSuffixText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
         });
+        
     }
-
     /**
      * Set the initial value of the target container field.
      * <p/>
@@ -216,11 +233,7 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
             }
         }
         mTargetContainerText.setText(getDefaultPreferences().getString(
-        "TargetContainer"));
-    }
-
-    /** {@inheritDoc} */
-    public void initContents() {
+                PreferenceConstants.LAST_TARGET_CONTAINER));
     }
 
     /**
@@ -448,11 +461,13 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
      */
     public void storeDefaultPreferences() {
         getDefaultPreferences().setValue(
-                "TargetContainer", getTargetContainer());
+                PreferenceConstants.LAST_TARGET_CONTAINER, getTargetContainer());
         getDefaultPreferences().setValue(
-                "TargetXSDFileName", getTargetXSDFileName());
+                PreferenceConstants.LAST_TARGET_XSD_FILE_NAME + '.' + getTargetContainer(),
+                getTargetXSDFileName());
         getDefaultPreferences().setValue(
-                "JaxbTypeClassesSuffix", getJaxbTypeClassesSuffix());
+                PreferenceConstants.LAST_JAXB_TYPE_SUFFIX + '.' + getTargetContainer(),
+                getJaxbTypeClassesSuffix());
     }
 
     /**
