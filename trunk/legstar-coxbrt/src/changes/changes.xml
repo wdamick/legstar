@@ -3,6 +3,17 @@
     <title>COBOL Binding Runtime</title>
   </properties>
   <body>
+    <release version="1.2.5" date="2009-05-30" description="Fixes release">
+      <action dev="fady" type="update">
+        Fixed Issue 48: Conversion errors with floats and doubles.
+      </action>
+      <action dev="fady" type="update">
+        Fixed issue 50: Remove systematic final attributes on methods.
+      </action>
+      <action dev="fady" type="update">
+        Fixed issue 51: Remove static attribute on commons logging logger.
+      </action>
+    </release>
     <release version="1.2.4" date="2009-03-30" description="Performance release">
       <action dev="fady" type="update">
         Fixed issue 44: Marshaler should initialize all items of a fixed sized complex array when the bound value object is

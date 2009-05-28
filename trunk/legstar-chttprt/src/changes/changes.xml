@@ -3,6 +3,17 @@
     <title>Changes HTTP Transport</title>
   </properties>
   <body>
+    <release version="1.2.5" date="2009-05-30" description="Fixes release">
+      <action dev="fady" type="update">
+        Added load test cases and JMeter plans.
+      </action>
+      <action dev="fady" type="update">
+        Fixed issue 50: Remove systematic final attributes on methods.
+      </action>
+      <action dev="fady" type="update">
+        Fixed issue 51: Remove static attribute on commons logging logger.
+      </action>
+    </release>
     <release version="1.2.4" date="2009-03-30" description="Performance release">
     </release>
     <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">

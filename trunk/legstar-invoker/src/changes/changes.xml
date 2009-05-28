@@ -3,6 +3,20 @@
     <title>Mainframe Adapter Runtime</title>
   </properties>
   <body>
+    <release version="1.2.5" date="2009-05-30" description="Fixes release">
+      <action dev="fady" type="update">
+        Enghanced caching of host invoker.
+      </action>
+      <action dev="fady" type="update">
+        Fixed issue 1: Long response times when doing Socket pooling.
+      </action>
+      <action dev="fady" type="update">
+        Fixed issue 50: Remove systematic final attributes on methods.
+      </action>
+      <action dev="fady" type="update">
+        Fixed issue 51: Remove static attribute on commons logging logger .
+      </action>
+    </release>
     <release version="1.2.4" date="2009-03-30" description="Performance release">
       <action dev="fady" type="update">
         Project legstar-messaging-impl has been removed.

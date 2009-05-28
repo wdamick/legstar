@@ -2,6 +2,17 @@
                              Latest release overview
  -------------------------------------------------------------------------------
 
+Version 1.2.5
+
+ This is mainly a bug fixing release with a particular accent on thread safety
+ and performances.
+
+ We have systematic load test cases and JMeter plans for all transports (Sockets,
+ HTTP and MQ). This complements what was done for the last release at the 
+ COBOL conversion/transformation level.
+ 
+ Details about all the changes are available {{{DetailedChanges} here}}.
+
 Version 1.2.4
 
  The MQ Transport for Adapters now supports the IBM CICS MQ Bridge. With this
