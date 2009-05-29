@@ -1,0 +1,55 @@
+<document>
+  <properties>
+    <title>Connection Pooling Engine</title>
+  </properties>
+  <body>
+    <release version="1.2.5" date="2009-05-30" description="Fixes release">
+      <action dev="fady" type="update">
+        Added a systematic close of all connections when pool manager is shutdown..
+      </action>
+      <action dev="fady" type="update">
+        Fixed issue 50: Remove systematic final attributes on methods.
+      </action>
+      <action dev="fady" type="update">
+        Fixed issue 51: Remove static attribute on commons logging logger .
+      </action>
+    </release>
+    <release version="1.2.4" date="2009-03-30" description="Performance release">
+    </release>
+    <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
+      <action dev="fady" type="update">
+        Fixed an issue with the servlet which was getting a systematic NPE when receiving 
+        destroy.
+      </action>
+      <action dev="fady" type="update">
+        Project use Mock connections for testing. This removes dependency on actual
+        transports.
+      </action>
+    </release>
+    <release version="1.2.2" date="2008-11-15" description="Support for ESB generation">
+    </release>
+    <release version="1.2.1" date="2008-09-30" description="Code cleansing">
+      <action dev="fady" type="update">
+        Changed from wait/notify synchronization to Java 1.5 CountDownLatch.
+      </action>
+    </release>
+    <release version="1.2.0" date="2008-07-08" description="Work manager refactoring">
+      <action dev="fady" type="update">
+        Refactored the work manager. There is now better monitoring of background tasks.
+      </action>
+    </release>
+    <release version="1.1.0" date="2007-08-30" description="Rearchitected configuration file">
+      <action dev="fady" type="update">
+        The configuration file is now called "legstar-engine-config.xml" by default. It is a
+        combination of "legstar-pooling-config.xml" which contain the engine pooling parameters
+        and the "legstar-invoker-config.xml" which is shared wih the invoker.
+      </action>
+    </release>
+
+    <release version="1.0.1" date="2007-05-15" description="First release">
+      <action dev="fady" type="add">
+        First version of the Connection Pooling Engine.
+      </action>
+    </release>
+  </body>
+</document>

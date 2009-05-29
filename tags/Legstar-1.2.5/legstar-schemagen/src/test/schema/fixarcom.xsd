@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+targetNamespace="http://legstar.com/test/coxb/fixarcom"
+xmlns="http://legstar.com/test/coxb/fixarcom"
+xmlns:xsns="http://legstar.com/test/coxb/fixarcom"
+xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
+xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+jaxb:version="2.0"
+jaxb:extensionBindingPrefixes="cb"
+elementFormDefault="qualified">
+ <xs:annotation><xs:appinfo>
+ <jaxb:schemaBindings>
+ <jaxb:package  name="com.legstar.test.coxb.fixarcom"/>
+ </jaxb:schemaBindings>
+ </xs:appinfo></xs:annotation>
+ <xs:complexType name="Dfhcommarea">
+    <xs:sequence>
+     <xs:element name="CArray" minOccurs="7" maxOccurs="7" type="xsns:CArray">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='C-ARRAY' type='GROUP_ITEM' minOccurs='7' maxOccurs='7' srceLine='23'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="CArray">
+    <xs:sequence>
+     <xs:element name="CItem1">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='10' cobolName='C-ITEM-1' type='ALPHANUMERIC_ITEM' picture='X(5)' usage='DISPLAY' srceLine='24'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='5'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="CItem2">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='10' cobolName='C-ITEM-2' type='BINARY_ITEM' picture='S9(4)' usage='BINARY' signed='true' totalDigits='4' srceLine='25'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:short">
+         <xs:minInclusive value='-9999'/>
+         <xs:maxInclusive value='9999'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+</xs:schema>

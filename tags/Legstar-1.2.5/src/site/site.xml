@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="LegStar">
+  <publishDate format="dd-MMMM-yyyy"/>
+  <bannerLeft>
+    <name>LegStar</name>
+    <src>images/legstar-logo-2008.png</src>
+    <href>index.html</href>
+  </bannerLeft>
+  <bannerRight>
+    <name>AnnouncingNewVersion</name>
+    <src>images/legstar-new-version.png</src>
+    <href>latest-release-overview.html</href>
+  </bannerRight>
+  <poweredBy>
+    <logo name="JavaNet" href="http://www.java.net/" img="images/javanet_button_90.gif" />
+    <logo name="Build with Maven 2" href="http://maven.apache.org" img="images/logos/maven-feather.png" />
+  </poweredBy>
+  <version position="navigation-top"/>
+  
+  <skin>
+    <groupId>com.legsem.legstar</groupId>
+    <artifactId>legstar-skin</artifactId>
+    <version>1.0.0</version>
+  </skin>
+  
+  <body>
+    <links>
+      <item name="LegStar" href="http://www.legsem.com/legstar" />
+      <item name="Mail" href="mailto:admin@legsem.com" />
+      <item name="Mailing list" href="http://groups.google.com/group/legstar-user" />
+      <item name="JAXB RI" href="https://jaxb.dev.java.net/" />
+      <item name="JAXWS RI" href="https://jax-ws.dev.java.net/"/>
+    </links>
+
+    <menu name="LegStar">
+      <item name="Introduction" href="index.html"/>
+      <item name="Download" href="legstar-distribution/index.html"/>
+      <item name="Presentation (pdf)" href="pdf/legstar-presentation.pdf"/>
+      <item name="Mailing list" href="http://groups.google.com/group/legstar-user"/>
+      <item name="JavaDocs" href="apidocs/index.html"/>
+      <item name="Copyright" href="copyright.html" />
+    </menu>
+
+    <menu name="Development Generators">
+      <item name="COBOL Structures Mapping" href="legstar-schemagen/index.html"/>
+      <item name="Complex Types Mapping" href="legstar-xsdcgen/index.html"/>
+      <item name="COBOL Binding Generator" href="legstar-coxbgen/index.html"/>
+      <item name="Mainframe Service Generator" href="legstar-cixsgen/index.html"/>
+      <item name="COBOL Structures Generator" href="legstar-cobcgen/index.html"/>
+    </menu>
+
+    <menu name="Runtime Modules">
+      <item name="Mainframe Adapter Runtime" href="legstar-invoker/index.html"/>
+      <item name="Mainframe Proxy Runtime" href="legstar-c2wsrt/index.html"/>
+      <item name="Socket Transport" href="legstar-csokrt/index.html"/>
+      <item name="HTTP Transport" href="legstar-chttprt/index.html"/>
+      <item name="WebSphere MQ Transport" href="legstar-cmqrt/index.html"/>
+      <item name="Connection Pooling Engine" href="legstar-engine/index.html"/>
+    </menu>
+
+    <menu name="Eclipse Modules">
+      <item name="Eclipse Plugins" href="legstar-common-plugin/index.html"/>
+    </menu>
+
+    ${reports}
+  </body>
+</project>

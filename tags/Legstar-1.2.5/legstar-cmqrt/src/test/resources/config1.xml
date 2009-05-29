@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config description="Default Configuration">
+    <hostEndPoints>
+    	<hostEndPoint name="CICSTS23-LSMSG">
+    		<hostIPAddress>mainframe</hostIPAddress>
+    		<hostCharset>IBM01140</hostCharset>
+    		<hostTraceMode>true</hostTraceMode>
+            <hostMQChannel>CLIENT.TO.CSQ1</hostMQChannel>
+            <hostMQRequestQueue>CICSA.REQUEST.QUEUE</hostMQRequestQueue>
+            <hostMQResponseQueue>CICSA.REPLY.QUEUE</hostMQResponseQueue>
+       </hostEndPoint>
+    </hostEndPoints>
+</config>
+   

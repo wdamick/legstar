@@ -1,0 +1,38 @@
+<web-app version="2.4" 
+	xmlns="http://java.sun.com/xml/ns/j2ee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+  <display-name>LegStar Host Access Engine</display-name>
+  <description>
+    LegStar connection pooling engine.
+  </description>
+
+  <listener>
+  	<listener-class>com.legstar.host.servlet.ContextListener</listener-class>
+  </listener>
+  
+  <servlet>
+    <description>Startup Servlet for Host Access Engine</description>
+    <display-name>LegStar Host Access Servlet</display-name>
+    <servlet-name>InitiatorServlet</servlet-name>
+    <servlet-class>com.legstar.host.servlet.InitiatorServlet</servlet-class>
+	<!-- *********************************************
+	     The filename for the engine config file.
+	     This file will be loaded from the deployment
+	     directory.
+	     ********************************************* -->
+	<init-param>
+	   <param-name>engine.config</param-name>
+	   <param-value>legstar-engine-config.xml</param-value>
+	</init-param>
+    <load-on-startup>100</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>InitiatorServlet</servlet-name>
+    <url-pattern>/InitiatorServlet</url-pattern>
+  </servlet-mapping>
+  
+</web-app>

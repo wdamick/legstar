@@ -1,0 +1,278 @@
+ -----
+ Release Notes
+ -----
+
+PREREQUISITES:
+
+ Java 1.5+ and ANT 1.6.5+ are both prerequisites for LegStar.
+ Make sure JAVA_HOME and ANT_HOME environment variables are set and that
+ $JAVA_HOME/bin (%JAVA_HOME%/bin on Windows) and $ANT_HOME/bin (%ANT_HOME%/bin
+ on Windows) are both in your system path.
+ 
+ Cixsgen requires JAX-WS 2.1 (JSR 224). The Sun's JAX-WS reference
+ implementation is shipped with LegStar. You can replace this implementation
+ with any JAX-WS 2.1 compliant provider.
+
+ Since Service Generator is modular, there might be more prerequisites
+ depending on your target choice (Adapter or Proxy) and, if you chose
+ Adapters, what transport you want to use. For each of these choices,
+ documentation is available either online or in the docs folder.
+ 
+INSTALLING/UNINSTALLING:
+
+ [[1]] Unzip the binary distribution package into the directory of your choice,
+       referred to as <installDir> in the following steps.
+
+   The directory tree should look like this:
+   
++---------------------------------------+
+   <installDir>
+        |---->LICENSE
+        |---->NOTICE
+        |---->README
+        |----><bin>
+                |---->*.dll
+                |---->*.so
+        |----><docs>
+                |---->*-README
+                |----><notices>
+                        |---->*-NOTICE
+        |----><lib>
+                |---->*.jar
+        |----><samples>
+                |----><quickstarts>
+                           |----><adapter_lsfileae>
+                                       |---->build-*.xml
+                                       |----><cobol>
+                                                |---->lsfileae.cbl
+                                       |----><schema>
+                                                |---->lsfileae.xsd
+                                       |----><src>
+                                               |---->**/*.java
+                           |----><chttprt>
+                                       |---->legstar-invoker-config.xml
+                           |----><cmqrt>
+                                       |---->legstar-invoker-config.xml
+                           |----><csokrt>
+                                       |---->legstar-invoker-config.xml
+                           |----><csokrt>
+                                       |---->legstar-engine-config.xml
+                                       |---->legstar-pooling-config.xml
+                           |----><proxy_pojo_jvmquery>
+                                       |---->build-*.xml
+                                       |----><jcl>
+                                               |---->COBCJVMQ
+                                       |----><schema>
+                                                |---->jvmquery.xsd
+                                       |----><src>
+                                               |---->**/*.java
+                           |----><proxy_ws_cultureinfo>
+                                       |---->build-*.xml
+                                       |----><jcl>
+                                               |---->COBCCULT
+                                       |----><schema>
+                                                |---->cultureinfo.xsd
+                                       |----><src>
+                                               |---->**/*.java
+                                       |----><webapp>
+                                           |----><jaxws-cultureinfo>
+                                                   |----><WEB-INF>
+                                                            |---->web.xml
+                                                            |---->sun-jaxws.xml
+        |----><war>
+                |---->legstar-engine.war
+        |----><xjb>
+                |---->bindings.xjb
+        |----><zos>
+                |----><C370>
+                        |---->*.C
+                        |---->*.H
+                |----><cobol>
+                        |---->*.cbl
+                |----><JCL>
+                        |---->*
+                |----><docs>
+                        |---->*-README
+                
++---------------------------------------+
+   
+ [[2]] Set the LEGSTAR_HOME environment variable to point to installDir.
+       Update your LD_LIBRARY_PATH (PATH on Windows) environment variable so
+       that it contains $LEGSTAR_HOME/bin (%LEGSTAR_HOME%/bin on Windows).
+
+ [[3]] To uninstall, remove the installDir folder.
+
+RUNNING THE SAMPLES:
+
+* Service Adapter
+
+ [[1]] From the samples/quickstarts/adapter_lsfileae folder, run command
+       "ant -f build-cob2xs.xml". This should create a schema folder with a
+       generated XML schema from the sample cobol source in the cobol folder.
+
+ [[2]] Run command "ant -f build-jaxb.xml" from the
+       samples/quickstarts/adapter_lsfileae folder and check the result.
+       This should create a src folder containing generated JAXB classes
+       from the sample XML Schema in the schema folder.
+       
+       From the samples/quickstarts/adapter_lsfileae folder again, run command
+       "ant -f build-coxb.xml". This should create binding classes by
+       reflecting on the JAXB classes generated at the previous step.
+       
+ [[3]] From the samples/quickstarts/adapter_lsfileae folder, run command
+       "ant -f build-jws2cixs.xml". This should add a set of java files to the
+       src folder, these implement a JAX-WS endpoint. This also creates a 
+       webapp and an ant folders.
+   
+ [[4]] From the samples/quickstarts/adapter_lsfileae/ant folder, run command
+       "ant". This should generate a war file in the war folder, ready
+       for deployment.
+       
+       Deploy the generated war file from the war folder into your
+       J2EE container deployment folder (ex $CATALINA_BASE/webapps).
+
+       See the {{{faq.html}FAQ}} for common deployment issues.
+       
+ [[5]] Optionally, you can use build-jws-client.xml to generate a Web
+       service client using JAX-WS.
+   
+ [[6]] In order to actually run the deployed Web Service, you need to select
+       a transport and put a customized version of the legstar-invoker-config.xml
+       configuration file in a location such as CATALINA_HOME/shared/classes.
+       
+       There are sample invoker configuration files for each of the transports
+       supported in:
+       
+       * samples/quickstarts/chttprt for HTTP transport
+
+       * samples/quickstarts/cmqrt for WebSphere MQ transport
+
+       * samples/quickstarts/csokrt for Socket transport
+       
+       []
+   
+* Service Proxy
+
+ There are 2 proxy samples, one that consumes a POJO and one that
+ consume a Web Service.
+
+** Service Proxy to a POJO
+
+ [[1]] In order to run the sample proxy for a POJO you need to run
+       the build-pojo.xml first. This will compile the target POJO.
+       This step is needed because build-java2xs.xml works on the target
+       java classes.
+       
+       From the samples/quickstarts/proxy_pojo_jvmquery folder, run
+       command "ant -f build-pojo.xml" and check the result.
+       
+       You can now run command "ant -f build-java2xs.xml" which generates
+       a COBOL-annotated XML schema named jvmquery.xsd in the schema folder.
+       
+       Each java type, from the jvmquery source, map to an XML schema
+       complex type. Each XML schema element has special Cobol annotations
+       with default attributes, such as maximum character string sizes.
+   
+ [[2]] Run command "ant -f build-jaxb.xml" from the
+       samples/quickstarts/proxy_pojo_jvmquery folder and check the result.
+       This should create a src folder containing generated JAXB classes
+       from the sample XML Schema in the schema folder.
+       
+       From the samples/quickstarts/proxy_pojo_jvmquery folder again, run
+       command "ant -f build-coxb-jvmqueryrequest.xml". This creates
+       binding classes for the JvmQueryRequest JAXB root class.
+    
+       From the samples/quickstarts/proxy_pojo_jvmquery folder again, run
+       command "ant -f build-coxb-jvmqueryreply.xml". This creates
+       binding classes for the JvmQueryReply JAXB root class.
+    
+ [[3]] From the samples/quickstarts/proxy_pojo_jvmquery folder, run command
+       "ant -f build-cixs2jws.xml". This should generate a web.xml file
+       in the webapp/cixs-jvmquery/WEB-INF folder, an ant script in the ant
+       folder and a sample COBOL program in the cobol folder.
+   
+ [[4]] From the samples/quickstarts/proxy_pojo_jvmquery/ant folder, run command
+       "ant". This should generate a war file in the war folder, ready
+       for deployment.
+       
+       Deploy the generated war file from the war folder into your
+       J2EE container deployment folder (ex $CATALINA_BASE/webapps).
+
+ [[5]] The sample COBOL program is an almost complete working sample of
+       a proxy client. You can follow instructions in the code to add the
+       missing instructions or just run "ant -f build-jvmquery-cobol-src.xml"
+       that automatically does that.
+       
+       Edit the JVMQUERY.cbl source and check the W00-SERVICE-URI, make sure
+       it points to the machine where you deployed the proxy. You can now
+       upload that program to z/OS, compile and run it. A sample compilation
+       jcl is in the jcl folder.
+ 
+** Service Proxy to a Web Service
+
+ [[1]] In order to run the sample proxy for a Web Service, you need to run
+       the build-war.xml first. This will generate a target Web service,
+       ready for deployment into a J2EE container such as Tomcat.
+       
+       The war file contains a simple JAX-WS endpoint that provides a Web
+       Service implementation.
+
+       From the samples/quickstarts/proxy_ws_cultureinfo folder, run
+       command "ant -f build-war.xml" and check the result.
+       
+       Deploy the generated war file from the war folder into your
+       J2EE container deployment folder (ex $CATALINA_BASE/webapps).
+       
+       Check the build-xsd2xs.xml in.uri parameter. It assumes the J2EE
+       container you deployed the target Web Service to, is listening on
+       localhost, port 8080. You might need to customize this.
+       
+       You can now run command "ant -f build-xsd2xs.xml" which generates
+       a COBOL-annotated XML schema named cultureinfo.xsd in the schema folder.
+       It does so by reading the target Web Service WSDL.
+       
+       Each complex type and element from the source WSDL also
+       exists in the generated mapping XML schema. Each element also has
+       special Cobol annotations with default attributes, such as maximum
+       character string sizes.
+
+ [[2]] Run command "ant -f build-jaxb.xml" from the
+       samples/quickstarts/proxy_pojo_cultureinfo folder and check the result.
+       This should create a src folder containing generated JAXB classes
+       from the sample XML Schema in the schema folder.
+       
+       From the samples/quickstarts/proxy_pojo_cultureinfo folder again, run
+       command "ant -f build-coxb-getinfo.xml". This creates
+       binding classes for the GetInfo JAXB root class.
+    
+       From the samples/quickstarts/proxy_pojo_cultureinfo folder again, run
+       command "ant -f build-coxb-getinforesponse.xml". This creates
+       binding classes for the GetInfoResponse JAXB root class.
+
+ [[3]] From the samples/quickstarts/proxy_pojo_cultureinfo folder, run command
+       "ant -f build-cixs2jws.xml". This should generate a web.xml file
+       in the webapp/cixs-cultureinfo/WEB-INF folder, an ant script in the ant
+       folder and a sample COBOL program in the cobol folder.
+   
+ [[4]] From the samples/quickstarts/proxy_pojo_cultureinfo/ant folder, run
+       command "ant". This should generate a war file in the war folder, ready
+       for deployment.
+       
+       Deploy the generated war file from the war folder into your
+       J2EE container deployment folder (ex $CATALINA_BASE/webapps).
+
+ [[5]] The sample COBOL program is an almost complete working sample of
+       a proxy client. You can follow instructions in the code to add the
+       missing instructions or just run "ant -f build-cultureinfo-cobol-src.xml"
+       that automatically does that.
+       
+       Edit the CULTUREI.cbl source and check the W00-SERVICE-URI, make sure
+       it points to the machine where you deployed the proxy. You can now
+       upload that program to z/OS, compile and run it. A sample compilation
+       jcl is in the jcl folder.
+ 
+
+DOCUMENTATION:
+
+ Documentation available at http://www.legsem.com/legstar/legstar-cixsgen
+

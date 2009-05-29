@@ -1,0 +1,56 @@
+<component>
+
+    <files>
+        <!-- XML schema files  -->
+        <file>
+            <source>${project.basedir}/../legstar-schemagen/src/test/schema/lsfileae.xsd</source>
+            <outputDirectory>samples/quickstarts/adapter_lsfileae/schema</outputDirectory>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-schemagen/src/test/schema/jvmquery.xsd</source>
+            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery/schema</outputDirectory>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-schemagen/src/test/schema/cultureinfo.xsd</source>
+            <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo/schema</outputDirectory>
+        </file>
+
+    </files>
+
+    <fileSets>
+    
+        <!-- reference ant scripts  -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-coxbgen/target/ant/lsfileae</directory>
+            <outputDirectory>samples/quickstarts/adapter_lsfileae</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/../legstar-coxbgen/target/ant/jvmquery</directory>
+            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/../legstar-coxbgen/target/ant/cultureinfo</directory>
+            <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+        </fileSet>
+
+        <!-- reference binding file  -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-jaxbgen/src/main/resources/xjb</directory>
+            <outputDirectory>xjb</outputDirectory>
+            <includes>
+                <include>*.xjb</include>
+            </includes>
+        </fileSet>
+        
+    </fileSets>
+  
+</component>
