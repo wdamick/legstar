@@ -3,9 +3,9 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.2.5</version>
+        <version>1.2.6-SNAPSHOT</version>
     </parent>
-    <version>1.2.5</version>
+    <version>1.2.6-SNAPSHOT</version>
     <artifactId>legstar-c2wsrt</artifactId>
     <name>LegStar Mainframe Proxy Runtime</name>
     <description>Mainframe Proxy Runtime.</description>
