@@ -3,9 +3,9 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.2.5-SNAPSHOT</version>
+        <version>1.2.5</version>
     </parent>
-    <version>1.2.5-SNAPSHOT</version>
+    <version>1.2.5</version>
     <artifactId>legstar-distribution</artifactId>
     <name>LegStar Distribution</name>
     <packaging>pom</packaging>
@@ -55,7 +55,7 @@
                         <phase>pre-site</phase>
                         <configuration>
                             <tasks>
-                                <copy file="../legstar-cixsgen/src/site/apt/release-notes.apt" todir="src/site/apt"/>
+                                <copy file="../legstar-cixsgen/src/site/apt/release-notes.apt" todir="src/site/apt" />
                             </tasks>
                         </configuration>
                         <goals>
