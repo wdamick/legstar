@@ -3,9 +3,9 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.2.5</version>
+        <version>1.2.6-SNAPSHOT</version>
     </parent>
-    <version>1.2.5</version>
+    <version>1.2.6-SNAPSHOT</version>
     <artifactId>legstar-cobcgen</artifactId>
     <name>LegStar COBOL Structures Generator</name>
     <description>Generates Cobol data descriptions from cobol-annotated jaxb classes.</description>
