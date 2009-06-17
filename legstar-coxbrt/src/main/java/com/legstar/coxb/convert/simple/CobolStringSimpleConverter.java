@@ -13,6 +13,8 @@ package com.legstar.coxb.convert.simple;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.ICobolArrayStringBinding;
@@ -32,6 +34,9 @@ import com.legstar.coxb.host.HostException;
 public class CobolStringSimpleConverter extends CobolSimpleConverter
 implements ICobolStringConverter {
 
+
+    /** Detects a string content as binary data. */
+    private static final Pattern BINARY_CONTENT_PATTERN = Pattern.compile("0x[\\da-fA-F]+");
 
     /**
      * @param cobolContext the Cobol compiler parameters in effect
@@ -142,8 +147,11 @@ implements ICobolStringConverter {
     }
 
     /**
-     *  Converts a Java String to a host character stream within the host
-     *  character set.
+     *  Converts a Java String to a host character stream using the host
+     *  character set unless content represents binary data.
+     *  <p>
+     *  Any character string following this pattern: '0x[\\da-fA-F]+' is
+     *  interpreted as binary content.
      * 
      * @param javaString java string to convert
      * @param hostCharsetName host character set
@@ -171,53 +179,69 @@ implements ICobolStringConverter {
                     new HostData(hostTarget), offset, cobolByteLength));
         }
 
-        /* HostData is obtained by converting the java String content to the 
-         * target host character set. */
-        byte[] hostSource;
+        /* HostData before it is positioned in the hostTarget buffer. */
+        byte[] hostSource = new byte[0];
+        byte padChar;
 
-        /* See how many host bytes would be needed to hold the converted
-         * string */
-        try {
-            if (javaString == null) {
-                hostSource =
-                    "".getBytes(hostCharsetName);
-            } else {
-                hostSource =
-                    javaString.getBytes(hostCharsetName);
+        /* If data being passed represent binary content convert from
+         * hex string otherwise use the host charset for conversion.*/
+        if (isBinaryContent(javaString)) {
+            padChar = 0x0;
+            hostSource = HostData.toByteArray(javaString.substring(2));
+        } else {
+            try {
+                padChar = " ".getBytes(hostCharsetName)[0];
+                if (javaString != null) {
+                    hostSource = javaString.getBytes(hostCharsetName);
+                }
+            } catch (UnsupportedEncodingException e) {
+                throw new CobolConversionException(
+                        "UnsupportedEncodingException:" + e.getMessage());
             }
-
-            /* The target host element might be larger than the converted java
-             * String and might have to be right or left justified. The padding
-             * character is a space character. */
-            int iSource = 0;
-            int iTarget = offset;
-
-            /* Pad with initial spaces if necessary */
-            if (isJustifiedRight) {
-                iTarget += pad(hostTarget,
-                        iTarget, (lastOffset - hostSource.length),
-                        hostCharsetName);
-            }
-
-            /* Continue on with source content */
-            while (iSource < hostSource.length && iTarget < lastOffset) {
-                hostTarget[iTarget] = hostSource[iSource];
-                iSource++;
-                iTarget++;
-            }
-
-            /* Pad with final spaces if necessary */
-            if (!isJustifiedRight) {
-                iTarget += pad(hostTarget,
-                        iTarget, lastOffset,
-                        hostCharsetName);
-            }
-            return lastOffset;
-        } catch (UnsupportedEncodingException uee) {
-            throw new CobolConversionException(
-                    "UnsupportedEncodingException:" + uee.getMessage());
         }
 
+        /* The target host element might be larger than the converted java
+         * String and might have to be right or left justified. */
+        int leftPadIndex = offset;
+        int rightPadIndex = lastOffset;
+        
+        if (hostSource.length < cobolByteLength) {
+            if (isJustifiedRight) {
+                leftPadIndex = offset + cobolByteLength - hostSource.length;
+            } else {
+                rightPadIndex = lastOffset - 1 - cobolByteLength + hostSource.length;
+            }
+        }
+        
+        int iSource = 0;
+        for (int iTarget = offset; iTarget < lastOffset; iTarget++) {
+            if (iTarget < leftPadIndex || iTarget > rightPadIndex) {
+                hostTarget[iTarget] = padChar;
+            } else {
+                hostTarget[iTarget] = hostSource[iSource];
+                iSource++;
+            }
+        }
+        
+        return lastOffset;
+
+    }
+
+    /**
+     * Check that content represents binary data.
+     * @param javaString the java string which content must be tested
+     * @return true if content represents a valid hexadecimal string
+     */
+    private static boolean isBinaryContent(final String javaString) {
+        if (javaString != null
+                && javaString.length() > 2
+                && javaString.charAt(0) == '0') {
+            Matcher matcher = BINARY_CONTENT_PATTERN.matcher(javaString);
+            if (matcher.matches()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /** Converts a host character string into a Java string.
@@ -271,43 +295,4 @@ implements ICobolStringConverter {
         return javaString.trim();
     }
 
-    /**
-     * Determines the padding character depending on the target character set.
-     * @param hostCharsetName host character set
-     * @return the padding character
-     * @throws UnsupportedEncodingException if padding character cannot be
-     *  translated
-     */
-    private static byte getPadChar(
-            final String hostCharsetName) throws UnsupportedEncodingException {
-        return " ".getBytes(hostCharsetName)[0];
-    }
-
-    /**
-     * Pads a byte array with the padding character corresponding to the target
-     * host character set.
-     * <p/>
-     * Padding begins at the specified beginIndex and extends to the character
-     *  at index endIndex - 1
-     * @param bytes the byte array to pad
-     * @param beginIndex what index to start from
-     * @param endIndex index of first character that is not to be padded
-     * @param hostCharsetName host character set
-     * @return the number of padding characters used
-     * @throws UnsupportedEncodingException if padding character cannot be
-     *  translated
-     */
-    public static int pad(
-            final byte[] bytes,
-            final int beginIndex,
-            final int endIndex,
-            final String hostCharsetName) throws UnsupportedEncodingException {
-        byte padChar = getPadChar(hostCharsetName);
-        int j = 0;
-        for (int i = beginIndex; i < endIndex; i++) {
-            bytes[i] = padChar;
-            j++;
-        }
-        return j;
-    }
 }

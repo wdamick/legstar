@@ -10,8 +10,6 @@
  ******************************************************************************/
 package com.legstar.coxb.convert.simple;
 
-import java.io.UnsupportedEncodingException;
-
 import com.legstar.coxb.convert.CobolConversionException;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
@@ -116,8 +114,26 @@ public class StringTest extends TestCase {
     public void testToHostJustified() {
         toHost(US_HOST_CHARSET, 6, true, "ABCD", "4040c1c2c3c4");
         toHost(US_HOST_CHARSET, 6, false, "ABCD", "c1c2c3c44040");
+        toHost(US_HOST_CHARSET, 6, true, "ABCDEF", "c1c2c3c4c5c6");
+        toHost(US_HOST_CHARSET, 6, false, "ABCDEF", "c1c2c3c4c5c6");
     }
 
+    /**
+     * Test with an ASCII charset.
+     */
+    public void testLatinCharset() {
+        toHost(LATIN1_HOST_CHARSET, 6, true, "ABCD", "202041424344");
+        fromHost(LATIN1_HOST_CHARSET, 6, "202041424344", "ABCD");
+    }
+    
+    /**
+     * Test passing binary content to the host. Binary content is only supported
+     * when sending data to host.
+     */
+    public void testBinaryContent() {
+        toHost(US_HOST_CHARSET, 6, true, "0x0000", "000000000000");
+    }
+    
     /**
      * Test truncation.
      */
@@ -173,21 +189,6 @@ public class StringTest extends TestCase {
      */
     public void testFromHostLowValueReplacement() {
         fromHost(US_HOST_CHARSET, 4, "c100c3c4", "A CD");
-    }
-
-    /**
-     * Test the padding function. The padding character is whatever space code point
-     * is in the target host character set.
-     */
-    public void testPadding() {
-        try {
-            byte[] hostSource = HostData.toByteArray("c100c3c4");
-            int i =  CobolStringSimpleConverter.pad(hostSource, 1, 3, LATIN1_HOST_CHARSET);
-            assertEquals(2, i);
-            assertEquals("c12020c4", HostData.toHexString(hostSource));
-        } catch (UnsupportedEncodingException e) {
-            fail(e.getMessage());
-        }
     }
 
     /**
