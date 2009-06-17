@@ -8,7 +8,7 @@ import com.legstar.messaging.LegStarConnection;
 import com.legstar.test.client.AbstractConnectionMeteringTest;
 
 /**
- * Test WMQ transport with LegStar Messaging.
+ * Test HTTP transport with LegStar Messaging.
  *
  */
 public class CicsTs31MeteringTest extends AbstractConnectionMeteringTest {

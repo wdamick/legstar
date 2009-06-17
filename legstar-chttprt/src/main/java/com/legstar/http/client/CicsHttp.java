@@ -243,14 +243,22 @@ public class CicsHttp implements LegStarConnection  {
 
         /* At this stage, HTTP is not reporting and error. Try to get a
          * valid response message from the HTTP payload */
+        InputStream respStream = null;
         try {
-            InputStream respStream = mPostMethod.getResponseBodyAsStream();
+            respStream = mPostMethod.getResponseBodyAsStream();
             request.setResponseMessage(createResponseMessage(respStream));
         } catch (IOException e) {
             throw new RequestException(e);
         } catch (HostReceiveException e) {
             throw new RequestException(e);
         } finally {
+            if (respStream != null) {
+                try {
+                    respStream.close();
+                } catch (IOException e) {
+                    _log.warn("Unable to close response stream", e);
+                }
+            }
             mPostMethod.releaseConnection();
         }
 
