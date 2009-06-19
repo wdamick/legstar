@@ -240,11 +240,7 @@ public class CobolJAXBAnnotator extends Plugin {
         String value = e.getAttribute(CobolMarkup.VALUE).trim();
         String type = jf.type().binaryName();
         if (type.equals("java.lang.String")) {
-            if (value.startsWith("0x")) {
-                jf.init(JExpr.lit(""));
-            } else {
-                jf.init(JExpr.lit(value));
-            }
+            jf.init(JExpr.lit(value));
         } else {
             /* Assume a numeric from now on */
             if (value.length() == 0) {
