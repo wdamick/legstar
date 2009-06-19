@@ -71,7 +71,8 @@ public abstract class AbstractHttpConnectionTester extends AbstractConnectionTes
         }
 
         mAddress = new LegStarAddress(endpointName);
-        mConnection = new CicsHttp(getName(), getEndpoint(), DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
+        mConnection = new CicsHttp(getName(), getEndpoint(),
+                DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
         mConnection.setConnectTimeout(2000);
         mConnection.connect(HOST_USERID);
     }

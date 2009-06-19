@@ -15,8 +15,12 @@ import org.apache.commons.configuration.HierarchicalConfiguration;
 /**
  * This class represents the parameters that are necessary for a client
  * to sucessfully connect to CICS over Http.
+ * TODO Add proxy parameters.
  */
 public class CicsHttpEndpoint {
+
+    /** Support for http/https. */
+    private String mHostURLProtocol;
 
     /** Host IP address. */
     private String mHostIPAddress;
@@ -44,6 +48,12 @@ public class CicsHttpEndpoint {
 
     /** Configuration XPath location for CICS HTTP Path. */
     private static final String HOST_URL_PATH_CFG = "hostURLPath";
+
+    /** Configuration XPath location for HTTP protocol. */
+    private static final String HOST_URL_PROTOCOL_CFG = "hostURLProtocol";
+
+    /** Default URL HTTP protocol. */
+    private static final String DEFAULT_HOST_URL_PROTOCOL = "http";
 
     /** Configuration XPath location for IP address. */
     private static final String IP_ADDRESS_CFG = "hostIPAddress";
@@ -81,6 +91,8 @@ public class CicsHttpEndpoint {
     public CicsHttpEndpoint(final HierarchicalConfiguration config) {
 
         /* Get default connection parameters from the configuration */
+        mHostURLProtocol = config.getString(HOST_URL_PROTOCOL_CFG,
+                DEFAULT_HOST_URL_PROTOCOL);
         mHostIPAddress = config.getString(IP_ADDRESS_CFG);
         mHostIPPort = config.getInt(IP_PORT_CFG, 0);
         mHostCharset = config.getString(HOST_CHARSET_CFG);
@@ -95,8 +107,9 @@ public class CicsHttpEndpoint {
      * Helper to pretty print the endpoint content.
      * @return formatted endpoint report
      */
-    public final String getReport() {
+    public String getReport() {
         String report = "CICS Http endpoint:"
+            + "  " + HOST_URL_PROTOCOL_CFG + "=" + mHostURLProtocol + ","
             + "  " + IP_ADDRESS_CFG + "=" + mHostIPAddress + ","
             + "  " + IP_PORT_CFG + "=" + mHostIPPort + ","
             + "  " + HOST_URL_PATH_CFG + "=" + mHostURLPath + ","
@@ -109,84 +122,84 @@ public class CicsHttpEndpoint {
     /**
      * @return the host charset
      */
-    public final String getHostCharset() {
+    public String getHostCharset() {
         return mHostCharset;
     }
 
     /**
      * @param hostCharset the host charset to set
      */
-    public final void setHostCharset(final String hostCharset) {
+    public void setHostCharset(final String hostCharset) {
         mHostCharset = hostCharset;
     }
 
     /**
      * @return the host IP address
      */
-    public final String getHostIPAddress() {
+    public String getHostIPAddress() {
         return mHostIPAddress;
     }
 
     /**
      * @param hostIPAddress the host IP address to set
      */
-    public final void setHostIPAddress(final String hostIPAddress) {
+    public void setHostIPAddress(final String hostIPAddress) {
         mHostIPAddress = hostIPAddress;
     }
 
     /**
      * @return the host IP port
      */
-    public final int getHostIPPort() {
+    public int getHostIPPort() {
         return mHostIPPort;
     }
 
     /**
      * @param hostIPPort the host IP port to set
      */
-    public final void setHostIPPort(final int hostIPPort) {
+    public void setHostIPPort(final int hostIPPort) {
         mHostIPPort = hostIPPort;
     }
 
     /**
      * @return the host password
      */
-    public final String getHostPassword() {
+    public String getHostPassword() {
         return mHostPassword;
     }
 
     /**
      * @param hostPassword the host password to set
      */
-    public final void setHostPassword(final String hostPassword) {
+    public void setHostPassword(final String hostPassword) {
         mHostPassword = hostPassword;
     }
 
     /**
      * @return the host trace mode enabled or or
      */
-    public final boolean isHostTraceMode() {
+    public boolean isHostTraceMode() {
         return mHostTraceMode;
     }
 
     /**
      * @param hostTraceMode the host trace mode to set
      */
-    public final void setHostTraceMode(final boolean hostTraceMode) {
+    public void setHostTraceMode(final boolean hostTraceMode) {
         mHostTraceMode = hostTraceMode;
     }
 
     /**
      * @return the host user ID
      */
-    public final String getHostUserID() {
+    public String getHostUserID() {
         return mHostUserID;
     }
 
     /**
      * @param hostUserID the host user ID to set
      */
-    public final void setHostUserID(final String hostUserID) {
+    public void setHostUserID(final String hostUserID) {
         mHostUserID = hostUserID;
     }
 
@@ -194,7 +207,7 @@ public class CicsHttpEndpoint {
      * This method adds a query parm if host trace mode is on.
      * @return the path to the CICS Http server program
      */
-    public final String getHostURLPath() {
+    public String getHostURLPath() {
         if (mHostTraceMode && !mHostURLPath.contains(HOST_TRACE_QRY)) {
             return mHostURLPath + HOST_TRACE_QRY;
         }
@@ -204,8 +217,22 @@ public class CicsHttpEndpoint {
     /**
      * @param hostURLPath the path to the CICS Http server program to set
      */
-    public final void setHostURLPath(final String hostURLPath) {
+    public void setHostURLPath(final String hostURLPath) {
         mHostURLPath = hostURLPath;
+    }
+
+    /**
+     * @return the http protocol
+     */
+    public String getHostURLProtocol() {
+        return mHostURLProtocol;
+    }
+
+    /**
+     * @param hostURLProtocol the http protocol to set
+     */
+    public void setHostURLProtocol(final String hostURLProtocol) {
+        mHostURLProtocol = hostURLProtocol;
     }
 
 }
