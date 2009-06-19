@@ -12,6 +12,8 @@ package com.legstar.http.client;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
+import org.apache.commons.httpclient.HostConfiguration;
+import org.apache.commons.httpclient.HttpState;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.PostMethod;
 
@@ -40,37 +42,46 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
     public void testInstantiation() {
         CicsHttp cicsHttp = new CicsHttp("testInstantiation", getEndpoint(),
                 DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
-        assertEquals("mainframe", cicsHttp.getHostConfig().getHost());
-        assertEquals(3080, cicsHttp.getHostConfig().getPort());
-        assertEquals(cicsHttp.getHostConfig().getHost(), cicsHttp.getCicsHttpEndpoint().getHostIPAddress());
-        assertEquals(cicsHttp.getHostConfig().getPort(), cicsHttp.getCicsHttpEndpoint().getHostIPPort());
+        assertEquals("mainframe", cicsHttp.getHttpClient().getHostConfiguration().getHost());
+        assertEquals(3080, cicsHttp.getHttpClient().getHostConfiguration().getPort());
+        assertEquals(cicsHttp.getHttpClient().getHostConfiguration().getHost(),
+                cicsHttp.getCicsHttpEndpoint().getHostIPAddress());
+        assertEquals(cicsHttp.getHttpClient().getHostConfiguration().getPort(),
+                cicsHttp.getCicsHttpEndpoint().getHostIPPort());
         assertEquals(true, cicsHttp.getHttpClient().getParams().isAuthenticationPreemptive());
     }
 
     /**
-     * Try a connection.
+     * Try to create a host configuration.
      */
-    public void testConnect() {
-        try {
-            CicsHttp cicsHttp = new CicsHttp("testConnect", getEndpoint(),
-                    DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
-            cicsHttp.connect("TRUC");
-            AuthScope as = new AuthScope("mainframe",
-                    3080,
-                    AuthScope.ANY_HOST);
-            assertEquals("P390:TRUC", cicsHttp.getHttpState().getCredentials(as).toString());
-        } catch (ConnectionException e) {
-            fail("testConnect failed " + e);
-        }
+    public void testCreateHostConfiguration() {
+        CicsHttp cicsHttp = new CicsHttp("testConnect", getEndpoint(),
+                DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
+        HostConfiguration hostConfiguration = cicsHttp.createHostConfiguration(getEndpoint());
+        assertEquals("mainframe", hostConfiguration.getHost());
+        assertEquals("http://mainframe:3080", hostConfiguration.getHostURL());
+        assertEquals(3080, hostConfiguration.getPort());
+        assertEquals("http:80", hostConfiguration.getProtocol().toString());
+    }
+
+    /**
+     * Try to create a state.
+     */
+    public void testCreateHttpState() {
+        CicsHttp cicsHttp = new CicsHttp("testConnect", getEndpoint(),
+                DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
+        HttpState state = cicsHttp.createHttpState("mainframe", 3080, "P390", "TRUC", null);
+        AuthScope as = new AuthScope("mainframe", 3080, null, AuthScope.ANY_SCHEME);
+        assertEquals("P390:TRUC", state.getCredentials(as).toString());
     }
 
     /**
      * Test the post method method.
      */
-    public void testPostMethodCreation() {
+    public void testCreatePostMethod() {
         try {
             LegStarRequest request = getLsfileaeRequest100(getAddress());
-            PostMethod postMethod = getConnection().createPostMethod(request);
+            PostMethod postMethod = getConnection().createPostMethod(request, "/CICS/CWBA/LSWEBBIN");
             assertEquals("POST", postMethod.getName());
             assertEquals("CICSTraceMode: false",
                     postMethod.getRequestHeader(CicsHttp.REQUEST_TRACE_MODE_HHDR).toString().trim());
@@ -85,29 +96,14 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
     }
 
     /**
-     * Send a request before connecting.
-     */
-    public void testSendRequestOutOfSync() {
-        try {
-            CicsHttp cicsHttp = new CicsHttp("testSendRequestOutOfSync", getEndpoint(),
-                    DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
-            cicsHttp.sendRequest(getLsfileaeRequest100(getAddress()));
-            fail("testPostMethodCreation failed ");
-        } catch (RequestException e) {
-            assertEquals("No prior connect. Missing host credentials.", e.getMessage());
-        }
-    }
-
-    /**
      * Send a request to the wrong address.
      */
     public void testSendRequestToWrongIPAddress() {
         try {
-            CicsHttp cicsHttp = new CicsHttp("testSendRequestToWrongIPAddress", getEndpoint(),
+            CicsHttpEndpoint endpoint = getEndpoint();
+            endpoint.setHostIPAddress("192.168.0.117");
+            CicsHttp cicsHttp = new CicsHttp("testSendRequestToWrongIPAddress", endpoint,
                     DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
-            CicsHttpEndpoint endPoint = cicsHttp.getCicsHttpEndpoint();
-            endPoint.setHostIPAddress("192.168.0.117");
-            cicsHttp.setCicsHttpEndpoint(endPoint);
             cicsHttp.setConnectTimeout(1500);
             cicsHttp.connect("zaratoustra");
             cicsHttp.sendRequest(getLsfileaeRequest100(getAddress()));
@@ -126,11 +122,10 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
      */
     public void testSendRequestToWrongIPPort() {
         try {
-            CicsHttp cicsHttp = new CicsHttp("testSendRequestToWrongIPPort", getEndpoint(),
+            CicsHttpEndpoint endpoint = getEndpoint();
+            endpoint.setHostIPPort(12768);
+            CicsHttp cicsHttp = new CicsHttp("testSendRequestToWrongIPPort", endpoint,
                     DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
-            CicsHttpEndpoint endPoint = cicsHttp.getCicsHttpEndpoint();
-            endPoint.setHostIPPort(12768);
-            cicsHttp.setCicsHttpEndpoint(endPoint);
             cicsHttp.setConnectTimeout(1500);
             cicsHttp.connect("zaratoustra");
             cicsHttp.sendRequest(getLsfileaeRequest100(getAddress()));
@@ -148,11 +143,10 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
      */
     public void testSendRequestWithWrongUserID() {
         try {
-            CicsHttp cicsHttp = new CicsHttp("testSendRequestWithWrongUserID", getEndpoint(),
+            CicsHttpEndpoint endpoint = getEndpoint();
+            endpoint.setHostUserID("tartempion");
+            CicsHttp cicsHttp = new CicsHttp("testSendRequestWithWrongUserID", endpoint,
                     DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
-            CicsHttpEndpoint endPoint = cicsHttp.getCicsHttpEndpoint();
-            endPoint.setHostUserID("tartempion");
-            cicsHttp.setCicsHttpEndpoint(endPoint);
             cicsHttp.setConnectTimeout(1500);
             cicsHttp.connect("zaratoustra");
             LegStarRequest request = getLsfileaeRequest100(getAddress());

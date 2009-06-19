@@ -79,23 +79,11 @@ public class CicsHttp implements LegStarConnection  {
     /** Apache HTTP client. Connection persistence is implemented by default. */
     private HttpClient mHttpClient;
 
-    /** Apache HTTP host configuration (Remote host address, port, etc.). */
-    private HostConfiguration mHostConfig;
-
-    /** Apache HTTP state (holds credentials and cookies). */
-    private HttpState mHttpState;
-
     /** Apache HTTP POST method (We use POST command with CICS Server).*/
     private PostMethod mPostMethod;
 
     /** Most recent status code returned by an HTTP method execution. */
     private int mStatusCode = 0;
-
-    /** Maximum time (milliseconds) to wait for connection. */
-    private int mConnectTimeout;
-
-    /** Maximum time (milliseconds) to wait for host reply. */
-    private int mReceiveTimeout;
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(CicsHttp.class);
@@ -118,10 +106,9 @@ public class CicsHttp implements LegStarConnection  {
             final int connectionTimeout,
             final int receiveTimeout) {
         mConnectionID = connectionID;
-        mConnectTimeout = connectionTimeout;
-        mReceiveTimeout = receiveTimeout;
-        setCicsHttpEndpoint(cicsHttpEndpoint);
-        mHttpClient = createHttpClient();
+        mCicsHttpEndpoint = cicsHttpEndpoint;
+        mHttpClient = createHttpClient(
+                cicsHttpEndpoint, connectionTimeout, receiveTimeout);
     }
 
     /**
@@ -132,22 +119,33 @@ public class CicsHttp implements LegStarConnection  {
      * @param cicsPassword credentials for basic authentication
      * @throws ConnectionException if connection fails
      */
-    public final void connect(
+    public void connect(
             final String cicsPassword) throws ConnectionException {
 
         if (_log.isDebugEnabled()) {
-            _log.debug("Connection:" + mConnectionID
+            _log.debug("Connection:" + getConnectionID()
                     + " Setup connection. Host:" 
-                    + mCicsHttpEndpoint.getReport());
+                    + getCicsHttpEndpoint().getReport());
         }
-        /* Create a state using the passed credentials */
-        mHttpState = createHttpState(cicsPassword);
+        /* If a password is not passed, use the one from configuration */
+        String password;
+        if (cicsPassword == null || cicsPassword.length() == 0) {
+            password = getCicsHttpEndpoint().getHostPassword();
+        } else {
+            password = cicsPassword;
+        }
 
-        /* There must be a new post method on each request*/
-        mPostMethod = null;
+        /* Create a state using the passed credentials.
+         * TODO add support for realm */
+        getHttpClient().setState(createHttpState(
+                getCicsHttpEndpoint().getHostIPAddress(),
+                getCicsHttpEndpoint().getHostIPPort(),
+                getCicsHttpEndpoint().getHostUserID(),
+                password,
+                null));
 
         if (_log.isDebugEnabled()) {
-            _log.debug("Connection:" + mConnectionID + " Connection setup.");
+            _log.debug("Connection:" + getConnectionID() + " Connection setup.");
         }
     }
 
@@ -159,7 +157,7 @@ public class CicsHttp implements LegStarConnection  {
      *  file
      *  @throws ConnectionException if connection fails
      * */
-    public final void connectReuse(
+    public void connectReuse(
             final String cicsPassword) throws ConnectionException {
         connect(cicsPassword);
     }
@@ -171,13 +169,13 @@ public class CicsHttp implements LegStarConnection  {
      * @param request the request to be serviced
      * @throws RequestException if send fails
      */
-    public final void sendRequest(
+    public void sendRequest(
             final LegStarRequest request) throws RequestException {
 
         if (_log.isDebugEnabled()) {
             try {
                 _log.debug("Sending Request:" + request.getID()
-                        + " on Connection:" + mConnectionID
+                        + " on Connection:" + getConnectionID()
                         + " "
                         + request.getRequestMessage().getHeaderPart().
                         getJsonString()
@@ -186,18 +184,13 @@ public class CicsHttp implements LegStarConnection  {
                 throw new RequestException(e);
             }
         }
-        /* First make sure we are not out of sync. */
-        if (mHttpState == null) {
-            throw new RequestException(
-            "No prior connect. Missing host credentials.");
-        }
         try {
-            mPostMethod = createPostMethod(request);
+            mPostMethod = createPostMethod(request,
+                    getCicsHttpEndpoint().getHostURLPath());
             /* Status code is not processed here because we need to
              * receive response whatever the status code is. If status code
              * shows an error, it will be handled while receiving response. */
-            mStatusCode = mHttpClient.executeMethod(
-                    mHostConfig, mPostMethod, mHttpState);
+            mStatusCode = getHttpClient().executeMethod(mPostMethod);
         } catch (HttpException e) {
             throw new RequestException(e);
         } catch (IOException e) {
@@ -206,7 +199,7 @@ public class CicsHttp implements LegStarConnection  {
 
         if (_log.isDebugEnabled()) {
             _log.debug("Request:" + request.getID()
-                    + " on Connection:" + mConnectionID
+                    + " on Connection:" + getConnectionID()
                     + " message request sent.");
         }
     }
@@ -219,25 +212,25 @@ public class CicsHttp implements LegStarConnection  {
      * @param request the request being serviced
      * @throws RequestException if receive fails
      */
-    public final void recvResponse(
+    public void recvResponse(
             final LegStarRequest request) throws RequestException {
 
         if (_log.isDebugEnabled()) {
             _log.debug("Receiving response for Request:" + request.getID()
-                    + " on Connection:" + mConnectionID
+                    + " on Connection:" + getConnectionID()
                     + '.');
         }
 
         /* First make sure we are not out of sync. */
-        if (mPostMethod == null) {
+        if (getPostMethod() == null) {
             throw new RequestException(
             "No prior send request. Nothing to receive.");
         }
 
         /* If the response was not successful, the content of the reply
          * will help the caller handle the error. */
-        if (mStatusCode != HttpStatus.SC_OK) {
-            throwErrorResponse();
+        if (getStatusCode() != HttpStatus.SC_OK) {
+            throwErrorResponse(getPostMethod());
             return;
         }
 
@@ -245,7 +238,7 @@ public class CicsHttp implements LegStarConnection  {
          * valid response message from the HTTP payload */
         InputStream respStream = null;
         try {
-            respStream = mPostMethod.getResponseBodyAsStream();
+            respStream = getPostMethod().getResponseBodyAsStream();
             request.setResponseMessage(createResponseMessage(respStream));
         } catch (IOException e) {
             throw new RequestException(e);
@@ -259,32 +252,44 @@ public class CicsHttp implements LegStarConnection  {
                     _log.warn("Unable to close response stream", e);
                 }
             }
-            mPostMethod.releaseConnection();
+            getPostMethod().releaseConnection();
         }
 
         if (_log.isDebugEnabled()) {
             _log.debug("Request:" + request.getID()
-                    + " on Connection:" + mConnectionID
+                    + " on Connection:" + getConnectionID()
                     + " response received.");
         }
     }
 
     /**
-     * Terminates a connection with the host. Closing is managed by the
-     * underlying Http connection manager dependant on the partner
-     * support for HTTP 1.1. We make no attempt to interfere here.
-     * @throws RequestException if a failure is detected
+     * Terminates a connection with the host. This is invoked
+     * when connections are not reused. The underlying connection manager
+     * will try to keep the connection open if it is HTTP 1.1 compliant.
+     * These pending connections cause TS31 to shoke so we force a
+     * close here.
+     * @throws RequestException if close fails
      */
     public void close() throws RequestException {
+        if (getHttpClient() != null) {
+            getHttpClient().getHttpConnectionManager().closeIdleConnections(0);
+        }
     }
 
     /**
      * Create a reusable HTTP Client with a set of parameters that match
-     * the remote CICS Server behavior. At this stage, the HTTPClient is not
+     * the remote CICS Server characteristics. At this stage, the HTTPClient is not
      * associated with a state and a method yet.
+     * @param cicsHttpEndpoint the connection configuration
+     * @param connectionTimeout Maximum time (milliseconds) to wait for
+     *  connection
+     * @param receiveTimeout Maximum time (milliseconds) to wait for host reply
      * @return the new HTTP Client
      */
-    private HttpClient createHttpClient() {
+    public HttpClient createHttpClient(
+            final CicsHttpEndpoint cicsHttpEndpoint,
+            final int connectionTimeout,
+            final int receiveTimeout) {
 
         if (_log.isDebugEnabled()) {
             _log.debug("enter createHttpClient()");
@@ -306,12 +311,12 @@ public class CicsHttp implements LegStarConnection  {
         params.setAuthenticationPreemptive(true);
 
         /* Set the receive time out. */
-        params.setSoTimeout(mReceiveTimeout);
+        params.setSoTimeout(receiveTimeout);
 
         /* Tell the connection manager how long we are prepared to wait
          * for a connection. */
         params.setIntParameter(
-                HttpConnectionParams.CONNECTION_TIMEOUT, mConnectTimeout);
+                HttpConnectionParams.CONNECTION_TIMEOUT, connectionTimeout);
 
         /* Disable Nagle algorithm */
         params.setBooleanParameter(
@@ -319,30 +324,49 @@ public class CicsHttp implements LegStarConnection  {
 
         HttpClient httpClient = new HttpClient(params);
 
+        httpClient.setHostConfiguration(createHostConfiguration(cicsHttpEndpoint));
+
         return httpClient;
+    }
+
+    /**
+     * Create an http host configuration using the protocol/host/port triple.
+     * @param cicsHttpEndpoint the connection configuration
+     * @return a valid host configuration
+     */
+    public HostConfiguration createHostConfiguration(
+            final CicsHttpEndpoint cicsHttpEndpoint) {
+        HostConfiguration hostConfiguration = new HostConfiguration();
+        hostConfiguration.setHost(
+                cicsHttpEndpoint.getHostIPAddress(),
+                cicsHttpEndpoint.getHostIPPort(),
+                cicsHttpEndpoint.getHostURLProtocol());
+        /* TODO add proxy handling */
+        return hostConfiguration;
     }
 
     /**
      * Create a state with the given credentials. A state persists from
      * request to request.
-     * @param cicsPassword the passed host password
+     * @param host the host name
+     * @param port the port number
+     * @param userid the host user id
+     * @param password the host password
+     * @param realm the host realm
      * @return a new HTTP State
      */
-    private HttpState createHttpState(final String cicsPassword) {
+    public HttpState createHttpState(
+            final String host,
+            final int port,
+            final String userid,
+            final String password,
+            final String realm) {
 
         if (_log.isDebugEnabled()) {
-            _log.debug("enter createHttpState(cicsPassword)");
+            _log.debug("enter createHttpState");
         }
 
         HttpState httpState = new HttpState();
-
-        /* If a password is not passed, use the one from configuration */
-        String password;
-        if (cicsPassword == null || cicsPassword.length() == 0) {
-            password = mCicsHttpEndpoint.getHostPassword();
-        } else {
-            password = cicsPassword;
-        }
 
         /* If there are no credentials, assume the server might have
          * been setup without basic authentication. */
@@ -353,24 +377,24 @@ public class CicsHttp implements LegStarConnection  {
         /* Username and password will be used as basic authentication
          *  credentials */
         UsernamePasswordCredentials upc =
-            new UsernamePasswordCredentials(
-                    mCicsHttpEndpoint.getHostUserID(),
-                    password);
+            new UsernamePasswordCredentials(userid, password);
         httpState.setCredentials(
-                new AuthScope(mCicsHttpEndpoint.getHostIPAddress(),
-                        mCicsHttpEndpoint.getHostIPPort(),
-                        AuthScope.ANY_HOST), upc);
+                new AuthScope(host, port,
+                        (realm == null || realm.length() == 0) ? null : realm,
+                                AuthScope.ANY_SCHEME), upc);
         return httpState;
     }
 
     /**
      * Create and populate an HTTP post method to send the execution request.
      * @param request the request to be serviced
+     * @param hostURLPath the target host URL path
      * @return the new post method
      * @throws RequestException if post method cannot be created
      */
-    public final PostMethod createPostMethod(
-            final LegStarRequest request) throws RequestException {
+    public PostMethod createPostMethod(
+            final LegStarRequest request,
+            final String hostURLPath) throws RequestException {
 
         if (_log.isDebugEnabled()) {
             _log.debug("enter createPostMethod(request)");
@@ -379,7 +403,7 @@ public class CicsHttp implements LegStarConnection  {
         PostMethod postMethod = new PostMethod();
 
         /* Point to URL under CICS Web Support */ 
-        postMethod.setPath(mCicsHttpEndpoint.getHostURLPath());
+        postMethod.setPath(hostURLPath);
 
         /* Pass on trace data to host via HTTP headers */
         postMethod.setRequestHeader(REQUEST_TRACE_MODE_HHDR,
@@ -434,19 +458,21 @@ public class CicsHttp implements LegStarConnection  {
     /**
      * When the response status code is not 200 (OK) we build the
      * most meaningful exception message.
+     * @param postMethod the method that failed
      * @throws RequestException systematically thrown
      */
-    private void throwErrorResponse() throws RequestException {
+    private void throwErrorResponse(
+            final PostMethod postMethod) throws RequestException {
 
         if (_log.isDebugEnabled()) {
             _log.debug("enter throwErrorResponse()");
         }
 
         StringBuilder errorMessage = new StringBuilder();
-        errorMessage.append(mPostMethod.getStatusText());
+        errorMessage.append(postMethod.getStatusText());
 
         /* This might be an error reported by the LegStar layer on host */
-        Header cicsError = mPostMethod.getResponseHeader(CICS_ERROR_HHDR);
+        Header cicsError = postMethod.getResponseHeader(CICS_ERROR_HHDR);
         if (cicsError != null) {
             errorMessage.append(" ");
             errorMessage.append(cicsError.getValue());
@@ -455,13 +481,13 @@ public class CicsHttp implements LegStarConnection  {
          * specifically recommended by the HTTPClient documentation)  */
         try {
             errorMessage.append(" ");
-            errorMessage.append(mPostMethod.getResponseBodyAsString());
+            errorMessage.append(postMethod.getResponseBodyAsString());
             throw new RequestException(errorMessage.toString());
         } catch (IOException e) {
             /* Assume there are no error descriptions in the content. */
             throw new RequestException(errorMessage.toString());
         } finally {
-            mPostMethod.releaseConnection();
+            postMethod.releaseConnection();
         }
     }
 
@@ -483,14 +509,14 @@ public class CicsHttp implements LegStarConnection  {
     /**
      * @return the identifier for this connection
      */
-    public final String getConnectionID() {
+    public String getConnectionID() {
         return mConnectionID;
     }
 
     /**
      * @param connectionID an identifier for this connection to set
      */
-    public final void setConnectionID(final String connectionID) {
+    public void setConnectionID(final String connectionID) {
         mConnectionID = connectionID;
     }
 
@@ -498,92 +524,69 @@ public class CicsHttp implements LegStarConnection  {
      * @see com.legstar.messaging.LegStarConnection#getConnectTimeout()
      * {@inheritDoc}
      */
-    public final long getConnectTimeout() {
-        return mConnectTimeout;
+    public long getConnectTimeout() {
+        return getHttpClient().getParams().getIntParameter(
+                HttpConnectionParams.CONNECTION_TIMEOUT, -1);
     }
 
     /** (non-Javadoc).
      * @see com.legstar.messaging.LegStarConnection#setConnectTimeout(long)
      * {@inheritDoc}
      */
-    public final void setConnectTimeout(final long timeout) {
-        mConnectTimeout = (int) timeout;
-        mHttpClient.getParams().setIntParameter(
-                HttpConnectionParams.CONNECTION_TIMEOUT, mConnectTimeout);
+    public void setConnectTimeout(final long timeout) {
+        getHttpClient().getParams().setIntParameter(
+                HttpConnectionParams.CONNECTION_TIMEOUT, (int) timeout);
     }
 
     /** (non-Javadoc).
      * @see com.legstar.messaging.LegStarConnection#getReceiveTimeout()
      * {@inheritDoc}
      */
-    public final long getReceiveTimeout() {
-        return mReceiveTimeout;
+    public long getReceiveTimeout() {
+        return getHttpClient().getParams().getSoTimeout();
     }
 
     /** (non-Javadoc).
      * @see com.legstar.messaging.LegStarConnection#setReceiveTimeout(long)
      * {@inheritDoc}
      */
-    public final void setReceiveTimeout(final long timeout) {
-        mReceiveTimeout = (int) timeout;
+    public void setReceiveTimeout(final long timeout) {
         /* Set the receive time out. */
-        mHttpClient.getParams().setSoTimeout(mReceiveTimeout);
+        getHttpClient().getParams().setSoTimeout((int) timeout);
     }
 
     /**
      * @return the CICS Http endpoint
      */
-    public final CicsHttpEndpoint getCicsHttpEndpoint() {
+    public CicsHttpEndpoint getCicsHttpEndpoint() {
         return mCicsHttpEndpoint;
-    }
-
-    /**
-     * Creates an HTTP Host configuration based on the HTTP parameters
-     * received.
-     * @param cicsHttpEndpoint the CICS Http endpoint to set
-     */
-    public final void setCicsHttpEndpoint(
-            final CicsHttpEndpoint cicsHttpEndpoint) {
-        mCicsHttpEndpoint = cicsHttpEndpoint;
-        mHostConfig = new HostConfiguration();
-        mHostConfig.setHost(
-                mCicsHttpEndpoint.getHostIPAddress(),
-                mCicsHttpEndpoint.getHostIPPort());
-
-    }
-
-    /**
-     * @return the HostConfig
-     */
-    public final HostConfiguration getHostConfig() {
-        return mHostConfig;
     }
 
     /**
      * @return the HttpClient
      */
-    public final HttpClient getHttpClient() {
+    public HttpClient getHttpClient() {
         return mHttpClient;
     }
 
     /**
-     * @return the HttpState
+     * @param httpClient the HttpClient
      */
-    public final HttpState getHttpState() {
-        return mHttpState;
+    public void setHttpClient(final HttpClient httpClient) {
+        mHttpClient = httpClient;
     }
 
     /**
      * @return the PostMethod
      */
-    public final PostMethod getPostMethod() {
+    public PostMethod getPostMethod() {
         return mPostMethod;
     }
 
     /**
      * @return the StatusCode
      */
-    public final int getStatusCode() {
+    public int getStatusCode() {
         return mStatusCode;
     }
 
