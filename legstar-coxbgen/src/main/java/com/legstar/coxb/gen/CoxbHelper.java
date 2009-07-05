@@ -404,11 +404,25 @@ public class CoxbHelper {
      * @throws HostException if retrieving XML element name fails
      */
     public final String getXmlNamespace(final ICobolBinding binding) throws HostException {
+        return getXmlNamespace(getJaxbPackageName(binding),
+                getJaxbTypeName(binding));
+    }
+
+    /**
+     * Retrieves the XML namespace associated with a JAXB element.
+     * 
+     * @param jaxbPackageName a JAXB element package name 
+     * @param jaxbTypeName a JAXB element type name 
+     * @return the XML namespace
+     * @throws HostException if retrieving XML element name fails
+     */
+    public final String getXmlNamespace(
+            final String jaxbPackageName, final String jaxbTypeName) throws HostException {
         try {
             JAXBElementDescriptor descriptor =
                 new JAXBElementDescriptor(
-                        getJaxbPackageName(binding),
-                        getJaxbTypeName(binding));
+                        jaxbPackageName,
+                        jaxbTypeName);
             return descriptor.getNamespace();
         } catch (JAXBAnnotationException e) {
             throw new HostException(e);
