@@ -1,0 +1,58 @@
+##/////////////////////////////////////////////////////////////////////
+##Jaxws Wrapper classes JAXB ObjectFactory Velocity Template.
+##@author Fady
+##/////////////////////////////////////////////////////////////////////
+#parse("vlc/j2c-service-common-package.vm")
+
+import javax.xml.bind.annotation.XmlRegistry;
+
+/**
+ * A JAXB ObjectFactory for wrapper classes.
+ *
+ */
+@XmlRegistry
+public class ObjectFactory {
+
+
+    /**
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes
+     * for package: ${model.packageName}.
+     * 
+     */
+    public ObjectFactory() {
+    }
+
+    /**
+     * @return an instance of {@link ${model.headerClassName} }
+     * 
+     */
+    public ${model.headerClassName} create${model.headerClassName}() {
+        return new ${model.headerClassName}();
+    }
+
+#foreach ($cixsOperation in $model.cixsOperations)
+    /**
+     * @return an instance of {@link ${cixsOperation.requestWrapperType} }
+     * 
+     */
+    public ${cixsOperation.requestWrapperType} create${cixsOperation.requestWrapperType}() {
+        return new ${cixsOperation.requestWrapperType}();
+    }
+
+    /**
+     * @return an instance of {@link ${cixsOperation.responseWrapperType} }
+     * 
+     */
+    public ${cixsOperation.responseWrapperType} create${cixsOperation.responseWrapperType}() {
+        return new ${cixsOperation.responseWrapperType}();
+    }
+    /**
+     * @return an instance of {@link ${cixsOperation.faultInfoType} }
+     * 
+     */
+    public ${cixsOperation.faultInfoType} create${cixsOperation.faultInfoType}() {
+        return new ${cixsOperation.faultInfoType}();
+    }
+#end
+
+}

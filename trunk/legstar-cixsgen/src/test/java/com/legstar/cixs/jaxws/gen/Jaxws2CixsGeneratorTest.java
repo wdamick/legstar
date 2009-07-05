@@ -183,7 +183,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
         CixsJaxwsService cixsJaxwsService = Samples.getLsfileae();
         initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
-        checkServiceArtifacts("/com/legstar/test/cixs/Lsfileae", "lsfileae", "Lsfileae");
+        checkServiceArtifacts("/com/legstar/test/cixs/Lsfileae", cixsJaxwsService);
         checkOperationResult("/com/legstar/test/cixs/Lsfileae", "lsfileae", "lsfileae", "Lsfileae");
         checkWebWrapperResult("/com/legstar/test/cixs/Lsfileae", "lsfileae", "Lsfileae", "Lsfileae", "Request");
         checkWebWrapperResult("/com/legstar/test/cixs/Lsfileae", "lsfileae", "Lsfileae", "Lsfileae", "Response");
@@ -197,7 +197,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
         CixsJaxwsService cixsJaxwsService = Samples.getLsfileal();
         initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
-        checkServiceArtifacts("/com/legstar/test/cixs/Lsfileal", "lsfileal", "Lsfileal");
+        checkServiceArtifacts("/com/legstar/test/cixs/Lsfileal", cixsJaxwsService);
         checkOperationResult("/com/legstar/test/cixs/Lsfileal", "lsfileal", "lsfileal", "Lsfileal");
         checkWebWrapperResult("/com/legstar/test/cixs/lsfileal", "lsfileal", "lsfileal", "Lsfileal", "Request");
         checkWebWrapperResult("/com/legstar/test/cixs/lsfileal", "lsfileal", "lsfileal", "Lsfileal", "Response");
@@ -211,7 +211,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
         CixsJaxwsService cixsJaxwsService = Samples.getLsfileac();
         initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
-        checkServiceArtifacts("/com/legstar/test/cixs/Lsfileac", "lsfileac", "Lsfileac");
+        checkServiceArtifacts("/com/legstar/test/cixs/Lsfileac", cixsJaxwsService);
         checkOperationResult("/com/legstar/test/cixs/Lsfileac", "lsfileac", "lsfileac", "Lsfileac");
         checkHolderResult("/com/legstar/test/cixs/Lsfileac", "lsfileac", "lsfileac", "Lsfileac", "Request");
         checkHolderResult("/com/legstar/test/cixs/Lsfileac", "lsfileac", "lsfileac", "Lsfileac", "Response");
@@ -225,7 +225,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
         CixsJaxwsService cixsJaxwsService = Samples.getLsfileax();
         initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
-        checkServiceArtifacts("/com/legstar/test/cixs/Lsfileax", "lsfileax", "Lsfileax");
+        checkServiceArtifacts("/com/legstar/test/cixs/Lsfileax", cixsJaxwsService);
         checkOperationResult("/com/legstar/test/cixs/Lsfileax", "lsfileax", "lsfileae", "Lsfileae");
         checkOperationResult("/com/legstar/test/cixs/Lsfileax", "lsfileax", "lsfileac", "Lsfileac");
         checkHolderResult("/com/legstar/test/cixs/Lsfileax", "lsfileax", "lsfileac", "Lsfileac", "Request");
@@ -242,7 +242,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
         CixsJaxwsService cixsJaxwsService = Samples.getLsfileap();
         initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
-        checkServiceArtifacts("", "lsfileap", "Lsfileap");
+        checkServiceArtifacts("", cixsJaxwsService);
         checkOperationResult("", "lsfileap", "lsfileae", "Lsfileae");
     }
 
@@ -254,7 +254,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
         CixsJaxwsService cixsJaxwsService = Samples.getLsfilean();
         initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
-        checkServiceArtifacts("/com/legstar/test/cixs/Lsfilean", "lsfilean", "Lsfilean");
+        checkServiceArtifacts("/com/legstar/test/cixs/Lsfilean", cixsJaxwsService);
         checkOperationResult("/com/legstar/test/cixs/oper/Lsfilean", "lsfilean", "lsfileae", "Lsfileae");
     }
 
@@ -266,7 +266,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
         CixsJaxwsService cixsJaxwsService = Samples.getLsfileaq();
         initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
-        checkServiceArtifacts("/com/legstar/test/cixs/Lsfileaq", "lsfileaq", "Lsfileaq");
+        checkServiceArtifacts("/com/legstar/test/cixs/Lsfileaq", cixsJaxwsService);
         checkOperationResult("/com/legstar/test/cixs/Lsfileaq", "lsfileaq", "lsfileac", "Lsfileac");
         checkHolderResult("/com/legstar/test/cixs/Lsfileaq", "lsfileaq", "lsfileaq", "Lsfileac", "Request");
         checkHolderResult("/com/legstar/test/cixs/Lsfileaq", "lsfileaq", "lsfileaq", "Lsfileac", "Response");
@@ -275,34 +275,40 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
     /**
      * Check the artifacts generated at the service level.
      * @param relativeLoc where the artifacts should be
-     * @param service the service name
-     * @param className the main java class name
+     * @param service the legstar service
      * @throws IOException if test fails
      */
     private void checkServiceArtifacts(
             final String relativeLoc,
-            final String service,
-            final String className) throws IOException {
+            final CixsJaxwsService service) throws IOException {
 
-        String resStr = getSource(GEN_SRC_DIR + relativeLoc + "/" + className + ".java");
-        assertTrue(resStr.contains("public interface " + className + " {"));
+        String resStr = getSource(GEN_SRC_DIR + relativeLoc + "/" + service.getInterfaceClassName() + ".java");
+        assertTrue(resStr.contains("public interface " + service.getInterfaceClassName() + " {"));
 
-        resStr = getSource(GEN_SRC_DIR + relativeLoc + "/"  + className + "Impl.java");
-        assertTrue(resStr.contains("public class "  + className
-                + "Impl extends AbstractServiceAdapter implements " + className + " {"));
+        resStr = getSource(GEN_SRC_DIR + relativeLoc + "/"  + service.getInterfaceClassName() + "Impl.java");
+        assertTrue(resStr.contains("public class "  + service.getInterfaceClassName()
+                + "Impl extends AbstractServiceAdapter implements " + service.getInterfaceClassName() + " {"));
 
-        resStr = getSource(GEN_SRC_DIR + relativeLoc + "/" + className + "HostHeader.java");
-        assertTrue(resStr.contains("public class " + className + "HostHeader {"));
+        resStr = getSource(GEN_SRC_DIR + relativeLoc + "/" + service.getInterfaceClassName() + "HostHeader.java");
+        assertTrue(resStr.contains("public class " + service.getInterfaceClassName() + "HostHeader {"));
 
-        resStr = getSource(GEN_ANT_DIR, service + '/' + "build.xml");
+        if (service.getPackageName() != null) {
+            resStr = getSource(GEN_SRC_DIR + relativeLoc + "/" + "package-info.java");
+            assertTrue(resStr.contains("package " + service.getPackageName() + ";"));
+    
+            resStr = getSource(GEN_SRC_DIR + relativeLoc + "/" + "ObjectFactory.java");
+            assertTrue(resStr.contains("package " + service.getPackageName() + ";"));
+        }
+
+        resStr = getSource(GEN_ANT_DIR, service.getName() + '/' + "build.xml");
         assertTrue(resStr.replace('\\', '/').contains(
-                "<war warfile=\"${env.CATALINA_BASE}/webapp/cixs-" + service + ".war\""));
+                "<war warfile=\"${env.CATALINA_BASE}/webapp/cixs-" + service.getName() + ".war\""));
 
-        resStr = getSource(GEN_WDD_DIR,  service + '/' + "web.xml");
-        assertTrue(resStr.contains("<servlet-name>" + service + "Service</servlet-name>"));
+        resStr = getSource(GEN_WDD_DIR,  service.getName() + '/' + "web.xml");
+        assertTrue(resStr.contains("<servlet-name>" + service.getName() + "Service</servlet-name>"));
 
-        resStr = getSource(GEN_WDD_DIR, service + '/' + "sun-jaxws.xml");
-        assertTrue(resStr.contains("<endpoint name=\"" + service + "Service\""));
+        resStr = getSource(GEN_WDD_DIR, service.getName() + '/' + "sun-jaxws.xml");
+        assertTrue(resStr.contains("<endpoint name=\"" + service.getName() + "Service\""));
     }
 
     /**

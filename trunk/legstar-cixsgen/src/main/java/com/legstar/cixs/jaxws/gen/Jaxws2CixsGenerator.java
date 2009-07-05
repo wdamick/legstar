@@ -89,6 +89,14 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
     public static final String OPERATION_PROGRAM_INVOKER_VLC_TEMPLATE =
         "vlc/j2c-operation-program-invoker.vm";
 
+    /** Velocity template for service package-info.java. */
+    public static final String SERVICE_PACKAGE_INFO_VLC_TEMPLATE =
+        "vlc/j2c-service-package-info.vm";
+
+    /** Velocity template for service ObjectFactory.java. */
+    public static final String SERVICE_OBJECTFACTORY_VLC_TEMPLATE =
+        "vlc/j2c-service-objectfactory.vm";
+
     /** The service model name is it appears in templates. */
     private static final String SERVICE_MODEL_NAME = "model";
 
@@ -209,6 +217,10 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
         generateImplementation(
                 getCixsJaxwsService(), parameters, serviceClassFilesDir);
         generateHeader(
+                getCixsJaxwsService(), parameters, serviceClassFilesDir);
+        generatePackageInfo(
+                getCixsJaxwsService(), parameters, serviceClassFilesDir);
+        generateObjectFactory(
                 getCixsJaxwsService(), parameters, serviceClassFilesDir);
         generateSunJaxwsXml(
                 getCixsJaxwsService(), parameters, serviceWebFilesDir);
@@ -601,6 +613,54 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
                 parameters,
                 operationClassFilesDir,
                 operation.getClassName() + "ProgramInvoker.java");
+    }
+
+    /**
+     * Create the Jaxb package-info.java class.
+     * @param service the Jaxws service description
+     * @param parameters miscellaneous help parameters
+     * @param serviceClassFilesDir where to store the generated file
+     * @return the generated local file name
+     * @throws CodeGenMakeException if generation fails
+     */
+    public static String generatePackageInfo(
+            final CixsJaxwsService service,
+            final Map < String, Object > parameters,
+            final File serviceClassFilesDir)
+    throws CodeGenMakeException {
+        String fileName = "package-info.java";
+        generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
+                SERVICE_PACKAGE_INFO_VLC_TEMPLATE,
+                SERVICE_MODEL_NAME,
+                service,
+                parameters,
+                serviceClassFilesDir,
+                fileName);
+        return fileName;
+    }
+
+    /**
+     * Create the Jaxb ObjectFctory.java class.
+     * @param service the Jaxws service description
+     * @param parameters miscellaneous help parameters
+     * @param serviceClassFilesDir where to store the generated file
+     * @return the generated local file name
+     * @throws CodeGenMakeException if generation fails
+     */
+    public static String generateObjectFactory(
+            final CixsJaxwsService service,
+            final Map < String, Object > parameters,
+            final File serviceClassFilesDir)
+    throws CodeGenMakeException {
+        String fileName = "ObjectFactory.java";
+        generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
+                SERVICE_OBJECTFACTORY_VLC_TEMPLATE,
+                SERVICE_MODEL_NAME,
+                service,
+                parameters,
+                serviceClassFilesDir,
+                fileName);
+        return fileName;
     }
 
     /**

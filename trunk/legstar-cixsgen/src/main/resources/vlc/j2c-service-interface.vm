@@ -44,7 +44,7 @@ public interface ${model.interfaceClassName} {
      * @return a JAXB object mapping the reply
      * @throws ${cixsOperation.faultType} if method fails
      */
-    @WebMethod
+    @WebMethod(operationName = "${cixsOperation.name}", action = "urn:${cixsOperation.name}")
     @WebResult(name = "Response",
         targetNamespace = "${wsdlTargetNamespace}")
     @RequestWrapper(localName = "${cixsOperation.requestWrapperType}",
