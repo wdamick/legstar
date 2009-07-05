@@ -16,6 +16,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.legstar.codegen.CodeGenUtil;
+import com.legstar.coxb.host.HostException;
 
 /**
  * This class describes a service operation and its binding to JAXB and CICS.
@@ -33,6 +34,9 @@ public class CixsOperation {
 
     /** Operation-related classes package name. */
     private String mPackageName;
+
+    /** Namespace used for JAXB objects derived from operation. */
+    private String mNamespace;
 
     /** Class name for request wrapper. */
     private String mRequestWrapperType;
@@ -77,6 +81,10 @@ public class CixsOperation {
     /** Operation-related classes package name. */
     public static final String CIXS_OP_PACKAGE_XML_A
     = "packageName";
+
+    /** Namespace used for JAXB objects derived from operation. */
+    public static final String CIXS_OP_NAMESPACE_XML_A
+    = "namespace";
 
     /** Request wrapper class name. */
     public static final String CIXS_OP_REQ_WRAPPER_XML_A
@@ -242,6 +250,10 @@ public class CixsOperation {
             result.append(" " + CIXS_OP_PACKAGE_XML_A + "=" + '\"'
                     + getPackageName() + '\"');
         }
+        if (getNamespace() != null && getNamespace().length() > 0) {
+            result.append(" " + CIXS_OP_NAMESPACE_XML_A + "=" + '\"'
+                    + getNamespace() + '\"');
+        }
         if (getRequestHolderType() != null
                 && getRequestHolderType().length() > 0) {
             result.append(" " + CIXS_OP_REQ_HOLDER_XML_A + "=" + '\"'
@@ -296,6 +308,8 @@ public class CixsOperation {
                 CIXS_CICS_CHANNEL_XML_A);
         mPackageName =  operationElement.getAttribute(
                 CIXS_OP_PACKAGE_XML_A);
+        mNamespace =  operationElement.getAttribute(
+                CIXS_OP_NAMESPACE_XML_A);
         mRequestWrapperType =  operationElement.getAttribute(
                 CIXS_OP_REQ_WRAPPER_XML_A);
         mResponseWrapperType =  operationElement.getAttribute(
@@ -436,6 +450,20 @@ public class CixsOperation {
     }
 
     /**
+     * @return the namespace used for JAXB objects derived from operation
+     */
+    public final String getNamespace() {
+        return mNamespace;
+    }
+
+    /**
+     * @param namespace used for JAXB objects derived from operation
+     */
+    public final void setNamespace(final String namespace) {
+        mNamespace = namespace;
+    }
+
+    /**
      * @return the Class name for request holder (groups multiple input parts
      * which happens only if channel/containers are supported)
      * for single input operations this is the input type
@@ -453,6 +481,17 @@ public class CixsOperation {
             }
         }
         return mRequestHolderType;
+    }
+    
+    /**
+     * @return the JAXB namespace associated with the request holder.
+     * @throws HostException if namespace cannot be identified
+     */
+    public String getRequestHolderNamespace() throws HostException {
+        if (!hasChannel() && mInput.size() > 0) {
+                return mInput.get(0).getJaxbNamespace();
+        }
+        return getNamespace();
     }
 
     /**
@@ -499,6 +538,17 @@ public class CixsOperation {
             }
         }
         return mResponseHolderType;
+    }
+
+    /**
+     * @return the JAXB namespace associated with the response holder.
+     * @throws HostException if namespace cannot be identified
+     */
+    public String getResponseHolderNamespace() throws HostException {
+        if (!hasChannel() && mOutput.size() > 0) {
+                return mOutput.get(0).getJaxbNamespace();
+        }
+        return getNamespace();
     }
 
     /**

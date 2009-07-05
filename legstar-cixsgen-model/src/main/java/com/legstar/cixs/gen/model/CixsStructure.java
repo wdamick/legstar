@@ -14,6 +14,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import com.legstar.codegen.CodeGenUtil;
+import com.legstar.coxb.gen.CoxbHelper;
+import com.legstar.coxb.host.HostException;
 
 /**
  * This class describes a mapping between a CICS structure (either commarea or
@@ -103,6 +105,15 @@ public class CixsStructure {
      */
     public final void setJaxbPackageName(final String jaxbPackageName) {
         mJaxbPackageName = jaxbPackageName;
+    }
+
+    /**
+     * @return the the JAXB namespace of complex type
+     * @throws HostException if namespace cannot be detected from annotations
+     */
+    public final String getJaxbNamespace() throws HostException {
+        CoxbHelper coxbHelper = new CoxbHelper();
+        return coxbHelper.getXmlNamespace(getJaxbPackageName(), getJaxbType());
     }
 
     /**
