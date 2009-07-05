@@ -15,7 +15,6 @@ import java.io.File;
 import com.legstar.cixs.gen.AbstractTestTemplate;
 import com.legstar.cixs.gen.Samples;
 import com.legstar.cixs.gen.model.CixsOperation;
-import com.legstar.cixs.gen.model.CixsStructure;
 import com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
 import com.legstar.codegen.CodeGenUtil;
@@ -103,14 +102,6 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
 
         CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
         CixsOperation operation = jaxwsComponent.getCixsOperations().get(0);
-        CixsStructure structure = operation.getInput().get(0);
-
-        getParameters().put("propertyName", "Request");
-        getParameters().put("fieldName", "request");
-        getParameters().put("wrapperType", operation.getRequestWrapperType());
-        getParameters().put("importType", structure.getJaxbPackageName()
-                + '.' + structure.getJaxbType());
-        getParameters().put("fieldType", structure.getJaxbType());
         addWebServiceParameters(jaxwsComponent, getParameters());
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
@@ -123,16 +114,52 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileae;"));
         assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileae.Dfhcommarea;"));
+        assertTrue(resStr.contains("@XmlRootElement(name = \"LsfileaeRequest\")"));
         assertTrue(resStr.contains("@XmlType(name = \"LsfileaeRequest\","));
         assertTrue(resStr.contains("namespace = \"http://cixs.test.legstar.com/lsfileae\","));
         assertTrue(resStr.contains("\"request\""));
         assertTrue(resStr.contains("public class LsfileaeRequest {"));
-        assertTrue(resStr.contains("@XmlElement(name = \"Request\","));
+        assertTrue(resStr.contains("@XmlElement(name = \"Dfhcommarea\","));
+        assertTrue(resStr.contains("namespace = \"http://legstar.com/test/coxb/lsfileae\","));
         assertTrue(resStr.contains("private Dfhcommarea request;"));
         assertTrue(resStr.contains("public final Dfhcommarea getRequest() {"));
         assertTrue(resStr.contains("return request;"));
         assertTrue(resStr.contains("public final void setRequest("));
         assertTrue(resStr.contains("final Dfhcommarea value) {"));
+        assertTrue(resStr.contains("request = value;"));
+    }
+
+    /**
+     * Wrapper class with holder.
+     * @throws Exception if test fails
+     */
+    public void testWrapperWithHolder() throws Exception {
+
+        CixsJaxwsService jaxwsComponent = Samples.getLsfileac();
+        CixsOperation operation = jaxwsComponent.getCixsOperations().get(0);
+        addWebServiceParameters(jaxwsComponent, getParameters());
+
+        File operationClassFilesDir = CodeGenUtil.classFilesLocation(
+                GEN_SRC_DIR, operation.getPackageName(), true);
+        Jaxws2CixsGenerator.generateWrappers(
+                operation, getParameters(), operationClassFilesDir);
+        String resStr = getSource(
+                operationClassFilesDir,
+                operation.getRequestWrapperType() + ".java");
+
+        assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileac;"));
+        assertTrue(resStr.contains("@XmlRootElement(name = \"LsfileacRequest\")"));
+        assertTrue(resStr.contains("@XmlType(name = \"LsfileacRequest\","));
+        assertTrue(resStr.contains("namespace = \"http://cixs.test.legstar.com/lsfileac\","));
+        assertTrue(resStr.contains("\"request\""));
+        assertTrue(resStr.contains("public class LsfileacRequest {"));
+        assertTrue(resStr.contains("@XmlElement(name = \"LsfileacRequestHolder\","));
+        assertTrue(resStr.contains("namespace = \"http://cixs.test.legstar.com/lsfileac\","));
+        assertTrue(resStr.contains("private LsfileacRequestHolder request;"));
+        assertTrue(resStr.contains("public final LsfileacRequestHolder getRequest() {"));
+        assertTrue(resStr.contains("return request;"));
+        assertTrue(resStr.contains("public final void setRequest("));
+        assertTrue(resStr.contains("final LsfileacRequestHolder value) {"));
         assertTrue(resStr.contains("request = value;"));
     }
 

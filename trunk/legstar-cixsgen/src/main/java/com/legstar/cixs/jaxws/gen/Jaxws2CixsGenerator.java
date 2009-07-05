@@ -23,6 +23,7 @@ import com.legstar.cixs.jaxws.model.AntBuildJaxws2CixsModel;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
 import com.legstar.codegen.CodeGenMakeException;
 import com.legstar.codegen.CodeGenUtil;
+import com.legstar.coxb.host.HostException;
 
 /**
  * This Ant task creates the various Jaxws artifacts needed to implement
@@ -161,6 +162,10 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
                     || operation.getPackageName().length() == 0) {
                 operation.setPackageName(
                         getCixsJaxwsService().getPackageName());
+            }
+            if (operation.getNamespace() == null 
+                    || operation.getNamespace().length() == 0) {
+                operation.setNamespace(getWebServiceParameters().getWsdlTargetNamespace());
             }
         }
     }
@@ -518,40 +523,48 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
             final List < CixsStructure > structures)
     throws CodeGenMakeException {
 
-        parameters.put("propertyName", propertyName);
-        parameters.put("fieldName", propertyName.toLowerCase(
-                Locale.getDefault()));
-        parameters.put("wrapperType", wrapperType);
+        try {
+            parameters.put("propertyName", propertyName);
+            parameters.put("fieldName", propertyName.toLowerCase(
+                    Locale.getDefault()));
+            parameters.put("wrapperType", wrapperType);
 
-        if (operation.getCicsChannel() == null
-                || operation.getCicsChannel().length() == 0) {
-            CixsStructure structure = structures.get(0);
-            if (structure.getJaxbPackageName() != null
-                    && structure.getJaxbPackageName().length() > 0) {
-                parameters.put("importType",
-                        structure.getJaxbPackageName()
-                        + '.' + structure.getJaxbType());
-            }
-            parameters.put("fieldType", structure.getJaxbType());
-        } else {
-            parameters.put("fieldType", holderType);
+            if (operation.getCicsChannel() == null
+                    || operation.getCicsChannel().length() == 0) {
+                CixsStructure structure = structures.get(0);
+                if (structure.getJaxbPackageName() != null
+                        && structure.getJaxbPackageName().length() > 0) {
+                    parameters.put("importType",
+                            structure.getJaxbPackageName()
+                            + '.' + structure.getJaxbType());
+                }
+                parameters.put("fieldJaxbType", structure.getJaxbType());
+                parameters.put("fieldJaxbNamespace", structure.getJaxbNamespace());
+            } else {
+                parameters.put("fieldJaxbType", holderType);
+                parameters.put("fieldJaxbNamespace",
+                        parameters.get(WebServiceParameters.WSDL_TARGET_NAMESPACE_PROPERTY));
+           }
+
+            generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
+                    OPERATION_WRAPPER_VLC_TEMPLATE,
+                    "cixsOperation",
+                    operation,
+                    parameters,
+                    operationClassFilesDir,
+                    wrapperType + ".java");
+            
+            /* Remove local parameters from the parameters list so that
+             * they don't interfere with a subsequent generation.*/
+            parameters.remove("propertyName");
+            parameters.remove("fieldName");
+            parameters.remove("wrapperType");
+            parameters.remove("importType");
+            parameters.remove("fieldJaxbType");
+            parameters.remove("fieldJaxbNamespace");
+        } catch (HostException e) {
+            throw new CodeGenMakeException(e);
         }
-
-        generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
-                OPERATION_WRAPPER_VLC_TEMPLATE,
-                "cixsOperation",
-                operation,
-                parameters,
-                operationClassFilesDir,
-                wrapperType + ".java");
-        
-        /* Remove local parameters from the parameters list so that
-         * they don't interfere with a subsequent generation.*/
-        parameters.remove("propertyName");
-        parameters.remove("fieldName");
-        parameters.remove("wrapperType");
-        parameters.remove("importType");
-        parameters.remove("fieldType");
     }
 
     /**

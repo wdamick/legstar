@@ -45,8 +45,8 @@ public interface ${model.interfaceClassName} {
      * @throws ${cixsOperation.faultType} if method fails
      */
     @WebMethod(operationName = "${cixsOperation.name}", action = "urn:${cixsOperation.name}")
-    @WebResult(name = "Response",
-        targetNamespace = "${wsdlTargetNamespace}")
+    @WebResult(name = "${cixsOperation.responseHolderType}",
+        targetNamespace = "${cixsOperation.responseHolderNamespace}")
     @RequestWrapper(localName = "${cixsOperation.requestWrapperType}",
         targetNamespace = "${wsdlTargetNamespace}",
         className = "${helper.getQualClassName(${cixsOperation.packageName}, ${cixsOperation.requestWrapperType})}")
@@ -54,8 +54,8 @@ public interface ${model.interfaceClassName} {
         targetNamespace = "${wsdlTargetNamespace}",
         className = "${helper.getQualClassName(${cixsOperation.packageName}, ${cixsOperation.responseWrapperType})}")
     $cixsOperation.responseHolderType ${cixsOperation.name}(
-        @WebParam(name = "Request",
-               targetNamespace = "${wsdlTargetNamespace}")
+        @WebParam(name = "${cixsOperation.requestHolderType}",
+               targetNamespace = "${cixsOperation.requestHolderNamespace}")
             $cixsOperation.requestHolderType request,
         @WebParam(name = "HostHeader", header = true, partName = "HostHeader",
                 targetNamespace = "${wsdlTargetNamespace}")

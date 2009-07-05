@@ -46,6 +46,25 @@ public class ObjectFactory {
     public ${cixsOperation.responseWrapperType} create${cixsOperation.responseWrapperType}() {
         return new ${cixsOperation.responseWrapperType}();
     }
+
+#if($cixsOperation.hasChannel())
+    /**
+     * @return an instance of {@link ${cixsOperation.requestHolderType} }
+     * 
+     */
+    public ${cixsOperation.requestHolderType} create${cixsOperation.requestHolderType}() {
+        return new ${cixsOperation.requestHolderType}();
+    }
+
+    /**
+     * @return an instance of {@link ${cixsOperation.responseHolderType} }
+     * 
+     */
+    public ${cixsOperation.responseHolderType} create${cixsOperation.responseHolderType}() {
+        return new ${cixsOperation.responseHolderType}();
+    }
+
+#end
     /**
      * @return an instance of {@link ${cixsOperation.faultInfoType} }
      * 
