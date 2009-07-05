@@ -364,4 +364,48 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("<classes dir=\"/legstar-cixsgen-cust-cases/target/classes\"/>"));
     }
 
+    /**
+     * package-info.java.
+     * @throws Exception if test fails
+     */
+    public void testPackageInfo() throws Exception {
+
+        CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
+        addWebServiceParameters(jaxwsComponent, getParameters());
+
+        File serviceClassFilesDir = CodeGenUtil.classFilesLocation(
+                GEN_SRC_DIR, jaxwsComponent.getPackageName(), true);
+        CodeGenUtil.checkDirectory(serviceClassFilesDir, true);
+        String fileName = Jaxws2CixsGenerator.generatePackageInfo(
+                jaxwsComponent, getParameters(), serviceClassFilesDir);
+        String resStr = getSource(serviceClassFilesDir, fileName);
+
+        assertTrue(resStr.contains("@javax.xml.bind.annotation.XmlSchema(namespace ="
+                + " \"http://cixs.test.legstar.com/lsfileae\","));
+        assertTrue(resStr.contains("elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)"));
+        assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileae;"));
+    }
+
+    /**
+     * ObjectFactory.java.
+     * @throws Exception if test fails
+     */
+    public void testObjectFactory() throws Exception {
+
+        CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
+        addWebServiceParameters(jaxwsComponent, getParameters());
+
+        File serviceClassFilesDir = CodeGenUtil.classFilesLocation(
+                GEN_SRC_DIR, jaxwsComponent.getPackageName(), true);
+        CodeGenUtil.checkDirectory(serviceClassFilesDir, true);
+        String fileName = Jaxws2CixsGenerator.generateObjectFactory(
+                jaxwsComponent, getParameters(), serviceClassFilesDir);
+        String resStr = getSource(serviceClassFilesDir, fileName);
+
+        assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileae;"));
+        assertTrue(resStr.contains("public LsfileaeRequest createLsfileaeRequest() {"));
+        assertTrue(resStr.contains("public LsfileaeResponse createLsfileaeResponse() {"));
+        assertTrue(resStr.contains("public LsfileaeHostHeader createLsfileaeHostHeader() {"));
+        assertTrue(resStr.contains("public LsfileaeFaultInfo createLsfileaeFaultInfo() {"));
+    }
 }
