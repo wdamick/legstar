@@ -29,7 +29,7 @@ public class ClientNumzonedTest extends TestCase {
 		NumzonedPort port = new NumzonedService().getNumzonedImplPort();
 		NumzonedRequest req = wsOF.createNumzonedRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		dfhcommarea.setLU(6);
 		dfhcommarea.setLS(Short.parseShort("-5"));
@@ -39,7 +39,7 @@ public class ClientNumzonedTest extends TestCase {
 		dfhcommarea.setLSSignST(Short.parseShort("-11"));
 
 		NumzonedResponse resp = port.numzoned(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 
 		assertEquals(2, dfhcommareaResp.getLU());
 		assertEquals(5, dfhcommareaResp.getLS());

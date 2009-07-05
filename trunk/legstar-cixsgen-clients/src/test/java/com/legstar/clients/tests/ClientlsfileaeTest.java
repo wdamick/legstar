@@ -35,12 +35,12 @@ public class ClientlsfileaeTest extends TestCase {
 		
 		LsfileaeRequest req = wsOF.createLsfileaeRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		dfhcommarea.setComNumber(100);
 
 		LsfileaeResponse resp = port.lsfileae(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 
 		assertEquals("SURREY, ENGLAND",dfhcommareaResp.getComPersonal().getComAddress());
 		assertEquals("$0100.11",dfhcommareaResp.getComAmount());
@@ -72,12 +72,12 @@ public class ClientlsfileaeTest extends TestCase {
 		
 		LsfileaeRequest req = wsOF.createLsfileaeRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		dfhcommarea.setComNumber(100);
 
 		LsfileaeResponse resp = port.lsfileae(req, reqHead);
-		Dfhcommarea dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 
 		assertEquals("SURREY, ENGLAND",dfhcommareaResp.getComPersonal().getComAddress());
 		assertEquals("$0100.11",dfhcommareaResp.getComAmount());
@@ -110,7 +110,7 @@ public class ClientlsfileaeTest extends TestCase {
 			
 		LsfileaeRequest req = wsOF.createLsfileaeRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		dfhcommarea.setComNumber(100);
 
@@ -144,7 +144,7 @@ public class ClientlsfileaeTest extends TestCase {
 		
 		LsfileaeRequest req = wsOF.createLsfileaeRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		dfhcommarea.setComNumber(100);
 
@@ -179,13 +179,13 @@ public class ClientlsfileaeTest extends TestCase {
 		
 		LsfileaeRequest req = wsOF.createLsfileaeRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		dfhcommarea.setComNumber(100);
 
 		try {
 			LsfileaeResponse resp = port.lsfileae(req, reqHead);
-			Dfhcommarea dfhcommareaResp = resp.getResponse();
+			Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 
 			assertEquals("SURREY, ENGLAND",dfhcommareaResp.getComPersonal().getComAddress());
 			assertEquals("$0100.11",dfhcommareaResp.getComAmount());
@@ -221,13 +221,13 @@ public class ClientlsfileaeTest extends TestCase {
 		
 		LsfileaeRequest req = wsOF.createLsfileaeRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		dfhcommarea.setComNumber(100);
 
 		try {
 			LsfileaeResponse resp = port.lsfileae(req, reqHead);
-			Dfhcommarea dfhcommareaResp = resp.getResponse();
+			Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 
 			assertEquals("SURREY, ENGLAND",dfhcommareaResp.getComPersonal().getComAddress());
 			assertEquals("$0100.11",dfhcommareaResp.getComAmount());

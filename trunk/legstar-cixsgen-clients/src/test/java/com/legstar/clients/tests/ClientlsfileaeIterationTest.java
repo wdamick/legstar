@@ -37,7 +37,7 @@ public class ClientlsfileaeIterationTest extends TestCase {
 		
 		LsfileaeRequest req = wsOF.createLsfileaeRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		LsfileaeHostHeader reqHead = wsOF.createLsfileaeHostHeader();
 		reqHead.setHostUserID("P390");
@@ -48,7 +48,7 @@ public class ClientlsfileaeIterationTest extends TestCase {
 
 		for (int i = 0; i < ITERATIONS; i++) {
 			LsfileaeResponse resp = port.lsfileae(req, reqHead);
-			Dfhcommarea dfhcommareaResp = resp.getResponse();
+			Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 
 			assertEquals("SURREY, ENGLAND",dfhcommareaResp.getComPersonal().getComAddress());
 			assertEquals("$0100.11",dfhcommareaResp.getComAmount());

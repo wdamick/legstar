@@ -24,14 +24,14 @@ public class ClientredmultiTest extends TestCase {
 		RedmultiPort port = new RedmultiService().getRedmultiImplPort();
 		RedmultiRequest req = wsOF.createRedmultiRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		/* Because input structure is identical to output structure, we
 		 * need to make a choice on input beween the multiple redefines. */
 		dfhcommarea.setCData("");
 		
 		RedmultiResponse resp = port.redmulti(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 		
 		if (dfhcommareaResp.getCOutputType().compareTo("normal") == 0) {
 			assertEquals("ABJADHAOUAZ",dfhcommareaResp.getFiller35().getCString());

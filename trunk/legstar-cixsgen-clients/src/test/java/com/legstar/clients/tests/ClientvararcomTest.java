@@ -24,7 +24,7 @@ public class ClientvararcomTest extends TestCase {
 		VararcomPort port = new VararcomService().getVararcomImplPort();
 		VararcomRequest req = wsOF.createVararcomRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		dfhcommarea.setCItemsNumber(new Short("5"));
 		for (int i = 0; i < 5; i++) {
@@ -35,7 +35,7 @@ public class ClientvararcomTest extends TestCase {
 		}
 		
 		VararcomResponse resp = port.vararcom(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 		
 		assertEquals(36, dfhcommareaResp.getCItemsNumber());
 		

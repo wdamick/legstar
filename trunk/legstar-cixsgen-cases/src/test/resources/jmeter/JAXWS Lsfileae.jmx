@@ -21,7 +21,7 @@
         <longProp name="ThreadGroup.start_time">1244281411000</longProp>
         <longProp name="ThreadGroup.end_time">1244281411000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
@@ -29,7 +29,7 @@
         <JUnitSampler guiclass="JUnitTestSamplerGui" testclass="JUnitSampler" testname="JUnit Request" enabled="true">
           <stringProp name="junitSampler.classname">com.legstar.test.cixs.HttpClientLsfileae100Test</stringProp>
           <stringProp name="junitsampler.constructorstring"></stringProp>
-          <stringProp name="junitsampler.method">testRoundTripMockDirect</stringProp>
+          <stringProp name="junitsampler.method">testRoundTripCICSTS31DirectHttp</stringProp>
           <stringProp name="junitsampler.pkg.filter"></stringProp>
           <stringProp name="junitsampler.success">Test successful</stringProp>
           <stringProp name="junitsampler.success.code">1000</stringProp>

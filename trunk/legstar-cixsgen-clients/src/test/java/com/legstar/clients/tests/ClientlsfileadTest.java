@@ -24,12 +24,12 @@ public class ClientlsfileadTest extends TestCase {
 		LsfileadPort port = new LsfileadService().getLsfileadImplPort();
 		LsfileadRequest req = wsOF.createLsfileadRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		dfhcommarea.setComNumber(100);
 		
 		LsfileadResponse resp = port.lsfilead(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 		
 		assertEquals("SURREY, ENGLAND",dfhcommareaResp.getComAddress());
 		assertEquals("$0100.11",dfhcommareaResp.getComAmount());

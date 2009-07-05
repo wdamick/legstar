@@ -31,7 +31,7 @@ public class ClientdplarchtTest extends TestCase {
 	
 		DplarchtRequest req = wsOF.createDplarchtRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		LsRequest lsRequest = obOF.createLsRequest();
 		lsRequest.setLsRequestType(0);
@@ -43,7 +43,7 @@ public class ClientdplarchtTest extends TestCase {
 		reqHead.setHostEndPoint("CICSTS23DirectHttp");
 		
 		DplarchtResponse resp = port.dplarcht(req, reqHead);
-		Dfhcommarea dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 		
 		assertEquals(0,dfhcommareaResp.getLsReply().getLsReplyType());
 		assertEquals(5,dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsCount());
@@ -67,7 +67,7 @@ public class ClientdplarchtTest extends TestCase {
 		
 		DplarchtRequest req = wsOF.createDplarchtRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		LsRequest lsRequest = obOF.createLsRequest();
 		lsRequest.setLsRequestType(1);
@@ -79,7 +79,7 @@ public class ClientdplarchtTest extends TestCase {
 		reqHead.setHostEndPoint("CICSTS23DirectHttp");
 		
 		DplarchtResponse resp = port.dplarcht(req, reqHead);
-		Dfhcommarea dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 		
 		assertEquals(500,dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsCount());
 		assertEquals("LE370",dfhcommareaResp.getLsReply().getLsReplyData().getLsItemsArray().get(0).getLsProgramsData().getLsProgramLanguage());

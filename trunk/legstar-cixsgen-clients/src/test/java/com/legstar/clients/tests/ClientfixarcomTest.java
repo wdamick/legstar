@@ -24,7 +24,7 @@ public class ClientfixarcomTest extends TestCase {
 		FixarcomPort port = new FixarcomService().getFixarcomImplPort();
 		FixarcomRequest req = wsOF.createFixarcomRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		for (int i = 0; i < 7; i++) {
 			CArray cArray = obOF.createCArray();
@@ -34,7 +34,7 @@ public class ClientfixarcomTest extends TestCase {
 		}
 		
 		FixarcomResponse resp = port.fixarcom(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 		
 		for (int i = 0; i < 7; i++) {
 			assertEquals("FGHIJ",dfhcommareaResp.getCArray().get(i).getCItem1());

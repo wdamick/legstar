@@ -25,7 +25,7 @@ public class ClientbinnatusTest extends TestCase {
 		BinnatusPort port = new BinnatusService().getBinnatusImplPort();
 		BinnatusRequest req = wsOF.createBinnatusRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		LsUnsignedNative lsUnsignedNative = obOF.createLsUnsignedNative(); 
 		
@@ -53,7 +53,7 @@ public class ClientbinnatusTest extends TestCase {
 		
 		dfhcommarea.setLsUnsignedNative(lsUnsignedNative);
 		BinnatusResponse resp = port.binnatus(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 
 		assertEquals(32769, dfhcommareaResp.getLsUnsignedNative().getLsHalfwords().getLsP9X4High());
 		assertEquals(127, dfhcommareaResp.getLsUnsignedNative().getLsHalfwords().getLsP9X4Low());
