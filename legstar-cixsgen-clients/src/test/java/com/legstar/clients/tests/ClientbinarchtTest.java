@@ -25,7 +25,7 @@ public class ClientbinarchtTest extends TestCase {
 		BinarchtPort port = new BinarchtService().getBinarchtImplPort();
 		BinarchtRequest req = wsOF.createBinarchtRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		LsSignedNative lsSignedNative = obOF.createLsSignedNative();
 		lsSignedNative.setLsPs9X18Max(12345678901234567l);
@@ -48,7 +48,7 @@ public class ClientbinarchtTest extends TestCase {
 		dfhcommarea.setLsUnsignedNative(lsUnsignedNative);
 		
 		BinarchtResponse resp = port.binarcht(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 		
 		assertEquals(12345678901234567l, dfhcommareaResp.getLsSignedNative().getLsPs9X18Max());
 		assertEquals(-12345678901234567l, dfhcommareaResp.getLsSignedNative().getLsPs9X18Min());

@@ -24,14 +24,14 @@ public class ClientfixarsimTest extends TestCase {
 		FixarsimPort port = new FixarsimService().getFixarsimImplPort();
 		FixarsimRequest req = wsOF.createFixarsimRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		for (int i = 0; i < 3; i++) {
 			dfhcommarea.getCArray().add(String.format("ABCD%d", (i + 1)));
 		}
 
 		FixarsimResponse resp = port.fixarsim(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 
 		for (int i = 0; i < 3; i++) {
 			

@@ -52,11 +52,11 @@ public class ClientlsfileacTest extends TestCase {
 		reqHolder.setQueryLimit(qlt);
 		
 		LsfileacRequest req = wsOF.createLsfileacRequest();
-		req.setRequest(reqHolder);
+		req.setLsfileacRequestHolder(reqHolder);
 
 		try {
 			LsfileacResponse resp = port.lsfileac(req, reqHead);
-			LsfileacResponseHolder respHolder = resp.getResponse();
+			LsfileacResponseHolder respHolder = resp.getLsfileacResponseHolder();
 			assertEquals(43, respHolder.getReplyStatus().getTotalItemsRead());
 			assertEquals("", respHolder.getReplyStatus().getReplyMessage().trim());
 			assertEquals(0, respHolder.getReplyStatus().getReplyResp());

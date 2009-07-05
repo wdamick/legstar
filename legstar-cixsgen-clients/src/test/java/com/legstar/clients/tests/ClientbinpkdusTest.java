@@ -25,7 +25,7 @@ public class ClientbinpkdusTest extends TestCase {
 		BinpkdusPort port = new BinpkdusService().getBinpkdusImplPort();
 		BinpkdusRequest req = wsOF.createBinpkdusRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		LsCompat lsCompat = obOF.createLsCompat();
 		lsCompat.setLsP9X1(3);
@@ -44,7 +44,7 @@ public class ClientbinpkdusTest extends TestCase {
 		dfhcommarea.setLsUnsignedPackedDecimal(lsUnsignedPackedDecimal);
 		
 		BinpkdusResponse resp = port.binpkdus(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 		
 		assertEquals(3,dfhcommareaResp.getLsUnsignedPackedDecimal().getLsCompat().getLsP9X1());
 		assertEquals(123456789012345678l,dfhcommareaResp.getLsUnsignedPackedDecimal().getLsCompat().getLsP9X18());

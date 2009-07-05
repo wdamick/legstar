@@ -23,7 +23,7 @@ public class ClientdoublmixTest extends TestCase {
 		DoublmixPort port = new DoublmixService().getDoublmixImplPort();
 		DoublmixRequest req = wsOF.createDoublmixRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		dfhcommarea.setCDouble0(0d);
 		dfhcommarea.setCDouble1(1d);
@@ -33,7 +33,7 @@ public class ClientdoublmixTest extends TestCase {
 		dfhcommarea.setCDouble798P20067Em16(798.20067E-16);
 		
 		DoublmixResponse resp = port.doublmix(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 		
 		assertEquals(0d,dfhcommareaResp.getCDouble0());
 		assertEquals(1d,dfhcommareaResp.getCDouble1());

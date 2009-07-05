@@ -24,14 +24,14 @@ public class ClientredinoutTest extends TestCase {
 		RedinoutPort port = new RedinoutService().getRedinoutImplPort();
 		RedinoutRequest req = wsOF.createRedinoutRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		CParain cParain = obOF.createCParain();
 		cParain.setCSomeInput("FIFTEEN CHARACT");
 		dfhcommarea.setCParain(cParain);
 		
 		RedinoutResponse resp = port.redinout(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 		
 		assertEquals(14082006, dfhcommareaResp.getCParaout().getCSomeOutput());
 		assertEquals(null, dfhcommareaResp.getCParain());

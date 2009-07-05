@@ -24,7 +24,7 @@ public class ClientfloatmixTest extends TestCase {
 		FloatmixPort port = new FloatmixService().getFloatmixImplPort();
 		FloatmixRequest req = wsOF.createFloatmixRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 
 		dfhcommarea.setCFloat0(0f);
 		dfhcommarea.setCFloat1(1f);
@@ -34,7 +34,7 @@ public class ClientfloatmixTest extends TestCase {
 		dfhcommarea.setCFloat798P20067Em16(798.20067E-16f);
 
 		FloatmixResponse resp = port.floatmix(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 
 		assertEquals(0f,dfhcommareaResp.getCFloat0());
 		assertEquals(1f,dfhcommareaResp.getCFloat1());

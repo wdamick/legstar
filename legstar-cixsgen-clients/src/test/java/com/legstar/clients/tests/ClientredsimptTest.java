@@ -24,12 +24,12 @@ public class ClientredsimptTest extends TestCase {
 		RedsimptPort port = new RedsimptService().getRedsimptImplPort();
 		RedsimptRequest req = wsOF.createRedsimptRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		dfhcommarea.setCDefinition1("012345678912345678");
 		
 		RedsimptResponse resp = port.redsimpt(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 		
 		/* The choice selector effect is to produce the numeric alternative
 		 * since the content is entirely digits.  */

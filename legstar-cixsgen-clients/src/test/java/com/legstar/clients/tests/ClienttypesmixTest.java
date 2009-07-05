@@ -56,28 +56,28 @@ public class ClienttypesmixTest extends TestCase {
 		dfhcommarea.setCBinary(-19);
 		dfhcommarea.setCNativeBinary(9872);
 		
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		TypesmixResponse resp = port.typesmix(req, null);
-		assertEquals("FGHIJ", resp.getResponse().getCAlphabetic());
-		assertEquals("", resp.getResponse().getCDbcs());
-		assertEquals("AAXXX/T500   /", resp.getResponse().getCAlphanumericEdited());
-		assertEquals("ALPHA12", resp.getResponse().getCAlphanumeric());
-		assertEquals("0102030440404040", toHexString( resp.getResponse().getCOctetString()));
-		assertEquals(65890.0f, resp.getResponse().getCSingleFloat());
-		assertEquals(-5.670078E-14d, resp.getResponse().getCDoubleFloat());
-		assertEquals(new BigDecimal("3456000897.56"), resp.getResponse().getCPackedDecimal());
-		assertEquals(-675439650076l, resp.getResponse().getCZonedDecimal());
-		assertEquals("008700CR", resp.getResponse().getCNumericEdited1());
-		assertEquals("$866790/,07.678-", resp.getResponse().getCNumericEdited2());
-		assertEquals("***6778.65", resp.getResponse().getCNumericEdited3());
-		assertEquals("7345.505", resp.getResponse().getCNumericEdited4());
-		assertEquals("00000000", toHexString( resp.getResponse().getCIndex()));
-		assertEquals("00000000", toHexString( resp.getResponse().getCPointer()));
-		assertEquals("0000000000000000", toHexString( resp.getResponse().getCProcPointer()));
-		assertEquals("00000000", toHexString( resp.getResponse().getCFuncPointer()));
-		assertEquals("+13.06E-07", resp.getResponse().getCExternalFloating());
-		assertEquals(-86799, resp.getResponse().getCBinary());
-		assertEquals(65001, resp.getResponse().getCNativeBinary());
+		assertEquals("FGHIJ", resp.getDfhcommarea().getCAlphabetic());
+		assertEquals("", resp.getDfhcommarea().getCDbcs());
+		assertEquals("AAXXX/T500   /", resp.getDfhcommarea().getCAlphanumericEdited());
+		assertEquals("ALPHA12", resp.getDfhcommarea().getCAlphanumeric());
+		assertEquals("0102030440404040", toHexString( resp.getDfhcommarea().getCOctetString()));
+		assertEquals(65890.0f, resp.getDfhcommarea().getCSingleFloat());
+		assertEquals(-5.670078E-14d, resp.getDfhcommarea().getCDoubleFloat());
+		assertEquals(new BigDecimal("3456000897.56"), resp.getDfhcommarea().getCPackedDecimal());
+		assertEquals(-675439650076l, resp.getDfhcommarea().getCZonedDecimal());
+		assertEquals("008700CR", resp.getDfhcommarea().getCNumericEdited1());
+		assertEquals("$866790/,07.678-", resp.getDfhcommarea().getCNumericEdited2());
+		assertEquals("***6778.65", resp.getDfhcommarea().getCNumericEdited3());
+		assertEquals("7345.505", resp.getDfhcommarea().getCNumericEdited4());
+		assertEquals("00000000", toHexString( resp.getDfhcommarea().getCIndex()));
+		assertEquals("00000000", toHexString( resp.getDfhcommarea().getCPointer()));
+		assertEquals("0000000000000000", toHexString( resp.getDfhcommarea().getCProcPointer()));
+		assertEquals("00000000", toHexString( resp.getDfhcommarea().getCFuncPointer()));
+		assertEquals("+13.06E-07", resp.getDfhcommarea().getCExternalFloating());
+		assertEquals(-86799, resp.getDfhcommarea().getCBinary());
+		assertEquals(65001, resp.getDfhcommarea().getCNativeBinary());
 	}
 
 	/**

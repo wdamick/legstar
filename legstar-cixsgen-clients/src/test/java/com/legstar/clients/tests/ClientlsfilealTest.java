@@ -36,14 +36,14 @@ public class ClientlsfilealTest extends TestCase {
 		
 		LsfilealRequest req = wsOF.createLsfilealRequest();
 		RequestParms requestParms = obOF.createRequestParms();
-		req.setRequest(requestParms);
+		req.setRequestParms(requestParms);
 		
 		requestParms.setRequestName("S*");
 		LsfilealHostHeader reqHead = wsOF.createLsfilealHostHeader();
 		reqHead.setHostEndPoint("CICSTS23DirectHttp");
 
 		LsfilealResponse resp = port.lsfileal(req, reqHead);
-		ReplyData replyData = resp.getResponse();
+		ReplyData replyData = resp.getReplyData();
 		
 		assertEquals(0, replyData.getReplyType());
 		assertEquals(null, replyData.getReplyErrorHeader());

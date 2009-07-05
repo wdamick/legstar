@@ -25,7 +25,7 @@ public class ClientfixarnumTest extends TestCase {
 		FixarnumPort port = new FixarnumService().getFixarnumImplPort();
 		FixarnumRequest req = wsOF.createFixarnumRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		
 		for (int i = 0; i < 3; i++) {
 			dfhcommarea.getCArrayPd().add((new BigDecimal(i)).multiply(new BigDecimal("3.5")));
@@ -36,7 +36,7 @@ public class ClientfixarnumTest extends TestCase {
 		}
 
 		FixarnumResponse resp = port.fixarnum(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 		
 		for (int i = 0; i < 3; i++) {
 			assertEquals((new BigDecimal((i + 1) * 3.5)).setScale(2),dfhcommareaResp.getCArrayPd().get(i));

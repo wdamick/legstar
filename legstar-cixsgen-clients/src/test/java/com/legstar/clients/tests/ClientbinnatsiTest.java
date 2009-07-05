@@ -24,7 +24,7 @@ public class ClientbinnatsiTest extends TestCase {
 		BinnatsiPort port = new BinnatsiService().getBinnatsiImplPort();
 		BinnatsiRequest req = wsOF.createBinnatsiRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setRequest(dfhcommarea);
+		req.setDfhcommarea(dfhcommarea);
 		LsUnsignedNative lsUnsignedNative = obOF.createLsUnsignedNative(); 
 		
 		LsHalfwords lsHalfwords = obOF.createLsHalfwords();
@@ -52,7 +52,7 @@ public class ClientbinnatsiTest extends TestCase {
 		dfhcommarea.setLsUnsignedNative(lsUnsignedNative);
 		
 		BinnatsiResponse resp = port.binnatsi(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getResponse();
+		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 		
 		assertEquals(1045, dfhcommareaResp.getLsUnsignedNative().getLsHalfwords().getLsPs9X4High());
 		assertEquals(-128, dfhcommareaResp.getLsUnsignedNative().getLsHalfwords().getLsPs9X4Low());
