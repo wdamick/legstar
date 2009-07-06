@@ -154,9 +154,12 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
     /**
      * Generate default values where they are missing in the model. This
      * will reduce the amount of code in the velocity templates.
+     * <p/>
+     * The adapter target namespace is used for wrapper JAXB classes.
      */
     protected void completeModel() {
         completeWebServiceParameters();
+        getCixsService().setNamespace(getWebServiceParameters().getWsdlTargetNamespace());
         for (CixsOperation operation : getCixsService().getCixsOperations()) {
             if (operation.getPackageName() == null 
                     || operation.getPackageName().length() == 0) {
@@ -165,7 +168,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
             }
             if (operation.getNamespace() == null 
                     || operation.getNamespace().length() == 0) {
-                operation.setNamespace(getWebServiceParameters().getWsdlTargetNamespace());
+                operation.setNamespace(getCixsService().getNamespace());
             }
         }
     }

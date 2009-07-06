@@ -26,7 +26,7 @@ import ${importType};
 @XmlRootElement(name = "${wrapperType}")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "${wrapperType}",
-         namespace = "${wsdlTargetNamespace}",
+         namespace = "${cixsOperation.namespace}",
          propOrder = {
     "${fieldName}"
 })

@@ -33,7 +33,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
     public void testHostHeader() throws Exception {
 
         CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
-        addWebServiceParameters(jaxwsComponent, getParameters());
+        initWebServiceParameters(jaxwsComponent);
 
         File componentClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, jaxwsComponent.getPackageName(), true);
@@ -57,7 +57,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
 
         CixsJaxwsService jaxwsComponent = Samples.getLsfileac();
         CixsOperation operation = jaxwsComponent.getCixsOperations().get(0);
-        addWebServiceParameters(jaxwsComponent, getParameters());
+        initWebServiceParameters(jaxwsComponent);
 
         getParameters().put("propertyName", "Request");
 
@@ -74,13 +74,14 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileac.QueryData;"));
         assertTrue(resStr.contains("@XmlType(name = \"LsfileacRequestHolder\","));
         assertTrue(resStr.contains("namespace = \"http://cixs.test.legstar.com/lsfileac\","));
-        assertTrue(resStr.contains("\"queryLimit\","));
-        assertTrue(resStr.contains("\"queryData\""));
         assertTrue(resStr.contains("public class LsfileacRequestHolder"));
+        assertTrue(resStr.contains("\"queryData\","));
+        assertTrue(resStr.contains("\"queryLimit\""));
         assertTrue(resStr.contains("implements Serializable {"));
-        assertTrue(resStr.contains("@XmlElement(name = \"queryLimit\","));
+        assertTrue(resStr.contains("@XmlElement(name = \"QueryLimit\","));
+        assertTrue(resStr.contains("namespace = \"http://legstar.com/test/coxb/lsfileac\","));
+        assertTrue(resStr.contains("@XmlElement(name = \"QueryData\","));
         assertTrue(resStr.contains("private QueryLimit queryLimit;"));
-        assertTrue(resStr.contains("@XmlElement(name = \"queryData\","));
         assertTrue(resStr.contains("private QueryData queryData;"));
         assertTrue(resStr.contains("public final QueryLimit getQueryLimit() {"));
         assertTrue(resStr.contains("return queryLimit;"));
@@ -102,7 +103,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
 
         CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
         CixsOperation operation = jaxwsComponent.getCixsOperations().get(0);
-        addWebServiceParameters(jaxwsComponent, getParameters());
+        initWebServiceParameters(jaxwsComponent);
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
@@ -137,7 +138,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
 
         CixsJaxwsService jaxwsComponent = Samples.getLsfileac();
         CixsOperation operation = jaxwsComponent.getCixsOperations().get(0);
-        addWebServiceParameters(jaxwsComponent, getParameters());
+        initWebServiceParameters(jaxwsComponent);
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
@@ -173,7 +174,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
         CixsOperation operation = jaxwsComponent.getCixsOperations().get(0);
 
         getParameters().put("propertyName", "Request");
-        addWebServiceParameters(jaxwsComponent, getParameters());
+        initWebServiceParameters(jaxwsComponent);
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
@@ -190,7 +191,8 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("\"queryData\""));
         assertTrue(resStr.contains("public class LsfileacRequestHolder"));
         assertTrue(resStr.contains("implements Serializable {"));
-        assertTrue(resStr.contains("@XmlElement(name = \"queryData\","));
+        assertTrue(resStr.contains("@XmlElement(name = \"QueryData\","));
+        assertTrue(resStr.contains("namespace = \"http://legstar.com/test/coxb/lsfileac\","));
         assertTrue(resStr.contains("private QueryData queryData;"));
         assertTrue(resStr.contains("public final QueryData getQueryData() {"));
         assertTrue(resStr.contains("return queryData;"));
@@ -208,7 +210,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
 
         CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
         CixsOperation operation = jaxwsComponent.getCixsOperations().get(0);
-        addWebServiceParameters(jaxwsComponent, getParameters());
+        initWebServiceParameters(jaxwsComponent);
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
@@ -238,7 +240,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
 
         CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
         CixsOperation operation = jaxwsComponent.getCixsOperations().get(0);
-        addWebServiceParameters(jaxwsComponent, getParameters());
+        initWebServiceParameters(jaxwsComponent);
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
@@ -262,6 +264,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
 
         CixsJaxwsService jaxwsComponent = Samples.getLsfileal();
         CixsOperation operation = jaxwsComponent.getCixsOperations().get(0);
+        initWebServiceParameters(jaxwsComponent);
 
         File operationPropertiesFilesDir =
             new File(GEN_PROP_DIR, jaxwsComponent.getName());
@@ -285,6 +288,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
 
         CixsJaxwsService jaxwsComponent = Samples.getLsfileac();
         CixsOperation operation = jaxwsComponent.getCixsOperations().get(0);
+        initWebServiceParameters(jaxwsComponent);
 
         File operationPropertiesFilesDir = 
             new File(GEN_PROP_DIR, jaxwsComponent.getName());
@@ -315,7 +319,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
     public void testSunJaxwsXml() throws Exception {
 
         CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
-        addWebServiceParameters(jaxwsComponent, getParameters());
+        initWebServiceParameters(jaxwsComponent);
 
         File componentWebFilesDir =
             new File(GEN_WDD_DIR, jaxwsComponent.getName());
@@ -336,7 +340,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
     public void testWebXml() throws Exception {
 
         CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
-        addWebServiceParameters(jaxwsComponent, getParameters());
+        initWebServiceParameters(jaxwsComponent);
 
         File componentWebFilesDir = 
             new File(GEN_WDD_DIR, jaxwsComponent.getName());
@@ -360,6 +364,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
     public void testAntBuildWar() throws Exception {
 
         CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
+        initWebServiceParameters(jaxwsComponent);
 
         getParameters().put("targetWarDir", "/Servers/TOMDev/webapps");
         getParameters().put("targetWDDDir", "/Legsem/Legstar/Dev/webapp/WEB-INF");
@@ -398,7 +403,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
     public void testPackageInfo() throws Exception {
 
         CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
-        addWebServiceParameters(jaxwsComponent, getParameters());
+        initWebServiceParameters(jaxwsComponent);
 
         File serviceClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, jaxwsComponent.getPackageName(), true);
@@ -420,7 +425,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
     public void testObjectFactory() throws Exception {
 
         CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
-        addWebServiceParameters(jaxwsComponent, getParameters());
+        initWebServiceParameters(jaxwsComponent);
 
         File serviceClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, jaxwsComponent.getPackageName(), true);
