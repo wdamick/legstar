@@ -14,9 +14,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 #if($propertyName == "Request")
 #set($holderType = ${cixsOperation.requestHolderType})
+#set($holderNamespace = ${cixsOperation.requestHolderNamespace})
 #set($cixsStructures = ${cixsOperation.getInput()})
 #else
 #set($holderType = ${cixsOperation.responseHolderType})
+#set($holderNamespace = ${cixsOperation.responseHolderNamespace})
 #set($cixsStructures = ${cixsOperation.getOutput()})
 #end
 
@@ -34,7 +36,7 @@ import ${helper.getQualClassName(${cixsStructure.jaxbPackageName}, ${cixsStructu
 @XmlRootElement(name = "${holderType}")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "${holderType}",
-         namespace = "${wsdlTargetNamespace}",
+         namespace = "${holderNamespace}",
          propOrder = {
 #set($last = ${cixsStructures.size()})
 #set($pos = 0)
@@ -52,8 +54,8 @@ public class ${holderType}
 
 #foreach($cixsStructure in $cixsStructures)
     /** Inner ${cixsStructure.jaxbType} JAXB-bound object. */
-    @XmlElement(name = "${cixsStructure.jaxbFieldName}",
-                namespace = "${wsdlTargetNamespace}",
+    @XmlElement(name = "${cixsStructure.jaxbType}",
+                namespace = "${cixsStructure.jaxbNamespace}",
                 required = true)
     private ${cixsStructure.jaxbType} ${cixsStructure.jaxbFieldName};
 #end

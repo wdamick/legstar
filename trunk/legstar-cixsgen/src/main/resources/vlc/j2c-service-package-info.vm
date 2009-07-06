@@ -2,6 +2,6 @@
 ##Jaxws Wrapper classes JAXB package-info Velocity Template.
 ##@author Fady
 ##/////////////////////////////////////////////////////////////////////
-@javax.xml.bind.annotation.XmlSchema(namespace = "${wsdlTargetNamespace}",
+@javax.xml.bind.annotation.XmlSchema(namespace = "${model.namespace}",
     elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 #parse("vlc/j2c-service-common-package.vm")

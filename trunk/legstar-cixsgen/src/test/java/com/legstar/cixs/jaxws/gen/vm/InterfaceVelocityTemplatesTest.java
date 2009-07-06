@@ -14,8 +14,6 @@ import java.io.File;
 
 import com.legstar.cixs.gen.AbstractTestTemplate;
 import com.legstar.cixs.gen.Samples;
-import com.legstar.cixs.gen.model.CixsOperation;
-import com.legstar.cixs.gen.model.options.WebServiceParameters;
 import com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
 import com.legstar.codegen.CodeGenUtil;
@@ -47,7 +45,7 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
     public void testInterfaceLsfileae() throws Exception {
 
         CixsJaxwsService model = Samples.getLsfileae();
-        addWebServiceParameters(model, getParameters());
+        initWebServiceParameters(model);
 
         File componentClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, model.getPackageName(), true);
@@ -74,7 +72,8 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("Dfhcommarea lsfileae("));
         assertTrue(resStr.contains("@WebParam(name = \"Dfhcommarea\","));
         assertTrue(resStr.contains("targetNamespace = \"http://legstar.com/test/coxb/lsfileae\")"));
-        assertTrue(resStr.contains("@WebParam(name = \"HostHeader\", header = true, partName = \"HostHeader\","));
+        assertTrue(resStr.contains("@WebParam(name = \"LsfileaeHostHeader\", header = true,"
+                + " partName = \"hostHeader\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileae\")"));
         assertTrue(resStr.contains("LsfileaeHostHeader hostHeader)"));
         assertTrue(resStr.contains("throws LsfileaeException;"));
@@ -87,7 +86,7 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
     public void testInterfaceLsfileal() throws Exception {
 
         CixsJaxwsService model = Samples.getLsfileal();
-        addWebServiceParameters(model, getParameters());
+        initWebServiceParameters(model);
 
         File componentClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, model.getPackageName(), true);
@@ -116,7 +115,8 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("@WebParam(name = \"RequestParms\","));
         assertTrue(resStr.contains("targetNamespace = \"http://legstar.com/test/coxb/lsfileal\")"));
         assertTrue(resStr.contains("RequestParms request,"));
-        assertTrue(resStr.contains("@WebParam(name = \"HostHeader\", header = true, partName = \"HostHeader\","));
+        assertTrue(resStr.contains("@WebParam(name = \"LsfilealHostHeader\", header = true,"
+                + " partName = \"hostHeader\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileal\")"));
         assertTrue(resStr.contains("LsfilealHostHeader hostHeader)"));
         assertTrue(resStr.contains("throws LsfilealException;"));
@@ -129,14 +129,7 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
     public void testInterfaceLsfileac() throws Exception {
 
         CixsJaxwsService model = Samples.getLsfileac();
-        addWebServiceParameters(model, getParameters());
-        for (CixsOperation operation : model.getCixsOperations()) {
-            if (operation.getNamespace() == null 
-                    || operation.getNamespace().length() == 0) {
-                operation.setNamespace((String) getParameters().get(
-                        WebServiceParameters.WSDL_TARGET_NAMESPACE_PROPERTY));
-            }
-        }
+        initWebServiceParameters(model);
 
         File componentClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, model.getPackageName(), true);
@@ -163,7 +156,8 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("@WebParam(name = \"LsfileacRequestHolder\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileac\")"));
         assertTrue(resStr.contains("LsfileacRequestHolder request,"));
-        assertTrue(resStr.contains("@WebParam(name = \"HostHeader\", header = true, partName = \"HostHeader\","));
+        assertTrue(resStr.contains("@WebParam(name = \"LsfileacHostHeader\", header = true,"
+                + " partName = \"hostHeader\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileac\")"));
         assertTrue(resStr.contains("LsfileacHostHeader hostHeader)"));
         assertTrue(resStr.contains("throws LsfileacException;"));
@@ -176,14 +170,7 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
     public void testInterfaceLsfileax() throws Exception {
 
         CixsJaxwsService model = Samples.getLsfileax();
-        addWebServiceParameters(model, getParameters());
-        for (CixsOperation operation : model.getCixsOperations()) {
-            if (operation.getNamespace() == null 
-                    || operation.getNamespace().length() == 0) {
-                operation.setNamespace((String) getParameters().get(
-                        WebServiceParameters.WSDL_TARGET_NAMESPACE_PROPERTY));
-            }
-        }
+        initWebServiceParameters(model);
 
         File componentClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, model.getPackageName(), true);
@@ -211,7 +198,8 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("@WebParam(name = \"Dfhcommarea\","));
         assertTrue(resStr.contains("targetNamespace = \"http://legstar.com/test/coxb/lsfileae\")"));
         assertTrue(resStr.contains("Dfhcommarea request,"));
-        assertTrue(resStr.contains("@WebParam(name = \"HostHeader\", header = true, partName = \"HostHeader\","));
+        assertTrue(resStr.contains("@WebParam(name = \"LsfileaxHostHeader\", header = true,"
+                + " partName = \"hostHeader\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileax\")"));
         assertTrue(resStr.contains("LsfileaxHostHeader hostHeader)"));
         assertTrue(resStr.contains("throws LsfileaeException;"));
@@ -229,7 +217,6 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("@WebParam(name = \"LsfileacRequestHolder\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileax\")"));
         assertTrue(resStr.contains("LsfileacRequestHolder request,"));
-        assertTrue(resStr.contains("@WebParam(name = \"HostHeader\", header = true, partName = \"HostHeader\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileax\")"));
         assertTrue(resStr.contains("LsfileaxHostHeader hostHeader)"));
         assertTrue(resStr.contains("throws LsfileacException;"));
@@ -242,7 +229,7 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
     public void testInterfaceLsfilean() throws Exception {
 
         CixsJaxwsService model = Samples.getLsfilean();
-        addWebServiceParameters(model, getParameters());
+        initWebServiceParameters(model);
 
         File componentClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, model.getPackageName(), true);
@@ -263,7 +250,8 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("className = \"com.legstar.test.cixs.oper.lsfilean.LsfileaeResponse\")"));
         assertTrue(resStr.contains("Dfhcommarea lsfileae("));
         assertTrue(resStr.contains("@WebParam(name = \"Dfhcommarea\","));
-        assertTrue(resStr.contains("@WebParam(name = \"HostHeader\", header = true, partName = \"HostHeader\","));
+        assertTrue(resStr.contains("@WebParam(name = \"LsfileanHostHeader\", header = true,"
+                + " partName = \"hostHeader\","));
         assertTrue(resStr.contains("LsfileanHostHeader hostHeader)"));
         assertTrue(resStr.contains("throws LsfileaeException;"));
     }
@@ -276,7 +264,7 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
     public void testInterfaceLsfileap() throws Exception {
 
         CixsJaxwsService model = Samples.getLsfileap();
-        addWebServiceParameters(model, getParameters());
+        initWebServiceParameters(model);
 
         File componentClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, model.getPackageName(), true);
@@ -301,7 +289,8 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("Dfhcommarea lsfileae("));
         assertTrue(resStr.contains("@WebParam(name = \"Dfhcommarea\","));
         assertTrue(resStr.contains("targetNamespace = \"http://legstar.com/test/coxb/lsfileae\")"));
-        assertTrue(resStr.contains("@WebParam(name = \"HostHeader\", header = true, partName = \"HostHeader\","));
+        assertTrue(resStr.contains("@WebParam(name = \"LsfileapHostHeader\", header = true,"
+                + " partName = \"hostHeader\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileap\")"));
         assertTrue(resStr.contains("LsfileapHostHeader hostHeader)"));
         assertTrue(resStr.contains("throws LsfileaeException;"));

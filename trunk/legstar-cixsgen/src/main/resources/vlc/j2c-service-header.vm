@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "${model.headerClassName}")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "${model.headerClassName}",
-         namespace = "${wsdlTargetNamespace}",
+         namespace = "${model.namespace}",
          propOrder = {
     "hostUserID", 
     "hostPassword", 
@@ -32,39 +32,21 @@ import javax.xml.bind.annotation.XmlType;
 public class ${model.headerClassName} {
   
     /** User ID used for host authentication/impersonation. */
-    @XmlElement(name = "hostUserID",
-                namespace = "${wsdlTargetNamespace}",
-                required = false)
     private String hostUserID;
 
     /** Password used for authentication. */
-    @XmlElement(name = "hostPassword",
-                namespace = "${wsdlTargetNamespace}",
-                required = false)
     private String hostPassword;
 
     /** The host endpoint identifier. */
-    @XmlElement(name = "hostEndPoint",
-                namespace = "${wsdlTargetNamespace}",
-                required = false)
     private String hostEndPoint;
 
     /** The host character set. */
-    @XmlElement(name = "hostCharset",
-                namespace = "${wsdlTargetNamespace}",
-                required = false)
     private String hostCharset;
 
     /** Whether the host should trace this request. */
-    @XmlElement(name = "hostTraceMode",
-                namespace = "${wsdlTargetNamespace}",
-                required = false)
     private boolean hostTraceMode = false;
 
     /** An identifier for this request (used for tracability). */
-    @XmlElement(name = "hostRequestID",
-                namespace = "${wsdlTargetNamespace}",
-                required = false)
     private String hostRequestID;
 
     /** Gets the user ID used for host authentication/impersonation.

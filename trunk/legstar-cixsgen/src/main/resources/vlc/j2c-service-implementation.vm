@@ -43,7 +43,7 @@ import ${importType};
  */
 @WebService(endpointInterface = "${helper.getQualClassName(${model.packageName}, ${model.interfaceClassName})}",
             serviceName = "${wsdlServiceName}",
-            targetNamespace = "${wsdlTargetNamespace}")
+            targetNamespace = "${model.namespace}")
 public class ${model.implementationClassName} extends AbstractServiceAdapter implements ${model.interfaceClassName} {
 
     /** Name of this service adapter implementation. */

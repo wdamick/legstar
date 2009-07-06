@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "${cixsOperation.faultInfoType}")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "${cixsOperation.faultInfoType}",
-         namespace = "${wsdlTargetNamespace}",
+         namespace = "${cixsOperation.namespace}",
          propOrder = {
     "detail",
     "message"

@@ -20,6 +20,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.legstar.cixs.gen.model.CixsOperation;
 import com.legstar.cixs.gen.model.options.HttpTransportParameters;
 import com.legstar.cixs.gen.model.options.WebServiceParameters;
 import com.legstar.cixs.gen.model.options.WmqTransportParameters;
@@ -224,6 +225,26 @@ public class AbstractTestTemplate extends TestCase {
         WebServiceParameters webServiceParameters =
             getDefaultWebServiceParameters(service);
         webServiceParameters.add(parameters);
+        
+    }
+    
+    /**
+     * Setup the service with the wsdl related parameters.
+     * <p/>
+     * This makes sure service/operation have a valid namespace for their
+     * associated JAXB/JAX-WS artifacts.
+     * @param service the service being setup
+     */
+    public void initWebServiceParameters(final CixsJaxwsService service) {
+        addWebServiceParameters(service, getParameters());
+        service.setNamespace((String) getParameters().get(
+                WebServiceParameters.WSDL_TARGET_NAMESPACE_PROPERTY));
+        for (CixsOperation operation : service.getCixsOperations()) {
+            if (operation.getNamespace() == null 
+                    || operation.getNamespace().length() == 0) {
+                operation.setNamespace(service.getNamespace());
+            }
+        }
         
     }
 

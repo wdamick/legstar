@@ -32,7 +32,7 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
     public void testLsfileae() throws Exception {
 
         CixsJaxwsService model = Samples.getLsfileae();
-        addWebServiceParameters(model, getParameters());
+        initWebServiceParameters(model);
 
         File componentClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, model.getPackageName(), true);
@@ -86,7 +86,7 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
     public void testLsfileal() throws Exception {
 
         CixsJaxwsService model = Samples.getLsfileal();
-        addWebServiceParameters(model, getParameters());
+        initWebServiceParameters(model);
 
         File componentClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, model.getPackageName(), true);
@@ -121,7 +121,7 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
     public void testLsfileac() throws Exception {
 
         CixsJaxwsService model = Samples.getLsfileac();
-        addWebServiceParameters(model, getParameters());
+        initWebServiceParameters(model);
 
         File componentClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, model.getPackageName(), true);
@@ -150,7 +150,7 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
     public void testLsfileax() throws Exception {
 
         CixsJaxwsService model = Samples.getLsfileax();
-        addWebServiceParameters(model, getParameters());
+        initWebServiceParameters(model);
 
         File componentClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, model.getPackageName(), true);
@@ -190,7 +190,7 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
     public void testLsfilean() throws Exception {
 
         CixsJaxwsService model = Samples.getLsfilean();
-        addWebServiceParameters(model, getParameters());
+        initWebServiceParameters(model);
 
         File componentClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, model.getPackageName(), true);
@@ -217,7 +217,7 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
     public void testLsfileap() throws Exception {
 
         CixsJaxwsService model = Samples.getLsfileap();
-        addWebServiceParameters(model, getParameters());
+        initWebServiceParameters(model);
 
         File componentClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, model.getPackageName(), true);
