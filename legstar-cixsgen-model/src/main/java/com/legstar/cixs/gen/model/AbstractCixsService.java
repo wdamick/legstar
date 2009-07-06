@@ -28,6 +28,9 @@ public abstract class AbstractCixsService extends CixsMappingModel {
     /** Service package name. */
     private String mPackageName;
 
+    /** Namespace used for JAXB objects derived from service. */
+    private String mNamespace;
+
     /** Service interface class name. */
     private String mInterfaceClassName;
 
@@ -46,6 +49,20 @@ public abstract class AbstractCixsService extends CixsMappingModel {
      */
     public final void setPackageName(final String packageName) {
         mPackageName = packageName;
+    }
+
+    /**
+     * @return the namespace used for JAXB objects derived from service
+     */
+    public final String getNamespace() {
+        return mNamespace;
+    }
+
+    /**
+     * @param namespace used for JAXB objects derived from service
+     */
+    public final void setNamespace(final String namespace) {
+        mNamespace = namespace;
     }
 
     /**
