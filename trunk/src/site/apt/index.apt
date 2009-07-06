@@ -15,6 +15,14 @@ Overview
     
   The latest version is described {{{./latest-release-overview.html}here}}.
   
+  Looking for {{{http://www.legsem.com}training or services}}?
+
+  
+{News}Latest news
+
+  A new project: {{{http://code.google.com/p/legstar-pli2cob}PL/I to COBOL Structure converter}} has started.
+  It complements LegStar which has no direct support for PL/I.
+
   We are proud to announce the first official release of {{{http://code.google.com/p/legstar-jbossesb/}LegStar for JBoss ESB}},
   a new deployment option for LegStar. JBoss ESB is a leading open source ESB. LegStar for JBoss ESB provides a deployment
   alternative to J2EE servers, such as Tomcat or Jetty. With JBoss ESB, mainframe integration services can interact with a
