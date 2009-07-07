@@ -98,20 +98,21 @@ public class Varar021Test extends TestCase {
             assertTrue(e.getFaultInfo().getMessage().contains(
                     "SEE06908 The USERID is not known to the external security manager."));
             assertEquals("Operation=varar021,"
-                    + " Program properties=varar021.properties,"
+                    + " Program properties={"
+                    + "\"CICSProgramName\":\"VARAR021\","
+                    + "\"CICSLength\":19922,"
+                    + "\"CICSDataLength\":19922},"
                     + " Config file name=legstar-invoker-config.xml,"
-                    + " HostInvoker=[Address=[hostEndPoint=CICSTS31,"
+                    + " HostInvoker=["
+                    + "Address=["
+                    + "hostEndPoint=CICSTS31,"
                     + "hostCharset=IBM01140,"
                     + "hostUserID=WRONG,"
                     + "hostTraceMode=true],"
                     + "HostAccessStrategy=com.legstar.host.access.DirectHostAccessStrategy,"
-                    + "CicsProgram=[CICSProgramName=VARAR021,"
-                    + "CICSLength=19922,"
-                    + "CICSDataLength=19922,"
-                    + "CICSSysID=null,"
-                    + "CICSSyncOnReturn=false,"
-                    + "CICSTransID=null,"
-                    + "CICSChannel=null]]",
+                    + "{\"CICSProgramName\":\"VARAR021\","
+                    + "\"CICSLength\":19922,"
+                    + "\"CICSDataLength\":19922}]",
                     e.getFaultInfo().getDetail());
         }
     }
