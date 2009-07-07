@@ -204,6 +204,7 @@ public final class CodeGenUtil {
     }
 
     /**
+     * @deprecated use com.legstar.coxb.util.Utils#toClassName instead.
      * Create a valid Java class name from a given noun.
      * 
      * @param noun

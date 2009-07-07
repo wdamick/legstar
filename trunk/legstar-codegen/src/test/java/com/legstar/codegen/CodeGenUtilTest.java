@@ -45,16 +45,6 @@ public class CodeGenUtilTest extends TestCase {
     }
 
     /**
-     * Check that class normalization works.
-     * @throws Exception if test fails
-     */
-    public final void testClassNormalization() throws Exception {
-        assertEquals(null, CodeGenUtil.classNormalize(null));
-        assertEquals("A", CodeGenUtil.classNormalize("a"));
-        assertEquals("Abc", CodeGenUtil.classNormalize("abc"));
-    }
-
-    /**
      * Check that location from pakage name works.
      * @throws Exception if test fails
      */
