@@ -1,12 +1,10 @@
 ##/////////////////////////////////////////////////////////////////////
 ##Jaxws Component Host Header Velocity Template.
 ##@author Fady
-##@version 0.1
 ##/////////////////////////////////////////////////////////////////////
 #parse("vlc/j2c-service-common-package.vm")
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 

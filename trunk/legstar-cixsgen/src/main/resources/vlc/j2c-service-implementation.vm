@@ -1,7 +1,6 @@
 ##/////////////////////////////////////////////////////////////////////
 ##Jaxws Service Adapter implementation Template.
 ##@author Fady
-##@version 1.2.3
 ##/////////////////////////////////////////////////////////////////////
 #parse("vlc/j2c-service-common-imports.vm")
 ## ==================================================================
@@ -43,6 +42,7 @@ import ${importType};
  */
 @WebService(endpointInterface = "${helper.getQualClassName(${model.packageName}, ${model.interfaceClassName})}",
             serviceName = "${wsdlServiceName}",
+            portName = "${wsdlPortName}",
             targetNamespace = "${model.namespace}")
 public class ${model.implementationClassName} extends AbstractServiceAdapter implements ${model.interfaceClassName} {
 
@@ -93,7 +93,7 @@ public class ${model.implementationClassName} extends AbstractServiceAdapter imp
         faultInfo.setMessage(e.getMessage());
         faultInfo.setDetail(get${cixsOperation.className}ProgramInvoker().toString());
         return new ${cixsOperation.faultType}(text + ' ' 
-                + faultInfo.getMessage(), faultInfo);
+                + faultInfo.getMessage(), faultInfo, e);
     }
 
 #end
