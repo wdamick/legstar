@@ -10,7 +10,7 @@
  ******************************************************************************/
 package com.legstar.cixs.gen.model;
 
-import com.legstar.codegen.CodeGenUtil;
+import com.legstar.coxb.util.Utils;
 
 /**
  * This class describes a Service which maps a set of mainframe programs
@@ -70,7 +70,7 @@ public abstract class AbstractCixsService extends CixsMappingModel {
      */
     public final String getInterfaceClassName() {
         if (mInterfaceClassName == null || mInterfaceClassName.length() == 0) {
-            return CodeGenUtil.classNormalize(getName());
+            return Utils.toClassName(getName());
         }
         return mInterfaceClassName;
     }
@@ -91,7 +91,7 @@ public abstract class AbstractCixsService extends CixsMappingModel {
             if (getName() == null) {
                 return DEFAULT_IMPL_SUFFIX;
             }
-            return CodeGenUtil.classNormalize(getName() + DEFAULT_IMPL_SUFFIX);
+            return Utils.toClassName(getName() + DEFAULT_IMPL_SUFFIX);
         }
         return mImplementationClassName;
     }
