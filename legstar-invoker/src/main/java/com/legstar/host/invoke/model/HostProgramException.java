@@ -8,21 +8,21 @@
  * Contributors:
  *     LegSem - initial API and implementation
  ******************************************************************************/
-package com.legstar.host.invoke;
+package com.legstar.host.invoke.model;
 
 /**
- * Exception raised if program attributes cannot be recovered.
+ * Exception raised if host program attributes are abnormal.
  */
-public class CicsProgramException extends HostInvokerException {
+public class HostProgramException extends Exception {
 
     /** Serial ID. */
-    private static final long serialVersionUID = 6751206958592325835L;
+    private static final long serialVersionUID = 6216279285549588643L;
 
     /** 
      * Constructor from an error message. 
      * @param message the text message 
      * */
-    public CicsProgramException(final String message) {
+    public HostProgramException(final String message) {
         super(message);
     }
 
@@ -30,7 +30,16 @@ public class CicsProgramException extends HostInvokerException {
      * Constructor from an inner exception. 
      * @param e the inner exception 
      * */
-    public CicsProgramException(final Exception e) {
+    public HostProgramException(final Throwable e) {
         super(e);
+    }
+
+    /** 
+     * Constructor from an inner exception. 
+     * @param message the text message 
+     * @param e the inner exception 
+     * */
+    public HostProgramException(final String message, final Throwable e) {
+        super(message, e);
     }
 }

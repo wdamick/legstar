@@ -12,6 +12,7 @@ package com.legstar.host.invoke;
 
 import com.legstar.coxb.host.HostData;
 import com.legstar.host.AbstractTester;
+import com.legstar.host.invoke.model.HostProgramException;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.test.coxb.LsfileaeCases;
 import com.legstar.test.coxb.VararcomCases;
@@ -28,13 +29,15 @@ public class CommareaInvokerTest extends AbstractTester {
             address.setHostUserID(HOST_USERID);
             address.setHostPassword(HOST_PASSWORD);
             HostInvoker invoker = HostInvokerFactory.createHostInvoker(
-                    CONFIG_FILE, address, "lsfileae.properties");
+                    CONFIG_FILE, address, new HostProgramProperties("lsfileae.properties"));
             byte[] responseBytes = invoker.invoke(getName(),
                     HostData.toByteArray(LsfileaeCases.getHostBytesHexRequest100()));
             assertEquals(LsfileaeCases.getHostBytesHexReply100(),
                     HostData.toHexString(responseBytes));
 
         } catch (HostInvokerException e) {
+            fail("testValidInvoke failed " + e);
+        } catch (HostProgramException e) {
             fail("testValidInvoke failed " + e);
         }
     }
@@ -46,7 +49,7 @@ public class CommareaInvokerTest extends AbstractTester {
             address.setHostUserID(HOST_USERID);
             address.setHostPassword(HOST_PASSWORD);
             HostInvoker invoker = HostInvokerFactory.createHostInvoker(
-                    CONFIG_FILE, address, "wrongprog.properties");
+                    CONFIG_FILE, address, new HostProgramProperties("wrongprog.properties"));
             invoker.invoke(getName(),
                     HostData.toByteArray(LsfileaeCases.getHostBytesHexRequest100()));
             fail("testWrongProgInvokeCommarea failed ");
@@ -55,6 +58,8 @@ public class CommareaInvokerTest extends AbstractTester {
             assertTrue(e.getMessage().contains("com.legstar.host.access.HostAccessStrategyException:"
                     + " com.legstar.messaging.RequestException:"
                     + " CICS command=LINK COMMAREA failed, resp=PGMIDERR, resp2="));
+        } catch (HostProgramException e) {
+            fail(e.toString());
         }
     }
 
@@ -62,13 +67,15 @@ public class CommareaInvokerTest extends AbstractTester {
     public void testEmptyAddressWithBinding() {
         try {
             HostInvoker invoker = HostInvokerFactory.createHostInvoker(
-                    CONFIG_FILE, null, "lsfileae.properties");
+                    CONFIG_FILE, null, new HostProgramProperties("lsfileae.properties"));
             byte[] responseBytes = invoker.invoke(getName(),
                     HostData.toByteArray(LsfileaeCases.getHostBytesHexRequest100()));
             assertEquals(LsfileaeCases.getHostBytesHexReply100(),
                     HostData.toHexString(responseBytes));
 
         } catch (HostInvokerException e) {
+            fail("testEmptyAddress failed " + e);
+        } catch (HostProgramException e) {
             fail("testEmptyAddress failed " + e);
         }
     }
@@ -80,13 +87,15 @@ public class CommareaInvokerTest extends AbstractTester {
             address.setHostUserID("IBMUSER");
             address.setHostPassword(HOST_PASSWORD);
             HostInvoker invoker = HostInvokerFactory.createHostInvoker(
-                    CONFIG_FILE, address, "lsfileae.properties");
+                    CONFIG_FILE, address, new HostProgramProperties("lsfileae.properties"));
             byte[] responseBytes = invoker.invoke(getName(),
                     HostData.toByteArray(LsfileaeCases.getHostBytesHexRequest100()));
             assertEquals(LsfileaeCases.getHostBytesHexReply100(),
                     HostData.toHexString(responseBytes));
 
         } catch (HostInvokerException e) {
+            fail("testPartiallyEmptyAddress failed " + e);
+        } catch (HostProgramException e) {
             fail("testPartiallyEmptyAddress failed " + e);
         }
     }
@@ -98,13 +107,15 @@ public class CommareaInvokerTest extends AbstractTester {
             address.setHostUserID(HOST_USERID);
             address.setHostPassword(HOST_PASSWORD);
             HostInvoker invoker = HostInvokerFactory.createHostInvoker(
-                    "config4.xml", address, "lsfileae.properties");
+                    "config4.xml", address, new HostProgramProperties("lsfileae.properties"));
             byte[] responseBytes = invoker.invoke(getName(),
                     HostData.toByteArray(LsfileaeCases.getHostBytesHexRequest100()));
             assertEquals(LsfileaeCases.getHostBytesHexReply100(),
                     HostData.toHexString(responseBytes));
 
         } catch (HostInvokerException e) {
+            fail("testValidInvokeCommareaOverHttp failed " + e);
+        } catch (HostProgramException e) {
             fail("testValidInvokeCommareaOverHttp failed " + e);
         }
     }
@@ -116,13 +127,15 @@ public class CommareaInvokerTest extends AbstractTester {
             address.setHostUserID(HOST_USERID);
             address.setHostPassword(HOST_PASSWORD);
             HostInvoker invoker = HostInvokerFactory.createHostInvoker(
-                    CONFIG_FILE, address, "vararcom.properties");
+                    CONFIG_FILE, address, new HostProgramProperties("vararcom.properties"));
             byte[] responseBytes = invoker.invoke(getName(),
                     HostData.toByteArray(VararcomCases.getHostBytesHexEmpty()));
             assertEquals(VararcomCases.getHostBytesHex36(),
                     HostData.toHexString(responseBytes));
 
         } catch (HostInvokerException e) {
+            fail("testValidInvoke failed " + e);
+        } catch (HostProgramException e) {
             fail("testValidInvoke failed " + e);
         }
     }

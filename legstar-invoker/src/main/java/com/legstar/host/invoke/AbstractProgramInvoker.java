@@ -17,6 +17,8 @@ import java.util.concurrent.ConcurrentMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.legstar.host.invoke.model.HostProgram;
+import com.legstar.host.invoke.model.HostProgramException;
 import com.legstar.messaging.LegStarAddress;
 
 /**
@@ -35,6 +37,9 @@ public abstract class AbstractProgramInvoker {
     /** Host program properties for operation. */
     private String  mProgramProperties;
     
+    /** Host program associated with operation. */
+    private HostProgram  mHostProgram;
+
     /** Each target address needs its own host invoker. There is a serious
      * performance hit each time we create a host invoker so we use this
      * cache to improve that. */
@@ -51,14 +56,34 @@ public abstract class AbstractProgramInvoker {
      * @param configFileName host invoker configuration file name
      * @param operationName operation name
      * @param programProperties host program properties
+     * throws IllegalArgumentException if properties file not found or invalid
      */
     public AbstractProgramInvoker(
             final String configFileName,
             final String operationName,
             final String programProperties) {
+        this(configFileName, operationName, (HostProgram) null);
+        try {
+            mHostProgram = new HostProgramProperties(programProperties);
+        } catch (HostProgramException e) {
+            throw new IllegalArgumentException(e);
+        }
+        mProgramProperties = programProperties;
+    }
+
+    /**
+     * Operation invoker constructor.
+     * @param configFileName host invoker configuration file name
+     * @param operationName operation name
+     * @param hostProgram host program bean associated with operation 
+     */
+    public AbstractProgramInvoker(
+            final String configFileName,
+            final String operationName,
+            final HostProgram hostProgram) {
         mConfigFileName = configFileName;
         mOperationName = operationName;
-        mProgramProperties = programProperties;
+        mHostProgram = hostProgram;
         _hostInvokersCache = new ConcurrentHashMap < LegStarAddress, HostInvoker >();
     }
 
@@ -66,7 +91,7 @@ public abstract class AbstractProgramInvoker {
     public String toString() {
         StringBuffer details = new StringBuffer();
         details.append("Operation=" + getOperationName());
-        details.append(", Program properties=" + getProgramProperties());
+        details.append(", Program properties=" + getHostProgram());
         details.append(", Config file name=" + getConfigFileName());
         for (Entry < LegStarAddress, HostInvoker > entry : _hostInvokersCache.entrySet()) {
             details.append(", " + entry.getValue().toString());
@@ -92,7 +117,7 @@ public abstract class AbstractProgramInvoker {
                 _log.debug("Creating new host invoker for keyAddress: " + keyAddress);
             }
             HostInvoker newHostInvoker = HostInvokerFactory.createHostInvoker(
-                    getConfigFileName(), keyAddress, getProgramProperties());
+                    getConfigFileName(), keyAddress, getHostProgram());
             hostInvoker = _hostInvokersCache.putIfAbsent(keyAddress, newHostInvoker);
             if (hostInvoker == null) {
                 hostInvoker = newHostInvoker;
@@ -110,14 +135,7 @@ public abstract class AbstractProgramInvoker {
     }
 
     /**
-     * @param configFileName the invoker configuration file name to set
-     */
-    public void setConfigFileName(final String configFileName) {
-        mConfigFileName = configFileName;
-    }
-
-
-    /**
+     * @deprecated
      * @return the host program properties for operation
      */
     public String getProgramProperties() {
@@ -125,10 +143,10 @@ public abstract class AbstractProgramInvoker {
     }
 
     /**
-     * @param programProperties the host program properties for operation to set
+     * @return the host program properties for operation
      */
-    public void setProgramProperties(final String programProperties) {
-        mProgramProperties = programProperties;
+    public HostProgram getHostProgram() {
+        return mHostProgram;
     }
 
     /**
@@ -136,13 +154,6 @@ public abstract class AbstractProgramInvoker {
      */
     public String getOperationName() {
         return mOperationName;
-    }
-
-    /**
-     * @param operationName the operation name to set
-     */
-    public void setOperationName(final String operationName) {
-        mOperationName = operationName;
     }
 
 }

@@ -20,6 +20,7 @@ import com.legstar.coxb.host.HostData;
 import com.legstar.host.AbstractTester;
 import com.legstar.host.access.DirectHostAccessStrategy;
 import com.legstar.host.access.HostAccessStrategy;
+import com.legstar.host.invoke.model.HostProgramException;
 import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.HeaderPartException;
 import com.legstar.messaging.LegStarAddress;
@@ -43,7 +44,7 @@ public class AbstractInvokerTest extends AbstractTester {
         HierarchicalConfiguration endpointConfig = Config.loadAddressConfiguration(
                 generalConfig, address);
         HostAccessStrategy hostAccessStrategy = new DirectHostAccessStrategy(endpointConfig);
-        CicsProgram hostProgram = new CicsProgram("lsfileae.properties");
+        HostProgramProperties hostProgram = new HostProgramProperties("lsfileae.properties");
 
         AbstractInvokerImpl invoker = new AbstractInvokerImpl(hostAccessStrategy, address, hostProgram);
         byte[] responseBytes = invoker.invoke("Lsfileae100",
@@ -66,7 +67,7 @@ public class AbstractInvokerTest extends AbstractTester {
          * @throws HostInvokerException if construction fails
          */
         public AbstractInvokerImpl(final HostAccessStrategy hostAccessStrategy,
-                final LegStarAddress completeAddress, final CicsProgram hostProgram)
+                final LegStarAddress completeAddress, final HostProgramProperties hostProgram)
                 throws HostInvokerException {
             super(hostAccessStrategy, completeAddress, hostProgram);
         }
@@ -88,7 +89,7 @@ public class AbstractInvokerTest extends AbstractTester {
                 throws HostInvokerException {
             try {
                 LegStarMessage requestMessage = new LegStarMessage();
-                requestMessage.setHeaderPart(new LegStarHeaderPart(getProgramAttr().getProgramAttrMap(), 0));
+                requestMessage.setHeaderPart(new LegStarHeaderPart(0, getHostProgram().toJSONHost()));
                 requestMessage.addDataPart(new CommareaPart(requestBytes));
 
                 LegStarMessage responseMessage = invoke(requestID, requestMessage);
@@ -106,6 +107,8 @@ public class AbstractInvokerTest extends AbstractTester {
                 }
                 return responseMessage.getDataParts().get(0).getContent();
             } catch (HeaderPartException e) {
+                throw new HostInvokerException(e);
+            } catch (HostProgramException e) {
                 throw new HostInvokerException(e);
             }
         }

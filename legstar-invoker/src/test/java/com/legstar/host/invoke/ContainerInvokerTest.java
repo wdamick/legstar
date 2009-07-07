@@ -14,8 +14,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.legstar.coxb.host.HostData;
-import com.legstar.coxb.host.HostException;
 import com.legstar.host.AbstractTester;
+import com.legstar.host.invoke.model.HostProgramException;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.test.coxb.LsfileacCases;
 
@@ -26,12 +26,12 @@ public class ContainerInvokerTest extends AbstractTester {
 
     /** 
      * Check that the factory correctly returns a containerInvoker. 
-     * @throws HostInvokerException if test fails
+     * @throws Exception if test fails
      */
-    public void testContainerInvoker() throws HostInvokerException {
+    public void testContainerInvoker() throws Exception {
         LegStarAddress address = new LegStarAddress("CICSTS31");
         HostInvoker invoker = HostInvokerFactory.createHostInvoker(
-                CONFIG_FILE, address, "container1.properties");
+                CONFIG_FILE, address, new HostProgramProperties("container1.properties"));
         assertTrue(invoker instanceof com.legstar.host.invoke.ContainerInvoker);
     }
 
@@ -40,22 +40,24 @@ public class ContainerInvokerTest extends AbstractTester {
         try {
             LegStarAddress address = new LegStarAddress("CICSTS31");
             HostInvoker invoker = HostInvokerFactory.createHostInvoker(
-                    CONFIG_FILE, address, "container1.properties");
+                    CONFIG_FILE, address, new HostProgramProperties("container1.properties"));
             invoker.invoke(getName(), new byte[0]);
             fail("Method should not be supported");
         } catch (HostInvokerException e) {
             assertEquals("Unsupported method for CICS containers", e.getMessage());
+        } catch (HostProgramException e) {
+            fail(e.toString());
         }
     }
 
     /** 
      * Test with 2 input containers and 2 output containers (new style).
-     * @throws HostInvokerException if invoke fails
-     * @throws HostException if host data is invalid
+     * @throws Exception if host data is invalid
      */
-    public void test2ContainersIn2Out() throws HostInvokerException, HostException {
+    public void test2ContainersIn2Out() throws Exception {
         LegStarAddress address = new LegStarAddress("CICSTS31");
-        HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
+        HostInvoker invoker = HostInvokerFactory.createHostInvoker(
+                CONFIG_FILE, address, new HostProgramProperties("container1.properties"));
 
         /* Get raw mainframe bytes */
         byte[] queryDataBin = HostData.toByteArray(LsfileacCases.getHostBytesHexQueryData());
@@ -81,12 +83,12 @@ public class ContainerInvokerTest extends AbstractTester {
 
     /** 
      * When nothing is selected on the host, there is no data container back (new style).
-     * @throws HostInvokerException if invoke fails
-     * @throws HostException if host data is invalid
+     * @throws Exception if host data is invalid
      */
-    public void test2ContainersIn1Out() throws HostInvokerException, HostException {
+    public void test2ContainersIn1Out() throws Exception {
         LegStarAddress address = new LegStarAddress("CICSTS31");
-        HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
+        HostInvoker invoker = HostInvokerFactory.createHostInvoker(
+                CONFIG_FILE, address, new HostProgramProperties("container1.properties"));
 
         /* Get raw mainframe bytes */
         byte[] queryDataBin = HostData.toByteArray(LsfileacCases.getHostBytesHexQueryDataNoMatch());

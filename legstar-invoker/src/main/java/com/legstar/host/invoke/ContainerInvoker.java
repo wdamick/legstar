@@ -15,6 +15,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com.legstar.host.access.HostAccessStrategy;
+import com.legstar.host.invoke.model.HostProgram;
+import com.legstar.host.invoke.model.HostProgramException;
 import com.legstar.messaging.ContainerPart;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.HeaderPartException;
@@ -42,7 +44,7 @@ public class ContainerInvoker extends AbstractInvoker {
     public ContainerInvoker(
             final HostAccessStrategy hostAccessStrategy,
             final LegStarAddress completeAddress,
-            final CicsProgram hostProgram) throws HostInvokerException {
+            final HostProgram hostProgram) throws HostInvokerException {
         super(hostAccessStrategy, completeAddress, hostProgram);
     }
 
@@ -57,7 +59,7 @@ public class ContainerInvoker extends AbstractInvoker {
             final Map < String, byte[] > requestParts) throws HostInvokerException {
         try {
             LegStarMessage requestMessage = new LegStarMessage();
-            requestMessage.setHeaderPart(new LegStarHeaderPart(getProgramAttr().getProgramAttrMap(), 0));
+            requestMessage.setHeaderPart(new LegStarHeaderPart(0, getHostProgram().toJSONHost()));
             Iterator < Map.Entry < String, byte[] >> iterator = requestParts.entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry < String, byte[] > entry = iterator.next();
@@ -76,6 +78,8 @@ public class ContainerInvoker extends AbstractInvoker {
             return response;
             
         } catch (HeaderPartException e) {
+            throw new HostInvokerException(e);
+        } catch (HostProgramException e) {
             throw new HostInvokerException(e);
         }
     }
