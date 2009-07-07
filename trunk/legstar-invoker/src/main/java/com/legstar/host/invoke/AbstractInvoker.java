@@ -15,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.legstar.host.access.HostAccessStrategy;
 import com.legstar.host.access.HostAccessStrategyException;
+import com.legstar.host.invoke.model.HostProgram;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.LegStarMessage;
 import com.legstar.messaging.LegStarRequest;
@@ -38,7 +39,7 @@ public abstract class AbstractInvoker implements HostInvoker {
     private LegStarAddress mAddress;
 
     /** Host program attributes. */
-    private CicsProgram mCicsProgram;
+    private HostProgram mHostProgram;
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(AbstractInvoker.class);
@@ -54,10 +55,10 @@ public abstract class AbstractInvoker implements HostInvoker {
     public AbstractInvoker(
             final HostAccessStrategy hostAccessStrategy,
             final LegStarAddress completeAddress,
-            final CicsProgram hostProgram) throws HostInvokerException {
+            final HostProgram hostProgram) throws HostInvokerException {
         mHostAccessStrategy = hostAccessStrategy;
         mAddress = completeAddress;
-        mCicsProgram = hostProgram;
+        mHostProgram = hostProgram;
     }
 
     /**
@@ -117,10 +118,17 @@ public abstract class AbstractInvoker implements HostInvoker {
     /**
      * @return the host program attributes
      */
-    public final CicsProgram getProgramAttr() {
-        return mCicsProgram;
+    public final HostProgram getHostProgram() {
+        return mHostProgram;
     }
     
+    /**
+     * @return the host program attributes
+     */
+    public final HostProgramProperties getProgramAttr() {
+        return null;
+    }
+
     /** {@inheritDoc} */
     public final String toString() {
         StringBuffer sb = new StringBuffer();
@@ -129,7 +137,7 @@ public abstract class AbstractInvoker implements HostInvoker {
             sb.append(getAddress().toString() + ",");
         }
         sb.append("HostAccessStrategy=" + getHostAccessStrategy().getClass().getName());
-        sb.append("," +  getProgramAttr().toString());
+        sb.append("," +  getHostProgram().toString());
         sb.append("]");
         return sb.toString();
     }

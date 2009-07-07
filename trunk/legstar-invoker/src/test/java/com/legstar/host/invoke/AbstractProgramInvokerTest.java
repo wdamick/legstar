@@ -17,26 +17,30 @@ public class AbstractProgramInvokerTest extends TestCase {
         try {
             AbstractProgramInvoker programInvoker = new AbstractProgramInvokerImpl();
             assertEquals("Operation=lsfileae,"
-                    + " Program properties=lsfileae.properties,"
+                    + " Program properties={"
+                    + "\"CICSProgramName\":\"LSFILEAE\","
+                    + "\"CICSLength\":79,"
+                    + "\"CICSDataLength\":6},"
                     + " Config file name=config0.xml",
                     programInvoker.toString());
             LegStarAddress address = new LegStarAddress("TheMainframe");
             HostInvoker hostInvoker1 = programInvoker.getHostInvoker(address);
             assertEquals("Operation=lsfileae,"
-                    + " Program properties=lsfileae.properties,"
+                    + " Program properties={"
+                    + "\"CICSProgramName\":\"LSFILEAE\","
+                    + "\"CICSLength\":79,"
+                    + "\"CICSDataLength\":6},"
                     + " Config file name=config0.xml,"
-                    + " HostInvoker=[Address=[hostEndPoint=TheMainframe,"
+                    + " HostInvoker=["
+                    + "Address=["
+                    + "hostEndPoint=TheMainframe,"
                     + "hostCharset=IBM01140,"
                     + "hostUserID=P390,"
                     + "hostTraceMode=true],"
                     + "HostAccessStrategy=com.legstar.host.access.DirectHostAccessStrategy,"
-                    + "CicsProgram=[CICSProgramName=LSFILEAE,"
-                    + "CICSLength=79,"
-                    + "CICSDataLength=6,"
-                    + "CICSSysID=null,"
-                    + "CICSSyncOnReturn=false,"
-                    + "CICSTransID=null,"
-                    + "CICSChannel=null]]",
+                    + "{\"CICSProgramName\":\"LSFILEAE\","
+                    + "\"CICSLength\":79,"
+                    + "\"CICSDataLength\":6}]",
                     programInvoker.toString());
             HostInvoker hostInvoker2 = programInvoker.getHostInvoker(address);
             assertEquals(hostInvoker1, hostInvoker2);
@@ -44,31 +48,31 @@ public class AbstractProgramInvokerTest extends TestCase {
                     new LegStarAddress("CICSTS31"));
             assertNotSame(hostInvoker1, hostInvoker3);
             assertEquals("Operation=lsfileae,"
-                    + " Program properties=lsfileae.properties,"
+                    + " Program properties={"
+                    + "\"CICSProgramName\":\"LSFILEAE\","
+                    + "\"CICSLength\":79,"
+                    + "\"CICSDataLength\":6},"
                     + " Config file name=config0.xml,"
-                    + " HostInvoker=[Address=[hostEndPoint=CICSTS31,"
+                    + " HostInvoker=["
+                    + "Address=["
+                    + "hostEndPoint=CICSTS31,"
                     + "hostCharset=IBM01140,"
                     + "hostUserID=P390,"
                     + "hostTraceMode=true],"
                     + "HostAccessStrategy=com.legstar.host.access.DirectHostAccessStrategy,"
-                    + "CicsProgram=[CICSProgramName=LSFILEAE,"
-                    + "CICSLength=79,"
-                    + "CICSDataLength=6,"
-                    + "CICSSysID=null,"
-                    + "CICSSyncOnReturn=false,"
-                    + "CICSTransID=null,CICSChannel=null]],"
-                    + " HostInvoker=[Address=[hostEndPoint=TheMainframe,"
+                    + "{\"CICSProgramName\":\"LSFILEAE\","
+                    + "\"CICSLength\":79,"
+                    + "\"CICSDataLength\":6}],"
+                    + " HostInvoker=["
+                    + "Address=["
+                    + "hostEndPoint=TheMainframe,"
                     + "hostCharset=IBM01140,"
                     + "hostUserID=P390,"
                     + "hostTraceMode=true],"
                     + "HostAccessStrategy=com.legstar.host.access.DirectHostAccessStrategy,"
-                    + "CicsProgram=[CICSProgramName=LSFILEAE,"
-                    + "CICSLength=79,"
-                    + "CICSDataLength=6,"
-                    + "CICSSysID=null,"
-                    + "CICSSyncOnReturn=false,"
-                    + "CICSTransID=null,"
-                    + "CICSChannel=null]]",
+                    + "{\"CICSProgramName\":\"LSFILEAE\","
+                    + "\"CICSLength\":79,"
+                    + "\"CICSDataLength\":6}]",
                     programInvoker.toString());
         } catch (HostInvokerException e) {
             fail(e.toString());

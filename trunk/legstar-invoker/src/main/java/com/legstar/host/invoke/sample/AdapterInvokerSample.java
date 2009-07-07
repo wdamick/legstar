@@ -14,6 +14,7 @@ import java.util.Arrays;
 
 import com.legstar.host.invoke.HostInvoker;
 import com.legstar.host.invoke.HostInvokerFactory;
+import com.legstar.host.invoke.HostProgramProperties;
 import com.legstar.messaging.LegStarAddress;
 
 /**
@@ -54,12 +55,12 @@ public class AdapterInvokerSample {
     public void invoke() throws Exception {
         LegStarAddress address = new LegStarAddress("TheMainframe");
         HostInvoker invoker = HostInvokerFactory.createHostInvoker(
-                CONFIG_FILE, address, PROGRAM_PROPERTIES);
+                CONFIG_FILE, address, new HostProgramProperties(PROGRAM_PROPERTIES));
         byte[] replyBytes = invoker.invoke("LsfileaeSampleTest",
                 new byte[] {(byte) 0xf0, (byte) 0xf0, (byte) 0xf0,
                 (byte) 0xf1, (byte) 0xf0, (byte) 0xf0});
         System.out.println(Arrays.toString(replyBytes));
-        System.out.println(invoker.getProgramAttr().getName()
+        System.out.println(invoker.getHostProgram().getName()
                 + " invoked successfully");
     }
 }

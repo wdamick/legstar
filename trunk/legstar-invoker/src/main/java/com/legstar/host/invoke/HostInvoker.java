@@ -13,6 +13,7 @@ package com.legstar.host.invoke;
 import java.util.Map;
 
 import com.legstar.host.access.HostAccessStrategy;
+import com.legstar.host.invoke.model.HostProgram;
 import com.legstar.messaging.LegStarAddress;
 
 /**
@@ -63,7 +64,14 @@ public interface HostInvoker {
     HostAccessStrategy getHostAccessStrategy();
 
     /**
+     * @deprecated
      * @return the attributes of the target host program
      */
-    CicsProgram getProgramAttr();
+    
+    HostProgramProperties getProgramAttr();
+
+    /**
+     * @return the attributes of the target host program
+     */
+    HostProgram getHostProgram();
 }

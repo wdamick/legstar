@@ -10,9 +10,8 @@
  ******************************************************************************/
 package com.legstar.host.invoke;
 
-import java.util.Map;
-
-import com.legstar.config.Constants;
+import com.legstar.host.invoke.model.HostContainer;
+import com.legstar.host.invoke.model.HostProgramException;
 
 import junit.framework.TestCase;
 
@@ -20,16 +19,16 @@ import junit.framework.TestCase;
  * Test the CicsProgram structure.
  *
  */
-public class CicsProgramTest extends TestCase {
+public class HostProgramPropertiesTest extends TestCase {
 
     /**
      * Test with invalid program properties file.
      */
     public void testInvalidAttributesFile() {
         try {
-            new CicsProgram("tarzan.jane");
+            new HostProgramProperties("tarzan.jane");
             fail("testInvalidAttributesFile failed");
-        } catch (CicsProgramException e) {
+        } catch (HostProgramException e) {
             assertEquals("java.io.FileNotFoundException: tarzan.jane", e.getMessage());
         }
     }
@@ -39,9 +38,9 @@ public class CicsProgramTest extends TestCase {
      */
     public void testMissingProgramName() {
         try {
-            new CicsProgram("lsfileae0.properties");
+            new HostProgramProperties("lsfileae0.properties");
             fail("testMissingProgramName failed");
-        } catch (CicsProgramException e) {
+        } catch (HostProgramException e) {
             assertEquals("Program name must be specified.", e.getMessage());
         }
     }
@@ -51,9 +50,9 @@ public class CicsProgramTest extends TestCase {
      */
     public void testInvalidDataLength() {
         try {
-            new CicsProgram("lsfileae3.properties");
+            new HostProgramProperties("lsfileae3.properties");
             fail("testInvalidDataLength failed");
-        } catch (CicsProgramException e) {
+        } catch (HostProgramException e) {
             assertEquals("Data length cannot exceed length.", e.getMessage());
         }
     }
@@ -63,14 +62,14 @@ public class CicsProgramTest extends TestCase {
      */
     public void testValidAttributesFileAndDefaults() {
         try {
-            CicsProgram pa = new CicsProgram("lsfileae1.properties");
+            HostProgramProperties pa = new HostProgramProperties("lsfileae1.properties");
             assertEquals("LSFILEAE", pa.getName());
             assertEquals(0, pa.getLength());
             assertEquals(0, pa.getDataLength());
             assertEquals(null, pa.getSysID());
-            assertEquals(false, pa.getSyncOnReturn());
+            assertTrue(null == pa.getSyncOnReturn());
             assertEquals(null, pa.getTransID());
-        } catch (CicsProgramException e) {
+        } catch (HostProgramException e) {
             fail("testValidAttributesFile failed " + e.getMessage());
         }
     }
@@ -80,33 +79,15 @@ public class CicsProgramTest extends TestCase {
      */
     public void testValidAttributesFile() {
         try {
-            CicsProgram pa = new CicsProgram("lsfileae2.properties");
+            HostProgramProperties pa = new HostProgramProperties("lsfileae2.properties");
             assertEquals("LSFILEAE", pa.getName());
             assertEquals(735, pa.getLength());
             assertEquals(72, pa.getDataLength());
             assertEquals("ROSE", pa.getSysID());
-            assertEquals(true, pa.getSyncOnReturn());
+            assertEquals(true, pa.getSyncOnReturn().booleanValue());
             assertEquals("CSMI", pa.getTransID());
-        } catch (CicsProgramException e) {
+        } catch (HostProgramException e) {
             fail("testValidAttributesFile failed " + e.getMessage());
-        }
-    }
-
-    /**Check getting the internal map.
-     * 
-     */
-    public void testGetMap() {
-        try {
-            CicsProgram pa = new CicsProgram("lsfileae2.properties");
-            Map < String, Object> map = pa.getProgramAttrMap();
-            assertEquals("LSFILEAE", map.get(Constants.CICS_PROGRAM_NAME_KEY));
-            assertEquals("735",  map.get(Constants.CICS_LENGTH_KEY));
-            assertEquals("72",  map.get(Constants.CICS_DATALEN_KEY));
-            assertEquals("ROSE",  map.get(Constants.CICS_SYSID_KEY));
-            assertEquals("true",  map.get(Constants.CICS_SYNCONRET_KEY));
-            assertEquals("CSMI",  map.get(Constants.CICS_TRANSID_KEY));
-        } catch (CicsProgramException e) {
-            fail("testGetMap failed " + e.getMessage());
         }
     }
 
@@ -115,36 +96,37 @@ public class CicsProgramTest extends TestCase {
      */
     public void testChannel() {
         try {
-            CicsProgram pa = new CicsProgram("container1.properties");
+            HostProgramProperties pa = new HostProgramProperties("container1.properties");
             assertEquals("LSFILEAC", pa.getName());
             assertEquals(0, pa.getLength());
             assertEquals(0, pa.getDataLength());
             assertEquals(null, pa.getSysID());
-            assertEquals(false, pa.getSyncOnReturn());
+            assertTrue(null == pa.getSyncOnReturn());
             assertEquals(null, pa.getTransID());
             assertEquals("LSFILEAC-CHANNEL", pa.getChannel());
-            assertTrue(48 == pa.getInContainers().get("QueryData"));
-            assertTrue(10 == pa.getInContainers().get("QueryLimit"));
-            assertTrue(794 == pa.getOutContainers().get("ReplyData"));
-            assertTrue(141 == pa.getOutContainers().get("ReplyStatus"));
-        } catch (CicsProgramException e) {
+            for (HostContainer container : pa.getInContainers()) {
+                if (container.getName().equals("QueryData")) {
+                    assertEquals(48, container.getLength());
+                } else if (container.getName().equals("QueryLimit")) {
+                    assertEquals(10, container.getLength());
+                } else {
+                    fail();
+                }
+                
+            }
+            for (HostContainer container : pa.getOutContainers()) {
+                if (container.getName().equals("ReplyData")) {
+                    assertEquals(794, container.getLength());
+                } else if (container.getName().equals("ReplyStatus")) {
+                    assertEquals(141, container.getLength());
+                } else {
+                    fail();
+                }
+                
+            }
+        } catch (HostProgramException e) {
             fail("testChannel failed " + e.getMessage());
         }
     }
 
-    /**
-     * Test a map with Channel/Container case.
-     */
-    public void testGetMapWithContainers() {
-        try {
-            CicsProgram pa = new CicsProgram("container1.properties");
-            Map < String, Object> map = pa.getProgramAttrMap();
-            assertEquals("LSFILEAC", map.get(Constants.CICS_PROGRAM_NAME_KEY));
-            String[] outContainers = (String[]) map.get(Constants.CICS_OUT_CONTAINERS_KEY);
-            assertEquals("ReplyData",  outContainers[0]);
-            assertEquals("ReplyStatus",  outContainers[1]);
-        } catch (CicsProgramException e) {
-            fail("testGetMap failed " + e.getMessage());
-        }
-    }
 }

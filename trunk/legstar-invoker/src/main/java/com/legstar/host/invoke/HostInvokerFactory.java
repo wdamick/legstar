@@ -17,6 +17,8 @@ import com.legstar.config.Config;
 import com.legstar.host.access.HostAccessStrategy;
 import com.legstar.host.access.HostAccessStrategyException;
 import com.legstar.host.access.HostAccessStrategyFactory;
+import com.legstar.host.invoke.model.HostProgram;
+import com.legstar.host.invoke.model.HostProgramException;
 import com.legstar.messaging.LegStarAddress;
 
 /**
@@ -40,6 +42,64 @@ public final class HostInvokerFactory {
      * host address and target host program.
      * @param generalConfigFileName an XML configuration file name
      * @param address the host address
+     * @param hostProgram the host program bean
+     * file
+     * @return a Host invoke implementation
+     * @throws HostInvokerException in construction fails
+     */
+    public static HostInvoker createHostInvoker(
+            final String generalConfigFileName,
+            final LegStarAddress address,
+            final HostProgram hostProgram)
+    throws HostInvokerException {
+
+        try {
+            /* Load the XML configuration, if necessary */
+            if (sGeneralConfig == null) {
+                sGeneralConfig = loadGeneralConfig(generalConfigFileName);
+            }
+
+            /* Load endpoint configuration specified in requested address or the
+             * default one if address is empty.  */
+            HierarchicalConfiguration endpointConfig = null;
+            endpointConfig = Config.loadAddressConfiguration(
+                    sGeneralConfig, address);
+
+            /* Create a complete address by merging requested address attributes
+             * with the endpoint configuration ones. For instance if requested
+             * address does not specify credentials, we will pick up the default
+             * credentials from the configuration. */
+            LegStarAddress completeAddress =
+                new LegStarAddress(address, endpointConfig);
+
+            /* Load a host access strategy */
+            HostAccessStrategy hostAccessStrategy;
+            hostAccessStrategy =
+                HostAccessStrategyFactory.createAccessStrategy(endpointConfig);
+
+            /* If a Channel is specified, this is a request for LINK CHANNEL */
+            String channel = hostProgram.getChannel();
+            if (channel != null && channel.length() > 0) {
+                return new ContainerInvoker(
+                        hostAccessStrategy, completeAddress, hostProgram);
+            }
+
+            /* The default is a commarea invoke */
+            return new CommareaInvoker(
+                    hostAccessStrategy, completeAddress, hostProgram);
+        } catch (ConfigurationException e) {
+            throw new HostInvokerException(e);
+        } catch (HostAccessStrategyException e) {
+            throw new HostInvokerException(e);
+        }
+    }
+
+    /**
+     * @deprecated
+     * An Invoker is constructed from a configuration file, for a particular
+     * host address and target host program.
+     * @param generalConfigFileName an XML configuration file name
+     * @param address the host address
      * @param cicsProgramFileName the host program attributes properties
      * file
      * @return a Host invoke implementation
@@ -51,54 +111,16 @@ public final class HostInvokerFactory {
             final String cicsProgramFileName)
     throws HostInvokerException {
 
-        /* Load the XML configuration, if necessary */
-        if (sGeneralConfig == null) {
-            sGeneralConfig = loadGeneralConfig(generalConfigFileName);
-        }
-
-        /* load the program properties file */
-        CicsProgram hostProgram =
-            new CicsProgram(cicsProgramFileName);
-
-        /* Load endpoint configuration specified in requested address or the
-         * default one if address is empty.  */
-        HierarchicalConfiguration endpointConfig = null;
         try {
-            endpointConfig = Config.loadAddressConfiguration(
-                    sGeneralConfig, address);
-        } catch (ConfigurationException e) {
+            return createHostInvoker(generalConfigFileName, address,
+                    new HostProgramProperties(cicsProgramFileName));
+        } catch (HostProgramException e) {
             throw new HostInvokerException(e);
         }
-
-        /* Create a complete address by merging requested address attributes
-         * with the endpoint configuration ones. For instance if requested
-         * address does not specify credentials, we will pick up the default
-         * credentials from the configuration. */
-        LegStarAddress completeAddress =
-            new LegStarAddress(address, endpointConfig);
-
-        /* Load a host access strategy */
-        HostAccessStrategy hostAccessStrategy;
-        try {
-            hostAccessStrategy =
-                HostAccessStrategyFactory.createAccessStrategy(endpointConfig);
-        } catch (HostAccessStrategyException e) {
-            throw new HostInvokerException(e);
-        }
-
-        /* If a Channel is specified, this is a request for LINK CHANNEL */
-        String channel = hostProgram.getChannel();
-        if (channel != null && channel.length() > 0) {
-            return new ContainerInvoker(
-                    hostAccessStrategy, completeAddress, hostProgram);
-        }
-
-        /* The default is a commarea invoke */
-        return new CommareaInvoker(
-                hostAccessStrategy, completeAddress, hostProgram);
     }
 
     /**
+     * @deprecated
      * Backward compatibility.
      * An Invoker is constructed from a configuration file, for a particular
      * host address and target host program.
@@ -109,7 +131,6 @@ public final class HostInvokerFactory {
      * @return a Host invoke implementation
      * @throws HostInvokerException in construction fails
      */
-    @SuppressWarnings("deprecation")
     public static HostInvoker createHostInvoker(
             final String generalConfigFileName,
             final com.legstar.messaging.Address address,
@@ -118,6 +139,7 @@ public final class HostInvokerFactory {
         return createHostInvoker(generalConfigFileName,
                 (LegStarAddress) address, cicsProgramFileName);
     }
+
     /**
      * Loads an XML configuration from file.
      * @param configFileName the configuration file name

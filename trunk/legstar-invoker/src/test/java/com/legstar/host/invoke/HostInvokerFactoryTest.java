@@ -10,6 +10,7 @@
  ******************************************************************************/
 package com.legstar.host.invoke;
 
+import com.legstar.host.invoke.model.HostProgramException;
 import com.legstar.messaging.LegStarAddress;
 
 import junit.framework.TestCase;
@@ -30,11 +31,14 @@ public class HostInvokerFactoryTest extends TestCase {
     public void manualtestWrongConfigurationFile() {
         try {
             LegStarAddress address = new LegStarAddress("TheMainframe");
-            HostInvokerFactory.createHostInvoker("tarata.tsointsoin", address, "lsfileae.properties");
+            HostInvokerFactory.createHostInvoker(
+                    "tarata.tsointsoin", address, new HostProgramProperties("lsfileae.properties"));
             fail("testWrongConfigurationFile failed ");
         } catch (HostInvokerException e) {
             assertEquals("org.apache.commons.configuration.ConfigurationException:"
                     + " Cannot locate configuration source tarata.tsointsoin", e.getMessage());
+        } catch (HostProgramException e) {
+            fail(e.toString());
         }
     }
 
@@ -44,11 +48,14 @@ public class HostInvokerFactoryTest extends TestCase {
     public void testWrongEndpoint() {
         try {
             LegStarAddress address = new LegStarAddress("NotAMainframe");
-            HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "lsfileae.properties");
+            HostInvokerFactory.createHostInvoker(
+                    CONFIG_FILE, address, new HostProgramProperties("lsfileae.properties"));
             fail("testWrongEndpoint failed ");
         } catch (HostInvokerException e) {
             assertEquals("org.apache.commons.configuration.ConfigurationException:"
                     + " The requested endpoint:NotAMainframe is not defined.", e.getMessage());
+        } catch (HostProgramException e) {
+            fail(e.toString());
         }
     }
 
@@ -58,9 +65,12 @@ public class HostInvokerFactoryTest extends TestCase {
     public void testWrongProgramAttributesFile() {
         try {
             LegStarAddress address = new LegStarAddress("TheMainframe");
-            HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "goblin.properties");
+            HostInvokerFactory.createHostInvoker(
+                    CONFIG_FILE, address, new HostProgramProperties("goblin.properties"));
             fail("testWrongProgramAttributesFile failed ");
         } catch (HostInvokerException e) {
+            fail(e.toString());
+        } catch (HostProgramException e) {
             assertEquals("java.io.FileNotFoundException: goblin.properties", e.getMessage());
         }
     }
@@ -72,23 +82,29 @@ public class HostInvokerFactoryTest extends TestCase {
     public void testInstantiateContainerInvoke() {
         try {
             LegStarAddress address = new LegStarAddress("TheMainframe");
-            HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "container1.properties");
+            HostInvoker invoker = HostInvokerFactory.createHostInvoker(
+                    CONFIG_FILE, address, new HostProgramProperties("container1.properties"));
             assertTrue(invoker instanceof com.legstar.host.invoke.ContainerInvoker);
         } catch (HostInvokerException e) {
             fail("testWrongProgramAttributesFile failed " + e.getMessage());
+        } catch (HostProgramException e) {
+            fail(e.toString());
         }
     }
-    
+
     /**
      * Test invoke with Commarea.
      */
     public void testInstantiateCommareaInvoke() {
         try {
             LegStarAddress address = new LegStarAddress("TheMainframe");
-            HostInvoker invoker = HostInvokerFactory.createHostInvoker(CONFIG_FILE, address, "lsfileae.properties");
+            HostInvoker invoker = HostInvokerFactory.createHostInvoker(
+                    CONFIG_FILE, address, new HostProgramProperties("lsfileae.properties"));
             assertTrue(invoker instanceof com.legstar.host.invoke.CommareaInvoker);
         } catch (HostInvokerException e) {
             fail("testWrongProgramAttributesFile failed " + e.getMessage());
+        } catch (HostProgramException e) {
+            fail(e.toString());
         }
     }
 }
