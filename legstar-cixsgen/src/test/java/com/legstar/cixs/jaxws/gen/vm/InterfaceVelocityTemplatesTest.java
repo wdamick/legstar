@@ -57,7 +57,7 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileae;"));
         assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileae.Dfhcommarea;"));
-        assertTrue(resStr.contains("@WebService(name = \"lsfileaePort\","));
+        assertTrue(resStr.contains("@WebService(name = \"lsfileaePortType\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileae\")"));
         assertTrue(resStr.contains("@WebMethod(operationName = \"lsfileae\", action = \"urn:lsfileae\")"));
         assertTrue(resStr.contains("@WebResult(name = \"Dfhcommarea\","));
@@ -99,7 +99,7 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileal;"));
         assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileal.RequestParms;"));
         assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileal.ReplyData;"));
-        assertTrue(resStr.contains("@WebService(name = \"lsfilealPort\","));
+        assertTrue(resStr.contains("@WebService(name = \"lsfilealPortType\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileal\")"));
         assertTrue(resStr.contains("@WebMethod(operationName = \"lsfileal\", action = \"urn:lsfileal\")"));
         assertTrue(resStr.contains("@WebResult(name = \"ReplyData\","));
@@ -140,7 +140,7 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
                 model.getInterfaceClassName() + ".java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileac;"));
-        assertTrue(resStr.contains("@WebService(name = \"lsfileacPort\","));
+        assertTrue(resStr.contains("@WebService(name = \"lsfileacPortType\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileac\")"));
         assertTrue(resStr.contains("@WebMethod(operationName = \"lsfileac\", action = \"urn:lsfileac\")"));
         assertTrue(resStr.contains("@WebResult(name = \"LsfileacResponseHolder\","));
@@ -182,7 +182,7 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileax;"));
         assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileae.Dfhcommarea;"));
-        assertTrue(resStr.contains("@WebService(name = \"lsfileaxPort\","));
+        assertTrue(resStr.contains("@WebService(name = \"lsfileaxPortType\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileax\")"));
         assertTrue(resStr.contains("@WebMethod(operationName = \"lsfileae\", action = \"urn:lsfileae\")"));
         assertTrue(resStr.contains("@WebResult(name = \"Dfhcommarea\","));
@@ -241,7 +241,7 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfilean;"));
         assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileae.Dfhcommarea;"));
-        assertTrue(resStr.contains("@WebService(name = \"lsfileanPort\","));
+        assertTrue(resStr.contains("@WebService(name = \"lsfileanPortType\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfilean\")"));
         assertTrue(resStr.contains("public interface Lsfilean {"));
         assertTrue(resStr.contains("@RequestWrapper(localName = \"LsfileaeRequest\","));
@@ -276,7 +276,7 @@ public class InterfaceVelocityTemplatesTest extends AbstractTestTemplate {
 
         assertFalse(resStr.contains("package com.legstar.test.cixs.lsfileap;"));
         assertTrue(resStr.contains("import com.legstar.test.coxb.lsfileae.Dfhcommarea;"));
-        assertTrue(resStr.contains("@WebService(name = \"lsfileapPort\","));
+        assertTrue(resStr.contains("@WebService(name = \"lsfileapPortType\","));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileap\")"));
         assertTrue(resStr.contains("public interface Lsfileap {"));
         assertTrue(resStr.contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileap\")"));
