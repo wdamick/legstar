@@ -257,62 +257,6 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
     }
 
     /**
-     * Program properties.
-     * @throws Exception if test fails
-     */
-    public void testProgramPropertiesCommarea() throws Exception {
-
-        CixsJaxwsService jaxwsComponent = Samples.getLsfileal();
-        CixsOperation operation = jaxwsComponent.getCixsOperations().get(0);
-        initWebServiceParameters(jaxwsComponent);
-
-        File operationPropertiesFilesDir =
-            new File(GEN_PROP_DIR, jaxwsComponent.getName());
-        CodeGenUtil.checkDirectory(operationPropertiesFilesDir, true);
-        Jaxws2CixsGenerator.generateProgramProperties(
-                operation, getParameters(), operationPropertiesFilesDir);
-        String resStr = getSource(
-                operationPropertiesFilesDir,
-                operation.getCicsProgramName() + ".properties");
-
-        assertTrue(resStr.contains("CICSProgramName=LSFILEAL"));
-        assertTrue(resStr.contains("CICSLength=8043"));
-        assertTrue(resStr.contains("CICSDataLength=20"));
-    }
-
-    /**
-     * Program properties for containers.
-     * @throws Exception if test fails
-     */
-    public void testProgramPropertiesContainer() throws Exception {
-
-        CixsJaxwsService jaxwsComponent = Samples.getLsfileac();
-        CixsOperation operation = jaxwsComponent.getCixsOperations().get(0);
-        initWebServiceParameters(jaxwsComponent);
-
-        File operationPropertiesFilesDir = 
-            new File(GEN_PROP_DIR, jaxwsComponent.getName());
-        CodeGenUtil.checkDirectory(operationPropertiesFilesDir, true);
-        Jaxws2CixsGenerator.generateProgramProperties(
-                operation, getParameters(), operationPropertiesFilesDir);
-        String resStr = getSource(
-                operationPropertiesFilesDir,
-                operation.getCicsProgramName() + ".properties");
-
-        /* Maven tests the containers in this order but not Eclipse FIXME*/
-        assertTrue(resStr.contains("CICSProgramName=LSFILEAC"));
-        assertTrue(resStr.contains("CICSChannel=LSFILEAC-CHANNEL"));
-        assertTrue(resStr.contains("CICSInContainers_1=QueryData"));
-        assertTrue(resStr.contains("CICSInContainersLength_1=48"));
-        assertTrue(resStr.contains("CICSInContainers_2=QueryLimit"));
-        assertTrue(resStr.contains("CICSInContainersLength_2=10"));
-        assertTrue(resStr.contains("CICSOutContainers_1=ReplyData"));
-        assertTrue(resStr.contains("CICSOutContainersLength_1=7905"));
-        assertTrue(resStr.contains("CICSOutContainers_2=ReplyStatus"));
-        assertTrue(resStr.contains("CICSOutContainersLength_2=151"));
-    }
-
-    /**
      * sun-jaxws.xml.
      * @throws Exception if test fails
      */

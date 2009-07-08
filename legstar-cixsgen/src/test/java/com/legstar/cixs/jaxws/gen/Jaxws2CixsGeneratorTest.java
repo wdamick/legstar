@@ -325,9 +325,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
             final String operation,
             final String className) throws IOException {
 
-        String resStr = getSource(GEN_PROP_DIR, service + '/' + operation + ".properties");
-        assertTrue(resStr.contains("CICSProgramName=" + operation.toUpperCase()));
-
+        String resStr;
         resStr = getSource(GEN_SRC_DIR + relativeLoc + "/" + className + "Exception.java");
         assertTrue(resStr.contains("public class " + className + "Exception"));
 
@@ -337,6 +335,10 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
         resStr = getSource(GEN_SRC_DIR + relativeLoc + "/" + className + "ProgramInvoker.java");
         assertTrue(resStr.contains("public class " + className
                 + "ProgramInvoker extends AbstractProgramInvoker {"));
+
+        resStr = getSource(GEN_SRC_DIR + relativeLoc + "/" + className + "HostProgram.java");
+        assertTrue(resStr.contains("public class " + className
+                + "HostProgram extends HostProgram {"));
 
     }
 

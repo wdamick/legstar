@@ -78,9 +78,9 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
     public static final String OPERATION_HOLDER_VLC_TEMPLATE =
         "vlc/j2c-operation-holder.vm";
 
-    /** Velocity template for program. */
-    public static final String OPERATION_PROGRAM_PROPERTIES_VLC_TEMPLATE =
-        "vlc/j2c-operation-program-properties.vm";
+    /** Velocity template for host program bean. */
+    public static final String OPERATION_HOST_PROGRAM_VLC_TEMPLATE =
+        "vlc/j2c-operation-host-program.vm";
 
     /** Velocity template for wrapper. */
     public static final String OPERATION_WRAPPER_VLC_TEMPLATE =
@@ -242,8 +242,6 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
             /* Determine target files locations */
             File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                     getTargetSrcDir(), operation.getPackageName(), true);
-            File operationPropertiesFilesDir = getTargetPropDir();
-            CodeGenUtil.checkDirectory(operationPropertiesFilesDir, true);
 
             generateFault(
                     operation, parameters, operationClassFilesDir);
@@ -253,9 +251,9 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
                     operation, parameters, operationClassFilesDir);
             generateHolders(
                     operation, parameters, operationClassFilesDir);
-            generateProgramProperties(
-                    operation, parameters, operationPropertiesFilesDir);
             generateProgramInvoker(
+                    operation, parameters, operationClassFilesDir);
+            generateHostProgram(
                     operation, parameters, operationClassFilesDir);
 
         }
@@ -408,28 +406,6 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
                 parameters,
                 serviceWebFilesDir,
         "sun-jaxws.xml");
-    }
-
-    /**
-     * Create the Propram properties file.
-     * @param operation the cixs operation
-     * @param parameters miscellaneous help parameters
-     * @param servicePropertiesDir where to store the generated file
-     * @throws CodeGenMakeException if generation fails
-     */
-    public static void generateProgramProperties(
-            final CixsOperation operation,
-            final Map < String, Object > parameters,
-            final File servicePropertiesDir)
-    throws CodeGenMakeException {
-        generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
-                OPERATION_PROGRAM_PROPERTIES_VLC_TEMPLATE,
-                "cixsOperation",
-                operation,
-                parameters,
-                servicePropertiesDir,
-                operation.getCicsProgramName().toLowerCase(
-                        Locale.getDefault()) + ".properties");
     }
 
     /**
@@ -629,6 +605,27 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
                 parameters,
                 operationClassFilesDir,
                 operation.getClassName() + "ProgramInvoker.java");
+    }
+
+    /**
+     * Create the host program bean.
+     * @param operation the cixs operation
+     * @param parameters miscellaneous help parameters
+     * @param operationClassFilesDir where to store the generated file
+     * @throws CodeGenMakeException if generation fails
+     */
+    public static void generateHostProgram(
+            final CixsOperation operation,
+            final Map < String, Object > parameters,
+            final File operationClassFilesDir)
+    throws CodeGenMakeException {
+        generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
+                OPERATION_HOST_PROGRAM_VLC_TEMPLATE,
+                "cixsOperation",
+                operation,
+                parameters,
+                operationClassFilesDir,
+                operation.getClassName() + "HostProgram.java");
     }
 
     /**
