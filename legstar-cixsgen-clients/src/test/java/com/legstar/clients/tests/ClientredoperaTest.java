@@ -21,7 +21,7 @@ public class ClientredoperaTest extends TestCase {
 		    new com.legstar.test.cixs.redopera.ObjectFactory();
 		com.legstar.test.coxb.redopera.ObjectFactory obOF =
 		    new com.legstar.test.coxb.redopera.ObjectFactory();
-		RedoperaPort port = new RedoperaService().getRedoperaImplPort();
+		RedoperaPort port = new RedoperaService().getRedoperaPort();
 		RedoperaRequest req = wsOF.createRedoperaRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setDfhcommarea(dfhcommarea);
@@ -42,7 +42,7 @@ public class ClientredoperaTest extends TestCase {
 		    new com.legstar.test.cixs.redopera.ObjectFactory();
 		com.legstar.test.coxb.redopera.ObjectFactory obOF =
 		    new com.legstar.test.coxb.redopera.ObjectFactory();
-		RedoperaPort port = new RedoperaService().getRedoperaImplPort();
+		RedoperaPort port = new RedoperaService().getRedoperaPort();
 		RedoperaRequest req = wsOF.createRedoperaRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setDfhcommarea(dfhcommarea);

@@ -21,7 +21,7 @@ public class ClientredinoutTest extends TestCase {
 		    new com.legstar.test.cixs.redinout.ObjectFactory();
 		com.legstar.test.coxb.redinout.ObjectFactory obOF =
 		    new com.legstar.test.coxb.redinout.ObjectFactory();
-		RedinoutPort port = new RedinoutService().getRedinoutImplPort();
+		RedinoutPort port = new RedinoutService().getRedinoutPort();
 		RedinoutRequest req = wsOF.createRedinoutRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setDfhcommarea(dfhcommarea);

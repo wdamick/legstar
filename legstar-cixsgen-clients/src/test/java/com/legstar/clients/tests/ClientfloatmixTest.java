@@ -21,7 +21,7 @@ public class ClientfloatmixTest extends TestCase {
 		    new com.legstar.test.cixs.floatmix.ObjectFactory();
 		com.legstar.test.coxb.floatmix.ObjectFactory obOF =
 		    new com.legstar.test.coxb.floatmix.ObjectFactory();
-		FloatmixPort port = new FloatmixService().getFloatmixImplPort();
+		FloatmixPort port = new FloatmixService().getFloatmixPort();
 		FloatmixRequest req = wsOF.createFloatmixRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setDfhcommarea(dfhcommarea);

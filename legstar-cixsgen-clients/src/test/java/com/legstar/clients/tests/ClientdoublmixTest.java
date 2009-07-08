@@ -20,7 +20,7 @@ public class ClientdoublmixTest extends TestCase {
 		    new com.legstar.test.cixs.doublmix.ObjectFactory();
 		com.legstar.test.coxb.doublmix.ObjectFactory obOF =
 		    new com.legstar.test.coxb.doublmix.ObjectFactory();
-		DoublmixPort port = new DoublmixService().getDoublmixImplPort();
+		DoublmixPort port = new DoublmixService().getDoublmixPort();
 		DoublmixRequest req = wsOF.createDoublmixRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setDfhcommarea(dfhcommarea);

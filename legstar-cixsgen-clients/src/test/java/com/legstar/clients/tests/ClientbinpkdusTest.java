@@ -22,7 +22,7 @@ public class ClientbinpkdusTest extends TestCase {
 		    new com.legstar.test.cixs.binpkdus.ObjectFactory();
 		com.legstar.test.coxb.binpkdus.ObjectFactory obOF =
 		    new com.legstar.test.coxb.binpkdus.ObjectFactory();
-		BinpkdusPort port = new BinpkdusService().getBinpkdusImplPort();
+		BinpkdusPort port = new BinpkdusService().getBinpkdusPort();
 		BinpkdusRequest req = wsOF.createBinpkdusRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setDfhcommarea(dfhcommarea);

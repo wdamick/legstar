@@ -31,7 +31,7 @@ public class ClientdplarchtIterationTest extends TestCase {
 		DplarchtService sv = new DplarchtService(
 				new URL("http://localhost:8080/cixs-dplarcht/dplarcht?wsdl"),
 				new QName("http://cixs.test.legstar.com/dplarcht", "dplarchtService"));
-		DplarchtPort port = sv.getDplarchtImplPort();
+		DplarchtPort port = sv.getDplarchtPort();
 		
 		
 		DplarchtRequest req = wsOF.createDplarchtRequest();

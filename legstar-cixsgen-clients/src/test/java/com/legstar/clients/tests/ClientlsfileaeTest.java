@@ -26,7 +26,7 @@ public class ClientlsfileaeTest extends TestCase {
 		
 		LsfileaeService sv = new LsfileaeService();
 		
-		LsfileaePort port = sv.getLsfileaeImplPort();
+		LsfileaePort port = sv.getLsfileaePort();
 		
 		Map <String, Object > requestContext = ((BindingProvider)port).getRequestContext();
 		requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,"http://localhost:8080/cixs-lsfileae/lsfileae");
@@ -59,7 +59,7 @@ public class ClientlsfileaeTest extends TestCase {
 		
 		LsfileaeService sv = new LsfileaeService();
 		
-		LsfileaePort port = sv.getLsfileaeImplPort();
+		LsfileaePort port = sv.getLsfileaePort();
 		
 		Map <String, Object > requestContext = ((BindingProvider)port).getRequestContext();
 		requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,"http://localhost:8080/cixs-lsfileae/lsfileae");
@@ -96,7 +96,7 @@ public class ClientlsfileaeTest extends TestCase {
 		
 		LsfileaeService sv = new LsfileaeService();
 		
-		LsfileaePort port = sv.getLsfileaeImplPort();
+		LsfileaePort port = sv.getLsfileaePort();
 		
 		Map <String, Object > requestContext = ((BindingProvider)port).getRequestContext();
 		requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,"http://localhost:8080/cixs-lsfileae/lsfileae");
@@ -130,7 +130,7 @@ public class ClientlsfileaeTest extends TestCase {
 		
 		LsfileaeService sv = new LsfileaeService();
 		
-		LsfileaePort port = sv.getLsfileaeImplPort();
+		LsfileaePort port = sv.getLsfileaePort();
 		
 		Map <String, Object > requestContext = ((BindingProvider)port).getRequestContext();
 		requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,"http://localhost:8080/cixs-lsfileae/lsfileae");
@@ -165,7 +165,7 @@ public class ClientlsfileaeTest extends TestCase {
 		
 		LsfileaeService sv = new LsfileaeService();
 		
-		LsfileaePort port = sv.getLsfileaeImplPort();
+		LsfileaePort port = sv.getLsfileaePort();
 		
 		Map <String, Object > requestContext = ((BindingProvider)port).getRequestContext();
 		requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,"http://localhost:8080/cixs-lsfileae/lsfileae");
@@ -207,7 +207,7 @@ public class ClientlsfileaeTest extends TestCase {
 		
 		LsfileaeService sv = new LsfileaeService();
 		
-		LsfileaePort port = sv.getLsfileaeImplPort();
+		LsfileaePort port = sv.getLsfileaePort();
 		
 		Map <String, Object > requestContext = ((BindingProvider)port).getRequestContext();
 		requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,"http://localhost:8080/cixs-lsfileae/lsfileae");

@@ -26,7 +26,7 @@ public class ClientlsfileacTest extends TestCase {
 		
 		LsfileacService sv = new LsfileacService();
 		
-		LsfileacPort port = sv.getLsfileacImplPort();
+		LsfileacPort port = sv.getLsfileacPort();
 		
 		Map <String, Object > requestContext = ((BindingProvider)port).getRequestContext();
 		requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,"http://localhost:8080/cixs-lsfileac/lsfileac");

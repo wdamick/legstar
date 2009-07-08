@@ -21,7 +21,7 @@ public class ClientlsfileadTest extends TestCase {
 		    new com.legstar.test.cixs.lsfilead.ObjectFactory();
 		com.legstar.test.coxb.lsfilead.ObjectFactory obOF =
 		    new com.legstar.test.coxb.lsfilead.ObjectFactory();
-		LsfileadPort port = new LsfileadService().getLsfileadImplPort();
+		LsfileadPort port = new LsfileadService().getLsfileadPort();
 		LsfileadRequest req = wsOF.createLsfileadRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setDfhcommarea(dfhcommarea);

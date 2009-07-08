@@ -22,7 +22,7 @@ public class ClientbinarchtTest extends TestCase {
 		    new com.legstar.test.cixs.binarcht.ObjectFactory();
 		com.legstar.test.coxb.binarcht.ObjectFactory obOF =
 		    new com.legstar.test.coxb.binarcht.ObjectFactory();
-		BinarchtPort port = new BinarchtService().getBinarchtImplPort();
+		BinarchtPort port = new BinarchtService().getBinarchtPort();
 		BinarchtRequest req = wsOF.createBinarchtRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setDfhcommarea(dfhcommarea);

@@ -22,7 +22,7 @@ public class ClientfixarnumTest extends TestCase {
 		    new com.legstar.test.cixs.fixarnum.ObjectFactory();
 		com.legstar.test.coxb.fixarnum.ObjectFactory obOF =
 		    new com.legstar.test.coxb.fixarnum.ObjectFactory();
-		FixarnumPort port = new FixarnumService().getFixarnumImplPort();
+		FixarnumPort port = new FixarnumService().getFixarnumPort();
 		FixarnumRequest req = wsOF.createFixarnumRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setDfhcommarea(dfhcommarea);

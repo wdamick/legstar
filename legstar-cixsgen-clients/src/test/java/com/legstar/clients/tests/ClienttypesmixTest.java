@@ -26,7 +26,7 @@ public class ClienttypesmixTest extends TestCase {
 	public void testClient() throws TypesmixFault{
 		com.legstar.test.cixs.typesmix.ObjectFactory wsOF = new com.legstar.test.cixs.typesmix.ObjectFactory();
 		com.legstar.test.coxb.typesmix.ObjectFactory obOF = new com.legstar.test.coxb.typesmix.ObjectFactory();
-		TypesmixPort port = new TypesmixService().getTypesmixImplPort();
+		TypesmixPort port = new TypesmixService().getTypesmixPort();
 		TypesmixRequest req = wsOF.createTypesmixRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		dfhcommarea.setCAlphabetic("ABCDE");
