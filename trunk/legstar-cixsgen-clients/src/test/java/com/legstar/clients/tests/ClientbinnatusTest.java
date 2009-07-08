@@ -22,7 +22,7 @@ public class ClientbinnatusTest extends TestCase {
 		    new com.legstar.test.cixs.binnatus.ObjectFactory();
 		com.legstar.test.coxb.binnatus.ObjectFactory obOF =
 		    new com.legstar.test.coxb.binnatus.ObjectFactory();
-		BinnatusPort port = new BinnatusService().getBinnatusImplPort();
+		BinnatusPort port = new BinnatusService().getBinnatusPort();
 		BinnatusRequest req = wsOF.createBinnatusRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setDfhcommarea(dfhcommarea);

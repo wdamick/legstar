@@ -21,7 +21,7 @@ public class ClientredsimptTest extends TestCase {
 		    new com.legstar.test.cixs.redsimpt.ObjectFactory();
 		com.legstar.test.coxb.redsimpt.ObjectFactory obOF =
 		    new com.legstar.test.coxb.redsimpt.ObjectFactory();
-		RedsimptPort port = new RedsimptService().getRedsimptImplPort();
+		RedsimptPort port = new RedsimptService().getRedsimptPort();
 		RedsimptRequest req = wsOF.createRedsimptRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setDfhcommarea(dfhcommarea);

@@ -21,7 +21,7 @@ public class ClientfixarsimTest extends TestCase {
 		    new com.legstar.test.cixs.fixarsim.ObjectFactory();
 		com.legstar.test.coxb.fixarsim.ObjectFactory obOF =
 		    new com.legstar.test.coxb.fixarsim.ObjectFactory();
-		FixarsimPort port = new FixarsimService().getFixarsimImplPort();
+		FixarsimPort port = new FixarsimService().getFixarsimPort();
 		FixarsimRequest req = wsOF.createFixarsimRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setDfhcommarea(dfhcommarea);

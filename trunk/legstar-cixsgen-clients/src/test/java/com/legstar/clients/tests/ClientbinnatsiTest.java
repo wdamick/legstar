@@ -21,7 +21,7 @@ public class ClientbinnatsiTest extends TestCase {
 		    new com.legstar.test.cixs.binnatsi.ObjectFactory();
 		com.legstar.test.coxb.binnatsi.ObjectFactory obOF =
 		    new com.legstar.test.coxb.binnatsi.ObjectFactory();
-		BinnatsiPort port = new BinnatsiService().getBinnatsiImplPort();
+		BinnatsiPort port = new BinnatsiService().getBinnatsiPort();
 		BinnatsiRequest req = wsOF.createBinnatsiRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setDfhcommarea(dfhcommarea);

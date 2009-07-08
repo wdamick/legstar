@@ -21,7 +21,7 @@ public class ClientredbothaTest extends TestCase {
 		    new com.legstar.test.cixs.redbotha.ObjectFactory();
 		com.legstar.test.coxb.redbotha.ObjectFactory obOF =
 		    new com.legstar.test.coxb.redbotha.ObjectFactory();
-		RedbothaPort port = new RedbothaService().getRedbothaImplPort();
+		RedbothaPort port = new RedbothaService().getRedbothaPort();
 		RedbothaRequest req = wsOF.createRedbothaRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setDfhcommarea(dfhcommarea);
@@ -45,7 +45,7 @@ public class ClientredbothaTest extends TestCase {
 		    new com.legstar.test.cixs.redbotha.ObjectFactory();
 		com.legstar.test.coxb.redbotha.ObjectFactory obOF =
 		    new com.legstar.test.coxb.redbotha.ObjectFactory();
-		RedbothaPort port = new RedbothaService().getRedbothaImplPort();
+		RedbothaPort port = new RedbothaService().getRedbothaPort();
 		RedbothaRequest req = wsOF.createRedbothaRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setDfhcommarea(dfhcommarea);

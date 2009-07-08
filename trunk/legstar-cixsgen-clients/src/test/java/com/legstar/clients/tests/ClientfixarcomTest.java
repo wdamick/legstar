@@ -21,7 +21,7 @@ public class ClientfixarcomTest extends TestCase {
 		    new com.legstar.test.cixs.fixarcom.ObjectFactory();
 		com.legstar.test.coxb.fixarcom.ObjectFactory obOF =
 		    new com.legstar.test.coxb.fixarcom.ObjectFactory();
-		FixarcomPort port = new FixarcomService().getFixarcomImplPort();
+		FixarcomPort port = new FixarcomService().getFixarcomPort();
 		FixarcomRequest req = wsOF.createFixarcomRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setDfhcommarea(dfhcommarea);

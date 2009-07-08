@@ -26,7 +26,7 @@ public class ClientNumzonedTest extends TestCase {
 		    new com.legstar.test.cixs.numzoned.ObjectFactory();
 		com.legstar.test.coxb.numzoned.ObjectFactory obOF =
 		    new com.legstar.test.coxb.numzoned.ObjectFactory();
-		NumzonedPort port = new NumzonedService().getNumzonedImplPort();
+		NumzonedPort port = new NumzonedService().getNumzonedPort();
 		NumzonedRequest req = wsOF.createNumzonedRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setDfhcommarea(dfhcommarea);

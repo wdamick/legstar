@@ -21,7 +21,7 @@ public class ClientredmultiTest extends TestCase {
 		    new com.legstar.test.cixs.redmulti.ObjectFactory();
 		com.legstar.test.coxb.redmulti.ObjectFactory obOF =
 		    new com.legstar.test.coxb.redmulti.ObjectFactory();
-		RedmultiPort port = new RedmultiService().getRedmultiImplPort();
+		RedmultiPort port = new RedmultiService().getRedmultiPort();
 		RedmultiRequest req = wsOF.createRedmultiRequest();
 		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
 		req.setDfhcommarea(dfhcommarea);
