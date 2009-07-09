@@ -100,11 +100,11 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
             fail();
         } catch (Exception e) {
             assertEquals("java.lang.IllegalArgumentException:"
-                    + " TargetPropDir: No directory name was specified",
+                    + " TargetDistDir: No directory name was specified",
                     e.getCause().getMessage());
         }
         try {
-            generator.setTargetPropDir(GEN_PROP_DIR);
+            generator.setTargetDistDir(GEN_DIST_DIR);
             generator.execute();
             fail();
         } catch (Exception e) {
@@ -146,8 +146,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
                 new File(GEN_ANT_DIR, cixsJaxwsService.getName()));
         mGenerator.setTargetWDDDir(
                 new File(GEN_WDD_DIR, cixsJaxwsService.getName()));
-        mGenerator.setTargetPropDir(
-                new File(GEN_PROP_DIR, cixsJaxwsService.getName()));
+        mGenerator.setTargetDistDir(GEN_DIST_DIR);
     }
 
     /**
@@ -300,9 +299,17 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
             assertTrue(resStr.contains("package " + service.getPackageName() + ";"));
         }
 
+        resStr = getSource(GEN_ANT_DIR, service.getName() + '/' + "build-jar.xml");
+        assertTrue(resStr.replace('\\', '/').contains(
+                "<jar destfile=\"target/src/gen/target/cixs-" + service.getName() + ".jar\""));
+
+        resStr = getSource(GEN_ANT_DIR, service.getName() + '/' + "build-war.xml");
+        assertTrue(resStr.replace('\\', '/').contains(
+                "<war warfile=\"target/src/gen/target/cixs-" + service.getName() + ".war\""));
+
         resStr = getSource(GEN_ANT_DIR, service.getName() + '/' + "build.xml");
         assertTrue(resStr.replace('\\', '/').contains(
-                "<war warfile=\"${env.CATALINA_BASE}/webapp/cixs-" + service.getName() + ".war\""));
+                "<copy file=\"target/src/gen/target/cixs-" + service.getName() + ".war\""));
 
         resStr = getSource(GEN_WDD_DIR,  service.getName() + '/' + "web.xml");
         assertTrue(resStr.contains("<servlet-name>" + service.getName() + "Service</servlet-name>"));

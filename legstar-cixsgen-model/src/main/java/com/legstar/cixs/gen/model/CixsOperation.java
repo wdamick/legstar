@@ -141,56 +141,56 @@ public class CixsOperation {
     /**
      * @return the service operation name
      */
-    public final String getName() {
+    public String getName() {
         return mName;
     }
 
     /**
      * @param name the service operation name to set
      */
-    public final void setName(final String name) {
+    public void setName(final String name) {
         mName = name;
     }
 
     /**
      * @return the host program name
      */
-    public final String getCicsProgramName() {
+    public String getCicsProgramName() {
         return mCicsProgramName;
     }
 
     /**
      * @param cicsProgramName the host program name to set
      */
-    public final void setCicsProgramName(final String cicsProgramName) {
+    public void setCicsProgramName(final String cicsProgramName) {
         mCicsProgramName = cicsProgramName;
     }
 
     /**
      * @return the CICS Channel name
      */
-    public final String getCicsChannel() {
+    public String getCicsChannel() {
         return mCicsChannel;
     }
 
     /**
      * @param cicsChannel the CICS Channel name to set
      */
-    public final void setCicsChannel(final String cicsChannel) {
+    public void setCicsChannel(final String cicsChannel) {
         mCicsChannel = cicsChannel;
     }
 
     /**
      * @return the Input structures
      */
-    public final List < CixsStructure > getInput() {
+    public List < CixsStructure > getInput() {
         return mInput;
     }
 
     /**
      * @param input the Input structures to set
      */
-    public final void setInput(
+    public void setInput(
             final List < CixsStructure > input) {
         mInput = input;
     }
@@ -198,21 +198,21 @@ public class CixsOperation {
     /**
      * @param structure the structure to add
      */
-    public final void addInput(final CixsStructure structure) {
+    public void addInput(final CixsStructure structure) {
         mInput.add(structure);
     }
 
     /**
      * @return the Output structures
      */
-    public final List < CixsStructure > getOutput() {
+    public List < CixsStructure > getOutput() {
         return mOutput;
     }
 
     /**
      * @param output the Output structures to set
      */
-    public final void setOutput(
+    public void setOutput(
             final List < CixsStructure > output) {
         mOutput = output;
     }
@@ -220,7 +220,7 @@ public class CixsOperation {
     /**
      * @param structure the structure to add
      */
-    public final void addOutput(final CixsStructure structure) {
+    public void addOutput(final CixsStructure structure) {
         mOutput.add(structure);
     }
 
@@ -228,7 +228,7 @@ public class CixsOperation {
      * Create an XML usable as input for and ant task.
      * @return the XML
      */
-    public final String serialize() {
+    public String serialize() {
         StringBuffer result = new StringBuffer();
         result.append("<" + CIXS_OPERATION_XML_E + " "
                 + CIXS_OPERATION_NAME_XML_A + "=" + '\"'
@@ -293,7 +293,7 @@ public class CixsOperation {
      * @param operationNode the operation node
      * @throws CixsModelException if load fails
      */
-    public final void load(final Node operationNode) throws CixsModelException {
+    public void load(final Node operationNode) throws CixsModelException {
         Element operationElement = (Element) operationNode;
         mName = operationElement.getAttribute(CIXS_OPERATION_NAME_XML_A);
         if (mName == null || mName.length() == 0) {
@@ -347,7 +347,7 @@ public class CixsOperation {
      * @return this operation property values as a string array. This helps
      * inserting the structure as an item in an array.
      */
-    public final String[] getAsStringArray() {
+    public String[] getAsStringArray() {
         String[] array = {getName(),
                 getCicsProgramName(),
                 getCicsChannel(),
@@ -360,7 +360,7 @@ public class CixsOperation {
      * @see Object#hashCode() 
      * {@inheritDoc}
      */
-    public final int hashCode() {
+    public int hashCode() {
         return getName().hashCode();
     }
 
@@ -371,7 +371,7 @@ public class CixsOperation {
      * @return true if this object is the same as the obj argument; false
      *         otherwise..
      */
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
         return (obj != null) && (obj.getClass() == CixsOperation.class)
         && ((CixsOperation) obj).getName().equals(getName());
     }
@@ -385,7 +385,7 @@ public class CixsOperation {
      * @return A negative integer, zero, or a positive integer as this object
      *         is less than, equal to, or greater than the specified object.
      */
-    public final int compareTo(final Object o) {
+    public int compareTo(final Object o) {
         if (o.getClass() != CixsOperation.class) {
             throw new ClassCastException(o.getClass().getName());
         } else {
@@ -398,14 +398,14 @@ public class CixsOperation {
      * operation name.
      * @return a valid class name built from the operation name.
      */
-    public final String getClassName() {
+    public String getClassName() {
         return Utils.toClassName(getName());
     }
 
     /**
      * @return the Class name for faults
      */
-    public final String getFaultType() {
+    public String getFaultType() {
         if (mFaultType == null || mFaultType.length() == 0) {
             return getClassName() + DEFAULT_FAULT_SUFFIX;
         }
@@ -415,14 +415,14 @@ public class CixsOperation {
     /**
      * @param faultType the Class name for faults to set
      */
-    public final void setFaultType(final String faultType) {
+    public void setFaultType(final String faultType) {
         mFaultType = faultType;
     }
 
     /**
      * @return the Class name for fault descriptors
      */
-    public final String getFaultInfoType() {
+    public String getFaultInfoType() {
         if (mFaultInfoType == null || mFaultInfoType.length() == 0) {
             return getClassName() + DEFAULT_FAULT_INFO_SUFFIX;
         }
@@ -432,35 +432,35 @@ public class CixsOperation {
     /**
      * @param faultInfoType the Class name for fault descriptors to set
      */
-    public final void setFaultInfoType(final String faultInfoType) {
+    public void setFaultInfoType(final String faultInfoType) {
         mFaultInfoType = faultInfoType;
     }
 
     /**
      * @return the operation-related classes package name
      */
-    public final String getPackageName() {
+    public String getPackageName() {
         return mPackageName;
     }
 
     /**
      * @param packageName the operation-related classes package name to set
      */
-    public final void setPackageName(final String packageName) {
+    public void setPackageName(final String packageName) {
         mPackageName = packageName;
     }
 
     /**
      * @return the namespace used for JAXB objects derived from operation
      */
-    public final String getNamespace() {
+    public String getNamespace() {
         return mNamespace;
     }
 
     /**
      * @param namespace used for JAXB objects derived from operation
      */
-    public final void setNamespace(final String namespace) {
+    public void setNamespace(final String namespace) {
         mNamespace = namespace;
     }
 
@@ -469,7 +469,7 @@ public class CixsOperation {
      * which happens only if channel/containers are supported)
      * for single input operations this is the input type
      */
-    public final String getRequestHolderType() {
+    public String getRequestHolderType() {
         if (mRequestHolderType == null || mRequestHolderType.length() == 0) {
             if (hasChannel()) {
                 return getClassName() + DEFAULT_REQUEST_HOLDER_SUFFIX;
@@ -499,7 +499,7 @@ public class CixsOperation {
      * @param requestHolderType the Class name for request holder (groups
      *  multiple input parts) to set
      */
-    public final void setRequestHolderType(final String requestHolderType) {
+    public void setRequestHolderType(final String requestHolderType) {
         mRequestHolderType = requestHolderType;
     }
 
@@ -507,7 +507,7 @@ public class CixsOperation {
      * @return the Class name for request wrapper. If none was specified,
      * build a name using operation class name and a suffix.
      */
-    public final String getRequestWrapperType() {
+    public String getRequestWrapperType() {
         if (mRequestWrapperType == null || mRequestWrapperType.length() == 0) {
             return getClassName() + DEFAULT_REQUEST_WRAPPER_SUFFIX;
         }
@@ -517,7 +517,7 @@ public class CixsOperation {
     /**
      * @param requestWrapperType the Class name for request wrapper to set
      */
-    public final void setRequestWrapperType(
+    public void setRequestWrapperType(
             final String requestWrapperType) {
         mRequestWrapperType = requestWrapperType;
     }
@@ -526,7 +526,7 @@ public class CixsOperation {
      * @return the Class name for response holder ((groups multiple output parts
      * which happens only if channel/containers are supported)
      */
-    public final String getResponseHolderType() {
+    public String getResponseHolderType() {
         if (mResponseHolderType == null || mResponseHolderType.length() == 0) {
             if (hasChannel()) {
                 return getClassName() + DEFAULT_RESPONSE_HOLDER_SUFFIX;
@@ -556,7 +556,7 @@ public class CixsOperation {
      * @param responseHolderType the Class name for response holder (groups
      *  multiple output parts) to set
      */
-    public final void setResponseHolderType(
+    public void setResponseHolderType(
             final String responseHolderType) {
         mResponseHolderType = responseHolderType;
     }
@@ -564,7 +564,7 @@ public class CixsOperation {
     /**
      * @return the Class name for response wrapper
      */
-    public final String getResponseWrapperType() {
+    public String getResponseWrapperType() {
         if (mResponseWrapperType == null
                 || mResponseWrapperType.length() == 0) {
             return getClassName() + DEFAULT_RESPONSE_WRAPPER_SUFFIX;
@@ -575,7 +575,7 @@ public class CixsOperation {
     /**
      * @param responseWrapperType the Class name for response wrapper to set
      */
-    public final void setResponseWrapperType(
+    public void setResponseWrapperType(
             final String responseWrapperType) {
         mResponseWrapperType = responseWrapperType;
     }
@@ -583,7 +583,7 @@ public class CixsOperation {
     /**
      * @return true if this operation uses Channel/Containers
      */
-    public final boolean hasChannel() {
+    public boolean hasChannel() {
         return (mCicsChannel != null && mCicsChannel.length() > 0);
     }
 }

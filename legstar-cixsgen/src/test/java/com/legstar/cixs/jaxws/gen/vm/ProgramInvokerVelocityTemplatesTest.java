@@ -51,8 +51,7 @@ public class ProgramInvokerVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("private DfhcommareaTransformers mDfhcommareaTransformers;"));
         assertTrue(resStr.contains("/** Operation name for lsfileae. */"));
         assertTrue(resStr.contains("private static final String  OPERATION_NAME = \"lsfileae\";"));
-        assertTrue(resStr.contains("/** Properties for operation lsfileae. */"));
-        assertTrue(resStr.contains("private static final String  PROGRAM_PROPERTIES = \"lsfileae.properties\";"));
+        assertTrue(resStr.contains("super(configFileName, OPERATION_NAME, new LsfileaeHostProgram());"));
         assertTrue(resStr.contains("public LsfileaeProgramInvoker(final String configFileName) {"));
         assertTrue(resStr.contains("mDfhcommareaTransformers = new DfhcommareaTransformers();"));
         assertTrue(resStr.contains("* Invoke the LSFILEAE host program."));
@@ -99,8 +98,7 @@ public class ProgramInvokerVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("private ReplyDataTransformers mReplyDataTransformers;"));
         assertTrue(resStr.contains("/** Operation name for lsfileal. */"));
         assertTrue(resStr.contains("private static final String  OPERATION_NAME = \"lsfileal\";"));
-        assertTrue(resStr.contains("/** Properties for operation lsfileal. */"));
-        assertTrue(resStr.contains("private static final String  PROGRAM_PROPERTIES = \"lsfileal.properties\";"));
+        assertTrue(resStr.contains("super(configFileName, OPERATION_NAME, new LsfilealHostProgram());"));
         assertTrue(resStr.contains("public LsfilealProgramInvoker(final String configFileName) {"));
         assertTrue(resStr.contains("mRequestParmsTransformers = new RequestParmsTransformers();"));
         assertTrue(resStr.contains("mReplyDataTransformers = new ReplyDataTransformers();"));
@@ -151,8 +149,7 @@ public class ProgramInvokerVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("private QueryLimitTransformers mQueryLimitTransformers;"));
         assertTrue(resStr.contains("private ReplyDataTransformers mReplyDataTransformers;"));
         assertTrue(resStr.contains("private ReplyStatusTransformers mReplyStatusTransformers;"));
-        assertTrue(resStr.contains("/** Properties for operation lsfileac. */"));
-        assertTrue(resStr.contains("private static final String  PROGRAM_PROPERTIES = \"lsfileac.properties\";"));
+        assertTrue(resStr.contains("super(configFileName, OPERATION_NAME, new LsfileacHostProgram());"));
         assertTrue(resStr.contains("public LsfileacProgramInvoker(final String configFileName) {"));
         assertTrue(resStr.contains("mQueryDataTransformers = new QueryDataTransformers();"));
         assertTrue(resStr.contains("mQueryLimitTransformers = new QueryLimitTransformers();"));

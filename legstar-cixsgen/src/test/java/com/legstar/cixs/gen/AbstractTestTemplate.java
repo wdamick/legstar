@@ -60,11 +60,11 @@ public class AbstractTestTemplate extends TestCase {
     /** Web descriptors files will be generated here. */
     public static final File GEN_ANT_DIR = new File("target/src/gen/ant");
 
-    /** Properties files will be generated here. */
-    public static final File GEN_PROP_DIR = new File("target/src/gen/prop");
-
     /** Reference to binaries location. */
     public static final File GEN_BIN_DIR = new File("target/src/gen/target/classes");
+
+    /** Reference to distribution location. */
+    public static final File GEN_DIST_DIR = new File("target/src/gen/target");
 
     /** Reference to war files location. */
     public static final File GEN_WAR_DIR = new File("${env.CATALINA_BASE}/webapp");

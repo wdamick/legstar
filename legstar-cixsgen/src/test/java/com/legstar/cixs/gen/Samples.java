@@ -16,6 +16,7 @@ import com.legstar.cixs.gen.model.options.WebServiceParameters;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
 import com.legstar.coxb.util.Utils;
 import com.legstar.test.cixs.CultureinfoOperationCases;
+import com.legstar.test.cixs.DplarchtOperationCases;
 import com.legstar.test.cixs.JvmqueryOperationCases;
 import com.legstar.test.cixs.JvmqueryWsOperationCases;
 import com.legstar.test.cixs.LsfileacOperationCases;
@@ -127,6 +128,18 @@ public final class Samples {
         operation.getInput().remove(1);
         operation.getOutput().remove(1);
         service.getCixsOperations().add(operation);
+        return service;
+    }
+
+    /**
+     * Case with an adapter with custom code.
+     * @return a service with custom code
+     */
+    public static CixsJaxwsService getDplarcht() {
+        CixsJaxwsService service = getNewService("dplarcht");
+        service.getCixsOperations().add(
+                DplarchtOperationCases.getOperation(
+                        service.getName(), service.getPackageName()));
         return service;
     }
 

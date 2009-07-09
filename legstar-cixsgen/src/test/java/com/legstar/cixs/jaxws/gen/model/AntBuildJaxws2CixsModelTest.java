@@ -38,7 +38,7 @@ public class AntBuildJaxws2CixsModelTest extends AbstractTestTemplate {
 
         antModel.setCixsJaxwsService(cixsJaxwsService);
         antModel.setTargetBinDir(GEN_BIN_DIR);
-        antModel.setTargetPropDir(GEN_PROP_DIR);
+        antModel.setTargetDistDir(GEN_DIST_DIR);
         antModel.setTargetSrcDir(GEN_SRC_DIR);
         antModel.setCoxbBinDir(GEN_BIN_DIR);
         antModel.setCustBinDir(GEN_BIN_DIR);
@@ -59,7 +59,7 @@ public class AntBuildJaxws2CixsModelTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("classname=\"com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator\""));
         assertTrue(resStr.replace('\\', '/').contains("<jaxws2cixsgen targetSrcDir=\"target/src/gen/java\""));
         assertTrue(resStr.replace('\\', '/').contains("targetWDDDir=\"target/src/gen/webapp\""));
-        assertTrue(resStr.replace('\\', '/').contains("targetPropDir=\"target/src/gen/prop\""));
+        assertTrue(resStr.replace('\\', '/').contains("targetDistDir=\"target/src/gen/target\""));
         assertTrue(resStr.replace('\\', '/').contains("targetAntDir=\"target/src/gen/ant\""));
         assertTrue(resStr.replace('\\', '/').contains("targetWarDir=\"${env.CATALINA_BASE}/webapp\""));
         assertTrue(resStr.replace('\\', '/').contains("targetBinDir=\"target/src/gen/target/classes\""));

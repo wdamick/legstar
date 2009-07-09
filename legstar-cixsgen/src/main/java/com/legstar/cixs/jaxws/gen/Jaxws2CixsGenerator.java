@@ -54,6 +54,14 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
     public static final String SERVICE_ANT_BUILD_WAR_VLC_TEMPLATE =
         "vlc/j2c-service-ant-build-war-xml.vm";
 
+    /** Velocity template for service ant-build-jar. */
+    public static final String SERVICE_ANT_BUILD_JAR_VLC_TEMPLATE =
+        "vlc/j2c-service-ant-build-jar-xml.vm";
+
+    /** Velocity template for service ant-build. */
+    public static final String SERVICE_ANT_BUILD_VLC_TEMPLATE =
+        "vlc/j2c-service-ant-build-xml.vm";
+
     /** Velocity template for service sun-jaxws-xml. */
     public static final String SERVICE_SUN_JAXWS_XML_VLC_TEMPLATE =
         "vlc/j2c-service-sun-jaxws-xml.vm";
@@ -132,7 +140,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
             CodeGenUtil.checkDirectory(
                     getTargetAntDir(), true, "TargetAntDir");
             CodeGenUtil.checkDirectory(
-                    getTargetPropDir(), true, "TargetPropDir");
+                    getTargetDistDir(), true, "TargetDistDir");
             CodeGenUtil.checkDirectory(
                     getTargetWDDDir(), true, "TargetWDDDir");
 
@@ -172,7 +180,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
             }
         }
     }
-    
+
     /**
      * Provide default values to expose this adapter as a Web Service.
      */
@@ -193,7 +201,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
                     DEFAULT_WSDL_TARGET_NAMESPACE_PREFIX 
                     + '/' + getCixsService().getName());
         }
-        
+
     }
     /**
      * Create all artifacts for a Jaxws Web Service.
@@ -204,10 +212,11 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
             final Map < String, Object > parameters)
     throws CodeGenMakeException {
 
+        parameters.put("targetDistDir", getTargetDistDir());
         parameters.put("targetWarDir", getTargetWarDir());
         parameters.put("targetWDDDir", getTargetWDDDir());
         parameters.put("hostCharset", getHostCharset());
-        
+
         /* Contribute the web service parameters */
         getWebServiceParameters().add(parameters);
 
@@ -234,7 +243,11 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
                 getCixsJaxwsService(), parameters, serviceWebFilesDir);
         generateWebXml(
                 getCixsJaxwsService(), parameters, serviceWebFilesDir);
+        generateAntBuildJar(
+                getCixsJaxwsService(), parameters, serviceAntFilesDir);
         generateAntBuildWar(
+                getCixsJaxwsService(), parameters, serviceAntFilesDir);
+        generateAntBuild(
                 getCixsJaxwsService(), parameters, serviceAntFilesDir);
 
         for (CixsOperation operation : getCixsService().getCixsOperations()) {
@@ -260,7 +273,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
 
         generatePackageHtml(
                 getCixsJaxwsService(), parameters, serviceClassFilesDir);
-   }
+    }
 
     /**
      * Create the Jaxws Interface class file.
@@ -301,7 +314,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
                 service,
                 parameters,
                 serviceClassFilesDir,
-                "package.html");
+        "package.html");
     }
     /**
      * Create the Jaxws Implementation class file.
@@ -346,24 +359,75 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
     }
 
     /**
-     * Create the Jaxws Ant Build War file.
+     * Create the JAX-WS Ant Build War file.
      * @param service the Jaxws service description
      * @param parameters miscellaneous help parameters
      * @param serviceAntFilesDir where to store the generated file
+     * @return the generated file name
      * @throws CodeGenMakeException if generation fails
      */
-    public static void generateAntBuildWar(
+    public static String generateAntBuildWar(
             final CixsJaxwsService service,
             final Map < String, Object > parameters,
             final File serviceAntFilesDir)
     throws CodeGenMakeException {
+        String fileName = "build-war.xml";
         generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
                 SERVICE_ANT_BUILD_WAR_VLC_TEMPLATE,
                 SERVICE_MODEL_NAME,
                 service,
                 parameters,
                 serviceAntFilesDir,
-        "build.xml");
+                fileName);
+        return fileName;
+    }
+
+    /**
+     * Create the JAX-WS Ant Build jar file.
+     * @param service the Jaxws service description
+     * @param parameters miscellaneous help parameters
+     * @param serviceAntFilesDir where to store the generated file
+     * @return the generated file name
+     * @throws CodeGenMakeException if generation fails
+     */
+    public static String generateAntBuildJar(
+            final CixsJaxwsService service,
+            final Map < String, Object > parameters,
+            final File serviceAntFilesDir)
+    throws CodeGenMakeException {
+        String fileName = "build-jar.xml";
+        generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
+                SERVICE_ANT_BUILD_JAR_VLC_TEMPLATE,
+                SERVICE_MODEL_NAME,
+                service,
+                parameters,
+                serviceAntFilesDir,
+                fileName);
+        return fileName;
+    }
+
+    /**
+     * Create the war deploy Ant Build file.
+     * @param service the Jaxws service description
+     * @param parameters miscellaneous help parameters
+     * @param serviceAntFilesDir where to store the generated file
+     * @return the generated file name
+     * @throws CodeGenMakeException if generation fails
+     */
+    public static String generateAntBuild(
+            final CixsJaxwsService service,
+            final Map < String, Object > parameters,
+            final File serviceAntFilesDir)
+    throws CodeGenMakeException {
+        String fileName = "build.xml";
+        generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
+                SERVICE_ANT_BUILD_VLC_TEMPLATE,
+                SERVICE_MODEL_NAME,
+                service,
+                parameters,
+                serviceAntFilesDir,
+                fileName);
+        return fileName;
     }
 
     /**
@@ -523,7 +587,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
                 parameters.put("fieldJaxbType", holderType);
                 parameters.put("fieldJaxbNamespace",
                         parameters.get(WebServiceParameters.WSDL_TARGET_NAMESPACE_PROPERTY));
-           }
+            }
 
             generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
                     OPERATION_WRAPPER_VLC_TEMPLATE,
@@ -532,7 +596,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
                     parameters,
                     operationClassFilesDir,
                     wrapperType + ".java");
-            
+
             /* Remove local parameters from the parameters list so that
              * they don't interfere with a subsequent generation.*/
             parameters.remove("propertyName");
@@ -711,6 +775,20 @@ public class Jaxws2CixsGenerator extends AbstractCixsGenerator {
      */
     public final void setTargetWarDir(final File targetWarDir) {
         getAntModel().setTargetWarDir(targetWarDir);
+    }
+
+    /**
+     * @return the deployment location for jaxws war files
+     */
+    public final File getTargetDistDir() {
+        return getAntModel().getTargetDistDir();
+    }
+
+    /**
+     * @param targetDistDir the distribution location for artifacts such as jars and wars to set
+     */
+    public final void setTargetDistDir(final File targetDistDir) {
+        getAntModel().setTargetDistDir(targetDistDir);
     }
 
     /**

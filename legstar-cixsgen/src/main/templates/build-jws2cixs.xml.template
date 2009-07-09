@@ -35,10 +35,10 @@
     <property name="bin.dir" value="bin"/>
     <!-- Ant scripts target location   -->
     <property name="ant.dir" value="ant"/>
+    <!-- Distribution location   -->
+    <property name="dist.dir" value="dist"/>
     <!-- Web descriptors target location   -->
     <property name="wdd.dir" value="webapp/cixs-${service}/WEB-INF"/>
-    <!-- Properties files target location   -->
-    <property name="prop.dir" value="${wdd.dir}/classes"/>
 
     <!-- Location of JAXB classes   -->
     <property name="jaxb.bin.dir" value="bin"/>
@@ -74,8 +74,8 @@
     <jaxws2cixsgen targetSrcDir="${src.dir}"
              targetBinDir="${bin.dir}"
              targetWDDDir="${wdd.dir}"
-             targetPropDir="${prop.dir}"
              targetAntDir="${ant.dir}"
+             targetDistDir="${dist.dir}"
              targetWarDir="${war.dir}"
              jaxbBinDir="${jaxb.bin.dir}"
              coxbBinDir="${coxb.bin.dir}"

@@ -37,7 +37,7 @@
         <jaxws2cixsgen targetSrcDir="${antModel.targetSrcDir}"
             targetBinDir="${antModel.targetBinDir}"
             targetWDDDir="${antModel.targetWDDDir}"
-            targetPropDir="${antModel.targetPropDir}"
+            targetDistDir="${antModel.targetDistDir}"
             targetAntDir="${antModel.targetAntDir}"
             targetWarDir="${antModel.targetWarDir}"
             jaxbBinDir="${antModel.jaxbBinDir}"
