@@ -40,35 +40,35 @@ public abstract class AbstractCixsService extends CixsMappingModel {
     /**
      * @return the Service package name
      */
-    public final String getPackageName() {
+    public String getPackageName() {
         return mPackageName;
     }
 
     /**
      * @param packageName the Service package name to set
      */
-    public final void setPackageName(final String packageName) {
+    public void setPackageName(final String packageName) {
         mPackageName = packageName;
     }
 
     /**
      * @return the namespace used for JAXB objects derived from service
      */
-    public final String getNamespace() {
+    public String getNamespace() {
         return mNamespace;
     }
 
     /**
      * @param namespace used for JAXB objects derived from service
      */
-    public final void setNamespace(final String namespace) {
+    public void setNamespace(final String namespace) {
         mNamespace = namespace;
     }
 
     /**
      * @return the Service interface class name
      */
-    public final String getInterfaceClassName() {
+    public String getInterfaceClassName() {
         if (mInterfaceClassName == null || mInterfaceClassName.length() == 0) {
             return Utils.toClassName(getName());
         }
@@ -78,14 +78,14 @@ public abstract class AbstractCixsService extends CixsMappingModel {
     /**
      * @param interfaceClassName the Service interface class name to set
      */
-    public final void setInterfaceClassName(final String interfaceClassName) {
+    public void setInterfaceClassName(final String interfaceClassName) {
         mInterfaceClassName = interfaceClassName;
     }
 
     /**
      * @return the Service implementation class name
      */
-    public final String getImplementationClassName() {
+    public String getImplementationClassName() {
         if (mImplementationClassName == null 
                 || mImplementationClassName.length() == 0) {
             if (getName() == null) {
@@ -100,7 +100,7 @@ public abstract class AbstractCixsService extends CixsMappingModel {
      * @param implementationClassName the Service implementation class name to
      *  set
      */
-    public final void setImplementationClassName(
+    public void setImplementationClassName(
             final String implementationClassName) {
         mImplementationClassName = implementationClassName;
     }

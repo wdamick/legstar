@@ -302,7 +302,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
     }
 
     /**
-     * War build anbt script.
+     * War build war ant script.
      * @throws Exception if test fails
      */
     public void testAntBuildWar() throws Exception {
@@ -312,32 +312,53 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
 
         getParameters().put("targetWarDir", "/Servers/TOMDev/webapps");
         getParameters().put("targetWDDDir", "/Legsem/Legstar/Dev/webapp/WEB-INF");
+        getParameters().put("targetBinDir", "/legstar-cixsgen-cases/target/classes");
+        getParameters().put("targetDistDir", "/legstar-cixsgen-cases/target");
         getParameters().put("jaxbBinDir", "/legstar-jaxbgen-cases/target/classes");
         getParameters().put("coxbBinDir", "/legstar-coxbgen-cases/target/classes");
-        getParameters().put("targetBinDir", "/legstar-cixsgen-cases/target/classes");
         getParameters().put("custBinDir", "/legstar-cixsgen-cust-cases/target/classes");
-        getParameters().put("targetPropDir", "/Legsem/Legstar/Dev/webapp/WEB-INF/classes");
 
         File componentAntFilesDir =
             new File(GEN_ANT_DIR, jaxwsComponent.getName());
         CodeGenUtil.checkDirectory(componentAntFilesDir, true);
-        Jaxws2CixsGenerator.generateAntBuildWar(
+        String filename = Jaxws2CixsGenerator.generateAntBuildWar(
                 jaxwsComponent, getParameters(), componentAntFilesDir);
-        String resStr = getSource(
-                componentAntFilesDir,
-        "build.xml");
+        String resStr = getSource(componentAntFilesDir, filename);
 
-        assertTrue(resStr.contains("<delete file=\"/Servers/TOMDev/webapps/cixs-lsfileae.war\""
-                + " includeEmptyDirs=\"true\""));
-        assertTrue(resStr.contains("<war warfile=\"/Servers/TOMDev/webapps/cixs-lsfileae.war\""));
+        assertTrue(resStr.contains("<war warfile=\"/legstar-cixsgen-cases/target/cixs-lsfileae.war\""));
         assertTrue(resStr.contains("webxml=\"/Legsem/Legstar/Dev/webapp/WEB-INF/web.xml\">"));
         assertTrue(resStr.contains("<webinf dir=\"/Legsem/Legstar/Dev/webapp/WEB-INF\""));
-        assertTrue(resStr.contains("<classes dir=\"/legstar-jaxbgen-cases/target/classes\">"));
-        assertTrue(resStr.contains("<include name=\"com/legstar/test/coxb/lsfileae/*.class\"/>"));
-        assertTrue(resStr.contains("<classes dir=\"/legstar-coxbgen-cases/target/classes\">"));
-        assertTrue(resStr.contains("<include name=\"com/legstar/test/coxb/lsfileae/bind/*.class\"/>"));
-        assertTrue(resStr.contains("<classes dir=\"/legstar-cixsgen-cases/target/classes\">"));
-        assertTrue(resStr.contains("<classes dir=\"/legstar-cixsgen-cust-cases/target/classes\"/>"));
+        assertTrue(resStr.contains("<lib dir=\"/legstar-cixsgen-cases/target\">"));
+        assertTrue(resStr.contains("<include name=\"cixs-lsfileae.jar\"/>"));
+    }
+
+    /**
+     * War build ant script.
+     * @throws Exception if test fails
+     */
+    public void testAntBuild() throws Exception {
+
+        CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
+        initWebServiceParameters(jaxwsComponent);
+
+        getParameters().put("targetWarDir", "/Servers/TOMDev/webapps");
+        getParameters().put("targetWDDDir", "/Legsem/Legstar/Dev/webapp/WEB-INF");
+        getParameters().put("targetBinDir", "/legstar-cixsgen-cases/target/classes");
+        getParameters().put("targetDistDir", "/legstar-cixsgen-cases/target");
+        getParameters().put("jaxbBinDir", "/legstar-jaxbgen-cases/target/classes");
+        getParameters().put("coxbBinDir", "/legstar-coxbgen-cases/target/classes");
+        getParameters().put("custBinDir", "/legstar-cixsgen-cust-cases/target/classes");
+
+        File componentAntFilesDir =
+            new File(GEN_ANT_DIR, jaxwsComponent.getName());
+        CodeGenUtil.checkDirectory(componentAntFilesDir, true);
+        String filename = Jaxws2CixsGenerator.generateAntBuild(
+                jaxwsComponent, getParameters(), componentAntFilesDir);
+        String resStr = getSource(componentAntFilesDir, filename);
+
+        assertTrue(resStr.contains("<delete file=\"/Servers/TOMDev/webapps/cixs-lsfileae.war\""));
+        assertTrue(resStr.contains("<copy file=\"/legstar-cixsgen-cases/target/cixs-lsfileae.war\""));
+        assertTrue(resStr.contains("todir=\"/Servers/TOMDev/webapps\"/>"));
     }
 
     /**

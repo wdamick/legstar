@@ -35,6 +35,9 @@ public class AntBuildJaxws2CixsModel extends AbstractAntBuildCixsModel {
     /** The deployment location for jaxws war files. */
     private File mTargetWarDir;
 
+    /** The distribution location for artifacts such as jars and wars. */
+    private File mTargetDistDir;
+
     /** This velocity template that creates an ant build which in turn
      * generates the target web service. */
     public static final String JAXWS2CIXS_VELOCITY_MACRO_NAME =
@@ -91,6 +94,20 @@ public class AntBuildJaxws2CixsModel extends AbstractAntBuildCixsModel {
      */
     public final void setTargetWarDir(final File targetWarDir) {
         mTargetWarDir = targetWarDir;
+    }
+
+    /**
+     * @return the distribution location for artifacts such as jars and wars
+     */
+    public final File getTargetDistDir() {
+        return mTargetDistDir;
+    }
+
+    /**
+     * @param targetDistDir the distribution location for artifacts such as jars and wars to set
+     */
+    public final void setTargetDistDir(final File targetDistDir) {
+        mTargetDistDir = targetDistDir;
     }
 
     /**

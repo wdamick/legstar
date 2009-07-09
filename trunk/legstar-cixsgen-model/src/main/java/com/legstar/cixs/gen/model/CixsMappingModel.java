@@ -59,28 +59,28 @@ public class CixsMappingModel {
     /**
      * @return the mapping name
      */
-    public final String getName() {
+    public String getName() {
         return mName;
     }
 
     /**
      * @param name the mapping name to set
      */
-    public final void setName(final String name) {
+    public void setName(final String name) {
         mName = name;
     }
 
     /**
      * @return the service list of operations
      */
-    public final List < CixsOperation > getCixsOperations() {
+    public List < CixsOperation > getCixsOperations() {
         return mCixsOperations;
     }
 
     /**
      * @param cixsOperations the service list of operations to set
      */
-    public final void setCixsOperations(
+    public void setCixsOperations(
             final List < CixsOperation > cixsOperations) {
         mCixsOperations = cixsOperations;
     }
@@ -91,7 +91,7 @@ public class CixsMappingModel {
      * therefore there is no point in checking for name conflicts here.
      * @param operation the operation to add
      */
-    public final void addCixsOperation(
+    public void addCixsOperation(
             final CixsOperation operation) {
         mCixsOperations.add(operation);
     }
@@ -100,7 +100,7 @@ public class CixsMappingModel {
      * Create an XML usable as input for and ant task.
      * @return the XML
      */
-    public final String serialize() {
+    public String serialize() {
         StringBuffer result = new StringBuffer();
         result.append("<" + CIXS_MAPPING_XML_E + " "
                 + CIXS_MAPPING_NAME_XML_A + "="
@@ -119,7 +119,7 @@ public class CixsMappingModel {
      * @param serviceFile the serialized file
      * @throws CixsModelException if load fails
      */
-    public final void load(final File serviceFile) throws CixsModelException {
+    public void load(final File serviceFile) throws CixsModelException {
         DocumentBuilderFactory docBuilderFactory =
             DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder;
@@ -142,7 +142,7 @@ public class CixsMappingModel {
      * @param serviceDesc the service description
      * @throws CixsModelException if load fails
      */
-    public final void load(final String serviceDesc) throws CixsModelException {
+    public void load(final String serviceDesc) throws CixsModelException {
         DocumentBuilderFactory docBuilderFactory =
             DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder;
@@ -166,7 +166,7 @@ public class CixsMappingModel {
      * @param doc an XML document
      * @throws CixsModelException if load fails
      */
-    public final void load(final Document doc) throws CixsModelException {
+    public void load(final Document doc) throws CixsModelException {
         NodeList listOfElements = doc.getElementsByTagName(
                 CIXS_MAPPING_XML_E);
         if (listOfElements == null || listOfElements.getLength() == 0) {
@@ -200,7 +200,7 @@ public class CixsMappingModel {
      * @see Object#hashCode() 
      * {@inheritDoc}
      */
-    public final int hashCode() {
+    public int hashCode() {
         return getName().hashCode();
     }
 
@@ -211,7 +211,7 @@ public class CixsMappingModel {
      * @return true if this object is the same as the obj argument; false
      *         otherwise..
      */
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
         return (obj != null) && (obj.getClass() == CixsMappingModel.class)
         && ((CixsMappingModel) obj).getName().equals(getName());
     }
@@ -225,7 +225,7 @@ public class CixsMappingModel {
      * @return A negative integer, zero, or a positive integer as this object
      *         is less than, equal to, or greater than the specified object.
      */
-    public final int compareTo(final Object o) {
+    public int compareTo(final Object o) {
         if (o.getClass() != CixsMappingModel.class) {
             throw new ClassCastException(o.getClass().getName());
         } else {

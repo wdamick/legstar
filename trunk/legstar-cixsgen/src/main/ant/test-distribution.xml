@@ -48,6 +48,7 @@
         <ant antfile="build-jaxb.xml" dir="${sample1.dir}"/>
         <ant antfile="build-coxb.xml" dir="${sample1.dir}"/>
         <ant antfile="build-jws2cixs.xml" dir="${sample1.dir}"/>
+        <ant antfile="build.xml" dir="${sample1.dir}/ant"/>
         
         <!-- Jvmquery sample. -->      
         <ant antfile="build-pojo.xml" dir="${sample2.dir}"/>

@@ -35,6 +35,9 @@ public class CixsStructure {
     /** COXB package of binding type. */
     private String mCoxbPackageName;
 
+    /** Custom package of custom classes. */
+    private String mCustPackageName;
+
     /** The COBOL structure root data item name. */
     private String mCobolRootDataItemName;
 
@@ -59,6 +62,9 @@ public class CixsStructure {
     /** XML attribute representing a COXB package name. */
     public static final String CIXS_COXB_PKG_XML_A = "coxbPackageName";
 
+    /** XML attribute representing a custom package name. */
+    public static final String CIXS_CUST_PKG_XML_A = "custPackageName";
+
     /** XML attribute representing a COBOL root data item name. */
     public static final String CIXS_COBOL_ROOT_NAME_XML_A
     = "cobolRootDataItemName";
@@ -82,28 +88,28 @@ public class CixsStructure {
     /**
      * @return the JAXB complex type
      */
-    public final String getJaxbType() {
+    public String getJaxbType() {
         return mJaxbType;
     }
 
     /**
      * @param jaxbType the JAXB complex type to set
      */
-    public final void setJaxbType(final String jaxbType) {
+    public void setJaxbType(final String jaxbType) {
         mJaxbType = jaxbType;
     }
 
     /**
      * @return the the JAXB package of complex type
      */
-    public final String getJaxbPackageName() {
+    public String getJaxbPackageName() {
         return mJaxbPackageName;
     }
 
     /**
      * @param jaxbPackageName the JAXB package of complex type to set
      */
-    public final void setJaxbPackageName(final String jaxbPackageName) {
+    public void setJaxbPackageName(final String jaxbPackageName) {
         mJaxbPackageName = jaxbPackageName;
     }
 
@@ -111,7 +117,7 @@ public class CixsStructure {
      * @return the the JAXB namespace of complex type
      * @throws HostException if namespace cannot be detected from annotations
      */
-    public final String getJaxbNamespace() throws HostException {
+    public String getJaxbNamespace() throws HostException {
         CoxbHelper coxbHelper = new CoxbHelper();
         return coxbHelper.getXmlNamespace(getJaxbPackageName(), getJaxbType());
     }
@@ -119,7 +125,7 @@ public class CixsStructure {
     /**
      * @return the COXB binding type
      */
-    public final String getCoxbType() {
+    public String getCoxbType() {
         if (mCoxbType == null || mCoxbType.length() == 0) {
             return getJaxbType() + BINDING_TYPE_SUFFIX;
         }
@@ -129,14 +135,14 @@ public class CixsStructure {
     /**
      * @param coxbType the COXB binding type to set
      */
-    public final void setCoxbType(final String coxbType) {
+    public void setCoxbType(final String coxbType) {
         mCoxbType = coxbType;
     }
 
     /**
      * @return the the COXB package of binding type
      */
-    public final String getCoxbPackageName() {
+    public String getCoxbPackageName() {
         if (mCoxbPackageName == null || mCoxbPackageName.length() == 0) {
             return getJaxbPackageName() + BINDING_PACKAGE_SUFFIX;
         }
@@ -146,21 +152,35 @@ public class CixsStructure {
     /**
      * @param coxbPackageName the COXB package of binding type to set
      */
-    public final void setCoxbPackageName(final String coxbPackageName) {
+    public void setCoxbPackageName(final String coxbPackageName) {
         mCoxbPackageName = coxbPackageName;
+    }
+
+    /**
+     * @return the the custom package of custom classes
+     */
+    public String getCustPackageName() {
+        return mCustPackageName;
+    }
+
+    /**
+     * @param custPackageName the custom package of custom classes to set
+     */
+    public void setCustPackageName(final String custPackageName) {
+        mCustPackageName = custPackageName;
     }
 
     /**
      * @return the CICS container mapping this structure
      */
-    public final String getCicsContainer() {
+    public String getCicsContainer() {
         return mCicsContainer;
     }
 
     /**
      * @param cicsContainer the CICS container mapping this structure
      */
-    public final void setCicsContainer(final String cicsContainer) {
+    public void setCicsContainer(final String cicsContainer) {
         mCicsContainer = cicsContainer;
     }
 
@@ -169,13 +189,14 @@ public class CixsStructure {
      * @param direction either input or output
      * @return the XML
      */
-    public final String serialize(final String direction) {
+    public String serialize(final String direction) {
         StringBuffer result = new StringBuffer();
         result.append("<" + direction);
         serializeAttribute(result, getJaxbType(), CIXS_JAXB_TYPE_XML_A);
         serializeAttribute(result, getJaxbPackageName(), CIXS_JAXB_PKG_XML_A);
         serializeAttribute(result, getCoxbType(), CIXS_COXB_TYPE_XML_A);
         serializeAttribute(result, getCoxbPackageName(), CIXS_COXB_PKG_XML_A);
+        serializeAttribute(result, getCustPackageName(), CIXS_CUST_PKG_XML_A);
         serializeAttribute(result, getCobolRootDataItemName(),
                 CIXS_COBOL_ROOT_NAME_XML_A);
         serializeAttribute(result, getCicsContainer(),
@@ -210,7 +231,7 @@ public class CixsStructure {
      * @param structureNode the structure node
      * @throws CixsModelException if load fails
      */
-    public final void load(final Node structureNode) throws CixsModelException {
+    public void load(final Node structureNode) throws CixsModelException {
         Element structureElement = (Element) structureNode;
         mJaxbType = structureElement.getAttribute(CIXS_JAXB_TYPE_XML_A);
         if (mJaxbType == null || mJaxbType.length() == 0) {
@@ -221,6 +242,8 @@ public class CixsStructure {
         mCoxbType = structureElement.getAttribute(CIXS_COXB_TYPE_XML_A);
         mCoxbPackageName = loadAttribute(structureElement,
                 CIXS_COXB_PKG_XML_A);
+        mCustPackageName = loadAttribute(structureElement,
+                CIXS_CUST_PKG_XML_A);
         mCobolRootDataItemName =  loadAttribute(structureElement,
                 CIXS_COBOL_ROOT_NAME_XML_A);
         mCicsContainer =  loadAttribute(structureElement,
@@ -255,7 +278,7 @@ public class CixsStructure {
      * @return this structure property values as a string array. This helps
      * inserting the structure as an item in an array.
      */
-    public final String[] getAsStringArray() {
+    public String[] getAsStringArray() {
         String[] array = {getJaxbType(),
                 getJaxbPackageName(),
                 getCicsContainer()};
@@ -267,7 +290,7 @@ public class CixsStructure {
      * derive one from the property name (if any) by lower casing the first
      * character
      */
-    public final String getJaxbFieldName() {
+    public String getJaxbFieldName() {
         if (mJaxbFieldName == null || mJaxbFieldName.length() == 0) {
             return CodeGenUtil.fieldNameFromPropertyName(getJaxbPropertyName());
         }
@@ -277,7 +300,7 @@ public class CixsStructure {
     /**
      * @param jaxbFieldName the Jaxb field name to set
      */
-    public final void setJaxbFieldName(final String jaxbFieldName) {
+    public void setJaxbFieldName(final String jaxbFieldName) {
         mJaxbFieldName = jaxbFieldName;
     }
 
@@ -287,7 +310,7 @@ public class CixsStructure {
      * character. If this still yields no property name, try to derive
      * one of the property type.
      */
-    public final String getJaxbPropertyName() {
+    public String getJaxbPropertyName() {
         if (mJaxbPropertyName == null || mJaxbPropertyName.length() == 0) {
             String propertyName =
                 CodeGenUtil.propertyNameFromFieldName(mJaxbFieldName);
@@ -303,14 +326,14 @@ public class CixsStructure {
     /**
      * @param jaxbPropertyName the Jaxb property name to set
      */
-    public final void setJaxbPropertyName(final String jaxbPropertyName) {
+    public void setJaxbPropertyName(final String jaxbPropertyName) {
         mJaxbPropertyName = jaxbPropertyName;
     }
 
     /**
      * @return the COBOL structure root data item name
      */
-    public final String getCobolRootDataItemName() {
+    public String getCobolRootDataItemName() {
         return mCobolRootDataItemName;
     }
 
@@ -318,7 +341,7 @@ public class CixsStructure {
      * @param cobolRootDataItemName the COBOL structure root data item name to
      *  set
      */
-    public final void setCobolRootDataItemName(
+    public void setCobolRootDataItemName(
             final String cobolRootDataItemName) {
         mCobolRootDataItemName = cobolRootDataItemName;
     }

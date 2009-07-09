@@ -59,15 +59,12 @@ public class ${cixsOperation.className}ProgramInvoker extends AbstractProgramInv
     /** Operation name for ${cixsOperation.name}. */
     private static final String  OPERATION_NAME = "${cixsOperation.name}";
 
-    /** Properties for operation ${cixsOperation.name}. */
-    private static final String  PROGRAM_PROPERTIES = "${cixsOperation.cicsProgramName.toLowerCase()}.properties";
-
     /**
      * Operation invoker constructor.
      * @param configFileName invoker configuration file name
      */
     public ${cixsOperation.className}ProgramInvoker(final String configFileName) {
-        super(configFileName, OPERATION_NAME, PROGRAM_PROPERTIES);
+        super(configFileName, OPERATION_NAME, new ${cixsOperation.className}HostProgram());
 #foreach($jaxbType in $jaxbTypes)
         m${jaxbType}Transformers = new ${jaxbType}Transformers();
 #end
