@@ -19,10 +19,10 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.legstar.messaging.HostEndpoint;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.ConnectionException;
-import com.legstar.messaging.ConnectionFactory;
 import com.legstar.messaging.RequestException;
 
 /**
@@ -40,52 +40,53 @@ public class ConnectionPool {
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(ConnectionPool.class);
-
-    /** The connection factory is dynamically loaded. */
-    private ConnectionFactory mConnectionFactory;
+    
+    /** Target host endpoint associated with this connection pool. */
+    private HostEndpoint _hostEndpoint;
+    
+    /** Target address used to connect. */
+    private LegStarAddress _address;
 
     /** Queue of available host connections. */
-    private ArrayBlockingQueue < LegStarConnection > mConnections;
+    private ArrayBlockingQueue < LegStarConnection > _connections;
 
     /** Will be true when shutdown is initiated. */
-    private boolean mShuttingDown;
-
-    /** The host address for this connection pool. */
-    private LegStarAddress mAddress;
+    private boolean _shuttingDown;
 
     /**
      * Construct a connection pool for an endpoint.
      * The connection pool is organized around a fixed size blocking queue.
-     * Upon instanciation, all connections are created but not actually
+     * Upon instantiation, all connections are created but not actually
      * connected to the host. 
-     * @param poolSize the size of the blocking queue
      * @param address the target host address
-     * @param connectionFactory a connection factory 
+     * @param hostEndpoint the target host endpoint
      * @throws ConnectionPoolException if pool cannot be created
      */
     public ConnectionPool(
-            final int poolSize,
             final LegStarAddress address,
-            final ConnectionFactory connectionFactory)
+            final HostEndpoint hostEndpoint)
     throws ConnectionPoolException {
 
-        mAddress = address;
-        mConnectionFactory = connectionFactory;
-
+        _address = address;
+        _hostEndpoint = hostEndpoint;
+        
+        int poolSize = hostEndpoint.getHostConnectionPoolSize();
+        
         /* Create the blocking queue */
-        mConnections = new ArrayBlockingQueue < LegStarConnection >(poolSize);
+        _connections = new ArrayBlockingQueue < LegStarConnection >(poolSize);
 
         /* Create all connections with a unique ID each. This ID is used
          * for traceability. Because */
         try {
             for (int i = 0; i < poolSize; i++) {
-                mConnections.add(mConnectionFactory.createConnection(
-                        new UID().toString(), address));
+                _connections.add(
+                        hostEndpoint.getHostConnectionfactory().createConnection(
+                                new UID().toString(), address, hostEndpoint));
             }
         } catch (ConnectionException e) {
             throw new ConnectionPoolException(e);
         }
-        mShuttingDown = false;
+        _shuttingDown = false;
         _log.info("Pool of size " + poolSize + ", created for:" + address.getReport());
     }
 
@@ -100,9 +101,9 @@ public class ConnectionPool {
     public final LegStarConnection take(
             final long timeout) throws ConnectionPoolException {
         LegStarConnection connection = null;
-        if (!mShuttingDown) {
+        if (!_shuttingDown) {
             try {
-                connection = mConnections.poll(timeout, TimeUnit.MILLISECONDS);
+                connection = _connections.poll(timeout, TimeUnit.MILLISECONDS);
                 if (connection == null) {
                     throw new ConnectionPoolException(
                     "Timed out waiting for pooled connection.");
@@ -125,9 +126,9 @@ public class ConnectionPool {
      */
     public final void put(
             final LegStarConnection connection) throws ConnectionPoolException {
-        if (!mShuttingDown) {
+        if (!_shuttingDown) {
             try {
-                mConnections.add(connection);
+                _connections.add(connection);
             } catch (IllegalStateException e) {
                 /* If we fail to return the connection to the pool that should 
                  * not prevent further processing but the pool capacity is 
@@ -146,14 +147,14 @@ public class ConnectionPool {
      * method.
      */
     public final void shutDown() {
-        _log.info("Shutting down Pool " + getAddress().getEndPointName());
-        mShuttingDown = true;
-        if (mConnections.remainingCapacity() > 0) {
-            if (mConnections.size() == 0) {
+        _log.info("Shutting down Pool " + getHostEndpoint().getName());
+        _shuttingDown = true;
+        if (_connections.remainingCapacity() > 0) {
+            if (_connections.size() == 0) {
                 _log.warn("Some requests might be waiting for connections.");
             } else {
                 _log.warn("There are "
-                        + (mConnections.remainingCapacity() - mConnections.size())
+                        + (_connections.remainingCapacity() - _connections.size())
                         + " connections in use.");
             }
         }
@@ -173,24 +174,22 @@ public class ConnectionPool {
     public final List < LegStarConnection > getConnections() {
         List < LegStarConnection > connections =
             new ArrayList < LegStarConnection >();
-        mConnections.drainTo(connections);
+        _connections.drainTo(connections);
         return connections;
     }
 
     /**
-     * @return the host address for this coion pool
+     * @return the target host endpoint associated with this connection pool
      */
-    public final LegStarAddress getAddress() {
-        return mAddress;
+    public HostEndpoint getHostEndpoint() {
+        return _hostEndpoint;
     }
 
     /**
-     * @return the connection factory used by this coion pool to create
-     * new connections
+     * @return the target address associated with this connection pool
      */
-    public final ConnectionFactory getConnectionFactory() {
-        return mConnectionFactory;
+    public LegStarAddress getAddress() {
+        return _address;
     }
-
 
 }

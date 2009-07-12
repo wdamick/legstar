@@ -12,15 +12,13 @@ package com.legstar.pool.manager;
 
 import java.util.List;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.HierarchicalConfiguration;
 
 import junit.framework.TestCase;
-import com.legstar.config.Config;
-import com.legstar.host.server.Util;
+import com.legstar.messaging.HostEndpoint;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.LegStarConnection;
-import com.legstar.messaging.ConnectionFactory;
+import com.legstar.messaging.HostEndpoint.AccessStrategy;
+import com.legstar.mock.client.MockEndpoint;
 
 /**
  * Test connection pool class.
@@ -42,8 +40,6 @@ public class ConnectionPoolTest extends TestCase {
             for (LegStarConnection connection : connections) {
                 assertTrue(connection.getConnectionID() != null);
             }
-        } catch (ConfigurationException e) {
-            fail("testInstanciation failed " + e);
         } catch (ConnectionPoolException e) {
             fail("testInstanciation failed " + e);
         }
@@ -66,8 +62,6 @@ public class ConnectionPoolTest extends TestCase {
                 assertEquals("Timed out waiting for pooled connection.", e.getMessage());
             }
             /* Second take should timeout */
-        } catch (ConfigurationException e) {
-            fail("testTake failed " + e);
         } catch (ConnectionPoolException e) {
             fail("testTake failed " + e);
         }
@@ -83,8 +77,6 @@ public class ConnectionPoolTest extends TestCase {
             assertTrue(connection.getConnectionID() != null);
             connectionPool.put(connection);
             assertEquals(POOL_SIZE, connectionPool.getConnections().size());
-        } catch (ConfigurationException e) {
-            fail("testPut failed " + e);
         } catch (ConnectionPoolException e) {
             fail("testPut failed " + e);
         }
@@ -93,18 +85,24 @@ public class ConnectionPoolTest extends TestCase {
     /**
      * Load a configured pool.
      * @return a connection pool
-     * @throws ConfigurationException if configuration is wrong
-     * @throws ConnectionPoolException if connection pool cannot be created
+     * @throws ConnectionPoolException if pool cannot be created
      */
-    private ConnectionPool getConnectionPool() throws ConfigurationException, ConnectionPoolException {
+    private ConnectionPool getConnectionPool() throws ConnectionPoolException {
         LegStarAddress address = new LegStarAddress("TheMainframe");
-        HierarchicalConfiguration generalConfig =
-            Util.getCombinedConfiguration();
-        HierarchicalConfiguration endpointConfig =
-            Config.loadAddressConfiguration(generalConfig, address);
-        ConnectionFactory connectionFactory = Config.loadConnectionFactory(endpointConfig);
-        ConnectionPool connectionPool = new ConnectionPool(POOL_SIZE, address, connectionFactory);
+        ConnectionPool connectionPool = new ConnectionPool(address, getPooledHostEndpoint());
         return connectionPool;
     }
 
+    /**
+     * @return a pooled host endpoint
+     */
+    public HostEndpoint getPooledHostEndpoint() {
+        HostEndpoint endpoint = new MockEndpoint();
+        endpoint.setName("TheMainframe");
+        endpoint.setHostConnectionfactoryClass("com.legstar.mock.client.MockConnectionFactory");
+        endpoint.setHostAccessStrategy(AccessStrategy.pooled);
+        endpoint.setHostConnectionPoolSize(POOL_SIZE);
+        endpoint.setPooledInvokeTimeout(2000);
+        return endpoint;
+    }
 }

@@ -17,9 +17,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.logging.Log; 
 import org.apache.commons.logging.LogFactory; 
+
+import com.legstar.messaging.HostEndpoint;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.LegStarHeaderPart;
@@ -28,7 +29,11 @@ import com.legstar.messaging.LegStarMessage;
 import com.legstar.messaging.LegStarMessagePart;
 import com.legstar.messaging.LegStarRequest;
 import com.legstar.config.Constants;
+import com.legstar.config.PoolingEngineConfig;
+import com.legstar.coxb.host.HostData;
 import com.legstar.messaging.RequestException;
+import com.legstar.messaging.HostEndpoint.AccessStrategy;
+import com.legstar.mock.client.MockEndpoint;
 import com.legstar.test.coxb.LsfileaeCases;
 import com.legstar.work.manager.WorkManagerImpl;
 
@@ -47,10 +52,10 @@ public class PoolingTest extends TestCase {
 
     /** Mainframe user ID. */
     private static final String HOST_USERID = "P390";
-    
+
     /** Mainframe password. */
     private static final String HOST_PASSWORD = "STREAM2";
-    
+
     /** Number of client threads. */
     private static final int CLIENT_THREADS = 10;
 
@@ -62,8 +67,7 @@ public class PoolingTest extends TestCase {
      * @throws Exception if failure
      */
     public void testStartStopEngine() throws Exception {
-        HierarchicalConfiguration config = Util.getCombinedConfiguration();
-        EngineHandler engHandler = new EngineHandler(config);
+        EngineHandler engHandler = new EngineHandler(getPoolingEngineConfig());
         engHandler.init();
         Thread.sleep(1000L);
         engHandler.stop();
@@ -75,10 +79,9 @@ public class PoolingTest extends TestCase {
      * @throws Exception if failure
      */
     public void testScheduleWork() throws Exception {
-        HierarchicalConfiguration config = Util.getCombinedConfiguration();
         ExecutorService executor = Executors.newFixedThreadPool(CLIENT_THREADS);
         WorkManager wm = new WorkManagerImpl(executor);
-        EngineHandler engHandler = new EngineHandler(config);
+        EngineHandler engHandler = new EngineHandler(getPoolingEngineConfig());
         engHandler.init();
 
         LegStarAddress address = new LegStarAddress("TheMainframe");
@@ -94,7 +97,7 @@ public class PoolingTest extends TestCase {
         executor.shutdownNow();
 
         assertEquals(LsfileaeCases.getHostBytesHexReply100(),
-                Util.toHexString(request.getResponseMessage().getDataParts().get(0).getContent()));
+                HostData.toHexString(request.getResponseMessage().getDataParts().get(0).getContent()));
 
     }
 
@@ -103,10 +106,9 @@ public class PoolingTest extends TestCase {
      * @throws Exception if test fails
      */
     public void testScheduleWorkInvalidAddress() throws Exception {
-        HierarchicalConfiguration config = Util.getCombinedConfiguration();
         ExecutorService executor = Executors.newFixedThreadPool(CLIENT_THREADS);
         WorkManager wm = new WorkManagerImpl(executor);
-        EngineHandler engHandler = new EngineHandler(config);
+        EngineHandler engHandler = new EngineHandler(getPoolingEngineConfig());
         engHandler.init();
 
         LegStarAddress address = new LegStarAddress("ThereIsNoSuchMainframe");
@@ -120,9 +122,13 @@ public class PoolingTest extends TestCase {
         Thread.sleep(5000L);
         engHandler.stop();
         executor.shutdownNow();
-        assertTrue(request.getException().getMessage().contains("com.legstar.pool.manager.ConnectionPoolException:"
-        + " org.apache.commons.configuration.ConfigurationException:"
-        + " The requested endpoint:ThereIsNoSuchMainframe is not defined."));
+        assertEquals(
+                "com.legstar.pool.manager.ConnectionPoolException:"
+                + " No host endpoints matches Address=[hostEndpoint=ThereIsNoSuchMainframe,"
+                + "hostCharset=null,"
+                + "hostUserID=P390,"
+                + "hostTraceMode=false]",
+                request.getException().getMessage());
 
     }
 
@@ -131,8 +137,7 @@ public class PoolingTest extends TestCase {
      * @throws Exception if test fails
      */
     public void testScheduleFailingWork() throws Exception {
-        HierarchicalConfiguration config = Util.getCombinedConfiguration();
-        EngineHandler engHandler = new EngineHandler(config);
+        EngineHandler engHandler = new EngineHandler(getPoolingEngineConfig());
         engHandler.init();
 
         HashMap < String, Object > map = new HashMap < String, Object >();
@@ -140,7 +145,7 @@ public class PoolingTest extends TestCase {
         map.put(Constants.CICS_LENGTH_KEY, "79");
         map.put(Constants.CICS_DATALEN_KEY, "6");
         List < LegStarMessagePart > inputParts = new ArrayList < LegStarMessagePart >();
-        LegStarMessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
+        LegStarMessagePart inCommarea = new CommareaPart(HostData.toByteArray("F0F0F0F1F0F0"));
         inputParts.add(inCommarea);
         LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
         LegStarMessage requestMessage = new LegStarMessage(dp, inputParts);
@@ -155,7 +160,7 @@ public class PoolingTest extends TestCase {
             request.await(3000L, TimeUnit.MILLISECONDS);
         }
         assertTrue(request.getException().getMessage().contains(
-                "CICS command=LINK COMMAREA failed, resp=PGMIDERR, resp2="));
+        "CICS command=LINK COMMAREA failed, resp=PGMIDERR, resp2="));
         assertEquals(null, request.getResponseMessage());
 
         Thread.sleep(1000L);
@@ -167,10 +172,9 @@ public class PoolingTest extends TestCase {
      * @throws Exception if test fails
      */
     public void testScheduleMultipleWork() throws Exception {
-        HierarchicalConfiguration config = Util.getCombinedConfiguration();
         ExecutorService executor = Executors.newFixedThreadPool(CLIENT_THREADS);
         WorkManager wm = new WorkManagerImpl(executor);
-        EngineHandler engHandler = new EngineHandler(config);
+        EngineHandler engHandler = new EngineHandler(getPoolingEngineConfig());
         engHandler.init();
 
         LegStarAddress address = new LegStarAddress("TheMainframe");
@@ -192,7 +196,8 @@ public class PoolingTest extends TestCase {
 
         for (int i = 0; i < clients.length; i++) {
             assertEquals(LsfileaeCases.getHostBytesHexReply100(),
-                    Util.toHexString(clients[i].getRequest().getResponseMessage().getDataParts().get(0).getContent()));
+                    HostData.toHexString(
+                            clients[i].getRequest().getResponseMessage().getDataParts().get(0).getContent()));
         }
     }
 
@@ -201,10 +206,9 @@ public class PoolingTest extends TestCase {
      * @throws Exception if test fails
      */
     public void testScheduleMultiplePools() throws Exception {
-        HierarchicalConfiguration config = Util.getCombinedConfiguration();
         ExecutorService executor = Executors.newFixedThreadPool(CLIENT_THREADS);
         WorkManager wm = new WorkManagerImpl(executor);
-        EngineHandler engHandler = new EngineHandler(config);
+        EngineHandler engHandler = new EngineHandler(getPoolingEngineConfig());
         engHandler.init();
 
         LegStarAddress address1 = new LegStarAddress("TheMainframe");
@@ -230,7 +234,8 @@ public class PoolingTest extends TestCase {
 
         for (int i = 0; i < clients.length; i++) {
             assertEquals(LsfileaeCases.getHostBytesHexReply100(),
-                    Util.toHexString(clients[i].getRequest().getResponseMessage().getDataParts().get(0).getContent()));
+                    HostData.toHexString(
+                            clients[i].getRequest().getResponseMessage().getDataParts().get(0).getContent()));
         }
     }
 
@@ -244,7 +249,7 @@ public class PoolingTest extends TestCase {
         map.put(Constants.CICS_LENGTH_KEY, "79");
         map.put(Constants.CICS_DATALEN_KEY, "6");
         List < LegStarMessagePart > inputParts = new ArrayList < LegStarMessagePart >();
-        LegStarMessagePart inCommarea = new CommareaPart(Util.toByteArray("F0F0F0F1F0F0"));
+        LegStarMessagePart inCommarea = new CommareaPart(HostData.toByteArray("F0F0F0F1F0F0"));
         inputParts.add(inCommarea);
         LegStarHeaderPart dp = new LegStarHeaderPart(map, inputParts.size());
         return new LegStarMessage(dp, inputParts);
@@ -258,10 +263,10 @@ public class PoolingTest extends TestCase {
 
         /** Reference to pooling engine. */
         private Engine mEngine;
-        
+
         /** Client unique ID. */
         private String mClientID;
-        
+
         /** The request being processed. */
         private LegStarRequest mRequest;
 
@@ -358,6 +363,30 @@ public class PoolingTest extends TestCase {
             _log.debug("Client started.");
         }
 
+    }
+
+    /**
+     * @return a pooling engine configuratio bean
+     */
+    public PoolingEngineConfig getPoolingEngineConfig() {
+        PoolingEngineConfig config = new PoolingEngineConfig();
+        List < HostEndpoint > endpoints = new ArrayList < HostEndpoint >();
+
+        HostEndpoint endpoint1 = new MockEndpoint();
+        endpoint1.setName("TheMainframe");
+        endpoint1.setHostConnectionfactoryClass("com.legstar.mock.client.MockConnectionFactory");
+        endpoint1.setHostAccessStrategy(AccessStrategy.direct);
+        endpoints.add(endpoint1);
+
+        HostEndpoint endpoint2 = new MockEndpoint();
+        endpoint2.setName("TheOtherMainframe");
+        endpoint2.setHostConnectionfactoryClass("com.legstar.mock.client.MockConnectionFactory");
+        endpoint2.setHostAccessStrategy(AccessStrategy.pooled);
+        endpoint2.setHostConnectionPoolSize(2);
+        endpoint2.setPooledInvokeTimeout(2000);
+        endpoints.add(endpoint2);
+        config.setHostEndpoints(endpoints);
+        return config;
     }
 
 }

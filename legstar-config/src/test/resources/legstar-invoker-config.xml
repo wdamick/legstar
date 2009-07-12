@@ -2,7 +2,7 @@
 <configuration>
 	<hostEndPoints>
 		<hostEndPoint name="TheMainframe">
-			<hostConnectionfactoryClass>com.legstar.pool.manager.MockConnectionFactory</hostConnectionfactoryClass>
+			<hostConnectionfactoryClass>com.legstar.mock.client.MockConnectionFactory</hostConnectionfactoryClass>
 			<hostIPAddress>mainframe</hostIPAddress>
 			<hostIPPort>3011</hostIPPort>
 			<hostCharset>IBM01140</hostCharset>
@@ -12,7 +12,7 @@
 			<hostAccessStrategy>direct</hostAccessStrategy>
 	   </hostEndPoint>
 		<hostEndPoint name="TheOtherMainframe">
-			<hostConnectionfactoryClass>com.legstar.pool.manager.MockConnectionFactory</hostConnectionfactoryClass>
+			<hostConnectionfactoryClass>com.legstar.mock.client.MockConnectionFactory</hostConnectionfactoryClass>
 			<hostIPAddress>mainframe</hostIPAddress>
 			<hostIPPort>3011</hostIPPort>
 			<hostCharset>IBM01140</hostCharset>

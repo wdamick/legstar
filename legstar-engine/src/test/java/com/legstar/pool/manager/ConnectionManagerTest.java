@@ -10,10 +10,13 @@
  ******************************************************************************/
 package com.legstar.pool.manager;
 
-import org.apache.commons.configuration.ConfigurationException;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.legstar.host.server.Util;
+import com.legstar.messaging.HostEndpoint;
 import com.legstar.messaging.LegStarAddress;
+import com.legstar.messaging.HostEndpoint.AccessStrategy;
+import com.legstar.mock.client.MockEndpoint;
 
 import junit.framework.TestCase;
 
@@ -28,8 +31,7 @@ public class ConnectionManagerTest extends TestCase {
      */
     public void testGetPool() {
         try {
-            ConnectionPoolManager pm = new ConnectionPoolManager(
-                    Util.getCombinedConfiguration());
+            ConnectionPoolManager pm = new ConnectionPoolManager(getHostEndpoints());
             LegStarAddress address = new LegStarAddress("TheOtherMainframe");
             /* This should not return a pool since we are not
              * requesting creation and the pool map is initially
@@ -42,8 +44,6 @@ public class ConnectionManagerTest extends TestCase {
             assertEquals(1, pm.getPools().size());
             assertEquals(2, cp.getConnections().size());
 
-        } catch (ConfigurationException e) {
-            fail("testGetPool failed " + e);
         } catch (ConnectionPoolException e) {
             fail("testGetPool failed " + e);
         }
@@ -55,8 +55,7 @@ public class ConnectionManagerTest extends TestCase {
      */
     public void testMultiAdd() {
         try {
-            ConnectionPoolManager pm = new ConnectionPoolManager(
-                    Util.getCombinedConfiguration());
+            ConnectionPoolManager pm = new ConnectionPoolManager(getHostEndpoints());
             LegStarAddress address = new LegStarAddress("TheMainframe");
             ConnectionPool cp = pm.getPool(address, true);
             LegStarAddress address2 = new LegStarAddress("TheOtherMainframe");
@@ -68,8 +67,6 @@ public class ConnectionManagerTest extends TestCase {
             assertEquals(2, cp2.getConnections().size());
             pm.shutDown();
 
-        } catch (ConfigurationException e) {
-            fail("testMultiAdd failed " + e);
         } catch (ConnectionPoolException e) {
             fail("testMultiAdd failed " + e);
         }
@@ -80,8 +77,7 @@ public class ConnectionManagerTest extends TestCase {
      */
     public void testShutdown() {
         try {
-            ConnectionPoolManager pm = new ConnectionPoolManager(
-                    Util.getCombinedConfiguration());
+            ConnectionPoolManager pm = new ConnectionPoolManager(getHostEndpoints());
             /* Shutdown an empty pool */
             pm.shutDown();
 
@@ -107,12 +103,32 @@ public class ConnectionManagerTest extends TestCase {
                 assertEquals("Pool is shutting down.", e.getMessage());
             }
 
-
-
-        } catch (ConfigurationException e) {
-            fail("testMultiAdd failed " + e);
         } catch (ConnectionPoolException e) {
             fail("testMultiAdd failed " + e);
         }
+    }
+    
+    /**
+     * @return a list of endpoints
+     */
+    private List < HostEndpoint > getHostEndpoints() {
+        List < HostEndpoint > endpoints = new ArrayList < HostEndpoint >();
+
+        HostEndpoint endpoint1 = new MockEndpoint();
+        endpoint1.setName("TheMainframe");
+        endpoint1.setHostConnectionfactoryClass("com.legstar.mock.client.MockConnectionFactory");
+        endpoint1.setHostAccessStrategy(AccessStrategy.direct);
+        endpoints.add(endpoint1);
+        
+        HostEndpoint endpoint2 = new MockEndpoint();
+        endpoint2.setName("TheOtherMainframe");
+        endpoint2.setHostConnectionfactoryClass("com.legstar.mock.client.MockConnectionFactory");
+        endpoint2.setHostAccessStrategy(AccessStrategy.pooled);
+        endpoint2.setHostConnectionPoolSize(2);
+        endpoint2.setPooledInvokeTimeout(2000);
+        endpoints.add(endpoint2);
+        
+        return endpoints;
+        
     }
 }

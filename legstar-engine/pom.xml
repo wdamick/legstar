@@ -14,11 +14,6 @@
     <dependencies>
     
         <dependency>
-            <groupId>commons-configuration</groupId>
-            <artifactId>commons-configuration</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
         </dependency>
@@ -43,6 +38,21 @@
             <artifactId>legstar-messaging</artifactId>
         </dependency>
         
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-config</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-cmockrt</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbrt</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-jaxbgen-cases</artifactId>

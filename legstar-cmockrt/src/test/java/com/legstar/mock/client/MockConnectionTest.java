@@ -13,10 +13,6 @@ package com.legstar.mock.client;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.HierarchicalConfiguration;
-
-import com.legstar.config.Config;
 import com.legstar.config.Constants;
 import com.legstar.coxb.host.HostData;
 import com.legstar.messaging.CommareaPart;
@@ -35,12 +31,6 @@ import junit.framework.TestCase;
  *
  */
 public class MockConnectionTest extends TestCase {
-
-    /** Configuration file.*/
-    private static final String CONFIG_FILE = "config.xml";
-
-    /** An endpoint defined in the configuration file.*/
-    private static final String ENDPOINT_NAME = "CICSTS23";
 
     /**
      * Get a Mock connection via the factory.
@@ -76,17 +66,12 @@ public class MockConnectionTest extends TestCase {
      */
     private LegStarConnection getConnection() {
         try {
-            HierarchicalConfiguration endpointConfig =
-                Config.loadEndpointConfiguration(CONFIG_FILE, ENDPOINT_NAME);
-            MockConnectionFactory mockConnectionFactory = new MockConnectionFactory(
-                    endpointConfig);
-            return mockConnectionFactory.createConnection("connectionID", null);
-        } catch (ConfigurationException e) {
-            fail(e.getMessage());
+            MockConnectionFactory mockConnectionFactory = new MockConnectionFactory();
+            return mockConnectionFactory.createConnection("connectionID", null, null);
         } catch (ConnectionException e) {
             fail(e.getMessage());
+            return null;
         }
-        return null;
     }
 
     /**

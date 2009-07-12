@@ -12,12 +12,12 @@ package com.legstar.host.access;
 
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.legstar.host.server.EngineHolder;
 import com.legstar.host.server.EngineNotStartedException;
+import com.legstar.messaging.HostEndpoint;
 import com.legstar.messaging.LegStarRequest;
 
 /**
@@ -29,23 +29,16 @@ public class PooledHostAccessStrategy implements HostAccessStrategy {
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
 
-    /** Time out (in milliseconds) for invoke. */
-    private static final long DEFAULT_INVOKE_TIMEOUT_MSEC = 3000L;
-
-    /** Relative XPath location within enpoint for invoke timeout. */
-    private static final String INVOKE_TIMEOUT_CFG = "pooledInvokeTimeout";
-
     /** Maximum time this invoker will wait for a reply.  */
     private long mInvokeTimeout;
 
     /**
      * Construct a pool access strategy from a configuration sub-hierarchy.
-     * @param endpointConfig an XML configuration sub-hierarchy for an endpoint
+     * @param hostEndpoint a target host endpoint
      */
     public PooledHostAccessStrategy(
-            final HierarchicalConfiguration endpointConfig) {
-        mInvokeTimeout = endpointConfig.getLong(
-                INVOKE_TIMEOUT_CFG, DEFAULT_INVOKE_TIMEOUT_MSEC);
+            final HostEndpoint hostEndpoint) {
+        mInvokeTimeout = hostEndpoint.getPooledInvokeTimeout();
     }
 
     /**

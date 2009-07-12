@@ -10,18 +10,15 @@
  ******************************************************************************/
 package com.legstar.host.access;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.HierarchicalConfiguration;
-import org.apache.commons.configuration.tree.xpath.XPathExpressionEngine;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.legstar.messaging.ConnectionFactory;
+import com.legstar.messaging.HostEndpoint;
 import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.ConnectionException;
-import com.legstar.messaging.ConnectionFactory;
 import com.legstar.messaging.LegStarRequest;
 import com.legstar.messaging.RequestException;
-import com.legstar.config.Config;
 
 /**
  * This transport-independant accessor dynamically loads a connection
@@ -31,25 +28,17 @@ public class DirectHostAccessStrategy implements HostAccessStrategy {
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
-
-    /** The connection factory is dynamically loaded. */
-    private ConnectionFactory mConnectionFactory;
+    
+    /** The target host endpoint. */
+    private HostEndpoint _hostEndpoint;
 
     /**
-     * Construct a direct host accessor from an in-memory configuration xml.
-     * @param endpointConfig an XML configuration sub-hierarchy for an endpoint
-     * @throws HostAccessStrategyException if connection factory cannot
-     *  be created
+     * Construct a direct host accessor for an endpoint.
+     * @param hostEndpoint the target host endpoint
      */
     public DirectHostAccessStrategy(
-            final HierarchicalConfiguration endpointConfig)
-    throws HostAccessStrategyException {
-        endpointConfig.setExpressionEngine(new XPathExpressionEngine());
-        try {
-            mConnectionFactory = Config.loadConnectionFactory(endpointConfig);
-        } catch (ConfigurationException e) {
-            throw new HostAccessStrategyException(e);
-        }
+            final HostEndpoint hostEndpoint) {
+        _hostEndpoint = hostEndpoint;
     }
 
     /** (non-Javadoc).
@@ -65,8 +54,9 @@ public class DirectHostAccessStrategy implements HostAccessStrategy {
             _log.debug("Direct invoke for Request:" + request.getID());
         }
         try {
-            LegStarConnection connection = mConnectionFactory.createConnection(
-                    request.getID(), request.getAddress());
+            ConnectionFactory factory = getHostEndpoint().getHostConnectionfactory();
+            LegStarConnection connection = factory.createConnection(
+                    request.getID(), request.getAddress(), getHostEndpoint());
             connection.connect(request.getAddress().getHostPassword());
             connection.sendRequest(request);
             connection.recvResponse(request);
@@ -84,6 +74,13 @@ public class DirectHostAccessStrategy implements HostAccessStrategy {
                     + " ended. elapse: "
                     + Long.toString(endTime - startTime) + " ms");
         }
+    }
+
+    /**
+     * @return the target host endpoint
+     */
+    public HostEndpoint getHostEndpoint() {
+        return _hostEndpoint;
     }
 
 }

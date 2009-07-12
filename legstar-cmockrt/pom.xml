@@ -38,12 +38,6 @@
             <artifactId>commons-logging</artifactId>
         </dependency>
 
-        <!-- Apache Configuration API. -->    
-        <dependency>
-            <groupId>commons-configuration</groupId>
-            <artifactId>commons-configuration</artifactId>
-        </dependency>
-
         <!-- Json library. -->    
         <dependency>
             <groupId>org.json</groupId>

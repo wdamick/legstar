@@ -10,11 +10,9 @@
  ******************************************************************************/
 package com.legstar.host.access;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.HierarchicalConfiguration;
 
-import com.legstar.config.Config;
 import com.legstar.host.AbstractTester;
+import com.legstar.messaging.HostEndpoint;
 
 /**
  * Test the HostAccessStrategyFactory.
@@ -27,12 +25,11 @@ public class HostAccessStrategyFactoryTest extends AbstractTester {
      */
     public void testConstructorWithDefaultStrategy() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(CONFIG_FILE, "TheMainframe");
-            HostAccessStrategy has = HostAccessStrategyFactory.createAccessStrategy(endpointConfig);
-            assertEquals("class com.legstar.host.access.DirectHostAccessStrategy", has.getClass().toString());
+            HostEndpoint endpoint = getStandardHostEndpoint();
+            HostAccessStrategy has = HostAccessStrategyFactory.createAccessStrategy(endpoint);
+            assertEquals("class com.legstar.host.access.DirectHostAccessStrategy",
+                    has.getClass().toString());
         } catch (HostAccessStrategyException e) {
-            fail("testConstructor failed " + e.getMessage());
-        } catch (ConfigurationException e) {
             fail("testConstructor failed " + e.getMessage());
         }
     }
@@ -42,28 +39,12 @@ public class HostAccessStrategyFactoryTest extends AbstractTester {
      */
     public void testConstructorWithPooledStrategy() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration("config2.xml", "TheMainframe");
-            HostAccessStrategy has = HostAccessStrategyFactory.createAccessStrategy(endpointConfig);
+            HostEndpoint endpoint = getPooledHostEndpoint();
+            HostAccessStrategy has = HostAccessStrategyFactory.createAccessStrategy(endpoint);
             assertEquals("class com.legstar.host.access.PooledHostAccessStrategy", has.getClass().toString());
         } catch (HostAccessStrategyException e) {
-            fail("testConstructor failed " + e.getMessage());
-        } catch (ConfigurationException e) {
             fail("testConstructor failed " + e.getMessage());
         }
     }
 
-    /**
-     * Check with invalid strategy.
-     */
-    public void testConstructorWithInvalidStrategy() {
-        try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration("config3.xml", "TheMainframe");
-            HostAccessStrategyFactory.createAccessStrategy(endpointConfig);
-            fail("testConstructorWithInvalidStrategy failed ");
-        } catch (HostAccessStrategyException e) {
-            assertEquals("Unknown host access strategy.", e.getMessage());
-        } catch (ConfigurationException e) {
-            fail("testConstructor failed " + e.getMessage());
-        }
-    }
 }

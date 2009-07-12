@@ -10,14 +10,11 @@
  ******************************************************************************/
 package com.legstar.http.client;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpState;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.PostMethod;
 
-import com.legstar.config.Config;
 import com.legstar.coxb.host.HostData;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.LegStarRequest;
@@ -40,8 +37,7 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
      * Test simple instantiation.
      */
     public void testInstantiation() {
-        CicsHttp cicsHttp = new CicsHttp("testInstantiation", getEndpoint(),
-                DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
+        CicsHttp cicsHttp = new CicsHttp("testInstantiation", getEndpoint());
         assertEquals("mainframe", cicsHttp.getHttpClient().getHostConfiguration().getHost());
         assertEquals(3080, cicsHttp.getHttpClient().getHostConfiguration().getPort());
         assertEquals(cicsHttp.getHttpClient().getHostConfiguration().getHost(),
@@ -55,8 +51,7 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
      * Try to create a host configuration.
      */
     public void testCreateHostConfiguration() {
-        CicsHttp cicsHttp = new CicsHttp("testConnect", getEndpoint(),
-                DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
+        CicsHttp cicsHttp = new CicsHttp("testConnect", getEndpoint());
         HostConfiguration hostConfiguration = cicsHttp.createHostConfiguration(getEndpoint());
         assertEquals("mainframe", hostConfiguration.getHost());
         assertEquals("http://mainframe:3080", hostConfiguration.getHostURL());
@@ -68,8 +63,7 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
      * Try to create a state.
      */
     public void testCreateHttpState() {
-        CicsHttp cicsHttp = new CicsHttp("testConnect", getEndpoint(),
-                DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
+        CicsHttp cicsHttp = new CicsHttp("testConnect", getEndpoint());
         HttpState state = cicsHttp.createHttpState("mainframe", 3080, "P390", "TRUC", null);
         AuthScope as = new AuthScope("mainframe", 3080, null, AuthScope.ANY_SCHEME);
         assertEquals("P390:TRUC", state.getCredentials(as).toString());
@@ -102,8 +96,7 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
         try {
             CicsHttpEndpoint endpoint = getEndpoint();
             endpoint.setHostIPAddress("192.168.0.117");
-            CicsHttp cicsHttp = new CicsHttp("testSendRequestToWrongIPAddress", endpoint,
-                    DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
+            CicsHttp cicsHttp = new CicsHttp("testSendRequestToWrongIPAddress", endpoint);
             cicsHttp.setConnectTimeout(1500);
             cicsHttp.connect("zaratoustra");
             cicsHttp.sendRequest(getLsfileaeRequest100(getAddress()));
@@ -124,8 +117,7 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
         try {
             CicsHttpEndpoint endpoint = getEndpoint();
             endpoint.setHostIPPort(12768);
-            CicsHttp cicsHttp = new CicsHttp("testSendRequestToWrongIPPort", endpoint,
-                    DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
+            CicsHttp cicsHttp = new CicsHttp("testSendRequestToWrongIPPort", endpoint);
             cicsHttp.setConnectTimeout(1500);
             cicsHttp.connect("zaratoustra");
             cicsHttp.sendRequest(getLsfileaeRequest100(getAddress()));
@@ -145,8 +137,7 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
         try {
             CicsHttpEndpoint endpoint = getEndpoint();
             endpoint.setHostUserID("tartempion");
-            CicsHttp cicsHttp = new CicsHttp("testSendRequestWithWrongUserID", endpoint,
-                    DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
+            CicsHttp cicsHttp = new CicsHttp("testSendRequestWithWrongUserID", endpoint);
             cicsHttp.setConnectTimeout(1500);
             cicsHttp.connect("zaratoustra");
             LegStarRequest request = getLsfileaeRequest100(getAddress());
@@ -187,10 +178,11 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
         try {
             /* This config has no default credentials, but the listener has basic
              * auth turned off so this should be ok */
-            HierarchicalConfiguration endpointConfig =
-                        Config.loadEndpointConfiguration("config5.xml", "CICSTS23");
-            CicsHttp cicsHttp = new CicsHttp("testSendRequestWithNoCredentials", new CicsHttpEndpoint(
-                    endpointConfig), DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
+            CicsHttpEndpoint endpoint = getEndpoint();
+            endpoint.setHostIPPort(3081);
+            endpoint.setHostUserID(null);
+            endpoint.setHostPassword(null);
+            CicsHttp cicsHttp = new CicsHttp("testSendRequestWithNoCredentials", endpoint);
 
             cicsHttp.connect(null);
             LegStarRequest request = getLsfileaeRequest100(getAddress());
@@ -202,8 +194,6 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
         } catch (ConnectionException e) {
             fail("testSendRequestWithNoCredentials failed " + e);
         } catch (RequestException e) {
-            fail("testSendRequestWithNoCredentials failed " + e);
-        } catch (ConfigurationException e) {
             fail("testSendRequestWithNoCredentials failed " + e);
         }
     }

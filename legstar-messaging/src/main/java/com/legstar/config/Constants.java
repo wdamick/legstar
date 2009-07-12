@@ -15,21 +15,6 @@ package com.legstar.config;
  */
 public final class Constants {
 
-    /** Configuration XPath location for an endpoint. */
-    public static final String HOST_ENDPOINT_KEY =
-        "hostEndPoints/hostEndPoint";
-
-    /** Configuration XPath location for the connection factory. */
-    public static final String HOST_CONNECTION_FACTORY_KEY =
-        "hostConnectionfactoryClass";
-
-    /** Configuration XPath location endpoint. */
-    public static final String ENDPOINT_NAME_KEY = "hostEndPoint";
-
-    /** Configuration XPath location endpoint name attribute. */
-    public static final String ENDPOINT_NAME_ATTR_KEY = "@name";
-
-
     /** Property identifier for the host program name. */
     public static final String CICS_PROGRAM_NAME_KEY = "CICSProgramName";
 
@@ -65,18 +50,6 @@ public final class Constants {
     public static final String CICS_OUT_CONTAINERS_LEN_KEY =
         "CICSOutContainersLength";
 
-    /** Property identifier for host character set. */
-    public static final String HOST_CHARSET_KEY = "hostCharset";
-
-    /** Property identifier for host user ID. */
-    public static final String HOST_USERID_KEY = "hostUserID";
-
-    /** Property identifier for host password. */
-    public static final String HOST_PASSWORD_KEY = "hostPassword";
-
-    /** Property identifier for host trace mode. */
-    public static final String HOST_TRACEMODE_KEY = "hostTraceMode";
-    
     /** Utility class. */
     private Constants() {
         
