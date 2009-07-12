@@ -1,5 +1,6 @@
 package com.legstar.mq.client;
 
+import com.legstar.config.PoolingEngineConfig;
 import com.legstar.test.client.AbstractConnectionPooledMeteringTest;
 
 /**
@@ -8,11 +9,9 @@ import com.legstar.test.client.AbstractConnectionPooledMeteringTest;
  */
 public class MqcihPooledMeteringTest extends AbstractConnectionPooledMeteringTest {
 
-    /**
-     * Construct with pooled endpoint.
-     */
-    public MqcihPooledMeteringTest() {
-        super("CICSTS23-MQCIH-POOLED");
+    /** {@inheritDoc} */
+    public PoolingEngineConfig getPoolingEngineConfig() {
+        return AbstractMQConnectionTester.getMqcihPoolingEngineConfig();
     }
 
 }

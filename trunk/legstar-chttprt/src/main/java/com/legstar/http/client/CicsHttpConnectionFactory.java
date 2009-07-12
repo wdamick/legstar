@@ -18,7 +18,7 @@ import com.legstar.messaging.ConnectionException;
 /**
  * A concrete connection factory for CICS Http connections.
  */
-public class CicsHttpConnectionFactory  extends AbstractConnectionFactory {
+public class CicsHttpConnectionFactory extends AbstractConnectionFactory {
 
     /** {@inheritDoc} */
     public HostEndpoint createEndpoint() {

@@ -10,31 +10,26 @@
  ******************************************************************************/
 package com.legstar.mq.client;
 
-import org.apache.commons.configuration.HierarchicalConfiguration;
+import com.legstar.messaging.ConnectionFactory;
+import com.legstar.messaging.HostEndpoint;
 
 /**
  * This class represents the parameters that are necessary for a client
- * to sucessfully connect to CICS over MQ.
+ * to successfully connect to CICS over MQ.
  */
-public class CicsMQEndpoint {
+public class CicsMQEndpoint extends HostEndpoint {
 
+    /* ----------------------------------------------------------------------- */
+    /* Member variables                                                        */
+    /* ----------------------------------------------------------------------- */
     /** Host IP address. */
     private String mHostIPAddress;
 
     /** Host IP port. */
-    private int mHostIPPort;
-
-    /** Host charset. */
-    private String mHostCharset;
-
-    /** Host user ID. */
-    private String mHostUserID;
-
-    /** Host password. */
-    private String mHostPassword;
+    private int mHostIPPort = DEFAULT_MQ_PORT;
 
     /** Host MQ Manager. */
-    private String mHostMQManager;
+    private String mHostMQManager = DEFAULT_MQ_MANAGER;
 
     /** Host MQ Channel. */
     private String mHostMQChannel;
@@ -45,112 +40,128 @@ public class CicsMQEndpoint {
     /** Host MQ Reply queue name. */
     private String mHostMQResponseQueue;
 
-    /** Host trace mode. */
-    private boolean mHostTraceMode;
-    
     /** Host MQ Bridge implementation. */
     private HostMQBridgeType mHostMQBridgeType = HostMQBridgeType.LSMSG;
 
+    /* ----------------------------------------------------------------------- */
+    /* Default values                                                          */
+    /* ----------------------------------------------------------------------- */
     /** Default MQ Manager. */
     private static final String DEFAULT_MQ_MANAGER = "CSQ1";
 
     /** Default MQ IP port. */
     private static final int DEFAULT_MQ_PORT = 1414;
 
-    /** Configuration XPath location for IP address. */
-    private static final String IP_ADDRESS_CFG = "hostIPAddress";
+    /** The default connection factory class. */
+    private static final String DEFAULT_CONNECTION_FACTORY_CLASS =
+        "com.legstar.mq.client.CicsMQConnectionFactory";
 
-    /** Configuration XPath location for IP port. */
-    private static final String IP_PORT_CFG = "hostIPPort";
+    /* ----------------------------------------------------------------------- */
+    /* Labels                                                                  */
+    /* ----------------------------------------------------------------------- */
+    /** Label for IP address. */
+    private static final String IP_ADDRESS_LABEL = "hostIPAddress";
 
-    /** Configuration XPath location for host charset. */
-    private static final String HOST_CHARSET_CFG = "hostCharset";
+    /** Label for IP port. */
+    private static final String IP_PORT_LABEL = "hostIPPort";
 
-    /** Configuration XPath location for host user ID. */
-    private static final String HOST_USERID_CFG = "hostUserID";
+    /** Label for MQ Manager. */
+    private static final String HOST_MQ_MANAGER_LABEL = "hostMQManager";
 
-    /** Configuration XPath location for host password. */
-    private static final String HOST_PASSWORD_CFG = "hostPassword";
+    /** Label for MQ Channel. */
+    private static final String HOST_MQ_CHANNEL_LABEL = "hostMQChannel";
 
-    /** Configuration XPath location for host trace mode. */
-    private static final String HOST_TRACE_CFG = "hostTraceMode";
+    /** Label for MQ Request queue. */
+    private static final String HOST_MQ_REQUEST_Q_LABEL = "hostMQRequestQueue";
 
-    /** Configuration XPath location for MQ Manager. */
-    private static final String HOST_MQ_MANAGER_CFG = "hostMQManager";
+    /** Label for MQ Reply queue. */
+    private static final String HOST_MQ_RESPONSE_Q_LABEL = "hostMQResponseQueue";
 
-    /** Configuration XPath location for MQ Channel. */
-    private static final String HOST_MQ_CHANNEL_CFG = "hostMQChannel";
-
-    /** Configuration XPath location for MQ Request queue. */
-    private static final String HOST_MQ_REQUEST_Q_CFG = "hostMQRequestQueue";
-
-    /** Configuration XPath location for MQ Reply queue. */
-    private static final String HOST_MQ_RESPONSE_Q_CFG = "hostMQResponseQueue";
-
-    /** Configuration XPath location for host MQ bridge type. */
-    private static final String HOST_MQ_BRIDGE_TYPE = "hostMQBridgeType";
+    /** Label for host MQ bridge type. */
+    private static final String HOST_MQ_BRIDGE_TYPE_LABEL = "hostMQBridgeType";
 
     /**
-     * No-argument constructor.
+     * No-arg constructor.
      */
     public CicsMQEndpoint() {
-
+        setHostConnectionfactoryClass(DEFAULT_CONNECTION_FACTORY_CLASS);
     }
 
     /**
-     * Constructor from a configuration fragment.
-     * @param config a configuration sub hierarchy
+     * Constructor using an existing connection factory.
+     * @param connectionFactory an instance of a connection factory
      */
-    public CicsMQEndpoint(final HierarchicalConfiguration config) {
+    public CicsMQEndpoint(final ConnectionFactory connectionFactory) {
+        super(connectionFactory);
+    }
 
-        /* Get default connection parameters from the configuration */
-        mHostIPAddress = config.getString(IP_ADDRESS_CFG);
-        mHostIPPort = config.getInt(IP_PORT_CFG, DEFAULT_MQ_PORT);
-        mHostCharset = config.getString(HOST_CHARSET_CFG);
-        mHostUserID = config.getString(HOST_USERID_CFG);
-        mHostPassword = config.getString(HOST_PASSWORD_CFG);
-        mHostMQManager = config.getString(HOST_MQ_MANAGER_CFG,
-                DEFAULT_MQ_MANAGER);
-        mHostMQChannel = config.getString(HOST_MQ_CHANNEL_CFG);
-        mHostMQRequestQueue = config.getString(HOST_MQ_REQUEST_Q_CFG);
-        mHostMQResponseQueue = config.getString(HOST_MQ_RESPONSE_Q_CFG);
-        mHostTraceMode = config.getBoolean(HOST_TRACE_CFG, false);
-        mHostMQBridgeType = HostMQBridgeType.valueOf(
-                config.getString(HOST_MQ_BRIDGE_TYPE,
-                        HostMQBridgeType.LSMSG.toString()));
+    /**
+     * Copy constructor.
+     * @param copyFrom the endpoint to copy from
+     */
+    public CicsMQEndpoint(final CicsMQEndpoint copyFrom) {
+        super(copyFrom);
+        setHostIPAddress(copyFrom.getHostIPAddress());
+        setHostIPPort(copyFrom.getHostIPPort());
+        setHostMQBridgeType(copyFrom.getHostMQBridgeType());
+        setHostMQChannel(copyFrom.getHostMQChannel());
+        setHostMQRequestQueue(copyFrom.getHostMQRequestQueue());
+        setHostMQResponseQueue(copyFrom.getHostMQResponseQueue());
+        setHostMQManager(copyFrom.getHostMQManager());
     }
 
     /**
      * Helper to pretty print the endpoint content.
      * @return formatted endpoint report
      */
-    public final String getReport() {
-        String report = "CICS Http endpoint:"
-            + "  " + IP_ADDRESS_CFG + "=" + mHostIPAddress + ","
-            + "  " + IP_PORT_CFG + "=" + mHostIPPort + ","
-            + "  " + HOST_MQ_MANAGER_CFG + "=" + mHostMQManager + ","
-            + "  " + HOST_MQ_CHANNEL_CFG + "=" + mHostMQChannel + ","
-            + "  " + HOST_MQ_REQUEST_Q_CFG + "=" + mHostMQRequestQueue + ","
-            + "  " + HOST_MQ_RESPONSE_Q_CFG + "=" + mHostMQResponseQueue + ","
-            + "  " + HOST_CHARSET_CFG + "=" + mHostCharset + ","
-            + "  " + HOST_USERID_CFG + "=" + mHostUserID + ","
-            + "  " + HOST_MQ_BRIDGE_TYPE + "=" + mHostMQBridgeType + ","
-            + "  " + HOST_TRACE_CFG + "=" + mHostTraceMode;
+    public String toString() {
+        String report = "CICS WMQ endpoint:"
+            + super.toString()
+            + "[" 
+            + IP_ADDRESS_LABEL + "=" + mHostIPAddress
+            + "," + IP_PORT_LABEL + "=" + mHostIPPort
+            + "," + HOST_MQ_MANAGER_LABEL + "=" + mHostMQManager
+            + "," + HOST_MQ_CHANNEL_LABEL + "=" + mHostMQChannel
+            + "," + HOST_MQ_REQUEST_Q_LABEL + "=" + mHostMQRequestQueue
+            + "," + HOST_MQ_RESPONSE_Q_LABEL + "=" + mHostMQResponseQueue
+            + "," + HOST_MQ_BRIDGE_TYPE_LABEL + "=" + mHostMQBridgeType
+            + "]";
         return report;
     }
 
     /**
-     * @return the host charset
+     * Perform a sanity check on the endpoint parameters.
+     * @throws CicsMQConnectionException if check fails
      */
-    public final String getHostCharset() {
-        return mHostCharset;
-    }
-
-    /**
-     * @param hostCharset the host charset to set
-     */
-    public final void setHostCharset(final String hostCharset) {
-        mHostCharset = hostCharset;
+    public void check() throws CicsMQConnectionException {
+        if (getHostIPAddress() == null || getHostIPAddress().length() == 0) {
+            throw new CicsMQConnectionException(
+            "No host IP address has been provided.");
+        }
+        if (getHostIPPort() == 0) {
+            throw new CicsMQConnectionException(
+            "No host IP port has been provided.");
+        }
+        if (getHostMQManager() == null
+                || getHostMQManager().length() == 0) {
+            throw new CicsMQConnectionException(
+            "No host MQ Manager name has been provided.");
+        }
+        if (getHostMQChannel() == null
+                || getHostMQChannel().length() == 0) {
+            throw new CicsMQConnectionException(
+            "No host MQ Channel name has been provided.");
+        }
+        if (getHostMQRequestQueue() == null
+                || getHostMQRequestQueue().length() == 0) {
+            throw new CicsMQConnectionException(
+            "No host MQ Request queue name has been provided.");
+        }
+        if (getHostMQResponseQueue() == null
+                || getHostMQResponseQueue().length() == 0) {
+            throw new CicsMQConnectionException(
+            "No host MQ Response queue name has been provided.");
+        }
     }
 
     /**
@@ -179,48 +190,6 @@ public class CicsMQEndpoint {
      */
     public final void setHostIPPort(final int hostIPPort) {
         mHostIPPort = hostIPPort;
-    }
-
-    /**
-     * @return the host password
-     */
-    public final String getHostPassword() {
-        return mHostPassword;
-    }
-
-    /**
-     * @param hostPassword the host password to set
-     */
-    public final void setHostPassword(final String hostPassword) {
-        mHostPassword = hostPassword;
-    }
-
-    /**
-     * @return the host trace mode enabled or or
-     */
-    public final boolean isHostTraceMode() {
-        return mHostTraceMode;
-    }
-
-    /**
-     * @param hostTraceMode the host trace mode to set
-     */
-    public final void setHostTraceMode(final boolean hostTraceMode) {
-        mHostTraceMode = hostTraceMode;
-    }
-
-    /**
-     * @return the host user ID
-     */
-    public final String getHostUserID() {
-        return mHostUserID;
-    }
-
-    /**
-     * @param hostUserID the host user ID to set
-     */
-    public final void setHostUserID(final String hostUserID) {
-        mHostUserID = hostUserID;
     }
 
     /**
@@ -302,5 +271,12 @@ public class CicsMQEndpoint {
      */
     public void setHostMQBridgeType(final HostMQBridgeType hostMQBridgeType) {
         mHostMQBridgeType = hostMQBridgeType;
+    }
+
+    /**
+     * @param hostMQBridgeType the Host MQ Bridge implementation to set
+     */
+    public void setHostMQBridgeType(final String hostMQBridgeType) {
+        mHostMQBridgeType = HostMQBridgeType.valueOf(hostMQBridgeType);
     }
 }

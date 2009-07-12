@@ -10,11 +10,6 @@
  ******************************************************************************/
 package com.legstar.mq.client;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.HierarchicalConfiguration;
-
-import com.legstar.config.Config;
-
 import junit.framework.TestCase;
 
 /**
@@ -23,36 +18,40 @@ import junit.framework.TestCase;
  */
 public class CicsMQEndpointTest extends TestCase {
 
-    /** Configuration file.*/
-    private static final String CONFIG_FILE = "config.xml";
-
-    /** An endpoint defined in the configuration file.*/
-    private static final String LSMSG_ENDPOINT_NAME = "CICSTS23-LSMSG";
-
-    /** An endpoint defined in the configuration file.*/
-    private static final String MQCIH_ENDPOINT_NAME = "CICSTS23-MQCIH";
     /**
      * Instantiate from full configuration.
      */
     public void testInstantiation() {
-        try {
-            HierarchicalConfiguration endpointConfig =
-                Config.loadEndpointConfiguration(CONFIG_FILE, LSMSG_ENDPOINT_NAME);
-            CicsMQEndpoint cicsMQEndpoint = new CicsMQEndpoint(endpointConfig);
-            assertEquals("IBM01140", cicsMQEndpoint.getHostCharset());
-            assertEquals("mainframe", cicsMQEndpoint.getHostIPAddress());
-            assertEquals(1414, cicsMQEndpoint.getHostIPPort());
-            assertEquals("STREAM2", cicsMQEndpoint.getHostPassword());
-            assertEquals("CSQ1", cicsMQEndpoint.getHostMQManager());
-            assertEquals("CLIENT.TO.CSQ1", cicsMQEndpoint.getHostMQChannel());
-            assertEquals("CICSA.REQUEST.QUEUE", cicsMQEndpoint.getHostMQRequestQueue());
-            assertEquals("CICSA.REPLY.QUEUE", cicsMQEndpoint.getHostMQResponseQueue());
-            assertEquals("P390", cicsMQEndpoint.getHostUserID());
-            assertEquals("LSMSG", cicsMQEndpoint.getHostMQBridgeType().toString());
-            System.out.println(cicsMQEndpoint.getReport());
-        } catch (ConfigurationException e) {
-            fail(e.getMessage());
-        }
+        CicsMQEndpoint cicsMQEndpoint = AbstractMQConnectionTester.getLsmsgEndpoint();
+        assertEquals("IBM01140", cicsMQEndpoint.getHostCharset());
+        assertEquals("mainframe", cicsMQEndpoint.getHostIPAddress());
+        assertEquals(1414, cicsMQEndpoint.getHostIPPort());
+        assertEquals("STREAM2", cicsMQEndpoint.getHostPassword());
+        assertEquals("CSQ1", cicsMQEndpoint.getHostMQManager());
+        assertEquals("CLIENT.TO.CSQ1", cicsMQEndpoint.getHostMQChannel());
+        assertEquals("CICSA.REQUEST.QUEUE", cicsMQEndpoint.getHostMQRequestQueue());
+        assertEquals("CICSA.REPLY.QUEUE", cicsMQEndpoint.getHostMQResponseQueue());
+        assertEquals("P390", cicsMQEndpoint.getHostUserID());
+        assertEquals("LSMSG", cicsMQEndpoint.getHostMQBridgeType().toString());
+        assertEquals("CICS WMQ endpoint:[hostEndpoint=CICSTS23-LSMSG,"
+                + "hostCharset=IBM01140,"
+                + "hostUserID=P390,"
+                + "hostPassword=********,"
+                + "hostTraceMode=false,"
+                + "connectTimeout=1000,"
+                + "receiveTimeout=5000,"
+                + "hostConnectionfactoryClass=com.legstar.mq.client.CicsMQConnectionFactory,"
+                + "hostAccessStrategy=direct,"
+                + "hostConnectionPoolSize=5,"
+                + "pooledInvokeTimeout=3000]"
+                + "[hostIPAddress=mainframe,"
+                + "hostIPPort=1414,"
+                + "hostMQManager=CSQ1,"
+                + "hostMQChannel=CLIENT.TO.CSQ1,"
+                + "hostMQRequestQueue=CICSA.REQUEST.QUEUE,"
+                + "hostMQResponseQueue=CICSA.REPLY.QUEUE,"
+                + "hostMQBridgeType=LSMSG]",
+                cicsMQEndpoint.toString());
 
     }
 
@@ -60,42 +59,64 @@ public class CicsMQEndpointTest extends TestCase {
      * Instantiate from empty configuration.
      */
     public void testInstantiation2() {
-        try {
-            HierarchicalConfiguration endpointConfig =
-                Config.loadEndpointConfiguration("config1.xml", LSMSG_ENDPOINT_NAME);
-            CicsMQEndpoint cicsMQEndpoint = new CicsMQEndpoint(endpointConfig);
-            assertEquals(1414, cicsMQEndpoint.getHostIPPort());
-            assertEquals("CSQ1", cicsMQEndpoint.getHostMQManager());
-            assertEquals("LSMSG", cicsMQEndpoint.getHostMQBridgeType().toString());
-            System.out.println(cicsMQEndpoint.getReport());
-        } catch (ConfigurationException e) {
-            fail(e.getMessage());
-        }
-
+        CicsMQEndpoint cicsMQEndpoint = new CicsMQEndpoint();
+        assertEquals(1414, cicsMQEndpoint.getHostIPPort());
+        assertEquals("CSQ1", cicsMQEndpoint.getHostMQManager());
+        assertEquals("LSMSG", cicsMQEndpoint.getHostMQBridgeType().toString());
+        assertEquals("CICS WMQ endpoint:[hostEndpoint=null,"
+                + "hostCharset=IBM01140,"
+                + "hostUserID=null,"
+                + "hostPassword=********,"
+                + "hostTraceMode=false,"
+                + "connectTimeout=1000,"
+                + "receiveTimeout=5000,"
+                + "hostConnectionfactoryClass=com.legstar.mq.client.CicsMQConnectionFactory,"
+                + "hostAccessStrategy=direct,"
+                + "hostConnectionPoolSize=5,"
+                + "pooledInvokeTimeout=3000]"
+                + "[hostIPAddress=null,"
+                + "hostIPPort=1414,"
+                + "hostMQManager=CSQ1,"
+                + "hostMQChannel=null,"
+                + "hostMQRequestQueue=null,"
+                + "hostMQResponseQueue=null,"
+                + "hostMQBridgeType=LSMSG]",
+                cicsMQEndpoint.toString());
     }
 
     /**
      * Instantiate with IBM MQCIH.
      */
     public void testInstantiationMqcih() {
-        try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(
-                    CONFIG_FILE, MQCIH_ENDPOINT_NAME);
-            CicsMQEndpoint cicsMQEndpoint = new CicsMQEndpoint(endpointConfig);
-            assertEquals("IBM01140", cicsMQEndpoint.getHostCharset());
-            assertEquals("mainframe", cicsMQEndpoint.getHostIPAddress());
-            assertEquals(1414, cicsMQEndpoint.getHostIPPort());
-            assertEquals("STREAM2", cicsMQEndpoint.getHostPassword());
-            assertEquals("CSQ1", cicsMQEndpoint.getHostMQManager());
-            assertEquals("CLIENT.TO.CSQ1", cicsMQEndpoint.getHostMQChannel());
-            assertEquals("CICS01.BRIDGE.REQUEST.QUEUE", cicsMQEndpoint.getHostMQRequestQueue());
-            assertEquals("CICS01.BRIDGE.REPLY.QUEUE", cicsMQEndpoint.getHostMQResponseQueue());
-            assertEquals("P390", cicsMQEndpoint.getHostUserID());
-            assertEquals("MQCIH", cicsMQEndpoint.getHostMQBridgeType().toString());
-            System.out.println(cicsMQEndpoint.getReport());
-        } catch (ConfigurationException e) {
-            fail(e.getMessage());
-        }
-
+        CicsMQEndpoint cicsMQEndpoint = AbstractMQConnectionTester.getMqcihEndpoint();
+        assertEquals("IBM01140", cicsMQEndpoint.getHostCharset());
+        assertEquals("mainframe", cicsMQEndpoint.getHostIPAddress());
+        assertEquals(1414, cicsMQEndpoint.getHostIPPort());
+        assertEquals("STREAM2", cicsMQEndpoint.getHostPassword());
+        assertEquals("CSQ1", cicsMQEndpoint.getHostMQManager());
+        assertEquals("CLIENT.TO.CSQ1", cicsMQEndpoint.getHostMQChannel());
+        assertEquals("CICS01.BRIDGE.REQUEST.QUEUE", cicsMQEndpoint.getHostMQRequestQueue());
+        assertEquals("CICS01.BRIDGE.REPLY.QUEUE", cicsMQEndpoint.getHostMQResponseQueue());
+        assertEquals("P390", cicsMQEndpoint.getHostUserID());
+        assertEquals("MQCIH", cicsMQEndpoint.getHostMQBridgeType().toString());
+        assertEquals("CICS WMQ endpoint:[hostEndpoint=CICSTS23-MQCIH,"
+                + "hostCharset=IBM01140,"
+                + "hostUserID=P390,"
+                + "hostPassword=********,"
+                + "hostTraceMode=false,"
+                + "connectTimeout=1000,"
+                + "receiveTimeout=5000,"
+                + "hostConnectionfactoryClass=com.legstar.mq.client.CicsMQConnectionFactory,"
+                + "hostAccessStrategy=direct,"
+                + "hostConnectionPoolSize=5,"
+                + "pooledInvokeTimeout=3000]"
+                + "[hostIPAddress=mainframe,"
+                + "hostIPPort=1414,"
+                + "hostMQManager=CSQ1,"
+                + "hostMQChannel=CLIENT.TO.CSQ1,"
+                + "hostMQRequestQueue=CICS01.BRIDGE.REQUEST.QUEUE,"
+                + "hostMQResponseQueue=CICS01.BRIDGE.REPLY.QUEUE,"
+                + "hostMQBridgeType=MQCIH]",
+                cicsMQEndpoint.toString());
     }
 }

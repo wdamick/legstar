@@ -2,8 +2,6 @@ package com.legstar.http.client;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.configuration.ConfigurationException;
-
 import com.legstar.coxb.host.HostData;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.LegStarAddress;
@@ -27,9 +25,8 @@ public class CicsTs31InvokeMeteringTest extends TestCase {
     
     /**
      * Construct.
-     * @throws ConfigurationException if endpoint cannot be created
      */
-    public CicsTs31InvokeMeteringTest() throws ConfigurationException {
+    public CicsTs31InvokeMeteringTest() {
         _endpointName = "CICSTS31";
         _endpoint = AbstractHttpConnectionTester.getCicsTs31Endpoint();
         _endpoint.setHostTraceMode(false);

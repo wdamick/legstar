@@ -10,12 +10,17 @@
  ******************************************************************************/
 package com.legstar.mq.client;
 
-import org.apache.commons.configuration.HierarchicalConfiguration;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.legstar.config.Config;
+import com.legstar.config.PoolingEngineConfig;
+import com.legstar.messaging.HostEndpoint;
 import com.legstar.messaging.LegStarAddress;
+import com.legstar.messaging.HostEndpoint.AccessStrategy;
+import com.legstar.mq.client.CicsMQEndpoint.HostMQBridgeType;
 import com.legstar.test.client.AbstractConnectionTester;
 
 /**
@@ -24,9 +29,6 @@ import com.legstar.test.client.AbstractConnectionTester;
  */
 public abstract class AbstractMQConnectionTester extends AbstractConnectionTester {
 
-    /** Configuration file.*/
-    public static final String CONFIG_FILE = "config.xml";
-    
     /** An endpoint. */
     private CicsMQEndpoint mEndpoint;
     
@@ -55,14 +57,96 @@ public abstract class AbstractMQConnectionTester extends AbstractConnectionTeste
      * @throws Exception if setup fails
      */
     public void setUp(final String endpointName) throws Exception {
-        HierarchicalConfiguration endpointConfig =
-            Config.loadEndpointConfiguration(CONFIG_FILE, endpointName);
-        mEndpoint = new CicsMQEndpoint(endpointConfig);
+        if (endpointName.equals("CICSTS23-LSMSG")) {
+            mEndpoint = getLsmsgEndpoint();
+        } else if (endpointName.equals("CICSTS23-MQCIH")) {
+            mEndpoint = getMqcihEndpoint();
+        }
         if (_log.isDebugEnabled()) {
             mEndpoint.setHostTraceMode(true);
         }
 
-        mAddress = new LegStarAddress(endpointConfig);
+        mAddress = new LegStarAddress(endpointName);
     }
 
+    /**
+     * @return and endpoint for LegStar messaging
+     */
+    public static CicsMQEndpoint getLsmsgEndpoint() {
+        CicsMQEndpoint endpoint = new CicsMQEndpoint();
+        endpoint.setName("CICSTS23-LSMSG");
+        endpoint.setHostIPAddress("mainframe");
+        endpoint.setHostIPPort(1414);
+        endpoint.setHostUserID("P390");
+        endpoint.setHostPassword("STREAM2");
+        endpoint.setHostMQManager("CSQ1");
+        endpoint.setHostMQChannel("CLIENT.TO.CSQ1");
+        endpoint.setHostMQRequestQueue("CICSA.REQUEST.QUEUE");
+        endpoint.setHostMQResponseQueue("CICSA.REPLY.QUEUE");
+        return endpoint;
+    }
+
+    /**
+     * @return and endpoint for MQCIH messaging
+     */
+    public static CicsMQEndpoint getMqcihEndpoint() {
+        CicsMQEndpoint endpoint = new CicsMQEndpoint();
+        endpoint.setName("CICSTS23-MQCIH");
+        endpoint.setHostIPAddress("mainframe");
+        endpoint.setHostIPPort(1414);
+        endpoint.setHostUserID("P390");
+        endpoint.setHostPassword("STREAM2");
+        endpoint.setHostMQManager("CSQ1");
+        endpoint.setHostMQChannel("CLIENT.TO.CSQ1");
+        endpoint.setHostMQRequestQueue("CICS01.BRIDGE.REQUEST.QUEUE");
+        endpoint.setHostMQResponseQueue("CICS01.BRIDGE.REPLY.QUEUE");
+        endpoint.setHostMQBridgeType(HostMQBridgeType.MQCIH);
+        return endpoint;
+    }
+
+    /**
+     * @return and endpoint for LegStar messaging
+     */
+    public static CicsMQEndpoint getLsmsgPooledEndpoint() {
+        CicsMQEndpoint endpoint = getLsmsgEndpoint();
+        endpoint.setName("CICSTS23-LSMSG-POOLED");
+        endpoint.setHostAccessStrategy(AccessStrategy.pooled);
+        return endpoint;
+    }
+
+    /**
+     * @return and endpoint for LegStar messaging
+     */
+    public static CicsMQEndpoint getMqcihPooledEndpoint() {
+        CicsMQEndpoint endpoint = getMqcihEndpoint();
+        endpoint.setName("CICSTS23-MQCIH-POOLED");
+        endpoint.setHostAccessStrategy(AccessStrategy.pooled);
+        return endpoint;
+    }
+
+    /**
+     * @return a pooling engine configuration bean.
+     */
+    public static PoolingEngineConfig getLsmsgPoolingEngineConfig() {
+        PoolingEngineConfig config = new PoolingEngineConfig();
+        List < HostEndpoint > endpoints = new ArrayList < HostEndpoint >();
+
+        endpoints.add(getLsmsgPooledEndpoint());
+
+        config.setHostEndpoints(endpoints);
+        return config;
+    }
+
+    /**
+     * @return a pooling engine configuration bean.
+     */
+    public static PoolingEngineConfig getMqcihPoolingEngineConfig() {
+        PoolingEngineConfig config = new PoolingEngineConfig();
+        List < HostEndpoint > endpoints = new ArrayList < HostEndpoint >();
+
+        endpoints.add(getMqcihPooledEndpoint());
+
+        config.setHostEndpoints(endpoints);
+        return config;
+    }
 }

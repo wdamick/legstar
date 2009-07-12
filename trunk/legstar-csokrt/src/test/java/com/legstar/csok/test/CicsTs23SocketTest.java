@@ -67,7 +67,7 @@ public class CicsTs23SocketTest extends AbstractSocketConnectionTester {
     public void testSecurityViolation() {
         try {
             getEndpoint().setHostUserID("TARBOUCH");
-            CicsSocket cs = new CicsSocket("testSecurityViolation", getEndpoint(), 1000, 5000);
+            CicsSocket cs = new CicsSocket(getName(), getEndpoint());
             cs.connect(HOST_USERID);
             fail("testSecurityViolation failed");
         } catch (ConnectionException e) {
@@ -80,7 +80,7 @@ public class CicsTs23SocketTest extends AbstractSocketConnectionTester {
     /** Close when no connection exist. */
     public void testClosePremature() {
         try {
-            CicsSocket cs = new CicsSocket("testClosePremature", getEndpoint(), 1000, 5000);
+            CicsSocket cs = new CicsSocket(getName(), getEndpoint());
             cs.close();
         } catch (RequestException e) {
             fail("testClosePremature failed=" + e);
@@ -90,8 +90,8 @@ public class CicsTs23SocketTest extends AbstractSocketConnectionTester {
     /** Connect and immediately close. */
     public void testConnectAndClose() {
         try {
-            CicsSocket cs = new CicsSocket("testConnectAndClose", getEndpoint(), 1000, 5000);
-            cs.connect(HOST_USERID);
+            CicsSocket cs = new CicsSocket(getName(), getEndpoint());
+            cs.connect(HOST_PASSWORD);
             cs.close();
         } catch (ConnectionException e) {
             fail("testConnectAndClose failed=" + e);

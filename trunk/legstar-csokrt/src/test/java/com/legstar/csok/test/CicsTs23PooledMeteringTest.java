@@ -1,5 +1,6 @@
 package com.legstar.csok.test;
 
+import com.legstar.config.PoolingEngineConfig;
 import com.legstar.test.client.AbstractConnectionPooledMeteringTest;
 
 /**
@@ -8,11 +9,9 @@ import com.legstar.test.client.AbstractConnectionPooledMeteringTest;
  */
 public class CicsTs23PooledMeteringTest extends AbstractConnectionPooledMeteringTest {
 
-    /**
-     * Construct with pooled endpoint.
-     */
-    public CicsTs23PooledMeteringTest() {
-        super("CICSTS23-POOLED");
+    /** {@inheritDoc} */
+    public PoolingEngineConfig getPoolingEngineConfig() {
+        return AbstractSocketConnectionTester.getCicsTs23PoolingEngineConfig();
     }
 
 }

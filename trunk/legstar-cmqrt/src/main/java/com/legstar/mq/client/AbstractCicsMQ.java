@@ -54,12 +54,6 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
     /** The response queue. */
     private MQQueue mResponseQueue;
 
-    /** Maximum time (milliseconds) to wait for connection. */
-    private int mConnectTimeout;
-
-    /** Maximum time (milliseconds) to wait for host reply. */
-    private int mReceiveTimeout;
-
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
 
@@ -71,19 +65,12 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
      * 
      * @param connectionID an identifier for this connection
      * @param cicsMQEndpoint MQ endpoint
-     * @param connectionTimeout Maximum time (milliseconds) to wait for
-     *  connection
-     * @param receiveTimeout Maximum time (milliseconds) to wait for host reply
      * @throws CicsMQConnectionException if instanciation fails
      */
     public AbstractCicsMQ(
             final String connectionID,
-            final CicsMQEndpoint cicsMQEndpoint,
-            final int connectionTimeout,
-            final int receiveTimeout) throws CicsMQConnectionException {
+            final CicsMQEndpoint cicsMQEndpoint) throws CicsMQConnectionException {
         mConnectionID = connectionID;
-        mConnectTimeout = connectionTimeout;
-        mReceiveTimeout = receiveTimeout;
         setCicsMQEndpoint(cicsMQEndpoint);
     }
 
@@ -99,7 +86,7 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
         if (_log.isDebugEnabled()) {
             _log.debug("Connection:" + mConnectionID
                     + " Attempting connection. Host:" 
-                    + mCicsMQEndpoint.getReport());
+                    + mCicsMQEndpoint.toString());
         }
 
         /* If a password is not passed, use the one from configuration */
@@ -350,7 +337,7 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
             gmo.options =  MQC.MQPMO_NO_SYNCPOINT
             + MQC.MQGMO_WAIT
             + MQC.MQPMO_FAIL_IF_QUIESCING;
-            gmo.waitInterval = mReceiveTimeout;
+            gmo.waitInterval = getCicsMQEndpoint().getReceiveTimeout();
             mResponseQueue.get(mqMessage, gmo);
             request.setResponseMessage(createResponseMessage(mqMessage));
 
@@ -419,38 +406,6 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
         mConnectionID = connectionID;
     }
 
-    /** (non-Javadoc).
-     * @see com.legstar.messaging.LegStarConnection#getConnectTimeout()
-     * {@inheritDoc}
-     */
-    public final long getConnectTimeout() {
-        return mConnectTimeout;
-    }
-
-    /** (non-Javadoc).
-     * @see com.legstar.messaging.LegStarConnection#setConnectTimeout(long)
-     * {@inheritDoc}
-     */
-    public final void setConnectTimeout(final long timeout) {
-        mConnectTimeout = (int) timeout;
-    }
-
-    /** (non-Javadoc).
-     * @see com.legstar.messaging.LegStarConnection#getReceiveTimeout()
-     * {@inheritDoc}
-     */
-    public final long getReceiveTimeout() {
-        return mReceiveTimeout;
-    }
-
-    /** (non-Javadoc).
-     * @see com.legstar.messaging.LegStarConnection#setReceiveTimeout(long)
-     * {@inheritDoc}
-     */
-    public final void setReceiveTimeout(final long timeout) {
-        mReceiveTimeout =  (int) timeout;
-    }
-
     /**
      * @return the CICS WMQ endpoint
      */
@@ -480,6 +435,16 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
      */
     public final MQQueue getRequestQueue() {
         return mRequestQueue;
+    }
+
+    /** {@inheritDoc} */
+    public long getConnectTimeout() {
+        return getCicsMQEndpoint().getConnectTimeout();
+    }
+
+    /** {@inheritDoc} */
+    public long getReceiveTimeout() {
+        return getCicsMQEndpoint().getReceiveTimeout();
     }
 
 }

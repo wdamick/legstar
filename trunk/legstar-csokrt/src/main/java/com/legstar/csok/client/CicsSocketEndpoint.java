@@ -10,99 +10,93 @@
  ******************************************************************************/
 package com.legstar.csok.client;
 
-import org.apache.commons.configuration.HierarchicalConfiguration;
+import com.legstar.messaging.ConnectionFactory;
+import com.legstar.messaging.HostEndpoint;
+
 
 /**
  * This class represents the parameters that are necessary for a client
- * to sucessfully connect to CICS over sockets.
+ * to successfully connect to CICS over sockets.
  */
-public class CicsSocketEndpoint {
+public class CicsSocketEndpoint extends HostEndpoint {
 
+    /* ----------------------------------------------------------------------- */
+    /* Member variables                                                        */
+    /* ----------------------------------------------------------------------- */
     /** Host IP address. */
     private String mHostIPAddress;
 
     /** Host IP port. */
     private int mHostIPPort;
 
-    /** Host charset. */
-    private String mHostCharset;
+    /* ----------------------------------------------------------------------- */
+    /* Default values                                                          */
+    /* ----------------------------------------------------------------------- */
+    /** The default connection factory class. */
+    private static final String DEFAULT_CONNECTION_FACTORY_CLASS =
+        "com.legstar.csok.client.CicsSocketConnectionFactory";
 
-    /** Host user ID. */
-    private String mHostUserID;
+    /* ----------------------------------------------------------------------- */
+    /* Labels                                                                  */
+    /* ----------------------------------------------------------------------- */
+    /** Label for IP address. */
+    private static final String IP_ADDRESS_LABEL = "hostIPAddress";
 
-    /** Host password. */
-    private String mHostPassword;
-
-    /** Host trace mode. */
-    private boolean mHostTraceMode;
-
-    /** Configuration XPath location for IP address. */
-    private static final String IP_ADDRESS_CFG = "hostIPAddress";
-
-    /** Configuration XPath location for IP port. */
-    private static final String IP_PORT_CFG = "hostIPPort";
-
-    /** Configuration XPath location for host charset. */
-    private static final String HOST_CHARSET_CFG = "hostCharset";
-
-    /** Configuration XPath location for host user ID. */
-    private static final String HOST_USERID_CFG = "hostUserID";
-
-    /** Configuration XPath location for host password. */
-    private static final String HOST_PASSWORD_CFG = "hostPassword";
-
-    /** Configuration XPath location for host trace mode. */
-    private static final String HOST_TRACE_CFG = "hostTraceMode";
-
+    /** Label for IP port. */
+    private static final String IP_PORT_LABEL = "hostIPPort";
 
     /**
      * No-argument constructor.
      */
     public CicsSocketEndpoint() {
-
+        setHostConnectionfactoryClass(DEFAULT_CONNECTION_FACTORY_CLASS);
+    }
+    
+    /**
+     * Constructor using an existing connection factory.
+     * @param connectionFactory an instance of a connection factory
+     */
+    public CicsSocketEndpoint(final ConnectionFactory connectionFactory) {
+        super(connectionFactory);
     }
 
     /**
-     * Constructor from a configuration fragment.
-     * @param config a configuration sub hierarchy
+     * Copy constructor.
+     * @param copyFrom the endpoint to copy from
      */
-    public CicsSocketEndpoint(final HierarchicalConfiguration config) {
+    public CicsSocketEndpoint(final CicsSocketEndpoint copyFrom) {
+        super(copyFrom);
+        setHostIPAddress(copyFrom.getHostIPAddress());
+        setHostIPPort(copyFrom.getHostIPPort());
+    }
 
-        /* Get default connection parameters from the configuration */
-        mHostIPAddress = config.getString(IP_ADDRESS_CFG);
-        mHostIPPort = config.getInt(IP_PORT_CFG, 0);
-        mHostCharset = config.getString(HOST_CHARSET_CFG);
-        mHostUserID = config.getString(HOST_USERID_CFG);
-        mHostPassword = config.getString(HOST_PASSWORD_CFG);
-        mHostTraceMode = config.getBoolean(HOST_TRACE_CFG, false);
+    /**
+     * Perform a sanity check on the endpoint parameters.
+     * @throws CicsSocketConnectionException if check fails
+     */
+    public void check() throws CicsSocketConnectionException {
+        if (getHostIPAddress() == null || getHostIPAddress().length() == 0) {
+            throw new CicsSocketConnectionException(
+            "No host IP address has been provided.");
+        }
+        if (getHostIPPort() == 0) {
+            throw new CicsSocketConnectionException(
+            "No host IP port has been provided.");
+        }
     }
 
     /**
      * Helper to pretty print the endpoint content.
      * @return formatted endpoint report
      */
-    public final String getReport() {
-        String report = "CICS Socket endpoint:"
-            + "  " + IP_ADDRESS_CFG + "=" + mHostIPAddress + ","
-            + "  " + IP_PORT_CFG + "=" + mHostIPPort + ","
-            + "  " + HOST_CHARSET_CFG + "=" + mHostCharset + ","
-            + "  " + HOST_USERID_CFG + "=" + mHostUserID + ","
-            + "  " + HOST_TRACE_CFG + "=" + mHostTraceMode;
+    public String toString() {
+        String report = "CICS Http endpoint:"
+            + super.toString()
+            + "[" 
+            + IP_ADDRESS_LABEL + "=" + mHostIPAddress
+            + "," + IP_PORT_LABEL + "=" + mHostIPPort
+            + "]";
         return report;
-    }
-
-    /**
-     * @return the host charset
-     */
-    public final String getHostCharset() {
-        return mHostCharset;
-    }
-
-    /**
-     * @param hostCharset the host charset to set
-     */
-    public final void setHostCharset(final String hostCharset) {
-        mHostCharset = hostCharset;
     }
 
     /**
@@ -131,48 +125,6 @@ public class CicsSocketEndpoint {
      */
     public final void setHostIPPort(final int hostIPPort) {
         mHostIPPort = hostIPPort;
-    }
-
-    /**
-     * @return the host password
-     */
-    public final String getHostPassword() {
-        return mHostPassword;
-    }
-
-    /**
-     * @param hostPassword the host password to set
-     */
-    public final void setHostPassword(final String hostPassword) {
-        mHostPassword = hostPassword;
-    }
-
-    /**
-     * @return the host trace mode enabled or or
-     */
-    public final boolean isHostTraceMode() {
-        return mHostTraceMode;
-    }
-
-    /**
-     * @param hostTraceMode the host trace mode to set
-     */
-    public final void setHostTraceMode(final boolean hostTraceMode) {
-        mHostTraceMode = hostTraceMode;
-    }
-
-    /**
-     * @return the host user ID
-     */
-    public final String getHostUserID() {
-        return mHostUserID;
-    }
-
-    /**
-     * @param hostUserID the host user ID to set
-     */
-    public final void setHostUserID(final String hostUserID) {
-        mHostUserID = hostUserID;
     }
 
 }

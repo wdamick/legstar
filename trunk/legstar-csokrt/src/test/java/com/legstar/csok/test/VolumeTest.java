@@ -110,7 +110,7 @@ public class VolumeTest extends AbstractSocketConnectionTester {
             request.getRequestMessage().addDataPart(new CommareaPart(
                     HostData.toByteArray(LsfileaeCases.getHostBytesHexRequest100())));
             for (int i = 0; i < MAX_ITERATIONS; i++) {
-                getConnection().connect(HOST_USERID);
+                getConnection().connect(HOST_PASSWORD);
                 getConnection().sendRequest(request);
                 getConnection().recvResponse(request);
                 getConnection().commitUOW();
