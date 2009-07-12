@@ -121,12 +121,6 @@ public class CicsSocket implements LegStarConnection {
      * might be different from the actual user data character set. */
     private String mHostProtocolCharset;
 
-    /** maximum time (milliseconds) to wait for connection. */
-    private int mConnectTimeout;
-
-    /** maximum time (milliseconds) to wait for host reply. */
-    private int mReceiveTimeout;
-
     /** Logger. */
     private final Log _log = LogFactory.getLog(CicsSocket.class);
 
@@ -138,18 +132,11 @@ public class CicsSocket implements LegStarConnection {
      * 
      * @param connectionID an identifier for this connection
      * @param cicsSocketEndpoint CICS Socket endpoint
-     * @param connectionTimeout Maximum time (milliseconds) to wait for
-     *  connection
-     * @param receiveTimeout Maximum time (milliseconds) to wait for host reply
      */
     public CicsSocket(
             final String connectionID,
-            final CicsSocketEndpoint cicsSocketEndpoint,
-            final int connectionTimeout,
-            final int receiveTimeout) {
+            final CicsSocketEndpoint cicsSocketEndpoint) {
         mConnectionID = connectionID;
-        mConnectTimeout = connectionTimeout;
-        mReceiveTimeout = receiveTimeout;
         mCicsSocketEndpoint = cicsSocketEndpoint;
         mHostProtocolCharset = HostCodec.HEADER_CODE_PAGE;
     }
@@ -168,7 +155,7 @@ public class CicsSocket implements LegStarConnection {
         if (_log.isDebugEnabled()) {
             _log.debug("Connection:" + mConnectionID
                     + " Attempting connection. Host:" 
-                    + mCicsSocketEndpoint.getReport());
+                    + mCicsSocketEndpoint.toString());
         }
         try {
             mClientSocket = new Socket();
@@ -177,8 +164,8 @@ public class CicsSocket implements LegStarConnection {
                             InetAddress.getByName(
                                     mCicsSocketEndpoint.getHostIPAddress()),
                                     mCicsSocketEndpoint.getHostIPPort()),
-                                    mConnectTimeout);
-            mClientSocket.setSoTimeout(mReceiveTimeout);
+                                    getCicsSocketEndpoint().getConnectTimeout());
+            mClientSocket.setSoTimeout(getCicsSocketEndpoint().getReceiveTimeout());
             /* In order to optimize memory allocation, this client program
              * sends message parts to server in 2 different sends. If
              * we don t disable Nagle, there is an unacceptable delay in
@@ -720,27 +707,11 @@ public class CicsSocket implements LegStarConnection {
     }
 
     /** (non-Javadoc).
-     * @see com.legstar.messaging.LegStarConnection#setConnectTimeout(int)
-     * {@inheritDoc}
-     */
-    public final void setConnectTimeout(final long timeout) {
-        mConnectTimeout = (int) timeout;
-    }
-
-    /** (non-Javadoc).
-     * @see com.legstar.messaging.LegStarConnection#setReceiveTimeout(int)
-     * {@inheritDoc}
-     */
-    public final void setReceiveTimeout(final long timeout) {
-        mReceiveTimeout = (int) timeout;
-    }
-
-    /** (non-Javadoc).
      * @see com.legstar.messaging.Connection#getConnectTimeout()
      * {@inheritDoc}
      */
     public final long getConnectTimeout() {
-        return mConnectTimeout;
+        return getCicsSocketEndpoint().getConnectTimeout();
     }
 
     /** (non-Javadoc).
@@ -748,7 +719,7 @@ public class CicsSocket implements LegStarConnection {
      * {@inheritDoc}
      */
     public final long getReceiveTimeout() {
-        return mReceiveTimeout;
+        return getCicsSocketEndpoint().getReceiveTimeout();
     }
 
 

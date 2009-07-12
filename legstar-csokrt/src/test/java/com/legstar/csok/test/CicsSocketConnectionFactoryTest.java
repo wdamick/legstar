@@ -10,11 +10,9 @@
  ******************************************************************************/
 package com.legstar.csok.test;
 
-import org.apache.commons.configuration.HierarchicalConfiguration;
-
-import com.legstar.config.Config;
 import com.legstar.csok.client.CicsSocket;
 import com.legstar.csok.client.CicsSocketConnectionFactory;
+import com.legstar.csok.client.CicsSocketEndpoint;
 import com.legstar.messaging.LegStarAddress;
 
 import junit.framework.TestCase;
@@ -26,20 +24,12 @@ import junit.framework.TestCase;
 public class CicsSocketConnectionFactoryTest extends TestCase {
     
     
-    /** Configuration file.*/
-    private static final String CONFIG_FILE = "config.xml";
-    
-    /** An endpoint defined in the configuration file.*/
-    private static final String ENDPOINT_NAME = "CICSTS23";
-
     /**
      * Test instantiation.
      */
     public void testInstantiation() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(CONFIG_FILE, ENDPOINT_NAME);
-            CicsSocketConnectionFactory cf =
-                new CicsSocketConnectionFactory(endpointConfig);
+            CicsSocketConnectionFactory cf = new CicsSocketConnectionFactory();
             assertTrue(cf != null);
         } catch (Exception e) {
             fail("testInstanciation failed" + e);
@@ -51,12 +41,11 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
      */
     public void testCreateNoUserNoPasswordNoCharset() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(CONFIG_FILE, ENDPOINT_NAME);
-            CicsSocketConnectionFactory cf =
-                new CicsSocketConnectionFactory(endpointConfig);
-            LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
-            CicsSocket conn = (CicsSocket) cf.createConnection("testCreateNoUserNoPasswordNoCharset", address);
-            assertEquals("testCreateNoUserNoPasswordNoCharset", conn.getConnectionID());
+            CicsSocketConnectionFactory cf = new CicsSocketConnectionFactory();
+            CicsSocketEndpoint endpoint = AbstractSocketConnectionTester.getCicsTs23Endpoint();
+            LegStarAddress address = new LegStarAddress(endpoint.getName());
+            CicsSocket conn = (CicsSocket) cf.createConnection(getName(), address, endpoint);
+            assertEquals(getName(), conn.getConnectionID());
             assertEquals("IBM01140", conn.getCicsSocketEndpoint().getHostCharset());
             assertEquals("P390", conn.getCicsSocketEndpoint().getHostUserID());
             assertEquals(false, conn.getCicsSocketEndpoint().isHostTraceMode());
@@ -70,16 +59,15 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
      */
     public void testCreateUserPasswordCharset() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(CONFIG_FILE, ENDPOINT_NAME);
-            CicsSocketConnectionFactory cf =
-                new CicsSocketConnectionFactory(endpointConfig);
-            LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
+            CicsSocketConnectionFactory cf = new CicsSocketConnectionFactory();
+            CicsSocketEndpoint endpoint = AbstractSocketConnectionTester.getCicsTs23Endpoint();
+            LegStarAddress address = new LegStarAddress(endpoint.getName());
             address.setHostCharset("IBMTRUC0");
             address.setHostUserID("RANTANPLAN");
             address.setHostPassword("BIDULE");
             address.setHostTraceMode(true);
-            CicsSocket conn = (CicsSocket) cf.createConnection("testCreateNoUserNoPasswordNoCharset", address);
-            assertEquals("testCreateNoUserNoPasswordNoCharset", conn.getConnectionID());
+            CicsSocket conn = (CicsSocket) cf.createConnection(getName(), address, endpoint);
+            assertEquals(getName(), conn.getConnectionID());
             assertEquals("IBMTRUC0", conn.getCicsSocketEndpoint().getHostCharset());
             assertEquals("RANTANPLAN", conn.getCicsSocketEndpoint().getHostUserID());
             assertEquals(true, conn.getCicsSocketEndpoint().isHostTraceMode());
@@ -93,31 +81,16 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
      */
     public void testCreateFromEmpyConfig() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration("config0.xml", ENDPOINT_NAME);
-            CicsSocketConnectionFactory cf =
-                new CicsSocketConnectionFactory(endpointConfig);
-            LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
-            cf.createConnection("testCreateNoUserNoPasswordNoCharset", address);
+            CicsSocketConnectionFactory cf = new CicsSocketConnectionFactory();
+            CicsSocketEndpoint endpoint = AbstractSocketConnectionTester.getCicsTs23Endpoint();
+            endpoint.setHostUserID(null);
+            endpoint.setHostPassword(null);
+            endpoint.setHostCharset(null);
+            LegStarAddress address = new LegStarAddress(endpoint.getName());
+            cf.createConnection(getName(), address, endpoint);
             fail("testCreateFromEmpyConfig failed ");
         } catch (Exception e) {
             assertEquals("No host character set has been provided.", e.getMessage());
-        }
-    }
-
-    /**
-     * Check what happens if charset is provided but no user/password.
-     */
-    public void testCreateFromEmpyConfig2() {
-        try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration("config0.xml", ENDPOINT_NAME);
-            CicsSocketConnectionFactory cf =
-                new CicsSocketConnectionFactory(endpointConfig);
-            LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
-            address.setHostCharset("IBMTRUC0");
-            cf.createConnection("testCreateNoUserNoPasswordNoCharset", address);
-            fail("testCreateFromEmpyConfig failed ");
-        } catch (Exception e) {
-            assertEquals("No host user ID has been provided.", e.getMessage());
         }
     }
 
@@ -126,13 +99,12 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
      */
     public void testCreateFromEmpyConfig3() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration("config1.xml", ENDPOINT_NAME);
-            CicsSocketConnectionFactory cf =
-                new CicsSocketConnectionFactory(endpointConfig);
-            LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
+            CicsSocketConnectionFactory cf = new CicsSocketConnectionFactory();
+            CicsSocketEndpoint endpoint = new CicsSocketEndpoint();
+            LegStarAddress address = new LegStarAddress(endpoint.getName());
             address.setHostCharset("IBMTRUC0");
             address.setHostUserID("RANTANPLAN");
-            cf.createConnection("testCreateNoUserNoPasswordNoCharset", address);
+            cf.createConnection(getName(), address, endpoint);
             fail("testCreateFromEmpyConfig failed ");
         } catch (Exception e) {
             assertEquals("No host IP address has been provided.", e.getMessage());
@@ -144,13 +116,13 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
      */
     public void testCreateFromEmpyConfig4() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration("config2.xml", ENDPOINT_NAME);
-            CicsSocketConnectionFactory cf =
-                new CicsSocketConnectionFactory(endpointConfig);
-            LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
+            CicsSocketConnectionFactory cf = new CicsSocketConnectionFactory();
+            CicsSocketEndpoint endpoint = new CicsSocketEndpoint();
+            endpoint.setHostIPAddress("192.168.0.111");
+            LegStarAddress address = new LegStarAddress(endpoint.getName());
             address.setHostCharset("IBMTRUC0");
             address.setHostUserID("RANTANPLAN");
-            cf.createConnection("testCreateNoUserNoPasswordNoCharset", address);
+            cf.createConnection(getName(), address, endpoint);
             fail("testCreateFromEmpyConfig failed ");
         } catch (Exception e) {
             assertEquals("No host IP port has been provided.", e.getMessage());
@@ -162,11 +134,10 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
      */
     public void testCreateWithDefaultTimeouts() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(CONFIG_FILE, ENDPOINT_NAME);
-            CicsSocketConnectionFactory cf =
-                new CicsSocketConnectionFactory(endpointConfig);
-            LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
-            CicsSocket conn = (CicsSocket) cf.createConnection("testCreateWithDefaultTimeouts", address);
+            CicsSocketConnectionFactory cf = new CicsSocketConnectionFactory();
+            CicsSocketEndpoint endpoint = AbstractSocketConnectionTester.getCicsTs23Endpoint();
+            LegStarAddress address = new LegStarAddress(endpoint.getName());
+            CicsSocket conn = (CicsSocket) cf.createConnection(getName(), address, endpoint);
             assertEquals(1000, conn.getConnectTimeout());
             assertEquals(5000, conn.getReceiveTimeout());
         } catch (Exception e) {
@@ -179,11 +150,12 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
      */
     public void testCreateWithTimeoutsFromConfig() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration("config3.xml", ENDPOINT_NAME);
-            CicsSocketConnectionFactory cf =
-                new CicsSocketConnectionFactory(endpointConfig);
-            LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
-            CicsSocket conn = (CicsSocket) cf.createConnection("testCreateWithDefaultTimeouts", address);
+            CicsSocketConnectionFactory cf = new CicsSocketConnectionFactory();
+            CicsSocketEndpoint endpoint = AbstractSocketConnectionTester.getCicsTs23Endpoint();
+            endpoint.setConnectTimeout(2000);
+            endpoint.setReceiveTimeout(7000);
+            LegStarAddress address = new LegStarAddress(endpoint.getName());
+            CicsSocket conn = (CicsSocket) cf.createConnection(getName(), address, endpoint);
             assertEquals(2000, conn.getConnectTimeout());
             assertEquals(7000, conn.getReceiveTimeout());
         } catch (Exception e) {

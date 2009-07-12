@@ -10,13 +10,18 @@
  ******************************************************************************/
 package com.legstar.csok.test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.legstar.config.Config;
+import com.legstar.config.PoolingEngineConfig;
 import com.legstar.csok.client.CicsSocket;
 import com.legstar.csok.client.CicsSocketEndpoint;
+import com.legstar.messaging.HostEndpoint;
 import com.legstar.messaging.LegStarAddress;
+import com.legstar.messaging.HostEndpoint.AccessStrategy;
 import com.legstar.test.client.AbstractConnectionTester;
 
 /**
@@ -25,9 +30,6 @@ import com.legstar.test.client.AbstractConnectionTester;
  */
 public abstract class AbstractSocketConnectionTester extends AbstractConnectionTester {
 
-    /** Configuration file.*/
-    public static final String CONFIG_FILE = "config.xml";
-    
     /** A Socket endpoint. */
     private CicsSocketEndpoint mEndpoint;
     
@@ -67,15 +69,22 @@ public abstract class AbstractSocketConnectionTester extends AbstractConnectionT
      * @throws Exception if setup fails
      */
     public void setUp(final String endpointName) throws Exception {
-        mEndpoint = new CicsSocketEndpoint(
-                Config.loadEndpointConfiguration(CONFIG_FILE, endpointName));
+        if (endpointName.equals("CICSTS23")) {
+            mEndpoint = getCicsTs23Endpoint();
+        } else if (endpointName.equals("CICSTS23-POOLED")) {
+            mEndpoint = getCicsTs23PooledEndpoint();
+        } else if (endpointName.equals("CICSTS31")) {
+            mEndpoint = getCicsTs31Endpoint();
+        } else if (endpointName.equals("CICSTS31-POOLED")) {
+            mEndpoint = getCicsTs31PooledEndpoint();
+        }
         if (_log.isDebugEnabled()) {
             mEndpoint.setHostTraceMode(true);
         }
 
         mAddress = new LegStarAddress(endpointName);
-        mConnection = new CicsSocket(getName(), getEndpoint(), 1000, 5000);
-        mConnection.connect(HOST_USERID);
+        mConnection = new CicsSocket(getName(), getEndpoint());
+        mConnection.connect(HOST_PASSWORD);
     }
 
     /** {@inheritDoc} */
@@ -84,4 +93,75 @@ public abstract class AbstractSocketConnectionTester extends AbstractConnectionT
         mConnection.close();
     }
 
+    /**
+     * @return and endpoint for CICS TS 2.3
+     */
+    public static CicsSocketEndpoint getCicsTs23Endpoint() {
+        CicsSocketEndpoint endpoint = new CicsSocketEndpoint();
+        endpoint.setName("CICSTS23");
+        endpoint.setHostIPAddress("mainframe");
+        endpoint.setHostIPPort(3011);
+        endpoint.setHostUserID("P390");
+        endpoint.setHostPassword("STREAM2");
+        return endpoint;
+    }
+
+    /**
+     * @return and endpoint for CICS TS 3.1
+     */
+    public static CicsSocketEndpoint getCicsTs31Endpoint() {
+        CicsSocketEndpoint endpoint = new CicsSocketEndpoint();
+        endpoint.setName("CICSTS31");
+        endpoint.setHostIPAddress("mainframe");
+        endpoint.setHostIPPort(4011);
+        endpoint.setHostUserID("P390");
+        endpoint.setHostPassword("STREAM2");
+        return endpoint;
+    }
+
+    /**
+     * @return and endpoint for CICS TS 2.3
+     */
+    public static CicsSocketEndpoint getCicsTs23PooledEndpoint() {
+        CicsSocketEndpoint endpoint = getCicsTs23Endpoint();
+        endpoint.setName("CICSTS23-POOLED");
+        endpoint.setHostAccessStrategy(AccessStrategy.pooled);
+        return endpoint;
+    }
+
+    /**
+     * @return and endpoint for CICS TS 3.1
+     */
+    public static CicsSocketEndpoint getCicsTs31PooledEndpoint() {
+        CicsSocketEndpoint endpoint = getCicsTs31Endpoint();
+        endpoint.setName("CICSTS31-POOLED");
+        endpoint.setHostAccessStrategy(AccessStrategy.pooled);
+        return endpoint;
+    }
+
+    /**
+     * @return a pooling engine configuration bean.
+     */
+    public static PoolingEngineConfig getCicsTs23PoolingEngineConfig() {
+        PoolingEngineConfig config = new PoolingEngineConfig();
+        List < HostEndpoint > endpoints = new ArrayList < HostEndpoint >();
+
+        endpoints.add(getCicsTs23PooledEndpoint());
+
+        config.setHostEndpoints(endpoints);
+        return config;
+    }
+
+    /**
+     * @return a pooling engine configuration bean.
+     */
+    public static PoolingEngineConfig getCicsTs31PoolingEngineConfig() {
+        PoolingEngineConfig config = new PoolingEngineConfig();
+        List < HostEndpoint > endpoints = new ArrayList < HostEndpoint >();
+
+        endpoints.add(getCicsTs31PooledEndpoint());
+
+        config.setHostEndpoints(endpoints);
+        return config;
+    }
 }

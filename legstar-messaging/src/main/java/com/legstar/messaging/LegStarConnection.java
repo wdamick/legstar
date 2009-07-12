@@ -75,26 +75,11 @@ public interface LegStarConnection {
     void close() throws RequestException;
 
     /**
-     * While trying to establish a connection with the host, this sets
-     * a limit to the time we are prepared to wait for a successful
-     * connection.
-     * @param timeout maximum time (milliseconds) to wait for connection
-     */
-    void setConnectTimeout(long timeout);
-
-    /**
      * Connection timeout is the maximum time to wait for a connection
      * to succeed.
      * @return the current connection timeout value
      */
     long getConnectTimeout();
-
-    /**
-     * While waiting for the host to reply to a request, this sets
-     * a limit to the time we are prepared to wait for data back.
-     * @param timeout maximum time (milliseconds) to wait for host reply
-     */
-    void setReceiveTimeout(long timeout);
 
     /**
      * Receive timeout is the maximum time to wait for a reply from the

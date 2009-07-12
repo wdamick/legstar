@@ -61,17 +61,12 @@ public class CicsMQMqcih extends AbstractCicsMQ  {
      * 
      * @param connectionID an identifier for this connection
      * @param cicsMQEndpoint MQ endpoint
-     * @param connectionTimeout Maximum time (milliseconds) to wait for
-     *  connection
-     * @param receiveTimeout Maximum time (milliseconds) to wait for host reply
      * @throws CicsMQConnectionException if instantiation fails
      */
     public CicsMQMqcih(
             final String connectionID,
-            final CicsMQEndpoint cicsMQEndpoint,
-            final int connectionTimeout,
-            final int receiveTimeout) throws CicsMQConnectionException {
-        super(connectionID, cicsMQEndpoint, connectionTimeout, receiveTimeout);
+            final CicsMQEndpoint cicsMQEndpoint) throws CicsMQConnectionException {
+        super(connectionID, cicsMQEndpoint);
         _MqcihTransformers = new MqcihTransformers();
     }
 

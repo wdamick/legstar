@@ -1,11 +1,11 @@
 package com.legstar.csok.test;
 
-import org.apache.commons.configuration.ConfigurationException;
+import java.rmi.server.UID;
 
-import com.legstar.config.Config;
 import com.legstar.csok.client.CicsSocket;
 import com.legstar.csok.client.CicsSocketEndpoint;
 import com.legstar.messaging.ConnectionException;
+import com.legstar.messaging.HostEndpoint;
 import com.legstar.messaging.LegStarConnection;
 import com.legstar.test.client.AbstractConnectionMeteringTest;
 
@@ -15,31 +15,19 @@ import com.legstar.test.client.AbstractConnectionMeteringTest;
  */
 public class CicsTs23MeteringTest extends AbstractConnectionMeteringTest {
 
-    /**
-     * Construct.
-     * @throws ConnectionException if connection cannot be created
-     */
-    public CicsTs23MeteringTest() throws ConnectionException {
-        super("config.xml", "CICSTS23");
+    /** {@inheritDoc} */
+    @Override
+    public HostEndpoint createEndpoint() {
+        HostEndpoint endpoint = AbstractSocketConnectionTester.getCicsTs23Endpoint();
+        endpoint.setHostTraceMode(false);
+        return endpoint;
     }
 
     /** {@inheritDoc} */
     @Override
-    public LegStarConnection createConnection(
-            final String configFileName,
-            final String endpointName) throws ConnectionException {
-        try {
-            CicsSocketEndpoint endpoint = new CicsSocketEndpoint(
-                    Config.loadEndpointConfiguration(configFileName, endpointName));
-            endpoint.setHostTraceMode(false);
-            CicsSocket connection = new CicsSocket(
-                    endpointName, endpoint,
-                    AbstractSocketConnectionTester.DEFAULT_CONNECT_TIMEOUT_MSEC,
-                    AbstractSocketConnectionTester.DEFAULT_READ_TIMEOUT_MSEC);
-            return connection;
-        } catch (ConfigurationException e) {
-            throw new ConnectionException(e);
-        }
+    public LegStarConnection createConnection() throws ConnectionException {
+        CicsSocket connection = new CicsSocket(
+                (new UID()).toString(), (CicsSocketEndpoint) getEndpoint());
+        return connection;
     }
-
 }

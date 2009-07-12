@@ -28,9 +28,6 @@ import com.legstar.test.client.AbstractConnectionTester;
  */
 public abstract class AbstractHttpConnectionTester extends AbstractConnectionTester {
 
-    /** Configuration file.*/
-    public static final String CONFIG_FILE = "config.xml";
-
     /** A Http endpoint. */
     private CicsHttpEndpoint mEndpoint;
 
@@ -82,10 +79,10 @@ public abstract class AbstractHttpConnectionTester extends AbstractConnectionTes
             mEndpoint.setHostTraceMode(true);
         }
         mEndpoint.setHostUserID(HOST_USERID);
+        mEndpoint.setConnectTimeout(2000);
 
         mAddress = new LegStarAddress(endpointName);
         mConnection = new CicsHttp(getName(), getEndpoint());
-        mConnection.setConnectTimeout(2000);
         mConnection.connect(HOST_PASSWORD);
     }
 

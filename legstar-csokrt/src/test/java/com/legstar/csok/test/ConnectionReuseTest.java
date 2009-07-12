@@ -40,7 +40,7 @@ public class ConnectionReuseTest extends AbstractSocketConnectionTester {
         Thread.sleep(2500L);
 
         /* At this stage, the server died. Attempt reuse */
-        getConnection().connectReuse(HOST_USERID);
+        getConnection().connectReuse(HOST_PASSWORD);
 
         /* Check if connection is usable */
         HashMap < String, Object > map = new HashMap < String, Object >();

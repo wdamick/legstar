@@ -16,8 +16,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.legstar.config.LegStarConfigurationException;
-import com.legstar.config.PoolingEngineConfig;
 import com.legstar.coxb.util.Utils;
+import com.legstar.config.PoolingEngineConfig;
 import com.legstar.messaging.ConnectionFactory;
 import com.legstar.messaging.HostEndpoint;
 import com.legstar.messaging.LegStarAddress;

@@ -30,11 +30,10 @@ public class CicsMQMqcihTest extends AbstractMQConnectionTester {
     /** {@inheritDoc} */
     public void setUp() throws Exception {
         super.setUp("CICSTS23-MQCIH");
+        getEndpoint().setConnectTimeout(2000);
         mConnection = new CicsMQMqcih(
-                getName(), getEndpoint(),
-                DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
-        mConnection.setConnectTimeout(2000);
-        mConnection.connect(HOST_USERID);
+                getName(), getEndpoint());
+        mConnection.connect(HOST_PASSWORD);
 
     }
 
@@ -49,8 +48,7 @@ public class CicsMQMqcihTest extends AbstractMQConnectionTester {
      */
     public void testInstantiation() {
         try {
-            CicsMQMqcih cicsMQ = new CicsMQMqcih("testInstantiation", getEndpoint(),
-                    DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
+            CicsMQMqcih cicsMQ = new CicsMQMqcih("testInstantiation", getEndpoint());
             assertFalse(cicsMQ == null);
         } catch (CicsMQConnectionException e) {
             fail(e.getMessage());
@@ -62,8 +60,7 @@ public class CicsMQMqcihTest extends AbstractMQConnectionTester {
      */
     public void testConnectClose() {
         try {
-            CicsMQMqcih cicsMQ = new CicsMQMqcih("testInstantiation", getEndpoint(),
-                    DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
+            CicsMQMqcih cicsMQ = new CicsMQMqcih("testInstantiation", getEndpoint());
             cicsMQ.connect("tiramisu");
             cicsMQ.close();
         } catch (ConnectionException e) {
@@ -79,8 +76,7 @@ public class CicsMQMqcihTest extends AbstractMQConnectionTester {
     public void testConnectWrongHost() {
         try {
             getEndpoint().setHostIPAddress(" ");
-            CicsMQMqcih cicsMQ = new CicsMQMqcih("testInstantiation", getEndpoint(),
-                    DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
+            CicsMQMqcih cicsMQ = new CicsMQMqcih("testInstantiation", getEndpoint());
             cicsMQ.connect("tiramisu");
             fail("testConnectFailure");
         } catch (ConnectionException e) {
@@ -94,8 +90,7 @@ public class CicsMQMqcihTest extends AbstractMQConnectionTester {
     public void testConnectWrongPort() {
         try {
             getEndpoint().setHostIPPort(1517);
-            CicsMQMqcih cicsMQ = new CicsMQMqcih("testInstantiation", getEndpoint(),
-                    DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
+            CicsMQMqcih cicsMQ = new CicsMQMqcih("testInstantiation", getEndpoint());
             cicsMQ.connect("tiramisu");
             fail("testConnectFailure");
         } catch (ConnectionException e) {
@@ -108,8 +103,7 @@ public class CicsMQMqcihTest extends AbstractMQConnectionTester {
      */
     public void testConnectReuse() {
         try {
-            CicsMQMqcih cicsMQ = new CicsMQMqcih("testInstantiation", getEndpoint(),
-                    DEFAULT_CONNECT_TIMEOUT_MSEC, DEFAULT_READ_TIMEOUT_MSEC);
+            CicsMQMqcih cicsMQ = new CicsMQMqcih("testInstantiation", getEndpoint());
             cicsMQ.connectReuse("tiramisu");
             /* We should have a valid MQ Manager */
             assertTrue(cicsMQ.getRequestQueue().isOpen());
