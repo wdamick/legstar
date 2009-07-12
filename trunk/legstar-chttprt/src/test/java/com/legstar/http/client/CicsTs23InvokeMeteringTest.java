@@ -4,7 +4,6 @@ import junit.framework.TestCase;
 
 import org.apache.commons.configuration.ConfigurationException;
 
-import com.legstar.config.Config;
 import com.legstar.coxb.host.HostData;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.LegStarAddress;
@@ -32,8 +31,7 @@ public class CicsTs23InvokeMeteringTest extends TestCase {
      */
     public CicsTs23InvokeMeteringTest() throws ConfigurationException {
         _endpointName = "CICSTS23";
-        _endpoint = new CicsHttpEndpoint(
-                Config.loadEndpointConfiguration("config.xml", _endpointName));
+        _endpoint = AbstractHttpConnectionTester.getCicsTs23Endpoint();
         _endpoint.setHostTraceMode(false);
     }
 
@@ -43,10 +41,8 @@ public class CicsTs23InvokeMeteringTest extends TestCase {
     public void testLsfileae() {
         try {
             CicsHttp connection = new CicsHttp(
-                    _endpointName, _endpoint,
-                    AbstractHttpConnectionTester.DEFAULT_CONNECT_TIMEOUT_MSEC,
-                    AbstractHttpConnectionTester.DEFAULT_READ_TIMEOUT_MSEC);
-            connection.connect(AbstractConnectionTester.HOST_USERID);
+                    _endpointName, _endpoint);
+            connection.connect(AbstractConnectionTester.HOST_PASSWORD);
             LegStarRequest request = AbstractConnectionTester.getLsfileaeRequest100(
                     new LegStarAddress(_endpointName));
             connection.sendRequest(request);

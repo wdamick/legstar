@@ -22,10 +22,6 @@
             <artifactId>commons-httpclient</artifactId>
         </dependency>
         <dependency>
-            <groupId>commons-configuration</groupId>
-            <artifactId>commons-configuration</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-messaging</artifactId>
         </dependency>

@@ -18,18 +18,6 @@
             <artifactId>legstar-coxbapi</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>commons-configuration</groupId>
-            <artifactId>commons-configuration</artifactId>
-        </dependency>
-        <!-- This is a commons-configuration dependency but it is
-             declared optional since 1.5. It is loaded dynamically
-             therefore needs to be here. -->    
-        <dependency>
-            <groupId>commons-jxpath</groupId>
-            <artifactId>commons-jxpath</artifactId>
-        </dependency>
-      
     </dependencies>
 
     <build>
@@ -57,7 +45,7 @@
                         </goals>
                     </execution>
 
-                   <!-- This will upload the zos sources.  -->
+                   <!-- This will upload the zos sources. -->
                     <execution>
                         <id>deploy-to-zos</id>
                         <phase>generate-test-resources</phase>
@@ -75,6 +63,7 @@
                             <goal>run</goal>
                         </goals>
                     </execution>
+                     
                 </executions>
             </plugin>
         

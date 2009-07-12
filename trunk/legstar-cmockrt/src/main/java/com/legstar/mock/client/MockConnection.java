@@ -31,6 +31,23 @@ public class MockConnection implements LegStarConnection {
     /** Logger. */
     private final Log _log = LogFactory.getLog(MockConnection.class);
 
+    /** Connection ID. */
+    private String _connectionID;
+    
+    /**
+     * No-arg constructor.
+     */
+    public MockConnection() {
+        
+    }
+
+    /**
+     * Create with and ID.
+     * @param connectionID the connection ID
+     */
+    public MockConnection(final String connectionID) {
+        _connectionID = connectionID;
+    }
     /** {@inheritDoc} */
     public void close() throws RequestException {
         // TODO Auto-generated method stub
@@ -63,8 +80,7 @@ public class MockConnection implements LegStarConnection {
 
     /** {@inheritDoc} */
     public String getConnectionID() {
-        // TODO Auto-generated method stub
-        return null;
+        return _connectionID;
     }
 
     /** {@inheritDoc} */

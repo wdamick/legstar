@@ -16,14 +16,11 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
-import org.apache.commons.configuration.CombinedConfiguration;
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.DefaultConfigurationBuilder;
-import org.apache.commons.configuration.HierarchicalConfiguration;
-import org.apache.commons.configuration.tree.xpath.XPathExpressionEngine;
 import org.apache.commons.logging.Log; 
 import org.apache.commons.logging.LogFactory; 
 
+import com.legstar.config.LegStarConfigurationException;
+import com.legstar.config.commons.LegStarConfigCommons;
 import com.legstar.host.server.EngineHandler;
 import com.legstar.host.server.EngineStartupException;
 
@@ -73,40 +70,20 @@ public class InitiatorServlet extends HttpServlet {
                 + " configuration file.");
 
         try {
+            LegStarConfigCommons legStarConfig = new LegStarConfigCommons(configFileName);
             EngineHandler serverHandler = new EngineHandler(
-                    loadConfigFile(configFileName));
+                    legStarConfig.getPoolingEngineConfig());
             serverHandler.init();
             ServletContext servletContext = config.getServletContext();
             servletContext.setAttribute(ENGINE_HANDLER_ID, serverHandler);
             
-        } catch (ConfigurationException e) {
-            _log.error("Failed to initialize.", e);
-            throw new ServletException(e);
         } catch (EngineStartupException e) {
             _log.error("Failed to start engine.", e);
             throw new ServletException(e);
+        } catch (LegStarConfigurationException e) {
+            _log.error("Failed to start engine.", e);
+            throw new ServletException(e);
         }
-    }
-
-    /**
-     * Use the Apache configuration API to retrieve the configuration file.
-     * This gives q lot of flexibility to locate the file.
-     * 
-     * @param configFileName name of the configuration file
-     * @return the configuration retrieved
-     * @throws ConfigurationException if configuration cannot be retrieved
-     */
-    private HierarchicalConfiguration loadConfigFile(
-            final String configFileName) throws ConfigurationException {
-        _log.debug("Attempting to load " + configFileName);
-        DefaultConfigurationBuilder dcb = new DefaultConfigurationBuilder();
-        dcb.setFileName(configFileName);
-        CombinedConfiguration config = (CombinedConfiguration)
-        dcb.getConfiguration(true).getConfiguration(
-                DefaultConfigurationBuilder.ADDITIONAL_NAME);
-        config.setExpressionEngine(new XPathExpressionEngine());
-        _log.debug("Load success for " + configFileName);
-        return config; 
     }
 
 }

@@ -96,19 +96,13 @@ public class CicsHttp implements LegStarConnection  {
      * 
      * @param connectionID an identifier for this connection
      * @param cicsHttpEndpoint CICS Http endpoint
-     * @param connectionTimeout Maximum time (milliseconds) to wait for
-     *  connection
-     * @param receiveTimeout Maximum time (milliseconds) to wait for host reply
      */
     public CicsHttp(
             final String connectionID,
-            final CicsHttpEndpoint cicsHttpEndpoint,
-            final int connectionTimeout,
-            final int receiveTimeout) {
+            final CicsHttpEndpoint cicsHttpEndpoint) {
         mConnectionID = connectionID;
         mCicsHttpEndpoint = cicsHttpEndpoint;
-        mHttpClient = createHttpClient(
-                cicsHttpEndpoint, connectionTimeout, receiveTimeout);
+        mHttpClient = createHttpClient(cicsHttpEndpoint);
     }
 
     /**
@@ -125,7 +119,7 @@ public class CicsHttp implements LegStarConnection  {
         if (_log.isDebugEnabled()) {
             _log.debug("Connection:" + getConnectionID()
                     + " Setup connection. Host:" 
-                    + getCicsHttpEndpoint().getReport());
+                    + getCicsHttpEndpoint());
         }
         /* If a password is not passed, use the one from configuration */
         String password;
@@ -281,15 +275,10 @@ public class CicsHttp implements LegStarConnection  {
      * the remote CICS Server characteristics. At this stage, the HTTPClient is not
      * associated with a state and a method yet.
      * @param cicsHttpEndpoint the connection configuration
-     * @param connectionTimeout Maximum time (milliseconds) to wait for
-     *  connection
-     * @param receiveTimeout Maximum time (milliseconds) to wait for host reply
      * @return the new HTTP Client
      */
     public HttpClient createHttpClient(
-            final CicsHttpEndpoint cicsHttpEndpoint,
-            final int connectionTimeout,
-            final int receiveTimeout) {
+            final CicsHttpEndpoint cicsHttpEndpoint) {
 
         if (_log.isDebugEnabled()) {
             _log.debug("enter createHttpClient()");
@@ -311,12 +300,12 @@ public class CicsHttp implements LegStarConnection  {
         params.setAuthenticationPreemptive(true);
 
         /* Set the receive time out. */
-        params.setSoTimeout(receiveTimeout);
+        params.setSoTimeout(cicsHttpEndpoint.getReceiveTimeout());
 
         /* Tell the connection manager how long we are prepared to wait
          * for a connection. */
         params.setIntParameter(
-                HttpConnectionParams.CONNECTION_TIMEOUT, connectionTimeout);
+                HttpConnectionParams.CONNECTION_TIMEOUT, cicsHttpEndpoint.getConnectTimeout());
 
         /* Disable Nagle algorithm */
         params.setBooleanParameter(

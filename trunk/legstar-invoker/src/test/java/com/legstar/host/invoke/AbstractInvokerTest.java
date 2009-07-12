@@ -12,9 +12,6 @@ package com.legstar.host.invoke;
 
 import java.util.Map;
 
-import org.apache.commons.configuration.HierarchicalConfiguration;
-
-import com.legstar.config.Config;
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.host.HostData;
 import com.legstar.host.AbstractTester;
@@ -23,6 +20,7 @@ import com.legstar.host.access.HostAccessStrategy;
 import com.legstar.host.invoke.model.HostProgramException;
 import com.legstar.messaging.CommareaPart;
 import com.legstar.messaging.HeaderPartException;
+import com.legstar.messaging.HostEndpoint;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.LegStarHeaderPart;
 import com.legstar.messaging.LegStarMessage;
@@ -39,13 +37,11 @@ public class AbstractInvokerTest extends AbstractTester {
      * @throws Exception if invoke fails
      */
     public void testInvoke() throws Exception {
-        LegStarAddress address = new LegStarAddress("TheMainframe");
-        HierarchicalConfiguration generalConfig = Config.loadGeneralConfig(CONFIG_FILE);
-        HierarchicalConfiguration endpointConfig = Config.loadAddressConfiguration(
-                generalConfig, address);
-        HostAccessStrategy hostAccessStrategy = new DirectHostAccessStrategy(endpointConfig);
+        HostEndpoint endpoint = getStandardHostEndpoint();
+        HostAccessStrategy hostAccessStrategy = new DirectHostAccessStrategy(endpoint);
         HostProgramProperties hostProgram = new HostProgramProperties("lsfileae.properties");
 
+        LegStarAddress address = new LegStarAddress("TheMainframe");
         AbstractInvokerImpl invoker = new AbstractInvokerImpl(hostAccessStrategy, address, hostProgram);
         byte[] responseBytes = invoker.invoke("Lsfileae100",
                 HostData.toByteArray(LsfileaeCases.getHostBytesHexRequest100()));

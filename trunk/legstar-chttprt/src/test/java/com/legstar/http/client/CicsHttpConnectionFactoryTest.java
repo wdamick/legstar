@@ -10,10 +10,7 @@
  ******************************************************************************/
 package com.legstar.http.client;
 
-import org.apache.commons.configuration.HierarchicalConfiguration;
-
 import com.legstar.messaging.LegStarAddress;
-import com.legstar.config.Config;
 
 import junit.framework.TestCase;
 
@@ -22,9 +19,6 @@ import junit.framework.TestCase;
  *
  */
 public class CicsHttpConnectionFactoryTest extends TestCase {
-
-    /** Configuration file.*/
-    private static final String CONFIG_FILE = "config.xml";
 
     /** An endpoint defined in the configuration file.*/
     private static final String ENDPOINT_NAME = "CICSTS23";
@@ -35,9 +29,7 @@ public class CicsHttpConnectionFactoryTest extends TestCase {
      */
     public void testInstantiation() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(CONFIG_FILE, ENDPOINT_NAME);
-            CicsHttpConnectionFactory cf =
-                new CicsHttpConnectionFactory(endpointConfig);
+            CicsHttpConnectionFactory cf = new CicsHttpConnectionFactory();
             assertTrue(cf != null);
         } catch (Exception e) {
             fail("testInstantiation failed" + e);
@@ -49,11 +41,10 @@ public class CicsHttpConnectionFactoryTest extends TestCase {
      */
     public void testCreateNoUserNoPasswordNoCharset() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(CONFIG_FILE, ENDPOINT_NAME);
-            CicsHttpConnectionFactory cf =
-                new CicsHttpConnectionFactory(endpointConfig);
+            CicsHttpConnectionFactory cf = new CicsHttpConnectionFactory();
             LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
-            CicsHttp conn = (CicsHttp) cf.createConnection("testCreateNoUserNoPasswordNoCharset", address);
+            CicsHttp conn = (CicsHttp) cf.createConnection("testCreateNoUserNoPasswordNoCharset",
+                    address, AbstractHttpConnectionTester.getCicsTs23Endpoint());
             assertEquals("testCreateNoUserNoPasswordNoCharset", conn.getConnectionID());
             assertEquals("IBM01140", conn.getCicsHttpEndpoint().getHostCharset());
             assertEquals("P390", conn.getCicsHttpEndpoint().getHostUserID());
@@ -68,15 +59,14 @@ public class CicsHttpConnectionFactoryTest extends TestCase {
      */
     public void testCreateUserPasswordCharset() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(CONFIG_FILE, ENDPOINT_NAME);
-            CicsHttpConnectionFactory cf =
-                new CicsHttpConnectionFactory(endpointConfig);
+            CicsHttpConnectionFactory cf = new CicsHttpConnectionFactory();
             LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
             address.setHostCharset("IBMTRUC0");
             address.setHostUserID("RANTANPLAN");
             address.setHostPassword("BIDULE");
             address.setHostTraceMode(true);
-            CicsHttp conn = (CicsHttp) cf.createConnection("testCreateNoUserNoPasswordNoCharset", address);
+            CicsHttp conn = (CicsHttp) cf.createConnection("testCreateNoUserNoPasswordNoCharset",
+                    address, AbstractHttpConnectionTester.getCicsTs23Endpoint());
             assertEquals("testCreateNoUserNoPasswordNoCharset", conn.getConnectionID());
             assertEquals("IBMTRUC0", conn.getCicsHttpEndpoint().getHostCharset());
             assertEquals("RANTANPLAN", conn.getCicsHttpEndpoint().getHostUserID());
@@ -91,10 +81,13 @@ public class CicsHttpConnectionFactoryTest extends TestCase {
      */
     public void testCreateFromEmptyConfig() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration("config0.xml", ENDPOINT_NAME);
-            CicsHttpConnectionFactory cf = new CicsHttpConnectionFactory(endpointConfig);
+            CicsHttpEndpoint endpoint = AbstractHttpConnectionTester.getCicsTs23Endpoint();
+            endpoint.setHostUserID(null);
+            endpoint.setHostPassword(null);
+            endpoint.setHostCharset(null);
+            CicsHttpConnectionFactory cf = new CicsHttpConnectionFactory();
             LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
-            cf.createConnection("testCreateNoUserNoPasswordNoCharset", address);
+            cf.createConnection("testCreateNoUserNoPasswordNoCharset", address, endpoint);
             fail("testCreateFromEmptyConfig failed ");
         } catch (Exception e) {
             assertEquals("No host character set has been provided.", e.getMessage());
@@ -102,16 +95,17 @@ public class CicsHttpConnectionFactoryTest extends TestCase {
     }
 
     /**
-     * Test with a config file that provides timeout values.
+     * Test with a config file with no ip host/port.
      */
     public void testCreateFromVeryEmptyConfig() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration("config1.xml", ENDPOINT_NAME);
-            CicsHttpConnectionFactory cf = new CicsHttpConnectionFactory(endpointConfig);
+            CicsHttpEndpoint endpoint = AbstractHttpConnectionTester.getCicsTs23Endpoint();
+            endpoint.setHostIPAddress(null);
+            CicsHttpConnectionFactory cf = new CicsHttpConnectionFactory();
             LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
             address.setHostCharset("IBMTRUC0");
             address.setHostUserID("RANTANPLAN");
-            cf.createConnection("testCreateNoUserNoPasswordNoCharset", address);
+            cf.createConnection("testCreateNoUserNoPasswordNoCharset", address, endpoint);
             fail("testCreateFromEmpyConfig failed ");
         } catch (Exception e) {
             assertEquals("No host IP address has been provided.", e.getMessage());
@@ -123,10 +117,11 @@ public class CicsHttpConnectionFactoryTest extends TestCase {
      */
     public void testCreateWithDefaultTimeouts() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(CONFIG_FILE, ENDPOINT_NAME);
-            CicsHttpConnectionFactory cf = new CicsHttpConnectionFactory(endpointConfig);
+            CicsHttpEndpoint endpoint = AbstractHttpConnectionTester.getCicsTs23Endpoint();
+            CicsHttpConnectionFactory cf = new CicsHttpConnectionFactory();
             LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
-            CicsHttp conn = (CicsHttp) cf.createConnection("testCreateWithDefaultTimeouts", address);
+            CicsHttp conn = (CicsHttp) cf.createConnection(
+                    "testCreateWithDefaultTimeouts", address, endpoint);
             assertEquals(1000, conn.getConnectTimeout());
             assertEquals(5000, conn.getReceiveTimeout());
         } catch (Exception e) {
@@ -139,11 +134,13 @@ public class CicsHttpConnectionFactoryTest extends TestCase {
      */
     public void testCreateWithTimeoutsFromConfig() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration("config3.xml", ENDPOINT_NAME);
-            CicsHttpConnectionFactory cf =
-                new CicsHttpConnectionFactory(endpointConfig);
+            CicsHttpEndpoint endpoint = AbstractHttpConnectionTester.getCicsTs23Endpoint();
+            endpoint.setConnectTimeout(2000);
+            endpoint.setReceiveTimeout(7000);
+            CicsHttpConnectionFactory cf = new CicsHttpConnectionFactory();
             LegStarAddress address = new LegStarAddress(ENDPOINT_NAME);
-            CicsHttp conn = (CicsHttp) cf.createConnection("testCreateWithDefaultTimeouts", address);
+            CicsHttp conn = (CicsHttp) cf.createConnection(
+                    "testCreateWithDefaultTimeouts", address, endpoint);
             assertEquals(2000, conn.getConnectTimeout());
             assertEquals(7000, conn.getReceiveTimeout());
         } catch (Exception e) {

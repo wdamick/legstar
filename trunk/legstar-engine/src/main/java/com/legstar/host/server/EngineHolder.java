@@ -15,11 +15,10 @@ import java.util.concurrent.Executors;
 
 import javax.naming.InitialContext;
 
-import org.apache.commons.configuration.HierarchicalConfiguration;
-import org.apache.commons.configuration.tree.xpath.XPathExpressionEngine;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.legstar.config.PoolingEngineConfig;
 import com.legstar.pool.manager.ConnectionPoolManager;
 import com.legstar.work.invoke.InvokeWorkFactory;
 import com.legstar.work.manager.WorkManagerImpl;
@@ -43,22 +42,10 @@ public final class EngineHolder {
     private static WorkManager sWorkManager;
 
     /** Host connections pool manager. */
-    private static ConnectionPoolManager sPoolManager;
+    private static ConnectionPoolManager _poolManager;
 
     /** The current configuration settings. */
-    private static HierarchicalConfiguration sConfig;
-
-    /** Configuration key giving the work manager JNDI location. */
-    private static final String WM_LOCATION =
-        "engine/workManager/threadPool/JNDILocation";
-
-    /** Configuration key giving the work manager thread pool size. */
-    private static final String WM_TPOOL_SIZE =
-        "engine/workManager/defaultThreadPool/size";
-
-    /** Configuration key giving maximum number of requests waiting to
-     *  be serviced. */
-    private static final String ENGINE_MAX_REQUESTS = "engine/maxRequests";
+    private static PoolingEngineConfig _config;
 
     /** Logger. */
     private static final Log LOG = LogFactory.getLog(EngineHolder.class);
@@ -72,11 +59,10 @@ public final class EngineHolder {
      * @param config the complete configuration hierarchy
      * @throws EngineConfigurationException if configuration is invalid
      */
-    public static void preInit(final HierarchicalConfiguration config)
+    public static void preInit(final PoolingEngineConfig config)
     throws EngineConfigurationException {
-        sConfig = config;
-        sConfig.setExpressionEngine(new XPathExpressionEngine());
-        sPoolManager = new ConnectionPoolManager(sConfig);
+        _config = config;
+        _poolManager = new ConnectionPoolManager(_config.getHostEndpoints());
         initializeWorkManager();
     }
 
@@ -86,8 +72,8 @@ public final class EngineHolder {
      *  */
     public static void init() throws EngineStartupException {
         LOG.debug("Starting engine.");
-        int maxRequests = sConfig.getInt(ENGINE_MAX_REQUESTS);
-        sEngine = new Engine(maxRequests, sWorkManager, sPoolManager,
+        int maxRequests = _config.getMaxRequests();
+        sEngine = new Engine(maxRequests, sWorkManager, _poolManager,
                 new InvokeWorkFactory());
         try {
             sWorkManager.schedule(sEngine, new EngineListener());
@@ -104,9 +90,9 @@ public final class EngineHolder {
             sEngine.shutDown();
             sEngine = null;
         }
-        if (sPoolManager != null) {
-            sPoolManager.shutDown();
-            sPoolManager = null;
+        if (_poolManager != null) {
+            _poolManager.shutDown();
+            _poolManager = null;
         }
         if (sExecutor != null) {
             sExecutor.shutdownNow();
@@ -139,7 +125,7 @@ public final class EngineHolder {
      */
     private static void initializeWorkManager() {
         LOG.debug("Initializing Work Manager.");
-        String workMgrLocation = sConfig.getString(WM_LOCATION);
+        String workMgrLocation = _config.getWorkManagerJNDILocation();
         if (workMgrLocation != null && workMgrLocation.length() > 0) {
             try  {
                 InitialContext ic = new InitialContext();
@@ -152,7 +138,7 @@ public final class EngineHolder {
         }
 
         if (sWorkManager == null) {
-            int threadPoolSize = sConfig.getInt(WM_TPOOL_SIZE);
+            int threadPoolSize = _config.getThreadPoolSize();
             sExecutor = Executors.newFixedThreadPool(threadPoolSize);
             sWorkManager = new WorkManagerImpl(sExecutor);
         }

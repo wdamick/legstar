@@ -5,7 +5,7 @@
         <!-- Maximum number of waiting requests. When this number is reached, the
              engine will stop accepting requests. If the host system is
              unresponsive it is not useful to continue to accept requests.  -->
-        <maxRequests>100000</maxRequests>
+        <maxRequests>100007</maxRequests>
         <workManager>
             <!-- Choose between a JNDI implemented work manager or the default
                  one. The engine will first look at the JNDI so comment out
@@ -20,7 +20,7 @@
                      threads, then there is one thread per active host
                      connection. This number must be larger than the sum of
                      all pool sizes (defined in hostEndPoints) plus one.  -->
-                <size>25</size>
+                <size>27</size>
             </defaultThreadPool>
        </workManager>
     </engine>

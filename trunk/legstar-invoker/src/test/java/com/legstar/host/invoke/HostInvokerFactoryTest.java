@@ -52,7 +52,7 @@ public class HostInvokerFactoryTest extends TestCase {
                     CONFIG_FILE, address, new HostProgramProperties("lsfileae.properties"));
             fail("testWrongEndpoint failed ");
         } catch (HostInvokerException e) {
-            assertEquals("org.apache.commons.configuration.ConfigurationException:"
+            assertEquals("com.legstar.config.LegStarConfigurationException:"
                     + " The requested endpoint:NotAMainframe is not defined.", e.getMessage());
         } catch (HostProgramException e) {
             fail(e.toString());

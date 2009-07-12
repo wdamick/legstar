@@ -10,11 +10,6 @@
  ******************************************************************************/
 package com.legstar.http.client;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.HierarchicalConfiguration;
-
-import com.legstar.config.Config;
-
 import junit.framework.TestCase;
 
 /**
@@ -23,50 +18,63 @@ import junit.framework.TestCase;
  */
 public class CicsHttpEndpointTest extends TestCase {
 
-    /** Configuration file.*/
-    private static final String CONFIG_FILE = "config.xml";
-
-    /** An endpoint defined in the configuration file.*/
-    private static final String ENDPOINT_NAME = "CICSTS23";
-
     /**
      * Instantiate from full configuration.
      */
     public void testInstantiation() {
-        try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(CONFIG_FILE, ENDPOINT_NAME);
-            CicsHttpEndpoint cicsHttpEndpoint = new CicsHttpEndpoint(endpointConfig);
-            assertEquals("IBM01140", cicsHttpEndpoint.getHostCharset());
-            assertEquals("mainframe", cicsHttpEndpoint.getHostIPAddress());
-            assertEquals(3080, cicsHttpEndpoint.getHostIPPort());
-            assertEquals("STREAM2", cicsHttpEndpoint.getHostPassword());
-            assertEquals("/CICS/CWBA/LSWEBBIN", cicsHttpEndpoint.getHostURLPath());
-            assertEquals("P390", cicsHttpEndpoint.getHostUserID());
-            System.out.println(cicsHttpEndpoint.getReport());
-        } catch (ConfigurationException e) {
-            fail("testInstanciation failed " + e);
-        }
-
+        CicsHttpEndpoint endpoint = new CicsHttpEndpoint(
+                AbstractHttpConnectionTester.getCicsTs23Endpoint());
+        assertEquals("IBM01140", endpoint.getHostCharset());
+        assertEquals("mainframe", endpoint.getHostIPAddress());
+        assertEquals(3080, endpoint.getHostIPPort());
+        assertEquals("STREAM2", endpoint.getHostPassword());
+        assertEquals("/CICS/CWBA/LSWEBBIN", endpoint.getHostURLPath());
+        assertEquals("P390", endpoint.getHostUserID());
+        assertEquals("CICS Http endpoint:[hostEndpoint=CICSTS23,"
+                + "hostCharset=IBM01140,"
+                + "hostUserID=P390,"
+                + "hostPassword=********,"
+                + "hostTraceMode=false,"
+                + "connectTimeout=1000,"
+                + "receiveTimeout=5000,"
+                + "hostConnectionfactoryClass=com.legstar.http.client.CicsHttpConnectionFactory,"
+                + "hostAccessStrategy=direct,"
+                + "hostConnectionPoolSize=5,"
+                + "pooledInvokeTimeout=3000]"
+                + "[hostURLProtocol=http,"
+                + "hostIPAddress=mainframe,"
+                + "hostIPPort=3080,"
+                + "hostURLPath=/CICS/CWBA/LSWEBBIN]",
+                endpoint.toString());
     }
 
     /**
      * Instantiate from empty configuration.
      */
     public void testInstantiation2() {
-        try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration("config1.xml", ENDPOINT_NAME);
-            CicsHttpEndpoint cicsHttpEndpoint = new CicsHttpEndpoint(endpointConfig);
-            assertEquals(null, cicsHttpEndpoint.getHostCharset());
-            assertEquals(null, cicsHttpEndpoint.getHostIPAddress());
-            assertEquals(0, cicsHttpEndpoint.getHostIPPort());
-            assertEquals(null, cicsHttpEndpoint.getHostPassword());
-            assertEquals("/CICS/CWBA/LSWEBBIN", cicsHttpEndpoint.getHostURLPath());
-            assertEquals(null, cicsHttpEndpoint.getHostUserID());
-            System.out.println(cicsHttpEndpoint.getReport());
-        } catch (ConfigurationException e) {
-            fail("testInstanciation failed " + e);
-        }
-
+        CicsHttpEndpoint endpoint = new CicsHttpEndpoint();
+        assertEquals("IBM01140", endpoint.getHostCharset());
+        assertEquals(null, endpoint.getHostIPAddress());
+        assertEquals(0, endpoint.getHostIPPort());
+        assertEquals(null, endpoint.getHostPassword());
+        assertEquals("/CICS/CWBA/LSWEBBIN", endpoint.getHostURLPath());
+        assertEquals(null, endpoint.getHostUserID());
+        assertEquals("CICS Http endpoint:[hostEndpoint=null,"
+                + "hostCharset=IBM01140,"
+                + "hostUserID=null,"
+                + "hostPassword=********,"
+                + "hostTraceMode=false,"
+                + "connectTimeout=1000,"
+                + "receiveTimeout=5000,"
+                + "hostConnectionfactoryClass=com.legstar.http.client.CicsHttpConnectionFactory,"
+                + "hostAccessStrategy=direct,"
+                + "hostConnectionPoolSize=5,"
+                + "pooledInvokeTimeout=3000]"
+                + "[hostURLProtocol=http,"
+                + "hostIPAddress=null,"
+                + "hostIPPort=0,"
+                + "hostURLPath=/CICS/CWBA/LSWEBBIN]",
+                endpoint.toString());
     }
 
 }

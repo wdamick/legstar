@@ -2,6 +2,7 @@ package com.legstar.test.client;
 
 import com.legstar.coxb.host.HostData;
 import com.legstar.messaging.ConnectionException;
+import com.legstar.messaging.HostEndpoint;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.LegStarRequest;
@@ -16,48 +17,39 @@ import junit.framework.TestCase;
  */
 public abstract class AbstractConnectionMeteringTest extends TestCase {
     
+    /** The target host endpoint.*/
+    private HostEndpoint _endpoint;
+
     /** A connection without pooling. */
     private LegStarConnection _connection;
     
-    /** Connection configuration file name. */
-    private String _configFileName;
     
-    /** Target endpoint name. */
-    private String _endpointName;
-    
-    /**
-     * Create resources at construction time rather than setUp so that it is done
-     * only once when this test is repeated by JMeter.
-     * @param configFileName the connection configuration file name
-     * @param endpointName the target mainframe endpoint name
-     * @throws ConnectionException if connection cannot be created
-     */
-    public AbstractConnectionMeteringTest(
-            final String configFileName, final String endpointName) throws ConnectionException {
-        _configFileName = configFileName;
-        _endpointName = endpointName;
-        _connection = createConnection(configFileName, endpointName);
+    /** {@inheritDoc} */
+    public void setUp() throws Exception {
+        _endpoint = createEndpoint();
+        _connection = createConnection();
     }
     
     /**
      * Create a new connection for a given endpoint name.
-     * @param configFileName the connection configuration file name
-     * @param endpointName the endpoint name for which a connection is needed
      * @throws ConnectionException is connection cannot be created
      * @return a connection
      */
-    public abstract LegStarConnection createConnection(
-            final String configFileName,
-            final String endpointName) throws ConnectionException;
+    public abstract LegStarConnection createConnection() throws ConnectionException;
+    
+    /**
+     * @return the target endpoint name
+     */
+    public abstract HostEndpoint createEndpoint();
 
     /**
      * Perform a round trip.
      */
     public void testLsfileae() {
         try {
-            _connection.connect(AbstractConnectionTester.HOST_USERID);
+            _connection.connect(AbstractConnectionTester.HOST_PASSWORD);
             LegStarRequest request = AbstractConnectionTester.getLsfileaeRequest100(
-                    new LegStarAddress(_endpointName));
+                    new LegStarAddress(getEndpoint().getName()));
             _connection.sendRequest(request);
             _connection.recvResponse(request);
             _connection.close();
@@ -74,19 +66,12 @@ public abstract class AbstractConnectionMeteringTest extends TestCase {
     }
     
     /**
-     * @return the connection configuration file name
+     * @return the target host endpoint
      */
-    public String getConfigFileName() {
-        return _configFileName;
+    public HostEndpoint getEndpoint() {
+        return _endpoint;
     }
 
-    /**
-     * @return the target endpoint name
-     */
-    public String getEndpointName() {
-        return _endpointName;
-    }
-    
     /**
      * @return a connection without pooling
      */

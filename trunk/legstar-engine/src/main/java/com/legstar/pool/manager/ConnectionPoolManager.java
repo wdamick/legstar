@@ -12,16 +12,14 @@ package com.legstar.pool.manager;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.legstar.config.Config;
+import com.legstar.messaging.HostEndpoint;
 import com.legstar.messaging.LegStarAddress;
-import com.legstar.messaging.ConnectionFactory;
 
 /**
  * The connection pool manager holds a map of active connection pools, one
@@ -32,29 +30,23 @@ import com.legstar.messaging.ConnectionFactory;
 public class ConnectionPoolManager {
 
 
-    /** General configuration hierarchy. */
-    private HierarchicalConfiguration mGeneralConfig;
-
-    /** Configuration key giving the host connections pool size per endpoint.*/
-    private static final String CONN_POOL_SIZE_CFG = "hostConnectionPoolSize";
-
-    /** If no pool size found in configuration, use this default. */
-    private static final int DEFAULT_POOL_SIZE = 5;
+    /** List of all available host endpoints. */
+    private List < HostEndpoint > _hostEndpoints;
 
     /** The map of active pools in the system. */
-    private final Map < LegStarAddress, ConnectionPool > mPools;
+    private final Map < LegStarAddress, ConnectionPool > _pools;
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
 
     /**
      * Create a new pool manager.
-     * @param generalConfig the general configuration
+     * @param hostEndpoints the list of all available host endpoints
      */
     public ConnectionPoolManager(
-            final HierarchicalConfiguration generalConfig) {
-        mGeneralConfig = generalConfig;
-        mPools = new HashMap < LegStarAddress, ConnectionPool >();
+            final List < HostEndpoint > hostEndpoints) {
+        _hostEndpoints = hostEndpoints;
+        _pools = new HashMap < LegStarAddress, ConnectionPool >();
         _log.info("Pool Manager created.");
     }
 
@@ -71,39 +63,55 @@ public class ConnectionPoolManager {
         if (_log.isDebugEnabled()) {
             _log.debug("Retrieving pool for endpoint " + address.getEndPointName());
         }
-        ConnectionPool  pool = mPools.get(address);
+        ConnectionPool  pool = _pools.get(address);
         if (pool == null && createIfNotFound) {
             pool = createConnectionPool(address);
-            mPools.put(address, pool);
+            _pools.put(address, pool);
         }
         return pool;
     }
 
     /**
      * Create a new connection pool for a given address. The address gives
-     * ane endpoint for which configuration data should exist.
-     * @param address the pôol common target host address
+     * an endpoint for which configuration data should exist.
+     * @param address the pool common target host address
      * @return the new connection pool
      * @throws ConnectionPoolException in connection pool cannot be created
      */
-    private ConnectionPool createConnectionPool(
+    protected ConnectionPool createConnectionPool(
             final LegStarAddress address) throws ConnectionPoolException  {
-        try {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Creating new pool for endpoint " + address.getEndPointName());
-            }
-            HierarchicalConfiguration endpointConfig =
-                Config.loadAddressConfiguration(mGeneralConfig, address);
-            ConnectionFactory connectionFactory =
-                Config.loadConnectionFactory(endpointConfig);
-            ConnectionPool connectionPool = new ConnectionPool(
-                    endpointConfig.getInt(
-                            CONN_POOL_SIZE_CFG, DEFAULT_POOL_SIZE),
-                            address, connectionFactory);
-            return connectionPool;
-        } catch (ConfigurationException e) {
-            throw new ConnectionPoolException(e);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Creating new pool for endpoint " + address.getEndPointName());
         }
+        HostEndpoint hostEndpoint = getHostEndpoint(address);
+        ConnectionPool connectionPool = new ConnectionPool(address, hostEndpoint);
+        return connectionPool;
+    }
+
+    /**
+     * Retrieves a host endpoint for a given address. The address might be null
+     * or with no endpoint name in which case we return the first endpoint as
+     * the default.
+     * @param address the target host address
+     * @return an endpoint matching the address or the default one
+     * @throws ConnectionPoolException if no match can be found
+     */
+    protected HostEndpoint getHostEndpoint(
+            final LegStarAddress address) throws ConnectionPoolException {
+        if (getHostEndpoints().size() == 0) {
+            throw new ConnectionPoolException("No host endpoints available.");
+        }
+        if (address == null 
+                || address.getEndPointName() == null
+                || address.getEndPointName().length() == 0) {
+            return getHostEndpoints().get(0);
+        }
+        for (HostEndpoint endpoint : getHostEndpoints()) {
+            if (address.getEndPointName().equals(endpoint.getName())) {
+                return endpoint;
+            }
+        }
+        throw new ConnectionPoolException("No host endpoints matches " + address);
     }
 
     /**
@@ -112,7 +120,7 @@ public class ConnectionPoolManager {
     public final void shutDown() {
         _log.info("Shutting down Pool Manager");
         Iterator < Map.Entry < LegStarAddress, ConnectionPool > > entries =
-            mPools.entrySet().iterator();
+            _pools.entrySet().iterator();
         while (entries.hasNext()) {
             entries.next().getValue().shutDown();
         }
@@ -122,7 +130,14 @@ public class ConnectionPoolManager {
      * @return the active pools map
      */
     public final Map < LegStarAddress, ConnectionPool > getPools() {
-        return mPools;
+        return _pools;
+    }
+
+    /**
+     * @return the list of available host endpoints
+     */
+    public List < HostEndpoint > getHostEndpoints() {
+        return _hostEndpoints;
     }
 
 }

@@ -10,11 +10,9 @@
  ******************************************************************************/
 package com.legstar.mock.client;
 
-import org.apache.commons.configuration.HierarchicalConfiguration;
-import org.apache.commons.configuration.tree.xpath.XPathExpressionEngine;
-
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.ConnectionFactory;
+import com.legstar.messaging.HostEndpoint;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.LegStarConnection;
 
@@ -24,23 +22,23 @@ import com.legstar.messaging.LegStarConnection;
  */
 public class MockConnectionFactory implements ConnectionFactory {
 
-    /** Configuration for an endpoint. */
-    private HierarchicalConfiguration mEndpointConfig;
-
     /**
      * Constructor for the transport factory.
-     * @param endpointConfig the an XML sub-hierarchy for an endpoint
      */
-    public MockConnectionFactory(
-            final HierarchicalConfiguration endpointConfig) {
-        mEndpointConfig = endpointConfig;
-        mEndpointConfig.setExpressionEngine(new XPathExpressionEngine());
+    public MockConnectionFactory() {
     }
 
     /** {@inheritDoc} */
-    public LegStarConnection createConnection(final String connectionID,
-            final LegStarAddress address) throws ConnectionException {
-        return new MockConnection();
+    public HostEndpoint createEndpoint() {
+        return new MockEndpoint(this);
+    }
+
+    /** {@inheritDoc} */
+    public LegStarConnection createConnection(
+            final String connectionID,
+            final LegStarAddress address,
+            final HostEndpoint endpoint) throws ConnectionException {
+        return new MockConnection(connectionID);
     }
 
 }

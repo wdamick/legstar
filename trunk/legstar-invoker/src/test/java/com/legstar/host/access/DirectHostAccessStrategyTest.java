@@ -10,12 +10,9 @@
  ******************************************************************************/
 package com.legstar.host.access;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.HierarchicalConfiguration;
-
-import com.legstar.config.Config;
 import com.legstar.coxb.host.HostData;
 import com.legstar.host.AbstractTester;
+import com.legstar.messaging.HostEndpoint;
 import com.legstar.messaging.LegStarRequest;
 import com.legstar.test.coxb.LsfileaeCases;
 
@@ -26,35 +23,12 @@ import com.legstar.test.coxb.LsfileaeCases;
 public class DirectHostAccessStrategyTest extends AbstractTester {
 
     /**
-     * Check what happens when factory is not found.
-     */
-    public void testConstructorNoFactory() {
-        try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration("config1.xml", "TheMainframe");
-            new DirectHostAccessStrategy(endpointConfig);
-            fail("testConstructorNoFactory failed ");
-        } catch (HostAccessStrategyException e) {
-            assertEquals("org.apache.commons.configuration.ConfigurationException:"
-                    + " java.lang.ClassNotFoundException:"
-                    + " com.legstar.truc.much.CicsSocketConnectionFactory", e.getMessage());
-        } catch (ConfigurationException e) {
-            fail("testConstructorNoFactory failed ");
-        }
-    }
-
-    /**
      * Check normal loading.
      */
     public void testConstructor() {
-        try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(CONFIG_FILE, "TheMainframe");
-            DirectHostAccessStrategy dha = new DirectHostAccessStrategy(endpointConfig);
-            assertTrue(dha != null);
-        } catch (ConfigurationException e) {
-            fail("testConstructorNoFactory failed ");
-        } catch (HostAccessStrategyException e) {
-            fail("testConstructor failed " + e);
-        }
+        HostEndpoint endpoint = getStandardHostEndpoint();
+        DirectHostAccessStrategy dha = new DirectHostAccessStrategy(endpoint);
+        assertTrue(dha != null);
     }
 
     /**
@@ -62,16 +36,14 @@ public class DirectHostAccessStrategyTest extends AbstractTester {
      */
     public void testInvoke() {
         try {
-            HierarchicalConfiguration endpointConfig = Config.loadEndpointConfiguration(CONFIG_FILE, "TheMainframe");
-            DirectHostAccessStrategy dha = new DirectHostAccessStrategy(endpointConfig);
+            HostEndpoint endpoint = getStandardHostEndpoint();
+            DirectHostAccessStrategy dha = new DirectHostAccessStrategy(endpoint);
             LegStarRequest request = createLsfileaeRequest();
             dha.invoke(request);
             assertEquals(LsfileaeCases.getHostBytesHexReply100(), 
                     HostData.toHexString(request.getResponseMessage().getDataParts().get(0).getContent()));
-        } catch (ConfigurationException e) {
-            fail("testConstructorNoFactory failed ");
         } catch (HostAccessStrategyException e) {
-            fail("testInvoke failed " + e);
+            fail(e.getMessage());
         }
     }
 }

@@ -40,7 +40,10 @@ public abstract class AbstractConnectionTester extends TestCase {
     public static final String CONFIG_FILE = "config.xml";
     
     /** Host user ID. */
-    public static final String HOST_USERID = "STREAM2";
+    public static final String HOST_USERID = "P390";
+    
+    /** Host user ID. */
+    public static final String HOST_PASSWORD = "STREAM2";
     
     /** Time out (in milliseconds) for initial connect. */
     public static final int DEFAULT_CONNECT_TIMEOUT_MSEC = 1000;

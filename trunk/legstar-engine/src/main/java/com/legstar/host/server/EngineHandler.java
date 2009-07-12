@@ -10,9 +10,10 @@
  ******************************************************************************/
 package com.legstar.host.server;
 
-import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.logging.Log; 
 import org.apache.commons.logging.LogFactory; 
+
+import com.legstar.config.PoolingEngineConfig;
 
 /**
  * The role of the engine handler is to call the engine factory static methods
@@ -20,18 +21,18 @@ import org.apache.commons.logging.LogFactory;
  */
 public class EngineHandler {
 
-    /** Engine configuration hierarchy. */
-    private HierarchicalConfiguration mConfig;
-
     /** Logger. */
     private final Log _log = LogFactory.getLog(EngineHandler.class);
+    
+    /** Pooling engine configuration bean.*/
+    private PoolingEngineConfig _poolingEngineConfig;
 
     /**
      * Construct from an XML configuration.
-     * @param config the configuration hierarchy
+     * @param poolingEngineConfig the configuration hierarchy
      */
-    public EngineHandler(final HierarchicalConfiguration config) {
-        mConfig = config;
+    public EngineHandler(final PoolingEngineConfig poolingEngineConfig) {
+        _poolingEngineConfig = poolingEngineConfig;
     }
 
     /**
@@ -41,7 +42,7 @@ public class EngineHandler {
     public final void init() throws EngineStartupException {
         _log.info("Initializing Engine.");
         try {
-            EngineHolder.preInit(mConfig);
+            EngineHolder.preInit(_poolingEngineConfig);
         } catch (EngineConfigurationException e) {
             throw new EngineStartupException(e);
         }

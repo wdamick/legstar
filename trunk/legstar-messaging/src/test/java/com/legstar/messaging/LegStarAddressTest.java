@@ -10,9 +10,6 @@
  ******************************************************************************/
 package com.legstar.messaging;
 
-import org.apache.commons.configuration.ConfigurationException;
-
-import com.legstar.config.Config;
 
 import junit.framework.TestCase;
 
@@ -23,24 +20,17 @@ import junit.framework.TestCase;
  */
 public class LegStarAddressTest extends TestCase {
 
-    /** The configuration file. */
-    private static final String CONFIG_FILE = "config.xml";
-
     /**
      * Test construction from a configuration file.
      */
     public void testContructorFromConfig() {
         LegStarAddress address;
-        try {
-            address = new LegStarAddress(Config.loadEndpointConfiguration(CONFIG_FILE, "TheMainframe"));
-            assertEquals("TheMainframe", address.getEndPointName());
-            assertEquals("IBM01140", address.getHostCharset());
-            assertEquals("P390", address.getHostUserID());
-            assertEquals("STREAM2", address.getHostPassword());
-            assertEquals(true, address.isHostTraceMode());
-        } catch (ConfigurationException e) {
-            fail("tesContructorFromConfig failed " + e);
-        }
+        address = new LegStarAddress(getHostEndpoint());
+        assertEquals("TheMainframe", address.getEndPointName());
+        assertEquals("IBM01140", address.getHostCharset());
+        assertEquals("P390", address.getHostUserID());
+        assertEquals("STREAM2", address.getHostPassword());
+        assertEquals(true, address.isHostTraceMode());
     }
 
     /**
@@ -48,16 +38,12 @@ public class LegStarAddressTest extends TestCase {
      */
     public void testContructorFromEmptyConfig() {
         LegStarAddress address;
-        try {
-            address = new LegStarAddress(Config.loadEndpointConfiguration(CONFIG_FILE, "TheMainframeMinimal"));
-            assertEquals("TheMainframeMinimal", address.getEndPointName());
-            assertEquals(null, address.getHostCharset());
-            assertEquals(null, address.getHostUserID());
-            assertEquals(null, address.getHostPassword());
-            assertEquals(false, address.isHostTraceMode());
-        } catch (ConfigurationException e) {
-            fail("testContructorFromEmptyConfig failed " + e);
-        }
+        address = new LegStarAddress(getHostEndpointMinimal());
+        assertEquals("TheMainframeMinimal", address.getEndPointName());
+        assertEquals("IBM01140", address.getHostCharset());
+        assertEquals(null, address.getHostUserID());
+        assertEquals(null, address.getHostPassword());
+        assertEquals(false, address.isHostTraceMode());
     }
 
     /**
@@ -66,16 +52,36 @@ public class LegStarAddressTest extends TestCase {
     public void testContructorFromPartialAddress() {
         LegStarAddress partialAddress = new LegStarAddress("AnotherMainframe");
         LegStarAddress address;
-        try {
-            address = new LegStarAddress(partialAddress, Config.loadEndpointConfiguration(CONFIG_FILE, "TheMainframe"));
-            assertEquals("AnotherMainframe", address.getEndPointName());
-            assertEquals("IBM01140", address.getHostCharset());
-            assertEquals("P390", address.getHostUserID());
-            assertEquals("STREAM2", address.getHostPassword());
-            assertEquals(true, address.isHostTraceMode());
-        } catch (ConfigurationException e) {
-            fail("testContructorFromEmptyConfig failed " + e);
-        }
+        address = new LegStarAddress(partialAddress, getHostEndpoint());
+        assertEquals("AnotherMainframe", address.getEndPointName());
+        assertEquals("IBM01140", address.getHostCharset());
+        assertEquals("P390", address.getHostUserID());
+        assertEquals("STREAM2", address.getHostPassword());
+        assertEquals(true, address.isHostTraceMode());
+    }
+    
+    
+    /**
+     * @return a sample host endpoint
+     */
+    private HostEndpoint getHostEndpoint() {
+        HostEndpoint endpoint = (new HostEndpointTest()).new HostEndpointImpl();
+        endpoint.setHostConnectionfactoryClass("com.legstar.csok.client.CicsSocketConnectionFactory");
+        endpoint.setName("TheMainframe");
+        endpoint.setHostCharset("IBM01140");
+        endpoint.setHostUserID("P390");
+        endpoint.setHostPassword("STREAM2");
+        endpoint.setHostTraceMode(true);
+        endpoint.setPooledInvokeTimeout(2000);
+        return endpoint;
     }
 
+    /**
+     * @return a minimal sample host endpoint
+     */
+    private HostEndpoint getHostEndpointMinimal() {
+        HostEndpoint endpoint = (new HostEndpointTest()).new HostEndpointImpl();
+        endpoint.setName("TheMainframeMinimal");
+        return endpoint;
+    }
 }

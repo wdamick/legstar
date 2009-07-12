@@ -10,9 +10,6 @@
  ******************************************************************************/
 package com.legstar.messaging;
 
-import org.apache.commons.configuration.HierarchicalConfiguration;
-
-import com.legstar.config.Constants;
 
 
 /**
@@ -46,29 +43,27 @@ public class LegStarAddress {
     /**
      * Construct an Address from a configuration fragment describing
      * an endpoint.
-     * @param endpointConfig an XML configuration fragment
+     * @param endpoint a host endpoint
      */
-    public LegStarAddress(final HierarchicalConfiguration endpointConfig) {
-        mEndPointName = endpointConfig.getString(
-                Constants.ENDPOINT_NAME_ATTR_KEY);
-        mHostCharset = endpointConfig.getString(Constants.HOST_CHARSET_KEY);
-        mHostUserID = endpointConfig.getString(Constants.HOST_USERID_KEY);
-        mHostPassword = endpointConfig.getString(Constants.HOST_PASSWORD_KEY);
-        mHostTraceMode = endpointConfig.getBoolean(
-                Constants.HOST_TRACEMODE_KEY, false);
+    public LegStarAddress(final HostEndpoint endpoint) {
+        mEndPointName = endpoint.getName();
+        mHostCharset = endpoint.getHostCharset();
+        mHostUserID = endpoint.getHostUserID();
+        mHostPassword = endpoint.getHostPassword();
+        mHostTraceMode = endpoint.isHostTraceMode();
     }
 
     /**
      * Construct a new address from partial address, complementing missing
      * attributes with configuration values.
      * @param address the partial address
-     * @param endpointConfig an XML configuration fragment
+     * @param endpoint a host endpoint
      */
     public LegStarAddress(
             final LegStarAddress address,
-            final HierarchicalConfiguration endpointConfig) {
+            final HostEndpoint endpoint) {
 
-        this(endpointConfig);
+        this(endpoint);
         if (address != null) {
             if (address.getEndPointName() != null && address.getEndPointName().length() > 0) {
                 mEndPointName = address.getEndPointName();
@@ -220,10 +215,10 @@ public class LegStarAddress {
      */
     public final String getReport() {
         String report = "Address=["
-            + Constants.ENDPOINT_NAME_KEY + "=" + mEndPointName
-            + "," + Constants.HOST_CHARSET_KEY + "=" + mHostCharset
-            + "," + Constants.HOST_USERID_KEY + "=" + mHostUserID
-            + "," + Constants.HOST_TRACEMODE_KEY + "=" + mHostTraceMode
+            + HostEndpoint.HOST_ENDPOINT_LABEL + "=" + mEndPointName
+            + "," + HostEndpoint.HOST_CHARSET_LABEL + "=" + mHostCharset
+            + "," + HostEndpoint.HOST_USERID_LABEL + "=" + mHostUserID
+            + "," + HostEndpoint.HOST_TRACE_LABEL + "=" + mHostTraceMode
             + "]";
         return report;
     }
