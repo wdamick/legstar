@@ -52,6 +52,9 @@ public abstract class HostEndpoint {
     /** Maximum time to wait for an available pooled connection. */
     private int _pooledInvokeTimeout = DEFAULT_POOLED_INVOKE_TIMEOUT_MSEC;
 
+    /** Maximum time to keep a pooled connection opened. */
+    private long _pooledMaxKeepAlive = DEFAULT_POOLED_MAX_KEEP_ALIVE;
+
     /* ----------------------------------------------------------------------- */
     /* Default values                                                          */
     /* ----------------------------------------------------------------------- */
@@ -65,6 +68,9 @@ public abstract class HostEndpoint {
     /** Time out (in milliseconds) for invoke. */
     private static final int DEFAULT_POOLED_INVOKE_TIMEOUT_MSEC = 3000;
 
+    /** Default maximum time to keep a pooled connection opened. */
+    private static final long DEFAULT_POOLED_MAX_KEEP_ALIVE = -1;
+    
     /** If no pool size found in configuration, use this default. */
     private static final int DEFAULT_POOL_SIZE = 5;
 
@@ -401,6 +407,21 @@ public abstract class HostEndpoint {
      */
     public void setHostConnectionfactory(final ConnectionFactory connectionfactory) {
         _hostConnectionfactory = connectionfactory;
+    }
+
+    /**
+     * @return the maximum time to keep a pooled connection opened. -1 means forever.
+     */
+    public long getPooledMaxKeepAlive() {
+        return _pooledMaxKeepAlive;
+    }
+
+    /**
+     * @param maxKeepAlive the maximum time to keep a pooled connection opened to set
+     * -1 means forever.
+     */
+    public void setPooledMaxKeepAlive(final long maxKeepAlive) {
+        _pooledMaxKeepAlive = maxKeepAlive;
     }
     
 }

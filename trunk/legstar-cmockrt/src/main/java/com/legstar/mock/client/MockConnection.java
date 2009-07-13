@@ -34,6 +34,9 @@ public class MockConnection implements LegStarConnection {
     /** Connection ID. */
     private String _connectionID;
     
+    /** true if connection opened. */
+    private boolean _isOpen;
+    
     /**
      * No-arg constructor.
      */
@@ -50,8 +53,7 @@ public class MockConnection implements LegStarConnection {
     }
     /** {@inheritDoc} */
     public void close() throws RequestException {
-        // TODO Auto-generated method stub
-
+        _isOpen = false;
     }
 
     /** {@inheritDoc} */
@@ -62,14 +64,12 @@ public class MockConnection implements LegStarConnection {
 
     /** {@inheritDoc} */
     public void connect(final String password) throws ConnectionException {
-        // TODO Auto-generated method stub
-
+        _isOpen = true;
     }
 
     /** {@inheritDoc} */
     public void connectReuse(final String password) throws ConnectionException {
-        // TODO Auto-generated method stub
-
+        _isOpen = true;
     }
 
     /** {@inheritDoc} */
@@ -148,6 +148,11 @@ public class MockConnection implements LegStarConnection {
     public void setReceiveTimeout(final long timeout) {
         // TODO Auto-generated method stub
 
+    }
+
+    /** {@inheritDoc} */
+    public boolean isOpen() {
+        return _isOpen;
     }
 
 }

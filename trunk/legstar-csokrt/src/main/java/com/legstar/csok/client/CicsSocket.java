@@ -121,6 +121,9 @@ public class CicsSocket implements LegStarConnection {
      * might be different from the actual user data character set. */
     private String mHostProtocolCharset;
 
+    /** true if connection opened. */
+    private boolean _isOpen;
+
     /** Logger. */
     private final Log _log = LogFactory.getLog(CicsSocket.class);
 
@@ -192,6 +195,7 @@ public class CicsSocket implements LegStarConnection {
                     mCicsSocketEndpoint.isHostTraceMode(),
                     mHostProtocolCharset));
             recvConnectionAck();
+            _isOpen = true;
         } catch (UnknownHostException e) {
             throw (new ConnectionException(e));
         } catch (IOException e) {
@@ -435,6 +439,7 @@ public class CicsSocket implements LegStarConnection {
             }
         }
         mClientSocket = null;
+        _isOpen = false;
         if (_log.isDebugEnabled()) {
             _log.debug("Connection:" + mConnectionID + " Closed.");
         }
@@ -722,5 +727,9 @@ public class CicsSocket implements LegStarConnection {
         return getCicsSocketEndpoint().getReceiveTimeout();
     }
 
+    /** {@inheritDoc} */
+    public boolean isOpen() {
+        return _isOpen;
+    }
 
 }
