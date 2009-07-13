@@ -152,7 +152,9 @@ public class ClientlsfileaeTest extends TestCase {
 			port.lsfileae(req, reqHead);
 			fail("False header test failed");
 		} catch (LsfileaeFault e) {
-			assertEquals("Failed to invoke host program: org.apache.commons.configuration.ConfigurationException: The requested endpoint:nonExistantMainframe is not defined.",e.getMessage());
+			assertEquals("Failed to invoke host program:"
+			        + " com.legstar.config.LegStarConfigurationException:"
+                    + " The requested endpoint:nonExistantMainframe is not defined.", e.getMessage());
 		}
 		
 	}

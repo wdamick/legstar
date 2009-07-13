@@ -54,6 +54,9 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
     /** The response queue. */
     private MQQueue mResponseQueue;
 
+    /** true if connection opened. */
+    private boolean _isOpen;
+
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
 
@@ -100,6 +103,7 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
         mRequestQueue = getRequestQueue(mMQManager);
         mResponseQueue = getResponseQueue(mMQManager);
 
+        _isOpen = true;
         if (_log.isDebugEnabled()) {
             _log.debug("Connection:" + mConnectionID + " Connected.");
         }
@@ -226,6 +230,7 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
         mRequestQueue = null;
         mResponseQueue = null;
         mMQManager = null;
+        _isOpen = false;
     }
 
     /**
@@ -241,8 +246,7 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
             _log.debug("Connection:" + mConnectionID + " Attempting reuse.");
         }
 
-        if (mMQManager != null
-                && mRequestQueue != null && mResponseQueue != null) {
+        if (isOpen()) {
             if (_log.isDebugEnabled()) {
                 _log.debug("Connection:" + mConnectionID
                         + " Connection will be reused.");
@@ -447,4 +451,8 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
         return getCicsMQEndpoint().getReceiveTimeout();
     }
 
+    /** {@inheritDoc} */
+    public boolean isOpen() {
+        return _isOpen;
+    }
 }

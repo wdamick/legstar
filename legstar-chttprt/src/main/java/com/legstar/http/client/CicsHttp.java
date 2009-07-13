@@ -561,4 +561,10 @@ public class CicsHttp implements LegStarConnection  {
         return mStatusCode;
     }
 
+    /** {@inheritDoc} */
+    public boolean isOpen() {
+        return getHttpClient().getHttpConnectionManager().getConnection(
+                getHttpClient().getHostConfiguration()).isOpen();
+    }
+
 }

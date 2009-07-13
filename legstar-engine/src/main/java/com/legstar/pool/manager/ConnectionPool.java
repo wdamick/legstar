@@ -52,6 +52,9 @@ public class ConnectionPool {
 
     /** Will be true when shutdown is initiated. */
     private boolean _shuttingDown;
+    
+    /** How to manage pooled opened connections. */
+    private SlidingWindowKeepAlivePolicy _keepAlivePolicy;
 
     /**
      * Construct a connection pool for an endpoint.
@@ -86,6 +89,9 @@ public class ConnectionPool {
         } catch (ConnectionException e) {
             throw new ConnectionPoolException(e);
         }
+        _keepAlivePolicy = new SlidingWindowKeepAlivePolicy(
+                hostEndpoint.getPooledMaxKeepAlive());
+
         _shuttingDown = false;
         _log.info("Pool of size " + poolSize + ", created for:" + address.getReport());
     }
@@ -128,6 +134,7 @@ public class ConnectionPool {
             final LegStarConnection connection) throws ConnectionPoolException {
         if (!_shuttingDown) {
             try {
+                _keepAlivePolicy.add(connection);
                 _connections.add(connection);
             } catch (IllegalStateException e) {
                 /* If we fail to return the connection to the pool that should 
@@ -139,7 +146,7 @@ public class ConnectionPool {
             throw new ConnectionPoolException("Pool is shutting down.");
         }
     }
-
+    
     /**
      * On an idle system, the connection pool should be full at shutdown time.
      * If it is not, then it means some connections are being used. If it is
@@ -168,7 +175,7 @@ public class ConnectionPool {
     }
 
     /**
-     * Retrieve the currrent set of connections.
+     * Retrieve the current set of connections.
      * @return a list of available connections in the pool
      */
     public final List < LegStarConnection > getConnections() {

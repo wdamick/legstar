@@ -105,7 +105,7 @@ public class Varar021Test extends TestCase {
                     + " Config file name=legstar-invoker-config.xml,"
                     + " HostInvoker=["
                     + "Address=["
-                    + "hostEndPoint=CICSTS31,"
+                    + "hostEndpoint=CICSTS31,"
                     + "hostCharset=IBM01140,"
                     + "hostUserID=WRONG,"
                     + "hostTraceMode=true],"

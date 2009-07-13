@@ -73,6 +73,11 @@ public interface LegStarConnection {
      * @throws RequestException if close fails
      */
     void close() throws RequestException;
+    
+    /**
+     * @return true if this connection is currently opened
+     */
+    boolean isOpen();
 
     /**
      * Connection timeout is the maximum time to wait for a connection
