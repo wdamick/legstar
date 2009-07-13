@@ -19,14 +19,14 @@ import com.legstar.messaging.ConnectionException;
  * A concrete connection factory for CICS Http connections.
  */
 public class CicsHttpConnectionFactory extends AbstractConnectionFactory {
-
+    
     /** {@inheritDoc} */
-    public HostEndpoint createEndpoint() {
+    public CicsHttpEndpoint createEndpoint() {
         return new CicsHttpEndpoint(this);
     }
 
     /** {@inheritDoc} */
-    public HostEndpoint getClone(final HostEndpoint endpoint) {
+    public CicsHttpEndpoint getClone(final HostEndpoint endpoint) {
         return new CicsHttpEndpoint((CicsHttpEndpoint) endpoint);
     }
 

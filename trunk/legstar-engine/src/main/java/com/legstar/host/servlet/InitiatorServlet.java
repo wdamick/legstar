@@ -38,7 +38,7 @@ public class InitiatorServlet extends HttpServlet {
 
     /** Identifier for the adapter instance in the servlet context. */ 
     public static final String ENGINE_HANDLER_ID =
-        "com.legstar.c2ws.servlet.engineHandler";
+        "com.legstar.host.servlet.engineHandler";
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(InitiatorServlet.class);
@@ -73,6 +73,7 @@ public class InitiatorServlet extends HttpServlet {
             LegStarConfigCommons legStarConfig = new LegStarConfigCommons(configFileName);
             EngineHandler serverHandler = new EngineHandler(
                     legStarConfig.getPoolingEngineConfig());
+            
             serverHandler.init();
             ServletContext servletContext = config.getServletContext();
             servletContext.setAttribute(ENGINE_HANDLER_ID, serverHandler);
