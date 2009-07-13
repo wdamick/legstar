@@ -24,7 +24,9 @@ public final class ContextListener implements ServletContextListener  {
         ServletContext context = event.getServletContext();
         EngineHandler engineHandler = (EngineHandler) context.getAttribute(
                 InitiatorServlet.ENGINE_HANDLER_ID);
-        engineHandler.stop();
+        if (engineHandler != null) {
+            engineHandler.stop();
+        }
         _log.info("LegStar engine context destroyed");
     }
 

@@ -10,6 +10,7 @@
  ******************************************************************************/
 package com.legstar.http.client;
 
+import com.legstar.messaging.ConnectionFactory;
 import com.legstar.messaging.HostEndpoint;
 
 /**
@@ -78,7 +79,7 @@ public class CicsHttpEndpoint extends HostEndpoint {
      * Constructor using an existing connection factory.
      * @param connectionFactory an instance of a connection factory
      */
-    public CicsHttpEndpoint(final CicsHttpConnectionFactory connectionFactory) {
+    public CicsHttpEndpoint(final ConnectionFactory connectionFactory) {
         super(connectionFactory);
     }
 
