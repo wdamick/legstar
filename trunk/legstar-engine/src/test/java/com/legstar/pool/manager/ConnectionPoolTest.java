@@ -97,7 +97,7 @@ public class ConnectionPoolTest extends TestCase {
             connectionPool.put(connection1);
             assertTrue(connection1.isOpen());
             /* Wait enough so that connection1 is eligible to close */
-            Thread.sleep(2000L + 10L);
+            Thread.sleep(2000L + 100L);
             LegStarConnection connection2 = connectionPool.take(1);
             connection2.connectReuse(null);
             connectionPool.put(connection2);

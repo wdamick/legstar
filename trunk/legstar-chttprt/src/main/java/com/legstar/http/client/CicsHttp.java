@@ -153,7 +153,9 @@ public class CicsHttp implements LegStarConnection  {
      * */
     public void connectReuse(
             final String cicsPassword) throws ConnectionException {
-        connect(cicsPassword);
+        if (!isOpen()) {
+            connect(cicsPassword);
+        }
     }
 
     /**
