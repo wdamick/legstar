@@ -78,6 +78,11 @@ public interface LegStarConnection {
      * @return true if this connection is currently opened
      */
     boolean isOpen();
+    
+    /**
+     * @return last time this connection was used in milliseconds
+     */
+    long getLastUsedTime();
 
     /**
      * Connection timeout is the maximum time to wait for a connection

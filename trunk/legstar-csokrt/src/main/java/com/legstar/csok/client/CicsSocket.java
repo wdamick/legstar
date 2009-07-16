@@ -121,7 +121,10 @@ public class CicsSocket implements LegStarConnection {
      * might be different from the actual user data character set. */
     private String mHostProtocolCharset;
 
-    /** true if connection opened. */
+    /** last time this connection was used. */
+    private long _lastUsedTime = -1;
+
+   /** true if connection opened. */
     private boolean _isOpen;
 
     /** Logger. */
@@ -196,6 +199,7 @@ public class CicsSocket implements LegStarConnection {
                     mHostProtocolCharset));
             recvConnectionAck();
             _isOpen = true;
+            _lastUsedTime = System.currentTimeMillis();
         } catch (UnknownHostException e) {
             throw (new ConnectionException(e));
         } catch (IOException e) {
@@ -230,6 +234,7 @@ public class CicsSocket implements LegStarConnection {
                 _log.debug("Connection:" + mConnectionID
                         + " Socket will be reused.");
             }
+            _lastUsedTime = System.currentTimeMillis();
             return;
         }
 
@@ -325,6 +330,7 @@ public class CicsSocket implements LegStarConnection {
             throw (new RequestException(e));
         }
 
+        _lastUsedTime = System.currentTimeMillis();
         if (_log.isDebugEnabled()) {
             _log.debug("Request:" + request.getID()
                     + " on Connection:" + mConnectionID
@@ -370,6 +376,8 @@ public class CicsSocket implements LegStarConnection {
         } catch (HostMessageFormatException e) {
             throw (new RequestException(e));
         }
+
+        _lastUsedTime = System.currentTimeMillis();
         if (_log.isDebugEnabled()) {
             _log.debug("Request:" + request.getID()
                     + " on Connection:" + mConnectionID
@@ -440,6 +448,7 @@ public class CicsSocket implements LegStarConnection {
         }
         mClientSocket = null;
         _isOpen = false;
+        _lastUsedTime = System.currentTimeMillis();
         if (_log.isDebugEnabled()) {
             _log.debug("Connection:" + mConnectionID + " Closed.");
         }
@@ -732,4 +741,8 @@ public class CicsSocket implements LegStarConnection {
         return _isOpen;
     }
 
+    /** {@inheritDoc} */
+    public long getLastUsedTime() {
+        return _lastUsedTime;
+    }
 }

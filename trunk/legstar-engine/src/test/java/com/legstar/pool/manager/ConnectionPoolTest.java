@@ -96,22 +96,39 @@ public class ConnectionPoolTest extends TestCase {
             connection1.connectReuse(null);
             connectionPool.put(connection1);
             assertTrue(connection1.isOpen());
+            /* Requesting a connection should return the last connection used
+             * (Stack works as a LIFO queue)*/
+            LegStarConnection connection2 = connectionPool.take(1);
+            assertEquals(connection2, connection1);
+            assertTrue(connection2.isOpen());
             /* Wait enough so that connection1 is eligible to close */
             Thread.sleep(2000L + 100L);
-            LegStarConnection connection2 = connectionPool.take(1);
-            connection2.connectReuse(null);
+            /* put triggers the policy */
             connectionPool.put(connection2);
-            assertTrue(connection2.isOpen());
-            /* Pool size being 2 on 3rd request, we get connection 1 again.
-             * It must have been closed on put of connection2. */
             LegStarConnection connection3 = connectionPool.take(1);
+            /* the stack head should still be connection1 but it should be closed */
             assertEquals(connection3, connection1);
             assertFalse(connection3.isOpen());
-            /* Yet another take should yield connection2 but since we did not
-             * wait, it is young enough to be kept alive. */
-            LegStarConnection connection4 = connectionPool.take(1);
-            assertEquals(connection4, connection2);
-            assertTrue(connection4.isOpen());
+            connectionPool.put(connection3);
+            /* Now we push 2 open connections to the stack */
+            connection1 = connectionPool.take(1);
+            connection2 = connectionPool.take(1);
+            connection1.connectReuse(null);
+            connection2.connectReuse(null);
+            connectionPool.put(connection1);
+            connectionPool.put(connection2);
+            assertTrue(connection1.isOpen());
+            assertTrue(connection2.isOpen());
+            /* Requesting a connection should yield the last one returned to the stack*/
+            connection3 = connectionPool.take(1);
+            assertEquals(connection3, connection2);
+            assertTrue(connection3.isOpen());
+            /* Wait enough so that connection1 is eligible to close */
+            Thread.sleep(2000L + 100L);
+            /* put triggers the policy */
+            connectionPool.put(connection3);
+            assertFalse(connection3.isOpen());
+            assertFalse(connection1.isOpen());
             
         } catch (ConnectionPoolException e) {
             fail(e.getMessage());

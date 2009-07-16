@@ -111,6 +111,7 @@ public abstract class AbstractMQConnectionTester extends AbstractConnectionTeste
         CicsMQEndpoint endpoint = getLsmsgEndpoint();
         endpoint.setName("CICSTS23-LSMSG-POOLED");
         endpoint.setHostAccessStrategy(AccessStrategy.pooled);
+        endpoint.setPooledMaxKeepAlive(-1);
         return endpoint;
     }
 
@@ -121,6 +122,7 @@ public abstract class AbstractMQConnectionTester extends AbstractConnectionTeste
         CicsMQEndpoint endpoint = getMqcihEndpoint();
         endpoint.setName("CICSTS23-MQCIH-POOLED");
         endpoint.setHostAccessStrategy(AccessStrategy.pooled);
+        endpoint.setPooledMaxKeepAlive(20000L);
         return endpoint;
     }
 

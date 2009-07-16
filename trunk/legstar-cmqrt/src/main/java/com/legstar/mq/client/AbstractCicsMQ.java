@@ -56,6 +56,9 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
 
     /** true if connection opened. */
     private boolean _isOpen;
+    
+    /** last time this connection was used. */
+    private long _lastUsedTime = -1;
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
@@ -104,6 +107,7 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
         mResponseQueue = getResponseQueue(mMQManager);
 
         _isOpen = true;
+        _lastUsedTime = System.currentTimeMillis();
         if (_log.isDebugEnabled()) {
             _log.debug("Connection:" + mConnectionID + " Connected.");
         }
@@ -231,6 +235,7 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
         mResponseQueue = null;
         mMQManager = null;
         _isOpen = false;
+        _lastUsedTime = System.currentTimeMillis();
     }
 
     /**
@@ -251,6 +256,7 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
                 _log.debug("Connection:" + mConnectionID
                         + " Connection will be reused.");
             }
+            _lastUsedTime = System.currentTimeMillis();
             return;
         }
 
@@ -304,6 +310,7 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
             throw new RequestException(e);
         }
 
+        _lastUsedTime = System.currentTimeMillis();
         if (_log.isDebugEnabled()) {
             _log.debug("Sent Request:" + request.getID()
                     + " on Connection:" + mConnectionID
@@ -345,6 +352,7 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
             mResponseQueue.get(mqMessage, gmo);
             request.setResponseMessage(createResponseMessage(mqMessage));
 
+            _lastUsedTime = System.currentTimeMillis();
             if (_log.isDebugEnabled()) {
                 _log.debug("Received response for Request:" + request.getID()
                         + " on Connection:" + mConnectionID
@@ -454,5 +462,10 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
     /** {@inheritDoc} */
     public boolean isOpen() {
         return _isOpen;
+    }
+
+    /** {@inheritDoc} */
+    public long getLastUsedTime() {
+        return _lastUsedTime;
     }
 }
