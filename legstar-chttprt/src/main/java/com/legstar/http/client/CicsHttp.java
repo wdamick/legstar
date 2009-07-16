@@ -85,6 +85,9 @@ public class CicsHttp implements LegStarConnection  {
     /** Most recent status code returned by an HTTP method execution. */
     private int mStatusCode = 0;
 
+    /** last time this connection was used. */
+    private long _lastUsedTime = -1;
+
     /** Logger. */
     private final Log _log = LogFactory.getLog(CicsHttp.class);
 
@@ -138,6 +141,7 @@ public class CicsHttp implements LegStarConnection  {
                 password,
                 null));
 
+        _lastUsedTime = System.currentTimeMillis();
         if (_log.isDebugEnabled()) {
             _log.debug("Connection:" + getConnectionID() + " Connection setup.");
         }
@@ -155,6 +159,8 @@ public class CicsHttp implements LegStarConnection  {
             final String cicsPassword) throws ConnectionException {
         if (!isOpen()) {
             connect(cicsPassword);
+        } else {
+            _lastUsedTime = System.currentTimeMillis();
         }
     }
 
@@ -193,6 +199,7 @@ public class CicsHttp implements LegStarConnection  {
             throw new RequestException(e);
         }
 
+        _lastUsedTime = System.currentTimeMillis();
         if (_log.isDebugEnabled()) {
             _log.debug("Request:" + request.getID()
                     + " on Connection:" + getConnectionID()
@@ -251,6 +258,7 @@ public class CicsHttp implements LegStarConnection  {
             getPostMethod().releaseConnection();
         }
 
+        _lastUsedTime = System.currentTimeMillis();
         if (_log.isDebugEnabled()) {
             _log.debug("Request:" + request.getID()
                     + " on Connection:" + getConnectionID()
@@ -268,8 +276,10 @@ public class CicsHttp implements LegStarConnection  {
      */
     public void close() throws RequestException {
         if (getHttpClient() != null) {
-            getHttpClient().getHttpConnectionManager().closeIdleConnections(0);
+            getHttpClient().getHttpConnectionManager().getConnection(
+                    getHttpClient().getHostConfiguration()).close();
         }
+        _lastUsedTime = System.currentTimeMillis();
     }
 
     /**
@@ -279,7 +289,7 @@ public class CicsHttp implements LegStarConnection  {
      * @param cicsHttpEndpoint the connection configuration
      * @return the new HTTP Client
      */
-    public HttpClient createHttpClient(
+    protected HttpClient createHttpClient(
             final CicsHttpEndpoint cicsHttpEndpoint) {
 
         if (_log.isDebugEnabled()) {
@@ -325,7 +335,7 @@ public class CicsHttp implements LegStarConnection  {
      * @param cicsHttpEndpoint the connection configuration
      * @return a valid host configuration
      */
-    public HostConfiguration createHostConfiguration(
+    protected HostConfiguration createHostConfiguration(
             final CicsHttpEndpoint cicsHttpEndpoint) {
         HostConfiguration hostConfiguration = new HostConfiguration();
         hostConfiguration.setHost(
@@ -346,7 +356,7 @@ public class CicsHttp implements LegStarConnection  {
      * @param realm the host realm
      * @return a new HTTP State
      */
-    public HttpState createHttpState(
+    protected HttpState createHttpState(
             final String host,
             final int port,
             final String userid,
@@ -383,7 +393,7 @@ public class CicsHttp implements LegStarConnection  {
      * @return the new post method
      * @throws RequestException if post method cannot be created
      */
-    public PostMethod createPostMethod(
+    protected PostMethod createPostMethod(
             final LegStarRequest request,
             final String hostURLPath) throws RequestException {
 
@@ -423,7 +433,7 @@ public class CicsHttp implements LegStarConnection  {
      * @return a response message
      * @throws HostReceiveException if response cannot be mapped to a message
      */
-    private LegStarMessage createResponseMessage(
+    protected LegStarMessage createResponseMessage(
             final InputStream respStream) throws HostReceiveException {
 
         if (_log.isDebugEnabled()) {
@@ -452,7 +462,7 @@ public class CicsHttp implements LegStarConnection  {
      * @param postMethod the method that failed
      * @throws RequestException systematically thrown
      */
-    private void throwErrorResponse(
+    protected void throwErrorResponse(
             final PostMethod postMethod) throws RequestException {
 
         if (_log.isDebugEnabled()) {
@@ -569,4 +579,8 @@ public class CicsHttp implements LegStarConnection  {
                 getHttpClient().getHostConfiguration()).isOpen();
     }
 
+    /** {@inheritDoc} */
+    public long getLastUsedTime() {
+        return _lastUsedTime;
+    }
 }

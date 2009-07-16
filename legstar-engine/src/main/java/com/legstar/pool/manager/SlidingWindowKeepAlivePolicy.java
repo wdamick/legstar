@@ -1,9 +1,9 @@
 package com.legstar.pool.manager;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.RequestException;
@@ -13,7 +13,6 @@ import com.legstar.messaging.RequestException;
  * <p/>
  * The windows slides when a new connection is added. When it slides, connections that are obsolete
  * are closed and removed from the sliding window.
- * <p/>
  *
  */
 public class SlidingWindowKeepAlivePolicy {
@@ -21,64 +20,55 @@ public class SlidingWindowKeepAlivePolicy {
     /** Sliding window time span in milliseconds. */
     private long _timespan;
 
-    /** List of events occurring within sliding window. */
-    private final List < OpenedConnection > _eventsInWindow =
-        Collections.synchronizedList(new ArrayList < OpenedConnection >());
+    /** Queue of available host connections. */
+    private BlockingStack < LegStarConnection > _connections;
+    
+    /** Logger. */
+    private final Log _log = LogFactory.getLog(getClass());
 
     /**
      * Construct a sliding window.
+     * @param connections the connections queue
      * @param timespan time span in milliseconds
      */
-    public SlidingWindowKeepAlivePolicy(final long timespan) {
+    public SlidingWindowKeepAlivePolicy(
+            final BlockingStack < LegStarConnection > connections, final long timespan) {
         _timespan = timespan;
+        _connections = connections;
+        if (timespan > 0) {
+            _log.info("Connections will be closed if opened for more than " + timespan + " ms.");
+        } else {
+            _log.info("No connections monitoring.");
+        }
     }
 
     /**
-     * Add a new opened connection to the sliding window.
-     * <p/>
-     * This will close and expel old connections which fell off the sliding window.
-     * @param connection the new opened connection
-     * @throws ConnectionPoolException if treatment of obsolete connections fails
+     * Close connections which have been opened for too long.
+     * This is a no op if the timespan is negative. Observe that a timespan of zero is
+     * equivalent with no reusing.
+     * @throws ConnectionPoolException if obsolete connections cannot be closed
      */
-    public void add(final LegStarConnection connection) throws ConnectionPoolException {
-        if (getTimespan() <= 0) {
+    public synchronized void closeObsoleteConnections() throws ConnectionPoolException {
+        if (_timespan < 0) {
             return;
         }
         long now = System.currentTimeMillis();
-        removeObsoleteConnections(now);
-        _eventsInWindow.add(new OpenedConnection(connection, now));
-    }
-
-    /**
-     * @return the number of events in the sliding window
-     */
-    public int getEventsInWindow() {
-        return _eventsInWindow.size();
-    }
-
-    /**
-     * @return the events ratio as the number of events that occurred
-     *  in a second
-     */
-    public double getEventsRatio() {
-        return (getEventsInWindow() * 1000.0) / _timespan;
-    }
-
-    /**
-     * Remove events which are now obsolete.
-     * @param now the current time
-     * @throws ConnectionPoolException if obsolete connections cannot be closed
-     */
-    private void removeObsoleteConnections(
-            final Long now) throws ConnectionPoolException {
         try {
-            synchronized (_eventsInWindow) {
-                Iterator < OpenedConnection > iter = _eventsInWindow.iterator();
-                while (iter.hasNext()) {
-                    OpenedConnection openedConnection = iter.next();
-                    if ((now - openedConnection.getTimeOpened()) > _timespan) {
-                        openedConnection.getConnection().close();
-                        iter.remove();
+            Iterator < LegStarConnection > iter = _connections.iterator();
+            while (iter.hasNext()) {
+                LegStarConnection connection = iter.next();
+                if (connection.getLastUsedTime() > 0) {
+                    if ((now - connection.getLastUsedTime()) > _timespan) {
+                        if (_log.isDebugEnabled()) {
+                            _log.debug("Closing obsolete Connection:"
+                                    + connection.getConnectionID()
+                                    + ". Has been opened for: " + (now - connection.getLastUsedTime())
+                                    + " ms");
+                        }
+                        /* Iterator does not reflect the content of the stack over time */
+                        if (_connections.contains(connection)) {
+                            connection.close();
+                        }
                     }
                 }
             }
@@ -95,43 +85,10 @@ public class SlidingWindowKeepAlivePolicy {
     }
 
     /**
-     * A class to associate a connection with its open time.
-     *
+     * @return the connections queue
      */
-    public final class OpenedConnection {
-
-        /** Actual connection object. */
-        private LegStarConnection _connection;
-
-        /** Time when connection was opened.*/
-        private long _timeOpened;
-
-        /**
-         * Construct the opened connection.
-         * @param connection actual connection
-         * @param timeOpened time when connection was opened
-         */
-        public OpenedConnection(
-                final LegStarConnection connection,
-                final long timeOpened) {
-            _connection = connection;
-            _timeOpened = timeOpened;
-        }
-
-        /**
-         * @return the actual connection object
-         */
-        public LegStarConnection getConnection() {
-            return _connection;
-        }
-
-        /**
-         * @return the time when connection was opened
-         */
-        public long getTimeOpened() {
-            return _timeOpened;
-        }
+    public BlockingStack < LegStarConnection > getConnections() {
+        return _connections;
     }
-
 
 }

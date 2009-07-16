@@ -126,6 +126,7 @@ public abstract class AbstractSocketConnectionTester extends AbstractConnectionT
         CicsSocketEndpoint endpoint = getCicsTs23Endpoint();
         endpoint.setName("CICSTS23-POOLED");
         endpoint.setHostAccessStrategy(AccessStrategy.pooled);
+        endpoint.setPooledMaxKeepAlive(1000L);
         return endpoint;
     }
 

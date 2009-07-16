@@ -34,6 +34,9 @@ public class MockConnection implements LegStarConnection {
     /** Connection ID. */
     private String _connectionID;
     
+    /** last time this connection was used. */
+    private long _lastUsedTime = -1;
+
     /** true if connection opened. */
     private boolean _isOpen;
     
@@ -53,6 +56,7 @@ public class MockConnection implements LegStarConnection {
     }
     /** {@inheritDoc} */
     public void close() throws RequestException {
+        _lastUsedTime = System.currentTimeMillis();
         _isOpen = false;
     }
 
@@ -64,11 +68,13 @@ public class MockConnection implements LegStarConnection {
 
     /** {@inheritDoc} */
     public void connect(final String password) throws ConnectionException {
+        _lastUsedTime = System.currentTimeMillis();
         _isOpen = true;
     }
 
     /** {@inheritDoc} */
     public void connectReuse(final String password) throws ConnectionException {
+        _lastUsedTime = System.currentTimeMillis();
         _isOpen = true;
     }
 
@@ -119,6 +125,7 @@ public class MockConnection implements LegStarConnection {
             } else {
                 throw new RequestException("CICS command=LINK COMMAREA failed, resp=PGMIDERR, resp2=3");
             }
+            _lastUsedTime = System.currentTimeMillis();
         } catch (HeaderPartException e) {
             throw new RequestException(e);
         } catch (JSONException e) {
@@ -134,8 +141,10 @@ public class MockConnection implements LegStarConnection {
 
     /** {@inheritDoc} */
     public void sendRequest(final LegStarRequest request) throws RequestException {
-        // TODO Auto-generated method stub
-
+        if (!isOpen()) {
+            throw new RequestException("Connection is closed.");
+        }
+        _lastUsedTime = System.currentTimeMillis();
     }
 
     /** {@inheritDoc} */
@@ -155,4 +164,8 @@ public class MockConnection implements LegStarConnection {
         return _isOpen;
     }
 
+    /** {@inheritDoc} */
+    public long getLastUsedTime() {
+        return _lastUsedTime;
+    }
 }

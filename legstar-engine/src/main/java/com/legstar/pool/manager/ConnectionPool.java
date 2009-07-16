@@ -11,9 +11,7 @@
 package com.legstar.pool.manager;
 
 import java.rmi.server.UID;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.logging.Log;
@@ -39,7 +37,7 @@ import com.legstar.messaging.RequestException;
 public class ConnectionPool {
 
     /** Logger. */
-    private final Log _log = LogFactory.getLog(ConnectionPool.class);
+    private final Log _log = LogFactory.getLog(getClass());
     
     /** Target host endpoint associated with this connection pool. */
     private HostEndpoint _hostEndpoint;
@@ -48,7 +46,7 @@ public class ConnectionPool {
     private LegStarAddress _address;
 
     /** Queue of available host connections. */
-    private ArrayBlockingQueue < LegStarConnection > _connections;
+    private BlockingStack < LegStarConnection > _connections;
 
     /** Will be true when shutdown is initiated. */
     private boolean _shuttingDown;
@@ -76,7 +74,7 @@ public class ConnectionPool {
         int poolSize = hostEndpoint.getHostConnectionPoolSize();
         
         /* Create the blocking queue */
-        _connections = new ArrayBlockingQueue < LegStarConnection >(poolSize);
+        _connections = new BlockingStack < LegStarConnection >(poolSize);
 
         /* Create all connections with a unique ID each. This ID is used
          * for traceability. Because */
@@ -90,7 +88,7 @@ public class ConnectionPool {
             throw new ConnectionPoolException(e);
         }
         _keepAlivePolicy = new SlidingWindowKeepAlivePolicy(
-                hostEndpoint.getPooledMaxKeepAlive());
+                _connections, hostEndpoint.getPooledMaxKeepAlive());
 
         _shuttingDown = false;
         _log.info("Pool of size " + poolSize + ", created for:" + address.getReport());
@@ -134,8 +132,8 @@ public class ConnectionPool {
             final LegStarConnection connection) throws ConnectionPoolException {
         if (!_shuttingDown) {
             try {
-                _keepAlivePolicy.add(connection);
                 _connections.add(connection);
+                _keepAlivePolicy.closeObsoleteConnections();
             } catch (IllegalStateException e) {
                 /* If we fail to return the connection to the pool that should 
                  * not prevent further processing but the pool capacity is 
@@ -179,10 +177,7 @@ public class ConnectionPool {
      * @return a list of available connections in the pool
      */
     public final List < LegStarConnection > getConnections() {
-        List < LegStarConnection > connections =
-            new ArrayList < LegStarConnection >();
-        _connections.drainTo(connections);
-        return connections;
+        return _connections.getElementsList();
     }
 
     /**
