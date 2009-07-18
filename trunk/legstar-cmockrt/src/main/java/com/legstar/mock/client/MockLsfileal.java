@@ -10,7 +10,6 @@
  ******************************************************************************/
 package com.legstar.mock.client;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -36,6 +35,9 @@ public final class MockLsfileal {
     /** Logger. */
     private static final Log LOG = LogFactory.getLog(MockLsfileal.class);
     
+    /** In memory representation if the FILEA content. */
+    private static final MockFILEA FILEA = new MockFILEA();;
+    
     /** Utility class.*/
     private MockLsfileal() {
         
@@ -55,9 +57,8 @@ public final class MockLsfileal {
         try {
             byte[] hostRequest = requestMessage.getDataParts().get(0).getContent();
             
-            MockFILEA mockFILEA = new MockFILEA();
             String namePattern = getRequestName(hostRequest);
-            List < byte[] > customers = mockFILEA.getCustomers(namePattern);
+            List < byte[] > customers = FILEA.getCustomers(namePattern);
             
             int offset = 0;
             String hostCharsetName = CobolContext.getDefaultHostCharsetName();
@@ -76,7 +77,7 @@ public final class MockLsfileal {
             
             /* total items */
             CobolPackedDecimalSimpleConverter.toHostSingle(
-                    new BigDecimal(mockFILEA.getCustomersNumber()),
+                    new BigDecimal(FILEA.getCustomersNumber()),
                     5, 8, 0, false, hostReply, offset);
             offset += 5;
 
@@ -101,8 +102,6 @@ public final class MockLsfileal {
         } catch (HeaderPartException e) {
             throw new RequestException(e);
         } catch (CobolConversionException e) {
-            throw new RequestException(e);
-        } catch (IOException e) {
             throw new RequestException(e);
         }
     }

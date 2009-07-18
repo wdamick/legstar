@@ -10,7 +10,6 @@
  ******************************************************************************/
 package com.legstar.mock.client;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -36,6 +35,9 @@ public final class MockLsfileac {
 
     /** Logger. */
     private static final Log LOG = LogFactory.getLog(MockLsfileac.class);
+    
+    /** In memory representation if the FILEA content. */
+    private static final MockFILEA FILEA = new MockFILEA();;
     
     /** Utility class.*/
     private MockLsfileac() {
@@ -64,13 +66,12 @@ public final class MockLsfileac {
                     queryLimit = part.getContent();
                 }
             }
-            MockFILEA mockFILEA = new MockFILEA();
             String namePattern = (queryData == null) ? "*" : getQueryName(queryData);
             List < byte[] > customers;
             if (queryLimit == null) {
-                customers = mockFILEA.getCustomers(namePattern);
+                customers = FILEA.getCustomers(namePattern);
             } else {
-                customers = mockFILEA.getCustomers(namePattern, getMaxItems(queryLimit));
+                customers = FILEA.getCustomers(namePattern, getMaxItems(queryLimit));
             }
             
             int offset = 0;
@@ -90,7 +91,7 @@ public final class MockLsfileac {
 
             /* total items */
             CobolPackedDecimalSimpleConverter.toHostSingle(
-                    new BigDecimal(mockFILEA.getCustomersNumber()),
+                    new BigDecimal(FILEA.getCustomersNumber()),
                     5, 8, 0, false, hostReplyStatus, offset);
             offset += 5;
 
@@ -135,8 +136,6 @@ public final class MockLsfileac {
         } catch (HeaderPartException e) {
             throw new RequestException(e);
         } catch (CobolConversionException e) {
-            throw new RequestException(e);
-        } catch (IOException e) {
             throw new RequestException(e);
         }
     }

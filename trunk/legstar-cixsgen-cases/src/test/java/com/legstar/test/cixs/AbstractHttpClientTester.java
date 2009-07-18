@@ -20,10 +20,10 @@ import junit.framework.TestCase;
  *
  */
 public abstract class AbstractHttpClientTester extends TestCase {
-    
+
     /** A multithreaded client used throughout the test.*/
     private final HttpClient _httpClient;
-    
+
     /**
      * Use multithreaded client (useful for load testing).
      * Make sure connections do not stay in XLOSE_WAIT too long.
@@ -38,11 +38,15 @@ public abstract class AbstractHttpClientTester extends TestCase {
      * Perform a request/reply using text/xml as payload.
      * @param url the target url
      * @param xmlRequest the XML request
+     * @param soapAction the soap action
      * @return the XML reply
      * @throws Exception if something goes wrong
      */
-    public String postXml(final String url, final String xmlRequest) throws Exception {
+    public String postXml(final String url, final String xmlRequest, final String soapAction) throws Exception {
         PostMethod postMethod = new PostMethod(url);
+        if (soapAction != null && soapAction.length() > 0) {
+            postMethod.setRequestHeader("SOAPAction", soapAction);
+        }
         StringRequestEntity requestEntity =
             new StringRequestEntity(xmlRequest, "text/xml", "utf-8");
         postMethod.setRequestEntity(requestEntity);
@@ -54,7 +58,7 @@ public abstract class AbstractHttpClientTester extends TestCase {
         postMethod.releaseConnection();
         return xmlReply;
     }
-    
+
     /**
      * Perform a request/reply using byte[] application/octet-stream as payload.
      * @param url the target url

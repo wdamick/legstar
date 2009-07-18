@@ -86,6 +86,9 @@
                         </goals>
                         <configuration>
                             <skip>false</skip>
+                            <excludes>
+                                <exclude>**/HttpClientLsfileae100AxisTest.java</exclude>
+                            </excludes>
                         </configuration>
                     </execution>
                 </executions>

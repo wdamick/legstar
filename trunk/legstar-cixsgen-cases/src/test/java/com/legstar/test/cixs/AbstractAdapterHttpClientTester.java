@@ -121,7 +121,8 @@ public abstract class AbstractAdapterHttpClientTester extends AbstractHttpClient
         try {
             String xmlReply = postXml(
                     getServiceURI(),
-                    _soapRequest.replace("${endpointName}", endpointName));
+                    _soapRequest.replace("${endpointName}", endpointName),
+                    "urn:" + _wsName);
             assertEquals(_soapReply, xmlReply);
         } catch (Exception e) {
             fail(e.toString());
@@ -131,9 +132,15 @@ public abstract class AbstractAdapterHttpClientTester extends AbstractHttpClient
     /**
      * @return the web service location.
      */
-    private String getServiceURI() {
+    protected String getServiceURI() {
         return "http://megamouss:8080/cixs-" + _wsName + "/" + _wsName;
-        //return "http://megamouss:8080/axis2/services/" + _wsName + "Service." + _wsName + "Port/";
+    }
+
+    /**
+     * @return the name of target adapter web service
+     */
+    public String getWsName() {
+        return _wsName;
     }
     
 }

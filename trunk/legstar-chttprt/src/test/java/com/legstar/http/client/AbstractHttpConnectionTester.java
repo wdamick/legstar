@@ -134,7 +134,6 @@ public abstract class AbstractHttpConnectionTester extends AbstractConnectionTes
         CicsHttpEndpoint endpoint = getCicsTs31Endpoint();
         endpoint.setName("CICSTS31-POOLED");
         endpoint.setHostAccessStrategy(AccessStrategy.pooled);
-        endpoint.setPooledMaxKeepAlive(20000L);
         return endpoint;
     }
 

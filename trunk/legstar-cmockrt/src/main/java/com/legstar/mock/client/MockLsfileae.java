@@ -10,8 +10,6 @@
  ******************************************************************************/
 package com.legstar.mock.client;
 
-import java.io.IOException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -29,9 +27,11 @@ public final class MockLsfileae {
     /** Logger. */
     private static final Log LOG = LogFactory.getLog(MockLsfileae.class);
     
+    /** In memory representation if the FILEA content. */
+    private static final MockFILEA FILEA = new MockFILEA();;
+    
     /** Utility class.*/
     private MockLsfileae() {
-        
     }
 
     /**
@@ -46,14 +46,12 @@ public final class MockLsfileae {
             LOG.debug("Building response for program LSFILEAE");
         }
         try {
-            byte[] dfhcommareaResponse = new MockFILEA().getCustomer(
+            byte[] dfhcommareaResponse = FILEA.getCustomer(
                     requestMessage.getDataParts().get(0).getContent());
             LegStarMessage replyMessage = new LegStarMessage();
             replyMessage.addDataPart(new CommareaPart(dfhcommareaResponse));
             return replyMessage;
         } catch (HeaderPartException e) {
-            throw new RequestException(e);
-        } catch (IOException e) {
             throw new RequestException(e);
         }
     }

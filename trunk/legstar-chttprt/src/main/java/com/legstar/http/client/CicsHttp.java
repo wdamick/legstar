@@ -88,6 +88,9 @@ public class CicsHttp implements LegStarConnection  {
     /** last time this connection was used. */
     private long _lastUsedTime = -1;
 
+    /** true if connection opened. */
+    private boolean _isOpen;
+
     /** Logger. */
     private final Log _log = LogFactory.getLog(CicsHttp.class);
 
@@ -141,6 +144,7 @@ public class CicsHttp implements LegStarConnection  {
                 password,
                 null));
 
+        _isOpen = true;
         _lastUsedTime = System.currentTimeMillis();
         if (_log.isDebugEnabled()) {
             _log.debug("Connection:" + getConnectionID() + " Connection setup.");
@@ -279,6 +283,7 @@ public class CicsHttp implements LegStarConnection  {
             getHttpClient().getHttpConnectionManager().getConnection(
                     getHttpClient().getHostConfiguration()).close();
         }
+        _isOpen = false;
         _lastUsedTime = System.currentTimeMillis();
     }
 
@@ -575,8 +580,7 @@ public class CicsHttp implements LegStarConnection  {
 
     /** {@inheritDoc} */
     public boolean isOpen() {
-        return getHttpClient().getHttpConnectionManager().getConnection(
-                getHttpClient().getHostConfiguration()).isOpen();
+        return  _isOpen;
     }
 
     /** {@inheritDoc} */
