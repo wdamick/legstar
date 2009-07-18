@@ -91,7 +91,7 @@ public class ConnectionPool {
                 _connections, hostEndpoint.getPooledMaxKeepAlive());
 
         _shuttingDown = false;
-        _log.info("Pool of size " + poolSize + ", created for:" + address.getReport());
+        _log.info("Pool of size " + poolSize + ", created for endpoint: " + hostEndpoint.toString());
     }
 
     /**

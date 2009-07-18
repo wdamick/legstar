@@ -10,7 +10,6 @@
  ******************************************************************************/
 package com.legstar.mock.client;
 
-import java.io.IOException;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -20,20 +19,16 @@ import junit.framework.TestCase;
  *
  */
 public class MockFILEAETest extends TestCase {
-    
+
     /**
      * Check that text file is loaded properly.
      */
     public void testLoadTextFile() {
-        try {
-            MockFILEA mockFILEAE = new MockFILEA();
-            List < byte[] > list = mockFILEAE.getCustomers("S*", 100);
-            assertEquals(5, list.size());
-            list = mockFILEAE.getCustomers("*", 100);
-            assertEquals(43, list.size());
-        } catch (IOException e) {
-            fail(e.getMessage());
-        }
+        MockFILEA mockFILEAE = new MockFILEA();
+        List < byte[] > list = mockFILEAE.getCustomers("S*", 100);
+        assertEquals(5, list.size());
+        list = mockFILEAE.getCustomers("*", 100);
+        assertEquals(43, list.size());
     }
 
 }

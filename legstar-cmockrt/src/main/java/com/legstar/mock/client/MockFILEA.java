@@ -45,21 +45,24 @@ public class MockFILEA {
 
     /**
      * At construction time, we load a text file data content into a map of host byte arrays.
-     * @throws IOException  if text file cannot be read
      */
-    public MockFILEA() throws IOException {
-        _hostCustomersList = new LinkedHashMap < BigDecimal,  byte[] >();
-        InputStream is = getClass().getResourceAsStream(TEXT_DATA_FILE);
-        BufferedReader in = new BufferedReader(new InputStreamReader(is));
-        String record = null;
-        while ((record = in.readLine()) != null) {
-            _log.debug(record);
-            byte[] hostRecord = getHostRecord(record);
-            if (hostRecord != null) {
-                _hostCustomersList.put(new BigDecimal(record.substring(1, 7)), hostRecord);
+    public MockFILEA() {
+        try {
+            _hostCustomersList = new LinkedHashMap < BigDecimal,  byte[] >();
+            InputStream is = getClass().getResourceAsStream(TEXT_DATA_FILE);
+            BufferedReader in = new BufferedReader(new InputStreamReader(is));
+            String record = null;
+            while ((record = in.readLine()) != null) {
+                _log.debug(record);
+                byte[] hostRecord = getHostRecord(record);
+                if (hostRecord != null) {
+                    _hostCustomersList.put(new BigDecimal(record.substring(1, 7)), hostRecord);
+                }
             }
+            in.close();
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
         }
-        in.close();
     }
     
     /**
