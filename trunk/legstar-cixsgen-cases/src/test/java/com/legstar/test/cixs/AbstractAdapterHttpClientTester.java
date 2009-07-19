@@ -133,7 +133,7 @@ public abstract class AbstractAdapterHttpClientTester extends AbstractHttpClient
      * @return the web service location.
      */
     protected String getServiceURI() {
-        return "http://megamouss:8080/cixs-" + _wsName + "/" + _wsName;
+        return "http://" + getJ2EEHost() + ":8080/cixs-" + _wsName + "/" + _wsName;
     }
 
     /**

@@ -99,6 +99,22 @@
                 
                 <executions>
 
+                    <!-- This will generate a devenv properties file.  -->
+                    <execution>
+                        <id>generate-devenv</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/../src/main/ant/maven-to-devenv-properties.xml" inheritAll="true" inheritRefs="true">
+                                    <property name="legstar-dev-tomcat-host" value="${legstar-dev-tomcat-host}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
                     <!-- This will deploy all Web Services to a new instance of Tomcat. -->
                     <execution>
                         <id>deploy-test-services</id>

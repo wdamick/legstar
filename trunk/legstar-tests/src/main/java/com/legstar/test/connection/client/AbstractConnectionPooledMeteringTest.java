@@ -1,4 +1,4 @@
-package com.legstar.test.client;
+package com.legstar.test.connection.client;
 
 import java.util.concurrent.TimeUnit;
 

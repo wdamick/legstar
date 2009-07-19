@@ -92,4 +92,72 @@ public class PojoInvokerTest extends TestCase {
         }
         
     }
+    /**
+     * Check the dispatcher caching mechanism.
+     * @throws Exception when test fails
+     */
+    public void testPojoInvokerReuse() throws Exception {
+        /* Setup a configuration and instantiate action. */
+        PojoInvoker invoker = new PojoInvoker(JVMQueryPojoCases.getReflectConfig());
+
+        int threadsSize = 5;
+        Thread[] threads = new Thread[threadsSize];
+        PojoInvokerRunnable[] runnables = new PojoInvokerRunnable[threadsSize];
+        for (int i = 0; i < threadsSize; i++) {
+            runnables[i] = new PojoInvokerRunnable(invoker);
+            threads[i] = new Thread(runnables[i]);
+        }
+        for (int i = 0; i < threadsSize; i++) {
+            threads[i].start();
+        }
+        for (int i = 0; i < threadsSize; i++) {
+            threads[i].join();
+        }
+        for (int i = 0; i < threadsSize; i++) {
+            assertTrue(runnables[i].getException() == null);
+        }
+
+    }
+    
+    /**
+     * Class used for testing sharing invokers between threads.
+     *
+     */
+    public class PojoInvokerRunnable implements Runnable {
+
+        /** A shared invoker. */
+        private PojoInvoker _invoker;
+        
+        /** Any exception caught by this thread. */
+        private Throwable _exception;
+        
+        /**
+         * @param invoker the shared invoker
+         */
+        public PojoInvokerRunnable(final PojoInvoker invoker) {
+            _invoker = invoker;
+        }
+        
+        /** {@inheritDoc} */
+        public void run() {
+            try {
+                Object reply = _invoker.invoke(
+                        Thread.currentThread().getName() + "#" + Thread.currentThread().getId(),
+                        JvmqueryCases.getJavaObjectRequest());
+                assertTrue(reply instanceof JVMQueryReply);
+                JvmqueryCases.checkJavaObjectReplyFrance((JVMQueryReply) reply);
+            } catch (Exception e) {
+                e.printStackTrace();
+                _exception = e;
+            }
+        }
+
+        /**
+         * @return any exception caught by this thread
+         */
+        public Throwable getException() {
+            return _exception;
+        }
+        
+    }
 }

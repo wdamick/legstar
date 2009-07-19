@@ -12,45 +12,25 @@ package com.legstar.test.cixs;
 
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.transform.HostTransformException;
-import com.legstar.test.client.ProxyClientException;
-import com.legstar.test.client.ProxyClientHttp;
 import com.legstar.test.coxb.MSNSearchCases;
 import com.legstar.test.coxb.MSNSearch.SearchResponse;
 import com.legstar.test.coxb.MSNSearch.bind.SearchResponseHostToJavaTransformer;
-
-import junit.framework.TestCase;
 
 /**
  * Test the generated MSNSearch proxy.
  *
  */
-public class MSNSearchTest extends TestCase {
-
-    /** When deployed, the proxy will be there. */
-    public static final String MSNSEARCH_PROXY_URL =
-        "http://${host}:8080/c2ws-MSNSearch/MSNSearchProxy";
+public class MSNSearchTest extends AbstractProxyHttpClientTester {
 
     /**
-     * Assuming the servlet has been deployed. Test remotely.
+     * Create the test case.
      */
-    public void testProxyInvokeRemote() {
-        try {
-            ProxyClientHttp client = new ProxyClientHttp(MSNSEARCH_PROXY_URL);
-            String response = client.invoke(
-                    MSNSearchCases.getHostBytesHexRequest(),
-                    MSNSearchCases.getHostBytesHexResponse().length() / 2);
-            checkHostBytesResponse(HostData.toByteArray(response));
-        } catch (ProxyClientException e) {
-            fail(e.getMessage());
-        }
-
+    public MSNSearchTest() {
+        super("MSNSearch", HostData.toByteArray(MSNSearchCases.getHostBytesHexRequest()));
     }
-    
-    /**
-     * Check the response.
-     * @param replyBytes the host bytes returned
-     */
-    private void checkHostBytesResponse(final byte[] replyBytes) {
+
+    /** {@inheritDoc} */
+    public void check(final byte[] replyBytes) {
         try {
             SearchResponseHostToJavaTransformer transformer = new SearchResponseHostToJavaTransformer();
             SearchResponse searchResponse = transformer.transform(replyBytes);

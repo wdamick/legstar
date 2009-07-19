@@ -9,7 +9,7 @@ import com.legstar.host.server.EngineHolder;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.LegStarRequest;
 import com.legstar.messaging.RequestException;
-import com.legstar.test.client.AbstractConnectionTester;
+import com.legstar.test.connection.client.AbstractConnectionTester;
 import com.legstar.test.coxb.LsfileaeCases;
 
 import junit.framework.TestCase;

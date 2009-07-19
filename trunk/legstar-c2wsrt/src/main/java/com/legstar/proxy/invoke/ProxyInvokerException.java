@@ -41,4 +41,13 @@ public class ProxyInvokerException extends Exception {
     public ProxyInvokerException(final Throwable e) {
         super(e);
     }
+
+    /** 
+     * Constructor from an inner exception. 
+     * @param message the text message 
+     * @param e the inner exception 
+     * */
+    public ProxyInvokerException(final String message, final Throwable e) {
+        super(message, e);
+    }
 }
