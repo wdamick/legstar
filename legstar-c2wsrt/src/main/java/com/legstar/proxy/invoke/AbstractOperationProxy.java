@@ -43,6 +43,11 @@ public abstract class AbstractOperationProxy implements IOperationProxy {
     public AbstractOperationProxy(
             final Map < String, String > config) throws ProxyConfigurationException {
         mConfig = config;
+        try {
+            mProxyInvoker = ProxyInvokerFactory.createProxyInvoker(config);
+        } catch (ProxyInvokerException e) {
+            throw new ProxyConfigurationException(e);
+        }
     }
 
     /** {@inheritDoc} */
@@ -85,17 +90,11 @@ public abstract class AbstractOperationProxy implements IOperationProxy {
      */
     public IProxyInvoker getProxyInvoker(
             final Map < String, String > config) throws ProxyInvokerException {
-        if (config == null) {
-            if (mProxyInvoker == null) {
-                throw new ProxyInvokerException("No configuration was set");
-            } else {
-                return mProxyInvoker;
-            }
+        if (config != null && !mProxyInvoker.isSameConfig(config)) {
+            return ProxyInvokerFactory.createProxyInvoker(config);
+        } else {
+            return mProxyInvoker;
         }
-        if (mProxyInvoker == null || !mProxyInvoker.isSameConfig(config)) {
-            mProxyInvoker = ProxyInvokerFactory.createProxyInvoker(config);
-        }
-        return mProxyInvoker;
     }
 
     /**

@@ -5,7 +5,7 @@ import java.rmi.server.UID;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.HostEndpoint;
 import com.legstar.messaging.LegStarConnection;
-import com.legstar.test.client.AbstractConnectionMeteringTest;
+import com.legstar.test.connection.client.AbstractConnectionMeteringTest;
 
 /**
  * Test HTTP transport with LegStar Messaging.

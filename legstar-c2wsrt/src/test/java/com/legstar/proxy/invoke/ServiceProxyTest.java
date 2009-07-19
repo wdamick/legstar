@@ -26,7 +26,7 @@ import junit.framework.TestCase;
  *
  */
 public class ServiceProxyTest extends TestCase {
-    
+
     /**
      * Test that members are created properly at construction times.
      */
@@ -36,7 +36,9 @@ public class ServiceProxyTest extends TestCase {
             new ServiceProxy(config);
             fail();
         } catch (ProxyConfigurationException e) {
-            assertEquals("Missing configuration parameter requestJaxbPackageName",
+            assertEquals("com.legstar.proxy.invoke.ProxyInvokerException:"
+                    + " com.legstar.proxy.invoke.jaxws.WebServiceInvokerException:"
+                    + " You must specify a wsdl URL using the wsdlUrl attribute",
                     e.getMessage());
         }
         try {
@@ -62,7 +64,7 @@ public class ServiceProxyTest extends TestCase {
             fail(e.getMessage());
         }
     }
-    
+
 
     /**
      * Test invoking the operation proxy with raw (no LegStarMessage) data.
@@ -70,6 +72,8 @@ public class ServiceProxyTest extends TestCase {
     public void testInvokeRawData() {
         Map < String, String > config = new HashMap < String, String >();
         config.put("operationProxyClassName", "com.legstar.proxy.invoke.MockOperationProxy");
+        config.put(IProxyInvoker.PROXY_INVOKER_CLASS_NAME_PROPERTY,
+        "com.legstar.proxy.invoke.MockProxyInvoker");
         try {
             ServiceProxy serviceProxy = new ServiceProxy(config);
             byte[] replyBytes = serviceProxy.invoke(config, getName(),
@@ -89,6 +93,8 @@ public class ServiceProxyTest extends TestCase {
     public void testInvokeLegStarMessage() {
         Map < String, String > config = new HashMap < String, String >();
         config.put("operationProxyClassName", "com.legstar.proxy.invoke.MockOperationProxy");
+        config.put(IProxyInvoker.PROXY_INVOKER_CLASS_NAME_PROPERTY,
+        "com.legstar.proxy.invoke.MockProxyInvoker");
         try {
             ServiceProxy serviceProxy = new ServiceProxy(config);
             byte[] requestBytes = LegStarMessage.getHostBytesFromContent(

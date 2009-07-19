@@ -7,7 +7,7 @@ import com.legstar.csok.client.CicsSocketEndpoint;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.HostEndpoint;
 import com.legstar.messaging.LegStarConnection;
-import com.legstar.test.client.AbstractConnectionMeteringTest;
+import com.legstar.test.connection.client.AbstractConnectionMeteringTest;
 
 /**
  * Test WMQ transport with LegStar Messaging.

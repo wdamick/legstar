@@ -20,7 +20,7 @@ import com.legstar.config.PoolingEngineConfig;
 import com.legstar.messaging.HostEndpoint;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.HostEndpoint.AccessStrategy;
-import com.legstar.test.client.AbstractConnectionTester;
+import com.legstar.test.connection.client.AbstractConnectionTester;
 
 /**
  * Generic test helper class.

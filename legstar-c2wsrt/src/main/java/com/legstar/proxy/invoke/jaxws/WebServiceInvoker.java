@@ -105,10 +105,10 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
     /** The response descriptor. */
     private JAXBElementDescriptor mResponseElementDescriptor;
 
-    /** This is a JAXB Context that can be used to marshal/unmarshal the
-     * JAXB annotated classes that form the request and reply for this
-     * web service. Thread safe in RI. */
-    private JAXBContext mJaxbContext;
+    /**
+     * The dispatcher is thread safe starting with JAX-WS RI 2.1.2 provided we don't change the JAXB classes.
+     */
+    private final Dispatch < Object > _dispatcher;
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
@@ -130,9 +130,9 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
      */
     public WebServiceInvoker(
             final Map < String, String > config) throws WebServiceInvokerException {
-        
+
         super(config);
-        
+
         mWsdlUrl = config.get(WSDL_URL_PROPERTY);
         if (mWsdlUrl == null || mWsdlUrl.length() == 0) {
             throw new WebServiceInvokerException("You must specify a wsdl URL using the "
@@ -164,12 +164,6 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
             throw new WebServiceInvokerException("You must specify a jaxb request package name using the "
                     + REQUEST_JAXB_PACKAGE_NAME_PROPERTY + " attribute");
         }
-        try {
-            mRequestElementDescriptor = new JAXBElementDescriptor(requestJaxbPackageName, requestJaxbType);
-        } catch (JAXBAnnotationException e) {
-            throw new WebServiceInvokerException(e);
-        }
-
         String responseJaxbType = config.get(RESPONSE_JAXB_TYPE_PROPERTY);
         if (responseJaxbType == null || responseJaxbType.length() == 0) {
             throw new WebServiceInvokerException("You must specify a jaxb response type using the "
@@ -180,8 +174,11 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
             throw new WebServiceInvokerException("You must specify a jaxb response package name using the "
                     + RESPONSE_JAXB_PACKAGE_NAME_PROPERTY + " attribute");
         }
+
         try {
+            mRequestElementDescriptor = new JAXBElementDescriptor(requestJaxbPackageName, requestJaxbType);
             mResponseElementDescriptor = new JAXBElementDescriptor(responseJaxbPackageName, responseJaxbType);
+            _dispatcher = createDispatcher();
         } catch (JAXBAnnotationException e) {
             throw new WebServiceInvokerException(e);
         }
@@ -194,6 +191,7 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
             _log.debug("Wsdl port=" + getWsdlPortName());
             _log.debug("Request element=[" + getRequestElementDescriptor().toString() + "]");
             _log.debug("Response element=[" + getResponseElementDescriptor().toString() + "]");
+            _log.debug("Dispatcher=[" + _dispatcher + "]");
         }
     }
 
@@ -210,6 +208,26 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
                     + getWsdlServiceName() + " request ID=" + requestID);
         }
         return (T) replyObject;
+    }
+
+    /**
+     * @return a JAXBContext for request and response types
+     * @throws WebServiceInvokerException if JABContext cannot be created
+     */
+    private JAXBContext createJAXBContext() throws WebServiceInvokerException {
+        try {
+            if (getResponseElementDescriptor().getJaxbPackageName().compareTo(
+                    getRequestElementDescriptor().getJaxbPackageName()) == 0) {
+                return JAXBContext.newInstance(
+                        getRequestElementDescriptor().getObjectFactory().getClass());
+            } else {
+                return JAXBContext.newInstance(
+                        getRequestElementDescriptor().getObjectFactory().getClass(),
+                        getResponseElementDescriptor().getObjectFactory().getClass());
+            }
+        } catch (JAXBException e) {
+            throw new WebServiceInvokerException(e);
+        }
     }
 
     /**
@@ -230,13 +248,13 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
         try {
             Object oResponse;
             if (getRequestElementDescriptor().isXmlRootElement()) {
-                oResponse = getDispatcher().invoke(oRequest);
+                oResponse = _dispatcher.invoke(oRequest);
             } else {
                 JAXBElement < ? > jeRequest = getJAXBElement(
                         getRequestElementDescriptor().getObjectFactory(),
                         getRequestElementDescriptor().getElementName(),
                         oRequest);
-                oResponse = getDispatcher().invoke(jeRequest);
+                oResponse = createDispatcher().invoke(jeRequest);
             }
             if (_log.isDebugEnabled()) {
                 _log.debug("invokeDispatch returned " + oResponse);
@@ -248,7 +266,7 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
             }
 
         } catch (SOAPFaultException e) {
-            throw new WebServiceInvokerException(getFaultReasonText(e));
+            throw new WebServiceInvokerException(getFaultReasonText(e), e);
         }
     }
 
@@ -306,15 +324,11 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
     }
 
     /**
-     * Gets or creates a JAXWS dispatcher.
-     * <p/>
-     * Caching attempts have failed. There is a weird java.io.IOException: "Bogus chunk size"
-     * when we try to reuse a dynamic dispatcher so we create one for each request.
-     * TODO This is a CPU hotspot
+     * Creates a JAX-WS dispatcher.
      * @return an instance of jaxws dynamic client invoker. 
      * @throws WebServiceInvokerException if attempt to instantiate dispatcher fails
      */
-    public Dispatch < Object > getDispatcher() throws WebServiceInvokerException {
+    public Dispatch < Object > createDispatcher() throws WebServiceInvokerException {
         QName serviceQname = new QName(
                 getWsdlTargetNamespace(), getWsdlServiceName());
         QName portQname = new QName(
@@ -323,37 +337,12 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
         service.addPort(portQname, SOAPBinding.SOAP11HTTP_BINDING,
                 getWsdlUrl());
         Dispatch < Object > dispatcher = service.createDispatch(
-                portQname, getJaxbContext(), Service.Mode.PAYLOAD);
+                portQname, createJAXBContext(), Service.Mode.PAYLOAD);
 
         if (_log.isDebugEnabled()) {
             _log.debug("New javax.xml.ws.Dispatch created for " + getWsdlServiceName());
         }
         return dispatcher;
-    }
-
-    /**
-     * This method is used to lazily create the JAXB context which is an
-     * expensive operation.
-     * @return the JAXB context
-     * @throws WebServiceInvokerException if the JAXB context cannot be created
-     */
-    public final JAXBContext getJaxbContext() throws WebServiceInvokerException {
-        try {
-            if (mJaxbContext == null) {
-                if (getResponseElementDescriptor().getJaxbPackageName().compareTo(
-                        getRequestElementDescriptor().getJaxbPackageName()) == 0) {
-                    mJaxbContext = JAXBContext.newInstance(
-                            getRequestElementDescriptor().getObjectFactory().getClass());
-                } else {
-                    mJaxbContext = JAXBContext.newInstance(
-                            getRequestElementDescriptor().getObjectFactory().getClass(),
-                            getResponseElementDescriptor().getObjectFactory().getClass());
-                }
-            }
-            return mJaxbContext;
-        } catch (JAXBException e) {
-            throw new WebServiceInvokerException(e);
-        }
     }
 
     /**

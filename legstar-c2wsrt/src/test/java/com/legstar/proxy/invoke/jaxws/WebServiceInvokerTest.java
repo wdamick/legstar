@@ -24,11 +24,11 @@ import com.legstar.test.coxb.MSNSearch.SourceTypeType;
 import junit.framework.TestCase;
 
 /**
-  * Test WebServiceInvoker.
+ * Test WebServiceInvoker.
  *
  */
 public class WebServiceInvokerTest extends TestCase {
-    
+
     /**
      * Test configuration parameters.
      */
@@ -78,16 +78,6 @@ public class WebServiceInvokerTest extends TestCase {
         try {
             new WebServiceInvoker(config);
         } catch (WebServiceInvokerException e) {
-            assertEquals("com.legstar.util.JAXBAnnotationException: java.lang.ClassNotFoundException:"
-                    + " jaxbPackage.jaxbType",
-                    e.getMessage());
-        }
-        config.put(WebServiceInvoker.REQUEST_JAXB_TYPE_PROPERTY, "Search");
-        config.put(WebServiceInvoker.REQUEST_JAXB_PACKAGE_NAME_PROPERTY,
-                "com.legstar.test.coxb.MSNSearch");
-        try {
-            new WebServiceInvoker(config);
-        } catch (WebServiceInvokerException e) {
             assertEquals("You must specify a jaxb response type using the responseJaxbType attribute",
                     e.getMessage());
         }
@@ -106,27 +96,54 @@ public class WebServiceInvokerTest extends TestCase {
                     + " jaxbPackage.jaxbType",
                     e.getMessage());
         }
+        config.put(WebServiceInvoker.REQUEST_JAXB_TYPE_PROPERTY, "Search");
+        config.put(WebServiceInvoker.REQUEST_JAXB_PACKAGE_NAME_PROPERTY,
+        "com.legstar.test.coxb.MSNSearch");
+        try {
+            new WebServiceInvoker(config);
+        } catch (WebServiceInvokerException e) {
+            assertEquals("com.legstar.util.JAXBAnnotationException: java.lang.ClassNotFoundException:"
+                    + " jaxbPackage.jaxbType",
+                    e.getMessage());
+        }
         config.put(WebServiceInvoker.RESPONSE_JAXB_TYPE_PROPERTY, "SearchResponse");
         config.put(WebServiceInvoker.RESPONSE_JAXB_PACKAGE_NAME_PROPERTY,
-                "com.legstar.test.coxb.MSNSearch");
+        "com.legstar.test.coxb.MSNSearch");
         try {
             new WebServiceInvoker(config);
         } catch (WebServiceInvokerException e) {
             fail(e.getMessage());
         }
-        
+
     }
-    
-    
+
+
     /**
      * Test the dispatch method.
      * @throws Exception if test fails
      */
     public void testInvokeMSNSearch() throws Exception {
-        
+
         /* Setup a configuration and instantiate action. */
         WebServiceInvoker invoker = new WebServiceInvoker(MSNSearchJaxwsCases.getReflectConfig());
-        
+
+        /* Invoke the web service several times. */
+        try {
+            for (int i = 0; i < 5; i++) {
+                SearchResponse searchResponse = invoker.invoke(getName(), getSearchRequest());
+                assertTrue(searchResponse.getResponse().getResponses().getSourceResponse().size() > 0);
+            }
+
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+    }
+
+    /**
+     * @return a sample MSNSearch request
+     */
+    public static Search getSearchRequest() {
         /* Create a JAXB request object. */
         com.legstar.test.coxb.MSNSearch.ObjectFactory jaxbFactory =
             new com.legstar.test.coxb.MSNSearch.ObjectFactory();
@@ -134,7 +151,7 @@ public class WebServiceInvokerTest extends TestCase {
         SourceRequestType sourceRequestType = new SourceRequestType();
         sourceRequestType.setSource(SourceTypeType.WEB);
         sourceRequestType.setCount(10);
-        
+
         ArrayOfSourceRequestRequestsType sr = jaxbFactory.createArrayOfSourceRequestRequestsType();
         sr.getSourceRequest().add(sourceRequestType);
 
@@ -146,17 +163,75 @@ public class WebServiceInvokerTest extends TestCase {
 
         Search search = jaxbFactory.createSearch();
         search.setRequest(searchRequestType);
-
-        /* Invoke the web service. */
-        try {
-            SearchResponse searchResponse = invoker.invoke(getName(), search);
-            assertTrue(searchResponse.getResponse().getResponses().getSourceResponse().size() > 0);
-            
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
-       
+        return search;
     }
-    
+
+    /**
+     * Check the dispatcher caching mechanism.
+     * @throws Exception when test fails
+     */
+    public void testWebServiceInvokerReuse() throws Exception {
+        /* Setup a configuration and instantiate action. */
+        WebServiceInvoker invoker = new WebServiceInvoker(MSNSearchJaxwsCases.getReflectConfig());
+
+        int threadsSize = 5;
+        Thread[] threads = new Thread[threadsSize];
+        WebServiceInvokerRunnable[] runnables = new WebServiceInvokerRunnable[threadsSize];
+        for (int i = 0; i < threadsSize; i++) {
+            runnables[i] = new WebServiceInvokerRunnable(invoker);
+            threads[i] = new Thread(runnables[i]);
+        }
+        for (int i = 0; i < threadsSize; i++) {
+            threads[i].start();
+        }
+        for (int i = 0; i < threadsSize; i++) {
+            threads[i].join();
+        }
+        for (int i = 0; i < threadsSize; i++) {
+            assertTrue(runnables[i].getException() == null);
+        }
+
+    }
+
+    /**
+     * Class used for testing sharing invokers between threads.
+     *
+     */
+    public class WebServiceInvokerRunnable implements Runnable {
+
+        /** A shared invoker. */
+        private WebServiceInvoker _invoker;
+
+        /** Any exception caught by this thread. */
+        private Throwable _exception;
+
+        /**
+         * @param invoker the shared invoker
+         */
+        public WebServiceInvokerRunnable(final WebServiceInvoker invoker) {
+            _invoker = invoker;
+        }
+
+        /** {@inheritDoc} */
+        public void run() {
+            try {
+                String id = Thread.currentThread().getName();
+                SearchResponse searchResponse = _invoker.invoke(id, getSearchRequest());
+                assertTrue(searchResponse.getResponse().getResponses().getSourceResponse().size() > 0);
+            } catch (Exception e) {
+                e.printStackTrace();
+                _exception = e;
+            }
+        }
+
+        /**
+         * @return any exception caught by this thread
+         */
+        public Throwable getException() {
+            return _exception;
+        }
+
+    }
+
 
 }

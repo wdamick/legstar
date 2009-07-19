@@ -35,7 +35,10 @@ public class DirectOperationProxyTest extends TestCase {
             new DirectOperationProxy(new HashMap < String, String >());
             fail();
         } catch (ProxyConfigurationException e) {
-            assertEquals("Missing configuration parameter requestTransformersClassName", e.getMessage());
+            assertEquals("com.legstar.proxy.invoke.ProxyInvokerException:"
+                    + " com.legstar.proxy.invoke.jaxws.WebServiceInvokerException:"
+                    + " You must specify a wsdl URL using the wsdlUrl attribute",
+                    e.getMessage());
         }
         try {
             Map < String, String > config = CultureinfoJaxwsCases.getDirectConfig();

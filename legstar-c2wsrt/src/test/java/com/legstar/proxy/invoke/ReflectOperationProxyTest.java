@@ -34,7 +34,9 @@ public class ReflectOperationProxyTest extends TestCase {
             Map < String, String > config = new HashMap < String, String >();
             new ReflectOperationProxy(config);
         } catch (ProxyConfigurationException e) {
-            assertEquals("Missing configuration parameter requestJaxbPackageName",
+            assertEquals("com.legstar.proxy.invoke.ProxyInvokerException:"
+                    + " com.legstar.proxy.invoke.jaxws.WebServiceInvokerException:"
+                    + " You must specify a wsdl URL using the wsdlUrl attribute",
                     e.getMessage());
         }
         try {

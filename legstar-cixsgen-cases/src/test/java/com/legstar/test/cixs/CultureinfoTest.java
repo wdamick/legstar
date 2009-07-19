@@ -17,20 +17,17 @@ import com.legstar.test.coxb.CultureinfoCases;
  * Test the generated cultureinfo proxy.
  *
  */
-public class CultureinfoTest extends AbstractHttpClientTester {
+public class CultureinfoTest extends AbstractProxyHttpClientTester {
 
     /**
-     * Assuming the servlet has been deployed. Test remotely.
+     * Create the test case.
      */
-    public void testProxyInvokeRemote() {
-        try {
-            byte[] bytesReply = postBytes(
-                    "http://megamouss:8080/c2ws-cultureinfo/cultureinfoProxy",
-                    HostData.toByteArray(CultureinfoCases.getHostBytesHexRequestFr()));
-            CultureinfoCases.checkHostBytesReplyFr(bytesReply);
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+    public CultureinfoTest() {
+        super("cultureinfo", HostData.toByteArray(CultureinfoCases.getHostBytesHexRequestFr()));
+    }
 
+    /** {@inheritDoc} */
+    public void check(final byte[] replyBytes) {
+        CultureinfoCases.checkHostBytesReplyFr(replyBytes);
     }
 }

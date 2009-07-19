@@ -1,7 +1,7 @@
 package com.legstar.mq.client;
 
 import com.legstar.config.PoolingEngineConfig;
-import com.legstar.test.client.AbstractConnectionPooledMeteringTest;
+import com.legstar.test.connection.client.AbstractConnectionPooledMeteringTest;
 
 /**
  * Test WMQ transport with LegStar Messaging and pooling engine.

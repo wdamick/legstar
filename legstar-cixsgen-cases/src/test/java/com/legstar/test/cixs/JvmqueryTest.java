@@ -17,21 +17,18 @@ import com.legstar.xsdc.test.cases.JvmqueryCases;
  * Test the generated Jvmquery proxy.
  *
  */
-public class JvmqueryTest extends AbstractHttpClientTester {
+public class JvmqueryTest extends AbstractProxyHttpClientTester {
 
     /**
-     * Assuming the servlet has been deployed. Test remotely.
+     * Create the test case.
      */
-    public void testProxyInvokeRemote() {
-        try {
-            byte[] bytesReply = postBytes(
-                    "http://megamouss:8080/c2ws-Jvmquery/JvmqueryProxy",
-                    HostData.toByteArray(JvmqueryCases.getHostBytesHexRequest()));
-            JvmqueryCases.checkHostBytesHexReplyFrance(HostData.toHexString(bytesReply));
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+    public JvmqueryTest() {
+        super("Jvmquery", HostData.toByteArray(JvmqueryCases.getHostBytesHexRequest()));
+    }
 
+    /** {@inheritDoc} */
+    public void check(final byte[] replyBytes) {
+        JvmqueryCases.checkHostBytesHexReplyFrance(HostData.toHexString(replyBytes));
     }
     
 }

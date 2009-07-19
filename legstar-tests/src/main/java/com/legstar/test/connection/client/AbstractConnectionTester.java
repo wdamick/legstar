@@ -8,7 +8,7 @@
  * Contributors:
  *     LegSem - initial API and implementation
  ******************************************************************************/
-package com.legstar.test.client;
+package com.legstar.test.connection.client;
 
 import java.rmi.server.UID;
 import java.util.HashMap;
