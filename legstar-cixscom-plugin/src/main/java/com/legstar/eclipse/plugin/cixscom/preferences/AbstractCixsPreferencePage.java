@@ -32,13 +32,13 @@ import com.legstar.eclipse.plugin.cixscom.Messages;
  * be accessed directly via the preference store.
  */
 
-public class CixsPreferencePage extends FieldEditorPreferencePage
+public abstract class AbstractCixsPreferencePage extends FieldEditorPreferencePage
 implements IWorkbenchPreferencePage {
 
     /**
      * Constructs a preference page.
      */
-    public CixsPreferencePage() {
+    public AbstractCixsPreferencePage() {
         super(GRID);
         setPreferenceStore(Activator.getDefault().getPreferenceStore());
         setDescription(Messages.preference_page_description);
@@ -58,8 +58,8 @@ implements IWorkbenchPreferencePage {
                 getFieldEditorParent()));
 
         addField(new StringFieldEditor(
-                PreferenceConstants.CIXS_TARGET_PROP_FOLDER,
-                Messages.cixs_properties_folder_label + ':',
+                PreferenceConstants.CIXS_TARGET_DIST_FOLDER,
+                Messages.cixs_distribution_folder_label + ':',
                 getFieldEditorParent()));
 
     }

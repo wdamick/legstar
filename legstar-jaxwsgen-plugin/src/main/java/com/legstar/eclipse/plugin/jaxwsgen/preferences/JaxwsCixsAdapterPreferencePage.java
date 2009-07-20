@@ -10,14 +10,13 @@
  ******************************************************************************/
 package com.legstar.eclipse.plugin.jaxwsgen.preferences;
 
-import org.eclipse.jface.preference.DirectoryFieldEditor;
+import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
+import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.IWorkbench;
 
-import com.legstar.eclipse.plugin.cixscom.preferences.AbstractCixsPreferencePage;
-import com.legstar.eclipse.plugin.jaxwsgen.Activator;
 import com.legstar.eclipse.plugin.jaxwsgen.Messages;
-
+import com.legstar.eclipse.plugin.jaxwsgen.Activator;
 
 /**
  * This class represents a preference page that
@@ -33,15 +32,16 @@ import com.legstar.eclipse.plugin.jaxwsgen.Messages;
  * be accessed directly via the preference store.
  */
 
-public class JaxwsCixsPreferencePage extends AbstractCixsPreferencePage {
+public class JaxwsCixsAdapterPreferencePage extends FieldEditorPreferencePage
+implements IWorkbenchPreferencePage {
 
     /**
      * Constructs a preference page.
      */
-    public JaxwsCixsPreferencePage() {
-        super();
+    public JaxwsCixsAdapterPreferencePage() {
+        super(GRID);
         setPreferenceStore(Activator.getDefault().getPreferenceStore());
-        setDescription(Messages.preference_page_description);
+        setDescription(Messages.preference_adapter_page_description);
     }
 
     /**
@@ -52,16 +52,19 @@ public class JaxwsCixsPreferencePage extends AbstractCixsPreferencePage {
      */
     public void createFieldEditors() {
 
-        super.createFieldEditors();
-        
         addField(new StringFieldEditor(
-                PreferenceConstants.DEFAULT_J2EE_WDD_FOLDER,
-                Messages.preference_wdd_folder_label + ':',
+                PreferenceConstants.ADAPTER_WSDL_TARGET_NAMESPACE_PREFIX,
+                Messages.preference_wsdl_target_namespace_prefix_label + ':',
                 getFieldEditorParent()));
 
-        addField(new DirectoryFieldEditor(
-                PreferenceConstants.DEFAULT_J2EE_WAR_FOLDER,
-                Messages.preference_war_location_label + ':',
+        addField(new StringFieldEditor(
+                PreferenceConstants.ADAPTER_WSDL_SERVICE_NAME_SUFFIX,
+                Messages.preference_wsdl_service_name_suffix_label + ':',
+                getFieldEditorParent()));
+
+        addField(new StringFieldEditor(
+                PreferenceConstants.ADAPTER_WSDL_PORT_NAME_SUFFIX,
+                Messages.preference_wsdl_port_name_suffix_label + ':',
                 getFieldEditorParent()));
 
     }

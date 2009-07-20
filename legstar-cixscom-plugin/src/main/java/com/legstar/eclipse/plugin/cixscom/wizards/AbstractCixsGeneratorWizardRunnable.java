@@ -122,8 +122,8 @@ extends AbstractWizardRunnable {
                 new File(cixsGenWizardPage.getTargetBinDir()));
         genModel.setTargetAntDir(
                 new File(cixsGenWizardPage.getTargetAntDir()));
-        genModel.setTargetPropDir(
-                new File(cixsGenWizardPage.getTargetPropDir()));
+        genModel.setTargetDistDir(
+                new File(cixsGenWizardPage.getTargetDistDir()));
         genModel.setHostCharset(cixsGenWizardPage.getHostCharset());
 
     }

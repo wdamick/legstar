@@ -36,6 +36,10 @@ public class Messages extends NLS {
 
     /** Preference page title.*/
     public static String jaxwsgen_preference_page_title;
+    /** Preference page title.*/
+    public static String jaxwsgen_adapter_preference_page_title;
+    /** Preference page title.*/
+    public static String jaxwsgen_proxy_preference_page_title;
 
     /** Port selection dialog title.*/
     public static String wsdl_port_selection_dialog_title;
@@ -52,6 +56,11 @@ public class Messages extends NLS {
 
     /** Preference page description.*/
     public static String preference_page_description;
+    /** Preference page description.*/
+    public static String preference_adapter_page_description;
+    /** Preference page description.*/
+    public static String preference_proxy_page_description;
+
     /** War deployment preference label.*/
     public static String preference_war_location_label;
     /** Web descriptor folder preference label.*/

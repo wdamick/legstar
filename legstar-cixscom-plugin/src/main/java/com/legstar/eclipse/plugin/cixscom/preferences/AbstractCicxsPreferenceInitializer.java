@@ -13,24 +13,21 @@ package com.legstar.eclipse.plugin.cixscom.preferences;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 
-import com.legstar.eclipse.plugin.cixscom.Activator;
-
 /**
  * Class used to initialize default preference values.
  */
-public class PreferenceInitializer extends AbstractPreferenceInitializer {
+public abstract class AbstractCicxsPreferenceInitializer extends AbstractPreferenceInitializer {
 
     /**
-     * {@inheritDoc}
-     * @see org.eclipse.core.runtime.preferences.
-     * AbstractPreferenceInitializer#initializeDefaultPreferences()
+     * Preference initializers inheriting from this class must call this method
+     * in order to initialize common fields.
+     * @param store the data store where initial values are kept
      */
-    public void initializeDefaultPreferences() {
-        IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+    public void initializeDefaultPreferences(final IPreferenceStore store) {
 
         store.setDefault(PreferenceConstants.DEFAULT_CIXS_PACKAGE_NAME_PREFIX,
                 "com.legstar.test.cixs");
-        store.setDefault(PreferenceConstants.CIXS_TARGET_PROP_FOLDER, "prop");
+        store.setDefault(PreferenceConstants.CIXS_TARGET_DIST_FOLDER, "dist");
     }
 
 }

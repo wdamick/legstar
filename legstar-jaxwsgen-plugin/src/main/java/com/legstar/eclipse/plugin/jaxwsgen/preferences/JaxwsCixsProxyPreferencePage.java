@@ -10,14 +10,13 @@
  ******************************************************************************/
 package com.legstar.eclipse.plugin.jaxwsgen.preferences;
 
-import org.eclipse.jface.preference.DirectoryFieldEditor;
+import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
+import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.IWorkbench;
 
-import com.legstar.eclipse.plugin.cixscom.preferences.AbstractCixsPreferencePage;
-import com.legstar.eclipse.plugin.jaxwsgen.Activator;
 import com.legstar.eclipse.plugin.jaxwsgen.Messages;
-
+import com.legstar.eclipse.plugin.jaxwsgen.Activator;
 
 /**
  * This class represents a preference page that
@@ -33,15 +32,16 @@ import com.legstar.eclipse.plugin.jaxwsgen.Messages;
  * be accessed directly via the preference store.
  */
 
-public class JaxwsCixsPreferencePage extends AbstractCixsPreferencePage {
+public class JaxwsCixsProxyPreferencePage extends FieldEditorPreferencePage
+implements IWorkbenchPreferencePage {
 
     /**
      * Constructs a preference page.
      */
-    public JaxwsCixsPreferencePage() {
-        super();
+    public JaxwsCixsProxyPreferencePage() {
+        super(GRID);
         setPreferenceStore(Activator.getDefault().getPreferenceStore());
-        setDescription(Messages.preference_page_description);
+        setDescription(Messages.preference_proxy_page_description);
     }
 
     /**
@@ -52,18 +52,31 @@ public class JaxwsCixsPreferencePage extends AbstractCixsPreferencePage {
      */
     public void createFieldEditors() {
 
-        super.createFieldEditors();
-        
         addField(new StringFieldEditor(
-                PreferenceConstants.DEFAULT_J2EE_WDD_FOLDER,
-                Messages.preference_wdd_folder_label + ':',
+                PreferenceConstants.COBOL_SAMPLE_FOLDER,
+                Messages.preference_cobol_folder_label + ':',
                 getFieldEditorParent()));
 
-        addField(new DirectoryFieldEditor(
-                PreferenceConstants.DEFAULT_J2EE_WAR_FOLDER,
-                Messages.preference_war_location_label + ':',
+        /* For now, the only scheme supported by clients is http */
+//      addField(new StringFieldEditor(
+//              PreferenceConstants.PROXY_HTTP_SCHEME,
+//              Messages.preference_proxy_http_scheme_label + ':',
+//              getFieldEditorParent()));
+
+        addField(new StringFieldEditor(
+                PreferenceConstants.PROXY_DEFAULT_HTTP_HOST,
+                Messages.preference_proxy_http_host_label + ':',
                 getFieldEditorParent()));
 
+        addField(new StringFieldEditor(
+                PreferenceConstants.PROXY_DEFAULT_HTTP_PORT,
+                Messages.preference_proxy_http_port_label + ':',
+                getFieldEditorParent()));
+
+        addField(new StringFieldEditor(
+                PreferenceConstants.PROXY_HTTP_PATH_TEMPLATE,
+                Messages.preference_proxy_http_path_template_label + ':',
+                getFieldEditorParent()));
     }
 
     /**

@@ -10,18 +10,18 @@
  ******************************************************************************/
 package com.legstar.eclipse.plugin.jaxwsgen.preferences;
 
-import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 import com.legstar.cixs.jaxws.gen.Cixs2JaxwsGenerator;
 import com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator;
 import com.legstar.codegen.CodeGenUtil;
+import com.legstar.eclipse.plugin.cixscom.preferences.AbstractCicxsPreferenceInitializer;
 import com.legstar.eclipse.plugin.jaxwsgen.Activator;
 
 /**
  * Class used to initialize default preference values.
  */
-public class PreferenceInitializer extends AbstractPreferenceInitializer {
+public class PreferenceInitializer extends AbstractCicxsPreferenceInitializer {
 
     /**
      * {@inheritDoc}
@@ -30,6 +30,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
      */
     public void initializeDefaultPreferences() {
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+        super.initializeDefaultPreferences(store);
 
         store.setDefault(PreferenceConstants.DEFAULT_J2EE_WAR_FOLDER,
                 getDefaultJ2eeLocation() + "/webapps");
