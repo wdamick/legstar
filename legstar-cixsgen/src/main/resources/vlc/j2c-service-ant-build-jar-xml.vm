@@ -38,6 +38,9 @@
 #addPackages($cixsOperation.getOutput(), $jaxbPackages, $coxbPackages, $custPackages)
 #end
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- =================================================================================
+     Create an archive for an adapter.
+  -->
 <project basedir=".." default="create-jar" name="build-jar">
     <target name="create-jar">
         <jar destfile="${jarFile}">

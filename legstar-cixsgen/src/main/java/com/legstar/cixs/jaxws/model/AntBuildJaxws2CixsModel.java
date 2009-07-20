@@ -10,9 +10,6 @@
  ******************************************************************************/
 package com.legstar.cixs.jaxws.model;
 
-import java.io.File;
-
-import com.legstar.cixs.gen.ant.model.AbstractAntBuildCixsModel;
 import com.legstar.cixs.gen.model.options.WebServiceParameters;
 
 /**
@@ -20,7 +17,7 @@ import com.legstar.cixs.gen.model.options.WebServiceParameters;
  * component runs under Jaxws and wraps a CICS transaction.
  *
  */
-public class AntBuildJaxws2CixsModel extends AbstractAntBuildCixsModel {
+public class AntBuildJaxws2CixsModel extends AbstractAntBuildCixsJaxwsModel {
 
     /** This generator name. */
     public static final String JAXWS2CIXS_GENERATOR_NAME =
@@ -28,15 +25,6 @@ public class AntBuildJaxws2CixsModel extends AbstractAntBuildCixsModel {
 
     /** Adapter is exposed as a Web Service using these parameters. */
     private WebServiceParameters mWebServiceParameters;
-
-    /** Target location for web deployment descriptors. */
-    private File mTargetWDDDir;
-
-    /** The deployment location for jaxws war files. */
-    private File mTargetWarDir;
-
-    /** The distribution location for artifacts such as jars and wars. */
-    private File mTargetDistDir;
 
     /** This velocity template that creates an ant build which in turn
      * generates the target web service. */
@@ -49,65 +37,6 @@ public class AntBuildJaxws2CixsModel extends AbstractAntBuildCixsModel {
     public AntBuildJaxws2CixsModel() {
         super(JAXWS2CIXS_GENERATOR_NAME, JAXWS2CIXS_VELOCITY_MACRO_NAME);
         mWebServiceParameters = new WebServiceParameters();
-    }
-
-    /**
-     * @return the Jaxws web service being generated
-     */
-    public final CixsJaxwsService getCixsJaxwsService() {
-        return (CixsJaxwsService) getCixsService();
-    }
-
-    /**
-     * @param cixsJaxwsService the Jaxws web service being generated
-     *  to set
-     */
-    public final void setCixsJaxwsService(
-            final CixsJaxwsService cixsJaxwsService) {
-        setCixsService(cixsJaxwsService);
-    }
-
-    /**
-     * @return the Target location for web deployment descriptors
-     */
-    public final File getTargetWDDDir() {
-        return mTargetWDDDir;
-    }
-
-    /**
-     * @param targetWDDDir the Target location for web deployment descriptors to
-     *  set
-     */
-    public final void setTargetWDDDir(final File targetWDDDir) {
-        mTargetWDDDir = targetWDDDir;
-    }
-
-    /**
-     * @return the deployment location for jaxws war files
-     */
-    public final File getTargetWarDir() {
-        return mTargetWarDir;
-    }
-
-    /**
-     * @param targetWarDir the deployment location for jaxws war files to set
-     */
-    public final void setTargetWarDir(final File targetWarDir) {
-        mTargetWarDir = targetWarDir;
-    }
-
-    /**
-     * @return the distribution location for artifacts such as jars and wars
-     */
-    public final File getTargetDistDir() {
-        return mTargetDistDir;
-    }
-
-    /**
-     * @param targetDistDir the distribution location for artifacts such as jars and wars to set
-     */
-    public final void setTargetDistDir(final File targetDistDir) {
-        mTargetDistDir = targetDistDir;
     }
 
     /**

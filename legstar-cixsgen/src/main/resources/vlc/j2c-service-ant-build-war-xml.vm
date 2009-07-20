@@ -6,6 +6,9 @@
 #set($warFile = "${targetDistDir}/cixs-${model.name}.war")
 #set($wddFile = "${targetWDDDir}/web.xml")
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- =================================================================================
+     Create a distribution archive for an adapter.
+  -->
 <project basedir=".." default="create-war" name="build-war">
     <target name="create-jar">
         <ant antfile="${targetAntDir}/build-jar.xml"/>

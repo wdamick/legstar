@@ -35,8 +35,8 @@ public class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
     /** The target directory where ant files will be created. */
     private File mTargetAntDir;
 
-    /** The target directory where properties files will be created. */
-    private File mTargetPropDir;
+    /** The distribution location for artifacts such as jars and wars. */
+    private File mTargetDistDir;
 
     /** The location where JAXB compiled classes live. */
     private File mJaxbBinDir;
@@ -120,18 +120,17 @@ public class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
     }
 
     /**
-     * @return the target directory where properties files will be created
+     * @return the distribution location for artifacts such as jars and wars
      */
-    public final File getTargetPropDir() {
-        return mTargetPropDir;
+    public final File getTargetDistDir() {
+        return mTargetDistDir;
     }
 
     /**
-     * @param targetPropDir the target directory where properties files will be
-     *  created to set
+     * @param targetDistDir the distribution location for artifacts such as jars and wars to set
      */
-    public final void setTargetPropDir(final File targetPropDir) {
-        mTargetPropDir = targetPropDir;
+    public final void setTargetDistDir(final File targetDistDir) {
+        mTargetDistDir = targetDistDir;
     }
 
     /**

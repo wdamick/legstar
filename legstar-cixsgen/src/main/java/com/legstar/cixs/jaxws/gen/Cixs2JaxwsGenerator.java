@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import com.legstar.cixs.gen.ant.AbstractCixsGenerator;
 import com.legstar.cixs.gen.model.AbstractCixsService;
 import com.legstar.cixs.gen.model.CixsOperation;
 import com.legstar.cixs.gen.model.options.CobolHttpClientType;
@@ -37,7 +36,7 @@ import com.legstar.codegen.CodeGenUtil;
  * The task also generates a sample COBOL CICS program that demonstrates
  * how to call the proxy servlet. 
  */
-public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
+public class Cixs2JaxwsGenerator extends AbstractCixsJaxwsGenerator {
 
     /** This generator name. */
     public static final String CIXS_TO_JAXWS_GENERATOR_NAME =
@@ -46,6 +45,10 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
     /** Velocity template for war ant build generation. */
     public static final String SERVICE_ANT_BUILD_WAR_VLC_TEMPLATE =
         "vlc/c2j-service-ant-build-war-xml.vm";
+
+    /** Velocity template for service ant-deploy. */
+    public static final String SERVICE_ANT_DEPLOY_VLC_TEMPLATE =
+        "vlc/c2j-service-ant-deploy-xml.vm";
 
     /** Velocity template for web descriptor generation. */
     public static final String SERVICE_WEB_XML_VLC_TEMPLATE =
@@ -83,63 +86,8 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
     }
 
     /** {@inheritDoc}*/
-    public void checkExtendedInput() throws CodeGenMakeException {
-        try {
-            CodeGenUtil.checkDirectory(
-                    getTargetAntDir(), true, "TargetAntDir");
-            CodeGenUtil.checkDirectory(
-                    getTargetWDDDir(), true, "TargetWDDDir");
-            CodeGenUtil.checkDirectory(
-                    getTargetCobolDir(), true, "TargetCobolDir");
-            /* Check that we are provided with valid locations to
-             * reference.*/
-            if (getTargetWarDir() == null) {
-                throw (new IllegalArgumentException(
-                "TargetWarDir: No directory name was specified"));
-            }
-
-            /* Check parameters needed depending on target type */
-            switch(getProxyTargetTypeInternal()) {
-            case POJO:
-                getPojoTargetParameters().check();
-                break;
-            case WEBSERVICE:
-                getWebServiceTargetParameters().check();
-                break;
-            default:
-                throw (new CodeGenMakeException("Missing ProxyTargetType parameter"));
-            }
-            
-
-            /* Check that we have CICS program names mapped to operations */
-            for (CixsOperation operation : getCixsOperations()) {
-                String cicsProgramName = operation.getCicsProgramName();
-                if (cicsProgramName == null || cicsProgramName.length() == 0) {
-                    throw new CodeGenMakeException(
-                    "Operation must specify a CICS program name");
-                }
-            }
-
-            /* Check that we have a URI to expose to mainframe programs */
-            /* Set a sensible path using the service name. */
-            if (getHttpTransportParameters().getPath() == null
-                    || getHttpTransportParameters().getPath().length() == 0) {
-                getHttpTransportParameters().setPath(getDefaultServicePath());
-            }
-            getHttpTransportParameters().check();
-
-        } catch (IllegalArgumentException e) {
-            throw new CodeGenMakeException(e);
-        }
-    }
-
-    /** {@inheritDoc}*/
-    public void generate(final Map < String, Object > parameters)
-    throws CodeGenMakeException {
-
-        parameters.put("targetWarDir", getTargetWarDir());
-        parameters.put("targetWDDDir", getTargetWDDDir());
-        parameters.put("hostCharset", getHostCharset());
+    @Override
+    public void addExtendedParameters(final Map < String, Object > parameters) {
         parameters.put("structHelper", new StructuresGenerator());
 
         /* Contribute the target type parameters */
@@ -153,12 +101,46 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
             getWebServiceTargetParameters().add(parameters);
             break;
         default:
-            throw (new CodeGenMakeException("Missing ProxyTargetType parameter"));
+            break;
         }
-        
+
         /* Contribute http parameters */
         getHttpTransportParameters().add(parameters);
 
+    }
+
+    /** {@inheritDoc}*/
+    @Override
+    public void checkExtendedExtendedInput() throws CodeGenMakeException {
+        CodeGenUtil.checkDirectory(
+                getTargetCobolDir(), true, "TargetCobolDir");
+
+        /* Check parameters needed depending on target type */
+        switch(getProxyTargetTypeInternal()) {
+        case POJO:
+            getPojoTargetParameters().check();
+            break;
+        case WEBSERVICE:
+            getWebServiceTargetParameters().check();
+            break;
+        default:
+            throw (new CodeGenMakeException("Missing ProxyTargetType parameter"));
+        }
+
+        /* Check that we have a URI to expose to mainframe programs */
+        /* Set a sensible path using the service name. */
+        if (getHttpTransportParameters().getPath() == null
+                || getHttpTransportParameters().getPath().length() == 0) {
+            getHttpTransportParameters().setPath(getDefaultServicePath());
+        }
+        getHttpTransportParameters().check();
+
+    }
+
+    /** {@inheritDoc}*/
+    @Override
+    public void generateExtended(final Map < String, Object > parameters)
+    throws CodeGenMakeException {
         /* Determine target files locations */
         File serviceWebFilesDir = getTargetWDDDir();
         CodeGenUtil.checkDirectory(serviceWebFilesDir, true);
@@ -171,6 +153,8 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
                 getCixsJaxwsService(), parameters, serviceWebFilesDir);
         generateAntBuildWar(
                 getCixsJaxwsService(), parameters, serviceAntFilesDir);
+        generateAntDeploy(
+                getCixsJaxwsService(), parameters, serviceAntFilesDir);
 
         for (CixsOperation operation : getCixsService().getCixsOperations()) {
             parameters.put("cixsOperation", operation);
@@ -180,7 +164,6 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
                     TransportType.HTTP,
                     getSampleCobolHttpClientTypeInternal());
         }
-
     }
 
     /**
@@ -188,20 +171,47 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
      * @param service the service description
      * @param parameters miscellaneous help parameters
      * @param serviceAntFilesDir where to store the generated file
+     * @return the generated file name
      * @throws CodeGenMakeException if generation fails
      */
-    public static void generateAntBuildWar(
+    public static String generateAntBuildWar(
             final CixsJaxwsService service,
             final Map < String, Object > parameters,
             final File serviceAntFilesDir)
     throws CodeGenMakeException {
+        String fileName = "build-war.xml";
         generateFile(CIXS_TO_JAXWS_GENERATOR_NAME,
                 SERVICE_ANT_BUILD_WAR_VLC_TEMPLATE,
                 SERVICE_MODEL_NAME,
                 service,
                 parameters,
                 serviceAntFilesDir,
-        "build.xml");
+                fileName);
+        return fileName;
+    }
+
+    /**
+     * Create the deploy Ant Build file.
+     * @param service the Jaxws service description
+     * @param parameters miscellaneous help parameters
+     * @param serviceAntFilesDir where to store the generated file
+     * @return the generated file name
+     * @throws CodeGenMakeException if generation fails
+     */
+    public static String generateAntDeploy(
+            final CixsJaxwsService service,
+            final Map < String, Object > parameters,
+            final File serviceAntFilesDir)
+    throws CodeGenMakeException {
+        String fileName = "deploy.xml";
+        generateFile(JAXWS_GENERATOR_NAME,
+                SERVICE_ANT_DEPLOY_VLC_TEMPLATE,
+                SERVICE_MODEL_NAME,
+                service,
+                parameters,
+                serviceAntFilesDir,
+                fileName);
+        return fileName;
     }
 
     /**
@@ -209,20 +219,23 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
      * @param service the Jaxws service description
      * @param parameters miscellaneous help parameters
      * @param serviceWebFilesDir where to store the generated file
+     * @return the generated file name
      * @throws CodeGenMakeException if generation fails
      */
-    public static void generateWebXml(
+    public static String generateWebXml(
             final CixsJaxwsService service,
             final Map < String, Object > parameters,
             final File serviceWebFilesDir)
     throws CodeGenMakeException {
+        String fileName = "web.xml";
         generateFile(CIXS_TO_JAXWS_GENERATOR_NAME,
                 SERVICE_WEB_XML_VLC_TEMPLATE,
                 SERVICE_MODEL_NAME,
                 service,
                 parameters,
                 serviceWebFilesDir,
-        "web.xml");
+                fileName);
+        return fileName;
     }
 
     /**
@@ -243,7 +256,7 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
             final TransportType transportType,
             final CobolHttpClientType cobolHttpClientType)
     throws CodeGenMakeException {
-        
+
         String template;
         switch(transportType) {
         case HTTP:
@@ -272,36 +285,7 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
                 parameters,
                 cobolFilesDir,
                 operation.getCicsProgramName() + ".cbl");
-        
-    }
 
-    /**
-     * @return the Target location for web deployment descriptors
-     */
-    public final File getTargetWDDDir() {
-        return getAntModel().getTargetWDDDir();
-    }
-
-    /**
-     * @param targetWDDDir the Target location for web deployment descriptors to
-     *  set
-     */
-    public final void setTargetWDDDir(final File targetWDDDir) {
-        getAntModel().setTargetWDDDir(targetWDDDir);
-    }
-
-    /**
-     * @return the deployment location for jaxws war files
-     */
-    public final File getTargetWarDir() {
-        return getAntModel().getTargetWarDir();
-    }
-
-    /**
-     * @param targetWarDir the deployment location for jaxws war files to set
-     */
-    public final void setTargetWarDir(final File targetWarDir) {
-        getAntModel().setTargetWarDir(targetWarDir);
     }
 
     /**
@@ -317,36 +301,6 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
      */
     public final void setTargetCobolDir(final File targetCobolDir) {
         getAntModel().setTargetCobolDir(targetCobolDir);
-    }
-
-    /**
-     * @return the service description
-     */
-    public final CixsJaxwsService getCixsJaxwsService() {
-        return getAntModel().getCixsJaxwsService();
-    }
-
-    /**
-     * @param cixsJaxwsService the service description to set
-     */
-    public final void setCixsJaxwsService(
-            final CixsJaxwsService cixsJaxwsService) {
-        getAntModel().setCixsJaxwsService(cixsJaxwsService);
-    }
-
-    /**
-     * @param cixsJaxwsService the Jaxws service to set
-     */
-    public final void add(final CixsJaxwsService cixsJaxwsService) {
-        getAntModel().setCixsJaxwsService(cixsJaxwsService);
-    }
-
-    /**
-     * @param cixsJaxwsService the Jaxws service to set
-     */
-    public final void addCixsJaxwsService(
-            final CixsJaxwsService cixsJaxwsService) {
-        getAntModel().setCixsJaxwsService(cixsJaxwsService);
     }
 
     /**
@@ -401,7 +355,7 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
      */
     public void setSampleCobolHttpClientType(final String sampleCobolHttpClientType) {
         CobolHttpClientType value = CobolHttpClientType.valueOf(
-                    sampleCobolHttpClientType.toUpperCase(Locale.getDefault()));
+                sampleCobolHttpClientType.toUpperCase(Locale.getDefault()));
         setSampleCobolHttpClientTypeInternal(value);
     }
     /**
@@ -506,9 +460,9 @@ public class Cixs2JaxwsGenerator extends AbstractCixsGenerator {
      *  the generated service proxy
      */
     public final String getDefaultServicePath() {
-        
+
         return DEFAULT_SERVER_PATH_TEMPLATE.replace(
                 "${service.name}", getCixsJaxwsService().getName());
     }
- 
+
 }

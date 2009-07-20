@@ -36,8 +36,9 @@
     <target name="generateCixs2Jaxws" depends="init">
     
         <cixs2jaxwsgen
-            targetAntDir="${antModel.targetAntDir}"
             targetWDDDir="${antModel.targetWDDDir}"
+            targetDistDir="${antModel.targetDistDir}"
+            targetAntDir="${antModel.targetAntDir}"
             targetWarDir="${antModel.targetWarDir}"
             targetCobolDir="${antModel.targetCobolDir}"
             jaxbBinDir="${antModel.jaxbBinDir}"

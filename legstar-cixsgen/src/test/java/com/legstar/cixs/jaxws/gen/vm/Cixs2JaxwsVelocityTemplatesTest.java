@@ -10,10 +10,13 @@
  ******************************************************************************/
 package com.legstar.cixs.jaxws.gen.vm;
 
+import java.io.File;
+
 import com.legstar.cixs.gen.AbstractTestTemplate;
 import com.legstar.cixs.gen.Samples;
 import com.legstar.cixs.jaxws.gen.Cixs2JaxwsGenerator;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
+import com.legstar.codegen.CodeGenUtil;
 
 /**
  * Test velocity templates that are specific to proxies.
@@ -119,7 +122,8 @@ public class Cixs2JaxwsVelocityTemplatesTest extends AbstractTestTemplate {
 
         getParameters().put("jaxbBinDir", "target/classes");
         getParameters().put("coxbBinDir", "target/classes");
-            getParameters().put("targetWarDir", "/Servers/TOMDev/webapps");
+        getParameters().put("targetWarDir", "/Servers/TOMDev/webapps");
+        getParameters().put("targetDistDir", "target/dist");
         getParameters().put("targetWDDDir", "/Legsem/Legstar/Dev/webapp/WEB-INF");
 
         CixsJaxwsService model = Samples.getCultureInfo();
@@ -127,13 +131,38 @@ public class Cixs2JaxwsVelocityTemplatesTest extends AbstractTestTemplate {
                 Cixs2JaxwsGenerator.CIXS_TO_JAXWS_GENERATOR_NAME,
                 Cixs2JaxwsGenerator.SERVICE_ANT_BUILD_WAR_VLC_TEMPLATE,
                 GEN_ANT_DIR, "build.xml");
-        assertTrue(resStr.contains("<property name=\"service\" value=\"cultureinfo\"/>"));
-        assertTrue(resStr.contains("<property name=\"service\" value=\"cultureinfo\"/>"));
-        assertTrue(resStr.contains("<delete file=\"/Servers/TOMDev/webapps/c2ws-cultureinfo.war\""));
-        assertTrue(resStr.contains("<war warfile=\"/Servers/TOMDev/webapps/c2ws-cultureinfo.war\""));
+        assertTrue(resStr.contains("<war warfile=\"target/dist/c2ws-cultureinfo.war\""));
         assertTrue(resStr.contains("webxml=\"/Legsem/Legstar/Dev/webapp/WEB-INF/web.xml\">"));
         assertTrue(resStr.contains("<classes dir=\"target/classes\">"));
         assertTrue(resStr.contains("<include name=\"com/legstar/test/coxb/cultureinfo/*.class\"/>"));
+    }
+
+    /**
+     * War deploy ant script.
+     * @throws Exception if test fails
+     */
+    public void testAntDeploy() throws Exception {
+
+        CixsJaxwsService jaxwsComponent = Samples.getCultureInfo();
+ 
+        getParameters().put("targetWarDir", "/Servers/TOMDev/webapps");
+        getParameters().put("targetWDDDir", "/Legsem/Legstar/Dev/webapp/WEB-INF");
+        getParameters().put("targetBinDir", "/legstar-cixsgen-cases/target/classes");
+        getParameters().put("targetDistDir", "/legstar-cixsgen-cases/target");
+        getParameters().put("jaxbBinDir", "/legstar-jaxbgen-cases/target/classes");
+        getParameters().put("coxbBinDir", "/legstar-coxbgen-cases/target/classes");
+        getParameters().put("custBinDir", "/legstar-cixsgen-cust-cases/target/classes");
+
+        File componentAntFilesDir =
+            new File(GEN_ANT_DIR, jaxwsComponent.getName());
+        CodeGenUtil.checkDirectory(componentAntFilesDir, true);
+        String filename = Cixs2JaxwsGenerator.generateAntDeploy(
+                jaxwsComponent, getParameters(), componentAntFilesDir);
+        String resStr = getSource(componentAntFilesDir, filename);
+
+        assertTrue(resStr.contains("<delete file=\"/Servers/TOMDev/webapps/c2ws-cultureinfo.war\""));
+        assertTrue(resStr.contains("<copy file=\"/legstar-cixsgen-cases/target/c2ws-cultureinfo.war\""));
+        assertTrue(resStr.contains("todir=\"/Servers/TOMDev/webapps\"/>"));
     }
 
 }

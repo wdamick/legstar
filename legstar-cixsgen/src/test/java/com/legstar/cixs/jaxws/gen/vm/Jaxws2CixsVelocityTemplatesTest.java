@@ -23,7 +23,7 @@ import com.legstar.codegen.CodeGenUtil;
  * Test the generation of various artifacts for an adapter.
  *
  */
-public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
+public class Jaxws2CixsVelocityTemplatesTest extends AbstractTestTemplate {
 
 
     /**
@@ -333,10 +333,10 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
     }
 
     /**
-     * War build ant script.
+     * War deploy ant script.
      * @throws Exception if test fails
      */
-    public void testAntBuild() throws Exception {
+    public void testAntDeploy() throws Exception {
 
         CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
         initWebServiceParameters(jaxwsComponent);
@@ -352,7 +352,7 @@ public class MiscVelocityTemplatesTest extends AbstractTestTemplate {
         File componentAntFilesDir =
             new File(GEN_ANT_DIR, jaxwsComponent.getName());
         CodeGenUtil.checkDirectory(componentAntFilesDir, true);
-        String filename = Jaxws2CixsGenerator.generateAntBuild(
+        String filename = Jaxws2CixsGenerator.generateAntDeploy(
                 jaxwsComponent, getParameters(), componentAntFilesDir);
         String resStr = getSource(componentAntFilesDir, filename);
 

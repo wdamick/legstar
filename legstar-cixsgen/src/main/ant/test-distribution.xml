@@ -48,7 +48,7 @@
         <ant antfile="build-jaxb.xml" dir="${sample1.dir}"/>
         <ant antfile="build-coxb.xml" dir="${sample1.dir}"/>
         <ant antfile="build-jws2cixs.xml" dir="${sample1.dir}"/>
-        <ant antfile="build.xml" dir="${sample1.dir}/ant"/>
+        <ant antfile="deploy.xml" dir="${sample1.dir}/ant"/>
         
         <!-- Jvmquery sample. -->      
         <ant antfile="build-pojo.xml" dir="${sample2.dir}"/>
@@ -58,6 +58,7 @@
         <ant antfile="build-coxb-jvmqueryreply.xml" dir="${sample2.dir}"/>
         <ant antfile="build-cixs2jws.xml" dir="${sample2.dir}"/>
         <ant antfile="build-jvmquery-cobol-src.xml" dir="${sample2.dir}"/>
+        <ant antfile="deploy.xml" dir="${sample2.dir}/ant"/>
         
         <!-- Cultureinfo sample. -->      
         <ant antfile="build-war.xml" dir="${sample3.dir}"/>
@@ -67,6 +68,7 @@
         <ant antfile="build-coxb-getinforesponse.xml" dir="${sample3.dir}"/>
         <ant antfile="build-cixs2jws.xml" dir="${sample3.dir}"/>
         <ant antfile="build-cultureinfo-cobol-src.xml" dir="${sample3.dir}"/>
+        <ant antfile="deploy.xml" dir="${sample3.dir}/ant"/>
         
     </target>
   

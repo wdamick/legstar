@@ -130,7 +130,7 @@ public abstract class AbstractCixsGenerator extends Task {
         parameters.put("targetSrcDir", getTargetSrcDir());
         parameters.put("targetBinDir", getTargetBinDir());
         parameters.put("targetAntDir", getTargetAntDir());
-        parameters.put("targetPropDir", getTargetPropDir());
+        parameters.put("targetDistDir", getTargetDistDir());
         parameters.put("jaxbBinDir", getJaxbBinDir());
         parameters.put("coxbBinDir", getCoxbBinDir());
         parameters.put("custBinDir", getCustBinDir());
@@ -261,17 +261,17 @@ public abstract class AbstractCixsGenerator extends Task {
     }
 
     /**
-     * @return the target properties files location
+     * @return the deployment location for jaxws war files
      */
-    public final File getTargetPropDir() {
-        return mAntModel.getTargetPropDir();
+    public final File getTargetDistDir() {
+        return mAntModel.getTargetDistDir();
     }
 
     /**
-     * @param targetPropDir the target properties files location to set
+     * @param targetDistDir the distribution location for artifacts such as jars and wars to set
      */
-    public final void setTargetPropDir(final File targetPropDir) {
-        mAntModel.setTargetPropDir(targetPropDir);
+    public final void setTargetDistDir(final File targetDistDir) {
+        mAntModel.setTargetDistDir(targetDistDir);
     }
 
     /**
