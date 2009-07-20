@@ -254,7 +254,7 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
                         getRequestElementDescriptor().getObjectFactory(),
                         getRequestElementDescriptor().getElementName(),
                         oRequest);
-                oResponse = createDispatcher().invoke(jeRequest);
+                oResponse = _dispatcher.invoke(jeRequest);
             }
             if (_log.isDebugEnabled()) {
                 _log.debug("invokeDispatch returned " + oResponse);
