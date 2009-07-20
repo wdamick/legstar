@@ -19,9 +19,9 @@ public final class PreferenceConstants {
     public static final String DEFAULT_CIXS_PACKAGE_NAME_PREFIX =
         "com.legstar.eclipse.plugin.cixscom.DefaultPackageNamePrefix";
 
-    /** Folder where property files should be generated. */
-    public static final String CIXS_TARGET_PROP_FOLDER =
-        "com.legstar.eclipse.plugin.cixscom.PropFolder";
+    /** Folder where distribution archives should be generated. */
+    public static final String CIXS_TARGET_DIST_FOLDER =
+        "com.legstar.eclipse.plugin.cixscom.DistFolder";
 
     /** Last generated java classes package name. */
     public static final String LAST_CIXS_PACKAGE_NAME =

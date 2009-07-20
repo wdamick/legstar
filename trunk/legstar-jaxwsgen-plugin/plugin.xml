@@ -38,6 +38,16 @@
             class="com.legstar.eclipse.plugin.jaxwsgen.preferences.JaxwsCixsPreferencePage"
             id="com.legstar.eclipse.plugin.jaxwsgen"
             name="%jaxwsgen_preference_page_title"/>
+      <page
+            category="com.legstar.eclipse.plugin.jaxwsgen"
+            class="com.legstar.eclipse.plugin.jaxwsgen.preferences.JaxwsCixsAdapterPreferencePage"
+            id="com.legstar.eclipse.plugin.jaxwsgen.adapter"
+            name="%jaxwsgen_adapter_preference_page_title"/>
+      <page
+            category="com.legstar.eclipse.plugin.jaxwsgen"
+            class="com.legstar.eclipse.plugin.jaxwsgen.preferences.JaxwsCixsProxyPreferencePage"
+            id="com.legstar.eclipse.plugin.jaxwsgen.proxy"
+            name="%jaxwsgen_proxy_preference_page_title"/>
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">

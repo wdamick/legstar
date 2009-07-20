@@ -84,8 +84,8 @@ extends AbstractWizardPage {
     /** Where generated ant scripts reside. */
     private Text mTargetAntDirText = null;
 
-    /** Where generated property files reside. */
-    private Text mTargetPropDirText = null;
+    /** Where generated distribution archives files reside. */
+    private Text mTargetDistDirText = null;
 
     /** The host character set. */
     private Text mHostCharsetText = null;
@@ -187,9 +187,9 @@ extends AbstractWizardPage {
         mTargetAntDirText = createDirectoryFieldEditor(canvas2,
                 "com.legstar.eclipse.plugin.cixscom.targetAntDir",
                 Messages.ant_scripts_target_location + ':');
-        mTargetPropDirText = createDirectoryFieldEditor(canvas2,
-                "com.legstar.eclipse.plugin.cixscom.targetPropDir",
-                Messages.properties_files_target_location + ':');
+        mTargetDistDirText = createDirectoryFieldEditor(canvas2,
+                "com.legstar.eclipse.plugin.cixscom.targetDistDir",
+                Messages.distribution_files_target_location + ':');
 
         addWidgetsToTargetGroup(canvas2);
     }
@@ -272,7 +272,7 @@ extends AbstractWizardPage {
                 dialogChanged();
             }
         });
-        mTargetPropDirText.addModifyListener(new ModifyListener() {
+        mTargetDistDirText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
@@ -316,7 +316,7 @@ extends AbstractWizardPage {
      * @return the default package name
      */
     protected String getDefaultJavaClassesPackageName() {
-        String prefix = getCixscomStore().getString(
+        String prefix = getStore().getString(
                 PreferenceConstants.DEFAULT_CIXS_PACKAGE_NAME_PREFIX);
         String defaultPackageName;
         if (prefix == null || prefix.length() == 0) {
@@ -409,9 +409,9 @@ extends AbstractWizardPage {
             return;
         }
 
-        if (!checkDirectory(getTargetPropDir(),
+        if (!checkDirectory(getTargetDistDir(),
                 NLS.bind(Messages.invalid_location_msg,
-                        Messages.properties_files_target_location))) {
+                        Messages.distribution_files_target_location))) {
             return;
         }
         if (!checkDirectory(getTargetAntDir(),
@@ -582,8 +582,8 @@ extends AbstractWizardPage {
                 com.legstar.eclipse.plugin.common.preferences
                 .PreferenceConstants.ANT_SCRIPTS_FOLDER));
 
-        setTargetPropDir(getDefaultTargetDir(getCixscomStore(),
-                PreferenceConstants.CIXS_TARGET_PROP_FOLDER));
+        setTargetDistDir(getDefaultTargetDir(getStore(),
+                PreferenceConstants.CIXS_TARGET_DIST_FOLDER));
 
     }
 
@@ -765,17 +765,17 @@ extends AbstractWizardPage {
     }
 
     /**
-     * @param targetPropDirLocation Where generated Property files reside
+     * @param targetDistDirLocation Where generated distribution archives reside
      */
-    public void setTargetPropDir(final String targetPropDirLocation) {
-        mTargetPropDirText.setText(targetPropDirLocation);
+    public void setTargetDistDir(final String targetDistDirLocation) {
+        mTargetDistDirText.setText(targetDistDirLocation);
     }
 
     /**
-     * @return Where generated Property files reside
+     * @return Where generated generated distribution archives reside
      */
-    public String getTargetPropDir() {
-        return mTargetPropDirText.getText();
+    public String getTargetDistDir() {
+        return mTargetDistDirText.getText();
     }
 
     /**
@@ -826,15 +826,6 @@ extends AbstractWizardPage {
      */
     public IPreferenceStore getCommonStore() {
         return  com.legstar.eclipse.plugin.common.Activator.getDefault()
-        .getPreferenceStore();
-
-    }
-
-    /**
-     * @return the preference store managed by the cixscom plugin.
-     */
-    public IPreferenceStore getCixscomStore() {
-        return  com.legstar.eclipse.plugin.cixscom.Activator.getDefault()
         .getPreferenceStore();
 
     }
