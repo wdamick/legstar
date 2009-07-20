@@ -81,6 +81,7 @@
         <cixs2jaxwsgen
             targetAntDir="${ant.dir}"
             targetWDDDir="${wdd.dir}"
+            targetDistDir="${dist.dir}"
             targetWarDir="${war.dir}"
             targetCobolDir="${cobol.dir}"
             jaxbBinDir="${jaxb.bin.dir}"

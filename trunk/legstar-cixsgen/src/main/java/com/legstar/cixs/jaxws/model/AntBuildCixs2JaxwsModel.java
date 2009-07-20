@@ -12,7 +12,6 @@ package com.legstar.cixs.jaxws.model;
 
 import java.io.File;
 
-import com.legstar.cixs.gen.ant.model.AbstractAntBuildCixsModel;
 import com.legstar.cixs.gen.model.options.CobolHttpClientType;
 import com.legstar.cixs.gen.model.options.HttpTransportParameters;
 import com.legstar.cixs.gen.model.options.PojoParameters;
@@ -24,7 +23,7 @@ import com.legstar.cixs.gen.model.options.WebServiceParameters;
  * mainframe operation. One such artifacts is a CICS COBOL source that showcases
  * how a remote service can be called from CICS.
  */
-public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsModel {
+public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsJaxwsModel {
 
     /** This generator name. */
     public static final String CIXS2JAXWS_GENERATOR_NAME =
@@ -38,12 +37,6 @@ public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsModel {
 
     /** Set of parameters needed to invoke a Web Service. */
     private WebServiceParameters mWebServiceTargetParameters;
-
-    /** Target location for web deployment descriptors. */
-    private File mTargetWDDDir;
-
-    /** The deployment location for jaxws war files. */
-    private File mTargetWarDir;
 
     /** The target directory where COBOL files will be created. */
     private File mTargetCobolDir;
@@ -67,50 +60,6 @@ public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsModel {
         mPojoTargetParameters = new PojoParameters();
         mWebServiceTargetParameters = new WebServiceParameters();
         mHttpTransportParameters = new HttpTransportParameters();
-    }
-
-    /**
-     * @return the web service mapping description
-     */
-    public final CixsJaxwsService getCixsJaxwsService() {
-        return (CixsJaxwsService) getCixsService();
-    }
-
-    /**
-     * @param cixsJaxwsService the web service mapping description to set
-     */
-    public final void setCixsJaxwsService(
-            final CixsJaxwsService cixsJaxwsService) {
-        setCixsService(cixsJaxwsService);
-    }
-
-    /**
-     * @return the Target location for web deployment descriptors
-     */
-    public final File getTargetWDDDir() {
-        return mTargetWDDDir;
-    }
-
-    /**
-     * @param targetWDDDir the Target location for web deployment descriptors to
-     *  set
-     */
-    public final void setTargetWDDDir(final File targetWDDDir) {
-        mTargetWDDDir = targetWDDDir;
-    }
-
-    /**
-     * @return the deployment location for jaxws war files
-     */
-    public final File getTargetWarDir() {
-        return mTargetWarDir;
-    }
-
-    /**
-     * @param targetWarDir the deployment location for jaxws war files to set
-     */
-    public final void setTargetWarDir(final File targetWarDir) {
-        mTargetWarDir = targetWarDir;
     }
 
     /**

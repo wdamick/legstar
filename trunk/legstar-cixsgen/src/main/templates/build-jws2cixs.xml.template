@@ -8,123 +8,123 @@
   -->
 <project basedir="." default="compileService" name="generate-service">
 
-  <!-- ===========================================================  -->
-  <!-- Setup environment
+    <!-- ===========================================================  -->
+    <!-- Setup environment
     -->
-  <target name="init">
+    <target name="init">
 
-    <property environment="env"/>
-    <!-- Service name   -->
-    <property name="service" value="@SERVICE-NAME@" />
-    <!-- CICS program name   -->
-    <property name="cics.program.name" value="@PROGRAM-NAME@" />
-    <!-- The input JAXB type name   -->
-    <property name="jaxb.root.name.in" value="@JAXB-ROOT-NAME@" />
-    <!-- The output JAXB type name   -->
-    <property name="jaxb.root.name.out" value="@JAXB-ROOT-NAME@" />
-    <!-- JAXB classes package name prefix    -->
-    <property name="jaxb.package.pfx" value="com.legstar.test.coxb"/>
-    <!-- CIXS classes package name prefix    -->
-    <property name="cixs.package.pfx" value="com.legstar.test.cixs"/>
-    <!-- CIXS WSDL Namespace prefix    -->
-    <property name="cixs.namespace.pfx" value="http://cixs.test.legstar.com"/>
-
-    <!-- CIXS Sources target location   -->
-    <property name="src.dir" value="src"/>
-    <!-- CIXS binaries target location  -->
-    <property name="bin.dir" value="bin"/>
-    <!-- Ant scripts target location   -->
-    <property name="ant.dir" value="ant"/>
-    <!-- Distribution location   -->
-    <property name="dist.dir" value="dist"/>
-    <!-- Web descriptors target location   -->
-    <property name="wdd.dir" value="webapp/cixs-${service}/WEB-INF"/>
-
-    <!-- Location of JAXB classes   -->
-    <property name="jaxb.bin.dir" value="bin"/>
-    <!-- Location of COXB binding classes   -->
-    <property name="coxb.bin.dir" value="bin"/>
-    <!-- Location of custom code classes   -->
-    <property name="cust.bin.dir" value="bin"/>
+        <property environment="env"/>
+        <!-- Service name   -->
+        <property name="service" value="@SERVICE-NAME@" />
+        <!-- CICS program name   -->
+        <property name="cics.program.name" value="@PROGRAM-NAME@" />
+        <!-- The input JAXB type name   -->
+        <property name="jaxb.root.name.in" value="@JAXB-ROOT-NAME@" />
+        <!-- The output JAXB type name   -->
+        <property name="jaxb.root.name.out" value="@JAXB-ROOT-NAME@" />
+        <!-- JAXB classes package name prefix    -->
+        <property name="jaxb.package.pfx" value="com.legstar.test.coxb"/>
+        <!-- CIXS classes package name prefix    -->
+        <property name="cixs.package.pfx" value="com.legstar.test.cixs"/>
+        <!-- CIXS WSDL Namespace prefix    -->
+        <property name="cixs.namespace.pfx" value="http://cixs.test.legstar.com"/>
     
-    <!-- War files target location   -->
-    <property name="war.dir" value="war"/>
+        <!-- CIXS Sources target location   -->
+        <property name="src.dir" value="src"/>
+        <!-- CIXS binaries target location  -->
+        <property name="bin.dir" value="bin"/>
+        <!-- Ant scripts target location   -->
+        <property name="ant.dir" value="ant"/>
+        <!-- Distribution archives location   -->
+        <property name="dist.dir" value="dist"/>
+        <!-- Web descriptors target location   -->
+        <property name="wdd.dir" value="webapp/cixs-${service}/WEB-INF"/>
     
-    <!-- Classpath setting -->
-    <path id="classpath">
-        <pathelement location="${jaxb.bin.dir}"/>
-        <pathelement location="${coxb.bin.dir}"/>
-        <pathelement location="${cust.bin.dir}"/>
-        <fileset dir="${basedir}/../../.." includes="lib/*.jar" />
-    </path>
-
-    <!-- Web Service Adapter Generator ant task -->
-    <taskdef name="jaxws2cixsgen"
-      classname="com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator"
-      classpathref="classpath" 
-    /> 
-
-  </target>
-
-  <!-- ===========================================================  -->
-  <!-- This step creates all the artifacts for a service.  -->
-  
-  <target name="generateService" depends="init">
-    
-    <jaxws2cixsgen targetSrcDir="${src.dir}"
-             targetBinDir="${bin.dir}"
-             targetWDDDir="${wdd.dir}"
-             targetAntDir="${ant.dir}"
-             targetDistDir="${dist.dir}"
-             targetWarDir="${war.dir}"
-             jaxbBinDir="${jaxb.bin.dir}"
-             coxbBinDir="${coxb.bin.dir}"
-             custBinDir="${cust.bin.dir}"
-      >
-        <!-- This sample is for a commarea-driven program. If your
-             program is container-driven, you need to add the
-             cicsChannel attribute to the cixsOperation element,
-             specify as many input and output elements as necessary
-             providing  a cicsContainer attribute for each. -->
-        <cixsJaxwsService name="${service}"
-            packageName="${cixs.package.pfx}.${service}"
-        >
-            <cixsOperation name="${service}"
-                cicsProgramName="${cics.program.name}">
-                <input
-                    jaxbType="${jaxb.root.name.in}"
-                    jaxbPackageName="${jaxb.package.pfx}.${service}"
-                />
-                <output
-                    jaxbType="${jaxb.root.name.out}"
-                    jaxbPackageName="${jaxb.package.pfx}.${service}"
-                />
-            </cixsOperation>
-        </cixsJaxwsService>
-        <!-- Generated adapter is exposed as a Web Service with default parameters.
-             You can customize these parameters using this element: -->
-        <webServiceParameters
-            wsdlTargetNamespace="${cixs.namespace.pfx}/${service}"
-            wsdlServiceName="${service}Service"
-            wsdlPortName="${service}Port"
-        />
+        <!-- Location of JAXB classes   -->
+        <property name="jaxb.bin.dir" value="bin"/>
+        <!-- Location of COXB binding classes   -->
+        <property name="coxb.bin.dir" value="bin"/>
+        <!-- Location of custom code classes   -->
+        <property name="cust.bin.dir" value="bin"/>
         
-    </jaxws2cixsgen>
+        <!-- War files target location   -->
+        <property name="war.dir" value="war"/>
     
-  </target>
+        <!-- Classpath setting -->
+        <path id="classpath">
+            <pathelement location="${jaxb.bin.dir}"/>
+            <pathelement location="${coxb.bin.dir}"/>
+            <pathelement location="${cust.bin.dir}"/>
+            <fileset dir="${basedir}/../../.." includes="lib/*.jar" />
+        </path>
+    
+        <!-- Web Service Adapter Generator ant task -->
+        <taskdef name="jaxws2cixsgen"
+          classname="com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator"
+          classpathref="classpath" 
+        /> 
+
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- This step creates all the artifacts for a service.  -->
+    
+    <target name="generateService" depends="init">
+    
+        <jaxws2cixsgen targetSrcDir="${src.dir}"
+                 targetBinDir="${bin.dir}"
+                 targetWDDDir="${wdd.dir}"
+                 targetAntDir="${ant.dir}"
+                 targetDistDir="${dist.dir}"
+                 targetWarDir="${war.dir}"
+                 jaxbBinDir="${jaxb.bin.dir}"
+                 coxbBinDir="${coxb.bin.dir}"
+                 custBinDir="${cust.bin.dir}"
+          >
+            <!-- This sample is for a commarea-driven program. If your
+                 program is container-driven, you need to add the
+                 cicsChannel attribute to the cixsOperation element,
+                 specify as many input and output elements as necessary
+                 providing  a cicsContainer attribute for each. -->
+            <cixsJaxwsService name="${service}"
+                packageName="${cixs.package.pfx}.${service}"
+            >
+                <cixsOperation name="${service}"
+                    cicsProgramName="${cics.program.name}">
+                    <input
+                        jaxbType="${jaxb.root.name.in}"
+                        jaxbPackageName="${jaxb.package.pfx}.${service}"
+                    />
+                    <output
+                        jaxbType="${jaxb.root.name.out}"
+                        jaxbPackageName="${jaxb.package.pfx}.${service}"
+                    />
+                </cixsOperation>
+            </cixsJaxwsService>
+            <!-- Generated adapter is exposed as a Web Service with default parameters.
+                 You can customize these parameters using this element: -->
+            <webServiceParameters
+                wsdlTargetNamespace="${cixs.namespace.pfx}/${service}"
+                wsdlServiceName="${service}Service"
+                wsdlPortName="${service}Port"
+            />
+            
+        </jaxws2cixsgen>
+    
+    </target>
    
-  <!-- ===========================================================  -->
-  <!-- Compile the generated service classes
+    <!-- ===========================================================  -->
+    <!-- Compile the generated service classes
     -->
-  <target name="compileService" depends="generateService">
-    <mkdir dir="${bin.dir}"/>
-    <javac target="1.5"
-    	   srcdir="${src.dir}"
-           includes="**/*.java"
-           destdir="${bin.dir}"
-           classpathref="classpath"
-           fork="yes"
-    />
-  </target>
+    <target name="compileService" depends="generateService">
+        <mkdir dir="${bin.dir}"/>
+        <javac target="1.5"
+            srcdir="${src.dir}"
+            includes="**/*.java"
+            destdir="${bin.dir}"
+            classpathref="classpath"
+            fork="yes"
+        />
+    </target>
   
 </project>

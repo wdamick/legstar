@@ -82,14 +82,6 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
             generator.setTargetWDDDir(GEN_WDD_DIR);
             generator.execute();
         } catch (Exception e) {
-            assertEquals("java.lang.IllegalArgumentException:" 
-                    + " TargetCobolDir: No directory name was specified",
-                    e.getCause().getMessage());
-        }
-        try {
-            generator.setTargetCobolDir(GEN_COBOL_DIR);
-            generator.execute();
-        } catch (Exception e) {
             assertEquals("java.lang.IllegalArgumentException:"
                     + " TargetWarDir: No directory name was specified",
                     e.getCause().getMessage());
@@ -97,6 +89,33 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
         try {
             generator.setTargetWarDir(GEN_WAR_DIR);
             generator.execute();
+            fail();
+        } catch (Exception e) {
+            assertEquals("java.lang.IllegalArgumentException:"
+                    + " TargetDistDir: No directory name was specified",
+                    e.getCause().getMessage());
+        }
+        try {
+            generator.setTargetDistDir(GEN_DIST_DIR);
+            generator.execute();
+            fail();
+        } catch (Exception e) {
+            assertEquals("No operation was specified",
+                    e.getCause().getMessage());
+        }
+        try {
+            generator.setCixsJaxwsService(Samples.getJvmquery());
+            generator.execute();
+            fail();
+        } catch (Exception e) {
+            assertEquals("java.lang.IllegalArgumentException:" 
+                    + " TargetCobolDir: No directory name was specified",
+                    e.getCause().getMessage());
+        }
+        try {
+            generator.setTargetCobolDir(GEN_COBOL_DIR);
+            generator.execute();
+            fail();
         } catch (Exception e) {
             assertEquals("Missing target Web service WSDL URL",
                     e.getCause().getMessage());
@@ -105,6 +124,7 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
             generator.getWebServiceTargetParameters().setWsdlUrl(
                     "http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl");
             generator.execute();
+            fail();
         } catch (Exception e) {
             assertEquals("Missing target Web service namespace",
                     e.getCause().getMessage());
@@ -113,6 +133,7 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
             generator.getWebServiceTargetParameters().setWsdlTargetNamespace(
                     "http://cultureinfo.cases.test.xsdc.legstar.com/");
             generator.execute();
+            fail();
         } catch (Exception e) {
             assertEquals("Missing target Web service name",
                     e.getCause().getMessage());
@@ -121,6 +142,7 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
             generator.getWebServiceTargetParameters().setWsdlServiceName(
                     "cultureinfoService");
             generator.execute();
+            fail();
         } catch (Exception e) {
             assertEquals("Missing target Web service port name",
                     e.getCause().getMessage());
@@ -129,21 +151,7 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
             generator.getWebServiceTargetParameters().setWsdlPortName(
                     "cultureinfoPort");
             generator.execute();
-        } catch (Exception e) {
-            assertEquals("You must specify an HTTP path",
-                    e.getCause().getMessage());
-        }
-        try {
-            generator.getHttpTransportParameters().setPath("trabzon");
-            generator.execute();
-        } catch (Exception e) {
-            assertEquals("The HTTP path must start with the / character",
-                    e.getCause().getMessage());
-        }
-        try {
-            generator.getHttpTransportParameters().setPath("/trabzon");
-            generator.execute();
-        } catch (Exception e) {
+       } catch (Exception e) {
             fail(e.getCause().getMessage());
         }
 
@@ -197,6 +205,7 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
         mGenerator.setTargetCobolDir(
                 new File(GEN_COBOL_DIR, cixsJaxwsService.getName()));
         mGenerator.setTargetWarDir(GEN_WAR_DIR);
+        mGenerator.setTargetDistDir(GEN_DIST_DIR);
         mGenerator.setHostCharset("IBM01147");
         mGenerator.getHttpTransportParameters().setUserId("alice");
         mGenerator.getHttpTransportParameters().setPassword("inwonderland");
@@ -211,13 +220,17 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
     private void checkAntBuild(final String service) throws Exception {
         String resStr;
         resStr = getSource(
-                GEN_ANT_DIR, service + '/' + "build.xml");
+                GEN_ANT_DIR, service + '/' + "build-war.xml");
         assertTrue(resStr.replace('\\', '/').contains(
-                "<war warfile=\"${env.CATALINA_BASE}/webapp/c2ws-" + service + ".war\""));
+                "<war warfile=\"target/src/gen/target/c2ws-" + service + ".war\""));
         assertTrue(resStr.replace('\\', '/').contains("webxml=\"target/src/gen/webapp/" + service + "/web.xml\""));
         assertTrue(resStr.replace('\\', '/').contains("<classes dir=\"target/classes\">"));
         assertTrue(resStr.replace('\\', '/').contains(
                 "<include name=\"com/legstar/test/coxb/" + service + "/*.class\"/>"));
+
+        resStr = getSource(GEN_ANT_DIR, service + '/' + "deploy.xml");
+        assertTrue(resStr.replace('\\', '/').contains(
+                "<copy file=\"target/src/gen/target/c2ws-" + service + ".war\""));
 
     }
 

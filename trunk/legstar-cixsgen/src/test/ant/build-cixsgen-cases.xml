@@ -350,6 +350,7 @@
         <cixs2jaxwsgen
             targetAntDir="${res.dir}/cultureinfo/${ant.dir}"
             targetWDDDir="${res.dir}/cultureinfo/${wdd.dir}"
+            targetDistDir="${dist.dir}"
             targetWarDir="${war.dir}"
             targetCobolDir="${res.dir}/cultureinfo/${cobol.dir}"
             jaxbBinDir="${jaxb.bin.dir}"
@@ -390,6 +391,7 @@
         <cixs2jaxwsgen
             targetAntDir="${res.dir}/MSNSearch/${ant.dir}"
             targetWDDDir="${res.dir}/MSNSearch/${wdd.dir}"
+            targetDistDir="${dist.dir}"
             targetWarDir="${war.dir}"
             targetCobolDir="${res.dir}/MSNSearch/${cobol.dir}"
             jaxbBinDir="${jaxb.bin.dir}"
@@ -430,6 +432,7 @@
         <cixs2jaxwsgen
             targetAntDir="${res.dir}/Jvmquery/${ant.dir}"
             targetWDDDir="${res.dir}/Jvmquery/${wdd.dir}"
+            targetDistDir="${dist.dir}"
             targetWarDir="${war.dir}"
             targetCobolDir="${res.dir}/Jvmquery/${cobol.dir}"
             jaxbBinDir="${jaxb.bin.dir}"
