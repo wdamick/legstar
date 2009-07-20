@@ -18,6 +18,7 @@
         </taskdef>
         
         <mkdir dir="${basedir}/../legstar-cixsgen-clients/target/classes"/>
+        <delete dir="${basedir}/../legstar-cixsgen-clients/src/main/java/com" quiet="true"/> 
         
     </target>
 

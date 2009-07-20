@@ -61,6 +61,10 @@
         
         <!-- Make sure we have target source directories -->
         <mkdir dir="${cixs.src.dir}"/>
+        <delete dir="${cixs.src.dir}/com" quiet="true"/> 
+        <delete quiet="true">
+            <fileset dir="${res.dir}" includes="**/*"/>
+        </delete> 
         <mkdir dir="${cixs.bin.dir}"/>
     
     </target>
