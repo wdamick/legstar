@@ -12,9 +12,11 @@
        By default, there is a single "legstar-invoker-config.xml" in a central location such as
        "Shared/classes" under Tomcat. With this setting, all clients installed in this
        instance of Tomcat share the same configuration parameters.
+       Note that you can define multiple host endpoints in a single legstar-invoker-config.xml
+       file. The target endpoint is part of the Address that clients specify.
        If you need specific settings for a particular client, you can copy
        "legstar-invoker-config.xml" to the "WEB-INF/classes" folder for this client. If you
-       do so, you must also copy the "invoker.jar" from the common "Shared/lib" location to the
+       do so, you must also copy the legstar jars from the common "Shared/lib" location to the
        specific "WEB-INF/lib" location otherwise the client would not load the configuration
        file with his own class loader.
       </answer>
