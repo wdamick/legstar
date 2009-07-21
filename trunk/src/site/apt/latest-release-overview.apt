@@ -2,6 +2,23 @@
                              Latest release overview
  -------------------------------------------------------------------------------
 
+Version 1.2.6
+
+ Some important refactoring in this release mainly for JAX-WS adapter generation.
+
+ So far we were primarily targeting Sun JAX-WS RI (Metro). In this release, we
+ also support {{{http://ws.apache.org/axis2/}Apache AXIS2}}. 
+ 
+ We also reduced the dependencies on Apache Commons Configuration and started
+ using configuration beans instead. The idea is to move toward Spring-based
+ configuration in a future release.
+ 
+ More stress tests were run against this release. Sources for stress test cases
+ and JMeter test plans are available. See {{http://code.google.com/p/legstar/w/list}}
+ for results.
+ 
+ Details about all the changes are available {{{DetailedChanges} here}}.
+
 Version 1.2.5
 
  This is mainly a bug fixing release with a particular accent on thread safety

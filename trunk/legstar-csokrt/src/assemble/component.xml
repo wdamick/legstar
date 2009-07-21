@@ -45,6 +45,15 @@
             </includes>
         </fileSet>
 
+        <!-- The sample documentation -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-csokrt/src/site/resources/samples</directory>
+            <outputDirectory>/samples/quickstarts/csokrt</outputDirectory>
+            <includes>
+                <include>readme.txt</include>
+            </includes>
+        </fileSet>
+
     </fileSets>
   
     <files>

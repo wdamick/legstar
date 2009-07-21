@@ -20,6 +20,9 @@ PREREQUISITES:
  
 INSTALLING/UNINSTALLING:
 
+ Warning: make sure you completely uninstall any previous version before
+ proceeding with a new install.
+
  [[1]] Unzip the binary distribution package into the directory of your choice,
        referred to as <installDir> in the following steps.
 
@@ -50,12 +53,27 @@ INSTALLING/UNINSTALLING:
                                        |----><src>
                                                |---->**/*.java
                            |----><chttprt>
+                                       |---->readme.txt
+                                       |---->build.xml
+                                       |---->legstar-invoker-config.xml
+                                       |---->lsfileae.properties
+                                       |----><src>
+                           |----><cmockrt>
+                                       |---->readme.txt
                                        |---->legstar-invoker-config.xml
                            |----><cmqrt>
+                                       |---->readme.txt
+                                       |---->build.xml
                                        |---->legstar-invoker-config.xml
+                                       |---->lsfileae.properties
+                                       |----><src>
                            |----><csokrt>
+                                       |---->readme.txt
+                                       |---->build.xml
                                        |---->legstar-invoker-config.xml
-                           |----><csokrt>
+                                       |---->lsfileae.properties
+                                       |----><src>
+                           |----><pooling>
                                        |---->legstar-engine-config.xml
                                        |---->legstar-pooling-config.xml
                            |----><proxy_pojo_jvmquery>
@@ -125,13 +143,17 @@ RUNNING THE SAMPLES:
        webapp and an ant folders.
    
  [[4]] From the samples/quickstarts/adapter_lsfileae/ant folder, run command
-       "ant". This should generate a war file in the war folder, ready
-       for deployment.
+       "ant -f build-war.xml". This should generate a war file in the dist folder,
+       ready for deployment.
        
        Deploy the generated war file from the war folder into your
        J2EE container deployment folder (ex $CATALINA_BASE/webapps).
 
        See the {{{faq.html}FAQ}} for common deployment issues.
+       
+       You will notice that a jar file is also generated in the dist folder.
+       As an alternative to JAX-WS RI (Metro) you can deploy this jar to
+       Apache AXIS2, servicejars folder.
        
  [[5]] Optionally, you can use build-jws-client.xml to generate a Web
        service client using JAX-WS.
@@ -154,7 +176,7 @@ RUNNING THE SAMPLES:
 * Service Proxy
 
  There are 2 proxy samples, one that consumes a POJO and one that
- consume a Web Service.
+ consumes a Web Service.
 
 ** Service Proxy to a POJO
 
@@ -192,10 +214,10 @@ RUNNING THE SAMPLES:
        folder and a sample COBOL program in the cobol folder.
    
  [[4]] From the samples/quickstarts/proxy_pojo_jvmquery/ant folder, run command
-       "ant". This should generate a war file in the war folder, ready
-       for deployment.
+       "ant -f build-war.xml". This should generate a war file in the dist folder,
+       ready for deployment.
        
-       Deploy the generated war file from the war folder into your
+       Deploy the generated war file from the dist folder into your
        J2EE container deployment folder (ex $CATALINA_BASE/webapps).
 
  [[5]] The sample COBOL program is an almost complete working sample of
@@ -254,11 +276,11 @@ RUNNING THE SAMPLES:
        in the webapp/cixs-cultureinfo/WEB-INF folder, an ant script in the ant
        folder and a sample COBOL program in the cobol folder.
    
- [[4]] From the samples/quickstarts/proxy_pojo_cultureinfo/ant folder, run
-       command "ant". This should generate a war file in the war folder, ready
-       for deployment.
+ [[4]] From the samples/quickstarts/proxy_pojo_cultureinfo/ant folder, run command
+       "ant -f build-war.xml". This should generate a war file in the dist folder,
+       ready for deployment.
        
-       Deploy the generated war file from the war folder into your
+       Deploy the generated war file from the dist folder into your
        J2EE container deployment folder (ex $CATALINA_BASE/webapps).
 
  [[5]] The sample COBOL program is an almost complete working sample of

@@ -45,6 +45,8 @@
     
         <!-- Generated Ant scripts target location   -->
         <property name="ant.dir" value="ant"/>
+        <!-- Distribution archives location   -->
+        <property name="dist.dir" value="dist"/>
         <!-- Generated Web descriptors target location   -->
         <property name="wdd.dir" value="webapp/cixs-${service}/WEB-INF"/>
         <!-- Generated COBOL CICS program target location   -->

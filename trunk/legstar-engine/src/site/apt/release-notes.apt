@@ -53,7 +53,9 @@ INSTALLING/UNINSTALLING:
        chosen to allow the engine to share the same configuration file with client requests.
        
        We assume you already have legstar-invoker-config.xml customized in that same location
-       since this file is also needed to run legstar without pooling.
+       since this file is also needed to run legstar without pooling. You can modify an endpoint
+       definition or create a new one specifying a pooled hostAccessStrategy and a
+       hostConnectionPoolSize. All connections using this endpoint will now be pooled.
    
  [[4]] Copy the legstar-engine.war file from <war> to <CATALINA_BASE>/webapps.
  
