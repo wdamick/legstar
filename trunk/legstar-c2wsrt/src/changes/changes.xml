@@ -3,6 +3,11 @@
     <title>Changes Mainframe Proxy Runtime</title>
   </properties>
   <body>
+    <release version="1.2.6" date="2009-07-30" description="Fixes and performances release">
+        <action dev="fady" type="update">
+            Performance improvements particularly for Web Services proxies.
+        </action>
+    </release>
     <release version="1.2.5" date="2009-05-30" description="Fixes release">
       <action dev="fady" type="update">
         Not caching service proxy in the http session anymore. This was causing outofmemory errors if sessions were not short lived.

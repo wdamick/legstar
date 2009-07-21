@@ -3,6 +3,11 @@
     <title>JAXB COBOL Annotator</title>
   </properties>
   <body>
+    <release version="1.2.6" date="2009-07-30" description="Fixes and performances release">
+        <action dev="fady" type="update">
+            Fixed Issue 57: Support setting string values with binary content.
+        </action>
+    </release>
     <release version="1.2.5" date="2009-05-30" description="Fixes release">
       <action dev="fady" type="update">
         Fixed issue 50: Remove systematic final attributes on methods.
