@@ -55,6 +55,7 @@ INSTALLING/UNINSTALLING:
         |----><samples>
                 |----><quickstarts>
                            |----><chttprt>
+                                    |---->readme.txt
                                     |---->build.xml
                                     |---->legstar-invoker-config.xml
                                     |---->lsfileae.properties
@@ -127,7 +128,7 @@ CONFIGURING AND RUNNING THE SAMPLE:
 
  You can turn on basic authentication at the TCPIPSERVICE definition level.
  
- Although the infrasture supports SSL, the required parameters have not been
+ Although the infrastructure supports SSL, the required parameters have not been
  exported in the Chttprt configuration file yet.
 
  [[3]] Setup the invoker configuration:

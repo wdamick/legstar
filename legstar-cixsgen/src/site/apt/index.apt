@@ -16,7 +16,7 @@ Mainframe Service Generator (Cixsgen) overview
  
   * Adapter Generator which exposes mainframe programs as Web Services.
 
-  * Proxy Generator which give mainframe programs outbound access to Web Services or pure java objects (POJOs).
+  * Proxy Generator which gives mainframe programs outbound access to Web Services or pure java objects (POJOs).
   
  []
  

@@ -82,6 +82,10 @@
         </dependency>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-cmockrt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-engine</artifactId>
         </dependency>
         <dependency>

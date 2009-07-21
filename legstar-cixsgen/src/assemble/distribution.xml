@@ -13,6 +13,7 @@
         <componentDescriptor>../legstar-c2wsrt/src/assemble/component.xml</componentDescriptor>
         <componentDescriptor>../legstar-chttprt/src/assemble/component.xml</componentDescriptor>
         <componentDescriptor>../legstar-cmqrt/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-cmockrt/src/assemble/component.xml</componentDescriptor>
         <componentDescriptor>../legstar-cobcgen/src/assemble/component.xml</componentDescriptor>
         <componentDescriptor>../legstar-coxbgen/src/assemble/component.xml</componentDescriptor>
         <componentDescriptor>../legstar-csokrt/src/assemble/component.xml</componentDescriptor>

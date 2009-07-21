@@ -36,12 +36,21 @@
             </includes>
         </fileSet>
 
-        <!-- The sample socket configuration file -->
+        <!-- The sample configuration file -->
         <fileSet>
             <directory>${project.basedir}/../legstar-chttprt/src/site/resources/samples</directory>
             <outputDirectory>/samples/quickstarts/chttprt</outputDirectory>
             <includes>
                 <include>*.xml</include>
+            </includes>
+        </fileSet>
+
+        <!-- The sample documentation -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-chttprt/src/site/resources/samples</directory>
+            <outputDirectory>/samples/quickstarts/chttprt</outputDirectory>
+            <includes>
+                <include>readme.txt</include>
             </includes>
         </fileSet>
 

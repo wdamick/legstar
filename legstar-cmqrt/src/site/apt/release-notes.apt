@@ -15,7 +15,7 @@ PREREQUISITES:
  
  If you decide to use IBM CICS MQ Bridge instead of LegStar on the mainframe
  side, you need to make sure that it is also installed in the target CICS
- region (the CICS group CSQCKB must be installed).
+ region (the IBM CICS group CSQCKB must be installed).
  
  If you decide to use LegStar on the mainframe side instead of CICS MQ Bridge,
  the LegStar mainframe side C370 programs must be installed.
@@ -66,6 +66,7 @@ INSTALLING/UNINSTALLING:
         |----><samples>
                 |----><quickstarts>
                            |----><cmqrt>
+                                    |---->readme.txt
                                     |---->build.xml
                                     |---->legstar-invoker-config.xml
                                     |---->lsfileae.properties

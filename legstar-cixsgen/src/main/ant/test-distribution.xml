@@ -16,12 +16,10 @@
         <property name="xsd.dir" value="schema" />
         <!-- Distribution name  -->
         <property name="dist.name" value="${project.artifactId}-${project.version}" />
-        <!-- Distribution zip file  -->
+        <!-- Distribution zip file name -->
         <property name="dist.zip" value="${dist.name}-bin.zip" />
-        <!-- Distribution file location   -->
-        <property name="dist.dir" value="${basedir}/target" />
-        <!-- Distribution zip file   -->
-        <property name="zip.file" value="${dist.dir}/${dist.zip}" />
+        <!-- Distribution zip file path  -->
+        <property name="zip.file" value="${basedir}/target/${dist.zip}" />
         <!-- Whether to fork the java compiler or not   -->
         <property name="javac.fork" value="yes" />
         <!-- Distribution samples location   -->

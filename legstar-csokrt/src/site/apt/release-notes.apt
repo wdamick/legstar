@@ -57,6 +57,7 @@ INSTALLING/UNINSTALLING:
         |----><samples>
                 |----><quickstarts>
                            |----><csokrt>
+                                    |---->readme.txt
                                     |---->build.xml
                                     |---->legstar-invoker-config.xml
                                     |---->lsfileae.properties

@@ -4,27 +4,12 @@
     <formats>
         <format>zip</format>
     </formats>
-    <includeBaseDirectory>false</includeBaseDirectory>
 
-    <fileSets>
-
-        <fileSet>
-            <directory>src/main/resources</directory>
-            <outputDirectory>/</outputDirectory>
-            <includes>
-                <include>**</include>
-            </includes>
-        </fileSet>
-        
-        <fileSet>
-            <directory>src/test/resources</directory>
-            <outputDirectory>/</outputDirectory>
-            <includes>
-                <include>legstar-invoker-config.xml</include>
-            </includes>
-        </fileSet>
-
-    </fileSets>
+    <componentDescriptors>
+        <componentDescriptor>../legstar-messaging/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-invoker/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>src/assemble/component.xml</componentDescriptor>
+    </componentDescriptors>
 
     <dependencySets>
         <dependencySet>

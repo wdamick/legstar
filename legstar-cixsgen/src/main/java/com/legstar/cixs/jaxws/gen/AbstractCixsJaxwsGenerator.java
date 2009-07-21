@@ -87,15 +87,14 @@ public abstract class AbstractCixsJaxwsGenerator extends AbstractCixsGenerator {
                     getTargetAntDir(), true, "TargetAntDir");
             CodeGenUtil.checkDirectory(
                     getTargetWDDDir(), true, "TargetWDDDir");
+            CodeGenUtil.checkDirectory(
+                    getTargetDistDir(), true, "TargetDistDir");
+
             /* Check that we are provided with valid locations to
              * reference.*/
             if (getTargetWarDir() == null) {
                 throw (new IllegalArgumentException(
                 "TargetWarDir: No directory name was specified"));
-            }
-            if (getTargetDistDir() == null) {
-                throw (new IllegalArgumentException(
-                        "TargetDistDir: No directory name was specified"));
             }
 
             /* Check that we have at least one operation. */

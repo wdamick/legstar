@@ -83,20 +83,20 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
             generator.execute();
         } catch (Exception e) {
             assertEquals("java.lang.IllegalArgumentException:"
-                    + " TargetWarDir: No directory name was specified",
-                    e.getCause().getMessage());
-        }
-        try {
-            generator.setTargetWarDir(GEN_WAR_DIR);
-            generator.execute();
-            fail();
-        } catch (Exception e) {
-            assertEquals("java.lang.IllegalArgumentException:"
                     + " TargetDistDir: No directory name was specified",
                     e.getCause().getMessage());
         }
         try {
             generator.setTargetDistDir(GEN_DIST_DIR);
+            generator.execute();
+            fail();
+        } catch (Exception e) {
+            assertEquals("java.lang.IllegalArgumentException:"
+                    + " TargetWarDir: No directory name was specified",
+                    e.getCause().getMessage());
+        }
+        try {
+            generator.setTargetWarDir(GEN_WAR_DIR);
             generator.execute();
             fail();
         } catch (Exception e) {
