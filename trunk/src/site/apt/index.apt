@@ -18,20 +18,20 @@ Overview
   Looking for {{{http://www.legsem.com}training or services}}?
 
   
-{News}Latest news
+{News}
 
   Checkout the new article on {{{http://blog.mulesource.org/2009/07/legstar-for-mule-patterns/}Patterns for legacy integration with LegStar for Mule}}.
 
   A new project: {{{http://code.google.com/p/legstar-pli2cob}PL/I to COBOL Structure converter}} has started.
   It complements LegStar which has no direct support for PL/I.
 
+  Check out the article: {{{http://www.infoq.com/articles/legacy-integration}Mainframe integration with JBoss ESB and LegStar}} on InfoQ.
+  
   We are proud to announce the first official release of {{{http://code.google.com/p/legstar-jbossesb/}LegStar for JBoss ESB}},
   a new deployment option for LegStar. JBoss ESB is a leading open source ESB. LegStar for JBoss ESB provides a deployment
   alternative to J2EE servers, such as Tomcat or Jetty. With JBoss ESB, mainframe integration services can interact with a
   wealth of other services and benefit from more connectivity options.
 
-  Check out the article: {{{http://www.infoq.com/articles/legacy-integration}Mainframe integration with JBoss ESB and LegStar}} on InfoQ.
-  
 {Mapping} COBOL data structures to Complex Types
 
   Because COBOL is very often the legacy applications development language, LegStar focuses primarily on this
