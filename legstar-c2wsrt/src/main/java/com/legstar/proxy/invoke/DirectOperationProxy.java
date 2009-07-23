@@ -28,6 +28,9 @@ import com.legstar.coxb.util.Utils;
  */
 public class DirectOperationProxy extends AbstractOperationProxy {
 
+    /** Serial ID. */
+    private static final long serialVersionUID = 1L;
+
     /** Request transformers class name. */ 
     public static final String REQUEST_TRANSFORMERS_CLASS_NAME_PROPERTY =
         "requestTransformersClassName";

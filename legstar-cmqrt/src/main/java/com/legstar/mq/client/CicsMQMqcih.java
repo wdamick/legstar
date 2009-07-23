@@ -258,7 +258,7 @@ public class CicsMQMqcih extends AbstractCicsMQ  {
         if (num.startsWith("11") || num.equals("37")) {
             return "IBM0" + num;
         }
-        if (num.equals(838)) {
+        if (num.equals("838")) {
             return "IBM-Thai";
         }
         return "IBM" + Integer.toString(ccsid);
