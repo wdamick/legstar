@@ -4,11 +4,11 @@
     <artifactId>Legstar</artifactId>
     <packaging>pom</packaging>
     <name>LegStar Open-Source Mainframe Integration</name>
-    <version>1.2.6</version>
+    <version>1.2.6-SNAPSHOT</version>
     <description>Open-Source Mainframe Integration</description>
     <url>http://www.legsem.com/legstar</url>
     <properties>
-        <legstarVersion>1.2.6</legstarVersion>
+        <legstarVersion>1.2.6-SNAPSHOT</legstarVersion>
     </properties>
 
     <issueManagement>
@@ -17,9 +17,9 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:svn:http://legstar.googlecode.com/svn/tags/Legstar-1.2.6</connection>
-        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/tags/Legstar-1.2.6</developerConnection>
-        <url>http://legstar.googlecode.com/svn/tags/Legstar-1.2.6</url>
+        <connection>scm:svn:http://legstar.googlecode.com/svn/trunk/</connection>
+        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/trunk/</developerConnection>
+        <url>http://legstar.googlecode.com/svn/trunk/</url>
     </scm>
 
     <mailingLists>
@@ -186,8 +186,8 @@
                             <postProcess>
                                 <copy todir="target/site/presentation/images">
                                     <fileset dir="src/docbkx/images">
-                                        <include name="**/*.jpg" />
-                                        <include name="**/*.png" />
+                                        <include name="**/*.jpg"/>
+                                        <include name="**/*.png"/>
                                     </fileset>
                                 </copy>
                             </postProcess>
@@ -202,7 +202,8 @@
                         <configuration>
                             <foCustomization>src/docbkx/xsl/fo.xsl</foCustomization>
                             <postProcess>
-                                <copy file="target/docbkx/pdf/presentation.pdf" tofile="target/site/pdf/legstar-presentation.pdf" />
+                                <copy file="target/docbkx/pdf/presentation.pdf"
+                                      tofile="target/site/pdf/legstar-presentation.pdf"/>
                             </postProcess>
                         </configuration>
                     </execution>
