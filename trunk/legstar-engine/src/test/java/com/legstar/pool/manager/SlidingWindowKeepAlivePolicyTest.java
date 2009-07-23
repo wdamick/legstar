@@ -62,7 +62,7 @@ public class SlidingWindowKeepAlivePolicyTest extends TestCase {
         queue.add(connection1);
         sw.closeObsoleteConnections();
         assertTrue(connection1.isOpen());
-        Thread.sleep(timeBetweenAdds + 10L);
+        Thread.sleep(timeBetweenAdds + 20L);
         sw.closeObsoleteConnections();
         assertFalse(connection1.isOpen());
     }
