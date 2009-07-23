@@ -1,0 +1,72 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>1.2.6</version>
+    </parent>
+    <version>1.2.6</version>
+    <artifactId>legstar-distribution</artifactId>
+    <name>LegStar Distribution</name>
+    <packaging>pom</packaging>
+    <description>Used to create a single distribution for the entire LegStar project.</description>
+    <url>http://www.legsem.com/legstar</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-cixsgen</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>legstar-${project.version}</finalName>
+        
+        <plugins>
+        
+             <!-- Assembly generation plugin. Put the result in the source site
+                so that it gets uploaded with the site.  -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId> 
+                <configuration>
+                    <finalName>legstar-${project.version}</finalName>
+                    <descriptors>
+                        <descriptor>../legstar-cixsgen/src/assemble/distribution.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- append to the packaging phase. -->
+                        <goals>
+                            <goal>attached</goal> <!-- goals == mojos -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+      
+                <executions>
+                    <!-- The release notes are identical to legstar-cixsgen. -->
+                    <execution>
+                        <id>build-site</id>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <tasks>
+                                <copy file="../legstar-cixsgen/src/site/apt/release-notes.apt" todir="src/site/apt" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+    
+</project>

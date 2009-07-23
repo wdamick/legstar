@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+targetNamespace="http://legstar.com/test/coxb/arraygrp"
+xmlns="http://legstar.com/test/coxb/arraygrp"
+xmlns:xsns="http://legstar.com/test/coxb/arraygrp"
+xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
+xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+jaxb:version="2.0"
+jaxb:extensionBindingPrefixes="cb"
+elementFormDefault="qualified">
+ <xs:annotation><xs:appinfo>
+ <jaxb:schemaBindings>
+ <jaxb:package  name="com.legstar.test.coxb.arraygrp"/>
+ </jaxb:schemaBindings>
+ </xs:appinfo></xs:annotation>
+ <xs:complexType name="Dfhcommarea">
+    <xs:sequence>
+     <xs:element name="Items" minOccurs="4" maxOccurs="4" type="xsns:Items">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='03' cobolName='ITEMS' type='GROUP_ITEM' minOccurs='4' maxOccurs='4' srceLine='8'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="Items">
+    <xs:sequence>
+     <xs:element name="ItemDesc">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='ITEM-DESC' type='ALPHANUMERIC_ITEM' picture='X(10)' usage='DISPLAY' srceLine='9'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='10'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="ItemNumber">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='ITEM-NUMBER' type='ZONED_DECIMAL_ITEM' picture='9(9)' usage='DISPLAY' signed='false' totalDigits='9' srceLine='10'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedInt">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='999999999'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+</xs:schema>

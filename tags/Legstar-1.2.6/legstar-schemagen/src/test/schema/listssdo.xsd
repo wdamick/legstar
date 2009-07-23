@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+targetNamespace="http://legstar.com/test/coxb/listssdo"
+xmlns="http://legstar.com/test/coxb/listssdo"
+xmlns:xsns="http://legstar.com/test/coxb/listssdo"
+xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
+xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+jaxb:version="2.0"
+jaxb:extensionBindingPrefixes="cb"
+elementFormDefault="qualified">
+ <xs:annotation><xs:appinfo>
+ <jaxb:schemaBindings>
+ <jaxb:package  name="com.legstar.test.coxb.listssdo"/>
+ </jaxb:schemaBindings>
+ </xs:appinfo></xs:annotation>
+ <xs:complexType name="Dfhcommarea">
+    <xs:sequence>
+     <xs:element name="ListOdo" minOccurs="1" maxOccurs="100">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='LIST-ODO' type='ALPHANUMERIC_ITEM' picture='X(5)' usage='DISPLAY' byteLength='5' minOccurs='1' maxOccurs='100' srceLine='28'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='5'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+</xs:schema>

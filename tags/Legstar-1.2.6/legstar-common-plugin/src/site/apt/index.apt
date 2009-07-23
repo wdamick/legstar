@@ -1,0 +1,28 @@
+ -----
+ Overview
+ -----
+ Fady Moussallam
+ -----
+ 29 June 2008
+ -----
+
+LegStar Eclipse Plugins overview
+
+  LegStar provides a set of Eclipse plugins which greatly simplify using the LegStar features.
+  
+  With the LegStar Eclipse plugins you get a friendly user interface with the following capabilities:
+  
+  * Generate mapping XML Schema starting from COBOL fragments, XSD/WSDL or Java classes.
+  
+  * Generate COBOL Binding classes from a mapping XML Schema.
+  
+  * Generate Web Service Adapters and Proxies for Mainframe programs.
+  
+  []
+  
+  The LegStar Eclipse plugins are described in the {{{../pdf/legstar-presentation.pdf}presentation document}}.
+ 
+  For installation instructions, see the {{{release-notes.html}release notes}}.
+
+  For answers to common questions about LegStar Eclipse plugins, see the {{{faq.html}FAQ}}.
+  

@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+targetNamespace="http://legstar.com/test/coxb/arrayscx"
+xmlns="http://legstar.com/test/coxb/arrayscx"
+xmlns:xsns="http://legstar.com/test/coxb/arrayscx"
+xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
+xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+jaxb:version="2.0"
+jaxb:extensionBindingPrefixes="cb"
+elementFormDefault="qualified">
+ <xs:annotation><xs:appinfo>
+ <jaxb:schemaBindings>
+ <jaxb:package  name="com.legstar.test.coxb.arrayscx"/>
+ </jaxb:schemaBindings>
+ </xs:appinfo></xs:annotation>
+ <xs:complexType name="Filler23">
+    <xs:sequence>
+     <xs:element name="WsItemA" minOccurs="3" maxOccurs="3">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='WS-ITEM-A' type='ZONED_DECIMAL_ITEM' picture='9' usage='DISPLAY' signed='false' totalDigits='1' minOccurs='3' maxOccurs='3' srceLine='24'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedShort">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='9'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="Dfhcommarea">
+    <xs:sequence>
+     <xs:element name="TableThree" type="xsns:TableThree">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='TABLE-THREE' type='GROUP_ITEM' srceLine='29'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+     <xs:element name="TableRedef" minOccurs="3" maxOccurs="3" type="xsns:TableRedef">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='05' cobolName='TABLE-REDEF' type='GROUP_ITEM' minOccurs='3' maxOccurs='3' srceLine='33'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="TableThree">
+    <xs:sequence>
+     <xs:element name="ElementOne" minOccurs="3" maxOccurs="3" type="xsns:ElementOne">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='10' cobolName='ELEMENT-ONE' type='GROUP_ITEM' minOccurs='3' maxOccurs='3' srceLine='30'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="ElementOne">
+    <xs:sequence>
+     <xs:element name="ElementTwo" minOccurs="3" maxOccurs="3" type="xsns:ElementTwo">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='15' cobolName='ELEMENT-TWO' type='GROUP_ITEM' minOccurs='3' maxOccurs='3' srceLine='31'/>
+         </xs:appinfo>
+       </xs:annotation>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="ElementTwo">
+    <xs:sequence>
+     <xs:element name="ElementThree" minOccurs="2" maxOccurs="2">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='20' cobolName='ELEMENT-THREE' type='ALPHANUMERIC_ITEM' picture='X(3)' usage='DISPLAY' minOccurs='2' maxOccurs='2' srceLine='32'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='3'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+    </xs:sequence>
+ </xs:complexType>
+ <xs:complexType name="TableRedef">
+    <xs:sequence>
+     <xs:choice>
+     <xs:element name="ElementRedef1">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='10' cobolName='ELEMENT-REDEF-1' type='ALPHANUMERIC_ITEM' picture='X(3)' usage='DISPLAY' isRedefined='true' unmarshalChoiceStrategyClassName='com.legstar.coxb.cust.arrayscx.ChoiceSelector' srceLine='34'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:string">
+         <xs:length value='3'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     <xs:element name="ElementRedef2">
+       <xs:annotation>
+         <xs:appinfo>
+         <cb:cobolElement levelNumber='10' cobolName='ELEMENT-REDEF-2' type='ZONED_DECIMAL_ITEM' picture='9(3)' usage='DISPLAY' signed='false' totalDigits='3' redefines='ELEMENT-REDEF-1' srceLine='35'/>
+         </xs:appinfo>
+       </xs:annotation>
+       <xs:simpleType>
+         <xs:restriction base="xs:unsignedShort">
+         <xs:minInclusive value='0'/>
+         <xs:maxInclusive value='999'/>
+         </xs:restriction>
+       </xs:simpleType>
+     </xs:element>
+     </xs:choice>
+    </xs:sequence>
+ </xs:complexType>
+</xs:schema>
