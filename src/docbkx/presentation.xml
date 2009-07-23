@@ -1,0 +1,921 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<book>
+    <bookinfo>
+        <title>LegStar Presentation</title>
+        <releaseinfo>&version;
+        </releaseinfo>
+
+        <legalnotice>
+            <para>
+                Copyright (C) 2009  LegSem
+            </para>
+            <para>
+                This library is free software; you can redistribute it and/or
+                modify it under the terms of the GNU Lesser General Public
+                License as published by the Free Software Foundation; either
+                version 2.1 of the License, or (at your option) any later version.
+            </para>
+            <para>
+                This library is distributed in the hope that it will be useful,
+                but WITHOUT ANY WARRANTY; without even the implied warranty of
+                MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+            </para>
+            <para>
+                <ulink url="http://www.gnu.org/licenses/lgpl-2.1.html"/>
+            </para>
+        </legalnotice>
+    </bookinfo>
+
+    <toc/>
+
+    <chapter>
+        <title>Introduction</title>
+        <section>
+            <title>What is LegStar?</title>
+            <para>
+                LegStar provides development and runtime features for developers who need to integrate with mainframe
+                programs such as those written in COBOL.
+            </para>
+            <para>
+                Unlike other integration solutions available, LegStar is free and open-source. 
+                It leverages the ever-increasing power of open-source software by using familiar programming
+                patterns (visitor, strategy…), frameworks (JAXB, JAX-WS), tools (Apache Ant, Eclipse) and targeting
+                wildly used J2EE servers such as Apache Tomcat and Jetty or Enterprise Service Buses. 
+            </para>
+        </section>
+        <section>
+            <title>Development time features</title>
+            <para>
+                Activities involved in mainframe integration usually require:
+            <para>
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        Mapping mainframe data structures to open world constructs such as Java classes or XML Schema.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Mapping mainframe programs to open world processes (Web Service operations, Java methods, …).
+                    </para>
+                </listitem>
+            </itemizedlist>
+            </para>
+                These mapping activities occur at development time and usually produce meta-data that can later be used by
+                runtime engines to flow requests and data between the mainframe application and the open world.
+            </para>
+            <para>
+                At the core of LegStar is an XML schema to COBOL binding language. This is similar in spirit to the Java
+                to XML Schema binding language introduced by the JAXB standard. This COBOL binding language materializes
+                as XML schema annotations or Java annotations. 
+            </para>
+            <para>
+                LegStar COBOL binding language tries to cover all the real issues facing integration developers such as how
+                to map COBOL weakly typed variables to Java strongly typed ones, deal with complex "REDEFINES", variable
+                size arrays, code page conversions, numeric conversions and support for multiple input/output programs
+                (CICS Containers).
+            </para>
+            <para>
+                LegStar provides tooling to support data and process mapping activities. These tools are provided as ant
+                scripts but they are also available as a rich set of plug-ins for the Eclipse platform.
+            </para>
+        </section>
+        <section>
+            <title>Runtime features</title>
+            <para>
+                Runtime mainframe integration activities can be separated into:
+            </para>
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        Data binding activities where data streams in mainframe format are converted to, or from, open
+                        world objects such as Java classes or XML.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Remote Procedure Call activities where mainframe programs are invoked or call outbound open
+                        world processes.
+                    </para>
+                </listitem>
+            </itemizedlist>
+            <para>
+                LegStar provides runtime capabilities for IBM CICS, where CICS programs act either as servers, serving
+                requests coming from the open world or as clients, calling remote Web or Java services. 
+            </para>
+            <para>
+                The LegStar various modules are only loosely coupled and can be used in a large number of scenarios.
+                For instance, one can use the data binding capabilities without using the LegStar RPC mechanisms.
+            </para>
+            <para>
+                Integration targets are not limited to Web Services. There are various projects using LegStar to integrate
+                directly with major ESBs for instance.
+            </para>
+        </section>
+        <section>
+            <title>Common use cases</title>
+            <para>
+                The easiest way to present the LegStar architecture is to show how it supports two common integration use
+                cases:
+            </para>
+            <orderedlist>
+                <listitem>
+                    <para>
+                        An existing mainframe program, say a COBOL CICS program, needs to be exposed as a Web Service.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        A mainframe application needs to execute a remote Web Service.
+                    </para>
+                </listitem>
+            </orderedlist>
+            <para>
+                The first use case is very common but the importance of the second one is growing rapidly as legacy
+                sub-systems are being replaced by new applications running on J2EE and .Net platforms.
+            </para>
+            <para>
+                There is a large number of variations on these 2 main use cases, for instance developers might need to
+                expose legacy functionalities as REST rather than plain Web Services, or developers might need to map
+                complex structures to Java objects rather than XML. Developers might need to describe new structures
+                in XML schema and then map these to Java and COBOL in support for two parallel developments (rather
+                than integration), etc.
+                LegStar is modular so that features can be selected and combined as necessary.
+            </para>
+        </section>
+    </chapter>
+
+    <chapter>
+        <title>Architecture</title>
+        <section>
+            <title>Expose a COBOL program as a Web Service</title>
+            <section>
+                <title>Development tools</title>
+                <para>
+                    With LegStar, developers would follow these three steps to <emphasis>Service-enable</emphasis> a COBOL
+                    program:
+                </para>
+                <figure>
+                    <title>Service adapter development steps</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="legstar-dev-inbound.jpg" format="JPG"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>
+                    In this use case, initial COBOL code fragments describe the legacy program input and output structures.
+                    When the COBOL program is a CICS Container-driven program there can actually be several such input
+                    structures and several output structures each described by a different code fragment. This step is repeated
+                    as necessary for each COBOL code fragment involved.
+                </para>
+                <para>
+                    The LegStar <emphasis>COBOL Structures Mapping Generator</emphasis> takes a COBOL fragment as input and
+                    creates an XML Schema with COBOL annotations. This generated XML Schema is known as a Mapping XML Schema
+                    since the COBOL annotations form the meta-data that maps each COBOL data item to an XML element type. 
+                </para>
+                <para>
+                    The generated XML Schema can be customized, and further annotated, by developers using standard XML Schema
+                    editors. In particular, developers can specify custom processing to deal with complex decisions related
+                    with COBOL REDEFINES for instance.
+                </para>
+                <para>
+                    The LegStar <emphasis>COBOL Binding Generator</emphasis> takes a Mapping XML Schema as input and produces
+                    annotated Java Classes (using Java annotations introduced in J2SE 1.5). More precisely, LegStar uses the
+                    standard Java to XML Binding (JAXB) framework during this phase.
+                </para>
+                <para>
+                    These generated classes are all that is needed for the runtime to perform XML to mainframe data
+                    marshaling/unmarshaling.  Mainframe data , described by the initial COBOL fragment, is typically encoded in
+                    a mainframe character set (EBCDIC). Conversion is totally bi-directional and completely independent of the
+                    origin or destination of the host data.
+                </para>
+                <para>
+                    The LegStar <emphasis>Mainframe Service Generator</emphasis>, maps a mainframe program to a Web Service
+                    operation or Java method.
+                    The current version of LegStar supports CICS programs either Commarea or Container driven.
+                </para>
+                <para>
+                    It is important to note that the tools behind each step are completely independent from each other.
+                    For instance, without an initial COBOL code fragment, developers could start from an XML Schema, edit the
+                    XML Schema (or use LegStar Complex Types Mapping Generator) to add COBOL binding annotations and then
+                    continue the remaining steps. This is not an uncommon use case, where the mainframe program is actually new
+                    and the starting point is an XML schema (An approach sometimes referred to as Contract-first).
+                </para>
+                <para>
+                    For each of these steps, LegStar provides both Ant scripts and Eclipse plug-ins. Ant scripts are for pure
+                    java developers and plug-ins are for the Eclipse IDE. Moving forward, the Eclipse plug-ins are the
+                    recommended tool as the parameter set needed by generators keeps increasing.
+                </para>
+            </section>
+            <section>
+                <title>Runtime services</title>
+                <para>
+                    From a runtime perspective, this is how a request/reply message exchange would flow in an IBM CICS
+                    environment:
+                </para>
+                <figure>
+                    <title>Service adapter runtime</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="legstar-run-inbound.jpg" format="JPG"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>
+                    Starting from a Web Service client, SOAP requests are first processed by a standard Web Service stack.
+                    The LegStar-generated endpoint uses the JAX-WS standard API to communicate with the SOAP stack. 
+                </para>
+                <para>
+                    The XML payload extracted from SOAP requests is handed over by JAX-WS to the standard JAXB binding
+                    framework, which uses the LegStar-generated JAXB classes to parse the XML and produce a value object.
+                    The adapter endpoint implementation uses the LegStar <emphasis>COBOL Binding Runtime</emphasis> to
+                    convert java value objects to a mainframe payload. This conversion includes Unicode to EBCDIC
+                    conversions, numeric conversions, REDEFINES decision-making, etc…
+                </para>
+                <para>
+                    Once data is in mainframe format, the endpoint uses a transport independent layer called LegStar
+                    <emphasis>Mainframe Adapter Runtime</emphasis> to invoke a remote program.
+                </para>
+                <para>
+                    The LegStar <emphasis>Messaging Protocol</emphasis> used by the Mainframe Adapter Runtime is binary and
+                    implements a request/reply exchange pattern. It is designed to reduce the payload size and support
+                    multiple input/output named structures such as CICS containers.
+                    Alternatively, the adapter runtime can use transport specific messaging protocols such as IBM
+                    CICS MQ Bridge.
+                </para>
+                <para>
+                    The actual transport is selected at runtime from a configuration file. The following options are
+                    available:
+                </para>
+                <itemizedlist>
+                    <listitem>
+                        <para>
+                            Socket transport
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            HTTP transport
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            WebSphere MQ transport
+                        </para>
+                    </listitem>
+                </itemizedlist>
+                <para>
+                    When needed, LegStar provides z/OS modules, written in C/370 for CICS, to handle messaging on the
+                    Mainframe side (Not needed with CICS Websphere MQ Bridge).
+                    The CICS footprint of this architecture is minimal since all SOAP/XML processing occur off-host.
+                </para>
+                <para>
+                    Any of the available transports can be used in a direct or pooled fashion. Pooling of connections,
+                    offered by LegStar <emphasis>Connection Pooling Engine</emphasis>, allows efficient connection reuse
+                    and enhances performances.
+                </para>
+                <para>
+                    On the way back, mainframe data is converted to XML and then wrapped in a SOAP reply.
+                </para>
+            </section>
+        </section>
+        <section>
+            <title>Consume a Web Service or POJO from a COBOL program</title>
+            <section>
+                <title>Development tools</title>
+                <para>
+                    There are three steps to achieve outbound access to Web Services or POJOs:
+                </para>
+                <figure>
+                    <title>Service proxy development steps</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="legstar-dev-outbound.jpg" format="JPG"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>
+                    The LegStar <emphasis>Complex Types Mapping Generator</emphasis> takes a WSDL or XML Schema file as
+                    input and produces a Mapping XML Schema with COBOL annotations. Alternatively, it can use pure Java
+                    objects as input when the target is a POJO rather than a Web Service.
+                </para>
+                <para>
+                    The developer will typically edit the resulting XML schema to adjust such things as COBOL string sizes
+                    or maximum array sizes, which cannot always be inferred from XML Schema.
+                </para>
+                <para>
+                    The second step, using the LegStar <emphasis>COBOL Binding Generator</emphasis> is the same as the one
+                    we went through in the previous use-case. The result is a set of annotated JAXB classes, which provides
+                    the conversion capabilities from mainframe data to XML or Java.
+                </para>
+                <para>
+                    The third step, the LegStar <emphasis>Mainframe Service Generator</emphasis> , already seen in the
+                    previous use-case, is used here to produce a Mainframe Proxy and COBOL CICS sample program. The
+                    Mainframe Proxy acts as an intermediary between the mainframe client program and the target Web Service
+                    or POJO at runtime. It can be deployed as a Servlet.
+                </para>
+                <para>
+                    The COBOL CICS sample program generated can be used to jump start you own mainframe client programs.
+                </para>
+            </section>
+            <section>
+                <title>Runtime services</title>
+                <para>
+                    LegStar provides a <emphasis>Mainframe Proxy Runtime</emphasis> to support incoming requests from the
+                    mainframe. The HTTP Transport is the only one available at the moment.
+                </para>
+                <para>
+                    On the mainframe side, you can use CICS DFHWBCLI or EXEC WEB API to send the payload to the Mainframe
+                    Proxy Runtime. All that is required is that the request is an HTTP POST and that the body is binary
+                    (not translated to ASCII) signaled by an application/octet-stream MIME type.
+                </para>
+                <para>
+                    For older versions of CICS without DFHWBCLI or EXEC WEB API, LegStar provides a simple HTTP client API
+                    written in C/370.
+                </para>
+                <para>
+                    The CICS program does not directly call the target Web Service/POJO. Rather, the generated Mainframe
+                    Proxy receives the request, which is still in host (EBCDIC) format at this stage. Again, no conversion
+                    occurs on the host significantly reducing the mainframe footprint of this solution.
+                </para>
+                <para>
+                    Conversion from mainframe format to XML is performed by the LegStar
+                    <emphasis>COBOL Binding Runtime</emphasis>.
+                </para>
+                <para>
+                    The request would flow as depicted in the following diagram:
+                </para>
+                <figure>
+                    <title>Service proxy runtime</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="legstar-run-outbound.jpg" format="JPG"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>
+                    The Mainframe Proxy uses the standard JAX-WS Client API to perform the call to the target Web Service.
+                    Alternatively, when the target is a POJO, the Proxy invokes the POJO method directly. Observe that in
+                    the case of POJOs, there is no need for JAXB at runtime, the only constraint is that the Proxy be able
+                    to locate the POJO in the J2EE server classpath.
+                </para>
+            </section>
+        </section>
+    </chapter>
+
+    <chapter>
+        <title>Getting started</title>
+        <section>
+            <title>Installation</title>
+            <para>
+                From the <ulink url="http://www.legsem.com/legstar">LegStar Web site</ulink>, follow the Download menu
+                option. From the Download  page you can get the latest version of LegStar as a zip file. The installation
+                instructions will guide you through the install process.
+            </para>
+            <para>
+                There is a special distribution package for all the z/OS modules. This distribution is in XMIT format
+                ready for upload. 
+            </para>
+            <para>
+                The core LegStar installation does not contain the Eclipse plugins. To install the Eclipse plug-ins, follow
+                the standard Eclipse update mechanism using this
+                <ulink url="http://www.legsem.com/legstar/eclipse/update">link</ulink>.  
+            </para>
+            <para>
+                Once the Eclipse plug ins are installed, check the Window->Preferences…->LegStar options to see if they fit
+                your needs. 
+            </para>
+        </section>
+        <section>
+            <title>First development</title>
+            <para>
+                Once the core product is installed, you can start developing. You will have to choose between the ant
+                scripts and the Eclipse plug-ins.
+            </para>
+            <para>
+                There are ant scripts with each sample provided. Ant scripts are documented under each module release notes.  
+            </para>
+            <para>
+                The following chapters gives a good overview of the Eclipse plug-ins, which are the recommended development
+                path. They provide tutorials for the two important use cases already mentioned. 
+            </para>
+        </section>
+    </chapter>
+
+
+    <chapter>
+        <title>Tutorial: Expose a COBOL program as a Web Service using Eclipse</title>
+        <para>
+            Start by creating a new standard Java Eclipse Project named <emphasis>CustomerService</emphasis>.
+            It is important that the project be of a Java nature. 
+        </para>
+        <para>
+            The LegStar options are available from the File->New->Other.. ->LegStar dialog or directly from the LegStar
+            menu or toolbar buttons: 
+        </para>
+        <figure>
+            <title>LegStar menu and toolbar options</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="eclipse-screen-shot-adapter-toolbar.jpg" format="JPG"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <section>
+            <title>COBOL structures Mapping</title>
+            <para>
+                The process starts by mapping COBOL Structures to XML Schema. This is option
+                LegStar->New structures mapping… 
+            </para>
+            <para>
+                On the <emphasis>Structures Mapping</emphasis> plug-in first page, type an XML Schema file name making
+                sure the extension is xsd. The source type will be COBOL for this use case: 
+            </para>
+            <figure>
+                <title>Adapter structures mapping screen 1</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-adapter-structures-mapping-1.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                On the next page, you can either paste COBOL code copied from somewhere else or select a file containing
+                COBOL source code from the file system. Make sure this is valid COBOL as the mapping generator is not a
+                full featured COBOL syntax checker: 
+            </para>
+            <figure>
+                <title>Adapter structures mapping screen 2</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-adapter-structures-mapping-2.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                After you click finish, an ant script with a name similar to build-schemagen-CustomerService.xsd.xml
+                is generated and launched. This script generates a new XML Schema and then the Eclipse standard XML
+                Schema editor is opened and you can check the mapping (COBOL annotations) that was automatically
+                generated: 
+            </para>
+            <figure>
+                <title>Adapter structures mapping screen 3</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-adapter-structures-mapping-3.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                Observe the extensions used to annotate the XML Schema elements with COBOL meta-data. 
+            </para>
+        </section>
+        <section>
+            <title>COBOL Binding classes generation</title>
+            <para>
+                The next step is to generate binding classes from the Mapping XML Schema. These Java classes will be
+                responsible for marshaling/un-marshaling XML into a mainframe data. 
+            </para>
+            <para>
+                The wizard is started from the package explorer, by right clicking on a previously generated XML Schema: 
+            </para>
+            <figure>
+                <title>Adapter COBOL binding generation menu</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-adapter-cobol-binding-menu.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                The next page allows you to specify which elements from the source XML Schema will need to be bound.
+                All elements are displayed here but if you select a parent element, this will automatically select all
+                children for you, so all you need to do is to select root elements: 
+            </para>
+            <figure>
+                <title>Adapter COBOL binding generation screen 1</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-adapter-cobol-binding-1.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                In our case, the mainframe program expects a Dfhcommarea and also produces a Dfhcommarea so that’s the
+                only element we need to select.
+            </para>
+            <para>
+                When you click the finish button, an ant script with a name similar to
+                build-coxb-CustomerService.xsd.xml is generated and launched. There are two different java packages that
+                are generated by the ant script:
+            </para>
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        <emphasis>com.legstar.test.coxb.customerservice</emphasis> contains JAXB classes as generated by
+                        Sun’s JAXB XJC utility but with special COBOL annotations as shown on the next screen.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <emphasis>com.legstar.test.coxb.customerservice.bind</emphasis> contains runtime binding classes
+                        that can be used for fast marshaling/unmarshaling. Using these classes, there is no need tfor
+                        reflection on the JAXB classes to get the COBOL meta-data at runtime.
+                    </para>
+                </listitem>
+            </itemizedlist>
+            <figure>
+                <title>Adapter COBOL binding generation screen 2</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-adapter-cobol-binding-2.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+        <section>
+            <title>Mainframe Adapter generation</title>
+            <para>
+                The final step in the process is to generate a Mainframe Adapter, which is a JAX-WS Endpoint.
+            </para>
+            <para>
+                The first stage is to perform a mapping between the target mainframe program and a Java side operation.
+                This is option LegStar->New operations mapping… On the first page you select a name and location for
+                the mapping file. Operations mapping files are XML files with the <emphasis>cixs</emphasis> extension.
+            </para>
+            <figure>
+                <title>Adapter service generation screen 1</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-adapter-service-generation-1.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                Clicking on Finish creates the operations mapping file and then opens up a special editor associated
+                with files with cixs extension:
+            </para>
+            <figure>
+                <title>Adapter service generation screen 2</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-adapter-service-generation-2.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                Click on the add button to start the operations mapping dialog:
+            </para>
+            <figure>
+                <title>Adapter service generation screen 3</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-adapter-service-generation-3.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                Type in an operation name and then enter the target mainframe program name. This must correspond to an
+                actual mainframe program.
+            </para>
+            <para>
+                The next step is to specify input and output structures. You will have to use the add button again.
+                You are then presented with the JAXB classes that you generated previously:
+            </para>
+            <figure>
+                <title>Adapter service generation screen 4</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-adapter-service-generation-4.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                The target LSFILEAE CICS program is commarea-driven, there is a single input and a single output
+                which both happen to be described by the same COBOL structure. So all we have to do is to select
+                Dfhcommarea both for input and output.
+            </para>
+            <figure>
+                <title>Adapter service generation screen 5</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-adapter-service-generation-5.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                This dialog allows you to specify a different input and output structures if needed. It also allows
+                you to specify more than one input and more than one output as it would be the case for a target
+                container-driven program (using CICS channel/containers) for instance.
+            </para>
+            <para>
+                You can now click on the generate button and should see the following dialog:
+            </para>
+            <figure>
+                <title>Adapter service generation screen 6</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-adapter-service-generation-6.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                The operations mapping editor can be used with different kinds of generators, which are registered
+                dynamically on your machine. Depending on your configuration, you might have more than one possible
+                generation target. In our case, we want to generate a <emphasis>Mainframe Adapter</emphasis>.
+                When you select that target and click the OK button you get this final dialog:
+            </para>
+            <figure>
+                <title>Adapter service generation screen 7</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-adapter-service-generation-7.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                The generation process needs to create various artifacts, including Java classes that implement a
+                JAX-WS endpoint bundled in a J2EE war file. This dialog allows you to select the target locations and
+                other options. Most of these options have default values derived from your preferences. You can change
+                the proposed parameters as you see fit.
+            </para>
+            <para>
+                Again, the Finish button creates an ant script, which actually generates the artifacts. The ant script
+                has a name similar to build-jaxws-j2c-CustomerService.xml.
+            </para>
+            <para>
+                Besides the JAX-WS java classes, you will also find ant scripts that were generated to help you with
+                deploying your endpoint. build-jar.xml bundles the classes in a jar archive that you could deploy to
+                AXIS2 for instance. build-war.xml bundles a war file suitable for Sun's JAX-WS RI (Metro).
+            </para>
+            <para>
+                Once deployed, you can use the Web Service with any SOAP client such as 
+                <ulink url="http://www.soapui.org/">soapUI</ulink>.
+            </para>
+        </section>
+    </chapter>
+
+    <chapter>
+        <title>Tutorial: Consume a Web Service from a COBOL program using Eclipse</title>
+        <para>
+            In this use case we will give a CICS program access to a Web Service (You can also access a POJO in a similar
+            fashion). The target Web service will be the
+            <ulink url="http://soap.search.msn.com/webservices.asmx?wsdl">LIVE Search API</ulink>. 
+        </para>
+        <para>
+            Start by creating a new standard Java Eclipse Project named <emphasis>LIVESearch</emphasis>.
+            It is important that the project be of a Java nature. 
+        </para>
+        <section>
+            <title>XSD structures Mapping</title>
+            <para>
+                The process starts by mapping XML schema types, from the target Web Service WSDL, to COBOL data items.
+                This is option LegStar->New structures mapping… 
+            </para>
+            <figure>
+                <title>Proxy XSD structures mapping screen 1</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-proxy-xsd-structures-mapping-1.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                The difference with the previous use case is that we select the XSD or WSDL source type. We also elect to
+                have the JAXB class names suffixed with <emphasis>Type</emphasis>. As a result, the next page will allow
+                you to select a file from your file system or to fetch it directly from the internet, which we do here by
+                typing the URL and clicking on the go button:
+            </para>
+            <figure>
+                <title>Proxy XSD structures mapping screen 2</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-proxy-xsd-structures-mapping-2.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                At this stage, we are ready to click on the finish button and then edit the generated mapping XML Schema: 
+            </para>
+            <figure>
+                <title>Proxy XSD structures mapping screen 3</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-proxy-xsd-structures-mapping-3.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                Since we started from a WSDL, a certain number of default COBOL data attributes were assigned. For instance,
+                all character strings are 32 characters long. While this might be an acceptable default, it is not always
+                the case. In our situation, the application ID must be 40 characters long. We need to enter 40 for the
+                picture attribute. 
+            </para>
+        </section>
+        <section>
+            <title>COBOL Binding classes generation</title>
+            <para>
+                Exactly like the previous case, the next step is to generate binding classes from the Mapping XML Schema.
+                The wizard is started from the package explorer, by right clicking on a previously generated XML Schema and
+                then selecting LegStar->Generate Binding classes: 
+            </para>
+            <figure>
+                <title>Proxy COBOL binding generation menu</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-proxy-cobol-binding-menu.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                In this case, the root structures we are interested in are Search and SearchResponse, which are the wrapper
+                elements expected and produced by the target Web Service. We select them both. 
+            </para>
+            <figure>
+                <title>Proxy COBOL binding generation screen 1</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-proxy-cobol-binding-1.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                After you click finish, two Java packages are created, one for JAXB classes with COBOL annotations and one
+                for the optimized binding classes. 
+            </para>
+            <figure>
+                <title>Proxy COBOL binding generation screen 2</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-proxy-cobol-binding-2.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+        <section>
+            <title>Mainframe Proxy generation</title>
+            <para>
+                The last step is also similar to the previous use case. We start by creating a mapping to the Web Service
+                operation using the LegStar->New operations mapping… option:
+            </para>
+            <figure>
+                <title>Proxy service generation screen 1</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-proxy-service-generation-1.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                We now add an operation with the following characteristics: 
+            </para>
+            <figure>
+                <title>Proxy service generation screen 2</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-proxy-service-generation-2.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                The mainframe program in this case is a sample COBOL CICS program that will be generated with
+                the name that you specify here.
+            </para>
+            <para>
+                Once you are back on the operations mapping editor, you can click on generate. You can now select the
+                mainframe proxy option:
+            </para>
+            <figure>
+                <title>Proxy service generation screen 3</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-proxy-service-generation-3.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                The generator dialog will ask you for the target Web Service runtime characteristics. This is needed to
+                allow the proxy to address the target Web Service at runtime. You can query these parameters from the WSDL
+                again by entering the URL and clicking on go. If the target WSDL has more than one service or port,
+                you will have to select one:
+            </para>
+            <figure>
+                <title>Proxy service generation screen 4</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-proxy-service-generation-4.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                Clicking the finish button will create various artifacts. The Mainframe proxy is Servlet to be deployed in
+                a J2EE container. The implementation uses Sun's JAX-WS RI (Metro) as a Web Service client. The build-war.xml
+                ant file that is generated allows you to bundle the servlet ready for deployment.
+            </para>
+            <para>
+                The generator also creates a sample COBOL program that behaves as an HTTP client. The search structure shows
+                up in the working storage section:
+            </para>
+            <figure>
+                <title>Proxy service generation screen 5</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="eclipse-screen-shot-proxy-service-generation-5.jpg" format="JPG"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                The sample COBOL source contains TODO comments to help you locate where you should set values for the search
+                request and where you can display the results. The LIVE search service requires a developer ID that you can
+                get for free and enter in the AppID field.
+            </para>
+            <para>
+                This is an example of code to set the search structures properly:
+            </para>
+<programlisting>
+           MOVE ZERO TO Flags--C OF COM-REQUEST.
+           MOVE ZERO TO SortBy--C OF COM-REQUEST.
+           MOVE ZERO TO ResultFields--C OF COM-REQUEST.
+           MOVE ZERO TO R-string--C OF COM-REQUEST.
+           MOVE 1 TO SourceRequest--C OF COM-REQUEST.
+      *  You should specify your own Microsoft LIVE application ID
+           MOVE '5588C3ACE949317B3ECAADDQ908611BDF5D8D5ZA'
+             TO AppID OF COM-REQUEST.
+           MOVE 'Mainframe' TO Query OF COM-REQUEST.
+           MOVE 'en-US' TO CultureInfo OF COM-REQUEST.
+           MOVE 'Moderate' to SafeSearch OF COM-REQUEST.
+           MOVE ZERO TO Latitude OF COM-REQUEST.
+           MOVE ZERO TO Longitude OF COM-REQUEST.
+           MOVE ZERO TO Radius OF COM-REQUEST.
+           MOVE 'Web' TO R-Source OF COM-REQUEST(1).
+           MOVE ZERO TO Offset OF COM-REQUEST(1).
+           MOVE 1 TO R-Count OF COM-REQUEST(1).
+           MOVE SPACES TO FileType OF COM-REQUEST(1).
+</programlisting>
+            <para>
+                And these are lines to display the result:
+            </para>
+<programlisting>
+           STRING 'INVOKE-SERVICE success. First hit is '
+                  DELIMITED BY SIZE
+                  Description OF COM-REPLY(1, 1)
+                  DELIMITED BY SIZE
+                  INTO ERROR-MESSAGE.
+           EXEC CICS SEND TEXT FROM(ERROR-MESSAGE) FREEKB END-EXEC.
+           DISPLAY 'Response data length=' WBCLI-RESPONSE-BODY-LEN.
+
+           DISPLAY 'SourceResponse--C ='
+                    SourceResponse--C OF COM-REPLY.
+           DISPLAY 'R-Source(1)=' R-Source OF COM-REPLY(1).
+           DISPLAY 'Total(1)=' Total OF COM-REPLY(1).
+           DISPLAY 'R-Title(1, 1)=' R-Title OF COM-REPLY(1, 1).
+           DISPLAY 'Description(1, 1)='
+                    Description OF COM-REPLY(1, 1).
+</programlisting>
+            <para>
+                After you add these lines of code, you should be able to upload the source onto your mainframe and get
+                it compiled and defined to your CICS region. Please note that this program calls the CICS DFHWBCLI program
+                defined in the CICS standard DFHWEB group. Alternatively, LegStar supports the new EXEC CICS WEB API or
+                even supports older version of CICS with its own HTTP library. 
+            </para>
+        </section>
+    </chapter>
+
+    <chapter>
+        <title>Wrap up</title>
+        <para>
+            In this document you learned how to use the LegStar Eclipse plugins to generate Mainframe Adapters and Mainframe
+            Proxies. We could have achieved the same result using ant scripts but this is slightly more involved.
+        <para>
+        </para>
+            We also have shown only a few of the use cases for LegStar. In particular, you can use the Binding classes
+            directly to perform your own Java to Mainframe transformations. This means you can use LegStar with any type of
+            transport. You can use WebSphere MQ for instance and communicate with IMS or even batch programs.
+        <para>
+        </para>
+            This is a community effort and we encourage you to send your feedback on the mailing list at
+            http://groups.google.com/group/legstar-user and maybe contribute to this project.
+        </para>
+    </chapter>
+
+    <bibliography>
+        <title>References</title>
+        <bibliodiv>
+            <title>Specifications</title>
+            <biblioentry id="bibjaxb.xml">
+                <abbrev>JAXB</abbrev>
+                <title><ulink url="http://jcp.org/en/jsr/detail?id=222">Java Architecture for XML Binding (JAXB) 2.0</ulink></title>
+                <publishername>Java Community Process</publishername>
+                <pubdate>17 April 2006</pubdate>
+            </biblioentry>
+            <biblioentry id="bibjaxws.xml">
+                <abbrev>JAX-WS</abbrev>
+                <title><ulink url="http://jcp.org/en/jsr/detail?id=224">Java API for XML-Based Web Services (JAX-WS) 2.0 </ulink></title>
+                <publishername>Java Community Process</publishername>
+                <pubdate>11 May 2006</pubdate>
+            </biblioentry>
+        </bibliodiv>
+    </bibliography>
+</book>
