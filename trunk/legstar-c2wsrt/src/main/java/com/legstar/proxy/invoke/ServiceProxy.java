@@ -10,6 +10,7 @@
  ******************************************************************************/
 package com.legstar.proxy.invoke;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -31,7 +32,10 @@ import com.legstar.messaging.LegStarMessage;
  * appropriate operation proxy invoker.
  *
  */
-public class ServiceProxy {
+public class ServiceProxy implements Serializable {
+
+    /** Serial ID. */
+    private static final long serialVersionUID = 9222944155913546563L;
 
     /** Configuration property giving the operation proxy supported. */ 
     public static final String OPERATION_PROXY_CLASS_NAME_PROPERTY =
@@ -42,7 +46,7 @@ public class ServiceProxy {
         "com.legstar.proxy.invoke.ReflectOperationProxy";
 
     /** Logger. */
-    private final Log _log = LogFactory.getLog(getClass());
+    private static final Log LOG = LogFactory.getLog(ServiceProxy.class);
     
     /**
      * Current set of configuration parameters. These are setup at construction
@@ -128,8 +132,8 @@ public class ServiceProxy {
             final byte[] requestBytes) throws ProxyInvokerException {
 
         try {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Servicing proxy request " + requestID);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Servicing proxy request " + requestID);
             }
 
             /* Detect if client is using LegStar messaging. */

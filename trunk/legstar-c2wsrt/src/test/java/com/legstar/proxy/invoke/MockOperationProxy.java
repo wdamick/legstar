@@ -19,6 +19,10 @@ import java.util.Map;
 public class MockOperationProxy extends AbstractOperationProxy {
     
     /**
+     * Serial ID.
+     */
+    private static final long serialVersionUID = 1L;
+    /**
      * Create the proxy invoker for an operation.
      * @param config the initial set of parameters
      * @throws ProxyConfigurationException if configuration is invalid

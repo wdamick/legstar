@@ -64,7 +64,7 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
     private ServiceProxy _serviceProxy;
 
     /** Logger. */
-    private final Log _log = LogFactory.getLog(getClass());
+    private static final Log LOG = LogFactory.getLog(C2wsProxy.class);
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
@@ -72,8 +72,8 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
             final ServletConfig config) throws ServletException {
         super.init(config);
 
-        if (_log.isDebugEnabled()) {
-            _log.debug("Initializing ");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Initializing ");
         }
         Map < String, String > proxyConfig = new HashMap < String, String >();
         Enumeration < String > en = getServletConfig().getInitParameterNames();
@@ -97,8 +97,8 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
         /* Use correlation id received in http header. This allows logs on
          * this side to be easily correlated with the mainframe logs. */
         String requestID = request.getHeader(CORRELATION_ID_HDR);
-        if (_log.isDebugEnabled()) {
-            _log.debug("Start proxy request " + requestID 
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Start proxy request " + requestID 
                     + " from client " + request.getRemoteHost());
         }
 
@@ -120,17 +120,17 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
                 n = in.read(requestBytes, offset, requestBytesLen - offset);
             } while (n != -1);
             
-            if (_log.isDebugEnabled()) {
-                _log.debug("Request data from host:");
-                traceData(requestID, requestBytes, _log);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Request data from host:");
+                traceData(requestID, requestBytes, LOG);
             }
 
             /* Call the proxy getting a byte array back */
             byte[] replyBytes = getServiceProxy().invoke(requestID, requestBytes);
             
-            if (_log.isDebugEnabled()) {
-                _log.debug("Reply data to host:");
-                traceData(requestID, replyBytes, _log);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Reply data to host:");
+                traceData(requestID, replyBytes, LOG);
             }
 
             /* Push the reply byte array into the http response */
@@ -144,8 +144,8 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
         }
 
         long endTime = System.currentTimeMillis();
-        if (_log.isDebugEnabled()) {
-            _log.debug("End proxy request " + requestID 
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("End proxy request " + requestID 
                     + " from client " + request.getRemoteHost()
                     + " serviced in " + (endTime - startTime) + " msecs");
         }
@@ -181,13 +181,13 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
         String value = getServletConfig().getInitParameter(parameterName);
         if (value == null || value.length() == 0) {
             value = defaultValue;
-            if (_log.isDebugEnabled()) {
-                _log.debug("Parameter " + parameterName + " not found."
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Parameter " + parameterName + " not found."
                         + " Using default value: " + value);
             }
         } else {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Parameter " + parameterName + " found."
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Parameter " + parameterName + " found."
                         + " Using value: " + value);
             }
         }

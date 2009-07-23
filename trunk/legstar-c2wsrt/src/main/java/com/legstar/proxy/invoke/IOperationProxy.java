@@ -10,6 +10,7 @@
  ******************************************************************************/
 package com.legstar.proxy.invoke;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import com.legstar.coxb.transform.IHostTransformers;
@@ -18,7 +19,7 @@ import com.legstar.coxb.transform.IHostTransformers;
  * Generic code for proxy operations.
  *
  */
-public interface IOperationProxy {
+public interface IOperationProxy extends Serializable {
 
     /** Configuration property giving the host character set. */ 
     String HOST_CHARSET_PROPERTY = "hostCharset";

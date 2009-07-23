@@ -22,6 +22,9 @@ import com.legstar.coxb.transform.IHostTransformers;
  */
 public abstract class AbstractOperationProxy implements IOperationProxy {
 
+    /** Serial ID. */
+    private static final long serialVersionUID = 1L;
+
     /** An implementation of a proxy invoker. */
     private IProxyInvoker mProxyInvoker;
 

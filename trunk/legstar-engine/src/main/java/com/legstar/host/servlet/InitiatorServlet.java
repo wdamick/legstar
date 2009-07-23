@@ -41,7 +41,7 @@ public class InitiatorServlet extends HttpServlet {
         "com.legstar.host.servlet.engineHandler";
 
     /** Logger. */
-    private final Log _log = LogFactory.getLog(InitiatorServlet.class);
+    private static final Log LOG = LogFactory.getLog(InitiatorServlet.class);
 
     /**
      * Servlet constructor.
@@ -66,7 +66,7 @@ public class InitiatorServlet extends HttpServlet {
                     + " parameter.");
         }
 
-        _log.info("Initializing with " + configFileName
+        LOG.info("Initializing with " + configFileName
                 + " configuration file.");
 
         try {
@@ -79,10 +79,10 @@ public class InitiatorServlet extends HttpServlet {
             servletContext.setAttribute(ENGINE_HANDLER_ID, serverHandler);
             
         } catch (EngineStartupException e) {
-            _log.error("Failed to start engine.", e);
+            LOG.error("Failed to start engine.", e);
             throw new ServletException(e);
         } catch (LegStarConfigurationException e) {
-            _log.error("Failed to start engine.", e);
+            LOG.error("Failed to start engine.", e);
             throw new ServletException(e);
         }
     }

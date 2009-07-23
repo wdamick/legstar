@@ -25,6 +25,9 @@ import com.legstar.coxb.impl.reflect.ReflectTransformers;
  */
 public class ReflectOperationProxy extends AbstractOperationProxy {
 
+    /** Serial ID. */
+    private static final long serialVersionUID = 1L;
+
     /** Request JAXB type configuration parameter. */ 
     public static final String REQUEST_JAXB_TYPE_PROPERTY =
         "requestJaxbType";
