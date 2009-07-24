@@ -2,13 +2,13 @@
 
 = Introduction =
 
-In [COBOLBindingConversionMetrics] we presented performance metrics for elementary data item conversions with LegStar release 1.2.3 and 1.2.4.
+In [COBOLBindingConversionMetrics] we presented performance metrics for elementary data item conversions.
 
 Here we perform the same type of measurement but applied to complex structures transformations from mainframe format to java and vice-versa.
 
 = Use case =
 
-We use the [http://code.google.com/p/legstar/source/browse/tags/Legstar-1.2.3/legstar-schemagen/src/test/cobol/DPLARCHT DPLARCHT] COBOL program commarea as it presents an interesting mix of COBOL REDEFINES and ARRAYS DEPENDING ON.
+We use the [http://code.google.com/p/legstar/source/browse/trunk/legstar-schemagen/src/test/cobol/DPLARCHT DPLARCHT] COBOL program commarea as it presents an interesting mix of COBOL REDEFINES and ARRAYS DEPENDING ON.
 
 REDEFINES cases add complexity as it is necessary to chose between alternatives at runtime.
 
@@ -41,13 +41,9 @@ Target machine and quantities measured are identical to [COBOLBindingConversionM
 
 = Results =
 
-== Release 1.2.3 ==
+== Release 1.2.6 ==
 
-http://legstar.googlecode.com/svn/wiki/dplarcht-transformations-metrics-1.2.3.png
-
-== Release 1.2.4 ==
-
-http://legstar.googlecode.com/svn/wiki/dplarcht-transformations-metrics-1.2.4.png
+http://legstar.googlecode.com/svn/wiki/dplarcht-transformations-metrics-1.2.6.png
 
 = Conclusion =
 
