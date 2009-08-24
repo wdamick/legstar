@@ -170,6 +170,10 @@ public abstract class AbstractCixsGenerator extends Task {
                     || operation.getPackageName().length() == 0) {
                 operation.setPackageName(getCixsService().getPackageName());
             }
+            if (operation.getNamespace() == null 
+                    || operation.getNamespace().length() == 0) {
+                operation.setNamespace(getCixsService().getNamespace());
+            }
         }
     }
 
