@@ -125,8 +125,32 @@
     </dependencies>
 
     <build>
+        <finalName>com.legstar.eclipse.plugin.schemagen_${project.version}</finalName>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>${project.basedir}</directory>
+                <includes>
+                    <include>src/main/resources/**</include>
+                    <include>plugin.xml</include>
+                    <include>icons/**</include>
+                </includes>
+            </resource>
+        </resources>
+
         <plugins>
         
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestFile>META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
+
             <plugin>
         
                 <!-- Update MANIFEST.MF and build.properties with the Maven versions -->

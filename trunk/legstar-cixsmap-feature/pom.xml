@@ -8,11 +8,21 @@
     </parent>
     <version>1.2.6</version>
     <artifactId>legstar-cixsmap-feature</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <name>LegStar Operation Mapping Eclipse feature</name>
     <description>Operation Mapping Eclipse feature.</description>
 
     <build>
+
+        <finalName>com.legstar.eclipse.feature.cixsmap_${project.version}</finalName>
+        <resources>
+            <resource>
+                <directory>${project.basedir}</directory>
+                <includes>
+                    <include>feature.xml</include>
+                </includes>
+            </resource>
+        </resources>
 
         <plugins>
 
