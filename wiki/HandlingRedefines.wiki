@@ -4,21 +4,23 @@
 
 COBOL REDEFINES are similar to unions in C, multiple structures can share the same memory location.
 
-LegStar provides a default strategy to handle REDEFINES but chosing between multiple alternatives sometimes requires additional logic. Such additional logic, called a ChoiceSelector is java code that you write and gets invoked by LegStar at runtime.
+LegStar provides a default strategy to handle REDEFINES but choosing between multiple alternatives sometimes requires additional logic. Such additional logic, called a ChoiceSelector is java code that you write and gets invoked by LegStar at runtime.
+
+This wiki describes the default strategy and how to add custom logic if needed.
 
 = Mapping COBOL REDEFINES to XSD and Java =
 
-The LegStar [http://www.legsem.com/legstar/legstar-schemagen/index.html COBOL Structures Mapping Generator (Schemagen)] turns COBOL REDEFINES to XML Schema choices.
+The LegStar [http://www.legsem.com/legstar/legstar-schemagen/index.html COBOL Structures Mapping Generator (Schemagen)] turns COBOL REDEFINES to XML Schema choices (xsd:choice).
 
-Java does not have a union types though. When binding the XSD to Java using JAXB, the various alternatives all become java objects. Any of these alternative java objects can be null which would indicate that the alternative was not chosen.
+Java does not have a union type though. When binding the XSD to Java using JAXB, the various alternatives all become java objects. Any of these alternative java objects can be null which would indicate that the alternative was not chosen.
 
-This java mapping to XSD choice is not perfect, for instance multiple java alternatives can be non null at the same time. As it turns out this can help for certain REDEFINES situations.
+This java mapping to xsd:choice is not perfect, for instance multiple java alternatives can be non null at the same time. As it turns out this can help for certain REDEFINES situations. The semantic of REDEFINES is not exactly identical to xsd:choice, it does not mandate that only one alternative is valid at a time.
 
 = Default COBOL REDEFINES binding strategy  =
 
 From java to COBOL, the java developer is in control. It is up to him to give a value to the selected alternative and leave the other alternatives as null. The LegStar default strategy tries alternatives one by one, in the order the alternatives were declared in the COBOL structure. The first non null alternative is used and the others are ignored.
 
-From COBOL to java, LegStar must make the decision to map the input data into one of the java alternatives. Again the default strategy tries each alternative in turn (in the COBOL structure order) and starts unmarshaling the mainframe data. If the unmarshaling process fails (usually because the mainframe data does not match the java type), the LegStar default strategy recovers and tries the next alternative until one is unmarshaled successfully.
+From COBOL to java, LegStar must make the decision to map the mainframe data into one of the java alternatives. Again the default strategy tries each alternative in turn (in the COBOL structure order) and starts unmarshaling the mainframe data. If the unmarshaling process fails (usually because the mainframe data does not match the java type), the LegStar default strategy recovers and tries the next alternative until one is unmarshaled successfully.
 
 = Custom COBOL REDEFINES binding strategy  =
 
@@ -83,7 +85,7 @@ You must edit the XML schema to inject the unmarshalChoiceStrategyClassName attr
          <xs:element name="CData">
            <xs:annotation>
              <xs:appinfo>
-             <cb:cobolElement levelNumber='03' cobolName='C-DATA' type='ALPHANUMERIC_ITEM' picture='X(200)' usage='DISPLAY' isRedefined='true' unmarshalChoiceStrategyClassName='com.legstar.coxb.cust.redmulti.ChoiceSelector' srceLine='34'/>
+             <cb:cobolElement levelNumber='03' cobolName='C-DATA' unmarshalChoiceStrategyClassName='com.legstar.coxb.cust.redmulti.ChoiceSelector' type='ALPHANUMERIC_ITEM' picture='X(200)' usage='DISPLAY' isRedefined='true' srceLine='34'/>
              </xs:appinfo>
            </xs:annotation>
            <xs:simpleType>
@@ -151,7 +153,7 @@ public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {
 
 }}}
 
-The are examples of [http://code.google.com/p/legstar/source/browse/trunk/#trunk/legstar-coxbrt/src/test/cust/java/com/legstar/coxb/cust ChoiceSelectors in the LegStar code base] that you might find helpful.
+The are examples of actual [http://code.google.com/p/legstar/source/browse/trunk/#trunk/legstar-coxbrt/src/test/cust/java/com/legstar/coxb/cust ChoiceSelectors in the LegStar code base] that you might find helpful.
 
 
 
