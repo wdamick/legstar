@@ -1,47 +1,40 @@
-<?xml version="1.0"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-targetNamespace="http://legstar.com/test/coxb/redsimpt"
-xmlns="http://legstar.com/test/coxb/redsimpt"
-xmlns:xsns="http://legstar.com/test/coxb/redsimpt"
-xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
-xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
-jaxb:version="2.0"
-jaxb:extensionBindingPrefixes="cb"
-elementFormDefault="qualified">
- <xs:annotation><xs:appinfo>
- <jaxb:schemaBindings>
- <jaxb:package  name="com.legstar.test.coxb.redsimpt"/>
- </jaxb:schemaBindings>
- </xs:appinfo></xs:annotation>
- <xs:complexType name="Dfhcommarea">
-    <xs:sequence>
-     <xs:choice>
-     <xs:element name="CDefinition1">
-       <xs:annotation>
-         <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='C-DEFINITION-1' type='ALPHANUMERIC_ITEM' picture='X(18)' usage='DISPLAY' isRedefined='true' unmarshalChoiceStrategyClassName='com.legstar.coxb.cust.redsimpt.ChoiceSelector' srceLine='21'/>
-         </xs:appinfo>
-       </xs:annotation>
-       <xs:simpleType>
-         <xs:restriction base="xs:string">
-         <xs:length value='18'/>
-         </xs:restriction>
-       </xs:simpleType>
-     </xs:element>
-     <xs:element name="CDefinition2">
-       <xs:annotation>
-         <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='C-DEFINITION-2' type='ZONED_DECIMAL_ITEM' picture='9(18)' usage='DISPLAY' signed='false' totalDigits='18' redefines='C-DEFINITION-1' srceLine='22'/>
-         </xs:appinfo>
-       </xs:annotation>
-       <xs:simpleType>
-         <xs:restriction base="xs:unsignedLong">
-         <xs:minInclusive value='0'/>
-         <xs:maxInclusive value='999999999999999999'/>
-         </xs:restriction>
-       </xs:simpleType>
-     </xs:element>
-     </xs:choice>
-    </xs:sequence>
- </xs:complexType>
-</xs:schema>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:tns="http://legstar.com/test/coxb/redsimpt" elementFormDefault="qualified" jaxb:extensionBindingPrefixes="cb" jaxb:version="2.0" targetNamespace="http://legstar.com/test/coxb/redsimpt">
+    <annotation>
+        <appinfo>
+            <jaxb:schemaBindings>
+                <jaxb:package name="com.legstar.test.coxb.redsimpt"/>
+            </jaxb:schemaBindings>
+        </appinfo>
+    </annotation>
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <choice>
+                <element name="CDefinition1">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="C-DEFINITION-1" isRedefined="true" levelNumber="5" picture="X(18)" srceLine="21" type="ALPHANUMERIC_ITEM" unmarshalChoiceStrategyClassName="com.legstar.coxb.cust.redsimpt.ChoiceSelector"/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="string">
+                            <maxLength value="18"/>
+                        </restriction>
+                    </simpleType>
+                </element>
+                <element name="CDefinition2">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="C-DEFINITION-2" levelNumber="5" picture="9(18)" redefines="C-DEFINITION-1" signed="false" srceLine="22" totalDigits="18" type="ZONED_DECIMAL_ITEM"/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="unsignedLong">
+                            <maxInclusive value="999999999999999999"/>
+                        </restriction>
+                    </simpleType>
+                </element>
+            </choice>
+        </sequence>
+    </complexType>
+</schema>

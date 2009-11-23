@@ -1,56 +1,50 @@
-<?xml version="1.0"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-targetNamespace="http://legstar.com/test/coxb/charsets"
-xmlns="http://legstar.com/test/coxb/charsets"
-xmlns:xsns="http://legstar.com/test/coxb/charsets"
-xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
-xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
-jaxb:version="2.0"
-jaxb:extensionBindingPrefixes="cb"
-elementFormDefault="qualified">
- <xs:annotation><xs:appinfo>
- <jaxb:schemaBindings>
- <jaxb:package  name="com.legstar.test.coxb.charsets"/>
- </jaxb:schemaBindings>
- </xs:appinfo></xs:annotation>
- <xs:complexType name="Dfhcommarea">
-    <xs:sequence>
-     <xs:element name="ComLocal">
-       <xs:annotation>
-         <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='COM-LOCAL' type='ALPHANUMERIC_ITEM' picture='X(32)' usage='DISPLAY' srceLine='43'/>
-         </xs:appinfo>
-       </xs:annotation>
-       <xs:simpleType>
-         <xs:restriction base="xs:string">
-         <xs:length value='32'/>
-         </xs:restriction>
-       </xs:simpleType>
-     </xs:element>
-     <xs:element name="ComDbcs">
-       <xs:annotation>
-         <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='COM-DBCS' type='DBCS_ITEM' picture='G(32)' usage='DISPLAY-1' srceLine='44'/>
-         </xs:appinfo>
-       </xs:annotation>
-       <xs:simpleType>
-         <xs:restriction base="xs:string">
-         <xs:length value='32'/>
-         </xs:restriction>
-       </xs:simpleType>
-     </xs:element>
-     <xs:element name="ComNational">
-       <xs:annotation>
-         <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='COM-NATIONAL' type='NATIONAL_ITEM' picture='N(32)' usage='NATIONAL' srceLine='45'/>
-         </xs:appinfo>
-       </xs:annotation>
-       <xs:simpleType>
-         <xs:restriction base="xs:string">
-         <xs:length value='32'/>
-         </xs:restriction>
-       </xs:simpleType>
-     </xs:element>
-    </xs:sequence>
- </xs:complexType>
-</xs:schema>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:tns="http://legstar.com/test/coxb/charsets" elementFormDefault="qualified" jaxb:extensionBindingPrefixes="cb" jaxb:version="2.0" targetNamespace="http://legstar.com/test/coxb/charsets">
+    <annotation>
+        <appinfo>
+            <jaxb:schemaBindings>
+                <jaxb:package name="com.legstar.test.coxb.charsets"/>
+            </jaxb:schemaBindings>
+        </appinfo>
+    </annotation>
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element name="ComLocal">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-LOCAL" levelNumber="5" picture="X(32)" srceLine="43" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="32"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ComDbcs">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-DBCS" levelNumber="5" picture="G(32)" srceLine="44" type="DBCS_ITEM" usage="DISPLAY-1"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="32"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ComNational">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-NATIONAL" levelNumber="5" picture="N(32)" srceLine="45" type="NATIONAL_ITEM" usage="NATIONAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="32"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+</schema>

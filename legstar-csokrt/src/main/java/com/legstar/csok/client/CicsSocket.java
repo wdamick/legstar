@@ -55,33 +55,33 @@ public class CicsSocket implements LegStarConnection {
     /** Size of message type. */
     private static final int MSG_TYPE_LEN = 9;
 
-    /** Size of header preceding any reply from host. */
+    /** Size of header preceding any reply from host. TODO make public. */
     private static final int REPLY_HDR_LEN = 9;
 
     /** Size of trace option. */
     private static final int TRACE_LEN = 1;
 
     /** Maximum size of the host reply for acknowledgements and error
-     *  reports. */
+     *  reports. TODO make public. TODO make public.*/
     private static final int MAX_PROT_REPLY_LEN = 266;
 
 
     /** CIM eye catcher. */
     private static final String CIM_EYE_CATCHER = "SK";
 
-    /** Identifies execution requests. */
+    /** Identifies execution requests. TODO make public. */
     private static final String EXEC_REQUEST_EC = "LSOKEXEC";
 
     /** Identifies probes (is alive ). */
     private static final String PROBE_REQUEST_EC = "LSOKPROB";
 
-    /** Reply eye catcher for acknowledgements. */
+    /** Reply eye catcher for acknowledgements. TODO make public. */
     private static final String REPLY_ACK_MSG_EC = "LSOKACK0";
 
-    /** Reply eye catcher for errors. */
+    /** Reply eye catcher for errors. TODO make public. */
     private static final String REPLY_ERROR_MSG_EC = "LSOKERR0";
 
-    /** Eye catcher for data messages. */
+    /** Eye catcher for data messages.  TODO make public.*/
     private static final String DATA_MSG_EC = "LSOKDATA";
 
     /** Processing instructions for UOW handling. */
@@ -93,16 +93,16 @@ public class CicsSocket implements LegStarConnection {
     /** UOW command length. */
     private static final int UOW_COMMAND_LEN = 8;
 
-    /** Processing instructions for UOW commit. */
+    /** Processing instructions for UOW commit. TODO make public. */
     private static final String UOW_COMMIT = "Commit";
 
-    /** Processing instructions for UOW rollback. */
+    /** Processing instructions for UOW rollback. TODO make public. */
     private static final String UOW_ROLLBACK = "Rollback";
 
-    /** Processing instructions for UOW keep. */
+    /** Processing instructions for UOW keep. TODO make public. */
     private static final String UOW_KEEP = "Keep";
 
-    /** General protocol violation reply message. */
+    /** General protocol violation reply message. TODO make public.*/
     private static final String PROTOCOL_ERROR_MSG =
         "Invalid or unexpected reply from host.";
 

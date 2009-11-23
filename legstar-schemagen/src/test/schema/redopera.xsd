@@ -1,117 +1,110 @@
-<?xml version="1.0"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-targetNamespace="http://legstar.com/test/coxb/redopera"
-xmlns="http://legstar.com/test/coxb/redopera"
-xmlns:xsns="http://legstar.com/test/coxb/redopera"
-xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
-xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
-jaxb:version="2.0"
-jaxb:extensionBindingPrefixes="cb"
-elementFormDefault="qualified">
- <xs:annotation><xs:appinfo>
- <jaxb:schemaBindings>
- <jaxb:package  name="com.legstar.test.coxb.redopera"/>
- </jaxb:schemaBindings>
- </xs:appinfo></xs:annotation>
- <xs:complexType name="Dfhcommarea">
-    <xs:sequence>
-     <xs:element name="CFunction">
-       <xs:annotation>
-         <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='C-FUNCTION' type='ALPHANUMERIC_ITEM' picture='X(18)' usage='DISPLAY' srceLine='21'/>
-         </xs:appinfo>
-       </xs:annotation>
-       <xs:simpleType>
-         <xs:restriction base="xs:string">
-         <xs:length value='18'/>
-         </xs:restriction>
-       </xs:simpleType>
-     </xs:element>
-     <xs:choice>
-     <xs:element name="CData">
-       <xs:annotation>
-         <xs:appinfo>
-         <cb:cobolElement levelNumber='03' cobolName='C-DATA' type='ALPHANUMERIC_ITEM' picture='X(200)' usage='DISPLAY' isRedefined='true' unmarshalChoiceStrategyClassName='com.legstar.coxb.cust.redopera.ChoiceSelector' srceLine='24'/>
-         </xs:appinfo>
-       </xs:annotation>
-       <xs:simpleType>
-         <xs:restriction base="xs:string">
-         <xs:length value='200'/>
-         </xs:restriction>
-       </xs:simpleType>
-     </xs:element>
-     <xs:element name="Filler25" type="xsns:Filler25">
-       <xs:annotation>
-         <xs:appinfo>
-         <cb:cobolElement levelNumber='03' cobolName='FILLER-25' type='GROUP_ITEM' redefines='C-DATA' srceLine='25'/>
-         </xs:appinfo>
-       </xs:annotation>
-     </xs:element>
-     <xs:element name="Filler28" type="xsns:Filler28">
-       <xs:annotation>
-         <xs:appinfo>
-         <cb:cobolElement levelNumber='03' cobolName='FILLER-28' type='GROUP_ITEM' redefines='C-DATA' srceLine='28'/>
-         </xs:appinfo>
-       </xs:annotation>
-     </xs:element>
-     </xs:choice>
-    </xs:sequence>
- </xs:complexType>
- <xs:complexType name="Filler25">
-    <xs:sequence>
-     <xs:element name="CString">
-       <xs:annotation>
-         <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='C-STRING' type='ALPHANUMERIC_ITEM' picture='X(30)' usage='DISPLAY' srceLine='26'/>
-         </xs:appinfo>
-       </xs:annotation>
-       <xs:simpleType>
-         <xs:restriction base="xs:string">
-         <xs:length value='30'/>
-         </xs:restriction>
-       </xs:simpleType>
-     </xs:element>
-     <xs:element name="Filler27">
-       <xs:annotation>
-         <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='FILLER-27' type='ALPHANUMERIC_ITEM' picture='X(170)' usage='DISPLAY' srceLine='27'/>
-         </xs:appinfo>
-       </xs:annotation>
-       <xs:simpleType>
-         <xs:restriction base="xs:string">
-         <xs:length value='170'/>
-         </xs:restriction>
-       </xs:simpleType>
-     </xs:element>
-    </xs:sequence>
- </xs:complexType>
- <xs:complexType name="Filler28">
-    <xs:sequence>
-     <xs:element name="CInteger">
-       <xs:annotation>
-         <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='C-INTEGER' type='ZONED_DECIMAL_ITEM' picture='S9(8)' usage='DISPLAY' signed='true' totalDigits='8' srceLine='29'/>
-         </xs:appinfo>
-       </xs:annotation>
-       <xs:simpleType>
-         <xs:restriction base="xs:int">
-         <xs:minInclusive value='-99999999'/>
-         <xs:maxInclusive value='99999999'/>
-         </xs:restriction>
-       </xs:simpleType>
-     </xs:element>
-     <xs:element name="Filler30">
-       <xs:annotation>
-         <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='FILLER-30' type='ALPHANUMERIC_ITEM' picture='X(192)' usage='DISPLAY' srceLine='30'/>
-         </xs:appinfo>
-       </xs:annotation>
-       <xs:simpleType>
-         <xs:restriction base="xs:string">
-         <xs:length value='192'/>
-         </xs:restriction>
-       </xs:simpleType>
-     </xs:element>
-    </xs:sequence>
- </xs:complexType>
-</xs:schema>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:tns="http://legstar.com/test/coxb/redopera" elementFormDefault="qualified" jaxb:extensionBindingPrefixes="cb" jaxb:version="2.0" targetNamespace="http://legstar.com/test/coxb/redopera">
+    <annotation>
+        <appinfo>
+            <jaxb:schemaBindings>
+                <jaxb:package name="com.legstar.test.coxb.redopera"/>
+            </jaxb:schemaBindings>
+        </appinfo>
+    </annotation>
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element name="CFunction">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-FUNCTION" levelNumber="5" picture="X(18)" srceLine="21" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="18"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <choice>
+                <element name="CData">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="C-DATA" isRedefined="true" levelNumber="3" picture="X(200)" srceLine="24" type="ALPHANUMERIC_ITEM" unmarshalChoiceStrategyClassName="com.legstar.coxb.cust.redopera.ChoiceSelector"/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="string">
+                            <maxLength value="2000"/>
+                        </restriction>
+                    </simpleType>
+                </element>
+                <element name="filler25" type="tns:Filler25">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="FILLER" levelNumber="3" redefines="C-DATA" srceLine="25" type="GROUP_ITEM"/>
+                        </appinfo>
+                    </annotation>
+                </element>
+                <element name="filler28" type="tns:Filler28">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="FILLER" levelNumber="3" redefines="C-DATA" srceLine="28" type="GROUP_ITEM"/>
+                        </appinfo>
+                    </annotation>
+                </element>
+            </choice>
+        </sequence>
+    </complexType>
+    <complexType name="Filler25">
+        <sequence>
+            <element name="CString">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-STRING" levelNumber="5" picture="X(30)" srceLine="26" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="30"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="filler27">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="FILLER" levelNumber="5" picture="X(170)" srceLine="27" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="1700"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="Filler28">
+        <sequence>
+            <element name="CInteger">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-INTEGER" levelNumber="5" picture="S9(8)" signed="true" srceLine="29" totalDigits="8" type="ZONED_DECIMAL_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="int">
+                        <totalDigits value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="filler30">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="FILLER" levelNumber="5" picture="X(192)" srceLine="30" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="1902"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+</schema>

@@ -1,70 +1,63 @@
-<?xml version="1.0"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-targetNamespace="http://legstar.com/test/coxb/redbotha"
-xmlns="http://legstar.com/test/coxb/redbotha"
-xmlns:xsns="http://legstar.com/test/coxb/redbotha"
-xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd"
-xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
-jaxb:version="2.0"
-jaxb:extensionBindingPrefixes="cb"
-elementFormDefault="qualified">
- <xs:annotation><xs:appinfo>
- <jaxb:schemaBindings>
- <jaxb:package  name="com.legstar.test.coxb.redbotha"/>
- </jaxb:schemaBindings>
- </xs:appinfo></xs:annotation>
- <xs:complexType name="Dfhcommarea">
-    <xs:sequence>
-     <xs:choice>
-     <xs:element name="CNumeric">
-       <xs:annotation>
-         <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='C-NUMERIC' type='BINARY_ITEM' picture='9(4)' usage='BINARY' signed='false' totalDigits='4' isRedefined='true' unmarshalChoiceStrategyClassName='com.legstar.coxb.cust.redbotha.ChoiceSelector' srceLine='21'/>
-         </xs:appinfo>
-       </xs:annotation>
-       <xs:simpleType>
-         <xs:restriction base="xs:unsignedShort">
-         <xs:minInclusive value='0'/>
-         <xs:maxInclusive value='9999'/>
-         </xs:restriction>
-       </xs:simpleType>
-     </xs:element>
-     <xs:element name="Filler22" type="xsns:Filler22">
-       <xs:annotation>
-         <xs:appinfo>
-         <cb:cobolElement levelNumber='05' cobolName='FILLER-22' type='GROUP_ITEM' redefines='C-NUMERIC' srceLine='22'/>
-         </xs:appinfo>
-       </xs:annotation>
-     </xs:element>
-     </xs:choice>
-    </xs:sequence>
- </xs:complexType>
- <xs:complexType name="Filler22">
-    <xs:sequence>
-     <xs:element name="CLeftByte">
-       <xs:annotation>
-         <xs:appinfo>
-         <cb:cobolElement levelNumber='10' cobolName='C-LEFT-BYTE' type='ALPHANUMERIC_ITEM' picture='X' usage='DISPLAY' srceLine='23'/>
-         </xs:appinfo>
-       </xs:annotation>
-       <xs:simpleType>
-         <xs:restriction base="xs:string">
-         <xs:length value='1'/>
-         </xs:restriction>
-       </xs:simpleType>
-     </xs:element>
-     <xs:element name="CRightByte">
-       <xs:annotation>
-         <xs:appinfo>
-         <cb:cobolElement levelNumber='10' cobolName='C-RIGHT-BYTE' type='ALPHANUMERIC_ITEM' picture='X' usage='DISPLAY' srceLine='24'/>
-         </xs:appinfo>
-       </xs:annotation>
-       <xs:simpleType>
-         <xs:restriction base="xs:string">
-         <xs:length value='1'/>
-         </xs:restriction>
-       </xs:simpleType>
-     </xs:element>
-    </xs:sequence>
- </xs:complexType>
-</xs:schema>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:tns="http://legstar.com/test/coxb/redbotha" elementFormDefault="qualified" jaxb:extensionBindingPrefixes="cb" jaxb:version="2.0" targetNamespace="http://legstar.com/test/coxb/redbotha">
+    <annotation>
+        <appinfo>
+            <jaxb:schemaBindings>
+                <jaxb:package name="com.legstar.test.coxb.redbotha"/>
+            </jaxb:schemaBindings>
+        </appinfo>
+    </annotation>
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <choice>
+                <element name="CNumeric">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="C-NUMERIC" isRedefined="true" levelNumber="5" picture="9(4)" signed="false" srceLine="21" totalDigits="4" type="BINARY_ITEM" unmarshalChoiceStrategyClassName="com.legstar.coxb.cust.redbotha.ChoiceSelector" usage="BINARY"/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="unsignedShort">
+                            <totalDigits value="4"/>
+                        </restriction>
+                    </simpleType>
+                </element>
+                <element name="filler22" type="tns:Filler22">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="FILLER" levelNumber="5" redefines="C-NUMERIC" srceLine="22" type="GROUP_ITEM"/>
+                        </appinfo>
+                    </annotation>
+                </element>
+            </choice>
+        </sequence>
+    </complexType>
+    <complexType name="Filler22">
+        <sequence>
+            <element name="CLeftByte">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-LEFT-BYTE" levelNumber="10" picture="X" srceLine="23" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="1"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="CRightByte">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-RIGHT-BYTE" levelNumber="10" picture="X" srceLine="24" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="1"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+</schema>
