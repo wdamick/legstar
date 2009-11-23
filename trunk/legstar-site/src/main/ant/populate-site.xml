@@ -7,6 +7,8 @@
     <target name="populateSite">
 
         <echo message="Removing old site artifacts"/>
+        <mkdir dir="${basedir}/features"/>
+        <mkdir dir="${basedir}/plugins"/>
         <delete>
             <fileset dir="${basedir}/features" includes="*.jar"/>
             <fileset dir="${basedir}/plugins" includes="*.jar"/>

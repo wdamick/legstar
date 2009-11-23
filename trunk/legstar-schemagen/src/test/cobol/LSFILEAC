@@ -282,9 +282,13 @@
 
            EXEC CICS ASKTIME ABSTIME(W-STOP-TIME) END-EXEC.
            COMPUTE W-ELAPSE-TIME = W-STOP-TIME - W-START-TIME.
-           EXEC CICS FORMATTIME ABSTIME(W-ELAPSE-TIME)
-                TIME(SEARCH-DURATION) TIMESEP
-           END-EXEC.    
+      * Normally we should send back the elapse time but since this will
+      * be variable it complicates test automation on the client side so
+      * send back zero instead.
+      *    EXEC CICS FORMATTIME ABSTIME(W-ELAPSE-TIME)
+      *         TIME(SEARCH-DURATION) TIMESEP
+      *    END-EXEC.
+           MOVE '00:00:00' TO SEARCH-DURATION.   
            MOVE W-ITEMSREAD TO TOTAL-ITEMS-READ.     
 
            EXEC CICS PUT CONTAINER(W-REPLYSTATUS-CTN-NAME)
