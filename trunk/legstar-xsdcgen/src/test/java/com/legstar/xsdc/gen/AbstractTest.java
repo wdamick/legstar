@@ -30,7 +30,7 @@ public abstract class AbstractTest extends TestCase {
     public static final File SCHEMA_DIR = new File("src/test/resources");
 
     /** Target location for generated schemas. */
-    public static final File GEN_DIR = new File("target/src/gen");
+    public static final File GEN_DIR = new File("target/src/gen/schema");
     
     /** Logger. */
     private final Log _log = LogFactory.getLog(AbstractTest.class);

@@ -100,6 +100,27 @@
                 </executions>
             </plugin>
  
+            <!-- Bundle the generated schemas in a test jar for use by other modules-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>test</classifier>
+                            <classesDirectory>${project.build.directory}/src/gen</classesDirectory>
+                            <includes>
+                                <include>schema/**</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
