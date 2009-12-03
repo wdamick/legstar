@@ -34,8 +34,24 @@
             <artifactId>commons-logging</artifactId>
         </dependency>
         <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-codegen</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-cob2xsd</artifactId>
+            <classifier>test</classifier>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-xsdcgen</artifactId>
+            <classifier>test</classifier>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>ant</groupId>
@@ -53,7 +69,7 @@
                 
                     <!-- This will generate all JAXB test cases for other projects to use.  -->
                     <execution>
-                        <id>prepare-sources</id>
+                        <id>generate-test-cases</id>
                         <phase>pre-integration-test</phase>
                         <configuration>
                             <tasks>
@@ -61,7 +77,11 @@
                                     <path refid="maven.compile.classpath" />
                                     <path refid="maven.plugin.classpath" />
                                 </path>
-                                <ant antfile="${basedir}/src/test/ant/build-jaxbgen-cases.xml" inheritRefs="true" />
+                                <ant antfile="${basedir}/src/test/ant/build-jaxbgen-cases.xml" inheritRefs="true" >
+                                    <property name="maven.localRepository" value="${settings.localRepository}" />
+                                    <property name="legstarVersion" value="${legstarVersion}" />
+                                    <property name="legstarCob2XsdVersion" value="${legstarCob2XsdVersion}" />
+                                </ant>
                             </tasks>
                         </configuration>
                         <goals>
