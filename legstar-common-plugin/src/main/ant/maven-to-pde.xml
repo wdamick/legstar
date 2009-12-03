@@ -18,6 +18,7 @@
             <filterset>
                 <filter token="LEGSTAR-PLUGIN-VERSION" value="${legstarPluginVersion}"/>
                 <filter token="LEGSTAR-VERSION" value="${legstarVersion}"/>
+                <filter token="LEGSTAR-COB2XSD-VERSION" value="${legstarCob2XsdVersion}"/>
             </filterset>
             <globmapper from="*.template" to="*"/>
         </copy>
@@ -26,21 +27,16 @@
         <echo message="Generating build.properties for version=${legstarVersion}"/>
         <copy todir="${basedir}" overwrite="true">
             <fileset dir="${basedir}/src/main/templates">
-              <include name="build.properties.template"/>
+                <include name="build.properties.template"/>
             </fileset>
             <filterset>
-              <filter token="LEGSTAR-PLUGIN-VERSION" value="${legstarPluginVersion}"/>
-              <filter token="LEGSTAR-VERSION" value="${legstarVersion}"/>
+                <filter token="LEGSTAR-PLUGIN-VERSION" value="${legstarPluginVersion}"/>
+                <filter token="LEGSTAR-VERSION" value="${legstarVersion}"/>
+                <filter token="LEGSTAR-COB2XSD-VERSION" value="${legstarCob2XsdVersion}"/>
             </filterset>
             <globmapper from="*.template" to="*"/>
         </copy>
         
-        <!-- Clean the lib folder -->
-        <echo message="Cleaning lib folder ${basedir}/lib"/>
-        <mkdir dir="${basedir}/lib"/> 
-        <delete>
-            <fileset dir="${basedir}/lib" includes="*.jar"/>
-        </delete>
-
   </target>
+
 </project>

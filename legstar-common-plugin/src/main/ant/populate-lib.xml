@@ -1,0 +1,28 @@
+<!-- =================================================================================
+     This script brings in dependencies into the plugin lib folder.
+     This is needed because the plugin needs to pick these dependencies as resources.
+     We assume a complete distribution has already been created. As part of that
+     distribution build process, the distribution is unzipped and tested so all
+     jar files needed are available for pickup.
+ -->
+<project basedir="../../.." default="populateLib" name="populate-lib">
+
+    <target name="populateLib">
+
+        <echo message="Populating Eclipse plugin lib"/>
+        <delete includeEmptyDirs="true">
+            <fileset dir="${basedir}/lib"  includes="**/*"/>
+        </delete>
+        <copy todir="${basedir}/lib">
+            <fileset dir="${basedir}/../legstar-distribution/target/test-distro/legstar-distribution-${legstarVersion}/lib">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
+        <copy todir="${basedir}/lib">
+            <fileset dir="${basedir}/../legstar-distribution/target/test-distro/legstar-distribution-${legstarVersion}/xjb">
+                <include name="*.xjb"/>
+            </fileset>
+        </copy>
+  
+  </target>
+</project>
