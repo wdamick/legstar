@@ -112,7 +112,7 @@
                         </goals>
                         <configuration>
                             <classifier>test</classifier>
-                            <classesDirectory>${project.build.directory}/src/gen</classesDirectory>
+                            <classesDirectory>src/test/resources</classesDirectory>
                             <includes>
                                 <include>schema/**</include>
                             </includes>
