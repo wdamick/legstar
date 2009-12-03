@@ -1,0 +1,30 @@
+<document>
+  <properties>
+    <title>Download</title>
+  </properties>
+  <!-- Optional HEAD element, which is copied as is into the XHTML <head> element -->
+  <head>
+     <meta http-equiv="Cache-Control" Content="no-cache"/> 
+  </head>
+  <body>
+    <!-- The body of the document contains a number of sections -->
+    <section name="Download LegStar Distribution">
+
+      <!-- Within sections, any XHTML can be used -->
+    <table border="1">
+      <tr><th>Module</th><th>Platform</th><th>Link</th></tr>
+      <tr>
+        <td>LegStar Distribution</td>
+        <td>Java</td>
+        <td>
+            <div onclick="javascript: pageTracker._trackPageview('/downloads/legstar-distribution');">
+            <a href="../maven/repo/com/legsem/legstar/legstar-distribution/1.2.7-SNAPSHOT/legstar-distribution-1.2.7-SNAPSHOT-bin.zip">legstar-distribution-1.2.7-SNAPSHOT-bin.zip</a>
+            </div>
+        </td>
+      </tr>
+    </table>
+
+    </section>
+
+  </body>
+</document>

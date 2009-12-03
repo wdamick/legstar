@@ -31,15 +31,9 @@ INSTALLING/UNINSTALLING:
 +---------------------------------------+
    <installDir>
         |---->LICENSE
-        |---->NOTICE
         |---->README
-        |----><bin>
-                |---->*.dll
-                |---->*.so
         |----><docs>
                 |---->*-README
-                |----><notices>
-                        |---->*-NOTICE
         |----><lib>
                 |---->*.jar
         |----><samples>
@@ -47,7 +41,7 @@ INSTALLING/UNINSTALLING:
                            |----><adapter_lsfileae>
                                        |---->build-*.xml
                                        |----><cobol>
-                                                |---->lsfileae.cbl
+                                                |---->lsfileae
                                        |----><schema>
                                                 |---->lsfileae.xsd
                                        |----><src>
@@ -114,18 +108,14 @@ INSTALLING/UNINSTALLING:
                 
 +---------------------------------------+
    
- [[2]] Set the LEGSTAR_HOME environment variable to point to installDir.
-       Update your LD_LIBRARY_PATH (PATH on Windows) environment variable so
-       that it contains $LEGSTAR_HOME/bin (%LEGSTAR_HOME%/bin on Windows).
-
- [[3]] To uninstall, remove the installDir folder.
+ [[2]] To uninstall, remove the installDir folder.
 
 RUNNING THE SAMPLES:
 
 * Service Adapter
 
  [[1]] From the samples/quickstarts/adapter_lsfileae folder, run command
-       "ant -f build-cob2xs.xml". This should create a schema folder with a
+       "ant -f build-cob2xsd.xml". This should create a schema folder with a
        generated XML schema from the sample cobol source in the cobol folder.
 
  [[2]] Run command "ant -f build-jaxb.xml" from the
