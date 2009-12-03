@@ -1,0 +1,25 @@
+<!-- =================================================================================
+     This script creates a file with a list of jar files.
+     Must not run in maven because of http://jira.codehaus.org/browse/MANTRUN-40
+ -->
+<project basedir="../../.." default="createJarList" name="create-jar-list">
+
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <property name="outFile" value="target/jars-list.txt"/>
+    
+    <target name="createJarList">
+
+        <echo message="${line.separator}" file="${outFile}" append="false"/>
+        <foreach target="addJar" param="jar.file" inheritrefs="true" inheritall="true">
+            <path>
+                <fileset dir="lib" includes="*.jar"/>
+            </path>
+        </foreach>
+  </target>
+
+  <target name="addJar">
+        <basename property="jarFile" file="${jar.file}"/>
+        <echo message=" lib/${jarFile},${line.separator}" file="${outFile}" append="true"/>
+  </target>
+
+</project>

@@ -17,10 +17,6 @@
     
         <dependency>
             <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-schemagen</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-coxbgen</artifactId>
         </dependency>
         <dependency>
@@ -158,15 +154,33 @@
 
             <plugin>
         
-                <!-- Update MANIFEST.MF and build.properties with the Maven versions -->
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
+
+                    <!-- Update MANIFEST.MF and build.properties with the Maven versions -->
                     <execution>
                         <id>maven-to-pde</id>
                         <phase>generate-resources</phase>
                         <configuration>
                             <tasks>
                                 <ant antfile="${basedir}/src/main/ant/maven-to-pde.xml">
+                                    <property name="legstarVersion" value="${legstarVersion}" />
+                                    <property name="legstarCob2XsdVersion" value="${legstarCob2XsdVersion}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- Copy internal dependencies to the lib folder -->
+                    <execution>
+                        <id>populate-lib</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/populate-lib.xml">
                                     <property name="legstarVersion" value="${legstarVersion}" />
                                 </ant>
                             </tasks>
@@ -175,32 +189,11 @@
                             <goal>run</goal>
                         </goals>
                     </execution>
+
+
                 </executions>
             </plugin>
 
-            <!-- Copy all runtime dependencies to the lib folder -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                          <outputDirectory>lib</outputDirectory>
-                          <overWriteReleases>false</overWriteReleases>
-                          <overWriteSnapshots>false</overWriteSnapshots>
-                          <overWriteIfNewer>true</overWriteIfNewer>
-                          <excludeScope>provided</excludeScope>
-                          <excludeGroupIds>junit,log4j</excludeGroupIds>
-                       </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-          
         </plugins>
     </build>
     
