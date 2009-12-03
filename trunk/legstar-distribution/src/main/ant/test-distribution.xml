@@ -35,14 +35,8 @@
     <target name="testDistro" depends="init">
         <unzip src="${zip.file}" dest="${test.dir}"/>
         
-        <!-- Lsfileae sample. 
-             Can't antcall on build-cob2xs.xml because of the DLL already loaded issue -->      
-        <exec executable="cmd">
-            <arg value="/c"/>
-            <arg value="ant.bat"/>
-            <arg value="-f"/>
-            <arg value="${sample1.dir}/build-cob2xs.xml"/>
-        </exec>
+        <!-- Lsfileae sample. -->      
+        <ant antfile="build-cob2xsd.xml" dir="${sample1.dir}"/>
         <ant antfile="build-jaxb.xml" dir="${sample1.dir}"/>
         <ant antfile="build-coxb.xml" dir="${sample1.dir}"/>
         <ant antfile="build-jws2cixs.xml" dir="${sample1.dir}"/>
