@@ -1,7 +1,0 @@
-       PROGRAM-ID. DPLARCHT.
-       ENVIRONMENT DIVISION.
-       DATA DIVISION.
-       WORKING-STORAGE SECTION.
-       01  WS-COMMA-IN-PIC             PIC +9(5),99.
-       PROCEDURE DIVISION.
-           GOBACK.
