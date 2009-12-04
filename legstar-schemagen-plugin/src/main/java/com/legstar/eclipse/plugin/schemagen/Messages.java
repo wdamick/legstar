@@ -33,11 +33,58 @@ public class Messages extends NLS {
     public static String schemagen_preference_page_title;
     /** Description on preference page.*/
     public static String preference_page_description;
+
+    /* -------------------------------------------------------------------
+     * XML Schema related default options
+     * */
     /** XML Schema namespace prefix label.*/
     public static String preference_xsd_namespace_prefix_label;
+
+    /** XML schema default encoding. */
+    public static String preference_default_xsd_encoding_label;
+
+    /** XML schema default mapping of 88 conditions to facets. */
+    public static String preference_default_map_conditions_to_facets_label ;
+
+    /** XML schema default customization XSLT file name. */
+    public static String preference_default_custom_xslt_file_name_label;
+
+    /** XML schema default prepending parent name if name conflict. */
+    public static String preference_default_name_conflict_prepend_parent_name_label;
+
+    /** XML schema default element name starting with uppercase. */
+    public static String preference_default_element_names_start_with_uppercase_label;
+    
+    /* -------------------------------------------------------------------
+     * LegStar annotations default options
+     * */
+    /** Annotations default presence. */
+    public static String preference_default_add_legstar_annotations_label;
+    
     /** JAXB package prefix label.*/
     public static String preference_jaxb_package_prefix_label;
 
+    /** Annotations default suffix for type names. */
+    public static String preference_default_jaxb_type_classes_suffix_label;
+    
+   
+    /* -------------------------------------------------------------------
+     * COBOL compiler related options
+     * */
+    /** Currency symbol default. */
+    public static String preference_default_currency_symbol_label;
+
+    /** Decimal point is comma default. */
+    public static String preference_default_decimal_point_is_comma_label;
+
+    /** National symbol DBCS default. */
+    public static String preference_default_nsymbol_dbcs_label;
+
+    /** Quote is quote default. */
+    public static String preference_default_quote_is_quote_label;
+    
+    
+    
     /** Ant generation background task label.*/
     public static String ant_generating_task_label;
     /** Ant generation failure message.*/

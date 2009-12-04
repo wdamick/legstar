@@ -27,7 +27,11 @@
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-codegen</artifactId>
         </dependency>
-    
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-cob2xsd</artifactId>
+        </dependency>
+   
         <!-- Generated Web Services will need this to compile
              correctly. -->
         <dependency>

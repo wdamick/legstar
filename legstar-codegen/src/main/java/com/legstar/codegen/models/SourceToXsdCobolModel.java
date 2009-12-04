@@ -43,28 +43,28 @@ public abstract class SourceToXsdCobolModel extends AbstractAntBuildModel {
     /**
      * @return the Package name of target JAXB classes
      */
-    public final String getJaxbPackageName() {
+    public String getJaxbPackageName() {
         return mJaxbPackageName;
     }
 
     /**
      * @param jaxbPackageName the Package name of target JAXB classes to set
      */
-    public final void setJaxbPackageName(final String jaxbPackageName) {
+    public void setJaxbPackageName(final String jaxbPackageName) {
         mJaxbPackageName = jaxbPackageName;
     }
 
     /**
      * @return the The target schema namespace
      */
-    public final String getNamespace() {
+    public String getNamespace() {
         return mNamespace;
     }
 
     /**
      * @param namespace the The target schema namespace to set
      */
-    public final void setNamespace(final String namespace) {
+    public void setNamespace(final String namespace) {
         if (namespace != null) {
             /* Keep namespacelowercase so we can derive package names
              * from it if necessary. */
@@ -77,35 +77,35 @@ public abstract class SourceToXsdCobolModel extends AbstractAntBuildModel {
     /**
      * @return the The target directory
      */
-    public final File getTargetDir() {
+    public File getTargetDir() {
         return mTargetDir;
     }
 
     /**
      * @param targetDir the The target directory to set
      */
-    public final void setTargetDir(final File targetDir) {
+    public void setTargetDir(final File targetDir) {
         mTargetDir = targetDir;
     }
 
     /**
      * @return the The target annotated XSD file name
      */
-    public final String getTargetXsdFileName() {
+    public String getTargetXsdFileName() {
         return mTargetXsdFileName;
     }
 
     /**
      * @param targetXsdFileName the The target annotated XSD file name to set
      */
-    public final void setTargetXsdFileName(final String targetXsdFileName) {
+    public void setTargetXsdFileName(final String targetXsdFileName) {
         mTargetXsdFileName = targetXsdFileName;
     }
 
     /**
      * @return the Suffix to be added to JAXB classes names for XML schema types
      */
-    public final String getJaxbTypeClassesSuffix() {
+    public String getJaxbTypeClassesSuffix() {
         return mJaxbTypeClassesSuffix;
     }
 
@@ -113,7 +113,7 @@ public abstract class SourceToXsdCobolModel extends AbstractAntBuildModel {
      * @param jaxbTypeClassesSuffix the Suffix to be added to JAXB classes names
      *  for XML schema types
      */
-    public final void setJaxbTypeClassesSuffix(
+    public void setJaxbTypeClassesSuffix(
             final String jaxbTypeClassesSuffix) {
         mJaxbTypeClassesSuffix = jaxbTypeClassesSuffix;
     }

@@ -52,14 +52,68 @@ implements IWorkbenchPreferencePage {
      */
     public void createFieldEditors() {
 
+    /* -------------------------------------------------------------------
+     * XML Schema related default options
+     * */
         addField(new StringFieldEditor(
                 PreferenceConstants.XSD_NAMESPACE_PREFIX,
                 Messages.preference_xsd_namespace_prefix_label + ':',
                 getFieldEditorParent()));
-
         addField(new StringFieldEditor(
+                PreferenceConstants.DEFAULT_XSD_ENCODING,
+                Messages.preference_default_xsd_encoding_label + ':',
+                getFieldEditorParent()));
+        addField(new StringFieldEditor(
+                PreferenceConstants.DEFAULT_XSD_MAP_CONDITIONS_TO_FACETS,
+                Messages.preference_default_map_conditions_to_facets_label + ':',
+                getFieldEditorParent()));
+        addField(new StringFieldEditor(
+                PreferenceConstants.DEFAULT_XSD_CUSTOM_XSLT_FILE_NAME,
+                Messages.preference_default_custom_xslt_file_name_label + ':',
+                getFieldEditorParent()));
+        addField(new StringFieldEditor(
+                PreferenceConstants.DEFAULT_XSD_NAME_CONFLICT_PREPEND_PARENT_NAME,
+                Messages.preference_default_name_conflict_prepend_parent_name_label + ':',
+                getFieldEditorParent()));
+        addField(new StringFieldEditor(
+                PreferenceConstants.DEFAULT_XSD_ELEMENT_NAMES_START_WITH_UPPERCASE,
+                Messages.preference_default_element_names_start_with_uppercase_label + ':',
+                getFieldEditorParent()));
+
+     /* -------------------------------------------------------------------
+     * LegStar annotations default options
+     * */
+       addField(new StringFieldEditor(
+                PreferenceConstants.DEFAULT_ADD_LEGSTAR_ANNOTATIONS,
+                Messages.preference_default_add_legstar_annotations_label + ':',
+                getFieldEditorParent()));
+       addField(new StringFieldEditor(
                 PreferenceConstants.JAXB_PACKAGE_NAME_PREFIX,
                 Messages.preference_jaxb_package_prefix_label + ':',
+                getFieldEditorParent()));
+       addField(new StringFieldEditor(
+                PreferenceConstants.DEFAULT_JAXB_TYPE_CLASSES_SUFFIX,
+                Messages.preference_default_jaxb_type_classes_suffix_label + ':',
+                getFieldEditorParent()));
+
+    /* -------------------------------------------------------------------
+     * COBOL compiler related options
+     * */
+       addField(new StringFieldEditor(
+                PreferenceConstants.DEFAULT_CURRENCY_SYMBOL,
+                Messages.preference_default_currency_symbol_label + ':',
+                getFieldEditorParent()));
+       addField(new StringFieldEditor(
+                PreferenceConstants.DEFAULT_DECIMAL_POINT_IS_COMMA,
+                Messages.preference_default_decimal_point_is_comma_label + ':',
+                getFieldEditorParent()));
+       addField(new StringFieldEditor(
+                PreferenceConstants.DEFAULT_NSYMBOL_DBCS,
+                Messages.preference_default_nsymbol_dbcs_label + ':',
+                getFieldEditorParent()));
+       addField(new StringFieldEditor(
+                PreferenceConstants.DEFAULT_QUOTE_IS_QUOTE,
+                Messages.preference_default_quote_is_quote_label + ':',
                 getFieldEditorParent()));
 
     }

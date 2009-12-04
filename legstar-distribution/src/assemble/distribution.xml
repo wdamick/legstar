@@ -28,10 +28,9 @@
             <directory>${project.build.directory}/package/legstar-cob2xsd/lib</directory>
             <outputDirectory>lib</outputDirectory>
             <excludes>
-                <exclude>legstar-coxbapi-*.jar</exclude>
-                <exclude>XmlSchema-*.jar</exclude>
+                <exclude>Legstar-coxbapi-*.jar</exclude>
+                <exclude>Legstar-codegen-*.jar</exclude>
                 <exclude>log4j-*.jar</exclude>
-                <exclude>commons-logging-*.jar</exclude>
             </excludes>
         </fileSet>
 
