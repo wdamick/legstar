@@ -30,7 +30,7 @@
     <!-- Generate XML Schemas
     -->
     <target name="cob2xsd" depends="init">
-        <cob2xsd targetDir="${xsd.dir}"
+        <cob2xsd target="${xsd.dir}"
             targetNamespace="http://legstar.com/test/coxb/lsfileae"
             addLegStarAnnotations="true"
             jaxbPackageName="com.legstar.test.coxb.lsfileae"

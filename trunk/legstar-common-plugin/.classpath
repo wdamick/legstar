@@ -42,7 +42,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/legstar-cmqrt-1.2.7-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-cob2xsd-0.0.9-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-cobcgen-1.2.7-SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-codegen-1.2.7-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-codegen-1.2.7-SNAPSHOT.jar" sourcepath="/legstar-codegen"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-config-1.2.7-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-coxbapi-1.2.7-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-coxbgen-1.2.7-SNAPSHOT.jar"/>

@@ -75,6 +75,12 @@
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-cmqrt</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.ibm</groupId>
+                    <artifactId>mq</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
