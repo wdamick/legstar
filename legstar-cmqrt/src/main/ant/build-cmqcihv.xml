@@ -1,16 +1,16 @@
 <!-- =================================================================================
      This script generates a set of COBOL binding files for the IBM MQCIH header.
  -->
-<project basedir="../../.." default="generateCOXB" name="generate-cmqcihv">
+<project basedir="../../../" default="generateCOXB" name="generate-cmqcihv">
 
     <!-- ===========================================================  -->
     <!-- Setup environment
     -->
     <target name="init">
     
-        <property environment="env"/>
+        <xmlproperty file="${basedir}/pom.xml"/>
         <!-- LegStar location -->
-        <property name="legstar.home" value="${env.LEGSTAR_HOME}" />
+        <property name="legstar.home" value="${basedir}/../legstar-distribution/target/test-distro/legstar-distribution-${project.version}" />
         <!-- COBOL source name prefix  -->
         <property name="cobol.name" value="cmqcihv" />
         <!-- Path to the cobol source file   -->
@@ -39,16 +39,11 @@
         <!-- Classpath setting  -->
         <path id="classpath">
             <pathelement location="${basedir}/target/classes"/>
-            <pathelement location="${basedir}/../legstar-schemagen/target/classes"/>
-            <pathelement location="${basedir}/../legstar-jaxbgen/target/classes"/>
-            <pathelement location="${basedir}/../legstar-coxbgen/target/classes"/>
-            <pathelement location="${basedir}/../legstar-coxbapi/target/classes"/>
-            <pathelement location="${basedir}/../legstar-coxbrt/target/classes"/>
             <fileset dir="${legstar.home}" includes="lib/*.jar" />
         </path>
 
         <!-- Schema generator ant task  -->
-        <taskdef name="schemagen" classname="com.legstar.schemagen.COXBSchemaGenerator" classpathref="classpath"/>
+        <taskdef name="schemagen" classname="com.legstar.cob2xsd.task.CobolStructureToXsdTask" classpathref="classpath"/>
     
         <!-- The regular sun JAXB XJC tool ant task  -->
         <taskdef name="xjc" classname="com.sun.tools.xjc.XJC2Task" classpathref="classpath"/>
@@ -66,11 +61,14 @@
     -->
     <target name="generateXmlSchema" depends="init">
         <echo message="Generating XML schema for ${cobol.path}" />
-        <schemagen sourceCobolFilePath="${cobol.path}"
-            targetDir="${xsd.dir}"
-            targetXsdFileName="${xsd.filename}"
-            namespace="${jaxb.namespace}"
-            jaxbPackageName="${jaxb.package}"/>
+        <schemagen
+            target="${xsd.dir}/${xsd.filename}"
+            targetNamespace="${jaxb.namespace}"
+        	addLegStarAnnotations="true"
+            jaxbPackageName="${jaxb.package}"
+        >
+        	<fileset file="${cobol.path}"/>
+        </schemagen>
         <echo message="XML Schema successfully generated ${xsd.dir}/${xsd.filename}" />
     </target>
   

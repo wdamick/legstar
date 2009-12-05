@@ -11,10 +11,8 @@
     <target name="init">
         <!-- Target location for generated JAXB sources   -->
         <property name="jaxb.src.dir" value="${basedir}/../legstar-jaxbgen-cases/src/main/java"/>
-        <!-- Location to unjar files -->
-        <property name="unjar.dir" value="target/cases" />
-        <!-- Location of XML schemas  -->
-        <property name="xsd.dir" value="${unjar.dir}/schema" />
+        <!-- Location of test XML schemas  -->
+        <property name="xsd.dir" value="../target/cases/schema" />
         <!-- Location of external bindings files   -->
         <property name="bindings.dir" value="${basedir}/../legstar-jaxbgen/src/main/resources/xjb" />
         <!-- The regular sun JAXB XJC tool ant task  -->
@@ -22,23 +20,9 @@
     </target>
 
     <!-- ===========================================================  -->
-    <!-- Extract the schemas from which we generate test cases from their jars
-    -->
-	<target name="extractSchemasFromJars" depends="init">
-		<unjar
-		 src="${maven.localRepository}/com/legsem/legstar/legstar-cob2xsd/${legstarCob2XsdVersion}/legstar-cob2xsd-${legstarCob2XsdVersion}-test.jar"
-		 dest="${unjar.dir}"
-		 />
-		<unjar
-		 src="${maven.localRepository}/com/legsem/legstar/legstar-xsdcgen/${legstarVersion}/legstar-xsdcgen-${legstarVersion}-test.jar"
-		 dest="${unjar.dir}"
-		 />
-	</target>
-
-    <!-- ===========================================================  -->
     <!-- Generate the JAXB classes source
     -->
-    <target name="generateAllJAXB" depends="extractSchemasFromJars">
+    <target name="generateAllJAXB" depends="init">
         <echo message="Generating JAXB classes for ${xsd.dir}" />
         <xjc destdir="${jaxb.src.dir}" extension="true" removeOldOutput="yes">
             <schema dir="${xsd.dir}"/>

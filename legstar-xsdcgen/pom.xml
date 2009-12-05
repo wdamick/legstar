@@ -114,7 +114,7 @@
                             <classifier>test</classifier>
                             <classesDirectory>src/test/resources</classesDirectory>
                             <includes>
-                                <include>schema/**</include>
+                                <include>schema/*.xsd</include>
                             </includes>
                         </configuration>
                     </execution>
@@ -172,6 +172,23 @@
                                     <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
                                     <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
                                 </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- This will extract test schema cases for other modules to use.  -->
+                    <execution>
+                        <id>extract-test-cases</id>
+                        <phase>post-integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <unjar
+                                    src="${project.build.directory}/${project.artifactId}-${project.version}-test.jar"
+                                    dest="../target/cases"
+                                />
                             </tasks>
                         </configuration>
                         <goals>

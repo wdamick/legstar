@@ -67,6 +67,23 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                 
+                    <!-- This will extract all external projects test schema cases for our modules to use.  -->
+                    <execution>
+                        <id>extract-test-cases</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <unjar
+                                    src="${settings.localRepository}/com/legsem/legstar/legstar-cob2xsd/${legstarCob2XsdVersion}/legstar-cob2xsd-${legstarCob2XsdVersion}-test.jar"
+                                    dest="../target/cases"
+                                />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
                     <!-- This will generate all JAXB test cases for other projects to use.  -->
                     <execution>
                         <id>generate-test-cases</id>
