@@ -9,8 +9,8 @@
     -->
     <target name="init">
 
-        <!-- Location of XML schemas  -->
-        <property name="xsd.dir" value="${basedir}/../legstar-schemagen/src/test/schema" />
+        <!-- Location of binding classes  -->
+        <property name="coxb.dir" value="${basedir}/../legstar-coxbgen-cases/src/main/java/com/legstar/test/coxb" />
         <!-- Location of CIXS target source location   -->
         <property name="cixs.src.dir" value="${basedir}/../legstar-cixsgen-cases/src/main/java"/>
         <!-- Target location for generated CIXS binaries   -->
@@ -76,25 +76,27 @@
        Then individually generate other services.
     -->
     <target name="generateAllServices" depends="init">
-        <foreach target="generateService" param="xsd.file" inheritrefs="true" inheritall="true">
+        <foreach target="generateService" param="coxb.dir" inheritrefs="true" inheritall="true">
             <path>
-                <fileset dir="${xsd.dir}" includes="*.xsd">
-                    <exclude name="clegtstc.cbl.xsd"/>
-                    <exclude name="lsfileal.xsd"/>
-                    <exclude name="lsfileac.xsd"/>
-                    <exclude name="enumvar.xsd"/>
-                    <exclude name="cultureinfo.xsd"/>
-                    <exclude name="jvmquery.xsd"/>
-                    <exclude name="MSNSearch.xsd"/>
-                    <exclude name="jvmquery-ws.xsd"/>
-                    <exclude name="varar021.xsd"/>
-                    <exclude name="redopera.xsd"/>
-                    <exclude name="redmulti.xsd"/>
-                    <exclude name="dplarcht.xsd"/>
-                    <exclude name="redsimpt.xsd"/>
-                    <exclude name="redinout.xsd"/>
-                    <exclude name="redbotha.xsd"/>
-                </fileset>
+                <dirset dir="${basedir}/../legstar-coxbgen-cases/src/main/java/com/legstar/test/coxb">
+                    <include name="*"/>
+                    <exclude name="ws"/>
+                    <exclude name="clegtstc.cbl"/>
+                    <exclude name="lsfileal"/>
+                    <exclude name="lsfileac"/>
+                    <exclude name="enumvar"/>
+                    <exclude name="cultureinfo"/>
+                    <exclude name="jvmquery"/>
+                    <exclude name="MSNSearch"/>
+                    <exclude name="jvmquery-ws"/>
+                    <exclude name="varar021"/>
+                    <exclude name="redopera"/>
+                    <exclude name="redmulti"/>
+                    <exclude name="dplarcht"/>
+                    <exclude name="redsimpt"/>
+                    <exclude name="redinout"/>
+                    <exclude name="redbotha"/>
+                </dirset>
             </path>
         </foreach>
         <antcall target="generateServiceDiffInOut">
@@ -137,7 +139,7 @@
        All parameters are derived from the XML schema file name  -->
   
     <target name="generateService">
-        <basename property="service" file="${xsd.file}" suffix="xsd"/>
+        <basename property="service" file="${coxb.dir}"/>
         
         <jaxws2cixsgen targetSrcDir="${cixs.src.dir}"
             targetBinDir="${cixs.bin.dir}"

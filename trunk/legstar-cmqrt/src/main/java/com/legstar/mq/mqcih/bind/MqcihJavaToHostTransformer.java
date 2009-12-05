@@ -11,7 +11,7 @@ import com.legstar.coxb.CobolBindingException;
  * This is a typical use of this class:
  * <pre>
  *  MqcihJavaToHostTransformer transformer = new MqcihJavaToHostTransformer();
- *  byte[] hostByteArray = (Mqcih) transformer.transform(javaValue);
+ *  byte[] hostByteArray = transformer.transform(javaValue);
  * </pre>
  *
  */
@@ -26,8 +26,7 @@ public class MqcihJavaToHostTransformer extends AbstractJavaToHostTransformer {
     }
     
     /**
-     * Create a Java to Host transformer using a specific host character set while
-     * other COBOL parameters are set by default.
+     * Create a Java to Host transformer using a specific COBOL parameters set.
      * @param cobolContext the COBOL parameters set.
      */
     public MqcihJavaToHostTransformer(final CobolContext cobolContext) {
@@ -35,7 +34,8 @@ public class MqcihJavaToHostTransformer extends AbstractJavaToHostTransformer {
     }
 
     /**
-     * Create a Java to Host transformer using a specific COBOL parameters set.
+     * Create a Java to Host transformer using a specific host character set while
+     * other COBOL parameters are set by default.
      * @param hostCharset the host character set
      */
     public MqcihJavaToHostTransformer(final String hostCharset) {

@@ -26,8 +26,7 @@ public class MqcihHostToJavaTransformer extends AbstractHostToJavaTransformer {
     }
     
     /**
-     * Create a Host to Java transformer using a specific host character set while
-     * other COBOL parameters are set by default.
+     * Create a Host to Java transformer using a specific COBOL parameters set.
      * @param cobolContext the COBOL parameters set.
      */
     public MqcihHostToJavaTransformer(final CobolContext cobolContext) {
@@ -35,7 +34,8 @@ public class MqcihHostToJavaTransformer extends AbstractHostToJavaTransformer {
     }
 
     /**
-     * Create a Host to Java transformer using a specific COBOL parameters set.
+     * Create a Host to Java transformer using a specific host character set while
+     * other COBOL parameters are set by default.
      * @param hostCharset the host character set
      */
     public MqcihHostToJavaTransformer(final String hostCharset) {

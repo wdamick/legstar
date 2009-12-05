@@ -138,9 +138,6 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
-                        <configuration>
-                            <exclude>**/lib/**</exclude>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -171,6 +168,7 @@
                         <version>1.6.5</version>
                     </dependency>
                 </dependencies>
+
             </plugin>
 
             <plugin>
@@ -237,7 +235,6 @@
 
     </build>
   
-
     <modules>
         <module>legstar-tests</module>
         <module>legstar-codegen</module>
@@ -279,7 +276,7 @@
         <module>legstar-schemagen-feature</module>
         <module>legstar-site</module>
     </modules>
-  
+ 
     <distributionManagement>
         <downloadUrl>http://www.legsem.com/legstar/mavenrepo</downloadUrl>
         <site>
