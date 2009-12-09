@@ -9,7 +9,7 @@
     <url>http://www.legsem.com/legstar</url>
     <properties>
         <legstarVersion>1.2.7-SNAPSHOT</legstarVersion>
-        <legstarCob2XsdVersion>0.0.9-SNAPSHOT</legstarCob2XsdVersion>
+        <legstarCob2XsdVersion>0.0.9</legstarCob2XsdVersion>
     </properties>
 
     <issueManagement>
