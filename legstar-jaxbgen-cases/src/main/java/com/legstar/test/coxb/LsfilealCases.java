@@ -253,6 +253,15 @@ public final class LsfilealCases extends TestCase {
                 replyData.getFiller65().getReplyItem().get(3).getReplyPersonal().getReplyAddress());
         assertEquals("S. P. RUSSELL", replyData.getFiller65().getReplyItem().get(3).getReplyPersonal().getReplyName());
         assertEquals("63738290", replyData.getFiller65().getReplyItem().get(3).getReplyPersonal().getReplyPhone());
+
+        assertEquals(555555, replyData.getFiller65().getReplyItem().get(4).getReplyNumber());
+        assertEquals("$0005.00", replyData.getFiller65().getReplyItem().get(4).getReplyAmount());
+        assertEquals("*********", replyData.getFiller65().getReplyItem().get(4).getReplyComment());
+        assertEquals("26 11 81", replyData.getFiller65().getReplyItem().get(4).getReplyDate());
+        assertEquals("KINGSTON, N.Y.",
+                replyData.getFiller65().getReplyItem().get(4).getReplyPersonal().getReplyAddress());
+        assertEquals("S.J. LAZENBY", replyData.getFiller65().getReplyItem().get(4).getReplyPersonal().getReplyName());
+        assertEquals("39944420", replyData.getFiller65().getReplyItem().get(4).getReplyPersonal().getReplyPhone());
     }
 
     /**

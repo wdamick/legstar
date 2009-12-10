@@ -40,6 +40,9 @@
                 <include name="*.jar"/>
                 <exclude name="*-sources.jar"/>
             </fileset>
+            <filtermapper>
+                <replacestring from="-SNAPSHOT" to=".SNAPSHOT"/>
+            </filtermapper>
         </copy>
   
         <echo message="Populating Eclipse site features"/>
@@ -64,6 +67,9 @@
                 <include name="*.jar"/>
                 <exclude name="*-sources.jar"/>
             </fileset>
+            <filtermapper>
+                <replacestring from="-SNAPSHOT" to=".SNAPSHOT"/>
+            </filtermapper>
         </copy>
 
   </target>

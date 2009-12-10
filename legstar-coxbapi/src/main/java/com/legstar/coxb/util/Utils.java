@@ -48,7 +48,7 @@ public final class Utils {
 
     /**
      * NOTE: This code is already in com.legstar.util.JaxbUtil. But we dont
-     * want to create a depency on the coxb implementation here.
+     * want to create a dependency on the coxb implementation here.
      * TODO find a way to share this code.
      * Rather than using the Class.forName mechanism, this uses
      * Thread.getContextClassLoader instead. In a Servlet context such as
