@@ -43,6 +43,7 @@
   -->
 <project basedir=".." default="create-jar" name="build-jar">
     <target name="create-jar">
+        <mkdir dir="${targetDistDir}"/>
         <jar destfile="${jarFile}">
             <!-- Generated JAX-WS implementation binaries -->
             <fileset dir="${targetBinDir}"
