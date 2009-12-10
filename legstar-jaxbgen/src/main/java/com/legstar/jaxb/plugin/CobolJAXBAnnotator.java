@@ -252,6 +252,10 @@ public class CobolJAXBAnnotator extends Plugin {
             }
             if (type.equals("java.math.BigDecimal")) {
                 jf.init(JExpr.direct("new BigDecimal(\"" + value + "\")"));
+            } else if (type.equals("java.math.BigInteger")) {
+                jf.init(JExpr.direct("new BigInteger(\"" + value + "\")"));
+            } else if (type.equals("short")) {
+                jf.init(JExpr.lit(Short.parseShort(value)));
             } else if (type.equals("int")) {
                 jf.init(JExpr.lit(Integer.parseInt(value)));
             } else if (type.equals("long")) {
