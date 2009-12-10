@@ -104,13 +104,25 @@ extends ClasspathContainerInitializer {
                     Activator.getPluginInstallLocation(mPluginId)
                     + "/lib");
 
-            /* Add all jar files to classpath */
             File[] files = libraryFolder.listFiles(new JarFilter());
+            
+            /* Locate the LegStar source bundle if any */
+            Path sourcesPath = null;
             for (File file : files) {
+            	String path = file.getAbsolutePath();
+            	if (path.contains("Legstar") && path.endsWith("-sources.jar")) {
+            		sourcesPath = new Path(path);
+            	}
+            }
+
+            /* Add all jar files to classpath */
+            for (File file : files) {
+            	String path = file.getAbsolutePath();
+            	Path sourceAttachmentPath = (path.contains("legstar")) ? sourcesPath : null;
                 pathEntries.add(
                         JavaCore.newLibraryEntry(
-                                new Path(file.getAbsolutePath()),
-                                null, null, false));
+                                new Path(path),
+                                sourceAttachmentPath, null, false));
             }
 
             return (IClasspathEntry[]) pathEntries.toArray(

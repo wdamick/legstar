@@ -118,6 +118,9 @@
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
                 <inherited>false</inherited>
+                <configuration>
+                    <excludeResources>true</excludeResources>
+                </configuration>
                 <executions>
                     <execution>
                         <id>aggregate-sources</id>
