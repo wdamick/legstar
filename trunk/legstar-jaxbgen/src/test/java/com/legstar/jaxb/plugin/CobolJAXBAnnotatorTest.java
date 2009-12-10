@@ -217,6 +217,15 @@ public class CobolJAXBAnnotatorTest extends TestCase {
 	}
 
 	/**
+	 * Test a case with a short integer that should be initialized.
+	 */
+	public void testInitializeIntegers() {
+		genSource("lsfileaq");
+		String srce = getSource("lsfileaq", "QueryData");
+		assertTrue(srce.contains("protected short maxReplies = -1"));
+	}
+
+	/**
 	 * Generates JAXB classes with Cobol annotations.
 	 * @param schemaName the schema used to generate
 	 */
