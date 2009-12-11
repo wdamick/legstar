@@ -27,11 +27,11 @@
         <fileSet>
             <directory>${project.build.directory}/package/legstar-cob2xsd/lib</directory>
             <outputDirectory>lib</outputDirectory>
-            <excludes>
-                <exclude>Legstar-coxbapi-*.jar</exclude>
-                <exclude>Legstar-codegen-*.jar</exclude>
-                <exclude>log4j-*.jar</exclude>
-            </excludes>
+            <includes>
+                <include>legstar-cob2xsd-*.jar</include>
+                <include>antlr-runtime-*.jar</include>
+                <include>commons-cli-*.jar</include>
+            </includes>
         </fileSet>
 
         <!-- Sources file -->

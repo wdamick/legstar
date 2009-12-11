@@ -3,7 +3,7 @@
   <body>
 
     <menu name="COBOL Binding Generator">
-      <item name="Introduction" href="index.html"/>
+      <item name="Overview" href="index.html"/>
       <item name="Download" href="download.html"/>
       <item name="Release Notes" href="release-notes.html" />
       <item name="FAQ" href="faq.html" />
