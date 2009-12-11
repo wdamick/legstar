@@ -3,9 +3,9 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.2.7-SNAPSHOT</version>
+        <version>1.3.0</version>
     </parent>
-    <version>1.2.7-SNAPSHOT</version>
+    <version>1.3.0</version>
     <artifactId>legstar-jaxbgen</artifactId>
     <name>LegStar JAXB COBOL Annotator</name>
     <description>Generates Cobol annotations in JAXB classes.</description>
@@ -73,10 +73,7 @@
                         <phase>generate-resources</phase>
                         <configuration>
                             <tasks>
-                                <unjar
-                                    src="${settings.localRepository}/com/legsem/legstar/legstar-cob2xsd/${legstarCob2XsdVersion}/legstar-cob2xsd-${legstarCob2XsdVersion}-test.jar"
-                                    dest="../target/cases"
-                                />
+                                <unjar src="${settings.localRepository}/com/legsem/legstar/legstar-cob2xsd/${legstarCob2XsdVersion}/legstar-cob2xsd-${legstarCob2XsdVersion}-test.jar" dest="../target/cases" />
                             </tasks>
                         </configuration>
                         <goals>
@@ -94,7 +91,7 @@
                                     <path refid="maven.compile.classpath" />
                                     <path refid="maven.plugin.classpath" />
                                 </path>
-                                <ant antfile="${basedir}/src/test/ant/build-jaxbgen-cases.xml" inheritRefs="true" >
+                                <ant antfile="${basedir}/src/test/ant/build-jaxbgen-cases.xml" inheritRefs="true">
                                     <property name="maven.localRepository" value="${settings.localRepository}" />
                                     <property name="legstarVersion" value="${legstarVersion}" />
                                     <property name="legstarCob2XsdVersion" value="${legstarCob2XsdVersion}" />
