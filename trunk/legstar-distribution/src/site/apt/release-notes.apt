@@ -108,7 +108,10 @@ INSTALLING/UNINSTALLING:
                 
 +---------------------------------------+
    
- [[2]] To uninstall, remove the installDir folder.
+ [[2]] Copy the content of <installDir>/lib to your J2EE shared libraries
+       container (ex $CATALINA_BASE/shared/lib).
+
+ [[3]] To uninstall, remove the installDir folder.
 
 RUNNING THE SAMPLES:
 
@@ -139,7 +142,7 @@ RUNNING THE SAMPLES:
        Deploy the generated war file from the war folder into your
        J2EE container deployment folder (ex $CATALINA_BASE/webapps).
 
-       See the {{{faq.html}FAQ}} for common deployment issues.
+       See the {{{../legstar-cixsgen/faq.html}FAQ}} for common deployment issues.
        
        You will notice that a jar file is also generated in the dist folder.
        As an alternative to JAX-WS RI (Metro) you can deploy this jar to
@@ -286,5 +289,5 @@ RUNNING THE SAMPLES:
 
 DOCUMENTATION:
 
- Documentation available at http://www.legsem.com/legstar/legstar-cixsgen
+ Documentation available at http://www.legsem.com/legstar
 
