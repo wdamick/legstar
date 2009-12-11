@@ -12,7 +12,7 @@ LegStar, an open source mainframe integration solution
 *-----+------+
  {{{http://code.google.com/p/legstar-cob2xsd/}COBOL to XML Schema Translator}} | Takes a COBOL source fragment containing data descriptions and turns it into an XML Schema with COBOL annotations
 *-----+------+
- {{{legstar-xsdcgen/index.html}XSD/WSDL/Java to XML Schema Translator}} | Takes an XSD, WSDL or Java class and turns it into an XML Schema with COBOL annotations
+ {{{legstar-xsdcgen/index.html}Complex Types Mapping Generator}} | Takes an XSD, WSDL or Java class and turns it into an XML Schema with COBOL annotations
 *-----+------+ 
  {{{legstar-coxbgen/index.html}COBOL Binding Generator}} | Creates a set of runtime Java classes which you can use to transform mainframe data (EBCDIC, binary, COMP-3, etc.) to Java and XML, back and forth.
 *-----+------+
@@ -22,6 +22,8 @@ LegStar, an open source mainframe integration solution
 *-----+------+
  {{{http://code.google.com/p/legstar-mule/}Mule ESB Service Generator}} | Creates adapter services which expose CICS programs as {{{http://www.mulesoft.com/mule-esb-open-source-esb}Mule ESB}} service. Creates proxy services which expose Mule ESB services to CICS programs.
 *-----+------+
+ {{{legstar-invoker/index.html}Mainframe Adapter Runtime}} | Provides runtime capability to invoke CICS programs.
+*-----+------+
  {{{legstar-cmqrt/index.html}WebSphere MQ Transport for CICS}} | Provides runtime Java to CICS call capabilities using WebSphere MQ connectivity.
 *-----+------+
  {{{legstar-chttprt/index.html}HTTP Transport for CICS}} | Provides runtime Java to CICS call capabilities using HTTP connectivity.
@@ -30,7 +32,7 @@ LegStar, an open source mainframe integration solution
 *-----+------+
  {{{legstar-engine/index.html}Connection pooling engine}} | Used with the previous transports to improve performances by reusing connections.
 *-----+------+
- {{{legstar-c2wsrt/index.html}Outbound CICS to Java Transport}} | Provides runtime CICS to Java call capabilities using HTTP connectivity.
+ {{{legstar-c2wsrt/index.html}Mainframe Proxy Runtime}} | Provides runtime CICS to Java call capabilities using HTTP connectivity.
 *-----+------+
  {{{legstar-cobcgen/index.html}COBOL Structures Generator}} | Generates COBOL source code from the classes produced by the {{{legstar-coxbgen/index.html}COBOL Binding Generator}}.
 *-----+------+
