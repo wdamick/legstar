@@ -89,13 +89,13 @@
             <itemizedlist>
                 <listitem>
                     <para>
-                        Data binding activities where data streams in mainframe format are converted to, or from, open
+                        Data binding activities where data streams in mainframe format are transformed to, or from, open
                         world objects such as Java classes or XML.
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        Remote Procedure Call activities where mainframe programs are invoked or call outbound open
+                        Remote Procedure Call activities where mainframe programs are invoked, or call outbound open
                         world processes.
                     </para>
                 </listitem>
@@ -166,14 +166,16 @@
                 </figure>
                 <para>
                     In this use case, initial COBOL code fragments describe the legacy program input and output structures.
-                    When the COBOL program is a CICS Container-driven program there can actually be several such input
-                    structures and several output structures each described by a different code fragment. This step is repeated
-                    as necessary for each COBOL code fragment involved.
                 </para>
                 <para>
-                    The LegStar <emphasis>COBOL Structures Mapping Generator</emphasis> takes a COBOL fragment as input and
+                    The LegStar <emphasis>COBOL Structures to XML Schema Translator</emphasis> takes a COBOL fragment as input and
                     creates an XML Schema with COBOL annotations. This generated XML Schema is known as a Mapping XML Schema
                     since the COBOL annotations form the meta-data that maps each COBOL data item to an XML element type. 
+                </para>
+                <para>
+                    When the COBOL program is a CICS Container-driven program there can actually be several input
+                    structures and several output structures each described by a different code fragment. This step is repeated
+                    as necessary for each COBOL code fragment involved.
                 </para>
                 <para>
                     The generated XML Schema can be customized, and further annotated, by developers using standard XML Schema
@@ -231,7 +233,7 @@
                     The XML payload extracted from SOAP requests is handed over by JAX-WS to the standard JAXB binding
                     framework, which uses the LegStar-generated JAXB classes to parse the XML and produce a value object.
                     The adapter endpoint implementation uses the LegStar <emphasis>COBOL Binding Runtime</emphasis> to
-                    convert java value objects to a mainframe payload. This conversion includes Unicode to EBCDIC
+                    transform java value objects to a mainframe payload. This transformation includes Unicode to EBCDIC
                     conversions, numeric conversions, REDEFINES decision-making, etc…
                 </para>
                 <para>
@@ -317,7 +319,7 @@
                     or POJO at runtime. It can be deployed as a Servlet.
                 </para>
                 <para>
-                    The COBOL CICS sample program generated can be used to jump start you own mainframe client programs.
+                    The COBOL CICS sample program generated can be used to jump start your own mainframe client programs.
                 </para>
             </section>
             <section>
@@ -341,7 +343,7 @@
                     occurs on the host significantly reducing the mainframe footprint of this solution.
                 </para>
                 <para>
-                    Conversion from mainframe format to XML is performed by the LegStar
+                    Transformation from mainframe format to XML is performed by the LegStar
                     <emphasis>COBOL Binding Runtime</emphasis>.
                 </para>
                 <para>
@@ -424,9 +426,9 @@
             </mediaobject>
         </figure>
         <section>
-            <title>COBOL structures Mapping</title>
+            <title>COBOL structures to XML Schema translation</title>
             <para>
-                The process starts by mapping COBOL Structures to XML Schema. This is option
+                The process starts by translating COBOL Structures to XML Schema. This is option
                 LegStar->New structures mapping… 
             </para>
             <para>

@@ -1,6 +1,19 @@
  -------------------------------------------------------------------------------
-                             Latest release overview
+                             Latest releases overview
  -------------------------------------------------------------------------------
+
+Version 1.3.0
+
+ A major release where the legstar-schemagen module, our COBOL to XML Schema translator,
+ which was written in C, has been replaced by the brand new
+ {{{http://code.google.com/p/legstar-cob2xsd/}legstar-cob2xsd}}
+ module, which is pure Java and uses the {{{http://www.antlr.org/}ANTLR}} parser generator.
+
+ The install is now simpler (as a consequence of previous point), and the
+ product works on a larger number of plaforms.
+ 
+ We did our best to stay backward compatible but the XML Schema produced will
+ look different from what they used to be. So don't be surprised.
 
 Version 1.2.6
 
@@ -180,8 +193,6 @@ Version 1.2.0
 
   You will find details on changes affecting each important module at the following links:
   
-  {{{legstar-schemagen/changes-report.html}COBOL Structures Mapping Generator}}
-
   {{{legstar-xsdcgen/changes-report.html}Complex Types Mapping Generator}}
 
   {{{legstar-coxbgen/changes-report.html}COBOL Binding Generator}}
