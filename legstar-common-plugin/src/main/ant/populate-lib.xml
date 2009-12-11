@@ -7,22 +7,29 @@
  -->
 <project basedir="../../.." default="populateLib" name="populate-lib">
 
-    <target name="populateLib">
-
+    <target name="setup">
         <echo message="Populating Eclipse plugin lib"/>
+        <property name="distrib" value="${basedir}/../legstar-distribution/target/test-distro/legstar-distribution-${legstarVersion}"/>
+        <available file="${distrib}" property="isDistrib"/>
+    </target>
+        
+    <target name="doPopulateLib" depends="setup" if="isDistrib">
         <delete includeEmptyDirs="true">
             <fileset dir="${basedir}/lib"  includes="**/*"/>
         </delete>
         <copy todir="${basedir}/lib">
-            <fileset dir="${basedir}/../legstar-distribution/target/test-distro/legstar-distribution-${legstarVersion}/lib">
+            <fileset dir="${distrib}/lib">
                 <include name="*.jar"/>
             </fileset>
         </copy>
         <copy todir="${basedir}/lib">
-            <fileset dir="${basedir}/../legstar-distribution/target/test-distro/legstar-distribution-${legstarVersion}/xjb">
+            <fileset dir="${distrib}/xjb">
                 <include name="*.xjb"/>
             </fileset>
         </copy>
-  
-  </target>
+    </target>
+
+    <target name="populateLib" depends="doPopulateLib"/>
+
+
 </project>
