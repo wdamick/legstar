@@ -18,9 +18,9 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:svn:http://legstar.googlecode.com/svn/tags/Legstar-1.2.7-SNAPSHOT</connection>
-        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/tags/Legstar-1.2.7-SNAPSHOT</developerConnection>
-        <url>http://legstar.googlecode.com/svn/tags/Legstar-1.2.7-SNAPSHOT</url>
+        <connection>scm:svn:http://legstar.googlecode.com/svn/trunk/</connection>
+        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/trunk/</developerConnection>
+        <url>http://legstar.googlecode.com/svn/trunk/</url>
     </scm>
 
     <mailingLists>
