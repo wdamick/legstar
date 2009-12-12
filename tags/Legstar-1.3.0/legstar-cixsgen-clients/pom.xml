@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>1.3.0</version>
+    </parent>
+    <version>1.3.0</version>
+    <artifactId>legstar-cixsgen-clients</artifactId>
+    <name>LegStar Mainframe Service Generator Clients</name>
+    <description>Testing project for generated Web services</description>
+    <url>http://www.legsem.com/legstar</url>
+
+    <dependencies>
+  
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-cixsgen-cases</artifactId>
+        </dependency>
+
+    </dependencies>
+  
+    <build>
+        <plugins>
+
+            <!-- skip unit test run, tests to be executed during integration-test -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>surefire-it</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <skip>false</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                
+                <executions>
+
+                    <!-- This will deploy all Web Services to a new instance of Tomcat. -->
+                    <execution>
+                        <id>deploy-test-services</id>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/../legstar-tests/src/test/ant/build-tomcat-stop.xml">
+                                    <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
+                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
+                                </ant>
+                                <ant antfile="${basedir}/../legstar-tests/src/test/ant/build-tomcat-start.xml">
+                                    <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
+                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                
+                    <!-- Stop Tomcat.  -->
+                    <execution>
+                        <id>cleanup</id>
+                        <phase>post-integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/../legstar-tests/src/test/ant/build-tomcat-stop.xml">
+                                    <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
+                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

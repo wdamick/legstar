@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =================================================================================
+     This script creates the integration test artifacts using the latest generators.
+  -->
+<project basedir="..\..\.." default="generateAllServices" name="generate-service">
+
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
+    <target name="init">
+
+        <!-- Location of binding classes  -->
+        <property name="coxb.dir" value="${basedir}/../legstar-coxbgen-cases/src/main/java/com/legstar/test/coxb" />
+        <!-- Location of CIXS target source location   -->
+        <property name="cixs.src.dir" value="${basedir}/../legstar-cixsgen-cases/src/main/java"/>
+        <!-- Target location for generated CIXS binaries   -->
+        <property name="cixs.bin.dir" value="${basedir}/../legstar-cixsgen-cases/target/classes"/>
+        <!-- Location of JAXB and binding classes   -->
+        <property name="jaxb.bin.dir" value="${basedir}/../legstar-jaxbgen-cases/target/classes"/>
+        <!-- Location of COXB and binding classes   -->
+        <property name="coxb.bin.dir" value="${basedir}/../legstar-coxbgen-cases/target/classes"/>
+        <!-- Location of custom code classes   -->
+        <property name="cust.bin.dir" value="${basedir}/../legstar-coxbgen-cases/target/classes"/>
+        <!-- Location of generated resources   -->
+        <property name="res.dir" value="${basedir}/../legstar-cixsgen-cases/src/main/resources"/>
+        <!-- Generated Ant target script relative location   -->
+        <property name="ant.dir" value="ant"/>
+        <!-- Generated Web descriptors target relative location   -->
+        <property name="wdd.dir" value="webapp/WEB-INF"/>
+        <!-- Distribution files  location   -->
+        <property name="dist.dir" value="${basedir}/../legstar-cixsgen-cases/target"/>
+        <!-- War files target location   -->
+        <property name="war.dir" value="${tomcat.base}\webapps"/>
+        <!-- Generated Cobol sample relative location   -->
+        <property name="cobol.dir" value="cobol"/>
+        <!-- Host character set (for proxies)   -->
+        <property name="host.charset" value="IBM01140"/>
+        <!-- Package name prefix for JAXB classes   -->
+        <property name="jaxb.package.pfx" value="com.legstar.test.coxb"/>
+        <!-- Package name prefix for custom classes   -->
+        <property name="cust.package.pfx" value="com.legstar.coxb.cust"/>
+        <!-- Package name prefix for CIXS classes   -->
+        <property name="cixs.package.pfx" value="com.legstar.test.cixs"/>
+        <!-- Location of test resources   -->
+        <property name="test.res.dir" value="${basedir}/../legstar-cixsgen-cases/src/test/resources"/>
+        
+        <!-- Web Service Adapter Generator ant task -->
+        <taskdef name="jaxws2cixsgen"
+            classname="com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator"
+            classpathref="maven.classpath" 
+        /> 
+        <!-- Mainframe Proxy Generator ant task -->
+        <taskdef name="cixs2jaxwsgen"
+            classname="com.legstar.cixs.jaxws.gen.Cixs2JaxwsGenerator"
+            classpathref="maven.classpath" 
+        /> 
+
+        <!-- Ant-Contrib tasks. Needed for "foreach ", regex, switch, ...
+         (ant-contrib.jar must be in ant classpath) -->
+        <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+        
+        <!-- Make sure we have target source directories -->
+        <mkdir dir="${cixs.src.dir}"/>
+        <delete dir="${cixs.src.dir}/com" quiet="true"/> 
+        <delete quiet="true">
+            <fileset dir="${res.dir}" includes="**/*"/>
+        </delete> 
+        <mkdir dir="${cixs.bin.dir}"/>
+    
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- Generate a service for each XML schema in a given folder
+       excluding those with JAXB input != output or not named
+       Dfhcommarea.
+       Then individually generate other services.
+    -->
+    <target name="generateAllServices" depends="init">
+        <foreach target="generateService" param="coxb.dir" inheritrefs="true" inheritall="true">
+            <path>
+                <dirset dir="${basedir}/../legstar-coxbgen-cases/src/main/java/com/legstar/test/coxb">
+                    <include name="*"/>
+                    <exclude name="ws"/>
+                    <exclude name="clegtstc.cbl"/>
+                    <exclude name="lsfileal"/>
+                    <exclude name="lsfileac"/>
+                    <exclude name="enumvar"/>
+                    <exclude name="cultureinfo"/>
+                    <exclude name="jvmquery"/>
+                    <exclude name="MSNSearch"/>
+                    <exclude name="jvmquery-ws"/>
+                    <exclude name="varar021"/>
+                    <exclude name="redopera"/>
+                    <exclude name="redmulti"/>
+                    <exclude name="dplarcht"/>
+                    <exclude name="redsimpt"/>
+                    <exclude name="redinout"/>
+                    <exclude name="redbotha"/>
+                </dirset>
+            </path>
+        </foreach>
+        <antcall target="generateServiceDiffInOut">
+        	<param name="service" value="lsfileal"/>
+        	<param name="jaxbTypeInput" value="RequestParms"/>
+        	<param name="jaxbTypeOutput" value="ReplyData"/>
+        </antcall>
+        <antcall target="generateServiceDiffInOut">
+        	<param name="service" value="varar021"/>
+        	<param name="jaxbTypeInput" value="SearchGrplst"/>
+        	<param name="jaxbTypeOutput" value="SearchGrplst"/>
+        </antcall>
+        <antcall target="generateLsfileacService"/>
+        <antcall target="generateLsfileaxService"/>
+        <antcall target="generateCultureinfoProxy"/>
+        <antcall target="generateMSNSearchProxy"/>
+        <antcall target="generateJvmqueryProxy"/>
+        <antcall target="generateServiceCustom">
+        	<param name="service" value="redopera"/>
+        </antcall>
+        <antcall target="generateServiceCustom">
+        	<param name="service" value="redmulti"/>
+        </antcall>
+        <antcall target="generateServiceCustom">
+        	<param name="service" value="dplarcht"/>
+        </antcall>
+        <antcall target="generateServiceCustom">
+        	<param name="service" value="redsimpt"/>
+        </antcall>
+        <antcall target="generateServiceCustom">
+        	<param name="service" value="redinout"/>
+        </antcall>
+        <antcall target="generateServiceCustom">
+        	<param name="service" value="redbotha"/>
+        </antcall>
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- This step creates all the artifacts for a service.
+       All parameters are derived from the XML schema file name  -->
+  
+    <target name="generateService">
+        <basename property="service" file="${coxb.dir}"/>
+        
+        <jaxws2cixsgen targetSrcDir="${cixs.src.dir}"
+            targetBinDir="${cixs.bin.dir}"
+            targetWDDDir="${res.dir}/${service}/${wdd.dir}"
+            targetDistDir="${dist.dir}"
+            targetAntDir="${res.dir}/${service}/${ant.dir}"
+            targetWarDir="${war.dir}"
+            jaxbBinDir="${jaxb.bin.dir}"
+            coxbBinDir="${coxb.bin.dir}"
+            custBinDir="${cust.bin.dir}"
+            >
+            <cixsJaxwsService name="${service}"
+                packageName="${cixs.package.pfx}.${service}"
+        	>
+                <cixsOperation name="${service}"
+                    cicsProgramName="${service}">
+                    <input
+                        jaxbType="Dfhcommarea"
+                        jaxbPackageName="${jaxb.package.pfx}.${service}"
+                    />
+                    <output
+                        jaxbType="Dfhcommarea"
+                        jaxbPackageName="${jaxb.package.pfx}.${service}"
+                />
+                </cixsOperation>
+            </cixsJaxwsService>
+        </jaxws2cixsgen>
+    </target>
+  
+    <!-- ===========================================================  -->
+    <!-- This step creates all the artifacts for a single operation
+         service which input and output structures are different from
+         Dfhcommarea.  -->
+  
+    <target name="generateServiceDiffInOut">
+        
+        <jaxws2cixsgen targetSrcDir="${cixs.src.dir}"
+            targetBinDir="${cixs.bin.dir}"
+            targetWDDDir="${res.dir}/${service}/${wdd.dir}"
+            targetDistDir="${dist.dir}"
+            targetAntDir="${res.dir}/${service}/${ant.dir}"
+            targetWarDir="${war.dir}"
+            jaxbBinDir="${jaxb.bin.dir}"
+            coxbBinDir="${coxb.bin.dir}"
+            custBinDir="${cust.bin.dir}"
+            >
+            <cixsJaxwsService name="${service}"
+                packageName="${cixs.package.pfx}.${service}"
+        	>
+                <cixsOperation name="${service}"
+                    cicsProgramName="${service}">
+                    <input
+                        jaxbType="${jaxbTypeInput}"
+                        jaxbPackageName="${jaxb.package.pfx}.${service}"
+                    />
+                    <output
+                        jaxbType="${jaxbTypeOutput}"
+                        jaxbPackageName="${jaxb.package.pfx}.${service}"
+                />
+                </cixsOperation>
+            </cixsJaxwsService>
+        </jaxws2cixsgen>
+    </target>
+  
+    <!-- ===========================================================  -->
+    <!-- This step creates all the artifacts for a service using
+         custom classes.  -->
+  
+    <target name="generateServiceCustom">
+        
+        <jaxws2cixsgen targetSrcDir="${cixs.src.dir}"
+            targetBinDir="${cixs.bin.dir}"
+            targetWDDDir="${res.dir}/${service}/${wdd.dir}"
+            targetDistDir="${dist.dir}"
+            targetAntDir="${res.dir}/${service}/${ant.dir}"
+            targetWarDir="${war.dir}"
+            jaxbBinDir="${jaxb.bin.dir}"
+            coxbBinDir="${coxb.bin.dir}"
+            custBinDir="${cust.bin.dir}"
+            >
+            <cixsJaxwsService name="${service}"
+                packageName="${cixs.package.pfx}.${service}"
+        	>
+                <cixsOperation name="${service}"
+                    cicsProgramName="${service}">
+                    <input
+                        jaxbType="Dfhcommarea"
+                        jaxbPackageName="${jaxb.package.pfx}.${service}"
+                        custPackageName="${cust.package.pfx}.${service}"
+                    />
+                    <output
+                        jaxbType="Dfhcommarea"
+                        jaxbPackageName="${jaxb.package.pfx}.${service}"
+                        custPackageName="${cust.package.pfx}.${service}"
+                    />
+                </cixsOperation>
+            </cixsJaxwsService>
+        </jaxws2cixsgen>
+    </target>
+  
+    <!-- ===========================================================  -->
+    <!-- This step creates a Web Service for Lsfileac which has
+       multiple input and output structures.   -->
+  
+    <target name="generateLsfileacService">
+    
+        <jaxws2cixsgen targetSrcDir="${cixs.src.dir}"
+            targetBinDir="${cixs.bin.dir}"
+            targetWDDDir="${res.dir}/lsfileac/${wdd.dir}"
+            targetDistDir="${dist.dir}"
+            targetAntDir="${res.dir}/lsfileac/${ant.dir}"
+            targetWarDir="${war.dir}"
+            jaxbBinDir="${jaxb.bin.dir}"
+            coxbBinDir="${coxb.bin.dir}"
+            custBinDir="${cust.bin.dir}"
+            >
+            <cixsJaxwsService name="lsfileac"
+                packageName="${cixs.package.pfx}.lsfileac"
+        	>
+                <cixsOperation name="lsfileac"
+                    cicsProgramName="lsfileac"
+                    cicsChannel="LSFILEAC-CHANNEL">
+                    <input
+                        jaxbType="QueryData"
+                        jaxbPackageName="${jaxb.package.pfx}.lsfileac"
+                        cicsContainer="QueryData"
+                    />
+                    <input
+                        jaxbType="QueryLimit"
+                        jaxbPackageName="${jaxb.package.pfx}.lsfileac"
+                        cicsContainer="QueryLimit"
+                    />
+                    <output
+                        jaxbType="ReplyStatus"
+                        jaxbPackageName="${jaxb.package.pfx}.lsfileac"
+                        cicsContainer="ReplyStatus"
+                    />
+                    <output
+                        jaxbType="ReplyData"
+                        jaxbPackageName="${jaxb.package.pfx}.lsfileac"
+                        cicsContainer="ReplyData"
+                    />
+                </cixsOperation>
+            </cixsJaxwsService>
+        </jaxws2cixsgen>
+    
+    </target>
+  
+    <!-- ===========================================================  -->
+    <!-- This step creates a Web Service for Lsfileax which happens
+    to have 2 operations.   -->
+    
+    <target name="generateLsfileaxService">
+    
+        <jaxws2cixsgen targetSrcDir="${cixs.src.dir}"
+            targetBinDir="${cixs.bin.dir}"
+            targetWDDDir="${res.dir}/lsfileax/${wdd.dir}"
+            targetDistDir="${dist.dir}"
+            targetAntDir="${res.dir}/lsfileax/${ant.dir}"
+            targetWarDir="${war.dir}"
+            jaxbBinDir="${jaxb.bin.dir}"
+            coxbBinDir="${coxb.bin.dir}"
+            custBinDir="${cust.bin.dir}"
+            >
+            <cixsJaxwsService name="lsfileax"
+                packageName="${cixs.package.pfx}.lsfileax"
+        	>
+               <cixsOperation name="lsfileae"
+                    cicsProgramName="LSFILEAE">
+                    <input
+                        jaxbType="Dfhcommarea"
+                        jaxbPackageName="${jaxb.package.pfx}.lsfileae"
+                    />
+                    <output
+                        jaxbType="Dfhcommarea"
+                        jaxbPackageName="${jaxb.package.pfx}.lsfileae"
+                    />
+                </cixsOperation>
+                <cixsOperation name="lsfileac"
+                    cicsProgramName="lsfileac"
+                    cicsChannel="LSFILEAC-CHANNEL">
+                    <input
+                        jaxbType="QueryData"
+                        jaxbPackageName="${jaxb.package.pfx}.lsfileac"
+                        cicsContainer="QueryData"
+                    />
+                    <input
+                        jaxbType="QueryLimit"
+                        jaxbPackageName="${jaxb.package.pfx}.lsfileac"
+                        cicsContainer="QueryLimit"
+                    />
+                    <output
+                        jaxbType="ReplyStatus"
+                        jaxbPackageName="${jaxb.package.pfx}.lsfileac"
+                        cicsContainer="ReplyStatus"
+                    />
+                    <output
+                        jaxbType="ReplyData"
+                        jaxbPackageName="${jaxb.package.pfx}.lsfileac"
+                        cicsContainer="ReplyData"
+                    />
+                </cixsOperation>
+            </cixsJaxwsService>
+        </jaxws2cixsgen>
+    
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- This step creates all the artifacts for proxy to
+         cultureinfo web service.  -->
+    
+    <target name="generateCultureinfoProxy">
+    
+        <cixs2jaxwsgen
+            targetAntDir="${res.dir}/cultureinfo/${ant.dir}"
+            targetWDDDir="${res.dir}/cultureinfo/${wdd.dir}"
+            targetDistDir="${dist.dir}"
+            targetWarDir="${war.dir}"
+            targetCobolDir="${res.dir}/cultureinfo/${cobol.dir}"
+            jaxbBinDir="${jaxb.bin.dir}"
+            coxbBinDir="${coxb.bin.dir}"
+            custBinDir="${cust.bin.dir}"
+            hostCharset="${host.charset}"
+        >
+            <cixsJaxwsService name="cultureinfo"
+            >
+                <cixsOperation name="cultureinfo"
+                    cicsProgramName="CULTUREI"
+                >
+                    <input
+                        jaxbType="GetInfo"
+                        jaxbPackageName="com.legstar.test.coxb.cultureinfo"
+                    />
+                    <output
+                        jaxbType="GetInfoResponse"
+                        jaxbPackageName="com.legstar.test.coxb.cultureinfo"
+                    />
+                </cixsOperation>
+            </cixsJaxwsService>
+            <webServiceTargetParameters
+                wsdlUrl="http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl"
+                wsdlTargetNamespace="http://cultureinfo.cases.test.xsdc.legstar.com/"
+                wsdlServiceName="CultureInfoImplService"
+                wsdlPortName="CultureInfoImplPort"
+            />
+        </cixs2jaxwsgen>
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- This step creates all the artifacts for proxy to
+         MSNSearch web service.  -->
+    
+    <target name="generateMSNSearchProxy">
+    
+        <cixs2jaxwsgen
+            targetAntDir="${res.dir}/MSNSearch/${ant.dir}"
+            targetWDDDir="${res.dir}/MSNSearch/${wdd.dir}"
+            targetDistDir="${dist.dir}"
+            targetWarDir="${war.dir}"
+            targetCobolDir="${res.dir}/MSNSearch/${cobol.dir}"
+            jaxbBinDir="${jaxb.bin.dir}"
+            coxbBinDir="${coxb.bin.dir}"
+            custBinDir="${cust.bin.dir}"
+            hostCharset="${host.charset}"
+        >
+            <cixsJaxwsService name="MSNSearch"
+            >
+                <cixsOperation name="search"
+                    cicsProgramName="MSNSEARC"
+                >
+                    <input
+                        jaxbType="Search"
+                        jaxbPackageName="com.legstar.test.coxb.MSNSearch"
+                    />
+                    <output
+                        jaxbType="SearchResponse"
+                        jaxbPackageName="com.legstar.test.coxb.MSNSearch"
+                    />
+                </cixsOperation>
+            </cixsJaxwsService>
+            <webServiceTargetParameters
+                wsdlUrl="http://soap.search.msn.com/webservices.asmx?wsdl"
+                wsdlTargetNamespace="http://schemas.microsoft.com/MSNSearch/2005/09/fex"
+                wsdlServiceName="MSNSearchService"
+                wsdlPortName="MSNSearchPort"
+            />
+        </cixs2jaxwsgen>
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- This step creates all the artifacts for proxy to
+         Jvmquery POJO.  -->
+    
+    <target name="generateJvmqueryProxy">
+    
+        <cixs2jaxwsgen
+            targetAntDir="${res.dir}/Jvmquery/${ant.dir}"
+            targetWDDDir="${res.dir}/Jvmquery/${wdd.dir}"
+            targetDistDir="${dist.dir}"
+            targetWarDir="${war.dir}"
+            targetCobolDir="${res.dir}/Jvmquery/${cobol.dir}"
+            jaxbBinDir="${jaxb.bin.dir}"
+            coxbBinDir="${coxb.bin.dir}"
+            custBinDir="${cust.bin.dir}"
+            hostCharset="${host.charset}"
+            proxyTargetType="POJO"
+        >
+            <cixsJaxwsService name="Jvmquery"
+            >
+                <cixsOperation name="jvmquery"
+                    cicsProgramName="JVMQUERY"
+                >
+                    <input
+                        jaxbType="JvmQueryRequest"
+                        jaxbPackageName="com.legstar.test.coxb.jvmquery"
+                    />
+                    <output
+                        jaxbType="JvmQueryReply"
+                        jaxbPackageName="com.legstar.test.coxb.jvmquery"
+                    />
+                </cixsOperation>
+            </cixsJaxwsService>
+            <pojoTargetParameters
+                className="com.legstar.xsdc.test.cases.jvmquery.JVMQuery"
+                methodName="queryJvm"
+            />
+        </cixs2jaxwsgen>
+    </target>
+
+</project>

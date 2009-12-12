@@ -1,0 +1,61 @@
+##/////////////////////////////////////////////////////////////////////
+##Jaxws Operation Host Program Template.
+##@author Fady
+##/////////////////////////////////////////////////////////////////////
+## ==================================================================
+#macro(getLength $structures)
+## --------------------------
+#set($length = 0)
+#if(${structures.size()} > 0)
+#set($structure = ${structures.get(0)})
+#set($length = ${coxbHelper.getByteLength(${structure.jaxbPackageName}, ${structure.jaxbType})})
+#end
+#end
+## ==================================================================
+#macro(setContainers $prefix, $structures)
+## ---------------------------------------
+#foreach($structure in ${structures})
+#set($length = ${coxbHelper.getByteLength(${structure.jaxbPackageName}, ${structure.jaxbType})})
+        get${prefix}Containers().add(new HostContainer("$structure.cicsContainer", $length));
+#end
+#end
+## ==================================================================
+#if(${cixsOperation.packageName})
+package ${cixsOperation.packageName};
+#end
+
+#if(${cixsOperation.hasChannel()})
+import com.legstar.host.invoke.model.HostContainer;
+#end
+import com.legstar.host.invoke.model.HostProgram;
+
+/**
+ * Target host program attributes.
+ *
+ */
+public class ${cixsOperation.className}HostProgram extends HostProgram {
+    
+    /**
+     * Setup attributes values.
+     */
+    public ${cixsOperation.className}HostProgram() {
+        setName("${cixsOperation.cicsProgramName.toUpperCase()}");
+#if(${cixsOperation.hasChannel()})
+        setChannel("${cixsOperation.cicsChannel}");
+#setContainers("In", ${cixsOperation.getInput()})
+#setContainers("Out", ${cixsOperation.getOutput()})
+#else
+#getLength(${cixsOperation.getInput()})
+#set($inputLength = $length)
+#getLength(${cixsOperation.getOutput()})
+#set($outputLength = $length)
+#if($outputLength > $inputLength)
+        setLength($outputLength);
+#else
+        setLength($inputLength);
+#end
+        setDataLength($inputLength);
+#end
+    }
+
+}

@@ -1,0 +1,99 @@
+/*******************************************************************************
+ * Copyright (c) 2009 LegSem.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser Public License v2.1
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * 
+ * Contributors:
+ *     LegSem - initial API and implementation
+ ******************************************************************************/
+package com.legstar.codegen;
+
+import java.io.File;
+import junit.framework.TestCase;
+
+/**
+ * Test cases for CodeGenUtilTest.
+ */
+public class CodeGenUtilTest extends TestCase {
+
+    /**
+     * Check that getFile works with an absolute file name.
+     * @throws Exception if test fails
+     */
+    public final void testNoDirAbsoluteFileName() throws Exception {
+        File file = new File("test.file");
+        file.createNewFile();
+        file.deleteOnExit();
+        String dir = null;
+        File file2 = CodeGenUtil.getFile(dir, file.getAbsolutePath());
+        assertTrue(null != file2);
+    }
+
+    /**
+     * Check that getFile works with a relative file name.
+     * @throws Exception if test fails
+     */
+    public final void testDirRelativeFileName() throws Exception {
+        File dir = new File("test.dir");
+        dir.mkdir();
+        dir.deleteOnExit();
+        File file2 = CodeGenUtil.getFile("test.dir", "test.file");
+        assertTrue(file2.getAbsolutePath().contains("test.dir"));
+        assertTrue(file2.getAbsolutePath().contains("test.file"));
+    }
+
+    /**
+     * Check that location from pakage name works.
+     * @throws Exception if test fails
+     */
+    public final void testRelativeLocation() throws Exception {
+        assertEquals("", CodeGenUtil.relativeLocation(null));
+        assertEquals("/abc/", CodeGenUtil.relativeLocation("abc"));
+        assertEquals("/abc/def/", CodeGenUtil.relativeLocation("abc.def"));
+    }
+
+    /**
+     * Check package concatenation.
+     */
+    public final void testPackageConcatenation() {
+        File dir = new File("c:\\root\\com\\legstar\\zut");
+        dir.delete();
+        assertEquals("c:\\root\\com\\legstar\\zut",
+                CodeGenUtil.classFilesLocation(new File("c:/root"),
+                        "com.legstar.zut", true).getAbsolutePath());
+        dir = new File("c:\\root\\com\\legstar\\zut");
+        assertTrue(dir.exists());
+    }
+
+    /**
+     * Check field name from property name.
+     * @throws Exception if test fails
+     */
+    public final void testFieldNameFromPropertyName() throws Exception {
+        assertEquals(null, CodeGenUtil.fieldNameFromPropertyName(null));
+        assertEquals("a", CodeGenUtil.fieldNameFromPropertyName("A"));
+        assertEquals("abc", CodeGenUtil.fieldNameFromPropertyName("Abc"));
+    }
+
+    /**
+     * Check property name from field name.
+     * @throws Exception if test fails
+     */
+    public final void testPropertyNameFromFieldName() throws Exception {
+        assertEquals(null, CodeGenUtil.propertyNameFromFieldName(null));
+        assertEquals("A", CodeGenUtil.propertyNameFromFieldName("a"));
+        assertEquals("Abc", CodeGenUtil.propertyNameFromFieldName("abc"));
+    }
+
+    /**
+     * Check property name from JAXB name.
+     * @throws Exception if test fails
+     */
+    public final void testPropertyNameFromJaxbType() throws Exception {
+        assertEquals(null, CodeGenUtil.propertyNameFromJaxbType(null));
+        assertEquals("A", CodeGenUtil.propertyNameFromJaxbType("A"));
+        assertEquals("A", CodeGenUtil.propertyNameFromJaxbType("AType"));
+    }
+}
