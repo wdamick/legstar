@@ -16,8 +16,8 @@
                     <tr><th>Platform</th><th>Binaries</th><th>Sources</th></tr>
                     <tr>
                         <td>Java 1.5+</td>
-                        <td><a href="../maven/repo/com/legsem/legstar/legstar-distribution/@LEGSTAR-VERSION@ /legstar-distribution-@LEGSTAR-VERSION@-bin.zip">legstar-distribution-@LEGSTAR-VERSION@-bin.zip</a></td>
-                        <td><a href="../maven/repo/com/legsem/legstar/Legstar/@LEGSTAR-VERSION@ /Legstar-@LEGSTAR-VERSION@-sources.jar">Legstar-@LEGSTAR-VERSION@-sources.jar</a></td>
+                        <td><a href="../maven/repo/com/legsem/legstar/legstar-distribution/@LEGSTAR-VERSION@/legstar-distribution-@LEGSTAR-VERSION@-bin.zip">legstar-distribution-@LEGSTAR-VERSION@-bin.zip</a></td>
+                        <td><a href="../maven/repo/com/legsem/legstar/Legstar/@LEGSTAR-VERSION@/Legstar-@LEGSTAR-VERSION@-sources.jar">Legstar-@LEGSTAR-VERSION@-sources.jar</a></td>
                     </tr>
                     <tr>
                         <td>z/OS</td>

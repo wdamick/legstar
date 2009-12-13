@@ -124,7 +124,6 @@
                 <executions>
                     <execution>
                         <id>aggregate-sources</id>
-                        <phase>verify</phase>
                         <goals>
                             <goal>aggregate</goal>
                         </goals>
