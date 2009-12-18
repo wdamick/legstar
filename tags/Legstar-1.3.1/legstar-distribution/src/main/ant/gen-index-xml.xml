@@ -1,0 +1,28 @@
+<!-- =================================================================================
+     This script is responsible for generating index.xml files with the
+     latest version.
+ -->
+<project basedir="." default="generate">
+
+    <target name="generate">
+
+        <echo message="Generating index.xml for version=${legstarVersion}"/>
+        <tstamp>
+            <format property="TODAY_UK" pattern="d-MMMM-yyyy" locale="en,UK"/>
+        </tstamp>
+        
+        <copy todir="${basedir}/src/site/xdoc" overwrite="true">
+            <fileset dir="${basedir}/src/main/templates">
+                <include name="index.xml.template"/>
+            </fileset>
+            <filterset>
+                <filter token="TODAY" value="${TODAY_UK}"/>
+                <filter token="LEGSTAR-VERSION" value="${legstarVersion}"/>
+                <filter token="LEGSTAR-COB2XSD-VERSION" value="${legstarCob2XsdVersion}"/>
+            </filterset>
+            <globmapper from="*.template" to="*"/>
+        </copy>
+  
+
+  </target>
+</project>

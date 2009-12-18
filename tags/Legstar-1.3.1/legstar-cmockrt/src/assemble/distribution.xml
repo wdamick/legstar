@@ -1,0 +1,26 @@
+<assembly>
+    <id></id>
+    
+    <formats>
+        <format>zip</format>
+    </formats>
+
+    <componentDescriptors>
+        <componentDescriptor>../legstar-messaging/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>../legstar-invoker/src/assemble/component.xml</componentDescriptor>
+        <componentDescriptor>src/assemble/component.xml</componentDescriptor>
+    </componentDescriptors>
+
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>/</outputDirectory>
+            <unpack>false</unpack>
+            <scope>runtime</scope>
+            <includes>
+                <include>com.legsem.legstar:${pom.artifactId}:*</include>
+                <include>org.json:jsonjava:*</include>
+            </includes>
+        </dependencySet>
+    </dependencySets>
+  
+</assembly>

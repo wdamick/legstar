@@ -1,0 +1,111 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>1.3.1</version>
+    </parent>
+    <version>1.3.1</version>
+    <artifactId>legstar-jaxbgen</artifactId>
+    <name>LegStar JAXB COBOL Annotator</name>
+    <description>Generates Cobol annotations in JAXB classes.</description>
+    <url>http://www.legsem.com/legstar</url>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbapi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-xjc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-codegen</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-cob2xsd</artifactId>
+            <classifier>test</classifier>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-xsdcgen</artifactId>
+            <classifier>test</classifier>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                
+                    <!-- This will extract all external projects test schema cases for our modules to use.  -->
+                    <execution>
+                        <id>extract-test-cases</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <unjar src="${settings.localRepository}/com/legsem/legstar/legstar-cob2xsd/${legstarCob2XsdVersion}/legstar-cob2xsd-${legstarCob2XsdVersion}-test.jar" dest="../target/cases" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- This will generate all JAXB test cases for other projects to use.  -->
+                    <execution>
+                        <id>generate-test-cases</id>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <path id="classpath">
+                                    <path refid="maven.compile.classpath" />
+                                    <path refid="maven.plugin.classpath" />
+                                </path>
+                                <ant antfile="${basedir}/src/test/ant/build-jaxbgen-cases.xml" inheritRefs="true">
+                                    <property name="maven.localRepository" value="${settings.localRepository}" />
+                                    <property name="legstarVersion" value="${legstarVersion}" />
+                                    <property name="legstarCob2XsdVersion" value="${legstarCob2XsdVersion}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        
+        </plugins>
+    </build>
+    
+</project>

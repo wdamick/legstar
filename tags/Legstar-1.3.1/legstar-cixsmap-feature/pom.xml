@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>1.3.1</version>
+        <relativePath>..</relativePath>
+    </parent>
+    <version>1.3.1</version>
+    <artifactId>legstar-cixsmap-feature</artifactId>
+    <packaging>jar</packaging>
+    <name>LegStar Operation Mapping Eclipse feature</name>
+    <description>Operation Mapping Eclipse feature.</description>
+
+    <build>
+
+        <finalName>com.legstar.eclipse.feature.cixsmap_${project.version}</finalName>
+        <resources>
+            <resource>
+                <directory>${project.basedir}</directory>
+                <includes>
+                    <include>feature.xml</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <plugins>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <!-- Update version numbers in PDE resources so that they match Maven versions -->
+                          <id>maven-to-pde</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/maven-to-pde.xml">
+                                    <property name="legstarVersion" value="${legstarVersion}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        
+        </plugins>
+    
+    </build>
+    
+</project>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =================================================================================
+     Add code to generated COBOL samples which are to become quickstarts. 
+  -->
+<project basedir="." default="insertCode">
+
+  
+    <!-- Add code to Cultureinfo COBOL sample. -->
+    <target name="insertCode">
+        <replace file="cobol/CULTUREI.cbl">
+            <replacetoken><![CDATA[      *  TODO set input values in COM-REQUEST                         *]]></replacetoken>
+            <replacevalue><![CDATA[           MOVE 'fr-FR' TO cultureCode OF COM-REQUEST.
+           MOVE 20569.25 TO decimalNumber OF COM-REQUEST.]]></replacevalue>
+        </replace>
+        <replace file="cobol/CULTUREI.cbl">
+            <replacetoken><![CDATA[      *  TODO do something useful with data returned in  COM-REPLY    *]]></replacetoken>
+            <replacevalue><![CDATA[           STRING 'INVOKE-SERVICE success. Server language is '
+                  DELIMITED BY SIZE
+                  displayLanguage
+                  DELIMITED BY SPACE
+                  INTO ERROR-MESSAGE.
+           EXEC CICS SEND TEXT FROM(ERROR-MESSAGE) FREEKB END-EXEC.
+       
+           DISPLAY 'currencySymbol=' currencySymbol OF COM-REPLY.
+           DISPLAY 'displayCountry=' displayCountry OF COM-REPLY.
+           DISPLAY 'displayLanguage=' displayLanguage OF COM-REPLY.
+           DISPLAY 'formattedDate=' formattedDate OF COM-REPLY.
+           DISPLAY 'formattedDecimalNumber='
+                               formattedDecimalNumber OF COM-REPLY.
+           DISPLAY 'cultureCode=' cultureCode OF COM-REPLY.
+           DISPLAY 'displayCountry0=' displayCountry0 OF COM-REPLY.
+           DISPLAY 'displayLanguage0=' displayLanguage0 OF COM-REPLY.]]></replacevalue>
+        </replace>
+    </target>
+
+</project>

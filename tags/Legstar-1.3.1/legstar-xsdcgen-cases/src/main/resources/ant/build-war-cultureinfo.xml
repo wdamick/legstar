@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =================================================================================
+     This script generates the a web service from a POJO using Sun's Apt utility.
+     It is important that JAVA_HOME points to an SDK.
+     The generated classes along with XML descriptors are bundled in a war file ready
+     to be deployed to a J2EE server.
+     This ant task expects a wsname parameter that serves as the Web Service name.
+ -->
+<project basedir="." default="create-war">
+
+    <target name="setup">
+        <property environment="env"/>
+        <property name="verbose" value="true"/>
+        <property name="src" value="src"/>
+        <property name="gen.src" value="src"/>
+        <property name="gen.bin" value="bin"/>
+        <property name="src.war" value="webapp/jaxws-cultureinfo/WEB-INF"/>
+        <property name="gen.war" value="war"/>
+        
+        <path id="jaxws.classpath">
+            <pathelement location="${env.JAVA_HOME}/lib/tools.jar"/>
+            <fileset dir="${basedir}/../../.." includes="lib/*.jar" />
+        </path>
+
+        <taskdef name="apt" classname="com.sun.tools.ws.ant.Apt">
+            <classpath refid="jaxws.classpath"/>
+        </taskdef>
+
+        <mkdir dir="${gen.src}"/>
+        <mkdir dir="${gen.bin}"/>
+        <mkdir dir="${gen.war}"/>
+    </target>
+
+    <target name="build-server-java" depends="setup">
+        <apt
+            target="1.5"
+            fork="true"
+            verbose="${verbose}"
+            destdir="${gen.bin}"
+            sourcepath="${src}"
+            sourcedestdir="${gen.src}">
+            <classpath>
+                <path refid="jaxws.classpath"/>
+            </classpath>
+            <source dir="src">
+                <include name="**/*.java"/>
+            </source>
+        </apt>
+    </target>
+  
+    <target name="create-war" depends="build-server-java">
+        <war warfile="${gen.war}/jaxws-cultureinfo.war"
+          webxml="${src.war}/web.xml">
+            <webinf dir="${src.war}" includes="sun-jaxws.xml"/>
+            <classes dir="${gen.bin}"/>
+        </war>
+    </target>
+
+</project>

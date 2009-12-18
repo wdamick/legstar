@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+  <body>
+
+    <menu name="Installation instructions">
+      <item name="Instructions for Java" href="release-notes.html" />
+      <item name="Instructions for z/OS" href="../legstar-distribution-zos"/>
+      <item name="Instructions for Eclipse" href="../legstar-common-plugin"/>
+    </menu>
+    <menu name="External modules">
+      <item name="JBoss ESB" href="http://code.google.com/p/legstar-jbossesb/" />
+      <item name="Mule ESB" href="http://code.google.com/p/legstar-mule/"/>
+      <item name="PL/I to COBOL" href="http://code.google.com/p/legstar-pli2cob/"/>
+    </menu>
+  </body>
+</project>
