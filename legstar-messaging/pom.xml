@@ -45,17 +45,14 @@
                         </goals>
                     </execution>
 
-                   <!-- This will upload the zos sources. -->
+                   <!-- This will prepare the zos sources for upload. -->
                     <execution>
-                        <id>deploy-to-zos</id>
+                        <id>prepare-deploy-to-zos</id>
                         <phase>generate-test-resources</phase>
                         <configuration>
                             <tasks>
-                                <ant antfile="${basedir}/../src/main/ant/deploy-to-zos.xml">
-                                    <property name="legstarVersion" value="${legstarVersion}" />
-                                    <property name="legstarZosHost" value="${legstar-dev-zos-host}" />
-                                    <property name="legstarZosUserid" value="${legstar-dev-zos-userid}" />
-                                    <property name="legstarZosPassword" value="${legstar-dev-zos-password}" />
+                                <ant antfile="${basedir}/../src/main/ant/prepare-deploy-to-zos.xml">
+                                    <property name="legstarZosVersion" value="${legstarZosVersion}" />
                                 </ant>
                             </tasks>
                         </configuration>
@@ -67,6 +64,28 @@
                 </executions>
             </plugin>
         
+            <!-- Upload sources and submit JCL. -->
+            <plugin>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>zosupload-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>upload-zos-programs</id>
+                        <phase>generate-test-resources</phase>
+                        <configuration>
+                            <hostName>${legstar-dev-zos-host}</hostName>
+                            <hostUserId>${legstar-dev-zos-userid}</hostUserId>
+                            <hostPassword>${legstar-dev-zos-password}</hostPassword>
+                            <inputFolder>target/zos</inputFolder>
+                            <remoteFilesPrefix>${legstar-dev-zos-pds-pfx}.${legstarZosVersion}</remoteFilesPrefix>
+                        </configuration>
+                        <goals>
+                            <goal>upload</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
     
