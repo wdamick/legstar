@@ -9,7 +9,7 @@
 COBOL Binding Generator (Coxbgen) overview
 
   LegStar Coxbgen is a Java source code generator based on Data mapping XML Schemas such as the ones
-  produced by {{{../legstar-schemagen}COBOL Structures Mapping Generator}} or
+  produced by {{{http://code.google.com/p/legstar-cob2xsd/}COBOL Structures Mapping Generator}} or
   {{{../legstar-xsdcgen}Complex Types Mapping Generator}}.
 
   Coxbgen includes an XML Schema to Java binding utility built with Sun's JAXB (More precisely as a
