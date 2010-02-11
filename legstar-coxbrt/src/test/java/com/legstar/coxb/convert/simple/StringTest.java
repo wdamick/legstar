@@ -123,7 +123,7 @@ public class StringTest extends TestCase {
      */
     public void testLatinCharset() {
         toHost(LATIN1_HOST_CHARSET, 6, true, "ABCD", "202041424344");
-        fromHost(LATIN1_HOST_CHARSET, 6, "202041424344", "ABCD");
+        fromHost(LATIN1_HOST_CHARSET, 6, "202041424344", "  ABCD");
     }
     
     /**
@@ -212,5 +212,12 @@ public class StringTest extends TestCase {
         } catch (CobolConversionException e) {
             fail(e.getMessage());
         }
+    }
+
+    /**
+     * Leading spaces (gets stripped bug).
+     */
+    public void testFromHostLeadingSpaces() {
+        fromHost(US_HOST_CHARSET, 4, "4040c3c4", "  CD");
     }
 }
