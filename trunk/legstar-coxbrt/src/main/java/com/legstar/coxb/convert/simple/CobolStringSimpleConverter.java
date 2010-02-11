@@ -292,7 +292,7 @@ implements ICobolStringConverter {
                     "UnsupportedEncodingException:" + uee.getMessage());
         }
 
-        return javaString.trim();
+        return ("a" + javaString).trim().substring(1);
     }
 
 }
