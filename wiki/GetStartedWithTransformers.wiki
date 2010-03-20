@@ -73,11 +73,11 @@ Edit your copy of build-coxb.xml and change the following:
         ...
 }}}
 
-Type "ant -f build-coxb.xml", this will generate transformer classes. These main class of interest to you is named after the java root class name with a "Transformers" suffix. This class is located under the package name you provided with an additional ".bind" level. In the case of the legstar sample, its called com.legstar.test.coxb.lsfileae.bind.DfhcommareaTransformers.
+Type "ant -f build-coxb.xml", this will generate transformer classes. The main class of interest to you is named after the java root class name with a "Transformers" suffix. This class is located under the package name you provided with an additional ".bind" level. In the case of the legstar sample, it is called com.legstar.test.coxb.lsfileae.bind.DfhcommareaTransformers.
 
 This is how you would convert actual z/OS data (as a byte array called hostBytes) to a java object:
 {{{
-             /* Create an instance of the binding transformers */
+            /* Create an instance of the binding transformers */
             DfhcommareaTransformers transformers = new DfhcommareaTransformers();
             /* Convert mainframe bytes to Java  */
             Dfhcommarea dfhcommarea = transformers.toJava(hostBytes, hostCharset);
