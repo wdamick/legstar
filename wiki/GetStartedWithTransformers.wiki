@@ -1,0 +1,94 @@
+#summary Getting started with LegStar COBOL transformers.
+
+= Introduction =
+
+The simplest use case for legstar is one where you need to convert some z/OS data to a Java object. In such a case, you don't care about the legstar transport capabilities, only transformers are of interest.
+
+This will walk you through the steps to accomplish just that.
+
+We also assume you will not be using the [http://www.legsem.com/legstar/legstar-common-plugin/ Eclipse plugins]. You will need [http://ant.apache.org/ Apache ant] though so make sure it is installed.
+
+= Step by step =
+
+Start by [http://www.legsem.com/legstar/legstar-distribution/index.html downloading] the distribution for java (you don't need the distribution for z/OS since you wont be using the transport capabilities).
+
+Unzip the legstar distribution to a location of your choice. You should get a sub folder called legstar-distribution-x.y.z where x.y.z is the version number.
+
+Create an environment variable called LEGSTAR_HOME and have it point to legstar-distribution-x.y.z.
+
+Go to the $LEGSTAR_HOME/samples/quickstarts/adapter_lsfileae folder. There is a sample ant script called build-cob2xsd.xml. Take a copy of that script to a location of your choice and then edit the following:
+
+{{{
+        ...
+        <property name="cobol.dir" value="cobol"/> <== Change value to the location of your COBOL source code
+        ...
+        <property name="xsd.dir" value="schema"/>  <== Change value to the location you want XML schemas to go
+        ...
+        <fileset dir="${basedir}\..\..\.." includes="lib/*.jar"/> <== Change dir attribute value to $LEGSTAR_HOME
+        ...
+        targetNamespace="http://legstar.com/test/coxb/lsfileae" <== Change to the namespace name you would like your XML Schema to belong to
+        ...
+        jaxbPackageName="com.legstar.test.coxb.lsfileae" <== Change to the java package name you would like for java classes
+        ...
+
+}}}
+
+Type "ant -f build-cob2xsd.xml", this will generate an XML schema for the COBOL programs or copybooks in the location you specified. Review the generated XML schemas.
+
+Now go back to $LEGSTAR_HOME/samples/quickstarts/adapter_lsfileae and take a copy of the build-jaxb.xml to a location of your choice.
+
+Edit your copy of build-jaxb.xml and change the following:
+{{{
+        ...
+	 	<property name="xsd.file" value="schema/lsfileae.xsd" /> <== Change value to point to your XML schema file (generated in previous step)
+        ...
+	 	<property name="bindings.dir" value="${basedir}/../../../xjb" /> <== Change value to $LEGSTAR_HOME/xjb
+        ...
+	 	<property name="jaxb.src.dir" value="src" /> <== Change value to location where you want Java classes to be generated
+        ...
+	 	<property name="jaxb.bin.dir" value="bin" /> <== Change value to location where you want Java classes to be compiled
+        ...
+	    	<fileset dir="${basedir}/../../.." includes="lib/*.jar" /> <== Change dir attribute value to $LEGSTAR_HOME
+        ...
+}}}
+
+Now type "ant -f build-jaxb.xml", this should generate and compile Java binding classes for all the complex types in the XML schema. Review the generated java code you should see that the structure is similar to the original COBOL structure. The java code is annotated with COBOL attributes as well as XML attributes.
+
+Your original COBOL source might contain multiple root structures (items at level 01). Each of these root structures becomes a java class.
+
+Now the last step is to generate a set of transformer classes for a root structure. Go back to $LEGSTAR_HOME/samples/quickstarts/adapter_lsfileae and take a copy of the build-coxb.xml to a location of your choice.
+
+Edit your copy of build-coxb.xml and change the following:
+{{{
+        ...
+        <property name="xsd.file" value="schema/lsfileae.xsd" /> <== Change value to point to your XML schema file
+        ...
+        <property name="jaxb.src.dir" value="src" /> <== Change value to location where you want Java classes to be generated
+        ...
+        <property name="jaxb.bin.dir" value="bin" /> <== Change value to location where you want Java classes to be compiled
+        ...
+        <property name="jaxb.root.name" value="Dfhcommarea" /> <== Change value to Java class name corresponding to the root structure you want to process
+        ...
+            <fileset dir="${basedir}/../../.." includes="lib/*.jar" /> <== Change dir attribute value to $LEGSTAR_HOME
+        ...
+}}}
+
+Type "ant -f build-coxb.xml", this will generate transformer classes. These main class of interest to you is named after the java root class name with a "Transformers" suffix. This class is located under the package name you provided with an additional ".bind" level. In the case of the legstar sample, its called com.legstar.test.coxb.lsfileae.bind.DfhcommareaTransformers.
+
+This is how you would convert actual z/OS data (as a byte array called hostBytes) to a java object:
+{{{
+             /* Create an instance of the binding transformers */
+            DfhcommareaTransformers transformers = new DfhcommareaTransformers();
+            /* Convert mainframe bytes to Java  */
+            Dfhcommarea dfhcommarea = transformers.toJava(hostBytes, hostCharset);
+}}}
+
+Note that this will need the host character set you are using. This would typically be something like IBM01140, the US EBCDIC charset with Euro support.
+
+
+
+
+
+
+ 
+
