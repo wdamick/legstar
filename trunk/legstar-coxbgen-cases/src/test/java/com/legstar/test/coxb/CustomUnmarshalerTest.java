@@ -29,23 +29,23 @@ import junit.framework.TestCase;
  */
 public class CustomUnmarshalerTest extends TestCase {
 
-	/**
-	 * Shows how a custom unmarshaler can repace the unmarshalChoiceStrategyClassName
-	 * and customVariable annotations.
-	 * @throws HostException if test fails
-	 */
-	public void testCustomUnmarshaler() throws HostException {
-		CobolElementVisitor unmarshaler =
-			new CustomCobolUnmarshalVisitor(
-					HostData.toByteArray(LsfileaqCases.getHostBytesHexRequestReply5()),
-					0,
-					new CobolSimpleConverters(new CobolContext()));
+    /**
+     * Shows how a custom unmarshaler can repace the unmarshalChoiceStrategyClassName
+     * and customVariable annotations.
+     * @throws HostException if test fails
+     */
+    public void testCustomUnmarshaler() throws HostException {
+        CobolElementVisitor unmarshaler =
+            new CustomCobolUnmarshalVisitor(
+                    HostData.toByteArray(LsfileaqCases.getHostBytesHexRequestReply5()),
+                    0,
+                    new CobolSimpleConverters(new CobolContext()));
         /* Request a binding from concrete class */
         ICobolComplexBinding binding = new DfhcommareaBinding();
-        
+
         /* Traverse the object structure, visiting each node with the visitor */
         binding.accept(unmarshaler);
-        
+
         /* Get the actual bytes unmarshalled */
         int bytesUnmarshalled = unmarshaler.getOffset();
         assertTrue(bytesUnmarshalled > 0);
@@ -53,69 +53,76 @@ public class CustomUnmarshalerTest extends TestCase {
         /* Check the java object */
         Dfhcommarea commarea = (Dfhcommarea) binding.getObjectValue(Dfhcommarea.class);
         LsfileaqCases.checkJavaObjectReplyAlt5(commarea);
-	}
-	
-	/**
-	 * In this case we dynamically set an unmarshalChoiceStrategy which is not
-	 * part of annotations.
-	 * @throws HostException if getting the binding fails
-	 * @throws HostTransformException if unmarshaling fails
-	 */
-	public void testDynamicUnmarshalChoiceStrategy() throws HostException, HostTransformException {
-		DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();
-		
-		/* find the choice binding */
-		ICobolChoiceBinding lastTransDateChoiceBinding =
-			(ICobolChoiceBinding) BindingUtil.getBinding(transformer.getCachedBinding(),
-					"LastTransDateChoice");
-		assertNotNull(lastTransDateChoiceBinding);
-		
-		/* set the unmarshal strategy */
-		lastTransDateChoiceBinding.setUnmarshalChoiceStrategy(
-				new UnmarshalChoiceStrategy());
-		
-		/* fire the transformation */
-		Dfhcommarea commarea = transformer.transform(
-				HostData.toByteArray(LsfileaqCases.getHostBytesHexRequestReply5()));
-        LsfileaqCases.checkJavaObjectReplyAlt5(commarea);
-		
-		
-	}
-	
-	/**
-	 * A sample custom unmarshaller.
-	 *
-	 */
-	public class CustomCobolUnmarshalVisitor extends CobolUnmarshalVisitor {
+    }
 
-		public CustomCobolUnmarshalVisitor(byte[] hostBytes, int offset,
-				ICobolConverters cobolConverters) {
-			super(hostBytes, offset, cobolConverters);
-		}
-	    public void visit(final ICobolChoiceBinding ce)
-	    throws HostException {
+    /**
+     * In this case we dynamically set an unmarshalChoiceStrategy which is not
+     * part of annotations.
+     * @throws HostException if getting the binding fails
+     * @throws HostTransformException if unmarshaling fails
+     */
+    public void testDynamicUnmarshalChoiceStrategy() throws HostException, HostTransformException {
+        DfhcommareaHostToJavaTransformer transformer = new DfhcommareaHostToJavaTransformer();
+
+        /* find the choice binding */
+        ICobolChoiceBinding lastTransDateChoiceBinding =
+            (ICobolChoiceBinding) BindingUtil.getBinding(transformer.getCachedBinding(),
+            "LastTransDateChoice");
+        assertNotNull(lastTransDateChoiceBinding);
+
+        /* set the unmarshal strategy */
+        lastTransDateChoiceBinding.setUnmarshalChoiceStrategy(
+                new UnmarshalChoiceStrategy());
+
+        /* fire the transformation */
+        Dfhcommarea commarea = transformer.transform(
+                HostData.toByteArray(LsfileaqCases.getHostBytesHexRequestReply5()));
+        LsfileaqCases.checkJavaObjectReplyAlt5(commarea);
+
+
+    }
+
+    /**
+     * A sample custom unmarshaller.
+     *
+     */
+    public class CustomCobolUnmarshalVisitor extends CobolUnmarshalVisitor {
+
+        /**
+         * Create an instance.
+         * @param hostBytes the mainframe payload
+         * @param offset where to start
+         * @param cobolConverters what converters to use
+         */
+        public CustomCobolUnmarshalVisitor(final byte[] hostBytes, final int offset,
+                final ICobolConverters cobolConverters) {
+            super(hostBytes, offset, cobolConverters);
+        }
+        /** {@inheritDoc}*/
+        public void visit(final ICobolChoiceBinding ce)
+        throws HostException {
             for (ICobolBinding alt : ce.getAlternativesList()) {
-            	if (!alt.getCobolName().equals("LAST-TRANS-DATE")) {
+                if (!alt.getCobolName().equals("LAST-TRANS-DATE")) {
                     alt.accept(this);
                     ce.setPropertyValue(
                             ce.getAlternativesList().indexOf(alt));
-            	}
+                }
             }
-	    }
-	}
-	
-	/**
-	 * A sample on the fly unmarshalChoiceStrategy.
-	 *
-	 */
-	public class UnmarshalChoiceStrategy  implements ICobolUnmarshalChoiceStrategy {
+        }
+    }
 
-		@Override
-		public ICobolBinding choose(ICobolChoiceBinding choice,
-				Hashtable<String, Object> variablesMap,
-				CobolElementVisitor visitor) throws HostException {
-			return choice.getAlternativeByName("Filler49");
-		}
-		
-	}
+    /**
+     * A sample on the fly unmarshalChoiceStrategy.
+     *
+     */
+    public class UnmarshalChoiceStrategy  implements ICobolUnmarshalChoiceStrategy {
+
+        /** {@inheritDoc}*/
+        public ICobolBinding choose(final ICobolChoiceBinding choice,
+                final Hashtable < String, Object > variablesMap,
+                final CobolElementVisitor visitor) throws HostException {
+            return choice.getAlternativeByName("Filler49");
+        }
+
+    }
 }

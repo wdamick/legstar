@@ -180,11 +180,11 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
             xsdCobolAnnotator.execute();
             String result = getSource(GEN_DIR, "amazon.xsd");
             assertTrue(result.contains("<xs:schema"));
-            assertTrue(result.contains("xmlns:tns=\"http://webservices.amazon.com/AWSECommerceService/200"));
+            assertTrue(result.contains("xmlns:tns=\"http://webservices.amazon.com/AWSECommerceService/20"));
             assertTrue(result.contains(
-                    "targetNamespace=\"http://webservices.amazon.com/AWSECommerceService/200"));
+                    "targetNamespace=\"http://webservices.amazon.com/AWSECommerceService/20"));
             assertTrue(result.contains(
-                    "<jaxb:package name=\"com.amazon.webservices.awsecommerceservice.200"));
+                    "<jaxb:package name=\"com.amazon.webservices.awsecommerceservice.20"));
             assertTrue(result.contains(
                     "<xs:element name=\"Bin\">"));
             assertTrue(result.contains(

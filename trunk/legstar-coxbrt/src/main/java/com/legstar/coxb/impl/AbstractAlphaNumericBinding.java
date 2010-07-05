@@ -92,7 +92,7 @@ public abstract class AbstractAlphaNumericBinding extends CBinding {
         }
         if (value instanceof String) {
             mValue = (String) value;
-        } else if (value instanceof Enum) {
+        } else if (value instanceof Enum < ? >) {
             try {
                 Method valueMethod = value.getClass().getMethod("value");
                 mValue = (String) valueMethod.invoke(value);

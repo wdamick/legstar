@@ -25,25 +25,25 @@ import junit.framework.TestCase;
  *
  */
 public class MarshalLsfileaqTest extends TestCase {
-	
-	/** The generated transformers.*/
-	private DfhcommareaTransformers transformers;
-	
-	/** The generated XML transformers.*/
-	private DfhcommareaXmlTransformers xmlTransformers;
+
+    /** The generated transformers.*/
+    private DfhcommareaTransformers transformers;
+
+    /** The generated XML transformers.*/
+    private DfhcommareaXmlTransformers xmlTransformers;
 
     /** {@inheritDoc}*/
-	public void setUp() throws Exception {
-    	xmlTransformers = new DfhcommareaXmlTransformers();
-    	transformers = new DfhcommareaTransformers();
+    public void setUp() throws Exception {
+        xmlTransformers = new DfhcommareaXmlTransformers();
+        transformers = new DfhcommareaTransformers();
     }
-	
-	/**
+
+    /**
      * Transform java data object with default values set.
      * @throws Exception if transforming fails
      */
     public void testJavaToHostTransformerDefaults() throws Exception {
-         assertEquals(LsfileaqCases.getHostBytesHexRequestDefaults(),
+        assertEquals(LsfileaqCases.getHostBytesHexRequestDefaults(),
                 HostData.toHexString(transformers.toHost(LsfileaqCases.getJavaObjectRequestDefaults())));
     }
 
@@ -64,7 +64,7 @@ public class MarshalLsfileaqTest extends TestCase {
         assertEquals(LsfileaqCases.getHostBytesHexRequestReply5(),
                 HostData.toHexString(transformers.toHost(LsfileaqCases.getJavaObjectRequestReply5())));
     }
-    
+
     /**
      * Transform XML with complete request/reply set.
      * @throws Exception if transforming fails
@@ -72,9 +72,9 @@ public class MarshalLsfileaqTest extends TestCase {
     public void testXmlTransformerComplete() throws Exception {
         assertEquals(LsfileaqCases.getHostBytesHexRequestReply5(),
                 HostData.toHexString(
-                		xmlTransformers.toHost(
-                				new StreamSource(new StringReader(
-                						LsfileaqCases.getXmlRequestReply5()))
-                				)));
+                        xmlTransformers.toHost(
+                                new StreamSource(new StringReader(
+                                        LsfileaqCases.getXmlRequestReply5()))
+                        )));
     }
 }

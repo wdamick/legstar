@@ -36,6 +36,7 @@ import com.legstar.eclipse.plugin.cixsmap.dialogs.LegacyStructureDialog;
  * a file name. The file will contain the mapping description between
  * CICS programs and Java/Web Services methods.
  */
+@SuppressWarnings("deprecation")
 public class NewMappingFileWizardPage extends WizardNewFileCreationPage {
 
     /** Page name. */
@@ -74,6 +75,7 @@ public class NewMappingFileWizardPage extends WizardNewFileCreationPage {
      * confusing for newcomers.
      * @param parent the parent container
      *  */
+    @SuppressWarnings("deprecation")
     protected void createAdvancedControls(final Composite parent) {
         Preferences preferences =
             ResourcesPlugin.getPlugin().getPluginPreferences();
