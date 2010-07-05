@@ -113,6 +113,13 @@ public class BlockingStackTest extends TestCase {
             consumers[i].stop.compareAndSet(false, true);
             threads[i + 1].join();
         }
+        
+        /*  Check that there are no exceptions */
+        assertNull(producer.getException());
+        for (int i = 0; i < CONSUMERS_NUMBER; i++) {
+            assertNull(consumers[i].getException());
+        }
+        
         /* check that stack is now empty*/
         assertEquals(0, stack.getElementsList().size());
         
@@ -214,7 +221,7 @@ public class BlockingStackTest extends TestCase {
                 while (!stop.get()) {
                     String result = _stack.poll(CONSUMER_TIMEOUT, TimeUnit.MILLISECONDS);
                     if (result == null) {
-                        _exception = new RuntimeException("Timed out");
+                        /* Timed out waiting for work. Give a chance to stop before trying.*/
                         break;
                     }
                     _consumed.add(result);

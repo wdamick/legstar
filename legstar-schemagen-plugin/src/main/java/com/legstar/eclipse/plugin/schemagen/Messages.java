@@ -44,7 +44,7 @@ public class Messages extends NLS {
     public static String preference_default_xsd_encoding_label;
 
     /** XML schema default mapping of 88 conditions to facets. */
-    public static String preference_default_map_conditions_to_facets_label ;
+    public static String preference_default_map_conditions_to_facets_label;
 
     /** XML schema default customization XSLT file name. */
     public static String preference_default_custom_xslt_file_name_label;

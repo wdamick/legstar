@@ -244,17 +244,13 @@ public class CComplexReflectBinding extends CComplexBinding {
             String jaxbName = hostField.getName();
             XmlElement xmlAnnotation =
                 hostField.getAnnotation(XmlElement.class);
-            if (xmlAnnotation == null || xmlAnnotation.name() == null
-                    || xmlAnnotation.name().equals("##default")) {
-                /* I have noticed situations where XJC does not generate the
-                 * expected XmlElement. Unsure if this is a bug or not. The
-                 * following code is a work around :*/
-                jaxbName = jaxbName.substring(0, 1).toUpperCase(
-                        Locale.getDefault())
-                        + jaxbName.substring(1, jaxbName.length());
-            } else {
+            if (xmlAnnotation != null && xmlAnnotation.name() != null
+                    && !xmlAnnotation.name().equals("##default")) {
                 jaxbName = xmlAnnotation.name();
             }
+            jaxbName = jaxbName.substring(0, 1).toUpperCase(
+                    Locale.getDefault())
+                    + jaxbName.substring(1, jaxbName.length());
             ICobolBinding binding = createBinding(
                     jaxbName, getJavaClass(hostField),
                     cobolAnnotations, redefinesMap);

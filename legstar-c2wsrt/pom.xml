@@ -151,7 +151,7 @@
                 <executions>
                     <execution>
                         <id>upload-zos-programs</id>
-                        <phase>generate-test-resources</phase>
+                        <phase>pre-integration-test</phase>
                         <configuration>
                             <hostName>${legstar-dev-zos-host}</hostName>
                             <hostUserId>${legstar-dev-zos-userid}</hostUserId>

@@ -27,36 +27,36 @@ import junit.framework.TestCase;
  */
 public class UnmarshalLsfileaqTest extends TestCase {
 
-	/** The generated transformers.*/
-	private DfhcommareaTransformers transformers;
+    /** The generated transformers.*/
+    private DfhcommareaTransformers transformers;
 
-	/** The generated XML transformers.*/
-	private DfhcommareaXmlTransformers xmlTransformers;
+    /** The generated XML transformers.*/
+    private DfhcommareaXmlTransformers xmlTransformers;
 
     /** {@inheritDoc}*/
-	public void setUp() throws Exception {
-    	xmlTransformers = new DfhcommareaXmlTransformers();
-    	transformers = new DfhcommareaTransformers();
+    public void setUp() throws Exception {
+        xmlTransformers = new DfhcommareaXmlTransformers();
+        transformers = new DfhcommareaTransformers();
     }
 
-	/**
+    /**
      * Transform host data and test java data object result.
      * @throws HostTransformException if transforming fails
      */
     public void testHostToJavaTransformer() throws HostTransformException {
-    	LsfileaqCases.checkJavaObjectReply5(
-    			transformers.toJava(
-    					HostData.toByteArray(LsfileaqCases.getHostBytesHexRequestReply5())));
+        LsfileaqCases.checkJavaObjectReply5(
+                transformers.toJava(
+                        HostData.toByteArray(LsfileaqCases.getHostBytesHexRequestReply5())));
     }
-    
-	/**
+
+    /**
      * Transform host data and test XML result.
      * @throws HostTransformException if transforming fails
      */
     public void testHostToXmlTransformer() throws HostTransformException {
-    	StringWriter sw = new StringWriter();
-    	xmlTransformers.toXml(
-				HostData.toByteArray(LsfileaqCases.getHostBytesHexRequestReply5()), sw);
-    	assertEquals(LsfileaqCases.getXmlRequestReply5(), sw.toString());
+        StringWriter sw = new StringWriter();
+        xmlTransformers.toXml(
+                HostData.toByteArray(LsfileaqCases.getHostBytesHexRequestReply5()), sw);
+        assertEquals(LsfileaqCases.getXmlRequestReply5(), sw.toString());
     }
 }
