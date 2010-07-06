@@ -218,6 +218,6 @@ public class StringTest extends TestCase {
      * Leading spaces (gets stripped bug).
      */
     public void testFromHostLeadingSpaces() {
-        fromHost(US_HOST_CHARSET, 4, "4040c3c4", "  CD");
+        fromHost(US_HOST_CHARSET, 6, "4040c3c44040", "  CD");
     }
 }
