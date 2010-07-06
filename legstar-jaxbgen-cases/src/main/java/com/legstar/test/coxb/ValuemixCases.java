@@ -20,7 +20,7 @@ import com.legstar.test.coxb.valuemix.Dfhcommarea;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class ValuemixCases extends TestCase {
+public class ValuemixCases extends TestCase {
 
     /** Utility class. */
     private ValuemixCases() {

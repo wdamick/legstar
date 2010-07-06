@@ -19,7 +19,7 @@ import com.legstar.test.coxb.fixarcom.Dfhcommarea;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class FixarcomCases extends TestCase {
+public class FixarcomCases extends TestCase {
 
     /** Utility class. */
     private FixarcomCases() {

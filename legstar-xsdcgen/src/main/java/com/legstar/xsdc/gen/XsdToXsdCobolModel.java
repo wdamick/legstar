@@ -46,14 +46,14 @@ public class XsdToXsdCobolModel extends SourceToXsdCobolModel {
     /**
      * @return the input XML schema uri
      */
-    public final URI getInputXsdUri() {
+    public URI getInputXsdUri() {
         return mInputXsdUri;
     }
 
     /**
      * @param xsdUri the input XML schema uri to set
      */
-    public final void setInputXsdUri(
+    public void setInputXsdUri(
             final URI xsdUri) {
         mInputXsdUri = xsdUri;
     }

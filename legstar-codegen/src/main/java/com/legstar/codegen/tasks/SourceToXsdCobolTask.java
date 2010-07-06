@@ -203,42 +203,42 @@ public abstract class SourceToXsdCobolTask extends Task {
     /**
      * @return the current target directory
      */
-    public final File getTargetDir() {
+    public File getTargetDir() {
         return getModel().getTargetDir();
     }
 
     /**
      * @param targetDir the target directory to set
      */
-    public final void setTargetDir(final File targetDir) {
+    public void setTargetDir(final File targetDir) {
         getModel().setTargetDir(targetDir);
     }
 
     /**
      * @return the target annotated XSD file name
      */
-    public final String getTargetXsdFileName() {
+    public String getTargetXsdFileName() {
         return getModel().getTargetXsdFileName();
     }
 
     /**
      * @param targetXsdFileName the target annotated XSD file name to set
      */
-    public final void setTargetXsdFileName(final String targetXsdFileName) {
+    public void setTargetXsdFileName(final String targetXsdFileName) {
         getModel().setTargetXsdFileName(targetXsdFileName);
     }
 
     /**
      * @return the target schema namespace
      */
-    public final String getNamespace() {
+    public String getNamespace() {
         return getModel().getNamespace();
     }
 
     /**
      * @param namespace the target schema namespace to set
      */
-    public final void setNamespace(final String namespace) {
+    public void setNamespace(final String namespace) {
         getModel().setNamespace(namespace);
     }
 
@@ -247,7 +247,7 @@ public abstract class SourceToXsdCobolTask extends Task {
      *  XSD annotations.
      * @return the mJaxbPackageName JAXB package name
      */
-    public final String getJaxbPackageName() {
+    public String getJaxbPackageName() {
         return getModel().getJaxbPackageName();
     }
 
@@ -256,14 +256,14 @@ public abstract class SourceToXsdCobolTask extends Task {
      *  XSD annotations.
      * @param jaxbPackageName the JAXB package name to set
      */
-    public final void setJaxbPackageName(final String jaxbPackageName) {
+    public void setJaxbPackageName(final String jaxbPackageName) {
         getModel().setJaxbPackageName(jaxbPackageName);
     }
 
     /**
      * @return the Suffix to be added to JAXB classes names for XML schema types
      */
-    public final String getJaxbTypeClassesSuffix() {
+    public String getJaxbTypeClassesSuffix() {
         return getModel().getJaxbTypeClassesSuffix();
     }
 
@@ -271,7 +271,7 @@ public abstract class SourceToXsdCobolTask extends Task {
      * @param jaxbTypeClassesSuffix the Suffix to be added to JAXB classes names
      *  for XML schema types
      */
-    public final void setJaxbTypeClassesSuffix(
+    public void setJaxbTypeClassesSuffix(
             final String jaxbTypeClassesSuffix) {
         getModel().setJaxbTypeClassesSuffix(jaxbTypeClassesSuffix);
     }

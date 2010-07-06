@@ -121,7 +121,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
     }
 
     /** {@inheritDoc} */
-    public final void createExtendedControls(final Composite container) {
+    public void createExtendedControls(final Composite container) {
         /* Reminder of XML Schema being processed */
         /* Data extracted from XML schema annotations */
         Group group = createGroup(container, Messages.xsd_group_label);
@@ -448,7 +448,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
     /**
      * @return the source directory name
      */
-    public final String getSrcDirRelativePathName() {
+    public String getSrcDirRelativePathName() {
         return mTargetSrcDirText.getText();
     }
 
@@ -464,7 +464,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
     /**
      * @return the root type name
      */
-    public final java.util.List < String > getJaxbRootClassNames() {
+    public java.util.List < String > getJaxbRootClassNames() {
         java.util.List < String > result = new java.util.ArrayList < String >();
         for (String className : mJaxbRootClassNamesList.getSelection()) {
             result.add(className);
@@ -475,14 +475,14 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
     /**
      * @return the XML Schema file
      */
-    public final IFile getXsdFile() {
+    public IFile getXsdFile() {
         return mXsdFile;
     }
 
     /**
      * @return the target JAXB package name
      */
-    public final String getJaxbPackageName() {
+    public String getJaxbPackageName() {
         return mXsdJaxbPackageName.getText();
     }
 
@@ -490,7 +490,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
      * @return the JAXB suffix optionally appended to Xsd complex type names to
      *  derive a JAXB class name
      */
-    public final String getJaxbTypeNameSuffix() {
+    public String getJaxbTypeNameSuffix() {
         return mXsdTypeNameSuffix.getText();
     }
 

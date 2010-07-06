@@ -18,7 +18,7 @@ import com.legstar.test.coxb.lsfilead.Dfhcommarea;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class LsfileadCases extends TestCase {
+public class LsfileadCases extends TestCase {
 
     /** Utility class. */
     private LsfileadCases() {

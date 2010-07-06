@@ -106,7 +106,7 @@ public class CoxbGenWriter {
      * @param ce the binding element
      * @throws CodeGenException if generation fails
      */
-    public final void write(
+    public void write(
             final ICobolComplexBinding ce) throws CodeGenException {
         writeGeneric(ce, COMPLEX_VLC_TEMPLATE,
                 mCoxbHelper.getCoxbTypeName(ce) + ".java");
@@ -117,7 +117,7 @@ public class CoxbGenWriter {
      * @param ce the binding element
      * @throws CodeGenException if generation fails
      */
-    public final void write(
+    public void write(
             final ICobolArrayComplexBinding ce) throws CodeGenException {
         writeGeneric(ce, COMPLEX_ARRAY_VLC_TEMPLATE,
                 mCoxbHelper.getCoxbTypeName(ce) + ".java");
@@ -129,7 +129,7 @@ public class CoxbGenWriter {
      * @param ce the binding element
      * @throws CodeGenException if generation fails
      */
-    public final void write(
+    public void write(
             final ICobolChoiceBinding ce) throws CodeGenException {
 
         writeGeneric(ce, CHOICE_VLC_TEMPLATE,
@@ -154,7 +154,7 @@ public class CoxbGenWriter {
      * @param ce the binding element
      * @throws CodeGenException if generation fails
      */
-    public final void writeHostToJavaTransformer(
+    public void writeHostToJavaTransformer(
             final ICobolComplexBinding ce) throws CodeGenException {
         writeGeneric(ce, HOST_TO_JAVA_XFORMER_VLC_TEMPLATE,
                 ce.getJaxbName() + "HostToJavaTransformer.java");
@@ -165,7 +165,7 @@ public class CoxbGenWriter {
      * @param ce the binding element
      * @throws CodeGenException if generation fails
      */
-    public final void writeJavaToHostTransformer(
+    public void writeJavaToHostTransformer(
             final ICobolComplexBinding ce) throws CodeGenException {
         writeGeneric(ce, JAVA_TO_HOST_XFORMER_VLC_TEMPLATE,
                 ce.getJaxbName() + "JavaToHostTransformer.java");
@@ -176,7 +176,7 @@ public class CoxbGenWriter {
      * @param ce the binding element
      * @throws CodeGenException if generation fails
      */
-    public final void writeTransformers(
+    public void writeTransformers(
             final ICobolComplexBinding ce) throws CodeGenException {
         writeGeneric(ce, HOST_XFORMERS_VLC_TEMPLATE,
                 ce.getJaxbName() + "Transformers.java");
@@ -187,7 +187,7 @@ public class CoxbGenWriter {
      * @param ce the binding element
      * @throws CodeGenException if generation fails
      */
-    public final void writeHostToXmlTransformer(
+    public void writeHostToXmlTransformer(
             final ICobolComplexBinding ce) throws CodeGenException {
         writeGeneric(ce, HOST_TO_XML_XFORMER_VLC_TEMPLATE,
                 ce.getJaxbName() + "HostToXmlTransformer.java");
@@ -198,7 +198,7 @@ public class CoxbGenWriter {
      * @param ce the binding element
      * @throws CodeGenException if generation fails
      */
-    public final void writeXmlToHostTransformer(
+    public void writeXmlToHostTransformer(
             final ICobolComplexBinding ce) throws CodeGenException {
         writeGeneric(ce, XML_TO_HOST_XFORMER_VLC_TEMPLATE,
                 ce.getJaxbName() + "XmlToHostTransformer.java");
@@ -209,7 +209,7 @@ public class CoxbGenWriter {
      * @param ce the binding element
      * @throws CodeGenException if generation fails
      */
-    public final void writeXmlTransformers(
+    public void writeXmlTransformers(
             final ICobolComplexBinding ce) throws CodeGenException {
         writeGeneric(ce, HOST_XML_XFORMERS_VLC_TEMPLATE,
                 ce.getJaxbName() + "XmlTransformers.java");
@@ -254,7 +254,7 @@ public class CoxbGenWriter {
      * @param strategyClassName a fully qualified class name for the strategy
      * @throws CodeGenException if generation fails
      */
-    public final void writeChoiceStrategy(
+    public void writeChoiceStrategy(
             final ICobolChoiceBinding ce,
             final String strategyType,
             final String strategyClassName) throws CodeGenException {

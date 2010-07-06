@@ -13,7 +13,7 @@ package com.legstar.config;
 /**
  * Configuration-related constant values.
  */
-public final class Constants {
+public class Constants {
 
     /** Property identifier for the host program name. */
     public static final String CICS_PROGRAM_NAME_KEY = "CICSProgramName";

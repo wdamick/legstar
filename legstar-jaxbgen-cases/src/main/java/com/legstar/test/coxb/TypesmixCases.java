@@ -21,7 +21,7 @@ import com.legstar.test.coxb.typesmix.Dfhcommarea;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class TypesmixCases extends TestCase {
+public class TypesmixCases extends TestCase {
 
     /** Utility class. */
     private TypesmixCases() {

@@ -66,14 +66,14 @@ public class CobolJAXBAnnotator extends Plugin {
     /** {@inheritDoc} */
     @Override
     /** This will let XJC know that this plugin supports this argument*/
-    public final String getOptionName() {
+    public String getOptionName() {
         return OPTION_NAME;
     }
 
     /** {@inheritDoc} */
     @Override
     /** Just in case XJC requires a friendly comment on this plugin */
-    public final String getUsage() {
+    public String getUsage() {
         return OPTION_USAGE;
     }
 
@@ -81,7 +81,7 @@ public class CobolJAXBAnnotator extends Plugin {
     @Override
     /** This lets XJC know what are the namespaces to watch for in the source
      *  schema */
-    public final List < String > getCustomizationURIs() {
+    public List < String > getCustomizationURIs() {
         return Collections.singletonList(CobolMarkup.NS);
     }
 
@@ -90,7 +90,7 @@ public class CobolJAXBAnnotator extends Plugin {
     /** Just to be extra sure, XJC will call us on each element from the source
      * schema that seems to belong to the namespaces to watch for. We need to 
      * tell XJC whether this is an actual supported customization. */
-    public final boolean isCustomizationTagName(
+    public boolean isCustomizationTagName(
             final String nsUri,
             final String localName) {
 
@@ -108,7 +108,7 @@ public class CobolJAXBAnnotator extends Plugin {
      * We are given a chance to change that model so that the generated
      * classes will include the extra annotations that we need.
      *  */
-    public final boolean run(
+    public boolean run(
             final Outline model,
             final Options opt,
             final ErrorHandler errorHandler) {

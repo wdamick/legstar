@@ -85,7 +85,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /**
      * Provides a complete trace of parameters values.
      */
-    public final void traceContext() {
+    public void traceContext() {
         _log.debug("   JAXB classes sources location     ="
                 + " " + getJaxbSrcDir());
         _log.debug("   JAXB classes binaries location    ="
@@ -127,7 +127,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      * Adds a jaxb root class name to generate a binding class for.
      * @param className The JAXB root class name to set.
      */
-    public final void addJaxbRootClassName(
+    public void addJaxbRootClassName(
             final String className) {
         if (mJaxbRootClassNames == null) {
             mJaxbRootClassNames = new ArrayList < String >();
@@ -140,14 +140,14 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /**
      * @return the XML schema file
      */
-    public final File getXsdFile() {
+    public File getXsdFile() {
         return mXsdFile;
     }
 
     /**
      * @param xsdFile the XML schema file to set
      */
-    public final void setXsdFile(
+    public void setXsdFile(
             final File xsdFile) {
         mXsdFile = xsdFile;
     }
@@ -155,49 +155,49 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /**
      * @return the current target directory
      */
-    public final File getCoxbSrcDir() {
+    public File getCoxbSrcDir() {
         return mCoxbSrcDir;
     }
 
     /**
      * @param targetDir the target directory to set
      */
-    public final void setCoxbSrcDir(final File targetDir) {
+    public void setCoxbSrcDir(final File targetDir) {
         mCoxbSrcDir = targetDir;
     }
 
     /**
      * @return the location where JAXB classes live
      */
-    public final File getJaxbBinDir() {
+    public File getJaxbBinDir() {
         return mJaxbBinDir;
     }
 
     /**
      * @param jaxbBinDir the JAXB location to set
      */
-    public final void setJaxbBinDir(final File jaxbBinDir) {
+    public void setJaxbBinDir(final File jaxbBinDir) {
         mJaxbBinDir = jaxbBinDir;
     }
 
     /**
      * @return the package name used for JAXB classes
      */
-    public final String getJaxbPackageName() {
+    public String getJaxbPackageName() {
         return mJaxbPackageName;
     }
 
     /**
      * @param jaxbPackageName the JAXB classes package name to set
      */
-    public final void setJaxbPackageName(final String jaxbPackageName) {
+    public void setJaxbPackageName(final String jaxbPackageName) {
         mJaxbPackageName = jaxbPackageName;
     }
 
     /**
      * @return the package name for generated binding classes
      */
-    public final String getCoxbPackageName() {
+    public String getCoxbPackageName() {
         if (mCoxbPackageName == null 
                 || mCoxbPackageName.length() == 0) {
             if (mJaxbPackageName == null
@@ -212,7 +212,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /**
      * @param coxbPackageName package name for generated binding classes to set
      */
-    public final void setCoxbPackageName(final String coxbPackageName) {
+    public void setCoxbPackageName(final String coxbPackageName) {
         mCoxbPackageName = coxbPackageName;
     }
 
@@ -220,7 +220,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      * @return the optional runtime alternative to the Jaxb package name used at
      * generation time
      */
-    public final String getAlternativePackageName() {
+    public String getAlternativePackageName() {
         return mAlternativePackageName;
     }
 
@@ -228,7 +228,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      * @param alternativePackageName the optional runtime alternative to the
      * Jaxb package name used at generation time
      */
-    public final void setAlternativePackageName(
+    public void setAlternativePackageName(
             final String alternativePackageName) {
         mAlternativePackageName = alternativePackageName;
     }
@@ -236,7 +236,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /**
      * @return the alternate factory to used rather than the JAXB one.
      */
-    public final String getAlternativeFactoryName() {
+    public String getAlternativeFactoryName() {
         return mAlternativeFactoryName;
     }
 
@@ -244,7 +244,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      * @param targetFactoryName the alternate factory to used rather than the
      * JAXB one
      */
-    public final void setAlternativeFactoryName(
+    public void setAlternativeFactoryName(
             final String targetFactoryName) {
         mAlternativeFactoryName = targetFactoryName;
     }
@@ -254,21 +254,21 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      * when this model is also used for JAXB classes generation.
      * @return the location where JAXB classes sources live
      */
-    public final File getJaxbSrcDir() {
+    public File getJaxbSrcDir() {
         return mJaxbSrcDir;
     }
 
     /**
      * @param jaxbSrcDir the location where JAXB classes sources live to set
      */
-    public final void setJaxbSrcDir(final File jaxbSrcDir) {
+    public void setJaxbSrcDir(final File jaxbSrcDir) {
         mJaxbSrcDir = jaxbSrcDir;
     }
 
     /**
      * @return the location where JAXB external binding files (XJBs) are located
      */
-    public final File getJaxbXjcBindingDir() {
+    public File getJaxbXjcBindingDir() {
         return mJaxbXjcBindingDir;
     }
 
@@ -276,7 +276,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      * @param jaxbXjcBindingDir the location where JAXB external binding files
      *  (XJBs) are located to set
      */
-    public final void setJaxbXjcBindingDir(
+    public void setJaxbXjcBindingDir(
             final File jaxbXjcBindingDir) {
         mJaxbXjcBindingDir = jaxbXjcBindingDir;
     }
@@ -284,7 +284,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /**
      * @return the set of Jaxb root class names to generated binding classes for
      */
-    public final List < String > getJaxbRootClassNames() {
+    public List < String > getJaxbRootClassNames() {
         return mJaxbRootClassNames;
     }
 
@@ -292,7 +292,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      * @param jaxbRootClassNames the set of Jaxb root class names to generated
      *  binding classes for to set
      */
-    public final void setJaxbRootClassNames(
+    public void setJaxbRootClassNames(
             final List < String > jaxbRootClassNames) {
         mJaxbRootClassNames = jaxbRootClassNames;
     }
@@ -300,7 +300,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /**
      * @return the target directory where binary files will be created
      */
-    public final File getCoxbBinDir() {
+    public File getCoxbBinDir() {
         return mCoxbBinDir;
     }
 
@@ -308,7 +308,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      * @param coxbBinDir the target directory where binary files will be created
      *  to set
      */
-    public final void setCoxbBinDir(final File coxbBinDir) {
+    public void setCoxbBinDir(final File coxbBinDir) {
         mCoxbBinDir = coxbBinDir;
     }
 

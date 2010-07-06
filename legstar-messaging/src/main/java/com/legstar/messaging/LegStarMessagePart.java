@@ -78,21 +78,21 @@ public class LegStarMessagePart implements Serializable {
     /**
      * @return the message content
      */
-    public final byte[] getContent() {
+    public byte[] getContent() {
         return mContent;
     }
 
     /**
      * @param content the message content to set
      */
-    public final void setContent(final byte[] content) {
+    public void setContent(final byte[] content) {
         mContent = content;
     }
 
     /**
      * @return the message part identifier
      */
-    public final String getPartID() {
+    public String getPartID() {
         return mPartID;
     }
 
@@ -125,7 +125,7 @@ public class LegStarMessagePart implements Serializable {
     /**
      * @return the size in bytes of this message part host serialization
      */
-    public final int getHostSize() {
+    public int getHostSize() {
         return (MSG_PART_ID_LEN + CONTENT_LEN_LEN + getPayloadSize());
     }
 
@@ -134,7 +134,7 @@ public class LegStarMessagePart implements Serializable {
      * @return a byte array with complete message part serialized ready for transmission
      * @throws HostMessageFormatException if message have format issues
      */
-    public final byte[] toByteArray() throws HostMessageFormatException {
+    public byte[] toByteArray() throws HostMessageFormatException {
         byte[] payload = new byte[getHostSize()];
         toByteArray(payload, 0);
         return payload;
@@ -147,7 +147,7 @@ public class LegStarMessagePart implements Serializable {
      * @return the new position in the byte array
      * @throws HostMessageFormatException if message have format issues
      */
-    public final int toByteArray(
+    public int toByteArray(
             final byte[] dest, final int destPos) throws HostMessageFormatException {
         /* Make sure there is room for us */
         if ((dest.length - destPos) < getHostSize()) {
@@ -180,7 +180,7 @@ public class LegStarMessagePart implements Serializable {
      * @return the new position in the byte array after this message part was deserialized
      * @throws HostMessageFormatException if deserialization fails
      */
-    public final int fromByteArray(
+    public int fromByteArray(
             final byte[] src, final int srcPos) throws HostMessageFormatException {
         try {
             /* At a minimum, there should be enough bytes for an error ID */
@@ -217,7 +217,7 @@ public class LegStarMessagePart implements Serializable {
      * @param stream the stream of host data
      * @throws HostMessageFormatException if deserialization fails
      */
-    public final void fromStream(
+    public void fromStream(
             final InputStream stream) throws HostMessageFormatException {
         try {
             byte[] partIDBytes = new byte[MSG_PART_ID_LEN];
@@ -423,7 +423,7 @@ public class LegStarMessagePart implements Serializable {
      * @param obj message part to compare to
      * @return true if message part compared to has same id and content.
      */
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null) {
             return false;
         }
@@ -444,7 +444,7 @@ public class LegStarMessagePart implements Serializable {
      * @see Object#hashCode() 
      * {@inheritDoc}
      */
-    public final int hashCode() {
+    public int hashCode() {
         return getPartID().hashCode() + Arrays.hashCode(getContent());
     }
 
@@ -453,7 +453,7 @@ public class LegStarMessagePart implements Serializable {
      * message part content to be larger than the actual payload. Payload can
      * dynamically vary for variable size structures.
      */
-    public final int getPayloadSize() {
+    public int getPayloadSize() {
         if (mPayloadSizeSet) {
             return mPayloadSize;
         }
@@ -468,7 +468,7 @@ public class LegStarMessagePart implements Serializable {
      * size if it is different from the content length. It cannot exceed the
      * content length though.
      */
-    public final void setPayloadSize(final int payloadSize) {
+    public void setPayloadSize(final int payloadSize) {
         if (mContent == null || payloadSize > mContent.length) {
             throw new IllegalArgumentException(
             "Payload size cannot exceed content length");

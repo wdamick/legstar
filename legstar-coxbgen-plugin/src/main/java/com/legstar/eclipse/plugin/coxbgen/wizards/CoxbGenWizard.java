@@ -63,7 +63,7 @@ public class CoxbGenWizard extends AbstractWizard {
      * We will create an operation and run it using wizard as execution context.
      * @return true if processing went fine
      */
-    public final boolean performFinish() {
+    public boolean performFinish() {
 
         try {
             IRunnableWithProgress op = new CoxbGenWizardRunnable(mCoxbGenPage);
@@ -91,7 +91,7 @@ public class CoxbGenWizard extends AbstractWizard {
      * Override to keep a handle to 
      * {@inheritDoc}
      */
-    public final void init(
+    public void init(
             final IWorkbench workbench,
             final IStructuredSelection selection) {
         mInitialSelection = selection;
@@ -101,7 +101,7 @@ public class CoxbGenWizard extends AbstractWizard {
      * Adding the page to the wizard.
      */
 
-    public final void addPages() {
+    public void addPages() {
         mCoxbGenPage = new CoxbGenWizardPage(mInitialSelection, mXsdFile);
         addPage(mCoxbGenPage);
     }

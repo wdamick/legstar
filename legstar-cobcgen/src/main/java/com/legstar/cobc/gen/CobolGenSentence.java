@@ -89,7 +89,7 @@ public class CobolGenSentence {
      * Adds a clause to the sentence. Adds new lines if necessary.
      * @param clause the cobol clause to be added
      */
-    public final void addClause(final String clause) {
+    public void addClause(final String clause) {
         if (clause == null || clause.length() == 0) {
             return;
         }
@@ -143,7 +143,7 @@ public class CobolGenSentence {
      * @param value the COBOL value that follows the VALUE clause, including
      *  starting and ending delimiters (QUOTE or APOST)
      */
-    public final void addValue(final String value) {
+    public void addValue(final String value) {
         if (value == null || value.length() == 0) {
             return;
         }
@@ -208,7 +208,7 @@ public class CobolGenSentence {
     /**
      * Adds the final delimiter to the sentence.
      */
-    public final void close() {
+    public void close() {
         needSpaceSeparator = false;
         addClause(SENTENCE_DELIM);
     }
@@ -231,7 +231,7 @@ public class CobolGenSentence {
      * @return the last non-blank character of this sentence appears at this
      * column (1 based)
      */
-    public final int getEndColumn() {
+    public int getEndColumn() {
         return mEndColumn;
     }
 
@@ -239,21 +239,21 @@ public class CobolGenSentence {
      * @param endColumn the last non-blank character of this sentence appears
      * at this column (1 based)
      */
-    public final void setEndColumn(final int endColumn) {
+    public void setEndColumn(final int endColumn) {
         mEndColumn = endColumn;
     }
 
     /**
      * @return the current number of lines
      */
-    public final int getLinesCount() {
+    public int getLinesCount() {
         return mLinesCount;
     }
 
     /**
      * @param linesCount the current number of lines to set
      */
-    public final void setLinesCount(final int linesCount) {
+    public void setLinesCount(final int linesCount) {
         mLinesCount = linesCount;
     }
 
@@ -261,7 +261,7 @@ public class CobolGenSentence {
      * @return the first non-blank character of this sentence appears at this
      * column (1 based)
      */
-    public final int getStartColumn() {
+    public int getStartColumn() {
         return mStartColumn;
     }
 
@@ -269,14 +269,14 @@ public class CobolGenSentence {
      * @param startColumn the first non-blank character of this sentence
      * appears at this column (1 based)
      */
-    public final void setStartColumn(final int startColumn) {
+    public void setStartColumn(final int startColumn) {
         mStartColumn = startColumn;
     }
 
     /**
      * @return the sentence content including new lines
      */
-    public final String toString() {
+    public String toString() {
         return mContent.toString();
     }
 

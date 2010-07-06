@@ -20,7 +20,7 @@ import com.legstar.test.coxb.redopera.Dfhcommarea;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class RedoperaCases extends TestCase {
+public class RedoperaCases extends TestCase {
 
     /** Utility class. */
     private RedoperaCases() {

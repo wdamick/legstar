@@ -145,14 +145,14 @@ public class PojoInvoker extends AbstractProxyInvoker {
     /**
      * @return the POJO Class name
      */
-    public final String getPojoClassName() {
+    public String getPojoClassName() {
         return mPojoClassName;
     }
 
     /**
      * @return the POJO method name
      */
-    public final String getPojoMethodName() {
+    public String getPojoMethodName() {
         return mPojoMethodName;
     }
 

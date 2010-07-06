@@ -367,7 +367,7 @@ public class LegacyMappingComposite extends Composite {
      * the control to reset its content.
      * @param service the service model
      */
-    public final void resetOperations(final CixsMappingModel service) {
+    public void resetOperations(final CixsMappingModel service) {
         mMappingModel = service;
         loadOperations();
         enableButtons();
@@ -390,7 +390,7 @@ public class LegacyMappingComposite extends Composite {
     /**
      * @return the mapping model
      */
-    public final CixsMappingModel getMappingModel() {
+    public CixsMappingModel getMappingModel() {
         return mMappingModel;
     }
 }

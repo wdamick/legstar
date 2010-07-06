@@ -30,7 +30,7 @@ import commonj.work.WorkManager;
  * This class holds a reference to a singleton Engine. Any client who needs
  * access to the engine will do so thru the engine holder.
  */
-public final class EngineHolder {
+public class EngineHolder {
 
     /** The singleton engine instance. */
     private static Engine sEngine;

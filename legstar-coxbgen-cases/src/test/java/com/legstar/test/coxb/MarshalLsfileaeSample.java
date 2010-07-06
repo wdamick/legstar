@@ -24,7 +24,7 @@ import com.legstar.test.coxb.lsfileae.bind.DfhcommareaBinding;
  * z/os data.
  *
  */
-public final class MarshalLsfileaeSample {
+public class MarshalLsfileaeSample {
 
     /** Utility class. */
     private MarshalLsfileaeSample() {

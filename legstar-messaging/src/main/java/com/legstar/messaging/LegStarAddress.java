@@ -89,7 +89,7 @@ public class LegStarAddress {
      * @param obj the address to be compared to
      * @return true if objects are identical
      */
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
         /* The target has no constraints therefore it equal to any address */
         if (obj == null) {
             return true;
@@ -125,7 +125,7 @@ public class LegStarAddress {
      * @see Object#hashCode() 
      * {@inheritDoc}
      */
-    public final int hashCode() {
+    public int hashCode() {
         String hashString = "";
         if (mEndPointName != null) {
             hashString += mEndPointName;
@@ -142,70 +142,70 @@ public class LegStarAddress {
     /**
      * @return the logical name for a host destination
      */
-    public final String getEndPointName() {
+    public String getEndPointName() {
         return mEndPointName;
     }
 
     /**
      * @param endPointName the logical name for a host destination to set
      */
-    public final void setEndPointName(final String endPointName) {
+    public void setEndPointName(final String endPointName) {
         mEndPointName = endPointName;
     }
 
     /**
      * @return the Host User ID
      */
-    public final String getHostUserID() {
+    public String getHostUserID() {
         return mHostUserID;
     }
 
     /**
      * @param hostUserID the Host User ID to set
      */
-    public final void setHostUserID(final String hostUserID) {
+    public void setHostUserID(final String hostUserID) {
         mHostUserID = hostUserID;
     }
 
     /**
      * @return the Host Password
      */
-    public final String getHostPassword() {
+    public String getHostPassword() {
         return mHostPassword;
     }
 
     /**
      * @param password the Host Password to set
      */
-    public final void setHostPassword(final String password) {
+    public void setHostPassword(final String password) {
         mHostPassword = password;
     }
 
     /**
      * @return the host character set
      */
-    public final String getHostCharset() {
+    public String getHostCharset() {
         return mHostCharset;
     }
 
     /**
      * @param hostCharset the host character set to set
      */
-    public final void setHostCharset(final String hostCharset) {
+    public void setHostCharset(final String hostCharset) {
         mHostCharset = hostCharset;
     }
 
     /**
      * @return the host trace mode enabled or or
      */
-    public final boolean isHostTraceMode() {
+    public boolean isHostTraceMode() {
         return mHostTraceMode;
     }
 
     /**
      * @param hostTraceMode the host trace mode to set
      */
-    public final void setHostTraceMode(final boolean hostTraceMode) {
+    public void setHostTraceMode(final boolean hostTraceMode) {
         mHostTraceMode = hostTraceMode;
     }
 
@@ -213,7 +213,7 @@ public class LegStarAddress {
      * Helper to pretty print the address content.
      * @return formatted address report
      */
-    public final String getReport() {
+    public String getReport() {
         String report = "Address=["
             + HostEndpoint.HOST_ENDPOINT_LABEL + "=" + mEndPointName
             + "," + HostEndpoint.HOST_CHARSET_LABEL + "=" + mHostCharset
@@ -224,7 +224,7 @@ public class LegStarAddress {
     }
     
     /** {@inheritDoc} */
-    public final String toString() {
+    public String toString() {
         return getReport();
     }
 

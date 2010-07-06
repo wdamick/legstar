@@ -34,7 +34,7 @@ public class CodeGenMakeTest extends TestCase {
     /**
      * Check controls on input make file.
      */
-    public final void testCixsMakeInputValidation() {
+    public void testCixsMakeInputValidation() {
         CodeGenMake codeGenMake = new CodeGenMake();
         codeGenMake.setModelName("modelName");
         codeGenMake.setModel("model");
@@ -55,7 +55,7 @@ public class CodeGenMakeTest extends TestCase {
      * Check controls on input make file tag &lt;cixstarget&gt;.
      * @throws IOException if file cannot be read
      */
-    public final void testCodeGenMakeNoTargetTag() throws IOException {
+    public void testCodeGenMakeNoTargetTag() throws IOException {
         File tempMakeFile = File.createTempFile("test-temp", "xml");
         /* Create a temporary make file */
         BufferedWriter out;
@@ -78,7 +78,7 @@ public class CodeGenMakeTest extends TestCase {
      * Check controls on input make file tag &lt;cixstarget name=""&gt;.
      * @throws IOException if file cannot be read
      */
-    public final void testCodeGenMakeNoTargetName() throws IOException {
+    public void testCodeGenMakeNoTargetName() throws IOException {
         File tempMakeFile = File.createTempFile("test-temp", "xml");
         /* Create a temporary make file */
         BufferedWriter out;
@@ -101,7 +101,7 @@ public class CodeGenMakeTest extends TestCase {
      * Check controls on input make file tag &lt;cixstemplate name=""&gt;.
      * @throws IOException if file cannot be read
      */
-    public final void testCodeGenMakeTemplateNoTemplateName() throws IOException {
+    public void testCodeGenMakeTemplateNoTemplateName() throws IOException {
         File tempMakeFile = File.createTempFile("test-temp", "xml");
         /* Create a temporary make file */
         BufferedWriter out;
@@ -126,7 +126,7 @@ public class CodeGenMakeTest extends TestCase {
      * Check controls on input make file tag &lt;step targetFile=""&gt;.
      * @throws IOException if file cannot be read
      */
-    public final void testCodeGenMakeTemplateNoTargetFileName() throws IOException {
+    public void testCodeGenMakeTemplateNoTargetFileName() throws IOException {
         File tempMakeFile = File.createTempFile("test-temp", "xml");
         /* Create a temporary make file */
         BufferedWriter out;
@@ -154,7 +154,7 @@ public class CodeGenMakeTest extends TestCase {
      * Check generation.
      * @throws IOException if file cannot be read
      */
-    public final void testCodeGenMakeTemplateWithParameters() throws IOException {
+    public void testCodeGenMakeTemplateWithParameters() throws IOException {
         File tempMakeFile = File.createTempFile("test-temp", "xml");
         /* Create a temporary make file */
         BufferedWriter out;

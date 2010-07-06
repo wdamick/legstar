@@ -51,7 +51,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
     /**
      * Check controls on input make file.
      */
-    public final void testInputValidation() {
+    public void testInputValidation() {
         Jaxws2CixsGenerator generator = new Jaxws2CixsGenerator();
         try {
             generator.execute();
@@ -167,7 +167,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
      * Check generation for operation with identical input and output structures.
      * @throws Exception if generation fails
      */
-    public final void testLsfileaeGenerateClasses() throws Exception {
+    public void testLsfileaeGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = Samples.getLsfileae();
         initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
@@ -181,7 +181,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
      * Check generation for operation with different input and output structures.
      * @throws Exception if generation fails
      */
-    public final void testgetLsfilealGenerateClasses() throws Exception {
+    public void testgetLsfilealGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = Samples.getLsfileal();
         initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
@@ -195,7 +195,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
      * Check generation for CICS containers target component.
      * @throws Exception if generation fails
      */
-    public final void testLsfileacGenerateClasses() throws Exception {
+    public void testLsfileacGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = Samples.getLsfileac();
         initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
@@ -209,7 +209,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
      * Check generation for multiple operations components.
      * @throws Exception if generation fails
      */
-    public final void testLsfileaxGenerateClasses() throws Exception {
+    public void testLsfileaxGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = Samples.getLsfileax();
         initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
@@ -226,7 +226,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
      * Check generation for service in default package.
      * @throws Exception if generation fails
      */
-    public final void testLsfileapGenerateClasses() throws Exception {
+    public void testLsfileapGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = Samples.getLsfileap();
         initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
@@ -238,7 +238,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
      * Check generation for service with different operation package.
      * @throws Exception if generation fails
      */
-    public final void testLsfileanGenerateClasses() throws Exception {
+    public void testLsfileanGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = Samples.getLsfilean();
         initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
@@ -250,7 +250,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
      * Check generation for service with different a single structure per container.
      * @throws Exception if generation fails
      */
-    public final void testLsfileaqGenerateClasses() throws Exception {
+    public void testLsfileaqGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = Samples.getLsfileaq();
         initJaxwsService(cixsJaxwsService);
         mGenerator.execute();

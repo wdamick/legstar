@@ -21,7 +21,7 @@ import com.legstar.test.coxb.lsfileac.ObjectFactory;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class LsfileacCases extends TestCase {
+public class LsfileacCases extends TestCase {
 
     /** Utility class. */
     private LsfileacCases() {

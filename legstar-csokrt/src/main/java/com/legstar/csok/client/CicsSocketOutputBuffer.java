@@ -53,7 +53,7 @@ public class CicsSocketOutputBuffer {
      * @param buffer the buffer containing the data to send
      * @throws IOException if write fails
      */
-    public final  void write(final byte[] buffer) throws IOException {
+    public  void write(final byte[] buffer) throws IOException {
         write(buffer, 0, buffer.length);
     }
 
@@ -63,7 +63,7 @@ public class CicsSocketOutputBuffer {
      * @param len the size in bytes of the data to send
      * @throws IOException if write fails
      */
-    public final void write(
+    public void write(
             final byte[] buffer, final int len) throws IOException {
         write(buffer, 0, len);
     }
@@ -75,7 +75,7 @@ public class CicsSocketOutputBuffer {
      * @param len the size in bytes of the data to send
      * @throws IOException if write fails
      */
-    public final  void write(
+    public  void write(
             final byte[] buffer,
             final int off,
             final int len) throws IOException {
@@ -108,7 +108,7 @@ public class CicsSocketOutputBuffer {
      * @param inStream the input stream
      * @throws IOException if reading from the input stream fails
      */
-    public final void write(final InputStream inStream) throws IOException {
+    public void write(final InputStream inStream) throws IOException {
         byte[] buffer = new byte[1024];
         int rc;
         while ((rc = inStream.read(buffer)) > 0) {
@@ -120,7 +120,7 @@ public class CicsSocketOutputBuffer {
      * Sends all pending buffered data on the socket stream.
      * @throws IOException if send fails
      */
-    public final  void flush() throws IOException {
+    public  void flush() throws IOException {
         if (mPos > 0) {
             mOutputStream.write(mOutputBuffer, 0, mPos);
             mPos = 0;

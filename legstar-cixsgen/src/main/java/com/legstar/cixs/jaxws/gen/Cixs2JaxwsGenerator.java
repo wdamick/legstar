@@ -291,7 +291,7 @@ public class Cixs2JaxwsGenerator extends AbstractCixsJaxwsGenerator {
     /**
      * @return the directory where COBOL files will be created
      */
-    public final File getTargetCobolDir() {
+    public File getTargetCobolDir() {
         return getAntModel().getTargetCobolDir();
     }
 
@@ -299,7 +299,7 @@ public class Cixs2JaxwsGenerator extends AbstractCixsJaxwsGenerator {
      * @param targetCobolDir the directory where COBOL files will be created
      *  to set
      */
-    public final void setTargetCobolDir(final File targetCobolDir) {
+    public void setTargetCobolDir(final File targetCobolDir) {
         getAntModel().setTargetCobolDir(targetCobolDir);
     }
 
@@ -459,7 +459,7 @@ public class Cixs2JaxwsGenerator extends AbstractCixsJaxwsGenerator {
      * @return a good default path that the host could use to reach
      *  the generated service proxy
      */
-    public final String getDefaultServicePath() {
+    public String getDefaultServicePath() {
 
         return DEFAULT_SERVER_PATH_TEMPLATE.replace(
                 "${service.name}", getCixsJaxwsService().getName());

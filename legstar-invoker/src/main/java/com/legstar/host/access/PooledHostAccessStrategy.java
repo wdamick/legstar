@@ -50,7 +50,7 @@ public class PooledHostAccessStrategy implements HostAccessStrategy {
      * com.legstar.messaging.Request)
      * {@inheritDoc}
      */
-    public final void invoke(
+    public void invoke(
             final LegStarRequest request) throws HostAccessStrategyException {
 
         long startTime = System.currentTimeMillis();
@@ -88,14 +88,14 @@ public class PooledHostAccessStrategy implements HostAccessStrategy {
     /**
      * @return the time this invoker will wait for a reply
      */
-    public final long getInvokeTimeout() {
+    public long getInvokeTimeout() {
         return mInvokeTimeout;
     }
 
     /**
      * @param invokeTimeout the time this invoker will wait for a reply
      */
-    public final void setInvokeTimeout(final long invokeTimeout) {
+    public void setInvokeTimeout(final long invokeTimeout) {
         mInvokeTimeout = invokeTimeout;
     }
 

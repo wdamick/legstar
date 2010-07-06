@@ -63,10 +63,54 @@
     <build>
         <plugins>
 
+            <!-- This will extract all external projects test schema cases for our modules to use.  -->
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>extract-test-cases</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <classifier>test</classifier>
+                            <outputDirectory>target/test</outputDirectory>
+							<artifactItems>
+							  <artifactItem>
+							    <groupId>${project.groupId}</groupId>
+							    <artifactId>legstar-cob2xsd</artifactId>
+							    <version>${legstarCob2XsdVersion}</version>
+							    <type>jar</type>
+							    <classifier>test</classifier>
+							    <overWrite>true</overWrite>
+							    <outputDirectory>target/test</outputDirectory>
+							    <destFileName>legstar-cob2xsd-test.jar</destFileName>
+							  </artifactItem>
+							</artifactItems>
+                        </configuration>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                 
+                    <!-- This will extract all external projects test schema cases for our modules to use.  -->
+                    <execution>
+                        <id>extract-test-cases</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <unjar src="target/test/legstar-cob2xsd-test.jar" dest="../target/cases" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
                     <!-- This will generate all JAXB test cases for other projects to use.  -->
                     <execution>
                         <id>generate-test-cases</id>

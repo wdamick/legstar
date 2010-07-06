@@ -19,7 +19,7 @@ import com.legstar.test.coxb.ws.jvmquery.QueryJvmResponse;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class JvmqueryWsCases extends TestCase {
+public class JvmqueryWsCases extends TestCase {
 
     /** Expected raw mainframe response sample. */
     public static final String QUERYJVMRESPONSE_HOST_BYTES =

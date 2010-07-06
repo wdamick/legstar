@@ -18,7 +18,7 @@ import com.legstar.test.coxb.doublmix.Dfhcommarea;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class DoublmixCases extends TestCase {
+public class DoublmixCases extends TestCase {
 
     /** Utility class. */
     private DoublmixCases() {

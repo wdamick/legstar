@@ -24,7 +24,7 @@ import com.legstar.test.coxb.lsfileal.RequestParms;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class LsfilealCases extends TestCase {
+public class LsfilealCases extends TestCase {
 
     /** Utility class. */
     private LsfilealCases() {

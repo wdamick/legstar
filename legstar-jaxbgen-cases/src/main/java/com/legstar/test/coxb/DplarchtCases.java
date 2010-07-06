@@ -24,7 +24,7 @@ import com.legstar.test.coxb.dplarcht.Dfhcommarea;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class DplarchtCases extends TestCase {
+public class DplarchtCases extends TestCase {
 
     /** Utility class. */
     private DplarchtCases() {

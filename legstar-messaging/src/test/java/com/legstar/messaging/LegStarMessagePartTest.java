@@ -61,7 +61,7 @@ public class LegStarMessagePartTest extends TestCase {
      * to hold the maximum size array while we want to send only the available items.
      * Fixes issue 27
      */
-    public final void testHostPayloadLtContentSize() {
+    public void testHostPayloadLtContentSize() {
         try {
             byte[] content = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06 };
             LegStarMessagePart part = new LegStarMessagePart("CONTAINER", content);
@@ -78,7 +78,7 @@ public class LegStarMessagePartTest extends TestCase {
      * If host sends data that is too small to hold even a message part ID,
      * we should fail gracefully.
      */
-    public final void testrecvFromHostTooSmall() {
+    public void testrecvFromHostTooSmall() {
         byte[] hostBytes = HostData.toByteArray("d3e2d6d2c8c5c1c44040404040");
         LegStarMessagePart part = new LegStarMessagePart();
         try {
@@ -93,7 +93,7 @@ public class LegStarMessagePartTest extends TestCase {
      * If a message part sent by host seems enormous, we should
      * fail gracefully.
      */
-    public final void testrecvFromHostNegativeContentLen() {
+    public void testrecvFromHostNegativeContentLen() {
         byte[] hostBytes = HostData.toByteArray(
                 "d3e2d6d2c8c5c1c44040404040404040"
                 /* This is 4026531888 bytes content*/
@@ -113,7 +113,7 @@ public class LegStarMessagePartTest extends TestCase {
     /**
      * It is acceptable that there is no content for a message part.
      */
-    public final void testrecvFromHostNoContent() {
+    public void testrecvFromHostNoContent() {
         try {
             byte[] hostBytes = HostData.toByteArray(
                     "d3e2d6d2c8c5c1c44040404040404040"
@@ -132,7 +132,7 @@ public class LegStarMessagePartTest extends TestCase {
      * Application errors are returned by the host with a special eye catcher to
      * distinguish them from actual message parts.
      */
-    public final void testrecvErrorMessageFromHost() {
+    public void testrecvErrorMessageFromHost() {
         byte[] hostBytes = HostData.toByteArray(LSOKERR0_SAMPLE);
         LegStarMessagePart part = new LegStarMessagePart();
         try {
@@ -146,7 +146,7 @@ public class LegStarMessagePartTest extends TestCase {
     /**
      * If host data does not start with something recognizable we should fail gracefully.
      */
-    public final void testrecvCorruptedHeader() {
+    public void testrecvCorruptedHeader() {
         byte[] hostBytes = HostData.toByteArray(
                 /*M S O K H E A D       (invalid eye catcher)          */
                 "d4e2d6d2c8c5c1c4404040404040404000000000");
@@ -165,7 +165,7 @@ public class LegStarMessagePartTest extends TestCase {
     /**
      * Test if arbitrary payload can be identified as LegStarMessage.
      */
-    public final void testHeaderRecognition() {
+    public void testHeaderRecognition() {
         try {
             assertFalse(LegStarHeaderPart.isLegStarHeader(
                     null));
@@ -183,7 +183,7 @@ public class LegStarMessagePartTest extends TestCase {
     /**
      * Test serializing part in a byte array.
      */
-    public final void testToByteArray() {
+    public void testToByteArray() {
         try {
             byte[] content = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06 };
             LegStarMessagePart part = new LegStarMessagePart("CONTAINER", content);
@@ -204,7 +204,7 @@ public class LegStarMessagePartTest extends TestCase {
     /**
      * Test GetContent.
      */
-    public final void testSetContent() {
+    public void testSetContent() {
         try {
             byte[] content = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06 };
             LegStarMessagePart part = new LegStarMessagePart();
@@ -222,7 +222,7 @@ public class LegStarMessagePartTest extends TestCase {
     /**
      * Test GetContentLength.
      */
-    public final void testGetContentLength() {
+    public void testGetContentLength() {
         try {
             LegStarMessagePart part = new LegStarMessagePart();
             assertEquals(0, part.getContentLength(HostData.toByteArray("00000000"), 0));

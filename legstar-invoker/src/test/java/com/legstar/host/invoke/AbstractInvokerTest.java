@@ -53,7 +53,7 @@ public class AbstractInvokerTest extends AbstractTester {
      * A mock implementation of the AbstractInvoker.
      *
      */
-    public final class AbstractInvokerImpl extends AbstractInvoker {
+    public class AbstractInvokerImpl extends AbstractInvoker {
 
         /**
          * Constructor.

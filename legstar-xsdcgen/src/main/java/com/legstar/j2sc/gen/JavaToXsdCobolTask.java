@@ -79,7 +79,7 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
     /**
      *  The ant execute method. Generates a new annotated schema.
      */
-    public final void execute() {
+    public void execute() {
         if (_log.isDebugEnabled()) {
             _log.debug("Java to Cobol annotated XML Schema generator started");
         }
@@ -200,7 +200,7 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
      * @throws JavaToXsdCobolException is something goes wrong
      */
     @SuppressWarnings("unchecked")
-    public final void generateSchema(
+    public void generateSchema(
             final Class < ? >[] classes,
             final File tempXsdFile,
             final Map < String, String > complexTypeToJavaClassMap)
@@ -289,7 +289,7 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
             mSchemaFile = schemaFile;
         }
         /** {@inheritDoc} */
-        public final Result createOutput(
+        public Result createOutput(
                 final String namespaceUri,
                 final String suggestedFileName) throws IOException {
             return new StreamResult(mSchemaFile);
@@ -354,7 +354,7 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
      * children.
      * @return List of input classes
      */
-    public final List < String > getClassNames() {
+    public List < String > getClassNames() {
         List < String > classNames = new ArrayList < String >();
         for (RootClass className : mRootClassNames) {
             classNames.add(className.getName());
@@ -366,7 +366,7 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
      * Add a top level class name.
      * @param className the class name to add
      */
-    public final void addRootClass(final String className) {
+    public void addRootClass(final String className) {
         RootClass rootClass = createRootClass();
         rootClass.setName(className);
     }
@@ -377,7 +377,7 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
      * children.
      * @param classNames the list of input classes to set
      */
-    public final void setClassNames(final List < String > classNames) {
+    public void setClassNames(final List < String > classNames) {
         for (String className : classNames) {
             addRootClass(className);
         }
@@ -387,7 +387,7 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
      * Add a top level class name without package name.
      * @return an inner class name
      */
-    public final RootClass createRootClass() {
+    public RootClass createRootClass() {
         if (mRootClassNames == null) {
             mRootClassNames = new ArrayList < RootClass >();
         }
@@ -410,14 +410,14 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
         /**
          * @param name the class name
          */
-        public final void setName(final String name) {
+        public void setName(final String name) {
             mName = name;
         }
 
         /**
          * @return the current text value
          */
-        public final String getName() {
+        public String getName() {
             return mName;
         }
     }
@@ -426,7 +426,7 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
      * @return when extra XSD elements are created from a type name,
      * this suffix will be added to form a unique name
      */
-    public final String getElementSuffix() {
+    public String getElementSuffix() {
         return mElementSuffix;
     }
 
@@ -434,7 +434,7 @@ public class JavaToXsdCobolTask extends SourceToXsdCobolTask {
      * @param elementSuffix when extra XSD elements are created from a type
      * name, this suffix will be added to form a unique name to set
      */
-    public final void setElementSuffix(final String elementSuffix) {
+    public void setElementSuffix(final String elementSuffix) {
         mElementSuffix = elementSuffix;
     }
 }

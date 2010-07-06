@@ -46,7 +46,7 @@ public class DirectHostAccessStrategy implements HostAccessStrategy {
      * com.legstar.messaging.Request)
      * {@inheritDoc}
      */
-    public final void invoke(
+    public void invoke(
             final LegStarRequest request) throws HostAccessStrategyException {
 
         long startTime = System.currentTimeMillis();

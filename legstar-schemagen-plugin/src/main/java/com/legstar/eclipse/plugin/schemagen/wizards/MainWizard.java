@@ -126,21 +126,21 @@ public class MainWizard extends AbstractWizard implements INewWizard {
     /**
      * @return the Cobol To Xsd Wizard Page
      */
-    public final IWizardPage getCobolToXsdWizardPage() {
+    public IWizardPage getCobolToXsdWizardPage() {
         return mCobolToXsdWizardPage;
     }
 
     /**
      * @return the Xsd To Xsd Wizard Page
      */
-    public final IWizardPage getXsdToXsdWizardPage() {
+    public IWizardPage getXsdToXsdWizardPage() {
         return mXsdToXsdWizardPage;
     }
 
     /**
      * @return the Java To Xsd Wizard Page
      */
-    public final IWizardPage getJavaToXsdWizardPage() {
+    public IWizardPage getJavaToXsdWizardPage() {
         return mJavaToXsdWizardPage;
     }
 

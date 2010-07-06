@@ -13,7 +13,7 @@ import javax.xml.transform.stream.StreamResult;
  * A utility class for XML manipulation.
  *
  */
-public final class XmlUtil {
+public class XmlUtil {
     
     /**
      * Utility class.

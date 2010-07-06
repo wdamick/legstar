@@ -29,25 +29,25 @@ public class CultureInfoRequest {
     /**
      * @return the Culture Code
      */
-    public final String getCultureCode() {
+    public String getCultureCode() {
         return mCultureCode;
     }
     /**
      * @param culturecode the Culture Code to set
      */
-    public final void setCultureCode(final String culturecode) {
+    public void setCultureCode(final String culturecode) {
         mCultureCode = culturecode;
     }
     /**
      * @return the DecimalNumber
      */
-    public final BigDecimal getDecimalNumber() {
+    public BigDecimal getDecimalNumber() {
         return mDecimalNumber;
     }
     /**
      * @param decimalNumber the DecimalNumber to set
      */
-    public final void setDecimalNumber(final BigDecimal decimalNumber) {
+    public void setDecimalNumber(final BigDecimal decimalNumber) {
         mDecimalNumber = decimalNumber;
     }
 

@@ -42,7 +42,7 @@ public class ${wrapperType} {
     * 
     * @return JAXB-bound object
     */
-    public final ${fieldJaxbType} get${propertyName}() {
+    public ${fieldJaxbType} get${propertyName}() {
         return ${fieldName};
     }
 
@@ -51,7 +51,7 @@ public class ${wrapperType} {
    * 
    * @param value JAXB-bound object
    */
-    public final void set${propertyName}(
+    public void set${propertyName}(
             final ${fieldJaxbType} value) {
         ${fieldName} = value;
     }

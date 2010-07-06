@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class CultureinfoCases extends TestCase {
+public class CultureinfoCases extends TestCase {
 
 
     /** Utility class. */

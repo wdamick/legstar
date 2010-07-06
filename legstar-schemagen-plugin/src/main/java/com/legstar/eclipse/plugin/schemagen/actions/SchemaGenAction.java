@@ -50,7 +50,7 @@ public class SchemaGenAction implements IWorkbenchWindowActionDelegate {
      * @param action the action proxy that handles the presentation portion of
      *   the action
      */
-    public final void run(
+    public void run(
             final IAction action) {
         if (mWindow == null) {
             return;
@@ -94,7 +94,7 @@ public class SchemaGenAction implements IWorkbenchWindowActionDelegate {
      * @see IWorkbenchWindowActionDelegate#init
      * @param window the window that provides the context for this delegate
      */
-    public final void init(
+    public void init(
             final IWorkbenchWindow window) {
         mWindow = window;
     }

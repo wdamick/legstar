@@ -102,7 +102,7 @@ public class ConnectionPool {
      * @return a pooled connection
      * @throws ConnectionPoolException if no pooled connection can be obtained
      */
-    public final LegStarConnection take(
+    public LegStarConnection take(
             final long timeout) throws ConnectionPoolException {
         LegStarConnection connection = null;
         if (!_shuttingDown) {
@@ -128,7 +128,7 @@ public class ConnectionPool {
      * @param connection the connection to recycle
      * @throws ConnectionPoolException if pooled connection cannot be recycled
      */
-    public final void put(
+    public void put(
             final LegStarConnection connection) throws ConnectionPoolException {
         if (!_shuttingDown) {
             try {
@@ -151,7 +151,7 @@ public class ConnectionPool {
      * empty, there might even be requests blocking on the <code>take</code>
      * method.
      */
-    public final void shutDown() {
+    public void shutDown() {
         _log.info("Shutting down Pool " + getHostEndpoint().getName());
         _shuttingDown = true;
         if (_connections.remainingCapacity() > 0) {
@@ -176,7 +176,7 @@ public class ConnectionPool {
      * Retrieve the current set of connections.
      * @return a list of available connections in the pool
      */
-    public final List < LegStarConnection > getConnections() {
+    public List < LegStarConnection > getConnections() {
         return _connections.getElementsList();
     }
 

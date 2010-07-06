@@ -78,7 +78,7 @@ public abstract class AbstractAntBuildModel implements IAntBuildModel {
      * @return the Where the base LegStar product is installed. This is used
      * as the basedir for the generated ant script.
      */
-    public final String getProductLocation() {
+    public String getProductLocation() {
         return mProductLocation;
     }
 
@@ -86,14 +86,14 @@ public abstract class AbstractAntBuildModel implements IAntBuildModel {
      * @param productLocation the Where the base LegStar product is installed to
      *  set
      */
-    public final void setProductLocation(final String productLocation) {
+    public void setProductLocation(final String productLocation) {
         mProductLocation = productLocation;
     }
 
     /**
      * @return the temporary file used to check whether the ant script succeeded
      */
-    public final File getProbeFile() {
+    public File getProbeFile() {
         return mProbeFile;
     }
 
@@ -101,7 +101,7 @@ public abstract class AbstractAntBuildModel implements IAntBuildModel {
      * @param probeFile the temporary file used to check whether the ant
      *  script succeeded to set
      */
-    public final void setProbeFile(final File probeFile) {
+    public void setProbeFile(final File probeFile) {
         mProbeFile = probeFile;
     }
 }

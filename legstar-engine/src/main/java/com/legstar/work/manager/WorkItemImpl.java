@@ -127,7 +127,7 @@ class WorkItemImpl implements WorkItem {
      * @see Object#hashCode() 
      * {@inheritDoc}
      */
-    public final int hashCode() {
+    public int hashCode() {
         return mId.hashCode();
     }
     /**

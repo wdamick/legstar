@@ -76,7 +76,7 @@ public class CodeGenMake extends Task {
 
     /** @{inheritDoc}*/
     @Override
-    public final void init() {
+    public void init() {
         try {
             _log.info("Initializing Code generation make processor");
             CodeGenUtil.initVelocity();
@@ -87,7 +87,7 @@ public class CodeGenMake extends Task {
 
     /** @{inheritDoc}*/
     @Override
-    public final void execute() {
+    public void execute() {
         long start = System.currentTimeMillis();
         try {
             _log.debug("Start make processor");
@@ -220,7 +220,7 @@ public class CodeGenMake extends Task {
      * @return an in-memory DOM code generation make
      * @throws CodeGenMakeException if load fails
      */
-    public final Document load(final File makeFile) throws CodeGenMakeException {
+    public Document load(final File makeFile) throws CodeGenMakeException {
         DocumentBuilderFactory docBuilderFactory =
             DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder;
@@ -241,56 +241,56 @@ public class CodeGenMake extends Task {
     /**
      * @return the code generation Make File name
      */
-    public final String getCodeGenMakeFileName() {
+    public String getCodeGenMakeFileName() {
         return mCodeGenMakeFileName;
     }
 
     /**
      * @param codeGenMakeFileName the code generation Make File name to set
      */
-    public final void setCodeGenMakeFileName(final String codeGenMakeFileName) {
+    public void setCodeGenMakeFileName(final String codeGenMakeFileName) {
         mCodeGenMakeFileName = codeGenMakeFileName;
     }
 
     /**
      * @return the model name
      */
-    public final String getModelName() {
+    public String getModelName() {
         return mModelName;
     }
 
     /**
      * @param modelName the model name to set
      */
-    public final void setModelName(final String modelName) {
+    public void setModelName(final String modelName) {
         mModelName = modelName;
     }
 
     /**
      * @return the model used to apply templates to
      */
-    public final Object getModel() {
+    public Object getModel() {
         return mModel;
     }
 
     /**
      * @param model the model to set
      */
-    public final void setModel(final Object model) {
+    public void setModel(final Object model) {
         mModel = model;
     }
 
     /**
      * @return the name of the calling generator
      */
-    public final String getGeneratorName() {
+    public String getGeneratorName() {
         return mGeneratorName;
     }
 
     /**
      * @param generatorName the name of the calling generator to set
      */
-    public final void setGeneratorName(final String generatorName) {
+    public void setGeneratorName(final String generatorName) {
         mGeneratorName = generatorName;
     }
 

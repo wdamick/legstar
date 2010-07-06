@@ -207,49 +207,49 @@ public class WsdlPortSelectionDialog extends AbstractDialog {
     /**
      * @return the Wsdl Url
      */
-    public final String getWsdlUrl() {
+    public String getWsdlUrl() {
         return mWsdlUrl;
     }
 
     /**
      * @return the Selected target namespace
      */
-    public final String getTargetNamespace() {
+    public String getTargetNamespace() {
         return mTargetNamespace;
     }
 
     /**
      * @param targetNamespace the Selected target namespace to set
      */
-    public final void setTargetNamespace(final String targetNamespace) {
+    public void setTargetNamespace(final String targetNamespace) {
         mTargetNamespace = targetNamespace;
     }
 
     /**
      * @return the Selected service name
      */
-    public final String getServiceName() {
+    public String getServiceName() {
         return mServiceName;
     }
 
     /**
      * @param serviceName the Selected service name to set
      */
-    public final void setServiceName(final String serviceName) {
+    public void setServiceName(final String serviceName) {
         mServiceName = serviceName;
     }
 
     /**
      * @return the Selected port name
      */
-    public final String getPortName() {
+    public String getPortName() {
         return mPortName;
     }
 
     /**
      * @param portName the Selected port name to set
      */
-    public final void setPortName(final String portName) {
+    public void setPortName(final String portName) {
         mPortName = portName;
     }
 

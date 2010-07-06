@@ -37,7 +37,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  * Various utility methods which are mostly useful for code generation
  * using velocity templates.
  */
-public final class CodeGenUtil {
+public class CodeGenUtil {
 
     /** Generated code has reference to generation date following this format.*/
     public static final String DATE_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";

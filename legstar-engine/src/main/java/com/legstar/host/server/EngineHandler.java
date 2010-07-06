@@ -40,7 +40,7 @@ public class EngineHandler {
      * Use holder to startup the engine.
      * @throws EngineStartupException if engine wouldn't start
      */
-    public final void init() throws EngineStartupException {
+    public void init() throws EngineStartupException {
         _log.info("Initializing Engine.");
         try {
             EngineHolder.preInit(_poolingEngineConfig);
@@ -51,7 +51,7 @@ public class EngineHandler {
     }
 
     /** Terminate the engine. */
-    public final void stop() {
+    public void stop() {
         EngineHolder.stop();
     }
 
@@ -60,7 +60,7 @@ public class EngineHandler {
      * @return the active engine
      * @throws EngineNotStartedException if engine is not active
      */
-    public final Engine getEngine() throws EngineNotStartedException {
+    public Engine getEngine() throws EngineNotStartedException {
         return EngineHolder.getEngine();
     }
 

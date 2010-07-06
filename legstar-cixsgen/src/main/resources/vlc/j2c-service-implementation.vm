@@ -64,7 +64,7 @@ public class ${model.implementationClassName} extends AbstractServiceAdapter imp
     
 #foreach ($cixsOperation in $model.cixsOperations)
     /** {@inheritDoc} */
-    public final $cixsOperation.responseHolderType ${cixsOperation.name}(
+    public $cixsOperation.responseHolderType ${cixsOperation.name}(
                final $cixsOperation.requestHolderType request,
                final ${model.headerClassName} hostHeader)
                throws ${cixsOperation.faultType} {

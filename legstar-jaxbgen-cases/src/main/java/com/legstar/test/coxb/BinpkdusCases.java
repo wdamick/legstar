@@ -23,7 +23,7 @@ import com.legstar.test.coxb.binpkdus.Dfhcommarea;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class BinpkdusCases extends TestCase {
+public class BinpkdusCases extends TestCase {
 
     /** Utility class. */
     private BinpkdusCases() {

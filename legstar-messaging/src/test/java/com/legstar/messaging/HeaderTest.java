@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 public class HeaderTest extends TestCase {
 
     /** Tests JSON string builder. */
-    public final void testStringize() {
+    public void testStringize() {
 
         /* Use a linked hash map so that the order is guaranteed which
          * simplifies the assert clause. With a normal HashMap we would have
@@ -52,7 +52,7 @@ public class HeaderTest extends TestCase {
     }
 
     /** Tests JSON string builder with arrays. */
-    public final void testStringizeArray() {
+    public void testStringizeArray() {
 
         HashMap < String, Object > map = new LinkedHashMap < String, Object >();
         String json;
@@ -81,7 +81,7 @@ public class HeaderTest extends TestCase {
     /** Test construction of a header part.
      * @throws HeaderPartException if charset is wrong
      *  */
-    public final void testHeaderConstructor() throws HeaderPartException {
+    public void testHeaderConstructor() throws HeaderPartException {
 
         HashMap < String, Object > map = new LinkedHashMap < String, Object >();
         map.put("CICSLength", "79");
@@ -104,7 +104,7 @@ public class HeaderTest extends TestCase {
      * Test default header constructor.
      * @throws HeaderPartException if test fails
      */
-    public final void testDefaultHeaderConstructor() throws HeaderPartException {
+    public void testDefaultHeaderConstructor() throws HeaderPartException {
         try {
             LegStarHeaderPart hp = new LegStarHeaderPart();
             assertEquals("0000000000000000", HostData.toHexString(hp.getContent()));
@@ -120,7 +120,7 @@ public class HeaderTest extends TestCase {
     /**
      * Test construction from a pre-existing JSON string.
      */
-    public final void testHeaderConstructorFromJsonString() {
+    public void testHeaderConstructorFromJsonString() {
         try {
             LegStarHeaderPart headerPart = new LegStarHeaderPart(5, "{\"CICSProgramName\":\"LSFILEAE\"}");
             assertEquals("LSOKHEAD", headerPart.getPartID());
@@ -136,7 +136,7 @@ public class HeaderTest extends TestCase {
      * Test creation of a header with container parts.
      * @throws HeaderPartException if construction  fails
      */
-    public final void testHeaderWithContainers() throws HeaderPartException {
+    public void testHeaderWithContainers() throws HeaderPartException {
 
         HashMap < String, Object > map = new LinkedHashMap < String, Object >();
         map.put("CICSLength", "79");
@@ -157,7 +157,7 @@ public class HeaderTest extends TestCase {
      * Test modification of the header content.
      * @throws HeaderPartException if test fails
      */
-    public final void testModifications() throws HeaderPartException {
+    public void testModifications() throws HeaderPartException {
         LegStarHeaderPart headerPart = new LegStarHeaderPart(5, "{\"CICSProgram\":\"LSFILEAE\"}");
         headerPart.setDataPartsNumber(3);
         assertEquals(3, headerPart.getDataPartsNumber());

@@ -159,14 +159,14 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
     /**
      * @return the Xml Schema or Wsdl source URI
      */
-    public final String getXsdUrl() {
+    public String getXsdUrl() {
         return mXsdUrlCombo.getText();
     }
 
     /**
      * @return the Xml Schema or Wsdl source Text
      */
-    public final Text getXsdSourceText() {
+    public Text getXsdSourceText() {
         return mXsdSourceText;
     }
 
@@ -181,7 +181,7 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
     /**
      * @return true if the input XSD/WSDL target namespace should be changed
      */
-    public final boolean isSwitchNamespaceAllowed() {
+    public boolean isSwitchNamespaceAllowed() {
         return mSwitchNamespaceAllowed;
     }
 
@@ -189,7 +189,7 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
      * @param switchNamespaceAllowed true if the input XSD/WSDL target namespace
      *  should be changed
      */
-    public final void setSwitchNamespaceAllowed(
+    public void setSwitchNamespaceAllowed(
             final boolean switchNamespaceAllowed) {
         mSwitchNamespaceAllowed = switchNamespaceAllowed;
     }
@@ -199,7 +199,7 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
      * switch to a different namespace.
      * @param newTargetNamespace the new target namespace to set
      */
-    public final void setNewTargetNamespace(final String newTargetNamespace) {
+    public void setNewTargetNamespace(final String newTargetNamespace) {
         if (newTargetNamespace != null && newTargetNamespace.length() > 0) {
             mSwitchNamespaceCheckBox.setText(
                     Messages.switch_namespace_to_button_label

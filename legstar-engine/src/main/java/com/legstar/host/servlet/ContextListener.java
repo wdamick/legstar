@@ -14,7 +14,7 @@ import com.legstar.host.server.EngineHandler;
  * The web.xml must declare this as a listener.
  *
  */
-public final class ContextListener implements ServletContextListener  {
+public class ContextListener implements ServletContextListener  {
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(ContextListener.class);

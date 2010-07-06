@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class Varar021Cases extends TestCase {
+public class Varar021Cases extends TestCase {
 
     /** Utility class. */
     private Varar021Cases() {

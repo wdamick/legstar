@@ -26,7 +26,7 @@ import com.legstar.messaging.RequestException;
  * Mocks the behavior of the VARARCOM program.
  *
  */
-public final class MockVararcom {
+public class MockVararcom {
 
     /** Logger. */
     private static final Log LOG = LogFactory.getLog(MockVararcom.class);

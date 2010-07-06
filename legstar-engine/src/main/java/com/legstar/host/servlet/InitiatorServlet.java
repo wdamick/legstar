@@ -57,7 +57,7 @@ public class InitiatorServlet extends HttpServlet {
      * @param config the complete configuration hierarchy
      * @throws ServletException if an error occurs
      */
-    public final void init(
+    public void init(
             final ServletConfig config) throws ServletException {
         String configFileName = config.getInitParameter(CONFIG_PARAM);
         if (configFileName == null || configFileName.length() == 0) {

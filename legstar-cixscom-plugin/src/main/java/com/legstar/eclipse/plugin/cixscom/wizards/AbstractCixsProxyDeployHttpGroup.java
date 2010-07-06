@@ -269,7 +269,7 @@ public abstract class AbstractCixsProxyDeployHttpGroup extends AbstractCixsContr
     /**
      * @return the choice of sample Cobol client type selected
      */
-    public final CobolHttpClientType getSampleCobolHttpClientType() {
+    public CobolHttpClientType getSampleCobolHttpClientType() {
         if (mDfhwbcliButton.getSelection()) {
             return CobolHttpClientType.DFHWBCLI;
         }

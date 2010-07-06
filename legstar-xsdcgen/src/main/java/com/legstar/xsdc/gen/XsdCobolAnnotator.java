@@ -205,7 +205,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     /**
      *  The ant execute method. Generates a new annotated schema.
      */
-    public final void execute() {
+    public void execute() {
         if (_log.isDebugEnabled()) {
             _log.debug("XML Schema Cobol annotation started");
         }
@@ -648,7 +648,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
      *        schema.
      * @throws XsdCobolAnnotatorException if annotation fails
      */
-    public final void annotateElement(
+    public void annotateElement(
             final XmlSchema schema,
             final XmlSchemaElement obj,
             final int level) throws XsdCobolAnnotatorException {
@@ -690,7 +690,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
      * @param obj the XML Schema type to annotate
      * @throws XsdCobolAnnotatorException if annotation fails
      */
-    public final void annotateComplexType(
+    public void annotateComplexType(
             final XmlSchema schema,
             final XmlSchemaComplexType obj) throws XsdCobolAnnotatorException {
         if (_log.isDebugEnabled()) {
@@ -1429,7 +1429,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
      * @return the proposed cobol name
      * @throws XsdCobolAnnotatorException if cobol name cannot be created
      * */
-    public final String getCobolName(
+    public String getCobolName(
             final String xsdName) throws XsdCobolAnnotatorException {
         try {
             return mNameResolver.getName(xsdName);
@@ -1442,7 +1442,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
      * @deprecated use <code>getInputXsdUri()</code>
      * @return the input XML schema file
      */
-    public final File getInputXsdFile() {
+    public File getInputXsdFile() {
         return mInputXsdFile;
     }
 
@@ -1450,7 +1450,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
      * @deprecated use <code>setInputXsdUri()</code>
      * @param xsdFile the input XML schema file to set
      */
-    public final void setInputXsdFile(
+    public void setInputXsdFile(
             final File xsdFile) {
         mInputXsdFile = xsdFile;
     }
@@ -1458,14 +1458,14 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     /**
      * @return the input XML schema uri
      */
-    public final URI getInputXsdUri() {
+    public URI getInputXsdUri() {
         return getModel().getInputXsdUri();
     }
 
     /**
      * @param xsdUri the input XML schema uri to set
      */
-    public final void setInputXsdUri(
+    public void setInputXsdUri(
             final URI xsdUri) {
         getModel().setInputXsdUri(xsdUri);
     }
@@ -1474,7 +1474,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
      * @return the map of Type names / Element names for elements that need
      * to be added to the annotated schema.
      */
-    public final Map < QName, QName > getRootElements() {
+    public Map < QName, QName > getRootElements() {
         return mRootElements;
     }
 
@@ -1482,14 +1482,14 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
      * @param rootElements map of Type names / Element names for elements that
      * need to be added to the annotated schema to set
      */
-    public final void setRootElements(final Map < QName, QName > rootElements) {
+    public void setRootElements(final Map < QName, QName > rootElements) {
         mRootElements = rootElements;
     }
 
     /**
      * @return the complexType to Java qualified class name map
      */
-    public final Map < String, String > getComplexTypeToJavaClassMap() {
+    public Map < String, String > getComplexTypeToJavaClassMap() {
         return mComplexTypeToJavaClassMap;
     }
 
@@ -1497,7 +1497,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
      * @param complexTypeToJavaClassMap the complexType to Java qualified class
      *  name map to set
      */
-    public final void setComplexTypeToJavaClassMap(
+    public void setComplexTypeToJavaClassMap(
             final Map < String, String > complexTypeToJavaClassMap) {
         mComplexTypeToJavaClassMap = complexTypeToJavaClassMap;
     }

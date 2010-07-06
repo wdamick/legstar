@@ -18,7 +18,7 @@ import com.legstar.test.coxb.numzoned.Dfhcommarea;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class NumzonedCases extends TestCase {
+public class NumzonedCases extends TestCase {
 
     /** Utility class. */
     private NumzonedCases() {

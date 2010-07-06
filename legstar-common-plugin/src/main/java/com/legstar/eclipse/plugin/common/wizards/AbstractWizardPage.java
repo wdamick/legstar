@@ -633,7 +633,7 @@ public abstract class AbstractWizardPage extends WizardPage {
     /**
      * @return the initial selection when this page is entered
      */
-    public final IStructuredSelection getInitialSelection() {
+    public IStructuredSelection getInitialSelection() {
         return mInitialSelection;
     }
 
@@ -641,7 +641,7 @@ public abstract class AbstractWizardPage extends WizardPage {
      * @param initialSelection the initial selection when this page is entered
      *  to set
      */
-    public final void setInitialSelection(
+    public void setInitialSelection(
             final IStructuredSelection initialSelection) {
         mInitialSelection = initialSelection;
     }
@@ -698,14 +698,14 @@ public abstract class AbstractWizardPage extends WizardPage {
     /**
      * @return the URL history manager 
      */
-    public final PreferenceUrlHistory getUrlHistory() {
+    public PreferenceUrlHistory getUrlHistory() {
         return mUrlHistory;
     }
 
     /**
      * @param urlHistory the URL history manager to set
      */
-    public final void setUrlHistory(
+    public void setUrlHistory(
             final PreferenceUrlHistory urlHistory) {
         mUrlHistory = urlHistory;
     }

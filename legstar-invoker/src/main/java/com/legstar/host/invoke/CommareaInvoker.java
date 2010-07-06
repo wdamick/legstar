@@ -58,7 +58,7 @@ public class CommareaInvoker extends AbstractInvoker {
      * @param outParts a set of output object trees with source containers
      * @throws HostInvokerException if invoke fails
      */
-    public final void invoke(
+    public void invoke(
             final String requestID,
             final Map < String, ICobolComplexBinding > inParts,
             final Map < String, ICobolComplexBinding > outParts)

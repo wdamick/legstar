@@ -149,7 +149,7 @@ implements IResourceChangeListener {
      * <code>IWorkbenchPart</code> method disposes all nested editors.
      * Subclasses may extend.
      */
-    public final void dispose() {
+    public void dispose() {
         ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
         super.dispose();
     }
@@ -158,7 +158,7 @@ implements IResourceChangeListener {
      * Saves the multi-page editor's document.
      * @param monitor for progress
      */
-    public final void doSave(final IProgressMonitor monitor) {
+    public void doSave(final IProgressMonitor monitor) {
         getEditor(0).doSave(monitor);
     }
 
@@ -167,7 +167,7 @@ implements IResourceChangeListener {
      * Also updates the text for page 1's tab, and updates this multi-page
      * editor's input to correspond to the nested editor's.
      */
-    public final void doSaveAs() {
+    public void doSaveAs() {
         IEditorPart editor1 = getEditor(0);
         editor1.doSaveAs();
         setPageText(0, editor1.getTitle());
@@ -178,7 +178,7 @@ implements IResourceChangeListener {
      * Declared in IEditorPart.
      * @param marker where we need to go
      */
-    public final void gotoMarker(final IMarker marker) {
+    public void gotoMarker(final IMarker marker) {
         setActivePage(0);
         IDE.gotoMarker(getEditor(0), marker);
     }
@@ -197,7 +197,7 @@ implements IResourceChangeListener {
      * @throws PartInitException
      *             If the initialization of the part fails.
      */
-    public final void init(
+    public void init(
             final IEditorSite site,
             final IEditorInput editorInput)
     throws PartInitException {
@@ -222,7 +222,7 @@ implements IResourceChangeListener {
      * @return <code>true</code> if "Save As" is supported, and 
      * <code>false</code> if not supported
      */
-    public final boolean isSaveAsAllowed() {
+    public boolean isSaveAsAllowed() {
         return true;
     }
 
@@ -288,7 +288,7 @@ implements IResourceChangeListener {
      * org.eclipse.core.resources.IResourceChangeEvent)
      * @param event the resource change event
      */
-    public final void resourceChanged(
+    public void resourceChanged(
             final IResourceChangeEvent event) {
         if (event.getType() == IResourceChangeEvent.PRE_CLOSE) {
             Display.getDefault().asyncExec(new Runnable() {

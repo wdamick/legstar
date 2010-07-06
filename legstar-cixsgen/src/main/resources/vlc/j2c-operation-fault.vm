@@ -57,7 +57,7 @@ public class ${cixsOperation.faultType}
      * @return
      *     returns fault bean: ${cixsOperation.packageName}.${cixsOperation.faultInfoType}
      */
-    public final ${cixsOperation.faultInfoType} getFaultInfo() {
+    public ${cixsOperation.faultInfoType} getFaultInfo() {
         return faultInfo;
     }
 

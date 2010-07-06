@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class ArrayssmCases extends TestCase {
+public class ArrayssmCases extends TestCase {
 
     /** Utility class. */
     private ArrayssmCases() {

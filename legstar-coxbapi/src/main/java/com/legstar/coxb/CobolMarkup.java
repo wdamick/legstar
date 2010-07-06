@@ -14,7 +14,7 @@ package com.legstar.coxb;
  * XML markup for Cobol annotations.
  *
  */
-public final class CobolMarkup {
+public class CobolMarkup {
 
     /** Namespace for cobol annotations. */
     public static final String NS = "http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd";

@@ -78,7 +78,7 @@ public class CobolNameResolver {
      * @return a valid cobol name
      * @throws CobolNameResolverException if a unique name cannot be determined
      */
-    public final String getUniqueName(
+    public String getUniqueName(
             final String hint) throws CobolNameResolverException {
         String cobolName = getName(hint);
 
@@ -98,7 +98,7 @@ public class CobolNameResolver {
      * @return a valid cobol name
      * @throws CobolNameResolverException if a cobol name cannot be constructed
      */
-    public final String getName(
+    public String getName(
             final String hint) throws CobolNameResolverException {
 
         /* Make sure proposed name only contains valid cobol characters */

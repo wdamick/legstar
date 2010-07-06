@@ -24,25 +24,25 @@ public class Item {
     /**
      * @return the mStringItem
      */
-    public final String getStringItem() {
+    public String getStringItem() {
         return mStringItem;
     }
     /**
      * @param stringItem the mStringItem to set
      */
-    public final void setStringItem(final String stringItem) {
+    public void setStringItem(final String stringItem) {
         mStringItem = stringItem;
     }
     /**
      * @return the mIntItem
      */
-    public final int getIntItem() {
+    public int getIntItem() {
         return mIntItem;
     }
     /**
      * @param intItem the mIntItem to set
      */
-    public final void setIntItem(final int intItem) {
+    public void setIntItem(final int intItem) {
         mIntItem = intItem;
     }
 

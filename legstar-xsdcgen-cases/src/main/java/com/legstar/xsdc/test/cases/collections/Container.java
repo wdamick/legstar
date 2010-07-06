@@ -28,25 +28,25 @@ public class Container {
     /**
      * @return the mItemsList
      */
-    public final List < Item > getItemsList() {
+    public List < Item > getItemsList() {
         return mItemsList;
     }
     /**
      * @param itemsList the mItemsList to set
      */
-    public final void setItemsList(final List < Item > itemsList) {
+    public void setItemsList(final List < Item > itemsList) {
         mItemsList = itemsList;
     }
     /**
      * @return the mItemsArray
      */
-    public final Item[] getItemsArray() {
+    public Item[] getItemsArray() {
         return mItemsArray;
     }
     /**
      * @param itemsArray the mItemsArray to set
      */
-    public final void setItemsArray(final Item[] itemsArray) {
+    public void setItemsArray(final Item[] itemsArray) {
         mItemsArray = itemsArray;
     }
 

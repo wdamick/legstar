@@ -167,7 +167,7 @@ public class AbstractTestTemplate extends TestCase {
     /**
      * @return the mParameters
      */
-    public final Map < String, Object > getParameters() {
+    public Map < String, Object > getParameters() {
         return mParameters;
     }
 

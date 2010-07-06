@@ -22,7 +22,7 @@ import com.legstar.test.coxb.vararcom.Dfhcommarea;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class VararcomCases extends TestCase {
+public class VararcomCases extends TestCase {
 
     /** Utility class. */
     private VararcomCases() {

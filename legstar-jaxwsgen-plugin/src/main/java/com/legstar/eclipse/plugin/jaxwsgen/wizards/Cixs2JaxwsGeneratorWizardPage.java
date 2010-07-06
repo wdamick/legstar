@@ -237,7 +237,7 @@ extends AbstractCixsGeneratorWizardPage {
     /**
      * @return the selected target type
      */
-    public final ProxyTargetType getProxyTargetType() {
+    public ProxyTargetType getProxyTargetType() {
         if (getPojoTargetGroup().getSelection()) {
             return ProxyTargetType.POJO;
         }
@@ -270,28 +270,28 @@ extends AbstractCixsGeneratorWizardPage {
     /**
      * @return where generated COBOL source reside
      */
-    public final String getTargetCobolDir() {
+    public String getTargetCobolDir() {
         return mTargetCobolDirText.getText();
     }
 
     /**
      * @param targetCobolDir where generated COBOL source reside to set
      */
-    public final void setTargetCobolDir(final String targetCobolDir) {
+    public void setTargetCobolDir(final String targetCobolDir) {
         mTargetCobolDirText.setText(targetCobolDir);
     }
 
     /**
      * @return the J2ee folder where war files should be deployed
      */
-    public final String getTargetWarDir() {
+    public String getTargetWarDir() {
         return mTargetWarDirText.getText();
     }
 
     /**
      * @param targetWarDir J2ee folder where war files should be deployed
      */
-    public final void setTargetWarDir(final String targetWarDir) {
+    public void setTargetWarDir(final String targetWarDir) {
         mTargetWarDirText.setText(targetWarDir);
     }
 

@@ -31,14 +31,14 @@ public class XsdFacets {
     /**
      * @return the fractional digits
      */
-    public final int getFractionDigits() {
+    public int getFractionDigits() {
         return mFractionDigits;
     }
 
     /**
      * @param fractionalDigits the fractional digits to set
      */
-    public final void setFractionDigits(
+    public void setFractionDigits(
             final int fractionalDigits) {
         mFractionDigits = fractionalDigits;
     }
@@ -46,42 +46,42 @@ public class XsdFacets {
     /**
      * @return the length
      */
-    public final int getLength() {
+    public int getLength() {
         return mLength;
     }
 
     /**
      * @param length the length to set
      */
-    public final void setLength(final int length) {
+    public void setLength(final int length) {
         mLength = length;
     }
 
     /**
      * @return the regular expression pattern
      */
-    public final String getPattern() {
+    public String getPattern() {
         return mPattern;
     }
 
     /**
      * @param pattern the regular expression pattern to set
      */
-    public final void setPattern(final String pattern) {
+    public void setPattern(final String pattern) {
         mPattern = pattern;
     }
 
     /**
      * @return the total number of digits
      */
-    public final int getTotalDigits() {
+    public int getTotalDigits() {
         return mTotalDigits;
     }
 
     /**
      * @param totalDigits the total number of digits to set
      */
-    public final void setTotalDigits(final int totalDigits) {
+    public void setTotalDigits(final int totalDigits) {
         mTotalDigits = totalDigits;
     }
 }

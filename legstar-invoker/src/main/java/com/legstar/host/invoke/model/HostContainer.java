@@ -42,28 +42,28 @@ public class HostContainer {
     /**
      * @return the container name.
      */
-    public final String getName() {
+    public String getName() {
         return _name;
     }
 
     /**
      * @param name the container name to set.
      */
-    public final void setName(final String name) {
+    public void setName(final String name) {
         _name = name;
     }
 
     /**
      * @return the container data size.
      */
-    public final int getLength() {
+    public int getLength() {
         return _length;
     }
 
     /**
      * @param length the container data size to set.
      */
-    public final void setLength(final int length) {
+    public void setLength(final int length) {
         _length = length;
     }
 

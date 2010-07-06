@@ -39,14 +39,14 @@ public abstract class AbstractAntBuildCixsJaxwsModel extends AbstractAntBuildCix
     /**
      * @return the web service mapping description
      */
-    public final CixsJaxwsService getCixsJaxwsService() {
+    public CixsJaxwsService getCixsJaxwsService() {
         return (CixsJaxwsService) getCixsService();
     }
 
     /**
      * @param cixsJaxwsService the web service mapping description to set
      */
-    public final void setCixsJaxwsService(
+    public void setCixsJaxwsService(
             final CixsJaxwsService cixsJaxwsService) {
         setCixsService(cixsJaxwsService);
     }
@@ -54,7 +54,7 @@ public abstract class AbstractAntBuildCixsJaxwsModel extends AbstractAntBuildCix
     /**
      * @return the Target location for web deployment descriptors
      */
-    public final File getTargetWDDDir() {
+    public File getTargetWDDDir() {
         return mTargetWDDDir;
     }
 
@@ -62,21 +62,21 @@ public abstract class AbstractAntBuildCixsJaxwsModel extends AbstractAntBuildCix
      * @param targetWDDDir the Target location for web deployment descriptors to
      *  set
      */
-    public final void setTargetWDDDir(final File targetWDDDir) {
+    public void setTargetWDDDir(final File targetWDDDir) {
         mTargetWDDDir = targetWDDDir;
     }
 
     /**
      * @return the deployment location for jaxws war files
      */
-    public final File getTargetWarDir() {
+    public File getTargetWarDir() {
         return mTargetWarDir;
     }
 
     /**
      * @param targetWarDir the deployment location for jaxws war files to set
      */
-    public final void setTargetWarDir(final File targetWarDir) {
+    public void setTargetWarDir(final File targetWarDir) {
         mTargetWarDir = targetWarDir;
     }
 
