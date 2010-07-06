@@ -275,24 +275,34 @@ implements ICobolStringConverter {
                 javaStringLength = hostSource.length - offset;
             }
         }
-
+        
         /* The Java String is obtained by translating from the host code page
          * to the local code page. */
         try {
+            /* Trim trailing spaces unless there is only one */
+            byte hostSpace = " ".getBytes(hostCharsetName)[0];
+            int i = javaStringLength;
+            while (i > 0 && hostSource[offset + i - 1] == hostSpace) {
+                i--;
+            }
+            javaStringLength = i;
+
             javaString = new String(
                     hostSource, offset, javaStringLength,
                     hostCharsetName);
+            
             /* Some low-value characters may have slipped into the resulting
              * string. */
             if (javaString.indexOf("\0") != -1) {
                 javaString = javaString.replace('\0', ' ');
             }
+            
+            return javaString;
         } catch (UnsupportedEncodingException uee) {
             throw new CobolConversionException(
                     "UnsupportedEncodingException:" + uee.getMessage());
         }
 
-        return ("a" + javaString).trim().substring(1);
     }
 
 }
