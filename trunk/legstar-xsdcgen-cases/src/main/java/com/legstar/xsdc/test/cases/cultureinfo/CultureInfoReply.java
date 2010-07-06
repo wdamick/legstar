@@ -32,84 +32,84 @@ public class CultureInfoReply {
     /**
      * @return the Currency Symbol
      */
-    public final String getCurrencySymbol() {
+    public String getCurrencySymbol() {
         return mCurrencySymbol;
     }
 
     /**
      * @param currencySymbol the Currency Symbol to set
      */
-    public final void setCurrencySymbol(final String currencySymbol) {
+    public void setCurrencySymbol(final String currencySymbol) {
         mCurrencySymbol = currencySymbol;
     }
 
     /**
      * @return the Formatted Date
      */
-    public final String getFormattedDate() {
+    public String getFormattedDate() {
         return mFormattedDate;
     }
 
     /**
      * @param formattedDate the Formatted Date to set
      */
-    public final void setFormattedDate(final String formattedDate) {
+    public void setFormattedDate(final String formattedDate) {
         mFormattedDate = formattedDate;
     }
 
     /**
      * @return the Display Country
      */
-    public final String getDisplayCountry() {
+    public String getDisplayCountry() {
         return mDisplayCountry;
     }
 
     /**
      * @param displayCountry the Display Country to set
      */
-    public final void setDisplayCountry(final String displayCountry) {
+    public void setDisplayCountry(final String displayCountry) {
         mDisplayCountry = displayCountry;
     }
 
     /**
      * @return the Display Language
      */
-    public final String getDisplayLanguage() {
+    public String getDisplayLanguage() {
         return mDisplayLanguage;
     }
 
     /**
      * @param displayLanguage the Display Language to set
      */
-    public final void setDisplayLanguage(final String displayLanguage) {
+    public void setDisplayLanguage(final String displayLanguage) {
         mDisplayLanguage = displayLanguage;
     }
 
     /**
      * @return the Formatted Decimal Number
      */
-    public final String getFormattedDecimalNumber() {
+    public String getFormattedDecimalNumber() {
         return mFormattedDecimalNumber;
     }
 
     /**
      * @param formattedDecimalNumber the Formatted Decimal Number to set
      */
-    public final void setFormattedDecimalNumber(final String formattedDecimalNumber) {
+    public void setFormattedDecimalNumber(final String formattedDecimalNumber) {
         mFormattedDecimalNumber = formattedDecimalNumber;
     }
 
     /**
      * @return the Server Culture Info
      */
-    public final ServerCultureInfo getServerCultureInfo() {
+    public ServerCultureInfo getServerCultureInfo() {
         return mServerCultureInfo;
     }
 
     /**
      * @param serverCultureInfo the Server Culture Info to set
      */
-    public final void setServerCultureInfo(final ServerCultureInfo serverCultureInfo) {
+    public void setServerCultureInfo(final ServerCultureInfo serverCultureInfo) {
         mServerCultureInfo = serverCultureInfo;
     }
 

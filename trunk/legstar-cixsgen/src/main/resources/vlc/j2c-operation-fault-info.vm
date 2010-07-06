@@ -40,7 +40,7 @@ public class ${cixsOperation.faultInfoType} {
      *     {@link String }
      *     
      */
-    public final String getDetail() {
+    public String getDetail() {
         return detail;
     }
 
@@ -52,7 +52,7 @@ public class ${cixsOperation.faultInfoType} {
      *     {@link String }
      *     
      */
-    public final void setDetail(final String value) {
+    public void setDetail(final String value) {
         this.detail = value;
     }
 
@@ -64,7 +64,7 @@ public class ${cixsOperation.faultInfoType} {
      *     {@link String }
      *     
      */
-    public final String getMessage() {
+    public String getMessage() {
         return message;
     }
 
@@ -76,7 +76,7 @@ public class ${cixsOperation.faultInfoType} {
      *     {@link String }
      *     
      */
-    public final void setMessage(final String value) {
+    public void setMessage(final String value) {
         this.message = value;
     }
 

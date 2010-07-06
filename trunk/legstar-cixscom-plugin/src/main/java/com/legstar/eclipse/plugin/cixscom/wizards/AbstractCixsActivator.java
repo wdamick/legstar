@@ -62,7 +62,7 @@ implements IStartup  {
     /**
      * @return the plugin unique ID
      */
-    public final String getPluginId() {
+    public String getPluginId() {
         return mPluginId;
     }
 }

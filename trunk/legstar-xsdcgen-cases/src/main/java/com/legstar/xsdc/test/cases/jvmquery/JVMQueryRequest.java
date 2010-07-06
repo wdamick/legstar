@@ -25,14 +25,14 @@ public class JVMQueryRequest {
     /**
      * @return the environment variable names to get
      */
-    public final List < String > getEnvVarNames() {
+    public List < String > getEnvVarNames() {
         return mEnvVarNames;
     }
 
     /**
      * @param envVarNames the the environment variable names to set
      */
-    public final void setEnvVarNames(final List < String > envVarNames) {
+    public void setEnvVarNames(final List < String > envVarNames) {
         mEnvVarNames = envVarNames;
     }
 

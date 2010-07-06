@@ -50,7 +50,7 @@ public class ${model.headerClassName} {
     /** Gets the user ID used for host authentication/impersonation.
      * @return host user ID
      */
-    public final String getHostUserID() {
+    public String getHostUserID() {
         return hostUserID;
     }
 
@@ -58,7 +58,7 @@ public class ${model.headerClassName} {
      * Sets the user ID used for host authentication/impersonation.
      * @param userID host user ID to set
      */
-    public final void setHostUserID(final String userID) {
+    public void setHostUserID(final String userID) {
         this.hostUserID = userID;
     }
 
@@ -66,7 +66,7 @@ public class ${model.headerClassName} {
      * Gets the password used for authentication.
      * @return host user ID
      */
-    public final String getHostPassword() {
+    public String getHostPassword() {
         return hostPassword;
     }
 
@@ -74,7 +74,7 @@ public class ${model.headerClassName} {
      * Sets the password used for authentication.
      * @param password host user ID to set
      */
-    public final void setHostPassword(final String password) {
+    public void setHostPassword(final String password) {
         this.hostPassword = password;
     }
 
@@ -82,7 +82,7 @@ public class ${model.headerClassName} {
      * Gets the target host identifier.
      * @return the target host identifier
      */
-    public final String getHostEndPoint() {
+    public String getHostEndPoint() {
         return hostEndPoint;
     }
 
@@ -90,7 +90,7 @@ public class ${model.headerClassName} {
      * Sets the target host identifier.
      * @param endPoint target host identifier
      */
-    public final void setHostEndPoint(final String endPoint) {
+    public void setHostEndPoint(final String endPoint) {
         this.hostEndPoint = endPoint;
     }
 
@@ -98,7 +98,7 @@ public class ${model.headerClassName} {
      * Gets the target host character set.
      * @return the target host character set
      */
-    public final String getHostCharset() {
+    public String getHostCharset() {
         return hostCharset;
     }
 
@@ -106,7 +106,7 @@ public class ${model.headerClassName} {
      * Sets the target host character set.
      * @param charset target host character set
      */
-    public final void setHostCharset(final String charset) {
+    public void setHostCharset(final String charset) {
         this.hostCharset = charset;
     }
 
@@ -114,7 +114,7 @@ public class ${model.headerClassName} {
      * Gets the host trace mode.
      * @return the host trace mode
      */
-    public final boolean getHostTraceMode() {
+    public boolean getHostTraceMode() {
         return hostTraceMode;
     }
 
@@ -122,7 +122,7 @@ public class ${model.headerClassName} {
      * Sets the host trace mode.
      * @param traceMode the host trace mode
      */
-    public final void setTraceMode(final boolean traceMode) {
+    public void setTraceMode(final boolean traceMode) {
         this.hostTraceMode = traceMode;
     }
 
@@ -130,7 +130,7 @@ public class ${model.headerClassName} {
      * Gets the identifier for this request.
      * @return the request identifier
      */
-    public final String getHostRequestID() {
+    public String getHostRequestID() {
         return hostRequestID;
     }
 
@@ -138,7 +138,7 @@ public class ${model.headerClassName} {
      * Sets the identifier for this request.
      * @param requestID the identifier for this request
      */
-    public final void setHostRequestID(final String requestID) {
+    public void setHostRequestID(final String requestID) {
         this.hostRequestID = requestID;
     }
 

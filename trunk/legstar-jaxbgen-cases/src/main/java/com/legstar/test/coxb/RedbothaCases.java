@@ -19,7 +19,7 @@ import com.legstar.test.coxb.redbotha.Dfhcommarea;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class RedbothaCases extends TestCase {
+public class RedbothaCases extends TestCase {
 
     /** Utility class. */
     private RedbothaCases() {

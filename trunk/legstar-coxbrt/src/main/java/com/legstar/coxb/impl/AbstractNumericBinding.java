@@ -91,6 +91,28 @@ public abstract class AbstractNumericBinding extends CBinding {
     }
 
     /** {@inheritDoc} */
+    public void setFloatValue(
+            final Float value) throws HostException {
+        mValue = new BigDecimal(value);
+    }
+
+    /** {@inheritDoc} */
+    public Float getFloatValue() throws HostException {
+        return mValue.floatValue();
+    }
+
+    /** {@inheritDoc} */
+    public void setDoubleValue(
+            final Double value) throws HostException {
+        mValue = new BigDecimal(value);
+    }
+
+    /** {@inheritDoc} */
+    public Double getDoubleValue() throws HostException {
+        return mValue.doubleValue();
+    }
+
+    /** {@inheritDoc} */
     public void setBigDecimalValue(
             final BigDecimal value) throws HostException {
         mValue = value;
@@ -121,6 +143,10 @@ public abstract class AbstractNumericBinding extends CBinding {
             return getBigIntegerValue();
         } else if (type.equals(Long.class) || type.equals(long.class)) {
             return getLongValue();
+        } else if (type.equals(Float.class) || type.equals(float.class)) {
+            return getFloatValue();
+        } else if (type.equals(Double.class) || type.equals(double.class)) {
+            return getDoubleValue();
         } else if (type.equals(Integer.class) || type.equals(int.class)) {
             return getIntegerValue();
         } else if (type.equals(Short.class) || type.equals(short.class)) {
@@ -145,6 +171,10 @@ public abstract class AbstractNumericBinding extends CBinding {
             setBigIntegerValue((BigInteger) value);
         } else if (value instanceof Long) {
             setLongValue((Long) value);
+        } else if (value instanceof Float) {
+            setFloatValue((Float) value);
+        } else if (value instanceof Double) {
+            setDoubleValue((Double) value);
         } else if (value instanceof Integer) {
             setIntegerValue((Integer) value);
         } else if (value instanceof Short) {

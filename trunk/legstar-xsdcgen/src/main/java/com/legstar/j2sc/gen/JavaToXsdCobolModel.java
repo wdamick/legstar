@@ -50,28 +50,28 @@ public class JavaToXsdCobolModel extends SourceToXsdCobolModel {
     /**
      * @return the List of fully qualified java class names
      */
-    public final List < String > getClassNames() {
+    public List < String > getClassNames() {
         return mClassNames;
     }
 
     /**
      * @param classNames the List of fully qualified java class names to set
      */
-    public final void setClassNames(final List < String > classNames) {
+    public void setClassNames(final List < String > classNames) {
         mClassNames = classNames;
     }
 
     /**
      * @return the List of path elements locations
      */
-    public final List < String > getPathElementLocations() {
+    public List < String > getPathElementLocations() {
         return mPathElementLocations;
     }
 
     /**
      * @param pathElementLocations the List of path elements locations to set
      */
-    public final void setPathElementLocations(
+    public void setPathElementLocations(
             final List < String > pathElementLocations) {
         mPathElementLocations = pathElementLocations;
     }

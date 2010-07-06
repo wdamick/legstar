@@ -75,7 +75,7 @@ public class CobolGenerator extends Task  {
     /**
      *  The ant execute method. Generates a new Cobol data description source.
      */
-    public final void execute() {
+    public void execute() {
         if (_log.isDebugEnabled()) {
             _log.debug("Cobol source generation started");
         }
@@ -252,28 +252,28 @@ public class CobolGenerator extends Task  {
     /**
      * @return the package name used for JAXB classes
      */
-    public final String getJaxbPackageName() {
+    public String getJaxbPackageName() {
         return mJaxbPackageName;
     }
 
     /**
      * @param jaxbPackageName the JAXB classes package name to set
      */
-    public final void setJaxbPackageName(final String jaxbPackageName) {
+    public void setJaxbPackageName(final String jaxbPackageName) {
         mJaxbPackageName = jaxbPackageName;
     }
 
     /**
      * @return Returns the JAXB type name.
      */
-    public final String getJaxbTypeName() {
+    public String getJaxbTypeName() {
         return mJaxbTypeName;
     }
 
     /**
      * @param objectName The JAXB type name to set.
      */
-    public final void setJaxbTypeName(
+    public void setJaxbTypeName(
             final String objectName) {
         mJaxbTypeName = objectName;
     }
@@ -281,42 +281,42 @@ public class CobolGenerator extends Task  {
     /**
      * @return the current target directory
      */
-    public final File getTargetDir() {
+    public File getTargetDir() {
         return mTargetDir;
     }
 
     /**
      * @param targetDir the target directory to set
      */
-    public final void setTargetDir(final File targetDir) {
+    public void setTargetDir(final File targetDir) {
         mTargetDir = targetDir;
     }
 
     /**
      * @return the target generated Cobol file name
      */
-    public final String getTargetCobolFileName() {
+    public String getTargetCobolFileName() {
         return mTargetCobolFileName;
     }
 
     /**
      * @param targetCobolFileName the target generated Cobol file name to set
      */
-    public final void setTargetCobolFileName(final String targetCobolFileName) {
+    public void setTargetCobolFileName(final String targetCobolFileName) {
         mTargetCobolFileName = targetCobolFileName;
     }
 
     /**
      * @return the Cobol Root Data Item Name
      */
-    public final String getCobolRootDataItemName() {
+    public String getCobolRootDataItemName() {
         return mCobolRootDataItemName;
     }
 
     /**
      * @param cobolRootDataItemName the Cobol Root Data Item Name to set
      */
-    public final void setCobolRootDataItemName(
+    public void setCobolRootDataItemName(
             final String cobolRootDataItemName) {
         mCobolRootDataItemName = cobolRootDataItemName;
     }
@@ -324,14 +324,14 @@ public class CobolGenerator extends Task  {
     /**
      * @return where to start numbering Cobol data items
      */
-    public final int getFirstCobolLevel() {
+    public int getFirstCobolLevel() {
         return mFirstCobolLevel;
     }
 
     /**
      * @param firstCobolLevel where to start numbering Cobol data items
      */
-    public final void setFirstCobolLevel(final int firstCobolLevel) {
+    public void setFirstCobolLevel(final int firstCobolLevel) {
         mFirstCobolLevel = firstCobolLevel;
     }
 
@@ -339,7 +339,7 @@ public class CobolGenerator extends Task  {
      * @return how much to increment Cobol data items moving from parent to
      *  child
      */
-    public final int getCobolLevelIncrement() {
+    public int getCobolLevelIncrement() {
         return mCobolLevelIncrement;
     }
 
@@ -347,7 +347,7 @@ public class CobolGenerator extends Task  {
      * @param cobolLevelIncrement how much to increment Cobol data items
      *  moving from parent to child
      */
-    public final void setCobolLevelIncrement(final int cobolLevelIncrement) {
+    public void setCobolLevelIncrement(final int cobolLevelIncrement) {
         mCobolLevelIncrement = cobolLevelIncrement;
     }
 

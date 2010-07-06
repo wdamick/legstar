@@ -273,14 +273,14 @@ public class StructuresTableComposite extends Composite {
     /**
      * @return the collection of structures
      */
-    public final List < CixsStructure > getStructures() {
+    public List < CixsStructure > getStructures() {
         return mStructures;
     }
 
     /**
      * @param structures the collection of structures to set
      */
-    public final void setStructures(
+    public void setStructures(
             final List < CixsStructure > structures) {
         mStructures = structures;
     }

@@ -52,7 +52,7 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("private LsfileaeProgramInvoker mLsfileaeProgramInvoker;"));
         assertTrue(resStr.contains("public LsfileaeImpl() {"));
         assertTrue(resStr.contains("mLsfileaeProgramInvoker = new LsfileaeProgramInvoker(getConfigFileName());"));
-        assertTrue(resStr.contains("public final Dfhcommarea lsfileae("));
+        assertTrue(resStr.contains("public Dfhcommarea lsfileae("));
         assertTrue(resStr.contains("final Dfhcommarea request,"));
         assertTrue(resStr.contains("final LsfileaeHostHeader hostHeader)"));
         assertTrue(resStr.contains("throws LsfileaeException {"));
@@ -102,7 +102,7 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("/** Invoker implementation for operation lsfileal. */"));
         assertTrue(resStr.contains("private LsfilealProgramInvoker mLsfilealProgramInvoker;"));
         assertTrue(resStr.contains("mLsfilealProgramInvoker = new LsfilealProgramInvoker(getConfigFileName());"));
-        assertTrue(resStr.contains("public final ReplyData lsfileal("));
+        assertTrue(resStr.contains("public ReplyData lsfileal("));
         assertTrue(resStr.contains("final RequestParms request,"));
         assertTrue(resStr.contains("return getLsfilealProgramInvoker().lsfileal("));
         assertTrue(resStr.contains("* @return the invoker implementation for operation lsfileal"));
@@ -133,7 +133,7 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
 
         assertTrue(resStr.contains("public class LsfileacImpl extends AbstractServiceAdapter implements Lsfileac {"));
         assertTrue(resStr.contains("mLsfileacProgramInvoker = new LsfileacProgramInvoker(getConfigFileName());"));
-        assertTrue(resStr.contains("public final LsfileacResponseHolder lsfileac("));
+        assertTrue(resStr.contains("public LsfileacResponseHolder lsfileac("));
         assertTrue(resStr.contains("final LsfileacRequestHolder request,"));
         assertTrue(resStr.contains("return getLsfileacProgramInvoker().lsfileac("));
         assertTrue(resStr.contains("public LsfileacProgramInvoker getLsfileacProgramInvoker() {"));
@@ -171,10 +171,10 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("public LsfileaxImpl() {"));
         assertTrue(resStr.contains("mLsfileaeProgramInvoker = new LsfileaeProgramInvoker(getConfigFileName());"));
         assertTrue(resStr.contains("mLsfileacProgramInvoker = new LsfileacProgramInvoker(getConfigFileName());"));
-        assertTrue(resStr.contains("public final Dfhcommarea lsfileae("));
+        assertTrue(resStr.contains("public Dfhcommarea lsfileae("));
         assertTrue(resStr.contains("final Dfhcommarea request,"));
         assertTrue(resStr.contains("return getLsfileaeProgramInvoker().lsfileae("));
-        assertTrue(resStr.contains("public final LsfileacResponseHolder lsfileac("));
+        assertTrue(resStr.contains("public LsfileacResponseHolder lsfileac("));
         assertTrue(resStr.contains("final LsfileacRequestHolder request,"));
         assertTrue(resStr.contains("return getLsfileacProgramInvoker().lsfileac("));
         assertTrue(resStr.contains("public LsfileaeProgramInvoker getLsfileaeProgramInvoker() {"));
@@ -206,7 +206,7 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("private static final String  SERVICE_ADAPTER_NAME = \"lsfilean\";"));
         assertTrue(resStr.contains("private LsfileaeProgramInvoker mLsfileaeProgramInvoker;"));
         assertTrue(resStr.contains("mLsfileaeProgramInvoker = new LsfileaeProgramInvoker(getConfigFileName());"));
-        assertTrue(resStr.contains("public final Dfhcommarea lsfileae("));
+        assertTrue(resStr.contains("public Dfhcommarea lsfileae("));
         assertTrue(resStr.contains("final Dfhcommarea request,"));
     }
 
@@ -232,7 +232,7 @@ public class ImplementationVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("private static final String  SERVICE_ADAPTER_NAME = \"lsfileap\";"));
         assertTrue(resStr.contains("private LsfileaeProgramInvoker mLsfileaeProgramInvoker;"));
         assertTrue(resStr.contains("mLsfileaeProgramInvoker = new LsfileaeProgramInvoker(getConfigFileName());"));
-        assertTrue(resStr.contains("public final Dfhcommarea lsfileae("));
+        assertTrue(resStr.contains("public Dfhcommarea lsfileae("));
         assertTrue(resStr.contains("final Dfhcommarea request,"));
     }
 }

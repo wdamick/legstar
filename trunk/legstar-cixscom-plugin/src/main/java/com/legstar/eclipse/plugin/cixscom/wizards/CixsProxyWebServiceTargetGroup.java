@@ -201,21 +201,21 @@ public class CixsProxyWebServiceTargetGroup extends AbstractCixsControlsGroup {
     /**
      * @return the URL locating target Web service WSDL
      */
-    public final String getWsdlUrl() {
+    public String getWsdlUrl() {
         return mWsdlUrlCombo.getText();
     }
 
     /**
      * @param wsdlUrl the URL locating target Web service WSDL to set
      */
-    public final void setWsdlUrl(final String wsdlUrl) {
+    public void setWsdlUrl(final String wsdlUrl) {
         mWsdlUrlCombo.setText(wsdlUrl);
     }
 
     /**
      * @return the Target Web service WSDL service name
      */
-    public final String getWsdlServiceName() {
+    public String getWsdlServiceName() {
         return mWsdlServiceNameText.getText();
     }
 
@@ -223,21 +223,21 @@ public class CixsProxyWebServiceTargetGroup extends AbstractCixsControlsGroup {
      * @param wsdlServiceName the Target Web service WSDL service name to
      *  set
      */
-    public final void setWsdlServiceName(final String wsdlServiceName) {
+    public void setWsdlServiceName(final String wsdlServiceName) {
         mWsdlServiceNameText.setText(wsdlServiceName);
     }
 
     /**
      * @return the Target Web service WSDL port name
      */
-    public final String getWsdlPortName() {
+    public String getWsdlPortName() {
         return mWsdlPortNameText.getText();
     }
 
     /**
      * @param wsdlPortName the Target Web service WSDL port name to set
      */
-    public final void setWsdlPortName(final String wsdlPortName) {
+    public void setWsdlPortName(final String wsdlPortName) {
         mWsdlPortNameText.setText(wsdlPortName);
     }
 

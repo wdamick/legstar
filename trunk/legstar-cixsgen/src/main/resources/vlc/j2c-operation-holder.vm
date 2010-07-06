@@ -65,7 +65,7 @@ public class ${holderType}
      * 
      * @return JAXB-bound object
      */
-    public final ${cixsStructure.jaxbType} get${cixsStructure.jaxbPropertyName}() {
+    public ${cixsStructure.jaxbType} get${cixsStructure.jaxbPropertyName}() {
         return ${cixsStructure.jaxbFieldName};
     }
     
@@ -74,7 +74,7 @@ public class ${holderType}
      * 
      * @param value JAXB-bound object
      */
-    public final void set${cixsStructure.jaxbPropertyName}(
+    public void set${cixsStructure.jaxbPropertyName}(
             final ${cixsStructure.jaxbType} value) {
         ${cixsStructure.jaxbFieldName} = value;
     }

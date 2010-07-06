@@ -24,7 +24,7 @@ import com.legstar.test.coxb.binnatus.Dfhcommarea;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class BinnatusCases extends TestCase {
+public class BinnatusCases extends TestCase {
 
     /** Utility class. */
     private BinnatusCases() {

@@ -27,7 +27,7 @@ public class InvokeWorkFactory implements WorkFactory {
      * com.legstar.messaging.Request, com.legstar.messaging.Connection)
      * {@inheritDoc}
      */
-    public final Work createWork(
+    public Work createWork(
             final LegStarRequest request, final LegStarConnection connection) {
         return new InvokeWork(request, connection);
     }
@@ -38,7 +38,7 @@ public class InvokeWorkFactory implements WorkFactory {
      *  com.legstar.pool.manager.ConnectionPoolInterface)
      * {@inheritDoc}
      */
-    public final WorkListener createWorkListener(
+    public WorkListener createWorkListener(
             final LegStarRequest request,
             final LegStarConnection connection,
             final ConnectionPool pool) {

@@ -31,7 +31,7 @@ import com.legstar.messaging.RequestException;
  * Mocks the behavior of the LSFILEAE program.
  *
  */
-public final class MockLsfileac {
+public class MockLsfileac {
 
     /** Logger. */
     private static final Log LOG = LogFactory.getLog(MockLsfileac.class);

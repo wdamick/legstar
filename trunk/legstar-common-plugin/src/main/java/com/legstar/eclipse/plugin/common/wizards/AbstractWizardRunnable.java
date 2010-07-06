@@ -322,14 +322,14 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
     /**
      * @return the model to build from
      */
-    public final IAntBuildModel getAntBuildModel() {
+    public IAntBuildModel getAntBuildModel() {
         return mAntBuildModel;
     }
 
     /**
      * @param antBuildModel the model to build from to set
      */
-    public final void setAntBuildModel(
+    public void setAntBuildModel(
             final IAntBuildModel antBuildModel) {
         mAntBuildModel = antBuildModel;
     }

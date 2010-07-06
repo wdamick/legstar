@@ -68,7 +68,7 @@ public class C2wsProxy extends javax.servlet.http.HttpServlet {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public final void init(
+    public void init(
             final ServletConfig config) throws ServletException {
         super.init(config);
 

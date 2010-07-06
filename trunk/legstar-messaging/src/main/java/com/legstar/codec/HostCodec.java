@@ -16,7 +16,7 @@ import java.io.UnsupportedEncodingException;
  * General purpose utility class with coding encoding methods.
  *
  */
-public final class HostCodec {
+public class HostCodec {
 
     /** Host code page used for header contents. EBCDIC Latin 1/Open Systems. */
     public static final String HEADER_CODE_PAGE = "IBM1047";

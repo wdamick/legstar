@@ -22,7 +22,7 @@ public class CodeGenUtilTest extends TestCase {
      * Check that getFile works with an absolute file name.
      * @throws Exception if test fails
      */
-    public final void testNoDirAbsoluteFileName() throws Exception {
+    public void testNoDirAbsoluteFileName() throws Exception {
         File file = new File("test.file");
         file.createNewFile();
         file.deleteOnExit();
@@ -35,7 +35,7 @@ public class CodeGenUtilTest extends TestCase {
      * Check that getFile works with a relative file name.
      * @throws Exception if test fails
      */
-    public final void testDirRelativeFileName() throws Exception {
+    public void testDirRelativeFileName() throws Exception {
         File dir = new File("test.dir");
         dir.mkdir();
         dir.deleteOnExit();
@@ -48,7 +48,7 @@ public class CodeGenUtilTest extends TestCase {
      * Check that location from pakage name works.
      * @throws Exception if test fails
      */
-    public final void testRelativeLocation() throws Exception {
+    public void testRelativeLocation() throws Exception {
         assertEquals("", CodeGenUtil.relativeLocation(null));
         assertEquals("/abc/", CodeGenUtil.relativeLocation("abc"));
         assertEquals("/abc/def/", CodeGenUtil.relativeLocation("abc.def"));
@@ -57,7 +57,7 @@ public class CodeGenUtilTest extends TestCase {
     /**
      * Check package concatenation.
      */
-    public final void testPackageConcatenation() {
+    public void testPackageConcatenation() {
         File dir = new File("c:\\root\\com\\legstar\\zut");
         dir.delete();
         assertEquals("c:\\root\\com\\legstar\\zut",
@@ -71,7 +71,7 @@ public class CodeGenUtilTest extends TestCase {
      * Check field name from property name.
      * @throws Exception if test fails
      */
-    public final void testFieldNameFromPropertyName() throws Exception {
+    public void testFieldNameFromPropertyName() throws Exception {
         assertEquals(null, CodeGenUtil.fieldNameFromPropertyName(null));
         assertEquals("a", CodeGenUtil.fieldNameFromPropertyName("A"));
         assertEquals("abc", CodeGenUtil.fieldNameFromPropertyName("Abc"));
@@ -81,7 +81,7 @@ public class CodeGenUtilTest extends TestCase {
      * Check property name from field name.
      * @throws Exception if test fails
      */
-    public final void testPropertyNameFromFieldName() throws Exception {
+    public void testPropertyNameFromFieldName() throws Exception {
         assertEquals(null, CodeGenUtil.propertyNameFromFieldName(null));
         assertEquals("A", CodeGenUtil.propertyNameFromFieldName("a"));
         assertEquals("Abc", CodeGenUtil.propertyNameFromFieldName("abc"));
@@ -91,7 +91,7 @@ public class CodeGenUtilTest extends TestCase {
      * Check property name from JAXB name.
      * @throws Exception if test fails
      */
-    public final void testPropertyNameFromJaxbType() throws Exception {
+    public void testPropertyNameFromJaxbType() throws Exception {
         assertEquals(null, CodeGenUtil.propertyNameFromJaxbType(null));
         assertEquals("A", CodeGenUtil.propertyNameFromJaxbType("A"));
         assertEquals("A", CodeGenUtil.propertyNameFromJaxbType("AType"));

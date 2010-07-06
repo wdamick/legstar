@@ -17,7 +17,7 @@ import com.legstar.coxb.util.Utils;
  * API to be independent from concrete implementations of marshaling/unmarshaling visitors.
  *
  */
-public final class CobolBindingVisitorsFactory {
+public class CobolBindingVisitorsFactory {
 
     /** In this version the factory name is hardcoded. In a future release,
      * this will be pulled from some configuration file. */

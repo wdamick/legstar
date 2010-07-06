@@ -18,7 +18,7 @@ import com.legstar.test.coxb.fixarsim.Dfhcommarea;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class FixarsimCases extends TestCase {
+public class FixarsimCases extends TestCase {
 
     /** Utility class. */
     private FixarsimCases() {

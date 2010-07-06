@@ -80,7 +80,7 @@ public class Engine implements Work {
      * When the Engine is started in a thread, it will continuously wait
      * for requests until shutdown.
      */
-    public final void run() {
+    public void run() {
 
         while (!mShuttingDown) {
             _log.debug("Waiting for requests");
@@ -135,7 +135,7 @@ public class Engine implements Work {
      *  that the request is being processed and is not completed yet.
      *  @param request the request to be added
      *   */
-    public final void addRequest(final LegStarRequest request) {
+    public void addRequest(final LegStarRequest request) {
         request.signalProcessingStart();
         if (!mShuttingDown) {
             mRequests.add(request);
@@ -154,7 +154,7 @@ public class Engine implements Work {
      * If requests are pending, they are probably blocked waiting for
      * connections to become available.
      *  */
-    public final void shutDown() {
+    public void shutDown() {
         mShuttingDown = true;
         _log.info("Attempting to shutdown...");
         if (mRequests.size() == 0) {
@@ -169,7 +169,7 @@ public class Engine implements Work {
     /**
      * @return the shutDown status
      */
-    public final boolean isShuttingDown() {
+    public boolean isShuttingDown() {
         return mShuttingDown;
     }
 
@@ -178,14 +178,14 @@ public class Engine implements Work {
      * TODO need to revisit this. Maybe the engine should be a daemon.
      * {@inheritDoc}
      */
-    public final boolean isDaemon() {
+    public boolean isDaemon() {
         return false;
     }
 
     /** (non-Javadoc).
      * @see commonj.work.Work#release()
      */
-    public final void release() {
+    public void release() {
     }
 
 }

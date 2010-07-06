@@ -42,7 +42,7 @@ public class Jaxws2CixsGeneratorWizard extends AbstractCixsGeneratorWizard {
     /**
      * Adding the page to the wizard.
      */
-    public final void addPages() {
+    public void addPages() {
         mJaxws2CixsGenPage = new Jaxws2CixsGeneratorWizardPage(
                 getInitialSelection(), getMappingFile());
         addPage(mJaxws2CixsGenPage);

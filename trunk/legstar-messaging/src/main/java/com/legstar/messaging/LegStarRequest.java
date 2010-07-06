@@ -64,91 +64,91 @@ public class LegStarRequest {
     /**
      * @return the unique ID for this request
      */
-    public final String getID() {
+    public String getID() {
         return mID;
     }
 
     /**
      * @param id the unique ID for this request to set
      */
-    public final void setID(final String id) {
+    public void setID(final String id) {
         mID = id;
     }
 
     /**
      * @return the the input message
      */
-    public final LegStarMessage getRequestMessage() {
+    public LegStarMessage getRequestMessage() {
         return mRequestMessage;
     }
 
     /**
      * @param requestMessage the input message to set
      */
-    public final void setRequestMessage(final LegStarMessage requestMessage) {
+    public void setRequestMessage(final LegStarMessage requestMessage) {
         mRequestMessage = requestMessage;
     }
 
     /**
      * @return the reply message
      */
-    public final LegStarMessage getResponseMessage() {
+    public LegStarMessage getResponseMessage() {
         return mResponseMessage;
     }
 
     /**
      * @param responseMessage the reply message to set
      */
-    public final void setResponseMessage(final LegStarMessage responseMessage) {
+    public void setResponseMessage(final LegStarMessage responseMessage) {
         mResponseMessage = responseMessage;
     }
 
     /**
      * @return the work exception
      */
-    public final Exception getException() {
+    public Exception getException() {
         return mException;
     }
 
     /**
      * @param requestException the work exception to set
      */
-    public final void setException(final Exception requestException) {
+    public void setException(final Exception requestException) {
         mException = requestException;
     }
 
     /**
      * @return the host destination
      */
-    public final LegStarAddress getAddress() {
+    public LegStarAddress getAddress() {
         return mAddress;
     }
 
     /**
      * @param address the host destination to set
      */
-    public final void setAddress(final LegStarAddress address) {
+    public void setAddress(final LegStarAddress address) {
         mAddress = address;
     }
 
     /**
      * @return the data attached to the request
      */
-    public final byte[] getAttachment() {
+    public byte[] getAttachment() {
         return mAttachment;
     }
 
     /**
      * @param attachment the data to attach to the request
      */
-    public final void setAttachment(final byte[] attachment) {
+    public void setAttachment(final byte[] attachment) {
         mAttachment = attachment;
     }
 
     /**
      * Used to signal that this request is now being processed.
      */
-    public final void signalProcessingStart() {
+    public void signalProcessingStart() {
         mProcessingLatch = new CountDownLatch(1);
     }
 
@@ -156,7 +156,7 @@ public class LegStarRequest {
      * Used to signal that this request has been processed. It might have
      * failed though so checking for an exception is a good idea.
      */
-    public final void signalProcessingStop() {
+    public void signalProcessingStop() {
         mProcessingLatch.countDown();
     }
 
@@ -168,7 +168,7 @@ public class LegStarRequest {
      *  elapsed before the request was processed.
      * @throws InterruptedException if thread was interrupted
      */
-    public final boolean await(
+    public boolean await(
             final long timeout,
             final TimeUnit unit) throws InterruptedException {
         if (mProcessingLatch == null) {

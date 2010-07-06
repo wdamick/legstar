@@ -28,7 +28,7 @@ public class EngineListener implements WorkListener {
      * The work manager has accepted the request.
      * @param workEvent the work event
      * */
-    public final void workAccepted(final WorkEvent workEvent) {
+    public void workAccepted(final WorkEvent workEvent) {
         _log.debug("Engine Work accepted.");
     }
 
@@ -36,7 +36,7 @@ public class EngineListener implements WorkListener {
      * The Engine completed its work.
      * @param workEvent the work event
      * */
-    public final void workCompleted(final WorkEvent workEvent) {
+    public void workCompleted(final WorkEvent workEvent) {
         if (workEvent.getException() != null) {
             _log.fatal("Engine crashed", workEvent.getException());
         }
@@ -47,7 +47,7 @@ public class EngineListener implements WorkListener {
      * Manager rejected that work.
      * @param workEvent the work event
      * */
-    public final void workRejected(final WorkEvent workEvent) {
+    public void workRejected(final WorkEvent workEvent) {
         _log.debug("Engine work rejected.");
     }
 
@@ -55,7 +55,7 @@ public class EngineListener implements WorkListener {
      * Work unit has started.
      * @param workEvent the work event
      *  */
-    public final void workStarted(final WorkEvent workEvent) {
+    public void workStarted(final WorkEvent workEvent) {
         _log.debug("Engine started.");
     }
 

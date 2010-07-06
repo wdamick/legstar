@@ -19,7 +19,7 @@ import com.legstar.proxy.invoke.DirectOperationProxy;
  * Centralize data for JVMQuery test case.
  *
  */
-public final class JVMQueryPojoCases {
+public class JVMQueryPojoCases {
 
     /**
      * Utility class.

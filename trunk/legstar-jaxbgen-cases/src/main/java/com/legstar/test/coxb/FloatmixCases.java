@@ -18,7 +18,7 @@ import com.legstar.test.coxb.floatmix.Dfhcommarea;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class FloatmixCases extends TestCase {
+public class FloatmixCases extends TestCase {
 
     /** Utility class. */
     private FloatmixCases() {

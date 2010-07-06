@@ -57,7 +57,7 @@ public class ConnectionPoolManager {
      * @return the pool matching the criteria
      * @throws ConnectionPoolException if pool cannot be created
      */
-    public final ConnectionPool getPool(
+    public ConnectionPool getPool(
             final LegStarAddress address,
             final boolean createIfNotFound) throws ConnectionPoolException {
         if (_log.isDebugEnabled()) {
@@ -117,7 +117,7 @@ public class ConnectionPoolManager {
     /**
      * Propagate shutdown on every managed pool.
      */
-    public final void shutDown() {
+    public void shutDown() {
         _log.info("Shutting down Pool Manager");
         Iterator < Map.Entry < LegStarAddress, ConnectionPool > > entries =
             _pools.entrySet().iterator();
@@ -129,7 +129,7 @@ public class ConnectionPoolManager {
     /**
      * @return the active pools map
      */
-    public final Map < LegStarAddress, ConnectionPool > getPools() {
+    public Map < LegStarAddress, ConnectionPool > getPools() {
         return _pools;
     }
 

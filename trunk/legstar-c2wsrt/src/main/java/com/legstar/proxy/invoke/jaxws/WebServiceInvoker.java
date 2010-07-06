@@ -379,42 +379,42 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
     /**
      * @return the request element descriptor
      */
-    public final JAXBElementDescriptor getRequestElementDescriptor() {
+    public JAXBElementDescriptor getRequestElementDescriptor() {
         return mRequestElementDescriptor;
     }
 
     /**
      * @return the response element descriptor
      */
-    public final JAXBElementDescriptor getResponseElementDescriptor() {
+    public JAXBElementDescriptor getResponseElementDescriptor() {
         return mResponseElementDescriptor;
     }
 
     /**
      * @return the WSDL service name
      */
-    public final String getWsdlServiceName() {
+    public String getWsdlServiceName() {
         return mWsdlServiceName;
     }
 
     /**
      * @return the WSDL port name
      */
-    public final String getWsdlPortName() {
+    public String getWsdlPortName() {
         return mWsdlPortName;
     }
 
     /**
      * @return the WSDL target namespace
      */
-    public final String getWsdlTargetNamespace() {
+    public String getWsdlTargetNamespace() {
         return mWsdlTargetNamespace;
     }
 
     /**
      * @return the WSDL URL
      */
-    public final String getWsdlUrl() {
+    public String getWsdlUrl() {
         return mWsdlUrl;
     }
 

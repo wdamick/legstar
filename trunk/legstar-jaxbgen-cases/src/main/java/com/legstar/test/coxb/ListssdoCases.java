@@ -21,7 +21,7 @@ import com.legstar.test.coxb.listssdo.Dfhcommarea;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class ListssdoCases extends TestCase {
+public class ListssdoCases extends TestCase {
 
     /** Utility class. */
     private ListssdoCases() {

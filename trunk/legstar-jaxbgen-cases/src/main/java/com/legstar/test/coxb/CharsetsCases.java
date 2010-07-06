@@ -20,7 +20,7 @@ import com.legstar.test.coxb.charsets.Dfhcommarea;
  * This is meant to be used with the french character set IMB01147.
  * That character set is not DBCS. 
  */
-public final class CharsetsCases extends TestCase {
+public class CharsetsCases extends TestCase {
 
     /** Utility class. */
     private CharsetsCases() {

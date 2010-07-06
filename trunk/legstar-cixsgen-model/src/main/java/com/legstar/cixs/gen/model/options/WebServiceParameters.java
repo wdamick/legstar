@@ -89,56 +89,56 @@ public class WebServiceParameters {
     /**
      * @return the WSDL service name
      */
-    public final String getWsdlServiceName() {
+    public String getWsdlServiceName() {
         return mWsdlServiceName;
     }
 
     /**
      * @param wsdlServiceName the WSDL service name to set
      */
-    public final void setWsdlServiceName(final String wsdlServiceName) {
+    public void setWsdlServiceName(final String wsdlServiceName) {
         mWsdlServiceName = wsdlServiceName;
     }
 
     /**
      * @return the WSDL port name
      */
-    public final String getWsdlPortName() {
+    public String getWsdlPortName() {
         return mWsdlPortName;
     }
 
     /**
      * @param wsdlPortName the WSDL port name to set
      */
-    public final void setWsdlPortName(final String wsdlPortName) {
+    public void setWsdlPortName(final String wsdlPortName) {
         mWsdlPortName = wsdlPortName;
     }
 
     /**
      * @return the WSDL target namespace
      */
-    public final String getWsdlTargetNamespace() {
+    public String getWsdlTargetNamespace() {
         return mWsdlTargetNamespace;
     }
 
     /**
      * @param wsdlTargetNamespace the WSDL target namespace to set
      */
-    public final void setWsdlTargetNamespace(final String wsdlTargetNamespace) {
+    public void setWsdlTargetNamespace(final String wsdlTargetNamespace) {
         mWsdlTargetNamespace = wsdlTargetNamespace;
     }
 
     /**
      * @return the WSDL URL
      */
-    public final String getWsdlUrl() {
+    public String getWsdlUrl() {
         return mWsdlUrl;
     }
 
     /**
      * @param wsdlUrl the WSDL URL to set
      */
-    public final void setWsdlUrl(final String wsdlUrl) {
+    public void setWsdlUrl(final String wsdlUrl) {
         mWsdlUrl = wsdlUrl;
     }
 

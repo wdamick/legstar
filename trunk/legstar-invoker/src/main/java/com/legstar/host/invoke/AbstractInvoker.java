@@ -104,33 +104,33 @@ public abstract class AbstractInvoker implements HostInvoker {
     /**
      * @return the host address
      */
-    public final LegStarAddress getAddress() {
+    public LegStarAddress getAddress() {
         return mAddress;
     }
 
     /**
      * @return the host access strategy
      */
-    public final HostAccessStrategy getHostAccessStrategy() {
+    public HostAccessStrategy getHostAccessStrategy() {
         return mHostAccessStrategy;
     }
 
     /**
      * @return the host program attributes
      */
-    public final HostProgram getHostProgram() {
+    public HostProgram getHostProgram() {
         return mHostProgram;
     }
     
     /**
      * @return the host program attributes
      */
-    public final HostProgramProperties getProgramAttr() {
+    public HostProgramProperties getProgramAttr() {
         return null;
     }
 
     /** {@inheritDoc} */
-    public final String toString() {
+    public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("HostInvoker=[");
         if (getAddress() != null) {

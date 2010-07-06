@@ -6,7 +6,7 @@ import java.util.Locale;
  * These are methods to help analyze a BOL picture clause.
  *
  */
-public final class PictureUtil {
+public class PictureUtil {
     
     /** Utility class. */
     private PictureUtil() {

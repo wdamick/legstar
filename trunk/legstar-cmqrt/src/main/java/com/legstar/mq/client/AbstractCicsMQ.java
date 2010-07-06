@@ -86,7 +86,7 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
      * @param mqPassword credentials for security exits
      * @throws ConnectionException if connection fails
      */
-    public final void connect(
+    public void connect(
             final String mqPassword) throws ConnectionException {
 
         if (_log.isDebugEnabled()) {
@@ -206,7 +206,7 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
      * Terminates a connection with the host.
      * @throws RequestException if a failure is detected
      */
-    public final void close() throws RequestException {
+    public void close() throws RequestException {
         if (_log.isDebugEnabled()) {
             _log.debug("Connection:" + mConnectionID + " closing.");
         }
@@ -245,7 +245,7 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
      *  file
      *  @throws ConnectionException if connection fails
      * */
-    public final void connectReuse(
+    public void connectReuse(
             final String mqPassword) throws ConnectionException {
         if (_log.isDebugEnabled()) {
             _log.debug("Connection:" + mConnectionID + " Attempting reuse.");
@@ -275,7 +275,7 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
      * @param request the request to be serviced
      * @throws RequestException if send fails
      */
-    public final void sendRequest(
+    public void sendRequest(
             final LegStarRequest request) throws RequestException {
 
         if (_log.isDebugEnabled()) {
@@ -327,7 +327,7 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
      * @param request the request being serviced
      * @throws RequestException if receive fails
      */
-    public final void recvResponse(
+    public void recvResponse(
             final LegStarRequest request) throws RequestException {
 
         if (_log.isDebugEnabled()) {
@@ -407,21 +407,21 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
     /**
      * @return the identifier for this connection
      */
-    public final String getConnectionID() {
+    public String getConnectionID() {
         return mConnectionID;
     }
 
     /**
      * @param connectionID an identifier for this connection to set
      */
-    public final void setConnectionID(final String connectionID) {
+    public void setConnectionID(final String connectionID) {
         mConnectionID = connectionID;
     }
 
     /**
      * @return the CICS WMQ endpoint
      */
-    public final CicsMQEndpoint getCicsMQEndpoint() {
+    public CicsMQEndpoint getCicsMQEndpoint() {
         return mCicsMQEndpoint;
     }
 
@@ -430,7 +430,7 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
      * received.
      * @param cicsMQEndpoint the MQ endpoint to set
      */
-    public final void setCicsMQEndpoint(
+    public void setCicsMQEndpoint(
             final CicsMQEndpoint cicsMQEndpoint) {
         mCicsMQEndpoint = cicsMQEndpoint;
     }
@@ -438,14 +438,14 @@ public abstract class AbstractCicsMQ implements LegStarConnection  {
     /**
      * @return the MQ Manager
      */
-    public final MQQueueManager getMQManager() {
+    public MQQueueManager getMQManager() {
         return mMQManager;
     }
 
     /**
      * @return the Request Queue
      */
-    public final MQQueue getRequestQueue() {
+    public MQQueue getRequestQueue() {
         return mRequestQueue;
     }
 

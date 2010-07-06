@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class BinnatsiCases extends TestCase {
+public class BinnatsiCases extends TestCase {
 
     /** Utility class. */
     private BinnatsiCases() {

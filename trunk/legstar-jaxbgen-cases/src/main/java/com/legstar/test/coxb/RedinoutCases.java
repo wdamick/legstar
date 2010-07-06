@@ -20,7 +20,7 @@ import com.legstar.test.coxb.redinout.Dfhcommarea;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class RedinoutCases extends TestCase {
+public class RedinoutCases extends TestCase {
 
     /** Utility class. */
     private RedinoutCases() {

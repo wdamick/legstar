@@ -58,7 +58,7 @@ public class InvokeWorkListener implements WorkListener {
      * The work manager has accepted a request.
      * @param workEvent the work event
      * */
-    public final void workAccepted(final WorkEvent workEvent) {
+    public void workAccepted(final WorkEvent workEvent) {
         if (_log.isDebugEnabled()) {
             _log.debug("Work accepted for Request:" + mRequest.getID()
                     + " on Connection:" + mConnection.getConnectionID());
@@ -69,7 +69,7 @@ public class InvokeWorkListener implements WorkListener {
      * A request has been serviced. Recycle connection and notify clients.
      * @param workEvent the work event
      */
-    public final void workCompleted(final WorkEvent workEvent) {
+    public void workCompleted(final WorkEvent workEvent) {
 
         /* Take ownership of request monitor so we can notify waiting threads */
         synchronized (mRequest) {
@@ -97,7 +97,7 @@ public class InvokeWorkListener implements WorkListener {
      * Manager rejected that work. Notify clients.
      * @param workEvent the work event
      *  */
-    public final void workRejected(final WorkEvent workEvent) {
+    public void workRejected(final WorkEvent workEvent) {
         /* Take ownership of request monitor so we can notify waiting threads */
         synchronized (mRequest) {
             /* Notify requestor if connection cannot be recycled */
@@ -118,7 +118,7 @@ public class InvokeWorkListener implements WorkListener {
      * Work unit has started.
      * @param workEvent the work event
      *  */
-    public final void workStarted(final WorkEvent workEvent) {
+    public void workStarted(final WorkEvent workEvent) {
         if (_log.isDebugEnabled()) {
             _log.debug("Work started for Request:" + mRequest.getID()
                     + " on Connection:" + mConnection.getConnectionID());

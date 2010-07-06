@@ -161,14 +161,14 @@ public class CixsProxyPojoTargetGroup extends AbstractCixsControlsGroup {
     /**
      * @return the target pojo class name
      */
-    public final String getClassName() {
+    public String getClassName() {
         return mClassNameText.getText();
     }
 
     /**
      * @param className target class name to set
      */
-    public final void setClassName(
+    public void setClassName(
             final String className) {
         mClassNameText.setText(className);
     }
@@ -176,14 +176,14 @@ public class CixsProxyPojoTargetGroup extends AbstractCixsControlsGroup {
     /**
      * @return the target pojo method name
      */
-    public final String getMethodName() {
+    public String getMethodName() {
         return mMethodNameText.getText();
     }
 
     /**
      * @param methodName target method name to set
      */
-    public final void setMethodName(
+    public void setMethodName(
             final String methodName) {
         mMethodNameText.setText(methodName);
     }

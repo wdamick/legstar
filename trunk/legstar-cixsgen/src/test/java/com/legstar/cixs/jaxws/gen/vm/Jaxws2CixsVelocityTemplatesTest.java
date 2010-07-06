@@ -83,13 +83,13 @@ public class Jaxws2CixsVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("@XmlElement(name = \"QueryData\","));
         assertTrue(resStr.contains("private QueryLimit queryLimit;"));
         assertTrue(resStr.contains("private QueryData queryData;"));
-        assertTrue(resStr.contains("public final QueryLimit getQueryLimit() {"));
+        assertTrue(resStr.contains("public QueryLimit getQueryLimit() {"));
         assertTrue(resStr.contains("return queryLimit;"));
         assertTrue(resStr.contains("final QueryLimit value) {"));
         assertTrue(resStr.contains("queryLimit = value;"));
-        assertTrue(resStr.contains("public final QueryData getQueryData() {"));
+        assertTrue(resStr.contains("public QueryData getQueryData() {"));
         assertTrue(resStr.contains("return queryData;"));
-        assertTrue(resStr.contains("public final void setQueryData("));
+        assertTrue(resStr.contains("public void setQueryData("));
         assertTrue(resStr.contains("private QueryData queryData;"));
         assertTrue(resStr.contains("final QueryData value) {"));
         assertTrue(resStr.contains("queryData = value;"));
@@ -123,9 +123,9 @@ public class Jaxws2CixsVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("@XmlElement(name = \"Dfhcommarea\","));
         assertTrue(resStr.contains("namespace = \"http://legstar.com/test/coxb/lsfileae\","));
         assertTrue(resStr.contains("private Dfhcommarea request;"));
-        assertTrue(resStr.contains("public final Dfhcommarea getRequest() {"));
+        assertTrue(resStr.contains("public Dfhcommarea getRequest() {"));
         assertTrue(resStr.contains("return request;"));
-        assertTrue(resStr.contains("public final void setRequest("));
+        assertTrue(resStr.contains("public void setRequest("));
         assertTrue(resStr.contains("final Dfhcommarea value) {"));
         assertTrue(resStr.contains("request = value;"));
     }
@@ -157,9 +157,9 @@ public class Jaxws2CixsVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("@XmlElement(name = \"LsfileacRequestHolder\","));
         assertTrue(resStr.contains("namespace = \"http://cixs.test.legstar.com/lsfileac\","));
         assertTrue(resStr.contains("private LsfileacRequestHolder request;"));
-        assertTrue(resStr.contains("public final LsfileacRequestHolder getRequest() {"));
+        assertTrue(resStr.contains("public LsfileacRequestHolder getRequest() {"));
         assertTrue(resStr.contains("return request;"));
-        assertTrue(resStr.contains("public final void setRequest("));
+        assertTrue(resStr.contains("public void setRequest("));
         assertTrue(resStr.contains("final LsfileacRequestHolder value) {"));
         assertTrue(resStr.contains("request = value;"));
     }
@@ -194,9 +194,9 @@ public class Jaxws2CixsVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("@XmlElement(name = \"QueryData\","));
         assertTrue(resStr.contains("namespace = \"http://legstar.com/test/coxb/lsfileac\","));
         assertTrue(resStr.contains("private QueryData queryData;"));
-        assertTrue(resStr.contains("public final QueryData getQueryData() {"));
+        assertTrue(resStr.contains("public QueryData getQueryData() {"));
         assertTrue(resStr.contains("return queryData;"));
-        assertTrue(resStr.contains("public final void setQueryData("));
+        assertTrue(resStr.contains("public void setQueryData("));
         assertTrue(resStr.contains("private QueryData queryData;"));
         assertTrue(resStr.contains("final QueryData value) {"));
         assertTrue(resStr.contains("queryData = value;"));
@@ -229,7 +229,7 @@ public class Jaxws2CixsVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("final LsfileaeFaultInfo fault) {"));
         assertTrue(resStr.contains("final LsfileaeFaultInfo fault,"));
         assertTrue(resStr.contains("returns fault bean: com.legstar.test.cixs.lsfileae.LsfileaeFaultInfo"));
-        assertTrue(resStr.contains("public final LsfileaeFaultInfo getFaultInfo() {"));
+        assertTrue(resStr.contains("public LsfileaeFaultInfo getFaultInfo() {"));
     }
 
     /**

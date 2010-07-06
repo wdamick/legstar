@@ -49,7 +49,7 @@ public abstract class AbstractCixsGenerator extends Task {
 
     /** @{inheritDoc}*/
     @Override
-    public final void init() {
+    public void init() {
         _log.info("Initializing velocity engine for "
                 + mAntModel.getGeneratorName());
         try {
@@ -65,7 +65,7 @@ public abstract class AbstractCixsGenerator extends Task {
      * 
      * */
     @Override
-    public final void execute() {
+    public void execute() {
         _log.info("Generating artifacts for "
                 + ((getCixsService() == null) ? "null"
                         : getCixsService().getName()));
@@ -210,14 +210,14 @@ public abstract class AbstractCixsGenerator extends Task {
     /**
      * @return the service description 
      */
-    public final AbstractCixsService getCixsService() {
+    public AbstractCixsService getCixsService() {
         return mAntModel.getCixsService();
     }
 
     /**
      * @param cixsService the service to set
      */
-    public final void setCixsService(
+    public void setCixsService(
             final AbstractCixsService cixsService) {
         mAntModel.setCixsService(cixsService);
     }
@@ -225,14 +225,14 @@ public abstract class AbstractCixsGenerator extends Task {
     /**
      * @param cixsService the service to set
      */
-    public final void add(final AbstractCixsService cixsService) {
+    public void add(final AbstractCixsService cixsService) {
         setCixsService(cixsService);
     }
 
     /**
      * @param cixsService the service to set
      */
-    public final void addCixsService(
+    public void addCixsService(
             final AbstractCixsService cixsService) {
         setCixsService(cixsService);
     }
@@ -240,97 +240,97 @@ public abstract class AbstractCixsGenerator extends Task {
     /**
      * @return the target source directory
      */
-    public final File getTargetSrcDir() {
+    public File getTargetSrcDir() {
         return mAntModel.getTargetSrcDir();
     }
 
     /**
      * @param targetSrcDir the target source directory to set
      */
-    public final void setTargetSrcDir(final File targetSrcDir) {
+    public void setTargetSrcDir(final File targetSrcDir) {
         mAntModel.setTargetSrcDir(targetSrcDir);
     }
     /**
      * @return custom binaries location
      */
-    public final File getCustBinDir() {
+    public File getCustBinDir() {
         return mAntModel.getCustBinDir();
     }
 
     /**
      * @param custBinDir the custom binaries location to set
      */
-    public final void setCustBinDir(final File custBinDir) {
+    public void setCustBinDir(final File custBinDir) {
         mAntModel.setCustBinDir(custBinDir);
     }
 
     /**
      * @return the deployment location for jaxws war files
      */
-    public final File getTargetDistDir() {
+    public File getTargetDistDir() {
         return mAntModel.getTargetDistDir();
     }
 
     /**
      * @param targetDistDir the distribution location for artifacts such as jars and wars to set
      */
-    public final void setTargetDistDir(final File targetDistDir) {
+    public void setTargetDistDir(final File targetDistDir) {
         mAntModel.setTargetDistDir(targetDistDir);
     }
 
     /**
      * @return the Service binaries
      */
-    public final File getTargetBinDir() {
+    public File getTargetBinDir() {
         return mAntModel.getTargetBinDir();
     }
 
     /**
      * @param targetBinDir the Service binaries to set
      */
-    public final void setTargetBinDir(final File targetBinDir) {
+    public void setTargetBinDir(final File targetBinDir) {
         mAntModel.setTargetBinDir(targetBinDir);
     }
 
     /**
      * @return the jaxb binaries location
      */
-    public final File getJaxbBinDir() {
+    public File getJaxbBinDir() {
         return mAntModel.getJaxbBinDir();
     }
 
     /**
      * @param jaxbBinDir the jaxb binaries location to set
      */
-    public final void setJaxbBinDir(final File jaxbBinDir) {
+    public void setJaxbBinDir(final File jaxbBinDir) {
         mAntModel.setJaxbBinDir(jaxbBinDir);
     }
 
     /**
      * @return the coxb binaries location
      */
-    public final File getCoxbBinDir() {
+    public File getCoxbBinDir() {
         return mAntModel.getCoxbBinDir();
     }
 
     /**
      * @param coxbBinDir the coxb binaries location to set
      */
-    public final void setCoxbBinDir(final File coxbBinDir) {
+    public void setCoxbBinDir(final File coxbBinDir) {
         mAntModel.setCoxbBinDir(coxbBinDir);
     }
 
     /**
      * @return the location for ant deployment script
      */
-    public final File getTargetAntDir() {
+    public File getTargetAntDir() {
         return mAntModel.getTargetAntDir();
     }
 
     /**
      * @param targetAntDir the location for ant deployment script to set
      */
-    public final void setTargetAntDir(final File targetAntDir) {
+    public void setTargetAntDir(final File targetAntDir) {
         mAntModel.setTargetAntDir(targetAntDir);
     }
 
@@ -344,14 +344,14 @@ public abstract class AbstractCixsGenerator extends Task {
     /**
      * @return the host character set
      */
-    public final String getHostCharset() {
+    public String getHostCharset() {
         return mAntModel.getHostCharset();
     }
 
     /**
      * @param hostCharset the host character set to set
      */
-    public final void setHostCharset(final String hostCharset) {
+    public void setHostCharset(final String hostCharset) {
         mAntModel.setHostCharset(hostCharset);
     }
 

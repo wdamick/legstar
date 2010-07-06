@@ -21,7 +21,7 @@ import com.legstar.coxb.util.Utils;
  * proxy invokers.
  *
  */
-public final class ProxyInvokerFactory {
+public class ProxyInvokerFactory {
     
     /** Default operation proxy. */ 
     public static final String DEFAULT_PROXY_INVOKER_CLASS_NAME =

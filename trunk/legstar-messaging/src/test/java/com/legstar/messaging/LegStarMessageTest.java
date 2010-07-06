@@ -104,7 +104,7 @@ public class LegStarMessageTest extends TestCase {
      * Create a multipart message and test that it serializes correctly.
      * @throws IOException if test fails
      */
-    public final void testHostStreamMessage() throws IOException {
+    public void testHostStreamMessage() throws IOException {
         try {
             List < LegStarMessagePart > inputParts = new ArrayList < LegStarMessagePart >();
             LegStarMessagePart inQueryData = new ContainerPart(
@@ -139,7 +139,7 @@ public class LegStarMessageTest extends TestCase {
      * Check that message size is calculated correctly.
      * @throws HeaderPartException if tes fails
      */
-    public final void testGetSize() throws HeaderPartException {
+    public void testGetSize() throws HeaderPartException {
 
         /* Test on an empty message */
         LegStarHeaderPart headerPart = new LegStarHeaderPart();
@@ -167,7 +167,7 @@ public class LegStarMessageTest extends TestCase {
      * @throws HeaderPartException if header is invalid
      * @throws HostMessageFormatException if receive fails
      */
-    public final void testRecvFromHost() throws HeaderPartException, HostMessageFormatException {
+    public void testRecvFromHost() throws HeaderPartException, HostMessageFormatException {
         byte[] hostBytes = HostData.toByteArray(MULTIPART_MESSAGE);
         ByteArrayInputStream hostStream = new ByteArrayInputStream(hostBytes);
         LegStarMessage message = new LegStarMessage();
@@ -186,7 +186,7 @@ public class LegStarMessageTest extends TestCase {
      * @throws HeaderPartException if header is invalid
      * @throws HostMessageFormatException if receive fails
      */
-    public final void testRecvEmptyMessageFromHost() throws HeaderPartException, HostMessageFormatException {
+    public void testRecvEmptyMessageFromHost() throws HeaderPartException, HostMessageFormatException {
         byte[] hostBytes = HostData.toByteArray(
                 "d3e2d6d2c8c5c1c44040404040404040"
                 + "00000000"
@@ -203,7 +203,7 @@ public class LegStarMessageTest extends TestCase {
      * Check that message serializes correctly into a string.
      * @throws Exception if test fails
      */
-    public final void testToString() throws Exception {
+    public void testToString() throws Exception {
         byte[] hostBytes = HostData.toByteArray(MULTIPART_MESSAGE);
         ByteArrayInputStream hostStream = new ByteArrayInputStream(hostBytes);
         LegStarMessage message = new LegStarMessage();
@@ -221,7 +221,7 @@ public class LegStarMessageTest extends TestCase {
      * Check that equality is tested correctly between messages.
      * @throws Exception if test fails
      */
-    public final void testEquals() throws Exception {
+    public void testEquals() throws Exception {
         byte[] hostBytes = HostData.toByteArray(MULTIPART_MESSAGE);
         byte[] hostBytes2 = HostData.toByteArray(MULTIPART_MESSAGE.replace("f5f6", "f7f8"));
         LegStarMessage message = new LegStarMessage();
@@ -239,7 +239,7 @@ public class LegStarMessageTest extends TestCase {
      * Create a multipart message and test that it serializes correctly.
      * @throws IOException if test fails
      */
-    public final void testToByteArray() throws IOException {
+    public void testToByteArray() throws IOException {
         try {
             List < LegStarMessagePart > inputParts = new ArrayList < LegStarMessagePart >();
             LegStarMessagePart inQueryData = new ContainerPart(

@@ -77,7 +77,7 @@ public class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
     /**
      * @return the target directory where source files will be created
      */
-    public final File getTargetSrcDir() {
+    public File getTargetSrcDir() {
         return mTargetSrcDir;
     }
 
@@ -85,14 +85,14 @@ public class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
      * @param targetSrcDir the target directory where source files will be
      *  created to set
      */
-    public final void setTargetSrcDir(final File targetSrcDir) {
+    public void setTargetSrcDir(final File targetSrcDir) {
         mTargetSrcDir = targetSrcDir;
     }
 
     /**
      * @return the target directory where binary files will be created
      */
-    public final File getTargetBinDir() {
+    public File getTargetBinDir() {
         return mTargetBinDir;
     }
 
@@ -100,14 +100,14 @@ public class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
      * @param targetBinDir the target directory where binary files will be
      *  created to set
      */
-    public final void setTargetBinDir(final File targetBinDir) {
+    public void setTargetBinDir(final File targetBinDir) {
         mTargetBinDir = targetBinDir;
     }
 
     /**
      * @return the target directory where ant files will be created
      */
-    public final File getTargetAntDir() {
+    public File getTargetAntDir() {
         return mTargetAntDir;
     }
 
@@ -115,35 +115,35 @@ public class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
      * @param targetAntDir the target directory where ant files will be created
      *  to set
      */
-    public final void setTargetAntDir(final File targetAntDir) {
+    public void setTargetAntDir(final File targetAntDir) {
         mTargetAntDir = targetAntDir;
     }
 
     /**
      * @return the distribution location for artifacts such as jars and wars
      */
-    public final File getTargetDistDir() {
+    public File getTargetDistDir() {
         return mTargetDistDir;
     }
 
     /**
      * @param targetDistDir the distribution location for artifacts such as jars and wars to set
      */
-    public final void setTargetDistDir(final File targetDistDir) {
+    public void setTargetDistDir(final File targetDistDir) {
         mTargetDistDir = targetDistDir;
     }
 
     /**
      * @return the location where JAXB compiled classes live
      */
-    public final File getJaxbBinDir() {
+    public File getJaxbBinDir() {
         return mJaxbBinDir;
     }
 
     /**
      * @param jaxbBinDir the location where JAXB compiled classes live to set
      */
-    public final void setJaxbBinDir(final File jaxbBinDir) {
+    public void setJaxbBinDir(final File jaxbBinDir) {
         mJaxbBinDir = jaxbBinDir;
     }
 
@@ -151,7 +151,7 @@ public class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
      * @return the location where COXB compiled classes live. Defaults to same
      * location as Jaxb classes.
      */
-    public final File getCoxbBinDir() {
+    public File getCoxbBinDir() {
         if (mCoxbBinDir == null) {
             return getJaxbBinDir();
         }
@@ -161,7 +161,7 @@ public class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
     /**
      * @param coxbBinDir the location where COXB compiled classes live to set
      */
-    public final void setCoxbBinDir(final File coxbBinDir) {
+    public void setCoxbBinDir(final File coxbBinDir) {
         mCoxbBinDir = coxbBinDir;
     }
 
@@ -169,7 +169,7 @@ public class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
      * @return the location where custom compiled classes live. Defaults to same
      * location as Jaxb classes.
      */
-    public final File getCustBinDir() {
+    public File getCustBinDir() {
         if (mCustBinDir == null) {
             return getJaxbBinDir();
         }
@@ -179,49 +179,49 @@ public class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
     /**
      * @param custBinDir the location where custom compiled classes live to set
      */
-    public final void setCustBinDir(final File custBinDir) {
+    public void setCustBinDir(final File custBinDir) {
         mCustBinDir = custBinDir;
     }
 
     /**
      * @return this generator's name
      */
-    public final String getGeneratorName() {
+    public String getGeneratorName() {
         return mGeneratorName;
     }
 
     /**
      * @param generatorName this generator's name to set
      */
-    public final void setGeneratorName(final String generatorName) {
+    public void setGeneratorName(final String generatorName) {
         mGeneratorName = generatorName;
     }
 
     /**
      * @return the host character set
      */
-    public final String getHostCharset() {
+    public String getHostCharset() {
         return mHostCharset;
     }
 
     /**
      * @param hostCharset the host character set to set
      */
-    public final void setHostCharset(final String hostCharset) {
+    public void setHostCharset(final String hostCharset) {
         mHostCharset = hostCharset;
     }
 
     /**
      * @return the the service being generated
      */
-    public final AbstractCixsService getCixsService() {
+    public AbstractCixsService getCixsService() {
         return mCixsService;
     }
 
     /**
      * @param cixsService the service being generated  to set
      */
-    public final void setCixsService(
+    public void setCixsService(
             final AbstractCixsService cixsService) {
         mCixsService = cixsService;
     }

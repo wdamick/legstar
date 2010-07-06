@@ -167,84 +167,84 @@ public class CicsMQEndpoint extends HostEndpoint {
     /**
      * @return the host IP address
      */
-    public final String getHostIPAddress() {
+    public String getHostIPAddress() {
         return mHostIPAddress;
     }
 
     /**
      * @param hostIPAddress the host IP address to set
      */
-    public final void setHostIPAddress(final String hostIPAddress) {
+    public void setHostIPAddress(final String hostIPAddress) {
         mHostIPAddress = hostIPAddress;
     }
 
     /**
      * @return the host IP port
      */
-    public final int getHostIPPort() {
+    public int getHostIPPort() {
         return mHostIPPort;
     }
 
     /**
      * @param hostIPPort the host IP port to set
      */
-    public final void setHostIPPort(final int hostIPPort) {
+    public void setHostIPPort(final int hostIPPort) {
         mHostIPPort = hostIPPort;
     }
 
     /**
      * @return the MQ Channel
      */
-    public final String getHostMQChannel() {
+    public String getHostMQChannel() {
         return mHostMQChannel;
     }
 
     /**
      * @param hostMQChannel the MQ Channel to set
      */
-    public final void setHostMQChannel(final String hostMQChannel) {
+    public void setHostMQChannel(final String hostMQChannel) {
         mHostMQChannel = hostMQChannel;
     }
 
     /**
      * @return the MQ Manager
      */
-    public final String getHostMQManager() {
+    public String getHostMQManager() {
         return mHostMQManager;
     }
 
     /**
      * @param hostMQManager the MQ Manager to set
      */
-    public final void setHostMQManager(final String hostMQManager) {
+    public void setHostMQManager(final String hostMQManager) {
         mHostMQManager = hostMQManager;
     }
 
     /**
      * @return the MQ Reply queue
      */
-    public final String getHostMQResponseQueue() {
+    public String getHostMQResponseQueue() {
         return mHostMQResponseQueue;
     }
 
     /**
      * @param hostMQReplyQueue the MQ Reply queue to set
      */
-    public final void setHostMQResponseQueue(final String hostMQReplyQueue) {
+    public void setHostMQResponseQueue(final String hostMQReplyQueue) {
         mHostMQResponseQueue = hostMQReplyQueue;
     }
 
     /**
      * @return the MQ Request queue
      */
-    public final String getHostMQRequestQueue() {
+    public String getHostMQRequestQueue() {
         return mHostMQRequestQueue;
     }
 
     /**
      * @param hostMQRequestQueue the MQ Request queue to set
      */
-    public final void setHostMQRequestQueue(final String hostMQRequestQueue) {
+    public void setHostMQRequestQueue(final String hostMQRequestQueue) {
         mHostMQRequestQueue = hostMQRequestQueue;
     }
 

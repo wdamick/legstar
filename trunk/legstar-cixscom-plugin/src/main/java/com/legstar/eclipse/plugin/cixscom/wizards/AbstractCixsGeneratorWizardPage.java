@@ -746,7 +746,7 @@ extends AbstractWizardPage {
     /**
      * @return the mapping model
      */
-    public final CixsMappingModel getMappingModel() {
+    public CixsMappingModel getMappingModel() {
         return mMappingModel;
     }
 
@@ -795,7 +795,7 @@ extends AbstractWizardPage {
     /**
      * @return the mapping file
      */
-    public final IFile getMappingFile() {
+    public IFile getMappingFile() {
         return mMappingFile;
     }
 

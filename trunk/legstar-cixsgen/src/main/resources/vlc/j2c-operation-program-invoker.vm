@@ -87,7 +87,7 @@ public class ${cixsOperation.className}ProgramInvoker extends AbstractProgramInv
      * @throws HostInvokerException if host invoker cannot be created or configured
      * @throws HostTransformException if transformation fails
      */
-    public final $cixsOperation.responseHolderType ${cixsOperation.name}(
+    public $cixsOperation.responseHolderType ${cixsOperation.name}(
             final LegStarAddress address,
             final String requestID,
             final $cixsOperation.requestHolderType request)

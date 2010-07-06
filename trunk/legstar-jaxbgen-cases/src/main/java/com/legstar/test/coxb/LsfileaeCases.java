@@ -19,7 +19,7 @@ import com.legstar.test.coxb.lsfileae.ComPersonal;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class LsfileaeCases extends TestCase {
+public class LsfileaeCases extends TestCase {
 
     /** Utility class. */
     private LsfileaeCases() {

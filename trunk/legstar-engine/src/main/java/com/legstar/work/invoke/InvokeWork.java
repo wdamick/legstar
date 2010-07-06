@@ -54,7 +54,7 @@ public class InvokeWork implements Work {
      * @see commonj.work.Work#isDaemon()
      * {@inheritDoc}
      */
-    public final boolean isDaemon() {
+    public boolean isDaemon() {
         return false;
     }
 
@@ -70,7 +70,7 @@ public class InvokeWork implements Work {
      * request and then wait for a reply. Upon return, the Request object
      * will hold the response, or exception if something went wrong.
      */
-    public final void run() {
+    public void run() {
         long startTime = System.currentTimeMillis();
         _log.debug("Unit of Work started for Request:" + mRequest.getID());
         try {
@@ -96,28 +96,28 @@ public class InvokeWork implements Work {
     /**
      * @return the host connection
      */
-    public final LegStarConnection getConnection() {
+    public LegStarConnection getConnection() {
         return mConnection;
     }
 
     /**
      * @param connection the host connection to set
      */
-    public final void setConnection(final LegStarConnection connection) {
+    public void setConnection(final LegStarConnection connection) {
         mConnection = connection;
     }
 
     /**
      * @return the request object
      */
-    public final LegStarRequest getRequest() {
+    public LegStarRequest getRequest() {
         return mRequest;
     }
 
     /**
      * @param request the request object to set
      */
-    public final void setRequest(final LegStarRequest request) {
+    public void setRequest(final LegStarRequest request) {
         mRequest = request;
     }
 

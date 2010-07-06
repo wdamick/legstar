@@ -65,7 +65,7 @@ public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsJaxwsModel {
     /**
      * @return the directory where COBOL files will be created
      */
-    public final File getTargetCobolDir() {
+    public File getTargetCobolDir() {
         return mTargetCobolDir;
     }
 
@@ -73,7 +73,7 @@ public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsJaxwsModel {
      * @param targetCobolDir the directory where COBOL files will be created to
      *  set
      */
-    public final void setTargetCobolDir(final File targetCobolDir) {
+    public void setTargetCobolDir(final File targetCobolDir) {
         mTargetCobolDir = targetCobolDir;
     }
 

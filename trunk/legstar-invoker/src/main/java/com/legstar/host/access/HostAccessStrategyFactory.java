@@ -17,7 +17,7 @@ import com.legstar.messaging.HostEndpoint.AccessStrategy;
  * A factory providing a host access strategy. The host access strategy is
  * configurable.
  */
-public final class HostAccessStrategyFactory {
+public class HostAccessStrategyFactory {
 
     /**
      * This factory is a utility class.

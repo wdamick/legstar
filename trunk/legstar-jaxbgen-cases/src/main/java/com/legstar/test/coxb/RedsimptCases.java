@@ -18,7 +18,7 @@ import com.legstar.test.coxb.redsimpt.Dfhcommarea;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class RedsimptCases extends TestCase {
+public class RedsimptCases extends TestCase {
 
     /** Utility class. */
     private RedsimptCases() {

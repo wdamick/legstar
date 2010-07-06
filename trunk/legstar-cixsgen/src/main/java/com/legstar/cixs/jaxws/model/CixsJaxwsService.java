@@ -31,7 +31,7 @@ public class CixsJaxwsService extends AbstractCixsService {
     /**
      * @return the host header class name
      */
-    public final String getHeaderClassName() {
+    public String getHeaderClassName() {
         if (mHeaderClassName == null || mHeaderClassName.length() == 0) {
             return getInterfaceClassName() + HOST_HEADER_SUFFIX;
         }
@@ -41,7 +41,7 @@ public class CixsJaxwsService extends AbstractCixsService {
     /**
      * @param headerClassName the host header class name to set
      */
-    public final void setHeaderClassName(final String headerClassName) {
+    public void setHeaderClassName(final String headerClassName) {
         mHeaderClassName = headerClassName;
     }
 

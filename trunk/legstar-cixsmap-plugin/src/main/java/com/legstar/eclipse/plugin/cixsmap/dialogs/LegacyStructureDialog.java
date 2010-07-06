@@ -465,14 +465,14 @@ public class LegacyStructureDialog extends AbstractDialog {
     /**
      * @return structure being edited
      */
-    public final CixsStructure getStructure() {
+    public CixsStructure getStructure() {
         return mStructure;
     }
 
     /**
      * @param structure structure being edited
      */
-    public final void setStructure(
+    public void setStructure(
             final CixsStructure structure) {
         this.mStructure = structure;
     }

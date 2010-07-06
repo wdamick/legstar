@@ -86,7 +86,7 @@ public class LegStarHeaderPart extends LegStarMessagePart {
      * @param jsonString the JSON host action description
      * @throws HeaderPartException if conversion to host fails
      */
-    public final void setContent(
+    public void setContent(
             final int dataPartsNumber,
             final String jsonString) throws HeaderPartException {
 
@@ -163,7 +163,7 @@ public class LegStarHeaderPart extends LegStarMessagePart {
      * The message parts number occupies the four first bytes of the content.
      * @return the number of data message parts
      */
-    public final int getDataPartsNumber() {
+    public int getDataPartsNumber() {
         if (getContent() == null 
                 || getContent().length < DATAPARTS_NUM_LEN) {
             return 0;
@@ -177,7 +177,7 @@ public class LegStarHeaderPart extends LegStarMessagePart {
     /**
      * @param dataPartsNumber the number of data message parts to set
      */
-    public final void setDataPartsNumber(final int dataPartsNumber) {
+    public void setDataPartsNumber(final int dataPartsNumber) {
         ByteBuffer bb = ByteBuffer.allocate(DATAPARTS_NUM_LEN);
         bb.putInt(dataPartsNumber);
         bb.flip();
@@ -189,7 +189,7 @@ public class LegStarHeaderPart extends LegStarMessagePart {
      * of data parts.
      * @return the json host string length
      */
-    public final int getJsonStringLen() {
+    public int getJsonStringLen() {
         if (getContent() == null 
                 || getContent().length 
                 < (DATAPARTS_NUM_LEN + JSON_LEN_LEN)) {
@@ -205,7 +205,7 @@ public class LegStarHeaderPart extends LegStarMessagePart {
      * @return the JSON string
      * @throws HeaderPartException if host conversion fails
      */
-    public final String getJsonString() throws HeaderPartException {
+    public String getJsonString() throws HeaderPartException {
         if (getJsonStringLen() == 0) {
             return null;
         }
@@ -222,7 +222,7 @@ public class LegStarHeaderPart extends LegStarMessagePart {
      * @throws HeaderPartException if map cannot be converted to host
      * string
      */
-    public final void setJsonString(
+    public void setJsonString(
             final String jsonString)
     throws HeaderPartException {
         setContent(getDataPartsNumber(), jsonString);
@@ -233,14 +233,14 @@ public class LegStarHeaderPart extends LegStarMessagePart {
      * @throws HeaderPartException if map cannot be converted to host
      * string
      */
-    public final void setKeyValues(
+    public void setKeyValues(
             final Map < String, Object > keyValues)
     throws HeaderPartException {
         setContent(getDataPartsNumber(), getJsonFromMap(keyValues));
     }
 
     /** {@inheritDoc} */
-    public final String toString() {
+    public String toString() {
         StringBuffer sb = new StringBuffer(80);
         sb.append(this.getClass().getSimpleName());
         sb.append("{this=").append(Integer.toHexString(

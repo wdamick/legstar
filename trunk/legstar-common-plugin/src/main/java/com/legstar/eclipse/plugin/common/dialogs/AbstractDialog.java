@@ -207,7 +207,7 @@ public abstract class AbstractDialog extends Dialog {
     /**
      * @return the current plugin ID
      */
-    public final String getPluginID() {
+    public String getPluginID() {
         return mPluginID;
     }
 

@@ -33,70 +33,70 @@ public class JVMQueryReply {
     /**
      * @return the environment variable values to get
      */
-    public final List < String > getEnvVarValues() {
+    public List < String > getEnvVarValues() {
         return mEnvVarValues;
     }
 
     /**
      * @param envVarValues the the environment variable values to set
      */
-    public final void setEnvVarValues(final List < String > envVarValues) {
+    public void setEnvVarValues(final List < String > envVarValues) {
         mEnvVarValues = envVarValues;
     }
 
     /**
      * @return the Formatted Date
      */
-    public final String getFormattedDate() {
+    public String getFormattedDate() {
         return mFormattedDate;
     }
 
     /**
      * @param formattedDate the Formatted Date to set
      */
-    public final void setFormattedDate(final String formattedDate) {
+    public void setFormattedDate(final String formattedDate) {
         mFormattedDate = formattedDate;
     }
 
     /**
      * @return the country
      */
-    public final String getCountry() {
+    public String getCountry() {
         return mCountry;
     }
 
     /**
      * @param country the country to set
      */
-    public final void setCountry(final String country) {
+    public void setCountry(final String country) {
         mCountry = country;
     }
 
     /**
      * @return the language
      */
-    public final String getLanguage() {
+    public String getLanguage() {
         return mLanguage;
     }
 
     /**
      * @param mlanguage the language to set
      */
-    public final void setLanguage(final String mlanguage) {
+    public void setLanguage(final String mlanguage) {
         this.mLanguage = mlanguage;
     }
 
     /**
      * @return the Currency Symbol
      */
-    public final String getCurrencySymbol() {
+    public String getCurrencySymbol() {
         return mCurrencySymbol;
     }
 
     /**
      * @param currencySymbol the Currency Symbol to set
      */
-    public final void setCurrencySymbol(final String currencySymbol) {
+    public void setCurrencySymbol(final String currencySymbol) {
         mCurrencySymbol = currencySymbol;
     }
 

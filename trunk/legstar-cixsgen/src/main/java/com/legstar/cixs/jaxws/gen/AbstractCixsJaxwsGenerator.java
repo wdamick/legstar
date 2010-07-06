@@ -165,7 +165,7 @@ public abstract class AbstractCixsJaxwsGenerator extends AbstractCixsGenerator {
     /**
      * @return the Target location for web deployment descriptors
      */
-    public final File getTargetWDDDir() {
+    public File getTargetWDDDir() {
         return getAntModel().getTargetWDDDir();
     }
 
@@ -173,35 +173,35 @@ public abstract class AbstractCixsJaxwsGenerator extends AbstractCixsGenerator {
      * @param targetWDDDir the Target location for web deployment descriptors to
      *  set
      */
-    public final void setTargetWDDDir(final File targetWDDDir) {
+    public void setTargetWDDDir(final File targetWDDDir) {
         getAntModel().setTargetWDDDir(targetWDDDir);
     }
 
     /**
      * @return the deployment location for jaxws war files
      */
-    public final File getTargetWarDir() {
+    public File getTargetWarDir() {
         return getAntModel().getTargetWarDir();
     }
 
     /**
      * @param targetWarDir the deployment location for jaxws war files to set
      */
-    public final void setTargetWarDir(final File targetWarDir) {
+    public void setTargetWarDir(final File targetWarDir) {
         getAntModel().setTargetWarDir(targetWarDir);
     }
 
     /**
      * @return the service description
      */
-    public final CixsJaxwsService getCixsJaxwsService() {
+    public CixsJaxwsService getCixsJaxwsService() {
         return getAntModel().getCixsJaxwsService();
     }
 
     /**
      * @param cixsJaxwsService the service description to set
      */
-    public final void setCixsJaxwsService(
+    public void setCixsJaxwsService(
             final CixsJaxwsService cixsJaxwsService) {
         getAntModel().setCixsJaxwsService(cixsJaxwsService);
     }
@@ -209,14 +209,14 @@ public abstract class AbstractCixsJaxwsGenerator extends AbstractCixsGenerator {
     /**
      * @param cixsJaxwsService the Jaxws service to set
      */
-    public final void add(final CixsJaxwsService cixsJaxwsService) {
+    public void add(final CixsJaxwsService cixsJaxwsService) {
         getAntModel().setCixsJaxwsService(cixsJaxwsService);
     }
 
     /**
      * @param cixsJaxwsService the Jaxws service to set
      */
-    public final void addCixsJaxwsService(
+    public void addCixsJaxwsService(
             final CixsJaxwsService cixsJaxwsService) {
         getAntModel().setCixsJaxwsService(cixsJaxwsService);
     }

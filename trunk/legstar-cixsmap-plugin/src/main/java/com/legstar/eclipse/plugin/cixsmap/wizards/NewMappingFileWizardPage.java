@@ -163,14 +163,14 @@ public class NewMappingFileWizardPage extends WizardNewFileCreationPage {
     /**
      * @return the container name
      */
-    public final String getContainerName() {
+    public String getContainerName() {
         return getContainerFullPath().toOSString();
     }
 
     /**
      * @return the mapping file name
      */
-    public final String getMappingFileName() {
+    public String getMappingFileName() {
         return getFileName();
     }
 

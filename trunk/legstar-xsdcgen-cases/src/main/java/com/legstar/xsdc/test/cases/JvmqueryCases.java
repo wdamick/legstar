@@ -18,7 +18,7 @@ import com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class JvmqueryCases extends TestCase {
+public class JvmqueryCases extends TestCase {
 
     /** Expected raw mainframe response sample. */
     public static final String JVMQUERYREPLY_HOST_BYTES =

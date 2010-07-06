@@ -56,7 +56,7 @@ public class ProgramInvokerVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("mDfhcommareaTransformers = new DfhcommareaTransformers();"));
         assertTrue(resStr.contains("* Invoke the LSFILEAE host program."));
         assertTrue(resStr.contains("* @throws HostInvokerException if host invoker cannot be created or configured"));
-        assertTrue(resStr.contains("public final Dfhcommarea lsfileae("));
+        assertTrue(resStr.contains("public Dfhcommarea lsfileae("));
         assertTrue(resStr.contains("final Dfhcommarea request)"));
         assertTrue(resStr.contains("throws HostInvokerException, HostTransformException {"));
         assertTrue(resStr.contains("getDfhcommareaTransformers().toHost(request, hostCharset);"));
@@ -103,7 +103,7 @@ public class ProgramInvokerVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("mRequestParmsTransformers = new RequestParmsTransformers();"));
         assertTrue(resStr.contains("mReplyDataTransformers = new ReplyDataTransformers();"));
         assertTrue(resStr.contains("* Invoke the LSFILEAL host program."));
-        assertTrue(resStr.contains("public final ReplyData lsfileal("));
+        assertTrue(resStr.contains("public ReplyData lsfileal("));
         assertTrue(resStr.contains("final RequestParms request)"));
         assertTrue(resStr.contains("getRequestParmsTransformers().toHost(request, hostCharset);"));
         assertTrue(resStr.contains("byte[] replyBytes = hostInvoker.invoke(requestID, requestBytes);"));
@@ -157,7 +157,7 @@ public class ProgramInvokerVelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr.contains("mReplyStatusTransformers = new ReplyStatusTransformers();"));
         assertTrue(resStr.contains("mReplyDataTransformers = new ReplyDataTransformers();"));
         assertTrue(resStr.contains("* Invoke the LSFILEAC host program."));
-        assertTrue(resStr.contains("public final LsfileacResponseHolder lsfileac("));
+        assertTrue(resStr.contains("public LsfileacResponseHolder lsfileac("));
         assertTrue(resStr.contains("final LsfileacRequestHolder request)"));
         
         assertTrue(resStr.contains("Map < String, byte[] > requestParts ="));

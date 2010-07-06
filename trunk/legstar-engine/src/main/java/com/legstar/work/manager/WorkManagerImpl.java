@@ -53,7 +53,7 @@ public class WorkManagerImpl implements WorkManager {
      * @return Work Work item representing the asynchronous work
      * @throws WorkException if scheduling fails
      */
-    public final WorkItem schedule(final Work work) throws WorkException {
+    public WorkItem schedule(final Work work) throws WorkException {
         return schedule(work, null);
     }
     /**
@@ -64,7 +64,7 @@ public class WorkManagerImpl implements WorkManager {
      * @return Work Work item representing the asynchronous work
      * @throws WorkRejectedException if work is rejected
      */
-    public final WorkItem schedule(
+    public WorkItem schedule(
             final Work work,
             final WorkListener workListener) throws WorkRejectedException {
         WorkItemImpl workItem = new WorkItemImpl(
@@ -90,7 +90,7 @@ public class WorkManagerImpl implements WorkManager {
      * @return true if wait for all succeeded
      */
     @SuppressWarnings("unchecked")
-    public final boolean waitForAll(
+    public boolean waitForAll(
             final Collection works, final long timeout) {
         throw new UnsupportedOperationException("waitForAll not supported");
     }
@@ -103,7 +103,7 @@ public class WorkManagerImpl implements WorkManager {
      * @return true if wait for any succeeded
      */
     @SuppressWarnings("unchecked")
-    public final Collection waitForAny(
+    public Collection waitForAny(
             final Collection works, final long timeout) {
         throw new UnsupportedOperationException("waitForAny not supported");
     }

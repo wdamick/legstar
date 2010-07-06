@@ -38,7 +38,7 @@ public class WorkEventImpl implements WorkEvent {
      *
      * @return Work type.
      */
-    public final int getType() {
+    public int getType() {
         return mWorkItem.getStatus();
     }
 
@@ -47,7 +47,7 @@ public class WorkEventImpl implements WorkEvent {
      *
      * @return Work item.
      */
-    public final WorkItem getWorkItem() {
+    public WorkItem getWorkItem() {
         return mWorkItem;
     }
 
@@ -56,7 +56,7 @@ public class WorkEventImpl implements WorkEvent {
      *
      * @return Work exception.
      */
-    public final WorkException getException() {
+    public WorkException getException() {
         return mWorkItem.getException();
     }
 }

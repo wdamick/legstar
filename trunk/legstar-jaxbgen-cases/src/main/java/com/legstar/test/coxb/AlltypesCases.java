@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class AlltypesCases extends TestCase {
+public class AlltypesCases extends TestCase {
 
     /** Utility class. */
     private AlltypesCases() {

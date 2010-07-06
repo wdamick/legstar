@@ -102,28 +102,28 @@ public class CicsSocketEndpoint extends HostEndpoint {
     /**
      * @return the host IP address
      */
-    public final String getHostIPAddress() {
+    public String getHostIPAddress() {
         return mHostIPAddress;
     }
 
     /**
      * @param hostIPAddress the host IP address to set
      */
-    public final void setHostIPAddress(final String hostIPAddress) {
+    public void setHostIPAddress(final String hostIPAddress) {
         mHostIPAddress = hostIPAddress;
     }
 
     /**
      * @return the host IP port
      */
-    public final int getHostIPPort() {
+    public int getHostIPPort() {
         return mHostIPPort;
     }
 
     /**
      * @param hostIPPort the host IP port to set
      */
-    public final void setHostIPPort(final int hostIPPort) {
+    public void setHostIPPort(final int hostIPPort) {
         mHostIPPort = hostIPPort;
     }
 

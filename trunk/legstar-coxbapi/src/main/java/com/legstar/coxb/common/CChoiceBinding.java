@@ -159,9 +159,9 @@ public abstract class CChoiceBinding extends CBinding implements ICobolChoiceBin
             final String strategyClassName) throws HostException {
         if (strategyClassName != null && strategyClassName.length() > 0) {
             try {
-                Class < ? > clazz = getClass().getClassLoader().
-                loadClass(strategyClassName);
-                return (ICobolUnmarshalChoiceStrategy) clazz.newInstance();
+                Class < ? > clazz = getClass().getClassLoader()
+                    .loadClass(strategyClassName);
+                return clazz.newInstance();
             } catch (ClassNotFoundException e) {
                 throw new HostException(e);
             } catch (IllegalAccessException e) {

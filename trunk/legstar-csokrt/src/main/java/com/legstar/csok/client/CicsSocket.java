@@ -155,7 +155,7 @@ public class CicsSocket implements LegStarConnection {
      * @param cicsPassword credentials for security exist
      * @throws ConnectionException if connection fails
      */
-    public final void connect(
+    public void connect(
             final String cicsPassword) throws ConnectionException {
         String password;
         if (_log.isDebugEnabled()) {
@@ -221,7 +221,7 @@ public class CicsSocket implements LegStarConnection {
      *  file
      *  @throws ConnectionException if connection fails
      * */
-    public final void connectReuse(
+    public void connectReuse(
             final String cicsPassword) throws ConnectionException {
 
         if (_log.isDebugEnabled()) {
@@ -294,7 +294,7 @@ public class CicsSocket implements LegStarConnection {
      * @param request the request to be serviced
      * @throws RequestException if send fails
      */
-    public final void sendRequest(
+    public void sendRequest(
             final LegStarRequest request) throws RequestException {
         if (_log.isDebugEnabled()) {
             try {
@@ -346,7 +346,7 @@ public class CicsSocket implements LegStarConnection {
      * @param request the request being serviced
      * @throws RequestException if receive fails
      */
-    public final void recvResponse(
+    public void recvResponse(
             final LegStarRequest request) throws RequestException {
         if (_log.isDebugEnabled()) {
             _log.debug("Receiving response for Request:" + request.getID()
@@ -431,7 +431,7 @@ public class CicsSocket implements LegStarConnection {
      * Terminates a connection with the host.
      * @throws RequestException if a failure is detected
      */
-    public final void close() throws RequestException {
+    public void close() throws RequestException {
         if (_log.isDebugEnabled()) {
             _log.debug("Connection:" + mConnectionID
                     + " Attempting to close.");
@@ -458,7 +458,7 @@ public class CicsSocket implements LegStarConnection {
      * Request Unit Of Work commit.
      * @throws RequestException if a failure is detected
      */
-    public final void commitUOW() throws RequestException {
+    public void commitUOW() throws RequestException {
         processUOW(UOW_COMMIT);
     }
 
@@ -466,7 +466,7 @@ public class CicsSocket implements LegStarConnection {
      * Request Unit Of Work continuation.
      * @throws RequestException if a failure is detected
      */
-    public final void keepUOW() throws RequestException {
+    public void keepUOW() throws RequestException {
         processUOW(UOW_KEEP);
     }
 
@@ -474,7 +474,7 @@ public class CicsSocket implements LegStarConnection {
      * Request Unit Of Work rollback.
      * @throws RequestException if a failure is detected
      */
-    public final void rollbackUOW() throws RequestException {
+    public void rollbackUOW() throws RequestException {
         processUOW(UOW_ROLLBACK);
     }
 
@@ -680,28 +680,28 @@ public class CicsSocket implements LegStarConnection {
     /**
      * @return the current socket connection
      */
-    public final Socket getClientSocket() {
+    public Socket getClientSocket() {
         return mClientSocket;
     }
 
     /**
      * @param clientSocket a socket connection to a CICS region
      */
-    public final void setClientSocket(final Socket clientSocket) {
+    public void setClientSocket(final Socket clientSocket) {
         mClientSocket = clientSocket;
     }
 
     /**
      * @return the CICS socket endpoint
      */
-    public final CicsSocketEndpoint getCicsSocketEndpoint() {
+    public CicsSocketEndpoint getCicsSocketEndpoint() {
         return mCicsSocketEndpoint;
     }
 
     /**
      * @param cicsSocketEndpoint the CICS socket endpoint to set
      */
-    public final void setCicsSocketEndpoint(
+    public void setCicsSocketEndpoint(
             final CicsSocketEndpoint cicsSocketEndpoint) {
         mCicsSocketEndpoint = cicsSocketEndpoint;
     }
@@ -709,14 +709,14 @@ public class CicsSocket implements LegStarConnection {
     /**
      * @return the identifier for this connection
      */
-    public final String getConnectionID() {
+    public String getConnectionID() {
         return mConnectionID;
     }
 
     /**
      * @param connectionID an identifier for this connection to set
      */
-    public final void setConnectionID(final String connectionID) {
+    public void setConnectionID(final String connectionID) {
         mConnectionID = connectionID;
     }
 
@@ -724,7 +724,7 @@ public class CicsSocket implements LegStarConnection {
      * @see com.legstar.messaging.Connection#getConnectTimeout()
      * {@inheritDoc}
      */
-    public final long getConnectTimeout() {
+    public long getConnectTimeout() {
         return getCicsSocketEndpoint().getConnectTimeout();
     }
 
@@ -732,7 +732,7 @@ public class CicsSocket implements LegStarConnection {
      * @see com.legstar.messaging.Connection#getReceiveTimeout()
      * {@inheritDoc}
      */
-    public final long getReceiveTimeout() {
+    public long getReceiveTimeout() {
         return getCicsSocketEndpoint().getReceiveTimeout();
     }
 

@@ -504,7 +504,7 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
     /**
      * @return true if the XSD file should be overwritten if it already exist
      */
-    public final boolean isOverwriteAllowed() {
+    public boolean isOverwriteAllowed() {
         return mOverwriteAllowed;
     }
 
@@ -512,21 +512,21 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
      * @param overwriteAllowed true if the XSD file should be overwritten if it
      *  already exist
      */
-    public final void setOverwriteAllowed(final boolean overwriteAllowed) {
+    public void setOverwriteAllowed(final boolean overwriteAllowed) {
         mOverwriteAllowed = overwriteAllowed;
     }
 
     /**
      * @return the destination container text
      */
-    public final String getTargetContainer() {
+    public String getTargetContainer() {
         return mTargetContainerText.getText();
     }
 
     /**
      * @param destinationContainer the destination container text to set
      */
-    public final void setDestinationContainer(
+    public void setDestinationContainer(
             final String destinationContainer) {
         mTargetContainerText.setText(destinationContainer);
     }
@@ -534,14 +534,14 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
     /**
      * @return the target XML Schema file name
      */
-    public final String getTargetXSDFileName() {
+    public String getTargetXSDFileName() {
         return mTargetXSDFileNameText.getText();
     }
 
     /**
      * @param targetXSDFileName the target XML Schema file name to set
      */
-    public final void setTargetXSDFileName(
+    public void setTargetXSDFileName(
             final String targetXSDFileName) {
         mTargetXSDFileNameText.setText(targetXSDFileName);
     }
@@ -549,21 +549,21 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
     /**
      * @return the Target XML schema namespace
      */
-    public final String getTargetNamespace() {
+    public String getTargetNamespace() {
         return mTargetNamespaceText.getText();
     }
 
     /**
      * @param targetNamespace the Target XML schema namespace to set
      */
-    public final void setTargetNamespace(final String targetNamespace) {
+    public void setTargetNamespace(final String targetNamespace) {
         mTargetNamespaceText.setText(targetNamespace);
     }
 
     /**
      * @return the Target jaxb classes package name
      */
-    public final String getTargetJaxbPackageName() {
+    public String getTargetJaxbPackageName() {
         return mTargetJaxbPackageNameText.getText();
     }
 
@@ -571,7 +571,7 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
      * @param targetJaxbPackageName the Target jaxb classes package name to
      * set
      */
-    public final void setTargetJaxbPackageName(
+    public void setTargetJaxbPackageName(
             final String targetJaxbPackageName) {
         mTargetJaxbPackageNameText.setText(targetJaxbPackageName);
     }
@@ -580,7 +580,7 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
      * @return the optional suffix to append on JAXB classes name generated from
      *  Complex types in the XSD
      */
-    public final String getJaxbTypeClassesSuffix() {
+    public String getJaxbTypeClassesSuffix() {
         return mJaxbTypeClassesSuffixText.getText();
     }
 
@@ -588,7 +588,7 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
      * @param jaxbTypeClassesSuffix the optional suffix to append on JAXB
      *  classes name generated from Complex types in the XSD
      */
-    public final void setJaxbTypeClassesSuffix(
+    public void setJaxbTypeClassesSuffix(
             final String jaxbTypeClassesSuffix) {
         mJaxbTypeClassesSuffixText.setText(jaxbTypeClassesSuffix);
     }

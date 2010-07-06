@@ -271,14 +271,14 @@ public class LegacyOperationDialog extends AbstractDialog {
     /**
      * @return operation
      */
-    public final CixsOperation getOperation() {
+    public CixsOperation getOperation() {
         return mOperation;
     }
 
     /**
      * @param operation operation
      */
-    public final void setOperation(
+    public void setOperation(
             final CixsOperation operation) {
         this.mOperation = operation;
     }

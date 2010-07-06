@@ -56,7 +56,7 @@ public abstract class AbstractGeneratorAction implements IObjectActionDelegate {
      *            the action proxy that handles presentation portion of the
      *            action; must not be <code>null</code>.
      */
-    public final void run(final IAction action) {
+    public void run(final IAction action) {
         try {
             /* Get us the selected file */
             IFile file = null;
@@ -97,7 +97,7 @@ public abstract class AbstractGeneratorAction implements IObjectActionDelegate {
      * @param selection the current selection, or <code>null</code> if there
      *  is no selection.
      */
-    public final void selectionChanged(
+    public void selectionChanged(
             final IAction action, final ISelection selection) {
         mSelection = selection;
     }

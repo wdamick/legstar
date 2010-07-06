@@ -64,7 +64,7 @@ public abstract class AbstractCixsGeneratorWizard extends AbstractWizard {
      * We will create an operation and run it using wizard as execution context.
      * @return true if processing went fine
      */
-    public final boolean performFinish() {
+    public boolean performFinish() {
 
         try {
             IRunnableWithProgress op = getRunnable();
@@ -98,7 +98,7 @@ public abstract class AbstractCixsGeneratorWizard extends AbstractWizard {
      *  workbench.
      * {@inheritDoc}
      */
-    public final void init(
+    public void init(
             final IWorkbench workbench,
             final IStructuredSelection selection) {
         mInitialSelection = selection;
@@ -107,14 +107,14 @@ public abstract class AbstractCixsGeneratorWizard extends AbstractWizard {
     /**
      * @return the Initial Selection
      */
-    public final IStructuredSelection getInitialSelection() {
+    public IStructuredSelection getInitialSelection() {
         return mInitialSelection;
     }
 
     /**
      * @return the Mapping File
      */
-    public final IFile getMappingFile() {
+    public IFile getMappingFile() {
         return mMappingFile;
     }
 

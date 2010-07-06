@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 /**
  * Provides data samples for testing throughout LegStar.  
  */
-public final class EnumvarCases extends TestCase {
+public class EnumvarCases extends TestCase {
 
     /** Constant LIVE ID.*/
     private static final String LIVE_ID = "5588C3ACE949315B3ECAADDA908611BDF5D8D5AA";

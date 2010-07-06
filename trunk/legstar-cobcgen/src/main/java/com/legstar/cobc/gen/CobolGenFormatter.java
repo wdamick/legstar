@@ -15,7 +15,7 @@ import com.legstar.coxb.ICobolBinding;
 /**
  * Cobol clause formatting.
  */
-public final class CobolGenFormatter {
+public class CobolGenFormatter {
 
     /** Cobol picture clause. */
     private static final String PIC_CLAUSE = "PIC %1$s";
