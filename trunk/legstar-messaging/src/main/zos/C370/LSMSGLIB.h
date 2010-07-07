@@ -46,4 +46,20 @@ typedef struct tagLSMessage {
     MessagePart dataParts[MAX_MSG_PARTS]; /* data parts               */
 } LS_Message;
 
-#endif                        
+/*--------------------------------------------------------------------*/
+/*  Prototypes                                                        */
+/*--------------------------------------------------------------------*/
+int freeHostBuffer(void *buffer);
+int hostToMessagePart(
+    char* hostBuffer,        /* Pointer to the raw in-memory data     */
+    int* pPos,               /* Current position within the raw data  */
+    int  len,                /* Total size of the raw data            */
+    MessagePart* pMessagePart  /* Message part to be formatted        */
+    );
+int messagePartToBuffer(
+    char* hostBuffer,           /* Host buffer being formatted        */
+    int* pPos,                  /* Current position within the buffer */
+    MessagePart* pPart          /* Message part to read from          */
+    );
+
+#endif

@@ -1,5 +1,5 @@
 #pragma XOPTS(CICS)
-#pragma longname   
+#pragma longname
 #pragma export(initLSMSGLIB)
 #pragma export(initLSMessage)
 #pragma export(allocHostBuffer)
@@ -72,16 +72,17 @@ int initLSMSGLIB(inDfheiptr, inTraceParms)
 /*====================================================================*/
 /* Initialize a LegStar message structure.                            */
 /*====================================================================*/
-initLSMessage(pLsMessage)
+int initLSMessage(pLsMessage)
     LS_Message *pLsMessage;    /* Pointer to message to initialize    */
 {
     memset(&pLsMessage->headerPart, '\0',
            sizeof(pLsMessage->headerPart));
     memset(pLsMessage->dataParts, '\0',
            sizeof(pLsMessage->dataParts));
-           
+
     pLsMessage->message.pHeaderPart = &pLsMessage->headerPart;
     pLsMessage->message.pParts = pLsMessage->dataParts;
+    return OK_CODE;
 }
 
 /*====================================================================*/
@@ -98,7 +99,7 @@ int allocHostBuffer(pBuffer, bufferLen)
     if (OK_CODE != rc) {
         return rc;
     }
-    
+
     /* Acquire a  buffer */
     EXEC CICS GETMAIN
               SET     (*pBuffer)
@@ -112,7 +113,7 @@ int allocHostBuffer(pBuffer, bufferLen)
     }
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        sprintf(g_traceMessage,
-        "Host buffer allocated at %#x size=%d",
+        "Host buffer allocated at %#x size=%ld",
         (int)*pBuffer, bufferLen);
         traceMessage(MODULE_NAME, g_traceMessage);
     }
@@ -123,8 +124,8 @@ int allocHostBuffer(pBuffer, bufferLen)
 /*====================================================================*/
 /* Free memory                                                        */
 /*====================================================================*/
-int freeHostBuffer(buffer)
-    void *buffer;                           /* Buffer to be freed     */
+int freeHostBuffer(
+    void *buffer)                           /* Buffer to be freed     */
 {
     if (buffer != NULL) {
         EXEC CICS FREEMAIN
@@ -142,7 +143,7 @@ int freeHostBuffer(buffer)
             traceMessage(MODULE_NAME, g_traceMessage);
         }
     }
-    
+
     return OK_CODE;
 }
 
@@ -167,7 +168,7 @@ int hostToMessage(hostBuffer, len, pMessage)
     if (g_pTraceParms->traceMode == TRUE_CODE) {
       traceMessage(MODULE_NAME, "About to format message");
     }
-    
+
     /* First format the header part. */
     rc = hostToMessagePart(hostBuffer, &pos, len, pHeaderPart);
     if (rc == ERROR_CODE) {
@@ -188,12 +189,12 @@ int hostToMessage(hostBuffer, len, pMessage)
      * receive.  */
     pHeaderPartContent = (HeaderPartContent*) pHeaderPart->content;
     inPartsNum = pHeaderPartContent->partsNumber.as_int;
-   
+
     if (inPartsNum > MAX_IN_MSG_PARTS) {
         logError(MODULE_NAME, "Too many message parts.");
         return ERROR_CODE;
     }
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
         sprintf(g_traceMessage,
             "Message header formatted,"
@@ -202,13 +203,13 @@ int hostToMessage(hostBuffer, len, pMessage)
                    pHeaderPartContent->keyValuesSize.as_int);
         traceMessage(MODULE_NAME, g_traceMessage);
     }
-   
+
     /* Now format the message parts */
     for (i = 0; i < inPartsNum && rc == OK_CODE; i++) {
         rc = hostToMessagePart(
            hostBuffer, &pos, len, pMessage->pParts + i);
     }
-   
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
         if (OK_CODE == rc) {
             traceMessage(MODULE_NAME, "Message formatted:");
@@ -220,9 +221,9 @@ int hostToMessage(hostBuffer, len, pMessage)
                  " message formatting failed");
         }
     }
-    
+
     return rc;
-    
+
 }
 
 /*====================================================================*/
@@ -232,20 +233,20 @@ int hostToMessage(hostBuffer, len, pMessage)
 /* - 4 bytes giving the content size                                  */
 /* The message content follows the MPH immediatly.                    */
 /*====================================================================*/
-int hostToMessagePart(hostBuffer, pPos, len, pMessagePart)
-    char* hostBuffer;        /* Pointer to the raw in-memory data     */
-    int* pPos;               /* Current position within the raw data  */
-    int  len;                /* Total size of the raw data            */
-    MessagePart* pMessagePart; /* Message part to be formatted        */
+int hostToMessagePart(
+    char* hostBuffer,        /* Pointer to the raw in-memory data     */
+    int* pPos,               /* Current position within the raw data  */
+    int  len,                /* Total size of the raw data            */
+    MessagePart* pMessagePart) /* Message part to be formatted        */
 {
- 
+
     int rc = OK_CODE;             /* general purpose return code      */
     int sLeft;                    /* bytes available in host buffer   */
 
     if (g_pTraceParms->traceMode == TRUE_CODE) {
         traceMessage(MODULE_NAME, "About to format message part");
     }
-    
+
     /* If there is not enough bytes left to fill a part header,
      * there is a problem. */
     sLeft = len - *pPos;
@@ -255,7 +256,7 @@ int hostToMessagePart(hostBuffer, pPos, len, pMessagePart)
         return ERROR_CODE;
     }
 
-    /* First format the message part header (16 bytes 
+    /* First format the message part header (16 bytes
        identifier and 4 bytes giving the part content size. */
     memcpy(pMessagePart->ID, hostBuffer + *pPos,
                                 sizeof(pMessagePart->ID));
@@ -263,7 +264,7 @@ int hostToMessagePart(hostBuffer, pPos, len, pMessagePart)
     memcpy(pMessagePart->size.as_bytes, hostBuffer + *pPos,
                                 sizeof(pMessagePart->size.as_bytes));
     *pPos += sizeof(pMessagePart->size.as_bytes);
-   
+
     /* Sanity check the size received */
     if ((pMessagePart->size.as_int < 0)
        || (pMessagePart->size.as_int > MSGPART_MAX_LEN)) {
@@ -275,9 +276,9 @@ int hostToMessagePart(hostBuffer, pPos, len, pMessagePart)
         logError(MODULE_NAME, "No message part content found");
         return ERROR_CODE;
     }
-    
+
     pMessagePart->content = NULL;
- 
+
     /* Empty content is perfectly valid */
     if (pMessagePart->size.as_int == 0) {
        if (g_pTraceParms->traceMode == TRUE_CODE) {
@@ -289,7 +290,7 @@ int hostToMessagePart(hostBuffer, pPos, len, pMessagePart)
        }
        return OK_CODE;
     }
- 
+
     /* Acquire storage for the message part content. An additional
      * byte guaranteed to contain a binary zero is acquired so
      * that contents can be treated as C strings when necessary.  */
@@ -298,12 +299,12 @@ int hostToMessagePart(hostBuffer, pPos, len, pMessagePart)
      if (OK_CODE != rc) {
         return rc;
      }
-    
+
     /* Set the message content */
     memcpy(pMessagePart->content, hostBuffer + *pPos,
             pMessagePart->size.as_int);
     *pPos += pMessagePart->size.as_int;
- 
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        sprintf(g_traceMessage,
               "Message part formatted, id=%s size=%d",
@@ -311,7 +312,7 @@ int hostToMessagePart(hostBuffer, pPos, len, pMessagePart)
                pMessagePart->size.as_int);
        traceMessage(MODULE_NAME, g_traceMessage);
     }
-   
+
     return OK_CODE;
 }
 
@@ -327,7 +328,7 @@ int messageToBuffer(pHostBuffer, pHostBufferLen, pMessage)
     int*  pHostBufferLen;      /* Current size of the host buffer     */
     Message* pMessage;         /* The message to read from            */
  {
-  
+
     int rc = OK_CODE;             /* general purpose return code      */
     int pos = 0;            /* Current position with the sent data    */
     int hostDataLen = 0;     /* Total length of data to send          */
@@ -339,8 +340,8 @@ int messageToBuffer(pHostBuffer, pHostBufferLen, pMessage)
     if (g_pTraceParms->traceMode == TRUE_CODE) {
         traceMessage(MODULE_NAME, "About to format buffer");
     }
-    
-    /* Calculate how much memory we need and evaluate if passed 
+
+    /* Calculate how much memory we need and evaluate if passed
      * buffer is large enough. Reallocate otherwise.             */
     hostDataLen = (outPartsNum + 1) *
              (sizeof(pMessage->pHeaderPart->ID)
@@ -355,17 +356,17 @@ int messageToBuffer(pHostBuffer, pHostBufferLen, pMessage)
              return rc;
         }
     }
-                  
+
     /* format the header */
     rc = messagePartToBuffer(
             *pHostBuffer, &pos, pMessage->pHeaderPart);
-  
+
     /* format message parts */
     for (i = 0; i < outPartsNum && rc == OK_CODE; i++) {
         rc = messagePartToBuffer(
                 *pHostBuffer, &pos, pMessage->pParts + i);
     }
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        if (OK_CODE == rc) {
           traceMessage(MODULE_NAME, "Buffer formatted:");
@@ -377,17 +378,17 @@ int messageToBuffer(pHostBuffer, pHostBufferLen, pMessage)
               " buffer formatting failed");
        }
     }
-    
+
     return hostDataLen;
 }
 
 /*====================================================================*/
 /* Serialize a message part as a contiguuous buffer in memory         */
 /*====================================================================*/
-int messagePartToBuffer(hostBuffer, pPos, pPart)
-    char* hostBuffer;           /* Host buffer being formatted        */
-    int* pPos;                  /* Current position within the buffer */
-    MessagePart* pPart;         /* Message part to read from          */
+int messagePartToBuffer(
+    char* hostBuffer,           /* Host buffer being formatted        */
+    int* pPos,                  /* Current position within the buffer */
+    MessagePart* pPart)         /* Message part to read from          */
 {
     int contentLen = pPart->size.as_int;
 
@@ -402,18 +403,18 @@ int messagePartToBuffer(hostBuffer, pPos, pPart)
     memcpy(hostBuffer + *pPos, pPart->size.as_bytes,
            MSG_CONTENT_SIZE_LEN);
     *pPos += MSG_CONTENT_SIZE_LEN;
-    
+
     if (contentLen > 0 && pPart->content != NULL) {
         memcpy(hostBuffer + *pPos, pPart->content,
                contentLen);
         *pPos += contentLen;
     }
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
         traceMessage(MODULE_NAME,
            "Buffer formatted from message part");
     }
-    
+
     return OK_CODE;
 }
 

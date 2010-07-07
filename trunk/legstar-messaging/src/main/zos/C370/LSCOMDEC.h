@@ -163,9 +163,12 @@ short ca_len;
 /*--------------------------------------------------------------------*/
 /*  Prototypes                                                        */
 /*--------------------------------------------------------------------*/
+int logCicsError(char* module, char* errorCommand,
+                 signed long resp, signed long resp2);
 int logError(char* module, char* errorMessage);
 int traceMessage(char* module, char* traceMessage);
 int dumpMessagePart(char* module, MessagePart* messagePart);
 int dumpMessage(char* module, Message* message);
+int traceData(char* module, char* data, long dataLength);
 
 #endif
