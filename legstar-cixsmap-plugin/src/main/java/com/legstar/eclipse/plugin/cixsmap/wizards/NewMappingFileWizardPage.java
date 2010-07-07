@@ -75,7 +75,6 @@ public class NewMappingFileWizardPage extends WizardNewFileCreationPage {
      * confusing for newcomers.
      * @param parent the parent container
      *  */
-    @SuppressWarnings("deprecation")
     protected void createAdvancedControls(final Composite parent) {
         Preferences preferences =
             ResourcesPlugin.getPlugin().getPluginPreferences();

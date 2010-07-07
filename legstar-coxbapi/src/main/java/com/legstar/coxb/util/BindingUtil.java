@@ -10,7 +10,7 @@ import com.legstar.coxb.host.HostException;
  * Helper methods useful when manipulating bindings directly.
  *
  */
-public class BindingUtil {
+public final class BindingUtil {
 
     /** Utility class. */
     private BindingUtil() {

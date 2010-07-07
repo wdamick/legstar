@@ -18,7 +18,7 @@ import java.util.Properties;
 /**
  * Useful utility methods.
  */
-public class XsdcUtil {
+public final class XsdcUtil {
 
     /** Utility class not meant for instanciation. */
     private XsdcUtil() {

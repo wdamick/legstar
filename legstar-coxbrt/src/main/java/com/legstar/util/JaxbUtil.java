@@ -30,7 +30,7 @@ import com.legstar.coxb.host.HostException;
  * 
  *
  */
-public class JaxbUtil {
+public final class JaxbUtil {
 
     /** Suffix for binding class name. */
     private static final String BIND_SUFFIX = "Binding";

@@ -13,7 +13,7 @@ package com.legstar.eclipse.plugin.schemagen.preferences;
 /**
  * Constant definitions for plug-in preferences.
  */
-public class PreferenceConstants {
+public final class PreferenceConstants {
 
  
     /* -------------------------------------------------------------------
