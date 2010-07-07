@@ -17,7 +17,7 @@ import com.legstar.coxb.util.Utils;
  * API to be independent from concrete implementation of COBOL converters.
  *
  */
-public class CobolConvertersFactory {
+public final class CobolConvertersFactory {
 
     /** In this version the factory name is hardcoded. In a future release,
      * this will be pulled from some configuration file. */

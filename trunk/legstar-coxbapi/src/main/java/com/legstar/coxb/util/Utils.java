@@ -24,7 +24,7 @@ import java.util.List;
  * brings in all forms of version conflicts.
  *
  */
-public class Utils {
+public final class Utils {
     
     // the 5-category classification that we use in this code
     // to find work breaks

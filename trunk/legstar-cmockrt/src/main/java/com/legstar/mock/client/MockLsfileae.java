@@ -22,7 +22,7 @@ import com.legstar.messaging.RequestException;
  * Mocks the behavior of the LSFILEAE program.
  *
  */
-public class MockLsfileae {
+public final class MockLsfileae {
 
     /** Logger. */
     private static final Log LOG = LogFactory.getLog(MockLsfileae.class);

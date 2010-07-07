@@ -22,7 +22,7 @@ import com.legstar.messaging.RequestException;
  * Mocks the behavior of the T1SLEEP program.
  *
  */
-public class MockT1sleep {
+public final class MockT1sleep {
 
     /** Logger. */
     private static final Log LOG = LogFactory.getLog(MockT1sleep.class);

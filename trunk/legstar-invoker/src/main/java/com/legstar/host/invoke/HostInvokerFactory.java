@@ -25,7 +25,7 @@ import com.legstar.messaging.LegStarAddress;
  * A factory providing a host invoke capability. Based on the target host
  * program attributes, the factory selects an appropriate invoker.
  */
-public class HostInvokerFactory {
+public final class HostInvokerFactory {
 
     /** The LegStar configuration. */
     private static LegStarConfigCommons _config;

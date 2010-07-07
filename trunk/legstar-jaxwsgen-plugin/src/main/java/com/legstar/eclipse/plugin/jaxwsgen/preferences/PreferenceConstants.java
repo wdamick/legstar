@@ -13,7 +13,7 @@ package com.legstar.eclipse.plugin.jaxwsgen.preferences;
 /**
  * Constant definitions for plug-in preferences.
  */
-public class PreferenceConstants {
+public final class PreferenceConstants {
 
     /** J2ee folder where web deployment files should be generated. */
     public static final String DEFAULT_J2EE_WDD_FOLDER =

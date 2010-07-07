@@ -17,7 +17,7 @@ package com.legstar.coxb;
  * @author Fady Moussallam
  * 
  */
-public class CobolUsage {
+public final class CobolUsage {
     
     /**
      * Utility class.

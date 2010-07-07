@@ -13,7 +13,7 @@ package com.legstar.eclipse.plugin.cixscom.preferences;
 /**
  * Constant definitions for plug-in preferences.
  */
-public class PreferenceConstants {
+public final class PreferenceConstants {
 
     /** Generated Java classes package name prefix. */
     public static final String DEFAULT_CIXS_PACKAGE_NAME_PREFIX =
