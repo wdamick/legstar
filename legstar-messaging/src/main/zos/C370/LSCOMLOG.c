@@ -1,5 +1,5 @@
 #pragma XOPTS(CICS)
-#pragma longname 
+#pragma longname
 #pragma export(initLog)
 #pragma export(logCicsError)
 #pragma export(logError)
@@ -72,7 +72,7 @@ int logCicsError(char* module, char* errorCommand,
     char respText[17];            /* human readable resp code. Be very
                                      careful when you add new response
                                      texts not to exceed 16 chars.    */
-    
+
     /* Attempt to get a user friendly resturn code                    */
     switch (resp) {
       case (DFHRESP(ENVDEFERR)):
@@ -130,10 +130,10 @@ int logCicsError(char* module, char* errorCommand,
         strcpy(respText,"CHANNELERR");
         break;
       default:
-        sprintf(respText,"%d", resp);
+        sprintf(respText,"%ld", resp);
     }
     sprintf(cicsErrorMessage,
-            "CICS command=%s failed, resp=%s, resp2=%d",
+            "CICS command=%s failed, resp=%s, resp2=%ld",
             errorCommand, respText, resp2);
     logError(module, cicsErrorMessage);
     return OK_CODE;
@@ -156,7 +156,7 @@ int logError(char* module, char* errorMessage)
     unsigned char curdate[11];  /* human readable current date        */
     signed long cicsResp = 0;   /* local resp to preserve global one  */
     signed long cicsResp2 = 0;  /* local resp2 to preserve global one */
-   
+
     /* get the current time/date                                      */
     EXEC CICS ASKTIME ABSTIME(absTime)
                       RESP(cicsResp)
@@ -197,7 +197,7 @@ int logError(char* module, char* errorMessage)
     }
     return OK_CODE;
 }
-                         
+
 /*====================================================================*/
 /* Trace a message                                                    */
 /*                                                                    */
@@ -214,7 +214,7 @@ int traceMessage(char* module, char* traceMessage )
        directs to CEEOUT by default.                                 */
     fprintf(stdout,"%s : CxID=%s : %s\n",
             module, g_pTraceParms->CxID, traceMessage);
-           
+
     return OK_CODE;
 }
 
@@ -234,7 +234,7 @@ int traceData(char* module, char* data, long dataLength )
     char dumpLine[128];
     char dumpChar[5];
     char dumpString[17];
-   
+
     dumpLine[0]='\0';
     dumpString[0]='\0';
     for (i = 0; i < dataLength && i < MAX_TRACES_BYTES; i++) {
@@ -259,7 +259,7 @@ int traceData(char* module, char* data, long dataLength )
           dumpLine[0]='\0';
        }
     }
-   
+
     if (dataLength > MAX_TRACES_BYTES) {
         sprintf(dumpLine,"...data was truncated at %d bytes",
                 MAX_TRACES_BYTES);
@@ -282,7 +282,7 @@ int dumpMessage(char* module, Message* message) {
     int nParts;
     char dumpLine[128];
     HeaderPartContent* pHeaderPartContent;
-    
+
     pHeaderPartContent =
        (HeaderPartContent*)message->pHeaderPart->content;
 
@@ -296,6 +296,7 @@ int dumpMessage(char* module, Message* message) {
         traceMessage(module, dumpLine);
 	    dumpMessagePart(module, message->pParts + i);
     }
+    return OK_CODE;
 }
 
 /*====================================================================*/
@@ -310,7 +311,7 @@ int dumpMessage(char* module, Message* message) {
 int dumpMessagePart(char* module, MessagePart* messagePart) {
     char dumpLine[128];
     char dumpID[MSG_ID_LEN + 1];
-    
+
     memset(dumpID, '\0', MSG_ID_LEN + 1);
     memcpy(dumpID, messagePart->ID, MSG_ID_LEN);
     sprintf(dumpLine, "Message part: ID=%s Content-length=%d",
@@ -318,7 +319,5 @@ int dumpMessagePart(char* module, MessagePart* messagePart) {
     traceMessage(module, dumpLine);
     traceMessage(module, "Message part content:");
     traceData(module, messagePart->content, messagePart->size.as_int);
+    return OK_CODE;
 }
-
-
-                         
