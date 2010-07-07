@@ -53,7 +53,7 @@
 #define RECV_TIME_OUT 2          /* Wait time for incoming data (sec) */
 #define SEND_TIME_OUT 2          /* Wait time for outbound data (sec) */
 
-#define ECONNCLOSED      7001     /* Client closed the connection. This 
+#define ECONNCLOSED      7001     /* Client closed the connection. This
                                     is not a standard errno.          */
 #define SOK_HOW  2               /* Shutdown both sides option        */
 #define MAX_TIM_EC_LEN 2         /* Transaction init msg eye catcher  */
@@ -133,7 +133,7 @@ typedef struct {
     char CICSChannel[CHANNEL_NAME_LEN + 1]; /* Channel                */
     int  CICSOutputContainersCount;  /* Number of output containers   */
     char CICSOutputContainers[
-         MAX_OUT_CONTAINERS * (CONTAINER_NAME_LEN + 1)]; /* List of 
+         MAX_OUT_CONTAINERS * (CONTAINER_NAME_LEN + 1)]; /* List of
                                                output containers      */
 } CICSProgramDesc;
 
@@ -157,6 +157,15 @@ TraceParms* g_pTraceParms;                 /* trace parameters        */
 /*--------------------------------------------------------------------*/
 /* Commarea pointer and length                                        */
 /*--------------------------------------------------------------------*/
-void* ca_ptr;           
+void* ca_ptr;
 short ca_len;
-#endif                        
+
+/*--------------------------------------------------------------------*/
+/*  Prototypes                                                        */
+/*--------------------------------------------------------------------*/
+int logError(char* module, char* errorMessage);
+int traceMessage(char* module, char* traceMessage);
+int dumpMessagePart(char* module, MessagePart* messagePart);
+int dumpMessage(char* module, Message* message);
+
+#endif
