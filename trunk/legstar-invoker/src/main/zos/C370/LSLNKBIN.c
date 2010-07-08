@@ -59,6 +59,7 @@
 #include <stdlib.h>              /* get the standard library          */
 #include <string.h>              /* support string operations         */
 #include "lscomdec.h"            /* legstar common declarations       */
+#include "lslnkdec.h"            /* legstar invoker declarations      */
 
 /*--------------------------------------------------------------------*/
 /*  Constants                                                         */
@@ -83,13 +84,6 @@
 #define CHANNEL_KEY   "CICSChannel"  /* CICS channel to use           */
 #define OUTCONTAINERS_KEY  "CICSOutContainers"  /* Output containers  */
 
-/*--------------------------------------------------------------------*/
-/*  Prototypes                                                        */
-/*--------------------------------------------------------------------*/
-char* getToken(char* bufferString, char* token,
-               int maxTokenSize, char startDelim, char endDelim);
-char* getValueStart(char* bufferString) ;
-
 /*====================================================================*/
 /*  Call a CICS program                                               */
 /*====================================================================*/
@@ -98,20 +92,20 @@ int invokeProgram(DFHEIBLK *inDfheiptr,
                   CICSProgramDesc* pProgramDesc,
                   Message* pRequestMessage,
                   Message* pResponseMessage) {
-            
+
     int rc;
     HeaderPartContent* pRequestHeaderPartContent
          = (HeaderPartContent*) pRequestMessage->pHeaderPart->content;
-    
+
     dfheiptr = inDfheiptr;
     g_pTraceParms = inTraceParms;
     initLog(dfheiptr, inTraceParms);
     initProgramDesc(pProgramDesc);
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "About to invoke program");
     }
-    
+
     /* Parse the request header key/value pairs */
     rc = parseKeyValues(
                 pRequestHeaderPartContent->keyValuesSize.as_int,
@@ -134,7 +128,7 @@ int invokeProgram(DFHEIBLK *inDfheiptr,
                               pResponseMessage);
         }
     }
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        if (ERROR_CODE == rc) {
            traceMessage(MODULE_NAME, "Invoke program failed");
@@ -142,7 +136,7 @@ int invokeProgram(DFHEIBLK *inDfheiptr,
            traceMessage(MODULE_NAME, "Return from invoke program");
        }
     }
-    
+
     return rc;
 }
 
@@ -150,18 +144,18 @@ int invokeProgram(DFHEIBLK *inDfheiptr,
 /* Extract key/value pairs from JSON string                           */
 /*====================================================================*/
 int parseKeyValues(int keyValuesSize,
-                   char* keyValues,
+                   void* keyValues,
                    CICSProgramDesc* pProgramDesc) {
 
     char* remaining;
     char key[MAX_KEY_LEN];
     char value[MAX_VALUE_LEN];
     int rc = OK_CODE;
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Entered parseKeyValues");
     }
-    
+
     /* We expect the first token encountered to be a key */
     remaining = getToken(
                     keyValues, key, MAX_KEY_LEN - 1,
@@ -170,7 +164,7 @@ int parseKeyValues(int keyValuesSize,
            && key != NULL
            && strlen(key) > 0
            && remaining != NULL) {
-      
+
         /*  Values are separated from keys by a column char */
         remaining = getValueStart(remaining);
         if (remaining != NULL) {
@@ -195,12 +189,12 @@ int parseKeyValues(int keyValuesSize,
                                  KEYWORD_DELIM, KEYWORD_DELIM);
         }
     }
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
         traceProgramDesc(pProgramDesc);
         traceMessage(MODULE_NAME, "Ended parseKeyValues");
     }
-    
+
     return rc;
 }
 
@@ -228,21 +222,21 @@ int traceProgramDesc(CICSProgramDesc* pProgramDesc) {
     int i;
     char outContainerName[CONTAINER_NAME_LEN + 1];
     int pos = 0;
-    
+
     sprintf(g_traceMessage,
         "CICSProgram=%s", pProgramDesc->CICSProgram);
     traceMessage(MODULE_NAME, g_traceMessage);
     sprintf(g_traceMessage,
-        "CICSLength=%d", pProgramDesc->CICSLength);
+        "CICSLength=%ld", pProgramDesc->CICSLength);
     traceMessage(MODULE_NAME, g_traceMessage);
     sprintf(g_traceMessage,
-        "CICSDataLength=%d", pProgramDesc->CICSDataLength);
+        "CICSDataLength=%ld", pProgramDesc->CICSDataLength);
     traceMessage(MODULE_NAME, g_traceMessage);
     sprintf(g_traceMessage,
         "CICSSysID=%s", pProgramDesc->CICSSysID);
     traceMessage(MODULE_NAME, g_traceMessage);
     sprintf(g_traceMessage,
-        "CICSSyncOnReturn=%d", pProgramDesc->CICSSyncOnReturn);
+        "CICSSyncOnReturn=%ld", pProgramDesc->CICSSyncOnReturn);
     traceMessage(MODULE_NAME, g_traceMessage);
     sprintf(g_traceMessage,
         "CICSTransID=%s", pProgramDesc->CICSTransID);
@@ -254,7 +248,7 @@ int traceProgramDesc(CICSProgramDesc* pProgramDesc) {
         "CICSOutputContainersCount=%d",
          pProgramDesc->CICSOutputContainersCount);
     traceMessage(MODULE_NAME, g_traceMessage);
-    
+
     for (i=0; i < pProgramDesc->CICSOutputContainersCount; i++) {
         memset(outContainerName, '\0', CONTAINER_NAME_LEN + 1);
         memcpy(outContainerName,
@@ -274,18 +268,18 @@ int traceProgramDesc(CICSProgramDesc* pProgramDesc) {
 int processKeyValue(char* key,
                     char* value,
                     CICSProgramDesc* pProgramDesc) {
-    
+
     if (value == NULL || strlen(value) == 0) {
         logError(MODULE_NAME, "Key found with no associated value.");
         return ERROR_CODE;
     }
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
         sprintf(g_traceMessage,
             "processKeyValue key=%s value=%s", key, value);
         traceMessage(MODULE_NAME, g_traceMessage);
     }
-    
+
     if (0 == strcmp(PROGRAM_KEY, key)) {
         memset(pProgramDesc->CICSProgram, ' ', PROGNAME_LEN);
         memcpy(pProgramDesc->CICSProgram, value, strlen(value));
@@ -320,23 +314,23 @@ int processKeyValue(char* key,
 int processKeyArray(char* key,
                     char* value,
                     CICSProgramDesc* pProgramDesc) {
-    
+
     char itemValue[MAX_VALUE_LEN];
     char* remaining = value;
     int pos = 0;
     int maxSize = MAX_OUT_CONTAINERS * (CONTAINER_NAME_LEN + 1);
-    
+
     if (value == NULL || strlen(value) == 0) {
         logError(MODULE_NAME, "Key found with no associated value.");
         return ERROR_CODE;
     }
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
         sprintf(g_traceMessage,
             "processKeyArray key=%s value=%s", key, value);
         traceMessage(MODULE_NAME, g_traceMessage);
     }
-    
+
     if (0 == strcmp(OUTCONTAINERS_KEY, key)) {
         /* Get the first item value */
         remaining = getToken(
@@ -353,7 +347,7 @@ int processKeyArray(char* key,
                            VALUE_DELIM, VALUE_DELIM);
         }
     }
-    
+
     return OK_CODE;
 }
 
@@ -367,39 +361,39 @@ char* getToken(char* bufferString,
                int maxTokenSize,
                char startdelim,
                char endDelim) {
-                
+
     char* startPos = NULL;
     char* endPos = NULL;
     int tokenSize;
-    
+
     memset(token, '\0', maxTokenSize + 1);
     if (bufferString == NULL || strlen(bufferString) == 0) {
         return NULL;
     }
-    
+
     startPos = strchr(bufferString, (int) startdelim);
-    
+
     /* No more keywords in the buffer string */
     if (startPos == NULL || strlen(startPos) < 2) {
         return NULL;
     }
-    
+
     /* Look for the ending delimiter */
     endPos = strchr(startPos + 1, endDelim);
     /* Unbalanced delimiters */
     if (endPos == NULL) {
          return NULL;
     }
-    
+
     tokenSize = endPos - (startPos + 1);
     /* make sure token fits */
     if (tokenSize > maxTokenSize) {
         return NULL;
     }
     strncpy(token, startPos + 1, tokenSize);
-    
-    return endPos + 1; 
-    
+
+    return endPos + 1;
+
 }
 
 /*====================================================================*/
@@ -411,36 +405,36 @@ char* getToken(char* bufferString,
 /*====================================================================*/
 char* getValueStart(char* bufferString) {
     int i = 0;
-    
+
     /* skip any leading spaces */
     while (i < strlen(bufferString) && bufferString[i] == ' ') {
        i++;
     }
-    
+
     /* this is all spaces */
     if (i == strlen(bufferString)) {
        return NULL;
     }
-    
+
     /* this must be a column */
     if (bufferString[i] != KEYVAL_DELIM) {
        return NULL;
     }
     /* skip the column */
     i++;
-    
+
     /* skip any following spaces */
     while (i < strlen(bufferString) && bufferString[i] == ' ') {
        i++;
     }
-    
+
     /* no values are provided */
     if (i >= strlen(bufferString)) {
        return NULL;
     }
 
     return bufferString + i;
-    
+
 }
 
 /*====================================================================*/
@@ -451,12 +445,12 @@ int freeProgram(DFHEIBLK *inDfheiptr,
                 CICSProgramDesc* pProgramDesc,
                 Message* pRequestMessage,
                 Message* pResponseMessage) {
-    
+
     int rc = OK_CODE;
     dfheiptr = inDfheiptr;
     g_pTraceParms = inTraceParms;
     initLog(dfheiptr, inTraceParms);
-    
+
     if (strlen(pProgramDesc->CICSChannel) > 0
         && pProgramDesc->CICSChannel[0] != ' ') {
         rc = freeChannel(dfheiptr,
@@ -474,4 +468,3 @@ int freeProgram(DFHEIBLK *inDfheiptr,
     return rc;
 }
 
-                         

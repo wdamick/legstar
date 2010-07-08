@@ -163,6 +163,7 @@ short ca_len;
 /*--------------------------------------------------------------------*/
 /*  Prototypes                                                        */
 /*--------------------------------------------------------------------*/
+int initLog(DFHEIBLK *inDfheiptr, TraceParms* inTraceParms);
 int logCicsError(char* module, char* errorCommand,
                  signed long resp, signed long resp2);
 int logError(char* module, char* errorMessage);

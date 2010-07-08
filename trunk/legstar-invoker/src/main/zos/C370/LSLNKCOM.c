@@ -50,6 +50,7 @@
 #include <stdlib.h>              /* get the standard library          */
 #include <string.h>              /* support string operations         */
 #include "lscomdec.h"            /* legstar common declarations       */
+#include "lslnkdec.h"            /* legstar invoker declarations      */
 
 /*--------------------------------------------------------------------*/
 /*  Constants                                                         */
@@ -74,20 +75,19 @@ int linkCommarea(DFHEIBLK *inDfheiptr,
                 CICSProgramDesc* pProgramDesc,
                 Message* pRequestMessage,
                 Message* pResponseMessage) {
-    int rc;
     char* inputContent;
     dfheiptr = inDfheiptr;
     g_pTraceParms = inTraceParms;
     initLog(dfheiptr, inTraceParms);
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Entered linkCommarea");
     }
-    
+
     if (OK_CODE != checkCommarea(pProgramDesc, pRequestMessage)) {
         return ERROR_CODE;
     }
-    
+
     /* The commarea expected by the target program might be larger
      * than the content of the incoming message part. In this case,
      * we need to rebuild the commarea. */
@@ -96,7 +96,7 @@ int linkCommarea(DFHEIBLK *inDfheiptr,
         reallocContent(pProgramDesc, pRequestMessage->pParts);
     }
     inputContent = pRequestMessage->pParts->content;
-    
+
      /*  Now link to CICS program and check for errors                */
     if (strlen(pProgramDesc->CICSSysID) == 0) {
         if (FALSE_CODE == pProgramDesc->CICSSyncOnReturn) {
@@ -190,7 +190,7 @@ int linkCommarea(DFHEIBLK *inDfheiptr,
                    pProgramDesc, pRequestMessage, pResponseMessage)) {
         return ERROR_CODE;
     }
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Return from linkCommarea");
     }
@@ -202,12 +202,12 @@ int linkCommarea(DFHEIBLK *inDfheiptr,
 /*====================================================================*/
 int checkCommarea(CICSProgramDesc* pProgramDesc,
                   Message* pRequestMessage) {
-    
+
     HeaderPartContent* pRequestHeaderPartContent
          = (HeaderPartContent*) pRequestMessage->pHeaderPart->content;
     MessagePart* pInputPart = pRequestMessage->pParts;
     int inPartsNum = pRequestHeaderPartContent->partsNumber.as_int;
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Entered checkCommarea");
     }
@@ -217,7 +217,7 @@ int checkCommarea(CICSProgramDesc* pProgramDesc,
         logError(MODULE_NAME, "No CICS program name was provided.");
         return ERROR_CODE;
     }
- 
+
     /* There must be one, and only one, input message part. */
     if (inPartsNum == 0) {
         logError(MODULE_NAME, "No input message part for commarea.");
@@ -227,27 +227,27 @@ int checkCommarea(CICSProgramDesc* pProgramDesc,
         logError(MODULE_NAME, "Too many message parts for commarea.");
         return ERROR_CODE;
     }
-     
+
     /* If no commarea length was specified, assume the size of the
      * incoming data. */
     if (pProgramDesc->CICSLength == 0) {
         pProgramDesc->CICSLength = pInputPart->size.as_int;
     }
-      
-    /* If DataLength is specified, it must be smaller than the 
+
+    /* If DataLength is specified, it must be smaller than the
      * commarea length. */
     if (pProgramDesc->CICSDataLength > pProgramDesc->CICSLength) {
         logError(MODULE_NAME,
                    "Data length cannot exceed commarea length.");
         return ERROR_CODE;
     }
-     
+
     /* If no data length was specified, assume the size of the
      * incoming data. */
     if (pProgramDesc->CICSDataLength == 0) {
         pProgramDesc->CICSDataLength = pInputPart->size.as_int;
     }
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Return from checkCommarea");
     }
@@ -260,9 +260,9 @@ int checkCommarea(CICSProgramDesc* pProgramDesc,
 /*====================================================================*/
 int reallocContent(CICSProgramDesc* pProgramDesc,
                    MessagePart* pInputPart) {
-    
+
     char* newContent;
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Reallocating content");
     }
@@ -288,10 +288,10 @@ int reallocContent(CICSProgramDesc* pProgramDesc,
            return ERROR_CODE;
         }
     }
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        sprintf(g_traceMessage,
-        "Content reallocated from %#x size=%d to %#x size=%d",
+        "Content reallocated from %#x size=%d to %#x size=%ld",
         (int)pInputPart->content,
         pInputPart->size.as_int,
         (int)newContent,
@@ -311,21 +311,21 @@ int reallocContent(CICSProgramDesc* pProgramDesc,
 int formatCommareaResponse(CICSProgramDesc* pProgramDesc,
                           Message* pRequestMessage,
                           Message* pResponseMessage) {
-  
-    
+
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Entered formatCommareaResponse");
     }
-    
+
     if (OK_CODE != formatResponseHeader(pResponseMessage)) {
         return ERROR_CODE;
     }
-    
+
      if (OK_CODE != formatResponsePart(
                       pRequestMessage, pResponseMessage)) {
          return ERROR_CODE;
      }
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Return from formatCommareaResponse");
     }
@@ -333,15 +333,15 @@ int formatCommareaResponse(CICSProgramDesc* pProgramDesc,
 }
 
 /*====================================================================*/
-/*  Create the response header specifying the number of output        */
-/*  message parts (1 in this case) and no key/values pairs.           */
+/*  Create the response header specifying no key/values pairs.        */
 /*====================================================================*/
-int formatResponseHeader(Message* pResponseMessage) {
- 
+int formatResponseHeader(
+                 Message* pResponseMessage) {
+
     /* Format header part, indicating  no key/values.  */
     int headerLength = PARTS_NUM_LEN + KEYVAL_SIZE_LEN;
     HeaderPartContent* pResponseHeaderPartContent;
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Entered formatResponseHeader");
     }
@@ -350,7 +350,7 @@ int formatResponseHeader(Message* pResponseMessage) {
     memcpy(pResponseMessage->pHeaderPart->ID, HEADER_PART_ID,
            sizeof(HEADER_PART_ID) - 1);
     pResponseMessage->pHeaderPart->size.as_int = headerLength;
- 
+
     EXEC CICS GETMAIN
               SET(pResponseMessage->pHeaderPart->content)
               INITIMG('\0')
@@ -368,7 +368,7 @@ int formatResponseHeader(Message* pResponseMessage) {
         (int)pResponseMessage->pHeaderPart->content, headerLength);
         traceMessage(MODULE_NAME, g_traceMessage);
     }
-    pResponseHeaderPartContent 
+    pResponseHeaderPartContent
          = (HeaderPartContent*) pResponseMessage->pHeaderPart->content;
     pResponseHeaderPartContent->partsNumber.as_int = 1;
     pResponseHeaderPartContent->keyValuesSize.as_int = 0;
@@ -376,6 +376,7 @@ int formatResponseHeader(Message* pResponseMessage) {
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Return from formatResponseHeader");
     }
+    return OK_CODE;
 }
 
 /*====================================================================*/
@@ -386,11 +387,11 @@ int formatResponsePart(
                  Message* pRequestMessage,
                  Message* pResponseMessage) {
 
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Entered formatResponsePart");
     }
-    /* Format the single output message part. It has the 
+    /* Format the single output message part. It has the
      * content as the input message part since the linked program
      * updated the content.  */
     memset(pResponseMessage->pParts->ID, ' ', MSG_ID_LEN);
@@ -401,16 +402,17 @@ int formatResponsePart(
     pResponseMessage->pParts->content =
            pRequestMessage->pParts->content;
     adjustPartSize(pResponseMessage->pParts);
-    
+
     /* In order to avoid having 2 pointers on the same memory location
-     * which would complicate freeing memory, we disconnect the 
+     * which would complicate freeing memory, we disconnect the
      * input message from its content. */
     pRequestMessage->pParts->size.as_int = 0;
     pRequestMessage->pParts->content = NULL;
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Return from formatResponsePart");
     }
+    return OK_CODE;
 }
 /*====================================================================*/
 /*  Detect the last non null character in a message part content and  */
@@ -433,6 +435,7 @@ int adjustPartSize(MessagePart* pPart) {
         traceMessage(MODULE_NAME, g_traceMessage);
     }
     pPart->size.as_int = lastNonNull + 1;
+    return OK_CODE;
 }
 
 /*====================================================================*/
@@ -449,15 +452,15 @@ int freeCommarea(DFHEIBLK *inDfheiptr,
                 Message* pResponseMessage) {
 
     int rc = OK_CODE;
-    
+
     dfheiptr = inDfheiptr;
     g_pTraceParms = inTraceParms;
     initLog(dfheiptr, inTraceParms);
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Entered freeCommarea");
     }
-    
+
     rc = freeMessage(pRequestMessage);
     rc = freeMessage(pResponseMessage);
 
@@ -471,17 +474,17 @@ int freeCommarea(DFHEIBLK *inDfheiptr,
 /* Releases memory allocated for a message.                           */
 /*====================================================================*/
 int freeMessage(Message* pMessage) {
-   
+
     int i = 0;
     int partsNumber = 0;
     HeaderPartContent* pHeaderPartContent =
           (HeaderPartContent*)pMessage->pHeaderPart->content;
     MessagePart* part;
-    
+
     if (pHeaderPartContent != NULL) {
-      
+
       partsNumber = pHeaderPartContent->partsNumber.as_int;
-      
+
       /* Free the header part content */
       EXEC CICS FREEMAIN
                 DATAPOINTER(pHeaderPartContent)
@@ -497,7 +500,7 @@ int freeMessage(Message* pMessage) {
           (int)pHeaderPartContent);
           traceMessage(MODULE_NAME, g_traceMessage);
       }
-  
+
       /* Now free the message parts content */
       for (i = 0; i < partsNumber && i < MAX_IN_MSG_PARTS; i++) {
           part = pMessage->pParts + i;
@@ -519,9 +522,6 @@ int freeMessage(Message* pMessage) {
           }
       }
     }
-              
+
     return OK_CODE;
 }
-
-
-                         

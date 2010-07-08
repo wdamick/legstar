@@ -51,6 +51,7 @@
 #include <stdlib.h>              /* get the standard library          */
 #include <string.h>              /* support string operations         */
 #include "lscomdec.h"            /* legstar common declarations       */
+#include "lslnkdec.h"            /* legstar invoker declarations      */
 
 /*--------------------------------------------------------------------*/
 /*  Constants                                                         */
@@ -72,23 +73,22 @@ int linkChannel(DFHEIBLK *inDfheiptr,
                 CICSProgramDesc* pProgramDesc,
                 Message* pRequestMessage,
                 Message* pResponseMessage) {
-    int rc;
     dfheiptr = inDfheiptr;
     g_pTraceParms = inTraceParms;
     initLog(dfheiptr, inTraceParms);
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Entered linkChannel");
     }
-    
+
     if (OK_CODE != checkChannel(pProgramDesc, pRequestMessage)) {
         return ERROR_CODE;
     }
-    
+
     if (OK_CODE != createContainers(pProgramDesc, pRequestMessage)) {
         return ERROR_CODE;
     }
-    
+
      /*  Now link to CICS program and check for errors                */
     if (strlen(pProgramDesc->CICSSysID) == 0) {
         if (FALSE_CODE == pProgramDesc->CICSSyncOnReturn) {
@@ -166,7 +166,7 @@ int linkChannel(DFHEIBLK *inDfheiptr,
                            pProgramDesc, pResponseMessage)) {
         return ERROR_CODE;
     }
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Return from linkChannel");
     }
@@ -178,7 +178,7 @@ int linkChannel(DFHEIBLK *inDfheiptr,
 /*====================================================================*/
 int checkChannel(CICSProgramDesc* pProgramDesc,
                   Message* pRequestMessage) {
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Entered checkChannel");
     }
@@ -188,13 +188,13 @@ int checkChannel(CICSProgramDesc* pProgramDesc,
         logError(MODULE_NAME, "No CICS program name was provided.");
         return ERROR_CODE;
     }
- 
+
     /* There must be a channel name. */
     if (strlen(pProgramDesc->CICSChannel) == 0) {
         logError(MODULE_NAME, "No channel name specified.");
         return ERROR_CODE;
     }
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Return from checkChannel");
     }
@@ -207,18 +207,18 @@ int checkChannel(CICSProgramDesc* pProgramDesc,
 /*====================================================================*/
 int createContainers(CICSProgramDesc* pProgramDesc,
                   Message* pRequestMessage) {
-    
+
     int i;
     MessagePart* pInputPart;
-    
+
     HeaderPartContent* pRequestHeaderPartContent
          = (HeaderPartContent*) pRequestMessage->pHeaderPart->content;
     int inPartsNum = pRequestHeaderPartContent->partsNumber.as_int;
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Entered createContainers");
     }
-    
+
     /* Now create a CONTAINER for each input message part */
     for (i = 0; i < inPartsNum; i++) {
         pInputPart = pRequestMessage->pParts + i;
@@ -233,7 +233,7 @@ int createContainers(CICSProgramDesc* pProgramDesc,
             return ERROR_CODE;
         }
     }
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Return from createContainers");
     }
@@ -246,26 +246,26 @@ int createContainers(CICSProgramDesc* pProgramDesc,
 /*====================================================================*/
 int formatChannelResponse(CICSProgramDesc* pProgramDesc,
                           Message* pResponseMessage) {
-  
+
     int outPartsNum =
         pProgramDesc->CICSOutputContainersCount;
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Entered formatChannelResponse");
     }
-    
-    if (OK_CODE != formatResponseHeader(
+
+    if (OK_CODE != formatResponseHeaders(
                        outPartsNum, pResponseMessage)) {
         return ERROR_CODE;
     }
-    
+
     if (outPartsNum > 0) {
        if (OK_CODE != formatResponseParts(
                         pProgramDesc, outPartsNum, pResponseMessage)) {
            return ERROR_CODE;
        }
     }
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Return from formatChannelResponse");
     }
@@ -276,23 +276,23 @@ int formatChannelResponse(CICSProgramDesc* pProgramDesc,
 /*  Create the response header specifying the number of output        */
 /*  message parts and no key/values pairs.                            */
 /*====================================================================*/
-int formatResponseHeader(
+int formatResponseHeaders(
                  int outPartsNum,
                  Message* pResponseMessage) {
- 
+
     /* Format header part, indicating  no key/values.  */
     int headerLength = PARTS_NUM_LEN + KEYVAL_SIZE_LEN;
     HeaderPartContent* pResponseHeaderPartContent;
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
-       traceMessage(MODULE_NAME, "Entered formatResponseHeader");
+       traceMessage(MODULE_NAME, "Entered formatResponseHeaders");
     }
 
     memset(pResponseMessage->pHeaderPart->ID, ' ', MSG_ID_LEN);
     memcpy(pResponseMessage->pHeaderPart->ID, HEADER_PART_ID,
            sizeof(HEADER_PART_ID) - 1);
     pResponseMessage->pHeaderPart->size.as_int = headerLength;
- 
+
     EXEC CICS GETMAIN
               SET(pResponseMessage->pHeaderPart->content)
               INITIMG('\0')
@@ -310,15 +310,17 @@ int formatResponseHeader(
         (int)pResponseMessage->pHeaderPart->content, headerLength);
         traceMessage(MODULE_NAME, g_traceMessage);
     }
-    pResponseHeaderPartContent 
+    pResponseHeaderPartContent
          = (HeaderPartContent*) pResponseMessage->pHeaderPart->content;
     pResponseHeaderPartContent->partsNumber.as_int = outPartsNum;
     pResponseHeaderPartContent->keyValuesSize.as_int = 0;
 
     if (g_pTraceParms->traceMode == TRUE_CODE) {
-       traceMessage(MODULE_NAME, "Return from formatResponseHeader");
+       traceMessage(MODULE_NAME, "Return from formatResponseHeaders");
     }
+    return OK_CODE;
 }
+
 
 /*====================================================================*/
 /*  Create the response parts with content from corresponding         */
@@ -334,13 +336,12 @@ int formatResponseParts(
 
     int i;
     MessagePart* pOutputPart;
-    int partsLength = outPartsNum * sizeof(MessagePart);
     int pos = 0;
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Entered formatResponseParts");
     }
-    
+
     for (i = 0; i < outPartsNum; i++) {
        pOutputPart = pResponseMessage->pParts + i;
        memset(pOutputPart->ID, '\0', MSG_ID_LEN);
@@ -364,10 +365,11 @@ int formatResponseParts(
        }
        pos += (CONTAINER_NAME_LEN + 1);
     }
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Return from formatResponseParts");
     }
+    return OK_CODE;
 }
 
 /*====================================================================*/
@@ -388,13 +390,13 @@ int freeChannel(DFHEIBLK *inDfheiptr,
     dfheiptr = inDfheiptr;
     g_pTraceParms = inTraceParms;
     initLog(dfheiptr, inTraceParms);
-    
+
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Entered freeChannel");
     }
-    
-    rc = freeMessage(TRUE_CODE, pProgramDesc, pRequestMessage);
-    rc = freeMessage(FALSE_CODE, pProgramDesc, pResponseMessage);
+
+    rc = freeMessages(TRUE_CODE, pProgramDesc, pRequestMessage);
+    rc = freeMessages(FALSE_CODE, pProgramDesc, pResponseMessage);
 
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Return from freeChannel");
@@ -412,20 +414,20 @@ int freeChannel(DFHEIBLK *inDfheiptr,
 /* use DELETE CONTAINER on response messages so that CONTAINERS go    */
 /* out of scope and their memory be reclamed by CICS itself.          */
 /*====================================================================*/
-int freeMessage(int request,
+int freeMessages(int request,
                 CICSProgramDesc* pProgramDesc,
                 Message* pMessage) {
-   
+
     int i = 0;
     int partsNumber = 0;
     HeaderPartContent* pHeaderPartContent =
           (HeaderPartContent*)pMessage->pHeaderPart->content;
     MessagePart* part;
-    
+
     if (pHeaderPartContent == NULL) {
       return OK_CODE;
     }
-      
+
     partsNumber = pHeaderPartContent->partsNumber.as_int;
 
     /* Free the header part content */
@@ -443,7 +445,7 @@ int freeMessage(int request,
         (int)pHeaderPartContent);
         traceMessage(MODULE_NAME, g_traceMessage);
     }
-  
+
     /* Now free the message parts content and containers */
     for (i = 0; i < partsNumber && i < MAX_IN_MSG_PARTS; i++) {
         part = pMessage->pParts + i;
@@ -481,6 +483,3 @@ int freeMessage(int request,
     }
     return OK_CODE;
 }
-
-
-                         
