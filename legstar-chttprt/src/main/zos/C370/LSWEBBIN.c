@@ -114,6 +114,8 @@
 #include <string.h>              /* support string operations         */
 #include "lscomdec.h"            /* legstar common declarations       */
 #include "lsmsglib.h"            /* legstar messaging include file    */
+#include "lslnkdec.h"            /* legstar invoker include file      */
+#include "lswebdec.h"            /* legstar HTTP include file         */
 
 /*--------------------------------------------------------------------*/
 /* Global variables                                                   */
@@ -140,7 +142,7 @@ long g_DataLen;                    /* last io data len                */
 /*====================================================================*/
 /*  Main section                                                      */
 /*====================================================================*/
-void main() {                                 
+int main() {                                 
     int rc = OK_CODE;             /* general purpose return code      */
     init();                       /* make sure storage is initialized */
     /* Verify that this is a request we can process                   */
@@ -160,7 +162,7 @@ void main() {
     /* If an error has been detected, undo any updates and attempt to
      * notify client                                                  */
     if (OK_CODE != rc) {
-       Rollback();
+       rollback();
        sendErrorMessage();
        EXEC CICS RETURN;
     }
@@ -173,6 +175,7 @@ void main() {
     
     /* end of processing                                              */
     EXEC CICS RETURN;
+    return OK_CODE;
 }                                 
 
 /*====================================================================*/
@@ -311,8 +314,7 @@ int getRequestProperties() {
 /*                                                                    */
 /*====================================================================*/
 int getHTTPHeaders() {
-    int rc = OK_CODE;
-    char headerLabel[MAX_HEADER_LABEL_LEN]; /* Generic header name    */
+
     char headerValue[MAX_HEADER_VALUE_LEN]; /* Generic header value   */
     
     /* get the content length  (It is mandatory on a POST)            */
@@ -390,6 +392,7 @@ int reportInputParameters() {
     traceParameter("Trace mode",&g_traceParms.traceMode, 0);
     traceParameter("Correlation ID", g_traceParms.CxID, 1);
     traceMessage(MODULE_NAME, "");
+    return OK_CODE;
 }
 
 /*====================================================================*/
@@ -462,7 +465,8 @@ int sendErrorMessage() {
     long docSize = 0;             /* size of document                 */
     short statusCode = 500;       /* standard error on server side    */
     char statusText[22] = "Internal server error"; /* standard test   */
-    char cicsErrorHeader[] = CICS_ERROR_HHDR; /* http header signaling pb  */
+    char cicsErrorHeader[] = CICS_ERROR_HHDR; /* http header signaling
+                                                                  pb  */
      
     /* Send back an HTTP header holding the error text                */
     EXEC CICS WEB WRITE HTTPHEADER(cicsErrorHeader)               
@@ -509,7 +513,7 @@ int abortServer(char* abendCode) {
 /*====================================================================*/
 /* This will undo all updates in the current unit of work.            */
 /*====================================================================*/
-int Rollback() {
+int rollback() {
     EXEC CICS SYNCPOINT ROLLBACK
               RESP(g_cicsResp) RESP2(g_cicsResp2);
 
@@ -530,7 +534,7 @@ int traceParameter(char* parameterName,
     char trace[512];
     switch (parameterType) {
       case 0:
-        sprintf(trace,"%s = %d",
+        sprintf(trace,"%s = %ld",
                 parameterName, *(long*)parameterValue );
         break;
       default:  
@@ -583,7 +587,8 @@ int processRequest() {
              * current buffer length to zero */
             g_WorkBufferLen = 0;
             g_pWorkBuffer = NULL;
-            rc = messageToBuffer(&g_pWorkBuffer, &g_WorkBufferLen,
+            rc = messageToBuffer((char**) &g_pWorkBuffer,
+                                (int *) &g_WorkBufferLen,
                                 &lsResponse.message);
             if (rc > 0) {
                 /* Save the total size of the formatted response */
@@ -732,12 +737,13 @@ int setHTTPHeader(char* headerLabel,
 int traceHTTPContent() {
     traceMessage(MODULE_NAME, "HTTP content:");
     traceMessage(MODULE_NAME, "-------------------");
-    sprintf(g_traceMessage, "HTTP data length :%d", g_DataLen);
+    sprintf(g_traceMessage, "HTTP data length :%ld", g_DataLen);
     traceMessage(MODULE_NAME, g_traceMessage);
     traceMessage(MODULE_NAME, "HTTP content:");
     traceData(MODULE_NAME, g_pWorkBuffer, g_DataLen);
     traceMessage(MODULE_NAME,
         "-----------------------------------------------");
+    return OK_CODE;
 }
 
 
