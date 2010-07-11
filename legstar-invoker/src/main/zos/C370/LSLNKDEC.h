@@ -31,6 +31,18 @@
 /*--------------------------------------------------------------------*/
 /*  Prototypes                                                        */
 /*--------------------------------------------------------------------*/
+int freeProgram(DFHEIBLK *inDfheiptr,
+                TraceParms* inTraceParms,
+                CICSProgramDesc* pProgramDesc,
+                Message* pRequestMessage,
+                Message* pResponseMessage);
+int invokeProgram(DFHEIBLK *inDfheiptr,
+                  TraceParms* inTraceParms,
+                  CICSProgramDesc* pProgramDesc,
+                  Message* pRequestMessage,
+                  Message* pResponseMessage);
+
+
 int initProgramDesc(CICSProgramDesc* pProgramDesc);
 int parseKeyValues(int keyValuesSize,
                    void* keyValues,

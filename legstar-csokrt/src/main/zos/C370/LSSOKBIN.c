@@ -115,8 +115,9 @@
 #include <tcperrno.h>            /* socket related error codes        */
 #include <socket.h>              /* socket API                        */
 #include <ezacictm.h>            /* task input message from listener  */
-#include <decimal.h>             /* zOs extension for packed decimals */
 #include "lscomdec.h"            /* legstar common declarations       */
+#include "lssokdec.h"            /* legstar sockets declarations      */
+#include "lslnkdec.h"            /* legstar invoker declarations      */
 
 /*--------------------------------------------------------------------*/
 /*  Constants                                                         */
@@ -149,7 +150,7 @@ char g_CICSApplid[CICS_APPLID_LEN + 1]; /* CICS region where this
                                     server is executing.              */
 char g_CICSLang[CICS_LANG_LEN + 1]; /* CICS region national language. */
 char g_CICSUserID[CICS_USERID_LEN + 1]; /* User ID running this server*/
-char g_CICSTaskn[2 * CICS_TASKN_LEN]; /* Task number for this server
+char g_CICSTaskn[20];                   /* Task number for this server
                                          in human readable format.    */
 char g_CICSAbsTime[CICS_ABSTIME_LEN]; /* Server absolute start time,
                                          ms since 01/01/1900          */
@@ -166,7 +167,7 @@ TraceParms g_traceParms;             /* Set of trace parameters       */
 /*====================================================================*/
 /*  Main section                                                      */
 /*====================================================================*/
-void main() 
+int main() 
 {
     int rc = OK_CODE;
     /* Initialize and get parameters from IBM CICS Listener */
@@ -193,7 +194,7 @@ void main()
      * with the client, try to send en error notification back. */
     if (ERROR_CODE == rc) {
         if (errno != ECONNCLOSED) {
-          Rollback();
+          rollback();
         }
         if (errno != ECONNCLOSED
             && errno != ECONNRESET
@@ -204,7 +205,7 @@ void main()
     }
     
     /* Close the socket   */
-    Close();
+    doCloseSocket();
    
     if (g_traceParms.traceMode == TRUE_CODE) {
         traceMessage(MODULE_NAME, "Main ended");
@@ -214,16 +215,13 @@ void main()
 
     /* end of processing                                              */
     EXEC CICS RETURN;
+    return rc;
 }
 
 /*====================================================================*/
 /* Perform initialization of global variables and get an EIB block    */
 /*====================================================================*/
 int init() {
-    union {
-        char as_bytes[CICS_TASKN_LEN];
-        decimal(7,0) as_packed;
-    } eibtaskn;
     
     memset(&g_listenClID, 0, sizeof(g_listenClID));
     memset(g_traceMessage, 0, sizeof(g_traceMessage));
@@ -269,8 +267,7 @@ int init() {
                          DATESEP;
     
     memcpy(g_CICSTrnID, dfheiptr->eibtrnid, CICS_TRNID_LEN);
-    memcpy(eibtaskn.as_bytes, dfheiptr->eibtaskn, CICS_TASKN_LEN);
-    sprintf(g_CICSTaskn, "%D(7,0)", eibtaskn.as_packed);
+    ptos(g_CICSTaskn,dfheiptr->eibtaskn);
     
     return getListenerParms();
 }
@@ -375,7 +372,7 @@ int doTakeSocket() {
     }
    
     if (g_traceParms.traceMode == TRUE_CODE) {
-        sprintf(g_traceMessage,"Take socket %d success", g_socket);
+        sprintf(g_traceMessage,"Take socket %ld success", g_socket);
         traceMessage(MODULE_NAME, g_traceMessage);
     }
     return OK_CODE;
@@ -401,7 +398,7 @@ int doSetSockOpt() {
      * we don t disable Nagle, there is an unacceptable delay in
      * the client acknowldgement of the first send. */
     rc = setsockopt(g_socket, IPPROTO_TCP, TCP_NODELAY,
-                    enabled, sizeof(enabled) );
+                    (char *) enabled, sizeof(enabled) );
     if (ERROR_CODE == rc) {
         logSocketError("setsockopt");
         return ERROR_CODE;
@@ -415,8 +412,9 @@ int doSetSockOpt() {
 /* until client closes the connection or an error condition arises.   */
 /*====================================================================*/
 int recvRequest() {
-    int i = 0;
+
     int rc = 0;
+
     char requestType[REQUEST_TYPE_LEN + 1];
  
     if (g_traceParms.traceMode == TRUE_CODE) {
@@ -705,7 +703,7 @@ int recvMessagePart(MessagePart* pMessagePart) {
 /* Output :  The data received                                        */
 /*                                                                    */
 /*====================================================================*/
-int doReceive(char* buffer, int nBytes) {
+int doReceive(void* buffer, int nBytes) {
     int recvbytes = 0;
     int rc = 0;
     unsigned long temps = g_socket;
@@ -716,7 +714,7 @@ int doReceive(char* buffer, int nBytes) {
    
     /* Receive all chunks till we have the requested byte count */
     while (recvbytes < nBytes) {
-      rc = doReceiveWait(temps, buffer + recvbytes,
+      rc = doReceiveWait(temps, (char *) buffer + recvbytes,
                          nBytes - recvbytes, RECV_TIME_OUT);
       /* If receive failed, percolate the error up the stack */
       if (rc == ERROR_CODE) {
@@ -899,8 +897,9 @@ int sendResponseMessage(Message* pResponseMessage) {
 /* Send a message part back to client.                                */
 /*====================================================================*/
 int sendMessagePart(MessagePart* pPart) {
+
     int rc;
-    int i = 0;
+
     struct {
         char ID[MSG_ID_LEN];
         char SAB[MSG_CONTENT_SIZE_LEN];
@@ -1106,7 +1105,7 @@ int doSendWait(unsigned long socket,
 /* efficient to buffer them and send them over with a single socket   */
 /* send.                                                              */
 /*====================================================================*/
- int doSendBuffered(char* buffer, int nBytes) {
+ int doSendBuffered(void* buffer, int nBytes) {
   
     int rc = OK_CODE;
     /* If the requested data is larger than the send buffer, we just
@@ -1192,11 +1191,11 @@ int processUOWCommand() {
     /* Process the requested UOW command */
     if (strncmp(UOW_COMMIT_CMD, command,
                 sizeof(UOW_COMMIT_CMD)) == 0) {
-       rc = Commit();
+       rc = commit();
     } else {
         if (strncmp(UOW_ROLLBACK_CMD, command,
                     sizeof(UOW_ROLLBACK_CMD)) == 0) {
-           rc = Rollback();
+           rc = rollback();
         } else {
             if (strncmp(UOW_KEEP_CMD, command,
                         sizeof(UOW_KEEP_CMD)) == 0) {
@@ -1220,7 +1219,7 @@ int processUOWCommand() {
 /*====================================================================*/
 /* This will confirm all updates in the current unit of work.         */
 /*====================================================================*/
-int Commit() {
+int commit() {
     EXEC CICS SYNCPOINT
               RESP(g_cicsResp) RESP2(g_cicsResp2);
 
@@ -1235,7 +1234,7 @@ int Commit() {
 /*====================================================================*/
 /* This will undo all updates in the current unit of work.            */
 /*====================================================================*/
-int Rollback() {
+int rollback() {
     EXEC CICS SYNCPOINT ROLLBACK
               RESP(g_cicsResp) RESP2(g_cicsResp2);
 
@@ -1250,7 +1249,7 @@ int Rollback() {
 /*====================================================================*/
 /* Terminate all communications ovedr the socket and close it.        */
 /*====================================================================*/
-int Close() {
+int doCloseSocket() {
     int rc = OK_CODE;
     
     /* Shut down both sides of the communication. If shutdowb fails
@@ -1345,7 +1344,17 @@ int logSocketError(char* errorCommand) {
     }
    
     sprintf(sokErrorMessage,
-            "Socket call=%s on socket=%d failed. %s",
+            "Socket call=%s on socket=%ld failed. %s",
             errorCommand, g_socket, respText);
     logError(MODULE_NAME, sokErrorMessage);
+    return OK_CODE;
+}
+
+/******************************************************************/
+/* Function to convert packed field to string                     */
+/******************************************************************/
+void ptos(char *s_buff,unsigned char *p_buff) {
+    unsigned long  p_val;
+    p_val=*(unsigned long *)p_buff;
+    sprintf(s_buff,"%lx",p_val>>4);
 }
