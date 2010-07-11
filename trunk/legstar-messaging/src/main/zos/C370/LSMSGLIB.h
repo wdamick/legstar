@@ -49,13 +49,21 @@ typedef struct tagLSMessage {
 /*--------------------------------------------------------------------*/
 /*  Prototypes                                                        */
 /*--------------------------------------------------------------------*/
-int freeHostBuffer(void *buffer);
+int initLSMSGLIB(DFHEIBLK *inDfheiptr, TraceParms* inTraceParms);
+int initLSMessage(LS_Message *pLsMessage);
+int hostToMessage(char* hostBuffer, int  len, Message* pMessage);
 int hostToMessagePart(
     char* hostBuffer,        /* Pointer to the raw in-memory data     */
     int* pPos,               /* Current position within the raw data  */
     int  len,                /* Total size of the raw data            */
     MessagePart* pMessagePart  /* Message part to be formatted        */
     );
+int messageToBuffer(
+    char** pHostBuffer,
+    int*  pHostBufferLen,
+    Message* pMessage);
+
+int freeHostBuffer(void *buffer);
 int messagePartToBuffer(
     char* hostBuffer,           /* Host buffer being formatted        */
     int* pPos,                  /* Current position within the buffer */

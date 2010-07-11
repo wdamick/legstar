@@ -295,8 +295,9 @@ int processRequest() {
                            &lsRequest.message,
                            &lsResponse.message);
         if (OK_CODE == rc) {
-           rc = messageToBuffer(&g_pWorkBuffer, &g_WorkBufferLen,
-                                        &lsResponse.message);
+           rc = messageToBuffer((char **)&g_pWorkBuffer,
+                                (int *) &g_WorkBufferLen,
+                                &lsResponse.message);
            if (rc > 0) {
                 /* Save the total size of the formatted response */
                 g_DataLen = rc;

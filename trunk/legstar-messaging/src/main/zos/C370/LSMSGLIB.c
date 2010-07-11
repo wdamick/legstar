@@ -60,9 +60,9 @@
 /*====================================================================*/
 /* Initialize logging and tracing variables.                          */
 /*====================================================================*/
-int initLSMSGLIB(inDfheiptr, inTraceParms)
-    DFHEIBLK *inDfheiptr;                     /* Pointer to eib block */
-    TraceParms* inTraceParms;          /* Pointer to trace parameters */
+int initLSMSGLIB(
+    DFHEIBLK *inDfheiptr,                     /* Pointer to eib block */
+    TraceParms* inTraceParms)          /* Pointer to trace parameters */
 {
     dfheiptr = inDfheiptr;
     g_pTraceParms = inTraceParms;
@@ -72,8 +72,8 @@ int initLSMSGLIB(inDfheiptr, inTraceParms)
 /*====================================================================*/
 /* Initialize a LegStar message structure.                            */
 /*====================================================================*/
-int initLSMessage(pLsMessage)
-    LS_Message *pLsMessage;    /* Pointer to message to initialize    */
+int initLSMessage(
+    LS_Message *pLsMessage)    /* Pointer to message to initialize    */
 {
     memset(&pLsMessage->headerPart, '\0',
            sizeof(pLsMessage->headerPart));
@@ -152,10 +152,10 @@ int freeHostBuffer(
 /* followed by any number of message parts. The exact number of       */
 /* message parts is given by the header part.                         */
 /*====================================================================*/
-int hostToMessage(hostBuffer, len, pMessage)
-    char* hostBuffer;          /* Pointer to the raw in-memory data   */
-    int  len;                  /* Total size of the raw data          */
-    Message* pMessage;  /*  message being formatted     */
+int hostToMessage(
+    char* hostBuffer,          /* Pointer to the raw in-memory data   */
+    int  len,                  /* Total size of the raw data          */
+    Message* pMessage)  /*  message being formatted     */
 {
 
     int rc = OK_CODE;             /* general purpose return code      */
@@ -323,10 +323,10 @@ int hostToMessagePart(
 /* When successful, this method returns the total number of bytes     */
 /* formatted.                                                         */
 /*====================================================================*/
-int messageToBuffer(pHostBuffer, pHostBufferLen, pMessage)
-    char** pHostBuffer;        /* Points to a buffer to format        */
-    int*  pHostBufferLen;      /* Current size of the host buffer     */
-    Message* pMessage;         /* The message to read from            */
+int messageToBuffer(
+    char** pHostBuffer,        /* Points to a buffer to format        */
+    int*  pHostBufferLen,      /* Current size of the host buffer     */
+    Message* pMessage)         /* The message to read from            */
  {
 
     int rc = OK_CODE;             /* general purpose return code      */
