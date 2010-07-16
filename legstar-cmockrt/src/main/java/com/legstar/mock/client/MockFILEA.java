@@ -97,7 +97,7 @@ public class MockFILEA {
      */
     public List < byte[] > getCustomers(
             final String namePattern) {
-        return getCustomers(namePattern, _hostCustomersList.size());
+        return getCustomers(namePattern, -1, _hostCustomersList.size());
     }
 
     /**
@@ -109,6 +109,19 @@ public class MockFILEA {
      */
     public List < byte[] > getCustomers(
             final String namePattern, final long maxItems) {
+        return getCustomers(namePattern, -1, maxItems);
+    }
+
+    /**
+     * The list will match customers by name. If name pattern is null all
+     * customers are returned otherwise the pattern can contain *.
+     * @param namePattern the pattern that a name must match.
+     * @param maxItems the maximum number of items to examine for a match (-1 for no limit)
+     * @param maxReplies the maximum number of matches to return (-1 for no limit)
+     * @return a list of customers whose name matches a certain (simple) pattern
+     */
+    public List < byte[] > getCustomers(
+            final String namePattern, final long maxItems, final long maxReplies) {
         List < byte[] > list = new ArrayList < byte[] >();
         int itemsExamined = 0;
         for (byte[] dfhcommarea : _hostCustomersList.values()) {
@@ -127,10 +140,13 @@ public class MockFILEA {
                 }
             }
             if (match) {
+                if (maxReplies > -1 && list.size() == maxReplies) {
+                    break;
+                }
                 list.add(dfhcommarea);
             }
             itemsExamined++;
-            if (itemsExamined > maxItems) {
+            if (maxItems > -1 && itemsExamined > maxItems) {
                 break;
             }
         }
