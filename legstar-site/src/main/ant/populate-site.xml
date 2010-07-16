@@ -12,6 +12,7 @@
         <delete>
             <fileset dir="${basedir}/features" includes="*.jar"/>
             <fileset dir="${basedir}/plugins" includes="*.jar"/>
+            <fileset dir="${basedir}" includes="*.jar"/>
         </delete>
 
         <echo message="Populating Eclipse site plugins"/>
@@ -72,5 +73,16 @@
             </filtermapper>
         </copy>
 
-  </target>
+        <echo message="Create a publish command"/>
+        <copy todir="${basedir}/target">
+            <fileset dir="${basedir}/src/main/templates">
+                <include name="publish.bat.template"/>
+            </fileset>
+            <filterset>
+                <filter token="LEGSTAR-LOCAL-SITE-LOCATION" value="${basedir}"/>
+            </filterset>
+            <globmapper from="*.template" to="*"/>
+        </copy>
+
+    </target>
 </project>
