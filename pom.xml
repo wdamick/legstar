@@ -266,18 +266,7 @@
         <module>legstar-cixsgen-clients</module>
         <module>legstar-distribution</module>
         <module>legstar-distribution-zos</module>
-        <module>legstar-common-plugin</module>
-        <module>legstar-common-feature</module>
-        <module>legstar-cixscom-plugin</module>
-        <module>legstar-cixsmap-plugin</module>
-        <module>legstar-cixsmap-feature</module>
-        <module>legstar-coxbgen-plugin</module>
-        <module>legstar-coxbgen-feature</module>
-        <module>legstar-jaxwsgen-plugin</module>
-        <module>legstar-jaxwsgen-feature</module>
-        <module>legstar-schemagen-plugin</module>
-        <module>legstar-schemagen-feature</module>
-        <module>legstar-site</module>
+        <module>legstar-eclipse</module>
     </modules>
  
     <distributionManagement>
