@@ -62,7 +62,11 @@ public final class PreferenceConstants {
     /* -------------------------------------------------------------------
      * COBOL compiler related options
      * */
-    /** Currency symbol default. */
+    /** Currency sign (CURRENCY SIGN clause in the SPECIAL-NAMES) default. */
+    public static final String DEFAULT_CURRENCY_SIGN =
+        "com.legstar.eclipse.plugin.schemagen.defaultCurrencySign";
+
+    /** Currency symbol (CURRENCY PICTURE SYMBOL clause in the SPECIAL-NAMES) default. */
     public static final String DEFAULT_CURRENCY_SYMBOL =
         "com.legstar.eclipse.plugin.schemagen.defaultCurrencySymbol";
 

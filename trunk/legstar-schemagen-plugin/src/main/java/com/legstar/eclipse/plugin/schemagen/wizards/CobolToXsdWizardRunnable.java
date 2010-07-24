@@ -100,6 +100,7 @@ public class CobolToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
         model.getContext().setJaxbTypeClassesSuffix(store.getString(
                 PreferenceConstants.DEFAULT_JAXB_TYPE_CLASSES_SUFFIX));
 
+        model.getContext().setCurrencySign(store.getString(PreferenceConstants.DEFAULT_CURRENCY_SIGN));
         model.getContext().setCurrencySymbol(store.getString(PreferenceConstants.DEFAULT_CURRENCY_SYMBOL));
         model.getContext().setDecimalPointIsComma(store.getBoolean(PreferenceConstants.DEFAULT_DECIMAL_POINT_IS_COMMA));
         model.getContext().setNSymbolDbcs(store.getBoolean(PreferenceConstants.DEFAULT_NSYMBOL_DBCS));

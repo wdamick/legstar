@@ -100,9 +100,13 @@ implements IWorkbenchPreferencePage {
      * COBOL compiler related options
      * */
        addField(new StringFieldEditor(
-                PreferenceConstants.DEFAULT_CURRENCY_SYMBOL,
-                Messages.preference_default_currency_symbol_label + ':',
+                PreferenceConstants.DEFAULT_CURRENCY_SIGN,
+                Messages.preference_default_currency_sign_label + ':',
                 getFieldEditorParent()));
+       addField(new StringFieldEditor(
+               PreferenceConstants.DEFAULT_CURRENCY_SYMBOL,
+               Messages.preference_default_currency_symbol_label + ':',
+               getFieldEditorParent()));
        addField(new StringFieldEditor(
                 PreferenceConstants.DEFAULT_DECIMAL_POINT_IS_COMMA,
                 Messages.preference_default_decimal_point_is_comma_label + ':',
