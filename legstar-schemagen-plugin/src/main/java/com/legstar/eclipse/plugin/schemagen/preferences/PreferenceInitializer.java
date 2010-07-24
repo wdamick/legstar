@@ -49,6 +49,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         /* -------------------------------------------------------------------
          * COBOL compiler related options
          * */
+        store.setDefault(PreferenceConstants.DEFAULT_CURRENCY_SIGN, Cob2XsdContext.DEFAULT_CURRENCY_SIGN);
         store.setDefault(PreferenceConstants.DEFAULT_CURRENCY_SYMBOL, Cob2XsdContext.DEFAULT_CURRENCY_SYMBOL);
         store.setDefault(PreferenceConstants.DEFAULT_DECIMAL_POINT_IS_COMMA, false);
         store.setDefault(PreferenceConstants.DEFAULT_NSYMBOL_DBCS, false);

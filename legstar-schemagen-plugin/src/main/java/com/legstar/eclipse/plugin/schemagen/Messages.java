@@ -71,7 +71,10 @@ public class Messages extends NLS {
     /* -------------------------------------------------------------------
      * COBOL compiler related options
      * */
-    /** Currency symbol default. */
+    /** Currency sign CURRENCY SIGN clause in the SPECIAL-NAMES) default. */
+    public static String preference_default_currency_sign_label;
+
+    /** Currency symbol (CURRENCY PICTURE SYMBOL clause in the SPECIAL-NAMES) default. */
     public static String preference_default_currency_symbol_label;
 
     /** Decimal point is comma default. */
