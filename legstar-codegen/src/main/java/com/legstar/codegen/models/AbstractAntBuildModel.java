@@ -54,6 +54,23 @@ public abstract class AbstractAntBuildModel implements IAntBuildModel {
             final String generatorName,
             final String velocityMacro,
             final File targetFile) throws CodeGenMakeException {
+        generateBuild(generatorName, velocityMacro, targetFile, null);
+    }
+
+    /**
+     * Creates an ant build script file ready for launching.
+     * @param generatorName the name of the actual generator
+     * @param velocityMacro the template to apply
+     * @param targetFile the script file that must be created
+     * @param targetCharsetName the target character set. null is interpreted
+     *                          as the default encoding
+     * @throws CodeGenMakeException if generation fails
+     */
+    public void generateBuild(
+            final String generatorName,
+            final String velocityMacro,
+            final File targetFile,
+            final String targetCharsetName) throws CodeGenMakeException {
         try {
             if (mParameters == null) {
                 CodeGenUtil.initVelocity();
@@ -67,7 +84,8 @@ public abstract class AbstractAntBuildModel implements IAntBuildModel {
                     velocityMacro,
                     "antModel", this,
                     mParameters,
-                    targetFile);
+                    targetFile,
+                    targetCharsetName);
 
         } catch (CodeGenVelocityException e) {
             throw new CodeGenMakeException(e);
