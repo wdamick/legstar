@@ -12,9 +12,11 @@ package com.legstar.codegen;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -337,7 +339,7 @@ public final class CodeGenUtil {
      * @param modelName the model name
      * @param model the model providing data for velocity templates
      * @param parameters additional parameters to pass to template
-     * @param targetFile the file to generate
+     * @param targetFile the file to generate using default charset
      * @throws CodeGenMakeException if processing fails
      */
     public static void processTemplate(
@@ -348,10 +350,41 @@ public final class CodeGenUtil {
             final Map < String, Object > parameters,
             final File targetFile) throws CodeGenMakeException {
 
+        processTemplate(generatorName,
+                templateName,
+                modelName,
+                model,
+                parameters,
+                targetFile,
+                null);
+    }
+
+    /**
+     * Apply a velocity template taken from a code generation make xml.
+     * @param generatorName the generator name
+     * @param templateName the velocity template to apply
+     * @param modelName the model name
+     * @param model the model providing data for velocity templates
+     * @param parameters additional parameters to pass to template
+     * @param targetFile the file to generate
+     * @param targetCharsetName the target character set. null is interpreted
+     *                          as the default encoding
+     * @throws CodeGenMakeException if processing fails
+     */
+    public static void processTemplate(
+            final String generatorName,
+            final String templateName,
+            final String modelName,
+            final Object model,
+            final Map < String, Object > parameters,
+            final File targetFile,
+            final String targetCharsetName) throws CodeGenMakeException {
+
         if (LOG.isDebugEnabled()) {
             LOG.debug("Processing template");
-            LOG.debug("Template name    = " + templateName);
-            LOG.debug("Target file      = " + targetFile);
+            LOG.debug("Template name       = " + templateName);
+            LOG.debug("Target file         = " + targetFile);
+            LOG.debug("Target charset name = " + targetCharsetName);
             if (parameters != null) {
                 for (String key : parameters.keySet()) {
                     Object value = parameters.get(key);
@@ -371,9 +404,16 @@ public final class CodeGenUtil {
 
         try {
             Velocity.mergeTemplate(templateName, "UTF-8", context, w);
-            BufferedWriter out = null;
+            Writer out = null;
             try {
-                out = new BufferedWriter(new FileWriter(targetFile));
+                FileOutputStream fos = new FileOutputStream(targetFile);
+                OutputStreamWriter osw;
+                if (targetCharsetName == null) {
+                    osw = new OutputStreamWriter(fos);
+                } else {
+                    osw = new OutputStreamWriter(fos, targetCharsetName);
+                }
+                out = new BufferedWriter(osw);
                 out.write(w.toString());
             } catch (IOException e) {
                 throw new CodeGenMakeException(e);

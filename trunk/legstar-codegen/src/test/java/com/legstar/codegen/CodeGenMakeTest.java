@@ -13,9 +13,11 @@ package com.legstar.codegen;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -30,6 +32,9 @@ public class CodeGenMakeTest extends TestCase {
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(CodeGenMakeTest.class);
+
+    /** Tests will store generated files here. */
+    private static final String WORK_FOLDER = "target/gen";
 
     /**
      * Check controls on input make file.
@@ -159,7 +164,7 @@ public class CodeGenMakeTest extends TestCase {
         /* Create a temporary make file */
         BufferedWriter out;
         out = new BufferedWriter(new FileWriter(tempMakeFile));
-        out.write("<target name=\"aTarget\" dir=\"test-gen\">"
+        out.write("<target name=\"aTarget\" dir=\"" + WORK_FOLDER + "\">"
                 + "<step templateName=\"testtemplate.vm\" targetFile=\"test.text\">"
                 + "<parm1 value=\"value1\"/><parm2 value=\"value2\"/>"
                 + "</step></target>");
@@ -171,7 +176,42 @@ public class CodeGenMakeTest extends TestCase {
         codeGenMake.setModel("model");
         codeGenMake.setCodeGenMakeFileName(tempMakeFile.getPath());
         codeGenMake.execute();
-        BufferedReader in = new BufferedReader(new FileReader("test-gen/test.text"));
+        BufferedReader in = new BufferedReader(new FileReader(WORK_FOLDER + "/test.text"));
+        String resStr = "";
+        String str = in.readLine();
+        while (str != null) {
+            _log.debug(str);
+            resStr += str;
+            str = in.readLine();
+        }
+        in.close();
+        assertTrue(resStr.contains("Using value1 and value2"));
+    }
+
+    /**
+     * Check generation with a requested character set.
+     * @throws IOException if file cannot be read
+     */
+    public void testCodeGenMakeTemplateWithParametersAndCharset() throws IOException {
+        File tempMakeFile = File.createTempFile("test-temp", "xml");
+        /* Create a temporary make file */
+        BufferedWriter out;
+        out = new BufferedWriter(new FileWriter(tempMakeFile));
+        out.write("<target name=\"aTarget\" dir=\"" + WORK_FOLDER + "\">"
+                + "<step templateName=\"testtemplate.vm\""
+                + " targetFile=\"test-utf8.text\" targetCharsetName=\"UTF-8\">"
+                + "<parm1 value=\"value1\"/><parm2 value=\"value2\"/>"
+                + "</step></target>");
+        out.close();
+
+        CodeGenMake codeGenMake = new CodeGenMake();
+        codeGenMake.init();
+        codeGenMake.setModelName("modelName");
+        codeGenMake.setModel("model");
+        codeGenMake.setCodeGenMakeFileName(tempMakeFile.getPath());
+        codeGenMake.execute();
+        BufferedReader in = new BufferedReader(new InputStreamReader(
+                new FileInputStream(WORK_FOLDER + "/test-utf8.text"), "UTF-8"));
         String resStr = "";
         String str = in.readLine();
         while (str != null) {

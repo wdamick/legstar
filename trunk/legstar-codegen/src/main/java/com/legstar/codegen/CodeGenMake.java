@@ -70,6 +70,8 @@ public class CodeGenMake extends Task {
     /** XML attribute representing a code generation target file. */
     public static final String CODEGEN_TEMPLATE_TARGET_FILE_XML_A = "targetFile";
 
+    /** XML attribute representing a code generation target character set. */
+    public static final String CODEGEN_TEMPLATE_TARGET_CHARSETNAME_XML_A = "targetCharsetName";
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(CodeGenMake.class);
@@ -182,12 +184,18 @@ public class CodeGenMake extends Task {
                         "Missing template target file name attribute for "
                         + CODEGEN_STEP_XML_E + " element");
             }
+            String templateTargetCharsetName = templateEl.getAttribute(
+                    CODEGEN_TEMPLATE_TARGET_CHARSETNAME_XML_A);
+            if (templateTargetCharsetName.length() == 0) {
+                templateTargetCharsetName = null;
+            }
             CodeGenUtil.processTemplate(
                     mGeneratorName,
                     templateName,
                     mModelName, mModel,
                     getParameters(templateEl),
-                    CodeGenUtil.getFile(targetDir, templateTargetFileName));
+                    CodeGenUtil.getFile(targetDir, templateTargetFileName),
+                    templateTargetCharsetName);
         }
     }
 
