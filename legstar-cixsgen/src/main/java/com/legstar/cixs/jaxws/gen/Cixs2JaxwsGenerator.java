@@ -186,7 +186,8 @@ public class Cixs2JaxwsGenerator extends AbstractCixsJaxwsGenerator {
                 service,
                 parameters,
                 serviceAntFilesDir,
-                fileName);
+                fileName,
+                "UTF-8");
         return fileName;
     }
 
@@ -210,7 +211,8 @@ public class Cixs2JaxwsGenerator extends AbstractCixsJaxwsGenerator {
                 service,
                 parameters,
                 serviceAntFilesDir,
-                fileName);
+                fileName,
+                "UTF-8");
         return fileName;
     }
 
@@ -234,7 +236,8 @@ public class Cixs2JaxwsGenerator extends AbstractCixsJaxwsGenerator {
                 service,
                 parameters,
                 serviceWebFilesDir,
-                fileName);
+                fileName,
+                "UTF-8");
         return fileName;
     }
 

@@ -359,7 +359,8 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
                 service,
                 parameters,
                 serviceAntFilesDir,
-                fileName);
+                fileName,
+                "UTF-8");
         return fileName;
     }
 
@@ -383,7 +384,8 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
                 service,
                 parameters,
                 serviceAntFilesDir,
-                fileName);
+                fileName,
+                "UTF-8");
         return fileName;
     }
 
@@ -407,7 +409,8 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
                 service,
                 parameters,
                 serviceAntFilesDir,
-                fileName);
+                fileName,
+                "UTF-8");
         return fileName;
     }
 
@@ -429,28 +432,35 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
                 service,
                 parameters,
                 serviceWebFilesDir,
-        "web.xml");
+                "web.xml",
+                "UTF-8");
     }
 
     /**
      * Create the Jaxws Sun Jaxws Xml file.
-     * @param service the Jaxws service description
-     * @param parameters miscellaneous help parameters
-     * @param serviceWebFilesDir where to store the generated file
-     * @throws CodeGenMakeException if generation fails
+     * 
+     * @param service
+     *            the Jaxws service description
+     * @param parameters
+     *            miscellaneous help parameters
+     * @param serviceWebFilesDir
+     *            where to store the generated file
+     * @throws CodeGenMakeException
+     *             if generation fails
      */
     public static void generateSunJaxwsXml(
             final CixsJaxwsService service,
             final Map < String, Object > parameters,
             final File serviceWebFilesDir)
-    throws CodeGenMakeException {
+            throws CodeGenMakeException {
         generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
                 SERVICE_SUN_JAXWS_XML_VLC_TEMPLATE,
                 SERVICE_MODEL_NAME,
                 service,
                 parameters,
                 serviceWebFilesDir,
-        "sun-jaxws.xml");
+                "sun-jaxws.xml",
+                "UTF-8");
     }
 
     /**

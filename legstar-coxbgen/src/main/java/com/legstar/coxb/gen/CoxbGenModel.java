@@ -114,13 +114,16 @@ public class CoxbGenModel extends AbstractAntBuildModel {
 
     /**
      * Creates an ant build script file ready for binding generation.
-     * @param scriptFile the script file that must be created
-     * @throws CodeGenMakeException if generation fails
+     * 
+     * @param scriptFile
+     *            the script file that must be created
+     * @throws CodeGenMakeException
+     *             if generation fails
      */
-    public void generateBuild(
-            final File scriptFile) throws CodeGenMakeException {
-        super.generateBuild(
-                COXB_GENERATOR_NAME, COXB_VELOCITY_MACRO_NAME, scriptFile);
+    public void generateBuild(final File scriptFile)
+            throws CodeGenMakeException {
+        super.generateBuild(COXB_GENERATOR_NAME, COXB_VELOCITY_MACRO_NAME,
+                scriptFile, "UTF-8");
     }
 
     /**

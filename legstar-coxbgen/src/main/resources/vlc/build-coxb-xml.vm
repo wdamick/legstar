@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- =================================================================================
      This script generates JAXB classes from a COBOL-annotated XML schema. It then
      goes on and generates binding classes for selected JAXB root classes.

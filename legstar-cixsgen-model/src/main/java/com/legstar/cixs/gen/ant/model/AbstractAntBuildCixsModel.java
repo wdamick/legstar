@@ -71,7 +71,7 @@ public class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
     public void generateBuild(
             final File scriptFile) throws CodeGenMakeException {
         super.generateBuild(
-                mGeneratorName, mVlcTemplate, scriptFile);
+                mGeneratorName, mVlcTemplate, scriptFile, "UTF-8");
     }
 
     /**
