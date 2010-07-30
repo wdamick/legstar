@@ -40,7 +40,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/legstar-cixsgen-model-1.3.2-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-cmockrt-1.3.2-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-cmqrt-1.3.2-SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-cob2xsd-0.1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-cob2xsd-0.1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-cobcgen-1.3.2-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-codegen-1.3.2-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-config-1.3.2-SNAPSHOT.jar"/>

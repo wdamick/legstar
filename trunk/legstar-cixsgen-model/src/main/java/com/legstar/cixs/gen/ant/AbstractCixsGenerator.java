@@ -185,7 +185,7 @@ public abstract class AbstractCixsGenerator extends Task {
      * @param model the object holding all generation parameters
      * @param parameters miscellaneous help parameters
      * @param dir where to store the generated file
-     * @param fileName name of generated file
+     * @param fileName name of generated file using default character set 
      * @throws CodeGenMakeException if generation fails
      */
     public static void generateFile(
@@ -197,6 +197,38 @@ public abstract class AbstractCixsGenerator extends Task {
             final File dir,
             final String fileName)
     throws CodeGenMakeException {
+        generateFile(generatorName,
+                templateName,
+                modelName,
+                model,
+                parameters,
+                dir,
+                fileName,
+                null);
+    }
+
+    /**
+     * Create a file by applying a velocity template.
+     * @param generatorName the generator name
+     * @param templateName which velocity template to apply
+     * @param modelName name by which velocity templates reference the model
+     * @param model the object holding all generation parameters
+     * @param parameters miscellaneous help parameters
+     * @param dir where to store the generated file
+     * @param fileName name of generated file
+     * @param charsetName the target character set
+     * @throws CodeGenMakeException if generation fails
+     */
+    public static void generateFile(
+            final String generatorName,
+            final String templateName,
+            final String modelName,
+            final Object model,
+            final Map < String, Object > parameters,
+            final File dir,
+            final String fileName,
+            final String charsetName)
+    throws CodeGenMakeException {
 
         File targetFile = CodeGenUtil.getFile(dir, fileName);
         CodeGenUtil.processTemplate(
@@ -204,7 +236,8 @@ public abstract class AbstractCixsGenerator extends Task {
                 templateName,
                 modelName, model,
                 parameters,
-                targetFile);
+                targetFile,
+                charsetName);
     }
 
     /**
