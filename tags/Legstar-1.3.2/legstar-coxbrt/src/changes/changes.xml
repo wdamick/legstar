@@ -1,0 +1,107 @@
+<document>
+  <properties>
+    <title>COBOL Binding Runtime</title>
+  </properties>
+  <body>
+    <release version="1.2.6" date="2009-07-30" description="Fixes and performances release">
+        <action dev="fady" type="update">
+            Fixed Issue 57: Support setting string values with binary content.
+        </action>
+    </release>
+    <release version="1.2.5" date="2009-05-30" description="Fixes release">
+      <action dev="fady" type="update">
+        Fixed Issue 48: Conversion errors with floats and doubles.
+      </action>
+      <action dev="fady" type="update">
+        Fixed issue 50: Remove systematic final attributes on methods.
+      </action>
+      <action dev="fady" type="update">
+        Fixed issue 51: Remove static attribute on commons logging logger.
+      </action>
+    </release>
+    <release version="1.2.4" date="2009-03-30" description="Performance release">
+      <action dev="fady" type="update">
+        Fixed issue 44: Marshaler should initialize all items of a fixed sized complex array when the bound value object is
+        empty of partially filled.
+      </action>
+      <action dev="fady" type="update">
+        Added XML to Host transformers based on reflection.
+      </action>
+      <action dev="fady" type="update">
+        Removed byteLength from the expected java annotations. The calculation is done at generation time.
+      </action>
+    </release>
+    <release version="1.2.3" date="2009-01-30" description="Refactoring Proxy Runtime">
+      <action dev="fady" type="update">
+        Added support for Transformers and the new associated API.
+      </action>
+      <action dev="fady" type="update">
+        Fixed Issue 29: When mainframe sends partial data, converters should  produce default values or use the partial data 
+        when it is available.
+      </action>
+      <action dev="fady" type="update">
+        Fixing Issue 28:  COBOL Binding class does not compile for arrays with OCCURS 0 TO 1.
+        The case OCCURS 0 TO 1 DEPENDING ON is now managed as an optional element (not an array).
+        The counter element in DEPENDING ON will be set to 1 if object exist and conversely,
+        host data is assumed to contain bytes for that element if the associated counter is 1.
+      </action>
+    </release>
+    <release version="1.2.2" date="2008-12-01" description="Support for ESB generation">
+      <action dev="fady" type="update">
+        Fixed Bug 30: String padding character now depends on target host character set rather than being hardcoded as 0x40.
+      </action>
+      <action dev="fady" type="update">
+        Fixed Bug 31: Zoned decimals are now considered as characters and are translated to the target host character set.
+        This opens the possibility that the target character set be ASCII rather than EBCDIC.
+        An important restriction is that COBOL decimals must be unsigned or explicitly declared with SIGN IS SEPARATE if the
+        target character set is not EBCDIC.
+      </action>
+      <action dev="fady" type="update">
+        Changed code due to removal of "Type" as the default jaxbTypeClassesSuffix in XML schema generation.
+        JAXB test class names are not suffixed with "Type" anymore.
+      </action>
+    </release>
+    <release version="1.2.1" date="2008-09-30" description="Code cleansing">
+    </release>
+    <release version="1.2.0" date="2008-07-08" description="Binding to POJO">
+      <action dev="fady" type="update">
+        It is now possible to bind directly to a POJO rather than a JAXB class. The JAXB classes
+        are still needed at generation time but not at runtime anymore.
+      </action>
+    </release>
+
+    <release version="1.1.0" date="2007-08-30" description="Refactoring and creation of coxbapi">
+      <action dev="fady" type="update">
+        Package "com.legstar.host" has been renamed "com.legstar.coxb.host" and moved to
+        the coxbapi project.
+      </action>
+      <action dev="fady" type="update">
+        Visitor classes have been moved from package "com.legstar.host" to "com.legstar.coxb.visitor".
+      </action>
+      <action dev="fady" type="update">
+        Package "com.legstar.coxb.rt" has been removed. Classes in "com.legstar.coxb.impl" provide
+        runtime functionalities.
+      </action>
+      <action dev="fady" type="add">
+        Binding classes now implement a "calcByteLength" method to evaluate the maximum host data
+        buffer length needed for marshaling. The "getByteLength" method now returns zero for group
+        items.
+      </action>
+      <action dev="fady" type="update">
+        Binding classes now have a constructor which takes the JAXB object as its sole argument.
+        The constructors that used to take the JAXB object factory as a parameter have been
+        removed (the binding class has a private property pointing to this object factory now).
+      </action>
+      <action dev="fady" type="update">
+        Binding classes do not have a "getJaxbObject" anymore. Instead, they implement a "getxxx"
+        method where xxx is the underlying JAXB object name.
+      </action>
+    </release>
+
+    <release version="0.0.1" date="2006-12-31" description="First release">
+      <action dev="fady" type="add">
+        First version of the COBOL Binding Runtime.
+      </action>
+    </release>
+  </body>
+</document>
