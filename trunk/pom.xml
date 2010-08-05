@@ -4,11 +4,11 @@
     <artifactId>Legstar</artifactId>
     <packaging>pom</packaging>
     <name>LegStar Open-Source Mainframe Integration</name>
-    <version>1.3.2-SNAPSHOT</version>
+    <version>1.3.2</version>
     <description>Open-Source Mainframe Integration</description>
     <url>http://www.legsem.com/legstar</url>
     <properties>
-        <legstarVersion>1.3.2-SNAPSHOT</legstarVersion>
+        <legstarVersion>1.3.2</legstarVersion>
         <legstarZosVersion>V1R3M2</legstarZosVersion>
         <legstarCob2XsdVersion>0.1.1</legstarCob2XsdVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -20,9 +20,9 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:svn:http://legstar.googlecode.com/svn/trunk/</connection>
-        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/trunk/</developerConnection>
-        <url>http://legstar.googlecode.com/svn/trunk/</url>
+        <connection>scm:svn:http://legstar.googlecode.com/svn/tags/Legstar-1.3.2</connection>
+        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/tags/Legstar-1.3.2</developerConnection>
+        <url>http://legstar.googlecode.com/svn/tags/Legstar-1.3.2</url>
     </scm>
 
     <mailingLists>
