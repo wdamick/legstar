@@ -2,6 +2,12 @@
                              Latest releases overview
  -------------------------------------------------------------------------------
 
+Version 1.3.2
+
+ The primary objective of this release is better support for Eclipse Galileo (3.5.x). The Eclipse P2 update mechanism in particular, required important changes in the way we bundle our Eclipse plugins.
+
+ A {{{http://code.google.com/p/legstar/issues/list?can=1&q=Milestone%3DRelease1.3.2}complete list of bug fixes and improvements}} is available.
+
 Version 1.3.1
 
  A minor improvement over 1.3.0. The primary reason for this release is to

@@ -5,37 +5,36 @@
 
 LegStar, an open source mainframe integration solution
 
-    LegStar is a set of development tools and runtime capabilities for Java/J2EE integration with COBOL, PL/I, CICS or IMS applications.
+    LegStar is set of development tools and execution runtimes aimed at integrating legacy COBOL applications with Java and SOA technologies.
     
-* The LegStar modules are:
+* Common use cases:
     
 *-----+------+
- {{{http://code.google.com/p/legstar-cob2xsd/}COBOL to XML Schema Translator}} | Takes a COBOL source fragment containing data descriptions and turns it into an XML Schema with COBOL annotations
+ Service-enable a COBOL/CICS program | LegStar generates COBOL/CICS adapters for {{{legstar-cixsgen/index.html}JAX-WS}}, {{{http://code.google.com/p/legstar-jbossesb/}JBoss ESB}} or {{{http://code.google.com/p/legstar-mule/}Mule ESB}}.
+ 
+ LegStar provides {{{legstar-coxbgen/index.html}COBOL transformation}} capabilities and {{{legstar-invoker/index.html}CICS execution runtime}} (Commarea or Containers), over {{{legstar-csokrt/index.html}Sockets}}, {{{legstar-chttprt/index.html}HTTP}} or {{{legstar-cmqrt/index.html}WebSphere MQ}}.
 *-----+------+
- {{{legstar-xsdcgen/index.html}Complex Types Mapping Generator}} | Takes an XSD, WSDL or Java class and turns it into an XML Schema with COBOL annotations
+ Transform COBOL payloads | LegStar generates {{{legstar-coxbgen/index.html}Transformers}} by {{{http://code.google.com/p/legstar-cob2xsd/}parsing COBOL fragments}}, {{{legstar-xsdcgen/index.html}Java classes}} or {{{legstar-xsdcgen/index.html}XML Schema}}.
+ 
+ At runtime, z/OS data (containing EBCDIC, COMP, etc.) is transformed to Java and/or XML.
+ 
+ The LegStar Transformers are pure Java and can be used directly in your code.
 *-----+------+ 
- {{{legstar-coxbgen/index.html}COBOL Binding Generator}} | Creates a set of runtime Java classes which you can use to transform mainframe data (EBCDIC, binary, COMP-3, etc.) to Java and XML, back and forth.
-*-----+------+
- {{{legstar-cixsgen/index.html}JAX-WS Service Generator}} | Creates adapter services which expose CICS programs as Web Services. Creates proxy services which expose Java classes to CICS programs. This is based on the standard {{{http://jcp.org/en/jsr/detail?id=224}JAX-WS}}.
-*-----+------+
- {{{http://code.google.com/p/legstar-jbossesb/}JBoss ESB Service Generator}} | Creates adapter services which expose CICS programs as {{{http://www.jboss.org/jbossesb/}JBoss ESB}} services. Creates proxy services which expose JBoss ESB services to CICS programs.
-*-----+------+
- {{{http://code.google.com/p/legstar-mule/}Mule ESB Service Generator}} | Creates adapter services which expose CICS programs as {{{http://www.mulesoft.com/mule-esb-open-source-esb}Mule ESB}} service. Creates proxy services which expose Mule ESB services to CICS programs.
-*-----+------+
- {{{legstar-invoker/index.html}Mainframe Adapter Runtime}} | Provides runtime capability to invoke CICS programs.
-*-----+------+
- {{{legstar-cmqrt/index.html}WebSphere MQ Transport for CICS}} | Provides runtime Java to CICS call capabilities using WebSphere MQ connectivity.
-*-----+------+
- {{{legstar-chttprt/index.html}HTTP Transport for CICS}} | Provides runtime Java to CICS call capabilities using HTTP connectivity.
-*-----+------+ 
- {{{legstar-csokrt/index.html}Socket Transport for CICS}} | Provides runtime Java to CICS call capabilities using TCP/IP sockets connectivity.
-*-----+------+
- {{{legstar-engine/index.html}Connection pooling engine}} | Used with the previous transports to improve performances by reusing connections.
-*-----+------+
- {{{legstar-c2wsrt/index.html}Mainframe Proxy Runtime}} | Provides runtime CICS to Java call capabilities using HTTP connectivity.
-*-----+------+
- {{{legstar-cobcgen/index.html}COBOL Structures Generator}} | Generates COBOL source code from the classes produced by the {{{legstar-coxbgen/index.html}COBOL Binding Generator}}.
-*-----+------+
- {{{http://code.google.com/p/legstar-pli2cob/}PL/I to COBOL Structures Translator}} | Translates PL/I Structures to COBOL Structures.
+ Access java services from COBOL/CICS programs | LegStar generates Java proxies for {{{legstar-cixsgen/index.html}JAX-WS}}, {{{http://code.google.com/p/legstar-jbossesb/}JBoss ESB}} or {{{http://code.google.com/p/legstar-mule/}Mule ESB}} services.
+ 
+ You get a {{{legstar-c2wsrt/index.html}Java execution runtime}} that allows your COBOL code to invoke remote services over HTTP.
 *-----+------+
 
+* Interested?
+
+    Read the {{{quicktour.html}quicktour}} and {{{legstar-distribution/index.html}download the complete product for JAX-WS}}.
+    
+    {{{http://code.google.com/p/legstar-jbossesb/}LegStar for JBoss ESB}} and {{{http://code.google.com/p/legstar-mule/}LegStar for Mule ESB}} have their own web sites.
+
+* Are you an IMS/DC user?
+
+    You can use LegStar {{{legstar-coxbgen/index.html}COBOL Transformation}} capabilities of course but also {{{legstar-cixsgen/index.html}Service-enable}} your IMS programs over {{{legstar-cmqrt/index.html}Websphere MQ}}.
+
+* Are you a PL/I user?
+
+    LegStar has a module to {{{http://code.google.com/p/legstar-pli2cob/}convert your PL/I strutures to COBOL}}.
