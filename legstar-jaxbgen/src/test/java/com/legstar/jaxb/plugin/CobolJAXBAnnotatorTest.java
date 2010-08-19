@@ -10,42 +10,19 @@
  ******************************************************************************/
 package com.legstar.jaxb.plugin;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tools.ant.DefaultLogger;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Commandline;
 
-import com.legstar.codegen.CodeGenUtil;
+import com.legstar.jaxb.AbstractJaxbTester;
 import com.sun.tools.xjc.XJC2Task;
-
-import junit.framework.TestCase;
 
 /**
  * Test the JAXB Annotator.
  *
  */
-public class CobolJAXBAnnotatorTest extends TestCase {
+public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
 
-    /** Target location for generated JAXB classes. */
-    private static final File GEN_SRC_DIR = new File("target/src/gen/java");
-
-    /** All java package names will have the same prefix.*/
-    private static final String GEN_SRC_SUBDIR = "com/legstar/test/coxb";
-
-    /** Logger. */
-    private final Log _log = LogFactory.getLog(getClass());
-
-    /** Make sure we have an output folder.
-     * @throws Exception if output folder cannot be created */
-    protected void setUp() throws Exception {
-        CodeGenUtil.checkDirectory(GEN_SRC_DIR, true);
-    }
     /**
      * Test various simple type annotations.
      */
@@ -248,56 +225,6 @@ public class CobolJAXBAnnotatorTest extends TestCase {
         arg2.setValue("-nv");
         xjcTask.log("Started");
         xjcTask.execute();
-    }
-
-    /**
-     * Lookup a test schema from the classpath and copies the content to
-     * a temporary file. This is because the XJC task does not take a URL
-     * directly, it wants a file name for the schema.
-     * We have been sometimes inconsistent in naming schemas so we try with
-     * multiple cases.
-     * @param schemaName the schema name
-     * @return the temporary file holding the content
-     */
-    protected File getSchemaFromResources(final String schemaName) {
-        try {
-            File tempFile = File.createTempFile("jaxb-schema", "tmp");
-            tempFile.deleteOnExit();
-            URL resURL = getClass().getResource("/schema/" + schemaName + ".xsd");
-            if (resURL == null) {
-                if (Character.isLowerCase(schemaName.charAt(0))) {
-                    resURL = getClass().getResource("/schema/" + schemaName.toUpperCase() + ".xsd");
-                } else {
-                    resURL = getClass().getResource("/schema/" + schemaName.toLowerCase() + ".xsd");
-                }
-            }
-            FileUtils.copyURLToFile(resURL, tempFile);
-            return tempFile;
-        } catch (IOException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-            return null;
-        }
-    }
-
-    /**
-     * Reads a complete source file into a string.
-     * @param schemaName the schema used to generate
-     * @param className the generated class name
-     * @return a String with the class content
-     */
-    private String getSource(final String schemaName, final String className) {
-        File srcFile = new File(GEN_SRC_DIR, GEN_SRC_SUBDIR + '/' + schemaName + '/' + className + ".java");
-        try {
-            String result = FileUtils.readFileToString(srcFile);
-            if (_log.isDebugEnabled()) {
-                _log.debug(srcFile);
-            }
-            return result;
-        } catch (IOException e) {
-            fail("Source file " + srcFile.toString() + " was not generated");
-            return null;
-        }
     }
 
 }
