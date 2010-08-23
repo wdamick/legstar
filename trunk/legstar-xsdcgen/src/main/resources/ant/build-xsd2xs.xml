@@ -16,8 +16,6 @@
     <property name="xsd.dir" value="schema" />
     <!-- Name of generated XSD file  -->
     <property name="xsd.filename" value="${schema.name}.xsd" />
-    <!-- Target package for generated JAXB classes   -->
-    <property name="jaxb.package.name" value="com.legstar.test.coxb.${schema.name}" />
       
     <!-- Classpath setting -->
     <path id="classpath">
@@ -41,7 +39,6 @@
       inputXsdUri="${in.uri}"
       targetDir="${xsd.dir}"
       targetXsdFileName="${xsd.filename}"
-      jaxbPackageName="${jaxb.package.name}"  
     />
     <echo message="XML Schema successfully generated ${xsd.dir}/${xsd.filename}" />
   </target>

@@ -36,10 +36,6 @@ XML Schema and WSDL to Xsd ant script Velocity Template.
         <x2scgen
             inputXsdUri="${antModel.inputXsdUri}"
             namespace="${antModel.namespace}"
-            jaxbPackageName="${antModel.jaxbPackageName}"
-#if(${antModel.jaxbTypeClassesSuffix})
-            jaxbTypeClassesSuffix="${antModel.jaxbTypeClassesSuffix}"
-#end
             targetDir="${antModel.targetDir}"
             targetXsdFileName="${antModel.targetXsdFileName}"
         />

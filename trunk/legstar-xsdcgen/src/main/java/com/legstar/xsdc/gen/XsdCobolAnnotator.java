@@ -9,6 +9,7 @@
  *     LegSem - initial API and implementation
  ******************************************************************************/
 package com.legstar.xsdc.gen;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -28,7 +29,6 @@ import javax.xml.transform.OutputKeys;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.apache.tools.ant.BuildException;
 import org.apache.ws.commons.schema.XmlSchema;
 import org.apache.ws.commons.schema.XmlSchemaAnnotation;
@@ -49,7 +49,6 @@ import org.apache.ws.commons.schema.XmlSchemaSimpleTypeRestriction;
 import org.apache.ws.commons.schema.XmlSchemaSimpleTypeUnion;
 import org.apache.ws.commons.schema.XmlSchemaTotalDigitsFacet;
 import org.apache.ws.commons.schema.XmlSchemaType;
-import org.apache.ws.commons.schema.constants.Constants;
 import org.apache.ws.commons.schema.utils.NamespaceMap;
 import org.apache.ws.commons.schema.utils.NamespacePrefixList;
 import org.w3c.dom.Attr;
@@ -61,8 +60,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.legstar.codegen.tasks.SourceToXsdCobolTask;
-import com.legstar.coxb.CobolType;
 import com.legstar.coxb.CobolMarkup;
+import com.legstar.coxb.CobolType;
 
 /**
  * This Ant Task maps XML schema elements with Cobol data types. The result is
@@ -78,10 +77,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     private final Log _log = LogFactory.getLog(getClass());
 
     /* ====================================================================== */
-    /* = Properties section                                                 = */
+    /* = Properties section = */
     /* ====================================================================== */
-    /** @deprecated The original XSD file to annotate.*/
-    private File mInputXsdFile;
 
     /** This builder is used for annotation markup elements. */
     private final DocumentBuilder mDb;
@@ -95,29 +92,31 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     /** Parameters that can be externally modified. */
     private Properties mOptions;
 
-    /** Must be a map of Type names and Element names where Type names
-     *  must be registered. */
+    /**
+     * Must be a map of Type names and Element names where Type names
+     * must be registered.
+     */
     private Map < QName, QName > mRootElements;
 
     /** Maps a complexType to a Java qualified class name. */
     private Map < String, String > mComplexTypeToJavaClassMap;
 
     /* ====================================================================== */
-    /* = Constants section                                                  = */
+    /* = Constants section = */
     /* ====================================================================== */
     /** XML Schema namespace. */
     private static final String XSD_NS = "http://www.w3.org/2001/XMLSchema";
 
     /** SOAP namespace. */
     private static final String SOAP_NS =
-        "http://schemas.xmlsoap.org/wsdl/soap/";
+            "http://schemas.xmlsoap.org/wsdl/soap/";
 
     /** WSDL namespace. */
     private static final String WSDL_NS = "http://schemas.xmlsoap.org/wsdl/";
 
     /** WS-Addressing namespace. */
     private static final String ADDRESSING_NS =
-        "http://schemas.xmlsoap.org/ws/2004/08/addressing";
+            "http://schemas.xmlsoap.org/ws/2004/08/addressing";
 
     /** Namespaces namespace. */
     private static final String NS_NS = "http://www.w3.org/2000/xmlns/";
@@ -127,12 +126,6 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 
     /** Cobol annotations default prefix. */
     private static final String COBOL_PFX = "cb";
-
-    /** Jaxb annotations namespace. */
-    private static final String JAXB_NS = "http://java.sun.com/xml/ns/jaxb";
-
-    /** Jaxb annotations default prefix. */
-    private static final String JAXB_PFX = "jaxb";
 
     /** Cobol annotation parent element name. */
     private static final String COBOL_PARENT_ELN = "cb:cobolElements";
@@ -146,25 +139,6 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     /** Cobol annotation complex type name. */
     private static final String COBOL_CTN = "cb:cobolComplexType";
 
-    /** JAXB annotation parent element name. */
-    private static final String JAXB_PARENT_ELN = "jaxb:jaxbElements";
-
-    /** JAXB annotation for schema binding parameters. */
-    private static final String JAXB_SCHEMAB_ELN = "jaxb:schemaBindings";
-
-    /** JAXB annotation for target package name. */
-    private static final String JAXB_PKG_ELN = "jaxb:package";
-
-    /** JAXB annotation for name transformation. */
-    private static final String JAXB_XFORM_ELN = "jaxb:nameXmlTransform";
-
-    /** JAXB annotation for a type name transformation. */
-    private static final String JAXB_TYPENAME_ELN = "jaxb:typeName";
-
-    /** Default target JAXB classes package name prefix. */
-    public static final String DEFAULT_JAXB_PKG_PREFIX
-    = "com.legstar.test.coxb";
-
     /** Maximum size of a Cobol item name. */
     public static final int MAX_COBOLNAME_LEN = 30;
 
@@ -174,7 +148,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     /** This is the target namespace from the source Xsd. */
     private String mOriginalTargetNamespace;
 
-    /** Indicates if namespace switching is requested.*/
+    /** Indicates if namespace switching is requested. */
     private boolean mNeedNamespaceSwitch = false;
 
     /**
@@ -187,7 +161,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         setModel(new XsdToXsdCobolModel());
         try {
             DocumentBuilderFactory docFac =
-                DocumentBuilderFactory.newInstance();
+                    DocumentBuilderFactory.newInstance();
             docFac.setNamespaceAware(true);
             mDb = docFac.newDocumentBuilder();
             mNameResolver = new CobolNameResolver();
@@ -203,7 +177,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     }
 
     /**
-     *  The ant execute method. Generates a new annotated schema.
+     * The ant execute method. Generates a new annotated schema.
      */
     public void execute() {
         if (_log.isDebugEnabled()) {
@@ -235,7 +209,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         } catch (XsdCobolAnnotatorException e) {
             throw (new BuildException(e));
         }
-        
+
         /* Make sure the generated schema has an XML declaration */
         schema.setInputEncoding("UTF-8");
         Map < String, String > options = new HashMap < String, String >();
@@ -252,6 +226,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
      * schema before it is processed. To be valid these elements
      * must map to an existing type and should not conflict with
      * existing elements.
+     * 
      * @param schema the schema to be annotated
      */
     private void addRootElements(final XmlSchema schema) {
@@ -289,25 +264,21 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             _log.debug("   Source Xsd URI      = "
                     + ((getInputXsdUri() == null) ? null
                             : getInputXsdUri().toString()));
-            _log.debug("   Source Xsd file      = "
-                    + ((mInputXsdFile == null) ? null
-                            : mInputXsdFile.getAbsolutePath()));
         }
-        /* Check that we have a valid input XML schema.  */
+        /* Check that we have a valid input XML schema. */
         if (getInputXsdUri() == null) {
-            if (mInputXsdFile == null || !mInputXsdFile.exists()) {
-                throw (new BuildException(
-                "Invalid input XML schema"));
-            }
-            setInputXsdUri(mInputXsdFile.toURI());
+            throw (new BuildException(
+                    "Invalid input XML schema"));
         }
 
         /* Set a valid default target annotated XSD file name */
-        if (getTargetXsdFileName() == null 
+        if (getTargetXsdFileName() == null
                 || getTargetXsdFileName().length() == 0) {
             String targetXsdFileName = getLastSegment(getInputXsdUri());
-            /* If there is no extension or extension is not xsd, add xsd as
-             * the extension. */
+            /*
+             * If there is no extension or extension is not xsd, add xsd as
+             * the extension.
+             */
             int p = targetXsdFileName.lastIndexOf('.');
             if (p > 0) {
                 String ext = targetXsdFileName.substring(
@@ -324,6 +295,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 
     /**
      * Checks that parameters set are valid for the specified schema.
+     * 
      * @param schema the input schema
      */
     private void checkAllParameters(final XmlSchema schema) {
@@ -336,14 +308,17 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             switchTargetNamespace(schema, getNamespace());
         }
 
-        /* Xsd file name is not mandatory because we can generate a
-         * sensible default value. */
+        /*
+         * Xsd file name is not mandatory because we can generate a
+         * sensible default value.
+         */
         super.checkInput(false, false);
 
     }
 
     /**
      * Retrieves the last segment from a URI.
+     * 
      * @param uri the uri to process
      * @return the last segment of the path
      */
@@ -364,7 +339,8 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 
     /**
      * Loads the input XML Schema either from an XSD file or a WSDL file.
-     * @return a ws-commons XmlSchema instance. 
+     * 
+     * @return a ws-commons XmlSchema instance.
      */
     @SuppressWarnings("unchecked")
     private XmlSchema getSchema() {
@@ -389,7 +365,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             }
 
             /* Look for an XML schema node */
-            NodeList nodes  = doc.getElementsByTagNameNS(XSD_NS, "schema");
+            NodeList nodes = doc.getElementsByTagNameNS(XSD_NS, "schema");
             if (nodes == null || nodes.getLength() == 0) {
                 throw new BuildException("File " + getInputXsdUri().toString()
                         + " does not contain an XML schema");
@@ -399,35 +375,43 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                         + getInputXsdUri().toString()
                         + " will be processed");
             }
-            
-            /* Translate that DOM schema node into an XmlSchema*/
+
+            /* Translate that DOM schema node into an XmlSchema */
             schema = schemaCol.read((Element) nodes.item(0));
-            
-            /* If this schema contains an include/import, then these includes are what we need.
+
+            /*
+             * If this schema contains an include/import, then these includes
+             * are what we need.
              * The previous schema element was a mere container.
-             * Potentially, there might be more than one include/import but we restrict ourselves
+             * Potentially, there might be more than one include/import but we
+             * restrict ourselves
              * to the first one here.
-             * TODO add support for multiple imports */
+             * TODO add support for multiple imports
+             */
             XmlSchemaObjectCollection includes = schema.getIncludes();
-            for (Iterator includedItems = includes.getIterator(); includedItems.hasNext();) {
+            for (Iterator includedItems = includes.getIterator(); includedItems
+                    .hasNext();) {
                 Object include = includedItems.next();
                 if (include instanceof XmlSchemaImport) {
                     schema = ((XmlSchemaImport) include).getSchema();
                     break;
                 }
             }
-            
-            /* In case this is a wsdl file, we store certain namespace
+
+            /*
+             * In case this is a wsdl file, we store certain namespace
              * attributes of the root at the schema node level so that
              * the schema node is complete from an XmlSchema standpoint.
-             * We filter out all WSDL related namespaces. */
+             * We filter out all WSDL related namespaces.
+             */
             if (root.getLocalName().compareTo("definitions") == 0
                     && root.getNamespaceURI().compareTo(WSDL_NS) == 0) {
-            
+
                 NamespaceMap prefixmap = new NamespaceMap();
                 NamespacePrefixList npl = schema.getNamespaceContext();
                 for (int i = 0; i < npl.getDeclaredPrefixes().length; i++) {
-                    prefixmap.add(npl.getDeclaredPrefixes()[i], npl.getNamespaceURI(
+                    prefixmap.add(npl.getDeclaredPrefixes()[i], npl
+                            .getNamespaceURI(
                             npl.getDeclaredPrefixes()[i]));
                 }
                 for (int i = 0; i < root.getAttributes().getLength(); i++) {
@@ -436,7 +420,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                     String value = attribute.getValue();
                     String name = attribute.getName();
                     if (name.equals("targetNamespace")
-                            &&  schema.getTargetNamespace() == null) {
+                            && schema.getTargetNamespace() == null) {
                         schema.setTargetNamespace(value);
                     } else if (namespaceURI != null
                             && namespaceURI.compareTo(NS_NS) == 0
@@ -448,7 +432,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                 }
                 schema.setNamespaceContext(prefixmap);
             }
-            
+
         } catch (FileNotFoundException e) {
             throw (new BuildException(e));
         } catch (SAXException e) {
@@ -469,6 +453,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
      * from the original one keeping the same prefix.
      * A namespace prefix list is immutable so we need to create a
      * complete namespace context.
+     * 
      * @param schema the schema being built
      * @param newTargetNamespace the new target namespace
      */
@@ -495,6 +480,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 
     /**
      * Switches namespace for a schema element.
+     * 
      * @param schema the schema
      * @param obj the schema element
      */
@@ -519,10 +505,10 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     }
 
     /**
-     * Adds JAXB and COXB annotations at the schema level.
+     * Adds COXB annotations at the schema level.
+     * 
      * @param schema the current schema being generated
      */
-    @SuppressWarnings("unchecked")
     private void annotateSchema(final XmlSchema schema) {
         if (_log.isDebugEnabled()) {
             _log.debug("AnnotateSchema started");
@@ -534,34 +520,16 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             prefixmap.add(npl.getDeclaredPrefixes()[i], npl.getNamespaceURI(
                     npl.getDeclaredPrefixes()[i]));
         }
-        /* TODO check that prefix does not conflict with an existing one.
+        /*
+         * TODO check that prefix does not conflict with an existing one.
          * 3 situations might occur:
-         * 1: an existing prefix with same value exists and points to a 
-         *    different namespace
+         * 1: an existing prefix with same value exists and points to a
+         * different namespace
          * 2: namespace is already listed with a different prefix
          * 3: namespace is already listed with the same prefix
-         * */
+         */
         prefixmap.add(COBOL_PFX, COBOL_NS);
-        prefixmap.add(JAXB_PFX, JAXB_NS);
         schema.setNamespaceContext(prefixmap);
-
-        /* Add JAXB extension attributes to the target schema */
-        Document doc = mDb.newDocument();
-        Map extensionMap = new HashMap();
-        Attr attrib = doc.createAttributeNS(JAXB_NS, "version");
-        attrib.setValue("2.0");
-        extensionMap.put(new QName(JAXB_NS, "version"), attrib);
-
-        attrib = doc.createAttributeNS(JAXB_NS, "extensionBindingPrefixes");
-        attrib.setValue(COBOL_PFX);
-        extensionMap.put(
-                new QName(JAXB_NS, "extensionBindingPrefixes"), attrib);
-
-        schema.addMetaInfo(
-                Constants.MetaDataConstants.EXTERNAL_ATTRIBUTES, extensionMap);
-
-        /* Annotate the schema element with JAXB extension parameters */
-        schema.setAnnotation(createSchemaAnnotations(doc));
 
         if (_log.isDebugEnabled()) {
             _log.debug("AnnotateSchema ended");
@@ -570,67 +538,14 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     }
 
     /**
-     * The generated schema holds JAXB annotations needed when, later on, the
-     * schema is used to generate JAXB classes. The markup looks like this:
-     * <pre>
-     * &lt;xsd:appinfo>
-     *    &lt;jaxb:schemaBindings>
-     *       &lt;jaxb:package name="com.legstar.test.coxb.schema"/>
-     *       &lt;jaxb:nameXmlTransform>
-     *          &lt;jaxb:typeName suffix="Type" />
-     *        &lt;/jaxb:nameXmlTransform>
-     *    &lt;/jaxb:schemaBindings>
-     * &lt;/xsd:appinfo>
-     * </pre>
-     * @param doc a DOM document to hold nodes used for annotations
-     * @return a schema level annotation
-     *  */
-    private XmlSchemaAnnotation createSchemaAnnotations(
-            final Document doc) {
-
-        Element el = doc.createElementNS(JAXB_NS, JAXB_PARENT_ELN);
-        Element elsb = doc.createElementNS(JAXB_NS, JAXB_SCHEMAB_ELN);
-
-        Element elpk = doc.createElementNS(JAXB_NS, JAXB_PKG_ELN);
-        String name = getTargetXsdFileName();
-        int p = name.lastIndexOf('.');
-        if (p > 0) {
-            name = getTargetXsdFileName().substring(0, p);
-        }
-        if (getJaxbPackageName() == null
-                || getJaxbPackageName().length() == 0) {
-            elpk.setAttribute("name", DEFAULT_JAXB_PKG_PREFIX + '.' + name);
-        } else {
-            elpk.setAttribute("name", getJaxbPackageName());
-        }
-        elsb.appendChild(elpk);
-
-        if (getJaxbTypeClassesSuffix() != null
-                && getJaxbTypeClassesSuffix().length() > 0) {
-            Element eltr = doc.createElementNS(JAXB_NS, JAXB_XFORM_ELN);
-            Element eltn = doc.createElementNS(JAXB_NS, JAXB_TYPENAME_ELN);
-            eltn.setAttribute("suffix", getJaxbTypeClassesSuffix());
-            eltr.appendChild(eltn);
-            elsb.appendChild(eltr);
-        }
-
-        el.appendChild(elsb);
-        XmlSchemaAnnotation annotation = new XmlSchemaAnnotation();
-        XmlSchemaAppInfo appInfo = new XmlSchemaAppInfo();
-        NodeList markup = el.getChildNodes();
-        appInfo.setMarkup(markup);
-        annotation.getItems().add(appInfo);
-        return annotation;
-    }
-
-    /**
      * Creates an output stream from the input XML schema file name.
+     * 
      * @return an output stream
      */
     private OutputStream getOutputStream() {
         OutputStream out;
         String outPath = getTargetDir().getPath() + File.separator
-        + getTargetXsdFileName();
+                + getTargetXsdFileName();
         try {
             out = new FileOutputStream(new File(outPath));
             return out;
@@ -641,19 +556,22 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 
     /**
      * Main annotation process applied to an XML schema element.
+     * 
      * @param schema the XML Schema being annotated
      * @param obj the XML Schema element to annotate
      * @param level the current level in the elements hierarchy. This is used
-     *        to create Cobol levels with the same depth as the input XML 
-     *        schema.
+     *            to create Cobol levels with the same depth as the input XML
+     *            schema.
      * @throws XsdCobolAnnotatorException if annotation fails
      */
     public void annotateElement(
             final XmlSchema schema,
             final XmlSchemaElement obj,
             final int level) throws XsdCobolAnnotatorException {
-        /* If this element is referencing another, it might not be useful to 
-         * annotate it. */
+        /*
+         * If this element is referencing another, it might not be useful to
+         * annotate it.
+         */
         if (obj.getRefName() != null) {
             return;
         }
@@ -680,12 +598,12 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         }
     }
 
-
     /**
      * Main annotation process applied to an XML schema complex type.
      * For now the only attribute that needs to go at the complex Type
-     * level is the java class name used when the schema is derived from 
+     * level is the java class name used when the schema is derived from
      * a POJO rather than an XSD or WSDL.
+     * 
      * @param schema the XML Schema being annotated
      * @param obj the XML Schema type to annotate
      * @throws XsdCobolAnnotatorException if annotation fails
@@ -697,11 +615,13 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             _log.debug("annotate started for complex type = " + obj.getName());
         }
 
-        /* If this complex type maps to a java class name, add this
-         * attribute to the annotation */
+        /*
+         * If this complex type maps to a java class name, add this
+         * attribute to the annotation
+         */
         if (mComplexTypeToJavaClassMap != null) {
             String javaClassName =
-                mComplexTypeToJavaClassMap.get(obj.getName());
+                    mComplexTypeToJavaClassMap.get(obj.getName());
             if (javaClassName != null) {
                 if (_log.isDebugEnabled()) {
                     _log.debug("   java class name = " + javaClassName);
@@ -726,6 +646,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     /**
      * Create an Xml schema annotation ready to be added on some schema
      * object.
+     * 
      * @param el a DOM element holding the annotations as child elements
      * @return an Xml schema annotation
      */
@@ -741,12 +662,13 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     /**
      * Create a set of attributes for the Cobol annotation element depending
      * on corresponding XML schema type.
+     * 
      * @param schema the XML Schema being annotated
      * @param obj the XML Schema element to annotate
      * @param elc the DOM Element representing the Cobol annotation
      * @param level the current level in the elements hierarchy. This is used
-     *        to create Cobol levels with the same depth as the input XML 
-     *        schema.
+     *            to create Cobol levels with the same depth as the input XML
+     *            schema.
      * @throws XsdCobolAnnotatorException if annotation fails
      */
     private void setAttributes(
@@ -786,18 +708,22 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             _log.debug("   Cobol name           = "
                     + elc.getAttribute(CobolMarkup.COBOL_NAME));
         }
-        /* The semantic for maxOccurs is different for Cobol annotations than
+        /*
+         * The semantic for maxOccurs is different for Cobol annotations than
          * for XML Schema. a maxOccurs of 1 is a one item array for Cobol which
          * is different from a simple item. If schema maxOccurs=1 we do not
-         * insert a Cobol maxOccurs annotation at all. */
-        /* There is no natural mapping from XML schema arrays to Cobol arrays 
+         * insert a Cobol maxOccurs annotation at all.
+         */
+        /*
+         * There is no natural mapping from XML schema arrays to Cobol arrays
          * with depending on clause. This means that all XML Schema arrays are
          * mapped to fixed size Cobol arrays. Since this would result in very
-         * inefficient Cobol structures, we impose a limit on arrays sizes. */
+         * inefficient Cobol structures, we impose a limit on arrays sizes.
+         */
         if (obj.getMaxOccurs() > 1) {
             if (obj.getMaxOccurs() > Short.MAX_VALUE) {
                 String defaultMaxOccurs = XsdcUtil.getStringOption(mOptions,
-                "default.max.occurs");
+                        "default.max.occurs");
                 elc.setAttribute(CobolMarkup.MAX_OCCURS, defaultMaxOccurs);
                 _log.warn("Max occurs for element " + obj.getName()
                         + " has been set to default value " + defaultMaxOccurs);
@@ -833,6 +759,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 
     /**
      * Create a set of cobol attributes for a simple XML schema type.
+     * 
      * @param schema the XML Schema being annotated
      * @param type the XML schema type
      * @param elc the DOM Element representing the Cobol annotation
@@ -855,8 +782,10 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             _log.debug("   XmlSchemaType DeriveBy                = "
                     + type.getDeriveBy());
         }
-        /* Somewhere in this simple type hierarchy there must be a primitive
-         * type from which it is derived. */
+        /*
+         * Somewhere in this simple type hierarchy there must be a primitive
+         * type from which it is derived.
+         */
         QName primitiveType = getPrimitiveType(schema, type);
 
         /* From the primitive XML schema type we infer a candidate Cobol type */
@@ -871,9 +800,11 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                     + elc.getAttribute(CobolMarkup.TYPE));
         }
 
-        /* Simple types can derive from xsd:list, in which case we need to
+        /*
+         * Simple types can derive from xsd:list, in which case we need to
          * map them to arrays. Lists being unbounded, we need to artificially
-         * set a maximum bound to the corresponding Cobol array. */
+         * set a maximum bound to the corresponding Cobol array.
+         */
         if (type.getContent() instanceof XmlSchemaSimpleTypeList) {
             elc.setAttribute(CobolMarkup.MIN_OCCURS, "1");
             elc.setAttribute(CobolMarkup.MAX_OCCURS,
@@ -912,7 +843,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             break;
         default:
             throw new XsdCobolAnnotatorException(
-            "Cobol type inferred is invalid");
+                    "Cobol type inferred is invalid");
         }
         if (_log.isDebugEnabled()) {
             _log.debug("setSimpleTypeAttributes ended for type = "
@@ -923,6 +854,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     /**
      * For each element child of a complex type, this method generates cobol
      * annotations.
+     * 
      * @param schema the XML Schema being annotated
      * @param type the XML schema type
      * @param elc the DOM Element representing the Cobol annotation
@@ -950,12 +882,14 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 
         if (type.getParticle() instanceof XmlSchemaSequence) {
             XmlSchemaSequence sequenceObj =
-                (XmlSchemaSequence) type.getParticle();
+                    (XmlSchemaSequence) type.getParticle();
 
             if (sequenceObj.getMaxOccurs() > 1) {
                 /* TODO find a way to handle occuring sequences */
-                _log.warn("Complex type " + type.getName()
-                        + " contains a multi-occurence sequence that is ignored");
+                _log
+                        .warn("Complex type "
+                                + type.getName()
+                                + " contains a multi-occurence sequence that is ignored");
             }
             XmlSchemaObjectCollection items = sequenceObj.getItems();
             /* Process each element in the collection */
@@ -979,6 +913,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     /**
      * COBOL Alphanumerics are bounded. They must have a fixed size. This method
      * tries to infer one.
+     * 
      * @param primitiveType the XML Schema primitive type
      * @param facets the set of XML schema facets
      * @param elc the annotated element
@@ -994,20 +929,24 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                     + primitiveType.getLocalPart());
         }
 
-        /* If a byte length cannot be inferred from a facet in the XML schema*
-         * type hierarchy, use the default. */
+        /*
+         * If a byte length cannot be inferred from a facet in the XML schema*
+         * type hierarchy, use the default.
+         */
         int byteLength = facets.getLength();
         if (byteLength < 0) {
             byteLength = XsdcUtil.getIntOption(mOptions,
-            "default.alphanumeric.len");
+                    "default.alphanumeric.len");
             _log.warn("Byte length for element "
                     + elc.getAttribute(CobolMarkup.COBOL_NAME)
                     + " has been set to default value " + byteLength);
         }
 
-        /* TODO add analysis of pattern facet to refine type and picture 
-         * inference 
-         * TODO see if there is a way to set isJustifiedRight*/
+        /*
+         * TODO add analysis of pattern facet to refine type and picture
+         * inference
+         * TODO see if there is a way to set isJustifiedRight
+         */
         elc.setAttribute(CobolMarkup.PICTURE, "X("
                 + Integer.toString(byteLength) + ")");
         elc.setAttribute(CobolMarkup.USAGE, "DISPLAY");
@@ -1024,6 +963,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 
     /**
      * COBOL octet stream data items are similar to alphanumerics.
+     * 
      * @param primitiveType the XML Schema primitive type
      * @param facets the set of XML schema facets
      * @param elc the annotated element
@@ -1038,12 +978,14 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             _log.debug("setOctetStreamAttributes started for type = "
                     + primitiveType.getLocalPart());
         }
-        /* If a byte length cannot be inferred from a facet in the XML schema*
-         * type hierarchy, use the default. */
+        /*
+         * If a byte length cannot be inferred from a facet in the XML schema*
+         * type hierarchy, use the default.
+         */
         int byteLength = facets.getLength();
         if (byteLength < 0) {
             byteLength = XsdcUtil.getIntOption(mOptions,
-            "default.octet.stream.len");
+                    "default.octet.stream.len");
         }
 
         elc.setAttribute(CobolMarkup.PICTURE, "X("
@@ -1063,6 +1005,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     /**
      * COBOL Binary numerics are signed or unsigned and have a fixed number of
      * digits. This method infers a number of digits and a sign.
+     * 
      * @param primitiveType the XML Schema primitive type
      * @param facets the set of XML schema facets
      * @param elc the annotated element
@@ -1077,30 +1020,34 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             _log.debug("setBinaryAttributes started for type = "
                     + primitiveType.getLocalPart());
         }
-        /* If total digits are not specified in the XML schema, infer a suitable
-         *  default from the XML schema primitive type. */
+        /*
+         * If total digits are not specified in the XML schema, infer a suitable
+         * default from the XML schema primitive type.
+         */
         int totalDigits = facets.getTotalDigits();
         if (totalDigits < 0) {
             totalDigits = XsdcUtil.getIntOption(mOptions,
-            "default.int.total.digits");
+                    "default.int.total.digits");
             if (primitiveType.getLocalPart().equals("boolean")) {
-                totalDigits = XsdcUtil.getIntOption(mOptions, 
-                "default.bool.total.digits");
+                totalDigits = XsdcUtil.getIntOption(mOptions,
+                        "default.bool.total.digits");
             } else if (primitiveType.getLocalPart().equals("unsignedShort")) {
-                totalDigits = XsdcUtil.getIntOption(mOptions, 
-                "default.short.total.digits");
+                totalDigits = XsdcUtil.getIntOption(mOptions,
+                        "default.short.total.digits");
             } else if (primitiveType.getLocalPart().equals("unsignedLong")) {
-                totalDigits = XsdcUtil.getIntOption(mOptions, 
-                "default.long.total.digits");
+                totalDigits = XsdcUtil.getIntOption(mOptions,
+                        "default.long.total.digits");
             } else if (primitiveType.getLocalPart().equals("long")) {
-                totalDigits = XsdcUtil.getIntOption(mOptions, 
-                "default.long.total.digits");
+                totalDigits = XsdcUtil.getIntOption(mOptions,
+                        "default.long.total.digits");
             } else if (primitiveType.getLocalPart().equals("short")) {
-                totalDigits = XsdcUtil.getIntOption(mOptions, 
-                "default.short.total.digits");
+                totalDigits = XsdcUtil.getIntOption(mOptions,
+                        "default.short.total.digits");
             }
-            /* If a restriction on the number of digits is not explicitly
-             * requested, use the cobol unlimited binary data type*/
+            /*
+             * If a restriction on the number of digits is not explicitly
+             * requested, use the cobol unlimited binary data type
+             */
             elc.setAttribute(CobolMarkup.USAGE, "COMP-5");
         } else {
             elc.setAttribute(CobolMarkup.USAGE, "BINARY");
@@ -1117,8 +1064,10 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             signed = false;
         }
 
-        /* TODO add analysis of pattern facet to refine type and picture 
-         * inference */
+        /*
+         * TODO add analysis of pattern facet to refine type and picture
+         * inference
+         */
         elc.setAttribute(CobolMarkup.PICTURE, "9("
                 + Integer.toString(totalDigits) + ")");
         elc.setAttribute(CobolMarkup.TOTAL_DIGITS,
@@ -1143,6 +1092,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
      * COBOL Decimal numerics are signed or unsigned and have a fixed number of
      * total digits and fraction digits. This method infers numbers of digits
      * and sign.
+     * 
      * @param primitiveType the XML Schema primitive type
      * @param facets the set of XML schema facets
      * @param elc the annotated element
@@ -1158,17 +1108,19 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                     + primitiveType.getLocalPart());
         }
 
-        /* If digits numbers are not specified in the XML schema, infer a
-         * suitable default from the XML schema primitive type. */
+        /*
+         * If digits numbers are not specified in the XML schema, infer a
+         * suitable default from the XML schema primitive type.
+         */
         int totalDigits = facets.getTotalDigits();
         if (totalDigits < 0) {
             totalDigits = XsdcUtil.getIntOption(mOptions,
-            "default.dec.total.digits");
+                    "default.dec.total.digits");
         }
         int fractionDigits = facets.getFractionDigits();
         if (fractionDigits < 0) {
             fractionDigits = XsdcUtil.getIntOption(mOptions,
-            "default.dec.frac.digits");
+                    "default.dec.frac.digits");
         }
 
         /* Consider decimals as always signed */
@@ -1204,6 +1156,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 
     /**
      * COBOL single float numerics.
+     * 
      * @param primitiveType the XML Schema primitive type
      * @param elc the annotated element
      * @throws XsdCobolAnnotatorException if attributes cannot be set
@@ -1229,6 +1182,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 
     /**
      * COBOL double float numerics.
+     * 
      * @param primitiveType the XML Schema primitive type
      * @param elc the annotated element
      * @throws XsdCobolAnnotatorException if attributes cannot be set
@@ -1255,6 +1209,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     /**
      * Inferring the XML schema primitive type involves a recursive search
      * because types can form a hierarchy and restrict each other.
+     * 
      * @param schema the XML Schema being annotated
      * @param type the type from which a primitive type should be inferred
      * @return the primitive type
@@ -1280,10 +1235,12 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         if (type.getContent() != null) {
             if (type.getContent() instanceof XmlSchemaSimpleTypeRestriction) {
                 XmlSchemaSimpleTypeRestriction restriction =
-                    (XmlSchemaSimpleTypeRestriction) type.getContent();
-                /* For an unknown reason, getBaseType() sometimes returns null.
+                        (XmlSchemaSimpleTypeRestriction) type.getContent();
+                /*
+                 * For an unknown reason, getBaseType() sometimes returns null.
                  * In such a case we have to locate the type using
-                 * getBaseTypeName()*/
+                 * getBaseTypeName()
+                 */
                 if (restriction.getBaseType() == null) {
                     typeName = restriction.getBaseTypeName();
                     if (typeName != null) {
@@ -1295,12 +1252,14 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                             }
                             return typeName;
                         }
-                        /* Since restriction base type is not an XML Schema
+                        /*
+                         * Since restriction base type is not an XML Schema
                          * standard type, it must be defined in this schema.
                          * We don't support restrictions that are not simple
-                         * types. */
+                         * types.
+                         */
                         XmlSchemaType restrictionBaseType =
-                            schema.getTypeByName(typeName);
+                                schema.getTypeByName(typeName);
                         if (restrictionBaseType != null
                                 && restrictionBaseType
                                 instanceof XmlSchemaSimpleType) {
@@ -1311,18 +1270,21 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                 } else {
                     return getPrimitiveType(schema, restriction.getBaseType());
                 }
-                
+
             } else if (type.getContent() instanceof XmlSchemaSimpleTypeList) {
                 /* If this is a list, look for items type. */
                 XmlSchemaSimpleTypeList listType =
-                    (XmlSchemaSimpleTypeList) type.getContent();
+                        (XmlSchemaSimpleTypeList) type.getContent();
                 return getPrimitiveType(schema, listType.getItemType());
-                
+
             } else if (type.getContent() instanceof XmlSchemaSimpleTypeUnion) {
-                _log.warn(type.getName() + " is a union. Processing first type in the union.");
-                XmlSchemaSimpleTypeUnion simpleUnion = (XmlSchemaSimpleTypeUnion) type.getContent();
+                _log.warn(type.getName()
+                        + " is a union. Processing first type in the union.");
+                XmlSchemaSimpleTypeUnion simpleUnion = (XmlSchemaSimpleTypeUnion) type
+                        .getContent();
                 return getPrimitiveType(schema,
-                        (XmlSchemaSimpleType) simpleUnion.getBaseTypes().getItem(0));
+                        (XmlSchemaSimpleType) simpleUnion.getBaseTypes()
+                                .getItem(0));
             }
         }
         throw new XsdCobolAnnotatorException(
@@ -1333,6 +1295,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
      * Search for the all facets found in an XML schema type hierarchy. Since
      * we start from the most detailed type, the first facets encountered take
      * precedence over the ones we encounter higher in the hierarchy.
+     * 
      * @param schema the XML Schema being annotated
      * @param type the type from which facets should be extracted
      * @param facets the facets extracted so far
@@ -1354,17 +1317,19 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 
         if (type.getContent() instanceof XmlSchemaSimpleTypeRestriction) {
             XmlSchemaSimpleTypeRestriction restriction =
-                (XmlSchemaSimpleTypeRestriction) type.getContent();
+                    (XmlSchemaSimpleTypeRestriction) type.getContent();
             if (restriction.getFacets() != null) {
                 XmlSchemaObjectCollection collection = restriction.getFacets();
-                for (Iterator < XmlSchemaObject > i  =
-                    collection.getIterator(); i.hasNext();) {
+                for (Iterator < XmlSchemaObject > i =
+                        collection.getIterator(); i.hasNext();) {
                     XmlSchemaObject facet = i.next();
-                    /* When a facet value is found, we keep it only if
-                     * no previous type did set the same facet value */
+                    /*
+                     * When a facet value is found, we keep it only if
+                     * no previous type did set the same facet value
+                     */
                     if (facet instanceof XmlSchemaLengthFacet) {
                         XmlSchemaLengthFacet xsef =
-                            (XmlSchemaLengthFacet) facet;
+                                (XmlSchemaLengthFacet) facet;
                         if (facets.getLength() == -1) {
                             facets.setLength(
                                     new Integer((String) xsef.getValue()));
@@ -1372,14 +1337,14 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                     }
                     if (facet instanceof XmlSchemaPatternFacet) {
                         XmlSchemaPatternFacet xsef =
-                            (XmlSchemaPatternFacet) facet;
+                                (XmlSchemaPatternFacet) facet;
                         if (facets.getPattern() == null) {
                             facets.setPattern((String) xsef.getValue());
                         }
                     }
                     if (facet instanceof XmlSchemaTotalDigitsFacet) {
                         XmlSchemaTotalDigitsFacet xsef =
-                            (XmlSchemaTotalDigitsFacet) facet;
+                                (XmlSchemaTotalDigitsFacet) facet;
                         if (facets.getTotalDigits() == -1) {
                             facets.setTotalDigits(
                                     new Integer((String) xsef.getValue()));
@@ -1387,7 +1352,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                     }
                     if (facet instanceof XmlSchemaFractionDigitsFacet) {
                         XmlSchemaFractionDigitsFacet xsef =
-                            (XmlSchemaFractionDigitsFacet) facet;
+                                (XmlSchemaFractionDigitsFacet) facet;
                         if (facets.getFractionDigits() == -1) {
                             facets.setFractionDigits(
                                     new Integer((String) xsef.getValue()));
@@ -1396,8 +1361,10 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                 }
             }
 
-            /* If this type derives from another non-primitive one, continue the
-             * search up the hierarchy chain. */
+            /*
+             * If this type derives from another non-primitive one, continue the
+             * search up the hierarchy chain.
+             */
             if (restriction.getBaseType() == null) {
                 QName typeName = restriction.getBaseTypeName();
                 if (typeName != null) {
@@ -1423,8 +1390,9 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         }
     }
 
-    /** 
+    /**
      * Method to infer a Cobol name from an XML schema type name.
+     * 
      * @param xsdName the XSD type name
      * @return the proposed cobol name
      * @throws XsdCobolAnnotatorException if cobol name cannot be created
@@ -1436,23 +1404,6 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         } catch (CobolNameResolverException e) {
             throw new XsdCobolAnnotatorException(e);
         }
-    }
-
-    /**
-     * @deprecated use <code>getInputXsdUri()</code>
-     * @return the input XML schema file
-     */
-    public File getInputXsdFile() {
-        return mInputXsdFile;
-    }
-
-    /**
-     * @deprecated use <code>setInputXsdUri()</code>
-     * @param xsdFile the input XML schema file to set
-     */
-    public void setInputXsdFile(
-            final File xsdFile) {
-        mInputXsdFile = xsdFile;
     }
 
     /**
@@ -1472,7 +1423,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 
     /**
      * @return the map of Type names / Element names for elements that need
-     * to be added to the annotated schema.
+     *         to be added to the annotated schema.
      */
     public Map < QName, QName > getRootElements() {
         return mRootElements;
@@ -1480,7 +1431,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 
     /**
      * @param rootElements map of Type names / Element names for elements that
-     * need to be added to the annotated schema to set
+     *            need to be added to the annotated schema to set
      */
     public void setRootElements(final Map < QName, QName > rootElements) {
         mRootElements = rootElements;
@@ -1495,7 +1446,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 
     /**
      * @param complexTypeToJavaClassMap the complexType to Java qualified class
-     *  name map to set
+     *            name map to set
      */
     public void setComplexTypeToJavaClassMap(
             final Map < String, String > complexTypeToJavaClassMap) {

@@ -40,10 +40,6 @@ Java to Xsd ant script Velocity Template.
         <mkdir dir="${antModel.targetDir}"/>
         <j2scgen 
             namespace="${antModel.namespace}"
-            jaxbPackageName="${antModel.jaxbPackageName}"
-#if(${antModel.jaxbTypeClassesSuffix})
-            jaxbTypeClassesSuffix="${antModel.jaxbTypeClassesSuffix}"
-#end
             targetDir="${antModel.targetDir}"
             targetXsdFileName="${antModel.targetXsdFileName}"
         >

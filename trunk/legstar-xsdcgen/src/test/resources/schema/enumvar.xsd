@@ -1,14 +1,4 @@
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:tns="http://legstar.com/test/coxb/enumvar" attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:ns0="http://java.sun.com/xml/ns/jaxb" ns0:extensionBindingPrefixes="cb" targetNamespace="http://legstar.com/test/coxb/enumvar" xmlns:ns1="http://java.sun.com/xml/ns/jaxb" ns1:version="2.0">
-<xsd:annotation>
-<xsd:appinfo>
-	<jaxb:schemaBindings>
-		<jaxb:package name="com.legstar.test.coxb.enumvar"/>
-		<jaxb:nameXmlTransform>
-			<jaxb:typeName suffix="Type"/>
-		</jaxb:nameXmlTransform>
-	</jaxb:schemaBindings>
-</xsd:appinfo>
-</xsd:annotation>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/enumvar" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/enumvar">
 <xsd:complexType name="SearchRequest">
 <xsd:sequence>
 <xsd:element name="AppID" type="xsd:string">

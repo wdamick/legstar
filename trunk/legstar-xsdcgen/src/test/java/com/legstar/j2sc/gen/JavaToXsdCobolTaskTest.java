@@ -20,12 +20,13 @@ import com.legstar.coxb.util.Utils;
 
 /**
  * Test Java To Xsd Generator.
- *
+ * 
  */
 public class JavaToXsdCobolTaskTest extends AbstractTest {
 
     /**
      * Check input validations.
+     * 
      * @throws Exception if test fails
      */
     public void testInputValidations() throws Exception {
@@ -48,45 +49,53 @@ public class JavaToXsdCobolTaskTest extends AbstractTest {
             getJavaToXsdCobolTask().execute();
             fail();
         } catch (BuildException e) {
-            assertEquals("You must provide a target xsd file name", e.getMessage());
+            assertEquals("You must provide a target xsd file name", e
+                    .getMessage());
         }
         getJavaToXsdCobolTask().setTargetXsdFileName("JVMQuery.xsd");
         try {
             getJavaToXsdCobolTask().execute();
             fail();
         } catch (BuildException e) {
-            assertEquals("You must specify an output XML schema namespace", e.getMessage());
+            assertEquals("You must specify an output XML schema namespace", e
+                    .getMessage());
         }
         getJavaToXsdCobolTask().setNamespace("http://legstar.test");
         try {
             getJavaToXsdCobolTask().execute();
             fail();
         } catch (BuildException e) {
-            assertEquals("You must provide at least one class name", e.getMessage());
+            assertEquals("You must provide at least one class name", e
+                    .getMessage());
         }
         getJavaToXsdCobolTask().addRootClass("JVMQuery");
         try {
             getJavaToXsdCobolTask().execute();
             fail();
         } catch (BuildException e) {
-            assertEquals("java.lang.ClassNotFoundException: JVMQuery", e.getMessage());
+            assertEquals("java.lang.ClassNotFoundException: JVMQuery", e
+                    .getMessage());
         }
     }
 
     /**
      * Generate a schema from a POJO.
+     * 
      * @throws Exception if generation fails
      */
     public void testGenerationFromPojo() throws Exception {
         final String targetFile = "JVMQueryReply.xsd";
         getJavaToXsdCobolTask().setTargetXsdFileName(targetFile);
-        getJavaToXsdCobolTask().addRootClass("com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest");
-        getJavaToXsdCobolTask().addRootClass("com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply");
+        getJavaToXsdCobolTask().addRootClass(
+                "com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest");
+        getJavaToXsdCobolTask().addRootClass(
+                "com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply");
         getJavaToXsdCobolTask().setNamespace("http://legstar.com");
         try {
             getJavaToXsdCobolTask().execute();
             String result = getSource(GEN_DIR, targetFile);
-            assertTrue(result.contains("targetNamespace=\"http://legstar.com\""));
+            assertTrue(result
+                    .contains("targetNamespace=\"http://legstar.com\""));
             assertTrue(result.contains("<xs:element"
                     + " name=\"jvmQueryRequest\""
                     + " type=\"jvmQueryRequest\">"));
@@ -113,42 +122,25 @@ public class JavaToXsdCobolTaskTest extends AbstractTest {
     }
 
     /**
-     * Generate XSD from POJO but force a type prefix.
-     * @throws Exception if ganaration fails
-     */
-    public void testGenerationFromPojoWithSuffix() throws Exception {
-        final String targetFile = "JVMQueryReply.xsd";
-        getJavaToXsdCobolTask().setTargetXsdFileName(targetFile);
-        getJavaToXsdCobolTask().addRootClass("com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest");
-        getJavaToXsdCobolTask().addRootClass("com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply");
-        getJavaToXsdCobolTask().setNamespace("http://legstar.com");
-        getJavaToXsdCobolTask().setJaxbTypeClassesSuffix("TypeSuffix");
-        try {
-            getJavaToXsdCobolTask().execute();
-            String result = getSource(GEN_DIR, targetFile);
-            assertTrue(result.contains("<jaxb:nameXmlTransform>"));
-            assertTrue(result.contains("<jaxb:typeName suffix=\"TypeSuffix\"/>"));
-            assertTrue(result.contains("</jaxb:nameXmlTransform>"));
-        } catch (BuildException e) {
-            fail(e.getMessage());
-        }
-    }
-
-    /**
      * Check that a complex type map is successfully created.
+     * 
      * @throws Exception if generation fails
      */
     public void testComplexTypeToJavaMapping() throws Exception {
         final String targetFile = "JVMQueryReply.xsd";
         getJavaToXsdCobolTask().setNamespace("http://legstar.com");
-        Class < ? >[] classes = {Utils.loadClass("com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply")};
+        Class < ? >[] classes = { Utils
+                .loadClass("com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply") };
         Map < String, String > complexTypeToJavaClassMap = new HashMap < String, String >();
 
         try {
-            getJavaToXsdCobolTask().generateSchema(classes, new File(GEN_DIR + targetFile), complexTypeToJavaClassMap);
+            getJavaToXsdCobolTask().generateSchema(classes,
+                    new File(GEN_DIR + targetFile), complexTypeToJavaClassMap);
             String result = getSource(GEN_DIR, targetFile);
-            assertTrue(result.contains("targetNamespace=\"http://legstar.com\""));
-            assertTrue(result.contains("<xs:element name=\"jvmQueryReply\" type=\"jvmQueryReply\">"));
+            assertTrue(result
+                    .contains("targetNamespace=\"http://legstar.com\""));
+            assertTrue(result
+                    .contains("<xs:element name=\"jvmQueryReply\" type=\"jvmQueryReply\">"));
             assertTrue(complexTypeToJavaClassMap.size() == 1);
             assertEquals("com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply",
                     complexTypeToJavaClassMap.get("jvmQueryReply"));
@@ -158,23 +150,27 @@ public class JavaToXsdCobolTaskTest extends AbstractTest {
     }
 
     /**
-     * Test generation from a COBOL annotated class. 
+     * Test generation from a COBOL annotated class.
+     * 
      * @throws Exception if generation fails
      */
     public void testGenerationFromAnnotated() throws Exception {
         final String targetFile = "CultureInfoRequest.xsd";
         getJavaToXsdCobolTask().setTargetXsdFileName(targetFile);
-        getJavaToXsdCobolTask().addRootClass("com.legstar.xsdc.test.cases.cultureinfo.CultureInfoRequest");
+        getJavaToXsdCobolTask().addRootClass(
+                "com.legstar.xsdc.test.cases.cultureinfo.CultureInfoRequest");
         getJavaToXsdCobolTask().setNamespace("http://legstar.com");
         try {
             getJavaToXsdCobolTask().execute();
             String result = getSource(GEN_DIR, targetFile);
-            assertTrue(result.contains("targetNamespace=\"http://legstar.com\""));
+            assertTrue(result
+                    .contains("targetNamespace=\"http://legstar.com\""));
             assertTrue(result.contains("<xs:element"
                     + " name=\"cultureInfoParameters\""
                     + " type=\"cultureInfoParameters\">"));
-            assertTrue(result.contains("<cb:cobolComplexType"
-                    + " javaClassName=\"com.legstar.xsdc.test.cases.cultureinfo.CultureInfoRequest\"/>"));
+            assertTrue(result
+                    .contains("<cb:cobolComplexType"
+                            + " javaClassName=\"com.legstar.xsdc.test.cases.cultureinfo.CultureInfoRequest\"/>"));
             assertTrue(result.contains("<cb:cobolElement"
                     + " cobolName=\"cultureInfoParameters\""
                     + " levelNumber=\"1\""
@@ -185,19 +181,23 @@ public class JavaToXsdCobolTaskTest extends AbstractTest {
     }
 
     /**
-     * Test generation from a class containing another. 
+     * Test generation from a class containing another.
+     * 
      * @throws Exception if generation fails
      */
     public void testGenerationFromAggregate() throws Exception {
         final String targetFile = "CultureInfoReply.xsd";
         getJavaToXsdCobolTask().setTargetXsdFileName(targetFile);
-        getJavaToXsdCobolTask().addRootClass("com.legstar.xsdc.test.cases.cultureinfo.CultureInfoReply");
+        getJavaToXsdCobolTask().addRootClass(
+                "com.legstar.xsdc.test.cases.cultureinfo.CultureInfoReply");
         getJavaToXsdCobolTask().setNamespace("http://legstar.com");
         try {
             getJavaToXsdCobolTask().execute();
             String result = getSource(GEN_DIR, targetFile);
-            assertTrue(result.contains("targetNamespace=\"http://legstar.com\""));
-            assertTrue(result.contains("<xs:complexType name=\"cultureInfoReply\">"));
+            assertTrue(result
+                    .contains("targetNamespace=\"http://legstar.com\""));
+            assertTrue(result
+                    .contains("<xs:complexType name=\"cultureInfoReply\">"));
             assertTrue(result.contains("<cb:cobolElement"
                     + " cobolName=\"currencySymbol\""
                     + " levelNumber=\"3\""
@@ -208,7 +208,8 @@ public class JavaToXsdCobolTaskTest extends AbstractTest {
                     + " minOccurs=\"0\""
                     + " name=\"serverCultureInfo\""
                     + " type=\"tns:serverCultureInfo\">"));
-            assertTrue(result.contains("<xs:complexType name=\"serverCultureInfo\">"));
+            assertTrue(result
+                    .contains("<xs:complexType name=\"serverCultureInfo\">"));
             assertTrue(result.contains("<cb:cobolElement"
                     + " cobolName=\"cultureCode\""
                     + " levelNumber=\"5\""
@@ -221,18 +222,21 @@ public class JavaToXsdCobolTaskTest extends AbstractTest {
     }
 
     /**
-     * Test generation from a COBOL annotated class with collections. 
+     * Test generation from a COBOL annotated class with collections.
+     * 
      * @throws Exception if generation fails
      */
     public void testGenerationFromCollections() throws Exception {
         final String targetFile = "Container.xsd";
         getJavaToXsdCobolTask().setTargetXsdFileName(targetFile);
-        getJavaToXsdCobolTask().addRootClass("com.legstar.xsdc.test.cases.collections.Container");
+        getJavaToXsdCobolTask().addRootClass(
+                "com.legstar.xsdc.test.cases.collections.Container");
         getJavaToXsdCobolTask().setNamespace("http://legstar.com");
         try {
             getJavaToXsdCobolTask().execute();
             String result = getSource(GEN_DIR, targetFile);
-            assertTrue(result.contains("targetNamespace=\"http://legstar.com\""));
+            assertTrue(result
+                    .contains("targetNamespace=\"http://legstar.com\""));
             assertTrue(result.contains("<xs:complexType name=\"container\">"));
             assertTrue(result.contains("<xs:element"
                     + " maxOccurs=\"unbounded\""
@@ -240,10 +244,12 @@ public class JavaToXsdCobolTaskTest extends AbstractTest {
                     + " name=\"itemsArray\""
                     + " nillable=\"true\""
                     + " type=\"tns:item\">"));
-            assertTrue(result.contains("<cb:cobolComplexType"
-                    + " javaClassName=\"com.legstar.xsdc.test.cases.collections.Container\"/>"));
-            assertTrue(result.contains("<cb:cobolComplexType"
-                    + " javaClassName=\"com.legstar.xsdc.test.cases.collections.Item\"/>"));
+            assertTrue(result
+                    .contains("<cb:cobolComplexType"
+                            + " javaClassName=\"com.legstar.xsdc.test.cases.collections.Container\"/>"));
+            assertTrue(result
+                    .contains("<cb:cobolComplexType"
+                            + " javaClassName=\"com.legstar.xsdc.test.cases.collections.Item\"/>"));
             assertTrue(result.contains("<cb:cobolElement"
                     + " cobolName=\"container\""
                     + " levelNumber=\"1\""

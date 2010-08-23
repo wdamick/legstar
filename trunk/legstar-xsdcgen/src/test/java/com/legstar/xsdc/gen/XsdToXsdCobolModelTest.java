@@ -17,12 +17,13 @@ import com.legstar.codegen.CodeGenUtil;
 
 /**
  * Test the generation of the ant script from the base model.
- *
+ * 
  */
 public class XsdToXsdCobolModelTest extends AbstractTest {
 
     /**
      * Generate and test ant script.
+     * 
      * @throws Exception if generation fails
      */
     public void testBuilX2sc() throws Exception {
@@ -31,8 +32,6 @@ public class XsdToXsdCobolModelTest extends AbstractTest {
 
         model.setProductLocation("/Users/Fady/sandbox/legstar-version");
         model.setInputXsdUri(new URI("http://some.location/wsdl"));
-        model.setJaxbTypeClassesSuffix("Type");
-        model.setJaxbPackageName("com.legstar.test.coxb.jvmquery");
         model.setNamespace("http://jvmquery.cases.test.xsdc.legstar.com/");
         model.setTargetDir(new File("schema"));
         model.setTargetXsdFileName("jvmquery.xsd");
@@ -41,17 +40,19 @@ public class XsdToXsdCobolModelTest extends AbstractTest {
         model.generateBuild(CodeGenUtil.getFile(GEN_DIR, "build.xml"));
         String result = getSource(GEN_DIR, "build.xml");
 
-        assertTrue(result.contains("<project basedir=\"/Users/Fady/sandbox/legstar-version\""
-                    + " default=\"signalSuccess\" name=\"generate-XSD\">"));
-        assertTrue(result.contains("<echo message=\"Generating annotated XML schema jvmquery.xsd\" />"));
+        assertTrue(result
+                .contains("<project basedir=\"/Users/Fady/sandbox/legstar-version\""
+                        + " default=\"signalSuccess\" name=\"generate-XSD\">"));
+        assertTrue(result
+                .contains("<echo message=\"Generating annotated XML schema jvmquery.xsd\" />"));
         assertTrue(result.contains("<mkdir dir=\"schema\"/>"));
         assertTrue(result.contains("inputXsdUri=\"http://some.location/wsdl\""));
-        assertTrue(result.contains("jaxbTypeClassesSuffix=\"Type\""));
-        assertTrue(result.contains("namespace=\"http://jvmquery.cases.test.xsdc.legstar.com/\""));
-        assertTrue(result.contains("jaxbPackageName=\"com.legstar.test.coxb.jvmquery\""));
+        assertTrue(result
+                .contains("namespace=\"http://jvmquery.cases.test.xsdc.legstar.com/\""));
         assertTrue(result.contains("targetDir=\"schema\""));
         assertTrue(result.contains("targetXsdFileName=\"jvmquery.xsd\""));
-        assertTrue(result.contains("<delete file=\"probe.file.tmp\" quiet=\"true\"/>"));
+        assertTrue(result
+                .contains("<delete file=\"probe.file.tmp\" quiet=\"true\"/>"));
     }
 
 }
