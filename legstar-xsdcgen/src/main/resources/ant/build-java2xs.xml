@@ -13,8 +13,6 @@
     <!-- Root Java classes   -->
     <property name="request.class.name" value="com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest" />
     <property name="reply.class.name" value="com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply" />
-    <!-- Target package name for JAXB classes   -->
-    <property name="jaxb.package.name" value="com.legstar.test.coxb.jvmquery" />
     <!-- Target namespace for generated XML schema   -->
     <property name="namespace" value="http://jvmquery.cases.test.xsdc.legstar.com/" />
     <!-- Target location for generated XML schema   -->
@@ -45,7 +43,6 @@
     <mkdir dir="${xsd.dir}"/>
     <j2scgen 
       namespace="${namespace}"
-      jaxbPackageName="${jaxb.package.name}"
       targetDir="${xsd.dir}"
       targetXsdFileName="${xsd.filename}"
     >
