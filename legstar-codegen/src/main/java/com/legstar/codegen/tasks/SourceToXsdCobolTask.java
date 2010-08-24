@@ -37,6 +37,7 @@ public abstract class SourceToXsdCobolTask extends Task {
 
     /**
      * Checks that common properties set are valid.
+     * 
      * @param xsdFileNameMandatory where an xsd file name is mandatory
      * @param namespaceMandatory where a target namespace is mandatory
      */
@@ -46,7 +47,6 @@ public abstract class SourceToXsdCobolTask extends Task {
 
         if (_log.isDebugEnabled()) {
             _log.debug("checkInput started");
-            _log.debug("   Target Jaxb Package name = " + getJaxbPackageName());
             _log.debug("   Target namespace name    = " + getNamespace());
             _log.debug("   Target directory         = " + getTargetDir());
             _log.debug("   Target Xsd file name     = "
@@ -57,10 +57,10 @@ public abstract class SourceToXsdCobolTask extends Task {
             throw (new BuildException("You must specify a model"));
         }
 
-        /* Check that we have a valid target directory.  */
+        /* Check that we have a valid target directory. */
         if (getTargetDir() == null) {
             throw (new BuildException(
-            "You must provide a target directory"));
+                    "You must provide a target directory"));
         }
         if (!getTargetDir().exists()) {
             throw (new BuildException(
@@ -73,56 +73,47 @@ public abstract class SourceToXsdCobolTask extends Task {
 
         /* Set a valid target annotated XSD file name */
         if (xsdFileNameMandatory) {
-            if (getTargetXsdFileName() == null 
+            if (getTargetXsdFileName() == null
                     || getTargetXsdFileName().length() == 0) {
                 throw (new BuildException(
-                "You must provide a target xsd file name"));
+                        "You must provide a target xsd file name"));
             }
             if (getTargetXsdFileName().contains(File.separator)
                     || getTargetXsdFileName().contains("/")) {
                 throw (new BuildException(
-                "Xsd file name should not specify a path (use targetDir for path)"));
+                        "Xsd file name should not specify a path (use targetDir for path)"));
             }
         }
 
         if (namespaceMandatory) {
             if (getNamespace() == null || getNamespace().length() == 0) {
                 throw (new BuildException(
-                "You must specify an output XML schema namespace"));
+                        "You must specify an output XML schema namespace"));
             }
         }
 
-        /* If we have a namespace but no jaxb package, construct a package
-         * name from the namespace. */
+        /*
+         * If we have a namespace check it.
+         */
         if (getNamespace() != null && getNamespace().length() > 0) {
             try {
                 URI nURI = new URI(getNamespace());
                 if (nURI.isOpaque()) {
                     throw (new BuildException(
                             "Namespace " + getNamespace()
-                            + " is not a hierarchical URI"));
-                }
-                if (getJaxbPackageName() == null 
-                        || getJaxbPackageName().length() == 0) {
-                    setJaxbPackageName(packageFromURI(nURI));
+                                    + " is not a hierarchical URI"));
                 }
             } catch (URISyntaxException e) {
                 throw new BuildException(e);
             }
         }
 
-        if (getJaxbPackageName() == null 
-                || getJaxbPackageName().length() == 0) {
-            throw (new BuildException(
-                    "No valid package name is provided or can be derived"
-                    + " from namespace"));
-        }
     }
 
     /**
      * Converts a URI into a package name. We assume a hierarchical,
      * server-based URI with the following syntax:
-     *        [scheme:][//host[:port]][path][?query][#fragment]
+     * [scheme:][//host[:port]][path][?query][#fragment]
      * The package name is derived from host, path and fragment.
      * 
      * @param namespaceURI the input namespace URI
@@ -134,8 +125,10 @@ public abstract class SourceToXsdCobolTask extends Task {
         URI nURI = namespaceURI.normalize();
         boolean firstToken = true;
 
-        /* First part of package name is built from host with tokens in
-         * reverse order. */
+        /*
+         * First part of package name is built from host with tokens in
+         * reverse order.
+         */
         if (nURI.getHost() != null && nURI.getHost().length() != 0) {
             Vector < String > v = new Vector < String >();
             StringTokenizer t = new StringTokenizer(nURI.getHost(), ".");
@@ -186,7 +179,10 @@ public abstract class SourceToXsdCobolTask extends Task {
             result.append(nURI.getFragment());
         }
 
-        /* By convention, namespaces are lowercase and should not contain invalid Java identifiers */
+        /*
+         * By convention, namespaces are lowercase and should not contain
+         * invalid Java identifiers
+         */
         String s = result.toString().toLowerCase();
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
@@ -240,40 +236,6 @@ public abstract class SourceToXsdCobolTask extends Task {
      */
     public void setNamespace(final String namespace) {
         getModel().setNamespace(namespace);
-    }
-
-    /**
-     * Package name of target JAXB classes as it appears in the generated
-     *  XSD annotations.
-     * @return the mJaxbPackageName JAXB package name
-     */
-    public String getJaxbPackageName() {
-        return getModel().getJaxbPackageName();
-    }
-
-    /**
-     * Package name of target JAXB classes as it appears in the generated
-     *  XSD annotations.
-     * @param jaxbPackageName the JAXB package name to set
-     */
-    public void setJaxbPackageName(final String jaxbPackageName) {
-        getModel().setJaxbPackageName(jaxbPackageName);
-    }
-
-    /**
-     * @return the Suffix to be added to JAXB classes names for XML schema types
-     */
-    public String getJaxbTypeClassesSuffix() {
-        return getModel().getJaxbTypeClassesSuffix();
-    }
-
-    /**
-     * @param jaxbTypeClassesSuffix the Suffix to be added to JAXB classes names
-     *  for XML schema types
-     */
-    public void setJaxbTypeClassesSuffix(
-            final String jaxbTypeClassesSuffix) {
-        getModel().setJaxbTypeClassesSuffix(jaxbTypeClassesSuffix);
     }
 
     /**

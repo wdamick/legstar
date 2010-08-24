@@ -18,13 +18,9 @@ import java.io.File;
  * a source. This is primarily intended to support velocity
  * template generation of ad-hoc ant scripts.
  * Also provides a convenience method to help with velocity generation.
- *
+ * 
  */
 public abstract class SourceToXsdCobolModel extends AbstractAntBuildModel {
-
-    /** Package name of target JAXB classes as it appears in the generated
-     *  XSD annotations. */
-    private String mJaxbPackageName;
 
     /** The target schema namespace. */
     private String mNamespace = "";
@@ -34,25 +30,6 @@ public abstract class SourceToXsdCobolModel extends AbstractAntBuildModel {
 
     /** The target annotated XSD file name. */
     private String mTargetXsdFileName;
-
-    /** Suffix to be added to JAXB classes names for XML schema types. This 
-     * is used to disambiguate java object names when elements and types
-     * have the same names.*/
-    private String mJaxbTypeClassesSuffix;
-
-    /**
-     * @return the Package name of target JAXB classes
-     */
-    public String getJaxbPackageName() {
-        return mJaxbPackageName;
-    }
-
-    /**
-     * @param jaxbPackageName the Package name of target JAXB classes to set
-     */
-    public void setJaxbPackageName(final String jaxbPackageName) {
-        mJaxbPackageName = jaxbPackageName;
-    }
 
     /**
      * @return the The target schema namespace
@@ -66,8 +43,10 @@ public abstract class SourceToXsdCobolModel extends AbstractAntBuildModel {
      */
     public void setNamespace(final String namespace) {
         if (namespace != null) {
-            /* Keep namespacelowercase so we can derive package names
-             * from it if necessary. */
+            /*
+             * Keep namespacelowercase so we can derive package names
+             * from it if necessary.
+             */
             mNamespace = namespace.toLowerCase();
         } else {
             mNamespace = null;
@@ -100,22 +79,6 @@ public abstract class SourceToXsdCobolModel extends AbstractAntBuildModel {
      */
     public void setTargetXsdFileName(final String targetXsdFileName) {
         mTargetXsdFileName = targetXsdFileName;
-    }
-
-    /**
-     * @return the Suffix to be added to JAXB classes names for XML schema types
-     */
-    public String getJaxbTypeClassesSuffix() {
-        return mJaxbTypeClassesSuffix;
-    }
-
-    /**
-     * @param jaxbTypeClassesSuffix the Suffix to be added to JAXB classes names
-     *  for XML schema types
-     */
-    public void setJaxbTypeClassesSuffix(
-            final String jaxbTypeClassesSuffix) {
-        mJaxbTypeClassesSuffix = jaxbTypeClassesSuffix;
     }
 
 }
