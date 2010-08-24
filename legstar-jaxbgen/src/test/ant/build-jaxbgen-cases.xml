@@ -31,17 +31,33 @@
     <target name="generateAllJAXB" depends="init">
         <foreach target="generateJAXB" param="xsd.file" inheritrefs="true">
             <path>
-                <fileset dir="${xsd.dir}" includes="*.xsd" excludes="enumvar.xsd MSNSearch.xsd"/>
+                <fileset dir="${xsd.dir}" includes="*.xsd" excludes="enumvar.xsd MSNSearch.xsd jvmquery.xsd jvmquery-ws.xsd cultureinfo.xsd"/>
             </path>
         </foreach>
         <jaxbgen 
-        	schema="${xsd.dir}/MSNSearch.xsd"
-            destDir="${jaxb.src.dir}"
+        	xsdFile="${xsd.dir}/MSNSearch.xsd"
+            targetDir="${jaxb.src.dir}"
             typeNameSuffix="Type"
+            jaxbPackageName="com.legstar.test.coxb.MSNSearch"
         />
         <jaxbgen 
-            schema="${xsd.dir}/enumvar.xsd"
-            destDir="${jaxb.src.dir}"
+            xsdFile="${xsd.dir}/jvmquery.xsd"
+            targetDir="${jaxb.src.dir}"
+            jaxbPackageName="com.legstar.test.coxb.jvmquery"
+        />
+        <jaxbgen 
+            xsdFile="${xsd.dir}/jvmquery-ws.xsd"
+            targetDir="${jaxb.src.dir}"
+            jaxbPackageName="com.legstar.test.coxb.ws.jvmquery"
+        />
+        <jaxbgen 
+            xsdFile="${xsd.dir}/cultureinfo.xsd"
+            targetDir="${jaxb.src.dir}"
+            jaxbPackageName="com.legstar.test.coxb.cultureinfo"
+        />
+        <jaxbgen 
+            xsdFile="${xsd.dir}/enumvar.xsd"
+            targetDir="${jaxb.src.dir}"
         	typeNameSuffix="Type"
         />
     </target>
@@ -52,8 +68,8 @@
     <target name="generateJAXB" depends="init">
         <echo message="Generating JAXB classes for ${xsd.dir}" />
         <jaxbgen 
-            schema="${xsd.file}"
-            destDir="${jaxb.src.dir}"
+            xsdFile="${xsd.file}"
+            targetDir="${jaxb.src.dir}"
         />
     </target>
 

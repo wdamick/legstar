@@ -238,10 +238,10 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
      */
     private void genSource(final String schemaName, final String typeNameSuffix) {
         _task.setInternalBindings(true);
-        _task.setSchema(getSchemaLocation(schemaName));
-        _task.setDestdir(GEN_SRC_DIR);
+        _task.setXsdFile(getSchemaFromResources(schemaName));
+        _task.setTargetDir(GEN_SRC_DIR);
         _task.setTypeNameSuffix(typeNameSuffix);
-        _task.setPackage("com.legstar.test.coxb." + schemaName);
+        _task.setJaxbPackageName("com.legstar.test.coxb." + schemaName);
         _task.execute();
     }
 

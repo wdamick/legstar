@@ -12,10 +12,10 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.Task;
-import org.apache.tools.ant.listener.CommonsLoggingListener;
 import org.apache.tools.ant.types.Commandline;
 
 import com.legstar.codegen.CodeGenMakeException;
+import com.legstar.codegen.tasks.CommonsLoggingListener;
 import com.sun.tools.xjc.XJC2Task;
 
 /**
@@ -36,10 +36,10 @@ public class CobolJAXBGenerator extends Task {
 
     /**
      * From XJC, this is the schema file to be compiled. A file name
-     * (can be relative to the build script base directory), or an URL.
+     * (can be relative to the build script base directory), or absolute.
      * Required parameter.
      */
-    private String _schema;
+    private File _xsdFile;
 
     /**
      * From XJC. If specified, generated code will be placed under
@@ -47,10 +47,10 @@ public class CobolJAXBGenerator extends Task {
      * switch.
      * Optional parameter.
      */
-    private String _package;
+    private String _jaxbPackageName;
 
     /** From XJC. Generated code will be written under this directory. */
-    private File _destdir;
+    private File _targetDir;
 
     /** The model used for XJB generation. */
     private CobolJAXBXJBModel _xjbModel = new CobolJAXBXJBModel();
@@ -60,6 +60,26 @@ public class CobolJAXBGenerator extends Task {
 
     /** Whether internal bindings or and external binding should be used. */
     private boolean _internalBindings = true;
+
+    /**
+     * Initialize a commons logging logger so that XJC logs gets merged
+     * with the legstar ones.
+     * 
+     * @see org.apache.tools.ant.Task#init()
+     */
+    @Override
+    public void init() {
+        try {
+            super.init();
+            BuildListener logger = new CommonsLoggingListener();
+            getProject().addBuildListener(logger);
+
+            _customizer = new CobolJAXBCustomizer(_xjbModel);
+
+        } catch (ParserConfigurationException e) {
+            throw new BuildException(e);
+        }
+    }
 
     /**
      * The ant method. Generates JAXB classes by invoking XJC.
@@ -77,16 +97,16 @@ public class CobolJAXBGenerator extends Task {
         xjcTask.setTaskName("xjcTask");
 
         // Use external or internal customization
-        String xsdLocation = getSchema();
+        File customizedXsdFile = getXsdFile();
         if (_internalBindings) {
-            xsdLocation = createInternalCustomization(getSchema());
+            customizedXsdFile = createInternalCustomization(getXsdFile());
         } else {
-            xjcTask.setBinding(createExternalCustomization(getSchema()));
+            xjcTask.setBinding(createExternalCustomization(getXsdFile()));
         }
 
-        xjcTask.setSchema(xsdLocation);
-        xjcTask.setPackage(getPackage());
-        xjcTask.setDestdir(getDestdir());
+        xjcTask.setSchema(customizedXsdFile.getAbsolutePath());
+        xjcTask.setPackage(getJaxbPackageName());
+        xjcTask.setDestdir(getTargetDir());
 
         xjcTask.setExtension(true);
         xjcTask.setRemoveOldOutput(true);
@@ -108,29 +128,28 @@ public class CobolJAXBGenerator extends Task {
         try {
             if (_log.isDebugEnabled()) {
                 _log.debug("checkInput started");
-                _log.debug("Schema: " + getSchema());
-                _log.debug("Destdir: " + getDestdir());
-                _log.debug("Package name: " + getPackage());
+                _log.debug("Schema: " + getXsdFile());
+                _log.debug("TargetDir: " + getTargetDir());
+                _log.debug("Package name: " + getJaxbPackageName());
                 _log.debug("xjbModel: " + _xjbModel);
             }
-            if (getSchema() == null) {
+            if (getXsdFile() == null) {
                 throw (new BuildException(
                         "You must specify an XML schema file name"));
             } else {
-                File schemaFile = new File(getSchema());
-                if (schemaFile.exists()) {
+                if (getXsdFile().exists()) {
                     if (_log.isDebugEnabled()) {
-                        for (Object line : FileUtils.readLines(schemaFile)) {
+                        for (Object line : FileUtils.readLines(getXsdFile())) {
                             _log.debug(line);
                         }
                     }
                 } else {
                     throw (new BuildException(
-                            "XML schema file " + getSchema()
+                            "XML schema file " + getXsdFile().getAbsolutePath()
                                     + " does not exist"));
                 }
             }
-            if (getDestdir() == null) {
+            if (getTargetDir() == null) {
                 throw (new BuildException(
                         "You must specify a destination directory"));
             }
@@ -143,17 +162,17 @@ public class CobolJAXBGenerator extends Task {
      * Creates a temporary XML Schema which holds JAXB customization
      * bindings.
      * 
-     * @param xsdLocation the original XML schema location
-     * @return the location of the customized XML Schema
+     * @param xsdFile the original XML schema file
+     * @return the customized XML Schema file
      */
-    protected String createInternalCustomization(final String xsdLocation) {
+    protected File createInternalCustomization(final File xsdFile) {
         try {
             File tempXsdFile = File.createTempFile("jaxb-schema", ".xsd");
             tempXsdFile.deleteOnExit();
 
-            _customizer.customize(new File(xsdLocation), tempXsdFile);
+            _customizer.customize(xsdFile, tempXsdFile);
 
-            return tempXsdFile.getAbsolutePath();
+            return tempXsdFile;
         } catch (IOException e) {
             throw new BuildException(e);
         }
@@ -163,16 +182,16 @@ public class CobolJAXBGenerator extends Task {
     /**
      * Creates a temporary binding file holding the parameters chosen.
      * 
-     * @param xsdLocation the XML Schema location
+     * @param xsdFile the XML Schema location
      * @return the location of the temporary XJB file
      */
-    public String createExternalCustomization(final String xsdLocation) {
+    public String createExternalCustomization(final File xsdFile) {
         try {
             File tempXJBFile = File.createTempFile("jaxb-xjb", ".xml");
             tempXJBFile.deleteOnExit();
 
             // The schema location needs to be a valid URI
-            URI xsdURILocation = (new File(xsdLocation)).toURI();
+            URI xsdURILocation = xsdFile.toURI();
             System.out.println(xsdURILocation.toString());
             _xjbModel.setXsdLocation(xsdURILocation.toString());
             _xjbModel.generateXjb(tempXJBFile);
@@ -188,22 +207,22 @@ public class CobolJAXBGenerator extends Task {
 
     /**
      * This is the schema file to be compiled. A file name
-     * (can be relative to the build script base directory), or an URL.
+     * (can be relative to the build script base directory), or absolute.
      * 
-     * @return the schema file name
+     * @return the schema file
      */
-    public String getSchema() {
-        return _schema;
+    public File getXsdFile() {
+        return _xsdFile;
     }
 
     /**
      * This is the schema file to be compiled. A file name
-     * (can be relative to the build script base directory), or an URL.
+     * (can be relative to the build script base directory), or absolute.
      * 
-     * @param schema file name
+     * @param xsdFile schema file
      */
-    public void setSchema(final String schema) {
-        _schema = schema;
+    public void setXsdFile(final File xsdFile) {
+        _xsdFile = xsdFile;
     }
 
     /**
@@ -212,17 +231,17 @@ public class CobolJAXBGenerator extends Task {
      * 
      * @return Java package name
      */
-    public String getPackage() {
-        return _package;
+    public String getJaxbPackageName() {
+        return _jaxbPackageName;
     }
 
     /**
      * If specified, generated code will be placed under this Java package.
      * 
-     * @param package1 Java package name
+     * @param jaxbPackageName Java package name
      */
-    public void setPackage(final String package1) {
-        _package = package1;
+    public void setJaxbPackageName(final String jaxbPackageName) {
+        _jaxbPackageName = jaxbPackageName;
     }
 
     /**
@@ -230,17 +249,17 @@ public class CobolJAXBGenerator extends Task {
      * 
      * @return destination directory
      */
-    public File getDestdir() {
-        return _destdir;
+    public File getTargetDir() {
+        return _targetDir;
     }
 
     /**
      * Generated code will be written under this directory.
      * 
-     * @param destdir destination directory
+     * @param targetDir destination directory
      */
-    public void setDestdir(final File destdir) {
-        _destdir = destdir;
+    public void setTargetDir(final File targetDir) {
+        _targetDir = targetDir;
     }
 
     /**
@@ -327,26 +346,6 @@ public class CobolJAXBGenerator extends Task {
      */
     public void setElementNameSuffix(final String elementNameSuffix) {
         _xjbModel.setElementNameSuffix(elementNameSuffix);
-    }
-
-    /**
-     * Initialize a commons logging logger so that XJC logs gets merged
-     * with the legstar ones.
-     * 
-     * @see org.apache.tools.ant.Task#init()
-     */
-    @Override
-    public void init() {
-        try {
-            BuildListener logger = new CommonsLoggingListener();
-            getProject().addBuildListener(logger);
-
-            _customizer = new CobolJAXBCustomizer(_xjbModel);
-
-            super.init();
-        } catch (ParserConfigurationException e) {
-            throw new BuildException(e);
-        }
     }
 
     /**

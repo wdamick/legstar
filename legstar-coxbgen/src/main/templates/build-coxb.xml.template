@@ -41,6 +41,7 @@
         <echo message="Generating binding classes for ${xsd.file}" />
         <coxbgen 
             XsdFile="${xsd.file}"
+            JaxbPackageName="@PACKAGE-NAME@"
             JaxbRootObjectName="${jaxb.root.name}"
             targetDir="${jaxb.src.dir}"
         />
