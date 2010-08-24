@@ -10,18 +10,30 @@
  ******************************************************************************/
 package com.legstar.jaxb.plugin;
 
-import org.apache.tools.ant.DefaultLogger;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.types.Commandline;
 
 import com.legstar.jaxb.AbstractJaxbTester;
-import com.sun.tools.xjc.XJC2Task;
+import com.legstar.jaxb.gen.CobolJAXBGenerator;
 
 /**
  * Test the JAXB Annotator.
- *
+ * 
  */
 public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
+
+    /** An instance of the JAXB generator. */
+    private CobolJAXBGenerator _task;
+
+    /** {@inheritDoc} */
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        _task = new CobolJAXBGenerator();
+        _task.setProject(new Project());
+        _task.init();
+        _task.getProject().fireBuildStarted();
+
+    }
 
     /**
      * Test various simple type annotations.
@@ -135,7 +147,7 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
      * Test an enumeration case.
      */
     public void testEnumAnnotation() {
-        genSource("MSNSearch");
+        genSource("MSNSearch", "Type");
         String srce = getSource("MSNSearch", "SearchRequestType");
         assertTrue(srce.contains("@CobolElement(cobolName = \"SafeSearch\","
                 + " type = CobolType.ALPHANUMERIC_ITEM,"
@@ -163,8 +175,9 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
     public void testXsdcgenOutputWithJavaClassNames() {
         genSource("jvmquery");
         String srce = getSource("jvmquery", "JvmQueryReply");
-        assertTrue(srce.contains(
-        "@CobolComplexType(javaClassName = \"com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply\")"));
+        assertTrue(srce
+                .contains(
+                "@CobolComplexType(javaClassName = \"com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply\")"));
     }
 
     /**
@@ -178,17 +191,23 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
         assertTrue(srce.contains("protected long wsZeroes = 0L;"));
         assertTrue(srce.contains("protected String wsSpace = \"\";"));
         assertTrue(srce.contains("protected String wsSpaces = \"\";"));
-        assertTrue(srce.contains("protected String wsHighValue = \"0xFFFFFFFFFF\";"));
-        assertTrue(srce.contains("protected String wsHighValues = \"0xFFFFFFFFFF\";"));
-        assertTrue(srce.contains("protected String wsLowValue = \"0x0000000000\";"));
-        assertTrue(srce.contains("protected String wsLowValues = \"0x0000000000\";"));
+        assertTrue(srce
+                .contains("protected String wsHighValue = \"0xFFFFFFFFFF\";"));
+        assertTrue(srce
+                .contains("protected String wsHighValues = \"0xFFFFFFFFFF\";"));
+        assertTrue(srce
+                .contains("protected String wsLowValue = \"0x0000000000\";"));
+        assertTrue(srce
+                .contains("protected String wsLowValues = \"0x0000000000\";"));
         assertTrue(srce.contains("protected String wsQuote = \"\\'\";"));
         assertTrue(srce.contains("protected String wsQuotes = \"\\'\";"));
         assertTrue(srce.contains("protected String wsNull = \"0x0000000000\";"));
-        assertTrue(srce.contains("protected String wsNulls = \"0x0000000000\";"));
+        assertTrue(srce
+                .contains("protected String wsNulls = \"0x0000000000\";"));
         assertTrue(srce.contains("protected String wsString = \"ABCDE\";"));
         assertTrue(srce.contains("protected int wsNumeric = -345;"));
-        assertTrue(srce.contains("protected BigDecimal wsPackedDecimal = (new BigDecimal(\"-245.56\"));"));
+        assertTrue(srce
+                .contains("protected BigDecimal wsPackedDecimal = (new BigDecimal(\"-245.56\"));"));
         assertTrue(srce.contains("protected float wsSingleFloat = 6.0E7F;"));
         assertTrue(srce.contains("protected double wsDoubleFloat = -1.8E-56D;"));
     }
@@ -204,27 +223,26 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
 
     /**
      * Generates JAXB classes with Cobol annotations.
+     * 
      * @param schemaName the schema used to generate
      */
     private void genSource(final String schemaName) {
-        Project project = new Project();
-        project.setBasedir(".");
-        DefaultLogger logger = new DefaultLogger();
-        logger.setErrorPrintStream(System.out);
-        project.addBuildListener(logger);
-        XJC2Task xjcTask = new XJC2Task();
-        xjcTask.setProject(project);
-        xjcTask.setTaskName("xjcTask");
-        xjcTask.setSchema(getSchemaFromResources(schemaName).getAbsolutePath());
-        xjcTask.setDestdir(GEN_SRC_DIR);
-        xjcTask.setExtension(true);
-        xjcTask.setRemoveOldOutput(true);
-        Commandline.Argument arg1 = xjcTask.createArg();
-        arg1.setValue("-Xlegstar-code");
-        Commandline.Argument arg2 = xjcTask.createArg();
-        arg2.setValue("-nv");
-        xjcTask.log("Started");
-        xjcTask.execute();
+        genSource(schemaName, null);
+    }
+
+    /**
+     * Generates JAXB classes with Cobol annotations.
+     * 
+     * @param schemaName the schema used to generate
+     * @param typeNameSuffix the type name suffix if needed
+     */
+    private void genSource(final String schemaName, final String typeNameSuffix) {
+        _task.setInternalBindings(true);
+        _task.setSchema(getSchemaLocation(schemaName));
+        _task.setDestdir(GEN_SRC_DIR);
+        _task.setTypeNameSuffix(typeNameSuffix);
+        _task.setPackage("com.legstar.test.coxb." + schemaName);
+        _task.execute();
     }
 
 }
