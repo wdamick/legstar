@@ -1,7 +1,8 @@
 <?xml version="1.0" standalone="yes"?>
 <!-- =================================================================================
-     Extracts reference schemas from other projects jar files.
-     Iterates thru XML schemas and generates JAXB classes for each. 
+     Iterates thru XML schemas and generates JAXB classes for each.
+     This is not a standalone script, it must be started from Maven who populates
+     the classpath.
   -->
 <project basedir="../../.." default="generateAllJAXB">
 
@@ -13,26 +14,47 @@
         <property name="jaxb.src.dir" value="${basedir}/../legstar-jaxbgen-cases/src/main/java"/>
         <!-- Location of test XML schemas  -->
         <property name="xsd.dir" value="../target/cases/schema" />
-        <!-- Location of external bindings files   -->
-        <property name="bindings.dir" value="${basedir}/../legstar-jaxbgen/src/main/resources/xjb" />
-        <!-- The regular sun JAXB XJC tool ant task  -->
-        <taskdef name="xjc" classname="com.sun.tools.xjc.XJC2Task" classpathref="classpath"/>
+        <!-- Generator ant task -->
+        <taskdef name="jaxbgen"
+            classname="com.legstar.jaxb.gen.CobolJAXBGenerator"
+            classpathref="classpath"/>
+
+        <!-- Ant-Contrib tasks. Needed for "foreach ", regex, switch, ...
+             (ant-contrib.jar must be in ant classpath) -->
+        <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+            
     </target>
 
     <!-- ===========================================================  -->
     <!-- Generate the JAXB classes source
     -->
     <target name="generateAllJAXB" depends="init">
+        <foreach target="generateJAXB" param="xsd.file" inheritrefs="true">
+            <path>
+                <fileset dir="${xsd.dir}" includes="*.xsd" excludes="enumvar.xsd MSNSearch.xsd"/>
+            </path>
+        </foreach>
+        <jaxbgen 
+        	schema="${xsd.dir}/MSNSearch.xsd"
+            destDir="${jaxb.src.dir}"
+            typeNameSuffix="Type"
+        />
+        <jaxbgen 
+            schema="${xsd.dir}/enumvar.xsd"
+            destDir="${jaxb.src.dir}"
+        	typeNameSuffix="Type"
+        />
+    </target>
+
+	<!-- ===========================================================  -->
+    <!-- Generate JAXB classes from XML Schema.
+      -->
+    <target name="generateJAXB" depends="init">
         <echo message="Generating JAXB classes for ${xsd.dir}" />
-        <xjc destdir="${jaxb.src.dir}" extension="true" removeOldOutput="yes">
-            <schema dir="${xsd.dir}"/>
-            <arg value="-Xlegstar-code" />
-            <!--Without this option (no validation), out of memory errors -->
-            <arg value="-nv" />
-            <!-- External XJC bindings directory. Collects all *.xjb files -->
-            <arg value="-b" />
-            <arg value="${bindings.dir}" />
-        </xjc>
+        <jaxbgen 
+            schema="${xsd.file}"
+            destDir="${jaxb.src.dir}"
+        />
     </target>
 
 </project>

@@ -50,6 +50,10 @@
             <artifactId>ant-commons-logging</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.apache.ws.commons.schema</groupId>
+            <artifactId>XmlSchema</artifactId> 
+        </dependency>
+        <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-cob2xsd</artifactId>
             <classifier>test</classifier>
