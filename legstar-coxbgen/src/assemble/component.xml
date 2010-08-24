@@ -43,15 +43,6 @@
             </includes>
         </fileSet>
 
-        <!-- reference binding file  -->
-        <fileSet>
-            <directory>${project.basedir}/../legstar-jaxbgen/src/main/resources/xjb</directory>
-            <outputDirectory>xjb</outputDirectory>
-            <includes>
-                <include>*.xjb</include>
-            </includes>
-        </fileSet>
-        
     </fileSets>
   
 </component>
