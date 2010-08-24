@@ -23,34 +23,58 @@
     -->
     <target name="generateAntSamples" depends="init">
         <copy file="${jaxbgen.ant.template.dir}/build-jaxb.xml.template" tofile="${ant.dir}/lsfileae/build-jaxb.xml">
-            <filterset><filter token="XSD-FILE-NAME" value="lsfileae.xsd"/></filterset>
+            <filterset>
+            	<filter token="XSD-FILE-NAME" value="lsfileae.xsd"/>
+                <filter token="PACKAGE-NAME" value="com.legstar.test.coxb.lsfileae"/>
+            </filterset>
         </copy>
         <copy file="${jaxbgen.ant.template.dir}/build-jaxb.xml.template" tofile="${ant.dir}/jvmquery/build-jaxb.xml">
-            <filterset><filter token="XSD-FILE-NAME" value="jvmquery.xsd"/></filterset>
+            <filterset>
+            	<filter token="XSD-FILE-NAME" value="jvmquery.xsd"/>
+                <filter token="PACKAGE-NAME" value="com.legstar.test.coxb.jvmquery"/>
+            </filterset>
         </copy>
         <copy file="${jaxbgen.ant.template.dir}/build-jaxb.xml.template" tofile="${ant.dir}/cultureinfo/build-jaxb.xml">
-            <filterset><filter token="XSD-FILE-NAME" value="cultureinfo.xsd"/></filterset>
+            <filterset>
+            	<filter token="XSD-FILE-NAME" value="cultureinfo.xsd"/>
+                <filter token="PACKAGE-NAME" value="com.legstar.test.coxb.cultureinfo"/>
+            </filterset>
         </copy>
 
         <copy file="${coxbgen.ant.template.dir}/build-coxb.xml.template" tofile="${ant.dir}/lsfileae/build-coxb.xml">
-            <filterset><filter token="XSD-FILE-NAME" value="lsfileae.xsd"/></filterset>
-            <filterset><filter token="JAXB-ROOT-NAME" value="Dfhcommarea"/></filterset>
+            <filterset>
+            	<filter token="XSD-FILE-NAME" value="lsfileae.xsd"/>
+            	<filter token="JAXB-ROOT-NAME" value="Dfhcommarea"/>
+                <filter token="PACKAGE-NAME" value="com.legstar.test.coxb.lsfileae"/>
+            </filterset>
         </copy>
         <copy file="${coxbgen.ant.template.dir}/build-coxb.xml.template" tofile="${ant.dir}/jvmquery/build-coxb-jvmqueryrequest.xml">
-            <filterset><filter token="XSD-FILE-NAME" value="jvmquery.xsd"/></filterset>
-            <filterset><filter token="JAXB-ROOT-NAME" value="JvmQueryRequest"/></filterset>
+            <filterset>
+            	<filter token="XSD-FILE-NAME" value="jvmquery.xsd"/>
+            	<filter token="JAXB-ROOT-NAME" value="JvmQueryRequest"/>
+                <filter token="PACKAGE-NAME" value="com.legstar.test.coxb.jvmquery"/>
+            </filterset>
         </copy>
         <copy file="${coxbgen.ant.template.dir}/build-coxb.xml.template" tofile="${ant.dir}/jvmquery/build-coxb-jvmqueryreply.xml">
-            <filterset><filter token="XSD-FILE-NAME" value="jvmquery.xsd"/></filterset>
-            <filterset><filter token="JAXB-ROOT-NAME" value="JvmQueryReply"/></filterset>
+            <filterset>
+            	<filter token="XSD-FILE-NAME" value="jvmquery.xsd"/>
+            	<filter token="JAXB-ROOT-NAME" value="JvmQueryReply"/>
+                <filter token="PACKAGE-NAME" value="com.legstar.test.coxb.jvmquery"/>
+            </filterset>
         </copy>
         <copy file="${coxbgen.ant.template.dir}/build-coxb.xml.template" tofile="${ant.dir}/cultureinfo/build-coxb-getinfo.xml">
-            <filterset><filter token="XSD-FILE-NAME" value="cultureinfo.xsd"/></filterset>
-            <filterset><filter token="JAXB-ROOT-NAME" value="GetInfo"/></filterset>
+            <filterset>
+            	<filter token="XSD-FILE-NAME" value="cultureinfo.xsd"/>
+            	<filter token="JAXB-ROOT-NAME" value="GetInfo"/>
+                <filter token="PACKAGE-NAME" value="com.legstar.test.coxb.cultureinfo"/>
+            </filterset>
         </copy>
         <copy file="${coxbgen.ant.template.dir}/build-coxb.xml.template" tofile="${ant.dir}/cultureinfo/build-coxb-getinforesponse.xml">
-            <filterset><filter token="XSD-FILE-NAME" value="cultureinfo.xsd"/></filterset>
-            <filterset><filter token="JAXB-ROOT-NAME" value="GetInfoResponse"/></filterset>
+            <filterset>
+            	<filter token="XSD-FILE-NAME" value="cultureinfo.xsd"/>
+            	<filter token="JAXB-ROOT-NAME" value="GetInfoResponse"/>
+                <filter token="PACKAGE-NAME" value="com.legstar.test.coxb.cultureinfo"/>
+            </filterset>
         </copy>
     </target>
   

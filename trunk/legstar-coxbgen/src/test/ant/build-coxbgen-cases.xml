@@ -2,7 +2,7 @@
 <!-- =================================================================================
      Iterates thru XML schemas and generates COXB binding classes for each. 
      This script assumes JAXB classes have already been generated for those
-     schemas.
+     schemas (see legstar-schemagen#build-jaxbgen-cases.xml).
   -->
 <project basedir="..\..\.." default="compileAllCOXB">
 	
@@ -78,41 +78,49 @@
 			/>
         <coxbgen 
             XsdFile="${xsd.dir}/cultureinfo.xsd"
+        	JaxbPackageName="com.legstar.test.coxb.cultureinfo"
             JaxbRootObjectName="GetInfo"
             targetDir="${coxb.src.dir}"
             />
         <coxbgen 
             XsdFile="${xsd.dir}/cultureinfo.xsd"
+            JaxbPackageName="com.legstar.test.coxb.cultureinfo"
             JaxbRootObjectName="GetInfoResponse"
             targetDir="${coxb.src.dir}"
             />
         <coxbgen 
             XsdFile="${xsd.dir}/jvmquery.xsd"
+            JaxbPackageName="com.legstar.test.coxb.jvmquery"
             JaxbRootObjectName="JvmQueryRequest"
             targetDir="${coxb.src.dir}"
             />
         <coxbgen 
             XsdFile="${xsd.dir}/jvmquery.xsd"
+            JaxbPackageName="com.legstar.test.coxb.jvmquery"
             JaxbRootObjectName="JvmQueryReply"
             targetDir="${coxb.src.dir}"
             />
         <coxbgen 
             XsdFile="${xsd.dir}/jvmquery-ws.xsd"
+            JaxbPackageName="com.legstar.test.coxb.ws.jvmquery"
             JaxbRootObjectName="QueryJvm"
             targetDir="${coxb.src.dir}"
             />
         <coxbgen 
             XsdFile="${xsd.dir}/jvmquery-ws.xsd"
+            JaxbPackageName="com.legstar.test.coxb.ws.jvmquery"
             JaxbRootObjectName="QueryJvmResponse"
             targetDir="${coxb.src.dir}"
             />
         <coxbgen 
             XsdFile="${xsd.dir}/MSNSearch.xsd"
+            JaxbPackageName="com.legstar.test.coxb.MSNSearch"
             JaxbRootObjectName="Search"
             targetDir="${coxb.src.dir}"
             />
         <coxbgen 
             XsdFile="${xsd.dir}/MSNSearch.xsd"
+            JaxbPackageName="com.legstar.test.coxb.MSNSearch"
             JaxbRootObjectName="SearchResponse"
             targetDir="${coxb.src.dir}"
             />

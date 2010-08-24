@@ -36,7 +36,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
             assertEquals("You must specify an XML schema file name", e
                     .getMessage());
         }
-        _task.setSchema(getSchemaLocation("lsfileaq"));
+        _task.setXsdFile(getSchemaFromResources("lsfileaq"));
         try {
             _task.execute();
             fail();
@@ -50,8 +50,8 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
      * Test without any extra parameters.
      */
     public void testDefaultGeneration() {
-        _task.setSchema(getSchemaLocation("lsfileaq"));
-        _task.setDestdir(GEN_SRC_DIR);
+        _task.setXsdFile(getSchemaFromResources("lsfileaq"));
+        _task.setTargetDir(GEN_SRC_DIR);
         _task.execute();
         String srce = getSource("lsfileaq", "DfhCommarea");
         assertTrue(srce.contains("@CobolElement(cobolName = \"QUERY-DATA\","
@@ -63,9 +63,9 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
      * Test with package name parameters.
      */
     public void testPackageName() {
-        _task.setSchema(getSchemaLocation("lsfileaq"));
-        _task.setDestdir(GEN_SRC_DIR);
-        _task.setPackage("com.alternate.pkg.lsfileaq");
+        _task.setXsdFile(getSchemaFromResources("lsfileaq"));
+        _task.setTargetDir(GEN_SRC_DIR);
+        _task.setJaxbPackageName("com.alternate.pkg.lsfileaq");
         _task.execute();
         String srce = getSource("lsfileaq", "com/alternate/pkg", "DfhCommarea");
         assertTrue(srce.contains("@CobolElement(cobolName = \"QUERY-DATA\","
@@ -168,11 +168,11 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
             final long serializableUid,
             final boolean generateIsSetMethod) {
         _task.setInternalBindings(internalBindings);
-        _task.setSchema(getSchemaLocation(schemaName));
-        _task.setDestdir(GEN_SRC_DIR);
+        _task.setXsdFile(getSchemaFromResources(schemaName));
+        _task.setTargetDir(GEN_SRC_DIR);
         _task.setSerializableUid(serializableUid);
         _task.setGenerateIsSetMethod(generateIsSetMethod);
-        _task.setPackage("com.legstar.test.coxb." + schemaName);
+        _task.setJaxbPackageName("com.legstar.test.coxb." + schemaName);
         _task.execute();
     }
 
@@ -193,13 +193,13 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
             final String elementNamePrefix,
             final String elementNameSuffix) {
         _task.setInternalBindings(internalBindings);
-        _task.setSchema(getSchemaLocation(schemaName));
-        _task.setDestdir(GEN_SRC_DIR);
+        _task.setXsdFile(getSchemaFromResources(schemaName));
+        _task.setTargetDir(GEN_SRC_DIR);
         _task.setTypeNamePrefix(typeNamePrefix);
         _task.setTypeNameSuffix(typeNameSuffix);
         _task.setElementNamePrefix(elementNamePrefix);
         _task.setElementNameSuffix(elementNameSuffix);
-        _task.setPackage("com.legstar.test.coxb." + schemaName);
+        _task.setJaxbPackageName("com.legstar.test.coxb." + schemaName);
         _task.execute();
     }
 }
