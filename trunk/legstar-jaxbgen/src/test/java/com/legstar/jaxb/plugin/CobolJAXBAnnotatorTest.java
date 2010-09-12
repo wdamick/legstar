@@ -37,8 +37,10 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
 
     /**
      * Test various simple type annotations.
+     * 
+     * @throws Exception if generation fails
      */
-    public void testSimpleAnnotation() {
+    public void testSimpleAnnotation() throws Exception {
         genSource("ALLTYPES");
         String srce = getSource("ALLTYPES", "DfhCommarea");
         assertTrue(srce.contains("@CobolElement(cobolName = \"S-STRING\","
@@ -145,8 +147,10 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
 
     /**
      * Test an enumeration case.
+     * 
+     * @throws Exception if generation fails
      */
-    public void testEnumAnnotation() {
+    public void testEnumAnnotation() throws Exception {
         genSource("MSNSearch", "Type");
         String srce = getSource("MSNSearch", "SearchRequestType");
         assertTrue(srce.contains("@CobolElement(cobolName = \"SafeSearch\","
@@ -158,8 +162,10 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
 
     /**
      * Test a schema produced by Xsdcgen.
+     * 
+     * @throws Exception if generation fails
      */
-    public void testXsdcgenOutput() {
+    public void testXsdcgenOutput() throws Exception {
         genSource("cultureinfo");
         String srce = getSource("cultureinfo", "CultureInfoParameters");
         assertTrue(srce.contains("@CobolElement(cobolName = \"cultureCode\","
@@ -171,8 +177,10 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
 
     /**
      * Test a schema produced by Xsdcgen with binding to a POJO.
+     * 
+     * @throws Exception if generation fails
      */
-    public void testXsdcgenOutputWithJavaClassNames() {
+    public void testXsdcgenOutputWithJavaClassNames() throws Exception {
         genSource("jvmquery");
         String srce = getSource("jvmquery", "JvmQueryReply");
         assertTrue(srce
@@ -182,8 +190,10 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
 
     /**
      * Test default value case.
+     * 
+     * @throws Exception if generation fails
      */
-    public void testDefaultValues() {
+    public void testDefaultValues() throws Exception {
         genSource("valuemix");
         String srce = getSource("valuemix", "Dfhcommarea");
         assertTrue(srce.contains("protected long wsZero = 0L;"));
@@ -214,8 +224,10 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
 
     /**
      * Test a case with a short integer that should be initialized.
+     * 
+     * @throws Exception if generation fails
      */
-    public void testInitializeIntegers() {
+    public void testInitializeIntegers() throws Exception {
         genSource("lsfileaq");
         String srce = getSource("lsfileaq", "QueryData");
         assertTrue(srce.contains("protected short maxReplies = -1"));
@@ -225,8 +237,9 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
      * Generates JAXB classes with Cobol annotations.
      * 
      * @param schemaName the schema used to generate
+     * @throws Exception if generation fails
      */
-    private void genSource(final String schemaName) {
+    private void genSource(final String schemaName) throws Exception {
         genSource(schemaName, null);
     }
 
@@ -235,10 +248,12 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
      * 
      * @param schemaName the schema used to generate
      * @param typeNameSuffix the type name suffix if needed
+     * @throws Exception if generation fails
      */
-    private void genSource(final String schemaName, final String typeNameSuffix) {
+    private void genSource(final String schemaName, final String typeNameSuffix)
+            throws Exception {
         _task.setInternalBindings(true);
-        _task.setXsdFile(getSchemaFromResources(schemaName));
+        _task.setXsdFile(getSchemaFromFolder(schemaName));
         _task.setTargetDir(GEN_SRC_DIR);
         _task.setTypeNameSuffix(typeNameSuffix);
         _task.setJaxbPackageName("com.legstar.test.coxb." + schemaName);

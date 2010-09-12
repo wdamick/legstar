@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -35,6 +34,9 @@ public abstract class AbstractJaxbTester extends TestCase {
     /** Target location for generated XJB files. */
     public static final File GEN_XJB_DIR = new File("target/xjb");
 
+    /** Maven should have populated this location with test schemas. */
+    public static final File XSD_DIR = new File("../target/cases/schema");
+
     /** Helper to create DOM documents. */
     private DocumentBuilder _db;
 
@@ -57,47 +59,22 @@ public abstract class AbstractJaxbTester extends TestCase {
     }
 
     /**
-     * Lookup a test schema from the classpath and copies the content to
-     * a temporary file. This is because the XJC task does not take a URL
-     * directly, it wants a file name for the schema.
-     * We have been sometimes inconsistent in naming schemas so we try with
-     * multiple cases.
+     * Lookup a test schema from a folder.
      * 
      * @param schemaName the schema name
-     * @return the temporary file holding the content
+     * @return the schema file
+     * @throws Exception if schema file cannot be located
      */
-    protected File getSchemaFromResources(final String schemaName) {
-        try {
-            File tempFile = File.createTempFile("jaxb-schema", "tmp");
-            tempFile.deleteOnExit();
-            URL resURL = getClass().getResource(
-                    "/schema/" + schemaName + ".xsd");
-            if (resURL == null) {
-                if (Character.isLowerCase(schemaName.charAt(0))) {
-                    resURL = getClass().getResource(
-                            "/schema/" + schemaName.toUpperCase() + ".xsd");
-                } else {
-                    resURL = getClass().getResource(
-                            "/schema/" + schemaName.toLowerCase() + ".xsd");
-                }
-            }
-            FileUtils.copyURLToFile(resURL, tempFile);
-            return tempFile;
-        } catch (IOException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-            return null;
+    protected File getSchemaFromFolder(final String schemaName)
+            throws Exception {
+        String fileName = schemaName;
+        if (Character.isLowerCase(schemaName.charAt(0))) {
+            fileName = schemaName.toUpperCase() + ".xsd";
+        } else {
+            fileName = schemaName + ".xsd";
         }
-    }
 
-    /**
-     * Retrieves the absolute location of a schema.
-     * 
-     * @param schemaName the schema name
-     * @return the absolute location
-     */
-    protected String getSchemaLocation(final String schemaName) {
-        return getSchemaFromResources(schemaName).getAbsolutePath();
+        return new File(XSD_DIR.getCanonicalPath() + '/' + fileName);
     }
 
     /**

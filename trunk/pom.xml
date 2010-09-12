@@ -10,7 +10,7 @@
     <properties>
         <legstarVersion>1.4.0-SNAPSHOT</legstarVersion>
         <legstarZosVersion>V1R4M0</legstarZosVersion>
-        <legstarCob2XsdVersion>0.2.0</legstarCob2XsdVersion>
+        <legstarCob2XsdVersion>0.3.0</legstarCob2XsdVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -143,7 +143,7 @@
                     <dependency>
                         <groupId>ant-contrib</groupId>
                         <artifactId>ant-contrib</artifactId>
-                        <version>1.0b2</version>
+                        <version>1.0b3</version>
                     </dependency>
                     <dependency>
                         <groupId>commons-net</groupId>
@@ -153,6 +153,11 @@
                     <dependency>
                         <groupId>org.apache.ant</groupId>
                         <artifactId>ant-commons-net</artifactId>
+                        <version>1.7.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-nodeps</artifactId>
                         <version>1.7.0</version>
                     </dependency>
                 </dependencies>
@@ -527,7 +532,7 @@
             <dependency>
                 <groupId>ant-contrib</groupId>
                 <artifactId>ant-contrib</artifactId>
-                <version>1.0b2</version>
+                <version>1.0b3</version>
                 <scope>test</scope>
             </dependency>
       
@@ -865,41 +870,6 @@
 
             <!-- LegStar dependencies section -->    
             
-            <!-- Used by jaxbgen to get sample schemas needed to generate jaxbgen-cases
-                 Unfortunately the exclusion does not work because of http://jira.codehaus.org/browse/MNG-3555 -->    
-            <dependency>
-                <groupId>com.legsem.legstar</groupId>
-                <artifactId>legstar-cob2xsd</artifactId>
-                <version>${legstarCob2XsdVersion}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.legsem.legstar</groupId>
-                        <artifactId>legstar-coxbapi</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>com.legsem.legstar</groupId>
-                        <artifactId>legstar-codegen</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>com.legsem.legstar</groupId>
-                <artifactId>legstar-cob2xsd</artifactId>
-                <version>${legstarCob2XsdVersion}</version>
-                <classifier>test</classifier>
-                <type>jar</type>
-                <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.legsem.legstar</groupId>
-                        <artifactId>legstar-coxbapi</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>com.legsem.legstar</groupId>
-                        <artifactId>legstar-codegen</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
 
             <!-- LegStar internal dependencies sub-section -->    
             <dependency>
@@ -1046,6 +1016,42 @@
                 <version>${legstarVersion}</version>
             </dependency>
       
+            <!-- Used by jaxbgen to get sample schemas needed to generate jaxbgen-cases
+                 Unfortunately the exclusion does not work because of http://jira.codehaus.org/browse/MNG-3555 -->    
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-cob2xsd</artifactId>
+                <version>${legstarCob2XsdVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.legsem.legstar</groupId>
+                        <artifactId>legstar-coxbapi</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.legsem.legstar</groupId>
+                        <artifactId>legstar-codegen</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-cob2xsd</artifactId>
+                <version>${legstarCob2XsdVersion}</version>
+                <classifier>test</classifier>
+                <type>jar</type>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.legsem.legstar</groupId>
+                        <artifactId>legstar-coxbapi</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.legsem.legstar</groupId>
+                        <artifactId>legstar-codegen</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
         </dependencies>
 
     </dependencyManagement>

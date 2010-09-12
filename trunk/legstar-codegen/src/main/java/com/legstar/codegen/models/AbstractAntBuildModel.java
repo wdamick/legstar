@@ -11,8 +11,13 @@
 package com.legstar.codegen.models;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.legstar.codegen.CodeGenHelper;
 import com.legstar.codegen.CodeGenMakeException;
@@ -23,28 +28,34 @@ import com.legstar.codegen.CodeGenVelocityException;
  * A model usable for ant script generation. Meant to be used by
  * specialized generators which first create and ant script which
  * in turn creates the various artifacts.
- *
+ * 
  */
 public abstract class AbstractAntBuildModel implements IAntBuildModel {
 
     /** Where the base LegStar product is installed. */
     private String mProductLocation;
 
-    /** This temporary file can be used by caller to check whether the ant
-     * script succeeded. */
+    /**
+     * This temporary file can be used by caller to check whether the ant
+     * script succeeded.
+     */
     private File mProbeFile;
 
-    /**  Suffix of generated ANT script file. */
+    /** Suffix of generated ANT script file. */
     public static final String ANT_FILE_SUFFIX = "xml";
 
     /** Prefix of generated ANT script file. */
     public static final String ANT_FILE_PREFIX = "build-";
 
-    /** Set of parameters to be passed to velocity.*/
+    /** Set of parameters to be passed to velocity. */
     private Map < String, Object > mParameters;
+
+    /** Logger. */
+    private final Log _log = LogFactory.getLog(getClass());
 
     /**
      * Creates an ant build script file ready for launching.
+     * 
      * @param generatorName the name of the actual generator
      * @param targetFile the script file that must be created
      * @param velocityMacro the template to apply
@@ -59,11 +70,12 @@ public abstract class AbstractAntBuildModel implements IAntBuildModel {
 
     /**
      * Creates an ant build script file ready for launching.
+     * 
      * @param generatorName the name of the actual generator
      * @param velocityMacro the template to apply
      * @param targetFile the script file that must be created
      * @param targetCharsetName the target character set. null is interpreted
-     *                          as the default encoding
+     *            as the default encoding
      * @throws CodeGenMakeException if generation fails
      */
     public void generateBuild(
@@ -87,6 +99,14 @@ public abstract class AbstractAntBuildModel implements IAntBuildModel {
                     targetFile,
                     targetCharsetName);
 
+            if (_log.isDebugEnabled()) {
+                try {
+                    _log.debug(FileUtils.readFileToString(targetFile));
+                } catch (IOException e) {
+                    _log.debug("Unable to read file " + targetFile, e);
+                }
+            }
+
         } catch (CodeGenVelocityException e) {
             throw new CodeGenMakeException(e);
         }
@@ -94,7 +114,7 @@ public abstract class AbstractAntBuildModel implements IAntBuildModel {
 
     /**
      * @return the Where the base LegStar product is installed. This is used
-     * as the basedir for the generated ant script.
+     *         as the basedir for the generated ant script.
      */
     public String getProductLocation() {
         return mProductLocation;
@@ -102,7 +122,7 @@ public abstract class AbstractAntBuildModel implements IAntBuildModel {
 
     /**
      * @param productLocation the Where the base LegStar product is installed to
-     *  set
+     *            set
      */
     public void setProductLocation(final String productLocation) {
         mProductLocation = productLocation;
@@ -117,7 +137,7 @@ public abstract class AbstractAntBuildModel implements IAntBuildModel {
 
     /**
      * @param probeFile the temporary file used to check whether the ant
-     *  script succeeded to set
+     *            script succeeded to set
      */
     public void setProbeFile(final File probeFile) {
         mProbeFile = probeFile;

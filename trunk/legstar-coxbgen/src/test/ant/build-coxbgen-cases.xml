@@ -32,6 +32,11 @@
 		     (ant-contrib.jar must be in ant classpath) -->
 		<taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
 			
+        <!-- Helper for name lowercasing -->
+        <taskdef name="case"
+            classname="com.legstar.coxb.util.PropertyCase"
+            classpathref="classpath"/>
+
 	</target>
 
 	<!-- ===========================================================  -->
@@ -47,94 +52,63 @@
 			</path>
 		</foreach>
 		<coxbgen 
-			XsdFile="${xsd.dir}/LSFILEAL.xsd"
-			JaxbRootObjectName="RequestParms"
 			targetDir="${coxb.src.dir}"
-		/>
+            jaxbPackageName="com.legstar.test.coxb.lsfileal"
+	        >
+	            <jaxbRootClass name="RequestParms"/>
+	            <jaxbRootClass name="ReplyData"/>
+	        </coxbgen>
 		<coxbgen 
-			XsdFile="${xsd.dir}/LSFILEAL.xsd"
-			JaxbRootObjectName="ReplyData"
 			targetDir="${coxb.src.dir}"
-			/>
-		<coxbgen 
-			XsdFile="${xsd.dir}/LSFILEAC.xsd"
-			JaxbRootObjectName="QueryData"
-			targetDir="${coxb.src.dir}"
-			/>
-		<coxbgen 
-			XsdFile="${xsd.dir}/LSFILEAC.xsd"
-			JaxbRootObjectName="QueryLimit"
-			targetDir="${coxb.src.dir}"
-			/>
-		<coxbgen 
-			XsdFile="${xsd.dir}/LSFILEAC.xsd"
-			JaxbRootObjectName="ReplyStatus"
-			targetDir="${coxb.src.dir}"
-			/>
-		<coxbgen 
-			XsdFile="${xsd.dir}/LSFILEAC.xsd"
-			JaxbRootObjectName="ReplyData"
-			targetDir="${coxb.src.dir}"
-			/>
+            jaxbPackageName="com.legstar.test.coxb.lsfileac"
+	        >
+	            <jaxbRootClass name="QueryData"/>
+                <jaxbRootClass name="QueryLimit"/>
+	            <jaxbRootClass name="ReplyStatus"/>
+	            <jaxbRootClass name="ReplyData"/>
+	        </coxbgen>
         <coxbgen 
-            XsdFile="${xsd.dir}/cultureinfo.xsd"
-        	JaxbPackageName="com.legstar.test.coxb.cultureinfo"
-            JaxbRootObjectName="GetInfo"
+        	jaxbPackageName="com.legstar.test.coxb.cultureinfo"
             targetDir="${coxb.src.dir}"
-            />
+            >
+                <jaxbRootClass name="GetInfo"/>
+                <jaxbRootClass name="GetInfoResponse"/>
+            </coxbgen>
         <coxbgen 
-            XsdFile="${xsd.dir}/cultureinfo.xsd"
-            JaxbPackageName="com.legstar.test.coxb.cultureinfo"
-            JaxbRootObjectName="GetInfoResponse"
+            jaxbPackageName="com.legstar.test.coxb.jvmquery"
             targetDir="${coxb.src.dir}"
-            />
+            >
+                <jaxbRootClass name="JvmQueryRequest"/>
+                <jaxbRootClass name="JvmQueryReply"/>
+            </coxbgen>
         <coxbgen 
-            XsdFile="${xsd.dir}/jvmquery.xsd"
-            JaxbPackageName="com.legstar.test.coxb.jvmquery"
-            JaxbRootObjectName="JvmQueryRequest"
-            targetDir="${coxb.src.dir}"
-            />
-        <coxbgen 
-            XsdFile="${xsd.dir}/jvmquery.xsd"
-            JaxbPackageName="com.legstar.test.coxb.jvmquery"
-            JaxbRootObjectName="JvmQueryReply"
-            targetDir="${coxb.src.dir}"
-            />
-        <coxbgen 
-            XsdFile="${xsd.dir}/jvmquery-ws.xsd"
+        	xsdFile="${xsd.dir}/jvmquery-ws.xsd"
             JaxbPackageName="com.legstar.test.coxb.ws.jvmquery"
-            JaxbRootObjectName="QueryJvm"
             targetDir="${coxb.src.dir}"
-            />
+            >
+                <jaxbRootClass name="QueryJvm"/>
+                <jaxbRootClass name="QueryJvmResponse"/>
+            </coxbgen>
         <coxbgen 
-            XsdFile="${xsd.dir}/jvmquery-ws.xsd"
-            JaxbPackageName="com.legstar.test.coxb.ws.jvmquery"
-            JaxbRootObjectName="QueryJvmResponse"
+            jaxbPackageName="com.legstar.test.coxb.MSNSearch"
             targetDir="${coxb.src.dir}"
-            />
+            >
+                <jaxbRootClass name="Search"/>
+                <jaxbRootClass name="SearchResponse"/>
+            </coxbgen>
         <coxbgen 
-            XsdFile="${xsd.dir}/MSNSearch.xsd"
-            JaxbPackageName="com.legstar.test.coxb.MSNSearch"
-            JaxbRootObjectName="Search"
+            jaxbPackageName="com.legstar.test.coxb.varar021"
             targetDir="${coxb.src.dir}"
-            />
-        <coxbgen 
-            XsdFile="${xsd.dir}/MSNSearch.xsd"
-            JaxbPackageName="com.legstar.test.coxb.MSNSearch"
-            JaxbRootObjectName="SearchResponse"
-            targetDir="${coxb.src.dir}"
-            />
-        <coxbgen 
-            XsdFile="${xsd.dir}/VARAR021.xsd"
-            JaxbRootObjectName="SearchGrplst"
-            targetDir="${coxb.src.dir}"
-            />
+            >
+                <jaxbRootClass name="SearchGrplst"/>
+            </coxbgen>
         <!--
 		<coxbgen 
-			XsdFile="${xsd.dir}/enumvar.xsd"
-			JaxbRootObjectName="SearchRequestType"
+            jaxbPackageName="com.legstar.test.coxb.enumvar"
 			targetDir="${coxb.src.dir}"
-			/>
+        >
+            <jaxbRootClass name="SearchRequestType"/>
+        </coxbgen>
 		-->
 		</target>
 	
@@ -157,11 +131,17 @@
 	  -->
 	<target name="generateCOXB" depends="init">
 	    <echo message="Generating binding classes for ${xsd.file}" />
+		<basename property="basename" file="${xsd.file}"
+		          suffix=".xsd"/>
+		<case property="lcname"
+			  from="basename"
+			  toupper="false"/>
 		<coxbgen 
-			XsdFile="${xsd.file}"
-			JaxbRootObjectName="${jaxb.root.name}"
+            jaxbPackageName="com.legstar.test.coxb.${lcname}"
 			targetDir="${coxb.src.dir}"
-		/>
+		>
+            <jaxbRootClass name="Dfhcommarea"/>
+        </coxbgen>
 	</target>
 
 	

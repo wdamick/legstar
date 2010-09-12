@@ -27,8 +27,10 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
 
     /**
      * Test the input checking.
+     * 
+     * @throws Exception if generation fails
      */
-    public void testCheckInput() {
+    public void testCheckInput() throws Exception {
         try {
             _task.execute();
             fail();
@@ -36,7 +38,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
             assertEquals("You must specify an XML schema file name", e
                     .getMessage());
         }
-        _task.setXsdFile(getSchemaFromResources("lsfileaq"));
+        _task.setXsdFile(getSchemaFromFolder("lsfileaq"));
         try {
             _task.execute();
             fail();
@@ -48,9 +50,11 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
 
     /**
      * Test without any extra parameters.
+     * 
+     * @throws Exception if generation fails
      */
-    public void testDefaultGeneration() {
-        _task.setXsdFile(getSchemaFromResources("lsfileaq"));
+    public void testDefaultGeneration() throws Exception {
+        _task.setXsdFile(getSchemaFromFolder("lsfileaq"));
         _task.setTargetDir(GEN_SRC_DIR);
         _task.execute();
         String srce = getSource("lsfileaq", "DfhCommarea");
@@ -61,9 +65,11 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
 
     /**
      * Test with package name parameters.
+     * 
+     * @throws Exception if generation fails
      */
-    public void testPackageName() {
-        _task.setXsdFile(getSchemaFromResources("lsfileaq"));
+    public void testPackageName() throws Exception {
+        _task.setXsdFile(getSchemaFromFolder("lsfileaq"));
         _task.setTargetDir(GEN_SRC_DIR);
         _task.setJaxbPackageName("com.alternate.pkg.lsfileaq");
         _task.execute();
@@ -75,8 +81,10 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
 
     /**
      * Test global bindings with external and internal bindings.
+     * 
+     * @throws Exception if generation fails
      */
-    public void testGlobalBindings() {
+    public void testGlobalBindings() throws Exception {
         globalBindings(false);
         globalBindings(true);
 
@@ -84,8 +92,10 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
 
     /**
      * Test name transform with external and internal bindings.
+     * 
+     * @throws Exception if generation fails
      */
-    public void testNameTransform() {
+    public void testNameTransform() throws Exception {
         nameTransform(false);
         nameTransform(true);
     }
@@ -94,8 +104,10 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
      * Test global bindings with external bindings.
      * 
      * @param internalBindings uses internal or external bindings
+     * @throws Exception if generation fails
      */
-    protected void globalBindings(final boolean internalBindings) {
+    protected void globalBindings(final boolean internalBindings)
+            throws Exception {
         globalBindings(internalBindings, "lsfileaq", 1L, true);
         assertTrue(getSource("lsfileaq", "DfhCommarea").contains(
                 "public boolean isSetReplyData()"));
@@ -115,11 +127,12 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
     }
 
     /**
-     * Test name transform with external bindings.
+     * Test name transform.
      * 
      * @param internalBindings uses internal or external bindings
+     * @throws Exception if generation fails
      */
-    public void nameTransform(final boolean internalBindings) {
+    public void nameTransform(final boolean internalBindings) throws Exception {
         nameTransform(internalBindings, "lsfileaq", "SomePrefix", null, null,
                 null);
         assertTrue(getSource("lsfileaq", "SomePrefixDfhCommarea").contains(
@@ -162,13 +175,14 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
      * @param schemaName the schema name
      * @param serializableUid the serial unique ID
      * @param generateIsSetMethod if generate is set methods
+     * @throws Exception if generation fails
      */
     protected void globalBindings(final boolean internalBindings,
             final String schemaName,
             final long serializableUid,
-            final boolean generateIsSetMethod) {
+            final boolean generateIsSetMethod) throws Exception {
         _task.setInternalBindings(internalBindings);
-        _task.setXsdFile(getSchemaFromResources(schemaName));
+        _task.setXsdFile(getSchemaFromFolder(schemaName));
         _task.setTargetDir(GEN_SRC_DIR);
         _task.setSerializableUid(serializableUid);
         _task.setGenerateIsSetMethod(generateIsSetMethod);
@@ -185,15 +199,16 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
      * @param typeNameSuffix type name suffix
      * @param elementNamePrefix element name prefix
      * @param elementNameSuffix element name suffix
+     * @throws Exception if generation fails
      */
     protected void nameTransform(final boolean internalBindings,
             final String schemaName,
             final String typeNamePrefix,
             final String typeNameSuffix,
             final String elementNamePrefix,
-            final String elementNameSuffix) {
+            final String elementNameSuffix) throws Exception {
         _task.setInternalBindings(internalBindings);
-        _task.setXsdFile(getSchemaFromResources(schemaName));
+        _task.setXsdFile(getSchemaFromFolder(schemaName));
         _task.setTargetDir(GEN_SRC_DIR);
         _task.setTypeNamePrefix(typeNamePrefix);
         _task.setTypeNameSuffix(typeNameSuffix);

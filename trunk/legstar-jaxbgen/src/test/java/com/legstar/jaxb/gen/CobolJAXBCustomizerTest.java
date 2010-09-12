@@ -32,7 +32,7 @@ public class CobolJAXBCustomizerTest extends AbstractJaxbTester {
         tempTargetXsdFile.deleteOnExit();
         _cobolJAXBCustomizer.getXjbModel().setTypeNameSuffix("Type");
         _cobolJAXBCustomizer.customize(
-                new File(getSchemaLocation("MSNSearch")), tempTargetXsdFile);
+                getSchemaFromFolder("MSNSearch"), tempTargetXsdFile);
         String result = getSource(tempTargetXsdFile);
         assertTrue(result.contains("<jaxb:typeName suffix=\"Type\"/>"));
     }

@@ -41,7 +41,7 @@ import com.legstar.eclipse.plugin.schemagen.preferences.PreferenceConstants;
  * This is the first XSD generation wizard page. This is where the user
  * selects the type of source he would like to start from and determines
  * the target location and parameters for the XSD.
- *
+ * 
  */
 public class MainWizardPage extends AbstractToXsdWizardPage {
 
@@ -60,29 +60,18 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
     /** Target XML schema namespace. */
     private Text mTargetNamespaceText;
 
-    /** Target jaxb classes package name. */
-    private Text mTargetJaxbPackageNameText;
-
-    /** An optional suffix to append on JAXB classes name generated from Complex
-     *  types in the XSD.*/
-    private Text mJaxbTypeClassesSuffixText;
-
     /** The final namespace is built starting with this prefix. */
     private String mXsdNamespacePrefix = "";
 
-    /** The final jaxb package is built starting with this prefix. */
-    private String mJaxbPackageNamePrefix = "";
-
-    /** Will be true is user explicitly modified the namespace. This means we
-     *  should refrain from trying to generate it automatically. */
+    /**
+     * Will be true is user explicitly modified the namespace. This means we
+     * should refrain from trying to generate it automatically.
+     */
     private boolean mXsdNamespaceUserChanged;
-
-    /** Will be true is user explicitly modified the namespace. This means we
-     *  should refrain from trying to generate it automatically. */
-    private boolean mJaxbPackageNameUserChanged;
 
     /**
      * Constructs the main wizard page.
+     * 
      * @param initialSelection the workbench current selection
      */
     public MainWizardPage(final IStructuredSelection initialSelection) {
@@ -98,10 +87,10 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
         Group groupSource = createGroup(container,
                 Messages.source_type_group_label);
         mSourceTypeCombo = createComboFromItemsArray(
-                groupSource, new String [] {
-                        Messages.cobol_source_type_text, 
+                groupSource, new String[] {
+                        Messages.cobol_source_type_text,
                         Messages.xsd_source_type_text,
-                        Messages.java_source_type_text});
+                        Messages.java_source_type_text });
 
         Group groupTarget = createGroup(container,
                 Messages.target_group_label);
@@ -123,19 +112,15 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
         createLabel(groupTarget, Messages.namespace_label);
         mTargetNamespaceText = createText(groupTarget, 2);
 
-        createLabel(groupTarget, Messages.jaxb_package_name_label);
-        mTargetJaxbPackageNameText = createText(groupTarget, 2);
-
-        createLabel(groupTarget, Messages.jaxb_classes_suffix_label);
-        mJaxbTypeClassesSuffixText = createText(groupTarget, 2);
     }
 
     /** {@inheritDoc} */
     public void initContents() {
         initTargetContainer();
         String lastTargetXSDFileName =
-            getDefaultPreferences().getString(
-                    PreferenceConstants.LAST_TARGET_XSD_FILE_NAME + '.' + getTargetContainer());
+                getDefaultPreferences().getString(
+                        PreferenceConstants.LAST_TARGET_XSD_FILE_NAME + '.'
+                                + getTargetContainer());
         if (lastTargetXSDFileName.length() > 0) {
             mTargetXSDFileNameText.setText(lastTargetXSDFileName);
         } else {
@@ -144,18 +129,12 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
         mXsdNamespacePrefix = getSetText(mTargetNamespaceText, '/',
                 PreferenceConstants.XSD_NAMESPACE_PREFIX);
         mXsdNamespaceUserChanged = false;
-        mJaxbPackageNamePrefix = getSetText(mTargetJaxbPackageNameText, '.',
-                PreferenceConstants.JAXB_PACKAGE_NAME_PREFIX);
-        mJaxbPackageNameUserChanged = false;
-        mJaxbTypeClassesSuffixText.setText(getDefaultPreferences().getString(
-                PreferenceConstants.LAST_JAXB_TYPE_SUFFIX + '.' + getTargetContainer()));
-        
-        
         createListeners();
     }
 
     /**
-     * Makes sure we start listening on widget changes only after they are initialized.
+     * Makes sure we start listening on widget changes only after they are
+     * initialized.
      */
     public void createListeners() {
         mTargetContainerText.addModifyListener(new ModifyListener() {
@@ -184,29 +163,13 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
                         mTargetNamespaceText, '/', false);
             }
         });
-        mTargetJaxbPackageNameText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
-        mTargetJaxbPackageNameText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                mJaxbPackageNameUserChanged = userChanged(
-                        mTargetJaxbPackageNameText, '.', true);
-            }
-        });
-        mJaxbTypeClassesSuffixText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
-        
     }
+
     /**
      * Set the initial value of the target container field.
      * <p/>
-     * If a project is selected in the workspace, then it is considered to
-     * be the initial value.
+     * If a project is selected in the workspace, then it is considered to be
+     * the initial value.
      * <p/>
      * If no project is selected, we attempt to recover the last container used
      * from the default preferences.
@@ -237,11 +200,12 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
     }
 
     /**
-     * A convenience method to set a Text control to a value from a 
+     * A convenience method to set a Text control to a value from a
      * preference store and then return that value.
+     * 
      * @param text the text widget
      * @param separator the type of separator used to terminate a prefix
-     * @param keyInStore the value identifier in the preference store 
+     * @param keyInStore the value identifier in the preference store
      * @return the value used to initialize the text widget
      */
     private String getSetText(
@@ -260,7 +224,8 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
      * If the input string already ends with the segments separator char, return
      * the input string unchanged.
      * Otherwise, append a final segments separator character and return the
-     * resulting string. 
+     * resulting string.
+     * 
      * @param str input string
      * @param c the segments separator character
      * @return the input string with final continuation character
@@ -277,7 +242,7 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
 
     /**
      * When user types in an xsd name, we can generally infer an appropriate
-     * namespace and jaxb package name unless the user has taken control of
+     * namespace unless the user has taken control of
      * these fields already.
      * Only the last segment of the xsd file name, excluding the extension,
      * contributes to other field values.
@@ -287,20 +252,17 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
         if (!mXsdNamespaceUserChanged) {
             mTargetNamespaceText.setText(mXsdNamespacePrefix + str);
         }
-        if (!mJaxbPackageNameUserChanged) {
-            mTargetJaxbPackageNameText.setText(mJaxbPackageNamePrefix
-                    + lowercaseNormalize(str));
-        }
     }
 
     /**
      * To determine if a control text was modified by the user, we compare the
      * last characters to those of the target xsd file name. If they are still
      * the same, we assume no user modification was done.
+     * 
      * @param text the text to compare
-     * @param c the segments separator character 
+     * @param c the segments separator character
      * @param isJavaIdentifierPart tells if the text must be a valid java
-     *  identifier 
+     *            identifier
      * @return true if the content of the text field now differs from autofill
      */
     private boolean userChanged(
@@ -322,12 +284,13 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
     }
 
     /**
-     * This ensures a string can be used as a valid identifier for a 
+     * This ensures a string can be used as a valid identifier for a
      * java package name or an XML namespace.
      * <ul>
      * <li>Lowercases all uppercase characters.</li>
      * <li>Replaces all illegal characters by period.</li>
      * </ul>
+     * 
      * @param str the string to normalize
      * @return the normalized string.
      */
@@ -358,6 +321,7 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
     /**
      * Given a separator character, returns the segment following the last
      * separator or the string itself if no seperators is found.
+     * 
      * @param str string to extract segment from
      * @param c the separator character
      * @return the last segment of the input string
@@ -375,7 +339,8 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
 
     /**
      * Adds a check button that reflects its state in an associated boolean
-     *  variable.
+     * variable.
+     * 
      * @param container parent composite
      * @param text the button text
      * @return a check button
@@ -411,7 +376,7 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
         /* Target container must exist and be a valid container */
         IResource containerResource = root.findMember(
                 new Path(targetContainer));
-        if (containerResource == null 
+        if (containerResource == null
                 || !containerResource.exists()
                 || !(containerResource instanceof IContainer)) {
             updateStatus(Messages.invalid_target_container_msg);
@@ -425,8 +390,10 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
         }
 
         String fileName = getTargetXSDFileName();
-        /* If overwrite is prohibited, then XML schema file must not exist in
-         * target container */
+        /*
+         * If overwrite is prohibited, then XML schema file must not exist in
+         * target container
+         */
         if (!isOverwriteAllowed()) {
             IResource fileResource = root.findMember(
                     new Path(targetContainer).append(fileName));
@@ -436,23 +403,6 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
             }
         }
 
-        /* Namespace cannot be empty. With Xsd or Wsdl, the original namespace
-         * can be kept, therefore it is the only case where we tolerate an
-         * empty namespace here.*/
-        String namespace = getTargetNamespace();
-        if (namespace.length() == 0 && getSelectedSource() != 1) {
-            updateStatus(Messages.no_target_namespace_msg);
-            return;
-        }
-
-        /* Namespace cannot be empty. We might be able to relax this but this is
-         * unsafe right now.*/
-        String jaxbPackageName = getTargetJaxbPackageName();
-        if (jaxbPackageName.length() == 0) {
-            updateStatus(Messages.no_target_jaxb_package_msg);
-            return;
-        }
-
         updateStatus(null);
     }
 
@@ -460,28 +410,28 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
      * Store the selected values in the default scoped preference store.
      */
     public void storeDefaultPreferences() {
+        getDefaultPreferences()
+                .setValue(
+                        PreferenceConstants.LAST_TARGET_CONTAINER,
+                        getTargetContainer());
         getDefaultPreferences().setValue(
-                PreferenceConstants.LAST_TARGET_CONTAINER, getTargetContainer());
-        getDefaultPreferences().setValue(
-                PreferenceConstants.LAST_TARGET_XSD_FILE_NAME + '.' + getTargetContainer(),
+                PreferenceConstants.LAST_TARGET_XSD_FILE_NAME + '.'
+                        + getTargetContainer(),
                 getTargetXSDFileName());
-        getDefaultPreferences().setValue(
-                PreferenceConstants.LAST_JAXB_TYPE_SUFFIX + '.' + getTargetContainer(),
-                getJaxbTypeClassesSuffix());
     }
 
     /**
-     * The next page depends on the source type selected.
-     * {@inheritDoc}
+     * The next page depends on the source type selected. {@inheritDoc}
+     * 
      * @see org.eclipse.jface.wizard.WizardPage#getNextPage()
      */
     public IWizardPage getNextPage() {
-        switch(getSelectedSource()) {
+        switch (getSelectedSource()) {
         case 0:
             return ((MainWizard) getWizard()).getCobolToXsdWizardPage();
         case 1:
             XsdToXsdWizardPage xsdToXsdWizardPage = (XsdToXsdWizardPage)
-            ((MainWizard) getWizard()).getXsdToXsdWizardPage();
+                    ((MainWizard) getWizard()).getXsdToXsdWizardPage();
             xsdToXsdWizardPage.setNewTargetNamespace(
                     getTargetNamespace());
             return xsdToXsdWizardPage;
@@ -495,6 +445,7 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
     /**
      * Returns the zero-relative index of the item which is currently selected
      * in the receiver's list, or -1 if no item is selected.
+     * 
      * @return the source type that was selected on the first page.
      */
     public int getSelectedSource() {
@@ -510,7 +461,7 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
 
     /**
      * @param overwriteAllowed true if the XSD file should be overwritten if it
-     *  already exist
+     *            already exist
      */
     public void setOverwriteAllowed(final boolean overwriteAllowed) {
         mOverwriteAllowed = overwriteAllowed;
@@ -547,9 +498,13 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
     }
 
     /**
-     * @return the Target XML schema namespace
+     * @return the Target XML schema namespace. Returns null if namespace is
+     *         spaces
      */
     public String getTargetNamespace() {
+        if (mTargetNamespaceText.getText().trim().length() == 0) {
+            return null;
+        }
         return mTargetNamespaceText.getText();
     }
 
@@ -558,39 +513,6 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
      */
     public void setTargetNamespace(final String targetNamespace) {
         mTargetNamespaceText.setText(targetNamespace);
-    }
-
-    /**
-     * @return the Target jaxb classes package name
-     */
-    public String getTargetJaxbPackageName() {
-        return mTargetJaxbPackageNameText.getText();
-    }
-
-    /**
-     * @param targetJaxbPackageName the Target jaxb classes package name to
-     * set
-     */
-    public void setTargetJaxbPackageName(
-            final String targetJaxbPackageName) {
-        mTargetJaxbPackageNameText.setText(targetJaxbPackageName);
-    }
-
-    /**
-     * @return the optional suffix to append on JAXB classes name generated from
-     *  Complex types in the XSD
-     */
-    public String getJaxbTypeClassesSuffix() {
-        return mJaxbTypeClassesSuffixText.getText();
-    }
-
-    /**
-     * @param jaxbTypeClassesSuffix the optional suffix to append on JAXB
-     *  classes name generated from Complex types in the XSD
-     */
-    public void setJaxbTypeClassesSuffix(
-            final String jaxbTypeClassesSuffix) {
-        mJaxbTypeClassesSuffixText.setText(jaxbTypeClassesSuffix);
     }
 
     /**

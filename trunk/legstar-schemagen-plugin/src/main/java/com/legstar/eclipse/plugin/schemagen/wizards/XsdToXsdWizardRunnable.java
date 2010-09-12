@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+
 import com.legstar.xsdc.gen.XsdToXsdCobolModel;
 
 /**
@@ -31,6 +32,7 @@ public class XsdToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
     /**
      * Instantiate this runnable from UI items. It is important not to attempt
      * access to UI elements from the background thread.
+     * 
      * @param mainPage the page holding targets
      * @param xsdToXsdPage the XML schema page
      * @throws InvocationTargetException if runnable cannot be instantiated
@@ -38,13 +40,14 @@ public class XsdToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
     public XsdToXsdWizardRunnable(
             final MainWizardPage mainPage,
             final XsdToXsdWizardPage xsdToXsdPage)
-    throws InvocationTargetException {
+            throws InvocationTargetException {
         super(null, mainPage);
         setAntBuildModel(getModel(mainPage, xsdToXsdPage));
     }
 
     /**
      * Create a model ready to be passed to velocity for ant script generation.
+     * 
      * @param mainPage wizard page holding target XSD location and parameters
      * @param xsdToXsdPage the wizard page holding selected Xml schemas or Wsdl
      * @return a valid model
@@ -53,7 +56,7 @@ public class XsdToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
     protected XsdToXsdCobolModel getModel(
             final MainWizardPage mainPage,
             final XsdToXsdWizardPage xsdToXsdPage)
-    throws InvocationTargetException {
+            throws InvocationTargetException {
         XsdToXsdCobolModel model = new XsdToXsdCobolModel();
         model.setProductLocation(getPluginInstallLocation(
                 com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
@@ -72,14 +75,11 @@ public class XsdToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
         /* Temporary file becomes input to generation process */
         model.setInputXsdUri(xsdFile.toURI());
 
-        model.setJaxbPackageName(
-                mainPage.getTargetJaxbPackageName());
         if (xsdToXsdPage.isSwitchNamespaceAllowed()) {
             model.setNamespace(mainPage.getTargetNamespace());
         }
         model.setTargetDir(new File(getTargetXsdLocation()));
         model.setTargetXsdFileName(mainPage.getTargetXSDFileName());
-        model.setJaxbTypeClassesSuffix(mainPage.getJaxbTypeClassesSuffix());
         return model;
     }
 

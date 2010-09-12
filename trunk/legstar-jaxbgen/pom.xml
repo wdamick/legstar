@@ -49,18 +49,6 @@
             <groupId>org.apache.ws.commons.schema</groupId>
             <artifactId>XmlSchema</artifactId> 
         </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-cob2xsd</artifactId>
-            <classifier>test</classifier>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-xsdcgen</artifactId>
-            <classifier>test</classifier>
-            <type>jar</type>
-        </dependency>
     </dependencies>
 
     <build>
@@ -76,18 +64,18 @@
                         <configuration>
                             <classifier>test</classifier>
                             <outputDirectory>target/test</outputDirectory>
-							<artifactItems>
-							  <artifactItem>
-							    <groupId>${project.groupId}</groupId>
-							    <artifactId>legstar-cob2xsd</artifactId>
-							    <version>${legstarCob2XsdVersion}</version>
-							    <type>jar</type>
-							    <classifier>test</classifier>
-							    <overWrite>true</overWrite>
-							    <outputDirectory>target/test</outputDirectory>
-							    <destFileName>legstar-cob2xsd-test.jar</destFileName>
-							  </artifactItem>
-							</artifactItems>
+                            <artifactItems>
+                              <artifactItem>
+                                <groupId>${project.groupId}</groupId>
+                                <artifactId>legstar-cob2xsd</artifactId>
+                                <version>${legstarCob2XsdVersion}</version>
+                                <type>jar</type>
+                                <classifier>test</classifier>
+                                <overWrite>true</overWrite>
+                                <outputDirectory>target/test</outputDirectory>
+                                <destFileName>legstar-cob2xsd-test.jar</destFileName>
+                              </artifactItem>
+                            </artifactItems>
                         </configuration>
                         <goals>
                             <goal>copy</goal>
