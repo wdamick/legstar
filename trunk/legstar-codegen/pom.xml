@@ -14,7 +14,7 @@
     <dependencies>
   
         <dependency>
-            <groupId>org.apache.ant</groupId>
+            <groupId>ant</groupId>
             <artifactId>ant</artifactId>
         </dependency>
         <dependency>

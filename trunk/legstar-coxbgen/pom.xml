@@ -15,15 +15,15 @@
     <dependencies>
     
         <dependency>
-            <groupId>org.apache.ant</groupId>
+            <groupId>ant</groupId>
             <artifactId>ant</artifactId>
         </dependency>
-        
+
         <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-xjc</artifactId>
+            <groupId>ant</groupId>
+            <artifactId>ant-launcher</artifactId>
         </dependency>
- 
+
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-codegen</artifactId>
@@ -39,6 +39,11 @@
             <artifactId>legstar-jaxbgen</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-xjc</artifactId>
+        </dependency>
+ 
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-coxbrt</artifactId>

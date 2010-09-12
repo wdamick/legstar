@@ -18,7 +18,7 @@
         <td>Java</td>
         <td>
             <div onclick="javascript: pageTracker._trackPageview('/downloads/legstar-distribution');">
-            <a href="../maven/repo/com/legsem/legstar/@PRODUCT-ID@/@LEGSTAR-VERSION@/@PRODUCT-ID@-@LEGSTAR-VERSION@-bin.zip">@PRODUCT-ID@-@LEGSTAR-VERSION@-bin.zip</a>
+            <a href="http://www.legsem.com/legstar/maven/repo/com/legsem/legstar/@PRODUCT-ID@/@LEGSTAR-VERSION@/@PRODUCT-ID@-@LEGSTAR-VERSION@-bin.zip">@PRODUCT-ID@-@LEGSTAR-VERSION@-bin.zip</a>
             </div>
         </td>
       </tr>
