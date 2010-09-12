@@ -73,7 +73,7 @@ public class CoxbGenReflectVisitor extends CobolElementVisitor {
             final CoxbGenModel coxbGenContext) throws HostException {
         try {
             mWriter = new CoxbGenWriter(coxbGenContext);
-        } catch (CodeGenException e) {
+        } catch (CoxbGenException e) {
             throw new HostException(e);
         }
     }
@@ -100,7 +100,7 @@ public class CoxbGenReflectVisitor extends CobolElementVisitor {
          * this element binding*/
         try {
             mWriter.write(ce);
-        } catch (CodeGenException e) {
+        } catch (CoxbGenException e) {
             throw new HostException(e);
         }
     }
@@ -122,7 +122,7 @@ public class CoxbGenReflectVisitor extends CobolElementVisitor {
          * this element binding*/
         try {
             mWriter.write(ce);
-        } catch (CodeGenException e) {
+        } catch (CoxbGenException e) {
             throw new HostException(e);
         }
     }
@@ -140,7 +140,7 @@ public class CoxbGenReflectVisitor extends CobolElementVisitor {
          * this element binding*/
         try {
             mWriter.write(ce);
-        } catch (CodeGenException e) {
+        } catch (CoxbGenException e) {
             throw new HostException(e);
         }
     }

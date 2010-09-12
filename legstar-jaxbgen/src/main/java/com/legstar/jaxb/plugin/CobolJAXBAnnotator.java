@@ -10,42 +10,42 @@
  ******************************************************************************/
 package com.legstar.jaxb.plugin;
 
-import org.w3c.dom.Element;
-import org.xml.sax.ErrorHandler;
-
-import com.sun.tools.xjc.Options;
-import com.sun.tools.xjc.Plugin;
-import com.sun.tools.xjc.outline.Outline;
-import com.sun.tools.xjc.outline.ClassOutline;
-import com.sun.tools.xjc.outline.FieldOutline;
-import com.sun.tools.xjc.model.CPluginCustomization;
-import com.sun.tools.xjc.model.CElementInfo;
-import com.sun.tools.xjc.model.CElement;
-import com.sun.tools.xjc.model.CReferencePropertyInfo;
-import com.sun.codemodel.JCodeModel;
-import com.sun.codemodel.JExpr;
-import com.sun.codemodel.JFieldVar;
-import com.sun.codemodel.JAnnotationUse;
-
-import java.util.List;
 import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 import javax.xml.bind.annotation.XmlSchemaType;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.w3c.dom.Element;
+import org.xml.sax.ErrorHandler;
+
 import com.legstar.coxb.CobolComplexType;
-import com.legstar.coxb.CobolType;
 import com.legstar.coxb.CobolElement;
 import com.legstar.coxb.CobolMarkup;
-
+import com.legstar.coxb.CobolType;
+import com.sun.codemodel.JAnnotationUse;
+import com.sun.codemodel.JCodeModel;
+import com.sun.codemodel.JExpr;
+import com.sun.codemodel.JFieldVar;
+import com.sun.tools.xjc.Options;
+import com.sun.tools.xjc.Plugin;
+import com.sun.tools.xjc.model.CElement;
+import com.sun.tools.xjc.model.CElementInfo;
+import com.sun.tools.xjc.model.CPluginCustomization;
+import com.sun.tools.xjc.model.CReferencePropertyInfo;
+import com.sun.tools.xjc.outline.ClassOutline;
+import com.sun.tools.xjc.outline.FieldOutline;
+import com.sun.tools.xjc.outline.Outline;
 
 /**
  * This is an extension to the JAXB XJC plugin. It is being invoked by the JAXB
- * XML to Java compilation and injects supplementary cobol annotations into the 
+ * XML to Java compilation and injects supplementary cobol annotations into the
  * generated Java classes.
  * Add -Dcom.sun.tools.xjc.Options.findServices=true to VM arguments to help
  * solve classpath issues.
- *
+ * 
  */
 public class CobolJAXBAnnotator extends Plugin {
 
@@ -53,15 +53,15 @@ public class CobolJAXBAnnotator extends Plugin {
      * Constant values used throughout the annotator.
      */
     /** Option passed to XJC to enable this cobol plugin. */
-    public static final  String OPTION_NAME = "Xlegstar-code";
-    /** Command line help for cobol plugin XJC option. */
-    public static final  String OPTION_USAGE =
-        "  -Xlegstar-code      :  inject cobol binding annotation into the "
-        + "generated code";
+    public static final String OPTION_NAME = "Xlegstar-code";
 
-    /** Since debugging an XJC plugin is somehow tricky, this variable
-     * will produce some debugging help. */
-    private static boolean mDebug = false;
+    /** Logger. */
+    private final Log _log = LogFactory.getLog(getClass());
+
+    /** Command line help for cobol plugin XJC option. */
+    public static final String OPTION_USAGE =
+            "  -Xlegstar-code      :  inject cobol binding annotation into the "
+                    + "generated code";
 
     /** {@inheritDoc} */
     @Override
@@ -94,10 +94,10 @@ public class CobolJAXBAnnotator extends Plugin {
             final String nsUri,
             final String localName) {
 
-        return (nsUri.equals(CobolMarkup.NS)
-                && (localName.equals(CobolMarkup.ELEMENT)
-                        || localName.equals(CobolMarkup.ELEMENT_VALUE)
-                        || localName.equals(CobolMarkup.COMPLEX_TYPE)));
+        return (nsUri.equals(CobolMarkup.NS) && (localName
+                .equals(CobolMarkup.ELEMENT)
+                        || localName.equals(CobolMarkup.ELEMENT_VALUE) || localName
+                .equals(CobolMarkup.COMPLEX_TYPE)));
     }
 
     /** {@inheritDoc} */
@@ -115,58 +115,63 @@ public class CobolJAXBAnnotator extends Plugin {
 
         long start = System.currentTimeMillis();
 
-        /* Each simpleType at the root level in the source schema will become
-         * a JAXBElement in the ObjectFactory class. .*/
+        /*
+         * Each simpleType at the root level in the source schema will become
+         * a JAXBElement in the ObjectFactory class. .
+         */
         for (CElementInfo eo : model.getModel().getAllElements()) {
 
-            if (mDebug) {
-                System.out.println(
-                        "CobolJAXBAnnotator::run::CElementInfo::"
+            if (_log.isDebugEnabled()) {
+                _log.debug("CobolJAXBAnnotator::run::CElementInfo::"
                         + eo.fullName());
             }
             CPluginCustomization c =
-                eo.getCustomizations().find(
-                        CobolMarkup.NS, CobolMarkup.ELEMENT);
+                    eo.getCustomizations().find(
+                            CobolMarkup.NS, CobolMarkup.ELEMENT);
             if (c == null) {
-                continue;   // no customization --- nothing to inject here
+                continue; // no customization --- nothing to inject here
             }
 
-            /* Mark the annotation as acknowledged*/
+            /* Mark the annotation as acknowledged */
             c.markAsAcknowledged();
 
         }
 
-        /* Each complexType in the source schema will result in a class outline
-         * and its own implementation class. */
+        /*
+         * Each complexType in the source schema will result in a class outline
+         * and its own implementation class.
+         */
         for (ClassOutline co : model.getClasses()) {
 
-            if (mDebug) {
-                System.out.println(
+            if (_log.isDebugEnabled()) {
+                _log.debug(
                         "CobolJAXBAnnotator::run::ClassOutline::"
-                        + co.implClass);
+                                + co.implClass);
             }
             annotateClass(co);
 
             for (FieldOutline fo : co.getDeclaredFields()) {
 
-                if (mDebug) {
-                    System.out.println(
+                if (_log.isDebugEnabled()) {
+                    _log.debug(
                             "CobolJAXBAnnotator::run::FieldOutline::"
-                            + fo.getPropertyInfo().getName(false));
+                                    + fo.getPropertyInfo().getName(false));
                 }
 
-                /* Get the customization depending on whether this is a direct
+                /*
+                 * Get the customization depending on whether this is a direct
                  * element or a reference to an element.Elements such as arrays
-                 * of hexBinary will result in a CReferencePropertyInfo */
+                 * of hexBinary will result in a CReferencePropertyInfo
+                 */
                 CPluginCustomization c = null;
                 if (fo.getPropertyInfo() instanceof CReferencePropertyInfo) {
-                    if (mDebug) {
-                        System.out.println(
-                        "FieldOutline is CReferencePropertyInfo");
+                    if (_log.isDebugEnabled()) {
+                        _log.debug(
+                                "FieldOutline is CReferencePropertyInfo");
                     }
 
-                    for (CElement ce
-                            : ((CReferencePropertyInfo) fo.getPropertyInfo()).
+                    for (CElement ce : ((CReferencePropertyInfo) fo
+                            .getPropertyInfo()).
                             getElements()) {
                         c = ce.getCustomizations().find(
                                 CobolMarkup.NS, CobolMarkup.ELEMENT);
@@ -177,34 +182,35 @@ public class CobolJAXBAnnotator extends Plugin {
                 }
 
                 if (c == null) {
-                    continue;   // no customization --- nothing to inject here
+                    continue; // no customization --- nothing to inject here
                 }
-                if (mDebug) {
+                if (_log.isDebugEnabled()) {
                     String javaType = fo.getRawType().name();
-                    System.out.println(
+                    _log.debug(
                             "CobolJAXBAnnotator::run::ClassOutline::"
-                            + c.element.getLocalName()
-                            + " type=" + javaType);
+                                    + c.element.getLocalName()
+                                    + " type=" + javaType);
                 }
-
 
                 c.markAsAcknowledged();
 
                 /* Inject a cobol annotation on this field. */
                 JFieldVar jf =
-                    co.implClass.fields().get(
-                            fo.getPropertyInfo().getName(false));
+                        co.implClass.fields().get(
+                                fo.getPropertyInfo().getName(false));
                 JAnnotationUse ce = jf.annotate(CobolElement.class);
 
                 mapAnnotations(c, ce);
-                
+
                 setDefaultValue(model.getCodeModel(), jf, c.element);
 
-                /* HexBinary items are missing a JAXB annotation that
-                 * we inject here */
+                /*
+                 * HexBinary items are missing a JAXB annotation that
+                 * we inject here
+                 */
                 if (fo.getRawType().name().compareTo("byte[]") == 0) {
                     JAnnotationUse xmlSchemaType =
-                        jf.annotate(XmlSchemaType.class);
+                            jf.annotate(XmlSchemaType.class);
                     xmlSchemaType.param("name", "hexBinary");
                 }
 
@@ -212,22 +218,24 @@ public class CobolJAXBAnnotator extends Plugin {
         }
 
         long end = System.currentTimeMillis();
-        System.out.println("Cobol annotation success.");
-        System.out.println("Duration=" + (end - start) + " ms");
+        _log.info("Cobol annotation success.");
+        _log.info("Duration=" + (end - start) + " ms");
 
         return true;
     }
-    
+
     /**
-     * Attempts to set a default value for the java field based on the 
+     * Attempts to set a default value for the java field based on the
      * COBOL default value.
      * <p/>
      * Will not attempt to initialize arrays or complex types.
      * <p/>
-     * Strings which COBOL peer defaults to low values or high values are initialized
-     * with an empty string.
+     * Strings which COBOL peer defaults to low values or high values are
+     * initialized with an empty string.
      * <p/>
-     * Leading plus signs are removed from numerics, they cause NumberFormatException.
+     * Leading plus signs are removed from numerics, they cause
+     * NumberFormatException.
+     * 
      * @param codeModel the code model
      * @param jf the java field
      * @param e the XML node holding COBOL annotations
@@ -266,21 +274,19 @@ public class CobolJAXBAnnotator extends Plugin {
                 jf.init(JExpr.lit(Double.parseDouble(value)));
             }
         }
-        
-        
-        
-        
+
     }
 
     /**
      * Propagate xsd complex type annotations on a class type.
+     * 
      * @param co the class outline
      */
     private void annotateClass(final ClassOutline co) {
         CPluginCustomization c = co.target.getCustomizations().find(
                 CobolMarkup.NS, CobolMarkup.COMPLEX_TYPE);
         if (c == null) {
-            return;   // no customization --- nothing to inject here
+            return; // no customization --- nothing to inject here
         }
         c.markAsAcknowledged();
 
@@ -332,6 +338,7 @@ public class CobolJAXBAnnotator extends Plugin {
 
     /**
      * Move an attribute value from the XML markup to the Cobol annotation.
+     * 
      * @param e the Node holding the XML markup
      * @param xmlMarkup the name of the XML markup tag
      * @param ce the target annotation recipient
@@ -342,13 +349,16 @@ public class CobolJAXBAnnotator extends Plugin {
             final JAnnotationUse ce) {
 
         String cobolProperty = xmlMarkup;
-        /* TODO There are some differences between the XML markup and
+        /*
+         * TODO There are some differences between the XML markup and
          * the java annotation that need to go away in some future
-         * version.*/
+         * version.
+         */
         if (!cobolProperty.startsWith("is")) {
             cobolProperty = "is"
-                + xmlMarkup.substring(0, 1).toUpperCase(Locale.getDefault())
-                + xmlMarkup.substring(1, xmlMarkup.length());
+                    + xmlMarkup.substring(0, 1)
+                            .toUpperCase(Locale.getDefault())
+                    + xmlMarkup.substring(1, xmlMarkup.length());
         }
         String value = e.getAttribute(xmlMarkup);
         if (value == null || value.length() == 0) {
@@ -359,6 +369,7 @@ public class CobolJAXBAnnotator extends Plugin {
 
     /**
      * Move an attribute value from the XML markup to the Cobol annotation.
+     * 
      * @param e the Node holding the XML markup
      * @param xmlMarkup the name of the XML markup tag
      * @param ce the target annotation recipient
@@ -378,6 +389,7 @@ public class CobolJAXBAnnotator extends Plugin {
 
     /**
      * Move an attribute value from the XML markup to the Cobol annotation.
+     * 
      * @param e the Node holding the XML markup
      * @param xmlMarkup the name of the XML markup tag
      * @param ce the target annotation recipient

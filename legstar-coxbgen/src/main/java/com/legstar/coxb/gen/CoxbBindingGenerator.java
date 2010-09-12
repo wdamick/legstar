@@ -11,7 +11,6 @@
 package com.legstar.coxb.gen;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -20,22 +19,13 @@ import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import com.legstar.coxb.host.HostException;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
-import com.sun.xml.bind.api.impl.NameConverter;
 
 /**
  * This class implements an ant task to generate COXB binding data from
@@ -49,23 +39,8 @@ import com.sun.xml.bind.api.impl.NameConverter;
  */
 public class CoxbBindingGenerator extends Task {
 
-    /** The XML Schema namespace needed to retrieve the target namespace. */
-    private static final String XSD_NS = "http://www.w3.org/2001/XMLSchema";
-
-    /** The XML SChema element name. */
-    private static final String XSD_ELEMENT_NAME = "schema";
-
-    /** The XML Schema targetnamespace attribute. */
-    private static final String XSD_TARGETNAMESPACE_ATTR = "targetNamespace";
-
     /** Container for all parameters to move around. */
     private CoxbGenModel _coxbGenModel = new CoxbGenModel();
-
-    /** Borrowed from XJC. Serves for XML to Java name conversions. */
-    private NameConverter _xjNameConverter;
-
-    /** A general purpose DOM document builder. */
-    private DocumentBuilder _docBuilder;
 
     /**
      * List of jaxb root class names for which we need to generate
@@ -75,25 +50,6 @@ public class CoxbBindingGenerator extends Task {
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
-
-    /**
-     * (non-Javadoc).
-     * 
-     * @see org.apache.tools.ant.Task#init()
-     */
-    @Override
-    public void init() {
-        super.init();
-        try {
-            _xjNameConverter = new NameConverter.Standard();
-            DocumentBuilderFactory docBuilderFactory =
-                    DocumentBuilderFactory.newInstance();
-            docBuilderFactory.setNamespaceAware(true);
-            _docBuilder = docBuilderFactory.newDocumentBuilder();
-        } catch (ParserConfigurationException e) {
-            throw new BuildException(e);
-        }
-    }
 
     /**
      * The ant method. Generates COXB binding code.
@@ -143,7 +99,7 @@ public class CoxbBindingGenerator extends Task {
                         e);
                 throw (new BuildException(
                         "HostException " + e.getMessage()));
-            } catch (CodeGenException e) {
+            } catch (CoxbGenException e) {
                 _log.error(CoxbGenWriter.BINDING_GENERATOR_NAME + " failure ",
                         e);
                 throw new BuildException(e);
@@ -159,7 +115,7 @@ public class CoxbBindingGenerator extends Task {
 
         if (_log.isDebugEnabled()) {
             _log.debug("checkInput started");
-            _coxbGenModel.traceContext();
+            _log.debug("coxbGenModel: " + _coxbGenModel.toString());
         }
 
         /*
@@ -168,12 +124,9 @@ public class CoxbBindingGenerator extends Task {
          */
         if (getJaxbPackageName() == null
                 || getJaxbPackageName().length() == 0) {
-            if (getXsdFile() == null || !getXsdFile().exists()) {
-                throw (new BuildException(
+            throw (new BuildException(
                         "You must specify either a JAXB package name or"
                                 + " an XML schema file name"));
-            }
-            setJaxbPackageName(getPackageName(getXsdFile()));
         }
 
         if (getTargetDir() == null || !getTargetDir().exists()) {
@@ -299,42 +252,6 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
-     * Extracts the JAXB package name from the XML schema targetNamespace.
-     * <p/>
-     * We delegate code to XJC which already knows how to turn a targetnamespace
-     * into a package name.
-     * 
-     * @param xsdFile the XML schema file
-     * @return the package name
-     */
-    public String getPackageName(final File xsdFile) {
-        String targetNamespace = null;
-        try {
-            Document doc = _docBuilder.parse(xsdFile);
-            NodeList listOfElements = doc.getElementsByTagNameNS(XSD_NS,
-                    XSD_ELEMENT_NAME);
-            if (listOfElements == null || listOfElements.getLength() == 0) {
-                throw (new BuildException(
-                        "No target namespace in XML schema file"));
-            }
-            targetNamespace = ((Element) listOfElements.item(0)).getAttribute(
-                    XSD_TARGETNAMESPACE_ATTR);
-            if (targetNamespace == null || targetNamespace.length() == 0) {
-                throw (new BuildException(
-                        "No target namespace in XML schema file"));
-            }
-            return _xjNameConverter.toPackageName(targetNamespace);
-
-        } catch (SAXException e) {
-            throw (new BuildException(
-                    "SAXException " + e.getMessage()));
-        } catch (IOException e) {
-            throw (new BuildException(
-                    "IOException " + e.getMessage()));
-        }
-    }
-
-    /**
      * Returns a new instance of the requested JAXB object.
      * 
      * @param jaxbObjectFactory an instance of a JAXB Object Factory
@@ -389,25 +306,6 @@ public class CoxbBindingGenerator extends Task {
         }
 
         return jaxbRootObject;
-    }
-
-    /**
-     * @deprecated
-     *             Use <code>getJaxbRootClassName</code> instead
-     * @return Returns the JAXB root object name.
-     */
-    public String getJaxbRootObjectName() {
-        return getJaxbRootClassName();
-    }
-
-    /**
-     * @deprecated
-     *             Use <code>setJaxbRootClassName</code> instead
-     * @param objectName The JAXB root object name to set.
-     */
-    public void setJaxbRootObjectName(
-            final String objectName) {
-        setJaxbRootClassName(objectName);
     }
 
     /**
@@ -497,7 +395,14 @@ public class CoxbBindingGenerator extends Task {
      * @return the package name used for JAXB classes
      */
     public String getJaxbPackageName() {
-        return _coxbGenModel.getJaxbPackageName();
+        try {
+            return _coxbGenModel.getJaxbPackageName();
+        } catch (CoxbGenException e) {
+            throw (new BuildException(
+                    "JAXB package name was not provided"
+                            + " and could not be recovered from XML schema file",
+                    e));
+        }
     }
 
     /**
@@ -511,7 +416,14 @@ public class CoxbBindingGenerator extends Task {
      * @return the package name for generated binding classes
      */
     public String getCoxbPackageName() {
-        return _coxbGenModel.getCoxbPackageName();
+        try {
+            return _coxbGenModel.getCoxbPackageName();
+        } catch (CoxbGenException e) {
+            throw (new BuildException(
+                    "COXB package name was not provided"
+                            + " and could not be recovered from XML schema file",
+                    e));
+        }
     }
 
     /**

@@ -36,9 +36,6 @@ public class CobolJAXBXJBModel {
     /** Velocity identifier for this generator. */
     public static final String XJB_GENERATOR_NAME = "XJB Generator";
 
-    /** Generates isSet methods to check for nulls. */
-    private boolean _generateIsSetMethod = true;
-
     /** JAXB annotation parent element name. */
     private static final String JAXB_DUMMY_PARENT = "jaxbElements";
 
@@ -80,6 +77,9 @@ public class CobolJAXBXJBModel {
 
     /** The physical location of the XML Schema. */
     private String _xsdLocation;
+
+    /** Generates isSet methods to check for nulls. */
+    private boolean _generateIsSetMethod = true;
 
     /** Prefix to add to type names. */
     private String _typeNamePrefix;
@@ -376,16 +376,26 @@ public class CobolJAXBXJBModel {
         sb.append("isGenerateIsSetMethod: " + isGenerateIsSetMethod());
         sb.append(", ");
         sb.append("serializableUid: " + getSerializableUid());
-        sb.append(", ");
-        sb.append("xsdLocation: " + getXsdLocation());
-        sb.append(", ");
-        sb.append("elementNamePrefix: " + getElementNamePrefix());
-        sb.append(", ");
-        sb.append("elementNameSuffix: " + getElementNameSuffix());
-        sb.append(", ");
-        sb.append("typeNamePrefix: " + getTypeNamePrefix());
-        sb.append(", ");
-        sb.append("typeNameSuffix: " + getTypeNameSuffix());
+        if (getXsdLocation() != null) {
+            sb.append(", ");
+            sb.append("xsdLocation: " + getXsdLocation());
+        }
+        if (getElementNamePrefix() != null) {
+            sb.append(", ");
+            sb.append("elementNamePrefix: " + getElementNamePrefix());
+        }
+        if (getElementNameSuffix() != null) {
+            sb.append(", ");
+            sb.append("elementNameSuffix: " + getElementNameSuffix());
+        }
+        if (getTypeNamePrefix() != null) {
+            sb.append(", ");
+            sb.append("typeNamePrefix: " + getTypeNamePrefix());
+        }
+        if (getTypeNameSuffix() != null) {
+            sb.append(", ");
+            sb.append("typeNameSuffix: " + getTypeNameSuffix());
+        }
         sb.append("}");
         return sb.toString();
 

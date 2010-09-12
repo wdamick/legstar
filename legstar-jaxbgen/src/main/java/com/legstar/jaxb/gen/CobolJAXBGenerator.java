@@ -71,7 +71,7 @@ public class CobolJAXBGenerator extends Task {
     public void init() {
         try {
             super.init();
-            BuildListener logger = new CommonsLoggingListener();
+            BuildListener logger = new CommonsLoggingListener(_log);
             getProject().addBuildListener(logger);
 
             _customizer = new CobolJAXBCustomizer(_xjbModel);

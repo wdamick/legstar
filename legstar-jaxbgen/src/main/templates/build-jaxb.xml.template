@@ -44,6 +44,8 @@
             xsdFile="${xsd.file}"
             targetDir="${jaxb.src.dir}"
             jaxbPackageName="@PACKAGE-NAME@"
+            generateIsSetMethod="true"
+            serializableUid="1"
         />
     </target>
 
@@ -53,7 +55,7 @@
     -->
   <target name="compileJAXB" depends="generateJAXB">
     <javac target="1.5"
-         srcdir="${jaxb.src.dir}"
+           srcdir="${jaxb.src.dir}"
            destdir="${jaxb.bin.dir}"
            classpathref="classpath"
            fork="${javac.fork}"

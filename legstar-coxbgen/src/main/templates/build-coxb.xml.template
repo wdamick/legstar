@@ -38,13 +38,13 @@
     <!-- Generate binding classes by reflecting on JAXB classes.
     -->
     <target name="generateCOXB" depends="init">
-        <echo message="Generating binding classes for ${xsd.file}" />
+        <echo message="Generating binding classes for ${jaxb.root.name}" />
         <coxbgen 
-            XsdFile="${xsd.file}"
-            JaxbPackageName="@PACKAGE-NAME@"
-            JaxbRootObjectName="${jaxb.root.name}"
+            jaxbPackageName="@PACKAGE-NAME@"
             targetDir="${jaxb.src.dir}"
-        />
+         >
+            <jaxbRootClass name="${jaxb.root.name}"/>
+        </coxbgen>
     </target>
 
     <!-- ===========================================================  -->

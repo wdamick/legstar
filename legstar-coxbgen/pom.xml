@@ -37,7 +37,6 @@
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-jaxbgen</artifactId>
-            <scope>runtime</scope>
         </dependency>
 
         <dependency>
@@ -60,6 +59,17 @@
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>ant-contrib</groupId>
+            <artifactId>ant-contrib</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

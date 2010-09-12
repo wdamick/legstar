@@ -20,8 +20,8 @@ import junit.framework.TestCase;
  */
 public class GetPackageNameTest extends TestCase {
 
-    /** An instance of the generator. */
-    private CoxbBindingGenerator _coxbBindingGenerator;
+    /** An instance of the generator model. */
+    private CoxbGenModel _coxbGenModel;
 
     /**
      * (non-Javadoc).
@@ -29,15 +29,14 @@ public class GetPackageNameTest extends TestCase {
      * @see junit.framework.TestCase#setUp()
      */
     public void setUp() {
-        _coxbBindingGenerator = new CoxbBindingGenerator();
-        _coxbBindingGenerator.init();
+        _coxbGenModel = new CoxbGenModel();
     }
 
     /** Test a non existing file. */
     public void testInvalidFile() {
 
         try {
-            _coxbBindingGenerator.getPackageName(new File("toto"));
+            _coxbGenModel.getJaxbPackageNameFromXsd(new File("toto"));
             fail("invalid file test failed");
         } catch (Exception e) {
             assertEquals("IOException", e.getMessage().substring(0, 11));
@@ -49,7 +48,7 @@ public class GetPackageNameTest extends TestCase {
     public void testNotXML() {
 
         try {
-            _coxbBindingGenerator.getPackageName(new File(
+            _coxbGenModel.getJaxbPackageNameFromXsd(new File(
                     "src/test/resources/notxml.xml"));
             fail("Not XML test failed");
         } catch (Exception e) {
@@ -63,7 +62,7 @@ public class GetPackageNameTest extends TestCase {
     public void testNoTargetNamespace() {
 
         try {
-            _coxbBindingGenerator.getPackageName(new File(
+            _coxbGenModel.getJaxbPackageNameFromXsd(new File(
                     "src/test/resources/XSDWithoutTargetNamespace.xsd"));
             fail("Not Target Namespace test failed");
         } catch (Exception e) {
@@ -77,8 +76,8 @@ public class GetPackageNameTest extends TestCase {
     public void testWithJAXBAnnotations() {
 
         try {
-            String pkg = _coxbBindingGenerator.getPackageName(new File(
-                    "src/test/resources/ALLTYPES.xsd"));
+            String pkg = _coxbGenModel.getJaxbPackageNameFromXsd(new File(
+                    "../target/cases/schema/ALLTYPES.xsd"));
             assertEquals("com.legstar.test.coxb.alltypes", pkg);
         } catch (Exception e) {
             fail("No annotations found " + e.getMessage());

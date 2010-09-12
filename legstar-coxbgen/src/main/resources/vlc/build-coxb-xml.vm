@@ -19,9 +19,9 @@
             <dirset dir="${antModel.jaxbBinDir}"/>
         </path>
         
-        <!-- Regular Sun JAXB XJC tool ant task  -->
-        <taskdef name="xjc"
-            classname="com.sun.tools.xjc.XJC2Task"
+        <!-- Generator ant task -->
+        <taskdef name="jaxbgen"
+            classname="com.legstar.jaxb.gen.CobolJAXBGenerator"
             classpathref="classpath"/>
         
         <!-- COBOL Binding Generator ant task -->
@@ -40,15 +40,25 @@
     -->
     <target name="generateJAXB" depends="init">
         <echo message="Generating JAXB classes for ${antModel.xsdFile}" />
-        <xjc schema="${antModel.xsdFile}" destdir="${antModel.jaxbSrcDir}" extension="true" removeOldOutput="yes">
-            <!--COXB xjc plugin extension-->
-            <arg value="-Xlegstar-code" />
-            <!--Without this option (no validation), out of memory errors -->
-            <arg value="-nv" />
-            <!-- External XJC bindings directory. Collects all *.xjb files -->
-            <arg value="-b" />
-            <arg value="${antModel.jaxbXjcBindingDir}" />
-        </xjc>
+        <jaxbgen 
+            xsdFile="${antModel.xsdFile}"
+            targetDir="${antModel.jaxbSrcDir}"
+            jaxbPackageName="${antModel.jaxbPackageName}"
+            generateIsSetMethod="${antModel.generateIsSetMethod}"
+            serializableUid="${antModel.serializableUid}"
+#if(${antModel.typeNamePrefix})
+            typeNamePrefix="${antModel.typeNamePrefix}"
+#end
+#if(${antModel.typeNameSuffix})
+            typeNameSuffix="${antModel.typeNameSuffix}"
+#end
+#if(${antModel.elementNamePrefix})
+            elementNamePrefix="${antModel.elementNamePrefix}"
+#end
+#if(${antModel.elementNameSuffix})
+            elementNameSuffix="${antModel.elementNameSuffix}"
+#end
+        />
     </target>
 
     <!-- ===========================================================  -->
@@ -59,7 +69,7 @@
         <javac srcdir="${antModel.jaxbSrcDir}"
             destdir="${antModel.jaxbBinDir}"
             classpathref="classpath"
-            fork="no"
+            fork="yes"
         />
     </target>
   
@@ -67,10 +77,11 @@
     <!-- Generate binding classes by reflecting on JAXB classes.
     -->
     <target name="generateCOXB" depends="compileJAXB">
-        <echo message="Generating binding classes for ${antModel.xsdFile}" />
+        <echo message="Generating binding classes for ${antModel.jaxbRootClassNames}" />
         <coxbgen 
-            xsdFile="${antModel.xsdFile}"
             targetDir="${antModel.coxbSrcDir}"
+            jaxbPackageName="${antModel.jaxbPackageName}"
+            coxbPackageName="${antModel.coxbPackageName}"
             >
 #foreach ($jaxbRootClassName in $antModel.jaxbRootClassNames)
             <jaxbRootClass name="${jaxbRootClassName}"/>

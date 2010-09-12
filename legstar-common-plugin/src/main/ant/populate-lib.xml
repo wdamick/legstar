@@ -22,11 +22,6 @@
                 <include name="*.jar"/>
             </fileset>
         </copy>
-        <copy todir="${basedir}/lib">
-            <fileset dir="${distrib}/xjb">
-                <include name="*.xjb"/>
-            </fileset>
-        </copy>
     </target>
 
     <target name="populateLib" depends="doPopulateLib"/>

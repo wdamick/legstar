@@ -13,7 +13,7 @@ package com.legstar.coxb.gen;
 /**
  * Exception when generating binding classes.
  */
-public class CodeGenException extends Exception {
+public class CoxbGenException extends Exception {
 
     /** Unique serial ID. */
     private static final long serialVersionUID = 4933554196026963137L;
@@ -22,7 +22,7 @@ public class CodeGenException extends Exception {
      * Build Exception from message.
      * @param message exception description
      */
-    public CodeGenException(final String message) {
+    public CoxbGenException(final String message) {
         super(message);
     }
 
@@ -30,7 +30,7 @@ public class CodeGenException extends Exception {
      * Build Exception from inner exception.
      * @param e the inner exception
      */
-    public CodeGenException(final Exception e) {
+    public CoxbGenException(final Exception e) {
         super(e);
     }
 }
