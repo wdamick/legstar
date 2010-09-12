@@ -42,7 +42,7 @@
     <faq id="footer-company">
       <question>
        Is it possible to use the JAXB implementation that comes with JRE 6 instead of the one that is
-       distributed with LegStar.?
+       distributed with LegStar?
       </question>
       <answer>
        The answer is it depends.

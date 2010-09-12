@@ -16,7 +16,7 @@ PREREQUISITES:
 INSTALLING/UNINSTALLING:
 
  These instructions apply if you are installing from the coxbgen standalone
- distribution. If you are installling the complete LegStar distribution please
+ distribution. If you are installing the complete LegStar distribution please
  refer to {{{../legstar-distribution/release-notes.html}legstar distribution}}.
 
  [[1]] Unzip the binary distribution package into the directory of your choice,
@@ -25,36 +25,34 @@ INSTALLING/UNINSTALLING:
    The directory tree should look like this:
    
 +---------------------------------------+
-   <installDir>
-        |---->LICENSE
-        |---->NOTICE
-        |---->README
-        |----><samples>
-                |----><quickstarts>
-                           |----><adapter_lsfileae>
-                                       |---->build-jaxb.xml
-                                       |---->build-coxb.xml
-                                       |----><schema>
-                                                |---->lsfileae.xsd
-                           |----><proxy_pojo_jvmquery>
-                                       |---->build-jaxb.xml
-                                       |---->build-coxb-jvmqueryrequest.xml
-                                       |---->build-coxb-jvmqueryreply.xml
-                                       |----><src>
-                                               |---->**/*.java
-                                       |----><schema>
-                                                |---->jvmquery.xsd
-                           |----><proxy_ws_cultureinfo>
-                                       |---->build-jaxb.xml
-                                       |---->build-coxb-getinfo.xml
-                                       |---->build-coxb-getinforesponse.xml
-                                       |----><schema>
-                                                |---->jvmquery.xsd
-        |----><lib>
-                |---->*.jar
-        |----><xjb>
-                |---->*.xjb
-                
+    <installDir>
+      |-->LICENSE
+      |-->NOTICE
+      |-->README
+      |--><samples>
+          |--><quickstarts>
+              |--><adapter_lsfileae>
+                  |-->build-jaxb.xml
+                  |-->build-coxb.xml
+                  |--><schema>
+                      |-->lsfileae.xsd
+              |--><proxy_pojo_jvmquery>
+                  |-->build-jaxb.xml
+                  |-->build-coxb-jvmqueryrequest.xml
+                  |-->build-coxb-jvmqueryreply.xml
+                  |--><src>
+                      |-->**/*.java
+                  |--><schema>
+                      |-->jvmquery.xsd
+              |--><proxy_ws_cultureinfo>
+                  |-->build-jaxb.xml
+                  |-->build-coxb-getinfo.xml
+                  |-->build-coxb-getinforesponse.xml
+                  |--><schema>
+                      |-->jvmquery.xsd
+      |--><lib>
+          |-->*.jar
+
 +---------------------------------------+
    
  [[2]] To uninstall, remove the installDir folder.
@@ -68,7 +66,7 @@ RUNNING THE SAMPLES:
        from the sample XML Schema in the schema folder.
        
        The JAXB classes are identical to the classes generated using Sun's
-       XJC utility apart from addition Java 5 annotations holding COBOL
+       XJC utility apart from additional Java 5 annotations holding COBOL
        meta-data.
        
        From the samples/quickstarts/adapter_lsfileae folder again, run command
