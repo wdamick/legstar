@@ -85,7 +85,7 @@ public class CobolJAXBGenerator extends Task {
      * The ant method. Generates JAXB classes by invoking XJC.
      */
     public void execute() {
-        _log.info("JAXB generation started.");
+        log("JAXB generation started.");
 
         checkInput();
 
@@ -117,7 +117,7 @@ public class CobolJAXBGenerator extends Task {
 
         xjcTask.execute();
 
-        _log.info("JAXB generation ended.");
+        log("JAXB generation ended.");
     }
 
     /**
@@ -192,7 +192,6 @@ public class CobolJAXBGenerator extends Task {
 
             // The schema location needs to be a valid URI
             URI xsdURILocation = xsdFile.toURI();
-            System.out.println(xsdURILocation.toString());
             _xjbModel.setXsdLocation(xsdURILocation.toString());
             _xjbModel.generateXjb(tempXJBFile);
 

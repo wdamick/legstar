@@ -17,31 +17,31 @@ import org.eclipse.osgi.util.NLS;
  */
 public class Messages extends NLS {
 
-    /** All messages come from this property file.*/
+    /** All messages come from this property file. */
     private static final String BUNDLE_NAME =
-        "com.legstar.eclipse.plugin.coxbgen.messages";
+            "com.legstar.eclipse.plugin.coxbgen.messages";
 
-    /** The wizards icon.*/
+    /** The wizards icon. */
     public static String binding_generator_icon;
-    /** The name filter to which this wizard is associated.*/
+    /** The name filter to which this wizard is associated. */
     public static String filename_filter;
-    /** Right click on XML Schema files shows this menu item.*/
+    /** Right click on XML Schema files shows this menu item. */
     public static String popup_menu_label;
-    /** Action menu label.*/
+    /** Action menu label. */
     public static String action_label;
 
-    /** Wizard page title.*/
+    /** Wizard page title. */
     public static String wizard_page_title;
-    /** Wizard page description.*/
+    /** Wizard page description. */
     public static String wizard_page_description;
 
-    /** No XSD file was selected.*/
+    /** No XSD file was selected. */
     public static String no_xsd_file_msg;
-    /** Generation error dialog boxes title.*/
+    /** Generation error dialog boxes title. */
     public static String generate_error_dialog_title;
-    /** Generation error short message.*/
+    /** Generation error short message. */
     public static String generation_failure_short_msg;
-    /** Generation error long message.*/
+    /** Generation error long message. */
     public static String generation_failure_long_msg;
 
     /** No root element selected error message. */
@@ -51,14 +51,34 @@ public class Messages extends NLS {
     /** Unable to setup classpath for the target java project. */
     public static String classpath_setup_failure_msg;
 
-    /** XML Schema group label. */
-    public static String xsd_group_label;
+    /** JAXB group label. */
+    public static String jaxb_group_label;
     /** XML Schema file name label. */
     public static String xsd_file_name_label;
     /** JAXB package name label. */
     public static String jaxb_package_name_label;
-    /** JAXB type name suffix label. */
-    public static String jaxb_type_name_suffix_label;
+    /** JAXB advanced button label. */
+    public static String jaxb_advanced_button_label;
+    /** JAXB advanced dialog title. */
+    public static String jaxb_advanced_dialog_title;
+
+    /** JAXB/XJB generate isset methods label. */
+    public static String xjb_generate_issetmethod_label;
+    /** JAXB/XJB serializable ID label. */
+    public static String xjb_serializableid_label;
+    /** JAXB/XJB type name prefix label. */
+    public static String xjb_typenameprefix_label;
+    /** JAXB/XJB type name suffix label. */
+    public static String xjb_typenamesuffix_label;
+    /** JAXB/XJB element name prefix label. */
+    public static String xjb_elementnameprefix_label;
+    /** JAXB/XJB element name suffix label. */
+    public static String xjb_elementnamesuffix_label;
+
+    /** COXB package name label. */
+    public static String coxb_package_name_label;
+    /** COXB options button label. */
+    public static String coxb_options_button_label;
     /** Available root element list label. */
     public static String root_elements_list_label;
     /** Target source folder label. */
@@ -68,15 +88,17 @@ public class Messages extends NLS {
     /** Target classes folder label. */
     public static String target_classes_folder_label;
 
+    /** COXB options dialog title. */
+    public static String coxb_options_dialog_title;
+    /** COXB generate XML Transformers option. */
+    public static String coxb_options_xmltransformers_label;
+
     /** Was unable to initialize page. */
     public static String page_initialization_failure_msg;
-    /** XML schema has no JAXB annotations. */
-    public static String no_annotations_xsd_file_msg;
     /** XML schema belongs to an invalid project. */
     public static String xsd_file_in_invalid_project_msg;
     /** Generating task label. */
     public static String ant_generating_task_label;
-
 
     static {
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);
