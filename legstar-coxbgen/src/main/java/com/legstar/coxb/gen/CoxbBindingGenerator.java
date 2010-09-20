@@ -11,6 +11,7 @@
 package com.legstar.coxb.gen;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -19,11 +20,13 @@ import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
+import com.legstar.codegen.CodeGenUtil;
 import com.legstar.coxb.host.HostException;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 
@@ -41,6 +44,9 @@ public class CoxbBindingGenerator extends Task {
 
     /** Container for all parameters to move around. */
     private CoxbGenModel _coxbGenModel = new CoxbGenModel();
+
+    /** Folder where generated files are created. */
+    private File _outputFolder;
 
     /**
      * List of jaxb root class names for which we need to generate
@@ -79,7 +85,8 @@ public class CoxbBindingGenerator extends Task {
             try {
                 /* Create a visitor */
                 CoxbGenReflectVisitor visitor =
-                        new CoxbGenReflectVisitor(_coxbGenModel);
+                        new CoxbGenReflectVisitor(_coxbGenModel,
+                                _outputFolder);
                 /* Bind the root object to a COXB type */
                 CComplexReflectBinding ce = new CComplexReflectBinding(
                         jaxbObjectFactory, jaxbRootObject);
@@ -142,6 +149,44 @@ public class CoxbBindingGenerator extends Task {
                     "You must specify at least one JAXB root class name"));
         }
 
+        /* Check that we have a valid output folder */
+        try {
+            _outputFolder = createOutputFolder(_coxbGenModel);
+        } catch (CoxbGenException e) {
+            throw (new BuildException(e));
+        }
+
+    }
+
+    /**
+     * Create the folder which will receive the generated classes.
+     * <p/>
+     * Folder includes the COXB package path if any. When the COXB package path
+     * is provided, the output is cleaned from any previous generation
+     * artifacts.
+     * 
+     * @param coxbGenModel the generation model
+     * 
+     * @return the generation folder
+     * @throws CoxbGenException if generation folder cannot be determined
+     */
+    public static File createOutputFolder(final CoxbGenModel coxbGenModel)
+            throws CoxbGenException {
+        try {
+            File outputFolder = coxbGenModel.getCoxbSrcDir();
+            if (coxbGenModel.getCoxbPackageName() != null) {
+                outputFolder = new File(coxbGenModel.getCoxbSrcDir(),
+                        CodeGenUtil.relativeLocation(
+                                coxbGenModel.getCoxbPackageName()));
+            }
+            CodeGenUtil.checkDirectory(outputFolder, true);
+            if (coxbGenModel.getCoxbPackageName() != null) {
+                FileUtils.cleanDirectory(outputFolder);
+            }
+            return outputFolder;
+        } catch (IOException e) {
+            throw new CoxbGenException(e);
+        }
     }
 
     /**

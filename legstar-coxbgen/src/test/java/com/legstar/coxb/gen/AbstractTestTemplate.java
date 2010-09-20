@@ -55,6 +55,9 @@ public class AbstractTestTemplate extends TestCase {
     /** Maven should have populated this location with test schemas. */
     public static final File XSD_DIR = new File("../target/cases/schema");
 
+    /** Generation set of parameters. */
+    private CoxbGenModel _coxbGenModel;
+
     /** Additional parameter set passed to templates. */
     private Map < String, Object > mParameters;
 
@@ -66,6 +69,9 @@ public class AbstractTestTemplate extends TestCase {
             CodeGenHelper helper = new CodeGenHelper();
             mParameters.put("helper", helper);
             mParameters.put("coxbHelper", new CoxbHelper());
+            _coxbGenModel = new CoxbGenModel();
+            _coxbGenModel.setCoxbSrcDir(GEN_SRC_DIR);
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -113,6 +119,23 @@ public class AbstractTestTemplate extends TestCase {
         }
 
         return new File(XSD_DIR.getCanonicalPath() + '/' + fileName);
+    }
+
+    /**
+     * @return the generation parameter set
+     */
+    public CoxbGenModel getCoxbGenModel() {
+        return _coxbGenModel;
+    }
+
+    /**
+     * Create a COXB output folder.
+     * 
+     * @return a COXB output folder
+     * @throws CoxbGenException if folder cannot be set
+     */
+    public File getOutputFolder() throws CoxbGenException {
+        return CoxbBindingGenerator.createOutputFolder(_coxbGenModel);
     }
 
 }

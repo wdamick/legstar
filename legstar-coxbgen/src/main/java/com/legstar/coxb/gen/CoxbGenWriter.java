@@ -30,102 +30,109 @@ public class CoxbGenWriter {
 
     /** Velocity template for complex elements. */
     public static final String COMPLEX_VLC_TEMPLATE =
-        "vlc/coxb-bind-complex.vm";
+            "vlc/coxb-bind-complex.vm";
 
     /** Velocity template for choice elements. */
     public static final String CHOICE_VLC_TEMPLATE =
-        "vlc/coxb-bind-choice.vm";
+            "vlc/coxb-bind-choice.vm";
 
     /** Velocity template for choice strategy sample. */
     public static final String CHOICE_STRATEGY_VLC_TEMPLATE =
-        "vlc/coxb-bind-choice-strategy.vm";
+            "vlc/coxb-bind-choice-strategy.vm";
 
     /** Velocity template for complex arrays elements. */
     public static final String COMPLEX_ARRAY_VLC_TEMPLATE =
-        "vlc/coxb-bind-complex-array.vm";
+            "vlc/coxb-bind-complex-array.vm";
 
     /** Velocity template for host to java transformer. */
     public static final String HOST_TO_JAVA_XFORMER_VLC_TEMPLATE =
-        "vlc/coxb-bind-host-to-java-transformer.vm";
+            "vlc/coxb-bind-host-to-java-transformer.vm";
 
     /** Velocity template for java to host transformer. */
     public static final String JAVA_TO_HOST_XFORMER_VLC_TEMPLATE =
-        "vlc/coxb-bind-java-to-host-transformer.vm";
+            "vlc/coxb-bind-java-to-host-transformer.vm";
 
     /** Velocity template for transformer provider. */
     public static final String HOST_XFORMERS_VLC_TEMPLATE =
-        "vlc/coxb-bind-transformers.vm";
+            "vlc/coxb-bind-transformers.vm";
 
     /** Velocity template for host to XML transformer. */
     public static final String HOST_TO_XML_XFORMER_VLC_TEMPLATE =
-        "vlc/coxb-bind-host-to-xml-transformer.vm";
+            "vlc/coxb-bind-host-to-xml-transformer.vm";
 
     /** Velocity template for xml to host transformer. */
     public static final String XML_TO_HOST_XFORMER_VLC_TEMPLATE =
-        "vlc/coxb-bind-xml-to-host-transformer.vm";
+            "vlc/coxb-bind-xml-to-host-transformer.vm";
 
     /** Velocity template for xml transformer provider. */
     public static final String HOST_XML_XFORMERS_VLC_TEMPLATE =
-        "vlc/coxb-bind-xml-transformers.vm";
+            "vlc/coxb-bind-xml-transformers.vm";
 
     /** A set of methods to simplify the velocity templates. */
-    private CodeGenHelper mHelper;
+    private CodeGenHelper _codeGenHelper;
 
     /** Simplifying methods specific to coxb. */
-    private CoxbHelper mCoxbHelper;
+    private CoxbHelper _coxbHelper;
 
     /** Container for all parameters to move around. */
-    private CoxbGenModel mCoxbGenContext;
+    private CoxbGenModel _coxbGenModel;
+
+    /** Folder where generated files are created. */
+    private File _outputFolder;
 
     /** This generator name. */
     public static final String BINDING_GENERATOR_NAME =
-        "LegStar Binding generator";
+            "LegStar Binding generator";
 
     /**
      * Constructor from an existing directory.
      * 
-     * @param coxbGenContext set of parameters
-     * @throws CoxbGenException if velocity engine failed to initialize 
+     * @param coxbGenModel set of parameters
+     * @param outputFolder where files need to be generated
+     * @throws CoxbGenException if velocity engine failed to initialize
      */
     public CoxbGenWriter(
-            final CoxbGenModel coxbGenContext) throws CoxbGenException {
-        mCoxbGenContext = coxbGenContext;
+            final CoxbGenModel coxbGenModel, final File outputFolder)
+            throws CoxbGenException {
+        _coxbGenModel = coxbGenModel;
         try {
             CodeGenUtil.initVelocity();
-            CodeGenUtil.checkDirectory(
-                    mCoxbGenContext.getCoxbSrcDir().getAbsolutePath(), false);
+            _outputFolder = outputFolder;
         } catch (CodeGenVelocityException e) {
             throw new CoxbGenException(e);
         }
-        mHelper = new CodeGenHelper();
-        mCoxbHelper = new CoxbHelper();
+        _codeGenHelper = new CodeGenHelper();
+        _coxbHelper = new CoxbHelper();
     }
 
     /**
      * Produces a binding class for a complex element.
+     * 
      * @param ce the binding element
      * @throws CoxbGenException if generation fails
      */
     public void write(
             final ICobolComplexBinding ce) throws CoxbGenException {
         writeGeneric(ce, COMPLEX_VLC_TEMPLATE,
-                mCoxbHelper.getCoxbTypeName(ce) + ".java");
+                _coxbHelper.getCoxbTypeName(ce) + ".java");
     }
 
     /**
      * Produces a binding class for a complex array element.
+     * 
      * @param ce the binding element
      * @throws CoxbGenException if generation fails
      */
     public void write(
             final ICobolArrayComplexBinding ce) throws CoxbGenException {
         writeGeneric(ce, COMPLEX_ARRAY_VLC_TEMPLATE,
-                mCoxbHelper.getCoxbTypeName(ce) + ".java");
+                _coxbHelper.getCoxbTypeName(ce) + ".java");
     }
 
     /**
      * Produces a binding class for a choice element.
      * Also generates samples for strategy classes.
+     * 
      * @param ce the binding element
      * @throws CoxbGenException if generation fails
      */
@@ -133,7 +140,7 @@ public class CoxbGenWriter {
             final ICobolChoiceBinding ce) throws CoxbGenException {
 
         writeGeneric(ce, CHOICE_VLC_TEMPLATE,
-                mCoxbHelper.getCoxbTypeName(ce) + ".java");
+                _coxbHelper.getCoxbTypeName(ce) + ".java");
 
         if (ce.getMarshalChoiceStrategyClassName() != null
                 && ce.getMarshalChoiceStrategyClassName().length() > 0) {
@@ -151,6 +158,7 @@ public class CoxbGenWriter {
 
     /**
      * Produces a host to java transformer class for a complex element.
+     * 
      * @param ce the binding element
      * @throws CoxbGenException if generation fails
      */
@@ -162,6 +170,7 @@ public class CoxbGenWriter {
 
     /**
      * Produces a java to host transformer class for a complex element.
+     * 
      * @param ce the binding element
      * @throws CoxbGenException if generation fails
      */
@@ -173,6 +182,7 @@ public class CoxbGenWriter {
 
     /**
      * Produces a transformer provider class for a complex element.
+     * 
      * @param ce the binding element
      * @throws CoxbGenException if generation fails
      */
@@ -184,6 +194,7 @@ public class CoxbGenWriter {
 
     /**
      * Produces a host to XML transformer class for a complex element.
+     * 
      * @param ce the binding element
      * @throws CoxbGenException if generation fails
      */
@@ -195,6 +206,7 @@ public class CoxbGenWriter {
 
     /**
      * Produces an XML to host transformer class for a complex element.
+     * 
      * @param ce the binding element
      * @throws CoxbGenException if generation fails
      */
@@ -206,6 +218,7 @@ public class CoxbGenWriter {
 
     /**
      * Produces an XML transformer provider class for a complex element.
+     * 
      * @param ce the binding element
      * @throws CoxbGenException if generation fails
      */
@@ -217,6 +230,7 @@ public class CoxbGenWriter {
 
     /**
      * Applies a velocity template to a binding class producing a file.
+     * 
      * @param ce the binding element
      * @param template the velocity template
      * @param fileName the generated file name
@@ -229,17 +243,12 @@ public class CoxbGenWriter {
         try {
             Map < String, Object > parameters = createParameters(ce);
 
-            String dir = mCoxbGenContext.getCoxbSrcDir().getAbsolutePath() + '/'
-            + CodeGenUtil.relativeLocation(
-                    mCoxbGenContext.getCoxbPackageName());
-            CodeGenUtil.checkDirectory(dir, true);
-
             CodeGenUtil.processTemplate(
                     BINDING_GENERATOR_NAME,
                     template,
                     "binding", ce,
                     parameters,
-                    CodeGenUtil.getFile(dir, fileName));
+                    CodeGenUtil.getFile(_outputFolder, fileName));
         } catch (CodeGenMakeException e) {
             throw new CoxbGenException(e);
         }
@@ -249,6 +258,7 @@ public class CoxbGenWriter {
      * Produces a sample choice strategy class for a choice element.
      * If previous code exists at the target location, the sample gets
      * an extra extension in order not to overwrite any existing code.
+     * 
      * @param ce the binding element
      * @param strategyType either Unmarshal or Marshal
      * @param strategyClassName a fully qualified class name for the strategy
@@ -264,18 +274,19 @@ public class CoxbGenWriter {
             parameters.put("choice-strategy-qualified-class-name",
                     strategyClassName);
 
-            String dir = mCoxbGenContext.getCoxbSrcDir().getAbsolutePath() + '/'
-            + CodeGenUtil.relativeLocation(
-                    mHelper.getPackageName(strategyClassName,
-                            mCoxbGenContext.getCoxbPackageName()));
+            String dir = _coxbGenModel.getCoxbSrcDir().getAbsolutePath() + '/'
+                    + CodeGenUtil.relativeLocation(
+                            _codeGenHelper.getPackageName(strategyClassName,
+                                    _coxbGenModel.getCoxbPackageName()));
             CodeGenUtil.checkDirectory(dir, true);
 
             /* Check for previous code */
             File targetFile = CodeGenUtil.getFile(dir,
-                    mHelper.getClassName(strategyClassName) + ".java");
+                    _codeGenHelper.getClassName(strategyClassName) + ".java");
             if (targetFile.exists()) {
                 targetFile = CodeGenUtil.getFile(dir,
-                        mHelper.getClassName(strategyClassName) + ".java.new");
+                        _codeGenHelper.getClassName(strategyClassName)
+                                + ".java.new");
             }
 
             CodeGenUtil.processTemplate(
@@ -297,13 +308,13 @@ public class CoxbGenWriter {
     private Map < String, Object > createParameters(
             final ICobolBinding binding) {
         Map < String, Object > parameters =
-            new HashMap < String, Object >();
+                new HashMap < String, Object >();
 
-        parameters.put("helper", mHelper);
-        parameters.put("coxbContext", mCoxbGenContext);
-        parameters.put("coxbHelper", mCoxbHelper);
+        parameters.put("helper", _codeGenHelper);
+        parameters.put("coxbContext", _coxbGenModel);
+        parameters.put("coxbHelper", _coxbHelper);
         parameters.put("binding-class-name",
-                mCoxbHelper.getCoxbTypeName(binding));
+                _coxbHelper.getCoxbTypeName(binding));
         return parameters;
     }
 }
