@@ -14,20 +14,21 @@ import java.io.StringReader;
 
 import javax.xml.transform.stream.StreamSource;
 
+import junit.framework.TestCase;
+
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.transform.HostTransformException;
 import com.legstar.test.coxb.lsfileae.ComPersonal;
 import com.legstar.test.coxb.lsfileae.Dfhcommarea;
 import com.legstar.test.coxb.lsfileae.ObjectFactory;
 import com.legstar.test.coxb.lsfileae.bind.DfhcommareaJavaToHostTransformer;
+import com.legstar.test.coxb.lsfileae.bind.DfhcommareaJsonTransformers;
 import com.legstar.test.coxb.lsfileae.bind.DfhcommareaTransformers;
 import com.legstar.test.coxb.lsfileae.bind.DfhcommareaXmlTransformers;
 
-import junit.framework.TestCase;
-
 /**
  * Marshal lsfileae.
- *
+ * 
  */
 public class MarshalLsfileaeTest extends TestCase {
 
@@ -36,6 +37,7 @@ public class MarshalLsfileaeTest extends TestCase {
 
     /**
      * Marshal java data object and test host data result.
+     * 
      * @throws Exception if marshaling fails
      */
     public void testLsfileae() throws Exception {
@@ -45,19 +47,23 @@ public class MarshalLsfileaeTest extends TestCase {
         assertEquals(LsfileaeCases.getHostBytesHex(),
                 Util.marshal(SCHEMA_NAME, dfhcommarea, 79));
     }
+
     /**
      * Transform java data object and test host data result.
+     * 
      * @throws Exception if transforming fails
      */
     public void testJavaToHostTransformer() throws Exception {
 
         DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
         assertEquals(LsfileaeCases.getHostBytesHex(),
-                HostData.toHexString(transformer.transform(LsfileaeCases.getJavaObject())));
+                HostData.toHexString(transformer.transform(LsfileaeCases
+                        .getJavaObject())));
     }
 
     /**
      * Test the sample code shown in documentation.
+     * 
      * @throws HostTransformException if transforming fails
      */
     public void testJavaToHostTransformerDoc() throws HostTransformException {
@@ -68,6 +74,7 @@ public class MarshalLsfileaeTest extends TestCase {
 
     /**
      * Test the sample code shown in documentation.
+     * 
      * @throws HostTransformException if transforming fails
      */
     public void testXmlToHostTransformerDoc() throws HostTransformException {
@@ -78,6 +85,7 @@ public class MarshalLsfileaeTest extends TestCase {
 
     /**
      * Creates a java data object and returns the host data result.
+     * 
      * @return a byte array holding the mainframe payload
      * @throws HostTransformException if transforming fails
      */
@@ -99,24 +107,38 @@ public class MarshalLsfileaeTest extends TestCase {
 
     /**
      * Turns an XML into host data.
+     * 
      * @return a byte array holding the mainframe payload
      * @throws HostTransformException if transforming fails
      */
     public byte[] xmlToHostTransform() throws HostTransformException {
         StringReader reader = new StringReader(
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
-                + "<Dfhcommarea xmlns=\"http://legstar.com/test/coxb/lsfileae\">"
-                + "<ComNumber>100</ComNumber>"
-                + "<ComPersonal>"
-                + "<ComName>TOTO</ComName>"
-                + "<ComAddress>LABAS STREET</ComAddress>"
-                + "<ComPhone>88993314</ComPhone>"
-                + "</ComPersonal>"
-                + "<ComDate>100458</ComDate>"
-                + "<ComAmount>00100.35</ComAmount>"
-                + "<ComComment>A VOIR</ComComment>"
-                + "</Dfhcommarea>");
+                        + "<Dfhcommarea xmlns=\"http://legstar.com/test/coxb/lsfileae\">"
+                        + "<ComNumber>100</ComNumber>"
+                        + "<ComPersonal>"
+                        + "<ComName>TOTO</ComName>"
+                        + "<ComAddress>LABAS STREET</ComAddress>"
+                        + "<ComPhone>88993314</ComPhone>"
+                        + "</ComPersonal>"
+                        + "<ComDate>100458</ComDate>"
+                        + "<ComAmount>00100.35</ComAmount>"
+                        + "<ComComment>A VOIR</ComComment>"
+                        + "</Dfhcommarea>");
         DfhcommareaXmlTransformers transformers = new DfhcommareaXmlTransformers();
         return transformers.toHost(new StreamSource(reader));
+    }
+
+    /**
+     * Test JSON to Host transformation
+     * 
+     * @throws HostTransformException if test fails
+     */
+    public void testJsonToHostTransform() throws HostTransformException {
+        StringReader reader = new StringReader(LsfileaeCases.getJson());
+        DfhcommareaJsonTransformers transformers = new DfhcommareaJsonTransformers();
+        byte[] hostData = transformers.toHost(reader);
+        assertEquals(LsfileaeCases.getHostBytesHex(),
+                HostData.toHexString(hostData));
     }
 }

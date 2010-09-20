@@ -26,6 +26,9 @@ public class CoxbGenOptionsDialog extends TrayDialog {
     /** Whether to generate XML Transformers. */
     private Button _generateXmlTransformers;
 
+    /** Whether to generate JSON Transformers. */
+    private Button _generateJsonTransformers;
+
     /**
      * Creates a dialog instance. Note that the dialog will have no visual
      * representation (no widgets) until it is told to open.
@@ -78,9 +81,18 @@ public class CoxbGenOptionsDialog extends TrayDialog {
                 .setText(Messages.coxb_options_xmltransformers_label);
         _generateXmlTransformers
                 .setSelection(getCoxbModel().isXmlTransformers());
-        final GridData gridData = new GridData();
+        GridData gridData = new GridData();
         gridData.horizontalSpan = 2;
         _generateXmlTransformers.setLayoutData(gridData);
+
+        _generateJsonTransformers = new Button(area, SWT.CHECK);
+        _generateJsonTransformers
+                .setText(Messages.coxb_options_jsontransformers_label);
+        _generateJsonTransformers
+                .setSelection(getCoxbModel().isJsonTransformers());
+        gridData = new GridData();
+        gridData.horizontalSpan = 2;
+        _generateJsonTransformers.setLayoutData(gridData);
 
         return dialogArea;
     }
@@ -90,6 +102,8 @@ public class CoxbGenOptionsDialog extends TrayDialog {
         if (getReturnCode() == OK) {
             getCoxbModel().setXmlTransformers(
                     _generateXmlTransformers.getSelection());
+            getCoxbModel().setJsonTransformers(
+                    _generateJsonTransformers.getSelection());
         }
         return super.close();
     }

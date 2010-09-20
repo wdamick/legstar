@@ -68,6 +68,18 @@ public class CoxbGenWriter {
     public static final String HOST_XML_XFORMERS_VLC_TEMPLATE =
             "vlc/coxb-bind-xml-transformers.vm";
 
+    /** Velocity template for host to JSON transformer. */
+    public static final String HOST_TO_JSON_XFORMER_VLC_TEMPLATE =
+            "vlc/coxb-bind-host-to-json-transformer.vm";
+
+    /** Velocity template for json to host transformer. */
+    public static final String JSON_TO_HOST_XFORMER_VLC_TEMPLATE =
+            "vlc/coxb-bind-json-to-host-transformer.vm";
+
+    /** Velocity template for json transformer provider. */
+    public static final String HOST_JSON_XFORMERS_VLC_TEMPLATE =
+            "vlc/coxb-bind-json-transformers.vm";
+
     /** A set of methods to simplify the velocity templates. */
     private CodeGenHelper _codeGenHelper;
 
@@ -226,6 +238,42 @@ public class CoxbGenWriter {
             final ICobolComplexBinding ce) throws CoxbGenException {
         writeGeneric(ce, HOST_XML_XFORMERS_VLC_TEMPLATE,
                 ce.getJaxbName() + "XmlTransformers.java");
+    }
+
+    /**
+     * Produces a host to JSON transformer class for a complex element.
+     * 
+     * @param ce the binding element
+     * @throws CoxbGenException if generation fails
+     */
+    public void writeHostToJsonTransformer(
+            final ICobolComplexBinding ce) throws CoxbGenException {
+        writeGeneric(ce, HOST_TO_JSON_XFORMER_VLC_TEMPLATE,
+                ce.getJaxbName() + "HostToJsonTransformer.java");
+    }
+
+    /**
+     * Produces an JSON to host transformer class for a complex element.
+     * 
+     * @param ce the binding element
+     * @throws CoxbGenException if generation fails
+     */
+    public void writeJsonToHostTransformer(
+            final ICobolComplexBinding ce) throws CoxbGenException {
+        writeGeneric(ce, JSON_TO_HOST_XFORMER_VLC_TEMPLATE,
+                ce.getJaxbName() + "JsonToHostTransformer.java");
+    }
+
+    /**
+     * Produces an JSON transformer provider class for a complex element.
+     * 
+     * @param ce the binding element
+     * @throws CoxbGenException if generation fails
+     */
+    public void writeJsonTransformers(
+            final ICobolComplexBinding ce) throws CoxbGenException {
+        writeGeneric(ce, HOST_JSON_XFORMERS_VLC_TEMPLATE,
+                ce.getJaxbName() + "JsonTransformers.java");
     }
 
     /**
