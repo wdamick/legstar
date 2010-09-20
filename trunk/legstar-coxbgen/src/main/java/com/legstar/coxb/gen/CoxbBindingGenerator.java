@@ -102,6 +102,11 @@ public class CoxbBindingGenerator extends Task {
                     visitor.getWriter().writeXmlToHostTransformer(ce);
                     visitor.getWriter().writeXmlTransformers(ce);
                 }
+                if (isJsonTransformers()) {
+                    visitor.getWriter().writeHostToJsonTransformer(ce);
+                    visitor.getWriter().writeJsonToHostTransformer(ce);
+                    visitor.getWriter().writeJsonTransformers(ce);
+                }
 
             } catch (HostException e) {
                 _log.error(CoxbGenWriter.BINDING_GENERATOR_NAME + " failure ",
@@ -493,6 +498,21 @@ public class CoxbBindingGenerator extends Task {
      */
     public void setXmlTransformers(final boolean xmlTransformers) {
         _coxbGenModel.setXmlTransformers(xmlTransformers);
+    }
+
+    /**
+     * @return true if Host to JSON transformers generation is turned on
+     */
+    public boolean isJsonTransformers() {
+        return _coxbGenModel.isJsonTransformers();
+    }
+
+    /**
+     * @param jsonTransformers true if Host to JSON transformers generation is
+     *            turned on
+     */
+    public void setJsonTransformers(final boolean jsonTransformers) {
+        _coxbGenModel.setJsonTransformers(jsonTransformers);
     }
 
     /**

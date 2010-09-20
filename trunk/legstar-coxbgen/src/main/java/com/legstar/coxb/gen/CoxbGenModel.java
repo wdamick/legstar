@@ -87,6 +87,9 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /** Generate Host to XML transformers. */
     private boolean _xmlTransformers;
 
+    /** Generate Host to JSON transformers. */
+    private boolean _jsonTransformers;
+
     /** The additional package level for generated binding classes. */
     private static final String COXB_PACKAGE_SUFFIX = "bind";
 
@@ -420,6 +423,21 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     }
 
     /**
+     * @return true if Host to JSON transformers generation is turned on
+     */
+    public boolean isJsonTransformers() {
+        return _jsonTransformers;
+    }
+
+    /**
+     * @param jsonTransformers true if Host to JSON transformers generation is
+     *            turned on
+     */
+    public void setJsonTransformers(final boolean jsonTransformers) {
+        _jsonTransformers = jsonTransformers;
+    }
+
+    /**
      * Extracts the JAXB package name from the XML schema targetNamespace.
      * <p/>
      * We delegate code to XJC which already knows how to turn a targetnamespace
@@ -506,6 +524,10 @@ public class CoxbGenModel extends AbstractAntBuildModel {
         if (isXmlTransformers()) {
             sb.append(", ");
             sb.append("XML transformers: " + isXmlTransformers());
+        }
+        if (isJsonTransformers()) {
+            sb.append(", ");
+            sb.append("JSON transformers: " + isJsonTransformers());
         }
         if (getJaxbSrcDir() != null) {
             sb.append(", ");

@@ -85,6 +85,9 @@
 #if(${antModel.xmlTransformers})
             xmlTransformers="true"
 #end
+#if(${antModel.jsonTransformers})
+            jsonTransformers="true"
+#end
             >
 #foreach ($jaxbRootClassName in $antModel.jaxbRootClassNames)
             <jaxbRootClass name="${jaxbRootClassName}"/>

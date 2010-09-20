@@ -147,12 +147,12 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
     }
 
     /**
-     * Generate binding for Lsfileae (with XML Transformers).
+     * Generate binding for Lsfileae (with XML and JSON Transformers).
      * 
      * @throws Exception if generation fails
      */
     public void testGenLsfileae() throws Exception {
-        genSource("lsfileae", "Dfhcommarea", true);
+        genSource("lsfileae", "Dfhcommarea", true, true);
         String srce = getSource(GEN_SRC_DIR, getBindingSrcFilename("lsfileae",
                 "Dfhcommarea"));
         assertTrue(srce.contains("private static final int BYTE_LENGTH = 79;"));
@@ -195,6 +195,30 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
         assertTrue(srce
                 .contains(
                 "public class DfhcommareaXmlTransformers extends AbstractXmlTransformers {"));
+
+        srce = getSource(GEN_SRC_DIR, getSrcFilename("lsfileae",
+                "DfhcommareaHostToJsonTransformer"));
+        assertTrue(srce
+                .contains(
+                "public class DfhcommareaHostToJsonTransformer"));
+        assertTrue(srce
+                .contains(
+                "AbstractHostToJsonTransformer"));
+
+        srce = getSource(GEN_SRC_DIR, getSrcFilename("lsfileae",
+                "DfhcommareaJsonToHostTransformer"));
+        assertTrue(srce
+                .contains(
+                "public class DfhcommareaJsonToHostTransformer"));
+        assertTrue(srce
+                .contains(
+                "AbstractJsonToHostTransformer"));
+
+        srce = getSource(GEN_SRC_DIR, getSrcFilename("lsfileae",
+                "DfhcommareaJsonTransformers"));
+        assertTrue(srce
+                .contains(
+                "public class DfhcommareaJsonTransformers extends AbstractJsonTransformers {"));
     }
 
     /**
@@ -314,7 +338,7 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
      * @param rootName JAXB root class name
      */
     private void genSource(final String schemaName, final String rootName) {
-        genSource(schemaName, rootName, false);
+        genSource(schemaName, rootName, false, false);
     }
 
     /**
@@ -323,15 +347,17 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
      * @param schemaName the originating XSD name
      * @param rootName JAXB root class name
      * @param xmlTransformers true to generate XML transformers
+     * @param jsonTransformers true to generate JSON transformers
      */
     private void genSource(final String schemaName, final String rootName,
-            final boolean xmlTransformers) {
+            final boolean xmlTransformers, final boolean jsonTransformers) {
         CoxbBindingGenerator gen = new CoxbBindingGenerator();
         gen.setJaxbBinDir(JAXB_BIN_DIR);
         gen.setJaxbPackageName(JAXB_PKG_PFX + '.' + schemaName);
         gen.setJaxbRootClassName(rootName);
         gen.setTargetDir(GEN_SRC_DIR);
         gen.setXmlTransformers(xmlTransformers);
+        gen.setJsonTransformers(jsonTransformers);
         gen.execute();
     }
 

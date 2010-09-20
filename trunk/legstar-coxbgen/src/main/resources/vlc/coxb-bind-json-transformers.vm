@@ -1,0 +1,77 @@
+## Determine the value Object type
+#set ($valueObjectType = $coxbHelper.getBoundTypeName($binding))
+package ${coxbContext.getCoxbPackageName()};
+
+import java.io.Reader;
+import java.io.Writer;
+
+import com.legstar.coxb.transform.AbstractJsonTransformers;
+import com.legstar.coxb.transform.HostTransformException;
+
+/**
+ * JSON Transformers provider for ${valueObjectType}.
+ *
+ */
+public class ${binding.jaxbName}JsonTransformers extends AbstractJsonTransformers {
+
+    /**
+     * Create a set of directional transformers.
+     *
+     * @throws HostTransformException if transformer cannot be created
+     */
+    public ${binding.jaxbName}JsonTransformers() throws HostTransformException {
+        super(new ${binding.jaxbName}JsonToHostTransformer(),
+                new ${binding.jaxbName}HostToJsonTransformer());
+    }
+
+    /**
+     * Transforms JSON to host data with a specific host character set.
+     * 
+     * @param reader the JSON Reader to unmarshal JSON data from
+     * @param hostCharset the host character set
+     * @return a byte array with host data
+     * @throws HostTransformException if transformation fails
+     */
+    public byte[] toHost(final Reader reader, final String hostCharset)
+            throws HostTransformException {
+        return getJsonToHost().transform(reader, hostCharset);
+    }
+
+    /**
+     * Transforms JSON to host data.
+     * 
+     * @param reader the JSON reader to unmarshal JSON data from
+     * @return a byte array with host data
+     * @throws HostTransformException if transformation fails
+     */
+    public byte[] toHost(final Reader reader)
+            throws HostTransformException {
+        return getJsonToHost().transform(reader);
+    }
+
+    /**
+     * Transforms host data to JSON with a specific host character set.
+     * 
+     * @param hostData a byte array containing host data
+     * @param writer JSON will be sent to this writer.
+     * @param hostCharset the host character set
+     * @throws HostTransformException if transformation fails
+     */
+    public void toJson(final byte[] hostData, final Writer writer,
+            final String hostCharset)
+            throws HostTransformException {
+        getHostToJson().transform(hostData, writer, hostCharset);
+    }
+
+    /**
+     * Transforms host data to JSON.
+     * 
+     * @param hostData a byte array containing host data
+     * @param writer JSON will be sent to this writer.
+     * @throws HostTransformException if transformation fails
+     */
+    public void toJson(final byte[] hostData, final Writer writer)
+            throws HostTransformException {
+        getHostToJson().transform(hostData, writer);
+    }
+}

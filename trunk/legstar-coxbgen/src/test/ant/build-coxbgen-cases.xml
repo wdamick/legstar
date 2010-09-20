@@ -53,6 +53,8 @@
 		</foreach>
 		<coxbgen 
 			targetDir="${coxb.src.dir}"
+            xmlTransformers="true"
+            jsonTransformers="true"
             jaxbPackageName="com.legstar.test.coxb.lsfileal"
 	        >
 	            <jaxbRootClass name="RequestParms"/>
@@ -60,6 +62,8 @@
 	        </coxbgen>
 		<coxbgen 
 			targetDir="${coxb.src.dir}"
+            xmlTransformers="true"
+            jsonTransformers="true"
             jaxbPackageName="com.legstar.test.coxb.lsfileac"
 	        >
 	            <jaxbRootClass name="QueryData"/>
@@ -69,6 +73,8 @@
 	        </coxbgen>
         <coxbgen 
         	jaxbPackageName="com.legstar.test.coxb.cultureinfo"
+            xmlTransformers="true"
+            jsonTransformers="true"
             targetDir="${coxb.src.dir}"
             >
                 <jaxbRootClass name="GetInfo"/>
@@ -76,6 +82,8 @@
             </coxbgen>
         <coxbgen 
             jaxbPackageName="com.legstar.test.coxb.jvmquery"
+            xmlTransformers="true"
+            jsonTransformers="true"
             targetDir="${coxb.src.dir}"
             >
                 <jaxbRootClass name="JvmQueryRequest"/>
@@ -84,6 +92,8 @@
         <coxbgen 
         	xsdFile="${xsd.dir}/jvmquery-ws.xsd"
             JaxbPackageName="com.legstar.test.coxb.ws.jvmquery"
+            xmlTransformers="true"
+            jsonTransformers="true"
             targetDir="${coxb.src.dir}"
             >
                 <jaxbRootClass name="QueryJvm"/>
@@ -91,6 +101,8 @@
             </coxbgen>
         <coxbgen 
             jaxbPackageName="com.legstar.test.coxb.MSNSearch"
+            xmlTransformers="true"
+            jsonTransformers="true"
             targetDir="${coxb.src.dir}"
             >
                 <jaxbRootClass name="Search"/>
@@ -98,6 +110,8 @@
             </coxbgen>
         <coxbgen 
             jaxbPackageName="com.legstar.test.coxb.varar021"
+            xmlTransformers="true"
+            jsonTransformers="true"
             targetDir="${coxb.src.dir}"
             >
                 <jaxbRootClass name="SearchGrplst"/>
@@ -138,6 +152,8 @@
 			  toupper="false"/>
 		<coxbgen 
             jaxbPackageName="com.legstar.test.coxb.${lcname}"
+			xmlTransformers="true"
+            jsonTransformers="true"
 			targetDir="${coxb.src.dir}"
 		>
             <jaxbRootClass name="Dfhcommarea"/>

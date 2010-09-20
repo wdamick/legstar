@@ -92,6 +92,8 @@ public class Messages extends NLS {
     public static String coxb_options_dialog_title;
     /** COXB generate XML Transformers option. */
     public static String coxb_options_xmltransformers_label;
+    /** COXB generate JSON Transformers option. */
+    public static String coxb_options_jsontransformers_label;
 
     /** Was unable to initialize page. */
     public static String page_initialization_failure_msg;
