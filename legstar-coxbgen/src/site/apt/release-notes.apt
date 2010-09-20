@@ -171,9 +171,10 @@ USING TRANFORMERS
   parameter if you need to use a different one (just make sure your JRE
   charsets.jar supports your character set).
   
-  In addition to Host/Java transformers, there are also Host/XML transformers.
+  In addition to Host/Java transformers, you can generate Host/XML transformers
+  by turning the xmlTransformers generation option on.
   
-  This is sample code to turn host data to XML:
+  Using these transformers, this is sample code to turn host data to XML:
   
 +---------------------------------------
     /**

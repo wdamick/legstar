@@ -55,7 +55,7 @@ public class CobolJAXBAnnotator extends Plugin {
     /** Option passed to XJC to enable this cobol plugin. */
     public static final String OPTION_NAME = "Xlegstar-code";
 
-    /** Logger. */
+    /** Logger to be used only at development time (messes up ant output). */
     private final Log _log = LogFactory.getLog(getClass());
 
     /** Command line help for cobol plugin XJC option. */
@@ -218,8 +218,10 @@ public class CobolJAXBAnnotator extends Plugin {
         }
 
         long end = System.currentTimeMillis();
-        _log.info("Cobol annotation success.");
-        _log.info("Duration=" + (end - start) + " ms");
+        if (_log.isDebugEnabled()) {
+            _log.debug("Cobol annotation success.");
+            _log.debug("Duration=" + (end - start) + " ms");
+        }
 
         return true;
     }

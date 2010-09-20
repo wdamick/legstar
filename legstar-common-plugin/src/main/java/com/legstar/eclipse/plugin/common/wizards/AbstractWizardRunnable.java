@@ -61,6 +61,7 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
     /**
      * Instantiate this runnable from UI items. It is important not to attempt
      * access to UI elements from the background thread.
+     * 
      * @param antBuildModel the model object to be passed to velocity templates
      * @param targetContainerRelativePathName where generated objects are stored
      * @param targetAntFileName the name (no path) of the ant file
@@ -70,7 +71,7 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
             final IAntBuildModel antBuildModel,
             final String targetContainerRelativePathName,
             final String targetAntFileName)
-    throws InvocationTargetException {
+            throws InvocationTargetException {
         mAntBuildModel = antBuildModel;
         mTargetProject = getProject(targetContainerRelativePathName);
         mTargetAntFileName = targetAntFileName;
@@ -78,10 +79,11 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
 
     /**
      * Create a new ANT script file (replace existing one). We create this
-     * one directly under the target container.  The process also creates
+     * one directly under the target container. The process also creates
      * a temporary probe file expected to be deleted by the ant script on
      * successful completion. This serves as a general purpose mechanism to
      * determine whether the ant run was successful or not.
+     * 
      * @param monitor the current monitor
      * @param scale the scale of progress
      * @throws InvocationTargetException if creation fails
@@ -102,6 +104,7 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
 
     /**
      * Execute an ant build monitoring its progress.
+     * 
      * @param monitor the current monitor
      * @param scale the scale of progress
      * @throws InvocationTargetException execution fails
@@ -118,7 +121,7 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
                     getGeneratedAntFile());
             ILaunch launch = antHelper.execute(
                     new SubProgressMonitor(monitor, 1 * scale));
-            /* Wait until the async process is finished  */
+            /* Wait until the async process is finished */
             for (IProcess process : launch.getProcesses()) {
                 if (!process.getLaunch().equals(launch)) {
                     continue;
@@ -136,7 +139,7 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
                 IStreamsProxy streamsProxy = process.getStreamsProxy();
                 if (streamsProxy != null) {
                     String errorMessage =
-                        streamsProxy.getErrorStreamMonitor().getContents();
+                            streamsProxy.getErrorStreamMonitor().getContents();
                     if (errorMessage != null && errorMessage.length() > 0) {
                         Throwable th = new AntLaunchException(
                                 NLS.bind(Messages.ant_failure_stream_msg,
@@ -168,20 +171,20 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
         }
     }
 
-
     /**
      * @return the ant file as a file system object
      */
     protected File getAntFile() {
         File antFile = new File(
                 getTargetAntScriptLocation().toOSString()
-                + File.separatorChar 
-                + getTargetAntFileName());
+                        + File.separatorChar
+                        + getTargetAntFileName());
         return antFile;
     }
 
     /**
      * Create a temporary probe file.
+     * 
      * @return the probe file
      * @throws CodeGenMakeException if file cannot be created
      */
@@ -211,6 +214,7 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
      * The generated script goes into the target project under a specific
      * ant folder.
      * If the ant folder does not yet exist, it is created
+     * 
      * @return the location for the ant script
      */
     protected IPath getTargetAntScriptLocation() {
@@ -247,6 +251,7 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
 
     /**
      * Once the ant file is generated it is retrieved as an IFile.
+     * 
      * @return the generated ant script file ready to be launched
      */
     protected IFile getGeneratedAntFile() {
@@ -258,6 +263,7 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
 
     /**
      * Make sure a folder physically exists.
+     * 
      * @param path a path to the folder (must be absolute)
      */
     protected void mkDir(final IPath path) {
@@ -283,25 +289,26 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
 
     /**
      * Retrieve the parent project from a resource relative path name.
+     * 
      * @param relativePathName relative to workspace root
      * @return the parent project
      */
-    protected static IProject getProject(final String relativePathName) {
+    public static IProject getProject(final String relativePathName) {
         IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
         IResource resource = root.findMember(relativePathName);
         return resource.getProject();
     }
 
-
     /**
      * Determines where the common LegStar plugin is installed on the file
-     *  system.
+     * system.
+     * 
      * @param pluginId the plugin identifier for which the location is sought
      * @return the plugin location
      * @throws InvocationTargetException if location cannot be determined
      */
     public static String getPluginInstallLocation(final String pluginId)
-    throws InvocationTargetException {
+            throws InvocationTargetException {
         return Activator.getPluginInstallLocation(pluginId);
     }
 

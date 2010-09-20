@@ -58,7 +58,6 @@ import com.legstar.eclipse.plugin.common.Messages;
 import com.legstar.eclipse.plugin.common.preferences.PreferenceConstants;
 import com.legstar.eclipse.plugin.common.preferences.PreferenceUrlHistory;
 
-
 /**
  * A generic wizard page that gives all LegStar wizards the same look
  * and feel.
@@ -76,6 +75,7 @@ public abstract class AbstractWizardPage extends WizardPage {
 
     /**
      * Construct a wizard page.
+     * 
      * @param initialSelection the workbench current selection
      * @param pageName the name of this page
      * @param title the title that should appear on this page
@@ -95,14 +95,14 @@ public abstract class AbstractWizardPage extends WizardPage {
                 PreferenceConstants.URL_HISTORY_STORE_KEY_PFX);
 
         ImageDescriptor image =
-            AbstractUIPlugin.
-            imageDescriptorFromPlugin(
-                    Activator.PLUGIN_ID,
-                    Activator.LOGO_IMG);
+                AbstractUIPlugin.
+                        imageDescriptorFromPlugin(
+                                Activator.PLUGIN_ID,
+                                Activator.LOGO_IMG);
         setImageDescriptor(image);
     }
 
-    /** {@inheritDoc}*/
+    /** {@inheritDoc} */
     public void createControl(final Composite parent) {
         Composite container = new Composite(parent, SWT.NULL);
         final GridLayout gridLayout = new GridLayout();
@@ -124,6 +124,7 @@ public abstract class AbstractWizardPage extends WizardPage {
 
     /**
      * Add the controls that are specific to this wizard page.
+     * 
      * @param container the parent container
      */
     public abstract void createExtendedControls(final Composite container);
@@ -135,6 +136,7 @@ public abstract class AbstractWizardPage extends WizardPage {
 
     /**
      * Adds a label that spans only one column.
+     * 
      * @param container parent composite
      * @param text the label text
      * @return the new label
@@ -146,6 +148,7 @@ public abstract class AbstractWizardPage extends WizardPage {
 
     /**
      * Adds a label that spans only one column.
+     * 
      * @param container parent composite
      * @param text the label text
      * @param span how many columns of the grid this should span
@@ -163,6 +166,7 @@ public abstract class AbstractWizardPage extends WizardPage {
 
     /**
      * Create a text field that fills a grid column.
+     * 
      * @param container the parent container
      * @return the new text field
      */
@@ -172,6 +176,7 @@ public abstract class AbstractWizardPage extends WizardPage {
 
     /**
      * Create a text field that fills a grid column.
+     * 
      * @param container the parent container
      * @param span how many columns of the grid this should span
      * @return the new text field
@@ -186,6 +191,7 @@ public abstract class AbstractWizardPage extends WizardPage {
 
     /**
      * Add a new button on a composite.
+     * 
      * @param parent the parent composite
      * @param text text to appear on button
      * @return the newly created button
@@ -199,6 +205,7 @@ public abstract class AbstractWizardPage extends WizardPage {
 
     /**
      * Create a group container spanning all columns.
+     * 
      * @param container the parent container
      * @param text the group text
      * @return the new group
@@ -210,6 +217,7 @@ public abstract class AbstractWizardPage extends WizardPage {
 
     /**
      * Create a Combo widget.
+     * 
      * @param container parent composite
      * @return the new combo widget
      */
@@ -222,6 +230,7 @@ public abstract class AbstractWizardPage extends WizardPage {
 
     /**
      * Create a container spanning all columns of parent container grid.
+     * 
      * @param container the parent container
      * @param columns the number of columns this containers layout should have
      * @return the new container
@@ -239,6 +248,7 @@ public abstract class AbstractWizardPage extends WizardPage {
     /**
      * Create a group container spanning all columns but with a potentially
      * different number of columns for its internal layout.
+     * 
      * @param container the parent container
      * @param text the group text
      * @param columns the number of columns this groups layout should have
@@ -259,6 +269,7 @@ public abstract class AbstractWizardPage extends WizardPage {
      * This type of widget has a textbox and a browse button to lookup a folder
      * on the file system. The content is tied to a preference store element so
      * content can be saved and restored.
+     * 
      * @param container the parent composite
      * @param preferenceName the preference store item
      * @param labelText the label's text appearing before the textbox
@@ -276,6 +287,7 @@ public abstract class AbstractWizardPage extends WizardPage {
     /**
      * This type of widget is a simple textbox preceded by a label.
      * The content can be initialized from a preference store.
+     * 
      * @param container the parent composite
      * @param store a preference store
      * @param preferenceName the preference store item
@@ -298,6 +310,7 @@ public abstract class AbstractWizardPage extends WizardPage {
     /**
      * Create a browse button. It pops up a dialog to select a folder and
      * sets an associated text field with the result.
+     * 
      * @param container parent container
      * @param dialogTitle title that browse dialog should display
      * @param result Text field to update on return from dialog
@@ -325,6 +338,7 @@ public abstract class AbstractWizardPage extends WizardPage {
     /**
      * Create a browse button. It pops up a dialog to select a folder and
      * sets an associated text field with the result.
+     * 
      * @param container parent container
      * @param dialogTitle title that browse dialog should display
      * @param result Text field to update on return from dialog
@@ -348,6 +362,7 @@ public abstract class AbstractWizardPage extends WizardPage {
     /**
      * Create a browse button. It pops up a dialog to select files. It
      * then reads each file and store its content in a text area.
+     * 
      * @param container parent container
      * @param dialogTitle title that browse dialog should display
      * @param result Text field to update on return from dialog
@@ -369,7 +384,8 @@ public abstract class AbstractWizardPage extends WizardPage {
 
     /**
      * Opens a file selection dialog and merges all selected files
-     * contents into a single string. 
+     * contents into a single string.
+     * 
      * @param dialogTitle title that browse dialog should display
      * @return a cumulative content of all files selected
      */
@@ -391,6 +407,7 @@ public abstract class AbstractWizardPage extends WizardPage {
     /**
      * Uses the standard file selection dialog to choose a set of files
      * from the file system.
+     * 
      * @param dialogTitle what the title should say
      * @return an array of selected file names or null
      */
@@ -404,6 +421,7 @@ public abstract class AbstractWizardPage extends WizardPage {
     /**
      * Uses the standard directory selection dialog to choose folders
      * from the file system.
+     * 
      * @param dialogTitle what the title should say
      * @return an array of selected file names or null
      */
@@ -416,6 +434,7 @@ public abstract class AbstractWizardPage extends WizardPage {
 
     /**
      * Reads the content of a file in a string.
+     * 
      * @param fileName name of the file
      * @return a string with the file content
      * @throws IOException if fails to read file
@@ -435,6 +454,7 @@ public abstract class AbstractWizardPage extends WizardPage {
 
     /**
      * Create a Hyperlink Eclipse 3.0 style.
+     * 
      * @param container the parent container
      * @param text the text of the hyperlink
      * @param image an image to show on the left of the ling
@@ -452,6 +472,7 @@ public abstract class AbstractWizardPage extends WizardPage {
 
     /**
      * Create a Hyperlink Eclipse 3.0 style.
+     * 
      * @param container the parent container
      * @param text the text of the hyperlink
      * @param image an image to show on the left of the ling
@@ -480,18 +501,20 @@ public abstract class AbstractWizardPage extends WizardPage {
      * Creates a Combo box and additional widgets. This group of widgets allow
      * users to enter a URL in various ways.
      * <ul>
-     *  <li>Typing in the URL in a text box</li>
-     *  <li>Selecting a previous URL from the combo box</li>
-     *  <li>Browsing for a local file</li>
+     * <li>Typing in the URL in a text box</li>
+     * <li>Selecting a previous URL from the combo box</li>
+     * <li>Browsing for a local file</li>
      * </ul>
+     * 
      * @param container the parent container
      * @param urlType the type of URL this group is supposed to fetch. This is
-     *  used for labels.
+     *            used for labels.
      * @param modifyListener listener to be notified when the content of the
-     *  combo box changes
+     *            combo box changes
      * @param selectionListener listener to be notified when a URL is selected
-     *  either because the Go button is pressed or a URL was returned from
-     *  the file system.
+     *            either because the Go button is pressed or a URL was returned
+     *            from
+     *            the file system.
      * @return the Combo box holding URLs
      */
     public Combo createUrlComboGroup(
@@ -511,17 +534,20 @@ public abstract class AbstractWizardPage extends WizardPage {
                         ISharedImages.IMG_OBJ_FOLDER),
                         2,
                         new HyperlinkAdapter() {
-                    public void linkActivated(final HyperlinkEvent e) {
-                        String fileName = handleBrowseForFiles(
-                                NLS.bind(Messages.url_select_a_file_label,
-                                        urlType));
-                        if (fileName != null && fileName.length() > 0) {
-                            urlCombo.setText(fileName);
-                            selectionListener.urlSelected(urlCombo.getText());
-                            getUrlHistory().add(urlCombo.getText());
-                        }
-                    }
-                });
+                            public void linkActivated(final HyperlinkEvent e) {
+                                String fileName = handleBrowseForFiles(
+                                        NLS
+                                                .bind(
+                                                        Messages.url_select_a_file_label,
+                                                        urlType));
+                                if (fileName != null && fileName.length() > 0) {
+                                    urlCombo.setText(fileName);
+                                    selectionListener.urlSelected(urlCombo
+                                            .getText());
+                                    getUrlHistory().add(urlCombo.getText());
+                                }
+                            }
+                        });
 
         urlCombo.moveBelow(link);
         final GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
@@ -541,10 +567,10 @@ public abstract class AbstractWizardPage extends WizardPage {
         return urlCombo;
     }
 
-
     /**
      * Uses the standard container selection dialog to choose the new value for
      * a container field.
+     * 
      * @param dialogTitle what the title should say
      * @return a Path to the selected location or null
      */
@@ -565,6 +591,7 @@ public abstract class AbstractWizardPage extends WizardPage {
      * error message is displayed.
      * <p/>
      * The Finish button is enabled only on the valid last page.
+     * 
      * @param errorMessage the text
      */
     public void updateStatus(final String errorMessage) {
@@ -579,6 +606,7 @@ public abstract class AbstractWizardPage extends WizardPage {
     /**
      * What we do here is that we search a project classpath for any occurrence
      * of a container library.
+     * 
      * @param jproject the target java project
      * @param libraryName the name of the container library
      * @return true if the container library is already on the classpath
@@ -589,8 +617,7 @@ public abstract class AbstractWizardPage extends WizardPage {
         try {
             IClasspathEntry[] cpe = jproject.getRawClasspath();
             for (int i = 0; i < cpe.length; i++) {
-                if (cpe[i].getEntryKind()
-                        == IClasspathEntry.CPE_CONTAINER) {
+                if (cpe[i].getEntryKind() == IClasspathEntry.CPE_CONTAINER) {
                     if (cpe[i].getPath().equals(new Path(libraryName))) {
                         return true;
                     }
@@ -620,7 +647,7 @@ public abstract class AbstractWizardPage extends WizardPage {
                 false);
 
         java.util.List < IClasspathEntry > sourceEntries =
-            new ArrayList < IClasspathEntry >();
+                new ArrayList < IClasspathEntry >();
         for (IClasspathEntry entry : jproject.getRawClasspath()) {
             sourceEntries.add(entry);
         }
@@ -639,7 +666,7 @@ public abstract class AbstractWizardPage extends WizardPage {
 
     /**
      * @param initialSelection the initial selection when this page is entered
-     *  to set
+     *            to set
      */
     public void setInitialSelection(
             final IStructuredSelection initialSelection) {
@@ -647,7 +674,36 @@ public abstract class AbstractWizardPage extends WizardPage {
     }
 
     /**
+     * We can't set SWT Text values with null values so make sure we
+     * pass empty strings instead.
+     * 
+     * @param text the text field to set
+     * @param value the potentially null value
+     */
+    public static void setTextFromString(final Text text, final String value) {
+        if (value == null) {
+            text.setText("");
+        } else {
+            text.setText(value);
+        }
+    }
+
+    /**
+     * Moves values from Text fields to strings nullifying empty strings.
+     * 
+     * @param text the text field
+     * @return the text value or null if value is empty
+     */
+    public static String getValueFromText(final Text text) {
+        if (text.getText().length() == 0) {
+            return null;
+        }
+        return text.getText();
+    }
+
+    /**
      * Pops an error message.
+     * 
      * @param shell parent shell
      * @param dialogTitle the error dialog title
      * @param pluginID the parent plugin ID
@@ -666,6 +722,7 @@ public abstract class AbstractWizardPage extends WizardPage {
 
     /**
      * Log exception.
+     * 
      * @param innerException exception
      * @param pluginID plugin ID
      */
@@ -677,6 +734,7 @@ public abstract class AbstractWizardPage extends WizardPage {
 
     /**
      * Create a formatted core exception.
+     * 
      * @param e an exception
      * @throws CoreException the core exception
      */
@@ -687,6 +745,7 @@ public abstract class AbstractWizardPage extends WizardPage {
 
     /**
      * Create a formatted core exception.
+     * 
      * @param message the error message
      * @throws CoreException the core exception
      */
@@ -696,7 +755,7 @@ public abstract class AbstractWizardPage extends WizardPage {
     }
 
     /**
-     * @return the URL history manager 
+     * @return the URL history manager
      */
     public PreferenceUrlHistory getUrlHistory() {
         return mUrlHistory;
