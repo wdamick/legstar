@@ -113,16 +113,18 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
      * By default, the target project is the Xsd file containing project.
      * 
      * @param selection current workbench selection
+     * @param coxbModel the data model
      * @param xsdFile XML schema file
      */
     public CoxbGenWizardPage(
-            final IStructuredSelection selection, final IFile xsdFile) {
+            final IStructuredSelection selection,
+            final IFile xsdFile,
+            final CoxbGenModel coxbModel) {
         super(selection, PAGE_NAME,
                 Messages.wizard_page_title, Messages.wizard_page_description);
         _xsdFile = xsdFile;
-        _coxbModel = new CoxbGenModel();
+        _coxbModel = coxbModel;
         _coxbModel.setXsdFile(_xsdFile.getLocation().toFile());
-
     }
 
     /** {@inheritDoc} */
@@ -148,12 +150,12 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
 
         });
         final Button jaxbOptionsButton = createButton(group,
-                Messages.jaxb_advanced_button_label);
+                Messages.jaxb_options_button_label);
         jaxbOptionsButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(final SelectionEvent e) {
-                CoxbGenXjbDialog dialog = new CoxbGenXjbDialog(
+                CoxbGenJaxbOtionsDialog dialog = new CoxbGenJaxbOtionsDialog(
                         getShell(), getCoxbModel().getJaxbXjbModel());
-                if (dialog.open() == CoxbGenXjbDialog.OK) {
+                if (dialog.open() == CoxbGenJaxbOtionsDialog.OK) {
                     handleXJBParameters(dialog);
                 }
             }
@@ -454,7 +456,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
      * 
      * @param dialog the XJB parameters dialog
      */
-    protected void handleXJBParameters(final CoxbGenXjbDialog dialog) {
+    protected void handleXJBParameters(final CoxbGenJaxbOtionsDialog dialog) {
         try {
             initRootElements(getXsdFile());
         } catch (CoreException e) {
@@ -561,4 +563,5 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
     public CoxbGenModel getCoxbModel() {
         return _coxbModel;
     }
+
 }

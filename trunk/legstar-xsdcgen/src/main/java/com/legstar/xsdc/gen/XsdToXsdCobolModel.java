@@ -12,6 +12,7 @@ package com.legstar.xsdc.gen;
 
 import java.io.File;
 import java.net.URI;
+import java.util.Properties;
 
 import com.legstar.codegen.CodeGenMakeException;
 import com.legstar.codegen.models.SourceToXsdCobolModel;
@@ -21,19 +22,48 @@ import com.legstar.codegen.models.SourceToXsdCobolModel;
  */
 public class XsdToXsdCobolModel extends SourceToXsdCobolModel {
 
-    /** A URI where the XSD is available. */
-    private URI mInputXsdUri;
-
     /** This generator name. */
     public static final String X2S_GENERATOR_NAME =
-        "LegStar Xsd or Wsdl to Xsd generator";
+            "LegStar Xsd or Wsdl to Xsd generator";
 
     /** This velocity template. */
     public static final String X2S_VELOCITY_MACRO_NAME =
-        "vlc/build-xsd2xs-xml.vm";
+            "vlc/build-xsd2xs-xml.vm";
+
+    /*
+     * Following are key identifiers for this model serialization.
+     */
+
+    /** URI where the XSD is available. */
+    public static final String INPUT_XSD_URI = "inputXsdUri";
+
+    /*
+     * Following are this class fields that are persistent.
+     */
+
+    /** A URI where the XSD is available. */
+    private URI _inputXsdUri;
+
+    /**
+     * A no-Arg constructor.
+     */
+    public XsdToXsdCobolModel() {
+        super();
+    }
+
+    /**
+     * Construct from a properties file.
+     * 
+     * @param props the property file
+     */
+    public XsdToXsdCobolModel(final Properties props) {
+        super(props);
+        setInputXsdUri(getURI(props, INPUT_XSD_URI, null));
+    }
 
     /**
      * Creates an ant build script file ready for XSD generation.
+     * 
      * @param targetFile the script file that must be created
      * @throws CodeGenMakeException if generation fails
      */
@@ -47,7 +77,7 @@ public class XsdToXsdCobolModel extends SourceToXsdCobolModel {
      * @return the input XML schema uri
      */
     public URI getInputXsdUri() {
-        return mInputXsdUri;
+        return _inputXsdUri;
     }
 
     /**
@@ -55,7 +85,15 @@ public class XsdToXsdCobolModel extends SourceToXsdCobolModel {
      */
     public void setInputXsdUri(
             final URI xsdUri) {
-        mInputXsdUri = xsdUri;
+        _inputXsdUri = xsdUri;
     }
 
+    /**
+     * @return a properties file holding the values of this object fields
+     */
+    public Properties toProperties() {
+        Properties props = super.toProperties();
+        putURI(props, INPUT_XSD_URI, getInputXsdUri());
+        return props;
+    }
 }

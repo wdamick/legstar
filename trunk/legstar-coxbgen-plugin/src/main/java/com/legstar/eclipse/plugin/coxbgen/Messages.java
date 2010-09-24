@@ -57,23 +57,25 @@ public class Messages extends NLS {
     public static String xsd_file_name_label;
     /** JAXB package name label. */
     public static String jaxb_package_name_label;
-    /** JAXB advanced button label. */
-    public static String jaxb_advanced_button_label;
-    /** JAXB advanced dialog title. */
-    public static String jaxb_advanced_dialog_title;
+    /** JAXB options button label. */
+    public static String jaxb_options_button_label;
+    /** JAXB options dialog title. */
+    public static String jaxb_options_dialog_title;
+    /** JAXB xjb options group title. */
+    public static String jaxb_xjb_options_group_title;
 
     /** JAXB/XJB generate isset methods label. */
-    public static String xjb_generate_issetmethod_label;
+    public static String jaxb_xjb_generate_issetmethod_label;
     /** JAXB/XJB serializable ID label. */
-    public static String xjb_serializableid_label;
+    public static String jaxb_xjb_serializableid_label;
     /** JAXB/XJB type name prefix label. */
-    public static String xjb_typenameprefix_label;
+    public static String jaxb_xjb_typenameprefix_label;
     /** JAXB/XJB type name suffix label. */
-    public static String xjb_typenamesuffix_label;
+    public static String jaxb_xjb_typenamesuffix_label;
     /** JAXB/XJB element name prefix label. */
-    public static String xjb_elementnameprefix_label;
+    public static String jaxb_xjb_elementnameprefix_label;
     /** JAXB/XJB element name suffix label. */
-    public static String xjb_elementnamesuffix_label;
+    public static String jaxb_xjb_elementnamesuffix_label;
 
     /** COXB package name label. */
     public static String coxb_package_name_label;
@@ -94,6 +96,8 @@ public class Messages extends NLS {
     public static String coxb_options_xmltransformers_label;
     /** COXB generate JSON Transformers option. */
     public static String coxb_options_jsontransformers_label;
+    /** COXB more transformers options group title. */
+    public static String coxb_more_transformers_options_group_title;
 
     /** Was unable to initialize page. */
     public static String page_initialization_failure_msg;

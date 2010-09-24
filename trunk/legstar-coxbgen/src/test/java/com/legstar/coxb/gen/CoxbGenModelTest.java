@@ -13,6 +13,7 @@ package com.legstar.coxb.gen;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Vector;
 
 import org.apache.commons.io.FileUtils;
@@ -22,6 +23,7 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
 
 import com.legstar.codegen.CodeGenUtil;
+import com.legstar.jaxb.gen.CobolJAXBXJBModel;
 
 /**
  * Test the generation model.
@@ -134,6 +136,155 @@ public class CoxbGenModelTest extends AbstractTestTemplate {
     }
 
     /**
+     * Test the serialization and construction using a properties file.
+     * 
+     * @throws Exception if test fails
+     */
+    public void testPropertySerialization() throws Exception {
+        CoxbGenModel model = new CoxbGenModel();
+        Properties props = model.toProperties();
+        assertEquals(null, props
+                .get(CoxbGenModel.COXB_JAXB_PACKAGENAME));
+        assertEquals(null, props.get(CobolJAXBXJBModel.JAXB_XSD_LOCATION));
+        assertEquals("true", props
+                .get(CobolJAXBXJBModel.JAXB_XJB_ISGENERATEISSETMETHOD));
+        assertEquals("1", props
+                .get(CobolJAXBXJBModel.JAXB_XJB_SERIALIZABLE_ID));
+        assertEquals(null, props
+                .get(CobolJAXBXJBModel.JAXB_XJB_ELEMENTNAME_PREFIX));
+        assertEquals(null, props
+                .get(CobolJAXBXJBModel.JAXB_XJB_ELEMENTNAME_SUFFIX));
+        assertEquals(null, props
+                .get(CobolJAXBXJBModel.JAXB_XJB_TYPENAME_PREFIX));
+        assertEquals(null, props
+                .get(CobolJAXBXJBModel.JAXB_XJB_TYPENAME_SUFFIX));
+
+        assertEquals(null, props.get(CoxbGenModel.COXB_PACKAGENAME));
+        assertEquals(null, props
+                .get(CoxbGenModel.COXB_JAXB_ALTERNATIVEPACKAGENAME));
+        assertEquals(null, props
+                .get(CoxbGenModel.COXB_JAXB_ALTERNATIVEFACTORYNAME));
+        assertEquals("false", props.get(CoxbGenModel.COXB_ISXMLTRANSFORMERS));
+        assertEquals("false", props.get(CoxbGenModel.COXB_ISJSONTRANSFORMERS));
+        assertEquals(null, props.get(CoxbGenModel.COXB_XSDFILE));
+        assertEquals(null, props.get(CoxbGenModel.COXB_JAXBROOTCLASSNAMES));
+        assertEquals(null, props.get(CoxbGenModel.COXB_JAXBSRCDIR));
+        assertEquals(null, props.get(CoxbGenModel.COXB_JAXBBINDIR));
+        assertEquals(null, props.get(CoxbGenModel.COXB_COXBSRCDIR));
+        assertEquals(null, props.get(CoxbGenModel.COXB_COXBBINDIR));
+
+        assertEquals(
+                "{isXmlTransformers=false,"
+                        + " serializableID=1,"
+                        + " isJsonTransformers=false,"
+                        + " generateIsSetMethod=true}",
+                model.toString());
+
+        props.put(CoxbGenModel.COXB_JAXB_PACKAGENAME, "jaxb.package.name");
+        model = new CoxbGenModel(props);
+        assertEquals("jaxb.package.name", model.getJaxbPackageName());
+        CobolJAXBXJBModel xjbModel = new CobolJAXBXJBModel();
+        xjbModel.setXsdLocation("xsdLocation");
+        xjbModel.setSerializableUid(265L);
+        xjbModel.setGenerateIsSetMethod(false);
+        xjbModel.setElementNamePrefix("elementNamePrefix");
+        xjbModel.setElementNameSuffix("elementNameSuffix");
+        xjbModel.setTypeNamePrefix("typeNamePrefix");
+        xjbModel.setTypeNameSuffix("typeNameSuffix");
+        props.putAll(xjbModel.toProperties());
+
+        model = new CoxbGenModel(props);
+        assertEquals("xsdLocation", model.getJaxbXjbModel().getXsdLocation());
+        assertEquals(265L, model.getSerializableUid());
+        assertEquals(false, model.isGenerateIsSetMethod());
+        assertEquals("elementNamePrefix", model.getElementNamePrefix());
+        assertEquals("elementNameSuffix", model.getElementNameSuffix());
+        assertEquals("typeNamePrefix", model.getTypeNamePrefix());
+        assertEquals("typeNameSuffix", model.getTypeNameSuffix());
+
+        props.put(CoxbGenModel.COXB_PACKAGENAME, "coxb.package.name");
+        model = new CoxbGenModel(props);
+        assertEquals("coxb.package.name", model.getCoxbPackageName());
+
+        props.put(CoxbGenModel.COXB_JAXB_ALTERNATIVEPACKAGENAME,
+                "jaxb.alt.package.name");
+        props.put(CoxbGenModel.COXB_JAXB_ALTERNATIVEFACTORYNAME,
+                "jaxb.alt.package.name.AltFactory");
+        model = new CoxbGenModel(props);
+        assertEquals("jaxb.alt.package.name", model.getAlternativePackageName());
+        assertEquals("jaxb.alt.package.name.AltFactory", model
+                .getAlternativeFactoryName());
+
+        props.put(CoxbGenModel.COXB_ISXMLTRANSFORMERS, "true");
+        props.put(CoxbGenModel.COXB_ISJSONTRANSFORMERS, "true");
+        model = new CoxbGenModel(props);
+        assertTrue(model.isXmlTransformers());
+        assertTrue(model.isJsonTransformers());
+
+        props.put(CoxbGenModel.COXB_JAXBROOTCLASSNAMES + "_0", "FirstClass");
+        props.put(CoxbGenModel.COXB_JAXBROOTCLASSNAMES + "_1", "SecondClass");
+        model = new CoxbGenModel(props);
+        assertEquals("[FirstClass, SecondClass]", model.getJaxbRootClassNames()
+                .toString());
+
+        props.put(CoxbGenModel.COXB_XSDFILE, "xsdfile");
+        props.put(CoxbGenModel.COXB_JAXBSRCDIR, "jaxbsrcdir");
+        props.put(CoxbGenModel.COXB_JAXBBINDIR, "jaxbbindir");
+        props.put(CoxbGenModel.COXB_COXBSRCDIR, "coxbsrcdir");
+        props.put(CoxbGenModel.COXB_COXBBINDIR, "coxbbindir");
+        model = new CoxbGenModel(props);
+        assertEquals("xsdfile", model.getXsdFile().getPath());
+        assertEquals("jaxbsrcdir", model.getJaxbSrcDir().getPath());
+        assertEquals("jaxbbindir", model.getJaxbBinDir().getPath());
+        assertEquals("coxbsrcdir", model.getCoxbSrcDir().getPath());
+        assertEquals("coxbbindir", model.getCoxbBinDir().getPath());
+
+        props = model.toProperties();
+        assertEquals("jaxb.package.name", props
+                .getProperty(CoxbGenModel.COXB_JAXB_PACKAGENAME));
+        assertEquals("coxb.package.name", props
+                .getProperty(CoxbGenModel.COXB_PACKAGENAME));
+        assertEquals("jaxb.alt.package.name", props
+                .getProperty(CoxbGenModel.COXB_JAXB_ALTERNATIVEPACKAGENAME));
+        assertEquals("jaxb.alt.package.name.AltFactory", props
+                .getProperty(CoxbGenModel.COXB_JAXB_ALTERNATIVEFACTORYNAME));
+        assertEquals("true", props
+                .getProperty(CoxbGenModel.COXB_ISXMLTRANSFORMERS));
+        assertEquals("true", props
+                .getProperty(CoxbGenModel.COXB_ISJSONTRANSFORMERS));
+        assertEquals((new File("xsdfile")).getCanonicalPath(), props
+                .getProperty(CoxbGenModel.COXB_XSDFILE));
+        assertEquals("FirstClass", props
+                .getProperty(CoxbGenModel.COXB_JAXBROOTCLASSNAMES + "_0"));
+        assertEquals("SecondClass", props
+                .getProperty(CoxbGenModel.COXB_JAXBROOTCLASSNAMES + "_1"));
+        assertEquals((new File("jaxbsrcdir")).getCanonicalPath(), props
+                .getProperty(CoxbGenModel.COXB_JAXBSRCDIR));
+        assertEquals((new File("jaxbbindir")).getCanonicalPath(), props
+                .getProperty(CoxbGenModel.COXB_JAXBBINDIR));
+        assertEquals((new File("coxbsrcdir")).getCanonicalPath(), props
+                .getProperty(CoxbGenModel.COXB_COXBSRCDIR));
+        assertEquals((new File("coxbbindir")).getCanonicalPath(), props
+                .getProperty(CoxbGenModel.COXB_COXBBINDIR));
+
+        assertEquals("xsdLocation", props
+                .getProperty(CobolJAXBXJBModel.JAXB_XSD_LOCATION));
+        assertEquals("false", props
+                .getProperty(CobolJAXBXJBModel.JAXB_XJB_ISGENERATEISSETMETHOD));
+        assertEquals("265", props
+                .getProperty(CobolJAXBXJBModel.JAXB_XJB_SERIALIZABLE_ID));
+        assertEquals("elementNamePrefix", props
+                .getProperty(CobolJAXBXJBModel.JAXB_XJB_ELEMENTNAME_PREFIX));
+        assertEquals("elementNameSuffix", props
+                .getProperty(CobolJAXBXJBModel.JAXB_XJB_ELEMENTNAME_SUFFIX));
+        assertEquals("typeNamePrefix", props
+                .getProperty(CobolJAXBXJBModel.JAXB_XJB_TYPENAME_PREFIX));
+        assertEquals("typeNameSuffix", props
+                .getProperty(CobolJAXBXJBModel.JAXB_XJB_TYPENAME_SUFFIX));
+
+    }
+
+    /**
      * Execute an ant script.
      * 
      * @param buildFile the ant script
@@ -141,7 +292,6 @@ public class CoxbGenModelTest extends AbstractTestTemplate {
      */
     protected void runAnt(final File buildFile) throws Exception {
         final Project project = new Project();
-        // project.addBuildListener(new CommonsLoggingListener(_log));
         project.setCoreLoader(this.getClass().getClassLoader());
         project.init();
         ProjectHelper helper = ProjectHelper.getProjectHelper();

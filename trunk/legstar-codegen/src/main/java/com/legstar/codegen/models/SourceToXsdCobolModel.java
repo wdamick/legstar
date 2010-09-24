@@ -11,6 +11,7 @@
 package com.legstar.codegen.models;
 
 import java.io.File;
+import java.util.Properties;
 
 /**
  * A model usable for XML Schema generation.
@@ -22,20 +23,54 @@ import java.io.File;
  */
 public abstract class SourceToXsdCobolModel extends AbstractAntBuildModel {
 
+    /*
+     * Following are key identifiers for this model serialization.
+     */
+
+    /** XSD target namespace. */
+    public static final String XSD_TARGET_NAMESPACE = "targetNamespace";
+
+    /** XSD target directory. */
+    public static final String XSD_TARGET_DIR = "xsdTargetDir";
+
+    /** XSD target file name. */
+    public static final String XSD_TARGET_FILENAME = "targetXsdFileName";
+
+    /*
+     * Following are this class fields that are persistent.
+     */
+
     /** The target schema namespace. */
-    private String mNamespace = "";
+    private String _targetNamespace = "";
 
     /** The target directory where annotated XSD will be created. */
-    private File mTargetDir;
+    private File _xsdTargetDir;
 
     /** The target annotated XSD file name. */
-    private String mTargetXsdFileName;
+    private String _targetXsdFileName;
+
+    /**
+     * A no-Arg constructor.
+     */
+    public SourceToXsdCobolModel() {
+    }
+
+    /**
+     * Construct from a properties file.
+     * 
+     * @param props the property file
+     */
+    public SourceToXsdCobolModel(final Properties props) {
+        setNamespace(getString(props, XSD_TARGET_NAMESPACE, null));
+        setTargetDir(getFile(props, XSD_TARGET_DIR, null));
+        setTargetXsdFileName(getString(props, XSD_TARGET_FILENAME, null));
+    }
 
     /**
      * @return the The target schema namespace
      */
     public String getNamespace() {
-        return mNamespace;
+        return _targetNamespace;
     }
 
     /**
@@ -47,9 +82,9 @@ public abstract class SourceToXsdCobolModel extends AbstractAntBuildModel {
              * Keep namespacelowercase so we can derive package names
              * from it if necessary.
              */
-            mNamespace = namespace.toLowerCase();
+            _targetNamespace = namespace.toLowerCase();
         } else {
-            mNamespace = null;
+            _targetNamespace = null;
         }
     }
 
@@ -57,28 +92,38 @@ public abstract class SourceToXsdCobolModel extends AbstractAntBuildModel {
      * @return the The target directory
      */
     public File getTargetDir() {
-        return mTargetDir;
+        return _xsdTargetDir;
     }
 
     /**
      * @param targetDir the The target directory to set
      */
     public void setTargetDir(final File targetDir) {
-        mTargetDir = targetDir;
+        _xsdTargetDir = targetDir;
     }
 
     /**
      * @return the The target annotated XSD file name
      */
     public String getTargetXsdFileName() {
-        return mTargetXsdFileName;
+        return _targetXsdFileName;
     }
 
     /**
      * @param targetXsdFileName the The target annotated XSD file name to set
      */
     public void setTargetXsdFileName(final String targetXsdFileName) {
-        mTargetXsdFileName = targetXsdFileName;
+        _targetXsdFileName = targetXsdFileName;
     }
 
+    /**
+     * @return a properties file holding the values of this object fields
+     */
+    public Properties toProperties() {
+        Properties props = new Properties();
+        putString(props, XSD_TARGET_NAMESPACE, getNamespace());
+        putFile(props, XSD_TARGET_DIR, getTargetDir());
+        putString(props, XSD_TARGET_FILENAME, getTargetXsdFileName());
+        return props;
+    }
 }

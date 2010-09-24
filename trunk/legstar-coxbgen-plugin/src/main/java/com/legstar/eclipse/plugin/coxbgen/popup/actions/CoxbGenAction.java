@@ -82,8 +82,10 @@ public class CoxbGenAction implements IObjectActionDelegate {
             }
             CoxbGenWizard wizard = new CoxbGenWizard(file);
             Shell shell =
-                PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+                    PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+                            .getShell();
             WizardDialog dialog = new WizardDialog(shell, wizard);
+            dialog.setHelpAvailable(false);
             dialog.create();
             dialog.open();
         } catch (CoreException e) {
@@ -93,10 +95,10 @@ public class CoxbGenAction implements IObjectActionDelegate {
 
     /**
      * @see IActionDelegate#selectionChanged(IAction, ISelection)
-     * @param action the action proxy that handles presentation portion of 
-     *  the action
+     * @param action the action proxy that handles presentation portion of
+     *            the action
      * @param selection the current selection, or <code>null</code> if there
-     *  is no selection.
+     *            is no selection.
      */
     public void selectionChanged(
             final IAction action, final ISelection selection) {

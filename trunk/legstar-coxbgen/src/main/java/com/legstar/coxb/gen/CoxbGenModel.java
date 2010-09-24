@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -41,36 +42,92 @@ import com.sun.xml.bind.api.impl.NameConverter;
  */
 public class CoxbGenModel extends AbstractAntBuildModel {
 
-    /** The JAXB/COXB annotated XML schema file. */
-    private File _xsdFile;
+    /** This generator name. */
+    public static final String COXB_GENERATOR_NAME =
+            "LegStar Binding generator";
+
+    /** This velocity template. */
+    public static final String COXB_VELOCITY_MACRO_NAME =
+            "vlc/build-coxb-xml.vm";
+
+    /** The additional package level for generated binding classes. */
+    private static final String COXB_PACKAGE_SUFFIX = "bind";
+
+    /*
+     * Following are default field values.
+     */
+
+    /** Default value for XML transformers generation. */
+    public static final boolean DEFAULT_ISXMLTRANSFORMERS = false;
+
+    /** Default value for JSON transformers generation. */
+    public static final boolean DEFAULT_ISJSONTRANSFORMERS = false;
+
+    /*
+     * Following are XML identifiers for XML Schema.
+     */
+
+    /** The XML Schema namespace needed to retrieve the target namespace. */
+    private static final String XSD_NS = "http://www.w3.org/2001/XMLSchema";
+
+    /** The XML SChema element name. */
+    private static final String XSD_ELEMENT_NAME = "schema";
+
+    /** The XML Schema targetnamespace attribute. */
+    private static final String XSD_TARGETNAMESPACE_ATTR = "targetNamespace";
+
+    /*
+     * Following are key identifiers for this model serialization.
+     */
+
+    /** JAXB package name. */
+    public static final String COXB_JAXB_PACKAGENAME = "jaxbPackageName";
+
+    /** COXB package name. */
+    public static final String COXB_PACKAGENAME = "coxbPackageName";
+
+    /** JAXB alternate object factory. */
+    public static final String COXB_JAXB_ALTERNATIVEFACTORYNAME = "alternativeFactoryName";
+
+    /** JAXB alternate package name. */
+    public static final String COXB_JAXB_ALTERNATIVEPACKAGENAME = "alternativePackageName";
+
+    /** Generate JSON Transformers. */
+    public static final String COXB_ISJSONTRANSFORMERS = "isJsonTransformers";
+
+    /** Generate XML Transformers. */
+    public static final String COXB_ISXMLTRANSFORMERS = "isXmlTransformers";
+
+    /** XML Schema file. */
+    public static final String COXB_XSDFILE = "xsdFile";
+
+    /** JAXB root class names. */
+    public static final String COXB_JAXBROOTCLASSNAMES = "jaxbRootClassNames";
+
+    /** JAXB source directory. */
+    public static final String COXB_JAXBSRCDIR = "jaxbSrcDir";
+
+    /** JAXB binaries directory. */
+    public static final String COXB_JAXBBINDIR = "jaxbBinDir";
+
+    /** COXB source directory. */
+    public static final String COXB_COXBSRCDIR = "coxbSrcDir";
+
+    /** COXB binaries directory. */
+    public static final String COXB_COXBBINDIR = "coxbBinDir";
+
+    /*
+     * Following are this class fields that are persistent.
+     */
 
     /** The package name used for JAXB classes. */
     private String _jaxbPackageName;
 
     /** JAXB binding customization made available. */
-    private CobolJAXBXJBModel _jaxbXjbModel = new CobolJAXBXJBModel();
-
-    /**
-     * The location where JAXB classes sources live.
-     * This is not strictly needed for binding generation but is useful
-     * when this model is also used for JAXB classes generation.
-     */
-    private File _jaxbSrcDir;
-
-    /** The location where JAXB compiled classes live. */
-    private File _jaxbBinDir;
-
-    /** A set of Jaxb root class names to generated binding classes for. */
-    private List < String > _jaxbRootClassNames;
+    private CobolJAXBXJBModel _jaxbXjbModel;
 
     /** The target package name for generated binding classes. */
     private String _coxbPackageName;
-
-    /** The target directory where source files will be created. */
-    private File _coxbSrcDir;
-
-    /** The target directory where binary files will be created. */
-    private File _coxbBinDir;
 
     /**
      * An optional runtime alternative to the Jaxb package name used at
@@ -90,31 +147,71 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /** Generate Host to JSON transformers. */
     private boolean _jsonTransformers;
 
-    /** The additional package level for generated binding classes. */
-    private static final String COXB_PACKAGE_SUFFIX = "bind";
+    /** The JAXB/COXB annotated XML schema file. */
+    private File _xsdFile;
 
-    /** This generator name. */
-    public static final String COXB_GENERATOR_NAME =
-            "LegStar Binding generator";
+    /** A set of Jaxb root class names to generated binding classes for. */
+    private List < String > _jaxbRootClassNames;
 
-    /** This velocity template. */
-    public static final String COXB_VELOCITY_MACRO_NAME =
-            "vlc/build-coxb-xml.vm";
+    /**
+     * The location where JAXB classes sources live.
+     * This is not strictly needed for binding generation but is useful
+     * when this model is also used for JAXB classes generation.
+     */
+    private File _jaxbSrcDir;
 
-    /** The XML Schema namespace needed to retrieve the target namespace. */
-    private static final String XSD_NS = "http://www.w3.org/2001/XMLSchema";
+    /** The location where JAXB compiled classes live. */
+    private File _jaxbBinDir;
 
-    /** The XML SChema element name. */
-    private static final String XSD_ELEMENT_NAME = "schema";
+    /** The target directory where source files will be created. */
+    private File _coxbSrcDir;
 
-    /** The XML Schema targetnamespace attribute. */
-    private static final String XSD_TARGETNAMESPACE_ATTR = "targetNamespace";
+    /** The target directory where binary files will be created. */
+    private File _coxbBinDir;
+
+    /*
+     * Following are this class fields that are transient.
+     */
 
     /** A general purpose DOM document builder. */
     private DocumentBuilder _docBuilder;
 
     /** Borrowed from XJC. Serves for XML to Java name conversions. */
     private NameConverter _xjNameConverter = new NameConverter.Standard();
+
+    /**
+     * A no-Arg constructor.
+     */
+    public CoxbGenModel() {
+        _jaxbXjbModel = new CobolJAXBXJBModel();
+    }
+
+    /**
+     * Construct from a properties file.
+     * 
+     * @param props the property file
+     */
+    public CoxbGenModel(final Properties props) {
+        setJaxbPackageName(getString(props, COXB_JAXB_PACKAGENAME, null));
+        CobolJAXBXJBModel xjbModel = new CobolJAXBXJBModel(props);
+        setJaxbXjbModel(xjbModel);
+        setCoxbPackageName(getString(props, COXB_PACKAGENAME, null));
+        setAlternativePackageName(getString(props,
+                COXB_JAXB_ALTERNATIVEPACKAGENAME, null));
+        setAlternativeFactoryName(getString(props,
+                COXB_JAXB_ALTERNATIVEFACTORYNAME, null));
+        setXmlTransformers(getBoolean(props, COXB_ISXMLTRANSFORMERS,
+                DEFAULT_ISXMLTRANSFORMERS));
+        setJsonTransformers(getBoolean(props, COXB_ISJSONTRANSFORMERS,
+                DEFAULT_ISJSONTRANSFORMERS));
+        setXsdFile(getFile(props, COXB_XSDFILE, null));
+        setJaxbRootClassNames(getStringList(props, COXB_JAXBROOTCLASSNAMES,
+                null));
+        setJaxbSrcDir(getFile(props, COXB_JAXBSRCDIR, null));
+        setJaxbBinDir(getFile(props, COXB_JAXBBINDIR, null));
+        setCoxbSrcDir(getFile(props, COXB_COXBSRCDIR, null));
+        setCoxbBinDir(getFile(props, COXB_COXBBINDIR, null));
+    }
 
     /**
      * Creates an ant build script file ready for binding generation.
@@ -300,7 +397,9 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      */
     public String getCoxbPackageName() throws CoxbGenException {
         if (_coxbPackageName == null) {
-            return getJaxbPackageName() + '.' + COXB_PACKAGE_SUFFIX;
+            if (getJaxbPackageName() != null) {
+                return getJaxbPackageName() + '.' + COXB_PACKAGE_SUFFIX;
+            }
         }
         return _coxbPackageName;
     }
@@ -500,77 +599,34 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     }
 
     /**
-     * @return a complete trace of parameters values
+     * @return a properties file holding the values of this object fields
      */
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{");
-        sb.append("COXB source dir: " + getCoxbSrcDir());
-        if (getCoxbBinDir() != null) {
-            sb.append(", ");
-            sb.append("COXB binaries dir: " + getCoxbBinDir());
-        }
-        if (getXsdFile() != null) {
-            sb.append(", ");
-            sb.append("XML schema: " + getXsdFile());
-        }
-        sb.append(", ");
+    public Properties toProperties() {
+        Properties props = new Properties();
         try {
-            sb.append("COXB package: " + getCoxbPackageName());
-        } catch (CoxbGenException e1) {
-            sb.append("COXB package: " + e1.getMessage());
-        }
-        if (isXmlTransformers()) {
-            sb.append(", ");
-            sb.append("XML transformers: " + isXmlTransformers());
-        }
-        if (isJsonTransformers()) {
-            sb.append(", ");
-            sb.append("JSON transformers: " + isJsonTransformers());
-        }
-        if (getJaxbSrcDir() != null) {
-            sb.append(", ");
-            sb.append("JAXB source dir: " + getJaxbSrcDir());
-        }
-        if (getJaxbBinDir() != null) {
-            sb.append(", ");
-            sb.append("JAXB binaries dir: " + getJaxbBinDir());
-        }
-        sb.append(", ");
-        try {
-            sb.append("JAXB package: " + getJaxbPackageName());
+            putString(props, COXB_JAXB_PACKAGENAME, getJaxbPackageName());
         } catch (CoxbGenException e) {
-            sb.append("JAXB package: " + e.getMessage());
+            putString(props, COXB_JAXB_PACKAGENAME, e.getMessage());
         }
-        sb.append(", ");
-        sb.append("JAXB binding customization: "
-                + " " + getJaxbXjbModel().toString());
-        if (getJaxbRootClassNames() != null) {
-            sb.append(", ");
-            sb.append("{");
-            boolean next = false;
-            for (String jaxbRootClassName : getJaxbRootClassNames()) {
-                if (next) {
-                    sb.append(", ");
-                } else {
-                    next = true;
-                }
-                sb.append("JAXB root class name: "
-                        + " " + jaxbRootClassName);
-            }
-            sb.append("}");
+        props.putAll(getJaxbXjbModel().toProperties());
+        try {
+            putString(props, COXB_PACKAGENAME, getCoxbPackageName());
+        } catch (CoxbGenException e) {
+            putString(props, COXB_PACKAGENAME, e.getMessage());
         }
-        if (getAlternativePackageName() != null) {
-            sb.append(", ");
-            sb.append("Alternate JAXB package: " + getAlternativePackageName());
-        }
-        if (getAlternativeFactoryName() != null) {
-            sb.append(", ");
-            sb.append("Alternate JAXB factory: " + getAlternativeFactoryName());
-        }
-        sb.append("}");
-        return sb.toString();
+        putString(props, COXB_JAXB_ALTERNATIVEPACKAGENAME,
+                getAlternativePackageName());
+        putString(props, COXB_JAXB_ALTERNATIVEFACTORYNAME,
+                getAlternativeFactoryName());
+        putBoolean(props, COXB_ISXMLTRANSFORMERS, isXmlTransformers());
+        putBoolean(props, COXB_ISJSONTRANSFORMERS, isJsonTransformers());
+        putFile(props, COXB_XSDFILE, getXsdFile());
+        putStringList(props, COXB_JAXBROOTCLASSNAMES, getJaxbRootClassNames());
+        putFile(props, COXB_JAXBSRCDIR, getJaxbSrcDir());
+        putFile(props, COXB_JAXBBINDIR, getJaxbBinDir());
+        putFile(props, COXB_COXBSRCDIR, getCoxbSrcDir());
+        putFile(props, COXB_COXBBINDIR, getCoxbBinDir());
+        return props;
     }
 
 }

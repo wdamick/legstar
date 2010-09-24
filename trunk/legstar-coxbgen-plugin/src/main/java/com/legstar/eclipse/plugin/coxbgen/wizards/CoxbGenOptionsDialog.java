@@ -3,13 +3,14 @@ package com.legstar.eclipse.plugin.coxbgen.wizards;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
 import com.legstar.coxb.gen.CoxbGenModel;
+import com.legstar.eclipse.plugin.common.wizards.AbstractWizardPage;
 import com.legstar.eclipse.plugin.coxbgen.Messages;
 
 /**
@@ -41,6 +42,7 @@ public class CoxbGenOptionsDialog extends TrayDialog {
             final CoxbGenModel coxbModel) {
         super(parentShell);
         setTitle(Messages.coxb_options_dialog_title);
+        setHelpAvailable(false);
         _coxbModel = coxbModel;
     }
 
@@ -71,12 +73,11 @@ public class CoxbGenOptionsDialog extends TrayDialog {
     protected Control createDialogArea(final Composite parent) {
         // create composite
         Composite area = (Composite) super.createDialogArea(parent);
-        final GridLayout gridLayout = new GridLayout();
-        gridLayout.numColumns = 2;
-        gridLayout.verticalSpacing = 9;
-        area.setLayout(gridLayout);
 
-        _generateXmlTransformers = new Button(area, SWT.CHECK);
+        Group group = AbstractWizardPage.createGroup(area,
+                Messages.coxb_more_transformers_options_group_title, 2);
+
+        _generateXmlTransformers = new Button(group, SWT.CHECK);
         _generateXmlTransformers
                 .setText(Messages.coxb_options_xmltransformers_label);
         _generateXmlTransformers
@@ -85,7 +86,7 @@ public class CoxbGenOptionsDialog extends TrayDialog {
         gridData.horizontalSpan = 2;
         _generateXmlTransformers.setLayoutData(gridData);
 
-        _generateJsonTransformers = new Button(area, SWT.CHECK);
+        _generateJsonTransformers = new Button(group, SWT.CHECK);
         _generateJsonTransformers
                 .setText(Messages.coxb_options_jsontransformers_label);
         _generateJsonTransformers
