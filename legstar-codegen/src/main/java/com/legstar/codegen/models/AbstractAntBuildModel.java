@@ -30,7 +30,8 @@ import com.legstar.codegen.CodeGenVelocityException;
  * in turn creates the various artifacts.
  * 
  */
-public abstract class AbstractAntBuildModel implements IAntBuildModel {
+public abstract class AbstractAntBuildModel extends AbstractPropertiesModel
+        implements IAntBuildModel {
 
     /** Where the base LegStar product is installed. */
     private String mProductLocation;

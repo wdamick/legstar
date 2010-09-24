@@ -11,6 +11,7 @@
 package com.legstar.codegen.tasks;
 
 import java.io.File;
+import java.util.Properties;
 
 import org.apache.tools.ant.BuildException;
 
@@ -21,13 +22,13 @@ import junit.framework.TestCase;
 
 /**
  * Test source to xsd generic code.
- *
+ * 
  */
 public class SourceToXsdCobolTaskTest extends TestCase {
 
     /**
      * Invalid target directory should be reported.
-     *
+     * 
      * @throws Exception Any exception encountered
      */
     public void testInvalidTargetDir() throws Exception {
@@ -56,15 +57,15 @@ public class SourceToXsdCobolTaskTest extends TestCase {
             xca.checkInput(true, true);
             fail("testInvalidTargetDir");
         } catch (BuildException e) {
-            assertEquals("src\\test\\resources\\log4j.properties is not a directory or is not writable",
+            assertEquals(
+                    "src\\test\\resources\\log4j.properties is not a directory or is not writable",
                     e.getMessage());
         }
     }
 
-
     /**
      * Place holder class.
-     *
+     * 
      */
     private class SourceToXsdCobolTaskImpl extends SourceToXsdCobolTask {
 
@@ -72,14 +73,19 @@ public class SourceToXsdCobolTaskTest extends TestCase {
 
     /**
      * Place holder class.
-     *
+     * 
      */
     private class SourceToXsdCobolModelImpl extends SourceToXsdCobolModel {
 
-        /** {@inheritDoc}   */
-        public void generateBuild(final File scriptFile) throws CodeGenMakeException {
-            // TODO Auto-generated method stub
+        /** {@inheritDoc} */
+        public void generateBuild(final File scriptFile)
+                throws CodeGenMakeException {
+        }
 
+        /** {@inheritDoc} */
+        @Override
+        public Properties toProperties() {
+            return null;
         }
 
     }

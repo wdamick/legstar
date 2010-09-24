@@ -8,10 +8,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
@@ -22,7 +22,7 @@ import com.legstar.jaxb.gen.CobolJAXBXJBModel;
 /**
  * A dialog box to collect JAXB customization parameters.
  */
-public class CoxbGenXjbDialog extends TrayDialog {
+public class CoxbGenJaxbOtionsDialog extends TrayDialog {
 
     /** title of dialog. */
     private String _title;
@@ -59,10 +59,11 @@ public class CoxbGenXjbDialog extends TrayDialog {
      *            the parent shell
      * @param xjbModel the XJB parameters
      */
-    protected CoxbGenXjbDialog(final Shell parentShell,
+    protected CoxbGenJaxbOtionsDialog(final Shell parentShell,
             final CobolJAXBXJBModel xjbModel) {
         super(parentShell);
-        setTitle(Messages.jaxb_advanced_dialog_title);
+        setTitle(Messages.jaxb_options_dialog_title);
+        setHelpAvailable(false);
         _xjbModel = xjbModel;
     }
 
@@ -93,21 +94,22 @@ public class CoxbGenXjbDialog extends TrayDialog {
     protected Control createDialogArea(final Composite parent) {
         // create composite
         Composite area = (Composite) super.createDialogArea(parent);
-        final GridLayout gridLayout = new GridLayout();
-        gridLayout.numColumns = 2;
-        gridLayout.verticalSpacing = 9;
-        area.setLayout(gridLayout);
 
-        _generateIsSetMethod = new Button(area, SWT.CHECK);
-        _generateIsSetMethod.setText(Messages.xjb_generate_issetmethod_label);
+        Group group = AbstractWizardPage.createGroup(area,
+                Messages.jaxb_xjb_options_group_title, 2);
+
+        _generateIsSetMethod = new Button(group, SWT.CHECK);
+        _generateIsSetMethod
+                .setText(Messages.jaxb_xjb_generate_issetmethod_label);
         _generateIsSetMethod
                 .setSelection(getXjbModel().isGenerateIsSetMethod());
         final GridData gridData = new GridData();
         gridData.horizontalSpan = 2;
         _generateIsSetMethod.setLayoutData(gridData);
 
-        AbstractWizardPage.createLabel(area, Messages.xjb_serializableid_label);
-        _serializableUid = AbstractWizardPage.createText(area);
+        AbstractWizardPage
+                .createLabel(group, Messages.jaxb_xjb_serializableid_label);
+        _serializableUid = AbstractWizardPage.createText(group);
         _serializableUid.setText(Long.toString(getXjbModel()
                 .getSerializableUid()));
         _serializableUid.addVerifyListener(new VerifyListener() {
@@ -122,25 +124,27 @@ public class CoxbGenXjbDialog extends TrayDialog {
 
         });
 
-        AbstractWizardPage.createLabel(area, Messages.xjb_typenameprefix_label);
-        _typeNamePrefix = AbstractWizardPage.createText(area);
+        AbstractWizardPage
+                .createLabel(group, Messages.jaxb_xjb_typenameprefix_label);
+        _typeNamePrefix = AbstractWizardPage.createText(group);
         AbstractWizardPage.setTextFromString(_typeNamePrefix, getXjbModel()
                 .getTypeNamePrefix());
 
-        AbstractWizardPage.createLabel(area, Messages.xjb_typenamesuffix_label);
-        _typeNameSuffix = AbstractWizardPage.createText(area);
+        AbstractWizardPage
+                .createLabel(group, Messages.jaxb_xjb_typenamesuffix_label);
+        _typeNameSuffix = AbstractWizardPage.createText(group);
         AbstractWizardPage.setTextFromString(_typeNameSuffix, getXjbModel()
                 .getTypeNameSuffix());
 
-        AbstractWizardPage.createLabel(area,
-                Messages.xjb_elementnameprefix_label);
-        _elementNamePrefix = AbstractWizardPage.createText(area);
+        AbstractWizardPage.createLabel(group,
+                Messages.jaxb_xjb_elementnameprefix_label);
+        _elementNamePrefix = AbstractWizardPage.createText(group);
         AbstractWizardPage.setTextFromString(_elementNamePrefix, getXjbModel()
                 .getElementNamePrefix());
 
-        AbstractWizardPage.createLabel(area,
-                Messages.xjb_elementnamesuffix_label);
-        _elementNameSuffix = AbstractWizardPage.createText(area);
+        AbstractWizardPage.createLabel(group,
+                Messages.jaxb_xjb_elementnamesuffix_label);
+        _elementNameSuffix = AbstractWizardPage.createText(group);
         AbstractWizardPage.setTextFromString(_elementNameSuffix, getXjbModel()
                 .getElementNameSuffix());
 

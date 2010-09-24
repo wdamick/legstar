@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
@@ -19,13 +20,14 @@ import com.legstar.codegen.CodeGenHelper;
 import com.legstar.codegen.CodeGenMakeException;
 import com.legstar.codegen.CodeGenUtil;
 import com.legstar.codegen.CodeGenVelocityException;
+import com.legstar.codegen.models.AbstractPropertiesModel;
 
 /**
  * Parameters used for the JAXB external binding customization file (XJB)
  * generation.
  * 
  */
-public class CobolJAXBXJBModel {
+public class CobolJAXBXJBModel extends AbstractPropertiesModel {
 
     /** A template for a JAXB external binding customization file. */
     public static final String XJB_TEMPLATE = "vlc/bindings.xjb.vm";
@@ -35,6 +37,20 @@ public class CobolJAXBXJBModel {
 
     /** Velocity identifier for this generator. */
     public static final String XJB_GENERATOR_NAME = "XJB Generator";
+
+    /*
+     * Following are default field values.
+     */
+
+    /** Default value for generate isSet method. */
+    public static final boolean DEFAULT_GENERATEISSETMETHOD = true;
+
+    /** Default value for serializable ID. */
+    public static final long DEFAULT_SERIALIZABLE_ID = 1L;
+
+    /*
+     * Following are XML identifiers for XJB bindings.
+     */
 
     /** JAXB annotation parent element name. */
     private static final String JAXB_DUMMY_PARENT = "jaxbElements";
@@ -69,17 +85,46 @@ public class CobolJAXBXJBModel {
     /** JAXB annotation for a type name suffix transformation. */
     private static final String JAXB_SUFFIX = "suffix";
 
+    /*
+     * Following are key identifiers for this model serialization.
+     */
+
+    /** Physical location of the XML schema. */
+    public static final String JAXB_XSD_LOCATION = "xsdLocation";
+
+    /** Generate isSet methods. */
+    public static final String JAXB_XJB_ISGENERATEISSETMETHOD = "generateIsSetMethod";
+
+    /** Serializable ID. */
+    public static final String JAXB_XJB_SERIALIZABLE_ID = "serializableID";
+
+    /** Element name prefix. */
+    public static final String JAXB_XJB_ELEMENTNAME_PREFIX = "elementNamePrefix";
+
+    /** Element name suffix. */
+    public static final String JAXB_XJB_ELEMENTNAME_SUFFIX = "elementNameSuffix";
+
+    /** Type name prefix. */
+    public static final String JAXB_XJB_TYPENAME_PREFIX = "typeNamePrefix";
+
+    /** Type name suffix. */
+    public static final String JAXB_XJB_TYPENAME_SUFFIX = "typeNameSuffix";
+
+    /*
+     * Following are this class fields.
+     */
+
+    /** The physical location of the XML Schema. */
+    private String _xsdLocation;
+
     /**
      * The serialization unique ID. (All JAXB classes must be serializable for
      * LegStar).
      */
     private long _serializableUid = 1L;
 
-    /** The physical location of the XML Schema. */
-    private String _xsdLocation;
-
     /** Generates isSet methods to check for nulls. */
-    private boolean _generateIsSetMethod = true;
+    private boolean _generateIsSetMethod = DEFAULT_GENERATEISSETMETHOD;
 
     /** Prefix to add to type names. */
     private String _typeNamePrefix;
@@ -95,6 +140,30 @@ public class CobolJAXBXJBModel {
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
+
+    /**
+     * A no-Arg constructor.
+     */
+    public CobolJAXBXJBModel() {
+
+    }
+
+    /**
+     * Construct from a properties file.
+     * 
+     * @param props the property file
+     */
+    public CobolJAXBXJBModel(final Properties props) {
+        setXsdLocation(getString(props, JAXB_XSD_LOCATION, null));
+        setGenerateIsSetMethod(getBoolean(props,
+                JAXB_XJB_ISGENERATEISSETMETHOD, DEFAULT_GENERATEISSETMETHOD));
+        setSerializableUid(getLong(props, JAXB_XJB_SERIALIZABLE_ID,
+                DEFAULT_SERIALIZABLE_ID));
+        setElementNamePrefix(getString(props, JAXB_XJB_ELEMENTNAME_PREFIX, null));
+        setElementNameSuffix(getString(props, JAXB_XJB_ELEMENTNAME_SUFFIX, null));
+        setTypeNamePrefix(getString(props, JAXB_XJB_TYPENAME_PREFIX, null));
+        setTypeNameSuffix(getString(props, JAXB_XJB_TYPENAME_SUFFIX, null));
+    }
 
     /**
      * Creates an external binding customization file ready for JAXB.
@@ -368,37 +437,32 @@ public class CobolJAXBXJBModel {
         _elementNameSuffix = elementNameSuffix;
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{");
-        sb.append("isGenerateIsSetMethod: " + isGenerateIsSetMethod());
-        sb.append(", ");
-        sb.append("serializableUid: " + getSerializableUid());
+    /**
+     * @return a properties file holding the values of this object fields
+     */
+    public Properties toProperties() {
+        Properties props = new Properties();
         if (getXsdLocation() != null) {
-            sb.append(", ");
-            sb.append("xsdLocation: " + getXsdLocation());
+            putString(props, JAXB_XSD_LOCATION, getXsdLocation());
         }
+        putBoolean(props, JAXB_XJB_ISGENERATEISSETMETHOD,
+                isGenerateIsSetMethod());
+        putLong(props, JAXB_XJB_SERIALIZABLE_ID, getSerializableUid());
         if (getElementNamePrefix() != null) {
-            sb.append(", ");
-            sb.append("elementNamePrefix: " + getElementNamePrefix());
+            putString(props, JAXB_XJB_ELEMENTNAME_PREFIX,
+                    getElementNamePrefix());
         }
         if (getElementNameSuffix() != null) {
-            sb.append(", ");
-            sb.append("elementNameSuffix: " + getElementNameSuffix());
+            putString(props, JAXB_XJB_ELEMENTNAME_SUFFIX,
+                    getElementNameSuffix());
         }
         if (getTypeNamePrefix() != null) {
-            sb.append(", ");
-            sb.append("typeNamePrefix: " + getTypeNamePrefix());
+            putString(props, JAXB_XJB_TYPENAME_PREFIX, getTypeNamePrefix());
         }
         if (getTypeNameSuffix() != null) {
-            sb.append(", ");
-            sb.append("typeNameSuffix: " + getTypeNameSuffix());
+            putString(props, JAXB_XJB_TYPENAME_SUFFIX, getTypeNameSuffix());
         }
-        sb.append("}");
-        return sb.toString();
-
+        return props;
     }
 
 }
