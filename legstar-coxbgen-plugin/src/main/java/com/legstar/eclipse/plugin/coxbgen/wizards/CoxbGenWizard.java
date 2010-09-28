@@ -13,20 +13,16 @@ package com.legstar.eclipse.plugin.coxbgen.wizards;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.IWorkbench;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Properties;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.osgi.service.prefs.BackingStoreException;
 
 import com.legstar.coxb.gen.CoxbGenModel;
 import com.legstar.eclipse.plugin.coxbgen.Activator;
-import com.legstar.eclipse.plugin.coxbgen.Messages;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
 
 /**
@@ -35,6 +31,9 @@ import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
  */
 
 public class CoxbGenWizard extends AbstractWizard {
+
+    /** What we are trying to generate. */
+    public static final String GENERATION_SUBJECT = "Binding classes";
 
     /** The main page of controls. */
     private CoxbGenWizardPage _coxbGenPage;
@@ -45,8 +44,8 @@ public class CoxbGenWizard extends AbstractWizard {
     /** The current XML schema file. */
     private IFile _xsdFile = null;
 
-    /** Set of preferences stored at the project level. */
-    private IEclipsePreferences _projectPreferences;
+    /** An instance of the generator model. */
+    CoxbGenModel _genModel;
 
     /**
      * Constructor for CoxbGenWizard.
@@ -67,35 +66,19 @@ public class CoxbGenWizard extends AbstractWizard {
         super();
         setNeedsProgressMonitor(true);
         _xsdFile = xsdFile;
-        IScopeContext context = new ProjectScope(getXsdFile().getProject());
-        _projectPreferences = context.getNode(Activator.PLUGIN_ID);
-    }
-
-    /**
-     * This method is called when 'Finish' button is pressed in the wizard.
-     * We will create an operation and run it using wizard as execution context.
-     * 
-     * @return true if processing went fine
-     */
-    public boolean performFinish() {
-
+        setProjectPreferences(xsdFile.getProject());
         try {
-            storeProjectPreferences();
-            IRunnableWithProgress op = new CoxbGenWizardRunnable(_coxbGenPage);
-            getContainer().run(true, true, op);
-        } catch (InterruptedException e) {
-            return false;
+            _genModel = new CoxbGenModel(
+                    loadProperties(getProjectPreferences()));
+            _genModel.setProductLocation(getPluginInstallLocation(
+                    com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
+        } catch (BackingStoreException e) {
+            logCoreException(e, getPluginId());
+            _genModel = new CoxbGenModel();
         } catch (InvocationTargetException e) {
-            errorDialog(getShell(),
-                    Messages.generate_error_dialog_title,
-                    Activator.PLUGIN_ID,
-                    Messages.generation_failure_short_msg,
-                    NLS.bind(Messages.generation_failure_long_msg,
-                            _xsdFile.getName(), e.getTargetException()));
-            logCoreException(e.getTargetException(), Activator.PLUGIN_ID);
-            return false;
+            logCoreException(e, getPluginId());
+            _genModel = new CoxbGenModel();
         }
-        return true;
     }
 
     /**
@@ -112,48 +95,14 @@ public class CoxbGenWizard extends AbstractWizard {
     }
 
     /**
-     * Saves the user choices reflected by the model in a preference node.
-     */
-    public void storeProjectPreferences() {
-        storeProperties(getProjectPreferences(), _coxbGenPage.getCoxbModel()
-                .toProperties());
-        try {
-            getProjectPreferences().flush();
-        } catch (BackingStoreException e) {
-            AbstractWizard.logCoreException(e,
-                    Activator.PLUGIN_ID);
-        }
-    }
-
-    /**
      * Adding the page to the wizard.
      * The model is loaded from the preference store if possible.
      */
 
     public void addPages() {
-        CoxbGenModel coxbModel;
-        try {
-            coxbModel = new CoxbGenModel(
-                    loadProperties(getProjectPreferences()));
-        } catch (BackingStoreException e) {
-            logCoreException(e, Activator.PLUGIN_ID);
-            coxbModel = new CoxbGenModel();
-        }
         _coxbGenPage = new CoxbGenWizardPage(_initialSelection, _xsdFile,
-                coxbModel);
+                _genModel);
         addPage(_coxbGenPage);
-    }
-
-    /**
-     * Loads the last user choices.
-     * 
-     * @param preferences a preference node
-     * @return an initialized model
-     * @throws BackingStoreException if access to preference store fails
-     */
-    public CoxbGenModel loadModel(
-            final IEclipsePreferences preferences) throws BackingStoreException {
-        return new CoxbGenModel(loadProperties(preferences));
     }
 
     /**
@@ -163,10 +112,29 @@ public class CoxbGenWizard extends AbstractWizard {
         return _xsdFile;
     }
 
-    /**
-     * @return the project scope preferences
-     */
-    public IEclipsePreferences getProjectPreferences() {
-        return _projectPreferences;
+    /** {@inheritDoc} */
+    @Override
+    public String getGenerationSubject() {
+        return GENERATION_SUBJECT;
     }
+
+    /** {@inheritDoc} */
+    @Override
+    public Properties getPersistProperties() {
+        return _genModel.toProperties();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getPluginId() {
+        return Activator.PLUGIN_ID;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public IRunnableWithProgress getWizardRunnable()
+            throws InvocationTargetException {
+        return new CoxbGenWizardRunnable(_coxbGenPage);
+    }
+
 }

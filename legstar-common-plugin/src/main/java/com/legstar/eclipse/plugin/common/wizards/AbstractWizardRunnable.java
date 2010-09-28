@@ -44,13 +44,13 @@ import com.legstar.eclipse.plugin.common.preferences.PreferenceConstants;
 public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
 
     /** The model to build from. */
-    private IAntBuildModel mAntBuildModel;
+    private IAntBuildModel _antBuildModel;
 
     /** The target project. */
-    private IProject mTargetProject;
+    private IProject _targetProject;
 
     /** The target ant file name (without path). */
-    private String mTargetAntFileName;
+    private String _targetAntFileName;
 
     /** Probe files prefixes. */
     private static final String PROBE_FILE_PREFIX = "probe";
@@ -72,9 +72,27 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
             final String targetContainerRelativePathName,
             final String targetAntFileName)
             throws InvocationTargetException {
-        mAntBuildModel = antBuildModel;
-        mTargetProject = getProject(targetContainerRelativePathName);
-        mTargetAntFileName = targetAntFileName;
+        this(antBuildModel, getProject(targetContainerRelativePathName),
+                targetAntFileName);
+    }
+
+    /**
+     * Instantiate this runnable from UI items. It is important not to attempt
+     * access to UI elements from the background thread.
+     * 
+     * @param antBuildModel the model object to be passed to velocity templates
+     * @param project the Eclipse project
+     * @param targetAntFileName the name (no path) of the ant file
+     * @throws InvocationTargetException if runnable cannot be instantiated
+     */
+    public AbstractWizardRunnable(
+            final IAntBuildModel antBuildModel,
+            final IProject project,
+            final String targetAntFileName)
+            throws InvocationTargetException {
+        _antBuildModel = antBuildModel;
+        _targetProject = project;
+        _targetAntFileName = targetAntFileName;
     }
 
     /**
@@ -94,8 +112,8 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
         monitor.setTaskName(Messages.ant_generating_task_label);
         try {
             File antFile = getAntFile();
-            mAntBuildModel.setProbeFile(getProbeFile());
-            mAntBuildModel.generateBuild(antFile);
+            _antBuildModel.setProbeFile(getProbeFile());
+            _antBuildModel.generateBuild(antFile);
             monitor.worked(1 * scale);
         } catch (CodeGenMakeException e) {
             throw new InvocationTargetException(e);
@@ -201,7 +219,7 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
      * @return true if the probe file was successfully deleted false otherwise
      */
     protected boolean checkProbeFile() {
-        File probeFile = mAntBuildModel.getProbeFile();
+        File probeFile = _antBuildModel.getProbeFile();
         if (probeFile != null) {
             if (probeFile.exists()) {
                 return false;
@@ -227,7 +245,7 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
      * @return the folder where ant scripts need to be stored.
      */
     protected IPath getAntFolderRelativePath() {
-        IPath projectPath = mTargetProject.getFullPath();
+        IPath projectPath = _targetProject.getFullPath();
         IPath containerPath = projectPath.append(getPreferenceAntFolder());
         return containerPath;
     }
@@ -236,7 +254,7 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
      * @return the folder where ant scripts need to be stored.
      */
     protected IPath getAntFolderAbsolutePath() {
-        IPath projectPath = mTargetProject.getLocation();
+        IPath projectPath = _targetProject.getLocation();
         IPath containerPath = projectPath.append(getPreferenceAntFolder());
         return containerPath;
     }
@@ -300,37 +318,24 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
     }
 
     /**
-     * Determines where the common LegStar plugin is installed on the file
-     * system.
-     * 
-     * @param pluginId the plugin identifier for which the location is sought
-     * @return the plugin location
-     * @throws InvocationTargetException if location cannot be determined
-     */
-    public static String getPluginInstallLocation(final String pluginId)
-            throws InvocationTargetException {
-        return Activator.getPluginInstallLocation(pluginId);
-    }
-
-    /**
      * @return the target project
      */
     protected IProject getTargetProject() {
-        return mTargetProject;
+        return _targetProject;
     }
 
     /**
      * @return the target ant file same (not a path)
      */
     protected String getTargetAntFileName() {
-        return mTargetAntFileName;
+        return _targetAntFileName;
     }
 
     /**
      * @return the model to build from
      */
     public IAntBuildModel getAntBuildModel() {
-        return mAntBuildModel;
+        return _antBuildModel;
     }
 
     /**
@@ -338,7 +343,7 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
      */
     public void setAntBuildModel(
             final IAntBuildModel antBuildModel) {
-        mAntBuildModel = antBuildModel;
+        _antBuildModel = antBuildModel;
     }
 
 }

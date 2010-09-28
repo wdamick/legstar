@@ -10,47 +10,75 @@
  ******************************************************************************/
 package com.legstar.cixs.jaxws.model;
 
+import java.util.Properties;
+
 import com.legstar.cixs.gen.model.options.WebServiceParameters;
 
 /**
- * This is a model for Jaxws to Cixs component generation. The generated 
+ * This is a model for Jaxws to Cixs component generation. The generated
  * component runs under Jaxws and wraps a CICS transaction.
- *
+ * 
  */
 public class AntBuildJaxws2CixsModel extends AbstractAntBuildCixsJaxwsModel {
 
     /** This generator name. */
     public static final String JAXWS2CIXS_GENERATOR_NAME =
-        "Jaxws adapter Web Service generator";
+            "Jaxws adapter Web Service generator";
+
+    /**
+     * This velocity template that creates an ant build which in turn
+     * generates the target web service.
+     */
+    public static final String JAXWS2CIXS_VELOCITY_MACRO_NAME =
+            "vlc/build-jws2cixs-xml.vm";
+
+    /* ====================================================================== */
+    /* Following are this class fields that are persistent. = */
+    /* ====================================================================== */
 
     /** Adapter is exposed as a Web Service using these parameters. */
-    private WebServiceParameters mWebServiceParameters;
-
-    /** This velocity template that creates an ant build which in turn
-     * generates the target web service. */
-    public static final String JAXWS2CIXS_VELOCITY_MACRO_NAME =
-        "vlc/build-jws2cixs-xml.vm";
+    private WebServiceParameters _webServiceParameters;
 
     /**
      * Construct the model.
      */
     public AntBuildJaxws2CixsModel() {
         super(JAXWS2CIXS_GENERATOR_NAME, JAXWS2CIXS_VELOCITY_MACRO_NAME);
-        mWebServiceParameters = new WebServiceParameters();
+        _webServiceParameters = new WebServiceParameters();
+    }
+
+    /**
+     * Construct from a properties file.
+     * 
+     * @param props the property file
+     */
+    public AntBuildJaxws2CixsModel(final Properties props) {
+        super(JAXWS2CIXS_GENERATOR_NAME, JAXWS2CIXS_VELOCITY_MACRO_NAME, props);
+        _webServiceParameters = new WebServiceParameters(props);
     }
 
     /**
      * @return the set of parameters needed to expose a Web Service
      */
     public WebServiceParameters getWebServiceParameters() {
-        return mWebServiceParameters;
+        return _webServiceParameters;
     }
 
     /**
-     * @param webServiceParameters the set of parameters needed to expose a Web Service to set
+     * @param webServiceParameters the set of parameters needed to expose a Web
+     *            Service to set
      */
     public void setWebServiceParameters(
             final WebServiceParameters webServiceParameters) {
-        mWebServiceParameters = webServiceParameters;
+        _webServiceParameters = webServiceParameters;
+    }
+
+    /**
+     * @return a properties file holding the values of this object fields
+     */
+    public Properties toProperties() {
+        Properties props = super.toProperties();
+        props.putAll(getWebServiceParameters().toProperties());
+        return props;
     }
 }

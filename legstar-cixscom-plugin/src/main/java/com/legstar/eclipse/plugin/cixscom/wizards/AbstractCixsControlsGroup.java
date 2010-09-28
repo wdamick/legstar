@@ -20,38 +20,45 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
-import com.legstar.eclipse.plugin.cixscom.preferences.PreferenceConstants;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizardPage;
 
 /**
  * Holds a group of controls that might be visible or not.
  * <p/>
- * Such group of controls has a radio button which selection drives
- * the visibility of the entire group.
- *
+ * Such group of controls has a radio button which selection drives the
+ * visibility of the entire group.
+ * 
  */
 public abstract class AbstractCixsControlsGroup {
 
     /** The wizard page to which this widget contributes. */
     private AbstractCixsGeneratorWizardPage mWizardPage;
 
-    /** Button which selection drives the visibility of this group.*/
+    /** Button which selection drives the visibility of this group. */
     private Button mButton = null;
 
     /** The group widget holding the controls. */
     private Group mGroup = null;
 
-    
+    /** Determines if this group is selected. */
+    private boolean _selected;
+
     /**
      * Construct this control group attaching it to a wizard page.
+     * 
      * @param wizardPage the parent wizard page
+     * @param selected whether this group should initially be selected
      */
-    public AbstractCixsControlsGroup(final AbstractCixsGeneratorWizardPage wizardPage) {
+    public AbstractCixsControlsGroup(
+            final AbstractCixsGeneratorWizardPage wizardPage,
+            final boolean selected) {
         mWizardPage = wizardPage;
+        _selected = selected;
     }
-    
-     /**
+
+    /**
      * Contribute the radio button that allow selecting this proxy target.
+     * 
      * @param composite the composite to contribute widgets to
      * @param buttonText the button text
      */
@@ -62,11 +69,13 @@ public abstract class AbstractCixsControlsGroup {
 
     /**
      * Contribute this widget holder widgets to a composite.
+     * 
      * @param composite the composite to contribute widgets to
      * @param groupText the group label
      * @param columns the number of columns in the group layout
      */
-    public void createControls(final Composite composite, final String groupText, final int columns) {
+    public void createControls(final Composite composite,
+            final String groupText, final int columns) {
         mGroup = AbstractWizardPage.createGroup(composite, groupText, columns);
     }
 
@@ -78,7 +87,7 @@ public abstract class AbstractCixsControlsGroup {
         getGroup().setVisible(getSelection());
         ((GridData) getGroup().getLayoutData()).exclude = !getSelection();
     }
-    
+
     /**
      * @return true if the associated button is selected
      */
@@ -88,7 +97,8 @@ public abstract class AbstractCixsControlsGroup {
 
     /**
      * Creation of listeners on controls is separated from control creation.
-     * This allows listeners to be created after all fields have been initialized
+     * This allows listeners to be created after all fields have been
+     * initialized
      * and avoid triggering dialogChanged on initialization.
      */
     public void createListeners() {
@@ -105,30 +115,28 @@ public abstract class AbstractCixsControlsGroup {
      * retrieving last saved values.
      */
     public void initControls() {
-        getButton().setSelection(getProjectPreferences().getBoolean(
-                PreferenceConstants.GROUP_BUTTON_SELECTION + getButton().getText(),
-                false));
+        getButton().setSelection(_selected);
         initExtendedControls();
     }
 
     /**
      * Store the selected values in the project scoped preference store.
      */
-    public void storeProjectPreferences() {
-        getProjectPreferences().putBoolean(
-                PreferenceConstants.GROUP_BUTTON_SELECTION + getButton().getText(),
-                mButton.getSelection());
-        storeExtendedProjectPreferences();
+    public void updateGenModel() {
+        _selected = mButton.getSelection();
+        updateGenModelExtended();
     }
 
     /**
      * Contribute the radio button that allow selecting this proxy target.
+     * 
      * @param composite the composite to contribute widgets to
      */
     public abstract void createButton(final Composite composite);
 
     /**
      * Contribute this widget holder widgets to a composite.
+     * 
      * @param composite the composite to contribute widgets to
      */
     public abstract void createControls(final Composite composite);
@@ -141,30 +149,34 @@ public abstract class AbstractCixsControlsGroup {
 
     /**
      * Creation of listeners on controls is separated from control creation.
-     * This allows listeners to be created after all fields have been initialized
+     * This allows listeners to be created after all fields have been
+     * initialized
      * and avoid triggering dialogChanged on initialization.
      */
     public abstract void createExtendedListeners();
-    
+
     /**
      * Store the selected values in the project scoped preference store.
      */
-    public abstract void storeExtendedProjectPreferences();
+    public abstract void updateGenModelExtended();
 
     /**
      * Check controls for validity.
+     * 
      * @return true if controls content is valid
      */
     public abstract boolean validateControls();
-    
+
     /**
      * @return the The wizard page to which this widget contributes
      */
     public AbstractCixsGeneratorWizardPage getWizardPage() {
         return mWizardPage;
     }
+
     /**
-     * @param wizardPage the The wizard page to which this widget contributes to set
+     * @param wizardPage the The wizard page to which this widget contributes to
+     *            set
      */
     public void setWizardPage(final AbstractCixsGeneratorWizardPage wizardPage) {
         mWizardPage = wizardPage;
@@ -176,7 +188,7 @@ public abstract class AbstractCixsControlsGroup {
     public IEclipsePreferences getProjectPreferences() {
         return getWizardPage().getProjectPreferences();
     }
-    
+
     /**
      * @return the shell of the associated wisard page
      */
@@ -192,7 +204,8 @@ public abstract class AbstractCixsControlsGroup {
     }
 
     /**
-     * @param button button which selection drives the visibility of this group to set
+     * @param button button which selection drives the visibility of this group
+     *            to set
      */
     public void setButton(final Button button) {
         mButton = button;
@@ -210,5 +223,12 @@ public abstract class AbstractCixsControlsGroup {
      */
     public void setGroup(final Group group) {
         mGroup = group;
+    }
+
+    /**
+     * @return wheteher this group is selected or not
+     */
+    public boolean isSelected() {
+        return _selected;
     }
 }

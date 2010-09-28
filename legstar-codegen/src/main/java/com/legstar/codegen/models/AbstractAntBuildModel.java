@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
@@ -53,6 +54,22 @@ public abstract class AbstractAntBuildModel extends AbstractPropertiesModel
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
+
+    /**
+     * A no-Arg constructor.
+     */
+    public AbstractAntBuildModel() {
+        super();
+    }
+
+    /**
+     * Construct from a properties file.
+     * 
+     * @param props the property file
+     */
+    public AbstractAntBuildModel(final Properties props) {
+        super(props);
+    }
 
     /**
      * Creates an ant build script file ready for launching.
@@ -142,5 +159,13 @@ public abstract class AbstractAntBuildModel extends AbstractPropertiesModel
      */
     public void setProbeFile(final File probeFile) {
         mProbeFile = probeFile;
+    }
+
+    /**
+     * @return a properties file holding the values of this object fields
+     */
+    public Properties toProperties() {
+        Properties props = super.toProperties();
+        return props;
     }
 }

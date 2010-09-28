@@ -9,119 +9,166 @@
  *     LegSem - initial API and implementation
  ******************************************************************************/
 package com.legstar.eclipse.plugin.cixscom.wizards;
-import org.eclipse.jface.operation.IRunnableWithProgress;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.Properties;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.IWorkbench;
-import java.lang.reflect.InvocationTargetException;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.osgi.service.prefs.BackingStoreException;
 
+import com.legstar.cixs.gen.ant.model.AbstractAntBuildCixsModel;
+import com.legstar.cixs.gen.model.AbstractCixsService;
+import com.legstar.cixs.gen.model.CixsModelException;
 import com.legstar.eclipse.plugin.cixscom.Messages;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
 
 /**
- * This abstract wizard is shared by all generators based on a Cixs mapping 
+ * This abstract wizard is shared by all generators based on a Cixs mapping
  * file.
  */
 
 public abstract class AbstractCixsGeneratorWizard extends AbstractWizard {
 
     /** The current workbench selection. */
-    private IStructuredSelection mInitialSelection;
+    private IStructuredSelection _initialSelection;
 
     /** The current mapping file. */
-    private IFile mMappingFile = null;
+    private IFile _mappingFile = null;
 
-    /** Set of preferences stored at the project level. */
-    private IEclipsePreferences mProjectPreferences;
+    /** This generator model. */
+    private AbstractAntBuildCixsModel _genModel;
 
     /**
      * Constructor for AbstractCixsGeneratorWizard.
+     * 
      * @param mappingFile an mapping file
-     * @throws CoreException if initialization goes wrong 
+     * @throws CoreException if initialization goes wrong
      */
     public AbstractCixsGeneratorWizard(
             final IFile mappingFile) throws CoreException {
         super();
         setNeedsProgressMonitor(true);
-        mMappingFile = mappingFile;
-        IScopeContext context = new ProjectScope(getMappingFile().getProject());
-        mProjectPreferences = context.getNode(getPluginId());
+        _mappingFile = mappingFile;
+        setProjectPreferences(mappingFile.getProject());
+        _genModel = createGenModel();
     }
 
     /**
-     * @return the subclass plugin ID
+     * Get a generation model for the duration of the wizard.
+     * 
+     * @return a generation model
      */
-    public abstract String getPluginId();
-
-    /**
-     * This method is called when 'Finish' button is pressed in the wizard.
-     * We will create an operation and run it using wizard as execution context.
-     * @return true if processing went fine
-     */
-    public boolean performFinish() {
-
+    protected AbstractAntBuildCixsModel createGenModel() {
         try {
-            IRunnableWithProgress op = getRunnable();
-            getContainer().run(true, true, op);
-        } catch (InterruptedException e) {
-            return false;
+            AbstractAntBuildCixsModel genModel =
+                    createGenModel(loadProperties(getProjectPreferences()));
+            genModel.setCixsService(createServiceModel());
+            genModel.setProductLocation(getPluginInstallLocation(
+                    com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
+            return genModel;
+        } catch (BackingStoreException e) {
+            AbstractWizard
+                    .errorDialog(
+                            getShell(),
+                            Messages.generate_error_dialog_title,
+                            getPluginId(),
+                            Messages.project_preferences_access_failure_short_msg,
+                            NLS
+                                    .bind(
+                                            Messages.project_preferences_access_failure_long_msg,
+                                            getMappingFile().getProject(), e
+                                                    .getMessage()));
+            logCoreException(e, getPluginId());
         } catch (InvocationTargetException e) {
-            errorDialog(getShell(),
+            AbstractWizard.errorDialog(getShell(),
                     Messages.generate_error_dialog_title,
                     getPluginId(),
-                    Messages.generation_failure_short_msg,
-                    NLS.bind(Messages.generation_failure_long_msg,
-                            mMappingFile.getName(), e.getTargetException()));
-            logCoreException(e.getTargetException(), getPluginId());
-            return false;
+                    Messages.plugin_install_locate_failure_short_msg,
+                    NLS.bind(Messages.plugin_install_locate_failure_long_msg,
+                            e.getCause()));
+            logCoreException(e, getPluginId());
         }
-        return true;
+        return null;
+
     }
 
     /**
-     * @return a background runnable task to generate ant scripts.
-     * @throws InvocationTargetException if runnable cannot be created
+     * Try to load the mapping file into a service model.
+     * 
+     * @return a mapping model that might be empty if load fails
      */
-    protected abstract AbstractCixsGeneratorWizardRunnable getRunnable()
-    throws InvocationTargetException;
+    protected AbstractCixsService createServiceModel() {
+        AbstractCixsService serviceModel = createCixsService();
+        try {
+            serviceModel.load(getMappingFile().getLocation().toFile());
+        } catch (CixsModelException e) {
+            AbstractWizard.errorDialog(getShell(),
+                    Messages.generate_error_dialog_title,
+                    getPluginId(),
+                    Messages.mapping_file_load_failure_short_msg,
+                    NLS.bind(Messages.mapping_file_load_failure_long_msg,
+                            getMappingFile().getName(), e.getMessage()));
+            logCoreException(e, getPluginId());
+        }
+        return serviceModel;
+
+    }
+
+    /**
+     * @return the service model for this wizard
+     */
+    public abstract AbstractCixsService createCixsService();
+
+    /**
+     * Generation models are built using properties that were previously saved.
+     * 
+     * @param props a set of saved properties
+     * @return the generation model for this wizard
+     */
+    public abstract AbstractAntBuildCixsModel createGenModel(
+            final Properties props);
 
     /**
      * We will accept the selection in the workbench to see if
      * we can initialize from it.
      * Called by Eclipse to provide the wizard with information about the
-     *  workbench.
-     * {@inheritDoc}
+     * workbench. {@inheritDoc}
      */
     public void init(
             final IWorkbench workbench,
             final IStructuredSelection selection) {
-        mInitialSelection = selection;
+        _initialSelection = selection;
     }
 
     /**
      * @return the Initial Selection
      */
     public IStructuredSelection getInitialSelection() {
-        return mInitialSelection;
+        return _initialSelection;
     }
 
     /**
      * @return the Mapping File
      */
     public IFile getMappingFile() {
-        return mMappingFile;
+        return _mappingFile;
     }
 
     /**
-     * @return the project scope preferences
+     * @return the generation model
      */
-    public IEclipsePreferences getProjectPreferences() {
-        return mProjectPreferences;
+    public AbstractAntBuildCixsModel getGenModel() {
+        return _genModel;
     }
+
+    /** {@inheritDoc} */
+    @Override
+    public Properties getPersistProperties() {
+        return _genModel.toProperties();
+    }
+
 }

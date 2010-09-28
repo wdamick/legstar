@@ -27,7 +27,7 @@ public abstract class AbstractCicxsPreferenceInitializer extends AbstractPrefere
 
         store.setDefault(PreferenceConstants.DEFAULT_CIXS_PACKAGE_NAME_PREFIX,
                 "com.legstar.test.cixs");
-        store.setDefault(PreferenceConstants.CIXS_TARGET_DIST_FOLDER, "dist");
+        store.setDefault(PreferenceConstants.DEFAULT_CIXS_TARGET_DIST_FOLDER, "dist");
     }
 
 }

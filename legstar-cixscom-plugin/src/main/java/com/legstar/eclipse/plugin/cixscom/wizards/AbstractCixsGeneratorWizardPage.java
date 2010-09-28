@@ -10,6 +10,9 @@
  ******************************************************************************/
 package com.legstar.eclipse.plugin.cixscom.wizards;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -37,8 +40,7 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 import org.osgi.service.prefs.BackingStoreException;
 
-import com.legstar.cixs.gen.model.CixsMappingModel;
-import com.legstar.cixs.gen.model.CixsModelException;
+import com.legstar.cixs.gen.ant.model.AbstractAntBuildCixsModel;
 import com.legstar.codegen.CodeGenMakeException;
 import com.legstar.codegen.CodeGenUtil;
 import com.legstar.eclipse.plugin.cixscom.Messages;
@@ -48,65 +50,68 @@ import com.legstar.eclipse.plugin.common.wizards.AbstractWizardPage;
 
 /**
  * Abstract page. Collects parameters needed for common Cixs Artifacts
- * generation. Each subclass will ad its own widgets. 
- *
+ * generation. Each subclass will ad its own widgets.
+ * 
  */
 public abstract class AbstractCixsGeneratorWizardPage
-extends AbstractWizardPage {
+        extends AbstractWizardPage {
+
+    /** This generator model. */
+    private AbstractAntBuildCixsModel _genModel;
 
     /** The current mapping file. */
-    private IFile mMappingFile = null;
-
-    /** The current mapping model. */
-    private CixsMappingModel mMappingModel = null;
+    private IFile _mappingFile = null;
 
     /** Component or service name. */
-    private Text mServiceNameText = null;
+    private Text _serviceNameText = null;
 
     /** Generated Java classes package name. */
-    private Text mJavaClassesPackageNameText = null;
+    private Text _javaClassesPackageNameText = null;
 
     /** Where JAXB classes reside. */
-    private Text mJaxbBinDirText = null;
+    private Text _jaxbBinDirText = null;
 
     /** Where COXB classes reside. */
-    private Text mCoxbBinDirText = null;
+    private Text _coxbBinDirText = null;
 
     /** Where custom classes reside. */
-    private Text mCustBinDirText = null;
+    private Text _custBinDirText = null;
 
     /** Where generated sources reside. */
-    private Text mTargetSrcDirText = null;
+    private Text _targetSrcDirText = null;
 
     /** Where generated classes reside. */
-    private Text mTargetBinDirText = null;
+    private Text _targetBinDirText = null;
 
     /** Where generated ant scripts reside. */
-    private Text mTargetAntDirText = null;
+    private Text _targetAntDirText = null;
 
     /** Where generated distribution archives files reside. */
-    private Text mTargetDistDirText = null;
+    private Text _targetDistDirText = null;
 
     /** The host character set. */
-    private Text mHostCharsetText = null;
+    private Text _hostCharsetText = null;
 
     /**
      * Construct the page.
+     * 
      * @param pageName the page name
      * @param pageTitle the page title
      * @param pageDesc the page description
      * @param selection the current workbench selection
      * @param mappingFile the mapping file
+     * @param genModel the generation model
      */
     protected AbstractCixsGeneratorWizardPage(
             final IStructuredSelection selection,
             final String pageName,
             final String pageTitle,
             final String pageDesc,
-            final IFile mappingFile) {
+            final IFile mappingFile,
+            final AbstractAntBuildCixsModel genModel) {
         super(selection, pageName, pageTitle, pageDesc);
-        mMappingFile = mappingFile;
-        mMappingModel = loadMappingModel(mMappingFile);
+        _mappingFile = mappingFile;
+        _genModel = genModel;
     }
 
     /** {@inheritDoc} */
@@ -126,16 +131,17 @@ extends AbstractWizardPage {
 
     /**
      * Groups parameters that generically describe generated artifacts.
+     * 
      * @param container parent container
      */
     protected void addCixsGroup(final Composite container) {
         Group group = createGroup(container,
                 Messages.generation_project_label, 2);
         createLabel(group, Messages.generation_project_name_label + ':');
-        mServiceNameText = createText(group);
+        _serviceNameText = createText(group);
 
         createLabel(group, Messages.generation_java_package_label + ':');
-        mJavaClassesPackageNameText = createText(group);
+        _javaClassesPackageNameText = createText(group);
 
         addWidgetsToCixsGroup(group);
     }
@@ -147,6 +153,7 @@ extends AbstractWizardPage {
      * in preference pages. These controls change the layout of their parent
      * container. This is why we create canvas within a canvas in order to
      * preserve the parent canvas layout.
+     * 
      * @param tabFolder the parent folder
      */
     private void addCoxbGroup(final TabFolder tabFolder) {
@@ -155,14 +162,11 @@ extends AbstractWizardPage {
                 LAYOUT_COLUMNS);
         Canvas canvas2 = createCanvas(canvas, LAYOUT_COLUMNS);
 
-        mJaxbBinDirText = createDirectoryFieldEditor(canvas2,
-                "com.legstar.eclipse.plugin.cixscom.jaxbBinDir",
+        _jaxbBinDirText = createDirectoryFieldEditor(canvas2,
                 Messages.jaxb_classes_location_label + ':');
-        mCoxbBinDirText = createDirectoryFieldEditor(canvas2,
-                "com.legstar.eclipse.plugin.cixscom.coxbBinDir",
+        _coxbBinDirText = createDirectoryFieldEditor(canvas2,
                 Messages.coxb_classes_location_label + ':');
-        mCustBinDirText = createDirectoryFieldEditor(canvas2,
-                "com.legstar.eclipse.plugin.cixscom.custBinDir",
+        _custBinDirText = createDirectoryFieldEditor(canvas2,
                 Messages.cust_classes_location_label + ':');
 
         addWidgetsToCoxbGroup(canvas2);
@@ -170,6 +174,7 @@ extends AbstractWizardPage {
 
     /**
      * Groups all target folders where artifacts will be generated.
+     * 
      * @param tabFolder the parent folder
      */
     private void addTargetGroup(final TabFolder tabFolder) {
@@ -178,17 +183,13 @@ extends AbstractWizardPage {
                 LAYOUT_COLUMNS);
         Canvas canvas2 = createCanvas(canvas, LAYOUT_COLUMNS);
 
-        mTargetSrcDirText = createDirectoryFieldEditor(canvas2,
-                "com.legstar.eclipse.plugin.cixscom.targetSrcDir",
+        _targetSrcDirText = createDirectoryFieldEditor(canvas2,
                 Messages.java_sources_target_location + ':');
-        mTargetBinDirText = createDirectoryFieldEditor(canvas2,
-                "com.legstar.eclipse.plugin.cixscom.targetBinDir",
+        _targetBinDirText = createDirectoryFieldEditor(canvas2,
                 Messages.java_classes_target_location + ':');
-        mTargetAntDirText = createDirectoryFieldEditor(canvas2,
-                "com.legstar.eclipse.plugin.cixscom.targetAntDir",
+        _targetAntDirText = createDirectoryFieldEditor(canvas2,
                 Messages.ant_scripts_target_location + ':');
-        mTargetDistDirText = createDirectoryFieldEditor(canvas2,
-                "com.legstar.eclipse.plugin.cixscom.targetDistDir",
+        _targetDistDirText = createDirectoryFieldEditor(canvas2,
                 Messages.distribution_files_target_location + ':');
 
         addWidgetsToTargetGroup(canvas2);
@@ -196,13 +197,14 @@ extends AbstractWizardPage {
 
     /**
      * Groups the parameters needed to deploy the generated artifacts.
+     * 
      * @param tabFolder the parent folder
      */
     private void addDeploymentGroup(final TabFolder tabFolder) {
         Canvas canvas = createCanvasInFolder(
                 tabFolder, Messages.deployment_group_label, 2);
 
-        mHostCharsetText = createTextField(canvas, getCommonStore(),
+        _hostCharsetText = createTextField(canvas, getCommonStore(),
                 com.legstar.eclipse.plugin.common.preferences
                 .PreferenceConstants.HOST_CHARSET,
                 Messages.mainframe_charset_label + ':');
@@ -214,70 +216,84 @@ extends AbstractWizardPage {
      * Initialize all fields.
      */
     public void initContents() {
-        setServiceName(getDefaultServiceName());
-        setJavaClassesPackageName(getDefaultJavaClassesPackageName());
-        initJavaSrcAndBinDirs(getMappingFile().getProject());
-        /* Initialized after target bin dir because it depends on it*/
-        initCoxbDir();
-        initOtherArtifactsDirs(getMappingFile().getProject());
+        setServiceName(getInitServiceName());
+        setJavaClassesPackageName(getInitJavaClassesPackageName());
+        setTargetSrcDir(getInitTargetSrcDir());
+        setTargetBinDir(getInitTargetBinDir());
+
+        /* Initialized after target bin dir because they depend on it */
+        setJaxbBinDir(getInitJaxbBinDir());
+        setCoxbBinDir(getInitCoxbBinDir());
+        setCustBinDir(getInitCustBinDir());
+
+        setTargetAntDir(getInitTargetDir(
+                getGenModel().getTargetAntDir(),
+                getCommonStore(),
+                com.legstar.eclipse.plugin.common.preferences.PreferenceConstants.ANT_SCRIPTS_FOLDER));
+        setTargetDistDir(getInitTargetDir(getGenModel().getTargetDistDir(),
+                PreferenceConstants.DEFAULT_CIXS_TARGET_DIST_FOLDER));
+
+        setHostCharset(getInitHostCharset());
+
         initExtendedWidgets(getMappingFile().getProject());
-        
+
         createListeners();
     }
-    
+
     /**
      * Creation of listeners on controls is separated from control creation.
-     * This allows listeners to be created after all fields have been initialized
+     * This allows listeners to be created after all fields have been
+     * initialized
      * and avoid triggering dialogChanged on initialization.
      */
     public void createListeners() {
-        
-        mServiceNameText.addModifyListener(new ModifyListener() {
+
+        _serviceNameText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
         });
-        mJavaClassesPackageNameText.addModifyListener(new ModifyListener() {
+        _javaClassesPackageNameText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
         });
-        mJaxbBinDirText.addModifyListener(new ModifyListener() {
+        _jaxbBinDirText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
         });
-        mCoxbBinDirText.addModifyListener(new ModifyListener() {
+        _coxbBinDirText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
         });
-        mCustBinDirText.addModifyListener(new ModifyListener() {
+        _custBinDirText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
         });
-        mTargetSrcDirText.addModifyListener(new ModifyListener() {
+        _targetSrcDirText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
         });
-        mTargetBinDirText.addModifyListener(new ModifyListener() {
+        _targetBinDirText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
         });
-        mTargetAntDirText.addModifyListener(new ModifyListener() {
+        _targetAntDirText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
         });
-        mTargetDistDirText.addModifyListener(new ModifyListener() {
+        _targetDistDirText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
         });
-        mHostCharsetText.addModifyListener(new ModifyListener() {
+        _hostCharsetText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
@@ -287,73 +303,139 @@ extends AbstractWizardPage {
 
     /**
      * Creation of listeners on controls is separated from control creation.
-     * This allows listeners to be created after all fields have been initialized
+     * This allows listeners to be created after all fields have been
+     * initialized
      * and avoid triggering dialogChanged on initialization.
      */
     public abstract void createExtendedListeners();
-    
+
     /**
-     * On first usage of a mapping file, the default service name will simply be
-     * the mapping name as it appear in the mapping file
+     * Gets an initial value for the service name.
+     * <p/>
+     * Value is retrieved from the Model first (The Model will typically hold
+     * the last values used) and if not found, a new name is built from the
+     * mapping file name:
+     * 
      * <pre>
      *  &lt;cixsMapping name="thisname"&gt;
      * </pre>
-     * Then, whatever value is entered for the project name is stored in the
-     * project preference store and proposed as the service name.
-     * @return the default service name
-     */
-    protected String getDefaultServiceName() {
-        return getProjectPreferences().get(PreferenceConstants.LAST_CIXS_PROJECT_NAME,
-                javaNormalize(getMappingModel().getName()));
-        
-    }
-
-    /**
-     * On first usage of a mapping file, the default package name is built using
-     * default prefix preferences on the service name.
-     * Then, whatever value is entered for the package name is stored in the
-     * project preference store and proposed as the package name.
-     * @return the default package name
-     */
-    protected String getDefaultJavaClassesPackageName() {
-        String prefix = getStore().getString(
-                PreferenceConstants.DEFAULT_CIXS_PACKAGE_NAME_PREFIX);
-        String defaultPackageName;
-        if (prefix == null || prefix.length() == 0) {
-            defaultPackageName = getServiceName().toLowerCase();
-        } else {
-            defaultPackageName = prefix + '.' + getServiceName().toLowerCase();
-        }
-        return getProjectPreferences().get(PreferenceConstants.LAST_CIXS_PACKAGE_NAME,
-                defaultPackageName);
-        
-    }
-
-    /**
-     * TODO Move this to common utility class.
-     * The service name is used in various places as a Java identifier. This
-     * creates a valid Java identifier from a proposed string.
      * 
-     * @param str the input string
-     * @return a a valid java identifier
+     * @return an initial service name
      */
-    public static String javaNormalize(final String str)  {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < str.length(); i++) {
-            Character c = str.charAt(i);
-            if (i == 0) {
-                if (Character.isJavaIdentifierStart(c)) {
-                    sb.append(c);
-                } else {
-                    sb.append("C");
-                }
+    protected String getInitServiceName() {
+        return getGenModel().getCixsService().getName();
+
+    }
+
+    /**
+     * Gets an initial value for the generated java classes package name.
+     * <p/>
+     * Value is retrieved from the Model first (The Model will typically hold
+     * the last values used) and if not found, a new name is built from the
+     * service name and a preferred prefix.
+     * 
+     * @return an initial generated java classes package name
+     */
+    protected String getInitJavaClassesPackageName() {
+        String initValue = getGenModel().getCixsService().getPackageName();
+        if (initValue == null) {
+            String prefix = getStore().getString(
+                    PreferenceConstants.DEFAULT_CIXS_PACKAGE_NAME_PREFIX);
+            if (prefix == null || prefix.length() == 0) {
+                initValue = getServiceName().toLowerCase();
             } else {
-                if (Character.isJavaIdentifierPart(c)) {
-                    sb.append(c);
-                }
+                initValue = prefix + '.' + getServiceName().toLowerCase();
             }
         }
-        return sb.toString();
+        return initValue;
+    }
+
+    /**
+     * Attempts to retrieve a target source directory from the Model. If none is
+     * found, then the target source will be the first source directory of the
+     * Eclipse project.
+     * 
+     * @return an initial source directory
+     */
+    protected String getInitTargetSrcDir() {
+        File initFile = getGenModel().getTargetSrcDir();
+        if (initFile == null) {
+            initFile = getJavaDir(getMappingFile().getProject(), true);
+        }
+        return getDisplayPath(initFile);
+    }
+
+    /**
+     * Attempts to retrieve a target binaries directory from the Model. If none
+     * is found, then the target binaries will be the one that is associated
+     * with the first source directory of the Eclipse project.
+     * 
+     * @return an initial binaries directory
+     */
+    protected String getInitTargetBinDir() {
+        File initFile = getGenModel().getTargetBinDir();
+        if (initFile == null) {
+            initFile = getJavaDir(getMappingFile().getProject(), false);
+        }
+        return getDisplayPath(initFile);
+    }
+
+    /**
+     * Attempts to retrieve a JAXB binaries directory from the Model. If none is
+     * found, then the target binaries directory is assumed.
+     * 
+     * @return a JAXB binaries directory
+     */
+    protected String getInitJaxbBinDir() {
+        File initFile = getGenModel().getJaxbBinDir();
+        if (initFile == null) {
+            return getTargetBinDir();
+        }
+        return getDisplayPath(initFile);
+    }
+
+    /**
+     * Attempts to retrieve a COXB binaries directory from the Model. If none is
+     * found, then the target binaries directory is assumed.
+     * 
+     * @return a COXB binaries directory
+     */
+    protected String getInitCoxbBinDir() {
+        File initFile = getGenModel().getCoxbBinDir();
+        if (initFile == null) {
+            return getTargetBinDir();
+        }
+        return getDisplayPath(initFile);
+    }
+
+    /**
+     * Attempts to retrieve a custom binaries directory from the Model. If none
+     * is found, then the target binaries directory is assumed.
+     * 
+     * @return a custom binaries directory
+     */
+    protected String getInitCustBinDir() {
+        File initFile = getGenModel().getCustBinDir();
+        if (initFile == null) {
+            return getTargetBinDir();
+        }
+        return getDisplayPath(initFile);
+    }
+
+    /**
+     * Attempts to retrieve the host character set from the Mode. If none is
+     * found the general default one is returned.
+     * 
+     * @return an initial host character set
+     */
+    protected String getInitHostCharset() {
+        String initValue = getGenModel().getHostCharset();
+        if (initValue == null) {
+            initValue = getCommonStore().getDefaultString(
+                    com.legstar.eclipse.plugin.common.preferences
+                    .PreferenceConstants.HOST_CHARSET);
+        }
+        return initValue;
     }
 
     /**
@@ -432,20 +514,29 @@ extends AbstractWizardPage {
         }
 
         updateStatus(null);
-        storeProjectPreferences();
+        updateGenModel();
 
     }
 
     /**
-     * Store the selected values in the project scoped preference store.
+     * Store the dialog values in the generation Model.
      */
-    private void storeProjectPreferences() {
-        getProjectPreferences().put(
-                PreferenceConstants.LAST_CIXS_PROJECT_NAME, getServiceName());
-        getProjectPreferences().put(
-                PreferenceConstants.LAST_CIXS_PACKAGE_NAME, getJavaClassesPackageName());
+    protected void updateGenModel() {
+        getGenModel().getCixsService().setName(getServiceName());
+        getGenModel().getCixsService().setPackageName(
+                getJavaClassesPackageName());
+        getGenModel().setTargetSrcDir(new File(getTargetSrcDir()));
+        getGenModel().setTargetBinDir(new File(getTargetBinDir()));
 
-        storeExtendedProjectPreferences();
+        getGenModel().setJaxbBinDir(new File(getJaxbBinDir()));
+        getGenModel().setCoxbBinDir(new File(getCoxbBinDir()));
+        getGenModel().setCustBinDir(new File(getCustBinDir()));
+
+        getGenModel().setTargetAntDir(new File(getTargetAntDir()));
+
+        getGenModel().setHostCharset(getHostCharset());
+
+        updateGenModelExtended();
 
         try {
             getProjectPreferences().flush();
@@ -456,52 +547,59 @@ extends AbstractWizardPage {
     }
 
     /**
-     * Store the downstream classes selected values in the project scoped preference store.
+     * Save the dialog values into the generation Model.
      */
-    public abstract void storeExtendedProjectPreferences();
-    
+    public abstract void updateGenModelExtended();
+
     /**
      * Entry point for derived classes to add more widgets on the main group.
+     * 
      * @param container the parent container
      */
     public abstract void addWidgetsToCixsGroup(final Composite container);
 
     /**
      * Entry point for derived classes to add more widgets on the binding group.
+     * 
      * @param container the parent container
      */
     public abstract void addWidgetsToCoxbGroup(final Composite container);
 
     /**
      * Entry point for derived classes to add more widgets on the target group.
+     * 
      * @param container the parent container
      */
     public abstract void addWidgetsToTargetGroup(final Composite container);
 
     /**
      * Entry point for derived classes to add more widgets on the deployment
-     *  group.
+     * group.
+     * 
      * @param container the parent container
      */
     public abstract void addWidgetsToDeploymentGroup(final Composite container);
 
     /**
      * Give derived classes a chance to initialize their private widgets.
+     * 
      * @param project the current Eclipse project
      */
     public abstract void initExtendedWidgets(final IProject project);
 
     /**
      * Give derived classes a chance to validate their private widgets.
+     * 
      * @return true if widget contrnt is valid, false otherwise
      */
     public abstract boolean validateExtendedWidgets();
 
-    /** @return the subclass plugin.*/
+    /** @return the subclass plugin. */
     public abstract AbstractCixsActivator getActivator();
 
     /**
      * Create a container in a tabfolder.
+     * 
      * @param tabFolder the parent tab folder
      * @param text the tab folder text
      * @param columns the number of columns this containers layout should have
@@ -517,33 +615,44 @@ extends AbstractWizardPage {
     }
 
     /**
-     * Examine the given project and derive default locations java sources
-     * and binaries.
+     * From a Java nature Eclipse project, this utility method retrieves either
+     * a java source folder or an associated java output folder for binaries.
+     * <p/>
+     * The algorithm stops at the first source directory encountered.
+     * 
      * @param project the current Eclipse project
+     * @param source true if we are looking for a source folder, false for an
+     *            output folder
+     * @return a java folder (either source or output)
      */
-    private void initJavaSrcAndBinDirs(final IProject project) {
+    protected File getJavaDir(final IProject project, final boolean source) {
         IJavaProject javaProject = JavaCore.create(project);
         if (javaProject != null) {
             IPath rootPath =
-                javaProject.getProject().getLocation().removeLastSegments(1);
+                    javaProject.getProject().getLocation()
+                            .removeLastSegments(1);
 
-            /* If this is a java project, get first Java source and output
-             * folders. */
+            /*
+             * If this is a java project, get first Java source and output
+             * folders.
+             */
             try {
-                IClasspathEntry[]  cpe = javaProject.getRawClasspath();
+                IClasspathEntry[] cpe = javaProject.getRawClasspath();
                 for (int i = 0; i < cpe.length; i++) {
                     if (cpe[i].getEntryKind() == IClasspathEntry.CPE_SOURCE) {
-                        setTargetSrcDir(rootPath.append(
-                                cpe[i].getPath()).toOSString());
-                        if (cpe[i].getOutputLocation() == null) {
-                            setTargetBinDir(rootPath.append(
-                                    javaProject.getOutputLocation()
-                            ).toOSString());
+                        if (source) {
+                            return rootPath.append(cpe[i].getPath()).toFile();
                         } else {
-                            setTargetBinDir(rootPath.append(
-                                    cpe[i].getOutputLocation()).toOSString());
+                            if (cpe[i].getOutputLocation() == null) {
+                                return rootPath.append(
+                                        javaProject.getOutputLocation())
+                                        .toFile();
+                            } else {
+                                return rootPath.append(
+                                        cpe[i].getOutputLocation())
+                                        .toFile();
+                            }
                         }
-                        return;
                     }
                 }
             } catch (JavaModelException e) {
@@ -557,34 +666,11 @@ extends AbstractWizardPage {
                         getPluginId());
             }
         }
-        /* If everything else failed, assume generated artifacts will go to the 
-         * project root. */
-        setTargetSrcDir(project.getLocation().toOSString());
-        setTargetBinDir(project.getLocation().toOSString());
-    }
-
-    /**
-     * Source classes for JAXB, COXB and Custom are all assumed to come
-     * from the same location as the target binary folder.
-     */
-    private void initCoxbDir() {
-        setJaxbBinDir(getTargetBinDir());
-        setCoxbBinDir(getTargetBinDir());
-        setCustBinDir(getTargetBinDir());
-    }
-
-    /**
-     * Various artifacts locations are driven by preferences.
-     * @param project the target project with the workbench
-     */
-    private void initOtherArtifactsDirs(final IProject project) {
-        setTargetAntDir(getDefaultTargetDir(getCommonStore(),
-                com.legstar.eclipse.plugin.common.preferences
-                .PreferenceConstants.ANT_SCRIPTS_FOLDER));
-
-        setTargetDistDir(getDefaultTargetDir(getStore(),
-                PreferenceConstants.CIXS_TARGET_DIST_FOLDER));
-
+        /*
+         * If everything else failed, assume generated artifacts will go to the
+         * project root.
+         */
+        return project.getLocation().toFile();
     }
 
     /**
@@ -592,8 +678,9 @@ extends AbstractWizardPage {
      * project containing the mapping file and preferences taken from a
      * preference store.
      * This will make sure the default location exists.
+     * 
      * @param store the preference store to use
-     * @param storeKey the preference store key for this target 
+     * @param storeKey the preference store key for this target
      * @return the corresponding default target location
      */
     protected String getDefaultTargetDir(
@@ -616,19 +703,73 @@ extends AbstractWizardPage {
     }
 
     /**
+     * Get a location for a target directory. This is the absolute location of
+     * the directory parameter received or a default location if that parameter
+     * is null or invalid.
+     * 
+     * @param dir the candidate target directory
+     * @param storeKey the preference key to use for default values
+     * @return a unique non ambiguous file location or null if File is null
+     */
+    protected String getInitTargetDir(final File dir, final String storeKey) {
+        return getInitTargetDir(dir, getStore(), storeKey);
+    }
+
+    /**
+     * Get a location for a target directory. This is the absolute location of
+     * the directory parameter received or a default location if that parameter
+     * is null or invalid.
+     * 
+     * @param dir the candidate target directory
+     * @param store a preference store from which to fetch the default
+     * @param storeKey the preference key to use for default values
+     * @return a unique non ambiguous file location or null if File is null
+     */
+    protected String getInitTargetDir(final File dir,
+            final IPreferenceStore store, final String storeKey) {
+        String dirPath = getDisplayPath(dir);
+        if (dirPath == null) {
+            dirPath = getDefaultTargetDir(getStore(), storeKey);
+        }
+        return dirPath;
+    }
+
+    /**
+     * Turns a file into a displayable path. The objective is that there is no
+     * ambiguity as to the location of the file so we avoid relative path
+     * locations.
+     * 
+     * @param file the file whose location is to be displayed
+     * @return a unique non ambiguous file location or null if File is null
+     */
+    protected String getDisplayPath(final File file) {
+        if (file == null) {
+            return null;
+        }
+        try {
+            return file.getCanonicalPath();
+        } catch (IOException e) {
+            /* An invalid file is considered non displayable */
+            return null;
+        }
+    }
+
+    /**
      * The target source folder is part of a Java project. It is assumed
      * this was tested in the validation step so we can safely infer the
      * java nature here.
+     * 
      * @return the target java project
      */
     public IJavaProject getTargetJavaProject() {
         IResource resource = ResourcesPlugin.getWorkspace().getRoot()
-        .getContainerForLocation(new Path(getTargetSrcDir()));
+                .getContainerForLocation(new Path(getTargetSrcDir()));
         return JavaCore.create(resource.getProject());
     }
 
     /**
      * Checks that a folder exists.
+     * 
      * @param dir folder name
      * @param erorMessage the message to use if folder does not exist
      * @return true if folder exist, false otherwise
@@ -648,14 +789,14 @@ extends AbstractWizardPage {
      * @param serviceName Service name to set
      */
     public void setServiceName(final String serviceName) {
-        mServiceNameText.setText(serviceName);
+        _serviceNameText.setText(serviceName);
     }
 
     /**
      * @return Service name
      */
     public String getServiceName() {
-        return mServiceNameText.getText();
+        return _serviceNameText.getText();
     }
 
     /**
@@ -663,170 +804,141 @@ extends AbstractWizardPage {
      */
     public void setJavaClassesPackageName(
             final String javaClassesPackageName) {
-        mJavaClassesPackageNameText.setText(javaClassesPackageName);
+        _javaClassesPackageNameText.setText(javaClassesPackageName);
     }
 
     /**
      * @return Generated java classes package name
      */
     public String getJavaClassesPackageName() {
-        return mJavaClassesPackageNameText.getText();
+        return _javaClassesPackageNameText.getText();
     }
 
     /**
      * @param jaxbBinDirLocation Where JAXB classes reside
      */
     public void setJaxbBinDir(final String jaxbBinDirLocation) {
-        mJaxbBinDirText.setText(jaxbBinDirLocation);
+        _jaxbBinDirText.setText(jaxbBinDirLocation);
     }
 
     /**
      * @return Where JAXB classes reside
      */
     public String getJaxbBinDir() {
-        return mJaxbBinDirText.getText();
+        return _jaxbBinDirText.getText();
     }
 
     /**
      * @param coxbBinDirLocation Where Binding classes reside
      */
     public void setCoxbBinDir(final String coxbBinDirLocation) {
-        mCoxbBinDirText.setText(coxbBinDirLocation);
+        _coxbBinDirText.setText(coxbBinDirLocation);
     }
 
     /**
      * @return Where Binding classes reside
      */
     public String getCoxbBinDir() {
-        return mCoxbBinDirText.getText();
+        return _coxbBinDirText.getText();
     }
 
     /**
      * @param custBinDirLocation Where custom classes reside
      */
     public void setCustBinDir(final String custBinDirLocation) {
-        mCustBinDirText.setText(custBinDirLocation);
+        _custBinDirText.setText(custBinDirLocation);
     }
 
     /**
      * @return Where custom classes reside
      */
     public String getCustBinDir() {
-        return mCustBinDirText.getText();
+        return _custBinDirText.getText();
     }
 
     /**
      * @param targetSrcDirLocation Where generated sources reside
      */
     public void setTargetSrcDir(final String targetSrcDirLocation) {
-        mTargetSrcDirText.setText(targetSrcDirLocation);
+        _targetSrcDirText.setText(targetSrcDirLocation);
     }
 
     /**
      * @return Where generated sources reside
      */
     public String getTargetSrcDir() {
-        return mTargetSrcDirText.getText();
+        return _targetSrcDirText.getText();
     }
 
     /**
      * @param targetBinDirLocation Where generated classes reside
      */
     public void setTargetBinDir(final String targetBinDirLocation) {
-        mTargetBinDirText.setText(targetBinDirLocation);
+        _targetBinDirText.setText(targetBinDirLocation);
     }
 
     /**
      * @return Where generated classes reside
      */
     public String getTargetBinDir() {
-        return mTargetBinDirText.getText();
-    }
-
-    /**
-     * @return the mapping model
-     */
-    public CixsMappingModel getMappingModel() {
-        return mMappingModel;
+        return _targetBinDirText.getText();
     }
 
     /**
      * @param targetAntDirLocation Where generated ant scripts reside
      */
     public void setTargetAntDir(final String targetAntDirLocation) {
-        mTargetAntDirText.setText(targetAntDirLocation);
+        _targetAntDirText.setText(targetAntDirLocation);
     }
 
     /**
      * @return Where generated ant scripts reside
      */
     public String getTargetAntDir() {
-        return mTargetAntDirText.getText();
+        return _targetAntDirText.getText();
     }
 
     /**
      * @param targetDistDirLocation Where generated distribution archives reside
      */
     public void setTargetDistDir(final String targetDistDirLocation) {
-        mTargetDistDirText.setText(targetDistDirLocation);
+        _targetDistDirText.setText(targetDistDirLocation);
     }
 
     /**
      * @return Where generated generated distribution archives reside
      */
     public String getTargetDistDir() {
-        return mTargetDistDirText.getText();
+        return _targetDistDirText.getText();
     }
 
     /**
      * @param hostCharset the mainframe character set
      */
     public void setHostCharset(final String hostCharset) {
-        mHostCharsetText.setText(hostCharset);
+        _hostCharsetText.setText(hostCharset);
     }
 
     /**
      * @return the mainframe character set
      */
     public String getHostCharset() {
-        return mHostCharsetText.getText();
+        return _hostCharsetText.getText();
     }
 
     /**
      * @return the mapping file
      */
     public IFile getMappingFile() {
-        return mMappingFile;
-    }
-
-    /**
-     * Try to load the mapping file into a mapping model.
-     * @param mappingFile the file to load
-     * @return a mapping model that might be empty if load fails
-     */
-    private CixsMappingModel loadMappingModel(final IFile mappingFile) {
-        CixsMappingModel mappingModel = new CixsMappingModel();
-        try {
-            mappingModel.load(mappingFile.getLocation().toFile());
-        } catch (CixsModelException e) {
-            AbstractWizard.errorDialog(getShell(),
-                    Messages.generate_error_dialog_title,
-                    getPluginId(),
-                    Messages.mapping_file_load_failure_short_msg,
-                    NLS.bind(Messages.mapping_file_load_failure_long_msg,
-                            mappingFile.getName(), e.getMessage()));
-            AbstractWizard.logCoreException(e, getPluginId());
-        }
-        return mappingModel;
-
+        return _mappingFile;
     }
 
     /**
      * @return the preference store managed by the common plugin.
      */
     public IPreferenceStore getCommonStore() {
-        return  com.legstar.eclipse.plugin.common.Activator.getDefault()
-        .getPreferenceStore();
+        return com.legstar.eclipse.plugin.common.Activator.getDefault()
+                .getPreferenceStore();
 
     }
 
@@ -848,7 +960,14 @@ extends AbstractWizardPage {
      * @return the project scope preferences
      */
     public IEclipsePreferences getProjectPreferences() {
-        return ((AbstractCixsGeneratorWizard) getWizard()).getProjectPreferences();
+        return ((AbstractCixsGeneratorWizard) getWizard())
+                .getProjectPreferences();
     }
- 
+
+    /**
+     * @return the data model
+     */
+    public AbstractAntBuildCixsModel getGenModel() {
+        return _genModel;
+    }
 }

@@ -22,7 +22,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-import org.eclipse.jface.dialogs.MessageDialog;
+import java.util.Properties;
+
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -40,20 +41,23 @@ import com.legstar.eclipse.plugin.cixsmap.Messages;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
 
 /**
- * Legacy new mapping file wizard. 
+ * Legacy new mapping file wizard.
  * Mapping files describe how legacy programs map to Java/Web Services
- * operations.  
+ * operations.
  * The mapping file has an extension of ".cixs" and is registered with
  * a multi-page editor.
  */
 
 public class NewMappingFileWizard extends AbstractWizard implements INewWizard {
 
+    /** What we are trying to generate. */
+    public static final String GENERATION_SUBJECT = "Operation mapping";
+
     /** This wizard only has one page. */
-    private NewMappingFileWizardPage mPage;
+    private NewMappingFileWizardPage _page;
 
     /** Current workspace selection. */
-    private IStructuredSelection mSelection;
+    private IStructuredSelection _selection;
 
     /**
      * Constructor for NewMappingFileWizard.
@@ -68,23 +72,20 @@ public class NewMappingFileWizard extends AbstractWizard implements INewWizard {
      */
 
     public void addPages() {
-        mPage = new NewMappingFileWizardPage(mSelection);
-        addPage(mPage);
+        _page = new NewMappingFileWizardPage(_selection);
+        addPage(_page);
     }
 
-    /**
-     * This method is called when 'Finish' button is pressed in
-     * the wizard. We will create an operation and run it
-     * using wizard as execution context.
-     * @return true if success
-     */
-    public boolean performFinish() {
-        final String containerName = mPage.getContainerName();
-        final String fileName = mPage.getFileName();
+    /** {@inheritDoc} */
+    @Override
+    public IRunnableWithProgress getWizardRunnable()
+            throws InvocationTargetException {
+        final String containerName = _page.getContainerName();
+        final String fileName = _page.getFileName();
         IRunnableWithProgress op = new IRunnableWithProgress() {
             public void run(
                     final IProgressMonitor monitor)
-            throws InvocationTargetException {
+                    throws InvocationTargetException {
                 try {
                     doFinish(containerName, fileName, monitor);
                 } catch (CoreException e) {
@@ -94,24 +95,14 @@ public class NewMappingFileWizard extends AbstractWizard implements INewWizard {
                 }
             }
         };
-        try {
-            getContainer().run(true, false, op);
-        } catch (InterruptedException e) {
-            return false;
-        } catch (InvocationTargetException e) {
-            Throwable realException = e.getTargetException();
-            MessageDialog.openError(getShell(),
-                    Messages.generate_error_dialog_title,
-                    realException.getMessage());
-            return false;
-        }
-        return true;
+        return op;
     }
 
     /**
      * The worker method. It will find the container, create the
      * file if missing or just replace its contents, and open
      * the editor on the newly created file.
+     * 
      * @param containerName where the file should go
      * @param fileName the mapping file name
      * @param monitor to follow progress
@@ -122,7 +113,7 @@ public class NewMappingFileWizard extends AbstractWizard implements INewWizard {
             final String containerName,
             final String fileName,
             final IProgressMonitor monitor)
-    throws CoreException {
+            throws CoreException {
         // create a sample file
         monitor.beginTask(NLS.bind(
                 Messages.editor_creating_file_task_label, fileName), 2);
@@ -135,7 +126,7 @@ public class NewMappingFileWizard extends AbstractWizard implements INewWizard {
         IContainer container = (IContainer) resource;
         final IFile file = container.getFile(new Path(fileName));
         final String name =
-            new Path(fileName).removeFileExtension().toOSString();
+                new Path(fileName).removeFileExtension().toOSString();
         try {
             InputStream stream = openContentStream(name);
             if (file.exists()) {
@@ -153,8 +144,8 @@ public class NewMappingFileWizard extends AbstractWizard implements INewWizard {
         getShell().getDisplay().asyncExec(new Runnable() {
             public void run() {
                 IWorkbenchPage page =
-                    PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                    .getActivePage();
+                        PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+                                .getActivePage();
                 try {
                     IDE.openEditor(page, file, true);
                 } catch (PartInitException e) {
@@ -167,6 +158,7 @@ public class NewMappingFileWizard extends AbstractWizard implements INewWizard {
 
     /**
      * We will initialize file contents with an empty mapping.
+     * 
      * @param serviceName the service name
      * @return an input stream
      */
@@ -179,11 +171,29 @@ public class NewMappingFileWizard extends AbstractWizard implements INewWizard {
 
     /**
      * We will accept the selection in the workbench to see if
-     * we can initialize from it.
-     * {@inheritDoc}
+     * we can initialize from it. {@inheritDoc}
      */
     public void init(
             final IWorkbench workbench, final IStructuredSelection selection) {
-        mSelection = selection;
+        _selection = selection;
     }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getGenerationSubject() {
+        return GENERATION_SUBJECT;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Properties getPersistProperties() {
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getPluginId() {
+        return Activator.PLUGIN_ID;
+    }
+
 }

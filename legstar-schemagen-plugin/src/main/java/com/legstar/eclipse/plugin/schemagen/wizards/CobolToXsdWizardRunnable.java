@@ -20,6 +20,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 
 import com.legstar.cob2xsd.Cob2XsdContext.CodeFormat;
 import com.legstar.cob2xsd.task.CobolStructureToXsdModel;
+import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
 import com.legstar.eclipse.plugin.schemagen.Activator;
 import com.legstar.eclipse.plugin.schemagen.preferences.PreferenceConstants;
 
@@ -64,7 +65,7 @@ public class CobolToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
             throws InvocationTargetException {
 
         CobolStructureToXsdModel model = new CobolStructureToXsdModel();
-        model.setProductLocation(getPluginInstallLocation(
+        model.setProductLocation(AbstractWizard.getPluginInstallLocation(
                 com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
 
         /* Store the content of the text box in a temporary file */

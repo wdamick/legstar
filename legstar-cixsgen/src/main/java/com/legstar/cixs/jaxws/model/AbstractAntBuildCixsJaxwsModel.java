@@ -11,6 +11,7 @@
 package com.legstar.cixs.jaxws.model;
 
 import java.io.File;
+import java.util.Properties;
 
 import com.legstar.cixs.gen.ant.model.AbstractAntBuildCixsModel;
 
@@ -18,22 +19,52 @@ import com.legstar.cixs.gen.ant.model.AbstractAntBuildCixsModel;
  * This model groups parameters needed to generate artifacts for both proxies
  * and adapters.
  */
-public abstract class AbstractAntBuildCixsJaxwsModel extends AbstractAntBuildCixsModel {
+public abstract class AbstractAntBuildCixsJaxwsModel extends
+        AbstractAntBuildCixsModel {
+
+    /* ====================================================================== */
+    /* Following are key identifiers for this model persistence. = */
+    /* ====================================================================== */
 
     /** Target location for web deployment descriptors. */
-    private File mTargetWDDDir;
+    public static final String TARGET_WDD_DIR = "targetWDDDir";
 
     /** The deployment location for jaxws war files. */
-    private File mTargetWarDir;
+    public static final String TARGET_WAR_DIR = "targetWarDir";
+
+    /* ====================================================================== */
+    /* Following are this class fields that are persistent. = */
+    /* ====================================================================== */
+
+    /** Target location for web deployment descriptors. */
+    private File _targetWDDDir;
+
+    /** The deployment location for jaxws war files. */
+    private File _targetWarDir;
 
     /**
      * Construct an empty model.
+     * 
      * @param generatorName to designate the generator
      * @param vlcTemplate a velocity template that accecpts this model
      */
     public AbstractAntBuildCixsJaxwsModel(
             final String generatorName, final String vlcTemplate) {
         super(generatorName, vlcTemplate);
+    }
+
+    /**
+     * Construct from a properties file.
+     * 
+     * @param generatorName to designate the generator
+     * @param vlcTemplate a velocity template that accecpts this model
+     * @param props the property file
+     */
+    public AbstractAntBuildCixsJaxwsModel(final String generatorName,
+            final String vlcTemplate, final Properties props) {
+        super(generatorName, vlcTemplate, props);
+        setTargetWDDDir(getFile(props, TARGET_WDD_DIR, null));
+        setTargetWarDir(getFile(props, TARGET_WAR_DIR, null));
     }
 
     /**
@@ -55,29 +86,38 @@ public abstract class AbstractAntBuildCixsJaxwsModel extends AbstractAntBuildCix
      * @return the Target location for web deployment descriptors
      */
     public File getTargetWDDDir() {
-        return mTargetWDDDir;
+        return _targetWDDDir;
     }
 
     /**
      * @param targetWDDDir the Target location for web deployment descriptors to
-     *  set
+     *            set
      */
     public void setTargetWDDDir(final File targetWDDDir) {
-        mTargetWDDDir = targetWDDDir;
+        _targetWDDDir = targetWDDDir;
     }
 
     /**
      * @return the deployment location for jaxws war files
      */
     public File getTargetWarDir() {
-        return mTargetWarDir;
+        return _targetWarDir;
     }
 
     /**
      * @param targetWarDir the deployment location for jaxws war files to set
      */
     public void setTargetWarDir(final File targetWarDir) {
-        mTargetWarDir = targetWarDir;
+        _targetWarDir = targetWarDir;
     }
 
+    /**
+     * @return a properties file holding the values of this object fields
+     */
+    public Properties toProperties() {
+        Properties props = super.toProperties();
+        putFile(props, TARGET_WDD_DIR, getTargetWDDDir());
+        putFile(props, TARGET_WAR_DIR, getTargetWarDir());
+        return props;
+    }
 }

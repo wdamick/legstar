@@ -33,7 +33,10 @@ public abstract class AbstractPropertiesModel {
     /**
      * @return a properties file holding the values of this object fields
      */
-    public abstract Properties toProperties();
+    public Properties toProperties() {
+        Properties props = new Properties();
+        return props;
+    }
 
     /**
      * Gets a boolean property from a properties file.
@@ -94,6 +97,38 @@ public abstract class AbstractPropertiesModel {
      */
     public void putLong(final Properties props, final String key,
             final Long value) {
+        if (value != null) {
+            props.put(key, value.toString());
+        }
+    }
+
+    /**
+     * Gets a int property from a properties file.
+     * 
+     * @param props the property file
+     * @param key the item key
+     * @param defaultValue the default value if key not found
+     * @return either the value or the default if key not found
+     */
+    public int getInt(final Properties props,
+            final String key, final int defaultValue) {
+        String value = props.getProperty(key);
+        if (value == null) {
+            return defaultValue;
+        } else {
+            return Integer.parseInt(value);
+        }
+    }
+
+    /**
+     * Puts a int value in a property file if the value is not null.
+     * 
+     * @param props the properties file
+     * @param key the item key
+     * @param value the item value
+     */
+    public void putInt(final Properties props, final String key,
+            final Integer value) {
         if (value != null) {
             props.put(key, value.toString());
         }

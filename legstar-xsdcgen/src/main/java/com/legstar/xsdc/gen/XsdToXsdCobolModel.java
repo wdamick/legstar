@@ -30,16 +30,16 @@ public class XsdToXsdCobolModel extends SourceToXsdCobolModel {
     public static final String X2S_VELOCITY_MACRO_NAME =
             "vlc/build-xsd2xs-xml.vm";
 
-    /*
-     * Following are key identifiers for this model serialization.
-     */
+    /* ====================================================================== */
+    /* Following are key identifiers for this model persistence. = */
+    /* ====================================================================== */
 
     /** URI where the XSD is available. */
     public static final String INPUT_XSD_URI = "inputXsdUri";
 
-    /*
-     * Following are this class fields that are persistent.
-     */
+    /* ====================================================================== */
+    /* Following are this class fields that are persistent. = */
+    /* ====================================================================== */
 
     /** A URI where the XSD is available. */
     private URI _inputXsdUri;

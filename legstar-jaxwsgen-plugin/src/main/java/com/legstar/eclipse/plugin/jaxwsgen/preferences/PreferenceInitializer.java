@@ -53,7 +53,7 @@ public class PreferenceInitializer extends AbstractCicxsPreferenceInitializer {
         store.setDefault(PreferenceConstants.PROXY_HTTP_PATH_TEMPLATE,
                 Cixs2JaxwsGenerator.DEFAULT_SERVER_PATH_TEMPLATE);
 
-        store.setDefault(PreferenceConstants.COBOL_SAMPLE_FOLDER,
+        store.setDefault(PreferenceConstants.DEFAULT_COBOL_SAMPLE_FOLDER,
                 "cobol");
     }
 

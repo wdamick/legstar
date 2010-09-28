@@ -23,8 +23,8 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 
 import com.legstar.cixs.gen.model.options.ProxyTargetType;
+import com.legstar.cixs.jaxws.model.AntBuildCixs2JaxwsModel;
 import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsActivator;
-import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsGeneratorWizardPage;
 import com.legstar.eclipse.plugin.cixscom.wizards.CixsProxyPojoTargetGroup;
 import com.legstar.eclipse.plugin.cixscom.wizards.CixsProxyWebServiceTargetGroup;
 import com.legstar.eclipse.plugin.jaxwsgen.Activator;
@@ -36,149 +36,120 @@ import com.legstar.eclipse.plugin.jaxwsgen.preferences.PreferenceConstants;
  * generation.
  */
 public class Cixs2JaxwsGeneratorWizardPage
-extends AbstractCixsGeneratorWizardPage {
+        extends AbstractCixsJaxwsGeneratorWizardPage {
 
     /** Page name. */
     private static final String PAGE_NAME = "Cixs2JaxwsGeneratorWizardPage";
 
+    /** This generator model. */
+    private AntBuildCixs2JaxwsModel _genModel;
+
     /** Settings for target selection group. */
-    private Group mTargetGroup = null;
+    private Group _targetGroup = null;
 
     /** Settings for deployment parameters group. */
-    private Composite mDeploymentGroup = null;
+    private Composite _deploymentGroup = null;
 
     /** The POJO target controls group. */
-    private CixsProxyPojoTargetGroup mPojoTargetGroup;
-    
+    private CixsProxyPojoTargetGroup _pojoTargetGroup;
+
     /** The Web Service target controls group. */
-    private CixsProxyWebServiceTargetGroup mWebServiceTargetGroup;
-    
+    private CixsProxyWebServiceTargetGroup _webServiceTargetGroup;
+
     /** Where generated COBOL source reside. */
-    private Text mTargetCobolDirText = null;
-
-    /** J2ee folder where web deployment files should be generated. */
-    private Text mTargetWDDDirText = null;
-
-    /** J2ee folder where war files should be deployed. */
-    private Text mTargetWarDirText = null;
+    private Text _targetCobolDirText = null;
 
     /** HTTP Proxy client parameters. */
-    private Cixs2JaxwsProxyDeployHttpGroup mCixsProxyDeployHttpGroup;
+    private Cixs2JaxwsProxyDeployHttpGroup _cixsProxyDeployHttpGroup;
 
     /**
      * Construct the page.
+     * 
      * @param selection the current workbench selection
      * @param mappingFile the mapping file
+     * @param genModel the generation model
      */
     protected Cixs2JaxwsGeneratorWizardPage(
             final IStructuredSelection selection,
-            final IFile mappingFile) {
+            final IFile mappingFile,
+            final AntBuildCixs2JaxwsModel genModel) {
         super(selection, PAGE_NAME,
                 Messages.cixs_to_jaxws_wizard_page_title,
                 Messages.cixs_to_jaxws_wizard_page_description,
-                mappingFile);
+                mappingFile,
+                genModel);
+        _genModel = genModel;
     }
 
     /** {@inheritDoc} */
     protected void addCixsGroup(final Composite container) {
-        
-        mTargetGroup = createGroup(container, Messages.target_selection_group_label, 3);
-        createLabel(mTargetGroup, Messages.target_selection_label + ':');
-        Composite composite = new Composite(mTargetGroup, SWT.NULL);
+
+        _targetGroup = createGroup(container,
+                Messages.target_selection_group_label, 3);
+        createLabel(_targetGroup, Messages.target_selection_label + ':');
+        Composite composite = new Composite(_targetGroup, SWT.NULL);
         composite.setLayout(new RowLayout());
-        
-        mWebServiceTargetGroup = new CixsProxyWebServiceTargetGroup(this);
-        mPojoTargetGroup = new CixsProxyPojoTargetGroup(this);
 
-        mWebServiceTargetGroup.createButton(composite);
-        mPojoTargetGroup.createButton(composite);
+        _webServiceTargetGroup = new CixsProxyWebServiceTargetGroup(
+                this,
+                getGenModel().getWebServiceTargetParameters(),
+                (getGenModel().getProxyTargetType() == ProxyTargetType.WEBSERVICE));
+        _pojoTargetGroup = new CixsProxyPojoTargetGroup(
+                this,
+                getGenModel().getPojoTargetParameters(),
+                (getGenModel().getProxyTargetType() == ProxyTargetType.POJO));
 
-        mWebServiceTargetGroup.createControls(mTargetGroup);
-        mPojoTargetGroup.createControls(mTargetGroup);
+        _webServiceTargetGroup.createButton(composite);
+        _pojoTargetGroup.createButton(composite);
+
+        _webServiceTargetGroup.createControls(_targetGroup);
+        _pojoTargetGroup.createControls(_targetGroup);
 
         super.addCixsGroup(container);
     }
 
     /** {@inheritDoc} */
-    public void addWidgetsToCixsGroup(final Composite container) {
-    }
-
-    /** {@inheritDoc} */
     public void addWidgetsToTargetGroup(final Composite container) {
 
-        mTargetWDDDirText = createDirectoryFieldEditor(container,
-                "targetWDDDir", Messages.wdd_target_location_label + ':');
+        super.addWidgetsToTargetGroup(container);
 
-        mTargetCobolDirText = createDirectoryFieldEditor(container,
+        _targetCobolDirText = createDirectoryFieldEditor(container,
                 "targetCobolDir", Messages.cobol_target_location_label + ':');
 
     }
 
     /** {@inheritDoc} */
-    public void addWidgetsToCoxbGroup(final Composite container) {
-    }
-
-    /** {@inheritDoc} */
     public void addWidgetsToDeploymentGroup(final Composite container) {
-        mDeploymentGroup = container;
-        
-        mTargetWarDirText = createTextField(container, getStore(),
-                "targetJarDir", Messages.war_deployment_location_label + ':');
- 
-        createLabel(container, Messages.sample_configuration_transport_label + ":");
+
+        super.addWidgetsToDeploymentGroup(container);
+
+        _deploymentGroup = container;
+
+        createLabel(container, Messages.sample_configuration_transport_label
+                + ":");
         Composite composite = new Composite(container, SWT.NULL);
         composite.setLayout(new RowLayout());
 
-        mCixsProxyDeployHttpGroup = new Cixs2JaxwsProxyDeployHttpGroup(this);
+        /* HTTP transport deployment is the only available one */
+        _cixsProxyDeployHttpGroup = new Cixs2JaxwsProxyDeployHttpGroup(
+                this,
+                getGenModel().getHttpTransportParameters(),
+                getGenModel().getSampleCobolHttpClientType(),
+                true);
+
         /* Buttons go to the newly created rowdata composite */
-        mCixsProxyDeployHttpGroup.createButton(composite);
-        
-        /* The group goes to the deployment container*/
-        mCixsProxyDeployHttpGroup.createControls(container);
+        _cixsProxyDeployHttpGroup.createButton(composite);
+
+        /* The group goes to the deployment container */
+        _cixsProxyDeployHttpGroup.createControls(container);
     }
 
-    /** {@inheritDoc} */
-    public void initExtendedWidgets(final IProject project) {
-        
-        setTargetWDDDir(getDefaultTargetDir(getStore(),
-                PreferenceConstants.DEFAULT_J2EE_WDD_FOLDER));
-        setTargetCobolDir(getDefaultTargetDir(getStore(),
-                PreferenceConstants.COBOL_SAMPLE_FOLDER));
-        setTargetWarDir(getStore().getDefaultString(
-                PreferenceConstants.DEFAULT_J2EE_WAR_FOLDER));
- 
-        getWebServiceTargetGroup().initControls();
-        getPojoTargetGroup().initControls();
-        getCixsProxyDeployHttpGroup().initControls();
-        
-        /* Make sure one of the target group is visible */
-        if (!getWebServiceTargetGroup().getButton().getSelection()
-            && !getPojoTargetGroup().getButton().getSelection()) {
-            getWebServiceTargetGroup().getButton().setSelection(true);
-        }
-        
-        /* HTTP transport deployment is the only available one */
-        if (!getCixsProxyDeployHttpGroup().getButton().getSelection()) {
-            getCixsProxyDeployHttpGroup().getButton().setSelection(true);
-        }
-    }
-    
     /** {@inheritDoc} */
     public void createExtendedListeners() {
 
-        /* Everything initialized, start listening on modification events */
-        mTargetWDDDirText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
-        mTargetCobolDirText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
+        super.createExtendedListeners();
 
-        mTargetWarDirText.addModifyListener(new ModifyListener() {
+        _targetCobolDirText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
@@ -187,17 +158,31 @@ extends AbstractCixsGeneratorWizardPage {
         getWebServiceTargetGroup().createListeners();
         getPojoTargetGroup().createListeners();
         getCixsProxyDeployHttpGroup().createListeners();
-        
+
+    }
+
+    /** {@inheritDoc} */
+    public void initExtendedWidgets(final IProject project) {
+
+        super.initExtendedWidgets(project);
+
+        setTargetCobolDir(getInitTargetDir(getGenModel().getTargetCobolDir(),
+                PreferenceConstants.DEFAULT_COBOL_SAMPLE_FOLDER));
+
+        getWebServiceTargetGroup().initControls();
+        getPojoTargetGroup().initControls();
+        getCixsProxyDeployHttpGroup().initControls();
+
     }
 
     /** {@inheritDoc} */
     public boolean validateExtendedWidgets() {
-        
+
         getWebServiceTargetGroup().setVisibility();
         getPojoTargetGroup().setVisibility();
         getCixsProxyDeployHttpGroup().setVisibility();
-        getShell().layout(new Control[] {mTargetGroup, mDeploymentGroup});
-        
+        getShell().layout(new Control[] { _targetGroup, _deploymentGroup });
+
         if (getProxyTargetType() == ProxyTargetType.POJO
                 && !getPojoTargetGroup().validateControls()) {
             return false;
@@ -207,7 +192,7 @@ extends AbstractCixsGeneratorWizardPage {
                 && !getWebServiceTargetGroup().validateControls()) {
             return false;
         }
-        
+
         if (getCixsProxyDeployHttpGroup().getSelection()
                 && !getCixsProxyDeployHttpGroup().validateControls()) {
             return false;
@@ -228,12 +213,20 @@ extends AbstractCixsGeneratorWizardPage {
     /**
      * Store the selected values in the project scoped preference store.
      */
-    public void storeExtendedProjectPreferences() {
-        getPojoTargetGroup().storeProjectPreferences();
-        getWebServiceTargetGroup().storeProjectPreferences();
-        getCixsProxyDeployHttpGroup().storeProjectPreferences();
+    public void updateGenModelExtended() {
+        if (getWebServiceTargetGroup().isSelected()) {
+            getGenModel().setProxyTargetType(ProxyTargetType.WEBSERVICE);
+            getWebServiceTargetGroup().updateGenModelExtended();
+        }
+        if (getPojoTargetGroup().isSelected()) {
+            getGenModel().setProxyTargetType(ProxyTargetType.POJO);
+            getPojoTargetGroup().updateGenModelExtended();
+        }
+        getGenModel().setSampleCobolHttpClientType(
+                getCixsProxyDeployHttpGroup().getSampleCobolHttpClientType());
+        getCixsProxyDeployHttpGroup().updateGenModelExtended();
     }
-    
+
     /**
      * @return the selected target type
      */
@@ -247,21 +240,6 @@ extends AbstractCixsGeneratorWizardPage {
         return ProxyTargetType.POJO;
     }
 
-    /**
-     * @param targetWDDDir J2ee folder where web deployment files should
-     *  be generated
-     */
-    public void setTargetWDDDir(final String targetWDDDir) {
-        mTargetWDDDirText.setText(targetWDDDir);
-    }
-
-    /**
-     * @return J2ee folder where web deployment files should be generated
-     */
-    public String getTargetWDDDir() {
-        return mTargetWDDDirText.getText();
-    }
-
     /** {@inheritDoc} */
     public AbstractCixsActivator getActivator() {
         return Activator.getDefault();
@@ -271,49 +249,36 @@ extends AbstractCixsGeneratorWizardPage {
      * @return where generated COBOL source reside
      */
     public String getTargetCobolDir() {
-        return mTargetCobolDirText.getText();
+        return _targetCobolDirText.getText();
     }
 
     /**
      * @param targetCobolDir where generated COBOL source reside to set
      */
     public void setTargetCobolDir(final String targetCobolDir) {
-        mTargetCobolDirText.setText(targetCobolDir);
-    }
-
-    /**
-     * @return the J2ee folder where war files should be deployed
-     */
-    public String getTargetWarDir() {
-        return mTargetWarDirText.getText();
-    }
-
-    /**
-     * @param targetWarDir J2ee folder where war files should be deployed
-     */
-    public void setTargetWarDir(final String targetWarDir) {
-        mTargetWarDirText.setText(targetWarDir);
+        _targetCobolDirText.setText(targetCobolDir);
     }
 
     /**
      * @return the POJO target controls group
      */
     public CixsProxyPojoTargetGroup getPojoTargetGroup() {
-        return mPojoTargetGroup;
+        return _pojoTargetGroup;
     }
 
     /**
      * @param pojoTargetGroup the POJO target controls group to set
      */
-    public void setPojoTargetGroup(final CixsProxyPojoTargetGroup pojoTargetGroup) {
-        mPojoTargetGroup = pojoTargetGroup;
+    public void setPojoTargetGroup(
+            final CixsProxyPojoTargetGroup pojoTargetGroup) {
+        _pojoTargetGroup = pojoTargetGroup;
     }
 
     /**
      * @return the Web Service target controls group
      */
     public CixsProxyWebServiceTargetGroup getWebServiceTargetGroup() {
-        return mWebServiceTargetGroup;
+        return _webServiceTargetGroup;
     }
 
     /**
@@ -321,14 +286,14 @@ extends AbstractCixsGeneratorWizardPage {
      */
     public void setWebServiceTargetGroup(
             final CixsProxyWebServiceTargetGroup webServiceTargetGroup) {
-        mWebServiceTargetGroup = webServiceTargetGroup;
+        _webServiceTargetGroup = webServiceTargetGroup;
     }
 
     /**
      * @return the HTTP Proxy client parameters
      */
     public Cixs2JaxwsProxyDeployHttpGroup getCixsProxyDeployHttpGroup() {
-        return mCixsProxyDeployHttpGroup;
+        return _cixsProxyDeployHttpGroup;
     }
 
     /**
@@ -336,8 +301,13 @@ extends AbstractCixsGeneratorWizardPage {
      */
     public void setCixsProxyDeployHttpGroup(
             final Cixs2JaxwsProxyDeployHttpGroup cixsProxyDeployHttpGroup) {
-        mCixsProxyDeployHttpGroup = cixsProxyDeployHttpGroup;
+        _cixsProxyDeployHttpGroup = cixsProxyDeployHttpGroup;
     }
 
-
+    /**
+     * @return the data model
+     */
+    public AntBuildCixs2JaxwsModel getGenModel() {
+        return _genModel;
+    }
 }

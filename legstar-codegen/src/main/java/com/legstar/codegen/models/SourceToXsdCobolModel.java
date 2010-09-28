@@ -23,9 +23,9 @@ import java.util.Properties;
  */
 public abstract class SourceToXsdCobolModel extends AbstractAntBuildModel {
 
-    /*
-     * Following are key identifiers for this model serialization.
-     */
+    /* ====================================================================== */
+    /* Following are key identifiers for this model persistence. = */
+    /* ====================================================================== */
 
     /** XSD target namespace. */
     public static final String XSD_TARGET_NAMESPACE = "targetNamespace";
@@ -36,9 +36,9 @@ public abstract class SourceToXsdCobolModel extends AbstractAntBuildModel {
     /** XSD target file name. */
     public static final String XSD_TARGET_FILENAME = "targetXsdFileName";
 
-    /*
-     * Following are this class fields that are persistent.
-     */
+    /* ====================================================================== */
+    /* Following are this class fields that are persistent. = */
+    /* ====================================================================== */
 
     /** The target schema namespace. */
     private String _targetNamespace = "";
@@ -53,6 +53,7 @@ public abstract class SourceToXsdCobolModel extends AbstractAntBuildModel {
      * A no-Arg constructor.
      */
     public SourceToXsdCobolModel() {
+        super();
     }
 
     /**
@@ -61,6 +62,7 @@ public abstract class SourceToXsdCobolModel extends AbstractAntBuildModel {
      * @param props the property file
      */
     public SourceToXsdCobolModel(final Properties props) {
+        super(props);
         setNamespace(getString(props, XSD_TARGET_NAMESPACE, null));
         setTargetDir(getFile(props, XSD_TARGET_DIR, null));
         setTargetXsdFileName(getString(props, XSD_TARGET_FILENAME, null));
@@ -120,7 +122,7 @@ public abstract class SourceToXsdCobolModel extends AbstractAntBuildModel {
      * @return a properties file holding the values of this object fields
      */
     public Properties toProperties() {
-        Properties props = new Properties();
+        Properties props = super.toProperties();
         putString(props, XSD_TARGET_NAMESPACE, getNamespace());
         putFile(props, XSD_TARGET_DIR, getTargetDir());
         putString(props, XSD_TARGET_FILENAME, getTargetXsdFileName());

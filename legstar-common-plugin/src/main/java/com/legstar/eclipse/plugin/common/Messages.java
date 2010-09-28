@@ -17,45 +17,52 @@ import org.eclipse.osgi.util.NLS;
  */
 public class Messages extends NLS {
 
-    /** All messages come from this property file.*/
+    /** All messages come from this property file. */
     private static final String BUNDLE_NAME =
-        "com.legstar.eclipse.plugin.common.messages";
+            "com.legstar.eclipse.plugin.common.messages";
 
-    /** Preference page title.*/
+    /** Preference page title. */
     public static String common_preference_page_title;
-    /** Menu action label.*/
+    /** Menu action label. */
     public static String legstar_menu_label;
 
-    /** Product logo icon.*/
+    /** Product logo icon. */
     public static String legstar_logo_icon;
-    /** Preference page description.*/
+    /** Preference page description. */
     public static String preference_page_description;
-    /** Location of generation ant scripts (relative to Eclipse project).*/
+    /** Location of generation ant scripts (relative to Eclipse project). */
     public static String ant_scripts_folder_label;
-    /** Mainframe character set.*/
+    /** Mainframe character set. */
     public static String mainframe_charset_label;
 
-    /** Browse button label.*/
+    /** Browse button label. */
     public static String browse_button_label;
-    /** Error opening a file.*/
+    /** Error opening a file. */
     public static String file_open_error_msg;
-    /** URL hyperlink selection from file system .*/
+    /** URL hyperlink selection from file system . */
     public static String url_select_from_file_system_text;
-    /** URL file selection label.*/
+    /** URL file selection label. */
     public static String url_select_a_file_label;
-    /** Go button label.*/
+    /** Go button label. */
     public static String go_button_label;
 
-    /** Ant generation starting task label.*/
+    /** Ant generation starting task label. */
     public static String ant_generating_task_label;
-    /** Ant run starting task label.*/
+    /** Ant run starting task label. */
     public static String ant_running_task_label;
-    /** Ant run returned an error stream.*/
+    /** Ant run returned an error stream. */
     public static String ant_failure_stream_msg;
-    /** Ant run returned an error code.*/
+    /** Ant run returned an error code. */
     public static String ant_failure_retcode_msg;
-    /** Ant run returned an an error on console.*/
+    /** Ant run returned an an error on console. */
     public static String ant_failure_console_msg;
+
+    /** Generation error dialog boxes title. */
+    public static String generate_error_dialog_title;
+    /** Generation error short message. */
+    public static String generation_failure_short_msg;
+    /** Generation error long message. */
+    public static String generation_failure_long_msg;
 
     static {
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);

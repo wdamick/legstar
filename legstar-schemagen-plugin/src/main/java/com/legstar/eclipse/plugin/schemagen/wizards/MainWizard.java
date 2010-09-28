@@ -11,41 +11,43 @@
 package com.legstar.eclipse.plugin.schemagen.wizards;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Properties;
 
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
-import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
 import com.legstar.eclipse.plugin.schemagen.Activator;
-import com.legstar.eclipse.plugin.schemagen.Messages;
 
 /**
  * The main wizard orchestrates the various wizard pages.
  */
 public class MainWizard extends AbstractWizard implements INewWizard {
 
+    /** What we are trying to generate. */
+    public static final String GENERATION_SUBJECT = "XML Schema";
+
     /** The workbench selection upon entry in wizard. */
-    private IStructuredSelection mInitialSelection;
+    private IStructuredSelection _initialSelection;
 
     /** The first page of the wizard, common to all targets. */
-    private MainWizardPage mMainWizardPage;
+    private MainWizardPage _mainWizardPage;
 
     /** The generation from a COBOL fragment page. */
-    private CobolToXsdWizardPage mCobolToXsdWizardPage;
+    private CobolToXsdWizardPage _cobolToXsdWizardPage;
 
     /** The generation from a Xsd or Wsdl page. */
-    private XsdToXsdWizardPage mXsdToXsdWizardPage;
+    private XsdToXsdWizardPage _xsdToXsdWizardPage;
 
     /** The generation from a set of Java classes page. */
-    private JavaToXsdWizardPage mJavaToXsdWizardPage;
+    private JavaToXsdWizardPage _javaToXsdWizardPage;
 
     /** Set of preferences stored at the instance level. */
-    private IPreferenceStore mDefaultPreferences;
+    private IPreferenceStore _defaultPreferences;
 
     /**
      * No arg constructor.
@@ -53,95 +55,62 @@ public class MainWizard extends AbstractWizard implements INewWizard {
     public MainWizard() {
         super();
         setNeedsProgressMonitor(true);
-        mDefaultPreferences = Activator.getDefault().getPreferenceStore();
+        _defaultPreferences = Activator.getDefault().getPreferenceStore();
     }
 
     /** {@inheritDoc} */
     @Override
     public boolean performFinish() {
-        mMainWizardPage.storeDefaultPreferences();
-
-        try {
-            IRunnableWithProgress op = null;
-            switch(mMainWizardPage.getSelectedSource()) {
-            case 0:
-                op = new CobolToXsdWizardRunnable(
-                        mMainWizardPage, mCobolToXsdWizardPage);
-                break;
-            case 1:
-                op = new XsdToXsdWizardRunnable(
-                        mMainWizardPage, mXsdToXsdWizardPage);
-                break;
-            case 2:
-                op = new JavaToXsdWizardRunnable(
-                        mMainWizardPage, mJavaToXsdWizardPage);
-                break;
-            default:
-                return false;
-            }
-            /* Fork background process and make it cancellable */
-            getContainer().run(true, true, op);
-        } catch (InterruptedException e) {
-            return false;
-        } catch (InvocationTargetException e) {
-            errorDialog(getShell(),
-                    Messages.generation_error_dialog_title,
-                    Activator.PLUGIN_ID,
-                    Messages.generation_dialog_failure_short_msg,
-                    NLS.bind(Messages.generation_dialog_failure_long_msg,
-                            mMainWizardPage.getTargetXSDFileName(),
-                            e.getTargetException().getMessage()));
-            logCoreException(e.getTargetException(), Activator.PLUGIN_ID);
-            return false;
-        }
-        return true;
+        _mainWizardPage.storeDefaultPreferences();
+        return super.performFinish();
     }
 
     /**
      * We will accept the selection in the workbench to see if
-     * we can initialize from it.
-     * {@inheritDoc}
+     * we can initialize from it. {@inheritDoc}
+     * 
      * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
      */
     public void init(
             final IWorkbench workbench, final IStructuredSelection selection) {
-        mInitialSelection = selection;
+        _initialSelection = selection;
     }
 
     /**
      * Adding pages to the wizard.
+     * 
      * @see org.eclipse.jface.wizard.Wizard#addPages()
      */
     public void addPages() {
-        mMainWizardPage = new MainWizardPage(mInitialSelection);
-        addPage(mMainWizardPage);
-        mCobolToXsdWizardPage = new CobolToXsdWizardPage(mInitialSelection);
-        addPage(mCobolToXsdWizardPage);
-        mXsdToXsdWizardPage = new XsdToXsdWizardPage(mInitialSelection);
-        addPage(mXsdToXsdWizardPage);
-        mJavaToXsdWizardPage = new JavaToXsdWizardPage(mInitialSelection);
-        addPage(mJavaToXsdWizardPage);
+        _mainWizardPage = new MainWizardPage(_initialSelection);
+        addPage(_mainWizardPage);
+        _cobolToXsdWizardPage = new CobolToXsdWizardPage(_initialSelection);
+        addPage(_cobolToXsdWizardPage);
+        _xsdToXsdWizardPage = new XsdToXsdWizardPage(_initialSelection);
+        addPage(_xsdToXsdWizardPage);
+        _javaToXsdWizardPage = new JavaToXsdWizardPage(_initialSelection);
+        addPage(_javaToXsdWizardPage);
     }
 
     /**
      * @return the Cobol To Xsd Wizard Page
      */
     public IWizardPage getCobolToXsdWizardPage() {
-        return mCobolToXsdWizardPage;
+        return _cobolToXsdWizardPage;
     }
 
     /**
      * @return the Xsd To Xsd Wizard Page
      */
     public IWizardPage getXsdToXsdWizardPage() {
-        return mXsdToXsdWizardPage;
+        return _xsdToXsdWizardPage;
     }
 
     /**
      * @return the Java To Xsd Wizard Page
      */
     public IWizardPage getJavaToXsdWizardPage() {
-        return mJavaToXsdWizardPage;
+        return _javaToXsdWizardPage;
     }
 
     /** {@inheritDoc} */
@@ -153,6 +122,44 @@ public class MainWizard extends AbstractWizard implements INewWizard {
      * @return the default scope preferences
      */
     public IPreferenceStore getDefaultPreferences() {
-        return mDefaultPreferences;
+        return _defaultPreferences;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getGenerationSubject() {
+        return GENERATION_SUBJECT;
+    }
+
+    /**
+     * {@inheritDoc} TODO Models are not ready to handle properties yet.
+     * 
+     * */
+    @Override
+    public Properties getPersistProperties() {
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public IRunnableWithProgress getWizardRunnable()
+            throws InvocationTargetException {
+        IRunnableWithProgress op = null;
+        switch (_mainWizardPage.getSelectedSource()) {
+        case 0:
+            op = new CobolToXsdWizardRunnable(
+                    _mainWizardPage, _cobolToXsdWizardPage);
+            break;
+        case 1:
+            op = new XsdToXsdWizardRunnable(
+                    _mainWizardPage, _xsdToXsdWizardPage);
+            break;
+        case 2:
+            op = new JavaToXsdWizardRunnable(
+                    _mainWizardPage, _javaToXsdWizardPage);
+            break;
+        default:
+        }
+        return op;
     }
 }

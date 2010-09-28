@@ -15,7 +15,6 @@ import java.lang.reflect.InvocationTargetException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import com.legstar.codegen.models.AbstractAntBuildModel;
-import com.legstar.coxb.gen.CoxbGenModel;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizardRunnable;
 import com.legstar.eclipse.plugin.coxbgen.Messages;
 
@@ -50,7 +49,7 @@ public class CoxbGenWizardRunnable extends AbstractWizardRunnable {
         super(null,
                 coxbGenWizardPage.getSrcDirRelativePathName(),
                 getAntScriptFileName(coxbGenWizardPage.getXsdFile().getName()));
-        setAntBuildModel(getModel(coxbGenWizardPage));
+        setAntBuildModel(coxbGenWizardPage.getGenModel());
     }
 
     /** {@inheritDoc} */
@@ -71,22 +70,6 @@ public class CoxbGenWizardRunnable extends AbstractWizardRunnable {
         } finally {
             monitor.done();
         }
-    }
-
-    /**
-     * Create a model ready to be passed to velocity for ant script generation.
-     * 
-     * @param coxbGenWizardPage the wizard page holding input parameters
-     * @return a valid model
-     * @throws InvocationTargetException if model cannot be built
-     */
-    protected CoxbGenModel getModel(
-            final CoxbGenWizardPage coxbGenWizardPage)
-            throws InvocationTargetException {
-        coxbGenWizardPage.getCoxbModel().setProductLocation(
-                getPluginInstallLocation(
-                com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
-        return coxbGenWizardPage.getCoxbModel();
     }
 
     /**

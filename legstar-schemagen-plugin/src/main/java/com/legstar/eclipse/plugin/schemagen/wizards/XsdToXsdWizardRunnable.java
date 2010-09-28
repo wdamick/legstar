@@ -16,6 +16,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
+import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
 import com.legstar.xsdc.gen.XsdToXsdCobolModel;
 
 /**
@@ -58,7 +59,7 @@ public class XsdToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
             final XsdToXsdWizardPage xsdToXsdPage)
             throws InvocationTargetException {
         XsdToXsdCobolModel model = new XsdToXsdCobolModel();
-        model.setProductLocation(getPluginInstallLocation(
+        model.setProductLocation(AbstractWizard.getPluginInstallLocation(
                 com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
 
         /* Store the content of the text box in a temporary file */
