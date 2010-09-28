@@ -30,7 +30,6 @@ import org.eclipse.ui.dialogs.SelectionDialog;
 import com.legstar.cixs.gen.model.options.PojoParameters;
 import com.legstar.eclipse.plugin.cixscom.Activator;
 import com.legstar.eclipse.plugin.cixscom.Messages;
-import com.legstar.eclipse.plugin.cixscom.preferences.PreferenceConstants;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizardPage;
 
@@ -38,39 +37,50 @@ import com.legstar.eclipse.plugin.common.wizards.AbstractWizardPage;
  * Holds the controls for a POJO proxy target.
  * <p/>
  * A POJO is described by a class name and a method name.
- *
+ * 
  */
 public class CixsProxyPojoTargetGroup extends AbstractCixsControlsGroup {
 
     /** Target POJO class name. */
-    private Text mClassNameText = null;
+    private Text _classNameText = null;
 
     /** Target POJO method name. */
-    private Text mMethodNameText = null;
+    private Text _methodNameText = null;
+
+    /** The data model behind this group. */
+    private PojoParameters _genModel;
 
     /**
      * Construct this control holder attaching it to a wizard page.
+     * 
      * @param wizardPage the parent wizard page
+     * @param genModel the data model
+     * @param selected whether this group should initially be selected
      */
-    public CixsProxyPojoTargetGroup(final AbstractCixsGeneratorWizardPage wizardPage) {
-        super(wizardPage);
+    public CixsProxyPojoTargetGroup(
+            final AbstractCixsGeneratorWizardPage wizardPage,
+            final PojoParameters genModel,
+            final boolean selected) {
+        super(wizardPage, selected);
+        _genModel = genModel;
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void createButton(final Composite composite) {
         super.createButton(composite, "POJO");
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void createControls(final Composite composite) {
         super.createControls(composite, Messages.target_pojo_group_label, 3);
 
-        AbstractWizardPage.createLabel(getGroup(), Messages.target_pojo_class_name_label + ':');
-        mClassNameText = AbstractWizardPage.createText(getGroup());
+        AbstractWizardPage.createLabel(getGroup(),
+                Messages.target_pojo_class_name_label + ':');
+        _classNameText = AbstractWizardPage.createText(getGroup());
 
         Button browseButton = AbstractWizardPage.createButton(getGroup(),
                 com.legstar.eclipse.plugin.common.Messages.browse_button_label);
@@ -102,21 +112,22 @@ public class CixsProxyPojoTargetGroup extends AbstractCixsControlsGroup {
             }
         });
 
-        AbstractWizardPage.createLabel(getGroup(), Messages.target_pojo_method_name_label + ':');
-        mMethodNameText = AbstractWizardPage.createText(getGroup());
+        AbstractWizardPage.createLabel(getGroup(),
+                Messages.target_pojo_method_name_label + ':');
+        _methodNameText = AbstractWizardPage.createText(getGroup());
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void createExtendedListeners() {
 
-        mClassNameText.addModifyListener(new ModifyListener() {
+        _classNameText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 getWizardPage().dialogChanged();
             }
         });
-        mMethodNameText.addModifyListener(new ModifyListener() {
+        _methodNameText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 getWizardPage().dialogChanged();
             }
@@ -124,35 +135,55 @@ public class CixsProxyPojoTargetGroup extends AbstractCixsControlsGroup {
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void initExtendedControls() {
-        setClassName(getProjectPreferences().get(
-                PreferenceConstants.PROXY_LAST_POJO_CLASS_NAME, ""));
-        setMethodName(getProjectPreferences().get(
-                PreferenceConstants.PROXY_LAST_POJO_METHOD_NAME, ""));
+        setClassName(getInitClassName());
+        setMethodName(getInitMethodName());
     }
 
     /**
-     * {@inheritDoc} 
+     * @return a safe class name initial value
      */
-    public void storeExtendedProjectPreferences() {
-        getProjectPreferences().put(
-                PreferenceConstants.PROXY_LAST_POJO_CLASS_NAME, getClassName());
-        getProjectPreferences().put(
-                PreferenceConstants.PROXY_LAST_POJO_METHOD_NAME, getMethodName());
+    protected String getInitClassName() {
+        String initValue = _genModel.getClassName();
+        if (initValue == null) {
+            initValue = "";
+        }
+        return initValue;
     }
 
     /**
-     * {@inheritDoc} 
+     * @return a safe class name initial value
+     */
+    protected String getInitMethodName() {
+        String initValue = _genModel.getMethodName();
+        if (initValue == null) {
+            initValue = "";
+        }
+        return initValue;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void updateGenModelExtended() {
+        getGenModel().setClassName(getClassName());
+        getGenModel().setMethodName(getMethodName());
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public boolean validateControls() {
         if (getClassName().length() == 0) {
-            getWizardPage().updateStatus(Messages.invalid_target_pojo_class_name_msg);
+            getWizardPage().updateStatus(
+                    Messages.invalid_target_pojo_class_name_msg);
             return false;
         }
         if (getMethodName().length() == 0) {
-            getWizardPage().updateStatus(Messages.invalid_target_pojo_method_name_msg);
+            getWizardPage().updateStatus(
+                    Messages.invalid_target_pojo_method_name_msg);
             return false;
         }
         return true;
@@ -162,7 +193,7 @@ public class CixsProxyPojoTargetGroup extends AbstractCixsControlsGroup {
      * @return the target pojo class name
      */
     public String getClassName() {
-        return mClassNameText.getText();
+        return _classNameText.getText();
     }
 
     /**
@@ -170,14 +201,14 @@ public class CixsProxyPojoTargetGroup extends AbstractCixsControlsGroup {
      */
     public void setClassName(
             final String className) {
-        mClassNameText.setText(className);
+        _classNameText.setText(className);
     }
 
     /**
      * @return the target pojo method name
      */
     public String getMethodName() {
-        return mMethodNameText.getText();
+        return _methodNameText.getText();
     }
 
     /**
@@ -185,18 +216,14 @@ public class CixsProxyPojoTargetGroup extends AbstractCixsControlsGroup {
      */
     public void setMethodName(
             final String methodName) {
-        mMethodNameText.setText(methodName);
+        _methodNameText.setText(methodName);
     }
-    
+
     /**
-     * @return the target POJO parameters as a formatted POJO parameters object
+     * @return the data model for this group
      */
-    public PojoParameters getPojoTargetParameters() {
-        PojoParameters pojoParameters = new PojoParameters();
-        pojoParameters.setClassName(getClassName());
-        pojoParameters.setMethodName(getMethodName());
-        return pojoParameters;
-        
+    public PojoParameters getGenModel() {
+        return _genModel;
     }
 
 }

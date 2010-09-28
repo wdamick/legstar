@@ -18,8 +18,8 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
+import com.legstar.cixs.jaxws.model.AntBuildJaxws2CixsModel;
 import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsActivator;
-import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsGeneratorWizardPage;
 import com.legstar.eclipse.plugin.jaxwsgen.Activator;
 import com.legstar.eclipse.plugin.jaxwsgen.Messages;
 import com.legstar.eclipse.plugin.jaxwsgen.preferences.PreferenceConstants;
@@ -29,70 +29,56 @@ import com.legstar.eclipse.plugin.jaxwsgen.preferences.PreferenceConstants;
  * generation.
  */
 public class Jaxws2CixsGeneratorWizardPage
-extends AbstractCixsGeneratorWizardPage {
+        extends AbstractCixsJaxwsGeneratorWizardPage {
 
     /** Page name. */
     private static final String PAGE_NAME = "Jaxws2CixsGeneratorWizardPage";
 
-    /** J2ee folder where web deployment files should be generated. */
-    private Text mTargetWDDDirText = null;
-
-    /** J2ee folder where war files should be deployed. */
-    private Text mTargetWarDirText = null;
+    /** This generator model. */
+    private AntBuildJaxws2CixsModel _genModel;
 
     /** Generated Web service target namespace. */
-    private Text mWsdlTargetNamespaceText = null;
+    private Text _wsdlTargetNamespaceText = null;
 
     /** Generated Web service name. */
-    private Text mWsdlServiceNameText = null;
+    private Text _wsdlServiceNameText = null;
 
     /** Generated Web service port name. */
-    private Text mWsdlPortNameText = null;
+    private Text _wsdlPortNameText = null;
 
     /**
      * Construct the page.
+     * 
      * @param selection the current workbench selection
      * @param mappingFile the mapping file
+     * @param genModel the generation model
      */
     protected Jaxws2CixsGeneratorWizardPage(
             final IStructuredSelection selection,
-            final IFile mappingFile) {
+            final IFile mappingFile,
+            final AntBuildJaxws2CixsModel genModel) {
         super(selection, PAGE_NAME,
                 Messages.jaxws_to_cixs_wizard_page_title,
                 Messages.jaxws_to_cixs_wizard_page_description,
-                mappingFile);
-    }
-
-    /** {@inheritDoc} */
-    public void addWidgetsToCixsGroup(final Composite container) {
-    }
-
-    /** {@inheritDoc} */
-    public void addWidgetsToTargetGroup(final Composite container) {
-        mTargetWDDDirText = createDirectoryFieldEditor(container,
-                "targetWDDDir",
-                Messages.wdd_target_location_label + ':');
-    }
-
-    /** {@inheritDoc} */
-    public void addWidgetsToCoxbGroup(final Composite container) {
+                mappingFile,
+                genModel);
+        _genModel = genModel;
     }
 
     /** {@inheritDoc} */
     public void addWidgetsToDeploymentGroup(final Composite container) {
-        mTargetWarDirText = createTextField(container, getStore(),
-                PreferenceConstants.DEFAULT_J2EE_WAR_FOLDER,
-                Messages.war_deployment_location_label + ':');
 
-        mWsdlTargetNamespaceText = createTextField(container, getStore(),
+        super.addWidgetsToDeploymentGroup(container);
+
+        _wsdlTargetNamespaceText = createTextField(container, getStore(),
                 null,
                 Messages.adapter_wsdl_target_namespace_label + ':');
 
-        mWsdlServiceNameText = createTextField(container, getStore(),
+        _wsdlServiceNameText = createTextField(container, getStore(),
                 null,
                 Messages.adapter_wsdl_service_name_label + ':');
 
-        mWsdlPortNameText = createTextField(container, getStore(),
+        _wsdlPortNameText = createTextField(container, getStore(),
                 null,
                 Messages.adapter_wsdl_port_name_label + ':');
 
@@ -101,105 +87,112 @@ extends AbstractCixsGeneratorWizardPage {
     /** {@inheritDoc} */
     public void createExtendedListeners() {
 
-        mTargetWDDDirText.addModifyListener(new ModifyListener() {
+        super.createExtendedListeners();
+
+        _wsdlTargetNamespaceText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
         });
-        mTargetWarDirText.addModifyListener(new ModifyListener() {
+        _wsdlServiceNameText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
         });
-        mWsdlTargetNamespaceText.addModifyListener(new ModifyListener() {
+        _wsdlPortNameText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
         });
-        mWsdlServiceNameText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
-        mWsdlPortNameText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
-        
+
     }
+
     /** {@inheritDoc} */
     public void initExtendedWidgets(final IProject project) {
-        setTargetWDDDir(getDefaultTargetDir(getStore(),
-                PreferenceConstants.DEFAULT_J2EE_WDD_FOLDER));
-        setDefaultWsdlTargetNamespace(getServiceName());
-        setDefaultWsdlServiceName(getServiceName());
-        setDefaultWsdlPortName(getServiceName());
+
+        super.initExtendedWidgets(project);
+
+        setWsdlTargetNamespace(getInitWsdlTargetNamespace(getServiceName()));
+        setWsdlServiceName(getInitWsdlServiceName(getServiceName()));
+        setWsdlPortName(getInitWsdlPortName(getServiceName()));
     }
 
     /**
      * Attempt to retrieve last target namespace from the project preferences.
-     * If not found, target namespace is built from a prefix stored in preferences and the
-     * name of the target service.
+     * If not found, target namespace is built from a prefix stored in
+     * preferences and the service name.
+     * 
      * @param serviceName the service name
+     * @return a valid initial value
      */
-    private void setDefaultWsdlTargetNamespace(final String serviceName) {
-        String name;
-        String prefix = getStore().getString(
-                PreferenceConstants.ADAPTER_WSDL_TARGET_NAMESPACE_PREFIX);
-        if (prefix == null || prefix.length() == 0) {
-            name = serviceName;
-        } else {
-            name = prefix + '/' + serviceName;
+    protected String getInitWsdlTargetNamespace(final String serviceName) {
+        String initValue = getGenModel().getWebServiceParameters()
+                .getWsdlTargetNamespace();
+        if (initValue == null) {
+            String prefix = getStore().getString(
+                    PreferenceConstants.ADAPTER_WSDL_TARGET_NAMESPACE_PREFIX);
+            if (prefix == null || prefix.length() == 0) {
+                initValue = serviceName;
+            } else {
+                initValue = prefix + '/' + serviceName;
+            }
         }
-        setWsdlTargetNamespace(getProjectPreferences().get(
-                PreferenceConstants.LAST_ADAPTER_WSDL_TARGET_NAMESPACE, name));
+        return initValue;
     }
 
     /**
-     * Attempt to retrieve last service namespace from the project preferences.
-     * If not found, Wsdl service name is built from the name of the target service and
-     * a suffix stored in preferences.
+     * Attempt to retrieve last wsdl service name from the project preferences.
+     * If not found, wsdl service name is built from the service name
+     * potentially followed by a preferred suffix.
+     * 
      * @param serviceName the service name
+     * @return a valid initial value
      */
-    private void setDefaultWsdlServiceName(final String serviceName) {
-        String name;
-        String suffix = getStore().getString(
-                PreferenceConstants.ADAPTER_WSDL_SERVICE_NAME_SUFFIX);
-        if (suffix == null || suffix.length() == 0) {
-            name = serviceName;
-        } else {
-            name = serviceName + suffix;
+    protected String getInitWsdlServiceName(final String serviceName) {
+        String initValue = getGenModel().getWebServiceParameters()
+                .getWsdlServiceName();
+        if (initValue == null) {
+            String suffix = getStore().getString(
+                    PreferenceConstants.ADAPTER_WSDL_SERVICE_NAME_SUFFIX);
+            if (suffix == null || suffix.length() == 0) {
+                initValue = serviceName;
+            } else {
+                initValue = serviceName + suffix;
+            }
         }
-        setWsdlServiceName(getProjectPreferences().get(
-                PreferenceConstants.LAST_ADAPTER_WSDL_SERVICE_NAME, name));
+        return initValue;
     }
 
     /**
-     * Attempt to retrieve last port name from the project preferences.
-     * If not found, Wsdl port name is built from the name of the target service and
-     * a suffix stored in preferences.
+     * Attempt to retrieve last wsdl port name from the project preferences.
+     * If not found, wsdl port name is built from the service name
+     * potentially followed by a preferred suffix.
+     * 
      * @param serviceName the service name
+     * @return a valid initial value
      */
-    private void setDefaultWsdlPortName(final String serviceName) {
-        String name;
-        String suffix = getStore().getString(
-                PreferenceConstants.ADAPTER_WSDL_PORT_NAME_SUFFIX);
-        if (suffix == null || suffix.length() == 0) {
-            name = serviceName;
-        } else {
-            name = serviceName + suffix;
+    protected String getInitWsdlPortName(final String serviceName) {
+        String initValue = getGenModel().getWebServiceParameters()
+                .getWsdlPortName();
+        if (initValue == null) {
+            String suffix = getStore().getString(
+                    PreferenceConstants.ADAPTER_WSDL_PORT_NAME_SUFFIX);
+            if (suffix == null || suffix.length() == 0) {
+                initValue = serviceName;
+            } else {
+                initValue = serviceName + suffix;
+            }
         }
-        setWsdlPortName(getProjectPreferences().get(
-                PreferenceConstants.LAST_ADAPTER_WSDL_PORT_NAME, name));
+        return initValue;
     }
 
     /** {@inheritDoc} */
     public boolean validateExtendedWidgets() {
-        if (!checkDirectory(getTargetWDDDir(),
-                Messages.invalid_wdd_target_location_msg)) {
+
+        if (!super.validateExtendedWidgets()) {
             return false;
         }
+
         if (getWsdlTargetNamespace().length() == 0) {
             updateStatus(Messages.invalid_wsdl_target_namespace_msg);
             return false;
@@ -216,88 +209,59 @@ extends AbstractCixsGeneratorWizardPage {
         return true;
     }
 
-    /**
-     * Store the selected values in the project scoped preference store.
-     */
-    public void storeExtendedProjectPreferences() {
-        getProjectPreferences().put(
-                PreferenceConstants.LAST_ADAPTER_WSDL_TARGET_NAMESPACE, getWsdlTargetNamespace());
-        getProjectPreferences().put(
-                PreferenceConstants.LAST_ADAPTER_WSDL_SERVICE_NAME, getWsdlServiceName());
-        getProjectPreferences().put(
-                PreferenceConstants.LAST_ADAPTER_WSDL_PORT_NAME, getWsdlPortName());
-    }
+    /** {@inheritDoc} */
+    public void updateGenModelExtended() {
 
-    /**
-     * @param targetWarDir J2ee folder where war files should be
-     *  deployed
-     */
-    public void setTargetWarDir(final String targetWarDir) {
-        mTargetWarDirText.setText(targetWarDir);
-    }
+        super.updateGenModelExtended();
 
-    /**
-     * @return J2ee folder where war files should be deployed
-     */
-    public String getTargetWarDir() {
-        return mTargetWarDirText.getText();
-    }
-
-    /**
-     * @param targetWDDDir J2ee folder where web deployment files should
-     *  be generated
-     */
-    public void setTargetWDDDir(final String targetWDDDir) {
-        mTargetWDDDirText.setText(targetWDDDir);
-    }
-
-    /**
-     * @return J2ee folder where web deployment files should be generated
-     */
-    public String getTargetWDDDir() {
-        return mTargetWDDDirText.getText();
+        getGenModel().getWebServiceParameters().setWsdlTargetNamespace(
+                getWsdlTargetNamespace());
+        getGenModel().getWebServiceParameters().setWsdlServiceName(
+                getWsdlServiceName());
+        getGenModel().getWebServiceParameters().setWsdlPortName(
+                getWsdlPortName());
     }
 
     /**
      * @param wsdlTargetNamespace Generated Web services target namespace
      */
     public void setWsdlTargetNamespace(final String wsdlTargetNamespace) {
-        mWsdlTargetNamespaceText.setText(wsdlTargetNamespace);
+        _wsdlTargetNamespaceText.setText(wsdlTargetNamespace);
     }
 
     /**
      * @return Generated Web services target namespace
      */
     public String getWsdlTargetNamespace() {
-        return mWsdlTargetNamespaceText.getText();
+        return _wsdlTargetNamespaceText.getText();
     }
 
     /**
      * @param wsdlServiceName Generated Web service name
      */
     public void setWsdlServiceName(final String wsdlServiceName) {
-        mWsdlServiceNameText.setText(wsdlServiceName);
+        _wsdlServiceNameText.setText(wsdlServiceName);
     }
 
     /**
      * @return Generated Web service name
      */
     public String getWsdlServiceName() {
-        return mWsdlServiceNameText.getText();
+        return _wsdlServiceNameText.getText();
     }
 
     /**
      * @param wsdlPortName Generated Web service port name
      */
     public void setWsdlPortName(final String wsdlPortName) {
-        mWsdlPortNameText.setText(wsdlPortName);
+        _wsdlPortNameText.setText(wsdlPortName);
     }
 
     /**
      * @return Generated Web service port name
      */
     public String getWsdlPortName() {
-        return mWsdlPortNameText.getText();
+        return _wsdlPortNameText.getText();
     }
 
     /** {@inheritDoc} */
@@ -305,4 +269,10 @@ extends AbstractCixsGeneratorWizardPage {
         return Activator.getDefault();
     }
 
+    /**
+     * @return the data model
+     */
+    public AntBuildJaxws2CixsModel getGenModel() {
+        return _genModel;
+    }
 }

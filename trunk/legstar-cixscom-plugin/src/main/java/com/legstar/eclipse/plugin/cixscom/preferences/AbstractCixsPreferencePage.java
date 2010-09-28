@@ -58,7 +58,7 @@ implements IWorkbenchPreferencePage {
                 getFieldEditorParent()));
 
         addField(new StringFieldEditor(
-                PreferenceConstants.CIXS_TARGET_DIST_FOLDER,
+                PreferenceConstants.DEFAULT_CIXS_TARGET_DIST_FOLDER,
                 Messages.cixs_distribution_folder_label + ':',
                 getFieldEditorParent()));
 

@@ -30,9 +30,9 @@ public class JavaToXsdCobolModel extends SourceToXsdCobolModel {
     public static final String J2S_GENERATOR_NAME =
             "LegStar Java to Xsd generator";
 
-    /*
-     * Following are key identifiers for this model serialization.
-     */
+    /* ====================================================================== */
+    /* Following are key identifiers for this model persistence. = */
+    /* ====================================================================== */
 
     /** List of fully qualified java class names. */
     public static final String JAVA_CLASS_NAMES = "javaClassNames";
@@ -40,9 +40,9 @@ public class JavaToXsdCobolModel extends SourceToXsdCobolModel {
     /** List of classpath elements locations. */
     public static final String JAVA_PATH_ELEMENT_LOCATIONS = "javaPathElementLocations";
 
-    /*
-     * Following are this class fields that are persistent.
-     */
+    /* ====================================================================== */
+    /* Following are this class fields that are persistent. = */
+    /* ====================================================================== */
 
     /** List of fully qualified java class names. */
     private List < String > _javaClassNames;

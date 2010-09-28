@@ -13,6 +13,7 @@ package com.legstar.eclipse.plugin.schemagen.wizards;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 
+import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
 import com.legstar.j2sc.gen.JavaToXsdCobolModel;
 
 /**
@@ -49,7 +50,7 @@ public class JavaToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
             final JavaToXsdWizardPage javaToXsdPage)
             throws InvocationTargetException {
         JavaToXsdCobolModel model = new JavaToXsdCobolModel();
-        model.setProductLocation(getPluginInstallLocation(
+        model.setProductLocation(AbstractWizard.getPluginInstallLocation(
                 com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
         model.setClassNames(javaToXsdPage.getSelectedClassNames());
         model.setPathElementLocations(

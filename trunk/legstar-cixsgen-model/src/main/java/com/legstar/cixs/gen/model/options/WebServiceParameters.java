@@ -13,71 +13,104 @@ package com.legstar.cixs.gen.model.options;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
+import java.util.Properties;
 
 import com.legstar.codegen.CodeGenMakeException;
+import com.legstar.codegen.models.AbstractPropertiesModel;
 
 /**
  * Set of parameters describing a Web Service target.
  */
-public class WebServiceParameters {
+public class WebServiceParameters extends AbstractPropertiesModel {
 
     /* ====================================================================== */
-    /* = Constants section                                                  = */
+    /* Following are key identifiers for this model persistence. = */
     /* ====================================================================== */
-    /** URL locating target Web service WSDL. */ 
+    /** URL locating target Web service WSDL. */
     public static final String WSDL_URL_PROPERTY = "wsdlUrl";
 
-    /** Target Web service WSDL namespace. */ 
+    /** Target Web service WSDL namespace. */
     public static final String WSDL_TARGET_NAMESPACE_PROPERTY = "wsdlTargetNamespace";
 
-    /** Target Web service WSDL service name. */ 
+    /** Target Web service WSDL service name. */
     public static final String WSDL_SERVICE_NAME_PROPERTY = "wsdlServiceName";
 
-    /** Target Web service WSDL port name. */ 
+    /** Target Web service WSDL port name. */
     public static final String WSDL_PORT_NAME_PROPERTY = "wsdlPortName";
 
     /* ====================================================================== */
-    /* = Properties section                                                 = */
+    /* Following are this class fields that are persistent. = */
     /* ====================================================================== */
     /** The WSDL URL. */
-    private String mWsdlUrl;
-    
+    private String _wsdlUrl;
+
     /** The WSDL target namespace. */
-    private String mWsdlTargetNamespace;
-    
+    private String _wsdlTargetNamespace;
+
     /** The WSDL service name. */
-    private String mWsdlServiceName;
+    private String _wsdlServiceName;
 
     /** The WSDL port name. */
-    private String mWsdlPortName;
-    
+    private String _wsdlPortName;
+
     /**
-     * Web Service parameters are expected by templates to come from a parameters map.
-     * @param parameters a parameters map to which Web Service parameters must be added
+     * A no-Arg constructor.
+     */
+    public WebServiceParameters() {
+        super();
+    }
+
+    /**
+     * Construct from a properties file.
+     * 
+     * @param props the property file
+     */
+    public WebServiceParameters(final Properties props) {
+        super(props);
+        setWsdlServiceName(getString(props, WSDL_SERVICE_NAME_PROPERTY, null));
+        setWsdlPortName(getString(props, WSDL_PORT_NAME_PROPERTY, null));
+        setWsdlTargetNamespace(getString(props, WSDL_TARGET_NAMESPACE_PROPERTY,
+                null));
+        setWsdlUrl(getString(props, WSDL_URL_PROPERTY, null));
+    }
+
+    /**
+     * Web Service parameters are expected by templates to come from a
+     * parameters map.
+     * 
+     * @param parameters a parameters map to which Web Service parameters must
+     *            be added
      */
     public void add(final Map < String, Object > parameters) {
         parameters.put(WSDL_URL_PROPERTY, getWsdlUrl());
-        parameters.put(WSDL_TARGET_NAMESPACE_PROPERTY, getWsdlTargetNamespace());
+        parameters
+                .put(WSDL_TARGET_NAMESPACE_PROPERTY, getWsdlTargetNamespace());
         parameters.put(WSDL_SERVICE_NAME_PROPERTY, getWsdlServiceName());
         parameters.put(WSDL_PORT_NAME_PROPERTY, getWsdlPortName());
     }
 
     /**
-     * When target is an ESB service, check that corresponding parameters are set correctly.
+     * When target is an ESB service, check that corresponding parameters are
+     * set correctly.
+     * 
      * @throws CodeGenMakeException if parameters are missing or wrong
      */
     public void check() throws CodeGenMakeException {
         if (getWsdlUrl() == null || getWsdlUrl().length() == 0) {
-            throw new CodeGenMakeException("Missing target Web service WSDL URL");
+            throw new CodeGenMakeException(
+                    "Missing target Web service WSDL URL");
         }
-        if (getWsdlTargetNamespace() == null || getWsdlTargetNamespace().length() == 0) {
-            throw new CodeGenMakeException("Missing target Web service namespace");
+        if (getWsdlTargetNamespace() == null
+                || getWsdlTargetNamespace().length() == 0) {
+            throw new CodeGenMakeException(
+                    "Missing target Web service namespace");
         }
         if (getWsdlServiceName() == null || getWsdlServiceName().length() == 0) {
             throw new CodeGenMakeException("Missing target Web service name");
         }
         if (getWsdlPortName() == null || getWsdlPortName().length() == 0) {
-            throw new CodeGenMakeException("Missing target Web service port name");
+            throw new CodeGenMakeException(
+                    "Missing target Web service port name");
         }
         try {
             new URI(getWsdlUrl());
@@ -90,56 +123,68 @@ public class WebServiceParameters {
      * @return the WSDL service name
      */
     public String getWsdlServiceName() {
-        return mWsdlServiceName;
+        return _wsdlServiceName;
     }
 
     /**
      * @param wsdlServiceName the WSDL service name to set
      */
     public void setWsdlServiceName(final String wsdlServiceName) {
-        mWsdlServiceName = wsdlServiceName;
+        _wsdlServiceName = wsdlServiceName;
     }
 
     /**
      * @return the WSDL port name
      */
     public String getWsdlPortName() {
-        return mWsdlPortName;
+        return _wsdlPortName;
     }
 
     /**
      * @param wsdlPortName the WSDL port name to set
      */
     public void setWsdlPortName(final String wsdlPortName) {
-        mWsdlPortName = wsdlPortName;
+        _wsdlPortName = wsdlPortName;
     }
 
     /**
      * @return the WSDL target namespace
      */
     public String getWsdlTargetNamespace() {
-        return mWsdlTargetNamespace;
+        return _wsdlTargetNamespace;
     }
 
     /**
      * @param wsdlTargetNamespace the WSDL target namespace to set
      */
     public void setWsdlTargetNamespace(final String wsdlTargetNamespace) {
-        mWsdlTargetNamespace = wsdlTargetNamespace;
+        _wsdlTargetNamespace = wsdlTargetNamespace;
     }
 
     /**
      * @return the WSDL URL
      */
     public String getWsdlUrl() {
-        return mWsdlUrl;
+        return _wsdlUrl;
     }
 
     /**
      * @param wsdlUrl the WSDL URL to set
      */
     public void setWsdlUrl(final String wsdlUrl) {
-        mWsdlUrl = wsdlUrl;
+        _wsdlUrl = wsdlUrl;
     }
 
+    /**
+     * @return a properties file holding the values of this object fields
+     */
+    public Properties toProperties() {
+        Properties props = super.toProperties();
+        putString(props, WSDL_SERVICE_NAME_PROPERTY, getWsdlServiceName());
+        putString(props, WSDL_PORT_NAME_PROPERTY, getWsdlPortName());
+        putString(props, WSDL_TARGET_NAMESPACE_PROPERTY,
+                getWsdlTargetNamespace());
+        putString(props, WSDL_URL_PROPERTY, getWsdlUrl());
+        return props;
+    }
 }

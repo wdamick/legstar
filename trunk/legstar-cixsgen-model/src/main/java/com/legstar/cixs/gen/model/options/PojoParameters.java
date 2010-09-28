@@ -11,25 +11,27 @@
 package com.legstar.cixs.gen.model.options;
 
 import java.util.Map;
+import java.util.Properties;
 
 import com.legstar.codegen.CodeGenMakeException;
+import com.legstar.codegen.models.AbstractPropertiesModel;
 
 /**
  * Set of parameters describing a POJO.
  */
-public class PojoParameters {
+public class PojoParameters extends AbstractPropertiesModel {
 
     /* ====================================================================== */
-    /* = Constants section                                                  = */
+    /* Following are key identifiers for this model persistence. = */
     /* ====================================================================== */
-    /** POJO Class name. */ 
+    /** POJO Class name. */
     public static final String POJO_CLASS_NAME_PROPERTY = "pojoClassName";
 
-    /** POJO method name. */ 
+    /** POJO method name. */
     public static final String POJO_METHOD_NAME_PROPERTY = "pojoMethodName";
 
     /* ====================================================================== */
-    /* = Properties section                                                 = */
+    /* Following are this class fields that are persistent. = */
     /* ====================================================================== */
     /** The target POJO fully qualified class name. */
     private String mClassName;
@@ -38,7 +40,26 @@ public class PojoParameters {
     private String mMethodName;
 
     /**
+     * A no-Arg constructor.
+     */
+    public PojoParameters() {
+        super();
+    }
+
+    /**
+     * Construct from a properties file.
+     * 
+     * @param props the property file
+     */
+    public PojoParameters(final Properties props) {
+        super(props);
+        setClassName(getString(props, POJO_CLASS_NAME_PROPERTY, null));
+        setMethodName(getString(props, POJO_METHOD_NAME_PROPERTY, null));
+    }
+
+    /**
      * POJO parameters are expected by templates to come from a parameters map.
+     * 
      * @param parameters a parameters map to which POJO parameters must be added
      */
     public void add(final Map < String, Object > parameters) {
@@ -47,17 +68,19 @@ public class PojoParameters {
     }
 
     /**
-     * When target is a POJO, check that corresponding parameters are set correctly.
+     * When target is a POJO, check that corresponding parameters are set
+     * correctly.
+     * 
      * @throws CodeGenMakeException if parameters are missing or wrong
      */
     public void check() throws CodeGenMakeException {
         if (getClassName() == null || getClassName().length() == 0) {
             throw new CodeGenMakeException(
-            "Missing target POJO implementation class name");
+                    "Missing target POJO implementation class name");
         }
         if (getMethodName() == null || getMethodName().length() == 0) {
             throw new CodeGenMakeException(
-            "Missing target POJO method name");
+                    "Missing target POJO method name");
         }
     }
 
@@ -87,5 +110,15 @@ public class PojoParameters {
      */
     public void setMethodName(final String methodName) {
         mMethodName = methodName;
+    }
+
+    /**
+     * @return a properties file holding the values of this object fields
+     */
+    public Properties toProperties() {
+        Properties props = super.toProperties();
+        putString(props, POJO_CLASS_NAME_PROPERTY, getClassName());
+        putString(props, POJO_METHOD_NAME_PROPERTY, getMethodName());
+        return props;
     }
 }

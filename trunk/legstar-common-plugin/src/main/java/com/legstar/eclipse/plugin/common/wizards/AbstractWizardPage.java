@@ -271,6 +271,21 @@ public abstract class AbstractWizardPage extends WizardPage {
      * content can be saved and restored.
      * 
      * @param container the parent composite
+     * @param labelText the label's text appearing before the textbox
+     * @return the composite
+     */
+    public Text createDirectoryFieldEditor(
+            final Composite container,
+            final String labelText) {
+        return createDirectoryFieldEditor(container, null, labelText);
+    }
+
+    /**
+     * This type of widget has a textbox and a browse button to lookup a folder
+     * on the file system. The content is tied to a preference store element so
+     * content can be saved and restored.
+     * 
+     * @param container the parent composite
      * @param preferenceName the preference store item
      * @param labelText the label's text appearing before the textbox
      * @return the composite

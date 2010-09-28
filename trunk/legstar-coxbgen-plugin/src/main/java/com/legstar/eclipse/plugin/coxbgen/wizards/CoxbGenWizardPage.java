@@ -85,7 +85,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
     private Text _coxbPackageName;
 
     /** An instance of the generator model. */
-    CoxbGenModel _coxbModel;
+    CoxbGenModel _genModel;
 
     /** List of complex types from XML schema. . */
     private List mJaxbRootClassNamesList;
@@ -113,18 +113,18 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
      * By default, the target project is the Xsd file containing project.
      * 
      * @param selection current workbench selection
-     * @param coxbModel the data model
+     * @param genModel the data model
      * @param xsdFile XML schema file
      */
     public CoxbGenWizardPage(
             final IStructuredSelection selection,
             final IFile xsdFile,
-            final CoxbGenModel coxbModel) {
+            final CoxbGenModel genModel) {
         super(selection, PAGE_NAME,
                 Messages.wizard_page_title, Messages.wizard_page_description);
         _xsdFile = xsdFile;
-        _coxbModel = coxbModel;
-        _coxbModel.setXsdFile(_xsdFile.getLocation().toFile());
+        _genModel = genModel;
+        _genModel.setXsdFile(_xsdFile.getLocation().toFile());
     }
 
     /** {@inheritDoc} */
@@ -154,7 +154,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
         jaxbOptionsButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(final SelectionEvent e) {
                 CoxbGenJaxbOtionsDialog dialog = new CoxbGenJaxbOtionsDialog(
-                        getShell(), getCoxbModel().getJaxbXjbModel());
+                        getShell(), getGenModel().getJaxbXjbModel());
                 if (dialog.open() == CoxbGenJaxbOtionsDialog.OK) {
                     handleXJBParameters(dialog);
                 }
@@ -200,7 +200,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
         coxbOptionsButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(final SelectionEvent e) {
                 CoxbGenOptionsDialog dialog = new CoxbGenOptionsDialog(
-                        getShell(), getCoxbModel());
+                        getShell(), getGenModel());
                 dialog.open();
             }
         });
@@ -265,10 +265,10 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
      * @throws CoreException if model cannot be initialized
      */
     protected void initModel(final IFile xsdFile) throws CoreException {
-        _coxbModel.setXsdFile(xsdFile.getLocation().toFile());
+        _genModel.setXsdFile(xsdFile.getLocation().toFile());
         try {
-            _jaxbPackageName.setText(_coxbModel.getJaxbPackageName());
-            _coxbPackageName.setText(_coxbModel.getCoxbPackageName());
+            _jaxbPackageName.setText(_genModel.getJaxbPackageName());
+            _coxbPackageName.setText(_genModel.getCoxbPackageName());
         } catch (CoxbGenException e) {
             throwCoreException(e);
         }
@@ -321,12 +321,12 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
     protected void loadXmlSchemaComplexType(
             final IFile xsdFile, final XmlSchemaComplexType xsdComplexType) {
         String normalizedName = Utils.toClassName(xsdComplexType.getName());
-        if (getCoxbModel().getTypeNamePrefix() != null) {
-            normalizedName = getCoxbModel().getTypeNamePrefix()
+        if (getGenModel().getTypeNamePrefix() != null) {
+            normalizedName = getGenModel().getTypeNamePrefix()
                     + normalizedName;
         }
-        if (getCoxbModel().getTypeNameSuffix() != null) {
-            normalizedName += getCoxbModel().getTypeNameSuffix();
+        if (getGenModel().getTypeNameSuffix() != null) {
+            normalizedName += getGenModel().getTypeNameSuffix();
         }
         mJaxbRootClassNamesList.add(normalizedName);
     }
@@ -346,12 +346,12 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
         XmlSchemaType xsdType = xsdElement.getSchemaType();
         if (xsdType.getName() == null) {
             String normalizedName = Utils.toClassName(xsdElement.getName());
-            if (getCoxbModel().getElementNamePrefix() != null) {
-                normalizedName = getCoxbModel().getElementNamePrefix()
+            if (getGenModel().getElementNamePrefix() != null) {
+                normalizedName = getGenModel().getElementNamePrefix()
                         + normalizedName;
             }
-            if (getCoxbModel().getElementNameSuffix() != null) {
-                normalizedName += getCoxbModel().getElementNameSuffix();
+            if (getGenModel().getElementNameSuffix() != null) {
+                normalizedName += getGenModel().getElementNameSuffix();
             }
             mJaxbRootClassNamesList.add(normalizedName);
         }
@@ -418,23 +418,23 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
         }
 
         updateStatus(null);
-        updateCoxbModel();
+        updateGenModel();
 
     }
 
     /**
      * Update the model with UI field values.
      */
-    protected void updateCoxbModel() {
-        getCoxbModel().setJaxbPackageName(getValueFromText(_jaxbPackageName));
-        getCoxbModel().setCoxbPackageName(getValueFromText(_coxbPackageName));
-        getCoxbModel().setJaxbSrcDir(new File(
+    protected void updateGenModel() {
+        getGenModel().setJaxbPackageName(getValueFromText(_jaxbPackageName));
+        getGenModel().setCoxbPackageName(getValueFromText(_coxbPackageName));
+        getGenModel().setJaxbSrcDir(new File(
                 getPathName(getSrcDirRelativePathName())));
-        getCoxbModel().setJaxbBinDir(new File(
+        getGenModel().setJaxbBinDir(new File(
                 getPathName(getBinDirRelativePathName())));
-        getCoxbModel().setCoxbSrcDir(getCoxbModel().getJaxbSrcDir());
-        getCoxbModel().setCoxbBinDir(getCoxbModel().getJaxbBinDir());
-        getCoxbModel().setJaxbRootClassNames(getJaxbRootClassNames());
+        getGenModel().setCoxbSrcDir(getGenModel().getJaxbSrcDir());
+        getGenModel().setCoxbBinDir(getGenModel().getJaxbBinDir());
+        getGenModel().setJaxbRootClassNames(getJaxbRootClassNames());
     }
 
     /**
@@ -560,8 +560,8 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
     /**
      * @return the data model
      */
-    public CoxbGenModel getCoxbModel() {
-        return _coxbModel;
+    public CoxbGenModel getGenModel() {
+        return _genModel;
     }
 
 }

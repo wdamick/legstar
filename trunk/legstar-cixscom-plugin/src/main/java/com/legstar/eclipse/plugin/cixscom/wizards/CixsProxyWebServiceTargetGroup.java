@@ -21,7 +21,6 @@ import com.legstar.cixs.gen.model.options.WebServiceParameters;
 import com.legstar.eclipse.plugin.cixscom.Activator;
 import com.legstar.eclipse.plugin.cixscom.Messages;
 import com.legstar.eclipse.plugin.cixscom.dialogs.WsdlPortSelectionDialog;
-import com.legstar.eclipse.plugin.cixscom.preferences.PreferenceConstants;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizardPage;
 import com.legstar.eclipse.plugin.common.wizards.IURLSelectionListener;
 
@@ -29,126 +28,174 @@ import com.legstar.eclipse.plugin.common.wizards.IURLSelectionListener;
  * Holds the controls for a Web Service proxy target.
  * <p/>
  * A Web Service is described by the characteristics of a WSDL.
- *
+ * 
  */
 public class CixsProxyWebServiceTargetGroup extends AbstractCixsControlsGroup {
 
     /** URL locating target Web service WSDL. */
-    private Combo mWsdlUrlCombo = null;
+    private Combo _wsdlUrlCombo = null;
 
     /** Target Web service WSDL service name. */
-    private Text mWsdlServiceNameText = null;
+    private Text _wsdlServiceNameText = null;
 
     /** Target Web service WSDL port name. */
-    private Text mWsdlPortNameText = null;
+    private Text _wsdlPortNameText = null;
 
     /** Target Web services target namespace. */
-    private Text mWsdlTargetNamespaceText = null;
+    private Text _wsdlTargetNamespaceText = null;
+
+    /** The data model behind this group. */
+    private WebServiceParameters _genModel;
 
     /**
      * Construct this control holder attaching it to a wizard page.
+     * 
      * @param wizardPage the parent wizard page
+     * @param genModel the data model
+     * @param selected whether this group should initially be selected
      */
-    public CixsProxyWebServiceTargetGroup(final AbstractCixsGeneratorWizardPage wizardPage) {
-        super(wizardPage);
+    public CixsProxyWebServiceTargetGroup(
+            final AbstractCixsGeneratorWizardPage wizardPage,
+            final WebServiceParameters genModel,
+            final boolean selected) {
+        super(wizardPage, selected);
+        _genModel = genModel;
     }
 
-
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void createButton(final Composite composite) {
         super.createButton(composite, "Web Service");
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void createControls(final Composite composite) {
-        super.createControls(composite, Messages.target_web_service_group_label, 3);
+        super.createControls(composite,
+                Messages.target_web_service_group_label, 3);
 
-        mWsdlUrlCombo = getWizardPage().createUrlComboGroup(
+        _wsdlUrlCombo = getWizardPage().createUrlComboGroup(
                 getGroup(), Messages.target_web_service_wsdl_url_label,
                 new ModifyListener() {
                     public void modifyText(final ModifyEvent e) {
                     }
                 },
                 new URLSelectionAdapter());
-        
 
-        mWsdlServiceNameText = AbstractWizardPage.createTextField(getGroup(),
-                null, null, Messages.target_web_service_wsdl_service_name_label + ':');
-
-        AbstractWizardPage.createLabel(getGroup(), "");
-
-        mWsdlPortNameText = AbstractWizardPage.createTextField(getGroup(),
-                null, null, Messages.target_web_service_wsdl_port_name_label + ':');
+        _wsdlServiceNameText = AbstractWizardPage.createTextField(getGroup(),
+                null, null,
+                Messages.target_web_service_wsdl_service_name_label + ':');
 
         AbstractWizardPage.createLabel(getGroup(), "");
 
-        mWsdlTargetNamespaceText = AbstractWizardPage.createTextField(getGroup(),
-                null, null, Messages.target_web_service_wsdl_target_namespace_label + ':');
+        _wsdlPortNameText = AbstractWizardPage.createTextField(getGroup(),
+                null, null,
+                Messages.target_web_service_wsdl_port_name_label + ':');
+
+        AbstractWizardPage.createLabel(getGroup(), "");
+
+        _wsdlTargetNamespaceText = AbstractWizardPage.createTextField(
+                getGroup(),
+                null, null,
+                Messages.target_web_service_wsdl_target_namespace_label + ':');
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void createExtendedListeners() {
-        
-        mWsdlUrlCombo.addModifyListener(new ModifyListener() {
+
+        _wsdlUrlCombo.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 getWizardPage().dialogChanged();
             }
         });
-        mWsdlServiceNameText.addModifyListener(new ModifyListener() {
+        _wsdlServiceNameText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 getWizardPage().dialogChanged();
             }
         });
-        mWsdlPortNameText.addModifyListener(new ModifyListener() {
+        _wsdlPortNameText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 getWizardPage().dialogChanged();
             }
         });
-        mWsdlTargetNamespaceText.addModifyListener(new ModifyListener() {
+        _wsdlTargetNamespaceText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 getWizardPage().dialogChanged();
             }
         });
     }
-    
+
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void initExtendedControls() {
         initWsdlUrl();
-        setWsdlUrl(getProjectPreferences().get(
-                PreferenceConstants.PROXY_LAST_WS_WSDL_URL, ""));
-        setWsdlServiceName(getProjectPreferences().get(
-                PreferenceConstants.PROXY_LAST_WS_WSDL_SERVICE_NAME, ""));
-        setWsdlPortName(getProjectPreferences().get(
-                PreferenceConstants.PROXY_LAST_WS_WSDL_PORT_NAME, ""));
-        setWsdlTargetNamespace(getProjectPreferences().get(
-                PreferenceConstants.PROXY_LAST_WS_WSDL_TARGET_NAMESPACE, ""));
+        setWsdlUrl(getInitWsdlUrl());
+        setWsdlServiceName(getInitWsdlServiceName());
+        setWsdlPortName(getInitWsdlPortName());
+        setWsdlTargetNamespace(getInitWsdlTargetNamespace());
     }
 
     /**
-     * {@inheritDoc} 
+     * @return a safe class name initial value
      */
-    public void storeExtendedProjectPreferences() {
-
-        getProjectPreferences().put(
-                PreferenceConstants.PROXY_LAST_WS_WSDL_URL, getWsdlUrl());
-        getProjectPreferences().put(
-                PreferenceConstants.PROXY_LAST_WS_WSDL_SERVICE_NAME, getWsdlServiceName());
-        getProjectPreferences().put(
-                PreferenceConstants.PROXY_LAST_WS_WSDL_PORT_NAME, getWsdlPortName());
-        getProjectPreferences().put(
-                PreferenceConstants.PROXY_LAST_WS_WSDL_TARGET_NAMESPACE, getWsdlTargetNamespace());
+    protected String getInitWsdlUrl() {
+        String initValue = _genModel.getWsdlUrl();
+        if (initValue == null) {
+            initValue = "";
+        }
+        return initValue;
     }
 
     /**
-     * {@inheritDoc} 
+     * @return a safe class name initial value
+     */
+    protected String getInitWsdlServiceName() {
+        String initValue = _genModel.getWsdlServiceName();
+        if (initValue == null) {
+            initValue = "";
+        }
+        return initValue;
+    }
+
+    /**
+     * @return a safe class name initial value
+     */
+    protected String getInitWsdlPortName() {
+        String initValue = _genModel.getWsdlPortName();
+        if (initValue == null) {
+            initValue = "";
+        }
+        return initValue;
+    }
+
+    /**
+     * @return a safe class name initial value
+     */
+    protected String getInitWsdlTargetNamespace() {
+        String initValue = _genModel.getWsdlTargetNamespace();
+        if (initValue == null) {
+            initValue = "";
+        }
+        return initValue;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void updateGenModelExtended() {
+        getGenModel().setWsdlUrl(getWsdlUrl());
+        getGenModel().setWsdlServiceName(getWsdlServiceName());
+        getGenModel().setWsdlPortName(getWsdlPortName());
+        getGenModel().setWsdlTargetNamespace(getWsdlTargetNamespace());
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public boolean validateControls() {
         if (getWsdlUrl().length() == 0) {
@@ -156,7 +203,8 @@ public class CixsProxyWebServiceTargetGroup extends AbstractCixsControlsGroup {
             return false;
         }
         if (getWsdlServiceName().length() == 0) {
-            getWizardPage().updateStatus(Messages.invalid_wsdl_service_name_msg);
+            getWizardPage()
+                    .updateStatus(Messages.invalid_wsdl_service_name_msg);
             return false;
         }
         if (getWsdlPortName().length() == 0) {
@@ -178,9 +226,9 @@ public class CixsProxyWebServiceTargetGroup extends AbstractCixsControlsGroup {
         /** {@inheritDoc} */
         public void urlSelected(final String urlString) {
             WsdlPortSelectionDialog dlg =
-                new WsdlPortSelectionDialog(
-                        getWsdlUrl(), getShell(),
-                        Activator.PLUGIN_ID);
+                    new WsdlPortSelectionDialog(
+                            getWsdlUrl(), getShell(),
+                            Activator.PLUGIN_ID);
             if (Window.OK == dlg.open()) {
                 setWsdlTargetNamespace(dlg.getTargetNamespace());
                 setWsdlServiceName(dlg.getServiceName());
@@ -194,7 +242,7 @@ public class CixsProxyWebServiceTargetGroup extends AbstractCixsControlsGroup {
      */
     private void initWsdlUrl() {
         for (String value : getWizardPage().getUrlHistory().get()) {
-            mWsdlUrlCombo.add(value);
+            _wsdlUrlCombo.add(value);
         }
     }
 
@@ -202,69 +250,64 @@ public class CixsProxyWebServiceTargetGroup extends AbstractCixsControlsGroup {
      * @return the URL locating target Web service WSDL
      */
     public String getWsdlUrl() {
-        return mWsdlUrlCombo.getText();
+        return _wsdlUrlCombo.getText();
     }
 
     /**
      * @param wsdlUrl the URL locating target Web service WSDL to set
      */
     public void setWsdlUrl(final String wsdlUrl) {
-        mWsdlUrlCombo.setText(wsdlUrl);
+        _wsdlUrlCombo.setText(wsdlUrl);
     }
 
     /**
      * @return the Target Web service WSDL service name
      */
     public String getWsdlServiceName() {
-        return mWsdlServiceNameText.getText();
+        return _wsdlServiceNameText.getText();
     }
 
     /**
      * @param wsdlServiceName the Target Web service WSDL service name to
-     *  set
+     *            set
      */
     public void setWsdlServiceName(final String wsdlServiceName) {
-        mWsdlServiceNameText.setText(wsdlServiceName);
+        _wsdlServiceNameText.setText(wsdlServiceName);
     }
 
     /**
      * @return the Target Web service WSDL port name
      */
     public String getWsdlPortName() {
-        return mWsdlPortNameText.getText();
+        return _wsdlPortNameText.getText();
     }
 
     /**
      * @param wsdlPortName the Target Web service WSDL port name to set
      */
     public void setWsdlPortName(final String wsdlPortName) {
-        mWsdlPortNameText.setText(wsdlPortName);
+        _wsdlPortNameText.setText(wsdlPortName);
     }
 
     /**
      * @param wsdlTargetNamespace the Target Web services target namespace
      */
     public void setWsdlTargetNamespace(final String wsdlTargetNamespace) {
-        mWsdlTargetNamespaceText.setText(wsdlTargetNamespace);
+        _wsdlTargetNamespaceText.setText(wsdlTargetNamespace);
     }
 
     /**
      * @return the Target Web services target namespace
      */
     public String getWsdlTargetNamespace() {
-        return mWsdlTargetNamespaceText.getText();
+        return _wsdlTargetNamespaceText.getText();
     }
-    
+
     /**
-     * @return the target Web Service parameters as a formatted Web Service parameters object
+     * @return the _genModel
      */
-    public WebServiceParameters getWebServiceTargetParameters() {
-        WebServiceParameters webServiceParameters = new WebServiceParameters();
-        webServiceParameters.setWsdlUrl(getWsdlUrl());
-        webServiceParameters.setWsdlServiceName(getWsdlServiceName());
-        webServiceParameters.setWsdlPortName(getWsdlPortName());
-        webServiceParameters.setWsdlTargetNamespace(getWsdlTargetNamespace());
-        return webServiceParameters;
+    public WebServiceParameters getGenModel() {
+        return _genModel;
     }
 
 }

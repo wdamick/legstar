@@ -11,13 +11,17 @@
 package com.legstar.eclipse.plugin.jaxwsgen.wizards;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Properties;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 
+import com.legstar.cixs.gen.ant.model.AbstractAntBuildCixsModel;
+import com.legstar.cixs.gen.model.AbstractCixsService;
+import com.legstar.cixs.jaxws.model.AntBuildJaxws2CixsModel;
+import com.legstar.cixs.jaxws.model.CixsJaxwsService;
 import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsGeneratorWizard;
-import com.legstar.eclipse.plugin.cixscom.wizards.
-AbstractCixsGeneratorWizardRunnable;
 import com.legstar.eclipse.plugin.jaxwsgen.Activator;
 
 /**
@@ -26,13 +30,17 @@ import com.legstar.eclipse.plugin.jaxwsgen.Activator;
  */
 public class Jaxws2CixsGeneratorWizard extends AbstractCixsGeneratorWizard {
 
+    /** What we are trying to generate. */
+    public static final String GENERATION_SUBJECT = "JAX-WS Service adapter";
+
     /** The main page of controls. */
-    private Jaxws2CixsGeneratorWizardPage mJaxws2CixsGenPage;
+    private Jaxws2CixsGeneratorWizardPage _jaxws2CixsGenPage;
 
     /**
      * Constructor for Jaxws2CixsGeneratorWizard.
+     * 
      * @param mappingFile an mapping file
-     * @throws CoreException if initialization goes wrong 
+     * @throws CoreException if initialization goes wrong
      */
     public Jaxws2CixsGeneratorWizard(
             final IFile mappingFile) throws CoreException {
@@ -43,9 +51,9 @@ public class Jaxws2CixsGeneratorWizard extends AbstractCixsGeneratorWizard {
      * Adding the page to the wizard.
      */
     public void addPages() {
-        mJaxws2CixsGenPage = new Jaxws2CixsGeneratorWizardPage(
-                getInitialSelection(), getMappingFile());
-        addPage(mJaxws2CixsGenPage);
+        _jaxws2CixsGenPage = new Jaxws2CixsGeneratorWizardPage(
+                getInitialSelection(), getMappingFile(), getGenModel());
+        addPage(_jaxws2CixsGenPage);
     }
 
     /** {@inheritDoc} */
@@ -54,9 +62,34 @@ public class Jaxws2CixsGeneratorWizard extends AbstractCixsGeneratorWizard {
     }
 
     /** {@inheritDoc} */
-    protected AbstractCixsGeneratorWizardRunnable getRunnable()
-    throws InvocationTargetException {
-        return new Jaxws2CixsGeneratorWizardRunnable(mJaxws2CixsGenPage);
+    @Override
+    public String getGenerationSubject() {
+        return GENERATION_SUBJECT;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public AbstractCixsService createCixsService() {
+        return new CixsJaxwsService();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public AbstractAntBuildCixsModel createGenModel(final Properties props) {
+        return new AntBuildJaxws2CixsModel(props);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public AntBuildJaxws2CixsModel getGenModel() {
+        return (AntBuildJaxws2CixsModel) super.getGenModel();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public IRunnableWithProgress getWizardRunnable()
+            throws InvocationTargetException {
+        return new Jaxws2CixsGeneratorWizardRunnable(_jaxws2CixsGenPage);
     }
 
 }

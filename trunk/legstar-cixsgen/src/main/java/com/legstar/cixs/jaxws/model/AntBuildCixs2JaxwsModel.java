@@ -11,6 +11,7 @@
 package com.legstar.cixs.jaxws.model;
 
 import java.io.File;
+import java.util.Properties;
 
 import com.legstar.cixs.gen.model.options.CobolHttpClientType;
 import com.legstar.cixs.gen.model.options.HttpTransportParameters;
@@ -27,128 +28,203 @@ public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsJaxwsModel {
 
     /** This generator name. */
     public static final String CIXS2JAXWS_GENERATOR_NAME =
-        "Web Service proxy for Mainframe generator";
+            "Web Service proxy for Mainframe generator";
+
+    /**
+     * This velocity template that creates an ant build which in turn
+     * generates the target web service proxy.
+     */
+    public static final String CIXS2JAXWS_VELOCITY_MACRO_NAME =
+            "vlc/build-cixs2jws-xml.vm";
+
+    /* ====================================================================== */
+    /* Following are key identifiers for this model persistence. = */
+    /* ====================================================================== */
+    /** Target source directory. */
+    public static final String PROXY_TARGET_TYPE = "proxyTargetType";
+
+    /** Target source directory. */
+    public static final String TARGET_COBOL_DIR = "targetCobolDir";
+
+    /** Target source directory. */
+    public static final String SAMPLE_COBOL_HTTP_CLIENT_TYPE = "sampleCobolHttpClientType";
+
+    /* ====================================================================== */
+    /* Following are this class fields that are persistent. = */
+    /* ====================================================================== */
 
     /** The type of target that the generated proxy service will invoke. */
-    private ProxyTargetType mProxyTargetType = ProxyTargetType.WEBSERVICE;
+    private ProxyTargetType _proxyTargetType = ProxyTargetType.WEBSERVICE;
 
     /** Set of parameters needed to invoke a POJO. */
-    private PojoParameters mPojoTargetParameters;
+    private PojoParameters _pojoTargetParameters;
 
     /** Set of parameters needed to invoke a Web Service. */
-    private WebServiceParameters mWebServiceTargetParameters;
+    private WebServiceParameters _webServiceTargetParameters;
 
     /** The target directory where COBOL files will be created. */
-    private File mTargetCobolDir;
+    private File _targetCobolDir;
 
     /** The type of HTTP sample Cobol client to generate. */
-    private CobolHttpClientType mSampleCobolHttpClientType = CobolHttpClientType.DFHWBCLI;
-    
-    /** HTTP parameters used by cobol client to reach the proxy over HTTP.     */
-    private HttpTransportParameters mHttpTransportParameters;
-    
-    /** This velocity template that creates an ant build which in turn
-     * generates the target web service proxy. */
-    public static final String CIXS2JAXWS_VELOCITY_MACRO_NAME =
-        "vlc/build-cixs2jws-xml.vm";
+    private CobolHttpClientType _sampleCobolHttpClientType = CobolHttpClientType.DFHWBCLI;
+
+    /** HTTP parameters used by cobol client to reach the proxy over HTTP. */
+    private HttpTransportParameters _httpTransportParameters;
+
+    /*
+     * Following are this class fields that are persistent.
+     */
 
     /**
      * Construct an empty model.
      */
     public AntBuildCixs2JaxwsModel() {
         super(CIXS2JAXWS_GENERATOR_NAME, CIXS2JAXWS_VELOCITY_MACRO_NAME);
-        mPojoTargetParameters = new PojoParameters();
-        mWebServiceTargetParameters = new WebServiceParameters();
-        mHttpTransportParameters = new HttpTransportParameters();
+        _pojoTargetParameters = new PojoParameters();
+        _webServiceTargetParameters = new WebServiceParameters();
+        _httpTransportParameters = new HttpTransportParameters();
+    }
+
+    /**
+     * Construct from a properties file.
+     * 
+     * @param props the property file
+     */
+    public AntBuildCixs2JaxwsModel(final Properties props) {
+        super(CIXS2JAXWS_GENERATOR_NAME, CIXS2JAXWS_VELOCITY_MACRO_NAME, props);
+        setProxyTargetType(getString(props, PROXY_TARGET_TYPE, null));
+        setTargetCobolDir(getFile(props, TARGET_COBOL_DIR, null));
+        setSampleCobolHttpClientType(getString(props,
+                SAMPLE_COBOL_HTTP_CLIENT_TYPE, null));
+        _pojoTargetParameters = new PojoParameters(props);
+        _webServiceTargetParameters = new WebServiceParameters(props);
+        _httpTransportParameters = new HttpTransportParameters(props);
     }
 
     /**
      * @return the directory where COBOL files will be created
      */
     public File getTargetCobolDir() {
-        return mTargetCobolDir;
+        return _targetCobolDir;
     }
 
     /**
      * @param targetCobolDir the directory where COBOL files will be created to
-     *  set
+     *            set
      */
     public void setTargetCobolDir(final File targetCobolDir) {
-        mTargetCobolDir = targetCobolDir;
+        _targetCobolDir = targetCobolDir;
     }
 
     /**
      * @return The type of Http sample Cobol client to generate
      */
     public CobolHttpClientType getSampleCobolHttpClientType() {
-        return mSampleCobolHttpClientType;
+        return _sampleCobolHttpClientType;
     }
 
     /**
-     * @param sampleCobolHttpClientType The type of Http sample Cobol client to generate
+     * @param sampleCobolHttpClientType The type of Http sample Cobol client to
+     *            generate
      */
     public void setSampleCobolHttpClientType(
             final CobolHttpClientType sampleCobolHttpClientType) {
-        mSampleCobolHttpClientType = sampleCobolHttpClientType;
+        _sampleCobolHttpClientType = sampleCobolHttpClientType;
+    }
+
+    /**
+     * @param sampleCobolHttpClientType The type of Http sample Cobol client to
+     *            generate
+     */
+    public void setSampleCobolHttpClientType(
+            final String sampleCobolHttpClientType) {
+        _sampleCobolHttpClientType = CobolHttpClientType
+                .valueOf(sampleCobolHttpClientType);
     }
 
     /**
      * @return the type of target that the generated proxy service will invoke
      */
     public ProxyTargetType getProxyTargetType() {
-        return mProxyTargetType;
+        return _proxyTargetType;
     }
 
     /**
-     * @param proxyTargetType the type of target that the generated proxy service will invoke
+     * @param proxyTargetType the type of target that the generated proxy
+     *            service will invoke
      */
     public void setProxyTargetType(final ProxyTargetType proxyTargetType) {
-        mProxyTargetType = proxyTargetType;
+        _proxyTargetType = proxyTargetType;
+    }
+
+    /**
+     * @param proxyTargetType the type of target that the generated proxy
+     *            service will invoke
+     */
+    public void setProxyTargetType(final String proxyTargetType) {
+        _proxyTargetType = ProxyTargetType.valueOf(proxyTargetType);
     }
 
     /**
      * @return the set of parameters needed to invoke a POJO
      */
     public PojoParameters getPojoTargetParameters() {
-        return mPojoTargetParameters;
+        return _pojoTargetParameters;
     }
 
     /**
-     * @param pojoTargetParameters the set of parameters needed to invoke a POJO to set
+     * @param pojoTargetParameters the set of parameters needed to invoke a POJO
+     *            to set
      */
     public void setPojoTargetParameters(
             final PojoParameters pojoTargetParameters) {
-        mPojoTargetParameters = pojoTargetParameters;
+        _pojoTargetParameters = pojoTargetParameters;
     }
 
     /**
      * @return the set of parameters needed to invoke a Web Service
      */
     public WebServiceParameters getWebServiceTargetParameters() {
-        return mWebServiceTargetParameters;
+        return _webServiceTargetParameters;
     }
 
     /**
-     * @param webServiceTargetParameters the set of parameters needed to invoke a Web Service to set
+     * @param webServiceTargetParameters the set of parameters needed to invoke
+     *            a Web Service to set
      */
     public void setWebServiceTargetParameters(
             final WebServiceParameters webServiceTargetParameters) {
-        mWebServiceTargetParameters = webServiceTargetParameters;
+        _webServiceTargetParameters = webServiceTargetParameters;
     }
 
     /**
      * @return the parameters used by cobol client to reach the proxy over HTTP
      */
     public HttpTransportParameters getHttpTransportParameters() {
-        return mHttpTransportParameters;
+        return _httpTransportParameters;
     }
 
     /**
-     * @param httpTransportParameters the parameters used by cobol client to reach the proxy over HTTP to set
+     * @param httpTransportParameters the parameters used by cobol client to
+     *            reach the proxy over HTTP to set
      */
     public void setHttpTransportParameters(
             final HttpTransportParameters httpTransportParameters) {
-        mHttpTransportParameters = httpTransportParameters;
+        _httpTransportParameters = httpTransportParameters;
     }
 
+    /**
+     * @return a properties file holding the values of this object fields
+     */
+    public Properties toProperties() {
+        Properties props = super.toProperties();
+        putString(props, PROXY_TARGET_TYPE, getProxyTargetType().toString());
+        putFile(props, TARGET_COBOL_DIR, getTargetCobolDir());
+        putString(props, SAMPLE_COBOL_HTTP_CLIENT_TYPE,
+                getSampleCobolHttpClientType().toString());
+        props.putAll(getWebServiceTargetParameters().toProperties());
+        props.putAll(getPojoTargetParameters().toProperties());
+        props.putAll(getHttpTransportParameters().toProperties());
+        return props;
+    }
 }

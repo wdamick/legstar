@@ -24,9 +24,9 @@ import com.legstar.codegen.models.AbstractAntBuildModel;
  */
 public abstract class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
 
-    /*
-     * Following are key identifiers for this model serialization.
-     */
+    /* ====================================================================== */
+    /* Following are key identifiers for this model persistence. = */
+    /* ====================================================================== */
 
     /** Target source directory. */
     public static final String TARGET_SRC_DIR = "targetSrcDir";
@@ -52,9 +52,9 @@ public abstract class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
     /** Host character set. */
     public static final String HOST_CHARSET = "hostCharset";
 
-    /*
-     * Following are this class fields that are persistent.
-     */
+    /* ====================================================================== */
+    /* Following are this class fields that are persistent. = */
+    /* ====================================================================== */
 
     /** The target directory where source files will be created. */
     private File _targetSrcDir;
@@ -94,17 +94,30 @@ public abstract class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
     private String _vlcTemplate;
 
     /**
-     * A no-Arg constructor.
+     * Construct the model with a generator name and velocity template.
+     * 
+     * @param generatorName to designate the generator
+     * @param vlcTemplate a velocity template that accepts this model
      */
-    public AbstractAntBuildCixsModel() {
+    public AbstractAntBuildCixsModel(
+            final String generatorName, final String vlcTemplate) {
+        super();
+        _vlcTemplate = vlcTemplate;
+        _generatorName = generatorName;
     }
 
     /**
      * Construct from a properties file.
      * 
+     * @param generatorName to designate the generator
+     * @param vlcTemplate a velocity template that accepts this model
      * @param props the property file
      */
-    public AbstractAntBuildCixsModel(final Properties props) {
+    public AbstractAntBuildCixsModel(final String generatorName,
+            final String vlcTemplate, final Properties props) {
+        super(props);
+        _vlcTemplate = vlcTemplate;
+        _generatorName = generatorName;
         setTargetSrcDir(getFile(props, TARGET_SRC_DIR, null));
         setTargetBinDir(getFile(props, TARGET_BIN_DIR, null));
         setTargetAntDir(getFile(props, TARGET_ANT_DIR, null));
@@ -113,18 +126,6 @@ public abstract class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
         setCoxbBinDir(getFile(props, COXB_BIN_DIR, null));
         setCustBinDir(getFile(props, CUST_BIN_DIR, null));
         setHostCharset(getString(props, HOST_CHARSET, null));
-    }
-
-    /**
-     * Construct the model with a generator name and velocity template.
-     * 
-     * @param generatorName to designate the generator
-     * @param vlcTemplate a velocity template that accepts this model
-     */
-    public AbstractAntBuildCixsModel(
-            final String generatorName, final String vlcTemplate) {
-        _vlcTemplate = vlcTemplate;
-        _generatorName = generatorName;
     }
 
     /** {@inheritDoc} */
@@ -291,7 +292,7 @@ public abstract class AbstractAntBuildCixsModel extends AbstractAntBuildModel {
      * @return a properties file holding the values of this object fields
      */
     public Properties toProperties() {
-        Properties props = new Properties();
+        Properties props = super.toProperties();
         putFile(props, TARGET_SRC_DIR, getTargetSrcDir());
         putFile(props, TARGET_BIN_DIR, getTargetBinDir());
         putFile(props, TARGET_ANT_DIR, getTargetAntDir());

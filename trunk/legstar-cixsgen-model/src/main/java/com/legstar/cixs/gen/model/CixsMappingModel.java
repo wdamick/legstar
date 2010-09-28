@@ -36,7 +36,7 @@ import com.legstar.codegen.CodeGenUtil;
  * 
  * @author Fady Moussallam
  * 
- */ 
+ */
 public class CixsMappingModel {
 
     /** Mapping name. */
@@ -44,10 +44,12 @@ public class CixsMappingModel {
 
     /** List of operations provided by this mapping. */
     private List < CixsOperation > mCixsOperations =
-        new ArrayList < CixsOperation >();
+            new ArrayList < CixsOperation >();
 
-    /** For compatibility with previous versions, we support this
-     * tag CIXS Jaxws service definition. */
+    /**
+     * For compatibility with previous versions, we support this
+     * tag CIXS Jaxws service definition.
+     */
     public static final String CIXS_COMPAT_SERVICE_XML_E = "cixsJaxwsService";
 
     /** XML element representing a CIXS mapping definition. */
@@ -67,7 +69,34 @@ public class CixsMappingModel {
      * @param name the mapping name to set
      */
     public void setName(final String name) {
-        mName = name;
+        mName = javaNormalize(name);
+    }
+
+    /**
+     * TODO Move this to common utility class.
+     * The service name is used in various places as a Java identifier. This
+     * creates a valid Java identifier from a proposed string.
+     * 
+     * @param str the input string
+     * @return a a valid java identifier
+     */
+    public static String javaNormalize(final String str) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < str.length(); i++) {
+            Character c = str.charAt(i);
+            if (i == 0) {
+                if (Character.isJavaIdentifierStart(c)) {
+                    sb.append(c);
+                } else {
+                    sb.append("C");
+                }
+            } else {
+                if (Character.isJavaIdentifierPart(c)) {
+                    sb.append(c);
+                }
+            }
+        }
+        return sb.toString();
     }
 
     /**
@@ -89,6 +118,7 @@ public class CixsMappingModel {
      * Operations should actually a set of uniquely named operations.
      * Ant seems to call this method with uninitialized objects though,
      * therefore there is no point in checking for name conflicts here.
+     * 
      * @param operation the operation to add
      */
     public void addCixsOperation(
@@ -98,6 +128,7 @@ public class CixsMappingModel {
 
     /**
      * Create an XML usable as input for and ant task.
+     * 
      * @return the XML
      */
     public String serialize() {
@@ -116,12 +147,13 @@ public class CixsMappingModel {
 
     /**
      * Loads the CIXS Service from a serialized XML.
+     * 
      * @param serviceFile the serialized file
      * @throws CixsModelException if load fails
      */
     public void load(final File serviceFile) throws CixsModelException {
         DocumentBuilderFactory docBuilderFactory =
-            DocumentBuilderFactory.newInstance();
+                DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder;
         try {
             docBuilderFactory.setNamespaceAware(false);
@@ -139,12 +171,13 @@ public class CixsMappingModel {
 
     /**
      * Loads the CIXS Service from a serialized XML in a string.
+     * 
      * @param serviceDesc the service description
      * @throws CixsModelException if load fails
      */
     public void load(final String serviceDesc) throws CixsModelException {
         DocumentBuilderFactory docBuilderFactory =
-            DocumentBuilderFactory.newInstance();
+                DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder;
         try {
             docBuilderFactory.setNamespaceAware(false);
@@ -163,6 +196,7 @@ public class CixsMappingModel {
 
     /**
      * Loads the CIXS Service from an XML document.
+     * 
      * @param doc an XML document
      * @throws CixsModelException if load fails
      */
@@ -175,7 +209,7 @@ public class CixsMappingModel {
                     CIXS_COMPAT_SERVICE_XML_E);
             if (listOfElements == null || listOfElements.getLength() == 0) {
                 throw (new CixsModelException(
-                "Empty or invalid service descriptor file"));
+                        "Empty or invalid service descriptor file"));
             }
         }
         try {
@@ -196,9 +230,10 @@ public class CixsMappingModel {
             throw new CixsModelException(e);
         }
     }
+
     /**
-     * @see Object#hashCode() 
-     * {@inheritDoc}
+     * @see Object#hashCode()
+     *      {@inheritDoc}
      */
     public int hashCode() {
         return getName().hashCode();
@@ -206,21 +241,21 @@ public class CixsMappingModel {
 
     /**
      * Indicates whether some other service is "equal to" this one.
-     *
+     * 
      * @param obj Object to be compared.
      * @return true if this object is the same as the obj argument; false
      *         otherwise..
      */
     public boolean equals(final Object obj) {
         return (obj != null) && (obj.getClass() == CixsMappingModel.class)
-        && ((CixsMappingModel) obj).getName().equals(getName());
+                && ((CixsMappingModel) obj).getName().equals(getName());
     }
 
     /**
      * Compares this object with the specified object for order. Returns a
      * negative integer, zero, or a positive integer as this object is less
      * than, equal to, or greater than the specified object.
-     *
+     * 
      * @param o Object to be compared.
      * @return A negative integer, zero, or a positive integer as this object
      *         is less than, equal to, or greater than the specified object.

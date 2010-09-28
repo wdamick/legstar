@@ -53,9 +53,9 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /** The additional package level for generated binding classes. */
     private static final String COXB_PACKAGE_SUFFIX = "bind";
 
-    /*
-     * Following are default field values.
-     */
+    /* ====================================================================== */
+    /* Following are default field values. = */
+    /* ====================================================================== */
 
     /** Default value for XML transformers generation. */
     public static final boolean DEFAULT_ISXMLTRANSFORMERS = false;
@@ -63,9 +63,9 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /** Default value for JSON transformers generation. */
     public static final boolean DEFAULT_ISJSONTRANSFORMERS = false;
 
-    /*
-     * Following are XML identifiers for XML Schema.
-     */
+    /* ====================================================================== */
+    /* Following are XML identifiers for XML Schema. = */
+    /* ====================================================================== */
 
     /** The XML Schema namespace needed to retrieve the target namespace. */
     private static final String XSD_NS = "http://www.w3.org/2001/XMLSchema";
@@ -76,9 +76,9 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /** The XML Schema targetnamespace attribute. */
     private static final String XSD_TARGETNAMESPACE_ATTR = "targetNamespace";
 
-    /*
-     * Following are key identifiers for this model serialization.
-     */
+    /* ====================================================================== */
+    /* Following are key identifiers for this model persistence. = */
+    /* ====================================================================== */
 
     /** JAXB package name. */
     public static final String COXB_JAXB_PACKAGENAME = "jaxbPackageName";
@@ -116,9 +116,9 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /** COXB binaries directory. */
     public static final String COXB_COXBBINDIR = "coxbBinDir";
 
-    /*
-     * Following are this class fields that are persistent.
-     */
+    /* ====================================================================== */
+    /* Following are this class fields that are persistent. = */
+    /* ====================================================================== */
 
     /** The package name used for JAXB classes. */
     private String _jaxbPackageName;
@@ -169,9 +169,9 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /** The target directory where binary files will be created. */
     private File _coxbBinDir;
 
-    /*
-     * Following are this class fields that are transient.
-     */
+    /* ====================================================================== */
+    /* Following are this class fields that are transient. = */
+    /* ====================================================================== */
 
     /** A general purpose DOM document builder. */
     private DocumentBuilder _docBuilder;
@@ -183,6 +183,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      * A no-Arg constructor.
      */
     public CoxbGenModel() {
+        super();
         _jaxbXjbModel = new CobolJAXBXJBModel();
     }
 
@@ -192,6 +193,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      * @param props the property file
      */
     public CoxbGenModel(final Properties props) {
+        super(props);
         setJaxbPackageName(getString(props, COXB_JAXB_PACKAGENAME, null));
         CobolJAXBXJBModel xjbModel = new CobolJAXBXJBModel(props);
         setJaxbXjbModel(xjbModel);
@@ -602,7 +604,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      * @return a properties file holding the values of this object fields
      */
     public Properties toProperties() {
-        Properties props = new Properties();
+        Properties props = super.toProperties();
         try {
             putString(props, COXB_JAXB_PACKAGENAME, getJaxbPackageName());
         } catch (CoxbGenException e) {
