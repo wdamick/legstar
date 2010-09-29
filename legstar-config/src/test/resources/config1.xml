@@ -5,6 +5,9 @@
 		     engine will stop accepting requests. If the host system is
 		     unresponsive it is not useful to continue to accept requests.  -->
 		<maxRequests>100005</maxRequests>
+	    <!-- the maximum time (milliseconds) to wait for a pooled connection
+	         to become available.  -->
+	    <takeTimeout>5000</takeTimeout>
 		<workManager>
 			<!-- Choose between a JNDI implemented work manager or the default
 			     one. The engine will first look at the JNDI so comment out

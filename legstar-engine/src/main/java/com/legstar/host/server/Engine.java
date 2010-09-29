@@ -11,8 +11,8 @@
 package com.legstar.host.server;
 
 import java.util.concurrent.LinkedBlockingQueue;
-import org.apache.commons.logging.Log; 
-import org.apache.commons.logging.LogFactory; 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.LegStarRequest;
@@ -29,27 +29,30 @@ import commonj.work.WorkListener;
 /**
  * This engine services requests from a blocking queue and dispatches
  * work in a thread pool.
- *
+ * 
  */
 public class Engine implements Work {
 
     /** Incoming requests waiting to be serviced. */
-    private LinkedBlockingQueue < LegStarRequest > mRequests;
+    private LinkedBlockingQueue < LegStarRequest > _requests;
 
     /** Will be true when shutdown is initiated. */
-    private boolean mShuttingDown;
+    private boolean _isShuttingDown;
 
     /** An implementation of a thread pool. */
-    private WorkManager mWorkManager;
+    private WorkManager _workManager;
 
     /** Provides work items creation methods. */
-    private WorkFactory mWorkFactory;
+    private WorkFactory _workFactory;
 
     /** Connection pool manager. */
-    private ConnectionPoolManager mPoolManager;
+    private ConnectionPoolManager _poolManager;
 
-    /** Time out (in milliseconds) connection pool takes. */
-    private static final int CONNECT_TAKE_MSEC = 1000;
+    /**
+     * Maximum time (milliseconds) to wait for a pooled connection to become
+     * available.
+     */
+    private int _takeTimeout;
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(Engine.class);
@@ -57,22 +60,28 @@ public class Engine implements Work {
     /**
      * Create the Engine for a maximum number of requests waiting to
      * be serviced.
+     * 
      * @param maxRequests maximum number of requests waiting to be
-     * serviced. Past this number, the engine will start rejecting
-     * the new requests.
+     *            serviced. Past this number, the engine will start rejecting
+     *            the new requests.
      * @param workManager an implementation of a thread pool
      * @param poolManager a host connections pool manager
      * @param workFactory provides methods to create work items
+     * @param takeTimeout maximum time (milliseconds) to wait for a pooled
+     *            connection to become
+     *            available
      */
     public Engine(final int maxRequests,
             final WorkManager workManager,
             final ConnectionPoolManager poolManager,
-            final WorkFactory workFactory) {
-        mRequests = new LinkedBlockingQueue < LegStarRequest >(maxRequests);
-        mShuttingDown = false;
-        mWorkManager = workManager;
-        mPoolManager = poolManager;
-        mWorkFactory = workFactory;
+            final WorkFactory workFactory,
+            final int takeTimeout) {
+        _requests = new LinkedBlockingQueue < LegStarRequest >(maxRequests);
+        _isShuttingDown = false;
+        _workManager = workManager;
+        _poolManager = poolManager;
+        _workFactory = workFactory;
+        _takeTimeout = takeTimeout;
         _log.debug("Created engine instance:" + this);
     }
 
@@ -82,12 +91,12 @@ public class Engine implements Work {
      */
     public void run() {
 
-        while (!mShuttingDown) {
+        while (!_isShuttingDown) {
             _log.debug("Waiting for requests");
             LegStarRequest request;
             try {
-                request = mRequests.take();
-                if (!mShuttingDown) {
+                request = _requests.take();
+                if (!_isShuttingDown) {
                     scheduleWork(request);
                     _log.debug("Scheduled Request:" + request.getID());
                 } else {
@@ -104,6 +113,7 @@ public class Engine implements Work {
     /**
      * Take a connection from a connection pool and schedule work in the
      * thread pool.
+     * 
      * @param request the request to be serviced
      * @throws WorkException if scheduling fails
      */
@@ -113,37 +123,42 @@ public class Engine implements Work {
         ConnectionPool pool;
         try {
             /* Get a pool that matches this request criteria */
-            pool = mPoolManager.getPool(request.getAddress(), true);
-            connection = pool.take(CONNECT_TAKE_MSEC);
+            pool = _poolManager.getPool(request.getAddress(), true);
+            connection = pool.take(_takeTimeout);
         } catch (ConnectionPoolException e) {
-            /* Take ownership of request monitor so we can notify waiting
-             *  threads */
+            /*
+             * Take ownership of request monitor so we can notify waiting
+             * threads
+             */
             synchronized (request) {
                 request.setException(new RequestException(e));
                 request.signalProcessingStop();
             }
             throw new WorkException(e);
         }
-        Work work = mWorkFactory.createWork(request, connection);
-        WorkListener workListener = mWorkFactory.createWorkListener(
+        Work work = _workFactory.createWork(request, connection);
+        WorkListener workListener = _workFactory.createWorkListener(
                 request, connection, pool);
-        mWorkManager.schedule(work, workListener);
+        _workManager.schedule(work, workListener);
     }
 
     /**
-     *  Place a new request in request queue. Signal to all waiting thread
-     *  that the request is being processed and is not completed yet.
-     *  @param request the request to be added
-     *   */
+     * Place a new request in request queue. Signal to all waiting thread
+     * that the request is being processed and is not completed yet.
+     * 
+     * @param request the request to be added
+     * */
     public void addRequest(final LegStarRequest request) {
         request.signalProcessingStart();
-        if (!mShuttingDown) {
-            mRequests.add(request);
+        if (!_isShuttingDown) {
+            _requests.add(request);
         } else {
-            /* In theory we should create an exception for this request
+            /*
+             * In theory we should create an exception for this request
              * and notify the client. In order to keep shutdown simple,
              * we simply log an error. Client will timeout waiting for
-             * a reply. */
+             * a reply.
+             */
             _log.error("Request received while engine is shutting down.");
         }
     }
@@ -153,16 +168,16 @@ public class Engine implements Work {
      * to get it to check for the mShuttingDown flag.
      * If requests are pending, they are probably blocked waiting for
      * connections to become available.
-     *  */
+     * */
     public void shutDown() {
-        mShuttingDown = true;
+        _isShuttingDown = true;
         _log.info("Attempting to shutdown...");
-        if (mRequests.size() == 0) {
+        if (_requests.size() == 0) {
             /* Empty request to get the engine to process shutdown */
-            mRequests.add(new LegStarRequest());
+            _requests.add(new LegStarRequest());
         } else {
             _log.warn("Shutdown requested. "
-                    + mRequests.size() + " requests are pending.");
+                    + _requests.size() + " requests are pending.");
         }
     }
 
@@ -170,19 +185,23 @@ public class Engine implements Work {
      * @return the shutDown status
      */
     public boolean isShuttingDown() {
-        return mShuttingDown;
+        return _isShuttingDown;
     }
 
-    /** (non-Javadoc).
+    /**
+     * (non-Javadoc).
+     * 
      * @see commonj.work.Work#isDaemon()
-     * TODO need to revisit this. Maybe the engine should be a daemon.
-     * {@inheritDoc}
+     *      TODO need to revisit this. Maybe the engine should be a daemon.
+     *      {@inheritDoc}
      */
     public boolean isDaemon() {
         return false;
     }
 
-    /** (non-Javadoc).
+    /**
+     * (non-Javadoc).
+     * 
      * @see commonj.work.Work#release()
      */
     public void release() {

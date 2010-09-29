@@ -12,10 +12,10 @@ import junit.framework.TestCase;
 
 /**
  * Test the LegStarConfig class.
- *
+ * 
  */
 public class LegStarConfigCommonsTest extends TestCase {
-    
+
     /** Configuration file with some errors. */
     private static final String CONFIG_FILE = "config0.xml";
 
@@ -32,21 +32,24 @@ public class LegStarConfigCommonsTest extends TestCase {
         try {
             new LegStarConfigCommons("tarata.tsointsoin");
         } catch (LegStarConfigurationException e) {
-            assertEquals("org.apache.commons.configuration.ConfigurationException:"
-                    + " Cannot locate configuration source tarata.tsointsoin",
+            assertEquals(
+                    "org.apache.commons.configuration.ConfigurationException:"
+                            + " Cannot locate configuration source tarata.tsointsoin",
                     e.getMessage());
         }
     }
-    
+
     /**
      * Try a non existing endpoint.
      */
     public void testEndpointNotFound() {
         try {
-            LegStarConfigCommons legStarConfig = new LegStarConfigCommons(CONFIG_FILE);
+            LegStarConfigCommons legStarConfig = new LegStarConfigCommons(
+                    CONFIG_FILE);
             legStarConfig.getHostEndpoint("NotAMainframe");
         } catch (LegStarConfigurationException e) {
-            assertEquals("The requested endpoint:NotAMainframe is not defined.",
+            assertEquals(
+                    "The requested endpoint:NotAMainframe is not defined.",
                     e.getMessage());
         }
     }
@@ -56,10 +59,12 @@ public class LegStarConfigCommonsTest extends TestCase {
      */
     public void testEndpointInvalid() {
         try {
-            LegStarConfigCommons legStarConfig = new LegStarConfigCommons(CONFIG_FILE);
+            LegStarConfigCommons legStarConfig = new LegStarConfigCommons(
+                    CONFIG_FILE);
             legStarConfig.getHostEndpoint("INVALID");
         } catch (LegStarConfigurationException e) {
-            assertEquals("There are no connection factories in the configuration.",
+            assertEquals(
+                    "There are no connection factories in the configuration.",
                     e.getMessage());
         }
     }
@@ -69,10 +74,12 @@ public class LegStarConfigCommonsTest extends TestCase {
      */
     public void testEndpointInvalidConnectionFactoryClass() {
         try {
-            LegStarConfigCommons legStarConfig = new LegStarConfigCommons(CONFIG_FILE);
+            LegStarConfigCommons legStarConfig = new LegStarConfigCommons(
+                    CONFIG_FILE);
             legStarConfig.getHostEndpoint("INVALID-CONNECTION-FACTORY-CLASS");
         } catch (LegStarConfigurationException e) {
-            assertEquals("java.lang.ClassNotFoundException: com.legstar.truc.much.CicsSocketConnectionFactory",
+            assertEquals(
+                    "java.lang.ClassNotFoundException: com.legstar.truc.much.CicsSocketConnectionFactory",
                     e.getMessage());
         }
     }
@@ -82,12 +89,14 @@ public class LegStarConfigCommonsTest extends TestCase {
      */
     public void testEndpointInvalidHostAccessStrategy() {
         try {
-            LegStarConfigCommons legStarConfig = new LegStarConfigCommons(CONFIG_FILE);
+            LegStarConfigCommons legStarConfig = new LegStarConfigCommons(
+                    CONFIG_FILE);
             legStarConfig.getHostEndpoint("INVALID-HOST-ACCESS-STRATEGY");
             fail();
         } catch (LegStarConfigurationException e) {
-            assertEquals("java.lang.IllegalArgumentException:"
-                    + " No enum const class com.legstar.messaging.HostEndpoint$AccessStrategy.bidule",
+            assertEquals(
+                    "java.lang.IllegalArgumentException:"
+                            + " No enum const class com.legstar.messaging.HostEndpoint$AccessStrategy.bidule",
                     e.getMessage());
         }
     }
@@ -97,8 +106,10 @@ public class LegStarConfigCommonsTest extends TestCase {
      */
     public void testGetEndpoint() {
         try {
-            LegStarConfigCommons legStarConfig = new LegStarConfigCommons(CONFIG_FILE);
-            HostEndpoint hostEndpoint = legStarConfig.getHostEndpoint("TheMainframe");
+            LegStarConfigCommons legStarConfig = new LegStarConfigCommons(
+                    CONFIG_FILE);
+            HostEndpoint hostEndpoint = legStarConfig
+                    .getHostEndpoint("TheMainframe");
             assertTrue(hostEndpoint instanceof MockEndpoint);
             assertEquals("IBM01140", hostEndpoint.getHostCharset());
             assertEquals("P390", hostEndpoint.getHostUserID());
@@ -117,8 +128,10 @@ public class LegStarConfigCommonsTest extends TestCase {
      */
     public void testGetDefaultEndpoint() {
         try {
-            LegStarConfigCommons legStarConfig = new LegStarConfigCommons(CONFIG_FILE);
-            HostEndpoint hostEndpoint = legStarConfig.getHostEndpoint(new LegStarAddress(""));
+            LegStarConfigCommons legStarConfig = new LegStarConfigCommons(
+                    CONFIG_FILE);
+            HostEndpoint hostEndpoint = legStarConfig
+                    .getHostEndpoint(new LegStarAddress(""));
             assertTrue(hostEndpoint instanceof MockEndpoint);
             assertEquals("IBM01140", hostEndpoint.getHostCharset());
             assertEquals("P390", hostEndpoint.getHostUserID());
@@ -131,13 +144,14 @@ public class LegStarConfigCommonsTest extends TestCase {
             fail(e.getMessage());
         }
     }
-    
+
     /**
      * Try to get all endpoints.
      */
     public void testGetAllEndpoints() {
         try {
-            LegStarConfigCommons legStarConfig = new LegStarConfigCommons(VALID_CONFIG_FILE);
+            LegStarConfigCommons legStarConfig = new LegStarConfigCommons(
+                    VALID_CONFIG_FILE);
             List < HostEndpoint > endpoints = legStarConfig.getHostEndpoints();
             assertEquals(2, endpoints.size());
             HostEndpoint hostEndpoint = endpoints.get(0);
@@ -162,15 +176,18 @@ public class LegStarConfigCommonsTest extends TestCase {
             fail(e.getMessage());
         }
     }
-    
+
     /**
      * Try to get the pooling engine configuration.
      */
     public void testGetPoolingEngineConfig() {
         try {
-            LegStarConfigCommons legStarConfig = new LegStarConfigCommons(VALID_CONFIG_FILE);
-            PoolingEngineConfig poolingEngineConfig = legStarConfig.getPoolingEngineConfig();
+            LegStarConfigCommons legStarConfig = new LegStarConfigCommons(
+                    VALID_CONFIG_FILE);
+            PoolingEngineConfig poolingEngineConfig = legStarConfig
+                    .getPoolingEngineConfig();
             assertEquals(100005, poolingEngineConfig.getMaxRequests());
+            assertEquals(5000, poolingEngineConfig.getTakeTimeout());
             assertEquals(26, poolingEngineConfig.getThreadPoolSize());
             assertEquals(null, poolingEngineConfig.getWorkManagerJNDILocation());
             assertEquals(2, poolingEngineConfig.getHostEndpoints().size());
@@ -179,14 +196,18 @@ public class LegStarConfigCommonsTest extends TestCase {
         }
     }
 
-   /**
-     * Try to get the pooling engine configuration from a composite configuration file.
+    /**
+     * Try to get the pooling engine configuration from a composite
+     * configuration file.
      */
     public void testGetPoolingEngineConfigFromComposite() {
         try {
-            LegStarConfigCommons legStarConfig = new LegStarConfigCommons(COMPOSITE_CONFIG_FILE);
-            PoolingEngineConfig poolingEngineConfig = legStarConfig.getPoolingEngineConfig();
+            LegStarConfigCommons legStarConfig = new LegStarConfigCommons(
+                    COMPOSITE_CONFIG_FILE);
+            PoolingEngineConfig poolingEngineConfig = legStarConfig
+                    .getPoolingEngineConfig();
             assertEquals(100007, poolingEngineConfig.getMaxRequests());
+            assertEquals(7000, poolingEngineConfig.getTakeTimeout());
             assertEquals(27, poolingEngineConfig.getThreadPoolSize());
             assertEquals(null, poolingEngineConfig.getWorkManagerJNDILocation());
             assertEquals(2, poolingEngineConfig.getHostEndpoints().size());
