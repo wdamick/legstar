@@ -25,7 +25,7 @@ import com.legstar.messaging.HostEndpoint.AccessStrategy;
 
 /**
  * A configuration system based on apache commons configuration.
- *
+ * 
  */
 public class LegStarConfigCommons {
 
@@ -34,38 +34,51 @@ public class LegStarConfigCommons {
 
     /** Configuration XPath location for an endpoint. */
     public static final String HOST_ENDPOINT_KEY =
-        "hostEndPoints/hostEndPoint";
+            "hostEndPoints/hostEndPoint";
 
     /** Configuration key giving the work manager JNDI location. */
     private static final String WORK_MANAGER_LOCATION_KEY =
-        "engine/workManager/threadPool/JNDILocation";
+            "engine/workManager/threadPool/JNDILocation";
 
     /** Configuration key giving the work manager thread pool size. */
     private static final String WORK_MANAGER_THREAD_POOL_SIZE_KEY =
-        "engine/workManager/defaultThreadPool/size";
+            "engine/workManager/defaultThreadPool/size";
 
-    /** Configuration key giving maximum number of requests waiting to
-     *  be serviced. */
+    /**
+     * Configuration key giving maximum number of requests waiting to
+     * be serviced.
+     */
     private static final String POOLING_MAXIMUM_REQUESTS_KEY =
-        "engine/maxRequests";
+            "engine/maxRequests";
+
+    /**
+     * the maximum time (milliseconds) to wait for a pooled connection to become
+     * available.
+     */
+    private static final String TAKE_TIMEOUT_KEY =
+            "engine/takeTimeout";
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
 
     /**
      * Construct from a configuration file.
+     * 
      * @param generalConfigFileName the configuration file name
-     * @throws LegStarConfigurationException if configuration file cannot be found or is invalid
+     * @throws LegStarConfigurationException if configuration file cannot be
+     *             found or is invalid
      */
     public LegStarConfigCommons(
-            final String generalConfigFileName) throws LegStarConfigurationException {
+            final String generalConfigFileName)
+            throws LegStarConfigurationException {
         _generalConfig = loadGeneralConfig(generalConfigFileName);
     }
 
     /**
      * Lookup and endpoint by name.
+     * 
      * @param endpointName the endpoint name and identifier
-     *  matches the requested endpoint name
+     *            matches the requested endpoint name
      * @return a host endpoint
      * @throws LegStarConfigurationException if endpoint not found
      */
@@ -75,9 +88,9 @@ public class LegStarConfigCommons {
             _log.debug("Looking up endpoint: " + endpointName);
         }
         String strXPath = HOST_ENDPOINT_KEY + "[@name='" + endpointName + "']";
-        List < ? >  endpoints = _generalConfig.configurationsAt(strXPath);
+        List < ? > endpoints = _generalConfig.configurationsAt(strXPath);
         if (endpoints == null || endpoints.isEmpty()) {
-            throw new LegStarConfigurationException("The requested endpoint:" 
+            throw new LegStarConfigurationException("The requested endpoint:"
                     + endpointName
                     + " is not defined.");
         }
@@ -87,6 +100,7 @@ public class LegStarConfigCommons {
     /**
      * lookup an endpoint corresponding to a given address. If the address
      * is empty or does not specify an endpoint name, we return a default.
+     * 
      * @param address the address to match with an endpoint
      * @return the matching endpoint or the default one
      * @throws LegStarConfigurationException if no endpoint can be returned
@@ -94,7 +108,9 @@ public class LegStarConfigCommons {
     public HostEndpoint getHostEndpoint(
             final LegStarAddress address) throws LegStarConfigurationException {
         if (_log.isDebugEnabled()) {
-            _log.debug("Searching for an endpoint matching address: " + address);
+            _log
+                    .debug("Searching for an endpoint matching address: "
+                            + address);
         }
         if (address == null || address.getEndPointName() == null
                 || address.getEndPointName().length() == 0) {
@@ -106,18 +122,20 @@ public class LegStarConfigCommons {
 
     /**
      * Lookup the default endpoint configuration.
+     * 
      * @return the default host endpoint
      * @throws LegStarConfigurationException if no endpoints found
      */
-    public HostEndpoint getDefaultHostEndpoint() throws LegStarConfigurationException {
+    public HostEndpoint getDefaultHostEndpoint()
+            throws LegStarConfigurationException {
         if (_log.isDebugEnabled()) {
             _log.debug("Searching for default endpoint");
         }
         String strXPath = HOST_ENDPOINT_KEY;
-        List < ? >  endpoints = _generalConfig.configurationsAt(strXPath);
+        List < ? > endpoints = _generalConfig.configurationsAt(strXPath);
         if (endpoints == null || endpoints.isEmpty()) {
             throw new LegStarConfigurationException(
-            "There are no endpoints defined.");
+                    "There are no endpoints defined.");
         }
         return getHostEndpoint((HierarchicalConfiguration) endpoints.get(0));
     }
@@ -127,14 +145,16 @@ public class LegStarConfigCommons {
      * @throws LegStarConfigurationException if configuration is invalid
      */
     @SuppressWarnings("unchecked")
-    public List < HostEndpoint > getHostEndpoints() throws LegStarConfigurationException {
+    public List < HostEndpoint > getHostEndpoints()
+            throws LegStarConfigurationException {
         if (_log.isDebugEnabled()) {
             _log.debug("Searching for all endpoints");
         }
         List < HostEndpoint > endpoints = new ArrayList < HostEndpoint >();
         String strXPath = HOST_ENDPOINT_KEY;
-        List < HierarchicalConfiguration >  endpointConfigs =
-            (List < HierarchicalConfiguration >) _generalConfig.configurationsAt(strXPath);
+        List < HierarchicalConfiguration > endpointConfigs =
+                (List < HierarchicalConfiguration >) _generalConfig
+                        .configurationsAt(strXPath);
         for (HierarchicalConfiguration endpointConfig : endpointConfigs) {
             endpoints.add(getHostEndpoint(endpointConfig));
         }
@@ -146,7 +166,8 @@ public class LegStarConfigCommons {
      * @return the pooling engine configuration
      * @throws LegStarConfigurationException if cannot be created
      */
-    public PoolingEngineConfig getPoolingEngineConfig() throws LegStarConfigurationException {
+    public PoolingEngineConfig getPoolingEngineConfig()
+            throws LegStarConfigurationException {
         if (_log.isDebugEnabled()) {
             _log.debug("Searching for pooling engine configuration");
         }
@@ -160,11 +181,15 @@ public class LegStarConfigCommons {
         poolingEngineConfig.setWorkManagerJNDILocation(
                 _generalConfig.getString(WORK_MANAGER_LOCATION_KEY));
         poolingEngineConfig.setHostEndpoints(getHostEndpoints());
+        poolingEngineConfig.setTakeTimeout(
+                _generalConfig.getInt(TAKE_TIMEOUT_KEY,
+                        PoolingEngineConfig.DEFAULT_TAKE_TIMEOUT));
         return poolingEngineConfig;
     }
 
     /**
      * Loads an XML configuration from file.
+     * 
      * @param configFileName the configuration file name
      * @return the in-memory XML configuration
      * @throws LegStarConfigurationException if configuration failed to load
@@ -175,15 +200,20 @@ public class LegStarConfigCommons {
             if (_log.isDebugEnabled()) {
                 _log.debug("Loading configuration file: " + configFileName);
             }
-            /* First try as if it is a single configuration file*/
-            HierarchicalConfiguration generalConfig = new XMLConfiguration(configFileName);
-            /* If the first tag is additional, then this is a combined configuration
-             * that needs to be loaded in a specific way. */
+            /* First try as if it is a single configuration file */
+            HierarchicalConfiguration generalConfig = new XMLConfiguration(
+                    configFileName);
+            /*
+             * If the first tag is additional, then this is a combined
+             * configuration
+             * that needs to be loaded in a specific way.
+             */
             if (generalConfig.configurationsAt("additional").size() > 0) {
                 DefaultConfigurationBuilder dcb = new DefaultConfigurationBuilder();
                 dcb.setFileName(configFileName);
-                generalConfig = (HierarchicalConfiguration) dcb.getConfiguration(true).getConfiguration(
-                        DefaultConfigurationBuilder.ADDITIONAL_NAME);
+                generalConfig = (HierarchicalConfiguration) dcb
+                        .getConfiguration(true).getConfiguration(
+                                DefaultConfigurationBuilder.ADDITIONAL_NAME);
             }
             generalConfig.setExpressionEngine(new XPathExpressionEngine());
             return generalConfig;
@@ -194,12 +224,14 @@ public class LegStarConfigCommons {
 
     /**
      * Turn a commons configuration tree into a bean.
+     * 
      * @param endpointConfig the commons configuration subtree
      * @return a host endpoint bean
      * @throws LegStarConfigurationException if bean cannot be created
      */
     protected HostEndpoint getHostEndpoint(
-            final HierarchicalConfiguration endpointConfig) throws LegStarConfigurationException {
+            final HierarchicalConfiguration endpointConfig)
+            throws LegStarConfigurationException {
         ConnectionFactory connectionFactory = loadConnectionFactory(endpointConfig);
         HostEndpoint endpoint = connectionFactory.createEndpoint();
         setValues(endpoint, endpointConfig);
@@ -214,18 +246,19 @@ public class LegStarConfigCommons {
      * @param endpointConfig the endpoint configuration
      * @return a new connection factory
      * @throws LegStarConfigurationException if connection factory cannot be
-     *  created
+     *             created
      */
     protected ConnectionFactory loadConnectionFactory(
             final HierarchicalConfiguration endpointConfig)
-    throws LegStarConfigurationException {
+            throws LegStarConfigurationException {
 
         /* Get the name of the connection factory from the configuration */
         String factoryClass =
-            endpointConfig.getString(HostEndpoint.HOST_CONNECTION_FACTORY_CLASS_LABEL);
+                endpointConfig
+                        .getString(HostEndpoint.HOST_CONNECTION_FACTORY_CLASS_LABEL);
         if (factoryClass == null || factoryClass.length() == 0) {
             throw new LegStarConfigurationException(
-            "There are no connection factories in the configuration.");
+                    "There are no connection factories in the configuration.");
         }
 
         if (_log.isDebugEnabled()) {
@@ -248,15 +281,18 @@ public class LegStarConfigCommons {
     }
 
     /**
-     * Sets bean members using configuration attributes. 
+     * Sets bean members using configuration attributes.
+     * 
      * @param endpoint the bean
      * @param endpointConfig the configuration hierarchy
      * @throws LegStarConfigurationException if setting value on bean fails
      */
     protected void setValues(
             final Object endpoint,
-            final HierarchicalConfiguration endpointConfig) throws LegStarConfigurationException {
-        for (Iterator < ? > iterator = endpointConfig.getKeys(); iterator.hasNext();) {
+            final HierarchicalConfiguration endpointConfig)
+            throws LegStarConfigurationException {
+        for (Iterator < ? > iterator = endpointConfig.getKeys(); iterator
+                .hasNext();) {
             String key = (String) iterator.next();
             setValue(endpoint, key, endpointConfig.getString(key));
         }
@@ -265,6 +301,7 @@ public class LegStarConfigCommons {
     /**
      * For a given configuration key and value locate a corresponding
      * setter method and use it.
+     * 
      * @param o the bean to set
      * @param key the configuration key
      * @param value the configuration value
@@ -276,14 +313,16 @@ public class LegStarConfigCommons {
             final String value) throws LegStarConfigurationException {
         String setterName = getSetterName(key);
         if (_log.isDebugEnabled()) {
-            _log.debug("Using setter method: " + setterName + ", for value: " + value);
+            _log.debug("Using setter method: " + setterName + ", for value: "
+                    + value);
         }
         try {
             Method[] allMethods = o.getClass().getMethods();
             for (Method method : allMethods) {
                 if (method.getName().equals(setterName)) {
                     method.setAccessible(true);
-                    Class < ? > parm = (Class < ? >) method.getGenericParameterTypes()[0];
+                    Class < ? > parm = (Class < ? >) method
+                            .getGenericParameterTypes()[0];
                     if (parm.isAssignableFrom(String.class)) {
                         method.invoke(o, value);
                         break;
@@ -300,11 +339,13 @@ public class LegStarConfigCommons {
                         method.invoke(o, Long.parseLong(value));
                         break;
                     }
-                    if (parm.isAssignableFrom(HostEndpoint.AccessStrategy.class)) {
+                    if (parm
+                            .isAssignableFrom(HostEndpoint.AccessStrategy.class)) {
                         method.invoke(o, AccessStrategy.valueOf(value));
                         break;
                     }
-                    _log.warn("Setter method: " + setterName + ", parameter type: "
+                    _log.warn("Setter method: " + setterName
+                            + ", parameter type: "
                             + parm + ", not compatible with value: " + value);
                 }
             }
@@ -321,6 +362,7 @@ public class LegStarConfigCommons {
 
     /**
      * Return a setter method name corresponding of a configuration parameter.
+     * 
      * @param key the configuration parameter key
      * @return a bean setter method name
      */
@@ -332,7 +374,8 @@ public class LegStarConfigCommons {
         if (setterName.charAt(0) == '@') {
             setterName = setterName.substring(1);
         }
-        String prefix = "set" + setterName.substring(0, 1).toUpperCase(Locale.getDefault());
+        String prefix = "set"
+                + setterName.substring(0, 1).toUpperCase(Locale.getDefault());
         return prefix + setterName.substring(1);
 
     }

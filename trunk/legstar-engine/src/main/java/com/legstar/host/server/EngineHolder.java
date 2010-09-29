@@ -42,10 +42,10 @@ public final class EngineHolder {
     private static WorkManager sWorkManager;
 
     /** Host connections pool manager. */
-    private static ConnectionPoolManager _poolManager;
+    private static ConnectionPoolManager sPoolManager;
 
     /** The current configuration settings. */
-    private static PoolingEngineConfig _config;
+    private static PoolingEngineConfig sConfig;
 
     /** Logger. */
     private static final Log LOG = LogFactory.getLog(EngineHolder.class);
@@ -56,25 +56,29 @@ public final class EngineHolder {
 
     /**
      * Create the engine environment described in a configuration.
+     * 
      * @param config the complete configuration hierarchy
      * @throws EngineConfigurationException if configuration is invalid
      */
     public static void preInit(final PoolingEngineConfig config)
-    throws EngineConfigurationException {
-        _config = config;
-        _poolManager = new ConnectionPoolManager(_config.getHostEndpoints());
+            throws EngineConfigurationException {
+        sConfig = config;
+        sPoolManager = new ConnectionPoolManager(sConfig.getHostEndpoints());
         initializeWorkManager();
     }
 
     /**
-     * Create the single instance of an engine. 
+     * Create the single instance of an engine.
+     * 
      * @throws EngineStartupException if engine fails to start
-     *  */
+     * */
     public static void init() throws EngineStartupException {
         LOG.debug("Starting engine.");
-        int maxRequests = _config.getMaxRequests();
-        sEngine = new Engine(maxRequests, sWorkManager, _poolManager,
-                new InvokeWorkFactory());
+        sEngine = new Engine(sConfig.getMaxRequests(),
+                sWorkManager,
+                sPoolManager,
+                new InvokeWorkFactory(),
+                sConfig.getTakeTimeout());
         try {
             sWorkManager.schedule(sEngine, new EngineListener());
         } catch (IllegalArgumentException e) {
@@ -90,9 +94,9 @@ public final class EngineHolder {
             sEngine.shutDown();
             sEngine = null;
         }
-        if (_poolManager != null) {
-            _poolManager.shutDown();
-            _poolManager = null;
+        if (sPoolManager != null) {
+            sPoolManager.shutDown();
+            sPoolManager = null;
         }
         if (sExecutor != null) {
             sExecutor.shutdownNow();
@@ -108,11 +112,11 @@ public final class EngineHolder {
     public static Engine getEngine() throws EngineNotStartedException {
         if (sEngine == null) {
             throw new EngineNotStartedException(
-            "The host access engine is not running.");
+                    "The host access engine is not running.");
         }
         if (sEngine.isShuttingDown()) {
             throw new EngineNotStartedException(
-            "The host access engine is shutting down.");
+                    "The host access engine is shutting down.");
         }
         return sEngine;
     }
@@ -125,9 +129,9 @@ public final class EngineHolder {
      */
     private static void initializeWorkManager() {
         LOG.debug("Initializing Work Manager.");
-        String workMgrLocation = _config.getWorkManagerJNDILocation();
+        String workMgrLocation = sConfig.getWorkManagerJNDILocation();
         if (workMgrLocation != null && workMgrLocation.length() > 0) {
-            try  {
+            try {
                 InitialContext ic = new InitialContext();
                 sWorkManager = (WorkManager) ic.lookup(workMgrLocation);
             } catch (Exception e) {
@@ -138,7 +142,7 @@ public final class EngineHolder {
         }
 
         if (sWorkManager == null) {
-            int threadPoolSize = _config.getThreadPoolSize();
+            int threadPoolSize = sConfig.getThreadPoolSize();
             sExecutor = Executors.newFixedThreadPool(threadPoolSize);
             sWorkManager = new WorkManagerImpl(sExecutor);
         }

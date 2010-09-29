@@ -26,7 +26,8 @@ INSTALLING/UNINSTALLING:
  [[1]] Unzip the binary distribution package into the directory of your choice,
        referred to as <installDir> in the following steps.
 
-   The directory tree should look like this:
+   The directory tree should look like this (if you have installed this
+   module from the standalone distribution):
    
 +---------------------------------------+
    <installDir>
