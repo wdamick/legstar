@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -27,6 +28,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.legstar.codegen.CodeGenUtil;
+import com.legstar.codegen.models.AbstractPropertiesModel;
 
 /**
  * This class describes a mapping between list of operations and
@@ -37,13 +39,13 @@ import com.legstar.codegen.CodeGenUtil;
  * @author Fady Moussallam
  * 
  */
-public class CixsMappingModel {
+public class CixsMappingModel extends AbstractPropertiesModel {
 
     /** Mapping name. */
-    private String mName;
+    private String _name;
 
     /** List of operations provided by this mapping. */
-    private List < CixsOperation > mCixsOperations =
+    private List < CixsOperation > _cixsOperations =
             new ArrayList < CixsOperation >();
 
     /**
@@ -59,17 +61,33 @@ public class CixsMappingModel {
     public static final String CIXS_MAPPING_NAME_XML_A = "name";
 
     /**
+     * Construct an empty model.
+     */
+    public CixsMappingModel() {
+        super();
+    }
+
+    /**
+     * Construct from a properties file.
+     * 
+     * @param props the property file
+     */
+    public CixsMappingModel(final Properties props) {
+        super(props);
+    }
+
+    /**
      * @return the mapping name
      */
     public String getName() {
-        return mName;
+        return _name;
     }
 
     /**
      * @param name the mapping name to set
      */
     public void setName(final String name) {
-        mName = javaNormalize(name);
+        _name = javaNormalize(name);
     }
 
     /**
@@ -103,7 +121,7 @@ public class CixsMappingModel {
      * @return the service list of operations
      */
     public List < CixsOperation > getCixsOperations() {
-        return mCixsOperations;
+        return _cixsOperations;
     }
 
     /**
@@ -111,7 +129,7 @@ public class CixsMappingModel {
      */
     public void setCixsOperations(
             final List < CixsOperation > cixsOperations) {
-        mCixsOperations = cixsOperations;
+        _cixsOperations = cixsOperations;
     }
 
     /**
@@ -123,7 +141,7 @@ public class CixsMappingModel {
      */
     public void addCixsOperation(
             final CixsOperation operation) {
-        mCixsOperations.add(operation);
+        _cixsOperations.add(operation);
     }
 
     /**
@@ -135,7 +153,7 @@ public class CixsMappingModel {
         StringBuffer result = new StringBuffer();
         result.append("<" + CIXS_MAPPING_XML_E + " "
                 + CIXS_MAPPING_NAME_XML_A + "="
-                + '\"' + mName + '\"');
+                + '\"' + _name + '\"');
         result.append('>' + CodeGenUtil.CRLF);
         for (CixsOperation op : getCixsOperations()) {
             result.append(op.serialize());
@@ -214,8 +232,8 @@ public class CixsMappingModel {
         }
         try {
             Element serviceElement = (Element) listOfElements.item(0);
-            mName = serviceElement.getAttribute(CIXS_MAPPING_NAME_XML_A);
-            if (mName == null || mName.length() == 0) {
+            _name = serviceElement.getAttribute(CIXS_MAPPING_NAME_XML_A);
+            if (_name == null || _name.length() == 0) {
                 throw new CixsModelException("Service must have a name");
             }
             getCixsOperations().clear();

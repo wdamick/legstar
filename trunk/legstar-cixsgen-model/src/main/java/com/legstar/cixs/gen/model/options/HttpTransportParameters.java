@@ -29,6 +29,9 @@ public class HttpTransportParameters extends AbstractPropertiesModel {
     /** Port number when it is not set. */
     public static final int PORT_NOT_SET = -1;
 
+    /** Default HTTP scheme. */
+    public static final HttpScheme DEFAULT_HTTP_SCHEME = HttpScheme.http;
+
     /* ====================================================================== */
     /* Following are key identifiers for this model persistence. = */
     /* ====================================================================== */
@@ -57,7 +60,7 @@ public class HttpTransportParameters extends AbstractPropertiesModel {
     /* Following are this class fields that are persistent. = */
     /* ====================================================================== */
     /** The HTTP scheme in use. */
-    private HttpScheme _httpScheme = HttpScheme.http;
+    private HttpScheme _httpScheme = DEFAULT_HTTP_SCHEME;
 
     /** The host on which the HTTP server listens. */
     private String _httpHost = CodeGenUtil.getLocalIPAddress();
@@ -82,15 +85,36 @@ public class HttpTransportParameters extends AbstractPropertiesModel {
     }
 
     /**
+     * Construct with a default port number.
+     * 
+     * @param defaultHttpPort the default HTTP port
+     */
+    public HttpTransportParameters(final int defaultHttpPort) {
+        this();
+        _httpPort = defaultHttpPort;
+    }
+
+    /**
      * Construct from a properties file.
      * 
      * @param props the property file
      */
     public HttpTransportParameters(final Properties props) {
+        this(props, PORT_NOT_SET);
+    }
+
+    /**
+     * Construct from a properties file and a default port number.
+     * 
+     * @param defaultHttpPort the default HTTP port
+     * @param props the property file
+     */
+    public HttpTransportParameters(final Properties props,
+            final int defaultHttpPort) {
         super(props);
-        setScheme(getString(props, HTTP_SCHEME, null));
+        setScheme(getString(props, HTTP_SCHEME, DEFAULT_HTTP_SCHEME.toString()));
         setHost(getString(props, HTTP_HOST, null));
-        setPort(getInt(props, HTTP_PORT, PORT_NOT_SET));
+        setPort(getInt(props, HTTP_PORT, defaultHttpPort));
         setPath(getString(props, HTTP_PATH, null));
         setUserId(getString(props, HTTP_USERID, null));
         setPassword(getString(props, HTTP_PASSWORD, null));

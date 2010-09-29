@@ -88,13 +88,13 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
     CoxbGenModel _genModel;
 
     /** List of complex types from XML schema. . */
-    private List mJaxbRootClassNamesList;
+    private List _jaxbRootClassNamesList;
 
     /** Target source directory for generated sources. */
-    private Text mTargetSrcDirText;
+    private Text _targetSrcDirText;
 
     /** Target binaries directory for generated sources. */
-    private Label mTargetBinDirLabel;
+    private Label _targetBinDirLabel;
 
     /**
      * A pattern to validate characters entered for package names
@@ -163,13 +163,13 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
 
         /* root name edit box */
         createLabel(container, Messages.root_elements_list_label + ':', 3);
-        mJaxbRootClassNamesList = new List(
+        _jaxbRootClassNamesList = new List(
                 container, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = LAYOUT_COLUMNS;
         gd.heightHint = 200;
-        mJaxbRootClassNamesList.setLayoutData(gd);
-        mJaxbRootClassNamesList.addSelectionListener(new SelectionListener() {
+        _jaxbRootClassNamesList.setLayoutData(gd);
+        _jaxbRootClassNamesList.addSelectionListener(new SelectionListener() {
             public void widgetDefaultSelected(final SelectionEvent e) {
                 dialogChanged();
             }
@@ -178,7 +178,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
                 dialogChanged();
             }
         });
-        mJaxbRootClassNamesList.setFocus();
+        _jaxbRootClassNamesList.setFocus();
 
         createLabel(container, Messages.coxb_package_name_label + ':');
         _coxbPackageName = createText(container);
@@ -207,18 +207,18 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
 
         /* Target source folder edit box and browse button */
         createLabel(container, Messages.target_source_folder_label + ':');
-        mTargetSrcDirText = createText(container);
-        mTargetSrcDirText.addModifyListener(new ModifyListener() {
+        _targetSrcDirText = createText(container);
+        _targetSrcDirText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
         });
         createBrowseForContainerButton(container,
                 Messages.target_source_folder_select_label,
-                mTargetSrcDirText);
+                _targetSrcDirText);
 
         createLabel(container, Messages.target_classes_folder_label + ':');
-        mTargetBinDirLabel = createLabel(container, "", 2);
+        _targetBinDirLabel = createLabel(container, "", 2);
 
     }
 
@@ -283,7 +283,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
      */
     protected void initRootElements(final IFile xsdFile) throws CoreException {
         try {
-            mJaxbRootClassNamesList.removeAll();
+            _jaxbRootClassNamesList.removeAll();
             InputStream is = new FileInputStream(
                     xsdFile.getLocation().toFile());
             XmlSchemaCollection schemaCol = new XmlSchemaCollection();
@@ -328,7 +328,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
         if (getGenModel().getTypeNameSuffix() != null) {
             normalizedName += getGenModel().getTypeNameSuffix();
         }
-        mJaxbRootClassNamesList.add(normalizedName);
+        _jaxbRootClassNamesList.add(normalizedName);
     }
 
     /**
@@ -353,7 +353,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
             if (getGenModel().getElementNameSuffix() != null) {
                 normalizedName += getGenModel().getElementNameSuffix();
             }
-            mJaxbRootClassNamesList.add(normalizedName);
+            _jaxbRootClassNamesList.add(normalizedName);
         }
     }
 
@@ -377,7 +377,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
             /* Find the first source location */
             for (int i = 0; i < cpe.length; i++) {
                 if (cpe[i].getEntryKind() == IClasspathEntry.CPE_SOURCE) {
-                    mTargetSrcDirText.setText(cpe[i].getPath().toOSString());
+                    _targetSrcDirText.setText(cpe[i].getPath().toOSString());
                     break;
                 }
             }
@@ -459,6 +459,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
     protected void handleXJBParameters(final CoxbGenJaxbOtionsDialog dialog) {
         try {
             initRootElements(getXsdFile());
+            dialogChanged();
         } catch (CoreException e) {
             errorDialog(getShell(),
                     Messages.generate_error_dialog_title,
@@ -490,11 +491,11 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
                             if (relativePathName.equals(
                                     cpe[i].getPath().toOSString())) {
                                 if (cpe[i].getOutputLocation() != null) {
-                                    mTargetBinDirLabel.setText(
+                                    _targetBinDirLabel.setText(
                                             cpe[i].getOutputLocation()
                                                     .toOSString());
                                 } else {
-                                    mTargetBinDirLabel.setText(
+                                    _targetBinDirLabel.setText(
                                             jproject.getOutputLocation()
                                                     .toOSString());
                                 }
@@ -526,7 +527,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
      * @return the source directory name
      */
     public String getSrcDirRelativePathName() {
-        return mTargetSrcDirText.getText();
+        return _targetSrcDirText.getText();
     }
 
     /**
@@ -536,7 +537,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
      * @return the binaries output location
      */
     public String getBinDirRelativePathName() {
-        return mTargetBinDirLabel.getText();
+        return _targetBinDirLabel.getText();
     }
 
     /**
@@ -544,7 +545,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
      */
     public java.util.List < String > getJaxbRootClassNames() {
         java.util.List < String > result = new java.util.ArrayList < String >();
-        for (String className : mJaxbRootClassNamesList.getSelection()) {
+        for (String className : _jaxbRootClassNamesList.getSelection()) {
             result.add(className);
         }
         return result;

@@ -20,7 +20,7 @@ import com.legstar.codegen.CodeGenUtil;
 
 /**
  * Test Cixs2JaxwsGenerator.
- *
+ * 
  */
 public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
 
@@ -43,27 +43,20 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
         try {
             generator.execute();
         } catch (Exception e) {
-            assertEquals("java.lang.IllegalArgumentException: JaxbBinDir:" 
+            assertEquals("java.lang.IllegalArgumentException: JaxbBinDir:"
                     + " No directory name was specified",
                     e.getCause().getMessage());
         }
         try {
             generator.setJaxbBinDir(JAXB_BIN_DIR);
             generator.execute();
-        } catch (Exception e) {
-            assertEquals("You must specify a service description",
-                    e.getCause().getMessage());
-        }
-        CixsJaxwsService cixsJaxwsService = new CixsJaxwsService();
-        try {
-            generator.setCixsJaxwsService(cixsJaxwsService);
             generator.execute();
         } catch (Exception e) {
             assertEquals("You must provide a service name",
                     e.getCause().getMessage());
         }
         try {
-            cixsJaxwsService.setName("cixsJaxwsService");
+            generator.getCixsJaxwsService().setName("cixsJaxwsService");
             generator.execute();
         } catch (Exception e) {
             assertEquals("java.lang.IllegalArgumentException:"
@@ -108,7 +101,7 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
             generator.execute();
             fail();
         } catch (Exception e) {
-            assertEquals("java.lang.IllegalArgumentException:" 
+            assertEquals("java.lang.IllegalArgumentException:"
                     + " TargetCobolDir: No directory name was specified",
                     e.getCause().getMessage());
         }
@@ -151,7 +144,7 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
             generator.getWebServiceTargetParameters().setWsdlPortName(
                     "cultureinfoPort");
             generator.execute();
-       } catch (Exception e) {
+        } catch (Exception e) {
             fail(e.getCause().getMessage());
         }
 
@@ -159,6 +152,7 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
 
     /**
      * Test a straight generation with web service target.
+     * 
      * @throws Exception if generation fails
      */
     public void testGenerateWebService() throws Exception {
@@ -171,12 +165,14 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
         checkAntBuild(cixsJaxwsService.getName());
         checkWebServiceWebDescriptor(cixsJaxwsService.getName());
         checkCobolClient(cixsJaxwsService.getName(),
-                cixsJaxwsService.getCixsOperations().get(0).getCicsProgramName());
+                cixsJaxwsService.getCixsOperations().get(0)
+                        .getCicsProgramName());
 
     }
 
     /**
      * Test a straight generation with pojo target.
+     * 
      * @throws Exception if generation fails
      */
     public void testGeneratePojo() throws Exception {
@@ -189,11 +185,14 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
         checkAntBuild(cixsJaxwsService.getName());
         checkPojoWebDescriptor(cixsJaxwsService.getName());
         checkCobolClient(cixsJaxwsService.getName(),
-                cixsJaxwsService.getCixsOperations().get(0).getCicsProgramName());
+                cixsJaxwsService.getCixsOperations().get(0)
+                        .getCicsProgramName());
 
     }
+
     /**
      * Initialize generator for a given service.
+     * 
      * @param cixsJaxwsService the service descriptor
      */
     private void initJaxwsService(final CixsJaxwsService cixsJaxwsService) {
@@ -214,6 +213,7 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
 
     /**
      * Check the generated ant script.
+     * 
      * @param service service name
      * @throws Exception if unable to read result
      */
@@ -222,37 +222,47 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
         resStr = getSource(
                 GEN_ANT_DIR, service + '/' + "build-war.xml");
         assertTrue(resStr.replace('\\', '/').contains(
-                "<war warfile=\"target/src/gen/target/c2ws-" + service + ".war\""));
-        assertTrue(resStr.replace('\\', '/').contains("webxml=\"target/src/gen/webapp/" + service + "/web.xml\""));
-        assertTrue(resStr.replace('\\', '/').contains("<classes dir=\"target/classes\">"));
+                "<war warfile=\"target/src/gen/target/c2ws-" + service
+                        + ".war\""));
         assertTrue(resStr.replace('\\', '/').contains(
-                "<include name=\"com/legstar/test/coxb/" + service + "/*.class\"/>"));
+                "webxml=\"target/src/gen/webapp/" + service + "/web.xml\""));
+        assertTrue(resStr.replace('\\', '/').contains(
+                "<classes dir=\"target/classes\">"));
+        assertTrue(resStr.replace('\\', '/').contains(
+                "<include name=\"com/legstar/test/coxb/" + service
+                        + "/*.class\"/>"));
 
         resStr = getSource(GEN_ANT_DIR, service + '/' + "deploy.xml");
-        assertTrue(resStr.replace('\\', '/').contains(
-                "<copy file=\"target/src/gen/target/c2ws-" + service + ".war\""));
+        assertTrue(resStr.replace('\\', '/')
+                .contains(
+                        "<copy file=\"target/src/gen/target/c2ws-" + service
+                                + ".war\""));
 
     }
 
     /**
      * Check the generated web descriptor for a web service target.
+     * 
      * @param service service name
      * @throws Exception if unable to read result
      */
-    private void checkWebServiceWebDescriptor(final String service) throws Exception {
+    private void checkWebServiceWebDescriptor(final String service)
+            throws Exception {
         String resStr;
         resStr = getSource(
                 GEN_WDD_DIR, service + '/' + "web.xml");
         assertTrue(resStr.contains(
-        "<display-name>" + service + "Proxy</display-name>"));
+                "<display-name>" + service + "Proxy</display-name>"));
         assertTrue(resStr.contains(
-        "<param-value>http://localhost:8080/jaxws-" + service + "/getinfo?wsdl</param-value>"));
+                "<param-value>http://localhost:8080/jaxws-" + service
+                        + "/getinfo?wsdl</param-value>"));
         assertTrue(resStr.contains(
-        "<param-value>IBM01147</param-value>"));
+                "<param-value>IBM01147</param-value>"));
     }
 
     /**
      * Check the generated web descriptor for a pojo target.
+     * 
      * @param service service name
      * @throws Exception if unable to read result
      */
@@ -261,31 +271,37 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
         resStr = getSource(
                 GEN_WDD_DIR, service + '/' + "web.xml");
         assertTrue(resStr.contains(
-        "<display-name>" + service + "Proxy</display-name>"));
+                "<display-name>" + service + "Proxy</display-name>"));
+        assertTrue(resStr
+                .contains(
+                "<param-value>com.legstar.proxy.invoke.pojo.PojoInvoker</param-value>"));
         assertTrue(resStr.contains(
-        "<param-value>com.legstar.proxy.invoke.pojo.PojoInvoker</param-value>"));
+                "<param-name>pojoClassName</param-name>"));
         assertTrue(resStr.contains(
-        "<param-name>pojoClassName</param-name>"));
+                "<param-name>pojoMethodName</param-name>"));
         assertTrue(resStr.contains(
-        "<param-name>pojoMethodName</param-name>"));
-        assertTrue(resStr.contains(
-        "<param-value>IBM01147</param-value>"));
+                "<param-value>IBM01147</param-value>"));
     }
 
     /**
      * Check the generated COBOL client sample.
+     * 
      * @param service service name
      * @param cicsProgramName COBOL sample name
      * @throws Exception if unable to read result
      */
-    private void checkCobolClient(final String service, final String cicsProgramName) throws Exception {
+    private void checkCobolClient(final String service,
+            final String cicsProgramName) throws Exception {
         String resStr;
         resStr = getSource(
                 GEN_COBOL_DIR, service + '/' + cicsProgramName + ".cbl");
-        String url = "http://" + CodeGenUtil.getLocalIPAddress() + ":8080/c2ws-" + service + "/" + service + "Proxy";
+        String url = "http://" + CodeGenUtil.getLocalIPAddress()
+                + ":8080/c2ws-" + service + "/" + service + "Proxy";
 
-        assertTrue(resStr.contains("       PROGRAM-ID. " + cicsProgramName + "."));
-        assertTrue(resStr.contains("77  W00-SERVICE-URI               PIC X(" + url.length() + ") VALUE"));
+        assertTrue(resStr.contains("       PROGRAM-ID. " + cicsProgramName
+                + "."));
+        assertTrue(resStr.contains("77  W00-SERVICE-URI               PIC X("
+                + url.length() + ") VALUE"));
         assertTrue(resStr.contains("'" + url + "'."));
     }
 }

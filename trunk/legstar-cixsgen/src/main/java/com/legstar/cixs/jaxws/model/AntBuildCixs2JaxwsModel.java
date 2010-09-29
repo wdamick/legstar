@@ -37,6 +37,15 @@ public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsJaxwsModel {
     public static final String CIXS2JAXWS_VELOCITY_MACRO_NAME =
             "vlc/build-cixs2jws-xml.vm";
 
+    /** The default port number on which the HTTP server listens. */
+    public static final int DEFAULT_HTTP_PORT = 8080;
+
+    /** The default proxy target type. */
+    public static final ProxyTargetType DEFAULT_PROXY_TARGET_TYPE = ProxyTargetType.WEBSERVICE;
+
+    /** The default COBOL sample HTTP client type. */
+    public static final CobolHttpClientType DEFAULT_COBOL_HTTP_CLIENT_TYPE = CobolHttpClientType.DFHWBCLI;
+
     /* ====================================================================== */
     /* Following are key identifiers for this model persistence. = */
     /* ====================================================================== */
@@ -54,7 +63,7 @@ public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsJaxwsModel {
     /* ====================================================================== */
 
     /** The type of target that the generated proxy service will invoke. */
-    private ProxyTargetType _proxyTargetType = ProxyTargetType.WEBSERVICE;
+    private ProxyTargetType _proxyTargetType = DEFAULT_PROXY_TARGET_TYPE;
 
     /** Set of parameters needed to invoke a POJO. */
     private PojoParameters _pojoTargetParameters;
@@ -66,7 +75,7 @@ public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsJaxwsModel {
     private File _targetCobolDir;
 
     /** The type of HTTP sample Cobol client to generate. */
-    private CobolHttpClientType _sampleCobolHttpClientType = CobolHttpClientType.DFHWBCLI;
+    private CobolHttpClientType _sampleCobolHttpClientType = DEFAULT_COBOL_HTTP_CLIENT_TYPE;
 
     /** HTTP parameters used by cobol client to reach the proxy over HTTP. */
     private HttpTransportParameters _httpTransportParameters;
@@ -82,7 +91,8 @@ public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsJaxwsModel {
         super(CIXS2JAXWS_GENERATOR_NAME, CIXS2JAXWS_VELOCITY_MACRO_NAME);
         _pojoTargetParameters = new PojoParameters();
         _webServiceTargetParameters = new WebServiceParameters();
-        _httpTransportParameters = new HttpTransportParameters();
+        _httpTransportParameters = new HttpTransportParameters(
+                DEFAULT_HTTP_PORT);
     }
 
     /**
@@ -92,13 +102,16 @@ public class AntBuildCixs2JaxwsModel extends AbstractAntBuildCixsJaxwsModel {
      */
     public AntBuildCixs2JaxwsModel(final Properties props) {
         super(CIXS2JAXWS_GENERATOR_NAME, CIXS2JAXWS_VELOCITY_MACRO_NAME, props);
-        setProxyTargetType(getString(props, PROXY_TARGET_TYPE, null));
+        setProxyTargetType(getString(props, PROXY_TARGET_TYPE,
+                DEFAULT_PROXY_TARGET_TYPE.toString()));
         setTargetCobolDir(getFile(props, TARGET_COBOL_DIR, null));
         setSampleCobolHttpClientType(getString(props,
-                SAMPLE_COBOL_HTTP_CLIENT_TYPE, null));
+                SAMPLE_COBOL_HTTP_CLIENT_TYPE, DEFAULT_COBOL_HTTP_CLIENT_TYPE
+                        .toString()));
         _pojoTargetParameters = new PojoParameters(props);
         _webServiceTargetParameters = new WebServiceParameters(props);
-        _httpTransportParameters = new HttpTransportParameters(props);
+        _httpTransportParameters = new HttpTransportParameters(props,
+                DEFAULT_HTTP_PORT);
     }
 
     /**

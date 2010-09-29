@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.legstar.eclipse.plugin.jaxwsgen.wizards;
 
+import java.io.File;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -178,6 +180,10 @@ public class Cixs2JaxwsGeneratorWizardPage
     /** {@inheritDoc} */
     public boolean validateExtendedWidgets() {
 
+        if (!super.validateExtendedWidgets()) {
+            return false;
+        }
+
         getWebServiceTargetGroup().setVisibility();
         getPojoTargetGroup().setVisibility();
         getCixsProxyDeployHttpGroup().setVisibility();
@@ -214,17 +220,22 @@ public class Cixs2JaxwsGeneratorWizardPage
      * Store the selected values in the project scoped preference store.
      */
     public void updateGenModelExtended() {
+
+        super.updateGenModelExtended();
+
+        getWebServiceTargetGroup().updateGenModel();
+        getPojoTargetGroup().updateGenModel();
+        getCixsProxyDeployHttpGroup().updateGenModel();
+
         if (getWebServiceTargetGroup().isSelected()) {
             getGenModel().setProxyTargetType(ProxyTargetType.WEBSERVICE);
-            getWebServiceTargetGroup().updateGenModelExtended();
         }
         if (getPojoTargetGroup().isSelected()) {
             getGenModel().setProxyTargetType(ProxyTargetType.POJO);
-            getPojoTargetGroup().updateGenModelExtended();
         }
         getGenModel().setSampleCobolHttpClientType(
                 getCixsProxyDeployHttpGroup().getSampleCobolHttpClientType());
-        getCixsProxyDeployHttpGroup().updateGenModelExtended();
+        getGenModel().setTargetCobolDir(new File(getTargetCobolDir()));
     }
 
     /**
