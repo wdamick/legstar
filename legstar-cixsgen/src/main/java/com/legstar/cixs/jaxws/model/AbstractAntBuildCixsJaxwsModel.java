@@ -51,6 +51,7 @@ public abstract class AbstractAntBuildCixsJaxwsModel extends
     public AbstractAntBuildCixsJaxwsModel(
             final String generatorName, final String vlcTemplate) {
         super(generatorName, vlcTemplate);
+        setCixsJaxwsService(new CixsJaxwsService());
     }
 
     /**
@@ -65,6 +66,7 @@ public abstract class AbstractAntBuildCixsJaxwsModel extends
         super(generatorName, vlcTemplate, props);
         setTargetWDDDir(getFile(props, TARGET_WDD_DIR, null));
         setTargetWarDir(getFile(props, TARGET_WAR_DIR, null));
+        setCixsJaxwsService(new CixsJaxwsService(props));
     }
 
     /**
@@ -118,6 +120,7 @@ public abstract class AbstractAntBuildCixsJaxwsModel extends
         Properties props = super.toProperties();
         putFile(props, TARGET_WDD_DIR, getTargetWDDDir());
         putFile(props, TARGET_WAR_DIR, getTargetWarDir());
+        props.putAll(getCixsJaxwsService().toProperties());
         return props;
     }
 }

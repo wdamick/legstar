@@ -163,10 +163,13 @@ public abstract class AbstractCixsGeneratorWizardPage
         Canvas canvas2 = createCanvas(canvas, LAYOUT_COLUMNS);
 
         _jaxbBinDirText = createDirectoryFieldEditor(canvas2,
+                "jaxbBinDirText",
                 Messages.jaxb_classes_location_label + ':');
         _coxbBinDirText = createDirectoryFieldEditor(canvas2,
+                "coxbBinDirText",
                 Messages.coxb_classes_location_label + ':');
         _custBinDirText = createDirectoryFieldEditor(canvas2,
+                "custBinDirText",
                 Messages.cust_classes_location_label + ':');
 
         addWidgetsToCoxbGroup(canvas2);
@@ -184,12 +187,16 @@ public abstract class AbstractCixsGeneratorWizardPage
         Canvas canvas2 = createCanvas(canvas, LAYOUT_COLUMNS);
 
         _targetSrcDirText = createDirectoryFieldEditor(canvas2,
+                "targetSrcDirText",
                 Messages.java_sources_target_location + ':');
         _targetBinDirText = createDirectoryFieldEditor(canvas2,
+                "targetBinDirText",
                 Messages.java_classes_target_location + ':');
         _targetAntDirText = createDirectoryFieldEditor(canvas2,
+                "targetAntDirText",
                 Messages.ant_scripts_target_location + ':');
         _targetDistDirText = createDirectoryFieldEditor(canvas2,
+                "targetDistDirText",
                 Messages.distribution_files_target_location + ':');
 
         addWidgetsToTargetGroup(canvas2);
@@ -533,6 +540,7 @@ public abstract class AbstractCixsGeneratorWizardPage
         getGenModel().setCustBinDir(new File(getCustBinDir()));
 
         getGenModel().setTargetAntDir(new File(getTargetAntDir()));
+        getGenModel().setTargetDistDir(new File(getTargetDistDir()));
 
         getGenModel().setHostCharset(getHostCharset());
 

@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.legstar.cixs.gen.model;
 
+import java.util.Properties;
+
 import com.legstar.coxb.util.Utils;
 
 /**
@@ -25,84 +27,139 @@ public abstract class AbstractCixsService extends CixsMappingModel {
     /** Default suffix for class implementation name. */
     private static final String DEFAULT_IMPL_SUFFIX = "Impl";
 
+    /* ====================================================================== */
+    /* Following are key identifiers for this model persistence. = */
+    /* ====================================================================== */
+
     /** Service package name. */
-    private String mPackageName;
+    public static final String SERVICE_PACKAGE_NAME = "servicePackageName";
 
     /** Namespace used for JAXB objects derived from service. */
-    private String mNamespace;
+    public static final String SERVICE_NAMESPACE = "serviceNamespace";
 
     /** Service interface class name. */
-    private String mInterfaceClassName;
+    public static final String SERVICE_INTERFACE_CLASSNAME = "serviceInterfaceClassName";
 
     /** Service implementation class name. */
-    private String mImplementationClassName;
+    public static final String SERVICE_IMPLEMENTATION_CLASSNAME = "serviceImplementationClassName";
+
+    /* ====================================================================== */
+    /* Following are this class fields that are persistent. = */
+    /* ====================================================================== */
+
+    /** Service package name. */
+    private String _servicePackageName;
+
+    /** Namespace used for JAXB objects derived from service. */
+    private String _serviceNamespace;
+
+    /** Service interface class name. */
+    private String _serviceInterfaceClassName;
+
+    /** Service implementation class name. */
+    private String _serviceImplementationClassName;
+
+    /**
+     * Construct an empty model.
+     */
+    public AbstractCixsService() {
+        super();
+    }
+
+    /**
+     * Construct from a properties file.
+     * 
+     * @param props the property file
+     */
+    public AbstractCixsService(final Properties props) {
+        super(props);
+        setPackageName(getString(props, SERVICE_PACKAGE_NAME, null));
+        setNamespace(getString(props, SERVICE_NAMESPACE, null));
+        setInterfaceClassName(getString(props, SERVICE_INTERFACE_CLASSNAME,
+                null));
+        setImplementationClassName(getString(props,
+                SERVICE_IMPLEMENTATION_CLASSNAME, null));
+    }
 
     /**
      * @return the Service package name
      */
     public String getPackageName() {
-        return mPackageName;
+        return _servicePackageName;
     }
 
     /**
      * @param packageName the Service package name to set
      */
     public void setPackageName(final String packageName) {
-        mPackageName = packageName;
+        _servicePackageName = packageName;
     }
 
     /**
      * @return the namespace used for JAXB objects derived from service
      */
     public String getNamespace() {
-        return mNamespace;
+        return _serviceNamespace;
     }
 
     /**
      * @param namespace used for JAXB objects derived from service
      */
     public void setNamespace(final String namespace) {
-        mNamespace = namespace;
+        _serviceNamespace = namespace;
     }
 
     /**
      * @return the Service interface class name
      */
     public String getInterfaceClassName() {
-        if (mInterfaceClassName == null || mInterfaceClassName.length() == 0) {
+        if (_serviceInterfaceClassName == null
+                || _serviceInterfaceClassName.length() == 0) {
             return Utils.toClassName(getName());
         }
-        return mInterfaceClassName;
+        return _serviceInterfaceClassName;
     }
 
     /**
      * @param interfaceClassName the Service interface class name to set
      */
     public void setInterfaceClassName(final String interfaceClassName) {
-        mInterfaceClassName = interfaceClassName;
+        _serviceInterfaceClassName = interfaceClassName;
     }
 
     /**
      * @return the Service implementation class name
      */
     public String getImplementationClassName() {
-        if (mImplementationClassName == null 
-                || mImplementationClassName.length() == 0) {
+        if (_serviceImplementationClassName == null
+                || _serviceImplementationClassName.length() == 0) {
             if (getName() == null) {
                 return DEFAULT_IMPL_SUFFIX;
             }
             return Utils.toClassName(getName() + DEFAULT_IMPL_SUFFIX);
         }
-        return mImplementationClassName;
+        return _serviceImplementationClassName;
     }
 
     /**
      * @param implementationClassName the Service implementation class name to
-     *  set
+     *            set
      */
     public void setImplementationClassName(
             final String implementationClassName) {
-        mImplementationClassName = implementationClassName;
+        _serviceImplementationClassName = implementationClassName;
     }
 
+    /**
+     * @return a properties file holding the values of this object fields
+     */
+    public Properties toProperties() {
+        Properties props = super.toProperties();
+        putString(props, SERVICE_PACKAGE_NAME, getPackageName());
+        putString(props, SERVICE_NAMESPACE, getNamespace());
+        putString(props, SERVICE_INTERFACE_CLASSNAME, getInterfaceClassName());
+        putString(props, SERVICE_IMPLEMENTATION_CLASSNAME,
+                getImplementationClassName());
+        return props;
+    }
 }

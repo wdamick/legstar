@@ -18,9 +18,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 
 import com.legstar.cixs.gen.ant.model.AbstractAntBuildCixsModel;
-import com.legstar.cixs.gen.model.AbstractCixsService;
 import com.legstar.cixs.jaxws.model.AntBuildJaxws2CixsModel;
-import com.legstar.cixs.jaxws.model.CixsJaxwsService;
 import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsGeneratorWizard;
 import com.legstar.eclipse.plugin.jaxwsgen.Activator;
 
@@ -65,12 +63,6 @@ public class Jaxws2CixsGeneratorWizard extends AbstractCixsGeneratorWizard {
     @Override
     public String getGenerationSubject() {
         return GENERATION_SUBJECT;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public AbstractCixsService createCixsService() {
-        return new CixsJaxwsService();
     }
 
     /** {@inheritDoc} */

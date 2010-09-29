@@ -26,6 +26,7 @@ import com.legstar.cixs.gen.model.options.WebServiceParameters;
 import com.legstar.cixs.gen.model.options.WmqTransportParameters;
 import com.legstar.cixs.jaxws.gen.Cixs2JaxwsGenerator;
 import com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator;
+import com.legstar.cixs.jaxws.model.AntBuildCixs2JaxwsModel;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
 import com.legstar.codegen.CodeGenHelper;
 import com.legstar.codegen.CodeGenUtil;
@@ -61,13 +62,15 @@ public class AbstractTestTemplate extends TestCase {
     public static final File GEN_ANT_DIR = new File("target/src/gen/ant");
 
     /** Reference to binaries location. */
-    public static final File GEN_BIN_DIR = new File("target/src/gen/target/classes");
+    public static final File GEN_BIN_DIR = new File(
+            "target/src/gen/target/classes");
 
     /** Reference to distribution location. */
     public static final File GEN_DIST_DIR = new File("target/src/gen/target");
 
     /** Reference to war files location. */
-    public static final File GEN_WAR_DIR = new File("${env.CATALINA_BASE}/webapp");
+    public static final File GEN_WAR_DIR = new File(
+            "${env.CATALINA_BASE}/webapp");
 
     /** Additional parameter set passed to templates. */
     private Map < String, Object > mParameters;
@@ -76,7 +79,7 @@ public class AbstractTestTemplate extends TestCase {
     private final Log _log = LogFactory.getLog(
             AbstractTestTemplate.class);
 
-    /** @{inheritDoc}*/
+    /** @{inheritDoc  */
     @Override
     public void setUp() {
         try {
@@ -96,11 +99,11 @@ public class AbstractTestTemplate extends TestCase {
         }
     }
 
-
     /**
      * Apply a velocity template and return the generated source.
+     * 
      * @param model model to use
-     * @param generatorName the name to appear as generator 
+     * @param generatorName the name to appear as generator
      * @param templateName the velocity template to apply
      * @param dir the folder where generated source should go
      * @param genSourceName the generate file name
@@ -124,6 +127,7 @@ public class AbstractTestTemplate extends TestCase {
 
     /**
      * A general purpose reader that gets the file content into a string.
+     * 
      * @param srcDir the location of the source artifact
      * @param srcName the source artifact name
      * @return a string containing the generated source
@@ -136,6 +140,7 @@ public class AbstractTestTemplate extends TestCase {
 
     /**
      * A general purpose reader that gets the file content into a string.
+     * 
      * @param fileName the name of the file pointing to source
      * @return a string containing the generated source
      * @throws IOException if something goes wrong
@@ -143,8 +148,10 @@ public class AbstractTestTemplate extends TestCase {
     public String getSource(final String fileName) throws IOException {
         return getSource(new File(fileName));
     }
+
     /**
      * A general purpose reader that gets the file content into a string.
+     * 
      * @param file the file pointing to source
      * @return a string containing the generated source
      * @throws IOException if something goes wrong
@@ -163,7 +170,6 @@ public class AbstractTestTemplate extends TestCase {
         return resStr;
     }
 
-
     /**
      * @return the mParameters
      */
@@ -173,6 +179,7 @@ public class AbstractTestTemplate extends TestCase {
 
     /**
      * Recreates a folder after emptying its content.
+     * 
      * @param dir the folder to empy
      */
     public void emptyDir(final File dir) {
@@ -182,6 +189,7 @@ public class AbstractTestTemplate extends TestCase {
 
     /**
      * Destroys a folder and all of its content.
+     * 
      * @param dir the folder to destroy
      */
     public void deleteDir(final File dir) {
@@ -194,9 +202,10 @@ public class AbstractTestTemplate extends TestCase {
             }
         }
     }
-    
+
     /**
      * Get Web Service default parameters.
+     * 
      * @param service the service
      * @return the default set of parameters
      */
@@ -209,13 +218,14 @@ public class AbstractTestTemplate extends TestCase {
                 + Jaxws2CixsGenerator.DEFAULT_WSDL_SERVICE_NAME_SUFFIX);
         webServiceParameters.setWsdlTargetNamespace(
                 Jaxws2CixsGenerator.DEFAULT_WSDL_TARGET_NAMESPACE_PREFIX
-                + '/' + service.getName());
+                        + '/' + service.getName());
         return webServiceParameters;
-        
+
     }
 
     /**
      * Add Web Service default parameters.
+     * 
      * @param service the service
      * @param parameters the set of parameters
      */
@@ -223,16 +233,17 @@ public class AbstractTestTemplate extends TestCase {
             final CixsJaxwsService service,
             final Map < String, Object > parameters) {
         WebServiceParameters webServiceParameters =
-            getDefaultWebServiceParameters(service);
+                getDefaultWebServiceParameters(service);
         webServiceParameters.add(parameters);
-        
+
     }
-    
+
     /**
      * Setup the service with the wsdl related parameters.
      * <p/>
      * This makes sure service/operation have a valid namespace for their
      * associated JAXB/JAX-WS artifacts.
+     * 
      * @param service the service being setup
      */
     public void initWebServiceParameters(final CixsJaxwsService service) {
@@ -240,29 +251,33 @@ public class AbstractTestTemplate extends TestCase {
         service.setNamespace((String) getParameters().get(
                 WebServiceParameters.WSDL_TARGET_NAMESPACE_PROPERTY));
         for (CixsOperation operation : service.getCixsOperations()) {
-            if (operation.getNamespace() == null 
+            if (operation.getNamespace() == null
                     || operation.getNamespace().length() == 0) {
                 operation.setNamespace(service.getNamespace());
             }
         }
-        
+
     }
 
     /**
      * Produce a set of http parameters.
+     * 
      * @param model the service
      * @return a default set of http parameters
      */
-    public HttpTransportParameters getDefaultHttpParameters(final CixsJaxwsService model) {
-        HttpTransportParameters httpTransportParameters = new HttpTransportParameters();
+    public HttpTransportParameters getDefaultHttpParameters(
+            final CixsJaxwsService model) {
+        HttpTransportParameters httpTransportParameters = new HttpTransportParameters(
+                AntBuildCixs2JaxwsModel.DEFAULT_HTTP_PORT);
         httpTransportParameters.setPath(
                 Cixs2JaxwsGenerator.DEFAULT_SERVER_PATH_TEMPLATE.replace(
                         "${service.name}", model.getName()));
         return httpTransportParameters;
     }
- 
+
     /**
      * Add Web Service default parameters.
+     * 
      * @param service the service
      * @param parameters the set of parameters
      */
@@ -270,17 +285,19 @@ public class AbstractTestTemplate extends TestCase {
             final CixsJaxwsService service,
             final Map < String, Object > parameters) {
         HttpTransportParameters httpTransportParameters =
-            getDefaultHttpParameters(service);
+                getDefaultHttpParameters(service);
         httpTransportParameters.add(parameters);
-        
+
     }
 
     /**
      * Produce a set of WMQ parameters.
+     * 
      * @param model the service
      * @return a default set of WMQ parameters
      */
-    public WmqTransportParameters getDefaultWmqParameters(final CixsJaxwsService model) {
+    public WmqTransportParameters getDefaultWmqParameters(
+            final CixsJaxwsService model) {
         WmqTransportParameters wmqTransportParameters = new WmqTransportParameters();
         wmqTransportParameters.setConnectionFactory("MyQCF");
         wmqTransportParameters.setZosQueueManager("CSQ1");
@@ -289,9 +306,10 @@ public class AbstractTestTemplate extends TestCase {
         wmqTransportParameters.setErrorQueue("ERROR.QUEUE");
         return wmqTransportParameters;
     }
- 
+
     /**
      * Add Web Service default parameters.
+     * 
      * @param service the service
      * @param parameters the set of parameters
      */
@@ -299,9 +317,9 @@ public class AbstractTestTemplate extends TestCase {
             final CixsJaxwsService service,
             final Map < String, Object > parameters) {
         WmqTransportParameters wmqTransportParameters =
-            getDefaultWmqParameters(service);
+                getDefaultWmqParameters(service);
         wmqTransportParameters.add(parameters);
-        
+
     }
 
 }

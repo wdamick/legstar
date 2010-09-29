@@ -66,7 +66,7 @@ public abstract class AbstractCixsGeneratorWizard extends AbstractWizard {
         try {
             AbstractAntBuildCixsModel genModel =
                     createGenModel(loadProperties(getProjectPreferences()));
-            genModel.setCixsService(createServiceModel());
+            loadMappingModel(genModel.getCixsService());
             genModel.setProductLocation(getPluginInstallLocation(
                     com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
             return genModel;
@@ -99,10 +99,9 @@ public abstract class AbstractCixsGeneratorWizard extends AbstractWizard {
     /**
      * Try to load the mapping file into a service model.
      * 
-     * @return a mapping model that might be empty if load fails
+     * @param serviceModel the service model
      */
-    protected AbstractCixsService createServiceModel() {
-        AbstractCixsService serviceModel = createCixsService();
+    protected void loadMappingModel(final AbstractCixsService serviceModel) {
         try {
             serviceModel.load(getMappingFile().getLocation().toFile());
         } catch (CixsModelException e) {
@@ -114,14 +113,7 @@ public abstract class AbstractCixsGeneratorWizard extends AbstractWizard {
                             getMappingFile().getName(), e.getMessage()));
             logCoreException(e, getPluginId());
         }
-        return serviceModel;
-
     }
-
-    /**
-     * @return the service model for this wizard
-     */
-    public abstract AbstractCixsService createCixsService();
 
     /**
      * Generation models are built using properties that were previously saved.
