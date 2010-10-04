@@ -152,6 +152,23 @@
                         </goals>
                     </execution>
 
+                    <!-- Unzip the cob2xsd distributable to a packaging location.  -->
+                    <execution>
+                        <id>unzip-cob2xsd</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/../legstar-distribution/src/main/ant/unzip-cob2xsd.xml">
+                                    <property name="maven.localRepository" value="${settings.localRepository}" />
+                                    <property name="legstarCob2XsdVersion" value="${legstarCob2XsdVersion}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
                     <!-- Generate site files that needs automatic update. -->
                     <execution>
                         <id>build-site</id>
