@@ -18,23 +18,24 @@ import junit.framework.TestCase;
 
 /**
  * Test the COBOL PIC X TYPE with conversion.
- *
+ * 
  */
 public class StringTest extends TestCase {
 
-    /** Mainframe EBCDIC US/CAN character set.*/
+    /** Mainframe EBCDIC US/CAN character set. */
     private static final String US_HOST_CHARSET = "IBM01140";
-    
-    /** Mainframe EBCDIC French character set.*/
+
+    /** Mainframe EBCDIC French character set. */
     private static final String FRENCH_HOST_CHARSET = "IBM01147";
-    
-    /** Mainframe Latin-1 character set.*/
+
+    /** Mainframe Latin-1 character set. */
     private static final String LATIN1_HOST_CHARSET = "ISO-8859-1";
-    
+
     /**
      * Generic conversion from java String to COBOL.
+     * 
      * @param hostCharset the mainframe character set
-     * @param byteLength the COBOL receiving field size 
+     * @param byteLength the COBOL receiving field size
      * @param isJustifiedRight if justified right
      * @param inputValue the string value
      * @param expectedValue the expected value as a hex string
@@ -49,17 +50,19 @@ public class StringTest extends TestCase {
         try {
             String javaString = inputValue;
             assertEquals(byteLength, CobolStringSimpleConverter.toHostSingle(
-                    javaString, hostCharset, byteLength, isJustifiedRight, hostBytes, 0));
+                    javaString, hostCharset, byteLength, isJustifiedRight,
+                    hostBytes, 0));
             assertEquals(expectedValue, HostData.toHexString(hostBytes));
         } catch (CobolConversionException e) {
             fail(e.getMessage());
         }
     }
-    
+
     /**
      * Generic conversion from COBOL to java String.
+     * 
      * @param hostCharset the mainframe character set
-     * @param byteLength the COBOL receiving field size 
+     * @param byteLength the COBOL receiving field size
      * @param inputValue the input value as a hex string
      * @param expectedValue the expected value as a string
      */
@@ -77,7 +80,7 @@ public class StringTest extends TestCase {
             fail(e.getMessage());
         }
     }
-    
+
     /**
      * Test with wrong character set.
      */
@@ -90,7 +93,8 @@ public class StringTest extends TestCase {
                     javaString, unknownCharSet, 4, false, hostBytes, 0);
             fail("charset not tested correctly");
         } catch (HostException he) {
-            assertEquals("UnsupportedEncodingException:IBM0114Q", he.getMessage());
+            assertEquals("UnsupportedEncodingException:IBM0114Q", he
+                    .getMessage());
         }
     }
 
@@ -125,7 +129,7 @@ public class StringTest extends TestCase {
         toHost(LATIN1_HOST_CHARSET, 6, true, "ABCD", "202041424344");
         fromHost(LATIN1_HOST_CHARSET, 6, "202041424344", "  ABCD");
     }
-    
+
     /**
      * Test passing binary content to the host. Binary content is only supported
      * when sending data to host.
@@ -133,7 +137,7 @@ public class StringTest extends TestCase {
     public void testBinaryContent() {
         toHost(US_HOST_CHARSET, 6, true, "0x0000", "000000000000");
     }
-    
+
     /**
      * Test truncation.
      */
@@ -162,11 +166,17 @@ public class StringTest extends TestCase {
      * Test character set.
      */
     public void testToHostCharset() {
-        toHost(FRENCH_HOST_CHARSET, 43, false,
+        toHost(
+                FRENCH_HOST_CHARSET,
+                43,
+                false,
                 "ça c'est un problème élémentaire à résoudre",
                 "e08140837d85a2a340a495409799968293d0948540c093c0948595a381899985407c4099c0a296a4849985");
 
-        toHost(US_HOST_CHARSET, 43, false,
+        toHost(
+                US_HOST_CHARSET,
+                43,
+                false,
                 "ça c'est un problème élémentaire à résoudre",
                 "488140837d85a2a340a49540979996829354948540519351948595a3818999854044409951a296a4849985");
     }
@@ -175,11 +185,15 @@ public class StringTest extends TestCase {
      * Test character set.
      */
     public void testFromHostCharset() {
-        fromHost(FRENCH_HOST_CHARSET, 43,
+        fromHost(
+                FRENCH_HOST_CHARSET,
+                43,
                 "e08140837d85a2a340a495409799968293d0948540c093c0948595a381899985407c4099c0a296a4849985",
                 "ça c'est un problème élémentaire à résoudre");
 
-        fromHost(US_HOST_CHARSET, 43,
+        fromHost(
+                US_HOST_CHARSET,
+                43,
                 "e08140837d85a2a340a495409799968293d0948540c093c0948595a381899985407c4099c0a296a4849985",
                 "\\a c'est un probl}me {l{mentaire @ r{soudre");
     }
@@ -192,7 +206,8 @@ public class StringTest extends TestCase {
     }
 
     /**
-     * Case where the host truncated that data so there are not enough bytes. Code
+     * Case where the host truncated that data so there are not enough bytes.
+     * Code
      * should pad with null bytes.
      */
     public void testFromHostPartialData() {
@@ -201,7 +216,7 @@ public class StringTest extends TestCase {
 
     /**
      * Case where the mainframe data has already been exhausted (we are past the
-     * last offset). 
+     * last offset).
      */
     public void testFromHostPartialDataPastOffset() {
         try {
@@ -219,5 +234,19 @@ public class StringTest extends TestCase {
      */
     public void testFromHostLeadingSpaces() {
         fromHost(US_HOST_CHARSET, 6, "4040c3c44040", "  CD");
+    }
+
+    /**
+     * All spaces .
+     */
+    public void testFromHostAllSpaces() {
+        fromHost(US_HOST_CHARSET, 6, "404040404040", "");
+    }
+
+    /**
+     * All low-values .
+     */
+    public void testFromHostAllLowValues() {
+        fromHost(US_HOST_CHARSET, 6, "000000000000", "");
     }
 }

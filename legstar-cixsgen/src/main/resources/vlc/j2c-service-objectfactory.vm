@@ -31,6 +31,7 @@ public class ObjectFactory {
     }
 
 #foreach ($cixsOperation in $model.cixsOperations)
+#if($cixsOperation.getInput().size() > 0)
     /**
      * @return an instance of {@link ${cixsOperation.requestWrapperType} }
      * 
@@ -38,7 +39,9 @@ public class ObjectFactory {
     public ${cixsOperation.requestWrapperType} create${cixsOperation.requestWrapperType}() {
         return new ${cixsOperation.requestWrapperType}();
     }
+#end
 
+#if($cixsOperation.getOutput().size() > 0)
     /**
      * @return an instance of {@link ${cixsOperation.responseWrapperType} }
      * 
@@ -46,8 +49,9 @@ public class ObjectFactory {
     public ${cixsOperation.responseWrapperType} create${cixsOperation.responseWrapperType}() {
         return new ${cixsOperation.responseWrapperType}();
     }
+#end
 
-#if($cixsOperation.hasChannel())
+#if($cixsOperation.getInput().size() > 1)
     /**
      * @return an instance of {@link ${cixsOperation.requestHolderType} }
      * 
@@ -55,7 +59,9 @@ public class ObjectFactory {
     public ${cixsOperation.requestHolderType} create${cixsOperation.requestHolderType}() {
         return new ${cixsOperation.requestHolderType}();
     }
+#end
 
+#if($cixsOperation.getOutput().size() > 1)
     /**
      * @return an instance of {@link ${cixsOperation.responseHolderType} }
      * 

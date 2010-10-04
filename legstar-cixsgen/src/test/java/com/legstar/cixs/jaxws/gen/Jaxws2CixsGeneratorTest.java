@@ -273,18 +273,14 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
      * 
      * @throws Exception if generation fails
      */
-    public void testLsfileaqGenerateClasses() throws Exception {
-        CixsJaxwsService cixsJaxwsService = Samples.getLsfileaq();
+    public void testLsfileac1GenerateClasses() throws Exception {
+        CixsJaxwsService cixsJaxwsService = Samples.getLsfileac1();
         initJaxwsService(cixsJaxwsService);
         mGenerator.execute();
-        checkServiceArtifacts("/com/legstar/test/cixs/Lsfileaq",
+        checkServiceArtifacts("/com/legstar/test/cixs/Lsfileac1",
                 cixsJaxwsService);
-        checkOperationResult("/com/legstar/test/cixs/Lsfileaq", "lsfileaq",
+        checkOperationResult("/com/legstar/test/cixs/Lsfileac1", "lsfileac1",
                 "lsfileac", "Lsfileac");
-        checkHolderResult("/com/legstar/test/cixs/Lsfileaq", "lsfileaq",
-                "lsfileaq", "Lsfileac", "Request");
-        checkHolderResult("/com/legstar/test/cixs/Lsfileaq", "lsfileaq",
-                "lsfileaq", "Lsfileac", "Response");
     }
 
     /**

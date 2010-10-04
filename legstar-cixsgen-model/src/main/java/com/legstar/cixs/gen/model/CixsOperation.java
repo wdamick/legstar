@@ -9,6 +9,7 @@
  *     LegSem - initial API and implementation
  ******************************************************************************/
 package com.legstar.cixs.gen.model;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.w3c.dom.Element;
@@ -59,11 +60,11 @@ public class CixsOperation {
 
     /** Input structures. */
     private List < CixsStructure > mInput =
-        new ArrayList < CixsStructure >();
+            new ArrayList < CixsStructure >();
 
     /** Output structures. */
     private List < CixsStructure > mOutput =
-        new ArrayList < CixsStructure >();
+            new ArrayList < CixsStructure >();
 
     /** XML element representing a CIXS operation definition. */
     public static final String CIXS_OPERATION_XML_E = "cixsOperation";
@@ -73,51 +74,40 @@ public class CixsOperation {
 
     /** XML attribute representing a CICS program name. */
     public static final String CIXS_CICS_PROGRAM_NAME_XML_A =
-        "cicsProgramName";
+            "cicsProgramName";
 
     /** XML attribute representing a CICS Channel name. */
-    public static final String CIXS_CICS_CHANNEL_XML_A
-    = "cicsChannel";
+    public static final String CIXS_CICS_CHANNEL_XML_A = "cicsChannel";
 
     /** Operation-related classes package name. */
-    public static final String CIXS_OP_PACKAGE_XML_A
-    = "packageName";
+    public static final String CIXS_OP_PACKAGE_XML_A = "packageName";
 
     /** Namespace used for JAXB objects derived from operation. */
-    public static final String CIXS_OP_NAMESPACE_XML_A
-    = "namespace";
+    public static final String CIXS_OP_NAMESPACE_XML_A = "namespace";
 
     /** Request wrapper class name. */
-    public static final String CIXS_OP_REQ_WRAPPER_XML_A
-    = "requestWrapperType";
+    public static final String CIXS_OP_REQ_WRAPPER_XML_A = "requestWrapperType";
 
     /** Response wrapper class name. */
-    public static final String CIXS_OP_RES_WRAPPER_XML_A
-    = "responseWrapperType";
+    public static final String CIXS_OP_RES_WRAPPER_XML_A = "responseWrapperType";
 
     /** Request holder class name. */
-    public static final String CIXS_OP_REQ_HOLDER_XML_A
-    = "requestHolderType";
+    public static final String CIXS_OP_REQ_HOLDER_XML_A = "requestHolderType";
 
     /** Response holder class name. */
-    public static final String CIXS_OP_RES_HOLDER_XML_A
-    = "responseHolderType";
+    public static final String CIXS_OP_RES_HOLDER_XML_A = "responseHolderType";
 
     /** Fault wrapper class name. */
-    public static final String CIXS_OP_FAULT_XML_A
-    = "faultType";
+    public static final String CIXS_OP_FAULT_XML_A = "faultType";
 
     /** Fault descriptor class name. */
-    public static final String CIXS_OP_FAULT_INFO_XML_A
-    = "faultInfoType";
+    public static final String CIXS_OP_FAULT_INFO_XML_A = "faultInfoType";
 
     /** XML element representing an input structure. */
-    public static final String CIXS_INPUT_STRUCTURE_XML_E
-    = "input";
+    public static final String CIXS_INPUT_STRUCTURE_XML_E = "input";
 
     /** XML element representing an output structure. */
-    public static final String CIXS_OUTPUT_STRUCTURE_XML_E
-    = "output";
+    public static final String CIXS_OUTPUT_STRUCTURE_XML_E = "output";
 
     /** Default suffix for exception class names. */
     private static final String DEFAULT_FAULT_SUFFIX = "Fault";
@@ -136,7 +126,7 @@ public class CixsOperation {
 
     /** Default suffix for multi-input response holder class names. */
     private static final String DEFAULT_RESPONSE_HOLDER_SUFFIX =
-        "ResponseHolder";
+            "ResponseHolder";
 
     /**
      * @return the service operation name
@@ -226,6 +216,7 @@ public class CixsOperation {
 
     /**
      * Create an XML usable as input for and ant task.
+     * 
      * @return the XML
      */
     public String serialize() {
@@ -275,7 +266,7 @@ public class CixsOperation {
             result.append(" " + CIXS_OP_RES_WRAPPER_XML_A + "=" + '\"'
                     + getResponseWrapperType() + '\"');
         }
-        result.append('>' +  CodeGenUtil.CRLF);
+        result.append('>' + CodeGenUtil.CRLF);
         for (CixsStructure structure : getInput()) {
             result.append(structure.serialize(CIXS_INPUT_STRUCTURE_XML_E));
             result.append(CodeGenUtil.CRLF);
@@ -290,6 +281,7 @@ public class CixsOperation {
 
     /**
      * Loads the CIXS Operation from an XML node element.
+     * 
      * @param operationNode the operation node
      * @throws CixsModelException if load fails
      */
@@ -303,25 +295,25 @@ public class CixsOperation {
                 CIXS_CICS_PROGRAM_NAME_XML_A);
         if (mCicsProgramName == null || mCicsProgramName.length() == 0) {
             throw new CixsModelException(
-            "Operation must have an associated program name");
+                    "Operation must have an associated program name");
         }
-        mCicsChannel =  operationElement.getAttribute(
+        mCicsChannel = operationElement.getAttribute(
                 CIXS_CICS_CHANNEL_XML_A);
-        mPackageName =  operationElement.getAttribute(
+        mPackageName = operationElement.getAttribute(
                 CIXS_OP_PACKAGE_XML_A);
-        mNamespace =  operationElement.getAttribute(
+        mNamespace = operationElement.getAttribute(
                 CIXS_OP_NAMESPACE_XML_A);
-        mRequestWrapperType =  operationElement.getAttribute(
+        mRequestWrapperType = operationElement.getAttribute(
                 CIXS_OP_REQ_WRAPPER_XML_A);
-        mResponseWrapperType =  operationElement.getAttribute(
+        mResponseWrapperType = operationElement.getAttribute(
                 CIXS_OP_RES_WRAPPER_XML_A);
-        mRequestHolderType =  operationElement.getAttribute(
+        mRequestHolderType = operationElement.getAttribute(
                 CIXS_OP_REQ_HOLDER_XML_A);
-        mResponseHolderType =  operationElement.getAttribute(
+        mResponseHolderType = operationElement.getAttribute(
                 CIXS_OP_RES_HOLDER_XML_A);
-        mFaultType =  operationElement.getAttribute(
+        mFaultType = operationElement.getAttribute(
                 CIXS_OP_FAULT_XML_A);
-        mFaultInfoType =  operationElement.getAttribute(
+        mFaultInfoType = operationElement.getAttribute(
                 CIXS_OP_FAULT_INFO_XML_A);
 
         mInput = new ArrayList < CixsStructure >();
@@ -345,20 +337,20 @@ public class CixsOperation {
 
     /**
      * @return this operation property values as a string array. This helps
-     * inserting the structure as an item in an array.
+     *         inserting the structure as an item in an array.
      */
     public String[] getAsStringArray() {
-        String[] array = {getName(),
+        String[] array = { getName(),
                 getCicsProgramName(),
                 getCicsChannel(),
                 Integer.toString(getInput().size()),
-                Integer.toString(getOutput().size())};
+                Integer.toString(getOutput().size()) };
         return array;
     }
 
     /**
-     * @see Object#hashCode() 
-     * {@inheritDoc}
+     * @see Object#hashCode()
+     *      {@inheritDoc}
      */
     public int hashCode() {
         return getName().hashCode();
@@ -366,21 +358,21 @@ public class CixsOperation {
 
     /**
      * Indicates whether some other operation is "equal to" this one.
-     *
+     * 
      * @param obj Object to be compared.
      * @return true if this object is the same as the obj argument; false
      *         otherwise..
      */
     public boolean equals(final Object obj) {
         return (obj != null) && (obj.getClass() == CixsOperation.class)
-        && ((CixsOperation) obj).getName().equals(getName());
+                && ((CixsOperation) obj).getName().equals(getName());
     }
 
     /**
      * Compares this object with the specified object for order. Returns a
      * negative integer, zero, or a positive integer as this object is less
      * than, equal to, or greater than the specified object.
-     *
+     * 
      * @param o Object to be compared.
      * @return A negative integer, zero, or a positive integer as this object
      *         is less than, equal to, or greater than the specified object.
@@ -396,6 +388,7 @@ public class CixsOperation {
     /**
      * A convenience method to return a valid class name built from this
      * operation name.
+     * 
      * @return a valid class name built from the operation name.
      */
     public String getClassName() {
@@ -465,13 +458,12 @@ public class CixsOperation {
     }
 
     /**
-     * @return the Class name for request holder (groups multiple input parts
-     * which happens only if channel/containers are supported)
-     * for single input operations this is the input type
+     * @return the Class name for request holder. Holders are needed when
+     *         there is more than one request structure.
      */
     public String getRequestHolderType() {
         if (mRequestHolderType == null || mRequestHolderType.length() == 0) {
-            if (hasChannel()) {
+            if (mInput.size() > 1) {
                 return getClassName() + DEFAULT_REQUEST_HOLDER_SUFFIX;
             } else {
                 if (mInput.size() > 0) {
@@ -483,21 +475,21 @@ public class CixsOperation {
         }
         return mRequestHolderType;
     }
-    
+
     /**
      * @return the JAXB namespace associated with the request holder.
      * @throws HostException if namespace cannot be identified
      */
     public String getRequestHolderNamespace() throws HostException {
-        if (!hasChannel() && mInput.size() > 0) {
-                return mInput.get(0).getJaxbNamespace();
+        if (mInput.size() == 1) {
+            return mInput.get(0).getJaxbNamespace();
         }
         return getNamespace();
     }
 
     /**
      * @param requestHolderType the Class name for request holder (groups
-     *  multiple input parts) to set
+     *            multiple input parts) to set
      */
     public void setRequestHolderType(final String requestHolderType) {
         mRequestHolderType = requestHolderType;
@@ -505,7 +497,7 @@ public class CixsOperation {
 
     /**
      * @return the Class name for request wrapper. If none was specified,
-     * build a name using operation class name and a suffix.
+     *         build a name using operation class name and a suffix.
      */
     public String getRequestWrapperType() {
         if (mRequestWrapperType == null || mRequestWrapperType.length() == 0) {
@@ -523,12 +515,12 @@ public class CixsOperation {
     }
 
     /**
-     * @return the Class name for response holder ((groups multiple output parts
-     * which happens only if channel/containers are supported)
+     * @return the Class name for response holder. Holders are needed when
+     *         there is more than one response structure.
      */
     public String getResponseHolderType() {
         if (mResponseHolderType == null || mResponseHolderType.length() == 0) {
-            if (hasChannel()) {
+            if (mOutput.size() > 1) {
                 return getClassName() + DEFAULT_RESPONSE_HOLDER_SUFFIX;
             } else {
                 if (mOutput.size() > 0) {
@@ -546,15 +538,15 @@ public class CixsOperation {
      * @throws HostException if namespace cannot be identified
      */
     public String getResponseHolderNamespace() throws HostException {
-        if (!hasChannel() && mOutput.size() > 0) {
-                return mOutput.get(0).getJaxbNamespace();
+        if (mOutput.size() == 1) {
+            return mOutput.get(0).getJaxbNamespace();
         }
         return getNamespace();
     }
 
     /**
      * @param responseHolderType the Class name for response holder (groups
-     *  multiple output parts) to set
+     *            multiple output parts) to set
      */
     public void setResponseHolderType(
             final String responseHolderType) {

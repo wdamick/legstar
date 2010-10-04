@@ -10,16 +10,19 @@
  ******************************************************************************/
 package com.legstar.coxb.transform;
 
+import java.io.Writer;
+
+import javax.xml.transform.Source;
 
 /**
  * A generic class that provides transformer capabilities for a given structure.
  * <p/>
- * A structure maps to an XSD and a COBOL structure.
- * This class does not implement the transformers, it acts as a container.
+ * A structure maps to an XSD and a COBOL structure. This class does not
+ * implement the transformers, it acts as a container.
  * <p/>
  * Classes derived from this one will typically implement a constructor that
  * creates the directional transformers, XML to host and host to XML.
- *
+ * 
  */
 public abstract class AbstractXmlTransformers implements IHostXmlTransformers {
 
@@ -28,16 +31,18 @@ public abstract class AbstractXmlTransformers implements IHostXmlTransformers {
 
     /** Transformer that turns host data into an XML. */
     private IHostToXmlTransformer mHostToXml;
-    
+
     /**
-     * No arg constructor. Caller is responsible for setting the internal transformers.
+     * No arg constructor. Caller is responsible for setting the internal
+     * transformers.
      */
     public AbstractXmlTransformers() {
-        
+
     }
-    
+
     /**
      * Creates a provider with its directional transformers.
+     * 
      * @param xmlToHost XML to host transformer
      * @param hostToXml host to XML transformer
      */
@@ -47,7 +52,7 @@ public abstract class AbstractXmlTransformers implements IHostXmlTransformers {
         mXmlToHost = xmlToHost;
         mHostToXml = hostToXml;
     }
- 
+
     /**
      * @return the transformer that turns a XML into host data
      */
@@ -76,4 +81,118 @@ public abstract class AbstractXmlTransformers implements IHostXmlTransformers {
         mHostToXml = hostToXml;
     }
 
+    /**
+     * Transforms XML to host data with a specific host character set.
+     * 
+     * @param source the XML Source to unmarshal XML data from (such as
+     *            SAXSource, DOMSource, and StreamSource)
+     * @param hostCharset the host character set
+     * @return a byte array with host data
+     * @throws HostTransformException if transformation fails
+     */
+    public byte[] toHost(final Source source, final String hostCharset)
+            throws HostTransformException {
+        return getXmlToHost().transform(source, hostCharset);
+    }
+
+    /**
+     * Transforms XML to host data.
+     * 
+     * @param source the XML Source to unmarshal XML data from (such as
+     *            SAXSource, DOMSource, and StreamSource)
+     * @return a byte array with host data
+     * @throws HostTransformException if transformation fails
+     */
+    public byte[] toHost(final Source source)
+            throws HostTransformException {
+        return getXmlToHost().transform(source);
+    }
+
+    /**
+     * Transforms host data to XML with a specific host character set.
+     * 
+     * @param hostData a byte array containing host data
+     * @param writer XML will be sent to this writer.
+     * @param hostCharset the host character set
+     * @throws HostTransformException if transformation fails
+     */
+    public void toXml(final byte[] hostData, final Writer writer,
+            final String hostCharset)
+            throws HostTransformException {
+        getHostToXml().transform(hostData, writer, hostCharset);
+    }
+
+    /**
+     * Transforms host data to XML.
+     * 
+     * @param hostData a byte array containing host data
+     * @param writer XML will be sent to this writer.
+     * @throws HostTransformException if transformation fails
+     */
+    public void toXml(final byte[] hostData, final Writer writer)
+            throws HostTransformException {
+        getHostToXml().transform(hostData, writer);
+    }
+
+    /**
+     * Transforms XML source to host data with a specific host character set.
+     * 
+     * @param source the XML Source to unmarshal XML data from (such as
+     *            SAXSource, DOMSource, and StreamSource)
+     * @param hostCharset the host character set
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @return a byte array with host data
+     * @throws HostTransformException if transformation fails
+     */
+    public byte[] toHost(final Source source, final String hostCharset,
+            final HostTransformStatus status) throws HostTransformException {
+        return getXmlToHost().transform(source, hostCharset, status);
+    }
+
+    /**
+     * Transforms XML source to host data.
+     * 
+     * @param source the XML Source to unmarshal XML data from (such as
+     *            SAXSource, DOMSource, and StreamSource)
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @return a byte array with host data
+     * @throws HostTransformException if transformation fails
+     */
+    public byte[] toHost(final Source source, final HostTransformStatus status)
+            throws HostTransformException {
+        return getXmlToHost().transform(source, status);
+    }
+
+    /**
+     * Transforms host data to XML using a specific host character set.
+     * 
+     * @param hostData a byte array containing host data
+     * @param writer XML will be sent to this writer.
+     * @param hostCharset the host character set
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @throws HostTransformException if transformation fails
+     */
+    public void toXml(final byte[] hostData, final Writer writer,
+            final String hostCharset,
+            final HostTransformStatus status) throws HostTransformException {
+        getHostToXml().transform(hostData, writer, hostCharset, status);
+    }
+
+    /**
+     * Transforms host data to XML.
+     * 
+     * @param hostData a byte array containing host data
+     * @param writer XML will be sent to this writer.
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @throws HostTransformException if transformation fails
+     */
+    public void toXml(final byte[] hostData, final Writer writer,
+            final HostTransformStatus status)
+            throws HostTransformException {
+        getHostToXml().transform(hostData, writer, status);
+    }
 }

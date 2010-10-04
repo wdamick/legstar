@@ -20,7 +20,7 @@
 ##
 #macro(getImportTypes $cixsStructures)
 #foreach ($cixsStructure in $cixsStructures)
-#if($cixsOperation.hasChannel() == false)
+#if($cixsStructures.size() == 1)
 #set($newType = ${helper.getQualClassName(${cixsStructure.jaxbPackageName}, ${cixsStructure.jaxbType})})
 #addUnique($importTypes $newType)
 #end

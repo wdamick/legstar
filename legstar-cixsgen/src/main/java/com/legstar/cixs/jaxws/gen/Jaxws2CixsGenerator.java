@@ -28,82 +28,82 @@ import com.legstar.coxb.host.HostException;
  * This Ant task creates the various Jaxws artifacts needed to implement
  * a Jaxws Web Service that acts as an adapter for a mainframe program.
  * Web service clients can consume this adapter as any other Web Service
- * but internally the adapter use the LegStar transport to call a 
+ * but internally the adapter use the LegStar transport to call a
  * a mainframe program.
  */
 public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
 
     /** This generator name. */
     public static final String JAXWS_TO_CIXS_GENERATOR_NAME =
-        "LegStar Mainframe Web Service adapter generator";
+            "LegStar Mainframe Web Service adapter generator";
 
     /** Velocity template for service interface. */
     public static final String SERVICE_INTERFACE_VLC_TEMPLATE =
-        "vlc/j2c-service-interface.vm";
+            "vlc/j2c-service-interface.vm";
 
     /** Velocity template for service implementation. */
     public static final String SERVICE_IMPLEMENTATION_VLC_TEMPLATE =
-        "vlc/j2c-service-implementation.vm";
+            "vlc/j2c-service-implementation.vm";
 
     /** Velocity template for service header. */
     public static final String SERVICE_HEADER_VLC_TEMPLATE =
-        "vlc/j2c-service-header.vm";
+            "vlc/j2c-service-header.vm";
 
     /** Velocity template for service ant-build-war. */
     public static final String SERVICE_ANT_BUILD_WAR_VLC_TEMPLATE =
-        "vlc/j2c-service-ant-build-war-xml.vm";
+            "vlc/j2c-service-ant-build-war-xml.vm";
 
     /** Velocity template for service ant-build-jar. */
     public static final String SERVICE_ANT_BUILD_JAR_VLC_TEMPLATE =
-        "vlc/j2c-service-ant-build-jar-xml.vm";
+            "vlc/j2c-service-ant-build-jar-xml.vm";
 
     /** Velocity template for service ant-deploy. */
     public static final String SERVICE_ANT_DEPLOY_VLC_TEMPLATE =
-        "vlc/j2c-service-ant-deploy-xml.vm";
+            "vlc/j2c-service-ant-deploy-xml.vm";
 
     /** Velocity template for service sun-jaxws-xml. */
     public static final String SERVICE_SUN_JAXWS_XML_VLC_TEMPLATE =
-        "vlc/j2c-service-sun-jaxws-xml.vm";
+            "vlc/j2c-service-sun-jaxws-xml.vm";
 
     /** Velocity template for service web-xml. */
     public static final String SERVICE_WEB_XML_VLC_TEMPLATE =
-        "vlc/j2c-service-web-xml.vm";
+            "vlc/j2c-service-web-xml.vm";
 
     /** Velocity template for package html. */
     public static final String SERVICE_PACKAGE_HTML_VLC_TEMPLATE =
-        "vlc/j2c-package-html.vm";
+            "vlc/j2c-package-html.vm";
 
     /** Velocity template for fault. */
     public static final String OPERATION_FAULT_VLC_TEMPLATE =
-        "vlc/j2c-operation-fault.vm";
+            "vlc/j2c-operation-fault.vm";
 
     /** Velocity template for fault info. */
     public static final String OPERATION_FAULT_INFO_VLC_TEMPLATE =
-        "vlc/j2c-operation-fault-info.vm";
+            "vlc/j2c-operation-fault-info.vm";
 
     /** Velocity template for holder. */
     public static final String OPERATION_HOLDER_VLC_TEMPLATE =
-        "vlc/j2c-operation-holder.vm";
+            "vlc/j2c-operation-holder.vm";
 
     /** Velocity template for host program bean. */
     public static final String OPERATION_HOST_PROGRAM_VLC_TEMPLATE =
-        "vlc/j2c-operation-host-program.vm";
+            "vlc/j2c-operation-host-program.vm";
 
     /** Velocity template for wrapper. */
     public static final String OPERATION_WRAPPER_VLC_TEMPLATE =
-        "vlc/j2c-operation-wrapper.vm";
+            "vlc/j2c-operation-wrapper.vm";
 
     /** Velocity template for operation invokers. */
     public static final String OPERATION_PROGRAM_INVOKER_VLC_TEMPLATE =
-        "vlc/j2c-operation-program-invoker.vm";
+            "vlc/j2c-operation-program-invoker.vm";
 
     /** Velocity template for service package-info.java. */
     public static final String SERVICE_PACKAGE_INFO_VLC_TEMPLATE =
-        "vlc/j2c-service-package-info.vm";
+            "vlc/j2c-service-package-info.vm";
 
     /** Velocity template for service ObjectFactory.java. */
     public static final String SERVICE_OBJECTFACTORY_VLC_TEMPLATE =
-        "vlc/j2c-service-objectfactory.vm";
+            "vlc/j2c-service-objectfactory.vm";
 
     /** The service model name is it appears in templates. */
     private static final String SERVICE_MODEL_NAME = "model";
@@ -111,12 +111,17 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
     /** Will be appended to service name to form a port name. */
     public static final String DEFAULT_WSDL_PORT_NAME_SUFFIX = "Port";
 
-    /** By default the web service name is built from component name and this
-     * suffix.*/
+    /**
+     * By default the web service name is built from component name and this
+     * suffix.
+     */
     public static final String DEFAULT_WSDL_SERVICE_NAME_SUFFIX = "Service";
 
-    /** By default the web service namespace is built from component name and this
-     * prefix.*/
+    /**
+     * By default the web service namespace is built from component name and
+     * this
+     * prefix.
+     */
     public static final String DEFAULT_WSDL_TARGET_NAMESPACE_PREFIX = "http://cixs.test.legstar.com";
 
     /**
@@ -126,34 +131,38 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
         super(new AntBuildJaxws2CixsModel());
     }
 
-    /** {@inheritDoc}*/
+    /** {@inheritDoc} */
     @Override
     public void addExtendedParameters(final Map < String, Object > parameters) {
         /* Contribute the web service parameters */
         getWebServiceParameters().add(parameters);
     }
 
-    /** {@inheritDoc}*/
+    /** {@inheritDoc} */
     @Override
     public void checkExtendedExtendedInput() throws CodeGenMakeException {
         try {
-            /* Check that we are provided with valid locations to
-             * generate in.*/
+            /*
+             * Check that we are provided with valid locations to
+             * generate in.
+             */
             CodeGenUtil.checkDirectory(
                     getTargetSrcDir(), true, "TargetSrcDir");
 
-            /* Check that we are provided with valid locations to
-             * reference.*/
+            /*
+             * Check that we are provided with valid locations to
+             * reference.
+             */
             if (getTargetBinDir() == null) {
                 throw (new IllegalArgumentException(
-                "TargetBinDir: No directory name was specified"));
+                        "TargetBinDir: No directory name was specified"));
             }
         } catch (IllegalArgumentException e) {
             throw new CodeGenMakeException(e);
         }
     }
 
-    /** {@inheritDoc}*/
+    /** {@inheritDoc} */
     @Override
     public void generateExtended(final Map < String, Object > parameters)
             throws CodeGenMakeException {
@@ -187,7 +196,6 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
         generateAntDeploy(
                 getCixsJaxwsService(), parameters, serviceAntFilesDir);
 
-
         for (CixsOperation operation : getCixsService().getCixsOperations()) {
 
             /* Determine target files locations */
@@ -212,6 +220,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
         generatePackageHtml(
                 getCixsJaxwsService(), parameters, serviceClassFilesDir);
     }
+
     /**
      * Generate default values where they are missing in the model. This
      * will reduce the amount of code in the velocity templates.
@@ -220,14 +229,15 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
      */
     protected void completeModel() {
         completeWebServiceParameters();
-        getCixsService().setNamespace(getWebServiceParameters().getWsdlTargetNamespace());
+        getCixsService().setNamespace(
+                getWebServiceParameters().getWsdlTargetNamespace());
         for (CixsOperation operation : getCixsService().getCixsOperations()) {
-            if (operation.getPackageName() == null 
+            if (operation.getPackageName() == null
                     || operation.getPackageName().length() == 0) {
                 operation.setPackageName(
                         getCixsJaxwsService().getPackageName());
             }
-            if (operation.getNamespace() == null 
+            if (operation.getNamespace() == null
                     || operation.getNamespace().length() == 0) {
                 operation.setNamespace(getCixsService().getNamespace());
             }
@@ -238,26 +248,29 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
      * Provide default values to expose this adapter as a Web Service.
      */
     protected void completeWebServiceParameters() {
-        if (getWebServiceParameters().getWsdlServiceName() ==  null
+        if (getWebServiceParameters().getWsdlServiceName() == null
                 || getWebServiceParameters().getWsdlServiceName().length() == 0) {
             getWebServiceParameters().setWsdlServiceName(
-                    getCixsService().getName() + DEFAULT_WSDL_SERVICE_NAME_SUFFIX);
+                    getCixsService().getName()
+                            + DEFAULT_WSDL_SERVICE_NAME_SUFFIX);
         }
-        if (getWebServiceParameters().getWsdlPortName() ==  null
+        if (getWebServiceParameters().getWsdlPortName() == null
                 || getWebServiceParameters().getWsdlPortName().length() == 0) {
             getWebServiceParameters().setWsdlPortName(
                     getCixsService().getName() + DEFAULT_WSDL_PORT_NAME_SUFFIX);
         }
-        if (getWebServiceParameters().getWsdlTargetNamespace() ==  null
+        if (getWebServiceParameters().getWsdlTargetNamespace() == null
                 || getWebServiceParameters().getWsdlTargetNamespace().length() == 0) {
             getWebServiceParameters().setWsdlTargetNamespace(
-                    DEFAULT_WSDL_TARGET_NAMESPACE_PREFIX 
-                    + '/' + getCixsService().getName());
+                    DEFAULT_WSDL_TARGET_NAMESPACE_PREFIX
+                            + '/' + getCixsService().getName());
         }
 
     }
+
     /**
      * Create the Jaxws Interface class file.
+     * 
      * @param service the Jaxws service description
      * @param parameters miscellaneous help parameters
      * @param serviceClassFilesDir where to store the generated file
@@ -267,7 +280,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
             final CixsJaxwsService service,
             final Map < String, Object > parameters,
             final File serviceClassFilesDir)
-    throws CodeGenMakeException {
+            throws CodeGenMakeException {
         generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
                 SERVICE_INTERFACE_VLC_TEMPLATE,
                 SERVICE_MODEL_NAME,
@@ -279,6 +292,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
 
     /**
      * Create a package level doc.
+     * 
      * @param service the Jaxws service description
      * @param parameters miscellaneous help parameters
      * @param serviceClassFilesDir where to store the generated file
@@ -288,17 +302,19 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
             final CixsJaxwsService service,
             final Map < String, Object > parameters,
             final File serviceClassFilesDir)
-    throws CodeGenMakeException {
+            throws CodeGenMakeException {
         generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
                 SERVICE_PACKAGE_HTML_VLC_TEMPLATE,
                 SERVICE_MODEL_NAME,
                 service,
                 parameters,
                 serviceClassFilesDir,
-        "package.html");
+                "package.html");
     }
+
     /**
      * Create the Jaxws Implementation class file.
+     * 
      * @param service the Jaxws service description
      * @param parameters miscellaneous help parameters
      * @param serviceClassFilesDir where to store the generated file
@@ -308,7 +324,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
             final CixsJaxwsService service,
             final Map < String, Object > parameters,
             final File serviceClassFilesDir)
-    throws CodeGenMakeException {
+            throws CodeGenMakeException {
         generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
                 SERVICE_IMPLEMENTATION_VLC_TEMPLATE,
                 SERVICE_MODEL_NAME,
@@ -320,6 +336,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
 
     /**
      * Create the Jaxws Header class file.
+     * 
      * @param service the Jaxws service description
      * @param parameters miscellaneous help parameters
      * @param serviceClassFilesDir where to store the generated file
@@ -329,7 +346,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
             final CixsJaxwsService service,
             final Map < String, Object > parameters,
             final File serviceClassFilesDir)
-    throws CodeGenMakeException {
+            throws CodeGenMakeException {
         generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
                 SERVICE_HEADER_VLC_TEMPLATE,
                 SERVICE_MODEL_NAME,
@@ -341,6 +358,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
 
     /**
      * Create the JAX-WS Ant Build War file.
+     * 
      * @param service the Jaxws service description
      * @param parameters miscellaneous help parameters
      * @param serviceAntFilesDir where to store the generated file
@@ -351,7 +369,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
             final CixsJaxwsService service,
             final Map < String, Object > parameters,
             final File serviceAntFilesDir)
-    throws CodeGenMakeException {
+            throws CodeGenMakeException {
         String fileName = "build-war.xml";
         generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
                 SERVICE_ANT_BUILD_WAR_VLC_TEMPLATE,
@@ -366,6 +384,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
 
     /**
      * Create the JAX-WS Ant Build jar file.
+     * 
      * @param service the Jaxws service description
      * @param parameters miscellaneous help parameters
      * @param serviceAntFilesDir where to store the generated file
@@ -376,7 +395,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
             final CixsJaxwsService service,
             final Map < String, Object > parameters,
             final File serviceAntFilesDir)
-    throws CodeGenMakeException {
+            throws CodeGenMakeException {
         String fileName = "build-jar.xml";
         generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
                 SERVICE_ANT_BUILD_JAR_VLC_TEMPLATE,
@@ -391,6 +410,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
 
     /**
      * Create the deploy Ant Build file.
+     * 
      * @param service the Jaxws service description
      * @param parameters miscellaneous help parameters
      * @param serviceAntFilesDir where to store the generated file
@@ -401,7 +421,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
             final CixsJaxwsService service,
             final Map < String, Object > parameters,
             final File serviceAntFilesDir)
-    throws CodeGenMakeException {
+            throws CodeGenMakeException {
         String fileName = "deploy.xml";
         generateFile(JAXWS_GENERATOR_NAME,
                 SERVICE_ANT_DEPLOY_VLC_TEMPLATE,
@@ -416,6 +436,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
 
     /**
      * Create the Jaxws Web Xml file.
+     * 
      * @param service the Jaxws service description
      * @param parameters miscellaneous help parameters
      * @param serviceWebFilesDir where to store the generated file
@@ -425,7 +446,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
             final CixsJaxwsService service,
             final Map < String, Object > parameters,
             final File serviceWebFilesDir)
-    throws CodeGenMakeException {
+            throws CodeGenMakeException {
         generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
                 SERVICE_WEB_XML_VLC_TEMPLATE,
                 SERVICE_MODEL_NAME,
@@ -465,6 +486,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
 
     /**
      * Create a fault class (Jaxws Exception).
+     * 
      * @param operation the cixs operation
      * @param parameters miscellaneous help parameters
      * @param operationClassFilesDir where to store the generated file
@@ -474,7 +496,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
             final CixsOperation operation,
             final Map < String, Object > parameters,
             final File operationClassFilesDir)
-    throws CodeGenMakeException {
+            throws CodeGenMakeException {
         generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
                 OPERATION_FAULT_VLC_TEMPLATE,
                 "cixsOperation",
@@ -486,6 +508,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
 
     /**
      * Create a fault info class.
+     * 
      * @param operation the cixs operation
      * @param parameters miscellaneous help parameters
      * @param operationClassFilesDir where to store the generated file
@@ -495,7 +518,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
             final CixsOperation operation,
             final Map < String, Object > parameters,
             final File operationClassFilesDir)
-    throws CodeGenMakeException {
+            throws CodeGenMakeException {
         generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
                 OPERATION_FAULT_INFO_VLC_TEMPLATE,
                 "cixsOperation",
@@ -507,6 +530,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
 
     /**
      * Create a wrapper class.
+     * 
      * @param operation the cixs operation
      * @param parameters miscellaneous help parameters
      * @param operationClassFilesDir where to store the generated file
@@ -516,7 +540,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
             final CixsOperation operation,
             final Map < String, Object > parameters,
             final File operationClassFilesDir)
-    throws CodeGenMakeException {
+            throws CodeGenMakeException {
 
         if (operation.getInput().size() > 0) {
             generateWrapper(operation, parameters, operationClassFilesDir,
@@ -538,6 +562,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
      * Generate a type of wrapper, either input or output, taking into
      * account multi-input and multi-output operations where the wrapper
      * actually wraps a holder.
+     * 
      * @param operation the cixs operation
      * @param parameters miscellaneous help parameters
      * @param operationClassFilesDir where to store the generated file
@@ -555,7 +580,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
             final String holderType,
             final String propertyName,
             final List < CixsStructure > structures)
-    throws CodeGenMakeException {
+            throws CodeGenMakeException {
 
         try {
             parameters.put("propertyName", propertyName);
@@ -563,21 +588,23 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
                     Locale.getDefault()));
             parameters.put("wrapperType", wrapperType);
 
-            if (operation.getCicsChannel() == null
-                    || operation.getCicsChannel().length() == 0) {
+            if (structures.size() > 1) {
+                parameters.put("fieldJaxbType", holderType);
+                parameters.put("fieldJaxbNamespace",
+                        parameters.get(
+                                WebServiceParameters
+                                .WSDL_TARGET_NAMESPACE_PROPERTY));
+            } else {
                 CixsStructure structure = structures.get(0);
                 if (structure.getJaxbPackageName() != null
                         && structure.getJaxbPackageName().length() > 0) {
                     parameters.put("importType",
                             structure.getJaxbPackageName()
-                            + '.' + structure.getJaxbType());
+                                    + '.' + structure.getJaxbType());
                 }
                 parameters.put("fieldJaxbType", structure.getJaxbType());
-                parameters.put("fieldJaxbNamespace", structure.getJaxbNamespace());
-            } else {
-                parameters.put("fieldJaxbType", holderType);
-                parameters.put("fieldJaxbNamespace",
-                        parameters.get(WebServiceParameters.WSDL_TARGET_NAMESPACE_PROPERTY));
+                parameters.put("fieldJaxbNamespace", structure
+                        .getJaxbNamespace());
             }
 
             generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
@@ -588,8 +615,10 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
                     operationClassFilesDir,
                     wrapperType + ".java");
 
-            /* Remove local parameters from the parameters list so that
-             * they don't interfere with a subsequent generation.*/
+            /*
+             * Remove local parameters from the parameters list so that
+             * they don't interfere with a subsequent generation.
+             */
             parameters.remove("propertyName");
             parameters.remove("fieldName");
             parameters.remove("wrapperType");
@@ -602,7 +631,8 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
     }
 
     /**
-     * Create a holder classes for channel/containers.
+     * Create a holder classes for multi-structures input or output.
+     * 
      * @param operation the cixs operation
      * @param parameters miscellaneous help parameters
      * @param operationClassFilesDir where to store the generated file
@@ -612,14 +642,9 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
             final CixsOperation operation,
             final Map < String, Object > parameters,
             final File operationClassFilesDir)
-    throws CodeGenMakeException {
+            throws CodeGenMakeException {
 
-        if (operation.getCicsChannel() == null
-                || operation.getCicsChannel().length() == 0) {
-            return;
-        }
-
-        if (operation.getInput().size() > 0) {
+        if (operation.getInput().size() > 1) {
             parameters.put("propertyName", "Request");
             generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
                     OPERATION_HOLDER_VLC_TEMPLATE,
@@ -629,7 +654,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
                     operationClassFilesDir,
                     operation.getRequestHolderType() + ".java");
         }
-        if (operation.getOutput().size() > 0) {
+        if (operation.getOutput().size() > 1) {
             parameters.put("propertyName", "Response");
             generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
                     OPERATION_HOLDER_VLC_TEMPLATE,
@@ -643,6 +668,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
 
     /**
      * Create a program invoker class.
+     * 
      * @param operation the cixs operation
      * @param parameters miscellaneous help parameters
      * @param operationClassFilesDir where to store the generated file
@@ -652,7 +678,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
             final CixsOperation operation,
             final Map < String, Object > parameters,
             final File operationClassFilesDir)
-    throws CodeGenMakeException {
+            throws CodeGenMakeException {
         generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
                 OPERATION_PROGRAM_INVOKER_VLC_TEMPLATE,
                 "cixsOperation",
@@ -664,6 +690,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
 
     /**
      * Create the host program bean.
+     * 
      * @param operation the cixs operation
      * @param parameters miscellaneous help parameters
      * @param operationClassFilesDir where to store the generated file
@@ -673,7 +700,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
             final CixsOperation operation,
             final Map < String, Object > parameters,
             final File operationClassFilesDir)
-    throws CodeGenMakeException {
+            throws CodeGenMakeException {
         generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
                 OPERATION_HOST_PROGRAM_VLC_TEMPLATE,
                 "cixsOperation",
@@ -685,6 +712,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
 
     /**
      * Create the Jaxb package-info.java class.
+     * 
      * @param service the Jaxws service description
      * @param parameters miscellaneous help parameters
      * @param serviceClassFilesDir where to store the generated file
@@ -695,7 +723,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
             final CixsJaxwsService service,
             final Map < String, Object > parameters,
             final File serviceClassFilesDir)
-    throws CodeGenMakeException {
+            throws CodeGenMakeException {
         String fileName = "package-info.java";
         generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
                 SERVICE_PACKAGE_INFO_VLC_TEMPLATE,
@@ -709,6 +737,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
 
     /**
      * Create the Jaxb ObjectFctory.java class.
+     * 
      * @param service the Jaxws service description
      * @param parameters miscellaneous help parameters
      * @param serviceClassFilesDir where to store the generated file
@@ -719,7 +748,7 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
             final CixsJaxwsService service,
             final Map < String, Object > parameters,
             final File serviceClassFilesDir)
-    throws CodeGenMakeException {
+            throws CodeGenMakeException {
         String fileName = "ObjectFactory.java";
         generateFile(JAXWS_TO_CIXS_GENERATOR_NAME,
                 SERVICE_OBJECTFACTORY_VLC_TEMPLATE,
@@ -733,17 +762,19 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
 
     /**
      * {@inheritDoc}
+     * 
      * @see com.legstar.cixs.gen.ant.AbstractCixsGenerator#getAntModel()
      */
     public AntBuildJaxws2CixsModel getAntModel() {
         return (AntBuildJaxws2CixsModel) super.getAntModel();
     }
 
-    /** {@inheritDoc}*/
+    /** {@inheritDoc} */
     @Override
     public String getGeneratorName() {
         return JAXWS_TO_CIXS_GENERATOR_NAME;
     }
+
     /**
      * @return the set of parameters needed to expose a Web Service
      */
@@ -752,7 +783,8 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
     }
 
     /**
-     * @param webServiceParameters the set of parameters needed to expose a Web Service to set
+     * @param webServiceParameters the set of parameters needed to expose a Web
+     *            Service to set
      */
     public void setWebServiceParameters(
             final WebServiceParameters webServiceParameters) {
@@ -760,12 +792,12 @@ public class Jaxws2CixsGenerator extends AbstractCixsJaxwsGenerator {
     }
 
     /**
-     * @param webServiceParameters the set of parameters needed to expose a Web Service to set
+     * @param webServiceParameters the set of parameters needed to expose a Web
+     *            Service to set
      */
     public void addWebServiceParameters(
             final WebServiceParameters webServiceParameters) {
         getAntModel().setWebServiceParameters(webServiceParameters);
     }
-
 
 }

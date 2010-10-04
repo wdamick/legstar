@@ -70,4 +70,68 @@ public interface IHostToJsonTransformer {
             final byte[] hostData,
             final int offset,
             final Writer writer) throws HostTransformException;
+
+    /**
+     * Transforms host data to JSON with a specific host character set.
+     * 
+     * @param hostData a byte array containing host data
+     * @param writer JSON will be sent to this writer.
+     * @param hostCharset the host character set
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @throws HostTransformException if transformation fails
+     */
+    void transform(
+            final byte[] hostData,
+            final Writer writer,
+            final String hostCharset,
+            final HostTransformStatus status) throws HostTransformException;
+
+    /**
+     * Transforms host data to JSON with a specific host character set.
+     * 
+     * @param hostData a byte array containing host data
+     * @param offset index of first byte to process in hostData
+     * @param writer JSON will be sent to this writer.
+     * @param hostCharset the host character set
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @throws HostTransformException if transformation fails
+     */
+    void transform(
+            final byte[] hostData,
+            final int offset,
+            final Writer writer,
+            final String hostCharset,
+            final HostTransformStatus status) throws HostTransformException;
+
+    /**
+     * Transforms host data to JSON.
+     * 
+     * @param hostData a byte array containing host data
+     * @param writer JSON will be sent to this writer.
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @throws HostTransformException if transformation fails
+     */
+    void transform(
+            final byte[] hostData,
+            final Writer writer,
+            final HostTransformStatus status) throws HostTransformException;
+
+    /**
+     * Transforms host data to JSON.
+     * 
+     * @param hostData a byte array containing host data
+     * @param offset index of first byte to process in hostData
+     * @param writer JSON will be sent to this writer.
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @throws HostTransformException if transformation fails
+     */
+    void transform(
+            final byte[] hostData,
+            final int offset,
+            final Writer writer,
+            final HostTransformStatus status) throws HostTransformException;
 }

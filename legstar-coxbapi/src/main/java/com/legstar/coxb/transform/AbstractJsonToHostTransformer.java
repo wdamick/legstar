@@ -62,16 +62,47 @@ public abstract class AbstractJsonToHostTransformer implements
      * 
      * @param reader the JSON Reader to unmarshal JSON data from
      * @param hostCharset the host character set
+     * @param status will contain information on the transformation after it is
+     *            executed
      * @return a byte array with host data
      * @throws HostTransformException if transformation fails
      */
-    public byte[] transform(final Reader reader, final String hostCharset)
+    public byte[] transform(final Reader reader, final String hostCharset,
+            final HostTransformStatus status)
             throws HostTransformException {
         if (_log.isDebugEnabled()) {
             _log.debug("Transforming JSON to host data:");
         }
         return getJavaToHostTransformer().transform(getObjectFromJson(reader),
-                hostCharset);
+                hostCharset, status);
+    }
+
+    /**
+     * Transforms JSON to host data with a specific host character set.
+     * 
+     * @param reader the JSON Reader to unmarshal JSON data from
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @return a byte array with host data
+     * @throws HostTransformException if transformation fails
+     */
+    public byte[] transform(final Reader reader,
+            final HostTransformStatus status)
+            throws HostTransformException {
+        return transform(reader, (String) null, status);
+    }
+
+    /**
+     * Transforms JSON to host data with a specific host character set.
+     * 
+     * @param reader the JSON Reader to unmarshal JSON data from
+     * @param hostCharset the host character set
+     * @return a byte array with host data
+     * @throws HostTransformException if transformation fails
+     */
+    public byte[] transform(final Reader reader, final String hostCharset)
+            throws HostTransformException {
+        return transform(reader, hostCharset, new HostTransformStatus());
     }
 
     /**
@@ -82,7 +113,7 @@ public abstract class AbstractJsonToHostTransformer implements
      * @throws HostTransformException if transformation fails
      */
     public byte[] transform(final Reader reader) throws HostTransformException {
-        return transform(reader, null);
+        return transform(reader, (String) null);
     }
 
     /**

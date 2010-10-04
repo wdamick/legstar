@@ -132,6 +132,8 @@
         <antcall target="generateServiceCustom">
         	<param name="service" value="redbotha"/>
         </antcall>
+        <antcall target="generateLsfileac1Service"/>
+        <antcall target="generateLsfileamService"/>
     </target>
 
     <!-- ===========================================================  -->
@@ -321,6 +323,91 @@
                 <cixsOperation name="lsfileac"
                     cicsProgramName="lsfileac"
                     cicsChannel="LSFILEAC-CHANNEL">
+                    <input
+                        jaxbType="QueryData"
+                        jaxbPackageName="${jaxb.package.pfx}.lsfileac"
+                        cicsContainer="QueryData"
+                    />
+                    <input
+                        jaxbType="QueryLimit"
+                        jaxbPackageName="${jaxb.package.pfx}.lsfileac"
+                        cicsContainer="QueryLimit"
+                    />
+                    <output
+                        jaxbType="ReplyStatus"
+                        jaxbPackageName="${jaxb.package.pfx}.lsfileac"
+                        cicsContainer="ReplyStatus"
+                    />
+                    <output
+                        jaxbType="ReplyData"
+                        jaxbPackageName="${jaxb.package.pfx}.lsfileac"
+                        cicsContainer="ReplyData"
+                    />
+                </cixsOperation>
+            </cixsJaxwsService>
+        </jaxws2cixsgen>
+    
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- This step creates a Web Service for Lsfileac1 which is
+         container driven but uses single input/output containers.   -->
+    
+    <target name="generateLsfileac1Service">
+    
+        <jaxws2cixsgen targetSrcDir="${cixs.src.dir}"
+            targetBinDir="${cixs.bin.dir}"
+            targetWDDDir="${res.dir}/lsfileac1/${wdd.dir}"
+            targetDistDir="${dist.dir}"
+            targetAntDir="${res.dir}/lsfileac1/${ant.dir}"
+            targetWarDir="${war.dir}"
+            jaxbBinDir="${jaxb.bin.dir}"
+            coxbBinDir="${coxb.bin.dir}"
+            custBinDir="${cust.bin.dir}"
+            >
+            <cixsJaxwsService name="lsfileac1"
+                packageName="${cixs.package.pfx}.lsfileac1"
+            >
+                <cixsOperation name="lsfileac1"
+                    cicsProgramName="lsfileac"
+                    cicsChannel="LSFILEAC-CHANNEL">
+                    <input
+                        jaxbType="QueryLimit"
+                        jaxbPackageName="${jaxb.package.pfx}.lsfileac"
+                        cicsContainer="QueryLimit"
+                    />
+                    <output
+                        jaxbType="ReplyStatus"
+                        jaxbPackageName="${jaxb.package.pfx}.lsfileac"
+                        cicsContainer="ReplyStatus"
+                    />
+                </cixsOperation>
+            </cixsJaxwsService>
+        </jaxws2cixsgen>
+    
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- This step creates a Web Service for Lsfileam which is
+         commarea driven but has multiple input and output structures.   -->
+    
+    <target name="generateLsfileamService">
+    
+        <jaxws2cixsgen targetSrcDir="${cixs.src.dir}"
+            targetBinDir="${cixs.bin.dir}"
+            targetWDDDir="${res.dir}/lsfileam/${wdd.dir}"
+            targetDistDir="${dist.dir}"
+            targetAntDir="${res.dir}/lsfileam/${ant.dir}"
+            targetWarDir="${war.dir}"
+            jaxbBinDir="${jaxb.bin.dir}"
+            coxbBinDir="${coxb.bin.dir}"
+            custBinDir="${cust.bin.dir}"
+            >
+            <cixsJaxwsService name="lsfileam"
+                packageName="${cixs.package.pfx}.lsfileam"
+            >
+                <cixsOperation name="lsfileam"
+                    cicsProgramName="lsfileam">
                     <input
                         jaxbType="QueryData"
                         jaxbPackageName="${jaxb.package.pfx}.lsfileac"

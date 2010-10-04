@@ -10,6 +10,9 @@
  ******************************************************************************/
 package com.legstar.coxb.transform;
 
+import java.io.Reader;
+import java.io.Writer;
+
 /**
  * A generic class that provides transformer capabilities for a given structure.
  * <p/>
@@ -77,6 +80,116 @@ public abstract class AbstractJsonTransformers implements IHostJsonTransformers 
      */
     public void setHostToJson(final IHostToJsonTransformer hostToJson) {
         _hostToJson = hostToJson;
+    }
+
+    /**
+     * Transforms JSON to host data with a specific host character set.
+     * 
+     * @param reader the JSON Reader to unmarshal JSON data from
+     * @param hostCharset the host character set
+     * @return a byte array with host data
+     * @throws HostTransformException if transformation fails
+     */
+    public byte[] toHost(final Reader reader, final String hostCharset)
+            throws HostTransformException {
+        return getJsonToHost().transform(reader, hostCharset);
+    }
+
+    /**
+     * Transforms JSON to host data.
+     * 
+     * @param reader the JSON reader to unmarshal JSON data from
+     * @return a byte array with host data
+     * @throws HostTransformException if transformation fails
+     */
+    public byte[] toHost(final Reader reader)
+            throws HostTransformException {
+        return getJsonToHost().transform(reader);
+    }
+
+    /**
+     * Transforms host data to JSON with a specific host character set.
+     * 
+     * @param hostData a byte array containing host data
+     * @param writer JSON will be sent to this writer.
+     * @param hostCharset the host character set
+     * @throws HostTransformException if transformation fails
+     */
+    public void toJson(final byte[] hostData, final Writer writer,
+            final String hostCharset)
+            throws HostTransformException {
+        getHostToJson().transform(hostData, writer, hostCharset);
+    }
+
+    /**
+     * Transforms host data to JSON.
+     * 
+     * @param hostData a byte array containing host data
+     * @param writer JSON will be sent to this writer.
+     * @throws HostTransformException if transformation fails
+     */
+    public void toJson(final byte[] hostData, final Writer writer)
+            throws HostTransformException {
+        getHostToJson().transform(hostData, writer);
+    }
+
+    /**
+     * Transforms JSON source to host data with a specific host character set.
+     * 
+     * @param reader the JSON Reader to unmarshal JSON data from
+     * @param hostCharset the host character set
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @return a byte array with host data
+     * @throws HostTransformException if transformation fails
+     */
+    public byte[] toHost(final Reader reader, final String hostCharset,
+            final HostTransformStatus status) throws HostTransformException {
+        return getJsonToHost().transform(reader, hostCharset, status);
+    }
+
+    /**
+     * Transforms JSON source to host data.
+     * 
+     * @param reader the JSON Reader to unmarshal JSON data from
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @return a byte array with host data
+     * @throws HostTransformException if transformation fails
+     */
+    public byte[] toHost(final Reader reader, final HostTransformStatus status)
+            throws HostTransformException {
+        return getJsonToHost().transform(reader, status);
+    }
+
+    /**
+     * Transforms host data to JSON using a specific host character set.
+     * 
+     * @param hostData a byte array containing host data
+     * @param writer JSON will be sent to this writer.
+     * @param hostCharset the host character set
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @throws HostTransformException if transformation fails
+     */
+    public void toJson(final byte[] hostData, final Writer writer,
+            final String hostCharset,
+            final HostTransformStatus status) throws HostTransformException {
+        getHostToJson().transform(hostData, writer, hostCharset, status);
+    }
+
+    /**
+     * Transforms host data to JSON.
+     * 
+     * @param hostData a byte array containing host data
+     * @param writer JSON will be sent to this writer.
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @throws HostTransformException if transformation fails
+     */
+    public void toJson(final byte[] hostData, final Writer writer,
+            final HostTransformStatus status) throws HostTransformException {
+        getHostToJson().transform(hostData, writer, status);
     }
 
 }

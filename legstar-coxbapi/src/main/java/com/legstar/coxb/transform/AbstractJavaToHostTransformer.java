@@ -21,38 +21,44 @@ import com.legstar.coxb.host.HostException;
 /**
  * Generic methods to transform java value object to host data.
  * <p/>
- * Implementing classes should inherit from AbstractJavaToHostTransformer and implement
- * the getBinding method.
+ * Implementing classes should inherit from AbstractJavaToHostTransformer and
+ * implement the getBinding method.
  * <p/>
  * This is sample code with dynamic binding:
+ * 
  * <pre>
- * public class JavaToHostLsfileaeTransformer extends AbstractJavaToHostTransformer {
- *      public ICobolComplexBinding getBinding() throws BindingException {
- *          try {
- *              CComplexReflectBinding binding = new CComplexReflectBinding(
+ * public class JavaToHostLsfileaeTransformer extends
+ *         AbstractJavaToHostTransformer {
+ *     public ICobolComplexBinding getBinding() throws BindingException {
+ *         try {
+ *             CComplexReflectBinding binding = new CComplexReflectBinding(
  *                      new com.legstar.test.coxb.lsfileae.ObjectFactory(),
  *                      com.legstar.test.coxb.lsfileae.Dfhcommarea.class);
- *              return binding;
- *          } catch (ReflectBindingException e) {
- *              throw new BindingException(e);
- *          }
- *      }
- *  }
+ *             return binding;
+ *         } catch (ReflectBindingException e) {
+ *             throw new BindingException(e);
+ *         }
+ *     }
+ * }
  * </pre>
  * <p/>
  * This is sample code with static binding:
+ * 
  * <pre>
- * public class JavaToHostLsfileaeTransformer extends AbstractJavaToHostTransformer {
- *      public ICobolComplexBinding getBinding() throws BindingException {
- *          return new com.legstar.test.coxb.lsfileae.DfhcommareaBinding();
- *      }
- *  }
+ * public class JavaToHostLsfileaeTransformer extends
+ *         AbstractJavaToHostTransformer {
+ *     public ICobolComplexBinding getBinding() throws BindingException {
+ *         return new com.legstar.test.coxb.lsfileae.DfhcommareaBinding();
+ *     }
+ * }
  * </pre>
  */
-public abstract class AbstractJavaToHostTransformer extends AbstractTransformer implements IJavaToHostTransformer {
+public abstract class AbstractJavaToHostTransformer extends AbstractTransformer
+        implements IJavaToHostTransformer {
 
     /** Logger. */
-    private final Log _log = LogFactory.getLog(AbstractJavaToHostTransformer.class);
+    private final Log _log = LogFactory
+            .getLog(AbstractJavaToHostTransformer.class);
 
     /**
      * Create a Java to Host transformer using default COBOL parameters.
@@ -62,8 +68,10 @@ public abstract class AbstractJavaToHostTransformer extends AbstractTransformer 
     }
 
     /**
-     * Create a Java to Host transformer using a specific host character set while
+     * Create a Java to Host transformer using a specific host character set
+     * while
      * other COBOL parameters are set by default.
+     * 
      * @param hostCharset the host character set
      */
     public AbstractJavaToHostTransformer(final String hostCharset) {
@@ -72,6 +80,7 @@ public abstract class AbstractJavaToHostTransformer extends AbstractTransformer 
 
     /**
      * Create a Java to Host transformer using a specific COBOL parameters set.
+     * 
      * @param cobolContext the COBOL parameters set.
      */
     public AbstractJavaToHostTransformer(final CobolContext cobolContext) {
@@ -80,25 +89,60 @@ public abstract class AbstractJavaToHostTransformer extends AbstractTransformer 
 
     /**
      * Transforms java to host data with a specific host character set.
+     * 
      * @param valueObject a java value object
      * @param hostCharset the host character set
      * @return a byte array with host data
      * @throws HostTransformException if transformation fails
      */
-    public byte[] transform(final Object valueObject, final String hostCharset) throws HostTransformException {
+    public byte[] transform(final Object valueObject, final String hostCharset)
+            throws HostTransformException {
+        return transform(valueObject, hostCharset, new HostTransformStatus());
+    }
+
+    /**
+     * Transforms java to host data with a specific host character set.
+     * 
+     * @param valueObject a java value object
+     * @param hostCharset the host character set
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @return a byte array with host data
+     * @throws HostTransformException if transformation fails
+     */
+    public byte[] transform(final Object valueObject, final String hostCharset,
+            final HostTransformStatus status) throws HostTransformException {
         if (hostCharset != null && hostCharset.length() > 0) {
-            getCobolConverters().getCobolContext().setHostCharsetName(hostCharset);
+            getCobolConverters().getCobolContext().setHostCharsetName(
+                    hostCharset);
         }
-        return transform(valueObject);
+        return transform(valueObject, status);
     }
 
     /**
      * Transforms java data object to host data.
+     * 
      * @param valueObject a java value object
      * @return a byte array with host data
      * @throws HostTransformException if transformation fails
      */
-    public byte[] transform(final Object valueObject) throws HostTransformException {
+    public byte[] transform(final Object valueObject)
+            throws HostTransformException {
+        return transform(valueObject, new HostTransformStatus());
+    }
+
+    /**
+     * Transforms java data object to host data.
+     * 
+     * @param valueObject a java value object
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @return a byte array with host data
+     * @throws HostTransformException if transformation fails
+     */
+    public byte[] transform(final Object valueObject,
+            final HostTransformStatus status)
+            throws HostTransformException {
 
         long start = System.currentTimeMillis();
         if (_log.isDebugEnabled()) {
@@ -110,26 +154,36 @@ public abstract class AbstractJavaToHostTransformer extends AbstractTransformer 
             ICobolComplexBinding binding = getCachedBinding();
             binding.setObjectValue(valueObject);
 
-            /* Allocate a byte array large enough to accommodate the largest object. */
+            /*
+             * Allocate a byte array large enough to accommodate the largest
+             * object.
+             */
             int size = binding.getByteLength();
             byte[] hostData = new byte[size];
 
             /* create the outbound buffer by marshalling the java object tree */
-            CobolElementVisitor marshaler = getCobolBindingVisitorsFactory().createMarshalVisitor(
-                hostData, 0, getCobolConverters());
+            CobolElementVisitor marshaler = getCobolBindingVisitorsFactory()
+                    .createMarshalVisitor(
+                            hostData, 0, getCobolConverters());
 
-            /* Traverse the object structure, visiting each node with the visitor */
+            /*
+             * Traverse the object structure, visiting each node with the
+             * visitor
+             */
             binding.accept(marshaler);
 
             /* Get the actual bytes marshalled */
             int bytesMarshalled = marshaler.getOffset();
 
-            /* If the byte array was allocated too large (this happens with
-             * variable size arrays for instance), reallocate. */
+            /*
+             * If the byte array was allocated too large (this happens with
+             * variable size arrays for instance), reallocate.
+             */
             byte[] adjustedHostData;
             if (bytesMarshalled < size) {
                 adjustedHostData = new byte[bytesMarshalled];
-                System.arraycopy(hostData, 0, adjustedHostData, 0, bytesMarshalled);
+                System.arraycopy(hostData, 0, adjustedHostData, 0,
+                        bytesMarshalled);
             } else {
                 adjustedHostData = hostData;
             }
@@ -141,6 +195,7 @@ public abstract class AbstractJavaToHostTransformer extends AbstractTransformer 
                         + "elapse:"
                         + Long.toString(end - start) + " ms");
             }
+            status.setHostBytesProcessed(bytesMarshalled);
 
             return adjustedHostData;
 
@@ -149,4 +204,4 @@ public abstract class AbstractJavaToHostTransformer extends AbstractTransformer 
         }
     }
 
- }
+}

@@ -29,15 +29,17 @@ import com.legstar.test.cixs.MSNSearchOperationCases;
  */
 public final class Samples {
 
-    /** Service classes package name prefix.*/
+    /** Service classes package name prefix. */
     private static final String CIXS_PACKAGE_PREFIX = "com.legstar.test.cixs.";
 
-    /** Utility class.*/
+    /** Utility class. */
     private Samples() {
-        
+
     }
+
     /**
      * Case with a regular commarea.
+     * 
      * @return a service with a single operation mapping LSFILEAE
      */
     public static CixsJaxwsService getLsfileae() {
@@ -50,6 +52,7 @@ public final class Samples {
 
     /**
      * Case with different input and output commareas.
+     * 
      * @return a service with a single operation mapping LSFILEAL
      */
     public static CixsJaxwsService getLsfileal() {
@@ -62,6 +65,7 @@ public final class Samples {
 
     /**
      * Case with with multiple input and output containers.
+     * 
      * @return a service with a single operation mapping LSFILEAC
      */
     public static CixsJaxwsService getLsfileac() {
@@ -74,8 +78,9 @@ public final class Samples {
 
     /**
      * Case with with multiple operations.
+     * 
      * @return a service with 2 operations, one mapping to LEFILEAE, the second
-     * one to LSFILEAC
+     *         one to LSFILEAC
      */
     public static CixsJaxwsService getLsfileax() {
         CixsJaxwsService service = getNewService("lsfileax");
@@ -90,14 +95,15 @@ public final class Samples {
 
     /**
      * Case where the operation has a different package than the service.
+     * 
      * @return a service with a single operation mapping LSFILEAE
-     *  */
+     * */
     public static CixsJaxwsService getLsfilean() {
         CixsJaxwsService service = getNewService("lsfilean");
-        CixsOperation operation = 
-            LsfileaeOperationCases.getOperation(
-                    service.getName(),
-                    CIXS_PACKAGE_PREFIX + "oper." + "lsfilean");
+        CixsOperation operation =
+                LsfileaeOperationCases.getOperation(
+                        service.getName(),
+                        CIXS_PACKAGE_PREFIX + "oper." + "lsfilean");
         service.getCixsOperations().add(operation);
         return service;
     }
@@ -105,8 +111,9 @@ public final class Samples {
     /**
      * Case where there is no operation package names (not even one inherited
      * from the service).
+     * 
      * @return a service with a single operation mapping LSFILEAE
-     *  */
+     * */
     public static CixsJaxwsService getLsfileap() {
         CixsJaxwsService service = getNewService("lsfileap");
         CixsOperation operation = LsfileaeOperationCases.getOperation(
@@ -118,11 +125,12 @@ public final class Samples {
 
     /**
      * Case with with single input and output containers.
+     * 
      * @return a service with a single operation mapping LSFILEAC but using only
-     * one of the containers on input and on output
-     *  */
-    public static CixsJaxwsService getLsfileaq() {
-        CixsJaxwsService service = getNewService("lsfileaq");
+     *         one of the containers on input and on output
+     * */
+    public static CixsJaxwsService getLsfileac1() {
+        CixsJaxwsService service = getNewService("lsfileac1");
         CixsOperation operation = LsfileacOperationCases.getOperation(
                 service.getName(), service.getPackageName());
         operation.getInput().remove(1);
@@ -133,6 +141,7 @@ public final class Samples {
 
     /**
      * Case with an adapter with custom code.
+     * 
      * @return a service with custom code
      */
     public static CixsJaxwsService getDplarcht() {
@@ -145,8 +154,10 @@ public final class Samples {
 
     /**
      * Case of a POJO exposed to mainframe via a Web Service proxy.
-     * @return a service with a single operation mapping Jvmquery queryJvm method
-     *  */
+     * 
+     * @return a service with a single operation mapping Jvmquery queryJvm
+     *         method
+     * */
     public static CixsJaxwsService getJvmqueryWs() {
         CixsJaxwsService service = getNewService("jvmqueryWs");
         service.getCixsOperations().add(
@@ -157,8 +168,10 @@ public final class Samples {
 
     /**
      * Case of a POJO exposed to mainframe.
-     * @return a service with a single operation mapping Jvmquery queryJvm method
-     *  */
+     * 
+     * @return a service with a single operation mapping Jvmquery queryJvm
+     *         method
+     * */
     public static CixsJaxwsService getJvmquery() {
         CixsJaxwsService service = getNewService("jvmquery");
         service.getCixsOperations().add(
@@ -169,8 +182,10 @@ public final class Samples {
 
     /**
      * Case of a Web Service exposed to mainframe.
-     * @return a service with a single operation mapping Cultureinfo getInfo operation
-     *  */
+     * 
+     * @return a service with a single operation mapping Cultureinfo getInfo
+     *         operation
+     * */
     public static CixsJaxwsService getCultureInfo() {
         CixsJaxwsService service = getNewService("cultureinfo");
         service.getCixsOperations().add(
@@ -181,8 +196,10 @@ public final class Samples {
 
     /**
      * Case of a Web Service exposed to mainframe.
-     * @return a service with a single operation mapping MSNSearch search operation
-     *  */
+     * 
+     * @return a service with a single operation mapping MSNSearch search
+     *         operation
+     * */
     public static CixsJaxwsService getMSNSearch() {
         CixsJaxwsService service = getNewService("MSNSearch");
         service.getCixsOperations().add(
@@ -193,6 +210,7 @@ public final class Samples {
 
     /**
      * Create a service without any operations.
+     * 
      * @param serviceName the service name
      * @return a new service
      */
@@ -206,18 +224,20 @@ public final class Samples {
         model.setName(serviceName);
         return model;
     }
-    
+
     /**
      * @return target web service parameters for cultureinfo
      */
     public static WebServiceParameters getCultureinfoWebServiceParameters() {
         WebServiceParameters webServiceParameters = new WebServiceParameters();
-        webServiceParameters.setWsdlUrl("http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl");
-        webServiceParameters.setWsdlTargetNamespace("http://cultureinfo.cases.test.xsdc.legstar.com/");
+        webServiceParameters
+                .setWsdlUrl("http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl");
+        webServiceParameters
+                .setWsdlTargetNamespace("http://cultureinfo.cases.test.xsdc.legstar.com/");
         webServiceParameters.setWsdlServiceName("CultureInfoImplService");
         webServiceParameters.setWsdlPortName("CultureInfoImplPort");
         return webServiceParameters;
-        
+
     }
 
     /**
@@ -225,9 +245,10 @@ public final class Samples {
      */
     public static PojoParameters getJvmqueryPojoParameters() {
         PojoParameters pojoParameters = new PojoParameters();
-        pojoParameters.setClassName("com.legstar.xsdc.test.cases.jvmquery.JVMQuery");
+        pojoParameters
+                .setClassName("com.legstar.xsdc.test.cases.jvmquery.JVMQuery");
         pojoParameters.setMethodName("queryJvm");
         return pojoParameters;
-        
+
     }
 }
