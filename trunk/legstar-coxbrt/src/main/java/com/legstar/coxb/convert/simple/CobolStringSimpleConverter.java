@@ -25,18 +25,18 @@ import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
 
 /**
- * This is a concrete implementation of marshal/unmarshal operations of java 
+ * This is a concrete implementation of marshal/unmarshal operations of java
  * strings to cobol character strings.
- *
+ * 
  * @author Fady Moussallam
  * 
  */
 public class CobolStringSimpleConverter extends CobolSimpleConverter
-implements ICobolStringConverter {
-
+        implements ICobolStringConverter {
 
     /** Detects a string content as binary data. */
-    private static final Pattern BINARY_CONTENT_PATTERN = Pattern.compile("0x[\\da-fA-F]+");
+    private static final Pattern BINARY_CONTENT_PATTERN = Pattern
+            .compile("0x[\\da-fA-F]+");
 
     /**
      * @param cobolContext the Cobol compiler parameters in effect
@@ -51,7 +51,7 @@ implements ICobolStringConverter {
             final ICobolStringBinding ce,
             final byte[] hostTarget,
             final int offset)
-    throws HostException {
+            throws HostException {
         int newOffset = 0;
         try {
             newOffset = toHostSingle(ce.getStringValue(),
@@ -72,7 +72,7 @@ implements ICobolStringConverter {
             final byte[] hostTarget,
             final int offset,
             final int currentOccurs)
-    throws HostException {
+            throws HostException {
         int newOffset = offset;
         try {
             for (String javaSource : ce.getStringList()) {
@@ -84,8 +84,7 @@ implements ICobolStringConverter {
                         newOffset);
             }
             /* If necessary, fill in the array with missing items */
-            for (int i = ce.getStringList().size();
-            i < currentOccurs; i++) {
+            for (int i = ce.getStringList().size(); i < currentOccurs; i++) {
                 newOffset = toHostSingle("",
                         getCobolContext().getHostCharsetName(),
                         ce.getItemByteLength(),
@@ -104,7 +103,7 @@ implements ICobolStringConverter {
             final ICobolStringBinding ce,
             final byte[] hostSource,
             final int offset)
-    throws HostException {
+            throws HostException {
         int newOffset = offset;
         try {
             String javaString = fromHostSingle(
@@ -126,7 +125,7 @@ implements ICobolStringConverter {
             final byte[] hostSource,
             final int offset,
             final int currentOccurs)
-    throws HostException {
+            throws HostException {
         List < String > lArray = new ArrayList < String >();
         int newOffset = offset;
         try {
@@ -147,11 +146,11 @@ implements ICobolStringConverter {
     }
 
     /**
-     *  Converts a Java String to a host character stream using the host
-     *  character set unless content represents binary data.
-     *  <p>
-     *  Any character string following this pattern: '0x[\\da-fA-F]+' is
-     *  interpreted as binary content.
+     * Converts a Java String to a host character stream using the host
+     * character set unless content represents binary data.
+     * <p>
+     * Any character string following this pattern: '0x[\\da-fA-F]+' is
+     * interpreted as binary content.
      * 
      * @param javaString java string to convert
      * @param hostCharsetName host character set
@@ -169,7 +168,7 @@ implements ICobolStringConverter {
             final boolean isJustifiedRight,
             final byte[] hostTarget,
             final int offset)
-    throws CobolConversionException {
+            throws CobolConversionException {
 
         /* Check that we are still within the host target range */
         int lastOffset = offset + cobolByteLength;
@@ -183,8 +182,10 @@ implements ICobolStringConverter {
         byte[] hostSource = new byte[0];
         byte padChar;
 
-        /* If data being passed represent binary content convert from
-         * hex string otherwise use the host charset for conversion.*/
+        /*
+         * If data being passed represent binary content convert from
+         * hex string otherwise use the host charset for conversion.
+         */
         if (isBinaryContent(javaString)) {
             padChar = 0x0;
             hostSource = HostData.toByteArray(javaString.substring(2));
@@ -200,19 +201,22 @@ implements ICobolStringConverter {
             }
         }
 
-        /* The target host element might be larger than the converted java
-         * String and might have to be right or left justified. */
+        /*
+         * The target host element might be larger than the converted java
+         * String and might have to be right or left justified.
+         */
         int leftPadIndex = offset;
         int rightPadIndex = lastOffset;
-        
+
         if (hostSource.length < cobolByteLength) {
             if (isJustifiedRight) {
                 leftPadIndex = offset + cobolByteLength - hostSource.length;
             } else {
-                rightPadIndex = lastOffset - 1 - cobolByteLength + hostSource.length;
+                rightPadIndex = lastOffset - 1 - cobolByteLength
+                        + hostSource.length;
             }
         }
-        
+
         int iSource = 0;
         for (int iTarget = offset; iTarget < lastOffset; iTarget++) {
             if (iTarget < leftPadIndex || iTarget > rightPadIndex) {
@@ -222,13 +226,14 @@ implements ICobolStringConverter {
                 iSource++;
             }
         }
-        
+
         return lastOffset;
 
     }
 
     /**
      * Check that content represents binary data.
+     * 
      * @param javaString the java string which content must be tested
      * @return true if content represents a valid hexadecimal string
      */
@@ -244,7 +249,8 @@ implements ICobolStringConverter {
         return false;
     }
 
-    /** Converts a host character string into a Java string.
+    /**
+     * Converts a host character string into a Java string.
      * 
      * @param hostCharsetName host character set
      * @param cobolByteLength host byte length
@@ -258,15 +264,17 @@ implements ICobolStringConverter {
             final int cobolByteLength,
             final byte[] hostSource,
             final int offset)
-    throws CobolConversionException {
+            throws CobolConversionException {
 
         String javaString = null;
         int javaStringLength = cobolByteLength;
 
-        /* Check that we are still within the host source range.
+        /*
+         * Check that we are still within the host source range.
          * If not, consider the host optimized its payload by truncating
          * trailing nulls in which case, we just need to process the
-         * characters returned if any. */
+         * characters returned if any.
+         */
         int lastOffset = offset + cobolByteLength;
         if (lastOffset > hostSource.length) {
             if (offset >= hostSource.length) {
@@ -275,14 +283,18 @@ implements ICobolStringConverter {
                 javaStringLength = hostSource.length - offset;
             }
         }
-        
-        /* The Java String is obtained by translating from the host code page
-         * to the local code page. */
+
+        /*
+         * The Java String is obtained by translating from the host code page
+         * to the local code page.
+         */
         try {
-            /* Trim trailing spaces unless there is only one */
+            /* Trim trailing spaces and low-values unless there is only one */
             byte hostSpace = " ".getBytes(hostCharsetName)[0];
             int i = javaStringLength;
-            while (i > 0 && hostSource[offset + i - 1] == hostSpace) {
+            while (i > 0
+                    && (hostSource[offset + i - 1] == hostSpace
+                            || hostSource[offset + i - 1] == 0)) {
                 i--;
             }
             javaStringLength = i;
@@ -290,13 +302,15 @@ implements ICobolStringConverter {
             javaString = new String(
                     hostSource, offset, javaStringLength,
                     hostCharsetName);
-            
-            /* Some low-value characters may have slipped into the resulting
-             * string. */
+
+            /*
+             * Some low-value characters may have slipped into the resulting
+             * string.
+             */
             if (javaString.indexOf("\0") != -1) {
                 javaString = javaString.replace('\0', ' ');
             }
-            
+
             return javaString;
         } catch (UnsupportedEncodingException uee) {
             throw new CobolConversionException(

@@ -39,4 +39,30 @@ public interface IJsonToHostTransformer {
      */
     byte[] transform(final Reader reader) throws HostTransformException;
 
+    /**
+     * Transforms JSON to host data with a specific host character set.
+     * 
+     * @param source the JSON Reader to unmarshal JSON data from
+     * @param hostCharset the host character set
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @return a byte array with host data
+     * @throws HostTransformException if transformation fails
+     */
+    byte[] transform(final Reader source, final String hostCharset,
+            final HostTransformStatus status)
+            throws HostTransformException;
+
+    /**
+     * Transforms JSON to host data.
+     * 
+     * @param reader the JSON Reader to unmarshal JSON data from
+     * @return a byte array with host data
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @throws HostTransformException if transformation fails
+     */
+    byte[] transform(final Reader reader,
+            final HostTransformStatus status) throws HostTransformException;
+
 }

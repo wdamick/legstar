@@ -18,6 +18,8 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.legstar.codegen.CodeGenHelper;
 import com.legstar.codegen.CodeGenUtil;
@@ -61,6 +63,9 @@ public class AbstractTestTemplate extends TestCase {
     /** Additional parameter set passed to templates. */
     private Map < String, Object > mParameters;
 
+    /** Logger. */
+    private final Log _log = LogFactory.getLog(getClass());
+
     /** @{inheritDoc */
     public void setUp() {
         try {
@@ -87,7 +92,13 @@ public class AbstractTestTemplate extends TestCase {
     public String getSource(
             final File srcDir, final String srcName) {
         try {
-            return FileUtils.readFileToString(new File(srcDir, srcName));
+            String source = FileUtils
+                    .readFileToString(new File(srcDir, srcName));
+            if (_log.isDebugEnabled()) {
+                _log.debug(source);
+            }
+            return source;
+
         } catch (IOException e) {
             e.printStackTrace();
             fail(e.getMessage());

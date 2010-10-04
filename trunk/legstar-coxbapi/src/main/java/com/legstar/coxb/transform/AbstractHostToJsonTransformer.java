@@ -62,6 +62,31 @@ public abstract class AbstractHostToJsonTransformer implements
      * @param offset index of first byte to process in hostData
      * @param writer JSON will be sent to this writer.
      * @param hostCharset the host character set
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @throws HostTransformException if transformation fails
+     */
+    public void transform(
+            final byte[] hostData,
+            final int offset,
+            final Writer writer,
+            final String hostCharset,
+            final HostTransformStatus status) throws HostTransformException {
+        if (_log.isDebugEnabled()) {
+            _log.debug("Transforming host data to JSON:");
+        }
+        Object valueObject = getHostToJavaTransformer().transform(hostData,
+                offset, hostCharset, status);
+        getJsonFromObject(valueObject, writer);
+    }
+
+    /**
+     * Transforms host data to JSON with a specific host character set.
+     * 
+     * @param hostData a byte array containing host data
+     * @param offset index of first byte to process in hostData
+     * @param writer JSON will be sent to this writer.
+     * @param hostCharset the host character set
      * @throws HostTransformException if transformation fails
      */
     public void transform(
@@ -69,12 +94,8 @@ public abstract class AbstractHostToJsonTransformer implements
             final int offset,
             final Writer writer,
             final String hostCharset) throws HostTransformException {
-        if (_log.isDebugEnabled()) {
-            _log.debug("Transforming host data to JSON:");
-        }
-        Object valueObject = getHostToJavaTransformer().transform(hostData,
-                offset, hostCharset);
-        getJsonFromObject(valueObject, writer);
+        transform(hostData, offset, writer, hostCharset,
+                new HostTransformStatus());
     }
 
     /**
@@ -102,7 +123,7 @@ public abstract class AbstractHostToJsonTransformer implements
     public void transform(
             final byte[] hostData,
             final Writer writer) throws HostTransformException {
-        transform(hostData, 0, writer, null);
+        transform(hostData, 0, writer, (String) null);
     }
 
     /**
@@ -117,7 +138,59 @@ public abstract class AbstractHostToJsonTransformer implements
             final byte[] hostData,
             final int offset,
             final Writer writer) throws HostTransformException {
-        transform(hostData, offset, writer, null);
+        transform(hostData, offset, writer, (String) null);
+    }
+
+    /**
+     * Transforms host data to JSON with a specific host character set.
+     * 
+     * @param hostData a byte array containing host data
+     * @param writer JSON will be sent to this writer.
+     * @param hostCharset the host character set
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @throws HostTransformException if transformation fails
+     */
+    public void transform(
+            final byte[] hostData,
+            final Writer writer,
+            final String hostCharset,
+            final HostTransformStatus status) throws HostTransformException {
+        transform(hostData, 0, writer, hostCharset, status);
+    }
+
+    /**
+     * Transforms host data to JSON.
+     * 
+     * @param hostData a byte array containing host data
+     * @param writer JSON will be sent to this writer.
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @throws HostTransformException if transformation fails
+     */
+    public void transform(
+            final byte[] hostData,
+            final Writer writer,
+            final HostTransformStatus status) throws HostTransformException {
+        transform(hostData, 0, writer, (String) null, status);
+    }
+
+    /**
+     * Transforms host data to JSON.
+     * 
+     * @param hostData a byte array containing host data
+     * @param offset index of first byte to process in hostData
+     * @param writer JSON will be sent to this writer.
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @throws HostTransformException if transformation fails
+     */
+    public void transform(
+            final byte[] hostData,
+            final int offset,
+            final Writer writer,
+            final HostTransformStatus status) throws HostTransformException {
+        transform(hostData, offset, writer, (String) null, status);
     }
 
     /**

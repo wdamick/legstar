@@ -6,7 +6,7 @@ import com.legstar.mq.mqcih.Mqcih;
 
 /**
  * Transformer provider for Mqcih java data object.
- *
+ * 
  */
 public class MqcihTransformers extends AbstractTransformers {
 
@@ -19,7 +19,9 @@ public class MqcihTransformers extends AbstractTransformers {
     }
 
     /**
-     * Transforms java data object to host data with a specific host character set.
+     * Transforms java data object to host data with a specific host character
+     * set.
+     * 
      * @param valueObject a java value object
      * @param hostCharset the host character set
      * @return a byte array with host data
@@ -32,6 +34,7 @@ public class MqcihTransformers extends AbstractTransformers {
 
     /**
      * Transforms java data object to host data.
+     * 
      * @param valueObject a java value object
      * @return a byte array with host data
      * @throws HostTransformException if transformation fails
@@ -42,7 +45,9 @@ public class MqcihTransformers extends AbstractTransformers {
     }
 
     /**
-     * Transforms host data to java data object with a specific host character set.
+     * Transforms host data to java data object with a specific host character
+     * set.
+     * 
      * @param hostData a byte array containing host data
      * @param hostCharset the host character set
      * @return a Java value object
@@ -55,6 +60,7 @@ public class MqcihTransformers extends AbstractTransformers {
 
     /**
      * Transforms host data to java data object.
+     * 
      * @param hostData a byte array containing host data
      * @return a Java value object
      * @throws HostTransformException if transformation fails
@@ -63,4 +69,5 @@ public class MqcihTransformers extends AbstractTransformers {
             throws HostTransformException {
         return (Mqcih) getHostToJava().transform(hostData);
     }
+
 }

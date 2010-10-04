@@ -13,26 +13,59 @@ package com.legstar.coxb.transform;
 import javax.xml.transform.Source;
 
 /**
- * XML to Host transformers offer the capability to turn an XML to raw mainframe byte arrays.
- *
+ * XML to Host transformers offer the capability to turn an XML to raw mainframe
+ * byte arrays.
+ * 
  */
 public interface IXmlToHostTransformer {
 
     /**
      * Transforms XML to host data with a specific host character set.
-     * @param source the XML Source to unmarshal XML data from (such as SAXSource, DOMSource, and StreamSource)
+     * 
+     * @param source the XML Source to unmarshal XML data from (such as
+     *            SAXSource, DOMSource, and StreamSource)
      * @param hostCharset the host character set
      * @return a byte array with host data
      * @throws HostTransformException if transformation fails
      */
-    byte[] transform(final Source source, final String hostCharset) throws HostTransformException;
+    byte[] transform(final Source source, final String hostCharset)
+            throws HostTransformException;
 
     /**
      * Transforms XML to host data.
-     * @param source the XML Source to unmarshal XML data from (such as SAXSource, DOMSource, and StreamSource)
+     * 
+     * @param source the XML Source to unmarshal XML data from (such as
+     *            SAXSource, DOMSource, and StreamSource)
      * @return a byte array with host data
      * @throws HostTransformException if transformation fails
      */
     byte[] transform(final Source source) throws HostTransformException;
+
+    /**
+     * Transforms XML to host data with a specific host character set.
+     * 
+     * @param source the XML Source to unmarshal XML data from (such as
+     *            SAXSource, DOMSource, and StreamSource)
+     * @param hostCharset the host character set
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @return a byte array with host data
+     * @throws HostTransformException if transformation fails
+     */
+    byte[] transform(final Source source, final String hostCharset,
+            final HostTransformStatus status) throws HostTransformException;
+
+    /**
+     * Transforms XML to host data.
+     * 
+     * @param source the XML Source to unmarshal XML data from (such as
+     *            SAXSource, DOMSource, and StreamSource)
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @return a byte array with host data
+     * @throws HostTransformException if transformation fails
+     */
+    byte[] transform(final Source source,
+            final HostTransformStatus status) throws HostTransformException;
 
 }

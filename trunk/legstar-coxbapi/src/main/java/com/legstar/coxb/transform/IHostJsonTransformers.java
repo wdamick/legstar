@@ -66,4 +66,59 @@ public interface IHostJsonTransformers {
     void toJson(final byte[] hostData, final Writer writer)
             throws HostTransformException;
 
+    /**
+     * Transforms JSON source to host data with a specific host character set.
+     * 
+     * @param reader the JSON Reader to unmarshal JSON data from
+     * @param hostCharset the host character set
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @return a byte array with host data
+     * @throws HostTransformException if transformation fails
+     */
+    byte[] toHost(
+            final Reader reader, final String hostCharset,
+            final HostTransformStatus status)
+            throws HostTransformException;
+
+    /**
+     * Transforms JSON source to host data.
+     * 
+     * @param reader the JSON Reader to unmarshal JSON data from
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @return a byte array with host data
+     * @throws HostTransformException if transformation fails
+     */
+    byte[] toHost(final Reader reader,
+            final HostTransformStatus status) throws HostTransformException;
+
+    /**
+     * Transforms host data to JSON using a specific host character set.
+     * 
+     * @param hostData a byte array containing host data
+     * @param writer JSON will be sent to this writer.
+     * @param hostCharset the host character set
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @throws HostTransformException if transformation fails
+     */
+    void toJson(final byte[] hostData, final Writer writer,
+            final String hostCharset,
+            final HostTransformStatus status)
+            throws HostTransformException;
+
+    /**
+     * Transforms host data to JSON.
+     * 
+     * @param hostData a byte array containing host data
+     * @param writer JSON will be sent to this writer.
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @throws HostTransformException if transformation fails
+     */
+    void toJson(final byte[] hostData, final Writer writer,
+            final HostTransformStatus status)
+            throws HostTransformException;
+
 }

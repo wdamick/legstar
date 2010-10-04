@@ -8,12 +8,13 @@ import com.legstar.coxb.transform.HostTransformException;
 
 /**
  * XML Transformers provider for Mqcih.
- *
+ * 
  */
 public class MqcihXmlTransformers extends AbstractXmlTransformers {
 
     /**
      * Create a set of directional transformers.
+     * 
      * @throws HostTransformException if transformer cannot be created
      */
     public MqcihXmlTransformers() throws HostTransformException {
@@ -23,7 +24,9 @@ public class MqcihXmlTransformers extends AbstractXmlTransformers {
 
     /**
      * Transforms XML to host data with a specific host character set.
-     * @param source the XML Source to unmarshal XML data from (such as SAXSource, DOMSource, and StreamSource)
+     * 
+     * @param source the XML Source to unmarshal XML data from (such as
+     *            SAXSource, DOMSource, and StreamSource)
      * @param hostCharset the host character set
      * @return a byte array with host data
      * @throws HostTransformException if transformation fails
@@ -35,7 +38,9 @@ public class MqcihXmlTransformers extends AbstractXmlTransformers {
 
     /**
      * Transforms XML to host data.
-     * @param source the XML Source to unmarshal XML data from (such as SAXSource, DOMSource, and StreamSource)
+     * 
+     * @param source the XML Source to unmarshal XML data from (such as
+     *            SAXSource, DOMSource, and StreamSource)
      * @return a byte array with host data
      * @throws HostTransformException if transformation fails
      */
@@ -46,18 +51,21 @@ public class MqcihXmlTransformers extends AbstractXmlTransformers {
 
     /**
      * Transforms host data to XML with a specific host character set.
+     * 
      * @param hostData a byte array containing host data
      * @param writer XML will be sent to this writer.
      * @param hostCharset the host character set
      * @throws HostTransformException if transformation fails
      */
-    public void toXml(final byte[] hostData, final Writer writer, final String hostCharset)
+    public void toXml(final byte[] hostData, final Writer writer,
+            final String hostCharset)
             throws HostTransformException {
         getHostToXml().transform(hostData, writer, hostCharset);
     }
 
     /**
      * Transforms host data to XML.
+     * 
      * @param hostData a byte array containing host data
      * @param writer XML will be sent to this writer.
      * @throws HostTransformException if transformation fails
@@ -66,4 +74,5 @@ public class MqcihXmlTransformers extends AbstractXmlTransformers {
             throws HostTransformException {
         getHostToXml().transform(hostData, writer);
     }
+
 }

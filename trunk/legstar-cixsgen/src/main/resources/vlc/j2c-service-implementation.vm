@@ -64,14 +64,20 @@ public class ${model.implementationClassName} extends AbstractServiceAdapter imp
     
 #foreach ($cixsOperation in $model.cixsOperations)
     /** {@inheritDoc} */
+#if($cixsOperation.getOutput().size() > 0)
     public $cixsOperation.responseHolderType ${cixsOperation.name}(
+#else
+    public void ${cixsOperation.name}(
+#end
+#if($cixsOperation.getInput().size() > 0)
                final $cixsOperation.requestHolderType request,
+#end
                final ${model.headerClassName} hostHeader)
                throws ${cixsOperation.faultType} {
     
         try {
-            return get${cixsOperation.className}ProgramInvoker().${cixsOperation.name}(
-                    getAddress(hostHeader), getRequestID(hostHeader), request);
+            #if($cixsOperation.getOutput().size() > 0)return#end get${cixsOperation.className}ProgramInvoker().${cixsOperation.name}(
+                    getAddress(hostHeader), getRequestID(hostHeader)#if($cixsOperation.getInput().size() > 0), request#end);
         } catch (HostInvokerException e) {
             throw get${cixsOperation.faultType}(e, "Failed to invoke host program:");
         } catch (HostTransformException e) {

@@ -18,6 +18,7 @@ import junit.framework.TestCase;
 
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.transform.HostTransformException;
+import com.legstar.coxb.transform.HostTransformStatus;
 import com.legstar.test.coxb.lsfileae.ComPersonal;
 import com.legstar.test.coxb.lsfileae.Dfhcommarea;
 import com.legstar.test.coxb.lsfileae.ObjectFactory;
@@ -56,9 +57,12 @@ public class MarshalLsfileaeTest extends TestCase {
     public void testJavaToHostTransformer() throws Exception {
 
         DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        HostTransformStatus status = new HostTransformStatus();
+
         assertEquals(LsfileaeCases.getHostBytesHex(),
                 HostData.toHexString(transformer.transform(LsfileaeCases
-                        .getJavaObject())));
+                        .getJavaObject(), status)));
+        assertEquals(79, status.getHostBytesProcessed());
     }
 
     /**

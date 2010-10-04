@@ -26,11 +26,13 @@ import com.legstar.coxb.CobolBindingException;
 /**
  * Generic methods to transform host data to XML.
  */
-public abstract class AbstractHostToXmlTransformer implements IHostToXmlTransformer {
+public abstract class AbstractHostToXmlTransformer implements
+        IHostToXmlTransformer {
 
     /** Logger. */
-    private final Log _log = LogFactory.getLog(AbstractHostToXmlTransformer.class);
-    
+    private final Log _log = LogFactory
+            .getLog(AbstractHostToXmlTransformer.class);
+
     /** A Host to Java object transformer. */
     private IHostToJavaTransformer mHostToJavaTransformer;
 
@@ -42,11 +44,13 @@ public abstract class AbstractHostToXmlTransformer implements IHostToXmlTransfor
 
     /**
      * Create an Host to XML transformer using a Host to Java transformer.
+     * 
      * @param hostToJavaTransformer the host to java transformer
      * @throws HostTransformException if transformer cannot be created
      */
     public AbstractHostToXmlTransformer(
-            final IHostToJavaTransformer hostToJavaTransformer) throws HostTransformException {
+            final IHostToJavaTransformer hostToJavaTransformer)
+            throws HostTransformException {
         try {
             mHostToJavaTransformer = hostToJavaTransformer;
             mJaxbContext = JAXBContext.newInstance(
@@ -61,26 +65,50 @@ public abstract class AbstractHostToXmlTransformer implements IHostToXmlTransfor
 
     /**
      * Transforms host data to XML with a specific host character set.
+     * 
      * @param hostData a byte array containing host data
-     * @param offset index of first byte to process in hostData 
+     * @param offset index of first byte to process in hostData
      * @param writer XML will be sent to this writer.
      * @param hostCharset the host character set
+     * @param status will contain information on the transformation after it is
+     *            executed
      * @throws HostTransformException if transformation fails
      */
-    public void  transform(
+    public void transform(
             final byte[] hostData,
             final int offset,
             final Writer writer,
-            final String hostCharset) throws HostTransformException {
+            final String hostCharset,
+            final HostTransformStatus status) throws HostTransformException {
         if (_log.isDebugEnabled()) {
             _log.debug("Transforming host data to XML:");
         }
-        Object valueObject = getHostToJavaTransformer().transform(hostData, offset, hostCharset);
+        Object valueObject = getHostToJavaTransformer().transform(hostData,
+                offset, hostCharset, status);
         getXmlFromObject(valueObject, writer);
     }
 
     /**
      * Transforms host data to XML with a specific host character set.
+     * 
+     * @param hostData a byte array containing host data
+     * @param offset index of first byte to process in hostData
+     * @param writer XML will be sent to this writer.
+     * @param hostCharset the host character set
+     * @throws HostTransformException if transformation fails
+     */
+    public void transform(
+            final byte[] hostData,
+            final int offset,
+            final Writer writer,
+            final String hostCharset) throws HostTransformException {
+        transform(hostData, offset, writer, hostCharset,
+                new HostTransformStatus());
+    }
+
+    /**
+     * Transforms host data to XML with a specific host character set.
+     * 
      * @param hostData a byte array containing host data
      * @param writer XML will be sent to this writer.
      * @param hostCharset the host character set
@@ -92,8 +120,10 @@ public abstract class AbstractHostToXmlTransformer implements IHostToXmlTransfor
             final String hostCharset) throws HostTransformException {
         transform(hostData, 0, writer, hostCharset);
     }
+
     /**
      * Transforms host data to XML.
+     * 
      * @param hostData a byte array containing host data
      * @param writer XML will be sent to this writer.
      * @throws HostTransformException if transformation fails
@@ -101,13 +131,14 @@ public abstract class AbstractHostToXmlTransformer implements IHostToXmlTransfor
     public void transform(
             final byte[] hostData,
             final Writer writer) throws HostTransformException {
-        transform(hostData, 0, writer, null);
+        transform(hostData, 0, writer, (String) null);
     }
-    
+
     /**
      * Transforms host data to XML.
+     * 
      * @param hostData a byte array containing host data
-     * @param offset index of first byte to process in hostData 
+     * @param offset index of first byte to process in hostData
      * @param writer XML will be sent to this writer.
      * @throws HostTransformException if transformation fails
      */
@@ -115,21 +146,75 @@ public abstract class AbstractHostToXmlTransformer implements IHostToXmlTransfor
             final byte[] hostData,
             final int offset,
             final Writer writer) throws HostTransformException {
-        transform(hostData, offset, writer, null);
+        transform(hostData, offset, writer, (String) null);
     }
 
-    /** 
-     * Marshal JAXB value object  to get the XML.
+    /**
+     * Transforms host data to XML with a specific host character set.
+     * 
+     * @param hostData a byte array containing host data
+     * @param writer XML will be sent to this writer.
+     * @param hostCharset the host character set
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @throws HostTransformException if transformation fails
+     */
+    public void transform(
+            final byte[] hostData,
+            final Writer writer,
+            final String hostCharset,
+            final HostTransformStatus status) throws HostTransformException {
+        transform(hostData, 0, writer, hostCharset, status);
+    }
+
+    /**
+     * Transforms host data to XML.
+     * 
+     * @param hostData a byte array containing host data
+     * @param writer XML will be sent to this writer.
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @throws HostTransformException if transformation fails
+     */
+    public void transform(
+            final byte[] hostData,
+            final Writer writer,
+            final HostTransformStatus status) throws HostTransformException {
+        transform(hostData, 0, writer, (String) null, status);
+    }
+
+    /**
+     * Transforms host data to XML.
+     * 
+     * @param hostData a byte array containing host data
+     * @param offset index of first byte to process in hostData
+     * @param writer XML will be sent to this writer.
+     * @param status will contain information on the transformation after it is
+     *            executed
+     * @throws HostTransformException if transformation fails
+     */
+    public void transform(
+            final byte[] hostData,
+            final int offset,
+            final Writer writer,
+            final HostTransformStatus status) throws HostTransformException {
+        transform(hostData, offset, writer, (String) null, status);
+    }
+
+    /**
+     * Marshal JAXB value object to get the XML.
      * <p/>
-     * Root elements can be marshalled directly while non-root elements must
-     * be encapsulated in a JAXBElement before they can be marshalled.
+     * Root elements can be marshalled directly while non-root elements must be
+     * encapsulated in a JAXBElement before they can be marshalled.
+     * 
      * @param valueObject the JAXB value object
      * @param writer XML will be sent to this writer.
      * @throws HostTransformException if transformation fails
-     *   */
+     * */
     @SuppressWarnings("unchecked")
     public void getXmlFromObject(
-            final Object valueObject, final Writer writer) throws HostTransformException {
+            final Object valueObject, final Writer writer)
+            throws HostTransformException {
         try {
             if (isXmlRootElement()) {
                 getXmlMarshaller().marshal(valueObject, writer);
@@ -138,7 +223,8 @@ public abstract class AbstractHostToXmlTransformer implements IHostToXmlTransfor
                         getNamespace(),
                         getElementName());
                 JAXBElement < ? > jaxbElement = new JAXBElement(qName,
-                            getHostToJavaTransformer().getBinding().getJaxbType(),
+                            getHostToJavaTransformer().getBinding()
+                                    .getJaxbType(),
                             valueObject);
                 getXmlMarshaller().marshal(jaxbElement, writer);
             }
@@ -148,13 +234,13 @@ public abstract class AbstractHostToXmlTransformer implements IHostToXmlTransfor
             throw new HostTransformException(e);
         }
     }
-    
+
     /**
      * @return true if the JAXB element is marked as XmlRootElement which
-     * means it does not need to be encapsulated in a JAXBElement.
+     *         means it does not need to be encapsulated in a JAXBElement.
      */
     public abstract boolean isXmlRootElement();
-    
+
     /**
      * @return the XML Schema namespace
      */
@@ -162,10 +248,9 @@ public abstract class AbstractHostToXmlTransformer implements IHostToXmlTransfor
 
     /**
      * @return the element name is given either by the XmlRootElement
-     * annotation or the XmlType annotation.
+     *         annotation or the XmlType annotation.
      */
     public abstract String getElementName();
-    
 
     /**
      * @return the Host to Java transformer
@@ -187,5 +272,5 @@ public abstract class AbstractHostToXmlTransformer implements IHostToXmlTransfor
     public Marshaller getXmlMarshaller() {
         return mXmlMarshaller;
     }
-    
+
 }

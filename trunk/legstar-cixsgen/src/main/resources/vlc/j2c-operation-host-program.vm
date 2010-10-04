@@ -6,9 +6,8 @@
 #macro(getLength $structures)
 ## --------------------------
 #set($length = 0)
-#if(${structures.size()} > 0)
-#set($structure = ${structures.get(0)})
-#set($length = ${coxbHelper.getByteLength(${structure.jaxbPackageName}, ${structure.jaxbType})})
+#foreach($structure in ${structures})
+#set($length = $length + ${coxbHelper.getByteLength(${structure.jaxbPackageName}, ${structure.jaxbType})})
 #end
 #end
 ## ==================================================================

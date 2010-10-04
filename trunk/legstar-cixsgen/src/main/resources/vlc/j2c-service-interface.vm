@@ -38,24 +38,36 @@ public interface ${model.interfaceClassName} {
     /**
      * LegStar operation ${cixsOperation.name}.
      * 
+#if($cixsOperation.getInput().size() > 0)
      * @param request a JAXB object mapping the request
+#end
      * @param hostHeader an object mapping header parameters
+#if($cixsOperation.getOutput().size() > 0)
      * @return a JAXB object mapping the reply
+#end
      * @throws ${cixsOperation.faultType} if method fails
      */
     @WebMethod(operationName = "${cixsOperation.name}", action = "urn:${cixsOperation.name}")
     @WebResult(name = "${cixsOperation.responseHolderType}",
         targetNamespace = "${cixsOperation.responseHolderNamespace}")
+#if($cixsOperation.getInput().size() > 0)
     @RequestWrapper(localName = "${cixsOperation.requestWrapperType}",
         targetNamespace = "${cixsOperation.namespace}",
         className = "${helper.getQualClassName(${cixsOperation.packageName}, ${cixsOperation.requestWrapperType})}")
+#end
     @ResponseWrapper(localName = "${cixsOperation.responseWrapperType}",
         targetNamespace = "${cixsOperation.namespace}",
         className = "${helper.getQualClassName(${cixsOperation.packageName}, ${cixsOperation.responseWrapperType})}")
+#if($cixsOperation.getOutput().size() > 0)
     $cixsOperation.responseHolderType ${cixsOperation.name}(
+#else
+    void ${cixsOperation.name}(
+#end
+#if($cixsOperation.getInput().size() > 0)
         @WebParam(name = "${cixsOperation.requestHolderType}",
                targetNamespace = "${cixsOperation.requestHolderNamespace}")
             $cixsOperation.requestHolderType request,
+#end
         @WebParam(name = "${model.headerClassName}", header = true, partName = "hostHeader",
                 targetNamespace = "${cixsOperation.namespace}")
             ${model.headerClassName} hostHeader)
