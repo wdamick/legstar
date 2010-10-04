@@ -26,6 +26,19 @@
            <outputDirectory>/</outputDirectory>
            <destName>README</destName>
         </file>
+        <!-- cob2xsd sample COBOL source -->
+        <file>
+            <source>${project.build.directory}/package/legstar-cob2xsd/cobol/LSFILEAE</source>
+            <outputDirectory>samples/quickstarts/adapter_lsfileae/cobol</outputDirectory>
+           <destName>lsfileae</destName>
+        </file>
+
+        <!-- cob2xsd sample ant script -->
+        <file>
+            <source>${project.basedir}/../legstar-distribution/src/main/resources/ant/build-cob2xsd.xml</source>
+            <outputDirectory>samples/quickstarts/adapter_lsfileae</outputDirectory>
+        </file>
+
     </files>
 
     <fileSets>
@@ -37,6 +50,17 @@
                 <include>**/jvmquery/*.*</include>
             </includes>
         </fileSet>
+        <!-- cob2xsd dependencies -->
+        <fileSet>
+            <directory>${project.build.directory}/package/legstar-cob2xsd/lib</directory>
+            <outputDirectory>lib</outputDirectory>
+            <includes>
+                <include>legstar-cob2xsd-*.jar</include>
+                <include>antlr-runtime-*.jar</include>
+                <include>commons-cli-*.jar</include>
+            </includes>
+        </fileSet>
+
     </fileSets>
 
     <dependencySets>
