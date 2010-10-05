@@ -262,6 +262,8 @@ public class CobolJAXBGenerator extends Task {
     }
 
     /**
+     * If IsSet Methods should be generated.
+     * 
      * @return if IsSet Methods should be generated
      */
     public boolean isGenerateIsSetMethod() {
@@ -269,6 +271,8 @@ public class CobolJAXBGenerator extends Task {
     }
 
     /**
+     * If IsSet Methods should be generated.
+     * 
      * @param generateIsSetMethod if IsSet Methods should be generated
      */
     public void setGenerateIsSetMethod(final boolean generateIsSetMethod) {
@@ -276,6 +280,9 @@ public class CobolJAXBGenerator extends Task {
     }
 
     /**
+     * The serialization unique ID. (All JAXB classes
+     * must be serializable for LegStar).
+     * 
      * @return the serialization unique ID. (All JAXB classes must be
      *         serializable for LegStar)
      */
@@ -284,6 +291,9 @@ public class CobolJAXBGenerator extends Task {
     }
 
     /**
+     * The serialization unique ID. (All JAXB classes
+     * must be serializable for LegStar).
+     * 
      * @param serializableUid the serialization unique ID. (All JAXB classes
      *            must be serializable for LegStar)
      */
@@ -292,6 +302,8 @@ public class CobolJAXBGenerator extends Task {
     }
 
     /**
+     * The prefix to add to type names.
+     * 
      * @return the prefix to add to type names
      */
     public String getTypeNamePrefix() {
@@ -299,6 +311,8 @@ public class CobolJAXBGenerator extends Task {
     }
 
     /**
+     * The prefix to add to type names.
+     * 
      * @param typeNamePrefix the prefix to add to type names
      */
     public void setTypeNamePrefix(final String typeNamePrefix) {
@@ -306,6 +320,8 @@ public class CobolJAXBGenerator extends Task {
     }
 
     /**
+     * The suffix to add to type names.
+     * 
      * @return the suffix to add to type names
      */
     public String getTypeNameSuffix() {
@@ -313,6 +329,8 @@ public class CobolJAXBGenerator extends Task {
     }
 
     /**
+     * The suffix to add to type names.
+     * 
      * @param typeNameSuffix the suffix to add to type names
      */
     public void setTypeNameSuffix(final String typeNameSuffix) {
@@ -320,6 +338,8 @@ public class CobolJAXBGenerator extends Task {
     }
 
     /**
+     * The prefix to add to element names.
+     * 
      * @return the prefix to add to element names
      */
     public String getElementNamePrefix() {
@@ -327,6 +347,8 @@ public class CobolJAXBGenerator extends Task {
     }
 
     /**
+     * The prefix to add to element names.
+     * 
      * @param elementNamePrefix the prefix to add to element names
      */
     public void setElementNamePrefix(final String elementNamePrefix) {
@@ -334,6 +356,8 @@ public class CobolJAXBGenerator extends Task {
     }
 
     /**
+     * The suffix to add to element names.
+     * 
      * @return the suffix to add to element names
      */
     public String getElementNameSuffix() {
@@ -341,6 +365,8 @@ public class CobolJAXBGenerator extends Task {
     }
 
     /**
+     * The suffix to add to element names.
+     * 
      * @param elementNameSuffix the suffix to add to element names
      */
     public void setElementNameSuffix(final String elementNameSuffix) {
@@ -348,6 +374,8 @@ public class CobolJAXBGenerator extends Task {
     }
 
     /**
+     * whether internal bindings or and external binding should be used.
+     * 
      * @return whether internal bindings or and external binding should be used
      */
     public boolean isInternalBindings() {
@@ -355,6 +383,8 @@ public class CobolJAXBGenerator extends Task {
     }
 
     /**
+     * Whether internal bindings or and external binding should be used.
+     * 
      * @param internalBindings whether internal bindings or and external binding
      *            should be used
      */

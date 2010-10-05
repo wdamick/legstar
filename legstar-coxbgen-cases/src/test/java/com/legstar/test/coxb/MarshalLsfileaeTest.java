@@ -21,7 +21,6 @@ import com.legstar.coxb.transform.HostTransformException;
 import com.legstar.coxb.transform.HostTransformStatus;
 import com.legstar.test.coxb.lsfileae.ComPersonal;
 import com.legstar.test.coxb.lsfileae.Dfhcommarea;
-import com.legstar.test.coxb.lsfileae.ObjectFactory;
 import com.legstar.test.coxb.lsfileae.bind.DfhcommareaJavaToHostTransformer;
 import com.legstar.test.coxb.lsfileae.bind.DfhcommareaJsonTransformers;
 import com.legstar.test.coxb.lsfileae.bind.DfhcommareaTransformers;
@@ -88,16 +87,26 @@ public class MarshalLsfileaeTest extends TestCase {
     }
 
     /**
+     * Test the sample code shown in documentation.
+     * 
+     * @throws HostTransformException if transforming fails
+     */
+    public void testJsonToHostTransformerDoc() throws HostTransformException {
+
+        assertEquals(LsfileaeCases.getHostBytesHex(),
+                HostData.toHexString(jsonToHostTransform()));
+    }
+
+    /**
      * Creates a java data object and returns the host data result.
      * 
      * @return a byte array holding the mainframe payload
      * @throws HostTransformException if transforming fails
      */
     public byte[] javaToHostTransform() throws HostTransformException {
-        ObjectFactory of = new ObjectFactory();
-        Dfhcommarea dfhcommarea = of.createDfhcommarea();
+        Dfhcommarea dfhcommarea = new Dfhcommarea();
         dfhcommarea.setComNumber(100L);
-        ComPersonal comPersonal = of.createComPersonal();
+        ComPersonal comPersonal = new ComPersonal();
         comPersonal.setComName("TOTO");
         comPersonal.setComAddress("LABAS STREET");
         comPersonal.setComPhone("88993314");
@@ -117,8 +126,10 @@ public class MarshalLsfileaeTest extends TestCase {
      */
     public byte[] xmlToHostTransform() throws HostTransformException {
         StringReader reader = new StringReader(
-                "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
-                        + "<Dfhcommarea xmlns=\"http://legstar.com/test/coxb/lsfileae\">"
+                "<?xml version=\"1.0\" encoding=\"UTF-8\" "
+                        + "standalone=\"yes\"?>"
+                        + "<Dfhcommarea xmlns="
+                        + "\"http://legstar.com/test/coxb/lsfileae\">"
                         + "<ComNumber>100</ComNumber>"
                         + "<ComPersonal>"
                         + "<ComName>TOTO</ComName>"
@@ -129,8 +140,30 @@ public class MarshalLsfileaeTest extends TestCase {
                         + "<ComAmount>00100.35</ComAmount>"
                         + "<ComComment>A VOIR</ComComment>"
                         + "</Dfhcommarea>");
-        DfhcommareaXmlTransformers transformers = new DfhcommareaXmlTransformers();
+        DfhcommareaXmlTransformers transformers =
+                new DfhcommareaXmlTransformers();
         return transformers.toHost(new StreamSource(reader));
+    }
+
+    /**
+     * Turns JSON into host data.
+     * 
+     * @return a byte array holding the mainframe payload
+     * @throws HostTransformException if transforming fails
+     */
+    public byte[] jsonToHostTransform() throws HostTransformException {
+        StringReader reader = new StringReader(
+                "{\"ComNumber\":100,"
+                        + "\"ComPersonal\":"
+                        + "{\"ComName\":\"TOTO\","
+                        + "\"ComAddress\":\"LABAS STREET\","
+                        + "\"ComPhone\":\"88993314\"},"
+                        + "\"ComDate\":\"100458\","
+                        + "\"ComAmount\":\"00100.35\","
+                        + "\"ComComment\":\"A VOIR\"}");
+        DfhcommareaJsonTransformers transformers =
+                new DfhcommareaJsonTransformers();
+        return transformers.toHost(reader);
     }
 
     /**

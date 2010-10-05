@@ -69,6 +69,8 @@ public class UnmarshalLsfileaeTest extends TestCase {
                 .getHostBytesHex()));
         hostToXmlTransform(HostData
                 .toByteArray(LsfileaeCases.getHostBytesHex()));
+        hostToJsonTransform(HostData
+                .toByteArray(LsfileaeCases.getHostBytesHex()));
     }
 
     /**
@@ -82,13 +84,15 @@ public class UnmarshalLsfileaeTest extends TestCase {
 
         DfhcommareaTransformers transformers = new DfhcommareaTransformers();
         Dfhcommarea dfhcommarea = transformers.toJava(hostBytes);
-        System.out.println(dfhcommarea.getComNumber());
-        System.out.println(dfhcommarea.getComPersonal().getComName());
-        System.out.println(dfhcommarea.getComPersonal().getComAddress());
-        System.out.println(dfhcommarea.getComPersonal().getComPhone());
-        System.out.println(dfhcommarea.getComDate());
-        System.out.println(dfhcommarea.getComAmount());
-        System.out.println(dfhcommarea.getComComment());
+        assertEquals(100, dfhcommarea.getComNumber());
+        assertEquals("TOTO", dfhcommarea.getComPersonal().getComName().trim());
+        assertEquals("LABAS STREET", dfhcommarea.getComPersonal()
+                .getComAddress().trim());
+        assertEquals("88993314", dfhcommarea.getComPersonal().getComPhone()
+                .trim());
+        assertEquals("100458", dfhcommarea.getComDate().trim());
+        assertEquals("00100.35", dfhcommarea.getComAmount().trim());
+        assertEquals("A VOIR", dfhcommarea.getComComment().trim());
     }
 
     /**
@@ -100,10 +104,49 @@ public class UnmarshalLsfileaeTest extends TestCase {
     public void hostToXmlTransform(final byte[] hostBytes)
             throws HostTransformException {
 
-        DfhcommareaXmlTransformers transformers = new DfhcommareaXmlTransformers();
+        DfhcommareaXmlTransformers transformers =
+                new DfhcommareaXmlTransformers();
         StringWriter writer = new StringWriter();
         transformers.toXml(hostBytes, writer);
-        System.out.println(writer.toString());
+        assertEquals(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\" "
+                        + "standalone=\"yes\"?>"
+                        + "<Dfhcommarea xmlns="
+                        + "\"http://legstar.com/test/coxb/lsfileae\">"
+                        + "<ComNumber>100</ComNumber>"
+                        + "<ComPersonal>"
+                        + "<ComName>TOTO</ComName>"
+                        + "<ComAddress>LABAS STREET</ComAddress>"
+                        + "<ComPhone>88993314</ComPhone>"
+                        + "</ComPersonal>"
+                        + "<ComDate>100458</ComDate>"
+                        + "<ComAmount>00100.35</ComAmount>"
+                        + "<ComComment>A VOIR</ComComment>"
+                        + "</Dfhcommarea>", writer.toString());
+    }
+
+    /**
+     * Transform host data and test JSON result.
+     * 
+     * @param hostBytes a byte array holding the mainframe payload
+     * @throws HostTransformException if transforming fails
+     */
+    public void hostToJsonTransform(final byte[] hostBytes)
+            throws HostTransformException {
+
+        DfhcommareaJsonTransformers transformers =
+                new DfhcommareaJsonTransformers();
+        StringWriter writer = new StringWriter();
+        transformers.toJson(hostBytes, writer);
+        assertEquals("{\"ComNumber\":100,"
+                + "\"ComPersonal\":"
+                + "{\"ComName\":\"TOTO\","
+                + "\"ComAddress\":\"LABAS STREET\","
+                + "\"ComPhone\":\"88993314\"},"
+                + "\"ComDate\":\"100458\","
+                + "\"ComAmount\":\"00100.35\","
+                + "\"ComComment\":\"A VOIR\"}",
+                writer.toString());
     }
 
     /**
