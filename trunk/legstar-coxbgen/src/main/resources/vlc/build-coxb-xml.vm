@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- =================================================================================
      This script generates JAXB classes from a COBOL-annotated XML schema. It then
-     goes on and generates binding classes for selected JAXB root classes.
+     goes on and generates Transformers for selected JAXB root classes.
      Binding classes provide an efficient runtime code for visitors. They avoid
      reflection and use of annotations at runtime.
   -->
@@ -74,10 +74,10 @@
     </target>
   
     <!-- ===========================================================  -->
-    <!-- Generate binding classes by reflecting on JAXB classes.
+    <!-- Generate Transformers by reflecting on JAXB classes.
     -->
     <target name="generateCOXB" depends="compileJAXB">
-        <echo message="Generating binding classes for ${antModel.jaxbRootClassNames}" />
+        <echo message="Generating Transformers for ${antModel.jaxbRootClassNames}" />
         <coxbgen 
             targetDir="${antModel.coxbSrcDir}"
             jaxbPackageName="${antModel.jaxbPackageName}"
@@ -96,7 +96,7 @@
     </target>
 
     <!-- ===========================================================  -->
-    <!-- Compile the generated binding classes.
+    <!-- Compile the generated Transformers.
     -->
     <target name="compileCOXB" depends="generateCOXB">
         <javac srcdir="${antModel.coxbSrcDir}"

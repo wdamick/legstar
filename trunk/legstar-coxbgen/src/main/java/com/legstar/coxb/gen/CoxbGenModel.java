@@ -177,7 +177,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     private DocumentBuilder _docBuilder;
 
     /** Borrowed from XJC. Serves for XML to Java name conversions. */
-    private NameConverter _xjNameConverter = new NameConverter.Standard();
+    private NameConverter _xjcNameConverter = new NameConverter.Standard();
 
     /**
      * A no-Arg constructor.
@@ -568,7 +568,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
                 throw (new BuildException(
                         "No target namespace in XML schema file"));
             }
-            return _xjNameConverter.toPackageName(targetNamespace);
+            return _xjcNameConverter.toPackageName(targetNamespace);
 
         } catch (SAXException e) {
             throw (new CoxbGenException(

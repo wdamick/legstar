@@ -102,7 +102,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
      * string.
      */
     private Pattern _pkgnamePattern = Pattern
-            .compile("[a-zA-Z0-9\\.]*");
+            .compile("[a-zA-Z0-9\\._]*");
 
     /** Page name. */
     private static final String PAGE_NAME =

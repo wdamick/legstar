@@ -102,7 +102,7 @@ public class CoxbGenModelTest extends AbstractTestTemplate {
         String resStr = genAntScriptAsString();
 
         assertTrue(resStr
-                .contains("<echo message=\"Generating binding classes for [class1, class2]\" />"));
+                .contains("<echo message=\"Generating Transformers for [class1, class2]\" />"));
         assertTrue(resStr.contains("xsdFile=\"myXsd.xsd\""));
         assertTrue(resStr.contains("targetDir=\"coxb\\src\""));
         assertTrue(resStr.contains("<jaxbRootClass name=\"class1\"/>"));

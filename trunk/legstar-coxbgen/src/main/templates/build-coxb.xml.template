@@ -1,5 +1,5 @@
 <!-- =================================================================================
-     This script generates binding classes from JAXB objects. A set of cobol binding
+     This script generates Transformers from JAXB objects. A set of java
      classes is generated, to provide efficient runtime code for visitors (avoids
      reflection and use of annotations at runtime).
   -->
@@ -35,10 +35,10 @@
     </target>
 
     <!-- ===========================================================  -->
-    <!-- Generate binding classes by reflecting on JAXB classes.
+    <!-- Generate Transformers by reflecting on JAXB classes.
     -->
     <target name="generateCOXB" depends="init">
-        <echo message="Generating binding classes for ${jaxb.root.name}" />
+        <echo message="Generating Transformers for ${jaxb.root.name}" />
         <coxbgen 
             jaxbPackageName="@PACKAGE-NAME@"
             targetDir="${jaxb.src.dir}"
@@ -48,7 +48,7 @@
     </target>
 
     <!-- ===========================================================  -->
-    <!-- Compile the generated binding classes
+    <!-- Compile the generated Transformers
     -->
     <target name="compileCOXB" depends="generateCOXB">
         <javac target="1.5"

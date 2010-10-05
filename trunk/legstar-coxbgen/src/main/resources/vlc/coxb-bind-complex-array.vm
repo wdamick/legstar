@@ -116,8 +116,8 @@ public class $binding-class-name
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public void setObjectList(
-            final List list) {
-        mValueObject = list;
+            final List < ? > list) {
+        mValueObject = (List < $valueObjectType >) list;
     }
     
     /** {@inheritDoc} */
