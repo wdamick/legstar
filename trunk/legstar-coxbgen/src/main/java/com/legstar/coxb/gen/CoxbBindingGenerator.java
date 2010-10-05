@@ -375,6 +375,8 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
+     * A JAXB root class name to set.
+     * 
      * @param objectName The JAXB root class name to set.
      */
     public void setJaxbRootClassName(
@@ -383,6 +385,8 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
+     * The XML schema file.
+     * 
      * @return the XML schema file
      */
     public File getXsdFile() {
@@ -390,6 +394,8 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
+     * The XML schema file.
+     * 
      * @param xsdFile the XML schema file to set
      */
     public void setXsdFile(
@@ -398,6 +404,8 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
+     * The current target directory.
+     * 
      * @return the current target directory
      */
     public File getTargetDir() {
@@ -405,6 +413,8 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
+     * The current target directory.
+     * 
      * @param targetDir the target directory to set
      */
     public void setTargetDir(final File targetDir) {
@@ -430,6 +440,8 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
+     * The location where JAXB classes live.
+     * 
      * @return the location where JAXB classes live
      */
     public File getJaxbBinDir() {
@@ -437,6 +449,8 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
+     * The location where JAXB classes live.
+     * 
      * @param jaxbBinDir the JAXB location to set
      */
     public void setJaxbBinDir(final File jaxbBinDir) {
@@ -444,6 +458,8 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
+     * The package name used for JAXB classes.
+     * 
      * @return the package name used for JAXB classes
      */
     public String getJaxbPackageName() {
@@ -458,6 +474,8 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
+     * The package name used for JAXB classes.
+     * 
      * @param jaxbPackageName the JAXB classes package name to set
      */
     public void setJaxbPackageName(final String jaxbPackageName) {
@@ -465,6 +483,8 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
+     * The package name used for COXB classes.
+     * 
      * @return the package name for generated binding classes
      */
     public String getCoxbPackageName() {
@@ -479,6 +499,8 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
+     * The package name used for COXB classes.
+     * 
      * @param coxbPackageName package name for generated binding classes to set
      */
     public void setCoxbPackageName(final String coxbPackageName) {
@@ -486,6 +508,8 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
+     * True if Host to XML transformers generation is turned on.
+     * 
      * @return true if Host to XML transformers generation is turned on
      */
     public boolean isXmlTransformers() {
@@ -493,6 +517,8 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
+     * True if Host to XML transformers generation is turned on.
+     * 
      * @param xmlTransformers true if Host to XML transformers generation is
      *            turned on
      */
@@ -501,6 +527,8 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
+     * True if Host to JSON transformers generation is turned on.
+     * 
      * @return true if Host to JSON transformers generation is turned on
      */
     public boolean isJsonTransformers() {
@@ -508,6 +536,8 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
+     * True if Host to JSON transformers generation is turned on.
+     * 
      * @param jsonTransformers true if Host to JSON transformers generation is
      *            turned on
      */
@@ -516,6 +546,9 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
+     * Optional runtime alternative to the Jaxb package name used at
+     * generation time.
+     * 
      * @return the optional runtime alternative to the Jaxb package name used at
      *         generation time
      */
@@ -524,6 +557,9 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
+     * Optional runtime alternative to the Jaxb package name used at
+     * generation time.
+     * 
      * @param alternativePackageName the optional runtime alternative to the
      *            Jaxb package name used at generation time
      */
@@ -533,6 +569,8 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
+     * Alternate factory to used rather than the JAXB one.
+     * 
      * @return the alternate factory to used rather than the JAXB one.
      */
     public String getAlternativeFactoryName() {
@@ -540,6 +578,8 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
+     * Alternate factory to used rather than the JAXB one.
+     * 
      * @param targetFactoryName the alternate factory to used rather than the
      *            JAXB one
      */
@@ -574,6 +614,8 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
+     * List of JAXB root class names to process.
+     * 
      * @return the list of jaxb root class names to process
      */
     public List < String > getJaxbRootClassNames() {
