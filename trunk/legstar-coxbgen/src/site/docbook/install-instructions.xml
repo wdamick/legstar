@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<chapter>
+<title>Standalone Install instructions</title>
+<section id="coxbgen-installing-standalone">
+<title>Installing COBOL Transformers Generator standalone</title>
+<para>
+  These instructions apply if you are installing from the coxbgen standalone
+  distribution. If you are installing the complete LegStar distribution please
+  refer to <ulink url="http://www.legsem.com/legstar/legstar-distribution">legstar distribution</ulink>.
+</para>
+<para>
+  Alternatively, the COBOL Transformers generator can be installed as an Eclipse plugin which
+  contains all the necessary components. You can get the plugin from the
+  <ulink url="http://www.legsem.com/legstar/eclipse/update">LegStar update site</ulink>.
+  However, the plugin does not include the samples. Furthermore, the libraries that you
+  would need to run your Transformers are not easily accessible with the plugin so we still
+  recommend that you perform a standalone installation as described in this document.
+</para>
+<section>
+<title>Pre-requisites</title>
+<para>
+  Java 1.5+ and ant 1.6.5+ are both prerequisites for LegStar.
+  Make sure JAVA_HOME and ANT_HOME environment variables are set and that
+  $JAVA_HOME/bin (%JAVA_HOME%/bin on Windows) and $ANT_HOME/bin (%ANT_HOME%/bin
+  on Windows) are both in your system path.
+</para>
+<para>
+  Coxbgen relies on <ulink url="https://jaxb.dev.java.net/">Sun's JAXB</ulink>.
+  The JAXB implementation must be at least 2.1 compliant. Such an implementation is part
+  of the LegStar distribution.
+</para>
+<para>
+  You will likely need the LegStar tools that generate XML Schemas with COBOL annotations
+  as this is the major input to COBOL Transformers generator:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+    <ulink url="http://code.google.com/p/legstar-cob2xsd/">COBOL to XML Schema Translator</ulink>:
+     used when the starting point is a COBOL structure.
+</para>
+</listitem>
+<listitem>
+<para>
+    <ulink url="http://www.legsem.com/legstar/legstar-xsdcgen">Complex Types mapping Generator</ulink>:
+     used when the starting point is a Java class, an XML Schema or a WSDL.
+</para>
+</listitem>
+</itemizedlist>
+</section>
+
+<section>
+<title>Installing</title>
+<para>
+  Download the latest <ulink url="http://www.legsem.com/legstar/legstar-coxbgen/download.html">coxbgen standalone distribution</ulink>.
+</para>
+<para>
+ Unzip the binary distribution package into the directory of your choice,
+ referred to as &lt;installDir&gt; in the following steps.
+</para>
+
+<para>
+   The directory tree should look like this:
+</para>
+   
+<programlisting>
+<![CDATA[
+    <installDir>
+      |-->LICENSE
+      |-->NOTICE
+      |-->README
+      |--><samples>
+          |--><quickstarts>
+              |--><adapter_lsfileae>
+                  |-->build-jaxb.xml
+                  |-->build-coxb.xml
+                  |--><schema>
+                      |-->lsfileae.xsd
+              |--><proxy_pojo_jvmquery>
+                  |-->build-jaxb.xml
+                  |-->build-coxb-jvmqueryrequest.xml
+                  |-->build-coxb-jvmqueryreply.xml
+                  |--><src>
+                      |-->**/*.java
+                  |--><schema>
+                      |-->jvmquery.xsd
+              |--><proxy_ws_cultureinfo>
+                  |-->build-jaxb.xml
+                  |-->build-coxb-getinfo.xml
+                  |-->build-coxb-getinforesponse.xml
+                  |--><schema>
+                      |-->jvmquery.xsd
+      |--><lib>
+          |-->*.jar
+
+]]>
+</programlisting>
+<para>
+   At this stage, you will probably want to <link linkend="coxbgen-running-ant-samples">run the samples provided</link>
+</para>
+</section>
+<section>
+<title>Uninstalling</title>
+<para>
+  To uninstall, remove the &lt;installDir&gt; folder.
+</para>
+</section>
+</section>
+
+<section id="coxbgen-running-ant-samples">
+<title>Running the Transformers ant samples</title>
+
+<section>
+<title>Generate Transformers for the lsfileae adapter</title>
+<para>
+  run command "ant -f build-jaxb.xml" from the
+  samples/quickstarts/adapter_lsfileae folder and check the result.
+  This should create a src folder containing generated JAXB classes
+  from the sample XML Schema in the schema folder.
+</para>
+<para>
+  The JAXB classes are identical to the classes generated using Sun's
+  XJC utility apart from additional Java 5 annotations holding COBOL
+  meta-data.
+</para>
+<para>
+  From the samples/quickstarts/adapter_lsfileae folder again, run command
+  "ant -f build-coxb.xml". This should create Transformers classes by
+  reflecting on the JAXB classes generated at the previous step.
+</para>
+<para>
+  The Transformers classes provide a high performance alternative to
+  reflecting on the JAXB classes at runtime. They are used by
+  higher level LegStar modules.
+</para>
+</section>
+
+<section>
+<title>Generate Transformers for the jvmquery proxy</title>
+<para>
+  run command <emphasis>ant -f build-jaxb.xml</emphasis> from the
+  samples/quickstarts/proxy_pojo_jvmquery folder and check the result.
+</para>
+<para>
+  From the samples/quickstarts/proxy_pojo_jvmquery folder again, run
+  command <emphasis>ant -f build-coxb-jvmqueryrequest.xml</emphasis>. This creates
+  Transformers classes for the JvmQueryRequest JAXB root class.
+</para>
+<para>
+  From the samples/quickstarts/proxy_pojo_jvmquery folder again, run
+  command <emphasis>ant -f build-coxb-jvmqueryreply.xml</emphasis>. This creates
+  Transformers classes for the JvmQueryReply JAXB root class.
+</para>
+</section>
+
+<section>
+<title>Generate Transformers for the cultureinfo proxy</title>
+<para>
+  run command <emphasis>ant -f build-jaxb.xml</emphasis> from the
+  samples/quickstarts/proxy_ws_cultureinfo folder and check the result.
+</para>
+<para>
+  From the samples/quickstarts/proxy_ws_cultureinfo folder again, run
+  command <emphasis>ant -f build-coxb-getinfo.xml</emphasis>. This creates
+  Transformers classes for the GetInfo JAXB root class.
+</para>
+<para>
+  From the samples/quickstarts/proxy_ws_cultureinfo folder again, run
+  command <emphasis>ant -f build-coxb-getinforesponse.xml</emphasis>. This creates
+  Transformers classes for the GetInfoResponse JAXB root class.
+</para>
+</section>
+
+</section>
+</chapter>

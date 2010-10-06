@@ -38,18 +38,13 @@
         <unzip src="${zip.file}" dest="${test.dir}"/>
         
         <!-- Lsfileae sample. -->      
-        <ant antfile="build-jaxb.xml" dir="${sample1.dir}"/>
         <ant antfile="build-coxb.xml" dir="${sample1.dir}"/>
         
         <!-- Jvmquery sample. -->      
-        <ant antfile="build-jaxb.xml" dir="${sample2.dir}"/>
-        <ant antfile="build-coxb-jvmqueryrequest.xml" dir="${sample2.dir}"/>
-        <ant antfile="build-coxb-jvmqueryreply.xml" dir="${sample2.dir}"/>
+        <ant antfile="build-coxb.xml" dir="${sample2.dir}"/>
         
         <!-- Cultureinfo sample. -->      
-        <ant antfile="build-jaxb.xml" dir="${sample3.dir}"/>
-        <ant antfile="build-coxb-getinfo.xml" dir="${sample3.dir}"/>
-        <ant antfile="build-coxb-getinforesponse.xml" dir="${sample3.dir}"/>
+        <ant antfile="build-coxb.xml" dir="${sample3.dir}"/>
         
     </target>
   

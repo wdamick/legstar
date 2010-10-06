@@ -49,7 +49,7 @@ public class CoxbGenModelTest extends AbstractTestTemplate {
 
     /**
      * Generate an ant script capable of producing the binding artifacts using
-     * the VLC template. Sumit the script and check results.
+     * the VLC template. Submit the script and check results.
      * 
      * @throws Exception if ant cannot be generated
      */

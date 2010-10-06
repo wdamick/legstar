@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section id="coxbgen-using-eclipse-generator-proxy">
+<title>COBOL Transformers Generation for a Proxy</title>
+<para>
+  The wizard is started from the package explorer, by right clicking on a previously generated XML Schema and
+  then selecting LegStar->Generate Transformers: 
+</para>
+<figure>
+<title>Proxy COBOL Transformers generation menu</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/eclipse-screen-shot-proxy-cobol-transformers-menu.jpg" format="JPG" scalefit="1" width="100%" contentdepth="100%"/>
+</imageobject>
+</mediaobject>
+</figure>
+<para>
+  In this case, the root structures we are interested in are Search and SearchResponse, which are the wrapper
+  elements expected and produced by the target Web Service. We select them both. 
+</para>
+<figure>
+<title>Proxy COBOL Transformers generation screen parameters</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/eclipse-screen-shot-proxy-cobol-transformers-parameters.jpg" format="JPG" scalefit="1" width="100%" contentdepth="100%"/>
+</imageobject>
+</mediaobject>
+</figure>
+<para>
+  Because Microsoft uses the same names for both Elements and Complex Types, JAXB may complain
+  about name conflicts. To avoid this, you can customize JAXB using the upper options button
+  and specify that all Complex Types should be suffixed with characters "Type":
+</para>
+<figure>
+<title>Proxy COBOL Transformers generation screen JAXB options</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/eclipse-screen-shot-proxy-cobol-transformers-jaxb-options.jpg" format="JPG"/>
+</imageobject>
+</mediaobject>
+</figure>
+<para>
+  After you click finish, two Java packages are created, one for JAXB classes with COBOL annotations and one
+  for the optimized Transformers classes. 
+</para>
+<figure>
+<title>Proxy COBOL Transformers generation screen results</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/eclipse-screen-shot-proxy-cobol-transformers-result.jpg" format="JPG" scalefit="1" width="100%" contentdepth="100%"/>
+</imageobject>
+</mediaobject>
+</figure>
+
+</section>
