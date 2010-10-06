@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section id="coxbgen-using-ant-generator">
+<title>COBOL Transformers Generation for an Proxy</title>
+<para>
+  There are 2 or more steps involved in generating Transformers using ant scripts.
+</para>
+
+<section>
+<title>Generate JAXB classes</title>
+<para>
+  This first step turns an XML Schema with COBOL annotations to JAXB classes with COBOL annotations.
+</para>
+<para>
+  You can use the build-jaxb.xml ant script from the samples/quickstarts/proxy_ws_cultureinfo folder
+  as your starting point. This script executes an ant task called jaxbgen and then compiles the
+  resulting JAXB classes.
+</para>
+<para>
+  You will need to change the location of the XML Schema. The XML Schema expectec here is the one
+  that contains COBOL annotations such as produced by <ulink url="http://www.legsem.com/legstar/legstar-xsdcgen">Complex Types mapping Generator</ulink>.
+</para>
+<para>
+  You will need to change the location of the XML Schema. The XML Schema expectec here is the one
+  that contains COBOL annotations such as produced by <ulink url="http://www.legsem.com/legstar/legstar-xsdcgen">Complex Types mapping Generator</ulink>.
+</para>
+<para>
+  Because Microsoft uses the same names for both Elements and Complex Types, JAXB may complain
+  about name conflicts. To avoid this, you need to add the following option to jaxbgen:
+  <emphasis>typeNameSuffix="Type"</emphasis>. This specifies that all Complex Types should be suffixed with characters "Type":
+</para>
+<para>
+  For a complete list of options for the jaxbgen task, you can refer to
+  <ulink url="http://www.legsem.com/legstar/legstar-jaxbgen/apidocs/com/legstar/jaxb/gen/CobolJAXBGenerator.html">CobolJAXBGenerator</ulink>.
+</para>
+<para>
+  The output from this step is a set of JAXB classes. The only difference with standard
+  JAXB is that these classes also have COBOL annotations.
+</para>
+</section>
+
+<section>
+<title>Generate COXB classes</title>
+<para>
+  COBOL binding classes (COXB classes) are the actual Transformers.
+</para>
+<para>
+  You can use the build-coxb.xml ant script from the samples/quickstarts/proxy_ws_cultureinfo folder
+  as your starting point. This script executes an ant task called coxbgen.
+</para>
+<para>
+  You will notice that the coxbgen ant task takes one or more jaxbRootClass elements. These
+  are needed to designate which JAXB class (or classes) should become a Transformer. You
+  would generally pickup the higher classes in the hierarchy but you don't have to.
+</para>
+<para>
+  For a complete list of options for the jaxbgen task, you can refer to
+  <ulink url="http://www.legsem.com/legstar/legstar-coxbgen/apidocs/com/legstar/coxb/gen/CoxbBindingGenerator.html">CoxbBindingGenerator</ulink>.
+</para>
+<para>
+  By default you get Java to Host Transformers only. In addition, you can get Host to XML
+  and Host to JSON Transformers (use the xmlTransformers and jsonTransformers options).
+</para>
+</section>
+
+</section>

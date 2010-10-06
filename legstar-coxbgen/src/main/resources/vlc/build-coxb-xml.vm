@@ -4,17 +4,26 @@
      goes on and generates Transformers for selected JAXB root classes.
      Binding classes provide an efficient runtime code for visitors. They avoid
      reflection and use of annotations at runtime.
+
+     Change all occurences of:
+         - xsdFile         (Your COBOL annotated XML Schema file)
+         - jaxbPackageName (The JAXB package name for generated classes)
+         - jaxbRootClass   (A root class name. Add as many as needed.) 
   -->
-<project basedir="${antModel.productLocation}" default="signalSuccess" name="generate-COXB-classes">
+<project basedir="." default="signalSuccess" name="generate-COXB-classes">
 
     <!-- ===========================================================  -->
     <!-- Setup environment
     -->
     <target name="init">
     
+        <!-- Make sure target directories exist -->
+        <mkdir dir="${antModel.jaxbSrcDir}"/>
+        <mkdir dir="${antModel.jaxbBinDir}"/>
+    
         <!-- Classpath setting -->
         <path id="classpath">
-            <fileset dir="${basedir}" includes="lib/*.jar" />
+            <fileset dir="${antModel.productLocation}" includes="lib/*.jar" />
             <!--JAXB generated classes (needed for reflection) -->
             <dirset dir="${antModel.jaxbBinDir}"/>
         </path>
@@ -29,10 +38,6 @@
             classname="com.legstar.coxb.gen.CoxbBindingGenerator"
             classpathref="classpath"/>
         
-        <!-- Make sure target directories exist -->
-        <mkdir dir="${antModel.jaxbSrcDir}"/>
-        <mkdir dir="${antModel.jaxbBinDir}"/>
-    
     </target>
 
     <!-- ===========================================================  -->

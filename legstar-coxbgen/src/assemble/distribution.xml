@@ -22,9 +22,9 @@
             <destName>NOTICE</destName>
         </file>
         <file>
-           <source>${project.basedir}/../legstar-coxbgen/src/site/apt/release-notes.apt</source>
+           <source>${project.basedir}/../legstar-coxbgen/target/doc/install-instructions.html</source>
            <outputDirectory>/</outputDirectory>
-           <destName>README</destName>
+           <destName>readme.html</destName>
         </file>
 
     </files>
