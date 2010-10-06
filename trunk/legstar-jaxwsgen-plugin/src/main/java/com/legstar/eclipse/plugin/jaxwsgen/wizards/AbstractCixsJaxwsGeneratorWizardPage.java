@@ -92,10 +92,14 @@ public abstract class AbstractCixsJaxwsGeneratorWizardPage extends
 
     /** {@inheritDoc} */
     public void initExtendedWidgets(final IProject project) {
-        setTargetWDDDir(getInitTargetDir(getGenModel().getTargetWDDDir(),
-                PreferenceConstants.DEFAULT_J2EE_WDD_FOLDER));
-        setTargetWarDir(getInitTargetDir(getGenModel().getTargetWarDir(),
-                PreferenceConstants.DEFAULT_J2EE_WAR_FOLDER));
+        setTargetWDDDir(getInitTargetDir(
+                getGenModel().getTargetWDDDir(),
+                PreferenceConstants.DEFAULT_J2EE_WDD_FOLDER,
+                true));
+        setTargetWarDir(getInitTargetDir(
+                getGenModel().getTargetWarDir(),
+                PreferenceConstants.DEFAULT_J2EE_WAR_FOLDER,
+                false));
     }
 
     /** {@inheritDoc} */
