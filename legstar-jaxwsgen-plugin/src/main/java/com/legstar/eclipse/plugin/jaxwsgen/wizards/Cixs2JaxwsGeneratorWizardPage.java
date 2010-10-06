@@ -169,7 +169,8 @@ public class Cixs2JaxwsGeneratorWizardPage
         super.initExtendedWidgets(project);
 
         setTargetCobolDir(getInitTargetDir(getGenModel().getTargetCobolDir(),
-                PreferenceConstants.DEFAULT_COBOL_SAMPLE_FOLDER));
+                PreferenceConstants.DEFAULT_COBOL_SAMPLE_FOLDER,
+                true));
 
         getWebServiceTargetGroup().initControls();
         getPojoTargetGroup().initControls();

@@ -236,9 +236,12 @@ public abstract class AbstractCixsGeneratorWizardPage
         setTargetAntDir(getInitTargetDir(
                 getGenModel().getTargetAntDir(),
                 getCommonStore(),
-                com.legstar.eclipse.plugin.common.preferences.PreferenceConstants.ANT_SCRIPTS_FOLDER));
-        setTargetDistDir(getInitTargetDir(getGenModel().getTargetDistDir(),
-                PreferenceConstants.DEFAULT_CIXS_TARGET_DIST_FOLDER));
+                com.legstar.eclipse.plugin.common.preferences.PreferenceConstants.ANT_SCRIPTS_FOLDER,
+                true));
+        setTargetDistDir(getInitTargetDir(
+                getGenModel().getTargetDistDir(),
+                PreferenceConstants.DEFAULT_CIXS_TARGET_DIST_FOLDER,
+                true));
 
         setHostCharset(getInitHostCharset());
 
@@ -682,8 +685,8 @@ public abstract class AbstractCixsGeneratorWizardPage
     }
 
     /**
-     * Target locations have default values that are built relative to the
-     * project containing the mapping file and preferences taken from a
+     * Relative target locations have default values that are built relative
+     * to the project containing the mapping file and preferences taken from a
      * preference store.
      * This will make sure the default location exists.
      * 
@@ -691,7 +694,7 @@ public abstract class AbstractCixsGeneratorWizardPage
      * @param storeKey the preference store key for this target
      * @return the corresponding default target location
      */
-    protected String getDefaultTargetDir(
+    protected String getDefaultRelativeTargetDir(
             final IPreferenceStore store, final String storeKey) {
         IPath projectPath = getMappingFile().getProject().getLocation();
         String folder = store.getString(storeKey);
@@ -717,10 +720,13 @@ public abstract class AbstractCixsGeneratorWizardPage
      * 
      * @param dir the candidate target directory
      * @param storeKey the preference key to use for default values
+     * @param relative true means the location is relative to the Eclipse
+     *            project while false means the location is absolute
      * @return a unique non ambiguous file location or null if File is null
      */
-    protected String getInitTargetDir(final File dir, final String storeKey) {
-        return getInitTargetDir(dir, getStore(), storeKey);
+    protected String getInitTargetDir(final File dir, final String storeKey,
+            final boolean relative) {
+        return getInitTargetDir(dir, getStore(), storeKey, relative);
     }
 
     /**
@@ -731,13 +737,23 @@ public abstract class AbstractCixsGeneratorWizardPage
      * @param dir the candidate target directory
      * @param store a preference store from which to fetch the default
      * @param storeKey the preference key to use for default values
+     * @param relative true means the location is relative to the Eclipse
+     *            project while false means the location is absolute
      * @return a unique non ambiguous file location or null if File is null
      */
-    protected String getInitTargetDir(final File dir,
-            final IPreferenceStore store, final String storeKey) {
+    protected String getInitTargetDir(
+            final File dir,
+            final IPreferenceStore store,
+            final String storeKey,
+            final boolean relative) {
         String dirPath = getDisplayPath(dir);
         if (dirPath == null) {
-            dirPath = getDefaultTargetDir(getStore(), storeKey);
+            if (relative) {
+                dirPath = getDefaultRelativeTargetDir(getStore(), storeKey);
+            } else {
+                dirPath = store.getString(storeKey);
+                // Don't attempt to create absolute locations
+            }
         }
         return dirPath;
     }
