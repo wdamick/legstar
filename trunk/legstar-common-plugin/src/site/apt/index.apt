@@ -14,15 +14,15 @@ LegStar Eclipse Plugins overview
   
   * Generate mapping XML Schema starting from COBOL fragments, XSD/WSDL or Java classes.
   
-  * Generate COBOL Binding classes from a mapping XML Schema.
+  * Generate COBOL Transformer classes from a mapping XML Schema.
   
   * Generate Web Service Adapters and Proxies for Mainframe programs.
   
   []
   
-  The LegStar Eclipse plugins are described in the {{{../pdf/legstar-presentation.pdf}presentation document}}.
+  The LegStar Eclipse plugins are described in the {{{../legstar-user-guide.html}user guide}}.
  
-  For installation instructions, see the {{{release-notes.html}release notes}}.
+  For installation instructions, see the {{{install-instructions.html}install instructions}}.
 
   For answers to common questions about LegStar Eclipse plugins, see the {{{faq.html}FAQ}}.
   

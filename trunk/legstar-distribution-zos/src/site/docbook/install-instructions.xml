@@ -2,7 +2,7 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 <chapter>
 <title>z/OS Install instructions</title>
-<section id="legstar-installing-zos">
+<section id="legstar-install-instructions-zos">
 <title>Installing LegStar modules for z/OS</title>
 <section>
 <title>Pre-requisites</title>
