@@ -49,9 +49,9 @@
         
         <!-- READ ME FILES -->
         <file>
-           <source>${project.basedir}/src/site/apt/release-notes.apt</source>
+           <source>${project.basedir}/target/doc/install-instructions.html</source>
            <outputDirectory>/</outputDirectory>
-           <destName>README</destName>
+           <destName>readme.html</destName>
         </file>
         <file>
            <source>${project.basedir}/../legstar-c2wsrt/src/site/apt/release-notes.apt</source>
@@ -74,9 +74,9 @@
            <destName>COBCGEN-README</destName>
         </file>
         <file>
-           <source>${project.basedir}/../legstar-coxbgen/src/site/apt/release-notes.apt</source>
+           <source>${project.basedir}/../legstar-coxbgen/target/doc/install-instructions.html</source>
            <outputDirectory>/docs</outputDirectory>
-           <destName>COXBGEN-README</destName>
+           <destName>COXBGEN-readme.html</destName>
         </file>
         <file>
            <source>${project.basedir}/../legstar-csokrt/src/site/apt/release-notes.apt</source>
