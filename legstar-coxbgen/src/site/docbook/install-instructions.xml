@@ -69,7 +69,7 @@
     <installDir>
       |-->LICENSE
       |-->NOTICE
-      |-->README
+      |-->readme.html
       |--><samples>
           |--><quickstarts>
               |--><adapter_lsfileae>
@@ -98,6 +98,7 @@
    At this stage, you will probably want to <link linkend="coxbgen-running-ant-samples">run the samples provided</link>
 </para>
 </section>
+
 <section>
 <title>Uninstalling</title>
 <para>
