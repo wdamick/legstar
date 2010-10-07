@@ -11,7 +11,7 @@
     <section name="Download Eclipse plugins">
       <!-- Within sections, any XHTML can be used -->
       <p>To install the LegStar Eclipse plugins, use the standard Eclipse update mechanism by pointing to the
-      <a href="http://www.legsem.com/legstar/eclipse/update">http://www.legsem.com/legstar/eclipse/update</a> site (Help-->Software Updates-->Find and Install-->Search for new features-->New Remote site)</p>
+      <a href="http://www.legsem.com/legstar/eclipse/update">http://www.legsem.com/legstar/eclipse/update</a> site (Help-->Install New Software...-->Add site)</p>
     </section>
 
   </body>
