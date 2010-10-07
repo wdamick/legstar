@@ -3,7 +3,7 @@
   <body>
 
     <menu name="Installation instructions">
-      <item name="Instructions for Java" href="release-notes.html" />
+      <item name="Instructions for Java" href="install-instructions.html" />
       <item name="Instructions for z/OS" href="../legstar-distribution-zos"/>
       <item name="Instructions for Eclipse" href="../legstar-common-plugin"/>
     </menu>
