@@ -332,6 +332,7 @@
         #end
       #end
     #end
+    <meta http-equiv="Cache-Control" Content="no-cache">
   </head>
   <body class="composite">
     <div id="banner">
