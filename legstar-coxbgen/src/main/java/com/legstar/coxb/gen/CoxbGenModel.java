@@ -398,10 +398,8 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      *             Schema
      */
     public String getCoxbPackageName() throws CoxbGenException {
-        if (_coxbPackageName == null) {
-            if (getJaxbPackageName() != null) {
-                return getJaxbPackageName() + '.' + COXB_PACKAGE_SUFFIX;
-            }
+        if (_coxbPackageName == null && getJaxbPackageName() != null) {
+            return getJaxbPackageName() + '.' + COXB_PACKAGE_SUFFIX;
         }
         return _coxbPackageName;
     }

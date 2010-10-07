@@ -5,7 +5,7 @@
 
 Quick tour
 
-  This is a brief view of  some of the main features in LegStar.
+  This is a brief view of some of the main features in LegStar.
   
 {Mapping} COBOL data structures to Complex Types
 
@@ -30,17 +30,17 @@ Quick tour
   For more details see {{{http://code.google.com/p/legstar-cob2xsd/}COBOL Structures to XML Schema Translator}},
   and {{{legstar-xsdcgen/index.html}Complex Types Mapping Generator}}.
   
-{Transforming} mainframe data streams to Java objects or XML
+{Transforming} mainframe data streams to Java objects, XML or JSON
 
   To support runtime transformation from mainframe data to Java and vice-versa, a design time tool called the
-  {{{legstar-coxbgen/}COBOL Binding Generator}} produces Transformer Java classes. The
+  {{{legstar-coxbgen/}COBOL Transformers Generator}} produces Transformer Java classes. The
   tool starts from a COBOL-annotated XML Schema such as the one produced by the {{{Mapping}Structure Mapping}} tools.
   
   This feature is built on top of the standard {{{http://www.jcp.org/en/jsr/detail?id=222}JAXB framework}}
   which provides Java to XML binding. As a result of this combination, LegStar can convert mainframe data
   streams to/from Java objects and XML.
   
-  Using the generated marshaling/unmarshaling Java classes, the {{{legstar-coxbgen/}COBOL Binding Runtime}}
+  Using the generated marshaling/unmarshaling Java classes, the {{{legstar-coxbrt/}COBOL Binding Runtime}}
   handles:
 
   * The various COBOL numeric data types (Zoned decimals, packed decimals, binary, float, double)
@@ -56,22 +56,22 @@ Quick tour
   Note that transformations do not run on the mainframe itself therefore reducing the mainframe footprint
   of the solution.
   
-  The following diagram shows the ant file name, Eclipse plugin and projects for the COBOL Binding
+  The following diagram shows the ant file name, Eclipse plugin and projects for the COBOL transformers
   Generator and the Runtime:
 
-[images/architecture-binding.png] Binding generation and runtime
+[images/architecture-binding.png] Transformers generation and runtime
   
-  2 sets of Java classes are produced by the COBOL Binding Generator. The first is actually a set
+  2 sets of Java classes are produced by the COBOL Transformers Generator. The first is actually a set
   of JAXB classes with additional COBOL annotations and the second is used to improve runtime
   conversion performances.
   
   As the diagram shows, the COBOL Binding Runtime can use either the JAXB classes via reflection or the
-  Binding classes. The second option is faster since it avoids the expensive reflection process.
+  Transformers classes. The second option is faster since it avoids the expensive reflection process.
   
-  The Binding classes have either a reference to the JAXB classes or to the source Java classes.
-  In the case where Java classes were used for {{{Mapping}Structure Mapping}}, the Binding classes
+  The Transformers have either a reference to the JAXB classes or to the source Java classes.
+  In the case where Java classes were used for {{{Mapping}Structure Mapping}}, the Transformers
   directly marshal/unmarshal to and from these classes. Otherwise, when mapping used COBOL fragments
-  or XSD/WSDL, the JAXB classes are used as value objects by the COBOL Binding classes.
+  or XSD/WSDL, the JAXB classes are used as value objects by the COBOL Transformers.
   
   The transformer capabilities can be used independently from the service-enablement capabilities
   described next.
@@ -104,8 +104,8 @@ Generating Mainframe Adapter and Proxy Services
   complex type as output.
 
   The activities involved in generating Mainframe Adapter and Proxy Services are symmetrical and they
-  both start from Binding classes for input and output such as the one produced by the
-  {{{Transforming}COBOL Binding Generator}} tool.
+  both start from Transformers for input and output such as the one produced by the
+  {{{Transforming}COBOL Transformers Generator}} tool.
   
   The following diagram shows the ant file names, Eclipse plugins and projects for the Mainframe Service
   Generator and the various runtime modules for the JAX-WS target:
@@ -126,7 +126,7 @@ Generating Mainframe Adapter and Proxy Services
 * Mainframe Adapter Runtime 
   
   The {{{legstar-invoker/index.html}Mainframe Adapter Runtime}} provides the runtime
-  invoke mechanism to call a mainframe program. The Adapter Runtime uses a binary protocol
+  mechanism to invoke a mainframe program. The Adapter Runtime uses a binary protocol
   that optimizes the payload size. This significantly reduces resource consumption on the mainframe.
   
   The Adapter Runtime legacy environment target is primarily IBM CICS. Nothing prevents the

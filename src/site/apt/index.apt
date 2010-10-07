@@ -3,33 +3,54 @@
                                              -----
                                              -----
 
-LegStar, an open source mainframe integration solution
+LegStar Open source mainframe integration
 
-    LegStar is set of development tools and execution runtimes aimed at integrating legacy COBOL applications with Java and SOA technologies.
+    LegStar is set of development tools and execution runtimes aimed at integrating legacy
+    COBOL applications with Java and SOA technologies.
     
-* Common use cases:
+* Common use cases
     
-*-----+------+
- Service-enable a COBOL/CICS program | LegStar generates COBOL/CICS adapters for {{{legstar-cixsgen/index.html}JAX-WS}}, {{{http://code.google.com/p/legstar-jbossesb/}JBoss ESB}} or {{{http://code.google.com/p/legstar-mule/}Mule ESB}}.
+** Transform COBOL payloads to Java, XML or JSON
+
+    LegStar generates {{{legstar-coxbgen/index.html}COBOL Transformers}}.
  
- LegStar provides {{{legstar-coxbgen/index.html}COBOL transformation}} capabilities and {{{legstar-invoker/index.html}CICS execution runtime}} (Commarea or Containers), over {{{legstar-csokrt/index.html}Sockets}}, {{{legstar-chttprt/index.html}HTTP}} or {{{legstar-cmqrt/index.html}WebSphere MQ}}.
-*-----+------+
- Transform COBOL payloads | LegStar generates {{{legstar-coxbgen/index.html}Transformers}} by {{{http://code.google.com/p/legstar-cob2xsd/}parsing COBOL fragments}}, {{{legstar-xsdcgen/index.html}Java classes}} or {{{legstar-xsdcgen/index.html}XML Schema}}.
+    At runtime, mainframe data (containing EBCDIC, COMP, etc.) is transformed to Java, XML or JSON.
  
- At runtime, z/OS data (containing EBCDIC, COMP, etc.) is transformed to Java and/or XML.
+    The LegStar Transformers are pure Java and can be used directly in your code.
+
+** Service-enable a COBOL/CICS program
+  
+    LegStar generates adapters for target CICS programs (Either Commarea or Container driven).
+  
+    Adapters are ready to deploy in:
+    * {{{http://jcp.org/en/jsr/detail?id=224}JAX-WS}}
+    * {{{http://www.jboss.org/jbossesb}JBoss ESB}}
+    * {{{http://www.mulesoft.org/}Mule ESB}}
+  
+** Access java services from COBOL/CICS programs
+
+    LegStar generates proxies for POJO, JAX-WS, JBoss ESB or Mule ESB services.
  
- The LegStar Transformers are pure Java and can be used directly in your code.
-*-----+------+ 
- Access java services from COBOL/CICS programs | LegStar generates Java proxies for {{{legstar-cixsgen/index.html}JAX-WS}}, {{{http://code.google.com/p/legstar-jbossesb/}JBoss ESB}} or {{{http://code.google.com/p/legstar-mule/}Mule ESB}} services.
- 
- You get a {{{legstar-c2wsrt/index.html}Java execution runtime}} that allows your COBOL code to invoke remote services over HTTP.
-*-----+------+
+    Proxies receive requests from COBOL/CICS programs and mediate call to the target services.
 
 * Interested?
 
-    Read the {{{quicktour.html}quicktour}} and {{{legstar-distribution/index.html}download the complete product for JAX-WS}}.
-    
-    {{{http://code.google.com/p/legstar-jbossesb/}LegStar for JBoss ESB}} and {{{http://code.google.com/p/legstar-mule/}LegStar for Mule ESB}} have their own web sites.
+    Read the {{{quicktour.html}quicktour}} and get the complete product for:
+    * {{{legstar-distribution/index.html}JAX-WS}}
+    * {{{http://code.google.com/p/legstar-jbossesb/}JBoss ESB}}
+    * {{{http://code.google.com/p/legstar-mule/}Mule ESB}}
+
+* Direct access to LegStar modules:
+
+    * {{{http://code.google.com/p/legstar-cob2xsd/}COBOL Structures to XML Schema}}
+    * {{{legstar-xsdcgen/index.html}Complex Types Mapping Generator}}
+    * {{{legstar-coxbgen/index.html}COBOL Transformers Generator}}
+    * {{{legstar-cixsgen/index.html}JAX-WS Mainframe Service Generator}}
+    * {{{legstar-invoker/index.html}Mainframe Adapter execution runtime}}
+    * {{{legstar-c2wsrt/index.html}Mainframe Proxy execution runtime}}
+    * {{{legstar-csokrt/index.html}Sockets Transport}}
+    * {{{legstar-chttprt/index.html}HTTP Transport}}
+    * {{{legstar-cmqrt/index.html}WebSphere MQ Transport}}
 
 * Are you an IMS/DC user?
 

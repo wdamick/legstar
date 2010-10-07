@@ -202,7 +202,7 @@ public class CobolJAXBAnnotator extends Plugin {
 
                 mapAnnotations(c, ce);
 
-                setDefaultValue(model.getCodeModel(), jf, c.element);
+                setDefaultValue(jf, c.element);
 
                 /*
                  * HexBinary items are missing a JAXB annotation that
@@ -238,12 +238,10 @@ public class CobolJAXBAnnotator extends Plugin {
      * Leading plus signs are removed from numerics, they cause
      * NumberFormatException.
      * 
-     * @param codeModel the code model
      * @param jf the java field
      * @param e the XML node holding COBOL annotations
      */
-    private void setDefaultValue(
-            final JCodeModel codeModel, final JFieldVar jf, final Element e) {
+    protected void setDefaultValue(final JFieldVar jf, final Element e) {
         if (!e.hasAttribute(CobolMarkup.VALUE)) {
             return;
         }
@@ -284,7 +282,7 @@ public class CobolJAXBAnnotator extends Plugin {
      * 
      * @param co the class outline
      */
-    private void annotateClass(final ClassOutline co) {
+    protected void annotateClass(final ClassOutline co) {
         CPluginCustomization c = co.target.getCustomizations().find(
                 CobolMarkup.NS, CobolMarkup.COMPLEX_TYPE);
         if (c == null) {
@@ -304,7 +302,7 @@ public class CobolJAXBAnnotator extends Plugin {
      * @param c the XML Schema annotation element
      * @param ce the Java code Cobol annotation
      */
-    private void mapAnnotations(
+    protected void mapAnnotations(
             final CPluginCustomization c,
             final JAnnotationUse ce) {
 
@@ -345,7 +343,7 @@ public class CobolJAXBAnnotator extends Plugin {
      * @param xmlMarkup the name of the XML markup tag
      * @param ce the target annotation recipient
      */
-    private void setBooleanParm(
+    protected void setBooleanParm(
             final Element e,
             final String xmlMarkup,
             final JAnnotationUse ce) {
@@ -376,7 +374,7 @@ public class CobolJAXBAnnotator extends Plugin {
      * @param xmlMarkup the name of the XML markup tag
      * @param ce the target annotation recipient
      */
-    private void setNumericParm(
+    protected void setNumericParm(
             final Element e,
             final String xmlMarkup,
             final JAnnotationUse ce) {
@@ -396,7 +394,7 @@ public class CobolJAXBAnnotator extends Plugin {
      * @param xmlMarkup the name of the XML markup tag
      * @param ce the target annotation recipient
      */
-    private void setStringParm(
+    protected void setStringParm(
             final Element e,
             final String xmlMarkup,
             final JAnnotationUse ce) {
