@@ -8,7 +8,7 @@
 
   For the latest release info click {{{./latest-release-overview.html}here}}.
 
-  Checkout the new article on {{{http://blogs.mulesoft.org/legstar-for-mule-patterns/}Patterns for legacy integration with LegStar for Mule}}.
+  Checkout the article on {{{http://blogs.mulesoft.org/legstar-for-mule-patterns/}Patterns for legacy integration with LegStar for Mule}}.
 
   A new project: {{{http://code.google.com/p/legstar-pli2cob}PL/I to COBOL Structure converter}} has started.
   It complements LegStar which has no direct support for PL/I.

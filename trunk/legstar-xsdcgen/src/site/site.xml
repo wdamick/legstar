@@ -4,8 +4,10 @@
 
     <menu name="Complex Types Mapping Generator">
       <item name="Overview" href="index.html"/>
-      <item name="Download" href="download.html"/>
-      <item name="Release Notes" href="release-notes.html" />
+      <item name="Standalone release" collapse="true" href="download.html">
+          <item name="Download" href="download.html"/>
+          <item name="Install instructions" href="release-notes.html" />
+      </item>
     </menu>
 
     ${reports}
