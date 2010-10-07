@@ -5,7 +5,7 @@
     <menu name="LegStar distribution for z/OS">
       <item name="Overview" href="index.html"/>
       <item name="Download" href="download.html"/>
-      <item name="Release Notes" href="release-notes.html" />
+      <item name="Install instructions" href="install-instructions.html" />
     </menu>
 
     ${reports}
