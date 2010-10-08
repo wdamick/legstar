@@ -82,8 +82,18 @@
 <listitem>
 <para>
   Finally the webServiceTargetParameters element gives the datail on how to access the
-  target Web Service.
+  target Web Service. In the case of LIVE search, it should look like this:
 </para>
+<programlisting>
+<![CDATA[
+            <webServiceTargetParameters
+                    wsdlUrl="http://soap.search.msn.com/webservices.asmx?wsdl"
+                    wsdlTargetNamespace="http://schemas.microsoft.com/MSNSearch/2005/09/fex"
+                    wsdlServiceName="MSNSearchService"
+                    wsdlPortName="MSNSearchPort"
+                />
+]]>
+</programlisting>
 </listitem>
 </itemizedlist>
 <para>
