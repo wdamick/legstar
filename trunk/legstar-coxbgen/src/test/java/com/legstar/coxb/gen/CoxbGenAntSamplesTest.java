@@ -14,6 +14,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
+
 import com.legstar.codegen.CodeGenUtil;
 
 /**
@@ -117,7 +119,23 @@ public class CoxbGenAntSamplesTest extends AbstractTestTemplate {
         File resultFile = CodeGenUtil.getFile(SAMPLES_GEN_ANT_DIR, xsdFileName
                 + "/build-coxb.xml");
         _model.generateBuild(resultFile);
-        return resultFile;
+        return deMicrosoftFileNames(resultFile);
+    }
+
+    /**
+     * We don't want our samples to contain dataset names with
+     * the Microsoft specific backslash as the file separator.
+     * 
+     * @param file the file which content should be changed
+     * @return a file with new content
+     * @throws Exception if something goes wrong
+     */
+    protected File deMicrosoftFileNames(final File file) throws Exception {
+        String content = FileUtils.readFileToString(file);
+        content = content.replace('\\', '/');
+        FileUtils.writeStringToFile(file, content);
+        return file;
+
     }
 
 }
