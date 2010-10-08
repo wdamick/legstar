@@ -3,14 +3,14 @@
                                              -----
                                              -----
 
-LegStar Open source mainframe integration
+LegStar Open Source Mmainframe Integration
 
-    LegStar is set of development tools and execution runtimes aimed at integrating legacy
+    LegStar is a set of development tools and execution runtimes aimed at integrating legacy
     COBOL applications with Java and SOA technologies.
     
-* Common use cases
+    Here are some common use cases:
     
-** Transform COBOL payloads to Java, XML or JSON
+* Transform COBOL payloads to Java, XML or JSON
 
     LegStar generates {{{legstar-coxbgen/index.html}COBOL Transformers}}.
  
@@ -18,39 +18,50 @@ LegStar Open source mainframe integration
  
     The LegStar Transformers are pure Java and can be used directly in your code.
 
-** Service-enable a COBOL/CICS program
+* Service-enable a COBOL/CICS program
   
-    LegStar generates adapters for target CICS programs (Either Commarea or Container driven).
+    LegStar generates {{{legstar-cixsgen/index.html}Mainframe Adapters}} for target CICS programs (Either Commarea or Container driven).
   
-    Adapters are ready to deploy in:
-    * {{{http://jcp.org/en/jsr/detail?id=224}JAX-WS}}
-    * {{{http://www.jboss.org/jbossesb}JBoss ESB}}
-    * {{{http://www.mulesoft.org/}Mule ESB}}
+    Adapters are ready to deploy in {{{http://jcp.org/en/jsr/detail?id=224}JAX-WS}},  {{{http://www.jboss.org/jbossesb}JBoss ESB}}
+    or {{{http://www.mulesoft.org/}Mule ESB}}.
   
-** Access java services from COBOL/CICS programs
+* Access remote services from COBOL/CICS programs
 
-    LegStar generates proxies for POJO, JAX-WS, JBoss ESB or Mule ESB services.
+    LegStar generates {{{legstar-cixsgen/index.html}Mainframe Proxies}} for POJO, Web Services, JBoss ESB or Mule ESB services.
  
-    Proxies receive requests from COBOL/CICS programs and mediate call to the target services.
+    Proxies receive requests from COBOL/CICS programs and mediate calls to the target services.
 
 * Interested?
 
-    Read the {{{quicktour.html}quicktour}} and get the complete product for:
-    * {{{legstar-distribution/index.html}JAX-WS}}
-    * {{{http://code.google.com/p/legstar-jbossesb/}JBoss ESB}}
-    * {{{http://code.google.com/p/legstar-mule/}Mule ESB}}
+    Read the {{{quicktour.html}quicktour}} and get one of the complete products:
+
+    * {{{legstar-distribution/index.html}LegStar for JAX-WS}}
+
+    * {{{http://code.google.com/p/legstar-jbossesb/}LegStar for JBoss ESB}}
+
+    * {{{http://code.google.com/p/legstar-mule/}LegStar for Mule ESB}}
 
 * Direct access to LegStar modules:
 
-    * {{{http://code.google.com/p/legstar-cob2xsd/}COBOL Structures to XML Schema}}
-    * {{{legstar-xsdcgen/index.html}Complex Types Mapping Generator}}
-    * {{{legstar-coxbgen/index.html}COBOL Transformers Generator}}
-    * {{{legstar-cixsgen/index.html}JAX-WS Mainframe Service Generator}}
-    * {{{legstar-invoker/index.html}Mainframe Adapter execution runtime}}
-    * {{{legstar-c2wsrt/index.html}Mainframe Proxy execution runtime}}
-    * {{{legstar-csokrt/index.html}Sockets Transport}}
-    * {{{legstar-chttprt/index.html}HTTP Transport}}
-    * {{{legstar-cmqrt/index.html}WebSphere MQ Transport}}
+    * {{{http://code.google.com/p/legstar-cob2xsd/}legstar-cob2xsd}} COBOL to XML Schema Translator
+
+    * {{{legstar-xsdcgen/index.html}legstar-xsdcgen}} Complex Types Mapping Generator
+
+    * {{{legstar-coxbgen/index.html}legstar-coxbgen}} COBOL Transformers Generator
+
+    * {{{legstar-cixsgen/index.html}legstar-cixsgen}} JAX-WS Mainframe Service Generator
+
+    * {{{legstar-invoker/index.html}legstar-invoker}} Mainframe Adapter execution runtime
+
+    * {{{legstar-c2wsrt/index.html}legstar-c2wsrt}} Mainframe Proxy execution runtime
+
+    * {{{legstar-csokrt/index.html}legstar-csokrt}} Sockets Transport
+
+    * {{{legstar-chttprt/index.html}legstar-chttprt}} HTTP Transport
+
+    * {{{legstar-cmqrt/index.html}legstar-cmqrt}} WebSphere MQ Transport
+
+    * {{{legstar-engine/index.html}legstar-engine}} Connection Pooling Engine
 
 * Are you an IMS/DC user?
 

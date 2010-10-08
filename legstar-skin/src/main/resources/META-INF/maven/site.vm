@@ -332,7 +332,8 @@
         #end
       #end
     #end
-    <meta http-equiv="Cache-Control" Content="no-cache">
+    <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+    <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
   </head>
   <body class="composite">
     <div id="banner">

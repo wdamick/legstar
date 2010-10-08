@@ -26,23 +26,25 @@
   <body>
     <links>
       <item name="Home" href="http://www.legsem.com/legstar" />
-      <item name="Download" href="legstar-distribution/index.html"/>
+      <item name="Download" href="legstar-distribution"/>
       <item name="Mailing list" href="http://groups.google.com/group/legstar-user" />
       <item name="Mail" href="mailto:admin@legsem.com" />
     </links>
 
     <menu name="LegStar">
       <item name="Home" href="index.html"/>
-      <item name="Download" href="legstar-distribution/index.html"/>
-      <item name="News" href="news.html"/>
+      <item name="Download" href="legstar-distribution"/>
       <item name="Latest release" href="latest-release-overview.html"/>
       <item name="Copyright" href="copyright.html" />
     </menu>
 
     <menu name="Learn more">
       <item name="Quick tour" href="quicktour.html"/>
-      <item name="Full presentation (pdf)" href="pdf/legstar-presentation.pdf"/>
-      <item name="Full presentation (html)" href="presentation/presentation.html"/>
+      <item name="User guide" collapse="true" href="userguide.html">
+        <item name="PDF version" href="legstar-user-guide.pdf"/>
+        <item name="HTML version" href="legstar-user-guide.html"/>
+      </item>
+      <item name="On the web" href="ontheweb.html"/>
       <item name="JavaDocs" href="apidocs/index.html"/>
     </menu>
 

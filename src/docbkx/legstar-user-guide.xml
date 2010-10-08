@@ -59,9 +59,9 @@
 
 <chapter>
 <title>Installation</title>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" xpointer="legstar-install-instructions" href="../../../legstar-distribution/src/site/docbook/install-instructions.xml" />
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" xpointer="legstar-install-instructions-zos"  href="../../../legstar-distribution-zos/src/site/docbook/install-instructions.xml" />
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" xpointer="legstar-install-instructions-eclipse"  href="../../../legstar-common-plugin/src/site/docbook/install-instructions.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" xpointer="legstar-install-instructions" href="../../legstar-distribution/src/site/docbook/install-instructions.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" xpointer="legstar-install-instructions-zos"  href="../../legstar-distribution-zos/src/site/docbook/install-instructions.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" xpointer="legstar-install-instructions-eclipse"  href="../../legstar-common-plugin/src/site/docbook/install-instructions.xml" />
 </chapter>
 
 <chapter>
@@ -87,14 +87,14 @@
 <section>
 <title>Expose a COBOL program as a Web Service</title>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="sections/using-ant-cob2xsd-translator.xml" />
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../../../legstar-coxbgen/src/docbkx/sections/using-ant-generator-adapter.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../../legstar-coxbgen/src/docbkx/sections/using-ant-generator-adapter.xml" />
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="sections/using-ant-jaxws-adapter.xml" />
 </section>
 
 <section>
 <title>Consume a Web Service from a COBOL program</title>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="sections/using-ant-xsd2xsd-translator.xml" />
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../../../legstar-coxbgen/src/docbkx/sections/using-ant-generator-proxy.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../../legstar-coxbgen/src/docbkx/sections/using-ant-generator-proxy.xml" />
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="sections/using-ant-jaxws-proxy.xml" />
 </section>
 
@@ -122,7 +122,7 @@
 </mediaobject>
 </figure>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="sections/using-eclipse-cob2xsd-translator.xml" />
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../../../legstar-coxbgen/src/docbkx/sections/using-eclipse-generator-adapter.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../../legstar-coxbgen/src/docbkx/sections/using-eclipse-generator-adapter.xml" />
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="sections/using-eclipse-jaxws-adapter.xml" />
 </section>
 
@@ -138,7 +138,7 @@
   It is important that the project be of a Java nature. 
 </para>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="sections/using-eclipse-xsd2xsd-translator.xml" />
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../../../legstar-coxbgen/src/docbkx/sections/using-eclipse-generator-proxy.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../../legstar-coxbgen/src/docbkx/sections/using-eclipse-generator-proxy.xml" />
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="sections/using-eclipse-jaxws-proxy.xml" />
 </section>
 
@@ -173,7 +173,7 @@
 
 <appendix>
 <title>Code snippets</title>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../../../legstar-coxbgen/src/docbkx/sections/using-transformers.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../../legstar-coxbgen/src/docbkx/sections/using-transformers.xml" />
 </appendix>
 
 </book>
