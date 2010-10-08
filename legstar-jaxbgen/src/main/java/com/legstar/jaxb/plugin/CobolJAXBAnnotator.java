@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 LegSem.
+ * Copyright (c) 2010 LegSem.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Lesser Public License v2.1
  * which accompanies this distribution, and is available at
@@ -26,7 +26,6 @@ import com.legstar.coxb.CobolElement;
 import com.legstar.coxb.CobolMarkup;
 import com.legstar.coxb.CobolType;
 import com.sun.codemodel.JAnnotationUse;
-import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JFieldVar;
 import com.sun.tools.xjc.Options;
