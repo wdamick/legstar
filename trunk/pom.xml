@@ -205,6 +205,37 @@
                 </executions>
             </plugin>
       
+            <plugin>
+                <groupId>com.agilejava.docbkx</groupId>
+                <artifactId>docbkx-maven-plugin</artifactId>
+                <inherited>false</inherited>
+                <executions>
+                    <!-- Produce the site documentation -->
+                    <execution>
+                        <goals>
+                            <goal>generate-html</goal>
+                            <goal>generate-pdf</goal>
+                        </goals>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <targetDirectory>target/site</targetDirectory>
+                            <postProcess>
+                                <copy todir="target/site/images">
+                                    <fileset dir="src/docbkx/sections/images">
+                                        <include name="**/*.jpg" />
+                                        <include name="**/*.png" />
+                                    </fileset>
+                                    <fileset dir="../legstar-coxbgen/src/docbkx/sections/images">
+                                        <include name="**/*.jpg" />
+                                        <include name="**/*.png" />
+                                    </fileset>
+                                </copy>
+                            </postProcess>
+                          </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
 
     </build>
@@ -245,7 +276,6 @@
         <module>legstar-coxbrt</module>
         <module>legstar-coxbgen</module>
         <module>legstar-coxbgen-cases</module>
-<!--
         <module>legstar-messaging</module>
         <module>legstar-config</module>
         <module>legstar-cmockrt</module>
@@ -264,8 +294,6 @@
         <module>legstar-distribution</module>
         <module>legstar-distribution-zos</module>
         <module>legstar-eclipse</module>
-        <module>legstar-doc</module>
--->
     </modules>
  
     <distributionManagement>
