@@ -80,5 +80,9 @@
 </para>
 </listitem>
 </itemizedlist>
+<para>
+  The <link linkend="coxbgen-using-transformers">Using generated tranformers</link> section gives examples
+  of code you could write to run Transformers.
+</para>
 
 </section>

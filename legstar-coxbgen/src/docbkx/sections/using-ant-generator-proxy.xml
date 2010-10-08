@@ -21,7 +21,7 @@
 <listitem>
 <para>
   Change xsdFile parameter of the jaxbgen ant task to point to the location the XML Schema
-  that was produced with Complex Types mapping tool.
+  that was produced with the WSDL/XSD Structures Mapping tool.
 </para>
 </listitem>
 <listitem>
@@ -64,5 +64,9 @@
   You can now execute the ant script.
 </para>
 
+<para>
+  The <link linkend="coxbgen-using-transformers">Using generated tranformers</link> section gives examples
+  of code you could write to run Transformers.
+</para>
 
 </section>

@@ -4,15 +4,17 @@
 
 Version 1.4.0
 
- This is a large improvement on the COBOL Transformers features.
+ This is a major release and represents a large improvement for the COBOL Transformers features.
  
- It also introduces support for JSON. You can now generate COBOL to JSON Transformers
+ The term "Transformers" is now being largely used instead of "Binding classes".
+ 
+ This release introduces support for JSON. You can now generate COBOL to JSON Transformers
  in addition to COBOL to java and COBOL to XML.
  
- For users migrating from older releases, you want to be careful as there are
- many changes here.
+ The documentation has been thoroughly reviwed. The presentation document has been removed.
+ There is now a user guide available, both in HTML and PDF form.
 
- A {{{http://code.google.com/p/legstar/issues/list?can=1&q=Milestone%3DRelease1.4.0}complete list of bug fixes and improvements}} is available.
+ A {{{http://code.google.com/p/legstar/issues/list?can=1&q=Milestone%3DRelease1.4.0}complete list of enhancements and bug fixes}} is available.
 
 Version 1.3.2
 

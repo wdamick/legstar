@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section id="jaxwsgen-using-eclipse-proxy">
+<title>Mainframe Proxy generation</title>
+<para>
+  The last step is also similar to the previous use case. We start by creating a mapping to the Web Service
+  operation using the LegStar->New operations mapping… option:
+</para>
+<figure>
+<title>Proxy service generation screen new operation</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/eclipse-screen-shot-proxy-service-generation-new-operation.jpg" format="JPG" scalefit="1" width="100%" contentdepth="100%"/>
+</imageobject>
+</mediaobject>
+</figure>
+<para>
+  We now add an operation with the following characteristics: 
+</para>
+<figure>
+<title>Proxy service generation screen operation mapping done</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/eclipse-screen-shot-proxy-service-generation-operation-mapping-done.jpg" format="JPG" scalefit="1" width="100%" contentdepth="100%"/>
+</imageobject>
+</mediaobject>
+</figure>
+<para>
+  The mainframe program in this case is a sample COBOL CICS program that will be generated with
+  the name that you specify here.
+</para>
+<para>
+  Once you are back on the operations mapping editor, you can click on generate. You can now select the
+  mainframe proxy option:
+</para>
+<figure>
+<title>Proxy service generation screen select target</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/eclipse-screen-shot-proxy-service-generation-select-target.jpg" format="JPG" scalefit="1" width="100%" contentdepth="100%"/>
+</imageobject>
+</mediaobject>
+</figure>
+<para>
+  The generator dialog will ask you for the target Web Service runtime characteristics. This is needed to
+  allow the proxy to address the target Web Service at runtime. You can query these parameters from the WSDL
+  again by entering the URL and clicking on go. If the target WSDL has more than one service or port,
+  you will have to select one:
+</para>
+<figure>
+<title>Proxy service generation screen parameters</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/eclipse-screen-shot-proxy-service-generation-parameters.jpg" format="JPG" scalefit="1" width="100%" contentdepth="100%"/>
+</imageobject>
+</mediaobject>
+</figure>
+<para>
+  Clicking the finish button will create various artifacts. The Mainframe proxy is Servlet to be deployed in
+  a J2EE container. The implementation uses Sun's JAX-WS RI (Metro) as a Web Service client. The build-war.xml
+  ant file that is generated allows you to bundle the servlet ready for deployment.
+</para>
+<para>
+  The generator also creates a sample COBOL program that behaves as an HTTP client. The search structure shows
+  up in the working storage section:
+</para>
+<figure>
+<title>Proxy service generation screen results</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/eclipse-screen-shot-proxy-service-generation-result.jpg" format="JPG" scalefit="1" width="100%" contentdepth="100%"/>
+</imageobject>
+</mediaobject>
+</figure>
+<para>
+  The sample COBOL source contains TODO comments to help you locate where you should set values for the search
+  request and where you can display the results. The LIVE search service requires a developer ID that you can
+  get for free and enter in the AppID field.
+</para>
+<para>
+  This is an example of code to set the search structures properly:
+</para>
+<programlisting>
+           MOVE ZERO TO Flags--C OF COM-REQUEST.
+           MOVE ZERO TO SortBy--C OF COM-REQUEST.
+           MOVE ZERO TO ResultFields--C OF COM-REQUEST.
+           MOVE ZERO TO R-string--C OF COM-REQUEST.
+           MOVE 1 TO SourceRequest--C OF COM-REQUEST.
+      *  You should specify your own Microsoft LIVE application ID
+           MOVE '5588C3ACE949317B3ECAADDQ908611BDF5D8D5ZA'
+             TO AppID OF COM-REQUEST.
+           MOVE 'Mainframe' TO Query OF COM-REQUEST.
+           MOVE 'en-US' TO CultureInfo OF COM-REQUEST.
+           MOVE 'Moderate' to SafeSearch OF COM-REQUEST.
+           MOVE ZERO TO Latitude OF COM-REQUEST.
+           MOVE ZERO TO Longitude OF COM-REQUEST.
+           MOVE ZERO TO Radius OF COM-REQUEST.
+           MOVE 'Web' TO R-Source OF COM-REQUEST(1).
+           MOVE ZERO TO Offset OF COM-REQUEST(1).
+           MOVE 1 TO R-Count OF COM-REQUEST(1).
+           MOVE SPACES TO FileType OF COM-REQUEST(1).
+</programlisting>
+<para>
+  And these are lines to display the result:
+</para>
+<programlisting>
+           STRING 'INVOKE-SERVICE success. First hit is '
+                  DELIMITED BY SIZE
+                  Description OF COM-REPLY(1, 1)
+                  DELIMITED BY SIZE
+                  INTO ERROR-MESSAGE.
+           EXEC CICS SEND TEXT FROM(ERROR-MESSAGE) FREEKB END-EXEC.
+           DISPLAY 'Response data length=' WBCLI-RESPONSE-BODY-LEN.
+
+           DISPLAY 'SourceResponse--C ='
+                    SourceResponse--C OF COM-REPLY.
+           DISPLAY 'R-Source(1)=' R-Source OF COM-REPLY(1).
+           DISPLAY 'Total(1)=' Total OF COM-REPLY(1).
+           DISPLAY 'R-Title(1, 1)=' R-Title OF COM-REPLY(1, 1).
+           DISPLAY 'Description(1, 1)='
+                    Description OF COM-REPLY(1, 1).
+</programlisting>
+<para>
+  After you add these lines of code, you should be able to upload the source onto your mainframe and get
+  it compiled and defined to your CICS region. Please note that this program calls the CICS DFHWBCLI program
+  defined in the CICS standard DFHWEB group. Alternatively, LegStar supports the new EXEC CICS WEB API or
+  even supports older version of CICS with its own HTTP library. 
+</para>
+</section>
