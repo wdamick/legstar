@@ -225,7 +225,7 @@
                                         <include name="**/*.jpg" />
                                         <include name="**/*.png" />
                                     </fileset>
-                                    <fileset dir="../legstar-coxbgen/src/docbkx/sections/images">
+                                    <fileset dir="legstar-coxbgen/src/docbkx/sections/images">
                                         <include name="**/*.jpg" />
                                         <include name="**/*.png" />
                                     </fileset>
@@ -265,6 +265,7 @@
         </profile>
     </profiles>
 
+<!--
     <modules>
         <module>legstar-tests</module>
         <module>legstar-codegen</module>
@@ -295,7 +296,7 @@
         <module>legstar-distribution-zos</module>
         <module>legstar-eclipse</module>
     </modules>
- 
+--> 
     <distributionManagement>
         <downloadUrl>http://www.legsem.com/legstar/mavenrepo</downloadUrl>
         <site>

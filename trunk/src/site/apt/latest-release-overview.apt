@@ -11,7 +11,7 @@ Version 1.4.0
  This release introduces support for JSON. You can now generate COBOL to JSON Transformers
  in addition to COBOL to java and COBOL to XML.
  
- The documentation has been thoroughly reviwed. The presentation document has been removed.
+ The documentation has been thoroughly reviewed. The presentation document has been removed.
  There is now a user guide available, both in HTML and PDF form.
 
  A {{{http://code.google.com/p/legstar/issues/list?can=1&q=Milestone%3DRelease1.4.0}complete list of enhancements and bug fixes}} is available.
