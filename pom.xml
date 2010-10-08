@@ -265,7 +265,6 @@
         </profile>
     </profiles>
 
-<!--
     <modules>
         <module>legstar-tests</module>
         <module>legstar-codegen</module>
@@ -296,7 +295,7 @@
         <module>legstar-distribution-zos</module>
         <module>legstar-eclipse</module>
     </modules>
---> 
+
     <distributionManagement>
         <downloadUrl>http://www.legsem.com/legstar/mavenrepo</downloadUrl>
         <site>

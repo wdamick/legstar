@@ -4,13 +4,13 @@
 
     <menu name="Installation instructions">
       <item name="Instructions for Java" href="install-instructions.html" />
-      <item name="Instructions for z/OS" href="../legstar-distribution-zos"/>
-      <item name="Instructions for Eclipse" href="../legstar-common-plugin"/>
+      <item name="Instructions for z/OS" href="../legstar-distribution-zos/install-instructions.html"/>
+      <item name="Instructions for Eclipse" href="../legstar-common-plugin/install-instructions.html"/>
     </menu>
-    <menu name="External modules">
-      <item name="JBoss ESB" href="http://code.google.com/p/legstar-jbossesb/" />
-      <item name="Mule ESB" href="http://code.google.com/p/legstar-mule/"/>
-      <item name="PL/I to COBOL" href="http://code.google.com/p/legstar-pli2cob/"/>
+    <menu name="More downloads">
+      <item name="LegStar for JBoss ESB" href="http://code.google.com/p/legstar-jbossesb/" />
+      <item name="LegStar for Mule ESB" href="http://code.google.com/p/legstar-mule/"/>
+      <item name="PL/I to COBOL Translator" href="http://code.google.com/p/legstar-pli2cob/"/>
     </menu>
   </body>
 </project>
