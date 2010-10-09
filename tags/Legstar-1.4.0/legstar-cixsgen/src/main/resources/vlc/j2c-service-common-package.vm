@@ -1,0 +1,13 @@
+##/////////////////////////////////////////////////////////////////////
+##Jaxws Component Common Velocity Template.
+##These are the directives and macros shared by the Jaxws component
+##generation artifacts.
+##@author Fady
+##/////////////////////////////////////////////////////////////////////
+## ==================================================================
+## All generated Java classes go into the same package
+##
+#if($model.packageName)
+package $model.packageName;
+#end
+##

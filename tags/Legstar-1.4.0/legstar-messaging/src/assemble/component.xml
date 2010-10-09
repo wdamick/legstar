@@ -1,0 +1,29 @@
+<component>
+
+    <fileSets>
+
+        <!-- C/370 messaging programs -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-messaging/src/main/zos</directory>
+            <outputDirectory>/zos</outputDirectory>
+            <includes>
+                <include>**</include>
+            </includes>
+        </fileSet>
+
+    </fileSets>
+    
+    <files>
+        <file>
+           <source>${project.basedir}/../legstar-messaging/src/site/apt/LSMSGLIB-readme.apt</source>
+           <outputDirectory>/zos/docs</outputDirectory>
+           <destName>LSMSGLIB-README</destName>
+        </file>
+        <file>
+           <source>${project.basedir}/../legstar-messaging/src/site/apt/LSCOMLOG-readme.apt</source>
+           <outputDirectory>/zos/docs</outputDirectory>
+           <destName>LSCOMLOG-README</destName>
+        </file>
+    </files>
+
+</component>

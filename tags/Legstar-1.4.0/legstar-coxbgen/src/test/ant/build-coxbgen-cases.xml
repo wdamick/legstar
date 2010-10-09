@@ -1,0 +1,164 @@
+<?xml version="1.0" standalone="yes"?>
+<!-- =================================================================================
+     Iterates thru XML schemas and generates COXB binding classes for each. 
+     This script assumes JAXB classes have already been generated for those
+     schemas (see legstar-schemagen#build-jaxbgen-cases.xml).
+  -->
+<project basedir="..\..\.." default="compileAllCOXB">
+	
+	<!-- ===========================================================  -->
+	<!-- Setup environment
+	  -->
+	<target name="init">
+
+		<!-- Target location for generated COXB sources   -->
+		<property name="coxb.src.dir" value="${basedir}/../legstar-coxbgen-cases/src/main/java"/>
+		<!-- Target location for generated COXB binaries   -->
+		<property name="coxb.bin.dir" value="${basedir}/../legstar-coxbgen-cases/target/classes"/>
+		<!-- Location of XML schemas  -->
+	 	<property name="xsd.dir" value="${basedir}/../target/cases/schema" />
+		<!-- The JAXB root object name. Binding is for a single complex
+		     element. (Assuming all schemas have same root name here)   -->
+	 	<property name="jaxb.root.name" value="Dfhcommarea" />
+		<!-- Location of LegStar binaries   -->
+		<property name="build.dir" value="${basedir}/target"/>
+			
+		<!-- Generator ant task -->
+		<taskdef name="coxbgen"
+			classname="com.legstar.coxb.gen.CoxbBindingGenerator"
+			classpathref="classpath"/>
+
+		<!-- Ant-Contrib tasks. Needed for "foreach ", regex, switch, ...
+		     (ant-contrib.jar must be in ant classpath) -->
+		<taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+			
+        <!-- Helper for name lowercasing -->
+        <taskdef name="case"
+            classname="com.legstar.coxb.util.PropertyCase"
+            classpathref="classpath"/>
+
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Generate COXB output for a each XML schema in a given folder. 
+	     Methods with same request/reply are treated alltogether, others
+	     must be dealt with individually
+	  -->
+	<target name="generateAllCOXB" depends="init">
+		<mkdir dir="${coxb.bin.dir}"/>
+		<foreach target="generateCOXB" param="xsd.file" inheritrefs="true">
+			<path>
+				<fileset dir="${xsd.dir}" includes="*.xsd" excludes="clegtstc.cbl.xsd LSFILEAL.xsd LSFILEAC.xsd enumvar.xsd MSNSearch.xsd cultureinfo.xsd jvmquery.xsd jvmquery-ws.xsd VARAR021.xsd"/>
+			</path>
+		</foreach>
+		<coxbgen 
+			targetDir="${coxb.src.dir}"
+            xmlTransformers="true"
+            jsonTransformers="true"
+            jaxbPackageName="com.legstar.test.coxb.lsfileal"
+	        >
+	            <jaxbRootClass name="RequestParms"/>
+	            <jaxbRootClass name="ReplyData"/>
+	        </coxbgen>
+		<coxbgen 
+			targetDir="${coxb.src.dir}"
+            xmlTransformers="true"
+            jsonTransformers="true"
+            jaxbPackageName="com.legstar.test.coxb.lsfileac"
+	        >
+	            <jaxbRootClass name="QueryData"/>
+                <jaxbRootClass name="QueryLimit"/>
+	            <jaxbRootClass name="ReplyStatus"/>
+	            <jaxbRootClass name="ReplyData"/>
+	        </coxbgen>
+        <coxbgen 
+        	jaxbPackageName="com.legstar.test.coxb.cultureinfo"
+            xmlTransformers="true"
+            jsonTransformers="true"
+            targetDir="${coxb.src.dir}"
+            >
+                <jaxbRootClass name="GetInfo"/>
+                <jaxbRootClass name="GetInfoResponse"/>
+            </coxbgen>
+        <coxbgen 
+            jaxbPackageName="com.legstar.test.coxb.jvmquery"
+            xmlTransformers="true"
+            jsonTransformers="true"
+            targetDir="${coxb.src.dir}"
+            >
+                <jaxbRootClass name="JvmQueryRequest"/>
+                <jaxbRootClass name="JvmQueryReply"/>
+            </coxbgen>
+        <coxbgen 
+        	xsdFile="${xsd.dir}/jvmquery-ws.xsd"
+            JaxbPackageName="com.legstar.test.coxb.ws.jvmquery"
+            xmlTransformers="true"
+            jsonTransformers="true"
+            targetDir="${coxb.src.dir}"
+            >
+                <jaxbRootClass name="QueryJvm"/>
+                <jaxbRootClass name="QueryJvmResponse"/>
+            </coxbgen>
+        <coxbgen 
+            jaxbPackageName="com.legstar.test.coxb.MSNSearch"
+            xmlTransformers="true"
+            jsonTransformers="true"
+            targetDir="${coxb.src.dir}"
+            >
+                <jaxbRootClass name="Search"/>
+                <jaxbRootClass name="SearchResponse"/>
+            </coxbgen>
+        <coxbgen 
+            jaxbPackageName="com.legstar.test.coxb.varar021"
+            xmlTransformers="true"
+            jsonTransformers="true"
+            targetDir="${coxb.src.dir}"
+            >
+                <jaxbRootClass name="SearchGrplst"/>
+            </coxbgen>
+        <!--
+		<coxbgen 
+            jaxbPackageName="com.legstar.test.coxb.enumvar"
+			targetDir="${coxb.src.dir}"
+        >
+            <jaxbRootClass name="SearchRequestType"/>
+        </coxbgen>
+		-->
+		</target>
+	
+	<!-- ===========================================================  -->
+	<!-- Compiles the generated binding classes
+	  -->
+	<target name="compileAllCOXB" depends="generateAllCOXB">
+		 <javac  target="1.5"
+    	         srcdir="${coxb.src.dir}"
+		 	     includes="**/*.java"
+	             excludes="local/**"
+		         destdir="${coxb.bin.dir}"
+		 	     classpathref="classpath"
+		         fork="yes"
+		 />
+	</target>
+
+	<!-- ===========================================================  -->
+	<!-- Generate binding classes by reflecting on JAXB classes.
+	  -->
+	<target name="generateCOXB" depends="init">
+	    <echo message="Generating binding classes for ${xsd.file}" />
+		<basename property="basename" file="${xsd.file}"
+		          suffix=".xsd"/>
+		<case property="lcname"
+			  from="basename"
+			  toupper="false"/>
+		<coxbgen 
+            jaxbPackageName="com.legstar.test.coxb.${lcname}"
+			xmlTransformers="true"
+            jsonTransformers="true"
+			targetDir="${coxb.src.dir}"
+		>
+            <jaxbRootClass name="Dfhcommarea"/>
+        </coxbgen>
+	</target>
+
+	
+</project>
