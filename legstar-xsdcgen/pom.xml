@@ -3,9 +3,9 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.4.0</version>
+        <version>1.4.1-SNAPSHOT</version>
     </parent>
-    <version>1.4.0</version>
+    <version>1.4.1-SNAPSHOT</version>
     <artifactId>legstar-xsdcgen</artifactId>
     <name>LegStar Complex Types Mapping Generator</name>
     <description>Generates mapping XML Schema from XSD, WSDL or Java classes.</description>
