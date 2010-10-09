@@ -232,6 +232,11 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer
             _log.debug("Host to Java transformation started");
         }
 
+        if (hostData == null) {
+            throw new HostTransformException(
+                    "Host data is null. Unable to transform to java.");
+        }
+
         try {
             /* Reuse binding if possible get a new one otherwise */
             CobolElementVisitor unmarshaler = getCobolBindingVisitorsFactory()

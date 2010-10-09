@@ -22,6 +22,11 @@
                 <include name="*.jar"/>
             </fileset>
         </copy>
+        <copy todir="${basedir}/lib">
+            <fileset dir="${basedir}/../target">
+                <include name="*-sources.jar"/>
+            </fileset>
+        </copy>
     </target>
 
     <target name="populateLib" depends="doPopulateLib"/>
