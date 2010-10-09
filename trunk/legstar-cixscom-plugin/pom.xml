@@ -3,10 +3,10 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.4.0-SNAPSHOT</version>
+        <version>1.4.0</version>
         <relativePath>..</relativePath>
     </parent>
-    <version>1.4.0-SNAPSHOT</version>
+    <version>1.4.0</version>
     <artifactId>legstar-cixscom-plugin</artifactId>
     <packaging>jar</packaging>
     <name>LegStar Service Generator Common Eclipse plugin</name>
