@@ -3,9 +3,9 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.4.0-SNAPSHOT</version>
+        <version>1.4.0</version>
     </parent>
-    <version>1.4.0-SNAPSHOT</version>
+    <version>1.4.0</version>
     <artifactId>legstar-jaxbgen</artifactId>
     <name>LegStar JAXB COBOL Annotator</name>
     <description>Generates Cobol annotations in JAXB classes.</description>

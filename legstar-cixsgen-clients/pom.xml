@@ -4,9 +4,9 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.4.0-SNAPSHOT</version>
+        <version>1.4.0</version>
     </parent>
-    <version>1.4.0-SNAPSHOT</version>
+    <version>1.4.0</version>
     <artifactId>legstar-cixsgen-clients</artifactId>
     <name>LegStar Mainframe Service Generator Clients</name>
     <description>Testing project for generated Web services</description>
