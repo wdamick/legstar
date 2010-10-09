@@ -194,8 +194,15 @@
 
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
-                <inherited>true</inherited>
                 <executions>
+                    <!-- All sources are aggregated together at package time -->
+                    <execution>
+                        <id>aggregate-sources</id>
+                        <goals>
+                            <goal>aggregate</goal>
+                        </goals>
+                    </execution>
+                    <!-- All modules bundle their sources at package time -->
                     <execution>
                         <id>project-sources</id>
                         <goals>
@@ -204,7 +211,7 @@
                     </execution>
                 </executions>
             </plugin>
-      
+
             <plugin>
                 <groupId>com.agilejava.docbkx</groupId>
                 <artifactId>docbkx-maven-plugin</artifactId>
@@ -240,25 +247,63 @@
 
     </build>
   
+    <!-- Duplicate from super POM. Needed to ensure aggregated sources are attached at perform release time -->
     <profiles>
         <profile>
-            <id>release</id>
+            <id>release-profile</id>
+            
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                </property>
+            </activation>
+            
             <build>
                 <plugins>
                     <plugin>
+                        <inherited>true</inherited>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <configuration>
-                            <excludeResources>true</excludeResources>
-                        </configuration>
+                        
                         <executions>
+                            <!-- All sources are aggregated together at package time -->
                             <execution>
                                 <id>aggregate-sources</id>
                                 <goals>
                                     <goal>aggregate</goal>
                                 </goals>
                             </execution>
+                            <!-- All modules bundle their sources at package time -->
+                            <execution>
+                                <id>project-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
                         </executions>
+                    </plugin>
+                    <plugin>
+                        <inherited>true</inherited>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                            
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <inherited>true</inherited>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        
+                        <configuration>
+                            <updateReleaseInfo>true</updateReleaseInfo>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
