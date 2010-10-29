@@ -17,15 +17,16 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.legstar.coxb.util.Utils;
+import com.legstar.coxb.util.ClassUtil;
 import com.legstar.proxy.invoke.AbstractProxyInvoker;
 import com.legstar.proxy.invoke.ProxyInvokerException;
 
 /**
  * This provides the capability to call a POJO method.
  * <p/>
- * The POJO is assumed to implement the Data Transfer Object/Remote facade patterns
- * {@link http://java.sun.com/blueprints/corej2eepatterns/Patterns/TransferObject.html}.
+ * The POJO is assumed to implement the Data Transfer Object/Remote facade
+ * patterns {@link http
+ * ://java.sun.com/blueprints/corej2eepatterns/Patterns/TransferObject.html}.
  * <p/>
  * The class is immutable. All parameters are passed at construction time.
  * Limitations:
@@ -33,29 +34,29 @@ import com.legstar.proxy.invoke.ProxyInvokerException;
  *<li>POJO must implement a no-argument constructor</li>
  *<li>Service.Mode.PAYLOAD JAXB Objects are used to create the SOAP payload</li>
  *<li>No support for authentication against target Web Service</li>
- * </ul> 
- *
+ * </ul>
+ * 
  */
 public class PojoInvoker extends AbstractProxyInvoker {
 
     /* ====================================================================== */
-    /* = Constants section                                                  = */
+    /* = Constants section = */
     /* ====================================================================== */
-    /** POJO Class name. */ 
+    /** POJO Class name. */
     public static final String POJO_CLASS_NAME_PROPERTY = "pojoClassName";
 
-    /** POJO method name. */ 
+    /** POJO method name. */
     public static final String POJO_METHOD_NAME_PROPERTY = "pojoMethodName";
 
     /* ====================================================================== */
-    /* = Properties section                                                 = */
+    /* = Properties section = */
     /* ====================================================================== */
     /** The POJO Class name. */
     private String mPojoClassName;
 
     /** The POJO method name. */
     private String mPojoMethodName;
-    
+
     /** The POJO class type. */
     private Class < ? > mPojoClass;
 
@@ -68,30 +69,33 @@ public class PojoInvoker extends AbstractProxyInvoker {
     /**
      * Standard constructor. The configuration parameters supported are:
      * <ul>
-     *  <li>pojoClassName: Target POJO Class name</li>
-     *  <li>pojoMethodName: Target POJO method name</li>
+     * <li>pojoClassName: Target POJO Class name</li>
+     * <li>pojoMethodName: Target POJO method name</li>
      * </ul>
+     * 
      * @param config configuration parameters
-     * @throws PojoInvokerException if configuration is wrong 
+     * @throws PojoInvokerException if configuration is wrong
      */
     public PojoInvoker(
             final Map < String, String > config) throws PojoInvokerException {
-        
+
         super(config);
-        
+
         mPojoClassName = config.get(POJO_CLASS_NAME_PROPERTY);
         if (mPojoClassName == null || mPojoClassName.length() == 0) {
-            throw new PojoInvokerException("You must specify a POJO class name using the "
-                    + POJO_CLASS_NAME_PROPERTY + " attribute");
+            throw new PojoInvokerException(
+                    "You must specify a POJO class name using the "
+                            + POJO_CLASS_NAME_PROPERTY + " attribute");
         }
         mPojoMethodName = config.get(POJO_METHOD_NAME_PROPERTY);
         if (mPojoMethodName == null || mPojoMethodName.length() == 0) {
-            throw new PojoInvokerException("You must specify a POJO method name using the "
-                    + POJO_METHOD_NAME_PROPERTY + " attribute");
+            throw new PojoInvokerException(
+                    "You must specify a POJO method name using the "
+                            + POJO_METHOD_NAME_PROPERTY + " attribute");
         }
-        
+
         try {
-            mPojoClass = Utils.loadClass(mPojoClassName);
+            mPojoClass = ClassUtil.loadClass(mPojoClassName);
             boolean methodFound = false;
             for (Method method : mPojoClass.getMethods()) {
                 if (method.getName().equals(mPojoMethodName)) {
@@ -117,15 +121,18 @@ public class PojoInvoker extends AbstractProxyInvoker {
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public < T > T invoke(final String requestID, final Object oRequest) throws ProxyInvokerException {
+    public < T > T invoke(final String requestID, final Object oRequest)
+            throws ProxyInvokerException {
         if (_log.isDebugEnabled()) {
-            _log.debug("About to call method " + getPojoMethodName() + " for POJO="
+            _log.debug("About to call method " + getPojoMethodName()
+                    + " for POJO="
                     + getPojoClassName() + " request ID=" + requestID);
         }
         Object replyObject;
         try {
             Object processor = getPojoClass().newInstance();
-            replyObject = getPojoMethod().invoke(processor, new Object[] {oRequest});
+            replyObject = getPojoMethod().invoke(processor,
+                    new Object[] { oRequest });
         } catch (IllegalArgumentException e) {
             throw new ProxyInvokerException(e);
         } catch (InstantiationException e) {
@@ -136,7 +143,8 @@ public class PojoInvoker extends AbstractProxyInvoker {
             throw new ProxyInvokerException(e);
         }
         if (_log.isDebugEnabled()) {
-            _log.debug("Returned from method " + getPojoMethodName() + " for POJO="
+            _log.debug("Returned from method " + getPojoMethodName()
+                    + " for POJO="
                     + getPojoClassName() + " request ID=" + requestID);
         }
         return (T) replyObject;

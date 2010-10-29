@@ -182,7 +182,7 @@
                     <!-- This will extract test schema cases for other modules to use.  -->
                     <execution>
                         <id>extract-test-cases</id>
-                        <phase>post-integration-test</phase>
+                        <phase>package</phase>
                         <configuration>
                             <tasks>
                                 <unjar src="${project.build.directory}/${project.artifactId}-${project.version}-test.jar" dest="../target/cases" />
@@ -202,7 +202,7 @@
                                 <ant antfile="${basedir}/../src/main/ant/gen-download-xml.xml">
                                     <property name="productID" value="${pom.artifactId}" />
                                     <property name="productName" value="${pom.name}" />
-                                    <property name="legstarVersion" value="${legstarVersion}" />
+                                    <property name="legstarVersion" value="${version}" />
                                 </ant>
                             </tasks>
                         </configuration>

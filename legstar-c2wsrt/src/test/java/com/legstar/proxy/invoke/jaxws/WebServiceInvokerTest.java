@@ -105,7 +105,7 @@ public class WebServiceInvokerTest extends TestCase {
         } catch (WebServiceInvokerException e) {
             assertEquals(
                     "com.legstar.util.JAXBAnnotationException: java.lang.ClassNotFoundException:"
-                            + " jaxbPackage.jaxbType",
+                            + " jaxbPackage.ObjectFactory",
                     e.getMessage());
         }
         config.put(WebServiceInvoker.REQUEST_JAXB_TYPE_PROPERTY, "Search");
@@ -116,7 +116,7 @@ public class WebServiceInvokerTest extends TestCase {
         } catch (WebServiceInvokerException e) {
             assertEquals(
                     "com.legstar.util.JAXBAnnotationException: java.lang.ClassNotFoundException:"
-                            + " jaxbPackage.jaxbType",
+                            + " jaxbPackage.ObjectFactory",
                     e.getMessage());
         }
         config.put(WebServiceInvoker.RESPONSE_JAXB_TYPE_PROPERTY,

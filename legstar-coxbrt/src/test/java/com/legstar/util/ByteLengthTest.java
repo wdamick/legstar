@@ -27,7 +27,7 @@ public class ByteLengthTest extends TestCase {
      * @throws HostException if calculation fails
      */
     public void testLsfileae() throws HostException {
-        assertEquals("79", JaxbUtil.byteLength("com.legstar.test.coxb.lsfileae", "Dfhcommarea"));
+        assertEquals("79", CoxbRuntimeUtil.byteLength("com.legstar.test.coxb.lsfileae", "Dfhcommarea"));
     }
 
     /**
@@ -35,7 +35,7 @@ public class ByteLengthTest extends TestCase {
      * @throws HostException if calculation fails
      */
     public void testFixarsim() throws HostException {
-        assertEquals("15", JaxbUtil.byteLength("com.legstar.test.coxb.fixarsim", "Dfhcommarea"));
+        assertEquals("15", CoxbRuntimeUtil.byteLength("com.legstar.test.coxb.fixarsim", "Dfhcommarea"));
     }
 
     /**
@@ -43,7 +43,7 @@ public class ByteLengthTest extends TestCase {
      * @throws HostException if calculation fails
      */
     public void testFixarnum() throws HostException {
-        assertEquals("78", JaxbUtil.byteLength("com.legstar.test.coxb.fixarnum", "Dfhcommarea"));
+        assertEquals("78", CoxbRuntimeUtil.byteLength("com.legstar.test.coxb.fixarnum", "Dfhcommarea"));
     }
 
     /**
@@ -51,7 +51,7 @@ public class ByteLengthTest extends TestCase {
      * @throws HostException if calculation fails
      */
     public void testFixarcom() throws HostException {
-        assertEquals("49", JaxbUtil.byteLength("com.legstar.test.coxb.fixarcom", "Dfhcommarea"));
+        assertEquals("49", CoxbRuntimeUtil.byteLength("com.legstar.test.coxb.fixarcom", "Dfhcommarea"));
     }
 
     /**
@@ -59,7 +59,7 @@ public class ByteLengthTest extends TestCase {
      * @throws HostException if calculation fails
      */
     public void testVararcom() throws HostException {
-        assertEquals("1752", JaxbUtil.byteLength("com.legstar.test.coxb.vararcom", "Dfhcommarea"));
+        assertEquals("1752", CoxbRuntimeUtil.byteLength("com.legstar.test.coxb.vararcom", "Dfhcommarea"));
     }
 
     /**
@@ -67,7 +67,7 @@ public class ByteLengthTest extends TestCase {
      * @throws HostException if calculation fails
      */
     public void testBinnatsi() throws HostException {
-        assertEquals("56", JaxbUtil.byteLength("com.legstar.test.coxb.binnatsi", "Dfhcommarea"));
+        assertEquals("56", CoxbRuntimeUtil.byteLength("com.legstar.test.coxb.binnatsi", "Dfhcommarea"));
     }
 
     /**
@@ -75,7 +75,7 @@ public class ByteLengthTest extends TestCase {
      * @throws HostException if calculation fails
      */
     public void testBinnatus() throws HostException {
-        assertEquals("56", JaxbUtil.byteLength("com.legstar.test.coxb.binnatus", "Dfhcommarea"));
+        assertEquals("56", CoxbRuntimeUtil.byteLength("com.legstar.test.coxb.binnatus", "Dfhcommarea"));
     }
 
     /**
@@ -83,7 +83,7 @@ public class ByteLengthTest extends TestCase {
      * @throws HostException if calculation fails
      */
     public void testBinnpkdus() throws HostException {
-        assertEquals("44", JaxbUtil.byteLength("com.legstar.test.coxb.binpkdus", "Dfhcommarea"));
+        assertEquals("44", CoxbRuntimeUtil.byteLength("com.legstar.test.coxb.binpkdus", "Dfhcommarea"));
     }
 
     /**
@@ -91,7 +91,7 @@ public class ByteLengthTest extends TestCase {
      * @throws HostException if calculation fails
      */
     public void testDplarcht() throws HostException {
-        assertEquals("32025", JaxbUtil.byteLength("com.legstar.test.coxb.dplarcht", "Dfhcommarea"));
+        assertEquals("32025", CoxbRuntimeUtil.byteLength("com.legstar.test.coxb.dplarcht", "Dfhcommarea"));
     }
 
 
@@ -100,7 +100,7 @@ public class ByteLengthTest extends TestCase {
      * @throws HostException if calculation fails
      */
     public void testLsfilead() throws HostException {
-        assertEquals("79", JaxbUtil.byteLength("com.legstar.test.coxb.lsfilead", "Dfhcommarea"));
+        assertEquals("79", CoxbRuntimeUtil.byteLength("com.legstar.test.coxb.lsfilead", "Dfhcommarea"));
     }
 
     /**
@@ -108,7 +108,7 @@ public class ByteLengthTest extends TestCase {
      * @throws HostException if calculation fails
      */
     public void testRedbotha() throws HostException {
-        assertEquals("2", JaxbUtil.byteLength("com.legstar.test.coxb.redbotha", "Dfhcommarea"));
+        assertEquals("2", CoxbRuntimeUtil.byteLength("com.legstar.test.coxb.redbotha", "Dfhcommarea"));
     }
 
     /**
@@ -116,7 +116,7 @@ public class ByteLengthTest extends TestCase {
      * @throws HostException if calculation fails
      */
     public void testRedinout() throws HostException {
-        assertEquals("502", JaxbUtil.byteLength("com.legstar.test.coxb.redinout", "Dfhcommarea"));
+        assertEquals("502", CoxbRuntimeUtil.byteLength("com.legstar.test.coxb.redinout", "Dfhcommarea"));
     }
 
     /**
@@ -124,7 +124,7 @@ public class ByteLengthTest extends TestCase {
      * @throws HostException if calculation fails
      */
     public void testRedmulti() throws HostException {
-        assertEquals("206", JaxbUtil.byteLength("com.legstar.test.coxb.redmulti", "Dfhcommarea"));
+        assertEquals("206", CoxbRuntimeUtil.byteLength("com.legstar.test.coxb.redmulti", "Dfhcommarea"));
     }
 
     /**
@@ -132,7 +132,7 @@ public class ByteLengthTest extends TestCase {
      * @throws HostException if calculation fails
      */
     public void testRedopera() throws HostException {
-        assertEquals("218", JaxbUtil.byteLength("com.legstar.test.coxb.redopera", "Dfhcommarea"));
+        assertEquals("218", CoxbRuntimeUtil.byteLength("com.legstar.test.coxb.redopera", "Dfhcommarea"));
     }
 
     /**
@@ -140,7 +140,7 @@ public class ByteLengthTest extends TestCase {
      * @throws HostException if calculation fails
      */
     public void testRedsimpt() throws HostException {
-        assertEquals("18", JaxbUtil.byteLength("com.legstar.test.coxb.redsimpt", "Dfhcommarea"));
+        assertEquals("18", CoxbRuntimeUtil.byteLength("com.legstar.test.coxb.redsimpt", "Dfhcommarea"));
     }
 
     /**
@@ -148,7 +148,7 @@ public class ByteLengthTest extends TestCase {
      * @throws HostException if calculation fails
      */
     public void testsmix() throws HostException {
-        assertEquals("176", JaxbUtil.byteLength("com.legstar.test.coxb.typesmix", "Dfhcommarea"));
+        assertEquals("176", CoxbRuntimeUtil.byteLength("com.legstar.test.coxb.typesmix", "Dfhcommarea"));
     }
 
     /**
@@ -156,7 +156,7 @@ public class ByteLengthTest extends TestCase {
      * @throws HostException if calculation fails
      */
     public void testFloatmix() throws HostException {
-        assertEquals("24", JaxbUtil.byteLength("com.legstar.test.coxb.floatmix", "Dfhcommarea"));
+        assertEquals("24", CoxbRuntimeUtil.byteLength("com.legstar.test.coxb.floatmix", "Dfhcommarea"));
     }
 }
 

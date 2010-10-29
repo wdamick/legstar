@@ -36,12 +36,14 @@ import com.legstar.coxb.ICobolPackedDecimalBinding;
 import com.legstar.coxb.ICobolStringBinding;
 import com.legstar.coxb.ICobolZonedDecimalBinding;
 import com.legstar.coxb.host.HostException;
+import com.legstar.coxb.util.BindingUtil;
+import com.legstar.coxb.util.ClassUtil;
 import com.legstar.util.JAXBAnnotationException;
 import com.legstar.util.JAXBElementDescriptor;
-import com.legstar.util.JaxbUtil;
+import com.legstar.util.CoxbRuntimeUtil;
 
 /**
- * Provides the generator with convenience methods. The class can be 
+ * Provides the generator with convenience methods. The class can be
  * passed as an instance to the velocity engine and used by templates.
  * JaxbUtil itself cannot be passed because it is static and cannot be
  * instantiated.
@@ -52,31 +54,36 @@ public class CoxbHelper {
     /** Package name for all binding interfaces. */
     private static final String COXB_INTERFACES_PKGNAME = "com.legstar.coxb";
 
-    /** Used for all java fields. Useful in case generated field names happen
-     * to be java reserved words. */
+    /**
+     * Used for all java fields. Useful in case generated field names happen
+     * to be java reserved words.
+     */
     private static final String FIELD_NAMES_PREFIX = "_";
 
     /**
      * Builds a binding type name using the associated jaxb type name.
+     * 
      * @param binding the binding for which the binding type is to be returned
      * @return the binding type name
      */
     public String getCoxbTypeName(final ICobolBinding binding) {
-        return JaxbUtil.getCoxbTypeName(binding);
+        return BindingUtil.getCoxbTypeName(binding);
     }
 
     /**
      * Get the binding type for the inner item of a complex array.
+     * 
      * @param binding the binding for which the binding type is to be returned
      * @return the binding type name
      */
     public String getItemCoxbTypeName(
             final ICobolArrayComplexBinding binding) {
-        return JaxbUtil.getCoxbTypeName(binding.getComplexItemBinding());
+        return BindingUtil.getCoxbTypeName(binding.getComplexItemBinding());
     }
 
     /**
      * Within velocity templates this helps determine the classes to include.
+     * 
      * @param binding a bound element
      * @return the name of the interface this bound element implements
      */
@@ -152,9 +159,10 @@ public class CoxbHelper {
 
     /**
      * Returns fully qualified interface class name to use in import statements.
+     * 
      * @param binding a bound element
      * @return the fully qualified name of the interface this bound element
-     *  implements
+     *         implements
      */
     public String getQualifiedBindingInterfaceName(
             final ICobolBinding binding) {
@@ -164,6 +172,7 @@ public class CoxbHelper {
     /**
      * Simple types instances are created using a factory. A method
      * name in the factory matches each binding interface name.
+     * 
      * @param binding a bound element
      * @return the create method name from the factory for this type
      */
@@ -176,6 +185,7 @@ public class CoxbHelper {
 
     /**
      * Returns a generic type to simplify code generation.
+     * 
      * @param binding a bound element
      * @return a generic type
      */
@@ -189,7 +199,7 @@ public class CoxbHelper {
         if (binding instanceof ICobolArrayComplexBinding) {
             return "complexArray";
         }
-        if (JaxbUtil.isEnum(JaxbUtil.getJaxbTypeName(binding))) {
+        if (ClassUtil.isEnum(BindingUtil.getJaxbTypeName(binding))) {
             return "enum";
         } else {
             return "simple";
@@ -207,16 +217,18 @@ public class CoxbHelper {
      * Retrieve the bound object type. Since there are more
      * precise methods for complex objects, this will apply for
      * simple objects.
+     * 
      * @param binding a binding element
      * @return the bound object type name
      */
     public String getBoundTypeName(final ICobolBinding binding) {
-        return JaxbUtil.getJaxbTypeName(binding);
+        return BindingUtil.getJaxbTypeName(binding);
     }
 
     /**
      * Retrieve the bound object type. Complex objects can be bound t
      * JAXB objects or straight POJOs.
+     * 
      * @param binding a complex element
      * @return the bound object type name
      */
@@ -228,6 +240,7 @@ public class CoxbHelper {
     /**
      * Choices do not have a bound object but they always belong to
      * a complex parent that does.
+     * 
      * @param binding a choice element
      * @return the parent's bound object type name
      */
@@ -238,6 +251,7 @@ public class CoxbHelper {
 
     /**
      * Complex array inner item bound object.
+     * 
      * @param binding a complex array element
      * @return the items bound object type name
      */
@@ -251,12 +265,13 @@ public class CoxbHelper {
      * @return the jaxb variable name of the element
      */
     public String getFieldName(final ICobolBinding binding) {
-        return FIELD_NAMES_PREFIX + JaxbUtil.getFieldName(binding);
+        return FIELD_NAMES_PREFIX + BindingUtil.getFieldName(binding);
     }
 
     /**
      * Builds a get method name for a field name. The get method must
      * be a valid Jaxb method.
+     * 
      * @param binding a bound element
      * @return a getter method
      */
@@ -265,13 +280,14 @@ public class CoxbHelper {
         if (binding instanceof ICobolArrayComplexBinding) {
             return getterSetterMethodName("get",
                     ((ICobolArrayComplexBinding) binding).
-                    getComplexItemBinding());
+                            getComplexItemBinding());
         }
         return getterSetterMethodName("get", binding);
     }
 
     /**
      * Builds a set method name for a field name.
+     * 
      * @param binding a bound element
      * @return a getter method
      */
@@ -280,20 +296,21 @@ public class CoxbHelper {
         if (binding instanceof ICobolArrayComplexBinding) {
             return getterSetterMethodName("set",
                     ((ICobolArrayComplexBinding) binding).
-                    getComplexItemBinding());
+                            getComplexItemBinding());
         }
         return getterSetterMethodName("set", binding);
     }
 
     /**
      * Creates get/set method name.
+     * 
      * @param prefix either get or set
      * @param binding the element
      * @return a method name to either get or set this element
      */
     private String getterSetterMethodName(
             final String prefix, final ICobolBinding binding) {
-        String fieldName = JaxbUtil.getFieldName(binding);
+        String fieldName = BindingUtil.getFieldName(binding);
         if (fieldName == null || fieldName.length() == 0) {
             throw new IllegalArgumentException(fieldName);
         }
@@ -301,12 +318,13 @@ public class CoxbHelper {
             return prefix + fieldName.toUpperCase(Locale.getDefault());
         }
         return prefix
-        + fieldName.substring(0, 1).toUpperCase(Locale.getDefault())
-        + fieldName.substring(1, fieldName.length());
+                + fieldName.substring(0, 1).toUpperCase(Locale.getDefault())
+                + fieldName.substring(1, fieldName.length());
     }
 
     /**
      * Evaluates if element is an array.
+     * 
      * @param binding the element
      * @return true if its an array
      */
@@ -314,7 +332,7 @@ public class CoxbHelper {
         if (getGenericType(binding).equals("complexArray")) {
             return true;
         }
-        /* JAXB considers a member to be an array only if maxOccurs > 1*/
+        /* JAXB considers a member to be an array only if maxOccurs > 1 */
         if (binding.getMaxOccurs() > 1) {
             return true;
         }
@@ -323,60 +341,65 @@ public class CoxbHelper {
 
     /**
      * Evaluates if element is a variable size array.
+     * 
      * @param binding a bound element
      * @return true if variable size array
      */
     public boolean isVariableSizeArray(final ICobolBinding binding) {
-        return (binding.getMaxOccurs() > 1
-                && binding.getMinOccurs() < binding.getMaxOccurs());
+        return (binding.getMaxOccurs() > 1 && binding.getMinOccurs() < binding
+                .getMaxOccurs());
     }
 
     /**
      * Evaluates if element is optional.
      * <p/>
-     * COBOL data items declared with OCCURS 0 TO 1 DEPENDING ON are not
-     * arrays from a JAXB standpoint. We call them optional elements.
+     * COBOL data items declared with OCCURS 0 TO 1 DEPENDING ON are not arrays
+     * from a JAXB standpoint. We call them optional elements.
+     * 
      * @param binding a bound element
      * @return true if element is optional. i.e. its existence depends on
-     *  a counter value being 1.
+     *         a counter value being 1.
      */
     public boolean isOptional(final ICobolBinding binding) {
-        return (binding.getDependingOn() != null
-                && binding.getDependingOn().length() > 0);
+        return (binding.getDependingOn() != null && binding.getDependingOn()
+                .length() > 0);
     }
 
     /**
      * A mere wrapper on the static <code>JaxbUtil.byteLength</code>.
      * TODO revise JaxbUtil to get a numeric rather than a string
+     * 
      * @param jaxbPackage the JAXB package name from which an ObjectFactory
-     *        can be instanciated
-     * @param jaxbTypeName the JAXB type name of the object for which byte 
-     *        length must be returned
+     *            can be instanciated
+     * @param jaxbTypeName the JAXB type name of the object for which byte
+     *            length must be returned
      * @return the byte length as a string
      * @throws HostException if byte length calculation failed
      */
     public long getByteLength(
             final String jaxbPackage,
             final String jaxbTypeName) throws HostException {
-        return Long.parseLong(JaxbUtil.byteLength(jaxbPackage, jaxbTypeName));
+        return Long.parseLong(CoxbRuntimeUtil.byteLength(jaxbPackage,
+                jaxbTypeName));
     }
 
     /**
      * A mere wrapper on the static <code>JaxbUtil.getJavaClassName</code>.
+     * 
      * @param jaxbPackage the JAXB package name from which a java class name
-     *        is to be derived
+     *            is to be derived
      * @param jaxbTypeName the JAXB type name from which a java class name
-     *        is to be derived
+     *            is to be derived
      * @return a class name (including package name) that the JAXB class
-     * is hiding or the JAXB class itself if it is not hiding a POJO.
+     *         is hiding or the JAXB class itself if it is not hiding a POJO.
      * @throws HostException if deriving a java class name fails
      */
     public String getJavaClassName(
             final String jaxbPackage,
             final String jaxbTypeName) throws HostException {
-        return JaxbUtil.getJavaClassName(jaxbPackage, jaxbTypeName);
+        return BindingUtil.getJavaClassName(jaxbPackage, jaxbTypeName);
     }
-    
+
     /**
      * Retrieves the XML element name associated with a JAXB element.
      * 
@@ -384,18 +407,19 @@ public class CoxbHelper {
      * @return the XML element name
      * @throws HostException if retrieving XML element name fails
      */
-    public String getXmlElementName(final ICobolBinding binding) throws HostException {
+    public String getXmlElementName(final ICobolBinding binding)
+            throws HostException {
         try {
             JAXBElementDescriptor descriptor =
-                new JAXBElementDescriptor(
-                        getJaxbPackageName(binding),
-                        getJaxbTypeName(binding));
+                    new JAXBElementDescriptor(
+                            getJaxbPackageName(binding),
+                            getJaxbTypeName(binding));
             return descriptor.getElementName();
         } catch (JAXBAnnotationException e) {
             throw new HostException(e);
         }
     }
-    
+
     /**
      * Retrieves the XML namespace associated with a JAXB element.
      * 
@@ -403,7 +427,8 @@ public class CoxbHelper {
      * @return the XML namespace
      * @throws HostException if retrieving XML element name fails
      */
-    public String getXmlNamespace(final ICobolBinding binding) throws HostException {
+    public String getXmlNamespace(final ICobolBinding binding)
+            throws HostException {
         return getXmlNamespace(getJaxbPackageName(binding),
                 getJaxbTypeName(binding));
     }
@@ -411,18 +436,19 @@ public class CoxbHelper {
     /**
      * Retrieves the XML namespace associated with a JAXB element.
      * 
-     * @param jaxbPackageName a JAXB element package name 
-     * @param jaxbTypeName a JAXB element type name 
+     * @param jaxbPackageName a JAXB element package name
+     * @param jaxbTypeName a JAXB element type name
      * @return the XML namespace
      * @throws HostException if retrieving XML element name fails
      */
     public String getXmlNamespace(
-            final String jaxbPackageName, final String jaxbTypeName) throws HostException {
+            final String jaxbPackageName, final String jaxbTypeName)
+            throws HostException {
         try {
             JAXBElementDescriptor descriptor =
-                new JAXBElementDescriptor(
-                        jaxbPackageName,
-                        jaxbTypeName);
+                    new JAXBElementDescriptor(
+                            jaxbPackageName,
+                            jaxbTypeName);
             return descriptor.getNamespace();
         } catch (JAXBAnnotationException e) {
             throw new HostException(e);
@@ -436,12 +462,13 @@ public class CoxbHelper {
      * @return true if element is an XML root element
      * @throws HostException if retrieving XML element name fails
      */
-    public boolean isXmlRootElement(final ICobolBinding binding) throws HostException {
+    public boolean isXmlRootElement(final ICobolBinding binding)
+            throws HostException {
         try {
             JAXBElementDescriptor descriptor =
-                new JAXBElementDescriptor(
-                        getJaxbPackageName(binding),
-                        getJaxbTypeName(binding));
+                    new JAXBElementDescriptor(
+                            getJaxbPackageName(binding),
+                            getJaxbTypeName(binding));
             return descriptor.isXmlRootElement();
         } catch (JAXBAnnotationException e) {
             throw new HostException(e);
@@ -449,10 +476,12 @@ public class CoxbHelper {
     }
 
     /**
-     * Retrieves the JAXB type name of a JAXB bound object. 
+     * Retrieves the JAXB type name of a JAXB bound object.
+     * 
      * @param binding a bound element
-     * @return the JAXB type name of a JAXB bound object, null if the bound object
-     *  is not JAXB.
+     * @return the JAXB type name of a JAXB bound object, null if the bound
+     *         object
+     *         is not JAXB.
      */
     public String getJaxbTypeName(final ICobolBinding binding) {
         if (binding.getJaxbType() == null) {
@@ -462,10 +491,12 @@ public class CoxbHelper {
     }
 
     /**
-     * Retrieves the JAXB package name of a JAXB bound object. 
+     * Retrieves the JAXB package name of a JAXB bound object.
+     * 
      * @param binding a bound element
-     * @return the JAXB package name of a JAXB bound object, null if the bound object
-     *  is not JAXB.
+     * @return the JAXB package name of a JAXB bound object, null if the bound
+     *         object
+     *         is not JAXB.
      */
     public String getJaxbPackageName(final ICobolBinding binding) {
         if (binding.getJaxbType() == null) {

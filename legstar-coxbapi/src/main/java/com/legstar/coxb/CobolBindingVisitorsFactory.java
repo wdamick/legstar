@@ -10,42 +10,39 @@
  ******************************************************************************/
 package com.legstar.coxb;
 
-import com.legstar.coxb.util.Utils;
+import com.legstar.coxb.util.ClassLoadingException;
+import com.legstar.coxb.util.ClassUtil;
 
 /**
  * Concrete visitors factories are hidden behind this factory. This allow the
- * API to be independent from concrete implementations of marshaling/unmarshaling visitors.
- *
+ * API to be independent from concrete implementations of
+ * marshaling/unmarshaling visitors.
+ * 
  */
 public final class CobolBindingVisitorsFactory {
 
-    /** In this version the factory name is hardcoded. In a future release,
-     * this will be pulled from some configuration file. */
+    /**
+     * In this version the factory name is hardcoded. In a future release,
+     * this will be pulled from some configuration file.
+     */
     private static final String FACTORY_NAME =
-        "com.legstar.coxb.impl.visitor.CobolBindingVisitorsFactory";
+            "com.legstar.coxb.impl.visitor.CobolBindingVisitorsFactory";
 
     /**
      * It is a utility class. Prevent instantiation.
      */
     private CobolBindingVisitorsFactory() {
-        
+
     }
-    
+
     /**
      * @return an implementation of a concrete factory.
+     * @throws ClassLoadingException if factory cannot be created
      */
-    public static ICobolBindingVisitorsFactory createCobolBindingVisitorsFactory() {
-        try {
-            Class < ? > ofClass = Utils.loadClass(FACTORY_NAME);
-            Object of = ofClass.newInstance();
-            return (ICobolBindingVisitorsFactory) of;
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+    public static ICobolBindingVisitorsFactory createCobolBindingVisitorsFactory()
+            throws ClassLoadingException {
+        Object of = ClassUtil.newObject(FACTORY_NAME);
+        return (ICobolBindingVisitorsFactory) of;
     }
 
 }

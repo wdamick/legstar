@@ -27,103 +27,105 @@ import junit.framework.TestCase;
  * From a performance standpoint, its good to be able to reuse a binding because
  * there might be a lot of processing involved in building the children list at
  * construction time.
- *
+ * 
  */
 public class BindingReuseTest extends TestCase {
-    
-    /** The current set of COBOL converters.*/
+
+    /** The current set of COBOL converters. */
     private ICobolConverters mCobolConverters;
 
     /** The binding factory. */
     private ICobolBindingVisitorsFactory mFactory;
-    
+
     /** {@inheritDoc} */
-    public void setUp() {
+    public void setUp() throws Exception {
         ICobolConvertersFactory factory =
-            CobolConvertersFactory.createCobolConvertersFactory();
+                CobolConvertersFactory.createCobolConvertersFactory();
         mCobolConverters = factory.createCobolConverters();
-        mFactory = CobolBindingVisitorsFactory.createCobolBindingVisitorsFactory();
+        mFactory = CobolBindingVisitorsFactory
+                .createCobolBindingVisitorsFactory();
     }
-    
+
     /**
      * Use the same binding to unmarshal one choice and then the alternative.
      */
     public void testChoice() {
         try {
             com.legstar.test.coxb.redsimpt.bind.DfhcommareaBinding binding =
-                new com.legstar.test.coxb.redsimpt.bind.DfhcommareaBinding();
-            
+                    new com.legstar.test.coxb.redsimpt.bind.DfhcommareaBinding();
+
             com.legstar.test.coxb.redsimpt.Dfhcommarea valueObject =
-                (com.legstar.test.coxb.redsimpt.Dfhcommarea) unmarshal(
-                    binding, RedsimptCases.getHostBytesHex(),
-                    com.legstar.test.coxb.redsimpt.Dfhcommarea.class);
+                    (com.legstar.test.coxb.redsimpt.Dfhcommarea) unmarshal(
+                            binding, RedsimptCases.getHostBytesHex(),
+                            com.legstar.test.coxb.redsimpt.Dfhcommarea.class);
             assertEquals("ABCDEFGHIJKLMNO", valueObject.getCDefinition1());
             assertTrue(null == valueObject.getCDefinition2());
-            
+
             valueObject = (com.legstar.test.coxb.redsimpt.Dfhcommarea) unmarshal(
                     binding, RedsimptCases.getHostBytesHexSecondChoice(),
                     com.legstar.test.coxb.redsimpt.Dfhcommarea.class);
             assertTrue(null == valueObject.getCDefinition1());
-            assertEquals("123456789012345", valueObject.getCDefinition2().toString());
-            
-            
+            assertEquals("123456789012345", valueObject.getCDefinition2()
+                    .toString());
+
         } catch (HostException e) {
             fail(e.getMessage());
         }
     }
-    
+
     /**
-     * Use the same binding to unmarshal a variable size array more than once with a
+     * Use the same binding to unmarshal a variable size array more than once
+     * with a
      * different size each time.
      */
     public void testVariableSizeArray() {
         try {
             com.legstar.test.coxb.vararcom.bind.DfhcommareaBinding binding =
-                new com.legstar.test.coxb.vararcom.bind.DfhcommareaBinding();
-            
+                    new com.legstar.test.coxb.vararcom.bind.DfhcommareaBinding();
+
             com.legstar.test.coxb.vararcom.Dfhcommarea valueObject =
-                (com.legstar.test.coxb.vararcom.Dfhcommarea) unmarshal(
-                    binding, VararcomCases.getHostBytesHexSome(),
-                    com.legstar.test.coxb.vararcom.Dfhcommarea.class);
+                    (com.legstar.test.coxb.vararcom.Dfhcommarea) unmarshal(
+                            binding, VararcomCases.getHostBytesHexSome(),
+                            com.legstar.test.coxb.vararcom.Dfhcommarea.class);
             assertEquals(10, valueObject.getCItemsNumber());
             assertEquals(10, valueObject.getCArray().size());
-            
+
             valueObject = (com.legstar.test.coxb.vararcom.Dfhcommarea) unmarshal(
                     binding, VararcomCases.getHostBytesHexEmpty(),
                     com.legstar.test.coxb.vararcom.Dfhcommarea.class);
             assertEquals(0, valueObject.getCItemsNumber());
             assertEquals(0, valueObject.getCArray().size());
-            
+
             valueObject = (com.legstar.test.coxb.vararcom.Dfhcommarea) unmarshal(
                     binding, VararcomCases.getHostBytesHexFull(),
                     com.legstar.test.coxb.vararcom.Dfhcommarea.class);
             assertEquals(250, valueObject.getCItemsNumber());
             assertEquals(250, valueObject.getCArray().size());
-           
+
         } catch (HostException e) {
             fail(e.getMessage());
         }
     }
-    
+
     /**
      * This case has both choices and variable size arrays.
      */
     public void testMixedTypes() {
         try {
             com.legstar.test.coxb.dplarcht.bind.DfhcommareaBinding binding =
-                new com.legstar.test.coxb.dplarcht.bind.DfhcommareaBinding();
-            
+                    new com.legstar.test.coxb.dplarcht.bind.DfhcommareaBinding();
+
             com.legstar.test.coxb.dplarcht.Dfhcommarea valueObject =
-                (com.legstar.test.coxb.dplarcht.Dfhcommarea) unmarshal(
-                    binding, DplarchtCases.getHostBytesHexFiles(10),
-                    com.legstar.test.coxb.dplarcht.Dfhcommarea.class);
+                    (com.legstar.test.coxb.dplarcht.Dfhcommarea) unmarshal(
+                            binding, DplarchtCases.getHostBytesHexFiles(10),
+                            com.legstar.test.coxb.dplarcht.Dfhcommarea.class);
             DplarchtCases.checkJavaObjectFiles(10, valueObject);
-            
+
             valueObject = (com.legstar.test.coxb.dplarcht.Dfhcommarea) unmarshal(
                     binding, DplarchtCases.getHostBytesHex1Program(),
                     com.legstar.test.coxb.dplarcht.Dfhcommarea.class);
             DplarchtCases.checkJavaObject1Program(valueObject);
-            
+
             valueObject = (com.legstar.test.coxb.dplarcht.Dfhcommarea) unmarshal(
                     binding, DplarchtCases.getHostBytesHexFiles(5),
                     com.legstar.test.coxb.dplarcht.Dfhcommarea.class);
@@ -133,9 +135,10 @@ public class BindingReuseTest extends TestCase {
             fail(e.getMessage());
         }
     }
-    
+
     /**
      * Convenience method to unmashal host data into a java value object.
+     * 
      * @param binding the COBOL binding to use
      * @param hostDataHex the host data as hex string
      * @param clazz the value object class
@@ -155,6 +158,7 @@ public class BindingReuseTest extends TestCase {
 
     /**
      * This method returns the current set of COBOL converters.
+     * 
      * @return a set of COBOL converters
      */
     public ICobolConverters getCobolConverters() {

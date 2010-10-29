@@ -13,13 +13,13 @@ package com.legstar.coxb.gen;
 import com.legstar.coxb.host.HostException;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.coxb.impl.reflect.ReflectBindingException;
-import com.legstar.coxb.util.Utils;
+import com.legstar.coxb.util.ClassUtil;
 
 import junit.framework.TestCase;
 
 /**
  * Test the CoxbHelper.
- *
+ * 
  */
 public class CoxbHelperTest extends TestCase {
 
@@ -28,15 +28,16 @@ public class CoxbHelperTest extends TestCase {
 
     /**
      * Get the bound type from a binding class.
+     * 
      * @throws Exception if bound type cannot be extracted
      */
     public void testGetBoundTypeName() throws Exception {
-        com.legstar.test.coxb.lsfilead.ObjectFactory objectFactory
-        = new com.legstar.test.coxb.lsfilead.ObjectFactory();
+        com.legstar.test.coxb.lsfilead.ObjectFactory objectFactory = new com.legstar.test.coxb.lsfilead.ObjectFactory();
 
         CComplexReflectBinding binding = new CComplexReflectBinding(
                 objectFactory,
-                Utils.loadClass("com.legstar.test.coxb.alltypes.Dfhcommarea"));
+                ClassUtil
+                        .loadClass("com.legstar.test.coxb.alltypes.Dfhcommarea"));
 
         assertEquals("Dfhcommarea", mCoxbHelper.getBoundTypeName(binding));
 
@@ -47,17 +48,20 @@ public class CoxbHelperTest extends TestCase {
      */
     public void testGetXmlAnnotations() {
         try {
-            com.legstar.test.coxb.lsfilead.ObjectFactory objectFactory
-            = new com.legstar.test.coxb.lsfilead.ObjectFactory();
+            com.legstar.test.coxb.lsfilead.ObjectFactory objectFactory =
+                    new com.legstar.test.coxb.lsfilead.ObjectFactory();
 
             CComplexReflectBinding binding = new CComplexReflectBinding(
                     objectFactory,
-                    Utils.loadClass("com.legstar.test.coxb.alltypes.Dfhcommarea"));
+                    ClassUtil
+                            .loadClass("com.legstar.test.coxb.alltypes.Dfhcommarea"));
 
             assertEquals("Dfhcommarea", mCoxbHelper.getJaxbTypeName(binding));
-            assertEquals("com.legstar.test.coxb.alltypes", mCoxbHelper.getJaxbPackageName(binding));
+            assertEquals("com.legstar.test.coxb.alltypes", mCoxbHelper
+                    .getJaxbPackageName(binding));
             assertEquals("Dfhcommarea", mCoxbHelper.getXmlElementName(binding));
-            assertEquals("http://legstar.com/test/coxb/alltypes", mCoxbHelper.getXmlNamespace(binding));
+            assertEquals("http://legstar.com/test/coxb/alltypes", mCoxbHelper
+                    .getXmlNamespace(binding));
             assertEquals(false, mCoxbHelper.isXmlRootElement(binding));
         } catch (ReflectBindingException e) {
             fail(e.getMessage());

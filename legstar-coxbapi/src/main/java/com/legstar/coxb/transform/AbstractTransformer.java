@@ -24,6 +24,7 @@ import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.convert.CobolConvertersFactory;
 import com.legstar.coxb.convert.ICobolConverters;
 import com.legstar.coxb.convert.ICobolConvertersFactory;
+import com.legstar.coxb.util.ClassLoadingException;
 
 /**
  * Transformers provide the foundation for host data transformations.
@@ -32,15 +33,20 @@ import com.legstar.coxb.convert.ICobolConvertersFactory;
  */
 public abstract class AbstractTransformer implements IHostTransformer {
 
-    /** The current set of COBOL converters.*/
+    /** The current set of COBOL converters. */
     private ICobolConverters mCobolConverters;
-    
-    /** Factory that provides concrete implementations of marshalers/unmarshalers. */
+
+    /**
+     * Factory that provides concrete implementations of
+     * marshalers/unmarshalers.
+     */
     private ICobolBindingVisitorsFactory mCobolBindingVisitorsFactory;
-    
-    /** Caching the binding allows reuse and better performances.
+
+    /**
+     * Caching the binding allows reuse and better performances.
      * Multiple threads might be using this transformer concurrently so we
-     * keep a binding per thread. */
+     * keep a binding per thread.
+     */
     private ConcurrentMap < Long, ICobolComplexBinding > _cobolComplexBindingCache;
 
     /** Logger. */
@@ -56,6 +62,7 @@ public abstract class AbstractTransformer implements IHostTransformer {
     /**
      * Create a transformer using a specific host character set while
      * other COBOL parameters are set by default.
+     * 
      * @param hostCharset the host character set
      */
     public AbstractTransformer(final String hostCharset) {
@@ -65,19 +72,27 @@ public abstract class AbstractTransformer implements IHostTransformer {
 
     /**
      * Create a transformer using a specific COBOL parameters set.
+     * 
      * @param cobolContext the COBOL parameters set.
      */
     public AbstractTransformer(final CobolContext cobolContext) {
-        ICobolConvertersFactory factory = CobolConvertersFactory.createCobolConvertersFactory();
-        mCobolConverters = factory.createCobolConverters();
-        mCobolBindingVisitorsFactory = CobolBindingVisitorsFactory.createCobolBindingVisitorsFactory();
-        setCobolContext(cobolContext);
-        _cobolComplexBindingCache =
-            new ConcurrentHashMap < Long, ICobolComplexBinding >();
+        try {
+            ICobolConvertersFactory factory = CobolConvertersFactory
+                    .createCobolConvertersFactory();
+            mCobolConverters = factory.createCobolConverters();
+            mCobolBindingVisitorsFactory = CobolBindingVisitorsFactory
+                    .createCobolBindingVisitorsFactory();
+            setCobolContext(cobolContext);
+            _cobolComplexBindingCache =
+                    new ConcurrentHashMap < Long, ICobolComplexBinding >();
+        } catch (ClassLoadingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
      * This method returns the current set of COBOL converters.
+     * 
      * @return a set of COBOL converters
      */
     public ICobolConverters getCobolConverters() {
@@ -85,7 +100,9 @@ public abstract class AbstractTransformer implements IHostTransformer {
     }
 
     /**
-     * Caller can pass his own set of converters if he is not satisfied with the default.
+     * Caller can pass his own set of converters if he is not satisfied with the
+     * default.
+     * 
      * @param cobolConverters the new set of COBOL converters
      */
     public void setCobolConverters(final ICobolConverters cobolConverters) {
@@ -94,6 +111,7 @@ public abstract class AbstractTransformer implements IHostTransformer {
 
     /**
      * Returns the current COBOL parameter set.
+     * 
      * @return a COBOL parameter set
      */
     public CobolContext getCobolContext() {
@@ -102,6 +120,7 @@ public abstract class AbstractTransformer implements IHostTransformer {
 
     /**
      * Change the COBOL parameter sets of the converters.
+     * 
      * @param cobolContext the new COBOL parameter set
      */
     public void setCobolContext(final CobolContext cobolContext) {
@@ -109,15 +128,17 @@ public abstract class AbstractTransformer implements IHostTransformer {
     }
 
     /**
-     * @return the Factory that provides concrete implementations of marshalers/unmarshalers
+     * @return the Factory that provides concrete implementations of
+     *         marshalers/unmarshalers
      */
     public ICobolBindingVisitorsFactory getCobolBindingVisitorsFactory() {
         return mCobolBindingVisitorsFactory;
     }
 
     /**
-     * @param cobolBindingVisitorsFactory the Factory that provides concrete implementations
-     *  of marshalers/unmarshalers to set
+     * @param cobolBindingVisitorsFactory the Factory that provides concrete
+     *            implementations
+     *            of marshalers/unmarshalers to set
      */
     public void setCobolBindingVisitorsFactory(
             final ICobolBindingVisitorsFactory cobolBindingVisitorsFactory) {
@@ -125,8 +146,8 @@ public abstract class AbstractTransformer implements IHostTransformer {
     }
 
     /**
-     * @return the cached binding if one is available otherwise will request a 
-     *  new one from a descendant.
+     * @return the cached binding if one is available otherwise will request a
+     *         new one from a descendant.
      * @throws CobolBindingException if binding cannot be built
      */
     public ICobolComplexBinding getCachedBinding() throws CobolBindingException {
@@ -135,7 +156,8 @@ public abstract class AbstractTransformer implements IHostTransformer {
         ICobolComplexBinding binding = _cobolComplexBindingCache.get(id);
         if (binding == null) {
             if (_log.isDebugEnabled()) {
-                _log.debug("Creating new binding for thread: " + id + " object: " + this);
+                _log.debug("Creating new binding for thread: " + id
+                        + " object: " + this);
             }
             ICobolComplexBinding newBinding = getBinding();
             binding = _cobolComplexBindingCache.putIfAbsent(id, newBinding);

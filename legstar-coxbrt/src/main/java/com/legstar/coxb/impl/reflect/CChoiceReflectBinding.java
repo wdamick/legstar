@@ -19,12 +19,12 @@ import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.common.CChoiceBinding;
 import com.legstar.coxb.host.HostException;
-import com.legstar.util.JaxbUtil;
+import com.legstar.coxb.util.ClassUtil;
 
 /**
  * Represents a choice between 2 or more elements. A choice results from a cobol
  * REDEFINES clause exposed as an xs:choice in the corresponding XML schema
- *
+ * 
  * @author Fady Moussallam
  * 
  */
@@ -52,19 +52,21 @@ public class CChoiceReflectBinding extends CChoiceBinding {
     /** {@inheritDoc} */
     public void setAlternativesValues() throws HostException {
         for (ICobolBinding alt : getAlternativesList()) {
-            /* Choice children are a special case. They directly set 
+            /*
+             * Choice children are a special case. They directly set
              * their parent object depending on the chosen choice
-             * strategy. */
+             * strategy.
+             */
             if (alt instanceof ICobolChoiceBinding) {
                 continue;
             } else {
-                Object value = JaxbUtil.invokeGetProperty(
-                        getParentJaxbObject(), alt.getJaxbName());
+                Object value = ClassUtil.invokeGetProperty(
+                            getParentJaxbObject(), alt.getJaxbName());
                 if (value != null) {
                     if (_log.isDebugEnabled()) {
                         _log.debug("Getting value from JAXB property "
-                                + alt.getJaxbName()
-                                + " value=" + value);
+                                    + alt.getJaxbName()
+                                    + " value=" + value);
                     }
                     alt.setObjectValue(value);
                 }
@@ -84,9 +86,11 @@ public class CChoiceReflectBinding extends CChoiceBinding {
         /* Set the JAXB object property value from binding object */
         ICobolBinding alt = getAlternativesList().get(index);
 
-        /* Choice children are a special case. They directly set 
+        /*
+         * Choice children are a special case. They directly set
          * their parent object depending on the chosen choice
-         * strategy. */
+         * strategy.
+         */
         if (alt instanceof ICobolChoiceBinding) {
             return;
         }
@@ -94,11 +98,12 @@ public class CChoiceReflectBinding extends CChoiceBinding {
         Object value = alt.getObjectValue(alt.getJaxbType());
         if (_log.isDebugEnabled()) {
             _log.debug("Setting value of JAXB property "
-                    + alt.getJaxbName()
-                    + " value=" + value);
+                        + alt.getJaxbName()
+                        + " value=" + value);
         }
-        JaxbUtil.invokeSetProperty(getParentJaxbObject(), alt.getJaxbName(),
-                value, alt.getJaxbType());
+        ClassUtil.invokeSetProperty(getParentJaxbObject(), alt
+                    .getJaxbName(),
+                    value, alt.getJaxbType());
     }
 
     /** {@inheritDoc} */
@@ -127,8 +132,10 @@ public class CChoiceReflectBinding extends CChoiceBinding {
 
     /** {@inheritDoc} */
     public boolean isSet() {
-        /* A Choice is considered set if at least one of its alternatives
-         * is set. */
+        /*
+         * A Choice is considered set if at least one of its alternatives
+         * is set.
+         */
         for (ICobolBinding alt : getAlternativesList()) {
             if (alt.isSet()) {
                 return true;

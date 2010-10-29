@@ -20,38 +20,35 @@ import com.legstar.util.JAXBElementDescriptor;
  * This implementation of a host to java transformer dynamically binds to
  * a complex object using reflection.
  * The complex object must be a JAXB type with COBOL annotations.
- *
+ * 
  */
 public class ReflectHostToJavaTransformer extends AbstractHostToJavaTransformer {
-    
+
     /**
      * The JAXB element descriptor.
      */
-    private JAXBElementDescriptor mJaxbElementDescriptor;
-    
-    /**
-     * The JAXB type factory to use for the JAXB object type.
-     */
-    private Object mObjectFactory;
+    private JAXBElementDescriptor _jaxbElementDescriptor;
 
     /**
      * Construct a transformer for a particular JAXB type.
+     * 
      * @param jaxbPackageName the JAXB type package name
      * @param jaxbType the JAXB type
-     * @throws ReflectBindingException if JAXB type has no annotations or cannot be 
-     *  located from the classpath
+     * @throws ReflectBindingException if JAXB type has no annotations or cannot
+     *             be
+     *             located from the classpath
      */
     public ReflectHostToJavaTransformer(
             final String jaxbPackageName,
             final String jaxbType) throws ReflectBindingException {
         try {
-            mJaxbElementDescriptor = new JAXBElementDescriptor(jaxbPackageName, jaxbType);
-            mObjectFactory = mJaxbElementDescriptor.createObjectFactory();
+            _jaxbElementDescriptor = new JAXBElementDescriptor(jaxbPackageName,
+                    jaxbType);
         } catch (JAXBAnnotationException e) {
             throw new ReflectBindingException(e);
         }
     }
-    
+
     /** {@inheritDoc} */
     public ICobolComplexBinding getBinding() throws CobolBindingException {
         try {
@@ -67,7 +64,7 @@ public class ReflectHostToJavaTransformer extends AbstractHostToJavaTransformer 
      * @return the JAXB type factory to use for the JAXB object type
      */
     public Object getObjectFactory() {
-        return mObjectFactory;
+        return _jaxbElementDescriptor.getObjectFactory();
     }
 
     /**
@@ -81,7 +78,7 @@ public class ReflectHostToJavaTransformer extends AbstractHostToJavaTransformer 
      * @return the JAXB element descriptor
      */
     public JAXBElementDescriptor getJaxbElementDescriptor() {
-        return mJaxbElementDescriptor;
+        return _jaxbElementDescriptor;
     }
 
 }

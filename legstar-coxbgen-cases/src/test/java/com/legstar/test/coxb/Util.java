@@ -20,31 +20,35 @@ import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.impl.visitor.CobolMarshalVisitor;
 import com.legstar.coxb.impl.visitor.CobolUnmarshalVisitor;
-import com.legstar.coxb.util.Utils;
+import com.legstar.coxb.util.BindingUtil;
+import com.legstar.coxb.util.ClassUtil;
 
 /**
  * A helper class for testing cases.
- *
+ * 
  */
 public class Util {
-    
+
     /** Utility class. */
     private Util() {
-        
+
     }
 
     /**
      * Return the JAXB object when they are called dfhcommarea.
+     * 
      * @param schemaName the XSD annotated name
      * @return a JAXB object
      * @throws Exception if JAXB object cannot be recovered
      */
-    public static Object getJaxbObject(final String schemaName) throws Exception {
+    public static Object getJaxbObject(final String schemaName)
+            throws Exception {
         return getJaxbObject(schemaName, "Dfhcommarea");
     }
 
     /**
      * Return the JAXB object.
+     * 
      * @param schemaName the XSD annotated name
      * @param jaxbTypeName the name of the JAXB class
      * @return a JAXB object
@@ -53,29 +57,29 @@ public class Util {
     public static Object getJaxbObject(final String schemaName,
             final String jaxbTypeName) throws Exception {
         // Create a JAXB object factory
-        String ofClassName = "com.legstar.test.coxb." + schemaName + ".ObjectFactory";
-        Class < ? > ofClass = Utils.loadClass(ofClassName);
-        Object of = ofClass.newInstance();
+        String jaxbPackageName = "com.legstar.test.coxb." + schemaName;
+        Object of = BindingUtil.newJaxbObjectFactory(jaxbPackageName);
 
         // Create a JAXB object
-        Method create = ofClass.getMethod("create" + jaxbTypeName);
-        Object jaxbObject = create.invoke(of);
-        return jaxbObject;
+        return BindingUtil.newJaxbObject(of, jaxbTypeName);
     }
 
     /**
      * Return the Binding object.
+     * 
      * @param schemaName the XSD annotated name
      * @param jaxbTypeName the name of the JAXB class
      * @return a Binding object
      * @throws Exception if Binding object cannot be recovered
      */
-    public static Object getBindingObject(final String schemaName, final String jaxbTypeName) throws Exception {
+    public static Object getBindingObject(final String schemaName,
+            final String jaxbTypeName) throws Exception {
         return getBindingObject(schemaName, jaxbTypeName, null);
     }
 
     /**
      * Return the Binding object, bound to an object.
+     * 
      * @param schemaName the XSD annotated name
      * @param jaxbTypeName the name of the JAXB class
      * @param jaxbObject the JAXB object
@@ -87,21 +91,25 @@ public class Util {
             final String jaxbTypeName,
             final Object jaxbObject) throws Exception {
         // Create a complex binding
-        String bindClassName = "com.legstar.test.coxb." + schemaName + ".bind." + jaxbTypeName + "Binding";
-        Class < ? > bindClass = Utils.loadClass(bindClassName);
+        String bindClassName = "com.legstar.test.coxb." + schemaName + ".bind."
+                + jaxbTypeName + "Binding";
+        Class < ? > bindClass = ClassUtil.loadClass(bindClassName);
         Constructor < ? > constructor;
         if (jaxbObject == null) {
             constructor = bindClass.getConstructor();
             return constructor.newInstance();
         } else {
-            constructor = bindClass.getConstructor(Utils.loadClass(
-                    "com.legstar.test.coxb." + schemaName + "." + jaxbTypeName));
+            constructor = bindClass
+                    .getConstructor(ClassUtil.loadClass(
+                            "com.legstar.test.coxb." + schemaName + "."
+                                    + jaxbTypeName));
             return constructor.newInstance(jaxbObject);
         }
     }
 
     /**
      * Marshal a java data object to host data.
+     * 
      * @param schemaName the XSD annotated name
      * @param jaxbObject the JAXB object
      * @param byteLength expected byte length
@@ -117,6 +125,7 @@ public class Util {
 
     /**
      * Marshal a java data object to host data.
+     * 
      * @param schemaName the XSD annotated name
      * @param jaxbTypeName the name of the JAXB class
      * @param jaxbObject the JAXB object
@@ -130,9 +139,9 @@ public class Util {
             final Object jaxbObject,
             final int byteLength) throws Exception {
         byte[] hostBytes = new byte[byteLength];
-        // Create a cobol context 
+        // Create a cobol context
         CobolContext cobolContext = new CobolContext();
-        // Select a conversion strategy 
+        // Select a conversion strategy
         CobolSimpleConverters cc = new CobolSimpleConverters(cobolContext);
         // Create a concrete visitor
         CobolMarshalVisitor mv = new CobolMarshalVisitor(hostBytes, 0, cc);
@@ -140,13 +149,15 @@ public class Util {
         Object bind = getBindingObject(schemaName, jaxbTypeName, jaxbObject);
 
         // Traverse the object structure, visiting each node with the visitor
-        Method accept = bind.getClass().getMethod("accept", CobolElementVisitor.class);
+        Method accept = bind.getClass().getMethod("accept",
+                CobolElementVisitor.class);
         accept.invoke(bind, mv);
         return HostData.toHexString(hostBytes);
     }
 
     /**
      * Unmarshal host data into a java data object.
+     * 
      * @param hostBytes the host data
      * @param schemaName the XSD annotated name
      * @return a java data object
@@ -160,6 +171,7 @@ public class Util {
 
     /**
      * Unmarshal host data into a java data object.
+     * 
      * @param hostBytes the host data
      * @param schemaName the XSD annotated name
      * @param jaxbTypeName the name of the JAXB class
@@ -170,25 +182,28 @@ public class Util {
             final byte[] hostBytes,
             final String schemaName,
             final String jaxbTypeName) throws Exception {
-        // Create a cobol context 
+        // Create a cobol context
         CobolContext cobolContext = new CobolContext();
-        // Select a conversion strategy 
+        // Select a conversion strategy
         CobolSimpleConverters cc = new CobolSimpleConverters(cobolContext);
         // Create a concrete visitor
         CobolUnmarshalVisitor uv = new CobolUnmarshalVisitor(hostBytes, 0, cc);
         // Create a binding instance
         Object bind = getBindingObject(schemaName, jaxbTypeName);
 
-        Method accept = bind.getClass().getMethod("accept", CobolElementVisitor.class);
+        Method accept = bind.getClass().getMethod("accept",
+                CobolElementVisitor.class);
         accept.invoke(bind, uv);
 
-        Method getDfhcommarea = bind.getClass().getMethod("get" + jaxbTypeName, (Class[]) null);
+        Method getDfhcommarea = bind.getClass().getMethod("get" + jaxbTypeName,
+                (Class[]) null);
         Object jaxbObject = getDfhcommarea.invoke(bind);
         return jaxbObject;
     }
 
     /**
      * Calculates the max host bytes size.
+     * 
      * @param schemaName the XSD annotated name
      * @return the max host bytes size
      * @throws Exception if calculation fails
@@ -199,6 +214,7 @@ public class Util {
 
     /**
      * Calculates the max host bytes size.
+     * 
      * @param schemaName the XSD annotated name
      * @param jaxbTypeName the name of the JAXB class
      * @return the max host bytes size

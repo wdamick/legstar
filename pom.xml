@@ -8,9 +8,8 @@
     <description>Open-Source Mainframe Integration</description>
     <url>http://www.legsem.com/legstar</url>
     <properties>
-        <legstarVersion>1.4.0</legstarVersion>
-        <legstarZosVersion>V1R4M0</legstarZosVersion>
-        <legstarCob2XsdVersion>0.3.0</legstarCob2XsdVersion>
+        <legstarZosVersion>V1R4M1</legstarZosVersion>
+        <legstarCob2XsdVersion>0.3.1</legstarCob2XsdVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <antInternalVersion>1.7.0</antInternalVersion> <!-- Used for legstar builds and tests -->
         <antVersion>1.6.5</antVersion>  <!-- Expected to be provided at runtime -->
@@ -192,22 +191,40 @@
 
         <plugins>
 
+            <!-- All modules bundle their sources at package time -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+                <inherited>true</inherited>
+                
                 <executions>
-                    <!-- All sources are aggregated together at package time -->
-                    <execution>
-                        <id>aggregate-sources</id>
-                        <goals>
-                            <goal>aggregate</goal>
-                        </goals>
-                    </execution>
-                    <!-- All modules bundle their sources at package time -->
                     <execution>
                         <id>project-sources</id>
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <configuration>
+                          <excludeResources>true</excludeResources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- All sources are aggregated together at package time -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <inherited>false</inherited>
+                
+                <executions>
+                    <execution>
+                        <id>aggregate-sources</id>
+                        <goals>
+                            <goal>aggregate</goal>
+                        </goals>
+                        <configuration>
+                          <excludeResources>true</excludeResources>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -247,7 +264,7 @@
 
     </build>
   
-    <!-- Duplicate from super POM. Needed to ensure aggregated sources are attached at perform release time -->
+    <!-- Duplicate from super POM. Needed to get the sources attached -->
     <profiles>
         <profile>
             <id>release-profile</id>
@@ -259,43 +276,8 @@
             </activation>
             
             <build>
+
                 <plugins>
-                    <plugin>
-                        <inherited>true</inherited>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        
-                        <executions>
-                            <!-- All sources are aggregated together at package time -->
-                            <execution>
-                                <id>aggregate-sources</id>
-                                <goals>
-                                    <goal>aggregate</goal>
-                                </goals>
-                            </execution>
-                            <!-- All modules bundle their sources at package time -->
-                            <execution>
-                                <id>project-sources</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <inherited>true</inherited>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                            
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
                     <plugin>
                         <inherited>true</inherited>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -342,7 +324,7 @@
     </modules>
 
     <distributionManagement>
-        <downloadUrl>http://www.legsem.com/legstar/mavenrepo</downloadUrl>
+        <downloadUrl>http://www.legsem.com/legstar/maven/repo/</downloadUrl>
         <site>
             <id>local.website</id>
             <name>Local Website</name>
@@ -943,107 +925,107 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-codegen</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-cixsgen-model</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-cixsgen-model-cases</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-common</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-messaging</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-config</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-csokrt</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-chttprt</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-cmqrt</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-engine</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-invoker</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-coxbapi</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-coxbrt</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-jaxbgen</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-jaxbgen-cases</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-coxbgen</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-coxbgen-cases</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-cixsgen</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-cixsgen-cases</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-xsdcgen</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-xsdcgen</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
                 <classifier>test</classifier>
                 <type>jar</type>
                 <scope>test</scope>
@@ -1051,37 +1033,37 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-xsdcgen-cases</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-cobcgen</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-c2wsrt</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-common-plugin</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-cixscom-plugin</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-tests</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-cmockrt</artifactId>
-                <version>${legstarVersion}</version>
+                <version>${version}</version>
             </dependency>
       
             <!-- Used by jaxbgen to get sample schemas needed to generate jaxbgen-cases

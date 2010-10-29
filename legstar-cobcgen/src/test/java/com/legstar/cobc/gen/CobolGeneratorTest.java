@@ -16,15 +16,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tools.ant.BuildException;
 
-
 /**
  * Test CobolGenerator.
- *
+ * 
  */
 public class CobolGeneratorTest extends AbstractTester {
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(CobolGeneratorTest.class);
+
     /**
      * Test instantiation.
      */
@@ -58,7 +58,8 @@ public class CobolGeneratorTest extends AbstractTester {
             gen.execute();
             fail();
         } catch (BuildException e) {
-            assertEquals("java.lang.ClassNotFoundException: dfhcommarea", e.getCause().getCause().getMessage());
+            assertEquals("java.lang.ClassNotFoundException: ObjectFactory", e
+                    .getCause().getCause().getMessage());
         }
 
         try {
@@ -69,7 +70,8 @@ public class CobolGeneratorTest extends AbstractTester {
             gen.execute();
             fail();
         } catch (BuildException e) {
-            assertEquals("java.lang.ClassNotFoundException: com.legstar.test.coxb.lsfileae.dfhcommareaTruc",
+            assertEquals(
+                    "java.lang.ClassNotFoundException: com.legstar.test.coxb.lsfileae.dfhcommareaTruc",
                     e.getCause().getCause().getMessage());
         }
     }
@@ -178,16 +180,20 @@ public class CobolGeneratorTest extends AbstractTester {
                     5);
             _log.debug(code);
             assertEquals(
-                    /* 123456789012345678901234567890123456789012345678901234567890123456789012*/
-                      "           05 COM-LSFILEAE." + "\r\n"
-                    + "               10 COM-NUMBER PIC 9(6)." + "\r\n"
-                    + "               10 COM-PERSONAL." + "\r\n"
-                    + "                   15 COM-NAME PIC X(20)." + "\r\n"
-                    + "                   15 COM-ADDRESS PIC X(20)." + "\r\n"
-                    + "                   15 COM-PHONE PIC X(8)." + "\r\n"
-                    + "               10 COM-DATE PIC X(8)." + "\r\n"
-                    + "               10 COM-AMOUNT PIC X(8)." + "\r\n"
-                    + "               10 COM-COMMENT PIC X(9)." + "\r\n", code);
+                    /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+                    "           05 COM-LSFILEAE." + "\r\n"
+                            + "               10 COM-NUMBER PIC 9(6)." + "\r\n"
+                            + "               10 COM-PERSONAL." + "\r\n"
+                            + "                   15 COM-NAME PIC X(20)."
+                            + "\r\n"
+                            + "                   15 COM-ADDRESS PIC X(20)."
+                            + "\r\n"
+                            + "                   15 COM-PHONE PIC X(8)."
+                            + "\r\n"
+                            + "               10 COM-DATE PIC X(8)." + "\r\n"
+                            + "               10 COM-AMOUNT PIC X(8)." + "\r\n"
+                            + "               10 COM-COMMENT PIC X(9)."
+                            + "\r\n", code);
 
             code = CobolGenerator.generate(
                     "com.legstar.test.coxb.lsfileae",
@@ -197,16 +203,18 @@ public class CobolGeneratorTest extends AbstractTester {
                     1);
             _log.debug(code);
             assertEquals(
-                    /* 123456789012345678901234567890123456789012345678901234567890123456789012*/
-                      "       01 COM-LSFILEAE." + "\r\n"
-                    + "           02 COM-NUMBER PIC 9(6)." + "\r\n"
-                    + "           02 COM-PERSONAL." + "\r\n"
-                    + "               03 COM-NAME PIC X(20)." + "\r\n"
-                    + "               03 COM-ADDRESS PIC X(20)." + "\r\n"
-                    + "               03 COM-PHONE PIC X(8)." + "\r\n"
-                    + "           02 COM-DATE PIC X(8)." + "\r\n"
-                    + "           02 COM-AMOUNT PIC X(8)." + "\r\n"
-                    + "           02 COM-COMMENT PIC X(9)." + "\r\n", code);
+                    /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+                    "       01 COM-LSFILEAE." + "\r\n"
+                            + "           02 COM-NUMBER PIC 9(6)." + "\r\n"
+                            + "           02 COM-PERSONAL." + "\r\n"
+                            + "               03 COM-NAME PIC X(20)." + "\r\n"
+                            + "               03 COM-ADDRESS PIC X(20)."
+                            + "\r\n"
+                            + "               03 COM-PHONE PIC X(8)." + "\r\n"
+                            + "           02 COM-DATE PIC X(8)." + "\r\n"
+                            + "           02 COM-AMOUNT PIC X(8)." + "\r\n"
+                            + "           02 COM-COMMENT PIC X(9)." + "\r\n",
+                    code);
 
             code = CobolGenerator.generate(
                     "com.legstar.test.coxb.lsfileae",
@@ -216,16 +224,20 @@ public class CobolGeneratorTest extends AbstractTester {
                     1);
             _log.debug(code);
             assertEquals(
-                    /* 123456789012345678901234567890123456789012345678901234567890123456789012*/
-                      "           02 COM-LSFILEAE." + "\r\n"
-                    + "               03 COM-NUMBER PIC 9(6)." + "\r\n"
-                    + "               03 COM-PERSONAL." + "\r\n"
-                    + "                   04 COM-NAME PIC X(20)." + "\r\n"
-                    + "                   04 COM-ADDRESS PIC X(20)." + "\r\n"
-                    + "                   04 COM-PHONE PIC X(8)." + "\r\n"
-                    + "               03 COM-DATE PIC X(8)." + "\r\n"
-                    + "               03 COM-AMOUNT PIC X(8)." + "\r\n"
-                    + "               03 COM-COMMENT PIC X(9)." + "\r\n", code);
+                    /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+                    "           02 COM-LSFILEAE." + "\r\n"
+                            + "               03 COM-NUMBER PIC 9(6)." + "\r\n"
+                            + "               03 COM-PERSONAL." + "\r\n"
+                            + "                   04 COM-NAME PIC X(20)."
+                            + "\r\n"
+                            + "                   04 COM-ADDRESS PIC X(20)."
+                            + "\r\n"
+                            + "                   04 COM-PHONE PIC X(8)."
+                            + "\r\n"
+                            + "               03 COM-DATE PIC X(8)." + "\r\n"
+                            + "               03 COM-AMOUNT PIC X(8)." + "\r\n"
+                            + "               03 COM-COMMENT PIC X(9)."
+                            + "\r\n", code);
             code = CobolGenerator.generate(
                     "com.legstar.test.coxb.lsfileae",
                     "Dfhcommarea",
@@ -234,16 +246,18 @@ public class CobolGeneratorTest extends AbstractTester {
                     2);
             _log.debug(code);
             assertEquals(
-                    /* 123456789012345678901234567890123456789012345678901234567890123456789012*/
-                      "       01 COM-LSFILEAE." + "\r\n"
-                    + "           03 COM-NUMBER PIC 9(6)." + "\r\n"
-                    + "           03 COM-PERSONAL." + "\r\n"
-                    + "               05 COM-NAME PIC X(20)." + "\r\n"
-                    + "               05 COM-ADDRESS PIC X(20)." + "\r\n"
-                    + "               05 COM-PHONE PIC X(8)." + "\r\n"
-                    + "           03 COM-DATE PIC X(8)." + "\r\n"
-                    + "           03 COM-AMOUNT PIC X(8)." + "\r\n"
-                    + "           03 COM-COMMENT PIC X(9)." + "\r\n", code);
+                    /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+                    "       01 COM-LSFILEAE." + "\r\n"
+                            + "           03 COM-NUMBER PIC 9(6)." + "\r\n"
+                            + "           03 COM-PERSONAL." + "\r\n"
+                            + "               05 COM-NAME PIC X(20)." + "\r\n"
+                            + "               05 COM-ADDRESS PIC X(20)."
+                            + "\r\n"
+                            + "               05 COM-PHONE PIC X(8)." + "\r\n"
+                            + "           03 COM-DATE PIC X(8)." + "\r\n"
+                            + "           03 COM-AMOUNT PIC X(8)." + "\r\n"
+                            + "           03 COM-COMMENT PIC X(9)." + "\r\n",
+                    code);
         } catch (CobolGenerationException e) {
             fail(e.getMessage());
         }

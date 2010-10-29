@@ -11,7 +11,7 @@
 package com.legstar.coxb.gen;
 
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
-import com.legstar.coxb.util.Utils;
+import com.legstar.coxb.util.ClassUtil;
 
 /**
  * Test CoxbGenReflectVisitor.
@@ -31,7 +31,8 @@ public class CoxbGenReflectVisitorTest extends AbstractTestTemplate {
 
         CComplexReflectBinding ce = new CComplexReflectBinding(
                 objectFactory,
-                Utils.loadClass("com.legstar.test.coxb.dplarcht.Dfhcommarea"));
+                ClassUtil
+                        .loadClass("com.legstar.test.coxb.dplarcht.Dfhcommarea"));
 
         getCoxbGenModel().setJaxbPackageName("com.legstar.test.coxb.dplarcht");
         getCoxbGenModel().setCoxbPackageName(

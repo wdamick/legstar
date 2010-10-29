@@ -30,18 +30,18 @@ import com.legstar.xsdc.gen.CobolNameResolver;
 import com.legstar.xsdc.gen.CobolNameResolverException;
 
 /**
- * This Ant task generates a Cobol data description source that can be used as 
+ * This Ant task generates a Cobol data description source that can be used as
  * a copybook in a regular Cobol program. The Data description is extracted from
  * Cobol annotations within a JAXB class. Such Cobol-annotated JAXB classes are
  * produced by legstar-jaxbgen.
  */
-public class CobolGenerator extends Task  {
+public class CobolGenerator extends Task {
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(CobolGenerator.class);
 
     /* ====================================================================== */
-    /* = Properties section                                                 = */
+    /* = Properties section = */
     /* ====================================================================== */
 
     /** The package name used for JAXB classes. */
@@ -66,14 +66,14 @@ public class CobolGenerator extends Task  {
     private int mCobolLevelIncrement;
 
     /* ====================================================================== */
-    /* = Local variables section                                            = */
+    /* = Local variables section = */
     /* ====================================================================== */
 
     /** Helper to suggest COBOL names from Java names. */
     private static CobolNameResolver mCobolNameResolver;
 
     /**
-     *  The ant execute method. Generates a new Cobol data description source.
+     * The ant execute method. Generates a new Cobol data description source.
      */
     public void execute() {
         if (_log.isDebugEnabled()) {
@@ -81,7 +81,7 @@ public class CobolGenerator extends Task  {
         }
         checkInput();
         String outPath = mTargetDir.getPath() + File.separator
-        + mTargetCobolFileName;
+                + mTargetCobolFileName;
         BufferedWriter writer = null;
         try {
             String code = generate(
@@ -126,16 +126,16 @@ public class CobolGenerator extends Task  {
             _log.debug("   Target directory       = " + mTargetDir);
             _log.debug("   Target Cobol file name = " + mTargetCobolFileName);
         }
-        /* Check that we have a valid JAXB type name.  */
+        /* Check that we have a valid JAXB type name. */
         if (mJaxbTypeName == null || mJaxbTypeName.length() == 0) {
             throw (new BuildException(
-            "You must provide a JAXB type name"));
+                    "You must provide a JAXB type name"));
         }
 
-        /* Check that we have a valid target directory.  */
+        /* Check that we have a valid target directory. */
         if (mTargetDir == null) {
             throw (new BuildException(
-            "You must provide a target directory"));
+                    "You must provide a target directory"));
         }
         if (!mTargetDir.exists()) {
             throw (new BuildException(
@@ -150,12 +150,12 @@ public class CobolGenerator extends Task  {
         if (mFirstCobolLevel < 0 || mFirstCobolLevel > 49) {
             throw (new BuildException(
                     mFirstCobolLevel
-                    + " is not a valid COBOL level number"));
+                            + " is not a valid COBOL level number"));
         }
         if (mCobolLevelIncrement < 0 || mCobolLevelIncrement > 49) {
             throw (new BuildException(
                     mCobolLevelIncrement
-                    + " is not a valid COBOL level increment"));
+                            + " is not a valid COBOL level increment"));
         }
 
         /* Set valid default level related values */
@@ -187,13 +187,14 @@ public class CobolGenerator extends Task  {
      * Using the <code>cobcgen</code> utility, this will use reflection
      * to instantiate a Jaxb object corresponding to a structure
      * received and then generate COBOL data description code using
-     * the COBOL annotations in the jaxb class. 
+     * the COBOL annotations in the jaxb class.
+     * 
      * @param jaxbPackageName the JAXB classes package name
      * @param jaxbType the JAXB class
      * @param cobolRootDataItemName the COBOL structure root data item name
      * @param firstCobolLevel where to start numbering Cobol data items
      * @param cobolLevelIncrement how much to increment Cobol data items moving
-     *  from parent to child
+     *            from parent to child
      * @return data description COBOL source code for the structure
      * @throws CobolGenerationException if code generation fails
      */
@@ -203,11 +204,11 @@ public class CobolGenerator extends Task  {
             final String cobolRootDataItemName,
             final int firstCobolLevel,
             final int cobolLevelIncrement)
-    throws CobolGenerationException {
+            throws CobolGenerationException {
         try {
             JAXBElementDescriptor elementDescriptor = new JAXBElementDescriptor(
                     jaxbPackageName, jaxbType);
-            Object objectFactory = elementDescriptor.createObjectFactory();
+            Object objectFactory = elementDescriptor.getObjectFactory();
             Class < ? > clazz = elementDescriptor.getJaxbClass();
             CComplexReflectBinding ccem = new CComplexReflectBinding(
                     objectFactory, clazz);
@@ -242,7 +243,7 @@ public class CobolGenerator extends Task  {
      * @throws CobolNameResolverException if resolver cannot be created
      */
     private static CobolNameResolver getCobolNameResolver()
-    throws CobolNameResolverException {
+            throws CobolNameResolverException {
         if (mCobolNameResolver == null) {
             mCobolNameResolver = new CobolNameResolver();
         }
@@ -337,7 +338,7 @@ public class CobolGenerator extends Task  {
 
     /**
      * @return how much to increment Cobol data items moving from parent to
-     *  child
+     *         child
      */
     public int getCobolLevelIncrement() {
         return mCobolLevelIncrement;
@@ -345,7 +346,7 @@ public class CobolGenerator extends Task  {
 
     /**
      * @param cobolLevelIncrement how much to increment Cobol data items
-     *  moving from parent to child
+     *            moving from parent to child
      */
     public void setCobolLevelIncrement(final int cobolLevelIncrement) {
         mCobolLevelIncrement = cobolLevelIncrement;

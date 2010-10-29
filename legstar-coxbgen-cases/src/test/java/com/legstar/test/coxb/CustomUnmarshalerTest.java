@@ -76,7 +76,7 @@ public class CustomUnmarshalerTest extends TestCase {
 
         /* find the choice binding */
         ICobolChoiceBinding lastTransDateChoiceBinding =
-            (ICobolChoiceBinding) BindingUtil.getBinding(transformer.getCachedBinding(),
+            (ICobolChoiceBinding) BindingUtil.lookupBinding(transformer.getCachedBinding(),
             "LastTransDateChoice");
         assertNotNull(lastTransDateChoiceBinding);
 
