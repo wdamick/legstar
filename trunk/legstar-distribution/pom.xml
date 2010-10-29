@@ -97,7 +97,7 @@
                         <configuration>
                             <tasks>
                                 <ant antfile="${basedir}/src/main/ant/gen-index-xml.xml">
-                                    <property name="legstarVersion" value="${legstarVersion}" />
+                                    <property name="legstarVersion" value="${version}" />
                                     <property name="legstarCob2XsdVersion" value="${legstarCob2XsdVersion}" />
                                 </ant>
                             </tasks>

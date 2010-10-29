@@ -11,24 +11,24 @@
 package com.legstar.messaging;
 
 import com.legstar.coxb.host.HostContext;
-import com.legstar.coxb.util.Utils;
+import com.legstar.coxb.util.ClassLoadingException;
+import com.legstar.coxb.util.ClassUtil;
 
 /**
  * A host endpoint is used by adapters to forward execution requests to
  * a target host.
  * <p/>
- * Each transport refines such an endpoint to add transport specific
- * parameters.
- *
+ * Each transport refines such an endpoint to add transport specific parameters.
+ * 
  */
 public abstract class HostEndpoint {
-    
+
     /* ----------------------------------------------------------------------- */
-    /* Member variables                                                        */
+    /* Member variables */
     /* ----------------------------------------------------------------------- */
-    /** Endpoint name and identifier.*/
+    /** Endpoint name and identifier. */
     private String _name;
-    
+
     /** Host charset. */
     private String _hostCharset = HostContext.getDefaultHostCharsetName();
 
@@ -40,25 +40,25 @@ public abstract class HostEndpoint {
 
     /** Host trace mode. */
     private boolean _hostTraceMode;
-    
+
     /** Maximum time to wait for connection. */
     private int _connectTimeout = DEFAULT_CONNECT_TIMEOUT_MSEC;
-    
+
     /** Maximum time to wait for a reply to a request. */
     private int _receiveTimeout = DEFAULT_RECEIVE_TIMEOUT_MSEC;
 
     /** The name of a class capable of creating connections to this endpoint. */
     private String _hostConnectionfactoryClass;
-    
+
     /** An instance of the connection factory. */
     private ConnectionFactory _hostConnectionfactory;
-    
+
     /** The access strategy (direct or pooled). */
     private AccessStrategy _hostAccessStrategy = DEFAULT_HOST_ACCESS_STRATEGY;
-    
-    /** The connection pool maximum size (for pooled strategy).*/
+
+    /** The connection pool maximum size (for pooled strategy). */
     private int _hostConnectionPoolSize = DEFAULT_POOL_SIZE;
-    
+
     /** Maximum time to wait for an available pooled connection. */
     private int _pooledInvokeTimeout = DEFAULT_POOLED_INVOKE_TIMEOUT_MSEC;
 
@@ -66,13 +66,15 @@ public abstract class HostEndpoint {
     private long _pooledMaxKeepAlive = DEFAULT_POOLED_MAX_KEEP_ALIVE;
 
     /* ----------------------------------------------------------------------- */
-    /* Default values                                                          */
+    /* Default values */
     /* ----------------------------------------------------------------------- */
     /** Time out (in milliseconds) for initial connect. */
     private static final int DEFAULT_CONNECT_TIMEOUT_MSEC = 1000;
 
-    /** Time out (in milliseconds) for read operations
-     *  (waiting for host reply). */
+    /**
+     * Time out (in milliseconds) for read operations
+     * (waiting for host reply).
+     */
     private static final int DEFAULT_RECEIVE_TIMEOUT_MSEC = 5000;
 
     /** Time out (in milliseconds) for invoke. */
@@ -80,16 +82,16 @@ public abstract class HostEndpoint {
 
     /** Default maximum time to keep a pooled connection opened. */
     private static final long DEFAULT_POOLED_MAX_KEEP_ALIVE = -1;
-    
+
     /** If no pool size found in configuration, use this default. */
     private static final int DEFAULT_POOL_SIZE = 5;
 
     /** If not configured, we will use a direct strategy. */
     private static final AccessStrategy DEFAULT_HOST_ACCESS_STRATEGY =
-        AccessStrategy.direct;
+            AccessStrategy.direct;
 
     /* ----------------------------------------------------------------------- */
-    /* Labels                                                                  */
+    /* Labels */
     /* ----------------------------------------------------------------------- */
     /** Label for host endpoint name. */
     public static final String HOST_ENDPOINT_LABEL = "hostEndpoint";
@@ -128,11 +130,12 @@ public abstract class HostEndpoint {
      * No-arg constructor.
      */
     public HostEndpoint() {
-        
+
     }
 
     /**
      * Constructor using an existing connection factory.
+     * 
      * @param connectionFactory an instance of a connection factory
      */
     public HostEndpoint(final ConnectionFactory connectionFactory) {
@@ -141,6 +144,7 @@ public abstract class HostEndpoint {
 
     /**
      * Copy constructor.
+     * 
      * @param copyFrom the endpoint to copy from
      */
     public HostEndpoint(final HostEndpoint copyFrom) {
@@ -157,64 +161,72 @@ public abstract class HostEndpoint {
         setPooledInvokeTimeout(copyFrom.getPooledInvokeTimeout());
         setReceiveTimeout(copyFrom.getReceiveTimeout());
     }
+
     /**
      * Helper to pretty print the endpoint content.
+     * 
      * @return formatted endpoint report
      */
     public String toString() {
         String report = "["
-            + HOST_ENDPOINT_LABEL + "=" + _name
-            + "," + HOST_CHARSET_LABEL + "=" + _hostCharset
-            + "," + HOST_USERID_LABEL + "=" + _hostUserID
-            + "," + HOST_PASSWORD_LABEL + "=" + "********"
-            + "," + HOST_TRACE_LABEL + "=" + _hostTraceMode
-            + "," + CONNECT_TIMEOUT_LABEL + "=" + _connectTimeout
-            + "," + RECEIVE_TIMEOUT_LABEL + "=" + _receiveTimeout
-            + "," + HOST_CONNECTION_FACTORY_CLASS_LABEL + "=" + _hostConnectionfactoryClass
-            + "," + HOST_ACCESS_STRATEGY_LABEL + "=" + _hostAccessStrategy
-            + "," + HOST_CONNECTION_POOL_SIZE_LABEL + "=" + _hostConnectionPoolSize
-            + "," + POOLED_INVOKE_TIMEOUT_LABEL + "=" + _pooledInvokeTimeout
+                + HOST_ENDPOINT_LABEL + "=" + _name
+                + "," + HOST_CHARSET_LABEL + "=" + _hostCharset
+                + "," + HOST_USERID_LABEL + "=" + _hostUserID
+                + "," + HOST_PASSWORD_LABEL + "=" + "********"
+                + "," + HOST_TRACE_LABEL + "=" + _hostTraceMode
+                + "," + CONNECT_TIMEOUT_LABEL + "=" + _connectTimeout
+                + "," + RECEIVE_TIMEOUT_LABEL + "=" + _receiveTimeout
+                + "," + HOST_CONNECTION_FACTORY_CLASS_LABEL + "="
+                + _hostConnectionfactoryClass
+                + "," + HOST_ACCESS_STRATEGY_LABEL + "=" + _hostAccessStrategy
+                + "," + HOST_CONNECTION_POOL_SIZE_LABEL + "="
+                + _hostConnectionPoolSize
+                + "," + POOLED_INVOKE_TIMEOUT_LABEL + "="
+                + _pooledInvokeTimeout
 
-            + "]";
+                + "]";
         return report;
     }
-    
+
     /**
      * Perform a sanity check on all parameters.
+     * 
      * @throws ConnectionException if endpoint parameters are inconsistent
      */
     protected void checkAll() throws ConnectionException {
         if (getHostCharset() == null || getHostCharset().length() == 0) {
             throw new ConnectionException(
-            "No host character set has been provided.");
+                    "No host character set has been provided.");
         }
-        /* This allows transport endpoints to add their own checking*/
+        /* This allows transport endpoints to add their own checking */
         check();
     }
 
     /**
      * Perform a sanity check on all parameters.
+     * 
      * @throws ConnectionException if endpoint parameters are inconsistent
      */
     public abstract void check() throws ConnectionException;
-    
+
     /**
      * Enrich this endpoint parameters with data from address.
      * <p/>
      * This allows data such as user/password or trace mode to be dynamically
      * setup using an address.
+     * 
      * @param address the origin address
      */
     public void enrich(final LegStarAddress address) {
-        if (address.getHostUserID() != null 
+        if (address.getHostUserID() != null
                 && address.getHostUserID().length() > 0) {
             setHostUserID(address.getHostUserID());
         }
-        if (address.getHostPassword() != null 
+        if (address.getHostPassword() != null
                 && address.getHostPassword().length() > 0) {
             setHostPassword(address.getHostPassword());
         }
-        if (address.getHostCharset() != null 
+        if (address.getHostCharset() != null
                 && address.getHostCharset().length() > 0) {
             setHostCharset(address.getHostCharset());
         }
@@ -228,9 +240,9 @@ public abstract class HostEndpoint {
      */
     public enum AccessStrategy {
         /** Direct. */
-        direct, 
+        direct,
         /** Pooled (connection reuse). */
-        pooled       
+        pooled
     }
 
     /**
@@ -304,16 +316,19 @@ public abstract class HostEndpoint {
     }
 
     /**
-     * @return the name of a class capable of creating connections to this endpoint
+     * @return the name of a class capable of creating connections to this
+     *         endpoint
      */
     public String getHostConnectionfactoryClass() {
         return _hostConnectionfactoryClass;
     }
 
     /**
-     * @param connectionfactoryClass the name of a class capable of creating connections to this endpoint to set
+     * @param connectionfactoryClass the name of a class capable of creating
+     *            connections to this endpoint to set
      */
-    public void setHostConnectionfactoryClass(final String connectionfactoryClass) {
+    public void setHostConnectionfactoryClass(
+            final String connectionfactoryClass) {
         _hostConnectionfactoryClass = connectionfactoryClass;
     }
 
@@ -325,7 +340,8 @@ public abstract class HostEndpoint {
     }
 
     /**
-     * @param connectionPoolSize the connection pool maximum size (for pooled strategy) to set
+     * @param connectionPoolSize the connection pool maximum size (for pooled
+     *            strategy) to set
      */
     public void setHostConnectionPoolSize(final int connectionPoolSize) {
         _hostConnectionPoolSize = connectionPoolSize;
@@ -353,7 +369,8 @@ public abstract class HostEndpoint {
     }
 
     /**
-     * @param invokeTimeout the maximum time to wait for an available pooled connection to set
+     * @param invokeTimeout the maximum time to wait for an available pooled
+     *            connection to set
      */
     public void setPooledInvokeTimeout(final int invokeTimeout) {
         _pooledInvokeTimeout = invokeTimeout;
@@ -390,23 +407,21 @@ public abstract class HostEndpoint {
     /**
      * When there is no instance of the connection factory, this will try
      * to instantiate one and throws a runtime exception if that fails.
+     * 
      * @return the instance of the connection factory
      */
     public ConnectionFactory getHostConnectionfactory() {
         if (_hostConnectionfactory == null) {
             if (getHostConnectionfactoryClass() != null) {
                 try {
-                    Class < ? > factoryClazz = Utils.loadClass(getHostConnectionfactoryClass());
-                    _hostConnectionfactory = (ConnectionFactory) factoryClazz.newInstance();
-                } catch (ClassNotFoundException e) {
-                    throw new IllegalStateException(e);
-                } catch (InstantiationException e) {
-                    throw new IllegalStateException(e);
-                } catch (IllegalAccessException e) {
+                    _hostConnectionfactory = (ConnectionFactory) ClassUtil
+                            .newObject(getHostConnectionfactoryClass());
+                } catch (ClassLoadingException e) {
                     throw new IllegalStateException(e);
                 }
             } else {
-                throw new IllegalStateException("Host endpoint has no connection factory class name");
+                throw new IllegalStateException(
+                        "Host endpoint has no connection factory class name");
             }
         }
         return _hostConnectionfactory;
@@ -415,23 +430,26 @@ public abstract class HostEndpoint {
     /**
      * @param connectionfactory the instance of the connection factory to set
      */
-    public void setHostConnectionfactory(final ConnectionFactory connectionfactory) {
+    public void setHostConnectionfactory(
+            final ConnectionFactory connectionfactory) {
         _hostConnectionfactory = connectionfactory;
     }
 
     /**
-     * @return the maximum time to keep a pooled connection opened. -1 means forever.
+     * @return the maximum time to keep a pooled connection opened. -1 means
+     *         forever.
      */
     public long getPooledMaxKeepAlive() {
         return _pooledMaxKeepAlive;
     }
 
     /**
-     * @param maxKeepAlive the maximum time to keep a pooled connection opened to set
-     * -1 means forever.
+     * @param maxKeepAlive the maximum time to keep a pooled connection opened
+     *            to set
+     *            -1 means forever.
      */
     public void setPooledMaxKeepAlive(final long maxKeepAlive) {
         _pooledMaxKeepAlive = maxKeepAlive;
     }
-    
+
 }

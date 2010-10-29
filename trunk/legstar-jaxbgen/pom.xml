@@ -121,7 +121,7 @@
                                 </path>
                                 <ant antfile="${basedir}/src/test/ant/build-jaxbgen-cases.xml" inheritRefs="true">
                                     <property name="maven.localRepository" value="${settings.localRepository}" />
-                                    <property name="legstarVersion" value="${legstarVersion}" />
+                                    <property name="legstarVersion" value="${version}" />
                                     <property name="legstarCob2XsdVersion" value="${legstarCob2XsdVersion}" />
                                 </ant>
                             </tasks>

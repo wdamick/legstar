@@ -20,7 +20,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.legstar.coxb.util.Utils;
+import com.legstar.coxb.util.ClassUtil;
 import com.legstar.messaging.HostMessageFormatException;
 import com.legstar.messaging.LegStarMessage;
 
@@ -30,41 +30,42 @@ import com.legstar.messaging.LegStarMessage;
  * This proxy receives raw host data originating from a mainframe, it determines
  * its format (encapsulated in a LegStarMessage or not) and then calls the
  * appropriate operation proxy invoker.
- *
+ * 
  */
 public class ServiceProxy implements Serializable {
 
     /** Serial ID. */
     private static final long serialVersionUID = 9222944155913546563L;
 
-    /** Configuration property giving the operation proxy supported. */ 
+    /** Configuration property giving the operation proxy supported. */
     public static final String OPERATION_PROXY_CLASS_NAME_PROPERTY =
-        "operationProxyClassName";
+            "operationProxyClassName";
 
-    /** Default operation proxy. */ 
+    /** Default operation proxy. */
     public static final String DEFAULT_OPERATION_PROXY_CLASS_NAME =
-        "com.legstar.proxy.invoke.ReflectOperationProxy";
+            "com.legstar.proxy.invoke.ReflectOperationProxy";
 
     /** Logger. */
     private static final Log LOG = LogFactory.getLog(ServiceProxy.class);
-    
+
     /**
      * Current set of configuration parameters. These are setup at construction
      * time but can be overridden on a per-request basis.
      */
     private Map < String, String > mConfig;
 
-
-    /** The remote operation supported by this service.*/
+    /** The remote operation supported by this service. */
     private IOperationProxy mOperationProxy;
 
     /**
      * Create a service proxy and its inner operation proxy.
+     * 
      * @param config the initial set of parameters
      * @throws ProxyConfigurationException if configuration is invalid
      */
     public ServiceProxy(
-            final Map < String, String > config) throws ProxyConfigurationException {
+            final Map < String, String > config)
+            throws ProxyConfigurationException {
         if (config == null) {
             mConfig = new HashMap < String, String >();
         } else {
@@ -76,22 +77,26 @@ public class ServiceProxy implements Serializable {
     /**
      * Load the operation proxy named in the configuration or the default one
      * if none is found.
+     * 
      * @param config the current configuration
      * @return an instance of the operation proxy
-     * @throws ProxyConfigurationException if unable to instantiate the operation proxy
+     * @throws ProxyConfigurationException if unable to instantiate the
+     *             operation proxy
      */
     private IOperationProxy getOperationProxy(
-            final Map < String, String > config)  throws ProxyConfigurationException {
+            final Map < String, String > config)
+            throws ProxyConfigurationException {
         try {
             String operationProxyClassName = config.get(
                     OPERATION_PROXY_CLASS_NAME_PROPERTY);
-            if (operationProxyClassName == null 
+            if (operationProxyClassName == null
                     || operationProxyClassName.length() == 0) {
                 operationProxyClassName = DEFAULT_OPERATION_PROXY_CLASS_NAME;
             }
-            Class < ? > clazz = Utils.loadClass(operationProxyClassName);
+            Class < ? > clazz = ClassUtil.loadClass(operationProxyClassName);
             Constructor < ? > constructor = clazz.getConstructor(Map.class);
-            return (IOperationProxy) constructor.newInstance(new Object[] {config});
+            return (IOperationProxy) constructor
+                    .newInstance(new Object[] { config });
         } catch (SecurityException e) {
             throw new ProxyConfigurationException(e);
         } catch (IllegalArgumentException e) {
@@ -113,14 +118,16 @@ public class ServiceProxy implements Serializable {
     }
 
     /**
-     * Extract raw mainframe data from message envelope if any and then hand over
+     * Extract raw mainframe data from message envelope if any and then hand
+     * over
      * control to an operation proxy invoker.
      * <p/>
-     * In the future this will be enhanced to support multiple operations but for
-     * now we are limited to one so there is no logic to select an available
+     * In the future this will be enhanced to support multiple operations but
+     * for now we are limited to one so there is no logic to select an available
      * invoker.
+     * 
      * @param config request time configuration parameters. This is meant for
-     *  things such as credentials
+     *            things such as credentials
      * @param requestID a unique identifier for the request
      * @param requestBytes the mainframe request data
      * @return reply data ready for transmission to mainframe
@@ -143,12 +150,14 @@ public class ServiceProxy implements Serializable {
                 legstarMessaging = true;
                 payload = LegStarMessage.getContentFromHostBytes(requestBytes);
             }
-            /* Invoke the requested operation. Note that we only support
-             * single method services so far. */
+            /*
+             * Invoke the requested operation. Note that we only support
+             * single method services so far.
+             */
             byte[] replyBytes =
-                getOperationProxy().invoke(config, requestID, payload);
+                    getOperationProxy().invoke(config, requestID, payload);
 
-            /* If client uses LegStar message format a reply*/
+            /* If client uses LegStar message format a reply */
             if (legstarMessaging) {
                 return LegStarMessage.getHostBytesFromContent(replyBytes);
             } else {
@@ -165,6 +174,7 @@ public class ServiceProxy implements Serializable {
 
     /**
      * Same method using default configuration.
+     * 
      * @param requestID a unique identifier for the request
      * @param requestBytes the mainframe request data
      * @return reply data ready for transmission to mainframe

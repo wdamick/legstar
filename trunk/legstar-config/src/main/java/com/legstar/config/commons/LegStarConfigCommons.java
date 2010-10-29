@@ -26,7 +26,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.legstar.config.LegStarConfigurationException;
-import com.legstar.coxb.util.Utils;
+import com.legstar.coxb.util.ClassLoadingException;
+import com.legstar.coxb.util.ClassUtil;
 import com.legstar.config.PoolingEngineConfig;
 import com.legstar.messaging.ConnectionFactory;
 import com.legstar.messaging.HostEndpoint;
@@ -275,17 +276,12 @@ public class LegStarConfigCommons {
             _log.debug("Loading connection factory class: " + factoryClass);
         }
         try {
-            Class < ? > factoryClazz = Utils.loadClass(factoryClass);
-            return (ConnectionFactory) factoryClazz.newInstance();
-        } catch (ClassNotFoundException e) {
-            throw new LegStarConfigurationException(e);
-        } catch (InstantiationException e) {
-            throw new LegStarConfigurationException(e);
-        } catch (IllegalAccessException e) {
-            throw new LegStarConfigurationException(e);
+            return (ConnectionFactory) ClassUtil.newObject(factoryClass);
         } catch (SecurityException e) {
             throw new LegStarConfigurationException(e);
         } catch (IllegalArgumentException e) {
+            throw new LegStarConfigurationException(e);
+        } catch (ClassLoadingException e) {
             throw new LegStarConfigurationException(e);
         }
     }

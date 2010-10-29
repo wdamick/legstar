@@ -18,7 +18,7 @@ import org.w3c.dom.NodeList;
 
 import com.legstar.codegen.CodeGenUtil;
 import com.legstar.coxb.host.HostException;
-import com.legstar.coxb.util.Utils;
+import com.legstar.coxb.util.NameUtil;
 
 /**
  * This class describes a service operation and its binding to JAXB and CICS.
@@ -392,7 +392,7 @@ public class CixsOperation {
      * @return a valid class name built from the operation name.
      */
     public String getClassName() {
-        return Utils.toClassName(getName());
+        return NameUtil.toClassName(getName());
     }
 
     /**

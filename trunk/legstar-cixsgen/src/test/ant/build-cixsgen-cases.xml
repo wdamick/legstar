@@ -96,6 +96,7 @@
                     <exclude name="redsimpt"/>
                     <exclude name="redinout"/>
                     <exclude name="redbotha"/>
+                    <exclude name="tcobwvb"/>
                 </dirset>
             </path>
         </foreach>

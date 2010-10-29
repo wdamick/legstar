@@ -14,7 +14,7 @@ import com.legstar.cixs.gen.model.CixsOperation;
 import com.legstar.cixs.gen.model.options.PojoParameters;
 import com.legstar.cixs.gen.model.options.WebServiceParameters;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
-import com.legstar.coxb.util.Utils;
+import com.legstar.coxb.util.NameUtil;
 import com.legstar.test.cixs.CultureinfoOperationCases;
 import com.legstar.test.cixs.DplarchtOperationCases;
 import com.legstar.test.cixs.JvmqueryOperationCases;
@@ -218,9 +218,9 @@ public final class Samples {
         CixsJaxwsService model = new CixsJaxwsService();
         model.setPackageName(CIXS_PACKAGE_PREFIX + serviceName);
         model.setImplementationClassName(
-                Utils.toClassName(serviceName) + "Impl");
+                NameUtil.toClassName(serviceName) + "Impl");
         model.setInterfaceClassName(
-                Utils.toClassName(serviceName));
+                NameUtil.toClassName(serviceName));
         model.setName(serviceName);
         return model;
     }

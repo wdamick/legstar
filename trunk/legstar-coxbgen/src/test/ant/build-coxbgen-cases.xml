@@ -48,7 +48,7 @@
 		<mkdir dir="${coxb.bin.dir}"/>
 		<foreach target="generateCOXB" param="xsd.file" inheritrefs="true">
 			<path>
-				<fileset dir="${xsd.dir}" includes="*.xsd" excludes="clegtstc.cbl.xsd LSFILEAL.xsd LSFILEAC.xsd enumvar.xsd MSNSearch.xsd cultureinfo.xsd jvmquery.xsd jvmquery-ws.xsd VARAR021.xsd"/>
+				<fileset dir="${xsd.dir}" includes="*.xsd" excludes="clegtstc.cbl.xsd LSFILEAL.xsd LSFILEAC.xsd enumvar.xsd MSNSearch.xsd cultureinfo.xsd jvmquery.xsd jvmquery-ws.xsd VARAR021.xsd TCOBWVB.xsd"/>
 			</path>
 		</foreach>
 		<coxbgen 
@@ -115,6 +115,14 @@
             targetDir="${coxb.src.dir}"
             >
                 <jaxbRootClass name="SearchGrplst"/>
+            </coxbgen>
+        <coxbgen 
+            jaxbPackageName="com.legstar.test.coxb.tcobwvb"
+            xmlTransformers="true"
+            jsonTransformers="true"
+            targetDir="${coxb.src.dir}"
+            >
+                <jaxbRootClass name="CustomerData"/>
             </coxbgen>
         <!--
 		<coxbgen 

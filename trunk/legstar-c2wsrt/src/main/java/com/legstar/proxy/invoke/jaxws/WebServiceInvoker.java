@@ -30,7 +30,7 @@ import javax.xml.ws.soap.SOAPFaultException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.legstar.coxb.util.Utils;
+import com.legstar.coxb.util.NameUtil;
 import com.legstar.proxy.invoke.AbstractProxyInvoker;
 import com.legstar.proxy.invoke.ProxyInvokerException;
 import com.legstar.proxy.invoke.ReflectOperationProxy;
@@ -359,7 +359,7 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
             final String elementName,
             final Object type) throws WebServiceInvokerException {
         try {
-            String createName = "create" + Utils.toClassName(elementName);
+            String createName = "create" + NameUtil.toClassName(elementName);
             Method creator = objectFactory.getClass().getMethod(
                     createName, type.getClass());
             return (JAXBElement < ? >) creator.invoke(objectFactory, type);

@@ -12,20 +12,21 @@ package com.legstar.coxb.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Utilities that are common to the binding API and dependents.
  * 
  * Part of this code is more or less a clone of Sun's
- *  <code>com.sun.xml.bind.api.impl.NameUtil</code>.
+ * <code>com.sun.xml.bind.api.impl.NameUtil</code>.
  * It's just that dragging the entire jaxb-impl as a dependency just to get the
  * naming right is overkill.
  * The jaxb-impl dependency is a real pain since it is now included in JRE and
  * brings in all forms of version conflicts.
- *
+ * 
  */
-public final class Utils {
-    
+public final class NameUtil {
+
     // the 5-category classification that we use in this code
     // to find work breaks
     /** Upper case letters. */
@@ -42,42 +43,14 @@ public final class Utils {
     /**
      * A utility class.
      */
-    private Utils() {
-        
-    }
+    private NameUtil() {
 
-    /**
-     * NOTE: This code is already in com.legstar.util.JaxbUtil. But we dont
-     * want to create a dependency on the coxb implementation here.
-     * TODO find a way to share this code.
-     * Rather than using the Class.forName mechanism, this uses
-     * Thread.getContextClassLoader instead. In a Servlet context such as
-     * Tomcat, this allows JAXB classes for instance to be loaded from the
-     * web application (webapp) location while this code might have been
-     * loaded from shared/lib.
-     * If Thread.getContextClassLoader fails to locate the class then we
-     * give a last chance to Class.forName.
-     * @param className the class name to load
-     * @return the class
-     * @throws ClassNotFoundException if class is not accessible from this
-     * thread loader
-     */
-    public static Class < ? > loadClass(
-            final String className) throws ClassNotFoundException {
-        Class < ? > clazz = null;
-        Thread thread = Thread.currentThread();
-        ClassLoader classLoader = thread.getContextClassLoader();
-        try {
-            clazz = classLoader.loadClass(className);
-        } catch (ClassNotFoundException e) {
-            clazz = Class.forName(className);
-        }
-        return clazz;
     }
 
     /**
      * This utility method is used to suppress the need for @SuppressWarnings
      * when we cast objects to List < ? >.
+     * 
      * @param <T> the list type
      * @param x the object to cast
      * @return a list object
@@ -115,6 +88,7 @@ public final class Utils {
      * Decide the action to be taken given
      * the classification of the preceding character 't0' and
      * the classification of the next character 't1'.
+     * 
      * @param t0 the previous character class
      * @param t1 the current character class
      * @return what action to perform
@@ -145,10 +119,11 @@ public final class Utils {
 
     /**
      * XOR function.
+     * 
      * @param x first operand
      * @param y second operand
      * @return true if both operands are true or both are false,
-     *  false otherwise
+     *         false otherwise
      */
     private static boolean xor(final boolean x, final boolean y) {
         return (x && y) || (!x && !y);
@@ -156,12 +131,13 @@ public final class Utils {
 
     /**
      * Determine if character is punctuation.
+     * 
      * @param c the character
      * @return true if punctuation
      */
     public static boolean isPunct(final char c) {
         return c == '-'
-            || c == '.'
+                || c == '.'
                 || c == ':'
                     || c == '_'
                         || c == '\u00b7'
@@ -172,6 +148,7 @@ public final class Utils {
 
     /**
      * Determine if character is lowercase.
+     * 
      * @param c the character to test
      * @return true if lower case
      */
@@ -181,6 +158,7 @@ public final class Utils {
 
     /**
      * Returns a JAXB compatible variable name.
+     * 
      * @param s the original string
      * @return a java variable name
      */
@@ -190,6 +168,7 @@ public final class Utils {
 
     /**
      * Returns a JAXB compatible class name.
+     * 
      * @param s the original string
      * @return a java class name
      */
@@ -200,13 +179,14 @@ public final class Utils {
     /**
      * Tokenizes a string into words and capitalizes the first
      * character of each word.
+     * 
      * @param s the original word
      * @return an array of subwords
-     *
-     * <p>
-     * This method uses a change in character type as a splitter
-     * of two words. For example, "abc100ghi" will be splitted into
-     * {"Abc", "100","Ghi"}.
+     * 
+     *         <p>
+     *         This method uses a change in character type as a splitter of two
+     *         words. For example, "abc100ghi" will be splitted into {"Abc",
+     *         "100","Ghi"}.
      */
     public static List < String > toWordList(final String s) {
         ArrayList < String > ss = new ArrayList < String >();
@@ -244,6 +224,7 @@ public final class Utils {
     /**
      * Capitalizes the first character of the specified string,
      * and de-capitalize the rest of characters.
+     * 
      * @param s the original word
      * @return the capitalized word
      */
@@ -260,6 +241,7 @@ public final class Utils {
     /**
      * Lookup the next break.
      * Precondition: s[start] is not punctuation
+     * 
      * @param s the original word
      * @param start where to start looking
      * @return position of next break
@@ -272,13 +254,13 @@ public final class Utils {
 
         for (int i = start + 1; i < n; i++) {
             // shift (c1,t1) into (c0,t0)
-            // char c0 = c1;  --- conceptually, but c0 won't be used
+            // char c0 = c1; --- conceptually, but c0 won't be used
             int t0 = t1;
 
             c1 = s.charAt(i);
             t1 = classify(c1);
 
-            switch(ACTION_TABLE[t0 * 5 + t1]) {
+            switch (ACTION_TABLE[t0 * 5 + t1]) {
             case ACTION_CHECK_PUNCT:
                 if (isPunct(c1)) {
                     return i;
@@ -294,7 +276,8 @@ public final class Utils {
                 break;
             case ACTION_BREAK:
                 return i;
-            default: break;
+            default:
+                break;
             }
         }
         return -1;
@@ -302,9 +285,10 @@ public final class Utils {
 
     /**
      * Concatenates the pieces into a mixed case name.
+     * 
      * @param ss the array of strings to concatenate
      * @param startUpper leaves casing unchanged of true, otherwise
-     * lowercases the first sequence
+     *            lowercases the first sequence
      * @return the combined mixed cas word
      */
     public static String toMixedCaseName(
@@ -322,6 +306,7 @@ public final class Utils {
     /**
      * Escapes characters that are unusable as Java identifiers
      * by replacing unsafe characters with safe characters.
+     * 
      * @param s the original word
      * @return the escaped string
      */
@@ -340,15 +325,15 @@ public final class Utils {
     /**
      * Escapes characters is the given string so that they can be
      * printed by only using US-ASCII characters.
-     *
+     * 
      * The escaped characters will be appended to the given
      * StringBuffer.
-     *
+     * 
      * @param sb
-     *      StringBuffer that receives escaped string.
+     *            StringBuffer that receives escaped string.
      * @param s
-     *      String to be escaped. <code>s.substring(start)</code>
-     *      will be escaped and copied to the string buffer.
+     *            String to be escaped. <code>s.substring(start)</code> will be
+     *            escaped and copied to the string buffer.
      * @param start where to start
      */
     private static void escape(
@@ -374,18 +359,50 @@ public final class Utils {
 
     /**
      * Classify a character into 5 categories that determine the word break.
+     * 
      * @param c0 character to classify
      * @return the character class
      */
-    private static  int classify(final char c0) {
-        switch(Character.getType(c0)) {
-        case Character.UPPERCASE_LETTER:        return UPPER_LETTER;
-        case Character.LOWERCASE_LETTER:        return LOWER_LETTER;
+    private static int classify(final char c0) {
+        switch (Character.getType(c0)) {
+        case Character.UPPERCASE_LETTER:
+            return UPPER_LETTER;
+        case Character.LOWERCASE_LETTER:
+            return LOWER_LETTER;
         case Character.TITLECASE_LETTER:
         case Character.MODIFIER_LETTER:
-        case Character.OTHER_LETTER:            return OTHER_LETTER;
-        case Character.DECIMAL_DIGIT_NUMBER:    return DIGIT;
-        default:                                return OTHER;
+        case Character.OTHER_LETTER:
+            return OTHER_LETTER;
+        case Character.DECIMAL_DIGIT_NUMBER:
+            return DIGIT;
+        default:
+            return OTHER;
         }
+    }
+
+    /**
+     * Return the first character as a lower case character.
+     * 
+     * @param str the string from which character must be extracted
+     * @return first character lower cased
+     */
+    public static String lowerFirstChar(final String str) {
+        if (str == null || str.length() == 0) {
+            return null;
+        }
+        return str.substring(0, 1).toLowerCase(Locale.getDefault());
+    }
+
+    /**
+     * Return the first character as a upper case character.
+     * 
+     * @param str the string from which character must be extracted
+     * @return first character upper cased
+     */
+    public static String upperFirstChar(final String str) {
+        if (str == null || str.length() == 0) {
+            return null;
+        }
+        return str.substring(0, 1).toUpperCase(Locale.getDefault());
     }
 }

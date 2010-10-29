@@ -11,13 +11,14 @@
 package com.legstar.util;
 
 import com.legstar.coxb.host.HostException;
+import com.legstar.coxb.util.BindingUtil;
 
 import junit.framework.TestCase;
 
 /**
  * Test the general purpose JAXB utility methods.
  */
-public class JaxbUtilTest extends TestCase {
+public class CoxbRuntimeUtilTest extends TestCase {
 
     /**
      * Test extraction of the target POJO class name from annotations.
@@ -25,7 +26,7 @@ public class JaxbUtilTest extends TestCase {
     public void testGetJavaClassNameAnnotations() {
         try {
             assertEquals("com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply",
-                    JaxbUtil.getJavaClassName(
+                    BindingUtil.getJavaClassName(
                             "com.legstar.test.coxb.jvmquery", "JvmQueryReply"));
         } catch (HostException e) {
             fail(e.getMessage());
@@ -39,7 +40,7 @@ public class JaxbUtilTest extends TestCase {
     public void testGetJavaClassNameNoAnnotations() {
         try {
             assertEquals("com.legstar.test.coxb.dplarcht.Dfhcommarea",
-                    JaxbUtil.getJavaClassName(
+                    BindingUtil.getJavaClassName(
                             "com.legstar.test.coxb.dplarcht", "Dfhcommarea"));
         } catch (HostException e) {
             fail(e.getMessage());

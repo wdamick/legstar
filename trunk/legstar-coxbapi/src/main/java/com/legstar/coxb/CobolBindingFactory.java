@@ -10,17 +10,20 @@
  ******************************************************************************/
 package com.legstar.coxb;
 
-import com.legstar.coxb.util.Utils;
+import com.legstar.coxb.util.ClassLoadingException;
+import com.legstar.coxb.util.ClassUtil;
 
 /**
  * Instantiate a concrete binding factory.
  */
 public final class CobolBindingFactory {
 
-    /** In this version the factory name is hardcoded. In a future release,
-     * this will be pulled from some configuration file. */
+    /**
+     * In this version the factory name is hardcoded. In a future release,
+     * this will be pulled from some configuration file.
+     */
     private static final String FACTORY_NAME =
-        "com.legstar.coxb.impl.CBindingFactory";
+            "com.legstar.coxb.impl.CBindingFactory";
 
     /** Private constructor to prevent instantiation of this final class. */
     private CobolBindingFactory() {
@@ -28,18 +31,14 @@ public final class CobolBindingFactory {
 
     /**
      * Create a concrete binding factory.
+     * 
      * @return a binding factory ready to create binding elements
      */
     public static ICobolBindingFactory getBindingFactory() {
         try {
-            Class < ? > ofClass = Utils.loadClass(FACTORY_NAME);
-            Object of = ofClass.newInstance();
+            Object of = ClassUtil.newObject(FACTORY_NAME);
             return (ICobolBindingFactory) of;
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
+        } catch (ClassLoadingException e) {
             throw new RuntimeException(e);
         }
     }

@@ -9,22 +9,25 @@
 
     <target name="setup">
         <echo message="Populating Eclipse plugin lib"/>
-        <property name="distrib" value="${basedir}/../legstar-distribution/target/test-distro/legstar-distribution-${legstarVersion}"/>
-        <available file="${distrib}" property="isDistrib"/>
+        <!-- Temporary location  -->
+        <property name="temp.dir" value="${java.io.tmpdir}/${user.name}/${ant.project.name}" />
+        <!-- Distribution zip file path  -->
+        <property name="zip.file" value="${basedir}/../legstar-distribution/target/legstar-distribution-${legstarVersion}-bin.zip" />
+        <available file="${zip.file}" property="isDistrib"/>
     </target>
         
     <target name="doPopulateLib" depends="setup" if="isDistrib">
+        <mkdir dir="${temp.dir}"/>
+        <unzip src="${zip.file}" dest="${temp.dir}"/>
+
+        <mkdir dir="${basedir}/lib"/>
         <delete includeEmptyDirs="true">
             <fileset dir="${basedir}/lib"  includes="**/*"/>
         </delete>
+
         <copy todir="${basedir}/lib">
-            <fileset dir="${distrib}/lib">
+            <fileset dir="${temp.dir}/legstar-distribution-${legstarVersion}/lib">
                 <include name="*.jar"/>
-            </fileset>
-        </copy>
-        <copy todir="${basedir}/lib">
-            <fileset dir="${basedir}/../target">
-                <include name="*-sources.jar"/>
             </fileset>
         </copy>
     </target>
