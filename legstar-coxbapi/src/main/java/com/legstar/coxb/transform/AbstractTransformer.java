@@ -168,4 +168,13 @@ public abstract class AbstractTransformer implements IHostTransformer {
         return binding;
     }
 
+    /**
+     * The COBOL complex element maximum length in bytes.
+     * 
+     * @return COBOL complex element maximum length in bytes
+     * @throws CobolBindingException if maximum byte length cannot be computed
+     */
+    public int getByteLength() throws CobolBindingException {
+        return getCachedBinding().getByteLength();
+    }
 }

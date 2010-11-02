@@ -22,6 +22,7 @@ import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.host.HostException;
 import com.legstar.coxb.transform.IHostTransformers;
+import com.legstar.coxb.util.ClassUtil.ClassName;
 
 /**
  * Helper methods useful when manipulating bindings and transformers directly.
@@ -162,6 +163,21 @@ public final class BindingUtil {
             throw new CobolBindingException(e);
         }
 
+    }
+
+    /**
+     * Create an instance of Transformers for a given JAXB root class name.
+     * Assumes binding classes were generated for this JAXB class.
+     * 
+     * @param jaxbQualifiedClassName the JAXB class name
+     * @return a new instance of Transformers
+     * @throws CobolBindingException if transformers cannot be created
+     */
+    public static IHostTransformers newTransformers(
+            final String jaxbQualifiedClassName) throws CobolBindingException {
+        ClassName className = ClassUtil.toClassName(jaxbQualifiedClassName);
+        return BindingUtil.newTransformers(
+                    className.packageName, className.className);
     }
 
     /**

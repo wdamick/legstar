@@ -264,6 +264,7 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer
             }
 
             status.setHostBytesProcessed(bytesUnmarshalled);
+            status.setBinding(binding);
 
             return (T) binding.getObjectValue((Class < T >) binding
                     .getJaxbType());

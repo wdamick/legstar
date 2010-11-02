@@ -313,5 +313,13 @@ public class $binding-class-name
         return mValueObject;
     }
     
+    /**
+     * The COBOL complex element maximum length in bytes.
+     * 
+     * @return COBOL complex element maximum length in bytes
+     */
+    public int getByteLength() {
+        return BYTE_LENGTH;
+    }
 }
 

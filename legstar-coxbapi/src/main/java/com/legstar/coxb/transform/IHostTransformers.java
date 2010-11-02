@@ -169,4 +169,32 @@ public interface IHostTransformers {
     Object toJava(final byte[] hostData, final int offset,
             final HostTransformStatus status) throws HostTransformException;
 
+    /**
+     * @return the transformer that turns a java data object into host data
+     */
+    IJavaToHostTransformer getJavaToHost();
+
+    /**
+     * Sets the transformer that turns a java data object into
+     * host data.
+     * 
+     * @param javaToHost the transformer that turns a java data object into
+     *            host data to set
+     */
+    void setJavaToHost(final IJavaToHostTransformer javaToHost);
+
+    /**
+     * Return the transformer that turns host data into a java data object.
+     * 
+     * @return the transformer that turns host data into a java data object
+     */
+    IHostToJavaTransformer getHostToJava();
+
+    /**
+     * Sets the transformer that turns host data into a java data object.
+     * 
+     * @param hostToJava the transformer that turns host data into a java data
+     *            object to set
+     */
+    void setHostToJava(final IHostToJavaTransformer hostToJava);
 }
