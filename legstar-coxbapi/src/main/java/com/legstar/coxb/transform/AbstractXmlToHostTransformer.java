@@ -51,7 +51,7 @@ public abstract class AbstractXmlToHostTransformer implements
         try {
             mJavaToHostTransformer = javaToHostTransformer;
             mJaxbContext = JAXBContext.newInstance(
-                    mJavaToHostTransformer.getBinding().getJaxbType());
+                    mJavaToHostTransformer.newBinding().getJaxbType());
             mXmlUnmarshaller = mJaxbContext.createUnmarshaller();
         } catch (JAXBException e) {
             throw new HostTransformException(e);
@@ -135,7 +135,7 @@ public abstract class AbstractXmlToHostTransformer implements
             throws HostTransformException {
         try {
             return getXmlUnmarshaller().unmarshal(source,
-                    getJavaToHostTransformer().getBinding().getJaxbType())
+                    getJavaToHostTransformer().newBinding().getJaxbType())
                     .getValue();
         } catch (JAXBException e) {
             throw new HostTransformException(e);
