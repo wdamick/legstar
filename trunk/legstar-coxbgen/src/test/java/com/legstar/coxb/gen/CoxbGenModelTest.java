@@ -299,6 +299,7 @@ public class CoxbGenModelTest extends AbstractTestTemplate {
         helper.parse(project, buildFile);
         Vector < String > targets = new Vector < String >();
         targets.addElement(project.getDefaultTarget());
+        project.setBaseDir(new File("."));
         project.executeTargets(targets);
     }
 

@@ -120,6 +120,33 @@ public final class ClassUtil {
     }
 
     /**
+     * Separate package name and class name from a qualified class name.
+     * 
+     * @param qualifiedClassName qualified class name
+     * @return a structure with both parts
+     */
+    public static ClassName toClassName(final String qualifiedClassName) {
+        ClassName className = new ClassName();
+        int pos = qualifiedClassName.lastIndexOf('.');
+        className.packageName = (pos == -1) ? null
+                : qualifiedClassName.substring(0, pos);
+        className.className = (pos == -1) ? qualifiedClassName
+                : qualifiedClassName.substring(pos + 1);
+        return className;
+    }
+
+    /**
+     * A simple vehicle for class name and package name.
+     * 
+     */
+    public static class ClassName {
+        /** The class name. */
+        public String className;
+        /** The package name (null if no package name). */
+        public String packageName;
+    }
+
+    /**
      * The ObjectFactory exports a create method for each complex type
      * in the object tree.
      * Returns a jaxb object creator method.

@@ -196,6 +196,7 @@ public abstract class AbstractJavaToHostTransformer extends AbstractTransformer
                         + Long.toString(end - start) + " ms");
             }
             status.setHostBytesProcessed(bytesMarshalled);
+            status.setBinding(binding);
 
             return adjustedHostData;
 
