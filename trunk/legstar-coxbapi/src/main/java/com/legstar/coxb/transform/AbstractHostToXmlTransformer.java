@@ -54,7 +54,7 @@ public abstract class AbstractHostToXmlTransformer implements
         try {
             mHostToJavaTransformer = hostToJavaTransformer;
             mJaxbContext = JAXBContext.newInstance(
-                    mHostToJavaTransformer.getBinding().getJaxbType());
+                    mHostToJavaTransformer.newBinding().getJaxbType());
             mXmlMarshaller = mJaxbContext.createMarshaller();
         } catch (JAXBException e) {
             throw new HostTransformException(e);
@@ -223,7 +223,7 @@ public abstract class AbstractHostToXmlTransformer implements
                         getNamespace(),
                         getElementName());
                 JAXBElement < ? > jaxbElement = new JAXBElement(qName,
-                            getHostToJavaTransformer().getBinding()
+                            getHostToJavaTransformer().newBinding()
                                     .getJaxbType(),
                             valueObject);
                 getXmlMarshaller().marshal(jaxbElement, writer);

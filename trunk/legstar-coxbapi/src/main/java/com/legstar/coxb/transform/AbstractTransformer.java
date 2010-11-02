@@ -159,13 +159,43 @@ public abstract class AbstractTransformer implements IHostTransformer {
                 _log.debug("Creating new binding for thread: " + id
                         + " object: " + this);
             }
-            ICobolComplexBinding newBinding = getBinding();
+            ICobolComplexBinding newBinding = newBinding();
             binding = _cobolComplexBindingCache.putIfAbsent(id, newBinding);
             if (binding == null) {
                 binding = newBinding;
             }
         }
         return binding;
+    }
+
+    /**
+     * Sub classes used to implement this deprecated method.
+     * 
+     * @return the binding corresponding to the host structure type.
+     *         Such a binding can either be statically produced by
+     *         {@link com.legstar.coxb.gen.CoxbBindingGenerator},
+     *         or dynamically built by
+     *         {@link com.legstar.coxb.impl.reflect.CComplexBinding}.
+     * @throws CobolBindingException if binding cannot be returned
+     * @deprecated replaced by {@link newBinding}
+     */
+    public ICobolComplexBinding getBinding() throws CobolBindingException {
+        throw new CobolBindingException("Must override");
+    }
+
+    /**
+     * For backward compatibility, we invoke the old getBinding.
+     * All new sub classes override this method.
+     * 
+     * @return a new binding corresponding to the host structure type.
+     *         Such a binding can either be statically produced by
+     *         {@link com.legstar.coxb.gen.CoxbBindingGenerator},
+     *         or dynamically built by
+     *         {@link com.legstar.coxb.impl.reflect.CComplexBinding}.
+     * @throws CobolBindingException if binding cannot be returned
+     */
+    public ICobolComplexBinding newBinding() throws CobolBindingException {
+        return getBinding();
     }
 
     /**

@@ -73,8 +73,19 @@ public interface IHostTransformer {
      *         or dynamically built by
      *         {@link com.legstar.coxb.impl.reflect.CComplexBinding}.
      * @throws CobolBindingException if binding cannot be returned
+     * @deprecated replaced by {@link newBinding}
      */
     ICobolComplexBinding getBinding() throws CobolBindingException;
+
+    /**
+     * @return a new binding corresponding to the host structure type.
+     *         Such a binding can either be statically produced by
+     *         {@link com.legstar.coxb.gen.CoxbBindingGenerator},
+     *         or dynamically built by
+     *         {@link com.legstar.coxb.impl.reflect.CComplexBinding}.
+     * @throws CobolBindingException if binding cannot be returned
+     */
+    ICobolComplexBinding newBinding() throws CobolBindingException;
 
     /**
      * The COBOL complex element maximum length in bytes.

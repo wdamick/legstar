@@ -128,7 +128,7 @@ public abstract class AbstractJsonToHostTransformer implements
             throws HostTransformException {
         try {
             return _jsonMapper.readValue(reader, getJavaToHostTransformer()
-                    .getBinding().getJaxbType());
+                    .newBinding().getJaxbType());
         } catch (CobolBindingException e) {
             throw new HostTransformException(e);
         } catch (JsonParseException e) {
