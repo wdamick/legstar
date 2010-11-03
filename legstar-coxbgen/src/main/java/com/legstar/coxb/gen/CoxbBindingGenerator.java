@@ -27,8 +27,10 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
 import com.legstar.codegen.CodeGenUtil;
+import com.legstar.coxb.CobolBindingException;
 import com.legstar.coxb.host.HostException;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
+import com.legstar.coxb.util.BindingUtil;
 
 /**
  * This class implements an ant task to generate COXB binding data from
@@ -283,20 +285,12 @@ public class CoxbBindingGenerator extends Task {
         }
 
         try {
-            /* Get the JAXB ObjectFactory class */
-            Class < ? > objfCls = this.getClass().getClassLoader().loadClass(
-                    packageName + ".ObjectFactory");
-            /* Create a new instance of this class */
-            jaxbObjectFactory = objfCls.newInstance();
-        } catch (ClassNotFoundException e) {
-            throw new BuildException(e);
-        } catch (InstantiationException e) {
-            throw new BuildException(e);
-        } catch (IllegalAccessException e) {
-            throw new BuildException(e);
+            jaxbObjectFactory = BindingUtil.newJaxbObjectFactory(packageName);
         } catch (SecurityException e) {
             throw new BuildException(e);
         } catch (IllegalArgumentException e) {
+            throw new BuildException(e);
+        } catch (CobolBindingException e) {
             throw new BuildException(e);
         }
 

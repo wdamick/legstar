@@ -119,7 +119,7 @@ public class $binding-class-name
 
     }
     /** {@inheritDoc} */
-    public void setJaxbPropertyValue(
+    public void setPropertyValue(
             final int index) throws HostException {
         /* Set the Value object property value from binding object */
         ICobolBinding alt = getAlternativesList().get(index);
