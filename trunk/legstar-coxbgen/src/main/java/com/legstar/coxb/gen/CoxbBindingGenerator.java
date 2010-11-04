@@ -45,7 +45,7 @@ import com.legstar.coxb.util.BindingUtil;
 public class CoxbBindingGenerator extends Task {
 
     /** Container for all parameters to move around. */
-    private CoxbGenModel _coxbGenModel = new CoxbGenModel();
+    private CoxbGenModel _coxbGenModel;
 
     /** Folder where generated files are created. */
     private File _outputFolder;
@@ -58,6 +58,22 @@ public class CoxbBindingGenerator extends Task {
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
+
+    /**
+     * No args constructor.
+     */
+    public CoxbBindingGenerator() {
+        _coxbGenModel = new CoxbGenModel();
+    }
+
+    /**
+     * Constructor from a set of options.
+     * 
+     * @param context options set
+     */
+    public CoxbBindingGenerator(final CoxbGenModel context) {
+        _coxbGenModel = context;
+    }
 
     /**
      * The ant method. Generates COXB binding code.

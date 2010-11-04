@@ -28,7 +28,7 @@ import org.xml.sax.SAXException;
 
 import com.legstar.codegen.CodeGenMakeException;
 import com.legstar.codegen.models.AbstractAntBuildModel;
-import com.legstar.jaxb.gen.CobolJAXBXJBModel;
+import com.legstar.jaxb.gen.CobolJAXBModel;
 import com.sun.xml.bind.api.impl.NameConverter;
 
 /**
@@ -62,6 +62,12 @@ public class CoxbGenModel extends AbstractAntBuildModel {
 
     /** Default value for JSON transformers generation. */
     public static final boolean DEFAULT_ISJSONTRANSFORMERS = false;
+
+    /**
+     * When XML Schema does not contain a target namespace, JAXB uses this
+     * default package name.
+     */
+    public static final String DEFAULT_JAXB_PACKAGENAME = "generated";
 
     /* ====================================================================== */
     /* Following are XML identifiers for XML Schema. = */
@@ -124,7 +130,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     private String _jaxbPackageName;
 
     /** JAXB binding customization made available. */
-    private CobolJAXBXJBModel _jaxbXjbModel;
+    private CobolJAXBModel _jaxbXjbModel;
 
     /** The target package name for generated binding classes. */
     private String _coxbPackageName;
@@ -184,7 +190,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      */
     public CoxbGenModel() {
         super();
-        _jaxbXjbModel = new CobolJAXBXJBModel();
+        _jaxbXjbModel = new CobolJAXBModel();
     }
 
     /**
@@ -195,7 +201,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     public CoxbGenModel(final Properties props) {
         super(props);
         setJaxbPackageName(getString(props, COXB_JAXB_PACKAGENAME, null));
-        CobolJAXBXJBModel xjbModel = new CobolJAXBXJBModel(props);
+        CobolJAXBModel xjbModel = new CobolJAXBModel(props);
         setJaxbXjbModel(xjbModel);
         setCoxbPackageName(getString(props, COXB_PACKAGENAME, null));
         setAlternativePackageName(getString(props,
@@ -495,14 +501,14 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /**
      * @return the JAXB binding customization
      */
-    public CobolJAXBXJBModel getJaxbXjbModel() {
+    public CobolJAXBModel getJaxbXjbModel() {
         return _jaxbXjbModel;
     }
 
     /**
      * @param jaxbXjbModel the JAXB binding customization to set
      */
-    public void setJaxbXjbModel(final CobolJAXBXJBModel jaxbXjbModel) {
+    public void setJaxbXjbModel(final CobolJAXBModel jaxbXjbModel) {
         _jaxbXjbModel = jaxbXjbModel;
     }
 
@@ -556,15 +562,13 @@ public class CoxbGenModel extends AbstractAntBuildModel {
             NodeList listOfElements = doc.getElementsByTagNameNS(XSD_NS,
                     XSD_ELEMENT_NAME);
             if (listOfElements == null || listOfElements.getLength() == 0) {
-                throw (new BuildException(
-                        "No target namespace in XML schema file"));
+                return DEFAULT_JAXB_PACKAGENAME;
             }
             String targetNamespace = ((Element) listOfElements.item(0))
                     .getAttribute(
                     XSD_TARGETNAMESPACE_ATTR);
             if (targetNamespace == null || targetNamespace.length() == 0) {
-                throw (new BuildException(
-                        "No target namespace in XML schema file"));
+                return DEFAULT_JAXB_PACKAGENAME;
             }
             return _xjcNameConverter.toPackageName(targetNamespace);
 

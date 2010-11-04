@@ -23,7 +23,7 @@ import com.legstar.jaxb.AbstractJaxbTester;
 public class CobolJAXBXJBModelTest extends AbstractJaxbTester {
 
     /** The generation model. */
-    private CobolJAXBXJBModel _model;
+    private CobolJAXBModel _model;
 
     /** The generated file. */
     private File _xjbFile;
@@ -35,7 +35,7 @@ public class CobolJAXBXJBModelTest extends AbstractJaxbTester {
      */
     public void setUp() throws Exception {
         super.setUp();
-        _model = new CobolJAXBXJBModel();
+        _model = new CobolJAXBModel();
         _xjbFile = new File(GEN_XJB_DIR, "bindings.xjb");
     }
 

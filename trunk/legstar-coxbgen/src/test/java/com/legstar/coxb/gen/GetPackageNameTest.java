@@ -62,12 +62,13 @@ public class GetPackageNameTest extends TestCase {
     public void testNoTargetNamespace() {
 
         try {
-            _coxbGenModel.getJaxbPackageNameFromXsd(new File(
-                    "src/test/resources/XSDWithoutTargetNamespace.xsd"));
-            fail("Not Target Namespace test failed");
+            assertEquals(
+                    "generated",
+                    _coxbGenModel
+                            .getJaxbPackageNameFromXsd(new File(
+                                    "src/test/resources/XSDWithoutTargetNamespace.xsd")));
         } catch (Exception e) {
-            assertEquals("No target namespace in XML schema file", e
-                    .getMessage());
+            fail(e.getMessage());
         }
 
     }

@@ -51,25 +51,30 @@ public class CobolJAXBGenerator extends Task {
      */
     private File _xsdFile;
 
-    /**
-     * From XJC. If specified, generated code will be placed under
-     * this Java package. This option is equivalent to the "-p" command-line
-     * switch.
-     * Optional parameter.
-     */
-    private String _jaxbPackageName;
-
     /** From XJC. Generated code will be written under this directory. */
     private File _targetDir;
-
-    /** The model used for XJB generation. */
-    private CobolJAXBXJBModel _xjbModel = new CobolJAXBXJBModel();
 
     /** Injects the JAXB custom bindings in an XMl SChema. */
     private CobolJAXBCustomizer _customizer;
 
-    /** Whether internal bindings or and external binding should be used. */
-    private boolean _internalBindings = true;
+    /** Options set. */
+    private CobolJAXBModel _context;
+
+    /**
+     * No args constructor.
+     */
+    public CobolJAXBGenerator() {
+        _context = new CobolJAXBModel();
+    }
+
+    /**
+     * Constructor from a set of options.
+     * 
+     * @param context options set
+     */
+    public CobolJAXBGenerator(final CobolJAXBModel context) {
+        _context = context;
+    }
 
     /**
      * Initialize a commons logging logger so that XJC logs gets merged
@@ -84,7 +89,7 @@ public class CobolJAXBGenerator extends Task {
             BuildListener logger = new CommonsLoggingListener(_log);
             getProject().addBuildListener(logger);
 
-            _customizer = new CobolJAXBCustomizer(_xjbModel);
+            _customizer = new CobolJAXBCustomizer(_context);
 
         } catch (ParserConfigurationException e) {
             throw new BuildException(e);
@@ -108,7 +113,7 @@ public class CobolJAXBGenerator extends Task {
 
         // Use external or internal customization
         File customizedXsdFile = getXsdFile();
-        if (_internalBindings) {
+        if (_context.isInternalBindings()) {
             customizedXsdFile = createInternalCustomization(getXsdFile());
         } else {
             xjcTask.setBinding(createExternalCustomization(getXsdFile()));
@@ -141,7 +146,7 @@ public class CobolJAXBGenerator extends Task {
                 _log.debug("Schema: " + getXsdFile());
                 _log.debug("TargetDir: " + getTargetDir());
                 _log.debug("Package name: " + getJaxbPackageName());
-                _log.debug("xjbModel: " + _xjbModel);
+                _log.debug("xjbModel: " + _context);
             }
             if (getXsdFile() == null) {
                 throw (new BuildException(
@@ -202,8 +207,8 @@ public class CobolJAXBGenerator extends Task {
 
             // The schema location needs to be a valid URI
             URI xsdURILocation = xsdFile.toURI();
-            _xjbModel.setXsdLocation(xsdURILocation.toString());
-            _xjbModel.generateXjb(tempXJBFile);
+            _context.setXsdLocation(xsdURILocation.toString());
+            _context.generateXjb(tempXJBFile);
 
             return tempXJBFile.getAbsolutePath();
         } catch (IOException e) {
@@ -241,7 +246,7 @@ public class CobolJAXBGenerator extends Task {
      * @return Java package name
      */
     public String getJaxbPackageName() {
-        return _jaxbPackageName;
+        return _context.getJaxbPackageName();
     }
 
     /**
@@ -250,7 +255,7 @@ public class CobolJAXBGenerator extends Task {
      * @param jaxbPackageName Java package name
      */
     public void setJaxbPackageName(final String jaxbPackageName) {
-        _jaxbPackageName = jaxbPackageName;
+        _context.setJaxbPackageName(jaxbPackageName);
     }
 
     /**
@@ -277,7 +282,7 @@ public class CobolJAXBGenerator extends Task {
      * @return if IsSet Methods should be generated
      */
     public boolean isGenerateIsSetMethod() {
-        return _xjbModel.isGenerateIsSetMethod();
+        return _context.isGenerateIsSetMethod();
     }
 
     /**
@@ -286,7 +291,7 @@ public class CobolJAXBGenerator extends Task {
      * @param generateIsSetMethod if IsSet Methods should be generated
      */
     public void setGenerateIsSetMethod(final boolean generateIsSetMethod) {
-        _xjbModel.setGenerateIsSetMethod(generateIsSetMethod);
+        _context.setGenerateIsSetMethod(generateIsSetMethod);
     }
 
     /**
@@ -297,7 +302,7 @@ public class CobolJAXBGenerator extends Task {
      *         serializable for LegStar)
      */
     public long getSerializableUid() {
-        return _xjbModel.getSerializableUid();
+        return _context.getSerializableUid();
     }
 
     /**
@@ -308,7 +313,7 @@ public class CobolJAXBGenerator extends Task {
      *            must be serializable for LegStar)
      */
     public void setSerializableUid(final long serializableUid) {
-        _xjbModel.setSerializableUid(serializableUid);
+        _context.setSerializableUid(serializableUid);
     }
 
     /**
@@ -317,7 +322,7 @@ public class CobolJAXBGenerator extends Task {
      * @return the prefix to add to type names
      */
     public String getTypeNamePrefix() {
-        return _xjbModel.getTypeNamePrefix();
+        return _context.getTypeNamePrefix();
     }
 
     /**
@@ -326,7 +331,7 @@ public class CobolJAXBGenerator extends Task {
      * @param typeNamePrefix the prefix to add to type names
      */
     public void setTypeNamePrefix(final String typeNamePrefix) {
-        _xjbModel.setTypeNamePrefix(typeNamePrefix);
+        _context.setTypeNamePrefix(typeNamePrefix);
     }
 
     /**
@@ -335,7 +340,7 @@ public class CobolJAXBGenerator extends Task {
      * @return the suffix to add to type names
      */
     public String getTypeNameSuffix() {
-        return _xjbModel.getTypeNameSuffix();
+        return _context.getTypeNameSuffix();
     }
 
     /**
@@ -344,7 +349,7 @@ public class CobolJAXBGenerator extends Task {
      * @param typeNameSuffix the suffix to add to type names
      */
     public void setTypeNameSuffix(final String typeNameSuffix) {
-        _xjbModel.setTypeNameSuffix(typeNameSuffix);
+        _context.setTypeNameSuffix(typeNameSuffix);
     }
 
     /**
@@ -353,7 +358,7 @@ public class CobolJAXBGenerator extends Task {
      * @return the prefix to add to element names
      */
     public String getElementNamePrefix() {
-        return _xjbModel.getElementNamePrefix();
+        return _context.getElementNamePrefix();
     }
 
     /**
@@ -362,7 +367,7 @@ public class CobolJAXBGenerator extends Task {
      * @param elementNamePrefix the prefix to add to element names
      */
     public void setElementNamePrefix(final String elementNamePrefix) {
-        _xjbModel.setElementNamePrefix(elementNamePrefix);
+        _context.setElementNamePrefix(elementNamePrefix);
     }
 
     /**
@@ -371,7 +376,7 @@ public class CobolJAXBGenerator extends Task {
      * @return the suffix to add to element names
      */
     public String getElementNameSuffix() {
-        return _xjbModel.getElementNameSuffix();
+        return _context.getElementNameSuffix();
     }
 
     /**
@@ -380,7 +385,7 @@ public class CobolJAXBGenerator extends Task {
      * @param elementNameSuffix the suffix to add to element names
      */
     public void setElementNameSuffix(final String elementNameSuffix) {
-        _xjbModel.setElementNameSuffix(elementNameSuffix);
+        _context.setElementNameSuffix(elementNameSuffix);
     }
 
     /**
@@ -389,7 +394,7 @@ public class CobolJAXBGenerator extends Task {
      * @return whether internal bindings or and external binding should be used
      */
     public boolean isInternalBindings() {
-        return _internalBindings;
+        return _context.isInternalBindings();
     }
 
     /**
@@ -399,6 +404,6 @@ public class CobolJAXBGenerator extends Task {
      *            should be used
      */
     public void setInternalBindings(final boolean internalBindings) {
-        _internalBindings = internalBindings;
+        _context.setInternalBindings(internalBindings);
     }
 }
