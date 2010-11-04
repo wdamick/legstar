@@ -28,7 +28,7 @@ public class CobolJAXBCustomizerTest extends AbstractJaxbTester {
     /** {@inheritDoc} */
     @Override
     public void setUp() throws Exception {
-        _cobolJAXBCustomizer = new CobolJAXBCustomizer(new CobolJAXBXJBModel());
+        _cobolJAXBCustomizer = new CobolJAXBCustomizer(new CobolJAXBModel());
     }
 
     /**

@@ -33,11 +33,10 @@ import com.legstar.codegen.CodeGenVelocityException;
 import com.legstar.codegen.models.AbstractPropertiesModel;
 
 /**
- * Parameters used for the JAXB external binding customization file (XJB)
- * generation.
+ * Parameters used for the COBOL-annotated JAXB classes generation.
  * 
  */
-public class CobolJAXBXJBModel extends AbstractPropertiesModel {
+public class CobolJAXBModel extends AbstractPropertiesModel {
 
     /** A template for a JAXB external binding customization file. */
     public static final String XJB_TEMPLATE = "vlc/bindings.xjb.vm";
@@ -48,9 +47,9 @@ public class CobolJAXBXJBModel extends AbstractPropertiesModel {
     /** Velocity identifier for this generator. */
     public static final String XJB_GENERATOR_NAME = "XJB Generator";
 
-    /*
-     * Following are default field values.
-     */
+    /* ====================================================================== */
+    /* Following are default field values. = */
+    /* ====================================================================== */
 
     /** Default value for generate isSet method. */
     public static final boolean DEFAULT_GENERATEISSETMETHOD = true;
@@ -58,9 +57,12 @@ public class CobolJAXBXJBModel extends AbstractPropertiesModel {
     /** Default value for serializable ID. */
     public static final long DEFAULT_SERIALIZABLE_ID = 1L;
 
-    /*
-     * Following are XML identifiers for XJB bindings.
-     */
+    /** Default value for use of internal bindings. */
+    public static final boolean DEFAULT_INTERNALBINDINGS = true;
+
+    /* ====================================================================== */
+    /* Following are XML identifiers for XJB Binding. = */
+    /* ====================================================================== */
 
     /** JAXB annotation parent element name. */
     private static final String JAXB_DUMMY_PARENT = "jaxbElements";
@@ -95,9 +97,9 @@ public class CobolJAXBXJBModel extends AbstractPropertiesModel {
     /** JAXB annotation for a type name suffix transformation. */
     private static final String JAXB_SUFFIX = "suffix";
 
-    /*
-     * Following are key identifiers for this model serialization.
-     */
+    /* ====================================================================== */
+    /* Following are key identifiers for this model persistence. = */
+    /* ====================================================================== */
 
     /** Physical location of the XML schema. */
     public static final String JAXB_XSD_LOCATION = "xsdLocation";
@@ -120,9 +122,15 @@ public class CobolJAXBXJBModel extends AbstractPropertiesModel {
     /** Type name suffix. */
     public static final String JAXB_XJB_TYPENAME_SUFFIX = "typeNameSuffix";
 
-    /*
-     * Following are this class fields.
-     */
+    /** JAXB package name. */
+    public static final String JAXB_PACKAGENAME = "jaxbPackageName";
+
+    /** JAXB uses internal bindings. */
+    public static final String JAXB_INTERNALBINDINGS = "internalBindings";
+
+    /* ====================================================================== */
+    /* Following are this class fields that are persistent. = */
+    /* ====================================================================== */
 
     /** The physical location of the XML Schema. */
     private String _xsdLocation;
@@ -148,13 +156,24 @@ public class CobolJAXBXJBModel extends AbstractPropertiesModel {
     /** Suffix to add to element names. */
     private String _elementNameSuffix;
 
+    /** Whether internal bindings or and external binding should be used. */
+    private boolean _internalBindings = DEFAULT_INTERNALBINDINGS;
+
+    /**
+     * From XJC. If specified, generated code will be placed under
+     * this Java package. This option is equivalent to the "-p" command-line
+     * switch.
+     * Optional parameter.
+     */
+    private String _jaxbPackageName;
+
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
 
     /**
      * A no-Arg constructor.
      */
-    public CobolJAXBXJBModel() {
+    public CobolJAXBModel() {
 
     }
 
@@ -163,7 +182,7 @@ public class CobolJAXBXJBModel extends AbstractPropertiesModel {
      * 
      * @param props the property file
      */
-    public CobolJAXBXJBModel(final Properties props) {
+    public CobolJAXBModel(final Properties props) {
         setXsdLocation(getString(props, JAXB_XSD_LOCATION, null));
         setGenerateIsSetMethod(getBoolean(props,
                 JAXB_XJB_ISGENERATEISSETMETHOD, DEFAULT_GENERATEISSETMETHOD));
@@ -173,6 +192,9 @@ public class CobolJAXBXJBModel extends AbstractPropertiesModel {
         setElementNameSuffix(getString(props, JAXB_XJB_ELEMENTNAME_SUFFIX, null));
         setTypeNamePrefix(getString(props, JAXB_XJB_TYPENAME_PREFIX, null));
         setTypeNameSuffix(getString(props, JAXB_XJB_TYPENAME_SUFFIX, null));
+        setJaxbPackageName(getString(props, JAXB_PACKAGENAME, null));
+        setInternalBindings(getBoolean(props,
+                JAXB_INTERNALBINDINGS, DEFAULT_INTERNALBINDINGS));
     }
 
     /**
@@ -448,6 +470,44 @@ public class CobolJAXBXJBModel extends AbstractPropertiesModel {
     }
 
     /**
+     * whether internal bindings or and external binding should be used.
+     * 
+     * @return whether internal bindings or and external binding should be used
+     */
+    public boolean isInternalBindings() {
+        return _internalBindings;
+    }
+
+    /**
+     * If specified, generated code will be placed under
+     * this Java package.
+     * 
+     * @return Java package name
+     */
+    public String getJaxbPackageName() {
+        return _jaxbPackageName;
+    }
+
+    /**
+     * If specified, generated code will be placed under this Java package.
+     * 
+     * @param jaxbPackageName Java package name
+     */
+    public void setJaxbPackageName(final String jaxbPackageName) {
+        _jaxbPackageName = jaxbPackageName;
+    }
+
+    /**
+     * Whether internal bindings or and external binding should be used.
+     * 
+     * @param internalBindings whether internal bindings or and external binding
+     *            should be used
+     */
+    public void setInternalBindings(final boolean internalBindings) {
+        _internalBindings = internalBindings;
+    }
+
+    /**
      * @return a properties file holding the values of this object fields
      */
     public Properties toProperties() {
@@ -472,6 +532,11 @@ public class CobolJAXBXJBModel extends AbstractPropertiesModel {
         if (getTypeNameSuffix() != null) {
             putString(props, JAXB_XJB_TYPENAME_SUFFIX, getTypeNameSuffix());
         }
+        if (getJaxbPackageName() != null) {
+            putString(props, JAXB_PACKAGENAME, getJaxbPackageName());
+        }
+        putBoolean(props, JAXB_INTERNALBINDINGS,
+                isInternalBindings());
         return props;
     }
 

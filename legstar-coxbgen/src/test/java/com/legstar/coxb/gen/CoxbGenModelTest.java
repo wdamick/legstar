@@ -23,7 +23,7 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
 
 import com.legstar.codegen.CodeGenUtil;
-import com.legstar.jaxb.gen.CobolJAXBXJBModel;
+import com.legstar.jaxb.gen.CobolJAXBModel;
 
 /**
  * Test the generation model.
@@ -145,19 +145,19 @@ public class CoxbGenModelTest extends AbstractTestTemplate {
         Properties props = model.toProperties();
         assertEquals(null, props
                 .get(CoxbGenModel.COXB_JAXB_PACKAGENAME));
-        assertEquals(null, props.get(CobolJAXBXJBModel.JAXB_XSD_LOCATION));
+        assertEquals(null, props.get(CobolJAXBModel.JAXB_XSD_LOCATION));
         assertEquals("true", props
-                .get(CobolJAXBXJBModel.JAXB_XJB_ISGENERATEISSETMETHOD));
+                .get(CobolJAXBModel.JAXB_XJB_ISGENERATEISSETMETHOD));
         assertEquals("1", props
-                .get(CobolJAXBXJBModel.JAXB_XJB_SERIALIZABLE_ID));
+                .get(CobolJAXBModel.JAXB_XJB_SERIALIZABLE_ID));
         assertEquals(null, props
-                .get(CobolJAXBXJBModel.JAXB_XJB_ELEMENTNAME_PREFIX));
+                .get(CobolJAXBModel.JAXB_XJB_ELEMENTNAME_PREFIX));
         assertEquals(null, props
-                .get(CobolJAXBXJBModel.JAXB_XJB_ELEMENTNAME_SUFFIX));
+                .get(CobolJAXBModel.JAXB_XJB_ELEMENTNAME_SUFFIX));
         assertEquals(null, props
-                .get(CobolJAXBXJBModel.JAXB_XJB_TYPENAME_PREFIX));
+                .get(CobolJAXBModel.JAXB_XJB_TYPENAME_PREFIX));
         assertEquals(null, props
-                .get(CobolJAXBXJBModel.JAXB_XJB_TYPENAME_SUFFIX));
+                .get(CobolJAXBModel.JAXB_XJB_TYPENAME_SUFFIX));
 
         assertEquals(null, props.get(CoxbGenModel.COXB_PACKAGENAME));
         assertEquals(null, props
@@ -176,6 +176,7 @@ public class CoxbGenModelTest extends AbstractTestTemplate {
         assertEquals(
                 "{isXmlTransformers=false,"
                         + " serializableID=1,"
+                        + " internalBindings=true,"
                         + " isJsonTransformers=false,"
                         + " generateIsSetMethod=true}",
                 model.toString());
@@ -183,7 +184,7 @@ public class CoxbGenModelTest extends AbstractTestTemplate {
         props.put(CoxbGenModel.COXB_JAXB_PACKAGENAME, "jaxb.package.name");
         model = new CoxbGenModel(props);
         assertEquals("jaxb.package.name", model.getJaxbPackageName());
-        CobolJAXBXJBModel xjbModel = new CobolJAXBXJBModel();
+        CobolJAXBModel xjbModel = new CobolJAXBModel();
         xjbModel.setXsdLocation("xsdLocation");
         xjbModel.setSerializableUid(265L);
         xjbModel.setGenerateIsSetMethod(false);
@@ -268,19 +269,19 @@ public class CoxbGenModelTest extends AbstractTestTemplate {
                 .getProperty(CoxbGenModel.COXB_COXBBINDIR));
 
         assertEquals("xsdLocation", props
-                .getProperty(CobolJAXBXJBModel.JAXB_XSD_LOCATION));
+                .getProperty(CobolJAXBModel.JAXB_XSD_LOCATION));
         assertEquals("false", props
-                .getProperty(CobolJAXBXJBModel.JAXB_XJB_ISGENERATEISSETMETHOD));
+                .getProperty(CobolJAXBModel.JAXB_XJB_ISGENERATEISSETMETHOD));
         assertEquals("265", props
-                .getProperty(CobolJAXBXJBModel.JAXB_XJB_SERIALIZABLE_ID));
+                .getProperty(CobolJAXBModel.JAXB_XJB_SERIALIZABLE_ID));
         assertEquals("elementNamePrefix", props
-                .getProperty(CobolJAXBXJBModel.JAXB_XJB_ELEMENTNAME_PREFIX));
+                .getProperty(CobolJAXBModel.JAXB_XJB_ELEMENTNAME_PREFIX));
         assertEquals("elementNameSuffix", props
-                .getProperty(CobolJAXBXJBModel.JAXB_XJB_ELEMENTNAME_SUFFIX));
+                .getProperty(CobolJAXBModel.JAXB_XJB_ELEMENTNAME_SUFFIX));
         assertEquals("typeNamePrefix", props
-                .getProperty(CobolJAXBXJBModel.JAXB_XJB_TYPENAME_PREFIX));
+                .getProperty(CobolJAXBModel.JAXB_XJB_TYPENAME_PREFIX));
         assertEquals("typeNameSuffix", props
-                .getProperty(CobolJAXBXJBModel.JAXB_XJB_TYPENAME_SUFFIX));
+                .getProperty(CobolJAXBModel.JAXB_XJB_TYPENAME_SUFFIX));
 
     }
 
