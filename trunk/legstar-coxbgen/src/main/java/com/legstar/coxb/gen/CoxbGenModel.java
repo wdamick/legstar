@@ -20,7 +20,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.tools.ant.BuildException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -28,7 +27,7 @@ import org.xml.sax.SAXException;
 
 import com.legstar.codegen.CodeGenMakeException;
 import com.legstar.codegen.models.AbstractAntBuildModel;
-import com.legstar.jaxb.gen.CobolJAXBModel;
+import com.legstar.jaxb.gen.JaxbGenModel;
 import com.sun.xml.bind.api.impl.NameConverter;
 
 /**
@@ -130,7 +129,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     private String _jaxbPackageName;
 
     /** JAXB binding customization made available. */
-    private CobolJAXBModel _jaxbXjbModel;
+    private JaxbGenModel _jaxbXjbModel;
 
     /** The target package name for generated binding classes. */
     private String _coxbPackageName;
@@ -190,7 +189,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      */
     public CoxbGenModel() {
         super();
-        _jaxbXjbModel = new CobolJAXBModel();
+        _jaxbXjbModel = new JaxbGenModel();
     }
 
     /**
@@ -201,7 +200,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     public CoxbGenModel(final Properties props) {
         super(props);
         setJaxbPackageName(getString(props, COXB_JAXB_PACKAGENAME, null));
-        CobolJAXBModel xjbModel = new CobolJAXBModel(props);
+        JaxbGenModel xjbModel = new JaxbGenModel(props);
         setJaxbXjbModel(xjbModel);
         setCoxbPackageName(getString(props, COXB_PACKAGENAME, null));
         setAlternativePackageName(getString(props,
@@ -501,14 +500,14 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /**
      * @return the JAXB binding customization
      */
-    public CobolJAXBModel getJaxbXjbModel() {
+    public JaxbGenModel getJaxbXjbModel() {
         return _jaxbXjbModel;
     }
 
     /**
      * @param jaxbXjbModel the JAXB binding customization to set
      */
-    public void setJaxbXjbModel(final CobolJAXBModel jaxbXjbModel) {
+    public void setJaxbXjbModel(final JaxbGenModel jaxbXjbModel) {
         _jaxbXjbModel = jaxbXjbModel;
     }
 

@@ -71,6 +71,12 @@
             <artifactId>commons-io</artifactId>
         </dependency>
 
+		<!-- Needed for the COBOL to Transformers generator -->
+		<dependency>
+			<groupId>com.legsem.legstar</groupId>
+			<artifactId>legstar-cob2xsd</artifactId>
+		</dependency>
+
         <dependency>
             <groupId>ant-contrib</groupId>
             <artifactId>ant-contrib</artifactId>
