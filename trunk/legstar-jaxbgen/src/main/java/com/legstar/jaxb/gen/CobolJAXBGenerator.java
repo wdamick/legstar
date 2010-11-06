@@ -58,13 +58,13 @@ public class CobolJAXBGenerator extends Task {
     private CobolJAXBCustomizer _customizer;
 
     /** Options set. */
-    private CobolJAXBModel _context;
+    private JaxbGenModel _context;
 
     /**
      * No args constructor.
      */
     public CobolJAXBGenerator() {
-        _context = new CobolJAXBModel();
+        _context = new JaxbGenModel();
     }
 
     /**
@@ -72,7 +72,7 @@ public class CobolJAXBGenerator extends Task {
      * 
      * @param context options set
      */
-    public CobolJAXBGenerator(final CobolJAXBModel context) {
+    public CobolJAXBGenerator(final JaxbGenModel context) {
         _context = context;
     }
 

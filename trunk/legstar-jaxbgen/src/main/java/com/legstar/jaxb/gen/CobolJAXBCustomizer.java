@@ -74,7 +74,7 @@ public class CobolJAXBCustomizer {
     private static final String DEFAULT_XSD_CHARSET = "UTF-8";
 
     /** The bindings parameters. */
-    private CobolJAXBModel _xjbModel;
+    private JaxbGenModel _xjbModel;
 
     /**
      * Construct the customizer.
@@ -82,7 +82,7 @@ public class CobolJAXBCustomizer {
      * @param xjbModel the bindinds parameters
      * @throws ParserConfigurationException if can't configure a DOM parser
      */
-    public CobolJAXBCustomizer(final CobolJAXBModel xjbModel)
+    public CobolJAXBCustomizer(final JaxbGenModel xjbModel)
             throws ParserConfigurationException {
         DocumentBuilderFactory docFac = DocumentBuilderFactory.newInstance();
         docFac.setNamespaceAware(true);
@@ -258,7 +258,7 @@ public class CobolJAXBCustomizer {
     /**
      * @return the bindings parameters
      */
-    public CobolJAXBModel getXjbModel() {
+    public JaxbGenModel getXjbModel() {
         return _xjbModel;
     }
 }

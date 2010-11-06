@@ -36,7 +36,7 @@ import com.legstar.codegen.models.AbstractPropertiesModel;
  * Parameters used for the COBOL-annotated JAXB classes generation.
  * 
  */
-public class CobolJAXBModel extends AbstractPropertiesModel {
+public class JaxbGenModel extends AbstractPropertiesModel {
 
     /** A template for a JAXB external binding customization file. */
     public static final String XJB_TEMPLATE = "vlc/bindings.xjb.vm";
@@ -173,7 +173,7 @@ public class CobolJAXBModel extends AbstractPropertiesModel {
     /**
      * A no-Arg constructor.
      */
-    public CobolJAXBModel() {
+    public JaxbGenModel() {
 
     }
 
@@ -182,7 +182,7 @@ public class CobolJAXBModel extends AbstractPropertiesModel {
      * 
      * @param props the property file
      */
-    public CobolJAXBModel(final Properties props) {
+    public JaxbGenModel(final Properties props) {
         setXsdLocation(getString(props, JAXB_XSD_LOCATION, null));
         setGenerateIsSetMethod(getBoolean(props,
                 JAXB_XJB_ISGENERATEISSETMETHOD, DEFAULT_GENERATEISSETMETHOD));
@@ -511,7 +511,7 @@ public class CobolJAXBModel extends AbstractPropertiesModel {
      * @return a properties file holding the values of this object fields
      */
     public Properties toProperties() {
-        Properties props = new Properties();
+        Properties props = super.toProperties();
         if (getXsdLocation() != null) {
             putString(props, JAXB_XSD_LOCATION, getXsdLocation());
         }
