@@ -344,27 +344,27 @@ public class CoxbBindingGenerator extends Task {
             e.printStackTrace();
             throw (new BuildException(
                     "IllegalAccessException " + e.getMessage()
-                            + rootObjectName));
+                            + " rootObjectName=" + rootObjectName));
         } catch (SecurityException e) {
             e.printStackTrace();
             throw (new BuildException(
                     "SecurityException " + e.getMessage()
-                            + rootObjectName));
+                            + " rootObjectName=" + rootObjectName));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
             throw (new BuildException(
                     "NoSuchMethodException " + e.getMessage()
-                            + rootObjectName));
+                            + " rootObjectName=" + rootObjectName));
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             throw (new BuildException(
                     "IllegalArgumentException " + e.getMessage()
-                            + rootObjectName));
+                            + " rootObjectName=" + rootObjectName));
         } catch (InvocationTargetException e) {
             e.printStackTrace();
             throw (new BuildException(
                     "InvocationTargetException " + e.getMessage()
-                            + rootObjectName));
+                            + " rootObjectName=" + rootObjectName));
         }
 
         return jaxbRootObject;
