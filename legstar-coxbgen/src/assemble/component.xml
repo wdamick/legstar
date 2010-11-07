@@ -43,23 +43,6 @@
             </includes>
         </fileSet>
 
-        <!-- Copy over the executable jar -->
-        <fileSet>
-            <directory>${project.build.directory}</directory>
-            <outputDirectory>/</outputDirectory>
-            <includes>
-                <include>*-exe.jar</include>
-            </includes>
-        </fileSet>
-        <!-- Configuration for executable jar -->
-        <fileSet>
-            <directory>src/main/resources/conf</directory>
-            <outputDirectory>conf</outputDirectory>
-            <includes>
-                <include>*.properties</include>
-            </includes>
-        </fileSet>
-
     </fileSets>
   
 </component>
