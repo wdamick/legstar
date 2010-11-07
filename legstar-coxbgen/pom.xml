@@ -71,12 +71,6 @@
             <artifactId>commons-io</artifactId>
         </dependency>
 
-		<!-- Needed for the COBOL to Transformers generator -->
-		<dependency>
-			<groupId>com.legsem.legstar</groupId>
-			<artifactId>legstar-cob2xsd</artifactId>
-		</dependency>
-
         <dependency>
             <groupId>ant-contrib</groupId>
             <artifactId>ant-contrib</artifactId>
@@ -87,9 +81,10 @@
   
     <build>
         <plugins>
-        
-            <!-- Assembly generation plugin. Put the result in the source site
-            so that it gets uploaded with the site.  -->
+
+            <!-- 
+                Assembly generation.
+              -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
@@ -112,7 +107,9 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                 
-                    <!-- Generates all the coxbgen classes for integration test project coxbgen-cases. -->
+                    <!-- 
+                        Generates all the coxbgen classes for integration test project coxbgen-cases.
+                      -->
                     <execution>
                         <id>prepare-integration-tests</id>
                         <phase>pre-integration-test</phase>
@@ -130,7 +127,9 @@
                         </goals>
                     </execution>
           
-                    <!-- This will check that the distribution file is valid. -->
+                    <!-- 
+                        This will check that the distribution file is valid.
+                      -->
                     <execution>
                         <id>test-distribution</id>
                         <phase>integration-test</phase>
@@ -144,7 +143,9 @@
                         </goals>
                     </execution>
 
-                    <!-- Generate site files that needs automatic update. -->
+                    <!-- 
+                        Generate site files that needs automatic update.
+                      -->
                     <execution>
                         <id>build-site</id>
                         <phase>pre-site</phase>
@@ -169,7 +170,9 @@
                 <groupId>com.agilejava.docbkx</groupId>
                 <artifactId>docbkx-maven-plugin</artifactId>
                 <executions>
-                    <!-- Produce the site documentation -->
+                    <!--
+                        Produce the site documentation
+                      -->
                     <execution>
                         <id>build-site-doc</id>
                         <goals>
@@ -190,7 +193,9 @@
                         </configuration>
                     </execution>
 
-                    <!-- Produce a readme file to be included with distribution -->
+                    <!--
+                        Produce a readme file to be included with distribution
+                      -->
                     <execution>
                         <id>build-readme</id>
                         <goals>
