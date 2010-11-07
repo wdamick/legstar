@@ -35,20 +35,45 @@ public abstract class AbstractCob2TransTester extends TestCase {
                     + "                 15 LAST-TRANS-AMOUNT       PIC S9(13)V99 COMP-3.\n"
                     + "                 15 LAST-TRANS-COMMENT      PIC X(9).\n";
 
-    /** Trget folders for generation. */
-    public Cob2TransDirs _dirs;
-
     /** Destination for testing. */
     public static final File TARGET_DIR = new File("target/gen");
+
+    /** Temporary location for COBOL test files. */
+    public static final File COB_TEMP_DIR = new File("target/cobol");
+
+    /** Temporary location for configuration files. */
+    public static final File CONF_TEMP_DIR = new File("target/conf");
 
     /** Options for generation. */
     public Cob2TransModel _context;
 
+    /** A COBOL file ready for unit testing. */
+    public File _cobolFile;
+
+    /** Artifacts group name for the COBOL file. */
+    public String _baseName;
+
+    /** Target folders for generation. */
+    public Cob2TransDirs _dirs;
+
     /** {@inheritDoc} */
     public void setUp() throws Exception {
+        FileUtils.deleteQuietly(COB_TEMP_DIR);
+        FileUtils.forceMkdir(COB_TEMP_DIR);
+
+        FileUtils.deleteQuietly(CONF_TEMP_DIR);
+        FileUtils.forceMkdir(CONF_TEMP_DIR);
+
+        FileUtils.deleteQuietly(TARGET_DIR);
+        FileUtils.forceMkdir(TARGET_DIR);
+
         _context = new Cob2TransModel();
         _context.setCleanFolders(true);
-        _dirs = Cob2TransGenerator.prepareTarget(TARGET_DIR, _context);
+
+        _cobolFile = newTcobwvb();
+        _baseName = Cob2TransGenerator.getBaseName(_cobolFile);
+        _dirs = Cob2TransGenerator.prepareTarget(TARGET_DIR, _baseName,
+                _context);
     }
 
     /**
@@ -66,7 +91,7 @@ public abstract class AbstractCob2TransTester extends TestCase {
      */
     private File toFile(final String content) {
         try {
-            File cobolFile = File.createTempFile("test", ".cbl");
+            File cobolFile = File.createTempFile("test", ".cbl", COB_TEMP_DIR);
             cobolFile.deleteOnExit();
             FileUtils.writeStringToFile(cobolFile, content);
             return cobolFile;

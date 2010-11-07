@@ -143,8 +143,6 @@ public class CoxbGenModelTest extends AbstractTestTemplate {
     public void testPropertySerialization() throws Exception {
         CoxbGenModel model = new CoxbGenModel();
         Properties props = model.toProperties();
-        assertEquals(null, props
-                .get(CoxbGenModel.COXB_JAXB_PACKAGENAME));
         assertEquals(null, props.get(JaxbGenModel.JAXB_XSD_LOCATION));
         assertEquals("true", props
                 .get(JaxbGenModel.JAXB_XJB_ISGENERATEISSETMETHOD));
@@ -181,9 +179,8 @@ public class CoxbGenModelTest extends AbstractTestTemplate {
                         + " generateIsSetMethod=true}",
                 model.toString());
 
-        props.put(CoxbGenModel.COXB_JAXB_PACKAGENAME, "jaxb.package.name");
         model = new CoxbGenModel(props);
-        assertEquals("jaxb.package.name", model.getJaxbPackageName());
+        assertEquals(null, model.getJaxbPackageName());
         JaxbGenModel xjbModel = new JaxbGenModel();
         xjbModel.setXsdLocation("xsdLocation");
         xjbModel.setSerializableUid(265L);
@@ -241,8 +238,6 @@ public class CoxbGenModelTest extends AbstractTestTemplate {
         assertEquals("coxbbindir", model.getCoxbBinDir().getPath());
 
         props = model.toProperties();
-        assertEquals("jaxb.package.name", props
-                .getProperty(CoxbGenModel.COXB_JAXB_PACKAGENAME));
         assertEquals("coxb.package.name", props
                 .getProperty(CoxbGenModel.COXB_PACKAGENAME));
         assertEquals("jaxb.alt.package.name", props

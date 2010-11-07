@@ -260,31 +260,22 @@ public class Cob2TransGeneratorMain {
             final String cobolSourceFileEncoding, final File target)
             throws Cob2TransException {
 
-        try {
-            _log.info("Started generation from COBOL to Transformers");
-            _log.info("Configuration file     : " + getConfigFile());
-            _log.info("Taking COBOL from      : " + input);
-            _log.info("COBOL files encoding   : " + cobolSourceFileEncoding);
-            _log.info("Output Transformers to : " + target);
-            _log.info("Options in effect      : " + getModel().toString());
-            if (input.isFile()) {
-                FileUtils.forceMkdir(target);
-                generate(input, cobolSourceFileEncoding, target);
-            } else {
-                for (File cobolFile : input.listFiles()) {
-                    if (cobolFile.isFile()) {
-                        File subTarget = new File(target, Cob2TransGenerator
-                                .getName(cobolFile));
-                        FileUtils.forceMkdir(subTarget);
-                        generate(cobolFile, cobolSourceFileEncoding, subTarget);
-                    }
+        _log.info("Started generation from COBOL to Transformers");
+        _log.info("Configuration file     : " + getConfigFile());
+        _log.info("Taking COBOL from      : " + input);
+        _log.info("COBOL files encoding   : " + cobolSourceFileEncoding);
+        _log.info("Output Transformers to : " + target);
+        _log.info("Options in effect      : " + getModel().toString());
+        if (input.isFile()) {
+            generate(input, cobolSourceFileEncoding, target);
+        } else {
+            for (File cobolFile : input.listFiles()) {
+                if (cobolFile.isFile()) {
+                    generate(cobolFile, cobolSourceFileEncoding, target);
                 }
             }
-            _log.info("Finished generation");
-
-        } catch (IOException e) {
-            throw new Cob2TransException(e);
         }
+        _log.info("Finished generation");
 
     }
 

@@ -75,7 +75,7 @@ public class Cob2TransEvent extends EventObject {
         if (_eventType == Cob2TransEvent.EventType.START) {
             return "Step " + _stepNumber + " started: " + _stepDescription;
         } else {
-            return "Step " + _stepNumber + " ended";
+            return "Step " + _stepNumber + " ended successfully";
         }
 
     }
