@@ -104,11 +104,15 @@ public class JAXBElementDescriptor {
 
     /**
      * Extract the XML Schema namespace associated with the JAXB package.
+     * <p/>
+     * When there was no namespace and no package name when the JAXB class was
+     * generated, it ends in a package called 'generate' and there is no
+     * package-info. So if we don't finf package-info, we assume there was no
+     * namespace to start with.
      * 
      * @return the XML Schema namespace
-     * @throws JAXBAnnotationException if package-info class is not found
      */
-    private String extractNamespace() throws JAXBAnnotationException {
+    private String extractNamespace() {
         try {
             Class < ? > packageInfoClass = ClassUtil
                     .loadClass(getJaxbPackageName()
@@ -117,7 +121,7 @@ public class JAXBElementDescriptor {
                     .getAnnotation(XmlSchema.class);
             return xmlSchema.namespace();
         } catch (ClassNotFoundException e) {
-            throw new JAXBAnnotationException(e);
+            return null;
         }
     }
 
