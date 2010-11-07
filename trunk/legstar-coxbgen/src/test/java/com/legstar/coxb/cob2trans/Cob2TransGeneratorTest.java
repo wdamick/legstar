@@ -20,8 +20,9 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
      *             if test fails
      */
     public void testCob2Xsd() throws Exception {
-        Cob2XsdResult cob2xsdResult = Cob2TransGenerator.cob2xsd(newTcobwvb(),
+        Cob2XsdResult cob2xsdResult = Cob2TransGenerator.cob2xsd(_cobolFile,
                 null,
+                _baseName,
                 _dirs.getXsdDir(),
                 _context.getCob2XsdModel());
         assertFileContainsAll(cob2xsdResult.xsdFile, new String[] {
@@ -40,24 +41,28 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
      *             if test fails
      */
     public void testJaxbgen() throws Exception {
-        Cob2XsdResult cob2xsdResult = Cob2TransGenerator.cob2xsd(newTcobwvb(),
+        Cob2XsdResult cob2xsdResult = Cob2TransGenerator.cob2xsd(_cobolFile,
                 null,
+                _baseName,
                 _dirs.getXsdDir(),
                 _context.getCob2XsdModel());
         File xsdFile = cob2xsdResult.xsdFile;
         Cob2TransGenerator.jaxbgen(xsdFile,
                 _dirs.getSrcDir(),
                 _context.getJaxbGenModel());
-        assertFileContainsAll(new File(
-                "target/gen/src/generated/CustomerData.java"), new String[] {
-                "public class CustomerData",
-                "@CobolElement(cobolName = \"CUSTOMER-ID\","
-                        + " type = CobolType.ZONED_DECIMAL_ITEM,"
-                        + " levelNumber = 5,"
-                        + " isSigned = false,"
-                        + " totalDigits = 6,"
-                        + " picture = \"9(6)\","
-                        + " srceLine = 2)" });
+        assertFileContainsAll(
+                new File(
+                        "target/gen/" + _baseName
+                                + "/src/generated/CustomerData.java"),
+                new String[] {
+                        "public class CustomerData",
+                        "@CobolElement(cobolName = \"CUSTOMER-ID\","
+                                + " type = CobolType.ZONED_DECIMAL_ITEM,"
+                                + " levelNumber = 5,"
+                                + " isSigned = false,"
+                                + " totalDigits = 6,"
+                                + " picture = \"9(6)\","
+                                + " srceLine = 2)" });
     }
 
     /**
@@ -67,8 +72,9 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
      *             if test fails
      */
     public void testCompile() throws Exception {
-        Cob2XsdResult cob2xsdResult = Cob2TransGenerator.cob2xsd(newTcobwvb(),
+        Cob2XsdResult cob2xsdResult = Cob2TransGenerator.cob2xsd(_cobolFile,
                 null,
+                _baseName,
                 _dirs.getXsdDir(),
                 _context.getCob2XsdModel());
         File xsdFile = cob2xsdResult.xsdFile;
@@ -76,7 +82,8 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
                 _dirs.getSrcDir(),
                 _context.getJaxbGenModel());
         Cob2TransGenerator.compile(_dirs.getSrcDir(), _dirs.getBinDir(), true);
-        assertTrue(new File("target/gen/bin/generated/CustomerData.class")
+        assertTrue(new File("target/gen/" + _baseName
+                                + "/bin/generated/CustomerData.class")
                 .exists());
     }
 
@@ -87,8 +94,9 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
      *             if test fails
      */
     public void testCoxbgen() throws Exception {
-        Cob2XsdResult cob2xsdResult = Cob2TransGenerator.cob2xsd(newTcobwvb(),
+        Cob2XsdResult cob2xsdResult = Cob2TransGenerator.cob2xsd(_cobolFile,
                 null,
+                _baseName,
                 _dirs.getXsdDir(),
                 _context.getCob2XsdModel());
         File xsdFile = cob2xsdResult.xsdFile;
@@ -104,7 +112,9 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
                 _context.getCoxbGenModel());
         assertFileContainsAll(
                 new File(
-                        "target/gen/src/generated/bind/CustomerDataBinding.java"),
+                        "target/gen/"
+                                + _baseName
+                                + "/src/generated/bind/CustomerDataBinding.java"),
                 new String[] {
                         "public ICobolZonedDecimalBinding _customerId;",
                         "_customerId = BF.createZonedDecimalBinding(\"CustomerId\","
@@ -118,8 +128,9 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
      *             if test fails
      */
     public void testJar() throws Exception {
-        Cob2XsdResult cob2xsdResult = Cob2TransGenerator.cob2xsd(newTcobwvb(),
+        Cob2XsdResult cob2xsdResult = Cob2TransGenerator.cob2xsd(_cobolFile,
                 null,
+                _baseName,
                 _dirs.getXsdDir(),
                 _context.getCob2XsdModel());
         File xsdFile = cob2xsdResult.xsdFile;
@@ -130,7 +141,7 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
         File jarFile = Cob2TransGenerator.jar(
                 _dirs.getDistDir(),
                 _dirs.getBinDir(),
-                new File("MyCobol.cbl"));
+                "mycobol");
         assertEquals("mycobol.jar", jarFile.getName());
         JarFile jarJarFile = new JarFile(jarFile);
         Enumeration < JarEntry > en = jarJarFile.entries();
@@ -152,17 +163,17 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
     }
 
     /**
-     * Perform a complete generation.
+     * Perform a complete generation for a single COBOL file.
      * 
      * @throws Exception if generation fails
      */
     public void testGenerate() throws Exception {
-        Cob2TransModel context = new Cob2TransModel();
-        context.getCob2XsdModel().setTargetNamespace(
-                "http://legstar.com/test/coxb/cob2trans/tcobwvb");
-        context.getJaxbGenModel().setTypeNameSuffix("Type");
-        Cob2TransGenerator generator = new Cob2TransGenerator(context);
-        File jarFile = generator.generate(newTcobwvb(), TARGET_DIR);
+        Cob2TransModel model = new Cob2TransModel();
+        model.getCob2XsdModel().setTargetNamespace(
+                "http://legstar.com/test/coxb/cob2trans/" + _baseName);
+        model.getJaxbGenModel().setTypeNameSuffix("Type");
+        Cob2TransGenerator generator = new Cob2TransGenerator(model);
+        File jarFile = generator.generate(_cobolFile, TARGET_DIR);
         JarFile jarJarFile = new JarFile(jarFile);
         Enumeration < JarEntry > en = jarJarFile.entries();
         int entryCount = 0;
@@ -173,4 +184,5 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
         assertEquals(25, entryCount);
 
     }
+
 }

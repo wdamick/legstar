@@ -85,9 +85,6 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /* Following are key identifiers for this model persistence. = */
     /* ====================================================================== */
 
-    /** JAXB package name. */
-    public static final String COXB_JAXB_PACKAGENAME = "jaxbPackageName";
-
     /** COXB package name. */
     public static final String COXB_PACKAGENAME = "coxbPackageName";
 
@@ -124,9 +121,6 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /* ====================================================================== */
     /* Following are this class fields that are persistent. = */
     /* ====================================================================== */
-
-    /** The package name used for JAXB classes. */
-    private String _jaxbPackageName;
 
     /** JAXB binding customization made available. */
     private JaxbGenModel _jaxbXjbModel;
@@ -199,7 +193,6 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      */
     public CoxbGenModel(final Properties props) {
         super(props);
-        setJaxbPackageName(getString(props, COXB_JAXB_PACKAGENAME, null));
         JaxbGenModel xjbModel = new JaxbGenModel(props);
         setJaxbXjbModel(xjbModel);
         setCoxbPackageName(getString(props, COXB_PACKAGENAME, null));
@@ -298,17 +291,19 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      *             schema
      */
     public String getJaxbPackageName() throws CoxbGenException {
-        if (_jaxbPackageName == null) {
-            _jaxbPackageName = getJaxbPackageNameFromXsd(getXsdFile());
+        if (_jaxbXjbModel.getJaxbPackageName() == null) {
+            return getJaxbPackageNameFromXsd(getXsdFile());
         }
-        return _jaxbPackageName;
+        return _jaxbXjbModel.getJaxbPackageName();
     }
 
     /**
+     * The package name used for JAXB classes.
+     * 
      * @param jaxbPackageName the JAXB classes package name to set
      */
     public void setJaxbPackageName(final String jaxbPackageName) {
-        _jaxbPackageName = jaxbPackageName;
+        _jaxbXjbModel.setJaxbPackageName(jaxbPackageName);
     }
 
     /**
@@ -606,11 +601,6 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      */
     public Properties toProperties() {
         Properties props = super.toProperties();
-        try {
-            putString(props, COXB_JAXB_PACKAGENAME, getJaxbPackageName());
-        } catch (CoxbGenException e) {
-            putString(props, COXB_JAXB_PACKAGENAME, e.getMessage());
-        }
         props.putAll(getJaxbXjbModel().toProperties());
         try {
             putString(props, COXB_PACKAGENAME, getCoxbPackageName());
