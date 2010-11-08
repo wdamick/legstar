@@ -1,8 +1,9 @@
 package com.legstar.coxb.cob2trans;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.legstar.coxb.cob2trans.Cob2TransGenerator.Cob2TransResult;
 
 /**
  * Test the generator feedback machanism.
@@ -36,7 +37,7 @@ public class Cob2TransListenerTest extends AbstractCob2TransTester implements
         runnable.getThread().join();
 
         assertNull(runnable.getException());
-        assertNotNull(runnable.getJarFile());
+        assertNotNull(runnable.getResult());
         assertEquals(12, _events.size());
 
     }
@@ -53,7 +54,7 @@ public class Cob2TransListenerTest extends AbstractCob2TransTester implements
         runnable.getThread().join();
 
         assertEquals("interrupted", runnable.getException().getMessage());
-        assertNull(runnable.getJarFile());
+        assertNull(runnable.getResult());
 
     }
 
@@ -69,8 +70,8 @@ public class Cob2TransListenerTest extends AbstractCob2TransTester implements
         /** The thread running this runnable. */
         private Thread _thread;
 
-        /** The result jar file. */
-        private File _jarFile;
+        /** The result. */
+        private Cob2TransResult _result;
 
         /** In case something went wrong. */
         private Throwable _exception;
@@ -87,7 +88,7 @@ public class Cob2TransListenerTest extends AbstractCob2TransTester implements
         /** {@inheritDoc} */
         public void run() {
             try {
-                _jarFile = _generator.generate(newTcobwvb(), TARGET_DIR);
+                _result = _generator.generate(newTcobwvb(), TARGET_DIR);
             } catch (Cob2TransException e) {
                 _exception = e;
             }
@@ -101,10 +102,10 @@ public class Cob2TransListenerTest extends AbstractCob2TransTester implements
         }
 
         /**
-         * @return the result jar file
+         * @return the result
          */
-        public File getJarFile() {
-            return _jarFile;
+        public Cob2TransResult getResult() {
+            return _result;
         }
 
         /**

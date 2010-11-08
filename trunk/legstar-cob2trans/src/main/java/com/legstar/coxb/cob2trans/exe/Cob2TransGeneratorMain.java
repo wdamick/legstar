@@ -20,6 +20,7 @@ import com.legstar.cob2xsd.Cob2XsdModel;
 import com.legstar.coxb.cob2trans.Cob2TransException;
 import com.legstar.coxb.cob2trans.Cob2TransGenerator;
 import com.legstar.coxb.cob2trans.Cob2TransModel;
+import com.legstar.coxb.cob2trans.Cob2TransGenerator.Cob2TransResult;
 
 /**
  * COBOL structure to Transformers standalone executable.
@@ -293,10 +294,11 @@ public class Cob2TransGeneratorMain {
         _log.info("Generation started for: " + cobolFile);
 
         Cob2TransGenerator cob2trans = new Cob2TransGenerator(getModel());
-        File jarFile = cob2trans.generate(cobolFile, cobolSourceFileEncoding,
+        Cob2TransResult result = cob2trans.generate(cobolFile,
+                cobolSourceFileEncoding,
                 target);
 
-        _log.info("Result jar archive is '" + jarFile + "'");
+        _log.info("Result jar archive is '" + result.jarFile + "'");
     }
 
     /**
