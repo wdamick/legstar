@@ -5,6 +5,7 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import com.legstar.coxb.cob2trans.Cob2TransGenerator.Cob2TransResult;
 import com.legstar.coxb.cob2trans.Cob2TransGenerator.Cob2XsdResult;
 
 /**
@@ -173,8 +174,8 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
                 "http://legstar.com/test/coxb/cob2trans/" + _baseName);
         model.getJaxbGenModel().setTypeNameSuffix("Type");
         Cob2TransGenerator generator = new Cob2TransGenerator(model);
-        File jarFile = generator.generate(_cobolFile, TARGET_DIR);
-        JarFile jarJarFile = new JarFile(jarFile);
+        Cob2TransResult result = generator.generate(_cobolFile, TARGET_DIR);
+        JarFile jarJarFile = new JarFile(result.jarFile);
         Enumeration < JarEntry > en = jarJarFile.entries();
         int entryCount = 0;
         while (en.hasMoreElements()) {

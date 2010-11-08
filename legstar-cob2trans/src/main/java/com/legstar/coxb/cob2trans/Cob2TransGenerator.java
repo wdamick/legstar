@@ -105,10 +105,11 @@ public class Cob2TransGenerator {
      * 
      * @param cobolFile the COBOL fragment containing data items descriptions
      * @param targetDir a target folder to produce artifacts
-     * @return a jar archive ready to deploy
+     * @return intermediate and final results including a jar archive ready to
+     *         deploy
      * @throws Cob2TransException if generation fails
      */
-    public File generate(final File cobolFile,
+    public Cob2TransResult generate(final File cobolFile,
             final File targetDir)
             throws Cob2TransException {
         return generate(cobolFile, null, targetDir);
@@ -122,17 +123,40 @@ public class Cob2TransGenerator {
      * @param cobolSourceFileEncoding the character set used to encode the COBOL
      *            source file
      * @param targetDir a target folder to produce artifacts
-     * @return a jar archive ready to deploy
+     * @return intermediate and final results including a jar archive ready to
+     *         deploy
      * @throws Cob2TransException if generation fails
      */
-    public File generate(final File cobolFile,
+    public Cob2TransResult generate(final File cobolFile,
             final String cobolSourceFileEncoding,
+            final File targetDir)
+            throws Cob2TransException {
+        String baseName = getBaseName(cobolFile);
+        return generate(cobolFile, cobolSourceFileEncoding, baseName, targetDir);
+    }
+
+    /**
+     * From a COBOL fragment, generates Transformers and bundles them in a jar
+     * archive.
+     * 
+     * @param cobolFile the COBOL fragment containing data items descriptions
+     * @param cobolSourceFileEncoding the character set used to encode the COBOL
+     *            source file
+     * @param targetDir a target folder to produce artifacts
+     * @param baseName A name that can be used to identify generated artifacts
+     * @return intermediate and final results including a jar archive ready to
+     *         deploy
+     * @throws Cob2TransException if generation fails
+     */
+    public Cob2TransResult generate(final File cobolFile,
+            final String cobolSourceFileEncoding,
+            final String baseName,
             final File targetDir)
             throws Cob2TransException {
 
         int stepNumber = 0;
+        Cob2TransResult result = new Cob2TransResult();
         String eventDescription;
-        String baseName = getBaseName(cobolFile);
 
         Cob2TransDirs dirs = prepareTarget(targetDir, baseName, getModel());
 
@@ -140,11 +164,11 @@ public class Cob2TransGenerator {
                 + "' to XML Schema";
         fireEvent(++stepNumber, eventDescription,
                 Cob2TransEvent.EventType.START);
-        Cob2XsdResult cob2xsdResult = cob2xsd(cobolFile,
+        result.cob2xsdResult = cob2xsd(cobolFile,
                 cobolSourceFileEncoding, baseName,
                 dirs.getXsdDir(), getModel().getCob2XsdModel());
-        File xsdFile = cob2xsdResult.xsdFile;
-        for (String errorMessage : cob2xsdResult.errorHistory) {
+        File xsdFile = result.cob2xsdResult.xsdFile;
+        for (String errorMessage : result.cob2xsdResult.errorHistory) {
             _log.warn(errorMessage);
         }
         fireEvent(stepNumber, eventDescription, Cob2TransEvent.EventType.STOP);
@@ -169,7 +193,7 @@ public class Cob2TransGenerator {
         eventDescription = "Generate COXB classes";
         fireEvent(++stepNumber, eventDescription,
                 Cob2TransEvent.EventType.START);
-        List < String > rootClassNames = coxbgen(xsdFile,
+        result.coxbgenResult = coxbgen(xsdFile,
                 getModel().getCob2XsdModel().getXsdEncoding(),
                 dirs.getSrcDir(),
                 dirs.getBinDir(),
@@ -177,7 +201,7 @@ public class Cob2TransGenerator {
                 getModel().getCoxbGenModel());
         if (_log.isDebugEnabled()) {
             _log.debug("Root class names successfully processed: "
-                    + rootClassNames);
+                    + result.coxbgenResult.rootClassNames);
         }
         fireEvent(stepNumber, eventDescription, Cob2TransEvent.EventType.STOP);
 
@@ -194,13 +218,13 @@ public class Cob2TransGenerator {
         eventDescription = "Create archive";
         fireEvent(++stepNumber, eventDescription,
                 Cob2TransEvent.EventType.START);
-        File jarFile = jar(dirs.getDistDir(), dirs.getBinDir(), baseName);
+        result.jarFile = jar(dirs.getDistDir(), dirs.getBinDir(), baseName);
         if (_log.isDebugEnabled()) {
-            _log.debug("Archive " + jarFile + " successfully created");
+            _log.debug("Archive " + result.jarFile + " successfully created");
         }
         fireEvent(stepNumber, eventDescription, Cob2TransEvent.EventType.STOP);
 
-        return jarFile;
+        return result;
 
     }
 
@@ -244,8 +268,7 @@ public class Cob2TransGenerator {
      * 
      * @param targetDir
      *            the uber target folder
-     * @param baseName A name, derived from the COBOL file name, that can be
-     *            used to identify generated artifacts
+     * @param baseName A name that can be used to identify generated artifacts
      * @param model
      *            the options in effect
      * @return a class holding the target subfolders
@@ -280,7 +303,30 @@ public class Cob2TransGenerator {
     }
 
     /**
+     * This class holds the outcome of a COBOL to Transformers execution.
+     * 
+     */
+    public static class Cob2TransResult {
+
+        /** The intermediate result of the COBOL to XML Schema translation. */
+        public Cob2XsdResult cob2xsdResult;
+
+        /** The intermediate result of the COBOL binding generator. */
+        public CoxbgenResult coxbgenResult;
+
+        /** The final jar produced. */
+        public File jarFile;
+
+    }
+
+    /**
      * Translate a COBOL fragment to XML Schema.
+     * We consider the targetNamespace passed as an option to be a prefix to
+     * which we append the COBOL file name to form the actual targetNamespace.
+     * <p/>
+     * Here we temporarily update the model with the actual targetNamespace and
+     * preserve the targetNamespace prefix so we can restore the model which can
+     * be reused several times.
      * 
      * @param cobolFile the COBOL file
      * @param cobolSourceFileEncoding the character set used to encode the COBOL
@@ -289,7 +335,7 @@ public class Cob2TransGenerator {
      *            used to identify generated artifacts
      * @param xsdDir the target XML Schema folder
      * @param model the COBOL to XSD options set
-     * @return an XML Schema file
+     * @return various results including an XML Schema file
      * @throws Cob2TransException if generation fails
      */
     public static Cob2XsdResult cob2xsd(
@@ -302,13 +348,22 @@ public class Cob2TransGenerator {
         try {
             Cob2XsdResult result = new Cob2XsdResult();
             model.setAddLegStarAnnotations(true);
-            String targetNamespace = setTargetNamespace(baseName, model);
+
+            // Update the targetNamespace to include the base name
+            String targetNamespacePrefix = model.getTargetNamespace();
+            String targetNamespace = getUniqueTargetNamespace(
+                    baseName, targetNamespacePrefix);
+            model.setTargetNamespace(targetNamespace);
+
             CobolStructureToXsd cobTranslator = new CobolStructureToXsd(model);
             result.xsdFile = cobTranslator.translate(cobolFile,
                     cobolSourceFileEncoding,
                     new File(xsdDir, baseName + ".xsd"));
             result.errorHistory = cobTranslator.getErrorHistory();
-            model.setTargetNamespace(targetNamespace);
+            result.targetNamespace = targetNamespace;
+
+            // Restore targetNamespace to its original value
+            model.setTargetNamespace(targetNamespacePrefix);
             return result;
 
         } catch (RecognizerException e) {
@@ -319,32 +374,25 @@ public class Cob2TransGenerator {
     }
 
     /**
-     * We consider the targetNamespace passed as an option to be a prefix to
-     * which we append the COBOL file name to form the actual targetNamespace.
-     * <p/>
-     * Here we temporarily update the model with the actual targetNamespace and
-     * preserve the targetNamespace prefix so we can restore the model which can
-     * be reused several times.
+     * TargetNamespace, if it is not null, is completed with the
+     * baseName.
      * 
      * @param baseName A name, derived from the COBOL file name, that can be
      *            used to identify generated artifacts
-     * @param model the options for COBOL to XSD translator
+     * @param targetNamespacePrefix the namespace prefix
      * @return the previous value of the model targetNamespace field
      */
-    protected static String setTargetNamespace(final String baseName,
-            final Cob2XsdModel model) {
+    protected static String getUniqueTargetNamespace(final String baseName,
+            final String targetNamespacePrefix) {
 
-        String targetNamespacePrefix = model.getTargetNamespace();
         if (targetNamespacePrefix != null
                 && targetNamespacePrefix.length() > 0
                 && !targetNamespacePrefix.endsWith(baseName)) {
             if (targetNamespacePrefix
                     .charAt(targetNamespacePrefix.length() - 1) == '/') {
-                model.setTargetNamespace(targetNamespacePrefix + baseName);
+                return targetNamespacePrefix + baseName;
             } else {
-                model
-                        .setTargetNamespace(targetNamespacePrefix + '/'
-                                + baseName);
+                return targetNamespacePrefix + '/' + baseName;
             }
         }
         return targetNamespacePrefix;
@@ -360,6 +408,9 @@ public class Cob2TransGenerator {
 
         /** Recap of warnings encountered while parsing the COBOL source. */
         public List < String > errorHistory;
+
+        /** The target namespace used for the XML Schema artifact. */
+        public String targetNamespace;
 
     }
 
@@ -525,11 +576,12 @@ public class Cob2TransGenerator {
      * @param binDir the binaries folder where JAXB classes were compiled
      * @param jaxbModel the jaxbgen options in effect
      * @param model the options set
-     * @return list of root classes names
+     * @return various results including the list of JAXB root class names
+     *         processed
      * @throws Cob2TransException if generation fails
      */
     @SuppressWarnings("unchecked")
-    public static List < String > coxbgen(
+    public static CoxbgenResult coxbgen(
             final File xsdFile,
             final String xsdEncoding,
             final File srcDir,
@@ -539,7 +591,8 @@ public class Cob2TransGenerator {
         ClassLoader previousCl = Thread.currentThread().getContextClassLoader();
 
         try {
-            List < String > rootClassNames = new ArrayList < String >();
+            CoxbgenResult result = new CoxbgenResult();
+            result.rootClassNames = new ArrayList < String >();
 
             URL[] urlBinFiles = new URL[] { binDir.toURI().toURL() };
 
@@ -569,7 +622,7 @@ public class Cob2TransGenerator {
                             rootClassName += jaxbModel.getTypeNameSuffix();
                         }
                         coxbGenerator.addJaxbRootClass(rootClassName);
-                        rootClassNames.add(rootClassName);
+                        result.rootClassNames.add(rootClassName);
                     }
                 }
             }
@@ -579,7 +632,10 @@ public class Cob2TransGenerator {
 
             coxbGenerator.execute();
 
-            return rootClassNames;
+            result.jaxbPackageName = coxbGenerator.getJaxbPackageName();
+            result.coxbPackageName = coxbGenerator.getCoxbPackageName();
+
+            return result;
 
         } catch (MalformedURLException e) {
             throw new Cob2TransException(e);
@@ -590,6 +646,23 @@ public class Cob2TransGenerator {
         } finally {
             Thread.currentThread().setContextClassLoader(previousCl);
         }
+    }
+
+    /**
+     * This class holds the outcome of a COBOL Binding generator execution.
+     * 
+     */
+    public static class CoxbgenResult {
+
+        /** The JAXB package name. */
+        public String jaxbPackageName;
+
+        /** The COXB package name. */
+        public String coxbPackageName;
+
+        /** The list of JAXB root class names. */
+        public List < String > rootClassNames;
+
     }
 
     /**
