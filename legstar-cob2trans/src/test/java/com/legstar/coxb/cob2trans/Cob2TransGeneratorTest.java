@@ -82,7 +82,15 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
         Cob2TransGenerator.jaxbgen(xsdFile,
                 _dirs.getSrcDir(),
                 _context.getJaxbGenModel());
-        Cob2TransGenerator.compile(_dirs.getSrcDir(), _dirs.getBinDir(), true);
+        Cob2TransGenerator.compile(_dirs.getSrcDir(), _dirs.getBinDir(), null,
+                true);
+        assertTrue(new File("target/gen/" + _baseName
+                                + "/bin/generated/CustomerData.class")
+                .exists());
+
+        // Try again, forcing the classpath
+        Cob2TransGenerator.compile(_dirs.getSrcDir(), _dirs.getBinDir(),
+                System.getProperty("java.class.path"), true);
         assertTrue(new File("target/gen/" + _baseName
                                 + "/bin/generated/CustomerData.class")
                 .exists());
@@ -104,7 +112,8 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
         Cob2TransGenerator.jaxbgen(xsdFile,
                 _dirs.getSrcDir(),
                 _context.getJaxbGenModel());
-        Cob2TransGenerator.compile(_dirs.getSrcDir(), _dirs.getBinDir(), true);
+        Cob2TransGenerator.compile(_dirs.getSrcDir(), _dirs.getBinDir(), null,
+                true);
         Cob2TransGenerator.coxbgen(xsdFile,
                 _context.getCob2XsdModel().getXsdEncoding(),
                 _dirs.getSrcDir(),
@@ -138,7 +147,8 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
         Cob2TransGenerator.jaxbgen(xsdFile,
                 _dirs.getSrcDir(),
                 _context.getJaxbGenModel());
-        Cob2TransGenerator.compile(_dirs.getSrcDir(), _dirs.getBinDir(), true);
+        Cob2TransGenerator.compile(_dirs.getSrcDir(), _dirs.getBinDir(), null,
+                true);
         File jarFile = Cob2TransGenerator.jar(
                 _dirs.getDistDir(),
                 _dirs.getBinDir(),

@@ -30,6 +30,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.ws.commons.schema.XmlSchema;
 import org.apache.ws.commons.schema.XmlSchemaCollection;
@@ -112,7 +113,26 @@ public class Cob2TransGenerator {
     public Cob2TransResult generate(final File cobolFile,
             final File targetDir)
             throws Cob2TransException {
-        return generate(cobolFile, null, targetDir);
+        return generate(cobolFile, null, targetDir, null);
+    }
+
+    /**
+     * From a COBOL fragment, generates Transformers and bundles them in a jar
+     * archive.
+     * 
+     * @param cobolFile the COBOL fragment containing data items descriptions
+     * @param targetDir a target folder to produce artifacts
+     * @param classpath a java class path to use by compiler to located
+     *            dependencies
+     * @return intermediate and final results including a jar archive ready to
+     *         deploy
+     * @throws Cob2TransException if generation fails
+     */
+    public Cob2TransResult generate(final File cobolFile,
+            final File targetDir,
+            final String classpath)
+            throws Cob2TransException {
+        return generate(cobolFile, null, targetDir, classpath);
     }
 
     /**
@@ -123,16 +143,20 @@ public class Cob2TransGenerator {
      * @param cobolSourceFileEncoding the character set used to encode the COBOL
      *            source file
      * @param targetDir a target folder to produce artifacts
+     * @param classpath a java class path to use by compiler to located
+     *            dependencies
      * @return intermediate and final results including a jar archive ready to
      *         deploy
      * @throws Cob2TransException if generation fails
      */
     public Cob2TransResult generate(final File cobolFile,
             final String cobolSourceFileEncoding,
-            final File targetDir)
+            final File targetDir,
+            final String classpath)
             throws Cob2TransException {
         String baseName = getBaseName(cobolFile);
-        return generate(cobolFile, cobolSourceFileEncoding, baseName, targetDir);
+        return generate(cobolFile, cobolSourceFileEncoding, baseName,
+                targetDir, classpath);
     }
 
     /**
@@ -142,8 +166,10 @@ public class Cob2TransGenerator {
      * @param cobolFile the COBOL fragment containing data items descriptions
      * @param cobolSourceFileEncoding the character set used to encode the COBOL
      *            source file
-     * @param targetDir a target folder to produce artifacts
      * @param baseName A name that can be used to identify generated artifacts
+     * @param classpath a java class path to use by compiler to located
+     *            dependencies
+     * @param targetDir a target folder to produce artifacts
      * @return intermediate and final results including a jar archive ready to
      *         deploy
      * @throws Cob2TransException if generation fails
@@ -151,7 +177,8 @@ public class Cob2TransGenerator {
     public Cob2TransResult generate(final File cobolFile,
             final String cobolSourceFileEncoding,
             final String baseName,
-            final File targetDir)
+            final File targetDir,
+            final String classpath)
             throws Cob2TransException {
 
         int stepNumber = 0;
@@ -184,7 +211,7 @@ public class Cob2TransGenerator {
         fireEvent(++stepNumber, eventDescription,
                 Cob2TransEvent.EventType.START);
         String jaxbCompileResult = compile(dirs.getSrcDir(), dirs.getBinDir(),
-                _log.isDebugEnabled());
+                classpath, _log.isDebugEnabled());
         if (_log.isDebugEnabled()) {
             _log.debug(jaxbCompileResult);
         }
@@ -209,7 +236,7 @@ public class Cob2TransGenerator {
         fireEvent(++stepNumber, eventDescription,
                 Cob2TransEvent.EventType.START);
         String coxbCompileResult = compile(dirs.getSrcDir(), dirs.getBinDir(),
-                _log.isDebugEnabled());
+                classpath, _log.isDebugEnabled());
         if (_log.isDebugEnabled()) {
             _log.debug(coxbCompileResult);
         }
@@ -230,19 +257,20 @@ public class Cob2TransGenerator {
 
     /**
      * Notify listeners of a step event.
+     * <p/>
+     * Upon notification, the listener may opt to interrupt the generator.
      * 
      * @param stepNumber the step number
      * @param description the step description
      * @param eventType the type of event
-     * @throws Cob2TransException if firing fails
+     * @throws Cob2TransInterruptedException if generator interrupted
      */
     protected void fireEvent(
             final int stepNumber,
             final String description,
-            final Cob2TransEvent.EventType eventType) throws Cob2TransException {
-        if (isInterrupted()) {
-            throw new Cob2TransException("interrupted");
-        }
+            final Cob2TransEvent.EventType eventType)
+            throws Cob2TransInterruptedException {
+
         Cob2TransEvent event = new Cob2TransEvent(this, stepNumber,
                 description, eventType);
         if (_log.isInfoEnabled()) {
@@ -252,6 +280,9 @@ public class Cob2TransGenerator {
             for (Cob2TransListener listener : _listeners) {
                 listener.stepPerformed(event);
             }
+        }
+        if (isInterrupted()) {
+            throw new Cob2TransInterruptedException();
         }
     }
 
@@ -441,12 +472,17 @@ public class Cob2TransGenerator {
      * 
      * @param srcDir the source folder
      * @param binDir the binaries folder
+     * @param classpath a java class path to use by compiler to located
+     *            dependencies
      * @param verbose print out compiler diagnostic
      * @return the compiler output
      * @throws Cob2TransException if comilation fails
      */
     @SuppressWarnings("unchecked")
-    public static String compile(final File srcDir, final File binDir,
+    public static String compile(
+            final File srcDir,
+            final File binDir,
+            final String classpath,
             final boolean verbose)
             throws Cob2TransException {
         try {
@@ -456,30 +492,31 @@ public class Cob2TransGenerator {
             Collection < File > javaSrcFiles = FileUtils.listFiles(srcDir,
                     new String[] { "java" }, true);
 
-            String[] preArgs = null;
+            List < String > compilerArgs = new ArrayList < String >();
             if (verbose) {
-                preArgs = new String[] { "-verbose", "-d", binDir.getPath() };
-            } else {
-                preArgs = new String[] { "-d", binDir.getPath() };
+                compilerArgs.add("-verbose");
             }
-            String[] compilerArgs = new String[javaSrcFiles.size()
-                    + preArgs.length];
+            compilerArgs.add("-d");
+            compilerArgs.add(binDir.getPath());
 
-            System.arraycopy(preArgs, 0, compilerArgs, 0, preArgs.length);
-            int i = preArgs.length;
+            if (classpath != null) {
+                compilerArgs.add("-cp");
+                compilerArgs.add(classpath);
+            }
+
             for (File file : javaSrcFiles) {
-                compilerArgs[i] = file.getPath();
-                i++;
+                compilerArgs.add(file.getPath());
             }
 
             StringWriter compilerOut = new StringWriter();
 
             // Load compiler dynamically
             Object compiler = null;
-            URL[] urlToolsJar = getJDKURLs();
-            if (urlToolsJar.length > 0) {
-                URLClassLoader compileCl = new URLClassLoader(urlToolsJar,
-                        Thread.currentThread().getContextClassLoader());
+            File toolsJar = getToolsJar();
+            if (toolsJar != null) {
+                ClassLoader compileCl = new URLClassLoader(
+                        new URL[] { toolsJar.toURI().toURL() },
+                        Cob2TransGenerator.class.getClassLoader());
 
                 Class < ? > compilerClass = compileCl.loadClass(COMPILER);
                 compiler = compilerClass.newInstance();
@@ -492,7 +529,8 @@ public class Cob2TransGenerator {
             Method method = compiler.getClass().getMethod("compile", param);
 
             Object[] methodArgs = new Object[2];
-            methodArgs[0] = compilerArgs;
+            methodArgs[0] = compilerArgs
+                    .toArray(new String[compilerArgs.size()]);
             methodArgs[1] = new PrintWriter(compilerOut);
 
             // Invoke compilation and check return code
@@ -522,45 +560,44 @@ public class Cob2TransGenerator {
             throw new Cob2TransException(e);
         } catch (ClassLoadingException e) {
             throw new Cob2TransException(e);
+        } catch (MalformedURLException e) {
+            throw new Cob2TransException(e);
         }
     }
 
     /**
-     * Locates the JDK URLs needed for compilation (Actually tools.jar).
+     * Locates the tools.jar archive from the JDK, needed for compilation.
      * 
-     * @return an array of URLs
+     * @return the tools.jar file if it needs to be added to the class loader,
+     *         null otherwise
      * @throws Cob2TransException if JDK cannot be located
      */
-    public static URL[] getJDKURLs() throws Cob2TransException {
+    public static File getToolsJar() throws Cob2TransException {
         try {
             // Already on the classpath
             ClassUtil.newObject(COMPILER);
-            return new URL[0];
+            return null;
         } catch (ClassLoadingException e1) {
-            try {
-                File jreHome = new File(System.getProperty("java.home"));
-                if (jreHome != null) {
-                    File toolsjar = new File(jreHome, "../lib/tools.jar");
-                    if (toolsjar.exists()) {
-                        return new URL[] { toolsjar.toURI().toURL() };
-                    }
+            File jreHome = new File(System.getProperty("java.home"));
+            if (jreHome != null) {
+                File toolsjar = new File(jreHome, "../lib/tools.jar");
+                if (toolsjar.exists()) {
+                    return toolsjar;
                 }
+            }
 
-                String javaHome = System.getenv("JAVA_HOME");
-                if (javaHome != null) {
-                    File toolsjar = new File(javaHome + "/lib/tools.jar");
-                    if (toolsjar.exists()) {
-                        return new URL[] { toolsjar.toURI().toURL() };
-                    }
+            String javaHome = System.getenv("JAVA_HOME");
+            if (javaHome != null) {
+                File toolsjar = new File(javaHome + "/lib/tools.jar");
+                if (toolsjar.exists()) {
+                    return toolsjar;
                 }
+            }
 
-                throw new Cob2TransException("Unable to locate tools.jar."
+            throw new Cob2TransException("Unable to locate tools.jar."
                         + " Please run under a JDK"
                         + " or set JAVA_HOME to point to a JDK.");
 
-            } catch (MalformedURLException e) {
-                throw new Cob2TransException(e);
-            }
         }
 
     }
@@ -627,7 +664,8 @@ public class Cob2TransGenerator {
                 }
             }
 
-            URLClassLoader coxbCl = new URLClassLoader(urlBinFiles, previousCl);
+            URLClassLoader coxbCl = new URLClassLoader(urlBinFiles,
+                    Cob2TransGenerator.class.getClassLoader());
             Thread.currentThread().setContextClassLoader(coxbCl);
 
             coxbGenerator.execute();
@@ -642,6 +680,8 @@ public class Cob2TransGenerator {
         } catch (UnsupportedEncodingException e) {
             throw new Cob2TransException(e);
         } catch (FileNotFoundException e) {
+            throw new Cob2TransException(e);
+        } catch (BuildException e) {
             throw new Cob2TransException(e);
         } finally {
             Thread.currentThread().setContextClassLoader(previousCl);
