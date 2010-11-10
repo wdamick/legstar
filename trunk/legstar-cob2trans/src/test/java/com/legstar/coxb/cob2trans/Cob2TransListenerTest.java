@@ -53,7 +53,8 @@ public class Cob2TransListenerTest extends AbstractCob2TransTester implements
         _generator.interrupt();
         runnable.getThread().join();
 
-        assertEquals("interrupted", runnable.getException().getMessage());
+        assertEquals("COBOL to Transformers generator interrupted",
+                runnable.getException().getMessage());
         assertNull(runnable.getResult());
 
     }

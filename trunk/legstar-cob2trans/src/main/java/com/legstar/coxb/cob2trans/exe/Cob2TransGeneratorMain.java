@@ -65,6 +65,11 @@ public class Cob2TransGeneratorMain {
      */
     private File _output;
 
+    /**
+     * A class path to use by compiler to locate dependencies.
+     */
+    private String _classpath;
+
     /** Set of generation options to use. */
     private Cob2TransModel _model;
 
@@ -208,6 +213,10 @@ public class Cob2TransGeneratorMain {
                 "folder receiving the generated artifacts");
         options.addOption(output);
 
+        Option classpath = new Option("cp", "classpath", true,
+                "classpath to use for generated classes compilation");
+        options.addOption(classpath);
+
         return options;
     }
 
@@ -242,6 +251,9 @@ public class Cob2TransGeneratorMain {
         }
         if (line.hasOption("output")) {
             setOutput(line.getOptionValue("output").trim());
+        }
+        if (line.hasOption("classpath")) {
+            setClasspath(line.getOptionValue("classpath").trim());
         }
 
         return true;
@@ -294,9 +306,11 @@ public class Cob2TransGeneratorMain {
         _log.info("Generation started for: " + cobolFile);
 
         Cob2TransGenerator cob2trans = new Cob2TransGenerator(getModel());
-        Cob2TransResult result = cob2trans.generate(cobolFile,
+        Cob2TransResult result = cob2trans.generate(
+                cobolFile,
                 cobolSourceFileEncoding,
-                target);
+                target,
+                getClasspath());
 
         _log.info("Result jar archive is '" + result.jarFile + "'");
     }
@@ -447,6 +461,21 @@ public class Cob2TransGeneratorMain {
                     "You must provide a target directory or file"));
         }
         _output = new File(output);
+    }
+
+    /**
+     * @return the class path to use by compiler to locate dependencies
+     */
+    public String getClasspath() {
+        return _classpath;
+    }
+
+    /**
+     * @param classpath the class path to use by compiler to locate dependencies
+     *            to set
+     */
+    public void setClasspath(String classpath) {
+        _classpath = classpath;
     }
 
 }
