@@ -15,10 +15,14 @@ import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-import com.legstar.cob2xsd.Cob2XsdContext.CodeFormat;
+import com.legstar.cob2xsd.Cob2XsdModel.CodeFormat;
 import com.legstar.eclipse.plugin.schemagen.Activator;
 import com.legstar.eclipse.plugin.schemagen.Messages;
 
@@ -55,22 +59,13 @@ public class SchemaGenPreferencePage extends FieldEditorPreferencePage
      */
     public void createFieldEditors() {
 
+        createEncodingEditorControls(getFieldEditorParent());
+
         /*
          * -------------------------------------------------------------------
          * COBOL source format related options
          */
-        addField(new RadioGroupFieldEditor(
-                PreferenceConstants.DEFAULT_CODE_FORMAT,
-                Messages.preference_default_code_format_label,
-                2,
-                new String[][] {
-                        { Messages.fixed_format_label,
-                                CodeFormat.FIXED_FORMAT.toString() },
-                        {
-                                Messages.free_format_label,
-                                CodeFormat.FREE_FORMAT.toString() }
-                },
-                getFieldEditorParent()));
+        createCodeFormatEditor(getFieldEditorParent());
 
         addField(new IntegerFieldEditor(
                 PreferenceConstants.DEFAULT_START_COLUMN,
@@ -124,6 +119,7 @@ public class SchemaGenPreferencePage extends FieldEditorPreferencePage
          * -------------------------------------------------------------------
          * COBOL compiler related options
          */
+
         addField(new StringFieldEditor(
                 PreferenceConstants.DEFAULT_CURRENCY_SIGN,
                 Messages.preference_default_currency_sign_label + ':',
@@ -145,6 +141,55 @@ public class SchemaGenPreferencePage extends FieldEditorPreferencePage
                 Messages.preference_default_quote_is_quote_label,
                 getFieldEditorParent()));
 
+    }
+
+    /**
+     * Adds an editor for COBOL files encoding.
+     * 
+     * @param parent the parent composite
+     */
+    protected void createEncodingEditorControls(final Composite parent) {
+        Composite encodingComposite = new Composite(parent, SWT.NONE);
+        encodingComposite.setLayout(new GridLayout());
+        GridData gridData = new GridData(
+                GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
+        gridData.horizontalSpan = 2;
+        encodingComposite.setLayoutData(gridData);
+
+        addField(new FixedEncodingFieldEditor(
+                PreferenceConstants.COBOL_FILES_ENCODING,
+                Messages.cobol_files_encoding_label,
+                Messages.cobol_files_encoding_label,
+                encodingComposite));
+
+    }
+
+    /**
+     * Select free or fixed COBOL format.
+     * 
+     * @param parent the parent composite
+     */
+    protected void createCodeFormatEditor(final Composite parent) {
+        Composite codeFormatComposite = new Composite(parent, SWT.NONE);
+        codeFormatComposite.setLayout(new GridLayout());
+        GridData gridData = new GridData(
+                GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
+        gridData.horizontalSpan = 2;
+        codeFormatComposite.setLayoutData(gridData);
+
+        addField(new RadioGroupFieldEditor(
+                PreferenceConstants.DEFAULT_CODE_FORMAT,
+                Messages.preference_default_code_format_label,
+                2,
+                new String[][] {
+                        { Messages.fixed_format_label,
+                                CodeFormat.FIXED_FORMAT.toString() },
+                        {
+                                Messages.free_format_label,
+                                CodeFormat.FREE_FORMAT.toString() }
+                },
+                codeFormatComposite,
+                true));
     }
 
     /**

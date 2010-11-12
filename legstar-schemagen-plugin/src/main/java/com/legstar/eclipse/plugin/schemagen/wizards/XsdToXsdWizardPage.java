@@ -11,6 +11,7 @@
 package com.legstar.eclipse.plugin.schemagen.wizards;
 
 import java.io.StringWriter;
+import java.util.Properties;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -36,7 +37,7 @@ import com.legstar.eclipse.plugin.schemagen.util.XmlDocumentHelperException;
 
 /**
  * This wizard page allows users to select an Xml Schema or a WSDL
- * source either from the file system or over the network and 
+ * source either from the file system or over the network and
  * generate a COBOL annotated Xml Schema.
  */
 public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
@@ -58,6 +59,7 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
 
     /**
      * Constructs the wizard page.
+     * 
      * @param initialSelection the workbench current selection
      */
     public XsdToXsdWizardPage(final IStructuredSelection initialSelection) {
@@ -79,7 +81,7 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
                 new URLSelectionAdapter());
 
         mSwitchNamespaceCheckBox =
-            createSwitchNamespaceAllowedCheckButton(container);
+                createSwitchNamespaceAllowedCheckButton(container);
         mXsdSourceText = createMultilineTextField(container, LAYOUT_COLUMNS);
         FontData defaultFont = new FontData("Courier New", 8, SWT.NORMAL);
         Font font = new Font(container.getDisplay(), defaultFont);
@@ -112,6 +114,7 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
     /**
      * Adds a check button that reflects its state in an associated boolean
      * variable.
+     * 
      * @param container parent composite
      * @return a check button
      */
@@ -172,6 +175,7 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.eclipse.jface.wizard.WizardPage#getNextPage()
      */
     public IWizardPage getNextPage() {
@@ -187,7 +191,7 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
 
     /**
      * @param switchNamespaceAllowed true if the input XSD/WSDL target namespace
-     *  should be changed
+     *            should be changed
      */
     public void setSwitchNamespaceAllowed(
             final boolean switchNamespaceAllowed) {
@@ -197,13 +201,14 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
     /**
      * Depending on the presence of a new namespace we enable the capability to
      * switch to a different namespace.
+     * 
      * @param newTargetNamespace the new target namespace to set
      */
     public void setNewTargetNamespace(final String newTargetNamespace) {
         if (newTargetNamespace != null && newTargetNamespace.length() > 0) {
             mSwitchNamespaceCheckBox.setText(
                     Messages.switch_namespace_to_button_label
-                    + newTargetNamespace);
+                            + newTargetNamespace);
             mSwitchNamespaceCheckBox.setEnabled(true);
         } else {
             mSwitchNamespaceCheckBox.setText(
@@ -212,4 +217,17 @@ public class XsdToXsdWizardPage extends AbstractToXsdWizardPage {
         }
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public Properties getPersistProperties() {
+        // TODO implement me
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void initProjectContent() {
+        // TODO implement me
+
+    }
 }

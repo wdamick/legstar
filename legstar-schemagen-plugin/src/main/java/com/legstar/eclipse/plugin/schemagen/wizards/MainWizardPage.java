@@ -10,20 +10,25 @@
  ******************************************************************************/
 package com.legstar.eclipse.plugin.schemagen.wizards;
 
-import java.util.Locale;
+import java.io.File;
+import java.util.Properties;
 
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -33,7 +38,13 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
+import org.osgi.service.prefs.BackingStoreException;
 
+import com.legstar.codegen.CodeGenMakeException;
+import com.legstar.codegen.models.SourceToXsdCobolModel;
+import com.legstar.eclipse.plugin.common.wizards.AbstractWizardPage;
+import com.legstar.eclipse.plugin.common.wizards.AbstractWizardRunnable;
+import com.legstar.eclipse.plugin.schemagen.Activator;
 import com.legstar.eclipse.plugin.schemagen.Messages;
 import com.legstar.eclipse.plugin.schemagen.preferences.PreferenceConstants;
 
@@ -46,28 +57,28 @@ import com.legstar.eclipse.plugin.schemagen.preferences.PreferenceConstants;
 public class MainWizardPage extends AbstractToXsdWizardPage {
 
     /** Selection of available source types. */
-    private Combo mSourceTypeCombo;
+    private Combo _sourceTypeCombo;
 
     /** Destination container. */
-    private Text mTargetContainerText;
+    private Text _targetContainerText;
 
     /** Destination file name. */
-    private Text mTargetXSDFileNameText;
+    private Text _targetXSDFileNameText;
 
     /** Whether the XSD file should be overwritten if it already exist. */
-    private boolean mOverwriteAllowed = true;
+    private boolean _overwriteAllowed = true;
 
     /** Target XML schema namespace. */
-    private Text mTargetNamespaceText;
+    private Text _targetNamespaceText;
 
-    /** The final namespace is built starting with this prefix. */
-    private String mXsdNamespacePrefix = "";
+    /** The field values that are permanent. */
+    private CommonModel _model;
 
     /**
      * Will be true is user explicitly modified the namespace. This means we
      * should refrain from trying to generate it automatically.
      */
-    private boolean mXsdNamespaceUserChanged;
+    private boolean _xsdNamespaceUserChanged;
 
     /**
      * Constructs the main wizard page.
@@ -86,7 +97,7 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
     public void createExtendedControls(final Composite container) {
         Group groupSource = createGroup(container,
                 Messages.source_type_group_label);
-        mSourceTypeCombo = createComboFromItemsArray(
+        _sourceTypeCombo = createComboFromItemsArray(
                 groupSource, new String[] {
                         Messages.cobol_source_type_text,
                         Messages.xsd_source_type_text,
@@ -96,40 +107,74 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
                 Messages.target_group_label);
 
         createLabel(groupTarget, Messages.container_label);
-        mTargetContainerText = createText(groupTarget);
+        _targetContainerText = createText(groupTarget);
 
         createBrowseForContainerButton(
                 groupTarget, Messages.container_selection_label,
-                mTargetContainerText);
+                _targetContainerText);
 
         createLabel(groupTarget, Messages.xsd_file_name_label);
-        mTargetXSDFileNameText = createText(groupTarget);
-        mTargetXSDFileNameText.setFocus();
+        _targetXSDFileNameText = createText(groupTarget);
+        _targetXSDFileNameText.setFocus();
 
         createOverwriteAllowedCheckButton(groupTarget,
                 Messages.overwrite_button_label);
 
         createLabel(groupTarget, Messages.namespace_label);
-        mTargetNamespaceText = createText(groupTarget, 2);
+        _targetNamespaceText = createText(groupTarget, 2);
 
     }
 
     /** {@inheritDoc} */
     public void initContents() {
-        initTargetContainer();
-        String lastTargetXSDFileName =
-                getDefaultPreferences().getString(
-                        PreferenceConstants.LAST_TARGET_XSD_FILE_NAME + '.'
-                                + getTargetContainer());
-        if (lastTargetXSDFileName.length() > 0) {
-            mTargetXSDFileNameText.setText(lastTargetXSDFileName);
-        } else {
-            mTargetXSDFileNameText.setText(".xsd");
-        }
-        mXsdNamespacePrefix = getSetText(mTargetNamespaceText, '/',
-                PreferenceConstants.XSD_NAMESPACE_PREFIX);
-        mXsdNamespaceUserChanged = false;
+        IProject project = initTargetContainer();
+
+        // Whatever project was identified, tell the wizard so that other pages
+        // know about it
+        setProject(project);
+
+        loadGenModel();
         createListeners();
+    }
+
+    /**
+     * Initialize widgets from the Model.
+     */
+    public void loadGenModel() {
+        if (getProject() != null) {
+            _model = new CommonModel(loadProperties(getProjectPreferences()));
+        } else {
+            _model = new CommonModel();
+        }
+
+        if (_model.getTargetXsdFileName() != null
+                && _model.getTargetXsdFileName().length() > 0) {
+            _targetXSDFileNameText.setText(_model.getTargetXsdFileName());
+        } else {
+            _targetXSDFileNameText.setText(".xsd");
+        }
+
+        if (_model.getNamespace() != null
+                && _model.getNamespace().length() > 0) {
+            _targetNamespaceText.setText(_model.getNamespace());
+        } else {
+            _targetNamespaceText.setText(getDefaultNamespace());
+        }
+
+        if (_targetNamespaceText.getText().equals(getDefaultNamespace())) {
+            _xsdNamespaceUserChanged = false;
+        } else {
+            _xsdNamespaceUserChanged = true;
+        }
+
+    }
+
+    /** {@inheritDoc} */
+    public void initProjectContent() {
+        loadGenModel();
+        getWizard().getCobolToXsdWizardPage().initProjectContent();
+        getWizard().getJavaToXsdWizardPage().initProjectContent();
+        getWizard().getXsdToXsdWizardPage().initProjectContent();
     }
 
     /**
@@ -137,31 +182,47 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
      * initialized.
      */
     public void createListeners() {
-        mTargetContainerText.addModifyListener(new ModifyListener() {
+        _targetContainerText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
         });
-        mTargetXSDFileNameText.addModifyListener(new ModifyListener() {
+        _targetXSDFileNameText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
         });
-        mTargetXSDFileNameText.addModifyListener(new ModifyListener() {
+        _targetXSDFileNameText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 autoFill();
             }
         });
-        mTargetNamespaceText.addModifyListener(new ModifyListener() {
+        _targetNamespaceText.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
         });
-        mTargetNamespaceText.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                mXsdNamespaceUserChanged = userChanged(
-                        mTargetNamespaceText, '/', false);
+
+        // Detects user modifications to the namespace (as opposed to
+        // modifications due to autofill)
+        _targetNamespaceText.addFocusListener(new FocusListener() {
+
+            String initialValue;
+
+            @Override
+            public void focusGained(final FocusEvent e) {
+                initialValue = ((Text) e.widget).getText();
             }
+
+            @Override
+            public void focusLost(final FocusEvent e) {
+                String newValue = ((Text) e.widget).getText();
+                if (!_xsdNamespaceUserChanged) {
+                    _xsdNamespaceUserChanged = !newValue.equals(initialValue);
+                }
+
+            }
+
         });
     }
 
@@ -173,50 +234,73 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
      * <p/>
      * If no project is selected, we attempt to recover the last container used
      * from the default preferences.
+     * <p/>
+     * We are only interested in the project so if a lower level element is
+     * selected we get the first segment of its path.
+     * <p/>
+     * Since we can't process multiple selections, we deal with the first one
+     * only.
+     * 
+     * @return the selected project in the workbench or null if none is selected
      */
-    private void initTargetContainer() {
-        if (getInitialSelection() != null && !getInitialSelection().isEmpty()) {
-            Object obj = getInitialSelection().getFirstElement();
-            IResource container = null;
-            if (obj instanceof IResource) {
-                if (obj instanceof IContainer) {
-                    container = ((IContainer) obj);
-                } else {
-                    container = ((IResource) obj).getParent();
-                }
+    protected IProject initTargetContainer() {
+        IProject project = null;
+        if (getInitialSelection() != null
+                && !getInitialSelection().isEmpty()
+                && getInitialSelection() instanceof TreeSelection) {
+
+            Object obj = ((TreeSelection) getInitialSelection()).getPaths()[0]
+                    .getFirstSegment();
+            if (obj instanceof IProject) {
+                project = (IProject) obj;
             } else if (obj instanceof IJavaProject) {
-                container = ((IJavaProject) obj).getProject();
-            } else if (obj instanceof IJavaElement) {
-                container = ((IJavaElement) obj).getResource();
-            }
-            if (container != null) {
-                mTargetContainerText.setText(
-                        container.getFullPath().toOSString());
-                return;
+                project = ((IJavaProject) obj).getProject();
             }
         }
-        mTargetContainerText.setText(getDefaultPreferences().getString(
-                PreferenceConstants.LAST_TARGET_CONTAINER));
+        if (project == null) {
+            String lastContainerPath = getDefaultPreferences().getString(
+                    PreferenceConstants.LAST_TARGET_CONTAINER);
+            if (lastContainerPath.length() > 0) {
+                // Make sure it still exist in the workbench
+                project = AbstractWizardRunnable
+                        .getProject(lastContainerPath);
+                if (project != null && project.isOpen()) {
+                    _targetContainerText.setText(lastContainerPath);
+                } else {
+                    project = null;
+                }
+            }
+        } else {
+            _targetContainerText.setText(
+                    project.getFullPath().toOSString());
+        }
+
+        return project;
     }
 
     /**
-     * A convenience method to set a Text control to a value from a
-     * preference store and then return that value.
+     * Create a default namespace using the preferred prefix and the XSD file
+     * name.
      * 
-     * @param text the text widget
-     * @param separator the type of separator used to terminate a prefix
-     * @param keyInStore the value identifier in the preference store
      * @return the value used to initialize the text widget
      */
-    private String getSetText(
-            final Text text, final char separator, final String keyInStore) {
+    private String getDefaultNamespace() {
+        return getDefaultNamespacePrefix() + getXsdSimpleFileName();
+    }
+
+    /**
+     * The default namespace prefix comes from the LegStar general preferences.
+     * 
+     * @return a default prefix terminated with slash
+     */
+    protected String getDefaultNamespacePrefix() {
         IPreferenceStore store = getDefaultPreferences();
-        String str = store.getString(keyInStore);
+        String str = store.getString(PreferenceConstants.XSD_NAMESPACE_PREFIX);
         if (str != null && str.length() != 0) {
-            str = setSeparatorChar(str, separator);
-            text.setText(str + getXsdSimpleFileName());
+            str = setSeparatorChar(str, '/');
+            return str;
         }
-        return str;
+        return "";
     }
 
     /**
@@ -249,61 +333,9 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
      */
     private void autoFill() {
         String str = getXsdSimpleFileName();
-        if (!mXsdNamespaceUserChanged) {
-            mTargetNamespaceText.setText(mXsdNamespacePrefix + str);
+        if (!_xsdNamespaceUserChanged) {
+            _targetNamespaceText.setText(getDefaultNamespacePrefix() + str);
         }
-    }
-
-    /**
-     * To determine if a control text was modified by the user, we compare the
-     * last characters to those of the target xsd file name. If they are still
-     * the same, we assume no user modification was done.
-     * 
-     * @param text the text to compare
-     * @param c the segments separator character
-     * @param isJavaIdentifierPart tells if the text must be a valid java
-     *            identifier
-     * @return true if the content of the text field now differs from autofill
-     */
-    private boolean userChanged(
-            final Text text, final char c, final boolean isJavaIdentifierPart) {
-        String str = getXsdSimpleFileName();
-        String content = lastSegment(text.getText(), c);
-        if (str.length() == 0) {
-            return !(content == null || content.length() == 0);
-        } else {
-            if (content == null || content.length() == 0) {
-                return true;
-            } else {
-                if (isJavaIdentifierPart) {
-                    return !(lowercaseNormalize(str).equals(content));
-                }
-                return !(str.equals(content));
-            }
-        }
-    }
-
-    /**
-     * This ensures a string can be used as a valid identifier for a
-     * java package name or an XML namespace.
-     * <ul>
-     * <li>Lowercases all uppercase characters.</li>
-     * <li>Replaces all illegal characters by period.</li>
-     * </ul>
-     * 
-     * @param str the string to normalize
-     * @return the normalized string.
-     */
-    private String lowercaseNormalize(final String str) {
-        StringBuilder sb = new StringBuilder();
-        for (char ch : str.toCharArray()) {
-            if (Character.isJavaIdentifierPart(ch)) {
-                sb.append(ch);
-            } else {
-                sb.append('.');
-            }
-        }
-        return sb.toString().toLowerCase(Locale.getDefault());
     }
 
     /**
@@ -311,30 +343,11 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
      */
     private String getXsdSimpleFileName() {
         IPath path = new Path(
-                mTargetXSDFileNameText.getText()).removeFileExtension();
+                _targetXSDFileNameText.getText()).removeFileExtension();
         if (path.lastSegment() == null) {
             return "";
         }
         return path.lastSegment();
-    }
-
-    /**
-     * Given a separator character, returns the segment following the last
-     * separator or the string itself if no seperators is found.
-     * 
-     * @param str string to extract segment from
-     * @param c the separator character
-     * @return the last segment of the input string
-     */
-    private String lastSegment(final String str, final char c) {
-        if (str == null || str.length() == 0) {
-            return str;
-        }
-        int i = str.lastIndexOf(c);
-        if (i < 0) {
-            return str;
-        }
-        return str.substring(i + 1);
     }
 
     /**
@@ -383,6 +396,23 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
             return;
         }
 
+        /* Make sure we have a valid project. */
+        IProject project = containerResource.getProject();
+        if (project == null || !project.isOpen()) {
+            updateStatus(Messages.invalid_target_container_msg);
+            return;
+        }
+
+        /*
+         * If this is a different project than the one we had before, ignore
+         * other changes to this page. We also offer a chance to the next
+         * pages to initialize their project-dependent content
+         */
+        if (project != getProject()) {
+            setProject(project);
+            initProjectContent();
+        }
+
         /* Target XML schema file name must not be empty */
         if (getXsdSimpleFileName().length() == 0) {
             updateStatus(Messages.no_target_xsd_file_name_msg);
@@ -404,6 +434,15 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
         }
 
         updateStatus(null);
+        updateGenModel();
+    }
+
+    /**
+     * Update the model with UI field values.
+     */
+    protected void updateGenModel() {
+        _model.setTargetXsdFileName(getValueFromText(_targetXSDFileNameText));
+        _model.setNamespace(getValueFromText(_targetNamespaceText));
     }
 
     /**
@@ -414,10 +453,6 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
                 .setValue(
                         PreferenceConstants.LAST_TARGET_CONTAINER,
                         getTargetContainer());
-        getDefaultPreferences().setValue(
-                PreferenceConstants.LAST_TARGET_XSD_FILE_NAME + '.'
-                        + getTargetContainer(),
-                getTargetXSDFileName());
     }
 
     /**
@@ -426,20 +461,23 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
      * @see org.eclipse.jface.wizard.WizardPage#getNextPage()
      */
     public IWizardPage getNextPage() {
+        AbstractWizardPage nextPage = null;
         switch (getSelectedSource()) {
         case 0:
-            return ((MainWizard) getWizard()).getCobolToXsdWizardPage();
+            nextPage = getWizard().getCobolToXsdWizardPage();
+            break;
         case 1:
-            XsdToXsdWizardPage xsdToXsdWizardPage = (XsdToXsdWizardPage)
-                    ((MainWizard) getWizard()).getXsdToXsdWizardPage();
-            xsdToXsdWizardPage.setNewTargetNamespace(
+            nextPage = getWizard().getXsdToXsdWizardPage();
+            ((XsdToXsdWizardPage) nextPage).setNewTargetNamespace(
                     getTargetNamespace());
-            return xsdToXsdWizardPage;
+            break;
         case 2:
-            return ((MainWizard) getWizard()).getJavaToXsdWizardPage();
+            nextPage = getWizard().getJavaToXsdWizardPage();
+            break;
         default:
-            return null;
+            break;
         }
+        return nextPage;
     }
 
     /**
@@ -449,14 +487,14 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
      * @return the source type that was selected on the first page.
      */
     public int getSelectedSource() {
-        return mSourceTypeCombo.getSelectionIndex();
+        return _sourceTypeCombo.getSelectionIndex();
     }
 
     /**
      * @return true if the XSD file should be overwritten if it already exist
      */
     public boolean isOverwriteAllowed() {
-        return mOverwriteAllowed;
+        return _overwriteAllowed;
     }
 
     /**
@@ -464,14 +502,14 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
      *            already exist
      */
     public void setOverwriteAllowed(final boolean overwriteAllowed) {
-        mOverwriteAllowed = overwriteAllowed;
+        _overwriteAllowed = overwriteAllowed;
     }
 
     /**
      * @return the destination container text
      */
     public String getTargetContainer() {
-        return mTargetContainerText.getText();
+        return _targetContainerText.getText();
     }
 
     /**
@@ -479,14 +517,14 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
      */
     public void setDestinationContainer(
             final String destinationContainer) {
-        mTargetContainerText.setText(destinationContainer);
+        _targetContainerText.setText(destinationContainer);
     }
 
     /**
      * @return the target XML Schema file name
      */
     public String getTargetXSDFileName() {
-        return mTargetXSDFileNameText.getText();
+        return _targetXSDFileNameText.getText();
     }
 
     /**
@@ -494,7 +532,7 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
      */
     public void setTargetXSDFileName(
             final String targetXSDFileName) {
-        mTargetXSDFileNameText.setText(targetXSDFileName);
+        _targetXSDFileNameText.setText(targetXSDFileName);
     }
 
     /**
@@ -502,24 +540,86 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
      *         spaces
      */
     public String getTargetNamespace() {
-        if (mTargetNamespaceText.getText().trim().length() == 0) {
+        if (_targetNamespaceText.getText().trim().length() == 0) {
             return null;
         }
-        return mTargetNamespaceText.getText();
+        return _targetNamespaceText.getText();
     }
 
     /**
      * @param targetNamespace the Target XML schema namespace to set
      */
     public void setTargetNamespace(final String targetNamespace) {
-        mTargetNamespaceText.setText(targetNamespace);
+        _targetNamespaceText.setText(targetNamespace);
+    }
+
+    /**
+     * @return the default scope preferences
+     */
+    public IPreferenceStore getDefaultPreferences() {
+        return getWizard().getDefaultPreferences();
     }
 
     /**
      * @return the project scope preferences
      */
-    public IPreferenceStore getDefaultPreferences() {
-        return ((MainWizard) getWizard()).getDefaultPreferences();
+    public IEclipsePreferences getProjectPreferences() {
+        return getWizard().getProjectPreferences();
+    }
+
+    /**
+     * Create a properties file from preferences content.
+     * <p/>
+     * In case we cannot recover the previous values, just log an error.
+     * 
+     * @param preferences an Eclipse preference store
+     * @return a properties file
+     */
+    public Properties loadProperties(final IEclipsePreferences preferences) {
+        try {
+            return getWizard().loadProperties(preferences);
+        } catch (BackingStoreException e) {
+            logCoreException(e, Activator.PLUGIN_ID);
+            return new Properties();
+        }
+    }
+
+    /**
+     * This wizard page is common to various translators (COBOL to XSD, XSD to
+     * XSD, Java to XSD). So we don't necessarily know which one the user will
+     * end up selecting. Here we define the minimal model that is common to all
+     * translators so we can store/load previous values.
+     * 
+     */
+    protected class CommonModel extends SourceToXsdCobolModel {
+
+        /**
+         * A no-Arg constructor.
+         */
+        public CommonModel() {
+        }
+
+        /**
+         * Construct from a properties file.
+         * 
+         * @param props the property file
+         */
+        public CommonModel(final Properties props) {
+            super(props);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public void generateBuild(final File arg0) throws CodeGenMakeException {
+        }
+
+    }
+
+    /**
+     * @return the set of properties that need to be persisted
+     */
+    public Properties getPersistProperties() {
+        return _model.toProperties();
     }
 
 }

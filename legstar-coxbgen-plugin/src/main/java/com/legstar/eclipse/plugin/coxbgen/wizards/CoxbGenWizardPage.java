@@ -58,7 +58,7 @@ import org.eclipse.swt.widgets.Text;
 
 import com.legstar.coxb.gen.CoxbGenException;
 import com.legstar.coxb.gen.CoxbGenModel;
-import com.legstar.coxb.util.Utils;
+import com.legstar.coxb.util.NameUtil;
 import com.legstar.eclipse.plugin.common.ClasspathInitializer;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizardPage;
 import com.legstar.eclipse.plugin.coxbgen.Activator;
@@ -320,7 +320,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
      */
     protected void loadXmlSchemaComplexType(
             final IFile xsdFile, final XmlSchemaComplexType xsdComplexType) {
-        String normalizedName = Utils.toClassName(xsdComplexType.getName());
+        String normalizedName = NameUtil.toClassName(xsdComplexType.getName());
         if (getGenModel().getTypeNamePrefix() != null) {
             normalizedName = getGenModel().getTypeNamePrefix()
                     + normalizedName;
@@ -345,7 +345,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
             final IFile xsdFile, final XmlSchemaElement xsdElement) {
         XmlSchemaType xsdType = xsdElement.getSchemaType();
         if (xsdType.getName() == null) {
-            String normalizedName = Utils.toClassName(xsdElement.getName());
+            String normalizedName = NameUtil.toClassName(xsdElement.getName());
             if (getGenModel().getElementNamePrefix() != null) {
                 normalizedName = getGenModel().getElementNamePrefix()
                         + normalizedName;

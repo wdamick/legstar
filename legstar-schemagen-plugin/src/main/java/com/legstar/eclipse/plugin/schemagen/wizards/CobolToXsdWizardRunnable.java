@@ -12,14 +12,15 @@ package com.legstar.eclipse.plugin.schemagen.wizards;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 
-import com.legstar.cob2xsd.Cob2XsdContext.CodeFormat;
-import com.legstar.cob2xsd.task.CobolStructureToXsdModel;
+import com.legstar.cob2xsd.Cob2XsdModel;
+import com.legstar.cob2xsd.Cob2XsdModel.CodeFormat;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
 import com.legstar.eclipse.plugin.schemagen.Activator;
 import com.legstar.eclipse.plugin.schemagen.preferences.PreferenceConstants;
@@ -59,12 +60,12 @@ public class CobolToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
      * @return a valid model
      * @throws InvocationTargetException if model cannot be built
      */
-    protected CobolStructureToXsdModel getModel(
+    protected Cob2XsdModel getModel(
             final MainWizardPage mainPage,
             final CobolToXsdWizardPage cobolToXsdPage)
             throws InvocationTargetException {
 
-        CobolStructureToXsdModel model = new CobolStructureToXsdModel();
+        Cob2XsdModel model = new Cob2XsdModel();
         model.setProductLocation(AbstractWizard.getPluginInstallLocation(
                 com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
 
@@ -73,7 +74,9 @@ public class CobolToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
         try {
             cobolFile = File.createTempFile(TEMP_PATTERN, TEMP_SUFFIX);
             BufferedWriter writer = new BufferedWriter(
-                    new FileWriter(cobolFile));
+                    new OutputStreamWriter(
+                            new FileOutputStream(cobolFile),
+                            cobolToXsdPage.getCobolFileEncoding()));
             writer.write(cobolToXsdPage.getCobolFragment());
             writer.close();
         } catch (IOException e) {
@@ -91,52 +94,52 @@ public class CobolToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
          * -------------------------------------------------------------------
          * COBOL source format related options
          */
-        model.getContext().setCodeFormat(
+        model.setCodeFormat(
                 CodeFormat.valueOf(store
                         .getString(PreferenceConstants.DEFAULT_CODE_FORMAT)));
-        model.getContext().setStartColumn(
+        model.setStartColumn(
                 store.getInt(PreferenceConstants.DEFAULT_START_COLUMN));
-        model.getContext().setEndColumn(
+        model.setEndColumn(
                 store.getInt(PreferenceConstants.DEFAULT_END_COLUMN));
 
-        model.getContext().setXsdEncoding(
+        model.setXsdEncoding(
                 store.getString(PreferenceConstants.DEFAULT_XSD_ENCODING));
-        model.getContext().setTargetNamespace(mainPage.getTargetNamespace());
-        model.getContext().setMapConditionsToFacets(store.getBoolean(
-                PreferenceConstants.DEFAULT_XSD_MAP_CONDITIONS_TO_FACETS));
-        model.getContext().setCustomXsltFileName(store.getString(
-                PreferenceConstants.DEFAULT_XSD_CUSTOM_XSLT_FILE_NAME));
+        model.setTargetNamespace(
+                mainPage.getTargetNamespace());
         model
-                .getContext()
+                .setMapConditionsToFacets(
+                store
+                        .getBoolean(
+                        PreferenceConstants.DEFAULT_XSD_MAP_CONDITIONS_TO_FACETS));
+        model.setCustomXsltFileName(
+                store.getString(
+                        PreferenceConstants.DEFAULT_XSD_CUSTOM_XSLT_FILE_NAME));
+        model
                 .setNameConflictPrependParentName(
-                        store
-                                .getBoolean(
-                                PreferenceConstants.DEFAULT_XSD_NAME_CONFLICT_PREPEND_PARENT_NAME));
+                store
+                        .getBoolean(
+                        PreferenceConstants.DEFAULT_XSD_NAME_CONFLICT_PREPEND_PARENT_NAME));
         model
-                .getContext()
                 .setElementNamesStartWithUppercase(
-                        store
-                                .getBoolean(
-                                PreferenceConstants.DEFAULT_XSD_ELEMENT_NAMES_START_WITH_UPPERCASE));
-
-        model.getContext().setAddLegStarAnnotations(store.getBoolean(
-                PreferenceConstants.DEFAULT_ADD_LEGSTAR_ANNOTATIONS));
-
-        model.getContext().setCurrencySign(
+                store
+                        .getBoolean(
+                         PreferenceConstants.DEFAULT_XSD_ELEMENT_NAMES_START_WITH_UPPERCASE));
+        model.setAddLegStarAnnotations(
+                store.getBoolean(
+                        PreferenceConstants.DEFAULT_ADD_LEGSTAR_ANNOTATIONS));
+        model.setCurrencySign(
                 store.getString(PreferenceConstants.DEFAULT_CURRENCY_SIGN));
-        model.getContext().setCurrencySymbol(
+        model.setCurrencySymbol(
                 store.getString(PreferenceConstants.DEFAULT_CURRENCY_SYMBOL));
         model
-                .getContext()
                 .setDecimalPointIsComma(
-                        store
-                                .getBoolean(PreferenceConstants.DEFAULT_DECIMAL_POINT_IS_COMMA));
-        model.getContext().setNSymbolDbcs(
+                store
+                        .getBoolean(PreferenceConstants.DEFAULT_DECIMAL_POINT_IS_COMMA));
+        model.setNSymbolDbcs(
                 store.getBoolean(PreferenceConstants.DEFAULT_NSYMBOL_DBCS));
-        model.getContext().setQuoteIsQuote(
+        model.setQuoteIsQuote(
                 store.getBoolean(PreferenceConstants.DEFAULT_QUOTE_IS_QUOTE));
         return model;
 
     }
-
 }

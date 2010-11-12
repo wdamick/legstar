@@ -36,6 +36,14 @@ public class Messages extends NLS {
 
     /*
      * -------------------------------------------------------------------
+     * COBOL source files encoding
+     */
+
+    /** COBOL files encoding label. */
+    public static String cobol_files_encoding_label;
+
+    /*
+     * -------------------------------------------------------------------
      * COBOL source format related options
      */
 

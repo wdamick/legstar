@@ -18,6 +18,10 @@ public final class PreferenceConstants {
     /** Used to prevent conflicts with other plugins. */
     private static final String PREFERENCE_PREFIX = "com.legstar.eclipse.plugin.schemagen.";
 
+    /** The default code formatting. */
+    public static final String COBOL_FILES_ENCODING =
+            PREFERENCE_PREFIX + "cobolFilesEncoding";
+
     /*
      * -------------------------------------------------------------------
      * COBOL source format related options
@@ -100,9 +104,15 @@ public final class PreferenceConstants {
     public static final String LAST_TARGET_CONTAINER =
             PREFERENCE_PREFIX + "last.targetcontainer";
 
-    /** Last target XSD file name used. */
-    public static final String LAST_TARGET_XSD_FILE_NAME =
-            PREFERENCE_PREFIX + "last.targetxsdfilename";
+    /*
+     * -------------------------------------------------------------------
+     * COBOL to XSD project persistent properties
+     */
+    /**
+     * COBOL code that was used to generate an XML Schema.
+     */
+    public static final String COBOL_CODE =
+            PREFERENCE_PREFIX + "cobolCode";
 
     /** Utility class. */
     private PreferenceConstants() {

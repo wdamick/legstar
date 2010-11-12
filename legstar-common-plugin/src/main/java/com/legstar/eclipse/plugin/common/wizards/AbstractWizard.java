@@ -18,6 +18,7 @@ import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -258,7 +259,8 @@ public abstract class AbstractWizard extends Wizard {
     }
 
     /**
-     * @return the project scope preferences
+     * @return the project scope preferences or the default preferences
+     *         if none is set at the project level
      */
     public IEclipsePreferences getProjectPreferences() {
         return _projectPreferences;
