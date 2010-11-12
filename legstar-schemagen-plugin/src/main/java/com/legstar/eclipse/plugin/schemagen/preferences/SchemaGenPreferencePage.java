@@ -10,6 +10,9 @@
  ******************************************************************************/
 package com.legstar.eclipse.plugin.schemagen.preferences;
 
+import java.nio.charset.Charset;
+import java.util.Map;
+
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IntegerFieldEditor;
@@ -59,7 +62,12 @@ public class SchemaGenPreferencePage extends FieldEditorPreferencePage
      */
     public void createFieldEditors() {
 
-        createEncodingEditorControls(getFieldEditorParent());
+        // createEncodingEditorControls(getFieldEditorParent());
+        addField(new ComboFieldEditor32(
+                PreferenceConstants.COBOL_FILES_ENCODING,
+                Messages.cobol_files_encoding_label,
+                getEncodings(),
+                getFieldEditorParent()));
 
         /*
          * -------------------------------------------------------------------
@@ -144,27 +152,6 @@ public class SchemaGenPreferencePage extends FieldEditorPreferencePage
     }
 
     /**
-     * Adds an editor for COBOL files encoding.
-     * 
-     * @param parent the parent composite
-     */
-    protected void createEncodingEditorControls(final Composite parent) {
-        Composite encodingComposite = new Composite(parent, SWT.NONE);
-        encodingComposite.setLayout(new GridLayout());
-        GridData gridData = new GridData(
-                GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
-        gridData.horizontalSpan = 2;
-        encodingComposite.setLayoutData(gridData);
-
-        addField(new FixedEncodingFieldEditor(
-                PreferenceConstants.COBOL_FILES_ENCODING,
-                Messages.cobol_files_encoding_label,
-                Messages.cobol_files_encoding_label,
-                encodingComposite));
-
-    }
-
-    /**
      * Select free or fixed COBOL format.
      * 
      * @param parent the parent composite
@@ -200,4 +187,18 @@ public class SchemaGenPreferencePage extends FieldEditorPreferencePage
     public void init(final IWorkbench workbench) {
     }
 
+    /**
+     * @return the list of available character sets on this JVM
+     */
+    protected String[][] getEncodings() {
+        Map < String, Charset > encodings = Charset.availableCharsets();
+        String[][] result = new String[encodings.size()][2];
+        int i = 0;
+        for (String name : encodings.keySet()) {
+            result[i][0] = encodings.get(name).displayName();
+            result[i][1] = name;
+            i++;
+        }
+        return result;
+    }
 }

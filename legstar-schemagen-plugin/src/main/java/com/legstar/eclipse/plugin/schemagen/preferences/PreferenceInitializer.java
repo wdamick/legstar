@@ -10,9 +10,10 @@
  ******************************************************************************/
 package com.legstar.eclipse.plugin.schemagen.preferences;
 
+import java.nio.charset.Charset;
+
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.ui.WorkbenchEncoding;
 
 import com.legstar.cob2xsd.Cob2XsdModel;
 import com.legstar.cob2xsd.Cob2XsdModel.CodeFormat;
@@ -33,7 +34,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 
         store.setDefault(PreferenceConstants.COBOL_FILES_ENCODING,
-                WorkbenchEncoding.getWorkbenchDefaultEncoding());
+                Charset.defaultCharset().name());
 
         /*
          * -------------------------------------------------------------------
