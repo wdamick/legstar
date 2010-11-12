@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Text;
 
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizardPage;
 import com.legstar.eclipse.plugin.coxbgen.Messages;
-import com.legstar.jaxb.gen.CobolJAXBXJBModel;
+import com.legstar.jaxb.gen.JaxbGenModel;
 
 /**
  * A dialog box to collect JAXB customization parameters.
@@ -55,8 +55,8 @@ public class CoxbGenJaxbOtionsDialog extends TrayDialog {
     /** Suffix to add to element names. */
     private Text _elementNameSuffix;
 
-    /** The XJB parameters. */
-    private CobolJAXBXJBModel _xjbModel;
+    /** The JAXB parameters. */
+    private JaxbGenModel _jaxbgenModel;
 
     /** A pattern to check for numericity. */
     private Pattern _numericPattern = Pattern.compile("[0-9]*");
@@ -67,14 +67,14 @@ public class CoxbGenJaxbOtionsDialog extends TrayDialog {
      * 
      * @param parentShell
      *            the parent shell
-     * @param xjbModel the XJB parameters
+     * @param jaxbgenModel the JAXB parameters
      */
     protected CoxbGenJaxbOtionsDialog(final Shell parentShell,
-            final CobolJAXBXJBModel xjbModel) {
+            final JaxbGenModel jaxbgenModel) {
         super(parentShell);
         setTitle(Messages.jaxb_options_dialog_title);
         setHelpAvailable(false);
-        _xjbModel = xjbModel;
+        _jaxbgenModel = jaxbgenModel;
     }
 
     /**
@@ -112,7 +112,7 @@ public class CoxbGenJaxbOtionsDialog extends TrayDialog {
         _generateIsSetMethod
                 .setText(Messages.jaxb_xjb_generate_issetmethod_label);
         _generateIsSetMethod
-                .setSelection(getXjbModel().isGenerateIsSetMethod());
+                .setSelection(getJaxbGenModel().isGenerateIsSetMethod());
         final GridData gridData = new GridData();
         gridData.horizontalSpan = 2;
         _generateIsSetMethod.setLayoutData(gridData);
@@ -120,7 +120,7 @@ public class CoxbGenJaxbOtionsDialog extends TrayDialog {
         AbstractWizardPage
                 .createLabel(group, Messages.jaxb_xjb_serializableid_label);
         _serializableUid = AbstractWizardPage.createText(group);
-        _serializableUid.setText(Long.toString(getXjbModel()
+        _serializableUid.setText(Long.toString(getJaxbGenModel()
                 .getSerializableUid()));
         _serializableUid.addVerifyListener(new VerifyListener() {
 
@@ -137,26 +137,28 @@ public class CoxbGenJaxbOtionsDialog extends TrayDialog {
         AbstractWizardPage
                 .createLabel(group, Messages.jaxb_xjb_typenameprefix_label);
         _typeNamePrefix = AbstractWizardPage.createText(group);
-        AbstractWizardPage.setTextFromString(_typeNamePrefix, getXjbModel()
+        AbstractWizardPage.setTextFromString(_typeNamePrefix, getJaxbGenModel()
                 .getTypeNamePrefix());
 
         AbstractWizardPage
                 .createLabel(group, Messages.jaxb_xjb_typenamesuffix_label);
         _typeNameSuffix = AbstractWizardPage.createText(group);
-        AbstractWizardPage.setTextFromString(_typeNameSuffix, getXjbModel()
+        AbstractWizardPage.setTextFromString(_typeNameSuffix, getJaxbGenModel()
                 .getTypeNameSuffix());
 
         AbstractWizardPage.createLabel(group,
                 Messages.jaxb_xjb_elementnameprefix_label);
         _elementNamePrefix = AbstractWizardPage.createText(group);
-        AbstractWizardPage.setTextFromString(_elementNamePrefix, getXjbModel()
-                .getElementNamePrefix());
+        AbstractWizardPage.setTextFromString(_elementNamePrefix,
+                getJaxbGenModel()
+                        .getElementNamePrefix());
 
         AbstractWizardPage.createLabel(group,
                 Messages.jaxb_xjb_elementnamesuffix_label);
         _elementNameSuffix = AbstractWizardPage.createText(group);
-        AbstractWizardPage.setTextFromString(_elementNameSuffix, getXjbModel()
-                .getElementNameSuffix());
+        AbstractWizardPage.setTextFromString(_elementNameSuffix,
+                getJaxbGenModel()
+                        .getElementNameSuffix());
 
         return dialogArea;
     }
@@ -164,17 +166,17 @@ public class CoxbGenJaxbOtionsDialog extends TrayDialog {
     /** {@inheritDoc} */
     public boolean close() {
         if (getReturnCode() == OK) {
-            getXjbModel().setGenerateIsSetMethod(
+            getJaxbGenModel().setGenerateIsSetMethod(
                     _generateIsSetMethod.getSelection());
-            getXjbModel().setSerializableUid(
+            getJaxbGenModel().setSerializableUid(
                     Long.valueOf(_serializableUid.getText()));
-            getXjbModel().setTypeNamePrefix(
+            getJaxbGenModel().setTypeNamePrefix(
                     AbstractWizardPage.getValueFromText(_typeNamePrefix));
-            getXjbModel().setTypeNameSuffix(
+            getJaxbGenModel().setTypeNameSuffix(
                     AbstractWizardPage.getValueFromText(_typeNameSuffix));
-            getXjbModel().setElementNamePrefix(
+            getJaxbGenModel().setElementNamePrefix(
                     AbstractWizardPage.getValueFromText(_elementNamePrefix));
-            getXjbModel().setElementNameSuffix(
+            getJaxbGenModel().setElementNameSuffix(
                     AbstractWizardPage.getValueFromText(_elementNameSuffix));
         }
         return super.close();
@@ -183,7 +185,7 @@ public class CoxbGenJaxbOtionsDialog extends TrayDialog {
     /**
      * @return the XJB parameters
      */
-    public CobolJAXBXJBModel getXjbModel() {
-        return _xjbModel;
+    public JaxbGenModel getJaxbGenModel() {
+        return _jaxbgenModel;
     }
 }

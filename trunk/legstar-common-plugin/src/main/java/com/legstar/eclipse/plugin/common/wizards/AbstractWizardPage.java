@@ -11,8 +11,10 @@
 package com.legstar.eclipse.plugin.common.wizards;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import org.eclipse.core.runtime.CoreException;
@@ -325,9 +327,7 @@ public abstract class AbstractWizardPage extends WizardPage {
         button.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(final SelectionEvent e) {
                 Path destPath = handleBrowseForContainer(dialogTitle);
-                if (destPath == null) {
-                    result.setText("");
-                } else {
+                if (destPath != null) {
                     result.setText(destPath.toOSString());
                 }
             }
@@ -360,41 +360,21 @@ public abstract class AbstractWizardPage extends WizardPage {
     }
 
     /**
-     * Create a browse button. It pops up a dialog to select files. It
-     * then reads each file and store its content in a text area.
-     * 
-     * @param container parent container
-     * @param dialogTitle title that browse dialog should display
-     * @param result Text field to update on return from dialog
-     * @return a new button
-     */
-    public Button createBrowseForFileContentButton(
-            final Composite container,
-            final String dialogTitle,
-            final Text result) {
-        final Button button = new Button(container, SWT.PUSH);
-        button.setText(Messages.browse_button_label);
-        button.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(final SelectionEvent e) {
-                result.setText(selectSingleFileContent(dialogTitle));
-            }
-        });
-        return button;
-    }
-
-    /**
      * Opens a file selection dialog and merges all selected files
      * contents into a single string.
      * 
      * @param dialogTitle title that browse dialog should display
+     * @param encoding the file encoding
      * @return a cumulative content of all files selected
      */
-    public String selectSingleFileContent(final String dialogTitle) {
+    public String selectSingleFileContent(
+            final String dialogTitle,
+            final String encoding) {
         String fileName = handleBrowseForFiles(dialogTitle);
         StringBuilder sb = new StringBuilder();
         if (fileName != null) {
             try {
-                sb.append(getContent(fileName));
+                sb.append(getContent(fileName, encoding));
             } catch (IOException e1) {
                 sb.append(
                         NLS.bind(Messages.file_open_error_msg,
@@ -436,12 +416,17 @@ public abstract class AbstractWizardPage extends WizardPage {
      * Reads the content of a file in a string.
      * 
      * @param fileName name of the file
+     * @param encoding the file encoding
      * @return a string with the file content
      * @throws IOException if fails to read file
      */
     public static String getContent(
-            final String fileName) throws IOException {
-        BufferedReader in = new BufferedReader(new FileReader(fileName));
+            final String fileName,
+            final String encoding) throws IOException {
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream(
+                                new File(fileName)), encoding));
         StringBuilder resStr = new StringBuilder();
         String str = in.readLine();
         while (str != null) {
@@ -576,7 +561,8 @@ public abstract class AbstractWizardPage extends WizardPage {
      */
     private Path handleBrowseForContainer(final String dialogTitle) {
         ContainerSelectionDialog dialog = new ContainerSelectionDialog(
-                getShell(), null, true, dialogTitle);
+                getShell(), null, false, dialogTitle);
+        dialog.showClosedProjects(false);
         if (dialog.open() == ContainerSelectionDialog.OK) {
             Object[] result = dialog.getResult();
             if (result.length == 1) {

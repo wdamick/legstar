@@ -12,9 +12,10 @@ package com.legstar.eclipse.plugin.schemagen.preferences;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.ui.WorkbenchEncoding;
 
-import com.legstar.cob2xsd.Cob2XsdContext;
-import com.legstar.cob2xsd.Cob2XsdContext.CodeFormat;
+import com.legstar.cob2xsd.Cob2XsdModel;
+import com.legstar.cob2xsd.Cob2XsdModel.CodeFormat;
 import com.legstar.eclipse.plugin.schemagen.Activator;
 
 /**
@@ -31,6 +32,9 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
     public void initializeDefaultPreferences() {
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 
+        store.setDefault(PreferenceConstants.COBOL_FILES_ENCODING,
+                WorkbenchEncoding.getWorkbenchDefaultEncoding());
+
         /*
          * -------------------------------------------------------------------
          * COBOL source format related options
@@ -39,10 +43,10 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
                 CodeFormat.FIXED_FORMAT.toString());
 
         store.setDefault(PreferenceConstants.DEFAULT_START_COLUMN,
-                Cob2XsdContext.DEFAULT_START_COLUMN);
+                Cob2XsdModel.DEFAULT_START_COLUMN);
 
         store.setDefault(PreferenceConstants.DEFAULT_END_COLUMN,
-                Cob2XsdContext.DEFAULT_END_COLUMN);
+                Cob2XsdModel.DEFAULT_END_COLUMN);
 
         /*
          * -------------------------------------------------------------------
@@ -51,7 +55,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         store.setDefault(PreferenceConstants.XSD_NAMESPACE_PREFIX,
                 "http://coxb.test.legstar.com");
         store.setDefault(PreferenceConstants.DEFAULT_XSD_ENCODING,
-                Cob2XsdContext.DEFAULT_XSD_ENCODING);
+                Cob2XsdModel.DEFAULT_XSD_ENCODING);
         store.setDefault(
                 PreferenceConstants.DEFAULT_XSD_MAP_CONDITIONS_TO_FACETS,
                         false);
@@ -78,9 +82,9 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
          * COBOL compiler related options
          */
         store.setDefault(PreferenceConstants.DEFAULT_CURRENCY_SIGN,
-                Cob2XsdContext.DEFAULT_CURRENCY_SIGN);
+                Cob2XsdModel.DEFAULT_CURRENCY_SIGN);
         store.setDefault(PreferenceConstants.DEFAULT_CURRENCY_SYMBOL,
-                Cob2XsdContext.DEFAULT_CURRENCY_SYMBOL);
+                Cob2XsdModel.DEFAULT_CURRENCY_SYMBOL);
         store.setDefault(PreferenceConstants.DEFAULT_DECIMAL_POINT_IS_COMMA,
                 false);
         store.setDefault(PreferenceConstants.DEFAULT_NSYMBOL_DBCS, false);

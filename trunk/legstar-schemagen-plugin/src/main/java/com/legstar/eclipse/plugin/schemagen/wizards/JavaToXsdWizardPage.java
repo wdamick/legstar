@@ -13,6 +13,7 @@ package com.legstar.eclipse.plugin.schemagen.wizards;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IClasspathContainer;
@@ -65,7 +66,7 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
     private Table mTable;
 
     /** The table column names. */
-    private String[] mColumnNames = {"Java Project", "Class name"};
+    private String[] mColumnNames = { "Java Project", "Class name" };
 
     /** Table view of the selected java classes. */
     private TableViewer mJavaClassesTableViewer;
@@ -78,6 +79,7 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
 
     /**
      * Constructs the wizard page.
+     * 
      * @param initialSelection the workbench current selection
      */
     public JavaToXsdWizardPage(final IStructuredSelection initialSelection) {
@@ -96,6 +98,7 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
 
     /**
      * This link will popup the resource selection dialog.
+     * 
      * @param container the parent container
      */
     private void createSelectJavaClassesLink(final Composite container) {
@@ -104,14 +107,15 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
                 JavaUI.getSharedImages().getImage(
                         ISharedImages.IMG_OBJS_CLASS),
                         new HyperlinkAdapter() {
-            public void linkActivated(final HyperlinkEvent e) {
-                addJavaClasses();
-            }
-        });
+                            public void linkActivated(final HyperlinkEvent e) {
+                                addJavaClasses();
+                            }
+                        });
     }
 
     /**
      * The composite widget presenting the currently selected java classes.
+     * 
      * @param container the parent container
      */
     private void createJavaClassesTableViewer(final Composite container) {
@@ -131,7 +135,7 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
         removeButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(final SelectionEvent e) {
                 IStructuredSelection selection = (IStructuredSelection)
-                mJavaClassesTableViewer.getSelection();
+                        mJavaClassesTableViewer.getSelection();
                 for (Iterator < ? > iterator = selection.iterator();
                 iterator.hasNext();) {
                     JavaClass element = (JavaClass) iterator.next();
@@ -150,11 +154,12 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
 
     /**
      * Create the internal viewer table.
+     * 
      * @param container the parent container
      */
     private void createTable(final Composite container) {
         int style = SWT.MULTI | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL
-        | SWT.FULL_SELECTION | SWT.HIDE_SELECTION;
+                | SWT.FULL_SELECTION | SWT.HIDE_SELECTION;
 
         mTable = new Table(container, style);
 
@@ -171,8 +176,10 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
         TableColumn column = new TableColumn(mTable, SWT.LEFT, 0);
         column.setText(mColumnNames[0]);
         column.setWidth(120);
-        /* Add listener to column so tasks are sorted by class name when
-         * clicked */ 
+        /*
+         * Add listener to column so tasks are sorted by class name when
+         * clicked
+         */
         column.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(final SelectionEvent e) {
                 mJavaClassesTableViewer.setSorter(
@@ -184,8 +191,10 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
         column = new TableColumn(mTable, SWT.LEFT, 1);
         column.setText(mColumnNames[1]);
         column.setWidth(400);
-        /* Add listener to column so tasks are sorted by class name when
-         * clicked */ 
+        /*
+         * Add listener to column so tasks are sorted by class name when
+         * clicked
+         */
         column.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(final SelectionEvent e) {
                 mJavaClassesTableViewer.setSorter(
@@ -199,7 +208,7 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
      * Java classes appear in the table viewer as a descriptive string.
      */
     public class JavaClassesTableLabelProvider extends LabelProvider
-    implements ITableLabelProvider {
+            implements ITableLabelProvider {
 
         /** {@inheritDoc} */
         public Image getColumnImage(
@@ -214,9 +223,9 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
             switch (columnIndex) {
             case 0:
                 return jClass.javaProject.getProject().getName();
-            case 1 :
+            case 1:
                 return jClass.className;
-            default :
+            default:
                 return "";
             }
         }
@@ -226,7 +235,7 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
      * The content provider bridging the model with the viewer.
      */
     public class JavaClassesTableContentProvider
-    implements IStructuredContentProvider {
+            implements IStructuredContentProvider {
 
         /** {@inheritDoc} */
         public Object[] getElements(final Object parent) {
@@ -284,6 +293,7 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
 
     /**
      * Add a new type as a java class.
+     * 
      * @param type the java type
      * @return true if add succeeded
      */
@@ -296,6 +306,7 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
 
     /**
      * Adds the class to the model and makes sure the viewer is aware.
+     * 
      * @param jClass the new java class
      */
     private void addJavaClass(final JavaClass jClass) {
@@ -308,6 +319,7 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
 
     /**
      * Remove a class from the model and makes sure the viewer is aware.
+     * 
      * @param jClass the new java class
      */
     private void removeJavaClass(final JavaClass jClass) {
@@ -323,10 +335,9 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
      */
     public List < String > getSelectedClassNames() {
         List < String > selectedClassNames = new ArrayList < String >();
-        for (int i = 0; i <  mJavaClassesTableViewer.getTable().getItemCount();
-        i++) {
+        for (int i = 0; i < mJavaClassesTableViewer.getTable().getItemCount(); i++) {
             JavaClass jClass = (JavaClass)
-            mJavaClassesTableViewer.getElementAt(i);
+                    mJavaClassesTableViewer.getElementAt(i);
             selectedClassNames.add(jClass.className);
         }
         return selectedClassNames;
@@ -335,16 +346,16 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
     /**
      * Given a set of selected java classes, this will create a list of path
      * element locations from their projects classpath entries.
+     * 
      * @return a list of path element locations
      */
     public List < String > getSelectedPathElementsLocations() {
         List < String > selectedPathElementsLocations =
-            new ArrayList < String >();
+                new ArrayList < String >();
         List < IJavaProject > mProcessed = new ArrayList < IJavaProject >();
-        for (int i = 0; i <  mJavaClassesTableViewer.getTable().getItemCount();
-        i++) {
+        for (int i = 0; i < mJavaClassesTableViewer.getTable().getItemCount(); i++) {
             JavaClass jClass = (JavaClass)
-            mJavaClassesTableViewer.getElementAt(i);
+                    mJavaClassesTableViewer.getElementAt(i);
             IJavaProject javaProject = jClass.javaProject;
             if (!mProcessed.contains(javaProject)) {
                 addPathElements(selectedPathElementsLocations, javaProject);
@@ -356,6 +367,7 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
     /**
      * Extract classpath entries from given java project and store them as
      * path elements in a list.
+     * 
      * @param selectedPathElementsLocations list of path elements locations
      * @param javaProject the input java project
      */
@@ -378,7 +390,8 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
 
     /**
      * Given classpath entries from a java project, populate a list of
-     *  collections.
+     * collections.
+     * 
      * @param selectedPathElementsLocations the output path locations
      * @param classPathEntries the java project class path entries
      * @param javaProject the java project
@@ -396,29 +409,32 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
             IClasspathEntry classpathEntry = classPathEntries[i];
             String pathElementLocation = null;
             switch (classpathEntry.getEntryKind()) {
-            case IClasspathEntry.CPE_LIBRARY :
+            case IClasspathEntry.CPE_LIBRARY:
                 pathElementLocation = classpathEntry.getPath().toOSString();
                 break;
-            case IClasspathEntry.CPE_CONTAINER :
+            case IClasspathEntry.CPE_CONTAINER:
                 /* No need for the default jre */
                 if (classpathEntry.equals(jreEntry)) {
                     break;
                 }
                 /* Resolve container into class path entries */
                 IClasspathContainer classpathContainer =
-                    JavaCore.getClasspathContainer(classpathEntry.getPath(),
-                            javaProject);
+                        JavaCore.getClasspathContainer(
+                                classpathEntry.getPath(),
+                                javaProject);
                 addPathElements(selectedPathElementsLocations,
                         classpathContainer.getClasspathEntries(),
                         javaProject);
                 break;
-            case IClasspathEntry.CPE_VARIABLE :
+            case IClasspathEntry.CPE_VARIABLE:
                 pathElementLocation = JavaCore.getResolvedVariablePath(
                         classpathEntry.getPath()).toOSString();
                 break;
-            case IClasspathEntry.CPE_SOURCE :
-                /* If source has no specific output, use the project default
-                 *  one*/
+            case IClasspathEntry.CPE_SOURCE:
+                /*
+                 * If source has no specific output, use the project default
+                 * one
+                 */
                 IPath outputLocation = classpathEntry.getOutputLocation();
                 if (outputLocation == null) {
                     outputLocation = javaProject.getOutputLocation();
@@ -452,12 +468,28 @@ public class JavaToXsdWizardPage extends AbstractToXsdWizardPage {
     public void initContents() {
     }
 
-    /** 
+    /** {@inheritDoc} */
+    @Override
+    public Properties getPersistProperties() {
+        // TODO implement me
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void initProjectContent() {
+        // TODO implement me
+
+    }
+
+    /**
      * {@inheritDoc}
+     * 
      * @see org.eclipse.jface.wizard.WizardPage#getNextPage()
-     *  */
+     * */
     @Override
     public IWizardPage getNextPage() {
         return null;
     }
+
 }

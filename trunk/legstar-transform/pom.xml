@@ -1,0 +1,25 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>1.4.1-SNAPSHOT</version>
+        <relativePath>..</relativePath>
+    </parent>
+    <version>1.4.1-SNAPSHOT</version>
+    <artifactId>legstar-transform</artifactId>
+    <packaging>pom</packaging>
+    <name>LegStar Transformers generators and runtime</name>
+    <description>Transformers generators and runtime.</description>
+
+    <modules>
+        <module>../legstar-jaxbgen</module>
+        <module>../legstar-jaxbgen-cases</module>
+        <module>../legstar-coxbrt</module>
+        <module>../legstar-coxbgen</module>
+        <module>../legstar-coxbgen-cases</module>
+        <module>../legstar-cob2trans</module>
+        <module>../legstar-cobcgen</module>
+    </modules>
+    
+</project>

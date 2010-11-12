@@ -13,10 +13,10 @@ package com.legstar.eclipse.plugin.schemagen.wizards;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
@@ -46,8 +46,11 @@ public class MainWizard extends AbstractWizard implements INewWizard {
     /** The generation from a set of Java classes page. */
     private JavaToXsdWizardPage _javaToXsdWizardPage;
 
-    /** Set of preferences stored at the instance level. */
+    /** Set of preferences stored at the workbench level. */
     private IPreferenceStore _defaultPreferences;
+
+    /** Eclipse Project to which artifacts are attached. */
+    private IProject _project = null;
 
     /**
      * No arg constructor.
@@ -95,21 +98,21 @@ public class MainWizard extends AbstractWizard implements INewWizard {
     /**
      * @return the Cobol To Xsd Wizard Page
      */
-    public IWizardPage getCobolToXsdWizardPage() {
+    public AbstractToXsdWizardPage getCobolToXsdWizardPage() {
         return _cobolToXsdWizardPage;
     }
 
     /**
      * @return the Xsd To Xsd Wizard Page
      */
-    public IWizardPage getXsdToXsdWizardPage() {
+    public AbstractToXsdWizardPage getXsdToXsdWizardPage() {
         return _xsdToXsdWizardPage;
     }
 
     /**
      * @return the Java To Xsd Wizard Page
      */
-    public IWizardPage getJavaToXsdWizardPage() {
+    public AbstractToXsdWizardPage getJavaToXsdWizardPage() {
         return _javaToXsdWizardPage;
     }
 
@@ -131,13 +134,15 @@ public class MainWizard extends AbstractWizard implements INewWizard {
         return GENERATION_SUBJECT;
     }
 
-    /**
-     * {@inheritDoc} TODO Models are not ready to handle properties yet.
-     * 
-     * */
+    /** {@inheritDoc} */
     @Override
     public Properties getPersistProperties() {
-        return null;
+        Properties props = new Properties();
+        props.putAll(_mainWizardPage.getPersistProperties());
+        props.putAll(_cobolToXsdWizardPage.getPersistProperties());
+
+        // TODO add other pages
+        return props;
     }
 
     /** {@inheritDoc} */
@@ -162,4 +167,22 @@ public class MainWizard extends AbstractWizard implements INewWizard {
         }
         return op;
     }
+
+    /**
+     * @return the Eclipse Project to which artifacts are attached
+     */
+    public IProject getProject() {
+        return _project;
+    }
+
+    /**
+     * @param project the Eclipse Project to which artifacts are attached to set
+     */
+    public void setProject(final IProject project) {
+        _project = project;
+        if (project != null) {
+            setProjectPreferences(project);
+        }
+    }
+
 }

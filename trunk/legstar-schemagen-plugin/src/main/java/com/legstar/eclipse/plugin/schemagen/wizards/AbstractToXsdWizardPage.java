@@ -10,7 +10,13 @@
  ******************************************************************************/
 package com.legstar.eclipse.plugin.schemagen.wizards;
 
+import java.util.Properties;
+
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -25,13 +31,14 @@ import com.legstar.eclipse.plugin.common.wizards.AbstractWizardPage;
 
 /**
  * Abstract page. Collects parameters needed for common Schemagen
- * wizard pages. Each subclass will ad its own widgets. 
- *
+ * wizard pages. Each subclass will ad its own widgets.
+ * 
  */
 public abstract class AbstractToXsdWizardPage extends AbstractWizardPage {
 
     /**
      * Construct the page.
+     * 
      * @param pageName the page name
      * @param pageTitle the page title
      * @param pageDesc the page description
@@ -47,9 +54,10 @@ public abstract class AbstractToXsdWizardPage extends AbstractWizardPage {
 
     /**
      * Creates a combo box with the given items spanning all columns.
+     * 
      * @param container the parent container
-     * @param items  a list of items
-     * @return the combo box 
+     * @param items a list of items
+     * @return the combo box
      */
     protected Combo createComboFromItemsArray(
             final Composite container, final String[] items) {
@@ -58,12 +66,12 @@ public abstract class AbstractToXsdWizardPage extends AbstractWizardPage {
         combo.select(0);
         combo.addSelectionListener(new SelectionListener() {
 
-            /** {@inheritDoc}*/
+            /** {@inheritDoc} */
             public void widgetDefaultSelected(final SelectionEvent arg0) {
                 dialogChanged();
             }
 
-            /** {@inheritDoc}*/
+            /** {@inheritDoc} */
             public void widgetSelected(final SelectionEvent arg0) {
                 dialogChanged();
             }
@@ -78,6 +86,7 @@ public abstract class AbstractToXsdWizardPage extends AbstractWizardPage {
 
     /**
      * Create a multi line text field that fills a grid column.
+     * 
      * @param container the parent container
      * @param span how many columns of the grid this should span
      * @return the new text field
@@ -95,6 +104,70 @@ public abstract class AbstractToXsdWizardPage extends AbstractWizardPage {
             }
         });
         return text;
+    }
+
+    /**
+     * {@inheritDoc} The reason we override this is that is the last chance to
+     * set the
+     * finish button status correctly. The problem is that the finish button
+     * status is stored at the wizard and shared by all pages. Therefore
+     * is one page is in error, even if that page ended up not being
+     * selected, the finish button is not enabled.
+     * Here we know we are switching pages so we make sure that the finish
+     * button reflects the status of the target page.
+     */
+    @Override
+    public void setPreviousPage(final IWizardPage page) {
+        super.setPreviousPage(page);
+        this.dialogChanged();
+    }
+
+    /**
+     * Project-related content can be initialized only when the project
+     * has been identified. It is the responsibility of the previous wizard
+     * page to identify a project in the Eclipse workspace and then call
+     * this method.
+     */
+    public abstract void initProjectContent();
+
+    /**
+     * @return the set of properties that need to be persisted
+     */
+    public abstract Properties getPersistProperties();
+
+    /**
+     * @return our Wizard type
+     */
+    public MainWizard getWizard() {
+        return (MainWizard) super.getWizard();
+    }
+
+    /**
+     * @return the Eclipse Project to which artifacts are attached
+     */
+    public IProject getProject() {
+        return getWizard().getProject();
+    }
+
+    /**
+     * @param project the Eclipse Project to which artifacts are attached to set
+     */
+    public void setProject(final IProject project) {
+        getWizard().setProject(project);
+    }
+
+    /**
+     * @return the project scope preferences
+     */
+    public IEclipsePreferences getProjectPreferences() {
+        return getWizard().getProjectPreferences();
+    }
+
+    /**
+     * @return the default scope preferences
+     */
+    public IPreferenceStore getDefaultPreferences() {
+        return getWizard().getDefaultPreferences();
     }
 
 }

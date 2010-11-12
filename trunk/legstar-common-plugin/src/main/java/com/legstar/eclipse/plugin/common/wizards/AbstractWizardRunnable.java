@@ -314,6 +314,9 @@ public abstract class AbstractWizardRunnable implements IRunnableWithProgress {
     public static IProject getProject(final String relativePathName) {
         IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
         IResource resource = root.findMember(relativePathName);
+        if (resource == null) {
+            return null;
+        }
         return resource.getProject();
     }
 

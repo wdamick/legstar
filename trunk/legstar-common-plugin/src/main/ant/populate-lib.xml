@@ -20,16 +20,16 @@
         <mkdir dir="${temp.dir}"/>
         <unzip src="${zip.file}" dest="${temp.dir}"/>
 
+        <delete dir="${basedir}/lib" quiet="true"/>
         <mkdir dir="${basedir}/lib"/>
-        <delete includeEmptyDirs="true">
-            <fileset dir="${basedir}/lib"  includes="**/*"/>
-        </delete>
 
         <copy todir="${basedir}/lib">
             <fileset dir="${temp.dir}/legstar-distribution-${legstarVersion}/lib">
                 <include name="*.jar"/>
             </fileset>
         </copy>
+
+        <delete dir="${temp.dir}" quiet="true"/>
     </target>
 
     <target name="populateLib" depends="doPopulateLib"/>

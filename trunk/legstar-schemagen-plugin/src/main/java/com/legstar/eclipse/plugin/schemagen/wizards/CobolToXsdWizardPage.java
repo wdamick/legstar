@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.legstar.eclipse.plugin.schemagen.wizards;
 
+import java.util.Properties;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
@@ -25,6 +27,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 
 import com.legstar.eclipse.plugin.schemagen.Messages;
+import com.legstar.eclipse.plugin.schemagen.preferences.PreferenceConstants;
 
 /**
  * This wizard page allows users to select and edit the content of
@@ -34,15 +37,19 @@ import com.legstar.eclipse.plugin.schemagen.Messages;
 public class CobolToXsdWizardPage extends AbstractToXsdWizardPage {
 
     /** A COBOL fragment. */
-    private Text mCobolFragmentText;
+    private Text _cobolFragmentText;
+
+    /** The File encoding to used for the COBOL code. */
+    private String _cobolFileEncoding;
 
     /** A simple ruler to help with COBOL instructions entry. */
     private static final String COBOL_RULE_LABEL_LINE1 =
-        "0--------1---------2---------3---------4---------5---------6"
-        + "---------7--    ";
+            "0--------1---------2---------3---------4---------5---------6"
+                    + "---------7--    ";
 
     /**
      * Constructs the wizard page.
+     * 
      * @param initialSelection the workbench current selection
      */
     public CobolToXsdWizardPage(final IStructuredSelection initialSelection) {
@@ -58,11 +65,11 @@ public class CobolToXsdWizardPage extends AbstractToXsdWizardPage {
         createSelectCobolFragmentsLink(container);
         Label lableLine1 = createLabel(
                 container, COBOL_RULE_LABEL_LINE1, LAYOUT_COLUMNS);
-        mCobolFragmentText = createMultilineTextField(
+        _cobolFragmentText = createMultilineTextField(
                 container, LAYOUT_COLUMNS);
         FontData defaultFont = new FontData("Courier New", 8, SWT.NORMAL);
         Font font = new Font(container.getDisplay(), defaultFont);
-        mCobolFragmentText.setFont(font);
+        _cobolFragmentText.setFont(font);
         lableLine1.setFont(font);
         lableLine1.setBackground(
                 container.getDisplay().getSystemColor(SWT.COLOR_GRAY));
@@ -70,6 +77,7 @@ public class CobolToXsdWizardPage extends AbstractToXsdWizardPage {
 
     /**
      * This link will popup the resource selection dialog.
+     * 
      * @param container the parent container
      */
     private void createSelectCobolFragmentsLink(final Composite container) {
@@ -77,18 +85,21 @@ public class CobolToXsdWizardPage extends AbstractToXsdWizardPage {
                 Messages.select_cobol_fragments_fs_label,
                 PlatformUI.getWorkbench().getSharedImages().getImage(
                         ISharedImages.IMG_OBJ_FOLDER),
-                        new HyperlinkAdapter() {
-            public void linkActivated(final HyperlinkEvent e) {
-                mCobolFragmentText.setText(selectSingleFileContent(
-                        Messages.select_cobol_fragments_dialog_title));
-            }
-        });
+                new HyperlinkAdapter() {
+                    public void linkActivated(final HyperlinkEvent e) {
+                        _cobolFragmentText
+                                .setText(
+                                        selectSingleFileContent(
+                                                Messages.select_cobol_fragments_dialog_title,
+                                                getCobolFileEncoding()));
+                    }
+                });
     }
 
     /** {@inheritDoc} */
     @Override
     public void dialogChanged() {
-        if (mCobolFragmentText.getText().length() > 0) {
+        if (_cobolFragmentText.getText().length() > 0) {
             updateStatus(null);
         } else {
             updateStatus(Messages.no_cobol_fragment_selected_msg);
@@ -98,10 +109,27 @@ public class CobolToXsdWizardPage extends AbstractToXsdWizardPage {
     /** {@inheritDoc} */
     @Override
     public void initContents() {
+        _cobolFileEncoding = getDefaultPreferences().getString(
+                PreferenceConstants.COBOL_FILES_ENCODING);
+        if (getProject() != null) {
+            initProjectContent();
+        }
+    }
+
+    /**
+     * Project-related content can be initialized only when the project
+     * has been identified. It is the responsibility of the previous wizard
+     * page to identify a project in the Eclipse workspace and then call
+     * this method.
+     */
+    public void initProjectContent() {
+        _cobolFragmentText.setText(getProjectPreferences().get(
+                PreferenceConstants.COBOL_CODE, ""));
     }
 
     /**
      * {@inheritDoc}
+     * 
      * @see org.eclipse.jface.wizard.WizardPage#getNextPage()
      */
     public IWizardPage getNextPage() {
@@ -112,6 +140,23 @@ public class CobolToXsdWizardPage extends AbstractToXsdWizardPage {
      * @return the Cobol Fragment Text
      */
     public String getCobolFragment() {
-        return mCobolFragmentText.getText();
+        return _cobolFragmentText.getText();
     }
+
+    /**
+     * @return the set of properties that need to be persisted
+     */
+    public Properties getPersistProperties() {
+        Properties props = new Properties();
+        props.put(PreferenceConstants.COBOL_CODE, _cobolFragmentText.getText());
+        return props;
+    }
+
+    /**
+     * @return the File encoding to used for the COBOL code
+     */
+    public String getCobolFileEncoding() {
+        return _cobolFileEncoding;
+    }
+
 }
