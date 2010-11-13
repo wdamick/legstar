@@ -18,6 +18,9 @@ package com.legstar.coxb.host;
  */
 public class HostData {
 
+    /** Used for bytes to hex conversions. */
+    private static final char[] HEX_CHARS = "0123456789abcdef".toCharArray();
+
     /** Internal buffer holding host data. */
     private final byte[] mhostData;
 
@@ -76,23 +79,23 @@ public class HostData {
             return null;
         }
         if (start + length > hostBytes.length) {
-            throw new IllegalArgumentException("Invalid start or length parameter");
+            throw new IllegalArgumentException(
+                    "Invalid start or length parameter");
         }
 
-        StringBuffer hexString = new StringBuffer("");
-        for (int i = start; i < start + length; i++) {
-            hexString.append(
-                    Integer.toHexString(
-                            hostBytes[i] & 0xFF | 0x100).substring(1, 3));
+        char[] chars = new char[2 * length];
+        for (int i = 0; i < length; ++i) {
+            chars[2 * i] = HEX_CHARS[(hostBytes[i + start] & 0xF0) >>> 4];
+            chars[2 * i + 1] = HEX_CHARS[hostBytes[i + start] & 0x0F];
         }
-
-        return hexString.toString();
+        return new String(chars);
     }
 
     /**
      * Another pretty printing method but with a limit to the number of
      * bytes printed. This method will print an even number of starting
      * and ending bytes leaving a gap between them.
+     * 
      * @param hostBytes byte array to print
      * @param maxBytes maximum number of bytes to process
      * @return a pretty string
@@ -104,10 +107,12 @@ public class HostData {
         }
         return toHexString(hostBytes, 0, hostBytes.length, maxBytes);
     }
+
     /**
      * Another pretty printing method but with a limit to the number of
      * bytes printed. This method will print an even number of starting
      * and ending bytes leaving a gap between them.
+     * 
      * @param hostBytes byte array to print
      * @param start 0-based position of first byte to dump
      * @param length total number of bytes to dump
@@ -115,22 +120,25 @@ public class HostData {
      * @return a pretty string
      */
     public static String toHexString(
-            final byte[] hostBytes, final int start, final int length, final int maxBytes) {
+            final byte[] hostBytes, final int start, final int length,
+            final int maxBytes) {
 
         if (hostBytes == null) {
             return null;
         }
 
         if (start + length > hostBytes.length) {
-            throw new IllegalArgumentException("Invalid start or length parameter");
+            throw new IllegalArgumentException(
+                    "Invalid start or length parameter");
         }
-        
+
         if (length <= maxBytes) {
             return toHexString(hostBytes, start, length);
         }
 
-        if (maxBytes <  2) {
-            throw new IllegalArgumentException("maxBytes cannot be smaller than 2");
+        if (maxBytes < 2) {
+            throw new IllegalArgumentException(
+                    "maxBytes cannot be smaller than 2");
         }
 
         int gap = maxBytes / 2;
@@ -154,7 +162,7 @@ public class HostData {
      * Helper method to populate a byte array from a hex string representation.
      * 
      * @param string a string of hexadecimal characters to be turned
-     *  into a byte array
+     *            into a byte array
      * @return an initialized byte array
      */
     public static byte[] toByteArray(final String string) {
@@ -163,8 +171,8 @@ public class HostData {
         }
         byte[] hostBytes = new byte[string.length() / 2];
         for (int i = 0; i < string.length(); i += 2) {
-            hostBytes[i / 2] = 
-                (byte) Integer.parseInt(string.substring(i, i + 2), 16);
+            hostBytes[i / 2] =
+                    (byte) Integer.parseInt(string.substring(i, i + 2), 16);
         }
         return hostBytes;
     }
