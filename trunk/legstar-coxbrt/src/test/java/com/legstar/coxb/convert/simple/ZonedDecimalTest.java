@@ -20,22 +20,23 @@ import junit.framework.TestCase;
 
 /**
  * Test the COBOL ZONED DECIMAL TYPE.
- *
+ * 
  */
 public class ZonedDecimalTest extends TestCase {
 
-    /** Mainframe EBCDIC US/CAN character set.*/
+    /** Mainframe EBCDIC US/CAN character set. */
     private static final String US_HOST_CHARSET = "IBM01140";
 
-    /** Mainframe EBCDIC French character set.*/
+    /** Mainframe EBCDIC French character set. */
     private static final String FRENCH_HOST_CHARSET = "IBM01147";
 
-    /** Mainframe Latin-1 character set.*/
+    /** Mainframe Latin-1 character set. */
     private static final String LATIN1_HOST_CHARSET = "ISO-8859-1";
 
     /**
      * Generic conversion from java BigDecimal to COBOL ZONED DECIMAL.
-     * @param byteLength the COBOL receiving field size 
+     * 
+     * @param byteLength the COBOL receiving field size
      * @param totalDigits total number of digits
      * @param fractionDigits number of fraction digits
      * @param signed true if signed
@@ -63,9 +64,12 @@ public class ZonedDecimalTest extends TestCase {
             } else {
                 javaDecimal = new BigDecimal(inputValue);
             }
-            assertEquals(byteLength, CobolZonedDecimalSimpleConverter.toHostSingle(
-                    javaDecimal, byteLength, totalDigits, fractionDigits,
-                    signed, isSignSeparate, isSignLeading, hostBytes, 0, hostCharset));
+            assertEquals(byteLength, CobolZonedDecimalSimpleConverter
+                    .toHostSingle(
+                            javaDecimal, byteLength, totalDigits,
+                            fractionDigits,
+                            signed, isSignSeparate, isSignLeading, hostBytes,
+                            0, hostCharset));
             assertEquals(expectedValue, HostData.toHexString(hostBytes));
         } catch (CobolConversionException e) {
             fail(e.getMessage());
@@ -74,7 +78,8 @@ public class ZonedDecimalTest extends TestCase {
 
     /**
      * Generic conversion from COBOL ZONED DECIMAL to java BigDecimal.
-     * @param byteLength the COBOL receiving field size 
+     * 
+     * @param byteLength the COBOL receiving field size
      * @param totalDigits total number of digits
      * @param fractionDigits number of fraction digits
      * @param signed true if signed
@@ -96,9 +101,11 @@ public class ZonedDecimalTest extends TestCase {
             final String expectedValue) {
         try {
             byte[] hostBytes = HostData.toByteArray(inputValue);
-            BigDecimal javaDecimal = CobolZonedDecimalSimpleConverter.fromHostSingle(
-                    byteLength, totalDigits, fractionDigits,
-                    signed, isSignSeparate, isSignLeading, hostBytes, 0, hostCharset);
+            BigDecimal javaDecimal = CobolZonedDecimalSimpleConverter
+                    .fromHostSingle(
+                            byteLength, totalDigits, fractionDigits,
+                            signed, isSignSeparate, isSignLeading, hostBytes,
+                            0, hostCharset);
             assertEquals(expectedValue, javaDecimal.toString());
         } catch (CobolConversionException e) {
             fail(e.getMessage());
@@ -111,16 +118,20 @@ public class ZonedDecimalTest extends TestCase {
     public void testScaling() {
         BigDecimal decimal = new BigDecimal(256.85);
         assertEquals("000000000025685000",
-                CobolZonedDecimalSimpleConverter.formatString(decimal, 18, 5, false, false, false));
+                CobolZonedDecimalSimpleConverter.formatString(decimal, 18, 5,
+                        false, false, false));
         decimal = new BigDecimal(256.852568);
         assertEquals("000000000025685256",
-                CobolZonedDecimalSimpleConverter.formatString(decimal, 18, 5, false, false, false));
+                CobolZonedDecimalSimpleConverter.formatString(decimal, 18, 5,
+                        false, false, false));
         decimal = new BigDecimal(256.85257);
         assertEquals("000000000025685257",
-                CobolZonedDecimalSimpleConverter.formatString(decimal, 18, 5, false, false, false));
+                CobolZonedDecimalSimpleConverter.formatString(decimal, 18, 5,
+                        false, false, false));
         decimal = new BigDecimal(256.85257);
         assertEquals("000000000000000256",
-                CobolZonedDecimalSimpleConverter.formatString(decimal, 18, 0, false, false, false));
+                CobolZonedDecimalSimpleConverter.formatString(decimal, 18, 0,
+                        false, false, false));
     }
 
     /**
@@ -129,7 +140,8 @@ public class ZonedDecimalTest extends TestCase {
     public void testVirtualizing() {
         BigDecimal decimal = new BigDecimal(.256);
         assertEquals("000000000000025600",
-                CobolZonedDecimalSimpleConverter.formatString(decimal, 18, 5, false, false, false));
+                CobolZonedDecimalSimpleConverter.formatString(decimal, 18, 5,
+                        false, false, false));
     }
 
     /**
@@ -138,16 +150,20 @@ public class ZonedDecimalTest extends TestCase {
     public void testSignSeparate() {
         BigDecimal decimal = new BigDecimal("456");
         assertEquals("+000000456",
-                CobolZonedDecimalSimpleConverter.formatString(decimal, 9, 0, true, true, true));
+                CobolZonedDecimalSimpleConverter.formatString(decimal, 9, 0,
+                        true, true, true));
         decimal = new BigDecimal("456");
         assertEquals("000000456+",
-                CobolZonedDecimalSimpleConverter.formatString(decimal, 9, 0, true, true, false));
+                CobolZonedDecimalSimpleConverter.formatString(decimal, 9, 0,
+                        true, true, false));
         decimal = new BigDecimal("-456");
         assertEquals("-000000456",
-                CobolZonedDecimalSimpleConverter.formatString(decimal, 9, 0, true, true, true));
+                CobolZonedDecimalSimpleConverter.formatString(decimal, 9, 0,
+                        true, true, true));
         decimal = new BigDecimal("-456");
         assertEquals("000000456-",
-                CobolZonedDecimalSimpleConverter.formatString(decimal, 9, 0, true, true, false));
+                CobolZonedDecimalSimpleConverter.formatString(decimal, 9, 0,
+                        true, true, false));
     }
 
     /**
@@ -166,7 +182,8 @@ public class ZonedDecimalTest extends TestCase {
         BigDecimal decimal = new BigDecimal("25689745623");
         try {
             CobolZonedDecimalSimpleConverter.toHostSingle(
-                    decimal, 9, 9, 0, false, false, false, hostBytes, 0, US_HOST_CHARSET);
+                    decimal, 9, 9, 0, false, false, false, hostBytes, 0,
+                    US_HOST_CHARSET);
         } catch (CobolConversionException e) {
             assertEquals("BigDecimal value too large for target Cobol field."
                     + " Host data at offset 0=0x000000000000000000",
@@ -175,7 +192,8 @@ public class ZonedDecimalTest extends TestCase {
         decimal = new BigDecimal("256897456");
         try {
             long offset = CobolZonedDecimalSimpleConverter.toHostSingle(
-                    decimal, 9, 9, 0, false, false, false, hostBytes, 0, US_HOST_CHARSET);
+                    decimal, 9, 9, 0, false, false, false, hostBytes, 0,
+                    US_HOST_CHARSET);
             assertEquals(9, offset);
             assertEquals("f2f5f6f8f9f7f4f5f6", HostData.toHexString(hostBytes));
         } catch (CobolConversionException e) {
@@ -275,8 +293,16 @@ public class ZonedDecimalTest extends TestCase {
      * Test a large value.
      */
     public void testToHostLarge() {
-        toHost(31, 31, 0, false, false, false, FRENCH_HOST_CHARSET,
-                "1234567890123456789012345678901", "f1f2f3f4f5f6f7f8f9f0f1f2f3f4f5f6f7f8f9f0f1f2f3f4f5f6f7f8f9f0f1");
+        toHost(
+                31,
+                31,
+                0,
+                false,
+                false,
+                false,
+                FRENCH_HOST_CHARSET,
+                "1234567890123456789012345678901",
+                "f1f2f3f4f5f6f7f8f9f0f1f2f3f4f5f6f7f8f9f0f1f2f3f4f5f6f7f8f9f0f1");
     }
 
     /**
@@ -319,7 +345,8 @@ public class ZonedDecimalTest extends TestCase {
             byte[] hostBytes = new byte[1];
             BigDecimal javaDecimal = new BigDecimal("235.87");
             CobolZonedDecimalSimpleConverter.toHostSingle(
-                    javaDecimal, 1, 1, 0, false, false, false, hostBytes, 0, FRENCH_HOST_CHARSET);
+                    javaDecimal, 1, 1, 0, false, false, false, hostBytes, 0,
+                    FRENCH_HOST_CHARSET);
             fail("BigDecimal too large not detected");
         } catch (HostException he) {
             assertEquals("BigDecimal value too large for target Cobol field."
@@ -403,9 +430,16 @@ public class ZonedDecimalTest extends TestCase {
      * Test large value.
      */
     public void testFromHostLarge() {
-        fromHost(31, 31, 0, false, false, true, FRENCH_HOST_CHARSET,
+        fromHost(
+                31,
+                31,
+                0,
+                false,
+                false,
+                true,
+                FRENCH_HOST_CHARSET,
                 "f1f2f3f4f5f6f7f8f9f0f1f2f3f4f5f6f7f8f9f0f1f2f3f4f5f6f7f8f9f0f1",
-        "1234567890123456789012345678901");
+                "1234567890123456789012345678901");
     }
 
     /**
@@ -447,11 +481,13 @@ public class ZonedDecimalTest extends TestCase {
         try {
             byte[] hostBytes = HostData.toByteArray("1A");
             CobolZonedDecimalSimpleConverter.fromHostSingle(
-                    1, 1, 0, false, false, true, hostBytes, 0, FRENCH_HOST_CHARSET);
+                    1, 1, 0, false, false, true, hostBytes, 0,
+                    FRENCH_HOST_CHARSET);
             fail("Invalid zoned decimal not detected");
         } catch (HostException he) {
-            assertEquals("Host data contains a byte that is not a valid zoned decimal byte."
-                    + " Host data at offset 0=0x1a", he.getMessage());
+            assertEquals(
+                    "Host data contains a byte that is not a valid zoned decimal byte."
+                            + " Host data at offset 0=0x1a", he.getMessage());
         }
     }
 
@@ -462,16 +498,19 @@ public class ZonedDecimalTest extends TestCase {
         try {
             byte[] hostBytes = HostData.toByteArray("0A1f");
             CobolZonedDecimalSimpleConverter.fromHostSingle(
-                    2, 2, 0, false, false, true, hostBytes, 0, FRENCH_HOST_CHARSET);
+                    2, 2, 0, false, false, true, hostBytes, 0,
+                    FRENCH_HOST_CHARSET);
             fail("Invalid zoned decimal not detected");
         } catch (HostException he) {
-            assertEquals("Host data contains a byte that is not a valid zoned decimal byte."
-                    + " Host data at offset 0=0x0a1f", he.getMessage());
+            assertEquals(
+                    "Host data contains a byte that is not a valid zoned decimal byte."
+                            + " Host data at offset 0=0x0a1f", he.getMessage());
         }
     }
 
     /**
-     * Case where there is not enough data left in the host buffer. The code should consider
+     * Case where there is not enough data left in the host buffer. The code
+     * should consider
      * that trailing nulls were omitted by the host.
      */
     public void testToHostPartialData() {
@@ -485,5 +524,22 @@ public class ZonedDecimalTest extends TestCase {
     public void testToHostPartialDataPastOffset() {
         fromHost(8, 8, 2, false, false, true, FRENCH_HOST_CHARSET,
                 "45679000675f", "0.00");
+    }
+
+    /**
+     * Host is sending data with space characters instead of 0.
+     */
+    public void testFromHostWithSpaceChar() {
+        fromHost(2, 2, 0, false, false, true, US_HOST_CHARSET,
+                "40F0", "0");
+    }
+
+    /**
+     * Host is sending data already in ASCII.
+     */
+    public void testFromHostWithAsciiChars() {
+        fromHost(18, 17, 2, true, true, true, LATIN1_HOST_CHARSET,
+                "2d3132333435363738393031323334353132",
+                "-123456789012345.12");
     }
 }

@@ -27,7 +27,7 @@
       </ThreadGroup>
       <hashTree>
         <JUnitSampler guiclass="JUnitTestSamplerGui" testclass="JUnitSampler" testname="JUnit Request" enabled="true">
-          <stringProp name="junitSampler.classname">com.legstar.coxb.convert.simple.perf.test.MeteringTest</stringProp>
+          <stringProp name="junitSampler.classname">com.legstar.coxb.convert.simple.MeteringTest</stringProp>
           <stringProp name="junitsampler.constructorstring"></stringProp>
           <stringProp name="junitsampler.pkg.filter"></stringProp>
           <stringProp name="junitsampler.success">Test successful</stringProp>
@@ -38,6 +38,8 @@
           <stringProp name="junitsampler.append.error">false</stringProp>
           <stringProp name="junitsampler.append.exception">false</stringProp>
           <stringProp name="junitsampler.method">testBigDecimalToZonedDecimal</stringProp>
+          <stringProp name="junitsampler.error">An unexpected error occured</stringProp>
+          <stringProp name="junitsampler.error.code">9999</stringProp>
         </JUnitSampler>
         <hashTree>
           <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
