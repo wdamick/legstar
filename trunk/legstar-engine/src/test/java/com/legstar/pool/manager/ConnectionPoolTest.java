@@ -12,24 +12,17 @@ package com.legstar.pool.manager;
 
 import java.util.List;
 
-
-import junit.framework.TestCase;
-
 import com.legstar.messaging.ConnectionException;
-import com.legstar.messaging.HostEndpoint;
-import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.LegStarConnection;
-import com.legstar.messaging.HostEndpoint.AccessStrategy;
-import com.legstar.mock.client.MockEndpoint;
 
 /**
  * Test connection pool class.
- *
+ * 
  */
-public class ConnectionPoolTest extends TestCase {
+public class ConnectionPoolTest extends AbstractConnectionPoolTester {
 
     /** Pool size. */
-    private static final int POOL_SIZE = 1;
+    public static final int POOL_SIZE = 1;
 
     /**
      * Check class constructor.
@@ -38,7 +31,8 @@ public class ConnectionPoolTest extends TestCase {
         try {
             ConnectionPool connectionPool = getConnectionPool(POOL_SIZE);
             assertEquals(POOL_SIZE, connectionPool.getConnections().size());
-            List < LegStarConnection > connections =  connectionPool.getConnections();
+            List < LegStarConnection > connections = connectionPool
+                    .getConnections();
             for (LegStarConnection connection : connections) {
                 assertTrue(connection.getConnectionID() != null);
             }
@@ -61,7 +55,8 @@ public class ConnectionPoolTest extends TestCase {
                 LegStarConnection connection2 = connectionPool.take(1);
                 fail("testTake failed");
             } catch (ConnectionPoolException e) {
-                assertEquals("Timed out waiting for pooled connection.", e.getMessage());
+                assertEquals("Timed out waiting for pooled connection.", e
+                        .getMessage());
             }
             /* Second take should timeout */
         } catch (ConnectionPoolException e) {
@@ -83,30 +78,44 @@ public class ConnectionPoolTest extends TestCase {
             fail("testPut failed " + e);
         }
     }
-    
+
     /**
      * See if keep alive policy works.
-     * Connections need to be used at least once to become eligible to keep alive
+     * Connections need to be used at least once to become eligible to keep
+     * alive
      * policy.
      */
     public void testKeepAlivePolicy() {
         try {
             ConnectionPool connectionPool = getConnectionPool(2);
+            System.out.println(now() + " testKeepAlivePolicy take");
             LegStarConnection connection1 = connectionPool.take(1);
+            System.out.println(now() + " testKeepAlivePolicy open");
             connection1.connectReuse(null);
+            System.out.println(now() + " testKeepAlivePolicy put");
             connectionPool.put(connection1);
             assertTrue(connection1.isOpen());
-            /* Requesting a connection should return the last connection used
-             * (Stack works as a LIFO queue)*/
+            /*
+             * Requesting a connection should return the last connection used
+             * (Stack works as a LIFO queue)
+             */
+            System.out.println(now() + " testKeepAlivePolicy take");
             LegStarConnection connection2 = connectionPool.take(1);
             assertEquals(connection2, connection1);
             assertTrue(connection2.isOpen());
-            /* Wait enough so that connection1 is eligible to close */
-            Thread.sleep(2000L + 100L);
-            /* put triggers the policy */
+            System.out.println(now() + " testKeepAlivePolicy put");
             connectionPool.put(connection2);
+            System.out.println(now() + " testKeepAlivePolicy LastUsedTime="
+                    + connection2.getLastUsedTime());
+            /* Wait enough so that connection2 is eligible to close */
+            Thread.sleep(3000L + 100L);
+            System.out.println(now() + " testKeepAlivePolicy now="
+                    + System.currentTimeMillis());
             LegStarConnection connection3 = connectionPool.take(1);
-            /* the stack head should still be connection1 but it should be closed */
+            /*
+             * the stack head should still be connection1 but it should be
+             * closed
+             */
             assertEquals(connection3, connection1);
             assertFalse(connection3.isOpen());
             connectionPool.put(connection3);
@@ -119,17 +128,22 @@ public class ConnectionPoolTest extends TestCase {
             connectionPool.put(connection2);
             assertTrue(connection1.isOpen());
             assertTrue(connection2.isOpen());
-            /* Requesting a connection should yield the last one returned to the stack*/
+            /*
+             * Requesting a connection should yield the last one returned to the
+             * stack
+             */
             connection3 = connectionPool.take(1);
             assertEquals(connection3, connection2);
             assertTrue(connection3.isOpen());
-            /* Wait enough so that connection1 is eligible to close */
-            Thread.sleep(2000L + 100L);
-            /* put triggers the policy */
-            connectionPool.put(connection3);
-            assertFalse(connection3.isOpen());
+            /*
+             * Wait enough so that connection1 is eligible to close
+             * Make sure connection3, which is in use, was not closed
+             */
+            Thread.sleep(3000L + 100L);
+            assertTrue(connection3.isOpen());
             assertFalse(connection1.isOpen());
-            
+            connectionPool.put(connection3);
+
         } catch (ConnectionPoolException e) {
             fail(e.getMessage());
         } catch (InterruptedException e) {
@@ -139,31 +153,4 @@ public class ConnectionPoolTest extends TestCase {
         }
     }
 
-    /**
-     * Load a configured pool.
-     * @param poolSize the pool size
-     * @return a connection pool
-     * @throws ConnectionPoolException if pool cannot be created
-     */
-    private ConnectionPool getConnectionPool(
-            final int poolSize) throws ConnectionPoolException {
-        LegStarAddress address = new LegStarAddress("TheMainframe");
-        ConnectionPool connectionPool = new ConnectionPool(address, getPooledHostEndpoint(poolSize));
-        return connectionPool;
-    }
-
-    /**
-     * @param poolSize the pool size
-     * @return a pooled host endpoint
-     */
-    public HostEndpoint getPooledHostEndpoint(final int poolSize) {
-        HostEndpoint endpoint = new MockEndpoint();
-        endpoint.setName("TheMainframe");
-        endpoint.setHostConnectionfactoryClass("com.legstar.mock.client.MockConnectionFactory");
-        endpoint.setHostAccessStrategy(AccessStrategy.pooled);
-        endpoint.setHostConnectionPoolSize(poolSize);
-        endpoint.setPooledInvokeTimeout(2000);
-        endpoint.setPooledMaxKeepAlive(2000L);
-        return endpoint;
-    }
 }
