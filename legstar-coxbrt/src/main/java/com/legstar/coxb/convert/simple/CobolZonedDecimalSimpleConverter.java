@@ -10,9 +10,7 @@
  ******************************************************************************/
 package com.legstar.coxb.convert.simple;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,13 +42,6 @@ import com.legstar.coxb.host.HostException;
 public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
         implements ICobolZonedDecimalConverter {
 
-    /**
-     * Digits are all present with a 0 default value.
-     * Max number of digits is 31.
-     */
-    private static final String DIGIT_PATTERN =
-            "0000000000000000000000000000000";
-
     /** Ebcdic code point for plus sign. */
     private static final byte PLUS_EBCDIC = 0x4E;
 
@@ -61,15 +52,33 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
      * Ordered list of characters that might appear in a zoned decimal (ignoring
      * overpunch).
      */
-    private static final byte[] ZONED_DECIMAL_CHARS = new byte[] {
+    private static final byte[] ORDERED_ZONED_DECIMAL_CHARS = new byte[] {
             (byte) 0xF0, (byte) 0xF1, (byte) 0xF2, (byte) 0xF3, (byte) 0xF4,
             (byte) 0xF5, (byte) 0xF6, (byte) 0xF7, (byte) 0xF8, (byte) 0xF9,
             0x40, 0x4E, 0x60 };
 
     /** Java characters corresponding to the previous array. */
-    private static final char[] JAVA_CHARS = new char[] { '0',
+    private static final char[] UNORDERED_JAVA_CHARS = new char[] { '0',
             '1', '2', '3', '4', '5', '6', '7', '8', '9',
             '0', '+', '-' };
+
+    /**
+     * Ordered list of characters Java characters that might appear in a
+     * decimal.
+     */
+    private static final char[] ORDERED_JAVA_CHARS = new char[] { '+', '-',
+            '0',
+            '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+
+    /**
+     * EBCDIC characters corresponding to the previous array.
+     */
+    private static final byte[] UNORDERED_ZONED_DECIMAL_CHARS = new byte[] {
+            0x4E, 0x60,
+            (byte) 0xF0, (byte) 0xF1, (byte) 0xF2, (byte) 0xF3,
+            (byte) 0xF4,
+            (byte) 0xF5, (byte) 0xF6, (byte) 0xF7, (byte) 0xF8,
+            (byte) 0xF9 };
 
     /**
      * @param cobolContext the Cobol compiler parameters in effect
@@ -232,60 +241,119 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
                     "Attempt to write past end of host source buffer",
                     new HostData(hostTarget), offset, cobolByteLength));
         }
-        int iTarget = offset; /* points to current byte in host data */
 
-        /* Get a string representation of target numeric */
-        String sDecimal = formatString(javaDecimal, totalDigits,
-                fractionDigits,
-                isSigned, isSignSeparate, isSignLeading);
+        /*
+         * We want to avoid the cost of getBytes() so we need a quick way to
+         * detect EBCDIC character sets. FIXME This might not always work.
+         */
+        boolean toEBCDIC = hostCharsetName.startsWith("IBM");
 
-        /* Get the bytes representation in the target host character set */
-        byte[] bDecimal;
-        try {
-            bDecimal = sDecimal.getBytes(hostCharsetName);
-        } catch (UnsupportedEncodingException e) {
-            throw new CobolConversionException("UnsupportedEncodingException "
-                    + e.getMessage(),
+        /* Leave the first host char available for sign if needed. */
+        int iTarget = offset
+                + ((isSigned && isSignSeparate && isSignLeading) ? 1 : 0);
+
+        int intHostDigits = totalDigits - fractionDigits;
+
+        /* Process the java decimal character by character. */
+        char[] source = new char[] { '0' };
+        /* Fraction digits in the java decimal. */
+        int fractionJavaDigits = 0;
+        /* Integer digits in the java decimal. */
+        int intJavaPrecision = 0;
+        /* Only case where java will explicitly contain a sign. */
+        boolean isNegative = false;
+
+        if (javaDecimal != null) {
+            source = javaDecimal.toPlainString().toCharArray();
+            fractionJavaDigits = javaDecimal.scale();
+            intJavaPrecision = javaDecimal.precision();
+            isNegative = javaDecimal.signum() == -1;
+        }
+
+        /* Evaluate the java entire and fractional digits we got. */
+        int totalJavaDigits = (intJavaPrecision > fractionJavaDigits)
+                ? intJavaPrecision
+                : fractionJavaDigits + 1;
+
+        /* Java decimal is too large. */
+        if (totalJavaDigits > totalDigits) {
+            throw new CobolConversionException(
+                    "BigDecimal value too large for target Cobol field",
                     new HostData(hostTarget), offset, cobolByteLength);
         }
 
-        /* Check for overflows and formatting errors */
-        int targetSize = totalDigits;
-        if (isSigned && isSignSeparate) {
-            targetSize++;
-        }
-        if (bDecimal.length > targetSize) {
-            throw (new CobolConversionException(
-                    "BigDecimal value too large for target Cobol field",
-                    new HostData(hostTarget), offset, cobolByteLength));
-        }
-        if (bDecimal.length < targetSize) {
-            throw (new CobolConversionException(
-                    "Formatted BigDecimal too small for target Cobol field",
-                    new HostData(hostTarget), offset, cobolByteLength));
+        int intJavaDigits = totalJavaDigits - fractionJavaDigits;
+
+        /* Truncate left java digits if they won't fit in the host. */
+        int iSource = (intJavaDigits > intHostDigits) ? (intJavaDigits - intHostDigits)
+                : 0;
+
+        /* Skip java sign for now, it will be processed at the end. */
+        if (isNegative) {
+            iSource++;
         }
 
-        /* Populate the target host buffer */
-        for (int i = 0; i < bDecimal.length; i++) {
-            hostTarget[iTarget] = bDecimal[i];
+        /* Place integer part, left padding with zeroes if needed */
+        for (int i = 0; i < intHostDigits; i++) {
+            if (i < (intHostDigits - intJavaDigits)) {
+                hostTarget[iTarget] = lookup('0', toEBCDIC);
+            } else {
+                hostTarget[iTarget] = lookup(source[iSource], toEBCDIC);
+                iSource++;
+            }
+            iTarget++;
+        }
+
+        /* Skip the java decimal point */
+        iSource++;
+
+        /* Place fraction part, right padding with zeroes if needed */
+        for (int i = 0; i < fractionDigits; i++) {
+            if (i >= fractionJavaDigits) {
+                hostTarget[iTarget] = lookup('0', toEBCDIC);
+            } else {
+                hostTarget[iTarget] = lookup(source[iSource], toEBCDIC);
+                iSource++;
+            }
             iTarget++;
         }
 
         /*
-         * Imbed the sign when it is not separate. Observe that this
-         * might create invalid digits for host systems that do not
-         * understand zoned decimals.
+         * If the sign is separate and trailing we need to advance one more
+         * position
+         */
+        if (isSigned && isSignSeparate && !isSignLeading) {
+            iTarget++;
+        }
+
+        /*
+         * Place the sign. It can be separate or overpunched into the first or
+         * last byte.
          */
         if (isSigned) {
-            if (!isSignSeparate) {
+            if (isSignSeparate) {
                 if (isSignLeading) {
-                    if (javaDecimal.signum() == -1) {
+                    if (isNegative) {
+                        hostTarget[offset] = lookup('-', toEBCDIC);
+                    } else {
+                        hostTarget[offset] = lookup('+', toEBCDIC);
+                    }
+                } else {
+                    if (isNegative) {
+                        hostTarget[iTarget - 1] = lookup('-', toEBCDIC);
+                    } else {
+                        hostTarget[iTarget - 1] = lookup('+', toEBCDIC);
+                    }
+                }
+            } else {
+                if (isSignLeading) {
+                    if (isNegative) {
                         hostTarget[offset] = (byte) (hostTarget[offset] - 0x20);
                     } else {
                         hostTarget[offset] = (byte) (hostTarget[offset] - 0x30);
                     }
                 } else {
-                    if (javaDecimal.signum() == -1) {
+                    if (isNegative) {
                         hostTarget[iTarget - 1] =
                                 (byte) (hostTarget[iTarget - 1] - 0x20);
                     } else {
@@ -300,75 +368,19 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
     }
 
     /**
-     * Applies a pattern derived from the COBOL field attributes to format
-     * a String comprising all digits and signs when they are separate.
-     * <p/>
-     * If the numeric is signed but sign is not separate (ie is imbedded),
-     * removes all signs from the resulting string.
-     * <p/>
-     * If the java decimal has more precision than the target COBOL field,
-     * additional digits are lost (no rounding is done).
+     * Lookup a java character and return the corresponding EBCDIC digit.
      * 
-     * @param javaDecimal java decimal to convert
-     * @param totalDigits Cobol element total number of digits
-     * @param fractionDigits Cobol element number of fractional digits
-     * @param isSigned Cobol element is signed or unsigned
-     * @param isSignSeparate Cobol element sign occupies own byte
-     * @param isSignLeading Cobol element sign in first byte
-     * @return a formatted string unchecked for overflow conditions
+     * @param javaChar the java character
+     * @param toEBCDIC true if need to convert to EBCDIC
+     * @return the java char EBCDIC equivalent if conversion is needed, the java
+     *         character as byte otherwise
      */
-    public static String formatString(
-            final BigDecimal javaDecimal,
-            final int totalDigits,
-            final int fractionDigits,
-            final boolean isSigned,
-            final boolean isSignSeparate,
-            final boolean isSignLeading) {
-
-        /*
-         * Get the unscaled value of the bigdecimal to convert. The decimal
-         * point
-         * is virtual in zoned decimals.
-         */
-        BigInteger workInteger;
-        if (javaDecimal == null) {
-            workInteger = BigInteger.ZERO;
+    private static byte lookup(final char javaChar, final boolean toEBCDIC) {
+        if (toEBCDIC) {
+            return UNORDERED_ZONED_DECIMAL_CHARS[Arrays
+                    .binarySearch(ORDERED_JAVA_CHARS, javaChar)];
         } else {
-            workInteger = javaDecimal.movePointRight(fractionDigits)
-                    .toBigInteger();
-        }
-
-        String absString = workInteger.abs().toString();
-
-        /* Pad with leading zeros */
-        if (absString.length() < totalDigits) {
-            absString = DIGIT_PATTERN.substring(0, totalDigits
-                    - absString.length())
-                    + absString;
-        }
-
-        /* Add sign character when explicitly separate */
-        if (isSigned) {
-            if (isSignSeparate) {
-                if (isSignLeading) {
-                    if (workInteger.signum() == -1) {
-                        return '-' + absString;
-                    } else {
-                        return '+' + absString;
-                    }
-                } else {
-                    if (workInteger.signum() == -1) {
-                        return absString + '-';
-                    } else {
-                        return absString + '+';
-                    }
-                }
-            } else {
-                /* Leave it up to the caller to imbed the sign */
-                return absString;
-            }
-        } else {
-            return absString;
+            return (byte) javaChar;
         }
 
     }
@@ -525,16 +537,16 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
      * @return the corresponding java digit or '\0' if not found
      */
     public static char toJavaChar(final byte hostByte) {
-        int i = Arrays.binarySearch(ZONED_DECIMAL_CHARS, hostByte);
+        int i = Arrays.binarySearch(ORDERED_ZONED_DECIMAL_CHARS, hostByte);
         if (i < 0) {
             // Can't use binary search because content is not ordered
-            for (i = 0; i < JAVA_CHARS.length; i++) {
-                if (JAVA_CHARS[i] == (char) hostByte) {
-                    return JAVA_CHARS[i];
+            for (i = 0; i < UNORDERED_JAVA_CHARS.length; i++) {
+                if (UNORDERED_JAVA_CHARS[i] == (char) hostByte) {
+                    return UNORDERED_JAVA_CHARS[i];
                 }
             }
         } else {
-            return JAVA_CHARS[i];
+            return UNORDERED_JAVA_CHARS[i];
         }
         return '\0';
     }

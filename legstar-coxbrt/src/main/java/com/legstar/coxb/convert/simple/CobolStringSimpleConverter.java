@@ -290,10 +290,9 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter
          */
         try {
             /* Trim trailing spaces and low-values unless there is only one */
-            byte hostSpace = " ".getBytes(hostCharsetName)[0];
             int i = javaStringLength;
             while (i > 0
-                    && (hostSource[offset + i - 1] == hostSpace
+                    && (hostSource[offset + i - 1] == 0x40
                             || hostSource[offset + i - 1] == 0)) {
                 i--;
             }
