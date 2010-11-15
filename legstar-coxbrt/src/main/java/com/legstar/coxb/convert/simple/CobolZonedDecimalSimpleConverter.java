@@ -48,6 +48,8 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
     /** Ebcdic code point for minus sign. */
     private static final byte MINUS_EBCDIC = 0x60;
 
+    /** Ebcdic code point for digit zero. */
+    private static final byte ZERO_EBCDIC = (byte) 0xF0;
     /**
      * Ordered list of characters that might appear in a zoned decimal (ignoring
      * overpunch).
@@ -61,24 +63,6 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
     private static final char[] UNORDERED_JAVA_CHARS = new char[] { '0',
             '1', '2', '3', '4', '5', '6', '7', '8', '9',
             '0', '+', '-' };
-
-    /**
-     * Ordered list of characters Java characters that might appear in a
-     * decimal.
-     */
-    private static final char[] ORDERED_JAVA_CHARS = new char[] { '+', '-',
-            '0',
-            '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-
-    /**
-     * EBCDIC characters corresponding to the previous array.
-     */
-    private static final byte[] UNORDERED_ZONED_DECIMAL_CHARS = new byte[] {
-            0x4E, 0x60,
-            (byte) 0xF0, (byte) 0xF1, (byte) 0xF2, (byte) 0xF3,
-            (byte) 0xF4,
-            (byte) 0xF5, (byte) 0xF6, (byte) 0xF7, (byte) 0xF8,
-            (byte) 0xF9 };
 
     /**
      * @param cobolContext the Cobol compiler parameters in effect
@@ -247,6 +231,9 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
          * detect EBCDIC character sets. FIXME This might not always work.
          */
         boolean toEBCDIC = hostCharsetName.startsWith("IBM");
+        byte hostZero = (toEBCDIC) ? ZERO_EBCDIC : (byte) '0';
+        byte hostMinus = (toEBCDIC) ? MINUS_EBCDIC : (byte) '-';
+        byte hostPlus = (toEBCDIC) ? PLUS_EBCDIC : (byte) '+';
 
         /* Leave the first host char available for sign if needed. */
         int iTarget = offset
@@ -296,9 +283,14 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
         /* Place integer part, left padding with zeroes if needed */
         for (int i = 0; i < intHostDigits; i++) {
             if (i < (intHostDigits - intJavaDigits)) {
-                hostTarget[iTarget] = lookup('0', toEBCDIC);
+                hostTarget[iTarget] = hostZero;
             } else {
-                hostTarget[iTarget] = lookup(source[iSource], toEBCDIC);
+                if (toEBCDIC) {
+                    hostTarget[iTarget] = ORDERED_ZONED_DECIMAL_CHARS[source[iSource]
+                            - (int) '0'];
+                } else {
+                    hostTarget[iTarget] = (byte) source[iSource];
+                }
                 iSource++;
             }
             iTarget++;
@@ -310,9 +302,14 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
         /* Place fraction part, right padding with zeroes if needed */
         for (int i = 0; i < fractionDigits; i++) {
             if (i >= fractionJavaDigits) {
-                hostTarget[iTarget] = lookup('0', toEBCDIC);
+                hostTarget[iTarget] = hostZero;
             } else {
-                hostTarget[iTarget] = lookup(source[iSource], toEBCDIC);
+                if (toEBCDIC) {
+                    hostTarget[iTarget] = ORDERED_ZONED_DECIMAL_CHARS[source[iSource]
+                            - (int) '0'];
+                } else {
+                    hostTarget[iTarget] = (byte) source[iSource];
+                }
                 iSource++;
             }
             iTarget++;
@@ -334,15 +331,15 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
             if (isSignSeparate) {
                 if (isSignLeading) {
                     if (isNegative) {
-                        hostTarget[offset] = lookup('-', toEBCDIC);
+                        hostTarget[offset] = hostMinus;
                     } else {
-                        hostTarget[offset] = lookup('+', toEBCDIC);
+                        hostTarget[offset] = hostPlus;
                     }
                 } else {
                     if (isNegative) {
-                        hostTarget[iTarget - 1] = lookup('-', toEBCDIC);
+                        hostTarget[iTarget - 1] = hostMinus;
                     } else {
-                        hostTarget[iTarget - 1] = lookup('+', toEBCDIC);
+                        hostTarget[iTarget - 1] = hostPlus;
                     }
                 }
             } else {
@@ -365,24 +362,6 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
         }
 
         return iTarget;
-    }
-
-    /**
-     * Lookup a java character and return the corresponding EBCDIC digit.
-     * 
-     * @param javaChar the java character
-     * @param toEBCDIC true if need to convert to EBCDIC
-     * @return the java char EBCDIC equivalent if conversion is needed, the java
-     *         character as byte otherwise
-     */
-    private static byte lookup(final char javaChar, final boolean toEBCDIC) {
-        if (toEBCDIC) {
-            return UNORDERED_ZONED_DECIMAL_CHARS[Arrays
-                    .binarySearch(ORDERED_JAVA_CHARS, javaChar)];
-        } else {
-            return (byte) javaChar;
-        }
-
     }
 
     /**

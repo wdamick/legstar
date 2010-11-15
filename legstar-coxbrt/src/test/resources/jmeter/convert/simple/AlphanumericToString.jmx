@@ -14,10 +14,10 @@
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">100000</stringProp>
+          <stringProp name="LoopController.loops">1000000</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">1</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1000</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">10000</stringProp>
         <longProp name="ThreadGroup.start_time">1234964028000</longProp>
         <longProp name="ThreadGroup.end_time">1234964028000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -38,6 +38,8 @@
           <stringProp name="junitsampler.append.error">false</stringProp>
           <stringProp name="junitsampler.append.exception">false</stringProp>
           <stringProp name="junitsampler.method">testAlphanumericToString</stringProp>
+          <stringProp name="junitsampler.error">An unexpected error occured</stringProp>
+          <stringProp name="junitsampler.error.code">9999</stringProp>
         </JUnitSampler>
         <hashTree>
           <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
