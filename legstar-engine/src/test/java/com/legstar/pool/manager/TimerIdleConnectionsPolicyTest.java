@@ -10,34 +10,25 @@
  ******************************************************************************/
 package com.legstar.pool.manager;
 
-import java.rmi.server.UID;
-import java.util.Iterator;
-import java.util.concurrent.TimeUnit;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.RequestException;
-import com.legstar.mock.client.MockConnection;
-
-import junit.framework.TestCase;
 
 /**
  * Test the SlidingWindowKeepAlivePolicy class.
- *
+ * 
  */
-public class SlidingWindowKeepAlivePolicyTest extends TestCase {
+public class TimerIdleConnectionsPolicyTest extends
+        AbstractConnectionPoolTester {
 
-    /** Size of the blocking queue. */
-    private static final int QUEUE_SIZE = 20;
+    /** Pool size. */
+    public static final int POOL_SIZE = 20;
 
     /** Number of simultaneous threads. */
     private static final int THREAD_NUMBER = 3;
-
-    /** Maximum connection time (ms).*/
-    private static final long KEEP_ALIVE_TIME = 300L;
 
     /** Number of requests for each thread. */
     private static final int REQUESTS_PER_THREAD = 100;
@@ -48,54 +39,62 @@ public class SlidingWindowKeepAlivePolicyTest extends TestCase {
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
 
+    /** A connection pool. */
+    private ConnectionPool _connectionPool;
+
+    /** {@inheritDoc} */
+    public void setUp() throws Exception {
+        _connectionPool = getConnectionPool(POOL_SIZE);
+
+    }
+
+    /** {@inheritDoc} */
+    public void tearDown() {
+        _connectionPool.shutDown();
+        assertNull(_connectionPool.getIdleConnectionsPolicy().getTimer());
+    }
+
     /**
      * Check instantiation.
-     */
-    public void testInstantiation() {
-        SlidingWindowKeepAlivePolicy sw = new SlidingWindowKeepAlivePolicy(
-                new BlockingStack < LegStarConnection >(QUEUE_SIZE), KEEP_ALIVE_TIME);
-        assertEquals(KEEP_ALIVE_TIME, sw.getTimespan());
-    }
-
-    /**
-     * Check the process of adding an event which should result in the window
-     * sliding.
+     * 
      * @throws Exception if test fails
      */
-    public void testAdd() throws Exception {
-        BlockingStack < LegStarConnection > queue =
-            new BlockingStack < LegStarConnection >(QUEUE_SIZE);
-        long timeBetweenAdds = KEEP_ALIVE_TIME;
-        SlidingWindowKeepAlivePolicy sw = new SlidingWindowKeepAlivePolicy(queue, KEEP_ALIVE_TIME);
-        LegStarConnection connection1 = new MockConnection();
-        connection1.connect(null);
-        queue.add(connection1);
-        sw.closeObsoleteConnections();
-        assertTrue(connection1.isOpen());
-        Thread.sleep(timeBetweenAdds + 20L);
-        sw.closeObsoleteConnections();
-        assertFalse(connection1.isOpen());
+    public void testInstantiation() throws Exception {
+        assertNull(_connectionPool.getIdleConnectionsPolicy().getException());
     }
 
     /**
-     * With a large number of pooled connections, it takes time to check each connection
-     * for obsolescence. If we have concurrency issues, we might end up trying to send
+     * Check that an idle connection gets closed.
+     * 
+     * @throws Exception if test fails
+     */
+    public void testClose() throws Exception {
+        LegStarConnection connection = _connectionPool.take(1);
+        connection.connectReuse(null);
+        assertTrue(connection.isOpen());
+        _connectionPool.put(connection);
+        // Fake an idle time for the connection we just released
+        Thread.sleep(2 * KEEP_ALIVE_TIME);
+        LegStarConnection connection2 = _connectionPool.take(1);
+        assertEquals(connection, connection2);
+        assertFalse(connection2.isOpen());
+        assertNull(_connectionPool.getIdleConnectionsPolicy().getException());
+    }
+
+    /**
+     * With a large number of pooled connections, it takes time to check each
+     * connection for obsolescence.
+     * If we have concurrency issues, we might end up trying to send
      * on a closed connection
+     * 
      * @throws Exception if test fails
      */
     public void testConcurrent() throws Exception {
-        BlockingStack < LegStarConnection > queue =
-            new BlockingStack < LegStarConnection >(QUEUE_SIZE);
-        for (int i = 0; i < QUEUE_SIZE; i++) {
-            LegStarConnection connection = new MockConnection(new UID().toString());
-            queue.add(connection);
-        }
-        SlidingWindowKeepAlivePolicy sw = new SlidingWindowKeepAlivePolicy(queue, KEEP_ALIVE_TIME);
         ConnectionConsumer[] generators = new ConnectionConsumer[THREAD_NUMBER];
         Thread[] threads = new Thread[THREAD_NUMBER];
 
         for (int i = 0; i < THREAD_NUMBER; i++) {
-            generators[i] = new ConnectionConsumer(sw);
+            generators[i] = new ConnectionConsumer();
         }
         for (int i = 0; i < THREAD_NUMBER; i++) {
             threads[i] = new Thread(generators[i]);
@@ -104,13 +103,13 @@ public class SlidingWindowKeepAlivePolicyTest extends TestCase {
         for (int i = 0; i < THREAD_NUMBER; i++) {
             threads[i].join();
         }
-        
-        /* At the end of the test we expect opened connections to have keep alive times
-         * smaller than the the threshold. */
+
+        /*
+         * At the end of the test we expect opened connections to have been
+         * idle for less than the maximum idle time.
+         */
         long now = System.currentTimeMillis();
-        Iterator < LegStarConnection > iter = queue.iterator();
-        while (iter.hasNext()) {
-            LegStarConnection connection = iter.next();
+        for (LegStarConnection connection : _connectionPool.getConnections()) {
             long openTime = now - connection.getLastUsedTime();
             if (_log.isDebugEnabled()) {
                 _log.debug("Connection: " + connection.getConnectionID()
@@ -124,42 +123,41 @@ public class SlidingWindowKeepAlivePolicyTest extends TestCase {
                 assertFalse(connection.isOpen());
             }
         }
+        assertNull(_connectionPool.getIdleConnectionsPolicy().getException());
     }
 
     /**
-     * A thread that consumes connections using them and returning them to the stack.
-     *
+     * A thread that consumes connections using them and returning them to the
+     * stack.
+     * 
      */
     private class ConnectionConsumer implements Runnable {
 
-        /** The sliding window. */
-        final SlidingWindowKeepAlivePolicy _slidingWindow;
-
         /**
          * Constructor.
-         * @param slidingWindow the sliding window
+         * 
          */
-        public ConnectionConsumer(
-                final SlidingWindowKeepAlivePolicy slidingWindow) {
-            _slidingWindow = slidingWindow;
+        public ConnectionConsumer() {
         }
 
-        /** {@inheritDoc}*/
+        /** {@inheritDoc} */
         public void run() {
             for (int i = 0; i < REQUESTS_PER_THREAD; i++) {
                 try {
-                    LegStarConnection connection = _slidingWindow.getConnections().poll(
-                            3000L, TimeUnit.MILLISECONDS);
+                    LegStarConnection connection = _connectionPool.take(1);
                     if (_log.isDebugEnabled()) {
-                        _log.debug("Polling returned connection: " + connection.getConnectionID()
-                                + ", ltu: " + connection.getLastUsedTime()
-                                + ", duration: " + (System.currentTimeMillis() - connection.getLastUsedTime()));
+                        _log.debug("Polling returned connection: "
+                                + connection.getConnectionID()
+                                + ", ltu: "
+                                + connection.getLastUsedTime()
+                                + ", duration: "
+                                + (System.currentTimeMillis() - connection
+                                        .getLastUsedTime()));
                     }
                     connection.connectReuse(null);
                     connection.sendRequest(null);
                     Thread.sleep(REQUESTS_DELAY);
-                    _slidingWindow.getConnections().add(connection);
-                    _slidingWindow.closeObsoleteConnections();
+                    _connectionPool.put(connection);
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -179,6 +177,5 @@ public class SlidingWindowKeepAlivePolicyTest extends TestCase {
         }
 
     }
-
 
 }

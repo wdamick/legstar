@@ -10,12 +10,11 @@
  ******************************************************************************/
 package com.legstar.messaging;
 
-
 import junit.framework.TestCase;
 
 /**
  * Test the HostEndpoint class.
- *
+ * 
  */
 public class HostEndpointTest extends TestCase {
 
@@ -23,7 +22,8 @@ public class HostEndpointTest extends TestCase {
     public void testToString() {
         HostEndpoint endpoint = new HostEndpointImpl();
         endpoint.setName("TheMainframe");
-        endpoint.setHostConnectionfactoryClass("com.legstar.mock.client.MockConnectionFactory");
+        endpoint.setHostConnectionfactoryClass(
+                "com.legstar.mock.client.MockConnectionFactory");
         endpoint.setHostCharset("IBM01147");
         endpoint.setHostUserID("MYUSER");
         endpoint.setHostPassword("MYPASS");
@@ -32,18 +32,22 @@ public class HostEndpointTest extends TestCase {
         endpoint.setReceiveTimeout(789);
         endpoint.setHostConnectionPoolSize(18);
         endpoint.setPooledInvokeTimeout(456);
+        endpoint.setPooledMaxKeepAlive(74);
+        endpoint.setPooledIdleTestPeriod(13);
         assertEquals(
                 "[hostEndpoint=TheMainframe,"
-                + "hostCharset=IBM01147,"
-                + "hostUserID=MYUSER,"
-                + "hostPassword=********,"
-                + "hostTraceMode=true,"
-                + "connectTimeout=45,"
-                + "receiveTimeout=789,"
-                + "hostConnectionfactoryClass=com.legstar.mock.client.MockConnectionFactory,"
-                + "hostAccessStrategy=direct,"
-                + "hostConnectionPoolSize=18,"
-                + "pooledInvokeTimeout=456]",
+                        + "hostCharset=IBM01147,"
+                        + "hostUserID=MYUSER,"
+                        + "hostPassword=********,"
+                        + "hostTraceMode=true,"
+                        + "connectTimeout=45,"
+                        + "receiveTimeout=789,"
+                        + "hostConnectionfactoryClass=com.legstar.mock.client.MockConnectionFactory,"
+                        + "hostAccessStrategy=direct,"
+                        + "hostConnectionPoolSize=18,"
+                        + "pooledInvokeTimeout=456,"
+                        + "pooledMaxKeepAlive=74,"
+                        + "pooledIdleTestPeriod=13]",
                 endpoint.toString());
     }
 
@@ -61,7 +65,8 @@ public class HostEndpointTest extends TestCase {
         try {
             endpoint.getHostConnectionfactory();
         } catch (IllegalStateException e) {
-            assertEquals("Host endpoint has no connection factory class name", e.getMessage());
+            assertEquals("Host endpoint has no connection factory class name",
+                    e.getMessage());
         }
 
         /* The class name must be on the classpath. */
@@ -69,30 +74,34 @@ public class HostEndpointTest extends TestCase {
         try {
             endpoint.getHostConnectionfactory();
         } catch (IllegalStateException e) {
-            assertEquals("java.lang.ClassNotFoundException: complement.bidon", e.getMessage());
+            assertEquals("java.lang.ClassNotFoundException: complement.bidon",
+                    e.getMessage());
         }
 
         /* Now force the endpoint to create a new one. */
         endpoint.setHostConnectionfactory(null);
-        endpoint.setHostConnectionfactoryClass("com.legstar.messaging.MockConnectionFactory");
-        ConnectionFactory connectionFactory2 = endpoint.getHostConnectionfactory();
+        endpoint
+                .setHostConnectionfactoryClass("com.legstar.messaging.MockConnectionFactory");
+        ConnectionFactory connectionFactory2 = endpoint
+                .getHostConnectionfactory();
         assertTrue(connectionFactory2 != connectionFactory);
     }
 
     /**
      * A test implementation of a host endpoint.
-     *
+     * 
      */
     public class HostEndpointImpl extends HostEndpoint {
 
         /**
-         *  No-arg constructor.
+         * No-arg constructor.
          */
         public HostEndpointImpl() {
         }
- 
+
         /**
-         *  Constructor using an existing connection factory.
+         * Constructor using an existing connection factory.
+         * 
          * @param connectionFactory an instance of a connection factory
          */
         public HostEndpointImpl(final ConnectionFactory connectionFactory) {

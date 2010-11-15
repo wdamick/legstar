@@ -21,44 +21,48 @@ import java.util.concurrent.locks.ReentrantLock;
  * A poor mans bounded LIFO queue. This implements a stack with blocking poll
  * capabilities similar to ArrayBlockinhQueue (which is FIFO).
  * <p/>
- * Hacked from org.apache.tomcat.jdbc.pool.FairBlockingQueue.
- * To be replaced with Java 1.6 Deque.
+ * Hacked from org.apache.tomcat.jdbc.pool.FairBlockingQueue. To be replaced
+ * with Java 1.6 Deque.
+ * 
  * @param <T> the stack object type
- *
+ * 
  */
 public class BlockingStack < T > {
-    
+
     /** Stack maximum capacity. */
     private int _capacity;
-    
-    /** Stack elements are organized as a linked list internally.
-     * Linked lists are not synchronized. */
+
+    /**
+     * Stack elements are organized as a linked list internally.
+     * Linked lists are not synchronized.
+     */
     private LinkedList < T > _list = new LinkedList < T >();
-    
+
     /** Synchronization lock. */
     private final ReentrantLock _lock = new ReentrantLock();
-    
+
     /**
      * Threads waiting for a stack element to become available will
      * have each an associated count down latch in the order where
      * they started waiting.
      */
     private LinkedList < ExchangeCountDownLatch < T > > _waiters =
-        new LinkedList < ExchangeCountDownLatch < T > >();
+            new LinkedList < ExchangeCountDownLatch < T > >();
 
-    
     /**
      * Creates a blocking stack with the specified maximum size.
+     * 
      * @param size maximum stack capacity
      */
     public BlockingStack(final int size) {
         _capacity = size;
     }
-    
+
     /**
      * Adds the specified element to this stack.
      * If consumers are waiting, new element is handed over to the oldest
      * waiter rather than being added to the stack.
+     * 
      * @param element object to become head
      * @return true if add operation successful
      */
@@ -84,21 +88,23 @@ public class BlockingStack < T > {
         }
         return true;
     }
-    
+
     /**
      * @param timeout how long to wait (specified in unit)
      * @param unit the timeout unit
-     * @return the head of this stack, or null if timed out. 
+     * @return the head of this stack, or null if timed out.
      * @throws InterruptedException if thread is interrupted
      */
-    public T poll(final long timeout, final TimeUnit unit) throws InterruptedException {
+    public T poll(final long timeout, final TimeUnit unit)
+            throws InterruptedException {
         T result = null;
         final ReentrantLock lock = _lock;
         boolean error = true;
         lock.lock();
         try {
             if (_list.size() == 0 && timeout > 0) {
-                ExchangeCountDownLatch < T > latch = new ExchangeCountDownLatch < T >(1);
+                ExchangeCountDownLatch < T > latch = new ExchangeCountDownLatch < T >(
+                        1);
                 _waiters.addLast(latch);
                 lock.unlock();
                 if (!latch.await(timeout, unit)) {
@@ -119,14 +125,14 @@ public class BlockingStack < T > {
         }
         return result;
     }
-    
+
     /**
      * @return the initial stack capacity minus the current size
      */
     public int remainingCapacity() {
         return _capacity - _list.size();
     }
-    
+
     /**
      * @return the stack size
      */
@@ -135,28 +141,30 @@ public class BlockingStack < T > {
     }
 
     /**
-     * A class which associates an object item with the count down latch. This allows
-     * the item to passed (exchanged) from the adder thread to the polling thread.
+     * A class which associates an object item with the count down latch. This
+     * allows
+     * the item to passed (exchanged) from the adder thread to the polling
+     * thread.
      */
     protected class ExchangeCountDownLatch < E > extends CountDownLatch {
 
         /** The item object to be passed from thread to thread. */
         protected volatile E _item;
-        
+
         /**
          * @param i the initial latch counter
          */
         public ExchangeCountDownLatch(final int i) {
             super(i);
         }
-        
+
         /**
          * @return the item object to be passed from thread to thread
          */
         public E getItem() {
             return _item;
         }
-        
+
         /**
          * @param item the item object to be passed from thread to thread
          */
@@ -167,21 +175,21 @@ public class BlockingStack < T > {
 
     /**
      * Iterator safe from concurrent modification exceptions.
-     *
+     * 
      */
     protected class FairIterator implements Iterator < T > {
         /** A copy of all elements in memory. */
         private T[] elements = null;
-        
+
         /** The current index. */
         private int index;
-        
-        /** The current element.*/
+
+        /** The current element. */
         private T element = null;
 
         /**
          * At construction time the content of the list is copied over in
-         * a thread safe fashion. This is the only moment when the in-memory 
+         * a thread safe fashion. This is the only moment when the in-memory
          * array is guaranteed to reflect the stack content.
          */
         @SuppressWarnings("unchecked")
@@ -196,7 +204,7 @@ public class BlockingStack < T > {
                 lock.unlock();
             }
         }
-        
+
         /** {@inheritDoc} */
         public boolean hasNext() {
             return index < elements.length;
@@ -225,6 +233,7 @@ public class BlockingStack < T > {
         }
 
     }
+
     /**
      * @return stack maximum size
      */
@@ -238,18 +247,17 @@ public class BlockingStack < T > {
     public LinkedList < T > getElementsList() {
         return _list;
     }
-    
-    
-    
+
     /**
      * @return an iterator through the stack
      */
     public Iterator < T > iterator() {
         return new FairIterator();
     }
-    
+
     /**
      * Check if stack contains an element.
+     * 
      * @param element element to check
      * @return true if element is in stack
      */
@@ -270,4 +278,19 @@ public class BlockingStack < T > {
         return _waiters;
     }
 
+    /**
+     * Prevent anyone from touching items.
+     */
+    public void lock() {
+        final ReentrantLock lock = _lock;
+        lock.lock();
+    }
+
+    /**
+     * Release a previous lock of the entire stack.
+     */
+    public void unlock() {
+        final ReentrantLock lock = _lock;
+        lock.unlock();
+    }
 }

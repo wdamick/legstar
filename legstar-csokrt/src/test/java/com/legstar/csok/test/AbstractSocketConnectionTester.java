@@ -26,13 +26,14 @@ import com.legstar.test.connection.client.AbstractConnectionTester;
 
 /**
  * Generic test helper class.
- *
+ * 
  */
-public abstract class AbstractSocketConnectionTester extends AbstractConnectionTester {
+public abstract class AbstractSocketConnectionTester extends
+        AbstractConnectionTester {
 
     /** A Socket endpoint. */
     private CicsSocketEndpoint mEndpoint;
-    
+
     /** Address of target host. */
     private LegStarAddress mAddress;
 
@@ -65,6 +66,7 @@ public abstract class AbstractSocketConnectionTester extends AbstractConnectionT
 
     /**
      * Special setup using an endpoint configuration name.
+     * 
      * @param endpointName endpoint name
      * @throws Exception if setup fails
      */
@@ -126,7 +128,9 @@ public abstract class AbstractSocketConnectionTester extends AbstractConnectionT
         CicsSocketEndpoint endpoint = getCicsTs23Endpoint();
         endpoint.setName("CICSTS23-POOLED");
         endpoint.setHostAccessStrategy(AccessStrategy.pooled);
-        endpoint.setPooledMaxKeepAlive(1000L);
+        endpoint.setPooledMaxKeepAlive(5000L);
+        endpoint.setPooledIdleTestPeriod(3000L);
+        endpoint.setHostConnectionPoolSize(2);
         return endpoint;
     }
 

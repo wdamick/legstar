@@ -50,7 +50,7 @@
 #define SOK_ABEND_CODE "LSOK"    /* Abend code for socket faults      */
 #define PROT_ABEND_CODE "LPRO"   /* Abend code for protocol errors    */
 
-#define RECV_TIME_OUT 2          /* Wait time for incoming data (sec) */
+#define RECV_TIME_OUT 10         /* Wait time for incoming data (sec) */
 #define SEND_TIME_OUT 2          /* Wait time for outbound data (sec) */
 
 #define ECONNCLOSED      7001     /* Client closed the connection. This
