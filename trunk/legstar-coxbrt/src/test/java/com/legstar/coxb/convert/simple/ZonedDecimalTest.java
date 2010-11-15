@@ -116,54 +116,36 @@ public class ZonedDecimalTest extends TestCase {
      * Test scaling.
      */
     public void testScaling() {
-        BigDecimal decimal = new BigDecimal(256.85);
-        assertEquals("000000000025685000",
-                CobolZonedDecimalSimpleConverter.formatString(decimal, 18, 5,
-                        false, false, false));
-        decimal = new BigDecimal(256.852568);
-        assertEquals("000000000025685256",
-                CobolZonedDecimalSimpleConverter.formatString(decimal, 18, 5,
-                        false, false, false));
-        decimal = new BigDecimal(256.85257);
-        assertEquals("000000000025685257",
-                CobolZonedDecimalSimpleConverter.formatString(decimal, 18, 5,
-                        false, false, false));
-        decimal = new BigDecimal(256.85257);
-        assertEquals("000000000000000256",
-                CobolZonedDecimalSimpleConverter.formatString(decimal, 18, 0,
-                        false, false, false));
+        toHost(18, 18, 5, false, false, false, US_HOST_CHARSET,
+                "256.85", "f0f0f0f0f0f0f0f0f0f0f2f5f6f8f5f0f0f0");
+        toHost(18, 18, 5, false, false, false, US_HOST_CHARSET,
+                "256.852568", "f0f0f0f0f0f0f0f0f0f0f2f5f6f8f5f2f5f6");
+        toHost(18, 18, 5, false, false, false, US_HOST_CHARSET,
+                "256.85257", "f0f0f0f0f0f0f0f0f0f0f2f5f6f8f5f2f5f7");
+        toHost(18, 18, 0, false, false, false, US_HOST_CHARSET,
+                "256.85257", "f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f2f5f6");
     }
 
     /**
      * Test the virtualization of the decimal point.
      */
     public void testVirtualizing() {
-        BigDecimal decimal = new BigDecimal(.256);
-        assertEquals("000000000000025600",
-                CobolZonedDecimalSimpleConverter.formatString(decimal, 18, 5,
-                        false, false, false));
+        toHost(18, 18, 5, false, false, false, US_HOST_CHARSET,
+                ".256", "f0f0f0f0f0f0f0f0f0f0f0f0f0f2f5f6f0f0");
     }
 
     /**
      * Test that separate sign gets included.
      */
     public void testSignSeparate() {
-        BigDecimal decimal = new BigDecimal("456");
-        assertEquals("+000000456",
-                CobolZonedDecimalSimpleConverter.formatString(decimal, 9, 0,
-                        true, true, true));
-        decimal = new BigDecimal("456");
-        assertEquals("000000456+",
-                CobolZonedDecimalSimpleConverter.formatString(decimal, 9, 0,
-                        true, true, false));
-        decimal = new BigDecimal("-456");
-        assertEquals("-000000456",
-                CobolZonedDecimalSimpleConverter.formatString(decimal, 9, 0,
-                        true, true, true));
-        decimal = new BigDecimal("-456");
-        assertEquals("000000456-",
-                CobolZonedDecimalSimpleConverter.formatString(decimal, 9, 0,
-                        true, true, false));
+        toHost(10, 9, 0, true, true, true, US_HOST_CHARSET,
+                 "456", "4ef0f0f0f0f0f0f4f5f6");
+        toHost(10, 9, 0, true, true, false, US_HOST_CHARSET,
+                 "456", "f0f0f0f0f0f0f4f5f64e");
+        toHost(10, 9, 0, true, true, true, US_HOST_CHARSET,
+                 "-456", "60f0f0f0f0f0f0f4f5f6");
+        toHost(10, 9, 0, true, true, false, US_HOST_CHARSET,
+                 "-456", "f0f0f0f0f0f0f4f5f660");
     }
 
     /**
@@ -542,4 +524,5 @@ public class ZonedDecimalTest extends TestCase {
                 "2d3132333435363738393031323334353132",
                 "-123456789012345.12");
     }
+
 }

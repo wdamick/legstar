@@ -20,13 +20,14 @@ import junit.framework.TestCase;
 
 /**
  * Test the COBOL PACKED DECIMAL TYPE.
- *
+ * 
  */
 public class PackedDecimalTest extends TestCase {
 
     /**
      * Generic conversion from java BigDecimal to COBOL PACKED DECIMAL.
-     * @param byteLength the COBOL receiving field size 
+     * 
+     * @param byteLength the COBOL receiving field size
      * @param totalDigits total number of digits
      * @param fractionDigits number of fraction digits
      * @param signed true if signed
@@ -43,8 +44,10 @@ public class PackedDecimalTest extends TestCase {
         try {
             byte[] hostBytes = new byte[byteLength];
             BigDecimal javaDecimal = new BigDecimal(inputValue);
-            assertEquals(byteLength, CobolPackedDecimalSimpleConverter.toHostSingle(
-                    javaDecimal, byteLength, totalDigits, fractionDigits, signed, hostBytes, 0));
+            assertEquals(byteLength, CobolPackedDecimalSimpleConverter
+                    .toHostSingle(
+                            javaDecimal, byteLength, totalDigits,
+                            fractionDigits, signed, hostBytes, 0));
             assertEquals(expectedValue, HostData.toHexString(hostBytes));
         } catch (CobolConversionException e) {
             fail(e.getMessage());
@@ -53,7 +56,8 @@ public class PackedDecimalTest extends TestCase {
 
     /**
      * Generic conversion from COBOL PACKED DECIMAL to java BigDecimal.
-     * @param byteLength the COBOL receiving field size 
+     * 
+     * @param byteLength the COBOL receiving field size
      * @param totalDigits total number of digits
      * @param fractionDigits number of fraction digits
      * @param inputValue the input value as a hex string
@@ -67,8 +71,10 @@ public class PackedDecimalTest extends TestCase {
             final String expectedValue) {
         try {
             byte[] hostBytes = HostData.toByteArray(inputValue);
-            BigDecimal javaDecimal = CobolPackedDecimalSimpleConverter.fromHostSingle(
-                    byteLength, totalDigits, fractionDigits, hostBytes, 0);
+            BigDecimal javaDecimal = CobolPackedDecimalSimpleConverter
+                    .fromHostSingle(
+                            byteLength, totalDigits, fractionDigits, hostBytes,
+                            0);
             assertEquals(expectedValue, javaDecimal.toString());
         } catch (CobolConversionException e) {
             fail(e.getMessage());
@@ -135,13 +141,13 @@ public class PackedDecimalTest extends TestCase {
     /**
      * Case where input is minus zero.
      */
-   public void testToHostMZero() {
+    public void testToHostMZero() {
         toHost(9, 17, 2, true, "-0", "00000000000000000c");
     }
 
-   /**
-    * PIC 9(6)V9(5).
-    */
+    /**
+     * PIC 9(6)V9(5).
+     */
     public void testToHostM67000p56007() {
         toHost(6, 10, 5, true, "-67000.56007", "06700056007d");
     }
@@ -227,14 +233,16 @@ public class PackedDecimalTest extends TestCase {
      * Large value.
      */
     public void testToHostLarge() {
-        toHost(16, 31, 0, false, "1234567890123456789012345678901", "1234567890123456789012345678901f");
+        toHost(16, 31, 0, false, "1234567890123456789012345678901",
+                "1234567890123456789012345678901f");
     }
 
     /**
      * Large value.
      */
     public void testFromHostLarge() {
-        fromHost(16, 31, 0, "1234567890123456789012345678901f", "1234567890123456789012345678901");
+        fromHost(16, 31, 0, "1234567890123456789012345678901f",
+                "1234567890123456789012345678901");
     }
 
     /**
@@ -243,10 +251,12 @@ public class PackedDecimalTest extends TestCase {
     public void testFromHostInvalid() {
         try {
             byte[] hostBytes = HostData.toByteArray("1A");
-            CobolPackedDecimalSimpleConverter.fromHostSingle(1, 1, 0, hostBytes, 0);
+            CobolPackedDecimalSimpleConverter.fromHostSingle(1, 1, 0,
+                    hostBytes, 0);
             fail("Invalid packed decimal not detected");
         } catch (HostException he) {
-            assertEquals("Host data last byte is not a valid packed decimal byte. Host data at offset 0=0x1a",
+            assertEquals(
+                    "Host data last byte is not a valid packed decimal byte. Host data at offset 0=0x1a",
                     he.getMessage());
         }
     }
@@ -257,11 +267,13 @@ public class PackedDecimalTest extends TestCase {
     public void testFromHostInvalid2() {
         try {
             byte[] hostBytes = HostData.toByteArray("0A1f");
-            CobolPackedDecimalSimpleConverter.fromHostSingle(2, 2, 0, hostBytes, 0);
+            CobolPackedDecimalSimpleConverter.fromHostSingle(2, 2, 0,
+                    hostBytes, 0);
             fail("Invalid packed decimal not detected");
         } catch (HostException he) {
-            assertEquals("Host data contains a byte that is not a valid packed decimal byte."
-                    + " Host data at offset 0=0x0a1f",
+            assertEquals(
+                    "Host data contains a byte that is not a valid packed decimal byte."
+                            + " Host data at offset 0=0x0a1f",
                     he.getMessage());
         }
     }
@@ -273,16 +285,19 @@ public class PackedDecimalTest extends TestCase {
         try {
             byte[] hostBytes = new byte[1];
             BigDecimal javaDecimal = new BigDecimal("235.87");
-            CobolPackedDecimalSimpleConverter.toHostSingle(javaDecimal, 1, 1, 0, false, hostBytes, 0);
+            CobolPackedDecimalSimpleConverter.toHostSingle(javaDecimal, 1, 1,
+                    0, false, hostBytes, 0);
             fail("BigDecimal too large not detected");
         } catch (HostException he) {
-            assertEquals("BigDecimal value too large for target Cobol field. Host data at offset 0=0x00",
+            assertEquals(
+                    "BigDecimal value too large for target Cobol field. Host data at offset 0=0x00",
                     he.getMessage());
         }
     }
 
     /**
-     * Case where there is not enough data left in the host buffer. The code should consider
+     * Case where there is not enough data left in the host buffer. The code
+     * should consider
      * that trailing nulls were omitted by the host.
      */
     public void testToHostPartialData() {
@@ -295,4 +310,5 @@ public class PackedDecimalTest extends TestCase {
     public void testToHostPartialDataPastOffset() {
         fromHost(8, 8, 2, "45679000675f", "0.00");
     }
+
 }

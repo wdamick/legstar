@@ -23,14 +23,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This is a concrete implementation of marshal/unmarshal operations of java 
+ * This is a concrete implementation of marshal/unmarshal operations of java
  * numerics to cobol packed decimals.
- *
+ * 
  * @author Fady Moussallam
  * 
  */
 public class CobolPackedDecimalSimpleConverter extends CobolSimpleConverter
-implements ICobolPackedDecimalConverter {
+        implements ICobolPackedDecimalConverter {
+
+    /** Java characters corresponding to digits. */
+    private static final char[] JAVA_DIGITS = new char[] { '0',
+            '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+
+    /**
+     * Assumes no packed decimal will have more than this number of digits +
+     * signs.
+     */
+    private static final int MAX_PACKED_CHARS = 128;
 
     /**
      * @param cobolContext the Cobol compiler parameters in effect
@@ -44,7 +54,7 @@ implements ICobolPackedDecimalConverter {
             final ICobolPackedDecimalBinding ce,
             final byte[] hostTarget,
             final int offset)
-    throws HostException {
+            throws HostException {
         int newOffset = 0;
         try {
             newOffset = toHostSingle(ce.getBigDecimalValue(),
@@ -66,7 +76,7 @@ implements ICobolPackedDecimalConverter {
             final byte[] hostTarget,
             final int offset,
             final int currentOccurs)
-    throws HostException {
+            throws HostException {
         int newOffset = offset;
         try {
             for (BigDecimal javaSource : ce.getBigDecimalList()) {
@@ -79,8 +89,7 @@ implements ICobolPackedDecimalConverter {
                         newOffset);
             }
             /* If necessary, fill in the array with missing items */
-            for (int i = ce.getBigDecimalList().size();
-            i < currentOccurs; i++) {
+            for (int i = ce.getBigDecimalList().size(); i < currentOccurs; i++) {
                 newOffset = toHostSingle(BigDecimal.ZERO,
                         ce.getItemByteLength(),
                         ce.getTotalDigits(),
@@ -100,7 +109,7 @@ implements ICobolPackedDecimalConverter {
             final ICobolPackedDecimalBinding ce,
             final byte[] hostSource,
             final int offset)
-    throws HostException {
+            throws HostException {
         int newOffset = offset;
         try {
             BigDecimal javaDecimal = fromHostSingle(ce.getByteLength(),
@@ -122,7 +131,7 @@ implements ICobolPackedDecimalConverter {
             final byte[] hostSource,
             final int offset,
             final int currentOccurs)
-    throws HostException {
+            throws HostException {
         List < BigDecimal > lArray = new ArrayList < BigDecimal >();
         int newOffset = offset;
         try {
@@ -143,7 +152,7 @@ implements ICobolPackedDecimalConverter {
     }
 
     /**
-     *  Converts a Java BigDecimal to a host packed decimal.
+     * Converts a Java BigDecimal to a host packed decimal.
      * 
      * @param javaDecimal java decimal to convert
      * @param cobolByteLength host byte length
@@ -163,7 +172,7 @@ implements ICobolPackedDecimalConverter {
             final boolean isSigned,
             final byte[] hostTarget,
             final int offset)
-    throws CobolConversionException {
+            throws CobolConversionException {
 
         /* Check that we are still within the host target range */
         int lastOffset = offset + cobolByteLength;
@@ -182,8 +191,10 @@ implements ICobolPackedDecimalConverter {
         /* Get a string representation of the decimal value */
         String sDecimal = localDecimal.toString();
 
-        /* if the Java decimal has a different scale than target cobol field,
-         * adjust scale */
+        /*
+         * if the Java decimal has a different scale than target cobol field,
+         * adjust scale
+         */
         if (localDecimal.scale() != fractionDigits) {
             sDecimal = localDecimal.setScale(
                     fractionDigits, BigDecimal.ROUND_DOWN).toString();
@@ -203,8 +214,10 @@ implements ICobolPackedDecimalConverter {
                     new HostData(hostTarget), offset, cobolByteLength));
         }
 
-        /* Number of digits that are needed to pad the java value if it has
-         * less digits than the target cobol field */
+        /*
+         * Number of digits that are needed to pad the java value if it has
+         * less digits than the target cobol field
+         */
         int pad = totalDigits - javaDigits;
 
         /**
@@ -213,14 +226,20 @@ implements ICobolPackedDecimalConverter {
          * first digit occupies the left half-byte and the second digit goes
          * into the right half-byte.
          */
-        int iTarget = offset;   /* points to current byte in host data */
-        boolean flip = false;   /* indicates when it is time to add a byte
-         * to host data */
-        int bByte = 0;          /* represents the byte value to be appended
-         * to host data */
+        int iTarget = offset; /* points to current byte in host data */
+        boolean flip = false; /*
+                               * indicates when it is time to add a byte
+                               * to host data
+                               */
+        int bByte = 0; /*
+                        * represents the byte value to be appended
+                        * to host data
+                        */
 
-        /* If the number of digits is even, we need to add a leading 0 value
-         * half-byte. */
+        /*
+         * If the number of digits is even, we need to add a leading 0 value
+         * half-byte.
+         */
         if (totalDigits % 2 == 0) {
             flip = true;
         }
@@ -236,8 +255,10 @@ implements ICobolPackedDecimalConverter {
             }
         }
 
-        /* Translate digit characters into there numeric value
-         * and populate right and left half bytes */
+        /*
+         * Translate digit characters into there numeric value
+         * and populate right and left half bytes
+         */
         for (int i = 0; i < sDecimal.length(); i++) {
             char sC = sDecimal.charAt(i);
             if (Character.isDigit(sC)) {
@@ -254,8 +275,10 @@ implements ICobolPackedDecimalConverter {
             }
         }
 
-        /* The last half-byte is the sign. The rule is 0xF for unsigned
-         * decimals otherwise 0xD is negative and 0xC is positive */
+        /*
+         * The last half-byte is the sign. The rule is 0xF for unsigned
+         * decimals otherwise 0xD is negative and 0xC is positive
+         */
         if (!isSigned) {
             bByte += 0x0F;
         } else {
@@ -271,7 +294,8 @@ implements ICobolPackedDecimalConverter {
         return iTarget;
     }
 
-    /** Converts a host packed decimal to a Java BigDecimal.
+    /**
+     * Converts a host packed decimal to a Java BigDecimal.
      * 
      * @param cobolByteLength host byte length
      * @param totalDigits Cobol element total number of digits
@@ -287,19 +311,24 @@ implements ICobolPackedDecimalConverter {
             final int fractionDigits,
             final byte[] hostSource,
             final int offset)
-    throws CobolConversionException {
+            throws CobolConversionException {
 
-        /* To initialize the BigDecimal, we construct a String that represents
-         * the decimal value held in the Cobol packed decimal */
-        StringBuffer sDecimal = new StringBuffer();
+        /*
+         * To initialize the BigDecimal, we construct a char array that
+         * represents the decimal value held in the Cobol packed decimal
+         */
+        char[] sDecimal = new char[MAX_PACKED_CHARS];
 
         int lastOffset = offset + cobolByteLength;
+        int pos = 0;
 
-        /* Check that we are still within the host source range.
+        /*
+         * Check that we are still within the host source range.
          * If not, consider the host optimized its payload by truncating
          * trailing nulls in which case, we just need to initialize and return.
          * TODO: This situation should not happen as packed decimals cannot
-         * end with a binary zero (the last byte always holds a sign half byte) */
+         * end with a binary zero (the last byte always holds a sign half byte)
+         */
         if (lastOffset > hostSource.length) {
             return new BigDecimal(0).setScale(fractionDigits);
         }
@@ -310,10 +339,10 @@ implements ICobolPackedDecimalConverter {
         }
 
         /* The leading sign is derived from the last byte */
-        int s = (hostSource[lastOffset - 1]  & 0x0F);
+        int s = (hostSource[lastOffset - 1] & 0x0F);
         if (s == 0x0d) {
-            sDecimal.append('-');
-        } else { 
+            sDecimal[pos++] = '-';
+        } else {
             if (s != 0x0c && s != 0x0f) {
                 throw (new CobolConversionException(
                         "Host data last byte is not a valid packed decimal byte",
@@ -323,74 +352,44 @@ implements ICobolPackedDecimalConverter {
 
         /* Each byte holds 2 digits except for the last one. */
         int integerPart = 0;
+        int[] d = new int[2];
         for (int i = offset; i < lastOffset; i++) {
-            String sByte =
-                Integer.toHexString(
-                        hostSource[i] & 0xFF | 0x100).substring(1, 3);
 
-            /* Last byte holds a digit and the sign */
-            if (i == (lastOffset - 1)) {
-                insertChar(
-                        sByte.charAt(0), sDecimal, integerPart, totalDigits,
-                        fractionDigits, hostSource, offset, cobolByteLength);
+            d[0] = (hostSource[i] & 0xF0) >>> 4;
+            d[1] = hostSource[i] & 0x0F;
 
-            } else {
-                /* Insert left digit unless this is the first byte of an even
+            for (int j = 0; j < 2; j++) {
+                /*
+                 * Insert left digit unless this is the first byte of an even
                  * number of digits in which case we can ignore that first
-                 * half-byte */
-                if (i != offset || (totalDigits % 2 != 0)) {
-                    integerPart = insertChar(
-                            sByte.charAt(0), sDecimal, integerPart, totalDigits,
-                            fractionDigits, hostSource, offset, cobolByteLength);
+                 * half-byte.
+                 * Insert right digit unless this is the last byte because it
+                 * contains the sign which was already processed.
+                 */
+                if ((j == 0 && (i != offset || (totalDigits % 2 != 0)))
+                        || (j == 1 && i != (lastOffset - 1))) {
+
+                    /* Insert a decimal point when needed */
+                    if (integerPart == (totalDigits - fractionDigits)) {
+                        sDecimal[pos++] = '.';
+                    }
+
+                    /* Make sure this is a valid digit */
+                    if (d[j] >= JAVA_DIGITS.length) {
+                        throw (new CobolConversionException(
+                                "Host data contains a byte that is not a valid packed decimal byte",
+                                new HostData(hostSource), offset,
+                                cobolByteLength));
+                    }
+
+                    sDecimal[pos++] = JAVA_DIGITS[d[j]];
+                    integerPart++;
                 }
-                integerPart = insertChar(
-                        sByte.charAt(1), sDecimal, integerPart, totalDigits,
-                        fractionDigits, hostSource, offset, cobolByteLength);
+
             }
         }
-        return new BigDecimal(sDecimal.toString());
-    }
 
-    /**
-     * Checks that the character is valid and inserts it in the string.
-     * 
-     * @param c the character to insert
-     * @param sDecimal the decimal string representation
-     * @param integerPart current digits count
-     * @param totalDigits total number of digits
-     * @param fractionDigits fractional number of digits
-     * @param hostSource host source buffer
-     * @param offset offset in host source buffer
-     * @param cobolByteLength host byte length
-     * @return the new integer part
-     * @throws CobolConversionException if character is not a digit
-     */
-    private static int insertChar(
-            final char c,
-            final StringBuffer sDecimal,
-            final int integerPart,
-            final int totalDigits,
-            final int fractionDigits,
-            final byte[] hostSource,
-            final int offset,
-            final int cobolByteLength)
-    throws CobolConversionException {
-
-        /* Insert a decimal point when needed */
-        if (integerPart == (totalDigits - fractionDigits)) {
-            sDecimal.append('.');
-        }
-
-        /* Make sure this is a valid digit */
-        if (!Character.isDigit(c)) {
-            throw (new CobolConversionException(
-                    "Host data contains a byte that is not a valid packed decimal byte",
-                    new HostData(hostSource), offset, cobolByteLength));
-        }
-
-        sDecimal.append(c);
-
-        return integerPart + 1;
+        return new BigDecimal(sDecimal, 0, pos);
     }
 
 }
