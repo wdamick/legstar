@@ -5,6 +5,9 @@ Overview:
 
 Prerequisites:
 =============
+  This module requires a JDK, or an international version of the JRE,
+  that includes charsets.jar.
+
   The LegStar z/OS modules must be installed in the target CICS region.
 
   Refer to http://www.legsem.com/legstar/legstar-distribution-zos/index.html

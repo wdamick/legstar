@@ -38,9 +38,9 @@ Quick tour
   
   This feature is built on top of the standard {{{http://www.jcp.org/en/jsr/detail?id=222}JAXB framework}}
   which provides Java to XML binding. As a result of this combination, LegStar can convert mainframe data
-  streams to/from Java objects and XML.
+  streams to/from Java objects, XML or JSON.
   
-  Using the generated marshaling/unmarshaling Java classes, the {{{legstar-coxbrt/}COBOL Binding Runtime}}
+  Using the generated marshaling/unmarshaling Java classes, the {{{legstar-coxbrt/apidocs/index.html}COBOL Binding Runtime}}
   handles:
 
   * The various COBOL numeric data types (Zoned decimals, packed decimals, binary, float, double)

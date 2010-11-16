@@ -2,6 +2,18 @@
                              Latest releases overview
  -------------------------------------------------------------------------------
 
+Version 1.4.1
+
+ Although not a major release, there are several important changes in this release.
+ 
+ The primary objective was to provide a new legstar-cob2trans module that generates
+ transformers from COBOL in a single step. This brings together legstar-cob2xsd,
+ legstar-jaxbgen and legstar-coxbgen. This is targetted at third party tools which
+ need to imbed LegStar design time features.
+ 
+
+ A {{{http://code.google.com/p/legstar/issues/list?can=1&q=Milestone%3DRelease1.4.1}complete list of enhancements and bug fixes}} is available.
+
 Version 1.4.0
 
  This is a major release and represents a large improvement for the COBOL Transformers features.

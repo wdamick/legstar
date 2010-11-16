@@ -14,7 +14,7 @@ import junit.framework.TestCase;
 
 /**
  * Test the Http endpoint.
- *
+ * 
  */
 public class CicsHttpEndpointTest extends TestCase {
 
@@ -30,21 +30,24 @@ public class CicsHttpEndpointTest extends TestCase {
         assertEquals("STREAM2", endpoint.getHostPassword());
         assertEquals("/CICS/CWBA/LSWEBBIN", endpoint.getHostURLPath());
         assertEquals("P390", endpoint.getHostUserID());
-        assertEquals("CICS Http endpoint:[hostEndpoint=CICSTS23,"
-                + "hostCharset=IBM01140,"
-                + "hostUserID=P390,"
-                + "hostPassword=********,"
-                + "hostTraceMode=false,"
-                + "connectTimeout=1000,"
-                + "receiveTimeout=5000,"
-                + "hostConnectionfactoryClass=com.legstar.http.client.CicsHttpConnectionFactory,"
-                + "hostAccessStrategy=direct,"
-                + "hostConnectionPoolSize=5,"
-                + "pooledInvokeTimeout=3000]"
-                + "[hostURLProtocol=http,"
-                + "hostIPAddress=mainframe,"
-                + "hostIPPort=3080,"
-                + "hostURLPath=/CICS/CWBA/LSWEBBIN]",
+        assertEquals(
+                "CICS Http endpoint:[hostEndpoint=CICSTS23,"
+                        + "hostCharset=IBM01140,"
+                        + "hostUserID=P390,"
+                        + "hostPassword=********,"
+                        + "hostTraceMode=false,"
+                        + "connectTimeout=1000,"
+                        + "receiveTimeout=5000,"
+                        + "hostConnectionfactoryClass=com.legstar.http.client.CicsHttpConnectionFactory,"
+                        + "hostAccessStrategy=direct,"
+                        + "hostConnectionPoolSize=5,"
+                        + "pooledInvokeTimeout=3000,"
+                        + "pooledMaxIdleTime=-1,"
+                        + "pooledMaxIdleTimeCheckPeriod=-1]"
+                        + "[hostURLProtocol=http,"
+                        + "hostIPAddress=mainframe,"
+                        + "hostIPPort=3080,"
+                        + "hostURLPath=/CICS/CWBA/LSWEBBIN]",
                 endpoint.toString());
     }
 
@@ -59,21 +62,24 @@ public class CicsHttpEndpointTest extends TestCase {
         assertEquals(null, endpoint.getHostPassword());
         assertEquals("/CICS/CWBA/LSWEBBIN", endpoint.getHostURLPath());
         assertEquals(null, endpoint.getHostUserID());
-        assertEquals("CICS Http endpoint:[hostEndpoint=null,"
-                + "hostCharset=IBM01140,"
-                + "hostUserID=null,"
-                + "hostPassword=********,"
-                + "hostTraceMode=false,"
-                + "connectTimeout=1000,"
-                + "receiveTimeout=5000,"
-                + "hostConnectionfactoryClass=com.legstar.http.client.CicsHttpConnectionFactory,"
-                + "hostAccessStrategy=direct,"
-                + "hostConnectionPoolSize=5,"
-                + "pooledInvokeTimeout=3000]"
-                + "[hostURLProtocol=http,"
-                + "hostIPAddress=null,"
-                + "hostIPPort=0,"
-                + "hostURLPath=/CICS/CWBA/LSWEBBIN]",
+        assertEquals(
+                "CICS Http endpoint:[hostEndpoint=null,"
+                        + "hostCharset=IBM01140,"
+                        + "hostUserID=null,"
+                        + "hostPassword=********,"
+                        + "hostTraceMode=false,"
+                        + "connectTimeout=1000,"
+                        + "receiveTimeout=5000,"
+                        + "hostConnectionfactoryClass=com.legstar.http.client.CicsHttpConnectionFactory,"
+                        + "hostAccessStrategy=direct,"
+                        + "hostConnectionPoolSize=5,"
+                        + "pooledInvokeTimeout=3000,"
+                        + "pooledMaxIdleTime=-1,"
+                        + "pooledMaxIdleTimeCheckPeriod=-1]"
+                        + "[hostURLProtocol=http,"
+                        + "hostIPAddress=null,"
+                        + "hostIPPort=0,"
+                        + "hostURLPath=/CICS/CWBA/LSWEBBIN]",
                 endpoint.toString());
     }
 

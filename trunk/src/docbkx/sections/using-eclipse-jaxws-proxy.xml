@@ -61,8 +61,7 @@
   ant file that is generated allows you to bundle the servlet ready for deployment.
 </para>
 <para>
-  The generator also creates a sample COBOL program that behaves as an HTTP client. The search structure shows
-  up in the working storage section:
+  The generator also creates a sample COBOL program that behaves as an HTTP client. The search structure shows up in the working storage section:
 </para>
 <figure>
 <title>Proxy service generation screen results</title>

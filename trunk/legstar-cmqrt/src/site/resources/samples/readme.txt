@@ -5,6 +5,9 @@ Overview:
 
 Prerequisites:
 =============
+  This module requires a JDK, or an international version of the JRE,
+  that includes charsets.jar.
+
   By default, the configuration targets IBM CICS MQ Bridge which must be
   installed in the target CICS regions.
   
