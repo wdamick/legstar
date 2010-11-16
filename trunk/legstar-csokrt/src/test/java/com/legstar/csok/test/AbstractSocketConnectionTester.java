@@ -128,9 +128,9 @@ public abstract class AbstractSocketConnectionTester extends
         CicsSocketEndpoint endpoint = getCicsTs23Endpoint();
         endpoint.setName("CICSTS23-POOLED");
         endpoint.setHostAccessStrategy(AccessStrategy.pooled);
-        endpoint.setPooledMaxKeepAlive(5000L);
-        endpoint.setPooledIdleTestPeriod(3000L);
-        endpoint.setHostConnectionPoolSize(2);
+        endpoint.setPooledMaxIdleTime(500L);
+        endpoint.setPooledMaxIdleTimeCheckPeriod(300L);
+        endpoint.setHostConnectionPoolSize(5);
         return endpoint;
     }
 
@@ -141,6 +141,9 @@ public abstract class AbstractSocketConnectionTester extends
         CicsSocketEndpoint endpoint = getCicsTs31Endpoint();
         endpoint.setName("CICSTS31-POOLED");
         endpoint.setHostAccessStrategy(AccessStrategy.pooled);
+        endpoint.setPooledMaxIdleTime(5000L);
+        endpoint.setPooledMaxIdleTimeCheckPeriod(3000L);
+        endpoint.setHostConnectionPoolSize(2);
         return endpoint;
     }
 

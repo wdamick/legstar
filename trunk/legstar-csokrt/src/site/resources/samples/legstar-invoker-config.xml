@@ -14,20 +14,12 @@
       -->
     <hostEndPoint name="TheMainframe">
     
-      <!--  The host access strategy, either direct or pooled. If pooled is chosen
-            other engine related entries in the configuration file are needed
-            (see commented lines below)    -->
+      <!--
+        The host access strategy, either direct or pooled. If pooled is chosen, then
+        other engine related entries in the configuration file are needed (see commented lines below).
+      -->
       <hostAccessStrategy>direct</hostAccessStrategy>
 
-      <!--  Used when pooling:
-            The number of simultaneous connections to the host. This number needs to
-            be reasonably small in order to prevent any flooding of the host system.
-      <hostConnectionPoolSize>2</hostConnectionPoolSize> -->
-      
-      <!--  Used when pooling:
-            This is the maximum time (in millisecs) a pooled connection will wait
-            for a reply from the host.
-      <pooledInvokeTimeout>2000</pooledInvokeTimeout> -->
       
       <!--  The connection factory provides a transport implementation.  -->
       <hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
@@ -50,6 +42,43 @@
       <!--  True will activate trace mode on the host.  -->
       <hostTraceMode>false</hostTraceMode>
       
+      <!--
+        Following parameters are useful when pooling is selected.
+        Also make sure you have hostAccessStrategy set to pooled.
+       -->
+       
+      <!--  
+        The number of simultaneous connections to the host. This number needs to
+        be reasonably small in order to prevent any flooding of the host system.
+
+      <hostConnectionPoolSize>2</hostConnectionPoolSize>
+       -->
+      
+      <!-- 
+        This is the maximum time (in millisecs) a pooled connection will wait
+        for a reply from the host.
+
+      <pooledInvokeTimeout>2000</pooledInvokeTimeout>
+       -->
+      
+      <!-- 
+        This is the maximum time (in millisecs) to keep an idle connection
+        from the pool opened. -1 or 0 means forever.
+        If you set pooledMaxIdleTime to a strictly positive value, you also
+        need to set pooledMaxIdleTimeCheckPeriod to a strictly postive
+        value.
+        pooledMaxIdleTime + pooledMaxIdleTimeCheckPeriod must be smaller than 10000.
+         
+      <pooledMaxIdleTime>-1</pooledMaxIdleTime>
+       -->
+      
+      <!-- 
+        This is the period at which a demon thread will wake up to check
+        for pooled connections that have been idle for more than pooledMaxIdleTime.
+        -1 or 0 means never (results in pooledMaxIdleTime being ignored).
+
+      <pooledMaxIdleTimeCheckPeriod>2000</pooledMaxIdleTimeCheckPeriod>
+       -->
      </hostEndPoint>
   </hostEndPoints>
 </config>
