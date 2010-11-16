@@ -32,8 +32,8 @@ public class HostEndpointTest extends TestCase {
         endpoint.setReceiveTimeout(789);
         endpoint.setHostConnectionPoolSize(18);
         endpoint.setPooledInvokeTimeout(456);
-        endpoint.setPooledMaxKeepAlive(74);
-        endpoint.setPooledIdleTestPeriod(13);
+        endpoint.setPooledMaxIdleTime(74);
+        endpoint.setPooledMaxIdleTimeCheckPeriod(13);
         assertEquals(
                 "[hostEndpoint=TheMainframe,"
                         + "hostCharset=IBM01147,"
@@ -46,8 +46,8 @@ public class HostEndpointTest extends TestCase {
                         + "hostAccessStrategy=direct,"
                         + "hostConnectionPoolSize=18,"
                         + "pooledInvokeTimeout=456,"
-                        + "pooledMaxKeepAlive=74,"
-                        + "pooledIdleTestPeriod=13]",
+                        + "pooledMaxIdleTime=74,"
+                        + "pooledMaxIdleTimeCheckPeriod=13]",
                 endpoint.toString());
     }
 

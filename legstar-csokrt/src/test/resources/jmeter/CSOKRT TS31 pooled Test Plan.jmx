@@ -38,6 +38,8 @@
           <stringProp name="junitsampler.exec.setup">true</stringProp>
           <stringProp name="junitsampler.append.error">true</stringProp>
           <stringProp name="junitsampler.append.exception">true</stringProp>
+          <stringProp name="junitsampler.error">An unexpected error occured</stringProp>
+          <stringProp name="junitsampler.error.code">9999</stringProp>
         </JUnitSampler>
         <hashTree/>
       </hashTree>
@@ -46,7 +48,7 @@
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1000</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">2</stringProp>
+        <stringProp name="ThreadGroup.num_threads">15</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <longProp name="ThreadGroup.start_time">1242388592000</longProp>
         <longProp name="ThreadGroup.end_time">1242388592000</longProp>
@@ -68,6 +70,8 @@
           <stringProp name="junitsampler.append.error">true</stringProp>
           <stringProp name="junitsampler.append.exception">true</stringProp>
           <stringProp name="junitsampler.method">testLsfileae</stringProp>
+          <stringProp name="junitsampler.error">An unexpected error occured</stringProp>
+          <stringProp name="junitsampler.error.code">9999</stringProp>
         </JUnitSampler>
         <hashTree>
           <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
@@ -102,7 +106,7 @@
             <stringProp name="filename"></stringProp>
           </ResultCollector>
           <hashTree/>
-          <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Graph Results" enabled="true">
+          <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
             <boolProp name="ResultCollector.error_logging">false</boolProp>
             <objProp>
               <name>saveConfig</name>
@@ -135,6 +139,11 @@
           </ResultCollector>
           <hashTree/>
         </hashTree>
+        <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Gaussian Random Timer" enabled="true">
+          <stringProp name="ConstantTimer.delay">300</stringProp>
+          <stringProp name="RandomTimer.range">100.0</stringProp>
+        </GaussianRandomTimer>
+        <hashTree/>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
@@ -163,6 +172,8 @@
           <stringProp name="junitsampler.exec.setup">true</stringProp>
           <stringProp name="junitsampler.append.error">true</stringProp>
           <stringProp name="junitsampler.append.exception">true</stringProp>
+          <stringProp name="junitsampler.error">An unexpected error occured</stringProp>
+          <stringProp name="junitsampler.error.code">9999</stringProp>
         </JUnitSampler>
         <hashTree/>
       </hashTree>

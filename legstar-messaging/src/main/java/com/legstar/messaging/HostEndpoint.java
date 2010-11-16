@@ -62,11 +62,11 @@ public abstract class HostEndpoint {
     /** Maximum time to wait for an available pooled connection. */
     private int _pooledInvokeTimeout = DEFAULT_POOLED_INVOKE_TIMEOUT_MSEC;
 
-    /** Maximum time to keep a pooled connection opened. */
-    private long _pooledMaxKeepAlive = DEFAULT_POOLED_MAX_KEEP_ALIVE;
+    /** Maximum time to keep an idle pooled connection opened. */
+    private long _pooledMaxIdleTime = DEFAULT_POOLED_MAX_IDLE_TIME;
 
-    /** Time between checking idle connections. */
-    private long _pooledIdleTestPeriod = DEFAULT_POOLED_IDLE_TEST_PERIOD;
+    /** Time between checking idle connections for maximum idle time. */
+    private long _pooledMaxIdleTimeCheckPeriod = DEFAULT_POOLED_MAX_IDLE_TIME_CHECK_PERIOD;
 
     /* ----------------------------------------------------------------------- */
     /* Default values */
@@ -84,10 +84,10 @@ public abstract class HostEndpoint {
     private static final int DEFAULT_POOLED_INVOKE_TIMEOUT_MSEC = 3000;
 
     /** Default maximum time to keep a pooled connection opened. */
-    private static final long DEFAULT_POOLED_MAX_KEEP_ALIVE = -1;
+    private static final long DEFAULT_POOLED_MAX_IDLE_TIME = -1;
 
     /** Default time between checking idle connections. */
-    private static final long DEFAULT_POOLED_IDLE_TEST_PERIOD = -1;
+    private static final long DEFAULT_POOLED_MAX_IDLE_TIME_CHECK_PERIOD = -1;
 
     /** If no pool size found in configuration, use this default. */
     private static final int DEFAULT_POOL_SIZE = 5;
@@ -132,11 +132,11 @@ public abstract class HostEndpoint {
     /** Label for pooled invoke timeout. */
     public static final String POOLED_INVOKE_TIMEOUT_LABEL = "pooledInvokeTimeout";
 
-    /** Label for maximum time to keep a pooled connection opened. */
-    public static final String POOLED_MAX_KEEPALIVE_LABEL = "pooledMaxKeepAlive";
+    /** Label for maximum time to keep an idle pooled connection opened. */
+    public static final String POOLED_MAX_IDLE_TIME_LABEL = "pooledMaxIdleTime";
 
     /** Label for time between checking idle connections. */
-    public static final String POOLED_IDLE_TEST_PERIOD_LABEL = "pooledIdleTestPeriod";
+    public static final String POOLED_MAX_IDLE_TIME_CHECK_PERIOD_LABEL = "pooledMaxIdleTimeCheckPeriod";
 
     /**
      * No-arg constructor.
@@ -171,8 +171,9 @@ public abstract class HostEndpoint {
         setHostUserID(copyFrom.getHostUserID());
         setName(copyFrom.getName());
         setPooledInvokeTimeout(copyFrom.getPooledInvokeTimeout());
-        setPooledMaxKeepAlive(copyFrom.getPooledMaxKeepAlive());
-        setPooledIdleTestPeriod(copyFrom.getPooledIdleTestPeriod());
+        setPooledMaxIdleTime(copyFrom.getPooledMaxIdleTime());
+        setPooledMaxIdleTimeCheckPeriod(copyFrom
+                .getPooledMaxIdleTimeCheckPeriod());
         setReceiveTimeout(copyFrom.getReceiveTimeout());
     }
 
@@ -197,10 +198,10 @@ public abstract class HostEndpoint {
                 + _hostConnectionPoolSize
                 + "," + POOLED_INVOKE_TIMEOUT_LABEL + "="
                 + _pooledInvokeTimeout
-                + "," + POOLED_MAX_KEEPALIVE_LABEL + "="
-                + _pooledMaxKeepAlive
-                + "," + POOLED_IDLE_TEST_PERIOD_LABEL + "="
-                + _pooledIdleTestPeriod
+                + "," + POOLED_MAX_IDLE_TIME_LABEL + "="
+                + _pooledMaxIdleTime
+                + "," + POOLED_MAX_IDLE_TIME_CHECK_PERIOD_LABEL + "="
+                + _pooledMaxIdleTimeCheckPeriod
 
                 + "]";
         return report;
@@ -457,16 +458,16 @@ public abstract class HostEndpoint {
      * @return the maximum time to keep a pooled connection opened. -1 means
      *         forever.
      */
-    public long getPooledMaxKeepAlive() {
-        return _pooledMaxKeepAlive;
+    public long getPooledMaxIdleTime() {
+        return _pooledMaxIdleTime;
     }
 
     /**
-     * @param maxKeepAlive the maximum time to keep a pooled connection opened
+     * @param maxIdleTime the maximum time to keep a pooled connection opened
      *            to set -1 means forever.
      */
-    public void setPooledMaxKeepAlive(final long maxKeepAlive) {
-        _pooledMaxKeepAlive = maxKeepAlive;
+    public void setPooledMaxIdleTime(final long maxIdleTime) {
+        _pooledMaxIdleTime = maxIdleTime;
     }
 
     /**
@@ -478,18 +479,19 @@ public abstract class HostEndpoint {
      * 
      * @return the time between checking idle connections
      */
-    public long getPooledIdleTestPeriod() {
-        return _pooledIdleTestPeriod;
+    public long getPooledMaxIdleTimeCheckPeriod() {
+        return _pooledMaxIdleTimeCheckPeriod;
     }
 
     /**
      * Time between checking idle connections.
      * 
-     * @param pooledIdleTestPeriod the time between checking idle connections to
-     *            set
+     * @param pooledMaxIdleTimeCheckPeriod the time between checking idle
+     *            connections to set
      */
-    public void setPooledIdleTestPeriod(final long pooledIdleTestPeriod) {
-        _pooledIdleTestPeriod = pooledIdleTestPeriod;
+    public void setPooledMaxIdleTimeCheckPeriod(
+            final long pooledMaxIdleTimeCheckPeriod) {
+        _pooledMaxIdleTimeCheckPeriod = pooledMaxIdleTimeCheckPeriod;
     }
 
 }

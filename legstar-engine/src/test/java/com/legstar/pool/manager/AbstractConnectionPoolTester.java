@@ -49,8 +49,8 @@ public class AbstractConnectionPoolTester extends TestCase {
         endpoint.setHostAccessStrategy(AccessStrategy.pooled);
         endpoint.setHostConnectionPoolSize(poolSize);
         endpoint.setPooledInvokeTimeout(2000);
-        endpoint.setPooledMaxKeepAlive(KEEP_ALIVE_TIME);
-        endpoint.setPooledIdleTestPeriod(IDLE_TEST_PERIOD);
+        endpoint.setPooledMaxIdleTime(KEEP_ALIVE_TIME);
+        endpoint.setPooledMaxIdleTimeCheckPeriod(IDLE_TEST_PERIOD);
         return endpoint;
     }
 
