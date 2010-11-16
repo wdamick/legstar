@@ -6,11 +6,13 @@ Version 1.4.1
 
  Although not a major release, there are several important changes in this release.
  
- The primary objective was to provide a new legstar-cob2trans module that generates
+ The primary objective was to provide a new {{{legstar-cob2trans/apidocs/index.html}legstar-cob2trans}} module that generates
  transformers from COBOL in a single step. This brings together legstar-cob2xsd,
- legstar-jaxbgen and legstar-coxbgen. This is targetted at third party tools which
+ legstar-jaxbgen and legstar-coxbgen. This is targeted at third party tools which
  need to imbed LegStar design time features.
  
+ There are performance improvements to the low-level COBOL to java conversions.
+ Some {{{http://code.google.com/p/legstar/wiki/COBOLBindingConversionMetrics}new performance figures}} are available.
 
  A {{{http://code.google.com/p/legstar/issues/list?can=1&q=Milestone%3DRelease1.4.1}complete list of enhancements and bug fixes}} is available.
 
