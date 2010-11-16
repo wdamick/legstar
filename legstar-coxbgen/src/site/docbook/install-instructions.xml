@@ -21,6 +21,10 @@
 <title>Pre-requisites</title>
 <para>
   Java 1.5+ and ant 1.6.5+ are both prerequisites for LegStar.
+
+  This module requires a JDK, or an international version of the JRE,
+  that includes charsets.jar.
+
   Make sure JAVA_HOME and ANT_HOME environment variables are set and that
   $JAVA_HOME/bin (%JAVA_HOME%/bin on Windows) and $ANT_HOME/bin (%ANT_HOME%/bin
   on Windows) are both in your system path.

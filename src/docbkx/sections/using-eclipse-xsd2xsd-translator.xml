@@ -47,7 +47,7 @@
 <para>
   Since we started from a WSDL, a certain number of default COBOL data attributes were assigned. For instance,
   all character strings are 32 characters long. While this might be an acceptable default, it is not always
-  the case. In our situation, the application ID (AppID) must be 40 characters long. We need to change
+  the case. In our situation, the application ID (AppID in the SearchRequest complex type) must be 40 characters long. We need to change
   the COBOL picture from X(32) to X(40). 
 </para>
 </section>
