@@ -1,0 +1,18 @@
+<document>
+  <properties>
+    <title>Download</title>
+  </properties>
+  <!-- Optional HEAD element, which is copied as is into the XHTML <head> element -->
+  <head>
+     <meta http-equiv="Cache-Control" Content="no-cache"/> 
+  </head>
+  <body>
+    <!-- The body of the document contains a number of sections -->
+    <section name="Download Eclipse plugins">
+      <!-- Within sections, any XHTML can be used -->
+      <p>To install the LegStar Eclipse plugins, use the standard Eclipse update mechanism by pointing to the
+      <a href="http://www.legsem.com/legstar/eclipse/update">http://www.legsem.com/legstar/eclipse/update</a> site (Help-->Install New Software...-->Add site)</p>
+    </section>
+
+  </body>
+</document>

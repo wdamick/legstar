@@ -1,0 +1,39 @@
+ -----
+ Overview
+ -----
+ Fady Moussallam
+ -----
+ 01 July 2008
+ -----
+
+Complex Types Mapping Generator (xsdcgen) overview
+
+  Xsdcgen generates mapping XML Schema from Java code or XML Schema. A mapping XML Schema contains
+  COBOL annotations that map individual XML elements to COBOL data items.
+  
+  Xsdcgen provides 2 generator ant tasks:
+  
+  * The XSD/WSDL Mapping Generator (build-xsd2xs.xml) takes an existing XML Schema or WSDL as input and creates
+    a mapping XML Schema where complex types map to COBOL structures.
+    
+  * The Java Mapping Generator (build-java2xs.xml) takes an existing set of Java classes as input and creates
+    a mapping XML Schema where classes map to COBOL structures.
+  
+  The generated mapping XML Schema can then be processed by the {{{../legstar-coxbgen}COBOL Binding Generator}}
+  to produce a set of annotated JAXB classes that can, in-turn, be used to marshal/unmarshal
+  mainframe data.
+  
+  Xsdcgen is typically used when host programs need to consume remote web services or POJOs.
+ 
+Customizing a mapping XML Schema
+
+  Although Xsdcgen does its best at generating meaningful default values for COBOL data items, you will
+  often need to modify what was generated for efficiency.
+  
+  The {{{xref/com/legstar/xsdc/gen/XsdCobolTypeMap.html}XsdCobolTypeMap}} gives the type by type mapping.
+  
+  The default values used for COBOL attributes such as String size, number of digits for integers, maximum array size
+  for unbounded arrays etc. come from a properties file called xsdcoptions.properties that is bundled
+  with the distribution jar file. This file is loaded from the classpath so you can substitute your own.
+  
+  

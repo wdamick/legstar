@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>1.4.1</version>
+        <relativePath>..</relativePath>
+    </parent>
+    <version>1.4.1</version>
+    <artifactId>legstar-transport</artifactId>
+    <packaging>pom</packaging>
+    <name>LegStar Transports</name>
+    <description>Transports to and from the mainframe.</description>
+
+    <modules>
+        <module>../legstar-messaging</module>
+        <module>../legstar-config</module>
+        <module>../legstar-cmockrt</module>
+        <module>../legstar-invoker</module>
+        <module>../legstar-chttprt</module>
+        <module>../legstar-cmqrt</module>
+        <module>../legstar-csokrt</module>
+        <module>../legstar-engine</module>
+        <module>../legstar-c2wsrt</module>
+    </modules>
+    
+</project>
