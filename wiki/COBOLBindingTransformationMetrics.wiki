@@ -33,7 +33,7 @@ We ran the tests for 5 different number of items for the variable size array: 10
 || 400  || 1206 || 25625  ||
 || 500  || 1506 || 32025  ||
 
-We used [http://jakarta.apache.org/jmeter/ Apache JMeter] to load test each one of these JUnit methods. Each test was run 100000 times with 1000 warmup iterations.
+We used [http://jakarta.apache.org/jmeter/ Apache JMeter 2.4] to load test each one of these JUnit methods. Each test was run 100000 times with 1000 warmup iterations.
 
 The JMeter configuration files can be found [http://code.google.com/p/legstar/source/browse/trunk/legstar-coxbgen-cases/src/test/#test/resources/jmeter/transform here].
 
@@ -41,15 +41,15 @@ Target machine and quantities measured are identical to [COBOLBindingConversionM
 
 = Results =
 
-== Release 1.2.6 ==
+== Release 1.4.1 ==
 
-http://legstar.googlecode.com/svn/wiki/dplarcht-transformations-metrics-1.2.6.png
+http://legstar.googlecode.com/svn/wiki/dplarcht-transformations-metrics-1.4.1.png
 
 = Conclusion =
 
-In the most complex case with 1506 data items and 32025 bytes of host data, it was still possible to reach about 400 TPS. This is in conditions that are not particularly favorable (Transformers are not reused, JMeter in GUI mode and JUnit assertions performed on each transformation).
+In the most complex case with 1506 data items and 32025 bytes of host data, it was still possible to reach about 500 TPS. This is in conditions that are not particularly favorable (Transformers are not reused, JMeter in GUI mode and JUnit assertions performed on each transformation).
 
-The java to host transformations are consistently faster (Although the difference tends to diminish as volume increases). There is no certainty as to why this is the case. It would be interesting to investigate.
+The java to host transformations are slightly faster (The difference was greater with previous LegStar releases).
 
 Also of interest is the fact that the throughput does not appear to decrease in a linear fashion with the number of items in the variable size array.
 
