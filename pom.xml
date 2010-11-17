@@ -202,6 +202,7 @@
                 <executions>
                     <execution>
                         <id>project-sources</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>jar</goal>
                         </goals>
@@ -221,6 +222,7 @@
                 <executions>
                     <execution>
                         <id>aggregate-sources</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>aggregate</goal>
                         </goals>
@@ -247,6 +249,10 @@
                             <targetDirectory>target/site</targetDirectory>
                             <postProcess>
                                 <copy todir="target/site/images">
+                                    <fileset dir="src/docbkx/images">
+                                        <include name="**/*.jpg" />
+                                        <include name="**/*.png" />
+                                    </fileset>
                                     <fileset dir="src/docbkx/sections/images">
                                         <include name="**/*.jpg" />
                                         <include name="**/*.png" />
