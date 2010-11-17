@@ -1,10 +1,10 @@
-#summary Basic CPU metrics for LegStar COBOL binding.
+#summary Basic CPU metrics for LegStar COBOL conversions.
 
 = Introduction =
 
-There are several performance aspects of interest in LegStar. Here we examine the behavior of the COBOL binding conversions at the data type (or individual field) level.
+There are several performance aspects of interest in LegStar. Here we examine the behavior of the COBOL conversions at the data type (or individual field) level.
 
-At the finest level, COBOL binding performs elemental conversions from COBOL data types to Java types. So we first focus on these data types conversions as they will affect all higher level features.
+At the finest level, the LegStar COBOL binding runtime performs elemental conversions from COBOL data types to Java types. So we first focus on these data types conversions as they will affect all higher level features.
 
 The metrics are focused on CPU as this is likely to be the most important resource from a performance perspective. 
 
@@ -24,11 +24,11 @@ We bundled JUnit test cases for each of the functions we wanted to measure:
 
 You can find the JUnit source code [http://code.google.com/p/legstar/source/browse/trunk/legstar-coxbrt/src/test/java/com/legstar/coxb/convert/simple/MeteringTest.java here].
 
-We used [http://jakarta.apache.org/jmeter/ Apache JMeter] to load test each one of these JUnit methods. Each test was run 100000 times with 1000 warmup iterations.
+We used [http://jakarta.apache.org/jmeter/ Apache JMeter version 2.4] to load test each one of these JUnit methods. Each test was run 1000000 times with 10000 warmup iterations.
 
 The JMeter configuration files can be found [http://code.google.com/p/legstar/source/browse/#svn/trunk/legstar-coxbrt/src/test/resources/jmeter/convert/simple here].
 
-The target machine is an Intel centrino dual core 2.00 Ghz running JRE 1.6.0_10.
+The target machine is an Intel centrino dual core 2.00 Ghz, with 2 Gbytes of RAM, running JRE 1.6.0_16.
 
 We measured the throughput which is the number of elementary conversions we could perform in a second.
 
@@ -36,20 +36,20 @@ The results should not be interpreted as absolute values. Typically we were runn
 
 = Results =
 
-== Release 1.2.6 ==
+== LegStar release 1.4.1 ==
 
 || *Test name*          || * Conversions per second* ||
-|| AlphanumericToString	|| 26595  ||
-|| BinaryToBigDecimal	|| 28145  ||
-|| ZonedDecimalToBigDecimal	|| 25176  ||
-|| PackedDecimalToBigDecimal	|| 24624  ||
-|| StringToAlphanumeric	|| 24319  ||
-|| BigDecimalToBinary	|| 28810  ||
-|| BigDecimalToZonedDecimal	|| 22665  ||
-|| BigDecimalToPackedDecimal	|| 27555  ||
+|| COBOL Alphanumeric To Java String	|| 36778  ||
+|| COBOL Binary To Java BigDecimal	|| 39505  ||
+|| COBOL ZonedDecimal To Java BigDecimal	|| 36832  ||
+|| COBOL PackedDecimal To Java BigDecimal	|| 37932  ||
+|| Java String To COBOL Alphanumeric	|| 36167  ||
+|| Java BigDecimal To COBOL Binary	|| 40126  ||
+|| Java BigDecimal To COBOL ZonedDecimal	|| 35602  ||
+|| Java BigDecimal To COBOL PackedDecimal	|| 38471  ||
 
 = Conclusion =
 
 Elementary conversions for basic types perform in the same range.
 
-It would be useful to complement this with a memory type of analysis (as objects are being created and destroyed as part of the conversion/transformation process).
+in release 1.4.1, conversions have been optimized to reduce the number of java objects allocated. Java objects were replaced by primitive types whenever possible. This has some impact on CPU but perhaps more importantly has reduced the memory footprint.
