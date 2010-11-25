@@ -21,14 +21,14 @@
         <longProp name="ThreadGroup.start_time">1235322303000</longProp>
         <longProp name="ThreadGroup.end_time">1235322303000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
         <JUnitSampler guiclass="JUnitTestSamplerGui" testclass="JUnitSampler" testname="JUnit Request" enabled="true">
           <stringProp name="junitSampler.classname">com.legstar.test.coxb.perf.DplarchtMeteringTest</stringProp>
-          <stringProp name="junitsampler.constructorstring">100</stringProp>
+          <stringProp name="junitsampler.constructorstring">500</stringProp>
           <stringProp name="junitsampler.pkg.filter"></stringProp>
           <stringProp name="junitsampler.success">Test successful</stringProp>
           <stringProp name="junitsampler.success.code">1000</stringProp>
@@ -38,6 +38,8 @@
           <stringProp name="junitsampler.append.error">false</stringProp>
           <stringProp name="junitsampler.append.exception">false</stringProp>
           <stringProp name="junitsampler.method">testJavaToHost</stringProp>
+          <stringProp name="junitsampler.error">An unexpected error occured</stringProp>
+          <stringProp name="junitsampler.error.code">9999</stringProp>
         </JUnitSampler>
         <hashTree>
           <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
