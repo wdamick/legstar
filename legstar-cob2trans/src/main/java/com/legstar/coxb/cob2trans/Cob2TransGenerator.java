@@ -211,7 +211,8 @@ public class Cob2TransGenerator {
                 + "'";
         fireEvent(++stepNumber, eventDescription,
                 Cob2TransEvent.EventType.START);
-        jaxbgen(xsdFile, dirs.getSrcDir(), getModel().getJaxbGenModel());
+        jaxbgen(xsdFile, dirs.getSrcDir(), getModel().getCoxbGenModel()
+                .getJaxbGenModel());
         fireEvent(stepNumber, eventDescription, Cob2TransEvent.EventType.STOP);
 
         eventDescription = "Compile JAXB classes in '" + dirs.getSrcDir() + "'";
@@ -231,7 +232,6 @@ public class Cob2TransGenerator {
                 getModel().getCob2XsdModel().getXsdEncoding(),
                 dirs.getSrcDir(),
                 dirs.getBinDir(),
-                getModel().getJaxbGenModel(),
                 getModel().getCoxbGenModel());
         if (_log.isDebugEnabled()) {
             _log.debug("Root class names successfully processed: "
@@ -479,9 +479,10 @@ public class Cob2TransGenerator {
      * @param srcDir
      *            the target source folder
      * @param model the options in effect
+     * @throws Cob2TransException if JAXB generator produces nothing
      */
     public static void jaxbgen(final File xsdFile, final File srcDir,
-            final JaxbGenModel model) {
+            final JaxbGenModel model) throws Cob2TransException {
         CobolJAXBGenerator jaxbGenerator = new CobolJAXBGenerator(model);
         jaxbGenerator.setProject(new Project());
         jaxbGenerator.init();
@@ -489,6 +490,13 @@ public class Cob2TransGenerator {
         jaxbGenerator.setXsdFile(xsdFile);
         jaxbGenerator.setTargetDir(srcDir);
         jaxbGenerator.execute();
+
+        // If nothing created no need to continue
+        if (FileUtils.listFiles(srcDir, new String[] { "java" }, true).size() == 0) {
+            throw new Cob2TransException(
+                    "JAXB Generator did not find any complex types in "
+                            + xsdFile);
+        }
     }
 
     /**
@@ -637,7 +645,6 @@ public class Cob2TransGenerator {
      * @param xsdEncoding the XML Schema encoding character set
      * @param srcDir the target source folder
      * @param binDir the binaries folder where JAXB classes were compiled
-     * @param jaxbModel the jaxbgen options in effect
      * @param model the options set
      * @return various results including the list of JAXB root class names
      *         processed
@@ -649,12 +656,12 @@ public class Cob2TransGenerator {
             final String xsdEncoding,
             final File srcDir,
             final File binDir,
-            final JaxbGenModel jaxbModel,
             final CoxbGenModel model) throws Cob2TransException {
 
         try {
             CoxbgenResult result = new CoxbgenResult();
             result.rootClassNames = new ArrayList < String >();
+            JaxbGenModel jaxbModel = model.getJaxbGenModel();
 
             CoxbBindingGenerator coxbGenerator = new CoxbBindingGenerator(model);
             coxbGenerator.setXsdFile(xsdFile);

@@ -50,7 +50,7 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
         File xsdFile = cob2xsdResult.xsdFile;
         Cob2TransGenerator.jaxbgen(xsdFile,
                 _dirs.getSrcDir(),
-                _context.getJaxbGenModel());
+                _context.getCoxbGenModel().getJaxbGenModel());
         assertFileContainsAll(
                 new File(
                         "target/gen/" + _baseName
@@ -81,7 +81,7 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
         File xsdFile = cob2xsdResult.xsdFile;
         Cob2TransGenerator.jaxbgen(xsdFile,
                 _dirs.getSrcDir(),
-                _context.getJaxbGenModel());
+                _context.getCoxbGenModel().getJaxbGenModel());
         Cob2TransGenerator.compile(_dirs.getSrcDir(), _dirs.getBinDir(), null,
                 true);
         assertTrue(new File("target/gen/" + _baseName
@@ -111,14 +111,13 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
         File xsdFile = cob2xsdResult.xsdFile;
         Cob2TransGenerator.jaxbgen(xsdFile,
                 _dirs.getSrcDir(),
-                _context.getJaxbGenModel());
+                _context.getCoxbGenModel().getJaxbGenModel());
         Cob2TransGenerator.compile(_dirs.getSrcDir(), _dirs.getBinDir(), null,
                 true);
         Cob2TransGenerator.coxbgen(xsdFile,
                 _context.getCob2XsdModel().getXsdEncoding(),
                 _dirs.getSrcDir(),
                 _dirs.getBinDir(),
-                _context.getJaxbGenModel(),
                 _context.getCoxbGenModel());
         assertFileContainsAll(
                 new File(
@@ -146,7 +145,7 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
         File xsdFile = cob2xsdResult.xsdFile;
         Cob2TransGenerator.jaxbgen(xsdFile,
                 _dirs.getSrcDir(),
-                _context.getJaxbGenModel());
+                _context.getCoxbGenModel().getJaxbGenModel());
         Cob2TransGenerator.compile(_dirs.getSrcDir(), _dirs.getBinDir(), null,
                 true);
         File jarFile = Cob2TransGenerator.jar(
@@ -182,7 +181,7 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
         Cob2TransModel model = new Cob2TransModel();
         model.getCob2XsdModel().setTargetNamespace(
                 "http://legstar.com/test/coxb/cob2trans/" + _baseName);
-        model.getJaxbGenModel().setTypeNameSuffix("Type");
+        model.getCoxbGenModel().setTypeNameSuffix("Type");
         Cob2TransGenerator generator = new Cob2TransGenerator(model);
         Cob2TransResult result = generator.generate(_cobolFile, TARGET_DIR);
         JarFile jarJarFile = new JarFile(result.jarFile);
@@ -196,4 +195,24 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
 
     }
 
+    /**
+     * Perform a generation with a COBOL file that does not contain complex
+     * structures (issue 110).
+     */
+    public void testGenerateWithNoComplexStructures() {
+        try {
+            Cob2TransModel model = new Cob2TransModel();
+            model.getCob2XsdModel().setTargetNamespace(
+                    "http://legstar.com/test/coxb/cob2trans/" + _baseName);
+            model.getCoxbGenModel().setTypeNameSuffix("Type");
+            Cob2TransGenerator generator = new Cob2TransGenerator(model);
+            generator.generate(
+                    toFile("        01 A PIC X."), TARGET_DIR);
+            fail();
+        } catch (Cob2TransException e) {
+            assertTrue(e.getMessage().contains(
+                    "JAXB Generator did not find any complex types in "));
+        }
+
+    }
 }
