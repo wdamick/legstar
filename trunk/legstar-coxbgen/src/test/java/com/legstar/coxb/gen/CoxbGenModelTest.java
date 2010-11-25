@@ -192,7 +192,7 @@ public class CoxbGenModelTest extends AbstractTestTemplate {
         props.putAll(xjbModel.toProperties());
 
         model = new CoxbGenModel(props);
-        assertEquals("xsdLocation", model.getJaxbXjbModel().getXsdLocation());
+        assertEquals("xsdLocation", model.getJaxbGenModel().getXsdLocation());
         assertEquals(265L, model.getSerializableUid());
         assertEquals(false, model.isGenerateIsSetMethod());
         assertEquals("elementNamePrefix", model.getElementNamePrefix());

@@ -5,7 +5,6 @@ import java.util.Properties;
 import com.legstar.cob2xsd.Cob2XsdModel;
 import com.legstar.codegen.models.AbstractPropertiesModel;
 import com.legstar.coxb.gen.CoxbGenModel;
-import com.legstar.jaxb.gen.JaxbGenModel;
 
 /**
  * Parameter set for a Transformers generation.
@@ -73,9 +72,6 @@ public class Cob2TransModel extends AbstractPropertiesModel {
     /** COBOL to XSD parameter set. */
     private Cob2XsdModel _cob2XsdModel;
 
-    /** JAXB generator parameter set. */
-    private JaxbGenModel _jaxbgenModel;
-
     /** COXB generator parameter set. */
     private CoxbGenModel _coxbgenModel;
 
@@ -84,7 +80,6 @@ public class Cob2TransModel extends AbstractPropertiesModel {
      */
     public Cob2TransModel() {
         _cob2XsdModel = new Cob2XsdModel();
-        _jaxbgenModel = new JaxbGenModel();
         _coxbgenModel = new CoxbGenModel();
     }
 
@@ -104,7 +99,6 @@ public class Cob2TransModel extends AbstractPropertiesModel {
                 DEFAULT_DIST_FOLDER_NAME));
         setCleanFolders(getBoolean(props, CLEAN_FOLDERS, DEFAULT_CLEAN_FOLDERS));
         _cob2XsdModel = new Cob2XsdModel(props);
-        _jaxbgenModel = new JaxbGenModel(props);
         _coxbgenModel = new CoxbGenModel(props);
     }
 
@@ -120,20 +114,6 @@ public class Cob2TransModel extends AbstractPropertiesModel {
      */
     public void setCob2XsdModel(final Cob2XsdModel cob2XsdModel) {
         _cob2XsdModel = cob2XsdModel;
-    }
-
-    /**
-     * @return the JAXB generator options set
-     */
-    public JaxbGenModel getJaxbGenModel() {
-        return _jaxbgenModel;
-    }
-
-    /**
-     * @param jaxbgenModel the JAXB generator options set
-     */
-    public void setJaxbGenModel(final JaxbGenModel jaxbgenModel) {
-        _jaxbgenModel = jaxbgenModel;
     }
 
     /**
@@ -241,7 +221,6 @@ public class Cob2TransModel extends AbstractPropertiesModel {
         putBoolean(props, CLEAN_FOLDERS, isCleanFolders());
 
         props.putAll(getCob2XsdModel().toProperties());
-        props.putAll(getJaxbGenModel().toProperties());
         props.putAll(getCoxbGenModel().toProperties());
 
         return props;

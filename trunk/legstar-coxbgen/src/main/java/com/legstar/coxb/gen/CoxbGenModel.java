@@ -27,8 +27,8 @@ import org.xml.sax.SAXException;
 
 import com.legstar.codegen.CodeGenMakeException;
 import com.legstar.codegen.models.AbstractAntBuildModel;
+import com.legstar.coxb.util.NameUtil;
 import com.legstar.jaxb.gen.JaxbGenModel;
-import com.sun.xml.bind.api.impl.NameConverter;
 
 /**
  * A model usable for Binding classes generation.
@@ -123,7 +123,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /* ====================================================================== */
 
     /** JAXB binding customization made available. */
-    private JaxbGenModel _jaxbXjbModel;
+    private JaxbGenModel _jaxbGenModel;
 
     /** The target package name for generated binding classes. */
     private String _coxbPackageName;
@@ -175,15 +175,12 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /** A general purpose DOM document builder. */
     private DocumentBuilder _docBuilder;
 
-    /** Borrowed from XJC. Serves for XML to Java name conversions. */
-    private NameConverter _xjcNameConverter = new NameConverter.Standard();
-
     /**
      * A no-Arg constructor.
      */
     public CoxbGenModel() {
         super();
-        _jaxbXjbModel = new JaxbGenModel();
+        _jaxbGenModel = new JaxbGenModel();
     }
 
     /**
@@ -194,7 +191,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     public CoxbGenModel(final Properties props) {
         super(props);
         JaxbGenModel xjbModel = new JaxbGenModel(props);
-        setJaxbXjbModel(xjbModel);
+        setJaxbGenModel(xjbModel);
         setCoxbPackageName(getString(props, COXB_PACKAGENAME, null));
         setAlternativePackageName(getString(props,
                 COXB_JAXB_ALTERNATIVEPACKAGENAME, null));
@@ -291,10 +288,10 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      *             schema
      */
     public String getJaxbPackageName() throws CoxbGenException {
-        if (_jaxbXjbModel.getJaxbPackageName() == null) {
+        if (_jaxbGenModel.getJaxbPackageName() == null) {
             return getJaxbPackageNameFromXsd(getXsdFile());
         }
-        return _jaxbXjbModel.getJaxbPackageName();
+        return _jaxbGenModel.getJaxbPackageName();
     }
 
     /**
@@ -303,21 +300,21 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      * @param jaxbPackageName the JAXB classes package name to set
      */
     public void setJaxbPackageName(final String jaxbPackageName) {
-        _jaxbXjbModel.setJaxbPackageName(jaxbPackageName);
+        _jaxbGenModel.setJaxbPackageName(jaxbPackageName);
     }
 
     /**
      * @return if IsSet Methods should be generated
      */
     public boolean isGenerateIsSetMethod() {
-        return _jaxbXjbModel.isGenerateIsSetMethod();
+        return _jaxbGenModel.isGenerateIsSetMethod();
     }
 
     /**
      * @param generateIsSetMethod if IsSet Methods should be generated
      */
     public void setGenerateIsSetMethod(final boolean generateIsSetMethod) {
-        _jaxbXjbModel.setGenerateIsSetMethod(generateIsSetMethod);
+        _jaxbGenModel.setGenerateIsSetMethod(generateIsSetMethod);
     }
 
     /**
@@ -325,7 +322,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      *         serializable for LegStar)
      */
     public long getSerializableUid() {
-        return _jaxbXjbModel.getSerializableUid();
+        return _jaxbGenModel.getSerializableUid();
     }
 
     /**
@@ -333,63 +330,63 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      *            must be serializable for LegStar)
      */
     public void setSerializableUid(final long serializableUid) {
-        _jaxbXjbModel.setSerializableUid(serializableUid);
+        _jaxbGenModel.setSerializableUid(serializableUid);
     }
 
     /**
      * @return the prefix to add to type names
      */
     public String getTypeNamePrefix() {
-        return _jaxbXjbModel.getTypeNamePrefix();
+        return _jaxbGenModel.getTypeNamePrefix();
     }
 
     /**
      * @param typeNamePrefix the prefix to add to type names
      */
     public void setTypeNamePrefix(final String typeNamePrefix) {
-        _jaxbXjbModel.setTypeNamePrefix(typeNamePrefix);
+        _jaxbGenModel.setTypeNamePrefix(typeNamePrefix);
     }
 
     /**
      * @return the suffix to add to type names
      */
     public String getTypeNameSuffix() {
-        return _jaxbXjbModel.getTypeNameSuffix();
+        return _jaxbGenModel.getTypeNameSuffix();
     }
 
     /**
      * @param typeNameSuffix the suffix to add to type names
      */
     public void setTypeNameSuffix(final String typeNameSuffix) {
-        _jaxbXjbModel.setTypeNameSuffix(typeNameSuffix);
+        _jaxbGenModel.setTypeNameSuffix(typeNameSuffix);
     }
 
     /**
      * @return the prefix to add to element names
      */
     public String getElementNamePrefix() {
-        return _jaxbXjbModel.getElementNamePrefix();
+        return _jaxbGenModel.getElementNamePrefix();
     }
 
     /**
      * @param elementNamePrefix the prefix to add to element names
      */
     public void setElementNamePrefix(final String elementNamePrefix) {
-        _jaxbXjbModel.setElementNamePrefix(elementNamePrefix);
+        _jaxbGenModel.setElementNamePrefix(elementNamePrefix);
     }
 
     /**
      * @return the suffix to add to element names
      */
     public String getElementNameSuffix() {
-        return _jaxbXjbModel.getElementNameSuffix();
+        return _jaxbGenModel.getElementNameSuffix();
     }
 
     /**
      * @param elementNameSuffix the suffix to add to element names
      */
     public void setElementNameSuffix(final String elementNameSuffix) {
-        _jaxbXjbModel.setElementNameSuffix(elementNameSuffix);
+        _jaxbGenModel.setElementNameSuffix(elementNameSuffix);
     }
 
     /**
@@ -495,15 +492,15 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /**
      * @return the JAXB binding customization
      */
-    public JaxbGenModel getJaxbXjbModel() {
-        return _jaxbXjbModel;
+    public JaxbGenModel getJaxbGenModel() {
+        return _jaxbGenModel;
     }
 
     /**
-     * @param jaxbXjbModel the JAXB binding customization to set
+     * @param jaxbGenModel the JAXB binding customization to set
      */
-    public void setJaxbXjbModel(final JaxbGenModel jaxbXjbModel) {
-        _jaxbXjbModel = jaxbXjbModel;
+    public void setJaxbGenModel(final JaxbGenModel jaxbGenModel) {
+        _jaxbGenModel = jaxbGenModel;
     }
 
     /**
@@ -564,7 +561,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
             if (targetNamespace == null || targetNamespace.length() == 0) {
                 return DEFAULT_JAXB_PACKAGENAME;
             }
-            return _xjcNameConverter.toPackageName(targetNamespace);
+            return NameUtil.toPackageName(targetNamespace);
 
         } catch (SAXException e) {
             throw (new CoxbGenException(
@@ -601,7 +598,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      */
     public Properties toProperties() {
         Properties props = super.toProperties();
-        props.putAll(getJaxbXjbModel().toProperties());
+        props.putAll(getJaxbGenModel().toProperties());
         try {
             putString(props, COXB_PACKAGENAME, getCoxbPackageName());
         } catch (CoxbGenException e) {

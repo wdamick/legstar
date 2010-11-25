@@ -89,7 +89,7 @@ public abstract class AbstractCob2TransTester extends TestCase {
      * @param content some COBOL data item descriptions
      * @return a temporary file with the content
      */
-    private File toFile(final String content) {
+    protected File toFile(final String content) {
         try {
             File cobolFile = File.createTempFile("test", ".cbl", COB_TEMP_DIR);
             cobolFile.deleteOnExit();
