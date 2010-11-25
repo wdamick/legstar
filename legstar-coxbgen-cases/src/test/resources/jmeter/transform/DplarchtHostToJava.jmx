@@ -21,7 +21,7 @@
         <longProp name="ThreadGroup.start_time">1235322303000</longProp>
         <longProp name="ThreadGroup.end_time">1235322303000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
@@ -38,6 +38,8 @@
           <stringProp name="junitsampler.append.error">false</stringProp>
           <stringProp name="junitsampler.append.exception">false</stringProp>
           <stringProp name="junitsampler.method">testHostToJava</stringProp>
+          <stringProp name="junitsampler.error">An unexpected error occured</stringProp>
+          <stringProp name="junitsampler.error.code">9999</stringProp>
         </JUnitSampler>
         <hashTree>
           <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
