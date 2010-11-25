@@ -11,8 +11,10 @@
 package com.legstar.coxb.util;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 /**
  * Utilities that are common to the binding API and dependents.
@@ -39,6 +41,79 @@ public final class NameUtil {
     private static final int DIGIT = 3;
     /** Yet others (Non digit, non letter). */
     private static final int OTHER = 4;
+
+    /** All reserved keywords of Java. */
+    private static HashSet < String > reservedKeywords = new HashSet < String >();
+
+    static {
+        // see
+        // http://java.sun.com/docs/books/tutorial/java/nutsandbolts/_keywords.html
+        String[] words = new String[] {
+                "abstract",
+                "boolean",
+                "break",
+                "byte",
+                "case",
+                "catch",
+                "char",
+                "class",
+                "const",
+                "continue",
+                "default",
+                "do",
+                "double",
+                "else",
+                "extends",
+                "final",
+                "finally",
+                "float",
+                "for",
+                "goto",
+                "if",
+                "implements",
+                "import",
+                "instanceof",
+                "int",
+                "interface",
+                "long",
+                "native",
+                "new",
+                "package",
+                "private",
+                "protected",
+                "public",
+                "return",
+                "short",
+                "static",
+                "strictfp",
+                "super",
+                "switch",
+                "synchronized",
+                "this",
+                "throw",
+                "throws",
+                "transient",
+                "try",
+                "void",
+                "volatile",
+                "while",
+
+                // technically these are not reserved words but they cannot be
+                // used as identifiers.
+                "true",
+                "false",
+                "null",
+
+                // and I believe assert is also a new keyword
+                "assert",
+
+                // and 5.0 keywords
+                "enum"
+            };
+        for (String word : words) {
+            reservedKeywords.add(word);
+        }
+    }
 
     /**
      * A utility class.
@@ -405,4 +480,197 @@ public final class NameUtil {
         }
         return str.substring(0, 1).toUpperCase(Locale.getDefault());
     }
+
+    /**
+     * Checks if a given string is usable as a Java identifier.
+     * 
+     * @param s a character string
+     * @return true if valid java identifier
+     */
+    public static boolean isJavaIdentifier(final String s) {
+        if (s.length() == 0) {
+            return false;
+        }
+        if (reservedKeywords.contains(s)) {
+            return false;
+        }
+
+        if (!Character.isJavaIdentifierStart(s.charAt(0))) {
+            return false;
+        }
+
+        for (int i = 1; i < s.length(); i++) {
+            if (!Character.isJavaIdentifierPart(s.charAt(i))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /*
+     * -------------------------------------------------------------------
+     * Clone from <code>com.sun.xml.bind.api.impl.NameConverter#Standard</code>
+     * -------------------------------------------------------------------
+     */
+
+    /**
+     * .
+     * Computes a Java package name from a namespace URI,
+     * as specified in the spec.
+     * 
+     * @param uri the target namespace
+     * @return
+     *         null if it fails to derive a package name.
+     */
+    public static String toPackageName(final String uri) {
+
+        String nsUri = uri;
+        // remove scheme and :, if present
+        // spec only requires us to remove 'http' and 'urn'...
+        int idx = nsUri.indexOf(':');
+
+        String scheme = "";
+        if (idx >= 0) {
+            scheme = nsUri.substring(0, idx);
+            if (scheme.equalsIgnoreCase("http")
+                    || scheme.equalsIgnoreCase("urn")) {
+                nsUri = nsUri.substring(idx + 1);
+            }
+        }
+
+        // tokenize string
+        ArrayList < String > tokens = tokenize(nsUri, "/: ");
+        if (tokens.size() == 0) {
+            return null;
+        }
+
+        // remove trailing file type, if necessary
+        if (tokens.size() > 1) {
+            // for uri's like "www.foo.com" and "foo.com", there is no trailing
+            // file, so there's no need to look at the last '.' and substring
+            // otherwise, we loose the "com" (which would be wrong)
+            String lastToken = tokens.get(tokens.size() - 1);
+            idx = lastToken.lastIndexOf('.');
+            if (idx > 0) {
+                lastToken = lastToken.substring(0, idx);
+                tokens.set(tokens.size() - 1, lastToken);
+            }
+        }
+
+        // tokenize domain name and reverse. Also remove :port if it exists
+        String domain = tokens.get(0);
+        idx = domain.indexOf(':');
+        if (idx >= 0) {
+            domain = domain.substring(0, idx);
+        }
+        ArrayList < String > r = reverse(tokenize(domain,
+                scheme.equals("urn") ? ".-" : "."));
+        if (r.get(r.size() - 1).equalsIgnoreCase("www")) {
+            // remove leading www
+            r.remove(r.size() - 1);
+        }
+
+        // replace the domain name with tokenized items
+        tokens.addAll(1, r);
+        tokens.remove(0);
+
+        // iterate through the tokens and apply xml->java name algorithm
+        for (int i = 0; i < tokens.size(); i++) {
+
+            // get the token and remove illegal chars
+            String token = tokens.get(i);
+            token = removeIllegalIdentifierChars(token);
+
+            // this will check for reserved keywords
+            if (!NameUtil.isJavaIdentifier(token)) {
+                token = '_' + token;
+            }
+
+            tokens.set(i, token.toLowerCase());
+        }
+
+        // concat all the pieces and return it
+        return combine(tokens, '.');
+    }
+
+    /**
+     * Tokenize a string where tokens are separated by separator.
+     * 
+     * @param str the string to process
+     * @param sep the separator to look for
+     * @return a list of tokens
+     */
+    private static ArrayList < String > tokenize(final String str,
+            final String sep) {
+        StringTokenizer tokens = new StringTokenizer(str, sep);
+        ArrayList < String > r = new ArrayList < String >();
+
+        while (tokens.hasMoreTokens()) {
+            r.add(tokens.nextToken());
+        }
+
+        return r;
+    }
+
+    /**
+     * Reverse order of elements in a list.
+     * 
+     * @param <T> the elements type
+     * @param a a list of elements
+     * @return a list in reverse order
+     */
+    private static < T > ArrayList < T > reverse(final List < T > a) {
+        ArrayList < T > r = new ArrayList < T >();
+
+        for (int i = a.size() - 1; i >= 0; i--) {
+            r.add(a.get(i));
+        }
+
+        return r;
+    }
+
+    /**
+     * Combine elements from a list using separator.
+     * 
+     * @param r the elements list
+     * @param sep the separator
+     * @return a combined string
+     */
+    private static String combine(final List < ? > r, final char sep) {
+        StringBuilder buf = new StringBuilder(r.get(0).toString());
+
+        for (int i = 1; i < r.size(); i++) {
+            buf.append(sep);
+            buf.append(r.get(i));
+        }
+
+        return buf.toString();
+    }
+
+    /**
+     * Remove illegal java identifiers.
+     * 
+     * @param token the character string to process
+     * @return a clean string
+     */
+    private static String removeIllegalIdentifierChars(final String token) {
+        StringBuffer newToken = new StringBuffer();
+        for (int i = 0; i < token.length(); i++) {
+            char c = token.charAt(i);
+
+            if (i == 0 && !Character.isJavaIdentifierStart(c)) {
+                // prefix an '_' if the first char is illegal
+                newToken.append('_').append(c);
+            } else if (!Character.isJavaIdentifierPart(c)) {
+                // replace the char with an '_' if it is illegal
+                newToken.append('_');
+            } else {
+                // add the legal char
+                newToken.append(c);
+            }
+        }
+        return newToken.toString();
+    }
+
 }
