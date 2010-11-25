@@ -185,6 +185,13 @@ public class Cob2TransGenerator {
         Cob2TransResult result = new Cob2TransResult();
         String eventDescription;
 
+        if (_log.isDebugEnabled()) {
+            traceClassLoader("Cob2TransGenerator.class",
+                    Cob2TransGenerator.class.getClassLoader());
+            traceClassLoader("ThreadContextClassLoader", Thread.currentThread()
+                    .getContextClassLoader());
+        }
+
         Cob2TransDirs dirs = prepareTarget(targetDir, baseName, getModel());
 
         eventDescription = "Translate COBOL file '" + cobolFile
@@ -253,6 +260,25 @@ public class Cob2TransGenerator {
 
         return result;
 
+    }
+
+    private void traceClassLoader(final String name, final ClassLoader cl) {
+        _log.debug("=================================================");
+        traceClassLoaderHierarchy(name, cl);
+        if (cl instanceof URLClassLoader) {
+            for (URL url : ((URLClassLoader) cl).getURLs()) {
+                _log.debug(name + " URL=" + url.toString());
+            }
+        }
+        _log.debug("=================================================");
+    }
+
+    private void traceClassLoaderHierarchy(final String name,
+            final ClassLoader cl) {
+        _log.debug(name + "= " + cl);
+        if (cl.getParent() != null) {
+            traceClassLoaderHierarchy("  " + name + ".parent", cl.getParent());
+        }
     }
 
     /**
@@ -625,13 +651,10 @@ public class Cob2TransGenerator {
             final File binDir,
             final JaxbGenModel jaxbModel,
             final CoxbGenModel model) throws Cob2TransException {
-        ClassLoader previousCl = Thread.currentThread().getContextClassLoader();
 
         try {
             CoxbgenResult result = new CoxbgenResult();
             result.rootClassNames = new ArrayList < String >();
-
-            URL[] urlBinFiles = new URL[] { binDir.toURI().toURL() };
 
             CoxbBindingGenerator coxbGenerator = new CoxbBindingGenerator(model);
             coxbGenerator.setXsdFile(xsdFile);
@@ -664,10 +687,6 @@ public class Cob2TransGenerator {
                 }
             }
 
-            URLClassLoader coxbCl = new URLClassLoader(urlBinFiles,
-                    Cob2TransGenerator.class.getClassLoader());
-            Thread.currentThread().setContextClassLoader(coxbCl);
-
             coxbGenerator.execute();
 
             result.jaxbPackageName = coxbGenerator.getJaxbPackageName();
@@ -675,16 +694,12 @@ public class Cob2TransGenerator {
 
             return result;
 
-        } catch (MalformedURLException e) {
-            throw new Cob2TransException(e);
         } catch (UnsupportedEncodingException e) {
             throw new Cob2TransException(e);
         } catch (FileNotFoundException e) {
             throw new Cob2TransException(e);
         } catch (BuildException e) {
             throw new Cob2TransException(e);
-        } finally {
-            Thread.currentThread().setContextClassLoader(previousCl);
         }
     }
 

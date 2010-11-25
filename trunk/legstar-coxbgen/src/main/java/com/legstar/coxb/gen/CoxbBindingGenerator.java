@@ -14,9 +14,9 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,33 +81,37 @@ public class CoxbBindingGenerator extends Task {
     public void execute() {
         checkInput();
 
-        /*
-         * If we are not provided with a physical location for JAXB classes,
-         * assume they are available from the current classpath.
-         */
-        Object jaxbObjectFactory;
-        if (getJaxbBinDir() == null || getJaxbBinDir().length() == 0) {
-            jaxbObjectFactory = getObjectFactory(getJaxbPackageName());
-        } else {
-            /* Create an instance of the JAXB object factory */
-            jaxbObjectFactory = getObjectFactory(
-                    getJaxbPackageName(), getJaxbBinDir());
-        }
+        ClassLoader previousCl = Thread.currentThread().getContextClassLoader();
 
-        for (String jaxbRootClassName : getJaxbRootClassNames()) {
+        try {
+            /*
+             * If we are provided with a folder containing JAXB classes, we
+             * setup a context class loader that will be able to load them.
+             * Otherwise, it is assumed JAXB classes are available from the
+             * current class loader.
+             */
+            if (getJaxbBinDir() != null) {
+                URL[] urlBinFiles = new URL[] { getJaxbBinDir().toURI().toURL() };
+                URLClassLoader coxbCl = new URLClassLoader(urlBinFiles,
+                        CoxbBindingGenerator.class.getClassLoader());
+                Thread.currentThread().setContextClassLoader(coxbCl);
+            }
+            Object jaxbObjectFactory = BindingUtil
+                    .newJaxbObjectFactory(getJaxbPackageName());
 
-            /* Create an instance of the JAXB root object */
-            Object jaxbRootObject = getRootObject(
-                    jaxbObjectFactory, jaxbRootClassName);
+            for (String jaxbRootClassName : getJaxbRootClassNames()) {
 
-            try {
+                /* Create an instance of the JAXB root object */
+                Object jaxbRootObject = getRootObject(
+                        jaxbObjectFactory, jaxbRootClassName);
+
                 /* Create a visitor */
                 CoxbGenReflectVisitor visitor =
-                        new CoxbGenReflectVisitor(_coxbGenModel,
-                                _outputFolder);
+                            new CoxbGenReflectVisitor(_coxbGenModel,
+                                    _outputFolder);
                 /* Bind the root object to a COXB type */
                 CComplexReflectBinding ce = new CComplexReflectBinding(
-                        jaxbObjectFactory, jaxbRootObject);
+                            jaxbObjectFactory, jaxbRootObject);
                 /* Visit COXB type and all subtypes recursively */
                 ce.accept(visitor);
 
@@ -125,17 +129,26 @@ public class CoxbBindingGenerator extends Task {
                     visitor.getWriter().writeJsonToHostTransformer(ce);
                     visitor.getWriter().writeJsonTransformers(ce);
                 }
-
-            } catch (HostException e) {
-                _log.error(CoxbGenWriter.BINDING_GENERATOR_NAME + " failure ",
-                        e);
-                throw (new BuildException(
-                        "HostException " + e.getMessage()));
-            } catch (CoxbGenException e) {
-                _log.error(CoxbGenWriter.BINDING_GENERATOR_NAME + " failure ",
-                        e);
-                throw new BuildException(e);
             }
+
+        } catch (HostException e) {
+            _log.error(CoxbGenWriter.BINDING_GENERATOR_NAME
+                        + " failure ",
+                        e);
+            throw (new BuildException(
+                        "HostException " + e.getMessage()));
+        } catch (CoxbGenException e) {
+            _log.error(CoxbGenWriter.BINDING_GENERATOR_NAME
+                        + " failure ",
+                        e);
+            throw new BuildException(e);
+        } catch (MalformedURLException e) {
+            _log.error(CoxbGenWriter.BINDING_GENERATOR_NAME
+                    + " failure ",
+                    e);
+            throw new BuildException(e);
+        } finally {
+            Thread.currentThread().setContextClassLoader(previousCl);
         }
 
     }
@@ -210,76 +223,6 @@ public class CoxbBindingGenerator extends Task {
         } catch (IOException e) {
             throw new CoxbGenException(e);
         }
-    }
-
-    /**
-     * Loads the object factory class from a physical location and returns a
-     * new instance of it.
-     * 
-     * @param jaxbPackageName the JAXB package name
-     * @param jaxbDir the location of JAXB classes
-     * @return a JAXB Object factory
-     */
-    public static Object getObjectFactory(
-            final String jaxbPackageName,
-            final File jaxbDir) {
-
-        Object jaxbObjectFactory = null;
-
-        try {
-
-            /* Create a new class loader with the directory */
-            ClassLoader cl = getURLClassLoader(jaxbDir.toURI().toURL());
-
-            /* Load in ObjectFactory.class */
-            Class < ? > objfCls = cl.loadClass(
-                    jaxbPackageName + ".ObjectFactory");
-
-            /* Create a new instance of this class */
-            jaxbObjectFactory = objfCls.newInstance();
-
-        } catch (java.net.MalformedURLException e) {
-            throw (new BuildException(
-                    "MalformedURLException " + e.getMessage()));
-        } catch (ClassNotFoundException e) {
-            throw (new BuildException(
-                    "ClassNotFoundException " + e.getMessage()
-                            + " in " + jaxbDir));
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            throw (new BuildException(
-                    "InstantiationException " + e.getMessage()));
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            throw (new BuildException(
-                    "IllegalAccessException " + e.getMessage()));
-        }
-
-        return jaxbObjectFactory;
-    }
-
-    /**
-     * Create a class loader from a URL.
-     * 
-     * @param url where classes are located
-     * @return the class loader
-     */
-    @SuppressWarnings("unchecked")
-    private static ClassLoader getURLClassLoader(final URL url) {
-        return (ClassLoader) AccessController
-                .doPrivileged(new PrivilegedAction() {
-                    public Object run() {
-                        ClassLoader cl = null;
-                        try {
-                            URL[] urls = new URL[] { url };
-                            cl = new java.net.URLClassLoader(urls);
-                            return cl;
-                        } catch (SecurityException e) {
-                            throw new BuildException(
-                                    "SecurityException " + e.getMessage());
-                        }
-                    }
-                });
     }
 
     /**
