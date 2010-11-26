@@ -10,8 +10,8 @@
  ******************************************************************************/
 package com.legstar.host.server;
 
-import org.apache.commons.logging.Log; 
-import org.apache.commons.logging.LogFactory; 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import commonj.work.WorkEvent;
 import commonj.work.WorkListener;
 
@@ -26,6 +26,7 @@ public class EngineListener implements WorkListener {
 
     /**
      * The work manager has accepted the request.
+     * 
      * @param workEvent the work event
      * */
     public void workAccepted(final WorkEvent workEvent) {
@@ -34,6 +35,7 @@ public class EngineListener implements WorkListener {
 
     /**
      * The Engine completed its work.
+     * 
      * @param workEvent the work event
      * */
     public void workCompleted(final WorkEvent workEvent) {
@@ -45,16 +47,18 @@ public class EngineListener implements WorkListener {
 
     /**
      * Manager rejected that work.
+     * 
      * @param workEvent the work event
      * */
     public void workRejected(final WorkEvent workEvent) {
-        _log.debug("Engine work rejected.");
+        _log.fatal("Engine work rejected.", workEvent.getException());
     }
 
     /**
      * Work unit has started.
+     * 
      * @param workEvent the work event
-     *  */
+     * */
     public void workStarted(final WorkEvent workEvent) {
         _log.debug("Engine started.");
     }

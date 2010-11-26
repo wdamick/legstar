@@ -9,6 +9,7 @@
  *     LegSem - initial API and implementation
  ******************************************************************************/
 package com.legstar.work.manager;
+
 import java.util.Collection;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
@@ -23,7 +24,6 @@ import commonj.work.WorkException;
 import commonj.work.WorkItem;
 import commonj.work.WorkListener;
 import commonj.work.WorkManager;
-import commonj.work.WorkRejectedException;
 
 /**
  * This Work Manager implementation can be used when there is none provided
@@ -46,27 +46,27 @@ public class WorkManagerImpl implements WorkManager {
     public WorkManagerImpl(final ExecutorService executor) {
         mExecutor = executor;
     }
+
     /**
      * Schedules a unit of work asynchronously.
      * 
      * @param work Work that needs to be scheduled.
      * @return Work Work item representing the asynchronous work
-     * @throws WorkException if scheduling fails
      */
-    public WorkItem schedule(final Work work) throws WorkException {
+    public WorkItem schedule(final Work work) {
         return schedule(work, null);
     }
+
     /**
      * Schedules a unit of work asynchronously.
      * 
      * @param work Work that needs to be scheduled.
      * @param workListener Work listener for callbacks.
      * @return Work Work item representing the asynchronous work
-     * @throws WorkRejectedException if work is rejected
      */
     public WorkItem schedule(
             final Work work,
-            final WorkListener workListener) throws WorkRejectedException {
+            final WorkListener workListener) {
         WorkItemImpl workItem = new WorkItemImpl(
                 UUID.randomUUID().toString(), work);
         if (_log.isDebugEnabled()) {
@@ -75,11 +75,11 @@ public class WorkManagerImpl implements WorkManager {
         try {
             mExecutor.execute(new DecoratingWork(workItem, work, workListener));
             workAccepted(workItem, workListener);
-            return workItem;
         } catch (RejectedExecutionException e) {
+            workItem.setException(new WorkException(e));
             workRejected(workItem, workListener);
-            throw new WorkRejectedException(e);
         }
+        return workItem;
     }
 
     /**
@@ -110,7 +110,7 @@ public class WorkManagerImpl implements WorkManager {
 
     /**
      * Method provided for subclasses to indicate a work acceptance.
-     *
+     * 
      * @param workItem Work item representing the work that was accepted.
      * @param workListener Work listener for callbacks.
      */
@@ -131,6 +131,7 @@ public class WorkManagerImpl implements WorkManager {
 
     /**
      * Method to indicate a work was rejected.
+     * 
      * @param workItem Work item representing the work that was started.
      * @param workListener Work listener for callbacks.
      */
@@ -150,8 +151,9 @@ public class WorkManagerImpl implements WorkManager {
 
     /**
      * Method to indicate a work start.
+     * 
      * @param workItem Work item representing the work that was started.
-     * @param decoratingWork  Work that was started with additional properties.
+     * @param decoratingWork Work that was started with additional properties.
      */
     private void workStarted(
             final WorkItemImpl workItem,
@@ -171,6 +173,7 @@ public class WorkManagerImpl implements WorkManager {
 
     /**
      * Method to indicate a work completion.
+     * 
      * @param workItem Work item representing the work that was completed.
      * @param decoratingWork Work that was completed with additional properties.
      */
@@ -181,6 +184,7 @@ public class WorkManagerImpl implements WorkManager {
 
     /**
      * Method to indicate a work completion with an exception.
+     * 
      * @param workItem Work item representing the work that was completed.
      * @param decoratingWork Work that was completed with additional properties.
      * @param exception the exception that was raised
@@ -197,7 +201,8 @@ public class WorkManagerImpl implements WorkManager {
             workItem.setResult(decoratingWork.getDecoratedWork());
             workItem.setException(exception);
             if (_log.isDebugEnabled()) {
-                _log.debug("Work item " + workItem.getId() + " updated with results");
+                _log.debug("Work item " + workItem.getId()
+                        + " updated with results");
             }
             WorkListener workListener = decoratingWork.getWorkListener();
             if (workListener != null) {
@@ -224,6 +229,7 @@ public class WorkManagerImpl implements WorkManager {
 
         /**
          * Initializes the work item and underlying work.
+         * 
          * @param workItem Work item to be scheduled.
          * @param decoratedWork original work.
          * @param workListener an listener on the work events.

@@ -32,12 +32,12 @@ class WorkItemImpl implements WorkItem {
     /** The work unit from which this item originates. */
     private Work mOriginalWork;
 
-    /** If work unit failed, Exception otherwise null.  */
+    /** If work unit failed, Exception otherwise null. */
     private WorkException mException;
 
     /**
      * Creates a work item.
-     *
+     * 
      * @param id of this work event.
      * @param orginalWork associated work unit
      */
@@ -50,7 +50,7 @@ class WorkItemImpl implements WorkItem {
 
     /**
      * Returns the id.
-     *
+     * 
      * @return Id of this item.
      */
     public String getId() {
@@ -59,7 +59,7 @@ class WorkItemImpl implements WorkItem {
 
     /**
      * Returns the original work.
-     *
+     * 
      * @return Original work.
      */
     public Work getOriginalWork() {
@@ -68,20 +68,16 @@ class WorkItemImpl implements WorkItem {
 
     /**
      * Returns the work result if the work completed.
-     *
-     * @return Work.
-     * @throws WorkException If the work completed with an exception.
+     * 
+     * @return the work result.
      */
-    public Work getResult() throws WorkException {
-        if (mException != null) {
-            throw mException;
-        }
+    public Work getResult() {
         return mResult;
     }
 
     /**
      * Sets the result.
-     *
+     * 
      * @param result Result.
      */
     protected void setResult(final Work result) {
@@ -90,15 +86,16 @@ class WorkItemImpl implements WorkItem {
 
     /**
      * Returns the exception if work completed with an exception.
-     *
+     * 
      * @return Work exception.
      */
     protected WorkException getException() {
         return mException;
     }
+
     /**
      * Sets the exception.
-     *
+     * 
      * @param exception Exception.
      */
     protected void setException(final WorkException exception) {
@@ -108,7 +105,7 @@ class WorkItemImpl implements WorkItem {
     /**
      * Returns the work status (whether the work was accepted, started,
      * rejected or completed).
-     *
+     * 
      * @return Work status.
      */
     public int getStatus() {
@@ -117,36 +114,38 @@ class WorkItemImpl implements WorkItem {
 
     /**
      * Sets the status.
-     *
+     * 
      * @param status Status.
      */
     protected void setStatus(final int status) {
         mStatus = status;
     }
+
     /**
-     * @see Object#hashCode() 
-     * {@inheritDoc}
+     * @see Object#hashCode()
+     *      {@inheritDoc}
      */
     public int hashCode() {
         return mId.hashCode();
     }
+
     /**
      * Indicates whether some other object is "equal to" this one.
-     *
+     * 
      * @param obj Object to be compared.
      * @return true if this object is the same as the obj argument; false
      *         otherwise..
      */
     public boolean equals(final Object obj) {
         return (obj != null) && (obj.getClass() == WorkItemImpl.class)
-        && ((WorkItemImpl) obj).mId.equals(mId);
+                && ((WorkItemImpl) obj).mId.equals(mId);
     }
 
     /**
      * Compares this object with the specified object for order. Returns a
      * negative integer, zero, or a positive integer as this object is less
      * than, equal to, or greater than the specified object.
-     *
+     * 
      * @param o Object to be compared.
      * @return A negative integer, zero, or a positive integer as this object
      *         is less than, equal to, or greater than the specified object.
