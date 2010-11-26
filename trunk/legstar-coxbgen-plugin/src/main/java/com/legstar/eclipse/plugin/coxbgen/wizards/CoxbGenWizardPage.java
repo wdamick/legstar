@@ -154,7 +154,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
         jaxbOptionsButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(final SelectionEvent e) {
                 CoxbGenJaxbOtionsDialog dialog = new CoxbGenJaxbOtionsDialog(
-                        getShell(), getGenModel().getJaxbXjbModel());
+                        getShell(), getGenModel().getJaxbGenModel());
                 if (dialog.open() == CoxbGenJaxbOtionsDialog.OK) {
                     handleXJBParameters(dialog);
                 }

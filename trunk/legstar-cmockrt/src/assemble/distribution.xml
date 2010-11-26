@@ -18,7 +18,7 @@
             <scope>runtime</scope>
             <includes>
                 <include>com.legsem.legstar:${pom.artifactId}:*</include>
-                <include>org.json:jsonjava:*</include>
+                <include>org.json:json:*</include>
             </includes>
         </dependencySet>
     </dependencySets>
