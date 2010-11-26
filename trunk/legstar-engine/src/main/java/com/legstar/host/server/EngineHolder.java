@@ -23,7 +23,6 @@ import com.legstar.pool.manager.ConnectionPoolManager;
 import com.legstar.work.invoke.InvokeWorkFactory;
 import com.legstar.work.manager.WorkManagerImpl;
 
-import commonj.work.WorkException;
 import commonj.work.WorkManager;
 
 /**
@@ -82,8 +81,6 @@ public final class EngineHolder {
         try {
             sWorkManager.schedule(sEngine, new EngineListener());
         } catch (IllegalArgumentException e) {
-            throw new EngineStartupException(e);
-        } catch (WorkException e) {
             throw new EngineStartupException(e);
         }
     }
