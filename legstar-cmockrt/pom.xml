@@ -41,7 +41,7 @@
         <!-- Json library. -->    
         <dependency>
             <groupId>org.json</groupId>
-            <artifactId>jsonjava</artifactId>
+            <artifactId>json</artifactId>
         </dependency>
 
         <dependency>

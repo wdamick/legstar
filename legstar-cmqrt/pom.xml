@@ -31,7 +31,7 @@
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
-            <artifactId>jsonjava</artifactId>
+            <artifactId>json</artifactId>
         </dependency>
         <dependency>
             <groupId>com.ibm</groupId>

@@ -28,7 +28,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-
 /**
  * This Ant task iteratively calls the Velocity template engine to create
  * a list of artifacts described in an xml file.
@@ -44,12 +43,16 @@ public class CodeGenMake extends Task {
     /** The cixs make file name. */
     private String mCodeGenMakeFileName;
 
-    /** Velocity templates are applied against a model. 
-     * This is the model name. */
+    /**
+     * Velocity templates are applied against a model.
+     * This is the model name.
+     */
     private String mModelName;
 
-    /** Velocity templates are applied against a model. 
-     * This is the model itself. */
+    /**
+     * Velocity templates are applied against a model.
+     * This is the model itself.
+     */
     private Object mModel;
 
     /** XML element representing a code generation target. */
@@ -76,7 +79,7 @@ public class CodeGenMake extends Task {
     /** Logger. */
     private final Log _log = LogFactory.getLog(CodeGenMake.class);
 
-    /** @{inheritDoc}*/
+    /** @{inheritDoc  */
     @Override
     public void init() {
         try {
@@ -87,7 +90,7 @@ public class CodeGenMake extends Task {
         }
     }
 
-    /** @{inheritDoc}*/
+    /** @{inheritDoc */
     @Override
     public void execute() {
         long start = System.currentTimeMillis();
@@ -110,6 +113,7 @@ public class CodeGenMake extends Task {
 
     /**
      * Check input values and load the xml make file.
+     * 
      * @return an in-memory DOM xml make
      * @throws CodeGenMakeException if initialization fails
      */
@@ -135,6 +139,7 @@ public class CodeGenMake extends Task {
     /**
      * Process targets sequentially, invoking the velocity engine for each
      * target.
+     * 
      * @param doc a valid DOM for a cixs make
      * @throws CodeGenMakeException if processing fails
      */
@@ -143,10 +148,11 @@ public class CodeGenMake extends Task {
                 CODEGEN_TARGET_XML_E);
         if (listOfElements == null || listOfElements.getLength() == 0) {
             throw (new CodeGenMakeException(
-            "Empty or invalid code generation make file"));
+                    "Empty or invalid code generation make file"));
         }
         Element targetElement = (Element) listOfElements.item(0);
-        String targetName = targetElement.getAttribute(CODEGEN_TARGET_NAME_XML_A);
+        String targetName = targetElement
+                .getAttribute(CODEGEN_TARGET_NAME_XML_A);
         if (targetName == null || targetName.length() == 0) {
             throw new CodeGenMakeException("Missing name attribute for "
                     + CODEGEN_TARGET_XML_E + " element");
@@ -174,7 +180,7 @@ public class CodeGenMake extends Task {
             if (templateName == null || templateName.length() == 0) {
                 throw new CodeGenMakeException(
                         "Missing template name attribute for "
-                        + CODEGEN_STEP_XML_E + " element");
+                                + CODEGEN_STEP_XML_E + " element");
             }
             String templateTargetFileName = templateEl.getAttribute(
                     CODEGEN_TEMPLATE_TARGET_FILE_XML_A);
@@ -182,7 +188,7 @@ public class CodeGenMake extends Task {
                     || templateTargetFileName.length() == 0) {
                 throw new CodeGenMakeException(
                         "Missing template target file name attribute for "
-                        + CODEGEN_STEP_XML_E + " element");
+                                + CODEGEN_STEP_XML_E + " element");
             }
             String templateTargetCharsetName = templateEl.getAttribute(
                     CODEGEN_TEMPLATE_TARGET_CHARSETNAME_XML_A);
@@ -204,6 +210,7 @@ public class CodeGenMake extends Task {
      * parameters to the template generation process.
      * Children are expected to have a single value attribute otherwise, they
      * are ignored.
+     * 
      * @param templateEl the current template element
      * @return a Map of parameters/values
      */
@@ -224,13 +231,14 @@ public class CodeGenMake extends Task {
 
     /**
      * Loads code generation make file from a serialized XML.
+     * 
      * @param makeFile the serialized file
      * @return an in-memory DOM code generation make
      * @throws CodeGenMakeException if load fails
      */
     public Document load(final File makeFile) throws CodeGenMakeException {
         DocumentBuilderFactory docBuilderFactory =
-            DocumentBuilderFactory.newInstance();
+                DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder;
         try {
             docBuilderFactory.setNamespaceAware(false);
