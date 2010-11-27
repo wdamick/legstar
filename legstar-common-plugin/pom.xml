@@ -3,10 +3,10 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.4.2</version>
+        <version>1.4.3-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
-    <version>1.4.2</version>
+    <version>1.4.3-SNAPSHOT</version>
     <artifactId>legstar-common-plugin</artifactId>
     <packaging>jar</packaging>
     <name>LegStar Common Eclipse plugin</name>

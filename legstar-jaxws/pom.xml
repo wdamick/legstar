@@ -3,10 +3,10 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.4.2</version>
+        <version>1.4.3-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
-    <version>1.4.2</version>
+    <version>1.4.3-SNAPSHOT</version>
     <artifactId>legstar-jaxws</artifactId>
     <packaging>pom</packaging>
     <name>LegStar JAXWS Service Generator</name>
