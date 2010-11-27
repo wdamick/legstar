@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<chapter>
+<title>Introduction</title>
+<section id="distribution-zos-overview">
+<title>Distribution for z/OS overview</title>
+<para>
+  This is a distribution of all LegStar z/OS modules in TSO XMIT format.
+</para>
+<para>
+  Although the main <ulink url="http://www.legsem.com/legstar/legstar-distribution">LegStar distribution</ulink> contains all the
+  z/OS modules as source code and sample compilation JCL, it might be tricky to figure out in what
+  precise order these compilation jobs should run. In addition, the main distribution does not
+  include JCL for CICS RDO definitions.
+</para>
+<para>
+  As a convenience, this distribution groups all z/OS modules both in executable and source
+  format in a set of TSO XMIT files. This way, you can install the executables directly without
+  any compilation. Furthermore a JCL with RDO definitions is provided.
+</para>
+<para>
+  For instructions on how to install this distribution follow <ulink url="install-instructions.html">this link</ulink>.
+</para>
+</section>
+
+</chapter>
+  

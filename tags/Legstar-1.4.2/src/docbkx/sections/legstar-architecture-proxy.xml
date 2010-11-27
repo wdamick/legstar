@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section id="architecture-proxy">
+<title>Consume a Web Service or POJO from a COBOL program</title>
+
+<section>
+<title>Development tools</title>
+<para>
+  There are three steps to achieve outbound access to Web Services or POJOs:
+</para>
+<figure>
+<title>Service proxy development steps</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/legstar-dev-outbound.jpg" format="JPG" scalefit="1" width="100%" contentdepth="100%"/>
+</imageobject>
+</mediaobject>
+</figure>
+<para>
+  The LegStar <emphasis>Complex Types Mapping Generator</emphasis> takes a WSDL or XML Schema file as
+  input and produces a Mapping XML Schema with COBOL annotations. Alternatively, it can use pure Java
+  objects as input when the target is a POJO rather than a Web Service.
+</para>
+<para>
+  The developer will typically edit the resulting XML schema to adjust such things as COBOL string sizes
+  or maximum array sizes, which cannot always be inferred from XML Schema.
+</para>
+<para>
+  The second step, using the LegStar <emphasis>COBOL Transformers Generator</emphasis> is the same tool
+  used for adapters. The result is a set of java classes, which provides
+  the conversion capabilities from mainframe data to XML, JSON or Java.
+</para>
+<para>
+  The third step, the LegStar <emphasis>Mainframe Service Generator</emphasis>, also used for adapers,
+  is used here to produce a Mainframe Proxy and COBOL CICS sample program. The
+  Mainframe Proxy acts as an intermediary between the mainframe client program and the target Web Service
+  or POJO at runtime. It can be deployed as a Servlet.
+</para>
+<para>
+  The COBOL CICS sample program generated can be used to jump start your own mainframe client programs.
+</para>
+</section>
+
+<section>
+<title>Runtime services</title>
+<para>
+  LegStar provides a <emphasis>Mainframe Proxy Runtime</emphasis> to support incoming requests from the
+  mainframe. The HTTP Transport is the only one available at the moment.
+</para>
+<para>
+  On the mainframe side, you can use CICS DFHWBCLI or EXEC WEB API to send the payload to the Mainframe
+  Proxy Runtime. All that is required is that the request is an HTTP POST and that the body is binary
+  (not translated to ASCII) signaled by an application/octet-stream MIME type.
+</para>
+<para>
+  For older versions of CICS without DFHWBCLI or EXEC WEB API, LegStar provides a simple HTTP client API
+  written in C/370.
+</para>
+<para>
+  The CICS program does not directly call the target Web Service/POJO. Rather, the generated Mainframe
+  Proxy receives the request, which is still in host (EBCDIC) format at this stage. Again, no conversion
+  occurs on the host significantly reducing the mainframe footprint of this solution.
+</para>
+<para>
+  Transformation from mainframe format to XML is performed by the LegStar
+  <emphasis>COBOL Binding Runtime</emphasis>.
+</para>
+<para>
+  The request would flow as depicted in the following diagram:
+</para>
+<figure>
+<title>Service proxy runtime</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/legstar-run-outbound.jpg" format="JPG"/>
+</imageobject>
+</mediaobject>
+</figure>
+<para>
+  The Mainframe Proxy uses the standard JAX-WS Client API to perform the call to the target Web Service.
+  Alternatively, when the target is a POJO, the Proxy invokes the POJO method directly. Observe that in
+  the case of POJOs, there is no need for JAXB at runtime, the only constraint is that the Proxy be able
+  to locate the POJO in the J2EE server classpath.
+</para>
+</section>
+
+</section>

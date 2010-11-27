@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:notation name='jpeg' public='JPG'/>
+    <xs:notation name='gif' public='GIF'/>
+    
+    <xs:element name="PrimitiveString" type="xs:string"/>
+	<xs:element name="PrimitiveBoolean" type="xs:boolean"/>
+	<xs:element name="PrimitiveDecimal" type="xs:decimal"/>
+	<xs:element name="PrimitiveFloat" type="xs:float"/>
+	<xs:element name="PrimitiveDouble" type="xs:double"/>
+	<xs:element name="PrimitiveDate" type="xs:date"/>
+	<xs:element name="PrimitiveDateTime" type="xs:dateTime"/>
+	<xs:element name="PrimitiveDuration" type="xs:duration"/>
+	<xs:element name="PrimitiveDay" type="xs:gDay"/>
+	<xs:element name="PrimitiveMonth" type="xs:gMonth"/>
+	<xs:element name="PrimitiveMonthDay" type="xs:gMonthDay"/>
+	<xs:element name="PrimitiveYear" type="xs:gYear"/>
+	<xs:element name="PrimitiveBase64Bin" type="xs:base64Binary"/>
+	<xs:element name="PrimitiveHexBin" type="xs:hexBinary"/>
+	<xs:element name="PrimitiveQName" type="xs:QName"/>
+	<xs:element name="PrimitiveNotation">
+        <xs:simpleType>
+            <xs:restriction base="xs:NOTATION">
+                <xs:enumeration value='jpeg'/>
+                <xs:enumeration value='gif'/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+	<xs:element name="PrimitiveAnyURI" type="xs:anyURI"/>
+	<xs:element name="PrimitiveYearMonth" type="xs:gYearMonth"/>
+	<xs:element name="PrimitiveTime" type="xs:time"/>
+
+	<xs:element name="DerivedPositiveInteger" type="xs:positiveInteger"/>
+	<xs:element name="DerivedNegativeInteger" type="xs:negativeInteger"/>
+	<xs:element name="DerivedNonNegativeInteger" type="xs:nonNegativeInteger"/>
+	<xs:element name="DerivedNonpositiveInteger" type="xs:nonPositiveInteger"/>
+	<xs:element name="DerivedUnsignedShort" type="xs:unsignedShort"/>
+	<xs:element name="DerivedUnsignedLong" type="xs:unsignedLong"/>
+	<xs:element name="DerivedUnsignedInt" type="xs:unsignedInt"/>
+	<xs:element name="DerivedUnsignedByte" type="xs:unsignedByte"/>
+	<xs:element name="DerivedLong" type="xs:long"/>
+	<xs:element name="DerivedShort" type="xs:short"/>
+	<xs:element name="DerivedInt" type="xs:int"/>
+	<xs:element name="DerivedByte" type="xs:byte"/>
+	<xs:element name="DerivedToken" type="xs:token"/>
+	<xs:element name="DerivedLanguage" type="xs:language"/>
+	<xs:element name="DerivedNMTOKEN" type="xs:NMTOKEN"/>
+	<xs:element name="DerivedNMTOKENS" type="xs:NMTOKENS"/>
+	<xs:element name="DerivedID" type="xs:ID"/>
+	<xs:element name="DerivedIDRef" type="xs:IDREF"/>
+	<xs:element name="DerivedEntity" type="xs:ENTITY"/>
+	<xs:element name="DerivedEntities" type="xs:ENTITIES"/>
+	<xs:element name="DerivedName" type="xs:Name"/>
+	<xs:element name="DerivedNameToken" type="xs:NMTOKEN"/>
+	<xs:element name="DerivedNCName" type="xs:NCName"/>
+	<xs:element name="DerivedNormalizedString" type="xs:normalizedString"/>
+	<xs:element name="DerivedInteger" type="xs:integer"/>
+</xs:schema>

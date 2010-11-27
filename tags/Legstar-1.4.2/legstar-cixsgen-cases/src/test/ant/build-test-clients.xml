@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =================================================================================
+    This script generates Web Service clients for each of the Web Services
+    generated in cixsgen.
+ -->
+<project basedir="../../.." default="generateAllJAXWSClients" name="build">
+
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
+    <target name="init">
+        <!-- Ant-Contrib tasks. Needed for "foreach ", regex, switch, ...
+            (ant-contrib.jar must be in ant classpath) -->
+        <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+        
+        <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
+            <classpath refid="maven.classpath"/>
+        </taskdef>
+        
+        <mkdir dir="${basedir}/../legstar-cixsgen-clients/target/classes"/>
+        <delete dir="${basedir}/../legstar-cixsgen-clients/src/main/java/com" quiet="true"/> 
+        
+    </target>
+
+    <!-- Generate JAXWS client artifacts for each CIXWS generated Web Service.        -->
+    <target name="generateAllJAXWSClients" depends="init">
+        <foreach target="generateJAXWSClient" param="cixs.dir" inheritrefs="true" inheritall="true">
+            <path>
+                <dirset dir="${basedir}/../legstar-cixsgen-cases/src/main/resources" includes="*"/>
+            </path>
+        </foreach>
+    </target>
+
+    <target name="generateJAXWSClient" description="Create JAXWS Web Service clients">
+    
+        <if>
+            <available file="${cixs.dir}/webapp/WEB-INF/sun-jaxws.xml"/>
+            <then>
+                <basename property="service-name" file="${cixs.dir}"  suffix=".xsd"/>
+                <echo>Processing ${service-name}</echo>
+                <wsimport
+                    debug="true"
+                    verbose="true"
+                    keep="true"
+                    sourcedestdir="${basedir}/../legstar-cixsgen-clients/src/main/java"
+                    destdir="${basedir}/../legstar-cixsgen-clients/target/classes"
+                    xnocompile="true"
+                    wsdl="http://localhost:8080/cixs-${service-name}/${service-name}?wsdl">
+                </wsimport>
+            </then>
+        </if>
+        
+    
+    </target>
+  
+</project>
