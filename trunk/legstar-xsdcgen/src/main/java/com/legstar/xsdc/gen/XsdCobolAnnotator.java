@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,6 +32,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tools.ant.BuildException;
 import org.apache.ws.commons.schema.XmlSchema;
+import org.apache.ws.commons.schema.XmlSchemaAll;
 import org.apache.ws.commons.schema.XmlSchemaAnnotation;
 import org.apache.ws.commons.schema.XmlSchemaAppInfo;
 import org.apache.ws.commons.schema.XmlSchemaCollection;
@@ -195,15 +197,17 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 
         XmlSchemaObjectCollection items = schema.getItems();
 
-        /* Process each element in the input Schema */
+        /*
+         * Process each element in the input Schema.
+         * Only elements are processed because we need to reconstruct
+         * a hierarchy of complex types. Elements give us the roots
+         * to start from.
+         */
         try {
             for (int i = 0; i < items.getCount(); i++) {
                 XmlSchemaObject obj = items.getItem(i);
                 if (obj instanceof XmlSchemaElement) {
                     annotateElement(schema, (XmlSchemaElement) obj, 1);
-                }
-                if (obj instanceof XmlSchemaComplexType) {
-                    annotateComplexType(schema, (XmlSchemaComplexType) obj);
                 }
             }
         } catch (XsdCobolAnnotatorException e) {
@@ -217,48 +221,15 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         options.put(OutputKeys.OMIT_XML_DECLARATION, "no");
         schema.write(out, options);
         if (_log.isDebugEnabled()) {
-            _log.debug("XML Schema Cobol annotation ended");
-        }
-    }
-
-    /**
-     * As an option, caller might want to add root elements to the
-     * schema before it is processed. To be valid these elements
-     * must map to an existing type and should not conflict with
-     * existing elements.
-     * 
-     * @param schema the schema to be annotated
-     */
-    private void addRootElements(final XmlSchema schema) {
-        if (mRootElements == null) {
-            return;
-        }
-        for (QName typeName : mRootElements.keySet()) {
-            XmlSchemaType schemaType = schema.getTypeByName(typeName);
-            QName eln = mRootElements.get(typeName);
-            if (schema.getTypeByName(typeName) == null) {
-                throw (new BuildException("Root element " + eln
-                        + " has unknown type " + typeName));
-            }
-
-            QName elementName = mRootElements.get(typeName);
-            XmlSchemaElement el = schema.getElementByName(elementName);
-            if (el == null) {
-                el = new XmlSchemaElement();
-                el.setQName(elementName);
-                el.setName(elementName.getLocalPart());
-                el.setSchemaTypeName(typeName);
-                el.setSchemaType(schemaType);
-                schema.getElements().add(eln, el);
-                schema.getItems().add(el);
-            }
+            _log.debug("XML Schema Cobol annotation ended. Result:");
+            logSchema(schema);
         }
     }
 
     /**
      * Checks that the xsd file provided is valid.
      */
-    private void checkInputXsd() {
+    protected void checkInputXsd() {
 
         if (_log.isDebugEnabled()) {
             _log.debug("   Source Xsd URI      = "
@@ -291,29 +262,6 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
             }
             setTargetXsdFileName(targetXsdFileName);
         }
-    }
-
-    /**
-     * Checks that parameters set are valid for the specified schema.
-     * 
-     * @param schema the input schema
-     */
-    private void checkAllParameters(final XmlSchema schema) {
-
-        /* If the user did not specify a namespace get the schema one. */
-        if (getNamespace() == null || getNamespace().length() == 0) {
-            setNamespace(schema.getTargetNamespace());
-        } else {
-            /* Might be a case where we need to switch namespaces */
-            switchTargetNamespace(schema, getNamespace());
-        }
-
-        /*
-         * Xsd file name is not mandatory because we can generate a
-         * sensible default value.
-         */
-        super.checkInput(false, false);
-
     }
 
     /**
@@ -403,6 +351,10 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
              * attributes of the root at the schema node level so that
              * the schema node is complete from an XmlSchema standpoint.
              * We filter out all WSDL related namespaces.
+             * 
+             * We also retrieve message parts which are bound to complex types.
+             * We will later add them as elements in the schema as they play the
+             * role of root elements.
              */
             if (root.getLocalName().compareTo("definitions") == 0
                     && root.getNamespaceURI().compareTo(WSDL_NS) == 0) {
@@ -431,6 +383,9 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                     }
                 }
                 schema.setNamespaceContext(prefixmap);
+
+                addWsdlPartsAsRootElements(doc, schema.getTargetNamespace());
+
             }
 
         } catch (FileNotFoundException e) {
@@ -444,8 +399,67 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         if (_log.isDebugEnabled()) {
             _log.debug("getSchema ended. Target namespace = "
                     + schema.getTargetNamespace());
+            _log.debug("XML Schema before annotations:");
+            logSchema(schema);
         }
         return schema;
+    }
+
+    /**
+     * WSDL part elements which are bound to schema types (rather than
+     * elements),
+     * do not have an element counterpart in the wsdl schema.
+     * <p/>
+     * What we do here, is that we store them as additional root elements which
+     * will be later added to the schema.
+     * 
+     * @param doc the XML document containing the WSDL
+     * @param targetNamespace the target namespace for the schema
+     */
+    protected void addWsdlPartsAsRootElements(final Document doc,
+            final String targetNamespace) {
+        NodeList nodes = doc.getElementsByTagNameNS(WSDL_NS, "part");
+        if (nodes != null) {
+            for (int i = 0; i < nodes.getLength(); i++) {
+                Element partElement = (Element) nodes.item(i);
+                String name = partElement.getAttribute("name");
+                String type = partElement.getAttribute("type");
+                if (type != null && type.length() > 0) {
+                    if (type.indexOf(':') > 0) {
+                        type = type.substring(type.indexOf(':') + 1);
+                    }
+                    if (mRootElements == null) {
+                        mRootElements = new HashMap < QName, QName >();
+                    }
+                    mRootElements.put(
+                            new QName(targetNamespace, type),
+                            new QName(targetNamespace, name));
+                }
+            }
+        }
+    }
+
+    /**
+     * Checks that parameters set are valid for the specified schema.
+     * 
+     * @param schema the input schema
+     */
+    private void checkAllParameters(final XmlSchema schema) {
+
+        /* If the user did not specify a namespace get the schema one. */
+        if (getNamespace() == null || getNamespace().length() == 0) {
+            setNamespace(schema.getTargetNamespace());
+        } else {
+            /* Might be a case where we need to switch namespaces */
+            switchTargetNamespace(schema, getNamespace());
+        }
+
+        /*
+         * Xsd file name is not mandatory because we can generate a
+         * sensible default value.
+         */
+        super.checkInput(false, false);
+
     }
 
     /**
@@ -538,6 +552,40 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     }
 
     /**
+     * As an option, caller might want to add root elements to the
+     * schema before it is processed. To be valid these elements
+     * must map to an existing type and should not conflict with
+     * existing elements.
+     * 
+     * @param schema the schema to be annotated
+     */
+    private void addRootElements(final XmlSchema schema) {
+        if (mRootElements == null) {
+            return;
+        }
+        for (QName typeName : mRootElements.keySet()) {
+            XmlSchemaType schemaType = schema.getTypeByName(typeName);
+            QName eln = mRootElements.get(typeName);
+            if (schema.getTypeByName(typeName) == null) {
+                throw (new BuildException("Root element " + eln
+                        + " has unknown type " + typeName));
+            }
+
+            QName elementName = mRootElements.get(typeName);
+            XmlSchemaElement el = schema.getElementByName(elementName);
+            if (el == null) {
+                el = new XmlSchemaElement();
+                el.setQName(elementName);
+                el.setName(elementName.getLocalPart());
+                el.setSchemaTypeName(typeName);
+                el.setSchemaType(schemaType);
+                schema.getElements().add(eln, el);
+                schema.getItems().add(el);
+            }
+        }
+    }
+
+    /**
      * Creates an output stream from the input XML schema file name.
      * 
      * @return an output stream
@@ -589,6 +637,16 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
         /* Add an annotation */
         obj.setAnnotation(createAnnotation(el));
 
+        /*
+         * If this element is of a complex type, it is time to
+         * process the complex type.
+         */
+        if (obj.getSchemaType() instanceof XmlSchemaComplexType) {
+            XmlSchemaComplexType type = (XmlSchemaComplexType) obj
+                    .getSchemaType();
+            annotateComplexType(schema, type, level);
+        }
+
         if (mNeedNamespaceSwitch) {
             switchNamespace(schema, obj);
         }
@@ -600,19 +658,24 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 
     /**
      * Main annotation process applied to an XML schema complex type.
-     * For now the only attribute that needs to go at the complex Type
-     * level is the java class name used when the schema is derived from
-     * a POJO rather than an XSD or WSDL.
+     * <p/>
+     * For now the only attribute that needs to go at the complex Type level is
+     * the java class name used when the schema is derived from a POJO rather
+     * than an XSD or WSDL.
      * 
      * @param schema the XML Schema being annotated
-     * @param obj the XML Schema type to annotate
+     * @param type the XML Schema type to annotate
+     * @param level the current level in the elements hierarchy. This is used
+     *            to create Cobol levels with the same depth as the input XML
+     *            schema.
      * @throws XsdCobolAnnotatorException if annotation fails
      */
     public void annotateComplexType(
             final XmlSchema schema,
-            final XmlSchemaComplexType obj) throws XsdCobolAnnotatorException {
+            final XmlSchemaComplexType type,
+            final int level) throws XsdCobolAnnotatorException {
         if (_log.isDebugEnabled()) {
-            _log.debug("annotate started for complex type = " + obj.getName());
+            _log.debug("annotate started for complex type = " + type.getName());
         }
 
         /*
@@ -621,7 +684,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
          */
         if (mComplexTypeToJavaClassMap != null) {
             String javaClassName =
-                    mComplexTypeToJavaClassMap.get(obj.getName());
+                    mComplexTypeToJavaClassMap.get(type.getName());
             if (javaClassName != null) {
                 if (_log.isDebugEnabled()) {
                     _log.debug("   java class name = " + javaClassName);
@@ -634,12 +697,84 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                 el.appendChild(elc);
 
                 /* Add an annotation */
-                obj.setAnnotation(createAnnotation(el));
+                type.setAnnotation(createAnnotation(el));
             }
         }
 
+        annotateComplexTypeElements(schema, type, level);
+
         if (_log.isDebugEnabled()) {
-            _log.debug("annotate ended for complex type = " + obj.getName());
+            _log.debug("annotate ended for complex type = " + type.getName());
+        }
+    }
+
+    /**
+     * Annotate a complex type elements.
+     * 
+     * @param schema the parent schema
+     * @param type the complex type
+     * @param level the current level in the elements hierarchy. This is used
+     *            to create Cobol levels with the same depth as the input XML
+     *            schema.
+     * @throws XsdCobolAnnotatorException if annotating fails
+     */
+    protected void annotateComplexTypeElements(
+            final XmlSchema schema,
+            final XmlSchemaComplexType type,
+            final int level) throws XsdCobolAnnotatorException {
+
+        /* Complex types might contain xsd:attribute and no particles at all */
+        if (type.getParticle() != null) {
+
+            if (type.getParticle().getMaxOccurs() > 1) {
+                /* TODO find a way to handle occuring sequences and alls */
+                _log
+                        .warn("Complex type "
+                                + type.getName()
+                                + " contains a multi-occurence particle that is ignored");
+            }
+
+            if (type.getParticle() instanceof XmlSchemaSequence) {
+                XmlSchemaSequence sequence = (XmlSchemaSequence) type
+                        .getParticle();
+                annotateCollectionElements(schema, sequence.getItems(), level);
+                return;
+
+            } else if (type.getParticle() instanceof XmlSchemaAll) {
+                XmlSchemaAll all = (XmlSchemaAll) type.getParticle();
+                annotateCollectionElements(schema, all.getItems(), level);
+                return;
+            }
+        }
+
+        /* TODO process other particle types of interest */
+        /* TODO find a way to handle xsd:attribute */
+        _log.warn("Complex type " + type.getName()
+                + " does not contain a sequence or all element");
+    }
+
+    /**
+     * Take all elements from a collection and annotate them.
+     * 
+     * @param schema the parent schema
+     * @param items the parent collection
+     * @param level the current level in the elements hierarchy. This is used
+     *            to create Cobol levels with the same depth as the input XML
+     *            schema.
+     * @throws XsdCobolAnnotatorException if annotating fails
+     */
+    protected void annotateCollectionElements(
+            final XmlSchema schema,
+            final XmlSchemaObjectCollection items,
+            final int level) throws XsdCobolAnnotatorException {
+
+        /* Process each element in the collection */
+        for (int i = 0; i < items.getCount(); i++) {
+            XmlSchemaObject element = items.getItem(i);
+            if (element instanceof XmlSchemaElement) {
+                annotateElement(schema, (XmlSchemaElement) element,
+                        level + 2);
+            }
         }
     }
 
@@ -745,9 +880,12 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
 
         /* Examine inner simple and complex types */
         if (obj.getSchemaType() instanceof XmlSchemaSimpleType) {
+
             setSimpleTypeAttributes(schema,
                     (XmlSchemaSimpleType) obj.getSchemaType(), elc);
+
         } else if (obj.getSchemaType() instanceof XmlSchemaComplexType) {
+
             setComplexTypeAttributes(
                     schema, (XmlSchemaComplexType) obj.getSchemaType(), elc,
                     level);
@@ -852,8 +990,7 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
     }
 
     /**
-     * For each element child of a complex type, this method generates cobol
-     * annotations.
+     * Annotated complex types as group items.
      * 
      * @param schema the XML Schema being annotated
      * @param type the XML schema type
@@ -880,33 +1017,9 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
                     + elc.getAttribute(CobolMarkup.TYPE));
         }
 
-        if (type.getParticle() instanceof XmlSchemaSequence) {
-            XmlSchemaSequence sequenceObj =
-                    (XmlSchemaSequence) type.getParticle();
-
-            if (sequenceObj.getMaxOccurs() > 1) {
-                /* TODO find a way to handle occuring sequences */
-                _log
-                        .warn("Complex type "
-                                + type.getName()
-                                + " contains a multi-occurence sequence that is ignored");
-            }
-            XmlSchemaObjectCollection items = sequenceObj.getItems();
-            /* Process each element in the collection */
-            for (int i = 0; i < items.getCount(); i++) {
-                XmlSchemaObject obj = items.getItem(i);
-                if (obj instanceof XmlSchemaElement) {
-                    annotateElement(schema, (XmlSchemaElement) obj, level + 2);
-                }
-            }
-        } else {
-            /* TODO process other particle types of interest */
-            _log.warn("Complex type " + type.getName()
-                    + " does not contain a sequence");
-        }
         if (_log.isDebugEnabled()) {
             _log.debug("setComplexTypeAttributes ended for type = "
-                    + type.getName());
+                    + type.getQName());
         }
     }
 
@@ -1458,6 +1571,18 @@ public class XsdCobolAnnotator extends SourceToXsdCobolTask {
      */
     public XsdToXsdCobolModel getModel() {
         return (XsdToXsdCobolModel) super.getModel();
+    }
+
+    /**
+     * Prints the schema content in the log.
+     * 
+     * @param schema the XML Schema
+     */
+    protected void logSchema(final XmlSchema schema) {
+        StringWriter sw = new StringWriter();
+        schema.write(sw);
+        _log.debug(sw.toString());
+
     }
 
 }
