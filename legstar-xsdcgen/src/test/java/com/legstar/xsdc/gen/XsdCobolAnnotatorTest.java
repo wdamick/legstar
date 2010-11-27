@@ -48,9 +48,6 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
     /** XML Schema namespace. */
     private static final String XSD_NS = "http://www.w3.org/2001/XMLSchema";
 
-    /** XML Schema default prefix. */
-    private static final String XSD_PFX = "xs";
-
     /** A single Xpathfactory. */
     private XPathFactory mXpathFac = XPathFactory.newInstance();
 
@@ -175,7 +172,7 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
      * 
      * @throws Exception Any exception encountered
      */
-    public void testWsdlAmazon() throws Exception {
+    public void testWsdlAWSECommerceService() throws Exception {
         try {
             XsdCobolAnnotator xsdCobolAnnotator = createXsdCobolAnnotator();
             xsdCobolAnnotator
@@ -768,6 +765,21 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
     }
 
     /**
+     * Use Amazon wsdl to test for xsd:all handling.
+     * 
+     * @throws Exception Any exception encountered
+     */
+    public void testWsdlAmazonWebServices() throws Exception {
+        Document doc = getDocument("AmazonWebServices.wsdl", "Type");
+        NamedNodeMap attrMap;
+        attrMap = getAttributesFromCobolAnnotation(
+                "//xsd:element[@name = 'seller_browse_id']", doc, "xsd");
+        assertEquals("ALPHANUMERIC_ITEM", attrMap.getNamedItem("type")
+                .getTextContent());
+        assertEquals("X(32)", attrMap.getNamedItem("picture").getTextContent());
+    }
+
+    /**
      * Helper method creates a DOM document from an XSD file name.
      * 
      * @param xsdFileName the XSD file name
@@ -807,17 +819,35 @@ public class XsdCobolAnnotatorTest extends AbstractTest {
      * @return an named node map with cobol annotations
      */
     private NamedNodeMap getAttributesFromCobolAnnotation(
-            final String xPathParent, final Document doc) {
+            final String xPathParent,
+            final Document doc) {
+        return getAttributesFromCobolAnnotation(xPathParent, doc, "xs");
+    }
+
+    /**
+     * Helper method to get Cobol annotation for a particular cobol item.
+     * In order to locate the annotation, we need an xpath to the parent
+     * element.
+     * 
+     * @param xPathParent xpath expression pointing to parent
+     * @param xsdPrefix the prefix used for the XML SChema namespace
+     * @param doc the DOM document
+     * @return an named node map with cobol annotations
+     */
+    private NamedNodeMap getAttributesFromCobolAnnotation(
+            final String xPathParent,
+            final Document doc,
+            final String xsdPrefix) {
         NamedNodeMap attrMap = null;
         try {
             XPath xpath = mXpathFac.newXPath();
             NamespaceContextImpl nci = new NamespaceContextImpl();
             nci.addNamespace(COBOL_PFX, COBOL_NS);
-            nci.addNamespace(XSD_PFX, XSD_NS);
+            nci.addNamespace(xsdPrefix, XSD_NS);
             xpath.setNamespaceContext(nci);
             XPathExpression expr = xpath.compile(xPathParent + "/"
-                    + XSD_PFX + ":annotation" + "/"
-                    + XSD_PFX + ":appinfo" + "/"
+                    + xsdPrefix + ":annotation" + "/"
+                    + xsdPrefix + ":appinfo" + "/"
                     + COBOL_PFX + ":cobolElement");
             Object result = expr.evaluate(doc, XPathConstants.NODESET);
             NodeList nodes = (NodeList) result;
