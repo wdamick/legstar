@@ -8,7 +8,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/activation-1.1.jar" sourcepath="legstar-common-pluginsrc.zip"/>
 	<classpathentry exported="true" kind="lib" path="lib/ant-optional-1.5.1.jar" sourcepath="legstar-common-pluginsrc.zip"/>
 	<classpathentry exported="true" kind="lib" path="lib/antlr-runtime-3.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commonj-twm-1.1.jar" sourcepath="legstar-common-pluginsrc.zip"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-beanutils-1.7.0.jar" sourcepath="legstar-common-pluginsrc.zip"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-beanutils-core-1.7.0.jar" sourcepath="legstar-common-pluginsrc.zip"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-cli-1.1.jar"/>
