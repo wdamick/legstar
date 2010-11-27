@@ -2,6 +2,14 @@
                              Latest releases overview
  -------------------------------------------------------------------------------
 
+Version 1.4.2
+
+ Mainly a quick bug fix release. {{{http://code.google.com/p/legstar/issues/detail?id=113} Issue 113}} was blocking the {{{http://code.google.com/p/legstar-pdi/}}legstar-pdi} project.
+ 
+ There are also a number of changes with Maven in preparation for a future migration of the Maven repository to {{{https://oss.sonatype.org}Sonatype}}.
+ 
+ A {{{http://code.google.com/p/legstar/issues/list?can=1&q=Milestone%3DRelease1.4.2}complete list of changes}} is available.
+
 Version 1.4.1
 
  Although not a major release, there are several important changes in this release.

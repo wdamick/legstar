@@ -17,7 +17,7 @@
     <description>Open-Source Mainframe Integration</description>
     <url>http://www.legsem.com/legstar</url>
     <properties>
-        <legstarZosVersion>V1R4M1</legstarZosVersion>
+        <legstarZosVersion>V1R4M2</legstarZosVersion>
         <legstarCob2XsdVersion>0.3.2</legstarCob2XsdVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <antInternalVersion>1.7.0</antInternalVersion> <!-- Used for legstar builds and tests -->
@@ -517,6 +517,11 @@
     <dependencyManagement>
         <dependencies>
 
+            <!--
+               ========================================================
+               Clean dependencies from Central
+               ========================================================
+             -->
             <!-- Apache Xml Schema -->    
             <dependency>
                 <groupId>org.apache.ws.commons.schema</groupId>
@@ -736,13 +741,6 @@
                 <optional>true</optional>
             </dependency>
 
-            <!-- IBM MQSeries -->    
-            <dependency>
-                <groupId>com.ibm</groupId>
-                <artifactId>mq</artifactId>
-                <version>6.0.2</version>
-            </dependency>
-
             <!-- Sun J2EE connector API -->    
             <dependency>
                 <groupId>javax.resource</groupId>
@@ -762,6 +760,20 @@
                 <groupId>org.json</groupId>
                 <artifactId>json</artifactId>
                 <version>20080701</version>
+            </dependency>
+            
+            <!--
+               ========================================================
+               FIXME: Following are dependencies which are not in central
+               ========================================================
+             -->
+
+            <!-- IBM MQSeries -->    
+            <dependency>
+                <groupId>com.ibm</groupId>
+                <artifactId>mq</artifactId>
+                <version>6.0.2</version>
+                <optional>true</optional>
             </dependency>
 
             <!-- Eclipse dependencies. -->
@@ -910,8 +922,11 @@
                 <scope>provided</scope>
             </dependency>
 
-            <!-- LegStar dependencies section -->    
-            
+            <!--
+                ========================================================
+                LegStar dependencies section
+                ========================================================
+             -->    
 
             <!-- LegStar internal dependencies sub-section -->    
             <dependency>
