@@ -17,18 +17,18 @@ import com.legstar.coxb.ICobolNumericBinding;
 import com.legstar.coxb.host.HostException;
 
 /**
- * This generic class implements behavior common to all array bindings.  
- *
+ * This generic class implements behavior common to all array bindings.
+ * 
  */
 public abstract class CArrayBinding extends CBinding
-implements ICobolArrayBinding {
-    
+        implements ICobolArrayBinding {
+
     /** A reference to a counter for variable size arrays. */
     private ICobolNumericBinding mCounter;
-    
+
     /** Array individual item length in bytes (unknown by default). */
     private int mItemByteLength = 0;
-    
+
     /**
      * Constructor for a cobol element to java binding.
      * 
@@ -47,12 +47,14 @@ implements ICobolArrayBinding {
         super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
     }
 
-    /** 
+    /**
      * {@inheritDoc}
      */
     public int getCurrentOccurs() throws HostException {
-        /* If this is a variable size array, ask ancestors for the current
-         * value of the counter we depend on. */
+        /*
+         * If this is a variable size array, ask ancestors for the current
+         * value of the counter we depend on.
+         */
         if (isVariableSize()) {
             return getCounter().getBigIntegerValue().intValue();
         }
@@ -67,18 +69,21 @@ implements ICobolArrayBinding {
     /**
      * This test cannot be done at construction time because the depending on
      * property can be added later.
+     * 
      * @return true if this is a variable size array
      */
     public boolean isVariableSize() {
-        return (getMinOccurs() < getMaxOccurs() 
-                && getDependingOn() != null
-                && getDependingOn().length() > 0) ? true : false;
+        return (getMinOccurs() < getMaxOccurs()
+                && getDependingOn() != null && getDependingOn().length() > 0) ? true
+                : false;
     }
 
     /**
-     * The first time around, this will seek the counter from the parent binding.
+     * The first time around, this will seek the counter from the parent
+     * binding.
      * This is an expensive operation so we cache the result to speed up next
      * referrals.
+     * 
      * @return the counter
      * @throws HostException if something goes wrong
      */
@@ -90,22 +95,24 @@ implements ICobolArrayBinding {
     }
 
     /**
-     * Pre version 1.2.4 generated simple arrays did not support the ItemByteLength
-     * attribute. Their ByteLength attribute was actually the ItemByteLength instead
-     * of being the size of the entire array. We need to continue supporting this old
+     * Pre version 1.2.4 generated simple arrays did not support the
+     * ItemByteLength
+     * attribute. Their ByteLength attribute was actually the ItemByteLength
+     * instead
+     * of being the size of the entire array. We need to continue supporting
+     * this old
      * model. Hence the size adjustment here.
+     * 
      * @return the Cobol element length in bytes
      */
     public int getByteLength() {
-        if (isGeneratedBinding()) {
-            if (!(this instanceof CArrayComplexBinding)) {
-                if (mItemByteLength == 0) {
-                    /* Binding was generated before 1.2.4. Adjust lengths.*/
-                    int itemByteLength = super.getByteLength();
-                    setItemByteLength(itemByteLength);
-                    setByteLength(itemByteLength * getMaxOccurs());
-                }
-            }
+        if (isGeneratedBinding()
+                && !(this instanceof CArrayComplexBinding)
+                && mItemByteLength == 0) {
+            /* Binding was generated before 1.2.4. Adjust lengths. */
+            int itemByteLength = super.getByteLength();
+            setItemByteLength(itemByteLength);
+            setByteLength(itemByteLength * getMaxOccurs());
         }
         return super.getByteLength();
     }
@@ -116,7 +123,7 @@ implements ICobolArrayBinding {
     public int getItemByteLength() {
         if (mItemByteLength == 0) {
             if (isGeneratedBinding() && !(this instanceof CArrayComplexBinding)) {
-                /* Binding was generated before 1.2.4. Adjust lengths.*/
+                /* Binding was generated before 1.2.4. Adjust lengths. */
                 mItemByteLength = super.getByteLength();
                 setByteLength(mItemByteLength * getMaxOccurs());
             } else {
@@ -132,6 +139,5 @@ implements ICobolArrayBinding {
     public void setItemByteLength(final int itemByteLength) {
         mItemByteLength = itemByteLength;
     }
-
 
 }

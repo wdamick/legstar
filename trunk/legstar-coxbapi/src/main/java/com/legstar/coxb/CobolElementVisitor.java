@@ -9,6 +9,7 @@
  *     LegSem - initial API and implementation
  ******************************************************************************/
 package com.legstar.coxb;
+
 import java.util.Hashtable;
 
 import org.apache.commons.logging.Log;
@@ -20,7 +21,7 @@ import com.legstar.coxb.host.HostException;
 /**
  * This class is a super-class of all visitors (visitor pattern) involved in
  * converting java object trees instances to host data buffers.
- *
+ * 
  * @author Fady Moussallam
  * 
  */
@@ -41,7 +42,8 @@ public abstract class CobolElementVisitor {
     /** Logger. */
     private final Log _log = LogFactory.getLog(CobolElementVisitor.class);
 
-    /** No-arg constructor.
+    /**
+     * No-arg constructor.
      */
     public CobolElementVisitor() {
         mHostBytes = null;
@@ -50,7 +52,9 @@ public abstract class CobolElementVisitor {
         mVariablesMap = new Hashtable < String, Object >();
     }
 
-    /** Constructor for a given host buffer and converters set.
+    /**
+     * Constructor for a given host buffer and converters set.
+     * 
      * @param hostBytes host buffer used by visitor
      * @param offset offset in host buffer
      * @param cobolConverters set of converters to use for cobol elements
@@ -65,163 +69,193 @@ public abstract class CobolElementVisitor {
     }
 
     /**
-     * Visit method of visitor pattern for complex elements. 
+     * Visit method of visitor pattern for complex elements.
+     * 
      * @param ce complex element descriptor
      * @throws HostException error while visiting
      */
     public abstract void visit(ICobolComplexBinding ce)
-    throws HostException;
+            throws HostException;
 
     /**
-     * Visit method of visitor pattern for choice elements. 
+     * Visit method of visitor pattern for choice elements.
+     * 
      * @param ce choice element descriptor
      * @throws HostException error while visiting
      */
     public abstract void visit(ICobolChoiceBinding ce)
-    throws HostException;
+            throws HostException;
 
     /**
-     * Visit method of visitor pattern for arrays of complex elements. 
+     * Visit method of visitor pattern for arrays of complex elements.
+     * 
      * @param ce complex array element descriptor
      * @throws HostException error while visiting
      */
     public abstract void visit(ICobolArrayComplexBinding ce)
-    throws HostException;
+            throws HostException;
 
     /**
-     * Visit method of visitor pattern for single Strings. 
+     * Visit method of visitor pattern for single Strings.
+     * 
      * @param ce String element descriptor
      * @throws HostException error while visiting
      */
     public abstract void visit(ICobolStringBinding ce)
-    throws HostException;
+            throws HostException;
+
     /**
-     * Visit method of visitor pattern for String arrays. 
+     * Visit method of visitor pattern for String arrays.
+     * 
      * @param ce String array element descriptor
      * @throws HostException error while visiting
      */
     public abstract void visit(ICobolArrayStringBinding ce)
-    throws HostException;
+            throws HostException;
 
     /**
-     * Visit method of visitor pattern for single Nationals. 
+     * Visit method of visitor pattern for single Nationals.
+     * 
      * @param ce National element descriptor
      * @throws HostException error while visiting
      */
     public abstract void visit(ICobolNationalBinding ce)
-    throws HostException;
+            throws HostException;
+
     /**
-     * Visit method of visitor pattern for National arrays. 
+     * Visit method of visitor pattern for National arrays.
+     * 
      * @param ce National array element descriptor
      * @throws HostException error while visiting
      */
     public abstract void visit(ICobolArrayNationalBinding ce)
-    throws HostException;
+            throws HostException;
 
     /**
-     * Visit method of visitor pattern for single Dbcs. 
+     * Visit method of visitor pattern for single Dbcs.
+     * 
      * @param ce Dbcs element descriptor
      * @throws HostException error while visiting
      */
     public abstract void visit(ICobolDbcsBinding ce)
-    throws HostException;
+            throws HostException;
+
     /**
-     * Visit method of visitor pattern for Dbcs arrays. 
+     * Visit method of visitor pattern for Dbcs arrays.
+     * 
      * @param ce Dbcs array element descriptor
      * @throws HostException error while visiting
      */
     public abstract void visit(ICobolArrayDbcsBinding ce)
-    throws HostException;
+            throws HostException;
 
     /**
-     * Visit method of visitor pattern for single zoned decimals. 
+     * Visit method of visitor pattern for single zoned decimals.
+     * 
      * @param ce Zoned decimal element descriptor
      * @throws HostException error while visiting
      */
     public abstract void visit(ICobolZonedDecimalBinding ce)
-    throws HostException;
+            throws HostException;
+
     /**
-     * Visit method of visitor pattern for zoned decimal arrays. 
+     * Visit method of visitor pattern for zoned decimal arrays.
+     * 
      * @param ce Zoned decimal array element descriptor
      * @throws HostException error while visiting
      */
     public abstract void visit(ICobolArrayZonedDecimalBinding ce)
-    throws HostException;
+            throws HostException;
 
     /**
-     * Visit method of visitor pattern for single packed decimals. 
+     * Visit method of visitor pattern for single packed decimals.
+     * 
      * @param ce Packed decimal element descriptor
      * @throws HostException error while visiting
      */
     public abstract void visit(ICobolPackedDecimalBinding ce)
-    throws HostException;
+            throws HostException;
+
     /**
-     * Visit method of visitor pattern for packed decimal arrays. 
+     * Visit method of visitor pattern for packed decimal arrays.
+     * 
      * @param ce Packed dcimal array element descriptor
      * @throws HostException error while visiting
      */
     public abstract void visit(ICobolArrayPackedDecimalBinding ce)
-    throws HostException;
+            throws HostException;
 
     /**
-     * Visit method of visitor pattern for single Binary elements. 
+     * Visit method of visitor pattern for single Binary elements.
+     * 
      * @param ce Binary element descriptor
      * @throws HostException error while visiting
      */
     public abstract void visit(ICobolBinaryBinding ce)
-    throws HostException;
+            throws HostException;
+
     /**
-     * Visit method of visitor pattern for Binary arrays. 
+     * Visit method of visitor pattern for Binary arrays.
+     * 
      * @param ce Binary array element descriptor
      * @throws HostException error while visiting
      */
     public abstract void visit(ICobolArrayBinaryBinding ce)
-    throws HostException;
+            throws HostException;
 
     /**
-     * Visit method of visitor pattern for single Float elements. 
+     * Visit method of visitor pattern for single Float elements.
+     * 
      * @param ce Float element descriptor
      * @throws HostException error while visiting
      */
     public abstract void visit(ICobolFloatBinding ce)
-    throws HostException;
+            throws HostException;
+
     /**
-     * Visit method of visitor pattern for Float arrays. 
+     * Visit method of visitor pattern for Float arrays.
+     * 
      * @param ce Float array element descriptor
      * @throws HostException error while visiting
      */
     public abstract void visit(ICobolArrayFloatBinding ce)
-    throws HostException;
+            throws HostException;
 
     /**
-     * Visit method of visitor pattern for single Double elements. 
+     * Visit method of visitor pattern for single Double elements.
+     * 
      * @param ce Double element descriptor
      * @throws HostException error while visiting
      */
     public abstract void visit(ICobolDoubleBinding ce)
-    throws HostException;
+            throws HostException;
+
     /**
-     * Visit method of visitor pattern for Double arrays. 
+     * Visit method of visitor pattern for Double arrays.
+     * 
      * @param ce Double array element descriptor
      * @throws HostException error while visiting
      */
     public abstract void visit(ICobolArrayDoubleBinding ce)
-    throws HostException;
+            throws HostException;
 
     /**
-     * Visit method of visitor pattern for single Octet streams. 
+     * Visit method of visitor pattern for single Octet streams.
+     * 
      * @param ce Octet stream element descriptor
      * @throws HostException error while visiting
      */
     public abstract void visit(ICobolOctetStreamBinding ce)
-    throws HostException;
+            throws HostException;
+
     /**
-     * Visit method of visitor pattern for Octet stream arrays. 
+     * Visit method of visitor pattern for Octet stream arrays.
+     * 
      * @param ce Octet stream element descriptor
      * @throws HostException error while visiting
      */
     public abstract void visit(ICobolArrayOctetStreamBinding ce)
-    throws HostException;
+            throws HostException;
 
     /**
      * @return Returns the CobolConverters.
@@ -284,6 +318,7 @@ public abstract class CobolElementVisitor {
     /**
      * Store the value of a binding in the custom variables map for
      * later referral by custom code.
+     * 
      * @param binding the current binding
      * @throws HostException if value cannot be stored
      */
@@ -298,23 +333,26 @@ public abstract class CobolElementVisitor {
     /**
      * If existence depends on a a counter, check counter value first. If the
      * associated counter is zero, then the object does not exist (should not
-     * be visited as it has no bytes in the host payload or no java value object).
+     * be visited as it has no bytes in the host payload or no java value
+     * object).
+     * 
      * @param ce the binding object
-     * @return true if object exists (has associated bytes in the incoming host payload or
-     *  a non-null outbound java object value).
+     * @return true if object exists (has associated bytes in the incoming host
+     *         payload or
+     *         a non-null outbound java object value).
      * @throws HostException if existence test fails
      */
     public boolean exists(final ICobolBinding ce) throws HostException {
         /*  */
-        if (ce.getDependingOn() != null && ce.getDependingOn().length() > 0) {
-            if (ce.getParentBinding().getCounterValue(ce.getDependingOn()) == 0) {
-                if (_log.isDebugEnabled()) {
-                    _log.debug("Visiting aborted for binding "
+        if (ce.getDependingOn() != null
+                && ce.getDependingOn().length() > 0
+                && ce.getParentBinding().getCounterValue(ce.getDependingOn()) == 0) {
+            if (_log.isDebugEnabled()) {
+                _log.debug("Visiting aborted for binding "
                             + ce.getBindingName() + ", it depends on "
                             + ce.getDependingOn() + " which is zero");
-                }
-                return false;
             }
+            return false;
         }
         return true;
 
