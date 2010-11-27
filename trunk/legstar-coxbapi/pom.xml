@@ -3,9 +3,9 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.4.2</version>
+        <version>1.4.3-SNAPSHOT</version>
     </parent>
-    <version>1.4.2</version>
+    <version>1.4.3-SNAPSHOT</version>
     <artifactId>legstar-coxbapi</artifactId>
     <name>LegStar COBOL Binding API</name>
     <description>Cobol binding Application Programming Interface.</description>
