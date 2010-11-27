@@ -70,7 +70,7 @@ public class TimerIdleConnectionsPolicy {
      * A task that is scheduled to close idle connections.
      * 
      */
-    private class CheckIdleConnectionsTask extends TimerTask {
+    private static class CheckIdleConnectionsTask extends TimerTask {
 
         /** The connection pool to check for idle connections. */
         private ConnectionPool _connectionPool;

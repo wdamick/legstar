@@ -23,19 +23,19 @@ import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
 
 /**
- * This is a concrete implementation of marshal/unmarshal operations of java 
+ * This is a concrete implementation of marshal/unmarshal operations of java
  * strings to cobol DBCS (PIC G DISPLAY-1) character strings.
- *
+ * 
  * @author Fady Moussallam
  * 
  */
 public class CobolDbcsSimpleConverter extends CobolSimpleConverter
-implements ICobolDbcsConverter {
+        implements ICobolDbcsConverter {
 
-    /** Character used on mainframes to start a DBCS sequence.*/
+    /** Character used on mainframes to start a DBCS sequence. */
     public static final char SHIFT_IN = 0x0e;
 
-    /** Character used on mainframes to stop a DBCS sequence.*/
+    /** Character used on mainframes to stop a DBCS sequence. */
     public static final char SHIFT_OUT = 0x0f;
 
     /**
@@ -51,7 +51,7 @@ implements ICobolDbcsConverter {
             final ICobolDbcsBinding ce,
             final byte[] hostTarget,
             final int offset)
-    throws HostException {
+            throws HostException {
         int newOffset = 0;
         try {
             newOffset = toHostSingle(ce.getStringValue(),
@@ -72,7 +72,7 @@ implements ICobolDbcsConverter {
             final byte[] hostTarget,
             final int offset,
             final int currentOccurs)
-    throws HostException {
+            throws HostException {
         int newOffset = offset;
         try {
             for (String javaSource : ce.getStringList()) {
@@ -84,8 +84,7 @@ implements ICobolDbcsConverter {
                         newOffset);
             }
             /* If necessary, fill in the array with missing items */
-            for (int i = ce.getStringList().size();
-            i < currentOccurs; i++) {
+            for (int i = ce.getStringList().size(); i < currentOccurs; i++) {
                 newOffset = toHostSingle("",
                         getCobolContext().getHostCharsetName(),
                         ce.getItemByteLength(),
@@ -104,7 +103,7 @@ implements ICobolDbcsConverter {
             final ICobolDbcsBinding ce,
             final byte[] hostSource,
             final int offset)
-    throws HostException {
+            throws HostException {
         int newOffset = offset;
         try {
             String javaString = fromHostSingle(
@@ -126,7 +125,7 @@ implements ICobolDbcsConverter {
             final byte[] hostSource,
             final int offset,
             final int currentOccurs)
-    throws HostException {
+            throws HostException {
         List < String > lArray = new ArrayList < String >();
         int newOffset = offset;
         try {
@@ -147,8 +146,8 @@ implements ICobolDbcsConverter {
     }
 
     /**
-     *  Converts a Java String to a host character stream within the host
-     *  character set.
+     * Converts a Java String to a host character stream within the host
+     * character set.
      * 
      * @param javaString java string to convert
      * @param hostCharsetName host character set
@@ -166,7 +165,7 @@ implements ICobolDbcsConverter {
             final boolean isJustifiedRight,
             final byte[] hostTarget,
             final int offset)
-    throws CobolConversionException {
+            throws CobolConversionException {
 
         /* Check that we are still within the host target range */
         int lastOffset = offset + cobolByteLength;
@@ -176,32 +175,40 @@ implements ICobolDbcsConverter {
                     new HostData(hostTarget), offset, cobolByteLength));
         }
 
-        /* HostData is obtained by converting the java String content to the 
-         * target host character set. */
+        /*
+         * HostData is obtained by converting the java String content to the
+         * target host character set.
+         */
         byte[] hostSource;
 
-        /* See how many host bytes would be needed to hold the converted
-         * string */
+        /*
+         * See how many host bytes would be needed to hold the converted
+         * string
+         */
         try {
             if (javaString == null) {
                 hostSource =
-                    "".getBytes(hostCharsetName);
+                        "".getBytes(hostCharsetName);
             } else {
                 hostSource =
-                    javaString.getBytes(hostCharsetName);
+                        javaString.getBytes(hostCharsetName);
             }
-            
-            /* The target host element might be larger than the converted java
+
+            /*
+             * The target host element might be larger than the converted java
              * String and might have to be right or left justified. The padding
-             * character is a space character. */
+             * character is a space character.
+             */
             int iSource = 0;
             int iTarget = offset;
             int iLength = hostSource.length;
-            
+
             if (iLength > 0) {
 
-                /* The java conversion always adds shift-in/shift-out delimiters
-                 * which are not needed for pure DBCS fields. */
+                /*
+                 * The java conversion always adds shift-in/shift-out delimiters
+                 * which are not needed for pure DBCS fields.
+                 */
                 if (hostSource[0] == SHIFT_IN) {
                     iSource++;
                 }
@@ -226,7 +233,7 @@ implements ICobolDbcsConverter {
 
             /* Pad with final spaces if necessary */
             if (!isJustifiedRight) {
-                iTarget += pad(hostTarget,
+                pad(hostTarget,
                         iTarget, lastOffset,
                         hostCharsetName);
             }
@@ -238,7 +245,8 @@ implements ICobolDbcsConverter {
 
     }
 
-    /** Converts a host character string into a Java string.
+    /**
+     * Converts a host character string into a Java string.
      * 
      * @param hostCharsetName host character set
      * @param cobolByteLength host byte length
@@ -252,15 +260,17 @@ implements ICobolDbcsConverter {
             final int cobolByteLength,
             final byte[] hostSource,
             final int offset)
-    throws CobolConversionException {
+            throws CobolConversionException {
 
         String javaString = null;
         int javaStringLength = cobolByteLength;
 
-        /* Check that we are still within the host source range.
+        /*
+         * Check that we are still within the host source range.
          * If not, consider the host optimized its payload by truncating
          * trailing nulls in which case, we just need to process the
-         * characters returned if any. */
+         * characters returned if any.
+         */
         int lastOffset = offset + cobolByteLength;
         if (lastOffset > hostSource.length) {
             if (offset >= hostSource.length) {
@@ -269,23 +279,30 @@ implements ICobolDbcsConverter {
                 javaStringLength = hostSource.length - offset;
             }
         }
-        
-        /* The host is not expected to wrap string with shift-in/shift-out
-         * while java expects that. We need to append those. */
+
+        /*
+         * The host is not expected to wrap string with shift-in/shift-out
+         * while java expects that. We need to append those.
+         */
         byte[] shiftHostSource = new byte[javaStringLength + 2];
         shiftHostSource[0] = SHIFT_IN;
-        System.arraycopy(hostSource, offset, shiftHostSource, 1, javaStringLength);
+        System.arraycopy(hostSource, offset, shiftHostSource, 1,
+                javaStringLength);
         shiftHostSource[shiftHostSource.length - 1] = SHIFT_OUT;
         javaStringLength += 2;
 
-        /* The Java String is obtained by translating from the host code page
-         * to the local code page. */
+        /*
+         * The Java String is obtained by translating from the host code page
+         * to the local code page.
+         */
         try {
             javaString = new String(
                     shiftHostSource, 0, javaStringLength,
                     hostCharsetName);
-            /* Some low-value characters may have slipped into the resulting
-             * string. */
+            /*
+             * Some low-value characters may have slipped into the resulting
+             * string.
+             */
             if (javaString.indexOf("\0") != -1) {
                 javaString = javaString.replace('\0', ' ');
             }
@@ -299,10 +316,11 @@ implements ICobolDbcsConverter {
 
     /**
      * Determines the padding character depending on the target character set.
+     * 
      * @param hostCharsetName host character set
      * @return the padding character
      * @throws UnsupportedEncodingException if padding character cannot be
-     *  translated
+     *             translated
      */
     private static byte getPadChar(
             final String hostCharsetName) throws UnsupportedEncodingException {
@@ -314,14 +332,15 @@ implements ICobolDbcsConverter {
      * host character set.
      * <p/>
      * Padding begins at the specified beginIndex and extends to the character
-     *  at index endIndex - 1
+     * at index endIndex - 1
+     * 
      * @param bytes the byte array to pad
      * @param beginIndex what index to start from
      * @param endIndex index of first character that is not to be padded
      * @param hostCharsetName host character set
      * @return the number of padding characters used
      * @throws UnsupportedEncodingException if padding character cannot be
-     *  translated
+     *             translated
      */
     public static int pad(
             final byte[] bytes,

@@ -154,18 +154,27 @@ public class Cob2TransGeneratorMain {
      *             if configuration file missing or file corrupt
      */
     protected void loadModel() throws Cob2TransException {
+        FileInputStream fis = null;
         try {
             if (getConfigFile() == null) {
                 _model = new Cob2TransModel();
             } else {
                 Properties config = new Properties();
-                config.load(new FileInputStream(getConfigFile()));
+                fis = new FileInputStream(getConfigFile());
+                config.load(fis);
                 _model = new Cob2TransModel(config);
             }
         } catch (FileNotFoundException e) {
             throw new Cob2TransException(e);
         } catch (IOException e) {
             throw new Cob2TransException(e);
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                }
+            }
         }
     }
 

@@ -25,12 +25,12 @@ import java.util.List;
 /**
  * This is a concrete implementation of marshal/unmarshal operations of java
  * float to cobol comp-1.
- *
+ * 
  * @author Fady Moussallam
  * 
  */
 public class CobolFloatSimpleConverter extends CobolSimpleConverter
-implements ICobolFloatConverter {
+        implements ICobolFloatConverter {
 
     /**
      * @param cobolContext the Cobol compiler parameters in effect
@@ -44,7 +44,7 @@ implements ICobolFloatConverter {
             final ICobolFloatBinding ce,
             final byte[] hostTarget,
             final int offset)
-    throws HostException {
+            throws HostException {
         int newOffset = 0;
         try {
             newOffset = toHostSingle(ce.getFloatValue(),
@@ -62,7 +62,7 @@ implements ICobolFloatConverter {
             final byte[] hostTarget,
             final int offset,
             final int currentOccurs)
-    throws HostException {
+            throws HostException {
         int newOffset = offset;
         try {
             for (Float javaSource : ce.getFloatList()) {
@@ -71,8 +71,7 @@ implements ICobolFloatConverter {
                         newOffset);
             }
             /* If necessary, fill in the array with missing items */
-            for (int i = ce.getFloatList().size();
-            i < currentOccurs; i++) {
+            for (int i = ce.getFloatList().size(); i < currentOccurs; i++) {
                 newOffset = toHostSingle(Float.valueOf(0),
                         hostTarget,
                         newOffset);
@@ -88,7 +87,7 @@ implements ICobolFloatConverter {
             final ICobolFloatBinding ce,
             final byte[] hostSource,
             final int offset)
-    throws HostException {
+            throws HostException {
         int newOffset = offset;
         try {
             Float javaFloat = fromHostSingle(ce.getByteLength(),
@@ -108,7 +107,7 @@ implements ICobolFloatConverter {
             final byte[] hostSource,
             final int offset,
             final int currentOccurs)
-    throws HostException {
+            throws HostException {
         List < Float > lArray = new ArrayList < Float >();
         int newOffset = offset;
         try {
@@ -127,7 +126,7 @@ implements ICobolFloatConverter {
     }
 
     /**
-     *  Converts a Java Float to a host comp-1.
+     * Converts a Java Float to a host comp-1.
      * 
      * @param javaFloat java float to convert
      * @param hostTarget target host buffer
@@ -139,7 +138,7 @@ implements ICobolFloatConverter {
             final Float javaFloat,
             final byte[] hostTarget,
             final int offset)
-    throws CobolConversionException {
+            throws CobolConversionException {
 
         /* Comp-1 are 4 byte long */
         int cobolByteLength = 4;
@@ -158,7 +157,7 @@ implements ICobolFloatConverter {
             localFloat = 0f;
         }
 
-        /* Host floats do not support NaN or infinite.     */
+        /* Host floats do not support NaN or infinite. */
         if (localFloat.isInfinite()) {
             throw (new CobolConversionException(
                     "Infinite floats are not supported",
@@ -170,8 +169,10 @@ implements ICobolFloatConverter {
                     new HostData(hostTarget), offset));
         }
 
-        /* Treat the zero case separatly because the bit layout is not
-         * consistent.     */
+        /*
+         * Treat the zero case separatly because the bit layout is not
+         * consistent.
+         */
         if ((localFloat.floatValue() == 0.0f)
                 ||
                 (localFloat.floatValue() == -0.0f)) {
@@ -188,12 +189,14 @@ implements ICobolFloatConverter {
         HostFloat hF = new HostFloat();
         hF.setSign(jF.getSign());
 
-        /* The java exponent is a binary offset while the host exponent is an
+        /*
+         * The java exponent is a binary offset while the host exponent is an
          * hexadecimal offset. This means host exponent values are multiple
-         * or 4. If the java exponent is not a multiple of 4 we then need 
-         * to shift the mantissa which might result in loss of precision. */
+         * or 4. If the java exponent is not a multiple of 4 we then need
+         * to shift the mantissa which might result in loss of precision.
+         */
         int r = jF.getExponent() % 4;
-        int mantissaShift = 0; 
+        int mantissaShift = 0;
         if (r <= 0) {
             mantissaShift = -1 * r;
         } else {
@@ -208,14 +211,14 @@ implements ICobolFloatConverter {
 
         /* Store the bytes in the host buffer */
         for (int i = 0; i < 4; i++) {
-            hostTarget[offset + i]
-                       = (byte) ((hostIntBits >>> (24 - i * 8)) & 0xff);
+            hostTarget[offset + i] = (byte) ((hostIntBits >>> (24 - i * 8)) & 0xff);
         }
 
         return offset + cobolByteLength;
     }
 
-    /** Converts a host comp-1 to a Java Float.
+    /**
+     * Converts a host comp-1 to a Java Float.
      * 
      * @param cobolByteLength host byte length
      * @param hostSource source host buffer
@@ -227,22 +230,24 @@ implements ICobolFloatConverter {
             final int cobolByteLength,
             final byte[] hostSource,
             final int offset)
-    throws CobolConversionException {
+            throws CobolConversionException {
 
         int lastOffset = offset + cobolByteLength;
 
-        /* Check that we are still within the host source range.
+        /*
+         * Check that we are still within the host source range.
          * If not, consider the host optimized its payload by truncating
-         * trailing nulls in which case, we just need to initialize and return. */
+         * trailing nulls in which case, we just need to initialize and return.
+         */
         if (lastOffset > hostSource.length) {
-            return new Float(0);
+            return Float.valueOf(0f);
         }
 
         /* Create a host float representation from the bytes we have */
         int hostIntBits = 0;
         for (int i = 0; i < 4; i++) {
             hostIntBits = hostIntBits
-            | ((hostSource[offset + (3 - i)] & 0xff) << (i * 8));
+                    | ((hostSource[offset + (3 - i)] & 0xff) << (i * 8));
         }
         HostFloat hF = parseHostFloat(hostIntBits);
 
@@ -250,9 +255,11 @@ implements ICobolFloatConverter {
         HostFloat jF = new HostFloat();
         jF.setSign(hF.getSign());
 
-        /* Host exponent is hexadecimal based while java is binary based.
+        /*
+         * Host exponent is hexadecimal based while java is binary based.
          * There is also an additional shift for non-zero values due to
-         * the 1-plus" normalized java specs.  */
+         * the 1-plus" normalized java specs.
+         */
         if (hF.getMantissa() != 0) {
             jF.setExponent((4 * hF.getExponent()) - 1);
         }
@@ -287,19 +294,23 @@ implements ICobolFloatConverter {
         /* First bit left (bit 31) is the sign: 0 = positive, 1 = negative */
         jF.setSign((javaIntBits & 0x80000000) >>> 31);
 
-        /* Bits 30-23 (8 bits) represents the exponent offset by 127, this
+        /*
+         * Bits 30-23 (8 bits) represents the exponent offset by 127, this
          * number is called excess so you get the exponent as
          * E= excess - 127. This is a binary exponent ( 2 pow(E)).
          * Furthermore, the "1-plus" normalized representation has the decimal
          * point after the implicit initial 1. Here we elect to store the
-         * exponent for decimal point before that initial 1.*/
+         * exponent for decimal point before that initial 1.
+         */
         int excess = (javaIntBits & 0x7f800000) >>> 23;
         jF.setExponent(excess - 127 + 1);
 
-        /* Bits 22-0 (23 bits) represents the getMantissa() in a form called
+        /*
+         * Bits 22-0 (23 bits) represents the getMantissa() in a form called
          * "1-plus" normalized. This means that the real getMantissa() is
          * actually * 1.b(23)b(22)...b(0) where the initial "1" is implicit.
-         * This code will explicitly add 1 in front of the getMantissa(). */
+         * This code will explicitly add 1 in front of the getMantissa().
+         */
         int orMask = 1 << 23;
         jF.setMantissa(javaIntBits & 0x007fffff | orMask);
 
@@ -307,8 +318,8 @@ implements ICobolFloatConverter {
     }
 
     /**
-     *  Reconstruct a java float from its sign, exponent and getMantissa()
-     *  components.
+     * Reconstruct a java float from its sign, exponent and getMantissa()
+     * components.
      * 
      * @param jF a class holding the various components
      * @return a Java float
@@ -326,7 +337,7 @@ implements ICobolFloatConverter {
         return Float.intBitsToFloat(javaIntBits);
     }
 
-    /** 
+    /**
      * Extracts the sign, exponent and getMantissa() from a Host float .
      * 
      * @param hostIntBits the bit sequence representing the host float
@@ -339,9 +350,11 @@ implements ICobolFloatConverter {
         /* First bit left (bit 31) is the sign: 0 = positive, 1 = negative */
         hF.setSign((hostIntBits & 0x80000000) >>> 31);
 
-        /* Bits 30-24 (7 bits) represents the exponent offset by 64, this
+        /*
+         * Bits 30-24 (7 bits) represents the exponent offset by 64, this
          * number is called excess so you get the exponent as
-         * E= excess - 64 */
+         * E= excess - 64
+         */
         int excess = (hostIntBits & 0x7f000000) >>> 24;
         if (excess != 0) {
             hF.setExponent((excess - 64));
@@ -353,7 +366,7 @@ implements ICobolFloatConverter {
         return hF;
     }
 
-    /** 
+    /**
      * Reconstruct a host float from its sign, exponent and getMantissa()
      * components.
      * 
