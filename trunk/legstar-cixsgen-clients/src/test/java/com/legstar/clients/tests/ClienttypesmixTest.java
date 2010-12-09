@@ -21,8 +21,15 @@ import com.legstar.test.coxb.typesmix.Dfhcommarea;
 
 import java.math.BigDecimal;
 
+/**
+ * Test TYPESMIX.
+ * 
+ */
 public class ClienttypesmixTest extends TestCase {
 
+    /**
+     * @throws TypesmixFault if test fails
+     */
     public void testClient() throws TypesmixFault {
         com.legstar.test.cixs.typesmix.ObjectFactory wsOF = new com.legstar.test.cixs.typesmix.ObjectFactory();
         com.legstar.test.coxb.typesmix.ObjectFactory obOF = new com.legstar.test.coxb.typesmix.ObjectFactory();
@@ -39,7 +46,7 @@ public class ClienttypesmixTest extends TestCase {
         dfhcommarea.setCSingleFloat(345.123E-09f);
         dfhcommarea.setCDoubleFloat(0.45123456789E+12d);
         dfhcommarea.setCPackedDecimal(new BigDecimal(75.45));
-        dfhcommarea.setCZonedDecimal(-44535678912l);
+        dfhcommarea.setCZonedDecimal(-44535678912L);
         dfhcommarea.setCNumericEdited1("0");
         dfhcommarea.setCNumericEdited2("0");
         dfhcommarea.setCNumericEdited3("0");

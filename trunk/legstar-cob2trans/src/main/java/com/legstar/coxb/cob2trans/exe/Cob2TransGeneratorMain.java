@@ -173,6 +173,7 @@ public class Cob2TransGeneratorMain {
                 try {
                     fis.close();
                 } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -483,7 +484,7 @@ public class Cob2TransGeneratorMain {
      * @param classpath the class path to use by compiler to locate dependencies
      *            to set
      */
-    public void setClasspath(String classpath) {
+    public void setClasspath(final String classpath) {
         _classpath = classpath;
     }
 

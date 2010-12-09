@@ -15,31 +15,32 @@ import com.legstar.test.cixs.fixarcom.*;
 import com.legstar.test.coxb.fixarcom.*;
 
 public class ClientfixarcomTest extends TestCase {
-	
-	public void testClient() throws FixarcomFault{
-		com.legstar.test.cixs.fixarcom.ObjectFactory wsOF =
-		    new com.legstar.test.cixs.fixarcom.ObjectFactory();
-		com.legstar.test.coxb.fixarcom.ObjectFactory obOF =
-		    new com.legstar.test.coxb.fixarcom.ObjectFactory();
-		FixarcomPort port = new FixarcomService().getFixarcomPort();
-		FixarcomRequest req = wsOF.createFixarcomRequest();
-		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setDfhcommarea(dfhcommarea);
-		
-		for (int i = 0; i < 7; i++) {
-			CArray cArray = obOF.createCArray();
-			cArray.setCItem1("ABCDE");
-			cArray.setCItem2((new Integer(i)).shortValue());
-			dfhcommarea.getCArray().add(cArray);
-		}
-		
-		FixarcomResponse resp = port.fixarcom(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
-		
-		for (int i = 0; i < 7; i++) {
-			assertEquals("FGHIJ",dfhcommareaResp.getCArray().get(i).getCItem1());
-			assertEquals(i + 8,dfhcommareaResp.getCArray().get(i).getCItem2());
-		}
-	}
+
+    public void testClient() throws FixarcomFault {
+        com.legstar.test.cixs.fixarcom.ObjectFactory wsOF =
+                new com.legstar.test.cixs.fixarcom.ObjectFactory();
+        com.legstar.test.coxb.fixarcom.ObjectFactory obOF =
+                new com.legstar.test.coxb.fixarcom.ObjectFactory();
+        FixarcomPort port = new FixarcomService().getFixarcomPort();
+        FixarcomRequest req = wsOF.createFixarcomRequest();
+        Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
+        req.setDfhcommarea(dfhcommarea);
+
+        for (int i = 0; i < 7; i++) {
+            CArray cArray = obOF.createCArray();
+            cArray.setCItem1("ABCDE");
+            cArray.setCItem2((new Integer(i)).shortValue());
+            dfhcommarea.getCArray().add(cArray);
+        }
+
+        FixarcomResponse resp = port.fixarcom(req, null);
+        Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
+
+        for (int i = 0; i < 7; i++) {
+            assertEquals("FGHIJ", dfhcommareaResp.getCArray().get(i)
+                    .getCItem1());
+            assertEquals(i + 8, dfhcommareaResp.getCArray().get(i).getCItem2());
+        }
+    }
 
 }

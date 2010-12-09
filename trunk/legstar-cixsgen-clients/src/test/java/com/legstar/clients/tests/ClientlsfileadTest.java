@@ -15,29 +15,29 @@ import com.legstar.test.cixs.lsfilead.*;
 import com.legstar.test.coxb.lsfilead.*;
 
 public class ClientlsfileadTest extends TestCase {
-	
-	public void testClient() throws LsfileadFault{
-		com.legstar.test.cixs.lsfilead.ObjectFactory wsOF =
-		    new com.legstar.test.cixs.lsfilead.ObjectFactory();
-		com.legstar.test.coxb.lsfilead.ObjectFactory obOF =
-		    new com.legstar.test.coxb.lsfilead.ObjectFactory();
-		LsfileadPort port = new LsfileadService().getLsfileadPort();
-		LsfileadRequest req = wsOF.createLsfileadRequest();
-		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setDfhcommarea(dfhcommarea);
-		
-		dfhcommarea.setComNumber(100);
-		
-		LsfileadResponse resp = port.lsfilead(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
-		
-		assertEquals("SURREY, ENGLAND",dfhcommareaResp.getComAddress());
-		assertEquals("$0100.11",dfhcommareaResp.getComAmount());
-		assertEquals("26 11 81",dfhcommareaResp.getComDate());
-		assertEquals("S. D. BORMAN",dfhcommareaResp.getComName());
-		assertEquals(100,dfhcommareaResp.getComNumber());
-		assertEquals("32156778",dfhcommareaResp.getComPhone());
-		assertEquals("*********",dfhcommareaResp.getComComment());
-	}
+
+    public void testClient() throws LsfileadFault {
+        com.legstar.test.cixs.lsfilead.ObjectFactory wsOF =
+                new com.legstar.test.cixs.lsfilead.ObjectFactory();
+        com.legstar.test.coxb.lsfilead.ObjectFactory obOF =
+                new com.legstar.test.coxb.lsfilead.ObjectFactory();
+        LsfileadPort port = new LsfileadService().getLsfileadPort();
+        LsfileadRequest req = wsOF.createLsfileadRequest();
+        Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
+        req.setDfhcommarea(dfhcommarea);
+
+        dfhcommarea.setComNumber(100);
+
+        LsfileadResponse resp = port.lsfilead(req, null);
+        Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
+
+        assertEquals("SURREY, ENGLAND", dfhcommareaResp.getComAddress());
+        assertEquals("$0100.11", dfhcommareaResp.getComAmount());
+        assertEquals("26 11 81", dfhcommareaResp.getComDate());
+        assertEquals("S. D. BORMAN", dfhcommareaResp.getComName());
+        assertEquals(100, dfhcommareaResp.getComNumber());
+        assertEquals("32156778", dfhcommareaResp.getComPhone());
+        assertEquals("*********", dfhcommareaResp.getComComment());
+    }
 
 }

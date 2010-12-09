@@ -152,7 +152,6 @@ public class UnmarshalLsfileaeTest extends TestCase {
     /**
      * Transform host data and test JSON result.
      * 
-     * @param hostBytes a byte array holding the mainframe payload
      * @throws HostTransformException if transforming fails
      */
     public void testHostToJsonTransform() throws HostTransformException {

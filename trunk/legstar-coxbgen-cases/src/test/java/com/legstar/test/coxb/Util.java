@@ -27,7 +27,7 @@ import com.legstar.coxb.util.ClassUtil;
  * A helper class for testing cases.
  * 
  */
-public class Util {
+public final class Util {
 
     /** Utility class. */
     private Util() {

@@ -262,6 +262,12 @@ public class Cob2TransGenerator {
 
     }
 
+    /**
+     * Trace class loader.
+     * 
+     * @param name name to use to designate the class loader
+     * @param cl class loader
+     */
     private void traceClassLoader(final String name, final ClassLoader cl) {
         _log.debug("=================================================");
         traceClassLoaderHierarchy(name, cl);
@@ -273,6 +279,12 @@ public class Cob2TransGenerator {
         _log.debug("=================================================");
     }
 
+    /**
+     * Trace a class loader hierarchy.
+     * 
+     * @param name name to use to designate the class loader
+     * @param cl class loader
+     */
     private void traceClassLoaderHierarchy(final String name,
             final ClassLoader cl) {
         _log.debug(name + "= " + cl);
