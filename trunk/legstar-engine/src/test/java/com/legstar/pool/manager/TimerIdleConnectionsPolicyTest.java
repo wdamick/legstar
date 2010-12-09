@@ -117,7 +117,11 @@ public class TimerIdleConnectionsPolicyTest extends
                         + ", openTime: " + openTime
                         + ", opened:" + connection.isOpen());
             }
-            if (openTime < KEEP_ALIVE_TIME) {
+            /*
+             * Allow for 5% slack as we cannot guarantee that threads
+             * will be serviced within a millisecond
+             */
+            if (openTime < 105 * KEEP_ALIVE_TIME / 100) {
                 assertTrue(connection.isOpen());
             } else {
                 assertFalse(connection.isOpen());
