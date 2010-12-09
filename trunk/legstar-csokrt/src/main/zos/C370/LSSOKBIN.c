@@ -1,3 +1,4 @@
+/* REMOVE SP OPTION UNLESS STORAGE DEBUGGING */
 #pragma XOPTS(CICS)
 #pragma longname 
 #define __CICS_IPV6
@@ -420,7 +421,7 @@ int recvRequest() {
     if (g_traceParms.traceMode == TRUE_CODE) {
       traceMessage(MODULE_NAME, "About to receive request");
     }
- 
+  
     /* Waiting for requests from clients. Client is authorized to
      * close the socket */
     g_waiting4Requests = TRUE_CODE;
@@ -486,6 +487,10 @@ int processRequest() {
     if (g_traceParms.traceMode == TRUE_CODE) {
         traceMessage(MODULE_NAME, "Entering process request");
     }
+    /* COMMENT OUT UNLESS STORAGE DEBUGGING
+    sprintf(g_traceMessage, "Storage before request processing");
+    traceMessage(MODULE_NAME, g_traceMessage);
+    traceStorage(); */
     
     /* Initialize message structures */
     memset(&requestHeaderPart, '\0', sizeof(requestHeaderPart));
@@ -537,6 +542,11 @@ int processRequest() {
     if (g_traceParms.traceMode == TRUE_CODE) {
         traceMessage(MODULE_NAME, "Process request ended");
     }
+    /* COMMENT OUT UNLESS STORAGE DEBUGGING
+    sprintf(g_traceMessage, "Storage after request processing");
+    traceMessage(MODULE_NAME, g_traceMessage);
+    traceStorage(); */
+
     return rc;
 }
 
@@ -1358,3 +1368,69 @@ void ptos(char *s_buff,unsigned char *p_buff) {
     p_val=*(unsigned long *)p_buff;
     sprintf(s_buff,"%lx",p_val>>4);
 }
+
+/*====================================================================*/
+/* Prints a detailed map of all memory blocks allocated by this task. */
+/*====================================================================*/
+/* COMMENT OUT UNLESS STORAGE DEBUGGING
+int traceStorage() {
+    int numelements;
+    signed long resp;
+    int* lengthlist;
+    char** elementlist;
+    int i;
+    long taskTotal;
+    long sysTotal;
+    char cicsTaskn[20];
+
+    memset(cicsTaskn, 0, sizeof(cicsTaskn));
+    ptos(cicsTaskn,dfheiptr->eibtaskn);
+
+    EXEC CICS INQUIRE SYSTEM
+        EUDSASIZE(sysTotal)
+        RESP(resp);
+
+    if (resp != DFHRESP(NORMAL)) {
+        sprintf(g_traceMessage,"Task no:%s Inquire system failed %ld",
+            cicsTaskn, resp);
+        traceMessage(MODULE_NAME, g_traceMessage);
+        return ERROR_CODE;
+    }
+    sprintf(g_traceMessage,"Task no:%s System storage %ld",
+        cicsTaskn, sysTotal);
+    traceMessage(MODULE_NAME, g_traceMessage);
+
+    EXEC CICS INQUIRE STORAGE
+        DSANAME("EUDSA")
+        ELEMENTLIST(elementlist)
+        LENGTHLIST(lengthlist)
+        NUMELEMENTS(numelements)
+        RESP(resp);
+
+    if (resp != DFHRESP(NORMAL)) {
+        sprintf(g_traceMessage,"Task no:%s Inquire storage failed %ld",
+            cicsTaskn, resp);
+        traceMessage(MODULE_NAME, g_traceMessage);
+        return ERROR_CODE;
+    }
+
+    sprintf(g_traceMessage,"Task no:%s Storage elements %d",
+        cicsTaskn, numelements);
+    traceMessage(MODULE_NAME, g_traceMessage);
+
+    taskTotal=0;
+    for (i=0;i < numelements;i++){
+        sprintf(g_traceMessage,
+            "Task no:%s Element at address %#x size %d",
+            cicsTaskn, *(elementlist + i), *(lengthlist + i));
+        traceMessage(MODULE_NAME, g_traceMessage);
+        taskTotal += *(lengthlist + i);
+    }
+
+     sprintf(g_traceMessage,"Task no:%s Total task EUDSA %ld",
+        cicsTaskn, taskTotal);
+     traceMessage(MODULE_NAME, g_traceMessage);
+     
+     return OK_CODE;
+}
+ */
