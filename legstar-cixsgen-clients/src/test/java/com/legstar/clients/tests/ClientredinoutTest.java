@@ -15,26 +15,26 @@ import com.legstar.test.cixs.redinout.*;
 import com.legstar.test.coxb.redinout.*;
 
 public class ClientredinoutTest extends TestCase {
-	
-	public void testClient() throws RedinoutFault{
-		com.legstar.test.cixs.redinout.ObjectFactory wsOF =
-		    new com.legstar.test.cixs.redinout.ObjectFactory();
-		com.legstar.test.coxb.redinout.ObjectFactory obOF =
-		    new com.legstar.test.coxb.redinout.ObjectFactory();
-		RedinoutPort port = new RedinoutService().getRedinoutPort();
-		RedinoutRequest req = wsOF.createRedinoutRequest();
-		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setDfhcommarea(dfhcommarea);
-		
-		CParain cParain = obOF.createCParain();
-		cParain.setCSomeInput("FIFTEEN CHARACT");
-		dfhcommarea.setCParain(cParain);
-		
-		RedinoutResponse resp = port.redinout(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
-		
-		assertEquals(14082006, dfhcommareaResp.getCParaout().getCSomeOutput());
-		assertEquals(null, dfhcommareaResp.getCParain());
-	}
+
+    public void testClient() throws RedinoutFault {
+        com.legstar.test.cixs.redinout.ObjectFactory wsOF =
+                new com.legstar.test.cixs.redinout.ObjectFactory();
+        com.legstar.test.coxb.redinout.ObjectFactory obOF =
+                new com.legstar.test.coxb.redinout.ObjectFactory();
+        RedinoutPort port = new RedinoutService().getRedinoutPort();
+        RedinoutRequest req = wsOF.createRedinoutRequest();
+        Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
+        req.setDfhcommarea(dfhcommarea);
+
+        CParain cParain = obOF.createCParain();
+        cParain.setCSomeInput("FIFTEEN CHARACT");
+        dfhcommarea.setCParain(cParain);
+
+        RedinoutResponse resp = port.redinout(req, null);
+        Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
+
+        assertEquals(14082006, dfhcommareaResp.getCParaout().getCSomeOutput());
+        assertEquals(null, dfhcommareaResp.getCParain());
+    }
 
 }

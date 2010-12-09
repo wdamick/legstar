@@ -15,49 +15,49 @@ import com.legstar.test.cixs.redbotha.*;
 import com.legstar.test.coxb.redbotha.*;
 
 public class ClientredbothaTest extends TestCase {
-	
-	public void testClientAlternative1() throws RedbothaFault{
-		com.legstar.test.cixs.redbotha.ObjectFactory wsOF =
-		    new com.legstar.test.cixs.redbotha.ObjectFactory();
-		com.legstar.test.coxb.redbotha.ObjectFactory obOF =
-		    new com.legstar.test.coxb.redbotha.ObjectFactory();
-		RedbothaPort port = new RedbothaService().getRedbothaPort();
-		RedbothaRequest req = wsOF.createRedbothaRequest();
-		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setDfhcommarea(dfhcommarea);
-		
-		Filler22 filler22 = obOF.createFiller22();
-		filler22.setCLeftByte("A");
-		filler22.setCRightByte("B");
-		dfhcommarea.setFiller22(filler22);
-		
-		RedbothaResponse resp = port.redbotha(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
-		
-		/* The effect of the choice selector is to produce both alternatives */
-		assertEquals(49602, dfhcommareaResp.getCNumeric().intValue());
-		assertEquals("A", dfhcommareaResp.getFiller22().getCLeftByte());
-		assertEquals("B", dfhcommareaResp.getFiller22().getCRightByte());
-	}
 
-	public void testClientAlternative2() throws RedbothaFault{
-		com.legstar.test.cixs.redbotha.ObjectFactory wsOF =
-		    new com.legstar.test.cixs.redbotha.ObjectFactory();
-		com.legstar.test.coxb.redbotha.ObjectFactory obOF =
-		    new com.legstar.test.coxb.redbotha.ObjectFactory();
-		RedbothaPort port = new RedbothaService().getRedbothaPort();
-		RedbothaRequest req = wsOF.createRedbothaRequest();
-		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setDfhcommarea(dfhcommarea);
-		
-		dfhcommarea.setCNumeric(55256);
-		
-		RedbothaResponse resp = port.redbotha(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
-		
-		/* The effect of the choice selector is to produce both alternatives */
-		assertEquals(55256, dfhcommareaResp.getCNumeric().intValue());
-		assertEquals("P", dfhcommareaResp.getFiller22().getCLeftByte());
-		assertEquals("Q", dfhcommareaResp.getFiller22().getCRightByte());
-	}
+    public void testClientAlternative1() throws RedbothaFault {
+        com.legstar.test.cixs.redbotha.ObjectFactory wsOF =
+                new com.legstar.test.cixs.redbotha.ObjectFactory();
+        com.legstar.test.coxb.redbotha.ObjectFactory obOF =
+                new com.legstar.test.coxb.redbotha.ObjectFactory();
+        RedbothaPort port = new RedbothaService().getRedbothaPort();
+        RedbothaRequest req = wsOF.createRedbothaRequest();
+        Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
+        req.setDfhcommarea(dfhcommarea);
+
+        Filler22 filler22 = obOF.createFiller22();
+        filler22.setCLeftByte("A");
+        filler22.setCRightByte("B");
+        dfhcommarea.setFiller22(filler22);
+
+        RedbothaResponse resp = port.redbotha(req, null);
+        Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
+
+        /* The effect of the choice selector is to produce both alternatives */
+        assertEquals(49602, dfhcommareaResp.getCNumeric().intValue());
+        assertEquals("A", dfhcommareaResp.getFiller22().getCLeftByte());
+        assertEquals("B", dfhcommareaResp.getFiller22().getCRightByte());
+    }
+
+    public void testClientAlternative2() throws RedbothaFault {
+        com.legstar.test.cixs.redbotha.ObjectFactory wsOF =
+                new com.legstar.test.cixs.redbotha.ObjectFactory();
+        com.legstar.test.coxb.redbotha.ObjectFactory obOF =
+                new com.legstar.test.coxb.redbotha.ObjectFactory();
+        RedbothaPort port = new RedbothaService().getRedbothaPort();
+        RedbothaRequest req = wsOF.createRedbothaRequest();
+        Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
+        req.setDfhcommarea(dfhcommarea);
+
+        dfhcommarea.setCNumeric(55256);
+
+        RedbothaResponse resp = port.redbotha(req, null);
+        Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
+
+        /* The effect of the choice selector is to produce both alternatives */
+        assertEquals(55256, dfhcommareaResp.getCNumeric().intValue());
+        assertEquals("P", dfhcommareaResp.getFiller22().getCLeftByte());
+        assertEquals("Q", dfhcommareaResp.getFiller22().getCRightByte());
+    }
 }

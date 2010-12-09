@@ -15,47 +15,51 @@ import com.legstar.test.cixs.redopera.*;
 import com.legstar.test.coxb.redopera.*;
 
 public class ClientredoperaTest extends TestCase {
-	
-	public void testClientStringMethod() throws RedoperaFault{
-		com.legstar.test.cixs.redopera.ObjectFactory wsOF =
-		    new com.legstar.test.cixs.redopera.ObjectFactory();
-		com.legstar.test.coxb.redopera.ObjectFactory obOF =
-		    new com.legstar.test.coxb.redopera.ObjectFactory();
-		RedoperaPort port = new RedoperaService().getRedoperaPort();
-		RedoperaRequest req = wsOF.createRedoperaRequest();
-		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setDfhcommarea(dfhcommarea);
-		
-		dfhcommarea.setCFunction("stringMethod");
-		/* Because input structure is identical to output structure, we
-		 * need to make a choice on input beween the multiple redefines. */
-		dfhcommarea.setCData("");
-		
-		RedoperaResponse resp = port.redopera(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
-		
-		assertEquals("ABJADHAOUAZ", dfhcommareaResp.getFiller25().getCString());
-	}
 
-	public void testClientIntMethod() throws RedoperaFault{
-		com.legstar.test.cixs.redopera.ObjectFactory wsOF =
-		    new com.legstar.test.cixs.redopera.ObjectFactory();
-		com.legstar.test.coxb.redopera.ObjectFactory obOF =
-		    new com.legstar.test.coxb.redopera.ObjectFactory();
-		RedoperaPort port = new RedoperaService().getRedoperaPort();
-		RedoperaRequest req = wsOF.createRedoperaRequest();
-		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setDfhcommarea(dfhcommarea);
-		
-		dfhcommarea.setCFunction("intMethod");
-		/* Because input structure is identical to output structure, we
-		 * need to make a choice on input beween the multiple redefines. */
-		dfhcommarea.setCData("");
-		
-		RedoperaResponse resp = port.redopera(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
-		
-		assertEquals(null, dfhcommareaResp.getFiller25());
-		assertEquals(345, dfhcommareaResp.getFiller28().getCInteger());
-	}
+    public void testClientStringMethod() throws RedoperaFault {
+        com.legstar.test.cixs.redopera.ObjectFactory wsOF =
+                new com.legstar.test.cixs.redopera.ObjectFactory();
+        com.legstar.test.coxb.redopera.ObjectFactory obOF =
+                new com.legstar.test.coxb.redopera.ObjectFactory();
+        RedoperaPort port = new RedoperaService().getRedoperaPort();
+        RedoperaRequest req = wsOF.createRedoperaRequest();
+        Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
+        req.setDfhcommarea(dfhcommarea);
+
+        dfhcommarea.setCFunction("stringMethod");
+        /*
+         * Because input structure is identical to output structure, we
+         * need to make a choice on input beween the multiple redefines.
+         */
+        dfhcommarea.setCData("");
+
+        RedoperaResponse resp = port.redopera(req, null);
+        Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
+
+        assertEquals("ABJADHAOUAZ", dfhcommareaResp.getFiller25().getCString());
+    }
+
+    public void testClientIntMethod() throws RedoperaFault {
+        com.legstar.test.cixs.redopera.ObjectFactory wsOF =
+                new com.legstar.test.cixs.redopera.ObjectFactory();
+        com.legstar.test.coxb.redopera.ObjectFactory obOF =
+                new com.legstar.test.coxb.redopera.ObjectFactory();
+        RedoperaPort port = new RedoperaService().getRedoperaPort();
+        RedoperaRequest req = wsOF.createRedoperaRequest();
+        Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
+        req.setDfhcommarea(dfhcommarea);
+
+        dfhcommarea.setCFunction("intMethod");
+        /*
+         * Because input structure is identical to output structure, we
+         * need to make a choice on input beween the multiple redefines.
+         */
+        dfhcommarea.setCData("");
+
+        RedoperaResponse resp = port.redopera(req, null);
+        Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
+
+        assertEquals(null, dfhcommareaResp.getFiller25());
+        assertEquals(345, dfhcommareaResp.getFiller28().getCInteger());
+    }
 }

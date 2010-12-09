@@ -15,28 +15,29 @@ import com.legstar.test.cixs.fixarsim.*;
 import com.legstar.test.coxb.fixarsim.*;
 
 public class ClientfixarsimTest extends TestCase {
-	
-	public void testClient() throws FixarsimFault{
-		com.legstar.test.cixs.fixarsim.ObjectFactory wsOF =
-		    new com.legstar.test.cixs.fixarsim.ObjectFactory();
-		com.legstar.test.coxb.fixarsim.ObjectFactory obOF =
-		    new com.legstar.test.coxb.fixarsim.ObjectFactory();
-		FixarsimPort port = new FixarsimService().getFixarsimPort();
-		FixarsimRequest req = wsOF.createFixarsimRequest();
-		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setDfhcommarea(dfhcommarea);
-		
-		for (int i = 0; i < 3; i++) {
-			dfhcommarea.getCArray().add(String.format("ABCD%d", (i + 1)));
-		}
 
-		FixarsimResponse resp = port.fixarsim(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
+    public void testClient() throws FixarsimFault {
+        com.legstar.test.cixs.fixarsim.ObjectFactory wsOF =
+                new com.legstar.test.cixs.fixarsim.ObjectFactory();
+        com.legstar.test.coxb.fixarsim.ObjectFactory obOF =
+                new com.legstar.test.coxb.fixarsim.ObjectFactory();
+        FixarsimPort port = new FixarsimService().getFixarsimPort();
+        FixarsimRequest req = wsOF.createFixarsimRequest();
+        Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
+        req.setDfhcommarea(dfhcommarea);
 
-		for (int i = 0; i < 3; i++) {
-			
-			assertEquals(String.format("%dEFGH", (i + 1)), dfhcommareaResp.getCArray().get(i));
-		}
-	}
+        for (int i = 0; i < 3; i++) {
+            dfhcommarea.getCArray().add(String.format("ABCD%d", (i + 1)));
+        }
+
+        FixarsimResponse resp = port.fixarsim(req, null);
+        Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
+
+        for (int i = 0; i < 3; i++) {
+
+            assertEquals(String.format("%dEFGH", (i + 1)), dfhcommareaResp
+                    .getCArray().get(i));
+        }
+    }
 
 }

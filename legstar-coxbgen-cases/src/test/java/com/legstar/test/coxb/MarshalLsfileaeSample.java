@@ -22,20 +22,23 @@ import com.legstar.test.coxb.lsfileae.bind.DfhcommareaBinding;
 /**
  * Sample demonstrating how to use a COXB object to marshal java data to
  * z/os data.
- *
+ * 
  */
-public class MarshalLsfileaeSample {
+public final class MarshalLsfileaeSample {
 
     /** Utility class. */
     private MarshalLsfileaeSample() {
-        
+
     }
+
     /**
      * The main function does not take any argument.
+     * 
      * @param args
      */
     /**
      * Marshal host data and test java data object result.
+     * 
      * @param args not used
      */
     public static void main(final String[] args) {
@@ -61,6 +64,7 @@ public class MarshalLsfileaeSample {
 
     /**
      * This method creates an instance of a JAXB object and sets its properties.
+     * 
      * @return a JAXB object
      */
     private static Dfhcommarea getJaxbObject() {

@@ -11,8 +11,6 @@ public class Cob2TransInterruptedException extends Cob2TransException {
 
     /**
      * Build Exception from message.
-     * 
-     * @param message exception description
      */
     public Cob2TransInterruptedException() {
         super("COBOL to Transformers generator interrupted");

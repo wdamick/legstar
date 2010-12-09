@@ -17,230 +17,255 @@ import javax.xml.ws.BindingProvider;
 import java.util.Map;
 
 public class ClientlsfileaeTest extends TestCase {
-	
-	public void testClientNullHeader() throws LsfileaeFault{
-		com.legstar.test.cixs.lsfileae.ObjectFactory wsOF =
-		    new com.legstar.test.cixs.lsfileae.ObjectFactory();
-		com.legstar.test.coxb.lsfileae.ObjectFactory obOF =
-		    new com.legstar.test.coxb.lsfileae.ObjectFactory();
-		
-		LsfileaeService sv = new LsfileaeService();
-		
-		LsfileaePort port = sv.getLsfileaePort();
-		
-		Map <String, Object > requestContext = ((BindingProvider)port).getRequestContext();
-		requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,"http://localhost:8080/cixs-lsfileae/lsfileae");
-		requestContext.put(BindingProvider.USERNAME_PROPERTY, "enduser");
-		requestContext.put(BindingProvider.PASSWORD_PROPERTY, "tomcat");
-		
-		LsfileaeRequest req = wsOF.createLsfileaeRequest();
-		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setDfhcommarea(dfhcommarea);
-		
-		dfhcommarea.setComNumber(100);
 
-		LsfileaeResponse resp = port.lsfileae(req, null);
-		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
+    public void testClientNullHeader() throws LsfileaeFault {
+        com.legstar.test.cixs.lsfileae.ObjectFactory wsOF =
+                new com.legstar.test.cixs.lsfileae.ObjectFactory();
+        com.legstar.test.coxb.lsfileae.ObjectFactory obOF =
+                new com.legstar.test.coxb.lsfileae.ObjectFactory();
 
-		assertEquals("SURREY, ENGLAND",dfhcommareaResp.getComPersonal().getComAddress());
-		assertEquals("$0100.11",dfhcommareaResp.getComAmount());
-		assertEquals("26 11 81",dfhcommareaResp.getComDate());
-		assertEquals("S. D. BORMAN",dfhcommareaResp.getComPersonal().getComName());
-		assertEquals(100,dfhcommareaResp.getComNumber());
-		assertEquals("32156778",dfhcommareaResp.getComPersonal().getComPhone());
-		assertEquals("*********",dfhcommareaResp.getComComment());
-	}
+        LsfileaeService sv = new LsfileaeService();
 
-	public void testClientHeaderUserIDPasswordCorrect() throws LsfileaeFault{
-		com.legstar.test.cixs.lsfileae.ObjectFactory wsOF =
-		    new com.legstar.test.cixs.lsfileae.ObjectFactory();
-		com.legstar.test.coxb.lsfileae.ObjectFactory obOF =
-		    new com.legstar.test.coxb.lsfileae.ObjectFactory();
-		
-		LsfileaeService sv = new LsfileaeService();
-		
-		LsfileaePort port = sv.getLsfileaePort();
-		
-		Map <String, Object > requestContext = ((BindingProvider)port).getRequestContext();
-		requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,"http://localhost:8080/cixs-lsfileae/lsfileae");
-		requestContext.put(BindingProvider.USERNAME_PROPERTY, "enduser");
-		requestContext.put(BindingProvider.PASSWORD_PROPERTY, "tomcat");
-		
-		LsfileaeHostHeader reqHead = wsOF.createLsfileaeHostHeader();
-		reqHead.setHostUserID("P390");
-		reqHead.setHostPassword("STREAM2");
-		
-		LsfileaeRequest req = wsOF.createLsfileaeRequest();
-		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setDfhcommarea(dfhcommarea);
-		
-		dfhcommarea.setComNumber(100);
+        LsfileaePort port = sv.getLsfileaePort();
 
-		LsfileaeResponse resp = port.lsfileae(req, reqHead);
-		Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
+        Map < String, Object > requestContext = ((BindingProvider) port)
+                .getRequestContext();
+        requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
+                "http://localhost:8080/cixs-lsfileae/lsfileae");
+        requestContext.put(BindingProvider.USERNAME_PROPERTY, "enduser");
+        requestContext.put(BindingProvider.PASSWORD_PROPERTY, "tomcat");
 
-		assertEquals("SURREY, ENGLAND",dfhcommareaResp.getComPersonal().getComAddress());
-		assertEquals("$0100.11",dfhcommareaResp.getComAmount());
-		assertEquals("26 11 81",dfhcommareaResp.getComDate());
-		assertEquals("S. D. BORMAN",dfhcommareaResp.getComPersonal().getComName());
-		assertEquals(100,dfhcommareaResp.getComNumber());
-		assertEquals("32156778",dfhcommareaResp.getComPersonal().getComPhone());
-		assertEquals("*********",dfhcommareaResp.getComComment());
-	}
+        LsfileaeRequest req = wsOF.createLsfileaeRequest();
+        Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
+        req.setDfhcommarea(dfhcommarea);
 
-	public void testClientHeaderUserIDPasswordIncorrect() throws LsfileaeFault{
-		com.legstar.test.cixs.lsfileae.ObjectFactory wsOF =
-		    new com.legstar.test.cixs.lsfileae.ObjectFactory();
-		com.legstar.test.coxb.lsfileae.ObjectFactory obOF =
-		    new com.legstar.test.coxb.lsfileae.ObjectFactory();
-		
-		LsfileaeService sv = new LsfileaeService();
-		
-		LsfileaePort port = sv.getLsfileaePort();
-		
-		Map <String, Object > requestContext = ((BindingProvider)port).getRequestContext();
-		requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,"http://localhost:8080/cixs-lsfileae/lsfileae");
-		requestContext.put(BindingProvider.USERNAME_PROPERTY, "enduser");
-		requestContext.put(BindingProvider.PASSWORD_PROPERTY, "tomcat");
-		
-		LsfileaeHostHeader reqHead = wsOF.createLsfileaeHostHeader();
-		reqHead.setHostUserID("TOZ");
-		reqHead.setHostPassword("STREAM2");
-		reqHead.setHostEndPoint("CICSTS23DirectHttp");
-			
-		LsfileaeRequest req = wsOF.createLsfileaeRequest();
-		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setDfhcommarea(dfhcommarea);
-		
-		dfhcommarea.setComNumber(100);
+        dfhcommarea.setComNumber(100);
 
-		try {
-			port.lsfileae(req, reqHead);
-			fail("False header test failed");
-		} catch (LsfileaeFault e) {
-			assertTrue(e.getMessage().contains("Basic Authentication Error"));
-		}
-	}
+        LsfileaeResponse resp = port.lsfileae(req, null);
+        Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
 
-	public void testClientHeaderCompleteFalse() throws LsfileaeFault{
-		com.legstar.test.cixs.lsfileae.ObjectFactory wsOF =
-		    new com.legstar.test.cixs.lsfileae.ObjectFactory();
-		com.legstar.test.coxb.lsfileae.ObjectFactory obOF =
-		    new com.legstar.test.coxb.lsfileae.ObjectFactory();
-		
-		LsfileaeService sv = new LsfileaeService();
-		
-		LsfileaePort port = sv.getLsfileaePort();
-		
-		Map <String, Object > requestContext = ((BindingProvider)port).getRequestContext();
-		requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,"http://localhost:8080/cixs-lsfileae/lsfileae");
-		requestContext.put(BindingProvider.USERNAME_PROPERTY, "enduser");
-		requestContext.put(BindingProvider.PASSWORD_PROPERTY, "tomcat");
-		
-		LsfileaeHostHeader reqHead = wsOF.createLsfileaeHostHeader();
-		reqHead.setHostUserID("P390");
-		reqHead.setHostPassword("STREAM2");
-		reqHead.setHostEndPoint("nonExistantMainframe");
-		
-		LsfileaeRequest req = wsOF.createLsfileaeRequest();
-		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setDfhcommarea(dfhcommarea);
-		
-		dfhcommarea.setComNumber(100);
+        assertEquals("SURREY, ENGLAND", dfhcommareaResp.getComPersonal()
+                .getComAddress());
+        assertEquals("$0100.11", dfhcommareaResp.getComAmount());
+        assertEquals("26 11 81", dfhcommareaResp.getComDate());
+        assertEquals("S. D. BORMAN", dfhcommareaResp.getComPersonal()
+                .getComName());
+        assertEquals(100, dfhcommareaResp.getComNumber());
+        assertEquals("32156778", dfhcommareaResp.getComPersonal().getComPhone());
+        assertEquals("*********", dfhcommareaResp.getComComment());
+    }
 
-		try {
-			port.lsfileae(req, reqHead);
-			fail("False header test failed");
-		} catch (LsfileaeFault e) {
-			assertEquals("Failed to invoke host program:"
-			        + " com.legstar.config.LegStarConfigurationException:"
-                    + " The requested endpoint:nonExistantMainframe is not defined.", e.getMessage());
-		}
-		
-	}
+    public void testClientHeaderUserIDPasswordCorrect() throws LsfileaeFault {
+        com.legstar.test.cixs.lsfileae.ObjectFactory wsOF =
+                new com.legstar.test.cixs.lsfileae.ObjectFactory();
+        com.legstar.test.coxb.lsfileae.ObjectFactory obOF =
+                new com.legstar.test.coxb.lsfileae.ObjectFactory();
 
-	public void testClientHeaderCompleteCorrect() throws LsfileaeFault{
-		com.legstar.test.cixs.lsfileae.ObjectFactory wsOF =
-		    new com.legstar.test.cixs.lsfileae.ObjectFactory();
-		com.legstar.test.coxb.lsfileae.ObjectFactory obOF =
-		    new com.legstar.test.coxb.lsfileae.ObjectFactory();
-		
-		LsfileaeService sv = new LsfileaeService();
-		
-		LsfileaePort port = sv.getLsfileaePort();
-		
-		Map <String, Object > requestContext = ((BindingProvider)port).getRequestContext();
-		requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,"http://localhost:8080/cixs-lsfileae/lsfileae");
-		requestContext.put(BindingProvider.USERNAME_PROPERTY, "enduser");
-		requestContext.put(BindingProvider.PASSWORD_PROPERTY, "tomcat");
-		
-		LsfileaeHostHeader reqHead = wsOF.createLsfileaeHostHeader();
-		reqHead.setHostUserID("P390");
-		reqHead.setHostPassword("STREAM2");
-		reqHead.setHostEndPoint("CICSTS23DirectHttp");
-		
-		LsfileaeRequest req = wsOF.createLsfileaeRequest();
-		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setDfhcommarea(dfhcommarea);
-		
-		dfhcommarea.setComNumber(100);
+        LsfileaeService sv = new LsfileaeService();
 
-		try {
-			LsfileaeResponse resp = port.lsfileae(req, reqHead);
-			Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
+        LsfileaePort port = sv.getLsfileaePort();
 
-			assertEquals("SURREY, ENGLAND",dfhcommareaResp.getComPersonal().getComAddress());
-			assertEquals("$0100.11",dfhcommareaResp.getComAmount());
-			assertEquals("26 11 81",dfhcommareaResp.getComDate());
-			assertEquals("S. D. BORMAN",dfhcommareaResp.getComPersonal().getComName());
-			assertEquals(100,dfhcommareaResp.getComNumber());
-			assertEquals("32156778",dfhcommareaResp.getComPersonal().getComPhone());
-			assertEquals("*********",dfhcommareaResp.getComComment());
-		} catch (LsfileaeFault e) {
-			fail(e.getMessage());
-		}
-		
-	}
-	public void testClientDirectMQ() throws LsfileaeFault{
-		com.legstar.test.cixs.lsfileae.ObjectFactory wsOF =
-		    new com.legstar.test.cixs.lsfileae.ObjectFactory();
-		com.legstar.test.coxb.lsfileae.ObjectFactory obOF =
-		    new com.legstar.test.coxb.lsfileae.ObjectFactory();
-		
-		LsfileaeService sv = new LsfileaeService();
-		
-		LsfileaePort port = sv.getLsfileaePort();
-		
-		Map <String, Object > requestContext = ((BindingProvider)port).getRequestContext();
-		requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,"http://localhost:8080/cixs-lsfileae/lsfileae");
-		requestContext.put(BindingProvider.USERNAME_PROPERTY, "enduser");
-		requestContext.put(BindingProvider.PASSWORD_PROPERTY, "tomcat");
-		
-		LsfileaeHostHeader reqHead = wsOF.createLsfileaeHostHeader();
-		reqHead.setHostUserID("P390");
-		reqHead.setHostPassword("STREAM2");
-		reqHead.setHostEndPoint("CICSTS23DirectMQ");
-		
-		LsfileaeRequest req = wsOF.createLsfileaeRequest();
-		Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
-		req.setDfhcommarea(dfhcommarea);
-		
-		dfhcommarea.setComNumber(100);
+        Map < String, Object > requestContext = ((BindingProvider) port)
+                .getRequestContext();
+        requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
+                "http://localhost:8080/cixs-lsfileae/lsfileae");
+        requestContext.put(BindingProvider.USERNAME_PROPERTY, "enduser");
+        requestContext.put(BindingProvider.PASSWORD_PROPERTY, "tomcat");
 
-		try {
-			LsfileaeResponse resp = port.lsfileae(req, reqHead);
-			Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
+        LsfileaeHostHeader reqHead = wsOF.createLsfileaeHostHeader();
+        reqHead.setHostUserID("P390");
+        reqHead.setHostPassword("STREAM2");
 
-			assertEquals("SURREY, ENGLAND",dfhcommareaResp.getComPersonal().getComAddress());
-			assertEquals("$0100.11",dfhcommareaResp.getComAmount());
-			assertEquals("26 11 81",dfhcommareaResp.getComDate());
-			assertEquals("S. D. BORMAN",dfhcommareaResp.getComPersonal().getComName());
-			assertEquals(100,dfhcommareaResp.getComNumber());
-			assertEquals("32156778",dfhcommareaResp.getComPersonal().getComPhone());
-			assertEquals("*********",dfhcommareaResp.getComComment());
-		} catch (LsfileaeFault e) {
-			fail(e.getMessage());
-		}
-		
-	}
+        LsfileaeRequest req = wsOF.createLsfileaeRequest();
+        Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
+        req.setDfhcommarea(dfhcommarea);
+
+        dfhcommarea.setComNumber(100);
+
+        LsfileaeResponse resp = port.lsfileae(req, reqHead);
+        Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
+
+        assertEquals("SURREY, ENGLAND", dfhcommareaResp.getComPersonal()
+                .getComAddress());
+        assertEquals("$0100.11", dfhcommareaResp.getComAmount());
+        assertEquals("26 11 81", dfhcommareaResp.getComDate());
+        assertEquals("S. D. BORMAN", dfhcommareaResp.getComPersonal()
+                .getComName());
+        assertEquals(100, dfhcommareaResp.getComNumber());
+        assertEquals("32156778", dfhcommareaResp.getComPersonal().getComPhone());
+        assertEquals("*********", dfhcommareaResp.getComComment());
+    }
+
+    public void testClientHeaderUserIDPasswordIncorrect() throws LsfileaeFault {
+        com.legstar.test.cixs.lsfileae.ObjectFactory wsOF =
+                new com.legstar.test.cixs.lsfileae.ObjectFactory();
+        com.legstar.test.coxb.lsfileae.ObjectFactory obOF =
+                new com.legstar.test.coxb.lsfileae.ObjectFactory();
+
+        LsfileaeService sv = new LsfileaeService();
+
+        LsfileaePort port = sv.getLsfileaePort();
+
+        Map < String, Object > requestContext = ((BindingProvider) port)
+                .getRequestContext();
+        requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
+                "http://localhost:8080/cixs-lsfileae/lsfileae");
+        requestContext.put(BindingProvider.USERNAME_PROPERTY, "enduser");
+        requestContext.put(BindingProvider.PASSWORD_PROPERTY, "tomcat");
+
+        LsfileaeHostHeader reqHead = wsOF.createLsfileaeHostHeader();
+        reqHead.setHostUserID("TOZ");
+        reqHead.setHostPassword("STREAM2");
+        reqHead.setHostEndPoint("CICSTS23DirectHttp");
+
+        LsfileaeRequest req = wsOF.createLsfileaeRequest();
+        Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
+        req.setDfhcommarea(dfhcommarea);
+
+        dfhcommarea.setComNumber(100);
+
+        try {
+            port.lsfileae(req, reqHead);
+            fail("False header test failed");
+        } catch (LsfileaeFault e) {
+            assertTrue(e.getMessage().contains("Basic Authentication Error"));
+        }
+    }
+
+    public void testClientHeaderCompleteFalse() throws LsfileaeFault {
+        com.legstar.test.cixs.lsfileae.ObjectFactory wsOF =
+                new com.legstar.test.cixs.lsfileae.ObjectFactory();
+        com.legstar.test.coxb.lsfileae.ObjectFactory obOF =
+                new com.legstar.test.coxb.lsfileae.ObjectFactory();
+
+        LsfileaeService sv = new LsfileaeService();
+
+        LsfileaePort port = sv.getLsfileaePort();
+
+        Map < String, Object > requestContext = ((BindingProvider) port)
+                .getRequestContext();
+        requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
+                "http://localhost:8080/cixs-lsfileae/lsfileae");
+        requestContext.put(BindingProvider.USERNAME_PROPERTY, "enduser");
+        requestContext.put(BindingProvider.PASSWORD_PROPERTY, "tomcat");
+
+        LsfileaeHostHeader reqHead = wsOF.createLsfileaeHostHeader();
+        reqHead.setHostUserID("P390");
+        reqHead.setHostPassword("STREAM2");
+        reqHead.setHostEndPoint("nonExistantMainframe");
+
+        LsfileaeRequest req = wsOF.createLsfileaeRequest();
+        Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
+        req.setDfhcommarea(dfhcommarea);
+
+        dfhcommarea.setComNumber(100);
+
+        try {
+            port.lsfileae(req, reqHead);
+            fail("False header test failed");
+        } catch (LsfileaeFault e) {
+            assertEquals(
+                    "Failed to invoke host program:"
+                            + " com.legstar.config.LegStarConfigurationException:"
+                            + " The requested endpoint:nonExistantMainframe is not defined.",
+                    e.getMessage());
+        }
+
+    }
+
+    public void testClientHeaderCompleteCorrect() throws LsfileaeFault {
+        com.legstar.test.cixs.lsfileae.ObjectFactory wsOF =
+                new com.legstar.test.cixs.lsfileae.ObjectFactory();
+        com.legstar.test.coxb.lsfileae.ObjectFactory obOF =
+                new com.legstar.test.coxb.lsfileae.ObjectFactory();
+
+        LsfileaeService sv = new LsfileaeService();
+
+        LsfileaePort port = sv.getLsfileaePort();
+
+        Map < String, Object > requestContext = ((BindingProvider) port)
+                .getRequestContext();
+        requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
+                "http://localhost:8080/cixs-lsfileae/lsfileae");
+        requestContext.put(BindingProvider.USERNAME_PROPERTY, "enduser");
+        requestContext.put(BindingProvider.PASSWORD_PROPERTY, "tomcat");
+
+        LsfileaeHostHeader reqHead = wsOF.createLsfileaeHostHeader();
+        reqHead.setHostUserID("P390");
+        reqHead.setHostPassword("STREAM2");
+        reqHead.setHostEndPoint("CICSTS23DirectHttp");
+
+        LsfileaeRequest req = wsOF.createLsfileaeRequest();
+        Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
+        req.setDfhcommarea(dfhcommarea);
+
+        dfhcommarea.setComNumber(100);
+
+        try {
+            LsfileaeResponse resp = port.lsfileae(req, reqHead);
+            Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
+
+            assertEquals("SURREY, ENGLAND", dfhcommareaResp.getComPersonal()
+                    .getComAddress());
+            assertEquals("$0100.11", dfhcommareaResp.getComAmount());
+            assertEquals("26 11 81", dfhcommareaResp.getComDate());
+            assertEquals("S. D. BORMAN", dfhcommareaResp.getComPersonal()
+                    .getComName());
+            assertEquals(100, dfhcommareaResp.getComNumber());
+            assertEquals("32156778", dfhcommareaResp.getComPersonal()
+                    .getComPhone());
+            assertEquals("*********", dfhcommareaResp.getComComment());
+        } catch (LsfileaeFault e) {
+            fail(e.getMessage());
+        }
+
+    }
+
+    public void testClientDirectMQ() throws LsfileaeFault {
+        com.legstar.test.cixs.lsfileae.ObjectFactory wsOF =
+                new com.legstar.test.cixs.lsfileae.ObjectFactory();
+        com.legstar.test.coxb.lsfileae.ObjectFactory obOF =
+                new com.legstar.test.coxb.lsfileae.ObjectFactory();
+
+        LsfileaeService sv = new LsfileaeService();
+
+        LsfileaePort port = sv.getLsfileaePort();
+
+        Map < String, Object > requestContext = ((BindingProvider) port)
+                .getRequestContext();
+        requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
+                "http://localhost:8080/cixs-lsfileae/lsfileae");
+        requestContext.put(BindingProvider.USERNAME_PROPERTY, "enduser");
+        requestContext.put(BindingProvider.PASSWORD_PROPERTY, "tomcat");
+
+        LsfileaeHostHeader reqHead = wsOF.createLsfileaeHostHeader();
+        reqHead.setHostUserID("P390");
+        reqHead.setHostPassword("STREAM2");
+        reqHead.setHostEndPoint("CICSTS23DirectMQ");
+
+        LsfileaeRequest req = wsOF.createLsfileaeRequest();
+        Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
+        req.setDfhcommarea(dfhcommarea);
+
+        dfhcommarea.setComNumber(100);
+
+        try {
+            LsfileaeResponse resp = port.lsfileae(req, reqHead);
+            Dfhcommarea dfhcommareaResp = resp.getDfhcommarea();
+
+            assertEquals("SURREY, ENGLAND", dfhcommareaResp.getComPersonal()
+                    .getComAddress());
+            assertEquals("$0100.11", dfhcommareaResp.getComAmount());
+            assertEquals("26 11 81", dfhcommareaResp.getComDate());
+            assertEquals("S. D. BORMAN", dfhcommareaResp.getComPersonal()
+                    .getComName());
+            assertEquals(100, dfhcommareaResp.getComNumber());
+            assertEquals("32156778", dfhcommareaResp.getComPersonal()
+                    .getComPhone());
+            assertEquals("*********", dfhcommareaResp.getComComment());
+        } catch (LsfileaeFault e) {
+            fail(e.getMessage());
+        }
+
+    }
 }
