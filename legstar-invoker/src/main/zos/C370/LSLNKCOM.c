@@ -1,3 +1,4 @@
+/* REMOVE SP OPTION UNLESS STORAGE DEBUGGING */
 #pragma XOPTS(CICS)
 #pragma longname
 #pragma export(linkCommarea)
@@ -97,6 +98,12 @@ int linkCommarea(DFHEIBLK *inDfheiptr,
     }
     inputContent = pRequestMessage->pParts->content;
 
+    /* COMMENT OUT UNLESS STORAGE DEBUGGING
+    sprintf(g_traceMessage, "Storage before LINK PROGRAM(%s)",
+          pProgramDesc->CICSProgram);
+    traceMessage(MODULE_NAME, g_traceMessage);
+    traceStorage(); */
+    
      /*  Now link to CICS program and check for errors                */
     if (strlen(pProgramDesc->CICSSysID) == 0) {
         if (FALSE_CODE == pProgramDesc->CICSSyncOnReturn) {
@@ -186,6 +193,12 @@ int linkCommarea(DFHEIBLK *inDfheiptr,
         return ERROR_CODE;
     }
 
+    /* COMMENT OUT UNLESS STORAGE DEBUGGING
+    sprintf(g_traceMessage, "Storage after LINK PROGRAM(%s)",
+          pProgramDesc->CICSProgram);
+    traceMessage(MODULE_NAME, g_traceMessage);
+    traceStorage(); */
+    
     if (OK_CODE != formatCommareaResponse(
                    pProgramDesc, pRequestMessage, pResponseMessage)) {
         return ERROR_CODE;
@@ -194,6 +207,7 @@ int linkCommarea(DFHEIBLK *inDfheiptr,
     if (g_pTraceParms->traceMode == TRUE_CODE) {
        traceMessage(MODULE_NAME, "Return from linkCommarea");
     }
+
     return OK_CODE;
 }
 
@@ -525,3 +539,79 @@ int freeMessage(Message* pMessage) {
 
     return OK_CODE;
 }
+
+/*====================================================================*/
+/* Function to convert packed field to string                     */
+/*====================================================================*/
+int ptos(char *s_buff,unsigned char *p_buff) {
+    unsigned long  p_val;
+    p_val=*(unsigned long *)p_buff;
+    sprintf(s_buff,"%lx",p_val>>4);
+    return OK_CODE;
+}
+
+/*====================================================================*/
+/* Prints a detailed map of all memory blocks allocated by this task. */
+/*====================================================================*/
+/* COMMENT OUT UNLESS STORAGE DEBUGGING
+int traceStorage() {
+    int numelements;
+    signed long resp;
+    int* lengthlist;
+    char** elementlist;
+    int i;
+    long taskTotal;
+    long sysTotal;
+    char cicsTaskn[20];
+
+    memset(cicsTaskn, 0, sizeof(cicsTaskn));
+    ptos(cicsTaskn,dfheiptr->eibtaskn);
+
+    EXEC CICS INQUIRE SYSTEM
+        EUDSASIZE(sysTotal)
+        RESP(resp);
+
+    if (resp != DFHRESP(NORMAL)) {
+        sprintf(g_traceMessage,"Task no:%s Inquire system failed %ld",
+            cicsTaskn, resp);
+        traceMessage(MODULE_NAME, g_traceMessage);
+        return ERROR_CODE;
+    }
+    sprintf(g_traceMessage,"Task no:%s System storage %ld",
+        cicsTaskn, sysTotal);
+    traceMessage(MODULE_NAME, g_traceMessage);
+
+    EXEC CICS INQUIRE STORAGE
+        DSANAME("EUDSA")
+        ELEMENTLIST(elementlist)
+        LENGTHLIST(lengthlist)
+        NUMELEMENTS(numelements)
+        RESP(resp);
+
+    if (resp != DFHRESP(NORMAL)) {
+        sprintf(g_traceMessage,"Task no:%s Inquire storage failed %ld",
+            cicsTaskn, resp);
+        traceMessage(MODULE_NAME, g_traceMessage);
+        return ERROR_CODE;
+    }
+
+    sprintf(g_traceMessage,"Task no:%s Storage elements %d",
+        cicsTaskn, numelements);
+    traceMessage(MODULE_NAME, g_traceMessage);
+
+    taskTotal=0;
+    for (i=0;i < numelements;i++){
+        sprintf(g_traceMessage,
+            "Task no:%s Element at address %#x size %d",
+            cicsTaskn, *(elementlist + i), *(lengthlist + i));
+        traceMessage(MODULE_NAME, g_traceMessage);
+        taskTotal += *(lengthlist + i);
+    }
+
+     sprintf(g_traceMessage,"Task no:%s Total task EUDSA %ld",
+        cicsTaskn, taskTotal);
+     traceMessage(MODULE_NAME, g_traceMessage);
+     
+     return OK_CODE;
+}
+ */
