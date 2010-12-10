@@ -64,7 +64,7 @@
                 </executions>
             </plugin>
         
-            <!-- Upload sources and submit JCL. -->
+            <!-- Upload sources and submit JCL.
             <plugin>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>zosupload-maven-plugin</artifactId>
@@ -85,7 +85,7 @@
                     </execution>
                 </executions>
             </plugin>
-
+ -->
         </plugins>
     </build>
     
