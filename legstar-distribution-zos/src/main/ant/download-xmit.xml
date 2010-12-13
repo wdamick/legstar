@@ -26,6 +26,7 @@
                 binary="yes">
             <fileset dir="src/main/resources">
                 <include name="LEGSTAR.${legstarZosVersion}.LOAD.XMIT"/>
+                <include name="LEGSTAR.${legstarZosVersion}.OBJ.XMIT"/>
                 <include name="LEGSTAR.${legstarZosVersion}.C370.XMIT"/>
                 <include name="LEGSTAR.${legstarZosVersion}.H370.XMIT"/>
                 <include name="LEGSTAR.${legstarZosVersion}.CNTL.XMIT"/>

@@ -1,10 +1,10 @@
 //* ====================================================================
-//* Procedure CMPC370:
+//* Procedure BCMPC370:
+//* ------------------
 //* Compiles a C/370 program.
 //* Executes the C/C++ pre-linker to create an object ready for link.
-//* This is derived from IBM DFHYITDL.
 //* ====================================================================
-//CMPC370 PROC LEGIDX='P390.LEGSTAR',
+//BCMPC370 PROC LEGIDX='P390.LEGSTAR',
 //*                                  Qualifier(S) for LegStar object lib
 //       SOKIDX='TCPIP',             Qualifier(S) for Socket Lib
 //       COMPILER=CBCDRVR,           C/C++ Compiler

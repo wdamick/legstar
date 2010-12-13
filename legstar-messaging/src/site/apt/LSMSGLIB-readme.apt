@@ -18,21 +18,8 @@ CICS Messaging library LSMSGLIB
  LSMSGLIB shields transport handling programs such as LSMQHBIN or
  LSWEBBIN from complex message handling.
  
-* Prerequisites:
-
  LSMSGLIB uses the LSCOMLOG also part of this delivery.
  
-* Installation:
-
-  LSMSGLIB and dependents can be installed from source or using the common
-  distribution of all ZOS modules available
-  {{{../legstar-distribution-zos/index.html}here}}.
-
-  If you decide to compile the sources,  You will need a C/370 compiler.
-  Since LSMSGLIB is also a CICS program you can use the CICS procedure called
-  DFHYITDL to perform the translation and compilation (see C370CMSG sample
-  JCL).
-
 * Limitations:
 
   - LSMSGLIB has a limitation of 10 input message parts per complex

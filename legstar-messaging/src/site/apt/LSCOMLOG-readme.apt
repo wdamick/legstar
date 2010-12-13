@@ -7,21 +7,6 @@ Tracing and logging library LSCOMLOG
  LSCOMLOG is used by the other LegStar z/OS modules to produce meaningful
  error message texts, produce formatted dumps of data transferred, etc.
  
-* Prerequisites:
-
- None.
- 
-* Installation:
-
-  LSCOMLOG can be installed from source or using the common
-  distribution of all z/OS modules available
-  {{{../legstar-distribution-zos/index.html}here}}.
-
-  If you decide to compile the sources,  You will need a C/370 compiler.
-  Since LSCOMLOG is also a CICS program you can use the CICS procedure called
-  DFHYITDL to perform the translation and compilation (see C370CLOG sample
-  JCL).
-
 * This program has been tested for:
 
   - CICS TS 2.3 (6.3.0 Command language translator) and TS 3.1 (6.4.0)

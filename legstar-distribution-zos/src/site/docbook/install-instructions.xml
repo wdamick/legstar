@@ -15,9 +15,7 @@
  compiled using Enterprise COBOL for z/OS  3.3.0.
 </para>
 <para>
- All CICS programs are translated with CICS 6.3.0 COMMAND LANGUAGE TRANSLATOR
- apart from the module which supports CICS CONTAINERS which was translated
- using CICS 6.4.0 COMMAND LANGUAGE TRANSLATOR.
+ All CICS programs are translated with CICS 6.4.0 COMMAND LANGUAGE TRANSLATOR.
 </para>
 </section>
 
@@ -41,6 +39,7 @@
         |---->LEGSTAR.version.COBOL.XMIT
         |---->LEGSTAR.version.H370.XMIT
         |---->LEGSTAR.version.LOAD.XMIT
+        |---->LEGSTAR.version.OBJ.XMIT
 ]]>
 </programlisting>
 <para>
@@ -89,6 +88,8 @@
 //SYSTSIN  DD   *
   RECEIVE INDATASET('hlq.LEGSTAR.version.LOAD.XMIT')
        DSNAME('hlq.LEGSTAR.version.LOAD')
+  RECEIVE INDATASET('hlq.LEGSTAR.version.OBJ.XMIT')
+       DSNAME('hlq.LEGSTAR.version.OBJ')
   RECEIVE INDATASET('hlq.LEGSTAR.version.C370.XMIT')
        DSNAME('hlq.LEGSTAR.version.C370')
   RECEIVE INDATASET('hlq.LEGSTAR.version.H370.XMIT')
@@ -116,6 +117,64 @@
 </listitem>
 </itemizedlist>
 </section>
+
+</section>
+<section>
+<title>Compile and link-edit LegStar programs</title>
+<para>
+  if, for some reason, le load modules shipped with the LegStar distribution are not suitable, you can chose the either re-link edit or recompile all the modules.
+</para>
+<para>
+  You might have noticed that the LegStar delivery contains object modules in the hlq.LEGSTAR.version.OBJ library. So you can re-link without recompiling. If you elect to recompile, these object modules will be overridden with yours.
+</para>
+<para>
+  The hlq.LEGSTAR.version.CNTL library contains a set of cataloged procedures that you need to customize.
+</para>
+<para>
+  If you elect to recompile, you need to customize:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+  CTRNC370: Translates and compiles a CICS C/370 program and pre-links into an object module.
+</para>
+</listitem>
+<listitem>
+<para>
+  BCMPC370: Compiles a C/370 program and pre-links into an object module.
+</para>
+</listitem>
+</itemizedlist>
+<para>
+  In all cases, you need to customize:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+  CLNKC370: Link-edits a CICS object module.
+</para>
+</listitem>
+<listitem>
+<para>
+  BLNKC370: Link-edits an object module.
+</para>
+</listitem>
+</itemizedlist>
+<para>
+  Once the cataloged procedures are ready, you can use the following JCL's that process all LegStar modules:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+  BUILDOBJ: Compiles and pre-links all programs.
+</para>
+</listitem>
+<listitem>
+<para>
+  BUILDLOA: Link-edits all programs.
+</para>
+</listitem>
+</itemizedlist>
 
 </section>
 

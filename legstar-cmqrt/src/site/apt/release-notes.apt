@@ -77,7 +77,6 @@ INSTALLING/UNINSTALLING:
                         |---->*.C
                         |---->*.H
                 |----><JCL>
-                        |---->C370*
                         |---->MQDEFJCL
                 |----><docs>
                         |---->*-README
@@ -93,9 +92,10 @@ INSTALLING/UNINSTALLING:
  {{{../legstar-distribution-zos/release-notes.html}here}}.
        
  If you decide to install the CICS programs from sources, they are available
- from the zos folder. The JCL sub folder contains sample compilation JCL that
- will help you. LSMQHBIN actually uses a library called LSMQLLIB that you need
- to compile first (see C370CMQL for a sample JCL).
+ from the zos folder.
+ 
+ The JCLs used by LegStar to compile and link-edit these sources are
+ available from {{{../legstar-distribution-zos}here}}.
  
  Finally each module has some documentation under zos/docs.
    

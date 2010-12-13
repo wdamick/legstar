@@ -1,10 +1,10 @@
 //* ====================================================================
-//* Procedure TRNC370:
+//* Procedure CTRNC370:
+//* ------------------
 //* Translates and compiles a CICS C/370 program.
 //* Executes the C/C++ pre-linker to create an object ready for link.
-//* This is derived from IBM DFHYITDL.
 //* ====================================================================
-//TRNC370 PROC SUFFIX=1$,            Suffix for translator module
+//CTRNC370 PROC SUFFIX=1$,           Suffix for translator module
 //       INDEX='DFH310.CICS',        Qualifier(S) for CICS Lib
 //       WMQIDX='CSQ531',            Qualifier(S) for WMQ Lib
 //       SOKIDX='TCPIP',             Qualifier(S) for Socket Lib
