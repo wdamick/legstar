@@ -95,7 +95,7 @@
                    <!-- This will prepare the zos sources for upload. -->
                     <execution>
                         <id>prepare-deploy-to-zos</id>
-                        <phase>generate-test-resources</phase>
+                        <phase>generate-resources</phase>
                         <configuration>
                             <tasks>
                                 <ant antfile="${basedir}/../src/main/ant/prepare-deploy-to-zos.xml">
@@ -151,7 +151,7 @@
                 <executions>
                     <execution>
                         <id>upload-zos-programs</id>
-                        <phase>pre-integration-test</phase>
+                        <phase>process-resources</phase>
                         <configuration>
                             <hostName>${legstar-dev-zos-host}</hostName>
                             <hostUserId>${legstar-dev-zos-userid}</hostUserId>

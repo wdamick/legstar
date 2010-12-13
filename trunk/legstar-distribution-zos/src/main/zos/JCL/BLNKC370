@@ -1,9 +1,9 @@
 //* ====================================================================
-//* Procedure LNKC370:
+//* Procedure BLNKC370:
+//* ------------------
 //* Link edits object modules to produce load modules.
-//* This is derived from IBM DFHYITDL.
 //* ====================================================================
-//LNKC370 PROC LEGIDX='P390.LEGSTAR',
+//BLNKC370 PROC LEGIDX='P390.LEGSTAR',
 //*                                  Qualifier(S) for LegStar object lib
 //       SOKIDX='TCPIP',             Qualifier(S) for Socket Lib
 //       LNKPARM='LIST,MAP,LET,XREF',

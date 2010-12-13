@@ -1,9 +1,9 @@
 //* ====================================================================
-//* Procedure LNKC370:
-//* Link edits object modules to produce load modules.
-//* This is derived from IBM DFHYITDL.
+//* Procedure CLNKC370:
+//* ------------------
+//* Link edits CICS object modules to produce load modules.
 //* ====================================================================
-//LNKC370 PROC INDEX='DFH310.CICS',  Qualifier(S) for CICS Lib
+//CLNKC370 PROC INDEX='DFH310.CICS', Qualifier(S) for CICS Lib
 //       LEGIDX='P390.LEGSTAR',      Qualifier(S) for LegStar object lib
 //       WMQIDX='CSQ531',            Qualifier(S) for WMQ Lib
 //       SOKIDX='TCPIP',             Qualifier(S) for Socket Lib

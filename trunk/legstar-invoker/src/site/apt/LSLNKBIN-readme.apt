@@ -12,21 +12,7 @@ CICS LINK library LSLNKBIN
  from the JSON string of the incoming LegStar message (See LSMSGLIB
  library).
   
-* Prerequisites:
-
  LSLNKBIN uses the LSCOMLOG also part of this delivery.
- 
-* Installation:
-
-  LSLNKBIN and dependents can be installed from source or using the common
-  distribution of all ZOS modules available
-  {{{../legstar-distribution-zos/index.html}here}}.
-
-  If you decide to compile the sources,  You will need a C/370 compiler.
-  Since LSLNKBIN is also a CICS program you can use the CICS procedure called
-  DFHYITDL to perform the translation and compilation (see C370CLNK sample
-  JCL).
-
  
 * This program has been tested for:
 
