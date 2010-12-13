@@ -65,8 +65,6 @@ INSTALLING/UNINSTALLING:
                 |----><C370>
                         |---->*.C
                         |---->*.H
-                |----><JCL>
-                        |---->C370*
                 |----><docs>
                         |---->*-README
                 
@@ -79,8 +77,10 @@ INSTALLING/UNINSTALLING:
  {{{../legstar-distribution-zos/release-notes.html}here}}.
        
  If you decide to install the CICS programs from sources, they are available
- from the zos folder. The JCL sub folder contains sample compilation JCL that
- will help you.
+ from the zos folder.
+ 
+ The JCL used by LegStar to compile and link-edit these sources are
+ available from {{{../legstar-distribution-zos}here}}.
  
  Finally each module has some documentation under zos/docs.
        
