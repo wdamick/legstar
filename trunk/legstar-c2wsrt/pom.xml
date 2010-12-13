@@ -144,7 +144,7 @@
                 
             </plugin>
             
-            <!-- Upload sources and submit JCL.
+            <!-- Upload z/OS sources. -->
             <plugin>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>zosupload-maven-plugin</artifactId>
@@ -158,10 +158,6 @@
                             <hostPassword>${legstar-dev-zos-password}</hostPassword>
                             <inputFolder>target/zos</inputFolder>
                             <remoteFilesPrefix>${legstar-dev-zos-pds-pfx}.${legstarZosVersion}</remoteFilesPrefix>
-                            <jclFileNames>
-                                <jclFileName>C370HLIB</jclFileName>
-                                <jclFileName>C370HAPI</jclFileName>
-                            </jclFileNames>
                         </configuration>
                         <goals>
                             <goal>upload</goal>
@@ -169,7 +165,6 @@
                     </execution>
                 </executions>
             </plugin>
-             -->
 
             <!-- Assembly generation plugin. Put the result in the source site
                 so that it gets uploaded with the site.  -->

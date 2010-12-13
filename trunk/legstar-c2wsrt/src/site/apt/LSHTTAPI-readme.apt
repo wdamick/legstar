@@ -43,11 +43,10 @@ CICS to Proxy API LSHTTAPI
   ZOS modules available {{{../legstar-distribution-zos/index.html}here}}.
   
   If you decide to compile the sources,  You will need a C/370 compiler.
-  Since LSHTTAPI is also a CICS program you can use the CICS procedure called
-  DFHYITDL to perform the translation and compilation (see C370HAPI for a
-  sample).
- 
-  The sample JCL C370HLIB shows how to compile the HTTP library.
+  
+  The sample JCL BUILDOBJ compiles and pre-links all programs.
+
+  The sample JCL BUILDLOA link-edits all programs.
 
 * Limitations:
 

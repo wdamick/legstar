@@ -110,7 +110,7 @@
                 </executions>
             </plugin>
 
-            <!-- Upload sources and submit JCL.
+            <!-- Upload z/OS sources. -->
             <plugin>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>zosupload-maven-plugin</artifactId>
@@ -124,11 +124,6 @@
                             <hostPassword>${legstar-dev-zos-password}</hostPassword>
                             <inputFolder>target/zos</inputFolder>
                             <remoteFilesPrefix>${legstar-dev-zos-pds-pfx}.${legstarZosVersion}</remoteFilesPrefix>
-                            <jclFileNames>
-                                <jclFileName>C370LCOM</jclFileName>
-                                <jclFileName>C370LCTN</jclFileName>
-                                <jclFileName>C370CLNK</jclFileName>
-                            </jclFileNames>
                         </configuration>
                         <goals>
                             <goal>upload</goal>
@@ -136,7 +131,7 @@
                     </execution>
                 </executions>
             </plugin>
- -->
+
         </plugins>
     </build>
     
