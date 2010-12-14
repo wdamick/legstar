@@ -24,9 +24,15 @@ import com.legstar.test.coxb.LsfileaeCases;
 /**
  * Test the main CicsHttp class.
  * This is also used as the test bench for the mainframe Http programs.
- *
+ * 
  */
 public class CicsHttpTest extends AbstractHttpConnectionTester {
+
+    /** Max number of threads for multithreading tests. */
+    private static final int THREAD_NUMBER = 3;
+
+    /** Number of requests for each thread. */
+    private static final int REQUESTS_PER_THREAD = 100;
 
     /** {@inheritDoc} */
     public void setUp() throws Exception {
@@ -38,13 +44,16 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
      */
     public void testInstantiation() {
         CicsHttp cicsHttp = new CicsHttp(getName(), getEndpoint());
-        assertEquals("mainframe", cicsHttp.getHttpClient().getHostConfiguration().getHost());
-        assertEquals(3080, cicsHttp.getHttpClient().getHostConfiguration().getPort());
+        assertEquals("mainframe", cicsHttp.getHttpClient()
+                .getHostConfiguration().getHost());
+        assertEquals(3080, cicsHttp.getHttpClient().getHostConfiguration()
+                .getPort());
         assertEquals(cicsHttp.getHttpClient().getHostConfiguration().getHost(),
                 cicsHttp.getCicsHttpEndpoint().getHostIPAddress());
         assertEquals(cicsHttp.getHttpClient().getHostConfiguration().getPort(),
                 cicsHttp.getCicsHttpEndpoint().getHostIPPort());
-        assertEquals(true, cicsHttp.getHttpClient().getParams().isAuthenticationPreemptive());
+        assertEquals(true, cicsHttp.getHttpClient().getParams()
+                .isAuthenticationPreemptive());
     }
 
     /**
@@ -52,7 +61,8 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
      */
     public void testCreateHostConfiguration() {
         CicsHttp cicsHttp = new CicsHttp(getName(), getEndpoint());
-        HostConfiguration hostConfiguration = cicsHttp.createHostConfiguration(getEndpoint());
+        HostConfiguration hostConfiguration = cicsHttp
+                .createHostConfiguration(getEndpoint());
         assertEquals("mainframe", hostConfiguration.getHost());
         assertEquals("http://mainframe:3080", hostConfiguration.getHostURL());
         assertEquals(3080, hostConfiguration.getPort());
@@ -64,8 +74,10 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
      */
     public void testCreateHttpState() {
         CicsHttp cicsHttp = new CicsHttp(getName(), getEndpoint());
-        HttpState state = cicsHttp.createHttpState("mainframe", 3080, "P390", "TRUC", null);
-        AuthScope as = new AuthScope("mainframe", 3080, null, AuthScope.ANY_SCHEME);
+        HttpState state = cicsHttp.createHttpState("mainframe", 3080, "P390",
+                "TRUC", null);
+        AuthScope as = new AuthScope("mainframe", 3080, null,
+                AuthScope.ANY_SCHEME);
         assertEquals("P390:TRUC", state.getCredentials(as).toString());
     }
 
@@ -75,12 +87,15 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
     public void testCreatePostMethod() {
         try {
             LegStarRequest request = getLsfileaeRequest100(getAddress());
-            PostMethod postMethod = getConnection().createPostMethod(request, "/CICS/CWBA/LSWEBBIN");
+            PostMethod postMethod = getConnection().createPostMethod(request,
+                    "/CICS/CWBA/LSWEBBIN");
             assertEquals("POST", postMethod.getName());
             assertEquals("CICSTraceMode: false",
-                    postMethod.getRequestHeader(CicsHttp.REQUEST_TRACE_MODE_HHDR).toString().trim());
+                    postMethod.getRequestHeader(
+                            CicsHttp.REQUEST_TRACE_MODE_HHDR).toString().trim());
             assertTrue(postMethod.getRequestHeader(
-                    CicsHttp.REQUEST_ID_HHDR).toString().contains("CICSRequestID: "));
+                    CicsHttp.REQUEST_ID_HHDR).toString().contains(
+                    "CICSRequestID: "));
             assertEquals("/CICS/CWBA/LSWEBBIN",
                     postMethod.getPath());
 
@@ -105,8 +120,10 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
         } catch (ConnectionException e) {
             fail("testSendRequestOutOfSync failed " + e);
         } catch (RequestException e) {
-            assertEquals("org.apache.commons.httpclient.ConnectTimeoutException:"
-                    + " The host did not accept the connection within timeout of 1500 ms", e.getMessage());
+            assertEquals(
+                    "org.apache.commons.httpclient.ConnectTimeoutException:"
+                            + " The host did not accept the connection within timeout of 1500 ms",
+                    e.getMessage());
         }
     }
 
@@ -126,7 +143,9 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
         } catch (ConnectionException e) {
             fail("testSendRequestOutOfSync failed " + e);
         } catch (RequestException e) {
-            assertEquals("java.net.ConnectException: Connection refused: connect", e.getMessage());
+            assertEquals(
+                    "java.net.ConnectException: Connection refused: connect", e
+                            .getMessage());
         }
     }
 
@@ -148,9 +167,14 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
         } catch (ConnectionException e) {
             fail("testSendRequestOutOfSync failed " + e);
         } catch (RequestException e) {
-            /* Due to a bug in CICS TS 2.3, the content has the wrong content-length
-             * which results in a truncation of the message returned. */
-            assertEquals("Basic Authentication Error <!doctype html public \"-//IETF//DTD HTM", e.getMessage());
+            /*
+             * Due to a bug in CICS TS 2.3, the content has the wrong
+             * content-length
+             * which results in a truncation of the message returned.
+             */
+            assertEquals(
+                    "Basic Authentication Error <!doctype html public \"-//IETF//DTD HTM",
+                    e.getMessage());
         }
     }
 
@@ -163,9 +187,11 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
             request.getAddress().setHostTraceMode(true);
             getConnection().sendRequest(request);
             getConnection().recvResponse(request);
-            assertEquals(1, request.getResponseMessage().getHeaderPart().getDataPartsNumber());
+            assertEquals(1, request.getResponseMessage().getHeaderPart()
+                    .getDataPartsNumber());
             assertEquals(LsfileaeCases.getHostBytesHexReply100(),
-                    HostData.toHexString(request.getResponseMessage().getDataParts().get(0).getContent()));
+                    HostData.toHexString(request.getResponseMessage()
+                            .getDataParts().get(0).getContent()));
         } catch (RequestException e) {
             fail("testSendRequest failed " + e);
         }
@@ -176,8 +202,11 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
      */
     public void testSendRequestWithNoCredentials() {
         try {
-            /* This config has no default credentials, but the listener has basic
-             * auth turned off so this should be ok */
+            /*
+             * This config has no default credentials, but the listener has
+             * basic
+             * auth turned off so this should be ok
+             */
             CicsHttpEndpoint endpoint = getEndpoint();
             endpoint.setHostIPPort(3081);
             endpoint.setHostUserID(null);
@@ -188,9 +217,11 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
             LegStarRequest request = getLsfileaeRequest100(getAddress());
             cicsHttp.sendRequest(request);
             cicsHttp.recvResponse(request);
-            assertEquals(1, request.getResponseMessage().getHeaderPart().getDataPartsNumber());
+            assertEquals(1, request.getResponseMessage().getHeaderPart()
+                    .getDataPartsNumber());
             assertEquals(LsfileaeCases.getHostBytesHexReply100(),
-                    HostData.toHexString(request.getResponseMessage().getDataParts().get(0).getContent()));
+                    HostData.toHexString(request.getResponseMessage()
+                            .getDataParts().get(0).getContent()));
         } catch (ConnectionException e) {
             fail("testSendRequestWithNoCredentials failed " + e);
         } catch (RequestException e) {
@@ -204,7 +235,11 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
     public void testReceiveTimeout() {
         try {
             getEndpoint().setReceiveTimeout(2000);
-            LegStarRequest request = createLongRequest(getAddress()); // Will not respond within 2 secs
+            LegStarRequest request = createLongRequest(getAddress()); // Will
+            // not
+            // respond
+            // within
+            // 2 secs
             CicsHttp cicsHttp = new CicsHttp(getName(), getEndpoint());
             cicsHttp.connect(HOST_PASSWORD);
             cicsHttp.sendRequest(request);
@@ -212,20 +247,26 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
             cicsHttp.close();
             fail("testReceiveTimeout failed ");
         } catch (RequestException e) {
-            assertEquals("java.net.SocketTimeoutException: Read timed out", e.getMessage());
+            assertEquals("java.net.SocketTimeoutException: Read timed out", e
+                    .getMessage());
         } catch (ConnectionException e) {
             fail(e.getMessage());
         }
     }
 
     /**
-     * This tests that even after a receive timeout, we can still use the HttpClient
+     * This tests that even after a receive timeout, we can still use the
+     * HttpClient
      * (after all some data leftover by the failing call might get in the way).
      */
     public void testReceiveTimeoutReuseHttpClient() {
         try {
             getEndpoint().setReceiveTimeout(2000);
-            LegStarRequest request = createLongRequest(getAddress()); // Will not respond within 2 secs
+            LegStarRequest request = createLongRequest(getAddress()); // Will
+            // not
+            // respond
+            // within
+            // 2 secs
             try {
                 getConnection().sendRequest(request);
                 getConnection().recvResponse(request);
@@ -233,9 +274,11 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
                 LegStarRequest request2 = getLsfileaeRequest100(getAddress());
                 getConnection().sendRequest(request2);
                 getConnection().recvResponse(request2);
-                assertEquals(1, request2.getResponseMessage().getHeaderPart().getDataPartsNumber());
+                assertEquals(1, request2.getResponseMessage().getHeaderPart()
+                        .getDataPartsNumber());
                 assertEquals(LsfileaeCases.getHostBytesHexReply100(),
-                        HostData.toHexString(request2.getResponseMessage().getDataParts().get(0).getContent()));
+                        HostData.toHexString(request2.getResponseMessage()
+                                .getDataParts().get(0).getContent()));
             }
         } catch (RequestException e) {
             fail("testReceiveTimeoutReuseHttpClient failed " + e);
@@ -252,8 +295,79 @@ public class CicsHttpTest extends AbstractHttpConnectionTester {
             getConnection().recvResponse(request);
             fail("testSendRequest failed ");
         } catch (RequestException e) {
-            assertTrue(e.getMessage().contains("CICS command=LINK COMMAREA failed, resp=PGMIDERR"));
+            assertTrue(e.getMessage().contains(
+                    "CICS command=LINK COMMAREA failed, resp=PGMIDERR"));
         }
     }
 
+    /**
+     * Test that multiple connections can be used concurrently.
+     * 
+     * @throws Exception on failure
+     */
+    public void testConcurrent() throws Exception {
+        ConnectionConsumer[] consumers = new ConnectionConsumer[THREAD_NUMBER];
+        Thread[] threads = new Thread[THREAD_NUMBER];
+
+        for (int i = 0; i < THREAD_NUMBER; i++) {
+            consumers[i] = new ConnectionConsumer();
+        }
+        for (int i = 0; i < THREAD_NUMBER; i++) {
+            threads[i] = new Thread(consumers[i]);
+            threads[i].start();
+        }
+        for (int i = 0; i < THREAD_NUMBER; i++) {
+            threads[i].join();
+        }
+        for (int i = 0; i < THREAD_NUMBER; i++) {
+            assertNull(consumers[i].getException());
+        }
+    }
+
+    /**
+     * A thread that consumes connections using them and returning them to the
+     * stack.
+     * 
+     */
+    private class ConnectionConsumer implements Runnable {
+
+        /** Report any exception. */
+        private Throwable _exception;
+
+        /** {@inheritDoc} */
+        public void run() {
+            CicsHttp conn = new CicsHttp(getName(), getCicsTs31Endpoint());
+            try {
+                LegStarRequest request = getLsfileaeRequest100(getAddress());
+                conn.connect(HOST_PASSWORD);
+                for (int i = 0; i < REQUESTS_PER_THREAD; i++) {
+                    conn.sendRequest(request);
+                    conn.recvResponse(request);
+                    assertEquals(1, request.getResponseMessage()
+                            .getHeaderPart()
+                            .getDataPartsNumber());
+                    assertEquals(LsfileaeCases.getHostBytesHexReply100(),
+                            HostData.toHexString(request.getResponseMessage()
+                                    .getDataParts().get(0).getContent()));
+                }
+            } catch (Exception e) {
+                _exception = e;
+                e.printStackTrace();
+            } finally {
+                try {
+                    conn.close();
+                } catch (RequestException e) {
+                    _exception = e;
+                }
+            }
+
+        }
+
+        /**
+         * @return the exception
+         */
+        public Throwable getException() {
+            return _exception;
+        }
+    }
 }

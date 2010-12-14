@@ -75,24 +75,6 @@
       <pooledInvokeTimeout>2000</pooledInvokeTimeout>
        -->
       
-      <!-- 
-        This is the maximum time (in millisecs) to keep an idle connection
-        from the pool opened. -1 or 0 means forever.
-        If you set pooledMaxIdleTime to a strictly positive value, you also
-        need to set pooledMaxIdleTimeCheckPeriod to a strictly postive
-        value.
-        pooledMaxIdleTime + pooledMaxIdleTimeCheckPeriod must be smaller than 10000.
-         
-      <pooledMaxIdleTime>-1</pooledMaxIdleTime>
-       -->
-      
-      <!-- 
-        This is the period at which a demon thread will wake up to check
-        for pooled connections that have been idle for more than pooledMaxIdleTime.
-        -1 or 0 means never (results in pooledMaxIdleTime being ignored).
-
-      <pooledMaxIdleTimeCheckPeriod>2000</pooledMaxIdleTimeCheckPeriod>
-       -->
     </hostEndPoint>
 
   </hostEndPoints>

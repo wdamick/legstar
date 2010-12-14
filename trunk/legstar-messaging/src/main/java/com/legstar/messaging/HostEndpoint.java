@@ -72,28 +72,28 @@ public abstract class HostEndpoint {
     /* Default values */
     /* ----------------------------------------------------------------------- */
     /** Time out (in milliseconds) for initial connect. */
-    private static final int DEFAULT_CONNECT_TIMEOUT_MSEC = 1000;
+    public static final int DEFAULT_CONNECT_TIMEOUT_MSEC = 1000;
 
     /**
      * Time out (in milliseconds) for read operations
      * (waiting for host reply).
      */
-    private static final int DEFAULT_RECEIVE_TIMEOUT_MSEC = 5000;
+    public static final int DEFAULT_RECEIVE_TIMEOUT_MSEC = 5000;
 
     /** Time out (in milliseconds) for invoke. */
-    private static final int DEFAULT_POOLED_INVOKE_TIMEOUT_MSEC = 3000;
+    public static final int DEFAULT_POOLED_INVOKE_TIMEOUT_MSEC = 3000;
 
     /** Default maximum time to keep a pooled connection opened. */
-    private static final long DEFAULT_POOLED_MAX_IDLE_TIME = -1;
+    public static final long DEFAULT_POOLED_MAX_IDLE_TIME = -1;
 
     /** Default time between checking idle connections. */
-    private static final long DEFAULT_POOLED_MAX_IDLE_TIME_CHECK_PERIOD = -1;
+    public static final long DEFAULT_POOLED_MAX_IDLE_TIME_CHECK_PERIOD = -1;
 
     /** If no pool size found in configuration, use this default. */
-    private static final int DEFAULT_POOL_SIZE = 5;
+    public static final int DEFAULT_POOL_SIZE = 5;
 
     /** If not configured, we will use a direct strategy. */
-    private static final AccessStrategy DEFAULT_HOST_ACCESS_STRATEGY =
+    public static final AccessStrategy DEFAULT_HOST_ACCESS_STRATEGY =
             AccessStrategy.direct;
 
     /* ----------------------------------------------------------------------- */
