@@ -4,15 +4,18 @@
 //* Compiles a C/370 program.
 //* Executes the C/C++ pre-linker to create an object ready for link.
 //* ====================================================================
-//BCMPC370 PROC LEGIDX='P390.LEGSTAR',
-//*                                  Qualifier(S) for LegStar object lib
-//       SOKIDX='TCPIP',             Qualifier(S) for Socket Lib
+//BCMPC370 PROC LEGHLQ='P390.LEGSTAR.@VERSION@',
+//*                                  Qualifier(S) for LegStar libraries
+//       SOKHLQ='TCPIP',
+//*                                  Qualifier(S) for Socket libraries
+//       LE370HLQ='CEE',
+//*                                  Qualifier(s) for LE/370 libraries
+//       COMPHLQ='CBC',
+//*                                  Qualifier(s) for C libraries
 //       COMPILER=CBCDRVR,           C/C++ Compiler
 //       CPARM='RENT,SOURCE,LIST,OFFSET,LONGNAME,DLL,NOSEARCH',
 //*                                  'C' compiler parameters
-//       COMPHLQ='CBC',              Qualifier(s) for C Libs
 //       SCBCCMP=SCBCCMP,            Compiler Library
-//       LE370HLQ='CEE',             Qualifier(s) for LE/370 libraries
 //       REG=4M,                     Region size for all steps
 //       OUTC=*,                     Class for print output
 //       WORK=SYSDA,                 Unit for work datasets
@@ -27,10 +30,10 @@
 //         PARM=('&CPARM')
 //STEPLIB  DD DSN=&COMPHLQ..&SCBCCMP,DISP=SHR
 //         DD DSN=&LE370HLQ..SCEERUN,DISP=SHR
-//SYSIN    DD DSN=&LEGIDX..&LEGVERS..C370(&PROGRAM),DISP=SHR
-//SYSLIB   DD DSN=&SOKIDX..SEZACMAC,DISP=SHR
+//SYSIN    DD DSN=&LEGHLQ..C370(&PROGRAM),DISP=SHR
+//SYSLIB   DD DSN=&SOKHLQ..SEZACMAC,DISP=SHR
 //         DD DSN=&LE370HLQ..SCEEH.H,DISP=SHR
-//         DD DSN=&LEGIDX..&LEGVERS..H370,DISP=SHR
+//         DD DSN=&LEGHLQ..H370,DISP=SHR
 //SYSLIN   DD DSN=&&LOAD,DISP=(,PASS),
 //            UNIT=&WORK,SPACE=&WRKSPC,DCB=&DCB80
 //SYSPRINT DD SYSOUT=&OUTC
@@ -66,7 +69,7 @@
 //SYSMSGS  DD DSN=&LE370HLQ..SCEEMSGP(EDCPMSGE),DISP=SHR
 //SYSLIB   DD DUMMY
 //SYSIN    DD DSN=*.C.SYSLIN,DISP=(OLD,DELETE)
-//SYSDEFSD DD DSN=&LEGIDX..&LEGVERS..DECK(&PROGRAM),DISP=SHR
+//SYSDEFSD DD DSN=&LEGHLQ..DECK(&PROGRAM),DISP=SHR
 //SYSMOD   DD DSN=&&PLNK,DISP=(,PASS),
 //            UNIT=&WORK,SPACE=&WRKSPC,DCB=&DCB80
 //SYSOUT   DD SYSOUT=&OUTC
@@ -75,7 +78,7 @@
 //COPYOBJ  EXEC PGM=IEBGENER,
 //         COND=((7,LT,PLKED),(7,LT,C))
 //SYSUT1   DD DSN=*.PLKED.SYSMOD,DISP=(OLD,DELETE)
-//SYSUT2   DD DSN=&LEGIDX..&LEGVERS..OBJ(&PROGRAM),DISP=SHR
+//SYSUT2   DD DSN=&LEGHLQ..OBJ(&PROGRAM),DISP=SHR
 //SYSPRINT DD SYSOUT=&OUTC
 //SYSIN    DD DUMMY
 //*

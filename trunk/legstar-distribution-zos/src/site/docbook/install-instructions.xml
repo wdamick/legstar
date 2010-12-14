@@ -122,10 +122,13 @@
 <section>
 <title>Compile and link-edit LegStar programs</title>
 <para>
-  if, for some reason, le load modules shipped with the LegStar distribution are not suitable, you can chose the either re-link edit or recompile all the modules.
+  If, for some reason, le load modules shipped with the LegStar distribution are not suitable, you can chose to either re-link edit or recompile all the modules.
 </para>
 <para>
   You might have noticed that the LegStar delivery contains object modules in the hlq.LEGSTAR.version.OBJ library. So you can re-link without recompiling. If you elect to recompile, these object modules will be overridden with yours.
+</para>
+<para>
+  if you decide to compile, make sure you have a C/370 compiler.
 </para>
 <para>
   The hlq.LEGSTAR.version.CNTL library contains a set of cataloged procedures that you need to customize.
@@ -146,7 +149,7 @@
 </listitem>
 </itemizedlist>
 <para>
-  In all cases, you need to customize:
+  for link-editing, you need to customize:
 </para>
 <itemizedlist>
 <listitem>
@@ -161,17 +164,17 @@
 </listitem>
 </itemizedlist>
 <para>
-  Once the cataloged procedures are ready, you can use the following JCL's that process all LegStar modules:
+  Once the cataloged procedures are ready, you can use the following JCL's to process all LegStar modules at once:
 </para>
 <itemizedlist>
 <listitem>
 <para>
-  BUILDOBJ: Compiles and pre-links all programs.
+  BUILDOBJ: Compiles and pre-links all programs. After you run this job, you need to run BUILDLOA.
 </para>
 </listitem>
 <listitem>
 <para>
-  BUILDLOA: Link-edits all programs.
+  BUILDLOA: Link-edits all programs. You can use this job on the object modules shipped with LegStar or after you ran BUILDOBJ.
 </para>
 </listitem>
 </itemizedlist>
