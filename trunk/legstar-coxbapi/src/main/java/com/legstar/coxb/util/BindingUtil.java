@@ -301,4 +301,26 @@ public final class BindingUtil {
                         1, binding.getBindingName().length());
     }
 
+    /**
+     * Retrieves the XML namespace associated with a JAXB element.
+     * 
+     * @param jaxbPackageName a JAXB element package name
+     * @param jaxbTypeName a JAXB element type name
+     * @return the XML namespace
+     * @throws HostException if retrieving XML element name fails
+     */
+    public static String getXmlNamespace(
+            final String jaxbPackageName, final String jaxbTypeName)
+            throws HostException {
+        try {
+            JAXBElementDescriptor descriptor =
+                    new JAXBElementDescriptor(
+                            jaxbPackageName,
+                            jaxbTypeName);
+            return descriptor.getNamespace();
+        } catch (JAXBAnnotationException e) {
+            throw new HostException(e);
+        }
+    }
+
 }

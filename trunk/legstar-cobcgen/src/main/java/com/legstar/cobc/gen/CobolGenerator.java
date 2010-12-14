@@ -24,8 +24,8 @@ import org.apache.tools.ant.Task;
 import com.legstar.coxb.host.HostException;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.coxb.impl.reflect.ReflectBindingException;
-import com.legstar.util.JAXBAnnotationException;
-import com.legstar.util.JAXBElementDescriptor;
+import com.legstar.coxb.util.JAXBAnnotationException;
+import com.legstar.coxb.util.JAXBElementDescriptor;
 import com.legstar.xsdc.gen.CobolNameResolver;
 import com.legstar.xsdc.gen.CobolNameResolverException;
 

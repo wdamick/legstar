@@ -13,6 +13,7 @@
     <description>Transports to and from the mainframe.</description>
 
     <modules>
+        <module>../legstar-tests</module>
         <module>../legstar-messaging</module>
         <module>../legstar-config</module>
         <module>../legstar-cmockrt</module>

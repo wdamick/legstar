@@ -38,8 +38,8 @@ import com.legstar.coxb.ICobolZonedDecimalBinding;
 import com.legstar.coxb.host.HostException;
 import com.legstar.coxb.util.BindingUtil;
 import com.legstar.coxb.util.ClassUtil;
-import com.legstar.util.JAXBAnnotationException;
-import com.legstar.util.JAXBElementDescriptor;
+import com.legstar.coxb.util.JAXBAnnotationException;
+import com.legstar.coxb.util.JAXBElementDescriptor;
 import com.legstar.util.CoxbRuntimeUtil;
 
 /**
@@ -444,15 +444,7 @@ public class CoxbHelper {
     public String getXmlNamespace(
             final String jaxbPackageName, final String jaxbTypeName)
             throws HostException {
-        try {
-            JAXBElementDescriptor descriptor =
-                    new JAXBElementDescriptor(
-                            jaxbPackageName,
-                            jaxbTypeName);
-            return descriptor.getNamespace();
-        } catch (JAXBAnnotationException e) {
-            throw new HostException(e);
-        }
+        return BindingUtil.getXmlNamespace(jaxbPackageName, jaxbTypeName);
     }
 
     /**

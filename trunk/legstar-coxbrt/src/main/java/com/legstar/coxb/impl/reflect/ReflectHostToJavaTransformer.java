@@ -13,8 +13,8 @@ package com.legstar.coxb.impl.reflect;
 import com.legstar.coxb.CobolBindingException;
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.transform.AbstractHostToJavaTransformer;
-import com.legstar.util.JAXBAnnotationException;
-import com.legstar.util.JAXBElementDescriptor;
+import com.legstar.coxb.util.JAXBAnnotationException;
+import com.legstar.coxb.util.JAXBElementDescriptor;
 
 /**
  * This implementation of a host to java transformer dynamically binds to

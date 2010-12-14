@@ -8,7 +8,7 @@
  * Contributors:
  *     LegSem - initial API and implementation
  ******************************************************************************/
-package com.legstar.util;
+package com.legstar.coxb.util;
 
 /**
  * If the JAXB annotations are incomplete or inconsistent we

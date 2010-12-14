@@ -20,6 +20,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.legstar.cixs.gen.ant.CixsHelper;
 import com.legstar.cixs.gen.model.CixsOperation;
 import com.legstar.cixs.gen.model.options.HttpTransportParameters;
 import com.legstar.cixs.gen.model.options.WebServiceParameters;
@@ -30,7 +31,6 @@ import com.legstar.cixs.jaxws.model.AntBuildCixs2JaxwsModel;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
 import com.legstar.codegen.CodeGenHelper;
 import com.legstar.codegen.CodeGenUtil;
-import com.legstar.coxb.gen.CoxbHelper;
 
 import junit.framework.TestCase;
 
@@ -79,7 +79,7 @@ public class AbstractTestTemplate extends TestCase {
     private final Log _log = LogFactory.getLog(
             AbstractTestTemplate.class);
 
-    /** @{inheritDoc  */
+    /** @{inheritDoc */
     @Override
     public void setUp() {
         try {
@@ -93,7 +93,7 @@ public class AbstractTestTemplate extends TestCase {
             mParameters = new HashMap < String, Object >();
             CodeGenHelper helper = new CodeGenHelper();
             mParameters.put("helper", helper);
-            mParameters.put("coxbHelper", new CoxbHelper());
+            mParameters.put("cixsHelper", new CixsHelper());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
