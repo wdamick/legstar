@@ -30,12 +30,12 @@ import javax.xml.ws.soap.SOAPFaultException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.legstar.coxb.util.JAXBAnnotationException;
+import com.legstar.coxb.util.JAXBElementDescriptor;
 import com.legstar.coxb.util.NameUtil;
 import com.legstar.proxy.invoke.AbstractProxyInvoker;
 import com.legstar.proxy.invoke.ProxyInvokerException;
 import com.legstar.proxy.invoke.ReflectOperationProxy;
-import com.legstar.util.JAXBAnnotationException;
-import com.legstar.util.JAXBElementDescriptor;
 
 /**
  * This provides a direct Web Service invoker via {@link java.xml.ws.Dispatch}.

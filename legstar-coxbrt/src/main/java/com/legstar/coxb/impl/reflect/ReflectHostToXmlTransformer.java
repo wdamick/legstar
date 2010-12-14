@@ -12,7 +12,7 @@ package com.legstar.coxb.impl.reflect;
 
 import com.legstar.coxb.transform.AbstractHostToXmlTransformer;
 import com.legstar.coxb.transform.HostTransformException;
-import com.legstar.util.JAXBElementDescriptor;
+import com.legstar.coxb.util.JAXBElementDescriptor;
 
 /**
  * This implementation of a host to XML transformer dynamically binds to

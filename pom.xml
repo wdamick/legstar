@@ -84,13 +84,12 @@
     <modules>
         <module>legstar-codegen</module>
         <module>legstar-coxbapi</module>
+        <module>legstar-cixsgen-model</module>
+        <module>legstar-cixsgen-model-cases</module>
         <module>legstar-xsdcgen-cases</module>
         <module>legstar-xsdcgen</module>
         <module>legstar-transform</module>
-        <module>legstar-tests</module>
         <module>legstar-transport</module>
-        <module>legstar-cixsgen-model</module>
-        <module>legstar-cixsgen-model-cases</module>
         <module>legstar-jaxws</module>
         <module>legstar-distribution</module>
         <module>legstar-distribution-zos</module>

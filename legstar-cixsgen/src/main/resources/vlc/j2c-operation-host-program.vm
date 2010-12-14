@@ -7,14 +7,14 @@
 ## --------------------------
 #set($length = 0)
 #foreach($structure in ${structures})
-#set($length = $length + ${coxbHelper.getByteLength(${structure.jaxbPackageName}, ${structure.jaxbType})})
+#set($length = $length + ${cixsHelper.getByteLength(${structure.jaxbPackageName}, ${structure.jaxbType})})
 #end
 #end
 ## ==================================================================
 #macro(setContainers $prefix, $structures)
 ## ---------------------------------------
 #foreach($structure in ${structures})
-#set($length = ${coxbHelper.getByteLength(${structure.jaxbPackageName}, ${structure.jaxbType})})
+#set($length = ${cixsHelper.getByteLength(${structure.jaxbPackageName}, ${structure.jaxbType})})
         get${prefix}Containers().add(new HostContainer("$structure.cicsContainer", $length));
 #end
 #end

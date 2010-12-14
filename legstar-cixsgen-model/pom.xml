@@ -27,9 +27,8 @@
         </dependency>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-coxbgen</artifactId>
+            <artifactId>legstar-coxbapi</artifactId>
         </dependency>
-        
     </dependencies>
   
 </project>

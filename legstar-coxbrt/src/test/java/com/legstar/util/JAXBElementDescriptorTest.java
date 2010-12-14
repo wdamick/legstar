@@ -10,6 +10,9 @@
  ******************************************************************************/
 package com.legstar.util;
 
+import com.legstar.coxb.util.JAXBAnnotationException;
+import com.legstar.coxb.util.JAXBElementDescriptor;
+
 import junit.framework.TestCase;
 
 /**

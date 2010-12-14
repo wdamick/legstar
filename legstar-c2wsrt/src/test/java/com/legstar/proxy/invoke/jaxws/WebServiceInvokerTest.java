@@ -104,7 +104,7 @@ public class WebServiceInvokerTest extends TestCase {
             new WebServiceInvoker(config);
         } catch (WebServiceInvokerException e) {
             assertEquals(
-                    "com.legstar.util.JAXBAnnotationException: java.lang.ClassNotFoundException:"
+                    "com.legstar.coxb.util.JAXBAnnotationException: java.lang.ClassNotFoundException:"
                             + " jaxbPackage.ObjectFactory",
                     e.getMessage());
         }
@@ -115,7 +115,7 @@ public class WebServiceInvokerTest extends TestCase {
             new WebServiceInvoker(config);
         } catch (WebServiceInvokerException e) {
             assertEquals(
-                    "com.legstar.util.JAXBAnnotationException: java.lang.ClassNotFoundException:"
+                    "com.legstar.coxb.util.JAXBAnnotationException: java.lang.ClassNotFoundException:"
                             + " jaxbPackage.ObjectFactory",
                     e.getMessage());
         }

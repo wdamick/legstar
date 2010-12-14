@@ -8,15 +8,13 @@
  * Contributors:
  *     LegSem - initial API and implementation
  ******************************************************************************/
-package com.legstar.util;
+package com.legstar.coxb.util;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchema;
 import javax.xml.bind.annotation.XmlType;
 
 import com.legstar.coxb.CobolBindingException;
-import com.legstar.coxb.util.BindingUtil;
-import com.legstar.coxb.util.ClassUtil;
 
 /**
  * This immutable class holds the parameters that describe the relationship
