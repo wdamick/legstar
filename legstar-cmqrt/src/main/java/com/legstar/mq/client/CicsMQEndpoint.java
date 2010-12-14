@@ -20,7 +20,7 @@ import com.legstar.messaging.HostEndpoint;
 public class CicsMQEndpoint extends HostEndpoint {
 
     /* ----------------------------------------------------------------------- */
-    /* Member variables                                                        */
+    /* Member variables */
     /* ----------------------------------------------------------------------- */
     /** Host IP address. */
     private String mHostIPAddress;
@@ -44,7 +44,7 @@ public class CicsMQEndpoint extends HostEndpoint {
     private HostMQBridgeType mHostMQBridgeType = HostMQBridgeType.LSMSG;
 
     /* ----------------------------------------------------------------------- */
-    /* Default values                                                          */
+    /* Default values */
     /* ----------------------------------------------------------------------- */
     /** Default MQ Manager. */
     private static final String DEFAULT_MQ_MANAGER = "CSQ1";
@@ -54,10 +54,10 @@ public class CicsMQEndpoint extends HostEndpoint {
 
     /** The default connection factory class. */
     private static final String DEFAULT_CONNECTION_FACTORY_CLASS =
-        "com.legstar.mq.client.CicsMQConnectionFactory";
+            "com.legstar.mq.client.CicsMQConnectionFactory";
 
     /* ----------------------------------------------------------------------- */
-    /* Labels                                                                  */
+    /* Labels */
     /* ----------------------------------------------------------------------- */
     /** Label for IP address. */
     private static final String IP_ADDRESS_LABEL = "hostIPAddress";
@@ -89,6 +89,7 @@ public class CicsMQEndpoint extends HostEndpoint {
 
     /**
      * Constructor using an existing connection factory.
+     * 
      * @param connectionFactory an instance of a connection factory
      */
     public CicsMQEndpoint(final ConnectionFactory connectionFactory) {
@@ -97,6 +98,7 @@ public class CicsMQEndpoint extends HostEndpoint {
 
     /**
      * Copy constructor.
+     * 
      * @param copyFrom the endpoint to copy from
      */
     public CicsMQEndpoint(final CicsMQEndpoint copyFrom) {
@@ -112,55 +114,57 @@ public class CicsMQEndpoint extends HostEndpoint {
 
     /**
      * Helper to pretty print the endpoint content.
+     * 
      * @return formatted endpoint report
      */
     public String toString() {
         String report = "CICS WMQ endpoint:"
-            + super.toString()
-            + "[" 
-            + IP_ADDRESS_LABEL + "=" + mHostIPAddress
-            + "," + IP_PORT_LABEL + "=" + mHostIPPort
-            + "," + HOST_MQ_MANAGER_LABEL + "=" + mHostMQManager
-            + "," + HOST_MQ_CHANNEL_LABEL + "=" + mHostMQChannel
-            + "," + HOST_MQ_REQUEST_Q_LABEL + "=" + mHostMQRequestQueue
-            + "," + HOST_MQ_RESPONSE_Q_LABEL + "=" + mHostMQResponseQueue
-            + "," + HOST_MQ_BRIDGE_TYPE_LABEL + "=" + mHostMQBridgeType
-            + "]";
+                + super.toString()
+                + "["
+                + IP_ADDRESS_LABEL + "=" + mHostIPAddress
+                + "," + IP_PORT_LABEL + "=" + mHostIPPort
+                + "," + HOST_MQ_MANAGER_LABEL + "=" + mHostMQManager
+                + "," + HOST_MQ_CHANNEL_LABEL + "=" + mHostMQChannel
+                + "," + HOST_MQ_REQUEST_Q_LABEL + "=" + mHostMQRequestQueue
+                + "," + HOST_MQ_RESPONSE_Q_LABEL + "=" + mHostMQResponseQueue
+                + "," + HOST_MQ_BRIDGE_TYPE_LABEL + "=" + mHostMQBridgeType
+                + "]";
         return report;
     }
 
     /**
      * Perform a sanity check on the endpoint parameters.
+     * 
      * @throws CicsMQConnectionException if check fails
      */
     public void check() throws CicsMQConnectionException {
         if (getHostIPAddress() == null || getHostIPAddress().length() == 0) {
             throw new CicsMQConnectionException(
-            "No host IP address has been provided.");
+                    "No host IP address has been provided.");
         }
         if (getHostIPPort() == 0) {
             throw new CicsMQConnectionException(
-            "No host IP port has been provided.");
+                    "No host IP port has been provided.");
         }
         if (getHostMQManager() == null
                 || getHostMQManager().length() == 0) {
             throw new CicsMQConnectionException(
-            "No host MQ Manager name has been provided.");
+                    "No host MQ Manager name has been provided.");
         }
         if (getHostMQChannel() == null
                 || getHostMQChannel().length() == 0) {
             throw new CicsMQConnectionException(
-            "No host MQ Channel name has been provided.");
+                    "No host MQ Channel name has been provided.");
         }
         if (getHostMQRequestQueue() == null
                 || getHostMQRequestQueue().length() == 0) {
             throw new CicsMQConnectionException(
-            "No host MQ Request queue name has been provided.");
+                    "No host MQ Request queue name has been provided.");
         }
         if (getHostMQResponseQueue() == null
                 || getHostMQResponseQueue().length() == 0) {
             throw new CicsMQConnectionException(
-            "No host MQ Response queue name has been provided.");
+                    "No host MQ Response queue name has been provided.");
         }
     }
 
@@ -252,10 +256,13 @@ public class CicsMQEndpoint extends HostEndpoint {
      * Types of mainframe MQ Bridge implementations supported.
      */
     public enum HostMQBridgeType {
-        /** Uses LegStar messaging (expects mainframe to process LegStar messages). */
-        LSMSG, 
+        /**
+         * Uses LegStar messaging (expects mainframe to process LegStar
+         * messages).
+         */
+        LSMSG,
         /** Uses IBM CICS MQ Bridge. */
-        MQCIH       
+        MQCIH
 
     }
 
@@ -278,5 +285,36 @@ public class CicsMQEndpoint extends HostEndpoint {
      */
     public void setHostMQBridgeType(final String hostMQBridgeType) {
         mHostMQBridgeType = HostMQBridgeType.valueOf(hostMQBridgeType);
+    }
+
+    /**
+     * Not supported.
+     * 
+     * @param maxIdleTime the maximum time to keep a pooled connection opened
+     *            to set -1 means forever.
+     */
+    @Override
+    public void setPooledMaxIdleTime(final long maxIdleTime) {
+        if (maxIdleTime != DEFAULT_POOLED_MAX_IDLE_TIME) {
+            throw new IllegalArgumentException(
+                    "pooledMaxIdleTime not supported by this transport");
+        }
+        super.setPooledMaxIdleTime(maxIdleTime);
+    }
+
+    /**
+     * Not supported.
+     * 
+     * @param pooledMaxIdleTimeCheckPeriod the time between checking idle
+     *            connections to set
+     */
+    @Override
+    public void setPooledMaxIdleTimeCheckPeriod(
+            final long pooledMaxIdleTimeCheckPeriod) {
+        if (pooledMaxIdleTimeCheckPeriod != DEFAULT_POOLED_MAX_IDLE_TIME_CHECK_PERIOD) {
+            throw new IllegalArgumentException(
+                    "pooledMaxIdleTimeCheckPeriod not supported by this transport");
+        }
+        super.setPooledMaxIdleTimeCheckPeriod(pooledMaxIdleTimeCheckPeriod);
     }
 }

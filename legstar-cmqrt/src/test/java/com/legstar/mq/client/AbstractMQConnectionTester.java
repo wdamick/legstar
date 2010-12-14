@@ -25,18 +25,20 @@ import com.legstar.test.connection.client.AbstractConnectionTester;
 
 /**
  * Generic test helper class.
- *
+ * 
  */
-public abstract class AbstractMQConnectionTester extends AbstractConnectionTester {
+public abstract class AbstractMQConnectionTester extends
+        AbstractConnectionTester {
 
     /** An endpoint. */
     private CicsMQEndpoint mEndpoint;
-    
+
     /** Address of target host. */
     private LegStarAddress mAddress;
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
+
     /**
      * @return the Address of target host
      */
@@ -53,6 +55,7 @@ public abstract class AbstractMQConnectionTester extends AbstractConnectionTeste
 
     /**
      * Special setup using an endpoint configuration name.
+     * 
      * @param endpointName endpoint name
      * @throws Exception if setup fails
      */
@@ -122,7 +125,7 @@ public abstract class AbstractMQConnectionTester extends AbstractConnectionTeste
         CicsMQEndpoint endpoint = getMqcihEndpoint();
         endpoint.setName("CICSTS23-MQCIH-POOLED");
         endpoint.setHostAccessStrategy(AccessStrategy.pooled);
-        endpoint.setPooledMaxIdleTime(20000L);
+        endpoint.setPooledMaxIdleTime(-1);
         return endpoint;
     }
 

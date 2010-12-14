@@ -13,6 +13,7 @@
     <description>Eclipse plugins and features.</description>
 
     <modules>
+        <module>../legstar-eclipse-parent</module>
         <module>../legstar-common-plugin</module>
         <module>../legstar-common-feature</module>
         <module>../legstar-cixscom-plugin</module>
@@ -26,5 +27,5 @@
         <module>../legstar-schemagen-feature</module>
         <module>../legstar-site</module>
     </modules>
-    
+
 </project>
