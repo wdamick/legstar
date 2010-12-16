@@ -69,8 +69,8 @@ public abstract class AbstractCixsProxyDeployHttpGroup extends
      * 
      * @param wizardPage the parent wizard page
      * @param genModel the data model
-     * @param selected whether this group should initially be selected
      * @param sampleCobolHttpClientType initial HTTP sample client type
+     * @param selected whether this group should initially be selected
      */
     public AbstractCixsProxyDeployHttpGroup(
             final AbstractCixsGeneratorWizardPage wizardPage,
@@ -149,7 +149,7 @@ public abstract class AbstractCixsProxyDeployHttpGroup extends
     }
 
     /**
-     * @return a safe class name initial value
+     * @return a safe initial value
      */
     protected String getInitHttpHost() {
         String initValue = _genModel.getHost();
@@ -160,7 +160,7 @@ public abstract class AbstractCixsProxyDeployHttpGroup extends
     }
 
     /**
-     * @return a safe class name initial value
+     * @return a safe initial value
      */
     protected String getInitHttpPort() {
         int initValue = _genModel.getPort();
@@ -171,7 +171,7 @@ public abstract class AbstractCixsProxyDeployHttpGroup extends
     }
 
     /**
-     * @return a safe class name initial value
+     * @return a safe initial value
      */
     protected String getInitHttpPath() {
         String initValue = _genModel.getPath();
@@ -182,7 +182,7 @@ public abstract class AbstractCixsProxyDeployHttpGroup extends
     }
 
     /**
-     * @return a safe class name initial value
+     * @return a safe initial value
      */
     protected String getInitHttpUserId() {
         String initValue = _genModel.getUserId();
@@ -193,7 +193,7 @@ public abstract class AbstractCixsProxyDeployHttpGroup extends
     }
 
     /**
-     * @return a safe class name initial value
+     * @return a safe initial value
      */
     protected String getInitHttpPassword() {
         String initValue = _genModel.getPassword();
