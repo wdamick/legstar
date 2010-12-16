@@ -34,7 +34,7 @@
             targetNamespace="http://legstar.com/test/coxb/lsfileae"
             addLegStarAnnotations="true"
         >
-            <fileset file="${cobol.dir}/LSFILEAE"/>
+            <fileset file="${cobol.dir}/lsfileae"/>
         </cob2xsd>
     </target>
   
