@@ -102,7 +102,7 @@ public class CoxbGenModelTest extends AbstractTestTemplate {
         String resStr = genAntScriptAsString();
 
         assertTrue(resStr
-                .contains("<echo message=\"Generating Transformers for [class1, class2]\" />"));
+                .contains("<echo message=\"Generating Transformers for [class1, class2]\" level=\"info\"/>"));
         assertTrue(resStr.contains("xsdFile=\"myXsd.xsd\""));
         assertTrue(resStr.contains("targetDir=\"coxb\\src\""));
         assertTrue(resStr.contains("<jaxbRootClass name=\"class1\"/>"));
@@ -172,7 +172,8 @@ public class CoxbGenModelTest extends AbstractTestTemplate {
         assertEquals(null, props.get(CoxbGenModel.COXB_COXBBINDIR));
 
         assertEquals(
-                "{isXmlTransformers=false,"
+                "{isCompileTransformers=false,"
+                        + " isXmlTransformers=false,"
                         + " serializableID=1,"
                         + " internalBindings=true,"
                         + " isJsonTransformers=false,"
@@ -320,5 +321,17 @@ public class CoxbGenModelTest extends AbstractTestTemplate {
     protected String genAntScriptAsString() throws Exception {
         File resultFile = genAntScriptAsFile();
         return FileUtils.readFileToString(resultFile, "UTF-8");
+    }
+
+    /**
+     * Test package to includes.
+     * 
+     * @throws Exception if generation fails
+     */
+    public void testToIncludes() throws Exception {
+        _model.setJaxbPackageName("pac");
+        assertEquals("pac/**", _model.getJaxbClassIncludes());
+        _model.setJaxbPackageName("com.pac");
+        assertEquals("com/pac/**", _model.getJaxbClassIncludes());
     }
 }

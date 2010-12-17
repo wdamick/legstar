@@ -100,6 +100,9 @@ public class CoxbGenAntSamplesTest extends AbstractTestTemplate {
         _model.setJaxbRootClassNames(jaxbRootClassNames);
         _model.setJaxbPackageName(jaxbPackageName);
 
+        // Sample ant scripts must compile the COXB classes
+        _model.setCompileTransformers(true);
+
         return genAntScriptAsFile(xsdFileName);
 
     }
