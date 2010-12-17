@@ -44,7 +44,7 @@
     <!-- Generate the JAXB classes source
     -->
     <target name="generateJAXB" depends="init">
-        <echo message="Generating JAXB classes for ${antModel.xsdFile}" />
+        <echo message="Generating JAXB classes for ${antModel.xsdFile}" level="info"/>
         <jaxbgen 
             xsdFile="${antModel.xsdFile}"
             targetDir="${antModel.jaxbSrcDir}"
@@ -75,6 +75,7 @@
             destdir="${antModel.jaxbBinDir}"
             classpathref="classpath"
             fork="yes"
+            includes="${antModel.jaxbClassIncludes}"
         />
     </target>
   
@@ -82,7 +83,7 @@
     <!-- Generate Transformers by reflecting on JAXB classes.
     -->
     <target name="generateCOXB" depends="compileJAXB">
-        <echo message="Generating Transformers for ${antModel.jaxbRootClassNames}" />
+        <echo message="Generating Transformers for ${antModel.jaxbRootClassNames}" level="info"/>
         <coxbgen 
             targetDir="${antModel.coxbSrcDir}"
             jaxbPackageName="${antModel.jaxbPackageName}"
@@ -114,7 +115,12 @@
     <!-- ===========================================================  -->
     <!-- Delete the probe file to signal success
     -->
-    <target name="signalSuccess" depends="generateCOXB">
+#if(${antModel.compileTransformers})
+#set ($lastStep = "compileCOXB")
+#else
+#set ($lastStep = "generateCOXB")
+#end
+    <target name="signalSuccess" depends="${lastStep}">
         <delete file="${antModel.probeFile}" quiet="true"/>
     </target>
     

@@ -496,4 +496,5 @@ public class CoxbHelper {
         }
         return binding.getJaxbType().getPackage().getName();
     }
+
 }

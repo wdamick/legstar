@@ -62,6 +62,9 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /** Default value for JSON transformers generation. */
     public static final boolean DEFAULT_ISJSONTRANSFORMERS = false;
 
+    /** Default value for transformers compilation. */
+    public static final boolean DEFAULT_IS_COMPILE_TRANSFORMERS = false;
+
     /**
      * When XML Schema does not contain a target namespace, JAXB uses this
      * default package name.
@@ -99,6 +102,9 @@ public class CoxbGenModel extends AbstractAntBuildModel {
 
     /** Generate XML Transformers. */
     public static final String COXB_ISXMLTRANSFORMERS = "isXmlTransformers";
+
+    /** Compile Transformers. */
+    public static final String COXB_IS_COMPILE_TRANSFORMERS = "isCompileTransformers";
 
     /** XML Schema file. */
     public static final String COXB_XSDFILE = "xsdFile";
@@ -141,10 +147,13 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     private String _alternativeFactoryName;
 
     /** Generate Host to XML transformers. */
-    private boolean _xmlTransformers;
+    private boolean _xmlTransformers = DEFAULT_ISXMLTRANSFORMERS;
 
     /** Generate Host to JSON transformers. */
-    private boolean _jsonTransformers;
+    private boolean _jsonTransformers = DEFAULT_ISJSONTRANSFORMERS;
+
+    /** Compile transformers. */
+    private boolean _compileTransformers = DEFAULT_IS_COMPILE_TRANSFORMERS;
 
     /** The JAXB/COXB annotated XML schema file. */
     private File _xsdFile;
@@ -201,6 +210,8 @@ public class CoxbGenModel extends AbstractAntBuildModel {
                 DEFAULT_ISXMLTRANSFORMERS));
         setJsonTransformers(getBoolean(props, COXB_ISJSONTRANSFORMERS,
                 DEFAULT_ISJSONTRANSFORMERS));
+        setCompileTransformers(getBoolean(props, COXB_IS_COMPILE_TRANSFORMERS,
+                DEFAULT_IS_COMPILE_TRANSFORMERS));
         setXsdFile(getFile(props, COXB_XSDFILE, null));
         setJaxbRootClassNames(getStringList(props, COXB_JAXBROOTCLASSNAMES,
                 null));
@@ -534,6 +545,21 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     }
 
     /**
+     * @return true if transformers compilation is turned on
+     */
+    public boolean isCompileTransformers() {
+        return _compileTransformers;
+    }
+
+    /**
+     * @param compileTransformers true if transformers compilation is
+     *            turned on
+     */
+    public void setCompileTransformers(final boolean compileTransformers) {
+        _compileTransformers = compileTransformers;
+    }
+
+    /**
      * Extracts the JAXB package name from the XML schema targetNamespace.
      * <p/>
      * We delegate code to XJC which already knows how to turn a targetnamespace
@@ -570,6 +596,22 @@ public class CoxbGenModel extends AbstractAntBuildModel {
             throw (new CoxbGenException(
                     "IOException " + e.getMessage()));
         }
+    }
+
+    /**
+     * Turn the JAXB package name into an include statement that we can used
+     * as an includes property for a javac ant step.
+     * 
+     * @return an include statement for javac
+     * @throws CoxbGenException if JAXB pacakge name does not exist
+     */
+    public String getJaxbClassIncludes() throws CoxbGenException {
+        String packageName = getJaxbPackageName();
+        if (packageName == null || packageName.length() == 0) {
+            return packageName;
+        }
+        String includes = packageName.replace('.', '/');
+        return includes + "/**";
     }
 
     /**
@@ -610,6 +652,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
                 getAlternativeFactoryName());
         putBoolean(props, COXB_ISXMLTRANSFORMERS, isXmlTransformers());
         putBoolean(props, COXB_ISJSONTRANSFORMERS, isJsonTransformers());
+        putBoolean(props, COXB_IS_COMPILE_TRANSFORMERS, isCompileTransformers());
         putFile(props, COXB_XSDFILE, getXsdFile());
         putStringList(props, COXB_JAXBROOTCLASSNAMES, getJaxbRootClassNames());
         putFile(props, COXB_JAXBSRCDIR, getJaxbSrcDir());

@@ -72,4 +72,5 @@ public class CoxbHelperTest extends TestCase {
         }
 
     }
+
 }
