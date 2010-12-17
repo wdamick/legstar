@@ -104,6 +104,9 @@ public class TimerIdleConnectionsPolicyTest extends
             threads[i].join();
         }
 
+        /* Give one last chance for the cleaning thread to work. */
+        Thread.sleep(IDLE_TEST_PERIOD);
+
         /*
          * At the end of the test we expect opened connections to have been
          * idle for less than the maximum idle time.
