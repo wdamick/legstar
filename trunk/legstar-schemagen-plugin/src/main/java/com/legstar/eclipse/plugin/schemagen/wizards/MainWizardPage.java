@@ -209,12 +209,10 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
 
             String initialValue;
 
-            @Override
             public void focusGained(final FocusEvent e) {
                 initialValue = ((Text) e.widget).getText();
             }
 
-            @Override
             public void focusLost(final FocusEvent e) {
                 String newValue = ((Text) e.widget).getText();
                 if (!_xsdNamespaceUserChanged) {
@@ -609,7 +607,6 @@ public class MainWizardPage extends AbstractToXsdWizardPage {
         }
 
         /** {@inheritDoc} */
-        @Override
         public void generateBuild(final File arg0) throws CodeGenMakeException {
         }
 

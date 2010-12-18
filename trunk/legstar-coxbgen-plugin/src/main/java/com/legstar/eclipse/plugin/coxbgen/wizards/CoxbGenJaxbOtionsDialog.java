@@ -124,7 +124,6 @@ public class CoxbGenJaxbOtionsDialog extends TrayDialog {
                 .getSerializableUid()));
         _serializableUid.addVerifyListener(new VerifyListener() {
 
-            @Override
             public void verifyText(final VerifyEvent e) {
                 Matcher m = _numericPattern.matcher(e.text);
                 if (!m.matches()) {
