@@ -157,6 +157,37 @@ public class Messages extends NLS {
     /** Choice of sample Cobol Http client label. */
     public static String sample_cobol_http_client_type_label;
 
+    /** URL used to do naming lookups for WMQ resources label. */
+    public static String wmq_jndi_url_label;
+    /** context factory class to do naming lookups for WMQ resources label. */
+    public static String wmq_jndi_context_factory_label;
+    /**
+     * connection-factory used to lookup queues/topics in a naming directory
+     * (JNDI) label.
+     */
+    public static String wmq_connection_factory_label;
+    /** ZOS WMQ Queue Manager label. */
+    public static String wmq_zos_queue_manager_label;
+    /** WMQ Queue name receiving requests label. */
+    public static String wmq_request_queue_label;
+    /** WMQ Queue name receiving replies label. */
+    public static String wmq_reply_queue_label;
+    /** WMQ Queue name receiving errors label. */
+    public static String wmq_error_queue_label;
+
+    /** Invalid jndi url. */
+    public static String invalid_wmq_jndi_url_msg;
+    /** Invalid JNDI context factory. */
+    public static String invalid_wmq_jndi_context_factory_msg;
+    /** Invalid connection factory. */
+    public static String invalid_wmq_connection_factory_msg;
+    /** Invalid queue manager. */
+    public static String invalid_wmq_zos_queue_manager_msg;
+    /** Invalid request queue name. */
+    public static String invalid_wmq_target_queue_msg;
+    /** Invalid reply queue name. */
+    public static String invalid_wmq_target_reply_queue_msg;
+
     /** Invalid port number. */
     public static String invalid_http_port_number_msg;
     /** Invalid host. */
