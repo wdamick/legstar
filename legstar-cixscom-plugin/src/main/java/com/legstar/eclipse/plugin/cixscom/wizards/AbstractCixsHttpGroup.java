@@ -10,37 +10,29 @@
  ******************************************************************************/
 package com.legstar.eclipse.plugin.cixscom.wizards;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
-import com.legstar.cixs.gen.model.options.CobolHttpClientType;
 import com.legstar.cixs.gen.model.options.HttpTransportParameters;
 import com.legstar.eclipse.plugin.cixscom.Messages;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizardPage;
 
 /**
- * The HTTP deployment control group.
- * <p/>
- * Parameters needed by Mainframe clients to reach a proxy over HTTP.
+ * A group of HTTP connectivity related fields.
  * 
  */
-public abstract class AbstractCixsProxyDeployHttpGroup extends
+public abstract class AbstractCixsHttpGroup extends
         AbstractCixsControlsGroup {
 
-    /** The Host address on which HTTP listens to mainframe clients. */
+    /** The Host address on which HTTP listens. */
     private Text _httpHostText = null;
 
-    /** The Port on which HTTP listens to mainframe clients. */
+    /** The Port on which HTTP listens. */
     private Text _httpPortText = null;
 
-    /** The Path on which HTTP listens to mainframe clients. */
+    /** The Path on which HTTP listens. */
     private Text _httpPathText = null;
 
     /** The user id for basic authentication. */
@@ -49,37 +41,28 @@ public abstract class AbstractCixsProxyDeployHttpGroup extends
     /** The password for basic authentication. */
     private Text _httpPasswordText = null;
 
-    /** Selection of DFHWBCLI sample Cobol http client type. */
-    private Button _dfhwbcliButton = null;
-
-    /** Selection of WEB API sample Cobol http client type. */
-    private Button _webapiButton = null;
-
-    /** Selection of LegStar sample Cobol http client type. */
-    private Button _legstarButton = null;
-
     /** The data model. */
     private HttpTransportParameters _genModel;
 
-    /** The initial HTTP sample client type. */
-    private CobolHttpClientType _sampleCobolHttpClientType;
+    /** The group label text. */
+    private String _groupText;
 
     /**
      * Construct this control group attaching it to a wizard page.
      * 
      * @param wizardPage the parent wizard page
      * @param genModel the data model
-     * @param sampleCobolHttpClientType initial HTTP sample client type
      * @param selected whether this group should initially be selected
+     * @param groupText group label text
      */
-    public AbstractCixsProxyDeployHttpGroup(
+    public AbstractCixsHttpGroup(
             final AbstractCixsGeneratorWizardPage wizardPage,
             final HttpTransportParameters genModel,
-            final CobolHttpClientType sampleCobolHttpClientType,
-            final boolean selected) {
+            final boolean selected,
+            final String groupText) {
         super(wizardPage, selected);
         _genModel = genModel;
-        _sampleCobolHttpClientType = sampleCobolHttpClientType;
+        _groupText = groupText;
     }
 
     /**
@@ -94,7 +77,7 @@ public abstract class AbstractCixsProxyDeployHttpGroup extends
      */
     public void createControls(final Composite composite) {
 
-        super.createControls(composite, Messages.http_transport_group_label, 2);
+        super.createControls(composite, _groupText, 2);
 
         AbstractWizardPage.createLabel(getGroup(),
                 Messages.http_host_label + ':');
@@ -116,19 +99,6 @@ public abstract class AbstractCixsProxyDeployHttpGroup extends
                 Messages.http_password_label + ':');
         _httpPasswordText = AbstractWizardPage.createText(getGroup());
 
-        AbstractWizardPage.createLabel(getGroup(),
-                Messages.sample_cobol_http_client_type_label + ':');
-        Composite buttonsComposite = new Composite(getGroup(), SWT.NULL);
-        buttonsComposite.setLayout(new RowLayout());
-
-        _dfhwbcliButton = new Button(buttonsComposite, SWT.RADIO);
-        _dfhwbcliButton.setText("CICS DFHWBCLI");
-
-        _webapiButton = new Button(buttonsComposite, SWT.RADIO);
-        _webapiButton.setText("CICS WEB API");
-
-        _legstarButton = new Button(buttonsComposite, SWT.RADIO);
-        _legstarButton.setText("LEGSTAR API");
     }
 
     /**
@@ -140,12 +110,6 @@ public abstract class AbstractCixsProxyDeployHttpGroup extends
         setHttpPath(getInitHttpPath());
         setHttpUserId(getInitHttpUserId());
         setHttpPassword(getInitHttpPassword());
-        getDfhwbcliButton().setSelection(
-                _sampleCobolHttpClientType == CobolHttpClientType.DFHWBCLI);
-        getWebapiButton().setSelection(
-                _sampleCobolHttpClientType == CobolHttpClientType.WEBAPI);
-        getLegstarButton().setSelection(
-                _sampleCobolHttpClientType == CobolHttpClientType.LSHTTAPI);
     }
 
     /**
@@ -286,21 +250,6 @@ public abstract class AbstractCixsProxyDeployHttpGroup extends
                 getWizardPage().dialogChanged();
             }
         });
-        _dfhwbcliButton.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(final SelectionEvent e) {
-                getWizardPage().dialogChanged();
-            }
-        });
-        _webapiButton.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(final SelectionEvent e) {
-                getWizardPage().dialogChanged();
-            }
-        });
-        _legstarButton.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(final SelectionEvent e) {
-                getWizardPage().dialogChanged();
-            }
-        });
     }
 
     /** {@inheritDoc} */
@@ -311,15 +260,6 @@ public abstract class AbstractCixsProxyDeployHttpGroup extends
         getGenModel().setPath(getHttpPath());
         getGenModel().setUserId(getHttpUserId());
         getGenModel().setPassword(getHttpPassword());
-        if (_dfhwbcliButton.getSelection()) {
-            _sampleCobolHttpClientType = CobolHttpClientType.DFHWBCLI;
-        }
-        if (_webapiButton.getSelection()) {
-            _sampleCobolHttpClientType = CobolHttpClientType.WEBAPI;
-        }
-        if (_legstarButton.getSelection()) {
-            _sampleCobolHttpClientType = CobolHttpClientType.LSHTTAPI;
-        }
     }
 
     /**
@@ -390,58 +330,6 @@ public abstract class AbstractCixsProxyDeployHttpGroup extends
      */
     public void setHttpPassword(final String httpPassword) {
         _httpPasswordText.setText(httpPassword);
-    }
-
-    /**
-     * @return the choice of sample Cobol client type selected
-     */
-    public CobolHttpClientType getSampleCobolHttpClientType() {
-        return _sampleCobolHttpClientType;
-    }
-
-    /**
-     * @return the selection of DFHWBCLI sample Cobol http client type
-     */
-    public Button getDfhwbcliButton() {
-        return _dfhwbcliButton;
-    }
-
-    /**
-     * @param dfhwbcliButton the selection of DFHWBCLI sample Cobol http client
-     *            type to set
-     */
-    public void setDfhwbcliButton(final Button dfhwbcliButton) {
-        _dfhwbcliButton = dfhwbcliButton;
-    }
-
-    /**
-     * @return the selection of WEB API sample Cobol http client type
-     */
-    public Button getWebapiButton() {
-        return _webapiButton;
-    }
-
-    /**
-     * @param webapiButton the selection of WEB API sample Cobol http client
-     *            type to set
-     */
-    public void setWebapiButton(final Button webapiButton) {
-        _webapiButton = webapiButton;
-    }
-
-    /**
-     * @return the selection of LegStar sample Cobol http client type
-     */
-    public Button getLegstarButton() {
-        return _legstarButton;
-    }
-
-    /**
-     * @param legstarButton the selection of LegStar sample Cobol http client
-     *            type to set
-     */
-    public void setLegstarButton(final Button legstarButton) {
-        _legstarButton = legstarButton;
     }
 
     /**

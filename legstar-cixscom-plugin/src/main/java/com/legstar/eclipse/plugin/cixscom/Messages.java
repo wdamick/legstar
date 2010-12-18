@@ -143,7 +143,7 @@ public class Messages extends NLS {
     public static String ports_list_label;
 
     /** Settings for HTTP group label. */
-    public static String http_transport_group_label;
+    public static String proxy_http_transport_group_label;
     /** Host address on which HTTP server listens to mainframe clients label. */
     public static String http_host_label;
     /** Port on which HTTP listens to mainframe clients label. */

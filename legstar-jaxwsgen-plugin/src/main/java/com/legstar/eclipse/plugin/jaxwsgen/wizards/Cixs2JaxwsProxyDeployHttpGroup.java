@@ -12,7 +12,7 @@ package com.legstar.eclipse.plugin.jaxwsgen.wizards;
 
 import com.legstar.cixs.gen.model.options.CobolHttpClientType;
 import com.legstar.cixs.gen.model.options.HttpTransportParameters;
-import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsProxyDeployHttpGroup;
+import com.legstar.eclipse.plugin.cixscom.wizards.AbstractCixsProxyHttpGroup;
 import com.legstar.eclipse.plugin.jaxwsgen.preferences.PreferenceConstants;
 
 /**
@@ -23,7 +23,7 @@ import com.legstar.eclipse.plugin.jaxwsgen.preferences.PreferenceConstants;
  * environments.
  */
 public class Cixs2JaxwsProxyDeployHttpGroup extends
-        AbstractCixsProxyDeployHttpGroup {
+        AbstractCixsProxyHttpGroup {
 
     /**
      * Construct this control group attaching it to a wizard page.

@@ -32,13 +32,13 @@ import com.legstar.eclipse.plugin.common.wizards.AbstractWizardPage;
 public abstract class AbstractCixsControlsGroup {
 
     /** The wizard page to which this widget contributes. */
-    private AbstractCixsGeneratorWizardPage mWizardPage;
+    private AbstractCixsGeneratorWizardPage _wizardPage;
 
     /** Button which selection drives the visibility of this group. */
-    private Button mButton = null;
+    private Button _button = null;
 
     /** The group widget holding the controls. */
-    private Group mGroup = null;
+    private Group _group = null;
 
     /** Determines if this group is selected. */
     private boolean _selected;
@@ -52,7 +52,7 @@ public abstract class AbstractCixsControlsGroup {
     public AbstractCixsControlsGroup(
             final AbstractCixsGeneratorWizardPage wizardPage,
             final boolean selected) {
-        mWizardPage = wizardPage;
+        _wizardPage = wizardPage;
         _selected = selected;
     }
 
@@ -63,8 +63,8 @@ public abstract class AbstractCixsControlsGroup {
      * @param buttonText the button text
      */
     public void createButton(final Composite composite, final String buttonText) {
-        mButton = new Button(composite, SWT.RADIO);
-        mButton.setText(buttonText);
+        _button = new Button(composite, SWT.RADIO);
+        _button.setText(buttonText);
     }
 
     /**
@@ -76,7 +76,7 @@ public abstract class AbstractCixsControlsGroup {
      */
     public void createControls(final Composite composite,
             final String groupText, final int columns) {
-        mGroup = AbstractWizardPage.createGroup(composite, groupText, columns);
+        _group = AbstractWizardPage.createGroup(composite, groupText, columns);
     }
 
     /**
@@ -92,7 +92,7 @@ public abstract class AbstractCixsControlsGroup {
      * @return true if the associated button is selected
      */
     public boolean getSelection() {
-        return mButton.getSelection();
+        return _button.getSelection();
     }
 
     /**
@@ -123,7 +123,7 @@ public abstract class AbstractCixsControlsGroup {
      * Store the selected values in the project scoped preference store.
      */
     public void updateGenModel() {
-        _selected = mButton.getSelection();
+        _selected = _button.getSelection();
         updateGenModelExtended();
     }
 
@@ -171,7 +171,7 @@ public abstract class AbstractCixsControlsGroup {
      * @return the The wizard page to which this widget contributes
      */
     public AbstractCixsGeneratorWizardPage getWizardPage() {
-        return mWizardPage;
+        return _wizardPage;
     }
 
     /**
@@ -179,7 +179,7 @@ public abstract class AbstractCixsControlsGroup {
      *            set
      */
     public void setWizardPage(final AbstractCixsGeneratorWizardPage wizardPage) {
-        mWizardPage = wizardPage;
+        _wizardPage = wizardPage;
     }
 
     /**
@@ -200,7 +200,7 @@ public abstract class AbstractCixsControlsGroup {
      * @return the button which selection drives the visibility of this group
      */
     public Button getButton() {
-        return mButton;
+        return _button;
     }
 
     /**
@@ -208,21 +208,21 @@ public abstract class AbstractCixsControlsGroup {
      *            to set
      */
     public void setButton(final Button button) {
-        mButton = button;
+        _button = button;
     }
 
     /**
      * @return the group widget holding the controls
      */
     public Group getGroup() {
-        return mGroup;
+        return _group;
     }
 
     /**
      * @param group the group widget holding the controls to set
      */
     public void setGroup(final Group group) {
-        mGroup = group;
+        _group = group;
     }
 
     /**
