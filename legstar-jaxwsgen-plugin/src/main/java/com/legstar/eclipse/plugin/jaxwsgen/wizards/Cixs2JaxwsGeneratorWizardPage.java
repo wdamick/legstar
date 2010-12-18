@@ -95,11 +95,11 @@ public class Cixs2JaxwsGeneratorWizardPage
         _webServiceTargetGroup = new CixsProxyWebServiceTargetGroup(
                 this,
                 getGenModel().getWebServiceTargetParameters(),
-                (getGenModel().getProxyTargetType() == ProxyTargetType.WEBSERVICE));
+                getGenModel().getProxyTargetType() == ProxyTargetType.WEBSERVICE);
         _pojoTargetGroup = new CixsProxyPojoTargetGroup(
                 this,
                 getGenModel().getPojoTargetParameters(),
-                (getGenModel().getProxyTargetType() == ProxyTargetType.POJO));
+                getGenModel().getProxyTargetType() == ProxyTargetType.POJO);
 
         _webServiceTargetGroup.createButton(composite);
         _pojoTargetGroup.createButton(composite);
@@ -190,17 +190,17 @@ public class Cixs2JaxwsGeneratorWizardPage
         getCixsProxyDeployHttpGroup().setVisibility();
         getShell().layout(new Control[] { _targetGroup, _deploymentGroup });
 
-        if (getProxyTargetType() == ProxyTargetType.POJO
+        if (getPojoTargetGroup().isSelected()
                 && !getPojoTargetGroup().validateControls()) {
             return false;
         }
 
-        if (getProxyTargetType() == ProxyTargetType.WEBSERVICE
+        if (getWebServiceTargetGroup().isSelected()
                 && !getWebServiceTargetGroup().validateControls()) {
             return false;
         }
 
-        if (getCixsProxyDeployHttpGroup().getSelection()
+        if (getCixsProxyDeployHttpGroup().isSelected()
                 && !getCixsProxyDeployHttpGroup().validateControls()) {
             return false;
         }
@@ -224,18 +224,22 @@ public class Cixs2JaxwsGeneratorWizardPage
 
         super.updateGenModelExtended();
 
-        getWebServiceTargetGroup().updateGenModel();
-        getPojoTargetGroup().updateGenModel();
-        getCixsProxyDeployHttpGroup().updateGenModel();
-
         if (getWebServiceTargetGroup().isSelected()) {
+            getWebServiceTargetGroup().updateGenModel();
             getGenModel().setProxyTargetType(ProxyTargetType.WEBSERVICE);
         }
         if (getPojoTargetGroup().isSelected()) {
+            getPojoTargetGroup().updateGenModel();
             getGenModel().setProxyTargetType(ProxyTargetType.POJO);
         }
-        getGenModel().setSampleCobolHttpClientType(
-                getCixsProxyDeployHttpGroup().getSampleCobolHttpClientType());
+
+        if (getCixsProxyDeployHttpGroup().isSelected()) {
+            getCixsProxyDeployHttpGroup().updateGenModel();
+            getGenModel().setSampleCobolHttpClientType(
+                    getCixsProxyDeployHttpGroup()
+                            .getSampleCobolHttpClientType());
+        }
+
         getGenModel().setTargetCobolDir(new File(getTargetCobolDir()));
     }
 

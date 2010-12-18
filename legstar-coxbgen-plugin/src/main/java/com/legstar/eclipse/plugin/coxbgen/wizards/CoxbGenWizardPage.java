@@ -143,7 +143,6 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
         });
         _jaxbPackageName.addVerifyListener(new VerifyListener() {
 
-            @Override
             public void verifyText(final VerifyEvent e) {
                 verifyPackageName(e);
             }
@@ -189,7 +188,6 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
         });
         _coxbPackageName.addVerifyListener(new VerifyListener() {
 
-            @Override
             public void verifyText(final VerifyEvent e) {
                 verifyPackageName(e);
             }
