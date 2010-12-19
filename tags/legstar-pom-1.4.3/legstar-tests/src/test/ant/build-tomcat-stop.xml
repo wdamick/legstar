@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!-- =================================================================================
+	     This script stops the development instance of Tomcat.
+	  -->
+<project basedir="..\..\.." default="tomcat-stop">
+	<target name="tomcat-stop">
+	    <java jar="${tomcat.home}/bin/bootstrap.jar" fork="true">
+	        <jvmarg value="-Dcatalina.home=${tomcat.home}"/>
+	        <arg line="stop"/>
+	    </java>
+	</target>
+</project>

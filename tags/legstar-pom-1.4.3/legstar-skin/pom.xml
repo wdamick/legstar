@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.legsem.legstar</groupId>
+	<artifactId>legstar-skin</artifactId>
+  <version>1.0.2</version>
+	<name>Legstar skin</name>
+	<description>Web site skin</description>
+</project>

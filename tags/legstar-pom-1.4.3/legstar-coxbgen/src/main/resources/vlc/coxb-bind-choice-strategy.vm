@@ -1,0 +1,59 @@
+#**
+Choice strategy class Velocity Template.
+@author Fady
+@version 1.2
+*#
+## ==================================================================
+## Choice strategy code
+##
+
+package ${helper.getPackageName(${choice-strategy-qualified-class-name}, ${coxbContext.getCoxbPackageName()})};
+import java.util.Hashtable;
+
+import com.legstar.coxb.CobolElementVisitor;
+import com.legstar.coxb.ICobolBinding;
+import com.legstar.coxb.ICobolChoiceBinding;
+import com.legstar.coxb.ICobol${choice-strategy-type}ChoiceStrategy;
+import com.legstar.coxb.host.HostException;
+
+## Determine the value Object type
+#set ($parentObjectType = $coxbHelper.getBoundTypeName($binding))
+import ${binding.getParentBinding().getValueObjectClassName()};
+
+/** 
+ * Skeleton implementation of a custom choice selection strategy. Modify this
+ * code to select a suitable alternative.
+ */
+public class ${helper.getClassName(${choice-strategy-qualified-class-name})} implements ICobol${choice-strategy-type}ChoiceStrategy {
+
+    /** {@inheritDoc} */
+    public ICobolBinding choose(
+        final ICobolChoiceBinding choice,
+        final Hashtable < String, Object > variablesMap,
+        final CobolElementVisitor visitor) throws HostException {
+        
+        /* Get the parent value object which properties might help select the
+         * right alternative. */
+        ${parentObjectType} valueObject = (${parentObjectType}) choice.getObjectValue(${parentObjectType}.class);
+        assert (valueObject != null);
+        
+        /* Replace following code with actual logic. */
+        int index = 0;
+        switch (index) {
+#set($counter = 0)
+#foreach ($child in $binding.alternativesList)
+        case ${counter}:
+            return choice.getAlternativeByName("${child.bindingName}");
+#set($counter = $counter + 1)
+#end
+        case -1:
+            /* An exemple of how to signal an exception.*/
+            throw (new HostException("Unable to select an alternative"));
+        default:
+            /* Null will let the default choice strategy apply. */
+            return null;
+        }
+    }
+}
+
+
