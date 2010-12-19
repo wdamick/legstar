@@ -162,7 +162,7 @@ public class CoxbGenModelTest extends AbstractTestTemplate {
                 .get(CoxbGenModel.COXB_JAXB_ALTERNATIVEPACKAGENAME));
         assertEquals(null, props
                 .get(CoxbGenModel.COXB_JAXB_ALTERNATIVEFACTORYNAME));
-        assertEquals("false", props.get(CoxbGenModel.COXB_ISXMLTRANSFORMERS));
+        assertEquals("true", props.get(CoxbGenModel.COXB_ISXMLTRANSFORMERS));
         assertEquals("false", props.get(CoxbGenModel.COXB_ISJSONTRANSFORMERS));
         assertEquals(null, props.get(CoxbGenModel.COXB_XSDFILE));
         assertEquals(null, props.get(CoxbGenModel.COXB_JAXBROOTCLASSNAMES));
@@ -173,7 +173,7 @@ public class CoxbGenModelTest extends AbstractTestTemplate {
 
         assertEquals(
                 "{isCompileTransformers=false,"
-                        + " isXmlTransformers=false,"
+                        + " isXmlTransformers=true,"
                         + " serializableID=1,"
                         + " internalBindings=true,"
                         + " isJsonTransformers=false,"

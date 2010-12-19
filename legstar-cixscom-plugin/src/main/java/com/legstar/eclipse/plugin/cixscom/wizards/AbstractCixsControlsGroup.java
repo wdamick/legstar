@@ -41,7 +41,7 @@ public abstract class AbstractCixsControlsGroup {
     private Group _group = null;
 
     /** Determines if this group is selected. */
-    private boolean _selected;
+    private boolean _initialSelection;
 
     /**
      * Construct this control group attaching it to a wizard page.
@@ -53,7 +53,7 @@ public abstract class AbstractCixsControlsGroup {
             final AbstractCixsGeneratorWizardPage wizardPage,
             final boolean selected) {
         _wizardPage = wizardPage;
-        _selected = selected;
+        _initialSelection = selected;
     }
 
     /**
@@ -115,7 +115,7 @@ public abstract class AbstractCixsControlsGroup {
      * retrieving last saved values.
      */
     public void initControls() {
-        getButton().setSelection(_selected);
+        getButton().setSelection(_initialSelection);
         initExtendedControls();
     }
 
@@ -123,7 +123,6 @@ public abstract class AbstractCixsControlsGroup {
      * Store the selected values in the project scoped preference store.
      */
     public void updateGenModel() {
-        _selected = _button.getSelection();
         updateGenModelExtended();
     }
 
@@ -226,9 +225,9 @@ public abstract class AbstractCixsControlsGroup {
     }
 
     /**
-     * @return wheteher this group is selected or not
+     * @return whether this group is selected or not
      */
     public boolean isSelected() {
-        return _selected;
+        return _button.getSelection();
     }
 }

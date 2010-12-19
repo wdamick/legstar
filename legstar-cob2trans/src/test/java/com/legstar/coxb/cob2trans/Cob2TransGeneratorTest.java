@@ -191,7 +191,7 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
             en.nextElement();
             entryCount++;
         }
-        assertEquals(25, entryCount);
+        assertEquals(28, entryCount);
 
     }
 
