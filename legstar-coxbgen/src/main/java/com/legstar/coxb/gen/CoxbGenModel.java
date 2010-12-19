@@ -57,7 +57,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /* ====================================================================== */
 
     /** Default value for XML transformers generation. */
-    public static final boolean DEFAULT_ISXMLTRANSFORMERS = false;
+    public static final boolean DEFAULT_ISXMLTRANSFORMERS = true;
 
     /** Default value for JSON transformers generation. */
     public static final boolean DEFAULT_ISJSONTRANSFORMERS = false;
