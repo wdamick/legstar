@@ -2,8 +2,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.legsem.legstar</groupId>
-        <artifactId>Legstar</artifactId>
+        <artifactId>legstar-pom</artifactId>
         <version>1.4.3-SNAPSHOT</version>
+        <relativePath>../legstar-pom</relativePath>
     </parent>
     <version>1.4.3-SNAPSHOT</version>
     <artifactId>legstar-coxbapi</artifactId>
