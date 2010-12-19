@@ -328,25 +328,11 @@
     </profiles>
 
     <distributionManagement>
-        <downloadUrl>https://oss.sonatype.org/content/groups/public/</downloadUrl>
         <site>
             <id>local.website</id>
             <name>Local Website</name>
             <url>file:///${legstar-dev-website-local-dir}</url>
         </site>
-
-    <!-- Enables distribution to Sonatype (have to override for uniqueVersion used in distro testing)    -->
-        <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Nexus Release Repository</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-        <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-            <uniqueVersion>false</uniqueVersion>
-        </snapshotRepository>
 
     </distributionManagement>
   
