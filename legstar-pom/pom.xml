@@ -13,7 +13,7 @@
     <artifactId>legstar-pom</artifactId>
     <packaging>pom</packaging>
     <name>LegStar Open-Source Mainframe Integration</name>
-    <version>1.4.4-SNAPSHOT</version>
+    <version>1.4.3-SNAPSHOT</version>
     <description>Open-Source Mainframe Integration</description>
     <url>http://www.legsem.com/legstar</url>
     <properties>
