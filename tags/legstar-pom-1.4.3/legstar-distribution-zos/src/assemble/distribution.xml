@@ -1,0 +1,22 @@
+<assembly>
+    <id>bin</id>
+    
+    <formats>
+        <format>zip</format>
+    </formats>
+
+    <fileSets>
+
+        <!-- XMIT files -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-distribution-zos/src/main/resources</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>**</include>
+            </includes>
+        </fileSet>
+        
+    </fileSets>
+
+  
+</assembly>

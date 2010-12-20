@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://finance.example.com/CreditCardFaults/xsd"
+	xmlns:tns="http://finance.example.com/CreditCardFaults/xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.w3.org/2001/XMLSchema ../../../xmlcatalog/xsd/XMLSchema.xsd">
+
+	<element name="CreditCardNumber" type="string"></element>
+
+</schema>
