@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+  <body>
+
+    <menu name="Mainframe Service Generator">
+      <item name="Overview" href="index.html"/>
+      <item name="FAQ" href="faq.html" />
+    </menu>
+
+    ${reports}
+  </body>
+</project>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://soapinterop.org/types"
+        targetNamespace="http://soapinterop.org/types">
+        
+	<!-- Simple element is an array  -->
+	<complexType name="AssemblyRequiredProduct">
+		<sequence>
+			<element name="Name" type="xsd:string"/>
+			<element name="Sort" type="tns:SortByType"/>
+		</sequence>
+	</complexType>
+	<xsd:element name="assemblyInfo" type="tns:AssemblyRequiredProduct" />
+
+	<xsd:simpleType name="SortByType">
+		<xsd:list>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="Default"/>
+					<xsd:enumeration value="Relevance"/>
+					<xsd:enumeration value="Distance"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:list>
+	</xsd:simpleType>
+	
+</schema>

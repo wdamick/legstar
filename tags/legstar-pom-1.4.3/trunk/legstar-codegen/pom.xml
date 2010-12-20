@@ -1,0 +1,36 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>legstar-pom</artifactId>
+        <version>1.4.3</version>
+        <relativePath>../legstar-pom</relativePath>
+    </parent>
+    <version>1.4.3</version>
+    <artifactId>legstar-codegen</artifactId>
+    <name>LegStar Code generation common code</name>
+    <description>Common code generation classes for LegStar</description>
+    <url>http://www.legsem.com/legstar</url>
+
+    <dependencies>
+  
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+    
+  </dependencies>
+  
+</project>

@@ -1,0 +1,117 @@
+<!-- =================================================================================
+     This script deploys sources and jcl to zos.
+ -->
+<project basedir="." default="deployToZos" name="deploy-to-zos">
+
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
+    <!-- Import the ZOS version builder script... -->
+    <import file="${basedir}/../src/main/ant/prepare-zos-version.xml"/>
+
+    <target name="setup" depends="prepareZosVersion">
+        <!-- Generate the MANIFEST with the correct version and dependency versions -->
+        <echo message="Uploading on z/OS for version=${legstarZosVersion}"/>
+
+        <available file="${basedir}/src/main/zos/C370" property="isC370"/>
+        <available file="${basedir}/src/main/zos/cobol" property="isCobol"/>
+        <available file="${basedir}/src/main/zos/JCL" property="isJCL"/>
+    </target>
+    
+  <!-- ===========================================================  -->
+  <!-- Upload sources and JCL to distribution PDS
+       Because extensions are not supported by MVS, we first copy
+       files removing extensions to a temporary location
+    -->
+    <target name="deployToZos" depends="deployC370,deployH370,deployCobol,deployJCL">
+    
+    </target>
+  
+  <!-- ===========================================================  -->
+  <!-- Upload C370 files
+    -->
+    <target name="deployC370" depends="setup" if="isC370">
+    
+        <mkdir dir="target/zos/C370"/>
+        <copy todir="target/zos/C370">
+            <fileset dir="${basedir}/src/main/zos/C370"/>
+            <globmapper from="*.c" to="*"/>
+        </copy>
+        
+        <ftp server="${legstarZosHost}"
+                remotedir="LEGSTAR.${legstarZosVersion}.C370"
+                userid="${legstarZosUserid}"
+                password="${legstarZosPassword}"
+                binary="no">
+            <fileset dir="target/zos/C370"/>
+        </ftp>
+        
+    </target>
+
+  <!-- ===========================================================  -->
+  <!-- Upload C370 Header files
+    -->
+    <target name="deployH370" depends="setup" if="isC370">
+    
+        <mkdir dir="target/zos/H370"/>
+        <copy todir="target/zos/H370">
+            <fileset dir="${basedir}/src/main/zos/C370"/>
+            <globmapper from="*.h" to="*"/>
+        </copy>
+        
+        <ftp server="${legstarZosHost}"
+                remotedir="LEGSTAR.${legstarZosVersion}.H370"
+                userid="${legstarZosUserid}"
+                password="${legstarZosPassword}"
+                binary="no">
+            <fileset dir="target/zos/H370"/>
+        </ftp>
+        
+    </target>
+
+
+  <!-- ===========================================================  -->
+  <!-- Upload Cobol files
+    -->
+    <target name="deployCobol" depends="setup" if="isCobol">
+    
+        <mkdir dir="target/zos/COBOL"/>
+        <copy todir="target/zos/COBOL">
+            <fileset dir="${basedir}/src/main/zos/cobol"/>
+            <globmapper from="*.cbl" to="*"/>
+        </copy>
+        
+        <ftp server="${legstarZosHost}"
+                remotedir="LEGSTAR.${legstarZosVersion}.COBOL"
+                userid="${legstarZosUserid}"
+                password="${legstarZosPassword}"
+                binary="no">
+            <fileset dir="target/zos/COBOL"/>
+        </ftp>
+        
+    </target>
+
+  <!-- ===========================================================  -->
+  <!-- Upload JCL files
+    -->
+    <target name="deployJCL" depends="setup" if="isJCL">
+    
+        <mkdir dir="target/zos/CNTL"/>
+        <copy todir="target/zos/CNTL">
+            <fileset dir="${basedir}/src/main/zos/JCL"/>
+            <filterset>
+                <filter token="VERSION" value="${legstarZosVersion}"/>
+            </filterset>
+        </copy>
+        
+        <ftp server="${legstarZosHost}"
+                remotedir="LEGSTAR.${legstarZosVersion}.CNTL"
+                userid="${legstarZosUserid}"
+                password="${legstarZosPassword}"
+                binary="no">
+            <fileset dir="target/zos/CNTL"/>
+        </ftp>
+        
+    </target>
+
+</project>

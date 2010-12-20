@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section>
+<title>Features overview</title>
+
+<section>
+<title>Development time features</title>
+<para>
+  Activities involved in mainframe integration usually require:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+  Mapping mainframe data structures to open world constructs such as Java classes or XML Schema.
+</para>
+</listitem>
+<listitem>
+<para>
+  Mapping mainframe programs to open world processes (Web Service operations, Java methods, …).
+</para>
+</listitem>
+</itemizedlist>
+<para>
+  These mapping activities occur at development time and usually produce meta-data that can later be used by
+  runtime engines to flow requests and data between the mainframe application and the open world.
+</para>
+<para>
+  At the core of LegStar is an XML schema to COBOL binding language. This is similar in spirit to the Java
+  to XML Schema binding language introduced by the JAXB standard. This COBOL binding language materializes
+  as XML schema annotations or Java annotations. 
+</para>
+<para>
+  LegStar COBOL binding language tries to cover all the real issues facing integration developers such as how
+  to map COBOL weakly typed variables to Java strongly typed ones, deal with complex "REDEFINES", variable
+  size arrays, code page conversions, numeric conversions and support for multiple input/output programs
+  (CICS Containers).
+</para>
+<para>
+  LegStar provides tooling to support data and process mapping activities. These tools are provided as ant
+  scripts but they are also available as a rich set of plug-ins for the Eclipse platform.
+</para>
+
+</section>
+
+<section>
+<title>Runtime features</title>
+<para>
+  Runtime mainframe integration activities can be separated into:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+  Data binding activities where data streams in mainframe format are transformed to, or from, open
+  world objects such as Java classes or XML.
+</para>
+</listitem>
+<listitem>
+<para>
+  Remote Procedure Call activities where mainframe programs are invoked, or call outbound open
+  world processes.
+</para>
+</listitem>
+</itemizedlist>
+<para>
+  LegStar provides runtime capabilities for IBM CICS, where CICS programs act either as servers, serving
+  requests coming from the open world or as clients, calling remote Web or Java services. 
+</para>
+<para>
+  The LegStar various modules are only loosely coupled and can be used in a large number of scenarios.
+  For instance, one can use the data binding capabilities without using the LegStar RPC mechanisms.
+</para>
+<para>
+  Integration targets are not limited to Web Services. There are various projects using LegStar to integrate
+  directly with major ESBs for instance.
+</para>
+</section>
+
+<section>
+<title>Common use cases</title>
+<para>
+  The easiest way to present the LegStar architecture is to show how it supports two common integration use
+  cases:
+</para>
+<orderedlist>
+<listitem>
+<para>
+  An existing mainframe program, say a COBOL CICS program, needs to be exposed as a Web Service.
+</para>
+</listitem>
+<listitem>
+<para>
+  A mainframe application needs to execute a remote Web Service.
+</para>
+</listitem>
+</orderedlist>
+<para>
+  The first use case is very common but the importance of the second one is growing rapidly as legacy
+  sub-systems are being replaced by new applications running on J2EE and .Net platforms.
+</para>
+<para>
+  There is a large number of variations on these 2 main use cases, for instance developers might need to
+  expose legacy functionalities as REST rather than plain Web Services, or developers might need to map
+  complex structures to Java objects rather than XML. Developers might need to describe new structures
+  in XML schema and then map these to Java and COBOL in support for two parallel developments (rather
+  than integration), etc.
+  LegStar is modular so that features can be selected and combined as necessary.
+</para>
+</section>
+</section>

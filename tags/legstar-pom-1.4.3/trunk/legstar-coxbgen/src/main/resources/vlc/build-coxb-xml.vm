@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =================================================================================
+     This script generates JAXB classes from a COBOL-annotated XML schema. It then
+     goes on and generates Transformers for selected JAXB root classes.
+     Binding classes provide an efficient runtime code for visitors. They avoid
+     reflection and use of annotations at runtime.
+
+     Change all occurences of:
+         - xsdFile         (Your COBOL annotated XML Schema file)
+         - jaxbPackageName (The JAXB package name for generated classes)
+         - jaxbRootClass   (A root class name. Add as many as needed.) 
+  -->
+<project basedir="." default="signalSuccess" name="generate-COXB-classes">
+
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
+    <target name="init">
+    
+        <!-- Make sure target directories exist -->
+        <mkdir dir="${antModel.jaxbSrcDir}"/>
+        <mkdir dir="${antModel.jaxbBinDir}"/>
+    
+        <!-- Classpath setting -->
+        <path id="classpath">
+            <fileset dir="${antModel.productLocation}" includes="lib/*.jar" />
+            <!--JAXB generated classes (needed for reflection) -->
+            <dirset dir="${antModel.jaxbBinDir}"/>
+        </path>
+        
+        <!-- Generator ant task -->
+        <taskdef name="jaxbgen"
+            classname="com.legstar.jaxb.gen.CobolJAXBGenerator"
+            classpathref="classpath"/>
+        
+        <!-- COBOL Binding Generator ant task -->
+        <taskdef name="coxbgen"
+            classname="com.legstar.coxb.gen.CoxbBindingGenerator"
+            classpathref="classpath"/>
+        
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- Generate the JAXB classes source
+    -->
+    <target name="generateJAXB" depends="init">
+        <echo message="Generating JAXB classes for ${antModel.xsdFile}" level="info"/>
+        <jaxbgen 
+            xsdFile="${antModel.xsdFile}"
+            targetDir="${antModel.jaxbSrcDir}"
+            jaxbPackageName="${antModel.jaxbPackageName}"
+            generateIsSetMethod="${antModel.generateIsSetMethod}"
+            serializableUid="${antModel.serializableUid}"
+#if(${antModel.typeNamePrefix})
+            typeNamePrefix="${antModel.typeNamePrefix}"
+#end
+#if(${antModel.typeNameSuffix})
+            typeNameSuffix="${antModel.typeNameSuffix}"
+#end
+#if(${antModel.elementNamePrefix})
+            elementNamePrefix="${antModel.elementNamePrefix}"
+#end
+#if(${antModel.elementNameSuffix})
+            elementNameSuffix="${antModel.elementNameSuffix}"
+#end
+        />
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- Compile the generated JAXB classes. fork="no" prevents
+    the bug on package-info.java
+    -->
+    <target name="compileJAXB" depends="generateJAXB">
+        <javac srcdir="${antModel.jaxbSrcDir}"
+            destdir="${antModel.jaxbBinDir}"
+            classpathref="classpath"
+            fork="yes"
+            includes="${antModel.jaxbClassIncludes}"
+        />
+    </target>
+  
+    <!-- ===========================================================  -->
+    <!-- Generate Transformers by reflecting on JAXB classes.
+    -->
+    <target name="generateCOXB" depends="compileJAXB">
+        <echo message="Generating Transformers for ${antModel.jaxbRootClassNames}" level="info"/>
+        <coxbgen 
+            targetDir="${antModel.coxbSrcDir}"
+            jaxbPackageName="${antModel.jaxbPackageName}"
+            coxbPackageName="${antModel.coxbPackageName}"
+#if(${antModel.xmlTransformers})
+            xmlTransformers="true"
+#end
+#if(${antModel.jsonTransformers})
+            jsonTransformers="true"
+#end
+            >
+#foreach ($jaxbRootClassName in $antModel.jaxbRootClassNames)
+            <jaxbRootClass name="${jaxbRootClassName}"/>
+#end
+        </coxbgen>
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- Compile the generated Transformers.
+    -->
+    <target name="compileCOXB" depends="generateCOXB">
+        <javac srcdir="${antModel.coxbSrcDir}"
+            destdir="${antModel.coxbBinDir}"
+            classpathref="classpath"
+            fork="yes"
+        />
+    </target>
+  
+    <!-- ===========================================================  -->
+    <!-- Delete the probe file to signal success
+    -->
+#if(${antModel.compileTransformers})
+#set ($lastStep = "compileCOXB")
+#else
+#set ($lastStep = "generateCOXB")
+#end
+    <target name="signalSuccess" depends="${lastStep}">
+        <delete file="${antModel.probeFile}" quiet="true"/>
+    </target>
+    
+</project>
