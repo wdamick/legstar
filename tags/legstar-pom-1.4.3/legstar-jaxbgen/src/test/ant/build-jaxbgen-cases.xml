@@ -1,0 +1,76 @@
+<?xml version="1.0" standalone="yes"?>
+<!-- =================================================================================
+     Iterates thru XML schemas and generates JAXB classes for each.
+     This is not a standalone script, it must be started from Maven who populates
+     the classpath.
+  -->
+<project basedir="../../.." default="generateAllJAXB">
+
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
+    <target name="init">
+        <!-- Target location for generated JAXB sources   -->
+        <property name="jaxb.src.dir" value="${basedir}/../legstar-jaxbgen-cases/src/main/java"/>
+        <!-- Location of test XML schemas  -->
+        <property name="xsd.dir" value="../target/cases/schema" />
+        <!-- Generator ant task -->
+        <taskdef name="jaxbgen"
+            classname="com.legstar.jaxb.gen.CobolJAXBGenerator"
+            classpathref="classpath"/>
+
+        <!-- Ant-Contrib tasks. Needed for "foreach ", regex, switch, ...
+             (ant-contrib.jar must be in ant classpath) -->
+        <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+            
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- Generate the JAXB classes source
+    -->
+    <target name="generateAllJAXB" depends="init">
+        <foreach target="generateJAXB" param="xsd.file" inheritrefs="true">
+            <path>
+                <fileset dir="${xsd.dir}" includes="*.xsd" excludes="enumvar.xsd MSNSearch.xsd jvmquery.xsd jvmquery-ws.xsd cultureinfo.xsd"/>
+            </path>
+        </foreach>
+        <jaxbgen 
+        	xsdFile="${xsd.dir}/MSNSearch.xsd"
+            targetDir="${jaxb.src.dir}"
+            typeNameSuffix="Type"
+            jaxbPackageName="com.legstar.test.coxb.MSNSearch"
+        />
+        <jaxbgen 
+            xsdFile="${xsd.dir}/jvmquery.xsd"
+            targetDir="${jaxb.src.dir}"
+            jaxbPackageName="com.legstar.test.coxb.jvmquery"
+        />
+        <jaxbgen 
+            xsdFile="${xsd.dir}/jvmquery-ws.xsd"
+            targetDir="${jaxb.src.dir}"
+            jaxbPackageName="com.legstar.test.coxb.ws.jvmquery"
+        />
+        <jaxbgen 
+            xsdFile="${xsd.dir}/cultureinfo.xsd"
+            targetDir="${jaxb.src.dir}"
+            jaxbPackageName="com.legstar.test.coxb.cultureinfo"
+        />
+        <jaxbgen 
+            xsdFile="${xsd.dir}/enumvar.xsd"
+            targetDir="${jaxb.src.dir}"
+        	typeNameSuffix="Type"
+        />
+    </target>
+
+	<!-- ===========================================================  -->
+    <!-- Generate JAXB classes from XML Schema.
+      -->
+    <target name="generateJAXB" depends="init">
+        <echo message="Generating JAXB classes for ${xsd.dir}" />
+        <jaxbgen 
+            xsdFile="${xsd.file}"
+            targetDir="${jaxb.src.dir}"
+        />
+    </target>
+
+</project>

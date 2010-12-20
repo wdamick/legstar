@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section id="jaxwsgen-using-eclipse-adapter">
+<title>Mainframe Adapter generation</title>
+<para>
+  The final step in the process is to generate a Mainframe Adapter, which is a JAX-WS Endpoint.
+</para>
+<para>
+  The first stage is to perform a mapping between the target mainframe program and a Java side operation.
+  This is option <emphasis>LegStar->New operations mapping…</emphasis> On the first page you select a name and location for
+  the mapping file. Operations mapping files are XML files with the <emphasis>cixs</emphasis> extension.
+</para>
+<figure>
+<title>Adapter service generation screen new operation</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/eclipse-screen-shot-adapter-service-generation-new-operation.jpg" format="JPG" scalefit="1" width="100%" contentdepth="100%"/>
+</imageobject>
+</mediaobject>
+</figure>
+<para>
+  Clicking on Finish creates the operations mapping file and then opens up a special editor associated
+  with files with cixs extension:
+</para>
+<figure>
+<title>Adapter service generation screen editor</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/eclipse-screen-shot-adapter-service-generation-editor.jpg" format="JPG" scalefit="1" width="100%" contentdepth="100%"/>
+</imageobject>
+</mediaobject>
+</figure>
+<para>
+  Click on the add button to start the operations mapping dialog:
+</para>
+<figure>
+<title>Adapter service generation screen operation mapping</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/eclipse-screen-shot-adapter-service-generation-operation-mapping.jpg" format="JPG" scalefit="1" width="100%" contentdepth="100%"/>
+</imageobject>
+</mediaobject>
+</figure>
+<para>
+  Type in an operation name and then enter the target mainframe program name. This must correspond to an
+  actual mainframe program.
+</para>
+<para>
+  The next step is to specify input and output structures. You will have to use the add button again.
+  You are then presented with the JAXB classes that you generated previously:
+</para>
+<figure>
+<title>Adapter service generation screen structures mapping</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/eclipse-screen-shot-adapter-service-generation-structures-mapping.jpg" format="JPG" scalefit="1" width="100%" contentdepth="100%"/>
+</imageobject>
+</mediaobject>
+</figure>
+<para>
+  The target LSFILEAE CICS program is commarea-driven, there is a single input and a single output
+  which both happen to be described by the same COBOL structure. So all we have to do is to select
+  Dfhcommarea both for input and output.
+</para>
+<figure>
+<title>Adapter service generation screen operation mapping done</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/eclipse-screen-shot-adapter-service-generation-operation-mapping-done.jpg" format="JPG" scalefit="1" width="100%" contentdepth="100%"/>
+</imageobject>
+</mediaobject>
+</figure>
+<para>
+  This dialog allows you to specify a different input and output structures if needed. It also allows
+  you to specify more than one input and more than one output as it would be the case for a target
+  container-driven program (using CICS channel/containers) for instance.
+</para>
+<para>
+  Back on the editor, you can now click on the generate button and should see the following dialog:
+</para>
+<figure>
+<title>Adapter service generation screen select target</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/eclipse-screen-shot-adapter-service-generation-select-target.jpg" format="JPG" scalefit="1" width="100%" contentdepth="100%"/>
+</imageobject>
+</mediaobject>
+</figure>
+<para>
+  The operations mapping editor can be used with different kinds of generators, which are registered
+  dynamically on your machine. Depending on your configuration, you might have more than one possible
+  generation target. In our case, we want to generate a <emphasis>Mainframe Adapter</emphasis>.
+  When you select that target and click the OK button you get this final dialog:
+</para>
+<figure>
+<title>Adapter service generation screen parameters</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/eclipse-screen-shot-adapter-service-generation-parameters.jpg" format="JPG" scalefit="1" width="100%" contentdepth="100%"/>
+</imageobject>
+</mediaobject>
+</figure>
+<para>
+    The generation process needs to create various artifacts, including Java classes that implement a
+    JAX-WS endpoint bundled in a J2EE war file. This dialog allows you to select the target locations and
+    other options. Most of these options have default values derived from your preferences. You can change
+    the proposed parameters as you see fit.
+</para>
+<para>
+    Again, the Finish button creates an ant script, which actually generates the artifacts. The ant script
+    has a name similar to build-jaxws-j2c-CustomerService.xml.
+</para>
+<figure>
+<title>Adapter service generation screen results</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/eclipse-screen-shot-adapter-service-generation-result.jpg" format="JPG" scalefit="1" width="100%" contentdepth="100%"/>
+</imageobject>
+</mediaobject>
+</figure>
+<para>
+  Besides the JAX-WS java classes, you will also find ant scripts that were generated to help you with
+  deploying your endpoint. build-jar.xml bundles the classes in a jar archive that you could deploy to
+  AXIS2 for instance. build-war.xml bundles a war file suitable for Sun's JAX-WS RI (Metro).
+</para>
+<para>
+  Once deployed, you can use the Web Service with any SOAP client such as 
+  <ulink url="http://www.soapui.org/">soapUI</ulink>.
+</para>
+</section>

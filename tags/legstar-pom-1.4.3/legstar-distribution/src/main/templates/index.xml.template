@@ -1,0 +1,100 @@
+<document>
+    <properties>
+        <title>Download</title>
+    </properties>
+    <!-- Optional HEAD element, which is copied as is into the XHTML <head> element -->
+    <head>
+        <meta http-equiv="Cache-Control" Content="no-cache"/> 
+    </head>
+    <body>
+        <div onclick="javascript: pageTracker._trackPageview('/downloads/legstar-distribution');">
+            <!-- The body of the document contains a number of sections -->
+            <section name="Download LegStar @LEGSTAR-VERSION@, complete">
+            
+                <!-- Within sections, any XHTML can be used -->
+                <table border="1">
+                    <tr><th>Platform</th><th>Binaries</th><th>Sources</th></tr>
+                    <tr>
+                        <td>Java 1.5+</td>
+                        <td><a href="http://www.legsem.com/legstar/maven/repo/com/legsem/legstar/legstar-distribution/@LEGSTAR-VERSION@/legstar-distribution-@LEGSTAR-VERSION@-bin.zip">legstar-distribution-@LEGSTAR-VERSION@-bin.zip</a></td>
+                        <td><a href="http://www.legsem.com/legstar/maven/repo/com/legsem/legstar/Legstar/@LEGSTAR-VERSION@/Legstar-@LEGSTAR-VERSION@-sources.jar">Legstar-@LEGSTAR-VERSION@-sources.jar</a></td>
+                    </tr>
+                    <tr>
+                        <td>z/OS</td>
+                        <td><a href="http://www.legsem.com/legstar/maven/repo/com/legsem/legstar/legstar-distribution-zos/@LEGSTAR-VERSION@/legstar-distribution-zos-@LEGSTAR-VERSION@-bin.zip">legstar-distribution-zos-@LEGSTAR-VERSION@-bin.zip</a></td>
+                        <td>included</td>
+                    </tr>
+                    <tr>
+                        <td>Eclipse</td>
+                        <td><a href="http://www.legsem.com/legstar/eclipse/update">http://www.legsem.com/legstar/eclipse/update</a></td>
+                        <td>included</td>
+                    </tr>
+                </table>
+            
+            </section>
+            <section name="Download LegStar individual modules">
+            
+                <table border="1">
+                    <tr><th>Module</th><th>Download page</th><th>Version</th></tr>
+                    <tr>
+                        <td>COBOL to XML Schema Translator</td>
+                        <td><a href="http://code.google.com/p/legstar-cob2xsd/downloads/list">legstar-cob2xsd</a></td>
+                        <td>@LEGSTAR-COB2XSD-VERSION@</td>
+                    </tr>
+                    <tr>
+                        <td>Complex Types Mapping Generator</td>
+                        <td><a href="http://www.legsem.com/legstar/legstar-xsdcgen">legstar-xsdcgen</a></td>
+                        <td>@LEGSTAR-VERSION@</td>
+                    </tr>
+                    <tr>
+                        <td>COBOL Transformers Generator</td>
+                        <td><a href="http://www.legsem.com/legstar/legstar-coxbgen">legstar-coxbgen</a></td>
+                        <td>@LEGSTAR-VERSION@</td>
+                    </tr>
+                    <tr>
+                        <td>JAX-WS Service Generator</td>
+                        <td><a href="http://www.legsem.com/legstar/legstar-cixsgen">legstar-cixsgen</a></td>
+                        <td>@LEGSTAR-VERSION@</td>
+                    </tr>
+                    <tr>
+                        <td>Mainframe Adapter Runtime</td>
+                        <td><a href="http://www.legsem.com/legstar/legstar-invoker">legstar-invoker</a></td>
+                        <td>@LEGSTAR-VERSION@</td>
+                    </tr>
+                    <tr>
+                        <td>WebSphere MQ Transport for CICS</td>
+                        <td><a href="http://www.legsem.com/legstar/legstar-cmqrt">legstar-cmqrt</a></td>
+                        <td>@LEGSTAR-VERSION@</td>
+                    </tr>
+                    <tr>
+                        <td>HTTP Transport for CICS</td>
+                        <td><a href="http://www.legsem.com/legstar/legstar-chttprt">legstar-chttprt</a></td>
+                        <td>@LEGSTAR-VERSION@</td>
+                    </tr>
+                    <tr>
+                        <td>Socket Transport for CICS</td>
+                        <td><a href="http://www.legsem.com/legstar/legstar-csokrt">legstar-csokrt</a></td>
+                        <td>@LEGSTAR-VERSION@</td>
+                    </tr>
+                    <tr>
+                        <td>Connection pooling engine</td>
+                        <td><a href="http://www.legsem.com/legstar/legstar-engine">legstar-engine</a></td>
+                        <td>@LEGSTAR-VERSION@</td>
+                    </tr>
+                    <tr>
+                        <td>Mainframe Proxy Runtime</td>
+                        <td><a href="http://www.legsem.com/legstar/legstar-c2wsrt">legstar-c2wsrt</a></td>
+                        <td>@LEGSTAR-VERSION@</td>
+                    </tr>
+                    <tr>
+                        <td>COBOL Structures Generator</td>
+                        <td><a href="http://www.legsem.com/legstar/legstar-cobcgen">legstar-cobcgen</a></td>
+                        <td>@LEGSTAR-VERSION@</td>
+                    </tr>
+                </table>
+            
+            </section>
+        </div>
+    </body>
+
+</document>

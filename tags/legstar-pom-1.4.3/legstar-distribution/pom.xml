@@ -1,0 +1,138 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>1.4.3-SNAPSHOT</version>
+    </parent>
+    <version>1.4.3-SNAPSHOT</version>
+    <artifactId>legstar-distribution</artifactId>
+    <name>LegStar Distribution</name>
+    <packaging>pom</packaging>
+    <description>Used to create a single distribution for the entire LegStar project.</description>
+    <url>http://www.legsem.com/legstar</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-cixsgen</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        
+        <plugins>
+        
+             <!-- Assembly generation plugin. Put the result in the source site
+                so that it gets uploaded with the site.  -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId> 
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assemble/distribution.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- append to the packaging phase. -->
+                        <goals>
+                            <goal>attached</goal> <!-- goals == mojos -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+      
+                <executions>
+                    <!-- Unzip the cob2xsd distributable to a packaging location.  -->
+                    <execution>
+                        <id>unzip-cob2xsd</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/unzip-cob2xsd.xml">
+                                    <property name="maven.localRepository" value="${settings.localRepository}" />
+                                    <property name="legstarCob2XsdVersion" value="${legstarCob2XsdVersion}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- This will check that the distribution file is valid. -->
+                    <execution>
+                        <id>test-distribution</id>
+                        <phase>integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/../legstar-tests/src/test/ant/build-tomcat-stop.xml">
+                                    <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
+                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
+                                </ant>
+                                <ant antfile="${basedir}/../legstar-tests/src/test/ant/build-tomcat-start.xml">
+                                    <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
+                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
+                                </ant>
+                                <ant antfile="${basedir}/src/main/ant/test-distribution.xml" />
+                                <ant antfile="${basedir}/../legstar-tests/src/test/ant/build-tomcat-stop.xml">
+                                    <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
+                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- Generate site files that needs automatic update. -->
+                    <execution>
+                        <id>build-site</id>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/gen-index-xml.xml">
+                                    <property name="legstarVersion" value="${version}" />
+                                    <property name="legstarCob2XsdVersion" value="${legstarCob2XsdVersion}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.agilejava.docbkx</groupId>
+                <artifactId>docbkx-maven-plugin</artifactId>
+                <executions>
+
+                    <!-- Produce a readme file to be included with distribution -->
+                    <execution>
+                        <id>build-readme</id>
+                        <goals>
+                            <goal>generate-html</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <sourceDirectory>src/site/docbook</sourceDirectory>
+                            <targetDirectory>target/doc</targetDirectory>
+                            <includes>install-instructions.xml</includes>
+                            <chunkedOutput>false</chunkedOutput>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+    
+</project>

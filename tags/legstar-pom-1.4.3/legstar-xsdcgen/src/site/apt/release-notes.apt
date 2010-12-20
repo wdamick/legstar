@@ -1,0 +1,105 @@
+ -----
+ Release Notes
+ -----
+
+PREREQUISITES:
+
+ Java 1.5+ and ANT 1.6.5+ are both prerequisites for LegStar.
+ Make sure JAVA_HOME and ANT_HOME environment variables are set and that
+ $JAVA_HOME/bin (%JAVA_HOME%/bin on Windows) and $ANT_HOME/bin (%ANT_HOME%/bin
+ on Windows) are both in your system path.
+ 
+ A further requirement of xsdcgen is that JAVA_HOME points to a JDK not a JRE.
+ This is because the sample web service provided needs the apt task that is
+ part of Sun's tools.jar only available in JDKs.
+ 
+INSTALLING/UNINSTALLING:
+
+ These instructions apply if you are installing from the xsdcgen standalone
+ distribution. If you are installling the complete LegStar distribution please
+ refer to {{{../legstar-distribution/release-notes.html}legstar distribution}}.
+
+ [[1]] Unzip the binary distribution package into the directory of your choice,
+       referred to as <installDir> in the following steps.
+
+   The directory tree should look like this:
+   
++---------------------------------------+
+   <installDir>
+        |---->LICENSE
+        |---->NOTICE
+        |---->README
+        |----><samples>
+                |----><quickstarts>
+                           |----><proxy_pojo_jvmquery>
+                                       |---->build-pojo.xml
+                                       |---->build-java2xs.xml
+                                       |----><src>
+                                               |---->**/*.java
+                           |----><proxy_ws_cultureinfo>
+                                       |---->build-war.xml
+                                       |---->build-xsd2xs.xml
+                                       |----><src>
+                                               |---->**/*.java
+                                       |----><webapp>
+                                           |----><jaxws-cultureinfo>
+                                                   |----><WEB-INF>
+                                                            |---->web.xml
+                                                            |---->sun-jaxws.xml
+        |----><lib>
+                |---->*.jar
+                
++---------------------------------------+
+   
+ [[2]] To uninstall, remove the installDir folder.
+
+RUNNING THE SAMPLES:
+
+ [[1]] In order to run the sample proxy for a POJO you need to run
+       the build-pojo.xml first. This will compile the target POJO.
+       This step is needed because build-java2xs.xml works on the target
+       java classes.
+       
+       From the samples/quickstarts/proxy_pojo_jvmquery folder, run
+       command "ant -f build-pojo.xml" and check the result.
+       
+       You can now run command "ant -f build-java2xs.xml" which generates
+       a COBOL-annotated XML schema named jvmquery.xsd in the schema folder.
+       
+       Each java type, from the jvmquery source, map to an XML schema
+       complex type. Each XML schema element has special Cobol annotations
+       with default attributes, such as maximum character string sizes.
+   
+ [[2]] In order to run the sample proxy for a Web Service, you need to run
+       the build-war.xml first. This will generate a target Web service,
+       ready for deployment into a J2EE container such as Tomcat.
+       
+       The war file contains a simple JAX-WS endpoint that provides a Web
+       Service implementation.
+
+       From the samples/quickstarts/proxy_ws_cultureinfo folder, run
+       command "ant -f build-war.xml" and check the result.
+       
+       Deploy the generated war file from the war folder into your
+       J2EE container deployment folder (ex $CATALINA_BASE/webapps).
+       
+       Check the build-xsd2xs.xml in.uri parameter. It assumes the J2EE
+       container you deployed the target Web Service to, is listening on
+       localhost, port 8080. You might need to customize this.
+       
+       You can now run command "ant -f build-xsd2xs.xml" which generates
+       a COBOL-annotated XML schema named cultureinfo.xsd in the schema folder.
+       It does so by reading the target Web Service WSDL.
+       
+       Each complex type and element from the source WSDL also
+       exists in the generated mapping XML schema. Each element also has
+       special Cobol annotations with default attributes, such as maximum
+       character string sizes.
+       
+ [[3]] Follow instructions in build-xsd2xs.xml and build-java2xs.xml to generate
+       annotated schemas from your own XML schemas, WSDL and Java classes.
+   
+DOCUMENTATION:
+
+ Documentation available at http://www.legsem.com/legstar/legstar-xsdcgen
+
