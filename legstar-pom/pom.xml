@@ -219,7 +219,7 @@
         <executions>
           <execution>
             <id>enforce-maven</id>
-            <phase>compile</phase>
+            <!-- <phase>compile</phase> -->
             <goals>
               <goal>enforce</goal>
             </goals>
@@ -235,7 +235,7 @@
         </executions>
       </plugin>
 
-            <!-- All modules bundle their sources at package time -->
+            <!-- All modules bundle their sources at package time
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -254,8 +254,8 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <!-- All sources are aggregated together at package time -->
+ -->
+            <!-- All sources are aggregated together at package time
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -274,7 +274,7 @@
                     </execution>
                 </executions>
             </plugin>
-
+ -->
         </plugins>
 
     </build>
