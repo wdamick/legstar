@@ -1,0 +1,86 @@
+ -----
+ Release Notes
+ -----
+
+PREREQUISITES:
+
+ LegStar Mainframe Proxy runtime (C2wsrt) requires a Servlet engine such
+ as {{{http://tomcat.apache.org/}Apache Tomcat}}.
+  
+ LegStar C2wsrt uses JAX-WS as client SOAP stack to invoke target Web Services.
+ C2wsrt should work with any JAX-WS 2.1 compliant implementation. The Sun's JAX-WS
+ reference implementation is shipped with LegStar.
+ 
+ LegStar C2wsrt uses classes produced by the {{{../legstar-coxbgen}COBOL
+ Binding Generator}} for marshaling/unmarshaling mainframe data. 
+  
+ On the host side, you can use CICS default HTTP APIs which are EXEC CICS WEB
+ for CICS TS 3.1+ and DFHWBCLI for older versions. Alternatively, C2wsrt comes
+ with a simple HTTP client API for CICS. The {{{LSHTTAPI-readme.html}
+ LSHTTAPI readme}} document describes the program and how to install it.
+ 
+ The LegStar CICS programs are written in C370 and require Language
+ Environment (LE).
+
+ Java 1.5+ and ANT 1.6.5+ are both prerequisites for LegStar.
+ Make sure JAVA_HOME and ANT_HOME environment variables are set and that
+ $JAVA_HOME/bin (%JAVA_HOME%/bin on Windows) and $ANT_HOME/bin (%ANT_HOME%/bin on Windows)
+ are both in your system path.
+ 
+INSTALLING/UNINSTALLING:
+
+ These instructions apply if you are installing from the C2wsrt standalone
+ distribution. If you are installing the complete LegStar distribution please
+ refer to {{{../legstar-distribution/release-notes.html}legstar distribution}}.
+
+ [[1]] Unzip the binary distribution package into the directory of your choice,
+       referred to as <installDir> in the following steps.
+
+   The directory tree should look like this:
+   
++---------------------------------------+
+   <installDir>
+        |---->LICENSE
+        |---->NOTICE
+        |---->README
+        |----><lib>
+                |---->*.jar
+        |----><zos>
+                |----><C370>
+                         |---->*.C
+                         |---->*.H
+                |----><docs>
+                        |---->*-README
+                
++---------------------------------------+
+   
+ [[2]] Install the mainframe C370 programs.
+ 
+ This is needed only if you intend to use the LegStar HTTP client API for
+ CICS.
+ 
+ We encourage you to use the common distribution of all LegStar z/OS modules.
+ Instructions on how to install are available
+ {{{../legstar-distribution-zos/release-notes.html}here}}.
+       
+ If you decide to install the CICS programs from sources, they are available
+ from the zos folder.
+ 
+ The JCLs used by LegStar to compile and link-edit these sources are
+ available from {{{../legstar-distribution-zos}here}}.
+ 
+ Finally each module has some documentation under zos/docs.
+       
+ [[3]] You will need to copy the jar files from the <lib> folder to 
+       a location such as <CATALINA_BASE>/shared/lib.
+   
+ [[4]] Refer to {{{../legstar-cixsgen}Service Generator}} to generate COBOL
+       sample code as well as servlets which are needed to invoke a Web Service
+       or a POJO from the mainframe.
+       
+ [[5]] To uninstall, remove the installDir folder.
+
+DOCUMENTATION:
+
+ Documentation available at http://www.legsem.com/legstar/legstar-c2wsrt
+

@@ -1,0 +1,161 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>1.4.3</version>
+    </parent>
+    <version>1.4.3</version>
+    <artifactId>legstar-engine</artifactId>
+    <name>LegStar Connection pooling engine</name>
+    <description>Mainframe connection pooling engine.</description>
+    <url>http://www.legsem.com/legstar</url>
+
+    <dependencies>
+    
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-commonj_1.1_spec</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbapi</artifactId>
+        </dependency>
+    
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-messaging</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-config</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-cmockrt</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbrt</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-jaxbgen-cases</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+    </dependencies>
+    
+    <build>
+        <plugins>
+        
+            <!-- Assembly generation plugin. Put the result in the source site
+            so that it gets uploaded with the site.  -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assemble/distribution.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- append to the packaging phase. -->
+                        <goals>
+                            <goal>attached</goal> <!-- goals == mojos -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <plugin>
+            
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+
+                    <!-- This will deploy the jar file to a Tomcat dev instance.  -->
+                    <execution>
+                        <id>deploy-to-tomcat</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/../src/main/ant/deploy-to-tomcat.xml">
+                                    <property name="legstar-dev-tomcat-base" value="${legstar-dev-tomcat-base}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- This will generate a war file for the engine servlet initator.
+                         This should move to step prepare-package when we move to Maven 2.1+  -->
+                    <execution>
+                        <id>build-war</id>
+                        <phase>test</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/build-war.xml" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    
+                    <!-- This will check that the distribution file is valid. -->
+                    <execution>
+                        <id>build-sample</id>
+                        <phase>integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/test-distribution.xml" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- Generate site files that needs automatic update. -->
+                    <execution>
+                        <id>build-site</id>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/../src/main/ant/gen-download-xml.xml">
+                                    <property name="productID" value="${pom.artifactId}" />
+                                    <property name="productName" value="${pom.name}" />
+                                    <property name="legstarVersion" value="${version}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                </executions>
+            </plugin>
+        
+        </plugins>
+    </build>
+    
+</project>

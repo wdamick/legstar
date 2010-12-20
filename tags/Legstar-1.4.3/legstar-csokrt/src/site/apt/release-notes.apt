@@ -1,0 +1,189 @@
+ -----
+ Release Notes
+ -----
+
+PREREQUISITES:
+
+ Csokrt requires a version of CICS that has IBM CICS Sockets installed.
+ CICS Sockets are not installed by default in a CICS region. In order to
+ check if your region has Sockets installed try transaction EZAC or EZAO.
+ If these transactions are not installed, you need to follow instructions
+ in the IBM "IP CICS Sockets Guide" manual.
+ 
+ LSSOKBIN was not tested under DOS/VSE although it might work with the CSI
+ stack.
+ 
+ The LegStar CICS programs are written in C370 and require Language
+ Environment (LE).
+ 
+ Before Csokrt can be used, the mainframe side C370 programs must be installed.
+ The easiest way to do that is to use the common distribution of all
+ LegStar z/OS modules, available {{{../legstar-distribution-zos/index.html}here}}.
+ 
+ The main C370 program for Csokrt is {{{LSSOKBIN-readme.html}LSSOKBIN, the CICS
+ Server for Sockets}}. This program uses the following libraries:
+
+ * {{{../legstar-invoker/LSLNKBIN-readme.html}LSLNKBIN CICS LINK library}}
+
+ * {{{../legstar-invoker/LSLNKCOM-readme.html}LSLNKCOM CICS COMMAREA LINK library}}
+
+ * {{{../legstar-invoker/LSLNKCTN-readme.html}LSLNKCTN CICS CONTAINERS LINK library}}
+
+ * {{{../legstar-messaging/LSCOMLOG-readme.html}LSCOMLOG Tracing and logging library}}
+
+ Java 1.5+ and ANT 1.6.5+ are both prerequisites for LegStar.
+ Make sure JAVA_HOME and ANT_HOME environment variables are set and that
+ $JAVA_HOME/bin (%JAVA_HOME%/bin on Windows) and $ANT_HOME/bin (%ANT_HOME%/bin on Windows)
+ are both in your system path.
+ 
+INSTALLING/UNINSTALLING:
+
+ These instructions apply if you are installing from the Csokrt standalone
+ distribution. If you are installing the complete LegStar distribution please
+ refer to {{{../legstar-distribution/release-notes.html}legstar distribution}}.
+
+ [[1]] Unzip the binary distribution package into the directory of your choice,
+       referred to as <installDir> in the following steps.
+
+   The directory tree should look like this:
+   
++---------------------------------------+
+   <installDir>
+        |---->LICENSE
+        |---->NOTICE
+        |---->README
+        |----><lib>
+                |---->*.jar
+        |----><samples>
+                |----><quickstarts>
+                           |----><csokrt>
+                                    |---->readme.txt
+                                    |---->build.xml
+                                    |---->legstar-invoker-config.xml
+                                    |---->lsfileae.properties
+                                    |----><src>
+                                            |---->**/*.java
+        |----><zos>
+                |----><C370>
+                        |---->*.C
+                        |---->*.H
+                |----><cobol>
+                        |---->*.CBL
+                |----><JCL>
+                        |---->COBCICSE
+                |----><docs>
+                        |---->*-README
+                
++---------------------------------------+
+   
+ [[2]] Install the mainframe C370 programs.
+ 
+ We encourage you to use the common distribution of all LegStar z/OS modules.
+ Instructions on how to install are available
+ {{{../legstar-distribution-zos/release-notes.html}here}}.
+       
+ If you decide to install the CICS programs from sources, they are available
+ from the zos folder.
+ 
+ The JCLs used by LegStar to compile and link-edit these sources are
+ available from {{{../legstar-distribution-zos}here}}.
+ 
+ Finally each module has some documentation under zos/docs.
+       
+ [[3]] To uninstall, remove the installDir folder and remove mainframe libraries.
+
+CONFIGURING AND RUNNING THE SAMPLE:
+
+ [[1]]  Setup a CICS IP Listener:
+ 
+ In addition to CICS Sockets being installed, at least one IBM Enhanced CICS
+ Socket listener must be running and assigned to LSSOKBIN. Use the IBM EZAC
+ transaction to define a new one. When you create the listener, you must select
+ the ENHANCED version rather than the STANDARD one and specify the transaction
+ name you wish to associate to LSSOKBIN.
+        
+ This is a typical setting for an Enhanced Listener as needed for Csokrt:
+
++-------------------------------+
+ EZAC,DISplay,LISTENER (enhanced listener)                    APPLID = CICS     
+                                                                                
+ APPLID       ===> CICS                 APPLID of CICS System                   
+ TRANID       ===> CSKM                 Transaction Name of Listener            
+ PORT         ===> 03012                Port Number of Listener                 
+ AF           ===> INET                 Listener Address Family                 
+ IMMEDIATE    ===> YES                  Immediate Startup   Yes|No              
+ BACKLOG      ===> 020                  Backlog Value for Listener              
+ NUMSOCK      ===> 050                  Number of Sockets in Listener           
+ ACCTIME      ===> 030                  Timeout Value for ACCEPT                
+ GIVTIME      ===> 030                  Timeout Value for GIVESOCKET            
+ REATIME      ===> 030                  Timeout Value for READ                  
+ CSTRANid     ===> LEG1                 Child server transaction name           
+ CSSTTYPe     ===> KC                   STartup method  (KC|IC|TD)              
+ CSDELAY      ===> 000000               Delay interval (hhmmss)                 
+ MSGLENgth    ===> 035                  Message length (0-999)                  
+ PEEKDATa     ===> NO                   Enter Y|N                               
+ MSGFORMat    ===> EBCDIC               Enter ASCII|EBCDIC                      
+ USEREXIT     ===> EZACICSE             Name of user/security exit              
+ WLM groups   ===> WLMGRP04     ===> WLMGRP05     ===> WLMGRP06                 
+                                                                                
+                                                                                
+                                                                                
+ PF 1               3 END           6               9               12 CNCL     
++-------------------------------+
+
+  You can telnet to the CICS Sockets IP address and port number to make sure
+  they are accessible.
+
+ [[2]] Setup security:
+
+ Clients are expected to send USER/PASSWORD combinations as part of the
+ Connection Initial Message received by the IBM CICS Sockets Listener.
+ A sample program, EZACICSE.CBL written in COBOL is provided to perform
+ a simple security check on the credentials provided. The security exit
+ will also pass the USER back to the IBM Listener so that it could start
+ the server transaction under this particular USER authority (impersonation).
+   
+ USER/PASSWORD are sent in clear text between the client and the IBM
+ CICS Listener. Starting with z/OS 1.7, SSL is supported for CICS Sockets
+ but this has not been tested yet and is likely to require changes on
+ the client side.
+ 
+ [[3]] Setup the invoker configuration:
+ 
+ The Socket Transport expects a configuration file such as the
+ {{{samples/legstar-invoker-config.xml}legstar-invoker-config.xml}} sample
+ provided.
+  
+ The hostConnectionFactory element in the configuration file must be:
+  
++-------------------------------+
+	<hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
++-------------------------------+
+  
+  The relevant endpoint elements for the Socket Transport in the configuration file are:
+  
+*-----------------+-----------+--------------------------------------------------------------------+
+| hostIPAddress   | Mandatory |CICS TCPIP address                                                  |
+*-----------------+--------------------------------------------------------------------------------+
+| hostIPPort      | Mandatory | CICS Sockets listening TCPIP port                                  |
+*-----------------+--------------------------------------------------------------------------------+
+| hostCharset     | Optional  |A valid character set such as IBM01140                              |
+*-----------------+--------------------------------------------------------------------------------+
+| hostUserID      | Optional  | A CICS user ID                                                     |
+*-----------------+--------------------------------------------------------------------------------+
+| hostPassword    | Optional  | A CICS password                                                    |
+*-----------------+--------------------------------------------------------------------------------+
+ 
+  Parameters marked as optional must be provided as part of the request Address if they 
+  are not provided in the configuration file.
+  
+ 
+ [[4]] Run the sample provided:
+ 
+ Type ant in the samples/quickstarts/csokrt folder, this should compile and run the test.
+ Check the output of the ant script.
+   
+DOCUMENTATION:
+
+ Documentation available at http://www.legsem.com/legstar/legstar-csokrt
+
