@@ -1,13 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Enables distribution to Sonatype
+    <!-- Enables distribution to Sonatype  -->
     <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>5</version>
     </parent>
-     -->
 
     <groupId>com.legsem.legstar</groupId>
     <artifactId>legstar-pom</artifactId>
@@ -79,6 +78,31 @@
         <url>http://www.legsem.com/</url>
     </organization>
 
+    <distributionManagement>
+
+        <!-- Sonatype repository system -->
+        <downloadUrl>https://oss.sonatype.org/content/groups/public</downloadUrl>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Nexus Release Repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+
+        <!-- No public site for now. -->
+        <site>
+            <id>local.website</id>
+            <name>Local Website</name>
+            <url>file:///${legstar-dev-website-local-dir}</url>
+        </site>
+
+    </distributionManagement>
+
     <modules>
         <module>../legstar-codegen</module>
         <module>../legstar-coxbapi</module>
@@ -104,31 +128,31 @@
 
             <plugins>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId> 
-                    <artifactId>maven-assembly-plugin</artifactId> 
-                    <version>2.2-beta-5</version> 
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>2.2-beta-5</version>
                 </plugin>
 
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId> 
-                    <artifactId>maven-release-plugin</artifactId> 
-                    <version>2.0-beta-9</version> 
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.0-beta-9</version>
                     <configuration>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
                     </configuration>
                 </plugin>
 
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId> 
-                    <artifactId>maven-site-plugin</artifactId> 
-                    <version>2.0.1</version> 
-                    <dependencies> 
-                     <dependency> 
-                       <groupId>org.apache.maven.doxia</groupId> 
-                       <artifactId>doxia-module-docbook-simple</artifactId> 
-                       <version>1.0</version> 
-                     </dependency> 
-                    </dependencies> 
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>2.0.1</version>
+                    <dependencies>
+                     <dependency>
+                       <groupId>org.apache.maven.doxia</groupId>
+                       <artifactId>doxia-module-docbook-simple</artifactId>
+                       <version>1.0</version>
+                     </dependency>
+                    </dependencies>
                 </plugin>
 
                 <plugin>
@@ -136,34 +160,6 @@
                     <configuration>
                         <source>1.5</source>
                         <target>1.5</target>
-                    </configuration>
-                </plugin>
-       
-                <plugin>
-                    <groupId>com.agilejava.docbkx</groupId> 
-                    <artifactId>docbkx-maven-plugin</artifactId> 
-                    <version>2.0.11</version> 
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.docbook</groupId>
-                            <artifactId>docbook-xml</artifactId>
-                            <version>4.4</version>
-                            <scope>runtime</scope>
-                        </dependency>
-                    </dependencies>
-                    <configuration>
-                        <xincludeSupported>true</xincludeSupported>
-                        <chunkedOutput>true</chunkedOutput>
-                        <entities>
-                            <entity>
-                                <name>version</name>
-                                <value>${pom.version}</value>
-                            </entity>
-                            <entity>
-                                <name>year</name>
-                                <value>2010</value>
-                            </entity>
-                        </entities>
                     </configuration>
                 </plugin>
 
@@ -198,13 +194,13 @@
                             <version>${antInternalVersion}</version>
                         </dependency>
                     </dependencies>
-    
+
                 </plugin>
 
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId> 
-                    <artifactId>maven-javadoc-plugin</artifactId> 
-                    <version>2.5</version> 
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.5</version>
                 </plugin>
 
             </plugins>
@@ -213,34 +209,12 @@
 
         <plugins>
 
-      <plugin>
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <version>1.0-beta-1</version>
-        <executions>
-          <execution>
-            <id>enforce-maven</id>
-            <!-- <phase>compile</phase> -->
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <requireMavenVersion>
-                  <version>(,2.1.0),(2.1.0,2.2.0),(2.2.0,)</version>
-                  <message>Maven 2.1.0 and 2.2.0 produce incorrect GPG signatures and checksums respectively.</message>
-                </requireMavenVersion>
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
             <!-- All modules bundle their sources at package time -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <inherited>true</inherited>
-                
+
                 <executions>
                     <execution>
                         <id>project-sources</id>
@@ -255,138 +229,49 @@
                 </executions>
             </plugin>
 
-            <!-- All sources are aggregated together at package time
+            <!-- Produce javadoc for each module -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <inherited>false</inherited>
-                
+                <artifactId>maven-javadoc-plugin</artifactId>
                 <executions>
+
                     <execution>
-                        <id>aggregate-sources</id>
+                        <id>package-module-javadoc</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>aggregate</goal>
+                            <goal>jar</goal>
                         </goals>
-                        <configuration>
-                          <excludeResources>true</excludeResources>
-                        </configuration>
+                    </execution>
+
+                </executions>
+                <configuration>
+                    <excludePackageNames>com.legstar.test.*:com.legstar.xsdc.test.*:com.legstar.coxb.cust.*</excludePackageNames>
+                    <links>
+                        <link>http://download.oracle.com/javaee/1.5/api/</link>
+                        <link>http://download.oracle.com/javase/1.5.0/docs/api/</link>
+                    </links>
+                </configuration>
+            </plugin>
+
+            <!-- Sign artifacts -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <inherited>true</inherited>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
- -->
+
         </plugins>
 
     </build>
-  
-    <!-- Override super POM release behavior.
-         With super POM, aggregate sources don't get attached at release time.
-         We also generate signatures and javadocs to conform with Central policies
-      -->
-    <profiles>
-        <profile>
-            <id>release-profile</id>
-            
-            <activation>
-                <property>
-                    <name>performRelease</name>
-                </property>
-            </activation>
-            
-            <build>
 
-                <plugins>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-deploy-plugin</artifactId>
-                        <inherited>true</inherited>
-                        
-                        <configuration>
-                            <updateReleaseInfo>true</updateReleaseInfo>
-                        </configuration>
-                    </plugin>
-
-                    <plugin>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <executions>
-        
-                            <!-- Produce javadoc for each module -->
-                            <execution>
-                                <id>package-module-javadoc</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-        
-                        </executions>
-                        <configuration>
-                            <excludePackageNames>com.legstar.test.*:com.legstar.xsdc.test.*:com.legstar.coxb.cust.*</excludePackageNames>
-                            <links>
-                                <link>http://download.oracle.com/javaee/1.5/api/</link>
-                                <link>http://download.oracle.com/javase/1.5.0/docs/api/</link>
-                            </links>
-                        </configuration>
-                    </plugin>
-        
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <inherited>true</inherited>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
-    <distributionManagement>
-        <downloadUrl>http://www.legsem.com/legstar/maven/repo/</downloadUrl>
-        <site>
-            <id>local.website</id>
-            <name>Local Website</name>
-            <url>file:///${legstar-dev-website-local-dir}</url>
-        </site>
-
-    <!-- Enables distribution to Sonatype (have to override for uniqueVersion used in distro testing)
-        <downloadUrl>https://oss.sonatype.org/content/groups/public</downloadUrl>
-        <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Nexus Release Repository</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-        <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-            <uniqueVersion>false</uniqueVersion>
-        </snapshotRepository>
-    -->
-
-        <repository>
-            <id>ftp-release-repository</id>
-            <name>LEGSTAR Distributions Repository</name>
-            <url>ftp://ftp.legsem.com/public_html/legstar/maven/repo</url>
-        </repository>
-        <snapshotRepository>
-            <id>ftp-snapshots-repository</id>
-            <name>LEGSTAR Distributions Snapshot Repository</name>
-            <url>ftp://ftp.legsem.com/public_html/legstar/maven/snapshots</url>
-            <uniqueVersion>false</uniqueVersion>
-        </snapshotRepository>
-
-    </distributionManagement>
-  
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -395,7 +280,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-  
+
     <reporting>
         <plugins>
 
@@ -487,9 +372,9 @@
             </plugin>
 
         </plugins>
-    
+
     </reporting>
-  
+
     <dependencyManagement>
         <dependencies>
 
@@ -498,28 +383,28 @@
                Clean dependencies from Central
                ========================================================
              -->
-            <!-- Apache Xml Schema -->    
+            <!-- Apache Xml Schema -->
             <dependency>
                 <groupId>org.apache.ws.commons.schema</groupId>
                 <artifactId>XmlSchema</artifactId>
                 <version>1.4.5</version>
             </dependency>
 
-            <!-- IBM's WSDL4J to be replaced with Woden when it supports WSDL 1.1 -->    
+            <!-- IBM's WSDL4J to be replaced with Woden when it supports WSDL 1.1 -->
             <dependency>
                 <groupId>wsdl4j</groupId>
                 <artifactId>wsdl4j</artifactId>
                 <version>1.6.2</version>
             </dependency>
 
-            <!-- BEA Timer and WorkManager API section --> 
+            <!-- BEA Timer and WorkManager API section -->
             <dependency>
                 <groupId>org.apache.geronimo.specs</groupId>
                 <artifactId>geronimo-commonj_1.1_spec</artifactId>
                 <version>1.0</version>
             </dependency>
 
-            <!-- Apache ANT dependencies section -->    
+            <!-- Apache ANT dependencies section -->
             <dependency>
                 <groupId>ant</groupId>
                 <artifactId>ant</artifactId>
@@ -538,15 +423,15 @@
                 <version>1.0b3</version>
                 <scope>test</scope>
             </dependency>
-      
-            <!-- Apache HTTP Client -->    
+
+            <!-- Apache HTTP Client -->
             <dependency>
                 <groupId>commons-httpclient</groupId>
                 <artifactId>commons-httpclient</artifactId>
                 <version>3.1</version>
             </dependency>
-      
-            <!-- Apache Logging API -->    
+
+            <!-- Apache Logging API -->
             <dependency>
                 <groupId>commons-logging</groupId>
                 <artifactId>commons-logging</artifactId>
@@ -573,8 +458,8 @@
                 <version>1.2.14</version>
                 <scope>test</scope>
             </dependency>
-      
-            <!-- Servlet API. -->    
+
+            <!-- Servlet API. -->
             <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>servlet-api</artifactId>
@@ -582,14 +467,14 @@
                 <scope>provided</scope>
             </dependency>
 
-            <!-- Apache Velocity. -->    
+            <!-- Apache Velocity. -->
             <dependency>
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity</artifactId>
                 <version>1.6.1</version>
             </dependency>
 
-            <!-- Apache Configuration API. -->    
+            <!-- Apache Configuration API. -->
             <dependency>
                 <groupId>commons-configuration</groupId>
                 <artifactId>commons-configuration</artifactId>
@@ -608,7 +493,7 @@
             <!-- This is a commons-configuration dependency but it is
                  declared optional since 1.5. Brings all sorts of unwanted
                  dependencies such as Xalan/Xerces, older versions of the
-                 servlet api, etc. -->    
+                 servlet api, etc. -->
             <dependency>
                 <groupId>commons-jxpath</groupId>
                 <artifactId>commons-jxpath</artifactId>
@@ -640,15 +525,15 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-      
-            <!-- Apache commons IO  -->    
+
+            <!-- Apache commons IO  -->
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>1.4</version>
             </dependency>
 
-            <!-- Sun JAXB  -->    
+            <!-- Sun JAXB  -->
             <dependency>
                 <groupId>javax.xml.bind</groupId>
                 <artifactId>jaxb-api</artifactId>
@@ -670,7 +555,7 @@
                 <version>2.1.6</version>
             </dependency>
 
-            <!-- Sun JAX-WS and SOAP  -->    
+            <!-- Sun JAX-WS and SOAP  -->
             <dependency>
                 <groupId>javax.xml.soap</groupId>
                 <artifactId>saaj-api</artifactId>
@@ -696,8 +581,8 @@
                 <artifactId>jaxws-tools</artifactId>
                 <version>2.1.3</version>
             </dependency>
-    
-            <!-- Jackson  -->    
+
+            <!-- Jackson  -->
             <dependency>
                 <groupId>org.codehaus.jackson</groupId>
                 <artifactId>jackson-core-lgpl</artifactId>
@@ -717,34 +602,34 @@
                 <optional>true</optional>
             </dependency>
 
-            <!-- Sun J2EE connector API -->    
+            <!-- Sun J2EE connector API -->
             <dependency>
                 <groupId>javax.resource</groupId>
                 <artifactId>connector-api</artifactId>
                 <version>1.5</version>
             </dependency>
 
-            <!-- JUnit -->    
+            <!-- JUnit -->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>3.8.1</version>
             </dependency>
 
-            <!-- Json library. -->    
+            <!-- Json library. -->
             <dependency>
                 <groupId>org.json</groupId>
                 <artifactId>json</artifactId>
                 <version>20080701</version>
             </dependency>
-            
+
             <!--
                 ========================================================
                 LegStar dependencies section
                 ========================================================
-             -->    
+             -->
 
-            <!-- LegStar internal dependencies sub-section -->    
+            <!-- LegStar internal dependencies sub-section -->
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-coxbapi</artifactId>
@@ -769,5 +654,5 @@
         </dependencies>
 
     </dependencyManagement>
-    
+
 </project>
