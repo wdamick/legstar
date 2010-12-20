@@ -213,6 +213,27 @@
 
         <plugins>
 
+      <plugin>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>1.0-beta-1</version>
+        <executions>
+          <execution>
+            <id>enforce-maven</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>(,2.1.0),(2.1.0,2.2.0),(2.2.0,)</version>
+                  <message>Maven 2.1.0 and 2.2.0 produce incorrect GPG signatures and checksums respectively.</message>
+                </requireMavenVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
             <!-- All modules bundle their sources at package time -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -337,6 +358,7 @@
         </site>
 
     <!-- Enables distribution to Sonatype (have to override for uniqueVersion used in distro testing)
+        <downloadUrl>https://oss.sonatype.org/content/groups/public</downloadUrl>
         <repository>
             <id>sonatype-nexus-staging</id>
             <name>Nexus Release Repository</name>
