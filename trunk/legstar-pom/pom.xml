@@ -219,6 +219,7 @@
         <executions>
           <execution>
             <id>enforce-maven</id>
+            <phase>compile</phase>
             <goals>
               <goal>enforce</goal>
             </goals>
