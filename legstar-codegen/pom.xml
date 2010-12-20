@@ -3,10 +3,10 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>legstar-pom</artifactId>
-        <version>1.4.3-SNAPSHOT</version>
+        <version>1.4.3</version>
         <relativePath>../legstar-pom</relativePath>
     </parent>
-    <version>1.4.3-SNAPSHOT</version>
+    <version>1.4.3</version>
     <artifactId>legstar-codegen</artifactId>
     <name>LegStar Code generation common code</name>
     <description>Common code generation classes for LegStar</description>
