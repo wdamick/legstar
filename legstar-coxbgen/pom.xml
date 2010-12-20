@@ -4,9 +4,9 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.4.3-SNAPSHOT</version>
+        <version>1.4.3</version>
     </parent>
-    <version>1.4.3-SNAPSHOT</version>
+    <version>1.4.3</version>
     <artifactId>legstar-coxbgen</artifactId>
     <name>LegStar COBOL Binding Generator</name>
     <description>Generates JAXB classes with COBOL annotations as well as runtime classes.</description>
