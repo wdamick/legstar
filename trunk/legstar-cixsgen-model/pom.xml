@@ -3,10 +3,10 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>legstar-pom</artifactId>
-        <version>1.4.3</version>
+        <version>1.4.4-SNAPSHOT</version>
         <relativePath>../legstar-pom</relativePath>
     </parent>
-    <version>1.4.3</version>
+    <version>1.4.4-SNAPSHOT</version>
     <artifactId>legstar-cixsgen-model</artifactId>
     <name>LegStar Operation Mapping Model</name>
     <description>Model classes for operations mapping</description>
