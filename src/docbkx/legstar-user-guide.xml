@@ -44,7 +44,7 @@
   Unlike other integration solutions available, LegStar is free and open-source. 
   It leverages the ever-increasing power of open-source software by using familiar programming
   patterns (visitor, strategy…), frameworks (JAXB, JAX-WS), tools (Apache Ant, Eclipse) and targeting
-  wildly used J2EE servers such as Apache Tomcat and Jetty or Enterprise Service Buses. 
+  widely used J2EE servers such as Apache Tomcat and Jetty or Enterprise Service Buses. 
 </para>
 </section>
 
