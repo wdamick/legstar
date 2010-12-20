@@ -3,10 +3,10 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>legstar-eclipse-parent</artifactId>
-        <version>1.4.3</version>
+        <version>1.4.4-SNAPSHOT</version>
         <relativePath>../legstar-eclipse-parent</relativePath>
     </parent>
-    <version>1.4.3</version>
+    <version>1.4.4-SNAPSHOT</version>
     <artifactId>legstar-schemagen-feature</artifactId>
     <packaging>jar</packaging>
     <name>LegStar Schema Generator Eclipse feature</name>
