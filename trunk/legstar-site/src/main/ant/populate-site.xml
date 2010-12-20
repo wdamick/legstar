@@ -20,26 +20,32 @@
             <fileset dir="${basedir}/../legstar-cixscom-plugin/target">
                 <include name="*.jar"/>
                 <exclude name="*-sources.jar"/>
+                <exclude name="*-javadoc.jar"/>
             </fileset>
             <fileset dir="${basedir}/../legstar-cixsmap-plugin/target">
                 <include name="*.jar"/>
                 <exclude name="*-sources.jar"/>
+                <exclude name="*-javadoc.jar"/>
             </fileset>
             <fileset dir="${basedir}/../legstar-common-plugin/target">
                 <include name="*.jar"/>
                 <exclude name="*-sources.jar"/>
+                <exclude name="*-javadoc.jar"/>
             </fileset>
             <fileset dir="${basedir}/../legstar-coxbgen-plugin/target">
                 <include name="*.jar"/>
                 <exclude name="*-sources.jar"/>
+                <exclude name="*-javadoc.jar"/>
             </fileset>
             <fileset dir="${basedir}/../legstar-jaxwsgen-plugin/target">
                 <include name="*.jar"/>
                 <exclude name="*-sources.jar"/>
+                <exclude name="*-javadoc.jar"/>
             </fileset>
             <fileset dir="${basedir}/../legstar-schemagen-plugin/target">
                 <include name="*.jar"/>
                 <exclude name="*-sources.jar"/>
+                <exclude name="*-javadoc.jar"/>
             </fileset>
             <filtermapper>
                 <replacestring from="-SNAPSHOT" to=".SNAPSHOT"/>
