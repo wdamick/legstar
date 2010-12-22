@@ -749,7 +749,7 @@ public abstract class AbstractCixsGeneratorWizardPage
         String dirPath = getDisplayPath(dir);
         if (dirPath == null) {
             if (relative) {
-                dirPath = getDefaultRelativeTargetDir(getStore(), storeKey);
+                dirPath = getDefaultRelativeTargetDir(store, storeKey);
             } else {
                 dirPath = store.getString(storeKey);
                 // Don't attempt to create absolute locations
