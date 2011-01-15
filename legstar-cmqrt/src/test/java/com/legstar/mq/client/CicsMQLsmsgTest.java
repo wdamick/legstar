@@ -94,7 +94,7 @@ public class CicsMQLsmsgTest extends AbstractMQConnectionTester {
             cicsMQ.connect("tiramisu");
             fail("testConnectFailure");
         } catch (ConnectionException e) {
-            assertTrue(e.getMessage().contains("MQJE011"));
+            assertTrue(e.getMessage().contains("MQJE0")); // depending on MQ version, you might get MQJE001 or MQJE011
         }
     }
 
