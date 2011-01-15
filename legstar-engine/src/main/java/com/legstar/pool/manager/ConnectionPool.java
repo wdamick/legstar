@@ -94,7 +94,8 @@ public class ConnectionPool {
             throw new ConnectionPoolException(e);
         }
         _idleConnectionsPolicy = new TimerIdleConnectionsPolicy(
-                this, hostEndpoint.getPooledMaxIdleTime() / 2,
+                this,
+                hostEndpoint.getPooledMaxIdleTimeCheckPeriod(),
                 hostEndpoint.getPooledMaxIdleTime());
 
         _shuttingDown = false;
