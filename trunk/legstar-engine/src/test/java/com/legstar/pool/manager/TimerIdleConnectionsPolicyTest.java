@@ -104,9 +104,6 @@ public class TimerIdleConnectionsPolicyTest extends
             threads[i].join();
         }
 
-        /* Give one last chance for the cleaning thread to work. */
-        Thread.sleep(IDLE_TEST_PERIOD);
-
         /*
          * At the end of the test we expect opened connections to have been
          * idle for less than the maximum idle time.
@@ -124,11 +121,12 @@ public class TimerIdleConnectionsPolicyTest extends
              * Allow for 5% slack as we cannot guarantee that threads
              * will be serviced within a millisecond
              */
-            if (openTime < 105 * KEEP_ALIVE_TIME / 100) {
-                assertTrue(connection.isOpen());
-            } else {
-                assertFalse(connection.isOpen());
-            }
+			if (connection.isOpen()) {
+				if (openTime > 105 * (KEEP_ALIVE_TIME + IDLE_TEST_PERIOD) / 100) {
+					fail(connection.getConnectionID() + " opened for "
+							+ openTime + " ms, should be closed");
+				}
+			}
         }
         assertNull(_connectionPool.getIdleConnectionsPolicy().getException());
     }
