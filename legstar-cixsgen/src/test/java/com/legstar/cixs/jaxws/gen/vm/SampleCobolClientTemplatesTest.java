@@ -95,7 +95,7 @@ public class SampleCobolClientTemplatesTest extends AbstractTestTemplate {
 
         assertTrue(resStr.contains("       PROGRAM-ID. CULTUREI."));
         assertTrue(resStr.contains("77  W00-SERVICE-URI               PIC X(" + url.length() + ") VALUE"));
-        assertTrue(resStr.contains("'" + url + "'."));
+        assertTrue(resStr.contains("'" + url + "'"));
         assertTrue(resStr.contains("77  W00-USERID                    PIC X(8) VALUE SPACES."));
         assertTrue(resStr.contains("77  W00-PASSWORD                  PIC X(8) VALUE SPACES."));
         assertTrue(resStr.contains("77  W00-SERVICE-NAME              PIC X(11) VALUE"));

@@ -302,6 +302,6 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
                 + "."));
         assertTrue(resStr.contains("77  W00-SERVICE-URI               PIC X("
                 + url.length() + ") VALUE"));
-        assertTrue(resStr.contains("'" + url + "'."));
+        assertTrue(resStr.contains("'" + url + "'"));
     }
 }
