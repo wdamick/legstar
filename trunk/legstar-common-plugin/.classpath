@@ -5,64 +5,61 @@
 	<classpathentry excluding="**/.svn/**" kind="src" output="target/classes" path="src/main/java"/>
 	<classpathentry excluding="**/.svn/**" kind="src" path="src/main/resources"/>
 	<classpathentry exported="true" kind="lib" path="lib/XmlSchema-1.4.5.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/activation-1.1.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/ant-optional-1.5.1.jar" sourcepath="legstar-common-pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/activation-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/ant-optional-1.5.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/antlr-runtime-3.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-beanutils-1.7.0.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-beanutils-core-1.7.0.jar" sourcepath="legstar-common-pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-beanutils-1.7.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-beanutils-core-1.7.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-cli-1.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-codec-1.2.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-collections-3.2.1.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-configuration-1.5.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-digester-1.8.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-httpclient-3.1.jar" sourcepath="legstar-common-pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-codec-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-collections-3.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-configuration-1.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-digester-1.8.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-httpclient-3.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-io-1.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-jxpath-1.2.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-lang-2.4.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-logging-1.1.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/connector-api-1.5.jar" sourcepath="legstar-common-pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-jxpath-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-lang-2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-logging-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/connector-api-1.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/geronimo-commonj_1.1_spec-1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jaxb-api-2.1.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/jaxb-impl-2.1.6.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/jaxb-xjc-2.1.6.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/jaxws-api-2.1.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/jaxws-rt-2.1.3.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/jaxws-tools-2.1.3.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/jdom-b9.jar" sourcepath="legstar-common-pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxb-api-2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxb-impl-2.1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxb-xjc-2.1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxws-api-2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxws-rt-2.1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxws-tools-2.1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jdom-b9.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/json-20080701.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jsr173_api-1.0.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/jsr181-api-1.0-MR1.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/jsr250-api-1.0.jar" sourcepath="legstar-common-pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/jsr173_api-1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/junit-3.8.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-c2wsrt-1.4.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-chttprt-1.4.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-cixsgen-1.4.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-cixsgen-model-1.4.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-cmockrt-1.4.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-cmqrt-1.4.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-c2wsrt-1.4.4-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-chttprt-1.4.4-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-cixsgen-1.4.4-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-cixsgen-model-1.4.4-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-cmockrt-1.4.4-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-cmqrt-1.4.4-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-cob2xsd-0.3.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-cobcgen-1.4.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-codegen-1.4.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-config-1.4.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-coxbapi-1.4.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-coxbgen-1.4.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-coxbrt-1.4.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-csokrt-1.4.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-engine-1.4.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-invoker-1.4.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-jaxbgen-1.4.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-messaging-1.4.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-xsdcgen-1.4.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/mimepull-1.1.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/oro-2.0.8.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/resolver-20050927.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/saaj-api-1.3.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/saaj-impl-1.3.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/sjsxp-1.0.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/stax-api-1.0.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/stax-ex-1.2.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/streambuffer-0.7.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/velocity-1.6.1.jar" sourcepath="legstar-common-pluginsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="lib/wsdl4j-1.6.2.jar" sourcepath="legstar-common-pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-cobcgen-1.4.4-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-codegen-1.4.4-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-config-1.4.4-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-coxbapi-1.4.4-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-coxbgen-1.4.4-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-coxbrt-1.4.4-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-csokrt-1.4.4-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-engine-1.4.4-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-invoker-1.4.4-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-jaxbgen-1.4.4-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-messaging-1.4.4-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-xsdcgen-1.4.4-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/mimepull-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/oro-2.0.8.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/resolver-20050927.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/saaj-api-1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/saaj-impl-1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/sjsxp-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/stax-ex-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/streambuffer-0.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/velocity-1.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/wsdl4j-1.6.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
