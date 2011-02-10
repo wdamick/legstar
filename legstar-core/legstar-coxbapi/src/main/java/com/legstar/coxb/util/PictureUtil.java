@@ -61,7 +61,7 @@ public final class PictureUtil {
                 if (input.charAt(i) == symbols[j]) {
                     if ((i < input.length() - 1) && (input.charAt(i + 1) == '(')) {
                         int k = input.indexOf(')', i);
-                        num += getNumericInParentheses(input.substring(i, k));
+                        num += getNumericInParentheses(input.substring(i + 1, k));
                         i = k;
                     } else {
                         num++;
