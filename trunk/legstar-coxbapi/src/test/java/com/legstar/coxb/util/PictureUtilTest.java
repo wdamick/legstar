@@ -44,6 +44,7 @@ public class PictureUtilTest extends TestCase {
         assertEquals(1, PictureUtil.getSymbolsNumber('X', "X"));
         assertEquals(2, PictureUtil.getSymbolsNumber('X', "XX"));
         assertEquals(8, PictureUtil.getSymbolsNumber('X', "X(8)"));
+        assertEquals(2, PictureUtil.getSymbolsNumber('9', "9(2)"));
     }
 
 }

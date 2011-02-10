@@ -29,6 +29,7 @@ public class CalcByteLengthTest extends TestCase {
         assertEquals(16, CStringBinding.calcStringByteLength("$$$9999/,99.999+", CobolType.NUMERIC_EDITED_ITEM));
         assertEquals(10, CStringBinding.calcStringByteLength("****999.99", CobolType.NUMERIC_EDITED_ITEM));
         assertEquals(11, CStringBinding.calcStringByteLength("-ZZZZ99.999", CobolType.NUMERIC_EDITED_ITEM));
+        assertEquals(4, CStringBinding.calcStringByteLength("Z(2)9(2)", CobolType.NUMERIC_EDITED_ITEM));
     }
 
     /**
