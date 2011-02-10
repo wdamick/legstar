@@ -1,6 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<coxb-type name="LsFilesDataChoiceBinding" parent-jaxb-type="LsItemsArrayType" jaxb-package="com.legstar.test.coxb.lsfileae" type="choice" unmarshalChoiceStrategyClassName="com.legstar.coxb.cust.dplarcht.ChoiceSelector">
-<coxb-property var-name="lsFilesData" binding-name="LsFilesData" jaxb-name="LsFilesData" type="complex" jaxb-type="LsFilesDataType" binding-type="LsFilesDataTypeBinding" cobol-isRedefined="true"/>
-<coxb-property var-name="lsProgramsData" binding-name="LsProgramsData" jaxb-name="LsProgramsData" type="complex" jaxb-type="LsProgramsDataType" binding-type="LsProgramsDataTypeBinding" cobol-redefines="LS-FILES-DATA"/>
-<coxb-property var-name="lsTransactionsData" binding-name="LsTransactionsData" jaxb-name="LsTransactionsData" type="complex" jaxb-type="LsTransactionsDataType" binding-type="LsTransactionsDataTypeBinding" cobol-redefines="LS-FILES-DATA"/>
-</coxb-type>

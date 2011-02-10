@@ -51,9 +51,7 @@ public final class CodeGenUtil {
     public static final String JAXB_TYPE_SUFFIX = "Type";
 
     /** Get the platform specific line separator.*/
-    public static final String CRLF =
-        (String) java.security.AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction("line.separator"));
+    public static final String CRLF = System.getProperty("line.separator");
 
     /** Logger. */
     private static final Log LOG = LogFactory.getLog(CodeGenUtil.class);

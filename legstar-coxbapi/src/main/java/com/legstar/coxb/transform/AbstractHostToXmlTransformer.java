@@ -211,7 +211,7 @@ public abstract class AbstractHostToXmlTransformer implements
      * @param writer XML will be sent to this writer.
      * @throws HostTransformException if transformation fails
      * */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public void getXmlFromObject(
             final Object valueObject, final Writer writer)
             throws HostTransformException {
