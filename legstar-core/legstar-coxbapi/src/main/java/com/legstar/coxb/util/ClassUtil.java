@@ -297,12 +297,12 @@ public final class ClassUtil {
      * @param javaType the java class the value belongs to
      * @throws ClassInvokeException if property cannot be set
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "rawtypes" })
     public static void invokeSetProperty(
             final Object parentObject,
             final String jaxbName,
             final Object value,
-            final Class javaType)
+            final Class <?> javaType)
             throws ClassInvokeException {
 
         try {
@@ -312,7 +312,7 @@ public final class ClassUtil {
              */
             if (value instanceof List) {
                 Method getter = getGetterMethod(parentObject, jaxbName);
-                Class listClass = getter.getReturnType();
+                Class <?> listClass = getter.getReturnType();
                 Method addAll = listClass.getMethod(
                         "addAll", Collection.class);
                 addAll.invoke(getter.invoke(parentObject), (Collection) value);
