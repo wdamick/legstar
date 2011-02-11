@@ -41,10 +41,10 @@ import com.legstar.coxb.impl.CArrayDoubleBinding;
 import com.legstar.coxb.impl.RedefinesMap;
 import com.legstar.coxb.util.BindingUtil;
 import com.legstar.coxb.util.ClassUtil;
+import com.legstar.coxb.util.NameUtil;
 
 import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Locale;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -161,9 +161,8 @@ public class CComplexReflectBinding extends CComplexBinding {
      * @param jaxbObjectFactory the JAXB object factory
      * @throws ReflectBindingException if initialization fails
      */
-    @SuppressWarnings("unchecked")
     private void initComplexElement(
-            final Class jaxbType,
+            final Class < ? > jaxbType,
             final Object jaxbObjectFactory) throws ReflectBindingException {
 
         if (_log.isDebugEnabled()) {
@@ -266,9 +265,12 @@ public class CComplexReflectBinding extends CComplexBinding {
                     && !xmlAnnotation.name().equals("##default")) {
                 jaxbName = xmlAnnotation.name();
             }
-            jaxbName = jaxbName.substring(0, 1).toUpperCase(
-                    Locale.getDefault())
-                    + jaxbName.substring(1, jaxbName.length());
+            
+            /* Assume underscores and other punctuation were removed by XJC.
+             * FIXME this ignores any customizarion done at the XJC level
+             * such as underscoreBinding set to asCharInWord*/
+            jaxbName = NameUtil.toClassName(jaxbName);
+
             ICobolBinding binding;
             try {
                 binding = createBinding(

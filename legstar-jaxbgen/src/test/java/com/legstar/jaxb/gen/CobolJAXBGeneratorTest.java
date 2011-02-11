@@ -10,6 +10,9 @@
  ******************************************************************************/
 package com.legstar.jaxb.gen;
 
+import java.io.File;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
@@ -226,5 +229,32 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
         _task.setElementNameSuffix(elementNameSuffix);
         _task.setJaxbPackageName("com.legstar.test.coxb." + schemaName);
         _task.execute();
+    }
+
+    /**
+     * Check what JAXB does with underscores.
+     */
+    public void testElementNamesWithUnderscores()throws Exception {
+    	String xsd = "<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\""
+    		+	" xmlns:cb=\"http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd\">"
+			  + "<xs:element name=\"customer\" type=\"CustomerType\"/>"
+			  + "<xs:complexType name=\"CustomerType\">"
+			  + "  <xs:sequence>"
+			  + "    <xs:element name=\"n_ame\" type=\"xs:string\"/>"
+			  + "    <xs:element name=\"number\" type=\"xs:integer\"/>"
+			  + "  </xs:sequence>"
+			  + "</xs:complexType>"
+			  + "</xs:schema>";
+    	File tempXsdFile = File.createTempFile("jaxbgen", ".xsd");
+    	tempXsdFile.deleteOnExit();
+    	FileUtils.writeStringToFile(tempXsdFile, xsd);
+    	
+    	_task.setXsdFile(tempXsdFile);
+        _task.setTargetDir(GEN_SRC_DIR);
+        _task.execute();
+        
+        String result = getSource("generated", "", "CustomerType");
+        assertTrue(result.contains("public String getNAme()"));
+    	
     }
 }
