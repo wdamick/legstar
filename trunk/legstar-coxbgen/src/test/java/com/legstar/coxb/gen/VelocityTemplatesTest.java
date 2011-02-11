@@ -490,7 +490,7 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr
                 .contains("public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {"));
         assertTrue(resStr.contains("Dfhcommarea valueObject = (Dfhcommarea)"
-                + " choice.getObjectValue(Dfhcommarea.class);"));
+                + " choice.getParentValueObject();"));
         assertTrue(resStr
                 .contains("return choice.getAlternativeByName(\"CDefinition1\");"));
         assertTrue(resStr
