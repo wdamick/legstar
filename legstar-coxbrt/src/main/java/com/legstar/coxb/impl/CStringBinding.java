@@ -85,21 +85,32 @@ implements ICobolStringBinding {
             return PictureUtil.getSymbolsNumber(
                     new char[] {'+', '-', '9', '.', 'E'}, picture);
         case NUMERIC_EDITED_ITEM:
+            int count = 0;
+            String strippedPicture = picture;
+            /* In addition, there might be a CR or DB
+             * There might be a CR of DB in the picture. Process them before to
+             * avoid processing the 'B' character twice.
+             */
+            int idx = picture.indexOf("CR");
+            if (idx > -1) {
+                // CR should exist at most once
+                count += 2;
+                strippedPicture = strippedPicture.replaceFirst("CR", "");
+            }
+            idx = picture.indexOf("DB");
+            if (idx > -1) {
+                // DB should exist at most once
+                count += 2;
+                strippedPicture = strippedPicture.replaceFirst("DB", "");
+            }
+
             /* TODO the currency sign should not be hardcoded */
-            int count = PictureUtil.getSymbolsNumber(
-                    new char[] {'B', 'Z', '9', '0', ',', '.', '-', '+', '/', '*', '$'},
-                    picture);
-            /* In addition, there might be a CR or DB */
-            if (picture.indexOf("CR") > -1) {
-                count += 2;
-            }
-            if (picture.indexOf("DB") > -1) {
-                count += 2;
-            }
+            count += PictureUtil.getSymbolsNumber(new char[] { 'B', 'Z', '9',
+                    '0', ',', '.', '-', '+', '/', '*', '$' }, strippedPicture);
+
             return count;
         default:
-            return PictureUtil.getSymbolsNumber(
-                    new char[] {'X'}, picture);
+            return PictureUtil.getSymbolsNumber(new char[] { 'X' }, picture);
         }
     }
 
