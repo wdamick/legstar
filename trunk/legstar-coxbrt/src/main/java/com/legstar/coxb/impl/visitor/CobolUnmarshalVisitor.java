@@ -101,7 +101,13 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
             _log.debug("Unmarshaling started for choice binding "
                     + ce.getBindingName());
         }
-        /* In a choice situation, only one alternative should be accepted when
+        
+        /* Make sure there are no leftovers from a previous use of this binding. */
+    	for (ICobolBinding alternative : ce.getAlternativesList()) {
+        	alternative.setObjectValue(null);
+        }
+
+    	/* In a choice situation, only one alternative should be accepted when
          * this element is visited. The logic to determine which alternative 
          * should be selected is customizable via the
          * ICobolUnmarshalChoiceStrategy interface.  If no direct selection of
