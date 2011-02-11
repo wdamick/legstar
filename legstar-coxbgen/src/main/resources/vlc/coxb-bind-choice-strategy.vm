@@ -34,7 +34,7 @@ public class ${helper.getClassName(${choice-strategy-qualified-class-name})} imp
         
         /* Get the parent value object which properties might help select the
          * right alternative. */
-        ${parentObjectType} valueObject = (${parentObjectType}) choice.getObjectValue(${parentObjectType}.class);
+        ${parentObjectType} valueObject = (${parentObjectType}) choice.getParentValueObject();
         assert (valueObject != null);
         
         /* Replace following code with actual logic. */
@@ -47,7 +47,7 @@ public class ${helper.getClassName(${choice-strategy-qualified-class-name})} imp
 #set($counter = $counter + 1)
 #end
         case -1:
-            /* An exemple of how to signal an exception.*/
+            /* An example of how to signal an exception.*/
             throw (new HostException("Unable to select an alternative"));
         default:
             /* Null will let the default choice strategy apply. */

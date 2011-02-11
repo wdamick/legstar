@@ -124,7 +124,7 @@ public class CoxbBindingGeneratorTest extends AbstractTestTemplate {
         String custSrce = getSource(GEN_SRC_DIR, getGetCustFilename("redsimpt"));
         assertTrue(custSrce
                 .contains(
-                "Dfhcommarea valueObject = (Dfhcommarea) choice.getObjectValue(Dfhcommarea.class);"));
+                "Dfhcommarea valueObject = (Dfhcommarea) choice.getParentValueObject();"));
     }
 
     /**

@@ -9,7 +9,7 @@
     <description>Open-Source Mainframe Integration</description>
     <url>http://www.legsem.com/legstar</url>
     <properties>
-        <legstarZosVersion>V1R4M3</legstarZosVersion>
+        <legstarZosVersion>V1R4M4</legstarZosVersion>
         <legstarCoreVersion>1.5.1</legstarCoreVersion>
         <legstarCob2XsdVersion>0.3.3</legstarCob2XsdVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
