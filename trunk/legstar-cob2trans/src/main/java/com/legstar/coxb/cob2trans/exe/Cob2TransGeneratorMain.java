@@ -44,7 +44,7 @@ public class Cob2TransGeneratorMain {
     /** The default output. */
     private static final String DEFAULT_OUTPUT_FOLDER = "target";
 
-    /** The default output. */
+    /** The default configuration file. */
     private static final String DEFAULT_CONFIG_FILE = "conf/cob2trans.properties";
 
     /** A file containing parameters. */

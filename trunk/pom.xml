@@ -10,7 +10,8 @@
     <url>http://www.legsem.com/legstar</url>
     <properties>
         <legstarZosVersion>V1R4M3</legstarZosVersion>
-        <legstarCob2XsdVersion>0.3.2</legstarCob2XsdVersion>
+        <legstarCoreVersion>1.5.1</legstarCoreVersion>
+        <legstarCob2XsdVersion>0.3.3</legstarCob2XsdVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <antInternalVersion>1.7.0</antInternalVersion> <!-- Used for legstar builds and tests -->
         <antVersion>1.6.5</antVersion>  <!-- Expected to be provided at runtime -->
@@ -74,8 +75,6 @@
     </organization>
 
     <modules>
-        <module>legstar-codegen</module>
-        <module>legstar-coxbapi</module>
         <module>legstar-cixsgen-model</module>
         <module>legstar-cixsgen-model-cases</module>
         <module>legstar-xsdcgen-cases</module>
@@ -748,12 +747,19 @@
                 ========================================================
              -->    
 
-            <!-- LegStar internal dependencies sub-section -->    
+            <!-- LegStar core dependencies sub-section -->    
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-coxbapi</artifactId>
+                <version>${legstarCoreVersion}</version>
+            </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-codegen</artifactId>
-                <version>${version}</version>
+                <version>${legstarCoreVersion}</version>
             </dependency>
+
+            <!-- LegStar internal dependencies sub-section -->    
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-cixsgen-model</artifactId>
@@ -802,11 +808,6 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-invoker</artifactId>
-                <version>${version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.legsem.legstar</groupId>
-                <artifactId>legstar-coxbapi</artifactId>
                 <version>${version}</version>
             </dependency>
             <dependency>
