@@ -170,6 +170,7 @@
                                 <ant antfile="${basedir}/src/main/ant/maven-to-pde.xml">
                                     <property name="legstarVersion" value="${version}" />
                                     <property name="legstarCob2XsdVersion" value="${legstarCob2XsdVersion}" />
+                                    <property name="legstarCoreVersion" value="${legstarCoreVersion}" />
                                 </ant>
                             </tasks>
                         </configuration>

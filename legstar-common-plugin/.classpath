@@ -38,11 +38,11 @@
 	<classpathentry exported="true" kind="lib" path="lib/legstar-cixsgen-model-1.4.4-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-cmockrt-1.4.4-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-cmqrt-1.4.4-SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-cob2xsd-0.3.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-cob2xsd-0.3.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-cobcgen-1.4.4-SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-codegen-1.4.4-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-codegen-1.5.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-config-1.4.4-SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/legstar-coxbapi-1.4.4-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/legstar-coxbapi-1.5.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-coxbgen-1.4.4-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-coxbrt-1.4.4-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/legstar-csokrt-1.4.4-SNAPSHOT.jar"/>
