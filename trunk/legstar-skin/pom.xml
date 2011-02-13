@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -10,7 +10,7 @@
 
     <groupId>com.legsem.legstar</groupId>
     <artifactId>legstar-skin</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.3</version>
     <packaging>jar</packaging>
 
     <name>LegStar skin</name>
@@ -18,9 +18,9 @@
     <url>http://www.legsem.com/legstar/legstar-site</url>
     
     <scm>
-        <connection>scm:svn:http://legstar.googlecode.com/svn/trunk/legstar-skin/</connection>
-        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/trunk/legstar-skin/</developerConnection>
-        <url>http://legstar.googlecode.com/svn/trunk/legstar-skin/</url>
+        <connection>scm:svn:http://legstar.googlecode.com/svn/tags/legstar-skin-1.0.3</connection>
+        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/tags/legstar-skin-1.0.3</developerConnection>
+        <url>http://legstar.googlecode.com/svn/tags/legstar-skin-1.0.3</url>
     </scm>
 
     <distributionManagement>
