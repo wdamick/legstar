@@ -9,7 +9,6 @@
     <artifactId>legstar-tests</artifactId>
     <name>LegStar Test helpers</name>
     <description>Testing helper classes shared by multiple sub projects.</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
     

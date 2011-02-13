@@ -9,7 +9,6 @@
     <artifactId>legstar-jaxbgen</artifactId>
     <name>LegStar JAXB COBOL Annotator</name>
     <description>Generates Cobol annotations in JAXB classes.</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
 

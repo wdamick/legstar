@@ -11,7 +11,6 @@
   <packaging>jar</packaging>
   <name>LegStar COBOL to Transformers Generator</name>
   <description>Generates Transformers from COBOL source.</description>
-  <url>http://www.legsem.com/legstar</url>
 
   <dependencies>
 

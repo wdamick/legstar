@@ -9,7 +9,6 @@
     <artifactId>legstar-messaging</artifactId>
     <name>LegStar Messaging Protocol</name>
     <description>Mainframe message exchange protocol.</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
   

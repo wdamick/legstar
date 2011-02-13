@@ -9,7 +9,6 @@
     <artifactId>legstar-xsdcgen</artifactId>
     <name>LegStar Complex Types Mapping Generator</name>
     <description>Generates mapping XML Schema from XSD, WSDL or Java classes.</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
 

@@ -10,7 +10,6 @@
     <artifactId>legstar-cixsgen-model</artifactId>
     <name>LegStar Operation Mapping Model</name>
     <description>Model classes for operations mapping</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
   

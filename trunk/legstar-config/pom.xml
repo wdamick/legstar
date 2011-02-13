@@ -10,7 +10,6 @@
     <version>1.4.4-SNAPSHOT</version>
     <name>LegStar configuration</name>
     <description>LegStar configuration system</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
         <dependency>

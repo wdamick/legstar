@@ -9,7 +9,6 @@
     <artifactId>legstar-cobcgen</artifactId>
     <name>LegStar COBOL Structures Generator</name>
     <description>Generates Cobol data descriptions from cobol-annotated jaxb classes.</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
 

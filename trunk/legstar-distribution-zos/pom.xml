@@ -10,7 +10,6 @@
     <name>LegStar Distribution for z/OS</name>
     <packaging>pom</packaging>
     <description>Distribution for all z/OS modules.</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
         <dependency>

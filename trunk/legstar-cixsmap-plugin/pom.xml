@@ -11,7 +11,6 @@
     <packaging>jar</packaging>
     <name>LegStar Operation Mapping Eclipse plugin</name>
     <description>Operation Mapping Eclipse plugin.</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
     

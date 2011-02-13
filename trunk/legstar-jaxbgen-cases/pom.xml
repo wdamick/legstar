@@ -9,7 +9,6 @@
     <artifactId>legstar-jaxbgen-cases</artifactId>
     <name>LegStar JAXB Annotator test classes</name>
     <description>Test cases used by various LegStar projects</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
   

@@ -9,7 +9,6 @@
     <artifactId>legstar-coxbgen-cases</artifactId>
     <name>LegStar COBOL Binding Generator test classes</name>
     <description>Test cases used by various LegStar projects</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
     

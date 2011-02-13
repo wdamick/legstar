@@ -9,7 +9,6 @@
     <artifactId>legstar-cmqrt</artifactId>
     <name>LegStar WebSphere MQ Transport for CICS</name>
     <description>MQ-based connectivity to CICS.</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
   
