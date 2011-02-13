@@ -10,7 +10,7 @@
 
     <groupId>com.legsem.legstar</groupId>
     <artifactId>legstar-skin</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>LegStar skin</name>
@@ -18,9 +18,9 @@
     <url>http://www.legsem.com/legstar/legstar-site</url>
     
     <scm>
-        <connection>scm:svn:http://legstar.googlecode.com/svn/tags/legstar-skin-1.0.3</connection>
-        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/tags/legstar-skin-1.0.3</developerConnection>
-        <url>http://legstar.googlecode.com/svn/tags/legstar-skin-1.0.3</url>
+        <connection>scm:svn:http://legstar.googlecode.com/svn/trunk/legstar-skin/</connection>
+        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/trunk/legstar-skin/</developerConnection>
+        <url>http://legstar.googlecode.com/svn/trunk/legstar-skin/</url>
     </scm>
 
     <distributionManagement>
