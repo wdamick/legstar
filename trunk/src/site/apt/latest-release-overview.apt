@@ -22,7 +22,7 @@ Version 1.4.1
 
  Although not a major release, there are several important changes in this release.
  
- The primary objective was to provide a new {{{legstar-cob2trans/apidocs/index.html}legstar-cob2trans}} module that generates
+ The primary objective was to provide a new {{{./legstar-cob2trans/apidocs/index.html}legstar-cob2trans}} module that generates
  transformers from COBOL in a single step. This brings together legstar-cob2xsd,
  legstar-jaxbgen and legstar-coxbgen. This is targeted at third party tools which
  need to imbed LegStar design time features.
@@ -142,7 +142,7 @@ Version 1.2.2
  as an example.
  
  There has been several important fixes to the Eclipse plugins. Details are
- available {{{legstar-common-plugin/changes-report.html}here}}.
+ available {{{./legstar-common-plugin/changes-report.html}here}}.
  
  An important change is that generated JAXB class names are not suffixed with
  "Type" anymore by default. You can still request a suffix to be appended to
@@ -192,19 +192,19 @@ Version 1.2.0
   
   The best description of the new Eclipse plugins is the {{{pdf/legstar-presentation.pdf}presentation document}}.
   
-  Information on Eclipse plugins installation can be found {{{legstar-common-plugin/index.html}here}}.
+  Information on Eclipse plugins installation can be found {{{./legstar-common-plugin/index.html}here}}.
  
 * Java Mapping Generator
  
-   {{{legstar-xsdcgen/index.html}Complex Types Mapping Generator}} now comes with a new ant task
+   {{{./legstar-xsdcgen/index.html}Complex Types Mapping Generator}} now comes with a new ant task
    that takes a set of Java classes and generate a mapping XML Schema. This feature is built
    on Sun's {{{http://java.sun.com/webservices/docs/2.0/jaxb/schemagen.html}JAXB Schemagen}} utility.
 
 * Mainframe Proxies Generator
 
-   {{{legstar-cixsgen}Web Service Generator}} now comes with a new ant task that creates Servlet proxies
+   {{{./legstar-cixsgen}Web Service Generator}} now comes with a new ant task that creates Servlet proxies
    for target Web Services. This allows mainframe programs, using the
-   {{{legstar-c2wsrt}Mainframe to Web Service Runtime}} to perform outbound calls to Web Services.
+   {{{./legstar-c2wsrt}Mainframe to Web Service Runtime}} to perform outbound calls to Web Services.
    
    One sample provided calls the Live search SOAP API from a CICS program.
  
