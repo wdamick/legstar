@@ -11,7 +11,6 @@
     <name>LegStar Mock Adapter Connection</name>
     <version>1.4.4-SNAPSHOT</version>
     <description>Simulates a mainframe connection for adapters</description>
-    <url>http://www.legsem.com/legstar</url>
 
    <dependencies>
     

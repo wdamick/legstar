@@ -9,7 +9,6 @@
     <artifactId>legstar-csokrt</artifactId>
     <name>LegStar Socket Transport for CICS</name>
     <description>Socket-based connectivity to CICS.</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
     

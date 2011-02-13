@@ -10,7 +10,6 @@
     <artifactId>legstar-cixsgen-clients</artifactId>
     <name>LegStar Mainframe Service Generator Clients</name>
     <description>Testing project for generated Web services</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
   

@@ -10,7 +10,6 @@
     <name>LegStar Distribution</name>
     <packaging>pom</packaging>
     <description>Used to create a single distribution for the entire LegStar project.</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
         <dependency>
@@ -23,6 +22,27 @@
         
         <plugins>
         
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <!-- 
+                       Build an aggregate of all dependencies sources.
+                      -->
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>sources</classifier>
+                            <outputDirectory>${project.build.directory}/sources</outputDirectory>
+                        </configuration>
+                    </execution>
+
+                </executions>
+            </plugin>
+
              <!-- Assembly generation plugin. Put the result in the source site
                 so that it gets uploaded with the site.  -->
             <plugin>
@@ -130,13 +150,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-site-plugin</artifactId> 
-                <configuration>
-                    <generateReports>false</generateReports>
-                </configuration>
             </plugin>
 
         </plugins>

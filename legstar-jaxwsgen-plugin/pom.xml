@@ -11,7 +11,6 @@
     <packaging>jar</packaging>
     <name>LegStar JAX-WS Service Generator Eclipse plugin</name>
     <description>JAX-WS Service Generator Eclipse plugin.</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
     

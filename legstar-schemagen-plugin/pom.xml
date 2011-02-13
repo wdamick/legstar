@@ -11,7 +11,6 @@
     <packaging>jar</packaging>
     <name>LegStar Schema Generator Eclipse plugin</name>
     <description>Schema Generator Eclipse plugin.</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
     

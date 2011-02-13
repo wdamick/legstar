@@ -10,7 +10,6 @@
     <artifactId>legstar-coxbgen</artifactId>
     <name>LegStar COBOL Binding Generator</name>
     <description>Generates JAXB classes with COBOL annotations as well as runtime classes.</description>
-    <url>http://www.legsem.com/legstar</url>
   
     <dependencies>
     

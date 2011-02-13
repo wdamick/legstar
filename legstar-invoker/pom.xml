@@ -9,7 +9,6 @@
     <artifactId>legstar-invoker</artifactId>
     <name>LegStar Mainframe Adapter Runtime</name>
     <description>Provide remote procedure call to mainframe programs.</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
   

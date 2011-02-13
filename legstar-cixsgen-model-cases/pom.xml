@@ -10,7 +10,6 @@
     <artifactId>legstar-cixsgen-model-cases</artifactId>
     <name>LegStar Operations Mapping Model test classes</name>
     <description>Test cases used by various LegStar projects for operations mapping</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
   

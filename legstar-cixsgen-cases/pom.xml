@@ -9,7 +9,6 @@
     <artifactId>legstar-cixsgen-cases</artifactId>
     <name>LegStar Mainframe Service Generator test classes</name>
     <description>Test cases used by various LegStar projects</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
 
