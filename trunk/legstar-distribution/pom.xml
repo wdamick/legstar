@@ -45,23 +45,37 @@
                 </executions>
             </plugin>
 
-             <!-- Assembly generation plugin. Put the result in the source site
-                so that it gets uploaded with the site.  -->
+             <!-- Assembly generation plugin.  -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId> 
-                <configuration>
-                    <descriptors>
-                        <descriptor>src/assemble/distribution.xml</descriptor>
-                    </descriptors>
-                </configuration>
                 <executions>
+
                     <execution>
-                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
-                        <phase>package</phase> <!-- append to the packaging phase. -->
+                        <id>assemble-binaries</id>
+                        <phase>package</phase>
                         <goals>
-                            <goal>attached</goal> <!-- goals == mojos -->
+                            <goal>attached</goal>
                         </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/assemble/distribution.xml</descriptor>
+                            </descriptors>
+                        </configuration>
                     </execution>
+
+                    <execution>
+                        <id>assemble-sources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attached</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/assemble/distribution-sources.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+
                 </executions>
             </plugin>
         
