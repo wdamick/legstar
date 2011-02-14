@@ -18,8 +18,8 @@ Connection pooling engine overview
   if, and only if, they request the exact same set of connection properties.
   
   The Connection pooling engine is written in a transport independent fashion. The actual behavior is
-  driven by an XML configuration file. The {{{samples/legstar-engine-config.xml}legstar-engine-config.xml}}
-  is an example of such a file. It is a combination of {{{samples/legstar-pooling-config.xml}legstar-pooling-config.xml}}
+  driven by an XML configuration file. The {{{./samples/legstar-engine-config.xml}legstar-engine-config.xml}}
+  is an example of such a file. It is a combination of {{{./samples/legstar-pooling-config.xml}legstar-pooling-config.xml}}
   that actually drives the pooling mechanism and the
   {{{../legstar-invoker/samples/legstar-invoker-config.xml}legstar-invoker-config.xml}}
   which is shared with the {{{../legstar-invoker}Mainframe Adapter Runtime}}.
@@ -30,4 +30,4 @@ Connection pooling engine overview
   
   Connection pooling engine is a singleton. It is assumed all clients will run in the same VM.  
 
-  For instructions on how to install and configure the pooling engine follow {{{release-notes.html}this link}}.
+  For instructions on how to install and configure the pooling engine follow {{{./release-notes.html}this link}}.

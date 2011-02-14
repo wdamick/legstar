@@ -23,5 +23,5 @@ COBOL Structures Generator (cobcgen) overview
   
   Cobcgen is an ant task which takes as input a set of annotated JAXB classes.
  
-  For instructions on how to install follow {{{release-notes.html}this link}}.
+  For instructions on how to install follow {{{./release-notes.html}this link}}.
   

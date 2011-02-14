@@ -45,7 +45,7 @@ CICS MQ handler LSMQHBIN
                      ------------
 +-------------------------------+
 
- Another program, called {{{LSMQCBIN-readme.html}LSMQCBIN}} is also provided
+ Another program, called {{{./LSMQCBIN-readme.html}LSMQCBIN}} is also provided
  as an optional optimization when activity becomes high and you don't want
  each new message to start a CICS transaction. The controller will limit
  the number of started transactions.

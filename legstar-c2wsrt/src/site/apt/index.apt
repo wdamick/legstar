@@ -37,4 +37,4 @@ Mainframe Proxy runtime (C2wsrt) overview
   for instance (DFHWBCLI or EXEC CICS WEB).  C2wsrt also comes with its own HTTP API if you
   need one. The C library for the LegStar HTTP API (LSHTTAPI) is located in the zos/C370 folder.
   
-  For instructions on how to install and configure this transport follow {{{release-notes.html}this link}}.
+  For instructions on how to install and configure this transport follow {{{./release-notes.html}this link}}.

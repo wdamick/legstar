@@ -190,7 +190,7 @@ Version 1.2.0
   Eclipse project under a folder that you set in your preferences (default is a
   folder called ant).
   
-  The best description of the new Eclipse plugins is the {{{pdf/legstar-presentation.pdf}presentation document}}.
+  The best description of the new Eclipse plugins is the {{{./pdf/legstar-presentation.pdf}presentation document}}.
   
   Information on Eclipse plugins installation can be found {{{./legstar-common-plugin/index.html}here}}.
  

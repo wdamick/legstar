@@ -20,7 +20,7 @@ PREREQUISITES:
  The easiest way to do that is to use the common distribution of all
  LegStar z/OS modules, available {{{../legstar-distribution-zos/index.html}here}}.
  
- The main C370 program for Csokrt is {{{LSSOKBIN-readme.html}LSSOKBIN, the CICS
+ The main C370 program for Csokrt is {{{./LSSOKBIN-readme.html}LSSOKBIN, the CICS
  Server for Sockets}}. This program uses the following libraries:
 
  * {{{../legstar-invoker/LSLNKBIN-readme.html}LSLNKBIN CICS LINK library}}
@@ -151,7 +151,7 @@ CONFIGURING AND RUNNING THE SAMPLE:
  [[3]] Setup the invoker configuration:
  
  The Socket Transport expects a configuration file such as the
- {{{samples/legstar-invoker-config.xml}legstar-invoker-config.xml}} sample
+ {{{./samples/legstar-invoker-config.xml}legstar-invoker-config.xml}} sample
  provided.
   
  The hostConnectionFactory element in the configuration file must be:

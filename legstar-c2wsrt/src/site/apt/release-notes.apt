@@ -16,7 +16,7 @@ PREREQUISITES:
   
  On the host side, you can use CICS default HTTP APIs which are EXEC CICS WEB
  for CICS TS 3.1+ and DFHWBCLI for older versions. Alternatively, C2wsrt comes
- with a simple HTTP client API for CICS. The {{{LSHTTAPI-readme.html}
+ with a simple HTTP client API for CICS. The {{{./LSHTTAPI-readme.html}
  LSHTTAPI readme}} document describes the program and how to install it.
  
  The LegStar CICS programs are written in C370 and require Language

@@ -9,6 +9,7 @@
     <artifactId>legstar-engine</artifactId>
     <name>LegStar Connection pooling engine</name>
     <description>Mainframe connection pooling engine.</description>
+    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
     
