@@ -40,7 +40,7 @@ Quick tour
   which provides Java to XML binding. As a result of this combination, LegStar can convert mainframe data
   streams to/from Java objects, XML or JSON.
   
-  Using the generated marshaling/unmarshaling Java classes, the {{{./legstar-coxbrt/apidocs/index.html}COBOL Binding Runtime}}
+  Using the generated marshaling/unmarshaling Java classes, the {{{./apidocs/com/legstar/coxb/impl/package-summary.html}COBOL Binding Runtime}}
   handles:
 
   * The various COBOL numeric data types (Zoned decimals, packed decimals, binary, float, double)

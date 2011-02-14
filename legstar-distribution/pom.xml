@@ -26,11 +26,9 @@
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
-                    <!-- 
-                       Build an aggregate of all dependencies sources.
-                      -->
+                    <!--  Build an aggregate of all sources dependencies. -->
                     <execution>
-                        <id>copy-dependencies</id>
+                        <id>copy-sources-dependencies</id>
                         <phase>package</phase>
                         <goals>
                             <goal>unpack-dependencies</goal>
