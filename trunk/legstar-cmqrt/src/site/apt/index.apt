@@ -14,7 +14,7 @@ WebSphere MQ Transport (Cmqrt) overview
   
   Cmqrt relies on the IBM CICS MQ Adapter (CKTI) which is a standard feature of WebSphere MQ for z/OS.
   
-  As an option, cmqrt uses either the IBM CICS MQ Bridge (CKBR) or the LegStar {{{LSMQHBIN-readme.html}LSMQHBIN C/370 program}}.
+  As an option, cmqrt uses either the IBM CICS MQ Bridge (CKBR) or the LegStar {{{./LSMQHBIN-readme.html}LSMQHBIN C/370 program}}.
   The difference is that LSMQHBIN supports Channel/Containers. If you elect to use CICS MQ Bridge,
   you don't need to install LegStar on the mainframe.
   
@@ -27,12 +27,12 @@ WebSphere MQ Transport (Cmqrt) overview
   MQ payload to a minimum and avoids any character set translations on the host.
   
   If you use LSMQHBIN rather than the IBM CICS MQ Bridge, cmqrt also provides an additional
-  {{{LSMQCBIN-readme.html}LSMQCBIN C/370 program}}, which is a flood prevention system.
+  {{{./LSMQCBIN-readme.html}LSMQCBIN C/370 program}}, which is a flood prevention system.
   This can be used in situations where incoming requests need to be regulated.
   
-  On the java side, Cmqrt uses the standard {{{http://www-306.ibm.com/software/integration/wmq/}
+  On the java side, Cmqrt uses the standard {{{./http://www-306.ibm.com/software/integration/wmq/}
   IBM WebSphere MQ client library}}.
   
-  For instructions on how to install and configure this transport follow {{{release-notes.html}this link}}.
+  For instructions on how to install and configure this transport follow {{{./release-notes.html}this link}}.
   
   

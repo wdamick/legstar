@@ -22,7 +22,7 @@ PREREQUISITES:
  The easiest way to do that is to use the common distribution of all
  LegStar z/OS modules, available {{{../legstar-distribution-zos/index.html}here}}.
 
- The main C370 program for Cmqrt is {{{LSMQHBIN-readme.html}LSMQHBIN, the CICS
+ The main C370 program for Cmqrt is {{{./LSMQHBIN-readme.html}LSMQHBIN, the CICS
  Server for WebSphere MQ}}. This program uses the following libraries:
 
  * {{{../legstar-invoker/LSLNKBIN-readme.html}LSLNKBIN CICS LINK library}}
@@ -38,7 +38,7 @@ PREREQUISITES:
 []
 
  If you need to regulate LSMQHBIN activity (high volumes for instance) read 
- the {{{LSMQCBIN-readme.html}LSMQCBIN readme}}document.
+ the {{{./LSMQCBIN-readme.html}LSMQCBIN readme}}document.
 
  Java 1.5+ and ANT 1.6.5+ are both prerequisites for LegStar.
  Make sure JAVA_HOME and ANT_HOME environment variables are set and that
@@ -136,7 +136,7 @@ CONFIGURING AND RUNNING THE SAMPLE:
  [[2]] Setup the invoker configuration:
 
  The WebSphere MQ Transport expects a configuration file such as the
- {{{samples/legstar-invoker-config.xml}legstar-invoker-config.xml}} sample
+ {{{./samples/legstar-invoker-config.xml}legstar-invoker-config.xml}} sample
  provided.
   
  The hostConnectionFactory element in the configuration file must be:

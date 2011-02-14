@@ -9,6 +9,7 @@
     <artifactId>legstar-chttprt</artifactId>
     <name>LegStar HTTP Transport for CICS</name>
     <description>HTTP-based connectivity to CICS.</description>
+    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
   

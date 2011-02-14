@@ -9,6 +9,7 @@
     <artifactId>legstar-c2wsrt</artifactId>
     <name>LegStar Mainframe Proxy Runtime</name>
     <description>Mainframe Proxy Runtime.</description>
+    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
     

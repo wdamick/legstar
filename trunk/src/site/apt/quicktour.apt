@@ -16,7 +16,7 @@ Quick tour
   taken in LegStar is to translate COBOL to XML Schema and then let existing tools, such as,
   {{{http://www.jcp.org/en/jsr/detail?id=222}JAXB}} do the final mapping to the target language.
   
-  LegStar has introduced a {{{xml/cobol-binding-1.0.1.xsd}COBOL binding language}}
+  LegStar has introduced a {{{./xml/cobol-binding-1.0.1.xsd}COBOL binding language}}
   to describe how COBOL data items should map to XML Schema elements. That binding language is itself an
   extension to XML Schema (Annotations).
   
