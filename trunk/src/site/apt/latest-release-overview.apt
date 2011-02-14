@@ -2,6 +2,14 @@
                              Latest releases overview
  -------------------------------------------------------------------------------
 
+Version 1.4.4
+
+ A series of bug fixes in this release.
+ 
+ Also enhancements to the COBOL Transformers aimed at easing Transformers reuse. This is important when mass transformations are performed and the same Transformers aez used over and over again.
+
+ A {{{http://code.google.com/p/legstar/issues/list?can=1&q=Milestone%3DRelease1.4.4}complete list of changes}} is available.
+
 Version 1.4.3
 
  Introduced new JCL to help with compiling and link-editing z/OS modules. It was previously quite complicated.
