@@ -57,12 +57,12 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
     private static final byte[] ORDERED_ZONED_DECIMAL_CHARS = new byte[] {
             (byte) 0xF0, (byte) 0xF1, (byte) 0xF2, (byte) 0xF3, (byte) 0xF4,
             (byte) 0xF5, (byte) 0xF6, (byte) 0xF7, (byte) 0xF8, (byte) 0xF9,
-            0x40, 0x4E, 0x60 };
+            0x00, 0x40, 0x4E, 0x60 };
 
     /** Java characters corresponding to the previous array. */
     private static final char[] UNORDERED_JAVA_CHARS = new char[] { '0',
             '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '0', '+', '-' };
+            '0', '0', '+', '-' };
 
     /**
      * @param cobolContext the Cobol compiler parameters in effect

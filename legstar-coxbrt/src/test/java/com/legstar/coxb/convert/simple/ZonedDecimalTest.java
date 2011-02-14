@@ -517,6 +517,14 @@ public class ZonedDecimalTest extends TestCase {
     }
 
     /**
+     * Host is sending data with low values instead of 0.
+     */
+    public void testFromHostWithLowValues() {
+        fromHost(2, 2, 0, false, false, true, US_HOST_CHARSET,
+                "0000", "0");
+    }
+
+    /**
      * Host is sending data already in ASCII.
      */
     public void testFromHostWithAsciiChars() {
