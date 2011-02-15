@@ -19,8 +19,8 @@ import org.apache.commons.io.FileUtils;
 import com.legstar.codegen.CodeGenUtil;
 
 /**
- * Generate the ant scripts that will be delivered as samples
- * in the distribution.
+ * Generate the ant scripts that will be delivered as samples in the
+ * distribution.
  * 
  */
 public class CoxbGenAntSamplesTest extends AbstractTestTemplate {
@@ -38,7 +38,7 @@ public class CoxbGenAntSamplesTest extends AbstractTestTemplate {
     private CoxbGenModel _model;
 
     /** @{inheritDoc */
-    public void setUp() {
+    public void setUp() throws Exception {
         super.setUp();
         _model = new CoxbGenModel();
     }
@@ -85,8 +85,7 @@ public class CoxbGenAntSamplesTest extends AbstractTestTemplate {
      * @throws Exception if ant cannot be generated
      * @return the ant script file
      */
-    public File buildCoxbAntScript(
-            final String xsdFileName,
+    public File buildCoxbAntScript(final String xsdFileName,
             final String jaxbPackageName,
             final List < String > jaxbRootClassNames) throws Exception {
 
@@ -110,8 +109,8 @@ public class CoxbGenAntSamplesTest extends AbstractTestTemplate {
     /**
      * Generates an ant script from a VLC template.
      * 
-     * @param xsdFileName used to prevent output from different samples
-     *            to override others
+     * @param xsdFileName used to prevent output from different samples to
+     *            override others
      * @return the script as a string
      * @throws Exception if generation fails
      */
@@ -126,8 +125,8 @@ public class CoxbGenAntSamplesTest extends AbstractTestTemplate {
     }
 
     /**
-     * We don't want our samples to contain dataset names with
-     * the Microsoft specific backslash as the file separator.
+     * We don't want our samples to contain dataset names with the Microsoft
+     * specific backslash as the file separator.
      * 
      * @param file the file which content should be changed
      * @return a file with new content

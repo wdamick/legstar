@@ -10,7 +10,8 @@
  ******************************************************************************/
 package com.legstar.coxb.gen;
 
-import com.legstar.codegen.CodeGenUtil;
+import org.apache.commons.io.FileUtils;
+
 import com.legstar.coxb.ICobolArrayComplexBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
@@ -23,9 +24,10 @@ import com.legstar.coxb.util.ClassUtil;
 public class CoxbGenWriterTest extends AbstractTestTemplate {
 
     /** @{inheritDoc */
-    public void setUp() {
+    public void setUp() throws Exception {
         super.setUp();
-        CodeGenUtil.checkDirectory(GEN_SRC_DIR, true);
+        FileUtils.forceMkdir(GEN_SRC_DIR);
+        FileUtils.cleanDirectory(GEN_SRC_DIR);
     }
 
     /**
@@ -42,8 +44,8 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
                         .loadClass("com.legstar.test.coxb.alltypes.Dfhcommarea"));
 
         getCoxbGenModel().setJaxbPackageName("com.legstar.test.coxb.alltypes");
-        getCoxbGenModel()
-                .setCoxbPackageName("com.legstar.test.coxb.alltypes.bind");
+        getCoxbGenModel().setCoxbPackageName(
+                "com.legstar.test.coxb.alltypes.bind");
 
         CoxbGenWriter writer = new CoxbGenWriter(getCoxbGenModel(),
                 getOutputFolder());
@@ -73,15 +75,14 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
                 .get(0);
 
         getCoxbGenModel().setJaxbPackageName("com.legstar.test.coxb.redsimpt");
-        getCoxbGenModel()
-                .setCoxbPackageName("com.legstar.test.coxb.redsimpt.bind");
+        getCoxbGenModel().setCoxbPackageName(
+                "com.legstar.test.coxb.redsimpt.bind");
 
         CoxbGenWriter writer = new CoxbGenWriter(getCoxbGenModel(),
                 getOutputFolder());
 
         writer.write(cc);
-        String resStr = getSource(
-                GEN_SRC_DIR,
+        String resStr = getSource(GEN_SRC_DIR,
                 "/com/legstar/test/coxb/redsimpt/bind/CDefinition1ChoiceBinding.java");
 
         assertTrue(resStr
@@ -105,15 +106,14 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
                 .getChildrenList().get(1);
 
         getCoxbGenModel().setJaxbPackageName("com.legstar.test.coxb.arrayssm");
-        getCoxbGenModel()
-                .setCoxbPackageName("com.legstar.test.coxb.arrayssm.bind");
+        getCoxbGenModel().setCoxbPackageName(
+                "com.legstar.test.coxb.arrayssm.bind");
 
         CoxbGenWriter writer = new CoxbGenWriter(getCoxbGenModel(),
                 getOutputFolder());
 
         writer.write(ca);
-        String resStr = getSource(
-                GEN_SRC_DIR,
+        String resStr = getSource(GEN_SRC_DIR,
                 "/com/legstar/test/coxb/arrayssm/bind/TableComplexWrapperBinding.java");
 
         assertTrue(resStr
@@ -137,8 +137,8 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
                 .get(0);
 
         getCoxbGenModel().setJaxbPackageName("com.legstar.test.coxb.redsimpt");
-        getCoxbGenModel()
-                .setCoxbPackageName("com.legstar.test.coxb.redsimpt.bind");
+        getCoxbGenModel().setCoxbPackageName(
+                "com.legstar.test.coxb.redsimpt.bind");
 
         CoxbGenWriter writer = new CoxbGenWriter(getCoxbGenModel(),
                 getOutputFolder());
@@ -170,14 +170,13 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
                         .loadClass("com.legstar.test.coxb.lsfileae.Dfhcommarea"));
 
         getCoxbGenModel().setJaxbPackageName("com.legstar.test.coxb.lsfileae");
-        getCoxbGenModel()
-                .setCoxbPackageName("com.legstar.test.coxb.lsfileae.bind");
+        getCoxbGenModel().setCoxbPackageName(
+                "com.legstar.test.coxb.lsfileae.bind");
 
         CoxbGenWriter writer = new CoxbGenWriter(getCoxbGenModel(),
                 getOutputFolder());
         writer.writeHostToJavaTransformer(ce);
-        String resStr = getSource(
-                GEN_SRC_DIR,
+        String resStr = getSource(GEN_SRC_DIR,
                 "/com/legstar/test/coxb/lsfileae/bind/DfhcommareaHostToJavaTransformer.java");
 
         assertTrue(resStr
@@ -212,14 +211,13 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
                         .loadClass("com.legstar.test.coxb.lsfileae.Dfhcommarea"));
 
         getCoxbGenModel().setJaxbPackageName("com.legstar.test.coxb.lsfileae");
-        getCoxbGenModel()
-                .setCoxbPackageName("com.legstar.test.coxb.lsfileae.bind");
+        getCoxbGenModel().setCoxbPackageName(
+                "com.legstar.test.coxb.lsfileae.bind");
 
         CoxbGenWriter writer = new CoxbGenWriter(getCoxbGenModel(),
                 getOutputFolder());
         writer.writeJavaToHostTransformer(ce);
-        String resStr = getSource(
-                GEN_SRC_DIR,
+        String resStr = getSource(GEN_SRC_DIR,
                 "/com/legstar/test/coxb/lsfileae/bind/DfhcommareaJavaToHostTransformer.java");
 
         assertTrue(resStr
@@ -254,14 +252,13 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
                         .loadClass("com.legstar.test.coxb.lsfileae.Dfhcommarea"));
 
         getCoxbGenModel().setJaxbPackageName("com.legstar.test.coxb.lsfileae");
-        getCoxbGenModel()
-                .setCoxbPackageName("com.legstar.test.coxb.lsfileae.bind");
+        getCoxbGenModel().setCoxbPackageName(
+                "com.legstar.test.coxb.lsfileae.bind");
 
         CoxbGenWriter writer = new CoxbGenWriter(getCoxbGenModel(),
                 getOutputFolder());
         writer.writeTransformers(ce);
-        String resStr = getSource(
-                GEN_SRC_DIR,
+        String resStr = getSource(GEN_SRC_DIR,
                 "/com/legstar/test/coxb/lsfileae/bind/DfhcommareaTransformers.java");
 
         assertTrue(resStr
@@ -269,11 +266,49 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
         assertTrue(resStr
                 .contains("* Transformer provider for Dfhcommarea java data object."));
         assertTrue(resStr
-                .contains(
-                "public class DfhcommareaTransformers extends AbstractTransformers {"));
+                .contains("public class DfhcommareaTransformers extends AbstractTransformers {"));
         assertTrue(resStr.contains("public DfhcommareaTransformers() {"));
         assertTrue(resStr
                 .contains("super(new DfhcommareaJavaToHostTransformer(),"));
         assertTrue(resStr.contains("new DfhcommareaHostToJavaTransformer());"));
     }
+
+    /**
+     * A choice strategy that is passed as a parameter (rather than in XML
+     * schema).
+     * 
+     * @throws Exception if generation fails
+     */
+    public void testGenChoiceStrategyParameter() throws Exception {
+        com.legstar.test.coxb.redsimpt.ObjectFactory objectFactory = new com.legstar.test.coxb.redsimpt.ObjectFactory();
+
+        CComplexReflectBinding ce = new CComplexReflectBinding(
+                objectFactory,
+                ClassUtil
+                        .loadClass("com.legstar.test.coxb.redsimpt.Dfhcommarea"));
+
+        getCoxbGenModel().addUnmarshalChoiceStrategy(
+                new UnmarshalChoiceStrategy(
+                        "C-DEFINITION-1:another.UnmarshalChoiceStrategy"));
+
+        ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList()
+                .get(0);
+
+        getCoxbGenModel().setJaxbPackageName("com.legstar.test.coxb.redsimpt");
+        getCoxbGenModel().setCoxbPackageName(
+                "com.legstar.test.coxb.redsimpt.bind");
+
+        CoxbGenWriter writer = new CoxbGenWriter(getCoxbGenModel(),
+                getOutputFolder());
+        writer.write(cc);
+        String resStr = getSource(GEN_SRC_DIR,
+                "/another/UnmarshalChoiceStrategy.java");
+        assertTrue(resStr
+                .contains("return choice.getAlternativeByName(\"CDefinition1\");"));
+
+        resStr = getSource(GEN_SRC_DIR,
+                "/com/legstar/test/coxb/redsimpt/bind/CDefinition1ChoiceBinding.java");
+        assertTrue(resStr.contains("\"another.UnmarshalChoiceStrategy\""));
+    }
+
 }

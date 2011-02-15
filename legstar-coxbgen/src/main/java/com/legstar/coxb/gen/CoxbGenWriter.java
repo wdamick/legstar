@@ -22,6 +22,7 @@ import com.legstar.coxb.ICobolArrayComplexBinding;
 import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolComplexBinding;
+import com.legstar.coxb.host.HostException;
 
 /**
  * Encapsulates file management and velocity template generation.
@@ -29,56 +30,43 @@ import com.legstar.coxb.ICobolComplexBinding;
 public class CoxbGenWriter {
 
     /** Velocity template for complex elements. */
-    public static final String COMPLEX_VLC_TEMPLATE =
-            "vlc/coxb-bind-complex.vm";
+    public static final String COMPLEX_VLC_TEMPLATE = "vlc/coxb-bind-complex.vm";
 
     /** Velocity template for choice elements. */
-    public static final String CHOICE_VLC_TEMPLATE =
-            "vlc/coxb-bind-choice.vm";
+    public static final String CHOICE_VLC_TEMPLATE = "vlc/coxb-bind-choice.vm";
 
     /** Velocity template for choice strategy sample. */
-    public static final String CHOICE_STRATEGY_VLC_TEMPLATE =
-            "vlc/coxb-bind-choice-strategy.vm";
+    public static final String CHOICE_STRATEGY_VLC_TEMPLATE = "vlc/coxb-bind-choice-strategy.vm";
 
     /** Velocity template for complex arrays elements. */
-    public static final String COMPLEX_ARRAY_VLC_TEMPLATE =
-            "vlc/coxb-bind-complex-array.vm";
+    public static final String COMPLEX_ARRAY_VLC_TEMPLATE = "vlc/coxb-bind-complex-array.vm";
 
     /** Velocity template for host to java transformer. */
-    public static final String HOST_TO_JAVA_XFORMER_VLC_TEMPLATE =
-            "vlc/coxb-bind-host-to-java-transformer.vm";
+    public static final String HOST_TO_JAVA_XFORMER_VLC_TEMPLATE = "vlc/coxb-bind-host-to-java-transformer.vm";
 
     /** Velocity template for java to host transformer. */
-    public static final String JAVA_TO_HOST_XFORMER_VLC_TEMPLATE =
-            "vlc/coxb-bind-java-to-host-transformer.vm";
+    public static final String JAVA_TO_HOST_XFORMER_VLC_TEMPLATE = "vlc/coxb-bind-java-to-host-transformer.vm";
 
     /** Velocity template for transformer provider. */
-    public static final String HOST_XFORMERS_VLC_TEMPLATE =
-            "vlc/coxb-bind-transformers.vm";
+    public static final String HOST_XFORMERS_VLC_TEMPLATE = "vlc/coxb-bind-transformers.vm";
 
     /** Velocity template for host to XML transformer. */
-    public static final String HOST_TO_XML_XFORMER_VLC_TEMPLATE =
-            "vlc/coxb-bind-host-to-xml-transformer.vm";
+    public static final String HOST_TO_XML_XFORMER_VLC_TEMPLATE = "vlc/coxb-bind-host-to-xml-transformer.vm";
 
     /** Velocity template for xml to host transformer. */
-    public static final String XML_TO_HOST_XFORMER_VLC_TEMPLATE =
-            "vlc/coxb-bind-xml-to-host-transformer.vm";
+    public static final String XML_TO_HOST_XFORMER_VLC_TEMPLATE = "vlc/coxb-bind-xml-to-host-transformer.vm";
 
     /** Velocity template for xml transformer provider. */
-    public static final String HOST_XML_XFORMERS_VLC_TEMPLATE =
-            "vlc/coxb-bind-xml-transformers.vm";
+    public static final String HOST_XML_XFORMERS_VLC_TEMPLATE = "vlc/coxb-bind-xml-transformers.vm";
 
     /** Velocity template for host to JSON transformer. */
-    public static final String HOST_TO_JSON_XFORMER_VLC_TEMPLATE =
-            "vlc/coxb-bind-host-to-json-transformer.vm";
+    public static final String HOST_TO_JSON_XFORMER_VLC_TEMPLATE = "vlc/coxb-bind-host-to-json-transformer.vm";
 
     /** Velocity template for json to host transformer. */
-    public static final String JSON_TO_HOST_XFORMER_VLC_TEMPLATE =
-            "vlc/coxb-bind-json-to-host-transformer.vm";
+    public static final String JSON_TO_HOST_XFORMER_VLC_TEMPLATE = "vlc/coxb-bind-json-to-host-transformer.vm";
 
     /** Velocity template for json transformer provider. */
-    public static final String HOST_JSON_XFORMERS_VLC_TEMPLATE =
-            "vlc/coxb-bind-json-transformers.vm";
+    public static final String HOST_JSON_XFORMERS_VLC_TEMPLATE = "vlc/coxb-bind-json-transformers.vm";
 
     /** A set of methods to simplify the velocity templates. */
     private CodeGenHelper _codeGenHelper;
@@ -93,8 +81,7 @@ public class CoxbGenWriter {
     private File _outputFolder;
 
     /** This generator name. */
-    public static final String BINDING_GENERATOR_NAME =
-            "LegStar Binding generator";
+    public static final String BINDING_GENERATOR_NAME = "LegStar Binding generator";
 
     /**
      * Constructor from an existing directory.
@@ -103,9 +90,8 @@ public class CoxbGenWriter {
      * @param outputFolder where files need to be generated
      * @throws CoxbGenException if velocity engine failed to initialize
      */
-    public CoxbGenWriter(
-            final CoxbGenModel coxbGenModel, final File outputFolder)
-            throws CoxbGenException {
+    public CoxbGenWriter(final CoxbGenModel coxbGenModel,
+            final File outputFolder) throws CoxbGenException {
         _coxbGenModel = coxbGenModel;
         try {
             CodeGenUtil.initVelocity();
@@ -123,10 +109,9 @@ public class CoxbGenWriter {
      * @param ce the binding element
      * @throws CoxbGenException if generation fails
      */
-    public void write(
-            final ICobolComplexBinding ce) throws CoxbGenException {
-        writeGeneric(ce, COMPLEX_VLC_TEMPLATE,
-                _coxbHelper.getCoxbTypeName(ce) + ".java");
+    public void write(final ICobolComplexBinding ce) throws CoxbGenException {
+        writeGeneric(ce, COMPLEX_VLC_TEMPLATE, _coxbHelper.getCoxbTypeName(ce)
+                + ".java");
     }
 
     /**
@@ -135,24 +120,46 @@ public class CoxbGenWriter {
      * @param ce the binding element
      * @throws CoxbGenException if generation fails
      */
-    public void write(
-            final ICobolArrayComplexBinding ce) throws CoxbGenException {
+    public void write(final ICobolArrayComplexBinding ce)
+            throws CoxbGenException {
         writeGeneric(ce, COMPLEX_ARRAY_VLC_TEMPLATE,
                 _coxbHelper.getCoxbTypeName(ce) + ".java");
     }
 
     /**
-     * Produces a binding class for a choice element.
-     * Also generates samples for strategy classes.
+     * Produces a binding class for a choice element. Also generates samples for
+     * strategy classes.
+     * <p/>
+     * The first alternative is bound to the REDEFINED COBOL item. If an
+     * unmarshal strategy was specified for this COBOL item, override strategy
+     * name that was specified in XML schema.
      * 
      * @param ce the binding element
      * @throws CoxbGenException if generation fails
      */
-    public void write(
-            final ICobolChoiceBinding ce) throws CoxbGenException {
+    public void write(final ICobolChoiceBinding ce) throws CoxbGenException {
 
-        writeGeneric(ce, CHOICE_VLC_TEMPLATE,
-                _coxbHelper.getCoxbTypeName(ce) + ".java");
+        if (_coxbGenModel.getUnmarshalChoiceStrategies() != null) {
+            try {
+                ICobolBinding firstAlternative = ce.getAlternativesList()
+                        .get(0);
+                for (UnmarshalChoiceStrategy strategy : _coxbGenModel
+                        .getUnmarshalChoiceStrategies()) {
+                    if (strategy.getRedefinedCobolItem().equals(
+                            firstAlternative.getCobolName())) {
+                        ce.setUnmarshalChoiceStrategyClassName(strategy
+                                .getUnmarshalChoiceStrategyClassName());
+                        break;
+                    }
+                }
+
+            } catch (HostException e) {
+                throw new CoxbGenException(e);
+            }
+        }
+
+        writeGeneric(ce, CHOICE_VLC_TEMPLATE, _coxbHelper.getCoxbTypeName(ce)
+                + ".java");
 
         if (ce.getMarshalChoiceStrategyClassName() != null
                 && ce.getMarshalChoiceStrategyClassName().length() > 0) {
@@ -174,10 +181,10 @@ public class CoxbGenWriter {
      * @param ce the binding element
      * @throws CoxbGenException if generation fails
      */
-    public void writeHostToJavaTransformer(
-            final ICobolComplexBinding ce) throws CoxbGenException {
-        writeGeneric(ce, HOST_TO_JAVA_XFORMER_VLC_TEMPLATE,
-                ce.getJaxbName() + "HostToJavaTransformer.java");
+    public void writeHostToJavaTransformer(final ICobolComplexBinding ce)
+            throws CoxbGenException {
+        writeGeneric(ce, HOST_TO_JAVA_XFORMER_VLC_TEMPLATE, ce.getJaxbName()
+                + "HostToJavaTransformer.java");
     }
 
     /**
@@ -186,10 +193,10 @@ public class CoxbGenWriter {
      * @param ce the binding element
      * @throws CoxbGenException if generation fails
      */
-    public void writeJavaToHostTransformer(
-            final ICobolComplexBinding ce) throws CoxbGenException {
-        writeGeneric(ce, JAVA_TO_HOST_XFORMER_VLC_TEMPLATE,
-                ce.getJaxbName() + "JavaToHostTransformer.java");
+    public void writeJavaToHostTransformer(final ICobolComplexBinding ce)
+            throws CoxbGenException {
+        writeGeneric(ce, JAVA_TO_HOST_XFORMER_VLC_TEMPLATE, ce.getJaxbName()
+                + "JavaToHostTransformer.java");
     }
 
     /**
@@ -198,10 +205,10 @@ public class CoxbGenWriter {
      * @param ce the binding element
      * @throws CoxbGenException if generation fails
      */
-    public void writeTransformers(
-            final ICobolComplexBinding ce) throws CoxbGenException {
-        writeGeneric(ce, HOST_XFORMERS_VLC_TEMPLATE,
-                ce.getJaxbName() + "Transformers.java");
+    public void writeTransformers(final ICobolComplexBinding ce)
+            throws CoxbGenException {
+        writeGeneric(ce, HOST_XFORMERS_VLC_TEMPLATE, ce.getJaxbName()
+                + "Transformers.java");
     }
 
     /**
@@ -210,10 +217,10 @@ public class CoxbGenWriter {
      * @param ce the binding element
      * @throws CoxbGenException if generation fails
      */
-    public void writeHostToXmlTransformer(
-            final ICobolComplexBinding ce) throws CoxbGenException {
-        writeGeneric(ce, HOST_TO_XML_XFORMER_VLC_TEMPLATE,
-                ce.getJaxbName() + "HostToXmlTransformer.java");
+    public void writeHostToXmlTransformer(final ICobolComplexBinding ce)
+            throws CoxbGenException {
+        writeGeneric(ce, HOST_TO_XML_XFORMER_VLC_TEMPLATE, ce.getJaxbName()
+                + "HostToXmlTransformer.java");
     }
 
     /**
@@ -222,10 +229,10 @@ public class CoxbGenWriter {
      * @param ce the binding element
      * @throws CoxbGenException if generation fails
      */
-    public void writeXmlToHostTransformer(
-            final ICobolComplexBinding ce) throws CoxbGenException {
-        writeGeneric(ce, XML_TO_HOST_XFORMER_VLC_TEMPLATE,
-                ce.getJaxbName() + "XmlToHostTransformer.java");
+    public void writeXmlToHostTransformer(final ICobolComplexBinding ce)
+            throws CoxbGenException {
+        writeGeneric(ce, XML_TO_HOST_XFORMER_VLC_TEMPLATE, ce.getJaxbName()
+                + "XmlToHostTransformer.java");
     }
 
     /**
@@ -234,10 +241,10 @@ public class CoxbGenWriter {
      * @param ce the binding element
      * @throws CoxbGenException if generation fails
      */
-    public void writeXmlTransformers(
-            final ICobolComplexBinding ce) throws CoxbGenException {
-        writeGeneric(ce, HOST_XML_XFORMERS_VLC_TEMPLATE,
-                ce.getJaxbName() + "XmlTransformers.java");
+    public void writeXmlTransformers(final ICobolComplexBinding ce)
+            throws CoxbGenException {
+        writeGeneric(ce, HOST_XML_XFORMERS_VLC_TEMPLATE, ce.getJaxbName()
+                + "XmlTransformers.java");
     }
 
     /**
@@ -246,10 +253,10 @@ public class CoxbGenWriter {
      * @param ce the binding element
      * @throws CoxbGenException if generation fails
      */
-    public void writeHostToJsonTransformer(
-            final ICobolComplexBinding ce) throws CoxbGenException {
-        writeGeneric(ce, HOST_TO_JSON_XFORMER_VLC_TEMPLATE,
-                ce.getJaxbName() + "HostToJsonTransformer.java");
+    public void writeHostToJsonTransformer(final ICobolComplexBinding ce)
+            throws CoxbGenException {
+        writeGeneric(ce, HOST_TO_JSON_XFORMER_VLC_TEMPLATE, ce.getJaxbName()
+                + "HostToJsonTransformer.java");
     }
 
     /**
@@ -258,10 +265,10 @@ public class CoxbGenWriter {
      * @param ce the binding element
      * @throws CoxbGenException if generation fails
      */
-    public void writeJsonToHostTransformer(
-            final ICobolComplexBinding ce) throws CoxbGenException {
-        writeGeneric(ce, JSON_TO_HOST_XFORMER_VLC_TEMPLATE,
-                ce.getJaxbName() + "JsonToHostTransformer.java");
+    public void writeJsonToHostTransformer(final ICobolComplexBinding ce)
+            throws CoxbGenException {
+        writeGeneric(ce, JSON_TO_HOST_XFORMER_VLC_TEMPLATE, ce.getJaxbName()
+                + "JsonToHostTransformer.java");
     }
 
     /**
@@ -270,10 +277,10 @@ public class CoxbGenWriter {
      * @param ce the binding element
      * @throws CoxbGenException if generation fails
      */
-    public void writeJsonTransformers(
-            final ICobolComplexBinding ce) throws CoxbGenException {
-        writeGeneric(ce, HOST_JSON_XFORMERS_VLC_TEMPLATE,
-                ce.getJaxbName() + "JsonTransformers.java");
+    public void writeJsonTransformers(final ICobolComplexBinding ce)
+            throws CoxbGenException {
+        writeGeneric(ce, HOST_JSON_XFORMERS_VLC_TEMPLATE, ce.getJaxbName()
+                + "JsonTransformers.java");
     }
 
     /**
@@ -284,18 +291,13 @@ public class CoxbGenWriter {
      * @param fileName the generated file name
      * @throws CoxbGenException if generation fails
      */
-    private void writeGeneric(
-            final ICobolBinding ce,
-            final String template,
+    private void writeGeneric(final ICobolBinding ce, final String template,
             final String fileName) throws CoxbGenException {
         try {
             Map < String, Object > parameters = createParameters(ce);
 
-            CodeGenUtil.processTemplate(
-                    BINDING_GENERATOR_NAME,
-                    template,
-                    "binding", ce,
-                    parameters,
+            CodeGenUtil.processTemplate(BINDING_GENERATOR_NAME, template,
+                    "binding", ce, parameters,
                     CodeGenUtil.getFile(_outputFolder, fileName));
         } catch (CodeGenMakeException e) {
             throw new CoxbGenException(e);
@@ -303,28 +305,28 @@ public class CoxbGenWriter {
     }
 
     /**
-     * Produces a sample choice strategy class for a choice element.
-     * If previous code exists at the target location, the sample gets
-     * an extra extension in order not to overwrite any existing code.
+     * Produces a sample choice strategy class for a choice element. If previous
+     * code exists at the target location, the sample gets an extra extension in
+     * order not to overwrite any existing code.
      * 
      * @param ce the binding element
      * @param strategyType either Unmarshal or Marshal
      * @param strategyClassName a fully qualified class name for the strategy
      * @throws CoxbGenException if generation fails
      */
-    public void writeChoiceStrategy(
-            final ICobolChoiceBinding ce,
-            final String strategyType,
-            final String strategyClassName) throws CoxbGenException {
+    public void writeChoiceStrategy(final ICobolChoiceBinding ce,
+            final String strategyType, final String strategyClassName)
+            throws CoxbGenException {
         try {
             Map < String, Object > parameters = createParameters(ce);
             parameters.put("choice-strategy-type", strategyType);
             parameters.put("choice-strategy-qualified-class-name",
                     strategyClassName);
 
-            String dir = _coxbGenModel.getCoxbSrcDir().getAbsolutePath() + '/'
-                    + CodeGenUtil.relativeLocation(
-                            _codeGenHelper.getPackageName(strategyClassName,
+            String dir = _coxbGenModel.getCoxbSrcDir().getAbsolutePath()
+                    + '/'
+                    + CodeGenUtil.relativeLocation(_codeGenHelper
+                            .getPackageName(strategyClassName,
                                     _coxbGenModel.getCoxbPackageName()));
             CodeGenUtil.checkDirectory(dir, true);
 
@@ -337,11 +339,8 @@ public class CoxbGenWriter {
                                 + ".java.new");
             }
 
-            CodeGenUtil.processTemplate(
-                    BINDING_GENERATOR_NAME,
-                    CHOICE_STRATEGY_VLC_TEMPLATE,
-                    "binding", ce,
-                    parameters,
+            CodeGenUtil.processTemplate(BINDING_GENERATOR_NAME,
+                    CHOICE_STRATEGY_VLC_TEMPLATE, "binding", ce, parameters,
                     targetFile);
 
         } catch (CodeGenMakeException e) {
@@ -353,10 +352,8 @@ public class CoxbGenWriter {
      * @param binding the binding element being processed
      * @return a set of parameters that velocity templates can use.
      */
-    private Map < String, Object > createParameters(
-            final ICobolBinding binding) {
-        Map < String, Object > parameters =
-                new HashMap < String, Object >();
+    private Map < String, Object > createParameters(final ICobolBinding binding) {
+        Map < String, Object > parameters = new HashMap < String, Object >();
 
         parameters.put("helper", _codeGenHelper);
         parameters.put("coxbContext", _coxbGenModel);

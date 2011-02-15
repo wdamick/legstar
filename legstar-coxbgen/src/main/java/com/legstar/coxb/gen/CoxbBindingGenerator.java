@@ -33,8 +33,8 @@ import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.coxb.util.BindingUtil;
 
 /**
- * This class implements an ant task to generate COXB binding data from
- * JAXB cobol annotated instances. The generated binding code is faster than
+ * This class implements an ant task to generate COXB binding data from JAXB
+ * cobol annotated instances. The generated binding code is faster than
  * alternative reflection methods also available in <code>legstar-coxbrt</code>.
  * Another advantage of binding classes is that they can bind to a different
  * object than the original JAXB object which served to generate it.
@@ -51,8 +51,8 @@ public class CoxbBindingGenerator extends Task {
     private File _outputFolder;
 
     /**
-     * List of jaxb root class names for which we need to generate
-     * binding classes. Beware: this is not reflected in the model.
+     * List of jaxb root class names for which we need to generate binding
+     * classes. Beware: this is not reflected in the model.
      */
     private List < JaxbRootClass > _jaxbRootClasses;
 
@@ -102,16 +102,15 @@ public class CoxbBindingGenerator extends Task {
             for (String jaxbRootClassName : getJaxbRootClassNames()) {
 
                 /* Create an instance of the JAXB root object */
-                Object jaxbRootObject = getRootObject(
-                        jaxbObjectFactory, jaxbRootClassName);
+                Object jaxbRootObject = getRootObject(jaxbObjectFactory,
+                        jaxbRootClassName);
 
                 /* Create a visitor */
-                CoxbGenReflectVisitor visitor =
-                            new CoxbGenReflectVisitor(_coxbGenModel,
-                                    _outputFolder);
+                CoxbGenReflectVisitor visitor = new CoxbGenReflectVisitor(
+                        _coxbGenModel, _outputFolder);
                 /* Bind the root object to a COXB type */
                 CComplexReflectBinding ce = new CComplexReflectBinding(
-                            jaxbObjectFactory, jaxbRootObject);
+                        jaxbObjectFactory, jaxbRootObject);
                 /* Visit COXB type and all subtypes recursively */
                 ce.accept(visitor);
 
@@ -132,20 +131,13 @@ public class CoxbBindingGenerator extends Task {
             }
 
         } catch (HostException e) {
-            _log.error(CoxbGenWriter.BINDING_GENERATOR_NAME
-                        + " failure ",
-                        e);
-            throw (new BuildException(
-                        "HostException " + e.getMessage()));
+            _log.error(CoxbGenWriter.BINDING_GENERATOR_NAME + " failure ", e);
+            throw (new BuildException("HostException " + e.getMessage()));
         } catch (CoxbGenException e) {
-            _log.error(CoxbGenWriter.BINDING_GENERATOR_NAME
-                        + " failure ",
-                        e);
+            _log.error(CoxbGenWriter.BINDING_GENERATOR_NAME + " failure ", e);
             throw new BuildException(e);
         } catch (MalformedURLException e) {
-            _log.error(CoxbGenWriter.BINDING_GENERATOR_NAME
-                    + " failure ",
-                    e);
+            _log.error(CoxbGenWriter.BINDING_GENERATOR_NAME + " failure ", e);
             throw new BuildException(e);
         } finally {
             Thread.currentThread().setContextClassLoader(previousCl);
@@ -164,14 +156,13 @@ public class CoxbBindingGenerator extends Task {
         }
 
         /*
-         * If user did not provide a JAXB package name, we need to get it
-         * from the XML schema annotations.
+         * If user did not provide a JAXB package name, we need to get it from
+         * the XML schema annotations.
          */
-        if (getJaxbPackageName() == null
-                || getJaxbPackageName().length() == 0) {
+        if (getJaxbPackageName() == null || getJaxbPackageName().length() == 0) {
             throw (new BuildException(
-                        "You must specify either a JAXB package name or"
-                                + " an XML schema file name"));
+                    "You must specify either a JAXB package name or"
+                            + " an XML schema file name"));
         }
 
         if (getTargetDir() == null || !getTargetDir().exists()) {
@@ -212,8 +203,8 @@ public class CoxbBindingGenerator extends Task {
             File outputFolder = coxbGenModel.getCoxbSrcDir();
             if (coxbGenModel.getCoxbPackageName() != null) {
                 outputFolder = new File(coxbGenModel.getCoxbSrcDir(),
-                        CodeGenUtil.relativeLocation(
-                                coxbGenModel.getCoxbPackageName()));
+                        CodeGenUtil.relativeLocation(coxbGenModel
+                                .getCoxbPackageName()));
             }
             CodeGenUtil.checkDirectory(outputFolder, true);
             if (coxbGenModel.getCoxbPackageName() != null) {
@@ -227,20 +218,18 @@ public class CoxbBindingGenerator extends Task {
 
     /**
      * Loads the object factory class using the current class loader assuming
-     * the JAXB classes are available in the current classpath and returns a
-     * new instance of it.
+     * the JAXB classes are available in the current classpath and returns a new
+     * instance of it.
      * 
      * @param packageName the package containing a JAXB Object Factory
      * @return a JAXB Object factory
      */
-    protected Object getObjectFactory(
-            final String packageName) {
+    protected Object getObjectFactory(final String packageName) {
 
         Object jaxbObjectFactory = null;
 
         if (packageName == null || packageName.length() == 0) {
-            throw (new BuildException(
-                    "You must provide a JAXB package name."));
+            throw (new BuildException("You must provide a JAXB package name."));
         }
 
         try {
@@ -263,20 +252,17 @@ public class CoxbBindingGenerator extends Task {
      * @param rootObjectName the JAXB root object name (non qualified)
      * @return an instance of the JAXB root object
      */
-    protected Object getRootObject(
-            final Object jaxbObjectFactory,
+    protected Object getRootObject(final Object jaxbObjectFactory,
             final String rootObjectName) {
 
         Object jaxbRootObject = null;
 
         if (jaxbObjectFactory == null) {
-            throw (new BuildException(
-                    "You must provide a JAXB object factory."));
+            throw (new BuildException("You must provide a JAXB object factory."));
         }
 
         if (rootObjectName == null || rootObjectName.length() == 0) {
-            throw (new BuildException(
-                    "You must provide a JAXB object name."));
+            throw (new BuildException("You must provide a JAXB object name."));
         }
 
         try {
@@ -285,37 +271,32 @@ public class CoxbBindingGenerator extends Task {
             jaxbRootObject = creator.invoke(jaxbObjectFactory);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-            throw (new BuildException(
-                    "IllegalAccessException " + e.getMessage()
-                            + " rootObjectName=" + rootObjectName));
+            throw (new BuildException("IllegalAccessException "
+                    + e.getMessage() + " rootObjectName=" + rootObjectName));
         } catch (SecurityException e) {
             e.printStackTrace();
-            throw (new BuildException(
-                    "SecurityException " + e.getMessage()
-                            + " rootObjectName=" + rootObjectName));
+            throw (new BuildException("SecurityException " + e.getMessage()
+                    + " rootObjectName=" + rootObjectName));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
-            throw (new BuildException(
-                    "NoSuchMethodException " + e.getMessage()
-                            + " rootObjectName=" + rootObjectName));
+            throw (new BuildException("NoSuchMethodException " + e.getMessage()
+                    + " rootObjectName=" + rootObjectName));
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
-            throw (new BuildException(
-                    "IllegalArgumentException " + e.getMessage()
-                            + " rootObjectName=" + rootObjectName));
+            throw (new BuildException("IllegalArgumentException "
+                    + e.getMessage() + " rootObjectName=" + rootObjectName));
         } catch (InvocationTargetException e) {
             e.printStackTrace();
-            throw (new BuildException(
-                    "InvocationTargetException " + e.getMessage()
-                            + " rootObjectName=" + rootObjectName));
+            throw (new BuildException("InvocationTargetException "
+                    + e.getMessage() + " rootObjectName=" + rootObjectName));
         }
 
         return jaxbRootObject;
     }
 
     /**
-     * This is an alternative to jaxbRootClassNames used when a
-     * single class is to be bound.
+     * This is an alternative to jaxbRootClassNames used when a single class is
+     * to be bound.
      * 
      * @return Returns the JAXB root class name.
      */
@@ -332,8 +313,7 @@ public class CoxbBindingGenerator extends Task {
      * 
      * @param objectName The JAXB root class name to set.
      */
-    public void setJaxbRootClassName(
-            final String objectName) {
+    public void setJaxbRootClassName(final String objectName) {
         addJaxbRootClass(objectName);
     }
 
@@ -351,8 +331,7 @@ public class CoxbBindingGenerator extends Task {
      * 
      * @param xsdFile the XML schema file to set
      */
-    public void setXsdFile(
-            final File xsdFile) {
+    public void setXsdFile(final File xsdFile) {
         _coxbGenModel.setXsdFile(xsdFile);
     }
 
@@ -375,8 +354,7 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
-     * @deprecated
-     *             Use <code>getJaxbBinDir</code> instead
+     * @deprecated Use <code>getJaxbBinDir</code> instead
      * @return the location where JAXB classes live
      */
     public File getJaxbDir() {
@@ -384,8 +362,7 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
-     * @deprecated
-     *             Use <code>setJaxbBinDir</code> instead
+     * @deprecated Use <code>setJaxbBinDir</code> instead
      * @param jaxbDir the JAXB location to set
      */
     public void setJaxbDir(final File jaxbDir) {
@@ -419,10 +396,8 @@ public class CoxbBindingGenerator extends Task {
         try {
             return _coxbGenModel.getJaxbPackageName();
         } catch (CoxbGenException e) {
-            throw (new BuildException(
-                    "JAXB package name was not provided"
-                            + " and could not be recovered from XML schema file",
-                    e));
+            throw (new BuildException("JAXB package name was not provided"
+                    + " and could not be recovered from XML schema file", e));
         }
     }
 
@@ -444,10 +419,8 @@ public class CoxbBindingGenerator extends Task {
         try {
             return _coxbGenModel.getCoxbPackageName();
         } catch (CoxbGenException e) {
-            throw (new BuildException(
-                    "COXB package name was not provided"
-                            + " and could not be recovered from XML schema file",
-                    e));
+            throw (new BuildException("COXB package name was not provided"
+                    + " and could not be recovered from XML schema file", e));
         }
     }
 
@@ -499,8 +472,8 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
-     * Optional runtime alternative to the Jaxb package name used at
-     * generation time.
+     * Optional runtime alternative to the Jaxb package name used at generation
+     * time.
      * 
      * @return the optional runtime alternative to the Jaxb package name used at
      *         generation time
@@ -510,14 +483,13 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
-     * Optional runtime alternative to the Jaxb package name used at
-     * generation time.
+     * Optional runtime alternative to the Jaxb package name used at generation
+     * time.
      * 
      * @param alternativePackageName the optional runtime alternative to the
      *            Jaxb package name used at generation time
      */
-    public void setAlternativePackageName(
-            final String alternativePackageName) {
+    public void setAlternativePackageName(final String alternativePackageName) {
         _coxbGenModel.setAlternativePackageName(alternativePackageName);
     }
 
@@ -536,8 +508,7 @@ public class CoxbBindingGenerator extends Task {
      * @param targetFactoryName the alternate factory to used rather than the
      *            JAXB one
      */
-    public void setAlternativeFactoryName(
-            final String targetFactoryName) {
+    public void setAlternativeFactoryName(final String targetFactoryName) {
         _coxbGenModel.setAlternativeFactoryName(targetFactoryName);
     }
 
@@ -582,9 +553,9 @@ public class CoxbBindingGenerator extends Task {
     }
 
     /**
-     * Represent a simple inner element for the ant task. This element
-     * holds a jaxb root class name. These elements are useful when there
-     * are more than one jaxb class name to process.
+     * Represent a simple inner element for the ant task. This element holds a
+     * jaxb root class name. These elements are useful when there are more than
+     * one jaxb class name to process.
      */
     public static class JaxbRootClass {
 
@@ -610,4 +581,34 @@ public class CoxbBindingGenerator extends Task {
         }
     }
 
+    /**
+     * Unmarshal choice strategies to inject in generated bindings.
+     * 
+     * @return the unmarshal choice strategies to inject in generated bindings
+     */
+    public List < UnmarshalChoiceStrategy > getUnmarshalChoiceStrategies() {
+        return _coxbGenModel.getUnmarshalChoiceStrategies();
+    }
+
+    /**
+     * Unmarshal choice strategies to inject in generated bindings.
+     * 
+     * @param _unmarshalChoiceStrategies the unmarshal choice strategies to
+     *            inject in generated bindings to set
+     */
+    public void setUnmarshalChoiceStrategies(
+            List < UnmarshalChoiceStrategy > _unmarshalChoiceStrategies) {
+        _coxbGenModel.setUnmarshalChoiceStrategies(_unmarshalChoiceStrategies);
+    }
+
+    /**
+     * Add a choice strategy to inject in generated bindings.
+     * 
+     * @param unmarshalChoiceStrategy a choice strategy to inject in generated
+     *            bindings
+     */
+    public void addUnmarshalChoiceStrategy(
+            final UnmarshalChoiceStrategy unmarshalChoiceStrategy) {
+        _coxbGenModel.addUnmarshalChoiceStrategy(unmarshalChoiceStrategy);
+    }
 }

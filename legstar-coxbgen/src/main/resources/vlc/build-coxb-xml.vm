@@ -98,6 +98,9 @@
 #foreach ($jaxbRootClassName in $antModel.jaxbRootClassNames)
             <jaxbRootClass name="${jaxbRootClassName}"/>
 #end
+#foreach($unmarshalChoiceStrategy in $antModel.unmarshalChoiceStrategies)
+            <unmarshalChoiceStrategy redefinedCobolItem="${unmarshalChoiceStrategy.redefinedCobolItem}" unmarshalChoiceStrategyClassName="${unmarshalChoiceStrategy.unmarshalChoiceStrategyClassName}"/>
+#end
         </coxbgen>
     </target>
 
