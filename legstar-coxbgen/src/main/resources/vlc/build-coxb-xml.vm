@@ -90,6 +90,8 @@
             coxbPackageName="${antModel.coxbPackageName}"
 #if(${antModel.xmlTransformers})
             xmlTransformers="true"
+#else
+            xmlTransformers="false"
 #end
 #if(${antModel.jsonTransformers})
             jsonTransformers="true"
