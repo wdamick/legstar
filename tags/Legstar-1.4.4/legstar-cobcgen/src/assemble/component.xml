@@ -1,0 +1,12 @@
+<component>
+
+    <files>
+
+        <!-- reference ant scripts  -->
+        <file>
+            <source>${project.basedir}/../legstar-cobcgen/src/main/resources/ant/build-cobc.xml</source>
+            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery</outputDirectory>
+        </file>
+    </files>
+
+</component>

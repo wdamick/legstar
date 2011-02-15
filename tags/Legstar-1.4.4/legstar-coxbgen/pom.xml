@@ -1,0 +1,218 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>Legstar</artifactId>
+        <version>1.4.4</version>
+    </parent>
+    <version>1.4.4</version>
+    <artifactId>legstar-coxbgen</artifactId>
+    <name>LegStar COBOL Binding Generator</name>
+    <description>Generates JAXB classes with COBOL annotations as well as runtime classes.</description>
+    <url>http://www.legsem.com/legstar</url>
+  
+    <dependencies>
+    
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant-launcher</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-codegen</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbapi</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-jaxbgen</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-xjc</artifactId>
+        </dependency>
+ 
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbrt</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-jaxbgen-cases</artifactId>
+            <scope>test</scope>
+        </dependency>
+    
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-xsdcgen-cases</artifactId>
+            <scope>test</scope>
+        </dependency>
+    
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>ant-contrib</groupId>
+            <artifactId>ant-contrib</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+  
+    <build>
+        <plugins>
+
+            <!-- 
+                Assembly generation.
+              -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assemble/distribution.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- append to the packaging phase. -->
+                        <goals>
+                            <goal>attached</goal> <!-- goals == mojos -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+ 
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                
+                    <!-- 
+                        Generates all the coxbgen classes for integration test project coxbgen-cases.
+                      -->
+                    <execution>
+                        <id>prepare-integration-tests</id>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <path id="classpath">
+                                    <path refid="maven.compile.classpath" />
+                                    <path refid="maven.test.classpath" />
+                                </path>
+                                <ant antfile="${basedir}/src/test/ant/build-coxbgen-cases.xml" inheritRefs="true" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+          
+                    <!-- 
+                        This will check that the distribution file is valid.
+                      -->
+                    <execution>
+                        <id>test-distribution</id>
+                        <phase>integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/test-distribution.xml" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- 
+                        Generate site files that needs automatic update.
+                      -->
+                    <execution>
+                        <id>build-site</id>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/../src/main/ant/gen-download-xml.xml">
+                                    <property name="productID" value="${pom.artifactId}" />
+                                    <property name="productName" value="${pom.name}" />
+                                    <property name="legstarVersion" value="${version}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                </executions>
+            </plugin>
+ 
+            <plugin>
+                <groupId>com.agilejava.docbkx</groupId>
+                <artifactId>docbkx-maven-plugin</artifactId>
+                <executions>
+                    <!--
+                        Produce the site documentation
+                      -->
+                    <execution>
+                        <id>build-site-doc</id>
+                        <goals>
+                            <goal>generate-html</goal>
+                            <goal>generate-pdf</goal>
+                        </goals>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <targetDirectory>target/site</targetDirectory>
+                            <postProcess>
+                                <copy todir="target/site/images">
+                                    <fileset dir="src/docbkx/sections/images">
+                                        <include name="**/*.jpg" />
+                                        <include name="**/*.png" />
+                                    </fileset>
+                                </copy>
+                            </postProcess>
+                        </configuration>
+                    </execution>
+
+                    <!--
+                        Produce a readme file to be included with distribution
+                      -->
+                    <execution>
+                        <id>build-readme</id>
+                        <goals>
+                            <goal>generate-html</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <sourceDirectory>src/site/docbook</sourceDirectory>
+                            <targetDirectory>target/doc</targetDirectory>
+                            <includes>install-instructions.xml</includes>
+                            <chunkedOutput>false</chunkedOutput>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+  
+</project>

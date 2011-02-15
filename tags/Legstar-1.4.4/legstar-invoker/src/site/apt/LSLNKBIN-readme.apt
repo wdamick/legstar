@@ -1,0 +1,30 @@
+CICS LINK library LSLNKBIN
+
+* Overview:
+
+ This C/370 library provides an interface for CICS program linking.
+ 
+ The main method delegates execution to LSLNKCOM or LSLNKCTN depending
+ on the type of CICS program targeted (LSLNKCOM is for COMMAREA and
+ LSLNKCTN is for CONTAINERS).
+ 
+ LSLNKBIN extracts the name of the target program and other parameters
+ from the JSON string of the incoming LegStar message (See LSMSGLIB
+ library).
+  
+ LSLNKBIN uses the LSCOMLOG also part of this delivery.
+ 
+* This program has been tested for:
+
+  - CICS TS 2.3 (6.3.0 Command language translator) and TS 3.1 (6.4.0)
+ 
+  - C/370 for OS/390 V2 R10
+
+* How to use:
+
+ Once LSLNKBIN is compiled in a library available to your CICS
+ region in the RPL list, you might need to define it using RDO
+ (unless programs get autoinstalled).
+
+ LSLNKBIN is not a standalone program.
+ 

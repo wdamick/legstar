@@ -1,0 +1,177 @@
+ -----
+ Release Notes
+ -----
+
+PREREQUISITES:
+
+ You will need CICS TS 2.3 and above (Although it is believed the
+ transport might work for TS 2.2, TS 2.1 and TS 1.3).
+
+ The LegStar CICS programs are written in C370 and require Language
+ Environment (LE).
+
+ Before Chttprt can be used, the mainframe side C370 programs must be installed.
+ The easiest way to do that is to use the common distribution of all
+ LegStar z/OS modules, available {{{../legstar-distribution-zos/index.html}here}}.
+
+ The main C370 program for Chttprt is {{{./LSWEBBIN-readme.html}LSWEBBIN, the CICS
+ Server for HTTP}}. This program uses the following libraries:
+
+ * {{{../legstar-invoker/LSLNKBIN-readme.html}LSLNKBIN CICS LINK library}}
+
+ * {{{../legstar-invoker/LSLNKCOM-readme.html}LSLNKCOM CICS COMMAREA LINK library}}
+
+ * {{{../legstar-invoker/LSLNKCTN-readme.html}LSLNKCTN CICS CONTAINERS LINK library}}
+
+ * {{{../legstar-messaging/LSMSGLIB-readme.html}LSMSGLIB Messaging library}}
+
+ * {{{../legstar-messaging/LSCOMLOG-readme.html}LSCOMLOG Tracing and logging library}}
+
+[]
+
+ Java 1.5+ and ANT 1.6.5+ are both prerequisites for LegStar.
+ Make sure JAVA_HOME and ANT_HOME environment variables are set and that
+ $JAVA_HOME/bin (%JAVA_HOME%/bin on Windows) and $ANT_HOME/bin (%ANT_HOME%/bin on Windows)
+ are both in your system path.
+
+INSTALLING/UNINSTALLING:
+
+ These instructions apply if you are installing from the Chttprt standalone
+ distribution. If you are installing the complete LegStar distribution please
+ refer to {{{../legstar-distribution/install-instructions.html}legstar distribution}}.
+
+ [[1]] Unzip the binary distribution package into the directory of your choice,
+       referred to as <installDir> in the following steps.
+
+   The directory tree should look like this:
+   
++---------------------------------------+
+   <installDir>
+        |---->LICENSE
+        |---->NOTICE
+        |---->README
+        |----><lib>
+                |---->*.jar
+        |----><samples>
+                |----><quickstarts>
+                           |----><chttprt>
+                                    |---->readme.txt
+                                    |---->build.xml
+                                    |---->legstar-invoker-config.xml
+                                    |---->lsfileae.properties
+                                    |----><src>
+                                            |---->**/*.java
+        |----><zos>
+                |----><C370>
+                        |---->*.C
+                        |---->*.H
+                |----><docs>
+                        |---->*-README
+                
++---------------------------------------+
+   
+ [[2]] Install the mainframe C370 programs.
+ 
+ We encourage you to use the common distribution of all LegStar z/OS modules.
+ Instructions on how to install are available
+ {{{../legstar-distribution-zos/install-instructions.html}here}}.
+       
+ If you decide to install the CICS programs from sources, they are available
+ from the zos folder.
+ 
+ The JCLs used by LegStar to compile and link-edit these sources are
+ available from {{{../legstar-distribution-zos}here}}.
+ 
+ Finally each module has some documentation under zos/docs.
+       
+ [[3]] To uninstall, remove the installDir folder and remove mainframe libraries.
+
+CONFIGURING AND RUNNING THE SAMPLE:
+
+ [[1]]  Setup an HTTP Listener:
+
+ You will need a TCPIPSERVICE definition in the CICS region used to
+ service incoming requests. Make sure the TCPIPSERVICE uses the default
+ URM called DFHWBADX. Refer to the "CICS Resource definitions guide" for
+ instructions on how to create the definition (You might also have to
+ add TCPIP=YES in your SIT).
+   
+ This is a typical setting for a TCPIPSERVICE for Chttprt:
+                                                                                
++-------------------------------+
+  OBJECT CHARACTERISTICS                                    CICS RELEASE = 0630 
+   CEDA  View TCpipservice( HTTPNSEC )                                          
+    TCpipservice   : HTTPNSEC                                                   
+    GROup          : LEGSTAR                                                    
+    DEscription    : LegStar - HTTP transport server no security                
+    Urm            : DFHWBADX                                                   
+    POrtnumber     : 03081              1-65535                                 
+    STatus         : Open               Open | Closed                           
+    PROtocol       : Http               Iiop | Http | Eci                       
+    TRansaction    : CWXN                                                       
+    Backlog        : 00001              0-32767                                 
+    TSqprefix      :                                                            
+    Ipaddress      :                                                            
+    SOcketclose    : No                 No | 0-240000 (HHMMSS)                  
+   SECURITY                                                                     
+    SSl            : No                 Yes | No | Clientauth                   
+    Certificate    :                                                            
+    (Mixed Case)                                                                
+ +  PRIvacy        :                    Notsupported | Required | Supported     
+                                                                                
+                                                      SYSID=CICS APPLID=CICS    
+                                                                                
+ PF 1 HELP 2 COM 3 END             6 CRSR 7 SBH 8 SFH 9 MSG 10 SB 11 SF 12 CNCL 
++-------------------------------+
+
+ [[2]] Setup security:
+
+ You can turn on basic authentication at the TCPIPSERVICE definition level.
+ 
+ Although the infrastructure supports SSL, the required parameters have not been
+ exported in the Chttprt configuration file yet.
+
+ [[3]] Setup the invoker configuration:
+
+ The HTTP Transport expects a configuration file such as the
+ {{{./samples/legstar-invoker-config.xml}legstar-invoker-config.xml}} sample
+ provided.
+  
+ The hostConnectionFactory element in the configuration file must be:
+  
++-------------------------------+
+	<hostConnectionfactoryClass>com.legstar.http.client.CicsHttpConnectionFactory</hostConnectionfactoryClass>
++-------------------------------+
+  
+ The relevant endpoint elements for the HTTP Transport in the configuration file are:
+  
+*-----------------+-----------+--------------------------------------------------------------------------------+
+| hostIPAddress   | Mandatory | CICS TCPIP address                                                             |
+*-----------------+-----------+--------------------------------------------------------------------------------+
+| hostIPPort      | Mandatory | CICS Web Support listening TCPIP port                                          |
+*-----------------+-----------+--------------------------------------------------------------------------------+
+| hostURLPath     | Mandatory | A path to the LegStar LSWEBBIN program such as /CICS/CWBA/LSWEBBIN or a URIMAP |
+*-----------------+-----------+--------------------------------------------------------------------------------+
+| hostCharset     | Optional  | A valid character set such as IBM01140                                         |
+*-----------------+-----------+--------------------------------------------------------------------------------+
+| hostUserID      | Optional  | A CICS user ID                                                                 |
+*-----------------+-----------+--------------------------------------------------------------------------------+
+| hostPassword    | Optional  | A CICS password                                                                |
+*-----------------+-----------+--------------------------------------------------------------------------------+
+  
+ Parameters marked as optional must be provided as part of the request Address if they 
+ are not provided in the configuration file.
+  
+ Chttprt does not use the pooling capabilities of HTTPClient. Connection pooling is provided
+ in a transport independent fashion by {{{../legstar-engine}Connection Pooling Engine}}.
+ 
+ [[4]] Run the sample provided:
+ 
+ Type ant in the samples/quickstarts/chttprt folder, this should compile and run the test.
+ Check the output of the ant script.
+
+
+DOCUMENTATION:
+
+ Documentation available at http://www.legsem.com/legstar/legstar-chttprt
+

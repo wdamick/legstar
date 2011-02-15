@@ -1,0 +1,44 @@
+<!-- =================================================================================
+     This script is responsible for generating PDE resources based on
+     Maven properties (versions, etc.).
+ -->
+<project basedir="../../.." default="mavenToPde" name="maven-to-pde">
+
+    <!-- Import the PDE version builder script... -->
+    <import file="${basedir}/../legstar-common-plugin/src/main/ant/prepare-pde-version.xml"/>
+
+    <target name="mavenToPde" depends="preparePdeVersion">
+
+        <!-- Generate the MANIFEST with the correct version and dependency versions -->
+        <echo message="Generating MANIFEST.MF for version=${legstarVersion}"/>
+        <copy todir="${basedir}/META-INF" overwrite="true">
+            <fileset dir="${basedir}/src/main/templates">
+                <include name="MANIFEST.MF.template"/>
+            </fileset>
+            <filterset>
+                <filter token="LEGSTAR-PLUGIN-VERSION" value="${legstarPluginVersion}"/>
+                <filter token="LEGSTAR-VERSION" value="${legstarVersion}"/>
+                <filter token="LEGSTAR-CORE-VERSION" value="${legstarCoreVersion}"/>
+                <filter token="LEGSTAR-COB2XSD-VERSION" value="${legstarCob2XsdVersion}"/>
+            </filterset>
+            <globmapper from="*.template" to="*"/>
+        </copy>
+  
+        <!-- Generate the build.properties with the correct version and dependency versions -->
+        <echo message="Generating build.properties for version=${legstarVersion}"/>
+        <copy todir="${basedir}" overwrite="true">
+            <fileset dir="${basedir}/src/main/templates">
+                <include name="build.properties.template"/>
+            </fileset>
+            <filterset>
+                <filter token="LEGSTAR-PLUGIN-VERSION" value="${legstarPluginVersion}"/>
+                <filter token="LEGSTAR-VERSION" value="${legstarVersion}"/>
+                <filter token="LEGSTAR-CORE-VERSION" value="${legstarCoreVersion}"/>
+                <filter token="LEGSTAR-COB2XSD-VERSION" value="${legstarCob2XsdVersion}"/>
+            </filterset>
+            <globmapper from="*.template" to="*"/>
+        </copy>
+        
+  </target>
+
+</project>

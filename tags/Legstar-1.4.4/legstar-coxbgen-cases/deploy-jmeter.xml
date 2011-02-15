@@ -1,0 +1,23 @@
+<!-- =================================================================================
+     This script deploys the test classes and dependencies to JMeter so that
+     they can be load tested.
+ -->
+<project basedir="." default="deployToJmeter" name="deploy-to-jmeter">
+  
+    <target name="init">
+        <xmlproperty file="${basedir}/pom.xml"/>
+        <property environment="env"/>
+        
+        <!-- Test distribution zip file  -->
+        <property name="zip.file" value="${basedir}/target/${project.artifactId}-${project.version}-test.zip" />
+        <!-- Target location  -->
+        <property name="jmeter.dir" value="${env.JMETER_HOME}/lib/junit" />
+    
+    </target>
+
+    <target name="deployToJmeter" depends="init">
+        <delete dir="${jmeter.dir}" quiet="true"/>
+        <mkdir dir="${jmeter.dir}"/>
+        <unzip src="${zip.file}" dest="${jmeter.dir}"/>
+    </target>
+</project>
