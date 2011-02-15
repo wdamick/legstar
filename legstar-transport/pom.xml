@@ -3,10 +3,10 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.4.4-SNAPSHOT</version>
+        <version>1.4.4</version>
         <relativePath>..</relativePath>
     </parent>
-    <version>1.4.4-SNAPSHOT</version>
+    <version>1.4.4</version>
     <artifactId>legstar-transport</artifactId>
     <packaging>pom</packaging>
     <name>LegStar Transports</name>

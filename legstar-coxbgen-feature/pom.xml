@@ -3,10 +3,10 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>legstar-eclipse-parent</artifactId>
-        <version>1.4.4-SNAPSHOT</version>
+        <version>1.4.4</version>
         <relativePath>../legstar-eclipse-parent</relativePath>
     </parent>
-    <version>1.4.4-SNAPSHOT</version>
+    <version>1.4.4</version>
     <artifactId>legstar-coxbgen-feature</artifactId>
     <packaging>jar</packaging>
     <name>LegStar COBOL Binding Generator Eclipse feature</name>

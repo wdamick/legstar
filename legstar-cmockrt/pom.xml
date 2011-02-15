@@ -3,13 +3,13 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.4.4-SNAPSHOT</version>
+        <version>1.4.4</version>
         <relativePath>..</relativePath>
     </parent>
     <artifactId>legstar-cmockrt</artifactId>
     <packaging>jar</packaging>
     <name>LegStar Mock Adapter Connection</name>
-    <version>1.4.4-SNAPSHOT</version>
+    <version>1.4.4</version>
     <description>Simulates a mainframe connection for adapters</description>
 
    <dependencies>
