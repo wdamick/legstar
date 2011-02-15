@@ -79,15 +79,15 @@ public abstract class AbstractArrayAlphaNumericBinding extends CArrayBinding {
             return;
         }
         if (value instanceof List) {
-            if (((List) value).size() == 0) {
+            if (((List <?>) value).size() == 0) {
                 mList = new ArrayList < String >();
                 return;
             }
             /* We assume all items will have the same type as the first one.
              * The unchecked cast might break at runtime. */
-            Object item = ((List) value).get(0);
+            Object item = ((List <?>) value).get(0);
             if (item instanceof String) {
-                mList = (List) value;
+                mList = (List <String>) value;
                 return;
             }
         }
