@@ -12,31 +12,32 @@ package com.legstar.coxb.gen;
 
 import com.legstar.codegen.CodeGenUtil;
 
-
 /**
  * Test handling of enumeration types.
- *
+ * 
  */
 public class EnumgenTest extends AbstractTestTemplate {
 
-    /** @{inheritDoc}*/
-    public void setUp() {
+    /** @{inheritDoc  */
+    public void setUp() throws Exception {
         super.setUp();
         CodeGenUtil.checkDirectory(GEN_SRC_DIR, true);
     }
 
     /**
      * Check for a successful generation.
+     * 
      * @throws Exception if generation fails
      */
-    public void testGenEnumTypes() throws Exception  {
+    public void testGenEnumTypes() throws Exception {
         CoxbBindingGenerator gen = new CoxbBindingGenerator();
         gen.setJaxbBinDir(JAXB_BIN_DIR);
         gen.setJaxbPackageName("com.legstar.test.coxb.enumvar");
         gen.setJaxbRootClassName("SearchRequestType");
         gen.setTargetDir(GEN_SRC_DIR);
         gen.execute();
-        String srce = getSource(GEN_SRC_DIR, "com/legstar/test/coxb/enumvar/bind/SearchRequestTypeBinding.java");
+        String srce = getSource(GEN_SRC_DIR,
+                "com/legstar/test/coxb/enumvar/bind/SearchRequestTypeBinding.java");
         assertTrue(srce.contains("package com.legstar.test.coxb.enumvar.bind"));
     }
 

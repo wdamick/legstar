@@ -25,8 +25,7 @@ import com.legstar.codegen.CodeGenHelper;
 import com.legstar.codegen.CodeGenUtil;
 
 /**
- * This is code common to all junit tests that exercise the velocity
- * templates.
+ * This is code common to all junit tests that exercise the velocity templates.
  */
 public class AbstractTestTemplate extends TestCase {
 
@@ -67,19 +66,15 @@ public class AbstractTestTemplate extends TestCase {
     private final Log _log = LogFactory.getLog(getClass());
 
     /** @{inheritDoc */
-    public void setUp() {
-        try {
-            CodeGenUtil.initVelocity();
-            mParameters = new HashMap < String, Object >();
-            CodeGenHelper helper = new CodeGenHelper();
-            mParameters.put("helper", helper);
-            mParameters.put("coxbHelper", new CoxbHelper());
-            _coxbGenModel = new CoxbGenModel();
-            _coxbGenModel.setCoxbSrcDir(GEN_SRC_DIR);
+    public void setUp() throws Exception {
+        CodeGenUtil.initVelocity();
+        mParameters = new HashMap < String, Object >();
+        CodeGenHelper helper = new CodeGenHelper();
+        mParameters.put("helper", helper);
+        mParameters.put("coxbHelper", new CoxbHelper());
+        _coxbGenModel = new CoxbGenModel();
+        _coxbGenModel.setCoxbSrcDir(GEN_SRC_DIR);
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**
@@ -89,8 +84,7 @@ public class AbstractTestTemplate extends TestCase {
      * @param srcName the source artifact name
      * @return a string containing the generated source
      */
-    public String getSource(
-            final File srcDir, final String srcName) {
+    public String getSource(final File srcDir, final String srcName) {
         try {
             String source = FileUtils
                     .readFileToString(new File(srcDir, srcName));

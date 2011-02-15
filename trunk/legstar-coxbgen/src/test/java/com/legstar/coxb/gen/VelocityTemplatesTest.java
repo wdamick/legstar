@@ -25,11 +25,10 @@ import com.legstar.coxb.util.ClassUtil;
 public class VelocityTemplatesTest extends AbstractTestTemplate {
 
     /** This generator name. */
-    private static final String BINDING_GENERATOR_NAME =
-            "LegStar Binding generator";
+    private static final String BINDING_GENERATOR_NAME = "LegStar Binding generator";
 
     /** @{inheritDoc */
-    public void setUp() {
+    public void setUp() throws Exception {
         super.setUp();
         CodeGenUtil.checkDirectory(GEN_SRC_DIR, true);
     }
@@ -54,11 +53,8 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         getParameters().put("coxbContext", coxbContext);
         getParameters().put("binding-class-name", "DfhcommareaBinding");
 
-        CodeGenUtil.processTemplate(
-                BINDING_GENERATOR_NAME,
-                "vlc/coxb-bind-complex.vm",
-                "binding", ce,
-                getParameters(),
+        CodeGenUtil.processTemplate(BINDING_GENERATOR_NAME,
+                "vlc/coxb-bind-complex.vm", "binding", ce, getParameters(),
                 CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
         String resStr = getSource(GEN_SRC_DIR, "/test.txt");
@@ -138,11 +134,8 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         getParameters().put("coxbContext", coxbContext);
         getParameters().put("binding-class-name", "DfhcommareaBinding");
 
-        CodeGenUtil.processTemplate(
-                BINDING_GENERATOR_NAME,
-                "vlc/coxb-bind-complex.vm",
-                "binding", ce,
-                getParameters(),
+        CodeGenUtil.processTemplate(BINDING_GENERATOR_NAME,
+                "vlc/coxb-bind-complex.vm", "binding", ce, getParameters(),
                 CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
         String resStr = getSource(GEN_SRC_DIR, "/test.txt");
@@ -215,12 +208,9 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         getParameters().put("coxbContext", coxbContext);
         getParameters().put("binding-class-name", "TableComplexWrapperBinding");
 
-        CodeGenUtil.processTemplate(
-                BINDING_GENERATOR_NAME,
-                "vlc/coxb-bind-complex-array.vm",
-                "binding", ca,
-                getParameters(),
-                CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
+        CodeGenUtil.processTemplate(BINDING_GENERATOR_NAME,
+                "vlc/coxb-bind-complex-array.vm", "binding", ca,
+                getParameters(), CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
         String resStr = getSource(GEN_SRC_DIR, "/test.txt");
         assertTrue(resStr
@@ -270,11 +260,8 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         getParameters().put("coxbContext", coxbContext);
         getParameters().put("binding-class-name", "DfhcommareaBinding");
 
-        CodeGenUtil.processTemplate(
-                BINDING_GENERATOR_NAME,
-                "vlc/coxb-bind-complex.vm",
-                "binding", ce,
-                getParameters(),
+        CodeGenUtil.processTemplate(BINDING_GENERATOR_NAME,
+                "vlc/coxb-bind-complex.vm", "binding", ce, getParameters(),
                 CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
         String resStr = getSource(GEN_SRC_DIR, "/test.txt");
@@ -338,11 +325,8 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         getParameters().put("coxbContext", coxbContext);
         getParameters().put("binding-class-name", "DfhcommareaBinding");
 
-        CodeGenUtil.processTemplate(
-                BINDING_GENERATOR_NAME,
-                "vlc/coxb-bind-complex.vm",
-                "binding", ce,
-                getParameters(),
+        CodeGenUtil.processTemplate(BINDING_GENERATOR_NAME,
+                "vlc/coxb-bind-complex.vm", "binding", ce, getParameters(),
                 CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
         String resStr = getSource(GEN_SRC_DIR, "/test.txt");
@@ -385,11 +369,8 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         getParameters().put("coxbContext", coxbContext);
         getParameters().put("binding-class-name", "CDefinition1ChoiceBinding");
 
-        CodeGenUtil.processTemplate(
-                BINDING_GENERATOR_NAME,
-                "vlc/coxb-bind-choice.vm",
-                "binding", cc,
-                getParameters(),
+        CodeGenUtil.processTemplate(BINDING_GENERATOR_NAME,
+                "vlc/coxb-bind-choice.vm", "binding", cc, getParameters(),
                 CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
         String resStr = getSource(GEN_SRC_DIR, "/test.txt");
@@ -478,12 +459,9 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         getParameters().put("choice-strategy-qualified-class-name",
                 "com.legstar.coxb.cust.redsimpt.ChoiceSelector");
 
-        CodeGenUtil.processTemplate(
-                BINDING_GENERATOR_NAME,
-                "vlc/coxb-bind-choice-strategy.vm",
-                "binding", cc,
-                getParameters(),
-                CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
+        CodeGenUtil.processTemplate(BINDING_GENERATOR_NAME,
+                "vlc/coxb-bind-choice-strategy.vm", "binding", cc,
+                getParameters(), CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
         String resStr = getSource(GEN_SRC_DIR, "/test.txt");
         assertTrue(resStr.contains("package com.legstar.coxb.cust.redsimpt;"));
@@ -521,11 +499,8 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         getParameters().put("coxbContext", coxbContext);
         getParameters().put("binding-class-name", "JvmQueryReplyBinding");
 
-        CodeGenUtil.processTemplate(
-                BINDING_GENERATOR_NAME,
-                "vlc/coxb-bind-complex.vm",
-                "binding", ce,
-                getParameters(),
+        CodeGenUtil.processTemplate(BINDING_GENERATOR_NAME,
+                "vlc/coxb-bind-complex.vm", "binding", ce, getParameters(),
                 CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
         String resStr = getSource(GEN_SRC_DIR, "/test.txt");
@@ -597,12 +572,9 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         getParameters().put("coxbContext", coxbContext);
         getParameters().put("binding-class-name", "DfhcommareaBinding");
 
-        CodeGenUtil.processTemplate(
-                BINDING_GENERATOR_NAME,
-                "vlc/coxb-bind-host-to-java-transformer.vm",
-                "binding", ce,
-                getParameters(),
-                CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
+        CodeGenUtil.processTemplate(BINDING_GENERATOR_NAME,
+                "vlc/coxb-bind-host-to-java-transformer.vm", "binding", ce,
+                getParameters(), CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
         String resStr = getSource(GEN_SRC_DIR, "/test.txt");
         assertTrue(resStr
@@ -643,12 +615,9 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         getParameters().put("coxbContext", coxbContext);
         getParameters().put("binding-class-name", "DfhcommareaBinding");
 
-        CodeGenUtil.processTemplate(
-                BINDING_GENERATOR_NAME,
-                "vlc/coxb-bind-java-to-host-transformer.vm",
-                "binding", ce,
-                getParameters(),
-                CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
+        CodeGenUtil.processTemplate(BINDING_GENERATOR_NAME,
+                "vlc/coxb-bind-java-to-host-transformer.vm", "binding", ce,
+                getParameters(), CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
         String resStr = getSource(GEN_SRC_DIR, "/test.txt");
         assertTrue(resStr
@@ -677,8 +646,7 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
 
         com.legstar.test.coxb.varar021.ObjectFactory objectFactory = new com.legstar.test.coxb.varar021.ObjectFactory();
 
-        CComplexReflectBinding ce = new CComplexReflectBinding(
-                objectFactory,
+        CComplexReflectBinding ce = new CComplexReflectBinding(objectFactory,
                 ClassUtil.loadClass("com.legstar.test.coxb.varar021.Payload"));
 
         CoxbGenModel coxbContext = new CoxbGenModel();
@@ -687,11 +655,8 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         getParameters().put("coxbContext", coxbContext);
         getParameters().put("binding-class-name", "PayloadBinding");
 
-        CodeGenUtil.processTemplate(
-                BINDING_GENERATOR_NAME,
-                "vlc/coxb-bind-complex.vm",
-                "binding", ce,
-                getParameters(),
+        CodeGenUtil.processTemplate(BINDING_GENERATOR_NAME,
+                "vlc/coxb-bind-complex.vm", "binding", ce, getParameters(),
                 CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
         String resStr = getSource(GEN_SRC_DIR, "/test.txt");
@@ -791,12 +756,9 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         getParameters().put("coxbContext", coxbContext);
         getParameters().put("binding-class-name", "DfhcommareaBinding");
 
-        CodeGenUtil.processTemplate(
-                BINDING_GENERATOR_NAME,
-                CoxbGenWriter.HOST_XFORMERS_VLC_TEMPLATE,
-                "binding", ce,
-                getParameters(),
-                CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
+        CodeGenUtil.processTemplate(BINDING_GENERATOR_NAME,
+                CoxbGenWriter.HOST_XFORMERS_VLC_TEMPLATE, "binding", ce,
+                getParameters(), CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
         String resStr = getSource(GEN_SRC_DIR, "/test.txt");
         assertTrue(resStr
@@ -806,8 +768,7 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr
                 .contains("* Transformer provider for Dfhcommarea java data object."));
         assertTrue(resStr
-                .contains(
-                "public class DfhcommareaTransformers extends AbstractTransformers {"));
+                .contains("public class DfhcommareaTransformers extends AbstractTransformers {"));
         assertTrue(resStr.contains("public DfhcommareaTransformers() {"));
         assertTrue(resStr
                 .contains("super(new DfhcommareaJavaToHostTransformer(),"));
@@ -846,12 +807,9 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         getParameters().put("coxbContext", coxbContext);
         getParameters().put("binding-class-name", "JvmQueryReplyBinding");
 
-        CodeGenUtil.processTemplate(
-                BINDING_GENERATOR_NAME,
-                CoxbGenWriter.HOST_XFORMERS_VLC_TEMPLATE,
-                "binding", ce,
-                getParameters(),
-                CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
+        CodeGenUtil.processTemplate(BINDING_GENERATOR_NAME,
+                CoxbGenWriter.HOST_XFORMERS_VLC_TEMPLATE, "binding", ce,
+                getParameters(), CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
         String resStr = getSource(GEN_SRC_DIR, "/test.txt");
         assertTrue(resStr
@@ -861,8 +819,7 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
         assertTrue(resStr
                 .contains("* Transformer provider for JVMQueryReply java data object."));
         assertTrue(resStr
-                .contains(
-                "public class JvmQueryReplyTransformers extends AbstractTransformers {"));
+                .contains("public class JvmQueryReplyTransformers extends AbstractTransformers {"));
         assertTrue(resStr.contains("public JvmQueryReplyTransformers() {"));
         assertTrue(resStr
                 .contains("super(new JvmQueryReplyJavaToHostTransformer(),"));
@@ -883,8 +840,7 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
      */
     public void testHostToXmlTransformer() {
         try {
-            com.legstar.test.coxb.alltypes.ObjectFactory objectFactory =
-                    new com.legstar.test.coxb.alltypes.ObjectFactory();
+            com.legstar.test.coxb.alltypes.ObjectFactory objectFactory = new com.legstar.test.coxb.alltypes.ObjectFactory();
 
             CComplexReflectBinding ce = new CComplexReflectBinding(
                     objectFactory,
@@ -898,17 +854,14 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
             getParameters().put("coxbContext", coxbContext);
             getParameters().put("binding-class-name", "DfhcommareaBinding");
 
-            CodeGenUtil.processTemplate(
-                    BINDING_GENERATOR_NAME,
-                    CoxbGenWriter.HOST_TO_XML_XFORMER_VLC_TEMPLATE,
-                    "binding", ce,
-                    getParameters(),
+            CodeGenUtil.processTemplate(BINDING_GENERATOR_NAME,
+                    CoxbGenWriter.HOST_TO_XML_XFORMER_VLC_TEMPLATE, "binding",
+                    ce, getParameters(),
                     CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
             String resStr = getSource(GEN_SRC_DIR, "/test.txt");
             assertTrue(resStr
-                    .contains(
-                    "public class DfhcommareaHostToXmlTransformer extends AbstractHostToXmlTransformer {"));
+                    .contains("public class DfhcommareaHostToXmlTransformer extends AbstractHostToXmlTransformer {"));
             assertTrue(resStr
                     .contains("public DfhcommareaHostToXmlTransformer() throws HostTransformException {"));
             assertTrue(resStr
@@ -943,8 +896,7 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
      */
     public void testXmlToHostTransformer() {
         try {
-            com.legstar.test.coxb.alltypes.ObjectFactory objectFactory =
-                    new com.legstar.test.coxb.alltypes.ObjectFactory();
+            com.legstar.test.coxb.alltypes.ObjectFactory objectFactory = new com.legstar.test.coxb.alltypes.ObjectFactory();
 
             CComplexReflectBinding ce = new CComplexReflectBinding(
                     objectFactory,
@@ -958,17 +910,14 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
             getParameters().put("coxbContext", coxbContext);
             getParameters().put("binding-class-name", "DfhcommareaBinding");
 
-            CodeGenUtil.processTemplate(
-                    BINDING_GENERATOR_NAME,
-                    CoxbGenWriter.XML_TO_HOST_XFORMER_VLC_TEMPLATE,
-                    "binding", ce,
-                    getParameters(),
+            CodeGenUtil.processTemplate(BINDING_GENERATOR_NAME,
+                    CoxbGenWriter.XML_TO_HOST_XFORMER_VLC_TEMPLATE, "binding",
+                    ce, getParameters(),
                     CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
             String resStr = getSource(GEN_SRC_DIR, "/test.txt");
             assertTrue(resStr
-                    .contains(
-                    "public class DfhcommareaXmlToHostTransformer extends AbstractXmlToHostTransformer {"));
+                    .contains("public class DfhcommareaXmlToHostTransformer extends AbstractXmlToHostTransformer {"));
             assertTrue(resStr
                     .contains("public DfhcommareaXmlToHostTransformer() throws HostTransformException {"));
             assertTrue(resStr
@@ -999,8 +948,7 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
      */
     public void testXmlTransformers() {
         try {
-            com.legstar.test.coxb.alltypes.ObjectFactory objectFactory =
-                    new com.legstar.test.coxb.alltypes.ObjectFactory();
+            com.legstar.test.coxb.alltypes.ObjectFactory objectFactory = new com.legstar.test.coxb.alltypes.ObjectFactory();
 
             CComplexReflectBinding ce = new CComplexReflectBinding(
                     objectFactory,
@@ -1014,17 +962,14 @@ public class VelocityTemplatesTest extends AbstractTestTemplate {
             getParameters().put("coxbContext", coxbContext);
             getParameters().put("binding-class-name", "DfhcommareaBinding");
 
-            CodeGenUtil.processTemplate(
-                    BINDING_GENERATOR_NAME,
-                    CoxbGenWriter.HOST_XML_XFORMERS_VLC_TEMPLATE,
-                    "binding", ce,
-                    getParameters(),
+            CodeGenUtil.processTemplate(BINDING_GENERATOR_NAME,
+                    CoxbGenWriter.HOST_XML_XFORMERS_VLC_TEMPLATE, "binding",
+                    ce, getParameters(),
                     CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
 
             String resStr = getSource(GEN_SRC_DIR, "/test.txt");
             assertTrue(resStr
-                    .contains(
-                    "public class DfhcommareaXmlTransformers extends AbstractXmlTransformers {"));
+                    .contains("public class DfhcommareaXmlTransformers extends AbstractXmlTransformers {"));
             assertTrue(resStr
                     .contains("public DfhcommareaXmlTransformers() throws HostTransformException {"));
             assertTrue(resStr

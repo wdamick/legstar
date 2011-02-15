@@ -31,23 +31,20 @@ import com.legstar.coxb.util.NameUtil;
 import com.legstar.jaxb.gen.JaxbGenModel;
 
 /**
- * A model usable for Binding classes generation.
- * Groups all the data needed to generate a set of binding classes and
- * an intermediary set of jaxb classes from a COBOL-annotated XML schema.
- * Gathers all parameters that are needed during the lifetime of the generation
- * process. This allows more parameters to be added without too much impact on
- * other classes.
+ * A model usable for Binding classes generation. Groups all the data needed to
+ * generate a set of binding classes and an intermediary set of jaxb classes
+ * from a COBOL-annotated XML schema. Gathers all parameters that are needed
+ * during the lifetime of the generation process. This allows more parameters to
+ * be added without too much impact on other classes.
  * 
  */
 public class CoxbGenModel extends AbstractAntBuildModel {
 
     /** This generator name. */
-    public static final String COXB_GENERATOR_NAME =
-            "LegStar Binding generator";
+    public static final String COXB_GENERATOR_NAME = "LegStar Binding generator";
 
     /** This velocity template. */
-    public static final String COXB_VELOCITY_MACRO_NAME =
-            "vlc/build-coxb-xml.vm";
+    public static final String COXB_VELOCITY_MACRO_NAME = "vlc/build-coxb-xml.vm";
 
     /** The additional package level for generated binding classes. */
     private static final String COXB_PACKAGE_SUFFIX = "bind";
@@ -124,6 +121,9 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /** COXB binaries directory. */
     public static final String COXB_COXBBINDIR = "coxbBinDir";
 
+    /** Unmarshal choice strategies. */
+    public static final String COXB_UNMARSHAL_CHOICE_STRATEGIES = "unmarshalChoiceStrategies";
+
     /* ====================================================================== */
     /* Following are this class fields that are persistent. = */
     /* ====================================================================== */
@@ -162,9 +162,9 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     private List < String > _jaxbRootClassNames;
 
     /**
-     * The location where JAXB classes sources live.
-     * This is not strictly needed for binding generation but is useful
-     * when this model is also used for JAXB classes generation.
+     * The location where JAXB classes sources live. This is not strictly needed
+     * for binding generation but is useful when this model is also used for
+     * JAXB classes generation.
      */
     private File _jaxbSrcDir;
 
@@ -176,6 +176,9 @@ public class CoxbGenModel extends AbstractAntBuildModel {
 
     /** The target directory where binary files will be created. */
     private File _coxbBinDir;
+
+    /** A list of unmarshal choice strategies to inject in generated bindings. */
+    private List < UnmarshalChoiceStrategy > _unmarshalChoiceStrategies;
 
     /* ====================================================================== */
     /* Following are this class fields that are transient. = */
@@ -219,15 +222,15 @@ public class CoxbGenModel extends AbstractAntBuildModel {
         setJaxbBinDir(getFile(props, COXB_JAXBBINDIR, null));
         setCoxbSrcDir(getFile(props, COXB_COXBSRCDIR, null));
         setCoxbBinDir(getFile(props, COXB_COXBBINDIR, null));
+        setUnmarshalChoiceStrategies(toUnmarshalChoiceStrategies(getStringList(
+                props, COXB_UNMARSHAL_CHOICE_STRATEGIES, null)));
     }
 
     /**
      * Creates an ant build script file ready for binding generation.
      * 
-     * @param scriptFile
-     *            the script file that must be created
-     * @throws CodeGenMakeException
-     *             if generation fails
+     * @param scriptFile the script file that must be created
+     * @throws CodeGenMakeException if generation fails
      */
     public void generateBuild(final File scriptFile)
             throws CodeGenMakeException {
@@ -240,8 +243,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      * 
      * @param className The JAXB root class name to set.
      */
-    public void addJaxbRootClassName(
-            final String className) {
+    public void addJaxbRootClassName(final String className) {
         if (_jaxbRootClassNames == null) {
             _jaxbRootClassNames = new ArrayList < String >();
         }
@@ -260,8 +262,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     /**
      * @param xsdFile the XML schema file to set
      */
-    public void setXsdFile(
-            final File xsdFile) {
+    public void setXsdFile(final File xsdFile) {
         _xsdFile = xsdFile;
     }
 
@@ -431,8 +432,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      * @param alternativePackageName the optional runtime alternative to the
      *            Jaxb package name used at generation time
      */
-    public void setAlternativePackageName(
-            final String alternativePackageName) {
+    public void setAlternativePackageName(final String alternativePackageName) {
         _alternativePackageName = alternativePackageName;
     }
 
@@ -447,14 +447,13 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      * @param targetFactoryName the alternate factory to used rather than the
      *            JAXB one
      */
-    public void setAlternativeFactoryName(
-            final String targetFactoryName) {
+    public void setAlternativeFactoryName(final String targetFactoryName) {
         _alternativeFactoryName = targetFactoryName;
     }
 
     /**
-     * This is not strictly needed for binding generation but is useful
-     * when this model is also used for JAXB classes generation.
+     * This is not strictly needed for binding generation but is useful when
+     * this model is also used for JAXB classes generation.
      * 
      * @return the location where JAXB classes sources live
      */
@@ -480,8 +479,7 @@ public class CoxbGenModel extends AbstractAntBuildModel {
      * @param jaxbRootClassNames the set of Jaxb root class names to generated
      *            binding classes for to set
      */
-    public void setJaxbRootClassNames(
-            final List < String > jaxbRootClassNames) {
+    public void setJaxbRootClassNames(final List < String > jaxbRootClassNames) {
         _jaxbRootClassNames = jaxbRootClassNames;
     }
 
@@ -552,11 +550,44 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     }
 
     /**
-     * @param compileTransformers true if transformers compilation is
-     *            turned on
+     * @param compileTransformers true if transformers compilation is turned on
      */
     public void setCompileTransformers(final boolean compileTransformers) {
         _compileTransformers = compileTransformers;
+    }
+
+    /**
+     * Unmarshal choice strategies to inject in generated bindings.
+     * 
+     * @return the unmarshal choice strategies to inject in generated bindings
+     */
+    public List < UnmarshalChoiceStrategy > getUnmarshalChoiceStrategies() {
+        return _unmarshalChoiceStrategies;
+    }
+
+    /**
+     * Unmarshal choice strategies to inject in generated bindings.
+     * 
+     * @param unmarshalChoiceStrategies the unmarshal choice strategies to
+     *            inject in generated bindings to set
+     */
+    public void setUnmarshalChoiceStrategies(
+            List < UnmarshalChoiceStrategy > unmarshalChoiceStrategies) {
+        this._unmarshalChoiceStrategies = unmarshalChoiceStrategies;
+    }
+
+    /**
+     * Add a choice strategy to inject in generated bindings.
+     * 
+     * @param unmarshalChoiceStrategy a choice strategy to inject in generated
+     *            bindings
+     */
+    public void addUnmarshalChoiceStrategy(
+            final UnmarshalChoiceStrategy unmarshalChoiceStrategy) {
+        if (_unmarshalChoiceStrategies == null) {
+            _unmarshalChoiceStrategies = new ArrayList < UnmarshalChoiceStrategy >();
+        }
+        _unmarshalChoiceStrategies.add(unmarshalChoiceStrategy);
     }
 
     /**
@@ -582,25 +613,22 @@ public class CoxbGenModel extends AbstractAntBuildModel {
                 return DEFAULT_JAXB_PACKAGENAME;
             }
             String targetNamespace = ((Element) listOfElements.item(0))
-                    .getAttribute(
-                    XSD_TARGETNAMESPACE_ATTR);
+                    .getAttribute(XSD_TARGETNAMESPACE_ATTR);
             if (targetNamespace == null || targetNamespace.length() == 0) {
                 return DEFAULT_JAXB_PACKAGENAME;
             }
             return NameUtil.toPackageName(targetNamespace);
 
         } catch (SAXException e) {
-            throw (new CoxbGenException(
-                    "SAXException " + e.getMessage()));
+            throw (new CoxbGenException("SAXException " + e.getMessage()));
         } catch (IOException e) {
-            throw (new CoxbGenException(
-                    "IOException " + e.getMessage()));
+            throw (new CoxbGenException("IOException " + e.getMessage()));
         }
     }
 
     /**
-     * Turn the JAXB package name into an include statement that we can used
-     * as an includes property for a javac ant step.
+     * Turn the JAXB package name into an include statement that we can used as
+     * an includes property for a javac ant step.
      * 
      * @return an include statement for javac
      * @throws CoxbGenException if JAXB pacakge name does not exist
@@ -624,8 +652,8 @@ public class CoxbGenModel extends AbstractAntBuildModel {
         if (_docBuilder == null) {
 
             try {
-                DocumentBuilderFactory docBuilderFactory =
-                        DocumentBuilderFactory.newInstance();
+                DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
+                        .newInstance();
                 docBuilderFactory.setNamespaceAware(true);
                 _docBuilder = docBuilderFactory.newDocumentBuilder();
             } catch (ParserConfigurationException e) {
@@ -659,7 +687,48 @@ public class CoxbGenModel extends AbstractAntBuildModel {
         putFile(props, COXB_JAXBBINDIR, getJaxbBinDir());
         putFile(props, COXB_COXBSRCDIR, getCoxbSrcDir());
         putFile(props, COXB_COXBBINDIR, getCoxbBinDir());
+        putStringList(props, COXB_UNMARSHAL_CHOICE_STRATEGIES,
+                toStringList(getUnmarshalChoiceStrategies()));
         return props;
+    }
+
+    /**
+     * Helper to serialize the list unmarshal choice strategies to a properties
+     * file.
+     * 
+     * @param unmarshalChoiceStrategies the list of unmarshal choice strategies
+     * @return a list of strings
+     */
+    protected List < String > toStringList(
+            List < UnmarshalChoiceStrategy > unmarshalChoiceStrategies) {
+        List < String > stringList = new ArrayList < String >();
+        if (unmarshalChoiceStrategies != null) {
+            for (UnmarshalChoiceStrategy unmarshalChoiceStrategy : unmarshalChoiceStrategies) {
+                stringList.add(unmarshalChoiceStrategy.toString());
+            }
+        }
+        return stringList;
+    }
+
+    /**
+     * Helper to deserialize a list of unmarshal choice strategies from a
+     * properties file.
+     * 
+     * @param stringList a list of strings
+     * @return a list of unmarshal choice strategies
+     */
+    protected List < UnmarshalChoiceStrategy > toUnmarshalChoiceStrategies(
+            List < String > stringList) {
+        if (stringList != null) {
+            List < UnmarshalChoiceStrategy > unmarshalChoiceStrategies = new ArrayList < UnmarshalChoiceStrategy >();
+            for (String string : stringList) {
+                unmarshalChoiceStrategies.add(new UnmarshalChoiceStrategy(
+                        string));
+            }
+            return unmarshalChoiceStrategies;
+        } else {
+            return null;
+        }
     }
 
 }
