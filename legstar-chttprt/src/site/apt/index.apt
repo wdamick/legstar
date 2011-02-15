@@ -20,7 +20,7 @@ HTTP Transport (Chttprt) overview
   uses an optimized binary content which reduces the HTTP payload to a minimum and 
   avoids any character set translations on the host.
   
-  On the java side, Chttprt is based upon {{{http://jakarta.apache.org/commons/httpclient/}Apache HTTPClient}}.
+  On the java side, Chttprt is based upon {{{http://hc.apache.org/httpcomponents-client-ga/}Apache HTTPClient}}.
   
   For instructions on how to install and configure this transport follow {{{./release-notes.html}this link}}.
   

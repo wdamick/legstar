@@ -30,7 +30,7 @@ WebSphere MQ Transport (Cmqrt) overview
   {{{./LSMQCBIN-readme.html}LSMQCBIN C/370 program}}, which is a flood prevention system.
   This can be used in situations where incoming requests need to be regulated.
   
-  On the java side, Cmqrt uses the standard {{{./http://www-306.ibm.com/software/integration/wmq/}
+  On the java side, Cmqrt uses the standard {{{http://www-306.ibm.com/software/integration/wmq/}
   IBM WebSphere MQ client library}}.
   
   For instructions on how to install and configure this transport follow {{{./release-notes.html}this link}}.

@@ -68,7 +68,7 @@
 </itemizedlist>
 <para>
   For a complete list of options for the jaxws2cixsgen task, you can refer to
-  <ulink url="http://www.legsem.com/legstar/legstar-cixsgen/apidocs/com/legstar/cixs/jaxws/gen/Jaxws2CixsGenerator.html">Jaxws2CixsGenerator</ulink>.
+  <ulink url="http://www.legsem.com/legstar/apidocs/com/legstar/cixs/jaxws/gen/Jaxws2CixsGenerator.html">Jaxws2CixsGenerator</ulink>.
 </para>
 <para>
   After you run the script, you should get a new set of java classes which implement the JAX-WS endpoint.

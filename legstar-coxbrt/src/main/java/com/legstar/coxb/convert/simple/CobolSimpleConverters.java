@@ -62,6 +62,13 @@ public class CobolSimpleConverters implements ICobolConverters {
 
     /**
      * Constructs a simple converters set.
+     */
+    public CobolSimpleConverters() {
+        this(new CobolContext());
+    }
+
+    /**
+     * Constructs a simple converters set.
      * 
      * @param cobolContext current Cobol compiler parameters
      */

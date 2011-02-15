@@ -29,7 +29,7 @@ CICS to Proxy API LSHTTAPI
  
  When writing your client program you will need data descriptions of the
  input and output structures produced by the target web service.
- The {{{../legstar-cobcgen}COBOL Structures Generator}} module generates
+ The {{{../legstar-cobcgen/index.html}COBOL Structures Generator}} module generates
  such data descriptions.
    
 * Limitations:
