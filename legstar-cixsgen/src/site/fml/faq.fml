@@ -56,7 +56,7 @@
        Why am I getting a "java.lang.LinkageError: JAXB 2.0 API is being loaded from the bootstrap classloader, but this RI (...) needs 2.1 API.?
       </question>
       <answer>
-       This issue is discussed <a href="http://www.legsem.com/legstar/phpBB3/viewtopic.php?f=2&amp;t=4">here.</a>
+       This issue is discussed <a href="http://forums.java.net/node/668635">here.</a>
       </answer>
     </faq>
     

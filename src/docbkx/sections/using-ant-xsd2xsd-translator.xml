@@ -40,7 +40,7 @@
 </itemizedlist>
 <para>
   For a complete list of options for the xsdcgen task, you can refer to
-  <ulink url="http://www.legsem.com/legstar/legstar-xsdcgen/apidocs/com/legstar/xsdc/gen/XsdCobolAnnotator.html">XsdCobolAnnotator</ulink>.
+  <ulink url="http://www.legsem.com/legstar/apidocs/com/legstar/xsdc/gen/XsdCobolAnnotator.html">XsdCobolAnnotator</ulink>.
 </para>
 <para>
   After you run the script, you should get a new XML Schema file with the name you specified.

@@ -51,7 +51,7 @@
 </para>
 <para>
   For a complete list of options for the jaxbgen task, you can refer to
-  <ulink url="http://www.legsem.com/legstar/legstar-jaxbgen/apidocs/com/legstar/jaxb/gen/CobolJAXBGenerator.html">CobolJAXBGenerator</ulink>.
+  <ulink url="http://www.legsem.com/legstar/apidocs/com/legstar/jaxb/gen/CobolJAXBGenerator.html">CobolJAXBGenerator</ulink>.
 </para>
 </listitem>
 <listitem>
@@ -76,7 +76,7 @@
 </para>
 <para>
   For a complete list of options for the jaxbgen task, you can refer to
-  <ulink url="http://www.legsem.com/legstar/legstar-coxbgen/apidocs/com/legstar/coxb/gen/CoxbBindingGenerator.html">CoxbBindingGenerator</ulink>.
+  <ulink url="http://www.legsem.com/legstar/apidocs/com/legstar/coxb/gen/CoxbBindingGenerator.html">CoxbBindingGenerator</ulink>.
 </para>
 </listitem>
 </itemizedlist>
