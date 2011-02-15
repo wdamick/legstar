@@ -3,9 +3,9 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>Legstar</artifactId>
-        <version>1.4.4-SNAPSHOT</version>
+        <version>1.4.4</version>
     </parent>
-    <version>1.4.4-SNAPSHOT</version>
+    <version>1.4.4</version>
     <artifactId>legstar-distribution</artifactId>
     <name>LegStar Distribution</name>
     <packaging>pom</packaging>
@@ -52,23 +52,23 @@
                         <phase>package</phase>
                         <configuration>
                             <tasks>
-                                <unjar src="${basedir}/../legstar-c2wsrt/target/legstar-c2wsrt-${version}-sources.jar" dest="${project.build.directory}/sources"/>
-                                <unjar src="${basedir}/../legstar-chttprt/target/legstar-chttprt-${version}-sources.jar" dest="${project.build.directory}/sources"/>
-                                <unjar src="${basedir}/../legstar-cixsgen/target/legstar-cixsgen-${version}-sources.jar" dest="${project.build.directory}/sources"/>
-                                <unjar src="${basedir}/../legstar-cixsgen-model/target/legstar-cixsgen-model-${version}-sources.jar" dest="${project.build.directory}/sources"/>
-                                <unjar src="${basedir}/../legstar-cmockrt/target/legstar-cmockrt-${version}-sources.jar" dest="${project.build.directory}/sources"/>
-                                <unjar src="${basedir}/../legstar-cmqrt/target/legstar-cmqrt-${version}-sources.jar" dest="${project.build.directory}/sources"/>
-                                <unjar src="${basedir}/../legstar-cob2trans/target/legstar-cob2trans-${version}-sources.jar" dest="${project.build.directory}/sources"/>
-                                <unjar src="${basedir}/../legstar-cobcgen/target/legstar-cobcgen-${version}-sources.jar" dest="${project.build.directory}/sources"/>
-                                <unjar src="${basedir}/../legstar-config/target/legstar-config-${version}-sources.jar" dest="${project.build.directory}/sources"/>
-                                <unjar src="${basedir}/../legstar-coxbgen/target/legstar-coxbgen-${version}-sources.jar" dest="${project.build.directory}/sources"/>
-                                <unjar src="${basedir}/../legstar-coxbrt/target/legstar-coxbrt-${version}-sources.jar" dest="${project.build.directory}/sources"/>
-                                <unjar src="${basedir}/../legstar-csokrt/target/legstar-csokrt-${version}-sources.jar" dest="${project.build.directory}/sources"/>
-                                <unjar src="${basedir}/../legstar-engine/target/legstar-engine-${version}-sources.jar" dest="${project.build.directory}/sources"/>
-                                <unjar src="${basedir}/../legstar-invoker/target/legstar-invoker-${version}-sources.jar" dest="${project.build.directory}/sources"/>
-                                <unjar src="${basedir}/../legstar-jaxbgen/target/legstar-jaxbgen-${version}-sources.jar" dest="${project.build.directory}/sources"/>
-                                <unjar src="${basedir}/../legstar-messaging/target/legstar-messaging-${version}-sources.jar" dest="${project.build.directory}/sources"/>
-                                <unjar src="${basedir}/../legstar-xsdcgen/target/legstar-xsdcgen-${version}-sources.jar" dest="${project.build.directory}/sources"/>
+                                <unjar src="${basedir}/../legstar-c2wsrt/target/legstar-c2wsrt-${version}-sources.jar" dest="${project.build.directory}/sources" />
+                                <unjar src="${basedir}/../legstar-chttprt/target/legstar-chttprt-${version}-sources.jar" dest="${project.build.directory}/sources" />
+                                <unjar src="${basedir}/../legstar-cixsgen/target/legstar-cixsgen-${version}-sources.jar" dest="${project.build.directory}/sources" />
+                                <unjar src="${basedir}/../legstar-cixsgen-model/target/legstar-cixsgen-model-${version}-sources.jar" dest="${project.build.directory}/sources" />
+                                <unjar src="${basedir}/../legstar-cmockrt/target/legstar-cmockrt-${version}-sources.jar" dest="${project.build.directory}/sources" />
+                                <unjar src="${basedir}/../legstar-cmqrt/target/legstar-cmqrt-${version}-sources.jar" dest="${project.build.directory}/sources" />
+                                <unjar src="${basedir}/../legstar-cob2trans/target/legstar-cob2trans-${version}-sources.jar" dest="${project.build.directory}/sources" />
+                                <unjar src="${basedir}/../legstar-cobcgen/target/legstar-cobcgen-${version}-sources.jar" dest="${project.build.directory}/sources" />
+                                <unjar src="${basedir}/../legstar-config/target/legstar-config-${version}-sources.jar" dest="${project.build.directory}/sources" />
+                                <unjar src="${basedir}/../legstar-coxbgen/target/legstar-coxbgen-${version}-sources.jar" dest="${project.build.directory}/sources" />
+                                <unjar src="${basedir}/../legstar-coxbrt/target/legstar-coxbrt-${version}-sources.jar" dest="${project.build.directory}/sources" />
+                                <unjar src="${basedir}/../legstar-csokrt/target/legstar-csokrt-${version}-sources.jar" dest="${project.build.directory}/sources" />
+                                <unjar src="${basedir}/../legstar-engine/target/legstar-engine-${version}-sources.jar" dest="${project.build.directory}/sources" />
+                                <unjar src="${basedir}/../legstar-invoker/target/legstar-invoker-${version}-sources.jar" dest="${project.build.directory}/sources" />
+                                <unjar src="${basedir}/../legstar-jaxbgen/target/legstar-jaxbgen-${version}-sources.jar" dest="${project.build.directory}/sources" />
+                                <unjar src="${basedir}/../legstar-messaging/target/legstar-messaging-${version}-sources.jar" dest="${project.build.directory}/sources" />
+                                <unjar src="${basedir}/../legstar-xsdcgen/target/legstar-xsdcgen-${version}-sources.jar" dest="${project.build.directory}/sources" />
                             </tasks>
                         </configuration>
                         <goals>
