@@ -24,63 +24,10 @@
         <plugins>
         
             <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <!--  Build an aggregate of all sources dependencies. -->
-                    <execution>
-                        <id>copy-sources-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>unpack-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <classifier>sources</classifier>
-                            <includeGroupIds>com.legsem.legstar</includeGroupIds>
-                            <outputDirectory>${project.build.directory}/sources</outputDirectory>
-                        </configuration>
-                    </execution>
-
-                </executions>
-            </plugin>
-
-             <!-- Assembly generation plugin.  -->
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId> 
-                <executions>
-
-                    <execution>
-                        <id>assemble-binaries</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>attached</goal>
-                        </goals>
-                        <configuration>
-                            <descriptors>
-                                <descriptor>src/assemble/distribution.xml</descriptor>
-                            </descriptors>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>assemble-sources</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>attached</goal>
-                        </goals>
-                        <configuration>
-                            <descriptors>
-                                <descriptor>src/assemble/distribution-sources.xml</descriptor>
-                            </descriptors>
-                        </configuration>
-                    </execution>
-
-                </executions>
-            </plugin>
-        
-            <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
       
                 <executions>
+
                     <!-- Unzip the cob2xsd distributable to a packaging location.  -->
                     <execution>
                         <id>unzip-cob2xsd</id>
@@ -91,6 +38,37 @@
                                     <property name="maven.localRepository" value="${settings.localRepository}" />
                                     <property name="legstarCob2XsdVersion" value="${legstarCob2XsdVersion}" />
                                 </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- Unpack sources from distributed modules
+                     (unpack-dependencies does not work because of : http://jira.codehaus.org/browse/MDEP-291 .  -->
+                    <execution>
+                        <id>unjar-source</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <tasks>
+                                <unjar src="${basedir}/../legstar-c2wsrt/target/legstar-c2wsrt-${version}-sources.jar" dest="${project.build.directory}/sources"/>
+                                <unjar src="${basedir}/../legstar-chttprt/target/legstar-chttprt-${version}-sources.jar" dest="${project.build.directory}/sources"/>
+                                <unjar src="${basedir}/../legstar-cixsgen/target/legstar-cixsgen-${version}-sources.jar" dest="${project.build.directory}/sources"/>
+                                <unjar src="${basedir}/../legstar-cixsgen-model/target/legstar-cixsgen-model-${version}-sources.jar" dest="${project.build.directory}/sources"/>
+                                <unjar src="${basedir}/../legstar-cmockrt/target/legstar-cmockrt-${version}-sources.jar" dest="${project.build.directory}/sources"/>
+                                <unjar src="${basedir}/../legstar-cmqrt/target/legstar-cmqrt-${version}-sources.jar" dest="${project.build.directory}/sources"/>
+                                <unjar src="${basedir}/../legstar-cob2trans/target/legstar-cob2trans-${version}-sources.jar" dest="${project.build.directory}/sources"/>
+                                <unjar src="${basedir}/../legstar-cobcgen/target/legstar-cobcgen-${version}-sources.jar" dest="${project.build.directory}/sources"/>
+                                <unjar src="${basedir}/../legstar-config/target/legstar-config-${version}-sources.jar" dest="${project.build.directory}/sources"/>
+                                <unjar src="${basedir}/../legstar-coxbgen/target/legstar-coxbgen-${version}-sources.jar" dest="${project.build.directory}/sources"/>
+                                <unjar src="${basedir}/../legstar-coxbrt/target/legstar-coxbrt-${version}-sources.jar" dest="${project.build.directory}/sources"/>
+                                <unjar src="${basedir}/../legstar-csokrt/target/legstar-csokrt-${version}-sources.jar" dest="${project.build.directory}/sources"/>
+                                <unjar src="${basedir}/../legstar-engine/target/legstar-engine-${version}-sources.jar" dest="${project.build.directory}/sources"/>
+                                <unjar src="${basedir}/../legstar-invoker/target/legstar-invoker-${version}-sources.jar" dest="${project.build.directory}/sources"/>
+                                <unjar src="${basedir}/../legstar-jaxbgen/target/legstar-jaxbgen-${version}-sources.jar" dest="${project.build.directory}/sources"/>
+                                <unjar src="${basedir}/../legstar-messaging/target/legstar-messaging-${version}-sources.jar" dest="${project.build.directory}/sources"/>
+                                <unjar src="${basedir}/../legstar-xsdcgen/target/legstar-xsdcgen-${version}-sources.jar" dest="${project.build.directory}/sources"/>
                             </tasks>
                         </configuration>
                         <goals>
@@ -144,6 +122,40 @@
                 </executions>
             </plugin>
 
+             <!-- Assembly generation plugin.  -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId> 
+                <executions>
+
+                    <execution>
+                        <id>assemble-binaries</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attached</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/assemble/distribution.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>assemble-sources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attached</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/assemble/distribution-sources.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+
+                </executions>
+            </plugin>
+        
             <plugin>
                 <groupId>com.agilejava.docbkx</groupId>
                 <artifactId>docbkx-maven-plugin</artifactId>
