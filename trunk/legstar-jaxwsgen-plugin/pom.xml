@@ -3,10 +3,10 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>legstar-eclipse-parent</artifactId>
-        <version>1.4.4</version>
+        <version>1.4.5-SNAPSHOT</version>
         <relativePath>../legstar-eclipse-parent</relativePath>
     </parent>
-    <version>1.4.4</version>
+    <version>1.4.5-SNAPSHOT</version>
     <artifactId>legstar-jaxwsgen-plugin</artifactId>
     <packaging>jar</packaging>
     <name>LegStar JAX-WS Service Generator Eclipse plugin</name>
