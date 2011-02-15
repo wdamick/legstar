@@ -98,7 +98,7 @@
 </itemizedlist>
 <para>
   For a complete list of options for the cixs2jaxwsgen task, you can refer to
-  <ulink url="http://www.legsem.com/legstar/legstar-cixsgen/apidocs/com/legstar/cixs/jaxws/gen/Cixs2JaxwsGenerator.html">Cixs2JaxwsGenerator</ulink>.
+  <ulink url="http://www.legsem.com/legstar/apidocs/com/legstar/cixs/jaxws/gen/Cixs2JaxwsGenerator.html">Cixs2JaxwsGenerator</ulink>.
 </para>
 <para>
   After you run the script, you should a new set artifacts which implement a JAX-WS client.

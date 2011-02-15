@@ -6,7 +6,7 @@ Version 1.4.4
 
  A series of bug fixes in this release.
  
- Also enhancements to the COBOL Transformers aimed at easing Transformers reuse. This is important when mass transformations are performed and the same Transformers aez used over and over again.
+ Also enhancements to the COBOL Transformers aimed at easing Transformers reuse. This is important when mass transformations are performed and the same Transformers are used over and over again.
 
  A {{{http://code.google.com/p/legstar/issues/list?can=1&q=Milestone%3DRelease1.4.4}complete list of changes}} is available.
 
@@ -30,7 +30,7 @@ Version 1.4.1
 
  Although not a major release, there are several important changes in this release.
  
- The primary objective was to provide a new {{{./legstar-cob2trans/apidocs/index.html}legstar-cob2trans}} module that generates
+ The primary objective was to provide a new {{{./apidocs/com/legstar/coxb/cob2trans/package-summary.html}legstar-cob2trans}} module that generates
  transformers from COBOL in a single step. This brings together legstar-cob2xsd,
  legstar-jaxbgen and legstar-coxbgen. This is targeted at third party tools which
  need to imbed LegStar design time features.
@@ -198,7 +198,7 @@ Version 1.2.0
   Eclipse project under a folder that you set in your preferences (default is a
   folder called ant).
   
-  The best description of the new Eclipse plugins is the {{{./pdf/legstar-presentation.pdf}presentation document}}.
+  The best description of the new Eclipse plugins is the {{{./legstar-user-guide.pdf}presentation document}}.
   
   Information on Eclipse plugins installation can be found {{{./legstar-common-plugin/index.html}here}}.
  

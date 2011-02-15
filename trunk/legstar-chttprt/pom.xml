@@ -150,7 +150,7 @@
                                 <ant antfile="${basedir}/../src/main/ant/gen-download-xml.xml">
                                     <property name="productID" value="${pom.artifactId}" />
                                     <property name="productName" value="${pom.name}" />
-                                    <property name="legstarVersion" value="${legstarVersion}" />
+                                    <property name="legstarVersion" value="${version}" />
                                 </ant>
                             </tasks>
                         </configuration>

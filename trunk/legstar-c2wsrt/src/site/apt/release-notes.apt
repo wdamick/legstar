@@ -61,7 +61,7 @@ INSTALLING/UNINSTALLING:
  
  We encourage you to use the common distribution of all LegStar z/OS modules.
  Instructions on how to install are available
- {{{../legstar-distribution-zos/release-notes.html}here}}.
+ {{{../legstar-distribution-zos/install-instructions.html}here}}.
        
  If you decide to install the CICS programs from sources, they are available
  from the zos folder.

@@ -35,11 +35,11 @@
 <title>How to get it</title>
 <para>
   coxbgen is one of the several LegStar modules. As such it is generally easier to download
-  the <ulink url="http://www.legsem.com/legstar/distribution">complete product</ulink>.
+  the <ulink url="http://www.legsem.com/legstar/legstar-distribution">complete product</ulink>.
 </para>
 <para>
   However, if you feel comfortable enough, you can also download a standalone distribution
-  by following <ulink url="http://www.legsem.com/legstar/legstar-coxbgen/target/site/download.htm">this link</ulink>.
+  by following <ulink url="http://www.legsem.com/legstar/legstar-coxbgen/download.html">this link</ulink>.
 </para>
 <para>
   The COBOL Transformers generator can be installed as an Eclipse plugin which
@@ -72,7 +72,7 @@
   providing meta-data to map Java types with COBOL types.
 </para>
 <para>
-  An important class is <ulink url="http://www.legsem.com/legstar/legstar-coxbapi/apidocs/com/legstar/coxb/CobolElement.html">CobolElement</ulink>
+  An important class is <ulink url="http://www.legsem.com/legstar/apidocs/com/legstar/coxb/CobolElement.html">CobolElement</ulink>
   which is a java annotation that represent the mapping between Java properties and a Cobol data elements. 
 </para>
 <para>
