@@ -1,13 +1,11 @@
 package com.legstar.coxb.impl.visitor;
 
-
 import java.math.BigDecimal;
 import java.util.Map;
 
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
-
 
 /**
  * Test FlatCobolUnmarshalVisitor.
@@ -17,6 +15,7 @@ public class FlatCobolUnmarshalVisitorTest extends AbstractVisitorTest {
 
     /**
      * Test with a simple flat structure.
+     * 
      * @throws Exception if test fails
      */
     public void testFlatStructure() throws Exception {
@@ -25,15 +24,17 @@ public class FlatCobolUnmarshalVisitorTest extends AbstractVisitorTest {
         FlatCobolUnmarshalVisitor uv = new FlatCobolUnmarshalVisitor(hostBytes,
                 0, new CobolSimpleConverters());
 
-        CComplexReflectBinding ccem = new CComplexReflectBinding(new Flat01RecordFactory(),
-                Flat01Record.class);
+        CComplexReflectBinding ccem = new CComplexReflectBinding(
+                new Flat01RecordFactory(), Flat01Record.class);
         ccem.accept(uv);
-        assertEquals("{ComNumber=43, ComName=NAME000043, ComAmount=2150.00}", uv.getKeyValues().toString());
+        assertEquals("{ComNumber=43, ComName=NAME000043, ComAmount=2150.00}",
+                uv.getKeyValues().toString());
 
     }
 
     /**
      * Test with a simple array.
+     * 
      * @throws Exception if test fails
      */
     public void testSimpleArray() throws Exception {
@@ -42,17 +43,19 @@ public class FlatCobolUnmarshalVisitorTest extends AbstractVisitorTest {
         FlatCobolUnmarshalVisitor uv = new FlatCobolUnmarshalVisitor(hostBytes,
                 0, new CobolSimpleConverters());
 
-        CComplexReflectBinding ccem = new CComplexReflectBinding(new Flat02RecordFactory(),
-                Flat02Record.class);
+        CComplexReflectBinding ccem = new CComplexReflectBinding(
+                new Flat02RecordFactory(), Flat02Record.class);
         ccem.accept(uv);
-        assertEquals("{ComNumber=62, ComName=NAME000062, ComAmount=3100.00,"
-                + " ComArray_0=62, ComArray_1=31, ComArray_2=20, ComArray_3=15, ComArray_4=12}",
+        assertEquals(
+                "{ComNumber=62, ComName=NAME000062, ComAmount=3100.00,"
+                        + " ComArray_0=62, ComArray_1=31, ComArray_2=20, ComArray_3=15, ComArray_4=12}",
                 uv.getKeyValues().toString());
 
     }
 
     /**
      * Test structure with a complex array.
+     * 
      * @throws Exception if test fails
      */
     public void testComplexArray() throws Exception {
@@ -61,21 +64,22 @@ public class FlatCobolUnmarshalVisitorTest extends AbstractVisitorTest {
         FlatCobolUnmarshalVisitor uv = new FlatCobolUnmarshalVisitor(hostBytes,
                 0, new CobolSimpleConverters());
 
-        CComplexReflectBinding ccem = new CComplexReflectBinding(new Stru03RecordFactory(),
-                Stru03Record.class);
+        CComplexReflectBinding ccem = new CComplexReflectBinding(
+                new Stru03RecordFactory(), Stru03Record.class);
         ccem.accept(uv);
         assertEquals("{ComNumber=62, ComName=NAME000062, ComAmount=3100.00,"
                 + " ComItem1_0=62, ComItem2_0=AB,"
                 + " ComItem1_1=31, ComItem2_1=AB,"
                 + " ComItem1_2=20, ComItem2_2=AB,"
                 + " ComItem1_3=15, ComItem2_3=AB,"
-                + " ComItem1_4=12, ComItem2_4=AB}",
-                uv.getKeyValues().toString());
+                + " ComItem1_4=12, ComItem2_4=AB}", uv.getKeyValues()
+                .toString());
 
     }
 
     /**
      * Test deep hierarchy with complex arrays.
+     * 
      * @throws Exception if test fails
      */
     public void testDeepComplexArray() throws Exception {
@@ -84,8 +88,8 @@ public class FlatCobolUnmarshalVisitorTest extends AbstractVisitorTest {
         FlatCobolUnmarshalVisitor uv = new FlatCobolUnmarshalVisitor(hostBytes,
                 0, new CobolSimpleConverters());
 
-        CComplexReflectBinding ccem = new CComplexReflectBinding(new Stru04RecordFactory(),
-                Stru04Record.class);
+        CComplexReflectBinding ccem = new CComplexReflectBinding(
+                new Stru04RecordFactory(), Stru04Record.class);
         ccem.accept(uv);
         Map < String, Object > values = uv.getKeyValues();
         assertEquals(new BigDecimal("1900.00"), values.get("ComItem1"));
@@ -149,27 +153,28 @@ public class FlatCobolUnmarshalVisitorTest extends AbstractVisitorTest {
 
     /**
      * Test a redefine with 2 alternatives.
+     * 
      * @throws Exception if test fails
      */
     public void testRedefines() throws Exception {
-        
+
         /* First alternative */
         byte[] hostBytes = HostData
                 .toByteArray("00010250000F40404040404000010260000F404040404040");
         FlatCobolUnmarshalVisitor uv = new FlatCobolUnmarshalVisitor(hostBytes,
                 0, new CobolSimpleConverters());
 
-        CComplexReflectBinding ccem = new CComplexReflectBinding(new Rdef01RecordFactory(),
-                Rdef01Record.class);
+        CComplexReflectBinding ccem = new CComplexReflectBinding(
+                new Rdef01RecordFactory(), Rdef01Record.class);
         ccem.accept(uv);
         Map < String, Object > values = uv.getKeyValues();
         assertEquals("{ComSelect=1, ComAmount=2500.00}", values.toString());
-        
+
         /* Second alternative */
         hostBytes = HostData
                 .toByteArray("0000D5C1D4C5F0F0F0F0F0F50000D5C1D4C5F0F0F0F0F2F1");
-        uv = new FlatCobolUnmarshalVisitor(hostBytes,
-                0, new CobolSimpleConverters());
+        uv = new FlatCobolUnmarshalVisitor(hostBytes, 0,
+                new CobolSimpleConverters());
         ccem.accept(uv);
         values = uv.getKeyValues();
         assertEquals("{ComSelect=0, ComName=NAME000005}", values.toString());
@@ -177,31 +182,31 @@ public class FlatCobolUnmarshalVisitorTest extends AbstractVisitorTest {
         /* Another record with first alternative */
         hostBytes = HostData
                 .toByteArray("00010250000F40404040404000010260000F404040404040");
-        uv = new FlatCobolUnmarshalVisitor(hostBytes,
-                0, new CobolSimpleConverters());
+        uv = new FlatCobolUnmarshalVisitor(hostBytes, 0,
+                new CobolSimpleConverters());
         ccem.accept(uv);
         values = uv.getKeyValues();
         assertEquals("{ComSelect=1, ComAmount=2500.00}", values.toString());
-        
+
     }
 
     /**
      * Test with ambiguous names.
+     * 
      * @throws Exception if test fails
      */
     public void testNameConflicts() throws Exception {
-        
-        byte[] hostBytes = HostData
-                .toByteArray("0090000F00040009000DC1C2C3C4");
+
+        byte[] hostBytes = HostData.toByteArray("0090000F00040009000DC1C2C3C4");
         FlatCobolUnmarshalVisitor uv = new FlatCobolUnmarshalVisitor(hostBytes,
                 0, new CobolSimpleConverters());
 
-        CComplexReflectBinding ccem = new CComplexReflectBinding(new Stru05RecordFactory(),
-                Stru05Record.class);
+        CComplexReflectBinding ccem = new CComplexReflectBinding(
+                new Stru05RecordFactory(), Stru05Record.class);
         ccem.accept(uv);
         Map < String, Object > values = uv.getKeyValues();
         assertEquals("{ComItemB=900.00,"
-                + " ComItemC_ComItemB_0=4, ComItemC_ComItemB_1=9, ComItemC_ComItemB_2=13"
+                + " ComItemB_0=4, ComItemB_1=9, ComItemB_2=13"
                 + ", ComItemE_ComItemB=ABCD}", values.toString());
     }
 }

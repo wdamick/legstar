@@ -32,35 +32,44 @@ import com.legstar.coxb.convert.ICobolConverters;
 import com.legstar.coxb.host.HostException;
 
 /**
- * This visitor builds a flat map of key/value pairs while unmarshaling mainframe data.
+ * This visitor builds a flat map of key/value pairs while unmarshaling
+ * mainframe data.
  * <p/>
- *
+ * 
  */
 public class FlatCobolUnmarshalVisitor extends CobolUnmarshalVisitor {
 
     /** Unmarshaler populates this flat ordered map. */
     private Map < String, Object > _keyValues = new LinkedHashMap < String, Object >();
-	
-    /** Contextual suffix to uniquely identify a map entry (used for array items). */
+
+    /**
+     * Contextual suffix to uniquely identify a map entry (used for array
+     * items).
+     */
     private String _suffix = "";
-    
-    /** Contextual prefix to uniquely identify a map entry (used for name conflict resolution) */
+
+    /**
+     * Contextual prefix to uniquely identify a map entry (used for name
+     * conflict resolution)
+     */
     private String _prefix = "";
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
 
-    /** Visitor constructor.
+    /**
+     * Visitor constructor.
+     * 
      * @param hostBytes host buffer used by visitor
      * @param offset offset in host buffer
      * @param cobolConverters set of converters to use for cobol elements
      */
     public FlatCobolUnmarshalVisitor(byte[] hostBytes, int offset,
-			ICobolConverters cobolConverters) {
-		super(hostBytes, offset, cobolConverters);
-	}
+            ICobolConverters cobolConverters) {
+        super(hostBytes, offset, cobolConverters);
+    }
 
-    /** {@inheritDoc}*/
+    /** {@inheritDoc} */
     @Override
     public void visit(ICobolComplexBinding ce) throws HostException {
         String prevPrefix = _prefix;
@@ -69,21 +78,25 @@ public class FlatCobolUnmarshalVisitor extends CobolUnmarshalVisitor {
         _prefix = prevPrefix;
     }
 
-    /** {@inheritDoc}*/
-	@Override
-	public void visit(ICobolArrayComplexBinding ce) throws HostException {
+    /** {@inheritDoc} */
+    @Override
+    public void visit(ICobolArrayComplexBinding ce) throws HostException {
         if (_log.isDebugEnabled()) {
             _log.debug("Unmarshaling started for array of complex bindings "
                     + ce.getBindingName());
         }
-        /* Ask complex array binding to initialize bound array so that it is
-         * ready for unmarshaling. */
+        /*
+         * Ask complex array binding to initialize bound array so that it is
+         * ready for unmarshaling.
+         */
         ce.createValueObject();
 
         String prevSuffix = _suffix;
 
-        /* Visit each item of the array in turn creating a contextual suffix
-         * for each item. */
+        /*
+         * Visit each item of the array in turn creating a contextual suffix for
+         * each item.
+         */
         for (int i = 0; i < ce.getCurrentOccurs(); i++) {
             _suffix = _suffix + "_" + Integer.toString(i);
             ICobolBinding itemDesc = ce.getComplexItemBinding();
@@ -96,169 +109,178 @@ public class FlatCobolUnmarshalVisitor extends CobolUnmarshalVisitor {
             _log.debug("Unmarshaling successful for array of complex bindings "
                     + ce.getBindingName());
         }
-	}
+    }
 
-    /** {@inheritDoc}*/
-	@Override
-	public void visit(ICobolStringBinding ce) throws HostException {
-		super.visit(ce);
-        _keyValues.put(uniqueName(ce.getJaxbName()) + _suffix, ce.getStringValue());
-	}
+    /** {@inheritDoc} */
+    @Override
+    public void visit(ICobolStringBinding ce) throws HostException {
+        super.visit(ce);
+        _keyValues.put(uniqueName(ce.getJaxbName() + _suffix),
+                ce.getStringValue());
+    }
 
-    /** {@inheritDoc}*/
-	@Override
+    /** {@inheritDoc} */
+    @Override
     public void visit(ICobolArrayStringBinding ce) throws HostException {
         super.visit(ce);
-        String uniqueName = uniqueName(ce.getJaxbName());
         for (int i = 0; i < ce.getCurrentOccurs(); i++) {
-            _keyValues.put(uniqueName + _suffix + "_" + Integer.toString(i), ce
+            String newSuffix = _suffix + "_" + Integer.toString(i);
+            _keyValues.put(uniqueName(ce.getJaxbName() + newSuffix), ce
                     .getStringList().get(i));
         }
     }
 
-    /** {@inheritDoc}*/
-	@Override
-	public void visit(ICobolNationalBinding ce) throws HostException {
-		super.visit(ce);
-        _keyValues.put(uniqueName(ce.getJaxbName()) + _suffix, ce.getStringValue());
-	}
+    /** {@inheritDoc} */
+    @Override
+    public void visit(ICobolNationalBinding ce) throws HostException {
+        super.visit(ce);
+        _keyValues.put(uniqueName(ce.getJaxbName() + _suffix),
+                ce.getStringValue());
+    }
 
-    /** {@inheritDoc}*/
-	@Override
-	public void visit(ICobolArrayNationalBinding ce) throws HostException {
-		super.visit(ce);
-        String uniqueName = uniqueName(ce.getJaxbName());
+    /** {@inheritDoc} */
+    @Override
+    public void visit(ICobolArrayNationalBinding ce) throws HostException {
+        super.visit(ce);
         for (int i = 0; i < ce.getCurrentOccurs(); i++) {
-            _keyValues.put(uniqueName + _suffix + "_" + Integer.toString(i), ce
-                            .getStringList().get(i));
+            String newSuffix = _suffix + "_" + Integer.toString(i);
+            _keyValues.put(uniqueName(ce.getJaxbName() + newSuffix), ce
+                    .getStringList().get(i));
         }
-	}
+    }
 
-    /** {@inheritDoc}*/
-	@Override
-	public void visit(ICobolDbcsBinding ce) throws HostException {
-		super.visit(ce);
-        _keyValues.put(uniqueName(ce.getJaxbName()) + _suffix, ce.getStringValue());
-	}
+    /** {@inheritDoc} */
+    @Override
+    public void visit(ICobolDbcsBinding ce) throws HostException {
+        super.visit(ce);
+        _keyValues.put(uniqueName(ce.getJaxbName() + _suffix),
+                ce.getStringValue());
+    }
 
-    /** {@inheritDoc}*/
-	@Override
-	public void visit(ICobolArrayDbcsBinding ce) throws HostException {
-		super.visit(ce);
-        String uniqueName = uniqueName(ce.getJaxbName());
+    /** {@inheritDoc} */
+    @Override
+    public void visit(ICobolArrayDbcsBinding ce) throws HostException {
+        super.visit(ce);
         for (int i = 0; i < ce.getCurrentOccurs(); i++) {
-            _keyValues.put(uniqueName + _suffix + "_" + Integer.toString(i), ce
-                            .getStringList().get(i));
+            String newSuffix = _suffix + "_" + Integer.toString(i);
+            _keyValues.put(uniqueName(ce.getJaxbName() + newSuffix), ce
+                    .getStringList().get(i));
         }
-	}
+    }
 
-    /** {@inheritDoc}*/
-	@Override
-	public void visit(ICobolZonedDecimalBinding ce) throws HostException {
-		super.visit(ce);
-        _keyValues.put(uniqueName(ce.getJaxbName()) + _suffix, ce.getObjectValue(ce.getJaxbType()));
-	}
+    /** {@inheritDoc} */
+    @Override
+    public void visit(ICobolZonedDecimalBinding ce) throws HostException {
+        super.visit(ce);
+        _keyValues.put(uniqueName(ce.getJaxbName() + _suffix),
+                ce.getObjectValue(ce.getJaxbType()));
+    }
 
-    /** {@inheritDoc}*/
-	@Override
-	public void visit(ICobolArrayZonedDecimalBinding ce) throws HostException {
-		super.visit(ce);
-        String uniqueName = uniqueName(ce.getJaxbName());
+    /** {@inheritDoc} */
+    @Override
+    public void visit(ICobolArrayZonedDecimalBinding ce) throws HostException {
+        super.visit(ce);
         for (int i = 0; i < ce.getCurrentOccurs(); i++) {
-            _keyValues.put(uniqueName + _suffix + "_" + Integer.toString(i),
+            String newSuffix = _suffix + "_" + Integer.toString(i);
+            _keyValues.put(uniqueName(ce.getJaxbName() + newSuffix),
                     ((List < ? >) ce.getObjectValue(ce.getJaxbType())).get(i));
         }
-	}
+    }
 
-    /** {@inheritDoc}*/
-	@Override
-	public void visit(ICobolPackedDecimalBinding ce) throws HostException {
-		super.visit(ce);
-        _keyValues.put(uniqueName(ce.getJaxbName()) + _suffix, ce.getObjectValue(ce.getJaxbType()));
-	}
+    /** {@inheritDoc} */
+    @Override
+    public void visit(ICobolPackedDecimalBinding ce) throws HostException {
+        super.visit(ce);
+        _keyValues.put(uniqueName(ce.getJaxbName() + _suffix),
+                ce.getObjectValue(ce.getJaxbType()));
+    }
 
-    /** {@inheritDoc}*/
-	@Override
-	public void visit(ICobolArrayPackedDecimalBinding ce) throws HostException {
-		super.visit(ce);
-        String uniqueName = uniqueName(ce.getJaxbName());
+    /** {@inheritDoc} */
+    @Override
+    public void visit(ICobolArrayPackedDecimalBinding ce) throws HostException {
+        super.visit(ce);
         for (int i = 0; i < ce.getCurrentOccurs(); i++) {
-            _keyValues.put(uniqueName + _suffix + "_" + Integer.toString(i),
+            String newSuffix = _suffix + "_" + Integer.toString(i);
+            _keyValues.put(uniqueName(ce.getJaxbName() + newSuffix),
                     ((List < ? >) ce.getObjectValue(ce.getJaxbType())).get(i));
         }
-	}
+    }
 
-    /** {@inheritDoc}*/
-	@Override
-	public void visit(ICobolBinaryBinding ce) throws HostException {
-		super.visit(ce);
-        _keyValues.put(uniqueName(ce.getJaxbName()) + _suffix, ce.getObjectValue(ce.getJaxbType()));
-	}
+    /** {@inheritDoc} */
+    @Override
+    public void visit(ICobolBinaryBinding ce) throws HostException {
+        super.visit(ce);
+        _keyValues.put(uniqueName(ce.getJaxbName() + _suffix),
+                ce.getObjectValue(ce.getJaxbType()));
+    }
 
-    /** {@inheritDoc}*/
-	@Override
-	public void visit(ICobolArrayBinaryBinding ce) throws HostException {
-		super.visit(ce);
-        String uniqueName = uniqueName(ce.getJaxbName());
+    /** {@inheritDoc} */
+    @Override
+    public void visit(ICobolArrayBinaryBinding ce) throws HostException {
+        super.visit(ce);
         for (int i = 0; i < ce.getCurrentOccurs(); i++) {
-            _keyValues.put(uniqueName + _suffix + "_" + Integer.toString(i),
+            String newSuffix = _suffix + "_" + Integer.toString(i);
+            _keyValues.put(uniqueName(ce.getJaxbName() + newSuffix),
                     ((List < ? >) ce.getObjectValue(ce.getJaxbType())).get(i));
         }
-	}
+    }
 
-    /** {@inheritDoc}*/
-	@Override
-	public void visit(ICobolFloatBinding ce) throws HostException {
-		super.visit(ce);
-        _keyValues.put(uniqueName(ce.getJaxbName()) + _suffix, ce.getFloatValue());
-	}
+    /** {@inheritDoc} */
+    @Override
+    public void visit(ICobolFloatBinding ce) throws HostException {
+        super.visit(ce);
+        _keyValues.put(uniqueName(ce.getJaxbName() + _suffix),
+                ce.getFloatValue());
+    }
 
-    /** {@inheritDoc}*/
-	@Override
-	public void visit(ICobolArrayFloatBinding ce) throws HostException {
-		super.visit(ce);
-        String uniqueName = uniqueName(ce.getJaxbName());
+    /** {@inheritDoc} */
+    @Override
+    public void visit(ICobolArrayFloatBinding ce) throws HostException {
+        super.visit(ce);
         for (int i = 0; i < ce.getCurrentOccurs(); i++) {
-            _keyValues.put(uniqueName + _suffix + "_" + Integer.toString(i), ce
-                            .getFloatList().get(i));
+            String newSuffix = _suffix + "_" + Integer.toString(i);
+            _keyValues.put(uniqueName(ce.getJaxbName() + newSuffix), ce
+                    .getFloatList().get(i));
         }
-	}
+    }
 
-    /** {@inheritDoc}*/
-	@Override
-	public void visit(ICobolDoubleBinding ce) throws HostException {
-		super.visit(ce);
-        _keyValues.put(uniqueName(ce.getJaxbName()) + _suffix, ce.getDoubleValue());
-	}
+    /** {@inheritDoc} */
+    @Override
+    public void visit(ICobolDoubleBinding ce) throws HostException {
+        super.visit(ce);
+        _keyValues.put(uniqueName(ce.getJaxbName() + _suffix),
+                ce.getDoubleValue());
+    }
 
-    /** {@inheritDoc}*/
-	@Override
-	public void visit(ICobolArrayDoubleBinding ce) throws HostException {
-		super.visit(ce);
-        String uniqueName = uniqueName(ce.getJaxbName());
+    /** {@inheritDoc} */
+    @Override
+    public void visit(ICobolArrayDoubleBinding ce) throws HostException {
+        super.visit(ce);
         for (int i = 0; i < ce.getCurrentOccurs(); i++) {
-            _keyValues.put(uniqueName + _suffix + "_" + Integer.toString(i), ce
-                            .getDoubleList().get(i));
+            String newSuffix = _suffix + "_" + Integer.toString(i);
+            _keyValues.put(uniqueName(ce.getJaxbName() + newSuffix), ce
+                    .getDoubleList().get(i));
         }
-	}
+    }
 
-    /** {@inheritDoc}*/
-	@Override
-	public void visit(ICobolOctetStreamBinding ce) throws HostException {
-		super.visit(ce);
-		_keyValues.put(uniqueName(ce.getJaxbName()) + _suffix, ce.getByteArrayValue());
-	}
+    /** {@inheritDoc} */
+    @Override
+    public void visit(ICobolOctetStreamBinding ce) throws HostException {
+        super.visit(ce);
+        _keyValues.put(uniqueName(ce.getJaxbName() + _suffix),
+                ce.getByteArrayValue());
+    }
 
-    /** {@inheritDoc}*/
-	@Override
-	public void visit(ICobolArrayOctetStreamBinding ce) throws HostException {
-		super.visit(ce);
-        String uniqueName = uniqueName(ce.getJaxbName());
+    /** {@inheritDoc} */
+    @Override
+    public void visit(ICobolArrayOctetStreamBinding ce) throws HostException {
+        super.visit(ce);
         for (int i = 0; i < ce.getCurrentOccurs(); i++) {
-            _keyValues.put(uniqueName + _suffix + "_" + Integer.toString(i), ce
-                            .getByteArrayList().get(i));
+            String newSuffix = _suffix + "_" + Integer.toString(i);
+            _keyValues.put(uniqueName(ce.getJaxbName() + newSuffix), ce
+                    .getByteArrayList().get(i));
         }
-	}
+    }
 
     /**
      * Creates a unique column name based on a proposed name.
