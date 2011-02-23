@@ -38,8 +38,8 @@ import org.w3c.dom.Document;
 import com.legstar.coxb.CobolMarkup;
 
 /**
- * This class implements the methods needed to inject custom JAXB bindings
- * into an XML Schema.
+ * This class implements the methods needed to inject custom JAXB bindings into
+ * an XML Schema.
  * <p/>
  * The bindings are necessary so that XJC generates the correct JAXB Classes.
  * <p/>
@@ -79,7 +79,7 @@ public class CobolJAXBCustomizer {
     /**
      * Construct the customizer.
      * 
-     * @param xjbModel the bindinds parameters
+     * @param xjbModel the bindings parameters
      * @throws ParserConfigurationException if can't configure a DOM parser
      */
     public CobolJAXBCustomizer(final JaxbGenModel xjbModel)
@@ -97,8 +97,7 @@ public class CobolJAXBCustomizer {
      * @param targetXsdFile the target, customized, XML Schema file
      * @throws IOException if output file cannot be written
      */
-    public void customize(final File sourceXsdFile,
-            final File targetXsdFile)
+    public void customize(final File sourceXsdFile, final File targetXsdFile)
             throws IOException {
         customize(sourceXsdFile, DEFAULT_XSD_CHARSET, targetXsdFile,
                 DEFAULT_XSD_CHARSET);
@@ -115,18 +114,15 @@ public class CobolJAXBCustomizer {
      * @throws IOException if output file cannot be written
      */
     public void customize(final File sourceXsdFile,
-            final String sourceXsdCharset,
-            final File targetXsdFile,
-            final String targetXsdCharset)
-            throws IOException {
+            final String sourceXsdCharset, final File targetXsdFile,
+            final String targetXsdCharset) throws IOException {
         XmlSchemaCollection schemaCol = new XmlSchemaCollection();
-        XmlSchema xsd = schemaCol.read(
-                new InputStreamReader(new FileInputStream(
-                                sourceXsdFile), sourceXsdCharset), null);
+        XmlSchema xsd = schemaCol.read(new InputStreamReader(
+                new FileInputStream(sourceXsdFile), sourceXsdCharset), null);
 
         String jaxbPrefix = injectJAXBNamespace(xsd);
         injectJAXBExtensionAttributes(xsd, jaxbPrefix);
-        _xjbModel.injectAnnotations(xsd, JAXB_NAMESPACE, jaxbPrefix,
+        _xjbModel.injectJaxbAnnotations(xsd, JAXB_NAMESPACE, jaxbPrefix,
                 _db.newDocument());
 
         Writer writer = new OutputStreamWriter(new FileOutputStream(
@@ -137,8 +133,8 @@ public class CobolJAXBCustomizer {
 
     /**
      * Searches the schema element for the JAXB namespace. If the namespace is
-     * found, the associated prefix is returned otherwise, the JAXB namespace
-     * is added to the schema.
+     * found, the associated prefix is returned otherwise, the JAXB namespace is
+     * added to the schema.
      * 
      * @param xsd the XML Schema
      * @return the JAXB namespace prefix
@@ -180,7 +176,7 @@ public class CobolJAXBCustomizer {
      * @param xsd the XML Schema
      * @param jaxbPrefix the JAXB namespace prefix
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public void injectJAXBExtensionAttributes(final XmlSchema xsd,
             final String jaxbPrefix) {
 
@@ -219,10 +215,9 @@ public class CobolJAXBCustomizer {
         extensionMap.put(versionQName, attrib);
 
         /*
-         * JAXB extension prefixes might already be present in which case
-         * we make sure the legstar extension is there too.
-         * Extension prefixes are specified as a whitespace-separated list of
-         * namespace prefixes.
+         * JAXB extension prefixes might already be present in which case we
+         * make sure the legstar extension is there too. Extension prefixes are
+         * specified as a whitespace-separated list of namespace prefixes.
          */
 
         QName extpfxQName = new QName(JAXB_NAMESPACE,
