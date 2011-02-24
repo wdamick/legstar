@@ -10,6 +10,7 @@
  ******************************************************************************/
 package com.legstar.jaxb.plugin;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -28,6 +29,7 @@ import com.legstar.coxb.CobolType;
 import com.sun.codemodel.JAnnotationUse;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JFieldVar;
+import com.sun.tools.xjc.BadCommandLineException;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.Plugin;
 import com.sun.tools.xjc.model.CElement;
@@ -37,13 +39,13 @@ import com.sun.tools.xjc.model.CReferencePropertyInfo;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
+import com.sun.xml.bind.api.impl.NameConverter;
 
 /**
  * This is an extension to the JAXB XJC plugin. It is being invoked by the JAXB
  * XML to Java compilation and injects supplementary cobol annotations into the
- * generated Java classes.
- * Add -Dcom.sun.tools.xjc.Options.findServices=true to VM arguments to help
- * solve classpath issues.
+ * generated Java classes. Add -Dcom.sun.tools.xjc.Options.findServices=true to
+ * VM arguments to help solve classpath issues.
  * 
  */
 public class CobolJAXBAnnotator extends Plugin {
@@ -58,9 +60,8 @@ public class CobolJAXBAnnotator extends Plugin {
     private final Log _log = LogFactory.getLog(getClass());
 
     /** Command line help for cobol plugin XJC option. */
-    public static final String OPTION_USAGE =
-            "  -Xlegstar-code      :  inject cobol binding annotation into the "
-                    + "generated code";
+    public static final String OPTION_USAGE = "  -Xlegstar-code      :  inject cobol binding annotation into the "
+            + "generated code";
 
     /** {@inheritDoc} */
     @Override
@@ -89,14 +90,28 @@ public class CobolJAXBAnnotator extends Plugin {
     /** Just to be extra sure, XJC will call us on each element from the source
      * schema that seems to belong to the namespaces to watch for. We need to 
      * tell XJC whether this is an actual supported customization. */
-    public boolean isCustomizationTagName(
-            final String nsUri,
+    public boolean isCustomizationTagName(final String nsUri,
             final String localName) {
 
         return (nsUri.equals(CobolMarkup.NS) && (localName
                 .equals(CobolMarkup.ELEMENT)
-                        || localName.equals(CobolMarkup.ELEMENT_VALUE) || localName
+                || localName.equals(CobolMarkup.ELEMENT_VALUE) || localName
                 .equals(CobolMarkup.COMPLEX_TYPE)));
+    }
+
+    /**
+     * {@inheritDoc} . Since we have no direct way of communicating with the
+     * annotator, we pass options as extra XJC command line parameters.
+     */
+    @Override
+    public int parseArgument(Options opt, String[] args, int i)
+            throws BadCommandLineException, IOException {
+        String arg = args[i];
+        if (arg.equals("-eci")) {
+            opt.setNameConverter(new EciCompatibleNameConverter(), this);
+            return 1;
+        }
+        return 0;
     }
 
     /** {@inheritDoc} */
@@ -107,16 +122,14 @@ public class CobolJAXBAnnotator extends Plugin {
      * We are given a chance to change that model so that the generated
      * classes will include the extra annotations that we need.
      *  */
-    public boolean run(
-            final Outline model,
-            final Options opt,
+    public boolean run(final Outline model, final Options opt,
             final ErrorHandler errorHandler) {
 
         long start = System.currentTimeMillis();
 
         /*
-         * Each simpleType at the root level in the source schema will become
-         * a JAXBElement in the ObjectFactory class. .
+         * Each simpleType at the root level in the source schema will become a
+         * JAXBElement in the ObjectFactory class. .
          */
         for (CElementInfo eo : model.getModel().getAllElements()) {
 
@@ -124,9 +137,8 @@ public class CobolJAXBAnnotator extends Plugin {
                 _log.debug("CobolJAXBAnnotator::run::CElementInfo::"
                         + eo.fullName());
             }
-            CPluginCustomization c =
-                    eo.getCustomizations().find(
-                            CobolMarkup.NS, CobolMarkup.ELEMENT);
+            CPluginCustomization c = eo.getCustomizations().find(
+                    CobolMarkup.NS, CobolMarkup.ELEMENT);
             if (c == null) {
                 continue; // no customization --- nothing to inject here
             }
@@ -143,18 +155,16 @@ public class CobolJAXBAnnotator extends Plugin {
         for (ClassOutline co : model.getClasses()) {
 
             if (_log.isDebugEnabled()) {
-                _log.debug(
-                        "CobolJAXBAnnotator::run::ClassOutline::"
-                                + co.implClass);
+                _log.debug("CobolJAXBAnnotator::run::ClassOutline::"
+                        + co.implClass);
             }
             annotateClass(co);
 
             for (FieldOutline fo : co.getDeclaredFields()) {
 
                 if (_log.isDebugEnabled()) {
-                    _log.debug(
-                            "CobolJAXBAnnotator::run::FieldOutline::"
-                                    + fo.getPropertyInfo().getName(false));
+                    _log.debug("CobolJAXBAnnotator::run::FieldOutline::"
+                            + fo.getPropertyInfo().getName(false));
                 }
 
                 /*
@@ -165,19 +175,17 @@ public class CobolJAXBAnnotator extends Plugin {
                 CPluginCustomization c = null;
                 if (fo.getPropertyInfo() instanceof CReferencePropertyInfo) {
                     if (_log.isDebugEnabled()) {
-                        _log.debug(
-                                "FieldOutline is CReferencePropertyInfo");
+                        _log.debug("FieldOutline is CReferencePropertyInfo");
                     }
 
                     for (CElement ce : ((CReferencePropertyInfo) fo
-                            .getPropertyInfo()).
-                            getElements()) {
-                        c = ce.getCustomizations().find(
-                                CobolMarkup.NS, CobolMarkup.ELEMENT);
+                            .getPropertyInfo()).getElements()) {
+                        c = ce.getCustomizations().find(CobolMarkup.NS,
+                                CobolMarkup.ELEMENT);
                     }
                 } else {
-                    c = fo.getPropertyInfo().getCustomizations().find(
-                            CobolMarkup.NS, CobolMarkup.ELEMENT);
+                    c = fo.getPropertyInfo().getCustomizations()
+                            .find(CobolMarkup.NS, CobolMarkup.ELEMENT);
                 }
 
                 if (c == null) {
@@ -185,18 +193,15 @@ public class CobolJAXBAnnotator extends Plugin {
                 }
                 if (_log.isDebugEnabled()) {
                     String javaType = fo.getRawType().name();
-                    _log.debug(
-                            "CobolJAXBAnnotator::run::ClassOutline::"
-                                    + c.element.getLocalName()
-                                    + " type=" + javaType);
+                    _log.debug("CobolJAXBAnnotator::run::ClassOutline::"
+                            + c.element.getLocalName() + " type=" + javaType);
                 }
 
                 c.markAsAcknowledged();
 
                 /* Inject a cobol annotation on this field. */
-                JFieldVar jf =
-                        co.implClass.fields().get(
-                                fo.getPropertyInfo().getName(false));
+                JFieldVar jf = co.implClass.fields().get(
+                        fo.getPropertyInfo().getName(false));
                 JAnnotationUse ce = jf.annotate(CobolElement.class);
 
                 mapAnnotations(c, ce);
@@ -204,12 +209,12 @@ public class CobolJAXBAnnotator extends Plugin {
                 setDefaultValue(jf, c.element);
 
                 /*
-                 * HexBinary items are missing a JAXB annotation that
-                 * we inject here
+                 * HexBinary items are missing a JAXB annotation that we inject
+                 * here
                  */
                 if (fo.getRawType().name().compareTo("byte[]") == 0) {
-                    JAnnotationUse xmlSchemaType =
-                            jf.annotate(XmlSchemaType.class);
+                    JAnnotationUse xmlSchemaType = jf
+                            .annotate(XmlSchemaType.class);
                     xmlSchemaType.param("name", "hexBinary");
                 }
 
@@ -226,8 +231,8 @@ public class CobolJAXBAnnotator extends Plugin {
     }
 
     /**
-     * Attempts to set a default value for the java field based on the
-     * COBOL default value.
+     * Attempts to set a default value for the java field based on the COBOL
+     * default value.
      * <p/>
      * Will not attempt to initialize arrays or complex types.
      * <p/>
@@ -301,12 +306,10 @@ public class CobolJAXBAnnotator extends Plugin {
      * @param c the XML Schema annotation element
      * @param ce the Java code Cobol annotation
      */
-    protected void mapAnnotations(
-            final CPluginCustomization c,
+    protected void mapAnnotations(final CPluginCustomization c,
             final JAnnotationUse ce) {
 
-        ce.param("cobolName",
-                c.element.getAttribute(CobolMarkup.COBOL_NAME));
+        ce.param("cobolName", c.element.getAttribute(CobolMarkup.COBOL_NAME));
 
         String cobolType = c.element.getAttribute(CobolMarkup.TYPE);
 
@@ -342,16 +345,13 @@ public class CobolJAXBAnnotator extends Plugin {
      * @param xmlMarkup the name of the XML markup tag
      * @param ce the target annotation recipient
      */
-    protected void setBooleanParm(
-            final Element e,
-            final String xmlMarkup,
+    protected void setBooleanParm(final Element e, final String xmlMarkup,
             final JAnnotationUse ce) {
 
         String cobolProperty = xmlMarkup;
         /*
-         * TODO There are some differences between the XML markup and
-         * the java annotation that need to go away in some future
-         * version.
+         * TODO There are some differences between the XML markup and the java
+         * annotation that need to go away in some future version.
          */
         if (!cobolProperty.startsWith("is")) {
             cobolProperty = "is"
@@ -373,9 +373,7 @@ public class CobolJAXBAnnotator extends Plugin {
      * @param xmlMarkup the name of the XML markup tag
      * @param ce the target annotation recipient
      */
-    protected void setNumericParm(
-            final Element e,
-            final String xmlMarkup,
+    protected void setNumericParm(final Element e, final String xmlMarkup,
             final JAnnotationUse ce) {
 
         String cobolProperty = xmlMarkup;
@@ -393,9 +391,7 @@ public class CobolJAXBAnnotator extends Plugin {
      * @param xmlMarkup the name of the XML markup tag
      * @param ce the target annotation recipient
      */
-    protected void setStringParm(
-            final Element e,
-            final String xmlMarkup,
+    protected void setStringParm(final Element e, final String xmlMarkup,
             final JAnnotationUse ce) {
 
         String cobolProperty = xmlMarkup;
@@ -405,4 +401,63 @@ public class CobolJAXBAnnotator extends Plugin {
         }
         ce.param(cobolProperty, value);
     }
+
+    /**
+     * This overrides the standard JAXB name converter when in ECI compatible
+     * mode.
+     * <p/>
+     * ECI does not remove underscores from variable names like the standard
+     * JAXB name converter does. The code here borrows from
+     * underscoreBinding=asCharInWord JAXB option.
+     * <p/>
+     * Also ECI does not uppercase tokens following underscores like JAXB does.
+     * 
+     */
+    protected class EciCompatibleNameConverter extends NameConverter.Standard {
+
+        /** Underscore is not a punctuation. */
+        @Override
+        protected boolean isPunct(char c) {
+            return (c == '.' || c == '-' || c == ';' /* || c == '_' */
+                    || c == '\u00b7' || c == '\u0387' || c == '\u06dd' || c == '\u06de');
+        }
+
+        /** Underscore is a regular letter. */
+        @Override
+        protected boolean isLetter(char c) {
+            return super.isLetter(c) || c == '_';
+        }
+
+        /** Underscore is a regular letter. */
+        @Override
+        protected int classify(char c0) {
+            if (c0 == '_')
+                return OTHER_LETTER;
+            return super.classify(c0);
+        }
+
+        /** Makes sure only the first character is uppercased when needed. */
+        @Override
+        protected String toMixedCaseName(List < String > ss, boolean startUpper) {
+            StringBuilder sb = new StringBuilder();
+            if (!ss.isEmpty()) {
+                if (startUpper) {
+                    sb.append(Character.toUpperCase(ss.get(0).charAt(0)));
+                    sb.append(ss.get(0).substring(1));
+                } else {
+                    sb.append(ss.get(0).toLowerCase());
+                }
+                for (int i = 1; i < ss.size(); i++)
+                    sb.append(ss.get(i));
+            }
+            return sb.toString();
+        }
+
+        /** Don't uppercase systematically like JAXB does. */
+        @Override
+        public String capitalize(String s) {
+            return s;
+        }
+    }
+
 }

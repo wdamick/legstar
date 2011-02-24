@@ -63,6 +63,9 @@ public class JaxbGenModel extends AbstractPropertiesModel {
     /** Default value for use of internal bindings. */
     public static final boolean DEFAULT_INTERNALBINDINGS = true;
 
+    /** Default value for use ECI compatible mode. */
+    public static final boolean DEFAULT_ECICOMPATIBLE = false;
+
     /* ====================================================================== */
     /* Following are XML identifiers for XJB Binding. = */
     /* ====================================================================== */
@@ -128,6 +131,9 @@ public class JaxbGenModel extends AbstractPropertiesModel {
     /** JAXB uses internal bindings. */
     public static final String JAXB_INTERNALBINDINGS = "internalBindings";
 
+    /** Use the ECI naming conventions. */
+    public static final String JAXB_ECICOMPATIBLE = "eciCompatible";
+
     /* ====================================================================== */
     /* Following are this class fields that are persistent. = */
     /* ====================================================================== */
@@ -158,6 +164,9 @@ public class JaxbGenModel extends AbstractPropertiesModel {
 
     /** Whether internal bindings or and external binding should be used. */
     private boolean _internalBindings = DEFAULT_INTERNALBINDINGS;
+
+    /** Whether the ECI naming conventions should be used. */
+    private boolean _eciCompatible = DEFAULT_ECICOMPATIBLE;
 
     /**
      * From XJC. If specified, generated code will be placed under this Java
@@ -194,6 +203,8 @@ public class JaxbGenModel extends AbstractPropertiesModel {
         setJaxbPackageName(getString(props, JAXB_PACKAGENAME, null));
         setInternalBindings(getBoolean(props, JAXB_INTERNALBINDINGS,
                 DEFAULT_INTERNALBINDINGS));
+        setEciCompatible(getBoolean(props, JAXB_ECICOMPATIBLE,
+                DEFAULT_ECICOMPATIBLE));
     }
 
     /**
@@ -316,7 +327,8 @@ public class JaxbGenModel extends AbstractPropertiesModel {
         Element globalbindingsEl = null;
         NodeList nl = markupParent.getChildNodes();
         for (int i = 0; i < nl.getLength(); i++) {
-            if (nl.item(i).getNamespaceURI().equals(jaxbNamespace)
+            if (nl.item(i) instanceof Element
+                    && nl.item(i).getNamespaceURI().equals(jaxbNamespace)
                     && nl.item(i).getLocalName().equals(JAXB_GLOBALBINDINGS)) {
                 globalbindingsEl = (Element) nl.item(i);
                 break;
@@ -380,7 +392,8 @@ public class JaxbGenModel extends AbstractPropertiesModel {
         Element schemabindingsEl = null;
         NodeList nl = markupParent.getChildNodes();
         for (int i = 0; i < nl.getLength(); i++) {
-            if (nl.item(i).getNamespaceURI().equals(jaxbNamespace)
+            if (nl.item(i) instanceof Element
+                    && nl.item(i).getNamespaceURI().equals(jaxbNamespace)
                     && nl.item(i).getLocalName().equals(JAXB_SCHEMABINDINGS)) {
                 schemabindingsEl = (Element) nl.item(i);
                 break;
@@ -626,15 +639,6 @@ public class JaxbGenModel extends AbstractPropertiesModel {
     }
 
     /**
-     * whether internal bindings or and external binding should be used.
-     * 
-     * @return whether internal bindings or and external binding should be used
-     */
-    public boolean isInternalBindings() {
-        return _internalBindings;
-    }
-
-    /**
      * If specified, generated code will be placed under this Java package.
      * 
      * @return Java package name
@@ -653,6 +657,15 @@ public class JaxbGenModel extends AbstractPropertiesModel {
     }
 
     /**
+     * whether internal bindings or and external binding should be used.
+     * 
+     * @return whether internal bindings or and external binding should be used
+     */
+    public boolean isInternalBindings() {
+        return _internalBindings;
+    }
+
+    /**
      * Whether internal bindings or and external binding should be used.
      * 
      * @param internalBindings whether internal bindings or and external binding
@@ -660,6 +673,24 @@ public class JaxbGenModel extends AbstractPropertiesModel {
      */
     public void setInternalBindings(final boolean internalBindings) {
         _internalBindings = internalBindings;
+    }
+
+    /**
+     * Whether the ECI naming conventions should be used.
+     * 
+     * @return Whether the ECI naming conventions should be used
+     */
+    public boolean isEciCompatible() {
+        return _eciCompatible;
+    }
+
+    /**
+     * Whether the ECI naming conventions should be used.
+     * 
+     * @param eciCompatible whether the ECI naming conventions should be used
+     */
+    public void setEciCompatible(final boolean eciCompatible) {
+        _eciCompatible = eciCompatible;
     }
 
     /**
@@ -691,6 +722,7 @@ public class JaxbGenModel extends AbstractPropertiesModel {
             putString(props, JAXB_PACKAGENAME, getJaxbPackageName());
         }
         putBoolean(props, JAXB_INTERNALBINDINGS, isInternalBindings());
+        putBoolean(props, JAXB_ECICOMPATIBLE, isEciCompatible());
         return props;
     }
 

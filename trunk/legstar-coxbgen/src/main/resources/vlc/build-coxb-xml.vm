@@ -63,6 +63,9 @@
 #if(${antModel.elementNameSuffix})
             elementNameSuffix="${antModel.elementNameSuffix}"
 #end
+#if(${antModel.eciCompatible})
+            eciCompatible="${antModel.eciCompatible}"
+#end
         />
     </target>
 
