@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map.Entry;
 
 import javax.xml.bind.annotation.XmlSchemaType;
 
@@ -27,15 +28,20 @@ import com.legstar.coxb.CobolElement;
 import com.legstar.coxb.CobolMarkup;
 import com.legstar.coxb.CobolType;
 import com.sun.codemodel.JAnnotationUse;
+import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JFieldVar;
 import com.sun.tools.xjc.BadCommandLineException;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.Plugin;
+import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CElement;
 import com.sun.tools.xjc.model.CElementInfo;
 import com.sun.tools.xjc.model.CPluginCustomization;
+import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CReferencePropertyInfo;
+import com.sun.tools.xjc.model.Model;
+import com.sun.tools.xjc.model.nav.NClass;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
@@ -55,6 +61,9 @@ public class CobolJAXBAnnotator extends Plugin {
      */
     /** Option passed to XJC to enable this cobol plugin. */
     public static final String OPTION_NAME = "Xlegstar-code";
+
+    /** Will be true in ECI compatibility mode. */
+    private boolean isEciCompatible;
 
     /** Logger to be used only at development time (messes up ant output). */
     private final Log _log = LogFactory.getLog(getClass());
@@ -109,19 +118,46 @@ public class CobolJAXBAnnotator extends Plugin {
         String arg = args[i];
         if (arg.equals("-eci")) {
             opt.setNameConverter(new EciCompatibleNameConverter(), this);
+            isEciCompatible = true;
             return 1;
         }
         return 0;
     }
 
-    /** {@inheritDoc} */
-    @Override
-    /** 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * XJC has built an abstract in-memory model of the target classes. We are
+     * given a chance to tweak it.
+     * */
+    public void postProcessModel(Model model, ErrorHandler errorHandler) {
+        /*
+         * With ECI we need to change field names so that they match the bean
+         * getter/setter convention.
+         */
+        if (isEciCompatible()) {
+            for (Entry < NClass, CClassInfo > entry : model.beans().entrySet()) {
+                CClassInfo classInfo = entry.getValue();
+                List < CPropertyInfo > properties = classInfo.getProperties();
+                for (CPropertyInfo property : properties) {
+                    String publicName = property.getName(true);
+                    String newPrivateName = Character.toLowerCase(publicName
+                            .charAt(0)) + publicName.substring(1);
+                    property.setName(false, newPrivateName);
+                }
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
      * This is where the real action takes place. XJC has done its job of
-     * building an in-memory model of the soon-to-be generated java classes.
-     * We are given a chance to change that model so that the generated
-     * classes will include the extra annotations that we need.
-     *  */
+     * building an in-memory model of the soon-to-be generated java classes. We
+     * are given a chance to change that model so that the generated classes
+     * will include the extra annotations that we need.
+     * */
+    @Override
     public boolean run(final Outline model, final Options opt,
             final ErrorHandler errorHandler) {
 
@@ -199,11 +235,13 @@ public class CobolJAXBAnnotator extends Plugin {
 
                 c.markAsAcknowledged();
 
-                /* Inject a cobol annotation on this field. */
-                JFieldVar jf = co.implClass.fields().get(
+                /* Retrieve the field identified by its private name. */
+                JDefinedClass coClass = co.implClass;
+                JFieldVar jf = coClass.fields().get(
                         fo.getPropertyInfo().getName(false));
-                JAnnotationUse ce = jf.annotate(CobolElement.class);
 
+                /* Inject a cobol annotation on this field. */
+                JAnnotationUse ce = jf.annotate(CobolElement.class);
                 mapAnnotations(c, ce);
 
                 setDefaultValue(jf, c.element);
@@ -400,6 +438,13 @@ public class CobolJAXBAnnotator extends Plugin {
             return;
         }
         ce.param(cobolProperty, value);
+    }
+
+    /**
+     * @return true in ECI compatibility mode
+     */
+    public boolean isEciCompatible() {
+        return isEciCompatible;
     }
 
     /**
