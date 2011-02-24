@@ -45,9 +45,9 @@ public class CobolJAXBGenerator extends Task {
     private final Log _log = LogFactory.getLog(getClass());
 
     /**
-     * From XJC, this is the schema file to be compiled. A file name
-     * (can be relative to the build script base directory), or absolute.
-     * Required parameter.
+     * From XJC, this is the schema file to be compiled. A file name (can be
+     * relative to the build script base directory), or absolute. Required
+     * parameter.
      */
     private File _xsdFile;
 
@@ -77,8 +77,8 @@ public class CobolJAXBGenerator extends Task {
     }
 
     /**
-     * Initialize a commons logging logger so that XJC logs gets merged
-     * with the legstar ones.
+     * Initialize a commons logging logger so that XJC logs gets merged with the
+     * legstar ones.
      * 
      * @see org.apache.tools.ant.Task#init()
      */
@@ -130,6 +130,12 @@ public class CobolJAXBGenerator extends Task {
         Commandline.Argument arg2 = xjcTask.createArg();
         arg2.setValue("-nv");
 
+        /* If ECI compatible mode pass option so that annotator knows about it */
+        if (isEciCompatible()) {
+            Commandline.Argument arg3 = xjcTask.createArg();
+            arg3.setValue("-eci");
+        }
+
         xjcTask.execute();
 
         log("JAXB generation ended.");
@@ -159,9 +165,9 @@ public class CobolJAXBGenerator extends Task {
                         }
                     }
                 } else {
-                    throw (new BuildException(
-                            "XML schema file " + getXsdFile().getAbsolutePath()
-                                    + " does not exist"));
+                    throw (new BuildException("XML schema file "
+                            + getXsdFile().getAbsolutePath()
+                            + " does not exist"));
                 }
             }
             if (getTargetDir() == null) {
@@ -174,8 +180,7 @@ public class CobolJAXBGenerator extends Task {
     }
 
     /**
-     * Creates a temporary XML Schema which holds JAXB customization
-     * bindings.
+     * Creates a temporary XML Schema which holds JAXB customization bindings.
      * 
      * @param xsdFile the original XML schema file
      * @return the customized XML Schema file
@@ -220,8 +225,8 @@ public class CobolJAXBGenerator extends Task {
     }
 
     /**
-     * This is the schema file to be compiled. A file name
-     * (can be relative to the build script base directory), or absolute.
+     * This is the schema file to be compiled. A file name (can be relative to
+     * the build script base directory), or absolute.
      * 
      * @return the schema file
      */
@@ -230,8 +235,8 @@ public class CobolJAXBGenerator extends Task {
     }
 
     /**
-     * This is the schema file to be compiled. A file name
-     * (can be relative to the build script base directory), or absolute.
+     * This is the schema file to be compiled. A file name (can be relative to
+     * the build script base directory), or absolute.
      * 
      * @param xsdFile schema file
      */
@@ -240,8 +245,7 @@ public class CobolJAXBGenerator extends Task {
     }
 
     /**
-     * If specified, generated code will be placed under
-     * this Java package.
+     * If specified, generated code will be placed under this Java package.
      * 
      * @return Java package name
      */
@@ -295,8 +299,8 @@ public class CobolJAXBGenerator extends Task {
     }
 
     /**
-     * The serialization unique ID. (All JAXB classes
-     * must be serializable for LegStar).
+     * The serialization unique ID. (All JAXB classes must be serializable for
+     * LegStar).
      * 
      * @return the serialization unique ID. (All JAXB classes must be
      *         serializable for LegStar)
@@ -306,8 +310,8 @@ public class CobolJAXBGenerator extends Task {
     }
 
     /**
-     * The serialization unique ID. (All JAXB classes
-     * must be serializable for LegStar).
+     * The serialization unique ID. (All JAXB classes must be serializable for
+     * LegStar).
      * 
      * @param serializableUid the serialization unique ID. (All JAXB classes
      *            must be serializable for LegStar)
@@ -406,4 +410,23 @@ public class CobolJAXBGenerator extends Task {
     public void setInternalBindings(final boolean internalBindings) {
         _context.setInternalBindings(internalBindings);
     }
+
+    /**
+     * Whether the ECI naming conventions should be used.
+     * 
+     * @return Whether the ECI naming conventions should be used
+     */
+    public boolean isEciCompatible() {
+        return _context.isEciCompatible();
+    }
+
+    /**
+     * Whether the ECI naming conventions should be used.
+     * 
+     * @param eciCompatible whether the ECI naming conventions should be used
+     */
+    public void setEciCompatible(final boolean eciCompatible) {
+        _context.setEciCompatible(eciCompatible);
+    }
+
 }

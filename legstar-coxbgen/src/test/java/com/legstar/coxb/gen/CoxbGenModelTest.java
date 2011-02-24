@@ -232,8 +232,9 @@ public class CoxbGenModelTest extends AbstractTestTemplate {
 
         assertEquals("{isCompileTransformers=false,"
                 + " isXmlTransformers=true," + " serializableID=1,"
-                + " internalBindings=true," + " isJsonTransformers=false,"
-                + " generateIsSetMethod=true}", model.toString());
+                + " internalBindings=true," + " eciCompatible=false,"
+                + " isJsonTransformers=false," + " generateIsSetMethod=true}",
+                model.toString());
 
         model = new CoxbGenModel(props);
         assertEquals(null, model.getJaxbPackageName());
