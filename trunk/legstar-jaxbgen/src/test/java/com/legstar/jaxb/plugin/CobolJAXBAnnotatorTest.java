@@ -225,7 +225,9 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
                 );
         genSource("testNaming", tempFile, null);
         String srce = getSource("testNaming", "CustomerType");
+        assertTrue(srce.contains("public class CustomerType"));
         assertTrue(srce.contains("public String getName_ab_cd() {"));
+        assertTrue(srce.contains("protected String name_ab_cd;"));
     }
 
     /**
