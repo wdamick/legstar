@@ -100,6 +100,9 @@ public class JaxbGenModel extends AbstractPropertiesModel {
     /** JAXB annotation for a type name suffix transformation. */
     private static final String JAXB_SUFFIX = "suffix";
 
+    /** JAXB annotation for collection type. */
+    private static final String JAXB_COLLECTION_TYPE = "collectionType";
+
     /* ====================================================================== */
     /* Following are key identifiers for this model persistence. = */
     /* ====================================================================== */
@@ -342,6 +345,11 @@ public class JaxbGenModel extends AbstractPropertiesModel {
         }
         globalbindingsEl.setAttribute(JAXB_GENERATEISSETMETHOD,
                 Boolean.toString(isGenerateIsSetMethod()));
+
+        /* ECI expects indexed collections not Lists (the default JAXB) */
+        if (isEciCompatible()) {
+            globalbindingsEl.setAttribute(JAXB_COLLECTION_TYPE, "indexed");
+        }
 
         injectJaxbSerializableAnnotation(globalbindingsEl, jaxbNamespace,
                 jaxbNamespacePrefix);

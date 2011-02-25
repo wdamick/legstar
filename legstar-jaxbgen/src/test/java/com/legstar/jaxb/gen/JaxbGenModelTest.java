@@ -208,4 +208,21 @@ public class JaxbGenModelTest extends AbstractJaxbTester {
         assertTrue(result
                 .contains("<jaxb:serializable uid=\"1236895452412\"/>"));
     }
+
+    /**
+     * Test JAXB customization in ECI compatible mode.
+     * 
+     * @throws Exception if test fails
+     */
+    public void testCustomizationWithEciCompatible() throws Exception {
+        XmlSchema xsd = getXmlSchema("<schema xmlns=\"http://www.w3.org/2001/XMLSchema\""
+                + " targetNamespace=\"http://schemas.test.com\">" + "</schema>");
+        _model.setEciCompatible(true);
+        _model.injectJaxbAnnotations(xsd, "http://java.sun.com/xml/ns/jaxb",
+                "jaxb", newDocument());
+        String result = toString(xsd);
+        assertTrue(result.contains("<jaxb:globalBindings"));
+        assertTrue(result.contains("collectionType=\"indexed\""));
+    }
+
 }
