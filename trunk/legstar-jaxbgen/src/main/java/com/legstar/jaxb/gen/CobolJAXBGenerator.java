@@ -127,13 +127,22 @@ public class CobolJAXBGenerator extends Task {
         xjcTask.setRemoveOldOutput(true);
         Commandline.Argument arg1 = xjcTask.createArg();
         arg1.setValue("-Xlegstar-code");
+
+        /* Do not perform strict validation of the input schema(s) */
         Commandline.Argument arg2 = xjcTask.createArg();
         arg2.setValue("-nv");
 
+        /*
+         * Avoid headers with timestamps, they make it harder to test for
+         * changes
+         */
+        Commandline.Argument argNoHeader = xjcTask.createArg();
+        argNoHeader.setValue("-no-header");
+
         /* If ECI compatible mode pass option so that annotator knows about it */
         if (isEciCompatible()) {
-            Commandline.Argument arg3 = xjcTask.createArg();
-            arg3.setValue("-eci");
+            Commandline.Argument argEci = xjcTask.createArg();
+            argEci.setValue("-eci");
         }
 
         xjcTask.execute();

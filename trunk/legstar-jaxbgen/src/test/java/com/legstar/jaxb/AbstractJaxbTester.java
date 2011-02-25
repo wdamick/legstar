@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.Collection;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,6 +22,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import junit.framework.TestCase;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ws.commons.schema.XmlSchema;
@@ -47,6 +49,15 @@ public abstract class AbstractJaxbTester extends TestCase {
     /** Maven should have populated this location with test schemas. */
     public static final File XSD_DIR = new File("../target/cases/schema");
 
+    /** New COBOL-annotated XML schema test cases. */
+    public static final File COB_XSD_DIR = new File("src/test/resources/cobxsd");
+
+    /** Generated JAXB classes Reference folder. */
+    public static final File JAXB_REF_DIR = new File("src/test/java");
+
+    /** This means references should be created instead of compared to results. */
+    private boolean _createReferences = false;
+
     /** Helper to create DOM documents. */
     private DocumentBuilder _db;
 
@@ -58,7 +69,7 @@ public abstract class AbstractJaxbTester extends TestCase {
      * 
      * @throws Exception if output folder cannot be created
      */
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         CodeGenUtil.checkDirectory(GEN_SRC_DIR, true);
         FileUtils.cleanDirectory(GEN_SRC_DIR);
         CodeGenUtil.checkDirectory(GEN_XJB_DIR, true);
@@ -75,8 +86,7 @@ public abstract class AbstractJaxbTester extends TestCase {
      * @return the schema file
      * @throws Exception if schema file cannot be located
      */
-    protected File getSchemaFromFolder(final String schemaName)
-            throws Exception {
+    public File getSchemaFromFolder(final String schemaName) throws Exception {
         String fileName = schemaName;
         if (Character.isLowerCase(schemaName.charAt(0))) {
             fileName = schemaName.toUpperCase() + ".xsd";
@@ -94,7 +104,7 @@ public abstract class AbstractJaxbTester extends TestCase {
      * @param className the generated class name
      * @return a String with the class content
      */
-    protected String getSource(final String schemaName, final String className) {
+    public String getSource(final String schemaName, final String className) {
         return getSource(schemaName, GEN_SRC_SUBDIR, className);
     }
 
@@ -106,7 +116,7 @@ public abstract class AbstractJaxbTester extends TestCase {
      * @param className the generated class name
      * @return a String with the class content
      */
-    protected String getSource(final String schemaName, final String srcSubDir,
+    public String getSource(final String schemaName, final String srcSubDir,
             final String className) {
         File srcFile = new File(GEN_SRC_DIR, srcSubDir + '/' + schemaName + '/'
                 + className + ".java");
@@ -119,7 +129,7 @@ public abstract class AbstractJaxbTester extends TestCase {
      * @param srcFile the source file to read into a string
      * @return a String with the class content
      */
-    protected String getSource(final File srcFile) {
+    public String getSource(final File srcFile) {
         try {
             String result = FileUtils.readFileToString(srcFile);
             if (_log.isDebugEnabled()) {
@@ -139,9 +149,86 @@ public abstract class AbstractJaxbTester extends TestCase {
      * @param source the XML Schema content
      * @return a in-memory XML SChema model
      */
-    protected XmlSchema getXmlSchema(final String source) {
+    public XmlSchema getXmlSchema(final String source) {
         XmlSchemaCollection schemaCol = new XmlSchemaCollection();
         return schemaCol.read(new StringReader(source), null);
+    }
+
+    /**
+     * @return true if references should be created instead of compared to
+     *         results
+     */
+    public boolean isCreateReferences() {
+        return _createReferences;
+    }
+
+    /**
+     * @param createReferences true if references should be created instead of
+     *            compared to results
+     */
+    public void setCreateReferences(boolean createReferences) {
+        _createReferences = createReferences;
+    }
+
+    /**
+     * Return a class unqualified (no package prefix) name.
+     * 
+     * @param clazz the class
+     * @return the unqualified name
+     */
+    public static String getUnqualName(final Class < ? > clazz) {
+        String unqname = clazz.getName();
+        if (unqname.lastIndexOf('.') > 0) {
+            unqname = unqname.substring(unqname.lastIndexOf('.') + 1);
+        }
+        return unqname;
+    }
+
+    /**
+     * Check a result against a reference.
+     * <p/>
+     * Here result is a folder as well a reference. In check mode all file are
+     * compared in creation mode all reference files are created as copies from
+     * the results.
+     * <p/>
+     * ObjectFactories are not compared because their content is not ordered in
+     * a consistent way.
+     * 
+     * @param refFolder the reference folder (containing reference files)
+     * @param resultFolder the result folder (containing generated files)
+     * @param extension the files extension to process
+     * @throws Exception if something fails
+     */
+    @SuppressWarnings("unchecked")
+    public void check(final File refFolder, final File resultFolder,
+            final String extension) throws Exception {
+
+        if (isCreateReferences()) {
+            Collection < File > resultFiles = FileUtils.listFiles(resultFolder,
+                    new String[] { extension }, false);
+            for (File resultFile : resultFiles) {
+                if (resultFile.getName().equals("ObjectFactory.java")) {
+                    continue;
+                }
+                FileUtils.copyFileToDirectory(resultFile, refFolder);
+            }
+        } else {
+            Collection < File > referenceFiles = FileUtils.listFiles(refFolder,
+                    new String[] { extension }, false);
+            for (File referenceFile : referenceFiles) {
+                if (referenceFile.getName().equals("ObjectFactory.java")) {
+                    continue;
+                }
+                File resultFile = new File(resultFolder,
+                        FilenameUtils.getName(referenceFile.getPath()));
+                String expected = FileUtils.readFileToString(referenceFile);
+                String result = FileUtils.readFileToString(resultFile);
+                assertEquals(String.format("comparing result file %s with %s",
+                        resultFile.getName(), referenceFile.getName()),
+                        expected, result);
+            }
+        }
+
     }
 
     /**
@@ -150,7 +237,7 @@ public abstract class AbstractJaxbTester extends TestCase {
      * @param xsd the XML Schema
      * @return a string holding the schema content
      */
-    protected String toString(final XmlSchema xsd) {
+    public String toString(final XmlSchema xsd) {
         StringWriter writer = new StringWriter();
         xsd.write(writer);
         if (_log.isDebugEnabled()) {

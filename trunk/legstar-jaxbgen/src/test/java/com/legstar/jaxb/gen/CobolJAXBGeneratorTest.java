@@ -27,6 +27,9 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
     /** An instance of the JAXB generator. */
     private CobolJAXBGenerator _task;
 
+    /** True when references should be created. */
+    private static final boolean CREATE_REFERENCES = false;
+
     /** {@inheritDoc} */
     @Override
     public void setUp() throws Exception {
@@ -35,6 +38,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
         _task.setProject(new Project());
         _task.init();
         _task.getProject().fireBuildStarted();
+        setCreateReferences(CREATE_REFERENCES);
 
     }
 
@@ -48,16 +52,16 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
             _task.execute();
             fail();
         } catch (BuildException e) {
-            assertEquals("You must specify an XML schema file name", e
-                    .getMessage());
+            assertEquals("You must specify an XML schema file name",
+                    e.getMessage());
         }
         _task.setXsdFile(getSchemaFromFolder("lsfileaq"));
         try {
             _task.execute();
             fail();
         } catch (BuildException e) {
-            assertEquals("You must specify a destination directory", e
-                    .getMessage());
+            assertEquals("You must specify a destination directory",
+                    e.getMessage());
         }
     }
 
@@ -157,11 +161,9 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
                 "public class DfhcommareaSomeSuffix"));
 
         nameTransform(internalBindings, "lsfileaq", "SomePrefix", "SomeSuffix",
-                null,
-                null);
+                null, null);
         assertTrue(getSource("lsfileaq", "SomePrefixDfhCommareaSomeSuffix")
-                .contains(
-                        "public class SomePrefixDfhcommareaSomeSuffix"));
+                .contains("public class SomePrefixDfhcommareaSomeSuffix"));
 
         nameTransform(internalBindings, "MSNSearch", null, null, "SomePrefix",
                 null);
@@ -176,8 +178,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
         nameTransform(internalBindings, "MSNSearch", null, null, "SomePrefix",
                 "SomeSuffix");
         assertTrue(getSource("MSNSearch", "SomePrefixSearchResponseSomeSuffix")
-                .contains(
-                        "public class SomePrefixSearchResponseSomeSuffix"));
+                .contains("public class SomePrefixSearchResponseSomeSuffix"));
 
     }
 
@@ -191,8 +192,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
      * @throws Exception if generation fails
      */
     protected void globalBindings(final boolean internalBindings,
-            final String schemaName,
-            final long serializableUid,
+            final String schemaName, final long serializableUid,
             final boolean generateIsSetMethod) throws Exception {
         _task.setInternalBindings(internalBindings);
         _task.setXsdFile(getSchemaFromFolder(schemaName));
@@ -215,10 +215,8 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
      * @throws Exception if generation fails
      */
     protected void nameTransform(final boolean internalBindings,
-            final String schemaName,
-            final String typeNamePrefix,
-            final String typeNameSuffix,
-            final String elementNamePrefix,
+            final String schemaName, final String typeNamePrefix,
+            final String typeNameSuffix, final String elementNamePrefix,
             final String elementNameSuffix) throws Exception {
         _task.setInternalBindings(internalBindings);
         _task.setXsdFile(getSchemaFromFolder(schemaName));
@@ -234,27 +232,37 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
     /**
      * Check what JAXB does with underscores.
      */
-    public void testElementNamesWithUnderscores()throws Exception {
-    	String xsd = "<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\""
-    		+	" xmlns:cb=\"http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd\">"
-			  + "<xs:element name=\"customer\" type=\"CustomerType\"/>"
-			  + "<xs:complexType name=\"CustomerType\">"
-			  + "  <xs:sequence>"
-			  + "    <xs:element name=\"n_ame\" type=\"xs:string\"/>"
-			  + "    <xs:element name=\"number\" type=\"xs:integer\"/>"
-			  + "  </xs:sequence>"
-			  + "</xs:complexType>"
-			  + "</xs:schema>";
-    	File tempXsdFile = File.createTempFile("jaxbgen", ".xsd");
-    	tempXsdFile.deleteOnExit();
-    	FileUtils.writeStringToFile(tempXsdFile, xsd);
-    	
-    	_task.setXsdFile(tempXsdFile);
+    public void testElementNamesWithUnderscores() throws Exception {
+        String xsd = "<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\""
+                + " xmlns:cb=\"http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd\">"
+                + "<xs:element name=\"customer\" type=\"CustomerType\"/>"
+                + "<xs:complexType name=\"CustomerType\">" + "  <xs:sequence>"
+                + "    <xs:element name=\"n_ame\" type=\"xs:string\"/>"
+                + "    <xs:element name=\"number\" type=\"xs:integer\"/>"
+                + "  </xs:sequence>" + "</xs:complexType>" + "</xs:schema>";
+        File tempXsdFile = File.createTempFile("jaxbgen", ".xsd");
+        tempXsdFile.deleteOnExit();
+        FileUtils.writeStringToFile(tempXsdFile, xsd);
+
+        _task.setXsdFile(tempXsdFile);
         _task.setTargetDir(GEN_SRC_DIR);
         _task.execute();
-        
+
         String result = getSource("generated", "", "CustomerType");
         assertTrue(result.contains("public String getNAme()"));
-    	
+
+    }
+
+    /**
+     * An ECI compatibility case.
+     */
+    public void testRQ071() throws Exception {
+        _task.setXsdFile(new File(COB_XSD_DIR, "RQ071CICSECIBinding.xsd"));
+        _task.setEciCompatible(true);
+        _task.setJaxbPackageName("com.legstar.test.coxb.rq071");
+        _task.setTargetDir(GEN_SRC_DIR);
+        _task.execute();
+        check(new File(JAXB_REF_DIR, "com/legstar/test/coxb/rq071"), new File(
+                GEN_SRC_DIR, "com/legstar/test/coxb/rq071"), "java");
     }
 }
