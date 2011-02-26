@@ -51,14 +51,7 @@
         
         <dependency>
             <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-jaxbgen-cases</artifactId>
-            <scope>test</scope>
-        </dependency>
-    
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-jaxbgen</artifactId>
-            <version>${version}</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>

@@ -3,16 +3,16 @@
     <files>
         <!-- XML schema files  -->
         <file>
-            <source>${project.basedir}/../target/cases/schema/LSFILEAE.xsd</source>
+            <source>${project.basedir}/../legstar-jaxbgen/src/test/resources/cobxsd/LSFILEAE.xsd</source>
             <outputDirectory>samples/quickstarts/adapter_lsfileae/schema</outputDirectory>
             <destName>lsfileae.xsd</destName>
         </file>
         <file>
-            <source>${project.basedir}/../target/cases/schema/jvmquery.xsd</source>
+            <source>${project.basedir}/../legstar-jaxbgen/src/test/resources/cobxsd/jvmquery.xsd</source>
             <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery/schema</outputDirectory>
         </file>
         <file>
-            <source>${project.basedir}/../target/cases/schema/cultureinfo.xsd</source>
+            <source>${project.basedir}/../legstar-jaxbgen/src/test/resources/cobxsd/cultureinfo.xsd</source>
             <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo/schema</outputDirectory>
         </file>
 
