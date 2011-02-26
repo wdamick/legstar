@@ -17,6 +17,10 @@
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-cixsgen-cases</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-rt</artifactId>
+        </dependency>
 
     </dependencies>
   

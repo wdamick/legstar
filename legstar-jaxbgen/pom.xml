@@ -20,6 +20,14 @@
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-codegen</artifactId>
         </dependency>
+        <!-- POJO test cases -->    
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-test-jvmquery</artifactId>
+            <classifier>classes</classifier>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>ant</groupId>
             <artifactId>ant</artifactId>

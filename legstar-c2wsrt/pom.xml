@@ -51,12 +51,21 @@
         </dependency>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-jaxbgen-cases</artifactId>
+            <artifactId>legstar-jaxbgen</artifactId>
+            <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-coxbgen-cases</artifactId>
+            <artifactId>legstar-coxbgen</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <!-- POJO test cases -->    
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-test-jvmquery</artifactId>
+            <classifier>classes</classifier>
             <scope>test</scope>
         </dependency>
         <dependency>

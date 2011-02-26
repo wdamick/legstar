@@ -14,10 +14,14 @@
 
     <modules>
         <module>../legstar-jaxbgen</module>
+        <!-- TODO remove
         <module>../legstar-jaxbgen-cases</module>
+        -->
         <module>../legstar-coxbrt</module>
         <module>../legstar-coxbgen</module>
+        <!-- TODO remove
         <module>../legstar-coxbgen-cases</module>
+        -->
         <module>../legstar-cob2trans</module>
         <module>../legstar-cobcgen</module>
     </modules>

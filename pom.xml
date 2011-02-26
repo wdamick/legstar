@@ -611,6 +611,22 @@
                 <artifactId>legstar-codegen</artifactId>
                 <version>${legstarCoreVersion}</version>
             </dependency>
+            <!-- POJO test cases -->    
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-test-cultureinfo</artifactId>
+                <version>0.2.0</version>
+                <classifier>classes</classifier>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-test-jvmquery</artifactId>
+                <version>0.2.0</version>
+                <classifier>classes</classifier>
+                <scope>test</scope>
+            </dependency>
+
 
             <!-- LegStar internal dependencies sub-section -->    
             <dependency>
@@ -675,9 +691,19 @@
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-jaxbgen</artifactId>
+                <version>${version}</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+        
+            <!-- TODO remove
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-jaxbgen-cases</artifactId>
                 <version>${version}</version>
             </dependency>
+            -->
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-coxbgen</artifactId>
@@ -685,9 +711,18 @@
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-coxbgen</artifactId>
+                <version>${version}</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+            <!-- TODO remove
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-coxbgen-cases</artifactId>
                 <version>${version}</version>
             </dependency>
+            -->
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-cixsgen</artifactId>

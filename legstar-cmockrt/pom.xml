@@ -52,7 +52,8 @@
         <!-- Test cases for JAXB binding -->    
         <dependency>
             <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-jaxbgen-cases</artifactId>
+            <artifactId>legstar-jaxbgen</artifactId>
+            <type>test-jar</type>
             <scope>test</scope>
         </dependency>
 
