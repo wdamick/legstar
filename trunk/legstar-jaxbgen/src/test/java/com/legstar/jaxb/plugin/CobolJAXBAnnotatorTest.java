@@ -44,7 +44,7 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbGenTest {
      * @throws Exception if generation fails
      */
     public void testSimpleAnnotation() throws Exception {
-        genSource("ALLTYPES");
+        genSource("alltypes", "ALLTYPES.xsd");
         String srce = getJaxbSource("ALLTYPES", "DfhCommarea");
         assertTrue(srce.contains("@CobolElement(cobolName = \"S-STRING\","
                 + " type = CobolType.ALPHANUMERIC_ITEM," + " levelNumber = 5,"
@@ -116,7 +116,7 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbGenTest {
      * @throws Exception if generation fails
      */
     public void testEnumAnnotation() throws Exception {
-        genSource("MSNSearch", "Type");
+        genSource("MSNSearch", "MSNSearch.xsd", "Type");
         String srce = getJaxbSource("MSNSearch", "SearchRequestType");
         assertTrue(srce.contains("@CobolElement(cobolName = \"SafeSearch\","
                 + " type = CobolType.ALPHANUMERIC_ITEM," + " levelNumber = 5,"
@@ -129,7 +129,7 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbGenTest {
      * @throws Exception if generation fails
      */
     public void testXsdcgenOutput() throws Exception {
-        genSource("cultureinfo");
+        genSource("cultureinfo", "cultureinfo.xsd");
         String srce = getJaxbSource("cultureinfo", "CultureInfoParameters");
         assertTrue(srce.contains("@CobolElement(cobolName = \"cultureCode\","
                 + " type = CobolType.ALPHANUMERIC_ITEM," + " levelNumber = 5,"
@@ -142,7 +142,7 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbGenTest {
      * @throws Exception if generation fails
      */
     public void testXsdcgenOutputWithJavaClassNames() throws Exception {
-        genSource("jvmquery");
+        genSource("jvmquery", "jvmquery.xsd");
         String srce = getJaxbSource("jvmquery", "JvmQueryReply");
         assertTrue(srce
                 .contains("@CobolComplexType(javaClassName = \"com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply\")"));
@@ -154,7 +154,7 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbGenTest {
      * @throws Exception if generation fails
      */
     public void testDefaultValues() throws Exception {
-        genSource("valuemix");
+        genSource("valuemix", "VALUEMIX.xsd");
         String srce = getJaxbSource("valuemix", "Dfhcommarea");
         assertTrue(srce.contains("protected long wsZero = 0L;"));
         assertTrue(srce.contains("protected long wsZeros = 0L;"));
@@ -188,7 +188,7 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbGenTest {
      * @throws Exception if generation fails
      */
     public void testInitializeIntegers() throws Exception {
-        genSource("lsfileaq");
+        genSource("lsfileaq", "LSFILEAQ.xsd");
         String srce = getJaxbSource("lsfileaq", "QueryData");
         assertTrue(srce.contains("protected short maxReplies = -1"));
     }
@@ -234,22 +234,27 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbGenTest {
      * Generates JAXB classes with Cobol annotations.
      * 
      * @param schemaName the schema used to generate
+     * @param schemaFileName the schema file name
      * @throws Exception if generation fails
      */
-    private void genSource(final String schemaName) throws Exception {
-        genSource(schemaName, null);
+    private void genSource(final String schemaName, final String schemaFileName)
+            throws Exception {
+        genSource(schemaName, schemaFileName, null);
     }
 
     /**
      * Generates JAXB classes with Cobol annotations.
      * 
      * @param schemaName the schema used to generate
+     * @param schemaFileName the schema file name
      * @param typeNameSuffix the type name suffix if needed
      * @throws Exception if generation fails
      */
-    private void genSource(final String schemaName, final String typeNameSuffix)
+    private void genSource(final String schemaName,
+            final String schemaFileName, final String typeNameSuffix)
             throws Exception {
-        genSource(schemaName, getSchemaFromFolder(schemaName), typeNameSuffix);
+        genSource(schemaName, new File(COB_XSD_DIR, schemaFileName),
+                typeNameSuffix);
     }
 
     /**
@@ -265,7 +270,7 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbGenTest {
         _task.setXsdFile(schemaFile);
         _task.setTargetDir(GEN_SRC_DIR);
         _task.setTypeNameSuffix(typeNameSuffix);
-        _task.setJaxbPackageName("com.legstar.test.coxb." + schemaName);
+        _task.setJaxbPackageName(JAXB_PKG_PFX + "." + schemaName);
         _task.execute();
     }
 }

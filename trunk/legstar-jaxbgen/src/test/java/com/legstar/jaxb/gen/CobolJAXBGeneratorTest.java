@@ -65,7 +65,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
             assertEquals("You must specify an XML schema file name",
                     e.getMessage());
         }
-        _task.setXsdFile(getSchemaFromFolder("lsfileaq"));
+        _task.setXsdFile(new File(COB_XSD_DIR, "LSFILEAQ.xsd"));
         try {
             _task.execute();
             fail();
@@ -81,7 +81,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
      * @throws Exception if generation fails
      */
     public void testPackageName() throws Exception {
-        _task.setXsdFile(getSchemaFromFolder("lsfileaq"));
+        _task.setXsdFile(new File(COB_XSD_DIR, "LSFILEAQ.xsd"));
         _task.setTargetDir(GEN_SRC_DIR);
         _task.setJaxbPackageName("com.alternate.pkg.lsfileaq");
         _task.execute();

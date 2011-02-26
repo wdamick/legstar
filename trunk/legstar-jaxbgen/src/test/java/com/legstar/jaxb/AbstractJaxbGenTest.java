@@ -86,24 +86,6 @@ public abstract class AbstractJaxbGenTest extends TestCase {
     }
 
     /**
-     * Lookup a test schema from a folder.
-     * 
-     * @param schemaName the schema name
-     * @return the schema file
-     * @throws Exception if schema file cannot be located
-     */
-    public File getSchemaFromFolder(final String schemaName) throws Exception {
-        String fileName = schemaName;
-        if (Character.isLowerCase(schemaName.charAt(0))) {
-            fileName = schemaName.toUpperCase() + ".xsd";
-        } else {
-            fileName = schemaName + ".xsd";
-        }
-
-        return new File(XSD_DIR.getCanonicalPath() + '/' + fileName);
-    }
-
-    /**
      * Reads a complete JAXB source file into a string.
      * 
      * @param schemaName the schema used to generate
