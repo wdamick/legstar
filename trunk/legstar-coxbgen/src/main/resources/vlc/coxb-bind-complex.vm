@@ -194,7 +194,12 @@ public class $binding-class-name
                     + "${coxbHelper.getFieldName($child)}"
                     + " value=" + mValueObject.${coxbHelper.getterMethodName($child)}());
         }
+#if(${coxbHelper.isArray($child)} && ${coxbHelper.isJaxbArray($binding, $child)})
+        ${coxbHelper.getFieldName($child)}.setObjectValue(java.util.Arrays
+               .asList(mValueObject.${coxbHelper.getterMethodName($child)}()));
+#else
         ${coxbHelper.getFieldName($child)}.setObjectValue(mValueObject.${coxbHelper.getterMethodName($child)}());
+#end
 #if(${coxbHelper.isVariableSizeArray($child)})
         /* For variable size array or list, we make sure any
          * associated counter is updated */
@@ -235,8 +240,13 @@ public class $binding-class-name
             bindingValue = child.getObjectValue(${childObjectType}.class);
 #if(${coxbHelper.isArray($child)})
             List < $childObjectType > list${child.bindingName} = cast(bindingValue);
+#if(${coxbHelper.isJaxbArray($binding, $child)})
+            mValueObject.${coxbHelper.setterMethodName($child)}(list${child.bindingName}.toArray(
+            		new ${childObjectType}[] {}));
+#else
             mValueObject.${coxbHelper.getterMethodName($child)}().clear();
             mValueObject.${coxbHelper.getterMethodName($child)}().addAll(list${child.bindingName});
+#end
 #else
             mValueObject.${coxbHelper.setterMethodName($child)}(($childObjectType) bindingValue);
 #end

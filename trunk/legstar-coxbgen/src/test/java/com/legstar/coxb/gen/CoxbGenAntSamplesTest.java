@@ -23,7 +23,7 @@ import com.legstar.codegen.CodeGenUtil;
  * distribution.
  * 
  */
-public class CoxbGenAntSamplesTest extends AbstractTestTemplate {
+public class CoxbGenAntSamplesTest extends AbstractCoxbGenTest {
 
     /** Product location relative to where the sample ant gets distributed.. */
     private static final String SAMPLES_PRODUCT_LOCATION = "../../..";

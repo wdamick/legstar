@@ -10,12 +10,12 @@
  ******************************************************************************/
 package com.legstar.coxb.gen;
 
+import junit.framework.TestCase;
+
 import com.legstar.coxb.host.HostException;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.coxb.impl.reflect.ReflectBindingException;
 import com.legstar.coxb.util.ClassUtil;
-
-import junit.framework.TestCase;
 
 /**
  * Test the CoxbHelper.
@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 public class CoxbHelperTest extends TestCase {
 
     /** Cocb helper instance. */
-    private CoxbHelper mCoxbHelper = new CoxbHelper();
+    private CoxbHelper _coxbHelper = new CoxbHelper();
 
     /**
      * Get the bound type from a binding class.
@@ -39,7 +39,7 @@ public class CoxbHelperTest extends TestCase {
                 ClassUtil
                         .loadClass("com.legstar.test.coxb.alltypes.Dfhcommarea"));
 
-        assertEquals("Dfhcommarea", mCoxbHelper.getBoundTypeName(binding));
+        assertEquals("Dfhcommarea", _coxbHelper.getBoundTypeName(binding));
 
     }
 
@@ -48,21 +48,20 @@ public class CoxbHelperTest extends TestCase {
      */
     public void testGetXmlAnnotations() {
         try {
-            com.legstar.test.coxb.lsfilead.ObjectFactory objectFactory =
-                    new com.legstar.test.coxb.lsfilead.ObjectFactory();
+            com.legstar.test.coxb.lsfilead.ObjectFactory objectFactory = new com.legstar.test.coxb.lsfilead.ObjectFactory();
 
             CComplexReflectBinding binding = new CComplexReflectBinding(
                     objectFactory,
                     ClassUtil
                             .loadClass("com.legstar.test.coxb.alltypes.Dfhcommarea"));
 
-            assertEquals("Dfhcommarea", mCoxbHelper.getJaxbTypeName(binding));
-            assertEquals("com.legstar.test.coxb.alltypes", mCoxbHelper
-                    .getJaxbPackageName(binding));
-            assertEquals("Dfhcommarea", mCoxbHelper.getXmlElementName(binding));
-            assertEquals("http://legstar.com/test/coxb/alltypes", mCoxbHelper
-                    .getXmlNamespace(binding));
-            assertEquals(false, mCoxbHelper.isXmlRootElement(binding));
+            assertEquals("Dfhcommarea", _coxbHelper.getJaxbTypeName(binding));
+            assertEquals("com.legstar.test.coxb.alltypes",
+                    _coxbHelper.getJaxbPackageName(binding));
+            assertEquals("Dfhcommarea", _coxbHelper.getXmlElementName(binding));
+            assertEquals("http://legstar.com/test/coxb/alltypes",
+                    _coxbHelper.getXmlNamespace(binding));
+            assertEquals(false, _coxbHelper.isXmlRootElement(binding));
         } catch (ReflectBindingException e) {
             fail(e.getMessage());
         } catch (ClassNotFoundException e) {
@@ -71,6 +70,37 @@ public class CoxbHelperTest extends TestCase {
             fail(e.getMessage());
         }
 
+    }
+
+    /**
+     * Test capability to identify JAXB indexed arrays as opposed to List.
+     * 
+     * @throws Exception if test fails
+     */
+    public void testIsJaxbArray() throws Exception {
+
+        /* Test a simple List array */
+        CComplexReflectBinding parent = new CComplexReflectBinding(
+                new com.legstar.test.coxb.listssdo.ObjectFactory(),
+                ClassUtil
+                        .loadClass("com.legstar.test.coxb.listssdo.Dfhcommarea"));
+        assertEquals(false, _coxbHelper.isJaxbArray(parent, parent
+                .getChildrenList().get(1)));
+
+        /* Test a complex List array */
+        parent = new CComplexReflectBinding(
+                new com.legstar.test.coxb.arrayscx.ObjectFactory(),
+                ClassUtil
+                        .loadClass("com.legstar.test.coxb.arrayscx.Dfhcommarea"));
+        assertEquals(false, _coxbHelper.isJaxbArray(parent, parent
+                .getChildrenList().get(1)));
+
+        /* Test a complex indexed array */
+        parent = new CComplexReflectBinding(
+                new com.legstar.test.coxb.rq071.ObjectFactory(),
+                ClassUtil.loadClass("com.legstar.test.coxb.rq071.RQ071Output"));
+        assertEquals(true, _coxbHelper.isJaxbArray(parent, parent
+                .getChildrenList().get(17)));
     }
 
 }
