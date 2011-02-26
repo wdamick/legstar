@@ -42,12 +42,6 @@ public abstract class AbstractCoxbGenTest extends AbstractJaxbGenTest {
     /** Sub directory for custom classes. */
     public static final String GEN_CUST_SUBDIR = "com/legstar/coxb/cust";
 
-    /** Generated JAXB classes package prefix. */
-    public static final String JAXB_PKG_PFX = "com.legstar.test.coxb";
-
-    /** Reference files which are not sources. */
-    public static final File REF_DIR = new File("src/test/resources/reference");
-
     /** Additional parameter set passed to templates. */
     private Map < String, Object > mParameters;
 
@@ -149,31 +143,6 @@ public abstract class AbstractCoxbGenTest extends AbstractJaxbGenTest {
                 + schemaName + "/bind");
 
         check(schemaName, fileName, refFolder, resultFolder);
-    }
-
-    /**
-     * Check a result against a reference.
-     * 
-     * @param schemaName the schema name
-     * @param fileName the file name to check
-     * @param refFolder the reference folder
-     * @param resultFolder the result folder
-     * @throws Exception if something fails
-     */
-    public void check(final String schemaName, final String fileName,
-            final File refFolder, final File resultFolder) throws Exception {
-        File resultFile = new File(resultFolder, fileName);
-
-        if (isCreateReferences()) {
-            FileUtils.copyFileToDirectory(resultFile, refFolder);
-        } else {
-            File referenceFile = new File(refFolder, fileName);
-            String expected = FileUtils.readFileToString(referenceFile);
-            String result = FileUtils.readFileToString(resultFile);
-            assertEquals(String.format("comparing result file %s with %s",
-                    resultFile.getName(), referenceFile.getName()), expected,
-                    result);
-        }
     }
 
     /**
