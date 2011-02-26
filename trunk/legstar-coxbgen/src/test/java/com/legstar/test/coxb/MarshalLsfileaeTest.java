@@ -1,0 +1,181 @@
+/*******************************************************************************
+ * Copyright (c) 2010 LegSem.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser Public License v2.1
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * 
+ * Contributors:
+ *     LegSem - initial API and implementation
+ ******************************************************************************/
+package com.legstar.test.coxb;
+
+import java.io.StringReader;
+
+import javax.xml.transform.stream.StreamSource;
+
+import junit.framework.TestCase;
+
+import com.legstar.coxb.host.HostData;
+import com.legstar.coxb.transform.HostTransformException;
+import com.legstar.coxb.transform.HostTransformStatus;
+import com.legstar.test.coxb.lsfileae.ComPersonal;
+import com.legstar.test.coxb.lsfileae.Dfhcommarea;
+import com.legstar.test.coxb.lsfileae.bind.DfhcommareaJavaToHostTransformer;
+import com.legstar.test.coxb.lsfileae.bind.DfhcommareaJsonTransformers;
+import com.legstar.test.coxb.lsfileae.bind.DfhcommareaTransformers;
+import com.legstar.test.coxb.lsfileae.bind.DfhcommareaXmlTransformers;
+
+/**
+ * Marshal lsfileae.
+ * 
+ */
+public class MarshalLsfileaeTest extends TestCase {
+
+    /** The annotated XSD file name. */
+    private static final String SCHEMA_NAME = "lsfileae";
+
+    /**
+     * Marshal java data object and test host data result.
+     * 
+     * @throws Exception if marshaling fails
+     */
+    public void testLsfileae() throws Exception {
+
+        // Create and populate an instance of an object (JAXB annotated)
+        Dfhcommarea dfhcommarea = LsfileaeCases.getJavaObject();
+        assertEquals(LsfileaeCases.getHostBytesHex(),
+                Util.marshal(SCHEMA_NAME, dfhcommarea, 79));
+    }
+
+    /**
+     * Transform java data object and test host data result.
+     * 
+     * @throws Exception if transforming fails
+     */
+    public void testJavaToHostTransformer() throws Exception {
+
+        DfhcommareaJavaToHostTransformer transformer = new DfhcommareaJavaToHostTransformer();
+        HostTransformStatus status = new HostTransformStatus();
+
+        assertEquals(LsfileaeCases.getHostBytesHex(),
+                HostData.toHexString(transformer.transform(LsfileaeCases
+                        .getJavaObject(), status)));
+        assertEquals(79, status.getHostBytesProcessed());
+    }
+
+    /**
+     * Test the sample code shown in documentation.
+     * 
+     * @throws HostTransformException if transforming fails
+     */
+    public void testJavaToHostTransformerDoc() throws HostTransformException {
+
+        assertEquals(LsfileaeCases.getHostBytesHex(),
+                HostData.toHexString(javaToHostTransform()));
+    }
+
+    /**
+     * Test the sample code shown in documentation.
+     * 
+     * @throws HostTransformException if transforming fails
+     */
+    public void testXmlToHostTransformerDoc() throws HostTransformException {
+
+        assertEquals(LsfileaeCases.getHostBytesHex(),
+                HostData.toHexString(xmlToHostTransform()));
+    }
+
+    /**
+     * Test the sample code shown in documentation.
+     * 
+     * @throws HostTransformException if transforming fails
+     */
+    public void testJsonToHostTransformerDoc() throws HostTransformException {
+
+        assertEquals(LsfileaeCases.getHostBytesHex(),
+                HostData.toHexString(jsonToHostTransform()));
+    }
+
+    /**
+     * Creates a java data object and returns the host data result.
+     * 
+     * @return a byte array holding the mainframe payload
+     * @throws HostTransformException if transforming fails
+     */
+    public byte[] javaToHostTransform() throws HostTransformException {
+        Dfhcommarea dfhcommarea = new Dfhcommarea();
+        dfhcommarea.setComNumber(100L);
+        ComPersonal comPersonal = new ComPersonal();
+        comPersonal.setComName("TOTO");
+        comPersonal.setComAddress("LABAS STREET");
+        comPersonal.setComPhone("88993314");
+        dfhcommarea.setComPersonal(comPersonal);
+        dfhcommarea.setComDate("100458");
+        dfhcommarea.setComAmount("00100.35");
+        dfhcommarea.setComComment("A VOIR");
+        DfhcommareaTransformers transformers = new DfhcommareaTransformers();
+        return transformers.toHost(dfhcommarea);
+    }
+
+    /**
+     * Turns an XML into host data.
+     * 
+     * @return a byte array holding the mainframe payload
+     * @throws HostTransformException if transforming fails
+     */
+    public byte[] xmlToHostTransform() throws HostTransformException {
+        StringReader reader = new StringReader(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\" "
+                        + "standalone=\"yes\"?>"
+                        + "<Dfhcommarea xmlns="
+                        + "\"http://legstar.com/test/coxb/lsfileae\">"
+                        + "<ComNumber>100</ComNumber>"
+                        + "<ComPersonal>"
+                        + "<ComName>TOTO</ComName>"
+                        + "<ComAddress>LABAS STREET</ComAddress>"
+                        + "<ComPhone>88993314</ComPhone>"
+                        + "</ComPersonal>"
+                        + "<ComDate>100458</ComDate>"
+                        + "<ComAmount>00100.35</ComAmount>"
+                        + "<ComComment>A VOIR</ComComment>"
+                        + "</Dfhcommarea>");
+        DfhcommareaXmlTransformers transformers =
+                new DfhcommareaXmlTransformers();
+        return transformers.toHost(new StreamSource(reader));
+    }
+
+    /**
+     * Turns JSON into host data.
+     * 
+     * @return a byte array holding the mainframe payload
+     * @throws HostTransformException if transforming fails
+     */
+    public byte[] jsonToHostTransform() throws HostTransformException {
+        StringReader reader = new StringReader(
+                "{\"ComNumber\":100,"
+                        + "\"ComPersonal\":"
+                        + "{\"ComName\":\"TOTO\","
+                        + "\"ComAddress\":\"LABAS STREET\","
+                        + "\"ComPhone\":\"88993314\"},"
+                        + "\"ComDate\":\"100458\","
+                        + "\"ComAmount\":\"00100.35\","
+                        + "\"ComComment\":\"A VOIR\"}");
+        DfhcommareaJsonTransformers transformers =
+                new DfhcommareaJsonTransformers();
+        return transformers.toHost(reader);
+    }
+
+    /**
+     * Test JSON to Host transformation
+     * 
+     * @throws HostTransformException if test fails
+     */
+    public void testJsonToHostTransform() throws HostTransformException {
+        StringReader reader = new StringReader(LsfileaeCases.getJson());
+        DfhcommareaJsonTransformers transformers = new DfhcommareaJsonTransformers();
+        byte[] hostData = transformers.toHost(reader);
+        assertEquals(LsfileaeCases.getHostBytesHex(),
+                HostData.toHexString(hostData));
+    }
+}

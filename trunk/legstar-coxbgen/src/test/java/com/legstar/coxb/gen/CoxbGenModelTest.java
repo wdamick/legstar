@@ -64,7 +64,7 @@ public class CoxbGenModelTest extends AbstractCoxbGenTest {
         _model.setProbeFile(new File("probe.file.tmp"));
         _model.setJaxbSrcDir(GEN_SRC_DIR);
         _model.setJaxbBinDir(GEN_BIN_DIR);
-        _model.setXsdFile(new File("../legstar-jaxbgen/" + COB_XSD_DIR,
+        _model.setXsdFile(new File(COB_XSD_DIR,
                 "LSFILEAE.xsd"));
         _model.setCoxbSrcDir(GEN_SRC_DIR);
         _model.setCoxbBinDir(GEN_BIN_DIR);
@@ -175,7 +175,7 @@ public class CoxbGenModelTest extends AbstractCoxbGenTest {
         _model.setProbeFile(new File("probe.file.tmp"));
         _model.setJaxbSrcDir(GEN_SRC_DIR);
         _model.setJaxbBinDir(GEN_BIN_DIR);
-        _model.setXsdFile(new File("../legstar-jaxbgen/" + COB_XSD_DIR,
+        _model.setXsdFile(new File(COB_XSD_DIR,
                 "REDSIMPT.xsd"));
         _model.setCoxbSrcDir(GEN_SRC_DIR);
         _model.setCoxbBinDir(GEN_BIN_DIR);
