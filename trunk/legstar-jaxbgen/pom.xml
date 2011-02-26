@@ -60,6 +60,19 @@
     <build>
         <plugins>
 
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <!--  Make test classes and resources available via maven -->
+                     <execution>
+                        <id>bundle-test-jar</id>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- This will extract all external projects test schema cases for our modules to use.  -->
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>

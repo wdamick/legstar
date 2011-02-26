@@ -14,13 +14,13 @@ import java.io.File;
 
 import org.apache.ws.commons.schema.XmlSchema;
 
-import com.legstar.jaxb.AbstractJaxbTester;
+import com.legstar.jaxb.AbstractJaxbGenTest;
 
 /**
  * Test the XJB generation.
  * 
  */
-public class JaxbGenModelTest extends AbstractJaxbTester {
+public class JaxbGenModelTest extends AbstractJaxbGenTest {
 
     /** The generation model. */
     private JaxbGenModel _model;

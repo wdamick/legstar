@@ -14,13 +14,13 @@ import java.io.File;
 
 import org.apache.ws.commons.schema.XmlSchema;
 
-import com.legstar.jaxb.AbstractJaxbTester;
+import com.legstar.jaxb.AbstractJaxbGenTest;
 
 /**
  * Test cases for CobolJAXBCustomizer.
  * 
  */
-public class CobolJAXBCustomizerTest extends AbstractJaxbTester {
+public class CobolJAXBCustomizerTest extends AbstractJaxbGenTest {
 
     /** An instance of the customizer under test. */
     private CobolJAXBCustomizer _cobolJAXBCustomizer;

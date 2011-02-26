@@ -15,14 +15,14 @@ import java.io.File;
 import org.apache.commons.io.FileUtils;
 import org.apache.tools.ant.Project;
 
-import com.legstar.jaxb.AbstractJaxbTester;
+import com.legstar.jaxb.AbstractJaxbGenTest;
 import com.legstar.jaxb.gen.CobolJAXBGenerator;
 
 /**
  * Test the JAXB Annotator.
  * 
  */
-public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
+public class CobolJAXBAnnotatorTest extends AbstractJaxbGenTest {
 
     /** An instance of the JAXB generator. */
     private CobolJAXBGenerator _task;
@@ -45,7 +45,7 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
      */
     public void testSimpleAnnotation() throws Exception {
         genSource("ALLTYPES");
-        String srce = getSource("ALLTYPES", "DfhCommarea");
+        String srce = getJaxbSource("ALLTYPES", "DfhCommarea");
         assertTrue(srce.contains("@CobolElement(cobolName = \"S-STRING\","
                 + " type = CobolType.ALPHANUMERIC_ITEM," + " levelNumber = 5,"
                 + " picture = \"X(4)\"," + " srceLine = 24)"));
@@ -117,7 +117,7 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
      */
     public void testEnumAnnotation() throws Exception {
         genSource("MSNSearch", "Type");
-        String srce = getSource("MSNSearch", "SearchRequestType");
+        String srce = getJaxbSource("MSNSearch", "SearchRequestType");
         assertTrue(srce.contains("@CobolElement(cobolName = \"SafeSearch\","
                 + " type = CobolType.ALPHANUMERIC_ITEM," + " levelNumber = 5,"
                 + " picture = \"X(32)\"," + " usage = \"DISPLAY\")"));
@@ -130,7 +130,7 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
      */
     public void testXsdcgenOutput() throws Exception {
         genSource("cultureinfo");
-        String srce = getSource("cultureinfo", "CultureInfoParameters");
+        String srce = getJaxbSource("cultureinfo", "CultureInfoParameters");
         assertTrue(srce.contains("@CobolElement(cobolName = \"cultureCode\","
                 + " type = CobolType.ALPHANUMERIC_ITEM," + " levelNumber = 5,"
                 + " picture = \"X(32)\"," + " usage = \"DISPLAY\")"));
@@ -143,7 +143,7 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
      */
     public void testXsdcgenOutputWithJavaClassNames() throws Exception {
         genSource("jvmquery");
-        String srce = getSource("jvmquery", "JvmQueryReply");
+        String srce = getJaxbSource("jvmquery", "JvmQueryReply");
         assertTrue(srce
                 .contains("@CobolComplexType(javaClassName = \"com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply\")"));
     }
@@ -155,7 +155,7 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
      */
     public void testDefaultValues() throws Exception {
         genSource("valuemix");
-        String srce = getSource("valuemix", "Dfhcommarea");
+        String srce = getJaxbSource("valuemix", "Dfhcommarea");
         assertTrue(srce.contains("protected long wsZero = 0L;"));
         assertTrue(srce.contains("protected long wsZeros = 0L;"));
         assertTrue(srce.contains("protected long wsZeroes = 0L;"));
@@ -189,7 +189,7 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
      */
     public void testInitializeIntegers() throws Exception {
         genSource("lsfileaq");
-        String srce = getSource("lsfileaq", "QueryData");
+        String srce = getJaxbSource("lsfileaq", "QueryData");
         assertTrue(srce.contains("protected short maxReplies = -1"));
     }
 
@@ -224,7 +224,7 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbTester {
 
                 );
         genSource("testNaming", tempFile, null);
-        String srce = getSource("testNaming", "CustomerType");
+        String srce = getJaxbSource("testNaming", "CustomerType");
         assertTrue(srce.contains("public class CustomerType"));
         assertTrue(srce.contains("public String getName_ab_cd() {"));
         assertTrue(srce.contains("protected String name_ab_cd;"));
