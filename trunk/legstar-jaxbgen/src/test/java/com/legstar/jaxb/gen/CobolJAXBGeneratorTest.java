@@ -11,8 +11,12 @@
 package com.legstar.jaxb.gen;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
@@ -29,6 +33,12 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
 
     /** True when references should be created. */
     private static final boolean CREATE_REFERENCES = false;
+
+    /** List of XSDs which need special generation parameters. */
+    private static final List < String > NON_STANDARD_XSDS = Arrays
+            .asList(new String[] { "enumvar.xsd", "MSNSearch.xsd",
+                    "jvmquery.xsd", "jvmquery-ws.xsd", "cultureinfo.xsd",
+                    "RQ071CICSECIBinding.xsd" });
 
     /** {@inheritDoc} */
     @Override
@@ -63,21 +73,6 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
             assertEquals("You must specify a destination directory",
                     e.getMessage());
         }
-    }
-
-    /**
-     * Test without any extra parameters.
-     * 
-     * @throws Exception if generation fails
-     */
-    public void testDefaultGeneration() throws Exception {
-        _task.setXsdFile(getSchemaFromFolder("lsfileaq"));
-        _task.setTargetDir(GEN_SRC_DIR);
-        _task.execute();
-        String srce = getJaxbSource("lsfileaq", "DfhCommarea");
-        assertTrue(srce.contains("@CobolElement(cobolName = \"QUERY-DATA\","
-                + " type = CobolType.GROUP_ITEM," + " levelNumber = 5,"
-                + " srceLine = 36)"));
     }
 
     /**
@@ -125,19 +120,23 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
      */
     protected void globalBindings(final boolean internalBindings)
             throws Exception {
-        globalBindings(internalBindings, "lsfileaq", 1L, true);
+        jaxbgen("lsfileaq", internalBindings, 1L, true, null, null, null, null,
+                false);
         assertTrue(getJaxbSource("lsfileaq", "DfhCommarea").contains(
                 "public boolean isSetReplyData()"));
 
-        globalBindings(internalBindings, "lsfileaq", 1L, false);
+        jaxbgen("lsfileaq", internalBindings, 1L, false, null, null, null,
+                null, false);
         assertFalse(getJaxbSource("lsfileaq", "DfhCommarea").contains(
                 "public boolean isSetReplyData()"));
 
-        globalBindings(internalBindings, "lsfileaq", 1L, true);
+        jaxbgen("lsfileaq", internalBindings, 1L, true, null, null, null, null,
+                false);
         assertTrue(getJaxbSource("lsfileaq", "DfhCommarea").contains(
                 "private final static long serialVersionUID = 1L;"));
 
-        globalBindings(internalBindings, "lsfileaq", 123589357872112454L, true);
+        jaxbgen("lsfileaq", internalBindings, 123589357872112454L, true, null,
+                null, null, null, false);
         assertTrue(getJaxbSource("lsfileaq", "DfhCommarea")
                 .contains(
                         "private final static long serialVersionUID = 123589357872112454L;"));
@@ -150,83 +149,46 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
      * @throws Exception if generation fails
      */
     public void nameTransform(final boolean internalBindings) throws Exception {
-        nameTransform(internalBindings, "lsfileaq", "SomePrefix", null, null,
-                null);
+        jaxbgen("lsfileaq", internalBindings, 1L, true, "SomePrefix", null,
+                null,
+                null,
+                false);
         assertTrue(getJaxbSource("lsfileaq", "SomePrefixDfhCommarea").contains(
                 "public class SomePrefixDfhcommarea"));
 
-        nameTransform(internalBindings, "lsfileaq", null, "SomeSuffix", null,
-                null);
+        jaxbgen("lsfileaq", internalBindings, 1L, true, null, "SomeSuffix",
+                null,
+                null,
+                false);
         assertTrue(getJaxbSource("lsfileaq", "DfhCommareaSomeSuffix").contains(
                 "public class DfhcommareaSomeSuffix"));
 
-        nameTransform(internalBindings, "lsfileaq", "SomePrefix", "SomeSuffix",
-                null, null);
+        jaxbgen("lsfileaq", internalBindings, 1L, true, "SomePrefix",
+                "SomeSuffix",
+                null,
+                null, false);
         assertTrue(getJaxbSource("lsfileaq", "SomePrefixDfhCommareaSomeSuffix")
                 .contains("public class SomePrefixDfhcommareaSomeSuffix"));
 
-        nameTransform(internalBindings, "MSNSearch", null, null, "SomePrefix",
-                null);
+        jaxbgen("MSNSearch", internalBindings, 1L, true, null, null,
+                "SomePrefix",
+                null,
+                false);
         assertTrue(getJaxbSource("MSNSearch", "SomePrefixSearchResponse").contains(
                 "public class SomePrefixSearchResponse"));
 
-        nameTransform(internalBindings, "MSNSearch", null, null, null,
-                "SomeSuffix");
+        jaxbgen("MSNSearch", internalBindings, 1L, true, null, null, null,
+                "SomeSuffix",
+                false);
         assertTrue(getJaxbSource("MSNSearch", "SearchResponseSomeSuffix").contains(
                 "public class SearchResponseSomeSuffix"));
 
-        nameTransform(internalBindings, "MSNSearch", null, null, "SomePrefix",
-                "SomeSuffix");
+        jaxbgen("MSNSearch", internalBindings, 1L, true, null, null,
+                "SomePrefix",
+                "SomeSuffix", false);
         assertTrue(getJaxbSource("MSNSearch", "SomePrefixSearchResponseSomeSuffix")
                 .contains("public class SomePrefixSearchResponseSomeSuffix"));
 
-    }
-
-    /**
-     * A helper method for global bindings tests.
-     * 
-     * @param internalBindings uses internal or external bindings
-     * @param schemaName the schema name
-     * @param serializableUid the serial unique ID
-     * @param generateIsSetMethod if generate is set methods
-     * @throws Exception if generation fails
-     */
-    protected void globalBindings(final boolean internalBindings,
-            final String schemaName, final long serializableUid,
-            final boolean generateIsSetMethod) throws Exception {
-        _task.setInternalBindings(internalBindings);
-        _task.setXsdFile(getSchemaFromFolder(schemaName));
-        _task.setTargetDir(GEN_SRC_DIR);
-        _task.setSerializableUid(serializableUid);
-        _task.setGenerateIsSetMethod(generateIsSetMethod);
-        _task.setJaxbPackageName("com.legstar.test.coxb." + schemaName);
-        _task.execute();
-    }
-
-    /**
-     * A helper method for name transformation tests.
-     * 
-     * @param internalBindings uses internal or external bindings
-     * @param schemaName the schema name
-     * @param typeNamePrefix type name prefix
-     * @param typeNameSuffix type name suffix
-     * @param elementNamePrefix element name prefix
-     * @param elementNameSuffix element name suffix
-     * @throws Exception if generation fails
-     */
-    protected void nameTransform(final boolean internalBindings,
-            final String schemaName, final String typeNamePrefix,
-            final String typeNameSuffix, final String elementNamePrefix,
-            final String elementNameSuffix) throws Exception {
-        _task.setInternalBindings(internalBindings);
-        _task.setXsdFile(getSchemaFromFolder(schemaName));
-        _task.setTargetDir(GEN_SRC_DIR);
-        _task.setTypeNamePrefix(typeNamePrefix);
-        _task.setTypeNameSuffix(typeNameSuffix);
-        _task.setElementNamePrefix(elementNamePrefix);
-        _task.setElementNameSuffix(elementNameSuffix);
-        _task.setJaxbPackageName("com.legstar.test.coxb." + schemaName);
-        _task.execute();
     }
 
     /**
@@ -244,25 +206,168 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
         tempXsdFile.deleteOnExit();
         FileUtils.writeStringToFile(tempXsdFile, xsd);
 
-        _task.setXsdFile(tempXsdFile);
-        _task.setTargetDir(GEN_SRC_DIR);
-        _task.execute();
+        jaxbgen("customer", tempXsdFile, true, 1L, true, null, null, null,
+                null,
+                false);
+        checkLocalRef("customer", "CustomerType.java");
+    }
 
-        String result = getSource("generated", "", "CustomerType");
-        assertTrue(result.contains("public String getNAme()"));
+    /**
+     * Test all standard cases.
+     * 
+     * @throws Exception if generation fails
+     */
+    @SuppressWarnings("unchecked")
+    public void testAllStandard() throws Exception {
+        Collection < File > xsdFiles = FileUtils.listFiles(COB_XSD_DIR,
+                new String[] { "xsd" }, false);
+        for (File schemaFile : xsdFiles) {
+            if (!NON_STANDARD_XSDS.contains(schemaFile.getName())) {
+                jaxbgenAndCheck(schemaFile);
+            }
+        }
+    }
 
+    /**
+     * An enum.
+     */
+    public void testEnumvar() throws Exception {
+        jaxbgen("enumvar", new File(COB_XSD_DIR, "enumvar.xsd"), true, 1L,
+                true, null, "Type", null, null, false);
+        check("enumvar");
+    }
+
+    /**
+     * The MSNSearch case.
+     */
+    public void testMSNSearch() throws Exception {
+        jaxbgen("MSNSearch", new File(COB_XSD_DIR, "MSNSearch.xsd"), true, 1L,
+                true, null, "Type", null, null, false);
+        check("MSNSearch");
+    }
+
+    /**
+     * The JVMQuery case.
+     */
+    public void testJvmquery() throws Exception {
+        jaxbgen("jvmquery", new File(COB_XSD_DIR, "jvmquery.xsd"), true, 1L,
+                true, null, null, null, null, false);
+        check("jvmquery");
+    }
+
+    /**
+     * The JVMQuery Web Service case.
+     */
+    public void testJvmqueryWs() throws Exception {
+        jaxbgen("ws.jvmquery", new File(COB_XSD_DIR, "jvmquery-ws.xsd"), true,
+                1L, true, null, null, null, null, false);
+        check("ws.jvmquery");
+    }
+
+    /**
+     * The CultureInfo Web Service case.
+     */
+    public void testCultureinfo() throws Exception {
+        jaxbgen("cultureinfo", new File(COB_XSD_DIR, "cultureinfo.xsd"), true,
+                1L, true, null, null, null, null, false);
+        check("cultureinfo");
     }
 
     /**
      * An ECI compatibility case.
      */
     public void testRQ071() throws Exception {
-        _task.setXsdFile(new File(COB_XSD_DIR, "RQ071CICSECIBinding.xsd"));
-        _task.setEciCompatible(true);
-        _task.setJaxbPackageName("com.legstar.test.coxb.rq071");
-        _task.setTargetDir(GEN_SRC_DIR);
-        _task.execute();
-        check(new File(SRC_REF_DIR, "com/legstar/test/coxb/rq071"), new File(
-                GEN_SRC_DIR, "com/legstar/test/coxb/rq071"), "java");
+        jaxbgen("rq071", new File(COB_XSD_DIR, "RQ071CICSECIBinding.xsd"),
+                true, 1L, true, null, null, null, null, true);
+        check("rq071");
     }
+
+    /**
+     * A helper method to check generated code against reference.
+     * 
+     * @param schemaFile the schema file
+     * @throws Exception if generation fails
+     */
+    protected void jaxbgenAndCheck(final File schemaFile) throws Exception {
+        String schemaName = FilenameUtils.getBaseName(schemaFile.getName())
+                .toLowerCase();
+        jaxbgen(schemaName, schemaFile, true, 1L, true, null, null, null, null,
+                false);
+        check(schemaName);
+    }
+
+    /**
+     * A helper method to generate and check against a reference.
+     * 
+     * @param schemaName the schema name
+     * @throws Exception if generation fails
+     */
+    protected void check(final String schemaName) throws Exception {
+        check(new File(SRC_REF_DIR, GEN_SRC_SUBDIR + "/"
+                + schemaName.replace(".", "/")), new File(GEN_SRC_DIR,
+                GEN_SRC_SUBDIR + "/" + schemaName.replace(".", "/")),
+                "java");
+    }
+
+    /**
+     * A helper method for JAXB generation.
+     * 
+     * @param schemaName the schema name
+     * @param internalBindings uses internal or external bindings
+     * @param serializableUid the serial unique ID
+     * @param generateIsSetMethod if generate is set methods
+     * @param typeNamePrefix type name prefix
+     * @param typeNameSuffix type name suffix
+     * @param elementNamePrefix element name prefix
+     * @param elementNameSuffix element name suffix
+     * @param eciCompatible if generated JAXB class should be ECI compatible
+     * @throws Exception if generation fails
+     */
+    protected void jaxbgen(final String schemaName,
+            final boolean internalBindings, final long serializableUid,
+            final boolean generateIsSetMethod, final String typeNamePrefix,
+            final String typeNameSuffix, final String elementNamePrefix,
+            final String elementNameSuffix, final boolean eciCompatible)
+            throws Exception {
+        jaxbgen(schemaName, new File(COB_XSD_DIR, schemaName + ".xsd"),
+                internalBindings, serializableUid, generateIsSetMethod,
+                typeNamePrefix, typeNameSuffix, elementNamePrefix,
+                elementNameSuffix, eciCompatible);
+    }
+
+    /**
+     * A helper method for JAXB generation.
+     * 
+     * @param schemaName the schema name
+     * @param xsdFile the XML schema file
+     * @param internalBindings uses internal or external bindings
+     * @param serializableUid the serial unique ID
+     * @param generateIsSetMethod if generate is set methods
+     * @param typeNamePrefix type name prefix
+     * @param typeNameSuffix type name suffix
+     * @param elementNamePrefix element name prefix
+     * @param elementNameSuffix element name suffix
+     * @param eciCompatible if generated JAXB class should be ECI compatible
+     * @throws Exception if generation fails
+     */
+    protected void jaxbgen(final String schemaName, final File xsdFile,
+            final boolean internalBindings, final long serializableUid,
+            final boolean generateIsSetMethod, final String typeNamePrefix,
+            final String typeNameSuffix, final String elementNamePrefix,
+            final String elementNameSuffix, final boolean eciCompatible)
+            throws Exception {
+        _task.setInternalBindings(internalBindings);
+        _task.setXsdFile(xsdFile);
+        _task.setJaxbPackageName(JAXB_PKG_PFX + "." + schemaName);
+        _task.setTargetDir(GEN_SRC_DIR);
+        _task.setSerializableUid(serializableUid);
+        _task.setGenerateIsSetMethod(generateIsSetMethod);
+        _task.setTypeNamePrefix(typeNamePrefix);
+        _task.setTypeNameSuffix(typeNameSuffix);
+        _task.setElementNamePrefix(elementNamePrefix);
+        _task.setElementNameSuffix(elementNameSuffix);
+        _task.setEciCompatible(eciCompatible);
+        _task.execute();
+    }
+
 }
