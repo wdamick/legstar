@@ -16,13 +16,13 @@ import org.apache.commons.io.FileUtils;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
-import com.legstar.jaxb.AbstractJaxbTester;
+import com.legstar.jaxb.AbstractJaxbGenTest;
 
 /**
  * Test cases for the JAXB generator.
  * 
  */
-public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
+public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
 
     /** An instance of the JAXB generator. */
     private CobolJAXBGenerator _task;
@@ -74,7 +74,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
         _task.setXsdFile(getSchemaFromFolder("lsfileaq"));
         _task.setTargetDir(GEN_SRC_DIR);
         _task.execute();
-        String srce = getSource("lsfileaq", "DfhCommarea");
+        String srce = getJaxbSource("lsfileaq", "DfhCommarea");
         assertTrue(srce.contains("@CobolElement(cobolName = \"QUERY-DATA\","
                 + " type = CobolType.GROUP_ITEM," + " levelNumber = 5,"
                 + " srceLine = 36)"));
@@ -126,19 +126,19 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
     protected void globalBindings(final boolean internalBindings)
             throws Exception {
         globalBindings(internalBindings, "lsfileaq", 1L, true);
-        assertTrue(getSource("lsfileaq", "DfhCommarea").contains(
+        assertTrue(getJaxbSource("lsfileaq", "DfhCommarea").contains(
                 "public boolean isSetReplyData()"));
 
         globalBindings(internalBindings, "lsfileaq", 1L, false);
-        assertFalse(getSource("lsfileaq", "DfhCommarea").contains(
+        assertFalse(getJaxbSource("lsfileaq", "DfhCommarea").contains(
                 "public boolean isSetReplyData()"));
 
         globalBindings(internalBindings, "lsfileaq", 1L, true);
-        assertTrue(getSource("lsfileaq", "DfhCommarea").contains(
+        assertTrue(getJaxbSource("lsfileaq", "DfhCommarea").contains(
                 "private final static long serialVersionUID = 1L;"));
 
         globalBindings(internalBindings, "lsfileaq", 123589357872112454L, true);
-        assertTrue(getSource("lsfileaq", "DfhCommarea")
+        assertTrue(getJaxbSource("lsfileaq", "DfhCommarea")
                 .contains(
                         "private final static long serialVersionUID = 123589357872112454L;"));
     }
@@ -152,32 +152,32 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
     public void nameTransform(final boolean internalBindings) throws Exception {
         nameTransform(internalBindings, "lsfileaq", "SomePrefix", null, null,
                 null);
-        assertTrue(getSource("lsfileaq", "SomePrefixDfhCommarea").contains(
+        assertTrue(getJaxbSource("lsfileaq", "SomePrefixDfhCommarea").contains(
                 "public class SomePrefixDfhcommarea"));
 
         nameTransform(internalBindings, "lsfileaq", null, "SomeSuffix", null,
                 null);
-        assertTrue(getSource("lsfileaq", "DfhCommareaSomeSuffix").contains(
+        assertTrue(getJaxbSource("lsfileaq", "DfhCommareaSomeSuffix").contains(
                 "public class DfhcommareaSomeSuffix"));
 
         nameTransform(internalBindings, "lsfileaq", "SomePrefix", "SomeSuffix",
                 null, null);
-        assertTrue(getSource("lsfileaq", "SomePrefixDfhCommareaSomeSuffix")
+        assertTrue(getJaxbSource("lsfileaq", "SomePrefixDfhCommareaSomeSuffix")
                 .contains("public class SomePrefixDfhcommareaSomeSuffix"));
 
         nameTransform(internalBindings, "MSNSearch", null, null, "SomePrefix",
                 null);
-        assertTrue(getSource("MSNSearch", "SomePrefixSearchResponse").contains(
+        assertTrue(getJaxbSource("MSNSearch", "SomePrefixSearchResponse").contains(
                 "public class SomePrefixSearchResponse"));
 
         nameTransform(internalBindings, "MSNSearch", null, null, null,
                 "SomeSuffix");
-        assertTrue(getSource("MSNSearch", "SearchResponseSomeSuffix").contains(
+        assertTrue(getJaxbSource("MSNSearch", "SearchResponseSomeSuffix").contains(
                 "public class SearchResponseSomeSuffix"));
 
         nameTransform(internalBindings, "MSNSearch", null, null, "SomePrefix",
                 "SomeSuffix");
-        assertTrue(getSource("MSNSearch", "SomePrefixSearchResponseSomeSuffix")
+        assertTrue(getJaxbSource("MSNSearch", "SomePrefixSearchResponseSomeSuffix")
                 .contains("public class SomePrefixSearchResponseSomeSuffix"));
 
     }
@@ -262,7 +262,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbTester {
         _task.setJaxbPackageName("com.legstar.test.coxb.rq071");
         _task.setTargetDir(GEN_SRC_DIR);
         _task.execute();
-        check(new File(JAXB_REF_DIR, "com/legstar/test/coxb/rq071"), new File(
+        check(new File(SRC_REF_DIR, "com/legstar/test/coxb/rq071"), new File(
                 GEN_SRC_DIR, "com/legstar/test/coxb/rq071"), "java");
     }
 }
