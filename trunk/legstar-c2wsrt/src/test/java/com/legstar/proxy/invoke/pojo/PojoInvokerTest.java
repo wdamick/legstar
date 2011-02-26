@@ -14,11 +14,11 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import com.legstar.proxy.invoke.ProxyInvokerException;
-import com.legstar.xsdc.test.cases.JvmqueryCases;
-import com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply;
-
 import junit.framework.TestCase;
+
+import com.legstar.proxy.invoke.ProxyInvokerException;
+import com.legstar.test.coxb.JvmqueryCases;
+import com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply;
 
 /**
  * Test POJO Invoker.

@@ -11,7 +11,7 @@
 package com.legstar.test.cixs;
 
 import com.legstar.coxb.host.HostData;
-import com.legstar.xsdc.test.cases.JvmqueryCases;
+import com.legstar.test.coxb.JvmqueryCases;
 
 /**
  * Test the generated Jvmquery proxy.

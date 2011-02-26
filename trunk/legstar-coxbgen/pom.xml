@@ -91,6 +91,19 @@
     <build>
         <plugins>
 
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <!--  Make test classes and resources available via maven -->
+                     <execution>
+                        <id>bundle-test-jar</id>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- 
                 Assembly generation.
               -->
@@ -116,26 +129,6 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                 
-                    <!-- 
-                        Generates all the coxbgen classes for integration test project coxbgen-cases.
-                      -->
-                    <execution>
-                        <id>prepare-integration-tests</id>
-                        <phase>pre-integration-test</phase>
-                        <configuration>
-                            <tasks>
-                                <path id="classpath">
-                                    <path refid="maven.compile.classpath" />
-                                    <path refid="maven.test.classpath" />
-                                </path>
-                                <ant antfile="${basedir}/src/test/ant/build-coxbgen-cases.xml" inheritRefs="true" />
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-          
                     <!-- 
                         This will check that the distribution file is valid.
                       -->
