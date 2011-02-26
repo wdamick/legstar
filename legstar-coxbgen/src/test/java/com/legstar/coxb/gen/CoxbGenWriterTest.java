@@ -10,24 +10,28 @@
  ******************************************************************************/
 package com.legstar.coxb.gen;
 
+import java.io.File;
+
 import org.apache.commons.io.FileUtils;
 
 import com.legstar.coxb.ICobolArrayComplexBinding;
+import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
-import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
-import com.legstar.coxb.util.ClassUtil;
+import com.legstar.coxb.ICobolComplexBinding;
 
 /**
  * Test the code generation writer.
  * 
  */
-public class CoxbGenWriterTest extends AbstractTestTemplate {
+public class CoxbGenWriterTest extends AbstractCoxbGenTest {
+
+    /** True when references should be created. */
+    private static final boolean CREATE_REFERENCES = false;
 
     /** @{inheritDoc */
     public void setUp() throws Exception {
         super.setUp();
-        FileUtils.forceMkdir(GEN_SRC_DIR);
-        FileUtils.cleanDirectory(GEN_SRC_DIR);
+        setCreateReferences(CREATE_REFERENCES);
     }
 
     /**
@@ -36,26 +40,7 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
      * @throws Exception if generation fails
      */
     public void testGenAlltypes() throws Exception {
-        com.legstar.test.coxb.alltypes.ObjectFactory objectFactory = new com.legstar.test.coxb.alltypes.ObjectFactory();
-
-        CComplexReflectBinding ce = new CComplexReflectBinding(
-                objectFactory,
-                ClassUtil
-                        .loadClass("com.legstar.test.coxb.alltypes.Dfhcommarea"));
-
-        getCoxbGenModel().setJaxbPackageName("com.legstar.test.coxb.alltypes");
-        getCoxbGenModel().setCoxbPackageName(
-                "com.legstar.test.coxb.alltypes.bind");
-
-        CoxbGenWriter writer = new CoxbGenWriter(getCoxbGenModel(),
-                getOutputFolder());
-
-        writer.write(ce);
-        String resStr = getSource(GEN_SRC_DIR,
-                "/com/legstar/test/coxb/alltypes/bind/DfhcommareaBinding.java");
-
-        assertTrue(resStr
-                .contains("import com.legstar.coxb.ICobolStringBinding;"));
+        genSourceAndCheck("alltypes", "Dfhcommarea", "DfhcommareaBinding.java");
     }
 
     /**
@@ -64,29 +49,11 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
      * @throws Exception if generation fails
      */
     public void testGenRedsimpt() throws Exception {
-        com.legstar.test.coxb.redsimpt.ObjectFactory objectFactory = new com.legstar.test.coxb.redsimpt.ObjectFactory();
-
-        CComplexReflectBinding ce = new CComplexReflectBinding(
-                objectFactory,
-                ClassUtil
-                        .loadClass("com.legstar.test.coxb.redsimpt.Dfhcommarea"));
-
+        ICobolComplexBinding ce = getComplexBinding("redsimpt", "Dfhcommarea");
         ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList()
                 .get(0);
-
-        getCoxbGenModel().setJaxbPackageName("com.legstar.test.coxb.redsimpt");
-        getCoxbGenModel().setCoxbPackageName(
-                "com.legstar.test.coxb.redsimpt.bind");
-
-        CoxbGenWriter writer = new CoxbGenWriter(getCoxbGenModel(),
-                getOutputFolder());
-
-        writer.write(cc);
-        String resStr = getSource(GEN_SRC_DIR,
-                "/com/legstar/test/coxb/redsimpt/bind/CDefinition1ChoiceBinding.java");
-
-        assertTrue(resStr
-                .contains("import com.legstar.coxb.ICobolComplexBinding;"));
+        genSource("redsimpt", cc);
+        check("redsimpt", "CDefinition1ChoiceBinding.java");
     }
 
     /**
@@ -95,29 +62,12 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
      * @throws Exception if generation fails
      */
     public void testGenArrayssm() throws Exception {
-        com.legstar.test.coxb.arrayssm.ObjectFactory objectFactory = new com.legstar.test.coxb.arrayssm.ObjectFactory();
-
-        CComplexReflectBinding ce = new CComplexReflectBinding(
-                objectFactory,
-                ClassUtil
-                        .loadClass("com.legstar.test.coxb.arrayssm.Dfhcommarea"));
-
+        ICobolComplexBinding ce = getComplexBinding("arrayssm", "Dfhcommarea");
         ICobolArrayComplexBinding ca = (ICobolArrayComplexBinding) ce
                 .getChildrenList().get(1);
+        genSource("arrayssm", ca);
+        check("arrayssm", "TableComplexWrapperBinding.java");
 
-        getCoxbGenModel().setJaxbPackageName("com.legstar.test.coxb.arrayssm");
-        getCoxbGenModel().setCoxbPackageName(
-                "com.legstar.test.coxb.arrayssm.bind");
-
-        CoxbGenWriter writer = new CoxbGenWriter(getCoxbGenModel(),
-                getOutputFolder());
-
-        writer.write(ca);
-        String resStr = getSource(GEN_SRC_DIR,
-                "/com/legstar/test/coxb/arrayssm/bind/TableComplexWrapperBinding.java");
-
-        assertTrue(resStr
-                .contains("import com.legstar.coxb.common.CArrayComplexBinding;"));
     }
 
     /**
@@ -126,22 +76,11 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
      * @throws Exception if generation fails
      */
     public void testGenChoiceStrategy() throws Exception {
-        com.legstar.test.coxb.redsimpt.ObjectFactory objectFactory = new com.legstar.test.coxb.redsimpt.ObjectFactory();
-
-        CComplexReflectBinding ce = new CComplexReflectBinding(
-                objectFactory,
-                ClassUtil
-                        .loadClass("com.legstar.test.coxb.redsimpt.Dfhcommarea"));
-
+        ICobolComplexBinding ce = getComplexBinding("redsimpt", "Dfhcommarea");
         ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList()
                 .get(0);
-
-        getCoxbGenModel().setJaxbPackageName("com.legstar.test.coxb.redsimpt");
-        getCoxbGenModel().setCoxbPackageName(
-                "com.legstar.test.coxb.redsimpt.bind");
-
-        CoxbGenWriter writer = new CoxbGenWriter(getCoxbGenModel(),
-                getOutputFolder());
+        CoxbGenWriter writer = new CoxbGenWriter(createModel("redsimpt"),
+                getTargetFolder("redsimpt"));
 
         /* Do it twice to check the backup mechanism */
         writer.writeChoiceStrategy(cc, "Unmarshal",
@@ -149,10 +88,11 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
         writer.writeChoiceStrategy(cc, "Unmarshal",
                 "com.legstar.coxb.cust.redsimpt.ChoiceSelector");
 
-        String resStr = getSource(GEN_SRC_DIR,
-                "/com/legstar/coxb/cust/redsimpt/ChoiceSelector.java.new");
-        assertTrue(resStr
-                .contains("public class ChoiceSelector implements ICobolUnmarshalChoiceStrategy {"));
+        File resultFolder = new File(GEN_SRC_DIR,
+                "com/legstar/coxb/cust/redsimpt");
+        File refFolder = new File(REF_DIR, getClass().getSimpleName());
+        check("redsimpt", "ChoiceSelector.java.new", refFolder, resultFolder);
+
     }
 
     /**
@@ -161,39 +101,11 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
      * @throws Exception if generation fails
      */
     public void testGenHostToJavaTransformer() throws Exception {
-
-        com.legstar.test.coxb.lsfileae.ObjectFactory objectFactory = new com.legstar.test.coxb.lsfileae.ObjectFactory();
-
-        CComplexReflectBinding ce = new CComplexReflectBinding(
-                objectFactory,
-                ClassUtil
-                        .loadClass("com.legstar.test.coxb.lsfileae.Dfhcommarea"));
-
-        getCoxbGenModel().setJaxbPackageName("com.legstar.test.coxb.lsfileae");
-        getCoxbGenModel().setCoxbPackageName(
-                "com.legstar.test.coxb.lsfileae.bind");
-
-        CoxbGenWriter writer = new CoxbGenWriter(getCoxbGenModel(),
-                getOutputFolder());
+        ICobolComplexBinding ce = getComplexBinding("lsfileae", "Dfhcommarea");
+        CoxbGenWriter writer = new CoxbGenWriter(createModel("lsfileae"),
+                getTargetFolder("lsfileae"));
         writer.writeHostToJavaTransformer(ce);
-        String resStr = getSource(GEN_SRC_DIR,
-                "/com/legstar/test/coxb/lsfileae/bind/DfhcommareaHostToJavaTransformer.java");
-
-        assertTrue(resStr
-                .contains("DfhcommareaHostToJavaTransformer transformer ="
-                        + " new DfhcommareaHostToJavaTransformer();"));
-        assertTrue(resStr
-                .contains("Dfhcommarea javaValue = (Dfhcommarea) transformer.transform(hostByteArray);"));
-        assertTrue(resStr
-                .contains("public class DfhcommareaHostToJavaTransformer"
-                        + " extends AbstractHostToJavaTransformer {"));
-        assertTrue(resStr
-                .contains("public DfhcommareaHostToJavaTransformer() {"));
-        assertTrue(resStr
-                .contains("public DfhcommareaHostToJavaTransformer(final CobolContext cobolContext) {"));
-        assertTrue(resStr
-                .contains("public DfhcommareaHostToJavaTransformer(final String hostCharset) {"));
-        assertTrue(resStr.contains("return new DfhcommareaBinding();"));
+        check("lsfileae", "DfhcommareaHostToJavaTransformer.java");
     }
 
     /**
@@ -202,39 +114,12 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
      * @throws Exception if generation fails
      */
     public void testGenJavaToHostTransformer() throws Exception {
-
-        com.legstar.test.coxb.lsfileae.ObjectFactory objectFactory = new com.legstar.test.coxb.lsfileae.ObjectFactory();
-
-        CComplexReflectBinding ce = new CComplexReflectBinding(
-                objectFactory,
-                ClassUtil
-                        .loadClass("com.legstar.test.coxb.lsfileae.Dfhcommarea"));
-
-        getCoxbGenModel().setJaxbPackageName("com.legstar.test.coxb.lsfileae");
-        getCoxbGenModel().setCoxbPackageName(
-                "com.legstar.test.coxb.lsfileae.bind");
-
-        CoxbGenWriter writer = new CoxbGenWriter(getCoxbGenModel(),
-                getOutputFolder());
+        ICobolComplexBinding ce = getComplexBinding("lsfileae", "Dfhcommarea");
+        CoxbGenWriter writer = new CoxbGenWriter(createModel("lsfileae"),
+                getTargetFolder("lsfileae"));
         writer.writeJavaToHostTransformer(ce);
-        String resStr = getSource(GEN_SRC_DIR,
-                "/com/legstar/test/coxb/lsfileae/bind/DfhcommareaJavaToHostTransformer.java");
+        check("lsfileae", "DfhcommareaJavaToHostTransformer.java");
 
-        assertTrue(resStr
-                .contains("DfhcommareaJavaToHostTransformer transformer"
-                        + " = new DfhcommareaJavaToHostTransformer();"));
-        assertTrue(resStr
-                .contains("byte[] hostByteArray = transformer.transform(javaValue);"));
-        assertTrue(resStr
-                .contains("public class DfhcommareaJavaToHostTransformer extends"
-                        + " AbstractJavaToHostTransformer {"));
-        assertTrue(resStr
-                .contains("public DfhcommareaJavaToHostTransformer() {"));
-        assertTrue(resStr
-                .contains("public DfhcommareaJavaToHostTransformer(final CobolContext cobolContext) {"));
-        assertTrue(resStr
-                .contains("public DfhcommareaJavaToHostTransformer(final String hostCharset) {"));
-        assertTrue(resStr.contains("return new DfhcommareaBinding();"));
     }
 
     /**
@@ -243,34 +128,12 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
      * @throws Exception if generation fails
      */
     public void testGenTransformers() throws Exception {
-
-        com.legstar.test.coxb.lsfileae.ObjectFactory objectFactory = new com.legstar.test.coxb.lsfileae.ObjectFactory();
-
-        CComplexReflectBinding ce = new CComplexReflectBinding(
-                objectFactory,
-                ClassUtil
-                        .loadClass("com.legstar.test.coxb.lsfileae.Dfhcommarea"));
-
-        getCoxbGenModel().setJaxbPackageName("com.legstar.test.coxb.lsfileae");
-        getCoxbGenModel().setCoxbPackageName(
-                "com.legstar.test.coxb.lsfileae.bind");
-
-        CoxbGenWriter writer = new CoxbGenWriter(getCoxbGenModel(),
-                getOutputFolder());
+        ICobolComplexBinding ce = getComplexBinding("lsfileae", "Dfhcommarea");
+        CoxbGenWriter writer = new CoxbGenWriter(createModel("lsfileae"),
+                getTargetFolder("lsfileae"));
         writer.writeTransformers(ce);
-        String resStr = getSource(GEN_SRC_DIR,
-                "/com/legstar/test/coxb/lsfileae/bind/DfhcommareaTransformers.java");
+        check("lsfileae", "DfhcommareaTransformers.java");
 
-        assertTrue(resStr
-                .contains("package com.legstar.test.coxb.lsfileae.bind;"));
-        assertTrue(resStr
-                .contains("* Transformer provider for Dfhcommarea java data object."));
-        assertTrue(resStr
-                .contains("public class DfhcommareaTransformers extends AbstractTransformers {"));
-        assertTrue(resStr.contains("public DfhcommareaTransformers() {"));
-        assertTrue(resStr
-                .contains("super(new DfhcommareaJavaToHostTransformer(),"));
-        assertTrue(resStr.contains("new DfhcommareaHostToJavaTransformer());"));
     }
 
     /**
@@ -280,35 +143,96 @@ public class CoxbGenWriterTest extends AbstractTestTemplate {
      * @throws Exception if generation fails
      */
     public void testGenChoiceStrategyParameter() throws Exception {
-        com.legstar.test.coxb.redsimpt.ObjectFactory objectFactory = new com.legstar.test.coxb.redsimpt.ObjectFactory();
-
-        CComplexReflectBinding ce = new CComplexReflectBinding(
-                objectFactory,
-                ClassUtil
-                        .loadClass("com.legstar.test.coxb.redsimpt.Dfhcommarea"));
-
-        getCoxbGenModel().addUnmarshalChoiceStrategy(
-                new UnmarshalChoiceStrategy(
-                        "C-DEFINITION-1:another.UnmarshalChoiceStrategy"));
-
+        ICobolComplexBinding ce = getComplexBinding("redsimpt", "Dfhcommarea");
         ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList()
                 .get(0);
-
-        getCoxbGenModel().setJaxbPackageName("com.legstar.test.coxb.redsimpt");
-        getCoxbGenModel().setCoxbPackageName(
-                "com.legstar.test.coxb.redsimpt.bind");
-
-        CoxbGenWriter writer = new CoxbGenWriter(getCoxbGenModel(),
-                getOutputFolder());
+        CoxbGenModel coxbContext = createModel("redsimpt");
+        coxbContext.addUnmarshalChoiceStrategy(new UnmarshalChoiceStrategy(
+                "C-DEFINITION-1:another.UnmarshalChoiceStrategy"));
+        CoxbGenWriter writer = new CoxbGenWriter(coxbContext,
+                getTargetFolder("redsimpt"));
         writer.write(cc);
-        String resStr = getSource(GEN_SRC_DIR,
-                "/another/UnmarshalChoiceStrategy.java");
-        assertTrue(resStr
-                .contains("return choice.getAlternativeByName(\"CDefinition1\");"));
+        File resultFolder = new File(GEN_SRC_DIR, "another");
+        File refFolder = new File(REF_DIR, getClass().getSimpleName());
+        check("redsimpt", "UnmarshalChoiceStrategy.java", refFolder,
+                resultFolder);
+    }
 
-        resStr = getSource(GEN_SRC_DIR,
-                "/com/legstar/test/coxb/redsimpt/bind/CDefinition1ChoiceBinding.java");
-        assertTrue(resStr.contains("\"another.UnmarshalChoiceStrategy\""));
+    /**
+     * Generate a source from a template and check against reference.
+     * 
+     * @param schemaName the originating XSD name
+     * @param rootName JAXB root class name
+     * @param fileName the target file name
+     * @throws Exception usually if test not set properly
+     */
+    protected void genSourceAndCheck(final String schemaName,
+            final String rootName, final String fileName) throws Exception {
+        genSource(schemaName, rootName);
+        check(schemaName, fileName);
+    }
+
+    /**
+     * Generate a source from a template for a root complex type.
+     * 
+     * @param schemaName the originating XSD name
+     * @param rootName JAXB root class name
+     * @throws Exception usually if test not set properly
+     */
+    protected void genSource(final String schemaName, final String rootName)
+            throws Exception {
+        genSource(schemaName, getComplexBinding(schemaName, rootName));
+    }
+
+    /**
+     * Generate a source from a template for any type.
+     * 
+     * @param schemaName the originating XSD name
+     * @param binding the type COBOL binding
+     * @throws Exception usually if test not set properly
+     */
+    protected void genSource(final String schemaName,
+            final ICobolBinding binding) throws Exception {
+
+        genSource(schemaName, binding, createModel(schemaName));
+    }
+
+    /**
+     * Generate a source from a template for any type.
+     * 
+     * @param schemaName the schema name
+     * @param binding the type COBOL binding
+     * @param coxbContext parameter set
+     * @throws Exception usually if test not set properly
+     */
+    protected void genSource(final String schemaName,
+            final ICobolBinding binding, CoxbGenModel coxbContext)
+            throws Exception {
+
+        genSource(binding, coxbContext, getTargetFolder(schemaName));
+    }
+
+    /**
+     * Generate a source from a template for any type.
+     * 
+     * @param binding the type COBOL binding
+     * @param coxbContext parameter set
+     * @param targetFolder where to store the generated content
+     * @throws Exception usually if test not set properly
+     */
+    protected void genSource(final ICobolBinding binding,
+            final CoxbGenModel coxbContext, final File targetFolder)
+            throws Exception {
+
+        FileUtils.forceMkdir(targetFolder);
+        CoxbGenWriter writer = new CoxbGenWriter(coxbContext, targetFolder);
+        if (binding instanceof ICobolComplexBinding) {
+            writer.write((ICobolComplexBinding) binding);
+        } else if (binding instanceof ICobolArrayComplexBinding) {
+            writer.write((ICobolArrayComplexBinding) binding);
+        } else if (binding instanceof ICobolChoiceBinding) {
+            writer.write((ICobolChoiceBinding) binding);
+        }
     }
 
 }

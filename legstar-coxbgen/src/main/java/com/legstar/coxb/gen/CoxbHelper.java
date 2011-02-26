@@ -10,6 +10,7 @@
  ******************************************************************************/
 package com.legstar.coxb.gen;
 
+import java.lang.reflect.Method;
 import java.util.Locale;
 
 import com.legstar.codegen.CodeGenHelper;
@@ -330,6 +331,32 @@ public class CoxbHelper {
             return true;
         }
         return false;
+    }
+
+    /**
+     * For arrays, determines if JAXB property is an indexed array.
+     * 
+     * @param parent the array parent binding
+     * @param binding the item binding or wrapper binding for complex arrays
+     * @return true if JAXB array is a List or false if its is an indexed array
+     * @throws HostException if bound JAXB object is not an array
+     */
+    public boolean isJaxbArray(final ICobolComplexBinding parent,
+            final ICobolBinding binding) throws HostException {
+        try {
+            Method getter = parent.getJaxbType().getMethod(
+                    getterMethodName(binding));
+            if (getter.getReturnType().isArray()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SecurityException e) {
+            throw new HostException(e);
+        } catch (NoSuchMethodException e) {
+            throw new HostException(e);
+        }
+
     }
 
     /**

@@ -29,7 +29,7 @@ import com.legstar.jaxb.gen.JaxbGenModel;
  * Test the generation model.
  * 
  */
-public class CoxbGenModelTest extends AbstractTestTemplate {
+public class CoxbGenModelTest extends AbstractCoxbGenTest {
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
