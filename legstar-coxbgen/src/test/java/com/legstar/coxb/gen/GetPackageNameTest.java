@@ -12,13 +12,11 @@ package com.legstar.coxb.gen;
 
 import java.io.File;
 
-import junit.framework.TestCase;
-
 /**
  * Test extraction of package name from annotated XSD.
  * 
  */
-public class GetPackageNameTest extends TestCase {
+public class GetPackageNameTest extends AbstractCoxbGenTest {
 
     /** An instance of the generator model. */
     private CoxbGenModel _coxbGenModel;
@@ -78,7 +76,7 @@ public class GetPackageNameTest extends TestCase {
 
         try {
             String pkg = _coxbGenModel.getJaxbPackageNameFromXsd(new File(
-                    "../target/cases/schema/ALLTYPES.xsd"));
+                    "../legstar-jaxbgen/" + COB_XSD_DIR, "ALLTYPES.xsd"));
             assertEquals("com.legstar.test.coxb.alltypes", pkg);
         } catch (Exception e) {
             fail("No annotations found " + e.getMessage());
