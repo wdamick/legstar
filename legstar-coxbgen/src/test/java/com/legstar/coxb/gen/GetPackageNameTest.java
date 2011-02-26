@@ -76,7 +76,7 @@ public class GetPackageNameTest extends AbstractCoxbGenTest {
 
         try {
             String pkg = _coxbGenModel.getJaxbPackageNameFromXsd(new File(
-                    "../legstar-jaxbgen/" + COB_XSD_DIR, "ALLTYPES.xsd"));
+                    COB_XSD_DIR, "ALLTYPES.xsd"));
             assertEquals("com.legstar.test.coxb.alltypes", pkg);
         } catch (Exception e) {
             fail("No annotations found " + e.getMessage());

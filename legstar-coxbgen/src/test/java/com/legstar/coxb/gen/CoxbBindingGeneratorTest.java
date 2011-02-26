@@ -10,6 +10,14 @@
  ******************************************************************************/
 package com.legstar.coxb.gen;
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+
 /**
  * Test the binding generator.
  * 
@@ -18,6 +26,13 @@ public class CoxbBindingGeneratorTest extends AbstractCoxbGenTest {
 
     /** True when references should be created. */
     private static final boolean CREATE_REFERENCES = false;
+
+    /** List of XSDs which need special generation parameters. */
+    private static final List < String > NON_STANDARD_XSDS = Arrays
+            .asList(new String[] { "LSFILEAL.xsd", "LSFILEAC.xsd",
+                    "enumvar.xsd", "MSNSearch.xsd", "cultureinfo.xsd",
+                    "jvmquery.xsd", "jvmquery-ws.xsd", "VARAR021.xsd",
+                    "TCOBWVB.xsd", "RQ071CICSECIBinding.xsd" });
 
     /** Make sure we have a clean output folder. */
     public void setUp() throws Exception {
@@ -62,49 +77,39 @@ public class CoxbBindingGeneratorTest extends AbstractCoxbGenTest {
     }
 
     /**
-     * Generate binding for Alltypes.
+     * Test all standard cases.
      * 
      * @throws Exception if generation fails
      */
-    public void testGenAlltypes() throws Exception {
-        genSourceAndCheck("alltypes", "Dfhcommarea");
+    @SuppressWarnings("unchecked")
+    public void testAllStandard() throws Exception {
+        Collection < File > xsdFiles = FileUtils.listFiles(COB_XSD_DIR,
+                new String[] { "xsd" }, false);
+        for (File schemaFile : xsdFiles) {
+            if (!NON_STANDARD_XSDS.contains(schemaFile.getName())) {
+                genSourceAndCheck(schemaFile, "Dfhcommarea");
+            }
+        }
     }
 
     /**
-     * Generate binding for Arraysdo.
+     * Test LSFILEAL.
      * 
      * @throws Exception if generation fails
      */
-    public void testGenArraysdo() throws Exception {
-        genSourceAndCheck("arraysdo", "Dfhcommarea");
+    public void testLsfileal() throws Exception {
+        genSourceAndCheck(new File(COB_XSD_DIR, "LSFILEAL.xsd"), new String[] {
+                "RequestParms", "ReplyData" });
     }
 
     /**
-     * Generate binding for Arrayssm.
+     * Test LSFILEAC.
      * 
      * @throws Exception if generation fails
      */
-    public void testGenArrayssm() throws Exception {
-        genSourceAndCheck("arrayssm", "Dfhcommarea");
-    }
-
-    /**
-     * Check that we can provide multiple class names at once.
-     * 
-     * @throws Exception if generation fails
-     */
-    public void testCultureInfo() throws Exception {
-        genSourceAndCheck("cultureinfo", new String[] {
-                "CultureInfoParameters", "CultureInfoReply" });
-    }
-
-    /**
-     * Generate binding for Dplarcht.
-     * 
-     * @throws Exception if generation fails
-     */
-    public void testGenDplarcht() throws Exception {
-        genSourceAndCheck("dplarcht", "Dfhcommarea");
+    public void testLsfileac() throws Exception {
+        genSourceAndCheck(new File(COB_XSD_DIR, "LSFILEAC.xsd"), new String[] {
+                "QueryData", "QueryLimit", "ReplyStatus", "ReplyData" });
     }
 
     /**
@@ -120,6 +125,26 @@ public class CoxbBindingGeneratorTest extends AbstractCoxbGenTest {
     }
 
     /**
+     * Generate binding for MSNSearch.
+     * 
+     * @throws Exception if generation fails
+     */
+    public void testMSNSearch() throws Exception {
+        genSourceAndCheck("MSNSearch", new String[] { "Search",
+                "SearchResponse" });
+    }
+
+    /**
+     * Check that we can provide multiple class names at once.
+     * 
+     * @throws Exception if generation fails
+     */
+    public void testCultureInfo() throws Exception {
+        genSourceAndCheck("cultureinfo", new String[] {
+                "CultureInfoParameters", "CultureInfoReply" });
+    }
+
+    /**
      * Generate binding for JvmQuery.
      * 
      * @throws Exception if generation fails
@@ -130,35 +155,13 @@ public class CoxbBindingGeneratorTest extends AbstractCoxbGenTest {
     }
 
     /**
-     * Generate binding for Lsfileae (with XML and JSON Transformers).
+     * Generate binding for JvmQuery Web Service.
      * 
      * @throws Exception if generation fails
      */
-    public void testGenLsfileae() throws Exception {
-        genSourceAndCheck("lsfileae", "Dfhcommarea");
-    }
-
-    /**
-     * Generate binding for Listssdo.
-     * 
-     * @throws Exception if generation fails
-     */
-    public void testGenListssdo() throws Exception {
-        genSourceAndCheck("listssdo", "Dfhcommarea");
-    }
-
-    /**
-     * Generate binding for MSNSearch.
-     * 
-     * @throws Exception if generation fails
-     */
-    public void testMSNSearch() throws Exception {
-        genSourceAndCheck("MSNSearch", new String[] { "SearchRequestType",
-                "SearchResponse" });
-    }
-
-    public void testRq071() throws Exception {
-        genSourceAndCheck("rq071", new String[] { "RQ071Input", "RQ071Output" });
+    public void testJvmQueryWs() throws Exception {
+        genSourceAndCheck("ws.jvmquery", new String[] { "QueryJvm",
+                "QueryJvmResponse" });
     }
 
     /**
@@ -168,6 +171,24 @@ public class CoxbBindingGeneratorTest extends AbstractCoxbGenTest {
      */
     public void testVarar021() throws Exception {
         genSourceAndCheck("varar021", "SearchGrplst");
+    }
+
+    /**
+     * Generate binding for tcobwvb.
+     * 
+     * @throws Exception if generation fails
+     */
+    public void testTcobwvb() throws Exception {
+        genSourceAndCheck(new File(COB_XSD_DIR, "TCOBWVB.xsd"), "CustomerData");
+    }
+
+    /**
+     * Generate an ECI compatible transformer.
+     * 
+     * @throws Exception
+     */
+    public void testRq071() throws Exception {
+        genSourceAndCheck("rq071", new String[] { "RQ071Input", "RQ071Output" });
     }
 
     /**
@@ -185,12 +206,14 @@ public class CoxbBindingGeneratorTest extends AbstractCoxbGenTest {
     /**
      * Generates COXB classes and chack against reference.
      * 
-     * @param schemaName the originating XSD name
+     * @param schemaFileName the originating XSD file name
      * @param rootName JAXB root class name
      * @throws Exception usually if test not set correctly
      */
-    private void genSourceAndCheck(final String schemaName,
+    protected void genSourceAndCheck(final File schemaFileName,
             final String rootName) throws Exception {
+        String schemaName = FilenameUtils.getBaseName(schemaFileName.getName())
+                .toLowerCase();
         genSourceAndCheck(schemaName, new String[] { rootName });
     }
 
@@ -201,10 +224,36 @@ public class CoxbBindingGeneratorTest extends AbstractCoxbGenTest {
      * @param rootName JAXB root class name
      * @throws Exception usually if test not set correctly
      */
-    private void genSourceAndCheck(final String schemaName,
+    protected void genSourceAndCheck(final String schemaName,
+            final String rootName) throws Exception {
+        genSourceAndCheck(schemaName, new String[] { rootName });
+    }
+
+    /**
+     * Generates COXB classes and chack against reference.
+     * 
+     * @param schemaFileName the originating XSD file name
+     * @param rootNames JAXB root class names
+     * @throws Exception usually if test not set correctly
+     */
+    protected void genSourceAndCheck(final File schemaFileName,
+            final String[] rootNames) throws Exception {
+        String schemaName = FilenameUtils.getBaseName(schemaFileName.getName())
+                .toLowerCase();
+        genSourceAndCheck(schemaName, rootNames);
+    }
+
+    /**
+     * Generates COXB classes and chack against reference.
+     * 
+     * @param schemaName the originating XSD name
+     * @param rootNames JAXB root class names
+     * @throws Exception usually if test not set correctly
+     */
+    protected void genSourceAndCheck(final String schemaName,
             final String[] rootNames) throws Exception {
         genSource(schemaName, rootNames, true, true);
-        check(schemaName);
+        check(schemaName.replace(".", "/"));
     }
 
     /**

@@ -42,6 +42,10 @@ public abstract class AbstractCoxbGenTest extends AbstractJaxbGenTest {
     /** Sub directory for custom classes. */
     public static final String GEN_CUST_SUBDIR = "com/legstar/coxb/cust";
 
+    /** New COBOL-annotated XML schema test cases. */
+    public static final File COB_XSD_DIR = new File(
+            "../legstar-jaxbgen/src/test/resources/cobxsd");
+
     /** Additional parameter set passed to templates. */
     private Map < String, Object > mParameters;
 
