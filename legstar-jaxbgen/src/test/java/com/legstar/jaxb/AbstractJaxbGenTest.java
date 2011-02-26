@@ -37,6 +37,9 @@ import com.legstar.codegen.CodeGenUtil;
  */
 public abstract class AbstractJaxbGenTest extends TestCase {
 
+    /** Generated JAXB classes package prefix. */
+    public static final String JAXB_PKG_PFX = "com.legstar.test.coxb";
+
     /** Target location for generated JAXB classes. */
     public static final File GEN_SRC_DIR = new File("target/src/gen/java");
 
@@ -54,6 +57,9 @@ public abstract class AbstractJaxbGenTest extends TestCase {
 
     /** Generated classes Reference folder. */
     public static final File SRC_REF_DIR = new File("src/test/java");
+
+    /** Reference files which are not sources. */
+    public static final File REF_DIR = new File("src/test/resources/reference");
 
     /** This means references should be created instead of compared to results. */
     private boolean _createReferences = false;
@@ -239,6 +245,64 @@ public abstract class AbstractJaxbGenTest extends TestCase {
             }
         }
 
+    }
+
+    /**
+     * Check a result against a reference.
+     * 
+     * @param schemaName the schema name
+     * @param fileName the file name to check
+     * @throws Exception if something fails
+     */
+    public void check(final String schemaName, final String fileName)
+            throws Exception {
+        File refFolder = new File(SRC_REF_DIR, GEN_SRC_SUBDIR + "/"
+                + schemaName);
+        File resultFolder = new File(GEN_SRC_DIR, GEN_SRC_SUBDIR + "/"
+                + schemaName);
+
+        check(schemaName, fileName, refFolder, resultFolder);
+    }
+
+    /**
+     * Check a result against a reference stored at the unit test level (not the
+     * made available for integration testing).
+     * 
+     * @param schemaName the schema name
+     * @param fileName the file name to check
+     * @throws Exception if something goes wrong
+     */
+    public void checkLocalRef(final String schemaName, final String fileName)
+            throws Exception {
+        File resultFolder = new File(GEN_SRC_DIR, GEN_SRC_SUBDIR + "/"
+                + schemaName);
+        File refFolder = new File(REF_DIR, getClass().getSimpleName());
+        check(schemaName, fileName, refFolder, resultFolder);
+    }
+
+    /**
+     * Check a result against a reference.
+     * 
+     * @param schemaName the schema name
+     * @param fileName the file name to check
+     * @param refFolder the reference folder
+     * @param resultFolder the result folder
+     * @throws Exception if something fails
+     */
+    public void check(final String schemaName, final String fileName,
+            final File refFolder, final File resultFolder) throws Exception {
+        File resultFile = new File(resultFolder, fileName);
+
+        if (isCreateReferences()) {
+            FileUtils.copyFileToDirectory(resultFile, refFolder);
+        } else {
+            File referenceFile = new File(refFolder, fileName);
+            String expected = FileUtils.readFileToString(referenceFile);
+            String result = FileUtils.readFileToString(resultFile);
+            assertEquals(String.format("comparing result file %s with %s",
+                    resultFile.getName(), referenceFile.getName()), expected,
+                    result);
+        }
     }
 
     /**

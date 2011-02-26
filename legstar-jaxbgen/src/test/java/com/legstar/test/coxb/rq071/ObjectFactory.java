@@ -35,14 +35,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RQ071Output }
-     * 
-     */
-    public RQ071Output createRQ071Output() {
-        return new RQ071Output();
-    }
-
-    /**
      * Create an instance of {@link RQ071Input }
      * 
      */
@@ -56,6 +48,14 @@ public class ObjectFactory {
      */
     public Eb017output_rq071__check createEb017output_rq071__check() {
         return new Eb017output_rq071__check();
+    }
+
+    /**
+     * Create an instance of {@link RQ071Output }
+     * 
+     */
+    public RQ071Output createRQ071Output() {
+        return new RQ071Output();
     }
 
     /**
