@@ -49,65 +49,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Tell the compile step that there are additional test source
-            folders to take into account.  -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>add-test-source</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-test-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>src/test/cust/java</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        
-            <!-- Running ANT complementary tasks.  -->
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                
-                    <!-- This will deploy the jar file to a Tomcat dev instance.  -->
-                    <execution>
-                        <id>deploy-to-tomcat</id>
-                        <phase>package</phase>
-                        <configuration>
-                            <tasks>
-                                <ant antfile="${basedir}/../src/main/ant/deploy-to-tomcat.xml">
-                                    <property name="legstar-dev-tomcat-base" value="${legstar-dev-tomcat-base}" />
-                                </ant>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-
-                    <!-- This will copy over custom choice cases to coxbgen-cases.  -->
-                    <execution>
-                        <id>prepare-integration-tests</id>
-                        <phase>pre-integration-test</phase>
-                        <configuration>
-                            <tasks>
-                                <ant antfile="${basedir}/src/test/ant/build-coxbgen-cases.xml" />
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-
-                </executions>
-            </plugin>
-
             <!-- Bundle the test classes in a jar for use by JMeter -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
