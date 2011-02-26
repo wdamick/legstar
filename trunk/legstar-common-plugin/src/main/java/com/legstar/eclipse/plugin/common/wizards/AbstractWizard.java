@@ -11,6 +11,7 @@
 package com.legstar.eclipse.plugin.common.wizards;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IProject;
@@ -225,9 +226,9 @@ public abstract class AbstractWizard extends Wizard {
             final Properties props) throws BackingStoreException {
 
         preferences.clear();
-        for (String key : props.stringPropertyNames()) {
-            String value = props.getProperty(key);
-            preferences.put(key, value);
+        for (Entry < Object, Object > entry : props.entrySet()) {
+            String value = (String) entry.getValue();
+            preferences.put((String) entry.getKey(), value);
         }
     }
 
