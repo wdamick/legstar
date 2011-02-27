@@ -4,11 +4,11 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>legstar-core</artifactId>
-        <version>1.5.2</version>
+        <version>1.5.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>legstar-codegen</artifactId>
-    <version>1.5.2</version>
+    <version>1.5.3-SNAPSHOT</version>
     <name>LegStar Code generation common code</name>
     <description>Common code generation classes for LegStar</description>
 
