@@ -80,13 +80,11 @@
         <module>legstar-xsdcgen-cases</module>
         <module>legstar-xsdcgen</module>
         <module>legstar-transform</module>
-<!--
         <module>legstar-transport</module>
         <module>legstar-jaxws</module>
         <module>legstar-distribution</module>
         <module>legstar-distribution-zos</module>
         <module>legstar-eclipse</module>
--->
     </modules>
 
     <build>
