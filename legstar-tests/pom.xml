@@ -36,6 +36,7 @@
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-jaxbgen</artifactId>
             <type>test-jar</type>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

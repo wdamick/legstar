@@ -31,11 +31,13 @@
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-jaxbgen</artifactId>
+            <scope>compile</scope>
             <type>test-jar</type>
         </dependency>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-coxbgen</artifactId>
+            <scope>compile</scope>
             <type>test-jar</type>
         </dependency>
         <dependency>
@@ -64,6 +66,11 @@
         <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-tools</artifactId>
             <scope>test</scope>
         </dependency>
     
