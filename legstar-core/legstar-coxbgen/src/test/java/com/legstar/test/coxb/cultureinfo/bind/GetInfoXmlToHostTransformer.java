@@ -10,20 +10,20 @@ import com.legstar.coxb.transform.HostTransformException;
  * This is a typical use of this class:
  * <pre>
  *  StringReader reader = new StringReader("<someXml>...</someXml>");
- *  CultureInfoParametersXmlToHostTransformer transformer = new CultureInfoParametersXmlToHostTransformer();
+ *  GetInfoXmlToHostTransformer transformer = new GetInfoXmlToHostTransformer();
  *  byte[] hostByteArray = transformer.transform(new StreamSource(reader));
  * </pre>
  *
  */
-public class CultureInfoParametersXmlToHostTransformer extends AbstractXmlToHostTransformer {
+public class GetInfoXmlToHostTransformer extends AbstractXmlToHostTransformer {
 
     
     /**
      * Create a XML to Host transformer using a Java to Host transformer.
      * @throws HostTransformException if transformer cannot be created
      */
-    public CultureInfoParametersXmlToHostTransformer() throws HostTransformException {
-        super(new CultureInfoParametersJavaToHostTransformer());
+    public GetInfoXmlToHostTransformer() throws HostTransformException {
+        super(new GetInfoJavaToHostTransformer());
     }
     
     /**
@@ -31,9 +31,9 @@ public class CultureInfoParametersXmlToHostTransformer extends AbstractXmlToHost
      * @param cobolContext the COBOL parameters set.
      * @throws HostTransformException if transformer cannot be created
      */
-    public CultureInfoParametersXmlToHostTransformer(
+    public GetInfoXmlToHostTransformer(
             final CobolContext cobolContext) throws HostTransformException {
-        super(new CultureInfoParametersJavaToHostTransformer(cobolContext));
+        super(new GetInfoJavaToHostTransformer(cobolContext));
     }
 
     /**
@@ -42,9 +42,9 @@ public class CultureInfoParametersXmlToHostTransformer extends AbstractXmlToHost
      * @param hostCharset the host character set
      * @throws HostTransformException if transformer cannot be created
      */
-    public CultureInfoParametersXmlToHostTransformer(
+    public GetInfoXmlToHostTransformer(
             final String hostCharset) throws HostTransformException {
-        super(new CultureInfoParametersJavaToHostTransformer(hostCharset));
+        super(new GetInfoJavaToHostTransformer(hostCharset));
     }
     
 }

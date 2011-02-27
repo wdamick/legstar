@@ -11,12 +11,12 @@ import com.legstar.coxb.transform.HostTransformException;
  *
  * <pre>
  *  StringReader reader = new StringReader("{someJson:...}");
- *  CultureInfoReplyJsonToHostTransformer transformer = new CultureInfoReplyJsonToHostTransformer();
+ *  GetInfoJsonToHostTransformer transformer = new GetInfoJsonToHostTransformer();
  *  byte[] hostByteArray = transformer.transform(reader);
  * </pre>
  *
  */
-public class CultureInfoReplyJsonToHostTransformer extends
+public class GetInfoJsonToHostTransformer extends
         AbstractJsonToHostTransformer {
 
     
@@ -25,8 +25,8 @@ public class CultureInfoReplyJsonToHostTransformer extends
      *
      * @throws HostTransformException if transformer cannot be created
      */
-    public CultureInfoReplyJsonToHostTransformer() throws HostTransformException {
-        super(new CultureInfoReplyJavaToHostTransformer());
+    public GetInfoJsonToHostTransformer() throws HostTransformException {
+        super(new GetInfoJavaToHostTransformer());
     }
     
     /**
@@ -35,9 +35,9 @@ public class CultureInfoReplyJsonToHostTransformer extends
      * @param cobolContext the COBOL parameters set.
      * @throws HostTransformException if transformer cannot be created
      */
-    public CultureInfoReplyJsonToHostTransformer(
+    public GetInfoJsonToHostTransformer(
             final CobolContext cobolContext) throws HostTransformException {
-        super(new CultureInfoReplyJavaToHostTransformer(cobolContext));
+        super(new GetInfoJavaToHostTransformer(cobolContext));
     }
 
     /**
@@ -47,9 +47,9 @@ public class CultureInfoReplyJsonToHostTransformer extends
      * @param hostCharset the host character set
      * @throws HostTransformException if transformer cannot be created
      */
-    public CultureInfoReplyJsonToHostTransformer(
+    public GetInfoJsonToHostTransformer(
             final String hostCharset) throws HostTransformException {
-        super(new CultureInfoReplyJavaToHostTransformer(hostCharset));
+        super(new GetInfoJavaToHostTransformer(hostCharset));
     }
     
 }

@@ -141,7 +141,7 @@ public class CoxbBindingGeneratorTest extends AbstractCoxbGenTest {
      */
     public void testCultureInfo() throws Exception {
         genSourceAndCheck("cultureinfo", new String[] {
-                "CultureInfoParameters", "CultureInfoReply" });
+                "GetInfo", "GetInfoResponse" });
     }
 
     /**

@@ -10,13 +10,13 @@ import com.legstar.coxb.transform.HostTransformException;
  * This is a typical use of this class:
  *
  * <pre>
- *  CultureInfoParametersHostToJsonTransformer transformer = new CultureInfoParametersHostToJsonTransformer();
+ *  GetInfoHostToJsonTransformer transformer = new GetInfoHostToJsonTransformer();
  *  StringWriter writer = new StringWriter();
  *  transformer.transform(hostByteArray, writer);
  * </pre>
  *
  */
-public class CultureInfoParametersHostToJsonTransformer extends
+public class GetInfoHostToJsonTransformer extends
         AbstractHostToJsonTransformer {
 
     /**
@@ -24,8 +24,8 @@ public class CultureInfoParametersHostToJsonTransformer extends
      *
      * @throws HostTransformException if transformer cannot be created
      */
-    public CultureInfoParametersHostToJsonTransformer() throws HostTransformException {
-        super(new CultureInfoParametersHostToJavaTransformer());
+    public GetInfoHostToJsonTransformer() throws HostTransformException {
+        super(new GetInfoHostToJavaTransformer());
     }
     
     /**
@@ -34,9 +34,9 @@ public class CultureInfoParametersHostToJsonTransformer extends
      * @param cobolContext the COBOL parameters set.
      * @throws HostTransformException if transformer cannot be created
      */
-    public CultureInfoParametersHostToJsonTransformer(
+    public GetInfoHostToJsonTransformer(
             final CobolContext cobolContext) throws HostTransformException {
-        super(new CultureInfoParametersHostToJavaTransformer(cobolContext));
+        super(new GetInfoHostToJavaTransformer(cobolContext));
     }
 
     /**
@@ -46,9 +46,9 @@ public class CultureInfoParametersHostToJsonTransformer extends
      * @param hostCharset the host character set
      * @throws HostTransformException if transformer cannot be created
      */
-    public CultureInfoParametersHostToJsonTransformer(
+    public GetInfoHostToJsonTransformer(
             final String hostCharset) throws HostTransformException {
-        super(new CultureInfoParametersHostToJavaTransformer(hostCharset));
+        super(new GetInfoHostToJavaTransformer(hostCharset));
     }
     
 }

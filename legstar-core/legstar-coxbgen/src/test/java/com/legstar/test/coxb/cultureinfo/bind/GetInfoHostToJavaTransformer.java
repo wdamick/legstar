@@ -6,22 +6,22 @@ import com.legstar.coxb.transform.AbstractHostToJavaTransformer;
 import com.legstar.coxb.CobolBindingException;
 
 /**
- * Transforms mainframe data to a CultureInfoParameters data object.
+ * Transforms mainframe data to a GetInfo data object.
  * <p/>
  * This is a typical use of this class:
  * <pre>
- *  CultureInfoParametersHostToJavaTransformer transformer = new CultureInfoParametersHostToJavaTransformer();
- *  CultureInfoParameters javaValue = (CultureInfoParameters) transformer.transform(hostByteArray);
+ *  GetInfoHostToJavaTransformer transformer = new GetInfoHostToJavaTransformer();
+ *  GetInfo javaValue = (GetInfo) transformer.transform(hostByteArray);
  * </pre>
  *
  */
-public class CultureInfoParametersHostToJavaTransformer extends AbstractHostToJavaTransformer {
+public class GetInfoHostToJavaTransformer extends AbstractHostToJavaTransformer {
 
     
     /**
      * Create a Host to Java transformer using default COBOL parameters.
      */
-    public CultureInfoParametersHostToJavaTransformer() {
+    public GetInfoHostToJavaTransformer() {
         super();
     }
     
@@ -29,7 +29,7 @@ public class CultureInfoParametersHostToJavaTransformer extends AbstractHostToJa
      * Create a Host to Java transformer using a specific COBOL parameters set.
      * @param cobolContext the COBOL parameters set.
      */
-    public CultureInfoParametersHostToJavaTransformer(final CobolContext cobolContext) {
+    public GetInfoHostToJavaTransformer(final CobolContext cobolContext) {
         super(cobolContext);
     }
 
@@ -38,7 +38,7 @@ public class CultureInfoParametersHostToJavaTransformer extends AbstractHostToJa
      * other COBOL parameters are set by default.
      * @param hostCharset the host character set
      */
-    public CultureInfoParametersHostToJavaTransformer(final String hostCharset) {
+    public GetInfoHostToJavaTransformer(final String hostCharset) {
         super(hostCharset);
     }
     
@@ -48,7 +48,7 @@ public class CultureInfoParametersHostToJavaTransformer extends AbstractHostToJa
      * @throws CobolBindingException if binding cannot be returned
      */
     public ICobolComplexBinding newBinding() throws CobolBindingException {
-        return new CultureInfoParametersBinding();
+        return new GetInfoBinding();
     }
     
 }

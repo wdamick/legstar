@@ -11,12 +11,12 @@ import com.legstar.coxb.transform.HostTransformException;
  *
  * <pre>
  *  StringReader reader = new StringReader("{someJson:...}");
- *  CultureInfoParametersJsonToHostTransformer transformer = new CultureInfoParametersJsonToHostTransformer();
+ *  GetInfoResponseJsonToHostTransformer transformer = new GetInfoResponseJsonToHostTransformer();
  *  byte[] hostByteArray = transformer.transform(reader);
  * </pre>
  *
  */
-public class CultureInfoParametersJsonToHostTransformer extends
+public class GetInfoResponseJsonToHostTransformer extends
         AbstractJsonToHostTransformer {
 
     
@@ -25,8 +25,8 @@ public class CultureInfoParametersJsonToHostTransformer extends
      *
      * @throws HostTransformException if transformer cannot be created
      */
-    public CultureInfoParametersJsonToHostTransformer() throws HostTransformException {
-        super(new CultureInfoParametersJavaToHostTransformer());
+    public GetInfoResponseJsonToHostTransformer() throws HostTransformException {
+        super(new GetInfoResponseJavaToHostTransformer());
     }
     
     /**
@@ -35,9 +35,9 @@ public class CultureInfoParametersJsonToHostTransformer extends
      * @param cobolContext the COBOL parameters set.
      * @throws HostTransformException if transformer cannot be created
      */
-    public CultureInfoParametersJsonToHostTransformer(
+    public GetInfoResponseJsonToHostTransformer(
             final CobolContext cobolContext) throws HostTransformException {
-        super(new CultureInfoParametersJavaToHostTransformer(cobolContext));
+        super(new GetInfoResponseJavaToHostTransformer(cobolContext));
     }
 
     /**
@@ -47,9 +47,9 @@ public class CultureInfoParametersJsonToHostTransformer extends
      * @param hostCharset the host character set
      * @throws HostTransformException if transformer cannot be created
      */
-    public CultureInfoParametersJsonToHostTransformer(
+    public GetInfoResponseJsonToHostTransformer(
             final String hostCharset) throws HostTransformException {
-        super(new CultureInfoParametersJavaToHostTransformer(hostCharset));
+        super(new GetInfoResponseJavaToHostTransformer(hostCharset));
     }
     
 }

@@ -10,13 +10,13 @@ import com.legstar.coxb.transform.HostTransformException;
  * This is a typical use of this class:
  *
  * <pre>
- *  CultureInfoReplyHostToJsonTransformer transformer = new CultureInfoReplyHostToJsonTransformer();
+ *  GetInfoResponseHostToJsonTransformer transformer = new GetInfoResponseHostToJsonTransformer();
  *  StringWriter writer = new StringWriter();
  *  transformer.transform(hostByteArray, writer);
  * </pre>
  *
  */
-public class CultureInfoReplyHostToJsonTransformer extends
+public class GetInfoResponseHostToJsonTransformer extends
         AbstractHostToJsonTransformer {
 
     /**
@@ -24,8 +24,8 @@ public class CultureInfoReplyHostToJsonTransformer extends
      *
      * @throws HostTransformException if transformer cannot be created
      */
-    public CultureInfoReplyHostToJsonTransformer() throws HostTransformException {
-        super(new CultureInfoReplyHostToJavaTransformer());
+    public GetInfoResponseHostToJsonTransformer() throws HostTransformException {
+        super(new GetInfoResponseHostToJavaTransformer());
     }
     
     /**
@@ -34,9 +34,9 @@ public class CultureInfoReplyHostToJsonTransformer extends
      * @param cobolContext the COBOL parameters set.
      * @throws HostTransformException if transformer cannot be created
      */
-    public CultureInfoReplyHostToJsonTransformer(
+    public GetInfoResponseHostToJsonTransformer(
             final CobolContext cobolContext) throws HostTransformException {
-        super(new CultureInfoReplyHostToJavaTransformer(cobolContext));
+        super(new GetInfoResponseHostToJavaTransformer(cobolContext));
     }
 
     /**
@@ -46,9 +46,9 @@ public class CultureInfoReplyHostToJsonTransformer extends
      * @param hostCharset the host character set
      * @throws HostTransformException if transformer cannot be created
      */
-    public CultureInfoReplyHostToJsonTransformer(
+    public GetInfoResponseHostToJsonTransformer(
             final String hostCharset) throws HostTransformException {
-        super(new CultureInfoReplyHostToJavaTransformer(hostCharset));
+        super(new GetInfoResponseHostToJavaTransformer(hostCharset));
     }
     
 }

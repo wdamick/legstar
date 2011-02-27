@@ -137,8 +137,8 @@ public class CArrayComplexReflectBinding extends CArrayComplexBinding {
      * @param list the items List to set
      */
     @SuppressWarnings("unchecked")
-    public void setObjectList(final List list) {
-        mJaxbObject = list;
+    public void setObjectList(final List < ? > list) {
+        mJaxbObject = ( List < Object >) list;
     }
 
     /** {@inheritDoc} */
