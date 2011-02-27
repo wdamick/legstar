@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>legstar-core</artifactId>
-        <version>1.5.2-SNAPSHOT</version>
+        <version>1.5.2</version>
     </parent>
     <artifactId>legstar-coxbgen</artifactId>
     <name>LegStar COBOL Binding Generator</name>
@@ -222,9 +222,9 @@
                                 </copy>
                                 <copy todir="src/site/xdoc" overwrite="true">
                                     <fileset dir="target/classes/templates">
-                                        <include name="download.xml.template"/>
+                                        <include name="download.xml.template" />
                                     </fileset>
-                                    <globmapper from="*.template" to="*"/>
+                                    <globmapper from="*.template" to="*" />
                                 </copy>
                             </postProcess>
                         </configuration>
