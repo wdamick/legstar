@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<faqs title="Frequently Asked Questions">
+
+  <part id="general">
+    <title>General</title>
+   
+    <faq id="footer-company">
+      <question>
+       Do I need to generate Runtime binding classes in addition to the JAXB classes produced with build-jaxb.xml?
+      </question>
+      <answer>
+       This is a performance versus flexibility trade off. The runtime binding classes are faster but they need
+       to be rebuilt (using build-coxb.xml) every time something changes.
+       Please note that some other LegStar generators favor runtime binding classes over annotated JAXB classes.
+      </answer>
+    </faq>
+
+    <faq id="footer-company">
+      <question>
+       Why am I getting a "unrecognized parameter -Xlegstar-code" when running build-jaxb.xml?
+      </question>
+      <answer>
+       This is probably a classpath issue. XJC is not finding the LegStar Jaxbgen classes.
+       Make sure the legstar-jaxbgen-nnn jar file is in the XJC classpathref.
+       If you are running an older version of build-jaxb.xml (pre 1.0.1) with JRE 1.6 and above,
+       you also need to modify the ant script from "com.sun.tools.xjc.XJCTask" to "com.sun.tools.xjc.XJC2Task".
+       <p>This error also shows up if the JRE is too old (older than JRE 1.5). In this case, XJC
+       fails to load the LegStar classes which needs JRE 1.5 at least.</p>
+      </answer>
+    </faq>
+
+    <faq id="footer-company">
+      <question>
+       Why am I getting a "java.lang.LinkageError: JAXB 2.0 API is being loaded from the bootstrap
+        classloader, but this RI (...) needs 2.1 API.?
+      </question>
+      <answer>
+       This issue is discussed <a href="http://www.legsem.com/legstar/phpBB3/viewtopic.php?f=2&amp;t=4">here.</a>
+      </answer>
+    </faq>
+
+    <faq id="footer-company">
+      <question>
+       Is it possible to use the JAXB implementation that comes with JRE 6 instead of the one that is
+       distributed with LegStar?
+      </question>
+      <answer>
+       The answer is it depends.
+       At development time this is not possible because LegStar implements an XJC plugin.
+       If XJC is loaded as part of the JRE, it won't find the LegStar plugin (unless you want to get into the
+       rather complicated endorsement process).
+       At runtime, if your JRE is more recent then 1.6 r4, then you can use the JRE implementation because it
+       is JAXB 2.1 compliant. 
+       
+      </answer>
+    </faq>
+
+    <faq id="footer-company">
+      <question>
+       How do I use the binding classes to perform my own mainframe to java and java to mainframe conversions?
+      </question>
+      <answer>
+       Assuming you generated binding classes for a JAXB root class named MyClass, you get a MyClassTransformers
+       class.
+       To convert a java data object to mainframe bytes, you can use code similar to:
+       <source>
+            /* Populate your JAXB object in getMyClass */
+            MyClass myClass = getMyClass();
+            /* Create an instance of the binding transformers */
+            MyClassTransformers transformers = new MyClassTransformers();
+            /* Convert Java to mainframe bytes */
+            byte[] hostBytes = transformers.toHost(request, hostCharset);
+       </source>
+       To convert mainframe bytes to a java data object , you can use code similar to:
+       <source>
+             /* Create an instance of the binding transformers */
+            MyClassTransformers transformers = new MyClassTransformers();
+            /* Convert Java to mainframe bytes */
+            MyClass myClass = transformers.toJava(hostBytes, hostCharset);
+       </source>
+      </answer>
+    </faq>
+  <!--
+    <faq id="">
+      <question></question>
+      <answer>
+      </answer>
+    </faq>
+  -->
+  </part>
+</faqs>

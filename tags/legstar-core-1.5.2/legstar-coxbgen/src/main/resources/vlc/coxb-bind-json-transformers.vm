@@ -1,0 +1,24 @@
+## Determine the value Object type
+#set ($valueObjectType = $coxbHelper.getBoundTypeName($binding))
+package ${coxbContext.getCoxbPackageName()};
+
+import com.legstar.coxb.transform.AbstractJsonTransformers;
+import com.legstar.coxb.transform.HostTransformException;
+
+/**
+ * JSON Transformers provider for ${valueObjectType}.
+ *
+ */
+public class ${binding.jaxbName}JsonTransformers extends AbstractJsonTransformers {
+
+    /**
+     * Create a set of directional transformers.
+     *
+     * @throws HostTransformException if transformer cannot be created
+     */
+    public ${binding.jaxbName}JsonTransformers() throws HostTransformException {
+        super(new ${binding.jaxbName}JsonToHostTransformer(),
+                new ${binding.jaxbName}HostToJsonTransformer());
+    }
+
+}
