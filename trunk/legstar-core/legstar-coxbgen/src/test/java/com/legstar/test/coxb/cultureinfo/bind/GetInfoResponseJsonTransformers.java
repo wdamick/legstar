@@ -4,19 +4,19 @@ import com.legstar.coxb.transform.AbstractJsonTransformers;
 import com.legstar.coxb.transform.HostTransformException;
 
 /**
- * JSON Transformers provider for CultureInfoReply.
+ * JSON Transformers provider for GetInfoResponse.
  *
  */
-public class CultureInfoReplyJsonTransformers extends AbstractJsonTransformers {
+public class GetInfoResponseJsonTransformers extends AbstractJsonTransformers {
 
     /**
      * Create a set of directional transformers.
      *
      * @throws HostTransformException if transformer cannot be created
      */
-    public CultureInfoReplyJsonTransformers() throws HostTransformException {
-        super(new CultureInfoReplyJsonToHostTransformer(),
-                new CultureInfoReplyHostToJsonTransformer());
+    public GetInfoResponseJsonTransformers() throws HostTransformException {
+        super(new GetInfoResponseJsonToHostTransformer(),
+                new GetInfoResponseHostToJsonTransformer());
     }
 
 }

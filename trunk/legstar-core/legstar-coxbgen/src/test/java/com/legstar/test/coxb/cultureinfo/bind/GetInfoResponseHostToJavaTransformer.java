@@ -2,43 +2,43 @@ package com.legstar.test.coxb.cultureinfo.bind;
 
 import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.ICobolComplexBinding;
-import com.legstar.coxb.transform.AbstractJavaToHostTransformer;
+import com.legstar.coxb.transform.AbstractHostToJavaTransformer;
 import com.legstar.coxb.CobolBindingException;
 
 /**
- * Transforms a CultureInfoParameters data object to mainframe data.
+ * Transforms mainframe data to a GetInfoResponse data object.
  * <p/>
  * This is a typical use of this class:
  * <pre>
- *  CultureInfoParametersJavaToHostTransformer transformer = new CultureInfoParametersJavaToHostTransformer();
- *  byte[] hostByteArray = transformer.transform(javaValue);
+ *  GetInfoResponseHostToJavaTransformer transformer = new GetInfoResponseHostToJavaTransformer();
+ *  GetInfoResponse javaValue = (GetInfoResponse) transformer.transform(hostByteArray);
  * </pre>
  *
  */
-public class CultureInfoParametersJavaToHostTransformer extends AbstractJavaToHostTransformer {
+public class GetInfoResponseHostToJavaTransformer extends AbstractHostToJavaTransformer {
 
     
     /**
-     * Create a Java to Host transformer using default COBOL parameters.
+     * Create a Host to Java transformer using default COBOL parameters.
      */
-    public CultureInfoParametersJavaToHostTransformer() {
+    public GetInfoResponseHostToJavaTransformer() {
         super();
     }
     
     /**
-     * Create a Java to Host transformer using a specific COBOL parameters set.
+     * Create a Host to Java transformer using a specific COBOL parameters set.
      * @param cobolContext the COBOL parameters set.
      */
-    public CultureInfoParametersJavaToHostTransformer(final CobolContext cobolContext) {
+    public GetInfoResponseHostToJavaTransformer(final CobolContext cobolContext) {
         super(cobolContext);
     }
 
     /**
-     * Create a Java to Host transformer using a specific host character set while
+     * Create a Host to Java transformer using a specific host character set while
      * other COBOL parameters are set by default.
      * @param hostCharset the host character set
      */
-    public CultureInfoParametersJavaToHostTransformer(final String hostCharset) {
+    public GetInfoResponseHostToJavaTransformer(final String hostCharset) {
         super(hostCharset);
     }
     
@@ -48,7 +48,7 @@ public class CultureInfoParametersJavaToHostTransformer extends AbstractJavaToHo
      * @throws CobolBindingException if binding cannot be returned
      */
     public ICobolComplexBinding newBinding() throws CobolBindingException {
-        return new CultureInfoParametersBinding();
+        return new GetInfoResponseBinding();
     }
     
 }

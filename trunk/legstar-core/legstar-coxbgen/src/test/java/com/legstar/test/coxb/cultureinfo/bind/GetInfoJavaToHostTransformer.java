@@ -6,22 +6,22 @@ import com.legstar.coxb.transform.AbstractJavaToHostTransformer;
 import com.legstar.coxb.CobolBindingException;
 
 /**
- * Transforms a CultureInfoReply data object to mainframe data.
+ * Transforms a GetInfo data object to mainframe data.
  * <p/>
  * This is a typical use of this class:
  * <pre>
- *  CultureInfoReplyJavaToHostTransformer transformer = new CultureInfoReplyJavaToHostTransformer();
+ *  GetInfoJavaToHostTransformer transformer = new GetInfoJavaToHostTransformer();
  *  byte[] hostByteArray = transformer.transform(javaValue);
  * </pre>
  *
  */
-public class CultureInfoReplyJavaToHostTransformer extends AbstractJavaToHostTransformer {
+public class GetInfoJavaToHostTransformer extends AbstractJavaToHostTransformer {
 
     
     /**
      * Create a Java to Host transformer using default COBOL parameters.
      */
-    public CultureInfoReplyJavaToHostTransformer() {
+    public GetInfoJavaToHostTransformer() {
         super();
     }
     
@@ -29,7 +29,7 @@ public class CultureInfoReplyJavaToHostTransformer extends AbstractJavaToHostTra
      * Create a Java to Host transformer using a specific COBOL parameters set.
      * @param cobolContext the COBOL parameters set.
      */
-    public CultureInfoReplyJavaToHostTransformer(final CobolContext cobolContext) {
+    public GetInfoJavaToHostTransformer(final CobolContext cobolContext) {
         super(cobolContext);
     }
 
@@ -38,7 +38,7 @@ public class CultureInfoReplyJavaToHostTransformer extends AbstractJavaToHostTra
      * other COBOL parameters are set by default.
      * @param hostCharset the host character set
      */
-    public CultureInfoReplyJavaToHostTransformer(final String hostCharset) {
+    public GetInfoJavaToHostTransformer(final String hostCharset) {
         super(hostCharset);
     }
     
@@ -48,7 +48,7 @@ public class CultureInfoReplyJavaToHostTransformer extends AbstractJavaToHostTra
      * @throws CobolBindingException if binding cannot be returned
      */
     public ICobolComplexBinding newBinding() throws CobolBindingException {
-        return new CultureInfoReplyBinding();
+        return new GetInfoBinding();
     }
     
 }

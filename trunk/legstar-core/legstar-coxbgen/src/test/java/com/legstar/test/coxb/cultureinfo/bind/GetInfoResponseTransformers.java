@@ -3,20 +3,20 @@ package com.legstar.test.coxb.cultureinfo.bind;
 import com.legstar.coxb.transform.AbstractTransformers;
 import com.legstar.coxb.transform.HostTransformException;
 import com.legstar.coxb.transform.HostTransformStatus;
-import com.legstar.test.coxb.cultureinfo.CultureInfoParameters;
+import com.legstar.test.coxb.cultureinfo.GetInfoResponse;
 
 /**
- * Transformer provider for CultureInfoParameters java data object.
+ * Transformer provider for GetInfoResponse java data object.
  *
  */
-public class CultureInfoParametersTransformers extends AbstractTransformers {
+public class GetInfoResponseTransformers extends AbstractTransformers {
 
     /**
      * Create a set of directional transformers.
      */
-    public CultureInfoParametersTransformers() {
-        super(new CultureInfoParametersJavaToHostTransformer(),
-                new CultureInfoParametersHostToJavaTransformer());
+    public GetInfoResponseTransformers() {
+        super(new GetInfoResponseJavaToHostTransformer(),
+                new GetInfoResponseHostToJavaTransformer());
     }
 
     /**
@@ -28,7 +28,7 @@ public class CultureInfoParametersTransformers extends AbstractTransformers {
      * @return a Java value object
      * @throws HostTransformException if transformation fails
      */
-    public CultureInfoParameters toJava(final byte[] hostData, final String hostCharset)
+    public GetInfoResponse toJava(final byte[] hostData, final String hostCharset)
             throws HostTransformException {
         return getHostToJava().transform(hostData, hostCharset);
     }
@@ -40,7 +40,7 @@ public class CultureInfoParametersTransformers extends AbstractTransformers {
      * @return a Java value object
      * @throws HostTransformException if transformation fails
      */
-    public CultureInfoParameters toJava(final byte[] hostData)
+    public GetInfoResponse toJava(final byte[] hostData)
             throws HostTransformException {
         return getHostToJava().transform(hostData);
     }
@@ -56,7 +56,7 @@ public class CultureInfoParametersTransformers extends AbstractTransformers {
      * @return a Java value object
      * @throws HostTransformException if transformation fails
      */
-    public CultureInfoParameters toJava(final byte[] hostData, final String hostCharset,
+    public GetInfoResponse toJava(final byte[] hostData, final String hostCharset,
             final HostTransformStatus status) throws HostTransformException {
         return getHostToJava().transform(hostData, hostCharset, status);
     }
@@ -70,7 +70,7 @@ public class CultureInfoParametersTransformers extends AbstractTransformers {
      * @return a Java value object
      * @throws HostTransformException if transformation fails
      */
-    public CultureInfoParameters toJava(final byte[] hostData,
+    public GetInfoResponse toJava(final byte[] hostData,
             final HostTransformStatus status)
             throws HostTransformException {
         return getHostToJava().transform(hostData, status);
@@ -86,7 +86,7 @@ public class CultureInfoParametersTransformers extends AbstractTransformers {
      * @return a Java value object
      * @throws HostTransformException if transformation fails
      */
-    public CultureInfoParameters toJava(final byte[] hostData, final int offset,
+    public GetInfoResponse toJava(final byte[] hostData, final int offset,
             final String hostCharset)
             throws HostTransformException {
         return getHostToJava().transform(hostData, offset, hostCharset);
@@ -100,7 +100,7 @@ public class CultureInfoParametersTransformers extends AbstractTransformers {
      * @return a Java value object
      * @throws HostTransformException if transformation fails
      */
-    public CultureInfoParameters toJava(final byte[] hostData, final int offset)
+    public GetInfoResponse toJava(final byte[] hostData, final int offset)
             throws HostTransformException {
         return getHostToJava().transform(hostData, offset);
     }
@@ -117,7 +117,7 @@ public class CultureInfoParametersTransformers extends AbstractTransformers {
      * @return a Java value object
      * @throws HostTransformException if transformation fails
      */
-    public CultureInfoParameters toJava(final byte[] hostData, final int offset,
+    public GetInfoResponse toJava(final byte[] hostData, final int offset,
             final String hostCharset,
             final HostTransformStatus status) throws HostTransformException {
         return getHostToJava().transform(hostData, offset, hostCharset, status);
@@ -133,7 +133,7 @@ public class CultureInfoParametersTransformers extends AbstractTransformers {
      * @return a Java value object
      * @throws HostTransformException if transformation fails
      */
-    public CultureInfoParameters toJava(final byte[] hostData, final int offset,
+    public GetInfoResponse toJava(final byte[] hostData, final int offset,
             final HostTransformStatus status)
             throws HostTransformException {
         return getHostToJava().transform(hostData, offset, status);

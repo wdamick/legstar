@@ -201,30 +201,30 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
             return;
         }
         if (value instanceof List) {
-            if (((List) value).size() == 0) {
+            if (((List < ? >) value).size() == 0) {
                 mList = new ArrayList < BigDecimal >();
                 return;
             }
             /* We assume all items will have the same type as the first one.
              * The unchecked cast might break at runtime. */
-            Object item = ((List) value).get(0);
+            Object item = ((List < ? >) value).get(0);
             if (item instanceof BigDecimal) {
-                mList = (List) value;
+                mList = (List < BigDecimal >) value;
                 return;
             } else if (item instanceof BigInteger) {
-                setBigIntegerList((List) value);
+                setBigIntegerList((List < BigInteger >) value);
                 return;
             } else if (item instanceof Long) {
-                setLongList((List) value);
+                setLongList((List < Long >) value);
                 return;
             } else if (item instanceof Integer) {
-                setIntegerList((List) value);
+                setIntegerList((List < Integer >) value);
                 return;
             } else if (item instanceof Short) {
-                setShortList((List) value);
+                setShortList((List < Short >) value);
                 return;
             } else if (item instanceof Byte) {
-                setByteList((List) value);
+                setByteList((List < Byte >) value);
                 return;
             }
         }

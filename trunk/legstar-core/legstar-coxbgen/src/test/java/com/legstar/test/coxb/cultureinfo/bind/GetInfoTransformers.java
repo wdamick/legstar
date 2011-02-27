@@ -3,20 +3,20 @@ package com.legstar.test.coxb.cultureinfo.bind;
 import com.legstar.coxb.transform.AbstractTransformers;
 import com.legstar.coxb.transform.HostTransformException;
 import com.legstar.coxb.transform.HostTransformStatus;
-import com.legstar.test.coxb.cultureinfo.CultureInfoReply;
+import com.legstar.test.coxb.cultureinfo.GetInfo;
 
 /**
- * Transformer provider for CultureInfoReply java data object.
+ * Transformer provider for GetInfo java data object.
  *
  */
-public class CultureInfoReplyTransformers extends AbstractTransformers {
+public class GetInfoTransformers extends AbstractTransformers {
 
     /**
      * Create a set of directional transformers.
      */
-    public CultureInfoReplyTransformers() {
-        super(new CultureInfoReplyJavaToHostTransformer(),
-                new CultureInfoReplyHostToJavaTransformer());
+    public GetInfoTransformers() {
+        super(new GetInfoJavaToHostTransformer(),
+                new GetInfoHostToJavaTransformer());
     }
 
     /**
@@ -28,7 +28,7 @@ public class CultureInfoReplyTransformers extends AbstractTransformers {
      * @return a Java value object
      * @throws HostTransformException if transformation fails
      */
-    public CultureInfoReply toJava(final byte[] hostData, final String hostCharset)
+    public GetInfo toJava(final byte[] hostData, final String hostCharset)
             throws HostTransformException {
         return getHostToJava().transform(hostData, hostCharset);
     }
@@ -40,7 +40,7 @@ public class CultureInfoReplyTransformers extends AbstractTransformers {
      * @return a Java value object
      * @throws HostTransformException if transformation fails
      */
-    public CultureInfoReply toJava(final byte[] hostData)
+    public GetInfo toJava(final byte[] hostData)
             throws HostTransformException {
         return getHostToJava().transform(hostData);
     }
@@ -56,7 +56,7 @@ public class CultureInfoReplyTransformers extends AbstractTransformers {
      * @return a Java value object
      * @throws HostTransformException if transformation fails
      */
-    public CultureInfoReply toJava(final byte[] hostData, final String hostCharset,
+    public GetInfo toJava(final byte[] hostData, final String hostCharset,
             final HostTransformStatus status) throws HostTransformException {
         return getHostToJava().transform(hostData, hostCharset, status);
     }
@@ -70,7 +70,7 @@ public class CultureInfoReplyTransformers extends AbstractTransformers {
      * @return a Java value object
      * @throws HostTransformException if transformation fails
      */
-    public CultureInfoReply toJava(final byte[] hostData,
+    public GetInfo toJava(final byte[] hostData,
             final HostTransformStatus status)
             throws HostTransformException {
         return getHostToJava().transform(hostData, status);
@@ -86,7 +86,7 @@ public class CultureInfoReplyTransformers extends AbstractTransformers {
      * @return a Java value object
      * @throws HostTransformException if transformation fails
      */
-    public CultureInfoReply toJava(final byte[] hostData, final int offset,
+    public GetInfo toJava(final byte[] hostData, final int offset,
             final String hostCharset)
             throws HostTransformException {
         return getHostToJava().transform(hostData, offset, hostCharset);
@@ -100,7 +100,7 @@ public class CultureInfoReplyTransformers extends AbstractTransformers {
      * @return a Java value object
      * @throws HostTransformException if transformation fails
      */
-    public CultureInfoReply toJava(final byte[] hostData, final int offset)
+    public GetInfo toJava(final byte[] hostData, final int offset)
             throws HostTransformException {
         return getHostToJava().transform(hostData, offset);
     }
@@ -117,7 +117,7 @@ public class CultureInfoReplyTransformers extends AbstractTransformers {
      * @return a Java value object
      * @throws HostTransformException if transformation fails
      */
-    public CultureInfoReply toJava(final byte[] hostData, final int offset,
+    public GetInfo toJava(final byte[] hostData, final int offset,
             final String hostCharset,
             final HostTransformStatus status) throws HostTransformException {
         return getHostToJava().transform(hostData, offset, hostCharset, status);
@@ -133,7 +133,7 @@ public class CultureInfoReplyTransformers extends AbstractTransformers {
      * @return a Java value object
      * @throws HostTransformException if transformation fails
      */
-    public CultureInfoReply toJava(final byte[] hostData, final int offset,
+    public GetInfo toJava(final byte[] hostData, final int offset,
             final HostTransformStatus status)
             throws HostTransformException {
         return getHostToJava().transform(hostData, offset, status);

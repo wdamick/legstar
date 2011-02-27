@@ -9,20 +9,20 @@ import com.legstar.coxb.transform.HostTransformException;
  * <p/>
  * This is a typical use of this class:
  * <pre>
- *  CultureInfoReplyHostToXmlTransformer transformer = new CultureInfoReplyHostToXmlTransformer();
+ *  GetInfoHostToXmlTransformer transformer = new GetInfoHostToXmlTransformer();
  *  StringWriter writer = new StringWriter();
  *  transformer.transform(hostByteArray, writer);
  * </pre>
  *
  */
-public class CultureInfoReplyHostToXmlTransformer extends AbstractHostToXmlTransformer {
+public class GetInfoHostToXmlTransformer extends AbstractHostToXmlTransformer {
 
     /**
      * Create a Host to XML transformer using a Host to Java transformer.
      * @throws HostTransformException if transformer cannot be created
      */
-    public CultureInfoReplyHostToXmlTransformer() throws HostTransformException {
-        super(new CultureInfoReplyHostToJavaTransformer());
+    public GetInfoHostToXmlTransformer() throws HostTransformException {
+        super(new GetInfoHostToJavaTransformer());
     }
     
     /**
@@ -30,9 +30,9 @@ public class CultureInfoReplyHostToXmlTransformer extends AbstractHostToXmlTrans
      * @param cobolContext the COBOL parameters set.
      * @throws HostTransformException if transformer cannot be created
      */
-    public CultureInfoReplyHostToXmlTransformer(
+    public GetInfoHostToXmlTransformer(
             final CobolContext cobolContext) throws HostTransformException {
-        super(new CultureInfoReplyHostToJavaTransformer(cobolContext));
+        super(new GetInfoHostToJavaTransformer(cobolContext));
     }
 
     /**
@@ -41,14 +41,14 @@ public class CultureInfoReplyHostToXmlTransformer extends AbstractHostToXmlTrans
      * @param hostCharset the host character set
      * @throws HostTransformException if transformer cannot be created
      */
-    public CultureInfoReplyHostToXmlTransformer(
+    public GetInfoHostToXmlTransformer(
             final String hostCharset) throws HostTransformException {
-        super(new CultureInfoReplyHostToJavaTransformer(hostCharset));
+        super(new GetInfoHostToJavaTransformer(hostCharset));
     }
     
     /** {@inheritDoc} */
     public String getElementName() {
-        return "cultureInfoReply";
+        return "getInfo";
     }
 
     /** {@inheritDoc} */
