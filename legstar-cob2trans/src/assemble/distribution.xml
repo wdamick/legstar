@@ -26,7 +26,7 @@
 
         <!-- Copy a sample COBOL source -->
         <file>
-            <source>../target/cases/cobol/LSFILEAQ</source>
+            <source>target/dependency/cobol/LSFILEAQ</source>
             <outputDirectory>/cobol</outputDirectory>
             <destName>LSFILEAQ.cbl</destName>
         </file>
