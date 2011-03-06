@@ -42,16 +42,17 @@
         <ant antfile="deploy.xml" dir="${sample1.dir}/ant"/>
         
         <!-- Jvmquery sample. -->      
-        <ant antfile="build-pojo.xml" dir="${sample2.dir}"/>
-        <ant antfile="build-java2xs.xml" dir="${sample2.dir}"/>
+        <ant antfile="build-java2cob.xml" dir="${sample2.dir}"/>
         <ant antfile="build-coxb.xml" dir="${sample2.dir}"/>
         <ant antfile="build-cixs2jws.xml" dir="${sample2.dir}"/>
         <ant antfile="build-jvmquery-cobol-src.xml" dir="${sample2.dir}"/>
         <ant antfile="deploy.xml" dir="${sample2.dir}/ant"/>
         
         <!-- Cultureinfo sample. -->      
-        <ant antfile="build-war.xml" dir="${sample3.dir}"/>
-        <ant antfile="build-xsd2xs.xml" dir="${sample3.dir}"/>
+    		<copy todir="${tomcat.base}/webapps" overwrite="true">
+      			<fileset dir="${sample3.dir}/war" includes="*.war"/>
+    		</copy>
+        <ant antfile="build-xsd2cob.xml" dir="${sample3.dir}"/>
         <ant antfile="build-coxb.xml" dir="${sample3.dir}"/>
         <ant antfile="build-cixs2jws.xml" dir="${sample3.dir}"/>
         <ant antfile="build-cultureinfo-cobol-src.xml" dir="${sample3.dir}"/>
