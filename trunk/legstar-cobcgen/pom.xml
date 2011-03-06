@@ -31,7 +31,7 @@
         </dependency>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-xsdcgen</artifactId>
+            <artifactId>legstar-xsd2cob</artifactId>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>

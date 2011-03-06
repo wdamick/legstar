@@ -26,8 +26,7 @@ import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.coxb.impl.reflect.ReflectBindingException;
 import com.legstar.coxb.util.JAXBAnnotationException;
 import com.legstar.coxb.util.JAXBElementDescriptor;
-import com.legstar.xsdc.gen.CobolNameResolver;
-import com.legstar.xsdc.gen.CobolNameResolverException;
+import com.legstar.xsd.CobolNameResolver;
 
 /**
  * This Ant task generates a Cobol data description source that can be used as
@@ -231,8 +230,6 @@ public class CobolGenerator extends Task {
             throw new CobolGenerationException(e);
         } catch (IOException e) {
             throw new CobolGenerationException(e);
-        } catch (CobolNameResolverException e) {
-            throw new CobolGenerationException(e);
         } catch (JAXBAnnotationException e) {
             throw new CobolGenerationException(e);
         }
@@ -240,10 +237,8 @@ public class CobolGenerator extends Task {
 
     /**
      * @return the current name resolver or a new one if none existed before
-     * @throws CobolNameResolverException if resolver cannot be created
      */
-    private static CobolNameResolver getCobolNameResolver()
-            throws CobolNameResolverException {
+    private static CobolNameResolver getCobolNameResolver() {
         if (mCobolNameResolver == null) {
             mCobolNameResolver = new CobolNameResolver();
         }

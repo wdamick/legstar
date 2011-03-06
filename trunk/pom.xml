@@ -10,8 +10,9 @@
     <url>http://www.legsem.com/legstar</url>
     <properties>
         <legstarZosVersion>V1R4M4</legstarZosVersion>
-        <legstarCoreVersion>1.5.2-SNAPSHOT</legstarCoreVersion>
+        <legstarCoreVersion>1.5.2</legstarCoreVersion>
         <legstarCob2XsdVersion>0.3.3</legstarCob2XsdVersion>
+        <legstarXsd2CobVersion>0.2.0</legstarXsd2CobVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <antInternalVersion>1.7.0</antInternalVersion> <!-- Used for legstar builds and tests -->
         <antVersion>1.6.5</antVersion>  <!-- Expected to be provided at runtime -->
@@ -77,17 +78,13 @@
     <modules>
         <module>legstar-cixsgen-model</module>
         <module>legstar-cixsgen-model-cases</module>
-        <module>legstar-xsdcgen-cases</module>
-        <module>legstar-xsdcgen</module>
-        <!--
         <module>legstar-cob2trans</module>
-        -->
         <module>legstar-cobcgen</module>
         <module>legstar-transport</module>
         <module>legstar-jaxws</module>
         <module>legstar-distribution</module>
         <module>legstar-distribution-zos</module>
-        <module>legstar-eclipse</module>
+        <!-- <module>legstar-eclipse</module> -->
     </modules>
 
     <build>
@@ -722,24 +719,6 @@
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
-                <artifactId>legstar-xsdcgen</artifactId>
-                <version>${version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.legsem.legstar</groupId>
-                <artifactId>legstar-xsdcgen</artifactId>
-                <version>${version}</version>
-                <classifier>test</classifier>
-                <type>jar</type>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.legsem.legstar</groupId>
-                <artifactId>legstar-xsdcgen-cases</artifactId>
-                <version>${version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-cobcgen</artifactId>
                 <version>${version}</version>
             </dependency>
@@ -780,7 +759,7 @@
                 <artifactId>legstar-cob2xsd</artifactId>
                 <version>${legstarCob2XsdVersion}</version>
             </dependency>
-            <!-- Used by legstar-jaxbgen to get sample schemas needed to generate jaxbgen-cases
+            <!-- Used by legstar-cob2trans to get sample schemas needed to generate jaxbgen-cases
                  Unfortunately the exclusion does not work because of http://jira.codehaus.org/browse/MNG-3555 -->    
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
@@ -789,6 +768,12 @@
                 <classifier>test</classifier>
                 <type>jar</type>
                 <scope>test</scope>
+            </dependency>
+            <!-- Used by legstar-cobcgen -->
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-xsd2cob</artifactId>
+                <version>${legstarXsd2CobVersion}</version>
             </dependency>
 
         </dependencies>

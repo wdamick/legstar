@@ -25,6 +25,7 @@ import com.legstar.coxb.ICobolArrayPackedDecimalBinding;
 import com.legstar.coxb.ICobolArrayStringBinding;
 import com.legstar.coxb.ICobolArrayZonedDecimalBinding;
 import com.legstar.coxb.ICobolBinaryBinding;
+import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.ICobolDbcsBinding;
@@ -36,9 +37,7 @@ import com.legstar.coxb.ICobolPackedDecimalBinding;
 import com.legstar.coxb.ICobolStringBinding;
 import com.legstar.coxb.ICobolZonedDecimalBinding;
 import com.legstar.coxb.host.HostException;
-import com.legstar.xsdc.gen.CobolNameResolver;
-import com.legstar.xsdc.gen.CobolNameResolverException;
-import com.legstar.coxb.ICobolBinding;
+import com.legstar.xsd.CobolNameResolver;
 
 /**
  * This visitor traverses a jaxb object tree and creates a
@@ -91,11 +90,7 @@ public class CobolGenVisitor extends CobolElementVisitor {
         mFirstCobolLevel = startCobolLevel;
         mCurrentCobolLevel = startCobolLevel;
         mCobolLevelIncrement = cobolLevelIncrement;
-        try {
-            mNameResolver = new CobolNameResolver();
-        } catch (CobolNameResolverException e) {
-            throw new HostException(e);
-        }
+        mNameResolver = new CobolNameResolver();
     }
 
     /**
@@ -279,8 +274,6 @@ public class CobolGenVisitor extends CobolElementVisitor {
                             mCobolLevelIncrement)));
             mWriter.newLine();
         } catch (IOException e) {
-            throw new HostException(e);
-        } catch (CobolNameResolverException e) {
             throw new HostException(e);
         }
     }
