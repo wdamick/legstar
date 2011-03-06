@@ -10,17 +10,17 @@
     <target name="init">
 
         <!-- Location of binding classes  -->
-        <property name="coxb.dir" value="${basedir}/../legstar-coxbgen-cases/src/main/java/com/legstar/test/coxb" />
+        <property name="coxb.dir" value="${basedir}/target/dependency/coxbgen/com/legstar/test/coxb" />
         <!-- Location of CIXS target source location   -->
         <property name="cixs.src.dir" value="${basedir}/../legstar-cixsgen-cases/src/main/java"/>
         <!-- Target location for generated CIXS binaries   -->
         <property name="cixs.bin.dir" value="${basedir}/../legstar-cixsgen-cases/target/classes"/>
         <!-- Location of JAXB and binding classes   -->
-        <property name="jaxb.bin.dir" value="${basedir}/../legstar-jaxbgen-cases/target/classes"/>
+        <property name="jaxb.bin.dir" value="${basedir}/target/dependency/jaxbgen"/>
         <!-- Location of COXB and binding classes   -->
-        <property name="coxb.bin.dir" value="${basedir}/../legstar-coxbgen-cases/target/classes"/>
+        <property name="coxb.bin.dir" value="${basedir}/target/dependency/coxbgen"/>
         <!-- Location of custom code classes   -->
-        <property name="cust.bin.dir" value="${basedir}/../legstar-coxbgen-cases/target/classes"/>
+        <property name="cust.bin.dir" value="${basedir}/target/dependency/coxbgen"/>
         <!-- Location of generated resources   -->
         <property name="res.dir" value="${basedir}/../legstar-cixsgen-cases/src/main/resources"/>
         <!-- Generated Ant target script relative location   -->
@@ -78,7 +78,7 @@
     <target name="generateAllServices" depends="init">
         <foreach target="generateService" param="coxb.dir" inheritrefs="true" inheritall="true">
             <path>
-                <dirset dir="${basedir}/../legstar-coxbgen-cases/src/main/java/com/legstar/test/coxb">
+                <dirset dir="${basedir}/target/dependency/coxbgen/com/legstar/test/coxb">
                     <include name="*"/>
                     <exclude name="ws"/>
                     <exclude name="clegtstc.cbl"/>
@@ -97,6 +97,8 @@
                     <exclude name="redinout"/>
                     <exclude name="redbotha"/>
                     <exclude name="tcobwvb"/>
+                    <exclude name="perf"/>
+                    <exclude name="rq071"/>
                 </dirset>
             </path>
         </foreach>
