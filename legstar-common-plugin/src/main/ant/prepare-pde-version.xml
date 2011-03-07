@@ -3,7 +3,7 @@
      This is primarily useful from SNAPSHOTS because PDE does not like the dash
      in n.n.n-SNAPSHOT.
  -->
-<project basedir="../../.." name="prepare-pde-version">
+<project basedir="../../.." name="prepare-pde-version" default="preparePdeVersion">
 
     <taskdef resource="net/sf/antcontrib/antcontrib.properties"/> 
 
@@ -15,7 +15,8 @@
             regexp="(\d|\.)-(.*)" 
             replace="\1\.\2"
             defaultValue="${legstarVersion}"
-        /> 
+        />
+        <echo file="${basedir}/bundle-version.properties">legstarPluginVersion=${legstarPluginVersion}</echo>
     </target> 
 
 </project>
