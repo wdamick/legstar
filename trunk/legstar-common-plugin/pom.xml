@@ -130,9 +130,26 @@
 
     <build>
         <finalName>com.legstar.eclipse.plugin.common_${project.version}</finalName>
+        <filters>
+            <filter>${project.basedir}/bundle-version.properties</filter>
+        </filters>
         <resources>
+            <!-- Filter MANIFEST and plugin properties file -->
             <resource>
                 <directory>${project.basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>META-INF/MANIFEST.MF</include>
+                    <include>build.properties</include>
+                </includes>
+                <targetPath>${project.basedir}</targetPath>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>META-INF/MANIFEST.MF</exclude>
+                    <exclude>build.properties</exclude>
+                </excludes>
             </resource>
             <resource>
                 <directory>${project.basedir}</directory>
@@ -161,16 +178,14 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
 
-                    <!-- Update MANIFEST.MF and build.properties with the Maven versions -->
+                    <!-- Create a PDE compatible version -->
                     <execution>
-                        <id>maven-to-pde</id>
+                        <id>create-pde-version</id>
                         <phase>generate-resources</phase>
                         <configuration>
                             <tasks>
-                                <ant antfile="${basedir}/src/main/ant/maven-to-pde.xml">
+                                <ant antfile="${basedir}/src/main/ant/prepare-pde-version.xml">
                                     <property name="legstarVersion" value="${version}" />
-                                    <property name="legstarCob2XsdVersion" value="${legstarCob2XsdVersion}" />
-                                    <property name="legstarCoreVersion" value="${legstarCoreVersion}" />
                                 </ant>
                             </tasks>
                         </configuration>

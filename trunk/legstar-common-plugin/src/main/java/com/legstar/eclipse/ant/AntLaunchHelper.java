@@ -54,11 +54,10 @@ public class AntLaunchHelper {
      * @return a launch configuration
      * @throws CoreException if launch fails
      */
-    @SuppressWarnings({ "unchecked" })
     public ILaunch execute(
             final IProgressMonitor monitor) throws CoreException {
 
-        List configs =
+        List < ? > configs =
             AntLaunchShortcut.findExistingLaunchConfigurations(getAntFile());
         ILaunchConfigurationWorkingCopy launchCopy;
         if (configs.size() == 0) {
