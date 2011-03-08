@@ -8,11 +8,24 @@
     </parent>
     <version>1.4.5-SNAPSHOT</version>
     <artifactId>legstar-site</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <name>LegStar Eclipse site</name>
     <description>Eclipse site.</description>
 
     <build>
+
+        <resources>
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>site.xml</include>
+                    <include>publish.bat</include>
+                </includes>
+                 <!-- PDE expects this file at the root -->
+                <targetPath>${project.basedir}</targetPath>
+            </resource>
+        </resources>
 
         <plugins>
 
@@ -20,28 +33,13 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
-                        <!-- Update version numbers in PDE resources so that they match Maven versions -->
-                        <id>maven-to-pde</id>
-                        <phase>generate-sources</phase>
-                        <configuration>
-                            <tasks>
-                                <ant antfile="${basedir}/src/main/ant/maven-to-pde.xml">
-                                    <property name="legstarVersion" value="${version}" />
-                                </ant>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <!-- Populate Eclipse site -->
+                        <!-- Populate Eclipse P2 site -->
                         <id>populate-site</id>
                         <phase>package</phase>
                         <configuration>
                             <tasks>
                                 <ant antfile="${basedir}/src/main/ant/populate-site.xml" />
-                                <exec dir="${basedir}" executable="${basedir}/target/publish.bat" failonerror="true" />
+                                <exec dir="${basedir}" executable="${project.basedir}/publish.bat" failonerror="true" />
                             </tasks>
                         </configuration>
                         <goals>
@@ -51,13 +49,6 @@
                 </executions>
             </plugin>
         
-            <plugin>
-                <artifactId>maven-site-plugin</artifactId> 
-                <configuration>
-                    <generateReports>false</generateReports>
-                </configuration>
-            </plugin>
-
         </plugins>
     
     </build>
