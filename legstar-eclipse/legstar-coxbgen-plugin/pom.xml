@@ -4,7 +4,7 @@
         <groupId>com.legsem.legstar</groupId>
         <artifactId>legstar-eclipse</artifactId>
         <version>1.4.5-SNAPSHOT</version>
-        <relativePath>../legstar-eclipse</relativePath>
+        <relativePath>..</relativePath>
     </parent>
     <version>1.4.5-SNAPSHOT</version>
     <artifactId>legstar-coxbgen-plugin</artifactId>

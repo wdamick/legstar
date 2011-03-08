@@ -13,7 +13,6 @@
     <description>Eclipse plugins and features.</description>
 
     <modules>
-        <module>legstar-eclipse</module>
         <module>legstar-common-plugin</module>
         <module>legstar-common-feature</module>
         <module>legstar-cixscom-plugin</module>
