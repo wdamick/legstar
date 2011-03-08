@@ -16,14 +16,22 @@
 
         <finalName>com.legstar.eclipse.feature.jaxwsgen_${project.version}</finalName>
         <resources>
+            <!-- Copy filtered resources where PDE expects them -->
             <resource>
                 <directory>${project.basedir}/src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
                     <include>feature.xml</include>
                 </includes>
-                 <!-- PDE expects this file at the root -->
                 <targetPath>${project.basedir}</targetPath>
+            </resource>
+            <!-- Copy filtered resources where MAVEN expects them -->
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>feature.xml</include>
+                </includes>
             </resource>
         </resources>
 
