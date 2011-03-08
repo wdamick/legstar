@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.legstar.eclipse.feature.schemagen"
-      label="LegStar Structures Mapping Generator"
-      version="@LEGSTAR-PLUGIN-VERSION@"
+      id="com.legstar.eclipse.feature.common"
+      label="LegStar Common Feature"
+      version="${legstarPluginVersion}"
       provider-name="LegSem">
 
    <description url="http://www.legsem.com/legstar/legstar-common-plugin">
-      Generates a special XML schema from Cobol source fragments (copybook
-or otherwise), Java classes or XML Schema. The generated XML schema has JAXB and COBOL annotations
-which effectively map mainframe data structures to XML schema.
+      Common LegStar abstract plugin classes, common preferences, etc.
    </description>
 
    <copyright url="http://www.legsem.com/legstar/copyright.html">
-      (C) LegSem 2008
+      (C) LegSem 2011
    </copyright>
 
    <license url="http://www.gnu.org/licenses/lgpl.html">
@@ -420,15 +418,11 @@ END OF TERMS AND CONDITIONS
       <update label="LegStar" url="http://www.legsem.com/legstar/eclipse/update"/>
    </url>
 
-   <requires>
-      <import feature="com.legstar.eclipse.feature.common" version="@LEGSTAR-PLUGIN-VERSION@"/>
-   </requires>
-
    <plugin
-         id="com.legstar.eclipse.plugin.schemagen"
+         id="com.legstar.eclipse.plugin.common"
          download-size="0"
          install-size="0"
-         version="@LEGSTAR-PLUGIN-VERSION@"
-         unpack="false"/>
+         version="${legstarPluginVersion}"
+         unpack="true"/>
 
 </feature>

@@ -187,15 +187,75 @@
     </dependencyManagement>
     
     <build>
+
+        <filters>
+            <filter>${project.basedir}/bundle-version.properties</filter>
+        </filters>
+        <resources>
+            <!-- Filter MANIFEST and plugin properties file -->
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>META-INF/MANIFEST.MF</include>
+                    <include>build.properties</include>
+                </includes>
+                 <!-- PDE expects these at the root -->
+                <targetPath>${project.basedir}</targetPath>
+            </resource>
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
+                <excludes>
+                    <exclude>META-INF/MANIFEST.MF</exclude>
+                    <exclude>build.properties</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>${project.basedir}</directory>
+                <includes>
+                    <include>*.xml</include>
+                    <include>icons/**</include>
+                </includes>
+            </resource>
+        </resources>
+
         <plugins>
 
-          <plugin>
-              <artifactId>maven-site-plugin</artifactId> 
-              <configuration>
-                  <generateReports>false</generateReports>
-              </configuration>
-          </plugin>
-        </plugins>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <!-- Update version numbers in PDE resources so that they match Maven versions -->
+                        <id>maven-to-pde</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <tasks>
+                                <taskdef resource="net/sf/antcontrib/antcontrib.properties"/> 
+                                <propertyregex 
+                                    property="legstarPluginVersion" 
+                                    input="${version}" 
+                                    regexp="(\d|\.)-(.*)" 
+                                    replace="\1\.\2"
+                                    defaultValue="${version}"
+                                />
+                                <echo file="${basedir}/bundle-version.properties">legstarPluginVersion=${legstarPluginVersion}</echo>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+  
+            <plugin>
+                <artifactId>maven-site-plugin</artifactId> 
+                <configuration>
+                    <generateReports>false</generateReports>
+                </configuration>
+            </plugin>
+
+          </plugins>
 
     </build>
 

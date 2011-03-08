@@ -2,7 +2,7 @@
 <feature
       id="com.legstar.eclipse.feature.cixsmap"
       label="LegStar Operations Mapping Editor"
-      version="@LEGSTAR-PLUGIN-VERSION@"
+      version="${legstarPluginVersion}"
       provider-name="LegSem">
 
    <description url="http://www.legsem.com/legstar/legstar-common-plugin">
@@ -10,7 +10,7 @@
    </description>
 
    <copyright url="http://www.legsem.com/legstar/copyright.html">
-      (C) LegSem 2008
+      (C) LegSem 2011
    </copyright>
 
    <license url="http://www.gnu.org/licenses/lgpl.html">
@@ -165,23 +165,23 @@ END OF TERMS AND CONDITIONS
    </url>
 
    <requires>
-      <import feature="com.legstar.eclipse.feature.common" version="@LEGSTAR-PLUGIN-VERSION@"/>
-      <import feature="com.legstar.eclipse.feature.coxbgen" version="@LEGSTAR-PLUGIN-VERSION@"/>
-      <import feature="com.legstar.eclipse.feature.schemagen" version="@LEGSTAR-PLUGIN-VERSION@"/>
+      <import feature="com.legstar.eclipse.feature.common" version="${legstarPluginVersion}"/>
+      <import feature="com.legstar.eclipse.feature.coxbgen" version="${legstarPluginVersion}"/>
+      <import feature="com.legstar.eclipse.feature.schemagen" version="${legstarPluginVersion}"/>
    </requires>
 
    <plugin
          id="com.legstar.eclipse.plugin.cixscom"
          download-size="0"
          install-size="0"
-         version="@LEGSTAR-PLUGIN-VERSION@"
+         version="${legstarPluginVersion}"
          unpack="false"/>
 
    <plugin
          id="com.legstar.eclipse.plugin.cixsmap"
          download-size="0"
          install-size="0"
-         version="@LEGSTAR-PLUGIN-VERSION@"
+         version="${legstarPluginVersion}"
          unpack="false"/>
 
 </feature>

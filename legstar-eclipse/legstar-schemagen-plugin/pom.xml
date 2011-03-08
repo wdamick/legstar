@@ -20,7 +20,6 @@
         </dependency>
         
         <!-- Eclipse dependencies. -->
-        <!-- Eclipse dependencies. -->
         <dependency>
             <groupId>org.eclipse.equinox</groupId>
             <artifactId>org.eclipse.equinox.common</artifactId>
@@ -125,19 +124,6 @@
 
     <build>
         <finalName>com.legstar.eclipse.plugin.schemagen_${project.version}</finalName>
-        <resources>
-            <resource>
-                <directory>${project.basedir}/src/main/resources</directory>
-            </resource>
-            <resource>
-                <directory>${project.basedir}</directory>
-                <includes>
-                    <include>src/main/resources/**</include>
-                    <include>plugin.xml</include>
-                    <include>icons/**</include>
-                </includes>
-            </resource>
-        </resources>
 
         <plugins>
         
@@ -148,28 +134,6 @@
                         <manifestFile>META-INF/MANIFEST.MF</manifestFile>
                     </archive>
                 </configuration>
-            </plugin>
-
-            <plugin>
-        
-                <!-- Update MANIFEST.MF and build.properties with the Maven versions -->
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>maven-to-pde</id>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <tasks>
-                                <ant antfile="${basedir}/src/main/ant/maven-to-pde.xml">
-                                    <property name="legstarVersion" value="${version}" />
-                                </ant>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>
