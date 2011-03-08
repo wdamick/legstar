@@ -10,11 +10,10 @@
  ******************************************************************************/
 package com.legstar.eclipse.plugin.schemagen.wizards;
 
-import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
-import com.legstar.j2sc.gen.JavaToXsdCobolModel;
+import com.legstar.xsd.java.Java2CobModel;
 
 /**
  * Background task that performs the actual XSD generation.
@@ -29,8 +28,7 @@ public class JavaToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
      * @param javaToXsdPage the java classes page
      * @throws InvocationTargetException if runnable cannot be instantiated
      */
-    public JavaToXsdWizardRunnable(
-            final MainWizardPage mainPage,
+    public JavaToXsdWizardRunnable(final MainWizardPage mainPage,
             final JavaToXsdWizardPage javaToXsdPage)
             throws InvocationTargetException {
         super(null, mainPage);
@@ -45,20 +43,20 @@ public class JavaToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
      * @return a valid model
      * @throws InvocationTargetException if model cannot be built
      */
-    protected JavaToXsdCobolModel getModel(
-            final MainWizardPage mainPage,
+    protected Java2CobModel getModel(final MainWizardPage mainPage,
             final JavaToXsdWizardPage javaToXsdPage)
             throws InvocationTargetException {
-        JavaToXsdCobolModel model = new JavaToXsdCobolModel();
-        model.setProductLocation(AbstractWizard.getPluginInstallLocation(
-                com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
+        Java2CobModel model = new Java2CobModel();
+        model.setProductLocation(AbstractWizard
+                .getPluginInstallLocation(com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
         model.setClassNames(javaToXsdPage.getSelectedClassNames());
-        model.setPathElementLocations(
-                javaToXsdPage.getSelectedPathElementsLocations());
+        model.setPathElementLocations(javaToXsdPage
+                .getSelectedPathElementsLocations());
 
-        model.setNamespace(mainPage.getTargetNamespace());
-        model.setTargetDir(new File(getTargetXsdLocation()));
-        model.setTargetXsdFileName(mainPage.getTargetXSDFileName());
+        model.setNewTargetNamespace(mainPage.getTargetNamespace());
+        model.setTargetXsdFile(getTargetXsdFile(mainPage.getTargetXSDFileName()));
+        model.setTargetCobolFile(getTargetCobolFile(mainPage
+                .getTargetXSDFileName()));
         return model;
     }
 

@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizard;
-import com.legstar.xsdc.gen.XsdToXsdCobolModel;
+import com.legstar.xsd.def.Xsd2CobModel;
 
 /**
  * Background task that performs the actual XSD generation.
@@ -38,8 +38,7 @@ public class XsdToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
      * @param xsdToXsdPage the XML schema page
      * @throws InvocationTargetException if runnable cannot be instantiated
      */
-    public XsdToXsdWizardRunnable(
-            final MainWizardPage mainPage,
+    public XsdToXsdWizardRunnable(final MainWizardPage mainPage,
             final XsdToXsdWizardPage xsdToXsdPage)
             throws InvocationTargetException {
         super(null, mainPage);
@@ -54,13 +53,12 @@ public class XsdToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
      * @return a valid model
      * @throws InvocationTargetException if model cannot be built
      */
-    protected XsdToXsdCobolModel getModel(
-            final MainWizardPage mainPage,
+    protected Xsd2CobModel getModel(final MainWizardPage mainPage,
             final XsdToXsdWizardPage xsdToXsdPage)
             throws InvocationTargetException {
-        XsdToXsdCobolModel model = new XsdToXsdCobolModel();
-        model.setProductLocation(AbstractWizard.getPluginInstallLocation(
-                com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
+        Xsd2CobModel model = new Xsd2CobModel();
+        model.setProductLocation(AbstractWizard
+                .getPluginInstallLocation(com.legstar.eclipse.plugin.common.Activator.PLUGIN_ID));
 
         /* Store the content of the text box in a temporary file */
         File xsdFile;
@@ -77,10 +75,11 @@ public class XsdToXsdWizardRunnable extends AbstractToXsdWizardRunnable {
         model.setInputXsdUri(xsdFile.toURI());
 
         if (xsdToXsdPage.isSwitchNamespaceAllowed()) {
-            model.setNamespace(mainPage.getTargetNamespace());
+            model.setNewTargetNamespace(mainPage.getTargetNamespace());
         }
-        model.setTargetDir(new File(getTargetXsdLocation()));
-        model.setTargetXsdFileName(mainPage.getTargetXSDFileName());
+        model.setTargetXsdFile(getTargetXsdFile(mainPage.getTargetXSDFileName()));
+        model.setTargetCobolFile(getTargetCobolFile(mainPage
+                .getTargetXSDFileName()));
         return model;
     }
 

@@ -31,6 +31,14 @@
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-cob2xsd</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-xsd2cob</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-java2cob</artifactId>
+        </dependency>
    
         <!-- Generated Web Services will need this to compile
              correctly. -->
@@ -125,7 +133,13 @@
             <groupId>org.eclipse.ant</groupId>
             <artifactId>org.eclipse.ant.ui</artifactId>
         </dependency>
-        
+
+        <!-- Used by cixcom plugin -->
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -178,7 +192,7 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
 
-                    <!-- Create a PDE compatible version -->
+                    <!-- Create a PDE compatible version (needed for resources filtering) -->
                     <execution>
                         <id>create-pde-version</id>
                         <phase>generate-resources</phase>
@@ -194,17 +208,16 @@
                         </goals>
                     </execution>
 
-                    <!-- Copy internal dependencies to the lib folder -->
+                    <!-- Cleanup the lib folder before it is populated with all dependencies -->
                     <execution>
                         <id>populate-lib</id>
                         <phase>generate-resources</phase>
                         <configuration>
                             <tasks>
-                                <ant antfile="${basedir}/src/main/ant/populate-lib.xml">
-                                    <property name="legstarVersion" value="${version}" />
-                                    <property name="user.name" value="${user.name}" />
-                                    <property name="java.io.tmpdir" value="${java.io.tmpdir}" />
-                                </ant>
+                                <mkdir dir="${basedir}/lib"/>
+                                <delete includeemptydirs="true">
+                                    <fileset dir="${basedir}/lib" includes="**/*"/>
+                                </delete>
                             </tasks>
                         </configuration>
                         <goals>
@@ -212,6 +225,25 @@
                         </goals>
                     </execution>
 
+
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <!-- Copy all dependencies to the lib folder -->
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeScope>runtime</includeScope>
+                            <outputDirectory>${basedir}/lib</outputDirectory>
+                        </configuration>
+                    </execution>
 
                 </executions>
             </plugin>
