@@ -144,37 +144,6 @@
 
     <build>
         <finalName>com.legstar.eclipse.plugin.common_${project.version}</finalName>
-        <filters>
-            <filter>${project.basedir}/bundle-version.properties</filter>
-        </filters>
-        <resources>
-            <!-- Filter MANIFEST and plugin properties file -->
-            <resource>
-                <directory>${project.basedir}/src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>META-INF/MANIFEST.MF</include>
-                    <include>build.properties</include>
-                </includes>
-                <targetPath>${project.basedir}</targetPath>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>META-INF/MANIFEST.MF</exclude>
-                    <exclude>build.properties</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>${project.basedir}</directory>
-                <includes>
-                    <include>src/main/resources/**</include>
-                    <include>plugin.xml</include>
-                    <include>icons/**</include>
-                    <include>lib/**</include>
-                </includes>
-            </resource>
-        </resources>
 
         <plugins>
         
@@ -188,60 +157,32 @@
             </plugin>
 
             <plugin>
-        
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-
-                    <!-- Create a PDE compatible version (needed for resources filtering) -->
-                    <execution>
-                        <id>create-pde-version</id>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <tasks>
-                                <ant antfile="${basedir}/src/main/ant/prepare-pde-version.xml">
-                                    <property name="legstarVersion" value="${version}" />
-                                </ant>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-
-                    <!-- Cleanup the lib folder before it is populated with all dependencies -->
-                    <execution>
-                        <id>populate-lib</id>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <tasks>
-                                <mkdir dir="${basedir}/lib"/>
-                                <delete includeemptydirs="true">
-                                    <fileset dir="${basedir}/lib" includes="**/*"/>
-                                </delete>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-
-
-                </executions>
-            </plugin>
-
-            <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
-                    <!-- Copy all dependencies to the lib folder -->
+                    <!-- Copy all dependencies to the lib folder where PDE will find them -->
                     <execution>
-                        <id>copy-dependencies</id>
+                        <id>copy-dependencies-for-PDE</id>
                         <phase>generate-resources</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
                             <includeScope>runtime</includeScope>
-                            <outputDirectory>${basedir}/lib</outputDirectory>
+                            <outputDirectory>${project.basedir}/lib</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <!-- Copy all dependencies to the lib folder where MAVEN will find them.
+                         We avoid to use the resources mechanism because we don't want
+                         the dependencies to end up in the sources archive. -->
+                    <execution>
+                        <id>copy-dependencies-for-MAVEN</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeScope>runtime</includeScope>
+                            <outputDirectory>${project.build.directory}/classes/lib</outputDirectory>
                         </configuration>
                     </execution>
 
