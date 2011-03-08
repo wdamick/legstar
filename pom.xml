@@ -750,7 +750,7 @@
       
             <!--
                 ========================================================
-                FIXME: LegStar dependencies which create cycles
+                LegStar external dependencies
                 ========================================================
              -->    
             <!-- Used by legstar-cob2trans -->
@@ -769,10 +769,15 @@
                 <type>jar</type>
                 <scope>test</scope>
             </dependency>
-            <!-- Used by legstar-cobcgen -->
+
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-xsd2cob</artifactId>
+                <version>${legstarXsd2CobVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-java2cob</artifactId>
                 <version>${legstarXsd2CobVersion}</version>
             </dependency>
 

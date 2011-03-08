@@ -169,5 +169,5 @@ public abstract class AbstractToXsdWizardPage extends AbstractWizardPage {
     public IPreferenceStore getDefaultPreferences() {
         return getWizard().getDefaultPreferences();
     }
-
+    
 }

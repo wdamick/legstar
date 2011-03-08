@@ -48,8 +48,7 @@ import com.legstar.cixs.gen.model.CixsStructure;
 import com.legstar.eclipse.plugin.cixsmap.Activator;
 import com.legstar.eclipse.plugin.cixsmap.Messages;
 import com.legstar.eclipse.plugin.common.dialogs.AbstractDialog;
-import com.legstar.xsdc.gen.CobolNameResolver;
-import com.legstar.xsdc.gen.CobolNameResolverException;
+import com.legstar.xsd.CobolNameResolver;
 
 
 /**
@@ -119,9 +118,6 @@ public class LegacyStructureDialog extends AbstractDialog {
                     NLS.bind(Messages.invalid_java_project_msg,
                             mMappingFile.getProject().getName(),
                             e.getMessage()));
-        } catch (CobolNameResolverException e) {
-            errorDialog(Messages.structure_mapping_error_dialog_title,
-                    NLS.bind(Messages.setup_error_msg, e.getMessage()));
         }
         return composite;
     }
@@ -415,26 +411,16 @@ public class LegacyStructureDialog extends AbstractDialog {
 
         /* Suggest a COBOL root element name if none is provided
          * Otherwise, check that content is valid COBOL.  */
-        try {
-            if (mCobolRootDataItemNameText.getText().length() == 0) {
-                mCobolRootDataItemNameText.setText(
-                        mCobolNameResolver.getName(
-                                mJaxbTypeList.getSelection()[0]));
-            } else {
-                String validContent = mCobolNameResolver.getName(
-                        mCobolRootDataItemNameText.getText());
-                if (!validContent.equals(
-                        mCobolRootDataItemNameText.getText())) {
-                    updateStatus(false,
-                            Messages.invalid_structure_cobol_name_msg);
-                    return;
-                }
+        if (mCobolRootDataItemNameText.getText().length() == 0) {
+            mCobolRootDataItemNameText.setText(mCobolNameResolver
+                    .getName(mJaxbTypeList.getSelection()[0]));
+        } else {
+            String validContent = mCobolNameResolver
+                    .getName(mCobolRootDataItemNameText.getText());
+            if (!validContent.equals(mCobolRootDataItemNameText.getText())) {
+                updateStatus(false, Messages.invalid_structure_cobol_name_msg);
+                return;
             }
-        } catch (CobolNameResolverException e) {
-            updateStatus(false,
-                    NLS.bind(Messages.cobol_name_validation_failure_msg,
-                            e.getMessage()));
-            return;
         }
         /* TODO check for CICS container maximum size (16) */
 
