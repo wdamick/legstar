@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.legsem.legstar</groupId>
-        <artifactId>Legstar</artifactId>
+        <artifactId>legstar-transport</artifactId>
         <version>1.4.5-SNAPSHOT</version>
     </parent>
     <version>1.4.5-SNAPSHOT</version>

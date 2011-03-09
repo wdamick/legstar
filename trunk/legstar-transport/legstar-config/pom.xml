@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.legsem.legstar</groupId>
-        <artifactId>Legstar</artifactId>
+        <artifactId>legstar-transport</artifactId>
         <version>1.4.5-SNAPSHOT</version>
     </parent>
     <artifactId>legstar-config</artifactId>
@@ -43,7 +43,7 @@
                 
                 <executions>
                 
-                    <!-- This will deploy the jar file to a Tomcat dev instance.  -->
+                    <!-- This will deploy the jar file to a Tomcat dev instance.
                     <execution>
                         <id>deploy-to-tomcat</id>
                         <phase>package</phase>
@@ -57,7 +57,7 @@
                         <goals>
                             <goal>run</goal>
                         </goals>
-                    </execution>
+                    </execution>  -->
 
                 </executions>
             </plugin>
