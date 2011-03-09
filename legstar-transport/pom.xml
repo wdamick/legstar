@@ -13,16 +13,16 @@
     <description>Transports to and from the mainframe.</description>
 
     <modules>
-        <module>../legstar-tests</module>
-        <module>../legstar-messaging</module>
-        <module>../legstar-config</module>
-        <module>../legstar-cmockrt</module>
-        <module>../legstar-invoker</module>
-        <module>../legstar-chttprt</module>
-        <module>../legstar-cmqrt</module>
-        <module>../legstar-csokrt</module>
-        <module>../legstar-engine</module>
-        <module>../legstar-c2wsrt</module>
+        <module>legstar-tests</module>
+        <module>legstar-messaging</module>
+        <module>legstar-config</module>
+        <module>legstar-cmockrt</module>
+        <module>legstar-invoker</module>
+        <module>legstar-chttprt</module>
+        <module>legstar-cmqrt</module>
+        <module>legstar-csokrt</module>
+        <module>legstar-engine</module>
+        <module>legstar-c2wsrt</module>
     </modules>
     
 </project>

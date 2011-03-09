@@ -14,17 +14,17 @@
   
     <files>
         <file>
-            <source>${project.basedir}/../legstar-distribution/LICENSE</source>
+            <source>${project.basedir}/../LICENSE</source>
             <outputDirectory>/</outputDirectory>
             <destName>LICENSE</destName>
         </file>
         <file>
-            <source>${project.basedir}/../legstar-csokrt/NOTICE</source>
+            <source>${project.basedir}/NOTICE</source>
             <outputDirectory>/</outputDirectory>
             <destName>NOTICE</destName>
         </file>
         <file>
-           <source>${project.basedir}/../legstar-csokrt/src/site/apt/release-notes.apt</source>
+           <source>${project.basedir}/src/site/apt/release-notes.apt</source>
            <outputDirectory>/</outputDirectory>
            <destName>README</destName>
         </file>
