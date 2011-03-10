@@ -329,6 +329,13 @@
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-commons-transport</artifactId>
+                <version>${version}</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-messaging</artifactId>
                 <version>${version}</version>
             </dependency>

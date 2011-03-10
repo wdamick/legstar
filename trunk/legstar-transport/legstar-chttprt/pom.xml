@@ -46,6 +46,12 @@
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-commons-transport</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
     
     </dependencies>
 
