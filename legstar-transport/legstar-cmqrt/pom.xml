@@ -12,7 +12,7 @@
     <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
-  
+
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
@@ -58,7 +58,13 @@
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
-    
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-commons-transport</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -105,7 +111,7 @@
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
-                
+
                     <!-- This will deploy the jar file to a Tomcat dev instance.
                     <execution>
                         <id>deploy-to-tomcat</id>
@@ -135,7 +141,7 @@
                             <goal>run</goal>
                         </goals>
                     </execution>
-                  
+
                    <!-- This will prepare the zos sources for upload. -->
                     <execution>
                         <id>prepare-deploy-to-zos</id>
@@ -172,7 +178,7 @@
 
                 </executions>
             </plugin>
-        
+
             <!-- Upload z/OS sources. -->
             <plugin>
                 <groupId>com.legsem.legstar</groupId>
@@ -197,5 +203,5 @@
 
         </plugins>
     </build>
-    
+
 </project>
