@@ -21,6 +21,10 @@
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-messaging</artifactId>
         </dependency>
+         <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-commons-transport</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-coxbapi</artifactId>
@@ -36,11 +40,6 @@
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-jaxbgen</artifactId>
             <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-tests</artifactId>
             <scope>test</scope>
         </dependency>
     
