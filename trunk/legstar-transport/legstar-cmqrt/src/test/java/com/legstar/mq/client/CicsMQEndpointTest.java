@@ -25,16 +25,19 @@ public class CicsMQEndpointTest extends TestCase {
         CicsMQEndpoint cicsMQEndpoint = AbstractMQConnectionTester
                 .getLsmsgEndpoint();
         assertEquals("IBM01140", cicsMQEndpoint.getHostCharset());
-        assertEquals("mainframe", cicsMQEndpoint.getHostIPAddress());
-        assertEquals(1414, cicsMQEndpoint.getHostIPPort());
-        assertEquals("STREAM2", cicsMQEndpoint.getHostPassword());
-        assertEquals("CSQ1", cicsMQEndpoint.getHostMQManager());
-        assertEquals("CLIENT.TO.CSQ1", cicsMQEndpoint.getHostMQChannel());
-        assertEquals("CICSA.REQUEST.QUEUE", cicsMQEndpoint
-                .getHostMQRequestQueue());
-        assertEquals("CICSA.REPLY.QUEUE", cicsMQEndpoint
-                .getHostMQResponseQueue());
+        assertEquals("org.osjava.sj.SimpleContextFactory",
+                cicsMQEndpoint.getInitialContextFactory());
+        assertEquals("ConnectionFactory",
+                cicsMQEndpoint.getJndiConnectionFactoryName());
+        assertEquals(null, cicsMQEndpoint.getJndiProviderURL());
+        assertEquals(null, cicsMQEndpoint.getJndiUrlPkgPrefixes());
+        assertEquals("{org.osjava.sj.root=src/test/resources/simple-jndi}",
+                cicsMQEndpoint.getJndiProperties().toString());
+        assertEquals("CicsARequestQueue",
+                cicsMQEndpoint.getJndiRequestQueueName());
+        assertEquals("CicsAReplyQueue", cicsMQEndpoint.getJndiReplyQueueName());
         assertEquals("P390", cicsMQEndpoint.getHostUserID());
+        assertEquals("STREAM2", cicsMQEndpoint.getHostPassword());
         assertEquals("LSMSG", cicsMQEndpoint.getHostMQBridgeType().toString());
         assertEquals(
                 "CICS WMQ endpoint:[hostEndpoint=CICSTS23-LSMSG,"
@@ -50,14 +53,14 @@ public class CicsMQEndpointTest extends TestCase {
                         + "pooledInvokeTimeout=3000,"
                         + "pooledMaxIdleTime=-1,"
                         + "pooledMaxIdleTimeCheckPeriod=-1]"
-                        + "[hostIPAddress=mainframe,"
-                        + "hostIPPort=1414,"
-                        + "hostMQManager=CSQ1,"
-                        + "hostMQChannel=CLIENT.TO.CSQ1,"
-                        + "hostMQRequestQueue=CICSA.REQUEST.QUEUE,"
-                        + "hostMQResponseQueue=CICSA.REPLY.QUEUE,"
-                        + "hostMQBridgeType=LSMSG]",
-                cicsMQEndpoint.toString());
+                        + "[initialContextFactory=org.osjava.sj.SimpleContextFactory,"
+                        + "jndiProviderURL=null,"
+                        + "jndiUrlPkgPrefixes=null,"
+                        + "jndiProperties={org.osjava.sj.root=src/test/resources/simple-jndi},"
+                        + "jndiConnectionFactoryName=ConnectionFactory,"
+                        + "jndiRequestQueueName=CicsARequestQueue,"
+                        + "jndiReplyQueueName=CicsAReplyQueue,"
+                        + "hostMQBridgeType=LSMSG]", cicsMQEndpoint.toString());
 
     }
 
@@ -66,8 +69,13 @@ public class CicsMQEndpointTest extends TestCase {
      */
     public void testInstantiation2() {
         CicsMQEndpoint cicsMQEndpoint = new CicsMQEndpoint();
-        assertEquals(1414, cicsMQEndpoint.getHostIPPort());
-        assertEquals("CSQ1", cicsMQEndpoint.getHostMQManager());
+        assertEquals(null, cicsMQEndpoint.getInitialContextFactory());
+        assertEquals(null, cicsMQEndpoint.getJndiConnectionFactoryName());
+        assertEquals(null, cicsMQEndpoint.getJndiProviderURL());
+        assertEquals(null, cicsMQEndpoint.getJndiUrlPkgPrefixes());
+        assertEquals(null, cicsMQEndpoint.getJndiProperties());
+        assertEquals(null, cicsMQEndpoint.getJndiRequestQueueName());
+        assertEquals(null, cicsMQEndpoint.getJndiReplyQueueName());
         assertEquals("LSMSG", cicsMQEndpoint.getHostMQBridgeType().toString());
         assertEquals(
                 "CICS WMQ endpoint:[hostEndpoint=null,"
@@ -80,17 +88,15 @@ public class CicsMQEndpointTest extends TestCase {
                         + "hostConnectionfactoryClass=com.legstar.mq.client.CicsMQConnectionFactory,"
                         + "hostAccessStrategy=direct,"
                         + "hostConnectionPoolSize=5,"
-                        + "pooledInvokeTimeout=3000,"
-                        + "pooledMaxIdleTime=-1,"
+                        + "pooledInvokeTimeout=3000," + "pooledMaxIdleTime=-1,"
                         + "pooledMaxIdleTimeCheckPeriod=-1]"
-                        + "[hostIPAddress=null,"
-                        + "hostIPPort=1414,"
-                        + "hostMQManager=CSQ1,"
-                        + "hostMQChannel=null,"
-                        + "hostMQRequestQueue=null,"
-                        + "hostMQResponseQueue=null,"
-                        + "hostMQBridgeType=LSMSG]",
-                cicsMQEndpoint.toString());
+                        + "[initialContextFactory=null,"
+                        + "jndiProviderURL=null," + "jndiUrlPkgPrefixes=null,"
+                        + "jndiProperties=null,"
+                        + "jndiConnectionFactoryName=null,"
+                        + "jndiRequestQueueName=null,"
+                        + "jndiReplyQueueName=null,"
+                        + "hostMQBridgeType=LSMSG]", cicsMQEndpoint.toString());
     }
 
     /**
@@ -99,17 +105,20 @@ public class CicsMQEndpointTest extends TestCase {
     public void testInstantiationMqcih() {
         CicsMQEndpoint cicsMQEndpoint = AbstractMQConnectionTester
                 .getMqcihEndpoint();
-        assertEquals("IBM01140", cicsMQEndpoint.getHostCharset());
-        assertEquals("mainframe", cicsMQEndpoint.getHostIPAddress());
-        assertEquals(1414, cicsMQEndpoint.getHostIPPort());
-        assertEquals("STREAM2", cicsMQEndpoint.getHostPassword());
-        assertEquals("CSQ1", cicsMQEndpoint.getHostMQManager());
-        assertEquals("CLIENT.TO.CSQ1", cicsMQEndpoint.getHostMQChannel());
-        assertEquals("CICS01.BRIDGE.REQUEST.QUEUE", cicsMQEndpoint
-                .getHostMQRequestQueue());
-        assertEquals("CICS01.BRIDGE.REPLY.QUEUE", cicsMQEndpoint
-                .getHostMQResponseQueue());
+        assertEquals("org.osjava.sj.SimpleContextFactory",
+                cicsMQEndpoint.getInitialContextFactory());
+        assertEquals("ConnectionFactory",
+                cicsMQEndpoint.getJndiConnectionFactoryName());
+        assertEquals(null, cicsMQEndpoint.getJndiProviderURL());
+        assertEquals(null, cicsMQEndpoint.getJndiUrlPkgPrefixes());
+        assertEquals("{org.osjava.sj.root=src/test/resources/simple-jndi}",
+                cicsMQEndpoint.getJndiProperties().toString());
+        assertEquals("Cics01BridgeRequestQueue",
+                cicsMQEndpoint.getJndiRequestQueueName());
+        assertEquals("Cics01BridgeReplyQueue",
+                cicsMQEndpoint.getJndiReplyQueueName());
         assertEquals("P390", cicsMQEndpoint.getHostUserID());
+        assertEquals("STREAM2", cicsMQEndpoint.getHostPassword());
         assertEquals("MQCIH", cicsMQEndpoint.getHostMQBridgeType().toString());
         assertEquals(
                 "CICS WMQ endpoint:[hostEndpoint=CICSTS23-MQCIH,"
@@ -125,13 +134,13 @@ public class CicsMQEndpointTest extends TestCase {
                         + "pooledInvokeTimeout=3000,"
                         + "pooledMaxIdleTime=-1,"
                         + "pooledMaxIdleTimeCheckPeriod=-1]"
-                        + "[hostIPAddress=mainframe,"
-                        + "hostIPPort=1414,"
-                        + "hostMQManager=CSQ1,"
-                        + "hostMQChannel=CLIENT.TO.CSQ1,"
-                        + "hostMQRequestQueue=CICS01.BRIDGE.REQUEST.QUEUE,"
-                        + "hostMQResponseQueue=CICS01.BRIDGE.REPLY.QUEUE,"
-                        + "hostMQBridgeType=MQCIH]",
-                cicsMQEndpoint.toString());
+                        + "[initialContextFactory=org.osjava.sj.SimpleContextFactory,"
+                        + "jndiProviderURL=null,"
+                        + "jndiUrlPkgPrefixes=null,"
+                        + "jndiProperties={org.osjava.sj.root=src/test/resources/simple-jndi},"
+                        + "jndiConnectionFactoryName=ConnectionFactory,"
+                        + "jndiRequestQueueName=Cics01BridgeRequestQueue,"
+                        + "jndiReplyQueueName=Cics01BridgeReplyQueue,"
+                        + "hostMQBridgeType=MQCIH]", cicsMQEndpoint.toString());
     }
 }

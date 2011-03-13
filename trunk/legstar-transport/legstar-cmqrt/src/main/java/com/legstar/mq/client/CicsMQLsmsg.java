@@ -10,10 +10,10 @@
  ******************************************************************************/
 package com.legstar.mq.client;
 
-import java.io.IOException;
+import javax.jms.BytesMessage;
+import javax.jms.JMSException;
+import javax.jms.Message;
 
-import com.ibm.mq.MQC;
-import com.ibm.mq.MQMessage;
 import com.legstar.messaging.HeaderPartException;
 import com.legstar.messaging.HostMessageFormatException;
 import com.legstar.messaging.HostReceiveException;
@@ -27,10 +27,9 @@ import com.legstar.messaging.RequestException;
  * <p/>
  * The MQ messages payloads exchanged with the mainframe are serializations of
  * {@link com.legstar.messaging.LegStarMessage}.
- *
+ * 
  */
-public class CicsMQLsmsg extends AbstractCicsMQ  {
-
+public class CicsMQLsmsg extends AbstractCicsMQ {
 
     /**
      * Construct an instance of an MQ connection to the mainframe.
@@ -39,72 +38,75 @@ public class CicsMQLsmsg extends AbstractCicsMQ  {
      * @param cicsMQEndpoint MQ endpoint
      * @throws CicsMQConnectionException if instantiation fails
      */
-    public CicsMQLsmsg(
-            final String connectionID,
-            final CicsMQEndpoint cicsMQEndpoint) throws CicsMQConnectionException {
+    public CicsMQLsmsg(final String connectionID,
+            final CicsMQEndpoint cicsMQEndpoint)
+            throws CicsMQConnectionException {
         super(connectionID, cicsMQEndpoint);
     }
 
     /**
-     * Creates an MQ request message with appropriate header data.
-     * A request is folded as MQ Headers and a binary payload. 
+     * Creates an JMS/MQ request message with appropriate header data. A request
+     * is folded as JMS Headers and a binary payload.
+     * 
      * @param request request description
-     * @return the MQ message
+     * @return the JMS/MQ message
      * @throws RequestException if formatting of mq message fails
      */
-    public MQMessage createMQRequestMessage(
-            final LegStarRequest request) throws RequestException {
-
-        MQMessage mqMessage = new MQMessage();
+    public Message createRequestMessage(final LegStarRequest request)
+            throws RequestException {
 
         try {
+            BytesMessage message = getJmsQueueSession().createBytesMessage();
             /* Send no correlation ID. LegStar will correlate on Message ID. */
-            mqMessage.correlationId = MQC.MQCI_NONE;
-
-            /* In trace mode, use 16 characters from the application identity data
-             * to pass a trace ID that is readable on the mainframe. */
+            message.setJMSCorrelationID(null);
+            /*
+             * In trace mode, use 16 characters from the application identity
+             * data to pass a trace ID that is readable on the mainframe.
+             */
             if (request.getAddress().isHostTraceMode()) {
-                mqMessage.applicationIdData = "true " + request.getID();
+                message.setStringProperty("JMSXAppID",
+                        "true " + request.getID());
             } else {
-                mqMessage.applicationIdData = "false";
+                message.setStringProperty("JMSXAppID", "false ");
             }
-            mqMessage.userId = getCicsMQEndpoint().getHostUserID();
+            message.setStringProperty("JMSXUserID", getHostUserID(request));
 
-            /* Finally create the mq message content */
-            mqMessage.write(request.getRequestMessage().toByteArray());
+            message.writeBytes(request.getRequestMessage().toByteArray());
 
+            return message;
+        } catch (JMSException e) {
+            throw new RequestException(e);
         } catch (HostMessageFormatException e) {
             throw new RequestException(e);
-        } catch (IOException e) {
-            throw new RequestException(e);
         }
-
-        return mqMessage;
     }
 
     /**
-     * Creates a response message from the MQ reply back.
-     * The MQ payload should contain serailization of a header part 
-     * followed by any number of data parts.
-     * @param mqMessage the MQ response message
+     * Creates a response message from the MQ reply back. The MQ payload should
+     * contain serialization of a header part followed by any number of data
+     * parts.
+     * 
+     * @param jmsMessage the MQ response message
      * @return a response message
      * @throws HostReceiveException if response cannot be mapped to a message
      */
-    public LegStarMessage createResponseMessage(
-            final MQMessage mqMessage) throws HostReceiveException {
+    public LegStarMessage createReplyMessage(final BytesMessage jmsMessage,
+            final int dataLength) throws HostReceiveException {
 
         try {
-            byte[] hostBytes = new byte[mqMessage.getDataLength()];
-            mqMessage.readFully(hostBytes);
-            LegStarMessage reponseMessage;
-            reponseMessage = new LegStarMessage();
-            reponseMessage.fromByteArray(hostBytes, 0);
-            return reponseMessage;
+            byte[] hostBytes = new byte[dataLength];
+            if (dataLength > 0) {
+                jmsMessage.readBytes(hostBytes);
+            }
+            LegStarMessage replyMessage;
+            replyMessage = new LegStarMessage();
+            replyMessage.fromByteArray(hostBytes, 0);
+            return replyMessage;
         } catch (HeaderPartException e) {
             throw new HostReceiveException(e);
         } catch (HostMessageFormatException e) {
             throw new HostReceiveException(e);
-        } catch (IOException e) {
+        } catch (JMSException e) {
             throw new HostReceiveException(e);
         }
 

@@ -112,6 +112,8 @@ int g_processingMsg = FALSE_CODE;          /* Indicates if a message
 MQLONG g_BackoutThreshold = 0; /* Maximum times a backouted message will
                      be reprocessed before it is considered poisonous */
 MQLONG g_BackoutCount;                     /* Backout counter         */
+MQLONG g_MsgDataLen = 0;          /* actual message data length       */
+void *g_pMsgData = NULL;          /* pointer to actual message data   */
 
 /*====================================================================*/
 /*  Main section                                                      */
@@ -286,7 +288,7 @@ int processRequest() {
     /* From now on, we have a message we need to deal with */
     g_processingMsg = TRUE_CODE;
     
-    rc = hostToMessage(g_pWorkBuffer, g_WorkBufferLen,
+    rc = hostToMessage(g_pMsgData, g_MsgDataLen,
                              &lsRequest.message);
     if (OK_CODE == rc) {
         rc = invokeProgram(dfheiptr,
@@ -417,12 +419,16 @@ int inquireRequestQueue() {
 /* With the Syncpoint option, the message becomes unavailable for     */
 /* other instances of this transaction but is deleted only when the   */
 /* UOW is committed.                                                  */
+/* This populates g_MsgDataLen and g_pMsgData global variables that   */
+/* point to the actual LegStar data within the MQ message. This       */
+/* accounts for RFH2 headers that may be present.                     */
 /*====================================================================*/
 int readRequestQueue() {
     
     int rc = OK_CODE;             /* general purpose return code      */
     MQMD msgDesc = { MQMD_DEFAULT };   /* message descriptor          */
     MQLONG   openOptions;              /* MQ open options             */
+    PMQRFH2  pRfh2;               /* pointer to RFH2 header           */
     
     if (g_traceParms.traceMode == TRUE_CODE) {
        sprintf(g_traceMessage, "About to get from queue :%s",
@@ -478,6 +484,18 @@ int readRequestQueue() {
         return ERROR_CODE;
     }
     strcpy(g_ResponseQueue.Name, g_ReplyToQ);
+    
+    /* If incoming message has RFH header adjust pointer to data and
+     * data length to point to the data itself (which follows RFH).
+     */
+    if (strncmp(g_Format, "MQHRF2", 6) == 0) {
+        pRfh2 = g_pWorkBuffer;
+        g_pMsgData = (char*)g_pWorkBuffer + pRfh2->StrucLength;
+        g_MsgDataLen = g_DataLen - pRfh2->StrucLength;
+    } else {
+        g_pMsgData = g_pWorkBuffer;
+        g_MsgDataLen = g_DataLen;
+    }
     
     if (g_traceParms.traceMode == TRUE_CODE) {
         traceMQMessageContent();
@@ -777,6 +795,11 @@ int traceMQMessageContent() {
     traceMessage(MODULE_NAME, g_traceMessage);
     traceMessage(MODULE_NAME, "MQ Message content:");
     traceData(MODULE_NAME, g_pWorkBuffer, g_DataLen);
+    sprintf(g_traceMessage, "LegStar Message data length :%d",
+        g_MsgDataLen);
+    traceMessage(MODULE_NAME, g_traceMessage);
+    traceMessage(MODULE_NAME, "LegStar Message content:");
+    traceData(MODULE_NAME, g_pMsgData, g_MsgDataLen);
     traceMessage(MODULE_NAME,
         "-----------------------------------------------");
 }

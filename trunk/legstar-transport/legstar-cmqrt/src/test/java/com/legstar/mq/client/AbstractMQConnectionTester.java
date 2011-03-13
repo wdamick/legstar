@@ -12,14 +12,15 @@ package com.legstar.mq.client;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.legstar.config.PoolingEngineConfig;
 import com.legstar.messaging.HostEndpoint;
-import com.legstar.messaging.LegStarAddress;
 import com.legstar.messaging.HostEndpoint.AccessStrategy;
+import com.legstar.messaging.LegStarAddress;
 import com.legstar.mq.client.CicsMQEndpoint.HostMQBridgeType;
 import com.legstar.test.connection.client.AbstractConnectionTester;
 
@@ -27,8 +28,7 @@ import com.legstar.test.connection.client.AbstractConnectionTester;
  * Generic test helper class.
  * 
  */
-public abstract class AbstractMQConnectionTester extends
-        AbstractConnectionTester {
+public abstract class AbstractMQConnectionTester extends AbstractConnectionTester {
 
     /** An endpoint. */
     private CicsMQEndpoint mEndpoint;
@@ -78,14 +78,16 @@ public abstract class AbstractMQConnectionTester extends
     public static CicsMQEndpoint getLsmsgEndpoint() {
         CicsMQEndpoint endpoint = new CicsMQEndpoint();
         endpoint.setName("CICSTS23-LSMSG");
-        endpoint.setHostIPAddress("mainframe");
-        endpoint.setHostIPPort(1414);
+        endpoint.setInitialContextFactory("org.osjava.sj.SimpleContextFactory");
+        Properties jndiProperties = new Properties();
+        jndiProperties.put("org.osjava.sj.root",
+                "src/test/resources/simple-jndi");
+        endpoint.setJndiProperties(jndiProperties);
+        endpoint.setJndiConnectionFactoryName("ConnectionFactory");
         endpoint.setHostUserID("P390");
         endpoint.setHostPassword("STREAM2");
-        endpoint.setHostMQManager("CSQ1");
-        endpoint.setHostMQChannel("CLIENT.TO.CSQ1");
-        endpoint.setHostMQRequestQueue("CICSA.REQUEST.QUEUE");
-        endpoint.setHostMQResponseQueue("CICSA.REPLY.QUEUE");
+        endpoint.setJndiRequestQueueName("CicsARequestQueue");
+        endpoint.setJndiReplyQueueName("CicsAReplyQueue");
         return endpoint;
     }
 
@@ -95,14 +97,16 @@ public abstract class AbstractMQConnectionTester extends
     public static CicsMQEndpoint getMqcihEndpoint() {
         CicsMQEndpoint endpoint = new CicsMQEndpoint();
         endpoint.setName("CICSTS23-MQCIH");
-        endpoint.setHostIPAddress("mainframe");
-        endpoint.setHostIPPort(1414);
+        endpoint.setInitialContextFactory("org.osjava.sj.SimpleContextFactory");
+        Properties jndiProperties = new Properties();
+        jndiProperties.put("org.osjava.sj.root",
+                "src/test/resources/simple-jndi");
+        endpoint.setJndiProperties(jndiProperties);
+        endpoint.setJndiConnectionFactoryName("ConnectionFactory");
+        endpoint.setJndiRequestQueueName("Cics01BridgeRequestQueue");
+        endpoint.setJndiReplyQueueName("Cics01BridgeReplyQueue");
         endpoint.setHostUserID("P390");
         endpoint.setHostPassword("STREAM2");
-        endpoint.setHostMQManager("CSQ1");
-        endpoint.setHostMQChannel("CLIENT.TO.CSQ1");
-        endpoint.setHostMQRequestQueue("CICS01.BRIDGE.REQUEST.QUEUE");
-        endpoint.setHostMQResponseQueue("CICS01.BRIDGE.REPLY.QUEUE");
         endpoint.setHostMQBridgeType(HostMQBridgeType.MQCIH);
         return endpoint;
     }
@@ -154,4 +158,5 @@ public abstract class AbstractMQConnectionTester extends
         config.setHostEndpoints(endpoints);
         return config;
     }
+
 }
