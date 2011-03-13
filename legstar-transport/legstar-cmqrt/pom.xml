@@ -84,9 +84,9 @@
               <artifactId>maven-surefire-plugin</artifactId>
               <configuration>
                 <additionalClasspathElements>
-                  <additionalClasspathElement>${legstar-dev-wmq-lib}/dhbcore-6.0.2.jar</additionalClasspathElement>
-                  <additionalClasspathElement>${legstar-dev-wmq-lib}/mq-6.0.2.jar</additionalClasspathElement>
-                  <additionalClasspathElement>${legstar-dev-wmq-lib}/mqjms-6.0.2.jar</additionalClasspathElement>
+                  <additionalClasspathElement>${legstar-dev-wmq-lib}/com.ibm.mq.jar</additionalClasspathElement>
+                  <additionalClasspathElement>${legstar-dev-wmq-lib}/com.ibm.mqjms.jar</additionalClasspathElement>
+                  <additionalClasspathElement>${legstar-dev-wmq-lib}/dhbcore.jar</additionalClasspathElement>
                 </additionalClasspathElements>
               </configuration>
             </plugin>
