@@ -10,72 +10,73 @@
  ******************************************************************************/
 package com.legstar.mq.client;
 
+import java.util.Properties;
+
 import com.legstar.messaging.ConnectionFactory;
 import com.legstar.messaging.HostEndpoint;
 
 /**
- * This class represents the parameters that are necessary for a client
- * to successfully connect to CICS over MQ.
+ * This class represents the parameters that are necessary for a client to
+ * successfully connect to CICS over MQ.
  */
 public class CicsMQEndpoint extends HostEndpoint {
 
     /* ----------------------------------------------------------------------- */
     /* Member variables */
     /* ----------------------------------------------------------------------- */
-    /** Host IP address. */
-    private String mHostIPAddress;
+    /** The JNDI initial context factory. */
+    private String _initialContextFactory;
 
-    /** Host IP port. */
-    private int mHostIPPort = DEFAULT_MQ_PORT;
+    /** The JNDI provider URL. */
+    private String _jndiProviderURL;
 
-    /** Host MQ Manager. */
-    private String mHostMQManager = DEFAULT_MQ_MANAGER;
+    /** The JNDI package prefixes for URL factory. */
+    private String _jndiUrlPkgPrefixes;
 
-    /** Host MQ Channel. */
-    private String mHostMQChannel;
+    /** The JNDI additional properties. */
+    private Properties _jndiProperties;
 
-    /** Host MQ Request queue name. */
-    private String mHostMQRequestQueue;
+    /** The JNDI name of the JMS connection factory. */
+    private String _jndiConnectionFactoryName;
 
-    /** Host MQ Reply queue name. */
-    private String mHostMQResponseQueue;
+    /** The JNDI name of the request queue. */
+    private String _jndiRequestQueueName;
+
+    /** The JNDI name of the reply queue. */
+    private String _jndiReplyQueueName;
 
     /** Host MQ Bridge implementation. */
-    private HostMQBridgeType mHostMQBridgeType = HostMQBridgeType.LSMSG;
+    private HostMQBridgeType _hostMQBridgeType = HostMQBridgeType.LSMSG;
 
     /* ----------------------------------------------------------------------- */
     /* Default values */
     /* ----------------------------------------------------------------------- */
-    /** Default MQ Manager. */
-    private static final String DEFAULT_MQ_MANAGER = "CSQ1";
-
-    /** Default MQ IP port. */
-    private static final int DEFAULT_MQ_PORT = 1414;
-
     /** The default connection factory class. */
-    private static final String DEFAULT_CONNECTION_FACTORY_CLASS =
-            "com.legstar.mq.client.CicsMQConnectionFactory";
+    private static final String DEFAULT_CONNECTION_FACTORY_CLASS = "com.legstar.mq.client.CicsMQConnectionFactory";
 
     /* ----------------------------------------------------------------------- */
     /* Labels */
     /* ----------------------------------------------------------------------- */
-    /** Label for IP address. */
-    private static final String IP_ADDRESS_LABEL = "hostIPAddress";
+    /** Label for JNDI initial context factory. */
+    private static final String INITIAL_CONTEXT_FACTORY_LABEL = "initialContextFactory";
 
-    /** Label for IP port. */
-    private static final String IP_PORT_LABEL = "hostIPPort";
+    /** Label for JNDI JNDI provider URL. */
+    private static final String JNDI_PROVIDER_URL_LABEL = "jndiProviderURL";
 
-    /** Label for MQ Manager. */
-    private static final String HOST_MQ_MANAGER_LABEL = "hostMQManager";
+    /** Label for JNDI package prefixes for URL factory. */
+    private static final String JNDI_URL_PKGP_REFIXES_LABEL = "jndiUrlPkgPrefixes";
 
-    /** Label for MQ Channel. */
-    private static final String HOST_MQ_CHANNEL_LABEL = "hostMQChannel";
+    /** Label for additional JNDI properties. */
+    private static final String JNDI_PROPERTIES_LABEL = "jndiProperties";
 
-    /** Label for MQ Request queue. */
-    private static final String HOST_MQ_REQUEST_Q_LABEL = "hostMQRequestQueue";
+    /** Label for JNDI name of the JMS connection factory. */
+    private static final String JNDI_CONNECTION_FACTORY_NAME_LABEL = "jndiConnectionFactoryName";
 
-    /** Label for MQ Reply queue. */
-    private static final String HOST_MQ_RESPONSE_Q_LABEL = "hostMQResponseQueue";
+    /** Label for JNDI name of the request queue. */
+    private static final String JNDI_REQUEST_QUEUE_NAME_LABEL = "jndiRequestQueueName";
+
+    /** Label for JNDI name of the reply queue. */
+    private static final String JNDI_REPLY_QUEUE_NAME_LABEL = "jndiReplyQueueName";
 
     /** Label for host MQ bridge type. */
     private static final String HOST_MQ_BRIDGE_TYPE_LABEL = "hostMQBridgeType";
@@ -103,13 +104,14 @@ public class CicsMQEndpoint extends HostEndpoint {
      */
     public CicsMQEndpoint(final CicsMQEndpoint copyFrom) {
         super(copyFrom);
-        setHostIPAddress(copyFrom.getHostIPAddress());
-        setHostIPPort(copyFrom.getHostIPPort());
+        setInitialContextFactory(copyFrom.getInitialContextFactory());
+        setJndiProviderURL(copyFrom.getJndiProviderURL());
+        setJndiUrlPkgPrefixes(copyFrom.getJndiUrlPkgPrefixes());
+        setJndiProperties(copyFrom.getJndiProperties());
+        setJndiConnectionFactoryName(copyFrom.getJndiConnectionFactoryName());
+        setJndiRequestQueueName(copyFrom.getJndiRequestQueueName());
+        setJndiReplyQueueName(copyFrom.getJndiReplyQueueName());
         setHostMQBridgeType(copyFrom.getHostMQBridgeType());
-        setHostMQChannel(copyFrom.getHostMQChannel());
-        setHostMQRequestQueue(copyFrom.getHostMQRequestQueue());
-        setHostMQResponseQueue(copyFrom.getHostMQResponseQueue());
-        setHostMQManager(copyFrom.getHostMQManager());
     }
 
     /**
@@ -118,16 +120,16 @@ public class CicsMQEndpoint extends HostEndpoint {
      * @return formatted endpoint report
      */
     public String toString() {
-        String report = "CICS WMQ endpoint:"
-                + super.toString()
-                + "["
-                + IP_ADDRESS_LABEL + "=" + mHostIPAddress
-                + "," + IP_PORT_LABEL + "=" + mHostIPPort
-                + "," + HOST_MQ_MANAGER_LABEL + "=" + mHostMQManager
-                + "," + HOST_MQ_CHANNEL_LABEL + "=" + mHostMQChannel
-                + "," + HOST_MQ_REQUEST_Q_LABEL + "=" + mHostMQRequestQueue
-                + "," + HOST_MQ_RESPONSE_Q_LABEL + "=" + mHostMQResponseQueue
-                + "," + HOST_MQ_BRIDGE_TYPE_LABEL + "=" + mHostMQBridgeType
+        String report = "CICS WMQ endpoint:" + super.toString() + "["
+                + INITIAL_CONTEXT_FACTORY_LABEL + "=" + _initialContextFactory
+                + "," + JNDI_PROVIDER_URL_LABEL + "=" + _jndiProviderURL + ","
+                + JNDI_URL_PKGP_REFIXES_LABEL + "=" + _jndiUrlPkgPrefixes + ","
+                + JNDI_PROPERTIES_LABEL + "=" + _jndiProperties + ","
+                + JNDI_CONNECTION_FACTORY_NAME_LABEL + "="
+                + _jndiConnectionFactoryName + ","
+                + JNDI_REQUEST_QUEUE_NAME_LABEL + "=" + _jndiRequestQueueName
+                + "," + JNDI_REPLY_QUEUE_NAME_LABEL + "=" + _jndiReplyQueueName
+                + "," + HOST_MQ_BRIDGE_TYPE_LABEL + "=" + _hostMQBridgeType
                 + "]";
         return report;
     }
@@ -138,118 +140,28 @@ public class CicsMQEndpoint extends HostEndpoint {
      * @throws CicsMQConnectionException if check fails
      */
     public void check() throws CicsMQConnectionException {
-        if (getHostIPAddress() == null || getHostIPAddress().length() == 0) {
+
+        if (getInitialContextFactory() == null
+                || getInitialContextFactory().length() == 0) {
             throw new CicsMQConnectionException(
-                    "No host IP address has been provided.");
+                    "No JNDI initial context factory provided.");
         }
-        if (getHostIPPort() == 0) {
+        if (getJndiConnectionFactoryName() == null
+                || getJndiConnectionFactoryName().length() == 0) {
             throw new CicsMQConnectionException(
-                    "No host IP port has been provided.");
+                    "No JNDI JMS connection factory name provided.");
         }
-        if (getHostMQManager() == null
-                || getHostMQManager().length() == 0) {
+        if (getJndiRequestQueueName() == null
+                || getJndiRequestQueueName().length() == 0) {
             throw new CicsMQConnectionException(
-                    "No host MQ Manager name has been provided.");
+                    "No JNDI request queue name has been provided.");
         }
-        if (getHostMQChannel() == null
-                || getHostMQChannel().length() == 0) {
+        if (getJndiReplyQueueName() == null
+                || getJndiReplyQueueName().length() == 0) {
             throw new CicsMQConnectionException(
-                    "No host MQ Channel name has been provided.");
+                    "No JNDI reply queue name has been provided.");
         }
-        if (getHostMQRequestQueue() == null
-                || getHostMQRequestQueue().length() == 0) {
-            throw new CicsMQConnectionException(
-                    "No host MQ Request queue name has been provided.");
-        }
-        if (getHostMQResponseQueue() == null
-                || getHostMQResponseQueue().length() == 0) {
-            throw new CicsMQConnectionException(
-                    "No host MQ Response queue name has been provided.");
-        }
-    }
 
-    /**
-     * @return the host IP address
-     */
-    public String getHostIPAddress() {
-        return mHostIPAddress;
-    }
-
-    /**
-     * @param hostIPAddress the host IP address to set
-     */
-    public void setHostIPAddress(final String hostIPAddress) {
-        mHostIPAddress = hostIPAddress;
-    }
-
-    /**
-     * @return the host IP port
-     */
-    public int getHostIPPort() {
-        return mHostIPPort;
-    }
-
-    /**
-     * @param hostIPPort the host IP port to set
-     */
-    public void setHostIPPort(final int hostIPPort) {
-        mHostIPPort = hostIPPort;
-    }
-
-    /**
-     * @return the MQ Channel
-     */
-    public String getHostMQChannel() {
-        return mHostMQChannel;
-    }
-
-    /**
-     * @param hostMQChannel the MQ Channel to set
-     */
-    public void setHostMQChannel(final String hostMQChannel) {
-        mHostMQChannel = hostMQChannel;
-    }
-
-    /**
-     * @return the MQ Manager
-     */
-    public String getHostMQManager() {
-        return mHostMQManager;
-    }
-
-    /**
-     * @param hostMQManager the MQ Manager to set
-     */
-    public void setHostMQManager(final String hostMQManager) {
-        mHostMQManager = hostMQManager;
-    }
-
-    /**
-     * @return the MQ Reply queue
-     */
-    public String getHostMQResponseQueue() {
-        return mHostMQResponseQueue;
-    }
-
-    /**
-     * @param hostMQReplyQueue the MQ Reply queue to set
-     */
-    public void setHostMQResponseQueue(final String hostMQReplyQueue) {
-        mHostMQResponseQueue = hostMQReplyQueue;
-    }
-
-    /**
-     * @return the MQ Request queue
-     */
-    public String getHostMQRequestQueue() {
-        return mHostMQRequestQueue;
-    }
-
-    /**
-     * @param hostMQRequestQueue the MQ Request queue to set
-     */
-    public void setHostMQRequestQueue(final String hostMQRequestQueue) {
-        mHostMQRequestQueue = hostMQRequestQueue;
     }
 
     /**
@@ -270,28 +182,28 @@ public class CicsMQEndpoint extends HostEndpoint {
      * @return the Host MQ Bridge implementation
      */
     public HostMQBridgeType getHostMQBridgeType() {
-        return mHostMQBridgeType;
+        return _hostMQBridgeType;
     }
 
     /**
      * @param hostMQBridgeType the Host MQ Bridge implementation to set
      */
     public void setHostMQBridgeType(final HostMQBridgeType hostMQBridgeType) {
-        mHostMQBridgeType = hostMQBridgeType;
+        _hostMQBridgeType = hostMQBridgeType;
     }
 
     /**
      * @param hostMQBridgeType the Host MQ Bridge implementation to set
      */
     public void setHostMQBridgeType(final String hostMQBridgeType) {
-        mHostMQBridgeType = HostMQBridgeType.valueOf(hostMQBridgeType);
+        _hostMQBridgeType = HostMQBridgeType.valueOf(hostMQBridgeType);
     }
 
     /**
      * Not supported.
      * 
-     * @param maxIdleTime the maximum time to keep a pooled connection opened
-     *            to set -1 means forever.
+     * @param maxIdleTime the maximum time to keep a pooled connection opened to
+     *            set -1 means forever.
      */
     @Override
     public void setPooledMaxIdleTime(final long maxIdleTime) {
@@ -316,5 +228,106 @@ public class CicsMQEndpoint extends HostEndpoint {
                     "pooledMaxIdleTimeCheckPeriod not supported by this transport");
         }
         super.setPooledMaxIdleTimeCheckPeriod(pooledMaxIdleTimeCheckPeriod);
+    }
+
+    /**
+     * @return the JNDI initial context factory
+     */
+    public String getInitialContextFactory() {
+        return _initialContextFactory;
+    }
+
+    /**
+     * @param initialContextFactory the JNDI initial context factory to set
+     */
+    public void setInitialContextFactory(final String initialContextFactory) {
+        _initialContextFactory = initialContextFactory;
+    }
+
+    /**
+     * @return the JNDI name of the JMS connection factory
+     */
+    public String getJndiConnectionFactoryName() {
+        return _jndiConnectionFactoryName;
+    }
+
+    /**
+     * @param jndiConnectionFactoryName the JNDI name of the JMS connection
+     *            factory to set
+     */
+    public void setJndiConnectionFactoryName(
+            final String jndiConnectionFactoryName) {
+        this._jndiConnectionFactoryName = jndiConnectionFactoryName;
+    }
+
+    /**
+     * @return the JNDI provider URL
+     */
+    public String getJndiProviderURL() {
+        return _jndiProviderURL;
+    }
+
+    /**
+     * @param jndiProviderURL the JNDI provider URL to set
+     */
+    public void setJndiProviderURL(final String jndiProviderURL) {
+        _jndiProviderURL = jndiProviderURL;
+    }
+
+    /**
+     * @return the JNDI package prefixes for URL factory
+     */
+    public String getJndiUrlPkgPrefixes() {
+        return _jndiUrlPkgPrefixes;
+    }
+
+    /**
+     * @param jndiUrlPkgPrefixes the JNDI package prefixes for URL factory to
+     *            set
+     */
+    public void setJndiUrlPkgPrefixes(final String jndiUrlPkgPrefixes) {
+        _jndiUrlPkgPrefixes = jndiUrlPkgPrefixes;
+    }
+
+    /**
+     * @return the JNDI additional properties
+     */
+    public Properties getJndiProperties() {
+        return _jndiProperties;
+    }
+
+    /**
+     * @param jndiProperties the JNDI additional properties to set
+     */
+    public void setJndiProperties(final Properties jndiProperties) {
+        _jndiProperties = jndiProperties;
+    }
+
+    /**
+     * @return the JNDI name of the request queue
+     */
+    public String getJndiRequestQueueName() {
+        return _jndiRequestQueueName;
+    }
+
+    /**
+     * @param jndiRequestQueueName the JNDI name of the request queue to set
+     */
+    public void setJndiRequestQueueName(final String jndiRequestQueueName) {
+        _jndiRequestQueueName = jndiRequestQueueName;
+    }
+
+    /**
+     * @return the JNDI name of the reply queue
+     */
+    public String getJndiReplyQueueName() {
+        return _jndiReplyQueueName;
+    }
+
+    /**
+     * @param jndiReplyQueueName the JNDI name of the reply queue to set
+     */
+    public void setJndiReplyQueueName(final String jndiReplyQueueName) {
+        this._jndiReplyQueueName = jndiReplyQueueName;
     }
 }

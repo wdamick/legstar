@@ -34,23 +34,24 @@
             <artifactId>legstar-coxbrt</artifactId>
         </dependency>
         <dependency>
+            <groupId>simple-jndi</groupId>
+            <artifactId>simple-jndi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jms_1.1_spec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-j2ee-connector_1.5_spec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jta_1.0.1B_spec</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.ibm</groupId>
-            <artifactId>mq</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.resource</groupId>
-            <artifactId>connector-api</artifactId>
-        </dependency>
-        <!-- This dependency is only necessary to get invoker to
-             be distributed with transports standalone distributions.-->
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-invoker</artifactId>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
@@ -65,10 +66,31 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Simple JNDI -->    
+        <dependency>
+            <groupId>simple-jndi</groupId>
+            <artifactId>simple-jndi</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
         <plugins>
+
+            <!-- WebSphere MQ libraries are not under Maven but they are needed for test -->
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                <additionalClasspathElements>
+                  <additionalClasspathElement>${legstar-dev-wmq-lib}/dhbcore-6.0.2.jar</additionalClasspathElement>
+                  <additionalClasspathElement>${legstar-dev-wmq-lib}/mq-6.0.2.jar</additionalClasspathElement>
+                  <additionalClasspathElement>${legstar-dev-wmq-lib}/mqjms-6.0.2.jar</additionalClasspathElement>
+                </additionalClasspathElements>
+              </configuration>
+            </plugin>
+
             <!-- Bundle the test classes in a jar for use by JMeter -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
