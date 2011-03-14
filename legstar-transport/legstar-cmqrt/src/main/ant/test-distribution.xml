@@ -27,9 +27,17 @@
 
     <!-- ===========================================================  -->
     <!-- Build the samples and run test
+         We add the WMQ libraries which are not part of the delivery
     -->
     <target name="testDistro" depends="init">
         <unzip src="${zip.file}" dest="${test.dir}"/>
+        <copy todir="${test.dir}/${dist.name}/lib">
+            <fileset dir="${legstar-dev-wmq-lib}">
+                <include name="com.ibm.mq.jar"/>
+                <include name="com.ibm.mqjms.jar"/>
+                <include name="dhbcore.jar"/>
+            </fileset>
+        </copy>
         <ant antfile="build.xml" dir="${sample.dir}"/>
     </target>
   

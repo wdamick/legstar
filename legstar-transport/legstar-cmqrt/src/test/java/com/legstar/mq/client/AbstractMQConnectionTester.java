@@ -12,7 +12,6 @@ package com.legstar.mq.client;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,7 +27,8 @@ import com.legstar.test.connection.client.AbstractConnectionTester;
  * Generic test helper class.
  * 
  */
-public abstract class AbstractMQConnectionTester extends AbstractConnectionTester {
+public abstract class AbstractMQConnectionTester extends
+        AbstractConnectionTester {
 
     /** An endpoint. */
     private CicsMQEndpoint mEndpoint;
@@ -79,10 +79,7 @@ public abstract class AbstractMQConnectionTester extends AbstractConnectionTeste
         CicsMQEndpoint endpoint = new CicsMQEndpoint();
         endpoint.setName("CICSTS23-LSMSG");
         endpoint.setInitialContextFactory("org.osjava.sj.SimpleContextFactory");
-        Properties jndiProperties = new Properties();
-        jndiProperties.put("org.osjava.sj.root",
-                "src/test/resources/simple-jndi");
-        endpoint.setJndiProperties(jndiProperties);
+        endpoint.setJndiProperties("org.osjava.sj.root=src/test/resources/simple-jndi");
         endpoint.setJndiConnectionFactoryName("ConnectionFactory");
         endpoint.setHostUserID("P390");
         endpoint.setHostPassword("STREAM2");
@@ -98,10 +95,7 @@ public abstract class AbstractMQConnectionTester extends AbstractConnectionTeste
         CicsMQEndpoint endpoint = new CicsMQEndpoint();
         endpoint.setName("CICSTS23-MQCIH");
         endpoint.setInitialContextFactory("org.osjava.sj.SimpleContextFactory");
-        Properties jndiProperties = new Properties();
-        jndiProperties.put("org.osjava.sj.root",
-                "src/test/resources/simple-jndi");
-        endpoint.setJndiProperties(jndiProperties);
+        endpoint.setJndiProperties("org.osjava.sj.root=src/test/resources/simple-jndi");
         endpoint.setJndiConnectionFactoryName("ConnectionFactory");
         endpoint.setJndiRequestQueueName("Cics01BridgeRequestQueue");
         endpoint.setJndiReplyQueueName("Cics01BridgeReplyQueue");
