@@ -14,6 +14,8 @@ import java.rmi.server.UID;
 import java.util.HashMap;
 import java.util.Map;
 
+import junit.framework.TestCase;
+
 import com.legstar.config.Constants;
 import com.legstar.coxb.host.HostData;
 import com.legstar.messaging.CommareaPart;
@@ -25,52 +27,53 @@ import com.legstar.messaging.RequestException;
 import com.legstar.test.coxb.LsfileaeCases;
 import com.legstar.test.coxb.T1volumeCases;
 
-import junit.framework.TestCase;
-
 /**
  * Generic test helper class.
- *
+ * 
  */
 public abstract class AbstractConnectionTester extends TestCase {
 
     /** Mainframe character set. */
     public static final String HOST_CHARSET = "IBM01140";
-    
-    /** Configuration file.*/
+
+    /** Configuration file. */
     public static final String CONFIG_FILE = "config.xml";
-    
+
     /** Host user ID. */
     public static final String HOST_USERID = "P390";
-    
+
     /** Host user ID. */
     public static final String HOST_PASSWORD = "STREAM2";
-    
+
     /** Time out (in milliseconds) for initial connect. */
     public static final int DEFAULT_CONNECT_TIMEOUT_MSEC = 1000;
-    
-    /** Time out (in milliseconds) for read operations
-     *  (waiting for host reply). */
+
+    /**
+     * Time out (in milliseconds) for read operations (waiting for host reply).
+     */
     public static final int DEFAULT_READ_TIMEOUT_MSEC = 5000;
 
     /**
      * Create a request with a header built from a properties map.
+     * 
      * @param map properties map for header creation
      * @param address the destination
      * @return a legstar request
      * @throws RequestException if unable to create request
      */
-    public static LegStarRequest getRequest(
-            final Map < String, Object > map,
+    public static LegStarRequest getRequest(final Map < String, Object > map,
             final LegStarAddress address) throws RequestException {
         try {
             LegStarMessage requestMessage = new LegStarMessage();
             requestMessage.getHeaderPart().setKeyValues(map);
-            /* With MQ, the connection ID is used as the correlation ID. It is
-             * important that it is unique for each request.*/
+            /*
+             * With MQ, the connection ID is used as the correlation ID. It is
+             * important that it is unique for each request.
+             */
             String uid = new UID().toString();
             String[] comps = uid.split(":");
             String requestID = comps[1] + comps[2];
-           return new LegStarRequest(requestID, address, requestMessage);
+            return new LegStarRequest(requestID, address, requestMessage);
         } catch (HeaderPartException e) {
             throw new RequestException(e);
         }
@@ -78,6 +81,7 @@ public abstract class AbstractConnectionTester extends TestCase {
 
     /**
      * Create a request for LSFILEAE customer 100.
+     * 
      * @param address the destination
      * @return a request ready for execution
      * @throws RequestException if request cannot be built
@@ -88,46 +92,53 @@ public abstract class AbstractConnectionTester extends TestCase {
         map.put(Constants.CICS_PROGRAM_NAME_KEY, "LSFILEAE");
         map.put(Constants.CICS_LENGTH_KEY, "79");
         map.put(Constants.CICS_DATALEN_KEY, "6");
-        
+
         LegStarRequest request = getRequest(map, address);
-        request.getRequestMessage().addDataPart(new CommareaPart(
-                HostData.toByteArray(LsfileaeCases.getHostBytesHexRequest100())));
+        request.getRequestMessage().addDataPart(
+                new CommareaPart(HostData.toByteArray(LsfileaeCases
+                        .getHostBytesHexRequest100())));
         return request;
 
     }
+
     /**
      * A request that is guaranteed to exceed 2 seconds.
+     * 
      * @param address the destination
      * @return a request ready for execution
      * @throws RequestException if request cannot be built
      */
-    public static LegStarRequest createLongRequest(
-            final LegStarAddress address) throws RequestException {
+    public static LegStarRequest createLongRequest(final LegStarAddress address)
+            throws RequestException {
         return createLongRequest(address, "f0f0f0f0f0f0f0f3");
     }
 
     /**
      * A request that will wait depending on the parameter passed.
+     * 
      * @param address the destination
      * @param hostByteHex wait time as a hex string of a display numeric
      * @return a request ready for execution
      * @throws RequestException if request cannot be built
      */
     public static LegStarRequest createLongRequest(
-            final LegStarAddress address, final String hostByteHex) throws RequestException {
+            final LegStarAddress address, final String hostByteHex)
+            throws RequestException {
 
-        HashMap < String, Object> map = new HashMap < String, Object>();
+        HashMap < String, Object > map = new HashMap < String, Object >();
         map.put(Constants.CICS_PROGRAM_NAME_KEY, "T1SLEEPT");
         map.put(Constants.CICS_LENGTH_KEY, "39");
         map.put(Constants.CICS_DATALEN_KEY, "8");
-        
+
         LegStarRequest request = getRequest(map, address);
-        request.getRequestMessage().addDataPart(new CommareaPart(
-                HostData.toByteArray(hostByteHex)));
+        request.getRequestMessage().addDataPart(
+                new CommareaPart(HostData.toByteArray(hostByteHex)));
         return request;
     }
+
     /**
      * A request that is guaranteed to fail (target program does not exist).
+     * 
      * @param address the destination
      * @return a request ready for execution
      * @throws RequestException if request cannot be built
@@ -135,26 +146,27 @@ public abstract class AbstractConnectionTester extends TestCase {
     public static LegStarRequest createInvalidRequest(
             final LegStarAddress address) throws RequestException {
 
-        HashMap < String, Object> map = new HashMap < String, Object>();
+        HashMap < String, Object > map = new HashMap < String, Object >();
         map.put(Constants.CICS_PROGRAM_NAME_KEY, "TARATOZ");
         map.put(Constants.CICS_LENGTH_KEY, "79");
         map.put(Constants.CICS_DATALEN_KEY, "6");
-        
+
         LegStarRequest request = getRequest(map, address);
-        request.getRequestMessage().addDataPart(new CommareaPart(
-                HostData.toByteArray("F0F0F0F1F0F0")));
+        request.getRequestMessage().addDataPart(
+                new CommareaPart(HostData.toByteArray("F0F0F0F1F0F0")));
         return request;
 
     }
-    
+
     /**
      * A request with a large payload.
+     * 
      * @param address the destination
      * @return a request ready for execution
      * @throws RequestException if request cannot be built
      */
-    public static LegStarRequest createLargeRequest(
-            final LegStarAddress address) throws RequestException {
+    public static LegStarRequest createLargeRequest(final LegStarAddress address)
+            throws RequestException {
         HashMap < String, Object > map = new HashMap < String, Object >();
         map.put(Constants.CICS_PROGRAM_NAME_KEY, "T1VOLUME");
         map.put(Constants.CICS_LENGTH_KEY, "32767");
@@ -168,6 +180,7 @@ public abstract class AbstractConnectionTester extends TestCase {
 
     /**
      * A request with a large payload.
+     * 
      * @param address the destination
      * @return a request ready for execution
      * @throws RequestException if request cannot be built
@@ -183,5 +196,25 @@ public abstract class AbstractConnectionTester extends TestCase {
         request.getRequestMessage().addDataPart(
                 new CommareaPart(T1volumeCases.getHostBytes(32759)));
         return request;
+    }
+
+    /**
+     * Create a request for T1CONTXT.
+     * 
+     * @param address the destination
+     * @return a request ready for execution
+     * @throws RequestException if request cannot be built
+     */
+    public static LegStarRequest getT1contxtRequest(final LegStarAddress address)
+            throws RequestException {
+        HashMap < String, Object > map = new HashMap < String, Object >();
+        map.put(Constants.CICS_PROGRAM_NAME_KEY, "T1CONTXT");
+        map.put(Constants.CICS_LENGTH_KEY, "24");
+        map.put(Constants.CICS_DATALEN_KEY, "0");
+
+        LegStarRequest request = getRequest(map, address);
+        request.getRequestMessage().addDataPart(new CommareaPart(new byte[0]));
+        return request;
+
     }
 }

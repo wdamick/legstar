@@ -795,11 +795,6 @@ int traceMQMessageContent() {
     traceMessage(MODULE_NAME, g_traceMessage);
     traceMessage(MODULE_NAME, "MQ Message content:");
     traceData(MODULE_NAME, g_pWorkBuffer, g_DataLen);
-    sprintf(g_traceMessage, "LegStar Message data length :%d",
-        g_MsgDataLen);
-    traceMessage(MODULE_NAME, g_traceMessage);
-    traceMessage(MODULE_NAME, "LegStar Message content:");
-    traceData(MODULE_NAME, g_pMsgData, g_MsgDataLen);
     traceMessage(MODULE_NAME,
         "-----------------------------------------------");
 }
