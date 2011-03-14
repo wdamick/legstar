@@ -23,12 +23,39 @@
       <!--  The connection factory provides a transport implementation.  -->
       <hostConnectionfactoryClass>com.legstar.mq.client.CicsMQConnectionFactory</hostConnectionfactoryClass>
       
-      <!--  The host TCPIP address if needed by the transport.  -->
-      <hostIPAddress>mainframe</hostIPAddress>
-      
-      <!--  The host TCPIP port number if needed by the transport.  -->
-      <hostIPPort>1414</hostIPPort>
-      
+      <!--  Specify MQCIH in order to use CICS MQ Bridge, LSMSG otherwise.  -->
+      <hostMQBridgeType>MQCIH</hostMQBridgeType>
+
+      <!--
+         Websphere MQ resources must be defined in a JNDI provider.
+         The following parameters allow LegStar to access these resources.
+       -->
+            
+      <!--  The JNDI initial context factory.  -->
+      <initialContextFactory>org.osjava.sj.SimpleContextFactory</initialContextFactory>
+
+      <!--  The JNDI provider URL.  -->
+      <jndiProviderURL></jndiProviderURL>
+
+      <!--  The JNDI provider list of package prefixes.  -->
+      <jndiUrlPkgPrefixes></jndiUrlPkgPrefixes>
+
+      <!--  Additional JNDI provider properties a  comma-separated list of key=value pairs.-->
+      <jndiProperties>org.osjava.sj.root=simple-jndi</jndiProperties>
+
+      <!--  The Websphere MQ connection factory JNDI name.-->
+      <jndiConnectionFactoryName>ConnectionFactory</jndiConnectionFactoryName>
+
+      <!--  The Websphere MQ request queue JNDI name.-->
+      <jndiRequestQueueName>Cics01BridgeRequestQueue</jndiRequestQueueName>
+
+      <!--  The Websphere MQ reply queue JNDI name.-->
+      <jndiReplyQueueName>Cics01BridgeReplyQueue</jndiReplyQueueName>
+
+      <!--
+         Generic LegStar endpoint parameters.
+       -->
+
       <!--  The host character set is used to translate from unicode.  -->
       <hostCharset>IBM01140</hostCharset>
       
@@ -41,21 +68,6 @@
       <!--  True will activate trace mode on the host.  -->
       <hostTraceMode>false</hostTraceMode>
       
-      <!--  The name of the host MQ Manager.  -->
-      <hostMQManager>CSQ1</hostMQManager>
-      
-      <!--  An MQ channel setup to the host MQ system.  -->
-      <hostMQChannel>CLIENT.TO.CSQ1</hostMQChannel>
-      
-      <!--  An MQ queue to receive execution requests.  -->
-      <hostMQRequestQueue>CICS01.BRIDGE.REQUEST.QUEUE</hostMQRequestQueue>
-      
-      <!--  An MQ queue to receive execution replies.  -->
-      <hostMQResponseQueue>CICS01.BRIDGE.REPLY.QUEUE</hostMQResponseQueue>
-      
-      <!--  Specify MQCIH in order to use CICS MQ Bridge, LSMSG otherwise.  -->
-      <hostMQBridgeType>MQCIH</hostMQBridgeType>
-
       <!--
         Following parameters are useful when pooling is selected.
         Also make sure you have hostAccessStrategy set to pooled.

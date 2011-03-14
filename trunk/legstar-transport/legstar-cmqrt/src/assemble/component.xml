@@ -54,6 +54,17 @@
             </includes>
         </fileSet>
 
+        <!-- The sample simple JNDI configuration -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-cmqrt/src/test/resources/simple-jndi</directory>
+            <outputDirectory>/samples/quickstarts/cmqrt/simple-jndi</outputDirectory>
+            <includes>
+                <include>Cics01BridgeReplyQueue.properties</include>
+                <include>Cics01BridgeRequestQueue.properties</include>
+                <include>ConnectionFactory.properties</include>
+            </includes>
+        </fileSet>
+
     </fileSets>
     
     <files>

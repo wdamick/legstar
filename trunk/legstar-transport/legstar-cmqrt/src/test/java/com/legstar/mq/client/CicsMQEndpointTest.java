@@ -31,7 +31,7 @@ public class CicsMQEndpointTest extends TestCase {
                 cicsMQEndpoint.getJndiConnectionFactoryName());
         assertEquals(null, cicsMQEndpoint.getJndiProviderURL());
         assertEquals(null, cicsMQEndpoint.getJndiUrlPkgPrefixes());
-        assertEquals("{org.osjava.sj.root=src/test/resources/simple-jndi}",
+        assertEquals("org.osjava.sj.root=src/test/resources/simple-jndi",
                 cicsMQEndpoint.getJndiProperties().toString());
         assertEquals("CicsARequestQueue",
                 cicsMQEndpoint.getJndiRequestQueueName());
@@ -92,7 +92,7 @@ public class CicsMQEndpointTest extends TestCase {
                         + "pooledMaxIdleTimeCheckPeriod=-1]"
                         + "[initialContextFactory=null,"
                         + "jndiProviderURL=null," + "jndiUrlPkgPrefixes=null,"
-                        + "jndiProperties=null,"
+                        + "jndiProperties={null},"
                         + "jndiConnectionFactoryName=null,"
                         + "jndiRequestQueueName=null,"
                         + "jndiReplyQueueName=null,"
@@ -111,7 +111,7 @@ public class CicsMQEndpointTest extends TestCase {
                 cicsMQEndpoint.getJndiConnectionFactoryName());
         assertEquals(null, cicsMQEndpoint.getJndiProviderURL());
         assertEquals(null, cicsMQEndpoint.getJndiUrlPkgPrefixes());
-        assertEquals("{org.osjava.sj.root=src/test/resources/simple-jndi}",
+        assertEquals("org.osjava.sj.root=src/test/resources/simple-jndi",
                 cicsMQEndpoint.getJndiProperties().toString());
         assertEquals("Cics01BridgeRequestQueue",
                 cicsMQEndpoint.getJndiRequestQueueName());

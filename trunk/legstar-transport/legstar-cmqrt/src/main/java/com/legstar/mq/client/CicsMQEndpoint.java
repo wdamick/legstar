@@ -10,8 +10,6 @@
  ******************************************************************************/
 package com.legstar.mq.client;
 
-import java.util.Properties;
-
 import com.legstar.messaging.ConnectionFactory;
 import com.legstar.messaging.HostEndpoint;
 
@@ -33,8 +31,8 @@ public class CicsMQEndpoint extends HostEndpoint {
     /** The JNDI package prefixes for URL factory. */
     private String _jndiUrlPkgPrefixes;
 
-    /** The JNDI additional properties. */
-    private Properties _jndiProperties;
+    /** The JNDI additional properties (key=value form, comma separated). */
+    private String _jndiProperties;
 
     /** The JNDI name of the JMS connection factory. */
     private String _jndiConnectionFactoryName;
@@ -124,7 +122,7 @@ public class CicsMQEndpoint extends HostEndpoint {
                 + INITIAL_CONTEXT_FACTORY_LABEL + "=" + _initialContextFactory
                 + "," + JNDI_PROVIDER_URL_LABEL + "=" + _jndiProviderURL + ","
                 + JNDI_URL_PKGP_REFIXES_LABEL + "=" + _jndiUrlPkgPrefixes + ","
-                + JNDI_PROPERTIES_LABEL + "=" + _jndiProperties + ","
+                + JNDI_PROPERTIES_LABEL + "={" + _jndiProperties + "},"
                 + JNDI_CONNECTION_FACTORY_NAME_LABEL + "="
                 + _jndiConnectionFactoryName + ","
                 + JNDI_REQUEST_QUEUE_NAME_LABEL + "=" + _jndiRequestQueueName
@@ -292,14 +290,14 @@ public class CicsMQEndpoint extends HostEndpoint {
     /**
      * @return the JNDI additional properties
      */
-    public Properties getJndiProperties() {
+    public String getJndiProperties() {
         return _jndiProperties;
     }
 
     /**
      * @param jndiProperties the JNDI additional properties to set
      */
-    public void setJndiProperties(final Properties jndiProperties) {
+    public void setJndiProperties(final String jndiProperties) {
         _jndiProperties = jndiProperties;
     }
 

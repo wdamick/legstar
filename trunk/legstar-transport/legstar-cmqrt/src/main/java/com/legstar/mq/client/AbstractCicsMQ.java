@@ -118,7 +118,7 @@ public abstract class AbstractCicsMQ implements LegStarConnection {
                         cicsMQEndpoint.getJndiUrlPkgPrefixes());
             }
             if (cicsMQEndpoint.getJndiProperties() != null) {
-                env.putAll(cicsMQEndpoint.getJndiProperties());
+                env.putAll(getProperties(cicsMQEndpoint.getJndiProperties()));
             }
             return new InitialContext(env);
         } catch (NamingException e) {
@@ -533,6 +533,25 @@ public abstract class AbstractCicsMQ implements LegStarConnection {
         } else {
             return hostCharset;
         }
+    }
+
+    /**
+     * Takes a string serialized list of key value pairs and turns it into a
+     * Properties object.
+     * 
+     * @param properties a comma separated list of key=value pairs
+     * @return a Properties object
+     */
+    public Properties getProperties(final String properties) {
+        Properties result = new Properties();
+        String[] keyValuePairs = properties.split(",");
+        for (String keyValuePair : keyValuePairs) {
+            String[] entry = keyValuePair.split("=");
+            if (entry.length == 2) {
+                result.put(entry[0], entry[1]);
+            }
+        }
+        return result;
     }
 
     /**
