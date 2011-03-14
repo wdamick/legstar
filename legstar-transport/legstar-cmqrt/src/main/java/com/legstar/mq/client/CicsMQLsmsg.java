@@ -61,7 +61,8 @@ public class CicsMQLsmsg extends AbstractCicsMQ {
             message.setJMSCorrelationID(null);
             /*
              * In trace mode, use 16 characters from the application identity
-             * data to pass a trace ID that is readable on the mainframe.
+             * data to pass a trace ID that is readable on the mainframe. FIXME
+             * JMSXAppID and JMSXUserID are ignored in my configuration
              */
             if (request.getAddress().isHostTraceMode()) {
                 message.setStringProperty("JMSXAppID",

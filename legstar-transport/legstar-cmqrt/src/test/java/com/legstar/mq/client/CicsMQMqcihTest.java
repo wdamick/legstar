@@ -10,7 +10,10 @@
  ******************************************************************************/
 package com.legstar.mq.client;
 
+import java.io.UnsupportedEncodingException;
+
 import com.legstar.coxb.host.HostData;
+import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.LegStarRequest;
 import com.legstar.messaging.RequestException;
 import com.legstar.test.coxb.LsfileaeCases;
@@ -221,6 +224,35 @@ public class CicsMQMqcihTest extends AbstractMQConnectionTester {
                     request4.getResponseMessage().getDataParts().get(0)
                             .getContent()).startsWith("f0f0f0f0f0f0f0f1"));
         } catch (RequestException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    /**
+     * Test that target program can run authenticated. Credentials are sent at
+     * connection time using standard JMS connection factory. They end up in
+     * MQMD (JMSXUserID is ignored). MQ does not check the credentials. We end
+     * up running under the CICS default USER ID.
+     */
+    public void testWithAuthentication() {
+        try {
+            getConnection().close();
+            getConnection().getCicsMQEndpoint().setHostUserID("TOTORO");
+            getConnection().connect("SOMEPASS");
+            LegStarRequest request = getT1contxtRequest(getAddress());
+            getConnection().sendRequest(request);
+            getConnection().recvResponse(request);
+            byte[] hostData = request.getResponseMessage().getDataParts()
+                    .get(0).getContent();
+            String userID = new String(hostData, 0, 8, "IBM01140");
+            assertEquals("CICSUSER", userID);
+            String transID = new String(hostData, 8, 4, "IBM01140");
+            assertEquals("CKBP", transID);
+        } catch (RequestException e) {
+            fail(e.getMessage());
+        } catch (UnsupportedEncodingException e) {
+            fail(e.getMessage());
+        } catch (ConnectionException e) {
             fail(e.getMessage());
         }
     }
