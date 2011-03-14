@@ -17,6 +17,14 @@
                 <include>*-test.jar</include>
             </includes>
         </fileSet>
+        <!-- Copy over the JNDI setup -->
+        <fileSet>
+            <directory>${basedir}/src/test/resources/simple-jndi</directory>
+            <outputDirectory>/src/test/resources/simple-jndi</outputDirectory>
+            <includes>
+                <include>**/*.properties</include>
+            </includes>
+        </fileSet>
     </fileSets>
 
     <dependencySets>
