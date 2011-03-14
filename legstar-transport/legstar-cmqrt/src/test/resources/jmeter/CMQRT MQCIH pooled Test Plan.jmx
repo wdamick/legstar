@@ -38,6 +38,8 @@
           <stringProp name="junitsampler.exec.setup">true</stringProp>
           <stringProp name="junitsampler.append.error">true</stringProp>
           <stringProp name="junitsampler.append.exception">true</stringProp>
+          <stringProp name="junitsampler.error">An unexpected error occured</stringProp>
+          <stringProp name="junitsampler.error.code">9999</stringProp>
         </JUnitSampler>
         <hashTree/>
       </hashTree>
@@ -68,6 +70,8 @@
           <stringProp name="junitsampler.append.error">true</stringProp>
           <stringProp name="junitsampler.append.exception">true</stringProp>
           <stringProp name="junitsampler.method">testLsfileae</stringProp>
+          <stringProp name="junitsampler.error">An unexpected error occured</stringProp>
+          <stringProp name="junitsampler.error.code">9999</stringProp>
         </JUnitSampler>
         <hashTree>
           <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
@@ -163,6 +167,8 @@
           <stringProp name="junitsampler.exec.setup">true</stringProp>
           <stringProp name="junitsampler.append.error">true</stringProp>
           <stringProp name="junitsampler.append.exception">true</stringProp>
+          <stringProp name="junitsampler.error">An unexpected error occured</stringProp>
+          <stringProp name="junitsampler.error.code">9999</stringProp>
         </JUnitSampler>
         <hashTree/>
       </hashTree>
