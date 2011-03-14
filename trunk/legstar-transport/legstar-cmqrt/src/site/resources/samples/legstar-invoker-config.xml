@@ -40,7 +40,7 @@
       <!--  The JNDI provider list of package prefixes.  -->
       <jndiUrlPkgPrefixes></jndiUrlPkgPrefixes>
 
-      <!--  Additional JNDI provider properties a  comma-separated list of key=value pairs.-->
+      <!--  Additional JNDI provider properties as comma-separated list of key=value pairs.-->
       <jndiProperties>org.osjava.sj.root=simple-jndi</jndiProperties>
 
       <!--  The Websphere MQ connection factory JNDI name.-->
