@@ -9,7 +9,7 @@
         <property environment="env"/>
         
         <!-- Test distribution zip file  -->
-        <property name="zip.file" value="${basedir}/target/${project.artifactId}-${project.version}-test.zip" />
+        <property name="zip.file" value="${basedir}/target/${project.artifactId}-${project.parent.version}-test.zip" />
         <!-- Target location  -->
         <property name="jmeter.dir" value="${env.JMETER_HOME}/lib/junit" />
     

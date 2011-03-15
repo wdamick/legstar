@@ -3,9 +3,8 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>legstar-transport</artifactId>
-        <version>1.4.5-SNAPSHOT</version>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
-    <version>1.4.5-SNAPSHOT</version>
     <artifactId>legstar-messaging</artifactId>
     <name>LegStar Messaging Protocol</name>
     <description>Mainframe message exchange protocol.</description>
@@ -28,22 +27,6 @@
                 
                 <executions>
                 
-                    <!-- This will deploy the jar file to a Tomcat dev instance.
-                    <execution>
-                        <id>deploy-to-tomcat</id>
-                        <phase>package</phase>
-                        <configuration>
-                            <tasks>
-                                <ant antfile="${basedir}/../src/main/ant/deploy-to-tomcat.xml">
-                                    <property name="legstar-dev-tomcat-base" value="${legstar-dev-tomcat-base}" />
-                                </ant>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>  -->
-
                    <!-- This will prepare the zos sources for upload. -->
                     <execution>
                         <id>prepare-deploy-to-zos</id>
