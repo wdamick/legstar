@@ -6,25 +6,21 @@
     <!-- ===========================================================  -->
     <!-- Setup environment
     -->
-    <!-- Import the ZOS version builder script... -->
-    <import file="${basedir}/../src/main/ant/prepare-zos-version.xml"/>
 
     <!-- ===========================================================  -->
     <!-- Dowload the files as binary
     -->
-    <target name="downloadXmit" depends="prepareZosVersion">
+    <target name="downloadXmit">
         
-        <mkdir dir="src/main/resources"/> 
-        <delete>
-            <fileset dir="src/main/resources" includes="*.XMIT"/>
-        </delete>
+        <mkdir dir="${project.build.directory}/xmit"/> 
+        <echo message="Downloading XMIT release ${legstarZosVersion}"/>
 
         <ftp server="${legstarZosHost}"
                 action="get"
                 userid="${legstarZosUserid}"
                 password="${legstarZosPassword}"
                 binary="yes">
-            <fileset dir="src/main/resources">
+            <fileset dir="${project.build.directory}/xmit">
                 <include name="LEGSTAR.${legstarZosVersion}.LOAD.XMIT"/>
                 <include name="LEGSTAR.${legstarZosVersion}.OBJ.XMIT"/>
                 <include name="LEGSTAR.${legstarZosVersion}.C370.XMIT"/>
