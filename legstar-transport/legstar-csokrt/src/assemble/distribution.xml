@@ -24,7 +24,7 @@
             <destName>NOTICE</destName>
         </file>
         <file>
-           <source>${project.basedir}/src/site/apt/release-notes.apt</source>
+           <source>${project.basedir}/src/site/apt/install-instructions.apt</source>
            <outputDirectory>/</outputDirectory>
            <destName>README</destName>
         </file>

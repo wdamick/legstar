@@ -64,7 +64,4 @@ INSTALLING/UNINSTALLING:
  
  [[6]] To uninstall, cleanup Tomcat from all LegStar files and remove the installDir folder.
 
-DOCUMENTATION:
-
- Documentation available at http://www.legsem.com/legstar/legstar-engine
 

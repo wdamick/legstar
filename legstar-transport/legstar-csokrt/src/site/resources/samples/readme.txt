@@ -10,7 +10,7 @@ Prerequisites:
 
   The LegStar z/OS modules must be installed in the target CICS region.
 
-  Refer to http://www.legsem.com/legstar/legstar-distribution-zos/index.html
+  Refer to: http://www.legsem.com/legstar/legstar-transport/legstar-distribution-zos/index.html
   for instructions.
   
 Settings:

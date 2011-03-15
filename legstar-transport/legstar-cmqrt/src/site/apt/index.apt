@@ -33,6 +33,6 @@ WebSphere MQ Transport (Cmqrt) overview
   On the java side, Cmqrt uses the standard {{{http://www-306.ibm.com/software/integration/wmq/}
   IBM WebSphere MQ client library}}.
   
-  For instructions on how to install and configure this transport follow {{{./release-notes.html}this link}}.
+  For instructions on how to install and configure this transport follow {{{./install-instructions.html}this link}}.
   
   

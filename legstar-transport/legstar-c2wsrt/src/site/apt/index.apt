@@ -14,14 +14,14 @@ Mainframe Proxy runtime (C2wsrt) overview
   
   For each target Web Service or POJO that needs to be exposed to Mainframe programs, there needs
   to be a a proxy servlet that uses the C2wsrt runtime. Such proxy servlets are typically
-  generated using the {{{../legstar-cixsgen}Service Generator}}.   
+  generated using the {{{http://www.legsem.com/legstar/legstar-jaxws/legstar-cixsgen/index.html}Service Generator}}.   
 
   Mainframe requests arrive as HTTP POST requests on a servlet engine such as Tomcat. The content
   of the HTTP POST request is binary and contains the EBCDIC request data sent from the mainframe.
   This means the mainframe does not deal with XML or code page conversions.
 
   C2wsrt extracts the raw EBCDIC data from the HTTP POST payload and uses the
-   {{{../legstar-coxbrt}COBOL Binding Runtime}} to marshal/unmarshal mainframe data into Java
+   {{{http://www.legsem.com/legstar/legstar-core/legstar-coxbrt}COBOL Binding Runtime}} to marshal/unmarshal mainframe data into Java
   or XML.
    
   In the case of a target Web Service, once the request is expressed in XML, C2wsrt uses the
@@ -37,4 +37,4 @@ Mainframe Proxy runtime (C2wsrt) overview
   for instance (DFHWBCLI or EXEC CICS WEB).  C2wsrt also comes with its own HTTP API if you
   need one. The C library for the LegStar HTTP API (LSHTTAPI) is located in the zos/C370 folder.
   
-  For instructions on how to install and configure this transport follow {{{./release-notes.html}this link}}.
+  For instructions on how to install and configure this transport follow {{{./install-instructions.html}this link}}.
