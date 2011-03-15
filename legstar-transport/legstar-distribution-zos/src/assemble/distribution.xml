@@ -9,7 +9,7 @@
 
         <!-- XMIT files -->
         <fileSet>
-            <directory>${project.basedir}/../legstar-distribution-zos/src/main/resources</directory>
+            <directory>${project.build.directory}/xmit</directory>
             <outputDirectory>/</outputDirectory>
             <includes>
                 <include>**</include>

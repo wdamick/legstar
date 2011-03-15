@@ -104,6 +104,7 @@
         <module>legstar-csokrt</module>
         <module>legstar-engine</module>
         <module>legstar-c2wsrt</module>
+        <module>legstar-distribution-zos</module>
     </modules>
 
     <dependencyManagement>
@@ -386,6 +387,11 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-invoker</artifactId>
+                <version>${version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-c2wsrt</artifactId>
                 <version>${version}</version>
             </dependency>
 
