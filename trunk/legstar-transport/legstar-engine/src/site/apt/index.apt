@@ -30,4 +30,4 @@ Connection pooling engine overview
   
   Connection pooling engine is a singleton. It is assumed all clients will run in the same VM.  
 
-  For instructions on how to install and configure the pooling engine follow {{{./release-notes.html}this link}}.
+  For instructions on how to install and configure the pooling engine follow {{{./install-instructions.html}this link}}.

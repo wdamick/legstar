@@ -64,7 +64,7 @@ CICS Web-aware program LSWEBBIN
  customized by your CICS administrator, therefore you might want
  to check with him.
 
- LSWEBBIN serves clients using the{{{../legstar-chttprt}LegStar
+ LSWEBBIN serves clients using the{{{../legstar-chttprt/index.html}LegStar
  chttprt library}}. This library formats the http payload as
  compact binary. LSWEBBIN expects the following standard HTTP headers:
 

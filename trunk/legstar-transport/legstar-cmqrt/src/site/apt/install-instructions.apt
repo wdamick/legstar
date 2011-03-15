@@ -20,7 +20,7 @@ PREREQUISITES:
  If you decide to use LegStar on the mainframe, instead of CICS MQ Bridge,
  the LegStar mainframe side C370 programs must be installed.
  The easiest way to do that is to use the common distribution of all
- LegStar z/OS modules, available {{{http://www.legsem.com/legstar/legstar-distribution-zos/index.html}here}}.
+ LegStar z/OS modules, available {{{../legstar-distribution-zos/index.html}here}}.
 
  The main C370 program for Cmqrt is {{{./LSMQHBIN-readme.html}LSMQHBIN, the CICS
  Server for WebSphere MQ}}. This program uses the following libraries:
@@ -91,13 +91,13 @@ INSTALLING/UNINSTALLING:
  
  We encourage you to use the common distribution of all LegStar z/OS modules.
  Instructions on how to install are available
- {{{http://www.legsem.com/legstar/legstar-distribution-zos/install-instructions.html}here}}.
+ {{{../legstar-distribution-zos/install-instructions.html}here}}.
        
  If you decide to install the CICS programs from sources, they are available
  from the zos folder.
  
  The JCLs used by LegStar to compile and link-edit these sources are
- available from {{{http://www.legsem.com/legstar/legstar-distribution-zos}here}}.
+ available from {{{../legstar-distribution-zos/index.html}here}}.
  
  Finally each module has some documentation under zos/docs.
    
@@ -182,8 +182,4 @@ CONFIGURING AND RUNNING THE SAMPLE:
  
  Refer to the samples/quickstarts/cmqrt/readme.txt for instructions on how to run the sample provided.
 
-
-DOCUMENTATION:
-
- Documentation available at http://www.legsem.com/legstar/lsgatr-transport/legstar-cmqrt
 

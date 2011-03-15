@@ -9,7 +9,7 @@
 HTTP Transport (Chttprt) overview
 
   The HTTP Transport provides connectivity to CICS Web Support. It is used along with the
-  {{{../legstar-invoker}Mainframe Adapter Runtime}} to allow java clients to run CICS programs over
+  {{{../legstar-invoker/index.html}Mainframe Adapter Runtime}} to allow java clients to run CICS programs over
   HTTP.
   
   CICS Web Support is a standard feature of CICS Transaction Server, it behaves as an
@@ -22,5 +22,5 @@ HTTP Transport (Chttprt) overview
   
   On the java side, Chttprt is based upon {{{http://hc.apache.org/httpcomponents-client-ga/}Apache HTTPClient}}.
   
-  For instructions on how to install and configure this transport follow {{{./release-notes.html}this link}}.
+  For instructions on how to install and configure this transport follow {{{./install-instructions.html}this link}}.
   

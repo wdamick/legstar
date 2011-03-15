@@ -64,7 +64,7 @@ CICS MQ handler LSMQHBIN
 
 * How it works:
 
- LSMQHBIN serves clients using the {{{../legstar-cmqrt}LegStar
+ LSMQHBIN serves clients using the {{{../legstar-cmqrt/index.html}LegStar
  cmqrt library}}. This library formats the MQ payload as
  compact binary.
  

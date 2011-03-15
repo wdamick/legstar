@@ -29,7 +29,7 @@ CICS to Proxy API LSHTTAPI
  
  When writing your client program you will need data descriptions of the
  input and output structures produced by the target web service.
- The {{{../legstar-cobcgen/index.html}COBOL Structures Generator}} module generates
+ The {{{http://www.legsem.com/legstar/legstar-cobcgen/index.html}COBOL Structures Generator}} module generates
  such data descriptions.
    
 * Limitations:
@@ -47,7 +47,7 @@ CICS to Proxy API LSHTTAPI
 * How to use:
 
  The first step is to create and deploy a proxy in an HTTP engine.
- The {{{../legstar-cixsgen}Mainframe Service Generator}} module helps you
+ The {{{http://www.legsem.com/legstar/legstar-jaxws/legstar-cixsgen}Mainframe Service Generator}} module helps you
  generate such a proxy.
 
  Once LSHTTAPI and LSHTTLIB have been compiled in a library available to your
