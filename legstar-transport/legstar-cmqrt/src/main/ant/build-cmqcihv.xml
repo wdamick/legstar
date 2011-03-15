@@ -10,7 +10,7 @@
     
         <xmlproperty file="${basedir}/pom.xml"/>
         <!-- LegStar location -->
-        <property name="legstar.home" value="${basedir}/../legstar-distribution/target/test-distro/legstar-distribution-${project.version}" />
+        <property name="legstar.home" value="${basedir}/../legstar-distribution/target/test-distro/legstar-distribution-$project.parent.version}" />
         <!-- COBOL source name prefix  -->
         <property name="cobol.name" value="cmqcihv" />
         <!-- Path to the cobol source file   -->
