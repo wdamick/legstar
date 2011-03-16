@@ -2,14 +2,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.legsem.legstar</groupId>
-        <artifactId>Legstar</artifactId>
-        <version>1.4.5-SNAPSHOT</version>
+        <artifactId>legstar-core</artifactId>
+        <version>1.5.3-SNAPSHOT</version>
     </parent>
-    <version>1.4.5-SNAPSHOT</version>
+
     <artifactId>legstar-cobcgen</artifactId>
+
     <name>LegStar COBOL Structures Generator</name>
     <description>Generates Cobol data descriptions from cobol-annotated jaxb classes.</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
 
@@ -28,14 +28,6 @@
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-codegen</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-xsd2cob</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
         </dependency>
         <dependency>
             <groupId>com.legsem.legstar</groupId>

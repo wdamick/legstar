@@ -13,7 +13,7 @@ package com.legstar.coxb.util;
 import java.util.Locale;
 
 /**
- * These are methods to help analyze a BOL picture clause.
+ * These are methods to help analyze a COBOL picture clause.
  *
  */
 public final class PictureUtil {
