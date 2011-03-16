@@ -8,7 +8,7 @@
 
 Messaging
 
-  When the {{../legstar-invoker/index.html}invoker}} sends a request to the mainframe, it wraps the raw data in a message
+  When the {{{../legstar-invoker/index.html}invoker}} sends a request to the mainframe, it wraps the raw data in a message
   structure. The LegStar messaging framework is transport independent so that LegStar
   can evolve to support more transports in the future.
   
