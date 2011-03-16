@@ -97,6 +97,7 @@
         <module>legstar-jaxbgen</module>
         <module>legstar-coxbrt</module>
         <module>legstar-coxbgen</module>
+        <module>legstar-cobcgen</module>
     </modules>
 
     <build>

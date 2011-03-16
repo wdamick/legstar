@@ -26,7 +26,6 @@ import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.coxb.impl.reflect.ReflectBindingException;
 import com.legstar.coxb.util.JAXBAnnotationException;
 import com.legstar.coxb.util.JAXBElementDescriptor;
-import com.legstar.xsd.CobolNameResolver;
 
 /**
  * This Ant task generates a Cobol data description source that can be used as

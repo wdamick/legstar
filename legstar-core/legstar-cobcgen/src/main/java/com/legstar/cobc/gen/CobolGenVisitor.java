@@ -37,7 +37,6 @@ import com.legstar.coxb.ICobolPackedDecimalBinding;
 import com.legstar.coxb.ICobolStringBinding;
 import com.legstar.coxb.ICobolZonedDecimalBinding;
 import com.legstar.coxb.host.HostException;
-import com.legstar.xsd.CobolNameResolver;
 
 /**
  * This visitor traverses a jaxb object tree and creates a

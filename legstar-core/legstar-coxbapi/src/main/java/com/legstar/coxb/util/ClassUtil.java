@@ -19,20 +19,18 @@ public final class ClassUtil {
     /**
      * Rather than using the Class.forName mechanism first, this uses
      * Thread.getContextClassLoader instead. In a Servlet context such as
-     * Tomcat, this allows JAXB classes for instance to be loaded from the
-     * web application (webapp) location while this code might have been
-     * loaded from shared/lib.
-     * If Thread.getContextClassLoader fails to locate the class then we
-     * give a last chance to Class.forName.
+     * Tomcat, this allows JAXB classes for instance to be loaded from the web
+     * application (webapp) location while this code might have been loaded from
+     * shared/lib. If Thread.getContextClassLoader fails to locate the class
+     * then we give a last chance to Class.forName.
      * 
      * @param packageName the package containing the class
      * @param className the class name
      * @return the class
-     * @throws ClassNotFoundException if class is not accessible from any
-     *             class loader
+     * @throws ClassNotFoundException if class is not accessible from any class
+     *             loader
      */
-    public static Class < ? > loadClass(
-            final String packageName,
+    public static Class < ? > loadClass(final String packageName,
             final String className) throws ClassNotFoundException {
         return loadClass(toQualifiedClassName(packageName, className));
     }
@@ -40,19 +38,18 @@ public final class ClassUtil {
     /**
      * Rather than using the Class.forName mechanism first, this uses
      * Thread.getContextClassLoader instead. In a Servlet context such as
-     * Tomcat, this allows JAXB classes for instance to be loaded from the
-     * web application (webapp) location while this code might have been
-     * loaded from shared/lib.
-     * If Thread.getContextClassLoader fails to locate the class then we
-     * give a last chance to Class.forName.
+     * Tomcat, this allows JAXB classes for instance to be loaded from the web
+     * application (webapp) location while this code might have been loaded from
+     * shared/lib. If Thread.getContextClassLoader fails to locate the class
+     * then we give a last chance to Class.forName.
      * 
      * @param qualifiedClassName the class name to load
      * @return the class
-     * @throws ClassNotFoundException if class is not accessible from any
-     *             class loader
+     * @throws ClassNotFoundException if class is not accessible from any class
+     *             loader
      */
-    public static Class < ? > loadClass(
-            final String qualifiedClassName) throws ClassNotFoundException {
+    public static Class < ? > loadClass(final String qualifiedClassName)
+            throws ClassNotFoundException {
         ClassLoader contextClassLoader = Thread.currentThread()
                 .getContextClassLoader();
         if (contextClassLoader == null) {
@@ -66,33 +63,30 @@ public final class ClassUtil {
     }
 
     /**
-     * Dynamically create an instance of a java class.
-     * This assumes the classes are available on the classpath and returns a
-     * new instance.
+     * Dynamically create an instance of a java class. This assumes the classes
+     * are available on the classpath and returns a new instance.
      * 
      * @param packageName the package containing the class
      * @param className the class name
      * @return a java object
      * @throws ClassLoadingException if object cannot be instantiated
      */
-    public static Object newObject(
-            final String packageName,
+    public static Object newObject(final String packageName,
             final String className) throws ClassLoadingException {
         return newObject(toQualifiedClassName(packageName, className));
 
     }
 
     /**
-     * Dynamically create an instance of a java class.
-     * This assumes the classes are available on the classpath and returns a
-     * new instance.
+     * Dynamically create an instance of a java class. This assumes the classes
+     * are available on the classpath and returns a new instance.
      * 
      * @param qualifiedClassName the qualified class name
      * @return a java object
      * @throws ClassLoadingException if object cannot be instantiated
      */
-    public static Object newObject(
-            final String qualifiedClassName) throws ClassLoadingException {
+    public static Object newObject(final String qualifiedClassName)
+            throws ClassLoadingException {
 
         try {
             Class < ? > clazz = loadClass(qualifiedClassName);
@@ -128,8 +122,8 @@ public final class ClassUtil {
     public static ClassName toClassName(final String qualifiedClassName) {
         ClassName className = new ClassName();
         int pos = qualifiedClassName.lastIndexOf('.');
-        className.packageName = (pos == -1) ? null
-                : qualifiedClassName.substring(0, pos);
+        className.packageName = (pos == -1) ? null : qualifiedClassName
+                .substring(0, pos);
         className.className = (pos == -1) ? qualifiedClassName
                 : qualifiedClassName.substring(pos + 1);
         return className;
@@ -147,22 +141,19 @@ public final class ClassUtil {
     }
 
     /**
-     * The ObjectFactory exports a create method for each complex type
-     * in the object tree.
-     * Returns a jaxb object creator method.
+     * The ObjectFactory exports a create method for each complex type in the
+     * object tree. Returns a jaxb object creator method.
      * 
      * @param objectFactory JAXB Objectfactory
      * @param jaxbTypeName the jaxb object type name
      * @return the creator method
      * @throws ClassMethodException if getter method does not exist
      */
-    public static Method getCreatorMethod(
-            final Object objectFactory,
+    public static Method getCreatorMethod(final Object objectFactory,
             final String jaxbTypeName) throws ClassMethodException {
         try {
-            Method creator =
-                    objectFactory.getClass().getMethod(
-                            "create" + toPropertyType(jaxbTypeName));
+            Method creator = objectFactory.getClass().getMethod(
+                    "create" + toPropertyType(jaxbTypeName));
             return creator;
         } catch (NoSuchMethodException e) {
             throw (new ClassMethodException(e));
@@ -177,8 +168,7 @@ public final class ClassUtil {
      * @return the getter method
      * @throws ClassMethodException if getter method does not exist
      */
-    public static Method getGetterMethod(
-            final Object parentObject,
+    public static Method getGetterMethod(final Object parentObject,
             final String jaxbName) throws ClassMethodException {
         String getterName = "get" + NameUtil.upperFirstChar(jaxbName)
                 + jaxbName.substring(1);
@@ -199,16 +189,15 @@ public final class ClassUtil {
      * @return the getter method
      * @throws ClassMethodException if getter method does not exist
      */
-    public static Method getSetterMethod(
-            final Object parentObject,
-            final String jaxbName,
-            final Class < ? > jaxbType) throws ClassMethodException {
+    public static Method getSetterMethod(final Object parentObject,
+            final String jaxbName, final Class < ? > jaxbType)
+            throws ClassMethodException {
         String getterName = "set" + NameUtil.upperFirstChar(jaxbName)
                 + jaxbName.substring(1);
         try {
             Class < ? >[] param = { jaxbType };
-            Method setter = parentObject.getClass().getMethod(
-                    getterName, param);
+            Method setter = parentObject.getClass()
+                    .getMethod(getterName, param);
             return setter;
         } catch (NoSuchMethodException e) {
             throw (new ClassMethodException(e));
@@ -218,17 +207,15 @@ public final class ClassUtil {
     /**
      * Helper method to extract the type name as used by JAXB create methods
      * Property type (as returned from Field.getGenericType() can take 3 forms:
-     * form1: type
-     * form1: package.type
-     * form3: java.util.List &lts; package.type &gt;.
-     * Furthermore, primitive types are returned as their Object equivalent.
+     * form1: type form1: package.type form3: java.util.List &lts; package.type
+     * &gt;. Furthermore, primitive types are returned as their Object
+     * equivalent.
      * 
      * 
      * @param genericType as returned from hostField.getGenericType()
      * @return a normalized string representation of the type
      */
-    public static String toPropertyType(
-            final String genericType) {
+    public static String toPropertyType(final String genericType) {
 
         String type;
         int lp = genericType.lastIndexOf('.');
@@ -266,10 +253,8 @@ public final class ClassUtil {
      * @return instance of the property as returned from a getter method
      * @throws ClassInvokeException if property cannot be accessed
      */
-    public static Object invokeGetProperty(
-            final Object parentObject,
-            final String jaxbName)
-            throws ClassInvokeException {
+    public static Object invokeGetProperty(final Object parentObject,
+            final String jaxbName) throws ClassInvokeException {
         Object result;
         try {
             /*
@@ -298,12 +283,9 @@ public final class ClassUtil {
      * @throws ClassInvokeException if property cannot be set
      */
     @SuppressWarnings({ "rawtypes" })
-    public static void invokeSetProperty(
-            final Object parentObject,
-            final String jaxbName,
-            final Object value,
-            final Class <?> javaType)
-            throws ClassInvokeException {
+    public static void invokeSetProperty(final Object parentObject,
+            final String jaxbName, final Object value,
+            final Class < ? > javaType) throws ClassInvokeException {
 
         try {
             /*
@@ -312,13 +294,12 @@ public final class ClassUtil {
              */
             if (value instanceof List) {
                 Method getter = getGetterMethod(parentObject, jaxbName);
-                Class <?> listClass = getter.getReturnType();
-                Method addAll = listClass.getMethod(
-                        "addAll", Collection.class);
+                Class < ? > listClass = getter.getReturnType();
+                Method addAll = listClass.getMethod("addAll", Collection.class);
                 addAll.invoke(getter.invoke(parentObject), (Collection) value);
             } else {
-                Method setter = getSetterMethod(
-                        parentObject, jaxbName, javaType);
+                Method setter = getSetterMethod(parentObject, jaxbName,
+                        javaType);
                 setter.invoke(parentObject, value);
             }
         } catch (IllegalAccessException e) {
@@ -346,12 +327,9 @@ public final class ClassUtil {
      * @return an instance of a JAXB object
      * @throws ClassInvokeException if JAXB Object cannot be instanciated
      */
-    public static Object addComplexProperty(
-            final Object objectFactory,
-            final Object parentObject,
-            final String jaxbName,
-            final String jaxbTypeName)
-            throws ClassInvokeException {
+    public static Object addComplexProperty(final Object objectFactory,
+            final Object parentObject, final String jaxbName,
+            final String jaxbTypeName) throws ClassInvokeException {
 
         try {
             Method creator = getCreatorMethod(objectFactory, jaxbTypeName);
@@ -361,8 +339,8 @@ public final class ClassUtil {
              * Add a reference to the object just created to the parent object
              * using its setter method
              */
-            Method setter = getSetterMethod(
-                    parentObject, jaxbName, creator.getReturnType());
+            Method setter = getSetterMethod(parentObject, jaxbName,
+                    creator.getReturnType());
             setter.invoke(parentObject, result);
             return result;
         } catch (IllegalAccessException e) {
@@ -384,10 +362,8 @@ public final class ClassUtil {
      * @return an instance of a JAXB object
      * @throws ClassInvokeException if JAXB Object cannot be returned
      */
-    public static Object invokeGetIndexedProperty(
-            final Object parentObject,
-            final int index)
-            throws ClassInvokeException {
+    public static Object invokeGetIndexedProperty(final Object parentObject,
+            final int index) throws ClassInvokeException {
 
         Object result;
         try {
@@ -403,8 +379,8 @@ public final class ClassUtil {
             throw new ClassInvokeException(e);
         } catch (InvocationTargetException e) {
             /* If requested item does not exist in array simply return null */
-            if (e.getTargetException().getClass().getName().compareTo(
-                    "java.lang.IndexOutOfBoundsException") == 0) {
+            if (e.getTargetException().getClass().getName()
+                    .compareTo("java.lang.IndexOutOfBoundsException") == 0) {
                 return null;
             } else {
                 throw new ClassInvokeException(e);
@@ -425,12 +401,9 @@ public final class ClassUtil {
      * @return an instance of a JAXB object
      * @throws ClassInvokeException if JAXB Object cannot be instanciated
      */
-    public static Object addComplexIndexedProperty(
-            final Object objectFactory,
-            final Object parentObject,
-            final String jaxbTypeName,
-            final int index)
-            throws ClassInvokeException {
+    public static Object addComplexIndexedProperty(final Object objectFactory,
+            final Object parentObject, final String jaxbTypeName,
+            final int index) throws ClassInvokeException {
 
         try {
             Method creator = getCreatorMethod(objectFactory, jaxbTypeName);
@@ -464,11 +437,8 @@ public final class ClassUtil {
      * @param value value to set item to
      * @throws ClassInvokeException if item cannot be set
      */
-    public static void addSimpleIndexedProperty(
-            final Object parentObject,
-            final int index,
-            final Object value)
-            throws ClassInvokeException {
+    public static void addSimpleIndexedProperty(final Object parentObject,
+            final int index, final Object value) throws ClassInvokeException {
 
         try {
             /*
@@ -488,8 +458,8 @@ public final class ClassUtil {
     }
 
     /**
-     * This will determine if a type name for a simple element is one of
-     * java's native types and assume it is an enum otherwise.
+     * This will determine if a type name for a simple element is one of java's
+     * native types and assume it is an enum otherwise.
      * 
      * @param type the element java type
      * @return true if it should be considered an enum
