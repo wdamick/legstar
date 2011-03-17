@@ -164,13 +164,15 @@ public final class ClassUtil {
      * Returns a jaxb property getter method.
      * 
      * @param parentObject JAXB Object owning the property
+     * @param getterPrefix the getter method prefix (get or is)
      * @param jaxbName the property name to get
      * @return the getter method
      * @throws ClassMethodException if getter method does not exist
      */
     public static Method getGetterMethod(final Object parentObject,
-            final String jaxbName) throws ClassMethodException {
-        String getterName = "get" + NameUtil.upperFirstChar(jaxbName)
+            final String getterPrefix, final String jaxbName)
+            throws ClassMethodException {
+        String getterName = getterPrefix + NameUtil.upperFirstChar(jaxbName)
                 + jaxbName.substring(1);
         try {
             Method getter = parentObject.getClass().getMethod(getterName);
@@ -241,6 +243,8 @@ public final class ClassUtil {
             return "Float";
         } else if (type.compareTo("double") == 0) {
             return "Double";
+        } else if (type.compareTo("boolean") == 0) {
+            return "Boolean";
         }
         return type;
     }
@@ -252,6 +256,8 @@ public final class ClassUtil {
      * @param jaxbName the property name to get
      * @return instance of the property as returned from a getter method
      * @throws ClassInvokeException if property cannot be accessed
+     * @deprecated use {@link invokeGetProperty(Object parentObject, String
+     *             jaxbName, Class < ? > jaxbType)}
      */
     public static Object invokeGetProperty(final Object parentObject,
             final String jaxbName) throws ClassInvokeException {
@@ -261,7 +267,7 @@ public final class ClassUtil {
              * The concrete object reference is obtained thru the corresponding
              * parent getter method
              */
-            Method getter = getGetterMethod(parentObject, jaxbName);
+            Method getter = getGetterMethod(parentObject, "get", jaxbName);
             result = getter.invoke(parentObject);
         } catch (IllegalAccessException e) {
             throw (new ClassInvokeException(e));
@@ -271,6 +277,57 @@ public final class ClassUtil {
             throw (new ClassInvokeException(e));
         }
         return result;
+    }
+
+    /**
+     * This method gets a property object from a parent object.
+     * 
+     * @param parentObject JAXB Object owning the property
+     * @param jaxbName the property name to get
+     * @param maxOccurs the maximum number of occurrences
+     * @return instance of the property as returned from a getter method
+     * @throws ClassInvokeException if property cannot be accessed
+     */
+    public static Object invokeGetProperty(final Object parentObject,
+            final String jaxbName, final Class < ? > jaxbType,
+            final int maxOccurs) throws ClassInvokeException {
+        Object result;
+        try {
+            /*
+             * The concrete object reference is obtained thru the corresponding
+             * parent getter method
+             */
+            Method getter = getGetterMethod(parentObject,
+                    getGetterPrefix(jaxbType, maxOccurs), jaxbName);
+            result = getter.invoke(parentObject);
+        } catch (IllegalAccessException e) {
+            throw (new ClassInvokeException(e));
+        } catch (InvocationTargetException e) {
+            throw (new ClassInvokeException(e));
+        } catch (ClassMethodException e) {
+            throw (new ClassInvokeException(e));
+        }
+        return result;
+    }
+
+    /**
+     * Evaluates the getter method prefix for a field, based on the field type.
+     * 
+     * @param fieldType the field type
+     * @param maxOccurs the maximum number of occurrences
+     * @return the prefix to form a getter method
+     */
+    public static String getGetterPrefix(final Class < ? > fieldType,
+            final int maxOccurs) {
+        String getterPrefix = "get";
+        if (maxOccurs <= 1) {
+            if (fieldType == boolean.class) {
+                getterPrefix = "is";
+            } else if (fieldType == Boolean.class) {
+                getterPrefix = "is";
+            }
+        }
+        return getterPrefix;
     }
 
     /**
@@ -293,7 +350,7 @@ public final class ClassUtil {
              * technique
              */
             if (value instanceof List) {
-                Method getter = getGetterMethod(parentObject, jaxbName);
+                Method getter = getGetterMethod(parentObject, "get", jaxbName);
                 Class < ? > listClass = getter.getReturnType();
                 Method addAll = listClass.getMethod("addAll", Collection.class);
                 addAll.invoke(getter.invoke(parentObject), (Collection) value);
@@ -491,6 +548,8 @@ public final class ClassUtil {
         } else if (type.compareToIgnoreCase("BigDecimal") == 0) {
             return false;
         } else if (type.compareToIgnoreCase("byte") == 0) {
+            return false;
+        } else if (type.compareToIgnoreCase("boolean") == 0) {
             return false;
         }
         return true;

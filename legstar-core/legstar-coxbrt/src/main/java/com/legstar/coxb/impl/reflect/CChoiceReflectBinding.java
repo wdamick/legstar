@@ -34,15 +34,14 @@ public class CChoiceReflectBinding extends CChoiceBinding {
     private final Log _log = LogFactory.getLog(getClass());
 
     /**
-     * A choice element gets created when a redefined item is encountered.
-     * The constructor gets invoked with the redefined item characteristics.
+     * A choice element gets created when a redefined item is encountered. The
+     * constructor gets invoked with the redefined item characteristics.
      * 
      * @param bindingName the identifier for this binding
      * @param cobolAnnotations the cobol annotations for the first alternative
      * @param parentBinding a reference to the parent binding if any
      */
-    public CChoiceReflectBinding(
-            final String bindingName,
+    public CChoiceReflectBinding(final String bindingName,
             final CobolElement cobolAnnotations,
             final ICobolComplexBinding parentBinding) {
 
@@ -53,20 +52,19 @@ public class CChoiceReflectBinding extends CChoiceBinding {
     public void setAlternativesValues() throws HostException {
         for (ICobolBinding alt : getAlternativesList()) {
             /*
-             * Choice children are a special case. They directly set
-             * their parent object depending on the chosen choice
-             * strategy.
+             * Choice children are a special case. They directly set their
+             * parent object depending on the chosen choice strategy.
              */
             if (alt instanceof ICobolChoiceBinding) {
                 continue;
             } else {
                 Object value = ClassUtil.invokeGetProperty(
-                            getParentJaxbObject(), alt.getJaxbName());
+                        getParentJaxbObject(), alt.getJaxbName(),
+                        alt.getJaxbType(), alt.getMaxOccurs());
                 if (value != null) {
                     if (_log.isDebugEnabled()) {
                         _log.debug("Getting value from JAXB property "
-                                    + alt.getJaxbName()
-                                    + " value=" + value);
+                                + alt.getJaxbName() + " value=" + value);
                     }
                     alt.setObjectValue(value);
                 }
@@ -75,21 +73,18 @@ public class CChoiceReflectBinding extends CChoiceBinding {
     }
 
     /** {@inheritDoc} */
-    public void setJaxbPropertyValue(
-            final int index) throws HostException {
+    public void setJaxbPropertyValue(final int index) throws HostException {
         setPropertyValue(index);
     }
 
     /** {@inheritDoc} */
-    public void setPropertyValue(
-            final int index) throws HostException {
+    public void setPropertyValue(final int index) throws HostException {
         /* Set the JAXB object property value from binding object */
         ICobolBinding alt = getAlternativesList().get(index);
 
         /*
-         * Choice children are a special case. They directly set
-         * their parent object depending on the chosen choice
-         * strategy.
+         * Choice children are a special case. They directly set their parent
+         * object depending on the chosen choice strategy.
          */
         if (alt instanceof ICobolChoiceBinding) {
             return;
@@ -97,13 +92,11 @@ public class CChoiceReflectBinding extends CChoiceBinding {
 
         Object value = alt.getObjectValue(alt.getJaxbType());
         if (_log.isDebugEnabled()) {
-            _log.debug("Setting value of JAXB property "
-                        + alt.getJaxbName()
-                        + " value=" + value);
+            _log.debug("Setting value of JAXB property " + alt.getJaxbName()
+                    + " value=" + value);
         }
-        ClassUtil.invokeSetProperty(getParentJaxbObject(), alt
-                    .getJaxbName(),
-                    value, alt.getJaxbType());
+        ClassUtil.invokeSetProperty(getParentJaxbObject(), alt.getJaxbName(),
+                value, alt.getJaxbType());
     }
 
     /** {@inheritDoc} */
@@ -118,8 +111,7 @@ public class CChoiceReflectBinding extends CChoiceBinding {
     }
 
     /** {@inheritDoc} */
-    public Object getObjectValue(
-            final Class < ? > type) throws HostException {
+    public Object getObjectValue(final Class < ? > type) throws HostException {
         throw new HostException("Attempt to get value from choice binding "
                 + getCobolName());
     }
@@ -133,8 +125,8 @@ public class CChoiceReflectBinding extends CChoiceBinding {
     /** {@inheritDoc} */
     public boolean isSet() {
         /*
-         * A Choice is considered set if at least one of its alternatives
-         * is set.
+         * A Choice is considered set if at least one of its alternatives is
+         * set.
          */
         for (ICobolBinding alt : getAlternativesList()) {
             if (alt.isSet()) {

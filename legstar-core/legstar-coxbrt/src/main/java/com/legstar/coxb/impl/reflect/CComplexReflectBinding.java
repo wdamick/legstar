@@ -242,7 +242,8 @@ public class CComplexReflectBinding extends CComplexBinding {
                 _log.debug("Cobol annotations: " + cobolAnnotations);
             }
 
-            String jaxbName = getJaxbName(jaxbType, hostField);
+            String jaxbName = getJaxbName(jaxbType, hostField,
+                    cobolAnnotations.maxOccurs());
 
             ICobolBinding binding;
             try {
@@ -284,22 +285,27 @@ public class CComplexReflectBinding extends CComplexBinding {
      * 
      * @param jaxbType the parent JAXB object
      * @param hostField the JAXB field
+     * @param maxOccurs the number of occurrences (needed to identify lists)
      * @return a property name usable to create a getter a method on the JAXB
      *         object
      * @throws ReflectBindingException
      */
-    protected String getJaxbName(Class < ? > jaxbType, Field hostField)
-            throws ReflectBindingException {
+    protected String getJaxbName(Class < ? > jaxbType, final Field hostField,
+            final int maxOccurs) throws ReflectBindingException {
 
         Method getter = null;
+        String getterPrefix = ClassUtil.getGetterPrefix(hostField.getType(),
+                maxOccurs);
+
         try {
-            getter = jaxbType.getMethod(getGetterName(NameUtil
-                    .toClassName(hostField.getName())));
+            getter = jaxbType.getMethod(getGetterName(getterPrefix,
+                    NameUtil.toClassName(hostField.getName())));
         } catch (SecurityException e) {
             throw new ReflectBindingException(e);
         } catch (NoSuchMethodException e) {
             try {
-                getter = jaxbType.getMethod(getGetterName(hostField.getName()));
+                getter = jaxbType.getMethod(getGetterName(getterPrefix,
+                        hostField.getName()));
             } catch (SecurityException e1) {
                 throw new ReflectBindingException(e1);
             } catch (NoSuchMethodException e1) {
@@ -308,8 +314,8 @@ public class CComplexReflectBinding extends CComplexBinding {
                 if (xmlAnnotation != null && xmlAnnotation.name() != null
                         && !xmlAnnotation.name().equals("##default")) {
                     try {
-                        getter = jaxbType.getMethod(getGetterName(NameUtil
-                                .toClassName(xmlAnnotation.name())));
+                        getter = jaxbType.getMethod(getGetterName(getterPrefix,
+                                NameUtil.toClassName(xmlAnnotation.name())));
                     } catch (SecurityException e2) {
                         throw new ReflectBindingException(e);
                     } catch (NoSuchMethodException e2) {
@@ -322,18 +328,20 @@ public class CComplexReflectBinding extends CComplexBinding {
                 }
             }
         }
-        return getter.getName().substring(3);
+        return getter.getName().substring(getterPrefix.length());
 
     }
 
     /**
      * Build a conventional bean getter method name from a field name.
      * 
+     * @param getterPrefix the getter method name prefix (get or is)
      * @param fieldName the field name
      * @return a getter method name
      */
-    protected String getGetterName(final String fieldName) {
-        return "get" + Character.toUpperCase(fieldName.charAt(0))
+    protected String getGetterName(final String getterPrefix,
+            final String fieldName) {
+        return getterPrefix + Character.toUpperCase(fieldName.charAt(0))
                 + fieldName.substring(1);
     }
 
@@ -901,7 +909,8 @@ public class CComplexReflectBinding extends CComplexBinding {
                 continue;
             } else {
                 Object value = ClassUtil.invokeGetProperty(mJaxbObject,
-                        child.getJaxbName());
+                        child.getJaxbName(), child.getJaxbType(),
+                        child.getMaxOccurs());
                 if (_log.isDebugEnabled()) {
                     _log.debug("Getting value from JAXB property "
                             + child.getJaxbName() + " value=" + value);

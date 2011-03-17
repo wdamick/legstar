@@ -265,6 +265,9 @@ public class CoxbHelper {
     /**
      * Builds a get method name for a field name. The get method must be a valid
      * Jaxb method.
+     * <p/>
+     * Boolean types (unless they are arrays) have getter methods starting with
+     * "is" rather than "get".
      * 
      * @param binding a bound element
      * @return a getter method
@@ -276,7 +279,9 @@ public class CoxbHelper {
                     ((ICobolArrayComplexBinding) binding)
                             .getComplexItemBinding());
         }
-        return getterSetterMethodName("get", binding);
+        String getterPrefix = ClassUtil.getGetterPrefix(binding.getJaxbType(),
+                binding.getMaxOccurs());
+        return getterSetterMethodName(getterPrefix, binding);
     }
 
     /**

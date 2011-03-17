@@ -12,6 +12,7 @@ import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
+import com.legstar.test.coxb.coxb137.BoolPojo;
 import com.legstar.test.coxb.rdef128.A;
 
 /**
@@ -76,6 +77,29 @@ public class CobolUnmarshalVisitorTest extends TestCase {
         assertEquals(null, a.getAlt1());
         assertEquals("123.45", a.getAlt2().getC().toString());
         assertEquals("-1236.52", a.getD().toString());
+
+    }
+
+    /**
+     * Tests related to http://code.google.com/p/legstar/issues/detail?id=137.
+     * 
+     * @throws Exception if unmarshaling fails
+     */
+    public void testBooleanField() throws Exception {
+        CComplexReflectBinding ccem = new CComplexReflectBinding(
+                new com.legstar.test.coxb.coxb137.ObjectFactory(),
+                BoolPojo.class);
+        assertEquals(26, ccem.getByteLength());
+
+        byte[] hostBytes = HostData.toByteArray("0000000100000001");
+        CobolUnmarshalVisitor uv = new CobolUnmarshalVisitor(hostBytes, 0,
+                new CobolSimpleConverters());
+        ccem.accept(uv);
+
+        BoolPojo boolPojo = (BoolPojo) ccem.getObjectValue(BoolPojo.class);
+        assertEquals(1, boolPojo.getBooleanList().size());
+        assertFalse(boolPojo.getBooleanList().get(0));
+        assertTrue(boolPojo.isABoolean());
 
     }
 }

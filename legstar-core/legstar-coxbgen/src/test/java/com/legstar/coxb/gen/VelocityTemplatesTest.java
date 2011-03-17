@@ -177,6 +177,33 @@ public class VelocityTemplatesTest extends AbstractCoxbGenTest {
     }
 
     /**
+     * A POJO with boolean field.
+     * http://code.google.com/p/legstar/issues/detail?id=137.
+     * 
+     * @throws Exception if generation fails
+     */
+    public void testPojoBoolean() throws Exception {
+        ICobolComplexBinding ce = getComplexBinding("coxb137", "BoolPojo");
+        String packageName = JAXB_PKG_PFX + "." + "coxb137";
+        CoxbGenModel coxbContext = new CoxbGenModel();
+        coxbContext.setJaxbPackageName(packageName);
+        coxbContext.setCoxbPackageName(packageName + ".bind");
+        genSource(CoxbGenWriter.COMPLEX_VLC_TEMPLATE, "coxb137", ce,
+                "BoolPojo", "BoolPojoBinding.java", coxbContext);
+        String result = FileUtils.readFileToString(new File(GEN_SRC_DIR,
+                coxbContext.getCoxbPackageName().replace(".", "/") + "/"
+                        + "BoolPojoBinding.java"));
+        assertFalse(result.contains("import boolean;"));
+        assertTrue(result
+                .contains("+ \" value=\" + mValueObject.isABoolean());"));
+        assertTrue(result
+                .contains("_aBoolean.setObjectValue(mValueObject.isABoolean());"));
+        assertTrue(result
+                .contains("mValueObject.setABoolean((Boolean) bindingValue);"));
+
+    }
+
+    /**
      * Generate a host to java transformer case.
      * 
      * @throws Exception if generation fails

@@ -10,15 +10,15 @@
  ******************************************************************************/
 package com.legstar.coxb.impl;
 
-import com.legstar.coxb.CobolElement;
-import com.legstar.coxb.common.CArrayBinding;
-import com.legstar.coxb.host.HostException;
-import com.legstar.coxb.ICobolComplexBinding;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.legstar.coxb.CobolElement;
+import com.legstar.coxb.ICobolComplexBinding;
+import com.legstar.coxb.common.CArrayBinding;
+import com.legstar.coxb.host.HostException;
 
 /**
  * Generic class for numeric arrays bindings.
@@ -38,10 +38,8 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
      * @param cobolAnnotations the cobol annotations for this element
      * @param parentBinding a reference to the parent binding if any
      */
-    public AbstractArrayNumericBinding(
-            final String bindingName,
-            final String jaxbName,
-            final Class < ? > jaxbType,
+    public AbstractArrayNumericBinding(final String bindingName,
+            final String jaxbName, final Class < ? > jaxbType,
             final CobolElement cobolAnnotations,
             final ICobolComplexBinding parentBinding) {
         super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
@@ -61,8 +59,7 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
     /**
      * @param list the internal List of Bytes to set
      */
-    public void setByteList(
-            final List < Byte > list) {
+    public void setByteList(final List < Byte > list) {
         mList = new ArrayList < BigDecimal >();
         for (Byte value : list) {
             mList.add(new BigDecimal(value));
@@ -83,8 +80,7 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
     /**
      * @param list the internal List of Shorts to set
      */
-    public void setShortList(
-            final List < Short > list) {
+    public void setShortList(final List < Short > list) {
         mList = new ArrayList < BigDecimal >();
         for (Short value : list) {
             mList.add(new BigDecimal(value));
@@ -105,8 +101,7 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
     /**
      * @param list the internal List of Integers to set
      */
-    public void setIntegerList(
-            final List < Integer > list) {
+    public void setIntegerList(final List < Integer > list) {
         mList = new ArrayList < BigDecimal >();
         for (Integer value : list) {
             mList.add(new BigDecimal(value));
@@ -127,8 +122,7 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
     /**
      * @param list the internal List of Longs to set
      */
-    public void setLongList(
-            final List < Long > list) {
+    public void setLongList(final List < Long > list) {
         mList = new ArrayList < BigDecimal >();
         for (Long value : list) {
             mList.add(new BigDecimal(value));
@@ -145,8 +139,7 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
     /**
      * @param list the internal List of BigDecimals to set
      */
-    public void setBigDecimalList(
-            final List < BigDecimal > list) {
+    public void setBigDecimalList(final List < BigDecimal > list) {
         mList = list;
     }
 
@@ -164,17 +157,40 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
     /**
      * @param list the internal List of BigIntegers to set
      */
-    public void setBigIntegerList(
-            final List < BigInteger > list) {
+    public void setBigIntegerList(final List < BigInteger > list) {
         mList = new ArrayList < BigDecimal >();
         for (BigInteger value : list) {
             mList.add(new BigDecimal(value));
         }
     }
 
+    /**
+     * @return the internal List as Boolean
+     */
+    public List < Boolean > getBooleanList() {
+        List < Boolean > list = new ArrayList < Boolean >();
+        for (BigDecimal value : mList) {
+            if (value.intValue() == 0) {
+                list.add(new Boolean(false));
+            } else {
+                list.add(new Boolean(true));
+            }
+        }
+        return list;
+    }
+
+    /**
+     * @param list the internal List of Boolean to set
+     */
+    public void setBooleanList(final List < Boolean > list) {
+        mList = new ArrayList < BigDecimal >();
+        for (Boolean value : list) {
+            mList.add(new BigDecimal((value) ? "1" : "0"));
+        }
+    }
+
     /** {@inheritDoc} */
-    public Object getObjectValue(
-            final Class < ? > type) throws HostException {
+    public Object getObjectValue(final Class < ? > type) throws HostException {
         if (type.equals(BigDecimal.class)) {
             return mList;
         } else if (type.equals(BigInteger.class)) {
@@ -187,9 +203,11 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
             return getShortList();
         } else if (type.equals(Byte.class) || type.equals(byte.class)) {
             return getByteList();
+        } else if (type.equals(Boolean.class) || type.equals(boolean.class)) {
+            return getBooleanList();
         } else {
-            throw new HostException("Attempt to get binding " + getBindingName()
-                    + " as an incompatible type " + type);
+            throw new HostException("Attempt to get binding "
+                    + getBindingName() + " as an incompatible type " + type);
         }
     }
 
@@ -205,8 +223,10 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
                 mList = new ArrayList < BigDecimal >();
                 return;
             }
-            /* We assume all items will have the same type as the first one.
-             * The unchecked cast might break at runtime. */
+            /*
+             * We assume all items will have the same type as the first one. The
+             * unchecked cast might break at runtime.
+             */
             Object item = ((List < ? >) value).get(0);
             if (item instanceof BigDecimal) {
                 mList = (List < BigDecimal >) value;
@@ -225,6 +245,9 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
                 return;
             } else if (item instanceof Byte) {
                 setByteList((List < Byte >) value);
+                return;
+            } else if (item instanceof Boolean) {
+                setBooleanList((List < Boolean >) value);
                 return;
             }
         }
