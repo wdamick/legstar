@@ -19,8 +19,8 @@ import com.legstar.coxb.common.CBinding;
 import com.legstar.coxb.host.HostException;
 
 /**
- * A generic binding for numeric bindings. All numeric values are
- * stored in a BigDecimal.
+ * A generic binding for numeric bindings. All numeric values are stored in a
+ * BigDecimal.
  */
 public abstract class AbstractNumericBinding extends CBinding {
 
@@ -36,19 +36,15 @@ public abstract class AbstractNumericBinding extends CBinding {
      * @param cobolAnnotations the cobol annotations for this element
      * @param parentBinding a reference to the parent binding
      */
-    public AbstractNumericBinding(
-            final String bindingName,
-            final String jaxbName,
-            final Class < ? > jaxbType,
+    public AbstractNumericBinding(final String bindingName,
+            final String jaxbName, final Class < ? > jaxbType,
             final CobolElement cobolAnnotations,
             final ICobolComplexBinding parentBinding) {
         super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
     }
 
-
     /** {@inheritDoc} */
-    public void setByteValue(
-            final Byte value) throws HostException {
+    public void setByteValue(final Byte value) throws HostException {
         mValue = new BigDecimal(value);
     }
 
@@ -58,8 +54,7 @@ public abstract class AbstractNumericBinding extends CBinding {
     }
 
     /** {@inheritDoc} */
-    public void setShortValue(
-            final Short value) throws HostException {
+    public void setShortValue(final Short value) throws HostException {
         mValue = new BigDecimal(value);
     }
 
@@ -69,8 +64,7 @@ public abstract class AbstractNumericBinding extends CBinding {
     }
 
     /** {@inheritDoc} */
-    public void setIntegerValue(
-            final Integer value) throws HostException {
+    public void setIntegerValue(final Integer value) throws HostException {
         mValue = new BigDecimal(value);
     }
 
@@ -80,8 +74,7 @@ public abstract class AbstractNumericBinding extends CBinding {
     }
 
     /** {@inheritDoc} */
-    public void setLongValue(
-            final Long value) throws HostException {
+    public void setLongValue(final Long value) throws HostException {
         mValue = new BigDecimal(value);
     }
 
@@ -91,8 +84,7 @@ public abstract class AbstractNumericBinding extends CBinding {
     }
 
     /** {@inheritDoc} */
-    public void setFloatValue(
-            final Float value) throws HostException {
+    public void setFloatValue(final Float value) throws HostException {
         mValue = new BigDecimal(value);
     }
 
@@ -102,8 +94,7 @@ public abstract class AbstractNumericBinding extends CBinding {
     }
 
     /** {@inheritDoc} */
-    public void setDoubleValue(
-            final Double value) throws HostException {
+    public void setDoubleValue(final Double value) throws HostException {
         mValue = new BigDecimal(value);
     }
 
@@ -113,8 +104,7 @@ public abstract class AbstractNumericBinding extends CBinding {
     }
 
     /** {@inheritDoc} */
-    public void setBigDecimalValue(
-            final BigDecimal value) throws HostException {
+    public void setBigDecimalValue(final BigDecimal value) throws HostException {
         mValue = value;
     }
 
@@ -124,8 +114,7 @@ public abstract class AbstractNumericBinding extends CBinding {
     }
 
     /** {@inheritDoc} */
-    public void setBigIntegerValue(
-            final BigInteger value) throws HostException {
+    public void setBigIntegerValue(final BigInteger value) throws HostException {
         mValue = new BigDecimal(value);
     }
 
@@ -135,8 +124,20 @@ public abstract class AbstractNumericBinding extends CBinding {
     }
 
     /** {@inheritDoc} */
-    public Object getObjectValue(
-            final Class < ? > type) throws HostException {
+    public void setBooleanValue(Boolean value) throws HostException {
+        mValue = new BigDecimal((value) ? "1" : "0");
+    }
+
+    /** {@inheritDoc} */
+    public Boolean getBooleanValue() throws HostException {
+        if (mValue.intValue() == 0) {
+            return false;
+        }
+        return true;
+    }
+
+    /** {@inheritDoc} */
+    public Object getObjectValue(final Class < ? > type) throws HostException {
         if (type.equals(BigDecimal.class)) {
             return mValue;
         } else if (type.equals(BigInteger.class)) {
@@ -153,9 +154,11 @@ public abstract class AbstractNumericBinding extends CBinding {
             return getShortValue();
         } else if (type.equals(Byte.class) || type.equals(byte.class)) {
             return getByteValue();
+        } else if (type.equals(Boolean.class) || type.equals(boolean.class)) {
+            return getBooleanValue();
         } else {
-            throw new HostException("Attempt to get binding " + getBindingName()
-                    + " as an incompatible type " + type);
+            throw new HostException("Attempt to get binding "
+                    + getBindingName() + " as an incompatible type " + type);
         }
     }
 
@@ -181,9 +184,11 @@ public abstract class AbstractNumericBinding extends CBinding {
             setShortValue((Short) value);
         } else if (value instanceof Byte) {
             setByteValue((Byte) value);
+        } else if (value instanceof Boolean) {
+            setBooleanValue((Boolean) value);
         } else {
-            throw new HostException("Attempt to set binding " + getBindingName()
-                    + " from an incompatible value " + value);
+            throw new HostException("Attempt to set binding "
+                    + getBindingName() + " from an incompatible value " + value);
         }
     }
 
