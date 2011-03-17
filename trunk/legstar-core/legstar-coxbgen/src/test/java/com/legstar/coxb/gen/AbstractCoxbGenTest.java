@@ -59,6 +59,10 @@ public abstract class AbstractCoxbGenTest extends AbstractJaxbGenTest {
         mParameters.put("coxbHelper", new CoxbHelper());
         FileUtils.forceMkdir(GEN_SRC_DIR);
         FileUtils.cleanDirectory(GEN_SRC_DIR);
+        FileUtils.forceMkdir(GEN_ANT_DIR);
+        FileUtils.cleanDirectory(GEN_ANT_DIR);
+        FileUtils.forceMkdir(GEN_BIN_DIR);
+        FileUtils.cleanDirectory(GEN_BIN_DIR);
     }
 
     /**

@@ -121,22 +121,22 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
     protected void globalBindings(final boolean internalBindings)
             throws Exception {
         jaxbgen("lsfileaq", internalBindings, 1L, true, null, null, null, null,
-                false);
+                false, false);
         assertTrue(getJaxbSource("lsfileaq", "DfhCommarea").contains(
                 "public boolean isSetReplyData()"));
 
         jaxbgen("lsfileaq", internalBindings, 1L, false, null, null, null,
-                null, false);
+                null, false, false);
         assertFalse(getJaxbSource("lsfileaq", "DfhCommarea").contains(
                 "public boolean isSetReplyData()"));
 
         jaxbgen("lsfileaq", internalBindings, 1L, true, null, null, null, null,
-                false);
+                false, false);
         assertTrue(getJaxbSource("lsfileaq", "DfhCommarea").contains(
                 "private final static long serialVersionUID = 1L;"));
 
         jaxbgen("lsfileaq", internalBindings, 123589357872112454L, true, null,
-                null, null, null, false);
+                null, null, null, false, false);
         assertTrue(getJaxbSource("lsfileaq", "DfhCommarea")
                 .contains(
                         "private final static long serialVersionUID = 123589357872112454L;"));
@@ -150,44 +150,35 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
      */
     public void nameTransform(final boolean internalBindings) throws Exception {
         jaxbgen("lsfileaq", internalBindings, 1L, true, "SomePrefix", null,
-                null,
-                null,
-                false);
+                null, null, false, false);
         assertTrue(getJaxbSource("lsfileaq", "SomePrefixDfhCommarea").contains(
                 "public class SomePrefixDfhcommarea"));
 
         jaxbgen("lsfileaq", internalBindings, 1L, true, null, "SomeSuffix",
-                null,
-                null,
-                false);
+                null, null, false, false);
         assertTrue(getJaxbSource("lsfileaq", "DfhCommareaSomeSuffix").contains(
                 "public class DfhcommareaSomeSuffix"));
 
         jaxbgen("lsfileaq", internalBindings, 1L, true, "SomePrefix",
-                "SomeSuffix",
-                null,
-                null, false);
+                "SomeSuffix", null, null, false, false);
         assertTrue(getJaxbSource("lsfileaq", "SomePrefixDfhCommareaSomeSuffix")
                 .contains("public class SomePrefixDfhcommareaSomeSuffix"));
 
         jaxbgen("MSNSearch", internalBindings, 1L, true, null, null,
-                "SomePrefix",
-                null,
-                false);
-        assertTrue(getJaxbSource("MSNSearch", "SomePrefixSearchResponse").contains(
-                "public class SomePrefixSearchResponse"));
+                "SomePrefix", null, false, false);
+        assertTrue(getJaxbSource("MSNSearch", "SomePrefixSearchResponse")
+                .contains("public class SomePrefixSearchResponse"));
 
         jaxbgen("MSNSearch", internalBindings, 1L, true, null, null, null,
-                "SomeSuffix",
-                false);
-        assertTrue(getJaxbSource("MSNSearch", "SearchResponseSomeSuffix").contains(
-                "public class SearchResponseSomeSuffix"));
+                "SomeSuffix", false, false);
+        assertTrue(getJaxbSource("MSNSearch", "SearchResponseSomeSuffix")
+                .contains("public class SearchResponseSomeSuffix"));
 
         jaxbgen("MSNSearch", internalBindings, 1L, true, null, null,
-                "SomePrefix",
-                "SomeSuffix", false);
-        assertTrue(getJaxbSource("MSNSearch", "SomePrefixSearchResponseSomeSuffix")
-                .contains("public class SomePrefixSearchResponseSomeSuffix"));
+                "SomePrefix", "SomeSuffix", false, false);
+        assertTrue(getJaxbSource("MSNSearch",
+                "SomePrefixSearchResponseSomeSuffix").contains(
+                "public class SomePrefixSearchResponseSomeSuffix"));
 
     }
 
@@ -207,9 +198,31 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
         FileUtils.writeStringToFile(tempXsdFile, xsd);
 
         jaxbgen("customer", tempXsdFile, true, 1L, true, null, null, null,
-                null,
-                false);
+                null, false, false);
         checkLocalRef("customer", "CustomerType.java");
+    }
+
+    /**
+     * Check the no packae-info option.
+     */
+    public void testNoPackageInfo() throws Exception {
+        String xsd = "<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\""
+                + " xmlns:cb=\"http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd\">"
+                + "<xs:element name=\"customer\" type=\"CustomerType\"/>"
+                + "<xs:complexType name=\"CustomerType\">" + "  <xs:sequence>"
+                + "    <xs:element name=\"name\" type=\"xs:string\"/>"
+                + "    <xs:element name=\"number\" type=\"xs:integer\"/>"
+                + "  </xs:sequence>" + "</xs:complexType>" + "</xs:schema>";
+        File tempXsdFile = File.createTempFile("jaxbgen", ".xsd");
+        tempXsdFile.deleteOnExit();
+        FileUtils.writeStringToFile(tempXsdFile, xsd);
+
+        jaxbgen("customer", tempXsdFile, true, 1L, true, null, null, null,
+                null, false, true);
+        assertTrue(new File(GEN_SRC_DIR,
+                "com/legstar/test/coxb/customer/CustomerType.java").exists());
+        assertFalse(new File(GEN_SRC_DIR,
+                "com/legstar/test/coxb/customer/package-info.java").exists());
     }
 
     /**
@@ -233,7 +246,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
      */
     public void testEnumvar() throws Exception {
         jaxbgen("enumvar", new File(COB_XSD_DIR, "enumvar.xsd"), true, 1L,
-                true, null, "Type", null, null, false);
+                true, null, "Type", null, null, false, false);
         check("enumvar");
     }
 
@@ -242,7 +255,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
      */
     public void testMSNSearch() throws Exception {
         jaxbgen("MSNSearch", new File(COB_XSD_DIR, "MSNSearch.xsd"), true, 1L,
-                true, null, "Type", null, null, false);
+                true, null, "Type", null, null, false, false);
         check("MSNSearch");
     }
 
@@ -251,7 +264,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
      */
     public void testJvmquery() throws Exception {
         jaxbgen("jvmquery", new File(COB_XSD_DIR, "jvmquery.xsd"), true, 1L,
-                true, null, null, null, null, false);
+                true, null, null, null, null, false, false);
         check("jvmquery");
     }
 
@@ -260,7 +273,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
      */
     public void testJvmqueryWs() throws Exception {
         jaxbgen("ws.jvmquery", new File(COB_XSD_DIR, "jvmquery-ws.xsd"), true,
-                1L, true, null, null, null, null, false);
+                1L, true, null, null, null, null, false, false);
         check("ws.jvmquery");
     }
 
@@ -269,7 +282,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
      */
     public void testCultureinfo() throws Exception {
         jaxbgen("cultureinfo", new File(COB_XSD_DIR, "cultureinfo.xsd"), true,
-                1L, true, null, null, null, null, false);
+                1L, true, null, null, null, null, false, false);
         check("cultureinfo");
     }
 
@@ -278,7 +291,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
      */
     public void testRQ071() throws Exception {
         jaxbgen("rq071", new File(COB_XSD_DIR, "RQ071CICSECIBinding.xsd"),
-                true, 1L, true, null, null, null, null, true);
+                true, 1L, true, null, null, null, null, true, false);
         check("rq071");
     }
 
@@ -292,7 +305,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
         String schemaName = FilenameUtils.getBaseName(schemaFile.getName())
                 .toLowerCase();
         jaxbgen(schemaName, schemaFile, true, 1L, true, null, null, null, null,
-                false);
+                false, false);
         check(schemaName);
     }
 
@@ -305,8 +318,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
     protected void check(final String schemaName) throws Exception {
         check(new File(SRC_REF_DIR, GEN_SRC_SUBDIR + "/"
                 + schemaName.replace(".", "/")), new File(GEN_SRC_DIR,
-                GEN_SRC_SUBDIR + "/" + schemaName.replace(".", "/")),
-                "java");
+                GEN_SRC_SUBDIR + "/" + schemaName.replace(".", "/")), "java");
     }
 
     /**
@@ -321,18 +333,19 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
      * @param elementNamePrefix element name prefix
      * @param elementNameSuffix element name suffix
      * @param eciCompatible if generated JAXB class should be ECI compatible
+     * @param noPackageInfo if package-info should not be generated
      * @throws Exception if generation fails
      */
     protected void jaxbgen(final String schemaName,
             final boolean internalBindings, final long serializableUid,
             final boolean generateIsSetMethod, final String typeNamePrefix,
             final String typeNameSuffix, final String elementNamePrefix,
-            final String elementNameSuffix, final boolean eciCompatible)
-            throws Exception {
+            final String elementNameSuffix, final boolean eciCompatible,
+            final boolean noPackageInfo) throws Exception {
         jaxbgen(schemaName, new File(COB_XSD_DIR, schemaName + ".xsd"),
                 internalBindings, serializableUid, generateIsSetMethod,
                 typeNamePrefix, typeNameSuffix, elementNamePrefix,
-                elementNameSuffix, eciCompatible);
+                elementNameSuffix, eciCompatible, noPackageInfo);
     }
 
     /**
@@ -348,14 +361,15 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
      * @param elementNamePrefix element name prefix
      * @param elementNameSuffix element name suffix
      * @param eciCompatible if generated JAXB class should be ECI compatible
+     * @param noPackageInfo if package-info should not be generated
      * @throws Exception if generation fails
      */
     protected void jaxbgen(final String schemaName, final File xsdFile,
             final boolean internalBindings, final long serializableUid,
             final boolean generateIsSetMethod, final String typeNamePrefix,
             final String typeNameSuffix, final String elementNamePrefix,
-            final String elementNameSuffix, final boolean eciCompatible)
-            throws Exception {
+            final String elementNameSuffix, final boolean eciCompatible,
+            final boolean noPackageInfo) throws Exception {
         _task.setInternalBindings(internalBindings);
         _task.setXsdFile(xsdFile);
         _task.setJaxbPackageName(JAXB_PKG_PFX + "." + schemaName);
@@ -367,6 +381,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
         _task.setElementNamePrefix(elementNamePrefix);
         _task.setElementNameSuffix(elementNameSuffix);
         _task.setEciCompatible(eciCompatible);
+        _task.setNoPackageInfo(noPackageInfo);
         _task.execute();
     }
 

@@ -125,12 +125,12 @@ public class CobolJAXBGenerator extends Task {
 
         xjcTask.setExtension(true);
         xjcTask.setRemoveOldOutput(true);
-        Commandline.Argument arg1 = xjcTask.createArg();
-        arg1.setValue("-Xlegstar-code");
+        Commandline.Argument argLegStarPlugin = xjcTask.createArg();
+        argLegStarPlugin.setValue("-Xlegstar-code");
 
         /* Do not perform strict validation of the input schema(s) */
-        Commandline.Argument arg2 = xjcTask.createArg();
-        arg2.setValue("-nv");
+        Commandline.Argument argNoValidation = xjcTask.createArg();
+        argNoValidation.setValue("-nv");
 
         /*
          * Avoid headers with timestamps, they make it harder to test for
@@ -138,6 +138,14 @@ public class CobolJAXBGenerator extends Task {
          */
         Commandline.Argument argNoHeader = xjcTask.createArg();
         argNoHeader.setValue("-no-header");
+
+        /*
+         * Don't generate package-info they don't compile on JDK 1.5.
+         */
+        if (isNoPackageInfo()) {
+            Commandline.Argument argNoPackageInfo = xjcTask.createArg();
+            argNoPackageInfo.setValue("-npa");
+        }
 
         /* If ECI compatible mode pass option so that annotator knows about it */
         if (isEciCompatible()) {
@@ -436,6 +444,26 @@ public class CobolJAXBGenerator extends Task {
      */
     public void setEciCompatible(final boolean eciCompatible) {
         _context.setEciCompatible(eciCompatible);
+    }
+
+    /**
+     * Prevents generation of JAXB package-info.java which does not compile
+     * under JDK 1.5.
+     * 
+     * @return true if we should not generate package-info.java
+     */
+    public boolean isNoPackageInfo() {
+        return _context.isNoPackageInfo();
+    }
+
+    /**
+     * Prevents generation of JAXB package-info.java which does not compile
+     * under JDK 1.5.
+     * 
+     * @param noPackageInfo true if we should not generate package-info.java
+     */
+    public void setNoPackageInfo(boolean noPackageInfo) {
+        _context.setNoPackageInfo(noPackageInfo);
     }
 
 }

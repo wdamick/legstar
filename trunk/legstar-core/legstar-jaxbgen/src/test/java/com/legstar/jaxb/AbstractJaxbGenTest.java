@@ -247,8 +247,8 @@ public abstract class AbstractJaxbGenTest extends TestCase {
     }
 
     /**
-     * Check a result against a reference stored at the unit test level (not the
-     * made available for integration testing).
+     * Check a result against a reference stored at the unit test level (not to
+     * be made available for integration testing).
      * 
      * @param schemaName the schema name
      * @param fileName the file name to check
