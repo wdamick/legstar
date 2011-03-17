@@ -40,12 +40,6 @@ public class CoxbGenModelTest extends AbstractCoxbGenTest {
     /** @{inheritDoc */
     public void setUp() throws Exception {
         super.setUp();
-        FileUtils.forceMkdir(GEN_SRC_DIR);
-        FileUtils.cleanDirectory(GEN_SRC_DIR);
-        FileUtils.forceMkdir(GEN_ANT_DIR);
-        FileUtils.cleanDirectory(GEN_ANT_DIR);
-        FileUtils.forceMkdir(GEN_BIN_DIR);
-        FileUtils.cleanDirectory(GEN_BIN_DIR);
         _model = new CoxbGenModel();
     }
 
@@ -64,8 +58,7 @@ public class CoxbGenModelTest extends AbstractCoxbGenTest {
         _model.setProbeFile(new File("probe.file.tmp"));
         _model.setJaxbSrcDir(GEN_SRC_DIR);
         _model.setJaxbBinDir(GEN_BIN_DIR);
-        _model.setXsdFile(new File(COB_XSD_DIR,
-                "LSFILEAE.xsd"));
+        _model.setXsdFile(new File(COB_XSD_DIR, "LSFILEAE.xsd"));
         _model.setCoxbSrcDir(GEN_SRC_DIR);
         _model.setCoxbBinDir(GEN_BIN_DIR);
         _model.setJaxbRootClassNames(jaxbRootClassNames);
@@ -175,8 +168,7 @@ public class CoxbGenModelTest extends AbstractCoxbGenTest {
         _model.setProbeFile(new File("probe.file.tmp"));
         _model.setJaxbSrcDir(GEN_SRC_DIR);
         _model.setJaxbBinDir(GEN_BIN_DIR);
-        _model.setXsdFile(new File(COB_XSD_DIR,
-                "REDSIMPT.xsd"));
+        _model.setXsdFile(new File(COB_XSD_DIR, "REDSIMPT.xsd"));
         _model.setCoxbSrcDir(GEN_SRC_DIR);
         _model.setCoxbBinDir(GEN_BIN_DIR);
         _model.setJaxbRootClassNames(jaxbRootClassNames);
@@ -235,8 +227,8 @@ public class CoxbGenModelTest extends AbstractCoxbGenTest {
         assertEquals("{isCompileTransformers=false,"
                 + " isXmlTransformers=true," + " serializableID=1,"
                 + " internalBindings=true," + " eciCompatible=false,"
-                + " isJsonTransformers=false," + " generateIsSetMethod=true}",
-                model.toString());
+                + " isJsonTransformers=false," + " noPackageInfo=false,"
+                + " generateIsSetMethod=true}", model.toString());
 
         model = new CoxbGenModel(props);
         assertEquals(null, model.getJaxbPackageName());

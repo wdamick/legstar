@@ -402,6 +402,44 @@ public class CoxbGenModel extends AbstractAntBuildModel {
     }
 
     /**
+     * Whether the ECI naming conventions should be used.
+     * 
+     * @return Whether the ECI naming conventions should be used
+     */
+    public boolean isEciCompatible() {
+        return _jaxbGenModel.isEciCompatible();
+    }
+
+    /**
+     * Whether the ECI naming conventions should be used.
+     * 
+     * @param eciCompatible whether the ECI naming conventions should be used
+     */
+    public void setEciCompatible(final boolean eciCompatible) {
+        _jaxbGenModel.setEciCompatible(eciCompatible);
+    }
+
+    /**
+     * Prevents generation of JAXB package-info.java which does not compile
+     * under JDK 1.5.
+     * 
+     * @return true if we should not generate package-info.java
+     */
+    public boolean isNoPackageInfo() {
+        return _jaxbGenModel.isNoPackageInfo();
+    }
+
+    /**
+     * Prevents generation of JAXB package-info.java which does not compile
+     * under JDK 1.5.
+     * 
+     * @param noPackageInfo true if we should not generate package-info.java
+     */
+    public void setNoPackageInfo(final boolean noPackageInfo) {
+        _jaxbGenModel.setNoPackageInfo(noPackageInfo);
+    }
+
+    /**
      * @return the package name for generated binding classes
      * @throws CoxbGenException if package name cannot be extracted from XML
      *             Schema

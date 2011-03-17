@@ -153,6 +153,30 @@ public class VelocityTemplatesTest extends AbstractCoxbGenTest {
     }
 
     /**
+     * Test JAXB options in ANT script.
+     * 
+     * @throws Exception if generation fails
+     */
+    public void testJaxbAntOptions() throws Exception {
+        String packageName = JAXB_PKG_PFX + "." + "lsfileae";
+        CoxbGenModel coxbContext = new CoxbGenModel();
+        coxbContext.setJaxbPackageName(packageName);
+        coxbContext.setCoxbPackageName(packageName + ".bind");
+        coxbContext.setEciCompatible(true);
+        coxbContext.setNoPackageInfo(true);
+
+        File resultFile = CodeGenUtil.getFile(GEN_ANT_DIR, "build.xml");
+        CodeGenUtil.processTemplate(BINDING_GENERATOR_NAME,
+                CoxbGenModel.COXB_VELOCITY_MACRO_NAME, "antModel", coxbContext,
+                getParameters(), resultFile);
+
+        String result = FileUtils.readFileToString(resultFile);
+        assertTrue(result.contains("eciCompatible=\"true\""));
+        assertTrue(result.contains("noPackageInfo=\"true\""));
+
+    }
+
+    /**
      * Generate a host to java transformer case.
      * 
      * @throws Exception if generation fails

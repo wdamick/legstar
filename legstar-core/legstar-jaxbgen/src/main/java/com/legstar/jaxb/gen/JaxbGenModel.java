@@ -66,6 +66,9 @@ public class JaxbGenModel extends AbstractPropertiesModel {
     /** Default value for use ECI compatible mode. */
     public static final boolean DEFAULT_ECICOMPATIBLE = false;
 
+    /** Default value for no package-info generation. */
+    public static final boolean DEFAULT_NOPACKAGEINFO = false;
+
     /* ====================================================================== */
     /* Following are XML identifiers for XJB Binding. = */
     /* ====================================================================== */
@@ -137,6 +140,9 @@ public class JaxbGenModel extends AbstractPropertiesModel {
     /** Use the ECI naming conventions. */
     public static final String JAXB_ECICOMPATIBLE = "eciCompatible";
 
+    /** Don't generate package-info.java. */
+    public static final String JAXB_NOPACKAGEINFO = "noPackageInfo";
+
     /* ====================================================================== */
     /* Following are this class fields that are persistent. = */
     /* ====================================================================== */
@@ -170,6 +176,9 @@ public class JaxbGenModel extends AbstractPropertiesModel {
 
     /** Whether the ECI naming conventions should be used. */
     private boolean _eciCompatible = DEFAULT_ECICOMPATIBLE;
+
+    /** Whether we should not generate package-info.java. */
+    private boolean _noPackageInfo = DEFAULT_NOPACKAGEINFO;
 
     /**
      * From XJC. If specified, generated code will be placed under this Java
@@ -208,6 +217,8 @@ public class JaxbGenModel extends AbstractPropertiesModel {
                 DEFAULT_INTERNALBINDINGS));
         setEciCompatible(getBoolean(props, JAXB_ECICOMPATIBLE,
                 DEFAULT_ECICOMPATIBLE));
+        setNoPackageInfo(getBoolean(props, JAXB_NOPACKAGEINFO,
+                DEFAULT_NOPACKAGEINFO));
     }
 
     /**
@@ -702,6 +713,26 @@ public class JaxbGenModel extends AbstractPropertiesModel {
     }
 
     /**
+     * Prevents generation of JAXB package-info.java which does not compile
+     * under JDK 1.5.
+     * 
+     * @return true if we should not generate package-info.java
+     */
+    public boolean isNoPackageInfo() {
+        return _noPackageInfo;
+    }
+
+    /**
+     * Prevents generation of JAXB package-info.java which does not compile
+     * under JDK 1.5.
+     * 
+     * @param noPackageInfo true if we should not generate package-info.java
+     */
+    public void setNoPackageInfo(final boolean noPackageInfo) {
+        this._noPackageInfo = noPackageInfo;
+    }
+
+    /**
      * @return a properties file holding the values of this object fields
      */
     public Properties toProperties() {
@@ -731,6 +762,7 @@ public class JaxbGenModel extends AbstractPropertiesModel {
         }
         putBoolean(props, JAXB_INTERNALBINDINGS, isInternalBindings());
         putBoolean(props, JAXB_ECICOMPATIBLE, isEciCompatible());
+        putBoolean(props, JAXB_NOPACKAGEINFO, isNoPackageInfo());
         return props;
     }
 

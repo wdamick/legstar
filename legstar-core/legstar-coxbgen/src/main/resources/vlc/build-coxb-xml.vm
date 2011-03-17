@@ -66,6 +66,9 @@
 #if(${antModel.eciCompatible})
             eciCompatible="${antModel.eciCompatible}"
 #end
+#if(${antModel.noPackageInfo})
+            noPackageInfo="${antModel.noPackageInfo}"
+#end
         />
     </target>
 
