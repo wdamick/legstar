@@ -3,7 +3,7 @@
   <body>
 
     <menu name="Parent Project">
-        <item name="LegStar  Transports" href="../index.html" />
+        <item name="LegStar Transports" href="../index.html" />
     </menu>
     <menu name="HTTP Transport">
       <item name="Overview" href="index.html"/>
