@@ -9,8 +9,8 @@
 
     <artifactId>legstar-coxbapi</artifactId>
     <version>1.5.3-SNAPSHOT</version>
-    <name>LegStar COBOL Binding API</name>
-    <description>Cobol binding Application Programming Interface.</description>
+    <name>LegStar COBOL Transformers API</name>
+    <description>Cobol Transformers Application Programming Interface.</description>
 
     <dependencies>
     
