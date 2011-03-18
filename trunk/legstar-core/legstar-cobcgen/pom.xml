@@ -7,7 +7,6 @@
     </parent>
 
     <artifactId>legstar-cobcgen</artifactId>
-
     <name>LegStar COBOL Structures Generator</name>
     <description>Generates Cobol data descriptions from cobol-annotated jaxb classes.</description>
 

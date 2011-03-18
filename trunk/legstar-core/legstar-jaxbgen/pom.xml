@@ -5,6 +5,7 @@
         <artifactId>legstar-core</artifactId>
         <version>1.5.3-SNAPSHOT</version>
     </parent>
+
     <artifactId>legstar-jaxbgen</artifactId>
     <name>LegStar JAXB COBOL Annotator</name>
     <description>Generates Cobol annotations in JAXB classes.</description>

@@ -4,7 +4,7 @@
  -----
  -----
 
-COBOL Transformers API (legstar-coxbapi) overview
+COBOL Transformers API (coxbapi) overview
 
   COBOL Trransformers are used to convert raw mainframe data to java objects, XML or JSON.
   

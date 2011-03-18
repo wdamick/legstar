@@ -47,7 +47,7 @@
 </listitem>
 <listitem>
 <para>
-    <ulink url="http://www.legsem.com/legstar/legstar-xsdcgen">Complex Types mapping Generator</ulink>:
+    <ulink url="http://www.legsem.com/legstar/legstar-xsd2cob-pom/">Complex Types mapping Generator</ulink>:
      used when the starting point is a Java class, an XML Schema or a WSDL.
 </para>
 </listitem>
