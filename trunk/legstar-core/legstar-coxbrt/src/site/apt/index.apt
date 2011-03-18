@@ -1,0 +1,11 @@
+ -----
+ Overview
+ -----
+ -----
+ -----
+
+COBOL Transformers Runtime (coxbrt) overview
+
+  This is a runtime implementation of the {{{../legstar-coxbapi}COBOL Transformers API}}.
+  
+  The runtime deals with low level COBOL conversion algorithms.

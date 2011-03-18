@@ -171,9 +171,9 @@ public abstract class AbstractArrayNumericBinding extends CArrayBinding {
         List < Boolean > list = new ArrayList < Boolean >();
         for (BigDecimal value : mList) {
             if (value.intValue() == 0) {
-                list.add(new Boolean(false));
+                list.add(Boolean.FALSE);
             } else {
-                list.add(new Boolean(true));
+                list.add(Boolean.TRUE);
             }
         }
         return list;

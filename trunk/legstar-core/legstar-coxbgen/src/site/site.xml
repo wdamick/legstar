@@ -2,6 +2,9 @@
 <project>
   <body>
 
+    <menu name="Parent Project">
+        <item name="LegStar Transformers" href="../index.html" />
+    </menu>
     <menu name="COBOL Transformers Generator">
       <item name="Overview" href="index.html"/>
       <item name="Standalone release" collapse="true" href="download.html">
