@@ -35,7 +35,8 @@
         classloader, but this RI (...) needs 2.1 API.?
       </question>
       <answer>
-       This issue is discussed <a href="http://www.legsem.com/legstar/phpBB3/viewtopic.php?f=2&amp;t=4">here.</a>
+       LegStar uses JAXB 2.1 but your JRE takes precedence. Older JRE 1.6 came with JAXB 2.0 which
+       is not compatible with JAXB 2.1. You can use the JRE endorsement mechanism to overcome this. 
       </answer>
     </faq>
 

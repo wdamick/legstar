@@ -6,10 +6,10 @@
         <artifactId>legstar-core</artifactId>
         <version>1.5.3-SNAPSHOT</version>
     </parent>
+
     <artifactId>legstar-coxbgen</artifactId>
     <name>LegStar COBOL Transformers Generator</name>
     <description>Generates COBOL Transformers for Java, XML, JSON</description>
-    <url>http://www.legsem.com/legstar</url>
   
     <dependencies>
     

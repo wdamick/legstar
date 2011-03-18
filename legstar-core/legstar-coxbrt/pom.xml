@@ -5,6 +5,7 @@
         <artifactId>legstar-core</artifactId>
         <version>1.5.3-SNAPSHOT</version>
     </parent>
+
     <artifactId>legstar-coxbrt</artifactId>
     <name>LegStar COBOL Transformers Runtime</name>
     <description>COBOL Transformers runtime</description>
