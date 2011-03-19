@@ -466,14 +466,23 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
                 operation.addOutput(commarea);
                 service.addCixsOperation(operation);
                 _generator.execute();
-                check(new File(SRC_REF_DIR, GEN_SRC_SUBDIR + serviceName),
-                        new File(GEN_SRC_DIR, GEN_SRC_SUBDIR + serviceName),
-                        "java");
-                check(new File(ANT_REF_DIR, serviceName), new File(GEN_ANT_DIR,
-                        serviceName), "xml");
-                check(new File(WDD_REF_DIR, "WEB-INF/" + serviceName),
-                        new File(GEN_WDD_DIR, "WEB-INF/" + serviceName), "xml");
+                check(serviceName);
             }
         }
+    }
+
+    /**
+     * Check generated artifacts against the reference.
+     * 
+     * @param serviceName the generated service
+     * @throws Exception if can't get reference
+     */
+    protected void check(final String serviceName) throws Exception {
+        check(new File(REF_SRC_DIR, GEN_SRC_SUBDIR + serviceName), new File(
+                GEN_SRC_DIR, GEN_SRC_SUBDIR + serviceName), "java");
+        check(new File(REF_RES_DIR, serviceName + "/ant"), new File(
+                GEN_ANT_DIR, serviceName), "xml");
+        check(new File(REF_RES_DIR, serviceName + "/webapp/WEB_INF"), new File(
+                GEN_WDD_DIR, serviceName), "xml");
     }
 }

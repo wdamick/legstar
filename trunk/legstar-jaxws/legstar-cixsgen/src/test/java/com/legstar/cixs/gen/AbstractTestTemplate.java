@@ -43,6 +43,17 @@ import com.legstar.coxb.util.NameUtil;
  */
 public class AbstractTestTemplate extends TestCase {
 
+    /** Location of COXB classes (Used to enumerate test cases). */
+    public static final File COXB_DIR = new File(
+            "target/dependency/coxbgen/com/legstar/test/coxb");
+
+    /** Generated classes reference folder. */
+    public static final File REF_SRC_DIR = new File("src/test/java");
+
+    /** Generated resources reference folder. */
+    public static final File REF_RES_DIR = new File(
+            "src/test/resources/reference");
+
     /** Service classes package name prefix. */
     public static final String CIXS_PACKAGE_PREFIX = "com.legstar.test.cixs.";
 
@@ -53,45 +64,29 @@ public class AbstractTestTemplate extends TestCase {
     /** Parent generation folder. */
     public static final File GEN_DIR = new File("target/src/gen");
 
-    /** Generated classes reference folder. */
-    public static final File SRC_REF_DIR = new File("src/test/java");
+    /** Code will be generated here. */
+    public static final File GEN_SRC_DIR = new File(GEN_DIR, "java");
 
-    /** Generated ANT scripts reference folder. */
-    public static final File ANT_REF_DIR = new File(
-            "src/test/resources/reference/ant");
+    /** Configuration files will be generated here. */
+    public static final File GEN_CONF_DIR = new File(GEN_DIR, "conf");
 
-    /** Generated web descriptors reference folder. */
-    public static final File WDD_REF_DIR = new File(
-            "src/test/resources/reference/webapp");
+    /** Cobol files will be generated here. */
+    public static final File GEN_COBOL_DIR = new File(GEN_DIR, "cobol");
 
-    /** Location of COXB classes. */
-    public static final File COXB_DIR = new File(
-            "target/dependency/coxbgen/com/legstar/test/coxb");
+    /** Web descriptors files will be generated here. */
+    public static final File GEN_WDD_DIR = new File(GEN_DIR, "webapp");
+
+    /** ANt scripts will be generated here. */
+    public static final File GEN_ANT_DIR = new File(GEN_DIR, "ant");
+
+    /** Reference to binaries location. */
+    public static final File GEN_BIN_DIR = new File(GEN_DIR, "target/classes");
+
+    /** Reference to distribution location. */
+    public static final File GEN_DIST_DIR = new File(GEN_DIR, "target");
 
     /** Location of JAXB classes. */
     public static final File JAXB_BIN_DIR = new File("target/classes");
-
-    /** Code will be generated here. */
-    public static final File GEN_SRC_DIR = new File("target/src/gen/java");
-
-    /** Configuration files will be generated here. */
-    public static final File GEN_CONF_DIR = new File("target/src/gen/conf");
-
-    /** Cobol files will be generated here. */
-    public static final File GEN_COBOL_DIR = new File("target/src/gen/cobol");
-
-    /** Web descriptors files will be generated here. */
-    public static final File GEN_WDD_DIR = new File("target/src/gen/webapp");
-
-    /** Web descriptors files will be generated here. */
-    public static final File GEN_ANT_DIR = new File("target/src/gen/ant");
-
-    /** Reference to binaries location. */
-    public static final File GEN_BIN_DIR = new File(
-            "target/src/gen/target/classes");
-
-    /** Reference to distribution location. */
-    public static final File GEN_DIST_DIR = new File("target/src/gen/target");
 
     /** Reference to war files location. */
     public static final File GEN_WAR_DIR = new File(
