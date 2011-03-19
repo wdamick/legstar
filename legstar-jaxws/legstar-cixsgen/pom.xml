@@ -65,6 +65,22 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Generated code use the JAXWS API annotations -->
+        <dependency>
+            <groupId>javax.jws</groupId>
+            <artifactId>jsr181-api</artifactId>
+        </dependency>
+        <!-- Generated code use the JAXWS API -->    
+        <dependency>
+            <groupId>javax.xml.ws</groupId>
+            <artifactId>jaxws-api</artifactId>
+        </dependency>
+        <!-- Generated code uses legstar-invoker -->    
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-invoker</artifactId>
+        </dependency>
+
     </dependencies>
  
     <build>
