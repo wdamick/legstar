@@ -11,6 +11,14 @@
 #foreach ($cixsOperation in $model.cixsOperations)
 #getImportTypes(${cixsOperation.getInput()})
 #getImportTypes(${cixsOperation.getOutput()})
+##
+## if operations are in a different package than the service, we
+## need to import the operation classes as well
+##
+#if($cixsOperation.packageName && $cixsOperation.packageName != $model.packageName)
+#set($newType = ${helper.getQualClassName(${cixsOperation.packageName}, ${cixsOperation.faultType})})
+#addUnique($importTypes $newType)
+#end
 #end
 ## ==================================================================
 #parse("vlc/j2c-service-common-package.vm")

@@ -7,6 +7,7 @@ import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
 import com.legstar.test.coxb.lsfileae.Dfhcommarea;
+import com.legstar.test.cixs.lsfilean.oper.LsfileaeException;
 /**
  * LegStar/Jaxws Component interface.
  * Each method maps to a CICS program. 

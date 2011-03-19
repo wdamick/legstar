@@ -8,6 +8,8 @@ import com.legstar.host.invoke.HostInvokerException;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.test.coxb.lsfileae.Dfhcommarea;
 import com.legstar.test.cixs.lsfilean.oper.LsfileaeProgramInvoker;
+import com.legstar.test.cixs.lsfilean.oper.LsfileaeException;
+import com.legstar.test.cixs.lsfilean.oper.LsfileaeFaultInfo;
 
 /**
  * JAX-WS Service Adapter implementation.

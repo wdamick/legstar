@@ -13,11 +13,15 @@
 #getImportTypes(${cixsOperation.getOutput()})
 ##
 ## if operations are in a different package than the service, we
-## need to import the Program invokers as well
+## need to import the operation classes as well
 ##
 #if($cixsOperation.packageName && $cixsOperation.packageName != $model.packageName)
 #set($programInvokerType = ${cixsOperation.className} + "ProgramInvoker")
 #set($newType = ${helper.getQualClassName(${cixsOperation.packageName}, $programInvokerType)})
+#addUnique($importTypes $newType)
+#set($newType = ${helper.getQualClassName(${cixsOperation.packageName}, ${cixsOperation.faultType})})
+#addUnique($importTypes $newType)
+#set($newType = ${helper.getQualClassName(${cixsOperation.packageName}, ${cixsOperation.faultInfoType})})
 #addUnique($importTypes $newType)
 #end
 #end
