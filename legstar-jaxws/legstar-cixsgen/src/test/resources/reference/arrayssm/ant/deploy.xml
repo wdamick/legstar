@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =================================================================================
+     Deploy a distribution archive to J2EE server.
+  -->
+<project basedir=".." default="deploy-war" name="deploy-war">
+    <target name="create-war">
+        <ant antfile="target\src\gen\ant\arrayssm/build-war.xml"/>
+    </target>
+    <target name="deploy-war" depends="create-war">
+        <delete file="${env.CATALINA_BASE}\webapp/cixs-arrayssm.war"
+            includeEmptyDirs="true" quiet="true"/>
+        <copy file="target\src\gen\target/cixs-arrayssm.war"
+            todir="${env.CATALINA_BASE}\webapp"/>
+    </target>
+</project>
