@@ -36,6 +36,13 @@
 
         <dependency>
             <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-cixsgen-model</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-coxbgen</artifactId>
         </dependency>
 
@@ -58,50 +65,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-cixsgen-model-cases</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- The following are not compile ot test depencencies but
-             we want the cixsgen distribution to contain the
-             complete artifact set. -->
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-invoker</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-chttprt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-cmqrt</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.ibm</groupId>
-                    <artifactId>mq</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-csokrt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-cmockrt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-engine</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-c2wsrt</artifactId>
-        </dependency>
-    
     </dependencies>
  
     <build>
@@ -142,7 +105,6 @@
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
       
-                <!-- This will generate all Web Services test cases.  -->
                 <executions>
                     <!-- Produces the samples ant scripts for distribution. -->
                     <execution>
@@ -151,24 +113,6 @@
                         <configuration>
                             <tasks>
                                 <ant antfile="${basedir}/src/main/ant/generate-ant-samples.xml" />
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-
-                    <execution>
-                        <id>build-test-service</id>
-                        <phase>pre-integration-test</phase>
-                        <configuration>
-                            <tasks>
-                                <path id="maven.classpath">
-                                    <path refid="maven.test.classpath" />
-                                </path>
-                                <ant antfile="${basedir}/src/test/ant/build-cixsgen-cases.xml" inheritRefs="true">
-                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
-                                </ant>
                             </tasks>
                         </configuration>
                         <goals>

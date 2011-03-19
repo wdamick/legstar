@@ -14,7 +14,6 @@ import com.legstar.cixs.gen.model.CixsOperation;
 import com.legstar.cixs.gen.model.options.PojoParameters;
 import com.legstar.cixs.gen.model.options.WebServiceParameters;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
-import com.legstar.coxb.util.NameUtil;
 import com.legstar.test.cixs.CultureinfoOperationCases;
 import com.legstar.test.cixs.DplarchtOperationCases;
 import com.legstar.test.cixs.JvmqueryOperationCases;
@@ -29,9 +28,6 @@ import com.legstar.test.cixs.MSNSearchOperationCases;
  */
 public final class Samples {
 
-    /** Service classes package name prefix. */
-    private static final String CIXS_PACKAGE_PREFIX = "com.legstar.test.cixs.";
-
     /** Utility class. */
     private Samples() {
 
@@ -43,10 +39,11 @@ public final class Samples {
      * @return a service with a single operation mapping LSFILEAE
      */
     public static CixsJaxwsService getLsfileae() {
-        CixsJaxwsService service = getNewService("lsfileae");
+        CixsJaxwsService service = AbstractTestTemplate
+                .getNewService("lsfileae");
         service.getCixsOperations().add(
-                LsfileaeOperationCases.getOperation(
-                        service.getName(), service.getPackageName()));
+                LsfileaeOperationCases.getOperation(service.getName(),
+                        service.getPackageName()));
         return service;
     }
 
@@ -56,10 +53,11 @@ public final class Samples {
      * @return a service with a single operation mapping LSFILEAL
      */
     public static CixsJaxwsService getLsfileal() {
-        CixsJaxwsService service = getNewService("lsfileal");
+        CixsJaxwsService service = AbstractTestTemplate
+                .getNewService("lsfileal");
         service.getCixsOperations().add(
-                LsfilealOperationCases.getOperation(
-                        service.getName(), service.getPackageName()));
+                LsfilealOperationCases.getOperation(service.getName(),
+                        service.getPackageName()));
         return service;
     }
 
@@ -69,10 +67,11 @@ public final class Samples {
      * @return a service with a single operation mapping LSFILEAC
      */
     public static CixsJaxwsService getLsfileac() {
-        CixsJaxwsService service = getNewService("lsfileac");
+        CixsJaxwsService service = AbstractTestTemplate
+                .getNewService("lsfileac");
         service.getCixsOperations().add(
-                LsfileacOperationCases.getOperation(
-                        service.getName(), service.getPackageName()));
+                LsfileacOperationCases.getOperation(service.getName(),
+                        service.getPackageName()));
         return service;
     }
 
@@ -83,13 +82,14 @@ public final class Samples {
      *         one to LSFILEAC
      */
     public static CixsJaxwsService getLsfileax() {
-        CixsJaxwsService service = getNewService("lsfileax");
+        CixsJaxwsService service = AbstractTestTemplate
+                .getNewService("lsfileax");
         service.getCixsOperations().add(
-                LsfileaeOperationCases.getOperation(
-                        service.getName(), service.getPackageName()));
+                LsfileaeOperationCases.getOperation(service.getName(),
+                        service.getPackageName()));
         service.getCixsOperations().add(
-                LsfileacOperationCases.getOperation(
-                        service.getName(), service.getPackageName()));
+                LsfileacOperationCases.getOperation(service.getName(),
+                        service.getPackageName()));
         return service;
     }
 
@@ -99,11 +99,11 @@ public final class Samples {
      * @return a service with a single operation mapping LSFILEAE
      * */
     public static CixsJaxwsService getLsfilean() {
-        CixsJaxwsService service = getNewService("lsfilean");
-        CixsOperation operation =
-                LsfileaeOperationCases.getOperation(
-                        service.getName(),
-                        CIXS_PACKAGE_PREFIX + "oper." + "lsfilean");
+        CixsJaxwsService service = AbstractTestTemplate
+                .getNewService("lsfilean");
+        CixsOperation operation = LsfileaeOperationCases.getOperation(
+                service.getName(), AbstractTestTemplate.CIXS_PACKAGE_PREFIX
+                        + "oper." + "lsfilean");
         service.getCixsOperations().add(operation);
         return service;
     }
@@ -115,9 +115,10 @@ public final class Samples {
      * @return a service with a single operation mapping LSFILEAE
      * */
     public static CixsJaxwsService getLsfileap() {
-        CixsJaxwsService service = getNewService("lsfileap");
+        CixsJaxwsService service = AbstractTestTemplate
+                .getNewService("lsfileap");
         CixsOperation operation = LsfileaeOperationCases.getOperation(
-                    service.getName(), null);
+                service.getName(), null);
         service.setPackageName(null);
         service.getCixsOperations().add(operation);
         return service;
@@ -130,7 +131,8 @@ public final class Samples {
      *         one of the containers on input and on output
      * */
     public static CixsJaxwsService getLsfileac1() {
-        CixsJaxwsService service = getNewService("lsfileac1");
+        CixsJaxwsService service = AbstractTestTemplate
+                .getNewService("lsfileac1");
         CixsOperation operation = LsfileacOperationCases.getOperation(
                 service.getName(), service.getPackageName());
         operation.getInput().remove(1);
@@ -145,10 +147,11 @@ public final class Samples {
      * @return a service with custom code
      */
     public static CixsJaxwsService getDplarcht() {
-        CixsJaxwsService service = getNewService("dplarcht");
+        CixsJaxwsService service = AbstractTestTemplate
+                .getNewService("dplarcht");
         service.getCixsOperations().add(
-                DplarchtOperationCases.getOperation(
-                        service.getName(), service.getPackageName()));
+                DplarchtOperationCases.getOperation(service.getName(),
+                        service.getPackageName()));
         return service;
     }
 
@@ -159,10 +162,11 @@ public final class Samples {
      *         method
      * */
     public static CixsJaxwsService getJvmqueryWs() {
-        CixsJaxwsService service = getNewService("jvmqueryWs");
+        CixsJaxwsService service = AbstractTestTemplate
+                .getNewService("jvmqueryWs");
         service.getCixsOperations().add(
-                JvmqueryWsOperationCases.getOperation(
-                        service.getName(), service.getPackageName()));
+                JvmqueryWsOperationCases.getOperation(service.getName(),
+                        service.getPackageName()));
         return service;
     }
 
@@ -173,10 +177,11 @@ public final class Samples {
      *         method
      * */
     public static CixsJaxwsService getJvmquery() {
-        CixsJaxwsService service = getNewService("jvmquery");
+        CixsJaxwsService service = AbstractTestTemplate
+                .getNewService("jvmquery");
         service.getCixsOperations().add(
-                JvmqueryOperationCases.getOperation(
-                        service.getName(), service.getPackageName()));
+                JvmqueryOperationCases.getOperation(service.getName(),
+                        service.getPackageName()));
         return service;
     }
 
@@ -187,10 +192,11 @@ public final class Samples {
      *         operation
      * */
     public static CixsJaxwsService getCultureInfo() {
-        CixsJaxwsService service = getNewService("cultureinfo");
+        CixsJaxwsService service = AbstractTestTemplate
+                .getNewService("cultureinfo");
         service.getCixsOperations().add(
-                CultureinfoOperationCases.getOperation(
-                        service.getName(), service.getPackageName()));
+                CultureinfoOperationCases.getOperation(service.getName(),
+                        service.getPackageName()));
         return service;
     }
 
@@ -201,28 +207,12 @@ public final class Samples {
      *         operation
      * */
     public static CixsJaxwsService getMSNSearch() {
-        CixsJaxwsService service = getNewService("MSNSearch");
+        CixsJaxwsService service = AbstractTestTemplate
+                .getNewService("MSNSearch");
         service.getCixsOperations().add(
-                MSNSearchOperationCases.getOperation(
-                        service.getName(), service.getPackageName()));
+                MSNSearchOperationCases.getOperation(service.getName(),
+                        service.getPackageName()));
         return service;
-    }
-
-    /**
-     * Create a service without any operations.
-     * 
-     * @param serviceName the service name
-     * @return a new service
-     */
-    public static CixsJaxwsService getNewService(final String serviceName) {
-        CixsJaxwsService model = new CixsJaxwsService();
-        model.setPackageName(CIXS_PACKAGE_PREFIX + serviceName);
-        model.setImplementationClassName(
-                NameUtil.toClassName(serviceName) + "Impl");
-        model.setInterfaceClassName(
-                NameUtil.toClassName(serviceName));
-        model.setName(serviceName);
-        return model;
     }
 
     /**
