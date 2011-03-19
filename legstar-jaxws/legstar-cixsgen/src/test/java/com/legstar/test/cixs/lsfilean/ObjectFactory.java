@@ -1,6 +1,9 @@
 package com.legstar.test.cixs.lsfilean;
 
 import javax.xml.bind.annotation.XmlRegistry;
+import com.legstar.test.cixs.lsfilean.oper.LsfileaeFaultInfo;
+import com.legstar.test.cixs.lsfilean.oper.LsfileaeRequest;
+import com.legstar.test.cixs.lsfilean.oper.LsfileaeResponse;
 
 /**
  * A JAXB ObjectFactory for wrapper classes.
