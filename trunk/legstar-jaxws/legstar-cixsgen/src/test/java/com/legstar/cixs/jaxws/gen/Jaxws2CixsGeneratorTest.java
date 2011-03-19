@@ -452,23 +452,50 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
         for (int i = 0; i < dirs.length; i++) {
             String serviceName = FilenameUtils.getBaseName(dirs[i]);
             if (!NON_STANDARD_COXB.contains(serviceName)) {
-                System.out.println(dirs[i]);
-                CixsJaxwsService service = getNewService(serviceName);
-                initJaxwsService(service);
-                CixsOperation operation = new CixsOperation();
-                operation.setName(serviceName);
-                operation.setCicsProgramName(serviceName.toUpperCase());
-                CixsStructure commarea = new CixsStructure();
-                commarea.setJaxbType("Dfhcommarea");
-                commarea.setJaxbPackageName(AbstractOperationCases.JAXB_PKG_PREFIX
-                        + "." + serviceName);
-                operation.addInput(commarea);
-                operation.addOutput(commarea);
-                service.addCixsOperation(operation);
-                _generator.execute();
-                check(serviceName);
+                generateAndCheck(serviceName, "Dfhcommarea", "Dfhcommarea");
             }
         }
+    }
+
+    /**
+     * Test LSFILEAL.
+     * 
+     * @throws Exception if generation fails
+     */
+    public void testLsfileal() throws Exception {
+        generateAndCheck("lsfileal", "RequestParms", "ReplyData");
+    }
+
+    /**
+     * Generate and check against the reference.
+     * 
+     * @param serviceName the service name
+     * @param inJaxbTypeName the input JAXB type name
+     * @param outJaxbTypeName the output JAXB type name
+     * @throws Exception if generation fails
+     */
+    protected void generateAndCheck(final String serviceName,
+            final String inJaxbTypeName, final String outJaxbTypeName)
+            throws Exception {
+
+        CixsJaxwsService service = getNewService(serviceName);
+        initJaxwsService(service);
+        CixsOperation operation = new CixsOperation();
+        operation.setName(serviceName);
+        operation.setCicsProgramName(serviceName.toUpperCase());
+        CixsStructure inCommarea = new CixsStructure();
+        inCommarea.setJaxbType(inJaxbTypeName);
+        inCommarea.setJaxbPackageName(AbstractOperationCases.JAXB_PKG_PREFIX
+                + "." + serviceName);
+        operation.addInput(inCommarea);
+        CixsStructure outCommarea = new CixsStructure();
+        outCommarea.setJaxbType(outJaxbTypeName);
+        outCommarea.setJaxbPackageName(AbstractOperationCases.JAXB_PKG_PREFIX
+                + "." + serviceName);
+        operation.addOutput(outCommarea);
+        service.addCixsOperation(operation);
+        _generator.execute();
+        check(serviceName);
     }
 
     /**
