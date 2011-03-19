@@ -12,25 +12,44 @@ package com.legstar.cixs.jaxws.gen;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.filefilter.DirectoryFileFilter;
 
 import com.legstar.cixs.gen.AbstractTestTemplate;
 import com.legstar.cixs.gen.Samples;
+import com.legstar.cixs.gen.model.CixsOperation;
+import com.legstar.cixs.gen.model.CixsStructure;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
+import com.legstar.test.cixs.AbstractOperationCases;
 
 /**
  * Test cases for Jaxws2CixsGenerator.
  */
 public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
 
+    /** True when references should be created. */
+    private static final boolean CREATE_REFERENCES = false;
+
+    /** List of COXB cases which require special treatment. */
+    private static final List < String > NON_STANDARD_COXB = Arrays
+            .asList(new String[] { "lsfileal", "lsfileac", "enumvar",
+                    "MSNSearch", "cultureinfo", "jvmquery", "ws", "varar021",
+                    "tcobwvb", "perf", "rq071", "redopera", "redmulti",
+                    "dplarcht", "redsimpt", "redinout", "redbotha", "coxb137" });
+
     /** An instance of the generator. */
-    private Jaxws2CixsGenerator mGenerator;
+    private Jaxws2CixsGenerator _generator;
 
     /** {@inheritDoc} */
     public void setUp() {
-        emptyDir(GEN_DIR);
-        mGenerator = new Jaxws2CixsGenerator();
-        mGenerator.init();
-        mGenerator.setJaxbBinDir(JAXB_BIN_DIR);
+        super.setUp();
+        setCreateReferences(CREATE_REFERENCES);
+        _generator = new Jaxws2CixsGenerator();
+        _generator.init();
+        _generator.setJaxbBinDir(JAXB_BIN_DIR);
     }
 
     /**
@@ -56,16 +75,16 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
             generator.execute();
         } catch (Exception e) {
             assertEquals("java.lang.IllegalArgumentException: JaxbBinDir:"
-                    + " No directory name was specified",
-                    e.getCause().getMessage());
+                    + " No directory name was specified", e.getCause()
+                    .getMessage());
         }
         try {
             generator.setJaxbBinDir(JAXB_BIN_DIR);
             generator.execute();
             fail();
         } catch (Exception e) {
-            assertEquals("You must provide a service name",
-                    e.getCause().getMessage());
+            assertEquals("You must provide a service name", e.getCause()
+                    .getMessage());
         }
         try {
             generator.getCixsJaxwsService().setName("jaxwsServiceName");
@@ -73,8 +92,8 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
             fail();
         } catch (Exception e) {
             assertEquals("java.lang.IllegalArgumentException:"
-                    + " TargetAntDir: No directory name was specified",
-                    e.getCause().getMessage());
+                    + " TargetAntDir: No directory name was specified", e
+                    .getCause().getMessage());
         }
         try {
             generator.setTargetAntDir(GEN_ANT_DIR);
@@ -82,8 +101,8 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
             fail();
         } catch (Exception e) {
             assertEquals("java.lang.IllegalArgumentException:"
-                    + " TargetWDDDir: No directory name was specified",
-                    e.getCause().getMessage());
+                    + " TargetWDDDir: No directory name was specified", e
+                    .getCause().getMessage());
         }
         try {
             generator.setTargetWDDDir(GEN_WDD_DIR);
@@ -91,8 +110,8 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
             fail();
         } catch (Exception e) {
             assertEquals("java.lang.IllegalArgumentException:"
-                    + " TargetDistDir: No directory name was specified",
-                    e.getCause().getMessage());
+                    + " TargetDistDir: No directory name was specified", e
+                    .getCause().getMessage());
         }
         try {
             generator.setTargetDistDir(GEN_DIST_DIR);
@@ -100,16 +119,16 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
             fail();
         } catch (Exception e) {
             assertEquals("java.lang.IllegalArgumentException:"
-                    + " TargetWarDir: No directory name was specified",
-                    e.getCause().getMessage());
+                    + " TargetWarDir: No directory name was specified", e
+                    .getCause().getMessage());
         }
         try {
             generator.setTargetWarDir(GEN_WAR_DIR);
             generator.execute();
             fail();
         } catch (Exception e) {
-            assertEquals("No operation was specified",
-                    e.getCause().getMessage());
+            assertEquals("No operation was specified", e.getCause()
+                    .getMessage());
         }
         try {
             generator.setCixsJaxwsService(Samples.getLsfileae());
@@ -117,8 +136,8 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
             fail();
         } catch (Exception e) {
             assertEquals("java.lang.IllegalArgumentException:"
-                    + " TargetSrcDir: No directory name was specified",
-                    e.getCause().getMessage());
+                    + " TargetSrcDir: No directory name was specified", e
+                    .getCause().getMessage());
         }
         try {
             generator.setTargetSrcDir(GEN_SRC_DIR);
@@ -126,8 +145,8 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
             fail();
         } catch (Exception e) {
             assertEquals("java.lang.IllegalArgumentException:"
-                    + " TargetBinDir: No directory name was specified",
-                    e.getCause().getMessage());
+                    + " TargetBinDir: No directory name was specified", e
+                    .getCause().getMessage());
         }
         try {
             generator.setTargetBinDir(GEN_BIN_DIR);
@@ -144,15 +163,15 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
      * @param cixsJaxwsService the service descriptor
      */
     private void initJaxwsService(final CixsJaxwsService cixsJaxwsService) {
-        mGenerator.setCixsJaxwsService(cixsJaxwsService);
-        mGenerator.setTargetSrcDir(GEN_SRC_DIR);
-        mGenerator.setTargetBinDir(GEN_BIN_DIR);
-        mGenerator.setTargetWarDir(GEN_WAR_DIR);
-        mGenerator.setTargetAntDir(
-                new File(GEN_ANT_DIR, cixsJaxwsService.getName()));
-        mGenerator.setTargetWDDDir(
-                new File(GEN_WDD_DIR, cixsJaxwsService.getName()));
-        mGenerator.setTargetDistDir(GEN_DIST_DIR);
+        _generator.setCixsJaxwsService(cixsJaxwsService);
+        _generator.setTargetSrcDir(GEN_SRC_DIR);
+        _generator.setTargetBinDir(GEN_BIN_DIR);
+        _generator.setTargetWarDir(GEN_WAR_DIR);
+        _generator.setTargetAntDir(new File(GEN_ANT_DIR, cixsJaxwsService
+                .getName()));
+        _generator.setTargetWDDDir(new File(GEN_WDD_DIR, cixsJaxwsService
+                .getName()));
+        _generator.setTargetDistDir(GEN_DIST_DIR);
     }
 
     /**
@@ -164,7 +183,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
     public void testLsfileaeGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = Samples.getLsfileae();
         initJaxwsService(cixsJaxwsService);
-        mGenerator.execute();
+        _generator.execute();
         checkServiceArtifacts("/com/legstar/test/cixs/Lsfileae",
                 cixsJaxwsService);
         checkOperationResult("/com/legstar/test/cixs/Lsfileae", "lsfileae",
@@ -184,7 +203,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
     public void testgetLsfilealGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = Samples.getLsfileal();
         initJaxwsService(cixsJaxwsService);
-        mGenerator.execute();
+        _generator.execute();
         checkServiceArtifacts("/com/legstar/test/cixs/Lsfileal",
                 cixsJaxwsService);
         checkOperationResult("/com/legstar/test/cixs/Lsfileal", "lsfileal",
@@ -203,7 +222,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
     public void testLsfileacGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = Samples.getLsfileac();
         initJaxwsService(cixsJaxwsService);
-        mGenerator.execute();
+        _generator.execute();
         checkServiceArtifacts("/com/legstar/test/cixs/Lsfileac",
                 cixsJaxwsService);
         checkOperationResult("/com/legstar/test/cixs/Lsfileac", "lsfileac",
@@ -222,7 +241,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
     public void testLsfileaxGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = Samples.getLsfileax();
         initJaxwsService(cixsJaxwsService);
-        mGenerator.execute();
+        _generator.execute();
         checkServiceArtifacts("/com/legstar/test/cixs/Lsfileax",
                 cixsJaxwsService);
         checkOperationResult("/com/legstar/test/cixs/Lsfileax", "lsfileax",
@@ -247,7 +266,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
     public void testLsfileapGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = Samples.getLsfileap();
         initJaxwsService(cixsJaxwsService);
-        mGenerator.execute();
+        _generator.execute();
         checkServiceArtifacts("", cixsJaxwsService);
         checkOperationResult("", "lsfileap", "lsfileae", "Lsfileae");
     }
@@ -260,7 +279,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
     public void testLsfileanGenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = Samples.getLsfilean();
         initJaxwsService(cixsJaxwsService);
-        mGenerator.execute();
+        _generator.execute();
         checkServiceArtifacts("/com/legstar/test/cixs/Lsfilean",
                 cixsJaxwsService);
         checkOperationResult("/com/legstar/test/cixs/oper/Lsfilean",
@@ -276,7 +295,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
     public void testLsfileac1GenerateClasses() throws Exception {
         CixsJaxwsService cixsJaxwsService = Samples.getLsfileac1();
         initJaxwsService(cixsJaxwsService);
-        mGenerator.execute();
+        _generator.execute();
         checkServiceArtifacts("/com/legstar/test/cixs/Lsfileac1",
                 cixsJaxwsService);
         checkOperationResult("/com/legstar/test/cixs/Lsfileac1", "lsfileac1",
@@ -290,8 +309,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
      * @param service the legstar service
      * @throws IOException if test fails
      */
-    private void checkServiceArtifacts(
-            final String relativeLoc,
+    private void checkServiceArtifacts(final String relativeLoc,
             final CixsJaxwsService service) throws IOException {
 
         String resStr = getSource(GEN_SRC_DIR + relativeLoc + "/"
@@ -359,11 +377,9 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
      * @param className the main java class name
      * @throws IOException if test fails
      */
-    public void checkOperationResult(
-            final String relativeLoc,
-            final String service,
-            final String operation,
-            final String className) throws IOException {
+    public void checkOperationResult(final String relativeLoc,
+            final String service, final String operation, final String className)
+            throws IOException {
 
         String resStr;
         resStr = getSource(GEN_SRC_DIR + relativeLoc + "/" + className
@@ -396,12 +412,10 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
      * @param propertyName holder property name
      * @throws IOException if test fails
      */
-    public void checkHolderResult(
-            final String relativeLoc,
-            final String service,
-            final String operation,
-            final String className,
-            final String propertyName) throws IOException {
+    public void checkHolderResult(final String relativeLoc,
+            final String service, final String operation,
+            final String className, final String propertyName)
+            throws IOException {
         String resStr = getSource(GEN_SRC_DIR + relativeLoc + "/" + className
                 + propertyName + "Holder.java");
         assertTrue(resStr.contains("public class " + className + propertyName
@@ -418,16 +432,48 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
      * @param propertyName wrapper property name
      * @throws IOException if test fails
      */
-    public void checkWebWrapperResult(
-            final String relativeLoc,
-            final String service,
-            final String operation,
-            final String className,
-            final String propertyName) throws IOException {
+    public void checkWebWrapperResult(final String relativeLoc,
+            final String service, final String operation,
+            final String className, final String propertyName)
+            throws IOException {
         String resStr = getSource(GEN_SRC_DIR + relativeLoc + "/" + className
                 + propertyName + ".java");
         assertTrue(resStr.contains("public class " + className + propertyName
                 + " {"));
     }
 
+    /**
+     * Test all standard cases.
+     * 
+     * @throws Exception if generation fails
+     */
+    public void testAllStandard() throws Exception {
+        String[] dirs = COXB_DIR.list(DirectoryFileFilter.INSTANCE);
+        for (int i = 0; i < dirs.length; i++) {
+            String serviceName = FilenameUtils.getBaseName(dirs[i]);
+            if (!NON_STANDARD_COXB.contains(serviceName)) {
+                System.out.println(dirs[i]);
+                CixsJaxwsService service = getNewService(serviceName);
+                initJaxwsService(service);
+                CixsOperation operation = new CixsOperation();
+                operation.setName(serviceName);
+                operation.setCicsProgramName(serviceName.toUpperCase());
+                CixsStructure commarea = new CixsStructure();
+                commarea.setJaxbType("Dfhcommarea");
+                commarea.setJaxbPackageName(AbstractOperationCases.JAXB_PKG_PREFIX
+                        + "." + serviceName);
+                operation.addInput(commarea);
+                operation.addOutput(commarea);
+                service.addCixsOperation(operation);
+                _generator.execute();
+                check(new File(SRC_REF_DIR, GEN_SRC_SUBDIR + serviceName),
+                        new File(GEN_SRC_DIR, GEN_SRC_SUBDIR + serviceName),
+                        "java");
+                check(new File(ANT_REF_DIR, serviceName), new File(GEN_ANT_DIR,
+                        serviceName), "xml");
+                check(new File(WDD_REF_DIR, "WEB-INF/" + serviceName),
+                        new File(GEN_WDD_DIR, "WEB-INF/" + serviceName), "xml");
+            }
+        }
+    }
 }
