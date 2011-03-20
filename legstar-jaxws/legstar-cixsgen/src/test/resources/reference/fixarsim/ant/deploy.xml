@@ -3,6 +3,7 @@
      Deploy a distribution archive to J2EE server.
   -->
 <project basedir=".." default="deploy-war" name="deploy-war">
+    <property environment="env"/>
     <target name="create-war">
         <ant antfile="target\src\gen\ant\fixarsim/build-war.xml"/>
     </target>

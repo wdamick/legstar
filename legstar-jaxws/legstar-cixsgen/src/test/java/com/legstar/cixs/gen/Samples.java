@@ -166,6 +166,19 @@ public final class Samples extends AbstractTestTemplate {
     }
 
     /**
+     * Case of a Web Service exposed to mainframe.
+     * 
+     * @return a service with a single operation mapping Cultureinfo getInfo
+     *         operation
+     * */
+    public static CixsJaxwsService getCultureInfo() {
+        CixsJaxwsService service = getNewService("cultureinfo");
+        service.addCixsOperation(CultureinfoOperationCases.getOperation(
+                service.getName(), service.getPackageName()));
+        return service;
+    }
+
+    /**
      * Case of a POJO exposed to mainframe via a Web Service proxy.
      * 
      * @return a service with a single operation mapping Jvmquery queryJvm
@@ -173,9 +186,8 @@ public final class Samples extends AbstractTestTemplate {
      * */
     public static CixsJaxwsService getJvmqueryWs() {
         CixsJaxwsService service = getNewService("jvmqueryWs");
-        service.getCixsOperations().add(
-                JvmqueryWsOperationCases.getOperation(service.getName(),
-                        service.getPackageName()));
+        service.addCixsOperation(JvmqueryWsOperationCases.getOperation(
+                service.getName(), service.getPackageName()));
         return service;
     }
 
@@ -187,23 +199,8 @@ public final class Samples extends AbstractTestTemplate {
      * */
     public static CixsJaxwsService getJvmquery() {
         CixsJaxwsService service = getNewService("jvmquery");
-        service.getCixsOperations().add(
-                JvmqueryOperationCases.getOperation(service.getName(),
-                        service.getPackageName()));
-        return service;
-    }
-
-    /**
-     * Case of a Web Service exposed to mainframe.
-     * 
-     * @return a service with a single operation mapping Cultureinfo getInfo
-     *         operation
-     * */
-    public static CixsJaxwsService getCultureInfo() {
-        CixsJaxwsService service = getNewService("cultureinfo");
-        service.getCixsOperations().add(
-                CultureinfoOperationCases.getOperation(service.getName(),
-                        service.getPackageName()));
+        service.addCixsOperation(JvmqueryOperationCases.getOperation(
+                service.getName(), service.getPackageName()));
         return service;
     }
 
@@ -215,9 +212,8 @@ public final class Samples extends AbstractTestTemplate {
      * */
     public static CixsJaxwsService getMSNSearch() {
         CixsJaxwsService service = getNewService("MSNSearch");
-        service.getCixsOperations().add(
-                MSNSearchOperationCases.getOperation(service.getName(),
-                        service.getPackageName()));
+        service.addCixsOperation(MSNSearchOperationCases.getOperation(
+                service.getName(), service.getPackageName()));
         return service;
     }
 
@@ -232,6 +228,21 @@ public final class Samples extends AbstractTestTemplate {
                 .setWsdlTargetNamespace("http://cultureinfo.cases.test.xsdc.legstar.com/");
         webServiceParameters.setWsdlServiceName("CultureInfoImplService");
         webServiceParameters.setWsdlPortName("CultureInfoImplPort");
+        return webServiceParameters;
+
+    }
+
+    /**
+     * @return target web service parameters for MSNSearch
+     */
+    public static WebServiceParameters getMSNSearchWebServiceParameters() {
+        WebServiceParameters webServiceParameters = new WebServiceParameters();
+        webServiceParameters
+                .setWsdlUrl("http://soap.search.msn.com/webservices.asmx?wsdl");
+        webServiceParameters
+                .setWsdlTargetNamespace("http://schemas.microsoft.com/MSNSearch/2005/09/fex");
+        webServiceParameters.setWsdlServiceName("MSNSearchService");
+        webServiceParameters.setWsdlPortName("MSNSearchPort");
         return webServiceParameters;
 
     }

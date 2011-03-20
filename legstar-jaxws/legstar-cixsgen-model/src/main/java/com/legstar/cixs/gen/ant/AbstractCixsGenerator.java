@@ -14,10 +14,10 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Task;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Task;
 
 import com.legstar.cixs.gen.ant.model.AbstractAntBuildCixsModel;
 import com.legstar.cixs.gen.model.AbstractCixsService;
@@ -60,15 +60,15 @@ public abstract class AbstractCixsGenerator extends Task {
     }
 
     /**
-     * Check that enough input parameters are set and then
-     * generate the requested artifacts.
+     * Check that enough input parameters are set and then generate the
+     * requested artifacts.
      * 
      * */
     @Override
     public void execute() {
         _log.info("Generating artifacts for "
-                + ((getCixsService() == null) ? "null"
-                        : getCixsService().getName()));
+                + ((getCixsService() == null) ? "null" : getCixsService()
+                        .getName()));
         long start = System.currentTimeMillis();
 
         try {
@@ -93,8 +93,7 @@ public abstract class AbstractCixsGenerator extends Task {
      */
     private void checkInput() throws CodeGenMakeException {
         try {
-            CodeGenUtil.checkDirectory(
-                    getJaxbBinDir(), false, "JaxbBinDir");
+            CodeGenUtil.checkDirectory(getJaxbBinDir(), false, "JaxbBinDir");
 
             if (getCixsService() == null) {
                 throw new CodeGenMakeException(
@@ -116,8 +115,8 @@ public abstract class AbstractCixsGenerator extends Task {
     }
 
     /**
-     * Prepare a set of common parameters used by most generation
-     * targets and then call subclass generation.
+     * Prepare a set of common parameters used by most generation targets and
+     * then call subclass generation.
      * 
      * @throws CodeGenMakeException if generation fails
      */
@@ -155,8 +154,8 @@ public abstract class AbstractCixsGenerator extends Task {
      * @param parameters a predefined set of parameters useful for generation
      * @throws CodeGenMakeException if generation fails
      */
-    public abstract void generate(
-            Map < String, Object > parameters) throws CodeGenMakeException;
+    public abstract void generate(Map < String, Object > parameters)
+            throws CodeGenMakeException;
 
     /**
      * @return this generator name
@@ -164,8 +163,8 @@ public abstract class AbstractCixsGenerator extends Task {
     public abstract String getGeneratorName();
 
     /**
-     * Generate default values where they are missing in the model. This
-     * will reduce the amount of code in the velocity templates.
+     * Generate default values where they are missing in the model. This will
+     * reduce the amount of code in the velocity templates.
      */
     protected void completeModel() {
         for (CixsOperation operation : getCixsService().getCixsOperations()) {
@@ -192,23 +191,12 @@ public abstract class AbstractCixsGenerator extends Task {
      * @param fileName name of generated file using default character set
      * @throws CodeGenMakeException if generation fails
      */
-    public static void generateFile(
-            final String generatorName,
-            final String templateName,
-            final String modelName,
-            final Object model,
-            final Map < String, Object > parameters,
-            final File dir,
-            final String fileName)
-            throws CodeGenMakeException {
-        generateFile(generatorName,
-                templateName,
-                modelName,
-                model,
-                parameters,
-                dir,
-                fileName,
-                null);
+    public static void generateFile(final String generatorName,
+            final String templateName, final String modelName,
+            final Object model, final Map < String, Object > parameters,
+            final File dir, final String fileName) throws CodeGenMakeException {
+        generateFile(generatorName, templateName, modelName, model, parameters,
+                dir, fileName, null);
     }
 
     /**
@@ -224,25 +212,15 @@ public abstract class AbstractCixsGenerator extends Task {
      * @param charsetName the target character set
      * @throws CodeGenMakeException if generation fails
      */
-    public static void generateFile(
-            final String generatorName,
-            final String templateName,
-            final String modelName,
-            final Object model,
-            final Map < String, Object > parameters,
-            final File dir,
-            final String fileName,
-            final String charsetName)
+    public static void generateFile(final String generatorName,
+            final String templateName, final String modelName,
+            final Object model, final Map < String, Object > parameters,
+            final File dir, final String fileName, final String charsetName)
             throws CodeGenMakeException {
 
         File targetFile = CodeGenUtil.getFile(dir, fileName);
-        CodeGenUtil.processTemplate(
-                generatorName,
-                templateName,
-                modelName, model,
-                parameters,
-                targetFile,
-                charsetName);
+        CodeGenUtil.processTemplate(generatorName, templateName, modelName,
+                model, parameters, targetFile, charsetName);
     }
 
     /**
@@ -255,8 +233,7 @@ public abstract class AbstractCixsGenerator extends Task {
     /**
      * @param cixsService the service to set
      */
-    public void setCixsService(
-            final AbstractCixsService cixsService) {
+    public void setCixsService(final AbstractCixsService cixsService) {
         mAntModel.setCixsService(cixsService);
     }
 
@@ -270,8 +247,7 @@ public abstract class AbstractCixsGenerator extends Task {
     /**
      * @param cixsService the service to set
      */
-    public void addCixsService(
-            final AbstractCixsService cixsService) {
+    public void addCixsService(final AbstractCixsService cixsService) {
         setCixsService(cixsService);
     }
 

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+    <servlet>
+        <description>cultureinfoProxy is a proxy for webservice cultureinfo</description>
+        <display-name>cultureinfoProxy</display-name>
+        <servlet-name>cultureinfoProxy</servlet-name>
+        <servlet-class>com.legstar.c2ws.servlet.C2wsProxy</servlet-class>
+        <!--  ============================ -->
+        <!--  Parameters for Service Proxy -->
+        <!--  ============================ -->
+        <init-param>
+            <description>Operation proxy class name</description>
+            <param-name>operationProxyClassName</param-name>
+            <param-value>com.legstar.proxy.invoke.DirectOperationProxy</param-value>
+        </init-param>
+        <!--  ===================================== -->
+        <!--  Parameters for Direct Operation Proxy -->
+        <!--  ===================================== -->
+        <init-param>
+            <description>Host character set</description>
+            <param-name>hostCharset</param-name>
+            <param-value>IBM01147</param-value>
+        </init-param>
+        <init-param>
+            <description>Request transformers set</description>
+            <param-name>requestTransformersClassName</param-name>
+            <param-value>com.legstar.test.coxb.cultureinfo.bind.GetInfoTransformers</param-value>
+        </init-param>
+        <init-param>
+            <description>Response transformers set</description>
+            <param-name>responseTransformersClassName</param-name>
+            <param-value>com.legstar.test.coxb.cultureinfo.bind.GetInfoResponseTransformers</param-value>
+        </init-param>
+        <!--  ================================== -->
+        <!--  Parameters for Web Service invoker -->
+        <!--  ================================== -->
+        <init-param>
+            <description>Proxy invoker class name</description>
+            <param-name>proxyInvokerClassName</param-name>
+            <param-value>com.legstar.proxy.invoke.jaxws.WebServiceInvoker</param-value>
+        </init-param>
+        <init-param>
+            <description>URL locating target Web service WSDL</description>
+            <param-name>wsdlUrl</param-name>
+            <param-value>http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl</param-value>
+        </init-param>
+        <init-param>
+            <description>Target Web service WSDL namespace</description>
+            <param-name>wsdlTargetNamespace</param-name>
+            <param-value>http://cultureinfo.cases.test.xsdc.legstar.com/</param-value>
+        </init-param>
+        <init-param>
+            <description>Target Web service WSDL port name</description>
+            <param-name>wsdlPortName</param-name>
+            <param-value>CultureInfoImplPort</param-value>
+        </init-param>
+        <init-param>
+            <description>Target Web service WSDL service name</description>
+            <param-name>wsdlServiceName</param-name>
+            <param-value>CultureInfoImplService</param-value>
+        </init-param>
+        <init-param>
+            <description>Request JAXB type</description>
+            <param-name>requestJaxbType</param-name>
+            <param-value>GetInfo</param-value>
+        </init-param>
+        <init-param>
+            <description>Request JAXB package name</description>
+            <param-name>requestJaxbPackageName</param-name>
+            <param-value>com.legstar.test.coxb.cultureinfo</param-value>
+        </init-param>
+        <init-param>
+            <description>Response JAXB type</description>
+            <param-name>responseJaxbType</param-name>
+            <param-value>GetInfoResponse</param-value>
+        </init-param>
+        <init-param>
+            <description>Response JAXB package name</description>
+            <param-name>responseJaxbPackageName</param-name>
+            <param-value>com.legstar.test.coxb.cultureinfo</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cultureinfoProxy</servlet-name>
+        <url-pattern>/cultureinfoProxy</url-pattern>
+    </servlet-mapping>
+</web-app>

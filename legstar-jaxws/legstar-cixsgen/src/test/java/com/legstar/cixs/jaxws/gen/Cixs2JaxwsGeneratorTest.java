@@ -16,7 +16,6 @@ import com.legstar.cixs.gen.AbstractTestTemplate;
 import com.legstar.cixs.gen.Samples;
 import com.legstar.cixs.gen.model.options.ProxyTargetType;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
-import com.legstar.codegen.CodeGenUtil;
 
 /**
  * Test Cixs2JaxwsGenerator.
@@ -24,15 +23,19 @@ import com.legstar.codegen.CodeGenUtil;
  */
 public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
 
+    /** True when references should be created. */
+    private static final boolean CREATE_REFERENCES = false;
+
     /** An instance of the generator. */
-    private Cixs2JaxwsGenerator mGenerator;
+    private Cixs2JaxwsGenerator _generator;
 
     /** {@inheritDoc} */
     public void setUp() {
         emptyDir(GEN_DIR);
-        mGenerator = new Cixs2JaxwsGenerator();
-        mGenerator.init();
-        mGenerator.setJaxbBinDir(JAXB_BIN_DIR);
+        setCreateReferences(CREATE_REFERENCES);
+        _generator = new Cixs2JaxwsGenerator();
+        _generator.init();
+        _generator.setJaxbBinDir(JAXB_BIN_DIR);
     }
 
     /**
@@ -44,40 +47,40 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
             generator.execute();
         } catch (Exception e) {
             assertEquals("java.lang.IllegalArgumentException: JaxbBinDir:"
-                    + " No directory name was specified",
-                    e.getCause().getMessage());
+                    + " No directory name was specified", e.getCause()
+                    .getMessage());
         }
         try {
             generator.setJaxbBinDir(JAXB_BIN_DIR);
             generator.execute();
             generator.execute();
         } catch (Exception e) {
-            assertEquals("You must provide a service name",
-                    e.getCause().getMessage());
+            assertEquals("You must provide a service name", e.getCause()
+                    .getMessage());
         }
         try {
             generator.getCixsJaxwsService().setName("cixsJaxwsService");
             generator.execute();
         } catch (Exception e) {
             assertEquals("java.lang.IllegalArgumentException:"
-                    + " TargetAntDir: No directory name was specified",
-                    e.getCause().getMessage());
+                    + " TargetAntDir: No directory name was specified", e
+                    .getCause().getMessage());
         }
         try {
             generator.setTargetAntDir(GEN_ANT_DIR);
             generator.execute();
         } catch (Exception e) {
             assertEquals("java.lang.IllegalArgumentException:"
-                    + " TargetWDDDir: No directory name was specified",
-                    e.getCause().getMessage());
+                    + " TargetWDDDir: No directory name was specified", e
+                    .getCause().getMessage());
         }
         try {
             generator.setTargetWDDDir(GEN_WDD_DIR);
             generator.execute();
         } catch (Exception e) {
             assertEquals("java.lang.IllegalArgumentException:"
-                    + " TargetDistDir: No directory name was specified",
-                    e.getCause().getMessage());
+                    + " TargetDistDir: No directory name was specified", e
+                    .getCause().getMessage());
         }
         try {
             generator.setTargetDistDir(GEN_DIST_DIR);
@@ -85,16 +88,16 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
             fail();
         } catch (Exception e) {
             assertEquals("java.lang.IllegalArgumentException:"
-                    + " TargetWarDir: No directory name was specified",
-                    e.getCause().getMessage());
+                    + " TargetWarDir: No directory name was specified", e
+                    .getCause().getMessage());
         }
         try {
             generator.setTargetWarDir(GEN_WAR_DIR);
             generator.execute();
             fail();
         } catch (Exception e) {
-            assertEquals("No operation was specified",
-                    e.getCause().getMessage());
+            assertEquals("No operation was specified", e.getCause()
+                    .getMessage());
         }
         try {
             generator.setCixsJaxwsService(Samples.getJvmquery());
@@ -102,16 +105,16 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
             fail();
         } catch (Exception e) {
             assertEquals("java.lang.IllegalArgumentException:"
-                    + " TargetCobolDir: No directory name was specified",
-                    e.getCause().getMessage());
+                    + " TargetCobolDir: No directory name was specified", e
+                    .getCause().getMessage());
         }
         try {
             generator.setTargetCobolDir(GEN_COBOL_DIR);
             generator.execute();
             fail();
         } catch (Exception e) {
-            assertEquals("Missing target Web service WSDL URL",
-                    e.getCause().getMessage());
+            assertEquals("Missing target Web service WSDL URL", e.getCause()
+                    .getMessage());
         }
         try {
             generator.getWebServiceTargetParameters().setWsdlUrl(
@@ -119,8 +122,8 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
             generator.execute();
             fail();
         } catch (Exception e) {
-            assertEquals("Missing target Web service namespace",
-                    e.getCause().getMessage());
+            assertEquals("Missing target Web service namespace", e.getCause()
+                    .getMessage());
         }
         try {
             generator.getWebServiceTargetParameters().setWsdlTargetNamespace(
@@ -128,8 +131,8 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
             generator.execute();
             fail();
         } catch (Exception e) {
-            assertEquals("Missing target Web service name",
-                    e.getCause().getMessage());
+            assertEquals("Missing target Web service name", e.getCause()
+                    .getMessage());
         }
         try {
             generator.getWebServiceTargetParameters().setWsdlServiceName(
@@ -137,8 +140,8 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
             generator.execute();
             fail();
         } catch (Exception e) {
-            assertEquals("Missing target Web service port name",
-                    e.getCause().getMessage());
+            assertEquals("Missing target Web service port name", e.getCause()
+                    .getMessage());
         }
         try {
             generator.getWebServiceTargetParameters().setWsdlPortName(
@@ -151,22 +154,55 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
     }
 
     /**
+     * Initialize generator for a given service.
+     * 
+     * @param cixsJaxwsService the service descriptor
+     */
+    private void initJaxwsService(final CixsJaxwsService cixsJaxwsService) {
+        _generator.setCixsJaxwsService(cixsJaxwsService);
+        _generator.setTargetAntDir(new File(GEN_ANT_DIR, cixsJaxwsService
+                .getName()));
+        _generator.setTargetWDDDir(new File(GEN_WDD_DIR, cixsJaxwsService
+                .getName()));
+        _generator.setTargetCobolDir(new File(GEN_COBOL_DIR, cixsJaxwsService
+                .getName()));
+        _generator.setTargetWarDir(GEN_WAR_DIR);
+        _generator.setTargetDistDir(GEN_DIST_DIR);
+        _generator.setHostCharset("IBM01147");
+        _generator.getHttpTransportParameters().setUserId("alice");
+        _generator.getHttpTransportParameters().setPassword("inwonderland");
+
+    }
+
+    /**
      * Test a straight generation with web service target.
      * 
      * @throws Exception if generation fails
      */
-    public void testGenerateWebService() throws Exception {
-        CixsJaxwsService cixsJaxwsService = Samples.getCultureInfo();
-        initJaxwsService(cixsJaxwsService);
-        mGenerator.setProxyTargetType(ProxyTargetType.WEBSERVICE.toString());
-        mGenerator.setWebServiceTargetParameters(
-                Samples.getCultureinfoWebServiceParameters());
-        mGenerator.execute();
-        checkAntBuild(cixsJaxwsService.getName());
-        checkWebServiceWebDescriptor(cixsJaxwsService.getName());
-        checkCobolClient(cixsJaxwsService.getName(),
-                cixsJaxwsService.getCixsOperations().get(0)
-                        .getCicsProgramName());
+    public void testCultureinfo() throws Exception {
+        CixsJaxwsService service = Samples.getCultureInfo();
+        initJaxwsService(service);
+        _generator.setProxyTargetType(ProxyTargetType.WEBSERVICE.toString());
+        _generator.setWebServiceTargetParameters(Samples
+                .getCultureinfoWebServiceParameters());
+        _generator.execute();
+        check(service.getName());
+
+    }
+
+    /**
+     * Test a straight generation with complex web service target.
+     * 
+     * @throws Exception if generation fails
+     */
+    public void testMSNSearch() throws Exception {
+        CixsJaxwsService service = Samples.getMSNSearch();
+        initJaxwsService(service);
+        _generator.setProxyTargetType(ProxyTargetType.WEBSERVICE.toString());
+        _generator.setWebServiceTargetParameters(Samples
+                .getMSNSearchWebServiceParameters());
+        _generator.execute();
+        check(service.getName());
 
     }
 
@@ -175,133 +211,28 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
      * 
      * @throws Exception if generation fails
      */
-    public void testGeneratePojo() throws Exception {
-        CixsJaxwsService cixsJaxwsService = Samples.getJvmquery();
-        initJaxwsService(cixsJaxwsService);
-        mGenerator.setProxyTargetType(ProxyTargetType.POJO.toString());
-        mGenerator.setPojoTargetParameters(
-                Samples.getJvmqueryPojoParameters());
-        mGenerator.execute();
-        checkAntBuild(cixsJaxwsService.getName());
-        checkPojoWebDescriptor(cixsJaxwsService.getName());
-        checkCobolClient(cixsJaxwsService.getName(),
-                cixsJaxwsService.getCixsOperations().get(0)
-                        .getCicsProgramName());
+    public void testJvmquery() throws Exception {
+        CixsJaxwsService service = Samples.getJvmquery();
+        initJaxwsService(service);
+        _generator.setProxyTargetType(ProxyTargetType.POJO.toString());
+        _generator.setPojoTargetParameters(Samples.getJvmqueryPojoParameters());
+        _generator.execute();
+        check(service.getName());
 
     }
 
     /**
-     * Initialize generator for a given service.
+     * Check generated artifacts against the reference.
      * 
-     * @param cixsJaxwsService the service descriptor
+     * @param serviceName the generated service
+     * @throws Exception if can't get reference
      */
-    private void initJaxwsService(final CixsJaxwsService cixsJaxwsService) {
-        mGenerator.setCixsJaxwsService(cixsJaxwsService);
-        mGenerator.setTargetAntDir(
-                new File(GEN_ANT_DIR, cixsJaxwsService.getName()));
-        mGenerator.setTargetWDDDir(
-                new File(GEN_WDD_DIR, cixsJaxwsService.getName()));
-        mGenerator.setTargetCobolDir(
-                new File(GEN_COBOL_DIR, cixsJaxwsService.getName()));
-        mGenerator.setTargetWarDir(GEN_WAR_DIR);
-        mGenerator.setTargetDistDir(GEN_DIST_DIR);
-        mGenerator.setHostCharset("IBM01147");
-        mGenerator.getHttpTransportParameters().setUserId("alice");
-        mGenerator.getHttpTransportParameters().setPassword("inwonderland");
-
-    }
-
-    /**
-     * Check the generated ant script.
-     * 
-     * @param service service name
-     * @throws Exception if unable to read result
-     */
-    private void checkAntBuild(final String service) throws Exception {
-        String resStr;
-        resStr = getSource(
-                GEN_ANT_DIR, service + '/' + "build-war.xml");
-        assertTrue(resStr.replace('\\', '/').contains(
-                "<war warfile=\"target/src/gen/target/c2ws-" + service
-                        + ".war\""));
-        assertTrue(resStr.replace('\\', '/').contains(
-                "webxml=\"target/src/gen/webapp/" + service + "/web.xml\""));
-        assertTrue(resStr.replace('\\', '/').contains(
-                "<classes dir=\"target/classes\">"));
-        assertTrue(resStr.replace('\\', '/').contains(
-                "<include name=\"com/legstar/test/coxb/" + service
-                        + "/*.class\"/>"));
-
-        resStr = getSource(GEN_ANT_DIR, service + '/' + "deploy.xml");
-        assertTrue(resStr.replace('\\', '/')
-                .contains(
-                        "<copy file=\"target/src/gen/target/c2ws-" + service
-                                + ".war\""));
-
-    }
-
-    /**
-     * Check the generated web descriptor for a web service target.
-     * 
-     * @param service service name
-     * @throws Exception if unable to read result
-     */
-    private void checkWebServiceWebDescriptor(final String service)
-            throws Exception {
-        String resStr;
-        resStr = getSource(
-                GEN_WDD_DIR, service + '/' + "web.xml");
-        assertTrue(resStr.contains(
-                "<display-name>" + service + "Proxy</display-name>"));
-        assertTrue(resStr.contains(
-                "<param-value>http://localhost:8080/jaxws-" + service
-                        + "/getinfo?wsdl</param-value>"));
-        assertTrue(resStr.contains(
-                "<param-value>IBM01147</param-value>"));
-    }
-
-    /**
-     * Check the generated web descriptor for a pojo target.
-     * 
-     * @param service service name
-     * @throws Exception if unable to read result
-     */
-    private void checkPojoWebDescriptor(final String service) throws Exception {
-        String resStr;
-        resStr = getSource(
-                GEN_WDD_DIR, service + '/' + "web.xml");
-        assertTrue(resStr.contains(
-                "<display-name>" + service + "Proxy</display-name>"));
-        assertTrue(resStr
-                .contains(
-                "<param-value>com.legstar.proxy.invoke.pojo.PojoInvoker</param-value>"));
-        assertTrue(resStr.contains(
-                "<param-name>pojoClassName</param-name>"));
-        assertTrue(resStr.contains(
-                "<param-name>pojoMethodName</param-name>"));
-        assertTrue(resStr.contains(
-                "<param-value>IBM01147</param-value>"));
-    }
-
-    /**
-     * Check the generated COBOL client sample.
-     * 
-     * @param service service name
-     * @param cicsProgramName COBOL sample name
-     * @throws Exception if unable to read result
-     */
-    private void checkCobolClient(final String service,
-            final String cicsProgramName) throws Exception {
-        String resStr;
-        resStr = getSource(
-                GEN_COBOL_DIR, service + '/' + cicsProgramName + ".cbl");
-        String url = "http://" + CodeGenUtil.getLocalIPAddress()
-                + ":8080/c2ws-" + service + "/" + service + "Proxy";
-
-        assertTrue(resStr.contains("       PROGRAM-ID. " + cicsProgramName
-                + "."));
-        assertTrue(resStr.contains("77  W00-SERVICE-URI               PIC X("
-                + url.length() + ") VALUE"));
-        assertTrue(resStr.contains("'" + url + "'"));
+    protected void check(final String serviceName) throws Exception {
+        check(new File(REF_RES_DIR, serviceName + "/ant"), new File(
+                GEN_ANT_DIR, serviceName), "xml");
+        check(new File(REF_RES_DIR, serviceName + "/webapp/WEB_INF"), new File(
+                GEN_WDD_DIR, serviceName), "xml");
+        check(new File(REF_RES_DIR, serviceName + "/cobol"), new File(
+                GEN_COBOL_DIR, serviceName), "cbl");
     }
 }
