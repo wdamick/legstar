@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =================================================================================
+     This script creates war files for the test cases.
+  -->
+<project basedir="..\..\.." default="create-war" name="create-war-cases">
+
+    <property name="refdir" value="${basedir}/target/test-classes/reference"/>
+    <property name="wardir" value="${basedir}/target/war"/>
+    <property name="coxbdir" value="${basedir}/target/dependency/coxbgen"/>
+    <property name="jaxbdir" value="${basedir}/target/dependency/jaxbgen"/>
+
+	<target name="create-war">
+        <war warfile="${wardir}/c2ws-cultureinfo.war"
+                webxml="${refdir}/cultureinfo/webapp/WEB-INF/web.xml">
+            <classes dir="${jaxbdir}">
+                <include name="com/legstar/test/coxb/cultureinfo/*.class"/>
+            </classes>
+            <classes dir="${coxbdir}">
+                <include name="com/legstar/test/coxb/cultureinfo/bind/*.class"/>
+            </classes>
+        </war>
+    </target>
+
+</project>

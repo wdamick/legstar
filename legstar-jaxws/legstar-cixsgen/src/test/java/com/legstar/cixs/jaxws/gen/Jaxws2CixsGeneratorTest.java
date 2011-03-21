@@ -382,7 +382,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
                 GEN_SRC_DIR, GEN_SRC_SUBDIR + serviceName), "java");
         check(new File(REF_RES_DIR, serviceName + "/ant"), new File(
                 GEN_ANT_DIR, serviceName), "xml");
-        check(new File(REF_RES_DIR, serviceName + "/webapp/WEB_INF"), new File(
+        check(new File(REF_RES_DIR, serviceName + "/webapp/WEB-INF"), new File(
                 GEN_WDD_DIR, serviceName), "xml");
     }
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+   <display-name>LegStar Jaxws arrayscx</display-name>
+   <description>LegStar Jaxws arrayscx Web Service</description>
+   <listener>
+      <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
+   </listener>
+   <servlet>
+      <servlet-name>arrayscxService</servlet-name>
+      <display-name>LegStar Jaxws arrayscxService</display-name>
+      <description>LegStar Jaxws arrayscx Web Service</description>
+      <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+      <load-on-startup>1</load-on-startup>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>arrayscxService</servlet-name>
+      <url-pattern>/arrayscx</url-pattern>
+   </servlet-mapping>
+   <session-config>
+      <session-timeout>60</session-timeout>
+   </session-config>
+   <env-entry>
+      <env-entry-name>legstar/configFileName</env-entry-name>
+      <env-entry-value>legstar-invoker-config.xml</env-entry-value>
+      <env-entry-type>java.lang.String</env-entry-type>
+   </env-entry>
+</web-app>

@@ -69,17 +69,28 @@
         <dependency>
             <groupId>javax.jws</groupId>
             <artifactId>jsr181-api</artifactId>
+            <scope>test</scope>
         </dependency>
         <!-- Generated code use the JAXWS API -->    
         <dependency>
             <groupId>javax.xml.ws</groupId>
             <artifactId>jaxws-api</artifactId>
+            <scope>test</scope>
         </dependency>
         <!-- Generated code uses legstar-invoker -->    
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-invoker</artifactId>
+            <scope>test</scope>
         </dependency>
+
+        <!-- Integration test cases use Socket connectivity -->
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-csokrt</artifactId>
+            <scope>test</scope>
+        </dependency>
+
 
     </dependencies>
  
